@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
 import { MdSearchOff, MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
-import { O11yButton } from 'common/bifrostProxy';
+import { O11yButton, O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
@@ -29,6 +29,7 @@ import {
 } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import useIsUnmounted from 'hooks/useIsMounted';
+import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
@@ -164,11 +165,18 @@ const TestList = ({
   );
 
   useEffect(() => {
-    if (buildUUID) {
-      const filters = '';
+    if (isMounted) {
       OllyTestListingEvent('O11yTestListingVisited', {
-        filters_applied: filters || 'none'
+        filters_applied: window.location.search.replace('?tab=tests', '')
+          ? window.location.search.replace('?', '').split('&').join(',')
+          : 'none'
       });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMounted]);
+
+  useEffect(() => {
+    if (buildUUID) {
       const searchParams = new URLSearchParams(window?.location?.search);
       const transformedAppliedFilters = {
         tab: 'tests'
@@ -190,20 +198,18 @@ const TestList = ({
     return () => {
       resetReduxStore(['selected', 'applied', 'staticFilters', 'testList']);
     };
-  }, [
-    dispatch,
-    buildUUID,
-    loadFreshData,
-    resetReduxStore,
-    OllyTestListingEvent
-  ]);
+  }, [dispatch, buildUUID, resetReduxStore]);
 
   useEffect(() => {
     // This works only when appliedFilters changes and not on mount but after mounted
     if (isMounted) {
+      const searchParams = new URLSearchParams(window.location.search);
       const transformedAppliedFilters = {
         tab: 'tests'
       };
+      if (searchParams.get('details')) {
+        transformedAppliedFilters.details = searchParams.get('details');
+      }
       Object.keys(appliedFilters).forEach((key) => {
         if (Array.isArray(appliedFilters[key]) && appliedFilters[key]?.length) {
           transformedAppliedFilters[key] = appliedFilters[key]?.join(',');
@@ -223,6 +229,16 @@ const TestList = ({
       loadFreshData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appliedFilters]);
+
+  const isFiltersApplied = useMemo(() => {
+    const emptyFilters = { ...EMPTY_APPLIED_FILTERS };
+    emptyFilters.tab = 'tests';
+    const searchParams = new URLSearchParams(window.location.search);
+    if (searchParams.get('details')) {
+      emptyFilters.details = searchParams.get('details');
+    }
+    return !isEqual(appliedFilters, emptyFilters);
   }, [appliedFilters]);
 
   return (
@@ -274,19 +290,30 @@ const TestList = ({
         {testListDataApiState.status === API_STATUSES.FULFILLED &&
           testListData?.hierarchy?.length === 0 && (
             <div className="flex h-full flex-col justify-center">
-              <MdSearchOff className="text-base-500 mx-auto h-11 w-11" />
-              <h2 className="text-center font-bold">
-                No matching results found
-              </h2>
-              <p className="text-base-500 text-center">
-                We couldn&apos;t find the results you were looking for.
-              </p>
-              <O11yButton
-                wrapperClassName="mx-auto mt-6 block"
-                onClick={viewAllTests}
-              >
-                View All Tests
-              </O11yButton>
+              <O11yEmptyState
+                title={
+                  isFiltersApplied
+                    ? 'No matching results found'
+                    : 'No tests found'
+                }
+                description={
+                  isFiltersApplied
+                    ? "We couldn't find the results you were looking for."
+                    : 'No tests were detected in the current build, which could be attributed to its ongoing execution.'
+                }
+                mainIcon={
+                  <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                }
+                buttonProps={
+                  isFiltersApplied
+                    ? {
+                        children: ' View All Tests',
+                        onClick: viewAllTests,
+                        size: 'default'
+                      }
+                    : null
+                }
+              />
             </div>
           )}
       </div>

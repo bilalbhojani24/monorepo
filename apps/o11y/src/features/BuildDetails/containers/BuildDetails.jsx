@@ -5,10 +5,10 @@ import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { PUSHER_EVENTS } from 'constants/common';
+import TestList from 'features/TestList';
+import { getTestListData } from 'features/TestList/slices/testListSlice';
 import { o11yNotify } from 'utils/notification';
 
-import TestList from '../../TestList';
-import { getTestListData } from '../../TestList/slices/testListSlice';
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
 import { TABS } from '../constants';
 import {
@@ -54,6 +54,12 @@ function BuildDetails() {
     () => () => {
       dispatch(clearBuildUUID());
       setTestDefectTypeMapping({});
+      dispatch(
+        setActiveTab({
+          id: TABS.insights.id,
+          idx: 0
+        })
+      );
     },
     [dispatch]
   );

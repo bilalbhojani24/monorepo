@@ -15,7 +15,7 @@ const FilterBadge = ({ text, onClose }) => (
     modifier="base"
     text={text}
     onClose={onClose}
-    wrapperClassName="bg-white font-medium ml-4 mb-1"
+    wrapperClassName="bg-white font-medium mr-4 mb-1"
   />
 );
 
@@ -101,12 +101,7 @@ const FilterPills = ({ viewAllBuilds }) => {
         )}
         <div className="block">
           {itemsArray}
-          <O11yButton
-            variant="minimal"
-            colors="white"
-            wrapperClassName="ml-4"
-            onClick={viewAllBuilds}
-          >
+          <O11yButton variant="minimal" colors="white" onClick={viewAllBuilds}>
             Clear All
           </O11yButton>
         </div>
