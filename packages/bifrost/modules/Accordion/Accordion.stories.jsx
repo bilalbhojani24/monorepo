@@ -35,6 +35,10 @@ const defaultConfig = {
     },
     children: {
       default: <></>
+    },
+    wrapperClassName: {
+      option: { type: 'string' },
+      defaultValue: ''
     }
   },
   controls: {}
@@ -57,7 +61,6 @@ InteractiveAccordion.play = async ({ canvasElement }) => {
 };
 InteractiveAccordion.args = {
   defaultOpen: true,
-  wrapperAriaLabel: 'My Accordion',
   children: [
     <AccordionInteractiveHeader
       trigger={
@@ -149,6 +152,17 @@ SimpleAccordion.args = {
 };
 
 const AccordionBodyWCustomStyle = Template.bind({});
+AccordionBodyWCustomStyle.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(titleText)).toBeVisible();
+  await userEvent.click(canvas.getByText(titleText));
+  await userEvent.click(canvas.getByText(titleText));
+  await expect(
+    canvas.getByText(
+      'This example is achived by passing custom styles(mt-16 px-3 bg-brand-300) in wrapperClassName prop of AccordianPanel.'
+    )
+  ).toBeVisible();
+};
 
 AccordionBodyWCustomStyle.args = {
   defaultOpen: true,
@@ -164,6 +178,15 @@ AccordionBodyWCustomStyle.args = {
 };
 
 const SimpleAccordionHeaderWCustomStyle = Template.bind({});
+SimpleAccordionHeaderWCustomStyle.play = async ({ canvasElement }) => {
+  const simpleHeader =
+    'This variant is achieved by passing wrapperClassName prop to AccordionSimpleHeader Component';
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(simpleHeader)).toBeVisible();
+  await userEvent.click(canvas.getByText(simpleHeader));
+  await userEvent.click(canvas.getByText(simpleHeader));
+  await expect(canvas.getByText(accordionBodyContent)).toBeVisible();
+};
 
 SimpleAccordionHeaderWCustomStyle.args = {
   defaultOpen: true,
@@ -181,10 +204,16 @@ SimpleAccordionHeaderWCustomStyle.args = {
 };
 
 const InteractiveAccordionHeaderWCustomStyle = Template.bind({});
-
+InteractiveAccordionHeaderWCustomStyle.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await userEvent.click(canvas.getByRole('checkbox'));
+  await expect(canvas.getByText(accordionBodyContent)).toBeVisible();
+  await expect(canvas.queryAllByRole('button').length).toBe(5);
+};
 InteractiveAccordionHeaderWCustomStyle.args = {
   defaultOpen: true,
-  wrapperAriaLabel: 'My Accordion',
   children: [
     <AccordionInteractiveHeader
       trigger={

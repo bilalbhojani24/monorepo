@@ -93,6 +93,7 @@ const Slideover = (props) => {
                 onClick={() => {
                   onCloseWithOutsideButton?.();
                 }}
+                aria-label="close icon"
               >
                 <XMarkIcon
                   className="text-base-300 h-6 w-6"
