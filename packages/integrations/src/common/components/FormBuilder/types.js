@@ -38,5 +38,6 @@ export const FieldType = {
 
 export const FormBuilderType = {
   fields: PropTypes.arrayOf(PropTypes.shape(FieldType)),
-  handleSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired,
+  isFormBeingSubmitted: PropTypes.bool
 };

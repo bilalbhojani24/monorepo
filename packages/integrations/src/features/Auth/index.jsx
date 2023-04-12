@@ -48,7 +48,7 @@ const IntegrationAuth = ({
       getSetupStatus(integrationKey).then((response) => {
         if (response?.data?.success && response?.data?.setup_completed) {
           clearTimersAfter(attempt);
-          dispatch(setHasIntegrated(integrationKey));
+          dispatch(setHasIntegrated({ integrationKey, setupCompleted: true }));
           dispatch(clearGlobalAlert());
           setIsSyncInProgress(false);
           if (setLoadingState) setLoadingState(false);
@@ -59,7 +59,7 @@ const IntegrationAuth = ({
           dispatch(
             setGlobalAlert({
               kind: 'error',
-              message: `There was some problem connecting to ${label} software`,
+              message: `There was some problem connecting to ${label} software.`,
               autoDismiss: true
             })
           );

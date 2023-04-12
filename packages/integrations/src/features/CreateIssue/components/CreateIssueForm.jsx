@@ -32,6 +32,7 @@ const CreateIssueForm = ({
   issueTypeFieldData,
   isCreateMetaLoading,
   setIsWorkInProgress,
+  isFormBeingSubmitted,
   setIsFormBeingSubmitted,
   integrationToolFieldData
 }) => {
@@ -64,7 +65,7 @@ const CreateIssueForm = ({
             setFieldErrors(errorResponse.field_errors);
           }
           dispatch(
-            setGlobalAlert({ kind: 'error', message: 'Error creating issue' })
+            setGlobalAlert({ kind: 'error', message: 'Error creating issue.' })
           );
           if (typeof errorCallback === 'function') {
             errorCallback({
@@ -145,7 +146,7 @@ const CreateIssueForm = ({
               setGlobalAlert({
                 kind: 'warn',
                 message:
-                  'Ticket created successfully. Error in  uploading attachments',
+                  'Ticket created successfully. Error in  uploading attachments.',
                 linkText: 'View',
                 linkUrl: res.cause.ticket_url
               })
@@ -221,6 +222,7 @@ const CreateIssueForm = ({
           isWorkInProgress={isWorkInProgress}
           scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
+          isFormBeingSubmitted={isFormBeingSubmitted}
         />
       )}
     </>
@@ -238,6 +240,7 @@ CreateIssueForm.propTypes = {
   deselectIssueType: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   isCreateMetaLoading: PropTypes.bool.isRequired,
+  isFormBeingSubmitted: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
   issueTypeFieldData: SingleValueSelectOptionType.isRequired,
   projectFieldData: SingleValueSelectOptionType.isRequired,

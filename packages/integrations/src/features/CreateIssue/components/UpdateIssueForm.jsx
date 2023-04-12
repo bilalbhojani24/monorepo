@@ -29,6 +29,7 @@ const UpdateIssueForm = ({
   scrollWidgetToTop,
   isUpdateMetaLoading,
   setIsWorkInProgress,
+  isFormBeingSubmitted,
   setIsFormBeingSubmitted,
   integrationToolFieldData
 }) => {
@@ -93,7 +94,7 @@ const UpdateIssueForm = ({
             setFieldErrors(errorResponse.field_errors);
           }
           dispatch(
-            setGlobalAlert({ kind: 'error', message: 'Error updating issue' })
+            setGlobalAlert({ kind: 'error', message: 'Error updating issue.' })
           );
           if (typeof errorCallback === 'function') {
             errorCallback({
@@ -172,7 +173,7 @@ const UpdateIssueForm = ({
               setGlobalAlert({
                 kind: 'warn',
                 message:
-                  'Ticket updated successfully. Error in  uploading attachments',
+                  'Ticket updated successfully. Error in  uploading attachments.',
                 linkText: 'View',
                 linkUrl: res.cause.ticket_url
               })
@@ -263,6 +264,7 @@ const UpdateIssueForm = ({
           isWorkInProgress={isWorkInProgress}
           scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
+          isFormBeingSubmitted={isFormBeingSubmitted}
         />
       )}
     </>
@@ -280,6 +282,7 @@ UpdateIssueForm.propTypes = {
   scrollWidgetToTop: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   isUpdateMetaLoading: PropTypes.bool.isRequired,
+  isFormBeingSubmitted: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
   issueFieldData: SingleValueSelectOptionType.isRequired,
   projectFieldData: SingleValueSelectOptionType.isRequired,

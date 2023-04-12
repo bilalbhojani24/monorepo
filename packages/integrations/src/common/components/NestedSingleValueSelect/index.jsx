@@ -117,6 +117,7 @@ const NestedSingleValueSelect = ({
 
   useEffect(() => {
     initialOptions.current = cleanOptions(options);
+    setOptionsToRender(cleanOptions(options));
   }, [options]);
 
   const handleChange = (val) => {
@@ -203,11 +204,22 @@ const NestedSingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        <ComboboxOptionGroup maxWidth={300}>
-          {optionsToRender?.map((item) => (
-            <ComboboxOptionItem key={item.value} option={item} />
-          ))}
-        </ComboboxOptionGroup>
+        {Boolean(optionsToRender.length) && (
+          <ComboboxOptionGroup maxWidth={300}>
+            {optionsToRender?.map((item) => (
+              <ComboboxOptionItem key={item.value} option={item} />
+            ))}
+          </ComboboxOptionGroup>
+        )}
+        {!optionsToRender?.length && (
+          <ComboboxOptionGroup>
+            <ComboboxOptionItem
+              key="no options"
+              option={{ label: 'No options' }}
+              disabled
+            />
+          </ComboboxOptionGroup>
+        )}
       </ComboBox>
       {Boolean(childOptions?.length) && (
         <div className="mt-2">
