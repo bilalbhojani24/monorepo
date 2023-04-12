@@ -78,13 +78,20 @@ function RequestAccess() {
             onClick={handleRequestAccess}
             isIconOnlyButton={isLoading}
           >
-            Request Access
+            Get Access
           </O11yButton>
         </div>
       </div>
       <p className="mt-4 text-xs">
-        By continuing you agree to our terms & conditions of test data
-        collection.
+        By continuing you agree to our{' '}
+        <O11yHyperlink
+          target="_blank"
+          wrapperClassName="inline font-normal text-xs"
+          href={getDocUrl({ path: DOC_KEY_MAPPING.tnc })}
+        >
+          terms & conditions
+        </O11yHyperlink>{' '}
+        of test data collection.
       </p>
     </div>
   );
