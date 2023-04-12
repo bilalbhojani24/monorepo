@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { MdSearchOff } from '@browserstack/bifrost';
+import { MdOutlineRefresh, MdSearchOff } from '@browserstack/bifrost';
 import { O11yButton, O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
-import { API_STATUSES } from 'constants/common';
+import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
 import { getBuildPath } from 'utils/routeUtils';
 
 import BuildCardDetails from './components/BuildCardDetails';
@@ -36,6 +36,7 @@ import {
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [updates, setUpdates] = useState();
 
   const { projectNormalisedName } = useParams();
   const [, setSearchParams] = useSearchParams();
@@ -59,24 +60,23 @@ const AllBuildsPage = () => {
     [dispatch]
   );
 
-  const viewAllBuilds = useCallback(() => {
-    resetReduxStore(['selected', 'applied', 'buildsData']);
-    dispatch(
-      getBuildsData({
-        projectNormalisedName,
-        currentPagingParams: {}
-      })
-    );
-  }, [dispatch, projectNormalisedName, resetReduxStore]);
-
   const loadFreshBuildsData = useCallback(() => {
     dispatch(
       getBuildsData({
         projectNormalisedName,
         currentPagingParams: {}
       })
-    );
+    )
+      .unwrap()
+      .then(() => {
+        setUpdates(0);
+      });
   }, [dispatch, projectNormalisedName]);
+
+  const viewAllBuilds = useCallback(() => {
+    resetReduxStore(['selected', 'applied', 'buildsData']);
+    loadFreshBuildsData();
+  }, [loadFreshBuildsData, resetReduxStore]);
 
   const loadBuildsData = () => {
     if (buildsPagingParamsData.hasNext) {
@@ -110,6 +110,14 @@ const AllBuildsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appliedFilters]);
 
+  useEffect(() => {
+    window.pubSub.subscribe(PUSHER_EVENTS.BUILD_STARTED, (data) => {
+      if (projectNormalisedName === data.projectNormalisedName) {
+        setUpdates((prev) => prev + data.updatesCount);
+      }
+    });
+  }, [projectNormalisedName]);
+
   const handleClickBuildItem = (currentIdx) => {
     const build = buildsData[currentIdx];
     navigate(
@@ -121,13 +129,36 @@ const AllBuildsPage = () => {
     );
   };
 
+  const handleClickFetchNewBuilds = () => {
+    resetReduxStore(['buildsData']);
+    loadFreshBuildsData();
+  };
+
+  const isLoadingInitialData = useMemo(
+    () => buildsData.length === 0 && buildsApiStatus === API_STATUSES.PENDING,
+    [buildsApiStatus, buildsData.length]
+  );
+
   return (
     <div className="flex h-full flex-col">
-      <div className="border-base-300 border-b px-8 py-5">
-        <h1 className="text-2xl font-bold leading-6">All builds</h1>
+      <div className="border-base-300 flex items-center justify-between border-b px-6 py-5">
+        <h1 className="text-2xl font-bold leading-8">All builds</h1>
+        {!!updates && (
+          <O11yButton
+            variant="rounded"
+            icon={<MdOutlineRefresh className="text-sm" />}
+            iconPlacement="end"
+            size="extra-small"
+            isIconOnlyButton={isLoadingInitialData}
+            loading={isLoadingInitialData}
+            onClick={handleClickFetchNewBuilds}
+          >
+            {updates} new build{updates > 1 ? 's' : ''}
+          </O11yButton>
+        )}
       </div>
 
-      <div className="flex flex-1 flex-col py-6 px-8">
+      <div className="flex flex-1 flex-col p-6">
         <div className="mb-2 flex justify-between">
           <SearchBuilds />
           <Filters />
@@ -141,7 +172,7 @@ const AllBuildsPage = () => {
             text="Something went wrong while fetching builds data"
           />
         )}
-        {buildsData.length === 0 && buildsApiStatus === API_STATUSES.PENDING ? (
+        {isLoadingInitialData ? (
           <O11yLoader loaderClass="self-center p-1 my-5" />
         ) : null}
         {buildsData.length === 0 &&

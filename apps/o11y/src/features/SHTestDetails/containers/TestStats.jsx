@@ -8,12 +8,12 @@ import { milliSecondsToTime } from 'utils/dateTime';
 
 import StatsCard from '../components/StatsCard';
 import { getSnPDetailsStatsData } from '../slices/dataSlice';
-import { getShowSnPDetailsFor, getSnPCbtInfo } from '../slices/selectors';
+import { getShowSHTestsDetailsFor, getSnPCbtInfo } from '../slices/selectors';
 
 const TestStats = () => {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const cbtInfo = useSelector(getSnPCbtInfo);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [stats, setStats] = useState({});

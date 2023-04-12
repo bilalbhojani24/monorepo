@@ -31,7 +31,7 @@ export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
 };
 
 export const getDocUrl = ({ path, prependO11y = true }) =>
-  `${getEnvConfig().baseDocUrl}/docs/${
+  `${getEnvConfig().baseUrl}/docs/${
     prependO11y ? 'test-observability/' : ''
   }${path}`;
 
@@ -161,6 +161,14 @@ export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
   }
   return TEST_STATUS.UNKNOWN;
 };
+
+export const abbrNumber = (num = 0) =>
+  Intl.NumberFormat('en-US', {
+    notation: 'compact',
+    maximumFractionDigits: 1
+  })
+    .format(num)
+    .padStart(2, '0');
 
 export const transformUnsupportedTags = (node, index) => {
   const updatedNode = node;

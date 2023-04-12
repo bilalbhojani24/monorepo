@@ -52,6 +52,17 @@ const { reducer, actions } = createSlice({
     },
     setActiveTab: (state, { payload }) => {
       state.activeTab = payload;
+    },
+    updateBuildMeta: (state, { payload }) => {
+      if (state.buildUUID === payload.buildUID) {
+        state.buildMeta = {
+          ...state.buildMeta,
+          data: {
+            ...state.buildMeta.data,
+            ...payload.data
+          }
+        };
+      }
     }
   },
   extraReducers: (builder) => {
@@ -73,6 +84,7 @@ const { reducer, actions } = createSlice({
   }
 });
 
-export const { clearBuildMeta, clearBuildUUID, setActiveTab } = actions;
+export const { clearBuildMeta, clearBuildUUID, setActiveTab, updateBuildMeta } =
+  actions;
 
 export default reducer;

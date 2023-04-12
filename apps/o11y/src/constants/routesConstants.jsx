@@ -1,18 +1,22 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import EmptyPage from 'common/EmptyPage';
 import NotFound from 'common/NotFound';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
-import SuiteHealth from 'features/SuiteHealth';
 
 import { ROUTES } from './routes';
 
 const AllBuilds = React.lazy(() => import('features/AllBuilds'));
-
 const BuildDetails = React.lazy(() => import('features/BuildDetails'));
+
+const Integrations = React.lazy(() => import('features/Integrations'));
+
+const BuildShortUrlRedirect = React.lazy(() =>
+  import('features/BuildShortUrlRedirect')
+);
+const TestingTrends = React.lazy(() => import('features/TestingTrends'));
 
 const GeneralSettings = React.lazy(() =>
   import('features/Settings/containers/GeneralSettings')
@@ -29,6 +33,9 @@ const FailureCategoriesSettings = React.lazy(() =>
 const ReRunSettings = React.lazy(() =>
   import('features/Settings/containers/ReRunSettings')
 );
+
+const SuiteHealth = React.lazy(() => import('features/SuiteHealth'));
+
 export const APP_ROUTES = [
   {
     path: ROUTES.all,
@@ -39,6 +46,11 @@ export const APP_ROUTES = [
     path: ROUTES.not_found,
     isProtected: true,
     component: <NotFound to={ROUTES.not_found} replace />
+  },
+  {
+    path: ROUTES.buildShort,
+    isProtected: true,
+    component: <BuildShortUrlRedirect />
   },
   {
     path: ROUTES.root,
@@ -70,9 +82,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.testing_trends,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <TestingTrends />
       },
       {
         path: ROUTES.build,
@@ -124,9 +134,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.integrations_base,
         isProtected: true,
-        component: (
-          <EmptyPage isUpComing text="Something awesome is coming soon" />
-        )
+        component: <Integrations />
       }
     ]
   }
