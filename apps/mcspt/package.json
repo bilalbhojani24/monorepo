@@ -69,7 +69,6 @@
     "sass-loader": "^13.2.0",
     "tailwind-merge": "^1.8.1",
     "update-electron-app": "^2.0.1",
-    "wait-for-localhost": "^4.0.1",
     "webpack": "^5.75.0"
   }
 }

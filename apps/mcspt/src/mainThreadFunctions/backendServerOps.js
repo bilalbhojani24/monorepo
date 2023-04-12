@@ -1,5 +1,3 @@
-import waitForLocalhost from 'wait-for-localhost';
-
 import {
   initializeBackendServerForMac,
   performApplicationTerminationForMac,
@@ -63,7 +61,6 @@ const waitForSuccessfulServerReply = (
 
 export const checkServerAvailability = async (initiationCallback) => {
   try {
-    await waitForLocalhost({ port: serverEntities.nodeServerPort });
     await waitForSuccessfulServerReply(1, 120, 1000);
     initiationCallback();
   } catch (e) {
