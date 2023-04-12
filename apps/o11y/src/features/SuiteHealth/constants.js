@@ -12,6 +12,8 @@ export const TESTS_HEADER_LABEL_MAPPING = {
   average: 'Avg. Duration'
 };
 
+const SUITE_TESTS_HEADER_SIMILAR_CLASS = 'text-center w-36';
+
 export const SUITE_TESTS_HEADER_LABEL_MAPPING = {
   tests: {
     name: TESTS_HEADER_LABEL_MAPPING.tests,
@@ -19,19 +21,19 @@ export const SUITE_TESTS_HEADER_LABEL_MAPPING = {
   },
   platforms: {
     name: TESTS_HEADER_LABEL_MAPPING.platforms,
-    defaultClass: 'w-[300px]'
+    defaultClass: SUITE_TESTS_HEADER_SIMILAR_CLASS
   },
   totalFailures: {
     name: TESTS_HEADER_LABEL_MAPPING.totalFailures,
-    defaultClass: 'text-center w-[135px]'
+    defaultClass: SUITE_TESTS_HEADER_SIMILAR_CLASS
   },
   reliability: {
     name: TESTS_HEADER_LABEL_MAPPING.reliability,
-    defaultClass: 'text-center w-[120px]'
+    defaultClass: 'text-center w-32'
   },
   average: {
     name: TESTS_HEADER_LABEL_MAPPING.average,
-    defaultClass: 'text-center w-[135px]'
+    defaultClass: SUITE_TESTS_HEADER_SIMILAR_CLASS
   }
 };
 
