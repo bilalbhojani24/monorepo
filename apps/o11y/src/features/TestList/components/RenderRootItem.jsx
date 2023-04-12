@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useContext, useEffect, useState } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import {
@@ -71,8 +72,7 @@ const RenderRootItem = ({ item }) => {
             onClick={toggleAccordion}
             wrapperClassName="px-0 py-2"
             asideContent={
-              <div className="flex h-full">
-                {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+              <div className="flex h-full gap-4">
                 <div className="flex w-full min-w-[250px] gap-3">
                   {!!details?.browser && (
                     <DetailIcon
@@ -104,44 +104,44 @@ const RenderRootItem = ({ item }) => {
                     />
                   )}
                 </div>
-                <div className="flex h-full">
+                <div className="flex min-w-[250px] justify-end ">
                   {status && <StatusBadges statusStats={status} />}
                 </div>
               </div>
             }
             title={
-              <div className="flex w-full items-center px-3">
-                <div>
-                  <p className="text-base-900 text-left text-sm font-normal">
-                    {ReactHtmlParser(displayName, {
-                      transform: transformUnsupportedTags
-                    })}
-                  </p>
-                  <div className="flex">
-                    {details?.vcFileUrl && (
-                      <PropagationBlocker>
-                        <O11yHyperlink
-                          target="_blank"
-                          href={details?.vcFileUrl}
-                          wrapperClassName="font-normal text-sm text-base-500 hover:text-brand-500"
+              <div className="flex flex-col px-3">
+                <p className="text-base-900 text-left text-sm font-normal">
+                  {ReactHtmlParser(displayName, {
+                    transform: transformUnsupportedTags
+                  })}
+                </p>
+                <div className="flex">
+                  {details?.vcFileUrl && (
+                    <PropagationBlocker>
+                      <O11yHyperlink
+                        target="_blank"
+                        href={details?.vcFileUrl}
+                        wrapperClassName="font-normal text-sm text-base-500 hover:text-brand-500"
+                      >
+                        <MdFolderOpen className="mr-1" />
+                        <span
+                          dir="rtl"
+                          className="max-w-[200px] truncate text-sm font-normal"
                         >
-                          <MdFolderOpen className="mr-1" />
-                          <span
-                            dir="rtl"
-                            className="max-w-xs truncate text-sm font-normal"
-                          >
-                            {details?.filePath}
-                          </span>
-                        </O11yHyperlink>
-                      </PropagationBlocker>
-                    )}
-                    {!!details?.middleScopes && (
-                      <p className="text-base-500 flex items-center text-sm font-normal">
-                        <span className="bg-base-400 mx-2 block h-1 w-1 rounded-full" />
+                          {details?.filePath}
+                        </span>
+                      </O11yHyperlink>
+                    </PropagationBlocker>
+                  )}
+                  {!!details?.middleScopes && (
+                    <p className="text-base-500 flex items-center text-sm font-normal">
+                      <span className="bg-base-400 mx-2 block h-1 w-1 rounded-full" />
+                      <span dir="rtl" className="max-w-[300px] truncate">
                         {details?.middleScopes?.join(' / ')}
-                      </p>
-                    )}
-                  </div>
+                      </span>
+                    </p>
+                  )}
                 </div>
               </div>
             }

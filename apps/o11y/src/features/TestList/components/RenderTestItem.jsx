@@ -186,7 +186,7 @@ const RenderTestItem = ({ item: data, isLastItem }) => {
             <TestItemJiraTag details={details} />
           </div>
         </div>
-        <div className="flex w-auto">
+        <div className="flex w-auto gap-1">
           <div className="flex w-auto items-start">
             <TestListTimeline details={details} />
           </div>

@@ -38,7 +38,9 @@ function TestlistTimeline({ details }) {
   if (!history.length) {
     return (
       <div className="flex items-center justify-center">
-        <p className="text-base-500 text-sm">No historical data found</p>
+        <p className="text-base-500 whitespace-nowrap text-sm">
+          No historical data
+        </p>
       </div>
     );
   }

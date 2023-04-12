@@ -23,7 +23,7 @@ export default function StackTraceTooltip({
       )}
 
       <pre
-        className={twClassNames('text-danger-600 overflow-auto p-3', {
+        className={twClassNames('text-danger-700 overflow-auto p-3', {
           'max-h-60': size === 'large',
           'max-h-40': size === 'medium',
           'max-h-28': size === 'small'

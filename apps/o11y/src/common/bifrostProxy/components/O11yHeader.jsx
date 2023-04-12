@@ -4,6 +4,8 @@ import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getDocUrl, getEnvConfig } from 'utils/common';
 
+const envConfig = getEnvConfig();
+
 const O11yHeader = () => (
   <Header
     wrapperClassName="sticky top-0"
@@ -13,7 +15,7 @@ const O11yHeader = () => (
     release="Beta"
     // beamerProductId="xTSGUhhN11000"
     documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
-    supportLink={`${getEnvConfig().baseUrl}/contact`}
+    supportLink={`${envConfig.baseUrl}/contact`}
     headerElementArray={[
       'team',
       'pricing',
@@ -74,8 +76,10 @@ const O11yHeader = () => (
       ]
     }}
     onSignoutClick={(e) => {
-      e.preventDefault();
-      window.location.href = 'https://local.bsstag.com/users/sign_out';
+      if (envConfig.signOutUrl) {
+        e.preventDefault();
+        window.location.href = envConfig.signOutUrl;
+      }
     }}
   />
 );

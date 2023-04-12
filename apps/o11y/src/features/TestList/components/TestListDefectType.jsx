@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdExpandMore } from '@browserstack/bifrost';
 import { changeIssueType } from 'api/testlist';
 import {
+  O11yButton,
   O11yDropdown,
   O11yDropdownOptionGroup,
   O11yDropdownOptionItem,
@@ -162,14 +163,21 @@ function TestListDefectType({ data }) {
       ) : (
         <O11yDropdown onClick={(value) => handleIssueTypeChange(value)}>
           <O11yDropdownTrigger wrapperClassName="flex items-center justify-between p-0 hover:bg-transparent border-0 shadow-none w-full">
-            <p className="text-base-700 mr-2 select-none text-sm font-medium">
+            <O11yButton
+              icon={<MdExpandMore className="text-base" />}
+              colors="white"
+              size="extra-small"
+              iconPlacement="end"
+            >
               {issueType?.name}
-            </p>
-            <MdExpandMore className="text-base-700" />
+            </O11yButton>
+            {/* <p className="text-base-700 mr-2 select-none text-sm font-medium">
+              {issueType?.name}
+            </p> */}
           </O11yDropdownTrigger>
 
           <O11yDropdownOptionGroup wrapperClassName="w-full">
-            <div className="h-40 overflow-y-auto">
+            <div className="h-44 overflow-y-auto">
               {menuOptions?.map((singleMenu) => (
                 <O11yDropdownOptionItem
                   key={singleMenu.value}
