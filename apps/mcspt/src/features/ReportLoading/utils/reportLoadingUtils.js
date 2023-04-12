@@ -6,6 +6,8 @@ export const sessionStateTextMap = {
   [REPORT_LOADING_STATES.RECORDING]:
     'App profiling started.\nManually navigate critical app user journeys on the connected device.',
   [REPORT_LOADING_STATES.STOPPING]:
+    'Almost there! BrowserStack AppPerformance is generating your report…\nEnsure the device remains connected.',
+  [REPORT_LOADING_STATES.COMPLETE]:
     'Almost there! BrowserStack AppPerformance is generating your report…\nEnsure the device remains connected.'
 };
 
