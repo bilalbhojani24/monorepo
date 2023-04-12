@@ -6,13 +6,14 @@ import { MdSearchOff, MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES } from 'constants/common';
-import { TestListContext } from 'features/BuildDetails/context/TestListContext';
+import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_SELECTED_FILTERS,
   EMPTY_STATIC_FILTERS,
   EMPTY_TESTLIST_DATA_STATE
 } from 'features/TestList/constants';
+import { TestListContext } from 'features/TestList/context/TestListContext';
 import {
   getAppliedFilters,
   getTestList
@@ -25,8 +26,10 @@ import {
   setStaticFilters,
   setTestList
 } from 'features/TestList/slices/testListSlice';
+import { getActiveProject } from 'globalSlice/selectors';
 import useIsUnmounted from 'hooks/useIsMounted';
 import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 
 import FilterPills from './components/FilterPills';
 import RenderChildrens from './components/RenderTestChildrens';
@@ -43,10 +46,48 @@ const TestList = ({
   const [, setSearchParams] = useSearchParams();
   const [expandAll, setExpandAll] = useState(true);
   const [closedAccordionIds, setClosedAccordionIds] = useState({});
+  const buildMeta = useSelector(getBuildMeta);
+  const activeProject = useSelector(getActiveProject);
   const onAccordionChange = useCallback(() => {
     setExpandAll(null);
   }, []);
+
+  const OllyTestListingEvent = useCallback(
+    (eventName, data = {}) => {
+      logOllyEvent({
+        event: eventName,
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          build_name: buildMeta.data?.name,
+          build_uuid: buildMeta.data?.uuid,
+          ...data
+        }
+      });
+    },
+    [
+      activeProject.id,
+      activeProject.name,
+      buildMeta.data?.name,
+      buildMeta.data?.uuid
+    ]
+  );
+
+  const o11yTestListingInteraction = useCallback(
+    (interaction) => {
+      OllyTestListingEvent('O11yTestListingInteracted', {
+        interaction
+      });
+    },
+    [OllyTestListingEvent]
+  );
+
   const invertExpandAll = () => {
+    if (expandAll) {
+      o11yTestListingInteraction('collapse_all');
+    } else {
+      o11yTestListingInteraction('expand_all');
+    }
     setExpandAll((prevValue) => !prevValue);
   };
   const { data: testListData, apiState: testListDataApiState } =
@@ -106,7 +147,8 @@ const TestList = ({
       expandAll,
       onAccordionChange,
       closedAccordionIds,
-      setClosedAccordionIds
+      setClosedAccordionIds,
+      o11yTestListingInteraction
     }),
     [
       expandAll,
@@ -115,12 +157,17 @@ const TestList = ({
       testDefectTypeMapping,
       updateTestDefectTypeMapping,
       closedAccordionIds,
-      setClosedAccordionIds
+      setClosedAccordionIds,
+      o11yTestListingInteraction
     ]
   );
 
   useEffect(() => {
     if (buildUUID) {
+      const filters = '';
+      OllyTestListingEvent('O11yTestListingVisited', {
+        filters_applied: filters || 'none'
+      });
       const searchParams = new URLSearchParams(window?.location?.search);
       const transformedAppliedFilters = {
         tab: 'tests'
@@ -142,7 +189,13 @@ const TestList = ({
     return () => {
       resetReduxStore(['selected', 'applied', 'staticFilters', 'testList']);
     };
-  }, [dispatch, buildUUID, loadFreshData, resetReduxStore]);
+  }, [
+    dispatch,
+    buildUUID,
+    loadFreshData,
+    resetReduxStore,
+    OllyTestListingEvent
+  ]);
 
   useEffect(() => {
     // This works only when appliedFilters changes and not on mount but after mounted
@@ -190,7 +243,9 @@ const TestList = ({
               }
               onClick={invertExpandAll}
             />
-            <TestListSearch />
+            <TestListSearch
+              o11yTestListingInteraction={o11yTestListingInteraction}
+            />
           </div>
           <div className="flex items-center">
             <TestListFilters />

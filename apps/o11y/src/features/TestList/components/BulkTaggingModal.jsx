@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOpenInNew } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
@@ -9,18 +9,19 @@ import {
   O11yModal,
   O11yModalBody,
   O11yModalFooter,
-  O11yModalHeader,
-  O11yRadioSmallCards
+  O11yModalHeader
 } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
 import O11yLoader from 'common/O11yLoader';
+import RadioSmallCards from 'common/RadioSmallCards';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import {
   getAnalyzerSimilarTests,
   updateIssueTypes
 } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import TestListStackTrace from './TestListStackTrace';
@@ -51,7 +52,7 @@ function BulkTaggingModal() {
     onSuccess,
     selectedTestItemData
   } = useSelector(getModalData);
-  const { data: buildMeta } = useSelector(getBuildMeta);
+  const { data: buildMeta, analyticsData } = useSelector(getBuildMeta);
   const availableIssueTypes = buildMeta?.issueTypes;
   const [isUpdating, setIsUpdating] = useState(false);
   const [selectedTestRunIds, setSelectedTestRunIds] = useState({});
@@ -66,6 +67,34 @@ function BulkTaggingModal() {
   const handleRadioChange = (e) => {
     setSelectedStatus(e);
   };
+
+  const OllyTestListingEvent = useCallback(
+    (eventName, data = {}) => {
+      logOllyEvent({
+        event: eventName,
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          build_name: buildMeta.data?.name,
+          build_uuid: buildMeta.data?.uuid,
+          source: analyticsData?.source,
+          ...data
+        }
+      });
+    },
+    [
+      activeProject.id,
+      activeProject.name,
+      analyticsData?.source,
+      buildMeta.data?.name,
+      buildMeta.data?.uuid
+    ]
+  );
+
+  useEffect(() => {
+    OllyTestListingEvent('O11yAnalyzerBulkTaggingInvoked');
+  }, [OllyTestListingEvent]);
+
   const handleCloseModal = () => {
     dispatch(toggleModal({ version: '', data: {} }));
   };
@@ -91,6 +120,13 @@ function BulkTaggingModal() {
     }
   };
   const handleSubmitChanges = () => {
+    OllyTestListingEvent('O11yAnalyzerBulkTaggingExecuted', {
+      similar_error_in: timeFrame.toLowerCase(),
+      issue_type: selectedStatus.name.replace(' ', '_').toLowerCase(),
+      select_all_clicked:
+        Object.keys(selectedTestRunIds).length ===
+        similarIssues?.data?.similar?.length
+    });
     setIsUpdating(true);
     const payloadData = Object.keys(selectedTestRunIds).map((el) => ({
       testRunId: parseInt(el, 10),
@@ -121,6 +157,10 @@ function BulkTaggingModal() {
           id: parseInt(el, 10),
           issueType: { id: selectedStatus?.id, name: selectedStatus?.name }
         }));
+        updateTestDefectTypeMappingPayload.push({
+          id: testRunId,
+          issueType: { id: selectedStatus?.id, name: selectedStatus?.name }
+        });
         onSuccess?.(updateTestDefectTypeMappingPayload);
         handleCloseModal();
       })
@@ -173,12 +213,12 @@ function BulkTaggingModal() {
         handleDismissClick={handleCloseModal}
       />
       <O11yModalBody wrapperClassName="px-2">
-        <p className="text-base-900 text-sm">Failure category options</p>
-        <div className="mb-8">
-          <O11yRadioSmallCards
-            heading=""
-            options={availableIssueTypes.map((el) => ({ name: el.name }))}
+        <p className="text-base-900 mt-4 text-sm">Failure category options</p>
+        <div className="mb-8 mt-4">
+          <RadioSmallCards
+            options={availableIssueTypes}
             onChange={handleRadioChange}
+            selectedItem={selectedStatus}
           />
         </div>
         <div className="flex items-center justify-between">
@@ -212,7 +252,7 @@ function BulkTaggingModal() {
               )}
               onClick={() => setTimeFrame(DATE_RANGE.LAST_10_BUILDS.value)}
             >
-              {DATE_RANGE.CURRENT_BUILD.label}
+              {DATE_RANGE.LAST_10_BUILDS.label}
             </O11yButton>
             <O11yButton
               colors="white"

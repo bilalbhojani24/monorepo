@@ -14,9 +14,9 @@ import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker';
 import { TEST_STATUS } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
-import { TestListContext } from 'features/BuildDetails/context/TestListContext';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import { singleItemPropType } from 'features/TestList/constants';
+import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { o11yNotify } from 'utils/notification';
@@ -28,8 +28,12 @@ function TestListDefectType({ data }) {
   const { data: buildMeta } = useSelector(getBuildMeta);
   const [isUpdating, setIsUpdating] = useState(false);
   const activeProject = useSelector(getActiveProject);
-  const { testDefectTypeMapping, updateTestDefectTypeMapping } =
-    useContext(TestListContext);
+  const {
+    testDefectTypeMapping,
+    updateTestDefectTypeMapping,
+    o11yTestListingInteraction
+  } = useContext(TestListContext);
+
   const [issueType, setIssueType] = useState(
     () =>
       testDefectTypeMapping[data?.details?.id]?.issueType ||
@@ -58,6 +62,7 @@ function TestListDefectType({ data }) {
       label: selectedItem.body
     };
     if (item.value === BULK_EDIT) {
+      o11yTestListingInteraction('analyzer_bulk_tagging_invoked');
       dispatch(
         toggleModal({
           version: MODAL_TYPES.bulk_assign_issuetype,
@@ -66,6 +71,9 @@ function TestListDefectType({ data }) {
             testRunId: data?.details?.id,
             defaultTypeSelection: selectedItem.defaultSelection,
             selectedTestItemData: data,
+            analyticsData: {
+              source: 'test_listing'
+            },
             onSuccess: (updatedData) => {
               updateTestDefectTypeMapping(updatedData, true);
             }
@@ -98,6 +106,7 @@ function TestListDefectType({ data }) {
           title: 'Updated issue type successfully',
           description: ''
         });
+        o11yTestListingInteraction('analyzer_issue_updated');
       } catch (err) {
         o11yNotify({
           type: 'error',
