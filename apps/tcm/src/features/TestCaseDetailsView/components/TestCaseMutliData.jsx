@@ -70,7 +70,8 @@ const TestCaseMutliData = ({
     {
       name: 'Linked On',
       key: 'created_at',
-      cell: (rowData) => formatTime(rowData.created_at, 'date')
+      cell: (rowData) =>
+        rowData?.created_at ? formatTime(rowData.created_at, 'date') : '--'
     }
   ];
 
@@ -110,7 +111,10 @@ const TestCaseMutliData = ({
     {
       name: 'Linked On',
       key: 'created_at',
-      cell: (rowData) => formatTime(rowData?.test_run_created_at, 'date')
+      cell: (rowData) =>
+        rowData?.test_run_created_at
+          ? formatTime(rowData?.test_run_created_at, 'date')
+          : '--'
     }
   ];
 
