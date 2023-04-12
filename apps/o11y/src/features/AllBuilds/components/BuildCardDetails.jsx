@@ -9,6 +9,7 @@ import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
+import { getBuildPath } from 'utils/routeUtils';
 
 import { TABLE_CLASSES } from '../constants';
 
@@ -35,9 +36,11 @@ const BuildCardDetails = ({ data }) => {
       .replace(' ', '_')
       .toLowerCase()}_clicked`;
     logBuildListingInteracted(interactionName);
-    let endpoint = `/projects/${projectNormalisedName}/builds/${
-      data?.isAutoDetectedName ? data?.originalName : data?.name
-    }/${data?.buildNumber}?tab=tests`;
+    let endpoint = `${getBuildPath(
+      projectNormalisedName,
+      data.normalisedName,
+      data?.buildNumber
+    )}?tab=tests`;
     endpoint += `&${itemCategory}=${clickData.itemClicked}`;
     navigate(endpoint);
   };

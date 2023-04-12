@@ -14,12 +14,11 @@ function DividedPill({ data, logBuildListingInteracted }) {
       .replace(' ', '_')
       .toLowerCase()}_clicked`;
     logBuildListingInteracted(interactionName);
-    let endpoint = getBuildPath(
+    const endpoint = `${getBuildPath(
       projectNormalisedName,
       data.normalisedName,
       data?.buildNumber
-    );
-    endpoint += `?tab=tests&issueTypeGroup=${itemClicked}`;
+    )}/?tab=tests&issueTypeGroup=${itemClicked}`;
     navigate(endpoint);
   };
 
