@@ -14,7 +14,7 @@ const ImageGallery = ({ images }) => {
 
   return (
     <div className="relative mt-4 inline-block">
-      {lastImg && <ImageItem url={lastImg} />}
+      {lastImg && <ImageItem url={lastImg.s3_url} />}
       {getFormattedImgs.length > 1 && (
         <O11yBadge
           text={getFormattedImgs.length - 1}

@@ -176,7 +176,7 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 2.6.0
+      '@browserstack/bifrost': 2.7.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -220,7 +220,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 2.6.0_wuvwllacrnu6wbitqfs6jnvuw4
+      '@browserstack/bifrost': 2.7.0_wuvwllacrnu6wbitqfs6jnvuw4
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@internationalized/date': 3.1.0
@@ -2284,8 +2284,8 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/2.6.0_wuvwllacrnu6wbitqfs6jnvuw4:
-    resolution: {integrity: sha512-IBDye4YCCgXiAlrbEdoAR0657yP1v8JgQeEQcePGLMeu4awObvEJp7Af9IpC3c/dRIR5og/hsDJg9goviZ9HXw==, tarball: download/@browserstack/bifrost/2.6.0/ec6386b07dafade268f28200c607cbceed9c2cb4}
+  /@browserstack/bifrost/2.7.0_wuvwllacrnu6wbitqfs6jnvuw4:
+    resolution: {integrity: sha512-7O/oVAVonLJOOrx4TX0tABfJYRoL2p6/tMv7DDJg/dDG6jj2d43xDY52+RGF1Z8gvyiLT5GpgUdXiVbxhSjnbw==, tarball: download/@browserstack/bifrost/2.7.0/a8629855a77f5f3faf5fea10085674ae14d1dcaa}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
@@ -7417,7 +7417,7 @@ packages:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10_xsftmjzvfioxqs4ify53ibh7ay
       '@storybook/node-logger': 6.5.16
       '@storybook/react': 6.5.16_nsojkcuzyxevfv6vk2xlte3i2q
-      '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.630821.0_hhrrucqyg4eysmfpujvov2ym5u
+      '@storybook/react-docgen-typescript-plugin': 1.0.6--canary.9.0c3f3b7.0_hhrrucqyg4eysmfpujvov2ym5u
       '@types/babel__core': 7.20.0
       babel-plugin-react-docgen: 4.2.1
       pnp-webpack-plugin: 1.7.0_typescript@4.9.5
@@ -7481,8 +7481,8 @@ packages:
       - supports-color
     dev: true
 
-  /@storybook/react-docgen-typescript-plugin/1.0.6--canary.9.630821.0_hhrrucqyg4eysmfpujvov2ym5u:
-    resolution: {integrity: sha512-adrUdN/hb/bzRBmSJtHBEwoPpZzmMbr9WIEp83As69j0hkSa2Rp/Fvp+f97A2FyEx0+skiSX8ENLnwuup+5yuA==}
+  /@storybook/react-docgen-typescript-plugin/1.0.6--canary.9.0c3f3b7.0_hhrrucqyg4eysmfpujvov2ym5u:
+    resolution: {integrity: sha512-KUqXC3oa9JuQ0kZJLBhVdS4lOneKTOopnNBK4tUAgoxWQ3u/IjzdueZjFr7gyBrXMoU6duutk3RQR9u8ZpYJ4Q==}
     peerDependencies:
       typescript: '>= 4.x'
       webpack: '>= 4'

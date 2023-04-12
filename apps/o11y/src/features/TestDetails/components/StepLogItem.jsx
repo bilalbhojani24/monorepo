@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import StatusIcon from 'common/StatusIcon';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import { useLogsContext } from '../contexts/LogsContext';
@@ -52,7 +52,7 @@ export default function StepLogItem({ data, isFromList, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 flex px-2 items-center gap-1 break-words border-b py-4 text-left',
+        'border-base-200 flex px-2 items-center gap-1 break-words border-b py-3 text-left',
         {
           'bg-danger-50': isError(data?.logLevel),
           'bg-attention-50': isWarning(data?.logLevel)

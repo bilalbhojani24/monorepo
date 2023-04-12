@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import { useLogsContext } from '../contexts/LogsContext';
@@ -45,7 +45,7 @@ export default function GenericLogItem({ data, searchText }) {
   return (
     <button
       className={twClassNames(
-        'border-base-200 px-2 pl-8 flex items-center break-words border-b py-4 text-left',
+        'border-base-200 px-2 pl-8 flex items-center break-words border-b py-3 text-left',
         {
           'bg-danger-50': isError(data?.logLevel),
           'bg-attention-50': isWarning(data?.logLevel)

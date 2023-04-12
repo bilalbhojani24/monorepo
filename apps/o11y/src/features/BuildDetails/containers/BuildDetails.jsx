@@ -4,11 +4,15 @@ import { useLocation, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { PUSHER_EVENTS } from 'constants/common';
+import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
+import TestList from 'features/TestList';
+import { EMPTY_TESTLIST_DATA_STATE } from 'features/TestList/constants';
+import {
+  getTestListData,
+  setTestList
+} from 'features/TestList/slices/testListSlice';
 import { o11yNotify } from 'utils/notification';
 
-import TestList from '../../TestList';
-import { getTestListData } from '../../TestList/slices/testListSlice';
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
 import { TABS } from '../constants';
 import {
@@ -146,6 +150,12 @@ function BuildDetails() {
 
   const onUpdateBtnClick = () => {
     setIsLoading(true);
+    dispatch(
+      setTestList({
+        data: EMPTY_TESTLIST_DATA_STATE,
+        apiState: { status: API_STATUSES.idle, details: {} }
+      })
+    );
     dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
       .unwrap()
       .catch(() => {

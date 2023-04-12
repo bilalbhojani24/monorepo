@@ -8,7 +8,7 @@ import {
   O11yDropdownTrigger,
   O11yTruncateText
 } from 'common/bifrostProxy';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';

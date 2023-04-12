@@ -27,16 +27,18 @@ const TestDetails = ({ source }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    logOllyEvent({
-      event: 'O11yTestDetailsVisited',
-      data: {
-        project_name: activeProject.name,
-        project_id: activeProject.id,
-        test_id: testId,
-        source
-      }
-    });
-  }, [activeProject.name, activeProject.id, testId, source]);
+    if (isVisible) {
+      logOllyEvent({
+        event: 'O11yTestDetailsVisited',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          test_id: testId,
+          source
+        }
+      });
+    }
+  }, [activeProject.name, activeProject.id, testId, source, isVisible]);
 
   const handleLogTDInteractionEvent = useCallback(
     ({ event = 'O11yTestDetailsInteracted', interaction }) => {
@@ -67,7 +69,7 @@ const TestDetails = ({ source }) => {
   }, [dispatch]);
 
   return (
-    <O11ySlideover show={isVisible} backgroundOverlay={false} size="2xl">
+    <O11ySlideover show={isVisible} backgroundOverlay={false} size="3xl">
       <TEST_DETAILS_CONTEXT.Provider value={{ handleLogTDInteractionEvent }}>
         <SlideOverHeader />
         <SlideOverBody />
