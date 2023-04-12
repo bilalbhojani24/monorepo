@@ -9,10 +9,6 @@ import {
   setIsUEDetailsVisible,
   setShowUEDetailsFor
 } from 'features/SHErrorDetails/slices/dataSlice';
-import {
-  setIsDetailsVisible,
-  setShowDetailsFor
-} from 'features/TestDetails/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
@@ -109,18 +105,6 @@ const SnPUniqueErrors = () => {
       mounted.current = false;
     };
   }, [dispatch, filters, activeProject?.normalisedName, sortBy]);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const testDetails = searchParams.get('details');
-    if (testDetails) {
-      dispatch(setIsDetailsVisible(true));
-      dispatch(setShowDetailsFor(testDetails));
-    }
-    return () => {
-      dispatch(setIsDetailsVisible(false));
-    };
-  }, [dispatch]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);

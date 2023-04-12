@@ -5,7 +5,6 @@ import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
-import SuiteHealth from 'features/SuiteHealth';
 
 import { ROUTES } from './routes';
 
@@ -37,6 +36,9 @@ const ReRunSettings = React.lazy(() =>
 const NotificationsSettings = React.lazy(() =>
   import('features/Settings/containers/NotificationsSettings')
 );
+
+const SuiteHealth = React.lazy(() => import('features/SuiteHealth'));
+
 export const APP_ROUTES = [
   {
     path: ROUTES.all,
