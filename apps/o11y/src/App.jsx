@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { matchRoutes, useLocation, useNavigate } from 'react-router-dom';
 import { getStorage, initLogger } from '@browserstack/utils';
+import { getPusherConfig } from 'api/global';
 import ModalToShow from 'common/ModalToShow';
 import {
   o11yHistory,
@@ -13,8 +14,10 @@ import { APP_ROUTES } from 'constants/routesConstants';
 import { getProjectsList } from 'globalSlice';
 import useAuthRoutes from 'hooks/useAuthRoutes';
 import { getEnvConfig } from 'utils/common';
+import { subscribeO11yPusher } from 'utils/pusherEventHandler';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
+const PUSHER_CONNECTION_NAME = 'o11y-pusher';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -48,6 +51,27 @@ const App = () => {
       window.initialized = true;
     }
   }, []);
+
+  const fetchAndInitPusher = useCallback(async () => {
+    try {
+      const res = await getPusherConfig();
+      const channelData = {
+        channel: res.data?.channel,
+        token: res.data?.token,
+        type: res.data?.type,
+        groupId: res.data?.group_id,
+        connectionName: PUSHER_CONNECTION_NAME
+      };
+      dispatch(subscribeO11yPusher(channelData, res.data?.pusher_url));
+    } catch (error) {
+      // fail silently
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchAndInitPusher();
+  }, [fetchAndInitPusher]);
+
   const Routes = useAuthRoutes(
     APP_ROUTES,
     () =>
