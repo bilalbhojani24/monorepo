@@ -8,6 +8,7 @@ import {
 } from '@browserstack/bifrost';
 import { O11yButton, O11yTooltip } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
+import PropagationBlocker from 'common/PropagationBlocker';
 import { TEST_STATUS } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
@@ -106,7 +107,7 @@ function TestListActionItems({ details }) {
   }, [details?.isMuted, updatedMutedStatus]);
 
   return (
-    <div className="hidden items-center justify-end gap-1 group-hover:flex">
+    <PropagationBlocker className="hidden items-center justify-end gap-1 group-hover:flex">
       {details.status === TEST_STATUS.FAIL && (
         <O11yTooltip
           theme="dark"
@@ -177,7 +178,7 @@ function TestListActionItems({ details }) {
           }
         />
       </O11yTooltip>
-    </div>
+    </PropagationBlocker>
   );
 }
 
