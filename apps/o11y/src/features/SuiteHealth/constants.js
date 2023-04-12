@@ -47,14 +47,14 @@ export const UNIQUE_ERROR_MAIN_HEADER = {
   testCount: {
     key: 'testCount',
     label: 'Impacted tests',
-    headerClass: 'py-2 pl-4 hover:bg-base-200 w-[150px]',
-    bodyClass: 'pl-4 pr-4 sm:pr-6 w-[150px]'
+    headerClass: 'py-2 pl-4 hover:bg-base-200 w-36',
+    bodyClass: 'pl-4 pr-4 sm:pr-6 w-36'
   },
   errorCount: {
     key: 'errorCount',
     label: 'Error count',
-    headerClass: 'py-2 sm:pr-6 pl-4 hover:bg-base-200 w-[150px]',
-    bodyClass: 'pl-4 w-[150px]'
+    headerClass: 'py-2 sm:pr-6 pl-4 hover:bg-base-200 w-40',
+    bodyClass: 'pl-4 w-40'
   }
 };
 
@@ -70,14 +70,14 @@ export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
     key: 'platforms',
     label: 'Platforms',
     headerClass:
-      'uppercase w-[300px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
-    bodyClass: 'w-[300px] py-4 pl-6 text-sm'
+      'uppercase w-36 text-base-500 text-xs font-medium leading-4 py-3 pl-4 pr-6 text-center',
+    bodyClass: 'w-36 py-4 pl-4 pr-6 text-sm'
   },
   errorCount: {
     key: 'errorCount',
     label: 'Error count',
     headerClass:
-      'uppercase w-[150px] text-base-500 text-xs font-medium leading-4 py-3 pl-4',
-    bodyClass: 'w-[150px] py-4 pl-4 text-sm'
+      'uppercase w-40 text-base-500 text-xs font-medium leading-4 py-3 pl-4',
+    bodyClass: 'w-40 py-4 pl-4 text-sm'
   }
 };

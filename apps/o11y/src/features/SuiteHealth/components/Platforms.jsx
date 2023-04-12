@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { O11yBadge, O11yTooltip } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
 import PropTypes from 'prop-types';
@@ -41,17 +42,31 @@ RestPlatformsAndBrowsers.propTypes = {
   browsersPlatforms: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
-export default function SnPPlatforms({ platforms, browsers, onViewMoreClick }) {
+export default function SnPPlatforms({
+  platforms,
+  browsers,
+  onViewMoreClick,
+  wrapperClassName
+}) {
   const browsersPlatforms = [...platforms, ...browsers];
 
   if (!browsersPlatforms?.length) {
-    return <span className="ml-1 text-center">-</span>;
+    return (
+      <span className={twClassNames('ml-1 text-center', wrapperClassName)}>
+        -
+      </span>
+    );
   }
 
   if (browsersPlatforms?.length === 1) {
     const item = browsersPlatforms[0];
     return (
-      <div className="flex">
+      <div
+        className={twClassNames(
+          'flex items-center justify-center',
+          wrapperClassName
+        )}
+      >
         <DetailIcon
           icon={getIcon(item)}
           text={getText(item)}
@@ -63,7 +78,12 @@ export default function SnPPlatforms({ platforms, browsers, onViewMoreClick }) {
   if (browsersPlatforms?.length > 2) {
     const itemsToShow = browsersPlatforms.slice(0, 2);
     return (
-      <div className="flex flex-wrap items-center justify-center gap-2">
+      <div
+        className={twClassNames(
+          'flex flex-wrap items-center justify-center gap-2',
+          wrapperClassName
+        )}
+      >
         {itemsToShow?.map((item) => (
           <DetailIcon
             icon={getIcon(item)}
@@ -91,7 +111,12 @@ export default function SnPPlatforms({ platforms, browsers, onViewMoreClick }) {
     );
   }
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2">
+    <div
+      className={twClassNames(
+        'flex flex-wrap items-center justify-center gap-2',
+        wrapperClassName
+      )}
+    >
       {browsersPlatforms?.map((item) => (
         <DetailIcon
           icon={getIcon(item)}
@@ -107,9 +132,11 @@ export default function SnPPlatforms({ platforms, browsers, onViewMoreClick }) {
 SnPPlatforms.propTypes = {
   platforms: PropTypes.arrayOf(PropTypes.object),
   browsers: PropTypes.arrayOf(PropTypes.object),
-  onViewMoreClick: PropTypes.func.isRequired
+  onViewMoreClick: PropTypes.func.isRequired,
+  wrapperClassName: PropTypes.string
 };
 SnPPlatforms.defaultProps = {
   platforms: [],
-  browsers: []
+  browsers: [],
+  wrapperClassName: ''
 };
