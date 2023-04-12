@@ -1,4 +1,5 @@
 import React, { forwardRef, useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 import {
@@ -88,6 +89,9 @@ const ComboBox = forwardRef((props, ref) => {
             return null;
           }}
           disabled={disabled}
+          className={twClassNames({
+            'pointer-events-none': isLoading
+          })}
         >
           {({ open: dropdownOpen, value: selectedValues }) => (
             <RenderChildren

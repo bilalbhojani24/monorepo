@@ -75,7 +75,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           />
         )}
         <Combobox.Input
-          key={open}
+          key={open || isLoading}
           placeholder={isLoading ? null : placeholder}
           className={twClassNames(
             'flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 sm:text-sm flex-1 p-0 text-ellipsis pr-7',
@@ -89,7 +89,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             onInputValueChange?.(e.target.value);
           }}
           displayValue={(dv) => {
-            if (open) return '';
+            if (open || isLoading) return '';
             return isMulti && Array.isArray(dv)
               ? renderMultiOptions(dv)
               : renderSingleOptions(dv);
