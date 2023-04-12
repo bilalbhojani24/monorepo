@@ -23,6 +23,25 @@ const DetailIcon = ({ icon, text, forSpecInfo, size, openTextInTooltip }) => {
     return iconClass;
   };
 
+  if (!openTextInTooltip) {
+    return (
+      <IconWithText
+        icon={icon}
+        text={text.indexOf('ios') !== -1 ? text.replace('ios', 'iOS') : text}
+        forSpecInfo={forSpecInfo}
+        iconClass={getIconClass()}
+        textClass={`${
+          text &&
+          (text.toLowerCase().indexOf('ios') !== -1 ||
+          text.toLowerCase().indexOf('iphone') !== -1
+            ? 'normal-case'
+            : '')
+        }`}
+        size={size}
+      />
+    );
+  }
+
   return (
     <O11yTooltip
       placementSide="top"
