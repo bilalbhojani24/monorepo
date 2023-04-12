@@ -18,8 +18,7 @@ import {
 import { TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import TestDetailsSlideOver from 'features/TestDetails';
-import { getIsTestDetailsVisible } from 'features/TestDetails/slices/selectors';
-import { setIsTestDetailsVisible } from 'features/TestDetails/slices/uiSlice';
+import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import useShowMoreOptions from 'features/TestsInsights/components/useShowMoreOptions';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getActiveProject } from 'globalSlice/selectors';
@@ -36,7 +35,6 @@ const RGL_LS_KEY_OLDER = 'testops-rgl-layouts-v2';
 export default function TestInsightsLayout() {
   const dispatch = useDispatch();
   const buildMeta = useSelector(getBuildMeta);
-  const isDetailsVisible = useSelector(getIsTestDetailsVisible);
   const activeProject = useSelector(getActiveProject);
   const handleClickViewTrends = useShowMoreOptions();
   const [rglLayouts, setRglLayouts] = useState(() => {
@@ -103,7 +101,7 @@ export default function TestInsightsLayout() {
     window.scroll(0, 0);
     return () => {
       window.scroll(0, 0);
-      dispatch(setIsTestDetailsVisible(false));
+      dispatch(hideTestDetailsDrawer());
     };
   }, [dispatch]);
 
@@ -191,11 +189,9 @@ export default function TestInsightsLayout() {
           </ResponsiveReactGridLayout>
         </div>
       </TestInsightsContext.Provider>
-      {isDetailsVisible && (
-        <TestDetailsSlideOver
-          source={TEST_DETAILS_SOURCE.BUILD_INSIGHTS_UNIQUE_ERRORS}
-        />
-      )}
+      <TestDetailsSlideOver
+        source={TEST_DETAILS_SOURCE.BUILD_INSIGHTS_UNIQUE_ERRORS}
+      />
     </>
   );
 }

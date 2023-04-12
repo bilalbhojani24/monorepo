@@ -1,11 +1,7 @@
 import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import ScopeLine from 'common/ScopeLine/containers/ScopeLine';
-import {
-  setIsTestDetailsVisible,
-  setShowTestDetailsFor
-} from 'features/TestDetails/slices/uiSlice';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import RootNodeMetaData from 'features/TestList/components/RootNodeMetaData';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import PropTypes from 'prop-types';
@@ -14,18 +10,13 @@ import { milliSecondsToTime } from 'utils/dateTime';
 export default function TestDataItem({ data }) {
   const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleClickTest = (id) => {
     logInsightsInteractionEvent({
       interaction: 'unique_errors_test_details_opened'
     });
-    dispatch(setShowTestDetailsFor(id));
-    dispatch(setIsTestDetailsVisible(true));
-    const searchParams = new URLSearchParams(window?.location?.search);
-    searchParams.set('details', id);
-    navigate({ search: searchParams.toString() });
+    dispatch(showTestDetailsDrawer(id));
   };
   return (
     <>
