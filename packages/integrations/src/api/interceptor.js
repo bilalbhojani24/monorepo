@@ -84,10 +84,10 @@ export const responseInterceptor = axios.interceptors.response.use(
         store.dispatch(
           setGlobalAlert({
             kind: 'error',
-            title: 'Authentication Error',
             message: `Please connect to ${
               activeIntegration ? activeIntegration.title : ''
-            } and re-authenticate.`
+            } and re-authenticate.`,
+            showOnTop: true
           })
         );
       }
