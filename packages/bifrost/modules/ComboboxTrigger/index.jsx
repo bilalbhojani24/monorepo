@@ -20,11 +20,13 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
     setWidth,
     errorText,
     isLoading,
+    isLoadingRight,
+    loadingText,
     open,
     disabled,
     value,
-    query,
-    setQuery
+    setQuery,
+    query
   } = useContext(ComboboxContextData);
 
   useEffect(() => {
@@ -34,10 +36,6 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
     }
   }, [setWidth, open]);
 
-  // useEffect(() => {
-  //   comboInputRef.current.value = '';
-  // }, [value]);
-
   return (
     <Popover.Trigger ref={buttonRef} asChild>
       <div
@@ -45,7 +43,6 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           'border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-2 focus-within:outline-none focus-within:ring-1 py-2 rounded-md',
           {
             'pr-14': isMulti,
-            'pr-8': errorText,
             'border-danger-600': errorText,
             'cursor-not-allowed border-base-200 bg-base-50 text-base-500':
               disabled,
@@ -54,6 +51,13 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
         )}
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
+        {isLoading && (
+          <div className="flex items-center space-x-2 pr-2">
+            <Loader wrapperStyle="text-base-200 fill-base-400" />
+            <span>{loadingText}</span>
+          </div>
+        )}
+
         {!isMulti && !open && value?.image && (
           <img
             src={value.image}
@@ -61,31 +65,34 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             className="mr-3 h-5 w-5 shrink-0 rounded-full"
           />
         )}
-        <Combobox.Input
-          key={open}
-          placeholder={isLoading ? null : placeholder}
-          className={twClassNames(
-            'flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 sm:text-sm flex-1 p-0',
-            {
-              'bg-base-50': disabled || isLoading
-            }
-          )}
-          onChange={(e) => {
-            onInputValueChange(e);
-            setQuery(e.target.value);
-          }}
-          displayValue={(dv) => {
-            if (open) return '';
-            return isMulti && Array.isArray(dv)
-              ? renderMultiOptions(dv)
-              : renderSingleOptions(dv);
-          }}
-          ref={comboInputRef}
-          readOnly={isLoading}
-          autoComplete="off"
-        />
-        <div className="flex items-center space-x-2">
-          {isLoading && (
+        {!isLoading && (
+          <Combobox.Input
+            key={open}
+            placeholder={isLoading ? null : placeholder}
+            className={twClassNames(
+              'flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 sm:text-sm flex-1 p-0',
+              {
+                'bg-base-50': disabled || isLoading
+              }
+            )}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              onInputValueChange?.(e);
+            }}
+            displayValue={(dv) => {
+              if (open) return '';
+              return isMulti && Array.isArray(dv)
+                ? renderMultiOptions(dv)
+                : renderSingleOptions(dv);
+            }}
+            {...(open && { value: query })}
+            ref={comboInputRef}
+            readOnly={isLoading}
+            autoComplete="off"
+          />
+        )}
+        <div className="mr-6 flex items-center space-x-2">
+          {isLoadingRight && (
             <span className="text-base-500 flex items-center space-x-2 rounded-r-md focus:outline-none">
               <Loader wrapperStyle="text-base-200 fill-base-400" />
             </span>
@@ -99,7 +106,6 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             </span>
           )}
         </div>
-
         <Combobox.Button
           className="absolute inset-y-0 right-0 flex w-full items-center justify-end rounded-r-md px-2 focus:outline-none"
           onClick={(e) => {

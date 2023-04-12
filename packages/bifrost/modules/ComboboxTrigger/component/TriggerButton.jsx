@@ -23,7 +23,11 @@ const TriggerButton = React.forwardRef(({ isMulti, value }, ref) => {
 
 TriggerButton.propTypes = {
   isMulti: bool.isRequired,
-  value: number.isRequired
+  value: number
+};
+
+TriggerButton.defaultProps = {
+  value: undefined
 };
 
 export default TriggerButton;

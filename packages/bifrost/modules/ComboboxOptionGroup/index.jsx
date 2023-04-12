@@ -7,7 +7,6 @@ import { ComboboxContextData } from '../../shared/comboboxContext';
 import { node, oneOf, string } from '../../shared/proptypesConstants';
 import { OPTION_GROUP_ALIGNMENT } from '../ComboBox/const/comboBoxConstants';
 import ComboboxAddNewItem from '../ComboboxAddNewItem';
-import ComboboxOptionItem from '../ComboboxOptionItem';
 
 const ComboboxOptionGroup = ({
   alignment,
@@ -15,7 +14,8 @@ const ComboboxOptionGroup = ({
   wrapperClassName,
   maxWidth
 }) => {
-  const { width, query } = useContext(ComboboxContextData);
+  const { width, query, isBadge, isCreatable, noResultFoundText } =
+    useContext(ComboboxContextData);
 
   return (
     <Popover.Portal>
@@ -43,19 +43,23 @@ const ComboboxOptionGroup = ({
               wrapperClassName
             )}
           >
-            {children.length === 0 ? (
+            {!isBadge ? (
               <>
                 {children}
-                <ComboboxOptionItem
-                  isEmpty
-                  emptyText={
-                    query.length > 0
-                      ? 'No results found'
-                      : 'No options available'
-                  }
-                  disabled
-                />
-                {query.length > 0 && (
+                {children.length === 0 && (
+                  <Combobox.Option
+                    disabled
+                    className={twClassNames(
+                      'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3'
+                    )}
+                  >
+                    {noResultFoundText ||
+                      (query.length > 0
+                        ? 'No results found'
+                        : 'No options available')}
+                  </Combobox.Option>
+                )}
+                {isCreatable && query.length > 0 && (
                   <ComboboxAddNewItem
                     suffix="as a new option (↵)"
                     prefix="Add"

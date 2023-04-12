@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 import {
@@ -15,26 +15,30 @@ import {
 import { ComboboxContextData } from '../../shared/comboboxContext';
 
 import RenderChildren from './components/RenderChildren';
+import { findLastActionItemHelper } from './helper';
 
 const ComboBox = forwardRef((props, ref) => {
-  const [open, setOpen] = useState(false);
-  const [width, setWidth] = useState(0);
-  const [query, setQuery] = useState('');
-  const [currentSelectedValues, setCurrentSelectedValues] = useState([]);
-
   const {
     children,
     defaultValue,
     errorText,
     onChange,
     isBadge,
+    isCreatable,
     isMulti,
+    noResultFoundText,
     value,
     onOpenChange,
     isLoading,
     loadingText,
+    isLoadingRight,
     disabled
   } = props;
+
+  const [open, setOpen] = useState(false);
+  const [width, setWidth] = useState(0);
+  const [query, setQuery] = useState('');
+  const [currentSelectedValues, setCurrentSelectedValues] = useState([]);
 
   return (
     <ComboboxContextData.Provider
@@ -48,12 +52,15 @@ const ComboBox = forwardRef((props, ref) => {
         setOpen,
         isLoading,
         loadingText,
+        isLoadingRight,
         disabled,
         query,
         setQuery,
         isBadge,
         currentSelectedValues,
-        setCurrentSelectedValues
+        setCurrentSelectedValues,
+        isCreatable,
+        noResultFoundText
       }}
     >
       <Popover.Root open={open}>
@@ -62,8 +69,17 @@ const ComboBox = forwardRef((props, ref) => {
           as="div"
           value={value ?? undefined}
           defaultValue={defaultValue ?? undefined}
-          onChange={(val) => {
-            if (onChange) onChange(val);
+          onChange={(selectedValue) => {
+            if (onChange)
+              onChange(
+                selectedValue,
+                isMulti
+                  ? findLastActionItemHelper(
+                      selectedValue,
+                      currentSelectedValues
+                    )
+                  : selectedValue
+              );
             if (query) setQuery('');
           }}
           multiple={isMulti || isBadge}
@@ -73,11 +89,11 @@ const ComboBox = forwardRef((props, ref) => {
           }}
           disabled={disabled}
         >
-          {({ open: dropdownOpen, value: currentValues }) => (
+          {({ open: dropdownOpen, value: selectedValues }) => (
             <RenderChildren
               open={dropdownOpen}
               onOpenChange={onOpenChange}
-              currentValues={currentValues}
+              selectedValues={selectedValues}
             >
               {children}
             </RenderChildren>
@@ -108,10 +124,14 @@ ComboBox.propTypes = {
     })
   ]),
   disabled: bool,
+  isCreatable: bool,
   isLoading: bool,
+  isLoadingRight: bool,
   loadingText: string,
   errorText: string,
+  noResultFoundText: string,
   isMulti: bool,
+  isBadge: bool,
   onChange: func,
   value: oneOfType([
     arrayOf(
@@ -133,8 +153,12 @@ ComboBox.propTypes = {
 ComboBox.defaultProps = {
   defaultValue: null,
   disabled: false,
+  isCreatable: false,
   isLoading: false,
+  isLoadingRight: false,
+  isBadge: false,
   loadingText: 'Loading',
+  noResultFoundText: '',
   errorText: '',
   isMulti: false,
   onChange: () => {},

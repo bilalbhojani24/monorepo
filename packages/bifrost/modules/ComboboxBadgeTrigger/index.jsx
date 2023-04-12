@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
+import { arrayOf, func, number, oneOfType, shape, string } from 'prop-types';
 
 import { ComboboxContextData } from '../../shared/comboboxContext';
-import { func, string } from '../../shared/proptypesConstants';
 import Badge from '../Badge';
 import Button from '../Button';
 import {
@@ -18,7 +18,9 @@ import Loader from '../Loader';
 const ComboboxBadgeTrigger = ({
   onInputValueChange,
   placeholder,
-  onBadgeClose
+  onBadgeClose,
+  currentSelected,
+  onClearAll
 }) => {
   const buttonRef = useRef();
   const comboInputRef = useRef();
@@ -30,8 +32,6 @@ const ComboboxBadgeTrigger = ({
     isLoading,
     open,
     disabled,
-    currentSelectedValues,
-    setCurrentSelectedValues,
     query,
     setQuery
   } = useContext(ComboboxContextData);
@@ -39,26 +39,6 @@ const ComboboxBadgeTrigger = ({
   useEffect(() => {
     if (open) setWidth(buttonRef.current?.offsetWidth);
   }, [setWidth, open]);
-
-  useEffect(() => {
-    const handleBackspace = (event) => {
-      if (
-        event.keyCode === 8 &&
-        query.length <= 0 &&
-        currentSelectedValues.length
-      ) {
-        const newArray = [...currentSelectedValues];
-        newArray.pop();
-        setCurrentSelectedValues(newArray);
-      }
-    };
-
-    window.addEventListener('keydown', handleBackspace);
-
-    return () => {
-      window.removeEventListener('keydown', handleBackspace);
-    };
-  }, [query, currentSelectedValues, setCurrentSelectedValues]);
 
   const keepDrawerOpen = (e) => {
     if (open) {
@@ -85,7 +65,7 @@ const ComboboxBadgeTrigger = ({
           <QuestionMarkCircleIcon className="h-5 w-5" />
         </div>
         <div className="relative flex flex-1 space-x-2">
-          {currentSelectedValues?.map((i) => (
+          {currentSelected?.map((i) => (
             <Badge
               wrapperClassName="z-10"
               text={i.label}
@@ -117,8 +97,14 @@ const ComboboxBadgeTrigger = ({
         </div>
 
         <div className="mr-5 flex space-x-2">
-          {currentSelectedValues.length > 0 && (
-            <Button variant="minimal" wrapperClassName="z-10">
+          {currentSelected?.length > 0 && (
+            <Button
+              variant="minimal"
+              wrapperClassName="z-10"
+              onClick={() => {
+                if (onClearAll) onClearAll();
+              }}
+            >
               <MdCancel className="h-5 w-5" />
             </Button>
           )}
@@ -153,13 +139,23 @@ const ComboboxBadgeTrigger = ({
 };
 
 ComboboxBadgeTrigger.propTypes = {
+  currentSelected: arrayOf(
+    shape({
+      value: oneOfType([string, number]).isRequired,
+      label: string.isRequired,
+      image: string
+    })
+  ),
   onBadgeClose: func,
+  onClearAll: func,
   onInputValueChange: func,
   placeholder: string
 };
 
 ComboboxBadgeTrigger.defaultProps = {
+  currentSelected: [],
   onBadgeClose: null,
+  onClearAll: null,
   onInputValueChange: null,
   placeholder: ''
 };
