@@ -6,15 +6,15 @@ import * as Popover from '@radix-ui/react-popover';
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import { node, oneOf, string } from '../../shared/proptypesConstants';
 import { OPTION_GROUP_ALIGNMENT } from '../ComboBox/const/comboBoxConstants';
-import ComboboxAddNewItem from '../ComboboxAddNewItem';
 
 const ComboboxOptionGroup = ({
   alignment,
   children,
   wrapperClassName,
-  maxWidth
+  maxWidth,
+  noResultFoundComponent
 }) => {
-  const { width, query, isBadge, isCreatable, noResultFoundText } =
+  const { width, query, isBadge, noResultFoundText } =
     useContext(ComboboxContextData);
 
   return (
@@ -59,12 +59,7 @@ const ComboboxOptionGroup = ({
                         : 'No options available')}
                   </Combobox.Option>
                 )}
-                {isCreatable && query.length > 0 && (
-                  <ComboboxAddNewItem
-                    suffix="as a new option (↵)"
-                    prefix="Add"
-                  />
-                )}
+                {noResultFoundComponent}
               </>
             ) : (
               children
@@ -80,12 +75,14 @@ ComboboxOptionGroup.propTypes = {
   alignment: oneOf(OPTION_GROUP_ALIGNMENT),
   children: node.isRequired,
   maxWidth: string,
+  noResultFoundComponent: null,
   wrapperClassName: string
 };
 
 ComboboxOptionGroup.defaultProps = {
   alignment: OPTION_GROUP_ALIGNMENT[0],
   maxWidth: '80vw',
+  noResultFoundComponent: null,
   wrapperClassName: ''
 };
 

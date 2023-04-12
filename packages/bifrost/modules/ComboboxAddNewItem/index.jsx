@@ -1,13 +1,20 @@
 import React, { useContext, useId } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
-import { string } from 'prop-types';
+import { bool, string } from 'prop-types';
 
 import { ComboboxContextData } from '../../shared/comboboxContext';
 
-const ComboboxAddNewItem = ({ suffix, prefix, wrapperClassName }) => {
+const ComboboxAddNewItem = ({
+  suffix,
+  showQuery,
+  prefix,
+  wrapperClassName
+}) => {
   const { query } = useContext(ComboboxContextData);
   const uniqueId = useId();
+
+  const content = showQuery ? '' : `'${query}'`;
   return (
     <Combobox.Option
       value={{
@@ -25,17 +32,19 @@ const ComboboxAddNewItem = ({ suffix, prefix, wrapperClassName }) => {
         )
       }
     >
-      {`${prefix} '${query}' ${suffix}`}
+      {`${prefix} ${content} ${suffix}`}
     </Combobox.Option>
   );
 };
 
 ComboboxAddNewItem.propTypes = {
   suffix: string,
+  showQuery: bool,
   prefix: string.isRequired,
   wrapperClassName: string
 };
 ComboboxAddNewItem.defaultProps = {
+  showQuery: false,
   suffix: '',
   wrapperClassName: ''
 };

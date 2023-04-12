@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { delay } from '@browserstack/utils';
 import { expect } from '@storybook/jest';
 import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import ComboboxAddNewItem from '../ComboboxAddNewItem';
 import ComboboxLabel from '../ComboboxLabel';
 import ComboboxOptionGroup from '../ComboboxOptionGroup';
 import ComboboxOptionItem from '../ComboboxOptionItem';
@@ -201,14 +202,13 @@ export const LoadingCombobox = () => {
 
 export const SearchableCreatableControlled = () => {
   const [options, setOptions] = useState(COMBOBOX_OPTIONS);
-  const [selectedPerson, setSelectedPerson] = useState(undefined);
+  const [selectedPerson, setSelectedPerson] = useState([]);
   const [filteredOptions, setFilteredOptions] = useState(options);
   const [loading, setIsLoading] = useState(false);
   const [query, setQuery] = useState('');
 
   const valueChange = useCallback(
-    (e) => {
-      const val = e.target.value;
+    (val) => {
       setIsLoading(true);
       setTimeout(() => {
         setQuery(val);
@@ -221,10 +221,17 @@ export const SearchableCreatableControlled = () => {
   );
 
   const displayItemsArray = query ? filteredOptions : options;
+
+  const isExactMatch = useMemo(
+    () => displayItemsArray.find((item) => item.label === query),
+    [query, displayItemsArray]
+  );
+
   return (
     <>
       <ComboBox
-        isLoading={loading}
+        isCreatable
+        isRightLoading={loading}
         value={selectedPerson}
         onChange={(currentItem) => {
           const foundObject = options.find(
@@ -236,9 +243,6 @@ export const SearchableCreatableControlled = () => {
           setSelectedPerson(currentItem);
           setQuery('');
         }}
-        onOpenChange={(status) => {
-          if (!status) setQuery('');
-        }}
       >
         <ComboboxLabel>Assigned to</ComboboxLabel>
         <ComboboxTrigger
@@ -246,7 +250,13 @@ export const SearchableCreatableControlled = () => {
           onInputValueChange={valueChange}
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
-        <ComboboxOptionGroup>
+        <ComboboxOptionGroup
+          noResultFoundComponent={
+            !isExactMatch && query.length > 0 ? (
+              <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
+            ) : null
+          }
+        >
           {displayItemsArray.map((item) => (
             <ComboboxOptionItem
               key={item.value}
@@ -263,12 +273,10 @@ export const SearchableCreatableControlled = () => {
 export const SearchableCreatableUncontrolled = () => {
   const [options, setOptions] = useState(COMBOBOX_OPTIONS);
   const [filteredOptions, setFilteredOptions] = useState(options);
-
   const [query, setQuery] = useState('');
 
   const valueChange = useCallback(
-    (e) => {
-      const val = e.target.value;
+    (val) => {
       const filtered = options.filter((fv) => fv.label.includes(val));
       setQuery(val);
       setFilteredOptions(filtered);
@@ -277,6 +285,12 @@ export const SearchableCreatableUncontrolled = () => {
   );
 
   const displayItemsArray = query ? filteredOptions : options;
+
+  const isExactMatch = useMemo(
+    () => displayItemsArray.find((item) => item.label === query),
+    [query, displayItemsArray]
+  );
+
   return (
     <>
       <ComboBox
@@ -300,7 +314,13 @@ export const SearchableCreatableUncontrolled = () => {
           onInputValueChange={valueChange}
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
-        <ComboboxOptionGroup>
+        <ComboboxOptionGroup
+          noResultFoundComponent={
+            !isExactMatch && query.length > 0 ? (
+              <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
+            ) : null
+          }
+        >
           {displayItemsArray.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}
@@ -312,20 +332,22 @@ export const SearchableCreatableUncontrolled = () => {
 
 export const SearchableCreatableControlledMulti = () => {
   const [options, setOptions] = useState(COMBOBOX_OPTIONS);
-  const [selectedPerson, setSelectedPerson] = useState([]);
+  const [selectedPerson, setSelectedPerson] = useState([COMBOBOX_OPTIONS[0]]);
   const [filteredOptions, setFilteredOptions] = useState(COMBOBOX_OPTIONS);
   const [query, setQuery] = useState('');
 
-  const valueChange = (e) => {
-    const val = e.target.value;
-    setQuery(val);
-
+  const valueChange = (val) => {
     setQuery(val);
     const filtered = options.filter((fv) => fv.label.includes(val));
     setFilteredOptions(filtered);
   };
 
   const displayItemsArray = query ? filteredOptions : options;
+
+  const isExactMatch = useMemo(
+    () => displayItemsArray.find((item) => item.label === query),
+    [query, displayItemsArray]
+  );
 
   return (
     <>
@@ -354,7 +376,13 @@ export const SearchableCreatableControlledMulti = () => {
           onInputValueChange={valueChange}
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
-        <ComboboxOptionGroup>
+        <ComboboxOptionGroup
+          noResultFoundComponent={
+            !isExactMatch && query.length > 0 ? (
+              <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
+            ) : null
+          }
+        >
           {displayItemsArray.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}
@@ -371,8 +399,7 @@ export const SearchableUncreatableUncontrolledMulti = () => {
   const [query, setQuery] = useState('');
 
   const valueChange = useCallback(
-    (e) => {
-      const val = e.target.value;
+    (val) => {
       setQuery(val);
 
       setIsLoading(true);
@@ -388,6 +415,11 @@ export const SearchableUncreatableUncontrolledMulti = () => {
   );
 
   const displayItemsArray = query ? filteredOptions : options;
+
+  const isExactMatch = useMemo(
+    () => displayItemsArray.find((item) => item.label === query),
+    [query, displayItemsArray]
+  );
 
   return (
     <>
@@ -405,7 +437,7 @@ export const SearchableUncreatableUncontrolledMulti = () => {
         onOpenChange={(status) => {
           if (!status) setQuery('');
         }}
-        defaultValue={[options[0], options[1]]}
+        defaultValue={COMBOBOX_OPTIONS}
         isMulti
       >
         <ComboboxLabel>Assigned to</ComboboxLabel>
@@ -414,7 +446,13 @@ export const SearchableUncreatableUncontrolledMulti = () => {
           onInputValueChange={valueChange}
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
-        <ComboboxOptionGroup>
+        <ComboboxOptionGroup
+          noResultFoundComponent={
+            !isExactMatch && query.length > 0 ? (
+              <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
+            ) : null
+          }
+        >
           {displayItemsArray.map((item) => (
             <ComboboxOptionItem key={item.value} option={item} />
           ))}

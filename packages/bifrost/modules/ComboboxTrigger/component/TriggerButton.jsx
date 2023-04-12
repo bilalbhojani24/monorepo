@@ -1,33 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useLatestRef } from '@browserstack/hooks';
 
-import { bool, number } from '../../../shared/proptypesConstants';
+import { ComboboxContextData } from '../../../shared/comboboxContext';
+import { func } from '../../../shared/proptypesConstants';
 import { ChevronUpDownIcon } from '../../Icon';
 
-const TriggerButton = React.forwardRef(({ isMulti, value }, ref) => {
-  const [isTruncated, setIsTruncated] = useState(false);
+const TriggerButton = React.forwardRef(({ setIsTruncated }, ref) => {
+  const setIsTruncatedRef = useLatestRef(setIsTruncated);
+  const { open } = useContext(ComboboxContextData);
 
   useEffect(() => {
-    if (ref && ref.current !== null)
-      setIsTruncated(ref.current.offsetWidth < ref.current.scrollWidth);
-  }, [ref, value]);
+    if (ref && ref.current && !open)
+      setIsTruncatedRef.current?.(
+        ref.current.scrollWidth > ref.current.clientWidth
+      );
+  }, [ref, open, setIsTruncatedRef]);
 
   return (
-    <>
-      {isMulti && value && isTruncated ? (
-        <span className="mr-1 font-bold">{`(${value})`}</span>
-      ) : null}
-      <ChevronUpDownIcon className="text-base-400 h-5 w-5" aria-hidden="true" />
-    </>
+    <ChevronUpDownIcon className="text-base-400 h-5 w-5" aria-hidden="true" />
   );
 });
 
 TriggerButton.propTypes = {
-  isMulti: bool.isRequired,
-  value: number
+  setIsTruncated: func
 };
 
 TriggerButton.defaultProps = {
-  value: undefined
+  setIsTruncated: null
 };
 
 export default TriggerButton;
