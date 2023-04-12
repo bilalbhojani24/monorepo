@@ -6,17 +6,13 @@ import React, {
   useState
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import { O11ySwitch } from 'common/bifrostProxy';
 import Chart from 'common/Chart';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { TOOLTIP_STYLES } from 'constants/common';
-import {
-  setIsDetailsVisible,
-  setShowDetailsFor
-} from 'features/TestDetails/slices/uiSlice';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
@@ -148,7 +144,6 @@ export default function ErrorTrend() {
   const [trendData, setTrendData] = useState({});
   const activeProject = useSelector(getActiveProject);
   const cbtInfo = useSelector(getUECbtInfo);
-  const navigate = useNavigate();
   const showAllBuilds = useSelector(getUEShowAllBuilds);
 
   const handleToggleChange = (value) => {
@@ -232,11 +227,7 @@ export default function ErrorTrend() {
   const handleClickChartItem = useCallback(
     ({ point: { options } }) => {
       if (options?.id) {
-        dispatch(setShowDetailsFor(options?.id));
-        dispatch(setIsDetailsVisible(true));
-        const searchParams = new URLSearchParams(window?.location?.search);
-        searchParams.set('details', options.id);
-        navigate({ search: searchParams.toString() });
+        dispatch(showTestDetailsDrawer(options.id));
         logOllyEvent({
           event: 'O11ySuiteHealthErrorsTimelineInteracted',
           data: {
@@ -247,7 +238,7 @@ export default function ErrorTrend() {
         });
       }
     },
-    [activeProject.id, activeProject.name, dispatch, navigate]
+    [activeProject.id, activeProject.name, dispatch]
   );
 
   const getChartOptions = useMemo(

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import VirtualisedTable from 'common/VirtualisedTable';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
@@ -111,15 +112,20 @@ export default function ErrorBuilds() {
     }
   };
 
-  const handleRowClick = () => {
-    logOllyEvent({
-      event: 'O11ySuiteHealthErrorsTimelineInteracted',
-      data: {
-        project_name: activeProject.name,
-        project_id: activeProject.id,
-        interaction: 'test_details_opened'
-      }
-    });
+  const handleRowClick = (rest) => {
+    const activeData = buildsData?.builds[rest];
+    if (activeData) {
+      dispatch(showTestDetailsDrawer(activeData.id));
+
+      logOllyEvent({
+        event: 'O11ySuiteHealthErrorsTimelineInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          interaction: 'test_details_opened'
+        }
+      });
+    }
   };
 
   if ((!isLoadingData && !buildsData.builds.length) || isLoadingData) {

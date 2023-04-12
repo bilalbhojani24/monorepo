@@ -164,6 +164,14 @@ export const UNSUPPORTED_HTML_TAGS = [
   'td'
 ];
 
+export const TEST_DETAILS_SOURCE = {
+  TESTS_LISTING: 'test_listing',
+  BUILD_INSIGHTS_UNIQUE_ERRORS: 'build_insights_unique_errors',
+  SUITE_HEALTH_TESTS: 'suite_health_tests',
+  SUITE_HEALTH_ERRORS: 'suite_health_errors'
+};
+
+export const BSTACK_TOPNAV_ELEMENT_ID = 'bstack-header';
 export const PUSHER_EVENTS = {
   BUILD_STARTED: 'BUILD_STARTED',
   BUILD_FINISHED: 'BUILD_FINISHED',
@@ -181,4 +189,10 @@ export const PUSHER_EVENTS = {
 export const NOTIFICATION_TYPES = {
   dailySummary: 'DAILY_SUMMARY_EMAIL',
   buildInsights: 'BUILD_FINISH_EMAIL'
+};
+
+// custom history object to allow navigation outside react components
+export const o11yHistory = {
+  navigate: null,
+  location: null
 };
