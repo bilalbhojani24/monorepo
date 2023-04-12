@@ -87,7 +87,7 @@ export const registerQuitHotkeys = () => {
     performApplicationTermination();
   });
 
-  if (process.platform === 'darwin') {
+  if (isMacMachine) {
     globalShortcut.register('Command+Q', () => {
       performApplicationTermination();
     });

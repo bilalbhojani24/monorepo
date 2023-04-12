@@ -5,6 +5,7 @@ const deepLinkingSetup = require('./deepLinking');
 const backendServerOps = require('./backendServerOps');
 const autoUpdateOps = require('./autoUpdateOps');
 const serverAnalyticsOps = require('./serverAnalyticsOps');
+const menuBuildingOps = require('./menuBuildingOps');
 
 const initializeRemoteHandlers = () => {
   ipcMain.handle('openSystemFileFromPath', (event, path) => {
@@ -21,5 +22,6 @@ module.exports = {
   initializeRemoteHandlers,
   backendServerOps,
   autoUpdateOps,
-  serverAnalyticsOps
+  serverAnalyticsOps,
+  menuBuildingOps
 };

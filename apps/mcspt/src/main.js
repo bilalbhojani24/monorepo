@@ -6,7 +6,8 @@ const {
   initializeRemoteHandlers,
   backendServerOps,
   autoUpdateOps,
-  serverAnalyticsOps
+  serverAnalyticsOps,
+  menuBuildingOps
 } = require('./mainThreadFunctions');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -39,6 +40,8 @@ const closeSplashAndLoadMainWindow = () => {
 };
 
 const createWindow = async () => {
+  menuBuildingOps.encapsulateMenuElementsInProd();
+
   mainThreadGlobals.mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
