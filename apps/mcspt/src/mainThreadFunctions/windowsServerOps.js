@@ -66,7 +66,7 @@ export const waitForSuccessfulServerReplyForWindows = async (
   try {
     const nodeServerResponse = await axios
       .get(`http://localhost:${serverEntities.nodeServerPort}/`)
-      .then((e) => e);
+      .catch((e) => e);
 
     if (nodeServerResponse.status !== 200) {
       throw nodeServerResponse;
