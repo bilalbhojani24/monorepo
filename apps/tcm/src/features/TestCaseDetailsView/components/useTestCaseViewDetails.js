@@ -149,12 +149,6 @@ export default function useTestCaseViewDetails() {
     );
   };
 
-  const getAssignedTo = () => {
-    if (testCaseDetails?.assignee) return testCaseDetails?.assignee?.full_name;
-    if (testCaseDetails?.owner_imported) return testCaseDetails?.owner_imported;
-    return '--';
-  };
-
   useEffect(() => {
     if (detailsRef.current) {
       const imageElements = detailsRef.current.querySelectorAll('img');
@@ -199,7 +193,6 @@ export default function useTestCaseViewDetails() {
     saveAddIssesModal,
     onJiraButtonClick,
     testRunButtonClick,
-    getAssignedTo,
     testRunsTestCaseDetails
   };
 }

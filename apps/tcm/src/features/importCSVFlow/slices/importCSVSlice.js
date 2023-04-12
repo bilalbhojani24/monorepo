@@ -53,9 +53,10 @@ const initialState = {
   showSelectMenuErrorInMapFields: false,
   importCSVSuccessNotificationShown: false,
   topInfoSteps: [],
-  selectedFolderLocation: '/',
   showMappings: true,
-  currentFieldValueMapping: {}
+  currentFieldValueMapping: {},
+  selectedFolderLocation: '/',
+  showChangeFolderModal: false
 };
 
 const importCSVSlice = createSlice({
@@ -271,6 +272,12 @@ const importCSVSlice = createSlice({
     },
     updateSingleFieldValueMapping: (state, { payload }) => {
       state.currentFieldValueMapping[payload.key] = payload.value;
+    },
+    setShowChangeFolderModal: (state, { payload }) => {
+      state.showChangeFolderModal = payload;
+    },
+    setFoldersForCSV: (state, { payload }) => {
+      state.foldersForCSV = payload;
     }
   }
 });
@@ -306,6 +313,8 @@ export const {
   setSingleFieldValueMapping,
   updateSingleFieldValueMapping,
   setNotificationConfigForConfirmCSVImport,
-  setImportCSVSuccessNotificationShown
+  setImportCSVSuccessNotificationShown,
+  setShowChangeFolderModal,
+  setFoldersForCSV
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

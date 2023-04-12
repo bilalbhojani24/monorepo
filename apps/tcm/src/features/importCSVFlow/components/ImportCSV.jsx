@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { TMPageHeadings } from 'common/bifrostProxy';
-import { setSelectedProject } from 'globalSlice';
 
 import {
   FIRST_SCREEN,
@@ -17,11 +16,11 @@ import useImportCSV from './useImportCSV';
 const ImportCSV = () => {
   const {
     currentCSVScreen,
-    initImportCSV,
+    fetchCSVConfigurations,
     topInfoSteps,
     projectId,
-    dispatch,
-    navigate
+    navigate,
+    folderId
   } = useImportCSV();
 
   const handleBreadcrumbClick = (_, clickedOption) => {
@@ -38,14 +37,9 @@ const ImportCSV = () => {
   };
 
   useEffect(() => {
-    initImportCSV();
+    fetchCSVConfigurations();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(setSelectedProject(projectId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
+  }, [projectId, folderId]);
 
   return (
     <>

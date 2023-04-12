@@ -6,10 +6,8 @@ import {
   Accordion,
   AccordionInteractiveHeader,
   AccordionPanel,
-  // AccordionSimpleHeader,
   MdFolderOpen
 } from '@browserstack/bifrost';
-// import { twClassNames } from '@browserstack/utils';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
@@ -116,7 +114,7 @@ const PreviewAndConfirm = () => {
                     description={
                       <>
                         <MdFolderOpen className="text-brand-500 mr-1 h-5 w-5" />
-                        {data?.import_folder}
+                        {data?.test_case_folder_id}
                       </>
                     }
                   />

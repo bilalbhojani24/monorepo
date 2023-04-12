@@ -22,6 +22,7 @@ import {
 import ClampedTags from 'common/ClampedTags';
 import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
+import { getSystemOrCustomValue } from 'utils/helperFunctions';
 
 import { dropDownOptions } from '../const/testCaseConst';
 
@@ -48,7 +49,6 @@ const TestCasesTable = ({
     isAllChecked,
     isIndeterminate,
     bulkMoveTestCaseCtaLoading,
-    getOwner,
     updateSelection,
     selectAll,
     initBulkMove,
@@ -170,8 +170,11 @@ const TestCasesTable = ({
       key: 'priority',
       cell: (rowData) => (
         <span className="flex items-center capitalize">
-          {formatPriority(rowData.priority)}
-          {rowData.priority}
+          {formatPriority(rowData?.priority)}
+          {getSystemOrCustomValue(
+            rowData?.priority,
+            rowData?.priority_imported
+          )}
         </span>
       ),
       class: 'w-[15%]'
@@ -179,7 +182,14 @@ const TestCasesTable = ({
     {
       name: 'OWNER',
       key: 'owner',
-      cell: (rowData) => <span>{getOwner(rowData)}</span>,
+      cell: (rowData) => (
+        <span>
+          {getSystemOrCustomValue(
+            rowData?.assignee?.full_name,
+            rowData?.owner_imported
+          )}
+        </span>
+      ),
       class: 'w-[15%]'
     },
     {
@@ -224,8 +234,7 @@ const TestCasesTable = ({
             onDropDownChange(selectedOption, data, true)
           }
         />
-      ),
-      class: 'w-4'
+      )
     }
   ];
 
@@ -249,7 +258,7 @@ const TestCasesTable = ({
             {!isSearchFilterView && (
               <td
                 variant="body"
-                className="border-base-50 text-base-500 p-2"
+                className="border-base-50 text-base-500 w-[1%] p-2"
                 textTransform="uppercase"
               >
                 {/* all checkbox */}
@@ -335,7 +344,6 @@ const TestCasesTable = ({
                   {!isSearchFilterView && (
                     <td
                       variant="body"
-                      // className="border-base-50 test-base-500 h-full min-w-[5%] p-2"
                       className={classNames(
                         'border-base-50 test-base-500 p-2',
                         !deSelectedTestCaseIDs.includes(row.id) &&
