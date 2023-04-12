@@ -7,3 +7,5 @@ export const requestO11yAccess = async () =>
 
 export const getProjectsListAPI = async () =>
   axios.get(`${versionedBaseRoute()}/projects/lite`);
+export const getPusherConfig = async () =>
+  axios.get(`${versionedBaseRoute()}/projects/pusherAuth`);

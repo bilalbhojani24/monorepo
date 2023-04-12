@@ -1,9 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
+import Button from '../Button';
+import { MdOutlineChevronLeft, MdOutlineChevronRight } from '../Icon';
+import SelectMenu from '../SelectMenu';
+import SelectMenuOptionGroup from '../SelectMenuOptionGroup';
+import SelectMenuOptionItem from '../SelectMenuOptionItem';
+import SelectMenuTrigger from '../SelectMenuTrigger';
+
 import Tab from './components/Tab';
 import { TAB_SHAPE } from './const/tabsConstants';
+import { useTabs } from './useTabs';
 
 const Tabs = ({
   defaultIndex,
@@ -16,11 +24,15 @@ const Tabs = ({
   tabsArray,
   disableFullWidthBorder,
   wrapperClassName,
-  navigationClassName
+  navigationClassName,
+  isSlideableTabs
 }) => {
+  const containerRef = useRef(null);
   const [selectedTab, setSelectedTab] = useState(
     tabsArray ? tabsArray[0] : null
   );
+  const { disableNext, disablePrev, scroll, handleScroll, isOverflowed } =
+    useTabs(containerRef, tabsArray, isSlideableTabs);
 
   const onTabClickHandler = (event, clickedTab) => {
     const thisTab =
@@ -37,7 +49,7 @@ const Tabs = ({
 
   return (
     <>
-      {tabsArray?.length && (
+      {tabsArray?.length ? (
         <div className={twClassNames('w-full', wrapperClassName)}>
           <div className={twClassNames('sm:hidden', navigationClassName)}>
             {label && (
@@ -45,38 +57,58 @@ const Tabs = ({
                 {label}
               </label>
             )}
-            <select
-              id={id}
-              name={id}
-              onChange={onTabClickHandler}
-              className="border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md py-2 pl-3 pr-10 text-base focus:outline-none sm:text-sm"
-              value={selectedTab?.name}
-            >
-              {tabsArray?.map((tab) => (
-                <option key={tab.name}>{tab.name}</option>
-              ))}
-            </select>
+            <SelectMenu onChange={onTabChange}>
+              <SelectMenuTrigger placeholder="Select.." />
+              <SelectMenuOptionGroup>
+                {tabsArray.map((item) => (
+                  <SelectMenuOptionItem
+                    key={item.name}
+                    option={{
+                      value: item.name,
+                      label: item.name
+                    }}
+                  />
+                ))}
+              </SelectMenuOptionGroup>
+            </SelectMenu>
           </div>
           <div
             className={twClassNames(
+              'sm:flex items-center space-x-2 h-full',
               {
                 'border-base-200 border-b': !disableFullWidthBorder
               },
-              'hidden sm:block'
+              'hidden'
             )}
           >
+            {isSlideableTabs && isOverflowed && !isContained && (
+              <Button
+                variant="minimal"
+                onClick={() => scroll('prev')}
+                disabled={disablePrev}
+                colors="white"
+                aria-label="Previous Arrow"
+              >
+                <MdOutlineChevronLeft className="h-6 w-6" />
+              </Button>
+            )}
             <nav
+              ref={containerRef}
               className={twClassNames(
-                '-mb-px flex',
+                '-mb-px flex flex-1',
                 {
                   'space-x-8': !isFullWidth,
                   'border-0': isFullWidth,
                   'isolate flex divide-x divide-base-200 rounded-lg shadow space-x-0':
-                    isContained
+                    isContained,
+                  'overflow-y-scroll scrollbar-hide ':
+                    isSlideableTabs && !isContained
                 },
+
                 navigationClassName
               )}
               aria-label="Tabs"
+              {...(isSlideableTabs && { onScroll: handleScroll })}
             >
               {tabsArray?.map((tab, index) => (
                 <Tab
@@ -92,9 +124,20 @@ const Tabs = ({
                 />
               ))}
             </nav>
+            {isSlideableTabs && isOverflowed && !isContained && (
+              <Button
+                variant="minimal"
+                onClick={() => scroll()}
+                disabled={disableNext}
+                colors="white"
+                aria-label="Next Arrow"
+              >
+                <MdOutlineChevronRight className=" h-6 w-6" />
+              </Button>
+            )}
           </div>
         </div>
-      )}
+      ) : null}
     </>
   );
 };
@@ -115,6 +158,7 @@ Tabs.propTypes = {
     })
   ).isRequired,
   disableFullWidthBorder: PropTypes.bool,
+  isSlideableTabs: PropTypes.bool,
   wrapperClassName: PropTypes.string,
   navigationClassName: PropTypes.string
 };
@@ -128,6 +172,7 @@ Tabs.defaultProps = {
   onTabChange: () => {},
   shape: TAB_SHAPE[0],
   disableFullWidthBorder: false,
+  isSlideableTabs: false,
   wrapperClassName: '',
   navigationClassName: ''
 };

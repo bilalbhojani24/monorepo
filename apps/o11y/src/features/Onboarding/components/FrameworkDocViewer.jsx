@@ -1,19 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { MdArrowBack } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { getProjectsListAPI } from 'api/global';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { URL_REGEX, WRAPPER_GAP_CLASS } from 'constants/common';
-import { ROUTES } from 'constants/routes';
-import { setProjectList } from 'globalSlice';
-import useRafPolling from 'hooks/useRafPolling';
 import PropTypes from 'prop-types';
 import { getDocUrl, logOllyEvent } from 'utils/common';
-
-const POLLING_INTERVAL = 10000;
 
 const getDomainName = (hostName) =>
   hostName.substring(
@@ -27,32 +19,10 @@ const allowedOrigin = (origin) => {
 };
 export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
   const [isLoading, setIsLoading] = useState(true);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const onLoad = () => {
     setIsLoading(false);
   };
-
-  const checkIfProjectsCreated = async () => {
-    if (isLoading) {
-      return;
-    }
-    const res = await getProjectsListAPI();
-    if (res?.data?.length) {
-      dispatch(setProjectList(res.data));
-      navigate(ROUTES.projects);
-    }
-  };
-
-  const endPolling = useRafPolling(checkIfProjectsCreated, POLLING_INTERVAL);
-
-  useEffect(
-    () => () => {
-      endPolling();
-    },
-    [endPolling]
-  );
 
   useEffect(() => {
     if (selectedFramework.name) {
