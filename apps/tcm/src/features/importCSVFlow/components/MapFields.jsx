@@ -60,6 +60,13 @@ const MapFields = () => {
   const queryParams = new URLSearchParams(search);
 
   const rows = rowRef.current;
+
+  const getValueMappingsCount = (mapping) =>
+    Object.values(mapping).reduce((noOfMappedValues, value) => {
+      if (value?.action && value?.action === 'ignore') return noOfMappedValues;
+      return noOfMappedValues + 1;
+    }, 0);
+
   const getMappingForLastCol = (actualName, value, mappingType) => {
     switch (mappingType) {
       case 'field_multi': // dropdown
@@ -80,7 +87,7 @@ const MapFields = () => {
 
         return (
           <TMSelectMenu
-            triggerWrapperClassName="border-none shadow-none pr-6 w-1/2"
+            triggerWrapperClassName="border-none shadow-none pr-6 w-1/2 font-medium text-base-900 text-sm"
             checkPosition="right"
             defaultValue={defaultValue}
             options={allowedValueMapper[value]?.allowedValueDisplayOptions}
@@ -90,11 +97,17 @@ const MapFields = () => {
 
       case 'field_dropdown': // modal
         return (
-          <span>
-            Value Mapped{' '}
+          <span className="text-sm font-medium">
+            <span className="text-base-700 mr-1">
+              {`${
+                valueMappings && valueMappings?.[actualName]
+                  ? getValueMappingsCount(valueMappings?.[actualName])
+                  : ''
+              } Value Mapped`}
+            </span>
             <button
               type="button"
-              className="text-brand-400"
+              className="text-brand-500"
               onClick={handleUpdateClick(actualName, value)}
             >
               (Update)
@@ -172,23 +185,25 @@ const MapFields = () => {
         </div>
       )}
       <div className="border-base-200 max-h-max rounded-md border-2 border-solid bg-white">
-        <div className="px-5 pt-5 pb-4">
-          <TMSectionHeadings
-            title="Map Fields"
-            variant="buttons"
-            trailingHeadNode={
-              <div className="min-w-fit">
-                <TMButton
-                  variant="primary"
-                  onClick={handleMappingProceedClick}
-                  isIconOnlyButton={mapFieldProceedLoading}
-                  loading={mapFieldProceedLoading}
-                >
-                  Proceed
-                </TMButton>
-              </div>
-            }
-          />
+        <div className="relative pt-5">
+          <div className="px-5">
+            <TMSectionHeadings
+              title="Map Fields"
+              variant="buttons"
+              trailingHeadNode={
+                <div className="min-w-fit">
+                  <TMButton
+                    variant="primary"
+                    onClick={handleMappingProceedClick}
+                    isIconOnlyButton={mapFieldProceedLoading}
+                    loading={mapFieldProceedLoading}
+                  >
+                    Proceed
+                  </TMButton>
+                </div>
+              }
+            />
+          </div>
           {showMappings && (
             <DisplayMapping
               fieldMappings={myFieldMappings}
@@ -200,7 +215,7 @@ const MapFields = () => {
         </div>
         {!showMappings && (
           <>
-            <div className="text-base-800 mb-4 px-6 text-sm">
+            <div className="text-base-800 my-4 px-6 text-sm">
               Fields and values are mapped by default. You can update the
               mapping if needed:
             </div>

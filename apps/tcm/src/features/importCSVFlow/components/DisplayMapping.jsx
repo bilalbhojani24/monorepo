@@ -22,7 +22,7 @@ const DisplayMapping = ({
 
   return (
     <div>
-      <div className="my-4">
+      <div className="my-4 px-5">
         <TMAlerts
           show
           description={`Ta Da! We have mapped ${allImportFields.length} fields from CSV to Test Management fields automatically.`}
@@ -31,7 +31,7 @@ const DisplayMapping = ({
           alertIcon={<MdCheckCircle className="text-success-600 h-5 w-5" />}
         />
       </div>
-      <div className="flex flex-wrap">
+      <div className="flex flex-wrap px-5">
         {allImportFields.map((field) => (
           <div className="mb-4 basis-1/2">
             <TMBadge
@@ -88,9 +88,11 @@ const DisplayMapping = ({
           </div>
         ))}
       </div>
-      <TMButton variant="secondary" onClick={onEditMapping}>
-        Edit Field & Value Mapping
-      </TMButton>
+      <div className="bg-base-50 sticky bottom-0 flex justify-end p-4">
+        <TMButton variant="secondary" onClick={onEditMapping}>
+          Edit Field & Value Mapping
+        </TMButton>
+      </div>
     </div>
   );
 };

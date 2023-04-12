@@ -15,6 +15,7 @@ import {
   TMModalHeader,
   TMSelectMenu
 } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
 import {
   ADD_VALUE_LABEL,
@@ -119,10 +120,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                     checkPosition="right"
                     options={row?.displayOptions}
                     defaultValue={row?.defaultSelected}
-                    onChange={handleModalSelectMenuChange(
-                      csvFileField,
-                      row.csvValue
-                    )}
+                    onChange={handleModalSelectMenuChange(row.csvValue)}
                     dividerIdx={row?.displayOptions.length - 3}
                   />
                 </TableCell>
@@ -145,12 +143,26 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
         >
           Cancel
         </TMButton>
-        <TMButton variant="primary" colors="brand" onClick={handleSaveClick}>
+        <TMButton
+          variant="primary"
+          colors="brand"
+          onClick={() => handleSaveClick(csvFileField)}
+        >
           Save
         </TMButton>
       </TMModalFooter>
     </TMModal>
   );
+};
+
+MapFieldModal.propTypes = {
+  modalConfig: PropTypes.shape(PropTypes.object),
+  valueMappings: PropTypes.shape(PropTypes.object)
+};
+
+MapFieldModal.defaultProps = {
+  modalConfig: {},
+  valueMappings: {}
 };
 
 export default MapFieldModal;

@@ -104,8 +104,3 @@ export const FAILED_IMPORT_MODAL_DATA = {
   firstButtonText: 'Download Report',
   secondButtonText: 'Retry Import'
 };
-
-// export const IMPORT_FROM_TOOL = 'import-from-tool';
-// export const UPLOAD_FILE = 'upload-file';
-// export const TEST_RAILS = 'testrails';
-// export const ZEPHYR = 'zephyr';

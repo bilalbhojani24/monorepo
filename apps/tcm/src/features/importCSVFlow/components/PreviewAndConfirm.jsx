@@ -132,18 +132,38 @@ const PreviewAndConfirm = () => {
                     description={formatPriority(data?.priority)}
                   />
                 </div>
-                <div className="mt-4 flex justify-between">
-                  <PreviewAndConfirmSingleNode
-                    text="Steps"
-                    wrapperClassName="basis-1/2"
-                    description={ReactHtmlParser(data?.steps)}
-                  />
-                  <PreviewAndConfirmSingleNode
-                    text="Expected Results"
-                    wrapperClassName="basis-1/2"
-                    description={ReactHtmlParser(data?.expected_result)}
-                  />
-                </div>
+                {((data?.steps.length &&
+                  typeof data?.steps?.[0] === 'string') ||
+                  data?.expected_result) && (
+                  <div className="mt-4 flex justify-between">
+                    <PreviewAndConfirmSingleNode
+                      text="Steps"
+                      wrapperClassName="basis-1/2"
+                      description={ReactHtmlParser(data?.steps?.[0])}
+                    />
+                    <PreviewAndConfirmSingleNode
+                      text="Expected Results"
+                      wrapperClassName="basis-1/2"
+                      description={ReactHtmlParser(data?.expected_result)}
+                    />
+                  </div>
+                )}
+                {data?.steps.length &&
+                  typeof data?.steps[0] === 'object' &&
+                  data?.steps.map((step) => (
+                    <div className="mt-4 flex justify-between">
+                      <PreviewAndConfirmSingleNode
+                        text="Steps"
+                        wrapperClassName="basis-1/2"
+                        description={ReactHtmlParser(step?.step)}
+                      />
+                      <PreviewAndConfirmSingleNode
+                        text="Expected Results"
+                        wrapperClassName="basis-1/2"
+                        description={ReactHtmlParser(step?.expected_result)}
+                      />
+                    </div>
+                  ))}
               </div>
             </AccordionPanel>
           </Accordion>

@@ -54,7 +54,8 @@ const initialState = {
   importCSVSuccessNotificationShown: false,
   topInfoSteps: [],
   selectedFolderLocation: '/',
-  showMappings: true
+  showMappings: true,
+  currentFieldValueMapping: {}
 };
 
 const importCSVSlice = createSlice({
@@ -95,6 +96,9 @@ const importCSVSlice = createSlice({
     setShowSelectMenuErrorInMapFields: (state, { payload }) => {
       state.showSelectMenuErrorInMapFields = payload;
     },
+    // setBulkValueMapping: (state, { payload }) => {
+    //   state.valueMappings
+    // },
     setValueMappings: (state, { payload }) => {
       if (payload.value === 'delete') {
         delete state.valueMappings[payload.key];
@@ -272,6 +276,12 @@ const importCSVSlice = createSlice({
     },
     setShowMappings: (state, { payload }) => {
       state.showMappings = payload;
+    },
+    setSingleFieldValueMapping: (state, { payload }) => {
+      state.currentFieldValueMapping = payload;
+    },
+    updateSingleFieldValueMapping: (state, { payload }) => {
+      state.currentFieldValueMapping[payload.key] = payload.value;
     }
   }
 });
@@ -305,6 +315,8 @@ export const {
   submitMappingDataRejected,
   setTopSectionInfoSteps,
   setShowMappings,
+  setSingleFieldValueMapping,
+  updateSingleFieldValueMapping,
   setNotificationConfigForConfirmCSVImport,
   setImportCSVSuccessNotificationShown
 } = importCSVSlice.actions;
