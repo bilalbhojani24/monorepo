@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
@@ -85,6 +87,24 @@ const defaultConfig = {
 const Template = (args) => <Tabs {...args} />;
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const attribute = 'aria-current';
+  await expect(canvas.queryAllByRole('button').length).toBe(4);
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await expect(canvas.queryAllByRole('button')[0]).toHaveAttribute(
+    attribute,
+    'page'
+  );
+  await userEvent.click(canvas.queryAllByRole('button')[1]);
+  await expect(canvas.queryAllByRole('button')[1]).toHaveAttribute(
+    attribute,
+    'page'
+  );
+  await expect(canvas.queryAllByRole('button')[3]).not.toHaveAttribute(
+    attribute
+  );
+};
 
 Primary.parameters = {
   controls: {}
