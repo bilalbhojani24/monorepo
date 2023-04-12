@@ -39,11 +39,11 @@ const ModalHeader = ({
             'justify-end': !heading
           })}
         >
-          {heading ? (
+          {heading && (
             <h3 className="text-base-900 flex-1 text-lg font-medium leading-6">
               {heading}
             </h3>
-          ) : null}
+          )}
 
           {dismissButton ? (
             <button
