@@ -13,6 +13,7 @@ import {
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
 import TestCaseResults from './TestCaseResults';
+import useTestCaseMultiData from './useTestCaseMultiData';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
 const TestCaseMutliData = ({
@@ -30,16 +31,10 @@ const TestCaseMutliData = ({
     handleTabChange,
     onJiraButtonClick
   } = useTestCaseViewDetails();
-
-  let testCaseIssues = [];
-
-  if (isFromTestRun) {
-    testResultsArray.forEach((item) => {
-      for (let i = item?.issues.length - 1; i >= 0; i -= 1) {
-        testCaseIssues.push(item?.issues[i]);
-      }
-    });
-  } else testCaseIssues = testResultsArray;
+  const { testCaseIssues } = useTestCaseMultiData({
+    isFromTestRun,
+    testResultsArray
+  });
 
   const trTcIssuesTableColumn = [
     {
@@ -59,7 +54,7 @@ const TestCaseMutliData = ({
     },
     {
       name: 'Test Run',
-      // key: 'test_run_id',
+      key: 'testRunName',
       cell: () => (
         <Link
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
@@ -92,7 +87,9 @@ const TestCaseMutliData = ({
           onKeyDown={(e) =>
             onSubmitKeyHandler(e, () => onJiraButtonClick(rowData?.jira_id))
           }
-        >{`${rowData?.jira_id}`}</div>
+        >
+          {rowData?.jira_id}
+        </div>
       )
     },
     {
@@ -176,7 +173,7 @@ TestCaseMutliData.propTypes = {
   resultUpdatable: PropTypes.bool,
   testRunId: PropTypes.number,
   onResultClick: PropTypes.bool,
-  testResultsArray: PropTypes.arrayOf({}),
+  testResultsArray: PropTypes.arrayOf(PropTypes.object),
   testRunName: PropTypes.string
 };
 
