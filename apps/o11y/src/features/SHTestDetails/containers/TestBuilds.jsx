@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import VirtualisedTable from 'common/VirtualisedTable';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
@@ -13,16 +14,15 @@ import {
 } from '../constants';
 import { getSnPDetailsBuildsData } from '../slices/dataSlice';
 import {
-  getShowSnPDetailsFor,
+  getShowSHTestsDetailsFor,
   getSnPCbtInfo,
   getTestDetailsChartBounds
 } from '../slices/selectors';
 
 export default function TestBuilds() {
   const dispatch = useDispatch();
-
   const activeProject = useSelector(getActiveProject);
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const cbtInfo = useSelector(getSnPCbtInfo);
   const chartBounds = useSelector(getTestDetailsChartBounds);
   const [isLoadingData, setIsLoadingData] = useState(true);
@@ -97,15 +97,19 @@ export default function TestBuilds() {
     }
   };
 
-  const handleRowClick = () => {
-    logOllyEvent({
-      event: 'O11ySuiteHealthTestsTimelineInteracted',
-      data: {
-        project_name: activeProject.name,
-        project_id: activeProject.id,
-        interaction: 'test_details_opened'
-      }
-    });
+  const handleRowClick = (currentIndex) => {
+    const activeData = buildsData.builds?.[currentIndex];
+    if (activeData) {
+      dispatch(showTestDetailsDrawer(activeData.id));
+      logOllyEvent({
+        event: 'O11ySuiteHealthTestsTimelineInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          interaction: 'test_details_opened'
+        }
+      });
+    }
   };
 
   if ((!isLoadingData && !buildsData.builds.length) || isLoadingData) {

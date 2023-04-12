@@ -54,10 +54,10 @@ const { reducer, actions } = createSlice({
     }
   },
   reducers: {
-    setIsSnPDetailsVisible: (state, { payload }) => {
+    setIsSHTestsDetailsVisible: (state, { payload }) => {
       state.ui.isDetailsVisible = payload;
     },
-    setShowSnPDetailsFor: (state, { payload }) => {
+    setShowSHTestsDetailsFor: (state, { payload }) => {
       state.ui.showDetailsFor = payload;
     },
     setSnPCbtInfo: (state, { payload }) => {
@@ -93,8 +93,8 @@ const { reducer, actions } = createSlice({
 });
 
 export const {
-  setIsSnPDetailsVisible,
-  setShowSnPDetailsFor,
+  setIsSHTestsDetailsVisible,
+  setShowSHTestsDetailsFor,
   setSnPCbtInfo,
   setSHTestDetailsChartBounds,
   setSHTestDetailsActiveTab,
