@@ -9,8 +9,8 @@ import {
 import { O11yComboBox } from 'common/bifrostProxy';
 import { ROUTES } from 'constants/routes';
 import { setIsUEDetailsVisible } from 'features/SHErrorDetails/slices/dataSlice';
-import { setIsSnPDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
-import { setIsDetailsVisible } from 'features/TestDetails/slices/uiSlice';
+import { setIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
+import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { setActiveProject } from 'globalSlice';
 import { getProjects } from 'globalSlice/selectors';
 import { getProjectBuildsPath, isBuildsPage } from 'utils/routeUtils';
@@ -46,8 +46,8 @@ export default function ProjectSelector() {
         normalisedName: item.normalisedName
       })
     );
-    dispatch(setIsSnPDetailsVisible(false));
-    dispatch(setIsDetailsVisible(false));
+    dispatch(setIsSHTestsDetailsVisible(false));
+    dispatch(hideTestDetailsDrawer());
     dispatch(setIsUEDetailsVisible(false));
     if (isBuildsPage()) {
       navigate(getProjectBuildsPath(encodeURI(item.normalisedName)), {
