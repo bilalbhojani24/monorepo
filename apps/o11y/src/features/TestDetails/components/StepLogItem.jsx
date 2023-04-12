@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import StatusIcon from 'common/StatusIcon';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import { useLogsContext } from '../contexts/LogsContext';

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import Copy2Clipboard from 'common/Copy2Clipboard';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 
