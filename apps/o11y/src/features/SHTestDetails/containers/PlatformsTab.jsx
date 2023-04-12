@@ -13,14 +13,14 @@ import { logOllyEvent } from 'utils/common';
 import FixedPlatformHeader from '../components/FixedHeader';
 import PlatformRow from '../components/PlatformsRow';
 import { resetActiveTab, setSnPCbtInfo } from '../slices/dataSlice';
-import { getShowSnPDetailsFor } from '../slices/selectors';
+import { getShowSHTestsDetailsFor } from '../slices/selectors';
 
 const PlatformsTab = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const mounted = useRef();
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const filters = useSelector(getAllSnPTestFilters);
   const activeBuild = useSelector((state) =>
     getSnPTestFilterByKey(state, 'buildName')
