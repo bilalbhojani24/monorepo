@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { DefaultBrowserIcon } from 'assets/icons/components';
 import { O11yHyperlink, O11yTruncateText } from 'common/bifrostProxy';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import { useLogsContext } from '../contexts/LogsContext';
