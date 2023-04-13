@@ -177,12 +177,12 @@ const TestVideoPlayer = () => {
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
         className={twClassNames('w-auto', {
-          hidden: !showFloatingWindow
+          hidden: !showFloatingWindow || !isVideoMetaLoaded
         })}
         style={{
           right: floatingVideoRightOffset,
           top: floatingVideoTopOffset,
-          width: 'auto'
+          width: window.innerWidth - floatingVideoRightOffset
         }}
       >
         <VideoPlayer
