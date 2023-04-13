@@ -17,6 +17,7 @@ const MediaPlayer = forwardRef(
     {
       children,
       controlPanelWrapperClassName,
+      onFirstReady,
       onPauseCallback,
       onPlayCallback,
       onVideoError,
@@ -26,7 +27,7 @@ const MediaPlayer = forwardRef(
     },
     ref
   ) => {
-    const [isPlaying, setIsPlaying] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const [bufferedTime, setBufferedTime] = useState(0);
@@ -59,7 +60,9 @@ const MediaPlayer = forwardRef(
           customStartAndEndInSeconds ? customStartAndEndInSeconds[1] : duration
         );
         setIsReady(true);
+        onFirstReady?.(videoRef.current.getInternalPlayer());
       }
+      setIsBuffering(false);
     };
 
     const handleProgress = () => {
@@ -83,9 +86,6 @@ const MediaPlayer = forwardRef(
     const handleBuffering = () => {
       setIsBuffering(true);
     };
-    const handleBufferEnd = () => {
-      setIsBuffering(false);
-    };
 
     useImperativeHandle(ref, () => ({
       seekTo(timeStamp) {
@@ -105,15 +105,10 @@ const MediaPlayer = forwardRef(
       videoRef.current.seekTo(startTime);
     }, [startTime]);
 
-    const modifiedChildren = React.Children.map(children, (child) => {
-      // If child is not a DOM element, return it as-is
-      if (!React.isValidElement(child)) {
-        return child;
-      }
-
+    const modifiedChildren = React.Children.map(children, (child) =>
       // Clone the child element and add the ref to it
-      return React.cloneElement(child, { ref: videoRef });
-    });
+      React.cloneElement(child, { ref: videoRef })
+    );
 
     return (
       <div className={twClassNames('relative', wrapperClassName)}>
@@ -126,7 +121,6 @@ const MediaPlayer = forwardRef(
           onPlay={handleOnPlay}
           onPause={handleOnPause}
           onBuffer={handleBuffering}
-          onBufferEnd={handleBufferEnd}
           onError={() => onVideoError()}
           onProgress={handleProgress}
           onReady={handleOnReady}
@@ -165,6 +159,7 @@ const MediaPlayer = forwardRef(
 MediaPlayer.propTypes = {
   children: PropTypes.node,
   controlPanelWrapperClassName: PropTypes.string,
+  onFirstReady: PropTypes.func,
   onPauseCallback: PropTypes.func,
   onPlayCallback: PropTypes.func,
   onVideoError: PropTypes.func,
@@ -175,6 +170,7 @@ MediaPlayer.propTypes = {
 MediaPlayer.defaultProps = {
   children: null,
   controlPanelWrapperClassName: '',
+  onFirstReady: null,
   onPauseCallback: null,
   onPlayCallback: null,
   onVideoError: null,

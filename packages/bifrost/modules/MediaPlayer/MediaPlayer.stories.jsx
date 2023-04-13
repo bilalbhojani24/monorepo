@@ -1,9 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import MediaPlayerLeftControls from '../MediaPlayerLeftControls';
 import MediaPlayerRightControls from '../MediaPlayerRightControls';
 import MediaPlayerSeekbar from '../MediaPlayerSeekbar';
+import MediaPlayerStates from '../MediaPlayerStates';
 
 import MediaPlayer from './index';
 
@@ -47,7 +49,7 @@ const defaultConfig = {
     url: {
       option: { type: 'string' },
       defaultValue:
-        'https://app-automate.browserstack.com/s3-upload/bs-video-logs-aps/s3.ap-south-1/22028ca3dc54910bc630b841f1336b4a9ad49083/video-22028ca3dc54910bc630b841f1336b4a9ad49083.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2XUQHUQMLGDEA5FL%2F20230403%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230403T182818Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=63da7b07800296eaaf0f9997481ef7af16714e61045beb963c46430eed1c2c72'
+        'https://app-automate.browserstack.com/s3-upload/bs-video-logs-use/s3/5cd9f0c4816c4702f797ccc90f648b428417cda5/video-5cd9f0c4816c4702f797ccc90f648b428417cda5.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2XUQHUQMLGDEA5FL%2F20230413%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20230413T054627Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=77e8e1a0a0cae45e523e59c461d80b057d8a2c1b3cafb03681fa14d225bfd647'
     },
     wrapperClassName: {
       option: { type: 'string' },
@@ -58,7 +60,10 @@ const defaultConfig = {
 };
 
 export const Primary = (args) => (
-  <MediaPlayer {...args}>
+  <MediaPlayer
+    {...args}
+    onFirstReady={(e) => console.log(e.duration, e.videoHeight, e.videoWidth)}
+  >
     <MediaPlayerLeftControls
       showRewindForwardButtons
       onTimeJumpClick={() => {}}
@@ -68,12 +73,12 @@ export const Primary = (args) => (
       exceptions={[
         {
           id: 'marker-test',
-          startTime: 200,
+          startTime: 2,
           type: 'warning'
         },
         {
           id: 'marker-test-2',
-          startTime: 250,
+          startTime: 3,
           type: 'error'
         }
       ]}
@@ -91,11 +96,21 @@ export const Primary = (args) => (
   </MediaPlayer>
 );
 
-export const ControlsFromOutsideExample = (args) => {
-  const playerRef = useRef(null);
+export const WithLoadingState = (args) => {
+  const [isLoading, setIsLoading] = useState(true);
   return (
     <>
-      <MediaPlayer ref={playerRef} {...args}>
+      {isLoading && (
+        <MediaPlayerStates
+          variant="loading"
+          wrapperClassName="w-[640px] h-[360px]"
+        />
+      )}
+      <MediaPlayer
+        {...args}
+        onFirstReady={() => setIsLoading(false)}
+        wrapperClassName={twClassNames({ hidden: isLoading })}
+      >
         <MediaPlayerLeftControls
           showRewindForwardButtons
           onTimeJumpClick={() => {}}
@@ -114,6 +129,33 @@ export const ControlsFromOutsideExample = (args) => {
               type: 'error'
             }
           ]}
+          showMarkers
+          onMarkerClick={() => {}}
+          onSeekTime={() => {}}
+          wrapperClassName=""
+        />
+        <MediaPlayerRightControls
+          onDownloadClick={() => {}}
+          onFullScreen={() => {}}
+          onPlaybackSpeedClick={() => {}}
+          wrapperClassName=""
+        />
+      </MediaPlayer>
+    </>
+  );
+};
+
+export const ControlsFromOutsideExample = (args) => {
+  const playerRef = useRef(null);
+  return (
+    <>
+      <MediaPlayer ref={playerRef} {...args}>
+        <MediaPlayerLeftControls
+          showRewindForwardButtons
+          onTimeJumpClick={() => {}}
+          wrapperClassName=""
+        />
+        <MediaPlayerSeekbar
           showMarkers
           onMarkerClick={() => {}}
           onSeekTime={() => {}}
@@ -156,6 +198,41 @@ export const ControlsFromOutsideExample = (args) => {
           pause
         </button>
       </div>
+    </>
+  );
+};
+
+export const UsingMediaPlayerStates = (args) => {
+  const [errored, setErrored] = useState(false);
+  return (
+    <>
+      {errored ? (
+        <MediaPlayerStates variant="errorState" />
+      ) : (
+        <MediaPlayer
+          {...args}
+          onVideoError={() => setErrored(true)}
+          url="https://app-automate.browserstack.com/s3-upload/bs-video-logs-aps/s3.ap-south-1/22028ca3dc54910bc630b841f1336b4a9ad49083/video-22028ca3dc54910bc630b841f1336b4a9ad49083.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2XUQHUQMLGDEA5FL%2F20230403%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20230403T182818Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=63da7b07800296eaaf0f9997481ef7af16714e61045beb963c46430eed1c2c72"
+        >
+          <MediaPlayerLeftControls
+            showRewindForwardButtons
+            onTimeJumpClick={() => {}}
+            wrapperClassName=""
+          />
+          <MediaPlayerSeekbar
+            showMarkers
+            onMarkerClick={() => {}}
+            onSeekTime={() => {}}
+            wrapperClassName=""
+          />
+          <MediaPlayerRightControls
+            onDownloadClick={() => {}}
+            onFullScreen={() => {}}
+            onPlaybackSpeedClick={() => {}}
+            wrapperClassName=""
+          />
+        </MediaPlayer>
+      )}
     </>
   );
 };
