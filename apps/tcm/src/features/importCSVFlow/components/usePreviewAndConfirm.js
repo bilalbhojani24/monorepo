@@ -64,11 +64,10 @@ const usePreviewAndConfirm = () => {
   };
 
   useEffect(() => {
-    console.log(lastMessage);
-    console.log(readyState);
+    // console.log(lastMessage);
 
     dispatch(updateImportProgress(10));
-  }, [lastMessage, readyState]);
+  }, [lastMessage]);
 
   return {
     previewData,
