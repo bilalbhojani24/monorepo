@@ -18,7 +18,7 @@ const AccordionInteractiveHeader = ({
   };
 
   return (
-    <span
+    <div
       className={twClassNames(
         'flex place-items-start gap-1.5 px-6 py-3',
         wrapperClassName
@@ -39,9 +39,9 @@ const AccordionInteractiveHeader = ({
                   >
                     <ChevronRightIcon
                       className={twClassNames(
-                        'truncate h-5 w-5 transition-transform',
+                        'truncate h-5 w-5 transition-transform text-base-400',
                         {
-                          'rotate-90': controller
+                          'rotate-90 text-base-600': controller
                         }
                       )}
                     />
@@ -57,21 +57,29 @@ const AccordionInteractiveHeader = ({
                   >
                     <ChevronRightIcon
                       className={twClassNames(
-                        'truncate h-5 w-5 transition-transform',
+                        'truncate h-5 w-5 transition-transform text-base-400',
                         {
-                          'rotate-90': open
+                          'rotate-90 text-base-600': open
                         }
                       )}
                     />
-                    <div className="flex-1">{title}</div>
+                    <div
+                      className={twClassNames('flex-1 font-normal', {
+                        'font-medium': open
+                      })}
+                    >
+                      {title}
+                    </div>
                   </button>
                 )}
           </Disclosure.Button>
-          {asideContent && <div className="truncate">{asideContent}</div>}
+          {asideContent && (
+            <div className="flex items-center truncate">{asideContent}</div>
+          )}
         </div>
         {children && <div className="ml-7 pl-0.5">{children}</div>}
       </div>
-    </span>
+    </div>
   );
 };
 
