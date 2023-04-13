@@ -128,6 +128,7 @@ const importCSVSlice = createSlice({
     },
     startImportingTestCasePending: (state) => {
       state.confirmCSVImportNotificationConfig.show = true;
+      state.confirmCSVImportNotificationConfig.progress = 0;
       state.confirmCSVImportNotificationConfig.status = 'ongoing';
       state.confirmCSVImportNotificationConfig.modalData =
         ONGOING_IMPORT_MODAL_DATA;
@@ -191,6 +192,7 @@ const importCSVSlice = createSlice({
       // if (payload.success) {
       state.confirmCSVImportNotificationConfig.show = false;
       state.confirmCSVImportNotificationConfig.status = 'success';
+      state.confirmCSVImportNotificationConfig.progress = 100;
       state.confirmCSVImportNotificationConfig.csvImportProjectId =
         payload.project_id;
       state.confirmCSVImportNotificationConfig.csvImportFolderId =
@@ -203,12 +205,14 @@ const importCSVSlice = createSlice({
         state.confirmCSVImportNotificationConfig.show = false;
         state.confirmCSVImportNotificationConfig.status = '';
         state.confirmCSVImportNotificationConfig.modalData = null;
+        state.confirmCSVImportNotificationConfig.progress = 0;
       } else {
         // retry importing?
         state.confirmCSVImportNotificationConfig.show = true;
         state.confirmCSVImportNotificationConfig.status = 'failed';
         state.confirmCSVImportNotificationConfig.modalData =
           FAILED_IMPORT_MODAL_DATA;
+        state.confirmCSVImportNotificationConfig.progress = 0;
       }
     },
     setValueMappingThunkFulfilled: (state, { payload }) => {
