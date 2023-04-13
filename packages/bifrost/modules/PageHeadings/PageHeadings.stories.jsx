@@ -73,22 +73,22 @@ const defaultConfig = {
         <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
           <Metadata
             metaDescription="Full-time"
-            textColorClass="text-base-400 mt-1"
+            textColorClass="text-base-500 text-sm mt-1"
             icon={<BriefcaseIcon className="h-5 w-5" />}
           />
           <Metadata
             metaDescription="Remote"
-            textColorClass="text-base-400 mt-1"
+            textColorClass="text-base-500 text-sm mt-1"
             icon={<MapPinIcon className="h-5 w-5" />}
           />
           <Metadata
             metaDescription="$120k – $140k"
-            textColorClass="text-base-400 mt-1"
+            textColorClass="text-base-500 text-sm mt-1"
             icon={<CurrencyDollarIcon className="h-5 w-5" />}
           />
           <Metadata
             metaDescription="Closing on January 9, 2020"
-            textColorClass="text-base-400 mt-1"
+            textColorClass="text-base-500 text-sm mt-1"
             icon={<CalendarIcon className="h-5 w-5" />}
           />
         </div>
