@@ -1,7 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
-import { EMPTY_STATIC_FILTERS } from 'features/TestList/constants';
+import {
+  EMPTY_STATIC_FILTERS,
+  FILTER_TAGNAME_MAPPING
+} from 'features/TestList/constants';
 import { getAppliedFilters } from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import startCase from 'lodash/startCase';
@@ -35,6 +38,9 @@ const FilterPills = ({ viewAllBuilds }) => {
     if (filterCategory === 'flaky' || filterCategory === 'history') {
       dispatch(setAppliedFilters({ [filterCategory]: [] }));
     }
+    if (filterCategory === 'issueTypeGroup') {
+      dispatch(setAppliedFilters({ [filterCategory]: '' }));
+    }
     if (Object.keys(EMPTY_STATIC_FILTERS).includes(filterCategory)) {
       dispatch(
         setAppliedFilters({
@@ -53,7 +59,7 @@ const FilterPills = ({ viewAllBuilds }) => {
         return (
           <FilterBadge
             key={singleFilterType}
-            text="Muted"
+            text={`${FILTER_TAGNAME_MAPPING.isMuted}${targetValue}`}
             onClose={() => removeFilter(singleFilterType, targetValue)}
           />
         );
@@ -62,7 +68,7 @@ const FilterPills = ({ viewAllBuilds }) => {
         return (
           <FilterBadge
             key={singleFilterType}
-            text={targetValue[0] === 'false' ? 'Not Flaky' : 'Flaky'}
+            text={`${FILTER_TAGNAME_MAPPING.flaky}${targetValue}`}
             onClose={() => removeFilter(singleFilterType, targetValue[0])}
           />
         );
@@ -74,10 +80,17 @@ const FilterPills = ({ viewAllBuilds }) => {
         return (
           <FilterBadge
             key={singleFilterType}
-            text={`${capitalizeFirstLetter(
-              singleFilterType
-            )} : ${transformedValue}`}
+            text={`${FILTER_TAGNAME_MAPPING.history}${transformedValue}`}
             onClose={() => removeFilter(singleFilterType, targetValue[0])}
+          />
+        );
+      }
+      if (singleFilterType === 'issueTypeGroup' && targetValue.length) {
+        return (
+          <FilterBadge
+            key={FILTER_TAGNAME_MAPPING.issueTypeGroup}
+            text={`${FILTER_TAGNAME_MAPPING.issueTypeGroup}${targetValue}`}
+            onClose={() => removeFilter(singleFilterType, targetValue)}
           />
         );
       }
@@ -85,7 +98,10 @@ const FilterPills = ({ viewAllBuilds }) => {
         return targetValue.map((singleTag) => (
           <FilterBadge
             key={singleTag}
-            text={`${capitalizeFirstLetter(singleFilterType)} : ${singleTag}`}
+            text={`${
+              FILTER_TAGNAME_MAPPING[singleFilterType] ||
+              capitalizeFirstLetter(singleFilterType)
+            } : ${singleTag}`}
             onClose={() => removeFilter(singleFilterType, singleTag)}
           />
         ));
@@ -99,11 +115,11 @@ const FilterPills = ({ viewAllBuilds }) => {
       <div className="flex gap-x-4">
         {!!itemsArray.length && (
           <>
-            <p>Filters</p>
+            <p className="text-base-500 text-sm">Filters</p>
             <div className="border-base-300 my-auto h-5 border-l" />
           </>
         )}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-4">
           {itemsArray}
           <O11yButton variant="minimal" colors="white" onClick={viewAllBuilds}>
             Clear All

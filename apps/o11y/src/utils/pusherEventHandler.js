@@ -3,6 +3,10 @@ import { PUSHER_EVENTS } from 'constants/common';
 import { findAndUpdateBuilds } from 'features/AllBuilds/slices/dataSlice';
 import { updateBuildMeta } from 'features/BuildDetails/slices/buildDetailsSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import {
+  getBuildHistoryData,
+  getBuildSummaryData
+} from 'features/TestsInsights/slices/testInsightsSlice';
 import { updateProjectList } from 'globalSlice/index';
 
 import { getEnvConfig } from './common';
@@ -54,6 +58,7 @@ class O11yPusherEvents {
     }
   }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   onMessage = (message) => {
     try {
       if (!message) {
@@ -61,12 +66,12 @@ class O11yPusherEvents {
       }
       this.log(message);
 
+      const state = this.getState();
       if (message.type) {
         switch (message.type) {
           case PUSHER_EVENTS.BUILD_FINISHED:
             {
               this.dispatch(findAndUpdateBuilds(message?.data || []));
-              const state = this.getState();
               const buildUUID = getBuildUUID(state);
               const finishedBuilds = message.data || [];
               const foundBuild = finishedBuilds.find(
@@ -98,6 +103,24 @@ class O11yPusherEvents {
           case PUSHER_EVENTS.NEW_PROJECT:
             this.dispatch(updateProjectList(message?.data || {}));
             break;
+          case PUSHER_EVENTS.INSIGHTS_UPDATED: {
+            const activeBuildId = getBuildUUID(state);
+            if (activeBuildId === message.buildId) {
+              this.dispatch(
+                getBuildSummaryData({
+                  buildId: activeBuildId,
+                  fetchUpdate: true
+                })
+              );
+              this.dispatch(
+                getBuildHistoryData({
+                  buildId: activeBuildId,
+                  fetchUpdate: true
+                })
+              );
+            }
+            break;
+          }
           default:
             break;
         }

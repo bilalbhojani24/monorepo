@@ -17,6 +17,7 @@ import testDetailsDataReducer from 'features/TestDetails/slices/dataSlice';
 import testDetailsUIReducer from 'features/TestDetails/slices/uiSlice';
 import testingTrendReducer from 'features/TestingTrends/slices/testingTrendsSlice';
 import testListReducer from 'features/TestList/slices/testListSlice';
+import testInsightsSlice from 'features/TestsInsights/slices/testInsightsSlice';
 import globalReducer from 'globalSlice';
 import { createLogger } from 'redux-logger';
 
@@ -40,6 +41,7 @@ export const store = configureStore({
     integrations: integrationsReducer,
     testingTrend: testingTrendReducer,
     integrationsWidget: integrationsWidgetReducer,
+    testInsights: testInsightsSlice,
     modalToShow
   },
   middleware: (getDefaultMiddleware) => {

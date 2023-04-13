@@ -2,6 +2,7 @@ import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
 import { TEST_STATUS, UNSUPPORTED_HTML_TAGS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
+import { keyBy, merge, values } from 'lodash';
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
@@ -12,6 +13,16 @@ export const getBaseUrl = () => {
   env = env && domain === 'bsstag.com' ? `${env}.` : '';
   return `${protocol}//${env}${domain}`;
 };
+
+export const docsLink = () => ({
+  quickStart: `${getBaseUrl}/docs/test-observability/quick-start`,
+  mainDoc: `${getBaseUrl}/docs/test-observability/`,
+  autoAnalyser: `${getBaseUrl}/docs/test-observability/features/auto-failure-analysis`,
+  muteTests: `${getBaseUrl}/docs/test-observability/features/mute-tests`,
+  reRun: `${getBaseUrl}/docs/test-observability/features/re-run`,
+  tnc: `${getBaseUrl}/docs/test-observability/references/terms-and-conditions`,
+  organizeRuns: `${getBaseUrl}/docs/test-observability/how-to-guides/organize-test-runs`
+});
 export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
   if (!stage) {
     let guessedStage = '';
@@ -203,4 +214,21 @@ export const getParsedImageData = async (signedUrl, errCb) => {
     errCb();
     return imgUrls;
   }
+};
+
+export const getMergedLayoutValue = (obj1, obj2) => {
+  const breakPoints = ['md', 'lg', 'sm', 'xs', 'xxs'];
+  const mergedObj = {};
+  breakPoints.forEach((bp) => {
+    if (obj1[bp].length && obj2[bp].length) {
+      const arr1 = obj1[bp];
+      const arr2 = obj2[bp];
+      mergedObj[bp] = values(merge(keyBy(arr1, 'i'), keyBy(arr2, 'i')));
+    } else if (obj1[bp].length) {
+      mergedObj[bp] = obj1[bp];
+    } else if (obj2[bp].length) {
+      mergedObj[bp] = obj2[bp];
+    }
+  });
+  return mergedObj;
 };
