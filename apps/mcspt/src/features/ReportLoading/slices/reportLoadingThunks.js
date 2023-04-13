@@ -63,6 +63,8 @@ export const stopRecordingSession =
 
       const response = await stopSession(currentSessionId);
 
+      await new Promise((resolve) => setTimeout(resolve, 4000));
+
       dispatch(updateSessionMetrics(response));
 
       dispatch(resetSessionSetupData());
