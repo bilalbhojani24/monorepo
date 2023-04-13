@@ -101,7 +101,7 @@ export default function Dashboard({ children }) {
       {isShowingReportListingBanner ? (
         <div className="fixed inset-x-0 top-[64px] z-10 flex justify-between">
           <Banner
-            description="Download the Accessibility Toolkit extension to scan your websites for accessibility issues."
+            description="Download the Accessibility Testing extension to scan your websites for accessibility issues."
             isDismissButton
             bannerIcon={
               <img src={Logo} alt="accessibility logo" height={24} width={24} />
