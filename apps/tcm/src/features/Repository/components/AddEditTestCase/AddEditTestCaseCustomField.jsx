@@ -20,7 +20,7 @@ const AddEditTestCaseCustomField = () => {
             id="test-case-name"
             label={item?.field_user_name}
             placeholder={`Enter ${item?.field_user_name}`}
-            value={testCaseFormData[item?.id]}
+            value={testCaseFormData?.custom_fields?.[item?.id]}
             onChange={(e) =>
               handleTestCaseFieldChange(
                 item?.id,
