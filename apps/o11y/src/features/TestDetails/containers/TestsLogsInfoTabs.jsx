@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineBugReport } from '@browserstack/bifrost';
 import { O11yButton, O11yTabs } from 'common/bifrostProxy';
-import { toggleWidget } from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
+import {
+  setWidgetConfiguration,
+  toggleWidget
+} from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
 import { getTestReportDetails } from 'features/TestList/slices/testListSlice';
 
 import SessionTestToggle from '../components/SessionTestToggle';
 import { useLogsContext } from '../contexts/LogsContext';
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
-import { getTestDetails } from '../slices/selectors';
+import { getShowTestDetailsFor, getTestDetails } from '../slices/selectors';
 
 import { LOGS_INFO_TAB_KEYS } from './DebugTab';
 import TestConsolidatedLogs from './TestConsolidatedLogs';
@@ -26,8 +29,10 @@ const tabs = [
 ];
 
 const TestsLogsInfoTabs = () => {
+  const testRef = useRef(null);
   const dispatch = useDispatch();
   const details = useSelector(getTestDetails);
+  const testRunId = useSelector(getShowTestDetailsFor);
   const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
   const [isLoadingBugDetails, setIsLoadingBugDetails] = useState(false);
   const { videoSeekTime, sessionTestToggle, activeTab, setActiveTab } =
@@ -51,12 +56,18 @@ const TestsLogsInfoTabs = () => {
     setIsLoadingBugDetails(true);
     dispatch(
       getTestReportDetails({
-        buildId: 'tee',
-        testRunId: details.id
+        buildId: 'DUMMY',
+        testRunId
       })
     )
       .unwrap()
       .then(() => {
+        dispatch(
+          setWidgetConfiguration({
+            position: 'left'
+            // ref: testRef
+          })
+        );
         dispatch(toggleWidget(true));
       })
       .finally(() => {
@@ -74,7 +85,7 @@ const TestsLogsInfoTabs = () => {
           disableFullWidthBorder
           wrapperClassName="flex-1"
         />
-        <div className="flex items-center gap-3 pr-1">
+        <div className="flex items-center gap-3 pr-1" ref={testRef}>
           <SessionTestToggle />
           <O11yButton
             isIconOnlyButton
