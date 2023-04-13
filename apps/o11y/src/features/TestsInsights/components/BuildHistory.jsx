@@ -30,7 +30,8 @@ function chartLoad(cb) {
 }
 
 export default function BuildHistory() {
-  const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
+  const { logInsightsInteractionEvent, applyTestListFilter } =
+    useContext(TestInsightsContext);
   const buildId = useSelector(getBuildUUID);
   const buildHistoryStats = useSelector(getBuildHistoryStats);
   const params = useParams();
@@ -52,7 +53,7 @@ export default function BuildHistory() {
           interaction: 'build_history_other_run_clicked'
         });
 
-        window.scroll(0, 0);
+        applyTestListFilter({ clearOnly: true });
         navigate(
           `${getBuildPath(
             buildNormalizedData.projectNormalisedName,
@@ -63,10 +64,11 @@ export default function BuildHistory() {
       }
     },
     [
-      buildNormalizedData.buildNormalisedName,
-      buildNormalizedData.projectNormalisedName,
+      logInsightsInteractionEvent,
+      applyTestListFilter,
       navigate,
-      logInsightsInteractionEvent
+      buildNormalizedData.projectNormalisedName,
+      buildNormalizedData.buildNormalisedName
     ]
   );
 
@@ -77,7 +79,7 @@ export default function BuildHistory() {
           interaction: 'build_history_other_run_clicked'
         });
 
-        window.scroll(0, 0);
+        applyTestListFilter({ clearOnly: true });
         navigate(
           `${getBuildPath(
             buildNormalizedData.projectNormalisedName,
@@ -88,10 +90,11 @@ export default function BuildHistory() {
       }
     },
     [
-      buildNormalizedData.buildNormalisedName,
-      buildNormalizedData.projectNormalisedName,
+      logInsightsInteractionEvent,
+      applyTestListFilter,
       navigate,
-      logInsightsInteractionEvent
+      buildNormalizedData.projectNormalisedName,
+      buildNormalizedData.buildNormalisedName
     ]
   );
 

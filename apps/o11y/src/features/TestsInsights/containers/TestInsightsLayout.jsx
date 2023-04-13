@@ -22,6 +22,7 @@ import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import useShowMoreOptions from 'features/TestsInsights/components/useShowMoreOptions';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getActiveProject } from 'globalSlice/selectors';
+import PropTypes from 'prop-types';
 import { getMergedLayoutValue, logOllyEvent } from 'utils/common';
 
 import { cards, layoutConfig } from '../constants';
@@ -32,7 +33,7 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const RGL_LS_KEY = 'testops-rgl-layouts-v3';
 const RGL_LS_KEY_OLDER = 'testops-rgl-layouts-v2';
 
-export default function TestInsightsLayout() {
+export default function TestInsightsLayout({ applyTestListFilter }) {
   const dispatch = useDispatch();
   const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
@@ -121,7 +122,9 @@ export default function TestInsightsLayout() {
 
   return (
     <>
-      <TestInsightsContext.Provider value={{ logInsightsInteractionEvent }}>
+      <TestInsightsContext.Provider
+        value={{ logInsightsInteractionEvent, applyTestListFilter }}
+      >
         <div className="overflow-x-hidden pb-24">
           <ResponsiveReactGridLayout
             className=""
@@ -195,3 +198,7 @@ export default function TestInsightsLayout() {
     </>
   );
 }
+
+TestInsightsLayout.propTypes = {
+  applyTestListFilter: PropTypes.func.isRequired
+};

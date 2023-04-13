@@ -24,7 +24,8 @@ import { abbrNumber } from 'utils/common';
 import BigNumber from './BigNumber';
 
 export default function ReRunSummary() {
-  const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
+  const { logInsightsInteractionEvent, applyTestListFilter } =
+    useContext(TestInsightsContext);
 
   const buildId = useSelector(getBuildUUID);
   const reRunStats = useSelector(getRerunStats);
@@ -42,11 +43,7 @@ export default function ReRunSummary() {
     logInsightsInteractionEvent({
       interaction: 'rerun_summary_filter_applied'
     });
-
-    // Clearing test runs before landing on test listing to fetch new tests based on applied filter
-    window.scroll(0, 0);
-    const searchString = `?tab=tests&run=${id}`;
-    navigate({ search: searchString });
+    applyTestListFilter({ query: `run=${id}` });
   };
 
   const hasNoData = useMemo(

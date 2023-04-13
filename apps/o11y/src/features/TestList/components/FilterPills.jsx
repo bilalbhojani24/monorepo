@@ -99,11 +99,11 @@ const FilterPills = ({ viewAllBuilds }) => {
       <div className="flex gap-x-4">
         {!!itemsArray.length && (
           <>
-            <p>Filters</p>
+            <p className="text-base-500 text-sm">Filters</p>
             <div className="border-base-300 my-auto h-5 border-l" />
           </>
         )}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-4">
           {itemsArray}
           <O11yButton variant="minimal" colors="white" onClick={viewAllBuilds}>
             Clear All

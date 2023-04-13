@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { MdErrorOutline, MdOutlineFindInPage } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState, O11yTooltip } from 'common/bifrostProxy';
@@ -33,12 +32,12 @@ const getTBIStatus = (data = [], total = 0) => {
 };
 
 export default function FailureCategories() {
-  const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
+  const { logInsightsInteractionEvent, applyTestListFilter } =
+    useContext(TestInsightsContext);
 
   const buildId = useSelector(getBuildUUID);
   const defectsStats = useSelector(getDefectsStats);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getDefectsData({ buildId }));
@@ -46,10 +45,9 @@ export default function FailureCategories() {
 
   const handleChartClick = useCallback(
     (data) => {
-      const searchString = `?tab=tests&issueTypeGroup=${data.id}`;
-      navigate({ search: searchString });
+      applyTestListFilter({ query: `issueTypeGroup=${data.id}` });
     },
-    [navigate]
+    [applyTestListFilter]
   );
 
   const totalDefects = useMemo(() => {

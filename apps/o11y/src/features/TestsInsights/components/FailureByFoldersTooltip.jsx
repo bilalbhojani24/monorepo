@@ -1,23 +1,17 @@
 import React, { useContext } from 'react';
-// import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@browserstack/bifrost';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import PropTypes from 'prop-types';
 
 export default function FailureByFoldersTooltip({ data }) {
-  const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
+  const { logInsightsInteractionEvent, applyTestListFilter } =
+    useContext(TestInsightsContext);
 
-  // const dispatch = useDispatch();
-  const navigate = useNavigate();
   const handleActionClick = () => {
     logInsightsInteractionEvent({
       interaction: 'failure_by_folder_view_tests_clicked'
     });
-
-    window.scroll(0, 0);
-    const searchString = `?tab=tests&folder=${data.id}`;
-    navigate({ search: searchString });
+    applyTestListFilter({ query: `folder=${data.id}` });
   };
   return (
     <div className="flex flex-col p-3 pb-0 text-white">

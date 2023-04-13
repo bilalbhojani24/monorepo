@@ -29,7 +29,8 @@ const ALERT_LEVEL = {
 };
 
 export default function Alerts() {
-  const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
+  const { logInsightsInteractionEvent, applyTestListFilter } =
+    useContext(TestInsightsContext);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -42,12 +43,7 @@ export default function Alerts() {
 
   const handleFilterRedirect = (filterQuery) => {
     logInsightsInteractionEvent({ interaction: 'alerts_clicked' });
-    window.scroll(0, 0);
-    let searchString = `?tab=tests`;
-    if (filterQuery) {
-      searchString += `&${filterQuery}`;
-    }
-    navigate({ search: searchString });
+    applyTestListFilter({ query: filterQuery || '' });
   };
 
   const handleClickConfigureAlerts = () => {

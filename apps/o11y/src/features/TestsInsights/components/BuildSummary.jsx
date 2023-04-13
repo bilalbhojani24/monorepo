@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
@@ -32,7 +31,8 @@ const getPrepareChartData = (data = []) => {
 };
 
 export default function BuildSummary() {
-  const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
+  const { logInsightsInteractionEvent, applyTestListFilter } =
+    useContext(TestInsightsContext);
   const buildId = useSelector(getBuildUUID);
   const buildSummaryStats = useSelector(getBuildSummaryStats);
   const dispatch = useDispatch();
@@ -40,31 +40,26 @@ export default function BuildSummary() {
     dispatch(getBuildSummaryData({ buildId }));
   }, [buildId, dispatch]);
 
-  const navigate = useNavigate();
-
   const handleChartClick = useCallback(
     (data) => {
       if (data?.name) {
         logInsightsInteractionEvent({ interaction: `${data?.name}_clicked` });
-        window.scroll(0, 0);
-        const searchString = `?tab=tests&status=${data.name}`;
-        navigate({ search: searchString });
+        applyTestListFilter({ query: `status=${data.name}` });
       }
     },
-    [navigate, logInsightsInteractionEvent]
+    [applyTestListFilter, logInsightsInteractionEvent]
   );
   const handleFlakyClick = useCallback(
     (item) => {
       logInsightsInteractionEvent({ interaction: 'flaky_clicked' });
-      let searchString = `?tab=tests&flaky=true`;
+      let searchString = `flaky=true`;
       if (item) {
         searchString += `&status=${item?.label || item?.name}`;
       }
 
-      window.scroll(0, 0);
-      navigate({ search: searchString });
+      applyTestListFilter({ query: searchString });
     },
-    [navigate, logInsightsInteractionEvent]
+    [applyTestListFilter, logInsightsInteractionEvent]
   );
   const chartData = useMemo(
     () =>

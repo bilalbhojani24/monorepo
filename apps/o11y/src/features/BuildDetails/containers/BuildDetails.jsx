@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState } from 'common/bifrostProxy';
@@ -38,6 +38,7 @@ function BuildDetails() {
   const params = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const activeTab = useSelector(getBuildDetailsActiveTab);
   const fetchBuildId = useCallback(() => {
     setLoadError(false);
@@ -201,6 +202,16 @@ function BuildDetails() {
       });
   };
 
+  const applyTestListFilter = ({ query, clearOnly = false }) => {
+    dispatch(resetTestListSlice());
+    testListScrollPos.current = 0;
+    scrollIndexMapping.current = {};
+    if (!clearOnly) {
+      const searchString = `?tab=tests&${query}`;
+      navigate({ search: searchString });
+    }
+  };
+
   return (
     <div
       className={twClassNames(
@@ -215,7 +226,7 @@ function BuildDetails() {
       />
       {activeTab.id === TABS.insights.id && (
         <div className="overflow-auto">
-          <TestInsightsLayout />
+          <TestInsightsLayout applyTestListFilter={applyTestListFilter} />
         </div>
       )}
       {activeTab.id === TABS.tests.id && (

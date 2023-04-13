@@ -12,6 +12,7 @@ import {
 } from 'common/bifrostProxy';
 import Chart from 'common/Chart/containers/Chart';
 import O11yLoader from 'common/O11yLoader';
+import PropagationBlocker from 'common/PropagationBlocker';
 import BigNumber from 'features/TestsInsights/components/BigNumber';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
@@ -160,16 +161,18 @@ function WidgetLayoutCard({
                   </O11yTableCell>
                   <O11yTableCell wrapperClassName="first:pl-0 sm:first:pl-0 text-end py-2 sm:last:pr-0 text-base-800">
                     {!!singleBuildData.filterCount && (
-                      <O11yBadge
-                        modifier="warn"
-                        hasRemoveButton={false}
-                        isRounded={false}
-                        text={`${singleBuildData.filterCount}/${singleBuildData.value} Flaky`}
-                        wrapperClassName="mr-1"
-                        onClick={() =>
-                          tableConfig?.onClickFlaky(singleBuildData) || null
-                        }
-                      />
+                      <PropagationBlocker variant="span">
+                        <O11yBadge
+                          modifier="warn"
+                          hasRemoveButton={false}
+                          isRounded={false}
+                          text={`${singleBuildData.filterCount}/${singleBuildData.value} Flaky`}
+                          wrapperClassName="mr-1"
+                          onClick={() =>
+                            tableConfig?.onClickFlaky(singleBuildData) || null
+                          }
+                        />
+                      </PropagationBlocker>
                     )}
                     {singleBuildData.value}
                   </O11yTableCell>

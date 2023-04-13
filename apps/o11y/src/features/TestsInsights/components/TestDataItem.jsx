@@ -29,7 +29,9 @@ export default function TestDataItem({ data }) {
         >
           <div>
             <>
-              <p className="text-base-900 text-sm font-medium">{item.title}</p>
+              <p className="text-base-900 break-words text-sm font-medium">
+                {item.title}
+              </p>
               {!!item?.scopeList?.length && (
                 // eslint-disable-next-line tailwindcss/no-arbitrary-value
                 <div className="text-base-600 w-[330px] truncate text-left text-xs font-normal">
@@ -39,11 +41,9 @@ export default function TestDataItem({ data }) {
               <RootNodeMetaData {...item?.details} />
             </>
           </div>
-          <div>
-            <p className="text-base-500">
-              {milliSecondsToTime(item?.duration)}
-            </p>
-          </div>
+          <p className="text-base-500 self-start whitespace-nowrap pl-4">
+            {milliSecondsToTime(item?.duration)}
+          </p>
         </div>
       ))}
     </>

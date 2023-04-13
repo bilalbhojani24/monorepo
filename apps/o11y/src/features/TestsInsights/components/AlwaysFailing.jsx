@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
@@ -11,7 +10,8 @@ import { getAlwaysFailingData } from '../slices/testInsightsSlice';
 import WidgetLayoutCard from './WidgetLayoutCard';
 
 export default function AlwaysFailing() {
-  const { logInsightsInteractionEvent } = useContext(TestInsightsContext);
+  const { logInsightsInteractionEvent, applyTestListFilter } =
+    useContext(TestInsightsContext);
   const alwaysFailingStats = useSelector(getAlwaysFailingStats);
   const buildId = useSelector(getBuildUUID);
   const dispatch = useDispatch();
@@ -20,13 +20,9 @@ export default function AlwaysFailing() {
     dispatch(getAlwaysFailingData({ buildId }));
   }, [buildId, dispatch]);
 
-  const navigate = useNavigate();
-
   const handleFilterRedirect = () => {
     logInsightsInteractionEvent({ interaction: 'always_failing_clicked' });
-    window.scroll(0, 0);
-    const searchString = `?tab=tests&history=isAlwaysFailing`;
-    navigate({ search: searchString });
+    applyTestListFilter({ query: 'history=isAlwaysFailing' });
   };
   return (
     <WidgetLayoutCard
