@@ -144,6 +144,11 @@ export const CreateIssue = ({
           <Button
             type="submit"
             form="form-builder"
+            data-test-id={
+              mode === ISSUE_MODES.CREATION
+                ? 'create-issue-btn'
+                : 'update-issue-btn'
+            }
             loading={isFormBeingSubmitted}
             loaderText={
               mode === ISSUE_MODES.CREATION ? 'Creating...' : 'Updating...'
