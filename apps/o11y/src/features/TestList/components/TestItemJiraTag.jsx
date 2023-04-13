@@ -32,7 +32,7 @@ export default function TestItemJiraTag({ details }) {
   if (jiraUrl || createdJiraIssue?.url) {
     return (
       <PropagationBlocker
-        className="flex items-center"
+        className="mb-2 flex items-center "
         onClick={() => o11yTestListingInteraction('jira_link_clicked')}
       >
         <JiraTag

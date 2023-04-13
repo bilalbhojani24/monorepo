@@ -62,7 +62,7 @@ const RenderTestItem = ({ item: data }) => {
 
   return (
     <div
-      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-2 pr-6"
+      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-1 pr-6"
       style={{
         paddingLeft: HIERARCHY_SPACING_START + HIERARCHY_SPACING * rank
       }}
@@ -70,10 +70,10 @@ const RenderTestItem = ({ item: data }) => {
       onClick={handleClickTestItem}
     >
       <div className="flex justify-between gap-4">
-        <div className="flex w-full flex-col items-start">
+        <div className="flex w-full flex-col items-start pt-1">
           <div className="flex items-start">
             <div className="flex items-start">
-              <div className="flex h-5 items-center">
+              <div className="flex h-5 items-center ">
                 <StatusIcon
                   status={data.details.status || TEST_STATUS.SKIPPED}
                 />
@@ -151,7 +151,7 @@ const RenderTestItem = ({ item: data }) => {
             <TestListStackTrace details={details} />
           </div>
           <div
-            className={twClassNames('mb-2 flex items-center gap-2 pl-6', {
+            className={twClassNames('flex items-center gap-2 pl-6', {
               'mt-1':
                 !details.retries?.length ||
                 !details.retries[details.retries.length - 1].logs?.[
@@ -162,7 +162,7 @@ const RenderTestItem = ({ item: data }) => {
             <TestListDefectType data={data} />
             {details?.runCount > 1 && (
               <div>
-                <p className="text-base-500 text-sm">
+                <p className="text-base-500 mb-2 text-sm ">
                   {details?.runCount} re-runs
                 </p>
               </div>
@@ -182,7 +182,7 @@ const RenderTestItem = ({ item: data }) => {
             )}
             <TestItemJiraTag details={details} />
             {details?.sessionUrl && (
-              <PropagationBlocker className="inline-flex">
+              <PropagationBlocker className="mb-2 inline-flex ">
                 <O11yHyperlink
                   href={data?.details?.sessionUrl}
                   target="_blank"
@@ -199,12 +199,12 @@ const RenderTestItem = ({ item: data }) => {
           </div>
         </div>
         <div className="flex w-auto gap-1">
-          <div className="flex w-auto items-start">
+          <div className="flex w-auto items-start pt-1">
             <TestListTimeline details={details} />
           </div>
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
           <div className="min-h-[34px] min-w-[100px]">
-            <div className="flex content-end items-center justify-end group-hover:hidden">
+            <div className="flex content-end items-center justify-end pt-1 group-hover:hidden">
               <MdOutlineTimer className="text-base-500 block h-4 w-4" />
               <p className="text-base-500 ml-1 text-sm">
                 {milliSecondsToTime(details?.duration)}

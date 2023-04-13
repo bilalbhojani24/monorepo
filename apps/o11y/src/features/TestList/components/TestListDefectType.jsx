@@ -135,7 +135,7 @@ function TestListDefectType({ data }) {
   }
 
   return (
-    <PropagationBlocker className="flex">
+    <PropagationBlocker className="mb-2 flex ">
       {buildMeta?.isAutoAnalyzerRunning ? (
         <O11yTooltip
           placement="top"
