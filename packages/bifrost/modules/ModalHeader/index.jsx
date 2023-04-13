@@ -76,7 +76,7 @@ ModalHeader.propTypes = {
   isBorder: PropTypes.bool,
   icon: PropTypes.node,
   iconWrapperClassname: PropTypes.string,
-  subHeading: PropTypes.string
+  subHeading: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 ModalHeader.defaultProps = {
   dismissButton: true,
