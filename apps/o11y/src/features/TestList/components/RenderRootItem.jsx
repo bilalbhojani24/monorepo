@@ -106,7 +106,7 @@ const RenderRootItem = ({ data }) => {
             wrapperClassName="px-0 py-2"
             asideContent={
               <div className="flex h-full gap-4">
-                <div className="flex w-full min-w-[250px] gap-3">
+                <div className="flex w-full justify-end gap-3">
                   {!!details?.browser && (
                     <DetailIcon
                       icon={getIconName(
@@ -137,7 +137,7 @@ const RenderRootItem = ({ data }) => {
                     />
                   )}
                 </div>
-                <div className="flex min-w-[250px] justify-end ">
+                <div className="flex min-w-[250px] justify-end">
                   {status && <StatusBadges statusStats={status} />}
                 </div>
               </div>
