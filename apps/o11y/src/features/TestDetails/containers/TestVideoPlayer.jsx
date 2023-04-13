@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLatestRef } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
+import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
 
 import DraggableComponent from '../components/DraggableComponent';
 import VideoPlayer from '../components/VideoPlayer';
+import { TEST_DETAILS_SLIDEOVER_ELEMENT_ID } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { clearTestDetails, getTestDetailsData } from '../slices/dataSlice';
 import {
@@ -21,11 +23,7 @@ const TestVideoPlayer = () => {
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const details = useSelector(getTestDetails);
   // const exceptions = useSelector(getExceptions);
-  const {
-    sessionTestToggle,
-    floatingVideoTopOffset,
-    floatingVideoRightOffset
-  } = useLogsContext();
+  const { sessionTestToggle } = useLogsContext();
 
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
   const [showFloatingWindow, setShowFloatingWindow] = useState(false);
@@ -33,6 +31,8 @@ const TestVideoPlayer = () => {
   const [isFloatingVideoPaused, setIsFloatingVideoPaused] = useState(true);
   const [isVideoMetaLoaded, setIsVideoMetaLoaded] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
+  const [floatingVideoRightOffset, setFloatingVideoRightOffset] = useState(700);
+  const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
 
   const videoRef = useRef(null);
   const containerRef = useRef(null);
@@ -52,6 +52,21 @@ const TestVideoPlayer = () => {
       dispatch(clearTestDetails());
     };
   }, [dispatch, currentTestRunId]);
+
+  useEffect(() => {
+    const slideOverElement = document.getElementById(
+      TEST_DETAILS_SLIDEOVER_ELEMENT_ID
+    );
+    const bstackHeaderElement = document.getElementById(
+      BSTACK_TOPNAV_ELEMENT_ID
+    );
+    if (slideOverElement) {
+      setFloatingVideoRightOffset(slideOverElement.offsetWidth);
+    }
+    if (bstackHeaderElement) {
+      setFloatingVideoTopOffset(bstackHeaderElement.offsetHeight);
+    }
+  }, []);
 
   const videoUrl = useMemo(
     () =>
@@ -177,7 +192,7 @@ const TestVideoPlayer = () => {
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
         className={twClassNames('w-auto', {
-          hidden: !showFloatingWindow || !isVideoMetaLoaded
+          hidden: !showFloatingWindow
         })}
         style={{
           right: floatingVideoRightOffset,
