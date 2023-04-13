@@ -106,16 +106,16 @@ const RenderRootItem = ({ data }) => {
             wrapperClassName="px-0 py-2"
             asideContent={
               <div className="flex h-full gap-4">
-                <div className="flex w-full justify-end gap-3">
+                <div className="flex w-full justify-end gap-3 text-base">
                   {!!details?.browser && (
                     <DetailIcon
                       icon={getIconName(
                         details?.browser?.name,
-                        details?.browser?.device?.name
+                        details?.device
                       )}
                       text={
-                        details?.browser?.device?.name
-                          ? details?.browser?.device?.name
+                        details?.device
+                          ? details.device
                           : `${capitalize(details?.browser?.name)} ${
                               details?.browser?.version
                             }`
@@ -143,7 +143,7 @@ const RenderRootItem = ({ data }) => {
               </div>
             }
             title={
-              <div className="flex flex-col px-3">
+              <div className="flex flex-col px-2">
                 <p className="text-base-900 break-words text-left text-sm font-normal">
                   {ReactHtmlParser(displayName, {
                     transform: transformUnsupportedTags

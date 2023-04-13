@@ -3,6 +3,8 @@ import {
   AndroidIcon,
   AppleIcon,
   ChromeIcon,
+  DefaultBrowserIcon,
+  DefaultOSIcon,
   DeviceIcon,
   EdgeIcon,
   FirefoxIcon,
@@ -62,8 +64,8 @@ export const ICON_LIST = {
   'icon-oppo': OppoIcon,
   'icon-realme': RealmeIcon,
   device_icon: DeviceIcon,
-  'icon-default_os': null, // Add default os icon here
-  'icon-default_browser': null // Add default browser icon here
+  'icon-default_os': DefaultOSIcon,
+  'icon-default_browser': DefaultBrowserIcon
 };
 
 export const BROWSERS_ICON_LIST = [
