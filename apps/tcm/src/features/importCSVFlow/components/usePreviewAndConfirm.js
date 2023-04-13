@@ -1,12 +1,17 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
+import { WS_URL } from 'const/routes';
 import { logEventHelper } from 'utils/logEvent';
 
 import { startImportingTestCases } from '../slices/csvThunk';
+import { updateImportProgress } from '../slices/importCSVSlice';
 
 const usePreviewAndConfirm = () => {
   const dispatch = useDispatch();
   const { search } = useLocation();
+  const { sendMessage, lastMessage, readyState } = useWebSocket(WS_URL);
   const queryParams = new URLSearchParams(search);
   const previewData = useSelector((state) => state.importCSV.previewData);
   const showFolderExplorerModal = useSelector(
@@ -23,6 +28,20 @@ const usePreviewAndConfirm = () => {
     (state) => state.importCSV.totalImportedProjectsInPreview
   );
 
+  const connectWSS = () => {
+    const identifier = {
+      channel: 'ImportChannel',
+      import_id: mapFieldsConfig.importId
+    };
+    debugger;
+    sendMessage(
+      JSON.stringify({
+        command: 'subscribe',
+        identifier: JSON.stringify(identifier)
+      })
+    );
+  };
+
   const handleImportTestCaseClick = () => {
     dispatch(
       logEventHelper('TM_ImportCsvStep3ProceedBtnClicked', {
@@ -32,7 +51,8 @@ const usePreviewAndConfirm = () => {
     // make an api call
     const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');
-    // work here÷
+
+    connectWSS();
     dispatch(
       startImportingTestCases({
         importId: mapFieldsConfig.importId,
@@ -42,6 +62,13 @@ const usePreviewAndConfirm = () => {
       })
     );
   };
+
+  useEffect(() => {
+    console.log(lastMessage);
+    console.log(readyState);
+
+    dispatch(updateImportProgress(10));
+  }, [lastMessage, readyState]);
 
   return {
     previewData,

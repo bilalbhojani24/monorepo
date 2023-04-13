@@ -22,6 +22,7 @@ import {
   ModalFooter,
   ModalHeader,
   Notifications,
+  ProgressBar,
   RadioGroup,
   SectionHeadings,
   Slideover,
@@ -98,6 +99,7 @@ export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
+export const TMProgressBar = (props) => <ProgressBar {...props} />;
 
 export const TMSlideover = (props) => {
   const topMarginElementId = 'bstack-header';

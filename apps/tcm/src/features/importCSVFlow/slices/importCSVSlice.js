@@ -44,6 +44,7 @@ const initialState = {
   confirmCSVImportNotificationConfig: {
     show: false,
     status: 'ongoing',
+    progress: 0,
     modalData: ONGOING_IMPORT_MODAL_DATA,
     csvImportProjectId: null,
     csvImportFolderId: null
@@ -280,6 +281,9 @@ const importCSVSlice = createSlice({
     },
     setFoldersForCSV: (state, { payload }) => {
       state.foldersForCSV = payload;
+    },
+    updateImportProgress: (state, { payload }) => {
+      state.confirmCSVImportNotificationConfig.progress = payload;
     }
   }
 });
@@ -317,6 +321,7 @@ export const {
   setNotificationConfigForConfirmCSVImport,
   setImportCSVSuccessNotificationShown,
   setShowChangeFolderModal,
-  setFoldersForCSV
+  setFoldersForCSV,
+  updateImportProgress
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

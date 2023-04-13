@@ -92,8 +92,8 @@ export const SECOND_SCREEN = 'mapFields';
 export const THIRD_SCREEN = 'previewAndConfirmImport';
 
 export const ONGOING_IMPORT_MODAL_DATA = {
-  label: 'Import is in progress',
-  text: 'This will take a few minutes. Please don’t close/refresh this page until the import is complete.',
+  label: 'Import Progress:',
+  text: "Please don't close/refresh this page until the import is complete.",
   firstButtonText: 'Cancel Import',
   secondButtonText: null
 };

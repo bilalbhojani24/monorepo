@@ -166,13 +166,15 @@ const PreviewAndConfirm = () => {
           </Accordion>
         </div>
       ))}
-      {confirmCSVImportNotificationConfig.show && (
-        <ImportCSVModal
-          show={confirmCSVImportNotificationConfig.show}
-          data={confirmCSVImportNotificationConfig.modalData}
-          status={confirmCSVImportNotificationConfig.status}
-        />
-      )}
+      {confirmCSVImportNotificationConfig.show ||
+        (true && (
+          <ImportCSVModal
+            show={confirmCSVImportNotificationConfig.show || true}
+            data={confirmCSVImportNotificationConfig.modalData}
+            progress={confirmCSVImportNotificationConfig?.progress}
+            status={confirmCSVImportNotificationConfig.status}
+          />
+        ))}
     </div>
   );
 };

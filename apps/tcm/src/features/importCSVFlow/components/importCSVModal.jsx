@@ -7,9 +7,10 @@ import {
   TMModal,
   TMModalBody,
   TMModalFooter,
-  TMModalHeader
+  TMModalHeader,
+  TMProgressBar
 } from 'common/bifrostProxy';
-import { bool, shape, string } from 'prop-types';
+import { bool, number, shape, string } from 'prop-types';
 import { logEventHelper } from 'utils/logEvent';
 
 import { cancelImport, downloadReport } from '../../../api/importCSV.api';
@@ -21,7 +22,7 @@ import {
   setRetryImport
 } from '../slices/importCSVSlice';
 
-const ImportCSVModal = ({ data, show, status }) => {
+const ImportCSVModal = ({ data, show, status, progress }) => {
   const dispatch = useDispatch();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -81,7 +82,9 @@ const ImportCSVModal = ({ data, show, status }) => {
   return (
     <TMModal show={show}>
       <TMModalHeader
-        heading={data?.label}
+        heading={`${data?.label} ${
+          status === 'ongoing' ? `${progress || 0}%` : ''
+        }`}
         handleDismissClick={onModalCloseHandler}
         icon={
           status === 'ongoing' ? (
@@ -96,14 +99,24 @@ const ImportCSVModal = ({ data, show, status }) => {
             />
           )
         }
+        subHeading={
+          status === 'ongoing' ? (
+            <>
+              <TMProgressBar title={null} percentage={progress} />
+              {data?.text}
+            </>
+          ) : null
+        }
         iconWrapperClassname={
           status === 'ongoing' ? 'bg-brand-100' : 'bg-danger-100'
         }
         dismissButton={data.secondButtonText}
       />
-      <TMModalBody>
-        <div>{data?.text}</div>
-      </TMModalBody>
+      {status !== 'ongoing' && (
+        <TMModalBody>
+          <div className="pl-14">{data?.text}</div>
+        </TMModalBody>
+      )}
       <TMModalFooter position="right">
         {data?.firstButtonText && (
           <TMButton variant="primary" colors="white" onClick={firstButtonCb}>
@@ -128,6 +141,7 @@ ImportCSVModal.propTypes = {
     secondButtonText: string
   }),
   show: bool,
+  progress: number,
   status: string
 };
 
@@ -139,6 +153,7 @@ ImportCSVModal.defaultProps = {
     secondButtonText: ''
   },
   show: false,
+  progress: 0,
   status: ''
 };
 
