@@ -29,6 +29,7 @@ import StatusBadges from 'common/StatusBadges';
 import VCIcon from 'common/VCIcon';
 import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
@@ -56,7 +57,8 @@ const tabsList = Object.keys(TABS).map((key) => ({
 function BuildDetailsHeader({
   updateCount,
   onUpdateBtnClick,
-  isNewItemLoading
+  isNewItemLoading,
+  applyTestListFilter
 }) {
   const getActiveTab = useSelector(getBuildDetailsActiveTab);
   const navigate = useNavigate();
@@ -108,6 +110,20 @@ function BuildDetailsHeader({
 
   const handleClickStatusBadge = ({ itemClicked }) => {
     logMetaInteractionEvent(`${itemClicked}_clicked`);
+    const searchParams = new URLSearchParams(window?.location?.search);
+    searchParams.set('status', itemClicked);
+    if (searchParams.get('tab') === 'tests') {
+      // apply directly
+      dispatch(
+        setAppliedFilters({
+          status: [itemClicked]
+        })
+      );
+    } else {
+      applyTestListFilter({
+        query: `${searchParams.toString()}`
+      });
+    }
   };
 
   if (buildMeta.isLoading && isEmpty(buildMeta.data)) {
@@ -361,5 +377,6 @@ export default BuildDetailsHeader;
 BuildDetailsHeader.propTypes = {
   updateCount: PropTypes.number.isRequired,
   onUpdateBtnClick: PropTypes.func.isRequired,
+  applyTestListFilter: PropTypes.func.isRequired,
   isNewItemLoading: PropTypes.bool.isRequired
 };

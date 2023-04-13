@@ -1,6 +1,6 @@
 import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
-import { TEST_STATUS, UNSUPPORTED_HTML_TAGS } from 'constants/common';
+import { SUPPORTED_HTML_TAGS, TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
 import { keyBy, merge, values } from 'lodash';
 
@@ -185,14 +185,18 @@ export const transformUnsupportedTags = (node, index) => {
   const updatedNode = node;
   if (
     updatedNode.type === 'tag' &&
-    UNSUPPORTED_HTML_TAGS.includes(updatedNode.name)
+    !SUPPORTED_HTML_TAGS.includes(updatedNode.name)
   ) {
     updatedNode.children = [
       {
         data: `<${updatedNode.name}>`,
         type: 'text'
       },
-      ...updatedNode.children
+      ...updatedNode.children,
+      {
+        data: `</${updatedNode.name}>`,
+        type: 'text'
+      }
     ];
     updatedNode.name = 'span';
   }
