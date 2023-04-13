@@ -342,14 +342,8 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   <AccordionSimpleHeader
                     title={<div>Additional settings</div>}
                   />
+                  <AccordionPanel>{getAccordionBody()}</AccordionPanel>
                 </Accordion>
-                <AccordionPanel>{getAccordionBody()}</AccordionPanel>
-                {/* <Accordion
-                  onTriggerClick={() => {}}
-                  onChevronClick={() => {}}
-                  panelContentNode={}
-                  triggerContentNode={}
-                /> */}
               </div>
             </div>
           </div>

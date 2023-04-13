@@ -164,32 +164,30 @@ const ScanDetails = () => {
             {/* NOTE: Confirm the condition with Kaustubh */}
             {scanRunDataCommon?.nextScanDate &&
               userInfo.user_id === scanRunDataCommon?.createdBy?.id && (
-                <Button
-                  colors="white"
-                  onClick={handleNewScanRun}
-                  size="small"
-                  type="subtle"
-                  icon={<MdAdd className="text-xl" />}
-                  iconPlacement="start"
-                  wrapperClassName="h-10 mr-2"
-                >
-                  New scan run
-                </Button>
-              )}
-            {/* handleStopRecurringScan */}
-            {scanRunDataCommon?.nextScanDate &&
-              userInfo.user_id === scanRunDataCommon.createdBy.id && (
-                <Button
-                  colors="white"
-                  onClick={() => setStopModal(true)}
-                  size="small"
-                  type="subtle"
-                  icon={<MdStop className="text-xl" />}
-                  iconPlacement="start"
-                  wrapperClassName="h-10 mr-2"
-                >
-                  Stop recurring
-                </Button>
+                <>
+                  <Button
+                    colors="white"
+                    onClick={handleNewScanRun}
+                    size="small"
+                    type="subtle"
+                    icon={<MdAdd className="text-xl" />}
+                    iconPlacement="start"
+                    wrapperClassName="h-10 mr-2"
+                  >
+                    New scan run
+                  </Button>
+                  <Button
+                    colors="white"
+                    onClick={() => setStopModal(true)}
+                    size="small"
+                    type="subtle"
+                    icon={<MdStop className="text-xl" />}
+                    iconPlacement="start"
+                    wrapperClassName="h-10 mr-2"
+                  >
+                    Stop recurring
+                  </Button>
+                </>
               )}
             <Dropdown
               trigger={
