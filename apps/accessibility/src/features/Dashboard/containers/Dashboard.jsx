@@ -56,7 +56,7 @@ export default function Dashboard({ children }) {
       </SkipToContent>
       <Header
         wrapperClassName="fixed top-0 z-10 w-full"
-        productName="Accessibility"
+        productName="Accessibility Testing"
         release="Beta"
         planButtonVisible={false}
         productArray={[
