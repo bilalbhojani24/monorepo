@@ -33,6 +33,7 @@ const MediaPlayerRightControls = forwardRef(
       setPlaybackSpeed(newSpeed);
       // no immediate solution to this eslint error
       // will pick this up later
+      // eslint-disable-next-line no-param-reassign
       ref.current.getInternalPlayer().playbackRate = newSpeed;
       onPlaybackSpeedClick?.(newSpeed);
     };
@@ -64,7 +65,7 @@ const MediaPlayerRightControls = forwardRef(
         )}
       >
         {showSpeedOption && (
-          <div className={twClassNames('flex flex-row items-start p-0')}>
+          <div className={twClassNames('p-0 w-8')}>
             <Dropdown onClick={(option) => handlePlaybackOptionClick(option)}>
               <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
                 {playbackSpeed}x
@@ -81,25 +82,20 @@ const MediaPlayerRightControls = forwardRef(
           </div>
         )}
         {showFullScreenOption && (
-          <div
-            className={twClassNames('flex flex-row items-start p-0 w-6 h-6')}
-          >
+          <div className={twClassNames('w-6 h-6')}>
             <Button
               variant="minimal"
-              wrapperClassName={twClassNames(
-                'flex flex-row justify-center items-center p-0 w-6 h-6'
-              )}
+              wrapperClassName={twClassNames('p-0 w-6 h-6')}
               isIconOnlyButton
-              icon={<MdFullscreen className="text-base-500 h-5 w-5" />}
+              icon={<MdFullscreen className="text-base-500 h-6 w-6" />}
               onClick={handleFullScreenClick}
               aria-label="full screen video"
+              size="large"
             />
           </div>
         )}
         {showAdditionalSettings && (
-          <div
-            className={twClassNames('flex flex-row items-start p-0 w-6 h-6')}
-          >
+          <div className={twClassNames('w-6 h-6')}>
             <Dropdown
               onClick={(option) => handleAdditionalSettingClick(option)}
             >
@@ -107,7 +103,7 @@ const MediaPlayerRightControls = forwardRef(
                 wrapperClassName="p-0 border-0 shadow-transparent"
                 triggerAriaLabel="additional settings"
               >
-                <EllipsisVerticalIcon className="h-5 w-5" />
+                <EllipsisVerticalIcon className="h-6 w-6" />
               </DropdownTrigger>
               <DropdownOptionGroup>
                 {ADDITIONAL_SETTINGS_OPTIONS.map((settingsOption) => (

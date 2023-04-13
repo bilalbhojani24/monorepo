@@ -66,9 +66,10 @@ const MediaPlayerLeftControls = forwardRef(
                 'flex flex-row justify-center items-center p-0 w-6 h-6'
               )}
               isIconOnlyButton
-              icon={<MdReplay10 className="text-base-500 h-5 w-5" />}
+              icon={<MdReplay10 className="text-base-500 h-6 w-6" />}
               onClick={() => handleRewindClick(10)}
               aria-label="rewind 10 sec"
+              size="large"
             />
           </div>
         )}
@@ -102,9 +103,10 @@ const MediaPlayerLeftControls = forwardRef(
                 'flex flex-row justify-center items-center p-0 w-6 h-6'
               )}
               isIconOnlyButton
-              icon={<MdForward10 className="text-base-500 h-5 w-5" />}
+              icon={<MdForward10 className="text-base-500 h-6 w-6" />}
               onClick={() => handleForwardClick(10)}
               aria-label="forward 10 sec"
+              size="large"
             />
           </div>
         )}
