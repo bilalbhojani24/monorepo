@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
+  // O11yComboBox,
   O11yDropdown,
   O11yDropdownOptionGroup,
   O11yDropdownTrigger,
@@ -163,6 +164,10 @@ export default function TestingTrendsHeader() {
     return BUILD_OPTIONS;
   }, [builds]);
 
+  // const selectedBuildListOptions = buildList.filter(
+  //   (el) => activeBuild === el.value
+  // );
+
   return (
     <div
       className={twClassNames(
@@ -194,12 +199,7 @@ export default function TestingTrendsHeader() {
 
             if (key === 'custom') {
               return (
-                <O11yDropdown
-                  // onClick={(value) => {
-                  //   console.log(value);
-                  // }}
-                  align="center"
-                >
+                <O11yDropdown align="center">
                   <O11yDropdownTrigger
                     aria-label={TT_DATE_RANGE[key].label}
                     key={key}
@@ -249,7 +249,10 @@ export default function TestingTrendsHeader() {
             onChange={handleBuildChange}
             defaultValue={activeBuild}
           >
-            <O11ySelectMenuTrigger placeholder="All Builds" />
+            <O11ySelectMenuTrigger
+              placeholder="All Builds"
+              wrapperClassName="w-44"
+            />
             <O11ySelectMenuOptionGroup alignment="end">
               {buildList.map((item) => (
                 <O11ySelectMenuOptionItem
@@ -260,6 +263,17 @@ export default function TestingTrendsHeader() {
               ))}
             </O11ySelectMenuOptionGroup>
           </O11ySelectMenu>
+          {/* <O11yComboBox
+            isMulti={false}
+            placeholder="Select"
+            options={buildList}
+            onChange={handleBuildChange}
+            value={selectedBuildListOptions}
+            // defaultValue={buildList[0].label}
+            checkPosition
+            virtuosoWidth="320px"
+            optionsListWrapperClassName="min-w-max h-100 overflow-hidden"
+          /> */}
         </div>
       </div>
     </div>

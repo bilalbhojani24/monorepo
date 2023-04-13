@@ -46,6 +46,9 @@ export default function TrendsCard({
       });
   }, [dispatch, activeProject?.normalisedName, filters, apiKey]);
 
+  const showSubTitle = () =>
+    !(apiKey === 'newFailures' || apiKey === 'alwaysFailing');
+
   useEffect(() => {
     if (activeProject?.normalisedName) {
       fetchData();
@@ -64,7 +67,9 @@ export default function TrendsCard({
             <div className="flex flex-col">
               {chartData?.insights?.count !== undefined && (
                 <>
-                  <p className="text-base-500 text-sm font-medium">Total</p>
+                  {showSubTitle() && (
+                    <p className="text-base-500 text-sm font-medium">Total</p>
+                  )}
                   <div className="flex">
                     <p className="pr-2 pb-0 text-3xl font-semibold">
                       {config?.abbrNumber

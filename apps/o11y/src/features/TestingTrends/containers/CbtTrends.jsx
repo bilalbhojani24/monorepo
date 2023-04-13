@@ -218,9 +218,9 @@ export default function CbtTrends() {
                     handleDrillDown(item, idx);
                   }}
                 >
-                  <p className="flex items-start">
+                  <p className="flex items-center">
                     <span
-                      className="mr-2 mt-1 inline-block h-2 w-2 rounded"
+                      className="mr-2 mt-1 inline-block h-2 w-2 shrink-0 rounded"
                       style={{ backgroundColor: item.color }}
                     />
                     <span>{item.name}</span>

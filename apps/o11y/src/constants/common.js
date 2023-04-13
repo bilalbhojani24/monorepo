@@ -75,7 +75,7 @@ export const SNP_DATE_RANGE = {
 };
 
 export const TOOLTIP_STYLES = {
-  backgroundColor: '#00335D',
+  backgroundColor: '#111827',
   borderColor: 'transparent',
   style: {
     color: '#fff',
@@ -103,6 +103,7 @@ export const COMMON_CHART_CONFIGS = {
     align: 'left',
     verticalAlign: 'top',
     x: -10,
+    itemMarginBottom: 20,
     itemStyle: {
       color: '#333',
       fontWeight: 'normal',

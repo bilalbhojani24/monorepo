@@ -14,7 +14,7 @@ import { getAllTTFilters } from '../slices/selectors';
 
 const BuildRunsList = React.memo(({ item, maxRunCount }) => (
   <>
-    <O11yTableCell wrapperClassName="font-medium text-base-900">
+    <O11yTableCell wrapperClassName="font-medium text-base-900 whitespace-normal">
       {item.buildName}
     </O11yTableCell>
     <O11yTableCell wrapperClassName="font-medium text-base-500">

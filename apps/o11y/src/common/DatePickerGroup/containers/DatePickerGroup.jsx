@@ -107,6 +107,7 @@ const DatePickerGroup = ({
           wrapperClassName="w-44"
           label="Start date"
           defaultValue={parseDate(fromDateValue)}
+          placement="bottom start"
           {...extraProps()}
         />
         <div className="shrink-0 basis-2">-</div>
@@ -115,6 +116,7 @@ const DatePickerGroup = ({
           wrapperClassName="w-44"
           label="End date"
           defaultValue={parseDate(toDateValue)}
+          placement="bottom end"
           // TODO: enhance this logic
           {...(showEndDatePicker
             ? {

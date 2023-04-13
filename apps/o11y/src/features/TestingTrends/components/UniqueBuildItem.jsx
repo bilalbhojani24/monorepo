@@ -75,11 +75,11 @@ export default function UniqueBuildItem({ data }) {
       onClick={handleClick}
       role="presentation"
     >
-      <div className="pt-5">{renderStatusIcon()}</div>
+      <div className="pt-4">{renderStatusIcon()}</div>
 
-      <div className="flex flex-1 flex-col overflow-hidden p-4">
-        <div className="flex items-center justify-between">
-          <p className="text-base font-medium">{data?.name}</p>
+      <div className="flex flex-1 flex-col overflow-hidden p-4 pr-0">
+        <div className="flex items-start justify-between">
+          <p className="mr-3 text-base font-medium">{data?.name}</p>
           <PropagationBlocker className="text-xs">
             <StatusBadges
               statusStats={data.statusStats}
