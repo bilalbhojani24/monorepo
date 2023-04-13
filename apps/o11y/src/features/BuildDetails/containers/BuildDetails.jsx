@@ -202,12 +202,16 @@ function BuildDetails() {
       });
   };
 
-  const applyTestListFilter = ({ query, clearOnly = false }) => {
+  const applyTestListFilter = ({
+    query,
+    clearOnly = false,
+    isFullQuery = false
+  }) => {
     dispatch(resetTestListSlice());
     testListScrollPos.current = 0;
     scrollIndexMapping.current = {};
     if (!clearOnly) {
-      const searchString = `?tab=tests&${query}`;
+      const searchString = isFullQuery ? query : `?tab=tests&${query}`;
       navigate({ search: searchString });
     }
   };
@@ -223,6 +227,7 @@ function BuildDetails() {
         isNewItemLoading={isLoading}
         onUpdateBtnClick={onUpdateBtnClick}
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
+        applyTestListFilter={applyTestListFilter}
       />
       {activeTab.id === TABS.insights.id && (
         <div className="overflow-auto">

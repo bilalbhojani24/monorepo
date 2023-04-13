@@ -190,7 +190,7 @@ const TestList = ({
     const sanitizedAppliedFilters = { ...appliedFilters };
     delete sanitizedAppliedFilters?.tab;
     delete sanitizedAppliedFilters?.details;
-    return !isEqual(appliedFilters, EMPTY_APPLIED_FILTERS);
+    return !isEqual(sanitizedAppliedFilters, EMPTY_APPLIED_FILTERS);
   }, [appliedFilters]);
 
   useEffect(() => {

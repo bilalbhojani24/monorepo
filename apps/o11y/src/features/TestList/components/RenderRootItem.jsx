@@ -143,7 +143,7 @@ const RenderRootItem = ({ data }) => {
               </div>
             }
             title={
-              <div className="flex flex-col px-2">
+              <div className="flex flex-col">
                 <p className="text-base-900 break-words text-left text-sm font-normal">
                   {ReactHtmlParser(displayName, {
                     transform: transformUnsupportedTags
