@@ -20,7 +20,8 @@ const ListTreeNode = forwardRef(
       onNodeClick,
       onNodeOpen,
       isNodeSelected,
-      trailingVisualElement
+      trailingVisualElement,
+      hideIcon
     },
     ref
   ) => (
@@ -62,9 +63,11 @@ const ListTreeNode = forwardRef(
           )}
         </Disclosure.Button>
 
-        <div className="text-info-400 mr-2 h-5 w-5 shrink-0 select-none">
-          {leadingIcon || <MdFolder className="h-full w-full" />}
-        </div>
+        {!hideIcon && (
+          <div className="text-info-400 mr-2 h-5 w-5 shrink-0 select-none">
+            {leadingIcon || <MdFolder className="h-full w-full" />}
+          </div>
+        )}
 
         <div
           className={twClassNames(
@@ -120,7 +123,8 @@ ListTreeNode.propTypes = {
   onNodeOpen: PropTypes.func,
   isNodeSelected: PropTypes.bool,
   trailingVisualElement: PropTypes.node,
-  leadingIcon: PropTypes.node
+  leadingIcon: PropTypes.node,
+  hideIcon: PropTypes.bool
 };
 
 ListTreeNode.defaultProps = {
@@ -133,7 +137,8 @@ ListTreeNode.defaultProps = {
   onNodeOpen: () => {},
   isNodeSelected: false,
   trailingVisualElement: null,
-  leadingIcon: null
+  leadingIcon: null,
+  hideIcon: false
 };
 
 export default ListTreeNode;

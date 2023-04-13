@@ -23,6 +23,7 @@ const Checkbox = ({
   onChange,
   position,
   wrapperClassName,
+  inputClassName,
   ...props
 }) => {
   const ref = useRef();
@@ -64,7 +65,8 @@ const Checkbox = ({
               'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded',
               {
                 'cursor-not-allowed': disabled
-              }
+              },
+              inputClassName
             )}
             defaultChecked={defaultChecked}
             checked={checked}
@@ -147,7 +149,8 @@ Checkbox.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   position: PropTypes.oneOf(Object.values(CHECKBOX_POSITION_VARIANT)),
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  inputClassName: PropTypes.string
 };
 
 Checkbox.defaultProps = {
@@ -163,7 +166,8 @@ Checkbox.defaultProps = {
   name: 'checkbox',
   onChange: () => {},
   position: CHECKBOX_POSITION_VARIANT.left,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  inputClassName: ''
 };
 
 export default Checkbox;
