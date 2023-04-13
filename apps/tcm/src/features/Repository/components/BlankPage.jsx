@@ -9,7 +9,7 @@ import { routeFormatter } from 'utils/helperFunctions';
 
 import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
 
-import InlineAddTestCase from './InlineAddTestCase';
+import InlineAddTestCase from './AddEditTestCase/InlineAddTestCase';
 import useTestCases from './useTestCases';
 
 const BlankPage = forwardRef((props, ref) => {
@@ -46,11 +46,13 @@ const BlankPage = forwardRef((props, ref) => {
         </Link>
 
         <Link
-          to={`${AppRoute.IMPORT_CSV}${
-            projectId
-              ? `?project=${projectId}${folderId ? `&folder=${folderId}` : ''}`
+          to={
+            `${AppRoute.IMPORT_CSV}${
+              projectId ? `?project=${projectId}` : ''
+            }${folderId}`
+              ? `&folder=${folderId}`
               : ''
-          }`}
+          }
         >
           <TMButton
             wrapperClassName="ml-4 whitespace-nowrap w-64 py-3"

@@ -17,3 +17,6 @@ export const deleteProjectAPI = async (projectId) =>
 
 export const getUsersOfProjectAPI = async (projectId) =>
   fetchGet(`/api/v1/projects/${projectId}/users`);
+
+export const getCustomFieldsAPI = async (projectId) =>
+  fetchGet(`/api/v1/projects/${projectId}/form-fields`);
