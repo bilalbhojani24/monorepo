@@ -153,12 +153,15 @@ function TestListDefectType({ data }) {
           }
           theme="dark"
         >
-          <div className="pointer-events-none flex select-none items-center">
-            <p className="text-base-500 mr-2 cursor-not-allowed text-sm font-medium">
-              {issueType?.name}
-            </p>
-            <MdExpandMore className="text-base-500 cursor-not-allowed" />
-          </div>
+          <O11yButton
+            icon={<MdExpandMore className="text-base" />}
+            colors="white"
+            size="extra-small"
+            iconPlacement="end"
+            disabled
+          >
+            {issueType?.name}
+          </O11yButton>
         </O11yTooltip>
       ) : (
         <O11yDropdown onClick={(value) => handleIssueTypeChange(value)}>
@@ -171,9 +174,6 @@ function TestListDefectType({ data }) {
             >
               {issueType?.name}
             </O11yButton>
-            {/* <p className="text-base-700 mr-2 select-none text-sm font-medium">
-              {issueType?.name}
-            </p> */}
           </O11yDropdownTrigger>
 
           <O11yDropdownOptionGroup wrapperClassName="w-full">

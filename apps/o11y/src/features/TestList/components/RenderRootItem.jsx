@@ -27,7 +27,6 @@ import {
   transformUnsupportedTags
 } from 'utils/common';
 
-import RenderChildren from './RenderChildren';
 import RenderTestListItems from './RenderTestListItems';
 
 const RenderRootItem = ({ data }) => {
@@ -186,7 +185,7 @@ const RenderRootItem = ({ data }) => {
             <RenderTestListItems data={childrenElements.testListItems} />
           )}
           {childrenElements?.testRuns?.map((item) => (
-            <RenderChildren data={item} key={item.id} />
+            <RenderRootItem data={item} key={item.id} />
           ))}
         </AccordionPanel>
       </Accordion>

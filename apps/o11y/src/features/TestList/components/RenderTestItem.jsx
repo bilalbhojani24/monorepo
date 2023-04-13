@@ -151,7 +151,7 @@ const RenderTestItem = ({ item: data }) => {
             <TestListStackTrace details={details} />
           </div>
           <div
-            className={twClassNames('mb-2 flex items-center gap-3.5 pl-6', {
+            className={twClassNames('mb-2 flex items-center gap-2 pl-6', {
               'mt-1':
                 !details.retries?.length ||
                 !details.retries[details.retries.length - 1].logs?.[

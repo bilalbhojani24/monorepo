@@ -35,7 +35,7 @@ import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
 import FilterPills from './components/FilterPills';
-import RenderChildren from './components/RenderChildren';
+import RenderRootItem from './components/RenderRootItem';
 import TestListFilters from './components/TestListFilters';
 import TestListSearch from './components/TestListSearch';
 
@@ -51,9 +51,6 @@ const TestList = ({
   const [closedAccordionIds, setClosedAccordionIds] = useState({});
   const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
-  // const onAccordionChange = useCallback(() => {
-  //   setExpandAll(null);
-  // }, []);
 
   const OllyTestListingEvent = useCallback(
     (eventName, data = {}) => {
@@ -294,7 +291,7 @@ const TestList = ({
               data={testListData?.hierarchy}
               endReached={loadMoreData}
               overscan={20}
-              itemContent={(index, data) => <RenderChildren data={data} />}
+              itemContent={(index, data) => <RenderRootItem data={data} />}
             />
           </TestListContext.Provider>
         )}
