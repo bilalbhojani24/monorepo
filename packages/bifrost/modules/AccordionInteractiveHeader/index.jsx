@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Disclosure } from '@headlessui/react';
-import { ChevronRightIcon } from '@heroicons/react/20/solid';
 import PropTypes from 'prop-types';
+
+import { ChevronRightIcon } from '../Icon';
 
 const AccordionInteractiveHeader = ({
   trigger,
@@ -34,7 +35,7 @@ const AccordionInteractiveHeader = ({
                     type="button"
                     onClick={handleClick}
                     className={twClassNames(
-                      'flex cursor-pointer items-center gap-2.5 grow m-1 text-base-800 font-medium'
+                      'flex shrink-0 cursor-pointer items-center gap-2.5 grow m-1 text-base-800 font-medium'
                     )}
                   >
                     <ChevronRightIcon
@@ -74,7 +75,9 @@ const AccordionInteractiveHeader = ({
                 )}
           </Disclosure.Button>
           {asideContent && (
-            <div className="flex items-center truncate">{asideContent}</div>
+            <div className="flex shrink-0 items-center truncate">
+              {asideContent}
+            </div>
           )}
         </div>
         {children && <div className="ml-7 pl-0.5">{children}</div>}
