@@ -32,6 +32,7 @@ const usePreviewAndConfirm = () => {
     // make an api call
     const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');
+    // work here÷
     dispatch(
       startImportingTestCases({
         importId: mapFieldsConfig.importId,

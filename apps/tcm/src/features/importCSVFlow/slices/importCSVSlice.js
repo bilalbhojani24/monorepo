@@ -187,21 +187,23 @@ const importCSVSlice = createSlice({
       state.uploadFileProceedLoading = false;
     },
     startImportingTestCaseFulfilled: (state, { payload }) => {
-      if (payload.success) {
-        state.confirmCSVImportNotificationConfig.show = false;
-        state.confirmCSVImportNotificationConfig.status = 'success';
-        state.confirmCSVImportNotificationConfig.csvImportProjectId =
-          payload.project_id;
-        state.confirmCSVImportNotificationConfig.csvImportFolderId =
-          payload.folder_id;
-      }
+      // if (payload.success) {
+      state.confirmCSVImportNotificationConfig.show = false;
+      state.confirmCSVImportNotificationConfig.status = 'success';
+      state.confirmCSVImportNotificationConfig.csvImportProjectId =
+        payload.project_id;
+      state.confirmCSVImportNotificationConfig.csvImportFolderId =
+        payload.folder_id;
+      // }
     },
     startImportingTestCaseRejected: (state, { payload }) => {
       if (payload.response.status === 499) {
+        // failure
         state.confirmCSVImportNotificationConfig.show = false;
         state.confirmCSVImportNotificationConfig.status = '';
         state.confirmCSVImportNotificationConfig.modalData = null;
       } else {
+        // retry importing?
         state.confirmCSVImportNotificationConfig.show = true;
         state.confirmCSVImportNotificationConfig.status = 'failed';
         state.confirmCSVImportNotificationConfig.modalData =
