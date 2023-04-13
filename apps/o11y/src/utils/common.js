@@ -185,7 +185,7 @@ export const transformUnsupportedTags = (node, index) => {
   const updatedNode = node;
   if (
     updatedNode.type === 'tag' &&
-    SUPPORTED_HTML_TAGS.includes(updatedNode.name)
+    !SUPPORTED_HTML_TAGS.includes(updatedNode.name)
   ) {
     updatedNode.children = [
       {
