@@ -55,7 +55,7 @@ function TestListSearch({ o11yTestListingInteraction }) {
         ) : null
       }
       addOnBeforeInline={<MdSearch className="text-base-400 text-lg" />}
-      placeholder="Search builds by name or CI number"
+      placeholder="Search for name or error"
       onKeyDown={handleSearchTextChange}
       onChange={handleOnChange}
       wrapperClassName="max-w-md w-80 z-0"
