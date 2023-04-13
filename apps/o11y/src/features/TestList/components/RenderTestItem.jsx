@@ -163,7 +163,7 @@ const RenderTestItem = ({ item: data }) => {
             {details?.runCount > 1 && (
               <div>
                 <p className="text-base-500 mb-2 text-sm ">
-                  {details?.runCount} re-runs
+                  {details?.runCount} runs
                 </p>
               </div>
             )}
