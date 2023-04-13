@@ -161,7 +161,6 @@ const ScanDetails = () => {
             </div>
           </div>
           <div className="flex items-center">
-            {/* NOTE: Confirm the condition with Kaustubh */}
             {scanRunDataCommon?.nextScanDate &&
               userInfo.user_id === scanRunDataCommon?.createdBy?.id && (
                 <>
