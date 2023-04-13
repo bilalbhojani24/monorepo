@@ -32,6 +32,7 @@ const TestVideoPlayer = () => {
   const [isMainVideoPaused, setIsMainVideoPaused] = useState(true);
   const [isFloatingVideoPaused, setIsFloatingVideoPaused] = useState(true);
   const [isVideoMetaLoaded, setIsVideoMetaLoaded] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(true);
 
   const videoRef = useRef(null);
   const containerRef = useRef(null);
@@ -97,6 +98,10 @@ const TestVideoPlayer = () => {
     }
   };
 
+  const hideOverlay = () => {
+    setShowOverlay(false);
+  };
+
   const handleMetadataLoaded = () => {
     setIsVideoMetaLoaded(true);
   };
@@ -145,7 +150,7 @@ const TestVideoPlayer = () => {
 
   if (details.isLoading) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex h-96 w-full items-center justify-center">
         <O11yLoader />
       </div>
     );
@@ -165,6 +170,9 @@ const TestVideoPlayer = () => {
         onMetadataLoaded={handleMetadataLoaded}
         isPaused={isMainVideoPaused}
         setIsPaused={setIsMainVideoPaused}
+        showOverlay={showOverlay}
+        hideOverlay={hideOverlay}
+        isVideoMetaLoaded={isVideoMetaLoaded}
       />
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
@@ -184,6 +192,9 @@ const TestVideoPlayer = () => {
           onMetadataLoaded={() => {}}
           isPaused={isFloatingVideoPaused}
           setIsPaused={setIsFloatingVideoPaused}
+          showOverlay={showOverlay}
+          hideOverlay={hideOverlay}
+          isVideoMetaLoaded={isVideoMetaLoaded}
         />
       </DraggableComponent>
     </div>
