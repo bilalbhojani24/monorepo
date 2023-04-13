@@ -4,14 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
-  // O11yComboBox,
+  O11yComboBox,
   O11yDropdown,
   O11yDropdownOptionGroup,
-  O11yDropdownTrigger,
-  O11ySelectMenu,
-  O11ySelectMenuOptionGroup,
-  O11ySelectMenuOptionItem,
-  O11ySelectMenuTrigger
+  O11yDropdownTrigger
 } from 'common/bifrostProxy';
 import DatePickerGroup from 'common/DatePickerGroup';
 import {
@@ -164,9 +160,9 @@ export default function TestingTrendsHeader() {
     return BUILD_OPTIONS;
   }, [builds]);
 
-  // const selectedBuildListOptions = buildList.filter(
-  //   (el) => activeBuild === el.value
-  // );
+  const selectedBuildListOptions = buildList.filter(
+    (el) => activeBuild.value === el.value
+  );
 
   return (
     <div
@@ -245,35 +241,13 @@ export default function TestingTrendsHeader() {
         </div>
 
         <div>
-          <O11ySelectMenu
-            onChange={handleBuildChange}
-            defaultValue={activeBuild}
-          >
-            <O11ySelectMenuTrigger
-              placeholder="All Builds"
-              wrapperClassName="w-44"
-            />
-            <O11ySelectMenuOptionGroup alignment="end">
-              {buildList.map((item) => (
-                <O11ySelectMenuOptionItem
-                  key={item.value}
-                  option={item}
-                  checkPosition="right"
-                />
-              ))}
-            </O11ySelectMenuOptionGroup>
-          </O11ySelectMenu>
-          {/* <O11yComboBox
-            isMulti={false}
-            placeholder="Select"
+          <O11yComboBox
+            placeholder="Select a build"
+            value={selectedBuildListOptions[0]}
+            defaultValue={[buildList[0]]}
             options={buildList}
             onChange={handleBuildChange}
-            value={selectedBuildListOptions}
-            // defaultValue={buildList[0].label}
-            checkPosition
-            virtuosoWidth="320px"
-            optionsListWrapperClassName="min-w-max h-100 overflow-hidden"
-          /> */}
+          />
         </div>
       </div>
     </div>
