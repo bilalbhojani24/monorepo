@@ -34,6 +34,28 @@ export const EMPTY_TESTLIST_DATA_STATE = {
   buildId: ''
 };
 
+export const FILTER_TAGNAME_MAPPING = {
+  status: 'Status: ',
+  duration: 'Sort Duration: ',
+  issueType: 'Defect: ',
+  issueTypeGroup: 'Defect Group: ',
+  history: '',
+  error: 'Error: ',
+  name: 'Name: ',
+  flaky: 'Show Flaky: ',
+  browser: 'Browser: ',
+  os: 'OS: ',
+  device: 'Device: ',
+  tags: 'Tag: ',
+  host: 'Host: ',
+  search: 'Search: ',
+  isMuted: 'Show Muted: ',
+  hasJira: 'Jira Issue: ',
+  hasReRuns: 'Re-runs: ',
+  run: 'Run: ',
+  folder: 'Folder: '
+};
+
 export const singleItemTestDetails = {
   browser: PropTypes.shape({
     name: PropTypes.string,

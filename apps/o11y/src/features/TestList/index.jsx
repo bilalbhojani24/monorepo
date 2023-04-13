@@ -207,6 +207,8 @@ const TestList = ({
             transformedAppliedFilters[key] = true;
           } else if (Object.keys(EMPTY_STATIC_FILTERS).includes(key)) {
             transformedAppliedFilters[key] = value.split(',');
+          } else if (key === 'issueTypeGroup' && value.length) {
+            transformedAppliedFilters[key] = value;
           }
         });
         dispatch(setAppliedFilters(transformedAppliedFilters));
@@ -234,6 +236,8 @@ const TestList = ({
         } else if (key === 'isMuted' && appliedFilters[key] === true) {
           transformedAppliedFilters[key] = true;
         } else if (key === 'search' && appliedFilters[key].length) {
+          transformedAppliedFilters[key] = appliedFilters[key];
+        } else if (key === 'issueTypeGroup' && appliedFilters[key].length) {
           transformedAppliedFilters[key] = appliedFilters[key];
         }
       });
@@ -267,13 +271,14 @@ const TestList = ({
   }, [expandAll]);
 
   useEffect(() => {
-    const virtuosoNode = virtuosoRef.current;
-    setTimeout(() => {
-      virtuosoNode.scrollTo({
-        top: testListScrollPos,
-        behavior: 'smooth'
-      });
-    }, 100);
+    if (virtuosoRef.current) {
+      setTimeout(() => {
+        virtuosoRef.current.scrollTo({
+          top: testListScrollPos,
+          behavior: 'smooth'
+        });
+      }, 100);
+    }
   }, [testListScrollPos]);
 
   return (
