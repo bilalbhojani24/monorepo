@@ -17,6 +17,7 @@ import {
   resetTestListSlice,
   setTestList
 } from 'features/TestList/slices/testListSlice';
+import TestInsightsLayout from 'features/TestsInsights/containers/TestInsightsLayout';
 import { o11yNotify } from 'utils/notification';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
@@ -213,10 +214,8 @@ function BuildDetails() {
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
       />
       {activeTab.id === TABS.insights.id && (
-        <div className="overflow-auto px-8 py-4">
-          <div className="" style={{ height: '200vh' }}>
-            Build Insights
-          </div>
+        <div className="overflow-auto">
+          <TestInsightsLayout />
         </div>
       )}
       {activeTab.id === TABS.tests.id && (
