@@ -20,7 +20,7 @@ importers:
 
   apps/accessibility:
     specifiers:
-      '@browserstack/bifrost': 2.8.0
+      '@browserstack/bifrost': workspace:2.8.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*

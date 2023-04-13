@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import {
   Accordion,
+  AccordionPanel,
+  AccordionSimpleHeader,
   Button,
   Checkbox,
   Dropdown,
@@ -336,12 +338,18 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 ''
               )}
               <div className="pt-2">
-                <Accordion
+                <Accordion>
+                  <AccordionSimpleHeader
+                    title={<div>Additional settings</div>}
+                  />
+                </Accordion>
+                <AccordionPanel>{getAccordionBody()}</AccordionPanel>
+                {/* <Accordion
                   onTriggerClick={() => {}}
                   onChevronClick={() => {}}
-                  panelContentNode={getAccordionBody()}
-                  triggerContentNode={<div>Additional settings</div>}
-                />
+                  panelContentNode={}
+                  triggerContentNode={}
+                /> */}
               </div>
             </div>
           </div>

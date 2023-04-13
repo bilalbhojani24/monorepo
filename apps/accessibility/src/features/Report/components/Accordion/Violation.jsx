@@ -43,32 +43,28 @@ export default function Violation({ violation, index }) {
     <Accordion>
       <AccordionInteractiveHeader
         wrapperClassName={twClassNames(
-          'border-t border-base-200 py-1.5 bg-white',
+          'border-t border-base-200 py-2 bg-white',
           {
             'border-0': index === 0
           }
         )}
         onClick={updateOpenViolation}
         title={
-          <div className="flex w-full cursor-pointer items-center justify-between bg-white">
-            <div className="ml-2 flex items-center">
-              <p
-                className="text-base-900 mr-2 truncate text-sm"
-                style={{
-                  maxWidth: `${isHalfView ? maxWidthForFullView : '100%'}`
-                }}
-              >
-                {violation.help}
-              </p>
-              <div>
-                <Badge
-                  hasDot={false}
-                  hasRemoveButton={false}
-                  isRounded
-                  text={totalCount}
-                />
-              </div>
-            </div>
+          <div className="flex items-center">
+            <p
+              className="text-base-900 mr-2 truncate text-sm"
+              style={{
+                maxWidth: `${isHalfView ? maxWidthForFullView : '100%'}`
+              }}
+            >
+              {violation.help}
+            </p>
+            <Badge
+              hasDot={false}
+              hasRemoveButton={false}
+              isRounded
+              text={totalCount}
+            />
           </div>
         }
         asideContent={
