@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   MdCancel,
@@ -20,13 +20,9 @@ import { getCustomTimeStamp } from 'utils/dateTime';
 import { getBuildPath } from 'utils/routeUtils';
 
 export default function UniqueBuildItem({ data }) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const activeProject = useSelector(getActiveProject);
   const handleClick = () => {
-    if (data?.uuid) {
-      // dispatch(setActiveBuildId(data?.uuid));
-    }
     window.scrollTo(0, 0);
     navigate(
       getBuildPath(
@@ -36,16 +32,13 @@ export default function UniqueBuildItem({ data }) {
       )
     );
   };
-  const handleTagClick = (key, value) => {
-    if (data?.uuid) {
-      // dispatch(setActiveBuildId(data?.uuid));
-    }
+  const handleTagClick = (itemCategory, itemClicked) => {
     navigate(
       `${getBuildPath(
         activeProject.normalisedName,
         data?.normalisedName,
         data?.buildNumber
-      )}?tab=tests&${key}=${value}`
+      )}?tab=tests&${itemCategory}=${itemClicked}`
     );
   };
 
@@ -83,7 +76,9 @@ export default function UniqueBuildItem({ data }) {
           <PropagationBlocker className="text-xs">
             <StatusBadges
               statusStats={data.statusStats}
-              onClickHandler={handleTagClick}
+              onClickHandler={(clickData) =>
+                handleTagClick('status', clickData.itemClicked)
+              }
             />
           </PropagationBlocker>
         </div>
