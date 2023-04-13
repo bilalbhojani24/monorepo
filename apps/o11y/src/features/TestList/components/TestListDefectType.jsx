@@ -177,7 +177,8 @@ function TestListDefectType({ data }) {
           </O11yDropdownTrigger>
 
           <O11yDropdownOptionGroup wrapperClassName="w-full">
-            <div className="h-44 overflow-y-auto">
+            {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+            <div className="h-[10.25rem] overflow-y-auto">
               {menuOptions?.map((singleMenu) => (
                 <O11yDropdownOptionItem
                   key={singleMenu.value}
