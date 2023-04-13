@@ -64,16 +64,16 @@ export default function UniqueBuildItem({ data }) {
 
   return (
     <div
-      className="border-base-200 pointer-events-auto flex cursor-pointer border-b"
+      className="border-base-200 hover:bg-base-100 pointer-events-auto mt-1 flex cursor-pointer border-b hover:rounded"
       onClick={handleClick}
       role="presentation"
     >
-      <div className="pt-4">{renderStatusIcon()}</div>
+      <div className="pt-4 pl-3">{renderStatusIcon()}</div>
 
       <div className="flex flex-1 flex-col overflow-hidden p-4 pr-0">
         <div className="flex items-start justify-between">
           <p className="mr-3 text-base font-medium">{data?.name}</p>
-          <PropagationBlocker className="text-xs">
+          <PropagationBlocker className="pr-3 text-xs">
             <StatusBadges
               statusStats={data.statusStats}
               onClickHandler={(clickData) =>
