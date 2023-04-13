@@ -18,8 +18,8 @@ const AddEditTestCaseCustomField = () => {
         <div className="mt-4 w-1/2">
           <TMInputField
             id="test-case-name"
-            label={item?.field_name}
-            placeholder={`Enter ${item?.field_name}`}
+            label={item?.field_user_name}
+            placeholder={`Enter ${item?.field_user_name}`}
             value={testCaseFormData[item?.id]}
             onChange={(e) =>
               handleTestCaseFieldChange(

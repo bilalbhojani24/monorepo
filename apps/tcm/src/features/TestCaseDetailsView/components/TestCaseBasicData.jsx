@@ -234,9 +234,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           <DetailsSnippet
             key={field?.field_name}
             parseContent
-            title={
-              <span className="capitalize">{field?.split('_')?.join(' ')}</span>
-            }
+            title={<span className="capitalize">{field.field_user_name}</span>}
             value={field?.value}
           />
         ))}
