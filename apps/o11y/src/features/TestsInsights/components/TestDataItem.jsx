@@ -27,7 +27,7 @@ export default function TestDataItem({ data }) {
           role="presentation"
           key={item?.details?.id}
         >
-          <div>
+          <div className="w-full">
             <>
               <p className="text-base-900 break-words text-sm font-medium">
                 {item.title}

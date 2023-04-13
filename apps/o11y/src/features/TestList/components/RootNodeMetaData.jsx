@@ -34,6 +34,8 @@ export default function RootNodeMetaData({
                   ? `icon-${browser.name.toLowerCase()}`
                   : `device_icon`
               }
+              openTextInTooltip
+              tooltipTheme="dark"
               text={device}
             />
           </div>
@@ -42,6 +44,8 @@ export default function RootNodeMetaData({
             {browser?.name && (
               <div className="mr-2">
                 <DetailIcon
+                  openTextInTooltip
+                  tooltipTheme="dark"
                   icon={`icon-${browser.name.toLowerCase()}`}
                   text={`${capitalize(browser.name)} ${browser.version}`}
                 />
@@ -51,21 +55,25 @@ export default function RootNodeMetaData({
         )}
         {os?.name && (
           <DetailIcon
+            openTextInTooltip
+            tooltipTheme="dark"
             icon={`icon-${getOsIconName(os.name)}`}
             text={`${getShortOSName(os.name)} ${os.version}`}
           />
         )}
       </div>
       <div
-        className={twClassNames('flex gap-1 items-center w-[150px]', {
+        className={twClassNames('flex gap-1 items-center  w-[150px] flex-1', {
           "after:content-[''] after:w-1 after:h-1 after:rounded":
             !!startedAt || !!middleScopes?.length
         })}
       >
-        <MdFolderOpen className="h-8 w-8" />
+        <span>
+          <MdFolderOpen className="h-5 w-5" />
+        </span>
         {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
-          className="truncate  text-sm"
+          className="truncate text-sm"
           role="button"
           tabIndex="0"
           onClick={(e) => e.stopPropagation()}
