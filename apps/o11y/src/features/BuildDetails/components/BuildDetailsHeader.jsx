@@ -89,7 +89,7 @@ function BuildDetailsHeader({
   }, [buildUUID, dispatch]);
 
   const onTabChange = (tabInfo) => {
-    const searchParams = new URLSearchParams(window?.location?.search);
+    const searchParams = new URLSearchParams();
     const activeIndex = Object.keys(TABS).findIndex(
       (item) => item === tabInfo.value
     );

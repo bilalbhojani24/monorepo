@@ -58,6 +58,6 @@ export default TestListStackTrace;
 
 TestListStackTrace.propTypes = {
   details: PropTypes.shape(singleItemTestDetails).isRequired,
-  wrapperClassName: PropTypes.string.isRequired
+  wrapperClassName: PropTypes.string
 };
-TestListStackTrace.defaultProps = {};
+TestListStackTrace.defaultProps = { wrapperClassName: '' };

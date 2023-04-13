@@ -83,7 +83,6 @@ function TestlistTimeline({ details }) {
 
 export default TestlistTimeline;
 TestlistTimeline.propTypes = {
-  details: PropTypes.shape(singleItemTestDetails).isRequired,
-  wrapperClassName: PropTypes.string.isRequired
+  details: PropTypes.shape(singleItemTestDetails).isRequired
 };
 TestlistTimeline.defaultProps = {};

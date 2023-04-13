@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
@@ -42,7 +48,11 @@ import TestListSearch from './components/TestListSearch';
 const TestList = ({
   buildUUID,
   testDefectTypeMapping,
-  updateTestDefectTypeMapping
+  updateTestDefectTypeMapping,
+  updateTestScrollPos,
+  testListScrollPos,
+  scrollIndexMapping,
+  updateScrollIndexMapping
 }) => {
   const dispatch = useDispatch();
   const { isMounted } = useIsUnmounted();
@@ -51,6 +61,7 @@ const TestList = ({
   const [closedAccordionIds, setClosedAccordionIds] = useState({});
   const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
+  const virtuosoRef = useRef(null);
 
   const OllyTestListingEvent = useCallback(
     (eventName, data = {}) => {
@@ -145,20 +156,22 @@ const TestList = ({
       testDefectTypeMapping,
       updateTestDefectTypeMapping,
       expandAll,
-      // onAccordionChange,
       closedAccordionIds,
       setClosedAccordionIds,
-      o11yTestListingInteraction
+      o11yTestListingInteraction,
+      scrollIndexMapping,
+      updateScrollIndexMapping
     }),
     [
       expandAll,
       buildUUID,
-      // onAccordionChange,
       testDefectTypeMapping,
       updateTestDefectTypeMapping,
       closedAccordionIds,
       setClosedAccordionIds,
-      o11yTestListingInteraction
+      o11yTestListingInteraction,
+      scrollIndexMapping,
+      updateScrollIndexMapping
     ]
   );
 
@@ -173,29 +186,36 @@ const TestList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted]);
 
+  const isFiltersApplied = useMemo(() => {
+    const sanitizedAppliedFilters = { ...appliedFilters };
+    delete sanitizedAppliedFilters?.tab;
+    delete sanitizedAppliedFilters?.details;
+    return !isEqual(appliedFilters, EMPTY_APPLIED_FILTERS);
+  }, [appliedFilters]);
+
   useEffect(() => {
     if (buildUUID) {
-      const searchParams = new URLSearchParams(window?.location?.search);
-      const transformedAppliedFilters = {
-        tab: 'tests'
-      };
-      Array.from(searchParams).forEach(([key, value]) => {
-        if (key === 'search' && value.length) {
-          transformedAppliedFilters[key] = value;
-        } else if (key === 'isMuted' && value === 'true') {
-          transformedAppliedFilters[key] = true;
-        } else if (Object.keys(EMPTY_STATIC_FILTERS).includes(key)) {
-          transformedAppliedFilters[key] = value.split(',');
-        }
-      });
-      dispatch(setAppliedFilters(transformedAppliedFilters));
+      if (!isFiltersApplied) {
+        const searchParams = new URLSearchParams(window?.location?.search);
+        const transformedAppliedFilters = {
+          tab: 'tests'
+        };
+        Array.from(searchParams).forEach(([key, value]) => {
+          if (key === 'search' && value.length) {
+            transformedAppliedFilters[key] = value;
+          } else if (key === 'isMuted' && value === 'true') {
+            transformedAppliedFilters[key] = true;
+          } else if (Object.keys(EMPTY_STATIC_FILTERS).includes(key)) {
+            transformedAppliedFilters[key] = value.split(',');
+          }
+        });
+        dispatch(setAppliedFilters(transformedAppliedFilters));
+      }
       // Onload we don't make a call to load data instead we update applied
-      // - filters and its in use effect dependency which trigger loading of fresh data
+      // filters and its in use effect dependency which trigger loading of fresh data
       dispatch(getTestlistFiltersData({ buildId: buildUUID }));
     }
-    return () => {
-      resetReduxStore(['selected', 'applied', 'staticFilters', 'testList']);
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, buildUUID, resetReduxStore]);
 
   useEffect(() => {
@@ -246,15 +266,15 @@ const TestList = ({
     });
   }, [expandAll]);
 
-  const isFiltersApplied = useMemo(() => {
-    const emptyFilters = { ...EMPTY_APPLIED_FILTERS };
-    emptyFilters.tab = 'tests';
-    const searchParams = new URLSearchParams(window.location.search);
-    if (searchParams.get('details')) {
-      emptyFilters.details = searchParams.get('details');
-    }
-    return !isEqual(appliedFilters, emptyFilters);
-  }, [appliedFilters]);
+  useEffect(() => {
+    const virtuosoNode = virtuosoRef.current;
+    setTimeout(() => {
+      virtuosoNode.scrollTo({
+        top: testListScrollPos,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }, [testListScrollPos]);
 
   return (
     <>
@@ -287,11 +307,15 @@ const TestList = ({
         {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
           <TestListContext.Provider value={testListContextValues}>
             <Virtuoso
+              ref={virtuosoRef}
               style={{ zIndex: 0 }}
               data={testListData?.hierarchy}
               endReached={loadMoreData}
               overscan={20}
               itemContent={(index, data) => <RenderRootItem data={data} />}
+              onScroll={(e) => {
+                updateTestScrollPos(e.target.scrollTop);
+              }}
             />
           </TestListContext.Provider>
         )}
@@ -333,10 +357,14 @@ const TestList = ({
   );
 };
 
-export default TestList;
+export default React.memo(TestList);
 
 TestList.propTypes = {
   buildUUID: PropTypes.string.isRequired,
   testDefectTypeMapping: PropTypes.objectOf(PropTypes.number).isRequired,
-  updateTestDefectTypeMapping: PropTypes.func.isRequired
+  updateTestDefectTypeMapping: PropTypes.func.isRequired,
+  updateTestScrollPos: PropTypes.func.isRequired,
+  testListScrollPos: PropTypes.number.isRequired,
+  updateScrollIndexMapping: PropTypes.func.isRequired,
+  scrollIndexMapping: PropTypes.objectOf(PropTypes.any).isRequired
 };

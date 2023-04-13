@@ -182,7 +182,10 @@ const RenderRootItem = ({ data }) => {
         </div>
         <AccordionPanel wrapperClassName="bg-white pl-0" controller={isOpen}>
           {!!childrenElements?.testListItems.length && (
-            <RenderTestListItems data={childrenElements.testListItems} />
+            <RenderTestListItems
+              data={childrenElements.testListItems}
+              parentId={data.id}
+            />
           )}
           {childrenElements?.testRuns?.map((item) => (
             <RenderRootItem data={item} key={item.id} />

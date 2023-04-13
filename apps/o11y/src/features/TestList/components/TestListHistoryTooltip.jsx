@@ -8,7 +8,7 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
-import { LOG_TYPES, statusObjectPropType } from 'features/TestList/constants';
+import { LOG_TYPES } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getTestHistoryDetails } from 'features/TestList/slices/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -167,6 +167,6 @@ export default TestListHistoryTooltip;
 
 TestListHistoryTooltip.propTypes = {
   testRunId: PropTypes.number.isRequired,
-  status: PropTypes.shape(statusObjectPropType).isRequired
+  status: PropTypes.string.isRequired
 };
 TestListHistoryTooltip.defaultProps = {};

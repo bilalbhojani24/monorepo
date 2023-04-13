@@ -40,7 +40,7 @@ const O11yComboBox = ({
     <ComboBox
       onChange={onChange}
       value={value}
-      isMulti={filteredOptions.length && isMulti}
+      isMulti={!!filteredOptions.length && isMulti}
       disabled={disabled}
     >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
@@ -9,6 +9,7 @@ import TestList from 'features/TestList';
 import { EMPTY_TESTLIST_DATA_STATE } from 'features/TestList/constants';
 import {
   getTestListData,
+  resetTestListSlice,
   setTestList
 } from 'features/TestList/slices/testListSlice';
 import { o11yNotify } from 'utils/notification';
@@ -50,12 +51,16 @@ function BuildDetails() {
     params.buildSerialId,
     params.projectNormalisedName
   ]);
+  const testListScrollPos = useRef(0);
+  const scrollIndexMapping = useRef({});
 
   useEffect(() => {
     fetchBuildId();
   }, [fetchBuildId]);
+
   useEffect(
     () => () => {
+      dispatch(resetTestListSlice());
       dispatch(clearBuildUUID());
       setTestDefectTypeMapping({});
       dispatch(
@@ -132,6 +137,16 @@ function BuildDetails() {
     };
   }, [buildUUID]);
 
+  // [START] Test list scroll positioning handling
+  const updateTestScrollPos = useCallback((pos) => {
+    testListScrollPos.current = pos;
+  }, []);
+
+  const updateScrollIndexMapping = useCallback((data) => {
+    scrollIndexMapping.current[data.id] = data;
+  }, []);
+  // [END]Test list scroll positioning handling
+
   if (!buildUUID) {
     return (
       <div className="bg-base-50 flex h-screen w-full items-center justify-center">
@@ -195,6 +210,10 @@ function BuildDetails() {
           buildUUID={buildUUID}
           testDefectTypeMapping={testDefectTypeMapping}
           updateTestDefectTypeMapping={updateTestDefectTypeMapping}
+          updateTestScrollPos={updateTestScrollPos}
+          testListScrollPos={testListScrollPos.current}
+          scrollIndexMapping={scrollIndexMapping.current}
+          updateScrollIndexMapping={updateScrollIndexMapping}
         />
       )}
     </>
