@@ -2,9 +2,14 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
+import {
+  API_STATUSES,
+  PUSHER_EVENTS,
+  WRAPPER_GAP_CLASS
+} from 'constants/common';
 import TestList from 'features/TestList';
 import { EMPTY_TESTLIST_DATA_STATE } from 'features/TestList/constants';
 import {
@@ -196,14 +201,23 @@ function BuildDetails() {
   };
 
   return (
-    <>
+    <div
+      className={twClassNames(
+        'flex flex-col overflow-hidden',
+        WRAPPER_GAP_CLASS
+      )}
+    >
       <BuildDetailsHeader
         isNewItemLoading={isLoading}
         onUpdateBtnClick={onUpdateBtnClick}
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
       />
       {activeTab.id === TABS.insights.id && (
-        <div className="px-8 py-4">Build Insights</div>
+        <div className="overflow-auto px-8 py-4">
+          <div className="" style={{ height: '200vh' }}>
+            Build Insights
+          </div>
+        </div>
       )}
       {activeTab.id === TABS.tests.id && (
         <TestList
@@ -216,7 +230,7 @@ function BuildDetails() {
           updateScrollIndexMapping={updateScrollIndexMapping}
         />
       )}
-    </>
+    </div>
   );
 }
 
