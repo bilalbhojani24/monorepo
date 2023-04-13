@@ -27,6 +27,7 @@ function TestListActionItems({ details }) {
   const { buildUUID } = useContext(TestListContext);
   const activeProject = useSelector(getActiveProject);
   const buildMeta = useSelector(getBuildMeta);
+  const [isLoadingBugDetails, setIsLoadingBugDetails] = useState(false);
 
   const handleMuteUnmuteTestCase = (shouldMute) => {
     const itemID = details?.id;
@@ -81,13 +82,21 @@ function TestListActionItems({ details }) {
 
   const handleReportBugClick = async () => {
     OllyTestListingEvent('O11yReportBugClicked');
-    dispatch(toggleWidget(true));
+    dispatch(toggleWidget(false));
+    setIsLoadingBugDetails(true);
     dispatch(
       getTestReportDetails({
         buildId: buildUUID,
         testRunId: details.id
       })
-    );
+    )
+      .unwrap()
+      .then(() => {
+        dispatch(toggleWidget(true));
+      })
+      .finally(() => {
+        setIsLoadingBugDetails(false);
+      });
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -154,6 +163,7 @@ function TestListActionItems({ details }) {
             type="button"
             colors="white"
             isIconOnlyButton
+            loading={isLoadingBugDetails}
             size="extra-small"
             onClick={handleReportBugClick}
             icon={<MdOutlineBugReport className="h-5 w-5" />}

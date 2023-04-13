@@ -13,7 +13,6 @@ import { O11yButton, O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
-import IntegrationsWidget from 'features/IntegrationsWidget';
 import TestDetails from 'features/TestDetails';
 import {
   EMPTY_APPLIED_FILTERS,
@@ -358,7 +357,6 @@ const TestList = ({
             </div>
           )}
       </div>
-      <IntegrationsWidget />
       <TestDetails source={TEST_DETAILS_SOURCE.TESTS_LISTING} />
     </>
   );

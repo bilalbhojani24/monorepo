@@ -1,7 +1,9 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineBugReport } from '@browserstack/bifrost';
 import { O11yButton, O11yTabs } from 'common/bifrostProxy';
+import { toggleWidget } from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
+import { getTestReportDetails } from 'features/TestList/slices/testListSlice';
 
 import SessionTestToggle from '../components/SessionTestToggle';
 import { useLogsContext } from '../contexts/LogsContext';
@@ -24,8 +26,10 @@ const tabs = [
 ];
 
 const TestsLogsInfoTabs = () => {
+  const dispatch = useDispatch();
   const details = useSelector(getTestDetails);
   const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
+  const [isLoadingBugDetails, setIsLoadingBugDetails] = useState(false);
   const { videoSeekTime, sessionTestToggle, activeTab, setActiveTab } =
     useLogsContext();
 
@@ -37,6 +41,27 @@ const TestsLogsInfoTabs = () => {
       idx: activeIndex,
       value: tabInfo.value
     });
+  };
+
+  const handleReportBugClick = async () => {
+    handleLogTDInteractionEvent({
+      interaction: 'report_bug_clicked'
+    });
+    dispatch(toggleWidget(false));
+    setIsLoadingBugDetails(true);
+    dispatch(
+      getTestReportDetails({
+        buildId: 'tee',
+        testRunId: details.id
+      })
+    )
+      .unwrap()
+      .then(() => {
+        dispatch(toggleWidget(true));
+      })
+      .finally(() => {
+        setIsLoadingBugDetails(false);
+      });
   };
 
   return (
@@ -55,11 +80,8 @@ const TestsLogsInfoTabs = () => {
             isIconOnlyButton
             icon={<MdOutlineBugReport className="h-full w-full" />}
             colors="white"
-            onClick={() => {
-              handleLogTDInteractionEvent({
-                interaction: 'report_bug_clicked'
-              });
-            }}
+            onClick={handleReportBugClick}
+            loading={isLoadingBugDetails}
           />
         </div>
       </div>

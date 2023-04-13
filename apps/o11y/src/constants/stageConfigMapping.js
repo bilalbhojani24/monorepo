@@ -6,7 +6,8 @@ const STAGING_CONFIG = (envName) => ({
   apiUrl: 'https://devtestops-api.bsstag.com',
   baseUrl: 'https://devtestops.bsstag.com',
   withCredentials: true,
-  integrationsBaseUrl: 'https://integrations-preprod.bsstag.com'
+  integrationsBaseUrl: 'https://integrations-preprod.bsstag.com',
+  useIntegrationsPreProdAuth: true
 });
 
 export default {
@@ -17,7 +18,8 @@ export default {
     apiUrl: 'https://localhost:8082/testops',
     baseUrl: STAGING_CONFIG('').baseDocUrl,
     withCredentials: false,
-    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
+    useIntegrationsPreProdAuth: true
   },
   'local-staging': {
     cookiePrefix: `development${COOKIE_SEPARATOR}`,
@@ -26,7 +28,8 @@ export default {
     baseUrl: STAGING_CONFIG('').baseUrl,
     apiUrl: STAGING_CONFIG('').apiUrl,
     withCredentials: true,
-    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
+    useIntegrationsPreProdAuth: true
   },
   staging: {
     ...STAGING_CONFIG('devtestops')
@@ -44,7 +47,8 @@ export default {
     apiUrl: 'https://api-observability-preprod.bsstag.com',
     baseUrl: 'https://preprod.bsstag.com',
     withCredentials: true,
-    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
+    useIntegrationsPreProdAuth: false
   },
   production: {
     cookiePrefix: '',
@@ -55,6 +59,7 @@ export default {
     withCredentials: true,
     enableAnalytics: true,
     integrationsBaseUrl: '',
-    disableLogs: true
+    disableLogs: true,
+    useIntegrationsPreProdAuth: false
   }
 };

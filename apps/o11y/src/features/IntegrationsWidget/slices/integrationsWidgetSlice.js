@@ -8,7 +8,7 @@ const { reducer, actions } = createSlice({
     isOpen: false,
     isLoading: false,
     configuration: {
-      position: 'left'
+      position: 'right'
     },
     data: {
       description: ''

@@ -1,6 +1,7 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CreateIssue } from '@browserstack/integrations';
+import { versionedBaseRoute } from 'constants/common';
 import { getEnvConfig } from 'utils/common';
 
 import { toggleWidget } from './slices/integrationsWidgetSlice';
@@ -9,8 +10,12 @@ import {
   getWidgetConfiguration,
   getWidgetData
 } from './slices/selectors';
+import {
+  STATIC_INTEGRATIONS_PREPROD_TOKEN,
+  STATIC_INTEGRATIONS_PREPROD_URL
+} from './constants';
 
-const IntegrationsWidget = forwardRef((_, ref) => {
+const IntegrationsWidget = () => {
   const isOpen = useSelector(getIsWidgetOpen);
   const configuration = useSelector(getWidgetConfiguration);
   const data = useSelector(getWidgetData);
@@ -20,13 +25,16 @@ const IntegrationsWidget = forwardRef((_, ref) => {
     dispatch(toggleWidget(false));
   };
 
-  const auth = {
-    url: 'https://integrations-preprod.bsstag.com/api/user-access-tokens?unique_user_id=91',
-    headers: {
-      Authorization:
-        'Basic aW50ZWdyYXRpb25zc2Vydl9VRWMzQVg6aHNzZXN4eW1STVRjb3pEVlBlZkM='
-    }
-  };
+  const auth = getEnvConfig().useIntegrationsPreProdAuth
+    ? {
+        url: STATIC_INTEGRATIONS_PREPROD_URL,
+        headers: {
+          Authorization: STATIC_INTEGRATIONS_PREPROD_TOKEN
+        }
+      }
+    : {
+        url: `${versionedBaseRoute()}/integration-service/accessToken`
+      };
 
   const options = {
     description: data.description,
@@ -37,7 +45,7 @@ const IntegrationsWidget = forwardRef((_, ref) => {
     },
     errorCallback: (error) => {
       // eslint-disable-next-line no-console
-      console.log('error :>> ', error, ref);
+      console.log('error :>> ', error, configuration?.ref);
     }
   };
 
@@ -46,19 +54,14 @@ const IntegrationsWidget = forwardRef((_, ref) => {
       isOpen={isOpen}
       handleClose={handleCloseWidget}
       position={configuration.position}
-      positionRef={ref?.current ? ref : null}
-      // auth={{
-      //   url: `${versionedBaseRoute()}/integration-service/accessToken`
-      // }}
+      positionRef={configuration?.ref ? configuration.ref : null}
       auth={auth}
-      // Used to configure the Env
       config={{
         baseURL: getEnvConfig().integrationsBaseUrl
       }}
-      // Optional Fields
       options={options}
     />
   );
-});
+};
 
 export default IntegrationsWidget;

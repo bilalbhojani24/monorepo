@@ -5,6 +5,7 @@ import { NotificationsContainer } from '@browserstack/bifrost';
 import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { ROUTES } from 'constants/routes';
+import IntegrationsWidget from 'features/IntegrationsWidget';
 import Sidebar from 'features/Sidebar';
 import { getProjects } from 'globalSlice/selectors';
 
@@ -26,6 +27,7 @@ const LayoutWSidebar = () => {
           </div>
         </Suspense>
       </main>
+      <IntegrationsWidget />
       <NotificationsContainer />
     </>
   );

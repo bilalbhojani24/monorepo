@@ -118,7 +118,7 @@ export const getTestListData = createAsyncThunk(
 
 export const getTestReportDetails = createAsyncThunk(
   `${sliceName}/getTestReportDetails`,
-  async (data, { dispatch }) => {
+  async (data, { dispatch, rejectWithValue }) => {
     let description = `\n\n Open [URL|${window.location.href}] on Browserstack\n`;
     try {
       const response = await getBugDetails(data.buildId, data.testRunId);
@@ -141,6 +141,7 @@ export const getTestReportDetails = createAsyncThunk(
           description
         })
       );
+      return response;
     } catch (err) {
       description += `\n\n ${getTableRow('Build Id', data.buildId)}`;
       description += getTableRow('Test Id', data.testRunId);
@@ -149,6 +150,7 @@ export const getTestReportDetails = createAsyncThunk(
           description
         })
       );
+      return rejectWithValue(err);
     }
   }
 );
