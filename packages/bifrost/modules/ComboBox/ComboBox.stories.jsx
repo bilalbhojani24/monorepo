@@ -8,6 +8,7 @@ import ComboboxLabel from '../ComboboxLabel';
 import ComboboxOptionGroup from '../ComboboxOptionGroup';
 import ComboboxOptionItem from '../ComboboxOptionItem';
 import ComboboxTrigger from '../ComboboxTrigger';
+import { ControlledCheckboxNestedTreeExample } from '../ListTree/ListTree.stories';
 
 import { COMBOBOX_OPTIONS } from './const/comboBoxConstants';
 import ComboBox from './index';
@@ -168,6 +169,19 @@ export const ControlledCombobox = () => {
         {COMBOBOX_OPTIONS.map((item) => (
           <ComboboxOptionItem key={item.value} option={item} />
         ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
+};
+
+export const ComboboxFolderFilter = () => {
+  const [selected, setSelected] = useState([]);
+  return (
+    <ComboBox onChange={(val) => setSelected(val)} value={selected} isMulti>
+      <ComboboxLabel>Filter By Folder</ComboboxLabel>
+      <ComboboxTrigger placeholder="Select a Folder / File" />
+      <ComboboxOptionGroup>
+        <ControlledCheckboxNestedTreeExample />
       </ComboboxOptionGroup>
     </ComboBox>
   );
