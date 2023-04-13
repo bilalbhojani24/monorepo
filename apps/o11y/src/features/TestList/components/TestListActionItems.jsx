@@ -1,13 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   MdOutlineBugReport,
-  MdOutlineNotificationsActive,
-  MdOutlineNotificationsOff,
+  MdOutlineVolumeOff,
+  MdOutlineVolumeUp,
   MdRedo
 } from '@browserstack/bifrost';
-import { O11yButton } from 'common/bifrostProxy';
+import { O11yButton, O11yTooltip } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
+import PropagationBlocker from 'common/PropagationBlocker';
 import { TEST_STATUS } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
@@ -27,13 +28,6 @@ function TestListActionItems({ details }) {
   const activeProject = useSelector(getActiveProject);
   const buildMeta = useSelector(getBuildMeta);
 
-  const getMutedStatus = () => {
-    if (updatedMutedStatus !== null) {
-      return updatedMutedStatus;
-    }
-    return details?.isMuted;
-  };
-
   const handleMuteUnmuteTestCase = (shouldMute) => {
     const itemID = details?.id;
     dispatch(
@@ -43,7 +37,6 @@ function TestListActionItems({ details }) {
           buildId: buildUUID,
           testRunId: itemID,
           shouldMute,
-          itemType: 'mute',
           onSuccess: () => {
             setUpdatedMutedStatus(shouldMute);
           }
@@ -103,57 +96,99 @@ function TestListActionItems({ details }) {
   };
 
   useEffect(() => {
-    window.pubSub.subscribe('onToggleMuteStatus', ({ testRunId, status }) => {
-      if (details.id === testRunId) {
-        setUpdatedMutedStatus(status);
+    const unSubscribe = window.pubSub.subscribe(
+      'onToggleMuteStatus',
+      ({ testRunId, status }) => {
+        if (details.id === testRunId) {
+          setUpdatedMutedStatus(status);
+        }
       }
-    });
+    );
+    return () => {
+      unSubscribe();
+    };
   }, [details.id]);
 
+  const getMutedStatus = useMemo(() => {
+    if (updatedMutedStatus !== null) {
+      return updatedMutedStatus;
+    }
+    return details?.isMuted;
+  }, [details?.isMuted, updatedMutedStatus]);
+
   return (
-    <div className="hidden items-center justify-end group-hover:flex">
+    <PropagationBlocker className="hidden items-center justify-end gap-1 group-hover:flex">
       {details.status === TEST_STATUS.FAIL && (
-        <O11yButton
-          type="button"
-          colors="white"
-          isIconOnlyButton
-          size="extra-small"
-          onClick={handleRerunButtonClick}
-          icon={<MdRedo className="h-5 w-5" />}
-        />
-      )}
-      <div className="mx-1">
-        {getMutedStatus() ? (
+        <O11yTooltip
+          theme="dark"
+          placementSide="top"
+          wrapperClassName="py-2"
+          content={
+            <div className="mx-4">
+              <p className="text-base-300 text-sm">Re-run</p>
+            </div>
+          }
+        >
           <O11yButton
             type="button"
             colors="white"
             isIconOnlyButton
             size="extra-small"
-            onClick={() => handleMuteUnmuteTestCase(false)}
-            icon={<MdOutlineNotificationsOff className="h-5 w-5" />}
+            onClick={handleRerunButtonClick}
+            icon={<MdRedo className="h-5 w-5" />}
           />
-        ) : (
+        </O11yTooltip>
+      )}
+      {details.status === TEST_STATUS.FAIL && (
+        <O11yTooltip
+          theme="dark"
+          placementSide="top"
+          wrapperClassName="py-2"
+          content={
+            <div className="mx-4">
+              <p className="text-base-300 text-sm">Report a bug</p>
+            </div>
+          }
+        >
           <O11yButton
             type="button"
             colors="white"
             isIconOnlyButton
             size="extra-small"
-            onClick={() => handleMuteUnmuteTestCase(true)}
-            icon={<MdOutlineNotificationsActive className="h-5 w-5" />}
+            onClick={handleReportBugClick}
+            icon={<MdOutlineBugReport className="h-5 w-5" />}
           />
-        )}
-      </div>
-      {details.status === TEST_STATUS.FAIL && (
+        </O11yTooltip>
+      )}
+
+      <O11yTooltip
+        theme="dark"
+        placementSide="top"
+        wrapperClassName="py-2"
+        content={
+          <div className="mx-4">
+            <p className="text-base-300 text-sm">
+              {getMutedStatus ? 'Un-Mute' : 'Mute'} Test
+            </p>
+          </div>
+        }
+      >
         <O11yButton
           type="button"
           colors="white"
           isIconOnlyButton
           size="extra-small"
-          onClick={handleReportBugClick}
-          icon={<MdOutlineBugReport className="h-5 w-5" />}
+          onClick={() => handleMuteUnmuteTestCase(!getMutedStatus)}
+          icon={
+            getMutedStatus ? (
+              <MdOutlineVolumeOff className="h-5 w-5" />
+            ) : (
+              <MdOutlineVolumeUp className="h-5 w-5" />
+            )
+          }
         />
-      )}
-    </div>
+      </O11yTooltip>
+    </PropagationBlocker>
   );
 }
 

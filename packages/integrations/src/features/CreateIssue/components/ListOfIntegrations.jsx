@@ -40,6 +40,7 @@ const ListOfIntegrations = ({
   scrollWidgetToTop,
   confirmIssueDiscard,
   setIsWorkInProgress,
+  isFormBeingSubmitted,
   setIsFormBeingSubmitted
 }) => {
   const integrations = useSelector(integrationsSelector);
@@ -64,6 +65,7 @@ const ListOfIntegrations = ({
         scrollWidgetToTop={scrollWidgetToTop}
         confirmIssueDiscard={confirmIssueDiscard}
         setIsWorkInProgress={setIsWorkInProgress}
+        isFormBeingSubmitted={isFormBeingSubmitted}
         setIsFormBeingSubmitted={setIsFormBeingSubmitted}
       />
     );
@@ -83,6 +85,7 @@ ListOfIntegrations.propTypes = {
   scrollWidgetToTop: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   confirmIssueDiscard: PropTypes.func.isRequired,
+  isFormBeingSubmitted: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
   attachments: PropTypes.arrayOf(PropTypes.string).isRequired
 };

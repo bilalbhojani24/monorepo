@@ -38,17 +38,19 @@ function TestlistTimeline({ details }) {
   if (!history.length) {
     return (
       <div className="flex items-center justify-center">
-        <p className="text-base-500 text-sm">No historical data found</p>
+        <p className="text-base-500 whitespace-nowrap text-sm">
+          No historical data
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex scale-75 items-center" onMouseEnter={loadHistory}>
+    <div className="flex h-5 items-center" onMouseEnter={loadHistory}>
       {history?.map((singleHistoryItem) => (
         <O11yTooltip
           size="md"
-          placementSide="left"
+          placementSide="bottom"
           key={singleHistoryItem.testRunId}
           triggerWrapperClassName="inline-flex items-center"
           content={
@@ -60,14 +62,14 @@ function TestlistTimeline({ details }) {
         >
           <div
             className={twClassNames(
-              'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 bg-white p-1 opacity-0.5',
+              'flex h-3 w-3 shrink-0 items-center justify-center rounded-full border-2 bg-white p-1 opacity-0.5',
               getClassesByStatus(singleHistoryItem.status),
               'bg-white'
             )}
           >
             <div
               className={twClassNames(
-                'bg-base-500 h-2 w-2 shrink-0 rounded-full',
+                'bg-base-500 h-1 w-1 shrink-0 rounded-full cursor-pointer',
                 getClassesByStatus(singleHistoryItem.status)
               )}
             />
@@ -81,7 +83,6 @@ function TestlistTimeline({ details }) {
 
 export default TestlistTimeline;
 TestlistTimeline.propTypes = {
-  details: PropTypes.shape(singleItemTestDetails).isRequired,
-  wrapperClassName: PropTypes.string.isRequired
+  details: PropTypes.shape(singleItemTestDetails).isRequired
 };
 TestlistTimeline.defaultProps = {};

@@ -88,7 +88,7 @@ export const getHistoryDetails = createAsyncThunk(
   `${sliceName}/getHistoryDetails`,
   async (data, { rejectWithValue, getState }) => {
     const allHistories = getAllTestHistoryDetails(getState());
-    const allHistoryKeys = Object.keys(allHistories);
+    const allHistoryKeys = Object.keys(allHistories.data);
     const isHistoryLoaded = data.testRunIds.every((id) =>
       allHistoryKeys.includes(id.toString())
     );
@@ -153,24 +153,25 @@ export const getTestReportDetails = createAsyncThunk(
   }
 );
 
+const initialState = {
+  staticFilters: {
+    data: EMPTY_STATIC_FILTERS,
+    apiState: { status: API_STATUSES.IDLE, details: {} }
+  },
+  testList: {
+    data: EMPTY_TESTLIST_DATA_STATE,
+    apiState: { status: API_STATUSES.IDLE, details: {} }
+  },
+  historyDetails: {
+    data: {},
+    apiState: { status: API_STATUSES.IDLE, details: {} }
+  },
+  selectedFilters: { ...EMPTY_SELECTED_FILTERS },
+  appliedFilters: { ...EMPTY_APPLIED_FILTERS }
+};
 const { actions, reducer } = createSlice({
   name: `${sliceName}`,
-  initialState: {
-    staticFilters: {
-      data: EMPTY_STATIC_FILTERS,
-      apiState: { status: API_STATUSES.IDLE, details: {} }
-    },
-    testList: {
-      data: EMPTY_TESTLIST_DATA_STATE,
-      apiState: { status: API_STATUSES.IDLE, details: {} }
-    },
-    historyDetails: {
-      data: {},
-      apiState: { status: API_STATUSES.IDLE, details: {} }
-    },
-    selectedFilters: { ...EMPTY_SELECTED_FILTERS },
-    appliedFilters: { ...EMPTY_APPLIED_FILTERS }
-  },
+  initialState,
   reducers: {
     setStaticFilters: (state, { payload }) => {
       state.staticFilters = {
@@ -195,7 +196,8 @@ const { actions, reducer } = createSlice({
         ...state.appliedFilters,
         ...payload
       };
-    }
+    },
+    resetTestListSlice: () => initialState
   },
   extraReducers: (builder) => {
     builder
@@ -279,7 +281,8 @@ export const {
   setAppliedFilters,
   setSelectedFilters,
   setStaticFilters,
-  setTestList
+  setTestList,
+  resetTestListSlice
 } = actions;
 
 export default reducer;

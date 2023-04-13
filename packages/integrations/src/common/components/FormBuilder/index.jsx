@@ -18,6 +18,7 @@ const FormBuilder = ({
   isWorkInProgress,
   scrollWidgetToTop,
   setIsWorkInProgress,
+  isFormBeingSubmitted,
   hideDescription = false
 }) => {
   const dispatch = useDispatch();
@@ -108,7 +109,7 @@ const FormBuilder = ({
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (!isWorkInProgress) return null;
+    if (!isWorkInProgress || isFormBeingSubmitted) return null;
     if (typeof handleSubmit === 'function') {
       const hasSomeEmptyRequiredFields = requiredFields?.some((field) => {
         const stateValue = fieldsData[field.key];
@@ -120,7 +121,7 @@ const FormBuilder = ({
         dispatch(
           setGlobalAlert({
             kind: 'error',
-            message: `Please fill all mandatory fields to continue`,
+            message: `Please fill all mandatory fields to continue.`,
             autoDismiss: true
           })
         );

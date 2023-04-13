@@ -34,6 +34,7 @@ const renderChild = ({
   isCreateMetaLoading,
   isUpdateMetaLoading,
   setIsWorkInProgress,
+  isFormBeingSubmitted,
   handleIssueTabChange,
   setIsFormBeingSubmitted,
   integrationToolFieldData
@@ -92,6 +93,7 @@ const renderChild = ({
           issueTypeFieldData={issueTypeFieldData}
           setIsWorkInProgress={setIsWorkInProgress}
           isCreateMetaLoading={isCreateMetaLoading}
+          isFormBeingSubmitted={isFormBeingSubmitted}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
           integrationToolFieldData={integrationToolFieldData}
         />
@@ -111,6 +113,7 @@ const renderChild = ({
           clearErrorMessage={clearErrorMessage}
           isUpdateMetaLoading={isUpdateMetaLoading}
           setIsWorkInProgress={setIsWorkInProgress}
+          isFormBeingSubmitted={isFormBeingSubmitted}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
           integrationToolFieldData={integrationToolFieldData}
         />

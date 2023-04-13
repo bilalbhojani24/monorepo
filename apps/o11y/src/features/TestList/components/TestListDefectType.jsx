@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdExpandMore } from '@browserstack/bifrost';
 import { changeIssueType } from 'api/testlist';
 import {
+  O11yButton,
   O11yDropdown,
   O11yDropdownOptionGroup,
   O11yDropdownOptionItem,
@@ -134,7 +135,7 @@ function TestListDefectType({ data }) {
   }
 
   return (
-    <PropagationBlocker className="flex">
+    <PropagationBlocker className="mb-2 flex ">
       {buildMeta?.isAutoAnalyzerRunning ? (
         <O11yTooltip
           placement="top"
@@ -152,24 +153,32 @@ function TestListDefectType({ data }) {
           }
           theme="dark"
         >
-          <div className="pointer-events-none flex select-none items-center">
-            <p className="text-base-500 mr-2 cursor-not-allowed text-sm font-medium">
-              {issueType?.name}
-            </p>
-            <MdExpandMore className="text-base-500 cursor-not-allowed" />
-          </div>
+          <O11yButton
+            icon={<MdExpandMore className="text-base" />}
+            colors="white"
+            size="extra-small"
+            iconPlacement="end"
+            disabled
+          >
+            {issueType?.name}
+          </O11yButton>
         </O11yTooltip>
       ) : (
         <O11yDropdown onClick={(value) => handleIssueTypeChange(value)}>
           <O11yDropdownTrigger wrapperClassName="flex items-center justify-between p-0 hover:bg-transparent border-0 shadow-none w-full">
-            <p className="text-base-700 mr-2 select-none text-sm font-medium">
+            <O11yButton
+              icon={<MdExpandMore className="text-base" />}
+              colors="white"
+              size="extra-small"
+              iconPlacement="end"
+            >
               {issueType?.name}
-            </p>
-            <MdExpandMore className="text-base-700" />
+            </O11yButton>
           </O11yDropdownTrigger>
 
           <O11yDropdownOptionGroup wrapperClassName="w-full">
-            <div className="h-40 overflow-y-auto">
+            {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+            <div className="h-[10.25rem] overflow-y-auto">
               {menuOptions?.map((singleMenu) => (
                 <O11yDropdownOptionItem
                   key={singleMenu.value}

@@ -7,11 +7,11 @@ import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
   HIERARCHY_SPACING,
   HIERARCHY_SPACING_START,
   LOG_TYPES,
-  singleItemPropType,
   singleItemTestDetails
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
@@ -28,7 +28,7 @@ import TestListGalleryContainer from './TestListGalleryContainer';
 import TestListStackTrace from './TestListStackTrace';
 import TestListTimeline from './TestlistTimeline';
 
-const RenderTestChildrens = ({ item: data, isLastItem }) => {
+const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;
   const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
@@ -56,134 +56,155 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
     o11yTestListingInteraction('filter_applied');
   };
 
+  const handleClickTestItem = () => {
+    dispatch(showTestDetailsDrawer(details.id));
+  };
+
   return (
     <div
-      className={twClassNames(`border-base-100 border-b pt-2 pr-6`, {
-        'pb-2': !isLastItem,
-        'pb-4': isLastItem
-      })}
+      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-1 pr-6"
       style={{
         paddingLeft: HIERARCHY_SPACING_START + HIERARCHY_SPACING * rank
       }}
+      role="presentation"
+      onClick={handleClickTestItem}
     >
-      <div className="flex justify-between">
-        <div className="flex w-full flex-col items-center">
-          <div className="flex items-center self-start">
-            <div className="mt-1 flex items-center">
-              <StatusIcon status={data.details.status || TEST_STATUS.SKIPPED} />
-              <p className="text-base-900 ml-2 text-sm">
-                {ReactHtmlParser(displayName, {
-                  transform: transformUnsupportedTags
-                })}
-              </p>
+      <div className="flex justify-between gap-4">
+        <div className="flex w-full flex-col items-start pt-1">
+          <div className="flex items-start">
+            <div className="flex items-start">
+              <div className="flex h-5 items-center ">
+                <StatusIcon
+                  status={data.details.status || TEST_STATUS.SKIPPED}
+                />
+              </div>
+              <div className="text-base-900 ml-2 text-sm">
+                <span>
+                  {ReactHtmlParser(displayName, {
+                    transform: transformUnsupportedTags
+                  })}
+                </span>
+                <div className="ml-1 inline shrink-0">
+                  {data?.details?.tags.map((singleTag) => (
+                    <PropagationBlocker className="ml-1 inline" key={singleTag}>
+                      <O11yBadge
+                        text={singleTag}
+                        wrapperClassName="mx-1"
+                        hasRemoveButton={false}
+                        onClick={() => {
+                          addFilterOnClick('tags', singleTag);
+                        }}
+                        modifier="base"
+                        hasDot={false}
+                      />
+                    </PropagationBlocker>
+                  ))}
+                  {details?.isFlaky && (
+                    <PropagationBlocker className="ml-1 inline">
+                      <O11yBadge
+                        text="Flaky"
+                        modifier="warn"
+                        onClick={() => {
+                          addFilterOnClick('flaky', 'true');
+                        }}
+                      />
+                    </PropagationBlocker>
+                  )}
+                  {details?.isAlwaysFailing && (
+                    <PropagationBlocker className="ml-1 inline">
+                      <O11yBadge
+                        text="Always Failing"
+                        modifier="error"
+                        onClick={() => {
+                          addFilterOnClick('history', 'isAlwaysFailing');
+                        }}
+                      />
+                    </PropagationBlocker>
+                  )}
+                  {details?.isNewFailure && (
+                    <PropagationBlocker className="ml-1 inline">
+                      <O11yBadge
+                        text="New Failures"
+                        modifier="error"
+                        onClick={() => {
+                          addFilterOnClick('history', 'isNewFailure');
+                        }}
+                      />
+                    </PropagationBlocker>
+                  )}
+                  {details?.isPerformanceAnomaly && (
+                    <PropagationBlocker className="ml-1 inline">
+                      <O11yBadge
+                        text="Performance Anomaly"
+                        modifier="error"
+                        onClick={() => {
+                          addFilterOnClick('history', 'isPerformanceAnomaly');
+                        }}
+                      />
+                    </PropagationBlocker>
+                  )}
+                </div>
+              </div>
             </div>
-            <div className="flex">
-              {data?.details?.tags.map((singleTag) => (
-                <PropagationBlocker className="ml-1" key={singleTag}>
-                  <O11yBadge
-                    text={singleTag}
-                    wrapperClassName="mx-1"
-                    hasRemoveButton={false}
-                    onClick={() => {
-                      addFilterOnClick('tags', singleTag);
-                    }}
-                    modifier="base"
-                    hasDot={false}
-                  />
-                </PropagationBlocker>
-              ))}
-              {details?.isFlaky && (
-                <PropagationBlocker className="ml-1">
-                  <O11yBadge
-                    text="Flaky"
-                    modifier="warn"
-                    onClick={() => {
-                      addFilterOnClick('flaky', 'true');
-                    }}
-                  />
-                </PropagationBlocker>
-              )}
-              {details?.isAlwaysFailing && (
-                <PropagationBlocker className="ml-1">
-                  <O11yBadge
-                    text="Always Failing"
-                    modifier="error"
-                    onClick={() => {
-                      addFilterOnClick('history', 'isAlwaysFailing');
-                    }}
-                  />
-                </PropagationBlocker>
-              )}
-              {details?.isNewFailure && (
-                <PropagationBlocker className="ml-1">
-                  <O11yBadge
-                    text="New Failures"
-                    modifier="error"
-                    onClick={() => {
-                      addFilterOnClick('history', 'isNewFailure');
-                    }}
-                  />
-                </PropagationBlocker>
-              )}
-              {details?.isPerformanceAnomaly && (
-                <PropagationBlocker className="ml-1">
-                  <O11yBadge
-                    text="Performance Anomaly"
-                    modifier="error"
-                    onClick={() => {
-                      addFilterOnClick('history', 'isPerformanceAnomaly');
-                    }}
-                  />
-                </PropagationBlocker>
-              )}
-            </div>
+          </div>
+          <div className="flex items-center">
+            <TestListStackTrace details={details} />
+          </div>
+          <div
+            className={twClassNames('flex items-center gap-2 pl-6', {
+              'mt-1':
+                !details.retries?.length ||
+                !details.retries[details.retries.length - 1].logs?.[
+                  LOG_TYPES.STACKTRACE
+                ]?.length
+            })}
+          >
+            <TestListDefectType data={data} />
+            {details?.runCount > 1 && (
+              <div>
+                <p className="text-base-500 mb-2 text-sm ">
+                  {details?.runCount} re-runs
+                </p>
+              </div>
+            )}
+            {!!details?.retries[details?.retries.length - 1].logs[
+              LOG_TYPES.IMAGES
+            ] && (
+              <PropagationBlocker variant="div">
+                <TestListGalleryContainer
+                  imgUrl={
+                    details?.retries[details?.retries.length - 1].logs[
+                      LOG_TYPES.IMAGES
+                    ]
+                  }
+                />
+              </PropagationBlocker>
+            )}
+            <TestItemJiraTag details={details} />
             {details?.sessionUrl && (
-              <PropagationBlocker className="mt-1">
+              <PropagationBlocker className="mb-2 inline-flex ">
                 <O11yHyperlink
                   href={data?.details?.sessionUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  wrapperClassName="ml-2"
+                  wrapperClassName="inline-flex hover:text-brand-600"
                 >
-                  <MdOutlineAirplay className="text-base-500 h-4 w-4" />
-                  <span className="text-base-500 ml-1 text-sm font-normal">
+                  <MdOutlineAirplay className="text-base" />
+                  <span className="ml-1 text-sm font-normal">
                     Interactive Session
                   </span>
                 </O11yHyperlink>
               </PropagationBlocker>
             )}
           </div>
-          <div className="flex items-center self-start">
-            <TestListStackTrace details={details} />
-          </div>
-          <div className="flex items-center gap-3.5 self-start pl-6">
-            <TestListDefectType data={data} />
-            {details?.runCount > 1 && (
-              <div>
-                <p className="text-base-500 text-sm">
-                  {details?.runCount} re-runs
-                </p>
-              </div>
-            )}
-            <PropagationBlocker variant="div">
-              <TestListGalleryContainer
-                imgUrl={
-                  details?.retries[details?.retries.length - 1].logs[
-                    LOG_TYPES.IMAGES
-                  ]
-                }
-              />
-            </PropagationBlocker>
-            <TestItemJiraTag details={details} />
-          </div>
         </div>
-        <div className="flex w-auto">
-          <div className="flex w-auto items-start">
+        <div className="flex w-auto gap-1">
+          <div className="flex w-auto items-start pt-1">
             <TestListTimeline details={details} />
           </div>
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-          <div className="group min-h-[34px] min-w-[100px]">
-            <div className="flex content-end items-center justify-end group-hover:hidden">
+          <div className="min-h-[34px] min-w-[100px]">
+            <div className="flex content-end items-center justify-end pt-1 group-hover:hidden">
               <MdOutlineTimer className="text-base-500 block h-4 w-4" />
               <p className="text-base-500 ml-1 text-sm">
                 {milliSecondsToTime(details?.duration)}
@@ -197,14 +218,9 @@ const RenderTestChildrens = ({ item: data, isLastItem }) => {
   );
 };
 
-RenderTestChildrens.propTypes = {
-  item: PropTypes.shape(singleItemPropType).isRequired
-};
+export default React.memo(RenderTestItem);
 
-export default RenderTestChildrens;
-
-RenderTestChildrens.propTypes = {
-  item: PropTypes.shape(singleItemTestDetails).isRequired,
-  isLastItem: PropTypes.bool.isRequired
+RenderTestItem.propTypes = {
+  item: PropTypes.shape(singleItemTestDetails).isRequired
 };
-RenderTestChildrens.defaultProps = {};
+RenderTestItem.defaultProps = {};

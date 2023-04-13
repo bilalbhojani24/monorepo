@@ -1,14 +1,24 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { PUSHER_EVENTS } from 'constants/common';
+import {
+  API_STATUSES,
+  PUSHER_EVENTS,
+  WRAPPER_GAP_CLASS
+} from 'constants/common';
+import TestList from 'features/TestList';
+import { EMPTY_TESTLIST_DATA_STATE } from 'features/TestList/constants';
+import {
+  getTestListData,
+  resetTestListSlice,
+  setTestList
+} from 'features/TestList/slices/testListSlice';
 import { o11yNotify } from 'utils/notification';
 
-import TestList from '../../TestList';
-import { getTestListData } from '../../TestList/slices/testListSlice';
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
 import { TABS } from '../constants';
 import {
@@ -46,14 +56,24 @@ function BuildDetails() {
     params.buildSerialId,
     params.projectNormalisedName
   ]);
+  const testListScrollPos = useRef(0);
+  const scrollIndexMapping = useRef({});
 
   useEffect(() => {
     fetchBuildId();
   }, [fetchBuildId]);
+
   useEffect(
     () => () => {
+      dispatch(resetTestListSlice());
       dispatch(clearBuildUUID());
       setTestDefectTypeMapping({});
+      dispatch(
+        setActiveTab({
+          id: TABS.insights.id,
+          idx: 0
+        })
+      );
     },
     [dispatch]
   );
@@ -95,7 +115,7 @@ function BuildDetails() {
   }, []);
 
   useEffect(() => {
-    const unsub = window.pubSub.subscribe(
+    const unSubscribe = window.pubSub.subscribe(
       PUSHER_EVENTS.ANALYZER_COMPLETED,
       (payload) => {
         if (payload?.data?.length && payload.buildId === buildUUID) {
@@ -104,20 +124,33 @@ function BuildDetails() {
       }
     );
     return () => {
-      unsub();
+      unSubscribe();
     };
   }, [buildUUID, updateTestDefectTypeMapping]);
 
   useEffect(() => {
-    const unsub = window.pubSub.subscribe(PUSHER_EVENTS.NEW_TESTS, (data) => {
-      if (buildUUID === data.buildId) {
-        setUpdateCount((prev) => prev + data?.updatesCount || 0);
+    const unSubscribe = window.pubSub.subscribe(
+      PUSHER_EVENTS.NEW_TESTS,
+      (data) => {
+        if (buildUUID === data.buildId) {
+          setUpdateCount((prev) => prev + data?.updatesCount || 0);
+        }
       }
-    });
+    );
     return () => {
-      unsub();
+      unSubscribe();
     };
   }, [buildUUID]);
+
+  // [START] Test list scroll positioning handling
+  const updateTestScrollPos = useCallback((pos) => {
+    testListScrollPos.current = pos;
+  }, []);
+
+  const updateScrollIndexMapping = useCallback((data) => {
+    scrollIndexMapping.current[data.id] = data;
+  }, []);
+  // [END]Test list scroll positioning handling
 
   if (!buildUUID) {
     return (
@@ -146,6 +179,12 @@ function BuildDetails() {
 
   const onUpdateBtnClick = () => {
     setIsLoading(true);
+    dispatch(
+      setTestList({
+        data: EMPTY_TESTLIST_DATA_STATE,
+        apiState: { status: API_STATUSES.idle, details: {} }
+      })
+    );
     dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
       .unwrap()
       .catch(() => {
@@ -162,23 +201,36 @@ function BuildDetails() {
   };
 
   return (
-    <>
+    <div
+      className={twClassNames(
+        'flex flex-col overflow-hidden',
+        WRAPPER_GAP_CLASS
+      )}
+    >
       <BuildDetailsHeader
         isNewItemLoading={isLoading}
         onUpdateBtnClick={onUpdateBtnClick}
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
       />
       {activeTab.id === TABS.insights.id && (
-        <div className="px-8 py-4">Build Insights</div>
+        <div className="overflow-auto px-8 py-4">
+          <div className="" style={{ height: '200vh' }}>
+            Build Insights
+          </div>
+        </div>
       )}
       {activeTab.id === TABS.tests.id && (
         <TestList
           buildUUID={buildUUID}
           testDefectTypeMapping={testDefectTypeMapping}
           updateTestDefectTypeMapping={updateTestDefectTypeMapping}
+          updateTestScrollPos={updateTestScrollPos}
+          testListScrollPos={testListScrollPos.current}
+          scrollIndexMapping={scrollIndexMapping.current}
+          updateScrollIndexMapping={updateScrollIndexMapping}
         />
       )}
-    </>
+    </div>
   );
 }
 

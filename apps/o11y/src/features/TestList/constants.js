@@ -48,14 +48,7 @@ export const singleItemTestDetails = {
     name: PropTypes.string,
     version: PropTypes.string
   }),
-  retries: PropTypes.arrayOf({
-    uuid: PropTypes.string,
-    status: PropTypes.string,
-    duration: PropTypes.number,
-    logs: PropTypes.shape({
-      TEST_FAILURE: PropTypes.arrayOf(PropTypes.string)
-    })
-  })
+  retries: PropTypes.arrayOf(PropTypes.object)
 };
 
 export const statusObjectPropType = {

@@ -27,7 +27,7 @@ function TestListGalleryContainer({ imgUrl }) {
 
   if (!images.length && !loadError && imageLogUrl) {
     return (
-      <div className="flex items-center gap-x-1">
+      <div className="mb-2 flex items-center gap-x-1">
         <MdOutlineImage className="text-base-500" />
         <span className="text-base-500 text-sm">Screenshot</span>
       </div>
@@ -38,7 +38,7 @@ function TestListGalleryContainer({ imgUrl }) {
   }
 
   return (
-    <div className="flex items-center gap-x-1">
+    <div className="mb-2 flex items-center gap-x-1">
       <MdOutlineImage className="text-base-500" />
       <span className="text-base-500 text-sm">{images.length} Screenshot</span>
     </div>

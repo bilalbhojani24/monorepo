@@ -92,7 +92,7 @@ const TestListFilters = () => {
                 value={os.filter((el) =>
                   selectedFilters?.os?.includes(el.value)
                 )}
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
@@ -107,7 +107,7 @@ const TestListFilters = () => {
                 value={browser.filter((el) =>
                   selectedFilters?.browser?.includes(el.value)
                 )}
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
@@ -119,10 +119,10 @@ const TestListFilters = () => {
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'tags');
                 }}
-                value={tags.filter((el) =>
+                value={tags?.filter((el) =>
                   selectedFilters?.tags?.includes(el.value)
                 )}
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
@@ -137,7 +137,7 @@ const TestListFilters = () => {
                 value={folder.filter((el) =>
                   selectedFilters?.folder?.includes(el.value)
                 )}
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
@@ -152,7 +152,7 @@ const TestListFilters = () => {
                 value={status.filter((el) =>
                   selectedFilters?.status?.includes(el.value)
                 )}
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
@@ -168,7 +168,7 @@ const TestListFilters = () => {
                     selectedFilters?.flaky?.includes(el.value)
                   )[0]
                 }
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
@@ -183,7 +183,7 @@ const TestListFilters = () => {
                 value={issueType.filter((el) =>
                   selectedFilters?.issueType?.includes(el.value)
                 )}
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
@@ -199,7 +199,7 @@ const TestListFilters = () => {
                     selectedFilters?.history?.includes(el.value)
                   )[0]
                 }
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
@@ -233,6 +233,7 @@ const TestListFilters = () => {
         variant="primary"
         colors="white"
         wrapperClassName="rounded"
+        size="default"
         icon={<MdFilterAlt className="text-base-500 h-5 w-5" />}
         onClick={showSlideover}
       >

@@ -91,7 +91,7 @@ const Filters = () => {
                 value={statusOptions.filter((el) =>
                   statuses.includes(el.value)
                 )}
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="480px"
                 optionsListWrapperClassName="min-w-max h-100 overflow-hidden"
               />

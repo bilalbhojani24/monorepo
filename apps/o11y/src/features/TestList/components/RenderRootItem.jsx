@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+/* eslint-disable tailwindcss/no-arbitrary-value */
+import React, { useContext, useMemo } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import {
   Accordion,
@@ -8,11 +9,13 @@ import {
 } from '@browserstack/bifrost';
 import { O11yHyperlink } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
+import PropagationBlocker from 'common/PropagationBlocker';
 import StatusBadges from 'common/StatusBadges';
 import {
   HIERARCHY_SPACING,
   HIERARCHY_SPACING_START,
-  singleItemPropType
+  singleItemPropType,
+  TESTLIST_TYPES
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import PropTypes from 'prop-types';
@@ -24,37 +27,69 @@ import {
   transformUnsupportedTags
 } from 'utils/common';
 
-import RenderChildrens from './RenderTestChildrens';
+import RenderTestListItems from './RenderTestListItems';
 
-const RenderRootItem = ({ item }) => {
-  const { details, displayName, status, rank } = item;
+const RenderRootItem = ({ data }) => {
+  const { details, displayName, status, rank } = data;
   const {
-    onAccordionChange,
     expandAll,
     closedAccordionIds,
     setClosedAccordionIds,
     o11yTestListingInteraction
   } = useContext(TestListContext);
-  const [opened, setOpened] = useState(() => !closedAccordionIds[item?.id]);
+
+  const isOpen = useMemo(() => {
+    if (
+      data.type === TESTLIST_TYPES.ROOT &&
+      closedAccordionIds[data?.id]?.status === undefined
+    ) {
+      return expandAll;
+    }
+    return closedAccordionIds[data?.id]?.status === undefined
+      ? true
+      : closedAccordionIds[data?.id]?.status;
+  }, [closedAccordionIds, expandAll, data?.id, data.type]);
+
   const toggleAccordion = () => {
-    if (opened) {
+    if (isOpen) {
       o11yTestListingInteraction('collapse_item');
-      setClosedAccordionIds((prev) => ({ ...prev, [item.id]: true }));
+      setClosedAccordionIds((prev) => ({
+        ...prev,
+        [data.id]: {
+          status: false,
+          type: data.type
+        }
+      }));
     } else {
       o11yTestListingInteraction('expand_item');
-      setClosedAccordionIds((prev) => {
-        const newData = { ...prev };
-        delete newData[item.id];
-        return newData;
-      });
+      setClosedAccordionIds((prev) => ({
+        ...prev,
+        [data.id]: {
+          status: true,
+          type: data.type
+        }
+      }));
     }
-    setOpened((prev) => !prev);
-    onAccordionChange();
   };
 
-  useEffect(() => {
-    if (expandAll !== null) setOpened(expandAll);
-  }, [expandAll]);
+  const childrenElements = useMemo(() => {
+    const testRuns = [];
+    const testListItems = [];
+    data?.children.forEach((item) => {
+      if (
+        item.type === TESTLIST_TYPES.DESCRIBE ||
+        item.type === TESTLIST_TYPES.ROOT
+      ) {
+        testRuns.push(item);
+      } else {
+        testListItems.push(item);
+      }
+    });
+    return {
+      testListItems,
+      testRuns
+    };
+  }, [data.children]);
 
   return (
     <>
@@ -66,13 +101,12 @@ const RenderRootItem = ({ item }) => {
           }}
         >
           <AccordionInteractiveHeader
-            controller={opened}
+            controller={isOpen}
             onClick={toggleAccordion}
             wrapperClassName="px-0 py-2"
             asideContent={
-              <div className="flex h-full">
-                {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-                <div className="flex w-full min-w-[250px] gap-3">
+              <div className="flex h-full gap-4">
+                <div className="flex w-full justify-end gap-3">
                   {!!details?.browser && (
                     <DetailIcon
                       icon={getIconName(
@@ -103,53 +137,59 @@ const RenderRootItem = ({ item }) => {
                     />
                   )}
                 </div>
-                <div className="flex h-full">
+                <div className="flex min-w-[250px] justify-end">
                   {status && <StatusBadges statusStats={status} />}
                 </div>
               </div>
             }
             title={
-              <div className="flex w-full items-center px-3">
-                <div>
-                  <p className="text-base-900 text-left text-sm">
-                    {ReactHtmlParser(displayName, {
-                      transform: transformUnsupportedTags
-                    })}
-                  </p>
-                  <div className="flex">
-                    {details?.vcFileUrl && (
-                      <p className="text-base-500 flex items-center text-sm">
-                        <O11yHyperlink
-                          target="_blank"
-                          href={details?.vcFileUrl}
-                          wrapperClassName="text-base-500 font-normal text-sm overflow-hidden w-full"
+              <div className="flex flex-col px-3">
+                <p className="text-base-900 break-words text-left text-sm font-normal">
+                  {ReactHtmlParser(displayName, {
+                    transform: transformUnsupportedTags
+                  })}
+                </p>
+                <div className="flex">
+                  {details?.vcFileUrl && (
+                    <PropagationBlocker>
+                      <O11yHyperlink
+                        target="_blank"
+                        href={details?.vcFileUrl}
+                        wrapperClassName="font-normal text-sm text-base-500 hover:text-brand-500"
+                      >
+                        <MdFolderOpen className="mr-1" />
+                        <span
+                          dir="rtl"
+                          className="max-w-[200px] truncate text-sm font-normal"
                         >
-                          <MdFolderOpen className="mr-1" />
-                          <span className="text-base-500 max-w-xs text-sm font-normal">
-                            {details?.filePath.length > 20
-                              ? `...${details?.filePath.slice(
-                                  details?.filePath.length - 20,
-                                  details?.filePath.length
-                                )}`
-                              : details?.filePath}
-                          </span>
-                        </O11yHyperlink>
-                      </p>
-                    )}
-                    {!!details?.middleScopes && (
-                      <p className="text-base-500 flex items-center text-sm font-normal">
-                        <span className="bg-base-400 mx-2 block h-1 w-1 rounded-full" />
+                          {details?.filePath}
+                        </span>
+                      </O11yHyperlink>
+                    </PropagationBlocker>
+                  )}
+                  {!!details?.middleScopes && (
+                    <p className="text-base-500 flex items-center text-sm font-normal">
+                      <span className="bg-base-400 mx-2 block h-1 w-1 rounded-full" />
+                      <span dir="rtl" className="max-w-[300px] truncate">
                         {details?.middleScopes?.join(' / ')}
-                      </p>
-                    )}
-                  </div>
+                      </span>
+                    </p>
+                  )}
                 </div>
               </div>
             }
           />
         </div>
-        <AccordionPanel wrapperClassName="bg-white pl-0" controller={opened}>
-          <RenderChildrens listOfItems={item} />
+        <AccordionPanel wrapperClassName="bg-white pl-0" controller={isOpen}>
+          {!!childrenElements?.testListItems.length && (
+            <RenderTestListItems
+              data={childrenElements.testListItems}
+              parentId={data.id}
+            />
+          )}
+          {childrenElements?.testRuns?.map((item) => (
+            <RenderRootItem data={item} key={item.id} />
+          ))}
         </AccordionPanel>
       </Accordion>
     </>
@@ -157,7 +197,7 @@ const RenderRootItem = ({ item }) => {
 };
 
 RenderRootItem.propTypes = {
-  item: PropTypes.shape(singleItemPropType).isRequired
+  data: PropTypes.shape(singleItemPropType).isRequired
 };
 
-export default RenderRootItem;
+export default React.memo(RenderRootItem);

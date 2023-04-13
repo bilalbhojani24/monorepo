@@ -1,5 +1,7 @@
 import React from 'react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -98,6 +100,15 @@ const defaultConfig = {
 const predefinedComponentsTemplate = (args) => <Slideover {...args} />;
 
 const predefinedComponents = predefinedComponentsTemplate.bind({});
+predefinedComponents.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Go to Dashboard')).toBeVisible();
+  await expect(canvas.getByText('Deactive account')).toBeVisible();
+  await expect(canvas.queryAllByRole('button').length).toBe(3);
+  for (let i = 0; i < 3; i += 1) {
+    userEvent.click(canvas.queryAllByRole('button')[i]);
+  }
+};
 
 export default defaultConfig;
 export { predefinedComponents };

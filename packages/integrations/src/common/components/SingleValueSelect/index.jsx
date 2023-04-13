@@ -85,7 +85,9 @@ const SingleValueSelect = ({
   const appendOptionIfMissing = (optionList = [], target) => {
     if (target) {
       const isInOptions =
-        optionList?.findIndex((option) => option?.key === target?.key) !== -1;
+        optionList?.findIndex((option) =>
+          option.key ? option.key === target.key : option.value === target.value
+        ) !== -1;
       if (!isInOptions) {
         return [target, ...optionList];
       }
@@ -114,6 +116,14 @@ const SingleValueSelect = ({
   }, 500);
 
   const handleOpen = (isOpen) => {
+    if (fieldsData?.[fieldKey]?.value) {
+      initialOptions.current = appendOptionIfMissing(
+        initialOptions.current,
+        fieldsData?.[fieldKey]
+      );
+      setOptionsToRender(initialOptions.current);
+      setDynamicOptions(initialOptions.current);
+    }
     if (
       shouldFetchIntialOptions.current &&
       isOpen &&
@@ -186,13 +196,13 @@ const SingleValueSelect = ({
     (query) => {
       const cleanedOptions = optionsPath
         ? dynamicOptions
-        : cleanOptions(options);
+        : initialOptions.current;
       const filtered = cleanedOptions?.filter(({ label: optionLabel }) =>
         optionLabel.toLowerCase().includes(query.toLowerCase())
       );
       setOptionsToRender(filtered);
     },
-    [optionsPath, dynamicOptions, options]
+    [optionsPath, dynamicOptions]
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -240,6 +250,15 @@ const SingleValueSelect = ({
             {optionsToRender?.map((item) => (
               <ComboboxOptionItem key={item.value} option={item} />
             ))}
+            {optionsToRender?.length === 1 &&
+              fieldsData?.[fieldKey]?.value === optionsToRender[0].value &&
+              searchLoading && (
+                <ComboboxOptionItem
+                  key="searching-for-options"
+                  option={{ label: 'Searching...' }}
+                  disabled
+                />
+              )}
           </ComboboxOptionGroup>
         )}
         {!optionsToRender?.length && !isLoading && !searchLoading && (

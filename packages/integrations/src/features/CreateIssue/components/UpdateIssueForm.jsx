@@ -29,6 +29,7 @@ const UpdateIssueForm = ({
   scrollWidgetToTop,
   isUpdateMetaLoading,
   setIsWorkInProgress,
+  isFormBeingSubmitted,
   setIsFormBeingSubmitted,
   integrationToolFieldData
 }) => {
@@ -44,6 +45,9 @@ const UpdateIssueForm = ({
   } = options;
   const resetFieldErrors = () => {
     setFieldErrors({});
+  };
+  const resetIssueField = () => {
+    setFieldsData({ ...fieldsData, [FIELD_KEYS.TICKET_ID]: {} });
   };
   const getTicketForProject = () => {
     setAreIssueOptionsLoading(true);
@@ -90,7 +94,7 @@ const UpdateIssueForm = ({
             setFieldErrors(errorResponse.field_errors);
           }
           dispatch(
-            setGlobalAlert({ kind: 'error', message: 'Error updating issue' })
+            setGlobalAlert({ kind: 'error', message: 'Error updating issue.' })
           );
           if (typeof errorCallback === 'function') {
             errorCallback({
@@ -156,6 +160,7 @@ const UpdateIssueForm = ({
               }
               successCallback(payload);
             }
+            resetIssueField();
             setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
             scrollWidgetToTop();
@@ -168,7 +173,7 @@ const UpdateIssueForm = ({
               setGlobalAlert({
                 kind: 'warn',
                 message:
-                  'Ticket updated successfully. Error in  uploading attachments',
+                  'Ticket updated successfully. Error in  uploading attachments.',
                 linkText: 'View',
                 linkUrl: res.cause.ticket_url
               })
@@ -191,6 +196,7 @@ const UpdateIssueForm = ({
               }
               successCallback(payload);
             }
+            resetIssueField();
             setIsWorkInProgress(false);
             setIsFormBeingSubmitted(false);
             scrollWidgetToTop();
@@ -258,6 +264,7 @@ const UpdateIssueForm = ({
           isWorkInProgress={isWorkInProgress}
           scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
+          isFormBeingSubmitted={isFormBeingSubmitted}
         />
       )}
     </>
@@ -275,6 +282,7 @@ UpdateIssueForm.propTypes = {
   scrollWidgetToTop: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
   isUpdateMetaLoading: PropTypes.bool.isRequired,
+  isFormBeingSubmitted: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
   issueFieldData: SingleValueSelectOptionType.isRequired,
   projectFieldData: SingleValueSelectOptionType.isRequired,

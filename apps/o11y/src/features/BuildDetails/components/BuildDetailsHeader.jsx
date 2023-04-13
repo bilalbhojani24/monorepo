@@ -89,7 +89,7 @@ function BuildDetailsHeader({
   }, [buildUUID, dispatch]);
 
   const onTabChange = (tabInfo) => {
-    const searchParams = new URLSearchParams(window?.location?.search);
+    const searchParams = new URLSearchParams();
     const activeIndex = Object.keys(TABS).findIndex(
       (item) => item === tabInfo.value
     );
@@ -129,51 +129,56 @@ function BuildDetailsHeader({
     ) {
       return (
         <O11yMetaData
-          icon={<MdAutoAwesome className="text-brand-600 h-4 w-4" />}
+          icon={<MdAutoAwesome className="text-brand-800 h-4 w-4" />}
           metaDescription="Analysing"
           textColorClass="text-brand-800"
         />
       );
     }
-    if (TEST_STATUS.FAIL === status)
-      return (
-        <O11yMetaData
-          icon={<MdCancel className="h-5 w-5" />}
-          metaDescription="Failed"
-          textColorClass="text-danger-600"
-        />
-      );
-    if (TEST_STATUS.PASS === status)
-      return (
-        <O11yMetaData
-          icon={<MdCheckCircle className="h-5 w-5" />}
-          metaDescription="Passed"
-          textColorClass="text-success-600"
-        />
-      );
-    if (TEST_STATUS.UNKNOWN === status)
-      return (
-        <O11yMetaData
-          icon={<MdHelp className="h-5 w-5" />}
-          metaDescription="Unknown"
-          textColorClass="text-attention-500"
-        />
-      );
-    if (TEST_STATUS.SKIPPED === status)
-      return (
-        <O11yMetaData
-          icon={<MdRemoveCircle className="h-5 w-5" />}
-          metaDescription="Skipped"
-          textColorClass="text-base-500"
-        />
-      );
-    return (
-      <O11yMetaData
-        icon={<MdHelp className="h-5 w-5" />}
-        metaDescription="Unknown"
-        textColorClass="text-attention-500"
-      />
-    );
+    switch (status) {
+      case TEST_STATUS.PENDING:
+        return (
+          <O11yMetaData
+            icon={<O11yLoader loaderClass="h-4 w-4" />}
+            metaDescription="Running"
+            textColorClass="text-base-600"
+          />
+        );
+      case TEST_STATUS.FAIL:
+        return (
+          <O11yMetaData
+            icon={<MdCancel className="h-5 w-5" />}
+            metaDescription="Failed"
+            textColorClass="text-danger-600"
+          />
+        );
+      case TEST_STATUS.PASS:
+        return (
+          <O11yMetaData
+            icon={<MdCheckCircle className="h-5 w-5" />}
+            metaDescription="Passed"
+            textColorClass="text-success-600"
+          />
+        );
+
+      case TEST_STATUS.SKIPPED:
+        return (
+          <O11yMetaData
+            icon={<MdRemoveCircle className="h-5 w-5" />}
+            metaDescription="Skipped"
+            textColorClass="text-base-500"
+          />
+        );
+      case TEST_STATUS.UNKNOWN:
+      default:
+        return (
+          <O11yMetaData
+            icon={<MdHelp className="h-5 w-5" />}
+            metaDescription="Unknown"
+            textColorClass="text-attention-500"
+          />
+        );
+    }
   };
 
   const {
@@ -191,8 +196,8 @@ function BuildDetailsHeader({
   } = buildMeta.data;
 
   return (
-    <div className="border-base-200 sticky top-[4rem] z-10 border-b bg-white px-6 pt-6">
-      <div className="flex">
+    <div className="border-base-200 bg-base-50 z-10 border-b px-6 pt-6">
+      <div className="flex justify-between">
         <h1 className="w-full text-2xl font-bold leading-7">
           {isAutoDetectedName ? originalName : name}{' '}
           <div className="inline-block">

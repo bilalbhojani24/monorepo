@@ -18,9 +18,10 @@ export const integrationsSlice = createSlice({
   reducers: {
     setHasIntegrated: (state, action) => {
       const targetIdx = state.listOfIntegrations.findIndex(
-        (integration) => integration.key === action.payload
+        (integration) => integration.key === action.payload.integrationKey
       );
-      state.listOfIntegrations[targetIdx].setup_completed = true;
+      state.listOfIntegrations[targetIdx].setup_completed =
+        action.payload.setupCompleted;
       state.hasIntegrated = true;
     },
     setActiveIntegration: (state, action) => {

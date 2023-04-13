@@ -40,7 +40,7 @@ const O11yComboBox = ({
     <ComboBox
       onChange={onChange}
       value={value}
-      isMulti={isMulti}
+      isMulti={!!filteredOptions.length && isMulti}
       disabled={disabled}
     >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
@@ -53,6 +53,17 @@ const O11yComboBox = ({
           'h-60': filteredOptions.length > 10
         })}
       >
+        {!filteredOptions.length && (
+          <ComboboxOptionItem
+            option={{
+              label: 'No options available',
+              value: 'noData'
+            }}
+            disabled
+            checkPosition={checkPosition}
+            wrapperClassName="text-sm"
+          />
+        )}
         {filteredOptions.length > 10 ? (
           <Virtuoso
             style={virtuosoStyles}

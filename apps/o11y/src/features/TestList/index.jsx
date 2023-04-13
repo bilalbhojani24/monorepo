@@ -1,18 +1,26 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
 import { MdSearchOff, MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
-import { O11yButton } from 'common/bifrostProxy';
+import { O11yButton, O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { API_STATUSES } from 'constants/common';
+import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import IntegrationsWidget from 'features/IntegrationsWidget';
+import TestDetails from 'features/TestDetails';
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_SELECTED_FILTERS,
   EMPTY_STATIC_FILTERS,
-  EMPTY_TESTLIST_DATA_STATE
+  EMPTY_TESTLIST_DATA_STATE,
+  TESTLIST_TYPES
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import {
@@ -29,18 +37,23 @@ import {
 } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import useIsUnmounted from 'hooks/useIsMounted';
+import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
 import FilterPills from './components/FilterPills';
-import RenderChildrens from './components/RenderTestChildrens';
+import RenderRootItem from './components/RenderRootItem';
 import TestListFilters from './components/TestListFilters';
 import TestListSearch from './components/TestListSearch';
 
 const TestList = ({
   buildUUID,
   testDefectTypeMapping,
-  updateTestDefectTypeMapping
+  updateTestDefectTypeMapping,
+  updateTestScrollPos,
+  testListScrollPos,
+  scrollIndexMapping,
+  updateScrollIndexMapping
 }) => {
   const dispatch = useDispatch();
   const { isMounted } = useIsUnmounted();
@@ -49,9 +62,7 @@ const TestList = ({
   const [closedAccordionIds, setClosedAccordionIds] = useState({});
   const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
-  const onAccordionChange = useCallback(() => {
-    setExpandAll(null);
-  }, []);
+  const virtuosoRef = useRef(null);
 
   const OllyTestListingEvent = useCallback(
     (eventName, data = {}) => {
@@ -146,64 +157,78 @@ const TestList = ({
       testDefectTypeMapping,
       updateTestDefectTypeMapping,
       expandAll,
-      onAccordionChange,
       closedAccordionIds,
       setClosedAccordionIds,
-      o11yTestListingInteraction
+      o11yTestListingInteraction,
+      scrollIndexMapping,
+      updateScrollIndexMapping
     }),
     [
       expandAll,
       buildUUID,
-      onAccordionChange,
       testDefectTypeMapping,
       updateTestDefectTypeMapping,
       closedAccordionIds,
       setClosedAccordionIds,
-      o11yTestListingInteraction
+      o11yTestListingInteraction,
+      scrollIndexMapping,
+      updateScrollIndexMapping
     ]
   );
 
   useEffect(() => {
-    if (buildUUID) {
-      const filters = '';
+    if (isMounted) {
       OllyTestListingEvent('O11yTestListingVisited', {
-        filters_applied: filters || 'none'
+        filters_applied: window.location.search.replace('?tab=tests', '')
+          ? window.location.search.replace('?', '').split('&').join(',')
+          : 'none'
       });
-      const searchParams = new URLSearchParams(window?.location?.search);
-      const transformedAppliedFilters = {
-        tab: 'tests'
-      };
-      Array.from(searchParams).forEach(([key, value]) => {
-        if (key === 'search' && value.length) {
-          transformedAppliedFilters[key] = value;
-        } else if (key === 'isMuted' && value === 'true') {
-          transformedAppliedFilters[key] = true;
-        } else if (Object.keys(EMPTY_STATIC_FILTERS).includes(key)) {
-          transformedAppliedFilters[key] = value.split(',');
-        }
-      });
-      dispatch(setAppliedFilters(transformedAppliedFilters));
-      // Onload we dont make a call to load data instead we update applied
-      // - filters and its in use effect dependcy which trigger loading of freh data
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMounted]);
+
+  const isFiltersApplied = useMemo(() => {
+    const sanitizedAppliedFilters = { ...appliedFilters };
+    delete sanitizedAppliedFilters?.tab;
+    delete sanitizedAppliedFilters?.details;
+    return !isEqual(appliedFilters, EMPTY_APPLIED_FILTERS);
+  }, [appliedFilters]);
+
+  useEffect(() => {
+    if (buildUUID) {
+      if (!isFiltersApplied) {
+        const searchParams = new URLSearchParams(window?.location?.search);
+        const transformedAppliedFilters = {
+          tab: 'tests'
+        };
+        Array.from(searchParams).forEach(([key, value]) => {
+          if (key === 'search' && value.length) {
+            transformedAppliedFilters[key] = value;
+          } else if (key === 'isMuted' && value === 'true') {
+            transformedAppliedFilters[key] = true;
+          } else if (Object.keys(EMPTY_STATIC_FILTERS).includes(key)) {
+            transformedAppliedFilters[key] = value.split(',');
+          }
+        });
+        dispatch(setAppliedFilters(transformedAppliedFilters));
+      }
+      // Onload we don't make a call to load data instead we update applied
+      // filters and its in use effect dependency which trigger loading of fresh data
       dispatch(getTestlistFiltersData({ buildId: buildUUID }));
     }
-    return () => {
-      resetReduxStore(['selected', 'applied', 'staticFilters', 'testList']);
-    };
-  }, [
-    dispatch,
-    buildUUID,
-    loadFreshData,
-    resetReduxStore,
-    OllyTestListingEvent
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, buildUUID, resetReduxStore]);
 
   useEffect(() => {
     // This works only when appliedFilters changes and not on mount but after mounted
     if (isMounted) {
+      const searchParams = new URLSearchParams(window.location.search);
       const transformedAppliedFilters = {
         tab: 'tests'
       };
+      if (searchParams.get('details')) {
+        transformedAppliedFilters.details = searchParams.get('details');
+      }
       Object.keys(appliedFilters).forEach((key) => {
         if (Array.isArray(appliedFilters[key]) && appliedFilters[key]?.length) {
           transformedAppliedFilters[key] = appliedFilters[key]?.join(',');
@@ -224,6 +249,33 @@ const TestList = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appliedFilters]);
+
+  useEffect(() => {
+    setClosedAccordionIds((data) => {
+      const updatedData = {};
+      Object.keys(data).forEach((key) => {
+        if (data[key].type === TESTLIST_TYPES.ROOT) {
+          updatedData[key] = {
+            ...data[key],
+            status: expandAll
+          };
+        } else {
+          updatedData[key] = { ...data[key] };
+        }
+      });
+      return updatedData;
+    });
+  }, [expandAll]);
+
+  useEffect(() => {
+    const virtuosoNode = virtuosoRef.current;
+    setTimeout(() => {
+      virtuosoNode.scrollTo({
+        top: testListScrollPos,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }, [testListScrollPos]);
 
   return (
     <>
@@ -256,15 +308,15 @@ const TestList = ({
         {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
           <TestListContext.Provider value={testListContextValues}>
             <Virtuoso
+              ref={virtuosoRef}
               style={{ zIndex: 0 }}
               data={testListData?.hierarchy}
               endReached={loadMoreData}
               overscan={20}
-              itemContent={(index, data) => (
-                <RenderChildrens
-                  listOfItems={{ children: [data], type: 'ROOT' }}
-                />
-              )}
+              itemContent={(index, data) => <RenderRootItem data={data} />}
+              onScroll={(e) => {
+                updateTestScrollPos(e.target.scrollTop);
+              }}
             />
           </TestListContext.Provider>
         )}
@@ -274,31 +326,47 @@ const TestList = ({
         {testListDataApiState.status === API_STATUSES.FULFILLED &&
           testListData?.hierarchy?.length === 0 && (
             <div className="flex h-full flex-col justify-center">
-              <MdSearchOff className="text-base-500 mx-auto h-11 w-11" />
-              <h2 className="text-center font-bold">
-                No matching results found
-              </h2>
-              <p className="text-base-500 text-center">
-                We couldn&apos;t find the results you were looking for.
-              </p>
-              <O11yButton
-                wrapperClassName="mx-auto mt-6 block"
-                onClick={viewAllTests}
-              >
-                View All Tests
-              </O11yButton>
+              <O11yEmptyState
+                title={
+                  isFiltersApplied
+                    ? 'No matching results found'
+                    : 'No tests found'
+                }
+                description={
+                  isFiltersApplied
+                    ? "We couldn't find the results you were looking for."
+                    : 'No tests were detected in the current build, which could be attributed to its ongoing execution.'
+                }
+                mainIcon={
+                  <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                }
+                buttonProps={
+                  isFiltersApplied
+                    ? {
+                        children: ' View All Tests',
+                        onClick: viewAllTests,
+                        size: 'default'
+                      }
+                    : null
+                }
+              />
             </div>
           )}
       </div>
       <IntegrationsWidget />
+      <TestDetails source={TEST_DETAILS_SOURCE.TESTS_LISTING} />
     </>
   );
 };
 
-export default TestList;
+export default React.memo(TestList);
 
 TestList.propTypes = {
   buildUUID: PropTypes.string.isRequired,
   testDefectTypeMapping: PropTypes.objectOf(PropTypes.number).isRequired,
-  updateTestDefectTypeMapping: PropTypes.func.isRequired
+  updateTestDefectTypeMapping: PropTypes.func.isRequired,
+  updateTestScrollPos: PropTypes.func.isRequired,
+  testListScrollPos: PropTypes.number.isRequired,
+  updateScrollIndexMapping: PropTypes.func.isRequired,
+  scrollIndexMapping: PropTypes.objectOf(PropTypes.any).isRequired
 };

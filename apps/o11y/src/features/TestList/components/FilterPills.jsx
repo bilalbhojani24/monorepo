@@ -13,9 +13,13 @@ const FilterBadge = ({ text, onClose }) => (
     hasDot={false}
     hasRemoveButton
     modifier="base"
-    text={text}
+    text={
+      text.length > 40
+        ? `...${text.substring(text.length - 40, text.length)}`
+        : text
+    }
     onClose={onClose}
-    wrapperClassName="bg-base-50 text-base-900 font-bold bg-white ml-4 mb-1"
+    wrapperClassName="bg-white font-medium"
   />
 );
 
@@ -99,14 +103,9 @@ const FilterPills = ({ viewAllBuilds }) => {
             <div className="border-base-300 my-auto h-5 border-l" />
           </>
         )}
-        <div className="block">
+        <div className="flex flex-wrap gap-2">
           {itemsArray}
-          <O11yButton
-            variant="minimal"
-            colors="white"
-            wrapperClassName="ml-4"
-            onClick={viewAllBuilds}
-          >
+          <O11yButton variant="minimal" colors="white" onClick={viewAllBuilds}>
             Clear All
           </O11yButton>
         </div>

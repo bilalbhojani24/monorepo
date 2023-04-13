@@ -111,11 +111,17 @@ const AllBuildsPage = () => {
   }, [appliedFilters]);
 
   useEffect(() => {
-    window.pubSub.subscribe(PUSHER_EVENTS.BUILD_STARTED, (data) => {
-      if (projectNormalisedName === data.projectNormalisedName) {
-        setUpdates((prev) => prev + data.updatesCount);
+    const unSubscribe = window.pubSub.subscribe(
+      PUSHER_EVENTS.BUILD_STARTED,
+      (data) => {
+        if (projectNormalisedName === data.projectNormalisedName) {
+          setUpdates((prev) => prev + data.updatesCount);
+        }
       }
-    });
+    );
+    return () => {
+      unSubscribe();
+    };
   }, [projectNormalisedName]);
 
   const handleClickBuildItem = (currentIdx) => {

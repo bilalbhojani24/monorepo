@@ -1,10 +1,13 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { matchRoutes, useLocation } from 'react-router-dom';
+import { matchRoutes, useLocation, useNavigate } from 'react-router-dom';
 import { getStorage, initLogger } from '@browserstack/utils';
 import { getPusherConfig } from 'api/global';
 import ModalToShow from 'common/ModalToShow';
-import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
+import {
+  o11yHistory,
+  PROJECT_NORMALISED_NAME_IDENTIFIER
+} from 'constants/common';
 import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_API_KEY } from 'constants/keys';
 import { ROUTES } from 'constants/routes';
 import { APP_ROUTES } from 'constants/routesConstants';
@@ -20,6 +23,12 @@ const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [{ params }] = matchRoutes(ROUTES_ARRAY, location);
+
+  // init custom history object to allow navigation from
+  // anywhere in the react app (inside or outside components)
+  o11yHistory.navigate = useNavigate();
+  o11yHistory.location = location;
+
   useMemo(() => {
     const keys = {
       analyticsKey: ANALYTICS_KEY,

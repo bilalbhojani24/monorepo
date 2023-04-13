@@ -58,6 +58,12 @@ export function getCustomTimeStamp({
 export function getTimeStamp(dateString) {
   return format(new Date(dateString), 'h:mm:ss a');
 }
+
+const getMsShortHand = (ms) => ({
+  time: ms > 100 ? ms / 1000 : ms,
+  unit: ms > 100 ? 's' : 'ms'
+});
+
 export function milliSecondsToTime(ms, html) {
   const timeUnit = html ? '<span class="text-base-500">' : '';
   const timeUnitCloseTag = html ? '</span>' : '';
@@ -88,10 +94,12 @@ export function milliSecondsToTime(ms, html) {
       return html
         ? `${(ms / 1000).toFixed(2)}${timeUnit}s${timeUnitCloseTag}`
         : `${(ms / 1000).toFixed(2)}s`;
-    default:
+    default: {
+      const { time, unit } = getMsShortHand(ms);
       return html
-        ? `${ms.toFixed(2)}${timeUnit}ms${timeUnitCloseTag}`
-        : `${ms.toFixed(2)}ms`;
+        ? `${time.toFixed(2)}${timeUnit}${unit}${timeUnitCloseTag}`
+        : `${time.toFixed(2)}${unit}`;
+    }
   }
 }
 
