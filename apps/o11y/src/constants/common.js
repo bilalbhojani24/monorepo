@@ -75,7 +75,7 @@ export const SNP_DATE_RANGE = {
 };
 
 export const TOOLTIP_STYLES = {
-  backgroundColor: '#111827',
+  backgroundColor: 'var(--colors-base-800)',
   borderColor: 'transparent',
   style: {
     color: '#fff',
