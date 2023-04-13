@@ -2,17 +2,17 @@ import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
-import MediaPlayerControlPanel from './index';
+import MediaPlayerErrorState from './index';
 
 const defaultConfig = {
-  title: 'Application/Components/MediaPlayerControlPanel',
-  component: MediaPlayerControlPanel,
+  title: 'Application/Components/MediaPlayerErrorState',
+  component: MediaPlayerErrorState,
   parameters: {
     docs: {
       page: () => (
         <DocPageTemplate
           importStatement={
-            "import MediaPlayerControlPanel from 'bifrost/MediaPlayerControlPanel'"
+            "import MediaPlayerErrorState from 'bifrost/MediaPlayerErrorState'"
           }
         />
       )
@@ -21,7 +21,7 @@ const defaultConfig = {
   argTypes: {},
   controls: {}
 };
-const Template = (args) => <MediaPlayerControlPanel {...args} />;
+const Template = (args) => <MediaPlayerErrorState {...args} />;
 const Primary = Template.bind({});
 Primary.parameters = {
   controls: {}
