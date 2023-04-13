@@ -27,6 +27,7 @@ export const fetchApplicationsFromSelectedDevice =
     try {
       const selectedDevice = getSelectedDevice(getState());
 
+      dispatch(setErrorOnApplicationFetch(null));
       dispatch(setAreApplicationsStillLoading(true));
 
       const response = await fetchDeviceApplications(
@@ -50,11 +51,13 @@ export const fetchApplicationsFromSelectedDevice =
         dispatch(setSelectedApplication(lastSessionDevice));
       }
     } catch (error) {
-      if (error?.response?.status !== 460) {
-        throw error;
-      } else {
-        dispatch(setErrorOnApplicationFetch(error?.response?.data?.status));
+      let errorMsg = 'Failed to fetch apps.';
+
+      if (error?.response?.status && error?.response?.data?.status) {
+        errorMsg = error?.response?.data?.status;
       }
+
+      dispatch(setErrorOnApplicationFetch(errorMsg));
     } finally {
       dispatch(setAreApplicationsStillLoading(false));
     }
