@@ -167,7 +167,7 @@ export default function TestingTrendsHeader() {
   return (
     <div
       className={twClassNames(
-        'sticky top-16 z-10 flex flex-col py-6 px-6 bg-base-50'
+        'sticky top-16 z-10 flex flex-col py-6 px-6 bg-base-50 pb-0'
       )}
     >
       <span className="text-2xl font-bold">Testing Trends</span>

@@ -9,8 +9,8 @@ import { getActiveProject } from 'globalSlice/selectors';
 import { keyBy, merge, values } from 'lodash';
 import { logOllyEvent } from 'utils/common';
 
-const RGL_LS_KEY = 'testops-trends-layouts-v2';
-const RGL_LS_KEY_OLDER = 'testops-trends-layouts-v1';
+const RGL_LS_KEY = 'testops-trends-layouts-v3';
+const RGL_LS_KEY_OLDER = 'testops-trends-layouts-v2';
 const useTestingTrends = () => {
   const activeProject = useSelector(getActiveProject);
   const getMergedLayoutValue = (obj1, obj2) => {
