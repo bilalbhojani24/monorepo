@@ -16,7 +16,7 @@ export default {
     signInUrl: 'https://local.bsstag.com/users/sign_in',
     signOutUrl: 'https://local.bsstag.com/users/sign_out',
     apiUrl: 'https://localhost:8082/testops',
-    baseUrl: STAGING_CONFIG('').baseDocUrl,
+    baseUrl: STAGING_CONFIG('').baseUrl,
     withCredentials: false,
     integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
     useIntegrationsPreProdAuth: true
