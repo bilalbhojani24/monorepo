@@ -18,7 +18,7 @@ importers:
       lint-staged: 13.1.0
       turbo: 1.8.3
 
-  apps/Accessibility:
+  apps/accessibility:
     specifiers:
       '@browserstack/bifrost': 1.1.0
       '@browserstack/hooks': workspace:*
