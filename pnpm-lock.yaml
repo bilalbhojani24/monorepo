@@ -18,7 +18,7 @@ importers:
       lint-staged: 13.1.0
       turbo: 1.8.3
 
-  apps/accessibility:
+  apps/Accessibility:
     specifiers:
       '@browserstack/bifrost': 1.1.0
       '@browserstack/hooks': workspace:*
@@ -21820,7 +21820,7 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.21.0
       '@types/hoist-non-react-statics': 3.3.1
       '@types/use-sync-external-store': 0.0.3
       hoist-non-react-statics: 3.3.2
@@ -21852,7 +21852,7 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.21.0
       '@types/hoist-non-react-statics': 3.3.1
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
@@ -21886,7 +21886,7 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.21.0
       '@types/hoist-non-react-statics': 3.3.1
       '@types/react': 18.0.26
       '@types/use-sync-external-store': 0.0.3
@@ -22135,7 +22135,7 @@ packages:
     peerDependencies:
       react: '>= 0.14.0'
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.21.0
       highlight.js: 10.7.3
       lowlight: 1.20.0
       prismjs: 1.29.0
@@ -22360,7 +22360,7 @@ packages:
   /redux/4.2.1:
     resolution: {integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.21.0
     dev: false
 
   /refractor/3.6.0:
@@ -23931,7 +23931,7 @@ packages:
       postcss-scss: 4.0.6_postcss@8.4.21
       stylelint: 14.16.0
       stylelint-config-recommended: 10.0.1_stylelint@14.16.0
-      stylelint-scss: 4.4.0_stylelint@14.16.0
+      stylelint-scss: 4.6.0_stylelint@14.16.0
 
   /stylelint-config-recommended-scss/9.0.0_l3s4qeu3gkar2knsdy3w5miimm:
     resolution: {integrity: sha512-5e9pn3Ztfncd8s9OqvvCW7tZpYe+vGmPi7VEXX7XEp+Kj38PnKCrvFCBL+hQ7rkD4d5QzjB3BxlFEyo/30UWUw==}
@@ -23946,7 +23946,7 @@ packages:
       postcss-scss: 4.0.6_postcss@8.4.20
       stylelint: 14.16.0
       stylelint-config-recommended: 10.0.1_stylelint@14.16.0
-      stylelint-scss: 4.4.0_stylelint@14.16.0
+      stylelint-scss: 4.6.0_stylelint@14.16.0
     dev: true
 
   /stylelint-config-recommended/10.0.1_stylelint@14.16.0:
@@ -24058,18 +24058,6 @@ packages:
       postcss-value-parser: 4.2.0
       stylelint: 14.16.0
 
-  /stylelint-scss/4.4.0_stylelint@14.16.0:
-    resolution: {integrity: sha512-Qy66a+/30aylFhPmUArHhVsHOun1qrO93LGT15uzLuLjWS7hKDfpFm34mYo1ndR4MCo8W4bEZM1+AlJRJORaaw==}
-    peerDependencies:
-      stylelint: ^14.5.1 || ^15.0.0
-    dependencies:
-      lodash: 4.17.21
-      postcss-media-query-parser: 0.2.3
-      postcss-resolve-nested-selector: 0.1.1
-      postcss-selector-parser: 6.0.11
-      postcss-value-parser: 4.2.0
-      stylelint: 14.16.0
-
   /stylelint-scss/4.6.0_stylelint@14.16.0:
     resolution: {integrity: sha512-M+E0BQim6G4XEkaceEhfVjP/41C9Klg5/tTPTCQVlgw/jm2tvB+OXJGaU0TDP5rnTCB62aX6w+rT+gqJW/uwjA==}
     peerDependencies:
@@ -24081,7 +24069,6 @@ packages:
       postcss-selector-parser: 6.0.11
       postcss-value-parser: 4.2.0
       stylelint: 14.16.0
-    dev: true
 
   /stylelint/14.16.0:
     resolution: {integrity: sha512-X6uTi9DcxjzLV8ZUAjit1vsRtSwcls0nl07c9rqOPzvpA8IvTX/xWEkBRowS0ffevRrqkHa/ThDEu86u73FQDg==}
