@@ -176,7 +176,7 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 2.7.0
+      '@browserstack/bifrost': 2.9.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -220,7 +220,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 2.7.0_wuvwllacrnu6wbitqfs6jnvuw4
+      '@browserstack/bifrost': 2.9.0_wuvwllacrnu6wbitqfs6jnvuw4
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@internationalized/date': 3.1.0
@@ -2374,8 +2374,8 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/2.7.0_wuvwllacrnu6wbitqfs6jnvuw4:
-    resolution: {integrity: sha512-7O/oVAVonLJOOrx4TX0tABfJYRoL2p6/tMv7DDJg/dDG6jj2d43xDY52+RGF1Z8gvyiLT5GpgUdXiVbxhSjnbw==, tarball: download/@browserstack/bifrost/2.7.0/a8629855a77f5f3faf5fea10085674ae14d1dcaa}
+  /@browserstack/bifrost/2.9.0_wuvwllacrnu6wbitqfs6jnvuw4:
+    resolution: {integrity: sha512-1m1csexszJ4aNfsd71F6lFbJOiSwLrdKvJyGyFMb4quPWTNAeA81yLCZ4kBDGLC1ZCFx6VUCm+PEUtHx3N5WTw==, tarball: download/@browserstack/bifrost/2.9.0/0ffca1b51b2da57a4cb74a2378dd113f08b3ff6a}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
@@ -8727,7 +8727,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.1.4_postcss@8.4.21
+      tailwindcss: 3.1.4_postcss@8.4.20
 
   /@tailwindcss/line-clamp/0.4.2_tailwindcss@3.1.4:
     resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==}
@@ -20401,7 +20401,6 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
-    dev: true
 
   /postcss-import/14.1.0_postcss@8.4.21:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -20437,7 +20436,6 @@ packages:
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.20
-    dev: true
 
   /postcss-js/4.0.1_postcss@8.4.21:
     resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
@@ -20484,7 +20482,6 @@ packages:
       lilconfig: 2.0.6
       postcss: 8.4.20
       yaml: 1.10.2
-    dev: true
 
   /postcss-load-config/3.1.4_postcss@8.4.21:
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
@@ -20747,7 +20744,6 @@ packages:
     dependencies:
       postcss: 8.4.20
       postcss-selector-parser: 6.0.11
-    dev: true
 
   /postcss-nested/5.0.6_postcss@8.4.21:
     resolution: {integrity: sha512-rKqm2Fk0KbA8Vt3AdGN0FB9OBOMDVajMG6ZCf/GoHgdxUJ4sBFp0A/uMIRm+MJUdo33YXEtjqIz8u7DAp8B7DA==}
@@ -21246,7 +21242,6 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: true
 
   /postcss/8.4.21:
     resolution: {integrity: sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==}
@@ -24372,7 +24367,6 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
-    dev: true
 
   /tailwindcss/3.1.4_postcss@8.4.21:
     resolution: {integrity: sha512-NrxbFV4tYsga/hpWbRyUfIaBrNMXDxx5BsHgBS4v5tlyjf+sDsgBg5m9OxjrXIqAS/uR9kicxLKP+bEHI7BSeQ==}

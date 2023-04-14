@@ -39,3 +39,10 @@ export const TABLE_CLASSES = {
     SMART_TAGS: 'w-48'
   }
 };
+
+export const FILTER_LABEL_MAPPING = {
+  statuses: 'Status',
+  frameworks: 'Framework',
+  users: 'User',
+  tags: 'Tag'
+};

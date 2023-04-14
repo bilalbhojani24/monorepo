@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import { API_STATUSES } from 'constants/common';
+import { FILTER_LABEL_MAPPING } from 'features/AllBuilds/constants';
 import PropTypes from 'prop-types';
 import { getCustomTimeStamp } from 'utils/dateTime';
 import { capitalizeFirstLetter } from 'utils/stringUtils';
@@ -41,7 +42,7 @@ const FilterPills = ({ viewAllBuilds }) => {
       };
       dispatch(setAppliedFilters({ dateRange: newDateRange }));
     }
-    if (['tags', 'users', 'statuses'].includes(filterCategory)) {
+    if (['tags', 'users', 'statuses', 'frameworks'].includes(filterCategory)) {
       dispatch(
         setAppliedFilters({
           [filterCategory]: appliedFilters[filterCategory].filter(
@@ -98,9 +99,9 @@ const FilterPills = ({ viewAllBuilds }) => {
           />
         );
       }
-      if (['tags', 'users', 'statuses'].includes(singleFilterType)) {
-        const statusName =
-          singleFilterType === 'statuses' ? 'Status' : singleFilterType;
+      if (
+        ['tags', 'users', 'statuses', 'frameworks'].includes(singleFilterType)
+      ) {
         return targetValue.map((singleTag) => {
           const singleTagName =
             singleFilterType === 'users'
@@ -109,7 +110,10 @@ const FilterPills = ({ viewAllBuilds }) => {
           return (
             <FilterBadge
               key={singleTag}
-              text={`${capitalizeFirstLetter(statusName)} : ${singleTagName}`}
+              text={`${
+                FILTER_LABEL_MAPPING[singleFilterType] ||
+                capitalizeFirstLetter(singleFilterType)
+              } : ${singleTagName}`}
               onClose={() => removeFilter(singleFilterType, singleTag)}
             />
           );

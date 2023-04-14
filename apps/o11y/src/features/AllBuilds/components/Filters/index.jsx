@@ -25,7 +25,7 @@ const Filters = () => {
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
   const selectedFilters = useSelector(getSelectedFilters);
   const staticFilters = useSelector(getStaticFilters);
-  const { statuses, users, tags, dateRange } = selectedFilters;
+  const { statuses, users, tags, dateRange, frameworks } = selectedFilters;
 
   const showSlideover = () => {
     setIsSlideoverVisible(true);
@@ -39,7 +39,8 @@ const Filters = () => {
         statuses,
         users,
         tags,
-        dateRange
+        dateRange,
+        frameworks
       })
     );
     hideSlideover();
@@ -100,6 +101,13 @@ const Filters = () => {
       }))
     : [];
 
+  const frameworkOptions = staticFilters?.frameworks
+    ? Object.values(staticFilters?.frameworks).map((el) => ({
+        value: el,
+        label: el
+      }))
+    : [];
+
   return (
     <>
       <O11ySlideover
@@ -116,7 +124,7 @@ const Filters = () => {
             <div className="flex flex-col gap-6 px-4">
               <O11yComboBox
                 isMulti
-                placeholder="Select"
+                placeholder="Select build status"
                 label="Build Status"
                 options={statusOptions}
                 onChange={(selectedValues) => {
@@ -125,7 +133,7 @@ const Filters = () => {
                 value={statusOptions.filter((el) =>
                   statuses.includes(el.value)
                 )}
-                checkPosition
+                checkPosition="right"
                 virtuosoWidth="350px"
               />
               <UsersFilters
@@ -135,6 +143,20 @@ const Filters = () => {
               <TagsFilters
                 onChangeArrayFilter={onChangeArrayFilter}
                 allowFetchingData={isSlideoverVisible}
+              />
+              <O11yComboBox
+                isMulti
+                placeholder="Select framework"
+                label="Frameworks"
+                options={frameworkOptions}
+                onChange={(selectedValues) => {
+                  onChangeArrayFilter(selectedValues, 'frameworks');
+                }}
+                value={frameworkOptions.filter((el) =>
+                  frameworks.includes(el.value)
+                )}
+                checkPosition="right"
+                virtuosoWidth="350px"
               />
               <div className="flex flex-col">
                 <O11ySingleDatePicker
@@ -176,7 +198,7 @@ const Filters = () => {
           )}
         </O11ySlideoverBody>
 
-        <O11ySlideoverFooter isBorder="true" backgroundColorClass="justify-end">
+        <O11ySlideoverFooter isBorder="true" position="right">
           <O11yButton variant="primary" colors="white" onClick={hideSlideover}>
             Cancel
           </O11yButton>

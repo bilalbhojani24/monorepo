@@ -38,7 +38,7 @@ const UsersFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
         onChangeArrayFilter(selectedValues, 'users');
       }}
       value={selectedUserOptions}
-      checkPosition
+      checkPosition="right"
       virtuosoWidth="350px"
     />
   ) : null;

@@ -58,7 +58,7 @@ const TagsFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
         onChangeArrayFilter(selectedValues, 'tags');
       }}
       value={selectedTagsOptions}
-      checkPosition
+      checkPosition="right"
       virtuosoWidth="350px"
     />
   );
