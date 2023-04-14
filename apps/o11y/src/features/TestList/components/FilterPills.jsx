@@ -11,16 +11,19 @@ import startCase from 'lodash/startCase';
 import PropTypes from 'prop-types';
 import { capitalizeFirstLetter } from 'utils/stringUtils';
 
+const truncateMax = (text) => {
+  const MAX_CHARACTERS = 40;
+  return text.length > MAX_CHARACTERS
+    ? `...${text.substring(text.length - MAX_CHARACTERS, text.length)}`
+    : text;
+};
+
 const FilterBadge = ({ text, onClose }) => (
   <O11yBadge
     hasDot={false}
     hasRemoveButton
     modifier="base"
-    text={
-      text.length > 40
-        ? `...${text.substring(text.length - 40, text.length)}`
-        : text
-    }
+    text={text}
     onClose={onClose}
     wrapperClassName="bg-white font-medium"
   />
@@ -59,7 +62,9 @@ const FilterPills = ({ viewAllBuilds }) => {
         return (
           <FilterBadge
             key={singleFilterType}
-            text={`${FILTER_TAGNAME_MAPPING.isMuted}${targetValue}`}
+            text={`${FILTER_TAGNAME_MAPPING.isMuted}${truncateMax(
+              targetValue
+            )}`}
             onClose={() => removeFilter(singleFilterType, targetValue)}
           />
         );
@@ -68,7 +73,7 @@ const FilterPills = ({ viewAllBuilds }) => {
         return (
           <FilterBadge
             key={singleFilterType}
-            text={`${FILTER_TAGNAME_MAPPING.flaky}${targetValue}`}
+            text={`${FILTER_TAGNAME_MAPPING.flaky}${truncateMax(targetValue)}`}
             onClose={() => removeFilter(singleFilterType, targetValue[0])}
           />
         );
@@ -80,7 +85,9 @@ const FilterPills = ({ viewAllBuilds }) => {
         return (
           <FilterBadge
             key={singleFilterType}
-            text={`${FILTER_TAGNAME_MAPPING.history}${transformedValue}`}
+            text={`${FILTER_TAGNAME_MAPPING.history}${truncateMax(
+              transformedValue
+            )}`}
             onClose={() => removeFilter(singleFilterType, targetValue[0])}
           />
         );
@@ -89,7 +96,9 @@ const FilterPills = ({ viewAllBuilds }) => {
         return (
           <FilterBadge
             key={FILTER_TAGNAME_MAPPING.issueTypeGroup}
-            text={`${FILTER_TAGNAME_MAPPING.issueTypeGroup}${targetValue}`}
+            text={`${FILTER_TAGNAME_MAPPING.issueTypeGroup}${truncateMax(
+              targetValue
+            )}`}
             onClose={() => removeFilter(singleFilterType, targetValue)}
           />
         );
@@ -100,8 +109,8 @@ const FilterPills = ({ viewAllBuilds }) => {
             key={singleTag}
             text={`${
               FILTER_TAGNAME_MAPPING[singleFilterType] ||
-              capitalizeFirstLetter(singleFilterType)
-            } : ${singleTag}`}
+              `${capitalizeFirstLetter(singleFilterType)}: `
+            }${truncateMax(singleTag)}`}
             onClose={() => removeFilter(singleFilterType, singleTag)}
           />
         ));
