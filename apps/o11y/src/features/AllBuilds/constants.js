@@ -20,11 +20,11 @@ export const EMPTY_METADATA_FILTERS = {
 };
 
 export const aggregateColors = {
-  'Automation Bug': '#8D51C2', // purple
-  'Environment Issue': '#DBBD29', // yellow
-  'No Defect': '#E25092', // pink
-  'Product Bug': '#5C9EEB', // blue
-  'To be Investigated': '#C47631' // brown
+  'Automation Bug': '#65B3B1',
+  'Environment Issue': '#ECCF5C',
+  'No Defect': '#BC9874',
+  'Product Bug': '#286E9A',
+  'To be Investigated': '#748794'
 };
 
 export const TABLE_CLASSES = {
