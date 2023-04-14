@@ -132,14 +132,14 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
           ) {
             exceptions.push({
               startTime,
-              logLevel: 'error',
+              type: 'error',
               id: uuidv4()
             });
           }
           if (data?.logLevel === LOG_LEVELS.WARNING) {
             exceptions.push({
               startTime,
-              logLevel: 'warning',
+              type: 'warning',
               id: uuidv4()
             });
           }

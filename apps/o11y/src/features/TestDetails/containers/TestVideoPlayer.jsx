@@ -13,7 +13,7 @@ import { useLogsContext } from '../contexts/LogsContext';
 import { clearTestDetails, getTestDetailsData } from '../slices/dataSlice';
 import {
   getCurrentTestRunId,
-  // getExceptions,
+  getExceptions,
   getTestDetails
 } from '../slices/selectors';
 import { clearExceptions } from '../slices/uiSlice';
@@ -22,7 +22,7 @@ const TestVideoPlayer = () => {
   const dispatch = useDispatch();
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const details = useSelector(getTestDetails);
-  // const exceptions = useSelector(getExceptions);
+  const exceptions = useSelector(getExceptions);
   const { sessionTestToggle } = useLogsContext();
 
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
@@ -143,7 +143,11 @@ const TestVideoPlayer = () => {
 
     // isIntersecting is true when element and viewport are overlapping
     // isIntersecting is false when element and viewport don't overlap
-    if (entries[0].isIntersecting === true && !fullscreenElement) {
+    if (
+      entries[0].isIntersecting === true &&
+      !fullscreenElement &&
+      showFloatingWindow
+    ) {
       handleFloatingVideoClose();
     } else if (entries[0].isIntersecting !== true && !fullscreenElement) {
       handleFloatingVideoShow();
@@ -187,12 +191,13 @@ const TestVideoPlayer = () => {
         setIsPaused={setIsMainVideoPaused}
         showOverlay={showOverlay}
         hideOverlay={hideOverlay}
+        exceptions={exceptions}
         isVideoMetaLoaded={isVideoMetaLoaded}
       />
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
         className={twClassNames('w-auto', {
-          hidden: !showFloatingWindow
+          hidden: !showFloatingWindow || !isVideoMetaLoaded
         })}
         style={{
           right: floatingVideoRightOffset,
@@ -209,6 +214,7 @@ const TestVideoPlayer = () => {
           setIsPaused={setIsFloatingVideoPaused}
           showOverlay={showOverlay}
           hideOverlay={hideOverlay}
+          exceptions={exceptions}
           isVideoMetaLoaded={isVideoMetaLoaded}
         />
       </DraggableComponent>
