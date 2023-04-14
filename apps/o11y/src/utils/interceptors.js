@@ -6,6 +6,5 @@ axios.interceptors.request.use((config) => {
   updatedConfig.baseURL = getEnvConfig().apiUrl;
   updatedConfig.withCredentials = getEnvConfig().withCredentials;
   updatedConfig.headers = updatedConfig.headers || {};
-  updatedConfig.headers['x-cookie-prefix'] = getEnvConfig().cookiePrefix;
   return updatedConfig;
 });

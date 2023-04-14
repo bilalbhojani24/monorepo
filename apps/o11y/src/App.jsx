@@ -50,7 +50,9 @@ const App = () => {
           )
         })
       ),
-    getEnvConfig().signInUrl
+    `${getEnvConfig().signInUrl}?redirect_url=${encodeURIComponent(
+      window.location.href
+    )}`
   );
   return (
     <>
