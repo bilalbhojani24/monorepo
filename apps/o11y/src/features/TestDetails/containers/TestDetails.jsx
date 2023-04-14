@@ -71,16 +71,14 @@ const TestDetails = ({ source }) => {
   }, [dispatch]);
 
   return (
-    <>
-      <O11ySlideover show={isVisible} backgroundOverlay={false} size="3xl">
-        <TEST_DETAILS_CONTEXT.Provider
-          value={{ handleLogTDInteractionEvent, panelRef }}
-        >
-          <SlideOverHeader />
-          <SlideOverBody />
-        </TEST_DETAILS_CONTEXT.Provider>
-      </O11ySlideover>
-    </>
+    <O11ySlideover show={isVisible} backgroundOverlay={false} size="3xl">
+      <TEST_DETAILS_CONTEXT.Provider
+        value={{ handleLogTDInteractionEvent, panelRef }}
+      >
+        <SlideOverHeader />
+        <SlideOverBody />
+      </TEST_DETAILS_CONTEXT.Provider>
+    </O11ySlideover>
   );
 };
 
