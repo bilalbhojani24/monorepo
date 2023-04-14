@@ -179,7 +179,7 @@ export default function useTestCases() {
       currentParams[key] = value;
     }
 
-    setSearchParams({ ...currentParams, p });
+    setSearchParams({ ...currentParams, p: p || 1 });
   };
 
   const quickImportButtonClicked = () => {
