@@ -14,7 +14,7 @@ import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 const VideoPlayer = forwardRef(
   (
     {
-      videoUrl,
+      // videoUrl,
       onMetadataLoaded,
       containerRef,
       isPaused,
@@ -89,8 +89,8 @@ const VideoPlayer = forwardRef(
       <div ref={containerRef} className="relative flex flex-col">
         <MediaPlayer
           ref={ref}
-          // url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-          url={videoUrl}
+          url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          // url={videoUrl}
           onFirstReady={handleOnLoad}
           onVideoError={handleOnError}
           onPlayCallback={handlePlayCallback}
@@ -123,7 +123,7 @@ const VideoPlayer = forwardRef(
 );
 
 VideoPlayer.propTypes = {
-  videoUrl: PropTypes.string.isRequired,
+  // videoUrl: PropTypes.string.isRequired,
   onMetadataLoaded: PropTypes.func.isRequired,
   containerRef: PropTypes.oneOfType([
     PropTypes.func,

@@ -89,8 +89,8 @@ const TestVideoPlayer = () => {
     const videoComponent = videoRef.current;
     const floatingVideoComponent = floatingVideoComponentRef.current;
     if (videoComponent && floatingVideoComponent) {
-      floatingVideoComponent.currentTime = videoComponent.currentTime;
-      if (videoComponent?.paused) {
+      floatingVideoComponent.seekTo(videoComponent.getCurrentTime());
+      if (isMainVideoPaused) {
         setIsFloatingVideoPaused(true);
       } else {
         setIsFloatingVideoPaused(false);
@@ -103,8 +103,8 @@ const TestVideoPlayer = () => {
     const videoComponent = videoRef.current;
     const floatingVideoComponent = floatingVideoComponentRef.current;
     if (videoComponent && floatingVideoComponent) {
-      videoComponent.currentTime = floatingVideoComponent.currentTime;
-      if (floatingVideoComponent?.paused) {
+      videoComponent.seekTo(floatingVideoComponent.getCurrentTime());
+      if (isFloatingVideoPaused) {
         setIsMainVideoPaused(true);
       } else {
         setIsMainVideoPaused(false);
