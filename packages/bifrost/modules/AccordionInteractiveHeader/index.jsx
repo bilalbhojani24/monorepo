@@ -35,7 +35,7 @@ const AccordionInteractiveHeader = ({
                     type="button"
                     onClick={handleClick}
                     className={twClassNames(
-                      'flex shrink-0 cursor-pointer items-center gap-2.5 grow m-1 text-base-800 font-medium'
+                      'flex cursor-pointer items-center gap-2.5 grow m-1 text-base-800 font-medium'
                     )}
                   >
                     <ChevronRightIcon
