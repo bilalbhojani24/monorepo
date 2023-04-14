@@ -1,12 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineBugReport } from '@browserstack/bifrost';
 import { O11yButton, O11yTabs } from 'common/bifrostProxy';
 import {
-  setWidgetConfiguration,
-  toggleWidget
-} from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
-import { getTestReportDetails } from 'features/TestList/slices/testListSlice';
+  hideIntegrationsWidget,
+  showIntegrationsWidget
+} from 'features/IntegrationsWidget/utils';
+import { AppContext } from 'features/Layout/context/AppContext';
 
 import SessionTestToggle from '../components/SessionTestToggle';
 import { useLogsContext } from '../contexts/LogsContext';
@@ -29,11 +29,13 @@ const tabs = [
 ];
 
 const TestsLogsInfoTabs = () => {
-  const testRef = useRef(null);
+  const { setWidgetPositionRef } = useContext(AppContext);
+
   const dispatch = useDispatch();
   const details = useSelector(getTestDetails);
   const testRunId = useSelector(getShowTestDetailsFor);
-  const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
+  const { handleLogTDInteractionEvent, panelRef } =
+    useTestDetailsContentContext();
   const [isLoadingBugDetails, setIsLoadingBugDetails] = useState(false);
   const { videoSeekTime, sessionTestToggle, activeTab, setActiveTab } =
     useLogsContext();
@@ -52,28 +54,25 @@ const TestsLogsInfoTabs = () => {
     handleLogTDInteractionEvent({
       interaction: 'report_bug_clicked'
     });
-    dispatch(toggleWidget(false));
     setIsLoadingBugDetails(true);
-    dispatch(
-      getTestReportDetails({
-        buildId: 'DUMMY',
-        testRunId
-      })
-    )
-      .unwrap()
+    if (panelRef.current) {
+      setWidgetPositionRef(panelRef.current);
+    }
+    dispatch(showIntegrationsWidget({ testRunId, widgetPosition: 'left' }))
       .then(() => {
-        dispatch(
-          setWidgetConfiguration({
-            position: 'left'
-            // ref: testRef
-          })
-        );
-        dispatch(toggleWidget(true));
+        setIsLoadingBugDetails(true);
       })
       .finally(() => {
         setIsLoadingBugDetails(false);
       });
   };
+
+  useEffect(
+    () => () => {
+      dispatch(hideIntegrationsWidget());
+    },
+    [dispatch]
+  );
 
   return (
     <div className="flex flex-1 flex-col">
@@ -85,7 +84,7 @@ const TestsLogsInfoTabs = () => {
           disableFullWidthBorder
           wrapperClassName="flex-1"
         />
-        <div className="flex items-center gap-3 pr-1" ref={testRef}>
+        <div className="flex items-center gap-3 pr-1">
           <SessionTestToggle />
           <O11yButton
             isIconOnlyButton

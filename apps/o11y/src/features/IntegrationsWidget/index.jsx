@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CreateIssue } from '@browserstack/integrations';
 import { versionedBaseRoute } from 'constants/common';
+import { AppContext } from 'features/Layout/context/AppContext';
 import { getEnvConfig } from 'utils/common';
 
 import { toggleWidget } from './slices/integrationsWidgetSlice';
@@ -20,6 +21,7 @@ const IntegrationsWidget = () => {
   const configuration = useSelector(getWidgetConfiguration);
   const data = useSelector(getWidgetData);
   const dispatch = useDispatch();
+  const { widgetPositionRef } = useContext(AppContext);
 
   const handleCloseWidget = () => {
     dispatch(toggleWidget(false));
@@ -39,9 +41,9 @@ const IntegrationsWidget = () => {
   const options = {
     description: data.description,
     attachments: [],
-    successCallback: ({ ticketId, ticketUrl, attachment }) => {
+    successCallback: ({ event, data: cbData }) => {
       // eslint-disable-next-line no-console
-      console.log('object :>> ', ticketId, ticketUrl, attachment);
+      console.log('object :>> ', event, cbData);
     },
     errorCallback: (error) => {
       // eslint-disable-next-line no-console
@@ -54,7 +56,7 @@ const IntegrationsWidget = () => {
       isOpen={isOpen}
       handleClose={handleCloseWidget}
       position={configuration.position}
-      positionRef={configuration?.ref ? configuration.ref : null}
+      positionRef={widgetPositionRef || null}
       auth={auth}
       config={{
         baseURL: getEnvConfig().integrationsBaseUrl

@@ -17,8 +17,8 @@ export const getStaticDescription = (reportBugTestDetails = {}) => {
     duration,
     isAutoAnalyzed
   } = reportBugTestDetails;
-  let staticDesc = '';
-
+  let staticDesc = '| | |\n';
+  staticDesc += '| ------ | ----------- |\n';
   if (buildName) {
     staticDesc += getTableRow('Build Name', buildName);
   }
@@ -67,7 +67,8 @@ export const getStaticDescription = (reportBugTestDetails = {}) => {
 };
 
 export const getRetryInfoTable = (retries) => {
-  let retriesTable = getTableRow('<b>Runs<b>', '<b>Status<b>');
+  let retriesTable = getTableRow('**Runs**', '**Status**');
+  retriesTable += '| ------ | ----------- |\n';
   retries.forEach((item, index) => {
     retriesTable += getTableRow(`Run#${index + 1}`, item.status);
   });

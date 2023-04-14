@@ -119,7 +119,7 @@ export const getTestListData = createAsyncThunk(
 export const getTestReportDetails = createAsyncThunk(
   `${sliceName}/getTestReportDetails`,
   async (data, { dispatch, rejectWithValue }) => {
-    let description = `\n\n Open [URL|${window.location.href}] on Browserstack\n`;
+    let description = `\n\n Open [URL](${window.location.href}) on Browserstack\n`;
     try {
       const response = await getBugDetails(data.buildId, data.testRunId);
       const details = response.data;
@@ -134,7 +134,7 @@ export const getTestReportDetails = createAsyncThunk(
             assertionString += `${item}\n`;
           }
         });
-        description += `\n\n{code:title=Exception|theme=FadeToGrey|language=shell|collapse=true}${assertionString}{code}`;
+        description += `\n\n\n **Exception** \n \`\`\`shell\n${assertionString}\`\`\``;
       }
       dispatch(
         setWidgetData({

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11ySlideover } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
@@ -20,6 +20,8 @@ import SlideOverBody from './SlideOverBody';
 import SlideOverHeader from './SlideOverHeader';
 
 const TestDetails = ({ source }) => {
+  const panelRef = useRef(null);
+
   const isVisible = useSelector(getIsTestDetailsVisible);
   const activeProject = useSelector(getActiveProject);
   const testId = useSelector(getShowTestDetailsFor);
@@ -69,12 +71,16 @@ const TestDetails = ({ source }) => {
   }, [dispatch]);
 
   return (
-    <O11ySlideover show={isVisible} backgroundOverlay={false} size="3xl">
-      <TEST_DETAILS_CONTEXT.Provider value={{ handleLogTDInteractionEvent }}>
-        <SlideOverHeader />
-        <SlideOverBody />
-      </TEST_DETAILS_CONTEXT.Provider>
-    </O11ySlideover>
+    <>
+      <O11ySlideover show={isVisible} backgroundOverlay={false} size="3xl">
+        <TEST_DETAILS_CONTEXT.Provider
+          value={{ handleLogTDInteractionEvent, panelRef }}
+        >
+          <SlideOverHeader />
+          <SlideOverBody />
+        </TEST_DETAILS_CONTEXT.Provider>
+      </O11ySlideover>
+    </>
   );
 };
 
