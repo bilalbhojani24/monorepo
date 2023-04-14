@@ -49,7 +49,7 @@
     "@browserstack/vite-config": "workspace:*",
     "@percy/cli": "1.21.0",
     "@percy/storybook": "4.3.5",
-    "@storybook/addon-a11y": "6.5.16",
+    "@storybook/addon-a11y": "6.4.0",
     "@storybook/addon-actions": "6.5.16",
     "@storybook/addon-docs": "6.5.16",
     "@storybook/addon-essentials": "6.5.16",
