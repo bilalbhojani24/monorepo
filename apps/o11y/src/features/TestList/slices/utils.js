@@ -17,7 +17,7 @@ export const getStaticDescription = (reportBugTestDetails = {}) => {
     duration,
     isAutoAnalyzed
   } = reportBugTestDetails;
-  let staticDesc = '| | |\n';
+  let staticDesc = getTableRow('**Item**', '**Data**');
   staticDesc += '| ------ | ----------- |\n';
   if (buildName) {
     staticDesc += getTableRow('Build Name', buildName);
