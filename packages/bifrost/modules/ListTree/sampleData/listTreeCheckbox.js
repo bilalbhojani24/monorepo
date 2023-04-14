@@ -83,7 +83,7 @@ const data = [
                 isIndeterminate: false,
                 contents: [
                   {
-                    uuid: '1-1-1ß-0-0',
+                    uuid: '1-1-1-0-0',
                     name: 'file 2b1a1',
                     isChecked: true,
                     isIndeterminate: false

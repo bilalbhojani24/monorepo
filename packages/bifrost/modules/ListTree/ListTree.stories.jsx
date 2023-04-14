@@ -301,6 +301,7 @@ const ControlledCheckboxNestedTreeTemplate = () => {
     const newItems = JSON.parse(JSON.stringify(listOfItems));
     // adjust (check/uncheck) current clicked item
     const targetItem = [];
+    // list of items impacted like child, parent, grandparent
     indexes.forEach((el, idx) => {
       if (idx === 0) {
         targetItem.push(newItems[el]);
