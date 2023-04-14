@@ -98,6 +98,9 @@ const MediaPlayer = forwardRef(
       },
       pause() {
         setIsPlaying(false);
+      },
+      getCurrentTime() {
+        videoRef.current.getCurrentTime();
       }
     }));
 

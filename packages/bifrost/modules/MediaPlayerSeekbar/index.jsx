@@ -37,7 +37,8 @@ const MediaPlayerSeekbar = forwardRef(
     const seekbarRef = useRef(null);
     const bufferedRatio = bufferedTime / duration;
     const bufferProgress = bufferedRatio > 1 ? 100 : bufferedRatio * 100;
-    const progress = (currentTime / duration) * 100;
+    const progressRatio = currentTime / duration;
+    const progress = progressRatio > 1 ? 100 : progressRatio * 100;
     const { warningProgress, errorProgress } = useMediaPlayerSeekbar(
       exceptions,
       currentTime
@@ -61,9 +62,8 @@ const MediaPlayerSeekbar = forwardRef(
     };
 
     useEffect(() => {
-      if (!hoverState) {
+      if (!hoverState)
         document.removeEventListener('mousemove', handleHoverSeekbarMouseMove);
-      }
     }, [hoverState, handleHoverSeekbarMouseMove]);
 
     const handleMouseLeave = () => {
@@ -73,10 +73,11 @@ const MediaPlayerSeekbar = forwardRef(
     const handleSeekbarDrag = (event) => {
       const offsetXRatio = getElementOffsetXRatio(event, seekbarRef?.current);
       const timeStampDefault = offsetXRatio * duration;
-      const finalTimestamp = startTime
-        ? timeStampDefault + startTime
-        : timeStampDefault;
-      ref.current.seekTo(finalTimestamp);
+      let finalTimeStamp = timeStampDefault;
+      if (startTime) {
+        finalTimeStamp = timeStampDefault + startTime;
+      }
+      ref.current.seekTo(finalTimeStamp);
       onSeekTime?.();
     };
 
@@ -97,19 +98,12 @@ const MediaPlayerSeekbar = forwardRef(
       setDraggingSeekbar(true);
     };
 
-    const handleMarkerMouseEnter = (event) => {
-      if (event.target.dataset.markertype === 'warning') {
-        setHoverOnWarningMarker(true);
-      } else if (event.target.dataset.markertype === 'error') {
-        setHoverOnErrorMarker(true);
-      }
-    };
-
-    const handleMarkerMouseLeave = (event) => {
-      if (event.target.dataset.markertype === 'warning') {
-        setHoverOnWarningMarker(false);
-      } else if (event.target.dataset.markertype === 'error') {
-        setHoverOnErrorMarker(false);
+    const handleMarkerMouseEvent = (event, IsEntering) => {
+      const markerType = event.target.dataset.markertype;
+      if (markerType === 'warning') {
+        setHoverOnWarningMarker(IsEntering);
+      } else if (markerType === 'error') {
+        setHoverOnErrorMarker(IsEntering);
       }
     };
 
@@ -163,8 +157,12 @@ const MediaPlayerSeekbar = forwardRef(
                           startTime={exception.startTime}
                           duration={duration}
                           type={exception.type}
-                          onMarkerMouseEnter={handleMarkerMouseEnter}
-                          onMarkerMouseLeave={handleMarkerMouseLeave}
+                          onMarkerMouseEnter={(e) =>
+                            handleMarkerMouseEvent(e, true)
+                          }
+                          onMarkerMouseLeave={(e) =>
+                            handleMarkerMouseEvent(e, false)
+                          }
                           onMarkerClick={onMarkerClick}
                         />
                       )
