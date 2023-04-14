@@ -76,6 +76,9 @@ const useAddEditTestRun = () => {
   const editTestRunsCtaLoading = useSelector(
     (state) => state.testRuns.isLoading.editTestRunCta
   );
+  const isTestRunsFormLoading = useSelector(
+    (state) => state.testRuns.isLoading.testRunFormData
+  );
 
   const handleTestRunInputFieldChange = (key, value) => {
     if (!isUnsavedDataExists) dispatch(setUnsavedDataExists(true));
@@ -354,6 +357,9 @@ const useAddEditTestRun = () => {
         hideAddTestRunForm(true);
       }
       dispatch(setTestRunFormData(formDataRetriever(data.data)));
+      dispatch(
+        updateTestRunsCtaLoading({ key: 'testRunFormData', value: false })
+      );
     });
   };
 
@@ -418,6 +424,7 @@ const useAddEditTestRun = () => {
   }, [isEditing, selectedTestRun]);
 
   return {
+    isTestRunsFormLoading,
     isEditing,
     selectedTCIDs,
     projectId,
