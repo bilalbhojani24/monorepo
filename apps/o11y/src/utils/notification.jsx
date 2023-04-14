@@ -21,7 +21,13 @@ const getIcon = (type) => {
   }
 };
 
-export const o11yNotify = ({ type = '', title = '', description = '' }) => {
+export const o11yNotify = ({
+  type = '',
+  title = '',
+  description = '',
+  actionButtons = null,
+  duration = 0
+}) => {
   notify(
     <Notifications
       title={title}
@@ -30,10 +36,11 @@ export const o11yNotify = ({ type = '', title = '', description = '' }) => {
       handleClose={(toastData) => {
         notify.remove(toastData.id);
       }}
+      actionButtons={actionButtons}
     />,
     {
       position: 'top-right',
-      duration: 3000
+      duration: duration || 3000
     }
   );
 };

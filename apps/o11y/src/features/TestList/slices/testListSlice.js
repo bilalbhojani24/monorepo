@@ -138,7 +138,8 @@ export const getTestReportDetails = createAsyncThunk(
       }
       dispatch(
         setWidgetData({
-          description
+          description,
+          testRunId: data.testRunId
         })
       );
       return response;

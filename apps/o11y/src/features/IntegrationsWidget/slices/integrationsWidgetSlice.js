@@ -11,7 +11,8 @@ const { reducer, actions } = createSlice({
       position: 'right'
     },
     data: {
-      description: ''
+      description: '',
+      testRunId: ''
     }
   },
   reducers: {
