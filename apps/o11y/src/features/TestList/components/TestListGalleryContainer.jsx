@@ -36,7 +36,9 @@ function TestListGalleryContainer({ imgUrl }) {
   return (
     <div className="mb-2 flex items-center gap-x-1">
       <MdOutlineImage className="text-base-500" />
-      <span className="text-base-500 text-sm">{images.length} Screenshot</span>
+      <span className="text-base-500 text-sm">
+        {images.length} screenshot{images.length > 1 ? 's' : ''}
+      </span>
     </div>
   );
 }
