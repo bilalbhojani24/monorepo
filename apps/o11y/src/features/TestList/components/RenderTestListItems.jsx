@@ -26,7 +26,7 @@ function RenderTestListItems({ data, parentId }) {
     }
   }, [data?.length, parentId, scrollIndexMapping]);
 
-  if (data.length > 10) {
+  if (data.length > 20) {
     return (
       <div className="relative">
         <Virtuoso
