@@ -33,7 +33,7 @@ else
   echo "*****STAGING PUBLISH STARTED*****"
 
   echo "$SOURCE uploading to $DESTINATION"
-  aws s3 sync "$SOURCE" "s3://$DESTINATION"  --delete
+  aws s3 sync "$SOURCE" "s3://$DESTINATION"  --delete 
   echo "$SOURCE uploading to $DESTINATION completed"
 
   echo "*****STAGING PUBLISH ENDED*****"
