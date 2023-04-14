@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOpenInNew } from '@browserstack/bifrost';
 import { CreateIssue } from '@browserstack/integrations';
@@ -26,7 +26,7 @@ const IntegrationsWidget = () => {
   const configuration = useSelector(getWidgetConfiguration);
   const data = useSelector(getWidgetData);
   const dispatch = useDispatch();
-  const { widgetPositionRef } = useContext(AppContext);
+  const { widgetPositionRef, setWidgetPositionRef } = useContext(AppContext);
 
   const handleCloseWidget = () => {
     dispatch(toggleWidget(false));
@@ -86,6 +86,12 @@ const IntegrationsWidget = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      setWidgetPositionRef(null);
+    }
+  }, [isOpen, setWidgetPositionRef]);
 
   return (
     <CreateIssue
