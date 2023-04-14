@@ -16,15 +16,15 @@ function TestlistTimeline({ details }) {
   const getClassesByStatus = (status) => {
     switch (status) {
       case TEST_STATUS.FAIL:
-        return 'bg-danger-600 border-danger-400';
+        return 'bg-danger-400 border-danger-300';
       case TEST_STATUS.PASS:
-        return 'bg-success-600 border-success-400';
+        return 'bg-success-400 border-success-300';
       case TEST_STATUS.SKIPPED:
-        return 'bg-base-600 border-base-400';
+        return 'bg-base-400 border-base-400';
       case TEST_STATUS.TIMEOUT:
-        return 'bg-attention-600 border-attention-400';
+        return 'bg-attention-500 border-attention-400';
       default:
-        return 'bg-base-600 border-base-400';
+        return 'bg-base-400 border-base-400';
     }
   };
 
@@ -74,7 +74,7 @@ function TestlistTimeline({ details }) {
               )}
             />
           </div>
-          <div className="bg-base-400 h-0.5 w-3 shrink-0 rounded-full" />
+          <div className="bg-base-300 h-0.5 w-2 shrink-0 rounded-full" />
         </O11yTooltip>
       ))}
     </div>
