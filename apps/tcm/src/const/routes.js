@@ -29,6 +29,6 @@ export const BASE_API_URL = import.meta.env.DEV
   : // ? 'https://test-management.bsstag.com'
     window.location.origin;
 
-export const WS_URL = 'ws://api.teststack.bsstag.com/api/v1/cable';
+export const WS_URL = 'wss://api.teststack.bsstag.com/api/v1/cable';
 
 export default AppRoute;

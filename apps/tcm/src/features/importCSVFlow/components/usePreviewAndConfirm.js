@@ -63,8 +63,8 @@ const usePreviewAndConfirm = () => {
   };
 
   useEffect(() => {
-    // TODO: update the progress here
-    dispatch(updateImportProgress(10));
+    if (lastMessage?.percent !== null)
+      dispatch(updateImportProgress(lastMessage.percent));
   }, [dispatch, lastMessage]);
 
   return {
