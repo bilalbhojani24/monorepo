@@ -128,7 +128,7 @@ export default function TopErrors() {
                     onClick={handleAccordionExpand}
                     wrapperClassName="px-3 py-3 bg-white flex-1 [&>_div:first-child>div:first-child>.truncate]:shrink-0 font-mono"
                     title={
-                      <div className="overflow-hidden whitespace-normal break-words text-left text-sm">
+                      <div className="overflow-hidden whitespace-normal break-words text-left text-xs">
                         <UniqueErrorTitle title={singleBuildData.title} />
                       </div>
                     }

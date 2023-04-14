@@ -195,7 +195,7 @@ const TestList = ({
 
   useEffect(() => {
     if (buildUUID) {
-      if (!isFiltersApplied) {
+      if (!testListData?.hierarchy?.length) {
         const searchParams = new URLSearchParams(window?.location?.search);
         const transformedAppliedFilters = {
           tab: 'tests'

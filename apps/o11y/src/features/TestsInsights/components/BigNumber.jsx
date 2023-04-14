@@ -35,7 +35,7 @@ export default function BigNumber({ data, onClick, config }) {
       </div>
       <div
         className={twClassNames('flex items-end justify-start', {
-          'hover:text-brand-600 cursor-pointer pointer-events-auto':
+          'hover:text-brand-600 cursor-pointer pointer-events-auto w-[calc(100%-10px)]':
             !config.noHover
         })}
       >
@@ -45,7 +45,7 @@ export default function BigNumber({ data, onClick, config }) {
           </p>
         )}
         <p
-          className={twClassNames('mr-2.5 text-3xl font-semibold', {
+          className={twClassNames('mr-2.5 text-3xl font-semibold shrink-0', {
             'hover:text-brand-600': !config.noHover
           })}
         >
@@ -59,7 +59,7 @@ export default function BigNumber({ data, onClick, config }) {
             'text-base-500 my-1 flex items-center text-sm font-medium',
             {
               'hover:text-brand-600': !config.noHover,
-              'w-[calc(100%-50px)]': !config.noHover
+              'w-[calc(100%-60px)]': !config.noHover
             }
           )}
         >

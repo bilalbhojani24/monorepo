@@ -19,15 +19,10 @@ export default function RootNodeMetaData({
   handleClickFileUrl
 }) {
   return (
-    <div className="mt-1 flex items-center">
-      <div
-        className={twClassNames('flex items-center', {
-          "after:content-[''] after:w-1 after:h-1 after:rounded":
-            os?.name || browser?.name || device
-        })}
-      >
+    <div className="mt-1 flex items-center gap-2">
+      <div className="flex items-center gap-2">
         {device ? (
-          <div className="mr-2">
+          <div className="flex items-center">
             <DetailIcon
               icon={
                 browser?.name
@@ -42,7 +37,7 @@ export default function RootNodeMetaData({
         ) : (
           <>
             {browser?.name && (
-              <div className="mr-2">
+              <div className="flex items-center">
                 <DetailIcon
                   openTextInTooltip
                   tooltipTheme="dark"
@@ -54,12 +49,14 @@ export default function RootNodeMetaData({
           </>
         )}
         {os?.name && (
-          <DetailIcon
-            openTextInTooltip
-            tooltipTheme="dark"
-            icon={`icon-${getOsIconName(os.name)}`}
-            text={`${getShortOSName(os.name)} ${os.version}`}
-          />
+          <div className="flex items-center">
+            <DetailIcon
+              openTextInTooltip
+              tooltipTheme="dark"
+              icon={`icon-${getOsIconName(os.name)}`}
+              text={`${getShortOSName(os.name)} ${os.version}`}
+            />
+          </div>
         )}
       </div>
       <div
@@ -69,11 +66,11 @@ export default function RootNodeMetaData({
         })}
       >
         <span>
-          <MdFolderOpen className="h-5 w-5" />
+          <MdFolderOpen className="text-base-400 text-xl" />
         </span>
         {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
-          className="truncate text-sm"
+          className="text-base-600 truncate text-sm"
           role="button"
           tabIndex="0"
           onClick={(e) => e.stopPropagation()}
