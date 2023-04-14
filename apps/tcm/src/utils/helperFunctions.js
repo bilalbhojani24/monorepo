@@ -88,10 +88,3 @@ export const getSystemOrCustomValue = (
   if (customValue) return customValue;
   return '--';
 };
-// export const attachEventListener = (target, event, cbFunction) => {
-//   target?.addEventListener(event, cbFunction);
-// };
-
-// export const detachEventListener = (target, event, cbFunction) => {
-//   target?.removeEventListener(event, cbFunction);
-// };
