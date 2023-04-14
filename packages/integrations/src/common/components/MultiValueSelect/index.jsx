@@ -17,6 +17,7 @@ import { FieldType, SingleValueSelectRawOptionType } from '../types';
 const MultiSelect = ({
   label,
   value,
+  schema,
   options,
   required,
   fieldKey,
@@ -194,7 +195,11 @@ const MultiSelect = ({
     fieldsData[fieldKey] || cleanOptions(value || defaultValue) || [];
 
   return (
-    <div className="py-3">
+    <div
+      className="py-3"
+      data-field-type={schema?.field}
+      data-field-key={fieldKey}
+    >
       <ComboBox
         onChange={handleChange}
         value={!optionsToRender?.length ? null : valueToRender}
