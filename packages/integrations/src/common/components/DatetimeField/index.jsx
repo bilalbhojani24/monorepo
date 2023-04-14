@@ -15,6 +15,7 @@ import { TIME_PICKER_OPTIONS } from './constants';
 
 const DatetimeField = ({
   label,
+  schema,
   fieldKey,
   required,
   fieldsData,
@@ -70,7 +71,11 @@ const DatetimeField = ({
   };
 
   return (
-    <div className="py-3">
+    <div
+      className="py-3"
+      data-field-type={schema?.field}
+      data-field-key={fieldKey}
+    >
       <Label required={required} label={label} />
       <div className="flex">
         <div className="flex-1">

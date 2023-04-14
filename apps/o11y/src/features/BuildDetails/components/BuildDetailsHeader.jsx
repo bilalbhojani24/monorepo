@@ -121,7 +121,7 @@ function BuildDetailsHeader({
       );
     } else {
       applyTestListFilter({
-        query: `${searchParams.toString()}`
+        query: searchParams.toString()
       });
     }
   };

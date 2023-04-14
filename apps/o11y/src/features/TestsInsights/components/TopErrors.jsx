@@ -38,10 +38,8 @@ export default function TopErrors() {
 
   if (topErrorsStats?.isLoading) {
     return (
-      <div className=" flex h-full flex-col">
-        <div className="flex flex-1 items-center">
-          <O11yLoader text="Fetching data" />
-        </div>
+      <div className="flex h-full items-center">
+        <O11yLoader text="Fetching data" />
       </div>
     );
   }

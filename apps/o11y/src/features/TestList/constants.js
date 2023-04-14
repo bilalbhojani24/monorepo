@@ -13,13 +13,15 @@ export const EMPTY_STATIC_FILTERS = {
 
 export const EMPTY_SELECTED_FILTERS = {
   ...EMPTY_STATIC_FILTERS,
-  isMuted: false
+  isMuted: false,
+  issueTypeGroup: ''
 };
 
 export const EMPTY_APPLIED_FILTERS = {
   ...EMPTY_STATIC_FILTERS,
   search: '',
-  isMuted: false
+  isMuted: false,
+  issueTypeGroup: ''
 };
 
 export const TESTLIST_TYPES = {
@@ -91,7 +93,8 @@ export const singleItemPropType = {
   status: PropTypes.shape(statusObjectPropType)
 };
 
-export const HIERARCHY_SPACING = 20;
+export const HIERARCHY_SPACING = 30;
+export const HIERARCHY_TEST_ADDITIONAL_SPACING = -26;
 export const HIERARCHY_SPACING_START = 24;
 
 export const LOG_TYPES = {

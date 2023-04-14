@@ -290,7 +290,7 @@ const TestList = ({
               isIconOnlyButton
               colors="white"
               variant="minimal"
-              wrapperClassName="mr-3"
+              wrapperClassName="mr-2.5 p-0.5"
               icon={
                 expandAll ? (
                   <MdUnfoldLess className="h-5 w-5" />

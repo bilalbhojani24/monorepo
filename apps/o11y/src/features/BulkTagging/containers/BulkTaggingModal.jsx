@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import {
@@ -19,7 +19,7 @@ import {
   updateIssueTypes
 } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
@@ -48,9 +48,9 @@ function BulkTaggingModal() {
   const { data: buildMeta, analyticsData } = useSelector(getBuildMeta);
   const availableIssueTypes = buildMeta?.issueTypes;
   const [isUpdating, setIsUpdating] = useState(false);
-  const [selectedTestRunIds, setSelectedTestRunIds] = useState({});
+  const [selectedTestRunIds, setSelectedTestRunIds] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState(
-    () => defaultTypeSelection || availableIssueTypes[0]
+    () => defaultTypeSelection || {}
   );
   const [timeFrame, setTimeFrame] = useState(DATE_RANGE.LAST_10_BUILDS.value);
   const [similarIssues, setSimilarIssues] = useState({
@@ -94,79 +94,23 @@ function BulkTaggingModal() {
   const handleCheckBoxChange = (e, targetTestRunID) => {
     if (targetTestRunID === -1) {
       if (e.target.checked) {
-        const newSelectedIDs = {};
+        const newSelectedIDs = [];
         similarIssues?.data?.similar?.forEach((el) => {
-          newSelectedIDs[el.id] = true;
+          newSelectedIDs.push(el.id);
         });
         setSelectedTestRunIds(newSelectedIDs);
       } else {
-        setSelectedTestRunIds({});
+        setSelectedTestRunIds([]);
       }
     } else {
-      const newSelectedIDs = { ...selectedTestRunIds };
+      let newSelectedIDs = [...selectedTestRunIds];
       if (e.target.checked) {
-        newSelectedIDs[targetTestRunID] = true;
+        newSelectedIDs.push(targetTestRunID);
       } else {
-        delete newSelectedIDs[targetTestRunID];
+        newSelectedIDs = newSelectedIDs.filter((id) => id !== targetTestRunID);
       }
       setSelectedTestRunIds(newSelectedIDs);
     }
-  };
-  const handleSubmitChanges = () => {
-    OllyTestListingEvent('O11yAnalyzerBulkTaggingExecuted', {
-      similar_error_in: timeFrame.toLowerCase(),
-      issue_type: selectedStatus.name.replace(' ', '_').toLowerCase(),
-      select_all_clicked:
-        Object.keys(selectedTestRunIds).length ===
-        similarIssues?.data?.similar?.length
-    });
-    setIsUpdating(true);
-    const payloadData = Object.keys(selectedTestRunIds).map((el) => ({
-      testRunId: parseInt(el, 10),
-      issueTypeId: parseInt(selectedStatus.id, 10)
-    }));
-    payloadData.push({
-      testRunId,
-      issueTypeId: parseInt(selectedStatus.id, 10)
-    });
-    dispatch(
-      updateIssueTypes({
-        projectId: activeProject?.id,
-        data: {
-          issues: payloadData
-        }
-      })
-    )
-      .unwrap()
-      .then(() => {
-        o11yNotify({
-          title: `Tests updated successfully!`,
-          description: '',
-          type: 'success'
-        });
-        const updateTestDefectTypeMappingPayload = Object.keys(
-          selectedTestRunIds
-        ).map((el) => ({
-          id: parseInt(el, 10),
-          issueType: { id: selectedStatus?.id, name: selectedStatus?.name }
-        }));
-        updateTestDefectTypeMappingPayload.push({
-          id: testRunId,
-          issueType: { id: selectedStatus?.id, name: selectedStatus?.name }
-        });
-        onSuccess?.(updateTestDefectTypeMappingPayload);
-        handleCloseModal();
-      })
-      .catch(() => {
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating tests',
-          type: 'error'
-        });
-      })
-      .finally(() => {
-        setIsUpdating(false);
-      });
   };
 
   useEffect(() => {
@@ -192,6 +136,67 @@ function BulkTaggingModal() {
         setSimilarIssues({ isLoading: false, data: {} });
       });
   }, [buildId, dispatch, testRunId, timeFrame, clusterIds]);
+
+  const isValid = useMemo(() => {
+    if (!selectedTestRunIds.length) {
+      return false;
+    }
+    return !(!selectedStatus?.id && !defaultTypeSelection?.id);
+  }, [defaultTypeSelection?.id, selectedStatus?.id, selectedTestRunIds.length]);
+
+  const handleSubmitChanges = () => {
+    if (isValid) {
+      OllyTestListingEvent('O11yAnalyzerBulkTaggingExecuted', {
+        similar_error_in: timeFrame.toLowerCase(),
+        issue_type: selectedStatus.name.replace(' ', '_').toLowerCase(),
+        select_all_clicked:
+          Object.keys(selectedTestRunIds).length ===
+          similarIssues?.data?.similar?.length
+      });
+      setIsUpdating(true);
+      const payloadData = selectedTestRunIds.map((el) => ({
+        testRunId: parseInt(el, 10),
+        issueTypeId: parseInt(selectedStatus.id, 10)
+      }));
+      if (testRunId) {
+        payloadData.push({
+          testRunId,
+          issueTypeId: parseInt(selectedStatus.id, 10)
+        });
+      }
+      dispatch(
+        updateIssueTypes({
+          projectId: activeProject?.id,
+          data: {
+            issues: payloadData
+          }
+        })
+      )
+        .unwrap()
+        .then(() => {
+          o11yNotify({
+            title: `Tests updated successfully!`,
+            description: '',
+            type: 'success'
+          });
+          const updateTestDefectTypeMappingPayload = selectedTestRunIds.map(
+            (el) => ({
+              id: parseInt(el, 10),
+              issueType: { id: selectedStatus?.id, name: selectedStatus?.name }
+            })
+          );
+          updateTestDefectTypeMappingPayload.push({
+            id: testRunId,
+            issueType: { id: selectedStatus?.id, name: selectedStatus?.name }
+          });
+          onSuccess?.(updateTestDefectTypeMappingPayload);
+          handleCloseModal();
+        })
+        .finally(() => {
+          setIsUpdating(false);
+        });
+    }
+  };
 
   return (
     <O11yModal show size="3xl" onClose={handleCloseModal}>
@@ -272,8 +277,7 @@ function BulkTaggingModal() {
         )}
         <O11yCheckbox
           checked={
-            Object.keys(selectedTestRunIds).length ===
-            similarIssues?.data?.similar?.length
+            selectedTestRunIds.length === similarIssues?.data?.similar?.length
           }
           border={false}
           wrapperClassName={twClassNames('py-4 border-base-200 border-b', {
@@ -299,7 +303,7 @@ function BulkTaggingModal() {
                   data={el}
                   key={el.id}
                   handleSelect={handleCheckBoxChange}
-                  checked={!!selectedTestRunIds[el?.id]}
+                  checked={!!selectedTestRunIds.includes(el?.id)}
                 />
               ))}
             </>
@@ -315,6 +319,7 @@ function BulkTaggingModal() {
           isIconOnlyButton={isUpdating}
           onClick={handleSubmitChanges}
           type="submit"
+          disabled={!isValid}
         >
           Apply
         </O11yButton>

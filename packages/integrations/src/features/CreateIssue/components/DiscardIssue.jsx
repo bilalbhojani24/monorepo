@@ -23,10 +23,16 @@ const DiscardIssue = ({
       colors="white"
       fullWidth
       onClick={continueEditing}
+      data-test-id="continue-edit-btn"
     >
       Continue editing
     </Button>
-    <Button wrapperClassName="mt-4" fullWidth onClick={confirmIssueDiscard}>
+    <Button
+      wrapperClassName="mt-4"
+      fullWidth
+      onClick={confirmIssueDiscard}
+      data-test-id="discard-issue-btn"
+    >
       Discard issue
     </Button>
   </div>

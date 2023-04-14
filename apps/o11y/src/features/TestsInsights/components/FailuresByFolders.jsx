@@ -12,8 +12,6 @@ import { MdBarChart, MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState, O11yTooltip } from 'common/bifrostProxy';
 import Chart from 'common/Chart/containers/Chart';
 import O11yLoader from 'common/O11yLoader';
-// import PlaceHolder from 'testops/components/PlaceHolder';
-// import TestopsTooltip from 'testops/components/TestopsTooltip';
 import { COMMON_CHART_CONFIGS, COMMON_CHART_STYLES } from 'constants/common';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';

@@ -11,6 +11,7 @@ import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
   HIERARCHY_SPACING,
   HIERARCHY_SPACING_START,
+  HIERARCHY_TEST_ADDITIONAL_SPACING,
   LOG_TYPES,
   singleItemTestDetails
 } from 'features/TestList/constants';
@@ -64,7 +65,10 @@ const RenderTestItem = ({ item: data }) => {
     <div
       className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-1 pr-6"
       style={{
-        paddingLeft: HIERARCHY_SPACING_START + HIERARCHY_SPACING * rank
+        paddingLeft:
+          HIERARCHY_SPACING_START +
+          HIERARCHY_TEST_ADDITIONAL_SPACING +
+          HIERARCHY_SPACING * rank
       }}
       role="presentation"
       onClick={handleClickTestItem}
