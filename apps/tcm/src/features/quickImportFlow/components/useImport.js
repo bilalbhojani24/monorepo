@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -24,26 +23,20 @@ import {
   setErrorForConfigureData,
   setImportStarted,
   setImportStatusOngoing,
-  // setImportSteps,
-  setJiraConfigurationStatus,
   setLatestImportTool,
   setProjectForTestManagementImport,
   setRetryImport,
-  setSelectedRadioIdMap,
   setShowLoggedInScreen,
-  // setTestRailsCred,
   setTestRailsCredTouched,
-  // setZephyrCred,
   setZephyrCredTouched
 } from '../slices/importSlice';
+import { handleArtificialLoader } from '../slices/quickImportThunk';
 
 const useImport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { projectId } = useParams();
-  // const [showConnectNewAccountModal, setShowConnectNewAccountModal] =
-  //   useState(false);
 
   const isFromOnboarding = location?.state?.isFromOnboarding;
   // global selector
@@ -56,7 +49,6 @@ const useImport = () => {
     (state) => state.import.projectsForTestManagementImport
   );
   const currentScreen = useSelector((state) => state.import.currentScreen);
-  // const allImportSteps = useSelector((state) => state.import.importSteps);
   const connectionStatusMap = useSelector(
     (state) => state.import.connectionStatusMap
   );
@@ -67,18 +59,14 @@ const useImport = () => {
   const configureToolPageLoading = useSelector(
     (state) => state.import.configureToolPageLoading
   );
-  // const selectedRadioIdMap = useSelector(
-  //   (state) => state.import.selectedRadioIdMap
-  // );
+
   const testRailsCredTouched = useSelector(
     (state) => state.import.testRailsCredTouched
   );
   const zephyrCredTouched = useSelector(
     (state) => state.import.zephyrCredTouched
   );
-  // const jiraConfiguredForZephyr = useSelector(
-  //   (state) => state.import.isJiraConfiguredForZephyr
-  // );
+
   const configureToolTestConnectionLoading = useSelector(
     (state) => state.import.configureToolTestConnectionLoading
   );
@@ -97,16 +85,11 @@ const useImport = () => {
   const topImportInfoSteps = useSelector(
     (state) => state.import.topImportInfoSteps
   );
-  // const loggedInScreen = useSelector((state) => state.import.loggedInScreen);
-
-  // const handleInputFieldChange = (key) => (e) => {
-  //   const { value } = e.target;
-  //   if (currentTestManagementTool === 'testrails') {
-  //     dispatch(setTestRailsCred({ key, value }));
-  //     dispatch(setTestRailsCredTouched({ key, value: true }));
-  //   } else if (currentTestManagementTool === 'zephyr')
-  //     dispatch(setZephyrCred({ key, value }));
-  // };
+  const loggedInScreen = useSelector((state) => state.import.loggedInScreen);
+  const loggedInForTool = useSelector((state) => state.import.loggedInForTool);
+  const showArtificialLoader = useSelector(
+    (state) => state.import.showArtificialLoader
+  );
 
   const setConnectionStatus = ({ key, value }) => {
     dispatch(setConnectionStatusMap({ key, value }));
@@ -121,6 +104,7 @@ const useImport = () => {
         }))
       )
     );
+    dispatch(handleArtificialLoader(2000)); // this is to show loader before showing project, why we didn't went with a state because we had to give h-screen conditionally when we have that loader.
     dispatch(setConfigureToolProceeded(true));
     dispatch(setCurrentScreen(SCREEN_2));
     dispatch(setConfigureToolProceedLoading(false));
@@ -235,9 +219,6 @@ const useImport = () => {
       .every((checked) => checked === false);
 
     if (!noProjectSelected) {
-      // dispatch(
-      //   setImportSteps(handleStepChange(CONFIGURE_DATA, CONFIRM_IMPORT))
-      // );
       dispatch(setCurrentScreen(SCREEN_3));
     } else {
       dispatch(setErrorForConfigureData(true));
@@ -285,10 +266,6 @@ const useImport = () => {
     }
   };
 
-  // const isJiraConfiguredForZephyr = () => {
-  //   dispatch(setJiraConfigurationStatus());
-  // };
-
   const setTestManagementTool = (tool) => {
     dispatch(
       logEventHelper('TM_QiToolSelected', {
@@ -297,10 +274,6 @@ const useImport = () => {
     );
     dispatch(setCurrentTestManagementTool(tool));
   };
-
-  // const handleRadioGroupChange = (testManagementTool) => (_, id) => {
-  //   dispatch(setSelectedRadioIdMap({ key: testManagementTool, value: id }));
-  // };
 
   const onCancelClickHandler = () => {
     // global cancel on header
@@ -355,15 +328,6 @@ const useImport = () => {
     dispatch(setShowLoggedInScreen(true));
   };
 
-  // const handleConnectNewAccount = () => {
-  //   setShowConnectNewAccountModal(true);
-  // };
-
-  // const handleDisconnectAccount = () => {
-  //   dispatch(setShowLoggedInScreen(false));
-  //   setShowConnectNewAccountModal(false);
-  // };
-
   return {
     beginImportLoading,
     configureToolPageLoading,
@@ -374,28 +338,21 @@ const useImport = () => {
     currentScreen,
     currentTestManagementTool,
     getUserEmail,
-    // showConnectNewAccountModal,
-    // setShowConnectNewAccountModal,
-    // handleDisconnectAccount,
+    loggedInScreen,
+    loggedInForTool,
+    showArtificialLoader,
     handleChangeSetup,
     handleConfigureDataProceed,
     handleConfirmImport,
-    // handleConnectNewAccount,
-    // handleInputFieldChange,
     handleProceed,
-    // handleRadioGroupChange,
     handleTestConnection,
     handleTopSectionCtaClick,
     importStatus,
     isFromOnboarding,
-    // isJiraConfiguredForZephyr,
-    // jiraConfiguredForZephyr,
     onCancelClickHandler,
     populateQuickImportCredentials,
-    // selectedRadioIdMap,
     setTestManagementTool,
     showErrorForConfigData,
-    // loggedInScreen,
     testManagementProjects,
     testRailsCred,
     testRailsCredTouched,

@@ -64,7 +64,9 @@ const initialState = {
   latestImportTool: null,
   successfulImportedProjects: 0,
   topImportInfoSteps: [],
-  loggedInScreen: false
+  loggedInScreen: false,
+  loggedInForTool: '',
+  showArtificialLoader: false
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -270,6 +272,10 @@ const importSlice = createSlice({
     },
     setShowLoggedInScreen: (state, { payload }) => {
       state.loggedInScreen = payload;
+      state.loggedInForTool = state.currentTestManagementTool;
+    },
+    setShowArtificialLoader: (state, { payload }) => {
+      state.showArtificialLoader = payload;
     }
   },
   extraReducers: (builder) => {
@@ -279,7 +285,6 @@ const importSlice = createSlice({
         state.isJiraConfiguredForZephyr = true;
         state.zephyrCred.email = action.payload.data.email;
         state.zephyrCred.host = action.payload.data.host;
-        state.zephyrCred.jira_key = action.payload.data.key;
       }
       if (state.latestImportTool === 'zephyr' && action.payload.success) {
         state.isJiraConfiguredForZephyr = true;
@@ -363,6 +368,7 @@ export const {
   setShowNewProjectBanner,
   setNewProjectBannerDismiss,
   setImportedProjectCount,
-  setShowLoggedInScreen
+  setShowLoggedInScreen,
+  setShowArtificialLoader
 } = importSlice.actions;
 export default importSlice.reducer;

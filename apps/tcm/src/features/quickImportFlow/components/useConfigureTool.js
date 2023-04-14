@@ -30,6 +30,7 @@ const useConfigureTool = () => {
     (state) => state.import.configureToolProceed
   );
   const loggedInScreen = useSelector((state) => state.import.loggedInScreen);
+  const loggedInForTool = useSelector((state) => state.import.loggedInForTool);
   const testRailsCred = useSelector((state) => state.import.testRailsCred);
   const zephyrCred = useSelector((state) => state.import.zephyrCred);
   const connectionStatusMap = useSelector(
@@ -87,6 +88,7 @@ const useConfigureTool = () => {
     selectedRadioIdMap,
     handleConnectNewAccount,
     loggedInScreen,
+    loggedInForTool,
     showConnectNewAccountModal,
     setShowConnectNewAccountModal,
     handleDisconnectAccount,

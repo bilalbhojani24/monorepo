@@ -21,6 +21,7 @@ import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
 import ConfirmImport from './ConfirmImport';
 import useImport from './useImport';
+// import ViewDetailsModal from './viewDetailsModal';
 
 const Import = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const Import = () => {
     topImportInfoSteps,
     importStatus,
     configureToolPageLoading,
+    showArtificialLoader,
     handleTopSectionCtaClick,
     handleChangeSetup,
     onCancelClickHandler,
@@ -56,7 +58,12 @@ const Import = () => {
   const getCurrentScreen = () => {
     if (currentScreen === SCREEN_1) return <ConfigureTool />;
     if (currentScreen === SCREEN_2)
-      return <ConfigureData projects={testManagementProjects} />;
+      return (
+        <ConfigureData
+          projects={testManagementProjects}
+          showLoader={showArtificialLoader}
+        />
+      );
     if (currentScreen === SCREEN_3)
       return <ConfirmImport projects={testManagementProjects} />;
     return <>Something went wrong!</>;
@@ -137,7 +144,11 @@ const Import = () => {
       <div
         id="current-screen-wrapper"
         className={twClassNames(
-          'flex h-screen max-h-screen flex-col items-center pt-4 overflow-scroll'
+          'flex max-h-screen flex-col items-center pt-4 overflow-scroll',
+          {
+            'min-h-min': !showArtificialLoader,
+            'h-screen': showArtificialLoader
+          }
         )}
       >
         {topImportInfoSteps.length && currentScreen !== SCREEN_1 ? (
@@ -148,6 +159,7 @@ const Import = () => {
           />
         ) : null}
         {getCurrentScreen()}
+        {/* <ViewDetailsModal headerText="Quick Import" /> */}
       </div>
     </>
   );

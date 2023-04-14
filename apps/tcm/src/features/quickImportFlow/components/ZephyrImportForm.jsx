@@ -20,15 +20,19 @@ const ZephyrImportForm = (props) => {
   const {
     connectionStatusMap,
     handleInputFieldChange,
-    configureToolProceed,
+    // configureToolProceed,
     zephyrCred,
     zephyrCredTouched,
-    loggedInScreen
+    loggedInScreen,
+    loggedInForTool,
+    currentTestManagementTool
   } = useConfigureTool();
 
+  const alreadyLoggedIn =
+    loggedInScreen && loggedInForTool === currentTestManagementTool;
   return (
     <>
-      {jiraConfigured && !configureToolProceed && (
+      {jiraConfigured && !alreadyLoggedIn && (
         <div className="mb-6">
           <TMAlerts
             accentBorder={false}
@@ -41,20 +45,20 @@ const ZephyrImportForm = (props) => {
       <>
         <div
           className={twClassNames('flex', {
-            'justify-around': !loggedInScreen
+            'justify-around': !alreadyLoggedIn
           })}
         >
           <div
             className={twClassNames('mr-6', {
-              'basis-1/2': loggedInScreen,
-              'w-full': !loggedInScreen
+              'basis-1/2': alreadyLoggedIn,
+              'w-full': !alreadyLoggedIn
             })}
           >
             <TMInputField
               id="jira-host-name"
               onChange={handleInputFieldChange('host')}
               value={zephyrCred.host}
-              readonly={loggedInScreen}
+              readonly={alreadyLoggedIn}
               label={
                 <span className="flex items-center">
                   JIRA Host Name
@@ -86,7 +90,7 @@ const ZephyrImportForm = (props) => {
               }
             />
           </div>
-          {!loggedInScreen && (
+          {!alreadyLoggedIn && (
             <div className="w-full">
               <TMInputField
                 id="jira-api-token"
@@ -132,7 +136,7 @@ const ZephyrImportForm = (props) => {
             </div>
           )}
         </div>
-        {!loggedInScreen && (
+        {!alreadyLoggedIn && (
           <div className="mt-6 mb-4 flex justify-around">
             <div className="mr-6 w-full">
               <TMInputField
@@ -192,7 +196,7 @@ const ZephyrImportForm = (props) => {
           </div>
         )}
       </>
-      {!loggedInScreen && (
+      {!alreadyLoggedIn && (
         <>
           {connectionStatusMap[ZEPHYR] && (
             <TMAlerts

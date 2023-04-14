@@ -7,23 +7,31 @@ const ImportFooter = () => {
   const {
     handleTestConnection,
     handleProceed,
+    loggedInScreen,
+    loggedInForTool,
+    currentTestManagementTool,
     configureToolProceedLoading,
     configureToolTestConnectionLoading
   } = useImport();
 
+  const alreadyLoggedIn =
+    loggedInScreen && loggedInForTool === currentTestManagementTool;
+
   return (
     <>
-      <TMButton
-        colors="white"
-        variant="primary"
-        size="default"
-        wrapperClassName="mr-3"
-        onClick={handleTestConnection}
-        isIconOnlyButton={configureToolTestConnectionLoading}
-        loading={configureToolTestConnectionLoading}
-      >
-        Test Connection
-      </TMButton>
+      {!alreadyLoggedIn && (
+        <TMButton
+          colors="white"
+          variant="primary"
+          size="default"
+          wrapperClassName="mr-3"
+          onClick={handleTestConnection}
+          isIconOnlyButton={configureToolTestConnectionLoading}
+          loading={configureToolTestConnectionLoading}
+        >
+          Test Connection
+        </TMButton>
+      )}
       <TMButton
         colors="brand"
         variant="primary"

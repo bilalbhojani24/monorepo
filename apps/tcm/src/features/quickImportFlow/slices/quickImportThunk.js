@@ -1,4 +1,4 @@
-import { quickImportCleanUp } from './importSlice';
+import { quickImportCleanUp, setShowArtificialLoader } from './importSlice';
 
 export const resetQuickImport = () => (dispatch, getState) => {
   // reset everything except related to notification and modal
@@ -29,4 +29,11 @@ export const resetQuickImport = () => (dispatch, getState) => {
       currentTestManagementTool
     })
   );
+};
+
+export const handleArtificialLoader = (delay) => (dispatch) => {
+  dispatch(setShowArtificialLoader(true));
+  setTimeout(() => {
+    dispatch(setShowArtificialLoader(false));
+  }, delay);
 };

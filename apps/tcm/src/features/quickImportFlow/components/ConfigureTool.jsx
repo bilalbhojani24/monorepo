@@ -36,7 +36,8 @@ const ConfigureTool = () => {
     showConnectNewAccountModal,
     setShowConnectNewAccountModal,
     handleDisconnectAccount,
-    currentEmail
+    currentEmail,
+    loggedInForTool
   } = useConfigureTool();
 
   const testMgmtNameInDesc =
@@ -61,7 +62,7 @@ const ConfigureTool = () => {
   };
 
   return (
-    <div className="border-base-200 m-4 h-max w-3/4 max-w-7xl rounded-md border-2 border-solid bg-white">
+    <div className="border-base-300 m-4 h-max w-3/4 max-w-7xl rounded-md border border-solid bg-white">
       <div className="p-6">
         <div className="text-base-700 text-sm font-medium">
           Select your preferred tool
@@ -155,17 +156,20 @@ const ConfigureTool = () => {
           </div>
         )}
         {getForm()}
-        {loggedInScreen && (
-          <div className="mt-4">
-            <TMAlerts
-              description={`Successfully logged in with `}
-              modifier="primary"
-              accentBorder={false}
-              linkText="Connect New Account"
-              handleLinkClick={handleConnectNewAccount}
-            />
-          </div>
-        )}
+        {loggedInScreen &&
+          loggedInForTool === currentTestManagementTool &&
+          selectedRadioIdMap[currentTestManagementTool] ===
+            IMPORT_FROM_TOOL && (
+            <div className="mt-4">
+              <TMAlerts
+                description={`Successfully logged in with `}
+                modifier="primary"
+                accentBorder={false}
+                linkText="Connect New Account"
+                handleLinkClick={handleConnectNewAccount}
+              />
+            </div>
+          )}
       </div>
       {currentTestManagementTool &&
         selectedRadioIdMap[currentTestManagementTool] === IMPORT_FROM_TOOL && (

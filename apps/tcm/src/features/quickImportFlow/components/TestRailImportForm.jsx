@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdInfoOutline } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import {
   TMAlerts,
   TMInputField,
@@ -19,18 +20,31 @@ const TestRailImportForm = () => {
     handleInputFieldChange,
     testRailsCred,
     testRailsCredTouched,
-    showLoggedInScreen
+    loggedInScreen,
+    loggedInForTool,
+    currentTestManagementTool
   } = useConfigureTool();
 
+  const alreadyLoggedIn =
+    loggedInScreen && loggedInForTool === currentTestManagementTool;
   return (
     <>
-      <div className="flex justify-around">
-        <div className="mr-6 w-full">
+      <div
+        className={twClassNames('flex', {
+          'justify-around': !alreadyLoggedIn
+        })}
+      >
+        <div
+          className={twClassNames('mr-6', {
+            'basis-1/2': alreadyLoggedIn,
+            'w-full': !alreadyLoggedIn
+          })}
+        >
           <TMInputField
             placeholder="Enter Email Address"
             value={testRailsCred.email}
             id="email"
-            readonly={showLoggedInScreen}
+            readonly={alreadyLoggedIn}
             onChange={handleInputFieldChange('email')}
             label="TestRail Email Address"
             errorText={
@@ -40,7 +54,7 @@ const TestRailImportForm = () => {
             }
           />
         </div>
-        {!showLoggedInScreen && (
+        {!alreadyLoggedIn && (
           <div className="w-full">
             <TMInputField
               id="host-name"
@@ -80,7 +94,7 @@ const TestRailImportForm = () => {
           </div>
         )}
       </div>
-      {!showLoggedInScreen && (
+      {!alreadyLoggedIn && (
         <>
           <div className="my-4 w-1/2 pr-2">
             <TMInputField
