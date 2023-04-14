@@ -161,7 +161,7 @@ VirtualisedTable.propTypes = {
 
 VirtualisedTable.defaultProps = {
   endReached: () => {},
-  fixedFooterContent: () => {},
+  fixedFooterContent: undefined,
   overscan: 20,
   style: {},
   handleRowClick: () => {},
