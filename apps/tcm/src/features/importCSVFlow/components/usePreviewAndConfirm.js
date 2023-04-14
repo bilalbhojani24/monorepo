@@ -63,8 +63,10 @@ const usePreviewAndConfirm = () => {
   };
 
   useEffect(() => {
-    if (lastMessage?.percent !== null)
-      dispatch(updateImportProgress(lastMessage.percent));
+    if (lastMessage?.data) {
+      const percent = JSON.parse(lastMessage.data)?.message?.percent || 0;
+      if (percent) dispatch(updateImportProgress(percent));
+    }
   }, [dispatch, lastMessage]);
 
   return {
