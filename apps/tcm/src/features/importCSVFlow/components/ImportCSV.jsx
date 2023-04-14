@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import { TMPageHeadings } from 'common/bifrostProxy';
 
 import {
@@ -20,7 +21,8 @@ const ImportCSV = () => {
     topInfoSteps,
     projectId,
     navigate,
-    folderId
+    folderId,
+    showMappings
   } = useImportCSV();
 
   const handleBreadcrumbClick = (_, clickedOption) => {
@@ -51,7 +53,12 @@ const ImportCSV = () => {
       />
       <div
         id="current-import-csv-screen"
-        className="flex flex-col items-center overflow-auto pt-6"
+        className={twClassNames(
+          'flex flex-col items-center overflow-scroll pt-6',
+          {
+            'min-h-min max-h-screen': showMappings
+          }
+        )}
       >
         {topInfoSteps.length && currentCSVScreen !== FIRST_SCREEN ? (
           <TopSectionInfo steps={topInfoSteps} />

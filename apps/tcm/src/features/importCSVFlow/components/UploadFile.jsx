@@ -77,7 +77,7 @@ const UploadFile = () => {
           />
         </div>
       )}
-      <div className="border-base-200 rounded-md border-2 border-solid bg-white p-6">
+      <div className="border-base-300 rounded-md border border-solid bg-white p-6">
         <TMSectionHeadings
           title="Upload CSV"
           variant="buttons"
@@ -123,7 +123,7 @@ const UploadFile = () => {
             <span
               tabIndex={0}
               role="button"
-              className="cursor-pointer font-semibold text-black"
+              className="text-base-800 cursor-pointer font-semibold"
               onClick={handleDownloadSampleCSV}
               onKeyDown={handleDownloadSampleCSV}
             >

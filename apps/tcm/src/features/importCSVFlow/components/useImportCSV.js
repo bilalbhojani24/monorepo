@@ -50,6 +50,7 @@ const useImportCSV = () => {
     (state) => state.importCSV.showChangeFolderModal
   );
   const allCSVFolders = useSelector((state) => state.importCSV.foldersForCSV);
+  const showMappings = useSelector((state) => state.importCSV.showMappings);
 
   const fetchCSVConfigurations = () => {
     dispatch(setCSVConfigurations({ projectId, folderId }));
@@ -170,6 +171,7 @@ const useImportCSV = () => {
     projectId,
     folderId,
     allCSVFolders,
+    showMappings,
     showMoreFields,
     showChangeFolderModal,
     selectedFolderLocation,

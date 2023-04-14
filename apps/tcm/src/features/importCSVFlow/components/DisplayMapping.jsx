@@ -21,7 +21,10 @@ const DisplayMapping = ({
   );
 
   return (
-    <div>
+    <div
+      style={{ maxHeight: 'calc(100vh - 380px)' }}
+      className="overflow-scroll"
+    >
       <div className="my-4 px-5">
         <TMAlerts
           show
