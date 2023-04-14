@@ -13,13 +13,15 @@ export const EMPTY_STATIC_FILTERS = {
 
 export const EMPTY_SELECTED_FILTERS = {
   ...EMPTY_STATIC_FILTERS,
-  isMuted: false
+  isMuted: false,
+  issueTypeGroup: ''
 };
 
 export const EMPTY_APPLIED_FILTERS = {
   ...EMPTY_STATIC_FILTERS,
   search: '',
-  isMuted: false
+  isMuted: false,
+  issueTypeGroup: ''
 };
 
 export const TESTLIST_TYPES = {
