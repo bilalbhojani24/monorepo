@@ -66,7 +66,7 @@ export default function RootNodeMetaData({
         })}
       >
         <span>
-          <MdFolderOpen className="text-base-600 text-xl" />
+          <MdFolderOpen className="text-base-400 text-xl" />
         </span>
         {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div

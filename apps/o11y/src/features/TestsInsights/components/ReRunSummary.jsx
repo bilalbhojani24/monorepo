@@ -119,20 +119,40 @@ export default function ReRunSummary() {
             showFixedFooter={false}
             itemContent={(index, item) => (
               <>
-                <O11yTableCell>{item.label}</O11yTableCell>
-                <O11yTableCell>{abbrNumber(item.passed || 0)}</O11yTableCell>
-                <O11yTableCell>{abbrNumber(item.failed || 0)}</O11yTableCell>
-                <O11yTableCell>{abbrNumber(item.skipped || 0)}</O11yTableCell>
-                <O11yTableCell>{abbrNumber(item.total || 0)}</O11yTableCell>
+                <O11yTableCell wrapperClassName="text-base-900">
+                  {item.label}
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="text-base-900">
+                  {abbrNumber(item.passed || 0)}
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="text-base-900">
+                  {abbrNumber(item.failed || 0)}
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="text-base-900">
+                  {abbrNumber(item.skipped || 0)}
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="text-base-900">
+                  {abbrNumber(item.total || 0)}
+                </O11yTableCell>
               </>
             )}
             fixedHeaderContent={() => (
               <O11yTableRow>
-                <O11yTableCell wrapperClassName="py-3">Runs</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">Passed</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">Failed</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">Skipped</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">Total</O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3 uppercase font-medium text-xs">
+                  Runs
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3 uppercase font-medium text-xs">
+                  Passed
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3 uppercase font-medium text-xs">
+                  Failed
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3 uppercase font-medium text-xs">
+                  Skipped
+                </O11yTableCell>
+                <O11yTableCell wrapperClassName="py-3 uppercase font-medium text-xs">
+                  Total
+                </O11yTableCell>
               </O11yTableRow>
             )}
             handleRowClick={handleClickSummaryRow}
