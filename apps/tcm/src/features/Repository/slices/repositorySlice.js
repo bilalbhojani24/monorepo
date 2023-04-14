@@ -265,6 +265,7 @@ export const repositorySlice = createSlice({
     cleanUpValues: (state) => {
       state.testCaseDetails = initialState.testCaseDetails;
       state.allFolders = initialState.allFolders;
+      state.customFieldData = initialState.customFieldData;
     }
   }
 });
