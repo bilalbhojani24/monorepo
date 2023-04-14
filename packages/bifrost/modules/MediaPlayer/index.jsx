@@ -114,31 +114,33 @@ const MediaPlayer = forwardRef(
     );
 
     return (
-      <div className={twClassNames('relative', wrapperClassName)}>
-        <ReactPlayer
-          url={url}
-          width="100%"
-          height="100%"
-          ref={videoRef}
-          playing={isPlaying}
-          onPlay={handleOnPlay}
-          onPause={handleOnPause}
-          onBuffer={handleBuffering}
-          onError={() => onVideoError()}
-          onProgress={handleProgress}
-          onReady={handleOnReady}
-        />
-        {isBuffering && (
-          <div
-            className={twClassNames(
-              'absolute top-0 left-0 w-full h-full bg-base-400 opacity-50 z-10 block'
-            )}
-          >
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <Loader wrapperClassName="w-6 h-6" />
+      <>
+        <div className={twClassNames('relative', wrapperClassName)}>
+          <ReactPlayer
+            url={url}
+            width="100%"
+            height="100%"
+            ref={videoRef}
+            playing={isPlaying}
+            onPlay={handleOnPlay}
+            onPause={handleOnPause}
+            onBuffer={handleBuffering}
+            onError={() => onVideoError()}
+            onProgress={handleProgress}
+            onReady={handleOnReady}
+          />
+          {isBuffering && (
+            <div
+              className={twClassNames(
+                'absolute top-0 left-0 w-full h-full bg-base-400 opacity-50 z-10 block'
+              )}
+            >
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <Loader wrapperClassName="w-6 h-6" />
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
         <MediaPlayerContextData.Provider
           value={{ bufferedTime, currentTime, duration, endTime, startTime }}
         >
@@ -154,7 +156,7 @@ const MediaPlayer = forwardRef(
             {modifiedChildren}
           </div>
         </MediaPlayerContextData.Provider>
-      </div>
+      </>
     );
   }
 );
