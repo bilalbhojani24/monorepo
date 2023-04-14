@@ -1,39 +1,35 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { MdOutlineImage } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
+import { getParsedImageData } from 'utils/common';
 
 function TestListGalleryContainer({ imgUrl }) {
   const imageLogUrl = imgUrl?.length ? imgUrl[0] : '';
   const mounted = useRef(false);
   const [images, setImages] = useState([]);
-  const [loadError, setLoadError] = useState(false);
 
   const fetchImages = useCallback(() => {
     if (mounted.current) {
       (async () => {
-        setImages([]);
-        setLoadError(false);
+        const img = await getParsedImageData(imageLogUrl, () => {});
+        if (mounted.current) {
+          setImages(img);
+        }
       })();
     }
-  }, []);
+  }, [imageLogUrl]);
 
   useEffect(() => {
     mounted.current = true;
-    if (imageLogUrl) fetchImages();
+    if (imageLogUrl) {
+      fetchImages();
+    }
     return () => {
       mounted.current = false;
     };
   }, [fetchImages, imageLogUrl]);
 
-  if (!images.length && !loadError && imageLogUrl) {
-    return (
-      <div className="mb-2 flex items-center gap-x-1">
-        <MdOutlineImage className="text-base-500" />
-        <span className="text-base-500 text-sm">Screenshot</span>
-      </div>
-    );
-  }
-  if ((!images.length && loadError) || !imageLogUrl) {
+  if (!images.length) {
     return null;
   }
 
