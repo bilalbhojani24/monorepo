@@ -121,6 +121,7 @@ const MediaPlayerControlPanel = ({
           )}
         >
           <button
+            aria-label="play/pause"
             type="button"
             onClick={onPlayClick}
             className={twClassNames(
