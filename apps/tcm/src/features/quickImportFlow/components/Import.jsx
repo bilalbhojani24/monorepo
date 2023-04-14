@@ -1,9 +1,11 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { twClassNames } from '@browserstack/utils';
 import { HideSourceOutlinedIcon } from 'assets/icons';
 import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
+import TopSectionInfo from 'common/TopSectionInfo';
 import { setSelectedProject } from 'globalSlice';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -18,7 +20,6 @@ import { resetQuickImport } from '../slices/quickImportThunk';
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
 import ConfirmImport from './ConfirmImport';
-import Steps from './ImportSteps';
 import useImport from './useImport';
 
 const Import = () => {
@@ -30,9 +31,10 @@ const Import = () => {
     beginImportLoading,
     currentScreen,
     testManagementProjects,
-    allImportSteps,
+    topImportInfoSteps,
     importStatus,
     configureToolPageLoading,
+    handleTopSectionCtaClick,
     handleChangeSetup,
     onCancelClickHandler,
     populateQuickImportCredentials
@@ -132,11 +134,19 @@ const Import = () => {
           </>
         }
       />
-      <Steps steps={allImportSteps} />
       <div
         id="current-screen-wrapper"
-        className="flex justify-center overflow-auto pt-4"
+        className={twClassNames(
+          'flex h-screen max-h-screen flex-col items-center pt-4 overflow-scroll'
+        )}
       >
+        {topImportInfoSteps.length && currentScreen !== SCREEN_1 ? (
+          <TopSectionInfo
+            steps={topImportInfoSteps}
+            wrapperClassName="w-3/4"
+            ctaCb={(redirectTo) => handleTopSectionCtaClick(redirectTo)}
+          />
+        ) : null}
         {getCurrentScreen()}
       </div>
     </>

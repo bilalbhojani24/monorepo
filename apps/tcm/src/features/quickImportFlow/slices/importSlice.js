@@ -14,7 +14,7 @@ import {
   SUCCESS_DATA,
   WARNING_DATA
 } from '../const/importConst';
-import { IMPORT_STEPS, SCREEN_1 } from '../const/importSteps';
+import { SCREEN_1, SCREEN_2 } from '../const/importSteps';
 
 const initialState = {
   configureToolTestConnectionLoading: false,
@@ -40,7 +40,6 @@ const initialState = {
   },
   projectsForTestManagementImport: [],
   currentScreen: SCREEN_1,
-  importSteps: IMPORT_STEPS,
   currentTestManagementTool: '',
   testRailsCredTouched: { email: false, host: false, key: false },
   zephyrCredTouched: {
@@ -63,7 +62,9 @@ const initialState = {
   beginImportLoading: false,
   configureToolPageLoading: true,
   latestImportTool: null,
-  successfulImportedProjects: 0
+  successfulImportedProjects: 0,
+  topImportInfoSteps: [],
+  loggedInScreen: false
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -150,6 +151,23 @@ const importSlice = createSlice({
       state.projectsForTestManagementImport = payload;
     },
     setCurrentScreen: (state, { payload }) => {
+      if (payload === SCREEN_2)
+        state.topImportInfoSteps = [
+          {
+            title: `Successfully connected to ${
+              state.currentTestManagementTool === 'zephyr'
+                ? 'Zephyr Scale'
+                : 'Testrails'
+            }`,
+            description: `Connected with: '${
+              state.currentTestManagementTool === 'zephyr'
+                ? state.zephyrCred.email
+                : state.testRailsCred.email
+            }'`,
+            ctaText: 'Change',
+            redirectTo: SCREEN_1
+          }
+        ];
       state.currentScreen = payload;
     },
     setImportSteps: (state, { payload }) => {
@@ -249,6 +267,9 @@ const importSlice = createSlice({
     },
     setImportedProjectCount: (state, { payload }) => {
       state.successfulImportedProjects = payload;
+    },
+    setShowLoggedInScreen: (state, { payload }) => {
+      state.loggedInScreen = payload;
     }
   },
   extraReducers: (builder) => {
@@ -341,6 +362,7 @@ export const {
   setLatestImportTool,
   setShowNewProjectBanner,
   setNewProjectBannerDismiss,
-  setImportedProjectCount
+  setImportedProjectCount,
+  setShowLoggedInScreen
 } = importSlice.actions;
 export default importSlice.reducer;
