@@ -1,6 +1,6 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "1000.0.0",
+  "version": "2.10.0",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
@@ -49,7 +49,7 @@
     "@browserstack/vite-config": "workspace:*",
     "@percy/cli": "1.21.0",
     "@percy/storybook": "4.3.5",
-    "@storybook/addon-a11y": "6.4.0",
+    "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-actions": "6.5.16",
     "@storybook/addon-docs": "6.5.16",
     "@storybook/addon-essentials": "6.5.16",
