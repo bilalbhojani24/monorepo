@@ -28,9 +28,9 @@ const stageConfig = getEnvConfig();
 axios.interceptors.request.use((config) => {
   let updatedConfig = config;
   updatedConfig.baseURL = stageConfig.apiUrl;
-  // updatedConfig.withCredentials = excludeCredentials(config.url)
-  //   ? false
-  //   : stageConfig.withCredentials;
+  updatedConfig.withCredentials = excludeCredentials(config.url)
+    ? false
+    : stageConfig.withCredentials;
   updatedConfig.headers = updatedConfig.headers || {};
   updatedConfig.headers['x-cookie-prefix'] = stageConfig.cookiePrefix;
 
