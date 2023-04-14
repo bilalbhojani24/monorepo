@@ -16,7 +16,9 @@ const defaultConfig = {
       )
     }
   },
-  argTypes: {},
+  argTypes: {
+    productName: { defaultValue: 'app-live' }
+  },
   controls: {}
 };
 const Template = (args) => <HeaderBrand {...args} />;
