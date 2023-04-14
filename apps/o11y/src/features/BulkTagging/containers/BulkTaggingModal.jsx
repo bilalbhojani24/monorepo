@@ -19,7 +19,7 @@ import {
   updateIssueTypes
 } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 

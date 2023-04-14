@@ -298,13 +298,13 @@ const { reducer, actions } = createSlice({
       state.topErrors.hasNetworkError = false;
     },
     'insights/getTopErrorsData/rejected': (state) => {
-      state.topErrors.isLoading = false;
+      state.topErrors.isLoading = true;
       state.topErrors.hasNetworkError = true;
     },
     'insights/getTopErrorsData/fulfilled': (state, { payload }) => {
       state.topErrors = {
         data: payload,
-        isLoading: false,
+        isLoading: true,
         hasNetworkError: false
       };
     }
