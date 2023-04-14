@@ -118,7 +118,7 @@ const CreateIssueForm = ({
                 event: 'create',
                 data: {
                   issueId: response?.data?.ticket_id,
-                  issureUrl: response?.data?.ticket_url,
+                  issueUrl: response?.data?.ticket_url,
                   issueKey: response?.data?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
@@ -156,7 +156,7 @@ const CreateIssueForm = ({
                 event: 'create',
                 data: {
                   issueId: res.cause.ticket_id,
-                  issureUrl: res.cause.ticket_url,
+                  issueUrl: res.cause.ticket_url,
                   issueKey: res?.cause?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,

@@ -20,12 +20,11 @@ then
   echo "*****PRODUCTION PUBLISH STARTED*****"
   
   echo "$SOURCE uploading to $DESTINATION"
-  aws s3 sync --exclude "index.html" --exclude "index.html.br" "$SOURCE" "s3://$DESTINATION" 
-  echo "$SOURCE uploading to $DESTINATION completed"
+  aws s3 sync --exclude "*.html*" "$SOURCE" "s3://$DESTINATION/live" 
+  echo "$SOURCE uploading to $DESTINATION/live completed"
   
   echo "$SOURCE uploading $BCKP_FOLDERNAME to $DESTINATION/backup started"
-  aws s3 cp "$SOURCE/index.html" "s3://$DESTINATION/backup/$BCKP_FOLDERNAME/index.html" 
-  aws s3 cp "$SOURCE/index.html.br" "s3://$DESTINATION/backup/$BCKP_FOLDERNAME/index.html.br" 
+  aws s3 cp "$SOURCE" "s3://$DESTINATION/backup/$BCKP_FOLDERNAME/" --recursive --exclude "*" --include "*.html*"
   echo "$SOURCE uploading $BCKP_FOLDERNAME to $DESTINATION/backup completed"
 
   echo "*****PRODUCTION PUBLISH ENDED*****"
