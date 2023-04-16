@@ -33,7 +33,7 @@ const ImageItem = ({ url }) => {
       <img
         src={url}
         alt="test screenshot"
-        className={twClassNames('max-h-[300px]', {
+        className={twClassNames('max-h-[300px] drop-shadow-md', {
           hidden: isLoading || isLoadFailed
         })}
         onError={handleImageError}
