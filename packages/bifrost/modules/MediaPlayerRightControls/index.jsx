@@ -45,7 +45,6 @@ const MediaPlayerRightControls = forwardRef(
 
     const handleAdditionalSettingClick = (option) => {
       if (option.body === 'Download') {
-        onDownloadClick?.();
         const videoUrl = ref.current.getInternalPlayer().currentSrc;
         const link = document.createElement('a');
         link.href = videoUrl;
@@ -55,6 +54,7 @@ const MediaPlayerRightControls = forwardRef(
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        onDownloadClick?.();
       }
     };
 
