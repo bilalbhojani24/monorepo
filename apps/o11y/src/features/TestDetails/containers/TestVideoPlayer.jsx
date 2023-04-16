@@ -29,8 +29,8 @@ const TestVideoPlayer = () => {
   const [showFloatingWindow, setShowFloatingWindow] = useState(false);
   const [isMainVideoPaused, setIsMainVideoPaused] = useState(true);
   const [isFloatingVideoPaused, setIsFloatingVideoPaused] = useState(true);
-  const [isVideoMetaLoaded, setIsVideoMetaLoaded] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFailed, setIsFailed] = useState(false);
   const [floatingVideoRightOffset, setFloatingVideoRightOffset] = useState(700);
   const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
 
@@ -113,12 +113,13 @@ const TestVideoPlayer = () => {
     }
   };
 
-  const hideOverlay = () => {
-    setShowOverlay(false);
+  const handleMetadataLoaded = () => {
+    setIsLoading(false);
   };
 
-  const handleMetadataLoaded = () => {
-    setIsVideoMetaLoaded(true);
+  const handleMetadataFailed = () => {
+    setIsLoading(false);
+    setIsFailed(true);
   };
 
   const handleFloatingVideoClose = () => {
@@ -127,7 +128,7 @@ const TestVideoPlayer = () => {
   };
 
   const handleFloatingVideoShow = () => {
-    if (!isVideoMetaLoaded) {
+    if (isLoading) {
       return;
     }
     handleNormalVideoToPiPSync();
@@ -149,7 +150,11 @@ const TestVideoPlayer = () => {
       showFloatingWindow
     ) {
       handleFloatingVideoClose();
-    } else if (entries[0].isIntersecting !== true && !fullscreenElement) {
+    } else if (
+      entries[0].isIntersecting !== true &&
+      !fullscreenElement &&
+      !isLoading
+    ) {
       handleFloatingVideoShow();
     }
   });
@@ -189,15 +194,15 @@ const TestVideoPlayer = () => {
         onMetadataLoaded={handleMetadataLoaded}
         isPaused={isMainVideoPaused}
         setIsPaused={setIsMainVideoPaused}
-        showOverlay={showOverlay}
-        hideOverlay={hideOverlay}
         exceptions={exceptions}
-        isVideoMetaLoaded={isVideoMetaLoaded}
+        isLoading={isLoading}
+        hasError={isFailed}
+        onMetadataFailed={handleMetadataFailed}
       />
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
         className={twClassNames('w-auto', {
-          hidden: !showFloatingWindow || !isVideoMetaLoaded
+          hidden: !showFloatingWindow
         })}
         style={{
           right: floatingVideoRightOffset,
@@ -212,10 +217,10 @@ const TestVideoPlayer = () => {
           onMetadataLoaded={() => {}}
           isPaused={isFloatingVideoPaused}
           setIsPaused={setIsFloatingVideoPaused}
-          showOverlay={showOverlay}
-          hideOverlay={hideOverlay}
           exceptions={exceptions}
-          isVideoMetaLoaded={isVideoMetaLoaded}
+          isLoading={isLoading}
+          hasError={isFailed}
+          onMetadataFailed={handleMetadataFailed}
         />
       </DraggableComponent>
     </div>

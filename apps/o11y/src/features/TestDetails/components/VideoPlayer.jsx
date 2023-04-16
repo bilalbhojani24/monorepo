@@ -3,8 +3,8 @@ import {
   MediaPlayer,
   MediaPlayerLeftControls,
   MediaPlayerRightControls,
-  MediaPlayerSeekbar
-  // MediaPlayerStates
+  MediaPlayerSeekbar,
+  MediaPlayerStates
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
@@ -14,12 +14,15 @@ import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 const VideoPlayer = forwardRef(
   (
     {
-      // videoUrl,
+      videoUrl,
       onMetadataLoaded,
       containerRef,
       isPaused,
       setIsPaused,
-      exceptions
+      exceptions,
+      isLoading,
+      hasError,
+      onMetadataFailed
     },
     ref
   ) => {
@@ -39,7 +42,9 @@ const VideoPlayer = forwardRef(
       onMetadataLoaded();
     };
 
-    const handleOnError = () => {};
+    const handleOnError = () => {
+      onMetadataFailed();
+    };
 
     const handleDownload = () => {
       handleLogTDInteractionEvent({
@@ -87,17 +92,39 @@ const VideoPlayer = forwardRef(
 
     return (
       <div ref={containerRef} className="relative flex flex-col">
+        {isLoading && (
+          <MediaPlayerStates
+            variant="loading"
+            wrapperClassName="h-full w-full"
+          />
+        )}
+        {hasError && (
+          <MediaPlayerStates
+            variant="errorState"
+            wrapperClassName="h-96 w-full"
+            onReloadClick={() => {}}
+          />
+        )}
+        {/* {
+          isExpired && <MediaPlayerStates
+          
+          variant="errorAdditional"
+          wrapperClassName="h-full w-full"
+          />
+        } */}
         <MediaPlayer
           ref={ref}
-          url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-          // url={videoUrl}
+          // url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+          url={videoUrl}
           onFirstReady={handleOnLoad}
           onVideoError={handleOnError}
           onPlayCallback={handlePlayCallback}
           onPauseCallback={handlePauseCallback}
           controlPanelWrapperClassName=""
           controlPanelAtBottom={false}
-          wrapperClassName={twClassNames({ hidden: false })}
+          wrapperClassName={twClassNames({
+            hidden: hasError
+          })}
         >
           <MediaPlayerLeftControls wrapperClassName="" />
           <MediaPlayerSeekbar
@@ -112,7 +139,7 @@ const VideoPlayer = forwardRef(
             onFullScreen={handleFullscreen}
             onPlaybackSpeedClick={handleSpeedChange}
             wrapperClassName=""
-            // showAdditionalSettings
+            showAdditionalSettings
             showFullScreenOption
             showSpeedOption
           />
@@ -123,13 +150,14 @@ const VideoPlayer = forwardRef(
 );
 
 VideoPlayer.propTypes = {
-  // videoUrl: PropTypes.string.isRequired,
+  videoUrl: PropTypes.string.isRequired,
   onMetadataLoaded: PropTypes.func.isRequired,
   containerRef: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(Element) })
   ]),
   isPaused: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   setIsPaused: PropTypes.func.isRequired,
   exceptions: PropTypes.arrayOf(
     PropTypes.shape({
@@ -137,7 +165,9 @@ VideoPlayer.propTypes = {
       startTime: PropTypes.number,
       type: PropTypes.string
     })
-  )
+  ),
+  hasError: PropTypes.bool.isRequired,
+  onMetadataFailed: PropTypes.func.isRequired
 };
 
 VideoPlayer.defaultProps = {
