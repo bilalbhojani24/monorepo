@@ -122,7 +122,7 @@ const VideoPlayer = forwardRef(
           onPauseCallback={handlePauseCallback}
           controlPanelWrapperClassName=""
           controlPanelAtBottom={false}
-          wrapperClassName={twClassNames({
+          wrapperClassName={twClassNames('h-80', {
             hidden: hasError
           })}
         >
