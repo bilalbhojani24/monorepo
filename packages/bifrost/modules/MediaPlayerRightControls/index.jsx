@@ -51,6 +51,7 @@ const MediaPlayerRightControls = forwardRef(
         link.href = videoUrl;
         link.download = 'video.mp4';
         link.role = 'button';
+        link.target = '_blank';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
