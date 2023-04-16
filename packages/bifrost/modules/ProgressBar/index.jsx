@@ -11,9 +11,14 @@ const ProgressBar = ({
   wrapperClassName
 }) => (
   <div>
-    <h4 className="sr-only">{label}</h4>
     {title && <p className="text-base-900 text-sm font-medium">{title}</p>}
-    <div className={twClassNames('mt-6', wrapperClassName)} aria-hidden="true">
+    <div
+      className={twClassNames('mt-6', wrapperClassName)}
+      role="progressbar"
+      aria-label={label}
+      aria-valuenow={percentage}
+      tabIndex={0}
+    >
       <div className="bg-base-200 overflow-hidden rounded-full">
         <div
           className="bg-brand-600 h-2 rounded-full"
