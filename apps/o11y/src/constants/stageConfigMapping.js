@@ -10,7 +10,8 @@ export default {
     signInUrl: `${STAGING_CONFIG('').apiUrl}/api/v1/auth/start-sso`,
     apiUrl: 'https://localhost:8082/testops',
     baseDocUrl: STAGING_CONFIG('').baseDocUrl,
-    withCredentials: false
+    withCredentials: false,
+    isMocker: true
   },
   'local-staging': {
     signInUrl: `${STAGING_CONFIG('').apiUrl}/api/v1/auth/start-sso`,
