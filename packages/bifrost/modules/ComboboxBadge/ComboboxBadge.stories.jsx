@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
 import { COMBOBOX_OPTIONS } from '../ComboBox/const/comboBoxConstants';
+import ComboboxAddNewItem from '../ComboboxAddNewItem';
 import ComboboxLabel from '../ComboboxLabel';
 
 import ComboboxBadge from './index';
@@ -70,6 +71,13 @@ export const ControlledBadgeCombobox = () => {
         onClearAll={(val) => {
           setSelected(val);
         }}
+        addNewItemComponent={
+          <ComboboxAddNewItem
+            suffix="as a new option (↵)"
+            showQuery
+            prefix="Add"
+          />
+        }
         comboboxProps={{
           errorText: states.errorText,
           isLoadingRight: states.rightLoader,
@@ -134,6 +142,14 @@ export const UncontrolledBadgeCombobox = () => {
       onClearAll={(val) => {
         console.log(val);
       }}
+      addNewItemComponent={
+        <ComboboxAddNewItem
+          suffix="as a new option (↵)"
+          showQuery
+          prefix="Add"
+        />
+      }
+
       // onInputChange={async (value) =>
       //   await new Promise((resolve) =>
       //     setTimeout(() => {

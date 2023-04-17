@@ -14,7 +14,8 @@ const ComboboxAddNewItem = ({
   const { query } = useContext(ComboboxContextData);
   const uniqueId = useId();
 
-  const content = showQuery ? '' : `'${query}'`;
+  const content = !showQuery ? '' : `'${query}'`;
+
   return (
     <Combobox.Option
       value={{

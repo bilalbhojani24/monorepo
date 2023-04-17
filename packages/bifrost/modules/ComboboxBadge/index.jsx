@@ -13,7 +13,6 @@ import {
 } from 'prop-types';
 
 import Combobox from '../ComboBox';
-import ComboboxAddNewItem from '../ComboboxAddNewItem';
 import ComboboxBadgeTrigger from '../ComboboxBadgeTrigger';
 import ComboboxOptionGroup from '../ComboboxOptionGroup';
 import ComboboxOptionItem from '../ComboboxOptionItem';
@@ -21,11 +20,13 @@ import ComboboxOptionItem from '../ComboboxOptionItem';
 import useComboboxBadge from './useCombobobxBadge';
 
 const ComboboxBadge = ({
+  addNewItemComponent,
   comboboxProps,
   comboboxItemProps,
   label,
   defaultValue,
   MenuContainer,
+  noResultText,
   options,
   onInputChange,
   value,
@@ -59,11 +60,8 @@ const ComboboxBadge = ({
   });
 
   const isExactMatch = useMemo(
-    () =>
-      [...visibleItems, ...value, ...currentSelected].find(
-        (item) => item.label === query
-      ),
-    [query, visibleItems, value, currentSelected]
+    () => options.find((item) => item.label === query),
+    [query, options]
   );
 
   return (
@@ -100,22 +98,23 @@ const ComboboxBadge = ({
         ) : (
           <HeadlessCombobox.Option
             className={twClassNames(
-              'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-8'
+              'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3'
             )}
             disabled
           >
-            {query.length > 0 ? 'No results found' : 'No options available'}
+            {noResultText ||
+              (query.length > 0 ? 'No results found' : 'No options available')}
           </HeadlessCombobox.Option>
         )}
-        {query.length > 0 && !isExactMatch && (
-          <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
-        )}
+
+        {query.length > 0 && !isExactMatch && addNewItemComponent}
       </MenuContainer>
     </Combobox>
   );
 };
 
 ComboboxBadge.propTypes = {
+  addNewItemComponent: node.isRequired,
   comboboxProps: shape({}),
   comboboxItemProps: shape({}),
   defaultValue: oneOfType([
@@ -135,6 +134,7 @@ ComboboxBadge.propTypes = {
   deleteOnBackspace: func,
   label: node,
   MenuContainer: func,
+  noResultText: string,
   onBadgeCrossClick: func,
   onChange: func,
   onClearAll: func,
@@ -169,6 +169,7 @@ ComboboxBadge.defaultProps = {
   defaultValue: undefined,
   deleteOnBackspace: null,
   MenuContainer: ComboboxOptionGroup,
+  noResultText: '',
   onBadgeCrossClick: null,
   onChange: null,
   onClearAll: null,

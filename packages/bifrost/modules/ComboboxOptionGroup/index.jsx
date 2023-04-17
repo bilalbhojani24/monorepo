@@ -12,7 +12,7 @@ const ComboboxOptionGroup = ({
   children,
   wrapperClassName,
   maxWidth,
-  noResultFoundComponent
+  addNewItemComponent
 }) => {
   const { width, query, isBadge, noResultFoundText } =
     useContext(ComboboxContextData);
@@ -59,7 +59,7 @@ const ComboboxOptionGroup = ({
                         : 'No options available')}
                   </Combobox.Option>
                 )}
-                {noResultFoundComponent}
+                {addNewItemComponent}
               </>
             ) : (
               children
@@ -75,14 +75,14 @@ ComboboxOptionGroup.propTypes = {
   alignment: oneOf(OPTION_GROUP_ALIGNMENT),
   children: node.isRequired,
   maxWidth: string,
-  noResultFoundComponent: null,
+  addNewItemComponent: node,
   wrapperClassName: string
 };
 
 ComboboxOptionGroup.defaultProps = {
   alignment: OPTION_GROUP_ALIGNMENT[0],
   maxWidth: '80vw',
-  noResultFoundComponent: null,
+  addNewItemComponent: null,
   wrapperClassName: ''
 };
 

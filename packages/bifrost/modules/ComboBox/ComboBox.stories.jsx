@@ -250,7 +250,7 @@ export const SearchableCreatableControlled = () => {
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
         <ComboboxOptionGroup
-          noResultFoundComponent={
+          addNewItemComponent={
             !isExactMatch && query.length > 0 ? (
               <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
             ) : null
@@ -314,7 +314,7 @@ export const SearchableCreatableUncontrolled = () => {
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
         <ComboboxOptionGroup
-          noResultFoundComponent={
+          addNewItemComponent={
             !isExactMatch && query.length > 0 ? (
               <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
             ) : null
@@ -372,7 +372,7 @@ export const SearchableCreatableControlledMulti = () => {
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
         <ComboboxOptionGroup
-          noResultFoundComponent={
+          addNewItemComponent={
             !isExactMatch && query.length > 0 ? (
               <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
             ) : null
@@ -438,7 +438,7 @@ export const SearchableCreatableUncontrolledMulti = () => {
           leadingIcon={<MdSearch className="h-5 w-5" />}
         />
         <ComboboxOptionGroup
-          noResultFoundComponent={
+          addNewItemComponent={
             !isExactMatch && query.length > 0 ? (
               <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
             ) : null
