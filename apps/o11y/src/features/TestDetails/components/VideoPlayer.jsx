@@ -126,7 +126,12 @@ const VideoPlayer = forwardRef(
           onVideoError={handleOnError}
           onPlayCallback={handlePlayCallback}
           onPauseCallback={handlePauseCallback}
-          controlPanelWrapperClassName="border border-base-300 flex-1 rounded-b overflow-hidden z-20"
+          controlPanelWrapperClassName={twClassNames(
+            'border border-base-200 flex-1 rounded-b overflow-hidden z-20',
+            {
+              'pointer-events-none': isLoading
+            }
+          )}
           controlPanelAtBottom={false}
           wrapperClassName={twClassNames(
             'rounded-t overflow-hidden [&_video]:object-cover transition-[max-height] duration-1000 ease-in',
