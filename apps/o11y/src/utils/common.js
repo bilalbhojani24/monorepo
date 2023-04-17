@@ -61,14 +61,13 @@ export const logOllyEvent = ({ event, data = {} }) => {
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches
   };
-  if (!getEnvConfig().enableLogging) {
+  if (getEnvConfig().enableAnalytics || window.BSTACK_LOG_ANALYTICS_ENABLED) {
+    logEvent([], 'web_events', event, { ...commonData, ...data });
+  } else {
     // eslint-disable-next-line no-console
     console.log('Event Name:', event);
     // eslint-disable-next-line no-console
     console.table({ ...commonData, ...data });
-  }
-  if (window.location.hostname.endsWith('browserstack.com')) {
-    logEvent([], 'web_events', event, { ...commonData, ...data });
   }
 };
 

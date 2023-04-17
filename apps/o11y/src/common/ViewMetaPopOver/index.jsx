@@ -16,26 +16,18 @@ function ViewMetaPopOver({ data, handleInteraction }) {
       content={
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
         <div className="divide-base-200 flex max-h-[30rem] w-80 flex-col divide-y overflow-auto px-5">
-          {data?.buildNumber && (
-            <ViewMetaPopOverItem title="Build ID" text={data.buildNumber} />
-          )}
-          {data?.uuid && (
-            <ViewMetaPopOverItem title="Build UUID" text={data.uuid} showCopy />
-          )}
           {data?.versionControlInfo?.commitId && (
             <ViewMetaPopOverItem
               title="Commit URL"
               text={data.versionControlInfo.commitId.slice(0, 8)}
-              showCopy
-              textToCopy={data.versionControlInfo.url}
+              link={data.versionControlInfo.url}
             />
           )}
           {data?.ciBuildData?.buildNumber && (
             <ViewMetaPopOverItem
               title="CI Build"
               text={`${data.ciBuildData.name}-${data.ciBuildData.buildNumber}`}
-              showCopy
-              textToCopy={data.ciBuildData.buildUrl}
+              link={data.ciBuildData.buildUrl}
             />
           )}
           {data?.user && (
@@ -70,6 +62,9 @@ function ViewMetaPopOver({ data, handleInteraction }) {
               title="SDK version"
               text={data.observabilityVersion.sdkVersion}
             />
+          )}
+          {data?.uuid && (
+            <ViewMetaPopOverItem title="Build UUID" text={data.uuid} showCopy />
           )}
         </div>
       }

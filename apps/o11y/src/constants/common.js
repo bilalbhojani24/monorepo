@@ -9,7 +9,8 @@ export const DOC_KEY_MAPPING = {
   mute: 'features/mute-tests',
   source_code: 'integrations/source-code',
   automation_build: 'how-to-guides/organize-test-runs',
-  application_logs: 'integrations/application-logs'
+  application_logs: 'integrations/application-logs',
+  tnc: `references/terms-and-conditions`
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =

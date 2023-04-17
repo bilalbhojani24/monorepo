@@ -21,13 +21,21 @@ const getMockerConfig = (config) => {
   return updatedConfig;
 };
 
+export const excludeConfig = (url) => !!url.includes('https://eds');
+
+const stageConfig = getEnvConfig();
+
 axios.interceptors.request.use((config) => {
   let updatedConfig = config;
-  const stageConfig = getEnvConfig();
+  const shouldExcludeConfig = excludeConfig(config.url);
   updatedConfig.baseURL = stageConfig.apiUrl;
-  updatedConfig.withCredentials = stageConfig.withCredentials;
+  updatedConfig.withCredentials = shouldExcludeConfig
+    ? false
+    : stageConfig.withCredentials;
   updatedConfig.headers = updatedConfig.headers || {};
-  updatedConfig.headers['x-cookie-prefix'] = stageConfig.cookiePrefix;
+  if (!shouldExcludeConfig) {
+    updatedConfig.headers['x-cookie-prefix'] = stageConfig.cookiePrefix;
+  }
 
   // for use in local api-mocker only
   if (
