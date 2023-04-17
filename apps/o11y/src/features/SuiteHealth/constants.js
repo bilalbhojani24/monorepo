@@ -1,7 +1,7 @@
 export const TABS = {
   tests: 'Tests',
-  unique_errors: 'Unique Errors',
-  build_performance: 'Build Performance'
+  unique_errors: 'Unique Errors'
+  // build_performance: 'Build Performance'
 };
 
 export const TESTS_HEADER_LABEL_MAPPING = {
@@ -12,6 +12,8 @@ export const TESTS_HEADER_LABEL_MAPPING = {
   average: 'Avg. Duration'
 };
 
+const SUITE_TESTS_HEADER_SIMILAR_CLASS = 'text-center w-36';
+
 export const SUITE_TESTS_HEADER_LABEL_MAPPING = {
   tests: {
     name: TESTS_HEADER_LABEL_MAPPING.tests,
@@ -19,19 +21,19 @@ export const SUITE_TESTS_HEADER_LABEL_MAPPING = {
   },
   platforms: {
     name: TESTS_HEADER_LABEL_MAPPING.platforms,
-    defaultClass: 'w-[300px]'
+    defaultClass: SUITE_TESTS_HEADER_SIMILAR_CLASS
   },
   totalFailures: {
     name: TESTS_HEADER_LABEL_MAPPING.totalFailures,
-    defaultClass: 'text-center w-[135px]'
+    defaultClass: SUITE_TESTS_HEADER_SIMILAR_CLASS
   },
   reliability: {
     name: TESTS_HEADER_LABEL_MAPPING.reliability,
-    defaultClass: 'text-center w-[120px]'
+    defaultClass: 'text-center w-32'
   },
   average: {
     name: TESTS_HEADER_LABEL_MAPPING.average,
-    defaultClass: 'text-center w-[135px]'
+    defaultClass: SUITE_TESTS_HEADER_SIMILAR_CLASS
   }
 };
 
@@ -45,14 +47,14 @@ export const UNIQUE_ERROR_MAIN_HEADER = {
   testCount: {
     key: 'testCount',
     label: 'Impacted tests',
-    headerClass: 'py-2 pl-4 hover:bg-base-200 w-[150px]',
-    bodyClass: 'pl-4 pr-4 sm:pr-6 w-[150px]'
+    headerClass: 'py-2 pl-4 hover:bg-base-200 w-36',
+    bodyClass: 'pl-4 pr-4 sm:pr-6 w-36'
   },
   errorCount: {
     key: 'errorCount',
     label: 'Error count',
-    headerClass: 'py-2 pr-4 sm:pr-6 pl-4 hover:bg-base-200 w-[150px]',
-    bodyClass: 'pr-4 sm:pr-6 pl-4 w-[150px]'
+    headerClass: 'py-2 sm:pr-6 pl-4 hover:bg-base-200 w-40',
+    bodyClass: 'pl-4 w-40'
   }
 };
 
@@ -68,14 +70,14 @@ export const UNIQUE_ERROR_BREAKDOWN_HEADER = {
     key: 'platforms',
     label: 'Platforms',
     headerClass:
-      'uppercase w-[300px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
-    bodyClass: 'w-[300px] py-4 pl-6 text-sm'
+      'uppercase w-36 text-base-500 text-xs font-medium leading-4 py-3 pl-4 pr-6 text-center',
+    bodyClass: 'w-36 py-4 pl-4 pr-6 text-sm'
   },
   errorCount: {
     key: 'errorCount',
     label: 'Error count',
     headerClass:
-      'uppercase w-[140px] text-base-500 text-xs font-medium leading-4 py-3 pl-6',
-    bodyClass: 'w-[140px] py-4 pl-6 text-sm'
+      'uppercase w-40 text-base-500 text-xs font-medium leading-4 py-3 pl-4',
+    bodyClass: 'w-40 py-4 pl-4 text-sm'
   }
 };
