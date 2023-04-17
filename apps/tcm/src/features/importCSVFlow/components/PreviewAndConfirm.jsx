@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import {
   Accordion,
   AccordionInteractiveHeader,
@@ -16,8 +14,6 @@ import {
 } from 'assets/icons';
 import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 
-import { resetImportCSVState } from '../slices/csvThunk';
-
 import ImportCSVModal from './importCSVModal';
 import PreviewAndConfirmSingleNode from './previewAndConfirmSingleNode';
 import usePreviewAndConfirm from './usePreviewAndConfirm';
@@ -29,8 +25,6 @@ const PreviewAndConfirm = () => {
     totalImportedProjectsInPreview,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const formatPriority = (priority) => {
     switch (priority) {
@@ -72,15 +66,16 @@ const PreviewAndConfirm = () => {
     return 'Steps';
   };
 
-  useEffect(() => {
-    if (confirmCSVImportNotificationConfig.status === 'success') {
-      navigate({
-        pathname: `/projects/${confirmCSVImportNotificationConfig?.csvImportProjectId}/folder/${confirmCSVImportNotificationConfig?.csvImportFolderId}/test-cases`
-      });
-      dispatch(resetImportCSVState());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate, confirmCSVImportNotificationConfig]);
+  // useEffect(() => {
+  //   if (confirmCSVImportNotificationConfig.status === 'success') {
+  //     navigate({
+  //       pathname: `/projects/${confirmCSVImportNotificationConfig?.csvImportProjectId}/folder/${confirmCSVImportNotificationConfig?.csvImportFolderId}/test-cases`
+  //     });
+  //     dispatch(resetImportCSVState());
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [navigate, confirmCSVImportNotificationConfig]);
+  // TODO: to be verified with Arsalan to clear off the comment
 
   return (
     <div className="border-base-300 mx-4 mb-4 flex h-max w-4/5 max-w-7xl flex-col rounded-md border border-solid bg-white p-6">
