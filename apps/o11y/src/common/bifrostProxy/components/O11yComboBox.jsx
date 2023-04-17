@@ -11,6 +11,7 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const O11yComboBox = ({
+  disabled,
   isMulti,
   placeholder,
   label,
@@ -36,7 +37,12 @@ const O11yComboBox = ({
   }
 
   return (
-    <ComboBox onChange={onChange} value={value} isMulti={isMulti}>
+    <ComboBox
+      onChange={onChange}
+      value={value}
+      isMulti={filteredOptions.length && isMulti}
+      disabled={disabled}
+    >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
@@ -47,6 +53,17 @@ const O11yComboBox = ({
           'h-60': filteredOptions.length > 10
         })}
       >
+        {!filteredOptions.length && (
+          <ComboboxOptionItem
+            option={{
+              label: 'No options available',
+              value: 'noData'
+            }}
+            disabled
+            checkPosition={checkPosition}
+            wrapperClassName="text-sm"
+          />
+        )}
         {filteredOptions.length > 10 ? (
           <Virtuoso
             style={virtuosoStyles}
@@ -80,6 +97,7 @@ O11yComboBox.propTypes = {
   placeholder: PropTypes.string,
   checkPosition: PropTypes.string,
   label: PropTypes.string,
+  disabled: PropTypes.bool,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
@@ -111,6 +129,7 @@ O11yComboBox.propTypes = {
 
 O11yComboBox.defaultProps = {
   isMulti: false,
+  disabled: false,
   placeholder: '',
   checkPosition: '',
   label: '',
