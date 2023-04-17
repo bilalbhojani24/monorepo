@@ -13,6 +13,7 @@ import { getUserDetails } from 'globalSlice/selectors';
 import useAuthRoutes from 'hooks/useAuthRoutes';
 import isEmpty from 'lodash/isEmpty';
 import { getEnvConfig } from 'utils/common';
+import { delightedInit } from 'utils/delighted';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
@@ -55,6 +56,16 @@ const App = () => {
           }
         }
       };
+      // Initialize delighted survey
+      const delightedConfig = {
+        group_id: userDetails.groupId,
+        screen_height: window.innerHeight,
+        screen_width: window.innerWidth,
+        url: o11yHistory.location.pathname,
+        user_id: userDetails.userId
+      };
+      delightedInit(delightedConfig);
+      // End delighted survey
       if (!window.initialized) {
         initLogger(keys);
         window.initialized = true;
