@@ -235,7 +235,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             key={field?.field_name}
             parseContent
             title={<span className="capitalize">{field.field_user_name}</span>}
-            value={field?.value !== '' ? field.value : '--'}
+            value={field?.value || '--'}
           />
         ))}
         <div />
