@@ -70,13 +70,7 @@ export default function Dashboard({ children }) {
             link: 'https://percy.io/api/auth/start-sso'
           }
         ]}
-        headerElementArray={[
-          'team',
-          'help',
-          'search',
-          'notifications',
-          'account'
-        ]}
+        headerElementArray={['team', 'help', 'notifications', 'account']}
         documentation={{
           title: 'Documentation',
           options: [
@@ -129,6 +123,7 @@ export default function Dashboard({ children }) {
         }`}
       />
       <main ref={mainRef} className="bg-base-50 mt-16 h-full pl-64">
+        Hello
         {children}
       </main>
       <NotificationsContainer />
