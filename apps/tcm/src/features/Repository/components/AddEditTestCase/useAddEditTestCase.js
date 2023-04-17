@@ -49,11 +49,14 @@ import { formDataRetriever } from '../../utils/sharedFunctions';
 import useTestCases from '../useTestCases';
 import useUnsavedChanges from '../useUnsavedChanges';
 
+import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
+
 export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
   const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
   const { unsavedFormConfirmation, isOkToExitForm } = useUnsavedChanges();
+  const { updateTCCount } = useUpdateTCCountInFolders();
   const [inputError, setInputError] = useState({
     name: false
   });
@@ -273,11 +276,13 @@ export default function useAddEditTestCase(prop) {
     return true;
   };
 
-  const onSaveTestSuccessHelper = (data) => {
+  const onSaveTCSuccessHelper = (data) => {
     const testCaseData = data.data.test_case;
     const folderData = data.data.folder;
     const projectData = data.data.project;
+    const testCasesCount = data.data.count;
 
+    updateTCCount({ casesObj: { [folderData.id]: testCasesCount } });
     dispatch(updateCtaLoading({ key: 'createTestCaseCta', value: false }));
     if (projectId === 'new' || !allFolders.length) {
       // no project/folder
@@ -360,7 +365,7 @@ export default function useAddEditTestCase(prop) {
         folderId: formData.test_case_folder_id,
         payload: formDataFormatter(formData, !allFolders.length)
       })
-        .then(onSaveTestSuccessHelper)
+        .then(onSaveTCSuccessHelper)
         .catch(() => {
           dispatch(
             updateCtaLoading({ key: 'createTestCaseCta', value: false })

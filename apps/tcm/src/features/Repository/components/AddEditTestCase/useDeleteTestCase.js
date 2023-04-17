@@ -13,7 +13,7 @@ import {
   setMetaPage,
   updateAllTestCases,
   updateCtaLoading
-} from '../slices/repositorySlice';
+} from '../../slices/repositorySlice';
 
 export default function useDeleteTestCase() {
   // eslint-disable-next-line no-unused-vars

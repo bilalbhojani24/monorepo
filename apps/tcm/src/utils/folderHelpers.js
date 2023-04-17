@@ -173,3 +173,35 @@ export const findFolderRouted = (thisArray, findFolderId, depth = 0) => {
 
   return ancestors.length ? ancestors : [{ ...selectedItem, depth }];
 };
+
+export const folderPropertyUpdater = (
+  folders, // all folders
+  workingFolderId, // folder to which the changes is to be applied
+  propertyName, // name of the property to be updated
+  propertyValue, // value of the property
+  level = 0
+) =>
+  folders?.map((item) => {
+    if (`${item.id}` === `${workingFolderId}`) {
+      return {
+        ...item,
+        [propertyName]: propertyValue
+      };
+    }
+
+    if (item?.contents?.length) {
+      const updatedContents = folderArrayUpdateHelper(
+        folders,
+        workingFolderId,
+        propertyName,
+        propertyValue,
+        level + 1
+      );
+      return {
+        ...item,
+        contents: updatedContents
+      };
+    }
+
+    return item;
+  });
