@@ -118,7 +118,7 @@ export default function ReRunSettings() {
       loading: true
     });
     handleUpdateSettings({
-      reRunViaCli: checked
+      reRunViaCli: checked.toString()
     });
   };
   const handleChangeReRunDashboard = (checked) => {
@@ -127,7 +127,7 @@ export default function ReRunSettings() {
       loading: true
     });
     handleUpdateSettings({
-      reRunViaDashboard: checked
+      reRunViaDashboard: checked.toString()
     });
   };
   return (

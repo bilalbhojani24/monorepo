@@ -20,7 +20,7 @@ export const getFailureSubCategories = createAsyncThunk(
     try {
       const response = await getAvailableSubCategories({ ...data });
       return {
-        data: response.data?.data || [],
+        data: response.data?.data || {},
         project: data?.projectNormalisedName
       };
     } catch (err) {

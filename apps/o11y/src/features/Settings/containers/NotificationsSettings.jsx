@@ -46,7 +46,7 @@ function NotificationsSettings() {
       )
         .unwrap()
         .then((res) => {
-          setNotificationsEnabled(res?.isNotificationsEnabled);
+          setNotificationsEnabled(res?.data?.isNotificationsEnabled);
         });
     }
   }, [activeProject.normalisedName, dispatch]);

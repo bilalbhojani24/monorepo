@@ -128,7 +128,7 @@ export default function AutoAnalysisSettings() {
       loading: true
     });
     handleUpdateSettings({
-      failureCategoryDetectionEnabled: checked
+      failureCategoryDetectionEnabled: checked.toString()
     });
   };
   const handleChangeUniqueErrorSwitch = (checked) => {
@@ -137,7 +137,7 @@ export default function AutoAnalysisSettings() {
       loading: true
     });
     handleUpdateSettings({
-      uniqueErrorDetectionEnabled: checked
+      uniqueErrorDetectionEnabled: checked.toString()
     });
   };
   const handleChangeThreshold = ({ target: { value } }) => {
