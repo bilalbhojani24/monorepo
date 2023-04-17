@@ -6,10 +6,9 @@ import {
   MdOutlineLock,
   MdOutlineTextSnippet
 } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import { requestO11yAccess } from 'api/global';
 import { O11yButton, O11yEmptyState, O11yHyperlink } from 'common/bifrostProxy';
-import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
+import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { setHasAcceptedTnC } from 'globalSlice/index';
 import { getInitData } from 'globalSlice/selectors';
@@ -43,12 +42,7 @@ function RequestAccess() {
   };
 
   return (
-    <div
-      className={twClassNames(
-        'bg-base-50 flex w-screen flex-col items-center justify-center',
-        WRAPPER_GAP_CLASS
-      )}
-    >
+    <div className="bg-base-50 flex w-screen flex-col items-center justify-center p-14">
       <div className="border-base-300 flex h-72 w-screen max-w-xl flex-col items-center justify-center rounded-md border">
         <O11yEmptyState
           title="Test observability is in beta"
