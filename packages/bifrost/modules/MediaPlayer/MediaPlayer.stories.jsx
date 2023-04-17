@@ -197,6 +197,13 @@ export const ControlsFromOutsideExample = (args) => {
         >
           pause
         </button>
+        <button
+          type="button"
+          onClick={() => console.log(playerRef.current.getCurrentTime())}
+          className="m-3"
+        >
+          getCurrentTime
+        </button>
       </div>
     </>
   );

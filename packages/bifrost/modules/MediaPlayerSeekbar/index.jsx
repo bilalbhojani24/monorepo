@@ -33,7 +33,9 @@ const MediaPlayerSeekbar = forwardRef(
     const [hoverOnWarningMarker, setHoverOnWarningMarker] = useState(false);
     const [hoverOnErrorMarker, setHoverOnErrorMarker] = useState(false);
     const durationInTimeFormat = convertSecondsToTimeFormat(duration);
-    const currentTimeInTimeFormat = convertSecondsToTimeFormat(currentTime);
+    const currentTimeInTimeFormat = convertSecondsToTimeFormat(
+      currentTime >= duration ? duration : currentTime
+    );
     const seekbarRef = useRef(null);
     const bufferedRatio = bufferedTime / duration;
     const bufferProgress = bufferedRatio > 1 ? 100 : bufferedRatio * 100;
