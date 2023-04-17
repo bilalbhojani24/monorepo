@@ -230,7 +230,6 @@ export const SearchableCreatableControlled = () => {
   return (
     <>
       <ComboBox
-        isCreatable
         isRightLoading={loading}
         value={selectedPerson}
         onChange={(currentItem) => {
@@ -352,7 +351,6 @@ export const SearchableCreatableControlledMulti = () => {
   return (
     <>
       <ComboBox
-        isCreatable
         value={selectedPerson}
         onChange={(selectedItem, currentItem) => {
           const foundObject = options.find(

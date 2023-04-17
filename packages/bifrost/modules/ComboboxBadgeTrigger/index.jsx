@@ -2,17 +2,20 @@ import React, { useContext, useEffect, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
-import { arrayOf, func, number, oneOfType, shape, string } from 'prop-types';
+import {
+  arrayOf,
+  func,
+  node,
+  number,
+  oneOfType,
+  shape,
+  string
+} from 'prop-types';
 
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import Badge from '../Badge';
 import Button from '../Button';
-import {
-  ChevronUpDownIcon,
-  ExclamationCircleIcon,
-  MdCancel,
-  QuestionMarkCircleIcon
-} from '../Icon';
+import { ChevronUpDownIcon, ExclamationCircleIcon, MdCancel } from '../Icon';
 import Loader from '../Loader';
 
 const ComboboxBadgeTrigger = ({
@@ -20,20 +23,21 @@ const ComboboxBadgeTrigger = ({
   placeholder,
   onBadgeClose,
   currentSelected,
-  onClearAll
+  onClearAll,
+  leadingIcon
 }) => {
   const buttonRef = useRef();
   const comboInputRef = useRef();
 
   const {
-    isMulti,
     setWidth,
     errorText,
     isLoading,
     open,
     disabled,
     query,
-    setQuery
+    setQuery,
+    isLoadingRight
   } = useContext(ComboboxContextData);
 
   useEffect(() => {
@@ -51,22 +55,22 @@ const ComboboxBadgeTrigger = ({
     <Popover.Trigger ref={buttonRef} asChild>
       <div
         className={twClassNames(
-          'border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-1 focus-within:outline-none focus-within:ring-1 py-2',
+          'border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-2 focus-within:outline-none focus-within:ring-1 py-2 rounded-md',
           {
-            'pr-14': isMulti,
-            'pr-12': errorText,
+            'pr-2 focus-within:border-danger-600 focus-within:ring-danger-600':
+              errorText,
             'border-danger-600': errorText,
             'cursor-not-allowed border-base-200 bg-base-50 text-base-500':
               disabled
           }
         )}
       >
-        <div>
-          <QuestionMarkCircleIcon className="h-5 w-5" />
-        </div>
-        <div className="relative flex flex-1 space-x-2">
+        {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
+
+        <div className="relative flex flex-1 flex-wrap space-x-2 space-y-1">
           {currentSelected?.map((i) => (
             <Badge
+              key={i.value}
               wrapperClassName="z-10"
               text={i.label}
               hasRemoveButton
@@ -83,7 +87,10 @@ const ComboboxBadgeTrigger = ({
           <Combobox.Input
             placeholder={isLoading ? null : placeholder}
             className={twClassNames(
-              'focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 sm:text-sm flex-1 p-0'
+              'focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 sm:text-sm flex-1 p-0',
+              {
+                'border-base-200 bg-base-50 text-base-500': disabled
+              }
             )}
             onChange={(e) => {
               setQuery(e.target.value);
@@ -104,11 +111,12 @@ const ComboboxBadgeTrigger = ({
               onClick={() => {
                 if (onClearAll) onClearAll();
               }}
+              colors="white"
             >
-              <MdCancel className="h-5 w-5" />
+              <MdCancel className="text-base-400 h-5 w-5" />
             </Button>
           )}
-          {isLoading && (
+          {isLoadingRight && (
             <span className="text-base-500 flex items-center rounded-r-md focus:outline-none">
               <Loader wrapperStyle="text-base-200 fill-base-400 " />
             </span>
@@ -123,7 +131,7 @@ const ComboboxBadgeTrigger = ({
           )}
         </div>
         <Combobox.Button
-          className="absolute inset-y-0 left-0 flex w-full items-center justify-end rounded-r-md focus:outline-none"
+          className="absolute inset-y-0 right-1 flex w-full items-center justify-end rounded-r-md focus:outline-none"
           onClick={(e) => {
             keepDrawerOpen(e);
           }}
@@ -149,6 +157,7 @@ ComboboxBadgeTrigger.propTypes = {
   onBadgeClose: func,
   onClearAll: func,
   onInputValueChange: func,
+  leadingIcon: node,
   placeholder: string
 };
 
@@ -157,6 +166,7 @@ ComboboxBadgeTrigger.defaultProps = {
   onBadgeClose: null,
   onClearAll: null,
   onInputValueChange: null,
+  leadingIcon: null,
   placeholder: ''
 };
 

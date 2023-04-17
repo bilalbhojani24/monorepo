@@ -25,7 +25,6 @@ const ComboBox = forwardRef((props, ref) => {
     errorText,
     onChange,
     isBadge,
-    isCreatable,
     isMulti,
     noResultFoundText,
     value,
@@ -60,7 +59,6 @@ const ComboBox = forwardRef((props, ref) => {
         isBadge,
         currentSelectedValues,
         setCurrentSelectedValues,
-        isCreatable,
         noResultFoundText
       }}
     >
@@ -128,7 +126,6 @@ ComboBox.propTypes = {
     })
   ]),
   disabled: bool,
-  isCreatable: bool,
   isLoading: bool,
   isLoadingRight: bool,
   loadingText: string,
@@ -157,7 +154,6 @@ ComboBox.propTypes = {
 ComboBox.defaultProps = {
   defaultValue: null,
   disabled: false,
-  isCreatable: false,
   isLoading: false,
   isLoadingRight: false,
   isBadge: false,
