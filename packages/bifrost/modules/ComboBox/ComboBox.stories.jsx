@@ -390,12 +390,11 @@ export const SearchableCreatableControlledMulti = () => {
   );
 };
 
-export const SearchableUncreatableUncontrolledMulti = () => {
+export const SearchableCreatableUncontrolledMulti = () => {
   const [options, setOptions] = useState(COMBOBOX_OPTIONS);
   const [filteredOptions, setFilteredOptions] = useState(COMBOBOX_OPTIONS);
   const [loading, setIsLoading] = useState(false);
   const [query, setQuery] = useState('');
-
   const valueChange = useCallback(
     (val) => {
       setQuery(val);
@@ -407,7 +406,7 @@ export const SearchableUncreatableUncontrolledMulti = () => {
         const filtered = options.filter((fv) => fv.label.includes(val));
         setFilteredOptions(filtered);
         setIsLoading(false);
-      }, 0);
+      }, 100);
     },
     [options]
   );
