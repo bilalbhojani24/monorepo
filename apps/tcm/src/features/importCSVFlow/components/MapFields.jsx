@@ -184,8 +184,8 @@ const MapFields = () => {
           />
         </div>
       )}
-      <div className="border-base-200 max-h-max rounded-md border-2 border-solid bg-white pt-5">
-        <div className="relative">
+      <div className="border-base-300 h-full max-h-max rounded-md border border-solid bg-white pt-5">
+        <div>
           <div className="bg-white px-5">
             <TMSectionHeadings
               title="Map Fields"
@@ -205,12 +205,14 @@ const MapFields = () => {
             />
           </div>
           {showMappings && (
-            <DisplayMapping
-              fieldMappings={myFieldMappings}
-              onEditMapping={editMappingHandler}
-              nameToDisplayMapper={mapNameToDisplay}
-              allImportFields={allImportFields}
-            />
+            <>
+              <DisplayMapping
+                fieldMappings={myFieldMappings}
+                onEditMapping={editMappingHandler}
+                nameToDisplayMapper={mapNameToDisplay}
+                allImportFields={allImportFields}
+              />
+            </>
           )}
         </div>
         {!showMappings && (

@@ -53,7 +53,7 @@ SingleStep.defaultProps = {
 };
 
 const TopSectionInfo = ({ steps }) => (
-  <div className="border-base-200 mb-3 w-4/5 max-w-7xl rounded-lg border bg-white p-4">
+  <div className="border-base-300 mb-4 w-4/5 max-w-7xl rounded-lg border bg-white p-4">
     {steps.length &&
       steps.map((step, idx) => (
         <div key={step.title}>
