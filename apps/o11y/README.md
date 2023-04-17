@@ -57,4 +57,4 @@ apiUrl: 'https://api-observability.browserstack.com'
 ## Raising jira issue from local and staging
 - Make sure you are connected to AWS VPN
 - open [this URL](https://integrations-preprod.bsstag.com/request/set-railsapp-host?namespace=devtestops) in browser to set rails namespace to `devtestops` for authentication
-- That all :party:
+- Thats all  🎉
