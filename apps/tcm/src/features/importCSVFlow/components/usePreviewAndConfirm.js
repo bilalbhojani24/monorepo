@@ -1,14 +1,21 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
-import { WS_URL } from 'const/routes';
+import { getImportResultAPI } from 'api/importCSV.api';
+import AppRoute, { WS_URL } from 'const/routes';
+import { addNotificaton } from 'globalSlice';
+import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { startImportingTestCases } from '../slices/csvThunk';
+import {
+  resetImportCSVState,
+  startImportingTestCases
+} from '../slices/csvThunk';
 import { updateImportProgress } from '../slices/importCSVSlice';
 
 const usePreviewAndConfirm = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { search } = useLocation();
   const { sendMessage, lastMessage } = useWebSocket(WS_URL);
@@ -27,6 +34,26 @@ const usePreviewAndConfirm = () => {
   const totalImportedProjectsInPreview = useSelector(
     (state) => state.importCSV.totalImportedProjectsInPreview
   );
+
+  const reRouteOnSuccess = () => {
+    getImportResultAPI(mapFieldsConfig.importId).then(() => {
+      dispatch(
+        addNotificaton({
+          id: `import_success_ ${mapFieldsConfig.importId}`,
+          title: 'Import success',
+          description: `ABCD EFG`,
+          variant: 'success'
+        })
+      );
+      dispatch(resetImportCSVState());
+      navigate(
+        routeFormatter(AppRoute.TEST_CASES, {
+          projectId: 1,
+          folderId: 2
+        })
+      );
+    });
+  };
 
   const connectWSS = () => {
     const identifier = {
@@ -65,9 +92,15 @@ const usePreviewAndConfirm = () => {
   useEffect(() => {
     if (lastMessage?.data) {
       const percent = JSON.parse(lastMessage.data)?.message?.percent;
-      if (percent && percent > confirmCSVImportNotificationConfig?.progress)
+      if (percent && percent > confirmCSVImportNotificationConfig?.progress) {
         // if percent exists and only if its greated than the existing progress (incase the WS packets are delayed)
         dispatch(updateImportProgress(percent));
+
+        if (percent >= 100) {
+          // once done, reroute
+          reRouteOnSuccess();
+        }
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, lastMessage]);

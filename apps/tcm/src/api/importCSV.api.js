@@ -64,3 +64,6 @@ export const cancelImport = async (importId) =>
 export const getSystemTags = async (projectId) =>
   // eslint-disable-next-line no-return-await
   await fetchGet(`/api/v1/projects/${projectId}/test-case/tags`);
+
+export const getImportResultAPI = async (importId) =>
+  fetchGet(`/api/v1/import/quick/${importId}/result`);
