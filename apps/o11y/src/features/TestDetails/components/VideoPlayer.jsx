@@ -99,7 +99,7 @@ const VideoPlayer = forwardRef(
         {isLoading && (
           <MediaPlayerStates
             variant="loading"
-            wrapperClassName="h-full w-full"
+            wrapperClassName="h-full w-full z-30"
           />
         )}
         {hasError && (
@@ -132,7 +132,7 @@ const VideoPlayer = forwardRef(
           )}
           controlPanelAtBottom={false}
           wrapperClassName={twClassNames(
-            'rounded-t overflow-hidden [&_video]:object-cover transition-all duration-1000 ease-in overflow-hidden',
+            'rounded-t overflow-hidden [&_video]:object-cover transition-all duration-300 ease-in overflow-hidden',
             {
               hidden: hasError || isVideoExpired,
               [`h-auto max-h-[70vh] min-h-[256px]`]: isVideoPlayed,
