@@ -24,7 +24,8 @@ const VideoPlayer = forwardRef(
       hasError,
       onMetadataFailed,
       onPlayCallback,
-      isVideoPlayed
+      isVideoPlayed,
+      isVideoExpired
     },
     ref
   ) => {
@@ -108,13 +109,12 @@ const VideoPlayer = forwardRef(
             onReloadClick={() => {}}
           />
         )}
-        {/* {
-          isExpired && <MediaPlayerStates
-          
-          variant="errorAdditional"
-          wrapperClassName="h-full w-full"
+        {isVideoExpired && (
+          <MediaPlayerStates
+            variant="errorAdditional"
+            wrapperClassName="h-96 w-full"
           />
-        } */}
+        )}
         <MediaPlayer
           ref={ref}
           // url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
@@ -127,15 +127,14 @@ const VideoPlayer = forwardRef(
             'border border-base-200 flex-1 rounded-b overflow-hidden z-20',
             {
               'pointer-events-none': isLoading,
-              hidden: hasError
+              hidden: hasError || isVideoExpired
             }
           )}
           controlPanelAtBottom={false}
           wrapperClassName={twClassNames(
             'rounded-t overflow-hidden [&_video]:object-cover transition-all duration-1000 ease-in overflow-hidden',
             {
-              hidden: hasError,
-
+              hidden: hasError || isVideoExpired,
               [`h-auto max-h-[70vh] min-h-[256px]`]: isVideoPlayed,
               'max-h-64': !isVideoPlayed
             }
@@ -182,6 +181,7 @@ VideoPlayer.propTypes = {
     })
   ),
   hasError: PropTypes.bool.isRequired,
+  isVideoExpired: PropTypes.bool.isRequired,
   onMetadataFailed: PropTypes.func.isRequired,
   onPlayCallback: PropTypes.func.isRequired,
   isVideoPlayed: PropTypes.bool.isRequired

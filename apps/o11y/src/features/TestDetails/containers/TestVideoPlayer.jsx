@@ -4,6 +4,7 @@ import { useLatestRef } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
 import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
+import { differenceInDays } from 'date-fns';
 import isEmpty from 'lodash/isEmpty';
 
 import DraggableComponent from '../components/DraggableComponent';
@@ -21,6 +22,8 @@ import {
   getTestDetails
 } from '../slices/selectors';
 import { clearExceptions } from '../slices/uiSlice';
+
+const MAX_EXPIRY_DATE = 30;
 
 const TestVideoPlayer = () => {
   const dispatch = useDispatch();
@@ -93,6 +96,18 @@ const TestVideoPlayer = () => {
       sessionTestToggle
     ]
   );
+
+  const isVideoExpired = useMemo(() => {
+    if (details.data.videoLogs?.startTimeStamp) {
+      return (
+        differenceInDays(
+          new Date(),
+          new Date(details.data.videoLogs.startTimeStamp)
+        ) > MAX_EXPIRY_DATE
+      );
+    }
+    return false;
+  }, [details.data.videoLogs?.startTimeStamp]);
 
   const handleNormalVideoToPiPSync = () => {
     const videoComponent = videoRef.current;
@@ -210,6 +225,7 @@ const TestVideoPlayer = () => {
         onMetadataFailed={handleMetadataFailed}
         isVideoPlayed={isVideoPlayed}
         onPlayCallback={() => setIsVideoPlayed(true)}
+        isVideoExpired={isVideoExpired}
       />
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
@@ -235,6 +251,7 @@ const TestVideoPlayer = () => {
           onMetadataFailed={handleMetadataFailed}
           isVideoPlayed={isVideoPlayed}
           onPlayCallback={() => setIsVideoPlayed(true)}
+          isVideoExpired={isVideoExpired}
         />
       </DraggableComponent>
     </div>
