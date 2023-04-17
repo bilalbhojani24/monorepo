@@ -123,7 +123,6 @@ export default function Dashboard({ children }) {
         }`}
       />
       <main ref={mainRef} className="bg-base-50 mt-16 h-full pl-64">
-        Hello
         {children}
       </main>
       <NotificationsContainer />
