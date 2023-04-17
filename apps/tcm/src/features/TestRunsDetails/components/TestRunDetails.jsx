@@ -59,6 +59,7 @@ const TestRunDetails = () => {
         testRunId={testRunId}
         resultUpdatable={testRunDetails?.run_state !== 'closed'}
         onResultClick={onResultChange}
+        testRunName={testRunDetails?.name}
       />
     </div>
   );

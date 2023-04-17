@@ -18,7 +18,11 @@ import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { BDD, stepTemplate, templateOptions } from '../const/addTestCaseConst';
+import {
+  BDD,
+  stepTemplate,
+  templateOptions
+} from '../../const/addTestCaseConst';
 import {
   addSingleTestCase,
   // resetBulkFormData,
@@ -37,13 +41,13 @@ import {
   updateCtaLoading,
   updateFoldersLoading,
   updateTestCase,
+  updateTestCaseFormCFData,
   updateTestCaseFormData,
   updateTestCasesListLoading
-} from '../slices/repositorySlice';
-import { formDataRetriever } from '../utils/sharedFunctions';
-
-import useTestCases from './useTestCases';
-import useUnsavedChanges from './useUnsavedChanges';
+} from '../../slices/repositorySlice';
+import { formDataRetriever } from '../../utils/sharedFunctions';
+import useTestCases from '../useTestCases';
+import useUnsavedChanges from '../useUnsavedChanges';
 
 export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
@@ -173,7 +177,7 @@ export default function useAddEditTestCase(prop) {
     return true;
   };
 
-  const handleTestCaseFieldChange = (key, value, checkRTE) => {
+  const handleTestCaseFieldChange = (key, value, checkRTE, isCustomField) => {
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
@@ -187,8 +191,11 @@ export default function useAddEditTestCase(prop) {
             value: value === templateOptions[1].value ? [stepTemplate] : ['']
           })
         );
-      }
+      } else if (isCustomField)
+        dispatch(updateTestCaseFormCFData({ key, value }));
+
       dispatch(updateTestCaseFormData({ key, value }));
+
       if (!isUnsavedDataExists && isThereAChange(key, value, checkRTE))
         dispatch(setUnsavedDataExists(true));
     }

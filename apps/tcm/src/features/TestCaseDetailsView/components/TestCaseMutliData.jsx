@@ -13,24 +13,30 @@ import {
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 
 import TestCaseResults from './TestCaseResults';
+import useTestCaseMultiData from './useTestCaseMultiData';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
 const TestCaseMutliData = ({
   isFromTestRun,
   resultUpdatable,
   onResultClick,
-  testRunId
+  testRunId,
+  testResultsArray,
+  testRunName
 }) => {
   const {
     testRunsCount,
     selectedTab,
     projectId,
-    testCaseIssues,
     handleTabChange,
     onJiraButtonClick
   } = useTestCaseViewDetails();
+  const { testCaseIssues } = useTestCaseMultiData({
+    isFromTestRun,
+    testResultsArray
+  });
 
-  const issuesTableColumn = [
+  const trTcIssuesTableColumn = [
     {
       name: 'Issue',
       key: 'jira_id',
@@ -48,7 +54,48 @@ const TestCaseMutliData = ({
     },
     {
       name: 'Test Run',
-      key: 'test_run_id',
+      key: 'testRunName',
+      cell: () => (
+        <Link
+          to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
+            projectId,
+            testRunId
+          })}
+          className="text-base-900"
+        >
+          {testRunName}
+        </Link>
+      )
+    },
+    {
+      name: 'Linked On',
+      key: 'created_at',
+      cell: (rowData) =>
+        rowData?.created_at ? formatTime(rowData.created_at, 'date') : '--'
+    }
+  ];
+
+  const tcIssuesTableColumn = [
+    {
+      name: 'Issue',
+      key: 'jira_id',
+      cell: (rowData) => (
+        <div
+          className="text-base-900 cursor-pointer font-medium"
+          role="button"
+          tabIndex={0}
+          onClick={() => onJiraButtonClick(rowData.test_run_id)}
+          onKeyDown={(e) =>
+            onSubmitKeyHandler(e, () => onJiraButtonClick(rowData?.jira_id))
+          }
+        >
+          {rowData?.jira_id}
+        </div>
+      )
+    },
+    {
+      name: 'Test Run',
+      key: 'test_run_name',
       cell: (rowData) => (
         <Link
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
@@ -60,21 +107,14 @@ const TestCaseMutliData = ({
           {rowData?.test_run_name}
         </Link>
       )
-      // isFromTestRun ? (
-      //   <div className="text-base-900">{rowData?.test_run_name}</div>
-      // ) : (
-      //   <div className="flex flex-col">
-      //     <div className="text-base-900 font-medium">{`${
-      //       rowData?.jira_id || ''
-      //     }`}</div>
-      //     <div className="text-base-500">{rowData?.test_run_name}</div>
-      //   </div>
-      // )
     },
     {
       name: 'Linked On',
       key: 'created_at',
-      cell: (rowData) => formatTime(rowData.created_at, 'date')
+      cell: (rowData) =>
+        rowData?.test_run_created_at
+          ? formatTime(rowData?.test_run_created_at, 'date')
+          : '--'
     }
   ];
 
@@ -108,7 +148,9 @@ const TestCaseMutliData = ({
             <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-lg">
               <TMDataTable
                 isHeaderCapitalize
-                columns={issuesTableColumn}
+                columns={
+                  isFromTestRun ? trTcIssuesTableColumn : tcIssuesTableColumn
+                }
                 rows={testCaseIssues}
               />
             </div>
@@ -134,14 +176,18 @@ TestCaseMutliData.propTypes = {
   isFromTestRun: PropTypes.bool,
   resultUpdatable: PropTypes.bool,
   testRunId: PropTypes.number,
-  onResultClick: PropTypes.bool
+  onResultClick: PropTypes.bool,
+  testResultsArray: PropTypes.arrayOf(PropTypes.object),
+  testRunName: PropTypes.string
 };
 
 TestCaseMutliData.defaultProps = {
   isFromTestRun: false,
   resultUpdatable: false,
   testRunId: null,
-  onResultClick: () => {}
+  onResultClick: () => {},
+  testResultsArray: [],
+  testRunName: ''
 };
 
 export default TestCaseMutliData;
