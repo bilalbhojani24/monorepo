@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from '@storybook/jest';
-import { userEvent, within } from '@storybook/testing-library';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -70,7 +70,7 @@ Primary.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await expect(canvas.getByText('Title')).toBeVisible();
   steps.forEach(async (item) => {
-      await expect(canvas.getByText(item)).toBeVisible();
+    await expect(canvas.getByText(item)).toBeVisible();
   });
 };
 Primary.parameters = {
