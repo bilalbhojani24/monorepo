@@ -17,6 +17,7 @@ const ProgressBar = ({
       role="progressbar"
       aria-label={label}
       aria-valuenow={percentage}
+      aria-valuetext={steps[currentStep - 1]}
       tabIndex={0}
     >
       <div className="bg-base-200 overflow-hidden rounded-full">
