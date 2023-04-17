@@ -271,6 +271,10 @@ const importCSVSlice = createSlice({
         ...restInitialState
       };
     },
+    clearNotificationConfig: (state) => {
+      state.confirmCSVImportNotificationConfig =
+        initialState.confirmCSVImportNotificationConfig;
+    },
     setShowMappings: (state, { payload }) => {
       state.showMappings = payload;
     },
@@ -326,6 +330,7 @@ export const {
   setImportCSVSuccessNotificationShown,
   setShowChangeFolderModal,
   setFoldersForCSV,
-  updateImportProgress
+  updateImportProgress,
+  clearNotificationConfig
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

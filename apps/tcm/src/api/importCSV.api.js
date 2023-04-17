@@ -66,4 +66,4 @@ export const getSystemTags = async (projectId) =>
   await fetchGet(`/api/v1/projects/${projectId}/test-case/tags`);
 
 export const getImportResultAPI = async (importId) =>
-  fetchGet(`/api/v1/import/quick/${importId}/result`);
+  fetchGet(`/api/v1/import/custom/csv/${importId}/results`);

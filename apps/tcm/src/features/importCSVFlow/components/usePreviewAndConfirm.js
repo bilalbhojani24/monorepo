@@ -12,7 +12,10 @@ import {
   resetImportCSVState,
   startImportingTestCases
 } from '../slices/csvThunk';
-import { updateImportProgress } from '../slices/importCSVSlice';
+import {
+  clearNotificationConfig,
+  updateImportProgress
+} from '../slices/importCSVSlice';
 
 const usePreviewAndConfirm = () => {
   const navigate = useNavigate();
@@ -36,20 +39,25 @@ const usePreviewAndConfirm = () => {
   );
 
   const reRouteOnSuccess = () => {
-    getImportResultAPI(mapFieldsConfig.importId).then(() => {
+    getImportResultAPI(mapFieldsConfig.importId).then((res) => {
+      if (!res.success) {
+        return;
+      }
+
       dispatch(
         addNotificaton({
-          id: `import_success_ ${mapFieldsConfig.importId}`,
+          id: `import_success_ ${res.import_id}`,
           title: 'Import success',
-          description: `ABCD EFG`,
+          description: `${res.total_count} test cases imported successfully`,
           variant: 'success'
         })
       );
       dispatch(resetImportCSVState());
+      dispatch(clearNotificationConfig());
       navigate(
         routeFormatter(AppRoute.TEST_CASES, {
-          projectId: 1,
-          folderId: 2
+          projectId: res.project_id,
+          folderId: res.folder_id
         })
       );
     });
