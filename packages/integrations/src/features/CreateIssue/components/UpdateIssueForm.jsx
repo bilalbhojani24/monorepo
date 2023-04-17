@@ -147,7 +147,7 @@ const UpdateIssueForm = ({
                 event: 'update',
                 data: {
                   issueId: response?.data?.ticket_id,
-                  issureUrl: response?.data?.ticket_url,
+                  issueUrl: response?.data?.ticket_url,
                   issueKey: response?.data?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,
@@ -183,7 +183,7 @@ const UpdateIssueForm = ({
                 event: 'update',
                 data: {
                   issueId: res?.cause.ticket_id,
-                  issureUrl: res.cause.ticket_url,
+                  issueUrl: res.cause.ticket_url,
                   issueKey: res?.cause?.ticket_key,
                   integration: {
                     key: integrationToolFieldData.value,

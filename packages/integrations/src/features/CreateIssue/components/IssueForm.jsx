@@ -8,7 +8,7 @@ import {
   SelectMenuTrigger
 } from '@browserstack/bifrost';
 import { usePrevious } from '@browserstack/hooks';
-import { makeDebounce } from '@browserstack/utils';
+import { makeDebounce, twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { getCreateMeta, getProjectsThunk, getUpdateMeta } from '../../../api';
@@ -246,9 +246,9 @@ const IssueForm = ({
         />
       )}
       <div
-        className={'bg-white h-full '.concat(
-          isBeingDiscarded ? 'invisible h-0' : ''
-        )}
+        className={twClassNames('bg-white h-full', {
+          hidden: isBeingDiscarded
+        })}
       >
         <SelectMenu
           onChange={(val) => selectTool(val)}

@@ -93,7 +93,11 @@ const TextField = ({
   };
 
   return (
-    <div className="py-3">
+    <div
+      className="py-3"
+      data-field-type={schema?.field}
+      data-field-key={fieldKey}
+    >
       <Label required={required} label={label} />
       <InputField
         onChange={handleChange}

@@ -5,7 +5,14 @@ import PropTypes from 'prop-types';
 import Label from '../Label';
 import { FieldType } from '../types';
 
-const Attachments = ({ required, label, attachments, setAttachments }) => {
+const Attachments = ({
+  schema,
+  label,
+  required,
+  fieldKey,
+  attachments,
+  setAttachments
+}) => {
   if (!attachments?.length) return null;
 
   const handleDelete = () => {
@@ -17,7 +24,11 @@ const Attachments = ({ required, label, attachments, setAttachments }) => {
     ? URL.createObjectURL(attachments[0])
     : attachments[0];
   return (
-    <div className="py-3">
+    <div
+      className="py-3"
+      data-field-type={schema?.field}
+      data-field-key={fieldKey}
+    >
       <Label required={required} label={label} />
       <div className="border-base-300 flex overflow-hidden rounded-md border">
         <img className="h-14 w-14" src={imgSrc} alt="attachment" />

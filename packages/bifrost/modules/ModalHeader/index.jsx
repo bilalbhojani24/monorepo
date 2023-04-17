@@ -38,15 +38,14 @@ const ModalHeader = ({
       {heading || dismissButton ? (
         <div
           className={twClassNames('flex w-full', {
-            'justify-between': heading,
             'justify-end': !heading
           })}
         >
-          {heading ? (
-            <h3 className="text-base-900 text-lg font-medium leading-6">
+          {heading && (
+            <h3 className="text-base-900 flex-1 text-lg font-medium leading-6">
               {heading}
             </h3>
-          ) : null}
+          )}
 
           {dismissButton ? (
             <button
@@ -79,7 +78,7 @@ ModalHeader.propTypes = {
   isBorder: PropTypes.bool,
   icon: PropTypes.node,
   iconWrapperClassname: PropTypes.string,
-  subHeading: PropTypes.string
+  subHeading: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
 };
 ModalHeader.defaultProps = {
   dismissButton: true,

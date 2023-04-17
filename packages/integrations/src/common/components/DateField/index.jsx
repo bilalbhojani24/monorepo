@@ -7,6 +7,7 @@ import { FieldType } from '../types';
 
 const DateField = ({
   label,
+  schema,
   fieldKey,
   required,
   fieldsData,
@@ -29,7 +30,11 @@ const DateField = ({
   };
 
   return (
-    <div className="py-3">
+    <div
+      className="py-3"
+      data-field-type={schema?.field}
+      data-field-key={fieldKey}
+    >
       <Label required={required} label={label} />
       <SingleDatepicker
         onChange={handleChange}
