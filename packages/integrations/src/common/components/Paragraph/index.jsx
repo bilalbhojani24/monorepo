@@ -13,6 +13,7 @@ import { FieldType } from '../types';
 const Paragraph = ({
   label,
   value,
+  schema,
   fieldKey,
   required,
   fieldsData,
@@ -31,7 +32,11 @@ const Paragraph = ({
   const isComment = fieldKey === 'comment';
 
   return (isDescription && !hideDescription) || !isDescription ? (
-    <div className="py-3">
+    <div
+      className="py-3"
+      data-field-type={schema?.field}
+      data-field-key={fieldKey}
+    >
       <TextAreaField
         label={label}
         value={value}
