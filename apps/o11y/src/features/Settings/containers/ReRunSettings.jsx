@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11ySwitcher } from 'common/bifrostProxy';
+import O11yLoader from 'common/O11yLoader';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
@@ -16,6 +17,7 @@ export default function ReRunSettings() {
     state: false,
     loading: true
   });
+  const [loadingSettings, setLoadingSettings] = useState(true);
   const [reRunViaDashboard, setReRunViaDashboard] = useState({
     state: false,
     loading: true
@@ -26,6 +28,7 @@ export default function ReRunSettings() {
   useEffect(() => {
     mounted.current = true;
     if (activeProject.normalisedName) {
+      setLoadingSettings(true);
       dispatch(
         getReRunSettings({
           projectNormalisedName: activeProject.normalisedName
@@ -58,6 +61,9 @@ export default function ReRunSettings() {
             description: 'There was an error while loading settings',
             type: 'error'
           });
+        })
+        .finally(() => {
+          setLoadingSettings(false);
         });
     }
     return () => {
@@ -130,6 +136,20 @@ export default function ReRunSettings() {
       reRunViaDashboard: checked.toString()
     });
   };
+
+  if (loadingSettings) {
+    return (
+      <SettingsCard>
+        <div className="m-auto flex h-72 w-72 flex-col items-center justify-center p-6">
+          <O11yLoader
+            wrapperClassName="flex-1"
+            text="Fetching settings"
+            textClass="text-sm"
+          />
+        </div>
+      </SettingsCard>
+    );
+  }
   return (
     <SettingsCard>
       <section className="p-6">
