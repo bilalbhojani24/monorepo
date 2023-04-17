@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { O11yButton, O11yInputField, O11ySwitcher } from 'common/bifrostProxy';
+import { O11yButton, O11ySwitcher } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getNumericValue, logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import SettingsCard from '../components/SettingsCard';
+import SettingsSmallInput from '../components/SettingsSmallInput';
 import {
   getAutoAnalyserSettingsData,
   updateAutoAnalyserSettingsData
@@ -202,15 +203,14 @@ export default function AutoAnalysisSettings() {
           accurate. It is set at 95% by default. You can adjust this number
           based on the accuracy of test tagging.
         </p>
-        <div className="w-16">
-          <O11yInputField
-            id="auto-threshold-percentage"
-            disabled={data.isLoading}
-            value={thresholdPercentage}
-            onChange={handleChangeThreshold}
-            wrapperClassName="mt-3 w-full [&>input]:w-full"
-          />
-        </div>
+        <SettingsSmallInput
+          id="auto-threshold-percentage"
+          disabled={data.isLoading}
+          value={thresholdPercentage}
+          onChange={handleChangeThreshold}
+          wrapperClassName="mt-3"
+          widthClass="w-16"
+        />
       </section>
       <div className="bg-base-50 sticky bottom-0 z-20 flex justify-end py-3 px-6">
         <O11yButton

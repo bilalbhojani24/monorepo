@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { O11yButton, O11yInputField } from 'common/bifrostProxy';
+import { O11yButton } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getNumericValue, logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import SettingsCard from '../components/SettingsCard';
+import SettingsSmallInput from '../components/SettingsSmallInput';
 import {
   getGeneralSettingsData,
   submitGeneralSettingsChanges
@@ -110,17 +111,14 @@ export default function GeneralSettings() {
           Set a larger build timeout if you have non-test related activities
           consuming a considerable amount of time as part of your build.
         </p>
-        <div className="w-16">
-          <O11yInputField
-            id="general-build-timeout"
-            disabled={data?.isLoading}
-            value={buildTimeout}
-            onChange={handleBuildTimeoutChange}
-            errorText={buildTimeoutError}
-            type="number"
-            wrapperClassName="w-full [&>input]:w-full"
-          />
-        </div>
+        <SettingsSmallInput
+          id="general-build-timeout"
+          disabled={data?.isLoading}
+          value={buildTimeout}
+          onChange={handleBuildTimeoutChange}
+          errorText={buildTimeoutError}
+          type="number"
+        />
       </div>
       <div className="bg-base-50 sticky bottom-0 flex justify-end py-3 px-6">
         <O11yButton
