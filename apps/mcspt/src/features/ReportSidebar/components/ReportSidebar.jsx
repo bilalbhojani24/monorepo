@@ -11,7 +11,7 @@ const ReportSidebar = () => {
     <div className="bg-base-100 h-full w-full p-2">
       <MediaPlayer
         ref={deviceVideoRef}
-        wrapperClassName="rounded-lg overflow-hidden sticky top-2 z-[9]"
+        wrapperClassName="rounded-lg overflow-hidden z-[9]"
         url={`securefileprotocol://${sessionData?.metadata?.video}`}
         controlPanelStickToBottom
         controlPanelClassName="fixed z-[9] -ml-2 bottom-8"
