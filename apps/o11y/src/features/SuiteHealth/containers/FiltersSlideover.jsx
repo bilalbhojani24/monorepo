@@ -48,6 +48,15 @@ const FiltersSlideover = memo(
       });
     };
 
+    const handleClose = () => {
+      setFilters({
+        buildNames: [],
+        isMuted: false,
+        isFlaky: false
+      });
+      onClose();
+    };
+
     return (
       <O11ySlideover
         show={isVisible}
@@ -58,7 +67,7 @@ const FiltersSlideover = memo(
         <O11ySlideoverHeader
           heading="Filters"
           headingWrapperClassName="text-base-900 text-lg font-medium leading-7"
-          handleDismissClick={onClose}
+          handleDismissClick={handleClose}
           backgroundColorClass="pb-0"
         />
         <O11ySlideoverBody wrapperClassName="px-6 pb-0 border-b border-base-200">
@@ -70,7 +79,7 @@ const FiltersSlideover = memo(
         </O11ySlideoverBody>
         <O11ySlideoverFooter>
           <div className="flex w-full items-center justify-end gap-4 py-1">
-            <O11yButton colors="white" onClick={onClose}>
+            <O11yButton colors="white" onClick={handleClose}>
               Cancel
             </O11yButton>
             <O11yButton onClick={handleApplyFilter}>Apply</O11yButton>
