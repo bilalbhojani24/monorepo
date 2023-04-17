@@ -363,9 +363,6 @@ export const SearchableCreatableControlledMulti = () => {
           setSelectedPerson(selectedItem);
           setQuery('');
         }}
-        onOpenChange={(status) => {
-          if (!status) setQuery('');
-        }}
         isMulti
       >
         <ComboboxLabel>Assigned to</ComboboxLabel>
@@ -430,9 +427,6 @@ export const SearchableCreatableUncontrolledMulti = () => {
             setOptions([...options, currentItem]);
           }
           setQuery('');
-        }}
-        onOpenChange={(status) => {
-          if (!status) setQuery('');
         }}
         defaultValue={COMBOBOX_OPTIONS}
         isMulti
