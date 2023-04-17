@@ -69,6 +69,10 @@ const TestVideoPlayer = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setIsLoading(true);
+  }, [sessionTestToggle]);
+
   const videoUrl = useMemo(
     () =>
       `${details.data.videoLogs?.url}${

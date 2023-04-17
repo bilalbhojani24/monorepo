@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect, useRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import {
   MediaPlayer,
   MediaPlayerLeftControls,
@@ -30,8 +30,6 @@ const VideoPlayer = forwardRef(
   ) => {
     const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
 
-    const videoNaturalHeight = useRef(0);
-
     useEffect(() => {
       if (ref.current) {
         if (isPaused) {
@@ -42,8 +40,7 @@ const VideoPlayer = forwardRef(
       }
     }, [isPaused, ref]);
 
-    const handleOnLoad = (element) => {
-      videoNaturalHeight.current = element.videoHeight;
+    const handleOnLoad = () => {
       onMetadataLoaded();
     };
 
@@ -134,10 +131,11 @@ const VideoPlayer = forwardRef(
           )}
           controlPanelAtBottom={false}
           wrapperClassName={twClassNames(
-            'rounded-t overflow-hidden [&_video]:object-cover transition-[max-height] duration-1000 ease-in',
+            'rounded-t overflow-hidden [&_video]:object-cover transition-all duration-1000 ease-in overflow-hidden',
             {
               hidden: hasError,
-              [`max-h-[${videoNaturalHeight.current}px]`]: isVideoPlayed,
+
+              [`h-auto max-h-[70vh] min-h-[256px]`]: isVideoPlayed,
               'max-h-64': !isVideoPlayed
             }
           )}
