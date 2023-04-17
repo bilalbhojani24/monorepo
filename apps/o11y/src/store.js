@@ -30,6 +30,9 @@ export const store = configureStore({
     failureCategoriesSettings: failureCategoriesSettingsReducer,
     generalSettings: generalSettingsReducer,
     global: globalReducer,
+    integrations: integrationsReducer,
+    integrationsWidget: integrationsWidgetReducer,
+    modalToShow,
     reRunSettings: reRunSettingsReducer,
     shErrordetails: shErrorDetailsReducer,
     shTestdetails: shTestDetailsReducer,
@@ -38,11 +41,8 @@ export const store = configureStore({
     testList: testListReducer,
     testdetails: testDetailsDataReducer,
     testdetailsui: testDetailsUIReducer,
-    integrations: integrationsReducer,
     testingTrend: testingTrendReducer,
-    integrationsWidget: integrationsWidgetReducer,
-    testInsights: testInsightsSlice,
-    modalToShow
+    testInsights: testInsightsSlice
   },
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware({ serializableCheck: false });
