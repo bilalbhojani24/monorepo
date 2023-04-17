@@ -43,23 +43,33 @@ const O11yComboBox = ({
         onInputValueChange={(e) => setQuery(e.target.value)}
       />
       <ComboboxOptionGroup
-        wrapperClassName={twClassNames(
-          'h-60 min-w-max',
-          optionsListWrapperClassName
-        )}
+        wrapperClassName={twClassNames('w-80', optionsListWrapperClassName, {
+          'h-60': filteredOptions.length > 10
+        })}
       >
-        <Virtuoso
-          style={virtuosoStyles}
-          data={filteredOptions || []}
-          overscan={50}
-          itemContent={(_, item) => (
+        {filteredOptions.length > 10 ? (
+          <Virtuoso
+            style={virtuosoStyles}
+            data={filteredOptions || []}
+            overscan={10}
+            itemContent={(_, item) => (
+              <ComboboxOptionItem
+                option={item}
+                checkPosition={checkPosition}
+                wrapperClassName="text-sm"
+              />
+            )}
+          />
+        ) : (
+          filteredOptions.map((item) => (
             <ComboboxOptionItem
+              key={item.value}
               option={item}
               checkPosition={checkPosition}
               wrapperClassName="text-sm"
             />
-          )}
-        />
+          ))
+        )}
       </ComboboxOptionGroup>
     </ComboBox>
   );

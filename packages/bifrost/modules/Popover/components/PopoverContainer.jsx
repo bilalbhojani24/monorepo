@@ -28,7 +28,6 @@ const PopoverContainer = (props) => {
     disabled,
     hideWhenDetached,
     forceMount,
-    modal,
     onOpenChange,
     onOpenAutoFocus,
     onCloseAutoFocus,
@@ -44,7 +43,6 @@ const PopoverContainer = (props) => {
     sticky,
     theme,
     triggerWrapperClassName,
-    triggerAsChild,
     wrapperClassName
   } = props;
 
@@ -58,12 +56,11 @@ const PopoverContainer = (props) => {
         open={show}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange}
-        modal={modal}
       >
         <PopoverPrimitive.Trigger
           className={triggerWrapperClassName}
           disabled={disabled}
-          asChild={triggerAsChild}
+          asChild
         >
           {children}
         </PopoverPrimitive.Trigger>
@@ -139,7 +136,6 @@ PopoverContainer.propTypes = {
   disabled: PropTypes.bool,
   forceMount: PropTypes.bool,
   hideWhenDetached: PropTypes.bool,
-  modal: PropTypes.bool,
   onOpenChange: PropTypes.func,
   onOpenAutoFocus: PropTypes.func,
   onCloseAutoFocus: PropTypes.func,
@@ -155,7 +151,6 @@ PopoverContainer.propTypes = {
   sticky: PropTypes.oneOf(TP_STICKY_OPTIONS),
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
   triggerWrapperClassName: PropTypes.string,
-  triggerAsChild: PropTypes.bool,
   wrapperClassName: PropTypes.string
 };
 PopoverContainer.defaultProps = {
@@ -171,7 +166,6 @@ PopoverContainer.defaultProps = {
   disabled: false,
   forceMount: undefined,
   hideWhenDetached: false,
-  modal: false,
   onOpenChange: null,
   onOpenAutoFocus: null,
   onCloseAutoFocus: null,
@@ -187,7 +181,6 @@ PopoverContainer.defaultProps = {
   sticky: TP_STICKY_OPTIONS[0],
   theme: TP_TOOLTIP_THEME[0],
   triggerWrapperClassName: '',
-  triggerAsChild: true,
   wrapperClassName: ''
 };
 
