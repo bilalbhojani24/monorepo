@@ -100,7 +100,7 @@ const MediaPlayer = forwardRef(
         setIsPlaying(false);
       },
       getCurrentTime() {
-        videoRef.current.getCurrentTime();
+        return videoRef.current.getCurrentTime();
       }
     }));
 

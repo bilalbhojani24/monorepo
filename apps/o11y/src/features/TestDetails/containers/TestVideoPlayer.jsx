@@ -33,6 +33,7 @@ const TestVideoPlayer = () => {
   const [isFailed, setIsFailed] = useState(false);
   const [floatingVideoRightOffset, setFloatingVideoRightOffset] = useState(700);
   const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
+  const [isVideoPlayed, setIsVideoPlayed] = useState(false);
 
   const videoRef = useRef(null);
   const containerRef = useRef(null);
@@ -174,8 +175,8 @@ const TestVideoPlayer = () => {
 
   if (details.isLoading) {
     return (
-      <div className="flex h-96 w-full items-center justify-center">
-        <O11yLoader />
+      <div className="flex h-80 w-full items-center justify-center">
+        <O11yLoader loaderClass="text-base-300 fill-base-400" />
       </div>
     );
   }
@@ -198,6 +199,8 @@ const TestVideoPlayer = () => {
         isLoading={isLoading}
         hasError={isFailed}
         onMetadataFailed={handleMetadataFailed}
+        isVideoPlayed={isVideoPlayed}
+        onPlayCallback={() => setIsVideoPlayed(true)}
       />
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
@@ -221,6 +224,8 @@ const TestVideoPlayer = () => {
           isLoading={isLoading}
           hasError={isFailed}
           onMetadataFailed={handleMetadataFailed}
+          isVideoPlayed={isVideoPlayed}
+          onPlayCallback={() => setIsVideoPlayed(true)}
         />
       </DraggableComponent>
     </div>
