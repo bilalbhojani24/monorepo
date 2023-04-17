@@ -161,13 +161,13 @@ export const ControlsFromOutsideExample = (args) => {
         />
       </MediaPlayer>
       <div className="relative top-16 flex flex-row">
-        <button
+        <Button
           type="button"
           onClick={() => playerRef.current.seekTo(10)}
           className="m-3"
         >
           seek to 10
-        </button>
+        </Button>
         <Button
           type="button"
           onClick={() => playerRef.current.seekTo(20)}
