@@ -65,8 +65,11 @@ const usePreviewAndConfirm = () => {
   useEffect(() => {
     if (lastMessage?.data) {
       const percent = JSON.parse(lastMessage.data)?.message?.percent;
-      if (percent) dispatch(updateImportProgress(percent));
+      if (percent && percent > confirmCSVImportNotificationConfig?.progress)
+        // if percent exists and only if its greated than the existing progress (incase the WS packets are delayed)
+        dispatch(updateImportProgress(percent));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, lastMessage]);
 
   return {
