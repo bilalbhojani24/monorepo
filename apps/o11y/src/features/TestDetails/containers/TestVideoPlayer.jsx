@@ -185,7 +185,7 @@ const TestVideoPlayer = () => {
   }
 
   return (
-    <div>
+    <div key={videoUrl}>
       <VideoPlayer
         ref={videoRef}
         containerRef={containerRef}
