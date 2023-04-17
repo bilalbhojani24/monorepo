@@ -190,8 +190,8 @@ export const folderPropertyUpdater = (
     }
 
     if (item?.contents?.length) {
-      const updatedContents = folderArrayUpdateHelper(
-        folders,
+      const updatedContents = folderPropertyUpdater(
+        item.contents,
         workingFolderId,
         propertyName,
         propertyValue,

@@ -280,9 +280,8 @@ export default function useAddEditTestCase(prop) {
     const testCaseData = data.data.test_case;
     const folderData = data.data.folder;
     const projectData = data.data.project;
-    const testCasesCount = data.data.count;
 
-    updateTCCount({ casesObj: { [folderData.id]: testCasesCount } });
+    updateTCCount({ casesObj: { [folderData.id]: folderData.cases_count } });
     dispatch(updateCtaLoading({ key: 'createTestCaseCta', value: false }));
     if (projectId === 'new' || !allFolders.length) {
       // no project/folder
