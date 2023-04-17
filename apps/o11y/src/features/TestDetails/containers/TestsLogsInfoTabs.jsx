@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { MdOutlineBugReport } from '@browserstack/bifrost';
 import { O11yButton, O11yTabs } from 'common/bifrostProxy';
-import isEmpty from 'lodash/isEmpty';
 
 import SessionTestToggle from '../components/SessionTestToggle';
 import { useLogsContext } from '../contexts/LogsContext';
@@ -51,7 +50,7 @@ const TestsLogsInfoTabs = () => {
           wrapperClassName="flex-1"
         />
         <div className="flex items-center gap-3 pr-1">
-          {!isEmpty(details.data?.videoLogs) && <SessionTestToggle />}
+          {details.isValidVideo && <SessionTestToggle />}
           <O11yButton
             isIconOnlyButton
             icon={<MdOutlineBugReport className="h-full w-full" />}

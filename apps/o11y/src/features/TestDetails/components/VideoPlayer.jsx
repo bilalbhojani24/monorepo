@@ -126,7 +126,8 @@ const VideoPlayer = forwardRef(
           controlPanelWrapperClassName={twClassNames(
             'border border-base-200 flex-1 rounded-b overflow-hidden z-20',
             {
-              'pointer-events-none': isLoading
+              'pointer-events-none': isLoading,
+              hidden: hasError
             }
           )}
           controlPanelAtBottom={false}

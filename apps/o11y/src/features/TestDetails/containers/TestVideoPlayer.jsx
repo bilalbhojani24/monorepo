@@ -10,7 +10,11 @@ import DraggableComponent from '../components/DraggableComponent';
 import VideoPlayer from '../components/VideoPlayer';
 import { TEST_DETAILS_SLIDEOVER_ELEMENT_ID } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
-import { clearTestDetails, getTestDetailsData } from '../slices/dataSlice';
+import {
+  clearTestDetails,
+  getTestDetailsData,
+  setIsValidVideo
+} from '../slices/dataSlice';
 import {
   getCurrentTestRunId,
   getExceptions,
@@ -125,6 +129,7 @@ const TestVideoPlayer = () => {
   const handleMetadataFailed = () => {
     setIsLoading(false);
     setIsFailed(true);
+    dispatch(setIsValidVideo(false));
   };
 
   const handleFloatingVideoClose = () => {
