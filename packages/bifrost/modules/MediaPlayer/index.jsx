@@ -54,10 +54,14 @@ const MediaPlayer = forwardRef(
             : videoRef.current.getDuration()
         );
         setStartTime(
-          customStartAndEndInSeconds ? customStartAndEndInSeconds[0] : 0
+          customStartAndEndInSeconds
+            ? parseInt(customStartAndEndInSeconds[0], 10)
+            : 0
         );
         setEndTime(
-          customStartAndEndInSeconds ? customStartAndEndInSeconds[1] : duration
+          customStartAndEndInSeconds
+            ? parseInt(customStartAndEndInSeconds[1], 10)
+            : duration
         );
         setIsReady(true);
         onFirstReady?.(videoRef.current.getInternalPlayer());
@@ -71,10 +75,17 @@ const MediaPlayer = forwardRef(
       if (buffered.length) {
         setBufferedTime(buffered.end(buffered.length - 1));
       }
+      if (videoRef.current.getCurrentTime() - startTime >= duration)
+        setIsPlaying(false);
     };
 
     const handleOnPlay = () => {
-      if (!isPlaying) setIsPlaying(true);
+      if (!isPlaying) {
+        if (currentTime >= duration) {
+          videoRef.current.seekTo(startTime);
+        }
+        setIsPlaying(true);
+      }
       onPlayCallback?.();
     };
 
