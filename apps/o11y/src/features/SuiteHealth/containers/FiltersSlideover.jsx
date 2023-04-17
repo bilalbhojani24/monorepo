@@ -50,9 +50,12 @@ const FiltersSlideover = memo(
 
     const handleClose = () => {
       setFilters({
-        buildNames: [],
-        isMuted: false,
-        isFlaky: false
+        buildNames: appliedBuildNames.map((build) => ({
+          label: build,
+          value: build
+        })),
+        isMuted,
+        isFlaky
       });
       onClose();
     };
