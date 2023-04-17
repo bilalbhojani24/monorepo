@@ -12,6 +12,8 @@ const useUpdateTCCountInFolders = () => {
   };
 
   const updateTCCount = ({ casesObj }) => {
+    if (!casesObj) return;
+
     let newFoldersArray = [...allFolders];
     Object.keys(casesObj).forEach((key) => {
       newFoldersArray = folderPropertyUpdater(
