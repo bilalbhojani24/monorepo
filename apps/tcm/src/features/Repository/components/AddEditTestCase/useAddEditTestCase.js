@@ -193,7 +193,8 @@ export default function useAddEditTestCase(prop) {
         );
       } else if (isCustomField)
         dispatch(updateTestCaseFormCFData({ key, value }));
-      else dispatch(updateTestCaseFormData({ key, value }));
+
+      dispatch(updateTestCaseFormData({ key, value }));
 
       if (!isUnsavedDataExists && isThereAChange(key, value, checkRTE))
         dispatch(setUnsavedDataExists(true));
