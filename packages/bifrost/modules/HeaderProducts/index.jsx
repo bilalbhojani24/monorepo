@@ -45,7 +45,10 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
           </p>
         </Hyperlink>
       ))}
-      <AccessibleTooltip content={<HeaderProductContainer />}>
+      <AccessibleTooltip
+        content={<HeaderProductContainer />}
+        ariaLabel="product popover"
+      >
         <div className={twClassNames('group flex flex-row items-center p-0')}>
           <div
             className={twClassNames(

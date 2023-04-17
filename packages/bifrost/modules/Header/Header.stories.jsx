@@ -148,7 +148,8 @@ Primary.play = async ({ canvasElement }) => {
   headerTextElements.forEach(async (item) => {
     await expect(canvas.getByText(item)).toBeVisible();
   });
-  await userEvent.hover(canvas.getByLabelText('help popover'));
+  // 0 -> click and 1 -> Hover
+  await userEvent.hover(canvas.getByLabelText('popover button')[0]);
   await userEvent.hover(canvas.getByLabelText('account popover'));
   const productPopover = await canvas.getAllByLabelText('product popover');
   await userEvent.hover(productPopover[0]);

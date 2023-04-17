@@ -240,6 +240,7 @@ const HeaderElements = ({
       temp = (
         <AccessibleTooltip
           content={accountPopover(supportLink, showTestInsights)}
+          ariaLabel="account popover"
         >
           <div
             className={twClassNames('lg:flex flex-row items-center p-2 hidden')}

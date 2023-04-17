@@ -6,7 +6,7 @@ import Tooltip from '../../Tooltip';
 
 import RenderAccessibleChild from './RenderAccessibleChild';
 
-const AccessibleTooltip = ({ children, content }) => {
+const AccessibleTooltip = ({ ariaLabel, children, content }) => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isMouseOver, setIsMouseOver] = useState(false);
@@ -26,7 +26,6 @@ const AccessibleTooltip = ({ children, content }) => {
         wrapperClassName="py-0"
         onOpenChange={(o) => setIsPopoverOpen(o)}
         disabled={isTooltipOpen}
-        triggerAsChild
         triggerWrapperClassName="block"
       >
         <button
@@ -41,7 +40,7 @@ const AccessibleTooltip = ({ children, content }) => {
           style={{
             pointerEvents: isMouseOver ? 'none' : 'auto'
           }}
-          aria-label="popover button"
+          aria-label={ariaLabel}
         />
       </Popover>
 
@@ -64,6 +63,7 @@ const AccessibleTooltip = ({ children, content }) => {
           onMouseLeave={() => {
             setIsMouseOver(false);
           }}
+          triggerAriaLabel={ariaLabel}
         >
           {children}
         </Tooltip>
@@ -75,6 +75,7 @@ const AccessibleTooltip = ({ children, content }) => {
 };
 
 AccessibleTooltip.propTypes = {
+  ariaLabel: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   content: PropTypes.node.isRequired
 };

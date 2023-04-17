@@ -153,6 +153,7 @@ const GetHelp = ({
         documentationLink,
         supportLink
       )}
+      ariaLabel="popover button"
     >
       <div
         className={twClassNames(
