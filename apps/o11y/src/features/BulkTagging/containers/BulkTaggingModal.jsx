@@ -277,7 +277,7 @@ function BulkTaggingModal() {
             />
           </div>
         )}
-        {similarIssues.data?.length && (
+        {similarIssues.data?.similar?.length > 1 && (
           <O11yCheckbox
             checked={
               selectedTestRunIds.length === similarIssues?.data?.similar?.length
@@ -304,7 +304,7 @@ function BulkTaggingModal() {
             </div>
           ) : (
             <>
-              {!similarIssues.data?.length && (
+              {!similarIssues.data?.similar?.length ? (
                 <div className="flex h-24 flex-col justify-center p-14">
                   <O11yEmptyState
                     title="No similar tests found"
@@ -315,17 +315,18 @@ function BulkTaggingModal() {
                     buttonProps={null}
                   />
                 </div>
-              )}
-              {similarIssues.data?.similar?.map((el) => (
+              ) : (
                 <div className="h-64 overflow-auto">
-                  <SimilarItem
-                    data={el}
-                    key={el.id}
-                    handleSelect={handleCheckBoxChange}
-                    checked={!!selectedTestRunIds.includes(el?.id)}
-                  />
+                  {similarIssues.data?.similar?.map((el) => (
+                    <SimilarItem
+                      data={el}
+                      key={el.id}
+                      handleSelect={handleCheckBoxChange}
+                      checked={!!selectedTestRunIds.includes(el?.id)}
+                    />
+                  ))}
                 </div>
-              ))}
+              )}
             </>
           )}
         </>
