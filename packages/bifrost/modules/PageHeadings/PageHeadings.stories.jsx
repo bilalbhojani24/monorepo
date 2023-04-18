@@ -184,7 +184,7 @@ ActionsWithDropdowns.args = {
         </Dropdown>
       </div>
       <Dropdown>
-        <DropdownTrigger>
+        <DropdownTrigger triggerAriaLabel="page heading dropdown trigger">
           <EllipsisVerticalIcon className="h-5 w-5" />
         </DropdownTrigger>
         <DropdownOptionGroup>
