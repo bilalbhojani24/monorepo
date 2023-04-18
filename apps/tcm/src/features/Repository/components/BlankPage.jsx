@@ -15,6 +15,9 @@ import useTestCases from './useTestCases';
 const BlankPage = forwardRef((props, ref) => {
   const { projectId, folderId } = useTestCases();
   const dispatch = useDispatch();
+  const urlQueryParam = {};
+  if (projectId) urlQueryParam.project = projectId;
+  if (folderId) urlQueryParam.folder = folderId;
 
   return (
     <div className="flex w-full flex-col flex-wrap justify-center">
@@ -46,13 +49,9 @@ const BlankPage = forwardRef((props, ref) => {
         </Link>
 
         <Link
-          to={
-            `${AppRoute.IMPORT_CSV}${
-              projectId ? `?project=${projectId}` : ''
-            }${folderId}`
-              ? `&folder=${folderId}`
-              : ''
-          }
+          to={`${AppRoute.IMPORT_CSV}?${new URLSearchParams(
+            urlQueryParam
+          ).toString()}`}
         >
           <TMButton
             wrapperClassName="ml-4 whitespace-nowrap w-64 py-3"
