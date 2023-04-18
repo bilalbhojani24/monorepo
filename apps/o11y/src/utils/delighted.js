@@ -1,7 +1,7 @@
 import { logOllyEvent } from 'utils/common';
 // Note: This is a public token, it is safe to expose it
-const DELIGHTED_CONFIG_FILE_NAME = 'delighted';
-const DELIGHTED_CONFIG_TOKEN = 'snsGqsyv7OkIyS1G';
+const DELIGHTED_CONFIG_FILE_NAME = 'delightedNps6';
+const DELIGHTED_CONFIG_TOKEN = 'OSs0HGuHljsxJ5t7';
 
 const logOllyDelightedEvent = (event, delightedConfig) => {
   logOllyEvent({
@@ -11,7 +11,7 @@ const logOllyDelightedEvent = (event, delightedConfig) => {
 };
 
 export const handleShowSurvey = (delightedConfig) => {
-  window.delighted.survey({
+  window[DELIGHTED_CONFIG_FILE_NAME].survey({
     properties: delightedConfig,
     onShow: () => logOllyDelightedEvent('O11yNPSSurveyShown', delightedConfig),
     onHide: () => logOllyDelightedEvent('O11yNPSSurveyClosed', delightedConfig),
@@ -23,8 +23,8 @@ export const handleShowSurvey = (delightedConfig) => {
 };
 
 export const delightedInit = (delightedConfig) => {
-  if (!window.delighted) {
-    window.delighted = [];
+  if (!window[DELIGHTED_CONFIG_FILE_NAME]) {
+    window[DELIGHTED_CONFIG_FILE_NAME] = [];
     const methods = [
       'survey',
       'reset',
@@ -41,11 +41,11 @@ export const delightedInit = (delightedConfig) => {
       'alias'
     ];
     methods.forEach((method) => {
-      window.delighted[method] = (...args) => {
-        window.delighted.push([method, args]);
+      window[DELIGHTED_CONFIG_FILE_NAME][method] = (...args) => {
+        window[DELIGHTED_CONFIG_FILE_NAME].push([method, args]);
       };
     });
-    window.delighted.SNIPPET_VERSION = '1.0.1';
+    window[DELIGHTED_CONFIG_FILE_NAME].SNIPPET_VERSION = '1.0.1';
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
