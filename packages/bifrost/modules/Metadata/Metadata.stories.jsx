@@ -32,7 +32,7 @@ const defaultConfig = {
     },
     textColorClass: {
       option: { type: 'string' },
-      defaultValue: ''
+      defaultValue: 'text-base-800'
     }
   },
   controls: {}
