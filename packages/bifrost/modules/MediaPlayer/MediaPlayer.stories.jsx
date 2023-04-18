@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Button from '../Button';
 import MediaPlayerLeftControls from '../MediaPlayerLeftControls';
 import MediaPlayerRightControls from '../MediaPlayerRightControls';
 import MediaPlayerSeekbar from '../MediaPlayerSeekbar';
@@ -67,7 +68,6 @@ export const Primary = (args) => (
     <MediaPlayerLeftControls
       showRewindForwardButtons
       onTimeJumpClick={() => {}}
-      wrapperClassName=""
     />
     <MediaPlayerSeekbar
       exceptions={[
@@ -85,13 +85,11 @@ export const Primary = (args) => (
       showMarkers
       onMarkerClick={() => {}}
       onSeekTime={() => {}}
-      wrapperClassName=""
     />
     <MediaPlayerRightControls
       onDownloadClick={() => {}}
       onFullScreen={() => {}}
       onPlaybackSpeedClick={() => {}}
-      wrapperClassName=""
     />
   </MediaPlayer>
 );
@@ -114,7 +112,6 @@ export const WithLoadingState = (args) => {
         <MediaPlayerLeftControls
           showRewindForwardButtons
           onTimeJumpClick={() => {}}
-          wrapperClassName=""
         />
         <MediaPlayerSeekbar
           exceptions={[
@@ -132,13 +129,11 @@ export const WithLoadingState = (args) => {
           showMarkers
           onMarkerClick={() => {}}
           onSeekTime={() => {}}
-          wrapperClassName=""
         />
         <MediaPlayerRightControls
           onDownloadClick={() => {}}
           onFullScreen={() => {}}
           onPlaybackSpeedClick={() => {}}
-          wrapperClassName=""
         />
       </MediaPlayer>
     </>
@@ -153,57 +148,54 @@ export const ControlsFromOutsideExample = (args) => {
         <MediaPlayerLeftControls
           showRewindForwardButtons
           onTimeJumpClick={() => {}}
-          wrapperClassName=""
         />
         <MediaPlayerSeekbar
           showMarkers
           onMarkerClick={() => {}}
           onSeekTime={() => {}}
-          wrapperClassName=""
         />
         <MediaPlayerRightControls
           onDownloadClick={() => {}}
           onFullScreen={() => {}}
           onPlaybackSpeedClick={() => {}}
-          wrapperClassName=""
         />
       </MediaPlayer>
       <div className="relative top-16 flex flex-row">
-        <button
+        <Button
           type="button"
           onClick={() => playerRef.current.seekTo(10)}
           className="m-3"
         >
           seek to 10
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => playerRef.current.seekTo(20)}
           className="m-3"
         >
           seek to 20
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => playerRef.current.play()}
           className="m-3"
         >
           play
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => playerRef.current.pause()}
           className="m-3"
         >
           pause
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           onClick={() => console.log(playerRef.current.getCurrentTime())}
           className="m-3"
         >
           getCurrentTime
-        </button>
+        </Button>
       </div>
     </>
   );
@@ -224,19 +216,16 @@ export const UsingMediaPlayerStates = (args) => {
           <MediaPlayerLeftControls
             showRewindForwardButtons
             onTimeJumpClick={() => {}}
-            wrapperClassName=""
           />
           <MediaPlayerSeekbar
             showMarkers
             onMarkerClick={() => {}}
             onSeekTime={() => {}}
-            wrapperClassName=""
           />
           <MediaPlayerRightControls
             onDownloadClick={() => {}}
             onFullScreen={() => {}}
             onPlaybackSpeedClick={() => {}}
-            wrapperClassName=""
           />
         </MediaPlayer>
       )}

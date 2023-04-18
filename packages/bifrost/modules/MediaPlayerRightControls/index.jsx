@@ -17,6 +17,7 @@ import {
 const MediaPlayerRightControls = forwardRef(
   (
     {
+      customSetting,
       onDownloadClick,
       onFullScreen,
       onPlaybackSpeedClick,
@@ -117,12 +118,14 @@ const MediaPlayerRightControls = forwardRef(
             </Dropdown>
           </div>
         )}
+        {customSetting && <>{customSetting}</>}
       </div>
     );
   }
 );
 
 MediaPlayerRightControls.propTypes = {
+  customSetting: PropTypes.node,
   onDownloadClick: PropTypes.func,
   onFullScreen: PropTypes.func,
   onPlaybackSpeedClick: PropTypes.func,
@@ -132,6 +135,7 @@ MediaPlayerRightControls.propTypes = {
   wrapperClassName: PropTypes.string
 };
 MediaPlayerRightControls.defaultProps = {
+  customSetting: null,
   onDownloadClick: () => {},
   onFullScreen: () => {},
   onPlaybackSpeedClick: () => {},

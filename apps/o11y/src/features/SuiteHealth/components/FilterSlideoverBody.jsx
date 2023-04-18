@@ -35,6 +35,9 @@ const FilterSlideoverBody = ({ filters, setFilters, allBuildNames }) => {
           }}
           value={filters.buildNames[0]}
           checkPosition="left"
+          key={`builds-select-${
+            filters.buildNames?.length > 0 ? filters.buildNames.length : 0
+          }`}
         />
       </div>
       <div className="mb-6 w-full">
