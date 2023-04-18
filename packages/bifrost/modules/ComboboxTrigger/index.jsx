@@ -27,7 +27,6 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
     loadingText,
     open,
     disabled,
-    value,
     setQuery,
     currentSelectedValues
   } = useContext(ComboboxContextData);
@@ -67,11 +66,11 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             <span>{loadingText}</span>
           </div>
         )}
-        {!isMulti && !open && value?.image && (
+        {!isMulti && !open && currentSelectedValues?.image && (
           <img
-            src={value.image}
-            alt={value.label}
-            className="mr-3 shrink-0 rounded-full"
+            src={currentSelectedValues.image}
+            alt={currentSelectedValues.label}
+            className="mr-2 h-5 w-5 shrink-0 rounded-full"
           />
         )}
         <Combobox.Input
