@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
@@ -28,6 +28,7 @@ const ComboboxBadgeTrigger = ({
 }) => {
   const buttonRef = useRef();
   const comboInputRef = useRef();
+  const divRef = useRef();
 
   const {
     setWidth,
@@ -50,6 +51,19 @@ const ComboboxBadgeTrigger = ({
       comboInputRef.current.focus();
     }
   };
+
+  const getWidth = useCallback(() => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.font =
+      '14px Inter var, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji';
+    const { width } = ctx.measureText(query);
+    divRef.current.style.width = `${width}px`;
+  }, [query]);
+
+  useEffect(() => {
+    getWidth();
+  }, [query, getWidth]);
 
   return (
     <Popover.Trigger ref={buttonRef} asChild>
@@ -89,9 +103,9 @@ const ComboboxBadgeTrigger = ({
               'flex-1': currentSelected.length <= 0
             })}
             style={{
-              width: `max(2px, ${query.length}ch)`,
               minWidth: '2px'
             }}
+            ref={divRef}
           >
             <Combobox.Input
               {...(currentSelected.length <= 0 && {

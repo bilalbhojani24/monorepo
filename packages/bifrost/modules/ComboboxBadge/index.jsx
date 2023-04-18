@@ -28,6 +28,7 @@ const ComboboxBadge = ({
   defaultValue,
   MenuContainer,
   noResultText,
+  showNoResult,
   options,
   onInputChange,
   value,
@@ -97,15 +98,21 @@ const ComboboxBadge = ({
             />
           ))
         ) : (
-          <HeadlessCombobox.Option
-            className={twClassNames(
-              'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3'
+          <>
+            {showNoResult && (
+              <HeadlessCombobox.Option
+                className={twClassNames(
+                  'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3'
+                )}
+                disabled
+              >
+                {noResultText ||
+                  (query.length > 0
+                    ? 'No results found'
+                    : 'No options available')}
+              </HeadlessCombobox.Option>
             )}
-            disabled
-          >
-            {noResultText ||
-              (query.length > 0 ? 'No results found' : 'No options available')}
-          </HeadlessCombobox.Option>
+          </>
         )}
 
         {query.length > 0 && !isExactMatch && addNewItemComponent}
@@ -140,6 +147,7 @@ ComboboxBadge.propTypes = {
   onChange: func,
   onClearAll: func,
   onInputChange: func,
+  showNoResult: bool,
   options: arrayOf(
     shape({
       value: oneOfType([string, number]).isRequired,
@@ -172,6 +180,7 @@ ComboboxBadge.defaultProps = {
   deleteOnBackspace: null,
   MenuContainer: ComboboxOptionGroup,
   noResultText: '',
+  showNoResult: false,
   onBadgeCrossClick: null,
   onChange: null,
   onClearAll: null,
