@@ -67,7 +67,7 @@ const ComboboxBadgeTrigger = ({
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
 
-        <div className="relative flex flex-1 flex-wrap items-baseline space-x-2 space-y-1">
+        <div className="relative flex flex-1 flex-wrap items-baseline space-x-2 space-y-1 overflow-hidden">
           {currentSelected?.map((i) => (
             <Badge
               key={i.value}
@@ -84,23 +84,35 @@ const ComboboxBadgeTrigger = ({
             />
           ))}
 
-          <Combobox.Input
-            placeholder={isLoading ? null : placeholder}
-            className={twClassNames(
-              'focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 sm:text-sm flex-1 p-0',
-              {
-                'border-base-200 bg-base-50 text-base-500': disabled
-              }
-            )}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              onInputValueChange(e);
+          <div
+            className={twClassNames('max-w-full', {
+              'flex-1': currentSelected.length <= 0
+            })}
+            style={{
+              width: `max(2px, ${query.length}ch)`,
+              minWidth: '2px'
             }}
-            ref={comboInputRef}
-            readOnly={isLoading}
-            value={query}
-            autoComplete="off"
-          />
+          >
+            <Combobox.Input
+              {...(currentSelected.length <= 0 && {
+                placeholder: isLoading ? null : placeholder
+              })}
+              className={twClassNames(
+                'focus:ring-0 focus-outline-0 focus-border-none border-0 sm:text-sm p-0 w-full',
+                {
+                  'border-base-200 bg-base-50 text-base-500': disabled
+                }
+              )}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                onInputValueChange(e);
+              }}
+              ref={comboInputRef}
+              readOnly={isLoading}
+              value={query}
+              autoComplete="off"
+            />
+          </div>
         </div>
 
         <div className="mr-5 flex space-x-2">
