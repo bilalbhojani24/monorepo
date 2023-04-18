@@ -118,7 +118,7 @@ function RequestAccess() {
             </p>
           </div>
         </div>
-        <img src={heroUnit} alt="" className="w-2/4" />
+        <img src={heroUnit} alt="showing product features" className="w-2/4" />
       </O11yFeatureCard>
     </div>
   );
