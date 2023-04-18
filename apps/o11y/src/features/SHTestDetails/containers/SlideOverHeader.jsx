@@ -55,7 +55,7 @@ const TestDetailsHeader = () => {
       handleDismissClick={handleCloseDetails}
       heading={testDetailsInfo.data?.name || ''}
       headingWrapperClassName="leading-7"
-      backgroundColorClass="pb-0"
+      wrapperClassName="pb-0"
     />
   );
 };
