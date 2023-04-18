@@ -6,7 +6,7 @@ import React, {
   useState
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
 import { MdSearchOff, MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
 import { O11yButton, O11yEmptyState } from 'common/bifrostProxy';
@@ -62,6 +62,7 @@ const TestList = ({
   const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
   const virtuosoRef = useRef(null);
+  const navigate = useNavigate();
 
   const OllyTestListingEvent = useCallback(
     (eventName, data = {}) => {
@@ -104,9 +105,10 @@ const TestList = ({
   const { data: testListData, apiState: testListDataApiState } =
     useSelector(getTestList);
   const appliedFilters = useSelector(getAppliedFilters);
-  const loadFreshData = useCallback(() => {
-    dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }));
-  }, [buildUUID, dispatch]);
+  const loadFreshData = useCallback(
+    () => dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} })),
+    [buildUUID, dispatch]
+  );
 
   const loadMoreData = useCallback(() => {
     if (testListData?.pagingParams?.hasNext) {
@@ -146,8 +148,10 @@ const TestList = ({
   );
 
   const viewAllTests = () => {
+    navigate({
+      search: 'tab=tests'
+    });
     resetReduxStore(['selected', 'applied', 'testList']);
-    loadFreshData();
   };
 
   const testListContextValues = useMemo(
@@ -308,7 +312,7 @@ const TestList = ({
             <TestListFilters />
           </div>
         </div>
-        <FilterPills viewAllBuilds={viewAllTests} />
+        <FilterPills viewAllTests={viewAllTests} />
         {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
           <TestListContext.Provider value={testListContextValues}>
             <Virtuoso

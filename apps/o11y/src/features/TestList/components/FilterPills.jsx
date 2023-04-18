@@ -30,7 +30,7 @@ const FilterBadge = ({ text, onClose }) => (
 );
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const FilterPills = ({ viewAllBuilds }) => {
+const FilterPills = ({ viewAllTests }) => {
   const dispatch = useDispatch();
   const appliedFilters = useSelector(getAppliedFilters);
 
@@ -130,7 +130,7 @@ const FilterPills = ({ viewAllBuilds }) => {
         )}
         <div className="flex flex-wrap gap-4">
           {itemsArray}
-          <O11yButton variant="minimal" colors="white" onClick={viewAllBuilds}>
+          <O11yButton variant="minimal" colors="white" onClick={viewAllTests}>
             Clear All
           </O11yButton>
         </div>
@@ -142,7 +142,7 @@ const FilterPills = ({ viewAllBuilds }) => {
 export default FilterPills;
 
 FilterPills.propTypes = {
-  viewAllBuilds: PropTypes.func.isRequired
+  viewAllTests: PropTypes.func.isRequired
 };
 
 FilterBadge.propTypes = {
