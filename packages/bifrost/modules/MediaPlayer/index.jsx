@@ -1,117 +1,196 @@
 import React, {
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState
 } from 'react';
+import ReactPlayer from 'react-player';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import MediaPlayerControlPanel from '../MediaPlayerControlPanel';
+import { MediaPlayerContextData } from '../../shared/mediaPlayerContext';
+import Loader from '../Loader';
 
 const MediaPlayer = forwardRef(
   (
     {
-      controlPanelClassName,
-      controlPanelStickToBottom,
-      hoverSeekTime,
-      showRewindForwardControls,
-      timeUpdateCallBack,
+      children,
+      controlPanelWrapperClassName,
+      onFirstReady,
+      onPauseCallback,
+      onPlayCallback,
+      onVideoError,
+      controlPanelAtBottom,
       url,
       wrapperClassName
     },
     ref
   ) => {
-    const [isPaused, setIsPaused] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
+    const [bufferedTime, setBufferedTime] = useState(0);
+    const [isBuffering, setIsBuffering] = useState(false);
+    const [startTime, setStartTime] = useState(0);
+    const [endTime, setEndTime] = useState(0);
+    const [isReady, setIsReady] = useState(false);
+
     const videoRef = useRef(null);
 
-    const handlePlaybackClick = () => {
-      if (isPaused) {
-        videoRef.current.play();
-        setIsPaused(false);
-      } else {
-        videoRef.current.pause();
-        setIsPaused(true);
+    const handleOnReady = () => {
+      if (!isReady) {
+        const customStartAndEndInSeconds =
+          (url &&
+            url.includes('#') &&
+            url.split('#')[1].split('=')[1].split(',')) ||
+          null;
+        const customDurationTaken =
+          customStartAndEndInSeconds &&
+          customStartAndEndInSeconds[1] - customStartAndEndInSeconds[0];
+        setDuration(
+          customStartAndEndInSeconds
+            ? customDurationTaken
+            : videoRef.current.getDuration()
+        );
+        setStartTime(
+          customStartAndEndInSeconds
+            ? parseInt(customStartAndEndInSeconds[0], 10)
+            : 0
+        );
+        setEndTime(
+          customStartAndEndInSeconds
+            ? parseInt(customStartAndEndInSeconds[1], 10)
+            : duration
+        );
+        setIsReady(true);
+        onFirstReady?.(videoRef.current.getInternalPlayer());
       }
+      setIsBuffering(false);
     };
-    const handleMoveXSeconds = (timeJump) => {
-      videoRef.current.currentTime += timeJump;
-    };
-    const handleOnLoad = () => {
-      setDuration(videoRef.current.duration);
-    };
-    const handleTimeUpdate = () => {
-      setCurrentTime(videoRef.current.currentTime);
-      if (videoRef.current.currentTime >= duration) {
-        setIsPaused(true);
+
+    const handleProgress = () => {
+      setCurrentTime(videoRef.current.getCurrentTime() - startTime);
+      const { buffered } = videoRef.current.getInternalPlayer();
+      if (buffered.length) {
+        setBufferedTime(buffered.end(buffered.length - 1));
       }
-      timeUpdateCallBack?.(videoRef.current);
+      if (videoRef.current.getCurrentTime() - startTime >= duration)
+        setIsPlaying(false);
     };
-    const handleSliderChange = ({ target: { value } }) => {
-      if (videoRef.current) {
-        videoRef.current.currentTime = value;
+
+    const handleOnPlay = () => {
+      if (!isPlaying) {
+        if (currentTime >= duration) {
+          videoRef.current.seekTo(startTime);
+        }
+        setIsPlaying(true);
       }
+      onPlayCallback?.();
     };
+
+    const handleOnPause = () => {
+      if (isPlaying) setIsPlaying(false);
+      onPauseCallback?.();
+    };
+
+    const handleBuffering = () => {
+      setIsBuffering(true);
+    };
+
     useImperativeHandle(ref, () => ({
-      seekToTimeStampCallBack(seekToTimeStamp) {
-        if (seekToTimeStamp <= duration) {
-          videoRef.current.currentTime = seekToTimeStamp;
-          videoRef.current.pause();
-          setIsPaused(true);
+      seekTo(timeStamp) {
+        if (timeStamp <= duration) {
+          videoRef.current.seekTo(timeStamp);
         }
       },
       play() {
-        videoRef.current.play();
-        setIsPaused(false);
+        setIsPlaying(true);
       },
       pause() {
-        videoRef.current.pause();
-        setIsPaused(true);
+        setIsPlaying(false);
+      },
+      getCurrentTime() {
+        return videoRef.current.getCurrentTime();
       }
     }));
 
+    useEffect(() => {
+      videoRef.current.seekTo(startTime);
+    }, [startTime]);
+
+    const modifiedChildren = React.Children.map(children, (child) =>
+      // Clone the child element and add the ref to it
+      React.cloneElement(child, { ref: videoRef })
+    );
+
     return (
-      <div className={wrapperClassName}>
-        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <video
-          src={url}
-          ref={videoRef}
-          onLoadedMetadata={handleOnLoad}
-          onTimeUpdate={handleTimeUpdate}
-        />
-        <MediaPlayerControlPanel
-          isPaused={isPaused}
-          onPlayClick={handlePlaybackClick}
-          duration={Math.round(duration)}
-          currentTime={Math.round(currentTime)}
-          onSeekbarChange={handleSliderChange}
-          onJumpXSeconds={handleMoveXSeconds}
-          stickToBottom={controlPanelStickToBottom}
-          wrapperClassName={controlPanelClassName}
-          showRewindForwardButtons={showRewindForwardControls}
-          hoverSeekTime={hoverSeekTime}
-        />
-      </div>
+      <>
+        <div className={twClassNames('relative', wrapperClassName)}>
+          <ReactPlayer
+            url={url}
+            width="100%"
+            height="100%"
+            ref={videoRef}
+            playing={isPlaying}
+            onPlay={handleOnPlay}
+            onPause={handleOnPause}
+            onBuffer={handleBuffering}
+            onError={() => onVideoError()}
+            onProgress={handleProgress}
+            onReady={handleOnReady}
+          />
+          {isBuffering && (
+            <div
+              className={twClassNames(
+                'absolute top-0 left-0 w-full h-full bg-base-400 opacity-50 z-10 block'
+              )}
+            >
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <Loader wrapperClassName="w-6 h-6" />
+              </div>
+            </div>
+          )}
+        </div>
+        <MediaPlayerContextData.Provider
+          value={{ bufferedTime, currentTime, duration, endTime, startTime }}
+        >
+          <div
+            className={twClassNames(
+              'box-border flex flex-row items-start p-0 h-[62px] w-full',
+              {
+                'fixed bottom-0': controlPanelAtBottom
+              },
+              controlPanelWrapperClassName
+            )}
+          >
+            {modifiedChildren}
+          </div>
+        </MediaPlayerContextData.Provider>
+      </>
     );
   }
 );
 
 MediaPlayer.propTypes = {
-  controlPanelStickToBottom: PropTypes.bool,
-  controlPanelClassName: PropTypes.string,
-  hoverSeekTime: PropTypes.number,
-  showRewindForwardControls: PropTypes.bool,
-  timeUpdateCallBack: PropTypes.func,
+  children: PropTypes.node,
+  controlPanelWrapperClassName: PropTypes.string,
+  onFirstReady: PropTypes.func,
+  onPauseCallback: PropTypes.func,
+  onPlayCallback: PropTypes.func,
+  onVideoError: PropTypes.func,
+  controlPanelAtBottom: PropTypes.bool,
   url: PropTypes.string,
   wrapperClassName: PropTypes.string
 };
 MediaPlayer.defaultProps = {
-  controlPanelStickToBottom: false,
-  controlPanelClassName: '',
-  hoverSeekTime: null,
-  showRewindForwardControls: true,
-  timeUpdateCallBack: () => {},
+  children: null,
+  controlPanelWrapperClassName: '',
+  onFirstReady: null,
+  onPauseCallback: null,
+  onPlayCallback: null,
+  onVideoError: null,
+  controlPanelAtBottom: true,
   url: '',
   wrapperClassName: ''
 };
