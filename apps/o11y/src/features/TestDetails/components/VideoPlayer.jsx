@@ -119,7 +119,6 @@ const VideoPlayer = forwardRef(
         )}
         <MediaPlayer
           ref={ref}
-          // url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
           url={videoUrl}
           onFirstReady={handleOnLoad}
           onVideoError={handleOnError}
