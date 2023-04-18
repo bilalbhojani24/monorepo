@@ -35,7 +35,7 @@ const TestListFilters = () => {
           </div>
         </O11ySlideoverBody>
 
-        <O11ySlideoverFooter isBorder="true" wrapperClassName="justify-end">
+        <O11ySlideoverFooter isBorder="true" position="right">
           <O11yButton variant="primary" colors="white" onClick={hideSlideover}>
             Cancel
           </O11yButton>
