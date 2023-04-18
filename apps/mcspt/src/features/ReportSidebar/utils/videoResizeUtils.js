@@ -1,4 +1,6 @@
-export const resizeVideoOnMcpReport = () => {
+import { makeDebounce } from '@browserstack/utils';
+
+export const resizeVideoOnMcpReport = makeDebounce(() => {
   const videoParentActualHeight = document
     .querySelector('.video-parent')
     ?.getBoundingClientRect();
@@ -18,4 +20,4 @@ export const resizeVideoOnMcpReport = () => {
   ) {
     vieoElement.style.width = `${videoParentActualHeight?.width}px`;
   }
-};
+}, 250);
