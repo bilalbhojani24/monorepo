@@ -125,23 +125,22 @@ const PreviewAndConfirm = () => {
                     description={formatPriority(data?.priority)}
                   />
                 </div>
-                {((data?.steps &&
+                {data?.steps &&
                   data?.steps?.length &&
-                  typeof data?.steps?.[0] === 'string') ||
-                  data?.expected_result) && (
-                  <div className="mt-4 flex justify-between gap-4">
-                    <PreviewAndConfirmSingleNode
-                      text="Steps"
-                      wrapperClassName="basis-1/2"
-                      description={ReactHtmlParser(data?.steps?.[0])}
-                    />
-                    <PreviewAndConfirmSingleNode
-                      text="Expected Results"
-                      wrapperClassName="basis-1/2"
-                      description={ReactHtmlParser(data?.expected_result)}
-                    />
-                  </div>
-                )}
+                  typeof data?.steps?.[0] === 'string' && (
+                    <div className="mt-4 flex justify-between gap-4">
+                      <PreviewAndConfirmSingleNode
+                        text="Steps"
+                        wrapperClassName="basis-1/2"
+                        description={ReactHtmlParser(data?.steps?.[0])}
+                      />
+                      <PreviewAndConfirmSingleNode
+                        text="Expected Results"
+                        wrapperClassName="basis-1/2"
+                        description={ReactHtmlParser(data?.expected_result)}
+                      />
+                    </div>
+                  )}
                 {data?.steps &&
                   data?.steps?.length &&
                   typeof data?.steps[0] === 'object' &&

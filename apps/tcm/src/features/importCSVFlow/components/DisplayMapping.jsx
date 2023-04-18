@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { MdCheckCircle } from '@browserstack/bifrost';
 import {
@@ -34,20 +35,36 @@ const DisplayMapping = ({
           alertIcon={<MdCheckCircle className="text-success-600 h-5 w-5" />}
         />
       </div>
-      <div className="flex flex-wrap px-5">
+      <div className="flex flex-wrap px-5 [&>*:nth-child(odd)]:pr-2 [&>*:nth-child(even)]:pl-2">
         {allImportFields.map((field) => (
-          <div className="mb-4 basis-1/2">
+          <div className="mb-4 w-1/2">
             <TMBadge
               wrapperClassName="hover:bg-base-100"
               size="large"
               text={
-                <span>
-                  {field} &rarr; &nbsp;
-                  {mappedFields.includes(field) && (
-                    <>{nameToDisplayMapper[fieldMappings[field]]}</>
-                  )}
-                  {unmappedFields.includes(field) && (
-                    <>
+                unmappedFields.includes(field) ? (
+                  <>
+                    <TMTooltip
+                      size="xs"
+                      placementSide="top"
+                      theme="dark"
+                      content={
+                        <>
+                          <TMTooltipBody>
+                            {`A new field will be created with this name. If
+                              you want to ignore this field, go to "Edit Field
+                              & Value Mapping"`}
+                          </TMTooltipBody>
+                        </>
+                      }
+                    >
+                      {field} &rarr; &nbsp;
+                      {mappedFields.includes(field) && (
+                        <>{nameToDisplayMapper[fieldMappings[field]]}</>
+                      )}
+                      {`'${field}'`}
+                    </TMTooltip>
+                    {/* {fieldMappings[field]?.action === 'ignore' && (
                       <TMTooltip
                         size="xs"
                         placementSide="top"
@@ -55,37 +72,26 @@ const DisplayMapping = ({
                         content={
                           <>
                             <TMTooltipBody>
-                              {`A new field will be created with this name. If
-                                you want to ignore this field, go to "Edit Field
-                                & Value Mapping"`}
+                              {`This field will be ignored and not imported. If
+                              you want to read this field, go to "Edit Field &
+                              Value Mapping" and select "Create New Field" for
+                              this incoming field.`}
                             </TMTooltipBody>
                           </>
                         }
                       >
-                        {`'${field}'`}
+                        Ignore this field
                       </TMTooltip>
-                      {/* {fieldMappings[field]?.action === 'ignore' && (
-                        <TMTooltip
-                          size="xs"
-                          placementSide="top"
-                          theme="dark"
-                          content={
-                            <>
-                              <TMTooltipBody>
-                                {`This field will be ignored and not imported. If
-                                you want to read this field, go to "Edit Field &
-                                Value Mapping" and select "Create New Field" for
-                                this incoming field.`}
-                              </TMTooltipBody>
-                            </>
-                          }
-                        >
-                          Ignore this field
-                        </TMTooltip>
-                      )} */}
-                    </>
-                  )}
-                </span>
+                    )} */}
+                  </>
+                ) : (
+                  <span>
+                    {field} &rarr; &nbsp;
+                    {mappedFields.includes(field) && (
+                      <>{nameToDisplayMapper[fieldMappings[field]]}</>
+                    )}
+                  </span>
+                )
               }
             />
           </div>
