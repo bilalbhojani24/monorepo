@@ -37,7 +37,14 @@ export default defaultConfig;
 
 export const ControlledBadgeCombobox = () => {
   const [selected, setSelected] = useState([]);
-  const [options, setOptions] = useState(COMBOBOX_OPTIONS);
+  const [options, setOptions] = useState([
+    {
+      value: 100,
+      label: 'This is error badge',
+      isError: true
+    },
+    ...COMBOBOX_OPTIONS
+  ]);
 
   const [states, setStates] = useState({
     rightLoader: false,

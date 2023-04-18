@@ -4,6 +4,7 @@ import { twClassNames } from '@browserstack/utils';
 import { Combobox as HeadlessCombobox } from '@headlessui/react';
 import {
   arrayOf,
+  bool,
   func,
   node,
   number,
@@ -144,7 +145,8 @@ ComboboxBadge.propTypes = {
       value: oneOfType([string, number]).isRequired,
       label: string.isRequired,
       image: string,
-      visualLabel: node
+      visualLabel: node,
+      isError: bool
     })
   ),
   value: oneOfType([

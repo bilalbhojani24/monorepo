@@ -71,10 +71,10 @@ const ComboboxBadgeTrigger = ({
           {currentSelected?.map((i) => (
             <Badge
               key={i.value}
-              wrapperClassName="z-10"
+              wrapperClassName="z-10 break-all"
               text={i.label}
               hasRemoveButton
-              modifier={errorText.length ? 'error' : 'base'}
+              modifier={i?.isError ? 'error' : 'base'}
               onClose={() => {
                 if (open) {
                   comboInputRef.current.focus();
