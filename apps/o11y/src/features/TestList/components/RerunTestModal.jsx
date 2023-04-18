@@ -14,7 +14,6 @@ import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import { triggerReRunBE } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
-import { o11yNotify } from 'utils/notification';
 
 const testModalOptions = [
   {
@@ -103,21 +102,6 @@ function RenderTestModal() {
       })
     )
       .unwrap()
-      .then(() => {
-        o11yNotify({
-          title: `Re-run triggered!`,
-          description: '',
-          type: 'success'
-        });
-        handleCloseModal();
-      })
-      .catch(() => {
-        o11yNotify({
-          title: 'Re-run trigger failed!',
-          description: 'There was some glitch during re-run.',
-          type: 'error'
-        });
-      })
       .finally(() => {
         setIsUpdating(false);
       });

@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   getAnalyzerSimilarTests as getAnalyzerSimilarTestsAPI,
+  getJenkinsBuildParams,
   getTestHistoryData,
   getTestList,
   getTestlistFilters,
   toggleMuteTest as toggleMuteTestAPI,
+  triggerJenkinsBuildAPI,
   triggerReRunBE as triggerReRunBEAPI,
   updateIssueTypes as updateIssueTypesAPI
 } from 'api/testlist';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { API_STATUSES } from 'constants/common';
 import {
   EMPTY_APPLIED_FILTERS,
@@ -16,8 +19,21 @@ import {
   EMPTY_TESTLIST_DATA_STATE
 } from 'features/TestList/constants';
 import { getAllTestHistoryDetails } from 'features/TestList/slices/selectors';
+import { o11yNotify } from 'utils/notification';
+
+import { parseJenkinsBuildParams } from './utils';
 
 const sliceName = 'testList';
+const reRunError = {
+  title: 'Re-run trigger failed!',
+  description: 'There was some glitch during re-run.',
+  type: 'error'
+};
+const reRunSuccess = {
+  title: `Re-run triggered!`,
+  description: '',
+  type: 'success'
+};
 
 export const getTestlistFiltersData = createAsyncThunk(
   `${sliceName}/getBuildId`,
@@ -55,13 +71,68 @@ export const updateIssueTypes = createAsyncThunk(
   }
 );
 
+const triggerJenkinsBuild = createAsyncThunk(
+  `${sliceName}/triggerJenkinsBuild`,
+  async (data, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await triggerJenkinsBuildAPI({
+        ...data.data,
+        parameters: data.parameters
+      });
+      dispatch(toggleModal({ version: '', data: {} }));
+      o11yNotify(reRunSuccess);
+      return response.data;
+    } catch (err) {
+      o11yNotify();
+      return rejectWithValue(err);
+    }
+  }
+);
+
+const getJenkinsBuildParameters = createAsyncThunk(
+  `${sliceName}/getJenkinsBuildParams`,
+  async (data, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await getJenkinsBuildParams(data);
+      let parameters = [];
+      if (response.data?.actions) {
+        parameters = parseJenkinsBuildParams(response.data?.actions);
+      }
+      return dispatch(
+        triggerJenkinsBuild({
+          data,
+          parameters
+        })
+      );
+    } catch (err) {
+      o11yNotify(reRunError);
+      return rejectWithValue(err);
+    }
+  }
+);
+
 export const triggerReRunBE = createAsyncThunk(
   `${sliceName}/triggerReRunBE`,
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, dispatch }) => {
     try {
       const response = await triggerReRunBEAPI({ ...data });
-      return { ...response?.data, ...data };
+      const responseData = response.data;
+      if (responseData.created) {
+        dispatch(toggleModal({ version: '', data: {} }));
+        o11yNotify(reRunSuccess);
+        return responseData;
+      }
+      if (
+        responseData.username &&
+        responseData.authToken &&
+        responseData.paramUrl
+      ) {
+        return dispatch(getJenkinsBuildParameters(responseData));
+      }
+      o11yNotify(reRunError);
+      return rejectWithValue(new Error('Failure to re-run trigger'));
     } catch (err) {
+      o11yNotify(reRunError);
       return rejectWithValue(err);
     }
   }

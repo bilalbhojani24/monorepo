@@ -15,7 +15,8 @@ export default {
     signOutUrl: 'https://local.bsstag.com/users/sign_out',
     apiUrl: 'https://localhost:8082/testops',
     baseUrl: STAGING_CONFIG('').baseUrl,
-    withCredentials: false
+    withCredentials: false,
+    isMocker: true
   },
   'local-staging': {
     cookiePrefix: `development${COOKIE_SEPARATOR}`,
