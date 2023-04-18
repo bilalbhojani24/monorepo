@@ -105,9 +105,11 @@ const AllBuildsPage = () => {
   useEffect(() => {
     logOllyEvent({
       event: 'O11yBuildListingVisited',
-      project_name: activeProject.name,
-      project_id: activeProject.id,
-      url: window.location.href
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        url: window.location.href
+      }
     });
   }, [pathname, activeProject]);
 

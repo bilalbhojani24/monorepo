@@ -25,16 +25,20 @@ const BuildCardDetails = ({ data }) => {
   const logBuildListingInteracted = (interaction) => {
     logOllyEvent({
       event: 'O11yBuildListingInteracted',
-      project_name: activeProject.name,
-      build_name: data?.isAutoDetectedName ? data?.originalName : data?.name,
-      interaction
+      data: {
+        project_name: activeProject.name,
+        build_name: data?.isAutoDetectedName ? data?.originalName : data?.name,
+        interaction
+      }
     });
   };
 
   const navigateToTestPage = (itemCategory, clickData) => {
-    const interactionName = `${clickData.itemClicked
-      .replace(' ', '_')
-      .toLowerCase()}_clicked`;
+    const interactionName = `${
+      clickData?.redirectViaCategory
+        ? itemCategory
+        : clickData.itemClicked.replace(' ', '_').toLowerCase()
+    }_clicked`;
     logBuildListingInteracted(interactionName);
     let endpoint = `${getBuildPath(
       projectNormalisedName,

@@ -109,15 +109,14 @@ function BuildItemDetails({
             metaTitle="Build Number"
           />
           &nbsp;
-          {!data?.isAutoDetectedName && (
+          {data?.isAutoDetectedName && (
             <O11yTooltip
               theme="dark"
               onOpenChange={onAutoDetectHover}
               content={
                 <div className="mx-4">
                   <p className="text-base-300 mb-2 text-sm">
-                    Static build name automatically detected:{' '}
-                    {data?.isAutoDetectedName ? data?.originalName : data?.name}
+                    Static build name automatically detected: {data?.name}
                   </p>
                   <O11yHyperlink
                     wrapperClassName="text-base-50 text-sm font-medium underline"
@@ -187,7 +186,7 @@ function BuildItemDetails({
                 >
                   <O11yHyperlink
                     target="_blank"
-                    href={data?.versionControlInfo?.url}
+                    href={data?.ciBuildData?.buildUrl}
                     onClick={handleCIClicked}
                   >
                     <O11yMetaData
@@ -211,7 +210,8 @@ function BuildItemDetails({
                 onClick={(e) =>
                   navigateToTestPage('flaky', {
                     eventData: e,
-                    itemClicked: true
+                    itemClicked: true,
+                    redirectViaCategory: true
                   })
                 }
                 hasRemoveButton={false}

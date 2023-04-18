@@ -14,7 +14,11 @@ import O11yLoader from 'common/O11yLoader';
 import { getISOParsedDate } from 'utils/dateTime';
 import { capitalizeFirstLetter } from 'utils/stringUtils';
 
-import { setAppliedFilters, setSelectedFilters } from '../../slices/dataSlice';
+import {
+  cancelSelectedFilters,
+  setAppliedFilters,
+  setSelectedFilters
+} from '../../slices/dataSlice';
 import { getSelectedFilters, getStaticFilters } from '../../slices/selectors';
 
 import TagsFilters from './TagsFilter';
@@ -32,6 +36,10 @@ const Filters = () => {
   };
   const hideSlideover = () => {
     setIsSlideoverVisible(false);
+  };
+  const onCancelSelectedFilters = () => {
+    dispatch(cancelSelectedFilters());
+    hideSlideover();
   };
   const onApplyFilterClick = () => {
     dispatch(
@@ -89,7 +97,8 @@ const Filters = () => {
     () =>
       !(
         (dateRange.lowerBound && !dateRange.upperBound) ||
-        (dateRange.upperBound && !dateRange.lowerBound)
+        (dateRange.upperBound && !dateRange.lowerBound) ||
+        dateRange.lowerBound > dateRange.upperBound
       ),
     [dateRange.lowerBound, dateRange.upperBound]
   );
@@ -117,7 +126,7 @@ const Filters = () => {
       >
         <O11ySlideoverHeader
           heading="Filters"
-          handleDismissClick={hideSlideover}
+          handleDismissClick={onCancelSelectedFilters}
         />
         <O11ySlideoverBody wrapperClassName="overflow-auto">
           {staticFilters?.statuses ? (
@@ -191,6 +200,13 @@ const Filters = () => {
                     start date field
                   </p>
                 )}
+                {dateRange.upperBound &&
+                  dateRange.lowerBound &&
+                  dateRange.upperBound < dateRange.lowerBound && (
+                    <p className="text-danger-600 text-sm">
+                      End date cannot be smaller than start date
+                    </p>
+                  )}
               </div>
             </div>
           ) : (
@@ -199,7 +215,11 @@ const Filters = () => {
         </O11ySlideoverBody>
 
         <O11ySlideoverFooter isBorder="true" position="right">
-          <O11yButton variant="primary" colors="white" onClick={hideSlideover}>
+          <O11yButton
+            variant="primary"
+            colors="white"
+            onClick={onCancelSelectedFilters}
+          >
             Cancel
           </O11yButton>
           <O11yButton disabled={!isValid} onClick={onApplyFilterClick}>
