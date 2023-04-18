@@ -7,11 +7,12 @@ import {
   MdOutlineRunningWithErrors,
   MdOutlineStackedLineChart
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { requestO11yAccess } from 'api/global';
 import heroUnit from 'assets/illustrations/hero-unit-o11y.png';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import O11yFeatureCard from 'common/O11yFeatureCard';
-import { DOC_KEY_MAPPING } from 'constants/common';
+import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { setHasAcceptedTnC } from 'globalSlice/index';
 import { getInitData } from 'globalSlice/selectors';
@@ -45,8 +46,12 @@ function RequestAccess() {
   };
 
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="bg-base-50 flex min-h-[calc(100vh-4rem)] w-screen flex-col items-center justify-center p-14">
+    <div
+      className={twClassNames(
+        'bg-base-50 flex overflow-auto w-screen flex-col items-center justify-center p-14',
+        WRAPPER_GAP_CLASS
+      )}
+    >
       <O11yFeatureCard
         wrapperClassName="p-10"
         childrenWrapperClass="flex items-center justify-between gap-4"
