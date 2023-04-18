@@ -402,6 +402,7 @@ importers:
       react-draggable: 4.4.5
       react-hot-toast: 2.4.0
       react-icons: 4.7.1
+      react-player: 2.12.0
       react-resizable: 3.0.4
       react-router-dom: 6.6.1
       react-stately: ^3.21.0
@@ -435,6 +436,7 @@ importers:
       react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
       react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
       react-icons: 4.7.1_react@18.2.0
+      react-player: 2.12.0_react@18.2.0
       react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
       react-stately: 3.21.0_react@18.2.0
