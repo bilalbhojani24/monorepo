@@ -2,7 +2,9 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTooltip } from 'common/bifrostProxy';
+import PropagationBlocker from 'common/PropagationBlocker';
 import { TEST_STATUS } from 'constants/common';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { singleItemTestDetails } from 'features/TestList/constants';
 import { getHistoryDetails } from 'features/TestList/slices/testListSlice';
 import PropTypes from 'prop-types';
@@ -45,39 +47,47 @@ function TestlistTimeline({ details }) {
     );
   }
 
+  const handleClickItem = (id) => {
+    dispatch(showTestDetailsDrawer(id));
+  };
+
   return (
-    <div className="flex h-5 items-center" onMouseEnter={loadHistory}>
-      {history?.map((singleHistoryItem) => (
-        <O11yTooltip
-          size="md"
-          placementSide="bottom"
-          key={singleHistoryItem.testRunId}
-          triggerWrapperClassName="inline-flex items-center"
-          content={
-            // eslint-disable-next-line tailwindcss/no-arbitrary-value
-            <div className="min-w-[250px] px-4">
-              <TestListHistoryTooltip {...singleHistoryItem} />
-            </div>
-          }
-        >
-          <div
-            className={twClassNames(
-              'flex h-3 w-3 shrink-0 items-center justify-center rounded-full border-2 bg-white p-1 opacity-0.5',
-              getClassesByStatus(singleHistoryItem.status),
-              'bg-white'
-            )}
+    <PropagationBlocker>
+      <div className="flex h-5 items-center" onMouseEnter={loadHistory}>
+        {history?.map((singleHistoryItem) => (
+          <O11yTooltip
+            size="md"
+            placementSide="bottom"
+            key={singleHistoryItem.testRunId}
+            triggerWrapperClassName="inline-flex items-center"
+            content={
+              // eslint-disable-next-line tailwindcss/no-arbitrary-value
+              <div className="min-w-[250px] px-4">
+                <TestListHistoryTooltip {...singleHistoryItem} />
+              </div>
+            }
           >
             <div
               className={twClassNames(
-                'bg-base-500 h-1 w-1 shrink-0 rounded-full cursor-pointer',
-                getClassesByStatus(singleHistoryItem.status)
+                'flex h-3 w-3 shrink-0 items-center justify-center rounded-full border-2 bg-white p-1 opacity-0.5',
+                getClassesByStatus(singleHistoryItem.status),
+                'bg-white'
               )}
-            />
-          </div>
-          <div className="bg-base-400 h-0.5 w-2 shrink-0 rounded-full" />
-        </O11yTooltip>
-      ))}
-    </div>
+              role="presentation"
+              onClick={() => handleClickItem(singleHistoryItem.testRunId)}
+            >
+              <div
+                className={twClassNames(
+                  'bg-base-500 h-1 w-1 shrink-0 rounded-full cursor-pointer',
+                  getClassesByStatus(singleHistoryItem.status)
+                )}
+              />
+            </div>
+            <div className="bg-base-400 h-0.5 w-2 shrink-0 rounded-full" />
+          </O11yTooltip>
+        ))}
+      </div>
+    </PropagationBlocker>
   );
 }
 

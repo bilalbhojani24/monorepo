@@ -29,12 +29,12 @@ const testModalOptions = [
   }
 ];
 const testModalOptionsWithTestID = [
-  ...testModalOptions,
   {
     name: 'Current Test',
     disabled: false,
     id: 'test'
-  }
+  },
+  ...testModalOptions
 ];
 
 function RenderTestModal() {
@@ -47,6 +47,14 @@ function RenderTestModal() {
   const handleCloseModal = () => {
     dispatch(toggleModal({ version: '', data: {} }));
   };
+  useEffect(() => {
+    if (testId) {
+      setSelectedOption(testModalOptionsWithTestID[0]);
+    } else {
+      setSelectedOption(testModalOptions[0]);
+    }
+  }, [testId]);
+
   const OllyTestListingEvent = useCallback(
     (eventName) => {
       logOllyEvent({
@@ -126,10 +134,10 @@ function RenderTestModal() {
         <O11yRadioGroup
           direction="vertical"
           onChange={(_, selectedItem) => {
-            const selectedItemData = testModalOptionsWithTestID.filter(
+            const selectedItemData = testModalOptionsWithTestID.find(
               (el) => el.id === selectedItem
             );
-            setSelectedOption(selectedItemData[0]);
+            setSelectedOption(selectedItemData);
           }}
           options={testId ? testModalOptionsWithTestID : testModalOptions}
           selectedOption={selectedOption}

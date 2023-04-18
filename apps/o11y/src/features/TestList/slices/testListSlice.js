@@ -154,6 +154,9 @@ const { actions, reducer } = createSlice({
         ...payload
       };
     },
+    cancelSelectedFilters: (state) => {
+      state.selectedFilters = { ...state.appliedFilters };
+    },
     resetTestListSlice: () => initialState
   },
   extraReducers: (builder) => {
@@ -239,7 +242,8 @@ export const {
   setSelectedFilters,
   setStaticFilters,
   setTestList,
-  resetTestListSlice
+  resetTestListSlice,
+  cancelSelectedFilters
 } = actions;
 
 export default reducer;

@@ -152,7 +152,7 @@ const RenderTestItem = ({ item: data }) => {
             </div>
           </div>
           <div className="flex items-center">
-            <TestListStackTrace details={details} />
+            <TestListStackTrace details={details} size="5xl" />
           </div>
           <div
             className={twClassNames('flex items-center gap-2 pl-6', {

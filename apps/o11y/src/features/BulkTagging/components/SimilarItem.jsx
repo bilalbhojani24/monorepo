@@ -22,6 +22,7 @@ function SimilarItem({ data, checked, handleSelect, showCheckBox, border }) {
           data={{
             description: (
               <TestListStackTrace
+                size="2xl"
                 wrapperClassName="ml-0"
                 details={{
                   retries: [
@@ -46,6 +47,7 @@ function SimilarItem({ data, checked, handleSelect, showCheckBox, border }) {
           <p className="text-sm font-medium leading-5">{data.name}</p>
           <TestListStackTrace
             wrapperClassName="ml-0"
+            size="2xl"
             details={{
               retries: [
                 {
