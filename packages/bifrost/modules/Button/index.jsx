@@ -193,13 +193,13 @@ const Button = (
 
   return (
     <button
+      {...props}
       {...getConditionalProps()}
       type={type === 'submit' ? 'submit' : 'button'}
       ref={ref || buttonRef}
       aria-disabled={disabled}
       onClick={handleClick}
       form={form}
-      {...props}
       className={twClassNames(
         'border border-transparent font-medium',
         stylePicker(),
