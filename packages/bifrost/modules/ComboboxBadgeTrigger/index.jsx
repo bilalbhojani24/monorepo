@@ -67,7 +67,7 @@ const ComboboxBadgeTrigger = ({
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
 
-        <div className="relative flex flex-1 flex-wrap space-x-2 space-y-1">
+        <div className="relative flex flex-1 flex-wrap items-baseline space-x-2 space-y-1">
           {currentSelected?.map((i) => (
             <Badge
               key={i.value}
