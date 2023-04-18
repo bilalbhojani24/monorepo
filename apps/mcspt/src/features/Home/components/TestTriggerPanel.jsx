@@ -36,7 +36,7 @@ const TestTriggerPanel = () => {
   } = useTestTriggerPanel();
 
   return (
-    <>
+    <div className="px-4 pb-4 pt-1">
       <div className="mt-4 flex justify-between">
         <div className="mr-1.5 flex-1">
           {listOfDevices?.length > 0 && (
@@ -109,7 +109,7 @@ const TestTriggerPanel = () => {
           Start Test
         </Button>
       </div>
-    </>
+    </div>
   );
 };
 

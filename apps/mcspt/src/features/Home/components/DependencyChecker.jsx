@@ -28,41 +28,48 @@ const DependencyChecker = () => {
     >
       <div className="mx-auto rounded-xl bg-white shadow-md">
         {areDependenciesStillLoading && (
-          <div className="flex flex-col items-center justify-center p-14">
-            <img src={dependencyLoader} alt="loading..." className="w-24" />
-            <div className="text-2xl font-bold leading-7">
+          <div className="flex flex-col items-center justify-center px-14 py-12">
+            <img
+              src={dependencyLoader}
+              alt="loading..."
+              className="mb-1 w-24"
+            />
+            <div className="mt-1.5 text-2xl font-bold leading-7">
               Checking for connected devices
             </div>
           </div>
         )}
 
         {!areDependenciesStillLoading && (
-          <div className="px-4 py-6">
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold leading-7">
-                {listOfDevices?.length > 0
-                  ? `Conduct your ${
-                      totalCompletedSessions >= 1 ? '' : 'first'
-                    } performance test`
-                  : 'No devices connected'}
-              </div>
+          <>
+            <div className="px-4 pt-4">
+              <div className="flex items-center justify-between">
+                <div className="text-2xl font-bold leading-7">
+                  {listOfDevices?.length > 0
+                    ? `Conduct your ${
+                        totalCompletedSessions >= 1 ? '' : 'first'
+                      } performance test`
+                    : 'No devices connected'}
+                </div>
 
-              <Button
-                icon={<MdOutlineAutorenew />}
-                variant="primary"
-                colors="white"
-                onClick={refetchDevices}
-              >
-                Refresh
-              </Button>
+                <Button
+                  icon={<MdOutlineAutorenew />}
+                  variant="primary"
+                  colors="white"
+                  onClick={refetchDevices}
+                  size="default"
+                >
+                  Refresh
+                </Button>
+              </div>
             </div>
 
             {listOfDevices?.length > 0 && <TestTriggerPanel />}
-          </div>
+          </>
         )}
 
         {!areDependenciesStillLoading && listOfDevices?.length === 0 && (
-          <div className="flex items-center justify-center px-28 py-12">
+          <div className="flex items-center justify-center px-28 pb-14 pt-12">
             <div
               className="bg-base-50 text-base-500 flex min-h-[72px] min-w-[72px] 
                 items-center justify-center rounded-full text-5xl"
@@ -70,14 +77,14 @@ const DependencyChecker = () => {
               <MdDeviceUnknown />
             </div>
 
-            <div className="text-base-600 ml-3 text-lg font-normal leading-7">
+            <div className="text-base-600 ml-3 text-base font-normal leading-6">
               <span>
                 {`To begin a performance profiling session, connect your mobile
                 device and click refresh. For more details, check our `}
               </span>
 
               <Hyperlink
-                wrapperClassName="inline-flex text-base-600 text-lg font-normal leading-7 underline"
+                wrapperClassName="inline-flex text-base-600 text-base font-normal leading-6 underline"
                 onClick={() => {
                   window.remoteThreadFunctions?.openUrlInSystemBrowser(
                     DEVICE_DETECT_TROUBLESHOOT
@@ -90,7 +97,7 @@ const DependencyChecker = () => {
               <span>{' or '}</span>
 
               <Hyperlink
-                wrapperClassName="inline-flex text-base-600 text-lg font-normal leading-7 underline"
+                wrapperClassName="inline-flex text-base-600 text-base font-normal leading-6 underline"
                 onClick={() => {
                   window.remoteThreadFunctions?.openUrlInSystemBrowser(
                     CONTACT_US
