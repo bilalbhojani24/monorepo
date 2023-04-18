@@ -9,6 +9,7 @@ import {
   TMModalHeader,
   TMProgressBar
 } from 'common/bifrostProxy';
+import { addNotificaton } from 'globalSlice';
 import { bool, number, shape, string } from 'prop-types';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -63,6 +64,14 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
       );
       resetNotification();
       cancelImport(mapFieldsConfig.importId);
+      dispatch(
+        addNotificaton({
+          id: `import_cancelled_${mapFieldsConfig.import_id}`,
+          title: 'CSV import cancelled successfully',
+          description: null,
+          variant: 'success'
+        })
+      );
     }
     // download report
     else handleDownloadReport();
