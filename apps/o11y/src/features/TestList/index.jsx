@@ -211,7 +211,10 @@ const TestList = ({
             transformedAppliedFilters[key] = true;
           } else if (Object.keys(EMPTY_STATIC_FILTERS).includes(key)) {
             transformedAppliedFilters[key] = value.split(',');
-          } else if (key === 'issueTypeGroup' && value.length) {
+          } else if (
+            (key === 'issueTypeGroup' || key === 'run') &&
+            value.length
+          ) {
             transformedAppliedFilters[key] = value;
           }
         });
@@ -241,7 +244,10 @@ const TestList = ({
           transformedAppliedFilters[key] = true;
         } else if (key === 'search' && appliedFilters[key].length) {
           transformedAppliedFilters[key] = appliedFilters[key];
-        } else if (key === 'issueTypeGroup' && appliedFilters[key].length) {
+        } else if (
+          (key === 'issueTypeGroup' || key === 'run') &&
+          appliedFilters[key].length
+        ) {
           transformedAppliedFilters[key] = appliedFilters[key];
         }
       });

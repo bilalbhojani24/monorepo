@@ -290,6 +290,13 @@ function BuildDetailsHeader({
             textColorClass="text-base-500"
           />
         )}
+        {duration && (
+          <O11yMetaData
+            icon={<MdOutlineTimer className="h-5 w-5" />}
+            metaDescription={milliSecondsToTime(duration)}
+            textColorClass="text-base-500"
+          />
+        )}
         {versionControlInfo?.commitId && (
           <Hyperlink
             href={versionControlInfo?.url}
@@ -342,13 +349,6 @@ function BuildDetailsHeader({
               />
             </Hyperlink>
           </O11yTooltip>
-        )}
-        {duration && (
-          <O11yMetaData
-            icon={<MdOutlineTimer className="h-5 w-5" />}
-            metaDescription={milliSecondsToTime(duration)}
-            textColorClass="text-base-500"
-          />
         )}
         <ViewMetaPopOver
           data={buildMeta.data || {}}

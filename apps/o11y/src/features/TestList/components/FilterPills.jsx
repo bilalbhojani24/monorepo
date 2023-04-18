@@ -41,7 +41,7 @@ const FilterPills = ({ viewAllTests }) => {
     if (filterCategory === 'flaky' || filterCategory === 'history') {
       dispatch(setAppliedFilters({ [filterCategory]: [] }));
     }
-    if (filterCategory === 'issueTypeGroup') {
+    if (filterCategory === 'issueTypeGroup' || filterCategory === 'run') {
       dispatch(setAppliedFilters({ [filterCategory]: '' }));
     }
     if (Object.keys(EMPTY_STATIC_FILTERS).includes(filterCategory)) {
@@ -92,11 +92,14 @@ const FilterPills = ({ viewAllTests }) => {
           />
         );
       }
-      if (singleFilterType === 'issueTypeGroup' && targetValue.length) {
+      if (
+        (singleFilterType === 'issueTypeGroup' || singleFilterType === 'run') &&
+        targetValue.length
+      ) {
         return (
           <FilterBadge
-            key={FILTER_TAGNAME_MAPPING.issueTypeGroup}
-            text={`${FILTER_TAGNAME_MAPPING.issueTypeGroup}${truncateMax(
+            key={FILTER_TAGNAME_MAPPING[singleFilterType]}
+            text={`${FILTER_TAGNAME_MAPPING[singleFilterType]}${truncateMax(
               targetValue
             )}`}
             onClose={() => removeFilter(singleFilterType, targetValue)}
