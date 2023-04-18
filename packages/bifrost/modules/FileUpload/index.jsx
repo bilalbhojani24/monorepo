@@ -1,7 +1,7 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import propTypes from 'prop-types';
 
-import { twClassNames } from '@browserstack/utils';
 import { MdOutlineInsertPhoto } from '../Icon';
 import Loader from '../Loader/index';
 
@@ -37,7 +37,7 @@ const FileUpload = ({
       <div className="py-5 px-6">
         {isUploading ? (
           <>
-            <Loader wrapperStyle="text-base-300 h-8 w-8 fill-base-600 mx-auto" />
+            <Loader wrapperClassName="text-base-300 h-8 w-8 fill-base-600 mx-auto" />
             <p className="text-base-600 mt-2 text-sm font-medium leading-5">
               {heading}
             </p>

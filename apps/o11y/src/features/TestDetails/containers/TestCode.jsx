@@ -78,7 +78,7 @@ export default function TestCode() {
         <div className="flex items-center justify-between gap-2">
           <div>
             {testCode?.url ? (
-              <>
+              <div className="flex items-center gap-1">
                 <O11yHyperlink
                   href={testCode?.url}
                   target="_blank"
@@ -93,13 +93,15 @@ export default function TestCode() {
                     }
                     hidetooltipTriggerIcon
                   >
-                    <p className="text-base-900 text-sm font-medium leading-5">
+                    <span className="text-base-900 text-sm font-medium leading-5">
                       {testCode.filename}
-                    </p>
-                    <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
+                    </span>
                   </O11yTruncateText>
                 </O11yHyperlink>
-              </>
+                <span className="inline-flex h-full items-center">
+                  <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
+                </span>
+              </div>
             ) : (
               <O11yTruncateText
                 wrapperClassName="line-clamp-1"

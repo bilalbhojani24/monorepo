@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLatestRef } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
+import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
 
 import DraggableComponent from '../components/DraggableComponent';
 import VideoPlayer from '../components/VideoPlayer';
+import { TEST_DETAILS_SLIDEOVER_ELEMENT_ID } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
 import { clearTestDetails, getTestDetailsData } from '../slices/dataSlice';
 import {
@@ -21,17 +23,16 @@ const TestVideoPlayer = () => {
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const details = useSelector(getTestDetails);
   // const exceptions = useSelector(getExceptions);
-  const {
-    sessionTestToggle,
-    floatingVideoTopOffset,
-    floatingVideoRightOffset
-  } = useLogsContext();
+  const { sessionTestToggle } = useLogsContext();
 
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
   const [showFloatingWindow, setShowFloatingWindow] = useState(false);
   const [isMainVideoPaused, setIsMainVideoPaused] = useState(true);
   const [isFloatingVideoPaused, setIsFloatingVideoPaused] = useState(true);
   const [isVideoMetaLoaded, setIsVideoMetaLoaded] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [floatingVideoRightOffset, setFloatingVideoRightOffset] = useState(700);
+  const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
 
   const videoRef = useRef(null);
   const containerRef = useRef(null);
@@ -51,6 +52,21 @@ const TestVideoPlayer = () => {
       dispatch(clearTestDetails());
     };
   }, [dispatch, currentTestRunId]);
+
+  useEffect(() => {
+    const slideOverElement = document.getElementById(
+      TEST_DETAILS_SLIDEOVER_ELEMENT_ID
+    );
+    const bstackHeaderElement = document.getElementById(
+      BSTACK_TOPNAV_ELEMENT_ID
+    );
+    if (slideOverElement) {
+      setFloatingVideoRightOffset(slideOverElement.offsetWidth);
+    }
+    if (bstackHeaderElement) {
+      setFloatingVideoTopOffset(bstackHeaderElement.offsetHeight);
+    }
+  }, []);
 
   const videoUrl = useMemo(
     () =>
@@ -95,6 +111,10 @@ const TestVideoPlayer = () => {
       }
       setIsFloatingVideoPaused(true);
     }
+  };
+
+  const hideOverlay = () => {
+    setShowOverlay(false);
   };
 
   const handleMetadataLoaded = () => {
@@ -145,7 +165,7 @@ const TestVideoPlayer = () => {
 
   if (details.isLoading) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
+      <div className="flex h-96 w-full items-center justify-center">
         <O11yLoader />
       </div>
     );
@@ -165,6 +185,9 @@ const TestVideoPlayer = () => {
         onMetadataLoaded={handleMetadataLoaded}
         isPaused={isMainVideoPaused}
         setIsPaused={setIsMainVideoPaused}
+        showOverlay={showOverlay}
+        hideOverlay={hideOverlay}
+        isVideoMetaLoaded={isVideoMetaLoaded}
       />
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
@@ -174,7 +197,7 @@ const TestVideoPlayer = () => {
         style={{
           right: floatingVideoRightOffset,
           top: floatingVideoTopOffset,
-          width: 'auto'
+          width: window.innerWidth - floatingVideoRightOffset
         }}
       >
         <VideoPlayer
@@ -184,6 +207,9 @@ const TestVideoPlayer = () => {
           onMetadataLoaded={() => {}}
           isPaused={isFloatingVideoPaused}
           setIsPaused={setIsFloatingVideoPaused}
+          showOverlay={showOverlay}
+          hideOverlay={hideOverlay}
+          isVideoMetaLoaded={isVideoMetaLoaded}
         />
       </DraggableComponent>
     </div>
