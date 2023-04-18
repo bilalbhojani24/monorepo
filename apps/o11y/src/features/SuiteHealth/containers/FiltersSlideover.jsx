@@ -71,7 +71,7 @@ const FiltersSlideover = memo(
           heading="Filters"
           headingWrapperClassName="text-base-900 text-lg font-medium leading-7"
           handleDismissClick={handleClose}
-          backgroundColorClass="pb-0"
+          wrapperClassName="pb-0"
         />
         <O11ySlideoverBody wrapperClassName="px-6 pb-0 border-b border-base-200">
           <FilterSlideoverBody
