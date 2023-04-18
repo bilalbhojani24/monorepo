@@ -18,6 +18,7 @@ import { FieldType, SingleValueSelectRawOptionType } from '../types';
 const SingleValueSelect = ({
   label,
   value,
+  schema,
   options,
   fieldKey,
   disabled,
@@ -225,7 +226,11 @@ const SingleValueSelect = ({
   const isLoading = areOptionsLoading || areOptionsLoadingProps;
 
   return (
-    <div className="py-3">
+    <div
+      className="py-3"
+      data-field-type={schema?.field}
+      data-field-key={fieldKey}
+    >
       <ComboBox
         onChange={handleChange}
         onOpenChange={handleOpen}
