@@ -9,7 +9,8 @@ export const DOC_KEY_MAPPING = {
   mute: 'features/mute-tests',
   source_code: 'integrations/source-code',
   automation_build: 'how-to-guides/organize-test-runs',
-  application_logs: 'integrations/application-logs'
+  application_logs: 'integrations/application-logs',
+  tnc: `references/terms-and-conditions`
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
@@ -62,20 +63,20 @@ export const SNP_PARAMS_MAPPING = {
 export const SNP_DATE_RANGE = {
   days7: {
     key: 'days7',
-    label: 'Last 7 Days'
+    label: '7 Days'
   },
   days15: {
     key: 'days15',
-    label: 'Last 15 Days'
+    label: '15 Days'
   },
   days30: {
     key: 'days30',
-    label: 'Last 30 Days'
+    label: '30 Days'
   }
 };
 
 export const TOOLTIP_STYLES = {
-  backgroundColor: '#00335D',
+  backgroundColor: 'var(--colors-base-800)',
   borderColor: 'transparent',
   style: {
     color: '#fff',
@@ -138,33 +139,46 @@ export const COMMON_CHART_STYLES = {
   }
 };
 
-export const UNSUPPORTED_HTML_TAGS = [
-  'anonymous',
-  'html',
-  'head',
-  'body',
-  'h1',
-  'h2',
-  'h3',
-  'h4',
-  'h5',
-  'h6',
-  'p',
-  'br',
-  'div',
-  'section',
-  'main',
-  'article',
-  'header',
-  'footer',
-  'table',
-  'thead',
-  'th',
-  'tr',
-  'td'
-];
+export const SUPPORTED_HTML_TAGS = ['mark'];
+
+export const TEST_DETAILS_SOURCE = {
+  TESTS_LISTING: 'test_listing',
+  BUILD_INSIGHTS_UNIQUE_ERRORS: 'build_insights_unique_errors',
+  SUITE_HEALTH_TESTS: 'suite_health_tests',
+  SUITE_HEALTH_ERRORS: 'suite_health_errors'
+};
+
+export const BSTACK_TOPNAV_ELEMENT_ID = 'bstack-header';
+export const PUSHER_EVENTS = {
+  BUILD_STARTED: 'BUILD_STARTED',
+  BUILD_FINISHED: 'BUILD_FINISHED',
+  NEW_TESTS: 'NEW_TESTS',
+  INSIGHTS_UPDATED: 'INSIGHTS_UPDATED',
+  RERUN_STARTED: 'RERUN_STARTED',
+  RERUN_FINISHED: 'RERUN_FINISHED',
+  ANALYZER_STARTED: 'ANALYZER_STARTED',
+  ANALYZER_COMPLETED: 'ANALYZER_COMPLETED',
+  UE_ANALYZER_STARTED: 'UE_ANALYZER_STARTED',
+  UE_ANALYZER_COMPLETED: 'UE_ANALYZER_COMPLETED',
+  NEW_PROJECT: 'NEW_PROJECT'
+};
 
 export const NOTIFICATION_TYPES = {
   dailySummary: 'DAILY_SUMMARY_EMAIL',
   buildInsights: 'BUILD_FINISH_EMAIL'
+};
+
+export const ISO_DATE_FORMAT = 'yyyy-MM-dd';
+
+export const TEST_LIST_FILTERS_TAGS = {
+  isAlwaysFailing: 'isAlwaysFailing',
+  isPerformanceAnomaly: 'isPerformanceAnomaly',
+  flaky: 'flaky',
+  isNewFailure: 'isNewFailure'
+};
+
+// custom history object to allow navigation outside react components
+export const o11yHistory = {
+  navigate: null,
+  location: null
 };

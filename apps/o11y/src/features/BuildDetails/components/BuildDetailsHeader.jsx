@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Hyperlink,
+  MdAutoAwesome,
   MdCancel,
   MdCheckCircle,
   MdHelp,
@@ -115,54 +116,62 @@ function BuildDetailsHeader() {
       buildMeta.data.status,
       buildMeta.data.statusStats
     );
-    if (TEST_STATUS.PENDING === status) {
+    if (
+      status !== TEST_STATUS.PENDING &&
+      buildMeta.data.isAutoAnalyzerRunning
+    ) {
       return (
         <O11yMetaData
-          icon={<O11yLoader loaderClass="h-4 w-4" />}
-          metaDescription="Running"
-          textColorClass="text-base-600"
+          icon={<MdAutoAwesome className="text-brand-800 h-4 w-4" />}
+          metaDescription="Analysing"
+          textColorClass="text-brand-800"
         />
       );
     }
-    if (TEST_STATUS.FAIL === status)
-      return (
-        <O11yMetaData
-          icon={<MdCancel className="h-5 w-5" />}
-          metaDescription="Failed"
-          textColorClass="text-danger-600"
-        />
-      );
-    if (TEST_STATUS.PASS === status)
-      return (
-        <O11yMetaData
-          icon={<MdCheckCircle className="h-5 w-5" />}
-          metaDescription="Passed"
-          textColorClass="text-success-600"
-        />
-      );
-    if (TEST_STATUS.UNKNOWN === status)
-      return (
-        <O11yMetaData
-          icon={<MdHelp className="h-5 w-5" />}
-          metaDescription="Unknown"
-          textColorClass="text-attention-500"
-        />
-      );
-    if (TEST_STATUS.SKIPPED === status)
-      return (
-        <O11yMetaData
-          icon={<MdRemoveCircle className="h-5 w-5" />}
-          metaDescription="Skipped"
-          textColorClass="text-base-500"
-        />
-      );
-    return (
-      <O11yMetaData
-        icon={<MdHelp className="h-5 w-5" />}
-        metaDescription="Unknown"
-        textColorClass="text-attention-500"
-      />
-    );
+    switch (status) {
+      case TEST_STATUS.PENDING:
+        return (
+          <O11yMetaData
+            icon={<O11yLoader loaderClass="h-4 w-4" />}
+            metaDescription="Running"
+            textColorClass="text-base-600"
+          />
+        );
+      case TEST_STATUS.FAIL:
+        return (
+          <O11yMetaData
+            icon={<MdCancel className="h-5 w-5" />}
+            metaDescription="Failed"
+            textColorClass="text-danger-600"
+          />
+        );
+      case TEST_STATUS.PASS:
+        return (
+          <O11yMetaData
+            icon={<MdCheckCircle className="h-5 w-5" />}
+            metaDescription="Passed"
+            textColorClass="text-success-600"
+          />
+        );
+
+      case TEST_STATUS.SKIPPED:
+        return (
+          <O11yMetaData
+            icon={<MdRemoveCircle className="h-5 w-5" />}
+            metaDescription="Skipped"
+            textColorClass="text-base-500"
+          />
+        );
+      case TEST_STATUS.UNKNOWN:
+      default:
+        return (
+          <O11yMetaData
+            icon={<MdHelp className="h-5 w-5" />}
+            metaDescription="Unknown"
+            textColorClass="text-attention-500"
+          />
+        );
+    }
   };
 
   const {
@@ -235,6 +244,7 @@ function BuildDetailsHeader() {
           icon={<MdPerson className="h-5 w-5" />}
           metaDescription={user}
           textColorClass="text-base-500"
+          metaTitle="Run by"
         />
         {startedAt && (
           <O11yMetaData
@@ -243,6 +253,7 @@ function BuildDetailsHeader() {
               dateString: new Date(startedAt)
             })}
             textColorClass="text-base-500"
+            metaTitle="Started at"
           />
         )}
         {versionControlInfo?.commitId && (
@@ -260,6 +271,7 @@ function BuildDetailsHeader() {
               }
               metaDescription={versionControlInfo.commitId.slice(0, 8)}
               textColorClass="text-base-500 hover:text-brand-700"
+              metaTitle="Commit Id"
             />
           </Hyperlink>
         )}
@@ -303,6 +315,7 @@ function BuildDetailsHeader() {
             icon={<MdOutlineTimer className="h-5 w-5" />}
             metaDescription={milliSecondsToTime(duration)}
             textColorClass="text-base-500"
+            metaTitle="Duration"
           />
         )}
         <ViewMetaPopOver

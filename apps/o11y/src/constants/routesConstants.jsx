@@ -5,12 +5,12 @@ import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
-import SuiteHealth from 'features/SuiteHealth';
 
 import { ROUTES } from './routes';
 
 const AllBuilds = React.lazy(() => import('features/AllBuilds'));
 const BuildDetails = React.lazy(() => import('features/BuildDetails'));
+const RequestAccess = React.lazy(() => import('features/RequestAccess'));
 
 const Integrations = React.lazy(() => import('features/Integrations'));
 
@@ -34,6 +34,9 @@ const FailureCategoriesSettings = React.lazy(() =>
 const ReRunSettings = React.lazy(() =>
   import('features/Settings/containers/ReRunSettings')
 );
+
+const SuiteHealth = React.lazy(() => import('features/SuiteHealth'));
+
 export const APP_ROUTES = [
   {
     path: ROUTES.all,
@@ -69,6 +72,11 @@ export const APP_ROUTES = [
         path: ROUTES.get_started,
         isProtected: true,
         component: <OnboardingFrameworkSelector />
+      },
+      {
+        path: ROUTES.request_access,
+        isProtected: true,
+        component: <RequestAccess />
       }
     ]
   },

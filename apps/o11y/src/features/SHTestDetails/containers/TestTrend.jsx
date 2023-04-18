@@ -6,16 +6,12 @@ import React, {
   useState
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import Chart from 'common/Chart';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { TOOLTIP_STYLES } from 'constants/common';
-import {
-  setIsDetailsVisible,
-  setShowDetailsFor
-} from 'features/TestDetails/slices/uiSlice';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
@@ -25,7 +21,7 @@ import {
   getSnPDetailsTrendData,
   setSHTestDetailsChartBounds
 } from '../slices/dataSlice';
-import { getShowSnPDetailsFor, getSnPCbtInfo } from '../slices/selectors';
+import { getShowSHTestsDetailsFor, getSnPCbtInfo } from '../slices/selectors';
 
 function getFormattedYAxisLabel() {
   return milliSecondsToTime(this.value);
@@ -127,11 +123,10 @@ const CHART_DEFAULT_OPTION = {
 export default function TestTrend() {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const cbtInfo = useSelector(getSnPCbtInfo);
   const [isLoadingData, setIsLoadingData] = useState(true);
   const [trendData, setTrendData] = useState({});
-  const navigate = useNavigate();
   const mounted = useRef(null);
 
   useEffect(() => {
@@ -195,11 +190,7 @@ export default function TestTrend() {
 
   const handleClickChartItem = useCallback(
     ({ point: { options } }) => {
-      dispatch(setShowDetailsFor(options?.id));
-      dispatch(setIsDetailsVisible(true));
-      const searchParams = new URLSearchParams(window?.location?.search);
-      searchParams.set('details', options.id);
-      navigate({ search: searchParams.toString() });
+      dispatch(showTestDetailsDrawer(options.id));
       logOllyEvent({
         event: 'O11ySuiteHealthTestsTimelineInteracted',
         data: {
@@ -209,7 +200,7 @@ export default function TestTrend() {
         }
       });
     },
-    [activeProject.id, activeProject.name, dispatch, navigate]
+    [activeProject.id, activeProject.name, dispatch]
   );
 
   const getChartOptions = useMemo(
@@ -266,8 +257,8 @@ export default function TestTrend() {
   }
 
   return (
-    <div className="mb-8">
-      <p className="text-base-900 mb-6 text-lg font-medium leading-6">
+    <div className="mb-2">
+      <p className="text-base-900 mb-5 text-lg font-medium leading-6">
         Test duration across builds
       </p>
       <div className="h-40">

@@ -1,14 +1,27 @@
-import { setStorage } from '@browserstack/utils';
+import { getStorage, setStorage } from '@browserstack/utils';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getBuildInfoFromUuidApi } from 'api/builds';
-import { getProjectsListAPI } from 'api/projectlist';
+import { getProjectsListAPI, initO11y } from 'api/global';
 import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
+import isEmpty from 'lodash/isEmpty';
 
 const SLICE_NAME = 'global';
 
+export const getInitialData = createAsyncThunk(
+  `${SLICE_NAME}/getInitialData`,
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await initO11y();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(null);
+    }
+  }
+);
+
 export const getProjectsList = createAsyncThunk(
   `${SLICE_NAME}/getProjectsList`,
-  async (data) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await getProjectsListAPI();
       return {
@@ -16,7 +29,7 @@ export const getProjectsList = createAsyncThunk(
         projectNormalisedName: data?.projectNormalisedName
       };
     } catch (err) {
-      return null;
+      return rejectWithValue(null);
     }
   }
 );
@@ -33,6 +46,29 @@ export const getBuildInfoFromUuid = createAsyncThunk(
   }
 );
 
+export const initO11yProduct = (params) => (dispatch) =>
+  Promise.all([
+    dispatch(getInitialData())
+      .unwrap()
+      .catch((err) => {
+        throw err;
+      }),
+    dispatch(
+      getProjectsList({
+        projectNormalisedName: encodeURI(
+          params?.projectNormalisedName ||
+            getStorage(PROJECT_NORMALISED_NAME_IDENTIFIER)
+        )
+      })
+    )
+      .unwrap()
+      .catch((err) => {
+        throw err;
+      })
+  ])
+    .then((res) => Promise.resolve(res))
+    .catch(() => null);
+
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
@@ -45,7 +81,11 @@ const { actions, reducer } = createSlice({
         normalisedName: ''
       }
     },
-    buildInfo: null
+    buildInfo: null,
+    initData: {
+      isLoading: true,
+      data: null
+    }
   },
   reducers: {
     setProjectList: (state, { payload }) => {
@@ -61,6 +101,14 @@ const { actions, reducer } = createSlice({
         PROJECT_NORMALISED_NAME_IDENTIFIER,
         state.projects.active.normalisedName
       );
+    },
+    setHasAcceptedTnC: (state, { payload }) => {
+      state.initData.data.hasAcceptedTnC = payload;
+    },
+    updateProjectList: (state, { payload }) => {
+      if (!isEmpty(payload)) {
+        state.projects.list = [payload, ...state.projects.list];
+      }
     }
   },
   extraReducers: (builder) => {
@@ -110,10 +158,21 @@ const { actions, reducer } = createSlice({
           buildNormalisedName: payload.buildNormalisedName,
           buildSerialId: payload.buildSerialId
         };
+      })
+      .addCase(getInitialData.fulfilled, (state, { payload }) => {
+        state.initData = {
+          isLoading: false,
+          data: payload
+        };
       });
   }
 });
 
-export const { setProjectList, setActiveProject } = actions;
+export const {
+  setProjectList,
+  setActiveProject,
+  setHasAcceptedTnC,
+  updateProjectList
+} = actions;
 
 export default reducer;

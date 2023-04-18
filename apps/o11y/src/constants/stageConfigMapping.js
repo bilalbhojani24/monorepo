@@ -12,8 +12,9 @@ export default {
     cookiePrefix: `development${COOKIE_SEPARATOR}`,
     signInUrl: 'https://local.bsstag.com/users/sign_in',
     apiUrl: 'https://localhost:8082/testops',
-    baseUrl: STAGING_CONFIG('').baseUrl,
-    withCredentials: false
+    baseDocUrl: STAGING_CONFIG('').baseUrl,
+    withCredentials: false,
+    isMocker: true
   },
   'local-staging': {
     cookiePrefix: `development${COOKIE_SEPARATOR}`,
@@ -44,6 +45,7 @@ export default {
     apiUrl: 'https://api-observability.browserstack.com',
     baseUrl: 'https://browserstack.com',
     withCredentials: true,
-    enableAnalytics: true
+    enableAnalytics: true,
+    disableLogs: true
   }
 };
