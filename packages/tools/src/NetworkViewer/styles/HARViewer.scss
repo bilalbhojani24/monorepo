@@ -1,0 +1,8 @@
+@import './variables.scss';
+
+.network-viewer {
+  height: 100%;
+  border-left: $border;
+  border-right: $border;
+  border-bottom: $border;
+}
