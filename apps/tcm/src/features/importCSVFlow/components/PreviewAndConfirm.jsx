@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
-import {
-  Accordion,
-  AccordionInteractiveHeader,
-  AccordionPanel,
-  MdFolderOpen
-} from '@browserstack/bifrost';
+import { MdFolderOpen } from '@browserstack/bifrost';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon
 } from 'assets/icons';
-import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
+import {
+  TMAccordion,
+  TMAccordionInteractiveHeader,
+  TMAccordionPanel,
+  TMButton,
+  TMSectionHeadings
+} from 'common/bifrostProxy';
 
 import ImportCSVModal from './importCSVModal';
 import PreviewAndConfirmSingleNode from './previewAndConfirmSingleNode';
@@ -98,9 +99,9 @@ const PreviewAndConfirm = () => {
       </div>
       {previewData.map((data, idx) => (
         <div className="border-base-100 border-y">
-          <Accordion defaultOpen={idx === 0}>
-            <AccordionInteractiveHeader title={data?.name} />
-            <AccordionPanel>
+          <TMAccordion defaultOpen={idx === 0}>
+            <TMAccordionInteractiveHeader title={data?.name} />
+            <TMAccordionPanel>
               <div className="border-base-300 mt-2 flex flex-col rounded-md border bg-white p-4">
                 <div className="flex w-full justify-between">
                   <PreviewAndConfirmSingleNode
@@ -159,8 +160,8 @@ const PreviewAndConfirm = () => {
                     </div>
                   ))}
               </div>
-            </AccordionPanel>
-          </Accordion>
+            </TMAccordionPanel>
+          </TMAccordion>
         </div>
       ))}
       {confirmCSVImportNotificationConfig.show && (

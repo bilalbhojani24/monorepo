@@ -3,6 +3,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { forwardRef } from 'react';
 import {
+  Accordion,
+  AccordionInteractiveHeader,
+  AccordionPanel,
   Alerts,
   Badge,
   Banner,
@@ -100,6 +103,12 @@ export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
 export const TMProgressBar = (props) => <ProgressBar {...props} />;
+
+export const TMAccordion = (props) => <Accordion {...props} />;
+export const TMAccordionInteractiveHeader = (props) => (
+  <AccordionInteractiveHeader {...props} />
+);
+export const TMAccordionPanel = (props) => <AccordionPanel {...props} />;
 
 export const TMSlideover = (props) => {
   const topMarginElementId = 'bstack-header';
