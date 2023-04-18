@@ -128,7 +128,7 @@ const PreviewAndConfirm = () => {
                   data?.steps?.length &&
                   typeof data?.steps?.[0] === 'string') ||
                   data?.expected_result) && (
-                  <div className="mt-4 flex justify-between">
+                  <div className="mt-4 flex justify-between gap-4">
                     <PreviewAndConfirmSingleNode
                       text="Steps"
                       wrapperClassName="basis-1/2"
