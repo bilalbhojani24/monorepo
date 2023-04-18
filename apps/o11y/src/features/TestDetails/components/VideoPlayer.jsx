@@ -99,8 +99,8 @@ const VideoPlayer = forwardRef(
         {isLoading && (
           <MediaPlayerStates
             variant="loading"
-            wrapperClassName={twClassNames('h-80 w-full z-30', {
-              relative: isVideoExpired
+            wrapperClassName={twClassNames('h-full w-full z-30', {
+              'relative h-80': isVideoExpired
             })}
           />
         )}
