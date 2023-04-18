@@ -11,7 +11,7 @@ import {
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
-  FolderIcon,
+  // FolderIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon
 } from 'assets/icons';
@@ -20,13 +20,13 @@ import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 import { PREVIEW_AND_CONFIRM_COLUMNS } from '../const/importCSVConstants';
 import { resetImportCSVState } from '../slices/csvThunk';
 
-import FolderInputWButton from './folderInputWButtons';
+// import FolderInputWButton from './folderInputWButtons';
 import ImportCSVModal from './importCSVModal';
 import usePreviewAndConfirm from './usePreviewAndConfirm';
 
 const PreviewAndConfirm = () => {
   const {
-    folderName,
+    // folderName,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
     previewAndConfirmTableRows,
@@ -98,16 +98,16 @@ const PreviewAndConfirm = () => {
           </div>
         }
       />
-      <FolderInputWButton
+      {/* <FolderInputWButton
         label="Folder Location"
         icon={<FolderIcon className="text-brand-400 h-4 w-4" />}
         text={folderName}
         firstCta="Change Folder"
         secondCta="Upload to Root Folder"
-      />
-      <div className="text-base-500 mb-4 text-sm font-normal">
+      /> */}
+      {/* <div className="text-base-500 mb-4 text-sm font-normal">
         This is the folder location where test cases will be imported
-      </div>
+      </div> */}
       <div className="text-base-800 mt-8 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>

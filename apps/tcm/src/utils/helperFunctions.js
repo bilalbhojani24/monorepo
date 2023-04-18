@@ -1,5 +1,7 @@
 import moment from 'moment-timezone';
 
+import { BDD } from '../features/Repository/const/addTestCaseConst';
+
 export const routeFormatter = (
   link,
   replaceConf,
@@ -67,13 +69,22 @@ export const capitalizeString = (phrase) =>
     .join(' ');
 
 export const getMappedValue = (mapArray, value) => {
+  if (value === BDD) return 'Text';
+
   const match = mapArray.find((item) => item.value === value);
   return match?.label ? match.label : '--';
 };
-// export const attachEventListener = (target, event, cbFunction) => {
-//   target?.addEventListener(event, cbFunction);
-// };
 
-// export const detachEventListener = (target, event, cbFunction) => {
-//   target?.removeEventListener(event, cbFunction);
-// };
+export const getSystemOrCustomValue = (
+  systemValue,
+  customValue,
+  mapArray = []
+) => {
+  if (systemValue) {
+    return mapArray.length
+      ? getMappedValue(mapArray, systemValue)
+      : systemValue;
+  }
+  if (customValue) return customValue;
+  return '--';
+};

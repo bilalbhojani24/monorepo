@@ -27,6 +27,7 @@ const initialState = {
     attachments: [],
     issues: [],
     tags: [],
+    custom_fields: {},
     test_case_folder_id: null // this is for internal process not to be passed with API
   },
   testCaseBulkFormData: {
@@ -93,6 +94,10 @@ const initialState = {
   testCaseDetails: {
     folderId: null,
     testCaseId: null
+  },
+  customFieldData: {
+    projectId: null,
+    fields: []
   }
 };
 
@@ -103,8 +108,14 @@ export const repositorySlice = createSlice({
     setAllFolders: (state, { payload }) => {
       state.allFolders = [...payload];
     },
+    setCustomFieldsData: (state, { payload }) => {
+      state.customFieldData = payload;
+    },
     updateTestCaseFormData: (state, { payload }) => {
       state.testCaseFormData[payload.key] = payload.value;
+    },
+    updateTestCaseFormCFData: (state, { payload }) => {
+      state.testCaseFormData.custom_fields[payload.key] = payload.value;
     },
     updateBulkTestCaseFormData: (state, { payload }) => {
       state.testCaseBulkFormData[payload.key] = payload.value;
@@ -193,6 +204,9 @@ export const repositorySlice = createSlice({
     resetBulkSelection: (state) => {
       state.bulkSelection = initialState.bulkSelection;
     },
+    resetBulkFormData: (state) => {
+      state.testCaseBulkFormData = initialState.testCaseBulkFormData;
+    },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
     },
@@ -251,6 +265,7 @@ export const repositorySlice = createSlice({
     cleanUpValues: (state) => {
       state.testCaseDetails = initialState.testCaseDetails;
       state.allFolders = initialState.allFolders;
+      state.customFieldData = initialState.customFieldData;
     }
   }
 });
@@ -290,6 +305,7 @@ export const {
   setBulkAllSelected,
   setBulkUpdateProgress,
   resetBulkSelection,
+  resetBulkFormData,
   updateBulkTestCaseFormData,
   updateTestCasesListLoading,
   updateFoldersLoading,
@@ -297,7 +313,9 @@ export const {
   setFilterSearchView,
   updateLoader,
   setAddTestCaseFromSearch,
-  updateCtaLoading
+  updateCtaLoading,
+  setCustomFieldsData,
+  updateTestCaseFormCFData
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

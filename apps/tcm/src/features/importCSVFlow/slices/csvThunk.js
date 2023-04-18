@@ -58,14 +58,16 @@ const addCustomToFieldMappings = (fieldMappings, customFieldName) =>
     return { ...mapObject, [key]: value };
   }, {});
 
-export const setCSVConfigurations = () => async (dispatch) => {
-  try {
-    const response = await getCSVConfigurations();
-    dispatch(setCSVConfigurationsFulfilled(response));
-  } catch (err) {
-    // dispatch(setCSVConfigurationsRejected(err));
-  }
-};
+export const setCSVConfigurations =
+  ({ projectId, folderId }) =>
+  async (dispatch) => {
+    try {
+      const response = await getCSVConfigurations({ projectId, folderId });
+      dispatch(setCSVConfigurationsFulfilled(response));
+    } catch (err) {
+      // dispatch(setCSVConfigurationsRejected(err));
+    }
+  };
 
 export const uploadFile = (payload) => async (dispatch) => {
   dispatch(uploadFilePending());

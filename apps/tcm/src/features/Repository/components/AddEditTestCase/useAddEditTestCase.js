@@ -18,9 +18,14 @@ import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
+import {
+  BDD,
+  stepTemplate,
+  templateOptions
+} from '../../const/addTestCaseConst';
 import {
   addSingleTestCase,
+  // resetBulkFormData,
   resetBulkSelection,
   setAddIssuesModal,
   setAddTagModal,
@@ -36,13 +41,13 @@ import {
   updateCtaLoading,
   updateFoldersLoading,
   updateTestCase,
+  updateTestCaseFormCFData,
   updateTestCaseFormData,
   updateTestCasesListLoading
-} from '../slices/repositorySlice';
-import { formDataRetriever } from '../utils/sharedFunctions';
-
-import useTestCases from './useTestCases';
-import useUnsavedChanges from './useUnsavedChanges';
+} from '../../slices/repositorySlice';
+import { formDataRetriever } from '../../utils/sharedFunctions';
+import useTestCases from '../useTestCases';
+import useUnsavedChanges from '../useUnsavedChanges';
 
 export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
@@ -148,7 +153,10 @@ export default function useAddEditTestCase(prop) {
     if (checkRTE) {
       // check html parse value only
       if (Array.isArray(value)) {
-        if (templateOptions[0].value === testCaseFormData.template) {
+        if (
+          templateOptions[0].value === testCaseFormData.template ||
+          testCaseFormData.template === BDD
+        ) {
           return htmlEquator(value?.[0], testCaseFormData[key]?.[0]);
         }
         // if array of values
@@ -169,7 +177,7 @@ export default function useAddEditTestCase(prop) {
     return true;
   };
 
-  const handleTestCaseFieldChange = (key, value, checkRTE) => {
+  const handleTestCaseFieldChange = (key, value, checkRTE, isCustomField) => {
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
@@ -183,12 +191,24 @@ export default function useAddEditTestCase(prop) {
             value: value === templateOptions[1].value ? [stepTemplate] : ['']
           })
         );
-      }
+      } else if (isCustomField)
+        dispatch(updateTestCaseFormCFData({ key, value }));
+
       dispatch(updateTestCaseFormData({ key, value }));
+
       if (!isUnsavedDataExists && isThereAChange(key, value, checkRTE))
         dispatch(setUnsavedDataExists(true));
     }
   };
+
+  const formatBulkFormData = (formData) =>
+    Object.entries(formData).reduce((obj, [key, value]) => {
+      if (key === 'preconditions' && value === '')
+        return { ...obj, [key]: null };
+      if (key === 'issues' && value.length === 0)
+        return { ...obj, [key]: null };
+      return { ...obj, [key]: value };
+    }, {});
 
   const formDataFormatter = (formData, isNoFolderTCCreation) => {
     const testCase = {
@@ -202,7 +222,7 @@ export default function useAddEditTestCase(prop) {
       testCase.issues = formData?.issues?.map((item) => item.value);
     if (formData.attachments)
       testCase.attachments = formData?.attachments?.map((item) => item.id);
-    if (!formData.owner) {
+    if (!formData.owner && !isBulkUpdate) {
       testCase.owner = userData?.id;
     }
     return { test_case: testCase, create_at_root: isNoFolderTCCreation };
@@ -363,7 +383,9 @@ export default function useAddEditTestCase(prop) {
       projectId,
       folderId,
       bulkSelection,
-      data: formDataFormatter(testCaseBulkFormData).test_case
+      data: formatBulkFormData(
+        formDataFormatter(testCaseBulkFormData).test_case
+      )
     })
       .then(() => {
         dispatch(
@@ -393,6 +415,7 @@ export default function useAddEditTestCase(prop) {
         );
         hideTestCaseAddEditPage(null, true);
         dispatch(resetBulkSelection());
+        // dispatch(resetBulkFormData());
       })
       .catch(() => {
         dispatch(

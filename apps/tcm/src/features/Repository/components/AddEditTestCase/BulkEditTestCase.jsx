@@ -20,11 +20,11 @@ import {
   priorityOptions,
   statusOptions,
   testCaseTypesOptions
-} from '../const/addTestCaseConst';
+} from '../../const/addTestCaseConst';
+import UnsavedChanges from '../UnsavedChanges';
+import useTestCases from '../useTestCases';
 
-import UnsavedChanges from './UnsavedChanges';
 import useAddEditTestCase from './useAddEditTestCase';
-import useTestCases from './useTestCases';
 
 const BulkEditTestCase = () => {
   const {

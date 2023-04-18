@@ -1,19 +1,27 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import AppRoute from 'const/routes';
 import { logEventHelper } from 'utils/logEvent';
 
-import { uploadFile } from '../slices/csvThunk';
+import { getFolders } from '../../../api/folders.api';
+import { moveFolderOptions } from '../../../const/immutables';
+import { setCSVConfigurations, uploadFile } from '../slices/csvThunk';
 import {
   setCSVFormData,
   setCSVUploadError,
   setFileConfig,
+  setFoldersForCSV,
+  setShowChangeFolderModal,
   setShowMoreFields
 } from '../slices/importCSVSlice';
 
 const useImportCSV = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
+  const projectId = queryParams.get('project');
+  const folderId = queryParams.get('folder');
   const importCSVSteps = useSelector((state) => state.importCSV.importCSVSteps);
   const currentCSVScreen = useSelector(
     (state) => state.importCSV.currentCSVScreen
@@ -33,6 +41,29 @@ const useImportCSV = () => {
   const uploadFileProceedLoading = useSelector(
     (state) => state.importCSV.uploadFileProceedLoading
   );
+  const selectedFolderLocation = useSelector(
+    (state) => state.importCSV.selectedFolderLocation
+  );
+  const showChangeFolderModal = useSelector(
+    (state) => state.importCSV.showChangeFolderModal
+  );
+  const allCSVFolders = useSelector((state) => state.importCSV.foldersForCSV);
+
+  const fetchCSVConfigurations = () => {
+    dispatch(setCSVConfigurations({ projectId, folderId }));
+    dispatch(
+      logEventHelper('TM_ImportCsvPageLoaded', {
+        project_id: projectId
+      })
+    );
+  };
+
+  const fetchFolders = (id) => {
+    if (id !== 'new')
+      getFolders({ projectId: id }).then((res) => {
+        dispatch(setFoldersForCSV(res?.folders));
+      });
+  };
 
   const handleCSVFieldChange = (key) => (value) => {
     let dispatchValue = value;
@@ -56,6 +87,51 @@ const useImportCSV = () => {
   const handleFileRemove = () => {
     dispatch(setFileConfig({ file: '', fileName: '' }));
     // dispatch(setCSVUploadError('Please select a CSV file.'));
+  };
+
+  const handleChangeFolderClick = () => {
+    dispatch(setShowChangeFolderModal(true));
+  };
+
+  const handleUploadToRootClick = () => {
+    if (projectId) {
+      navigate(`${AppRoute.IMPORT_CSV}?project=${projectId}`);
+      // dispatch(setSelectFolder)
+    }
+  };
+
+  const hideFolderExplorerModal = () => {
+    dispatch(setShowChangeFolderModal(false));
+  };
+
+  const handleUpdateFolderLocationClick = ({
+    folderExplorerProjectId,
+    primaryMoveLocation,
+    selectedFolder
+  }) => {
+    if (primaryMoveLocation === moveFolderOptions[0]?.id) {
+      // navigate(
+      //   routeFormatter(
+      //     `${AppRoute.IMPORT_CSV}?${new URLSearchParams({
+      //       projectId: folderExplorerProjectId,
+      //       folderId: selectedFolder.id
+      //     }).toString()}`
+      //   )
+      // );
+      navigate(
+        `${AppRoute.IMPORT_CSV}?project=${folderExplorerProjectId}&folder=${selectedFolder.id}`
+      );
+    } else if (primaryMoveLocation === moveFolderOptions[1]?.id) {
+      // navigate(
+      //   routeFormatter(
+      //     `${AppRoute.IMPORT_CSV}?${new URLSearchParams({
+      //       projectId: folderExplorerProjectId
+      //     }).toString()}`
+      //   )
+      // );
+      navigate(`${AppRoute.IMPORT_CSV}?project=${folderExplorerProjectId}`);
+    }
+    dispatch(setShowChangeFolderModal(false));
   };
 
   const handleProceedClick = () => {
@@ -104,12 +180,23 @@ const useImportCSV = () => {
     csvFormData,
     csvUploadError,
     fileConfig,
+    projectId,
+    folderId,
+    allCSVFolders,
     showMoreFields,
+    showChangeFolderModal,
+    selectedFolderLocation,
+    fetchFolders,
     handleFileUpload,
     handleFileRemove,
     handleCSVFieldChange,
     handleProceedClick,
     handleShowMoreFields,
+    fetchCSVConfigurations,
+    handleChangeFolderClick,
+    handleUploadToRootClick,
+    hideFolderExplorerModal,
+    handleUpdateFolderLocationClick,
     mappingFieldsData,
     mapFieldModalConfig,
     uploadFileProceedLoading
