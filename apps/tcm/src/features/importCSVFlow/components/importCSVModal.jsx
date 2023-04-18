@@ -5,7 +5,6 @@ import { ExclamationTriangleIcon } from '@browserstack/bifrost';
 import {
   TMButton,
   TMModal,
-  TMModalBody,
   TMModalFooter,
   TMModalHeader,
   TMProgressBar
@@ -105,18 +104,20 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
               <TMProgressBar title={null} percentage={progress} />
               {data?.text}
             </>
-          ) : null
+          ) : (
+            data?.text
+          )
         }
         iconWrapperClassname={
           status === 'ongoing' ? 'bg-brand-100' : 'bg-danger-100'
         }
         dismissButton={data.secondButtonText}
       />
-      {status !== 'ongoing' && (
+      {/* {status !== 'ongoing' && ( //TODO: check with Arsalan before removing
         <TMModalBody>
           <div className="pl-14">{data?.text}</div>
         </TMModalBody>
-      )}
+      )} */}
       <TMModalFooter position="right">
         {data?.firstButtonText && (
           <TMButton variant="primary" colors="white" onClick={firstButtonCb}>
