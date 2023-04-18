@@ -28,7 +28,7 @@ const DisplayMapping = ({
       <div className="my-4 px-5">
         <TMAlerts
           show
-          description={`Ta Da! We have mapped ${allImportFields.length} fields from CSV to Test Management fields automatically.`}
+          description={`Yay! We have mapped ${allImportFields.length} fields from CSV to Test Management fields automatically.`}
           linkText={null}
           modifier="success"
           alertIcon={<MdCheckCircle className="text-success-600 h-5 w-5" />}
