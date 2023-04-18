@@ -14,6 +14,7 @@ import {
 } from '../slices/csvThunk';
 import {
   clearNotificationConfig,
+  startImportingTestCaseRejected,
   updateImportProgress
 } from '../slices/importCSVSlice';
 
@@ -97,22 +98,36 @@ const usePreviewAndConfirm = () => {
     );
   };
 
-  useEffect(() => {
-    if (lastMessage?.data) {
-      const message = JSON.parse(lastMessage.data)?.message;
-      const percent = message?.percent;
-      if (percent && percent > confirmCSVImportNotificationConfig?.progress) {
-        // if percent exists and only if its greated than the existing progress (incase the WS packets are delayed)
-        dispatch(updateImportProgress(percent));
+  const handleWSMessage = (thisMessage) => {
+    if (thisMessage?.data) {
+      const message = JSON.parse(thisMessage.data)?.message;
 
-        if (percent >= 100) {
-          // once done, reroute
-          reRouteOnSuccess();
+      if (message?.error) {
+        // if upload ends in error
+        dispatch(
+          startImportingTestCaseRejected({
+            response: { status: message?.status }
+          })
+        );
+      } else {
+        const percent = message?.percent;
+        if (percent && percent > confirmCSVImportNotificationConfig?.progress) {
+          // if percent exists and only if its greated than the existing progress (incase the WS packets are delayed)
+          dispatch(updateImportProgress(percent));
+
+          if (percent >= 100) {
+            // once done, reroute
+            reRouteOnSuccess();
+          }
         }
       }
     }
+  };
+
+  useEffect(() => {
+    handleWSMessage(lastMessage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, lastMessage]);
+  }, [lastMessage]);
 
   return {
     previewData,

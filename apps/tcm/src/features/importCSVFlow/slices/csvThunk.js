@@ -26,7 +26,6 @@ import {
   setValueMappingThunkFulfilled,
   startImportingTestCaseFulfilled,
   startImportingTestCasePending,
-  startImportingTestCaseRejected,
   submitMappingDataFulfilled,
   submitMappingDataPending,
   submitMappingDataRejected,
@@ -221,7 +220,7 @@ export const startImportingTestCases =
 
       dispatch(startImportingTestCaseFulfilled(response));
     } catch (err) {
-      dispatch(startImportingTestCaseRejected(err));
+      // dispatch(startImportingTestCaseRejected(err)); //TODO: Confirm with Arsalan if its safe to remove, we moved this logic to WS
     }
   };
 
