@@ -10,6 +10,7 @@ import { ROUTES } from './routes';
 
 const AllBuilds = React.lazy(() => import('features/AllBuilds'));
 const BuildDetails = React.lazy(() => import('features/BuildDetails'));
+const RequestAccess = React.lazy(() => import('features/RequestAccess'));
 
 const Integrations = React.lazy(() => import('features/Integrations'));
 
@@ -71,6 +72,11 @@ export const APP_ROUTES = [
         path: ROUTES.get_started,
         isProtected: true,
         component: <OnboardingFrameworkSelector />
+      },
+      {
+        path: ROUTES.request_access,
+        isProtected: true,
+        component: <RequestAccess />
       }
     ]
   },

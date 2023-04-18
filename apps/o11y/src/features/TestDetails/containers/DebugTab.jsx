@@ -11,9 +11,7 @@ import {
 } from 'assets/icons/components';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 
-import { TEST_DETAILS_SLIDEOVER_ELEMENT_ID } from '../constants';
 import { LOGS_CONTEXT } from '../contexts/LogsContext';
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import {
@@ -44,8 +42,6 @@ const DebugTab = () => {
   const testExceptions = useSelector(getExceptions);
   const [sessionTestToggle, setSessionTestToggle] = useState(false);
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
-  const [floatingVideoRightOffset, setFloatingVideoRightOffset] = useState(700);
-  const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
@@ -55,21 +51,6 @@ const DebugTab = () => {
     value: LOGS_INFO_TAB_KEYS.logs
   });
   const [showScrollToBottom, toggleShowScrollToBottom] = useState(false);
-
-  useEffect(() => {
-    const slideOverElement = document.getElementById(
-      TEST_DETAILS_SLIDEOVER_ELEMENT_ID
-    );
-    const bstackHeaderElement = document.getElementById(
-      BSTACK_TOPNAV_ELEMENT_ID
-    );
-    if (slideOverElement) {
-      setFloatingVideoRightOffset(slideOverElement.offsetWidth);
-    }
-    if (bstackHeaderElement) {
-      setFloatingVideoTopOffset(bstackHeaderElement.offsetHeight);
-    }
-  }, []);
 
   useEffect(() => {
     if (activeTab.value === LOGS_INFO_TAB_KEYS.network) {
@@ -251,8 +232,6 @@ const DebugTab = () => {
           handleSetCurrentTime,
           handleLogDurationClick,
           handleSessionToggle,
-          floatingVideoTopOffset,
-          floatingVideoRightOffset,
           setActiveStep,
           setTotalSteps,
           activeTab,

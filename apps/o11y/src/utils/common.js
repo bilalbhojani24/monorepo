@@ -1,6 +1,6 @@
 import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
-import { TEST_STATUS, UNSUPPORTED_HTML_TAGS } from 'constants/common';
+import { SUPPORTED_HTML_TAGS, TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
 
 export const getBaseUrl = () => {
@@ -61,14 +61,13 @@ export const logOllyEvent = ({ event, data = {} }) => {
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches
   };
-  if (!getEnvConfig().enableLogging) {
+  if (getEnvConfig().enableAnalytics || window.BSTACK_LOG_ANALYTICS_ENABLED) {
+    logEvent([], 'web_events', event, { ...commonData, ...data });
+  } else {
     // eslint-disable-next-line no-console
     console.log('Event Name:', event);
     // eslint-disable-next-line no-console
     console.table({ ...commonData, ...data });
-  }
-  if (window.location.hostname.endsWith('browserstack.com')) {
-    logEvent([], 'web_events', event, { ...commonData, ...data });
   }
 };
 
@@ -174,16 +173,21 @@ export const transformUnsupportedTags = (node, index) => {
   const updatedNode = node;
   if (
     updatedNode.type === 'tag' &&
-    UNSUPPORTED_HTML_TAGS.includes(updatedNode.name)
+    !SUPPORTED_HTML_TAGS.includes(updatedNode.name)
   ) {
     updatedNode.children = [
       {
         data: `<${updatedNode.name}>`,
         type: 'text'
       },
-      ...updatedNode.children
+      ...updatedNode.children,
+      {
+        data: `</${updatedNode.name}>`,
+        type: 'text'
+      }
     ];
     updatedNode.name = 'span';
+    updatedNode.attribs = '';
   }
   return convertNodeToElement(updatedNode, index, transformUnsupportedTags);
 };
