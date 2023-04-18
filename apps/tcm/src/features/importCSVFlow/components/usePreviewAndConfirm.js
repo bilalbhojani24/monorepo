@@ -47,8 +47,8 @@ const usePreviewAndConfirm = () => {
       dispatch(
         addNotificaton({
           id: `import_success_ ${res.import_id}`,
-          title: 'Import success',
-          description: `${res.total_count} test cases imported successfully`,
+          title: 'CSV data imported',
+          description: `${res.total_count} test cases have been imported successfully`,
           variant: 'success'
         })
       );
@@ -99,7 +99,8 @@ const usePreviewAndConfirm = () => {
 
   useEffect(() => {
     if (lastMessage?.data) {
-      const percent = JSON.parse(lastMessage.data)?.message?.percent;
+      const message = JSON.parse(lastMessage.data)?.message;
+      const percent = message?.percent;
       if (percent && percent > confirmCSVImportNotificationConfig?.progress) {
         // if percent exists and only if its greated than the existing progress (incase the WS packets are delayed)
         dispatch(updateImportProgress(percent));

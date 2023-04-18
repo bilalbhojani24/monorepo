@@ -52,7 +52,6 @@ const initialState = {
   totalImportedProjectsInPreview: null,
   mapFieldsProceedLoading: false,
   showSelectMenuErrorInMapFields: false,
-  importCSVSuccessNotificationShown: false,
   topInfoSteps: [],
   showMappings: true,
   currentFieldValueMapping: {},
@@ -254,9 +253,6 @@ const importCSVSlice = createSlice({
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.CREATEDBY = payload;
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.OWNER = payload;
     },
-    setImportCSVSuccessNotificationShown: (state, { payload }) => {
-      state.importCSVSuccessNotificationShown = payload;
-    },
     importCSVCleanUp: (state, { payload }) => {
       const {
         totalImportedProjectsInPreview,
@@ -327,7 +323,6 @@ export const {
   setSingleFieldValueMapping,
   updateSingleFieldValueMapping,
   setNotificationConfigForConfirmCSVImport,
-  setImportCSVSuccessNotificationShown,
   setShowChangeFolderModal,
   setFoldersForCSV,
   updateImportProgress,
