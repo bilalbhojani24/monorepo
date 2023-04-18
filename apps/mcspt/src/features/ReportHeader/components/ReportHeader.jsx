@@ -8,7 +8,12 @@ const ReportHeader = () => {
     useReportHeader();
 
   return (
-    <div className="border-base-300 flex items-center justify-between border-b py-2 px-4 shadow">
+    <div
+      id="reportHeader"
+      className="border-base-300 fixed top-0 z-10 flex w-full
+       items-center justify-between border-b bg-white 
+       px-4 py-2 shadow"
+    >
       <div className="text-base-500 flex items-center">
         <div className="text-xl">
           <MdChevronLeft onClick={backButtonClicked} />
