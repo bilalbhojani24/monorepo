@@ -458,7 +458,7 @@ export default function IssueItem() {
         </div>
       </div>
       <div
-        className="fixed bottom-0 right-0 bg-white"
+        className="fixed bottom-0 right-0 z-[15] bg-white"
         style={{
           width: `${
             isSidebarCollapsed
