@@ -1,18 +1,25 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import Checkbox from '../Checkbox';
 import Dropdown from '../Dropdown';
 import DropdownOptionGroup from '../DropdownOptionGroup';
 import DropdownOptionItem from '../DropdownOptionItem';
 import DropdownTrigger from '../DropdownTrigger';
 import { EllipsisVerticalIcon, MdFolderSpecial } from '../Icon';
+import InputField from '../InputField';
+import {
+  ListTreeCheckboxHelper,
+  ListTreeIterateChildrenRecursively,
+  ListTreeSelectionHelper,
+  ListTreeTargetHierarcyByIndex
+} from '../ListTreeCheckbox';
+import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent';
+import listTeeCheckboxData from '../ListTreeCheckbox/sampleData/listTreeCheckbox';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 import TruncateText from '../TruncateText';
 
-import listTeeCheckboxData from './sampleData/listTreeCheckbox';
 import ListTree from './index';
 
 const options = [
@@ -208,159 +215,91 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
   );
 };
 
-const ControlledNestedTreeWithCheckbox = ({
-  data,
-  onCheckboxChange,
-  indent = 1
-}) => {
-  const [openNodeMap, setOpenNodeMap] = useState({
-    'file 2': true,
-    'file 2b': true,
-    'file A': true
-  });
-
-  return (
-    <>
-      {data?.map((item) => (
-        <ListTree
-          key={item.name}
-          indentationLevel={indent}
-          isTreeOpen={openNodeMap[item.name]}
-        >
-          <ListTreeNode
-            hideIcon
-            label={
-              <Checkbox
-                inputClassName="w-3 h-3"
-                data={{
-                  label: (
-                    <>
-                      <MdFolderSpecial className="text-info-400 mr-2 inline-block h-5 w-5 shrink-0 select-none" />
-                      <span className="text-base-700 mr-2 text-xs leading-5">
-                        {item.uuid} - {item.name}
-                      </span>
-                    </>
-                  ),
-                  value: item.uuid
-                }}
-                border={false}
-                indeterminate={item.isIndeterminate}
-                checked={item.isChecked}
-                onChange={(e) => {
-                  onCheckboxChange(e, item.uuid);
-                }}
-                wrapperClassName="py-0"
-              />
-            }
-            description={`(level=${indent})`}
-            onNodeOpen={() => {
-              if (openNodeMap[item.name] !== undefined) {
-                openNodeMap[item.name] = !openNodeMap[item.name];
-              } else {
-                openNodeMap[item.name] = true;
-              }
-              setOpenNodeMap({ ...openNodeMap });
-            }}
-            isNodeSelected={false}
-            isFocused={false}
-            leadingIcon={<></>}
-          />
-          {!!item?.contents && (
-            <ListTreeNodeContents isTreeOpen={openNodeMap[item.name]}>
-              <ControlledNestedTreeWithCheckbox
-                onCheckboxChange={onCheckboxChange}
-                data={item.contents}
-                indent={1 + indent}
-              />
-            </ListTreeNodeContents>
-          )}
-        </ListTree>
-      ))}
-    </>
-  );
-};
-
-const ControlledCheckboxNestedTreeTemplate = () => {
+const SearchableSelectableListTree = () => {
   const [listOfItems, setListOfItems] = useState(listTeeCheckboxData);
-  const markAllChildren = (childrenItems, targetAction) => {
-    let newChildren = [];
-    childrenItems.forEach((el) => {
-      // eslint-disable-next-line no-param-reassign
-      el.isChecked = targetAction;
-      // eslint-disable-next-line no-param-reassign
-      el.isIndeterminate = false;
-      if (el?.contents?.length > 0) {
-        newChildren = newChildren.concat(el.contents);
-      }
-    });
-    return newChildren;
+  const [selectedValue, setSelectedValue] = useState({});
+  const [searchValue, setSearchValue] = useState(''); // Debounce this state for optimal performance
+  const [filteredUUIDs, setFilteredUUIDs] = useState({
+    searchedUUIDs: {},
+    filteredUUIDsWithHierarchy: {}
+  });
+  const onSearchChange = (e) => {
+    const newSearchValue = e.target.value;
+    setSearchValue(newSearchValue);
   };
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  const onCheckboxChange = (e, targetIndexes) => {
-    const indexes = targetIndexes.split('-');
-    const newItems = JSON.parse(JSON.stringify(listOfItems));
-    // adjust (check/uncheck) current clicked item
-    const targetItem = [];
-    // list of items impacted like child, parent, grandparent
-    indexes.forEach((el, idx) => {
-      if (idx === 0) {
-        targetItem.push(newItems[el]);
-      } else {
-        targetItem.unshift(targetItem[0].contents[el]);
-      }
-    });
-    targetItem[0].isChecked = e.target.checked;
-    targetItem[0].isIndeterminate = false;
-    // adjust children of current clicked item
-    let childrenItems = targetItem[0]?.contents || [];
-    let hasMoreChildren = childrenItems?.length;
-    while (hasMoreChildren) {
-      const childs = markAllChildren(childrenItems, e.target.checked);
-      if (childs.length === 0) {
-        hasMoreChildren = false;
-      }
-      childrenItems = childs;
-    }
-    // adjust parents of current clicked items
-    // eslint-disable-next-line no-plusplus
-    for (let i = 1; i < targetItem.length; i++) {
-      let areAllTrue = true;
-      let areAllFalse = true;
-      let isAnyChildInderminate = false;
-      targetItem[i].contents.forEach((contentItem) => {
-        if (contentItem.isIndeterminate === true) {
-          isAnyChildInderminate = true;
-        }
-        if (contentItem.isChecked === true) {
-          areAllFalse = false;
-        } else if (contentItem.isChecked === false) {
-          areAllTrue = false;
-        }
-      });
-      if (targetItem[i].contents.length !== 0) {
-        if (isAnyChildInderminate) {
-          targetItem[i].isIndeterminate = true;
-          targetItem[i].isChecked = true;
-        } else if (areAllTrue) {
-          targetItem[i].isChecked = true;
-          targetItem[i].isIndeterminate = false;
-        } else if (areAllFalse) {
-          targetItem[i].isChecked = false;
-          targetItem[i].isIndeterminate = false;
-        } else if (!areAllFalse && !areAllTrue) {
-          targetItem[i].isChecked = true;
-          targetItem[i].isIndeterminate = true;
-        }
-      }
-    }
+  const onCheckboxChange = (isChecked, targetIndexes) => {
+    const { newItems, targetItem } = ListTreeCheckboxHelper(
+      isChecked,
+      targetIndexes,
+      listOfItems
+    );
+    const { selectedValuesAdjusted } = ListTreeSelectionHelper(
+      selectedValue,
+      targetItem,
+      isChecked
+    );
+    setSelectedValue(selectedValuesAdjusted);
     setListOfItems(newItems);
   };
+
+  useEffect(() => {
+    if (searchValue.length) {
+      const newValue = {
+        searchedUUIDs: {},
+        filteredUUIDsWithHierarchy: {}
+      };
+      ListTreeIterateChildrenRecursively({ contents: listOfItems }, (item) => {
+        if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
+          newValue.searchedUUIDs[item.uuid] = item.uuid;
+          const data = ListTreeTargetHierarcyByIndex(listOfItems, item.uuid);
+          data.forEach((el) => {
+            newValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
+          });
+        }
+        return true;
+      });
+      setFilteredUUIDs(newValue);
+    }
+  }, [listOfItems, searchValue]);
+
   return (
     <>
-      <ControlledNestedTreeWithCheckbox
-        data={listOfItems}
-        onCheckboxChange={onCheckboxChange}
+      <InputField
+        label={`${Object.values(selectedValue).length} Items Selected:`}
+        wrapperClassName="min-w-[300px] cursor-pointer"
+        addOnBeforeInlineWrapperClassName="max-w-[300px] line-clamp-1"
+        addOnBeforeInline={
+          <TruncateText
+            tooltipTriggerIcon={
+              // eslint-disable-next-line tailwindcss/no-arbitrary-value
+              <span className="mt-[-4px] flex font-medium">
+                ({Object.keys(selectedValue)?.length})
+              </span>
+            }
+          >
+            {Object.values(selectedValue)
+              ?.map((el) => el.name)
+              ?.join(', ')}
+          </TruncateText>
+        }
+        style={{ width: 0, paddingLeft: 0 }}
+        disabled
       />
+      <p className="mt-3 mb-4">
+        <InputField label="Search Items here" onChange={onSearchChange} />
+      </p>
+      {Object.keys(filteredUUIDs.filteredUUIDsWithHierarchy).length === 0 &&
+      searchValue.length ? (
+        <p className="text-sm">No items matching search results</p>
+      ) : (
+        <ControlledNestedTreeWithCheckbox
+          data={listOfItems}
+          filteredUUIDs={filteredUUIDs.filteredUUIDsWithHierarchy}
+          isParentSelected={false}
+          allowFilter={searchValue.length}
+          onCheckboxChange={onCheckboxChange}
+        />
+      )}
     </>
   );
 };
@@ -487,19 +426,23 @@ const FocusedNodeNestedTreeTemplate = () => (
   <FocusedNodeNestedTree data={listTreeDemoDataSet} />
 );
 
+const SearchableSelectableListTreeTemplate = () => (
+  <SearchableSelectableListTree />
+);
+
 const ControlledTree = ControlledTreeTemplate.bind({});
 
 const UncontrolledTree = UncontrolledTreeTemplate.bind({});
 
-const ControlledCheckboxNestedTreeExample =
-  ControlledCheckboxNestedTreeTemplate.bind({});
+const SearchableSelectableListTreeTemplateExample =
+  SearchableSelectableListTreeTemplate.bind({});
 
 const FocusedNodeTree = FocusedNodeNestedTreeTemplate.bind({});
 
 export default defaultConfig;
 export {
-  ControlledCheckboxNestedTreeExample,
   ControlledTree,
   FocusedNodeTree,
+  SearchableSelectableListTreeTemplateExample,
   UncontrolledTree
 };

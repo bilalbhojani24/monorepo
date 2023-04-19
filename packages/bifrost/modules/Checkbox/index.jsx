@@ -24,6 +24,7 @@ const Checkbox = ({
   position,
   wrapperClassName,
   inputClassName,
+  labelClassName,
   ...props
 }) => {
   const ref = useRef();
@@ -87,10 +88,14 @@ const Checkbox = ({
           >
             <label
               htmlFor={`${name}${data.value}`}
-              className={twClassNames('text-base-700 select-none font-medium', {
-                'flex flex-row items-center gap-1.5': icon,
-                'cursor-not-allowed': disabled
-              })}
+              className={twClassNames(
+                'text-base-700 select-none font-medium',
+                {
+                  'flex flex-row items-center gap-1.5': icon,
+                  'cursor-not-allowed': disabled
+                },
+                labelClassName
+              )}
             >
               {icon}
               {data.label}
@@ -150,7 +155,8 @@ Checkbox.propTypes = {
   onChange: PropTypes.func,
   position: PropTypes.oneOf(Object.values(CHECKBOX_POSITION_VARIANT)),
   wrapperClassName: PropTypes.string,
-  inputClassName: PropTypes.string
+  inputClassName: PropTypes.string,
+  labelClassName: PropTypes.string
 };
 
 Checkbox.defaultProps = {
@@ -167,7 +173,8 @@ Checkbox.defaultProps = {
   onChange: () => {},
   position: CHECKBOX_POSITION_VARIANT.left,
   wrapperClassName: '',
-  inputClassName: ''
+  inputClassName: '',
+  labelClassName: ''
 };
 
 export default Checkbox;

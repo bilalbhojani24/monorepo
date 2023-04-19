@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 import { ChevronDownIcon, ChevronRightIcon, MdFolder } from '../Icon';
 
+import ListTreeNodeWrapper from './components/ListTreeNodeWrapper';
+
 import './styles.scss';
 
 const ListTreeNode = forwardRef(
@@ -21,27 +23,26 @@ const ListTreeNode = forwardRef(
       onNodeOpen,
       isNodeSelected,
       trailingVisualElement,
+      isNodeSelectable,
       hideIcon
     },
     ref
   ) => (
-    <div
+    <ListTreeNodeWrapper
+      isNodeSelectable={isNodeSelectable}
+      isNodeSelected={isNodeSelected}
+      onNodeClick={onNodeClick}
+      isFocused={isFocused}
       ref={ref}
-      className={twClassNames(
+      wrapperClassName={twClassNames(
         'hover:bg-base-100 focus:bg-base-100 focus:border-info-600  group flex flex-1 items-center justify-between rounded border border-transparent p-1.5',
         {
           'bg-info-50': isNodeSelected,
           'bg-base-100': isFocused
         }
       )}
-      tabIndex="0"
-      role="button"
-      onClick={() => {
-        onNodeClick?.();
-      }}
-      onKeyPress={() => {}}
     >
-      <div className="flex w-4 grow items-center">
+      <div className="flex w-full grow items-center">
         <Disclosure.Button as={Fragment}>
           {({ open }) => (
             <div
@@ -71,7 +72,7 @@ const ListTreeNode = forwardRef(
 
         <div
           className={twClassNames(
-            'text-base-700 mr-2 text-xs leading-5 relative',
+            'text-base-700 mr-2 text-xs leading-5 relative w-full',
             nodeLabelClassName,
             {
               'font-medium': isNodeSelected
@@ -100,7 +101,7 @@ const ListTreeNode = forwardRef(
 
       <div
         className={twClassNames(
-          'text-base-600 text-xs leading-5 truncate max-w-[55px]',
+          'text-base-600 text-xs leading-5 truncate max-w-[55px] flex-shrink-0',
           {
             'font-medium': isNodeSelected
           }
@@ -108,7 +109,7 @@ const ListTreeNode = forwardRef(
       >
         {description}
       </div>
-    </div>
+    </ListTreeNodeWrapper>
   )
 );
 
@@ -124,7 +125,8 @@ ListTreeNode.propTypes = {
   isNodeSelected: PropTypes.bool,
   trailingVisualElement: PropTypes.node,
   leadingIcon: PropTypes.node,
-  hideIcon: PropTypes.bool
+  hideIcon: PropTypes.bool,
+  isNodeSelectable: PropTypes.bool
 };
 
 ListTreeNode.defaultProps = {
@@ -138,7 +140,8 @@ ListTreeNode.defaultProps = {
   isNodeSelected: false,
   trailingVisualElement: null,
   leadingIcon: null,
-  hideIcon: false
+  hideIcon: false,
+  isNodeSelectable: true
 };
 
 export default ListTreeNode;
