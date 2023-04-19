@@ -139,35 +139,16 @@ const defaultConfig = {
 };
 const Template = (args) => <Tooltip {...args} />;
 const DarkThemeTemplate = (args) => <Tooltip {...args} />;
-const LightThemeHyperlinkTemplate = (args) => <Tooltip {...args} />;
-const DarkThemeHyperlinkTemplate = (args) => <Tooltip {...args} />;
-const CustomTooltipTemplate = (args) => <Tooltip {...args} />;
 
 const Primary = Template.bind({});
 const DarkTheme = DarkThemeTemplate.bind({});
-const LightThemeHyperlink = LightThemeHyperlinkTemplate.bind({});
-const DarkThemeHyperlink = DarkThemeHyperlinkTemplate.bind({});
-const CustomTooltip = CustomTooltipTemplate.bind({});
 
 Primary.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
-export {
-  CustomTooltip,
-  DarkTheme,
-  DarkThemeHyperlink,
-  LightThemeHyperlink,
-  Primary
-};
-
-// CustomTooltip tooltip start
-CustomTooltip.args = {
-  theme: TP_TOOLTIP_THEME[1],
-  content: <TooltipBody wrapperClassName="mb-0">{bodyText}</TooltipBody>
-};
-// CustomTooltip tooltip end
+export { DarkTheme, Primary };
 
 // Darktheme tooltip start
 DarkTheme.args = {
@@ -180,26 +161,3 @@ DarkTheme.args = {
   )
 };
 // Darktheme tooltip end
-
-// LightThemeHyperlink tooltip start
-LightThemeHyperlink.args = {
-  content: (
-    <>
-      <TooltipHeader>{headingText}</TooltipHeader>
-      <TooltipBody>{bodyText}</TooltipBody>
-    </>
-  )
-};
-// LightThemeHyperlink tooltip start
-
-// DarkThemeHyperlink tooltip start
-DarkThemeHyperlink.args = {
-  theme: TP_TOOLTIP_THEME[1],
-  content: (
-    <>
-      <TooltipHeader>{headingText}</TooltipHeader>
-      <TooltipBody>{bodyText}</TooltipBody>
-    </>
-  )
-};
-// DarkThemeHyperlink tooltip start
