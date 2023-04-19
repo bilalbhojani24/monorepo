@@ -24,7 +24,7 @@ import {
   ADD_FIELD_LABEL,
   ADD_FIELD_VALUE,
   IGNORE_FIELD_LABEL,
-  IGNORE_VALUE_VALUE,
+  IGNORE_FIELD_VALUE,
   MAP_FIELD_COLUMNS
 } from '../const/importCSVConstants';
 import { setTags, setUsers } from '../slices/csvThunk';
@@ -274,10 +274,10 @@ const MapFields = () => {
                         {...(!row.mappedField.defaultValue.label && {
                           defaultValue: {
                             label:
-                              row.mappedValue === IGNORE_VALUE_VALUE
-                                ? IGNORE_FIELD_LABEL
-                                : ADD_FIELD_LABEL,
-                            value: row.mappedValue || ADD_FIELD_VALUE
+                              row.mappedValue === ADD_FIELD_VALUE
+                                ? ADD_FIELD_LABEL
+                                : IGNORE_FIELD_LABEL,
+                            value: row.mappedValue || IGNORE_FIELD_VALUE
                           }
                         })}
                         onChange={handleSelectMenuChange(row.field)}
