@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
@@ -143,11 +145,41 @@ const LightThemeHyperlinkTemplate = (args) => <Tooltip {...args} />;
 const DarkThemeHyperlinkTemplate = (args) => <Tooltip {...args} />;
 const CustomTooltipTemplate = (args) => <Tooltip {...args} />;
 
+// adding hover interactions to verify in vrt
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.hover(canvas.getByRole('button'));
+};
+
 const DarkTheme = DarkThemeTemplate.bind({});
+DarkTheme.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.hover(canvas.getByRole('button'));
+};
+
 const LightThemeHyperlink = LightThemeHyperlinkTemplate.bind({});
+LightThemeHyperlink.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.hover(canvas.getByRole('button'));
+};
+
 const DarkThemeHyperlink = DarkThemeHyperlinkTemplate.bind({});
+DarkThemeHyperlink.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.hover(canvas.getByRole('button'));
+};
+
 const CustomTooltip = CustomTooltipTemplate.bind({});
+CustomTooltip.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.hover(canvas.getByRole('button'));
+};
 
 Primary.parameters = {
   controls: {}
