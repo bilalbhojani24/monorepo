@@ -4,6 +4,8 @@ import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getDocUrl, getEnvConfig } from 'utils/common';
 
+const envConfig = getEnvConfig();
+
 const O11yHeader = () => (
   <Header
     wrapperClassName="sticky top-0"
@@ -13,7 +15,7 @@ const O11yHeader = () => (
     release="Beta"
     // beamerProductId="xTSGUhhN11000"
     documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
-    supportLink={`${getEnvConfig().baseUrl}/contact`}
+    supportLink={`${envConfig.baseUrl}/contact#other`}
     headerElementArray={[
       'team',
       'pricing',
@@ -22,6 +24,7 @@ const O11yHeader = () => (
       // 'notifications',
       'account'
     ]}
+    showTestInsights={false}
     documentation={{
       title: 'Key Features',
       options: [
@@ -72,6 +75,12 @@ const O11yHeader = () => (
           link: getDocUrl({ path: DOC_KEY_MAPPING.mocha })
         }
       ]
+    }}
+    onSignoutClick={(e) => {
+      if (envConfig.signOutUrl) {
+        e.preventDefault();
+        window.location.href = envConfig.signOutUrl;
+      }
     }}
   />
 );

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import { O11yButton } from 'common/bifrostProxy';
+import { MdOpenInNew } from '@browserstack/bifrost';
+import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-function ViewMetaPopOverItem({ title, text, showCopy, textToCopy }) {
+function ViewMetaPopOverItem({ title, text, showCopy, textToCopy, link }) {
   const [copied, setCopied] = useState(false);
 
   const handleClick = () => {
@@ -13,7 +14,7 @@ function ViewMetaPopOverItem({ title, text, showCopy, textToCopy }) {
     }, 2000);
   };
   return (
-    <div className="flex flex-col py-4 first:pt-0 last:pb-0">
+    <div className="flex flex-col py-2 first:pt-0 last:pb-0">
       <p className="text-base-500 text-sm font-medium">{title}</p>
       <div className="mt-1 flex items-center justify-between gap-4">
         <p className="truncate text-sm font-medium">{text}</p>
@@ -26,6 +27,15 @@ function ViewMetaPopOverItem({ title, text, showCopy, textToCopy }) {
             </CopyToClipboard>
           </div>
         )}
+        {!!link && (
+          <O11yHyperlink
+            target="_blank"
+            href={link}
+            wrapperClassName="text-sm flex items-center gap-1 text-brand-600 hover:text-brand-500 font-medium"
+          >
+            View <MdOpenInNew className="text-sm" />
+          </O11yHyperlink>
+        )}
       </div>
     </div>
   );
@@ -33,14 +43,16 @@ function ViewMetaPopOverItem({ title, text, showCopy, textToCopy }) {
 
 ViewMetaPopOverItem.propTypes = {
   title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   textToCopy: PropTypes.string,
-  showCopy: PropTypes.bool
+  showCopy: PropTypes.bool,
+  link: PropTypes.string
 };
 
 ViewMetaPopOverItem.defaultProps = {
   showCopy: false,
-  textToCopy: ''
+  textToCopy: '',
+  link: ''
 };
 
 export default ViewMetaPopOverItem;
