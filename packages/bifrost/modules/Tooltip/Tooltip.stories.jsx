@@ -9,14 +9,15 @@ import {
   TP_TOOLTIP_THEME
 } from '../../shared/tooltipPopoverConstants';
 import Button from '../Button';
-import Hyperlink from '../Hyperlink';
 import TooltipBody from '../TooltipBody';
-import TooltipFooter from '../TooltipFooter';
 import TooltipHeader from '../TooltipHeader';
 
 import Tooltip from './index';
 
 const inlineRadio = 'inline-radio';
+const bodyText =
+  'Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec sodales augue eu viverra tempus.';
+const headingText = 'This is a tooltip heading';
 
 const defaultConfig = {
   title: 'Application/Components/Tooltip',
@@ -63,20 +64,8 @@ const defaultConfig = {
       option: { type: null },
       defaultValue: (
         <>
-          <TooltipHeader>This is a tooltip heading</TooltipHeader>
-          <TooltipBody>
-            Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit.
-            Donec sodales augue eu viverra tempus.
-          </TooltipBody>
-          <TooltipFooter>
-            <Button>Action 1</Button>
-            <Button
-              // colors="white"
-              wrapperClassName="text-white outline-0"
-            >
-              Action 2
-            </Button>
-          </TooltipFooter>
+          <TooltipHeader>{headingText}</TooltipHeader>
+          <TooltipBody>{bodyText}</TooltipBody>
         </>
       )
     },
@@ -176,12 +165,7 @@ export {
 // CustomTooltip tooltip start
 CustomTooltip.args = {
   theme: TP_TOOLTIP_THEME[1],
-  content: (
-    <TooltipBody wrapperClassName="mb-0">
-      Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-      sodales augue eu viverra tempus.
-    </TooltipBody>
-  )
+  content: <TooltipBody wrapperClassName="mb-0">{bodyText}</TooltipBody>
 };
 // CustomTooltip tooltip end
 
@@ -190,20 +174,8 @@ DarkTheme.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <TooltipHeader>This is a tooltip heading</TooltipHeader>
-      <TooltipBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </TooltipBody>
-      <TooltipFooter>
-        <Button>Action 1</Button>
-        <Button
-          colors="white"
-          wrapperClassName="bg-base-600 text-white outline-0"
-        >
-          Action 2
-        </Button>
-      </TooltipFooter>
+      <TooltipHeader>{headingText}</TooltipHeader>
+      <TooltipBody>{bodyText}</TooltipBody>
     </>
   )
 };
@@ -213,31 +185,8 @@ DarkTheme.args = {
 LightThemeHyperlink.args = {
   content: (
     <>
-      <TooltipHeader>This is a tooltip heading</TooltipHeader>
-      <TooltipBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </TooltipBody>
-      <TooltipFooter>
-        <Hyperlink
-          wrapperClassName="mr-4 font-normal text-brand-500 underline"
-          isCSR={false}
-          href="https://www.google.com"
-          rel="noreferrer noopener"
-        >
-          Action 1
-        </Hyperlink>
-
-        <Hyperlink
-          wrapperClassName="mr-4 font-normal text-brand-500 underline"
-          isCSR={false}
-          underlined
-          href="https://www.google.com"
-          rel="noreferrer noopener"
-        >
-          Action 1
-        </Hyperlink>
-      </TooltipFooter>
+      <TooltipHeader>{headingText}</TooltipHeader>
+      <TooltipBody>{bodyText}</TooltipBody>
     </>
   )
 };
@@ -248,32 +197,8 @@ DarkThemeHyperlink.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <TooltipHeader>This is a tooltip heading</TooltipHeader>
-      <TooltipBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </TooltipBody>
-      <TooltipFooter>
-        <Hyperlink
-          wrapperClassName="mr-4 font-normal text-base-50 underline"
-          isCSR={false}
-          href="https://www.google.com"
-          rel="noreferrer noopener"
-        >
-          Action 1
-        </Hyperlink>
-        <Hyperlink
-          wrapperClassName="mr-4 font-normal text-base-50 underline"
-          isCSR={false}
-          underlined
-          fontWeight="font-light"
-          color="text-base-50"
-          href="https://www.google.com"
-          rel="noreferrer noopener"
-        >
-          Action 1
-        </Hyperlink>
-      </TooltipFooter>
+      <TooltipHeader>{headingText}</TooltipHeader>
+      <TooltipBody>{bodyText}</TooltipBody>
     </>
   )
 };

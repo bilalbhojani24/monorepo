@@ -17,6 +17,9 @@ import PopoverHeader from '../TooltipHeader';
 import Popover from './index';
 
 const inlineRadio = 'inline-radio';
+const headingText = 'This is a tooltip heading';
+const bodyText =
+  'Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec sodales augue eu viverra tempus.';
 
 const defaultConfig = {
   title: 'Application/Components/Popover',
@@ -64,7 +67,7 @@ const defaultConfig = {
       option: { type: null },
       defaultValue: (
         <>
-          <PopoverHeader>This is a tooltip heading</PopoverHeader>
+          <PopoverHeader>{headingText}</PopoverHeader>
           <PopoverBody>
             Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit.
             Donec sodales augue eu viverra tempus.
@@ -193,11 +196,8 @@ DarkTheme.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <PopoverHeader>This is a tooltip heading</PopoverHeader>
-      <PopoverBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </PopoverBody>
+      <PopoverHeader>{headingText}</PopoverHeader>
+      <PopoverBody>{bodyText}</PopoverBody>
       <PopoverFooter>
         <Button>Action 1</Button>
         <Button
@@ -216,11 +216,8 @@ DarkTheme.args = {
 LightThemeHyperlink.args = {
   content: (
     <>
-      <PopoverHeader>This is a tooltip heading</PopoverHeader>
-      <PopoverBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </PopoverBody>
+      <PopoverHeader>{headingText}</PopoverHeader>
+      <PopoverBody>{bodyText}</PopoverBody>
       <PopoverFooter>
         <Hyperlink
           wrapperClassName="mr-4 font-normal text-brand-600 underline"
@@ -249,11 +246,8 @@ DarkThemeHyperlink.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <PopoverHeader>This is a tooltip heading</PopoverHeader>
-      <PopoverBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </PopoverBody>
+      <PopoverHeader>{headingText}</PopoverHeader>
+      <PopoverBody>{bodyText}</PopoverBody>
       <PopoverFooter>
         <Hyperlink
           wrapperClassName="mr-4 font-normal text-base-50 underline"
