@@ -87,7 +87,7 @@ const MapFields = () => {
 
         return (
           <TMSelectMenu
-            triggerWrapperClassName="border-none shadow-none pr-6 w-1/2 font-medium text-base-900 text-sm"
+            triggerWrapperClassName="border-none shadow-none pr-6 max-w-full font-medium text-base-900 text-sm"
             checkPosition="right"
             defaultValue={defaultValue}
             options={allowedValueMapper[value]?.allowedValueDisplayOptions}
@@ -232,9 +232,9 @@ const MapFields = () => {
                       key={col.key}
                       variant="header"
                       wrapperClassName={twClassNames(
-                        'text-base-500 text-xs font-normal px-8',
+                        'text-base-500 text-xs font-normal px-7 w-1/3',
                         {
-                          'px-10': index === 2
+                          'px-5': index === 2
                         }
                       )}
                     >
@@ -260,7 +260,7 @@ const MapFields = () => {
                           ) && showSelectMenuErrorInMapFields
                             ? 'border-danger-400'
                             : '',
-                          'border-none shadow-none pr-6 w-3/5')
+                          'border-none shadow-none pr-6 w-full')
                         }
                         checkPosition="right"
                         options={row.mappedField.displayOptions}
@@ -278,7 +278,11 @@ const MapFields = () => {
                         onChange={handleSelectMenuChange(row.field)}
                       />
                     </TableCell>
-                    <TableCell wrapperClassName="py-1 w-1/5 px-10">
+                    <TableCell
+                      wrapperClassName={twClassNames(
+                        'py-1 w-1/5 px-5 max-w-[120px]'
+                      )}
+                    >
                       {getMappingForLastCol(
                         row.field,
                         row.mappedValue,
