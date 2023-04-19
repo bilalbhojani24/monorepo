@@ -117,6 +117,4 @@ export const O11yStackedListCommon = (props) => (
   <StackedListCommon {...props} />
 );
 
-export const O11yMediaPlayerControlPanel = (props) => <div {...props} />;
-
 export { O11yComboBox, O11yHeader, O11ySwitcher };

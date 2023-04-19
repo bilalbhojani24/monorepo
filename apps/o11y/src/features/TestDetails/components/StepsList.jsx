@@ -30,7 +30,7 @@ const StepsList = memo(({ steps, onClickStep }) => {
         }
       }}
     >
-      <O11yDropdownTrigger wrapperClassName="h-8">
+      <O11yDropdownTrigger wrapperClassName="h-8 items-center">
         <MdOutlineMenu className="text-base-500 mr-2 h-4 w-4" />
         <span className="text-base-700 text-xs font-medium leading-4">
           Steps
