@@ -1,44 +1,33 @@
 import React, { useRef } from 'react';
 import { useResizeObserver } from '@browserstack/hooks';
-import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import MainContainer from './Containers/MainContainer';
 import NetworkProvider from './state/NetworkProvider';
 
-// import './styles/HARViewer.scss';
-
 const NetworkViewer = ({
   data,
-  scrollTimeStamp,
+  logsURL,
+  fetchOptions,
   onRequestSelect,
   onProcessingDone,
-  scrollRequestPosition,
   containerClassName,
-  showFooter,
   isResponseCaptured,
-  logsURL,
   isResponseNotCapturedDueToCaps,
-  showWaterfall,
-  memoizationKey,
-  appAutomateFramework
+  showWaterfall
 }) => {
   const parentContainerRef = useRef(null);
   const parentContainerSize = useResizeObserver(parentContainerRef);
+
   return (
-    <section
-      className={twClassNames('network-viewer', containerClassName)}
-      ref={parentContainerRef}
-    >
+    <section className={containerClassName} ref={parentContainerRef}>
       <NetworkProvider
         data={data}
-        scrollRequestPosition={scrollRequestPosition}
-        scrollTimeStamp={scrollTimeStamp}
+        file={logsURL}
+        fetchOptions={fetchOptions}
         containerWidth={
           parentContainerSize.inlineSize || parentContainerSize.width
         }
-        showSummary={showFooter}
-        memoizationKey={memoizationKey}
         onProcessingDone={onProcessingDone}
       >
         <MainContainer
@@ -46,8 +35,8 @@ const NetworkViewer = ({
           isResponseCaptured={isResponseCaptured}
           isResponseNotCapturedDueToCaps={isResponseNotCapturedDueToCaps}
           logsURL={logsURL}
+          fetchOptions={fetchOptions}
           showWaterfall={showWaterfall}
-          appAutomateFramework={appAutomateFramework}
         />
       </NetworkProvider>
     </section>
@@ -59,15 +48,11 @@ NetworkViewer.propTypes = {
   data: PropTypes.object,
   onRequestSelect: PropTypes.func,
   onProcessingDone: PropTypes.func,
-  scrollRequestPosition: PropTypes.oneOf(['before', 'after', 'near']),
-  scrollTimeStamp: PropTypes.number,
-  showFooter: PropTypes.bool,
   isResponseCaptured: PropTypes.bool,
   isResponseNotCapturedDueToCaps: PropTypes.bool,
   logsURL: PropTypes.string,
   showWaterfall: PropTypes.bool,
-  memoizationKey: PropTypes.string,
-  appAutomateFramework: PropTypes.string
+  fetchOptions: PropTypes.object
 };
 
 NetworkViewer.defaultProps = {
@@ -76,14 +61,10 @@ NetworkViewer.defaultProps = {
   onRequestSelect: () => {},
   onProcessingDone: () => {},
   isResponseCaptured: true,
-  scrollRequestPosition: 'near',
-  scrollTimeStamp: null,
-  showFooter: true,
   logsURL: '',
   isResponseNotCapturedDueToCaps: false,
   showWaterfall: true,
-  memoizationKey: '',
-  appAutomateFramework: ''
+  fetchOptions: {}
 };
 
 export default React.memo(NetworkViewer);

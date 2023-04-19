@@ -1,29 +1,15 @@
-import { HAR_LOG_DATA_KEY } from '../constants';
 import { filterData, prepareViewerData, sortBy } from '../utils';
 
+import axios from './axiosInstance';
 import { initialState } from './reducer';
 import * as types from './types';
 
-const DATA_CACHE = {
-  key: '',
-  data: {}
-};
-
 export const updateData = (dispatch) => async (payload) => {
-  const { data: payloadData, memoizationKey, showSummary } = payload;
-  const log = payloadData?.get(HAR_LOG_DATA_KEY.key);
-  const { entries, pages = [] } = log || {};
-  if (entries) {
-    // intentionally overriding key for the weak map data to be garbage collected
-    // weak map data will be garbage collected if no reference of the key is present
-    HAR_LOG_DATA_KEY.key = {};
-  }
+  const payloadData = payload || {};
+  const { entries, pages = [] } = payloadData;
   const sort = initialState.get('sort');
   let dispatchPayload;
-  if (memoizationKey && memoizationKey === DATA_CACHE.key) {
-    // If the data is present and memoization key matches blindly serve the cached data
-    dispatchPayload = DATA_CACHE.data;
-  } else if (entries) {
+  if (entries) {
     dispatch({ type: types.SET_IS_PROCESSING, payload: true });
     const {
       data = [],
@@ -37,16 +23,11 @@ export const updateData = (dispatch) => async (payload) => {
     dispatchPayload = {
       sortedData,
       totalNetworkTime,
-      showSummary,
       totalRequests,
       totalTransferredSize,
       totalUncompressedSize,
       pages: [...pages]
     };
-    if (memoizationKey) {
-      DATA_CACHE.key = memoizationKey;
-      DATA_CACHE.data = dispatchPayload;
-    }
   }
 
   if (dispatchPayload) {
@@ -143,3 +124,41 @@ export const setContainerWidth = (dispatch) => (payload) =>
     type: types.SET_CONTAINER_WIDTH,
     payload
   });
+
+export const fetchFileRequest = (dispatch) => (payload) =>
+  dispatch({
+    type: types.FETCH_FILE.REQUEST,
+    payload
+  });
+
+export const fetchFileSuccess = (dispatch) => (payload) =>
+  dispatch({
+    type: types.FETCH_FILE.SUCCESS,
+    payload
+  });
+
+export const fetchFileFailure = (dispatch) => (payload) =>
+  dispatch({
+    type: types.FETCH_FILE.FAILURE,
+    payload
+  });
+
+export const fetchFile =
+  (dispatch) =>
+  (file, options = { withCredentials: true }) => {
+    fetchFileRequest(dispatch)();
+    axios
+      .get(file, options)
+      .then(({ data }) => {
+        if (data && data.log) {
+          updateData(dispatch)(data.log);
+        }
+        fetchFileSuccess(dispatch)();
+      })
+      .catch((error) =>
+        fetchFileFailure(dispatch)({
+          title: 'Error while fetching file',
+          description: error.message
+        })
+      );
+  };

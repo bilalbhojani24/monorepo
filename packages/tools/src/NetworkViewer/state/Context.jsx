@@ -20,7 +20,8 @@ export const useNetwork = () => {
       updateErrorFilter: actions.updateErrorFilter(dispatch, state),
       resetFilters: actions.resetFilters(dispatch, state),
       updateSort: actions.updateSort(dispatch, state),
-      setContainerWidth: actions.setContainerWidth(dispatch, state)
+      setContainerWidth: actions.setContainerWidth(dispatch, state),
+      fetchFile: actions.fetchFile(dispatch, state)
     }),
     [dispatch, state]
   );

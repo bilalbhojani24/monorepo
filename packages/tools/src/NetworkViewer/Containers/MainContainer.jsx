@@ -7,11 +7,13 @@ import { useNetwork } from '../state/Context';
 import FilterContainer from './FilterContainer';
 import NetworkTableContainer from './NetworkTableContainer';
 import ReqDetailContainer from './ReqDetailContainer';
+import StateHandler from './StateHandler';
 
 const MainContainer = ({
   onRequestSelect,
   isResponseCaptured,
   logsURL,
+  fetchOptions,
   isResponseNotCapturedDueToCaps,
   showWaterfall,
   appAutomateFramework
@@ -19,28 +21,34 @@ const MainContainer = ({
   const { state } = useNetwork();
   const showReqDetail = state.get('showReqDetail');
   const isProcessing = state.get('isProcessing');
+  const isLoading = state.get('loading');
+  const hasError = state.get('error');
 
   return (
-    <div
-      className={twClassNames('har-main-container', {
-        'har-main-container--disabled': isProcessing
-      })}
-    >
-      <FilterContainer logsURL={logsURL} />
-      <section className="har-main-container__table-wrapper">
-        <NetworkTableContainer
-          onRequestSelect={onRequestSelect}
-          showWaterfall={showWaterfall}
-          appAutomateFramework={appAutomateFramework}
-        />
-        {showReqDetail && (
-          <ReqDetailContainer
-            isResponseCaptured={isResponseCaptured}
-            isResponseNotCapturedDueToCaps={isResponseNotCapturedDueToCaps}
+    <div>
+      <div
+        className={twClassNames({
+          'pointer-events-none': isProcessing || isLoading || hasError
+        })}
+      >
+        <FilterContainer logsURL={logsURL} />
+      </div>
+      <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
+        <section className="flex flex-wrap">
+          <NetworkTableContainer
+            onRequestSelect={onRequestSelect}
+            showWaterfall={showWaterfall}
             appAutomateFramework={appAutomateFramework}
           />
-        )}
-      </section>
+          {showReqDetail && (
+            <ReqDetailContainer
+              isResponseCaptured={isResponseCaptured}
+              isResponseNotCapturedDueToCaps={isResponseNotCapturedDueToCaps}
+              appAutomateFramework={appAutomateFramework}
+            />
+          )}
+        </section>
+      </StateHandler>
     </div>
   );
 };
@@ -50,6 +58,7 @@ MainContainer.propTypes = {
   isResponseCaptured: PropTypes.bool.isRequired,
   logsURL: PropTypes.string.isRequired,
   isResponseNotCapturedDueToCaps: PropTypes.bool.isRequired,
+  fetchOptions: PropTypes.object.isRequired,
   showWaterfall: PropTypes.bool,
   appAutomateFramework: PropTypes.string
 };

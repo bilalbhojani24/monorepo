@@ -30,7 +30,9 @@ const initialState = new Map({
   reqDetail: null,
   containerWidth: 0,
   showSummary: false,
-  isProcessing: false
+  isProcessing: false,
+  error: null,
+  loading: false
 });
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -226,6 +228,21 @@ const reducer = (state = initialState, { type, payload }) => {
     case types.SET_IS_PROCESSING: {
       return state.withMutations((newState) => {
         newState.set('isProcessing', payload);
+      });
+    }
+    case types.FETCH_FILE.REQUEST: {
+      return state.withMutations((newState) => {
+        newState.set('error', null).set('loading', true);
+      });
+    }
+    case types.FETCH_FILE.SUCCESS: {
+      return state.withMutations((newState) => {
+        newState.set('error', null).set('loading', false);
+      });
+    }
+    case types.FETCH_FILE.FAILURE: {
+      return state.withMutations((newState) => {
+        newState.set('error', payload).set('loading', false);
       });
     }
     default:
