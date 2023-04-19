@@ -70,7 +70,7 @@ const ComboboxBadgeTrigger = ({
       <Combobox.Button
         as="div"
         className={twClassNames(
-          'border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-2 focus-within:outline-none focus-within:ring-1 py-2 rounded-md',
+          'cursor-pointer border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-2 focus-within:outline-none focus-within:ring-1 py-2 rounded-md',
           {
             'pr-2 focus-within:border-danger-600 focus-within:ring-danger-600':
               errorText,
@@ -82,6 +82,7 @@ const ComboboxBadgeTrigger = ({
         onClick={(e) => {
           keepDrawerOpen(e);
         }}
+        aria-hidden="true"
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
 
@@ -116,7 +117,7 @@ const ComboboxBadgeTrigger = ({
                 placeholder: isLoading ? null : placeholder
               })}
               className={twClassNames(
-                'focus:ring-0 focus-outline-0 focus-border-none border-0 sm:text-sm p-0 w-full',
+                'cursor-pointer focus:ring-0 focus-outline-0 focus-border-none border-0 sm:text-sm p-0 w-full',
                 {
                   'border-base-200 bg-base-50 text-base-500': disabled
                 }
@@ -160,12 +161,7 @@ const ComboboxBadgeTrigger = ({
             </span>
           )}
         </div>
-        <Combobox.Button
-          className="absolute inset-y-0 right-1 flex w-full items-center justify-end rounded-r-md focus:outline-none"
-          onClick={(e) => {
-            keepDrawerOpen(e);
-          }}
-        >
+        <Combobox.Button className="absolute inset-y-0 right-1 flex items-center justify-end rounded-r-md focus:outline-none">
           <ChevronUpDownIcon
             className="text-base-400 h-5 w-5"
             aria-hidden="true"
