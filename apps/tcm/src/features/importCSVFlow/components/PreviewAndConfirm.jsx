@@ -107,14 +107,14 @@ const PreviewAndConfirm = () => {
             />
             <TMAccordionPanel wrapperClassName={twClassNames('pl-0')}>
               <div className="border-base-300 mt-2 flex flex-col rounded-md border bg-white p-4">
-                <div className="flex w-full justify-between">
+                <div className="flex w-full justify-between gap-4">
                   <PreviewAndConfirmSingleNode
                     text="Folder"
-                    descWrapperClassName="font-semibold"
-                    wrapperClassName="basis-1/3"
+                    descWrapperClassName="font-semibold flex-wrap break-all"
+                    wrapperClassName="w-1/3"
                     description={
                       <div className="flex">
-                        <MdFolderOpen className="text-brand-500 mr-1 h-5 w-5" />
+                        <MdFolderOpen className="text-brand-500 mr-1 h-5 w-5 shrink-0" />
                         {data?.test_case_folder_id}
                       </div>
                     }
@@ -122,13 +122,13 @@ const PreviewAndConfirm = () => {
                   <PreviewAndConfirmSingleNode
                     text="Template Type"
                     descWrapperClassName="font-semibold"
-                    wrapperClassName="basis-1/3"
+                    wrapperClassName="w-1/3"
                     description={formatTemplate(data?.template)}
                   />
                   <PreviewAndConfirmSingleNode
                     text="Priority"
-                    descWrapperClassName="font-semibold"
-                    wrapperClassName="basis-1/3"
+                    descWrapperClassName="font-semibold flex flex-row items-center"
+                    wrapperClassName="w-1/3"
                     description={formatPriority(data?.priority)}
                   />
                 </div>
