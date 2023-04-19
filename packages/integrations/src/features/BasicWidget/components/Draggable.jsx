@@ -8,6 +8,7 @@ import { getWidgetRenderPosition } from './helpers';
 
 const DraggableContainer = ({ children, position, positionRef }) => {
   const widgetRef = useRef(null);
+  const windowHeight = window.innerHeight - 16;
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
   const [showWidget, setShowWidget] = useState(false);
@@ -17,17 +18,25 @@ const DraggableContainer = ({ children, position, positionRef }) => {
   }, []);
   useEffect(() => {
     if (refAquired && widgetRef.current) {
-      const [x, y] = getWidgetRenderPosition(
+      const widgetRefClientRect = widgetRef.current?.getBoundingClientRect();
+      const pos = getWidgetRenderPosition(
         position,
         positionRef?.current?.getBoundingClientRect(),
         widgetRef.current?.getBoundingClientRect()
       );
+      let { y } = pos;
+
+      // is widget going out of screen?
+      if (y + widgetRefClientRect.height >= windowHeight) {
+        const overflowY = y + widgetRefClientRect.height - windowHeight + 24;
+        y -= overflowY;
+      }
       setWidgetPosition({
-        x,
+        x: pos.x,
         y
       });
     }
-  }, [position, positionRef, refAquired]);
+  }, [position, positionRef, refAquired, windowHeight]);
 
   useEffect(() => {
     setWidgetPosition(null);
@@ -43,7 +52,7 @@ const DraggableContainer = ({ children, position, positionRef }) => {
     >
       <div
         ref={widgetRef}
-        className={'border-base-200 absolute left-2/4 top-2/4 flex -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-md border border-solid drop-shadow-lg z-10'.concat(
+        className={'border-base-200 absolute flex flex-col overflow-hidden rounded-md border border-solid drop-shadow-lg z-10'.concat(
           showWidget ? '' : ' hidden'
         )}
         style={{

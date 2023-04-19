@@ -11,9 +11,10 @@ import { getWidgetRenderPosition } from './helpers';
 const DraggableResizable = ({ children, position, positionRef }) => {
   const dispatch = useDispatch();
   const widgetRef = useRef(null);
-  const [widgetHeight, setWidgetHeight] = useState(
-    DEFAULT_WIDGET_DIMENSIONS.MAX[1]
-  );
+  const windowHeight = window.innerHeight - 16;
+  // initial widget height should be 70% of the window height
+  const widgetInitialHeight = windowHeight * 0.7;
+  const [widgetHeight, setWidgetHeight] = useState(widgetInitialHeight);
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
   const [showWidget, setShowWidget] = useState(false);
@@ -24,18 +25,45 @@ const DraggableResizable = ({ children, position, positionRef }) => {
 
   useEffect(() => {
     if (refAquired && widgetRef.current) {
-      const [x, y] = getWidgetRenderPosition(
+      const widgetRefClientRect = widgetRef.current?.getBoundingClientRect();
+      const pos = getWidgetRenderPosition(
         position,
         positionRef?.current?.getBoundingClientRect(),
-        widgetRef.current?.getBoundingClientRect()
+        widgetRefClientRect
       );
+      let { y } = pos;
+
+      let newWidgetHeight = null;
+
+      // is widget going out of screen?
+      if (y + widgetRefClientRect.height > windowHeight) {
+        const overflowY = y + widgetRefClientRect.height - windowHeight;
+
+        // find the height to be adjusted
+        newWidgetHeight =
+          widgetRefClientRect.height - overflowY <
+          DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+            ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+            : widgetRefClientRect.height - overflowY;
+
+        // is widget overflowing after height adjustment?
+
+        if (y + newWidgetHeight >= windowHeight) {
+          y -= y + newWidgetHeight - windowHeight + 24;
+        }
+      }
+
       setWidgetPosition({
-        x,
+        x: pos.x,
         y
       });
+
+      if (newWidgetHeight) {
+        setWidgetHeight(newWidgetHeight);
+        dispatch(setWidgetHeightInRedux({ height: newWidgetHeight }));
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refAquired]);
+  }, [dispatch, position, positionRef, refAquired, windowHeight]);
 
   useEffect(() => {
     setWidgetPosition(null);
@@ -78,7 +106,7 @@ const DraggableResizable = ({ children, position, positionRef }) => {
           onResize={onResize}
           resizeHandles={DEFAULT_RESIZE_HANDLE}
           minConstraints={DEFAULT_WIDGET_DIMENSIONS.MIN}
-          maxConstraints={DEFAULT_WIDGET_DIMENSIONS.MAX}
+          maxConstraints={[DEFAULT_WIDGET_DIMENSIONS.MAX[0], windowHeight]}
         >
           <div
             className="h-auto w-full bg-white"
