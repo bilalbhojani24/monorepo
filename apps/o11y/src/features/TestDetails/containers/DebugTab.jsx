@@ -16,6 +16,7 @@ import { LOGS_CONTEXT } from '../contexts/LogsContext';
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import {
   getExceptions,
+  getShowTestDetailsFor,
   getTestDetails,
   getTestMeta
 } from '../slices/selectors';
@@ -40,6 +41,7 @@ const DebugTab = () => {
   const details = useSelector(getTestDetails);
   const testMeta = useSelector(getTestMeta);
   const testExceptions = useSelector(getExceptions);
+  const testRunId = useSelector(getShowTestDetailsFor);
   const [sessionTestToggle, setSessionTestToggle] = useState(false);
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
   const [activeStep, setActiveStep] = useState(0);
@@ -57,6 +59,15 @@ const DebugTab = () => {
       setIsScrolledToBottom(false);
     }
   }, [activeTab.value]);
+
+  useEffect(() => {
+    if (testRunId) {
+      setActiveTab({
+        idx: 0,
+        value: LOGS_INFO_TAB_KEYS.logs
+      });
+    }
+  }, [testRunId]);
 
   useEffect(() => {
     const handleScroll = (event) => {

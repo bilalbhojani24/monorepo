@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { O11yTabs } from 'common/bifrostProxy';
@@ -14,15 +14,17 @@ const HistorySlider = () => {
   const testMeta = useSelector(getTestMeta);
   const testRunId = useSelector(getShowTestDetailsFor);
 
+  const [tabs, setTabs] = useState([]);
   const [activeTab, setActiveTab] = useState({
     idx: 0,
     value: null,
     name: null
   });
 
-  const tabs = useMemo(() => {
+  useEffect(() => {
+    let allTabs = [];
     if (!isEmpty(testMeta.data?.history)) {
-      return testMeta.data?.history.map((testHistory) => ({
+      allTabs = testMeta.data?.history.map((testHistory) => ({
         name: `${testHistory.serialId}`,
         value: testHistory.testRunId,
         icon: () => (
@@ -37,7 +39,7 @@ const HistorySlider = () => {
         )
       }));
     }
-    return [];
+    setTabs(allTabs);
   }, [activeTab.value, testMeta.data?.history]);
 
   useEffect(() => {
