@@ -223,7 +223,7 @@ LightThemeHyperlink.args = {
       </PopoverBody>
       <PopoverFooter>
         <Hyperlink
-          wrapperClassName="mr-4 font-normal text-brand-500 underline"
+          wrapperClassName="mr-4 font-normal text-brand-600 underline"
           isCSR={false}
           href="https://www.google.com"
           rel="noreferrer noopener"
@@ -231,7 +231,7 @@ LightThemeHyperlink.args = {
           Action 1
         </Hyperlink>
         <Hyperlink
-          wrapperClassName="mr-4 font-normal text-brand-500 underline"
+          wrapperClassName="mr-4 font-normal text-brand-600 underline"
           isCSR={false}
           href="https://www.google.com"
           rel="noreferrer noopener"
