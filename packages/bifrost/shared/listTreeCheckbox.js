@@ -1,4 +1,4 @@
-const data = [
+export const sampleListTreeCheckboxData = [
   {
     uuid: '0',
     name: 'file 1',
@@ -97,5 +97,3 @@ const data = [
     ]
   }
 ];
-
-export default data;

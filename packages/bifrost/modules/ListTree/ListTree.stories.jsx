@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import { sampleListTreeCheckboxData } from '../../shared/listTreeCheckbox';
 import Dropdown from '../Dropdown';
 import DropdownOptionGroup from '../DropdownOptionGroup';
 import DropdownOptionItem from '../DropdownOptionItem';
@@ -15,7 +16,6 @@ import {
   ListTreeTargetHierarcyByIndex
 } from '../ListTreeCheckbox';
 import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent';
-import listTeeCheckboxData from '../ListTreeCheckbox/sampleData/listTreeCheckbox';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 import TruncateText from '../TruncateText';
@@ -214,7 +214,7 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
 };
 
 const SearchableSelectableListTree = () => {
-  const [listOfItems, setListOfItems] = useState(listTeeCheckboxData);
+  const [listOfItems, setListOfItems] = useState(sampleListTreeCheckboxData);
   const [selectedValue, setSelectedValue] = useState({});
   const [searchValue, setSearchValue] = useState(''); // Debounce this state for optimal performance
   const onSearchChange = (e) => {
