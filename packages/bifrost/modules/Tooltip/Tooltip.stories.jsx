@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
@@ -140,8 +142,20 @@ const defaultConfig = {
 const Template = (args) => <Tooltip {...args} />;
 const DarkThemeTemplate = (args) => <Tooltip {...args} />;
 
+// adding hover interactions to verify in vrt
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.hover(canvas.getByRole('button'));
+};
+
 const DarkTheme = DarkThemeTemplate.bind({});
+DarkTheme.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.hover(canvas.getByRole('button'));
+};
 
 Primary.parameters = {
   controls: {}
