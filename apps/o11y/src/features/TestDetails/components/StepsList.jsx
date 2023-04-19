@@ -30,13 +30,13 @@ const StepsList = memo(({ steps, onClickStep }) => {
         }
       }}
     >
-      <O11yDropdownTrigger wrapperClassName="h-8">
+      <O11yDropdownTrigger wrapperClassName="h-8 items-center">
         <MdOutlineMenu className="text-base-500 mr-2 h-4 w-4" />
         <span className="text-base-700 text-xs font-medium leading-4">
           Steps
         </span>
       </O11yDropdownTrigger>
-      <O11yDropdownOptionGroup wrapperClassName="w-80">
+      <O11yDropdownOptionGroup wrapperClassName="max-w-lg w-auto">
         {steps.map((step, idx) => (
           <O11yDropdownOptionItem
             key={step}
@@ -44,6 +44,7 @@ const StepsList = memo(({ steps, onClickStep }) => {
               id: idx,
               body: <StepLogItem data={step} />
             }}
+            wrapperClassName="pr-0"
           />
         ))}
       </O11yDropdownOptionGroup>
@@ -89,7 +90,11 @@ export function StepLogItem({ data }) {
           </span>
         </O11yTruncateText>
       </div>
-      {!!data?.duration && <LogItemDuration duration={data.duration} />}
+      {!!data?.duration && (
+        <div className="flex items-center">
+          <LogItemDuration duration={data.duration} />
+        </div>
+      )}
     </div>
   );
 }
