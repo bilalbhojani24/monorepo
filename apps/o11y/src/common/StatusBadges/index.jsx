@@ -4,18 +4,20 @@ import PropTypes from 'prop-types';
 
 import StatusBadgeItem from './StatusBadgeItem';
 
-function StatusBadges({ statusStats, onClickHandler }) {
+function StatusBadges({ statusStats, onClickHandler, size }) {
   return (
     <div className="flex items-center gap-2">
       <StatusBadgeItem
+        size={size}
         text="Passed"
         number={statusStats.passed}
         modifier="success"
-        onClickHandler={(e) =>
-          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.PASS })
-        }
+        onClickHandler={(e) => {
+          onClickHandler({ eventData: e, itemClicked: TEST_STATUS.PASS });
+        }}
       />
       <StatusBadgeItem
+        size={size}
         text="Failed"
         number={statusStats.failed}
         modifier="error"
@@ -24,6 +26,7 @@ function StatusBadges({ statusStats, onClickHandler }) {
         }
       />
       <StatusBadgeItem
+        size={size}
         text="Skipped"
         number={statusStats.skipped}
         modifier="base"
@@ -32,6 +35,7 @@ function StatusBadges({ statusStats, onClickHandler }) {
         }
       />
       <StatusBadgeItem
+        size={size}
         text="Unknown"
         number={statusStats.timeout}
         modifier="warn"
@@ -50,7 +54,8 @@ StatusBadges.propTypes = {
     skipped: PropTypes.number,
     timeout: PropTypes.number
   }),
-  onClickHandler: PropTypes.func
+  onClickHandler: PropTypes.func,
+  size: PropTypes.string
 };
 StatusBadges.defaultProps = {
   statusStats: {
@@ -59,7 +64,8 @@ StatusBadges.defaultProps = {
     skipped: 0,
     timeout: 0
   },
-  onClickHandler: () => {}
+  onClickHandler: () => {},
+  size: 'basic'
 };
 
 export default StatusBadges;

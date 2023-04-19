@@ -1,15 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams
+} from 'react-router-dom';
 import { MdOutlineRefresh, MdSearchOff } from '@browserstack/bifrost';
-import { O11yButton, O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
+import { O11yButton } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
+import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 import { getBuildPath } from 'utils/routeUtils';
 
 import BuildCardDetails from './components/BuildCardDetails';
+import BuildTableHeader from './components/BuildTableHeader';
 import Filters from './components/Filters';
 import FilterPills from './components/Filters/FilterPills';
 import SearchBuilds from './components/SearchBuilds';
@@ -36,6 +44,8 @@ import {
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const activeProject = useSelector(getActiveProject);
   const [updates, setUpdates] = useState();
 
   const { projectNormalisedName } = useParams();
@@ -74,9 +84,12 @@ const AllBuildsPage = () => {
   }, [dispatch, projectNormalisedName]);
 
   const viewAllBuilds = useCallback(() => {
+    navigate({
+      search: ''
+    });
     resetReduxStore(['selected', 'applied', 'buildsData']);
     loadFreshBuildsData();
-  }, [loadFreshBuildsData, resetReduxStore]);
+  }, [loadFreshBuildsData, navigate, resetReduxStore]);
 
   const loadBuildsData = () => {
     if (buildsPagingParamsData.hasNext) {
@@ -88,6 +101,17 @@ const AllBuildsPage = () => {
       );
     }
   };
+
+  useEffect(() => {
+    logOllyEvent({
+      event: 'O11yBuildListingVisited',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        url: window.location.href
+      }
+    });
+  }, [pathname, activeProject]);
 
   useEffect(
     () => () => {
@@ -111,11 +135,17 @@ const AllBuildsPage = () => {
   }, [appliedFilters]);
 
   useEffect(() => {
-    window.pubSub.subscribe(PUSHER_EVENTS.BUILD_STARTED, (data) => {
-      if (projectNormalisedName === data.projectNormalisedName) {
-        setUpdates((prev) => prev + data.updatesCount);
+    const unSubscribe = window.pubSub.subscribe(
+      PUSHER_EVENTS.BUILD_STARTED,
+      (data) => {
+        if (projectNormalisedName === data.projectNormalisedName) {
+          setUpdates((prev) => prev + data.updatesCount);
+        }
       }
-    });
+    );
+    return () => {
+      unSubscribe();
+    };
   }, [projectNormalisedName]);
 
   const handleClickBuildItem = (currentIdx) => {
@@ -142,7 +172,7 @@ const AllBuildsPage = () => {
   return (
     <div className="flex h-full flex-col">
       <div className="border-base-300 flex items-center justify-between border-b px-6 py-5">
-        <h1 className="text-2xl font-bold leading-8">All builds</h1>
+        <h1 className="text-2xl font-bold leading-8">Build Runs</h1>
         {!!updates && (
           <O11yButton
             variant="rounded"
@@ -158,7 +188,7 @@ const AllBuildsPage = () => {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
+      <div className="flex flex-1 flex-col p-6 pt-5">
         <div className="mb-2 flex justify-between">
           <SearchBuilds />
           <Filters />
@@ -202,20 +232,10 @@ const AllBuildsPage = () => {
                 data={singleBuildData}
               />
             )}
-            fixedHeaderContent={() => (
-              <O11yTableRow>
-                <O11yTableCell wrapperClassName="py-3">BUILD</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">TESTS</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">DURATION</O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">
-                  FAILURE CATEGORIES
-                </O11yTableCell>
-                <O11yTableCell wrapperClassName="py-3">
-                  SMART TAGS
-                </O11yTableCell>
-              </O11yTableRow>
-            )}
+            fixedHeaderContent={BuildTableHeader}
             handleRowClick={handleClickBuildItem}
+            tableWrapperClassName="border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0 table-fixed"
+            tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
           />
         )}
       </div>

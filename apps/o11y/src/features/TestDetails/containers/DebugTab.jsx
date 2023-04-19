@@ -11,13 +11,12 @@ import {
 } from 'assets/icons/components';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 
-import { TEST_DETAILS_SLIDEOVER_ELEMENT_ID } from '../constants';
 import { LOGS_CONTEXT } from '../contexts/LogsContext';
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 import {
   getExceptions,
+  getShowTestDetailsFor,
   getTestDetails,
   getTestMeta
 } from '../slices/selectors';
@@ -42,10 +41,9 @@ const DebugTab = () => {
   const details = useSelector(getTestDetails);
   const testMeta = useSelector(getTestMeta);
   const testExceptions = useSelector(getExceptions);
+  const testRunId = useSelector(getShowTestDetailsFor);
   const [sessionTestToggle, setSessionTestToggle] = useState(false);
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
-  const [floatingVideoRightOffset, setFloatingVideoRightOffset] = useState(700);
-  const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
@@ -57,25 +55,19 @@ const DebugTab = () => {
   const [showScrollToBottom, toggleShowScrollToBottom] = useState(false);
 
   useEffect(() => {
-    const slideOverElement = document.getElementById(
-      TEST_DETAILS_SLIDEOVER_ELEMENT_ID
-    );
-    const bstackHeaderElement = document.getElementById(
-      BSTACK_TOPNAV_ELEMENT_ID
-    );
-    if (slideOverElement) {
-      setFloatingVideoRightOffset(slideOverElement.offsetWidth);
-    }
-    if (bstackHeaderElement) {
-      setFloatingVideoTopOffset(bstackHeaderElement.offsetHeight);
-    }
-  }, []);
-
-  useEffect(() => {
     if (activeTab.value === LOGS_INFO_TAB_KEYS.network) {
       setIsScrolledToBottom(false);
     }
   }, [activeTab.value]);
+
+  useEffect(() => {
+    if (testRunId) {
+      setActiveTab({
+        idx: 0,
+        value: LOGS_INFO_TAB_KEYS.logs
+      });
+    }
+  }, [testRunId]);
 
   useEffect(() => {
     const handleScroll = (event) => {
@@ -251,8 +243,6 @@ const DebugTab = () => {
           handleSetCurrentTime,
           handleLogDurationClick,
           handleSessionToggle,
-          floatingVideoTopOffset,
-          floatingVideoRightOffset,
           setActiveStep,
           setTotalSteps,
           activeTab,
@@ -265,10 +255,10 @@ const DebugTab = () => {
           floatingVideoRef={floatingVideoComponentRef}
         />
         <TestsLogsInfoTabs />
-        {activeTab.value === LOGS_INFO_TAB_KEYS.logs && showStepNavigation && (
-          <div className="sticky bottom-0 z-20 w-full">
+        {activeTab.value === LOGS_INFO_TAB_KEYS.logs && (
+          <>
             {showScrollToBottom && (
-              <div className="mb-2 flex items-center justify-center">
+              <div className="sticky bottom-10 left-1/2 z-30 mb-2 w-max -translate-x-1/2">
                 <O11yButton
                   variant="rounded"
                   wrapperClassName=""
@@ -287,59 +277,61 @@ const DebugTab = () => {
                 </O11yButton>
               </div>
             )}
-            <div className="flex items-center justify-between bg-white p-2">
-              <div className="flex items-center gap-6">
-                <O11yButton
-                  variant="minimal"
-                  wrapperClassName=""
-                  icon={<MdArrowDownward className="h-4 w-4" />}
-                  onClick={handleNextStep}
-                  disabled={activeStep === totalSteps}
-                  size="small"
-                  colors="white"
-                >
-                  <span className="text-xs font-medium leading-4">
-                    Next step
-                  </span>
-                </O11yButton>
-                <O11yButton
-                  variant="minimal"
-                  wrapperClassName=""
-                  icon={<MdArrowUpward className="h-4 w-4" />}
-                  onClick={handlePrevStep}
-                  disabled={activeStep <= 0}
-                  size="small"
-                  colors="white"
-                  iconPlacement="end"
-                >
-                  <span className="text-xs font-medium leading-4">
-                    Previous step
-                  </span>
-                </O11yButton>
-              </div>
-
-              {details.data?.browserstackSessionUrl && (
-                <div>
-                  <O11yHyperlink
-                    href={details.data.browserstackSessionUrl}
-                    target="_blank"
-                    onClick={() =>
-                      handleLogTDInteractionEvent({
-                        interaction: 'browserstack_session_clicked'
-                      })
-                    }
+            {showStepNavigation && (
+              <div className="sticky bottom-0 z-20 flex w-full items-center justify-between bg-white p-2">
+                <div className="flex items-center gap-6">
+                  <O11yButton
+                    variant="minimal"
+                    wrapperClassName=""
+                    icon={<MdArrowDownward className="h-4 w-4" />}
+                    onClick={handleNextStep}
+                    disabled={activeStep === totalSteps}
+                    size="small"
+                    colors="white"
                   >
-                    <div className="flex gap-1">
-                      <span className="text-base-700 text-xs font-medium leading-4">
-                        BrowserStack session
-                      </span>
-                      <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
-                    </div>
-                  </O11yHyperlink>
+                    <span className="text-xs font-medium leading-4">
+                      Next step
+                    </span>
+                  </O11yButton>
+                  <O11yButton
+                    variant="minimal"
+                    wrapperClassName=""
+                    icon={<MdArrowUpward className="h-4 w-4" />}
+                    onClick={handlePrevStep}
+                    disabled={activeStep <= 0}
+                    size="small"
+                    colors="white"
+                    iconPlacement="end"
+                  >
+                    <span className="text-xs font-medium leading-4">
+                      Previous step
+                    </span>
+                  </O11yButton>
                 </div>
-              )}
-            </div>
-          </div>
+
+                {details.data?.browserstackSessionUrl && (
+                  <div>
+                    <O11yHyperlink
+                      href={details.data.browserstackSessionUrl}
+                      target="_blank"
+                      onClick={() =>
+                        handleLogTDInteractionEvent({
+                          interaction: 'browserstack_session_clicked'
+                        })
+                      }
+                    >
+                      <div className="flex gap-1">
+                        <span className="text-base-700 text-xs font-medium leading-4">
+                          BrowserStack session
+                        </span>
+                        <MdOutlineOpenInNew className="text-base-500 h-4 w-4" />
+                      </div>
+                    </O11yHyperlink>
+                  </div>
+                )}
+              </div>
+            )}
+          </>
         )}
       </LOGS_CONTEXT.Provider>
     </div>

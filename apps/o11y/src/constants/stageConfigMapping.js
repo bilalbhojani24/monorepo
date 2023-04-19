@@ -11,7 +11,7 @@ export default {
     signInUrl: `${STAGING_CONFIG('').apiUrl}/api/v1/auth/start-sso`,
     signOutUrl: STAGING_CONFIG('devtestops').signOutUrl,
     apiUrl: 'https://localhost:8082/testops',
-    baseDocUrl: STAGING_CONFIG('').baseUrl,
+    baseUrl: STAGING_CONFIG('').baseUrl,
     withCredentials: false,
     isMocker: true
   },

@@ -96,7 +96,7 @@ const Button = (
       <span className={effectiveChildrenClasses}>
         {iconPlacement === BUTTON_ICON_PLACEMENT[0] && (
           <Loader
-            wrapperStyle={`mx-auto ${
+            wrapperClassName={`mx-auto ${
               BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
             }`}
             height={smallButtons(size) ? 'h-4' : 'h-5'}
@@ -106,7 +106,7 @@ const Button = (
         {isIconOnlyButton === false && loaderText}
         {iconPlacement === BUTTON_ICON_PLACEMENT[1] && (
           <Loader
-            wrapperStyle={`mx-auto ${
+            wrapperClassName={`mx-auto ${
               BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
             }`}
             height={smallButtons(size) ? 'h-4' : 'h-5'}

@@ -77,6 +77,9 @@ const { actions, reducer } = createSlice({
     setSelectedFilters: (state, { payload }) => {
       state.selectedFilters = { ...state.selectedFilters, ...payload };
     },
+    cancelSelectedFilters: (state) => {
+      state.selectedFilters = { ...state.appliedFilters };
+    },
     setAppliedFilters: (state, { payload }) => {
       state.appliedFilters = { ...state.appliedFilters, ...payload };
     },
@@ -121,7 +124,8 @@ export const {
   setAppliedFilters,
   setSelectedFilters,
   setFiltersMetaData,
-  findAndUpdateBuilds
+  findAndUpdateBuilds,
+  cancelSelectedFilters
 } = actions;
 
 export default reducer;

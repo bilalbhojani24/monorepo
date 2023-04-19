@@ -12,7 +12,6 @@ import {
   EmptyState,
   Hyperlink,
   InputField,
-  MediaPlayerControlPanel,
   Metadata,
   Modal,
   ModalBody,
@@ -23,6 +22,7 @@ import {
   PopoverBody,
   PopoverFooter,
   RadioGroup,
+  RadioSmallCards,
   SelectMenu,
   SelectMenuLabel,
   SelectMenuOptionGroup,
@@ -53,6 +53,7 @@ import O11yComboBox from './components/O11yComboBox';
 import O11yHeader from './components/O11yHeader';
 import O11ySwitcher from './components/O11ySwitcher';
 
+export const O11yAccordion = (props) => <Accordion {...props} />;
 export const O11yBadge = (props) => <Badge {...props} />;
 export const O11yCheckbox = (props) => <Checkbox {...props} />;
 export const O11yTable = (props) => <Table {...props} />;
@@ -85,6 +86,7 @@ export const O11yPopover = (props) => <Popover {...props} />;
 export const O11yPopoverBody = (props) => <PopoverBody {...props} />;
 export const O11yPopoverFooter = (props) => <PopoverFooter {...props} />;
 export const O11yRadioGroup = (props) => <RadioGroup {...props} />;
+export const O11yRadioSmallCards = (props) => <RadioSmallCards {...props} />;
 export const O11ySelectMenu = (props) => <SelectMenu {...props} />;
 export const O11ySelectMenuLabel = (props) => <SelectMenuLabel {...props} />;
 export const O11ySelectMenuOptionGroup = (props) => (
@@ -116,10 +118,6 @@ export const O11yStackedListGroup = (props) => <StackedListGroup {...props} />;
 export const O11yStackedListItem = (props) => <StackedListItem {...props} />;
 export const O11yStackedListCommon = (props) => (
   <StackedListCommon {...props} />
-);
-
-export const O11yMediaPlayerControlPanel = (props) => (
-  <MediaPlayerControlPanel {...props} />
 );
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };

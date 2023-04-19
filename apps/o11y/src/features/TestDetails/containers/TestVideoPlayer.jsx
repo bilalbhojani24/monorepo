@@ -3,35 +3,44 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLatestRef } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
+import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
+import { differenceInDays } from 'date-fns';
 import isEmpty from 'lodash/isEmpty';
 
 import DraggableComponent from '../components/DraggableComponent';
 import VideoPlayer from '../components/VideoPlayer';
+import { TEST_DETAILS_SLIDEOVER_ELEMENT_ID } from '../constants';
 import { useLogsContext } from '../contexts/LogsContext';
-import { clearTestDetails, getTestDetailsData } from '../slices/dataSlice';
+import {
+  clearTestDetails,
+  getTestDetailsData,
+  setIsValidVideo
+} from '../slices/dataSlice';
 import {
   getCurrentTestRunId,
-  // getExceptions,
+  getExceptions,
   getTestDetails
 } from '../slices/selectors';
 import { clearExceptions } from '../slices/uiSlice';
+
+const MAX_EXPIRY_DATE = 30;
 
 const TestVideoPlayer = () => {
   const dispatch = useDispatch();
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const details = useSelector(getTestDetails);
-  // const exceptions = useSelector(getExceptions);
-  const {
-    sessionTestToggle,
-    floatingVideoTopOffset,
-    floatingVideoRightOffset
-  } = useLogsContext();
+  const exceptions = useSelector(getExceptions);
+  const { sessionTestToggle } = useLogsContext();
 
   const [videoSeekTime, setVideoSeekTime] = useState(-1);
   const [showFloatingWindow, setShowFloatingWindow] = useState(false);
   const [isMainVideoPaused, setIsMainVideoPaused] = useState(true);
   const [isFloatingVideoPaused, setIsFloatingVideoPaused] = useState(true);
-  const [isVideoMetaLoaded, setIsVideoMetaLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isFailed, setIsFailed] = useState(false);
+  const [floatingVideoRightOffset, setFloatingVideoRightOffset] = useState(700);
+  const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
+  const [isVideoPlayed, setIsVideoPlayed] = useState(false);
 
   const videoRef = useRef(null);
   const containerRef = useRef(null);
@@ -52,6 +61,25 @@ const TestVideoPlayer = () => {
     };
   }, [dispatch, currentTestRunId]);
 
+  useEffect(() => {
+    const slideOverElement = document.getElementById(
+      TEST_DETAILS_SLIDEOVER_ELEMENT_ID
+    );
+    const bstackHeaderElement = document.getElementById(
+      BSTACK_TOPNAV_ELEMENT_ID
+    );
+    if (slideOverElement) {
+      setFloatingVideoRightOffset(slideOverElement.offsetWidth);
+    }
+    if (bstackHeaderElement) {
+      setFloatingVideoTopOffset(bstackHeaderElement.offsetHeight);
+    }
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, [sessionTestToggle]);
+
   const videoUrl = useMemo(
     () =>
       `${details.data.videoLogs?.url}${
@@ -69,12 +97,32 @@ const TestVideoPlayer = () => {
     ]
   );
 
+  const isVideoExpired = useMemo(() => {
+    if (details.data.videoLogs?.startTimeStamp) {
+      return (
+        differenceInDays(
+          new Date(),
+          new Date(details.data.videoLogs.startTimeStamp)
+        ) > MAX_EXPIRY_DATE
+      );
+    }
+    return false;
+  }, [details.data.videoLogs?.startTimeStamp]);
+
+  useEffect(() => {
+    if (isVideoExpired || isFailed) {
+      dispatch(setIsValidVideo(false));
+    } else {
+      dispatch(setIsValidVideo(true));
+    }
+  }, [dispatch, isFailed, isVideoExpired]);
+
   const handleNormalVideoToPiPSync = () => {
     const videoComponent = videoRef.current;
     const floatingVideoComponent = floatingVideoComponentRef.current;
     if (videoComponent && floatingVideoComponent) {
-      floatingVideoComponent.currentTime = videoComponent.currentTime;
-      if (videoComponent?.paused) {
+      floatingVideoComponent.seekTo(videoComponent.getCurrentTime());
+      if (isMainVideoPaused) {
         setIsFloatingVideoPaused(true);
       } else {
         setIsFloatingVideoPaused(false);
@@ -87,8 +135,8 @@ const TestVideoPlayer = () => {
     const videoComponent = videoRef.current;
     const floatingVideoComponent = floatingVideoComponentRef.current;
     if (videoComponent && floatingVideoComponent) {
-      videoComponent.currentTime = floatingVideoComponent.currentTime;
-      if (floatingVideoComponent?.paused) {
+      videoComponent.seekTo(floatingVideoComponent.getCurrentTime());
+      if (isFloatingVideoPaused) {
         setIsMainVideoPaused(true);
       } else {
         setIsMainVideoPaused(false);
@@ -98,7 +146,13 @@ const TestVideoPlayer = () => {
   };
 
   const handleMetadataLoaded = () => {
-    setIsVideoMetaLoaded(true);
+    setIsLoading(false);
+    setIsFailed(false);
+  };
+
+  const handleMetadataFailed = () => {
+    setIsLoading(false);
+    setIsFailed(true);
   };
 
   const handleFloatingVideoClose = () => {
@@ -107,7 +161,7 @@ const TestVideoPlayer = () => {
   };
 
   const handleFloatingVideoShow = () => {
-    if (!isVideoMetaLoaded) {
+    if (isLoading) {
       return;
     }
     handleNormalVideoToPiPSync();
@@ -123,9 +177,17 @@ const TestVideoPlayer = () => {
 
     // isIntersecting is true when element and viewport are overlapping
     // isIntersecting is false when element and viewport don't overlap
-    if (entries[0].isIntersecting === true && !fullscreenElement) {
+    if (
+      entries[0].isIntersecting === true &&
+      !fullscreenElement &&
+      showFloatingWindow
+    ) {
       handleFloatingVideoClose();
-    } else if (entries[0].isIntersecting !== true && !fullscreenElement) {
+    } else if (
+      entries[0].isIntersecting !== true &&
+      !fullscreenElement &&
+      !isLoading
+    ) {
       handleFloatingVideoShow();
     }
   });
@@ -145,8 +207,8 @@ const TestVideoPlayer = () => {
 
   if (details.isLoading) {
     return (
-      <div className="flex h-full w-full items-center justify-center">
-        <O11yLoader />
+      <div className="flex h-80 w-full items-center justify-center">
+        <O11yLoader loaderClass="text-base-300 fill-base-400" />
       </div>
     );
   }
@@ -156,7 +218,7 @@ const TestVideoPlayer = () => {
   }
 
   return (
-    <div>
+    <div key={videoUrl}>
       <VideoPlayer
         ref={videoRef}
         containerRef={containerRef}
@@ -165,16 +227,23 @@ const TestVideoPlayer = () => {
         onMetadataLoaded={handleMetadataLoaded}
         isPaused={isMainVideoPaused}
         setIsPaused={setIsMainVideoPaused}
+        exceptions={exceptions}
+        isLoading={isLoading}
+        hasError={isFailed}
+        onMetadataFailed={handleMetadataFailed}
+        isVideoPlayed={isVideoPlayed}
+        onPlayCallback={() => setIsVideoPlayed(true)}
+        isVideoExpired={isVideoExpired}
       />
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
         className={twClassNames('w-auto', {
-          hidden: !showFloatingWindow
+          hidden: !showFloatingWindow || isFailed || isVideoExpired
         })}
         style={{
           right: floatingVideoRightOffset,
           top: floatingVideoTopOffset,
-          width: 'auto'
+          width: window.innerWidth - floatingVideoRightOffset
         }}
       >
         <VideoPlayer
@@ -184,6 +253,13 @@ const TestVideoPlayer = () => {
           onMetadataLoaded={() => {}}
           isPaused={isFloatingVideoPaused}
           setIsPaused={setIsFloatingVideoPaused}
+          exceptions={exceptions}
+          isLoading={isLoading}
+          hasError={isFailed}
+          onMetadataFailed={handleMetadataFailed}
+          isVideoPlayed={isVideoPlayed}
+          onPlayCallback={() => setIsVideoPlayed(true)}
+          isVideoExpired={isVideoExpired}
         />
       </DraggableComponent>
     </div>

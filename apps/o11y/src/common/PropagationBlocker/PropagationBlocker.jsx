@@ -10,7 +10,8 @@ const componentType = {
   h4: 'h4',
   h5: 'h5',
   h6: 'h6',
-  li: 'li'
+  li: 'li',
+  a: 'a'
 };
 export default function PropagationBlocker(props) {
   const { children, onClick, variant } = props;
