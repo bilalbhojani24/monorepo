@@ -13,7 +13,8 @@ export default {
     signInUrl: 'https://local.bsstag.com/users/sign_in',
     apiUrl: 'https://localhost:8082/testops',
     baseDocUrl: STAGING_CONFIG('').baseDocUrl,
-    withCredentials: false
+    withCredentials: false,
+    isMocker: true
   },
   'local-staging': {
     cookiePrefix: `development${COOKIE_SEPARATOR}`,

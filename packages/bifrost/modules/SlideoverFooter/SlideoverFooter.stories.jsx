@@ -17,23 +17,23 @@ const defaultConfig = {
             "import SlideoverFooter from '@browserstack/bifrost'"
           }
         />
-      ),
-    },
+      )
+    }
   },
 
   argTypes: {
-    backgroundColorClass: {
+    wrapperClassName: {
       option: { type: 'string' },
-      defaultValue: '',
+      defaultValue: ''
     },
     isBorder: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     position: {
       options: POSITION,
       controls: { type: 'inline-radio' },
-      defaultValue: POSITION[0],
+      defaultValue: POSITION[0]
     },
     children: {
       option: { type: null },
@@ -42,10 +42,10 @@ const defaultConfig = {
           <Button colors="white">Cancel</Button>
           <Button colors="danger">Deactivate</Button>
         </>
-      ),
-    },
+      )
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <SlideoverFooter {...args} />;
 const SingleButtonTemplate = (args) => <SlideoverFooter {...args} />;
@@ -57,7 +57,7 @@ const SingleButton = SingleButtonTemplate.bind({});
 const FullWidthButton = FullWidthButtonTemplate.bind({});
 const RightAlignedButton = RightAlignedButtonTemplate.bind({});
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
@@ -70,7 +70,7 @@ SingleButton.args = {
         Deactivate
       </Button>
     </>
-  ),
+  )
 };
 
 FullWidthButton.args = {
@@ -83,7 +83,7 @@ FullWidthButton.args = {
         Deactivate
       </Button>
     </>
-  ),
+  )
 };
 
 RightAlignedButton.args = {
@@ -93,5 +93,5 @@ RightAlignedButton.args = {
       <Button colors="danger">Deactivate</Button>
     </>
   ),
-  position: POSITION[1],
+  position: POSITION[1]
 };
