@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { O11yTabs } from 'common/bifrostProxy';
@@ -14,7 +14,6 @@ const HistorySlider = () => {
   const testMeta = useSelector(getTestMeta);
   const testRunId = useSelector(getShowTestDetailsFor);
 
-  const [tabs, setTabs] = useState([]);
   const [activeTab, setActiveTab] = useState({
     idx: 0,
     value: null,
@@ -22,9 +21,26 @@ const HistorySlider = () => {
   });
 
   useEffect(() => {
-    let allTabs = [];
+    const allTestHistory = testMeta.data?.history;
+    if (!isEmpty(allTestHistory)) {
+      const activeTestHistoryIdx = allTestHistory.findIndex(
+        (testHistory) => testHistory.testRunId === Number(testRunId)
+      );
+
+      if (activeTestHistoryIdx !== -1) {
+        const activeTestHistory = allTestHistory[activeTestHistoryIdx];
+        setActiveTab({
+          idx: activeTestHistoryIdx,
+          value: activeTestHistory.testRunId,
+          name: `${activeTestHistory.serialId}`
+        });
+      }
+    }
+  }, [testMeta.data?.history, testRunId]);
+
+  const tabs = useMemo(() => {
     if (!isEmpty(testMeta.data?.history)) {
-      allTabs = testMeta.data?.history.map((testHistory) => ({
+      return testMeta.data?.history.map((testHistory) => ({
         name: `${testHistory.serialId}`,
         value: testHistory.testRunId,
         icon: () => (
@@ -39,26 +55,8 @@ const HistorySlider = () => {
         )
       }));
     }
-    setTabs(allTabs);
+    return [];
   }, [activeTab.value, testMeta.data?.history]);
-
-  useEffect(() => {
-    const allTestHistory = testMeta.data?.history;
-    if (!isEmpty(allTestHistory)) {
-      const activeTestHistoryIdx = allTestHistory.findIndex(
-        (testHistory) => testHistory.testRunId === testRunId
-      );
-
-      if (activeTestHistoryIdx !== -1) {
-        const activeTestHistory = allTestHistory[activeTestHistoryIdx];
-        setActiveTab({
-          idx: activeTestHistoryIdx,
-          value: activeTestHistory.testRunId,
-          name: `${activeTestHistory.serialId}`
-        });
-      }
-    }
-  }, [testMeta.data?.history, testRunId]);
 
   const onTabChange = useCallback(
     (tabInfo) => {
