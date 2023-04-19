@@ -42,6 +42,10 @@ import InputGroupSelectMenuTrigger from './modules/InputField/components/InputGr
 import InputField from './modules/InputField/index';
 import KeyValue from './modules/KeyValuePair/index';
 import ListTree from './modules/ListTree';
+import {
+  ListTreeCheckboxHelper,
+  ListTreeSelectionHelper
+} from './modules/ListTreeCheckbox/index';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
 import Loader from './modules/Loader/index';
@@ -154,8 +158,10 @@ export {
   InputGroupSelectMenuTrigger,
   KeyValue,
   ListTree,
+  ListTreeCheckboxHelper,
   ListTreeNode,
   ListTreeNodeContents,
+  ListTreeSelectionHelper,
   Loader,
   MediaPlayer,
   MediaPlayerLeftControls,

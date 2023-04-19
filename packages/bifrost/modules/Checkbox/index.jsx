@@ -23,6 +23,8 @@ const Checkbox = ({
   onChange,
   position,
   wrapperClassName,
+  inputClassName,
+  labelClassName,
   ...props
 }) => {
   const ref = useRef();
@@ -64,7 +66,8 @@ const Checkbox = ({
               'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded',
               {
                 'cursor-not-allowed': disabled
-              }
+              },
+              inputClassName
             )}
             defaultChecked={defaultChecked}
             checked={checked}
@@ -85,10 +88,14 @@ const Checkbox = ({
           >
             <label
               htmlFor={`${name}${data.value}`}
-              className={twClassNames('text-base-700 select-none font-medium', {
-                'flex flex-row items-center gap-1.5': icon,
-                'cursor-not-allowed': disabled
-              })}
+              className={twClassNames(
+                'text-base-700 select-none font-medium',
+                {
+                  'flex flex-row items-center gap-1.5': icon,
+                  'cursor-not-allowed': disabled
+                },
+                labelClassName
+              )}
             >
               {icon}
               {data.label}
@@ -147,7 +154,9 @@ Checkbox.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   position: PropTypes.oneOf(Object.values(CHECKBOX_POSITION_VARIANT)),
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  inputClassName: PropTypes.string,
+  labelClassName: PropTypes.string
 };
 
 Checkbox.defaultProps = {
@@ -163,7 +172,9 @@ Checkbox.defaultProps = {
   name: 'checkbox',
   onChange: () => {},
   position: CHECKBOX_POSITION_VARIANT.left,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  inputClassName: '',
+  labelClassName: ''
 };
 
 export default Checkbox;

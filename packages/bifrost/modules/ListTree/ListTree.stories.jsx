@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Dropdown from '../Dropdown';
@@ -7,6 +7,15 @@ import DropdownOptionGroup from '../DropdownOptionGroup';
 import DropdownOptionItem from '../DropdownOptionItem';
 import DropdownTrigger from '../DropdownTrigger';
 import { EllipsisVerticalIcon, MdFolderSpecial } from '../Icon';
+import InputField from '../InputField';
+import {
+  ListTreeCheckboxHelper,
+  ListTreeIterateChildrenRecursively,
+  ListTreeSelectionHelper,
+  ListTreeTargetHierarcyByIndex
+} from '../ListTreeCheckbox';
+import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent';
+import listTeeCheckboxData from '../ListTreeCheckbox/sampleData/listTreeCheckbox';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 import TruncateText from '../TruncateText';
@@ -122,6 +131,7 @@ const findNodeinTree = (keyName, tree) => {
       return tree[i];
     }
     if (tree[i].contents) {
+      // eslint-disable-next-line no-unused-vars
       findNodeinTree(tree[i].contents, keyName);
     }
   }
@@ -201,6 +211,95 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
           )}
         </ListTree>
       ))}
+    </>
+  );
+};
+
+const SearchableSelectableListTree = () => {
+  const [listOfItems, setListOfItems] = useState(listTeeCheckboxData);
+  const [selectedValue, setSelectedValue] = useState({});
+  const [searchValue, setSearchValue] = useState(''); // Debounce this state for optimal performance
+  const [filteredUUIDs, setFilteredUUIDs] = useState({
+    searchedUUIDs: {},
+    filteredUUIDsWithHierarchy: {}
+  });
+  const onSearchChange = (e) => {
+    const newSearchValue = e.target.value;
+    setSearchValue(newSearchValue);
+  };
+  const onCheckboxChange = (isChecked, targetIndexes) => {
+    const { newItems, targetItem } = ListTreeCheckboxHelper(
+      isChecked,
+      targetIndexes,
+      listOfItems
+    );
+    const { selectedValuesAdjusted } = ListTreeSelectionHelper(
+      selectedValue,
+      targetItem,
+      isChecked
+    );
+    setSelectedValue(selectedValuesAdjusted);
+    setListOfItems(newItems);
+  };
+
+  useEffect(() => {
+    if (searchValue.length) {
+      const newValue = {
+        searchedUUIDs: {},
+        filteredUUIDsWithHierarchy: {}
+      };
+      ListTreeIterateChildrenRecursively({ contents: listOfItems }, (item) => {
+        if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
+          newValue.searchedUUIDs[item.uuid] = item.uuid;
+          const data = ListTreeTargetHierarcyByIndex(listOfItems, item.uuid);
+          data.forEach((el) => {
+            newValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
+          });
+        }
+        return true;
+      });
+      setFilteredUUIDs(newValue);
+    }
+  }, [listOfItems, searchValue]);
+
+  return (
+    <>
+      <InputField
+        label={`${Object.values(selectedValue).length} Items Selected:`}
+        wrapperClassName="min-w-[300px] cursor-pointer"
+        addOnBeforeInlineWrapperClassName="max-w-[300px] line-clamp-1"
+        addOnBeforeInline={
+          <TruncateText
+            tooltipTriggerIcon={
+              // eslint-disable-next-line tailwindcss/no-arbitrary-value
+              <span className="mt-[-4px] flex font-medium">
+                ({Object.keys(selectedValue)?.length})
+              </span>
+            }
+          >
+            {Object.values(selectedValue)
+              ?.map((el) => el.name)
+              ?.join(', ')}
+          </TruncateText>
+        }
+        style={{ width: 0, paddingLeft: 0 }}
+        disabled
+      />
+      <p className="mt-3 mb-4">
+        <InputField label="Search Items here" onChange={onSearchChange} />
+      </p>
+      {Object.keys(filteredUUIDs.filteredUUIDsWithHierarchy).length === 0 &&
+      searchValue.length ? (
+        <p className="text-sm">No items matching search results</p>
+      ) : (
+        <ControlledNestedTreeWithCheckbox
+          data={listOfItems}
+          filteredUUIDs={filteredUUIDs.filteredUUIDsWithHierarchy}
+          isParentSelected={false}
+          allowFilter={searchValue.length}
+          onCheckboxChange={onCheckboxChange}
+        />
+      )}
     </>
   );
 };
@@ -327,11 +426,23 @@ const FocusedNodeNestedTreeTemplate = () => (
   <FocusedNodeNestedTree data={listTreeDemoDataSet} />
 );
 
+const SearchableSelectableListTreeTemplate = () => (
+  <SearchableSelectableListTree />
+);
+
 const ControlledTree = ControlledTreeTemplate.bind({});
 
 const UncontrolledTree = UncontrolledTreeTemplate.bind({});
 
+const SearchableSelectableListTreeTemplateExample =
+  SearchableSelectableListTreeTemplate.bind({});
+
 const FocusedNodeTree = FocusedNodeNestedTreeTemplate.bind({});
 
 export default defaultConfig;
-export { ControlledTree, FocusedNodeTree, UncontrolledTree };
+export {
+  ControlledTree,
+  FocusedNodeTree,
+  SearchableSelectableListTreeTemplateExample,
+  UncontrolledTree
+};
