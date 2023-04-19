@@ -6,27 +6,38 @@ import PropTypes from 'prop-types';
 
 import { setCSVCurrentScreen } from '../slices/importCSVSlice';
 
+import useTextTransformer from './useTextTransformer';
+
 const SingleStep = ({ title, description, ctaText, redirectTo }) => {
   const dispatch = useDispatch();
   const handleCtaClick = () => {
     dispatch(setCSVCurrentScreen(redirectTo));
   };
+  const { textRef } = useTextTransformer({
+    text: description
+  });
 
   return (
     <div className="flex justify-between">
-      <div>
+      <div className="w-full">
         <div className="flex">
           <MdCheckCircle className="text-success-600 h-5 w-5" />
           <span className="text-base-800 ml-2 text-sm font-medium">
             {title}
           </span>
         </div>
-        <div className="text-base-500 flex pl-7 text-sm font-normal">
-          {description}
+        <div className="text-base-500 flex whitespace-nowrap pl-7 text-sm font-normal">
+          <span>Import Location: </span>
+          <span
+            className="ml-1 w-full overflow-hidden text-ellipsis whitespace-nowrap"
+            ref={textRef}
+          >
+            {description}
+          </span>
         </div>
       </div>
       <button
-        className="text-brand-600 text-sm font-medium"
+        className="text-brand-600 shrink-0 text-sm font-medium"
         type="button"
         onClick={() => {
           handleCtaClick();

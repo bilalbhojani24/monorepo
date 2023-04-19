@@ -24,13 +24,13 @@ const DisplayMapping = ({
   const badgeValue = (field, showField) => (
     <span>
       {!mappedFields.includes(field) && (
-        <span className="text-sm font-black">&#10005; </span>
+        <span className="text-sm font-black">&#x2605; </span>
       )}
       {field} &rarr; &nbsp;
       {mappedFields.includes(field) && (
         <>{nameToDisplayMapper[fieldMappings[field]]}</>
       )}
-      {showField && `'${field}'`}
+      {showField && `${field}`}
     </span>
   );
 
