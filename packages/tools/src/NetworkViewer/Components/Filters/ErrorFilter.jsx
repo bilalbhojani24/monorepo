@@ -10,15 +10,13 @@ const ErrorFilter = ({ isError, onChange }) => {
   return (
     <Checkbox
       checked={isError}
+      border={false}
       onChange={handleChange}
-      labelText="Errors only"
-      id="har-viewer-error-filter"
-      ariaLabelText="Errors only"
-      iconProps={{
-        'aria-hidden': false,
-        title: 'Error filter',
-        role: 'img'
+      data={{
+        label: 'Errors only',
+        value: 'errors-only'
       }}
+      name="Errors only"
     />
   );
 };

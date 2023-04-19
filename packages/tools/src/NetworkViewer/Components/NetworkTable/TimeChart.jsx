@@ -34,12 +34,7 @@ const TimeChart = ({ timings, maxTime, isWaterfall, renderFrom }) => {
   );
 
   return (
-    <div
-      className={twClassNames('har-time-chart', {
-        'har-time-chart--waterfall': isWaterfall,
-        'har-time-chart--thin': !isWaterfall && renderFrom === 'time-cell'
-      })}
-    >
+    <div className="flex overflow-hidden rounded-xl">
       {isWaterfall && (
         <div
           style={{
@@ -49,7 +44,9 @@ const TimeChart = ({ timings, maxTime, isWaterfall, renderFrom }) => {
       )}
       {chartAttributes.map((chartProps) => (
         <div
-          className="har-time-chart__item"
+          className={twClassNames('h-3 min-w-[1px]', {
+            'h-4': isWaterfall
+          })}
           style={{
             width: chartProps.width,
             backgroundColor: chartProps.fill

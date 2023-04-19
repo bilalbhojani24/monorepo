@@ -1,32 +1,37 @@
 import React from 'react';
-import { Badge, MdLock } from '@browserstack/bifrost';
+import { Badge, MdOutlineLock } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { getStatusClass } from '../../utils';
-
-const NetworkFileName = ({ formattedValue, payload }) => (
-  <section className="network-file-name">
-    <section className="network-file-name__main">
-      {/* <Tooltip description={payload.url} type="dark" direction="left"> */}
-      <span className="har-network-cell-value">{formattedValue}</span>
-      {/* </Tooltip> */}
+const NetworkFileName = ({ formattedValue, payload }) => {
+  const hasError = payload?.status >= 400 || payload?.error;
+  return (
+    <section className="flex flex-col gap-1">
+      <section className="truncate">
+        {/* <Tooltip description={payload.url} type="dark" direction="left"> */}
+        <span>{formattedValue}</span>
+        {/* </Tooltip> */}
+      </section>
+      <section
+        className={twClassNames('text-base-500 flex items-center gap-2', {
+          'text-danger-700': hasError
+        })}
+      >
+        <Badge
+          isRounded={false}
+          text={payload.method}
+          modifier={hasError ? 'error' : 'base'}
+        />
+        {payload?.url?.indexOf('https') === 0 && (
+          <span>
+            <MdOutlineLock role="img" title="lock" aria-hidden="false" />
+          </span>
+        )}
+        <span className="truncate">{payload.domain}</span>
+      </section>
     </section>
-    <section className="network-file-name__sub">
-      <Badge
-        wrapperClassName="network-file-name__method"
-        text={payload.method}
-        modifier={getStatusClass(payload) === 'error' ? 'error' : 'base'}
-        type="subtle"
-      />
-      {payload?.url?.indexOf('https') === 0 && (
-        <span className="network-file-name__icon">
-          <MdLock role="img" title="lock" aria-hidden="false" />
-        </span>
-      )}
-      <span className="network-file-name__domain">{payload.domain}</span>
-    </section>
-  </section>
-);
+  );
+};
 
 NetworkFileName.propTypes = {
   payload: PropTypes.object.isRequired,

@@ -1,5 +1,11 @@
 import React from 'react';
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from '@browserstack/bifrost';
+import {
+  MdKeyboardArrowDown,
+  MdKeyboardArrowUp,
+  TableCell,
+  TableHead,
+  TableRow
+} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -33,52 +39,63 @@ const NetworkTableHeader = ({ showWaterfall }) => {
   };
 
   return (
-    <thead className="network-table-header">
-      <tr>
+    <TableHead>
+      <TableRow>
         {Object.entries(VIEWER_FIELDS).map(
-          ([datakey, { name, key, columnWidth }]) => (
-            <th
+          ([datakey, { name, key, columnWidth }], idx) => (
+            <TableCell
               key={datakey}
-              onClick={() => onSort(key)}
-              style={
-                columnWidth ? { width: `${columnWidth(containerWidth)}px` } : {}
-              }
+              wrapperClassName={twClassNames(
+                'py-2 hover:bg-base-100',
+                columnWidth,
+                {
+                  'w-2/6': key === 'time',
+                  'rounded-tl-lg': idx === 0,
+                  'rounded-tr-lg': idx === Object.keys(VIEWER_FIELDS).length - 1
+                }
+              )}
             >
-              <div className="network-table-header__container">
-                <div className="network-table-header__name">
+              <button
+                className="relative flex w-full items-center justify-between"
+                type="button"
+                onClick={() => onSort(key)}
+              >
+                <div className="text-xs font-medium uppercase tracking-wider">
                   {name}
                   {isWaterfall && key === 'time' && ' (Waterfall)'}
                 </div>
-                <MdKeyboardArrowUp
-                  fontSize="inherit"
-                  title="Up arrow"
-                  aria-hidden="false"
-                  role="img"
-                  className={twClassNames('network-table-header__up', {
-                    'network-table-header__up--selected':
-                      selectedSort.key === key && selectedSort.isAcs,
-                    'network-table-header__up--disabled':
-                      selectedSort.key === key && !selectedSort.isAcs
-                  })}
-                />
-                <MdKeyboardArrowDown
-                  fontSize="inherit"
-                  title="Down arrow"
-                  aria-hidden="false"
-                  role="img"
-                  className={twClassNames('network-table-header__down', {
-                    'network-table-header__down--selected':
-                      selectedSort.key === key && !selectedSort.isAcs,
-                    'network-table-header__down--disabled':
-                      selectedSort.key === key && selectedSort.isAcs
-                  })}
-                />
-              </div>
-            </th>
+                <div className="flex flex-col justify-between">
+                  <MdKeyboardArrowUp
+                    fontSize="inherit"
+                    title="Up arrow"
+                    aria-hidden="false"
+                    role="img"
+                    className={twClassNames('text-xs', {
+                      'text-brand-600':
+                        selectedSort.key === key && selectedSort.isAcs,
+                      'text-base-300':
+                        selectedSort.key === key && !selectedSort.isAcs
+                    })}
+                  />
+                  <MdKeyboardArrowDown
+                    fontSize="inherit"
+                    title="Down arrow"
+                    aria-hidden="false"
+                    role="img"
+                    className={twClassNames('text-xs', {
+                      'text-brand-600':
+                        selectedSort.key === key && !selectedSort.isAcs,
+                      'text-base-300':
+                        selectedSort.key === key && selectedSort.isAcs
+                    })}
+                  />
+                </div>
+              </button>
+            </TableCell>
           )
         )}
-      </tr>
-    </thead>
+      </TableRow>
+    </TableHead>
   );
 };
 

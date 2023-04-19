@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip, TooltipBody } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { formatSize, formatTime } from '../../utils';
@@ -39,20 +40,24 @@ const NetworkCellValue = ({
       .split(/(.{30})/)
       .filter(Boolean)
       .map((text) => (
-        <div key="text" className="har-network-cell-value__tooltip">
+        <div key="text" className="whitespace-pre">
           {text}
         </div>
       ));
     if (tooltipDescription) {
       return (
-        // <Tooltip description={tooltipDescription} type="dark" direction="right">
-        <span className="har-network-cell-value">{formattedValue}</span>
-        // </Tooltip>
+        <Tooltip
+          content={<TooltipBody>{tooltipDescription}</TooltipBody>}
+          theme="dark"
+          placementSide="right"
+        >
+          <span className="truncate">{formattedValue}</span>
+        </Tooltip>
       );
     }
   }
 
-  return <span className="har-network-cell-value">{formattedValue}</span>;
+  return <span className="truncate">{formattedValue}</span>;
 };
 
 NetworkCellValue.propTypes = {

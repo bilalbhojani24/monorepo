@@ -1,4 +1,5 @@
 import React from 'react';
+
 import NetworkFileName from './Components/NetworkTable/NetworkFileName';
 import NetworkTimeCell from './Components/NetworkTable/NetworkTimeCell';
 
@@ -7,28 +8,27 @@ export const VIEWER_FIELDS = Object.freeze({
     key: 'filename',
     name: 'File name',
     renderComponent: (props) => <NetworkFileName {...props} />,
-    columnWidth: (containerWidth) => Math.max(containerWidth - 0.3 * containerWidth - 90 - 115 - 90, 90) // width of other columns
+    columnWidth: 'w-full'
   }),
   status: Object.freeze({
     key: 'status',
     name: 'Status',
-    columnWidth: () => 90
+    columnWidth: 'w-24'
   }),
   type: Object.freeze({
     key: 'type',
     name: 'Type',
-    columnWidth: () => 115
+    columnWidth: 'w-28'
   }),
   size: Object.freeze({
     key: 'size',
     name: 'Size',
-    columnWidth: () => 90
+    columnWidth: 'w-24'
   }),
   time: Object.freeze({
     key: 'time',
     name: 'Time',
-    renderComponent: (props) => <NetworkTimeCell {...props} />,
-    columnWidth: (containerWidth) => Math.min(0.3 * containerWidth, 300) // calc(min(30%, 300px)); in sass was not working
+    renderComponent: (props) => <NetworkTimeCell {...props} />
   })
 });
 
@@ -181,22 +181,29 @@ export const PAYLOAD_CAPTIONS = Object.freeze({
 
 export const HELP_LINKS = {
   viewDocumentation: {
-    automate: 'https://www.browserstack.com/docs/automate/selenium/debugging-options#network-logs',
+    automate:
+      'https://www.browserstack.com/docs/automate/selenium/debugging-options#network-logs',
     app_automate: {
-      appium: 'https://www.browserstack.com/docs/app-automate/appium/debug-failed-tests/network-logs',
-      espresso: 'https://www.browserstack.com/docs/app-automate/espresso/debug-failed-tests/network-logs',
-      xcuitest: 'https://www.browserstack.com/docs/app-automate/xcuitest/debug-failed-tests/network-logs'
+      appium:
+        'https://www.browserstack.com/docs/app-automate/appium/debug-failed-tests/network-logs',
+      espresso:
+        'https://www.browserstack.com/docs/app-automate/espresso/debug-failed-tests/network-logs',
+      xcuitest:
+        'https://www.browserstack.com/docs/app-automate/xcuitest/debug-failed-tests/network-logs'
     }
   },
   noResponse: {
-    automate: 'https://www.browserstack.com/docs/automate/selenium/debugging-options#supported-devices'
+    automate:
+      'https://www.browserstack.com/docs/automate/selenium/debugging-options#supported-devices'
   }
 };
 
 export const UI_MESSAGES = {
   automate: {
-    limited_configuration: 'Currently reponses are recorded for limited device configurations',
-    not_captured_android: 'The response data is not captured for Android devices'
+    limited_configuration:
+      'Currently reponses are recorded for limited device configurations',
+    not_captured_android:
+      'The response data is not captured for Android devices'
   },
   common: {
     not_captured: 'Response data not captured',

@@ -5,7 +5,12 @@ import NetworkViewer from '.';
 const defaultConfig = {
   title: 'NetworkViewer',
   component: NetworkViewer,
-  argTypes: {},
+  argTypes: {
+    logsURL: {
+      defaultValue:
+        'https://raw.githubusercontent.com/saucelabs/network-viewer/main/examples/src/data/network.har'
+    }
+  },
   controls: {}
 };
 const Template = (args) => <NetworkViewer {...args} />;

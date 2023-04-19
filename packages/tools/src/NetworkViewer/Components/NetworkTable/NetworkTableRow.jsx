@@ -1,4 +1,5 @@
 import React from 'react';
+import { TableCell, TableRow } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -35,32 +36,34 @@ const NetworkTableRow = ({
   };
 
   const rowProps = {
-    className: twClassNames(
-      'har-network-table-row',
-      `har-network-table-row--${getStatusClass(payload)}`,
-      {
-        'har-network-table-row--highlight': scrollHighlight
-      }
-    ),
+    wrapperClassName: twClassNames('cursor-pointer', {
+      'har-network-table-row--highlight': scrollHighlight
+    }),
     id: ROW_ID_PREFIX + payload.index,
-    onClick: handleSelectRequest
+    onRowClick: handleSelectRequest
   };
 
   return (
-    <tr {...rowProps}>
+    <TableRow {...rowProps}>
       {Object.entries(VIEWER_FIELDS).map(
         ([datakey, { key, renderComponent }]) => (
-          <td className="har-network-table-row__cell" key={datakey}>
+          <TableCell
+            key={datakey}
+            wrapperClassName={twClassNames(
+              'align-top',
+              getStatusClass(payload)
+            )}
+          >
             <NetworkCellValue
               datakey={key}
               payload={payload}
               renderComponent={renderComponent}
               showWaterfall={showWaterfall}
             />
-          </td>
+          </TableCell>
         )
       )}
-    </tr>
+    </TableRow>
   );
 };
 

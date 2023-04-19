@@ -250,12 +250,12 @@ export const filterData = ({ data, errorFilter, filter = {}, search }) => {
 
 export const getStatusClass = ({ status, error }) => {
   if (status === 0 && !error) {
-    return 'pending';
+    return 'text-base-500';
   }
   if (status >= 400 || error) {
-    return 'error';
+    return 'text-danger-700';
   }
-  return 'info';
+  return 'text-base-900';
 };
 
 // keeping 800 px as min width of container to show waterfall

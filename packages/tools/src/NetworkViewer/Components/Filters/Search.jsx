@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { InputField, MdCancel, MdSearch } from '@browserstack/bifrost';
+import { Button, InputField, MdClose, MdSearch } from '@browserstack/bifrost';
 
 import { useNetwork } from '../../state/Context';
 
@@ -10,7 +10,7 @@ const Search = () => {
 
   const currSearch = state.get('search');
 
-  const handleInputChange = (value) => {
+  const handleInputChange = ({ target: { value } }) => {
     setSearchValue(value);
   };
 
@@ -50,19 +50,32 @@ const Search = () => {
       inputRef={searchInputRef}
       id="har-viewer-search"
       onBlur={handleOnBlur}
-      leadingIcon={<MdSearch aria-hidden="false" role="img" title="Search" />}
+      addOnBeforeInline={
+        <MdSearch
+          aria-hidden="false"
+          role="img"
+          title="Search"
+          className="text-base-500 text-xl"
+        />
+      }
       onChange={handleInputChange}
-      placeholder="Filter Logs"
+      placeholder="Search in logs"
       value={searchValue}
-      trailingIcon={
+      addOnAfterInline={
         searchValue.length ? (
-          <MdCancel aria-hidden="false" role="img" title="Cancel" />
+          <Button
+            variant="minimal"
+            colors="white"
+            icon={<MdClose className="text-lg" />}
+            onClick={() => {
+              setSearchValue('');
+              searchInputRef.current?.focus();
+            }}
+            isIconOnlyButton
+            size="extra-small"
+          />
         ) : null
       }
-      onIconClick={() => {
-        setSearchValue('');
-        searchInputRef.current?.focus();
-      }}
     />
   );
 };

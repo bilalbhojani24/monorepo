@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip, TooltipBody } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -16,33 +17,39 @@ const NetworkTimeCell = ({ formattedValue, payload, showWaterfall }) => {
     showWaterfall &&
     isWidthAvailableToShowWaterfall(state.get('containerWidth'));
   return payload.time ? (
-    // <Tooltip
-    //   description={
-    //     <TimeChartTooltip data={payload.timings} fromRequestDetail={false} />
-    //   }
-    //   align="right"
-    //   direction="bottom"
-    //   secondaryAlign="right"
-    //   secondaryDirection="top"
-    //   type="light"
-    // >
-    <section
-      className={twClassNames('network-time-cell', {
-        'network-time-cell--is-waterfall': isWaterfall
-      })}
+    <Tooltip
+      content={
+        <TooltipBody>
+          <TimeChartTooltip data={payload.timings} fromRequestDetail={false} />
+        </TooltipBody>
+      }
+      placementSide="bottom"
+      theme="light"
+      triggerWrapperClassName="w-full"
     >
-      <section className="network-time-cell__value">{formattedValue}</section>
-      <section className="network-time-cell__chart">
-        <TimeChart
-          maxTime={maxTime}
-          timings={payload.timings}
-          isWaterfall={isWaterfall}
-          renderFrom="time-cell"
-        />
+      <section
+        className={twClassNames('flex flex-col gap-2', {
+          'flex-row items-center': isWaterfall
+        })}
+      >
+        <section
+          className={twClassNames({
+            'w-[100px] shrink-0': isWaterfall
+          })}
+        >
+          {formattedValue}
+        </section>
+        <section className="flex-1">
+          <TimeChart
+            maxTime={maxTime}
+            timings={payload.timings}
+            isWaterfall={isWaterfall}
+            renderFrom="time-cell"
+          />
+        </section>
       </section>
-    </section>
-  ) : // </Tooltip>
-  null;
+    </Tooltip>
+  ) : null;
 };
 
 NetworkTimeCell.propTypes = {

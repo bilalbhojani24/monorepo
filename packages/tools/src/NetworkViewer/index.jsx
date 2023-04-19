@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useResizeObserver } from '@browserstack/hooks';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import MainContainer from './Containers/MainContainer';
@@ -20,7 +21,10 @@ const NetworkViewer = ({
   const parentContainerSize = useResizeObserver(parentContainerRef);
 
   return (
-    <section className={containerClassName} ref={parentContainerRef}>
+    <section
+      className={twClassNames('p-4', containerClassName)}
+      ref={parentContainerRef}
+    >
       <NetworkProvider
         data={data}
         file={logsURL}

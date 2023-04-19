@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -23,18 +23,36 @@ const MainContainer = ({
   const isProcessing = state.get('isProcessing');
   const isLoading = state.get('loading');
   const hasError = state.get('error');
+  const data = state.get('data');
+  const filter = state.get('filter');
+  const errorFilter = state.get('errorFilter');
+
+  const isDisabled = useMemo(() => {
+    if (!filter.name && !filter.value && !data.size && !errorFilter) {
+      return true;
+    }
+    return isProcessing || isLoading || hasError;
+  }, [
+    data.size,
+    errorFilter,
+    filter.name,
+    filter.value,
+    hasError,
+    isLoading,
+    isProcessing
+  ]);
 
   return (
-    <div>
+    <>
       <div
-        className={twClassNames({
-          'pointer-events-none': isProcessing || isLoading || hasError
+        className={twClassNames('sticky top-0 bg-white z-10', {
+          'pointer-events-none opacity-50': isDisabled
         })}
       >
         <FilterContainer logsURL={logsURL} />
       </div>
       <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
-        <section className="flex flex-wrap">
+        <section className="relative mt-4 flex flex-wrap">
           <NetworkTableContainer
             onRequestSelect={onRequestSelect}
             showWaterfall={showWaterfall}
@@ -49,7 +67,7 @@ const MainContainer = ({
           )}
         </section>
       </StateHandler>
-    </div>
+    </>
   );
 };
 
