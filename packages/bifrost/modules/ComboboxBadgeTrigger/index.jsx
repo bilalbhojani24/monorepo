@@ -82,7 +82,6 @@ const ComboboxBadgeTrigger = ({
         onClick={(e) => {
           keepDrawerOpen(e);
         }}
-        aria-hidden="true"
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
 

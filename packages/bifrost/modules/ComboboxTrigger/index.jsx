@@ -65,7 +65,6 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             comboInputRef.current.focus();
           }
         }}
-        aria-hidden="true"
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
         {isLoading && (
@@ -110,7 +109,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           autoComplete="off"
         />
         {(isLoadingRight || errorText || isTruncated) && (
-          <div className="flex items-center space-x-2 pr-1">
+          <div className="mr-5 flex items-center space-x-2 pr-1">
             {isMulti && isTruncated && !open ? (
               <span className="mr-1 font-bold">{`(${currentSelectedValues.length})`}</span>
             ) : null}
