@@ -67,7 +67,8 @@ const ComboboxBadgeTrigger = ({
 
   return (
     <Popover.Trigger ref={buttonRef} asChild>
-      <div
+      <Combobox.Button
+        as="div"
         className={twClassNames(
           'border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-2 focus-within:outline-none focus-within:ring-1 py-2 rounded-md',
           {
@@ -78,10 +79,13 @@ const ComboboxBadgeTrigger = ({
               disabled
           }
         )}
+        onClick={(e) => {
+          keepDrawerOpen(e);
+        }}
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
 
-        <div className="relative flex flex-1 flex-wrap items-baseline space-x-2 space-y-1 overflow-hidden">
+        <div className="relative flex flex-1 flex-wrap gap-y-2 space-x-2 overflow-hidden">
           {currentSelected?.map((i) => (
             <Badge
               key={i.value}
@@ -167,7 +171,7 @@ const ComboboxBadgeTrigger = ({
             aria-hidden="true"
           />
         </Combobox.Button>
-      </div>
+      </Combobox.Button>
     </Popover.Trigger>
   );
 };

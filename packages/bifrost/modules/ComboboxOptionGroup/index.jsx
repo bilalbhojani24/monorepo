@@ -14,7 +14,7 @@ const ComboboxOptionGroup = ({
   maxWidth,
   addNewItemComponent
 }) => {
-  const { width, query, isBadge, noResultFoundText } =
+  const { width, query, isBadge, noOptionsText, noResultFoundText } =
     useContext(ComboboxContextData);
 
   return (
@@ -53,10 +53,7 @@ const ComboboxOptionGroup = ({
                       'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3'
                     )}
                   >
-                    {noResultFoundText ||
-                      (query.length > 0
-                        ? 'No results found'
-                        : 'No options available')}
+                    {query.length > 0 ? noResultFoundText : noOptionsText}
                   </Combobox.Option>
                 )}
                 {addNewItemComponent}

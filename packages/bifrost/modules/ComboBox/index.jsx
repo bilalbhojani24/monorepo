@@ -27,6 +27,7 @@ const ComboBox = forwardRef((props, ref) => {
     isBadge,
     isMulti,
     noResultFoundText,
+    noOptionsText,
     value,
     onOpenChange,
     isLoading,
@@ -59,7 +60,8 @@ const ComboBox = forwardRef((props, ref) => {
         isBadge,
         currentSelectedValues,
         setCurrentSelectedValues,
-        noResultFoundText
+        noResultFoundText,
+        noOptionsText
       }}
     >
       <Popover.Root open={open}>
@@ -131,6 +133,7 @@ ComboBox.propTypes = {
   loadingText: string,
   errorText: string,
   noResultFoundText: string,
+  noOptionsText: string,
   isMulti: bool,
   isBadge: bool,
   onChange: func,
@@ -158,7 +161,8 @@ ComboBox.defaultProps = {
   isLoadingRight: false,
   isBadge: false,
   loadingText: 'Loading',
-  noResultFoundText: '',
+  noResultFoundText: 'No results found',
+  noOptionsText: 'No options available',
   errorText: '',
   isMulti: false,
   onChange: () => {},
