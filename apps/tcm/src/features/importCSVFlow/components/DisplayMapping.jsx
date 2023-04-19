@@ -21,6 +21,19 @@ const DisplayMapping = ({
     (field) => !mappedFields.includes(field)
   );
 
+  const badgeValue = (field, showField) => (
+    <span>
+      {!mappedFields.includes(field) && (
+        <span className="text-sm font-black">&#10005; </span>
+      )}
+      {field} &rarr; &nbsp;
+      {mappedFields.includes(field) && (
+        <>{nameToDisplayMapper[fieldMappings[field]]}</>
+      )}
+      {showField && `'${field}'`}
+    </span>
+  );
+
   return (
     <div>
       <div className="my-4 px-5">
@@ -32,7 +45,7 @@ const DisplayMapping = ({
           alertIcon={<MdCheckCircle className="text-success-600 h-5 w-5" />}
         />
       </div>
-      <div className="flex max-h-[calc(100vh-550px)] flex-wrap overflow-scroll px-5 [&>*:nth-child(odd)]:pr-2 [&>*:nth-child(even)]:pl-2">
+      <div className="flex max-h-[calc(100vh-550px)] flex-wrap overflow-scroll px-5 [&>*:nth-child(even)]:pl-2 [&>*:nth-child(odd)]:pr-2">
         {allImportFields.map((field) => (
           <div className="mb-4 w-1/2">
             <TMBadge
@@ -55,39 +68,11 @@ const DisplayMapping = ({
                         </>
                       }
                     >
-                      {field} &rarr; &nbsp;
-                      {mappedFields.includes(field) && (
-                        <>{nameToDisplayMapper[fieldMappings[field]]}</>
-                      )}
-                      {`'${field}'`}
+                      {badgeValue(field, true)}
                     </TMTooltip>
-                    {/* {fieldMappings[field]?.action === 'ignore' && (
-                      <TMTooltip
-                        size="xs"
-                        placementSide="top"
-                        theme="dark"
-                        content={
-                          <>
-                            <TMTooltipBody>
-                              {`This field will be ignored and not imported. If
-                              you want to read this field, go to "Edit Field &
-                              Value Mapping" and select "Create New Field" for
-                              this incoming field.`}
-                            </TMTooltipBody>
-                          </>
-                        }
-                      >
-                        Ignore this field
-                      </TMTooltip>
-                    )} */}
                   </>
                 ) : (
-                  <span>
-                    {field} &rarr; &nbsp;
-                    {mappedFields.includes(field) && (
-                      <>{nameToDisplayMapper[fieldMappings[field]]}</>
-                    )}
-                  </span>
+                  badgeValue(field)
                 )
               }
             />
