@@ -30,11 +30,15 @@ function DividedPill({ data, logBuildListingInteracted }) {
   return Object.keys(data?.issueTypeAggregate)?.map((item) =>
     data?.issueTypeAggregate[item] ? (
       <PropagationBlocker
+        variant="a"
         key={item}
         label={item}
         className="h-3"
         tabIndex={0}
         role="button"
+        href={`/projects/${projectNormalisedName}/builds/${
+          data?.isAutoDetectedName ? data?.originalName : data?.name
+        }/${data?.buildNumber}?tab=tests&issueType=${item}`}
         style={{
           width: `${(data?.issueTypeAggregate[item] * 100) / totalDefects}%`,
           backgroundColor: aggregateColors[item]
