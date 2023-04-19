@@ -59,7 +59,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
         />
         {isLoading && (
           <span className="text-base-500 absolute inset-y-0 left-1 flex items-center space-x-2 rounded-r-md px-2 focus:outline-none">
-            <Loader wrapperStyle="text-base-200 fill-base-400 " />
+            <Loader wrapperClassName="text-base-200 fill-base-400 " />
             <span>{loadingText}</span>
           </span>
         )}

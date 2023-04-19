@@ -59,8 +59,7 @@ const TagsFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
       }}
       value={selectedTagsOptions}
       checkPosition="right"
-      virtuosoWidth="480px"
-      optionsListWrapperClassName="min-w-max overflow-hidden"
+      virtuosoWidth="350px"
     />
   );
 };

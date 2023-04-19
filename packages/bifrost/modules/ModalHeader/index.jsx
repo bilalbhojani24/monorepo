@@ -22,13 +22,15 @@ const ModalHeader = ({
     )}
   >
     {icon ? (
-      <div
-        className={twClassNames(
-          'bg-danger-100 mr-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full sm:h-10 sm:w-10',
-          iconWrapperClassname
-        )}
-      >
-        {icon}
+      <div className="w-full sm:w-auto">
+        <div
+          className={twClassNames(
+            'bg-danger-100 mx-auto sm:ml-0 sm:mr-4 flex h-12 w-12 shrink-0 items-center justify-center rounded-full sm:h-10 sm:w-10',
+            iconWrapperClassname
+          )}
+        >
+          {icon}
+        </div>
       </div>
     ) : null}
 

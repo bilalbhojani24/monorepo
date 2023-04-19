@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
-import EmptyPage from 'common/EmptyPage';
 import {
   SNP_PARAMS_MAPPING,
   TEST_DETAILS_SOURCE,
@@ -90,13 +89,6 @@ export default function SnP() {
       <div className={twClassNames('flex-1')}>
         {activeTab.value === TABS.tests && <SHTests />}
         {activeTab.value === TABS.unique_errors && <SHUniqueErrors />}
-        {activeTab.value === TABS.build_performance && (
-          <div
-            className={twClassNames('flex items-center justify-center h-full')}
-          >
-            <EmptyPage text="Something awesome is coming soon" isUpcoming />
-          </div>
-        )}
         {isSnPDetailsVisible && <SHTestDetailsSlideOver />}
         {isSnPErrorDetailsVisible && <SHErrorDetailsSlideOver />}
         <TestDetails

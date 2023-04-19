@@ -228,7 +228,7 @@ const TestListFilters = () => {
           )}
         </O11ySlideoverBody>
 
-        <O11ySlideoverFooter isBorder="true" backgroundColorClass="justify-end">
+        <O11ySlideoverFooter isBorder="true" position="right">
           <O11yButton
             variant="primary"
             colors="white"

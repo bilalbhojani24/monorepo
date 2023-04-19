@@ -25,6 +25,7 @@ const { reducer, actions } = createSlice({
     },
     errors: {
       data: [],
+      breakdownData: {},
       pagingParams: {},
       isLoading: true,
       sortBy: {
@@ -63,6 +64,23 @@ const { reducer, actions } = createSlice({
     setErrorsData: (state, { payload }) => {
       state.errors.data = payload;
     },
+    setAllBreakdownData: (state, { payload }) => {
+      state.errors.breakdownData = payload;
+    },
+    updateSingleBDOpenStatus: (state, { payload }) => {
+      const { errorId, defaultOpen } = payload;
+      state.errors.breakdownData[errorId].defaultOpen = defaultOpen;
+    },
+    updateSingleBDData: (state, { payload }) => {
+      const { errorId, data } = payload;
+      state.errors.breakdownData[errorId].data = data;
+    },
+    updateAllBreakdownData: (state, { payload }) => {
+      state.errors.breakdownData = {
+        ...state.errors.breakdownData,
+        ...payload
+      };
+    },
     updateErrors: (state, { payload }) => {
       state.errors.data = [...state.errors.data, ...payload];
     },
@@ -76,6 +94,7 @@ const { reducer, actions } = createSlice({
       state.errors = {
         ...state.errors,
         data: [],
+        breakdownData: {},
         pagingParams: {},
         isLoading: false
       };
@@ -96,7 +115,11 @@ export const {
   updateErrors,
   setErrorsPagingParams,
   setErrorsSortBy,
-  clearSnPErrors
+  clearSnPErrors,
+  setAllBreakdownData,
+  updateAllBreakdownData,
+  updateSingleBDOpenStatus,
+  updateSingleBDData
 } = actions;
 
 export const getSnPTestsData = createAsyncThunk(
@@ -134,10 +157,19 @@ export const getSnPErrorsData = createAsyncThunk(
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const response = await getSnPErrors({ ...data });
+      const allBreakdownData = {};
+      response.data.errors?.forEach((error) => {
+        allBreakdownData[error.id] = {
+          defaultOpen: false,
+          data: []
+        };
+      });
       if (data?.shouldUpdate) {
         dispatch(updateErrors(response.data.errors));
+        dispatch(updateAllBreakdownData(allBreakdownData));
       } else {
         dispatch(setErrorsData(response.data.errors));
+        dispatch(setAllBreakdownData(allBreakdownData));
       }
       dispatch(setErrorsPagingParams(response.data.pagingParams));
       return response.data;

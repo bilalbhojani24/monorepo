@@ -1,15 +1,25 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PropagationBlocker from 'common/PropagationBlocker';
+import { getBuildPath } from 'utils/routeUtils';
 
 import { aggregateColors } from '../constants';
 
-function DividedPill({ data }) {
+function DividedPill({ data, logBuildListingInteracted }) {
+  const navigate = useNavigate();
   const { projectNormalisedName } = useParams();
 
   const handleChartClick = (itemClicked) => {
-    // eslint-disable-next-line no-console
-    console.log('Analytics issueType : itemClicked', itemClicked);
+    const interactionName = `${itemClicked
+      .replace(' ', '_')
+      .toLowerCase()}_clicked`;
+    logBuildListingInteracted(interactionName);
+    const endpoint = `${getBuildPath(
+      projectNormalisedName,
+      data.normalisedName,
+      data?.buildNumber
+    )}/?tab=tests&issueTypeGroup=${itemClicked}`;
+    navigate(endpoint);
   };
 
   const totalDefects = Object.values(data.issueTypeAggregate).reduce(

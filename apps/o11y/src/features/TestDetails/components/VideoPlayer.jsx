@@ -1,5 +1,6 @@
 import React, { forwardRef, useEffect, useState } from 'react';
 import { O11yMediaPlayerControlPanel } from 'common/bifrostProxy';
+// import O11yLoader from 'common/O11yLoader';
 import PropTypes from 'prop-types';
 
 const VideoPlayer = forwardRef(
@@ -11,6 +12,9 @@ const VideoPlayer = forwardRef(
       containerRef,
       isPaused,
       setIsPaused
+      // showOverlay,
+      // hideOverlay,
+      // isVideoMetaLoaded
     },
     ref
   ) => {
@@ -59,29 +63,47 @@ const VideoPlayer = forwardRef(
     const handleMoveXSeconds = () => {};
 
     return (
-      // eslint-disable-next-line tailwindcss/no-arbitrary-value
-      <div ref={containerRef} className="flex h-[460px] flex-col">
-        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <video
-          src={videoUrl}
-          ref={ref}
-          onLoadedMetadata={handleOnLoad}
-          onTimeUpdate={handleTimeUpdate}
-          className="flex-1 object-fill"
-        />
-        <O11yMediaPlayerControlPanel
-          isPaused={isPaused}
-          onPlayClick={handlePlaybackClick}
-          duration={Math.round(duration)}
-          currentTime={Math.round(currentTime)}
-          onSeekbarChange={handleSliderChange}
-          onJumpXSeconds={handleMoveXSeconds}
-          stickToBottom
-          wrapperClassName=""
-          showRewindForwardButtons={false}
-          hoverSeekTime={videoSeekTime}
-        />
-      </div>
+      <>
+        <div ref={containerRef} className="relative flex flex-col">
+          {/* {!isVideoMetaLoaded && (
+            <div className="bg-base-800 absolute top-0 left-0 z-30 h-full w-full">
+              <O11yLoader isOverlayed wrapperClassName="h-full" />
+            </div>
+          )} */}
+          {/* {isVideoMetaLoaded && showOverlay && (
+            <div className="bg-base-900 absolute top-0 left-0 z-30 h-full w-full opacity-60">
+              <button
+                type="button"
+                onClick={hideOverlay}
+                className="h-full w-full"
+              >
+                overlay
+              </button>
+            </div>
+          )} */}
+          {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video
+            src={videoUrl}
+            ref={ref}
+            onLoadedMetadata={handleOnLoad}
+            onTimeUpdate={handleTimeUpdate}
+            className="h-80 w-full object-fill"
+          />
+
+          <O11yMediaPlayerControlPanel
+            isPaused={isPaused}
+            onPlayClick={handlePlaybackClick}
+            duration={Math.round(duration)}
+            currentTime={Math.round(currentTime)}
+            onSeekbarChange={handleSliderChange}
+            onJumpXSeconds={handleMoveXSeconds}
+            stickToBottom
+            wrapperClassName=""
+            showRewindForwardButtons={false}
+            hoverSeekTime={videoSeekTime}
+          />
+        </div>
+      </>
     );
   }
 );
@@ -96,6 +118,9 @@ VideoPlayer.propTypes = {
   ]),
   isPaused: PropTypes.bool.isRequired,
   setIsPaused: PropTypes.func.isRequired
+  // showOverlay: PropTypes.bool.isRequired,
+  // hideOverlay: PropTypes.func.isRequired,
+  // isVideoMetaLoaded: PropTypes.bool.isRequired
 };
 
 VideoPlayer.defaultProps = {
