@@ -109,6 +109,14 @@ const TestVideoPlayer = () => {
     return false;
   }, [details.data.videoLogs?.startTimeStamp]);
 
+  useEffect(() => {
+    if (isVideoExpired || isFailed) {
+      dispatch(setIsValidVideo(false));
+    } else {
+      dispatch(setIsValidVideo(true));
+    }
+  }, [dispatch, isFailed, isVideoExpired]);
+
   const handleNormalVideoToPiPSync = () => {
     const videoComponent = videoRef.current;
     const floatingVideoComponent = floatingVideoComponentRef.current;
@@ -139,12 +147,12 @@ const TestVideoPlayer = () => {
 
   const handleMetadataLoaded = () => {
     setIsLoading(false);
+    setIsFailed(false);
   };
 
   const handleMetadataFailed = () => {
     setIsLoading(false);
     setIsFailed(true);
-    dispatch(setIsValidVideo(false));
   };
 
   const handleFloatingVideoClose = () => {
@@ -230,7 +238,7 @@ const TestVideoPlayer = () => {
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
         className={twClassNames('w-auto', {
-          hidden: !showFloatingWindow
+          hidden: !showFloatingWindow || !isFailed || !isVideoExpired
         })}
         style={{
           right: floatingVideoRightOffset,
