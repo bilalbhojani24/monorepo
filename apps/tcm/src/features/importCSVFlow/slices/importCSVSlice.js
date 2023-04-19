@@ -9,6 +9,8 @@ import {
   VALUE_MAPPING_OPTIONS
 } from '../const/importCSVConstants';
 
+import { calcValueMappings } from './helper';
+
 const initialState = {
   fileConfig: { file: '', fileName: '' },
   currentCSVScreen: FIRST_SCREEN,
@@ -166,16 +168,12 @@ const importCSVSlice = createSlice({
       state.mapFieldsConfig.importFields = payload.import_fields;
       state.uploadFileProceedLoading = false;
       // eslint-disable-next-line no-restricted-syntax
-      for (const [key, value] of Object.entries(payload?.value_mappings)) {
-        state.valueMappings[key] = Object.keys(value).reduce(
-          (obj, nestedKey) => {
-            if (value[nestedKey] === null)
-              return { ...obj, [nestedKey]: { action: 'add' } };
-            return { ...obj, [nestedKey]: value[nestedKey] };
-          },
-          {}
-        );
-      }
+
+      state.valueMappings = calcValueMappings(
+        payload.value_mappings,
+        payload.import_fields,
+        payload?.field_mappings
+      );
 
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of Object.entries(payload?.field_mappings)) {

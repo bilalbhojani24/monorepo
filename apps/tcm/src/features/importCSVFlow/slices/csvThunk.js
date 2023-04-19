@@ -211,6 +211,7 @@ export const startImportingTestCases =
     const payload = {};
     if (projectId && projectId !== 'new') payload.project_id = projectId;
     if (folderId) payload.folder_id = folderId;
+
     try {
       const response = await startCSVImport({
         importId,
