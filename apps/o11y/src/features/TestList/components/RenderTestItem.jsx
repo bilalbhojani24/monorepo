@@ -174,15 +174,13 @@ const RenderTestItem = ({ item: data }) => {
             {!!details?.retries[details?.retries.length - 1].logs[
               LOG_TYPES.IMAGES
             ] && (
-              <PropagationBlocker variant="div">
-                <TestListGalleryContainer
-                  imgUrl={
-                    details?.retries[details?.retries.length - 1].logs[
-                      LOG_TYPES.IMAGES
-                    ]
-                  }
-                />
-              </PropagationBlocker>
+              <TestListGalleryContainer
+                imgUrl={
+                  details?.retries[details?.retries.length - 1].logs[
+                    LOG_TYPES.IMAGES
+                  ]
+                }
+              />
             )}
             <TestItemJiraTag details={details} />
             {details?.sessionUrl && (
