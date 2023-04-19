@@ -168,12 +168,14 @@ export default function FailureCategories() {
                     <>
                       {isItemVisible && (
                         <div
-                          className="flex h-5 overflow-hidden rounded-none first:rounded-l-full last:rounded-r-full"
+                          role="presentation"
+                          className="pointer-events-auto flex h-5 cursor-pointer overflow-hidden rounded-none first:rounded-l-full last:rounded-r-full"
                           style={{
                             color: item.color,
                             backgroundColor: item.color,
                             width: `${(item.value * 100) / totalDefects}%`
                           }}
+                          onClick={() => handleCategoryClick(item)}
                           key={item.id}
                         >
                           {!!item.value && (
@@ -181,6 +183,8 @@ export default function FailureCategories() {
                               theme="dark"
                               placementSide="top"
                               wrapperClassName="py-2 text-white"
+                              triggerAsChild
+                              triggerWrapperClassName="flex flex-1"
                               content={
                                 <div className="flex items-center gap-1 px-2">
                                   <span
@@ -205,9 +209,7 @@ export default function FailureCategories() {
                                 className="pointer-events-auto contents w-full cursor-pointer overflow-hidden"
                                 onClick={() => handleCategoryClick(item)}
                                 role="presentation"
-                              >
-                                {item.name}
-                              </div>
+                              />
                             </O11yTooltip>
                           )}
                         </div>

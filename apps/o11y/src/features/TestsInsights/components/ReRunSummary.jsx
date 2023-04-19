@@ -40,10 +40,11 @@ export default function ReRunSummary() {
   const navigate = useNavigate();
 
   const handleClickSummaryRow = (id) => {
+    const { id: runId } = reRunStats.data?.retryData[id];
     logInsightsInteractionEvent({
       interaction: 'rerun_summary_filter_applied'
     });
-    applyTestListFilter({ query: `run=${id}` });
+    applyTestListFilter({ query: `run=${runId}` });
   };
 
   const hasNoData = useMemo(
