@@ -131,7 +131,7 @@ const TestCasesTable = () => {
               value: el.value
             }))}
             value={valueMapped}
-            onChange={(e) => onResultChange(e, rowData, false, true)}
+            onChange={(e) => onResultChange(e, rowData, true, true)}
           />
         );
       },
