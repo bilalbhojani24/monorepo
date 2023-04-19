@@ -33,15 +33,15 @@ const ImageItem = ({ url }) => {
       <img
         src={url}
         alt="test screenshot"
-        className={twClassNames('max-h-[300px] drop-shadow-md', {
+        className={twClassNames('max-h-80 drop-shadow-md', {
           hidden: isLoading || isLoadFailed
         })}
         onError={handleImageError}
         onLoad={handleImageLoad}
       />
 
-      {isLoading && <ScreenshotLoadingIcon className="max-h-[300px]" />}
-      {isLoadFailed && <ScreenshotFailureIcon className="max-h-[300px]" />}
+      {isLoading && <ScreenshotLoadingIcon className="max-h-80" />}
+      {isLoadFailed && <ScreenshotFailureIcon className="max-h-80" />}
     </O11yHyperlink>
   );
 };
