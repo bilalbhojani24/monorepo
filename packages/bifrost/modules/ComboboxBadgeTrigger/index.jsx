@@ -148,7 +148,7 @@ const ComboboxBadgeTrigger = ({
           )}
           {isLoadingRight && (
             <span className="text-base-500 flex items-center rounded-r-md focus:outline-none">
-              <Loader wrapperStyle="text-base-200 fill-base-400 " />
+              <Loader wrapperClassName="text-base-200 fill-base-400 " />
             </span>
           )}
           {errorText && (

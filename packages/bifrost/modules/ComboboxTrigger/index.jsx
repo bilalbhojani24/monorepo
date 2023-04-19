@@ -47,9 +47,10 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
 
   return (
     <Popover.Trigger ref={buttonRef} asChild>
-      <div
+      <Combobox.Button
+        as="div"
         className={twClassNames(
-          'border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-2 focus-within:outline-none focus-within:ring-1 py-2 rounded-md relative',
+          'cursor-pointer border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-2 focus-within:outline-none focus-within:ring-1 py-2 rounded-md relative',
           {
             'pr-7': isMulti,
             'border-danger-600': errorText,
@@ -58,26 +59,36 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             'border-base-200 bg-base-50 text-base-500 pr-8': isLoading
           }
         )}
+        onClick={(e) => {
+          if (open && isMulti) {
+            e.preventDefault();
+            comboInputRef.current.focus();
+          }
+        }}
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
         {isLoading && (
           <div className="flex items-center space-x-2 pr-2">
-            <Loader wrapperStyle="text-base-200 fill-base-400 h-5 w-5" />
+            <Loader wrapperClassName="text-base-200 fill-base-400 h-5 w-5" />
             <span>{loadingText}</span>
           </div>
         )}
-        {!isMulti && !open && currentSelectedValues?.image && (
-          <img
-            src={currentSelectedValues.image}
-            alt={currentSelectedValues.label}
-            className="mr-2 h-5 w-5 shrink-0 rounded-full"
-          />
-        )}
+        {!isMulti &&
+          !open &&
+          currentSelectedValues?.image &&
+          !isLoading &&
+          !isLoadingRight && (
+            <img
+              src={currentSelectedValues.image}
+              alt={currentSelectedValues.label}
+              className="mr-2 h-5 w-5 shrink-0 rounded-full"
+            />
+          )}
         <Combobox.Input
           key={open || isLoading}
           placeholder={isLoading ? null : placeholder}
           className={twClassNames(
-            'flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 flex-1 p-0 text-ellipsis pr-7',
+            'cursor-pointer flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 flex-1 p-0 text-ellipsis pr-7',
             {
               'bg-base-50': disabled || isLoading,
               'pr-0': isTruncated
@@ -104,7 +115,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             ) : null}
             {isLoadingRight && (
               <span className="text-base-500 flex items-center space-x-2 rounded-r-md focus:outline-none">
-                <Loader wrapperStyle="text-base-200 fill-base-400 h-5 w-5" />
+                <Loader wrapperClassName="text-base-200 fill-base-400 h-5 w-5" />
               </span>
             )}
             {errorText && (
@@ -117,18 +128,10 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             )}
           </div>
         )}
-        <Combobox.Button
-          className="absolute inset-y-0 right-0 flex w-full items-center justify-end rounded-r-md px-2 focus:outline-none"
-          onClick={(e) => {
-            if (open && isMulti) {
-              e.preventDefault();
-              comboInputRef.current.focus();
-            }
-          }}
-        >
+        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center justify-end rounded-r-md px-2 focus:outline-none">
           <TriggerButton setIsTruncated={setIsTruncated} ref={comboInputRef} />
         </Combobox.Button>
-      </div>
+      </Combobox.Button>
     </Popover.Trigger>
   );
 };
