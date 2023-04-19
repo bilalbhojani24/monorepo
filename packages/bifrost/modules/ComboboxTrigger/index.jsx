@@ -65,6 +65,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             comboInputRef.current.focus();
           }
         }}
+        aria-hidden="true"
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
         {isLoading && (
