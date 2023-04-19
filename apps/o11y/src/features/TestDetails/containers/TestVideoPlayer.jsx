@@ -238,7 +238,7 @@ const TestVideoPlayer = () => {
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
         className={twClassNames('w-auto', {
-          hidden: !showFloatingWindow || !isFailed || !isVideoExpired
+          hidden: !showFloatingWindow || isFailed || isVideoExpired
         })}
         style={{
           right: floatingVideoRightOffset,
