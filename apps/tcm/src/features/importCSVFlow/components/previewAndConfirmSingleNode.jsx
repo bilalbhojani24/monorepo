@@ -20,7 +20,7 @@ const PreviewAndConfirmSingleNode = ({
     </div>
     <div
       className={twClassNames(
-        'text-sm text-base-900 flex items-center font-normal',
+        'text-sm text-base-900 flex  font-normal flex-col w-full',
         descWrapperClassName
       )}
     >
