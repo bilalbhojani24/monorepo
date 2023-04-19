@@ -20,6 +20,24 @@ const HistorySlider = () => {
     name: null
   });
 
+  useEffect(() => {
+    const allTestHistory = testMeta.data?.history;
+    if (!isEmpty(allTestHistory)) {
+      const activeTestHistoryIdx = allTestHistory.findIndex(
+        (testHistory) => testHistory.testRunId === Number(testRunId)
+      );
+
+      if (activeTestHistoryIdx !== -1) {
+        const activeTestHistory = allTestHistory[activeTestHistoryIdx];
+        setActiveTab({
+          idx: activeTestHistoryIdx,
+          value: activeTestHistory.testRunId,
+          name: `${activeTestHistory.serialId}`
+        });
+      }
+    }
+  }, [testMeta.data?.history, testRunId]);
+
   const tabs = useMemo(() => {
     if (!isEmpty(testMeta.data?.history)) {
       return testMeta.data?.history.map((testHistory) => ({
@@ -39,24 +57,6 @@ const HistorySlider = () => {
     }
     return [];
   }, [activeTab.value, testMeta.data?.history]);
-
-  useEffect(() => {
-    const allTestHistory = testMeta.data?.history;
-    if (!isEmpty(allTestHistory)) {
-      const activeTestHistoryIdx = allTestHistory.findIndex(
-        (testHistory) => testHistory.testRunId === testRunId
-      );
-
-      if (activeTestHistoryIdx !== -1) {
-        const activeTestHistory = allTestHistory[activeTestHistoryIdx];
-        setActiveTab({
-          idx: activeTestHistoryIdx,
-          value: activeTestHistory.testRunId,
-          name: `${activeTestHistory.serialId}`
-        });
-      }
-    }
-  }, [testMeta.data?.history, testRunId]);
 
   const onTabChange = useCallback(
     (tabInfo) => {

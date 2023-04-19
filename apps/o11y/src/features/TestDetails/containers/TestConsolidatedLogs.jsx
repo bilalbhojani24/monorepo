@@ -247,7 +247,8 @@ const TestConsolidatedLogs = ({ videoSeekTime }) => {
 
   return (
     <div className="h-full">
-      <div className="flex items-center justify-between pt-4">
+      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+      <div className="sticky top-[54px] z-20 flex items-center justify-between bg-white pt-4">
         <TestLogFilters
           onSearchChange={handleSearchChange}
           searchText={searchText}
