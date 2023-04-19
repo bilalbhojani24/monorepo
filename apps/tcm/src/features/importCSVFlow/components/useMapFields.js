@@ -195,7 +195,10 @@ const useMapFields = () => {
           mapNameToDisplay[myFieldMappings?.[item]?.action]
       }
     },
-    mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
+    mappedValue:
+      myFieldMappings[item]?.action ||
+      myFieldMappings?.[item] ||
+      ADD_FIELD_VALUE
   }));
 
   const customFieldNames = mapFieldsConfig.customFields.reduce(
