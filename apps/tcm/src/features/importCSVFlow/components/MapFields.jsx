@@ -285,7 +285,7 @@ const MapFields = () => {
                     </TableCell>
                     <TableCell
                       wrapperClassName={twClassNames(
-                        'py-1 w-1/5 px-5 max-w-[120px]'
+                        'py-1 w-1/5 px-5 max-w-[250px]'
                       )}
                     >
                       {getMappingForLastCol(
