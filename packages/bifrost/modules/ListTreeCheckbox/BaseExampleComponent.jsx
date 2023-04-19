@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { MdFolderSpecial } from 'react-icons/md';
 import PropTypes from 'prop-types';
 
 import Checkbox from '../Checkbox';
+import { MdFolderSpecial } from '../Icon';
 import ListTree from '../ListTree';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
@@ -12,7 +12,7 @@ const ControlledNestedTreeWithCheckbox = ({
   filteredUUIDs,
   allowFilter,
   onCheckboxChange,
-  isParentSelected,
+  isParentSearched,
   indent = 1
 }) => {
   const [openNodeMap, setOpenNodeMap] = useState({
@@ -22,7 +22,11 @@ const ControlledNestedTreeWithCheckbox = ({
   });
 
   return data?.map((item) => {
-    if (allowFilter && !filteredUUIDs[item.uuid] && !isParentSelected) {
+    if (
+      allowFilter &&
+      !filteredUUIDs.filteredUUIDsWithHierarchy[item.uuid] &&
+      !isParentSearched
+    ) {
       return null;
     }
     return (
@@ -32,16 +36,15 @@ const ControlledNestedTreeWithCheckbox = ({
         isTreeOpen={openNodeMap[item.name]}
       >
         <ListTreeNode
-          hideIcon
+          showIcon={false}
           label={
             <Checkbox
-              inputClassName="w-3 h-3"
               data={{
                 label: (
                   <>
                     <MdFolderSpecial className="text-info-400 mr-2 inline-block h-5 w-5 shrink-0 select-none" />
                     <span className="text-base-700 mr-2 text-xs leading-5">
-                      {item.uuid} - {item.name}
+                      {item.name}
                     </span>
                   </>
                 ),
@@ -54,11 +57,10 @@ const ControlledNestedTreeWithCheckbox = ({
                 onCheckboxChange(!item.isChecked, item.uuid);
               }}
               wrapperClassName="py-0"
-              labelClassName="w-full flex"
             />
           }
           isNodeSelectable={false}
-          description={`(level=${indent})`}
+          description={item.uuid}
           onNodeOpen={() => {
             if (openNodeMap[item.name] !== undefined) {
               openNodeMap[item.name] = !openNodeMap[item.name];
@@ -78,7 +80,9 @@ const ControlledNestedTreeWithCheckbox = ({
               filteredUUIDs={filteredUUIDs}
               allowFilter={allowFilter}
               data={item.contents}
-              isParentSelected={filteredUUIDs[item.uuid] || isParentSelected}
+              isParentSearched={
+                filteredUUIDs.searchedUUIDs[item.uuid] || isParentSearched
+              }
               indent={1 + indent}
             />
           </ListTreeNodeContents>
@@ -99,6 +103,12 @@ const dataItem = {
 
 ControlledNestedTreeWithCheckbox.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape(dataItem)).isRequired,
+  isParentSearched: PropTypes.bool.isRequired,
+  filteredUUIDs: PropTypes.shape({
+    filteredUUIDsWithHierarchy: PropTypes.shape({}).isRequired,
+    searchedUUIDs: PropTypes.shape({}).isRequired
+  }).isRequired,
+  allowFilter: PropTypes.bool.isRequired,
   onCheckboxChange: PropTypes.func.isRequired,
   indent: PropTypes.number
 };

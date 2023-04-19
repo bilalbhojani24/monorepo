@@ -24,7 +24,7 @@ const ListTreeNode = forwardRef(
       isNodeSelected,
       trailingVisualElement,
       isNodeSelectable,
-      hideIcon
+      showIcon
     },
     ref
   ) => (
@@ -64,7 +64,7 @@ const ListTreeNode = forwardRef(
           )}
         </Disclosure.Button>
 
-        {!hideIcon && (
+        {showIcon && (
           <div className="text-info-400 mr-2 h-5 w-5 shrink-0 select-none">
             {leadingIcon || <MdFolder className="h-full w-full" />}
           </div>
@@ -125,7 +125,7 @@ ListTreeNode.propTypes = {
   isNodeSelected: PropTypes.bool,
   trailingVisualElement: PropTypes.node,
   leadingIcon: PropTypes.node,
-  hideIcon: PropTypes.bool,
+  showIcon: PropTypes.bool,
   isNodeSelectable: PropTypes.bool
 };
 
@@ -140,7 +140,7 @@ ListTreeNode.defaultProps = {
   isNodeSelected: false,
   trailingVisualElement: null,
   leadingIcon: null,
-  hideIcon: false,
+  showIcon: true,
   isNodeSelectable: true
 };
 
