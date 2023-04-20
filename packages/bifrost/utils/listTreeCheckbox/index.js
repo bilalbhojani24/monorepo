@@ -1,23 +1,15 @@
-const iterateAllChildren = (childrenItems, onEveryItemCallback) => {
-  let newChildren = [];
-  childrenItems.forEach((el) => {
-    const doIncludeCurrentItemsChildItems = onEveryItemCallback(el);
-    if (el?.contents.length > 0 && doIncludeCurrentItemsChildItems) {
-      newChildren = newChildren.concat(el.contents);
-    }
-  });
-  return newChildren;
-};
-
-const iterateAllChildrenRecusively = (parentItem, onEveryItemCallback) => {
-  let childrenItems = parentItem?.contents || [];
-  let hasMoreChildren = parentItem?.contents.length;
-  while (hasMoreChildren) {
-    const childs = iterateAllChildren(childrenItems, onEveryItemCallback);
-    if (childs.length === 0) {
-      hasMoreChildren = false;
-    }
-    childrenItems = childs;
+// recurisvelyIterateALl
+const bfsTraversal = (rootNode, onEveryItemCallback) => {
+  let queue = rootNode?.contents || [];
+  while (queue.length) {
+    let childs = [];
+    queue.forEach((el) => {
+      const doIncludeCurrentItemsChildItems = onEveryItemCallback(el);
+      if (el?.contents?.length > 0 && doIncludeCurrentItemsChildItems) {
+        childs = childs.concat(el.contents);
+      }
+    });
+    queue = childs;
   }
 };
 
@@ -61,14 +53,15 @@ const adjustParentOfClicked = (targetItem) => {
   }
 };
 
-const listTreeCheckboxHelper = (isChecked, targetIndexes, listOfItems) => {
+// listTreeCheckboxHelper
+const updateTargetNodes = (isChecked, targetIndexes, listOfItems) => {
   const newItems = JSON.parse(JSON.stringify(listOfItems));
   // adjust (check/uncheck) current clicked item
   const targetItem = getTargetHierarchyByIndex(newItems, targetIndexes);
   targetItem[0].isChecked = isChecked;
   targetItem[0].isIndeterminate = false;
   // adjust children of current clicked item
-  iterateAllChildrenRecusively(targetItem[0], (item) => {
+  bfsTraversal(targetItem[0], (item) => {
     const newItem = item;
     newItem.isChecked = isChecked;
     newItem.isIndeterminate = false;
@@ -79,14 +72,14 @@ const listTreeCheckboxHelper = (isChecked, targetIndexes, listOfItems) => {
   return { newItems, targetItem };
 };
 
-const isCheckedSelection = (targetItemVal, newValuesData) => {
+const getSelectedNodesOnItemSelect = (targetItemVal, newValuesData) => {
   const targetItem = targetItemVal;
   const newValues = newValuesData;
   let inserted = false;
   for (let i = targetItem.length - 1; i >= 0; i -= 1) {
     if (targetItem[i].isIndeterminate === false && !inserted) {
       newValues[targetItem[i].uuid] = targetItem[i];
-      iterateAllChildrenRecusively(targetItem[i], (item) => {
+      bfsTraversal(targetItem[i], (item) => {
         delete newValues[item.uuid];
         return true;
       });
@@ -97,22 +90,22 @@ const isCheckedSelection = (targetItemVal, newValuesData) => {
   }
 };
 
-const listTreeSelectionHelper = (prevItems, targetItem, isChecked) => {
+const getSelectedListTreeItems = (prevItems, targetItem, isChecked) => {
   const newValues = { ...prevItems };
   if (isChecked) {
-    isCheckedSelection(targetItem, newValues);
+    getSelectedNodesOnItemSelect(targetItem, newValues);
   } else {
     for (let i = targetItem.length - 1; i >= 0; i -= 1) {
       if (targetItem[i].isChecked === false) {
         delete newValues[targetItem[i].uuid];
-        iterateAllChildrenRecusively(targetItem[i], (item) => {
+        bfsTraversal(targetItem[i], (item) => {
           delete newValues[item.uuid];
           return true;
         });
         break;
       } else if (targetItem[i].isIndeterminate === true) {
         delete newValues[targetItem[i].uuid];
-        iterateAllChildrenRecusively(targetItem[i], (item) => {
+        bfsTraversal(targetItem[i], (item) => {
           if (item.isChecked === true && item.isIndeterminate === false) {
             newValues[item.uuid] = item;
             return false;
@@ -126,9 +119,8 @@ const listTreeSelectionHelper = (prevItems, targetItem, isChecked) => {
 };
 
 export {
-  listTreeCheckboxHelper,
-  iterateAllChildren as listTreeIterateChildren,
-  iterateAllChildrenRecusively as listTreeIterateChildrenRecursively,
-  listTreeSelectionHelper,
-  getTargetHierarchyByIndex as listTreeTargetHierarcyByIndex
+  bfsTraversal,
+  getSelectedListTreeItems,
+  getTargetHierarchyByIndex,
+  updateTargetNodes
 };

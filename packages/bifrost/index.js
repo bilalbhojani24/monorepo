@@ -42,13 +42,6 @@ import InputGroupSelectMenuTrigger from './modules/InputField/components/InputGr
 import InputField from './modules/InputField/index';
 import KeyValue from './modules/KeyValuePair/index';
 import ListTree from './modules/ListTree';
-import {
-  listTreeCheckboxHelper,
-  listTreeIterateChildren,
-  listTreeIterateChildrenRecursively,
-  listTreeSelectionHelper,
-  listTreeTargetHierarcyByIndex
-} from './modules/ListTreeCheckbox/index';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
 import Loader from './modules/Loader/index';
@@ -110,6 +103,7 @@ import TooltipBody from './modules/TooltipBody/index';
 import TooltipFooter from './modules/TooltipFooter/index';
 import TooltipHeader from './modules/TooltipHeader/index';
 import TruncateText from './modules/TruncateText/index';
+import listTreeCheckboxHelper from './utils/listTreeCheckbox';
 
 export * from './modules/Icon/index';
 
@@ -159,12 +153,8 @@ export {
   KeyValue,
   ListTree,
   listTreeCheckboxHelper,
-  listTreeIterateChildren,
-  listTreeIterateChildrenRecursively,
   ListTreeNode,
   ListTreeNodeContents,
-  listTreeSelectionHelper,
-  listTreeTargetHierarcyByIndex,
   Loader,
   MediaPlayer,
   MediaPlayerControlPanel,

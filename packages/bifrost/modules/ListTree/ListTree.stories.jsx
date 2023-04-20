@@ -2,18 +2,18 @@ import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import {
+  bfsTraversal,
+  getSelectedListTreeItems,
+  getTargetHierarchyByIndex,
+  updateTargetNodes
+} from '../../utils/listTreeCheckbox';
 import Dropdown from '../Dropdown';
 import DropdownOptionGroup from '../DropdownOptionGroup';
 import DropdownOptionItem from '../DropdownOptionItem';
 import DropdownTrigger from '../DropdownTrigger';
 import { EllipsisVerticalIcon, MdFolderSpecial } from '../Icon';
 import InputField from '../InputField';
-import {
-  listTreeCheckboxHelper,
-  listTreeIterateChildrenRecursively,
-  listTreeSelectionHelper,
-  listTreeTargetHierarcyByIndex
-} from '../ListTreeCheckbox';
 import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent.stories';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
@@ -114,8 +114,44 @@ const sampleListTreeCheckboxData = [
                 ]
               }
             ]
+          },
+          {
+            uuid: '1-1-2',
+            name: 'file 2b3',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '1-1-2-0',
+                name: 'file 2b3a',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              },
+              {
+                uuid: '1-1-2-1',
+                name: 'file 2b3b',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              },
+              {
+                uuid: '1-1-2-2',
+                name: 'file 2b3c',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              }
+            ]
           }
         ]
+      },
+      {
+        uuid: '1-2',
+        name: 'file 2c',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: null
       }
     ]
   }
@@ -321,12 +357,12 @@ const SearchableSelectableListTree = () => {
     setSearchValue(newSearchValue);
   };
   const onCheckboxChange = (isChecked, targetIndexes) => {
-    const { newItems, targetItem } = listTreeCheckboxHelper(
+    const { newItems, targetItem } = updateTargetNodes(
       isChecked,
       targetIndexes,
       listOfItems
     );
-    const { selectedValuesAdjusted } = listTreeSelectionHelper(
+    const { selectedValuesAdjusted } = getSelectedListTreeItems(
       selectedValue,
       targetItem,
       isChecked
@@ -341,10 +377,10 @@ const SearchableSelectableListTree = () => {
       filteredUUIDsWithHierarchy: {}
     };
     if (searchValue.length) {
-      listTreeIterateChildrenRecursively({ contents: listOfItems }, (item) => {
+      bfsTraversal({ contents: listOfItems }, (item) => {
         if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
           newValue.searchedUUIDs[item.uuid] = item.uuid;
-          const data = listTreeTargetHierarcyByIndex(listOfItems, item.uuid);
+          const data = getTargetHierarchyByIndex(listOfItems, item.uuid);
           data.forEach((el) => {
             newValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
           });
