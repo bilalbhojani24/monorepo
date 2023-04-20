@@ -16,23 +16,27 @@ const DisplayMapping = ({
   nameToDisplayMapper,
   allImportFields
 }) => {
-  const mappedFields = Object.keys(fieldMappings).map((key) => key);
+  const mappedFields = Object.keys(fieldMappings).map(
+    (key) => fieldMappings?.[key]?.action
+  );
   const unmappedFields = allImportFields.filter(
     (field) => !mappedFields.includes(field)
   );
 
-  const badgeValue = (field, showField) => (
-    <span>
-      {!mappedFields.includes(field) && (
-        <span className="text-sm font-black">&#x2605; </span>
-      )}
-      {field} &rarr; &nbsp;
-      {mappedFields.includes(field) && (
-        <>{nameToDisplayMapper[fieldMappings[field]]}</>
-      )}
-      {showField && `${field}`}
-    </span>
-  );
+  const badgeValue = (field, showField) => {
+    const isAddNewField = Object.keys(fieldMappings).find(
+      (key) => key === field && fieldMappings?.[key]?.action
+    );
+
+    return (
+      <span>
+        {isAddNewField && <span className="text-sm font-black">&#x2605; </span>}
+        {field} &rarr; &nbsp;
+        {!isAddNewField && <>{nameToDisplayMapper[fieldMappings[field]]}</>}
+        {showField && `${field}`}
+      </span>
+    );
+  };
 
   return (
     <div>
