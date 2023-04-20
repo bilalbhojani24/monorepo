@@ -2,7 +2,7 @@ const iterateAllChildren = (childrenItems, onEveryItemCallback) => {
   let newChildren = [];
   childrenItems.forEach((el) => {
     const doIncludeCurrentItemsChildItems = onEveryItemCallback(el);
-    if (el?.contents?.length > 0 && doIncludeCurrentItemsChildItems) {
+    if (el?.contents.length > 0 && doIncludeCurrentItemsChildItems) {
       newChildren = newChildren.concat(el.contents);
     }
   });
@@ -11,7 +11,7 @@ const iterateAllChildren = (childrenItems, onEveryItemCallback) => {
 
 const iterateAllChildrenRecusively = (parentItem, onEveryItemCallback) => {
   let childrenItems = parentItem?.contents || [];
-  let hasMoreChildren = parentItem?.contents?.length;
+  let hasMoreChildren = parentItem?.contents.length;
   while (hasMoreChildren) {
     const childs = iterateAllChildren(childrenItems, onEveryItemCallback);
     if (childs.length === 0) {
@@ -61,7 +61,7 @@ const adjustParentOfClicked = (targetItem) => {
   }
 };
 
-const ListTreeCheckboxHelper = (isChecked, targetIndexes, listOfItems) => {
+const listTreeCheckboxHelper = (isChecked, targetIndexes, listOfItems) => {
   const newItems = JSON.parse(JSON.stringify(listOfItems));
   // adjust (check/uncheck) current clicked item
   const targetItem = getTargetHierarchyByIndex(newItems, targetIndexes);
@@ -97,7 +97,7 @@ const isCheckedSelection = (targetItemVal, newValuesData) => {
   }
 };
 
-const ListTreeSelectionHelper = (prevItems, targetItem, isChecked) => {
+const listTreeSelectionHelper = (prevItems, targetItem, isChecked) => {
   const newValues = { ...prevItems };
   if (isChecked) {
     isCheckedSelection(targetItem, newValues);
@@ -126,9 +126,9 @@ const ListTreeSelectionHelper = (prevItems, targetItem, isChecked) => {
 };
 
 export {
-  ListTreeCheckboxHelper,
-  iterateAllChildren as ListTreeIterateChildren,
-  iterateAllChildrenRecusively as ListTreeIterateChildrenRecursively,
-  ListTreeSelectionHelper,
-  getTargetHierarchyByIndex as ListTreeTargetHierarcyByIndex
+  listTreeCheckboxHelper,
+  iterateAllChildren as listTreeIterateChildren,
+  iterateAllChildrenRecusively as listTreeIterateChildrenRecursively,
+  listTreeSelectionHelper,
+  getTargetHierarchyByIndex as listTreeTargetHierarcyByIndex
 };

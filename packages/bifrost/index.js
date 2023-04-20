@@ -43,11 +43,11 @@ import InputField from './modules/InputField/index';
 import KeyValue from './modules/KeyValuePair/index';
 import ListTree from './modules/ListTree';
 import {
-  ListTreeCheckboxHelper,
-  ListTreeIterateChildren,
-  ListTreeIterateChildrenRecursively,
-  ListTreeSelectionHelper,
-  ListTreeTargetHierarcyByIndex
+  listTreeCheckboxHelper,
+  listTreeIterateChildren,
+  listTreeIterateChildrenRecursively,
+  listTreeSelectionHelper,
+  listTreeTargetHierarcyByIndex
 } from './modules/ListTreeCheckbox/index';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
@@ -158,13 +158,13 @@ export {
   InputGroupSelectMenuTrigger,
   KeyValue,
   ListTree,
-  ListTreeCheckboxHelper,
-  ListTreeIterateChildren,
-  ListTreeIterateChildrenRecursively,
+  listTreeCheckboxHelper,
+  listTreeIterateChildren,
+  listTreeIterateChildrenRecursively,
   ListTreeNode,
   ListTreeNodeContents,
-  ListTreeSelectionHelper,
-  ListTreeTargetHierarcyByIndex,
+  listTreeSelectionHelper,
+  listTreeTargetHierarcyByIndex,
   Loader,
   MediaPlayer,
   MediaPlayerControlPanel,
