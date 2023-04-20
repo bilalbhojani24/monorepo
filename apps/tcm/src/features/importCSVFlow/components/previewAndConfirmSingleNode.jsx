@@ -12,7 +12,7 @@ const PreviewAndConfirmSingleNode = ({
   <div className={twClassNames(wrapperClassName)}>
     <div
       className={twClassNames(
-        'text-sm text-base-500 font-normal',
+        'text-sm text-base-500 font-medium mb-1',
         textWrapperClassName
       )}
     >
@@ -20,7 +20,7 @@ const PreviewAndConfirmSingleNode = ({
     </div>
     <div
       className={twClassNames(
-        'text-sm text-base-900 flex  font-normal flex-col w-full',
+        'text-sm text-base-900 flex font-normal flex-col w-full',
         descWrapperClassName
       )}
     >
