@@ -16,7 +16,7 @@ const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
       wrapperClassName={twClassNames(
-        'font-medium text-base-900 whitespace-normal',
+        'text-base-900 whitespace-normal break-normal',
         {
           'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
         }
@@ -25,7 +25,7 @@ const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
       {item?.buildName}
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames('font-medium text-base-500', {
+      wrapperClassName={twClassNames('text-base-500', {
         'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
@@ -39,7 +39,7 @@ const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
       </div>
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames('font-medium text-base-500', {
+      wrapperClassName={twClassNames('text-base-500', {
         'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
@@ -59,6 +59,14 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
   const dispatch = useDispatch();
   const projects = useSelector(getProjects);
 
+  const checkIfDataExists = useCallback((prev, res) => {
+    if (prev.data) {
+      return [...prev?.data, ...res?.data];
+    }
+
+    return [...res?.data];
+  }, []);
+
   const fetchData = useCallback(
     ({ newPage = false, currentPagingParams }) => {
       dispatch(
@@ -72,7 +80,7 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
         .then((res) => {
           if (newPage) {
             setStabilityData((prev) => ({
-              data: [...prev.data, ...res?.data],
+              data: checkIfDataExists(prev, res),
               pagingParam: res?.pagingParam
             }));
           } else {
@@ -144,7 +152,7 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
             data={stabilityData?.data}
             endReached={loadMoreRows}
             showFixedFooter={isLoadingMore}
-            tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none overflow-visible overflow-x-visible md:rounded-none"
+            tableContainerWrapperClassName="overflow-visible overflow-x-visible md:rounded-none"
             itemContent={(index, singleBuildData) => (
               <StabilityTableItem
                 item={singleBuildData}
@@ -152,21 +160,15 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
               />
             )}
             fixedHeaderContent={() => (
-              <O11yTableRow>
-                <O11yTableCell
-                  wrapperClassName="text-base-900 bg-white"
-                  isSticky
-                >
+              <O11yTableRow wrapperClassName="font-semibold">
+                <O11yTableCell wrapperClassName="font-medium text-xs" isSticky>
                   BUILD NAME
                 </O11yTableCell>
                 <O11yTableCell
-                  wrapperClassName="text-base-900 bg-white"
+                  wrapperClassName="font-medium text-xs"
                   isSticky
                 />
-                <O11yTableCell
-                  wrapperClassName="text-base-900 bg-white"
-                  isSticky
-                >
+                <O11yTableCell wrapperClassName="font-medium text-xs" isSticky>
                   STABILITY
                 </O11yTableCell>
               </O11yTableRow>

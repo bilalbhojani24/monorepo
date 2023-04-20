@@ -197,7 +197,7 @@ export default function CbtTrends() {
     >
       {!isLoading && (
         <div className="flex h-full flex-col">
-          <div className="grid h-full flex-1 grid-cols-2 gap-1">
+          <div className="grid h-full flex-1 grid-cols-2 gap-1 overflow-hidden">
             {!!chartData.data?.length && (
               <Chart options={getOptions} chartRef={chart} />
             )}
@@ -223,9 +223,9 @@ export default function CbtTrends() {
                       className="mr-2 mt-1 inline-block h-2 w-2 shrink-0 rounded"
                       style={{ backgroundColor: item.color }}
                     />
-                    <span>{item.name}</span>
+                    <span className="break-normal">{item.name}</span>
                   </p>
-                  <p className="font-medium">{item.percentage}%</p>
+                  <p className="shrink-0 font-medium">{item.percentage}%</p>
                 </div>
               ))}
             </div>

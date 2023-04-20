@@ -50,11 +50,6 @@ export default function TestingTrendsHeader() {
   );
 
   const handleClickRange = (key) => {
-    const searchParams = new URLSearchParams(window?.location?.search);
-    searchParams.set(TT_PARAMS_MAPPING.ttDateRange, key);
-    searchParams.delete(TT_PARAMS_MAPPING.ttToDate);
-    searchParams.delete(TT_PARAMS_MAPPING.ttFromDate);
-    navigate({ search: searchParams.toString() });
     dispatch(
       setTTFilters({
         dateRange: {
@@ -62,6 +57,11 @@ export default function TestingTrendsHeader() {
         }
       })
     );
+    const searchParams = new URLSearchParams(window?.location?.search);
+    searchParams.set(TT_PARAMS_MAPPING.ttDateRange, key);
+    searchParams.delete(TT_PARAMS_MAPPING.ttToDate);
+    searchParams.delete(TT_PARAMS_MAPPING.ttFromDate);
+    navigate({ search: searchParams.toString() });
     logOllyEvent({
       event: 'O11yTestingTrendsInteracted',
       data: {

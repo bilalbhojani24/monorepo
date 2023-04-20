@@ -30,10 +30,11 @@ const DatePickerGroup = ({
 
   const handleFromDateChange = (dateObj) => {
     const dateString = dateObj.toString();
-    const date = new Date(dateString);
+    // const date = new Date(dateString);
     onChangeFromDateValue(dateString);
     setShowEndDatePicker(true);
-    onDateSelect({ from: date.getTime(), to: new Date(toDateValue).getTime() });
+    // NOTE: we don't need to trigger on from date change
+    // onDateSelect({ from: date.getTime(), to: new Date(toDateValue).getTime() });
   };
 
   const handleToDateChange = (dateObj) => {
@@ -110,7 +111,7 @@ const DatePickerGroup = ({
           placement="bottom start"
           {...extraProps()}
         />
-        <div className="shrink-0 basis-2">-</div>
+        <div className="shrink-0 basis-2 pt-3">-</div>
         <O11ySingleDatePicker
           onChange={handleToDateChange}
           wrapperClassName="w-44"
