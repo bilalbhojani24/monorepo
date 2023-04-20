@@ -51,7 +51,7 @@ const MultiSelect = ({
     fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
-  const shouldFetchIntialOptions = useRef(true);
+  const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
   const [searchLoading, setSearchLoading] = useState(false);
 
@@ -226,15 +226,17 @@ const MultiSelect = ({
             ))}
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length && !areOptionsLoading && (
-          <ComboboxOptionGroup>
-            <ComboboxOptionItem
-              key="no options"
-              option={{ label: 'No options' }}
-              disabled
-            />
-          </ComboboxOptionGroup>
-        )}
+        {!optionsToRender?.length &&
+          !areOptionsLoading &&
+          !shouldFetchIntialOptions.current && (
+            <ComboboxOptionGroup>
+              <ComboboxOptionItem
+                key="no options"
+                option={{ label: 'No options' }}
+                disabled
+              />
+            </ComboboxOptionGroup>
+          )}
         {!optionsToRender?.length && searchLoading && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem

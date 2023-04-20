@@ -60,7 +60,7 @@ const NestedSingleValueSelect = ({
     fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
-  const shouldFetchIntialOptions = useRef(true);
+  const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
 
   const getOptions = makeDebounce(() => {
@@ -216,7 +216,7 @@ const NestedSingleValueSelect = ({
             ))}
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length && (
+        {!optionsToRender?.length && !shouldFetchIntialOptions.current && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
               key="no options"

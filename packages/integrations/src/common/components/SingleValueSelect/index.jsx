@@ -80,7 +80,7 @@ const SingleValueSelect = ({
     fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
-  const shouldFetchIntialOptions = useRef(true);
+  const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
 
   const appendOptionIfMissing = (optionList = [], target) => {
@@ -266,15 +266,18 @@ const SingleValueSelect = ({
               )}
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length && !isLoading && !searchLoading && (
-          <ComboboxOptionGroup>
-            <ComboboxOptionItem
-              key="no options"
-              option={{ label: 'No options' }}
-              disabled
-            />
-          </ComboboxOptionGroup>
-        )}
+        {!optionsToRender?.length &&
+          !isLoading &&
+          !searchLoading &&
+          !shouldFetchIntialOptions.current && (
+            <ComboboxOptionGroup>
+              <ComboboxOptionItem
+                key="no options"
+                option={{ label: 'No options' }}
+                disabled
+              />
+            </ComboboxOptionGroup>
+          )}
         {!optionsToRender?.length && searchLoading && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
