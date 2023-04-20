@@ -70,6 +70,7 @@ export const recentTestsColumns = [
         wrapperClassName="text-sm leading-5 font-normal text-info-600"
         onClick={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           sessionSelected(row);
         }}
       >
