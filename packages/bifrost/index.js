@@ -44,7 +44,10 @@ import KeyValue from './modules/KeyValuePair/index';
 import ListTree from './modules/ListTree';
 import {
   ListTreeCheckboxHelper,
-  ListTreeSelectionHelper
+  ListTreeIterateChildren,
+  ListTreeIterateChildrenRecursively,
+  ListTreeSelectionHelper,
+  ListTreeTargetHierarcyByIndex
 } from './modules/ListTreeCheckbox/index';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
@@ -159,9 +162,12 @@ export {
   KeyValue,
   ListTree,
   ListTreeCheckboxHelper,
+  ListTreeIterateChildren,
+  ListTreeIterateChildrenRecursively,
   ListTreeNode,
   ListTreeNodeContents,
   ListTreeSelectionHelper,
+  ListTreeTargetHierarcyByIndex,
   Loader,
   MediaPlayer,
   MediaPlayerLeftControls,
