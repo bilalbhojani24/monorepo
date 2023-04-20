@@ -67,7 +67,7 @@ const App = () => {
 
   useEffect(() => {
     // Note: Disabling for onboarding, Get access and project selection pages
-    if (activeProject.name !== 'Select a project') {
+    if (activeProject.id) {
       // Initialize delighted survey
       const delightedConfig = {
         group_id: userDetails.groupId,
