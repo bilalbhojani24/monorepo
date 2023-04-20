@@ -62,6 +62,7 @@ const NestedSingleValueSelect = ({
   );
   const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
+  const lengthOfOptionsToRender = optionsToRender?.length;
 
   const getOptions = makeDebounce(() => {
     setAreOptionsLoading(true);
@@ -86,7 +87,7 @@ const NestedSingleValueSelect = ({
       shouldFetchIntialOptions.current &&
       isOpen &&
       optionsPath &&
-      !optionsToRender?.length
+      !lengthOfOptionsToRender
     ) {
       getOptions();
     }
@@ -209,14 +210,14 @@ const NestedSingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        {Boolean(optionsToRender.length) && (
+        {Boolean(lengthOfOptionsToRender) && (
           <ComboboxOptionGroup maxWidth={300}>
             {optionsToRender?.map((item) => (
               <ComboboxOptionItem key={item.value} option={item} />
             ))}
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length && !shouldFetchIntialOptions.current && (
+        {!lengthOfOptionsToRender && !shouldFetchIntialOptions.current && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
               key="no options"

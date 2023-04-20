@@ -82,6 +82,7 @@ const SingleValueSelect = ({
   );
   const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
+  const lengthOfOptionsToRender = optionsToRender?.length;
 
   const appendOptionIfMissing = (optionList = [], target) => {
     if (target) {
@@ -129,7 +130,7 @@ const SingleValueSelect = ({
       shouldFetchIntialOptions.current &&
       isOpen &&
       optionsPath &&
-      !optionsToRender?.length
+      !lengthOfOptionsToRender
     ) {
       getOptions();
     }
@@ -235,7 +236,7 @@ const SingleValueSelect = ({
         onChange={handleChange}
         onOpenChange={handleOpen}
         value={
-          !optionsToRender?.length
+          !lengthOfOptionsToRender
             ? null
             : (fieldsData[fieldKey] || cleanedValue) ?? {}
         }
@@ -250,12 +251,12 @@ const SingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        {Boolean(optionsToRender?.length) && (
+        {Boolean(lengthOfOptionsToRender) && (
           <ComboboxOptionGroup maxWidth={300}>
             {optionsToRender?.map((item) => (
               <ComboboxOptionItem key={item.value} option={item} />
             ))}
-            {optionsToRender?.length === 1 &&
+            {lengthOfOptionsToRender === 1 &&
               fieldsData?.[fieldKey]?.value === optionsToRender[0].value &&
               searchLoading && (
                 <ComboboxOptionItem
@@ -266,7 +267,7 @@ const SingleValueSelect = ({
               )}
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length &&
+        {!lengthOfOptionsToRender &&
           !isLoading &&
           !searchLoading &&
           !shouldFetchIntialOptions.current && (
@@ -278,7 +279,7 @@ const SingleValueSelect = ({
               />
             </ComboboxOptionGroup>
           )}
-        {!optionsToRender?.length && searchLoading && (
+        {!lengthOfOptionsToRender && searchLoading && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
               key="searching-for-options"
