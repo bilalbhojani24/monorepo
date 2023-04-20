@@ -89,7 +89,7 @@ const MapFields = () => {
 
         return (
           <TMSelectMenu
-            triggerWrapperClassName="border-none shadow-none pr-6 max-w-full font-medium text-base-900 text-sm"
+            triggerWrapperClassName="border-none shadow-none pr-10 max-w-full font-medium text-base-900 text-sm w-auto"
             checkPosition="right"
             defaultValue={defaultValue}
             options={allowedValueMapper[value]?.allowedValueDisplayOptions}
@@ -99,7 +99,7 @@ const MapFields = () => {
 
       case 'field_dropdown': // modal
         return (
-          <span className="text-sm font-medium">
+          <span className="pl-3 text-sm font-medium">
             <span className="text-base-700 mr-1">
               {`${
                 valueMappings && valueMappings?.[actualName]
@@ -121,10 +121,10 @@ const MapFields = () => {
       case 'field_string':
       case 'field_date':
       case 'Add':
-        return 'No Mapping Needed';
+        return <div className="ml-3">No Mapping Needed</div>;
 
       default:
-        return '--';
+        return <div className="ml-3">--</div>;
     }
   };
 
@@ -236,7 +236,7 @@ const MapFields = () => {
                       wrapperClassName={twClassNames(
                         'text-base-500 text-xs font-normal px-7 w-1/3',
                         {
-                          'px-5': index === 2
+                          'px-8': index === 2
                         }
                       )}
                     >
@@ -262,7 +262,7 @@ const MapFields = () => {
                           ) && showSelectMenuErrorInMapFields
                             ? 'border-danger-400'
                             : '',
-                          'border-none shadow-none pr-6 w-full')
+                          'border-none text-base-900 shadow-none pr-6 w-full max-w-[180px]')
                         }
                         checkPosition="right"
                         options={row.mappedField.displayOptions}
