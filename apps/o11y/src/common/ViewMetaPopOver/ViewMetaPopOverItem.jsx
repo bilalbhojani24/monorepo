@@ -43,7 +43,7 @@ function ViewMetaPopOverItem({ title, text, showCopy, textToCopy, link }) {
 
 ViewMetaPopOverItem.propTypes = {
   title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   textToCopy: PropTypes.string,
   showCopy: PropTypes.bool,
   link: PropTypes.string

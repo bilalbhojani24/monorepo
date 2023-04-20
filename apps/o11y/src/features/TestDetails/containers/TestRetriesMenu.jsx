@@ -74,7 +74,7 @@ const TestRetriesMenu = () => {
             placeholder="Select.."
             triggerIcon={<MdKeyboardArrowDown className="h-4 w-4" />}
           />
-          <O11ySelectMenuOptionGroup>
+          <O11ySelectMenuOptionGroup alignment="end">
             {retriesMenuOptions.map((retryOption) => (
               <O11ySelectMenuOptionItem
                 key={retryOption.id}

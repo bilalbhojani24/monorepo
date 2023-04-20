@@ -199,6 +199,8 @@ export default function TestingTrends() {
               data-grid={TREND_CARDS[key]}
             >
               <DataVisualization
+                analyticsWrapperClassName="h-full flex-1"
+                contentWrapperClassName="flex flex-col h-full"
                 analytics={renderDashboardCard(key)}
                 headerInfo={false}
                 headerInfoTooltipProps={{

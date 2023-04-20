@@ -34,9 +34,16 @@ const List = forwardRef((props, ref) => (
   <div
     {...props}
     ref={ref}
-    className="border-base-300 rounded-b-md border border-t-0"
+    className="border-base-300 overflow-hidden rounded-b-md border border-t-0"
   />
 ));
+
+const Item = (props) => (
+  <div
+    {...props}
+    className="border-base-200 border-b last-of-type:border-b-0"
+  />
+);
 
 const LoadingFooter = () => (
   <div className="flex w-full justify-center py-2">
@@ -169,7 +176,8 @@ const SnPUniqueErrors = () => {
                   itemContent={(index, data) => <UERow data={data} />}
                   components={{
                     Footer: isLoadingMore ? LoadingFooter : null,
-                    List
+                    List,
+                    Item
                   }}
                 />
               </div>
