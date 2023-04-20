@@ -12,8 +12,6 @@ import ComboboxTrigger from '../ComboboxTrigger';
 import { COMBOBOX_OPTIONS } from './const/comboBoxConstants';
 import ComboBox from './index';
 
-const labelValue = 'Assigned to';
-
 const defaultConfig = {
   title: 'Application/Components/ComboBox',
   component: ComboBox,
@@ -35,7 +33,7 @@ const defaultConfig = {
       option: { type: 'string' },
       defaultValue: (
         <>
-          <ComboboxLabel>{labelValue}</ComboboxLabel>
+          <ComboboxLabel>Assigned to</ComboboxLabel>
           <ComboboxTrigger placeholder="Placeholder" />
           <ComboboxOptionGroup>
             {COMBOBOX_OPTIONS.map((item) => (
@@ -164,7 +162,7 @@ export const ControlledCombobox = () => {
   const [selected, setSelected] = useState([]);
   return (
     <ComboBox onChange={(val) => setSelected(val)} value={selected} isMulti>
-      <ComboboxLabel>{labelValue}</ComboboxLabel>
+      <ComboboxLabel>Assigned to</ComboboxLabel>
       <ComboboxTrigger placeholder="Placeholder" />
       <ComboboxOptionGroup>
         {COMBOBOX_OPTIONS.map((item) => (
@@ -181,7 +179,7 @@ export const LoadingCombobox = () => {
   return (
     <>
       <ComboBox isLoading={loading}>
-        <ComboboxLabel>{labelValue}</ComboboxLabel>
+        <ComboboxLabel>Assigned to</ComboboxLabel>
         <ComboboxTrigger placeholder="Placeholder" />
         <ComboboxOptionGroup>
           {COMBOBOX_OPTIONS.map((item) => (

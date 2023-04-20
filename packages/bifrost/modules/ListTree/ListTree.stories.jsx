@@ -1,7 +1,8 @@
-/* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import { sampleListTreeCheckboxData } from '../../shared/listTreeCheckbox';
 import Dropdown from '../Dropdown';
 import DropdownOptionGroup from '../DropdownOptionGroup';
 import DropdownOptionItem from '../DropdownOptionItem';
@@ -15,7 +16,6 @@ import {
   ListTreeTargetHierarcyByIndex
 } from '../ListTreeCheckbox';
 import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent';
-import listTeeCheckboxData from '../ListTreeCheckbox/sampleData/listTreeCheckbox';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 import TruncateText from '../TruncateText';
@@ -122,8 +122,7 @@ const listTreeDemoDataSet = [
   }
 ];
 
-// eslint-disable-next-line no-unused-vars
-const findNodeinTree = (keyName, tree) => {
+export const findNodeinTree = (keyName, tree) => {
   // you might need this, :-*
 
   for (let i = 0; i < tree.length; i += 1) {
@@ -131,7 +130,6 @@ const findNodeinTree = (keyName, tree) => {
       return tree[i];
     }
     if (tree[i].contents) {
-      // eslint-disable-next-line no-unused-vars
       findNodeinTree(tree[i].contents, keyName);
     }
   }
@@ -198,7 +196,7 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
                 </DropdownTrigger>
                 <DropdownOptionGroup>
                   {options.map((op) => (
-                    <DropdownOptionItem option={op} />
+                    <DropdownOptionItem key={op.id} option={op} />
                   ))}
                 </DropdownOptionGroup>
               </Dropdown>
@@ -216,13 +214,9 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
 };
 
 const SearchableSelectableListTree = () => {
-  const [listOfItems, setListOfItems] = useState(listTeeCheckboxData);
+  const [listOfItems, setListOfItems] = useState(sampleListTreeCheckboxData);
   const [selectedValue, setSelectedValue] = useState({});
   const [searchValue, setSearchValue] = useState(''); // Debounce this state for optimal performance
-  const [filteredUUIDs, setFilteredUUIDs] = useState({
-    searchedUUIDs: {},
-    filteredUUIDsWithHierarchy: {}
-  });
   const onSearchChange = (e) => {
     const newSearchValue = e.target.value;
     setSearchValue(newSearchValue);
@@ -242,12 +236,12 @@ const SearchableSelectableListTree = () => {
     setListOfItems(newItems);
   };
 
-  useEffect(() => {
+  const filteredUUIDs = useMemo(() => {
+    const newValue = {
+      searchedUUIDs: {},
+      filteredUUIDsWithHierarchy: {}
+    };
     if (searchValue.length) {
-      const newValue = {
-        searchedUUIDs: {},
-        filteredUUIDsWithHierarchy: {}
-      };
       ListTreeIterateChildrenRecursively({ contents: listOfItems }, (item) => {
         if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
           newValue.searchedUUIDs[item.uuid] = item.uuid;
@@ -258,8 +252,8 @@ const SearchableSelectableListTree = () => {
         }
         return true;
       });
-      setFilteredUUIDs(newValue);
     }
+    return newValue;
   }, [listOfItems, searchValue]);
 
   return (
@@ -271,8 +265,7 @@ const SearchableSelectableListTree = () => {
         addOnBeforeInline={
           <TruncateText
             tooltipTriggerIcon={
-              // eslint-disable-next-line tailwindcss/no-arbitrary-value
-              <span className="mt-[-4px] flex font-medium">
+              <span className="flex font-medium">
                 ({Object.keys(selectedValue)?.length})
               </span>
             }
@@ -294,8 +287,8 @@ const SearchableSelectableListTree = () => {
       ) : (
         <ControlledNestedTreeWithCheckbox
           data={listOfItems}
-          filteredUUIDs={filteredUUIDs.filteredUUIDsWithHierarchy}
-          isParentSelected={false}
+          filteredUUIDs={filteredUUIDs}
+          isParentSearched={false}
           allowFilter={searchValue.length}
           onCheckboxChange={onCheckboxChange}
         />
@@ -330,7 +323,7 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
                 </DropdownTrigger>
                 <DropdownOptionGroup>
                   {options.map((op) => (
-                    <DropdownOptionItem option={op} />
+                    <DropdownOptionItem key={op.id} option={op} />
                   ))}
                 </DropdownOptionGroup>
               </Dropdown>
@@ -397,7 +390,7 @@ const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
                 </DropdownTrigger>
                 <DropdownOptionGroup>
                   {options.map((op) => (
-                    <DropdownOptionItem option={op} />
+                    <DropdownOptionItem key={op.id} option={op} />
                   ))}
                 </DropdownOptionGroup>
               </Dropdown>
@@ -446,3 +439,11 @@ export {
   SearchableSelectableListTreeTemplateExample,
   UncontrolledTree
 };
+
+const propTypeDefault = {
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  indent: PropTypes.number.isRequired
+};
+ConrolledNestedTree.propTypes = propTypeDefault;
+UnconrolledNestedTree.propTypes = propTypeDefault;
+FocusedNodeNestedTree.propTypes = propTypeDefault;

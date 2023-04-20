@@ -10,9 +10,7 @@ function ListTreeNodeWrapper(
       ref={ref}
       tabIndex="0"
       role="button"
-      onClick={() => {
-        onNodeClick?.();
-      }}
+      onClick={onNodeClick}
       onKeyPress={() => {}}
       className={wrapperClassName}
     >
