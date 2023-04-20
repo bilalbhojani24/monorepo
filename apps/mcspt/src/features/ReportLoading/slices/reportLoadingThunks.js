@@ -5,7 +5,6 @@ import {
   setPreviousRouteForReport,
   updateSessionMetrics
 } from 'features/Report';
-import { decideCurrentRoute } from 'utils/baseUtils';
 
 import {
   setIsSessionStopInProgress,
@@ -73,7 +72,7 @@ export const stopRecordingSession =
 
       dispatch(resetSessionSetupData());
 
-      dispatch(setPreviousRouteForReport(decideCurrentRoute()));
+      dispatch(setPreviousRouteForReport('/'));
 
       navigationCallback('/report');
     } catch (error) {
