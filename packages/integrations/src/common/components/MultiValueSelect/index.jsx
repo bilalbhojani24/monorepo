@@ -195,6 +195,11 @@ const MultiSelect = ({
   const valueToRender =
     fieldsData[fieldKey] || cleanOptions(value || defaultValue) || [];
 
+  const shouldShowNoOptions =
+    !lengthOfOptionsToRender &&
+    !areOptionsLoading &&
+    !shouldFetchIntialOptions.current;
+
   return (
     <div
       className="py-3"
@@ -227,17 +232,15 @@ const MultiSelect = ({
             ))}
           </ComboboxOptionGroup>
         )}
-        {!lengthOfOptionsToRender &&
-          !areOptionsLoading &&
-          !shouldFetchIntialOptions.current && (
-            <ComboboxOptionGroup>
-              <ComboboxOptionItem
-                key="no options"
-                option={{ label: 'No options' }}
-                disabled
-              />
-            </ComboboxOptionGroup>
-          )}
+        {shouldShowNoOptions && (
+          <ComboboxOptionGroup>
+            <ComboboxOptionItem
+              key="no options"
+              option={{ label: 'No options' }}
+              disabled
+            />
+          </ComboboxOptionGroup>
+        )}
         {!lengthOfOptionsToRender && searchLoading && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem

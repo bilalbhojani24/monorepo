@@ -225,6 +225,11 @@ const SingleValueSelect = ({
   };
 
   const isLoading = areOptionsLoading || areOptionsLoadingProps;
+  const shouldShowNoOptions =
+    !lengthOfOptionsToRender &&
+    !isLoading &&
+    !searchLoading &&
+    !shouldFetchIntialOptions.current;
 
   return (
     <div
@@ -267,18 +272,15 @@ const SingleValueSelect = ({
               )}
           </ComboboxOptionGroup>
         )}
-        {!lengthOfOptionsToRender &&
-          !isLoading &&
-          !searchLoading &&
-          !shouldFetchIntialOptions.current && (
-            <ComboboxOptionGroup>
-              <ComboboxOptionItem
-                key="no options"
-                option={{ label: 'No options' }}
-                disabled
-              />
-            </ComboboxOptionGroup>
-          )}
+        {shouldShowNoOptions && (
+          <ComboboxOptionGroup>
+            <ComboboxOptionItem
+              key="no options"
+              option={{ label: 'No options' }}
+              disabled
+            />
+          </ComboboxOptionGroup>
+        )}
         {!lengthOfOptionsToRender && searchLoading && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem

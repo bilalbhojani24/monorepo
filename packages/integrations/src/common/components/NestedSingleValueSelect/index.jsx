@@ -190,6 +190,11 @@ const NestedSingleValueSelect = ({
     }
   };
 
+  const shouldShowNoOptionsForParent =
+    !lengthOfOptionsToRender && !shouldFetchIntialOptions.current;
+  const shouldShowNoOptionsForChild =
+    !childOptions?.length && !areOptionsLoading;
+
   return (
     <div
       className="py-3"
@@ -217,7 +222,7 @@ const NestedSingleValueSelect = ({
             ))}
           </ComboboxOptionGroup>
         )}
-        {!lengthOfOptionsToRender && !shouldFetchIntialOptions.current && (
+        {shouldShowNoOptionsForParent && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
               key="no options"
@@ -241,7 +246,7 @@ const NestedSingleValueSelect = ({
                 ))}
               </ComboboxOptionGroup>
             )}
-            {!childOptions?.length && !areOptionsLoading && (
+            {shouldShowNoOptionsForChild && (
               <ComboboxOptionGroup>
                 <ComboboxOptionItem
                   key="no options"
