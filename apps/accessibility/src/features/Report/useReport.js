@@ -5,6 +5,7 @@ import fetchCustomData from 'api/fetchCustomData';
 import fetchReport from 'api/fetchReport';
 import { events, ISSUE_TYPE } from 'constants';
 import {
+  resetReportAppInfo,
   resetActiveTab,
   setActiveSwitch,
   setActiveTab,

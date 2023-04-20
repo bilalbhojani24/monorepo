@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import {
   Accordion,
-  AccordionInteractiveHeader,
-  AccordionPanel,
   Badge,
   Button,
   MdKeyboardArrowLeft,
@@ -171,6 +169,8 @@ function NeedsReviewBanner({
   message,
   showHiddenIssues
 }) {
+  const [showDetails, setShowDetails] = useState(false);
+
   const getNeedsReviewBannerText = () => {
     if (isConfirmedInAllReports === null && !showHiddenIssues)
       return NEEDS_REVIEW_BANNER_TEXT.DEFAULT_TITLE;
@@ -183,19 +183,24 @@ function NeedsReviewBanner({
     (isConfirmedInAllReports !== null && !isConfirmedInAllReports);
 
   return (
-    <Accordion>
-      <AccordionInteractiveHeader
-        wrapperClassName={twClassNames('flex py-2 px-6 bg-attention-50', {
+    <Accordion
+      triggerClassName={twClassNames(
+        'flex w-full bg-white py-3 px-6 bg-attention-50',
+        {
           'bg-success-50': isConfirmedInAllReports,
           'base-error-50': isFail
-        })}
-        title={
-          <p className="text-base-900 mr-2 text-left text-sm">
-            {getNeedsReviewBannerText()}
-          </p>
         }
-      />
-      <AccordionPanel>
+      )}
+      triggerContentNode={
+        <div className="flex w-full cursor-pointer items-center justify-between">
+          <div className="ml-2 flex items-center">
+            <p className="text-base-900 mr-2 text-sm">
+              {getNeedsReviewBannerText()}
+            </p>
+          </div>
+        </div>
+      }
+      panelContentNode={
         <div
           className={twClassNames('px-6 py-2 bg-attention-50', {
             'bg-success-50': isConfirmedInAllReports,
@@ -226,8 +231,10 @@ function NeedsReviewBanner({
             showHiddenIssues={showHiddenIssues}
           />
         </div>
-      </AccordionPanel>
-    </Accordion>
+      }
+      onTriggerClick={() => setShowDetails(!showDetails)}
+      onChevronClick={() => setShowDetails(!showDetails)}
+    />
   );
 }
 
