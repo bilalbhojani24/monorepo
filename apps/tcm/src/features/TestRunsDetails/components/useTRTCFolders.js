@@ -194,7 +194,7 @@ export default function useTRTCFolders() {
       );
       dispatch(setSelectedTestCase(null));
       dispatch(addTestResultItem(data.data['test-result']));
-      fetchTestRunDetails();
+      fetchTestRunDetails(true, true);
       closeAll();
     });
   };
@@ -220,6 +220,17 @@ export default function useTRTCFolders() {
           status: selectedOption?.value
         },
         data
+      );
+
+      dispatch(
+        // quick update the current view
+        setAllTestCases(
+          allTestCases.map((item) =>
+            item.id === data.id
+              ? { ...item, latest_status: selectedOption.value }
+              : item
+          )
+        )
       );
     } else {
       dispatch(initAddStatusForm(selectedOption?.value || null));
