@@ -2,10 +2,9 @@ import React, { useMemo, useState } from 'react';
 import {
   Checkbox,
   ListTree,
-  ListTreeIterateChildrenRecursively,
+  listTreeCheckboxHelper,
   ListTreeNode,
   ListTreeNodeContents,
-  ListTreeTargetHierarcyByIndex,
   MdFolderSpecial,
   MdInsertDriveFile
 } from '@browserstack/bifrost';
@@ -13,6 +12,8 @@ import { twClassNames } from '@browserstack/utils';
 import { O11yInputField, O11yPopover } from 'common/bifrostProxy';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
+
+const { bfsTraversal, getTargetHierarchyByIndex } = listTreeCheckboxHelper;
 
 const ControlledNestedTreeWithCheckbox = ({
   data,
@@ -176,22 +177,19 @@ export const FolderFilter = ({
       filteredUUIDsWithHierarchy: {}
     };
     if (searchValue.length) {
-      ListTreeIterateChildrenRecursively(
-        { contents: listTreeCheckboxData },
-        (item) => {
-          if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
-            newValue.searchedUUIDs[item.uuid] = item.uuid;
-            const data = ListTreeTargetHierarcyByIndex(
-              listTreeCheckboxData,
-              item.uuid
-            );
-            data.forEach((el) => {
-              newValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
-            });
-          }
-          return true;
+      bfsTraversal({ contents: listTreeCheckboxData }, (item) => {
+        if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
+          newValue.searchedUUIDs[item.uuid] = item.uuid;
+          const data = getTargetHierarchyByIndex(
+            listTreeCheckboxData,
+            item.uuid
+          );
+          data.forEach((el) => {
+            newValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
+          });
         }
-      );
+        return true;
+      });
     }
     return newValue;
   }, [listTreeCheckboxData, searchValue]);

@@ -1,4 +1,6 @@
-import { ListTreeCheckboxHelper } from '@browserstack/bifrost';
+import { listTreeCheckboxHelper } from '@browserstack/bifrost';
+
+const { updateTargetNodes } = listTreeCheckboxHelper;
 
 export const constructTreeData = (folders, selectedValues) => {
   const selectedNodes = {};
@@ -41,7 +43,7 @@ export const constructTreeData = (folders, selectedValues) => {
   }
   let result = recursiveTreeData();
   Object.keys(selectedNodes).forEach((sNodeIdx) => {
-    const { newItems } = ListTreeCheckboxHelper(true, sNodeIdx, result);
+    const { newItems } = updateTargetNodes(true, sNodeIdx, result);
     result = newItems;
   });
   return { treeData: result, selectedNodes };
