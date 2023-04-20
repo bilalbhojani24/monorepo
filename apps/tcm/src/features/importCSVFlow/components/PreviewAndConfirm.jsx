@@ -110,7 +110,7 @@ const PreviewAndConfirm = () => {
                 <div className="flex w-full justify-between gap-4">
                   <PreviewAndConfirmSingleNode
                     text="Folder"
-                    descWrapperClassName="font-semibold flex-wrap break-all"
+                    descWrapperClassName=" flex-wrap break-all"
                     wrapperClassName="w-1/3"
                     description={
                       <div className="flex">
@@ -121,13 +121,13 @@ const PreviewAndConfirm = () => {
                   />
                   <PreviewAndConfirmSingleNode
                     text="Template Type"
-                    descWrapperClassName="font-semibold"
+                    descWrapperClassName=""
                     wrapperClassName="w-1/3"
                     description={formatTemplate(data?.template)}
                   />
                   <PreviewAndConfirmSingleNode
                     text="Priority"
-                    descWrapperClassName="font-semibold flex flex-row items-center"
+                    descWrapperClassName=" flex flex-row items-center"
                     wrapperClassName="w-1/3"
                     description={formatPriority(data?.priority)}
                   />
