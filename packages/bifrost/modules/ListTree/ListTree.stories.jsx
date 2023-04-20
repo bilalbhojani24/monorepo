@@ -15,7 +15,7 @@ import {
   ListTreeSelectionHelper,
   ListTreeTargetHierarcyByIndex
 } from '../ListTreeCheckbox';
-import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent';
+import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent.stories';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 import TruncateText from '../TruncateText';
