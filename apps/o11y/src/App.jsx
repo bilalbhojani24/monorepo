@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { matchRoutes, useLocation, useNavigate } from 'react-router-dom';
+import {
+  matchPath,
+  matchRoutes,
+  useLocation,
+  useNavigate
+} from 'react-router-dom';
 import { initLogger } from '@browserstack/utils';
 import { getPusherConfig } from 'api/global';
 import ModalToShow from 'common/ModalToShow';
@@ -25,6 +30,12 @@ const App = () => {
   const activeProject = useSelector(getActiveProject);
   const location = useLocation();
   const [{ params }] = matchRoutes(ROUTES_ARRAY, location);
+  const isProjectListing = matchPath(
+    {
+      path: ROUTES.projects
+    },
+    location.pathname
+  );
 
   // init custom history object to allow navigation from
   // anywhere in the react app (inside or outside components)
@@ -67,7 +78,7 @@ const App = () => {
 
   useEffect(() => {
     // Note: Disabling for onboarding, Get access and project selection pages
-    if (activeProject.id) {
+    if (activeProject.id && !isProjectListing) {
       // Initialize delighted survey
       const delightedConfig = {
         group_id: userDetails.groupId,
@@ -79,7 +90,7 @@ const App = () => {
       delightedInit(delightedConfig);
       // End delighted survey
     }
-  }, [activeProject, userDetails]);
+  }, [activeProject, isProjectListing, userDetails]);
 
   const fetchAndInitPusher = useCallback(async () => {
     try {
