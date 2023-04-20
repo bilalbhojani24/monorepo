@@ -104,6 +104,7 @@ export const COMMON_CHART_CONFIGS = {
     align: 'left',
     verticalAlign: 'top',
     x: -10,
+    itemMarginBottom: 20,
     itemStyle: {
       color: '#333',
       fontWeight: 'normal',

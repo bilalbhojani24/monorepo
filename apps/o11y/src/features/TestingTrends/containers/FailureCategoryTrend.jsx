@@ -160,7 +160,7 @@ export default function FailureCategoryTrend() {
           {chartData?.percentage !== undefined && (
             <p className="">{chartData?.percentage}%</p>
           )}
-          <div className="h-96">
+          <div className="h-full flex-1">
             <Chart
               options={options}
               key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}

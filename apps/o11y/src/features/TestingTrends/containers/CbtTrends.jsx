@@ -196,39 +196,39 @@ export default function CbtTrends() {
       onClickCTA={fetchData}
     >
       {!isLoading && (
-        <div className="flex h-full flex-col">
-          <div className="grid h-96 flex-1 grid-cols-2 gap-1">
-            {!!chartData.data?.length && (
-              <Chart options={getOptions} chartRef={chart} />
-            )}
-            <div className="h-96 overflow-y-auto p-3">
-              {activeSeriesData.map((item, idx) => (
-                <div
-                  className={classNames(
-                    `w-full flex flex-1 justify-between items-center px-2 py-1
-                     text-sm text-left gap-2 text-base-900 border-b border-base-200 last:border-b-0`
-                  )}
-                  key={item.name}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={() => {
-                    handleDrillDown(item, idx);
-                  }}
-                  onClick={() => {
-                    handleDrillDown(item, idx);
-                  }}
-                >
-                  <p className="flex items-start">
-                    <span
-                      className="mr-2 mt-1 inline-block h-2 w-2 rounded"
-                      style={{ backgroundColor: item.color }}
-                    />
-                    <span>{item.name}</span>
-                  </p>
-                  <p className="font-medium">{item.percentage}%</p>
-                </div>
-              ))}
-            </div>
+        // eslint-disable-next-line tailwindcss/no-arbitrary-value
+        <div className="grid h-[90%] flex-1 grid-cols-2 gap-1 overflow-hidden">
+          {!!chartData.data?.length && (
+            <Chart options={getOptions} chartRef={chart} />
+          )}
+          <div className="h-full overflow-y-auto p-3">
+            {activeSeriesData.map((item, idx) => (
+              <div
+                className={classNames(
+                  `w-full flex flex-1 justify-between items-center
+                  px-2 py-1 text-sm text-left gap-2 text-base-900
+                  border-b border-base-200 last:border-b-0`
+                )}
+                key={item.name}
+                role="button"
+                tabIndex={0}
+                onKeyDown={() => {
+                  handleDrillDown(item, idx);
+                }}
+                onClick={() => {
+                  handleDrillDown(item, idx);
+                }}
+              >
+                <p className="flex items-center">
+                  <span
+                    className="mr-2 mt-1 inline-block h-2 w-2 shrink-0 rounded"
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <span className="break-normal">{item.name}</span>
+                </p>
+                <p className="shrink-0 font-medium">{item.percentage}%</p>
+              </div>
+            ))}
           </div>
         </div>
       )}

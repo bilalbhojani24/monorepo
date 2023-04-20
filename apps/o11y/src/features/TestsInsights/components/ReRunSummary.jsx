@@ -120,7 +120,7 @@ export default function ReRunSummary() {
             showFixedFooter={false}
             itemContent={(index, item) => (
               <>
-                <O11yTableCell wrapperClassName="text-base-900">
+                <O11yTableCell wrapperClassName="text-base-900 whitespace-normal break-normal">
                   {item.label}
                 </O11yTableCell>
                 <O11yTableCell wrapperClassName="text-base-900">
