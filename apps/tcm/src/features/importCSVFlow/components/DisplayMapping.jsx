@@ -33,7 +33,7 @@ const DisplayMapping = ({
         {isAddNewField && <span className="text-sm font-black">&#x2605; </span>}
         {field} &rarr; &nbsp;
         {!isAddNewField && <>{nameToDisplayMapper[fieldMappings[field]]}</>}
-        {showField && `${field}`}
+        {showField && isAddNewField && `${field}`}
       </span>
     );
   };
