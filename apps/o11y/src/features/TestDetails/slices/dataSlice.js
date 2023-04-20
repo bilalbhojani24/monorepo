@@ -10,6 +10,7 @@ import {
   getTestMeta,
   getTestOverview
 } from 'api/testDetails';
+import isEmpty from 'lodash/isEmpty';
 
 export const getTestMetaData = createAsyncThunk(
   'testDetails/getTestMetaData',
@@ -72,6 +73,7 @@ const { actions, reducer } = createSlice({
     },
     details: {
       isLoading: true,
+      isValidVideo: false,
       data: { videoLogs: null, browserstackSessionUrl: '' }
     },
     testMeta: {
@@ -103,6 +105,9 @@ const { actions, reducer } = createSlice({
         ...state.testMeta,
         ...payload
       };
+    },
+    setIsValidVideo: (state, { payload }) => {
+      state.details.isValidVideo = payload;
     },
     clearTestDetails: (state) => {
       state.details = {
@@ -168,19 +173,22 @@ const { actions, reducer } = createSlice({
       .addCase(getTestDetailsData.pending, (state) => {
         state.details = {
           isLoading: true,
-          data: { videoLogs: null, browserstackSessionUrl: '' }
+          data: { videoLogs: null, browserstackSessionUrl: '' },
+          isValidVideo: false
         };
       })
       .addCase(getTestDetailsData.rejected, (state) => {
         state.details = {
           isLoading: true,
-          data: { videoLogs: null, browserstackSessionUrl: '' }
+          data: { videoLogs: null, browserstackSessionUrl: '' },
+          isValidVideo: false
         };
       })
       .addCase(getTestDetailsData.fulfilled, (state, { payload }) => {
         state.details = {
           isLoading: false,
-          data: payload
+          data: payload,
+          isValidVideo: !isEmpty(payload?.videoLogs)
         };
       })
       .addCase(getNetworkLogsData.pending, (state) => {
@@ -209,6 +217,7 @@ export const {
   setConsolidatedLogs,
   setNetworkLogs,
   setTestDetails,
+  setIsValidVideo,
   clearTestDetails,
   clearTestMeta
 } = actions;

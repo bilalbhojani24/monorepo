@@ -15,7 +15,9 @@ const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initAPI,
-    `${getEnvUrl()}/v1/auth/start-sso?redirection_url=${window.location.href}`
+    `${getEnvUrl()}/v1/auth/start-sso?redirection_url=${encodeURIComponent(
+      window.location.href
+    )}`
   );
 
   return <>{Routes}</>;
