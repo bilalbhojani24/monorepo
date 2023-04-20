@@ -3,7 +3,6 @@ import { Tooltip, TooltipBody } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-// import Tooltip from 'trike/Tooltip';
 import { useNetwork } from '../../state/Context';
 import { isWidthAvailableToShowWaterfall } from '../../utils';
 
@@ -19,13 +18,14 @@ const NetworkTimeCell = ({ formattedValue, payload, showWaterfall }) => {
   return payload.time ? (
     <Tooltip
       content={
-        <TooltipBody>
+        <TooltipBody wrapperClassName="max-h-screen overflow-auto">
           <TimeChartTooltip data={payload.timings} fromRequestDetail={false} />
         </TooltipBody>
       }
       placementSide="bottom"
-      theme="light"
       triggerWrapperClassName="w-full"
+      wrapperClassName="w-96"
+      size="sm"
     >
       <section
         className={twClassNames('flex flex-col gap-2', {

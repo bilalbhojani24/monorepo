@@ -1,5 +1,10 @@
 import React from 'react';
-import { Badge, MdOutlineLock } from '@browserstack/bifrost';
+import {
+  Badge,
+  MdOutlineLock,
+  Tooltip,
+  TooltipBody
+} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -7,10 +12,22 @@ const NetworkFileName = ({ formattedValue, payload }) => {
   const hasError = payload?.status >= 400 || payload?.error;
   return (
     <section className="flex flex-col gap-1">
-      <section className="truncate">
-        {/* <Tooltip description={payload.url} type="dark" direction="left"> */}
-        <span>{formattedValue}</span>
-        {/* </Tooltip> */}
+      <section>
+        <Tooltip
+          content={
+            <TooltipBody>
+              <p className="whitespace-normal break-words text-sm">
+                {payload.url}
+              </p>
+            </TooltipBody>
+          }
+          placementSide="right"
+          theme="dark"
+          triggerWrapperClassName="max-w-full truncate"
+          size="sm"
+        >
+          <span>{formattedValue}</span>
+        </Tooltip>
       </section>
       <section
         className={twClassNames('text-base-500 flex items-center gap-2', {

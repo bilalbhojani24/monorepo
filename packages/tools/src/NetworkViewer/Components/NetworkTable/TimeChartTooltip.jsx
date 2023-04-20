@@ -36,10 +36,13 @@ const prepareTooltipData = (data) => ({
   startedAt: data.startTime + data._blocked_queueing,
   totalTime: calcTotalTime(data),
   ...Object.keys(data).reduce((acc, key) => {
+    // eslint-disable-next-line no-param-reassign
     acc[key] = data[key];
     return acc;
   }, {})
 });
+
+const CHART_TITLE_CLASS = 'text-base-700 mb-2 text-sm font-semibold uppercase';
 
 const TimeChartTooltip = ({ data, fromRequestDetail }) => {
   const { state } = useNetwork();
@@ -55,69 +58,66 @@ const TimeChartTooltip = ({ data, fromRequestDetail }) => {
   }
 
   return (
-    <div className="time-chart-tooltip">
-      <section className="tooltip-info tooltip-info--chart-title">
-        {!Number.isNaN(+tooltipData.queuedAt) && (
-          <p className="time-info">{`Queued at ${formatTime(
-            tooltipData.queuedAt
-          )}`}</p>
-        )}
-        {!Number.isNaN(+tooltipData.startedAt) && (
-          <p className="time-info">{`Started at ${formatTime(
-            tooltipData.startedAt
-          )}`}</p>
-        )}
+    <div className="divide-base-200 w-full divide-y">
+      <section className="text-base-700 flex flex-col gap-3">
+        <div className="flex">
+          {!Number.isNaN(+tooltipData.queuedAt) && (
+            <p className="pr-2 text-sm">{`Queued at ${formatTime(
+              tooltipData.queuedAt
+            )}`}</p>
+          )}
+          {!Number.isNaN(+tooltipData.startedAt) && (
+            <p className="border-l-base-300 border-l pl-2 text-sm">{`Started at ${formatTime(
+              tooltipData.startedAt
+            )}`}</p>
+          )}
+        </div>
+        <div className="mb-3">
+          <div className={CHART_TITLE_CLASS}>request timing</div>
+          <TimeChart
+            maxTime={maxTime}
+            timings={reqDetail?.timings || data}
+            isWaterfall={false}
+            renderFrom={fromRequestDetail ? 'request-detail' : 'tooltip'}
+          />
+        </div>
       </section>
-      <>
-        <div className="time-chart-tooltip__chart-title">request timing</div>
-        <TimeChart
-          maxTime={maxTime}
-          timings={reqDetail?.timings || data}
-          isWaterfall={false}
-          renderFrom={fromRequestDetail ? 'request-detail' : 'tooltip'}
-        />
-        {!!reqDetail && <hr />}
-      </>
       {DETAIL.map(({ title, category }) =>
         category.some(
           (key) => !Number.isNaN(+tooltipData[TIMINGS[key].dataKey])
         ) ? (
-          <section key={title} className="tooltip-info">
-            <table className="waterfall-tooltip-table">
-              <thead className="waterfall-tooltip-thead">
-                <tr className="waterfall-tooltip-tr">
-                  <th className="waterfall-tooltip-th" colSpan="2">
-                    {title}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="waterfall-tooltip-tbody">
+          <section key={title} className="text-base-700 flex flex-col">
+            <div className="py-3">
+              <div className={CHART_TITLE_CLASS}>{title}</div>
+              <div className="flex flex-col gap-2 pl-2">
                 {category.map((key) =>
                   Number.isNaN(+tooltipData[TIMINGS[key].dataKey]) ? null : (
-                    <tr key={key} className="waterfall-tooltip-tr">
-                      <td
-                        className={twClassNames('waterfall-tooltip-key', key)}
-                      >
-                        {TIMINGS[key].name}
-                      </td>
-                      <td className="waterfall-tooltip-value">
+                    <p className="text-base-700 flex items-center justify-between text-sm">
+                      <span className={twClassNames('flex items-center', key)}>
+                        {TIMINGS?.[key]?.fill && (
+                          <span
+                            className="mr-2 inline-block h-2 w-2 shrink-0 rounded-lg"
+                            style={{ backgroundColor: TIMINGS[key].fill }}
+                          />
+                        )}
+                        <span>{TIMINGS[key].name}</span>
+                      </span>
+                      <span className="text-right">
                         {formatTime(tooltipData[TIMINGS[key].dataKey])}
-                      </td>
-                    </tr>
+                      </span>
+                    </p>
                   )
                 )}
-              </tbody>
-            </table>
+              </div>
+            </div>
           </section>
         ) : null
       )}
-      <section className="tooltip-info">
-        <div className="total-time">
-          <div className="total-time--title">TOTAL</div>
-          <div className="total-time--time">
-            {formatTime(tooltipData.totalTime)}
-          </div>
-        </div>
+      <section className="flex items-center justify-between py-3">
+        <span className={twClassNames(CHART_TITLE_CLASS, 'mb-0')}>TOTAL</span>
+        <span className="text-base-700 text-sm">
+          {formatTime(tooltipData.totalTime)}
+        </span>
       </section>
     </div>
   );
