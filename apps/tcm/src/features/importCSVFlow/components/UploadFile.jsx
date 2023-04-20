@@ -192,7 +192,7 @@ const UploadFile = () => {
         selectedFolderId={folderId}
         show={showChangeFolderModal}
         showEmptyModal={projectId === 'new'}
-        subHeading="Choose your desired folder location where you want to move your test cases"
+        subHeading="Choose your desired folder location where you want to import the test cases"
         folderExplorerWrapperClassName="h-80 max-h-80"
       />
     </div>
