@@ -8,7 +8,7 @@ import { getWidgetRenderPosition } from './helpers';
 
 const DraggableContainer = ({ children, position, positionRef }) => {
   const widgetRef = useRef(null);
-  const windowHeight = window.innerHeight - 16;
+  const windowHeight = window.innerHeight;
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
   const [showWidget, setShowWidget] = useState(false);
