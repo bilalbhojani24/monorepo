@@ -11,11 +11,7 @@ import { REQUEST_TIMOUT, UAT_COOKIE_NAME } from './constants';
 
 export const fetchToken = (_, { getState, dispatch }) => {
   const { url, headers } = uatConfigSelector(getState());
-  const cookieDomain = window.BrowserStackConfig?.cookie_domain;
-  const mainDomain = window.BrowserStackConfig?.main_cookie_domain;
-  const envName = window.BrowserStackConfig?.env_name;
-  const cookieSeperator = window.BrowserStackConfig?.cookie_seperator;
-  const cookie = new Cookie(cookieDomain, mainDomain, envName, cookieSeperator);
+  const cookie = new Cookie();
   const integrationsToken = cookie.read(UAT_COOKIE_NAME);
   const hasToken = Boolean(integrationsToken);
   if (hasToken) {
