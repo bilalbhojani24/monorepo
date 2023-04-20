@@ -381,7 +381,7 @@ export default function Issues() {
             <div className="flex h-full overflow-auto">
               <div
                 className={twClassNames(
-                  'w-full border-r border-base-200 overflow-auto pb-20 bg-base-50',
+                  'w-full border-r border-base-200 overflow-auto pb-20',
                   {
                     'w-2/4': isHalfView && sectionData
                   }
