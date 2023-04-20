@@ -141,6 +141,8 @@ export const COMMON_CHART_STYLES = {
 
 export const SUPPORTED_HTML_TAGS = ['mark'];
 
+export const EMAIL_VERIFICATION_REGEX =
+  /^[a-zA-Z0-9+_|-](?:[.]?[a-zA-Z0-9'+_|~-])*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 export const TEST_DETAILS_SOURCE = {
   TESTS_LISTING: 'test_listing',
   BUILD_INSIGHTS_UNIQUE_ERRORS: 'build_insights_unique_errors',
