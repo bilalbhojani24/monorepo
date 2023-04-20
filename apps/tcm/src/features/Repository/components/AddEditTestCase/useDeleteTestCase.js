@@ -13,7 +13,9 @@ import {
   setMetaPage,
   updateAllTestCases,
   updateCtaLoading
-} from '../slices/repositorySlice';
+} from '../../slices/repositorySlice';
+
+import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
 
 export default function useDeleteTestCase() {
   // eslint-disable-next-line no-unused-vars
@@ -22,6 +24,7 @@ export default function useDeleteTestCase() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
+  const { updateTCCount } = useUpdateTCCountInFolders();
 
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
   const metaPage = useSelector((state) => state.repository.metaPage);
@@ -72,7 +75,8 @@ export default function useDeleteTestCase() {
     dispatch(updateCtaLoading({ key: 'bulkDeleteTestCaseCta', value: true }));
 
     deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection })
-      .then(() => {
+      .then((data) => {
+        updateTCCount({ casesObj: data?.cases_count });
         dispatch(
           updateCtaLoading({ key: 'bulkDeleteTestCaseCta', value: false })
         );
@@ -133,7 +137,11 @@ export default function useDeleteTestCase() {
       folderId: selectedTestCase?.test_case_folder_id,
       testCaseId: selectedTestCase.id
     })
-      .then(() => {
+      .then((data) => {
+        const folderData = data.data.folder;
+        updateTCCount({
+          casesObj: { [folderData.id]: folderData.cases_count }
+        });
         dispatch(updateCtaLoading({ key: 'deleteTestCaseCta', value: false }));
 
         dispatch(

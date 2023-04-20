@@ -23,7 +23,10 @@ import {
   setFieldsMapping,
   setMapFieldModalConfig,
   setMapFieldsError,
-  setValueMappings
+  setShowMappings,
+  setSingleFieldValueMapping,
+  setValueMappings,
+  updateSingleFieldValueMapping
 } from '../slices/importCSVSlice';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -55,7 +58,10 @@ const useMapFields = () => {
   const showSelectMenuErrorInMapFields = useSelector(
     (state) => state.importCSV.showSelectMenuErrorInMapFields
   );
-
+  const showMappings = useSelector((state) => state.importCSV.showMappings);
+  const currentFieldValueMapping = useSelector(
+    (state) => state.importCSV.currentFieldValueMapping
+  );
   const defaultOptions = mapFieldsConfig.defaultFields.map((field) => ({
     label: field.display_name,
     value: field.display_name
@@ -189,7 +195,10 @@ const useMapFields = () => {
           mapNameToDisplay[myFieldMappings?.[item]?.action]
       }
     },
-    mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
+    mappedValue:
+      myFieldMappings[item]?.action ||
+      myFieldMappings?.[item] ||
+      ADD_FIELD_VALUE
   }));
 
   const customFieldNames = mapFieldsConfig.customFields.reduce(
@@ -209,8 +218,7 @@ const useMapFields = () => {
         show: true
       })
     );
-    localStorage.setItem('valueMappings', JSON.stringify(valueMappings));
-    // isme value from api add karna hai
+    dispatch(setSingleFieldValueMapping(valueMappings[actualName]));
   };
 
   const handleSelectMenuChange = (field) => (selectedOption) => {
@@ -309,55 +317,45 @@ const useMapFields = () => {
     );
   };
 
-  const handleModalSelectMenuChange = (key, field) => (selectedOption) => {
+  const handleModalSelectMenuChange = (field) => (selectedOption) => {
     const selectedLabel = selectedOption.label;
     const selectedValue = selectedOption.value;
     if (selectedLabel === ADD_VALUE_LABEL) {
       dispatch(
-        setValueMappings({
-          key,
-          value: {
-            ...valueMappings[key],
-            [field]: { action: ADD_VALUE_VALUE }
-          }
+        updateSingleFieldValueMapping({
+          key: field,
+          value: { action: ADD_VALUE_VALUE }
         })
       );
     } else if (selectedLabel === IGNORE_VALUE_LABEL) {
       dispatch(
-        setValueMappings({
-          key,
+        updateSingleFieldValueMapping({
+          key: field,
           value: {
-            ...valueMappings[key],
-            [field]: {
-              action: IGNORE_VALUE_VALUE
-            }
+            action: IGNORE_VALUE_VALUE
           }
         })
       );
     } else
       dispatch(
-        setValueMappings({
-          key,
-          value: {
-            ...valueMappings[key],
-            [field]: selectedValue
-          }
+        updateSingleFieldValueMapping({
+          key: field,
+          value: selectedValue
         })
       );
   };
 
   const onModalCloseHandler = () => {
-    const prevValueMapping = JSON.parse(localStorage.getItem('valueMappings'));
-    Object.keys(prevValueMapping).forEach((key) => {
-      dispatch(setValueMappings({ key, value: prevValueMapping[key] }));
-    });
-    localStorage.removeItem('valueMappings');
     dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = (key) => {
+    dispatch(setValueMappings({ key, value: currentFieldValueMapping }));
     dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
-    localStorage.removeItem('valueMappings');
+  };
+
+  const editMappingHandler = () => {
+    dispatch(setShowMappings(false));
   };
 
   const handleMappingProceedClick = () => {
@@ -391,11 +389,14 @@ const useMapFields = () => {
     typeMapper,
     myFieldMappings,
     rowRef,
+    showMappings,
     valueMappings,
     errorLabelInMapFields,
     mapFieldProceedLoading,
+    allImportFields: mapFieldsConfig?.importFields,
     showSelectMenuErrorInMapFields,
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN,
+    editMappingHandler,
     handleSaveClick,
     onModalCloseHandler,
     setDefaultDropdownValue,
