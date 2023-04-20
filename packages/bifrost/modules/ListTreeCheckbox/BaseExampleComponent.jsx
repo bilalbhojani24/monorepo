@@ -9,6 +9,7 @@ import ListTreeNodeContents from '../ListTreeNodeContents';
 
 const ControlledNestedTreeWithCheckbox = ({
   data,
+  searchValue,
   filteredUUIDs,
   allowFilter,
   onCheckboxChange,
@@ -29,6 +30,8 @@ const ControlledNestedTreeWithCheckbox = ({
     ) {
       return null;
     }
+    const startIndex = item.name.indexOf(searchValue);
+    const endIndex = startIndex + searchValue.length;
     return (
       <ListTree
         key={item.name}
@@ -44,7 +47,15 @@ const ControlledNestedTreeWithCheckbox = ({
                   <>
                     <MdFolderSpecial className="text-info-400 mr-2 inline-block h-5 w-5 shrink-0 select-none" />
                     <span className="text-base-700 mr-2 text-xs leading-5">
-                      {item.name}
+                      {searchValue.length && startIndex !== -1 ? (
+                        <>
+                          {item.name.slice(0, startIndex)}
+                          <mark>{item.name.slice(startIndex, endIndex)}</mark>
+                          {item.name.slice(endIndex, item.name.length)}
+                        </>
+                      ) : (
+                        item.name
+                      )}
                     </span>
                   </>
                 ),
@@ -80,6 +91,7 @@ const ControlledNestedTreeWithCheckbox = ({
               filteredUUIDs={filteredUUIDs}
               allowFilter={allowFilter}
               data={item.contents}
+              searchValue={searchValue}
               isParentSearched={
                 filteredUUIDs.searchedUUIDs[item.uuid] || isParentSearched
               }

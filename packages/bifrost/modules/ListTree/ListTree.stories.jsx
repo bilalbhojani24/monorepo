@@ -287,6 +287,7 @@ const SearchableSelectableListTree = () => {
       ) : (
         <ControlledNestedTreeWithCheckbox
           data={listOfItems}
+          searchValue={searchValue}
           filteredUUIDs={filteredUUIDs}
           isParentSearched={false}
           allowFilter={searchValue.length}
