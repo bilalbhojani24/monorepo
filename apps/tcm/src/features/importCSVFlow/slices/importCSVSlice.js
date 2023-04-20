@@ -174,7 +174,7 @@ const importCSVSlice = createSlice({
         payload.import_fields,
         payload?.field_mappings
       );
-
+      state.fieldsMapping = { ...state.valueMappings };
       // eslint-disable-next-line no-restricted-syntax
       for (const [key, value] of Object.entries(payload?.field_mappings)) {
         state.fieldsMapping[key] = value;
