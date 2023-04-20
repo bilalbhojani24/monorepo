@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
@@ -181,9 +183,33 @@ const LightThemeHyperlinkTemplate = (args) => <Popover {...args} />;
 const DarkThemeHyperlinkTemplate = (args) => <Popover {...args} />;
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 const DarkTheme = DarkThemeTemplate.bind({});
+DarkTheme.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 const LightThemeHyperlink = LightThemeHyperlinkTemplate.bind({});
+LightThemeHyperlink.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 const DarkThemeHyperlink = DarkThemeHyperlinkTemplate.bind({});
+DarkThemeHyperlink.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 Primary.parameters = {
   controls: {}
 };
