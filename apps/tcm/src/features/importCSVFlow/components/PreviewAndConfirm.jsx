@@ -111,7 +111,7 @@ const PreviewAndConfirm = () => {
                   <PreviewAndConfirmSingleNode
                     text="Folder"
                     descWrapperClassName=" flex-wrap break-all"
-                    wrapperClassName="w-1/3"
+                    wrapperClassName="w-1/2"
                     description={
                       <div className="flex">
                         <MdFolderOpen className="text-brand-500 mr-1 h-5 w-5 shrink-0" />
@@ -119,18 +119,20 @@ const PreviewAndConfirm = () => {
                       </div>
                     }
                   />
-                  <PreviewAndConfirmSingleNode
-                    text="Template Type"
-                    descWrapperClassName=""
-                    wrapperClassName="w-1/3"
-                    description={formatTemplate(data?.template)}
-                  />
-                  <PreviewAndConfirmSingleNode
-                    text="Priority"
-                    descWrapperClassName=" flex flex-row items-center"
-                    wrapperClassName="w-1/3"
-                    description={formatPriority(data?.priority)}
-                  />
+                  <div className="flex w-1/2">
+                    <PreviewAndConfirmSingleNode
+                      text="Template Type"
+                      descWrapperClassName=""
+                      wrapperClassName="w-1/2"
+                      description={formatTemplate(data?.template)}
+                    />
+                    <PreviewAndConfirmSingleNode
+                      text="Priority"
+                      descWrapperClassName=" flex flex-row items-center"
+                      wrapperClassName="w-1/2"
+                      description={formatPriority(data?.priority)}
+                    />
+                  </div>
                 </div>
                 {data?.steps &&
                   data?.steps?.length &&
@@ -152,7 +154,7 @@ const PreviewAndConfirm = () => {
                   data?.steps?.length &&
                   typeof data?.steps[0] === 'object' &&
                   data?.steps.map((step, index) => (
-                    <div className="mt-4 flex justify-between">
+                    <div className="mt-4 flex justify-between gap-4">
                       <PreviewAndConfirmSingleNode
                         text={`Steps ${(index + 1).toLocaleString('en-US', {
                           minimumIntegerDigits: 2,
