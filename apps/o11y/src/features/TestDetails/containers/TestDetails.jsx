@@ -71,8 +71,12 @@ const TestDetails = ({ source }) => {
   return (
     <O11ySlideover show={isVisible} backgroundOverlay={false} size="3xl">
       <TEST_DETAILS_CONTEXT.Provider value={{ handleLogTDInteractionEvent }}>
-        <SlideOverHeader />
-        <SlideOverBody />
+        {isVisible && (
+          <>
+            <SlideOverHeader />
+            <SlideOverBody />
+          </>
+        )}
       </TEST_DETAILS_CONTEXT.Provider>
     </O11ySlideover>
   );

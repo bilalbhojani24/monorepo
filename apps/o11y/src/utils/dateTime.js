@@ -1,4 +1,5 @@
-import { SNP_DATE_RANGE } from 'constants/common';
+import { parseDate } from '@internationalized/date';
+import { ISO_DATE_FORMAT, SNP_DATE_RANGE } from 'constants/common';
 import {
   endOfDay,
   format,
@@ -38,26 +39,32 @@ export function getCustomTimeStamp({
   if (dateFormat) {
     const formattedDate = format(dateObject, dateFormat);
     const returnDate = timeZone
-      ? `${formattedDate} ( ${timeZone} )`
+      ? `${formattedDate} (${timeZone})`
       : formattedDate;
     return withoutTZ ? formattedDate : returnDate;
   }
   if (withoutTime) {
     const formattedDate = format(dateObject, 'MMM dd, yyyy');
     const returnDate = timeZone
-      ? `${formattedDate} ( ${timeZone} )`
+      ? `${formattedDate} (${timeZone})`
       : formattedDate;
     return withoutTZ ? formattedDate : returnDate;
   }
   const formattedDate = format(dateObject, 'MMM dd, yyyy | h:mm:ss a');
   const returnDate = timeZone
-    ? `${formattedDate} ( ${timeZone} )`
+    ? `${formattedDate} (${timeZone})`
     : formattedDate;
   return withoutTZ ? formattedDate : returnDate;
 }
 export function getTimeStamp(dateString) {
   return format(new Date(dateString), 'h:mm:ss a');
 }
+
+const getMsShortHand = (ms) => ({
+  time: ms > 100 ? ms / 1000 : ms,
+  unit: ms > 100 ? 's' : 'ms'
+});
+
 export function milliSecondsToTime(ms, html) {
   const timeUnit = html ? '<span class="text-base-500">' : '';
   const timeUnitCloseTag = html ? '</span>' : '';
@@ -78,8 +85,8 @@ export function milliSecondsToTime(ms, html) {
   switch (true) {
     case hrs > 0:
       return html
-        ? `${hrs}${timeUnit}h${timeUnitCloseTag} ${mins}${timeUnit}m${timeUnitCloseTag} ${secs}${timeUnit}s${timeUnitCloseTag}`
-        : `${hrs}h ${mins}m ${secs}s`;
+        ? `${hrs}${timeUnit}h${timeUnitCloseTag} ${mins}${timeUnit}m${timeUnitCloseTag}`
+        : `${hrs}h ${mins}m`;
     case mins > 0:
       return html
         ? `${mins}${timeUnit}m${timeUnitCloseTag} ${secs}${timeUnit}s${timeUnitCloseTag}`
@@ -88,10 +95,12 @@ export function milliSecondsToTime(ms, html) {
       return html
         ? `${(ms / 1000).toFixed(2)}${timeUnit}s${timeUnitCloseTag}`
         : `${(ms / 1000).toFixed(2)}s`;
-    default:
+    default: {
+      const { time, unit } = getMsShortHand(ms);
       return html
-        ? `${ms.toFixed(2)}${timeUnit}ms${timeUnitCloseTag}`
-        : `${ms.toFixed(2)}ms`;
+        ? `${time.toFixed(2)}${timeUnit}${unit}${timeUnitCloseTag}`
+        : `${time.toFixed(2)}${unit}`;
+    }
   }
 }
 
@@ -148,3 +157,6 @@ export function getTTTimeBounds(activeKey) {
   }
   return timebounds;
 }
+
+export const getISOParsedDate = (date) =>
+  parseDate(getDateInFormat(date, ISO_DATE_FORMAT));

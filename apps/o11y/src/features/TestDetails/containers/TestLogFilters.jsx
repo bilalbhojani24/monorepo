@@ -65,6 +65,7 @@ const TestLogFilters = ({
           }
           addOnBeforeInlineWrapperClassName=""
           addOnAfterInlineWrapperClassName=""
+          wrapperClassName="h-8"
           placeholder="Search in logs"
           onChange={handleOnChange}
           id="search-in-logs"
@@ -91,9 +92,12 @@ const TestLogFilters = ({
           }}
         >
           <div
-            className={twClassNames('border-base-300 rounded border p-2', {
-              'ring-2 ring-offset-2 ring-brand-500': showFilterPopover
-            })}
+            className={twClassNames(
+              'border-base-300 rounded border px-2 py-1.5 h-8',
+              {
+                'ring-2 ring-offset-2 ring-brand-500': showFilterPopover
+              }
+            )}
           >
             <MdOutlineFilterAlt className="text-base-700 h-full w-full" />
           </div>

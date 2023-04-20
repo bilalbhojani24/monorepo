@@ -46,7 +46,10 @@ import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
 import Loader from './modules/Loader/index';
 import MediaPlayer from './modules/MediaPlayer';
-import MediaPlayerControlPanel from './modules/MediaPlayerControlPanel';
+import MediaPlayerLeftControls from './modules/MediaPlayerLeftControls';
+import MediaPlayerRightControls from './modules/MediaPlayerRightControls';
+import MediaPlayerSeekbar from './modules/MediaPlayerSeekbar';
+import MediaPlayerStates from './modules/MediaPlayerStates';
 import Metadata from './modules/Metadata';
 import Modal from './modules/Modal';
 import ModalBody from './modules/ModalBody';
@@ -155,7 +158,10 @@ export {
   ListTreeNodeContents,
   Loader,
   MediaPlayer,
-  MediaPlayerControlPanel,
+  MediaPlayerLeftControls,
+  MediaPlayerRightControls,
+  MediaPlayerSeekbar,
+  MediaPlayerStates,
   Metadata,
   Modal,
   ModalBody,
