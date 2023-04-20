@@ -137,9 +137,11 @@ const getSelectedListTreeItems = (prevItems, targetItem, isChecked) => {
   return { selectedValuesAdjusted: newValues };
 };
 
-export {
+const listTreeCheckboxHelper = {
   bfsTraversal,
   getSelectedListTreeItems,
   getTargetHierarchyByIndex,
   updateTargetNodes
 };
+
+export default listTreeCheckboxHelper;
