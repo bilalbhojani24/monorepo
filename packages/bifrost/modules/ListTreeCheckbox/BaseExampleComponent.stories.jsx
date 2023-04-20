@@ -36,7 +36,10 @@ const ControlledNestedTreeWithCheckbox = ({
       <ListTree
         key={item.name}
         indentationLevel={indent}
-        isTreeOpen={openNodeMap[item.name]}
+        isTreeOpen={
+          openNodeMap[item.name] ||
+          !!filteredUUIDs.filteredUUIDsWithHierarchy[item.uuid]
+        }
       >
         <ListTreeNode
           showIcon={false}
@@ -85,7 +88,12 @@ const ControlledNestedTreeWithCheckbox = ({
           leadingIcon={<></>}
         />
         {!!item?.contents && (
-          <ListTreeNodeContents isTreeOpen={openNodeMap[item.name]}>
+          <ListTreeNodeContents
+            isTreeOpen={
+              openNodeMap[item.name] ||
+              !!filteredUUIDs.filteredUUIDsWithHierarchy[item.uuid]
+            }
+          >
             <ControlledNestedTreeWithCheckbox
               onCheckboxChange={onCheckboxChange}
               filteredUUIDs={filteredUUIDs}
