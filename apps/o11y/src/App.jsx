@@ -9,7 +9,7 @@ import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_API_KEY } from 'constants/keys';
 import { ROUTES } from 'constants/routes';
 import { APP_ROUTES } from 'constants/routesConstants';
 import { initO11yProduct } from 'globalSlice';
-import { getUserDetails } from 'globalSlice/selectors';
+import { getActiveProject, getUserDetails } from 'globalSlice/selectors';
 import useAuthRoutes from 'hooks/useAuthRoutes';
 import isEmpty from 'lodash/isEmpty';
 import { getEnvConfig } from 'utils/common';
@@ -22,6 +22,7 @@ const PUSHER_CONNECTION_NAME = 'o11y-pusher';
 const App = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(getUserDetails);
+  const activeProject = useSelector(getActiveProject);
   const location = useLocation();
   const [{ params }] = matchRoutes(ROUTES_ARRAY, location);
 
@@ -56,6 +57,17 @@ const App = () => {
           }
         }
       };
+
+      if (!window.initialized) {
+        initLogger(keys);
+        window.initialized = true;
+      }
+    }
+  }, [userDetails]);
+
+  useEffect(() => {
+    // Note: Disabling for onboarding, Get access and project selection pages
+    if (activeProject.name !== 'Select a project') {
       // Initialize delighted survey
       const delightedConfig = {
         group_id: userDetails.groupId,
@@ -66,12 +78,8 @@ const App = () => {
       };
       delightedInit(delightedConfig);
       // End delighted survey
-      if (!window.initialized) {
-        initLogger(keys);
-        window.initialized = true;
-      }
     }
-  }, [userDetails]);
+  }, [activeProject, userDetails]);
 
   const fetchAndInitPusher = useCallback(async () => {
     try {
