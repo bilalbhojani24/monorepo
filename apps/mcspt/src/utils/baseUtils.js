@@ -17,3 +17,13 @@ export const decideIfCriteriaBreached = (actualValue, criteria) => {
 
   return false;
 };
+
+export const decideCurrentRoute = () => {
+  const locationHashFrags = window.location.href.split('#');
+
+  if (locationHashFrags?.[1] !== undefined && locationHashFrags?.[1] !== '') {
+    return locationHashFrags?.[1];
+  }
+
+  return '/';
+};

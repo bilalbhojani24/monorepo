@@ -1,7 +1,11 @@
 import { fetchSessionStatus, stopSession } from 'api/reportLoading';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 import { resetSessionSetupData } from 'features/Home';
-import { updateSessionMetrics } from 'features/Report';
+import {
+  setPreviousRouteForReport,
+  updateSessionMetrics
+} from 'features/Report';
+import { decideCurrentRoute } from 'utils/baseUtils';
 
 import {
   setIsSessionStopInProgress,
@@ -68,6 +72,8 @@ export const stopRecordingSession =
       dispatch(updateSessionMetrics(response));
 
       dispatch(resetSessionSetupData());
+
+      dispatch(setPreviousRouteForReport(decideCurrentRoute()));
 
       navigationCallback('/report');
     } catch (error) {

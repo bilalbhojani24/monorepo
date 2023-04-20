@@ -6,7 +6,11 @@ import {
 } from 'api/testHistory';
 import { setSessionAuthMetaData } from 'features/Dashboard/slices/dashboardSlice';
 import { fetchConnectedDevices } from 'features/Home';
-import { updateSessionMetrics } from 'features/Report';
+import {
+  setPreviousRouteForReport,
+  updateSessionMetrics
+} from 'features/Report';
+import { decideCurrentRoute } from 'utils/baseUtils';
 
 import {
   setAreSampleReportsLoading,
@@ -50,6 +54,8 @@ export const extractSessionDetailsById =
       if (response.status === 'success') {
         dispatch(updateSessionMetrics(response));
 
+        dispatch(setPreviousRouteForReport(decideCurrentRoute()));
+
         navigatorCallback('/report');
       } else {
         throw response;
@@ -88,6 +94,8 @@ export const nevigateToSampleReport =
 
       if (response.status === 'success') {
         dispatch(updateSessionMetrics(response));
+
+        dispatch(setPreviousRouteForReport(decideCurrentRoute()));
 
         navigatorCallback('/report');
       } else {

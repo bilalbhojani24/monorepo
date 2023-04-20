@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   sessionData: {},
   latestSeekTimeInSeconds: undefined,
-  latestVideoCurrentTimeInSeconds: 0
+  latestVideoCurrentTimeInSeconds: 0,
+  previousRouteForReport: '/'
 };
 
 export const reportSlice = createSlice({
@@ -30,6 +31,9 @@ export const reportSlice = createSlice({
       if ((value !== 0 && Boolean(value)) || value === 0) {
         state.latestVideoCurrentTimeInSeconds = value;
       }
+    },
+    setPreviousRouteForReport: (state, action) => {
+      state.previousRouteForReport = action.payload;
     }
   }
 });
@@ -41,12 +45,15 @@ export const getLatestVideoCurrentTimeInSeconds = (state) =>
   state.report.latestVideoCurrentTimeInSeconds;
 export const getDevicePlatform = (state) =>
   state.report?.sessionData?.device?.os;
+export const getPreviousRouteForReport = (state) =>
+  state.report?.previousRouteForReport;
 
 // Action creators are generated for each case reducer function
 export const {
   updateSessionMetrics,
   updateLatestSeekTimeInSeconds,
-  updateLatestVideoCurrentTimeInSeconds
+  updateLatestVideoCurrentTimeInSeconds,
+  setPreviousRouteForReport
 } = reportSlice.actions;
 
 export default reportSlice.reducer;
