@@ -13,7 +13,7 @@ const DraggableResizable = ({ children, position, positionRef }) => {
   const widgetRef = useRef(null);
   const windowHeight = window.innerHeight - 16;
   // initial widget height should be 70% of the window height
-  const widgetInitialHeight = windowHeight * 0.7;
+  const widgetInitialHeight = windowHeight * 0.9;
   const [widgetHeight, setWidgetHeight] = useState(widgetInitialHeight);
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
@@ -33,35 +33,16 @@ const DraggableResizable = ({ children, position, positionRef }) => {
       );
       let { y } = pos;
 
-      let newWidgetHeight = null;
-
       // is widget going out of screen?
       if (y + widgetRefClientRect.height > windowHeight) {
         const overflowY = y + widgetRefClientRect.height - windowHeight;
-
-        // find the height to be adjusted
-        newWidgetHeight =
-          widgetRefClientRect.height - overflowY <
-          DEFAULT_WIDGET_DIMENSIONS.MIN[1]
-            ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
-            : widgetRefClientRect.height - overflowY;
-
-        // is widget overflowing after height adjustment?
-
-        if (y + newWidgetHeight >= windowHeight) {
-          y -= y + newWidgetHeight - windowHeight + 24;
-        }
+        y -= overflowY + 24;
       }
 
       setWidgetPosition({
         x: pos.x,
         y
       });
-
-      if (newWidgetHeight) {
-        setWidgetHeight(newWidgetHeight);
-        dispatch(setWidgetHeightInRedux({ height: newWidgetHeight }));
-      }
     }
   }, [dispatch, position, positionRef, refAquired, windowHeight]);
 
