@@ -11,8 +11,10 @@ import { getWidgetRenderPosition } from './helpers';
 const DraggableResizable = ({ children, position, positionRef }) => {
   const dispatch = useDispatch();
   const widgetRef = useRef(null);
+  // additional 16 px space for easy access to grab and use resize handle
   const windowHeight = window.innerHeight - 16;
-  // initial widget height should be 70% of the window height
+  // initial widget height should be 90% of the window height
+  // multiply by 0.9 to get 90% of the windowHeight
   const widgetInitialHeight = windowHeight * 0.9;
   const [widgetHeight, setWidgetHeight] = useState(widgetInitialHeight);
   const [refAquired, setRefAquired] = useState(false);

@@ -1,9 +1,11 @@
+import { MARGIN } from '../constants';
+
 export const getWidgetRenderPosition = (
   position,
   dockRefClientRect,
   widgetRefClientRect
 ) => {
-  let x = 8;
+  let x = MARGIN.FROM_SCREEN_EDGES;
   let y = 0;
   const bodyWidth = document.body.getBoundingClientRect().width;
   const widgetWidth = widgetRefClientRect.width;
@@ -17,8 +19,9 @@ export const getWidgetRenderPosition = (
         const dockTop = dockRefClientRect.top;
         x =
           dockRight + widgetWidth > bodyWidth
-            ? bodyWidth - widgetWidth - 8
-            : dockRight + 8;
+            ? bodyWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES
+            : // gap between widget and dock
+              dockRight + MARGIN.DOCK_AND_WIDGET;
         y = dockTop - widgetTop;
         break;
       }
@@ -26,7 +29,11 @@ export const getWidgetRenderPosition = (
       case 'left': {
         const dockLeft = dockRefClientRect.left;
         const dockTop = dockRefClientRect.top;
-        x = dockLeft - widgetWidth < 0 ? 8 : dockLeft - widgetWidth - 8;
+        x =
+          dockLeft - widgetWidth < 0
+            ? MARGIN.FROM_SCREEN_EDGES
+            : // gap between widget and dock
+              dockLeft - widgetWidth - MARGIN.DOCK_AND_WIDGET;
         y = dockTop - widgetTop;
         break;
       }
@@ -34,7 +41,7 @@ export const getWidgetRenderPosition = (
   } else {
     switch (position) {
       case 'right': {
-        x = bodyWidth - widgetWidth - 8;
+        x = bodyWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES;
         break;
       }
       case 'center': {
@@ -42,9 +49,9 @@ export const getWidgetRenderPosition = (
         break;
       }
       default:
-        x = 8;
+        x = MARGIN.FROM_SCREEN_EDGES;
     }
-    y = -widgetTop + 8;
+    y = -widgetTop + MARGIN.FROM_SCREEN_EDGES;
   }
   return { x, y };
 };
