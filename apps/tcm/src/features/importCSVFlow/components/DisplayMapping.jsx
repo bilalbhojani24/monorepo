@@ -16,8 +16,8 @@ const DisplayMapping = ({
   nameToDisplayMapper,
   allImportFields
 }) => {
-  const mappedFields = Object.keys(fieldMappings).map(
-    (key) => fieldMappings?.[key]?.action
+  const mappedFields = Object.keys(fieldMappings).map((key) =>
+    fieldMappings?.[key]?.action ? key : null
   );
   const unmappedFields = allImportFields.filter(
     (field) => !mappedFields.includes(field)
@@ -56,7 +56,7 @@ const DisplayMapping = ({
               wrapperClassName="hover:bg-base-100"
               size="large"
               text={
-                unmappedFields.includes(field) ? (
+                !unmappedFields.includes(field) ? (
                   <>
                     <TMTooltip
                       size="xs"
