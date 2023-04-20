@@ -1,7 +1,8 @@
+import {
+  DELIGHTED_CONFIG_FILE_NAME,
+  DELIGHTED_CONFIG_TOKEN
+} from 'constants/keys';
 import { logOllyEvent } from 'utils/common';
-// Note: This is a public token, it is safe to expose it
-const DELIGHTED_CONFIG_FILE_NAME = 'delightedNps6';
-const DELIGHTED_CONFIG_TOKEN = 'OSs0HGuHljsxJ5t7';
 
 const logOllyDelightedEvent = (event, delightedConfig) => {
   logOllyEvent({
