@@ -77,9 +77,9 @@ const UploadFile = () => {
           />
         </div>
       )}
-      <div className="border-base-200 rounded-md border-2 border-solid bg-white p-6">
+      <div className="border-base-300 rounded-md border border-solid bg-white p-6">
         <TMSectionHeadings
-          title="Upload CSV file"
+          title="Upload CSV"
           variant="buttons"
           trailingHeadNode={
             <>
@@ -123,7 +123,7 @@ const UploadFile = () => {
             <span
               tabIndex={0}
               role="button"
-              className="cursor-pointer font-semibold text-black"
+              className="text-base-800 cursor-pointer font-semibold"
               onClick={handleDownloadSampleCSV}
               onKeyDown={handleDownloadSampleCSV}
             >
@@ -192,7 +192,7 @@ const UploadFile = () => {
         selectedFolderId={folderId}
         show={showChangeFolderModal}
         showEmptyModal={projectId === 'new'}
-        subHeading="Chose your desired folder location where you want to move your test cases"
+        subHeading="Choose your desired folder location where you want to import the test cases"
         folderExplorerWrapperClassName="h-80 max-h-80"
       />
     </div>

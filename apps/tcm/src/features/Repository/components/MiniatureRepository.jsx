@@ -163,7 +163,6 @@ const MiniatureRepository = ({
               </div>
 
               <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
-                {isFoldersLoading ? <Loader wrapperClassName="h-full" /> : null}
                 {isSearchFilterView ? (
                   <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
                     <TMEmptyState

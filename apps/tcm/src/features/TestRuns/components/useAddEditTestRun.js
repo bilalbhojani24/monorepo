@@ -23,6 +23,7 @@ import {
   setEditTestRunForm,
   setIssuesArray,
   setIsVisibleProps,
+  setLoader,
   setTagsArray,
   setTestRunFormData,
   setUnsavedDataExists,
@@ -32,7 +33,7 @@ import {
 } from '../slices/testRunsSlice';
 
 const useAddEditTestRun = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, testRunId } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -75,6 +76,9 @@ const useAddEditTestRun = () => {
   );
   const editTestRunsCtaLoading = useSelector(
     (state) => state.testRuns.isLoading.editTestRunCta
+  );
+  const isTestRunsFormLoading = useSelector(
+    (state) => state.testRuns.isLoading.testRunFormData
   );
 
   const handleTestRunInputFieldChange = (key, value) => {
@@ -210,12 +214,14 @@ const useAddEditTestRun = () => {
     // update the issues array with data from this one as well
     if (testRun?.issues)
       dispatch(
-        setIssuesArray([
-          ...new Set([
-            ...testRun.issues,
-            ...issuesArray.map((item) => item.value)
+        setIssuesArray(
+          selectMenuValueMapper([
+            ...new Set([
+              ...testRun?.issues?.map((item) => item.value),
+              ...issuesArray.map((item) => item.value)
+            ])
           ])
-        ])
+        )
       );
 
     return {
@@ -279,12 +285,11 @@ const useAddEditTestRun = () => {
           updateTestRunsCtaLoading({ key: 'createTestRunCta', value: false })
         );
         const isInClosedTab = !!searchParams.get('closed');
-        if (
-          (isInClosedTab && data.data.testrun.run_state === 'closed') ||
-          (!isInClosedTab && data.data.testrun.run_state !== 'closed')
-        ) {
-          // dont append if status is closed and not in closed tab
-          // dont append if in active tab and status is closed
+        if (isInClosedTab) {
+          // after creation redirect to active test run in case currenlty in closed tab
+          dispatch(setLoader({ key: 'testRuns', value: true }));
+          setSearchParams({});
+        } else {
           dispatch(addTestRun(data.data.testrun || []));
         }
         dispatch(
@@ -354,6 +359,9 @@ const useAddEditTestRun = () => {
         hideAddTestRunForm(true);
       }
       dispatch(setTestRunFormData(formDataRetriever(data.data)));
+      dispatch(
+        updateTestRunsCtaLoading({ key: 'testRunFormData', value: false })
+      );
     });
   };
 
@@ -418,6 +426,7 @@ const useAddEditTestRun = () => {
   }, [isEditing, selectedTestRun]);
 
   return {
+    isTestRunsFormLoading,
     isEditing,
     selectedTCIDs,
     projectId,

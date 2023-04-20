@@ -172,7 +172,18 @@ const TestRunsTable = () => {
     {
       name: 'ASSIGNED TO',
       key: 'owner',
-      cell: (rowData) => rowData.assignee?.full_name || 'Unassigned',
+      cell: (rowData) => (
+        <TMTruncateText
+          truncateUsingClamp={false}
+          hidetooltipTriggerIcon
+          isFullWidthTooltip
+          headerTooltipProps={{
+            delay: 500
+          }}
+        >
+          {rowData.assignee?.full_name || 'Unassigned'}
+        </TMTruncateText>
+      ),
       class: 'w-[15%]'
     },
     {
