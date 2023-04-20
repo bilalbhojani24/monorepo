@@ -257,19 +257,19 @@ const listTreeDemoDataSet = [
   }
 ];
 
-export const findNodeinTree = (keyName, tree) => {
-  // you might need this, :-*
+// const findNodeinTree = (keyName, tree) => {
+//   // you might need this, :-*
 
-  for (let i = 0; i < tree.length; i += 1) {
-    if (tree[i].keyName === keyName) {
-      return tree[i];
-    }
-    if (tree[i].contents) {
-      findNodeinTree(tree[i].contents, keyName);
-    }
-  }
-  return null;
-};
+//   for (let i = 0; i < tree.length; i += 1) {
+//     if (tree[i].keyName === keyName) {
+//       return tree[i];
+//     }
+//     if (tree[i].contents) {
+//       findNodeinTree(tree[i].contents, keyName);
+//     }
+//   }
+//   return null;
+// };
 
 /**
  * This is just an example runner function that renders,a tree,
@@ -384,6 +384,7 @@ const SearchableSelectableListTree = () => {
           data.forEach((el) => {
             newValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
           });
+          return false;
         }
         return true;
       });
