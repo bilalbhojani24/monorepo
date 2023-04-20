@@ -1,12 +1,12 @@
 import removeExtraSpaceFromStart from './removePaddingfromBeginning';
 
 export default class Cookie {
-  constructor() {
-    this.cookieDomain = window.BrowserStackConfig?.cookie_domain;
+  constructor(cookieDomain, mainCookieDomain, envName, cookieSeperator) {
+    this.cookieDomain = cookieDomain;
     this.hasMoved = 'moved';
-    this.mainDomain = window.BrowserStackConfig?.main_cookie_domain;
-    this.envName = window.BrowserStackConfig?.env_name;
-    this.cookieSeperator = window.BrowserStackConfig?.cookie_seperator;
+    this.mainDomain = mainCookieDomain;
+    this.envName = envName;
+    this.cookieSeperator = cookieSeperator;
   }
 
   create(name, value, days, domain) {
@@ -72,19 +72,23 @@ export default class Cookie {
       const key = cookieString.substring(0, index);
       const value = cookieString.substring(index + 1, cookieString.length);
       let expiry;
-      if (window.Config?.subdomain_cookies.indexOf(key) === -1) {
-        // Do not do anything with cookies which are already on specific env
-        if (!this.isEnvSpecificCookie(key)) {
-          this.erase(key, this.mainDomain);
-          // Special handling for dynamic cookies
-          if (key.indexOf('skipped_extension_install_') !== -1) {
-            expiry = window.Config?.cookie_expiry_map.skipped_extension_install;
-          } else {
-            expiry = window.Config?.cookie_expiry_map[key];
-          }
-          this.create(this.getEnvSpecificCookies(key), value, expiry);
+      // reomved outer if and merged with inner if because of eslint error
+      // if (window.Config?.subdomain_cookies.indexOf(key) === -1) {
+      // Do not do anything with cookies which are already on specific env
+      if (
+        window.Config?.subdomain_cookies.indexOf(key) === -1 &&
+        !this.isEnvSpecificCookie(key)
+      ) {
+        this.erase(key, this.mainDomain);
+        // Special handling for dynamic cookies
+        if (key.indexOf('skipped_extension_install_') !== -1) {
+          expiry = window.Config?.cookie_expiry_map.skipped_extension_install;
+        } else {
+          expiry = window.Config?.cookie_expiry_map[key];
         }
+        this.create(this.getEnvSpecificCookies(key), value, expiry);
       }
+      // }
     });
     this.erase('has_moved');
     this.erase('history');

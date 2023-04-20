@@ -13,7 +13,11 @@ import { UAT_COOKIE_NAME } from './constants';
 import { fetchTokenThunk } from './fetchToken';
 
 // Add a request interceptor
-const cookie = new Cookie();
+const cookieDomain = window.BrowserStackConfig?.cookie_domain;
+const mainDomain = window.BrowserStackConfig?.main_cookie_domain;
+const envName = window.BrowserStackConfig?.env_name;
+const cookieSeperator = window.BrowserStackConfig?.cookie_seperator;
+const cookie = new Cookie(cookieDomain, mainDomain, envName, cookieSeperator);
 export const requestInterceptor = axios.interceptors.request.use(
   (config) => {
     const configShallowCopy = config;
