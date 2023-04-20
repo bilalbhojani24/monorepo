@@ -34,9 +34,22 @@ const adjustParentOfClicked = (targetItem) => {
   const newTarget = targetItem;
   for (let i = 1; i < newTarget.length; i += 1) {
     const { contents } = newTarget[i];
+    const deepCopyForBreakCheck = { ...targetItem[i] };
     const checked = contents.filter((item) => item.isChecked);
     const indeterminate = contents.some((item) => item.isIndeterminate);
-
+    // if (
+    //   (newTarget[i].isIndeterminate === true &&
+    //     newTarget[i].isChecked === true &&
+    //     indeterminate) ||
+    //   (newTarget[i].isIndeterminate === false &&
+    //     newTarget[i].isChecked === false &&
+    //     checked.length === 0) ||
+    //   (newTarget[i].isIndeterminate === false &&
+    //     newTarget[i].isChecked === true &&
+    //     checked.length === contents.length)
+    // ) {
+    //   break;
+    // } else
     if (indeterminate) {
       newTarget[i].isIndeterminate = true;
       newTarget[i].isChecked = true;
@@ -49,6 +62,12 @@ const adjustParentOfClicked = (targetItem) => {
     } else {
       newTarget[i].isChecked = true;
       newTarget[i].isIndeterminate = true;
+    }
+    if (
+      deepCopyForBreakCheck.isChecked === newTarget[i].isChecked &&
+      deepCopyForBreakCheck.isIndeterminate === newTarget[i].isIndeterminate
+    ) {
+      break;
     }
   }
 };
