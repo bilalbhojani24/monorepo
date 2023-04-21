@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Checkbox from '../Checkbox';
@@ -9,20 +9,16 @@ import ListTreeNodeContents from '../ListTreeNodeContents';
 
 const ControlledNestedTreeWithCheckbox = ({
   data,
+  openNodeMap,
+  setOpenNodeMap,
   searchValue,
   filteredUUIDs,
   allowFilter,
   onCheckboxChange,
   isParentSearched,
   indent = 1
-}) => {
-  const [openNodeMap, setOpenNodeMap] = useState({
-    'file 2': true,
-    'file 2b': true,
-    'file A': true
-  });
-
-  return data?.map((item) => {
+}) =>
+  data?.map((item) => {
     if (
       allowFilter &&
       !filteredUUIDs.filteredUUIDsWithHierarchy[item.uuid] &&
@@ -36,10 +32,7 @@ const ControlledNestedTreeWithCheckbox = ({
       <ListTree
         key={item.name}
         indentationLevel={indent}
-        isTreeOpen={
-          openNodeMap[item.name] ||
-          !!filteredUUIDs.filteredUUIDsWithHierarchy[item.uuid]
-        }
+        isTreeOpen={openNodeMap[item.uuid]}
       >
         <ListTreeNode
           showIcon={false}
@@ -76,25 +69,23 @@ const ControlledNestedTreeWithCheckbox = ({
           isNodeSelectable={false}
           description={item.uuid}
           onNodeOpen={() => {
-            if (openNodeMap[item.name] !== undefined) {
-              openNodeMap[item.name] = !openNodeMap[item.name];
+            const newOpenNodeMap = { ...openNodeMap };
+            if (newOpenNodeMap[item.uuid] !== undefined) {
+              newOpenNodeMap[item.uuid] = !openNodeMap[item.uuid];
             } else {
-              openNodeMap[item.name] = true;
+              newOpenNodeMap[item.uuid] = true;
             }
-            setOpenNodeMap({ ...openNodeMap });
+            setOpenNodeMap({ ...newOpenNodeMap });
           }}
           isNodeSelected={false}
           isFocused={false}
           leadingIcon={<></>}
         />
         {!!item?.contents && (
-          <ListTreeNodeContents
-            isTreeOpen={
-              openNodeMap[item.name] ||
-              !!filteredUUIDs.filteredUUIDsWithHierarchy[item.uuid]
-            }
-          >
+          <ListTreeNodeContents isTreeOpen={openNodeMap[item.uuid]}>
             <ControlledNestedTreeWithCheckbox
+              openNodeMap={openNodeMap}
+              setOpenNodeMap={setOpenNodeMap}
               onCheckboxChange={onCheckboxChange}
               filteredUUIDs={filteredUUIDs}
               allowFilter={allowFilter}
@@ -110,7 +101,6 @@ const ControlledNestedTreeWithCheckbox = ({
       </ListTree>
     );
   });
-};
 export default ControlledNestedTreeWithCheckbox;
 
 const dataItem = {

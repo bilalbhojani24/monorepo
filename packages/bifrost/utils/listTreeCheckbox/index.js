@@ -30,6 +30,29 @@ const getTargetHierarchyByIndex = (items, targetIndexes) => {
   return targetItem;
 };
 
+const getSearchResultsCustomBSFTraversal = (
+  allItemsList,
+  searchLogicCallback,
+  filteredList
+) => {
+  const newFilterUUUIDValue = {
+    searchedUUIDs: {},
+    filteredUUIDsWithHierarchy: {}
+  };
+  bfsTraversal({ contents: filteredList || allItemsList }, (item) => {
+    if (searchLogicCallback(item)) {
+      newFilterUUUIDValue.searchedUUIDs[item.uuid] = item;
+      const data = getTargetHierarchyByIndex(allItemsList, item.uuid);
+      data.forEach((el) => {
+        newFilterUUUIDValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
+      });
+      return false;
+    }
+    return true;
+  });
+  return newFilterUUUIDValue;
+};
+
 const adjustParentOfClicked = (targetItem) => {
   const newTarget = targetItem;
   for (let i = 1; i < newTarget.length; i += 1) {
@@ -37,19 +60,6 @@ const adjustParentOfClicked = (targetItem) => {
     const deepCopyForBreakCheck = { ...targetItem[i] };
     const checked = contents.filter((item) => item.isChecked);
     const indeterminate = contents.some((item) => item.isIndeterminate);
-    // if (
-    //   (newTarget[i].isIndeterminate === true &&
-    //     newTarget[i].isChecked === true &&
-    //     indeterminate) ||
-    //   (newTarget[i].isIndeterminate === false &&
-    //     newTarget[i].isChecked === false &&
-    //     checked.length === 0) ||
-    //   (newTarget[i].isIndeterminate === false &&
-    //     newTarget[i].isChecked === true &&
-    //     checked.length === contents.length)
-    // ) {
-    //   break;
-    // } else
     if (indeterminate) {
       newTarget[i].isIndeterminate = true;
       newTarget[i].isChecked = true;
@@ -137,11 +147,20 @@ const getSelectedListTreeItems = (prevItems, targetItem, isChecked) => {
   return { selectedValuesAdjusted: newValues };
 };
 
-const listTreeCheckboxHelper = {
+// const listTreeCheckboxHelper = {
+//   bfsTraversal,
+//   getSearchResultsCustomBSFTraversal,
+//   getSelectedListTreeItems,
+//   getTargetHierarchyByIndex,
+//   updateTargetNodes
+// };
+
+// export default listTreeCheckboxHelper;
+
+export {
   bfsTraversal,
+  getSearchResultsCustomBSFTraversal,
   getSelectedListTreeItems,
   getTargetHierarchyByIndex,
   updateTargetNodes
 };
-
-export default listTreeCheckboxHelper;

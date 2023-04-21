@@ -1,11 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
-  bfsTraversal,
+  getSearchResultsCustomBSFTraversal,
   getSelectedListTreeItems,
-  getTargetHierarchyByIndex,
   updateTargetNodes
 } from '../../utils/listTreeCheckbox';
 import Dropdown from '../Dropdown';
@@ -257,19 +256,19 @@ const listTreeDemoDataSet = [
   }
 ];
 
-export const findNodeinTree = (keyName, tree) => {
-  // you might need this, :-*
+// const findNodeinTree = (keyName, tree) => {
+//   // you might need this, :-*
 
-  for (let i = 0; i < tree.length; i += 1) {
-    if (tree[i].keyName === keyName) {
-      return tree[i];
-    }
-    if (tree[i].contents) {
-      findNodeinTree(tree[i].contents, keyName);
-    }
-  }
-  return null;
-};
+//   for (let i = 0; i < tree.length; i += 1) {
+//     if (tree[i].keyName === keyName) {
+//       return tree[i];
+//     }
+//     if (tree[i].contents) {
+//       findNodeinTree(tree[i].contents, keyName);
+//     }
+//   }
+//   return null;
+// };
 
 /**
  * This is just an example runner function that renders,a tree,
@@ -352,8 +351,39 @@ const SearchableSelectableListTree = () => {
   const [listOfItems, setListOfItems] = useState(sampleListTreeCheckboxData);
   const [selectedValue, setSelectedValue] = useState({});
   const [searchValue, setSearchValue] = useState(''); // Debounce this state for optimal performance
+  const [filteredUUIDs, setFilteredUUIDs] = useState({
+    searchedUUIDs: {},
+    filteredUUIDsWithHierarchy: {}
+  });
+  const [openNodeMap, setOpenNodeMap] = useState({
+    0: true,
+    1: true
+  });
   const onSearchChange = (e) => {
     const newSearchValue = e.target.value;
+    let newFilterUUUIDValue;
+    const searchLogicCallback = (item) =>
+      item.name.toLowerCase().includes(newSearchValue.toLowerCase());
+    if (newSearchValue.includes(searchValue) && searchValue.length > 0) {
+      newFilterUUUIDValue = getSearchResultsCustomBSFTraversal(
+        listOfItems,
+        searchLogicCallback,
+        Object.values(filteredUUIDs.searchedUUIDs)
+      );
+    } else {
+      newFilterUUUIDValue = getSearchResultsCustomBSFTraversal(
+        listOfItems,
+        searchLogicCallback
+      );
+    }
+    const newOpenNodeMap = {};
+    Object.keys(newFilterUUUIDValue.filteredUUIDsWithHierarchy).forEach(
+      (uuid) => {
+        newOpenNodeMap[uuid] = true;
+      }
+    );
+    setOpenNodeMap((prev) => ({ ...prev, ...newOpenNodeMap }));
+    setFilteredUUIDs(newFilterUUUIDValue);
     setSearchValue(newSearchValue);
   };
   const onCheckboxChange = (isChecked, targetIndexes) => {
@@ -370,26 +400,6 @@ const SearchableSelectableListTree = () => {
     setSelectedValue(selectedValuesAdjusted);
     setListOfItems(newItems);
   };
-
-  const filteredUUIDs = useMemo(() => {
-    const newValue = {
-      searchedUUIDs: {},
-      filteredUUIDsWithHierarchy: {}
-    };
-    if (searchValue.length) {
-      bfsTraversal({ contents: listOfItems }, (item) => {
-        if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
-          newValue.searchedUUIDs[item.uuid] = item.uuid;
-          const data = getTargetHierarchyByIndex(listOfItems, item.uuid);
-          data.forEach((el) => {
-            newValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
-          });
-        }
-        return true;
-      });
-    }
-    return newValue;
-  }, [listOfItems, searchValue]);
 
   return (
     <>
@@ -421,6 +431,8 @@ const SearchableSelectableListTree = () => {
         <p className="text-sm">No items matching search results</p>
       ) : (
         <ControlledNestedTreeWithCheckbox
+          openNodeMap={openNodeMap}
+          setOpenNodeMap={setOpenNodeMap}
           data={listOfItems}
           searchValue={searchValue}
           filteredUUIDs={filteredUUIDs}
