@@ -2,7 +2,7 @@ import React from 'react';
 import { O11yBadge, O11yTooltip } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-function StatusBadgeItem({ text, number, modifier, onClickHandler }) {
+function StatusBadgeItem({ text, number, modifier, onClickHandler, size }) {
   return (
     <O11yTooltip
       theme="dark"
@@ -15,12 +15,12 @@ function StatusBadgeItem({ text, number, modifier, onClickHandler }) {
       }
     >
       <O11yBadge
-        wrapperClassName="text-sm font-medium"
         onClick={onClickHandler}
         hasRemoveButton={false}
         modifier={modifier}
         hasDot={false}
         text={number}
+        size={size}
       />
     </O11yTooltip>
   );
@@ -29,12 +29,14 @@ function StatusBadgeItem({ text, number, modifier, onClickHandler }) {
 StatusBadgeItem.propTypes = {
   text: PropTypes.string.isRequired,
   modifier: PropTypes.string.isRequired,
+  size: PropTypes.string,
   number: PropTypes.number.isRequired,
   onClickHandler: PropTypes.func
 };
 
 StatusBadgeItem.defaultProps = {
-  onClickHandler: () => {}
+  onClickHandler: () => {},
+  size: 'basic'
 };
 
 export default StatusBadgeItem;
