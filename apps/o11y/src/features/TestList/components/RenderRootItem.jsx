@@ -105,7 +105,11 @@ const RenderRootItem = ({ data }) => {
             onClick={toggleAccordion}
             wrapperClassName="px-0 py-2"
             asideContent={
-              <div className="flex h-full gap-4">
+              <div
+                className="flex h-full cursor-pointer gap-4"
+                role="presentation"
+                onClick={toggleAccordion}
+              >
                 <div className="flex w-full justify-end gap-3 text-base">
                   {!!details?.browser && (
                     <DetailIcon
@@ -171,7 +175,7 @@ const RenderRootItem = ({ data }) => {
                     <p className="text-base-500 flex items-center text-sm font-normal">
                       <span className="bg-base-400 mx-2 block h-1 w-1 rounded-full" />
                       <span dir="rtl" className="max-w-[300px] truncate">
-                        {details?.middleScopes?.join(' / ')}
+                        {details?.middleScopes?.join(' > ')}
                       </span>
                     </p>
                   )}

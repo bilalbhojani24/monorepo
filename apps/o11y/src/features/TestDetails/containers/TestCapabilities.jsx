@@ -132,13 +132,15 @@ const TestCapabilities = () => {
   }
 
   return (
-    <div className="bg-base-50 rounded-md p-6">
-      <O11yTabs
-        defaultIndex={activeTab.idx}
-        tabsArray={tabs}
-        onTabChange={onTabChange}
-        isSlideableTabs
-      />
+    <div className="bg-base-50 flex flex-col rounded-md p-6">
+      <div className="bg-base-50 sticky -top-2 z-20">
+        <O11yTabs
+          defaultIndex={activeTab.idx}
+          tabsArray={tabs}
+          onTabChange={onTabChange}
+          isSlideableTabs
+        />
+      </div>
       <TestCapabilitiesList data={capabilities[activeTab.value]} />
     </div>
   );

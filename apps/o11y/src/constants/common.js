@@ -9,7 +9,8 @@ export const DOC_KEY_MAPPING = {
   mute: 'features/mute-tests',
   source_code: 'integrations/source-code',
   automation_build: 'how-to-guides/organize-test-runs',
-  application_logs: 'integrations/application-logs'
+  application_logs: 'integrations/application-logs',
+  tnc: `references/terms-and-conditions`
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
@@ -62,20 +63,20 @@ export const SNP_PARAMS_MAPPING = {
 export const SNP_DATE_RANGE = {
   days7: {
     key: 'days7',
-    label: 'Last 7 Days'
+    label: '7 Days'
   },
   days15: {
     key: 'days15',
-    label: 'Last 15 Days'
+    label: '15 Days'
   },
   days30: {
     key: 'days30',
-    label: 'Last 30 Days'
+    label: '30 Days'
   }
 };
 
 export const TOOLTIP_STYLES = {
-  backgroundColor: '#00335D',
+  backgroundColor: 'var(--colors-base-800)',
   borderColor: 'transparent',
   style: {
     color: '#fff',
@@ -103,6 +104,7 @@ export const COMMON_CHART_CONFIGS = {
     align: 'left',
     verticalAlign: 'top',
     x: -10,
+    itemMarginBottom: 20,
     itemStyle: {
       color: '#333',
       fontWeight: 'normal',
@@ -140,6 +142,8 @@ export const COMMON_CHART_STYLES = {
 
 export const SUPPORTED_HTML_TAGS = ['mark'];
 
+export const EMAIL_VERIFICATION_REGEX =
+  /^[a-zA-Z0-9+_|-](?:[.]?[a-zA-Z0-9'+_|~-])*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 export const TEST_DETAILS_SOURCE = {
   TESTS_LISTING: 'test_listing',
   BUILD_INSIGHTS_UNIQUE_ERRORS: 'build_insights_unique_errors',
@@ -165,6 +169,15 @@ export const PUSHER_EVENTS = {
 export const NOTIFICATION_TYPES = {
   dailySummary: 'DAILY_SUMMARY_EMAIL',
   buildInsights: 'BUILD_FINISH_EMAIL'
+};
+
+export const ISO_DATE_FORMAT = 'yyyy-MM-dd';
+
+export const TEST_LIST_FILTERS_TAGS = {
+  isAlwaysFailing: 'isAlwaysFailing',
+  isPerformanceAnomaly: 'isPerformanceAnomaly',
+  flaky: 'flaky',
+  isNewFailure: 'isNewFailure'
 };
 
 // custom history object to allow navigation outside react components

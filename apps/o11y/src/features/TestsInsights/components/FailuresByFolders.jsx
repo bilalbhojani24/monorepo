@@ -152,7 +152,7 @@ export default function FailuresByFolders() {
                 align: 'center',
                 verticalAlign: 'middle',
                 formatter() {
-                  return `<div class="flex w-full items-center gap-1 text-black whitespace-nowrap overflow-hidden text-ellipsis">
+                  return `<div class="flex items-center gap-1 py-0 mx-3 text-black truncate">
                       ${
                         this?.point?.options?.type === 'FOLDER'
                           ? `<svg class="shrink-0 w-5 h-5 text-black">
@@ -163,9 +163,10 @@ export default function FailuresByFolders() {
                           </svg>
                         `
                       }
-                      <p class="text-sm font-medium flex-1 whitespace-nowrap overflow-hidden text-ellipsis">${
-                        this?.point?.name
-                      }</p>
+                      <p class="text-sm font-medium flex-1 min-w-0 truncate">
+                        ${this?.point?.name}
+                      </p>
+                      
                     </div>`;
                 }
               }

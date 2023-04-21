@@ -8,6 +8,7 @@ import alertsSettingsReducer from 'features/Settings/slices/alertsSettings';
 import autoAnalyserSettingsReducer from 'features/Settings/slices/autoAnalyserSettings';
 import failureCategoriesSettingsReducer from 'features/Settings/slices/failureCategoriesSettings';
 import generalSettingsReducer from 'features/Settings/slices/generalSettings';
+import notificationsSettingsReducer from 'features/Settings/slices/notificationsSettings';
 import reRunSettingsReducer from 'features/Settings/slices/reRunSettings';
 import shErrorDetailsReducer from 'features/SHErrorDetails/slices/dataSlice';
 import shTestDetailsReducer from 'features/SHTestDetails/slices/dataSlice';
@@ -34,6 +35,7 @@ export const store = configureStore({
     integrationsWidget: integrationsWidgetReducer,
     modalToShow,
     reRunSettings: reRunSettingsReducer,
+    notificationsSettings: notificationsSettingsReducer,
     shErrordetails: shErrorDetailsReducer,
     shTestdetails: shTestDetailsReducer,
     shTests: shTestsReducer,

@@ -63,7 +63,7 @@ const defaultConfig = {
         </TruncateText>
       )
     },
-    backgroundColorClass: {
+    wrapperClassName: {
       option: { type: 'string' },
       defaultValue: ''
     },

@@ -19,7 +19,8 @@ export default {
     baseUrl: STAGING_CONFIG('').baseUrl,
     withCredentials: false,
     integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
-    useIntegrationsPreProdAuth: true
+    useIntegrationsPreProdAuth: true,
+    isMocker: true
   },
   'local-staging': {
     cookiePrefix: `development${COOKIE_SEPARATOR}`,

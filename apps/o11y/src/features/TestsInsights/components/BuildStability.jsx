@@ -190,8 +190,7 @@ export default function BuildStability() {
       chartOptions={chartData}
       isLoading={buildStabilityStats?.isLoading}
       bigNumberData={{
-        ...buildStabilityStats?.data?.overview,
-        heading: `Stability of #${params.buildSerialId}`
+        ...buildStabilityStats?.data?.overview
       }}
       bigNumberConfig={{ noHover: true }}
       showNoData={hasNoData}

@@ -7,17 +7,22 @@ import O11yLoader from 'common/O11yLoader';
 import { ROUTES } from 'constants/routes';
 import IntegrationsWidget from 'features/IntegrationsWidget';
 import Sidebar from 'features/Sidebar';
-import { getProjects } from 'globalSlice/selectors';
+import { getInitData, getProjects } from 'globalSlice/selectors';
 
 import { AppContext } from '../context/AppContext';
 
 const LayoutWSidebar = () => {
   const projects = useSelector(getProjects);
+  const initData = useSelector(getInitData);
   const widgetPositionRef = useRef(null);
 
   const setWidgetPositionRef = useCallback((ref) => {
     widgetPositionRef.current = ref;
   }, []);
+
+  if (!initData.isLoading && !initData.data?.hasAcceptedTnC) {
+    return <Navigate to={ROUTES.request_access} />;
+  }
 
   if (!projects?.list?.length) {
     return <Navigate to={ROUTES.get_started} />;

@@ -10,6 +10,7 @@ import { ROUTES } from './routes';
 
 const AllBuilds = React.lazy(() => import('features/AllBuilds'));
 const BuildDetails = React.lazy(() => import('features/BuildDetails'));
+const RequestAccess = React.lazy(() => import('features/RequestAccess'));
 
 const Integrations = React.lazy(() => import('features/Integrations'));
 
@@ -32,6 +33,9 @@ const FailureCategoriesSettings = React.lazy(() =>
 );
 const ReRunSettings = React.lazy(() =>
   import('features/Settings/containers/ReRunSettings')
+);
+const NotificationsSettings = React.lazy(() =>
+  import('features/Settings/containers/NotificationsSettings')
 );
 
 const SuiteHealth = React.lazy(() => import('features/SuiteHealth'));
@@ -71,6 +75,11 @@ export const APP_ROUTES = [
         path: ROUTES.get_started,
         isProtected: true,
         component: <OnboardingFrameworkSelector />
+      },
+      {
+        path: ROUTES.request_access,
+        isProtected: true,
+        component: <RequestAccess />
       }
     ]
   },
@@ -128,6 +137,11 @@ export const APP_ROUTES = [
             path: ROUTES.settings_re_run,
             isProtected: true,
             component: <ReRunSettings />
+          },
+          {
+            path: ROUTES.settings_notifications,
+            isProtected: true,
+            component: <NotificationsSettings />
           }
         ]
       },

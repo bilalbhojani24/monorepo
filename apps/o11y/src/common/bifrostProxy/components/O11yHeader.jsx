@@ -15,7 +15,7 @@ const O11yHeader = () => (
     release="Beta"
     // beamerProductId="xTSGUhhN11000"
     documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
-    supportLink={`${envConfig.baseUrl}/contact`}
+    supportLink={`${envConfig.baseUrl}/contact#other`}
     headerElementArray={[
       'team',
       'pricing',
@@ -24,6 +24,7 @@ const O11yHeader = () => (
       // 'notifications',
       'account'
     ]}
+    showTestInsights={false}
     documentation={{
       title: 'Key Features',
       options: [

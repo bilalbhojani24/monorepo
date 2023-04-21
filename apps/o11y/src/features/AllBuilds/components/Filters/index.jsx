@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdFilterAlt } from '@browserstack/bifrost';
 import {
   O11yButton,
   O11yComboBox,
+  O11ySingleDatePicker,
   O11ySlideover,
   O11ySlideoverBody,
   O11ySlideoverFooter,
   O11ySlideoverHeader
 } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { getCustomTimeStamp } from 'utils/dateTime';
+import { getISOParsedDate } from 'utils/dateTime';
 import { capitalizeFirstLetter } from 'utils/stringUtils';
 
-import { setAppliedFilters, setSelectedFilters } from '../../slices/dataSlice';
+import {
+  cancelSelectedFilters,
+  setAppliedFilters,
+  setSelectedFilters
+} from '../../slices/dataSlice';
 import { getSelectedFilters, getStaticFilters } from '../../slices/selectors';
 
 import TagsFilters from './TagsFilter';
@@ -24,7 +29,7 @@ const Filters = () => {
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
   const selectedFilters = useSelector(getSelectedFilters);
   const staticFilters = useSelector(getStaticFilters);
-  const { statuses, users, tags, dateRange } = selectedFilters;
+  const { statuses, users, tags, dateRange, frameworks } = selectedFilters;
 
   const showSlideover = () => {
     setIsSlideoverVisible(true);
@@ -32,13 +37,18 @@ const Filters = () => {
   const hideSlideover = () => {
     setIsSlideoverVisible(false);
   };
+  const onCancelSelectedFilters = () => {
+    dispatch(cancelSelectedFilters());
+    hideSlideover();
+  };
   const onApplyFilterClick = () => {
     dispatch(
       setAppliedFilters({
         statuses,
         users,
         tags,
-        dateRange
+        dateRange,
+        frameworks
       })
     );
     hideSlideover();
@@ -50,19 +60,49 @@ const Filters = () => {
       })
     );
   };
-  const onChangeUpperLowerBound = (e, targetBound) => {
-    const newValue = new Date(e.target.value).getTime();
-    dispatch(
-      setSelectedFilters({
-        dateRange: {
-          lowerBound:
-            targetBound === 'lowerBound' ? newValue : dateRange.lowerBound,
-          upperBound:
-            targetBound === 'upperBound' ? newValue : dateRange.upperBound
-        }
-      })
-    );
+
+  const onChangeDate = (dateObj, targetBound) => {
+    try {
+      const dateString = dateObj.toString();
+      const date = new Date(dateString);
+      dispatch(
+        setSelectedFilters({
+          dateRange: {
+            lowerBound:
+              targetBound === 'lowerBound'
+                ? date.getTime()
+                : dateRange.lowerBound,
+            upperBound:
+              targetBound === 'upperBound'
+                ? new Date(date.setUTCHours(23, 59, 59, 999)).getTime()
+                : dateRange.upperBound
+          }
+        })
+      );
+    } catch (err) {
+      // clear value if invalid entered by user
+      dispatch(
+        setSelectedFilters({
+          dateRange: {
+            lowerBound:
+              targetBound === 'lowerBound' ? '' : dateRange.lowerBound,
+            upperBound: targetBound === 'upperBound' ? '' : dateRange.upperBound
+          }
+        })
+      );
+    }
   };
+
+  const isValid = useMemo(
+    () =>
+      !(
+        (dateRange.lowerBound && !dateRange.upperBound) ||
+        (dateRange.upperBound && !dateRange.lowerBound) ||
+        dateRange.lowerBound > dateRange.upperBound
+      ),
+    [dateRange.lowerBound, dateRange.upperBound]
+  );
+
   const statusOptions = staticFilters?.statuses
     ? Object.values(staticFilters?.statuses).map((el) => ({
         value: el,
@@ -70,20 +110,31 @@ const Filters = () => {
       }))
     : [];
 
+  const frameworkOptions = staticFilters?.frameworks
+    ? Object.values(staticFilters?.frameworks).map((el) => ({
+        value: el,
+        label: el
+      }))
+    : [];
+
   return (
     <>
-      <O11ySlideover show={isSlideoverVisible} backgroundOverlay={false}>
+      <O11ySlideover
+        size="sm"
+        show={isSlideoverVisible}
+        backgroundOverlay={false}
+      >
         <O11ySlideoverHeader
           heading="Filters"
-          handleDismissClick={hideSlideover}
+          handleDismissClick={onCancelSelectedFilters}
         />
         <O11ySlideoverBody wrapperClassName="overflow-auto">
           {staticFilters?.statuses ? (
             <div className="flex flex-col gap-6 px-4">
               <O11yComboBox
                 isMulti
-                placeholder="Select"
-                label="Status"
+                placeholder="Select build status"
+                label="Build Status"
                 options={statusOptions}
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'statuses');
@@ -92,8 +143,7 @@ const Filters = () => {
                   statuses.includes(el.value)
                 )}
                 checkPosition="right"
-                virtuosoWidth="480px"
-                optionsListWrapperClassName="min-w-max h-100 overflow-hidden"
+                virtuosoWidth="350px"
               />
               <UsersFilters
                 onChangeArrayFilter={onChangeArrayFilter}
@@ -103,55 +153,60 @@ const Filters = () => {
                 onChangeArrayFilter={onChangeArrayFilter}
                 allowFetchingData={isSlideoverVisible}
               />
-              <div>
-                <label
-                  className="text-base-700 text-sm"
-                  htmlFor="start-date-filter"
-                >
-                  Start Date
-                </label>
-                <input
-                  className="border-base-300 placeholder:text-base-200 block w-full rounded-md"
-                  id="start-date-filter"
-                  type="date"
+              <O11yComboBox
+                isMulti
+                placeholder="Select framework"
+                label="Frameworks"
+                options={frameworkOptions}
+                onChange={(selectedValues) => {
+                  onChangeArrayFilter(selectedValues, 'frameworks');
+                }}
+                value={frameworkOptions.filter((el) =>
+                  frameworks.includes(el.value)
+                )}
+                checkPosition="right"
+                virtuosoWidth="350px"
+              />
+              <div className="flex flex-col">
+                <O11ySingleDatePicker
+                  label="Start Date"
                   value={
                     dateRange.lowerBound
-                      ? getCustomTimeStamp({
-                          dateString: new Date(dateRange.lowerBound),
-                          withoutTZ: true,
-                          withoutTime: true,
-                          dateFormat: 'yyyy-MM-dd'
-                        })
-                      : '00-00-0000'
+                      ? getISOParsedDate(dateRange.lowerBound)
+                      : null
                   }
-                  onChange={(e) => onChangeUpperLowerBound(e, 'lowerBound')}
-                  placeholder="Start Date"
+                  onChange={(dateObj) => onChangeDate(dateObj, 'lowerBound')}
                 />
+                {!dateRange.lowerBound && dateRange.upperBound && (
+                  <p className="text-danger-600 text-sm">
+                    Please select start date to apply date filter else remove
+                    end date field
+                  </p>
+                )}
               </div>
-              <div>
-                <label
-                  className="text-base-700 text-sm"
-                  htmlFor="end-date-filter"
-                >
-                  End Date
-                </label>
-                <input
-                  className="border-base-300 placeholder:text-base-200 block w-full rounded-md"
-                  id="end-date-filter"
+              <div className="flex flex-col">
+                <O11ySingleDatePicker
+                  label="End Date"
                   value={
                     dateRange.upperBound
-                      ? getCustomTimeStamp({
-                          dateString: new Date(dateRange.upperBound),
-                          withoutTZ: true,
-                          withoutTime: true,
-                          dateFormat: 'yyyy-MM-dd'
-                        })
-                      : '00-00-0000'
+                      ? getISOParsedDate(dateRange.upperBound)
+                      : null
                   }
-                  onChange={(e) => onChangeUpperLowerBound(e, 'upperBound')}
-                  type="date"
-                  placeholder="End Date"
+                  onChange={(dateObj) => onChangeDate(dateObj, 'upperBound')}
                 />
+                {!dateRange.upperBound && dateRange.lowerBound && (
+                  <p className="text-danger-600 text-sm">
+                    Please select end date to apply date filter else remove
+                    start date field
+                  </p>
+                )}
+                {dateRange.upperBound &&
+                  dateRange.lowerBound &&
+                  dateRange.upperBound < dateRange.lowerBound && (
+                    <p className="text-danger-600 text-sm">
+                      End date cannot be smaller than start date
+                    </p>
+                  )}
               </div>
             </div>
           ) : (
@@ -159,11 +214,17 @@ const Filters = () => {
           )}
         </O11ySlideoverBody>
 
-        <O11ySlideoverFooter isBorder="true" backgroundColorClass="justify-end">
-          <O11yButton variant="primary" colors="white" onClick={hideSlideover}>
+        <O11ySlideoverFooter isBorder="true" position="right">
+          <O11yButton
+            variant="primary"
+            colors="white"
+            onClick={onCancelSelectedFilters}
+          >
             Cancel
           </O11yButton>
-          <O11yButton onClick={onApplyFilterClick}>Apply</O11yButton>
+          <O11yButton disabled={!isValid} onClick={onApplyFilterClick}>
+            Apply
+          </O11yButton>
         </O11ySlideoverFooter>
       </O11ySlideover>
       <O11yButton

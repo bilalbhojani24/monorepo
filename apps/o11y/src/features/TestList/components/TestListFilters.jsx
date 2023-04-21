@@ -17,6 +17,7 @@ import {
   getStaticFilters
 } from 'features/TestList/slices/selectors';
 import {
+  cancelSelectedFilters,
   setAppliedFilters,
   setSelectedFilters
 } from 'features/TestList/slices/testListSlice';
@@ -25,7 +26,7 @@ const TestListFilters = () => {
   const dispatch = useDispatch();
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
   const staticFilters = useSelector(getStaticFilters);
-  const { issueType, folder, os, flaky, browser, history, tags, status } =
+  const { issueType, os, flaky, browser, history, tags, status } =
     staticFilters?.data;
   const selectedFilters = useSelector(getSelectedFilters);
   const showSlideover = () => {
@@ -33,6 +34,11 @@ const TestListFilters = () => {
   };
   const hideSlideover = () => {
     setIsSlideoverVisible(false);
+  };
+
+  const onCancelSelectedFilters = () => {
+    dispatch(cancelSelectedFilters());
+    hideSlideover();
   };
   const onApplyFilterClick = () => {
     dispatch(
@@ -76,7 +82,7 @@ const TestListFilters = () => {
       >
         <O11ySlideoverHeader
           heading="Filters"
-          handleDismissClick={hideSlideover}
+          handleDismissClick={onCancelSelectedFilters}
         />
         <O11ySlideoverBody wrapperClassName="overflow-auto">
           {staticFilters?.apiState?.status === API_STATUSES.FULFILLED && (
@@ -126,7 +132,7 @@ const TestListFilters = () => {
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
-              <O11yComboBox
+              {/* <O11yComboBox
                 isMulti
                 placeholder="Select"
                 label="Folder"
@@ -140,7 +146,7 @@ const TestListFilters = () => {
                 checkPosition="right"
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
-              />
+              /> */}
               <O11yComboBox
                 isMulti
                 placeholder="Select"
@@ -222,8 +228,12 @@ const TestListFilters = () => {
           )}
         </O11ySlideoverBody>
 
-        <O11ySlideoverFooter isBorder="true" backgroundColorClass="justify-end">
-          <O11yButton variant="primary" colors="white" onClick={hideSlideover}>
+        <O11ySlideoverFooter isBorder="true" position="right">
+          <O11yButton
+            variant="primary"
+            colors="white"
+            onClick={onCancelSelectedFilters}
+          >
             Cancel
           </O11yButton>
           <O11yButton onClick={onApplyFilterClick}>Apply</O11yButton>

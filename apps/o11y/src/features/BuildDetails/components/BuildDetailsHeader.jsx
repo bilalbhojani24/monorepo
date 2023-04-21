@@ -280,6 +280,7 @@ function BuildDetailsHeader({
           icon={<MdPerson className="h-5 w-5" />}
           metaDescription={user}
           textColorClass="text-base-500"
+          metaTitle="Run by"
         />
         {startedAt && (
           <O11yMetaData
@@ -288,6 +289,15 @@ function BuildDetailsHeader({
               dateString: new Date(startedAt)
             })}
             textColorClass="text-base-500"
+            metaTitle="Started at"
+          />
+        )}
+        {duration && (
+          <O11yMetaData
+            icon={<MdOutlineTimer className="h-5 w-5" />}
+            metaDescription={milliSecondsToTime(duration)}
+            textColorClass="text-base-500"
+            metaTitle="Duration"
           />
         )}
         {versionControlInfo?.commitId && (
@@ -305,6 +315,7 @@ function BuildDetailsHeader({
               }
               metaDescription={versionControlInfo.commitId.slice(0, 8)}
               textColorClass="text-base-500 hover:text-brand-700"
+              metaTitle="Commit Id"
             />
           </Hyperlink>
         )}
@@ -342,13 +353,6 @@ function BuildDetailsHeader({
               />
             </Hyperlink>
           </O11yTooltip>
-        )}
-        {duration && (
-          <O11yMetaData
-            icon={<MdOutlineTimer className="h-5 w-5" />}
-            metaDescription={milliSecondsToTime(duration)}
-            textColorClass="text-base-500"
-          />
         )}
         <ViewMetaPopOver
           data={buildMeta.data || {}}

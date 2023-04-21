@@ -14,7 +14,6 @@ import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import { triggerReRunBE } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
-import { o11yNotify } from 'utils/notification';
 
 const testModalOptions = [
   {
@@ -29,12 +28,12 @@ const testModalOptions = [
   }
 ];
 const testModalOptionsWithTestID = [
-  ...testModalOptions,
   {
     name: 'Current Test',
     disabled: false,
     id: 'test'
-  }
+  },
+  ...testModalOptions
 ];
 
 function RenderTestModal() {
@@ -47,6 +46,14 @@ function RenderTestModal() {
   const handleCloseModal = () => {
     dispatch(toggleModal({ version: '', data: {} }));
   };
+  useEffect(() => {
+    if (testId) {
+      setSelectedOption(testModalOptionsWithTestID[0]);
+    } else {
+      setSelectedOption(testModalOptions[0]);
+    }
+  }, [testId]);
+
   const OllyTestListingEvent = useCallback(
     (eventName) => {
       logOllyEvent({
@@ -95,21 +102,6 @@ function RenderTestModal() {
       })
     )
       .unwrap()
-      .then(() => {
-        o11yNotify({
-          title: `Re-run triggered!`,
-          description: '',
-          type: 'success'
-        });
-        handleCloseModal();
-      })
-      .catch(() => {
-        o11yNotify({
-          title: 'Re-run trigger failed!',
-          description: 'There was some glitch during re-run.',
-          type: 'error'
-        });
-      })
       .finally(() => {
         setIsUpdating(false);
       });
@@ -126,10 +118,10 @@ function RenderTestModal() {
         <O11yRadioGroup
           direction="vertical"
           onChange={(_, selectedItem) => {
-            const selectedItemData = testModalOptionsWithTestID.filter(
+            const selectedItemData = testModalOptionsWithTestID.find(
               (el) => el.id === selectedItem
             );
-            setSelectedOption(selectedItemData[0]);
+            setSelectedOption(selectedItemData);
           }}
           options={testId ? testModalOptionsWithTestID : testModalOptions}
           selectedOption={selectedOption}

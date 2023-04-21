@@ -13,7 +13,10 @@ const ResizableWrapper = ({
   resizeHandles,
   minConstraints,
   maxConstraints,
-  handleSize
+  handleSize,
+  onResize,
+  onResizeStart,
+  onResizeStop
 }) => (
   <ResizableBox
     className={className}
@@ -24,6 +27,9 @@ const ResizableWrapper = ({
     resizeHandles={resizeHandles}
     minConstraints={minConstraints}
     maxConstraints={maxConstraints}
+    onResize={onResize}
+    onResizeStart={onResizeStart}
+    onResizeStop={onResizeStop}
   >
     {children}
   </ResizableBox>
@@ -38,7 +44,10 @@ ResizableWrapper.propTypes = {
   resizeHandles: PropTypes.oneOf(['s', 'w', 'e', 'n', 'sw', 'nw', 'se', 'ne']),
   maxConstraints: PropTypes.arrayOf(PropTypes.number),
   minConstraints: PropTypes.arrayOf(PropTypes.number),
-  handleSize: PropTypes.arrayOf(PropTypes.number)
+  handleSize: PropTypes.arrayOf(PropTypes.number),
+  onResize: PropTypes.func,
+  onResizeStart: PropTypes.func,
+  onResizeStop: PropTypes.func
 };
 
 ResizableWrapper.defaultProps = {
@@ -50,7 +59,10 @@ ResizableWrapper.defaultProps = {
   resizeHandles: null,
   maxConstraints: null,
   minConstraints: null,
-  handleSize: null
+  handleSize: null,
+  onResize: null,
+  onResizeStart: null,
+  onResizeStop: null
 };
 
 export default ResizableWrapper;

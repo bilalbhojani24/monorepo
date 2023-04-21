@@ -30,7 +30,7 @@ const FilterBadge = ({ text, onClose }) => (
 );
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const FilterPills = ({ viewAllBuilds }) => {
+const FilterPills = ({ viewAllTests }) => {
   const dispatch = useDispatch();
   const appliedFilters = useSelector(getAppliedFilters);
 
@@ -41,7 +41,7 @@ const FilterPills = ({ viewAllBuilds }) => {
     if (filterCategory === 'flaky' || filterCategory === 'history') {
       dispatch(setAppliedFilters({ [filterCategory]: [] }));
     }
-    if (filterCategory === 'issueTypeGroup') {
+    if (filterCategory === 'issueTypeGroup' || filterCategory === 'run') {
       dispatch(setAppliedFilters({ [filterCategory]: '' }));
     }
     if (Object.keys(EMPTY_STATIC_FILTERS).includes(filterCategory)) {
@@ -92,11 +92,14 @@ const FilterPills = ({ viewAllBuilds }) => {
           />
         );
       }
-      if (singleFilterType === 'issueTypeGroup' && targetValue.length) {
+      if (
+        (singleFilterType === 'issueTypeGroup' || singleFilterType === 'run') &&
+        targetValue.length
+      ) {
         return (
           <FilterBadge
-            key={FILTER_TAGNAME_MAPPING.issueTypeGroup}
-            text={`${FILTER_TAGNAME_MAPPING.issueTypeGroup}${truncateMax(
+            key={FILTER_TAGNAME_MAPPING[singleFilterType]}
+            text={`${FILTER_TAGNAME_MAPPING[singleFilterType]}${truncateMax(
               targetValue
             )}`}
             onClose={() => removeFilter(singleFilterType, targetValue)}
@@ -130,7 +133,7 @@ const FilterPills = ({ viewAllBuilds }) => {
         )}
         <div className="flex flex-wrap gap-4">
           {itemsArray}
-          <O11yButton variant="minimal" colors="white" onClick={viewAllBuilds}>
+          <O11yButton variant="minimal" colors="white" onClick={viewAllTests}>
             Clear All
           </O11yButton>
         </div>
@@ -142,7 +145,7 @@ const FilterPills = ({ viewAllBuilds }) => {
 export default FilterPills;
 
 FilterPills.propTypes = {
-  viewAllBuilds: PropTypes.func.isRequired
+  viewAllTests: PropTypes.func.isRequired
 };
 
 FilterBadge.propTypes = {

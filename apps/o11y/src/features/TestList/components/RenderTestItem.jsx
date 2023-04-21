@@ -152,7 +152,7 @@ const RenderTestItem = ({ item: data }) => {
             </div>
           </div>
           <div className="flex items-center">
-            <TestListStackTrace details={details} />
+            <TestListStackTrace details={details} size="5xl" />
           </div>
           <div
             className={twClassNames('flex items-center gap-2 pl-6', {
@@ -174,15 +174,13 @@ const RenderTestItem = ({ item: data }) => {
             {!!details?.retries[details?.retries.length - 1].logs[
               LOG_TYPES.IMAGES
             ] && (
-              <PropagationBlocker variant="div">
-                <TestListGalleryContainer
-                  imgUrl={
-                    details?.retries[details?.retries.length - 1].logs[
-                      LOG_TYPES.IMAGES
-                    ]
-                  }
-                />
-              </PropagationBlocker>
+              <TestListGalleryContainer
+                imgUrl={
+                  details?.retries[details?.retries.length - 1].logs[
+                    LOG_TYPES.IMAGES
+                  ]
+                }
+              />
             )}
             <TestItemJiraTag details={details} />
             {details?.sessionUrl && (

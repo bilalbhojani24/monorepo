@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { MdWarningAmber } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
   O11yCheckbox,
+  O11yEmptyState,
   O11yModal,
   O11yModalBody,
   O11yModalFooter,
@@ -275,40 +277,59 @@ function BulkTaggingModal() {
             />
           </div>
         )}
-        <O11yCheckbox
-          checked={
-            selectedTestRunIds.length === similarIssues?.data?.similar?.length
-          }
-          border={false}
-          wrapperClassName={twClassNames('py-4 border-base-200 border-b', {
-            invisible: similarIssues?.isLoading
-          })}
-          data={{
-            description:
-              'Get notified when someones posts a comment on a posting',
-            label: 'Select All',
-            value: true
-          }}
-          onChange={(e) => {
-            handleCheckBoxChange(e, -1);
-          }}
-        />
-        <div className="h-64 overflow-auto">
+        {similarIssues.data?.similar?.length > 1 && (
+          <O11yCheckbox
+            checked={
+              selectedTestRunIds.length === similarIssues?.data?.similar?.length
+            }
+            border={false}
+            wrapperClassName={twClassNames('py-4 border-base-200 border-b', {
+              invisible: similarIssues?.isLoading
+            })}
+            data={{
+              description:
+                'Get notified when someones posts a comment on a posting',
+              label: 'Select All',
+              value: true
+            }}
+            onChange={(e) => {
+              handleCheckBoxChange(e, -1);
+            }}
+          />
+        )}
+        <>
           {similarIssues?.isLoading ? (
-            <O11yLoader />
+            <div className="flex h-20 flex-col justify-center p-14">
+              <O11yLoader />
+            </div>
           ) : (
             <>
-              {similarIssues.data?.similar?.map((el) => (
-                <SimilarItem
-                  data={el}
-                  key={el.id}
-                  handleSelect={handleCheckBoxChange}
-                  checked={!!selectedTestRunIds.includes(el?.id)}
-                />
-              ))}
+              {!similarIssues.data?.similar?.length ? (
+                <div className="flex h-24 flex-col justify-center p-14">
+                  <O11yEmptyState
+                    title="No similar tests found"
+                    description=""
+                    mainIcon={
+                      <MdWarningAmber className="text-base-400 inline-block !h-12 !w-12" />
+                    }
+                    buttonProps={null}
+                  />
+                </div>
+              ) : (
+                <div className="h-64 overflow-auto">
+                  {similarIssues.data?.similar?.map((el) => (
+                    <SimilarItem
+                      data={el}
+                      key={el.id}
+                      handleSelect={handleCheckBoxChange}
+                      checked={!!selectedTestRunIds.includes(el?.id)}
+                    />
+                  ))}
+                </div>
+              )}
             </>
           )}
-        </div>
+        </>
       </O11yModalBody>
       <O11yModalFooter position="right">
         <O11yButton colors="white" onClick={handleCloseModal}>

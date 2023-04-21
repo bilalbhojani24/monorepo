@@ -7,7 +7,7 @@ import { LOG_TYPES, singleItemTestDetails } from 'features/TestList/constants';
 import PropTypes from 'prop-types';
 import { transformUnsupportedTags } from 'utils/common';
 
-function TestListStackTrace({ wrapperClassName, details }) {
+function TestListStackTrace({ wrapperClassName, details, size }) {
   const { retries } = details;
 
   if (
@@ -19,7 +19,7 @@ function TestListStackTrace({ wrapperClassName, details }) {
 
   return (
     <O11yTooltip
-      size="lg"
+      size={size}
       arrowWidth={0}
       arrowHeight={0}
       sideOffset={2}
@@ -58,6 +58,7 @@ export default TestListStackTrace;
 
 TestListStackTrace.propTypes = {
   details: PropTypes.shape(singleItemTestDetails).isRequired,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  size: PropTypes.string
 };
-TestListStackTrace.defaultProps = { wrapperClassName: '' };
+TestListStackTrace.defaultProps = { wrapperClassName: '', size: 'xl' };

@@ -40,10 +40,11 @@ export default function ReRunSummary() {
   const navigate = useNavigate();
 
   const handleClickSummaryRow = (id) => {
+    const { id: runId } = reRunStats.data?.retryData[id];
     logInsightsInteractionEvent({
       interaction: 'rerun_summary_filter_applied'
     });
-    applyTestListFilter({ query: `run=${id}` });
+    applyTestListFilter({ query: `run=${runId}` });
   };
 
   const hasNoData = useMemo(
@@ -119,7 +120,7 @@ export default function ReRunSummary() {
             showFixedFooter={false}
             itemContent={(index, item) => (
               <>
-                <O11yTableCell wrapperClassName="text-base-900">
+                <O11yTableCell wrapperClassName="text-base-900 whitespace-normal break-normal">
                   {item.label}
                 </O11yTableCell>
                 <O11yTableCell wrapperClassName="text-base-900">

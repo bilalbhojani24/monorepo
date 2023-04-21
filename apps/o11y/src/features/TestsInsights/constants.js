@@ -33,7 +33,7 @@ export const cards = {
     showMore: true
   },
   reRunSummary: {
-    title: 'Re-run Summary'
+    title: 'Run Summary'
   },
   topErrors: {
     title: 'Unique Errors'

@@ -91,12 +91,16 @@ export default function FailureCategoriesSettings() {
           </O11yButton>
         </div>
         <div className="mt-6">
-          <O11yTable containerWrapperClass="overflow-visible overflow-x-visible">
-            <O11yTableHead wrapperClassName="bg-white sticky top-0">
+          <O11yTable
+            containerWrapperClass="overflow-visible overflow-x-visible md:rounded-none"
+            tableWrapperClass="border-separate border-spacing-0"
+          >
+            <O11yTableHead wrapperClassName="bg-white sticky top-0 z-10">
               <O11yTableRow>
                 <O11yTableCell
                   variant="header"
-                  wrapperClassName="md:rounded-lg "
+                  wrapperClassName="border-b border-b-base-200"
+                  colspan="2"
                 >
                   Category
                 </O11yTableCell>

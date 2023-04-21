@@ -78,10 +78,9 @@ const { reducer, actions } = createSlice({
         dateRange: {
           key: 'days7'
         },
-        buildName: {
-          label: 'All Builds',
-          value: 'all'
-        }
+        buildName: [],
+        isMuted: false,
+        isFlaky: false
       };
     }
   },

@@ -1,5 +1,6 @@
 import React from 'react';
 import { O11yTooltip } from 'common/bifrostProxy';
+import StackTraceTooltip from 'common/StackTraceTooltip';
 import PropTypes from 'prop-types';
 
 function UniqueErrorTitle({ title }) {
@@ -12,7 +13,22 @@ function UniqueErrorTitle({ title }) {
         </p>
       ))}
       {titleSplit.length > 3 && (
-        <O11yTooltip placementSide="bottom" mouseEnterDelay={250}>
+        <O11yTooltip
+          placementSide="bottom"
+          mouseEnterDelay={250}
+          wrapperClassName="p-1 shadow-lg"
+          placementAlign="start"
+          size="2xl"
+          arrowWidth={0}
+          arrowHeight={0}
+          sideOffset={2}
+          content={
+            <StackTraceTooltip
+              traceLines={titleSplit || []}
+              copyText={titleSplit?.join('\n')}
+            />
+          }
+        >
           <p className="text-xs">...{titleSplit.length - 3} more line(s)</p>
         </O11yTooltip>
       )}

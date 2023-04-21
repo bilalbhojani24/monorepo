@@ -75,8 +75,12 @@ const TestDetails = ({ source }) => {
       <TEST_DETAILS_CONTEXT.Provider
         value={{ handleLogTDInteractionEvent, panelRef }}
       >
-        <SlideOverHeader />
-        <SlideOverBody />
+        {isVisible && (
+          <>
+            <SlideOverHeader />
+            <SlideOverBody />
+          </>
+        )}
       </TEST_DETAILS_CONTEXT.Provider>
     </O11ySlideover>
   );
