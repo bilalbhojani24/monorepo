@@ -22,19 +22,24 @@ import { o11yNotify } from 'utils/notification';
 
 import {
   FAILURE_CATEGORIES_INFO,
-  FAILURE_CATEGORIES_TYPES
+  FAILURE_CATEGORIES_TYPES,
+  MAX_SUB_CATEGORIES_ALLOWED
 } from '../constants';
 import {
   submitNewSubCat,
   updateSubCat
 } from '../slices/failureCategoriesSettings';
+import { getAllFailureSubCategory } from '../slices/selectors';
 
 function AddEditSubCategoryModal() {
+  const subcategories = useSelector(getAllFailureSubCategory);
+
   const modalData = useSelector(getModalData);
   const activeProject = useSelector(getActiveProject);
   const [selectedCategoryType, setSelectedCategoryType] = useState('');
   const [isSubmittingData, setIsSubmittingData] = useState(false);
   const [subCategoryName, setSubCategoryName] = useState('');
+  const [errorText, setErrorText] = useState('');
 
   const dispatch = useDispatch();
 
@@ -55,6 +60,13 @@ function AddEditSubCategoryModal() {
 
   const handleSelectFailureCategory = (item) => {
     setSelectedCategoryType(item);
+    if (subcategories[item.value]?.length === MAX_SUB_CATEGORIES_ALLOWED) {
+      setErrorText(
+        "Max limit reached. Can't create more subcategories in this category"
+      );
+    } else {
+      setErrorText('');
+    }
   };
 
   const handleChangeSubCategoryName = ({ target: { value } }) => {
@@ -65,8 +77,8 @@ function AddEditSubCategoryModal() {
   };
 
   const isFormValid = useMemo(
-    () => !(!selectedCategoryType || !subCategoryName),
-    [selectedCategoryType, subCategoryName]
+    () => selectedCategoryType && subCategoryName && !errorText,
+    [errorText, selectedCategoryType, subCategoryName]
   );
 
   const handleSubmitChanges = () => {
@@ -171,6 +183,7 @@ function AddEditSubCategoryModal() {
             placeholder="Custom category"
             value={subCategoryName}
             onChange={handleChangeSubCategoryName}
+            errorText={errorText}
           />
           <p className="text-base-500 mt-2 text-sm font-normal leading-5">
             Max-characters - 32

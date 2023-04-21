@@ -74,11 +74,13 @@ const FiltersSlideover = memo(
           wrapperClassName="pb-0"
         />
         <O11ySlideoverBody wrapperClassName="px-6 pb-0 border-b border-base-200">
-          <FilterSlideoverBody
-            allBuildNames={allBuildNames}
-            filters={filters}
-            setFilters={setFilters}
-          />
+          {isVisible && (
+            <FilterSlideoverBody
+              allBuildNames={allBuildNames}
+              filters={filters}
+              setFilters={setFilters}
+            />
+          )}
         </O11ySlideoverBody>
         <O11ySlideoverFooter>
           <div className="flex w-full items-center justify-end gap-4 py-1">

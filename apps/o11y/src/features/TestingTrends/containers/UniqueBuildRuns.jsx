@@ -24,7 +24,6 @@ const UniqueBuildRunsList = React.memo(
         <Virtuoso
           overscan={0}
           endReached={loadMoreRows}
-          customScrollParent={containerRef.current}
           data={[...builds?.data, { spacer: true }]}
           atBottomStateChange={handleBottomChange}
           itemContent={(index, item) => {
@@ -115,7 +114,7 @@ export default function UniqueBuildRuns() {
       onClickCTA={() => fetchData({})}
     >
       {!isLoading && (
-        <div className="relative flex h-full flex-col px-5 pt-5 pb-0">
+        <div className="relative flex h-full">
           {!!builds?.data?.length && (
             <UniqueBuildRunsList
               handleBottomChange={handleBottomChange}

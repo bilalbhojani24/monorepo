@@ -36,7 +36,7 @@ axios.interceptors.request.use((config) => {
 
   // for use in local api-mocker only
   if (
-    !stageConfig.isMocker &&
+    stageConfig.isMocker &&
     (config.method === 'post' ||
       config.method === 'put' ||
       config.method === 'patch')

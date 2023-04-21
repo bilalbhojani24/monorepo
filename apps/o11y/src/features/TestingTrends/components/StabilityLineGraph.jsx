@@ -53,7 +53,7 @@ export default function StabilityLineGraph({ buildName }) {
       onClickCTA={fetchData}
     >
       {!isLoading && (
-        <div className="h-96">
+        <div className="h-full">
           {!isEmpty(chartData.data) && (
             <TrendsGenericChart
               data={chartData.data}

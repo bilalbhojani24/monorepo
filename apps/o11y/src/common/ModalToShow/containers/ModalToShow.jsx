@@ -7,6 +7,7 @@ import EmailPreferenceModal from 'features/Integrations/components/EmailPreferen
 import JenkinsIntegrationModal from 'features/Integrations/components/JenkinsIntegrationModal';
 import AddEditAlertModal from 'features/Settings/components/AddEditAlertModal';
 import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCategoryModal';
+import AddNotificationUserModal from 'features/Settings/components/AddNotificationUserModal';
 import DeleteAlertModal from 'features/Settings/components/DeleteAlertModal';
 import DeleteSubCatModal from 'features/Settings/components/DeleteSubCatModal';
 import MuteUnmuteTestModal from 'features/TestList/components/MuteUnmuteTestModal';
@@ -25,6 +26,8 @@ export default function ModalToShow() {
       return <AddEditSubCategoryModal />;
     case MODAL_TYPES.delete_sub_cat:
       return <DeleteSubCatModal />;
+    case MODAL_TYPES.add_notifications_users:
+      return <AddNotificationUserModal />;
     case MODAL_TYPES.mute_unmute_test:
       return <MuteUnmuteTestModal />;
     case MODAL_TYPES.rerun_test_modal:
