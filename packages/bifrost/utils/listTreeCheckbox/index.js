@@ -46,7 +46,6 @@ const getSearchResultsCustomBSFTraversal = (
       data.forEach((el) => {
         newFilterUUUIDValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
       });
-      return false;
     }
     return true;
   });
