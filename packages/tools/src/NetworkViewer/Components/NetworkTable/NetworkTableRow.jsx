@@ -37,7 +37,7 @@ const NetworkTableRow = ({
 
   const rowProps = {
     wrapperClassName: twClassNames('cursor-pointer', {
-      'har-network-table-row--highlight': scrollHighlight
+      'bg-brand-50': scrollHighlight
     }),
     id: ROW_ID_PREFIX + payload.index,
     onRowClick: handleSelectRequest
@@ -50,7 +50,7 @@ const NetworkTableRow = ({
           <TableCell
             key={datakey}
             wrapperClassName={twClassNames(
-              'align-top',
+              'align-top border border-base-300',
               getStatusClass(payload)
             )}
           >

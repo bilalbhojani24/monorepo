@@ -1,26 +1,44 @@
-import React, { useEffect, useRef } from 'react';
-import { MdClose } from '@browserstack/bifrost';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Tabs } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-import Tab from '../Components/Common/Tab';
-import Tabs from '../Components/Common/Tabs';
 import TimeChartTooltip from '../Components/NetworkTable/TimeChartTooltip';
 import Headers from '../Components/ReqDetail/Headers';
 import Payload from '../Components/ReqDetail/Payload';
 import Response from '../Components/ReqDetail/Response';
-import { VIEWER_FIELDS } from '../constants';
+import InlineSlideOver from '../InlineSlideOver';
 import { useNetwork } from '../state/Context';
+
+const APPLICABLE_TABS = {
+  headers: {
+    name: 'Headers',
+    value: 'headers'
+  },
+  response: {
+    name: 'Response',
+    value: 'response'
+  },
+  payload: {
+    name: 'Payload',
+    value: 'payload'
+  },
+  timing: {
+    name: 'Timing',
+    value: 'timing'
+  }
+};
 
 const ReqDetailContainer = ({
   isResponseCaptured,
   isResponseNotCapturedDueToCaps,
   appAutomateFramework
 }) => {
+  const [activeTab, setActiveTab] = useState({
+    id: APPLICABLE_TABS.headers.value,
+    idx: 0
+  });
   const { actions, state } = useNetwork();
   const reqDetail = state.get('reqDetail');
-  const containerWidth = state.get('containerWidth');
-  const detailContainerWidth =
-    containerWidth - VIEWER_FIELDS.file.columnWidth(containerWidth);
   const reqDetailContainerRef = useRef(null);
   const isPayloadDataAvailable =
     !!reqDetail.headers.queryString?.length ||
@@ -29,68 +47,73 @@ const ReqDetailContainer = ({
   const handleCloseClick = () => {
     actions.selectRequest(null);
   };
-  // Scrolls to top on change
   useEffect(() => {
-    if (reqDetailContainerRef?.current) {
-      reqDetailContainerRef.current.scrollTop = 0;
-    }
+    setActiveTab({
+      id: APPLICABLE_TABS.headers.value,
+      idx: 0
+    });
   }, [reqDetail.index]);
-  // adding key so that tabs shouldd unmount and remount to reset selected tab on change of selection
+  // adding key so that tabs should unmount and remount to reset selected tab on change of selection
+
+  const tabList = useMemo(() => {
+    const list = [APPLICABLE_TABS.headers];
+    if (isPayloadDataAvailable) {
+      list.push(APPLICABLE_TABS.payload);
+    }
+    list.push(APPLICABLE_TABS.response);
+    if (reqDetail.time > 0) {
+      list.push(APPLICABLE_TABS.timing);
+    }
+
+    return list;
+  }, [isPayloadDataAvailable, reqDetail.time]);
+
+  const onTabChange = (selectedTab) => {
+    const foundIdx = tabList.findIndex(
+      (tab) => tab.value === selectedTab.value
+    );
+    setActiveTab({
+      idx: foundIdx,
+      id: selectedTab.value
+    });
+  };
+
   return (
-    <div
+    <InlineSlideOver.Container
       ref={reqDetailContainerRef}
-      className="req-detail-container"
-      style={{ maxWidth: `${detailContainerWidth}px` }}
       key={reqDetail.index}
+      wrapperClassName="pt-0 px-6 w-9/12"
     >
-      <Tabs
-        className="req-detail-container__nav-tabs"
-        showCount={Math.floor((detailContainerWidth - 80) / 80)}
-      >
-        {/* considering max width of individual tab as 80px and 80 px minimum space for cross icon */}
-        <Tab value="headers" label="Headers">
+      <InlineSlideOver.Header handleClickDismiss={handleCloseClick}>
+        <Tabs
+          defaultIndex={activeTab.idx}
+          tabsArray={tabList}
+          onTabChange={onTabChange}
+          wrapperClassName="relative top-[1px]"
+        />
+      </InlineSlideOver.Header>
+      <InlineSlideOver.Body wrapperClassName="py-3">
+        {activeTab.id === APPLICABLE_TABS.headers.value && (
           <Headers data={reqDetail} />
-        </Tab>
-        {isPayloadDataAvailable && (
-          <Tab value="payload" label="Payload">
-            <Payload data={reqDetail} />
-          </Tab>
         )}
-        <Tab value="response" label="Response">
+        {isPayloadDataAvailable &&
+          activeTab.id === APPLICABLE_TABS.payload.value && (
+            <Payload data={reqDetail} />
+          )}
+        {activeTab.id === APPLICABLE_TABS.response.value && (
           <Response
             data={reqDetail}
             isResponseCaptured={isResponseCaptured}
             isResponseNotCapturedDueToCaps={isResponseNotCapturedDueToCaps}
             appAutomateFramework={appAutomateFramework}
-            id={`base-tabs-panel-${isPayloadDataAvailable ? '2' : '1'}`}
           />
-        </Tab>
-        {reqDetail.time > 0 && (
-          <Tab value="timing" label="Timing">
-            <span
-              className="req-detail-container--timing-tab"
-              id={`base-tabs-panel-${isPayloadDataAvailable ? '3' : '2'}`}
-            >
-              <TimeChartTooltip data={reqDetail.timings} fromRequestDetail />
-            </span>
-          </Tab>
         )}
-      </Tabs>
-      <button
-        aria-label="Close request details"
-        className="req-detail-container__close-button"
-        onClick={handleCloseClick}
-        type="button"
-      >
-        <MdClose
-          className="req-detail-container__close-icon"
-          role="img"
-          aria-hidden="false"
-          title="Close tab"
-          fontSize="inherit"
-        />
-      </button>
-    </div>
+        {reqDetail.time > 0 &&
+          activeTab.id === APPLICABLE_TABS.timing.value && (
+            <TimeChartTooltip data={reqDetail.timings} fromRequestDetail />
+          )}
+      </InlineSlideOver.Body>
+    </InlineSlideOver.Container>
   );
 };
 

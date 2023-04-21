@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { twClassNames } from '@browserstack/utils';
+import {
+  Accordion,
+  AccordionInteractiveHeader,
+  AccordionPanel,
+  Button
+} from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
+import { HEADERS_TITLES, PAYLOAD_CAPTIONS } from '../../../constants';
 import { formatSize } from '../../../utils';
-
-import HeaderTitle from './HeaderTitle';
 
 const HeaderInfo = ({
   eventKey,
@@ -35,23 +39,51 @@ const HeaderInfo = ({
   const ChildComponent = () =>
     component({
       data,
+      payloadSize: formattedHeaderContentLength,
       isPayloadTransformed,
       onChangeEncode: setIsPayloadTransformed
     });
 
+  const payloadStatus =
+    PAYLOAD_CAPTIONS[isParseEnabled ? 'parse' : 'encode'][isPayloadTransformed];
+
   return (
-    <div className={twClassNames('header-info', { active: isVisible })}>
-      <HeaderTitle
-        eventKey={eventKey}
-        payloadSize={formattedHeaderContentLength}
-        isEncodeEnabled={isEncodeEnabled}
-        isParseEnabled={isParseEnabled}
-        isPayloadTransformed={isPayloadTransformed}
+    <Accordion defaultOpen wrapperClassName="mb-3">
+      <AccordionInteractiveHeader
+        wrapperClassName="bg-white p-0"
+        title={
+          <p className="text-left text-sm font-medium uppercase">
+            <span>{HEADERS_TITLES[eventKey].name}</span>
+            {!!formattedHeaderContentLength && (
+              <span className="text-base-500 ml-1 font-normal">
+                ({formattedHeaderContentLength})
+              </span>
+            )}
+          </p>
+        }
+        asideContent={
+          <>
+            {(isEncodeEnabled || isParseEnabled) && (
+              <Button
+                onClick={handlePayloadTransform}
+                variant="minimal"
+                colors="white"
+                wrapperClassName="font-normal text-xs"
+              >
+                {`View ${payloadStatus}`}
+              </Button>
+            )}
+          </>
+        }
+        controller={isVisible}
         onClick={() => setIsVisible(!isVisible)}
-        onPayloadTransform={handlePayloadTransform}
       />
-      {isVisible && <ChildComponent />}
-    </div>
+      <AccordionPanel controller={isVisible}>
+        <div className="pl-9">
+          <ChildComponent />
+        </div>
+      </AccordionPanel>
+    </Accordion>
   );
 };
 

@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { Tooltip, TooltipBody } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -6,7 +7,7 @@ import { TIMINGS } from '../../constants';
 import { formatTime } from '../../utils';
 
 const calcChartAttributes = (data, maxTime, isWaterfall) => {
-  // If not waterfall chart then remove startTime key so that only the actuall request data can be plotted.
+  // If not waterfall chart then remove startTime key so that only the actual request data can be plotted.
   const totalTime = isWaterfall
     ? maxTime
     : Object.keys(data)
@@ -21,7 +22,7 @@ const calcChartAttributes = (data, maxTime, isWaterfall) => {
     return {
       width: `${(consideredValue / totalTime) * 100}%`,
       fill: timingInfo.fill,
-      duration: data[key],
+      duration: consideredValue,
       key
     };
   });
@@ -32,6 +33,8 @@ const TimeChart = ({ timings, maxTime, isWaterfall, renderFrom }) => {
     () => calcChartAttributes(timings, maxTime, isWaterfall),
     [timings, maxTime, isWaterfall]
   );
+
+  const isFromReqTiming = renderFrom === 'request-detail';
 
   return (
     <div className="flex overflow-hidden rounded-xl">
@@ -45,22 +48,38 @@ const TimeChart = ({ timings, maxTime, isWaterfall, renderFrom }) => {
       {chartAttributes.map((chartProps) => (
         <div
           className={twClassNames('h-3 min-w-[1px]', {
-            'h-4': isWaterfall
+            'h-4': isWaterfall,
+            relative: isFromReqTiming
           })}
           style={{
             width: chartProps.width,
             backgroundColor: chartProps.fill
           }}
           key={chartProps.key}
-          {...(renderFrom === 'request-detail'
-            ? {
-                'data-tip': `${TIMINGS[chartProps.key].name}: ${formatTime(
-                  chartProps.duration
-                )}`,
-                'data-for': 'har-time-chart-tooltip'
+        >
+          {isFromReqTiming && (
+            <Tooltip
+              theme="dark"
+              placementSide="top"
+              triggerAsChild
+              triggerWrapperClassName="w-full h-full absolute left-0 top-0"
+              content={
+                <TooltipBody>
+                  <p className="text-sm">
+                    {TIMINGS[chartProps.key].name}:{' '}
+                    {formatTime(chartProps.duration) || '0 ms'}
+                  </p>
+                </TooltipBody>
               }
-            : {})}
-        />
+            >
+              <div
+                type="button"
+                className="h-full w-full cursor-pointer overflow-hidden"
+                role="presentation"
+              />
+            </Tooltip>
+          )}
+        </div>
       ))}
     </div>
   );

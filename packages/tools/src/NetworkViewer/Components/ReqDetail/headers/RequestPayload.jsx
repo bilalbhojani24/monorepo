@@ -19,10 +19,10 @@ const RequestPayload = ({ data, isPayloadTransformed }) => {
   );
 
   return (
-    <div className="header-detail">
+    <div className="text-base-700 mt-2 text-sm">
       {isPayloadTransformed ? (
-        <div className="response-content">
-          <pre className="response-content__pre">{parsedData}</pre>
+        <div className="bg-base-50 border-base-300 overflow-auto border py-3 px-4">
+          <pre className="font-mono text-xs">{parsedData}</pre>
         </div>
       ) : (
         payloadData

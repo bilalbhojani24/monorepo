@@ -4,11 +4,14 @@ import PropTypes from 'prop-types';
 import { safeDecodeURIComponent } from '../../../utils';
 
 const FormData = ({ data, isPayloadTransformed }) => (
-  <div className="header-detail">
+  <div className="mt-2 flex flex-col gap-3">
     {data?.headers.postData.params.map(({ name, value }, index) => (
-      <p key={`${name}-${index}`} className="info-row">
-        <span className="info-caption">{`${name}:`}</span>
-        <span>
+      <p
+        key={`${name}-${index}`}
+        className="text-base-800 whitespace-normal break-all text-sm"
+      >
+        <span className="font-medium">{`${name}: `}</span>
+        <span className="text-base-600">
           {isPayloadTransformed ? safeDecodeURIComponent(value) : value}
         </span>
       </p>

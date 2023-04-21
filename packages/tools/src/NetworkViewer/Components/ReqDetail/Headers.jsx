@@ -7,7 +7,7 @@ import Request from './headers/Request';
 import Response from './headers/Response';
 
 const Headers = ({ data }) => (
-  <section className="headers-container" id="base-tabs-panel-0">
+  <section>
     <HeaderInfo component={General} data={data} eventKey="general" />
     {!!data.headers.response?.length && (
       <HeaderInfo component={Response} data={data} eventKey="response" />

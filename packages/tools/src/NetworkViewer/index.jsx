@@ -22,7 +22,10 @@ const NetworkViewer = ({
 
   return (
     <section
-      className={twClassNames('p-4', containerClassName)}
+      className={twClassNames(
+        'px-4 max-h-full flex flex-col',
+        containerClassName
+      )}
       ref={parentContainerRef}
     >
       <NetworkProvider

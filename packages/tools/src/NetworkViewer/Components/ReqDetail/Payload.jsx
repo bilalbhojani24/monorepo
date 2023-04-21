@@ -7,7 +7,7 @@ import QueryString from './headers/QueryString';
 import RequestPayload from './headers/RequestPayload';
 
 const Payload = ({ data }) => (
-  <section className="headers-container" id="base-tabs-panel-1">
+  <section>
     {!!data.headers.queryString?.length && (
       <HeaderInfo
         component={QueryString}

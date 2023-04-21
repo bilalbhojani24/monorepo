@@ -24,7 +24,7 @@ const NetworkTableContainer = ({ onRequestSelect, showWaterfall }) => {
 
   return (
     <section
-      className="h-full flex-1"
+      className="h-full flex-1 overflow-auto"
       // style={
       //   showReqDetail
       //     ? { maxWidth: `${VIEWER_FIELDS.file.columnWidth(containerWidth)}px` }
@@ -32,8 +32,8 @@ const NetworkTableContainer = ({ onRequestSelect, showWaterfall }) => {
       // }
     >
       <Table
-        containerWrapperClass="overflow-visible overflow-x-visible"
-        tableWrapperClass="w-full table-fixed"
+        containerWrapperClass="overflow-visible overflow-x-visible divide-none"
+        tableWrapperClass="w-full table-fixed "
       >
         <NetworkTableHeader showWaterfall={showWaterfall} />
         <TableBody>

@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import {
   MdKeyboardArrowDown,
@@ -39,22 +40,23 @@ const NetworkTableHeader = ({ showWaterfall }) => {
   };
 
   return (
-    <TableHead>
+    <TableHead wrapperClassName="sticky top-0">
       <TableRow>
         {Object.entries(VIEWER_FIELDS).map(
-          ([datakey, { name, key, columnWidth }], idx) => (
+          ([datakey, { name, key, columnWidth }]) => (
             <TableCell
               key={datakey}
               wrapperClassName={twClassNames(
-                'py-2 hover:bg-base-100',
+                'py-2 hover:bg-base-100 bg-base-50 border-0 border-x border-x-base-300 relative',
                 columnWidth,
                 {
-                  'w-2/6': key === 'time',
-                  'rounded-tl-lg': idx === 0,
-                  'rounded-tr-lg': idx === Object.keys(VIEWER_FIELDS).length - 1
+                  'w-2/6': key === 'time'
                 }
               )}
+              variant="header"
             >
+              <hr className="text-base-300 absolute top-0 left-0 w-full" />
+              <hr className="text-base-300 absolute bottom-[-1px] left-0 w-full" />
               <button
                 className="relative flex w-full items-center justify-between"
                 type="button"

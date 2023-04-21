@@ -45,14 +45,14 @@ const MainContainer = ({
   return (
     <>
       <div
-        className={twClassNames('sticky top-0 bg-white z-10', {
+        className={twClassNames('sticky top-0 bg-white z-10 py-4', {
           'pointer-events-none opacity-50': isDisabled
         })}
       >
         <FilterContainer logsURL={logsURL} />
       </div>
       <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
-        <section className="relative mt-4 flex flex-wrap">
+        <section className="relative flex flex-1 flex-col flex-wrap overflow-hidden">
           <NetworkTableContainer
             onRequestSelect={onRequestSelect}
             showWaterfall={showWaterfall}
