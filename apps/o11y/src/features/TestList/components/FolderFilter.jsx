@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Checkbox,
   ListTree,
@@ -15,18 +15,42 @@ import PropTypes from 'prop-types';
 
 const { bfsTraversal, getTargetHierarchyByIndex } = listTreeCheckboxHelper;
 
+// #TODO : REPLACE WITH BIFROST UTIL
+const getSearchResultsCustomBSFTraversal = (
+  allItemsList,
+  searchLogicCallback,
+  filteredList
+) => {
+  const newFilterUUUIDValue = {
+    searchedUUIDs: {},
+    filteredUUIDsWithHierarchy: {}
+  };
+  bfsTraversal({ contents: filteredList || allItemsList }, (item) => {
+    if (searchLogicCallback(item)) {
+      newFilterUUUIDValue.searchedUUIDs[item.uuid] = item;
+      const data = getTargetHierarchyByIndex(allItemsList, item.uuid);
+      data.forEach((el) => {
+        newFilterUUUIDValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
+      });
+      // return false;
+    }
+    return true;
+  });
+  return newFilterUUUIDValue;
+};
+
 const ControlledNestedTreeWithCheckbox = ({
   data,
+  openNodeMap,
+  setOpenNodeMap,
   searchValue,
   filteredUUIDs,
   allowFilter,
   onCheckboxChange,
   isParentSearched,
   indent = 1
-}) => {
-  const [openNodeMap, setOpenNodeMap] = useState({});
-
-  return data?.map((item) => {
+}) =>
+  data?.map((item) => {
     if (
       allowFilter &&
       !filteredUUIDs?.filteredUUIDsWithHierarchy?.[item.uuid] &&
@@ -40,10 +64,7 @@ const ControlledNestedTreeWithCheckbox = ({
       <ListTree
         key={item.name}
         indentationLevel={indent}
-        isTreeOpen={
-          openNodeMap[item.name] ||
-          filteredUUIDs?.filteredUUIDsWithHierarchy?.[item.uuid]
-        }
+        isTreeOpen={openNodeMap[item.uuid]}
       >
         <ListTreeNode
           showIcon={false}
@@ -85,32 +106,31 @@ const ControlledNestedTreeWithCheckbox = ({
           }
           isNodeSelectable={false}
           onNodeOpen={() => {
-            if (openNodeMap[item.name] !== undefined) {
-              openNodeMap[item.name] = !openNodeMap[item.name];
+            const newOpenNodeMap = { ...openNodeMap };
+            if (newOpenNodeMap[item.uuid] !== undefined) {
+              newOpenNodeMap[item.uuid] = !openNodeMap[item.uuid];
             } else {
-              openNodeMap[item.name] = true;
+              newOpenNodeMap[item.uuid] = true;
             }
-            setOpenNodeMap({ ...openNodeMap });
+            setOpenNodeMap({ ...newOpenNodeMap });
           }}
           isNodeSelected={false}
           isFocused={false}
           leadingIcon={<></>}
         />
         {!!item?.contents && (
-          <ListTreeNodeContents
-            isTreeOpen={
-              openNodeMap[item.name] ||
-              !!filteredUUIDs?.filteredUUIDsWithHierarchy?.[item.uuid]
-            }
-          >
+          <ListTreeNodeContents isTreeOpen={openNodeMap[item.uuid]}>
             <ControlledNestedTreeWithCheckbox
+              openNodeMap={openNodeMap}
+              setOpenNodeMap={setOpenNodeMap}
               onCheckboxChange={onCheckboxChange}
               filteredUUIDs={filteredUUIDs}
               allowFilter={allowFilter}
               data={item.contents}
               searchValue={searchValue}
               isParentSearched={
-                filteredUUIDs?.searchedUUIDs?.[item.uuid] || isParentSearched
+                !!filteredUUIDs?.searchedUUIDs?.[item.uuid] ||
+                !!isParentSearched
               }
               indent={1 + indent}
             />
@@ -119,7 +139,6 @@ const ControlledNestedTreeWithCheckbox = ({
       </ListTree>
     );
   });
-};
 
 const dataItem = {
   uuid: PropTypes.string,
@@ -153,8 +172,37 @@ export const FolderFilter = ({
   const [searchValue, setSearchValue] = useState(''); // Debounce this state for optimal performance
   const [showFilterPopover, setShowFilterPopover] = useState(false);
 
+  const [filteredUUIDs, setFilteredUUIDs] = useState({
+    searchedUUIDs: {},
+    filteredUUIDsWithHierarchy: {}
+  });
+  const [openNodeMap, setOpenNodeMap] = useState({});
+
   const onSearchChange = (e) => {
     const newSearchValue = e.target.value;
+    let newFilterUUUIDValue;
+    const searchLogicCallback = (item) =>
+      item.name.toLowerCase().includes(newSearchValue.toLowerCase());
+    if (newSearchValue.includes(searchValue) && searchValue.length > 0) {
+      newFilterUUUIDValue = getSearchResultsCustomBSFTraversal(
+        listTreeCheckboxData,
+        searchLogicCallback,
+        Object.values(filteredUUIDs.searchedUUIDs)
+      );
+    } else {
+      newFilterUUUIDValue = getSearchResultsCustomBSFTraversal(
+        listTreeCheckboxData,
+        searchLogicCallback
+      );
+    }
+    const newOpenNodeMap = {};
+    Object.keys(newFilterUUUIDValue.filteredUUIDsWithHierarchy).forEach(
+      (uuid) => {
+        newOpenNodeMap[uuid] = true;
+      }
+    );
+    setOpenNodeMap((prev) => ({ ...prev, ...newOpenNodeMap }));
+    setFilteredUUIDs(newFilterUUUIDValue);
     setSearchValue(newSearchValue);
   };
 
@@ -169,29 +217,6 @@ export const FolderFilter = ({
     }
     onChange([...selectedIdSet]);
   };
-
-  const filteredUUIDs = useMemo(() => {
-    const newValue = {
-      searchedUUIDs: {},
-      filteredUUIDsWithHierarchy: {}
-    };
-    if (searchValue.length) {
-      bfsTraversal({ contents: listTreeCheckboxData }, (item) => {
-        if (item.name.toLowerCase().includes(searchValue.toLowerCase())) {
-          newValue.searchedUUIDs[item.uuid] = item.uuid;
-          const data = getTargetHierarchyByIndex(
-            listTreeCheckboxData,
-            item.uuid
-          );
-          data.forEach((el) => {
-            newValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
-          });
-        }
-        return true;
-      });
-    }
-    return newValue;
-  }, [listTreeCheckboxData, searchValue]);
 
   const closeFilterPopover = () => {
     setSearchValue('');
@@ -228,6 +253,8 @@ export const FolderFilter = ({
                   <p className="text-sm">No items matching search results</p>
                 ) : (
                   <ControlledNestedTreeWithCheckbox
+                    openNodeMap={openNodeMap}
+                    setOpenNodeMap={setOpenNodeMap}
                     data={listTreeCheckboxData}
                     filteredUUIDs={filteredUUIDs}
                     isParentSearched={false}
