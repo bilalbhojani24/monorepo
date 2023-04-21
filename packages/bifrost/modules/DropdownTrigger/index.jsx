@@ -4,7 +4,12 @@ import { Menu } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
 import PropTypes from 'prop-types';
 
-const DropdownTrigger = ({ children, onClick, wrapperClassName }) => (
+const DropdownTrigger = ({
+  children,
+  onClick,
+  triggerAriaLabel,
+  wrapperClassName
+}) => (
   <Popover.Trigger asChild>
     <Menu.Button
       className={twClassNames(
@@ -12,6 +17,7 @@ const DropdownTrigger = ({ children, onClick, wrapperClassName }) => (
         wrapperClassName
       )}
       onClick={(e) => onClick?.(e)}
+      aria-label={triggerAriaLabel}
     >
       {children}
     </Menu.Button>
@@ -21,11 +27,13 @@ const DropdownTrigger = ({ children, onClick, wrapperClassName }) => (
 DropdownTrigger.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
+  triggerAriaLabel: PropTypes.string,
   wrapperClassName: PropTypes.string
 };
 
 DropdownTrigger.defaultProps = {
   onClick: null,
+  triggerAriaLabel: '',
   wrapperClassName: ''
 };
 

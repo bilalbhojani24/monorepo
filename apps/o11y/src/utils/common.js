@@ -1,7 +1,8 @@
 import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
-import { TEST_STATUS, UNSUPPORTED_HTML_TAGS } from 'constants/common';
+import { SUPPORTED_HTML_TAGS, TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
+import { keyBy, merge, values } from 'lodash';
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
@@ -12,6 +13,16 @@ export const getBaseUrl = () => {
   env = env && domain === 'bsstag.com' ? `${env}.` : '';
   return `${protocol}//${env}${domain}`;
 };
+
+export const docsLink = () => ({
+  quickStart: `${getBaseUrl}/docs/test-observability/quick-start`,
+  mainDoc: `${getBaseUrl}/docs/test-observability/`,
+  autoAnalyser: `${getBaseUrl}/docs/test-observability/features/auto-failure-analysis`,
+  muteTests: `${getBaseUrl}/docs/test-observability/features/mute-tests`,
+  reRun: `${getBaseUrl}/docs/test-observability/features/re-run`,
+  tnc: `${getBaseUrl}/docs/test-observability/references/terms-and-conditions`,
+  organizeRuns: `${getBaseUrl}/docs/test-observability/how-to-guides/organize-test-runs`
+});
 export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
   if (!stage) {
     let guessedStage = '';
@@ -31,11 +42,11 @@ export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
 };
 
 export const getDocUrl = ({ path, prependO11y = true }) =>
-  `${getEnvConfig().baseDocUrl}/docs/${
+  `${getEnvConfig().baseUrl}/docs/${
     prependO11y ? 'test-observability/' : ''
   }${path}`;
 
-export const getNumericValue = (value) => +value.replace(/\D/g, '');
+export const getNumericValue = (value) => +value.replace(/\D/g, '') || '';
 
 export const logOllyEvent = ({ event, data = {} }) => {
   const commonData = {
@@ -61,14 +72,13 @@ export const logOllyEvent = ({ event, data = {} }) => {
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches
   };
-  if (!getEnvConfig().enableLogging) {
+  if (getEnvConfig().enableAnalytics || window.BSTACK_LOG_ANALYTICS_ENABLED) {
+    logEvent([], 'web_events', event, { ...commonData, ...data });
+  } else {
     // eslint-disable-next-line no-console
     console.log('Event Name:', event);
     // eslint-disable-next-line no-console
     console.table({ ...commonData, ...data });
-  }
-  if (window.location.hostname.endsWith('browserstack.com')) {
-    logEvent([], 'web_events', event, { ...commonData, ...data });
   }
 };
 
@@ -162,20 +172,67 @@ export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
   return TEST_STATUS.UNKNOWN;
 };
 
+export const abbrNumber = (num = 0) =>
+  Intl.NumberFormat('en-US', {
+    notation: 'compact',
+    maximumFractionDigits: 1
+  })
+    .format(num)
+    .padStart(2, '0');
+
 export const transformUnsupportedTags = (node, index) => {
   const updatedNode = node;
   if (
     updatedNode.type === 'tag' &&
-    UNSUPPORTED_HTML_TAGS.includes(updatedNode.name)
+    !SUPPORTED_HTML_TAGS.includes(updatedNode.name)
   ) {
     updatedNode.children = [
       {
         data: `<${updatedNode.name}>`,
         type: 'text'
       },
-      ...updatedNode.children
+      ...updatedNode.children,
+      {
+        data: `</${updatedNode.name}>`,
+        type: 'text'
+      }
     ];
     updatedNode.name = 'span';
+    updatedNode.attribs = '';
   }
   return convertNodeToElement(updatedNode, index, transformUnsupportedTags);
+};
+
+export const getParsedImageData = async (signedUrl, errCb) => {
+  const imgUrls = [];
+  try {
+    const response = await (await fetch(signedUrl)).text();
+    const imgs = response.split('\n');
+    // Remove last empty line
+    imgs.pop();
+    imgs.forEach((item) => imgUrls.push(JSON.parse(item)));
+    return imgUrls;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('error fetching images', error);
+    errCb();
+    return imgUrls;
+  }
+};
+
+export const getMergedLayoutValue = (obj1, obj2) => {
+  const breakPoints = ['md', 'lg', 'sm', 'xs', 'xxs'];
+  const mergedObj = {};
+  breakPoints.forEach((bp) => {
+    if (obj1[bp].length && obj2[bp].length) {
+      const arr1 = obj1[bp];
+      const arr2 = obj2[bp];
+      mergedObj[bp] = values(merge(keyBy(arr1, 'i'), keyBy(arr2, 'i')));
+    } else if (obj1[bp].length) {
+      mergedObj[bp] = obj1[bp];
+    } else if (obj2[bp].length) {
+      mergedObj[bp] = obj2[bp];
+    }
+  });
+  return mergedObj;
 };

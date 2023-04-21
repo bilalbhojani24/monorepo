@@ -17,6 +17,7 @@ import { FieldType, SingleValueSelectRawOptionType } from '../types';
 const NestedSingleValueSelect = ({
   label,
   value,
+  schema,
   options,
   fieldKey,
   required,
@@ -189,7 +190,11 @@ const NestedSingleValueSelect = ({
   };
 
   return (
-    <div className="py-3">
+    <div
+      className="py-3"
+      data-field-type={schema?.field}
+      data-field-key={fieldKey}
+    >
       <ComboBox
         onChange={handleChange}
         value={fieldsData[fieldKey] ?? {}}
