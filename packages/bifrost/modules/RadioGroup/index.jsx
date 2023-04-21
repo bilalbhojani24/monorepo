@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import { DIRECTIONS } from './const/radioGroupConstants';
 
-import './styles.scss';
-
 const RadioGroup = (props) => {
   const {
     direction,

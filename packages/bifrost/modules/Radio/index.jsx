@@ -2,8 +2,6 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const Radio = (props) => {
   const { id, checked, defaultChecked, name, description, disabled, onChange } =
     props;
