@@ -48,10 +48,7 @@ const NetworkTableHeader = ({ showWaterfall }) => {
               key={datakey}
               wrapperClassName={twClassNames(
                 'py-2 hover:bg-base-100 bg-base-50 border-0 border-x border-x-base-300 relative',
-                columnWidth,
-                {
-                  'w-2/6': key === 'time'
-                }
+                columnWidth
               )}
               variant="header"
             >
