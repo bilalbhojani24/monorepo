@@ -1,3 +1,4 @@
+export const BDD = 'bdd';
 export const priorityOptions = [
   { label: 'Critical', value: 'critical' },
   { label: 'High', value: 'high' },
@@ -7,8 +8,7 @@ export const priorityOptions = [
 
 export const templateOptions = [
   { label: 'Text', value: 'test_case_text' },
-  { label: 'Steps', value: 'test_case_steps' },
-  { label: 'Text', value: 'bdd' }
+  { label: 'Steps', value: 'test_case_steps' }
 ];
 
 export const testCaseTypesOptions = [

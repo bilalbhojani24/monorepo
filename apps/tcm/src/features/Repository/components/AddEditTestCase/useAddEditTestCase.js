@@ -18,7 +18,11 @@ import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
+import {
+  BDD,
+  stepTemplate,
+  templateOptions
+} from '../../const/addTestCaseConst';
 import {
   addSingleTestCase,
   // resetBulkFormData,
@@ -37,19 +41,22 @@ import {
   updateCtaLoading,
   updateFoldersLoading,
   updateTestCase,
+  updateTestCaseFormCFData,
   updateTestCaseFormData,
   updateTestCasesListLoading
-} from '../slices/repositorySlice';
-import { formDataRetriever } from '../utils/sharedFunctions';
+} from '../../slices/repositorySlice';
+import { formDataRetriever } from '../../utils/sharedFunctions';
+import useTestCases from '../useTestCases';
+import useUnsavedChanges from '../useUnsavedChanges';
 
-import useTestCases from './useTestCases';
-import useUnsavedChanges from './useUnsavedChanges';
+import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
 
 export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
   const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
   const { unsavedFormConfirmation, isOkToExitForm } = useUnsavedChanges();
+  const { updateTCCount } = useUpdateTCCountInFolders();
   const [inputError, setInputError] = useState({
     name: false
   });
@@ -149,7 +156,10 @@ export default function useAddEditTestCase(prop) {
     if (checkRTE) {
       // check html parse value only
       if (Array.isArray(value)) {
-        if (templateOptions[0].value === testCaseFormData.template) {
+        if (
+          templateOptions[0].value === testCaseFormData.template ||
+          testCaseFormData.template === BDD
+        ) {
           return htmlEquator(value?.[0], testCaseFormData[key]?.[0]);
         }
         // if array of values
@@ -170,7 +180,7 @@ export default function useAddEditTestCase(prop) {
     return true;
   };
 
-  const handleTestCaseFieldChange = (key, value, checkRTE) => {
+  const handleTestCaseFieldChange = (key, value, checkRTE, isCustomField) => {
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
@@ -184,8 +194,11 @@ export default function useAddEditTestCase(prop) {
             value: value === templateOptions[1].value ? [stepTemplate] : ['']
           })
         );
-      }
+      } else if (isCustomField)
+        dispatch(updateTestCaseFormCFData({ key, value }));
+
       dispatch(updateTestCaseFormData({ key, value }));
+
       if (!isUnsavedDataExists && isThereAChange(key, value, checkRTE))
         dispatch(setUnsavedDataExists(true));
     }
@@ -263,11 +276,12 @@ export default function useAddEditTestCase(prop) {
     return true;
   };
 
-  const onSaveTestSuccessHelper = (data) => {
+  const onSaveTCSuccessHelper = (data) => {
     const testCaseData = data.data.test_case;
     const folderData = data.data.folder;
     const projectData = data.data.project;
 
+    updateTCCount({ casesObj: { [folderData.id]: folderData.cases_count } });
     dispatch(updateCtaLoading({ key: 'createTestCaseCta', value: false }));
     if (projectId === 'new' || !allFolders.length) {
       // no project/folder
@@ -350,7 +364,7 @@ export default function useAddEditTestCase(prop) {
         folderId: formData.test_case_folder_id,
         payload: formDataFormatter(formData, !allFolders.length)
       })
-        .then(onSaveTestSuccessHelper)
+        .then(onSaveTCSuccessHelper)
         .catch(() => {
           dispatch(
             updateCtaLoading({ key: 'createTestCaseCta', value: false })

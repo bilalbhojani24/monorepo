@@ -80,6 +80,7 @@ const FolderExplorerModal = ({
                     direction="horizontal"
                     onChange={(e, selectedID) => {
                       setPrimaryMoveLocation(selectedID);
+                      setInternalAllFolders(null); // reset
                     }}
                     selectedOption={{
                       id: primaryMoveLocation
@@ -97,7 +98,7 @@ const FolderExplorerModal = ({
                 >
                   <div className="border-base-200 flex justify-between border-b py-2 px-4">
                     <span>{folderExplorerHeader}</span>
-                    {isCreateFolderButton && (
+                    {isCreateFolderButton && internalAllFolders?.length ? (
                       <TMButton
                         size="extra-small"
                         iconPlacement="end"
@@ -107,7 +108,7 @@ const FolderExplorerModal = ({
                       >
                         Create Folder
                       </TMButton>
-                    )}
+                    ) : null}
                   </div>
                   <FolderExplorer
                     projectId={projectId}
@@ -118,7 +119,9 @@ const FolderExplorerModal = ({
                     actionsEnabled
                     actionOptions={actionOptions}
                     isSingleSelect
+                    isAddFoldersEnabled
                     actionClickHandler={handleActionClick}
+                    onAddNewFolderClick={handleCreateFolderButtonClick}
                   />
                 </div>
               ) : null}

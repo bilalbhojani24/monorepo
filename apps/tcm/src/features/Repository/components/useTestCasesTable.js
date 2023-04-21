@@ -7,7 +7,6 @@ import { addNotificaton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-// import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
 import { dropDownOptions } from '../const/testCaseConst';
 import {
   resetBulkFormData,
@@ -28,12 +27,16 @@ import {
 } from '../slices/repositorySlice';
 import { formDataRetriever } from '../utils/sharedFunctions';
 
+// import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
+import useUpdateTCCountInFolders from './AddEditTestCase/useUpdateTCCountInFolders';
+
 const useTestCasesTable = (prop) => {
   const navigate = useNavigate();
   const { projectId, folderId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
+  const { updateTCCount } = useUpdateTCCountInFolders();
   const dispatch = useDispatch();
 
   const setSelectedTestCaseIDs = (data) => {
@@ -157,6 +160,7 @@ const useTestCasesTable = (prop) => {
         bulkSelection
       })
         .then((data) => {
+          updateTCCount({ casesObj: data?.cases_count });
           dispatch(
             updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: false })
           );

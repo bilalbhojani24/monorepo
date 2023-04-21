@@ -12,6 +12,7 @@ import {
 } from 'common/bifrostProxy';
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import {
+  BDD,
   statusOptions,
   templateOptions,
   testCaseTypesOptions
@@ -48,7 +49,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
         />
         <div className="flex flex-col">
           {testCaseDetails.template === templateOptions?.[0].value ||
-          testCaseDetails.template === templateOptions?.[2].value ? (
+          testCaseDetails.template === BDD ? (
             <>
               <DetailsSnippet
                 title="Steps"
@@ -229,14 +230,12 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           title="Preconditions"
           value={testCaseDetails?.preconditions || '--'}
         />
-        {Object.keys(testCaseDetails?.custom_fields).map((field) => (
+        {testCaseDetails?.custom_fields.map((field) => (
           <DetailsSnippet
-            key={field}
+            key={field?.field_name}
             parseContent
-            title={
-              <span className="capitalize">{field?.split('_')?.join(' ')}</span>
-            }
-            value={testCaseDetails.custom_fields[field]}
+            title={<span className="capitalize">{field.field_user_name}</span>}
+            value={field?.value && field?.value !== '' ? field.value : '--'}
           />
         ))}
         <div />

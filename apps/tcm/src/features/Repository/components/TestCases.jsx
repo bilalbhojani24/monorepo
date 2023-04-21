@@ -13,13 +13,13 @@ import {
 import CopyButton from 'common/CopyButton';
 import Loader from 'common/Loader';
 
+import BulkEditTestCase from './AddEditTestCase/BulkEditTestCase';
+import DeleteTestCase from './AddEditTestCase/DeleteTestCase';
+import InlineAddTestCase from './AddEditTestCase/InlineAddTestCase';
 // import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
-import BulkEditTestCase from './BulkEditTestCase';
-import DeleteTestCase from './DeleteTestCase';
 import Filter from './Filter';
-import InlineAddTestCase from './InlineAddTestCase';
 import TestCasesTable from './TestCasesTable';
 import useTestCases from './useTestCases';
 

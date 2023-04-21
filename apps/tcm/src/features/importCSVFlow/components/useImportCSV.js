@@ -41,6 +41,8 @@ const useImportCSV = () => {
   const uploadFileProceedLoading = useSelector(
     (state) => state.importCSV.uploadFileProceedLoading
   );
+  const topInfoSteps = useSelector((state) => state.importCSV.topInfoSteps);
+
   const selectedFolderLocation = useSelector(
     (state) => state.importCSV.selectedFolderLocation
   );
@@ -48,6 +50,7 @@ const useImportCSV = () => {
     (state) => state.importCSV.showChangeFolderModal
   );
   const allCSVFolders = useSelector((state) => state.importCSV.foldersForCSV);
+  const showMappings = useSelector((state) => state.importCSV.showMappings);
 
   const fetchCSVConfigurations = () => {
     dispatch(setCSVConfigurations({ projectId, folderId }));
@@ -86,7 +89,6 @@ const useImportCSV = () => {
 
   const handleFileRemove = () => {
     dispatch(setFileConfig({ file: '', fileName: '' }));
-    // dispatch(setCSVUploadError('Please select a CSV file.'));
   };
 
   const handleChangeFolderClick = () => {
@@ -96,7 +98,6 @@ const useImportCSV = () => {
   const handleUploadToRootClick = () => {
     if (projectId) {
       navigate(`${AppRoute.IMPORT_CSV}?project=${projectId}`);
-      // dispatch(setSelectFolder)
     }
   };
 
@@ -110,25 +111,10 @@ const useImportCSV = () => {
     selectedFolder
   }) => {
     if (primaryMoveLocation === moveFolderOptions[0]?.id) {
-      // navigate(
-      //   routeFormatter(
-      //     `${AppRoute.IMPORT_CSV}?${new URLSearchParams({
-      //       projectId: folderExplorerProjectId,
-      //       folderId: selectedFolder.id
-      //     }).toString()}`
-      //   )
-      // );
       navigate(
         `${AppRoute.IMPORT_CSV}?project=${folderExplorerProjectId}&folder=${selectedFolder.id}`
       );
     } else if (primaryMoveLocation === moveFolderOptions[1]?.id) {
-      // navigate(
-      //   routeFormatter(
-      //     `${AppRoute.IMPORT_CSV}?${new URLSearchParams({
-      //       projectId: folderExplorerProjectId
-      //     }).toString()}`
-      //   )
-      // );
       navigate(`${AppRoute.IMPORT_CSV}?project=${folderExplorerProjectId}`);
     }
     dispatch(setShowChangeFolderModal(false));
@@ -173,6 +159,8 @@ const useImportCSV = () => {
   };
 
   return {
+    dispatch,
+    navigate,
     allEncodings,
     allSeparators,
     currentCSVScreen,
@@ -183,6 +171,7 @@ const useImportCSV = () => {
     projectId,
     folderId,
     allCSVFolders,
+    showMappings,
     showMoreFields,
     showChangeFolderModal,
     selectedFolderLocation,
@@ -193,6 +182,7 @@ const useImportCSV = () => {
     handleProceedClick,
     handleShowMoreFields,
     fetchCSVConfigurations,
+    topInfoSteps,
     handleChangeFolderClick,
     handleUploadToRootClick,
     hideFolderExplorerModal,

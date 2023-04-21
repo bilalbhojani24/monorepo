@@ -23,7 +23,7 @@ import {
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
-import useAddEditTestCase from './useAddEditTestCase';
+import useAddEditTestCase from './AddEditTestCase/useAddEditTestCase';
 import useUnsavedChanges from './useUnsavedChanges';
 
 export default function useFolders() {
