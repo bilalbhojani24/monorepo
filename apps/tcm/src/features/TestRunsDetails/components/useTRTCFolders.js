@@ -63,6 +63,9 @@ export default function useTRTCFolders() {
   const selectedTestCase = useSelector(
     (state) => state.testRunsDetails.selectedTestCase
   );
+  const testCaseDetails = useSelector(
+    (state) => state.testRunsDetails.testCaseDetails
+  );
   const testResultsArray = useSelector(
     (state) => state.testRunsDetails.testResultsArray
   );
@@ -251,6 +254,7 @@ export default function useTRTCFolders() {
   };
 
   return {
+    testCaseDetails,
     isTableLoading: isTestCasesLoading || isTestRunDetailsLoading,
     page,
     testRunDetails,
