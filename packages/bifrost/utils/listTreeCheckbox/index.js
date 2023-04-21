@@ -147,10 +147,12 @@ const getSelectedListTreeItems = (prevItems, targetItem, isChecked) => {
   return { selectedValuesAdjusted: newValues };
 };
 
-export {
+const exportObject = {
   bfsTraversal,
   getSearchResultsCustomBSFTraversal,
   getSelectedListTreeItems,
   getTargetHierarchyByIndex,
   updateTargetNodes
 };
+
+export default exportObject;

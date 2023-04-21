@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import {
-  getSearchResultsCustomBSFTraversal,
-  getSelectedListTreeItems,
-  updateTargetNodes
-} from '../../utils/listTreeCheckbox';
+import listTreeCheckboxHelper from '../../utils/listTreeCheckbox';
 import Dropdown from '../Dropdown';
 import DropdownOptionGroup from '../DropdownOptionGroup';
 import DropdownOptionItem from '../DropdownOptionItem';
@@ -19,6 +15,12 @@ import ListTreeNodeContents from '../ListTreeNodeContents';
 import TruncateText from '../TruncateText';
 
 import ListTree from './index';
+
+const {
+  getSearchResultsCustomBSFTraversal,
+  getSelectedListTreeItems,
+  updateTargetNodes
+} = listTreeCheckboxHelper;
 
 const sampleListTreeCheckboxData = [
   {
