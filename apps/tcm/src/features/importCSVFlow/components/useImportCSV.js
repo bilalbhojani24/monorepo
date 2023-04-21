@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getFolders } from 'api/folders.api';
 import AppRoute from 'const/routes';
+import { setSelectedProject } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -20,8 +22,8 @@ const useImportCSV = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { search } = useLocation();
+  const { projectId } = useParams();
   const queryParams = new URLSearchParams(search);
-  const projectId = queryParams.get('project');
   const folderId = queryParams.get('folder');
   const importCSVSteps = useSelector((state) => state.importCSV.importCSVSteps);
   const currentCSVScreen = useSelector(
@@ -134,7 +136,7 @@ const useImportCSV = () => {
   const handleProceedClick = () => {
     dispatch(
       logEventHelper('TM_ImportCsvStep1ProceedBtnClicked', {
-        project_id: queryParams.get('project'),
+        project_id: projectId,
         csv_separator: csvFormData.separators.value,
         first_row: csvFormData.row,
         file_encoding: csvFormData.encodings.value,
@@ -158,8 +160,7 @@ const useImportCSV = () => {
         filesData.append('encoding', csvFormData[key].label);
     });
     // add projectId and folderId
-    if (queryParams.get('project') && queryParams.get('project') !== 'new')
-      filesData.append('project_id', queryParams.get('project'));
+    if (projectId !== 'new') filesData.append('project_id', projectId);
     if (queryParams.get('folder'))
       filesData.append('folder_id', queryParams.get('folder'));
     // add file from fileConfig
@@ -168,6 +169,11 @@ const useImportCSV = () => {
     // make the api call
     dispatch(uploadFile(filesData));
   };
+
+  useEffect(() => {
+    dispatch(setSelectedProject(projectId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projectId]);
 
   return {
     dispatch,
