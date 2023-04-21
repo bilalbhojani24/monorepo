@@ -9,7 +9,13 @@ module.exports = {
       {
         config: tailwindConfig
       }
-    ]
+    ],
+    'lodash/prefer-lodash-method': 'off',
+    'lodash/prefer-lodash-typecheck': 'off',
+    'lodash/prefer-constant': 'off',
+    'lodash/prefer-noop': 'off',
+    'lodash/prefer-includes': 'off',
+    'lodash/prefer-startswith': 'off'
   },
   settings: {
     'import/resolver': {

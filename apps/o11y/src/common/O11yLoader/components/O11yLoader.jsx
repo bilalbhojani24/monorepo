@@ -20,7 +20,7 @@ const O11yLoader = ({
     )}
   >
     <Loader
-      wrapperStyle={twClassNames(
+      wrapperClassName={twClassNames(
         'text-base-200 fill-base-400 w-8 h-8',
         loaderClass
       )}

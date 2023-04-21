@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { O11yButton, O11yInputField, O11ySwitcher } from 'common/bifrostProxy';
+import { O11yButton, O11ySwitcher } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getNumericValue, logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import SettingsCard from '../components/SettingsCard';
+import SettingsSmallInput from '../components/SettingsSmallInput';
 import {
   getAutoAnalyserSettingsData,
   updateAutoAnalyserSettingsData
@@ -42,11 +43,11 @@ export default function AutoAnalysisSettings() {
         .then((res) => {
           if (mounted.current) {
             setFailureCategoryDetectionEnabled({
-              state: res.data.failureCategoryDetectionEnabled,
+              state: res.data.failureCategoryDetectionEnabled === 'true',
               loading: false
             });
             setUniqueErrorDetectionEnabled({
-              state: res.data.uniqueErrorDetectionEnabled,
+              state: res.data.uniqueErrorDetectionEnabled === 'true',
               loading: false
             });
             setThresholdPercentage(res.data.thresholdPercentage);
@@ -127,7 +128,7 @@ export default function AutoAnalysisSettings() {
       loading: true
     });
     handleUpdateSettings({
-      failureCategoryDetectionEnabled: checked
+      failureCategoryDetectionEnabled: checked.toString()
     });
   };
   const handleChangeUniqueErrorSwitch = (checked) => {
@@ -136,7 +137,7 @@ export default function AutoAnalysisSettings() {
       loading: true
     });
     handleUpdateSettings({
-      uniqueErrorDetectionEnabled: checked
+      uniqueErrorDetectionEnabled: checked.toString()
     });
   };
   const handleChangeThreshold = ({ target: { value } }) => {
@@ -202,19 +203,23 @@ export default function AutoAnalysisSettings() {
           accurate. It is set at 95% by default. You can adjust this number
           based on the accuracy of test tagging.
         </p>
-        <O11yInputField
+        <SettingsSmallInput
           id="auto-threshold-percentage"
           disabled={data.isLoading}
           value={thresholdPercentage}
           onChange={handleChangeThreshold}
-          wrapperClassName="w-16 mt-3"
+          wrapperClassName="mt-3"
+          widthClass="w-16"
         />
       </section>
-      <div className="bg-base-50 sticky bottom-0 flex justify-end py-3 px-6">
+      <div className="bg-base-50 sticky bottom-0 z-20 flex justify-end py-3 px-6">
         <O11yButton
           loading={data.isLoading}
           isIconOnlyButton={data.isLoading}
-          disabled={data?.data?.thresholdPercentage === thresholdPercentage}
+          disabled={
+            data?.data?.thresholdPercentage === thresholdPercentage &&
+            !data.isLoading
+          }
           onClick={() =>
             handleUpdateSettings({
               thresholdPercentage

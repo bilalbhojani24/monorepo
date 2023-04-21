@@ -125,3 +125,5 @@ export const FAILURE_CATEGORIES_INFO = {
     label: 'Product Bug'
   }
 };
+
+export const MAX_SUB_CATEGORIES_ALLOWED = 5;
