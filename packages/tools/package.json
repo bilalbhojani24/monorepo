@@ -1,7 +1,7 @@
 {
   "name": "@browserstack/tools",
   "version": "0.0.0",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "description": "Frontend Tools",
   "peerDependencies": {
     "immutable": "4.3.0",

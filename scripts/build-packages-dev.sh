@@ -6,6 +6,7 @@ projects=(
   "packages/utils"
   "packages/hooks"
   "packages/bifrost"
+  "packages/tools"
 )
 
 echo "Taking current master pull..."
