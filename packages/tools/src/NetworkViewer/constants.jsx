@@ -179,36 +179,11 @@ export const PAYLOAD_CAPTIONS = Object.freeze({
   })
 });
 
-export const HELP_LINKS = {
-  viewDocumentation: {
-    automate:
-      'https://www.browserstack.com/docs/automate/selenium/debugging-options#network-logs',
-    app_automate: {
-      appium:
-        'https://www.browserstack.com/docs/app-automate/appium/debug-failed-tests/network-logs',
-      espresso:
-        'https://www.browserstack.com/docs/app-automate/espresso/debug-failed-tests/network-logs',
-      xcuitest:
-        'https://www.browserstack.com/docs/app-automate/xcuitest/debug-failed-tests/network-logs'
-    }
-  },
-  noResponse: {
-    automate:
-      'https://www.browserstack.com/docs/automate/selenium/debugging-options#supported-devices'
-  }
-};
-
 export const UI_MESSAGES = {
-  automate: {
-    limited_configuration:
-      'Currently reponses are recorded for limited device configurations',
-    not_captured_android:
-      'The response data is not captured for Android devices'
-  },
-  common: {
-    not_captured: 'Response data not captured',
-    not_available: 'Response not available'
-  }
+  not_captured_due_to_caps:
+    'Currently responses are recorded for limited device configurations',
+  not_captured: 'Response data not captured',
+  not_available: 'No response data available for this request'
 };
 
 export const HAR_LOG_DATA_KEY = {

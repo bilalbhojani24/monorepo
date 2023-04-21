@@ -10,13 +10,12 @@ import ReqDetailContainer from './ReqDetailContainer';
 import StateHandler from './StateHandler';
 
 const MainContainer = ({
-  onRequestSelect,
   isResponseCaptured,
   logsURL,
   fetchOptions,
   isResponseNotCapturedDueToCaps,
   showWaterfall,
-  appAutomateFramework
+  responseHelpLink
 }) => {
   const { state } = useNetwork();
   const showReqDetail = state.get('showReqDetail');
@@ -53,16 +52,12 @@ const MainContainer = ({
       </div>
       <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
         <section className="relative flex flex-1 flex-col flex-wrap overflow-hidden">
-          <NetworkTableContainer
-            onRequestSelect={onRequestSelect}
-            showWaterfall={showWaterfall}
-            appAutomateFramework={appAutomateFramework}
-          />
+          <NetworkTableContainer showWaterfall={showWaterfall} />
           {showReqDetail && (
             <ReqDetailContainer
               isResponseCaptured={isResponseCaptured}
               isResponseNotCapturedDueToCaps={isResponseNotCapturedDueToCaps}
-              appAutomateFramework={appAutomateFramework}
+              responseHelpLink={responseHelpLink}
             />
           )}
         </section>
@@ -72,19 +67,16 @@ const MainContainer = ({
 };
 
 MainContainer.propTypes = {
-  onRequestSelect: PropTypes.func,
   isResponseCaptured: PropTypes.bool.isRequired,
   logsURL: PropTypes.string.isRequired,
   isResponseNotCapturedDueToCaps: PropTypes.bool.isRequired,
+  responseHelpLink: PropTypes.string.isRequired,
   fetchOptions: PropTypes.object.isRequired,
-  showWaterfall: PropTypes.bool,
-  appAutomateFramework: PropTypes.string
+  showWaterfall: PropTypes.bool
 };
 
 MainContainer.defaultProps = {
-  onRequestSelect: () => {},
-  showWaterfall: true,
-  appAutomateFramework: ''
+  showWaterfall: true
 };
 
 export default MainContainer;

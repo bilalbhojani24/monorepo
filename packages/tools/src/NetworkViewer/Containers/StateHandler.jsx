@@ -100,7 +100,7 @@ function StateHandler({ children, logsURL, fetchOptions }) {
   return <>{children}</>;
 }
 StateHandler.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.node.isRequired,
   logsURL: PropTypes.string.isRequired,
   fetchOptions: PropTypes.object.isRequired
 };

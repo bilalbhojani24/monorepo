@@ -31,7 +31,7 @@ const APPLICABLE_TABS = {
 const ReqDetailContainer = ({
   isResponseCaptured,
   isResponseNotCapturedDueToCaps,
-  appAutomateFramework
+  responseHelpLink
 }) => {
   const [activeTab, setActiveTab] = useState({
     id: APPLICABLE_TABS.headers.value,
@@ -105,7 +105,7 @@ const ReqDetailContainer = ({
             data={reqDetail}
             isResponseCaptured={isResponseCaptured}
             isResponseNotCapturedDueToCaps={isResponseNotCapturedDueToCaps}
-            appAutomateFramework={appAutomateFramework}
+            responseHelpLink={responseHelpLink}
           />
         )}
         {reqDetail.time > 0 &&
@@ -120,11 +120,7 @@ const ReqDetailContainer = ({
 ReqDetailContainer.propTypes = {
   isResponseCaptured: PropTypes.bool.isRequired,
   isResponseNotCapturedDueToCaps: PropTypes.bool.isRequired,
-  appAutomateFramework: PropTypes.string
-};
-
-ReqDetailContainer.defaultProps = {
-  appAutomateFramework: ''
+  responseHelpLink: PropTypes.string.isRequired
 };
 
 export default ReqDetailContainer;

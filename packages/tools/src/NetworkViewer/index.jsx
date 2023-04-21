@@ -7,15 +7,13 @@ import MainContainer from './Containers/MainContainer';
 import NetworkProvider from './state/NetworkProvider';
 
 const NetworkViewer = ({
-  data,
   logsURL,
   fetchOptions,
-  onRequestSelect,
-  onProcessingDone,
   containerClassName,
+  showWaterfall,
   isResponseCaptured,
   isResponseNotCapturedDueToCaps,
-  showWaterfall
+  responseHelpLink
 }) => {
   const parentContainerRef = useRef(null);
   const parentContainerSize = useResizeObserver(parentContainerRef);
@@ -29,18 +27,16 @@ const NetworkViewer = ({
       ref={parentContainerRef}
     >
       <NetworkProvider
-        data={data}
         file={logsURL}
         fetchOptions={fetchOptions}
         containerWidth={
           parentContainerSize.inlineSize || parentContainerSize.width
         }
-        onProcessingDone={onProcessingDone}
       >
         <MainContainer
-          onRequestSelect={onRequestSelect}
           isResponseCaptured={isResponseCaptured}
           isResponseNotCapturedDueToCaps={isResponseNotCapturedDueToCaps}
+          responseHelpLink={responseHelpLink}
           logsURL={logsURL}
           fetchOptions={fetchOptions}
           showWaterfall={showWaterfall}
@@ -52,26 +48,22 @@ const NetworkViewer = ({
 
 NetworkViewer.propTypes = {
   containerClassName: PropTypes.string,
-  data: PropTypes.object,
-  onRequestSelect: PropTypes.func,
-  onProcessingDone: PropTypes.func,
   isResponseCaptured: PropTypes.bool,
   isResponseNotCapturedDueToCaps: PropTypes.bool,
   logsURL: PropTypes.string,
   showWaterfall: PropTypes.bool,
-  fetchOptions: PropTypes.object
+  fetchOptions: PropTypes.object,
+  responseHelpLink: PropTypes.string
 };
 
 NetworkViewer.defaultProps = {
   containerClassName: null,
-  data: null,
-  onRequestSelect: () => {},
-  onProcessingDone: () => {},
   isResponseCaptured: true,
   logsURL: '',
   isResponseNotCapturedDueToCaps: false,
-  showWaterfall: true,
-  fetchOptions: {}
+  showWaterfall: false,
+  fetchOptions: {},
+  responseHelpLink: ''
 };
 
 export default React.memo(NetworkViewer);
