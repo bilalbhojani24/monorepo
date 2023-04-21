@@ -159,7 +159,6 @@ export const FolderFilter = ({
   };
 
   const onCheckboxChange = (isChecked, targetNode) => {
-    setSearchValue('');
     const selectedIdSet = new Set();
     Object.values(prevSelectedValues).forEach((item) => {
       selectedIdSet.add(item.id);
