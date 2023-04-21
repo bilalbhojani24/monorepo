@@ -5,6 +5,7 @@ import Tooltip from '../../Tooltip';
 import { TooltipPropTypes } from '../../Tooltip/components/TooltipContainer';
 
 const TooltipWrapper = ({
+  ariaLabel,
   headerTooltipProps,
   tooltipContent,
   isTooltipToBeWrapped,
@@ -23,6 +24,7 @@ const TooltipWrapper = ({
           ? headerTooltipProps?.triggerWrapperClassName
           : ''
       }`}
+      triggerAriaLabel={ariaLabel}
     >
       {children}
     </Tooltip>
@@ -30,6 +32,7 @@ const TooltipWrapper = ({
 };
 
 TooltipWrapper.propTypes = {
+  ariaLabel: PropTypes.string,
   children: PropTypes.node,
   isTooltipToBeWrapped: PropTypes.bool,
   tooltipContent: PropTypes.node,
@@ -37,6 +40,7 @@ TooltipWrapper.propTypes = {
 };
 
 TooltipWrapper.defaultProps = {
+  ariaLabel: '',
   children: null,
   isTooltipToBeWrapped: false,
   tooltipContent: null,

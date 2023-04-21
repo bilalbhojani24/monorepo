@@ -73,6 +73,10 @@ const defaultConfig = {
       option: { type: 'boolean' },
       defaultValue: true
     },
+    tooltipAriaLabel: {
+      option: { type: 'string' },
+      defaultValue: 'truncated text'
+    },
     isFullWidthTooltip: {
       option: { type: 'boolean' },
       defaultValue: false
