@@ -16,7 +16,7 @@ const AppRoute = {
   REPORTS: '/reports',
   IMPORT: '/projects/quick-import',
   IMPORT_WITH_PROJECTS: '/projects/:projectId/quick-import',
-  IMPORT_CSV: '/import/csv',
+  IMPORT_CSV: '/projects/:projectId/import/csv',
   SETTINGS_API_KEYS: '/settings/api-keys'
 };
 

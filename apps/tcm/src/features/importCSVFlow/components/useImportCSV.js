@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getFolders } from 'api/folders.api';
 import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { getFolders } from '../../../api/folders.api';
 import { moveFolderOptions } from '../../../const/immutables';
 import { setCSVConfigurations, uploadFile } from '../slices/csvThunk';
 import {
@@ -97,7 +98,11 @@ const useImportCSV = () => {
 
   const handleUploadToRootClick = () => {
     if (projectId) {
-      navigate(`${AppRoute.IMPORT_CSV}?project=${projectId}`);
+      navigate(
+        routeFormatter(AppRoute.IMPORT_CSV, {
+          projectId
+        })
+      );
     }
   };
 
@@ -112,10 +117,16 @@ const useImportCSV = () => {
   }) => {
     if (primaryMoveLocation === moveFolderOptions[0]?.id) {
       navigate(
-        `${AppRoute.IMPORT_CSV}?project=${folderExplorerProjectId}&folder=${selectedFolder.id}`
+        `${routeFormatter(AppRoute.IMPORT_CSV, {
+          projectId: folderExplorerProjectId
+        })}?${new URLSearchParams({ folder: selectedFolder.id }).toString()}`
       );
     } else if (primaryMoveLocation === moveFolderOptions[1]?.id) {
-      navigate(`${AppRoute.IMPORT_CSV}?project=${folderExplorerProjectId}`);
+      navigate(
+        routeFormatter(AppRoute.IMPORT_CSV, {
+          projectId: folderExplorerProjectId
+        })
+      );
     }
     dispatch(setShowChangeFolderModal(false));
   };
