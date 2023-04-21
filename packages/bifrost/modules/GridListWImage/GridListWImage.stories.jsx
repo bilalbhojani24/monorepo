@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -52,6 +54,11 @@ const defaultConfig = {
 };
 const Template = (args) => <GridListWImage {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByRole('button').length).toBe(1);
+  await userEvent.click(canvas.getByRole('button'));
+};
 Primary.parameters = {
   controls: {}
 };
