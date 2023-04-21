@@ -747,9 +747,6 @@ importers:
       eslint-plugin-jsx-a11y:
         specifier: 6.4.1
         version: 6.4.1(eslint@7.23.0)
-      eslint-plugin-lodash:
-        specifier: 7.4.0
-        version: 7.4.0(eslint@7.23.0)
       eslint-plugin-prettier:
         specifier: 3.1.4
         version: 3.1.4(eslint@7.23.0)(prettier@2.8.1)
@@ -14252,16 +14249,6 @@ packages:
       semver: 6.3.0
     dev: true
 
-  /eslint-plugin-lodash@7.4.0(eslint@7.23.0):
-    resolution: {integrity: sha512-Tl83UwVXqe1OVeBRKUeWcfg6/pCW1GTRObbdnbEJgYwjxp5Q92MEWQaH9+dmzbRt6kvYU1Mp893E79nJiCSM8A==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      eslint: '>=2'
-    dependencies:
-      eslint: 7.23.0
-      lodash: 4.17.21
-    dev: false
-
   /eslint-plugin-prettier@3.1.4(eslint@7.23.0)(prettier@2.8.1):
     resolution: {integrity: sha512-jZDa8z76klRqo+TdGDTFJSavwbnWK2ZpqGKNZ+VvweMW516pDUMmQ2koXvxEE4JhzNvTv+radye/bWGBmA6jmg==}
     engines: {node: '>=6.0.0'}
@@ -25785,7 +25772,7 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.15.18
-      postcss: 8.4.20
+      postcss: 8.4.21
       resolve: 1.22.1
       rollup: 2.79.1
     optionalDependencies:
@@ -25817,7 +25804,7 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.15.18
-      postcss: 8.4.20
+      postcss: 8.4.21
       resolve: 1.22.1
       rollup: 2.79.1
       sass: 1.57.1
