@@ -32,4 +32,6 @@ export const WS_URL = import.meta.env.DEV
   ? 'wss://test-management.bsstag.com/api/v1/cable'
   : `wss://${window.location.host}/api/v1/cable`;
 
+export const SIGN_OUT_URL = 'https://test-management.bsstag.com/users/sign_out';
+
 export default AppRoute;
