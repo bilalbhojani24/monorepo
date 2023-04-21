@@ -58,7 +58,8 @@ const ComboboxBadge = ({
     onInputChange,
     onChange,
     onClearAll,
-    onBadgeCrossClick
+    onBadgeCrossClick,
+    comboboxProps
   });
 
   const isExactMatch = useMemo(

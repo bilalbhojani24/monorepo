@@ -6,6 +6,7 @@ const findUniqueBetweenTwoArray = (options, ourValue) =>
   options.filter((o1) => !ourValue.some((o2) => o1.value === o2.value));
 
 const useComboboxBadge = ({
+  comboboxProps,
   defaultValue,
   deleteOnBackspaceRef,
   isControlledElement,
@@ -35,7 +36,12 @@ const useComboboxBadge = ({
 
   useEffect(() => {
     const handleBackspace = (event) => {
-      if (event.keyCode === 8 && query.length <= 0 && currentSelected.length) {
+      if (
+        !comboboxProps.disabled &&
+        event.keyCode === 8 &&
+        query.length <= 0 &&
+        currentSelected.length
+      ) {
         // When query.length <=0 and there is atleast 1 currentSelected value send callback to consumer with new value of selected items
         const filteredSelected = [...currentSelected];
         const removedItem = filteredSelected.pop();
@@ -59,7 +65,8 @@ const useComboboxBadge = ({
     currentSelected,
     setCurrentSelected,
     deleteOnBackspaceRef,
-    isControlledElement
+    isControlledElement,
+    comboboxProps.disabled
   ]);
 
   const handleChange = async (inputValue) => {
