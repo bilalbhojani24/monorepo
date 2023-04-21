@@ -147,20 +147,12 @@ const getSelectedListTreeItems = (prevItems, targetItem, isChecked) => {
   return { selectedValuesAdjusted: newValues };
 };
 
-// const listTreeCheckboxHelper = {
-//   bfsTraversal,
-//   getSearchResultsCustomBSFTraversal,
-//   getSelectedListTreeItems,
-//   getTargetHierarchyByIndex,
-//   updateTargetNodes
-// };
-
-// export default listTreeCheckboxHelper;
-
-export {
+const exportObject = {
   bfsTraversal,
   getSearchResultsCustomBSFTraversal,
   getSelectedListTreeItems,
   getTargetHierarchyByIndex,
   updateTargetNodes
 };
+
+export default exportObject;
