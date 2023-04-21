@@ -9,7 +9,6 @@ import Banner from './modules/Banner/index';
 import Breadcrumb from './modules/Breadcrumb/index';
 import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
-import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
 import ComboboxLabel from './modules/ComboboxLabel/index';
 import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
@@ -121,7 +120,6 @@ export {
   Breadcrumb,
   Button,
   Checkbox,
-  ColorPicker,
   ComboBox,
   ComboboxLabel,
   ComboboxOptionGroup,
