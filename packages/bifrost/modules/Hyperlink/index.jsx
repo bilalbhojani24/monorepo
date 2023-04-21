@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const Hyperlink = (props) => {
   const {
     children,
