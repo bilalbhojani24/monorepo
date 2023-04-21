@@ -19,7 +19,7 @@ const TestsTableHeader = ({ isLoadingMore, handleClickSortBy }) => {
               key={key}
               wrapperClassName={twClassNames(
                 SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass,
-                'py-3 border-t border-base-300'
+                'py-3 border-t border-base-300 z-[2]' // #TODO: Z-INDEX CHANGE
               )}
               isSticky
             >
@@ -50,7 +50,7 @@ const TestsTableHeader = ({ isLoadingMore, handleClickSortBy }) => {
             key={key}
             wrapperClassName={twClassNames(
               SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass,
-              'py-3 border-t border-base-300'
+              'py-3 border-t border-base-300 z-[2]' // #TODO: Z-INDEX CHANGE
             )}
             isSticky
           >

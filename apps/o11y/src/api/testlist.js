@@ -25,7 +25,7 @@ export const getTestHistoryData = async (testRunIds) =>
   axios.post(`${versionedBaseRoute()}/builds/testRuns/historyDetails`, {
     testRunIds
   });
-export const getTestlistFilters = async (buildId) =>
+export const getTestlistFilters = async ({ buildId }) =>
   axios.get(`${versionedBaseRoute()}/builds/${buildId}/getFilters`);
 
 export const toggleMuteTest = async ({ buildId, testRunId, shouldMute }) =>
@@ -85,6 +85,12 @@ export const triggerJenkinsBuildAPI = async ({
 
 export const changeIssueType = async (projectId, data) =>
   axios.put(`${versionedBaseRoute()}/builds/${projectId}/update`, data);
+
+export const updateIssueTypes = async (projectId, data) =>
+  axios.put(
+    `${versionedBaseRoute()}/projects/${projectId}/updateIssueTypes`,
+    data
+  );
 
 export const getBugDetails = async (buildId, testRunId) =>
   axios.get(

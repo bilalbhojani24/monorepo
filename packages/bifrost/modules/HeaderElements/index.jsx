@@ -107,6 +107,7 @@ const HeaderElements = ({
       >
         {optionArray.map((element) => (
           <Hyperlink
+            isCSR={false}
             wrapperClassName={twClassNames(
               'flex flex-row items-start p-2 gap-2 w-full hover:bg-[#edf8ff]'
             )}
@@ -273,6 +274,7 @@ const HeaderElements = ({
         )}
       >
         <Hyperlink
+          isCSR={false}
           wrapperClassName={twClassNames(
             'flex flex-row items-center py-0 px-2 gap-1 text-base-800 w-[188px]'
           )}
@@ -288,6 +290,7 @@ const HeaderElements = ({
           <MdArrowRightAlt className="h-3 w-3" />
         </Hyperlink>
         <Hyperlink
+          isCSR={false}
           wrapperClassName={twClassNames(
             'flex flex-row items-center py-0 px-2 gap-1 text-base-800 w-[188px]'
           )}
@@ -324,6 +327,7 @@ const HeaderElements = ({
         >
           {ACCOUNT_ARRAY.map((element) => (
             <Hyperlink
+              isCSR={false}
               wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
               href={
                 element.name === 'Support' ? productSupportLink : element.link
@@ -337,6 +341,7 @@ const HeaderElements = ({
           ))}
           {testInsight && (
             <Hyperlink
+              isCSR={false}
               wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
               href="https://www.browserstack.com/accounts/usage-reporting"
             >
@@ -369,6 +374,7 @@ const HeaderElements = ({
           )}
         >
           <Hyperlink
+            isCSR={false}
             wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
             href="https://www.browserstack.com/users/sign_out"
             onClick={(e) => {
@@ -390,6 +396,7 @@ const HeaderElements = ({
 
   const hyperlinkElements = (elementOptions) => (
     <Hyperlink
+      isCSR={false}
       wrapperClassName={twClassNames(
         'group lg:flex flex-row items-center py-2 px-3 hover:text-base-100 hidden'
       )}
@@ -548,6 +555,7 @@ const HeaderElements = ({
           )}
         >
           <Hyperlink
+            isCSR={false}
             wrapperClassName={twClassNames(
               'flex flex-row items-start p-0 w-[104px] focus:ring-attention-600'
             )}
@@ -560,7 +568,7 @@ const HeaderElements = ({
             >
               <p
                 className={twClassNames(
-                  'not-italic font-medium text-sm leading-5 text-white py-0 px-0.5'
+                  'not-italic font-medium text-sm leading-5 text-white py-0 px-0.5 float-left whitespace-nowrap'
                 )}
               >
                 {isFreeUser ? 'Buy a Plan' : 'Upgrade'}
