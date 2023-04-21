@@ -164,7 +164,9 @@ const InputWithLeadingIconAndTrailingButtonTemplate = (args) => (
 const InputWithLabelAndHelpTextTemplate = (args) => <InputField {...args} />;
 const InputWithValidationErrorTemplate = (args) => <InputField {...args} />;
 const InputWithDisabledStateTemplate = (args) => <InputField {...args} />;
-const InputWithHiddenLabelTemplate = (args) => <InputField {...args} />;
+const InputWithHiddenLabelTemplate = (args) => (
+  <InputField {...args} aria-label="some label" />
+);
 const InputWithCornerHintTemplate = (args) => <InputField {...args} />;
 const InputWithLeadingIconTemplate = (args) => <InputField {...args} />;
 const InputWithTrailingIconTemplate = (args) => <InputField {...args} />;
