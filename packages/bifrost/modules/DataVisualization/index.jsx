@@ -46,7 +46,7 @@ const DataVisualization = ({
     <div className={twClassNames('p-6', contentWrapperClassName)}>
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <h3 className="text-base-900 mr-2.5 text-lg font-medium leading-6">
+          <h3 className="text-base-900 mr-2.5 text-lg font-semibold leading-6">
             {title}
           </h3>
           {headerInfo && (
