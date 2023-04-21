@@ -141,15 +141,15 @@ Primary.parameters = {
 };
 
 export const StatsWithbrandIcon = () => (
-  <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
     {options.map((opt) => (
       <Stats key={opt.id} option={opt} variant={STATS_VARIANTS.WITH_ICON} />
     ))}
-  </dl>
+  </div>
 );
 
 export const SharedBorder = () => (
-  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+  <div className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
     {options.map((opt) => (
       <Stats
         key={opt.id}
@@ -158,11 +158,11 @@ export const SharedBorder = () => (
         cardWrapperClassname="rounded-none"
       />
     ))}
-  </dl>
+  </div>
 );
 
 export const KpiVariantCard = () => (
-  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+  <div className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
     <Stats
       key={options[3].id}
       option={options[3]}
@@ -170,7 +170,7 @@ export const KpiVariantCard = () => (
       cardWrapperClassname="rounded-none"
       hideBoxShadow
     />
-  </dl>
+  </div>
 );
 
 export default defaultConfig;

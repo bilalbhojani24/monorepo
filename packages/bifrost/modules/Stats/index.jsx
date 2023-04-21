@@ -5,8 +5,6 @@ import PropTypes, { oneOf } from 'prop-types';
 
 import { STATS_INC, STATS_VARIANTS } from './const/statsConstants';
 
-import './styles.scss';
-
 const Stats = (props) => {
   const {
     cardWrapperClassname,
