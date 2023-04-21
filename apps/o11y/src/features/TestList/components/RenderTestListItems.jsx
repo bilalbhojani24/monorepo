@@ -44,6 +44,7 @@ function RenderTestListItems({ data, parentId }) {
       </div>
     );
   }
+  console.log(data);
   return data?.map((item) => (
     <RenderTestItem key={`${item.id}-test`} item={item} />
   ));

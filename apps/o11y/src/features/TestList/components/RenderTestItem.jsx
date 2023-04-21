@@ -84,6 +84,8 @@ const RenderTestItem = ({ item: data }) => {
               </div>
               <div className="text-base-900 ml-2 text-sm">
                 <span>
+                  {data.isBeforeAllHook ? 'Before All: ' : ''}
+                  {data.isAfterAllHook ? 'After All: ' : ''}
                   {ReactHtmlParser(displayName, {
                     transform: transformUnsupportedTags
                   })}
@@ -212,7 +214,10 @@ const RenderTestItem = ({ item: data }) => {
                 {milliSecondsToTime(details?.duration)}
               </p>
             </div>
-            <TestListActionItems details={details} />
+            <TestListActionItems
+              details={details}
+              isMutedHidden={data.isBeforeAllHook || data.isAfterAllHook}
+            />
           </div>
         </div>
       </div>

@@ -185,6 +185,7 @@ const RenderRootItem = ({ data }) => {
           />
         </div>
         <AccordionPanel wrapperClassName="bg-white pl-0" controller={isOpen}>
+          {console.log('childrenElements', childrenElements.testListItems)}
           {!!childrenElements?.testListItems.length && (
             <RenderTestListItems
               data={childrenElements.testListItems}

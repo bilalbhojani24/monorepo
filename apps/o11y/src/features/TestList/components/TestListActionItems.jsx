@@ -18,7 +18,7 @@ import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
-function TestListActionItems({ details }) {
+function TestListActionItems({ details, isMutedHidden }) {
   const dispatch = useDispatch();
   const [updatedMutedStatus, setUpdatedMutedStatus] = useState(null);
   const { buildUUID } = useContext(TestListContext);
@@ -151,33 +151,35 @@ function TestListActionItems({ details }) {
         </O11yTooltip>
       )}
 
-      <O11yTooltip
-        theme="dark"
-        placementSide="top"
-        wrapperClassName="py-2"
-        content={
-          <div className="mx-4">
-            <p className="text-base-300 text-sm">
-              {getMutedStatus ? 'Un-Mute' : 'Mute'} Test
-            </p>
-          </div>
-        }
-      >
-        <O11yButton
-          type="button"
-          colors="white"
-          isIconOnlyButton
-          size="extra-small"
-          onClick={() => handleMuteUnmuteTestCase(!getMutedStatus)}
-          icon={
-            getMutedStatus ? (
-              <MdOutlineVolumeOff className="h-5 w-5" />
-            ) : (
-              <MdOutlineVolumeUp className="h-5 w-5" />
-            )
+      {!isMutedHidden && (
+        <O11yTooltip
+          theme="dark"
+          placementSide="top"
+          wrapperClassName="py-2"
+          content={
+            <div className="mx-4">
+              <p className="text-base-300 text-sm">
+                {getMutedStatus ? 'Un-Mute' : 'Mute'} Test
+              </p>
+            </div>
           }
-        />
-      </O11yTooltip>
+        >
+          <O11yButton
+            type="button"
+            colors="white"
+            isIconOnlyButton
+            size="extra-small"
+            onClick={() => handleMuteUnmuteTestCase(!getMutedStatus)}
+            icon={
+              getMutedStatus ? (
+                <MdOutlineVolumeOff className="h-5 w-5" />
+              ) : (
+                <MdOutlineVolumeUp className="h-5 w-5" />
+              )
+            }
+          />
+        </O11yTooltip>
+      )}
     </PropagationBlocker>
   );
 }
@@ -185,6 +187,9 @@ function TestListActionItems({ details }) {
 export default TestListActionItems;
 
 TestListActionItems.propTypes = {
-  details: PropTypes.shape(singleItemTestDetails).isRequired
+  details: PropTypes.shape(singleItemTestDetails).isRequired,
+  isMutedHidden: PropTypes.bool
 };
-TestListActionItems.defaultProps = {};
+TestListActionItems.defaultProps = {
+  isMutedHidden: false
+};
