@@ -7,6 +7,7 @@ import {
 } from '@browserstack/bifrost';
 
 import { FILTER_BY } from '../../constants';
+import { NL_EVENTS } from '../../nlEvents';
 import { useNetwork } from '../../state/Context';
 
 const filterByKeys = Object.keys(FILTER_BY);
@@ -31,23 +32,10 @@ const RequestTypeFilters = () => {
   const onChange = (item) => {
     setSelectedType(item);
     actions.updateFilter(FILTER_BY[item.value]);
-
-    // if (!['automate', 'app_automate'].includes(product)) {
-    //   return;
-    // }
-    // const eventType =
-    //   product === 'automate'
-    //     ? window.EDS.automateWebEvent
-    //     : window.EDS.appAutomateWebEvents;
-    // const name = `${
-    //   product === 'automate' ? 'Atm' : 'AppAtm'
-    // }HARViewerOnFilterChange`;
-    // const eventData = {
-    //   team: product,
-    //   product,
-    //   requestTypeSelected: value
-    // };
-    // window.WebEventTracker?.logEvent?.([], eventType, name, eventData);
+    window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+      event: NL_EVENTS.FILTER_CHANGED,
+      data: item
+    });
   };
   useEffect(() => {
     // handling reset filter case with this effect

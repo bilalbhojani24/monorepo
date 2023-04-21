@@ -6,7 +6,11 @@ import TimeChartTooltip from '../Components/NetworkTable/TimeChartTooltip';
 import Headers from '../Components/ReqDetail/Headers';
 import Payload from '../Components/ReqDetail/Payload';
 import Response from '../Components/ReqDetail/Response';
-import InlineSlideOver from '../InlineSlideOver';
+import {
+  InlineSlideOverBody,
+  InlineSlideOverContainer,
+  InlineSlideOverHeader
+} from '../InlineSlideOver';
 import { useNetwork } from '../state/Context';
 
 const APPLICABLE_TABS = {
@@ -79,20 +83,20 @@ const ReqDetailContainer = ({
   };
 
   return (
-    <InlineSlideOver.Container
+    <InlineSlideOverContainer
       ref={reqDetailContainerRef}
       key={reqDetail.index}
       wrapperClassName="pt-0 px-6 w-9/12"
     >
-      <InlineSlideOver.Header handleClickDismiss={handleCloseClick}>
+      <InlineSlideOverHeader handleClickDismiss={handleCloseClick}>
         <Tabs
           defaultIndex={activeTab.idx}
           tabsArray={tabList}
           onTabChange={onTabChange}
           wrapperClassName="relative top-[1px]"
         />
-      </InlineSlideOver.Header>
-      <InlineSlideOver.Body wrapperClassName="py-3">
+      </InlineSlideOverHeader>
+      <InlineSlideOverBody wrapperClassName="py-3">
         {activeTab.id === APPLICABLE_TABS.headers.value && (
           <Headers data={reqDetail} />
         )}
@@ -112,8 +116,8 @@ const ReqDetailContainer = ({
           activeTab.id === APPLICABLE_TABS.timing.value && (
             <TimeChartTooltip data={reqDetail.timings} fromRequestDetail />
           )}
-      </InlineSlideOver.Body>
-    </InlineSlideOver.Container>
+      </InlineSlideOverBody>
+    </InlineSlideOverContainer>
   );
 };
 

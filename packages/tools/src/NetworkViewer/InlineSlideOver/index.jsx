@@ -1,11 +1,3 @@
-import InlineSlideOverBody from './components/InlineSlideOverBody';
-import InlineSlideOverContainer from './components/InlineSlideOverContainer';
-import InlineSlideOverHeader from './components/InlineSlideOverHeader';
-
-const InlineSlideOver = {
-  Container: InlineSlideOverContainer,
-  Header: InlineSlideOverHeader,
-  Body: InlineSlideOverBody
-};
-
-export default InlineSlideOver;
+export { default as InlineSlideOverBody } from './components/InlineSlideOverBody';
+export { default as InlineSlideOverContainer } from './components/InlineSlideOverContainer';
+export { default as InlineSlideOverHeader } from './components/InlineSlideOverHeader';

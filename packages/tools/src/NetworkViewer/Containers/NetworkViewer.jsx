@@ -3,8 +3,9 @@ import { useResizeObserver } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import MainContainer from './Containers/MainContainer';
-import NetworkProvider from './state/NetworkProvider';
+import NetworkProvider from '../state/NetworkProvider';
+
+import MainContainer from './MainContainer';
 
 const NetworkViewer = ({
   logsURL,

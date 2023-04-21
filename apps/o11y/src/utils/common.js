@@ -2,9 +2,7 @@ import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
 import { SUPPORTED_HTML_TAGS, TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
-import keyBy from 'lodash/keyBy';
-import merge from 'lodash/merge';
-import values from 'lodash/values';
+import { keyBy, merge, values } from 'lodash';
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;

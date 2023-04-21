@@ -1,1 +1,3 @@
-export { default as NetworkViewer } from './NetworkViewer';
+import NetworkViewer, { NL_EVENTS } from './NetworkViewer';
+
+export { NetworkViewer, NL_EVENTS };
