@@ -14,7 +14,7 @@ const AddEditTestCaseCustomField = () => {
 
   return (
     // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="flex flex-wrap [&>*:nth-child(odd)]:pr-2 [&>*:nth-child(even)]:pl-2">
+    <div className="flex flex-wrap [&>*:nth-child(even)]:pl-2 [&>*:nth-child(odd)]:pr-2">
       {customFields.map((item) => (
         <div className="mt-4 w-1/2">
           <TMInputField
