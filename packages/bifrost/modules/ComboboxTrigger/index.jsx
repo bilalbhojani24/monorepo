@@ -50,7 +50,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
       <Combobox.Button
         as="div"
         className={twClassNames(
-          'cursor-pointer border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-2 focus-within:outline-none focus-within:ring-1 py-2 rounded-md relative',
+          'cursor-pointer border-base-300 focus-within:border-brand-500 focus-within:ring-brand-500 relative flex items-center border px-2 focus-within:outline-none focus-within:ring-1 py-1.5 rounded-md relative',
           {
             'pr-7': isMulti,
             'border-danger-600': errorText,
