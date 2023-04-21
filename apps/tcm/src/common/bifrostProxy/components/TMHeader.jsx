@@ -1,7 +1,7 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { Header } from '@browserstack/bifrost';
-import AppRoute, { SIGN_OUT_URL } from 'const/routes';
+import AppRoute, { DEV_SIGN_OUT_URL } from 'const/routes';
 
 const TEST_RUNS_LINK =
   'https://www.browserstack.com/docs/test-management/features/test-runs';
@@ -88,7 +88,7 @@ const TMHeader = () => (
       if (import.meta.env.DEV) {
         e.preventDefault();
         e.stopPropagation();
-        window.location.href = SIGN_OUT_URL;
+        window.location.href = DEV_SIGN_OUT_URL;
       }
     }}
     documentationLink="https://www.browserstack.com/docs/test-management/overview/what-is-test-management"
