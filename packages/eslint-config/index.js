@@ -14,8 +14,7 @@ module.exports = {
     'prettier',
     'plugin:react-hooks/recommended',
     'plugin:sonarjs/recommended',
-    'plugin:tailwindcss/recommended',
-    'plugin:lodash/recommended'
+    'plugin:tailwindcss/recommended'
   ],
   globals: {},
   parserOptions: {
@@ -33,8 +32,7 @@ module.exports = {
     'jest',
     'simple-import-sort',
     'sonarjs',
-    'tailwindcss',
-    'lodash'
+    'tailwindcss'
   ],
   settings: {
     react: {
@@ -108,7 +106,6 @@ module.exports = {
     'tailwindcss/migration-from-tailwind-2': 2,
     'tailwindcss/no-arbitrary-value': 2,
     'tailwindcss/no-custom-classname': 2,
-    'tailwindcss/no-contradicting-classname': 2,
-    'lodash/prefer-lodash-method': 'off'
+    'tailwindcss/no-contradicting-classname': 2
   }
 };
