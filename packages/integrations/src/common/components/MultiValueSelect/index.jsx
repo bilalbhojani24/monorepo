@@ -51,9 +51,10 @@ const MultiSelect = ({
     fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
-  const shouldFetchIntialOptions = useRef(true);
+  const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
   const [searchLoading, setSearchLoading] = useState(false);
+  const lengthOfOptionsToRender = optionsToRender?.length;
 
   useEffect(() => {
     if (
@@ -118,7 +119,7 @@ const MultiSelect = ({
       shouldFetchIntialOptions.current &&
       isOpen &&
       optionsPath &&
-      !optionsToRender?.length
+      !lengthOfOptionsToRender
     ) {
       getOptions();
     }
@@ -194,6 +195,11 @@ const MultiSelect = ({
   const valueToRender =
     fieldsData[fieldKey] || cleanOptions(value || defaultValue) || [];
 
+  const shouldShowNoOptions =
+    !lengthOfOptionsToRender &&
+    !areOptionsLoading &&
+    !shouldFetchIntialOptions.current;
+
   return (
     <div
       className="py-3"
@@ -202,8 +208,8 @@ const MultiSelect = ({
     >
       <ComboBox
         onChange={handleChange}
-        value={!optionsToRender?.length ? null : valueToRender}
-        isMulti={Boolean(optionsToRender?.length)}
+        value={!lengthOfOptionsToRender ? null : valueToRender}
+        isMulti={Boolean(lengthOfOptionsToRender)}
         isLoading={areOptionsLoading}
         loadingText="Loading"
         onOpenChange={handleOpen}
@@ -215,7 +221,7 @@ const MultiSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        {Boolean(optionsToRender?.length) && (
+        {Boolean(lengthOfOptionsToRender) && (
           <ComboboxOptionGroup maxWidth={300}>
             {optionsToRender?.map((item) => (
               <ComboboxOptionItem
@@ -226,7 +232,7 @@ const MultiSelect = ({
             ))}
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length && !areOptionsLoading && (
+        {shouldShowNoOptions && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
               key="no options"
@@ -235,7 +241,7 @@ const MultiSelect = ({
             />
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length && searchLoading && (
+        {!lengthOfOptionsToRender && searchLoading && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
               key="searching-for-options"

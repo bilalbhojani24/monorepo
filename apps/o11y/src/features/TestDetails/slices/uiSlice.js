@@ -41,17 +41,21 @@ const { actions, reducer } = createSlice({
     isDetailsVisible: false,
     showDetailsFor: '',
     exceptions: [],
-    active_log_level: LOG_LEVEL_FILTER_MAPPING
+    active_log_level: LOG_LEVEL_FILTER_MAPPING,
+    currentTestRunId: null
   },
   reducers: {
-    setIsDetailsVisible: (state, { payload }) => {
+    setIsTestDetailsVisible: (state, { payload }) => {
       state.isDetailsVisible = payload;
     },
-    setShowDetailsFor: (state, { payload }) => {
+    setShowTestDetailsFor: (state, { payload }) => {
       state.showDetailsFor = payload;
     },
     setExceptions: (state, { payload }) => {
       state.exceptions = payload;
+    },
+    setCurrentTestRunId: (state, { payload }) => {
+      state.currentTestRunId = payload;
     },
     clearExceptions: (state) => {
       state.exceptions = [];
@@ -66,12 +70,13 @@ const { actions, reducer } = createSlice({
 });
 
 export const {
-  setIsDetailsVisible,
-  setShowDetailsFor,
+  setIsTestDetailsVisible,
+  setShowTestDetailsFor,
   setExceptions,
   clearExceptions,
   setActiveLogLevels,
-  resetDefaultLogLevels
+  resetDefaultLogLevels,
+  setCurrentTestRunId
 } = actions;
 
 export default reducer;

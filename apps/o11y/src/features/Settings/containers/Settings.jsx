@@ -15,10 +15,10 @@ export default function Settings() {
 
   return (
     <div className={twClassNames('flex h-screen flex-col', WRAPPER_GAP_CLASS)}>
-      <header className="border-b-base-200 sticky top-16 border-b py-6 px-8">
+      <header className="border-b-base-200 sticky top-16 border-b p-6">
         <h1 className="text-2xl font-bold leading-7">Settings</h1>
       </header>
-      <section className="flex flex-1 items-start overflow-auto p-8">
+      <section className="flex flex-1 items-start overflow-auto p-6">
         <SettingsSidebar />
         <Suspense
           fallback={<O11yLoader wrapperClassName="h-screen w-auto flex-1" />}

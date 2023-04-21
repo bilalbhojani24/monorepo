@@ -77,11 +77,25 @@ const { actions, reducer } = createSlice({
     setSelectedFilters: (state, { payload }) => {
       state.selectedFilters = { ...state.selectedFilters, ...payload };
     },
+    cancelSelectedFilters: (state) => {
+      state.selectedFilters = { ...state.appliedFilters };
+    },
     setAppliedFilters: (state, { payload }) => {
       state.appliedFilters = { ...state.appliedFilters, ...payload };
     },
     setFiltersMetaData: (state, { payload }) => {
       state.filtersMetaData = { ...state.filtersMetaData, ...payload };
+    },
+    findAndUpdateBuilds: (state, { payload }) => {
+      const updatedBuilds = payload || [];
+      updatedBuilds.forEach((build) => {
+        const idxToUpdate = state.builds.findIndex(
+          (item) => item.uuid === build.uuid
+        );
+        if (idxToUpdate !== -1) {
+          state.builds[idxToUpdate] = build;
+        }
+      });
     }
   },
   extraReducers: (builder) => {
@@ -109,7 +123,9 @@ export const {
   setBuilds,
   setAppliedFilters,
   setSelectedFilters,
-  setFiltersMetaData
+  setFiltersMetaData,
+  findAndUpdateBuilds,
+  cancelSelectedFilters
 } = actions;
 
 export default reducer;

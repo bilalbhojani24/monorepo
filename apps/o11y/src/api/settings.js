@@ -45,3 +45,27 @@ export const deleteSubCat = async ({ projectNormalisedName, subCatId }) =>
   axios.delete(
     `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/failure-categories/sub-categories/${subCatId}`
   );
+export const getValidEmails = async ({ projectNormalisedName, payload }) =>
+  axios.post(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/notifications/getValidEmails`,
+    payload
+  );
+export const updateUsersToNotify = async ({ projectNormalisedName, payload }) =>
+  axios.post(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/notifications/updateUsers`,
+    payload
+  );
+
+export const getNotificationDetails = async ({ projectNormalisedName }) =>
+  axios.get(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/notifications/getEmailPreference`
+  );
+
+export const toggleProjectNotification = async ({
+  projectNormalisedName,
+  payload
+}) =>
+  axios.put(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/settings/notifications/toggleStatus`,
+    payload
+  );
