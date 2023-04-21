@@ -74,6 +74,7 @@ module.exports = {
       }
     }
   ],
+  parser: 'babel-eslint',
   rules: {
     'comma-dangle': 0,
     'prettier/prettier': [2, prettierConfig],
