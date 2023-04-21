@@ -8,12 +8,12 @@ import { milliSecondsToTime } from 'utils/dateTime';
 
 import StatsCard from '../components/StatsCard';
 import { getSnPDetailsStatsData } from '../slices/dataSlice';
-import { getShowSnPDetailsFor, getSnPCbtInfo } from '../slices/selectors';
+import { getShowSHTestsDetailsFor, getSnPCbtInfo } from '../slices/selectors';
 
 const TestStats = () => {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const cbtInfo = useSelector(getSnPCbtInfo);
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [stats, setStats] = useState({});
@@ -53,11 +53,11 @@ const TestStats = () => {
     return <O11yLoader wrapperClassName="py-6" />;
   }
   if (!isLoadingData && isEmpty(stats)) {
-    return <p className="py-6 text-center">No data found</p>;
+    return <p className="py-5 text-center">No data found</p>;
   }
 
   return (
-    <div className="flex flex-wrap gap-3 py-6">
+    <div className="flex flex-wrap gap-3 py-5">
       {stats?.failureOccurrence?.failed !== undefined && (
         <StatsCard
           title="Failure Occurrence"
