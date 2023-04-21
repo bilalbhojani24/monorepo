@@ -18,7 +18,7 @@ importers:
       lint-staged: 13.1.0
       turbo: 1.8.3
 
-  apps/Accessibility:
+  apps/accessibility:
     specifiers:
       '@browserstack/bifrost': 1.1.0
       '@browserstack/hooks': workspace:*
@@ -267,7 +267,7 @@ importers:
 
   apps/tcm:
     specifiers:
-      '@browserstack/bifrost': workspace:*
+      '@browserstack/bifrost': 2.1.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -287,6 +287,7 @@ importers:
       classnames: 2.2.6
       highcharts: 10.3.3
       highcharts-react-official: 3.1.0
+      lodash: 4.17.21
       moment-timezone: 0.5.40
       postcss: 8.4.21
       postcss-preset-env: 7.8.3
@@ -297,6 +298,7 @@ importers:
       react-html-parser: 2.0.2
       react-redux: 8.0.5
       react-router-dom: 6.6.1
+      react-use-websocket: ^4.3.1
       react-virtuoso: 4.1.0
       sass: 1.57.1
       stylelint: 14.16.0
@@ -308,7 +310,7 @@ importers:
       utils: link:@mui/material/utils
       vite: 3.2.5
     dependencies:
-      '@browserstack/bifrost': link:../../packages/bifrost
+      '@browserstack/bifrost': 2.1.0_2dww6gez5vudtpgd7qn6thheyu
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@emotion/react': 11.10.5_jp5qgyg6plq757v5hojp7ls2oe
@@ -320,6 +322,7 @@ importers:
       classnames: 2.2.6
       highcharts: 10.3.3
       highcharts-react-official: 3.1.0_kwza2hs7i6v4p3ij2mdqdwgj4q
+      lodash: 4.17.21
       moment-timezone: 0.5.40
       prop-types: 15.8.1
       react: 18.2.0
@@ -327,6 +330,7 @@ importers:
       react-html-parser: 2.0.2_react@18.2.0
       react-redux: 8.0.5_uuwhlgwbifc5kqyyuyp3ihkqwu
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+      react-use-websocket: 4.3.1_biqbaboplfbrettd7655fr4n2y
       react-virtuoso: 4.1.0_biqbaboplfbrettd7655fr4n2y
       utils: link:@mui/material/utils
     devDependencies:
@@ -2315,6 +2319,48 @@ packages:
       react-icons: 4.7.1_react@18.2.0
       react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@types/react'
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-redux
+      - redux-mock-store
+      - ua-parser-js
+      - uuid
+    dev: false
+
+  /@browserstack/bifrost/2.1.0_2dww6gez5vudtpgd7qn6thheyu:
+    resolution: {integrity: sha512-pHGauIPM/CwpK3Ua22kNxk7ap8yju1hNLPq+M8yYksRYn6gQx2MPtLJKuQxEsnjJYwPMdvGpNFXfbyV4/yULoA==, tarball: download/@browserstack/bifrost/2.1.0/97bf4f2c47199d201be01e243e12ef76d7ccd716}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
+      '@browserstack/utils': 0.2.4_nnlqmyufqhjndtfjqk6u3aglwy
+      '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
+      '@heroicons/react': 2.0.13_react@18.2.0
+      '@internationalized/date': 3.1.0
+      '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1_biqbaboplfbrettd7655fr4n2y
+      react-dom: 18.2.0_react@18.2.0
+      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
+      react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
+      react-icons: 4.7.1_react@18.2.0
+      react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
+      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+      react-stately: 3.21.0_react@18.2.0
     transitivePeerDependencies:
       - '@juggle/resize-observer'
       - '@reduxjs/toolkit'
@@ -22257,6 +22303,16 @@ packages:
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /react-use-websocket/4.3.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-zHPLWrgcqydJaak2O5V9hiz4q2dwkwqNQqpgFVmSuPxLZdsZlnDs8DVHy3WtHH+A6ms/8aHIyX7+7ulOcrnR0Q==}
+    peerDependencies:
+      react: '>= 18.0.0'
+      react-dom: '>= 18.0.0'
+    dependencies:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false

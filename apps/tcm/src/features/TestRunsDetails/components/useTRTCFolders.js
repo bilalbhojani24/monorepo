@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import {
   addTestResultAPI,
   getTestResultsAPI,
   getTestRunsTestCasesAPI
 } from 'api/testruns.api';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   addTestResultItem,
@@ -17,6 +18,7 @@ import {
   setIsLoadingProps,
   setIssuesArray,
   setIsVisibleProps,
+  setMetaPage,
   setSelectedFolder,
   setSelectedTestCase,
   setTestCaseDetails,
@@ -28,15 +30,20 @@ import useTestRunDetails from './useTestRunDetails';
 
 export default function useTRTCFolders() {
   const { projectId, testRunId } = useParams();
+  const [searchParams] = useSearchParams();
   const [statusError, setStatusError] = useState(false);
   const { fetchTestRunDetails } = useTestRunDetails();
   const dispatch = useDispatch();
+  const page = searchParams.get('p');
 
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
   );
   const isFoldersLoading = useSelector(
     (state) => state.testRunsDetails.isLoading.isFoldersLoading
+  );
+  const isTestRunDetailsLoading = useSelector(
+    (state) => state.testRunsDetails.isLoading.testRunDetails
   );
   const isTestCasesLoading = useSelector(
     (state) => state.testRunsDetails.isLoading.isTestCasesLoading
@@ -85,7 +92,20 @@ export default function useTRTCFolders() {
     });
   };
 
-  const handleTestCaseViewClick = (testCaseItem) => () => {
+  const handleTestCaseViewClick = (testCaseItem, tableCol) => () => {
+    dispatch(
+      logEventHelper(`TM_${tableCol}ClickedTrTc`, {
+        project_id: projectId,
+        testrun_id: testRunId
+      })
+    );
+    dispatch(
+      logEventHelper('TM_TrDetailsViewTrTc', {
+        project_id: projectId,
+        testrun_id: testRunId,
+        testcase_id: testCaseItem?.id
+      })
+    );
     dispatch(
       setTestCaseDetails({
         folderId: testCaseItem.test_case_folder_id,
@@ -97,10 +117,16 @@ export default function useTRTCFolders() {
   };
 
   const fetchTestCases = () => {
-    getTestRunsTestCasesAPI({ projectId, testRunId }).then((data) => {
-      dispatch(setAllTestCases(data?.test_cases || []));
-      dispatch(setIsLoadingProps({ key: 'isTestCasesLoading', value: false }));
-    });
+    if (page || !isTestRunDetailsLoading) {
+      dispatch(setIsLoadingProps({ key: 'isTestCasesLoading', value: true }));
+      getTestRunsTestCasesAPI({ projectId, testRunId, page }).then((data) => {
+        dispatch(setAllTestCases(data?.test_cases || []));
+        dispatch(setMetaPage(data?.info));
+        dispatch(
+          setIsLoadingProps({ key: 'isTestCasesLoading', value: false })
+        );
+      });
+    }
   };
 
   const onFolderClick = (thisFolder) => {
@@ -140,13 +166,23 @@ export default function useTRTCFolders() {
     statusFormChangeHandler('issues', combinedIssues);
   };
 
-  const addStatusSaveHelper = (testCaseId, payload, thisTestCase) => {
+  const addStatusSaveHelper = (testCaseId, payload, thisTestCase, logEvent) => {
     addTestResultAPI({
       projectId,
       testCaseId,
       testRunId,
       payload
     }).then((data) => {
+      if (logEvent)
+        dispatch(
+          logEventHelper('TM_AddResultCtaClicked', {
+            project_id: projectId,
+            testrun_id: testRunId,
+            testcase_id: selectedTestCase?.id,
+            result_id: data?.data?.['test-result']?.id
+          })
+        );
+
       dispatch(
         setAllTestCases(
           allTestCases.map((item) =>
@@ -158,12 +194,24 @@ export default function useTRTCFolders() {
       );
       dispatch(setSelectedTestCase(null));
       dispatch(addTestResultItem(data.data['test-result']));
-      fetchTestRunDetails();
+      fetchTestRunDetails(true, true);
       closeAll();
     });
   };
 
-  const onResultChange = (selectedOption, data, isQuickUpdate) => {
+  const onResultChange = (selectedOption, data, isQuickUpdate, isFromTable) => {
+    const eventName = isQuickUpdate
+      ? 'TM_AddQuickResultBtnClickedTrTc'
+      : 'TM_AddResultBtnClickedTrTc';
+
+    dispatch(
+      logEventHelper(isFromTable ? 'TM_TrTcStatusClicked' : eventName, {
+        project_id: projectId,
+        testrun_id: testRunId,
+        testcase_id: data.id
+      })
+    );
+
     dispatch(setSelectedTestCase(data));
     if (isQuickUpdate) {
       addStatusSaveHelper(
@@ -172,6 +220,17 @@ export default function useTRTCFolders() {
           status: selectedOption?.value
         },
         data
+      );
+
+      dispatch(
+        // quick update the current view
+        setAllTestCases(
+          allTestCases.map((item) =>
+            item.id === data.id
+              ? { ...item, latest_status: selectedOption.value }
+              : item
+          )
+        )
       );
     } else {
       dispatch(initAddStatusForm(selectedOption?.value || null));
@@ -188,10 +247,12 @@ export default function useTRTCFolders() {
     if (addStatusFormData?.issues)
       payload.issues = addStatusFormData?.issues?.map((item) => item.value);
 
-    addStatusSaveHelper(selectedTestCase?.id, payload, selectedTestCase);
+    addStatusSaveHelper(selectedTestCase?.id, payload, selectedTestCase, true);
   };
 
   return {
+    isTableLoading: isTestCasesLoading || isTestRunDetailsLoading,
+    page,
     testRunDetails,
     statusError,
     testResultsArray,
@@ -202,6 +263,7 @@ export default function useTRTCFolders() {
     allTestCases,
     metaPage,
     isTestCasesLoading,
+    isTestRunDetailsLoading,
     allFolders,
     selectedFolder,
     isFoldersLoading,

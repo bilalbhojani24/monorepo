@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   ADD_FIELD_LABEL,
@@ -19,11 +20,13 @@ import {
   submitMappingData
 } from '../slices/csvThunk';
 import {
-  // setErrorLabelInMapFields,
   setFieldsMapping,
   setMapFieldModalConfig,
   setMapFieldsError,
-  setValueMappings
+  setShowMappings,
+  setSingleFieldValueMapping,
+  setValueMappings,
+  updateSingleFieldValueMapping
 } from '../slices/importCSVSlice';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -32,9 +35,6 @@ const useMapFields = () => {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const rowRef = useRef([]);
-  const currentSelectedModalCSVKey = useRef(null);
-  const currentSelectedModalField = useRef(null);
-  const currentSelectedModalOption = useRef(null);
   const mapFieldsConfig = useSelector(
     (state) => state.importCSV.mapFieldsConfig
   );
@@ -58,7 +58,10 @@ const useMapFields = () => {
   const showSelectMenuErrorInMapFields = useSelector(
     (state) => state.importCSV.showSelectMenuErrorInMapFields
   );
-
+  const showMappings = useSelector((state) => state.importCSV.showMappings);
+  const currentFieldValueMapping = useSelector(
+    (state) => state.importCSV.currentFieldValueMapping
+  );
   const defaultOptions = mapFieldsConfig.defaultFields.map((field) => ({
     label: field.display_name,
     value: field.display_name
@@ -95,7 +98,8 @@ const useMapFields = () => {
 
   const mapNameToDisplay = {
     ...defaultNameToDisplayMapper,
-    ...customNameToDisplayMapper
+    ...customNameToDisplayMapper,
+    ...{ add: 'Add New Field' } // this is to map add -> Add new Field in second column (default value)
   }; // maps field name to display name
 
   const defaultDisplayToNameMapper = mapFieldsConfig.defaultFields.reduce(
@@ -183,12 +187,28 @@ const useMapFields = () => {
     mappedField: {
       displayOptions,
       defaultValue: {
-        label: mapNameToDisplay[myFieldMappings?.[item]],
-        value: mapNameToDisplay[myFieldMappings?.[item]]
+        label:
+          mapNameToDisplay[myFieldMappings?.[item]] ||
+          mapNameToDisplay[myFieldMappings?.[item]?.action],
+        value:
+          mapNameToDisplay[myFieldMappings?.[item]] ||
+          mapNameToDisplay[myFieldMappings?.[item]?.action]
       }
     },
-    mappedValue: myFieldMappings[item]?.action || myFieldMappings?.[item]
+    mappedValue:
+      myFieldMappings[item]?.action ||
+      myFieldMappings?.[item] ||
+      ADD_FIELD_VALUE
   }));
+
+  const customFieldNames = mapFieldsConfig.customFields.reduce(
+    (mapObject, field) => {
+      const key = field.name;
+      const value = true;
+      return { ...mapObject, [key]: value };
+    },
+    {}
+  );
 
   const handleUpdateClick = (actualName, value) => () => {
     dispatch(
@@ -197,7 +217,8 @@ const useMapFields = () => {
         mapped_field: value,
         show: true
       })
-    ); // isme value from api add karna hai
+    );
+    dispatch(setSingleFieldValueMapping(valueMappings[actualName]));
   };
 
   const handleSelectMenuChange = (field) => (selectedOption) => {
@@ -239,7 +260,7 @@ const useMapFields = () => {
           importId: mapFieldsConfig?.importId,
           field,
           projectId: queryParams.get('project'),
-          mapped_field: mapDisplayToName[selectedOption.label]
+          mappedField: mapDisplayToName[selectedOption.label]
         })
       );
     }
@@ -259,6 +280,7 @@ const useMapFields = () => {
       );
     } else {
       // agar hame mappedValue nahi milta hai toh
+      // when we do not have any value mapping, we delete the key
       dispatch(
         setValueMappings({
           key: field,
@@ -295,82 +317,67 @@ const useMapFields = () => {
     );
   };
 
-  const handleModalSelectMenuChange = (key, field) => (selectedOption) => {
-    currentSelectedModalCSVKey.current = key;
-    currentSelectedModalField.current = field;
-    currentSelectedModalOption.current = selectedOption;
+  const handleModalSelectMenuChange = (field) => (selectedOption) => {
+    const selectedLabel = selectedOption.label;
+    const selectedValue = selectedOption.value;
+    if (selectedLabel === ADD_VALUE_LABEL) {
+      dispatch(
+        updateSingleFieldValueMapping({
+          key: field,
+          value: { action: ADD_VALUE_VALUE }
+        })
+      );
+    } else if (selectedLabel === IGNORE_VALUE_LABEL) {
+      dispatch(
+        updateSingleFieldValueMapping({
+          key: field,
+          value: {
+            action: IGNORE_VALUE_VALUE
+          }
+        })
+      );
+    } else
+      dispatch(
+        updateSingleFieldValueMapping({
+          key: field,
+          value: selectedValue
+        })
+      );
   };
 
   const onModalCloseHandler = () => {
     dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
-    currentSelectedModalCSVKey.current = null;
-    currentSelectedModalOption.current = null;
-    currentSelectedModalField.current = null;
   };
 
-  const handleSaveClick = () => {
-    if (
-      currentSelectedModalCSVKey.current &&
-      currentSelectedModalField.current &&
-      currentSelectedModalOption.current
-    ) {
-      const selectedLabel =
-        currentSelectedModalCSVKey.current.toLowerCase() === 'priority'
-          ? currentSelectedModalOption.current.label.toLowerCase()
-          : currentSelectedModalOption.current.label; // converting label to lowerCase in case of priority
-
-      if (currentSelectedModalOption.current.label === ADD_VALUE_LABEL) {
-        dispatch(
-          setValueMappings({
-            key: currentSelectedModalCSVKey.current,
-            value: {
-              ...valueMappings[currentSelectedModalCSVKey.current],
-              [currentSelectedModalField.current]: { action: ADD_VALUE_VALUE }
-            }
-          })
-        );
-      } else if (
-        currentSelectedModalOption.current.label === IGNORE_VALUE_LABEL
-      ) {
-        dispatch(
-          setValueMappings({
-            key: currentSelectedModalCSVKey.current,
-            value: {
-              ...valueMappings[currentSelectedModalCSVKey.current],
-              [currentSelectedModalField.current]: {
-                action: IGNORE_VALUE_VALUE
-              }
-            }
-          })
-        );
-      } else
-        dispatch(
-          setValueMappings({
-            key: currentSelectedModalCSVKey.current,
-            value: {
-              ...valueMappings[currentSelectedModalCSVKey.current],
-              [currentSelectedModalField.current]: selectedLabel
-            }
-          })
-        );
-    }
+  const handleSaveClick = (key) => {
+    dispatch(setValueMappings({ key, value: currentFieldValueMapping }));
     dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
   };
 
+  const editMappingHandler = () => {
+    dispatch(setShowMappings(false));
+  };
+
   const handleMappingProceedClick = () => {
-    // console.log('final paylaod', myFieldMappings, valueMappings);
-    // console.log('query params', queryParams.get('project'));
-    const projectId = queryParams.get('project');
-    const folderId = queryParams.get('folder');
     dispatch(
-      submitMappingData({
-        importId: mapFieldsConfig.importId,
-        projectId,
-        folderId,
-        myFieldMappings,
-        valueMappings
+      logEventHelper('TM_ImportCsvStep2ProceedBtnClicked', {
+        project_id: queryParams.get('project'),
+        'column_name[]': Object.keys(myFieldMappings),
+        'field_name[]': Object.keys(valueMappings)
       })
     );
+    const projectId = queryParams.get('project');
+    const folderId = queryParams.get('folder');
+    const mappingData = {
+      importId: mapFieldsConfig.importId,
+      myFieldMappings,
+      valueMappings,
+      customFieldNames
+    };
+
+    if (projectId && projectId !== 'new') mappingData.projectId = projectId;
+    if (folderId) mappingData.folderId = folderId;
+    dispatch(submitMappingData(mappingData));
   };
 
   return {
@@ -382,11 +389,14 @@ const useMapFields = () => {
     typeMapper,
     myFieldMappings,
     rowRef,
+    showMappings,
     valueMappings,
     errorLabelInMapFields,
     mapFieldProceedLoading,
+    allImportFields: mapFieldsConfig?.importFields,
     showSelectMenuErrorInMapFields,
     VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN,
+    editMappingHandler,
     handleSaveClick,
     onModalCloseHandler,
     setDefaultDropdownValue,

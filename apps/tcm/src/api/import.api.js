@@ -26,3 +26,6 @@ export const dismissNotificationForImport = async (id) =>
 
 export const retryImport = async (id, tool) =>
   fetchGet(`/api/v1/import/${tool}/quick/${id}/retry`);
+
+export const dismissNewProjectNotification = async (importId) =>
+  fetchPost(`/api/v1/import/quick/${importId}/dismiss_new_projects_banner`);

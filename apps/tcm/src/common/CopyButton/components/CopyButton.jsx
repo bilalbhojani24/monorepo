@@ -12,7 +12,6 @@ const CopyButton = ({ children, copyValue, wrapperClassName }) => {
       setIsCopied(false);
     }, [3000]);
     setTimeoutID(id);
-    alert(copyValue);
     navigator.clipboard.writeText(copyValue);
   };
 

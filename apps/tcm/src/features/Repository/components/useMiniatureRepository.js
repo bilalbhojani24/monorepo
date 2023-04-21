@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   getTestCasesAPI,
   getTestCasesSearchFilterAPI
 } from 'api/testcases.api';
+import { logEventHelper } from 'utils/logEvent';
 
 const useMiniatureRepository = ({ projectId }) => {
   const [selectedFolder, setSelectedFolder] = useState(null);
@@ -14,7 +16,7 @@ const useMiniatureRepository = ({ projectId }) => {
   const [filterOptions, setFilterOptions] = useState({});
   const [allTestCases, setAllTestCases] = useState(null);
   const [allFolders, setAllFolders] = useState(null);
-
+  const dispatch = useDispatch();
   const onFoldersUpdate = (data) => {
     setAllFolders(data);
 
@@ -38,16 +40,20 @@ const useMiniatureRepository = ({ projectId }) => {
       getTestCasesSearchFilterAPI({
         projectId,
         props: filterOptionsFull
-      }).then((res) => {
-        const testCases = res.test_cases.map((item) => ({
-          ...item,
-          folders: res?.folders?.[item.id] || null
-        }));
-        setAllTestCases(testCases);
-        setMetaPage(res.info);
-        // (updateTestCasesListLoading(false));
-        setIsTestCasesLoading(false);
-      });
+      })
+        .then((res) => {
+          const testCases = res.test_cases.map((item) => ({
+            ...item,
+            folders: res?.folders?.[item.id] || null
+          }));
+          setAllTestCases(testCases);
+          setMetaPage(res.info);
+          // (updateTestCasesListLoading(false));
+          setIsTestCasesLoading(false);
+        })
+        .catch(() => {
+          setIsTestCasesLoading(false);
+        });
     } else if (selectedFolder?.id) {
       // normal test cases load
       setIsSearchFilterView(false);
@@ -64,6 +70,7 @@ const useMiniatureRepository = ({ projectId }) => {
         })
         .catch(() => {
           // if page error, reset p=1
+          setIsTestCasesLoading(false);
         });
     } else {
       setIsSearchFilterView(false);
@@ -73,6 +80,13 @@ const useMiniatureRepository = ({ projectId }) => {
   };
 
   const onPaginationClick = ({ p }) => {
+    console.log('on pagination click');
+    dispatch(
+      logEventHelper('TM_TcPaginationClicked', {
+        project_id: projectId,
+        folder_id: selectedFolder
+      })
+    );
     setCurrentPage(p || 1);
   };
 

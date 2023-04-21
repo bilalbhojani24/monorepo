@@ -48,3 +48,8 @@ export const STATUS_OPTIONS = [
     value: 'untested'
   }
 ];
+
+export const ISSUES_TABS_ARRAY = [
+  { name: 'Issues created while Testing', id: 'test_result_issues' },
+  { name: 'All Linked Issues', id: 'issues' }
+];

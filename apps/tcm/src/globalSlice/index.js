@@ -2,9 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   user: null,
+  userAndGroupConfig: null,
   allProjects: [],
   selectedProjectId: null,
-  loginUrl: '',
   userConfig: {
     jira: null
   },
@@ -23,9 +23,6 @@ export const globalSlice = createSlice({
     },
     setUser: (state, { payload }) => {
       state.user = payload;
-    },
-    setLoginURL: (state, { payload }) => {
-      state.loginUrl = payload;
     },
     setSelectedProject: (state, { payload }) => {
       if (payload !== state.selectedProjectId)
@@ -55,6 +52,10 @@ export const globalSlice = createSlice({
     },
     setIsLoadingProps: (state, { payload }) => {
       state.isLoading[payload.key] = payload.value;
+    },
+    setUserAndGroupConfig: (state, { payload }) => {
+      // for amplitude
+      state.userAndGroupConfig = payload;
     }
   }
 });
@@ -67,10 +68,10 @@ export const {
   setAllProjects,
   setUser,
   setSelectedProject,
-  setLoginURL,
   addGlobalProject,
   updateGlobalProject,
-  deleteGlobalProject
+  deleteGlobalProject,
+  setUserAndGroupConfig
 } = globalSlice.actions;
 
 export default globalSlice.reducer;
