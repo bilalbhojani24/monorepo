@@ -7,6 +7,8 @@ import {
   MapPinIcon,
   PencilIcon
 } from '@heroicons/react/20/solid';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -113,20 +115,41 @@ const defaultConfig = {
   },
   controls: {}
 };
+
+const visText = 'Frontend Engineers';
 const Template = (args) => <PageHeadings {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByText(visText).length).toBe(2);
+};
+
 Primary.parameters = {
   controls: {}
 };
 
 const ActionsWithButtonsTemplate = (args) => <PageHeadings {...args} />;
 const ActionsWithButtons = ActionsWithButtonsTemplate.bind({});
+ActionsWithButtons.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByText(visText).length).toBe(2);
+  await expect(canvas.queryAllByRole('button').length).toBe(2);
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await userEvent.click(canvas.queryAllByRole('button')[1]);
+};
 ActionsWithButtons.parameters = {
   controls: {}
 };
 
 const ActionsWithDropdownsTemplate = (args) => <PageHeadings {...args} />;
 const ActionsWithDropdowns = ActionsWithDropdownsTemplate.bind({});
+ActionsWithDropdowns.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByText(visText).length).toBe(2);
+  await expect(canvas.queryAllByRole('button').length).toBe(2);
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await userEvent.click(canvas.queryAllByRole('button')[1]);
+};
 ActionsWithDropdowns.parameters = {
   controls: {}
 };
