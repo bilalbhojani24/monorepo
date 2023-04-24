@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -52,6 +54,11 @@ const defaultConfig = {
 };
 const Template = (args) => <GridListWImage {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByRole('button').length).toBe(1);
+  await userEvent.click(canvas.getByRole('button'));
+};
 Primary.parameters = {
   controls: {}
 };
@@ -60,6 +67,7 @@ export const GridExample = () => (
   <div
     role="list"
     className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8"
+    aria-busy="true"
   >
     <GridListWImage
       label="Lorem"
