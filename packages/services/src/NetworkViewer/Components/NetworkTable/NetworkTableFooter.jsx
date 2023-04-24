@@ -10,7 +10,7 @@ const NetworkTableFooter = ({ dataSummary }) => {
   const finish = dataSummary.get('finish');
   const { DOMContentLoaded, onLoad } = dataSummary.get('timings');
   return (
-    <div className="har-footer">
+    <div className="">
       {!Number.isNaN(+totalRequests) && (
         <span>{`${totalRequests} requests`}</span>
       )}
