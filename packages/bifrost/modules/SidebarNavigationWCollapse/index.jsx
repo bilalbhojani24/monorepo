@@ -23,7 +23,7 @@ const SidebarNavigationWCollapse = ({
   return (
     <div
       className={twClassNames(
-        'flex min-h-0 flex-1 flex-col space-y-2 border-r border-base-200 px-2 pt-6 fixed inset-y-0 flex w-64 flex-col',
+        'flex min-h-0 flex-1 flex-col space-y-2 border-r border-base-200 px-2 pt-6 fixed inset-y-0 w-64',
         {
           'px-1 w-fit': viewPortDimensions.width < collapsedCutoff
         },
@@ -44,6 +44,7 @@ const SidebarNavigationWCollapse = ({
                           {item.label}
                         </p>
                       }
+                      triggerAriaLabel={item.label}
                     >
                       <Button
                         fullWidth
@@ -56,6 +57,7 @@ const SidebarNavigationWCollapse = ({
                             'bg-base-100 text-base-900': item.active
                           }
                         )}
+                        ariaLabel={item.label}
                       >
                         {item.icon}
                       </Button>
@@ -101,6 +103,7 @@ const SidebarNavigationWCollapse = ({
                         {item.label}
                       </p>
                     }
+                    triggerAriaLabel={item.label}
                   >
                     <Button
                       fullWidth
@@ -113,6 +116,7 @@ const SidebarNavigationWCollapse = ({
                           'bg-base-100 text-base-900': item.active
                         }
                       )}
+                      ariaLabel={item.label}
                     >
                       {item.icon}
                     </Button>
