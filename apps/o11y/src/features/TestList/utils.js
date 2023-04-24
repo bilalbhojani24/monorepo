@@ -1,22 +1,58 @@
 import { listTreeCheckboxHelper } from '@browserstack/bifrost';
+import { isEmpty } from 'lodash';
 
 const { updateTargetNodes } = listTreeCheckboxHelper;
 
+export function parseSimpleTreeData(treeData, { id, pId, rootPId }) {
+  const keyNodes = {};
+  const rootNodeList = [];
+
+  // Fill in the map
+  const nodeList = treeData.map((node) => {
+    const clone = { ...node };
+    const key = clone[id];
+    keyNodes[key] = clone;
+    clone.key = clone.key || key;
+    return clone;
+  });
+
+  // Connect tree
+  nodeList.forEach((node) => {
+    const parentKey = node[pId];
+    const parent = keyNodes[parentKey];
+
+    // Fill parent
+    if (parent) {
+      parent.contents = parent.contents || [];
+      parent.contents.push(node);
+    }
+
+    // Fill root tree node
+    if (parentKey === rootPId || (!parent && rootPId === null)) {
+      rootNodeList.push(node);
+    }
+  });
+
+  return rootNodeList;
+}
+
 export const constructTreeData = (folders, selectedValues) => {
   const selectedNodes = {};
-  function recursiveTreeData(rootPId = null, appendId = '', parentNodes = []) {
-    let index = 0;
-    folders.forEach((node) => {
-      if (node.pId === rootPId) {
-        parentNodes.push({
-          uuid: `${appendId}${index}`,
-          id: node.id,
-          pId: node.pId,
-          name: node.label,
-          isChecked: false,
-          isIndeterminate: false
-        });
-        index += 1;
+  let parsedTreeNodes = parseSimpleTreeData(folders, {
+    id: 'id',
+    pId: 'pId',
+    rootPId: null
+  });
+
+  function recursiveTreeData(parentNodes = [], appendId = '') {
+    parentNodes.forEach((pNode, index) => {
+      const copyNode = pNode;
+      copyNode.uuid = `${appendId}${index}`;
+      copyNode.name = copyNode.label;
+      copyNode.isChecked = false;
+      copyNode.isIndeterminate = false;
+      if (!isEmpty(copyNode.contents)) {
+        recursiveTreeData(copyNode.contents, `${copyNode.uuid}-`);
       }
     });
     selectedValues?.forEach((sId) => {
@@ -26,25 +62,15 @@ export const constructTreeData = (folders, selectedValues) => {
         // matched.isChecked = true;
       }
     });
-    parentNodes.forEach((parentNode) => {
-      const contents = recursiveTreeData(
-        parentNode.id,
-        `${parentNode.uuid}-`,
-        []
-      );
-      const clonedParentNode = parentNode;
-      if (contents.length > 0) {
-        clonedParentNode.contents = contents;
-      } else {
-        clonedParentNode.contents = null;
-      }
-    });
-    return parentNodes;
   }
-  let result = recursiveTreeData();
+  recursiveTreeData(parsedTreeNodes);
   Object.keys(selectedNodes).forEach((sNodeIdx) => {
-    const { newItems } = updateTargetNodes(true, sNodeIdx, result);
-    result = newItems;
+    const { newItems } = updateTargetNodes(
+      true,
+      sNodeIdx,
+      JSON.parse(JSON.stringify(parsedTreeNodes))
+    );
+    parsedTreeNodes = newItems;
   });
-  return { treeData: result, selectedNodes };
+  return { treeData: parsedTreeNodes, selectedNodes };
 };
