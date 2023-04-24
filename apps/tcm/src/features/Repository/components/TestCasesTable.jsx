@@ -22,6 +22,7 @@ import {
 import ClampedTags from 'common/ClampedTags';
 import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
+import { getSystemOrCustomValue } from 'utils/helperFunctions';
 
 import { dropDownOptions } from '../const/testCaseConst';
 
@@ -47,6 +48,7 @@ const TestCasesTable = ({
     isAllSelected,
     isAllChecked,
     isIndeterminate,
+    bulkMoveTestCaseCtaLoading,
     updateSelection,
     selectAll,
     initBulkMove,
@@ -89,13 +91,22 @@ const TestCasesTable = ({
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={handleTestCaseViewClick(rowData)}
-          onKeyDown={handleTestCaseViewClick(rowData)}
+          onClick={handleTestCaseViewClick(rowData, 'ID')}
+          onKeyDown={handleTestCaseViewClick(rowData, 'ID')}
         >
-          {`${rowData?.identifier}`}
+          <TMTruncateText
+            truncateUsingClamp={false}
+            hidetooltipTriggerIcon
+            isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
+          >
+            {`${rowData?.identifier}`}
+          </TMTruncateText>
         </div>
       ),
-      class: 'w-[10%]'
+      class: 'w-[9%] max-w-[112px]'
     },
     {
       name: 'TITLE',
@@ -105,8 +116,8 @@ const TestCasesTable = ({
           role="button"
           className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
           tabIndex={0}
-          onClick={handleTestCaseViewClick(rowData)}
-          onKeyDown={handleTestCaseViewClick(rowData)}
+          onClick={handleTestCaseViewClick(rowData, 'Title')}
+          onKeyDown={handleTestCaseViewClick(rowData, 'Title')}
         >
           {isSearchFilterView ? (
             <>
@@ -152,15 +163,18 @@ const TestCasesTable = ({
           )}
         </div>
       ),
-      class: 'w-[42%]'
+      class: 'w-[42%] max-w-xs'
     },
     {
       name: 'PRIORITY',
       key: 'priority',
       cell: (rowData) => (
-        <span className="capitalize">
-          {formatPriority(rowData.priority)}
-          {rowData.priority}
+        <span className="flex items-center capitalize">
+          {formatPriority(rowData?.priority)}
+          {getSystemOrCustomValue(
+            rowData?.priority,
+            rowData?.priority_imported
+          )}
         </span>
       ),
       class: 'w-[15%]'
@@ -169,7 +183,12 @@ const TestCasesTable = ({
       name: 'OWNER',
       key: 'owner',
       cell: (rowData) => (
-        <span>{rowData.assignee ? rowData.assignee.full_name : '--'}</span>
+        <span>
+          {getSystemOrCustomValue(
+            rowData?.assignee?.full_name,
+            rowData?.owner_imported
+          )}
+        </span>
       ),
       class: 'w-[15%]'
     },
@@ -211,10 +230,11 @@ const TestCasesTable = ({
         <TMDropdown
           options={dropDownOptions}
           triggerVariant="meatball-button"
-          onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
+          onClick={(selectedOption) =>
+            onDropDownChange(selectedOption, data, true)
+          }
         />
-      ),
-      class: 'w-[5%]'
+      )
     }
   ];
 
@@ -225,11 +245,12 @@ const TestCasesTable = ({
   return (
     <>
       <TMTable
-        tableWrapperClass="table-fixed w-full"
+        tableWrapperClass="table-fixed"
         containerWrapperClass={classNames(
           containerWrapperClass,
           // 'max-w-[calc(100vw-40rem)]'
-          'overflow-y-auto'
+          'overflow-y-auto',
+          'overflow-x-auto'
         )}
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
@@ -237,13 +258,13 @@ const TestCasesTable = ({
             {!isSearchFilterView && (
               <td
                 variant="body"
-                className="border-base-50 text-base-500 h-full w-[5%] p-2"
+                className="border-base-50 text-base-500 w-[1%] p-2"
                 textTransform="uppercase"
               >
                 {/* all checkbox */}
                 <TMCheckBox
                   border={false}
-                  wrapperClassName="pt-0"
+                  wrapperClassName="pt-0 pl-2"
                   checked={
                     isAllChecked
                     // (isAllSelected && !deSelectedTestCaseIDs.length) ||
@@ -267,7 +288,7 @@ const TestCasesTable = ({
                 key={col.key || index}
                 variant="body"
                 wrapperClassName={classNames(`test-base-500`, col?.class, {
-                  'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                  'first:pr-3 last:pl-3 px-4 py-2': isCondensed,
                   // 'flex-1 w-9/12': index === 1,
                   // 'min-w-[50%]': index === 2,
                   'sticky bg-base-50': col.isSticky,
@@ -323,9 +344,8 @@ const TestCasesTable = ({
                   {!isSearchFilterView && (
                     <td
                       variant="body"
-                      // className="border-base-50 test-base-500 h-full min-w-[5%] p-2"
                       className={classNames(
-                        'border-base-50 test-base-500 h-full min-w-[5%] p-2',
+                        'border-base-50 test-base-500 p-2',
                         !deSelectedTestCaseIDs.includes(row.id) &&
                           (isAllSelected ||
                             selectedTestCaseIDs.includes(row.id))
@@ -336,7 +356,7 @@ const TestCasesTable = ({
                     >
                       <TMCheckBox
                         border={false}
-                        wrapperClassName="pt-0"
+                        wrapperClassName="pt-0 pl-2"
                         checked={
                           !deSelectedTestCaseIDs.includes(row.id) &&
                           (isAllSelected ||
@@ -350,9 +370,10 @@ const TestCasesTable = ({
                     const value = row[column.key];
                     return (
                       <TMTableCell
-                        key={column.id}
+                        key={column.key}
                         wrapperClassName={classNames(column?.class, {
-                          'first:pr-3 last:pl-3 px-2 py-2': isCondensed,
+                          'first:pr-3 last:pl-3 px-4 py-2': isCondensed,
+                          // 'pb-[3px]': column.key === 'identifier',
                           'sticky bg-white': column.isSticky,
                           'right-0 ':
                             column.isSticky &&
@@ -378,6 +399,7 @@ const TestCasesTable = ({
       ) : null}
       {metaPage?.count > metaPage?.page_size && (
         <TMPagination
+          amplitudeEvent="TM_TcSearchPageLoaded"
           pageNumber={metaPage?.page || 1}
           count={metaPage?.count || 0}
           pageSize={metaPage?.page_size}
@@ -391,6 +413,7 @@ const TestCasesTable = ({
         alertText="The selected test cases will be moved from the current location to the above selected folder."
         onOK={moveTestCasesHandler}
         onClose={hideFolderModal}
+        loading={bulkMoveTestCaseCtaLoading}
       />
     </>
   );
@@ -422,7 +445,12 @@ TestCasesTable.defaultProps = {
   isLoading: false,
   onPaginationClick: null,
   onItemSelectionCb: () => {},
-  metaPage: {},
+  metaPage: {
+    page: null,
+    next: null,
+    prev: null,
+    count: null
+  },
   selectedTestCases: null // only if this is passed as prop take it, else ignore
 };
 

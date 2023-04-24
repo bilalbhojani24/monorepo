@@ -1,5 +1,5 @@
-import React from 'react';
-import { CheckOutlinedIcon } from 'assets/icons';
+import React, { useRef } from 'react';
+import { WarningAmberOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
   TMModal,
@@ -11,11 +11,17 @@ import PropTypes from 'prop-types';
 import useMiscConnections from './useMiscConnections';
 
 const CloseTestRun = ({ updateCb }) => {
-  const { closeAll, closeTestRunHandler, isCloseTRVisible } =
-    useMiscConnections({ updateCb });
+  const {
+    closeAll,
+    closeTestRunHandler,
+    closeTestRunCtaLoading,
+    isCloseTRVisible
+  } = useMiscConnections({ updateCb });
+  const closeModalInitialFocus = useRef();
 
   return (
     <TMModal
+      ref={closeModalInitialFocus}
       show={isCloseTRVisible}
       withDismissButton
       onOverlayClick={closeAll}
@@ -33,18 +39,25 @@ const CloseTestRun = ({ updateCb }) => {
           </>
         }
         handleDismissClick={closeAll}
-        iconWrapperClassname="bg-success-100"
-        icon={<CheckOutlinedIcon className="text-success-600" />}
+        iconWrapperClassname="bg-danger-100"
+        icon={<WarningAmberOutlinedIcon className="text-danger-600" />}
       />
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={closeAll}>
+        <TMButton
+          ref={closeModalInitialFocus}
+          variant="primary"
+          colors="white"
+          onClick={closeAll}
+        >
           Cancel
         </TMButton>
         <TMButton
           variant="primary"
-          colors="brand"
+          colors="danger"
           wrapperClassName="ml-3"
           onClick={closeTestRunHandler}
+          loading={closeTestRunCtaLoading}
+          isIconOnlyButton={closeTestRunCtaLoading}
         >
           Close Run
         </TMButton>

@@ -35,8 +35,10 @@ const TestRunsTable = () => {
     allTestRuns,
     isTestRunsLoading,
     metaPage,
+    addAmplitudeEventTrTable,
     getProgressOptions,
-    onDropDownChange
+    onDropDownChange,
+    paginationAnalytics
   } = useTestRunsTable();
 
   const tableColumns = [
@@ -47,10 +49,14 @@ const TestRunsTable = () => {
       cell: (rowData) => (
         <Link
           className="hover:text-brand-600 cursor-pointer font-medium"
+          state={{ sourceTab: currentTab }}
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
             projectId,
             testRunId: rowData?.id
           })}
+          onClick={() => {
+            addAmplitudeEventTrTable('ID', rowData);
+          }}
         >
           {rowData.identifier}
         </Link>
@@ -64,12 +70,25 @@ const TestRunsTable = () => {
         <>
           <Link
             className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
+            state={{ sourceTab: currentTab }}
             to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
               projectId,
               testRunId: rowData?.id
             })}
+            onClick={() => {
+              addAmplitudeEventTrTable('Title', rowData);
+            }}
           >
-            {rowData.name}
+            <TMTruncateText
+              truncateUsingClamp={false}
+              hidetooltipTriggerIcon
+              isFullWidthTooltip
+              headerTooltipProps={{
+                delay: 500
+              }}
+            >
+              {rowData.name}
+            </TMTruncateText>
           </Link>
           {rowData.description && (
             <div className="text-base-500">
@@ -90,7 +109,7 @@ const TestRunsTable = () => {
     },
     {
       name: 'Type of Run',
-      key: 'name',
+      key: 'is_automation',
       class: 'w-[15%]',
       cell: (rowData) => (
         <div>
@@ -153,12 +172,23 @@ const TestRunsTable = () => {
     {
       name: 'ASSIGNED TO',
       key: 'owner',
-      cell: (rowData) => rowData.assignee?.full_name || 'Unassigned',
+      cell: (rowData) => (
+        <TMTruncateText
+          truncateUsingClamp={false}
+          hidetooltipTriggerIcon
+          isFullWidthTooltip
+          headerTooltipProps={{
+            delay: 500
+          }}
+        >
+          {rowData.assignee?.full_name || 'Unassigned'}
+        </TMTruncateText>
+      ),
       class: 'w-[15%]'
     },
     {
       name: 'OVERALL PROGRESS',
-      key: '',
+      key: 'id',
       cell: (rowData) => {
         const totalValue = Object.values(rowData.overall_progress).reduce(
           (total, num) => total + num,
@@ -179,7 +209,7 @@ const TestRunsTable = () => {
                 />
               )}
             </div>
-            <span className="text-base-500 ml-0.5 w-7">
+            <span className="text-base-500 ml-2 w-7">
               {Number.isNaN(untestedPerc) ? '' : `${untestedPerc.toFixed(0)}%`}
             </span>
           </div>
@@ -216,9 +246,9 @@ const TestRunsTable = () => {
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
-            {tableColumns?.map((col, index) => (
+            {tableColumns?.map((col) => (
               <TMTableCell
-                key={col.key || index}
+                key={`${col.key}`}
                 variant="body"
                 wrapperClassName={classNames('test-base-500', col?.class, {
                   'first:pr-3 last:pl-3 px-2 py-2': false, // isCondensed
@@ -241,11 +271,11 @@ const TestRunsTable = () => {
               {allTestRuns?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TMTableRow isSelected key={row.id || index}>
-                  {tableColumns?.map((column, colIdx) => {
+                  {tableColumns?.map((column) => {
                     const value = row[column.key];
                     return (
                       <td
-                        key={column.id || colIdx}
+                        key={`${column.key}_`}
                         className={classNames(
                           'px-3 text-base-500 whitespace-nowrap text-sm text-left inherit py-4 first:pl-4 sm:first:pl-6 last:pr-4 sm:last:pr-6 py-4',
                           {
@@ -276,6 +306,9 @@ const TestRunsTable = () => {
           pageNumber={metaPage?.page || 1}
           count={metaPage?.count || 0}
           pageSize={metaPage?.page_size}
+          onNextClick={paginationAnalytics}
+          onPreviousClick={paginationAnalytics}
+          onPageNumberClick={paginationAnalytics}
         />
       )}
 

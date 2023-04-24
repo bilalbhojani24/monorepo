@@ -54,6 +54,7 @@ const UEDetailsHeader = () => {
       handleDismissClick={handleCloseDetails}
       heading={errorDetailsInfo?.data?.name || ''}
       headingWrapperClassName="leading-7"
+      wrapperClassName="pb-0"
     />
   );
 };

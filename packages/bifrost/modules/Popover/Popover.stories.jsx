@@ -69,7 +69,7 @@ const defaultConfig = {
       option: { type: null },
       defaultValue: (
         <>
-          <PopoverHeader>{headingText}</PopoverHeader>
+          <PopoverHeader>This is a tooltip heading</PopoverHeader>
           <PopoverBody>
             Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit.
             Donec sodales augue eu viverra tempus.
@@ -83,7 +83,7 @@ const defaultConfig = {
     },
     children: {
       option: { type: null },
-      defaultValue: <Button>Click me</Button>
+      defaultValue: 'Click me'
     },
     defaultOpen: {
       option: { type: 'boolean' },
@@ -172,7 +172,8 @@ const defaultConfig = {
     },
     wrapperClassName: {
       option: { type: 'string' },
-      defaultValue: ''
+      defaultValue:
+        'leading-5 text-sm py-2 px-4 rounded-md bg-brand-600 text-white hover:bg-brand-700 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2'
     }
   },
   controls: {}

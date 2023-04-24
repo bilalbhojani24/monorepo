@@ -73,6 +73,7 @@ const TooltipContainer = (props) => {
             onMouseLeave={onMouseLeave}
           >
             <div
+              role="tooltip"
               className={twClassNames('inline-block', triggerWrapperClassName)}
             >
               {children}

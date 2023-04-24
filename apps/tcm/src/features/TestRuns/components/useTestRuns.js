@@ -4,6 +4,7 @@ import { getUsersOfProjectAPI } from 'api/projects.api';
 import { getTagsAPI, getTestRunsAPI } from 'api/testruns.api';
 import { setSelectedProject } from 'globalSlice';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { TABS_ARRAY } from '../const/immutableConst';
 import {
@@ -22,7 +23,7 @@ const useTestRuns = () => {
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId } = useParams();
-  const currentPage = searchParams.get('p');
+  const page = searchParams.get('p');
   const isClosedTab = searchParams.get('closed') === 'true';
   const currentTab = isClosedTab ? TABS_ARRAY[1].name : TABS_ARRAY[0].name;
 
@@ -48,24 +49,29 @@ const useTestRuns = () => {
   const fetchAllTestRuns = () => {
     if (location?.state?.isFromEditing && !isTestRunsLoading) return; // is from editing then do not refresh
 
-    if (projectId) {
-      dispatch(setSelectedProject(projectId));
+    if (!projectId) {
+      dispatch(setAllTestRuns([]));
+      return;
+    }
 
-      if (projectId === 'new') {
-        dispatch(setAllTestRuns([]));
-        setTestRunsLoader(false);
-      } else {
-        setTestRunsLoader(true);
-        const isClosed = currentTab === TABS_ARRAY[1]?.name;
-        getTestRunsAPI({ projectId, isClosed, page: currentPage }).then(
-          (data) => {
-            dispatch(setAllTestRuns(data?.test_runs || []));
-            dispatch(setMetaPage(data?.info));
-            setTestRunsLoader(false);
-          }
-        );
-      }
-    } else dispatch(setAllTestRuns([]));
+    dispatch(setSelectedProject(projectId));
+
+    if (projectId === 'new') {
+      dispatch(setAllTestRuns([]));
+      setTestRunsLoader(false);
+    } else {
+      setTestRunsLoader(true);
+      const isClosed = currentTab === TABS_ARRAY[1]?.name;
+      getTestRunsAPI({ projectId, isClosed, page })
+        .then((data) => {
+          dispatch(setAllTestRuns(data?.test_runs || []));
+          dispatch(setMetaPage(data?.info));
+          setTestRunsLoader(false);
+        })
+        .catch(() => {
+          setTestRunsLoader(false);
+        });
+    }
   };
 
   const handleTabChange = (tabName) => {
@@ -75,17 +81,27 @@ const useTestRuns = () => {
     setSearchParams(params);
   };
 
-  const showTestRunAddFormHandler = () => {
+  const showTestRunAddFormHandler = (e, isCtaClicked = false) => {
+    dispatch(
+      logEventHelper(
+        isCtaClicked
+          ? 'TM_CreateTrBtnClickedEmptyState'
+          : 'TM_CreateTrBtnClickedHeader',
+        {
+          project_id: projectId
+        }
+      )
+    );
     dispatch(setAddTestRunForm(true));
   };
+
   const showTestRunEditForm = () => {
     dispatch(setEditTestRunForm(true));
   };
 
   const fetchTags = () => {
     getTagsAPI({ projectId }).then((data) => {
-      const mappedTags = selectMenuValueMapper(data?.tags || []);
-      dispatch(setTagsArray(mappedTags));
+      dispatch(setTagsArray(selectMenuValueMapper(data?.tags || [])));
     });
   };
 
@@ -99,11 +115,6 @@ const useTestRuns = () => {
       );
 
       dispatch(setLoadedDataProjectId(projectId));
-
-      // if (data?.myself?.id)
-      //   dispatch(
-      //     updateTestCaseFormData({ key: 'owner', value: data.myself.id }),
-      //   );
     });
   };
 
@@ -115,7 +126,7 @@ const useTestRuns = () => {
   };
 
   return {
-    currentPage,
+    page,
     isEditTestRunsFormVisible,
     isTestRunsLoading,
     currentTab,
