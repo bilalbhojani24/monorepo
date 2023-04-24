@@ -1,6 +1,7 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { Header } from '@browserstack/bifrost';
+import { PRODUCTION_HOST } from 'const/immutables';
 import AppRoute, { DEV_SIGN_OUT_URL } from 'const/routes';
 
 const TEST_RUNS_LINK =
@@ -85,7 +86,7 @@ const TMHeader = () => (
       ]
     }}
     onSignoutClick={(e) => {
-      if (import.meta.env.DEV) {
+      if (window.location.hostname !== PRODUCTION_HOST) {
         e.preventDefault();
         e.stopPropagation();
         window.location.href = DEV_SIGN_OUT_URL;
