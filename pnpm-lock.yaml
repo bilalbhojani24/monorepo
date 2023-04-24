@@ -261,6 +261,9 @@ importers:
       '@browserstack/hooks':
         specifier: workspace:*
         version: link:../../packages/hooks
+      '@browserstack/tools':
+        specifier: workspace:*
+        version: link:../../packages/tools
       '@browserstack/utils':
         specifier: workspace:*
         version: link:../../packages/utils
