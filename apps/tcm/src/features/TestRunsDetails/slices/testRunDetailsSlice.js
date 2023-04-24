@@ -52,7 +52,7 @@ export const testRunDetailsSlice = createSlice({
       state.allFolders = payload;
     },
     setAllTestCases: (state, { payload }) => {
-      state.allTestCases = payload;
+      state.allTestCases = payload.filter((item) => item); // incase test case is null
     },
     setIsLoadingProps: (state, { payload }) => {
       state.isLoading[payload.key] = payload.value;

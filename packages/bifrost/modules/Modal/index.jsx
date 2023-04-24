@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 
 import { MODAL_SIZE } from './const/modalConstants';
 
-import './styles.scss';
-
 const Modal = forwardRef((props, ref) => {
   const { children, onClose, onOverlayClick, show, size, wrapperClassName } =
     props;

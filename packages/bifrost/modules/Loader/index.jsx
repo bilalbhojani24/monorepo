@@ -2,7 +2,7 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import propTypes from 'prop-types';
 
-const Loader = ({ height, width, wrapperStyle }) => (
+const Loader = ({ height, width, wrapperClassName }) => (
   <div role="status">
     <svg
       aria-hidden="true"
@@ -10,7 +10,7 @@ const Loader = ({ height, width, wrapperStyle }) => (
         'animate-spin fill-white text-transparent',
         height || 'h-5',
         width || 'w-5',
-        wrapperStyle
+        wrapperClassName
       ])}
       viewBox="0 0 100 101"
       fill="red"
@@ -32,12 +32,12 @@ const Loader = ({ height, width, wrapperStyle }) => (
 Loader.propTypes = {
   height: propTypes.string,
   width: propTypes.string,
-  wrapperStyle: propTypes.string
+  wrapperClassName: propTypes.string
 };
 Loader.defaultProps = {
   height: 'h-5',
   width: 'w-5',
-  wrapperStyle: ''
+  wrapperClassName: ''
 };
 
 export default Loader;

@@ -16,16 +16,19 @@ import {
   TMModalHeader,
   TMTruncateText
 } from 'common/bifrostProxy';
+import { logEventHelper } from 'utils/logEvent';
 
 import AppRoute from '../../../const/routes';
 import useProjects from '../../Projects/components/useProjects';
 import { COMPLETED, FAILURE, INFINITY, ONGOING } from '../const/importConst';
+import { SCREEN_1 } from '../const/importSteps';
 import {
   setCurrentScreen,
   setImportStarted,
   setNotificationDismissed,
   setRetryImport,
   setSelectedRadioIdMap,
+  setShowNewProjectBanner,
   setShowNotificationModal
 } from '../slices/importSlice';
 
@@ -46,6 +49,7 @@ const ImportStatus = () => {
     quickImportProjectId,
     checkImportStatusClickHandler
   } = useImportStatus();
+  // const { projectId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { fetchProjects } = useProjects();
@@ -60,7 +64,7 @@ const ImportStatus = () => {
   };
 
   const retryImportFn = () => {
-    dispatch(setCurrentScreen('configureTool'));
+    dispatch(setCurrentScreen(SCREEN_1));
 
     // api call for retry
     const currentTestManagementTool =
@@ -101,11 +105,17 @@ const ImportStatus = () => {
       importStatus === COMPLETED &&
       totalImportProjectsCount > successImportProjectCount
     ) {
+      dispatch(
+        logEventHelper('TM_QiViewReportLinkClicked', {
+          tool_selected: testManagementTool
+        })
+      );
       dispatch(setShowNotificationModal(true));
       dismissNotification(toastData, 'showModal');
     } else {
       dismissNotification(toastData);
       fetchProjects();
+      dispatch(setShowNewProjectBanner(true));
       navigate('/');
     }
   };
@@ -116,8 +126,29 @@ const ImportStatus = () => {
     if (
       importStatus === COMPLETED &&
       totalImportProjectsCount > successImportProjectCount
-    )
+    ) {
+      dispatch(
+        logEventHelper('TM_QiRetryImportLinkClicked', {
+          tool_selected: testManagementTool
+        })
+      );
       retryImportFn();
+    }
+  };
+
+  const setAmplitudeEvent = (failedImport) => {
+    if (failedImport)
+      dispatch(
+        logEventHelper('TM_QiErrorNotification', {
+          tool_selected: testManagementTool
+        })
+      );
+    else
+      dispatch(
+        logEventHelper('TM_QiSuccessNotification', {
+          tool_selected: testManagementTool
+        })
+      );
   };
 
   // only works on refresh and if banner does not comes.
@@ -128,6 +159,7 @@ const ImportStatus = () => {
       !isNotificationDismissed &&
       !checkImportStatusClicked
     ) {
+      setAmplitudeEvent(totalImportProjectsCount > successImportProjectCount);
       notify(
         <Notifications
           id={notificationData?.id}
@@ -163,6 +195,7 @@ const ImportStatus = () => {
           duration: INFINITY
         }
       );
+      dispatch(setShowNewProjectBanner(true));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationData, importStatus]);

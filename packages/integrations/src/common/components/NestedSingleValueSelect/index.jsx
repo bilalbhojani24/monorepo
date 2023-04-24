@@ -60,8 +60,9 @@ const NestedSingleValueSelect = ({
     fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
-  const shouldFetchIntialOptions = useRef(true);
+  const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
+  const lengthOfOptionsToRender = optionsToRender?.length;
 
   const getOptions = makeDebounce(() => {
     setAreOptionsLoading(true);
@@ -86,7 +87,7 @@ const NestedSingleValueSelect = ({
       shouldFetchIntialOptions.current &&
       isOpen &&
       optionsPath &&
-      !optionsToRender?.length
+      !lengthOfOptionsToRender
     ) {
       getOptions();
     }
@@ -189,6 +190,11 @@ const NestedSingleValueSelect = ({
     }
   };
 
+  const shouldShowNoOptionsForParent =
+    !lengthOfOptionsToRender && !shouldFetchIntialOptions.current;
+  const shouldShowNoOptionsForChild =
+    !childOptions?.length && !areOptionsLoading;
+
   return (
     <div
       className="py-3"
@@ -209,14 +215,14 @@ const NestedSingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        {Boolean(optionsToRender.length) && (
+        {Boolean(lengthOfOptionsToRender) && (
           <ComboboxOptionGroup maxWidth={300}>
             {optionsToRender?.map((item) => (
               <ComboboxOptionItem key={item.value} option={item} />
             ))}
           </ComboboxOptionGroup>
         )}
-        {!optionsToRender?.length && (
+        {shouldShowNoOptionsForParent && (
           <ComboboxOptionGroup>
             <ComboboxOptionItem
               key="no options"
@@ -240,7 +246,7 @@ const NestedSingleValueSelect = ({
                 ))}
               </ComboboxOptionGroup>
             )}
-            {!childOptions?.length && !areOptionsLoading && (
+            {shouldShowNoOptionsForChild && (
               <ComboboxOptionGroup>
                 <ComboboxOptionItem
                   key="no options"

@@ -13,20 +13,21 @@ import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import { addFolderModalKey, folderDropOptions } from '../const/folderConst';
-import { requestedSteps } from '../const/unsavedConst';
 import {
   setAllFolders,
   setFolderModalConf,
   setSelectedFolder,
+  setTestCaseDetails,
+  updateCtaLoading,
   updateFoldersLoading,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
-import useAddEditTestCase from './useAddEditTestCase';
+import useAddEditTestCase from './AddEditTestCase/useAddEditTestCase';
 import useUnsavedChanges from './useUnsavedChanges';
 
 export default function useFolders() {
-  const { isOkToExitForm } = useUnsavedChanges();
+  const { unsavedFormConfirmation } = useUnsavedChanges();
   const [isMoveToRootAvailable, setMoveToRoot] = useState(false);
   const [searchParams] = useSearchParams();
   const { showTestCaseAdditionPage, hideTestCaseAddEditPage } =
@@ -50,12 +51,38 @@ export default function useFolders() {
   );
   const testCasesCount =
     useSelector((state) => state.repository.metaPage?.count) || 0;
+  const moveFolderCtaLoading = useSelector(
+    (state) => state.repository.isLoading.moveFolderCta
+  );
 
   const setAllFoldersHelper = (data) => {
     dispatch(setAllFolders(data));
   };
-  const showAddFolderModal = () => {
-    dispatch(setFolderModalConf({ modal: addFolderModalKey }));
+
+  const closeTCDetailsSlide = () => {
+    dispatch(
+      setTestCaseDetails({
+        folderId: null,
+        testCaseId: null
+      })
+    );
+  };
+
+  const showAddFolderModal = (isEmptyClick) => {
+    unsavedFormConfirmation(false, () => {
+      dispatch(
+        logEventHelper(
+          isEmptyClick
+            ? 'TM_CreateFolderBtnClickedEmptyPrj'
+            : 'TM_CreateFolderIconClicked',
+          {
+            project_id: projectId
+          }
+        )
+      );
+      closeTCDetailsSlide();
+      dispatch(setFolderModalConf({ modal: addFolderModalKey }));
+    });
   };
 
   const mapFolderAncestorHelper = (ancestorsArray) => {
@@ -135,63 +162,104 @@ export default function useFolders() {
       dispatch(updateFoldersLoading(false));
     } else if (projectId) {
       dispatch(updateFoldersLoading(true));
-      getFolders({ projectId }).then((data) => {
-        if (!data?.folders?.length) {
-          // if no folders
-          setAllFoldersHelper([]);
-          navigate(
-            routeFormatter(AppRoute.TEST_CASES, {
-              projectId
-            })
-          );
-        } else {
-          const isParentFolderDefault = data?.folders?.find(
-            (item) => `${item.id}` === folderId
-          );
-          if (folderId && !isParentFolderDefault && data?.folders?.length) {
-            // if the folderId in URL is not a parent level folder
-            fetchFolderSelectedFromParam(data?.folders || []);
-          } else setAllFoldersHelper(data?.folders || []);
+      getFolders({ projectId })
+        .then((data) => {
+          if (!data?.folders?.length) {
+            // if no folders
+            setAllFoldersHelper([]);
+            navigate(
+              routeFormatter(AppRoute.TEST_CASES, {
+                projectId
+              })
+            );
+          } else {
+            const isParentFolderDefault = data?.folders?.find(
+              (item) => `${item.id}` === folderId
+            );
+            if (folderId && !isParentFolderDefault && data?.folders?.length) {
+              // if the folderId in URL is not a parent level folder
+              fetchFolderSelectedFromParam(data?.folders || []);
+            } else setAllFoldersHelper(data?.folders || []);
 
-          selectFolderPerDefault(data?.folders);
-        }
-        dispatch(updateFoldersLoading(false));
-      });
+            selectFolderPerDefault(data?.folders);
+          }
+          dispatch(updateFoldersLoading(false));
+        })
+        .catch(() => {
+          dispatch(updateFoldersLoading(false));
+        });
     } else setAllFoldersHelper([]);
   };
 
   const updateRouteHelper = (selectedFolder) => {
-    dispatch(
-      logEventHelper('TM_FolderClicked', {
-        project_id: projectId,
-        folder_id: selectedFolder.id
-      })
-    );
+    unsavedFormConfirmation(false, () => {
+      const route = routeFormatter(AppRoute.TEST_CASES, {
+        projectId,
+        folderId: selectedFolder.id
+      });
 
-    const route = routeFormatter(AppRoute.TEST_CASES, {
-      projectId,
-      folderId: selectedFolder.id
+      closeTCDetailsSlide();
+      dispatch(
+        logEventHelper('TM_FolderClicked', {
+          project_id: projectId,
+          folder_id: selectedFolder.id
+        })
+      );
+
+      navigate(route);
     });
-    if (
-      !isOkToExitForm(false, {
-        key: requestedSteps.ROUTE,
-        value: route
-      })
-    )
-      return;
-
-    navigate(route);
   };
 
   const folderActionsHandler = ({ folder, selectedOption }) => {
     if (selectedOption?.id) {
-      const isCreateTestCase = selectedOption.id === folderDropOptions[0].id;
-      dispatch(setFolderModalConf({ modal: selectedOption.id, folder }));
+      unsavedFormConfirmation(false, () => {
+        const isCreateTestCase = selectedOption.id === folderDropOptions[0].id;
 
-      if (isCreateTestCase) {
-        // create test case
-        showTestCaseAdditionPage(folder, true);
-      } else hideTestCaseAddEditPage();
+        closeTCDetailsSlide();
+        dispatch(setFolderModalConf({ modal: selectedOption.id, folder }));
+        switch (selectedOption.id) {
+          case folderDropOptions[1].id: // sub folder
+            dispatch(
+              logEventHelper('TM_CreateFolderMenuLinkClicked', {
+                project_id: projectId,
+                folder_id: folder?.id
+              })
+            );
+            break;
+          case folderDropOptions[2].id: // move folder
+            dispatch(
+              logEventHelper('TM_MoveFolderMenuLinkClicked', {
+                project_id: projectId,
+                folder_id: folder?.id
+              })
+            );
+            break;
+          case folderDropOptions[3].id: // edit folder
+            dispatch(
+              logEventHelper('TM_EditFolderMenuLinkClicked', {
+                project_id: projectId,
+                folder_id: folder?.id
+              })
+            );
+            break;
+          case folderDropOptions[4].id: // delete folder
+            dispatch(
+              logEventHelper('TM_DeleteFolderMenuLinkClicked', {
+                project_id: projectId,
+                folder_id: folder?.id
+              })
+            );
+            break;
+
+          default:
+            break;
+        }
+
+        if (isCreateTestCase) {
+          // create test case
+          showTestCaseAdditionPage(folder, true);
+        } else hideTestCaseAddEditPage();
+      });
     }
   };
 
@@ -220,17 +288,33 @@ export default function useFolders() {
   };
 
   const moveFolderOnOkHandler = (selectedFolder, internalAllFolders) => {
+    dispatch(
+      logEventHelper('TM_MoveFolderCtaClicked', {
+        project_id: projectId,
+        folder_id_src: openedFolderModal?.folder?.id,
+        folder_id_dest: selectedFolder?.id || 'root'
+      })
+    );
+
+    dispatch(updateCtaLoading({ key: 'moveFolderCta', value: true }));
     moveFolder({
       projectId,
       folderId: openedFolderModal?.folder?.id,
       newParentFolderId: selectedFolder?.id || null // move to root
     })
       .then((data) => {
+        dispatch(updateCtaLoading({ key: 'moveFolderCta', value: false }));
         if (data?.data?.success) {
           moveFolderHelper(
             data.data.folder?.id,
             selectedFolder?.id || null,
             internalAllFolders
+          );
+          dispatch(
+            logEventHelper('TM_FolderMovedNotification', {
+              project_id: projectId,
+              folder_id: openedFolderModal?.folder?.id
+            })
           );
           dispatch(
             addNotificaton({
@@ -243,6 +327,7 @@ export default function useFolders() {
         }
       })
       .catch(() => {
+        dispatch(updateCtaLoading({ key: 'moveFolderCta', value: false }));
         // TODO: give proper info
         // eslint-dsable no-console
         // console.log(error.response.data.errors[0].title);
@@ -279,6 +364,7 @@ export default function useFolders() {
     projectId,
     folderId,
     allFolders,
+    moveFolderCtaLoading,
     showAddFolderModal,
     fetchAllFolders,
     updateRouteHelper,

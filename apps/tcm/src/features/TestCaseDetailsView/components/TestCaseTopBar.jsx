@@ -21,7 +21,8 @@ import { TR_DROP_OPTIONS } from '../const/testCaseViewConst';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
 const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
-  const { testCaseDetails } = useTestCaseViewDetails();
+  const { testCaseDetails, testRunsTestCaseDetails } = useTestCaseViewDetails();
+
   return (
     <>
       {testCaseDetails?.is_automation && (
@@ -73,15 +74,17 @@ const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
             <InfoOutlinedIcon className="ml-1 !h-5 !w-5" />
           </TMTooltip>
         </div>
-        <div className="flex items-center">
-          <TMDropdown
-            onClick={actionHandler}
-            triggerVariant="meatball-button"
-            options={isFromTestRun ? TR_DROP_OPTIONS : dropDownOptions}
-          />
-          {/* <ArrowBackOutlinedIcon className="ml-2 !h-5 !w-5 cursor-pointer" />
+        {!(testRunsTestCaseDetails?.deleted === 1) && (
+          <div className="flex items-center">
+            <TMDropdown
+              onClick={actionHandler}
+              triggerVariant="meatball-button"
+              options={isFromTestRun ? TR_DROP_OPTIONS : dropDownOptions}
+            />
+            {/* <ArrowBackOutlinedIcon className="ml-2 !h-5 !w-5 cursor-pointer" />
         <ArrowForwardOutlinedIcon className="!h-5 !w-5 cursor-pointer" /> */}
-        </div>
+          </div>
+        )}
       </div>
     </>
   );
