@@ -7,6 +7,8 @@ import {
   MapPinIcon,
   PencilIcon
 } from '@heroicons/react/20/solid';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -73,22 +75,22 @@ const defaultConfig = {
         <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
           <Metadata
             metaDescription="Full-time"
-            textColorClass="text-base-400 mt-1"
+            textColorClass="text-base-500 text-sm mt-1"
             icon={<BriefcaseIcon className="h-5 w-5" />}
           />
           <Metadata
             metaDescription="Remote"
-            textColorClass="text-base-400 mt-1"
+            textColorClass="text-base-500 text-sm mt-1"
             icon={<MapPinIcon className="h-5 w-5" />}
           />
           <Metadata
             metaDescription="$120k – $140k"
-            textColorClass="text-base-400 mt-1"
+            textColorClass="text-base-500 text-sm mt-1"
             icon={<CurrencyDollarIcon className="h-5 w-5" />}
           />
           <Metadata
             metaDescription="Closing on January 9, 2020"
-            textColorClass="text-base-400 mt-1"
+            textColorClass="text-base-500 text-sm mt-1"
             icon={<CalendarIcon className="h-5 w-5" />}
           />
         </div>
@@ -113,20 +115,41 @@ const defaultConfig = {
   },
   controls: {}
 };
+
+const visText = 'Frontend Engineers';
 const Template = (args) => <PageHeadings {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByText(visText).length).toBe(2);
+};
+
 Primary.parameters = {
   controls: {}
 };
 
 const ActionsWithButtonsTemplate = (args) => <PageHeadings {...args} />;
 const ActionsWithButtons = ActionsWithButtonsTemplate.bind({});
+ActionsWithButtons.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByText(visText).length).toBe(2);
+  await expect(canvas.queryAllByRole('button').length).toBe(2);
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await userEvent.click(canvas.queryAllByRole('button')[1]);
+};
 ActionsWithButtons.parameters = {
   controls: {}
 };
 
 const ActionsWithDropdownsTemplate = (args) => <PageHeadings {...args} />;
 const ActionsWithDropdowns = ActionsWithDropdownsTemplate.bind({});
+ActionsWithDropdowns.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByText(visText).length).toBe(2);
+  await expect(canvas.queryAllByRole('button').length).toBe(2);
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await userEvent.click(canvas.queryAllByRole('button')[1]);
+};
 ActionsWithDropdowns.parameters = {
   controls: {}
 };
@@ -184,7 +207,7 @@ ActionsWithDropdowns.args = {
         </Dropdown>
       </div>
       <Dropdown>
-        <DropdownTrigger>
+        <DropdownTrigger triggerAriaLabel="page heading dropdown trigger">
           <EllipsisVerticalIcon className="h-5 w-5" />
         </DropdownTrigger>
         <DropdownOptionGroup>

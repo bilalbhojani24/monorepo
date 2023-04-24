@@ -75,7 +75,7 @@ export default function Reports() {
             <img src={Logo} alt="extension-images" className="h-12 w-12" />
           </div>
           <p className="text-base-900 mb-2 text-center text-lg font-medium">
-            Welcome to BrowserStack Accessibility!
+            Welcome to BrowserStack Accessibility Testing!
           </p>
           <p className="text-base-500 mb-2 text-center text-sm">
             To get started, download our browser extension and automatically

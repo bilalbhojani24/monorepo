@@ -7,8 +7,11 @@ import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
+import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
 import {
+  cleanUpValues,
   resetTestCaseDetails,
   setAddTestCaseVisibility,
   setFilterSearchView,
@@ -16,10 +19,13 @@ import {
   setMetaPage,
   setTagsArray,
   setTestCaseDetails,
+  setTestCaseFormData,
   setUsers,
   updateAllTestCases,
+  updateCtaLoading,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
+import { formDataRetriever } from '../utils/sharedFunctions';
 
 export default function useTestCases() {
   const navigate = useNavigate();
@@ -90,9 +96,16 @@ export default function useTestCases() {
     });
   };
   const fetchTags = () => {
+    dispatch(updateCtaLoading({ key: 'tags', value: true }));
     getTagsAPI({ projectId }).then((data) => {
       const mappedTags = selectMenuValueMapper(data?.tags);
       dispatch(setTagsArray(mappedTags));
+
+      if (selectedTestCase) {
+        const formattedData = formDataRetriever(mappedTags, selectedTestCase);
+        dispatch(setTestCaseFormData(formattedData));
+      }
+      dispatch(updateCtaLoading({ key: 'tags', value: false }));
       // handleTestCaseFieldChange('tags', mappedTags);
     });
   };
@@ -121,6 +134,7 @@ export default function useTestCases() {
         .catch(() => {
           // if page error, reset p=1
           setSearchParams({});
+          dispatch(updateTestCasesListLoading(false));
         });
     } else {
       dispatch(updateAllTestCases([]));
@@ -165,7 +179,29 @@ export default function useTestCases() {
       currentParams[key] = value;
     }
 
-    setSearchParams({ ...currentParams, p });
+    setSearchParams({ ...currentParams, p: p || 1 });
+  };
+
+  const quickImportButtonClicked = () => {
+    dispatch(
+      logEventHelper('TM_QiBtnClickedEmptyFolder', {
+        project_id: projectId,
+        folder_id: folderId
+      })
+    );
+    dispatch(setCurrentTestManagementTool(''));
+  };
+
+  const importCSVButtonClicked = () => {
+    dispatch(
+      logEventHelper('TM_ImportCsvBtnClickedEmptyFolder', {
+        project_id: projectId
+      })
+    );
+  };
+
+  const cleanUpRepository = () => {
+    dispatch(cleanUpValues());
   };
 
   useEffect(() => {
@@ -181,6 +217,7 @@ export default function useTestCases() {
     isBulkUpdate,
     isSearchFilterView,
     currentPage: searchParams.get('p'),
+    searchKey: searchParams.get('q'),
     usersArray,
     selectedFolder,
     allTestCases,
@@ -198,6 +235,9 @@ export default function useTestCases() {
     setRepoView,
     detailsCloseHandler,
     initTestCaseDetails,
-    handleFilterPagination
+    handleFilterPagination,
+    quickImportButtonClicked,
+    importCSVButtonClicked,
+    cleanUpRepository
   };
 }
