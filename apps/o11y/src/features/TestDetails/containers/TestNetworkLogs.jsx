@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { NetworkViewer } from '@browserstack/tools';
+import { NetworkViewer } from '@browserstack/services';
 import { versionedBaseRoute } from 'constants/common';
 import { getEnvConfig } from 'utils/common';
 
