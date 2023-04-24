@@ -14,35 +14,10 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 const {
-  bfsTraversal,
-  getTargetHierarchyByIndex,
   updateTargetNodes,
-  getSelectedListTreeItems
+  getSelectedListTreeItems,
+  getSearchResultsCustomBSFTraversal
 } = listTreeCheckboxHelper;
-
-// #TODO : REPLACE WITH BIFROST UTIL
-const getSearchResultsCustomBSFTraversal = (
-  allItemsList,
-  searchLogicCallback,
-  filteredList
-) => {
-  const newFilterUUUIDValue = {
-    searchedUUIDs: {},
-    filteredUUIDsWithHierarchy: {}
-  };
-  bfsTraversal({ contents: filteredList || allItemsList }, (item) => {
-    if (searchLogicCallback(item)) {
-      newFilterUUUIDValue.searchedUUIDs[item.uuid] = item;
-      const data = getTargetHierarchyByIndex(allItemsList, item.uuid);
-      data.forEach((el) => {
-        newFilterUUUIDValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
-      });
-      // return false;
-    }
-    return true;
-  });
-  return newFilterUUUIDValue;
-};
 
 const ControlledNestedTreeWithCheckbox = ({
   data,
@@ -63,7 +38,7 @@ const ControlledNestedTreeWithCheckbox = ({
     ) {
       return null;
     }
-    const startIndex = item.name.indexOf(searchValue);
+    const startIndex = item.name.toLowerCase().indexOf(searchValue);
     const endIndex = startIndex + searchValue.length;
     return (
       <ListTree
