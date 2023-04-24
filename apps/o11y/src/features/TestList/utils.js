@@ -1,5 +1,5 @@
 import { listTreeCheckboxHelper } from '@browserstack/bifrost';
-import { isEmpty } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 
 const { updateTargetNodes } = listTreeCheckboxHelper;
 
