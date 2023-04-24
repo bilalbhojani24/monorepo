@@ -2,6 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 const { contextBridge, ipcRenderer } = require('electron');
+const { generateRemoteThreadProps } = require('./preloadFunctions');
 
 const openSystemFileFromPath = async (path) => {
   await ipcRenderer.invoke('openSystemFileFromPath', path);
@@ -25,3 +26,8 @@ ipcRenderer.on('save-bs-perf-port', (event, data) => {
 });
 
 contextBridge.exposeInMainWorld('remoteThreadFunctions', remoteThreadFunctions);
+
+contextBridge.exposeInMainWorld(
+  'remoteThreadProps',
+  generateRemoteThreadProps()
+);

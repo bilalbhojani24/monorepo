@@ -67,10 +67,13 @@ export const fetchConnectedDevices = () => async (dispatch, getState) => {
   try {
     dispatch(setAreDevicesStillLoading(true));
 
-    const allDeviceResponses = await Promise.allSettled([
-      fetchDevices('android'),
-      fetchDevices('ios')
-    ]);
+    const devicePromises = [fetchDevices('android')];
+
+    if (window.remoteThreadProps?.platform?.isMac) {
+      devicePromises.push(fetchDevices('ios'));
+    }
+
+    const allDeviceResponses = await Promise.allSettled(devicePromises);
 
     const resultSet = allDeviceResponses
       .filter((apiRes) => apiRes.status === 'fulfilled')
