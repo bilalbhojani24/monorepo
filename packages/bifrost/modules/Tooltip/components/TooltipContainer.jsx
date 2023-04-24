@@ -71,6 +71,7 @@ const TooltipContainer = (props) => {
             asChild={triggerAsChild}
           >
             <div
+              role="tooltip"
               className={twClassNames('inline-block', triggerWrapperClassName)}
             >
               {children}
