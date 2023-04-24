@@ -24,13 +24,17 @@ import useTestRunDetails from './useTestRunDetails';
 
 const TopSection = () => {
   const {
+    sourceTab,
+    testRunPageQuery,
     projectId,
     testRunId,
     showIssuesHandler,
     testRunDetails,
     onDropDownChange,
-    fetchTestRunDetails
+    fetchTestRunDetails,
+    automationTooltipClicked
   } = useTestRunDetails();
+
   return (
     <div className="border-base-300 w-full border-b pb-4">
       <TMPageHeadings
@@ -38,10 +42,12 @@ const TopSection = () => {
         breadcrumbs={[
           {
             name: 'Test Runs',
-            url: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+            url:
+              routeFormatter(AppRoute.TEST_RUNS, { projectId }) +
+              testRunPageQuery
           },
           {
-            name: testRunDetails?.identifier || testRunId
+            name: testRunDetails?.identifier || '--'
           }
         ]}
         heading={
@@ -53,6 +59,9 @@ const TopSection = () => {
                   size="xs"
                   placementSide="bottom"
                   theme="dark"
+                  onOpenChange={(isOpen) => {
+                    if (isOpen) automationTooltipClicked();
+                  }}
                   content={
                     <>
                       <TMTooltipBody>
@@ -89,13 +98,13 @@ const TopSection = () => {
         actions={
           <>
             <Link
+              state={{ sourceTab }}
               to={routeFormatter(AppRoute.TEST_RUN_ISSUES, {
                 projectId,
                 testRunId
               })}
             >
               <TMButton
-                wrapperClassName="mr-4"
                 variant="primary"
                 colors="white"
                 size="default"
@@ -108,6 +117,7 @@ const TopSection = () => {
             {testRunDetails?.run_state &&
               testRunDetails.run_state !== 'closed' && (
                 <TMDropdown
+                  wrapperClassName="ml-4"
                   triggerVariant="menu-button"
                   options={TR_DROP_OPTIONS}
                   onClick={onDropDownChange}
@@ -116,7 +126,7 @@ const TopSection = () => {
           </>
         }
         subSection={
-          <div className="mt-4 flex gap-4">
+          <div className="flex gap-4">
             <TMMetadata
               metaDescription={
                 testRunDetails?.assignee?.full_name || 'Unassigned'
@@ -133,7 +143,7 @@ const TopSection = () => {
               textColorClass="text-base-500 mt-1"
               icon={<MdOutlineAccessTime className="text-base-500 h-5 w-5" />}
             />
-            <ClampedTags tagsArray={testRunDetails?.tags || []} />
+            <ClampedTags tagsArray={testRunDetails?.tags || []} noTagsText="" />
           </div>
         }
       />
