@@ -86,7 +86,7 @@ const ReqDetailContainer = ({
     <InlineSlideOverContainer
       ref={reqDetailContainerRef}
       key={reqDetail.index}
-      wrapperClassName="pt-0 px-6 w-9/12"
+      wrapperClassName="pt-0 px-6 w-9/12 sticky top-[56px] h-[calc(100vh-56px)]"
     >
       <InlineSlideOverHeader handleClickDismiss={handleCloseClick}>
         <Tabs

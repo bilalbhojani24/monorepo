@@ -11,18 +11,25 @@ const NetworkTableContainer = ({ showWaterfall }) => {
   const data = state.get('data');
   const totalNetworkTime = state.get('totalNetworkTime');
   const selectedReqIndex = state.get('selectedReqIndex');
+  const showReqDetail = state.get('showReqDetail');
+  const containerWidth = state.get('containerWidth');
 
   const handleReqSelect = (payload) => {
     actions.selectRequest(payload);
   };
 
+  const shouldShowLimitedCols = showReqDetail && containerWidth < 1024;
+
   return (
-    <section className="h-full flex-1 overflow-auto">
+    <section className="h-full flex-1">
       <Table
         containerWrapperClass="overflow-visible overflow-x-visible divide-none shadow-none"
         tableWrapperClass="w-full table-fixed "
       >
-        <NetworkTableHeader showWaterfall={showWaterfall} />
+        <NetworkTableHeader
+          showWaterfall={showWaterfall}
+          shouldShowLimitedCols={shouldShowLimitedCols}
+        />
         <TableBody>
           {data.map((rowInfo) => (
             <NetworkTableRow
@@ -32,6 +39,7 @@ const NetworkTableContainer = ({ showWaterfall }) => {
               payload={rowInfo}
               scrollHighlight={selectedReqIndex === rowInfo.index}
               showWaterfall={showWaterfall}
+              shouldShowLimitedCols={shouldShowLimitedCols}
             />
           ))}
         </TableBody>

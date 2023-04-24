@@ -62,7 +62,7 @@ const MainContainer = ({
       <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
         <section
           className={twClassNames(
-            'relative flex flex-1 flex-col flex-wrap overflow-hidden px-4',
+            'relative flex flex-1 px-4',
             tableWrapperClassName
           )}
         >

@@ -12,7 +12,8 @@ const NetworkTableRow = ({
   payload,
   scrollHighlight,
   onSelect,
-  showWaterfall
+  showWaterfall,
+  shouldShowLimitedCols
 }) => {
   const handleSelectRequest = () => {
     onSelect(payload);
@@ -46,12 +47,15 @@ const NetworkTableRow = ({
   return (
     <TableRow {...rowProps}>
       {Object.entries(VIEWER_FIELDS).map(
-        ([datakey, { key, renderComponent }]) => (
+        ([datakey, { key, renderComponent }], idx) => (
           <TableCell
             key={datakey}
             wrapperClassName={twClassNames(
               'align-top border border-base-300',
-              getStatusClass(payload)
+              getStatusClass(payload),
+              {
+                hidden: idx > 0 && shouldShowLimitedCols
+              }
             )}
           >
             <NetworkCellValue
@@ -71,10 +75,12 @@ NetworkTableRow.propTypes = {
   onSelect: PropTypes.func.isRequired,
   payload: PropTypes.object.isRequired,
   scrollHighlight: PropTypes.bool.isRequired,
-  showWaterfall: PropTypes.bool
+  showWaterfall: PropTypes.bool,
+  shouldShowLimitedCols: PropTypes.bool
 };
 NetworkTableRow.defaultProps = {
-  showWaterfall: true
+  showWaterfall: true,
+  shouldShowLimitedCols: false
 };
 
 export default NetworkTableRow;
