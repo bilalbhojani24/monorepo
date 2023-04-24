@@ -68,17 +68,6 @@ const PreviewAndConfirm = () => {
     return 'Steps';
   };
 
-  // useEffect(() => {
-  //   if (confirmCSVImportNotificationConfig.status === 'success') {
-  //     navigate({
-  //       pathname: `/projects/${confirmCSVImportNotificationConfig?.csvImportProjectId}/folder/${confirmCSVImportNotificationConfig?.csvImportFolderId}/test-cases`
-  //     });
-  //     dispatch(resetImportCSVState());
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [navigate, confirmCSVImportNotificationConfig]);
-  // TODO: to be verified with Arsalan to clear off the comment
-
   return (
     <div className="border-base-300 mx-4 mb-4 flex h-max w-4/5 max-w-7xl flex-col rounded-md border border-solid bg-white p-6">
       <TMSectionHeadings
