@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Checkbox,
   ListTree,
@@ -13,7 +13,12 @@ import { O11yInputField, O11yPopover } from 'common/bifrostProxy';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
-const { bfsTraversal, getTargetHierarchyByIndex } = listTreeCheckboxHelper;
+const {
+  bfsTraversal,
+  getTargetHierarchyByIndex,
+  updateTargetNodes,
+  getSelectedListTreeItems
+} = listTreeCheckboxHelper;
 
 // #TODO : REPLACE WITH BIFROST UTIL
 const getSearchResultsCustomBSFTraversal = (
@@ -171,14 +176,24 @@ export const FolderFilter = ({
   onChange,
   prevSelectedValues
 }) => {
+  const [listOfItems, setListOfItems] = useState(listTreeCheckboxData);
   const [searchValue, setSearchValue] = useState(''); // Debounce this state for optimal performance
   const [showFilterPopover, setShowFilterPopover] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(prevSelectedValues);
 
   const [filteredUUIDs, setFilteredUUIDs] = useState({
     searchedUUIDs: {},
     filteredUUIDsWithHierarchy: {}
   });
   const [openNodeMap, setOpenNodeMap] = useState({});
+
+  useEffect(() => {
+    setListOfItems(listTreeCheckboxData);
+  }, [listTreeCheckboxData]);
+
+  useEffect(() => {
+    setSelectedValue(prevSelectedValues);
+  }, [prevSelectedValues]);
 
   const onSearchChange = (e) => {
     const newSearchValue = e.target.value;
@@ -187,13 +202,13 @@ export const FolderFilter = ({
       item.name.toLowerCase().includes(newSearchValue.toLowerCase());
     if (newSearchValue.includes(searchValue) && searchValue.length > 0) {
       newFilterUUUIDValue = getSearchResultsCustomBSFTraversal(
-        listTreeCheckboxData,
+        listOfItems,
         searchLogicCallback,
         Object.values(filteredUUIDs.searchedUUIDs)
       );
     } else {
       newFilterUUUIDValue = getSearchResultsCustomBSFTraversal(
-        listTreeCheckboxData,
+        listOfItems,
         searchLogicCallback
       );
     }
@@ -209,15 +224,19 @@ export const FolderFilter = ({
   };
 
   const onCheckboxChange = (isChecked, targetNode) => {
-    const selectedIdSet = new Set();
-    Object.values(prevSelectedValues).forEach((item) => {
-      selectedIdSet.add(item.id);
-    });
-    if (isChecked) selectedIdSet.add(targetNode.id);
-    else {
-      selectedIdSet.delete(targetNode.id);
-    }
-    onChange([...selectedIdSet]);
+    const { newItems, targetItem } = updateTargetNodes(
+      isChecked,
+      targetNode.uuid,
+      JSON.parse(JSON.stringify(listOfItems)) // pass a deep copy of the object preferably loadsh deep copy
+    );
+    const { selectedValuesAdjusted } = getSelectedListTreeItems(
+      selectedValue,
+      targetItem,
+      isChecked
+    );
+    setSelectedValue(selectedValuesAdjusted);
+    setListOfItems(newItems);
+    onChange(Object.values(selectedValuesAdjusted)?.map((sValue) => sValue.id));
   };
 
   const closeFilterPopover = () => {
@@ -258,7 +277,7 @@ export const FolderFilter = ({
                   <ControlledNestedTreeWithCheckbox
                     openNodeMap={openNodeMap}
                     setOpenNodeMap={setOpenNodeMap}
-                    data={listTreeCheckboxData}
+                    data={listOfItems}
                     filteredUUIDs={filteredUUIDs}
                     isParentSearched={false}
                     searchValue={searchValue}
@@ -286,11 +305,11 @@ export const FolderFilter = ({
             'border-base-300 flex min-h-[38px] flex-wrap gap-2 rounded-md border px-3 py-2 shadow',
             {
               "after:content-['Select'] after:text-sm after:font-normal after:text-base-500":
-                isEmpty(Object.values(prevSelectedValues))
+                isEmpty(Object.values(selectedValue))
             }
           )}
         >
-          {Object.values(prevSelectedValues).map((el) => (
+          {Object.values(selectedValue).map((el) => (
             <FileBadge
               key={el.uuid}
               text={el.name}
@@ -335,7 +354,7 @@ export function FileBadge({
       role="button"
       tabIndex={-1}
       className={twClassNames(
-        'inline-flex items-center font-medium cursor-pointer px-2.5 py-0.5 text-xs bg-base-100 text-base-800 rounded-full pr-0.5 truncate max-w-[200px]',
+        'inline-flex items-center font-medium cursor-pointer px-2.5 py-0.5 text-xs bg-base-100 text-base-800 rounded-full pr-0.5 truncate max-w-[150px]',
         {
           'cursor-not-allowed': disabled,
           'hover:bg-base-200': !disabled
