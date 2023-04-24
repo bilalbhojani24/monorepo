@@ -15,7 +15,10 @@ const MainContainer = ({
   fetchOptions,
   isResponseNotCapturedDueToCaps,
   showWaterfall,
-  responseHelpLink
+  responseHelpLink,
+  filtersWrapperClassName,
+  tableHeaderClassName,
+  reqDetailsWrapperClassName
 }) => {
   const { state } = useNetwork();
   const showReqDetail = state.get('showReqDetail');
@@ -43,21 +46,32 @@ const MainContainer = ({
 
   return (
     <>
-      <div
-        className={twClassNames('sticky top-0 bg-white z-10 py-4', {
-          'pointer-events-none opacity-50': isDisabled
-        })}
+      <section
+        className={twClassNames(
+          'sticky top-0 bg-white z-10 py-4 flex items-center justify-between',
+          filtersWrapperClassName,
+          {
+            'pointer-events-none opacity-50': isDisabled
+          }
+        )}
       >
-        <FilterContainer logsURL={logsURL} />
-      </div>
+        <FilterContainer
+          logsURL={logsURL}
+          filtersWrapperClassName={filtersWrapperClassName}
+        />
+      </section>
       <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
-        <section className="relative flex flex-1 flex-col flex-wrap overflow-hidden">
-          <NetworkTableContainer showWaterfall={showWaterfall} />
+        <section className="relative flex flex-1">
+          <NetworkTableContainer
+            showWaterfall={showWaterfall}
+            tableHeaderClassName={tableHeaderClassName}
+          />
           {showReqDetail && (
             <ReqDetailContainer
               isResponseCaptured={isResponseCaptured}
               isResponseNotCapturedDueToCaps={isResponseNotCapturedDueToCaps}
               responseHelpLink={responseHelpLink}
+              reqDetailsWrapperClassName={reqDetailsWrapperClassName}
             />
           )}
         </section>
@@ -72,7 +86,10 @@ MainContainer.propTypes = {
   isResponseNotCapturedDueToCaps: PropTypes.bool.isRequired,
   responseHelpLink: PropTypes.string.isRequired,
   fetchOptions: PropTypes.object.isRequired,
-  showWaterfall: PropTypes.bool
+  showWaterfall: PropTypes.bool,
+  filtersWrapperClassName: PropTypes.string.isRequired,
+  tableHeaderClassName: PropTypes.string.isRequired,
+  reqDetailsWrapperClassName: PropTypes.string.isRequired
 };
 
 MainContainer.defaultProps = {

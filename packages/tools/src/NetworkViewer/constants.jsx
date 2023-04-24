@@ -28,7 +28,8 @@ export const VIEWER_FIELDS = Object.freeze({
   time: Object.freeze({
     key: 'time',
     name: 'Time',
-    renderComponent: (props) => <NetworkTimeCell {...props} />
+    renderComponent: (props) => <NetworkTimeCell {...props} />,
+    columnWidth: 'w-full'
   })
 });
 

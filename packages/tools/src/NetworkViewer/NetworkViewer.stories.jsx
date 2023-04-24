@@ -13,7 +13,11 @@ const defaultConfig = {
   },
   controls: {}
 };
-const Template = (args) => <NetworkViewer {...args} />;
+const Template = (args) => (
+  <div style={{ maxWidth: '720px' }}>
+    <NetworkViewer {...args} />
+  </div>
+);
 const Primary = Template.bind({});
 Primary.parameters = {
   controls: {}

@@ -20,7 +20,7 @@ const FilterContainer = ({ logsURL }) => {
   const filterByError = state.get('errorFilter');
 
   return (
-    <section className="flex items-center justify-between">
+    <>
       <Search />
       <div className="flex items-center gap-2">
         <ErrorFilter
@@ -57,7 +57,7 @@ const FilterContainer = ({ logsURL }) => {
           </Dropdown>
         )}
       </div>
-    </section>
+    </>
   );
 };
 
