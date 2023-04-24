@@ -399,7 +399,7 @@ const SearchableSelectableListTree = () => {
     const { newItems, targetItem } = updateTargetNodes(
       isChecked,
       targetIndexes,
-      listOfItems
+      JSON.parse(JSON.stringify(listOfItems)) // pass a deep copy of the object preferably loadsh deep copy
     );
     const { selectedValuesAdjusted } = getSelectedListTreeItems(
       selectedValue,
@@ -415,11 +415,11 @@ const SearchableSelectableListTree = () => {
       <InputField
         label={`${Object.values(selectedValue).length} Items Selected:`}
         wrapperClassName="min-w-[300px] cursor-pointer"
-        addOnBeforeInlineWrapperClassName="max-w-[300px] line-clamp-1"
+        addOnBeforeInlineWrapperClassName="max-w-[300px]"
         addOnBeforeInline={
           <TruncateText
             tooltipTriggerIcon={
-              <span className="flex font-medium">
+              <span className="absolute top-0 left-0 text-xs font-medium ">
                 ({Object.keys(selectedValue)?.length})
               </span>
             }

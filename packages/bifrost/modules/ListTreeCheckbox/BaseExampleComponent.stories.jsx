@@ -38,6 +38,7 @@ const ControlledNestedTreeWithCheckbox = ({
           showIcon={false}
           label={
             <Checkbox
+              fullWidthLabel
               data={{
                 label: (
                   <>
