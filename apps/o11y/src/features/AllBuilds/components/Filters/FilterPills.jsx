@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import { API_STATUSES } from 'constants/common';
+import { FILTER_LABEL_MAPPING } from 'features/AllBuilds/constants';
 import PropTypes from 'prop-types';
 import { getCustomTimeStamp } from 'utils/dateTime';
 import { capitalizeFirstLetter } from 'utils/stringUtils';
@@ -21,7 +22,7 @@ const FilterBadge = ({ text, onClose }) => (
     modifier="base"
     text={text}
     onClose={onClose}
-    wrapperClassName="bg-base-50 text-base-900 font-bold bg-white ml-4"
+    wrapperClassName="bg-white font-medium  ml-4"
   />
 );
 
@@ -41,7 +42,7 @@ const FilterPills = ({ viewAllBuilds }) => {
       };
       dispatch(setAppliedFilters({ dateRange: newDateRange }));
     }
-    if (['tags', 'users', 'statuses'].includes(filterCategory)) {
+    if (['tags', 'users', 'statuses', 'frameworks'].includes(filterCategory)) {
       dispatch(
         setAppliedFilters({
           [filterCategory]: appliedFilters[filterCategory].filter(
@@ -98,9 +99,9 @@ const FilterPills = ({ viewAllBuilds }) => {
           />
         );
       }
-      if (['tags', 'users', 'statuses'].includes(singleFilterType)) {
-        const statusName =
-          singleFilterType === 'statuses' ? 'Status' : singleFilterType;
+      if (
+        ['tags', 'users', 'statuses', 'frameworks'].includes(singleFilterType)
+      ) {
         return targetValue.map((singleTag) => {
           const singleTagName =
             singleFilterType === 'users'
@@ -109,7 +110,10 @@ const FilterPills = ({ viewAllBuilds }) => {
           return (
             <FilterBadge
               key={singleTag}
-              text={`${capitalizeFirstLetter(statusName)} : ${singleTagName}`}
+              text={`${
+                FILTER_LABEL_MAPPING[singleFilterType] ||
+                capitalizeFirstLetter(singleFilterType)
+              } : ${singleTagName}`}
               onClose={() => removeFilter(singleFilterType, singleTag)}
             />
           );
@@ -122,12 +126,12 @@ const FilterPills = ({ viewAllBuilds }) => {
   return (
     <>
       {filterDetailsApiStatus === API_STATUSES.FULFILLED && (
-        <div className="flex gap-x-4">
+        <div className="flex items-baseline">
           {!!itemsArray.length && (
-            <>
-              <p>Filters</p>
+            <div className="inline-flex gap-4">
+              <p className="text-base-500 text-sm">Filters</p>
               <div className="border-base-300 my-auto h-5 border-l" />
-            </>
+            </div>
           )}
           <div className="block">
             {itemsArray}
@@ -135,10 +139,11 @@ const FilterPills = ({ viewAllBuilds }) => {
               <O11yButton
                 variant="minimal"
                 colors="white"
+                size="small"
                 wrapperClassName="ml-4"
                 onClick={viewAllBuilds}
               >
-                Clear All
+                Clear all
               </O11yButton>
             )}
           </div>

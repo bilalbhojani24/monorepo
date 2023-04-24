@@ -35,28 +35,28 @@ export const BUILDS_HEADER_LABEL_MAPPING = {
   tags: 'Tags'
 };
 
-const BUILDS_HEADER_COMMON_STYLES = 'py-3 text-base-500 text-sm leading-4';
+const BUILDS_HEADER_COMMON_STYLES =
+  'py-3 text-base-500 text-sm leading-4 border-b border-base-200';
 
 export const BUILDS_HEADER_COLUMN_STYLE_MAPPING = {
   buildName: {
     name: BUILDS_HEADER_LABEL_MAPPING.buildName,
-    defaultClass:
-      'flex-1 py-3 whitespace-normal !pl-0 text-base-500 text-sm leading-4'
+    defaultClass: `flex-1 whitespace-normal !pl-0 ${BUILDS_HEADER_COMMON_STYLES}`
   },
   testStatus: {
     name: BUILDS_HEADER_LABEL_MAPPING.testStatus,
-    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-[100px]`
+    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-24`
   },
   failureCategory: {
     name: BUILDS_HEADER_LABEL_MAPPING.failureCategory,
-    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-[170px]`
+    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-40`
   },
   testDuration: {
     name: BUILDS_HEADER_LABEL_MAPPING.testDuration,
-    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-[100px]`
+    defaultClass: `${BUILDS_HEADER_COMMON_STYLES} w-24`
   },
   tags: {
     name: BUILDS_HEADER_LABEL_MAPPING.tags,
-    defaultClass: `!pr-0 w-[100px] ${BUILDS_HEADER_COMMON_STYLES}`
+    defaultClass: `!pr-0 w-24 ${BUILDS_HEADER_COMMON_STYLES}`
   }
 };

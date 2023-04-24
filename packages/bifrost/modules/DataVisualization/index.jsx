@@ -27,11 +27,13 @@ const DataVisualization = ({
   headerInfo,
   headerInfoTooltipProps,
   wrapperClassName,
+  contentWrapperClassName,
+  analyticsWrapperClassName,
   hasWiderColumns
 }) => (
   <div
     className={twClassNames(
-      'rounded-lg shadow',
+      'rounded-lg shadow break-all',
       {
         'w-[332px]': size === DATA_VISUALIZATION_SIZES[0],
         'w-[508px]': size === DATA_VISUALIZATION_SIZES[1],
@@ -41,12 +43,15 @@ const DataVisualization = ({
       wrapperClassName
     )}
   >
-    <div className="p-6">
+    <div className={twClassNames('p-6', contentWrapperClassName)}>
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <h3 className="mr-2.5 text-lg font-medium leading-6">{title}</h3>
+          <h3 className="text-base-900 mr-2.5 text-lg font-semibold leading-6">
+            {title}
+          </h3>
           {headerInfo && (
             <ToolTip
+              triggerAriaLabel="header-info-tooltip"
               arrowClassName={headerInfoTooltipProps?.arrowClassName}
               arrowWidth={headerInfoTooltipProps?.arrowWidth}
               arrowHeight={headerInfoTooltipProps?.arrowHeight}
@@ -73,7 +78,7 @@ const DataVisualization = ({
                 headerInfoTooltipProps?.children
               ) : (
                 <InformationCircleIcon
-                  className="h-5 w-5 shrink-0 cursor-pointer"
+                  className="text-base-700 h-5 w-5 shrink-0 cursor-pointer"
                   aria-hidden="true"
                 />
               )}
@@ -123,7 +128,7 @@ const DataVisualization = ({
           ))}
         </div>
       )}
-      <div>{analytics}</div>
+      <div className={analyticsWrapperClassName}>{analytics}</div>
 
       {descPosition === DATA_VISUALIZATION_DESC_POSITION[1] && (
         <p className="text-base-600 mt-4 font-normal leading-6">{desc}</p>
@@ -182,6 +187,8 @@ DataVisualization.propTypes = {
   headerInfo: PropTypes.bool,
   headerInfoTooltipProps: PropTypes.shape(TooltipPropTypes),
   wrapperClassName: PropTypes.string,
+  contentWrapperClassName: PropTypes.string,
+  analyticsWrapperClassName: PropTypes.string,
   hasWiderColumns: PropTypes.bool
 };
 DataVisualization.defaultProps = {
@@ -197,6 +204,8 @@ DataVisualization.defaultProps = {
   headerInfo: true,
   headerInfoTooltipProps: {},
   wrapperClassName: '',
+  contentWrapperClassName: '',
+  analyticsWrapperClassName: '',
   hasWiderColumns: false
 };
 

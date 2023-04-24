@@ -55,10 +55,11 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
           }}
           ref={comboInputRef}
           readOnly={isLoading}
+          autoComplete="off"
         />
         {isLoading && (
           <span className="text-base-500 absolute inset-y-0 left-1 flex items-center space-x-2 rounded-r-md px-2 focus:outline-none">
-            <Loader wrapperStyle="text-base-200 fill-base-400 " />
+            <Loader wrapperClassName="text-base-200 fill-base-400 " />
             <span>{loadingText}</span>
           </span>
         )}
@@ -70,7 +71,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder }) => {
             />
           </span>
         )}
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+        <Combobox.Button className="absolute inset-y-0 right-0 flex w-full items-center justify-end rounded-r-md px-2 focus:outline-none">
           {({ value: buttonValue }) => (
             <TriggerButton
               value={buttonValue?.length}

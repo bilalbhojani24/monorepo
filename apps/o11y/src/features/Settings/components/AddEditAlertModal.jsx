@@ -78,12 +78,12 @@ function AddEditAlertModal() {
         value: alertData.alertType
       });
       setSelectedApplicableTo(
-        alertData.buildNames.length
+        alertData?.buildNames?.length
           ? APPLICABLE_TO.selective
           : APPLICABLE_TO.all
       );
       setSelectedBuilds(
-        alertData.buildNames.map((item) => ({
+        alertData?.buildNames?.map((item) => ({
           label: item,
           value: item
         }))
@@ -203,13 +203,13 @@ function AddEditAlertModal() {
     }
     return !(
       selectedApplicableTo === APPLICABLE_TO.selective &&
-      selectedBuilds.length === 0
+      selectedBuilds?.length === 0
     );
   }, [
     alertName,
     criticalValue,
     selectedApplicableTo,
-    selectedBuilds.length,
+    selectedBuilds?.length,
     selectedTypeOfAlert,
     warningErrorText
   ]);
