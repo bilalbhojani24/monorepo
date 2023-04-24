@@ -13,6 +13,7 @@ const TestNetworkLogs = () => {
   useEffect(() => {
     handleLogTDInteractionEvent({ interaction: 'network_logs_viewed' });
   }, [handleLogTDInteractionEvent]);
+
   if (!currentTestRunId) {
     return null;
   }
