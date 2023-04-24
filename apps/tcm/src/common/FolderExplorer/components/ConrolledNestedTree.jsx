@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import { AutomationFolderIcon } from '@browserstack/bifrost';
-import {
-  TMDropdown,
-  TMListTree,
-  TMListTreeNode,
-  TMListTreeNodeContents,
-  TMTruncateText
-} from 'common/bifrostProxy';
+import { TMListTree, TMListTreeNodeContents } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
+
+import TreeNode from './TreeNode';
 
 const ConrolledNestedTree = ({
   foldersArray,
@@ -37,66 +32,16 @@ const ConrolledNestedTree = ({
           indentationLevel={indent}
           isTreeOpen={item.isOpened}
         >
-          <TMListTreeNode
-            // nodeLabelClassName={
-            //   disabledFolders?.includes(parseInt(item?.id, 10))
-            //     ? 'opacity-25 pointer-events-none'
-            //     : ''
-            // }
-            leadingIcon={
-              item?.is_automation && (
-                <AutomationFolderIcon className="h-full w-full" />
-              )
-            }
-            isFocused={focused === item.name}
-            label={
-              <TMTruncateText
-                hidetooltipTriggerIcon
-                isFullWidthTooltip
-                headerTooltipProps={{
-                  delay: 500
-                }}
-              >
-                {item.name}
-              </TMTruncateText>
-            }
-            description=""
-            hideArrowIcon={
-              // disabledFolders?.includes(parseInt(item?.id, 10))
-              //   ? true
-              //   :
-              !item?.sub_folders_count || false
-            }
-            // nodeLabelClassName="max-w-xs"
-            isNodeSelected={selectedNodesId.includes(parseInt(item?.id, 10))}
-            onNodeClick={() =>
-              // disabledFolders?.includes(parseInt(item?.id, 10))
-              //   ? null
-              //   :
-              onFolderClick(item)
-            }
-            onNodeOpen={() =>
-              // disabledFolders?.includes(parseInt(item?.id, 10))
-              //   ? null
-              //   :
-              onFolderOpen(item)
-            }
-            trailingVisualElement={
-              <>
-                {actionsEnabled && actionOptions.length && (
-                  <TMDropdown
-                    onClick={(selectedOption) =>
-                      onActionClick({ selectedOption, folder: item })
-                    }
-                    triggerVariant="meatball-button"
-                    options={actionOptions}
-                    onOpenChange={(isOpen) =>
-                      setFocused(isOpen ? item.name : undefined)
-                    }
-                  />
-                )}
-              </>
-            }
+          <TreeNode
+            item={item}
+            focused={focused}
+            selectedNodesId={selectedNodesId}
+            onFolderClick={onFolderClick}
+            onFolderOpen={onFolderOpen}
+            setFocused={setFocused}
+            actionsEnabled={actionsEnabled}
+            actionOptions={actionOptions}
+            onActionClick={onActionClick}
           />
           {!!item?.contents && (
             // !disabledFolders?.includes(parseInt(item?.id, 10)) &&

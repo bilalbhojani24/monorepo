@@ -18,46 +18,55 @@ import { findFolderRouted } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { stepTemplate, templateOptions } from '../const/addTestCaseConst';
-import { requestedSteps } from '../const/unsavedConst';
+import {
+  BDD,
+  stepTemplate,
+  templateOptions
+} from '../../const/addTestCaseConst';
 import {
   addSingleTestCase,
+  // resetBulkFormData,
   resetBulkSelection,
   setAddIssuesModal,
   setAddTagModal,
   setAddTestCaseFromSearch,
   setAddTestCaseVisibility,
   setAllFolders,
+  setEditTestCasePageVisibility,
   setIssuesArray,
   setTagsArray,
   setTestCaseFormData,
   setUnsavedDataExists,
   updateBulkTestCaseFormData,
+  updateCtaLoading,
   updateFoldersLoading,
   updateTestCase,
+  updateTestCaseFormCFData,
   updateTestCaseFormData,
   updateTestCasesListLoading
-} from '../slices/repositorySlice';
+} from '../../slices/repositorySlice';
+import { formDataRetriever } from '../../utils/sharedFunctions';
+import useTestCases from '../useTestCases';
+import useUnsavedChanges from '../useUnsavedChanges';
 
-import useTestCases from './useTestCases';
-import useUnsavedChanges from './useUnsavedChanges';
+import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
 
 export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
   const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
-  const { isOkToExitForm } = useUnsavedChanges();
+  const { unsavedFormConfirmation, isOkToExitForm } = useUnsavedChanges();
+  const { updateTCCount } = useUpdateTCCountInFolders();
   const [inputError, setInputError] = useState({
     name: false
   });
   const [isUploadInProgress, setUploadProgress] = useState(false);
   const [scheduledFolder, setScheduledFolder] = useState([]);
-  const [usersArrayMapped, setUsersArray] = useState([]);
+  const [usersArrayMapped, setUsersArrayMapped] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.global.user);
-  const updatedMySelfLabelName = `Myself (${userData?.full_name})`;
 
   const isAddTestCasePageVisible = useSelector(
     (state) => state.repository.isAddTestCasePageVisible
@@ -75,6 +84,9 @@ export default function useAddEditTestCase(prop) {
   );
   const isTestCaseEditing = useSelector(
     (state) => state.repository.showEditTestCaseForm
+  );
+  const isTagsLoading = useSelector(
+    (state) => state.repository.isLoading?.tags
   );
   const isUnsavedDataExists = useSelector(
     (state) => state.repository.isUnsavedDataExists
@@ -107,10 +119,26 @@ export default function useAddEditTestCase(prop) {
   const issuesArray = useSelector((state) => state.repository.issuesArray);
 
   const usersArray = useSelector((state) => state.repository.usersArray);
+  const createTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.createTestCaseCta
+  );
+  const editTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.editTestCaseCta
+  );
+  const bulkEditTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.bulkEditTestCaseCta
+  );
 
-  const hideTestCaseAddEditPage = (e, isForced) => {
+  const hideTestCaseAddEditPage = (e, isForced, action) => {
+    if (action === 'Cancel')
+      dispatch(
+        logEventHelper('TM_CreateCaseCancelCtaClicked', {
+          project_id: projectId
+        })
+      );
     isOkToExitForm(isForced);
   };
+
   const showAddTagsModal = () => {
     dispatch(setAddTagModal(true));
   };
@@ -118,8 +146,41 @@ export default function useAddEditTestCase(prop) {
     dispatch(setAddIssuesModal(true));
   };
 
-  const handleTestCaseFieldChange = (key, value) => {
-    if (!isUnsavedDataExists) dispatch(setUnsavedDataExists(true));
+  const htmlEquator = (sourceTxt, dstTxt) =>
+    new DOMParser().parseFromString(sourceTxt, 'text/html').documentElement
+      .textContent !==
+    new DOMParser().parseFromString(dstTxt, 'text/html').documentElement
+      .textContent;
+
+  const isThereAChange = (key, value, checkRTE) => {
+    if (checkRTE) {
+      // check html parse value only
+      if (Array.isArray(value)) {
+        if (
+          templateOptions[0].value === testCaseFormData.template ||
+          testCaseFormData.template === BDD
+        ) {
+          return htmlEquator(value?.[0], testCaseFormData[key]?.[0]);
+        }
+        // if array of values
+        const extngValue = testCaseFormData[key];
+        if (!extngValue) return true;
+        const misMatchedStep = value.find((item, iDx) => {
+          const values = Object.values(item);
+          const existingValues = Object.values(extngValue[iDx]);
+          return values.find((thisItem, index) =>
+            htmlEquator(thisItem, existingValues[index])
+          );
+        });
+
+        return !!misMatchedStep;
+      }
+      return htmlEquator(value, testCaseFormData[key]);
+    }
+    return true;
+  };
+
+  const handleTestCaseFieldChange = (key, value, checkRTE, isCustomField) => {
     if (isBulkUpdateInit) {
       dispatch(updateBulkTestCaseFormData({ key, value }));
     } else {
@@ -133,10 +194,24 @@ export default function useAddEditTestCase(prop) {
             value: value === templateOptions[1].value ? [stepTemplate] : ['']
           })
         );
-      }
+      } else if (isCustomField)
+        dispatch(updateTestCaseFormCFData({ key, value }));
+
       dispatch(updateTestCaseFormData({ key, value }));
+
+      if (!isUnsavedDataExists && isThereAChange(key, value, checkRTE))
+        dispatch(setUnsavedDataExists(true));
     }
   };
+
+  const formatBulkFormData = (formData) =>
+    Object.entries(formData).reduce((obj, [key, value]) => {
+      if (key === 'preconditions' && value === '')
+        return { ...obj, [key]: null };
+      if (key === 'issues' && value.length === 0)
+        return { ...obj, [key]: null };
+      return { ...obj, [key]: value };
+    }, {});
 
   const formDataFormatter = (formData, isNoFolderTCCreation) => {
     const testCase = {
@@ -150,15 +225,11 @@ export default function useAddEditTestCase(prop) {
       testCase.issues = formData?.issues?.map((item) => item.value);
     if (formData.attachments)
       testCase.attachments = formData?.attachments?.map((item) => item.id);
-
+    if (!formData.owner && !isBulkUpdate) {
+      testCase.owner = userData?.id;
+    }
     return { test_case: testCase, create_at_root: isNoFolderTCCreation };
   };
-
-  const formDataRetriever = (formData) => ({
-    ...formData,
-    tags: tagsArray.filter((item) => formData?.tags.includes(item.value)),
-    issues: selectMenuValueMapper(formData?.issues?.map((item) => item.jira_id))
-  });
 
   const fetchTestCaseDetails = () => {
     if (folderId && selectedTestCase?.id) {
@@ -167,7 +238,10 @@ export default function useAddEditTestCase(prop) {
         folderId,
         testCaseId: selectedTestCase.id
       }).then((data) => {
-        const formattedData = formDataRetriever(data?.data?.test_case);
+        const formattedData = formDataRetriever(
+          tagsArray,
+          data?.data?.test_case
+        );
         dispatch(setTestCaseFormData(formattedData));
         if (formattedData.issues)
           dispatch(setIssuesArray(formattedData.issues));
@@ -180,7 +254,8 @@ export default function useAddEditTestCase(prop) {
   const isFormValidated = (formData) => {
     const inputErrorsFound = {};
     // name validation
-    if (!formData.name) {
+    if (!formData.name.trim()) {
+      dispatch(updateTestCaseFormData({ key: 'name', value: '' }));
       inputErrorsFound.name = true;
     }
 
@@ -201,11 +276,13 @@ export default function useAddEditTestCase(prop) {
     return true;
   };
 
-  const onSaveTestSuccessHelper = (data) => {
+  const onSaveTCSuccessHelper = (data) => {
     const testCaseData = data.data.test_case;
     const folderData = data.data.folder;
     const projectData = data.data.project;
 
+    updateTCCount({ casesObj: { [folderData.id]: folderData.cases_count } });
+    dispatch(updateCtaLoading({ key: 'createTestCaseCta', value: false }));
     if (projectId === 'new' || !allFolders.length) {
       // no project/folder
 
@@ -237,7 +314,12 @@ export default function useAddEditTestCase(prop) {
       // only if the added test case belong to the opened folder
       dispatch(addSingleTestCase(testCaseData));
     }
-
+    dispatch(
+      logEventHelper('TM_TcCreatedNotification', {
+        project_id: projectId,
+        testcase_id: testCaseData?.id
+      })
+    );
     setTimeout(() => {
       // time out to wait for the project notification
       dispatch(
@@ -251,8 +333,18 @@ export default function useAddEditTestCase(prop) {
     hideTestCaseAddEditPage(null, true);
   };
 
-  const saveTestCase = (formData) => {
+  const saveTestCase = (formData, isInlineAddition) => {
     if (isFormValidated(formData)) {
+      dispatch(
+        logEventHelper(
+          isInlineAddition
+            ? 'TM_CreateTcBtnClickedQuickAdd'
+            : 'TM_CreateCaseCtaClicked',
+          {
+            project_id: projectId
+          }
+        )
+      );
       let apiSaveFunction = addTestCaseAPI;
       if (projectId === 'new') {
         // no project
@@ -266,61 +358,115 @@ export default function useAddEditTestCase(prop) {
         apiSaveFunction = addTestCaseWithoutFolderAPI;
       }
 
+      dispatch(updateCtaLoading({ key: 'createTestCaseCta', value: true }));
       apiSaveFunction({
         projectId,
         folderId: formData.test_case_folder_id,
         payload: formDataFormatter(formData, !allFolders.length)
-      }).then(onSaveTestSuccessHelper);
+      })
+        .then(onSaveTCSuccessHelper)
+        .catch(() => {
+          dispatch(
+            updateCtaLoading({ key: 'createTestCaseCta', value: false })
+          );
+        });
     }
   };
 
   const saveBulkEditHelper = () => {
+    dispatch(
+      logEventHelper('TM_UpdateAllCtaClicked', {
+        project_id: projectId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
     setBulkEditConfirm(false);
+    dispatch(updateCtaLoading({ key: 'bulkEditTestCaseCta', value: true }));
+
     editTestCasesBulkAPI({
       projectId,
       folderId,
       bulkSelection,
-      data: formDataFormatter(testCaseBulkFormData).test_case
-    }).then(() => {
-      // dispatch(
-      //   updateAllTestCases(
-      //     allTestCases.map(
-      //       (item) => res.test_cases.find((inc) => inc.id === item.id) || item
-      //     )
-      //   )
-      // );
-      fetchAllTestCases();
-      dispatch(
-        addNotificaton({
-          id: `bulk_updated${projectId}${folderId}`,
-          title: `${bulkSelection?.ids?.length} Test cases updated`,
-          variant: 'success'
-        })
-      );
-      hideTestCaseAddEditPage(null, true);
-      dispatch(resetBulkSelection());
-    });
-  };
+      data: formatBulkFormData(
+        formDataFormatter(testCaseBulkFormData).test_case
+      )
+    })
+      .then(() => {
+        dispatch(
+          updateCtaLoading({ key: 'bulkEditTestCaseCta', value: false })
+        );
 
-  const editTestCase = (formData) => {
-    if (isFormValidated(formData)) {
-      editTestCaseAPI({
-        projectId,
-        folderId,
-        testCaseId: selectedTestCase.id,
-        payload: formDataFormatter(formData)
-      }).then((data) => {
-        const newData = data;
-        dispatch(updateTestCase(newData?.data?.test_case));
+        dispatch(
+          logEventHelper('TM_TcBulkUpdatedNotification', {
+            project_id: projectId,
+            testcase_id: bulkSelection?.ids
+          })
+        );
+        // dispatch(
+        //   updateAllTestCases(
+        //     allTestCases.map(
+        //       (item) => res.test_cases.find((inc) => inc.id === item.id) || item
+        //     )
+        //   )
+        // );
+        fetchAllTestCases();
         dispatch(
           addNotificaton({
-            id: `test_case_edited${newData?.id}`,
-            title: `${newData.data?.test_case?.identifier} : Test case updated`,
+            id: `bulk_updated${projectId}${folderId}`,
+            title: `${bulkSelection?.ids?.length} Test cases updated`,
             variant: 'success'
           })
         );
         hideTestCaseAddEditPage(null, true);
+        dispatch(resetBulkSelection());
+        // dispatch(resetBulkFormData());
+      })
+      .catch(() => {
+        dispatch(
+          updateCtaLoading({ key: 'bulkEditTestCaseCta', value: false })
+        );
       });
+  };
+
+  const editTestCase = (formData) => {
+    if (isFormValidated(formData)) {
+      dispatch(
+        logEventHelper('TM_UpdateCaseBtnClicked', {
+          project_id: projectId,
+          testcase_id: selectedTestCase.id
+        })
+      );
+      dispatch(updateCtaLoading({ key: 'editTestCaseCta', value: true }));
+
+      editTestCaseAPI({
+        projectId,
+        folderId: selectedTestCase?.test_case_folder_id || folderId,
+        testCaseId: selectedTestCase.id,
+        payload: formDataFormatter(formData)
+      })
+        .then((data) => {
+          dispatch(updateCtaLoading({ key: 'editTestCaseCta', value: false }));
+
+          const newData = data;
+          dispatch(updateTestCase(newData?.data?.test_case));
+          dispatch(
+            logEventHelper('TM_TcUpdatedNotification', {
+              project_id: projectId,
+              testcase_id: newData?.data?.test_case?.id
+            })
+          );
+          dispatch(
+            addNotificaton({
+              id: `test_case_edited${newData?.data?.test_case?.id}`,
+              title: `${newData.data?.test_case?.identifier} : Test case updated`,
+              variant: 'success'
+            })
+          );
+          hideTestCaseAddEditPage(null, true);
+        })
+        .catch(() => {
+          dispatch(updateCtaLoading({ key: 'editTestCaseCta', value: false }));
+        });
     }
   };
 
@@ -424,44 +570,76 @@ export default function useAddEditTestCase(prop) {
   };
 
   const showTestCaseAdditionPage = (thisFolder, isFromListTree) => {
-    if (!isOkToExitForm(false, { key: requestedSteps.CREATE_TEST_CASE }))
-      return;
+    unsavedFormConfirmation(false, () => {
+      if (isFromListTree) {
+        dispatch(
+          logEventHelper('TM_CreateTcLinkClickedFolderMenu', {
+            project_id: projectId,
+            folder_id: thisFolder?.id
+          })
+        );
+      } else {
+        dispatch(
+          logEventHelper('TM_CreateTcBtnClickedTopHeader', {
+            project_id: projectId
+          })
+        );
+      }
+      const thisSelectedFolder = thisFolder?.id
+        ? thisFolder?.id
+        : selectedFolder?.id;
 
-    if (isFromListTree) {
-      dispatch(
-        logEventHelper('TM_CreateTcLinkClickedFolderMenu', {
-          project_id: projectId,
-          folder_id: thisFolder?.id
-        })
-      );
-    } else {
-      dispatch(
-        logEventHelper('TM_CreateTcBtnClickedTopHeader', {
-          project_id: projectId
-        })
-      );
-    }
-    const thisSelectedFolder = thisFolder?.id
-      ? thisFolder?.id
-      : selectedFolder?.id;
-
-    dispatch(setAddTestCaseVisibility(thisSelectedFolder || true));
-    if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
-    if (!folderId)
-      // then in search view, go to repository view
-      navigate(
-        `${routeFormatter(AppRoute.TEST_CASES, {
-          projectId
-        })}`
-      );
+      dispatch(setEditTestCasePageVisibility(!(thisSelectedFolder || true))); // [NOTE: we were not able to move from Add to Edit when clicked from folders]
+      dispatch(setAddTestCaseVisibility(thisSelectedFolder || true));
+      if (isSearchFilterView) dispatch(setAddTestCaseFromSearch(true));
+      if (!folderId)
+        // then in search view, go to repository view
+        navigate(
+          `${routeFormatter(AppRoute.TEST_CASES, {
+            projectId
+          })}`
+        );
+    });
   };
 
   const goToThisURL = (url, dontFormat) => {
-    if (!isOkToExitForm(false, { key: requestedSteps.ROUTE, value: url }))
-      return;
-
-    navigate(dontFormat ? url : routeFormatter(url, { projectId }));
+    unsavedFormConfirmation(false, () => {
+      navigate(dontFormat ? url : routeFormatter(url, { projectId }));
+    });
   };
+
+  const setShowMoreFieldHelper = (value) => {
+    dispatch(
+      logEventHelper('TM_CreateTcShowMoreBtnClicked', {
+        project_id: projectId
+      })
+    );
+    setShowMoreFields(value);
+  };
+
+  const testCaseEditingInit = () => {
+    if (isTestCaseEditing) fetchTestCaseDetails();
+    else {
+      dispatch(updateTestCaseFormData({ key: 'owner', value: userData?.id }));
+    }
+  };
+
+  const handleMenuOpen = (key, isMenuOpened) => {
+    if (key === 'tags' && !tagsArray.length && isMenuOpened)
+      dispatch(setAddTagModal(true));
+    else if (key === 'issues' && !issuesArray.length && isMenuOpened) {
+      dispatch(setAddIssuesModal(true));
+    }
+  };
+  // const handleUpdateAllClicked = () => {
+  //   console.log(selectedTestCase);
+  //   dispatch(
+  //     logEventHelper('TM_UpdateAllCtaClicked', {
+  //       project_id: projectId
+  //     })
+  //   );
+  //   setBulkEditConfirm(true);
+  // };
 
   useEffect(() => {
     if (
@@ -477,17 +655,12 @@ export default function useAddEditTestCase(prop) {
   }, [testCaseFormData?.test_case_folder_id, prop?.isAddEditOnly]);
 
   useEffect(() => {
-    if (isTestCaseEditing) fetchTestCaseDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTestCaseEditing]);
-
-  useEffect(() => {
     if (projectId === loadedDataProjectId) {
-      setUsersArray(
+      setUsersArrayMapped(
         usersArray.map((item) => {
           if (item.full_name === 'Myself') {
             return {
-              label: updatedMySelfLabelName,
+              label: `Myself (${userData?.full_name})`,
               value: item.id
             };
           }
@@ -495,13 +668,14 @@ export default function useAddEditTestCase(prop) {
         })
       );
     } else {
-      setUsersArray([]);
+      setUsersArrayMapped([]);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, usersArray]);
 
   return {
+    isTagsLoading,
     scheduledFolder,
     isAddTestCasePageVisible,
     showBulkEditConfirmModal,
@@ -513,7 +687,9 @@ export default function useAddEditTestCase(prop) {
     tagsArray,
     issuesArray,
     usersArrayMapped,
-    updatedMySelfLabelName,
+    createTestCaseCtaLoading,
+    editTestCaseCtaLoading,
+    bulkEditTestCaseCtaLoading,
     handleTestCaseFieldChange,
     testCaseFormData,
     inputError,
@@ -526,7 +702,8 @@ export default function useAddEditTestCase(prop) {
     selectedTestCase,
     isTestCaseEditing,
     showMoreFields,
-    setShowMoreFields,
+    handleMenuOpen,
+    setShowMoreFieldHelper,
     showAddTagsModal,
     hideAddTagsModal,
     fileUploaderHelper,
@@ -538,6 +715,7 @@ export default function useAddEditTestCase(prop) {
     saveBulkEditHelper,
     setBulkEditConfirm,
     showTestCaseAdditionPage,
-    goToThisURL
+    goToThisURL,
+    testCaseEditingInit
   };
 }

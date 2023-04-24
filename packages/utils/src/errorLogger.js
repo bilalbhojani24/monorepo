@@ -5,7 +5,7 @@ const checkIfInitialized = () => {
   if (!initialized) throw new Error('Sentry not initialised!');
 };
 
-export const initSentry = (config) => {
+export const initErrorLogger = (config) => {
   // Config structure
   // - dsn(string): A key that will be unique to each project, generated from sentry to identify where actually sdk will send the error data.
   // - debug(boolean): This is to run sentry in debug mode. Can be mostly enabled for regression envs but will be false for production env.
@@ -38,7 +38,7 @@ export const captureErrorWithTag = (errorObject, tag, extraOptions) => {
   });
 };
 
-export const setUserContext = (id) => {
+export const setErrorLoggerUserContext = (id) => {
   checkIfInitialized();
   Sentry.setUser({ id });
 };

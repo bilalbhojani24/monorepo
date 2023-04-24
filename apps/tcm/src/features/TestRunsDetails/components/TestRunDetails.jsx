@@ -15,15 +15,27 @@ const TestRunDetails = () => {
     testRunDetails,
     testRunId,
     fetchTestRunDetails,
-    resetTestCaseDetailsMeta
+    sendPageLoadingLog,
+    resetTestCaseDetailsMeta,
+    setTestRunDetailsLoading
   } = useTestRunDetails();
 
   const { onResultChange, testResultsArray } = useTRTCFolders();
 
   useEffect(() => {
+    sendPageLoadingLog();
     fetchTestRunDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, testRunId]);
+
+  useEffect(
+    () => () => {
+      resetTestCaseDetailsMeta();
+      setTestRunDetailsLoading();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
@@ -44,8 +56,10 @@ const TestRunDetails = () => {
         testCaseId={testCaseDetails?.testCaseId}
         onDetailsClose={resetTestCaseDetailsMeta}
         isFromTestRun
+        testRunId={testRunId}
         resultUpdatable={testRunDetails?.run_state !== 'closed'}
         onResultClick={onResultChange}
+        testRunName={testRunDetails?.name}
       />
     </div>
   );
