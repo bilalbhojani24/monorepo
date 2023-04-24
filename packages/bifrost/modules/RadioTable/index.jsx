@@ -16,7 +16,9 @@ const RadioTable = (props) => {
 
   return (
     <RadioGroup value={selected} onChange={handleChange}>
-      <RadioGroup.Label className="sr-only"> Pricing plans </RadioGroup.Label>
+      <RadioGroup.Label as="p" className="sr-only">
+        Pricing plans
+      </RadioGroup.Label>
       <div className="relative -space-y-px rounded-md bg-white">
         {options.map((option, optionIdx) => (
           <RadioGroup.Option
