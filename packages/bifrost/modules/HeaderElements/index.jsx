@@ -13,15 +13,12 @@ import {
   MdSearch,
   MdSubdirectoryArrowLeft
 } from '../Icon';
-// import NotebookIcon from '../Icon/HeaderIcons/NotebookIcon';
 import ToolTip from '../Tooltip';
 
 import {
   ACCOUNT_ARRAY,
   ELEMENTS_WITH_LABEL
 } from './const/headerElementsConstants';
-
-import './styles.scss';
 
 const ACCOUNT_LINKS_CLASSNAMES =
   'flex flex-row items-start p-2 gap-2 w-full hover:bg-[#edf8ff]';

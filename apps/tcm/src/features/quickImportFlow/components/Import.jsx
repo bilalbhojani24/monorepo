@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { HideSourceOutlinedIcon } from 'assets/icons';
 import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 import { setSelectedProject } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 import AppRoute from '../../../const/routes';
+import { SCREEN_1, SCREEN_2, SCREEN_3 } from '../const/importSteps';
 import {
   setNotificationData,
   setProjectIdForQuickImport
@@ -29,8 +32,16 @@ const Import = () => {
     testManagementProjects,
     allImportSteps,
     importStatus,
-    onCancelClickHandler
+    configureToolPageLoading,
+    handleChangeSetup,
+    onCancelClickHandler,
+    populateQuickImportCredentials
   } = useImport();
+
+  useLayoutEffect(() => {
+    populateQuickImportCredentials();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     dispatch(setNotificationData(null));
@@ -41,17 +52,17 @@ const Import = () => {
   }, [projectId, dispatch]);
 
   const getCurrentScreen = () => {
-    if (currentScreen === 'configureTool') return <ConfigureTool />;
-    if (currentScreen === 'configureData')
+    if (currentScreen === SCREEN_1) return <ConfigureTool />;
+    if (currentScreen === SCREEN_2)
       return <ConfigureData projects={testManagementProjects} />;
-    if (currentScreen === 'confirmImport')
+    if (currentScreen === SCREEN_3)
       return <ConfirmImport projects={testManagementProjects} />;
     return <>Something went wrong!</>;
   };
 
   useEffect(() => {
     dispatch(setNotificationData(null));
-
+    dispatch(logEventHelper('TM_QiPageLoaded', {}));
     return () => {
       dispatch(resetQuickImport());
     };
@@ -62,10 +73,11 @@ const Import = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
+  if (configureToolPageLoading) return <Loader wrapperClassName="grow" />;
   if (
-    (!importStatus || importStatus === 'ongoing') &&
+    importStatus === 'ongoing' &&
     !beginImportLoading &&
-    currentScreen === 'configureTool'
+    currentScreen === SCREEN_1
   )
     return (
       <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
@@ -104,6 +116,7 @@ const Import = () => {
                   variant="primary"
                   colors="white"
                   wrapperClassName="mr-4"
+                  onClick={handleChangeSetup}
                 >
                   Change Setup
                 </TMButton>

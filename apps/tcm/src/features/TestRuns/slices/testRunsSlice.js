@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { formatTime } from 'utils/helperFunctions';
 
-import { STATE_OPTIONS } from '../const/addEditConst';
+import { STATE_OPTIONS_ALL } from '../const/addEditConst';
 
 const initialState = {
   isVisible: {
@@ -15,7 +15,13 @@ const initialState = {
     closeRunTestRunModal: false
   },
   isLoading: {
-    testRuns: true
+    testRuns: true,
+    createTestRunCta: false,
+    editTestRunCta: false,
+    assignTestRunCta: false,
+    closeTestRunCta: false,
+    deleteTestRunCta: false,
+    testRunFormData: true
   },
   selectedTestRun: null,
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
@@ -34,7 +40,7 @@ const initialState = {
     test_run: {
       name: `Test Run-${formatTime(new Date(), 'date')}`,
       description: '',
-      run_state: STATE_OPTIONS[0].value,
+      run_state: STATE_OPTIONS_ALL[0].value,
       owner: null,
       tags: [],
       issues: []
@@ -54,6 +60,7 @@ const testRunslice = createSlice({
         // reset form data
         state.testRunFormData = initialState.testRunFormData;
         state.isVisible.editTestRunsForm = false;
+        state.isLoading.testRunFormData = true;
         state.selectedTestRun = null;
       }
     },
@@ -116,6 +123,9 @@ const testRunslice = createSlice({
     },
     setUnsavedDataExists: (state, { payload }) => {
       state.isUnsavedDataExists = payload;
+    },
+    updateTestRunsCtaLoading: (state, { payload }) => {
+      state.isLoading[payload.key] = payload.value;
     }
   }
 });
@@ -138,6 +148,7 @@ export const {
   setAllTestRuns,
   setAddTestRunForm,
   setMetaPage,
-  deleteTestRun
+  deleteTestRun,
+  updateTestRunsCtaLoading
 } = testRunslice.actions;
 export default testRunslice.reducer;

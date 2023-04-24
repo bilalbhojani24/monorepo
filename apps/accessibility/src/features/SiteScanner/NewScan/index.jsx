@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import {
   Accordion,
+  AccordionPanel,
+  AccordionSimpleHeader,
   Button,
   Checkbox,
   Dropdown,
@@ -314,7 +316,6 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                       id="time"
                       placeholder="Time"
                       type="time"
-                      className="text-base-500"
                       value={formData.time}
                       ref={timeRef}
                     />
@@ -336,12 +337,13 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 ''
               )}
               <div className="pt-2">
-                <Accordion
-                  onTriggerClick={() => {}}
-                  onChevronClick={() => {}}
-                  panelContentNode={getAccordionBody()}
-                  triggerContentNode={<div>Additional settings</div>}
-                />
+                <Accordion>
+                  <AccordionSimpleHeader
+                    title={<div>Additional settings</div>}
+                    wrapperClassName="py-1.5 px-0"
+                  />
+                  <AccordionPanel>{getAccordionBody()}</AccordionPanel>
+                </Accordion>
               </div>
             </div>
           </div>
@@ -470,7 +472,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   : ''
               }
               tabIndex="0"
-              className="text-info-600 ml-6 mb-5 text-sm"
+              className="text-info-600 mb-5 ml-6 text-sm"
             >
               Download sample CSV
             </div>
@@ -478,7 +480,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
               download
             </a> */}
             <div>
-              <div className="bg-base-50 text-base-500 py-3 px-6 text-xs">
+              <div className="bg-base-50 text-base-500 px-6 py-3 text-xs">
                 ADDED PAGES ({formData?.scanData?.urlSet?.length || 0})
               </div>
               {formData?.scanData?.urlSet?.length

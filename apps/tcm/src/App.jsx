@@ -1,20 +1,22 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
-import { initLogger, twClassNames } from '@browserstack/utils';
+import {
+  initLogger,
+  setErrorLoggerUserContext,
+  twClassNames
+} from '@browserstack/utils';
 import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
 import Notification from 'features/Notification';
-import ImportStatus from 'features/quickImportFlow/components/ImportStatus';
+import ImportStatusGlobal from 'features/quickImportFlow/components/ImportStatusGlobal';
 import SideNav from 'features/SideNav';
 
-import {
-  setImportConfigurations,
-  setQuickImportStatus
-} from './features/quickImportFlow/slices/importSlice';
+import { PRODUCTION_HOST } from './const/immutables';
+import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
 
 if (window.initialized !== true) {
   window.initialized = false;
@@ -23,58 +25,62 @@ if (window.initialized !== true) {
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const importId = useSelector((state) => state.import.importId);
-  const importStarted = useSelector((state) => state.import.importStarted);
+  const userData = useSelector((state) => state.global.user);
   const importStatus = useSelector((state) => state.import.importStatus);
-  const isNotificationDismissed = useSelector(
-    (state) => state.import.isDismissed
-  );
-  const showNotificationModal = useSelector(
-    (state) => state.import.showNotificationModal
+  const userAndGroupConfig = useSelector(
+    (state) => state.global.userAndGroupConfig
   );
 
   setupInterceptors(navigate, dispatch);
 
-  useEffect(() => {
-    dispatch(setImportConfigurations());
-  }, [importStarted, dispatch]);
-
-  useEffect(() => {
-    if (isNotificationDismissed === false)
-      dispatch(setQuickImportStatus(importId));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, isNotificationDismissed]);
-
   useMemo(() => {
     const keys = {
-      amplitudeKey: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd',
-      analyticsKey: 'UA-418548-19',
+      amplitudeKey: AMPLITUDE_KEY,
+      amplitudeConfig: {
+        key: AMPLITUDE_KEY,
+        userData: {
+          user_id: userAndGroupConfig?.bsUserId,
+          tm_user_id: userAndGroupConfig?.tmUserId,
+          tm_group_id: userAndGroupConfig?.tmGroupId
+        },
+        groupData: {
+          group_id: userAndGroupConfig?.bsGroupId
+        }
+      },
+      analyticsKey: ANALYTICS_KEY,
       EDSDetails: {
-        userDetails: '12',
+        userDetails: {
+          user_id: userAndGroupConfig?.bsUserId,
+          tm_user_id: userAndGroupConfig?.tmUserId,
+          tm_group_id: userAndGroupConfig?.tmGroupId
+        },
         config: {
           server: 'eds.browserstack.com',
           port: '443',
-          api: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
+          api: EDS_KEY
         }
       }
     };
-    if (window.initialized === false) {
+    if (
+      window.initialized === false &&
+      userAndGroupConfig?.bsUserId &&
+      userAndGroupConfig?.tmUserId &&
+      userAndGroupConfig?.bsGroupId &&
+      userAndGroupConfig?.tmGroupId &&
+      window.location.hostname === PRODUCTION_HOST
+    ) {
+      setErrorLoggerUserContext(userAndGroupConfig.bsUserId);
       initLogger(keys);
       window.initialized = true;
     }
-  }, []);
+  }, [userAndGroupConfig]);
 
   return (
     <>
       <TMHeader />
       <div className="bg-base-50 flex h-screen items-stretch pt-16">
-        {(importStarted ||
-          isNotificationDismissed === false ||
-          showNotificationModal) && (
-          <div className="fixed top-16 z-10 w-full" id="import-status">
-            <ImportStatus />
-          </div>
-        )}
+        {/* Only if user is logged in proceed */}
+        {!!userData && <ImportStatusGlobal />}
         <div
           className={twClassNames(
             'relative flex w-full items-stretch overflow-hidden',
@@ -83,7 +89,8 @@ function App() {
             }
           )}
         >
-          <SideNav importStatus={importStatus} />
+          {/* Only if user is logged in proceed */}
+          {!!userData && <SideNav importStatus={importStatus} />}
           <MainRoute />
         </div>
       </div>
