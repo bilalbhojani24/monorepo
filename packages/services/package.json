@@ -1,8 +1,8 @@
 {
-  "name": "@browserstack/tools",
+  "name": "@browserstack/services",
   "version": "0.0.0",
   "main": "dist/index.js",
-  "description": "Frontend Tools",
+  "description": "Frontend reusable services",
   "peerDependencies": {
     "immutable": "4.3.0",
     "prop-types": "15.8.1",
