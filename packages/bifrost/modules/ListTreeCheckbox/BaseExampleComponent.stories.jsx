@@ -30,7 +30,7 @@ const ControlledNestedTreeWithCheckbox = ({
     const endIndex = startIndex + searchValue.length;
     return (
       <ListTree
-        key={item.name}
+        key={item.uuid}
         indentationLevel={indent}
         isTreeOpen={openNodeMap[item.uuid]}
       >
@@ -68,6 +68,7 @@ const ControlledNestedTreeWithCheckbox = ({
           }
           isNodeSelectable={false}
           description={item.uuid}
+          hideArrowIcon={!item.contents?.length}
           onNodeOpen={() => {
             const newOpenNodeMap = { ...openNodeMap };
             if (newOpenNodeMap[item.uuid] !== undefined) {

@@ -68,7 +68,7 @@ const sampleListTreeCheckboxData = [
       },
       {
         uuid: '1-1',
-        name: 'file 2b john',
+        name: 'file 2 john',
         isChecked: false,
         isIndeterminate: false,
         contents: [
@@ -80,7 +80,7 @@ const sampleListTreeCheckboxData = [
             contents: [
               {
                 uuid: '1-1-0-0',
-                name: 'file 2b1a',
+                name: 'file 2b1a john',
                 isChecked: false,
                 isIndeterminate: false,
                 contents: [
@@ -155,6 +155,13 @@ const sampleListTreeCheckboxData = [
         contents: null
       }
     ]
+  },
+  {
+    uuid: '2',
+    name: 'file 3 john',
+    isChecked: false,
+    isIndeterminate: false,
+    contents: []
   }
 ];
 

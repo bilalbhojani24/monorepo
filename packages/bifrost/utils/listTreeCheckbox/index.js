@@ -1,4 +1,3 @@
-// recurisvelyIterateALl
 const bfsTraversal = (rootNode, onEveryItemCallback) => {
   let queue = rootNode?.contents || [];
   while (queue.length) {
@@ -33,7 +32,8 @@ const getTargetHierarchyByIndex = (items, targetIndexes) => {
 const getSearchResultsCustomBSFTraversal = (
   allItemsList,
   searchLogicCallback,
-  filteredList
+  filteredList,
+  parseChildrenOnSearchMatch = false
 ) => {
   const newFilterUUUIDValue = {
     searchedUUIDs: {},
@@ -46,6 +46,7 @@ const getSearchResultsCustomBSFTraversal = (
       data.forEach((el) => {
         newFilterUUUIDValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
       });
+      if (parseChildrenOnSearchMatch) return false;
     }
     return true;
   });
@@ -81,7 +82,6 @@ const adjustParentOfClicked = (targetItem) => {
   }
 };
 
-// listTreeCheckboxHelper
 const updateTargetNodes = (isChecked, targetIndexes, listOfItems) => {
   const newItems = JSON.parse(JSON.stringify(listOfItems));
   // adjust (check/uncheck) current clicked item
