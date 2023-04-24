@@ -15,7 +15,6 @@ import { renderMultiOptions, renderSingleOptions } from './helper';
 const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const buttonRef = useRef();
-  const comboInputRef = useRef();
   const onInputValueChangeRef = useLatestRef(onInputValueChange);
 
   const {
@@ -27,8 +26,10 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
     loadingText,
     open,
     disabled,
+    query,
     setQuery,
-    currentSelectedValues
+    currentSelectedValues,
+    comboInputRef
   } = useContext(ComboboxContextData);
 
   useEffect(() => {
@@ -39,11 +40,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
     if (!open) {
       onInputValueChangeRef.current?.('');
     }
-  }, [setWidth, open, onInputValueChangeRef]);
-
-  useEffect(() => {
-    if (open) comboInputRef.current.value = '';
-  }, [currentSelectedValues, open]);
+  }, [setWidth, open, onInputValueChangeRef, comboInputRef]);
 
   return (
     <Popover.Trigger ref={buttonRef} asChild>
@@ -62,7 +59,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           }
         )}
         onClick={(e) => {
-          if (open && isMulti) {
+          if (open) {
             e.preventDefault();
             comboInputRef.current.focus();
           }
@@ -97,11 +94,12 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             }
           )}
           onChange={(e) => {
-            setQuery(e.target.value);
-            onInputValueChange?.(e.target.value);
+            const val = e.target.value.trim();
+            setQuery(val);
+            onInputValueChange?.(val);
           }}
           displayValue={(dv) => {
-            if (open || isLoading) return '';
+            if (open || isLoading) return query;
             return isMulti && Array.isArray(dv)
               ? renderMultiOptions(dv)
               : renderSingleOptions(dv);
@@ -131,7 +129,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           </div>
         )}
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center justify-end rounded-r-md px-2 focus:outline-none">
-          <TriggerButton setIsTruncated={setIsTruncated} ref={comboInputRef} />
+          <TriggerButton setIsTruncated={setIsTruncated} />
         </Combobox.Button>
       </Combobox.Button>
     </Popover.Trigger>

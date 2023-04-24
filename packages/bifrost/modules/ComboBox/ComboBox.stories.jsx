@@ -14,6 +14,7 @@ import { MdSearch } from '../Icon';
 import { COMBOBOX_OPTIONS } from './const/comboBoxConstants';
 import ComboBox from './index';
 
+const assignedToConst = 'Assigned to';
 const defaultConfig = {
   title: 'Application/Components/ComboBox',
   component: ComboBox,
@@ -35,7 +36,7 @@ const defaultConfig = {
       option: { type: 'string' },
       defaultValue: (
         <>
-          <ComboboxLabel>Assigned to</ComboboxLabel>
+          <ComboboxLabel>{assignedToConst}</ComboboxLabel>
           <ComboboxTrigger placeholder="Placeholder" />
           <ComboboxOptionGroup>
             {COMBOBOX_OPTIONS.map((item) => (
@@ -90,7 +91,7 @@ const selectMenuOptions = [
   'Tom Cook',
   'Tanya Fox'
 ];
-const assignedTo = 'Assigned to';
+const assignedTo = '{assignedToConst}';
 const selectMenuOptionsSelector = '[role="option"]';
 const placeholder = 'Placeholder';
 
@@ -164,7 +165,7 @@ export const ControlledCombobox = () => {
   const [selected, setSelected] = useState([]);
   return (
     <ComboBox onChange={(val) => setSelected(val)} value={selected} isMulti>
-      <ComboboxLabel>Assigned to</ComboboxLabel>
+      <ComboboxLabel>{assignedToConst}</ComboboxLabel>
       <ComboboxTrigger placeholder="Placeholder" />
       <ComboboxOptionGroup>
         {COMBOBOX_OPTIONS.map((item) => (
@@ -181,7 +182,7 @@ export const LoadingCombobox = () => {
   return (
     <>
       <ComboBox isLoading={loading}>
-        <ComboboxLabel>Assigned to</ComboboxLabel>
+        <ComboboxLabel>{assignedToConst}</ComboboxLabel>
         <ComboboxTrigger placeholder="Placeholder" />
         <ComboboxOptionGroup>
           {COMBOBOX_OPTIONS.map((item) => (
@@ -212,7 +213,12 @@ export const SearchableCreatableControlled = () => {
       setIsLoading(true);
       setTimeout(() => {
         setQuery(val);
-        const filtered = options.filter((fv) => fv.label.includes(val));
+        const filtered = options.filter((fv) =>
+          fv.label
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(val.toLowerCase().replace(/\s+/g, ''))
+        );
         setFilteredOptions(filtered);
         setIsLoading(false);
       }, 0);
@@ -243,7 +249,7 @@ export const SearchableCreatableControlled = () => {
           setQuery('');
         }}
       >
-        <ComboboxLabel>Assigned to</ComboboxLabel>
+        <ComboboxLabel>{assignedToConst}</ComboboxLabel>
         <ComboboxTrigger
           placeholder="Placeholder"
           onInputValueChange={valueChange}
@@ -252,7 +258,11 @@ export const SearchableCreatableControlled = () => {
         <ComboboxOptionGroup
           addNewItemComponent={
             !isExactMatch && query.length > 0 ? (
-              <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
+              <ComboboxAddNewItem
+                suffix="as a new option (↵)"
+                prefix="Add"
+                showQuery
+              />
             ) : null
           }
         >
@@ -276,7 +286,12 @@ export const SearchableCreatableUncontrolled = () => {
 
   const valueChange = useCallback(
     (val) => {
-      const filtered = options.filter((fv) => fv.label.includes(val));
+      const filtered = options.filter((fv) =>
+        fv.label
+          .toLowerCase()
+          .replace(/\s+/g, '')
+          .includes(val.toLowerCase().replace(/\s+/g, ''))
+      );
       setQuery(val);
       setFilteredOptions(filtered);
     },
@@ -307,7 +322,7 @@ export const SearchableCreatableUncontrolled = () => {
           if (!status) setQuery('');
         }}
       >
-        <ComboboxLabel>Assigned to</ComboboxLabel>
+        <ComboboxLabel>{assignedToConst}</ComboboxLabel>
         <ComboboxTrigger
           placeholder="Placeholder"
           onInputValueChange={valueChange}
@@ -316,7 +331,11 @@ export const SearchableCreatableUncontrolled = () => {
         <ComboboxOptionGroup
           addNewItemComponent={
             !isExactMatch && query.length > 0 ? (
-              <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
+              <ComboboxAddNewItem
+                suffix="as a new option (↵)"
+                prefix="Add"
+                showQuery
+              />
             ) : null
           }
         >
@@ -337,7 +356,13 @@ export const SearchableCreatableControlledMulti = () => {
 
   const valueChange = (val) => {
     setQuery(val);
-    const filtered = options.filter((fv) => fv.label.includes(val));
+
+    const filtered = options.filter((fv) =>
+      fv.label
+        .toLowerCase()
+        .replace(/\s+/g, '')
+        .includes(val.toLowerCase().replace(/\s+/g, ''))
+    );
     setFilteredOptions(filtered);
   };
 
@@ -365,7 +390,7 @@ export const SearchableCreatableControlledMulti = () => {
         }}
         isMulti
       >
-        <ComboboxLabel>Assigned to</ComboboxLabel>
+        <ComboboxLabel>{assignedToConst}</ComboboxLabel>
         <ComboboxTrigger
           placeholder="Placeholder"
           onInputValueChange={valueChange}
@@ -374,7 +399,11 @@ export const SearchableCreatableControlledMulti = () => {
         <ComboboxOptionGroup
           addNewItemComponent={
             !isExactMatch && query.length > 0 ? (
-              <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
+              <ComboboxAddNewItem
+                suffix="as a new option (↵)"
+                prefix="Add"
+                showQuery
+              />
             ) : null
           }
         >
@@ -400,7 +429,12 @@ export const SearchableCreatableUncontrolledMulti = () => {
 
       setTimeout(() => {
         setQuery(val);
-        const filtered = options.filter((fv) => fv.label.includes(val));
+        const filtered = options.filter((fv) =>
+          fv.label
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(val.toLowerCase().replace(/\s+/g, ''))
+        );
         setFilteredOptions(filtered);
         setIsLoading(false);
       }, 100);
@@ -431,7 +465,7 @@ export const SearchableCreatableUncontrolledMulti = () => {
         defaultValue={COMBOBOX_OPTIONS}
         isMulti
       >
-        <ComboboxLabel>Assigned to</ComboboxLabel>
+        <ComboboxLabel>{assignedToConst}</ComboboxLabel>
         <ComboboxTrigger
           placeholder="Placeholder"
           onInputValueChange={valueChange}
@@ -440,7 +474,11 @@ export const SearchableCreatableUncontrolledMulti = () => {
         <ComboboxOptionGroup
           addNewItemComponent={
             !isExactMatch && query.length > 0 ? (
-              <ComboboxAddNewItem suffix="as a new option (↵)" prefix="Add" />
+              <ComboboxAddNewItem
+                suffix="as a new option (↵)"
+                prefix="Add"
+                showQuery
+              />
             ) : null
           }
         >

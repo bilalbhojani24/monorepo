@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import * as Popover from '@radix-ui/react-popover';
@@ -41,6 +41,8 @@ const ComboBox = forwardRef((props, ref) => {
   const [query, setQuery] = useState('');
   const [currentSelectedValues, setCurrentSelectedValues] = useState([]);
 
+  const comboInputRef = useRef();
+
   return (
     <ComboboxContextData.Provider
       value={{
@@ -61,7 +63,8 @@ const ComboBox = forwardRef((props, ref) => {
         currentSelectedValues,
         setCurrentSelectedValues,
         noResultFoundText,
-        noOptionsText
+        noOptionsText,
+        comboInputRef
       }}
     >
       <Popover.Root open={open}>
@@ -71,7 +74,7 @@ const ComboBox = forwardRef((props, ref) => {
           value={value ?? undefined}
           defaultValue={defaultValue ?? undefined}
           onChange={(selectedValue) => {
-            if (onChange)
+            if (onChange) {
               onChange(
                 selectedValue,
                 isMulti
@@ -81,6 +84,8 @@ const ComboBox = forwardRef((props, ref) => {
                     )
                   : selectedValue
               );
+              comboInputRef.current.value = '';
+            }
             if (query) setQuery('');
           }}
           multiple={isMulti || isBadge}
