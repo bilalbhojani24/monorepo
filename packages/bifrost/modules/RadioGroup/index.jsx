@@ -59,7 +59,7 @@ const RadioGroup = (props) => {
               <label
                 htmlFor={option.id}
                 className={twClassNames('text-base-700 font-medium', {
-                  'text-base-400': option.disabled,
+                  'text-base-500': option.disabled,
                   'cursor-not-allowed': option.disabled
                 })}
               >
@@ -73,7 +73,7 @@ const RadioGroup = (props) => {
                   { 'ml-2': inlineDescription },
                   'text-base-500',
                   {
-                    'text-base-300': option.disabled
+                    'text-base-500': option.disabled
                   }
                 )}
               >
