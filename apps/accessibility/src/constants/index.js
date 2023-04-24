@@ -119,7 +119,7 @@ export const SCREEN_READER_DEVICE_TITLES = {
 
 export const SCREEN_READER_HEADER_TITLES = {
   TITLE: 'Screen reader quick launch',
-  SUB_TITLE: 'Select a browser to launch screen reader on a real device '
+  SUB_TITLE: 'Select a browser to launch screen reader on a real device.'
 };
 
 export const events = {
