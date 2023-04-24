@@ -5,9 +5,11 @@ import { moveTestCasesBulkAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { addNotificaton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { dropDownOptions } from '../const/testCaseConst';
 import {
+  resetBulkFormData,
   resetBulkSelection,
   setAddTestCaseVisibility,
   // setBulkAllSelected,
@@ -16,11 +18,17 @@ import {
   setBulkUpdateProgress,
   setDeleteTestCaseModalVisibility,
   setEditTestCasePageVisibility,
+  setIssuesArray,
   setSelectedTestCase,
   setTestCaseDetails,
   setTestCaseFormData,
-  updateAllTestCases
+  updateAllTestCases,
+  updateCtaLoading
 } from '../slices/repositorySlice';
+import { formDataRetriever } from '../utils/sharedFunctions';
+
+// import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
+import useUpdateTCCountInFolders from './AddEditTestCase/useUpdateTCCountInFolders';
 
 const useTestCasesTable = (prop) => {
   const navigate = useNavigate();
@@ -28,6 +36,7 @@ const useTestCasesTable = (prop) => {
   const [showMoveModal, setshowMoveModal] = useState(false);
   const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
+  const { updateTCCount } = useUpdateTCCountInFolders();
   const dispatch = useDispatch();
 
   const setSelectedTestCaseIDs = (data) => {
@@ -45,6 +54,7 @@ const useTestCasesTable = (prop) => {
   const selectedTestCaseIDs = useSelector(
     (state) => state.repository.bulkSelection.ids
   );
+  const tagsArray = useSelector((state) => state.repository.tagsArray);
   const deSelectedTestCaseIDs = useSelector(
     (state) => state.repository.bulkSelection.de_selected_ids
   );
@@ -55,6 +65,9 @@ const useTestCasesTable = (prop) => {
     (state) => state.repository.bulkSelection.select_all // logic when all the items through out all the pages were selected, currently this isnt in place.
   );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
+  const bulkMoveTestCaseCtaLoading = useSelector(
+    (state) => state.repository.isLoading.bulkMoveTestCaseCta
+  );
 
   const updateSelection = (e, listItem) => {
     if (e.currentTarget.checked) {
@@ -100,11 +113,26 @@ const useTestCasesTable = (prop) => {
   };
 
   const initBulkEdit = () => {
+    dispatch(
+      logEventHelper('TM_BulkEditBtnClicked', {
+        project_id: projectId,
+        folder_id_src: folderId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
     dispatch(setAddTestCaseVisibility(true));
+    dispatch(resetBulkFormData()); // resetting bulk form before edit, so that it we start afresh
+    dispatch(setIssuesArray([]));
     setBulkStatus(true);
   };
 
   const initBulkDelete = () => {
+    dispatch(
+      logEventHelper('TM_BulkDeleteBtnClicked', {
+        project_id: projectId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
     dispatch(setDeleteTestCaseModalVisibility(true));
     setBulkStatus(true);
   };
@@ -114,43 +142,94 @@ const useTestCasesTable = (prop) => {
   };
 
   const moveTestCasesHandler = (selectedFolder) => {
-    if (selectedFolder?.id)
+    if (selectedFolder?.id) {
+      dispatch(updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: true }));
+
+      dispatch(
+        logEventHelper('TM_TcMoveAllCtaClicked', {
+          project_id: projectId,
+          folder_id_src: folderId,
+          folder_id_dest: selectedFolder.id,
+          testcase_id: bulkSelection?.ids
+        })
+      );
       moveTestCasesBulkAPI({
         projectId,
         folderId,
         newParentFolderId: selectedFolder.id,
         bulkSelection
-      }).then((data) => {
-        dispatch(updateAllTestCases(data?.test_cases || []));
-        dispatch(resetBulkSelection());
-        dispatch(
-          addNotificaton({
-            id: `test_cases_moved`,
-            title: `${bulkSelection?.ids?.length} Test cases moved to new location`,
-            variant: 'success'
-          })
-        );
-        hideFolderModal();
-      });
+      })
+        .then((data) => {
+          updateTCCount({ casesObj: data?.cases_count });
+          dispatch(
+            updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: false })
+          );
+          dispatch(updateAllTestCases(data?.test_cases || []));
+          dispatch(resetBulkSelection());
+          dispatch(
+            logEventHelper('TM_TcMovedNotification', {
+              project_id: projectId,
+              testcase_id: bulkSelection?.ids
+            })
+          );
+          dispatch(
+            addNotificaton({
+              id: `test_cases_moved`,
+              title: `${bulkSelection?.ids?.length} Test cases moved to new location`,
+              variant: 'success'
+            })
+          );
+          hideFolderModal();
+        })
+        .catch(() => {
+          dispatch(
+            updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: false })
+          );
+        });
+    }
   };
 
-  const onDropDownChange = (selectedOption, selectedItem) => {
+  const onDropDownChange = (selectedOption, selectedItem, isFromTable) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
       // edit
+      const formattedData = formDataRetriever(tagsArray, selectedItem);
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
-      /// RIIIBIIIIN
-      dispatch(setTestCaseFormData(selectedItem));
+      dispatch(setTestCaseFormData(formattedData));
+      if (formattedData.issues) dispatch(setIssuesArray(formattedData.issues));
     } else if (selectedOption?.id === dropDownOptions[1].id) {
       // delete
       dispatch(setDeleteTestCaseModalVisibility(true));
+      if (isFromTable)
+        dispatch(
+          logEventHelper('TM_DeleteTcLinkClickedTcList', {
+            project_id: projectId,
+            testcase_id: selectedItem?.id
+          })
+        );
     }
     dispatch(setSelectedTestCase(selectedItem));
   };
 
-  const handleTestCaseViewClick = (testCaseItem) => () => {
+  const handleTableAmplitudeEvents = (item, action) => {
+    dispatch(
+      logEventHelper(`TM_${action}ClickedTcList`, {
+        project_id: projectId,
+        testcase_id: item?.id
+      })
+    );
+  };
+
+  const handleTestCaseViewClick = (testCaseItem, action) => () => {
+    handleTableAmplitudeEvents(testCaseItem, action);
     if (prop?.isMini) return;
 
+    dispatch(
+      logEventHelper('TM_TcDetailView', {
+        project_id: projectId,
+        testcase_id: testCaseItem?.id
+      })
+    );
     dispatch(
       setTestCaseDetails({
         folderId: testCaseItem?.test_case_folder_id,
@@ -213,6 +292,7 @@ const useTestCasesTable = (prop) => {
     isAllSelected,
     selectedTestCaseIDs,
     deSelectedTestCaseIDs,
+    bulkMoveTestCaseCtaLoading,
     selectAll,
     updateSelection,
     initBulkMove,

@@ -1,15 +1,8 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Notifications, notify } from '@browserstack/bifrost';
-import { CheckCircleRoundedIcon } from 'assets/icons';
+import { useDispatch } from 'react-redux';
 import TestCaseDetailsView from 'features/TestCaseDetailsView';
 import PropTypes from 'prop-types';
 import { logEventHelper } from 'utils/logEvent';
-
-import {
-  setImportCSVSuccessNotificationShown,
-  setNotificationConfigForConfirmCSVImport
-} from '../importCSVFlow/slices/importCSVSlice';
 
 import Folders from './components/Folders';
 import MiniatureRepository from './components/MiniatureRepository';
@@ -23,6 +16,7 @@ const Repository = ({ isSearch }) => {
   const { fetchAllFolders } = useFolders();
 
   const {
+    searchKey,
     folderId,
     projectId,
     currentPage,
@@ -30,51 +24,9 @@ const Repository = ({ isSearch }) => {
     detailsCloseHandler,
     initTestCaseDetails,
     fetchAllTestCases,
-    setRepoView
+    setRepoView,
+    cleanUpRepository
   } = useTestCases();
-  const confirmCSVImportNotificationConfig = useSelector(
-    (state) => state.importCSV.confirmCSVImportNotificationConfig
-  );
-  const totalImportedProjectsInPreview = useSelector(
-    (state) => state.importCSV.totalImportedProjectsInPreview
-  );
-  const importCSVSuccessNotificationShown = useSelector(
-    (state) => state.importCSV.importCSVSuccessNotificationShown
-  );
-
-  useEffect(() => {
-    if (
-      confirmCSVImportNotificationConfig.status === 'success' &&
-      !importCSVSuccessNotificationShown
-    ) {
-      notify(
-        <Notifications
-          id="import-csv-success"
-          title="CSV data imported"
-          description={`${totalImportedProjectsInPreview} test cases have been imported successfully`}
-          headerIcon={<CheckCircleRoundedIcon className="text-success-500" />}
-          handleClose={(toastData) => {
-            notify.remove(toastData.id);
-            dispatch(
-              setNotificationConfigForConfirmCSVImport({
-                show: false,
-                status: '',
-                modalData: '',
-                csvImportProjectId: null,
-                csvImportFolderId: null
-              })
-            );
-          }}
-        />,
-        {
-          position: 'top-right',
-          duration: 2147483646
-        }
-      );
-      dispatch(setImportCSVSuccessNotificationShown(true));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, confirmCSVImportNotificationConfig]);
 
   useEffect(() => {
     if (!isSearch) fetchAllFolders();
@@ -89,15 +41,21 @@ const Repository = ({ isSearch }) => {
   useEffect(() => {
     // onload set the testcase details IDs
     initTestCaseDetails();
+
+    return () => cleanUpRepository();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     dispatch(
-      logEventHelper('TM_TestCasesPageLoaded', {
-        project_id: projectId,
-        folder_id: folderId
-      })
+      logEventHelper(
+        isSearch ? 'TM_TcSearchPageLoaded' : 'TM_TestCasesPageLoaded',
+        {
+          project_id: projectId,
+          folder_id: folderId,
+          keyword: isSearch ? searchKey : null
+        }
+      )
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
@@ -114,15 +72,14 @@ const Repository = ({ isSearch }) => {
       <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
         <div className="flex flex-1 shrink-0 grow  items-stretch justify-center  overflow-hidden bg-white">
           <main className="w-full min-w-0 shrink-0 grow overflow-hidden lg:flex">
-            <section className="flex h-full w-full  min-w-0 lg:order-last">
-              <TestCases />
-            </section>
-
             <aside className="lg:order-first lg:block lg:shrink-0">
-              <div className="relative flex h-full w-96 flex-col overflow-hidden">
+              <div className="relative flex h-full flex-col overflow-hidden lg:w-72">
                 <Folders />
               </div>
             </aside>
+            <section className="flex h-full w-full  min-w-0 lg:order-last">
+              <TestCases />
+            </section>
           </main>
         </div>
       </div>

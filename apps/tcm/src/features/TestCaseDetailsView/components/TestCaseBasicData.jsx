@@ -1,5 +1,6 @@
 import React from 'react';
 import { SiJirasoftware } from '@browserstack/bifrost';
+import AddIssuesModal from 'common/AddIssuesModal/components/AddIssuesModal';
 import {
   TMAttachments,
   TMBadge,
@@ -10,13 +11,19 @@ import {
   TMModalHeader
 } from 'common/bifrostProxy';
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
-import { templateOptions } from 'features/Repository/const/addTestCaseConst';
+import {
+  BDD,
+  statusOptions,
+  templateOptions,
+  testCaseTypesOptions
+} from 'features/Repository/const/addTestCaseConst';
+import PropTypes from 'prop-types';
+import { getMappedValue, getSystemOrCustomValue } from 'utils/helperFunctions';
 
-import AddIssuesModal from '../../../common/AddIssuesModal/components/AddIssuesModal';
-
+import StackTrace from './StackTrace';
 import useTestCaseViewDetails from './useTestCaseViewDetails';
 
-const TestCaseBasicData = () => {
+const TestCaseBasicData = ({ isFromTestRun }) => {
   const {
     detailsRef,
     showImagePreview,
@@ -34,13 +41,15 @@ const TestCaseBasicData = () => {
   return (
     <>
       <div ref={detailsRef}>
+        {isFromTestRun && <StackTrace />}
         <DetailsSnippet
           title="Description"
           parseContent
           value={testCaseDetails?.description || '--'}
         />
         <div className="flex flex-col">
-          {testCaseDetails.template === templateOptions?.[0].value ? (
+          {testCaseDetails.template === templateOptions?.[0].value ||
+          testCaseDetails.template === BDD ? (
             <>
               <DetailsSnippet
                 title="Steps"
@@ -83,15 +92,20 @@ const TestCaseBasicData = () => {
           <div className="flex w-full flex-wrap">
             <div className="w-3/6">
               <DetailsSnippet
-                title="Assigned to"
-                value={testCaseDetails?.assignee?.full_name || '--'}
+                title={isFromTestRun ? 'Assign To' : 'Owner'}
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.assignee?.full_name,
+                  testCaseDetails?.owner_imported
+                )}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Template"
                 value={
-                  testCaseDetails?.template?.replace('test_case_', '') || '--'
+                  testCaseDetails?.template
+                    ? getMappedValue(templateOptions, testCaseDetails.template)
+                    : '--'
                 }
               />
             </div>
@@ -104,21 +118,31 @@ const TestCaseBasicData = () => {
             <div className="w-3/6">
               <DetailsSnippet
                 title="State"
-                value={testCaseDetails?.status?.split('_')?.[0] || '--'}
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.status,
+                  testCaseDetails?.status_imported,
+                  statusOptions
+                )}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Type of test case"
-                value={
-                  testCaseDetails?.case_type?.split('_')?.join(' ') || '--'
-                }
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.case_type,
+                  testCaseDetails?.case_type_imported,
+                  testCaseTypesOptions
+                )}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Priority"
-                value={testCaseDetails?.priority || '--'}
+                // value={testCaseDetails?.priority || '--'}
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.priority,
+                  testCaseDetails?.priority_imported
+                )}
               />
             </div>
             <div className="w-full">
@@ -182,6 +206,7 @@ const TestCaseBasicData = () => {
           </div>
         </div>
         <DetailsSnippet
+          dontCapitalize
           title="Attachments"
           value={
             testCaseDetails?.attachments?.length ? (
@@ -205,14 +230,12 @@ const TestCaseBasicData = () => {
           title="Preconditions"
           value={testCaseDetails?.preconditions || '--'}
         />
-        {Object.keys(testCaseDetails?.custom_fields).map((field) => (
+        {testCaseDetails?.custom_fields.map((field) => (
           <DetailsSnippet
-            key={field}
+            key={field?.field_name}
             parseContent
-            title={
-              <span className="capitalize">{field?.split('_')?.join(' ')}</span>
-            }
-            value={testCaseDetails.custom_fields[field]}
+            title={<span className="capitalize">{field.field_user_name}</span>}
+            value={field?.value && field?.value !== '' ? field.value : '--'}
           />
         ))}
         <div />
@@ -228,17 +251,25 @@ const TestCaseBasicData = () => {
           heading="Image Preview"
           handleDismissClick={closePreview}
         />
-        <TMModalBody className="block">
+        <TMModalBody className=" flex justify-center">
           <img
             src={imageLink}
             alt={imageLink}
-            className="h-full max-h-full w-full object-contain"
+            className="h-full max-h-full max-w-full object-contain"
           />
         </TMModalBody>
         <TMModalFooter position="right" />
       </TMModal>
     </>
   );
+};
+
+TestCaseBasicData.propTypes = {
+  isFromTestRun: PropTypes.bool
+};
+
+TestCaseBasicData.defaultProps = {
+  isFromTestRun: false
 };
 
 export default TestCaseBasicData;

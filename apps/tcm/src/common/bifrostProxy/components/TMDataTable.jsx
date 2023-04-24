@@ -47,7 +47,7 @@ const TMDataTable = ({
         <>
           {rows?.map((row, idx) => (
             // eslint-disable-next-line react/no-array-index-key
-            <TableRow key={idx}>
+            <TableRow key={row.id || idx}>
               {columns?.map((column) => {
                 const value = row[column.key];
                 return (
