@@ -33,7 +33,7 @@ const getSearchResultsCustomBSFTraversal = (
   allItemsList,
   searchLogicCallback,
   filteredList,
-  parseChildrenOnSearchMatch = false
+  stopParsingChildrenOnSearchMatch = true
 ) => {
   const newFilterUUUIDValue = {
     searchedUUIDs: {},
@@ -46,7 +46,7 @@ const getSearchResultsCustomBSFTraversal = (
       data.forEach((el) => {
         newFilterUUUIDValue.filteredUUIDsWithHierarchy[el.uuid] = el.uuid;
       });
-      if (parseChildrenOnSearchMatch) return false;
+      if (stopParsingChildrenOnSearchMatch) return false;
     }
     return true;
   });
