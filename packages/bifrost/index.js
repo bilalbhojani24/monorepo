@@ -16,6 +16,7 @@ import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
 import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
+import DateRangepicker from './modules/DateRangepicker';
 import DescriptionList from './modules/DescriptionList/index';
 import DescriptionListBody from './modules/DescriptionListBody/index';
 import DescriptionListHeader from './modules/DescriptionListHeader/index';
@@ -128,6 +129,7 @@ export {
   ComboboxOptionItem,
   ComboboxTrigger,
   DataVisualization,
+  DateRangepicker,
   DescriptionList,
   DescriptionListBody,
   DescriptionListHeader,
