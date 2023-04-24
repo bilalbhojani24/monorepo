@@ -54,8 +54,7 @@ const ReqDetailContainer = ({
   const handleCloseClick = () => {
     actions.selectRequest(null);
     window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
-      event: NL_EVENTS.REQ_DETAILS_PANE_CLOSED,
-      data: null
+      event: NL_EVENTS.REQ_DETAILS_PANE_CLOSED
     });
   };
   useEffect(() => {
