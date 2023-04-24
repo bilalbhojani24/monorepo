@@ -11,6 +11,7 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { VIEWER_FIELDS } from '../../constants';
+import { NL_EVENTS } from '../../nlEvents';
 import { useNetwork } from '../../state/Context';
 import { initialState } from '../../state/reducer';
 import { isWidthAvailableToShowWaterfall } from '../../utils';
@@ -29,16 +30,35 @@ const NetworkTableHeader = ({
   const onSort = (key) => {
     if (selectedSort.key !== key) {
       actions.updateSort({ key, isAcs: true });
+      window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+        event: NL_EVENTS.SORT_BY_CLICKED,
+        data: {
+          key,
+          isAcs: true
+        }
+      });
       return;
     }
     if (selectedSort.key === key && selectedSort.isAcs) {
       actions.updateSort({ key, isAcs: false });
+      window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+        event: NL_EVENTS.SORT_BY_CLICKED,
+        data: {
+          key,
+          isAcs: false
+        }
+      });
       return;
     }
     if (selectedSort.key === key && !selectedSort.isAcs) {
-      actions.updateSort({
+      const sortConfig = {
         key: initialState.get('sort').key,
         isAcs: initialState.get('sort').isAcs
+      };
+      actions.updateSort(sortConfig);
+      window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+        event: NL_EVENTS.SORT_BY_CLICKED,
+        data: sortConfig
       });
     }
   };
