@@ -24,6 +24,7 @@ const TopSection = () => {
     if (selectedOption?.route) goToThisURL(selectedOption?.route);
     dispatch(setCurrentTestManagementTool(''));
   };
+  const queryParams = folderId ? { folder: folderId } : {};
 
   return (
     <div className="w-full">
@@ -50,9 +51,7 @@ const TopSection = () => {
                   goToThisURL(
                     `${routeFormatter(AppRoute.IMPORT_CSV, {
                       projectId
-                    })}?${new URLSearchParams({
-                      folder: folderId
-                    }).toString()}`,
+                    })}?${new URLSearchParams(queryParams).toString()}`,
                     true
                   )
                 }
