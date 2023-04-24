@@ -1,6 +1,6 @@
 import React, { forwardRef, useState } from 'react';
-import { InputWButton } from '@browserstack/bifrost';
 import classNames from 'classnames';
+import { TMInputWButton } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
@@ -12,7 +12,7 @@ const InlineAddTestCase = forwardRef(({ noBorder }, ref) => {
   const { saveTestCase, folderId } = useAddEditTestCase();
 
   const handleInlineInputButtonClick = () => {
-    saveTestCase({ name: testCase, test_case_folder_id: folderId });
+    saveTestCase({ name: testCase, test_case_folder_id: folderId }, true);
     setTestCase('');
   };
 
@@ -22,7 +22,7 @@ const InlineAddTestCase = forwardRef(({ noBorder }, ref) => {
         'border-base-200 border-t': !noBorder
       })}
     >
-      <InputWButton
+      <TMInputWButton
         value={testCase}
         onKeyDown={(e) => onSubmitKeyHandler(e, handleInlineInputButtonClick)}
         id="inline-add-test-case"

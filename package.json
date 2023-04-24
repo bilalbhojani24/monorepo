@@ -11,6 +11,7 @@
     "build:dev-package": "./scripts/build-packages-dev.sh",
     "build:app": "./scripts/build-app.sh",
     "upload:s3": "./scripts/publish.sh",
+    "upload:s3-backup": "./scripts/publish-backup.sh",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
     "lint:check": "eslint --format=table --ignore-pattern node_modules --max-warnings 0 \"**/*.{js,jsx}\"",

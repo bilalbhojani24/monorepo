@@ -16,7 +16,9 @@ const DeleteTestCase = ({ show }) => {
     hideDeleteTestCaseModal,
     modalFocusRef,
     isBulkUpdate,
-    selectedBulkTCCount
+    selectedBulkTCCount,
+    deleteTestCaseCtaLoading,
+    bulkDeleteTestCaseCtaLoading
   } = useDeleteTestCase();
 
   return (
@@ -54,6 +56,16 @@ const DeleteTestCase = ({ show }) => {
           colors="danger"
           wrapperClassName="ml-3"
           onClick={deleteTestCaseHandler}
+          loading={
+            isBulkUpdate
+              ? bulkDeleteTestCaseCtaLoading
+              : deleteTestCaseCtaLoading
+          }
+          isIconOnlyButton={
+            isBulkUpdate
+              ? bulkDeleteTestCaseCtaLoading
+              : deleteTestCaseCtaLoading
+          }
         >
           {isBulkUpdate ? 'Delete' : 'Delete Test Case'}
         </TMButton>

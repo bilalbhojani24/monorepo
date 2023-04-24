@@ -4,7 +4,7 @@ export const SETUP_FORMATS = [
     title: 'Quick Import',
     badgeText: 'Recommended',
     description:
-      'Select if you want to migrate project data from TestRail & Zephyr Scale'
+      'Select if you want to migrate project data from TestRail or Zephyr Scale'
   },
   // {
   //   id: 'example_project',

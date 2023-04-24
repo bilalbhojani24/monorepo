@@ -10,6 +10,7 @@ import {
   TMModalHeader,
   TMTextArea
 } from 'common/bifrostProxy';
+import _debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import { onSubmitKeyHandler } from 'utils/helperFunctions';
 
@@ -28,6 +29,7 @@ const AddEditFolderModal = ({
     modalFocusRef,
     filledFormData,
     formError,
+    getLoader,
     setFormError,
     setFormData,
     hideFolderModal,
@@ -67,13 +69,15 @@ const AddEditFolderModal = ({
       <TMModalBody>
         <div className="mb-4">
           <TMInputField
-            wrapperClassName="mb-2"
             label="Folder name *"
             placeholder="Enter folder name"
             value={filledFormData.name}
             errorText={formError.nameError}
             ref={modalFocusRef}
-            onKeyDown={(e) => onSubmitKeyHandler(e, createFolderHandler)}
+            onKeyDown={_debounce(
+              (e) => onSubmitKeyHandler(e, createFolderHandler),
+              500
+            )}
             onChange={(e) => {
               if (formError?.nameError && e.currentTarget.value.length) {
                 setFormError({ ...formError, nameError: '' });
@@ -95,13 +99,19 @@ const AddEditFolderModal = ({
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton colors="white" onClick={hideFolderModal} variant="primary">
+        <TMButton
+          colors="white"
+          onClick={() => hideFolderModal('Cancel')}
+          variant="primary"
+        >
           Cancel
         </TMButton>
         <TMButton
           variant="primary"
           wrapperClassName="ml-3"
-          onClick={createFolderHandler}
+          onClick={_debounce(createFolderHandler, 500)}
+          isIconOnlyButton={getLoader()}
+          loading={getLoader()}
         >
           {isSubFolder
             ? `${functionName} Sub Folder`

@@ -12,7 +12,7 @@
     "react-copy-to-clipboard": "5.1.0"
   },
   "dependencies": {
-    "@browserstack/bifrost": "3.0.0",
+    "@browserstack/bifrost": "workspace:*",
     "@browserstack/hooks": "workspace:*",
     "@browserstack/utils": "workspace:*"
   },
