@@ -399,7 +399,7 @@ const SearchableSelectableListTree = () => {
     const { newItems, targetItem } = updateTargetNodes(
       isChecked,
       targetIndexes,
-      listOfItems
+      JSON.parse(JSON.stringify(listOfItems)) // pass a deep copy of the object preferably loadsh deep copy
     );
     const { selectedValuesAdjusted } = getSelectedListTreeItems(
       selectedValue,
