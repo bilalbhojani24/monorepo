@@ -238,13 +238,13 @@ const AddEditTestCaseMoreFields = () => {
           )}
           <TMFileUpload
             isUploading={isUploadInProgress}
-            multiple={false}
+            multiple
             wrapperClassName="w-64 h-36"
             heading=""
             linkText="Upload a file"
             subHeading="PNG, JPG, DOC, PDF, CSV, MP4 up to 50 MB"
             onChange={fileUploaderHelper}
-            accept="application/pdf image/webp video/webm text/plain image/tiff image/svg+xml video/ogg image/jpeg image/png image/avif video/x-msvideo text/csv application/msword"
+            accept="application/pdf, image/jpeg, image/png, .doc, .docx, text/csv, video/mp4"
           />
         </div>
         <div className="flex-1" />
