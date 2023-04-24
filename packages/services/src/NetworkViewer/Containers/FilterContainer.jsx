@@ -13,11 +13,18 @@ import PropTypes from 'prop-types';
 import ErrorFilter from '../Components/Filters/ErrorFilter';
 import RequestTypeFilters from '../Components/Filters/RequestTypeFilters';
 import Search from '../Components/Filters/Search';
+import { NL_EVENTS } from '../nlEvents';
 import { useNetwork } from '../state/Context';
 
 const FilterContainer = ({ logsURL }) => {
   const { state, actions } = useNetwork();
   const filterByError = state.get('errorFilter');
+
+  const handleClickViewRawLogs = () => {
+    window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+      event: NL_EVENTS.VIEW_RAW_LOGS_CLICKED
+    });
+  };
 
   return (
     <>
@@ -43,6 +50,7 @@ const FilterContainer = ({ logsURL }) => {
                       rel="noopener noreferrer"
                       target="_blank"
                       wrapperClassName="text-sm text-base-700"
+                      onClick={handleClickViewRawLogs}
                     >
                       <span className="flex items-center gap-2">
                         View Raw Logs

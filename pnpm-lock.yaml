@@ -912,8 +912,8 @@ importers:
   packages/services:
     dependencies:
       '@browserstack/bifrost':
-        specifier: workspace:*
-        version: link:../bifrost
+        specifier: 3.1.0
+        version: 3.1.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
       '@browserstack/hooks':
         specifier: workspace:*
         version: link:../hooks
@@ -2888,6 +2888,77 @@ packages:
       - uuid
     dev: false
 
+  /@browserstack/bifrost@3.1.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1):
+    resolution: {integrity: sha512-SwE6h1VZX+x29guVEStNlj6d1Xal9QggCbgVeEFeRel0bC3posuEt+DBhWgpsVYzfgmyU8DcsH2tDg0gX4oIoA==, tarball: download/@browserstack/bifrost/3.1.0/5a348a52758af605eae340d86bdb3490a6105f6e}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
+      '@browserstack/utils': 0.2.4(@reduxjs/toolkit@1.7.1)(axios@1.2.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
+      '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
+      '@heroicons/react': 2.0.13(react@18.2.0)
+      '@internationalized/date': 3.1.0
+      '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
+      '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1(react-dom@18.2.0)(react@18.2.0)
+      react-dom: 18.2.0(react@18.2.0)
+      react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      react-hot-toast: 2.4.0(csstype@3.1.1)(react-dom@18.2.0)(react@18.2.0)
+      react-icons: 4.7.1(react@18.2.0)
+      react-player: 2.12.0(react@18.2.0)
+      react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
+      react-stately: 3.21.0(react@18.2.0)
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@types/react'
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-redux
+      - redux-mock-store
+      - ua-parser-js
+      - uuid
+    dev: false
+
+  /@browserstack/hooks@0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1):
+    resolution: {integrity: sha512-QByx60ZjITSFicBV8PVLU4GCLiY1ujv+vUSPC94GP366B5UqM6J2jBbUww1ZISbPCE6/ZsWUhwHatTrB4/0aWw==, tarball: download/@browserstack/hooks/0.3.1/4bebca235f78f5332a9f859115b7cc50e7cb8b7c}
+    peerDependencies:
+      '@juggle/resize-observer': 3.3.1
+      '@reduxjs/toolkit': 1.7.1
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      prop-types: 15.7.2
+      react: 16.13.1
+      react-dom: 16.13.1
+      react-redux: 7.2.1
+      react-router-dom: 5.2.0
+      redux-mock-store: 1.5.4
+      uuid: 8.3.1
+    dependencies:
+      '@juggle/resize-observer': 3.3.1
+      '@reduxjs/toolkit': 1.7.1(react-redux@7.2.1)(react@18.2.0)
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-redux: 7.2.1(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
+      redux-mock-store: 1.5.4
+      uuid: 8.3.1
+    dev: false
+
   /@browserstack/hooks@0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1):
     resolution: {integrity: sha512-QByx60ZjITSFicBV8PVLU4GCLiY1ujv+vUSPC94GP366B5UqM6J2jBbUww1ZISbPCE6/ZsWUhwHatTrB4/0aWw==, tarball: download/@browserstack/hooks/0.3.1/4bebca235f78f5332a9f859115b7cc50e7cb8b7c}
     peerDependencies:
@@ -2974,6 +3045,34 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-redux: 8.0.5(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
       redux-mock-store: 1.5.4
+      uuid: 8.3.1
+    dev: false
+
+  /@browserstack/utils@0.2.4(@reduxjs/toolkit@1.7.1)(axios@1.2.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1):
+    resolution: {integrity: sha512-otFtJCOs8ReJAlEV/6wkULbSBu5rVd3Mu4b5b4dpf0bVxtdiTRc5uP+xAolLmu81JbGiku1Y67ccoUwNTI1jww==, tarball: download/@browserstack/utils/0.2.4/bc95a50349e72ee200d9659cdbf09f4b926feb38}
+    peerDependencies:
+      '@reduxjs/toolkit': 1.7.1
+      axios: 0.25.0
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      react: 16.13.1
+      react-dom: 16.13.1
+      react-redux: 7.2.1
+      redux-mock-store: 1.5.4
+      ua-parser-js: 1.0.2
+      uuid: 8.3.1
+    dependencies:
+      '@reduxjs/toolkit': 1.7.1(react-redux@7.2.1)(react@18.2.0)
+      axios: 1.2.2
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-redux: 7.2.1(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
+      redux-mock-store: 1.5.4
+      ua-parser-js: 1.0.2
       uuid: 8.3.1
     dev: false
 
@@ -6486,6 +6585,25 @@ packages:
       '@react-types/overlays': 3.7.0(react@18.2.0)
       '@react-types/shared': 3.17.0(react@18.2.0)
       react: 18.2.0
+    dev: false
+
+  /@reduxjs/toolkit@1.7.1(react-redux@7.2.1)(react@18.2.0):
+    resolution: {integrity: sha512-wXwXYjBVz/ItxB7SMzEAMmEE/FBiY1ze18N+VVVX7NtVbRUrdOGKhpQMHivIJfkbJvSdLUU923a/yAagJQzY0Q==}
+    peerDependencies:
+      react: ^16.9.0 || ^17.0.0 || 18.0.0-beta
+      react-redux: ^7.2.1 || ^8.0.0-beta
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-redux:
+        optional: true
+    dependencies:
+      immer: 9.0.17
+      react: 18.2.0
+      react-redux: 7.2.1(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
+      redux: 4.2.1
+      redux-thunk: 2.4.2(redux@4.2.1)
+      reselect: 4.1.7
     dev: false
 
   /@reduxjs/toolkit@1.9.1(react-redux@8.0.5)(react@18.2.0):
@@ -22504,6 +22622,29 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-fast-compare: 3.2.1
+    dev: false
+
+  /react-redux@7.2.1(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1):
+    resolution: {integrity: sha512-T+VfD/bvgGTUA74iW9d2i5THrDQWbweXP0AVNI8tNd1Rk5ch1rnMiJkDD67ejw7YBKM4+REvcvqRuWJb7BLuEg==}
+    peerDependencies:
+      react: ^16.8.3
+      react-dom: '*'
+      react-native: '*'
+      redux: ^2.0.0 || ^3.0.0 || ^4.0.0-0
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.0
+      hoist-non-react-statics: 3.3.2
+      loose-envify: 1.4.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-is: 16.13.1
+      redux: 4.2.1
     dev: false
 
   /react-redux@8.0.5(@types/react-dom@18.0.9)(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1):

@@ -8,6 +8,7 @@ import {
 import PropTypes from 'prop-types';
 
 import { HEADERS_TITLES, PAYLOAD_CAPTIONS } from '../../../constants';
+import { NL_EVENTS } from '../../../nlEvents';
 import { formatSize } from '../../../utils';
 
 const HeaderInfo = ({
@@ -44,6 +45,17 @@ const HeaderInfo = ({
       onChangeEncode: setIsPayloadTransformed
     });
 
+  const handleClickAccordion = () => {
+    window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+      event: NL_EVENTS.REQ_DETAILS_ACCORDION_CLICKED,
+      data: {
+        accordion: HEADERS_TITLES[eventKey].name,
+        state: !isVisible
+      }
+    });
+    setIsVisible(!isVisible);
+  };
+
   const payloadStatus =
     PAYLOAD_CAPTIONS[isParseEnabled ? 'parse' : 'encode'][isPayloadTransformed];
 
@@ -76,7 +88,7 @@ const HeaderInfo = ({
           </>
         }
         controller={isVisible}
-        onClick={() => setIsVisible(!isVisible)}
+        onClick={handleClickAccordion}
       />
       <AccordionPanel controller={isVisible}>
         <div className="pl-9">

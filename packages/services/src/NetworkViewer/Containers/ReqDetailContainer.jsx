@@ -12,6 +12,7 @@ import {
   InlineSlideOverContainer,
   InlineSlideOverHeader
 } from '../InlineSlideOver';
+import { NL_EVENTS } from '../nlEvents';
 import { useNetwork } from '../state/Context';
 
 const APPLICABLE_TABS = {
@@ -52,6 +53,10 @@ const ReqDetailContainer = ({
     !!reqDetail.headers.postData?.text;
   const handleCloseClick = () => {
     actions.selectRequest(null);
+    window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+      event: NL_EVENTS.REQ_DETAILS_PANE_CLOSED,
+      data: null
+    });
   };
   useEffect(() => {
     setActiveTab({
@@ -81,6 +86,12 @@ const ReqDetailContainer = ({
     setActiveTab({
       idx: foundIdx,
       id: selectedTab.value
+    });
+    window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+      event: NL_EVENTS.REQ_DETAILS_TABS_CHANGED,
+      data: {
+        tab: selectedTab.value
+      }
     });
   };
 

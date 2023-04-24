@@ -29,6 +29,9 @@ const Response = ({
     setTimeout(() => {
       setCopiedTooltipVisibleLocation(null);
     }, 1500);
+    window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+      event: NL_EVENTS.RESPONSE_COPIED
+    });
   };
   const content = data?.body || null;
 
