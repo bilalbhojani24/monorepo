@@ -17,7 +17,8 @@ const NetworkViewer = ({
   responseHelpLink,
   filtersWrapperClassName,
   tableHeaderClassName,
-  reqDetailsWrapperClassName
+  reqDetailsWrapperClassName,
+  noLogsHelpLink
 }) => {
   const parentContainerRef = useRef(null);
   const parentContainerSize = useResizeObserver(parentContainerRef);
@@ -44,6 +45,7 @@ const NetworkViewer = ({
           filtersWrapperClassName={filtersWrapperClassName}
           tableHeaderClassName={tableHeaderClassName}
           reqDetailsWrapperClassName={reqDetailsWrapperClassName}
+          noLogsHelpLink={noLogsHelpLink}
         />
       </NetworkProvider>
     </section>
@@ -60,7 +62,8 @@ NetworkViewer.propTypes = {
   responseHelpLink: PropTypes.string,
   filtersWrapperClassName: PropTypes.string,
   tableHeaderClassName: PropTypes.string,
-  reqDetailsWrapperClassName: PropTypes.string
+  reqDetailsWrapperClassName: PropTypes.string,
+  noLogsHelpLink: PropTypes.string
 };
 
 NetworkViewer.defaultProps = {
@@ -73,7 +76,8 @@ NetworkViewer.defaultProps = {
   responseHelpLink: '',
   filtersWrapperClassName: '',
   tableHeaderClassName: '',
-  reqDetailsWrapperClassName: ''
+  reqDetailsWrapperClassName: '',
+  noLogsHelpLink: ''
 };
 
 export default React.memo(NetworkViewer);

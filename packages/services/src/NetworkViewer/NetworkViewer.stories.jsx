@@ -7,8 +7,7 @@ const defaultConfig = {
   component: NetworkViewer,
   argTypes: {
     logsURL: {
-      defaultValue:
-        'https://raw.githubusercontent.com/saucelabs/network-viewer/main/examples/src/data/network.har'
+      defaultValue: 'https://apimocha.com/o11y/nlog'
     }
   },
   controls: {}
