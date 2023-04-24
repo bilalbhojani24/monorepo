@@ -21,7 +21,7 @@ const TestCasesTable = () => {
   const {
     testRunDetails,
     metaPage,
-    isTestCasesLoading,
+    isTableLoading,
     allTestCases,
     onPaginationClick,
     handleTestCaseViewClick,
@@ -32,16 +32,25 @@ const TestCasesTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[7%]',
+      class: 'w-[9%]',
       cell: (rowData) => (
         <div
           role="button"
           className="hover:text-brand-600 cursor-pointer"
           tabIndex={0}
-          onClick={handleTestCaseViewClick(rowData)}
-          onKeyDown={handleTestCaseViewClick(rowData)}
+          onClick={handleTestCaseViewClick(rowData, 'ID')}
+          onKeyDown={handleTestCaseViewClick(rowData, 'ID')}
         >
-          {`${rowData?.identifier}`}
+          <TMTruncateText
+            truncateUsingClamp={false}
+            hidetooltipTriggerIcon
+            isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
+          >
+            {`${rowData?.identifier}`}
+          </TMTruncateText>
         </div>
       )
       // cell: (rowData) =>
@@ -55,8 +64,8 @@ const TestCasesTable = () => {
           role="button"
           className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
           tabIndex={0}
-          onClick={handleTestCaseViewClick(rowData)}
-          onKeyDown={handleTestCaseViewClick(rowData)}
+          onClick={handleTestCaseViewClick(rowData, 'Title')}
+          onKeyDown={handleTestCaseViewClick(rowData, 'Title')}
         >
           <TMTruncateText
             truncateUsingClamp={false}
@@ -99,7 +108,9 @@ const TestCasesTable = () => {
           : null;
 
         return testRunDetails?.run_state === 'closed' ? (
-          <div className="capitalize">{rowData?.latest_status}</div>
+          <div className="flex h-9 items-center pl-3 capitalize">
+            {valueMapped?.label || '--'}
+          </div>
         ) : (
           <TMSelectMenu
             placeholder="Not Started"
@@ -120,7 +131,7 @@ const TestCasesTable = () => {
               value: el.value
             }))}
             value={valueMapped}
-            onChange={(e) => onResultChange(e, rowData)}
+            onChange={(e) => onResultChange(e, rowData, true, true)}
           />
         );
       },
@@ -130,12 +141,12 @@ const TestCasesTable = () => {
   ];
 
   return (
-    <div className=" border-base-300   flex-col overflow-y-auto border-b">
+    <div className="flex-col overflow-y-auto border-none">
       <TMTable
         tableWrapperClass="table-fixed w-full"
         containerWrapperClass={classNames(
           // 'max-w-[calc(100vw-40rem)]'
-          'overflow-y-auto'
+          'overflow-y-auto md:rounded-none'
         )}
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
@@ -152,7 +163,7 @@ const TestCasesTable = () => {
           </TMTableCell> */}
             {datatableColumns?.map((col, index) => (
               <TMTableCell
-                key={col.key || index}
+                key={col.key}
                 variant="body"
                 wrapperClassName={classNames(
                   col?.class,
@@ -174,7 +185,7 @@ const TestCasesTable = () => {
           </TMTableRow>
         </TMTableHead>
         <TMTableBody>
-          {!isTestCasesLoading ? (
+          {!isTableLoading ? (
             <>
               {allTestCases?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
@@ -183,7 +194,7 @@ const TestCasesTable = () => {
                     const value = row[column.key];
                     return (
                       <TMTableCell
-                        key={column.id}
+                        key={column.key}
                         wrapperClassName={classNames(
                           column?.class,
                           'first:pr-3 last:pl-3 px-2 py-2',
@@ -209,18 +220,23 @@ const TestCasesTable = () => {
           ) : null}
         </TMTableBody>
       </TMTable>
-      {isTestCasesLoading ? (
+      {isTableLoading ? (
         <div className="flex w-full flex-col justify-center">
           <Loader wrapperClassName="h-96 w-full" />
         </div>
-      ) : null}
-      {metaPage?.count > metaPage?.page_size && (
-        <TMPagination
-          pageNumber={metaPage?.page || 1}
-          count={metaPage?.count || 0}
-          pageSize={metaPage?.page_size}
-          onActionClick={onPaginationClick}
-        />
+      ) : (
+        <>
+          {metaPage?.count > metaPage?.page_size ? (
+            <TMPagination
+              pageNumber={metaPage?.page || 1}
+              count={metaPage?.count || 0}
+              pageSize={metaPage?.page_size}
+              onActionClick={onPaginationClick}
+            />
+          ) : (
+            <div className="border-base-300 border-t" />
+          )}
+        </>
       )}
     </div>
   );

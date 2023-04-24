@@ -46,6 +46,15 @@ const Filter = ({ isMini, onFilterChange }) => {
 
   const priorityOptions = [
     {
+      value: 'critical',
+      label: (
+        <>
+          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-1" />{' '}
+          Critical
+        </>
+      )
+    },
+    {
       value: 'high',
       label: (
         <>
@@ -68,15 +77,6 @@ const Filter = ({ isMini, onFilterChange }) => {
           <ArrowDownwardOutlinedIcon className="text-success-500 mr-1" /> Low
         </>
       )
-    },
-    {
-      value: 'critical',
-      label: (
-        <>
-          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-1" />{' '}
-          Critical
-        </>
-      )
     }
   ];
 
@@ -95,12 +95,10 @@ const Filter = ({ isMini, onFilterChange }) => {
           placeholder="Search by Test Case name or Test Case ID"
           value={filterSearchMeta?.q}
           onChange={(e) => searchChangeHandler(e.currentTarget.value)}
-          onKeyDown={(e) =>
-            onSubmitKeyHandler(e, () => applyFilterHandler(), true)
-          }
-          leadingIcon={<SearchIcon className="text-base-400" />}
+          onKeyDown={(e) => onSubmitKeyHandler(e, () => applyFilterHandler())}
+          addOnBeforeInline={<SearchIcon className="text-base-400" />}
           isTrailingNodeClickable
-          trailingIcon={
+          addOnAfterInline={
             <>
               {filterSearchMeta?.q ? (
                 <CloseOutlinedIcon
@@ -115,7 +113,6 @@ const Filter = ({ isMini, onFilterChange }) => {
       <div className="isolate inline-flex rounded-md shadow-sm">
         <TMButton
           onClick={() => setFilter(!isFilterVisible)}
-          // buttonType="half-rounded-button"
           wrapperClassName={classNames('ml-3 whitespace-nowrap w-full', {
             'rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10':
               appliedFiltersCount
@@ -134,7 +131,6 @@ const Filter = ({ isMini, onFilterChange }) => {
         {appliedFiltersCount ? (
           <TMButton
             onClick={() => resetFilterAndSearch()}
-            buttonType="half-rounded-button"
             wrapperClassName="p-2 rounded-tl-none rounded-bl-none border-l-none focus:ring-offset-0"
             size="default"
             variant="primary"
@@ -159,7 +155,7 @@ const Filter = ({ isMini, onFilterChange }) => {
                   placeholder="Search"
                   value={ownerSearchKey}
                   onChange={(e) => setOwnerSearchKey(e.currentTarget.value)}
-                  leadingIcon={<SearchIcon className="text-base-400" />}
+                  addOnBeforeInline={<SearchIcon className="text-base-400" />}
                 />
               </div>
               <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
@@ -189,7 +185,7 @@ const Filter = ({ isMini, onFilterChange }) => {
                   value={tagSearchKey}
                   onChange={(e) => setTagSearchKey(e.currentTarget.value)}
                   placeholder="Search tags by name"
-                  leadingIcon={<SearchIcon className="text-base-400" />}
+                  addOnBeforeInline={<SearchIcon className="text-base-400" />}
                 />
               </div>
               <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">

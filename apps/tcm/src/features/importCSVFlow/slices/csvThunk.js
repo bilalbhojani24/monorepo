@@ -7,11 +7,16 @@ import {
   postMappingData,
   startCSVImport
 } from '../../../api/importCSV.api';
-import { DEFAULT_MODAL_DROPDOWN_OPTIONS } from '../const/importCSVConstants';
+import {
+  DEFAULT_MODAL_DROPDOWN_OPTIONS,
+  SECOND_SCREEN,
+  THIRD_SCREEN
+} from '../const/importCSVConstants';
 
 import {
   importCSVCleanUp,
   setCSVConfigurationsFulfilled,
+  setCSVCurrentScreen,
   setErrorLabelInMapFields,
   setFieldsMapping,
   setMapFieldsError,
@@ -21,7 +26,6 @@ import {
   setValueMappingThunkFulfilled,
   startImportingTestCaseFulfilled,
   startImportingTestCasePending,
-  startImportingTestCaseRejected,
   submitMappingDataFulfilled,
   submitMappingDataPending,
   submitMappingDataRejected,
@@ -32,8 +36,8 @@ import {
 
 const removeIgnoredValues = (valueMappings) =>
   Object.keys(valueMappings).reduce((obj, key) => {
-    if (typeof valueMappings[key] === 'object' && !valueMappings[key].action)
-      return { ...obj, [key]: removeIgnoredValues(valueMappings[key]) };
+    // if (typeof valueMappings[key] === 'object' && !valueMappings[key].action)
+    //   return { ...obj, [key]: removeIgnoredValues(valueMappings[key]) }; // [NOTE: no need of doing this recursively as this is handled on BE]
 
     if (valueMappings[key]?.action === 'ignore') {
       return { ...obj };
@@ -41,20 +45,41 @@ const removeIgnoredValues = (valueMappings) =>
     return { ...obj, [key]: valueMappings[key] };
   }, {});
 
-export const setCSVConfigurations = () => async (dispatch) => {
-  try {
-    const response = await getCSVConfigurations();
-    dispatch(setCSVConfigurationsFulfilled(response));
-  } catch (err) {
-    // dispatch(setCSVConfigurationsRejected(err));
-  }
-};
+const removeAddValues = (valueMappings) =>
+  Object.keys(valueMappings).reduce((obj, key) => {
+    if (valueMappings[key]?.action === 'add') {
+      return { ...obj };
+    }
+    return { ...obj, [key]: valueMappings[key] };
+  }, {});
+
+const addCustomToFieldMappings = (fieldMappings, customFieldName) =>
+  Object.keys(fieldMappings).reduce((mapObject, key) => {
+    const value = fieldMappings[key];
+    if (customFieldName[value])
+      return { ...mapObject, [key]: { custom_field: value } };
+
+    return { ...mapObject, [key]: value };
+  }, {});
+
+export const setCSVConfigurations =
+  ({ projectId, folderId }) =>
+  async (dispatch) => {
+    try {
+      const response = await getCSVConfigurations({ projectId, folderId });
+      dispatch(setCSVConfigurationsFulfilled(response));
+    } catch (err) {
+      // dispatch(setCSVConfigurationsRejected(err));
+    }
+  };
 
 export const uploadFile = (payload) => async (dispatch) => {
   dispatch(uploadFilePending());
   try {
     const response = await postCSV(payload);
+
     dispatch(uploadFileFulfilled(response));
+    dispatch(setCSVCurrentScreen(SECOND_SCREEN));
   } catch (err) {
     dispatch(uploadFileRejected(err));
   }
@@ -98,14 +123,14 @@ export const setFieldsMappingThunk = (payload) => (dispatch, getState) => {
 };
 
 export const setValueMappingsThunk =
-  ({ importId, field, projectId, mapped_field }) =>
+  ({ importId, field, projectId, mappedField }) =>
   async (dispatch) => {
     try {
       const response = await getFieldMapping({
         importId,
         field,
         projectId,
-        mapped_field
+        mapped_field: mappedField
       });
       dispatch(setValueMappingThunkFulfilled({ field, ...response }));
     } catch (err) {
@@ -114,23 +139,35 @@ export const setValueMappingsThunk =
   };
 
 export const submitMappingData =
-  ({ importId, projectId, folderId, myFieldMappings, valueMappings }) =>
+  ({
+    importId,
+    projectId,
+    folderId,
+    myFieldMappings,
+    valueMappings,
+    customFieldNames
+  }) =>
   async (dispatch) => {
-    dispatch(submitMappingDataPending());
-    const filteredValueMappings = removeIgnoredValues(valueMappings);
     const filteredFieldMappings = removeIgnoredValues(myFieldMappings);
-
+    const customFieldAddedMappings = addCustomToFieldMappings(
+      filteredFieldMappings,
+      customFieldNames
+    );
+    const filteredValueMappings = removeIgnoredValues(valueMappings);
+    const overFilteredValueMappings = removeAddValues(filteredValueMappings); // remove Add Values.
+    dispatch(submitMappingDataPending());
     try {
       const response = await postMappingData({
         importId,
         payload: {
           project_id: projectId,
           folder_id: folderId,
-          field_mappings: filteredFieldMappings,
-          value_mappings: filteredValueMappings
+          field_mappings: customFieldAddedMappings,
+          value_mappings: overFilteredValueMappings
         }
       });
       dispatch(submitMappingDataFulfilled(response));
+      dispatch(setCSVCurrentScreen(THIRD_SCREEN));
     } catch (err) {
       dispatch(submitMappingDataRejected(err));
     }
@@ -138,12 +175,14 @@ export const submitMappingData =
 
 export const setTags = (projectId) => async (dispatch) => {
   try {
-    const response = await getSystemTags(projectId);
+    let response;
+    if (projectId && projectId !== 'new')
+      response = await getSystemTags(projectId);
     const options = response.tags.map((item) => ({
       label: item,
       value: item
     }));
-    const allOptions = [...DEFAULT_MODAL_DROPDOWN_OPTIONS, ...options];
+    const allOptions = [...options, ...DEFAULT_MODAL_DROPDOWN_OPTIONS];
     dispatch(setSystemTags(allOptions));
   } catch (err) {
     dispatch(setSystemTags(DEFAULT_MODAL_DROPDOWN_OPTIONS));
@@ -152,12 +191,13 @@ export const setTags = (projectId) => async (dispatch) => {
 
 export const setUsers = (projectId) => async (dispatch) => {
   try {
-    const response = await getUsers(projectId);
+    let response;
+    if (projectId && projectId !== 'new') response = await getUsers(projectId);
     const options = response.users.map((item) => ({
       label: item.full_name,
       value: item.full_name
     }));
-    const allOptions = [...DEFAULT_MODAL_DROPDOWN_OPTIONS, ...options];
+    const allOptions = [...options, ...DEFAULT_MODAL_DROPDOWN_OPTIONS];
     dispatch(setSystemUsers(allOptions));
   } catch (err) {
     dispatch(setSystemUsers(DEFAULT_MODAL_DROPDOWN_OPTIONS));
@@ -169,8 +209,9 @@ export const startImportingTestCases =
   async (dispatch) => {
     dispatch(startImportingTestCasePending());
     const payload = {};
-    if (projectId) payload.project_id = projectId;
+    if (projectId && projectId !== 'new') payload.project_id = projectId;
     if (folderId) payload.folder_id = folderId;
+
     try {
       const response = await startCSVImport({
         importId,
@@ -180,7 +221,7 @@ export const startImportingTestCases =
 
       dispatch(startImportingTestCaseFulfilled(response));
     } catch (err) {
-      dispatch(startImportingTestCaseRejected(err));
+      // dispatch(startImportingTestCaseRejected(err)); //TODO: Confirm with Arsalan if its safe to remove, we moved this logic to WS
     }
   };
 

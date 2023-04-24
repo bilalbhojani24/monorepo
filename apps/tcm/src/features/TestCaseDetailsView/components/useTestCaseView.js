@@ -1,22 +1,30 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getTestCaseDetailsAPI } from 'api/testcases.api';
+import {
+  getTestCaseDetailsAPI,
+  getTestRunDetailsOfTestCaseAPI
+} from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { TR_DROP_OPTIONS } from '../const/testCaseViewConst';
 import {
   setMetaIds,
   setTestCaseDetails,
   setTestCaseViewVisibility,
-  setTestResultsArray
+  setTestObservabilityUrl,
+  setTestResultsArray,
+  setTestRunsTestCaseDetails
 } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseView({
   projectId,
   folderId,
+  testRunId,
+  isFromTestRun,
   testCaseId,
   onDetailsClose,
   testResultsArray
@@ -36,18 +44,48 @@ export default function useTestCaseView({
     dispatch(setTestCaseViewVisibility(true));
     dispatch(setMetaIds({ projectId, folderId, testCaseId }));
     if (folderId && testCaseId) {
-      getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(
-        (data) => {
-          dispatch(setTestCaseDetails(data?.data?.test_case || null));
-        }
+      dispatch(
+        logEventHelper('TM_TcDetailViewLoaded', {
+          project_id: projectId,
+          testcase_id: testCaseId
+        })
       );
+      if (isFromTestRun) {
+        getTestRunDetailsOfTestCaseAPI({
+          projectId,
+          testRunId,
+          testCaseId
+        }).then((data) => {
+          dispatch(setTestCaseDetails(data?.data?.test_case || null));
+          dispatch(
+            setTestObservabilityUrl(data?.data?.test?.observability_url)
+          );
+
+          dispatch(setTestRunsTestCaseDetails(data?.data?.test));
+        });
+      } else {
+        getTestCaseDetailsAPI({ projectId, folderId, testCaseId }).then(
+          (data) => {
+            dispatch(setTestCaseDetails(data?.data?.test_case || null));
+          }
+        );
+      }
     }
   };
 
-  const hideTestCaseViewDrawer = (isSilentClose) => {
+  const hideTestCaseViewDrawer = (isSilentClose, isOnCloseIcon) => {
     if (!isTestCaseViewVisible) return;
     dispatch(setTestCaseViewVisibility(false));
     onDetailsClose?.(isSilentClose);
+
+    if (isOnCloseIcon) {
+      dispatch(
+        logEventHelper('TM_TcDetailViewCrossIconClicked', {
+          project_id: projectId,
+          testcase_id: testCaseDetails?.id
+        })
+      );
+    }
   };
 
   const actionHandler = (selectedOption) => {

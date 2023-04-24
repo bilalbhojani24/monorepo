@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -8,6 +9,7 @@ import {
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import PropTypes from 'prop-types';
+import { logEventHelper } from 'utils/logEvent';
 
 import { TABS_ARRAY } from '../const/immutableConst';
 
@@ -18,7 +20,7 @@ import useTestRuns from './useTestRuns';
 const TestRuns = ({ isEditView }) => {
   const {
     projectId,
-    currentPage,
+    page,
     isEditTestRunsFormVisible,
     isAddTestRunsFormVisible,
     currentTab,
@@ -29,15 +31,33 @@ const TestRuns = ({ isEditView }) => {
     handleTabChange,
     fetchAllTestRuns
   } = useTestRuns();
-
+  const dispatch = useDispatch();
+  const queryString = window.location.search;
+  const closed = new URLSearchParams(queryString).get('closed');
   useEffect(() => {
     fetchAllTestRuns();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId, currentTab, currentPage]);
+  }, [projectId, currentTab, page]);
 
   useEffect(() => {
     if (isEditView) showTestRunEditForm();
   }, [isEditView, showTestRunEditForm]);
+
+  useEffect(() => {
+    if (closed === true) {
+      dispatch(
+        logEventHelper('TM_TrClosedPageLoaded', {
+          project_id: projectId
+        })
+      );
+    } else {
+      dispatch(
+        logEventHelper('TM_TrActivePageLoaded', {
+          project_id: projectId
+        })
+      );
+    }
+  }, [closed, dispatch, projectId]);
 
   if (isAddTestRunsFormVisible || isEditTestRunsFormVisible)
     return <AddEditTestRun />;
@@ -93,7 +113,7 @@ const TestRuns = ({ isEditView }) => {
                       currentTab === TABS_ARRAY[0].name
                         ? {
                             children: 'Create Test Run',
-                            onClick: showTestRunAddFormHandler,
+                            onClick: (e) => showTestRunAddFormHandler(e, true),
                             colors: 'white'
                           }
                         : null
