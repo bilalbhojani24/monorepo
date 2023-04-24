@@ -57,7 +57,7 @@ InteractiveAccordion.play = async ({ canvasElement }) => {
   await userEvent.click(canvas.getByText(titleText));
   await userEvent.click(canvas.getByRole('checkbox'));
   await expect(canvas.getByText(accordionBodyContent)).toBeVisible();
-  await expect(canvas.queryAllByRole('button').length).toBe(5);
+  await expect(canvas.queryAllByRole('button').length).toBe(1);
 };
 InteractiveAccordion.args = {
   defaultOpen: true,
@@ -210,7 +210,7 @@ InteractiveAccordionHeaderWCustomStyle.play = async ({ canvasElement }) => {
   await userEvent.click(canvas.queryAllByRole('button')[0]);
   await userEvent.click(canvas.getByRole('checkbox'));
   await expect(canvas.getByText(accordionBodyContent)).toBeVisible();
-  await expect(canvas.queryAllByRole('button').length).toBe(5);
+  await expect(canvas.queryAllByRole('button').length).toBe(1);
 };
 InteractiveAccordionHeaderWCustomStyle.args = {
   defaultOpen: true,
