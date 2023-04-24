@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, InputField, MdClose, MdSearch } from '@browserstack/bifrost';
 
+import { NL_EVENTS } from '../../nlEvents';
 import { useNetwork } from '../../state/Context';
 
 const Search = () => {
@@ -13,6 +14,12 @@ const Search = () => {
   const handleInputChange = ({ target: { value } }) => {
     setSearchValue(value);
   };
+
+  useEffect(() => {
+    if (!currSearch) {
+      setSearchValue('');
+    }
+  }, [currSearch]);
 
   useEffect(() => {
     let timeout;
@@ -29,20 +36,12 @@ const Search = () => {
   }, [actions, currSearch, searchValue]);
 
   const handleOnBlur = () => {
-    // if (!['automate', 'app_automate'].includes(product)) {
-    //   return;
-    // }
-    // const eventType =
-    //   product === 'automate'
-    //     ? window.EDS.automateWebEvent
-    //     : window.EDS.appAutomateWebEvents;
-    // const name = `${product === 'automate' ? 'Atm' : 'AppAtm'}HARViewerSearch`;
-    // const eventData = {
-    //   team: product,
-    //   product,
-    //   searchText: searchValue
-    // };
-    // window.WebEventTracker?.logEvent?.([], eventType, name, eventData);
+    window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+      event: NL_EVENTS.SEARCHED,
+      data: {
+        searchText: searchValue
+      }
+    });
   };
 
   return (

@@ -177,13 +177,14 @@ const reducer = (state = initialState, { type, payload }) => {
         const data = filterData({
           data: state.get('actualData'),
           filter: initialState.get('filter'),
-          search: state.get('search'),
+          search: initialState.get('search'),
           errorFilter: initialState.get('errorFilter')
         });
         const showSummary = state.get('showSummary');
         newState
           .set('errorFilter', initialState.get('errorFilter'))
           .set('filter', initialState.get('filter'))
+          .set('search', initialState.get('search'))
           .set('data', data)
           .set('selectedReqIndex', null)
           .set('reqDetail', null)

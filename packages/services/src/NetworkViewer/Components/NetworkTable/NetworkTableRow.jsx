@@ -4,6 +4,7 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { ROW_ID_PREFIX, VIEWER_FIELDS } from '../../constants';
+import { NL_EVENTS } from '../../nlEvents';
 import { getStatusClass } from '../../utils';
 
 import NetworkCellValue from './NetworkCellValue';
@@ -17,23 +18,15 @@ const NetworkTableRow = ({
 }) => {
   const handleSelectRequest = () => {
     onSelect(payload);
-    // if (!['automate', 'app_automate'].includes(product)) {
-    //   return;
-    // }
-
-    // const eventType =
-    //   product === 'automate'
-    //     ? window.EDS.automateWebEvent
-    //     : window.EDS.appAutomateWebEvents;
-    // const name = `${
-    //   product === 'automate' ? 'Atm' : 'AppAtm'
-    // }HARViewerRowClicked`;
-    // const eventData = {
-    //   team: product,
-    //   product,
-    //   requestType: payload.type
-    // };
-    // window.WebEventTracker?.logEvent?.([], eventType, name, eventData);
+    window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+      event: NL_EVENTS.ROW_CLICKED,
+      data: {
+        requestType: payload.type,
+        domain: payload?.domain,
+        url: payload?.url,
+        index: payload?.index
+      }
+    });
   };
 
   const rowProps = {

@@ -18,7 +18,8 @@ const MainContainer = ({
   responseHelpLink,
   filtersWrapperClassName,
   tableHeaderClassName,
-  reqDetailsWrapperClassName
+  reqDetailsWrapperClassName,
+  noLogsHelpLink
 }) => {
   const { state } = useNetwork();
   const showReqDetail = state.get('showReqDetail');
@@ -60,7 +61,11 @@ const MainContainer = ({
           filtersWrapperClassName={filtersWrapperClassName}
         />
       </section>
-      <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
+      <StateHandler
+        logsURL={logsURL}
+        fetchOptions={fetchOptions}
+        noLogsHelpLink={noLogsHelpLink}
+      >
         <section className="relative flex flex-1">
           <NetworkTableContainer
             showWaterfall={showWaterfall}
@@ -89,7 +94,8 @@ MainContainer.propTypes = {
   showWaterfall: PropTypes.bool,
   filtersWrapperClassName: PropTypes.string.isRequired,
   tableHeaderClassName: PropTypes.string.isRequired,
-  reqDetailsWrapperClassName: PropTypes.string.isRequired
+  reqDetailsWrapperClassName: PropTypes.string.isRequired,
+  noLogsHelpLink: PropTypes.string.isRequired
 };
 
 MainContainer.defaultProps = {

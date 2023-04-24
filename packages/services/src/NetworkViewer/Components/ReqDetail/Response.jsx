@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types';
 
 import { UI_MESSAGES } from '../../constants';
+import { NL_EVENTS } from '../../nlEvents';
 
 // displaying only 1500 characters on UI
 const responseCharLimit = 1500;
@@ -31,7 +32,14 @@ const Response = ({
   };
   const content = data?.body || null;
 
-  const handleDocsLinkClick = () => {};
+  const handleDocsLinkClick = () => {
+    window.pubSub.publish(NL_EVENTS.NL_PUBSUB_EVENT_NAME, {
+      event: NL_EVENTS.RESPONSE_DOC_LINK_CLICKED,
+      data: {
+        link: responseHelpLink
+      }
+    });
+  };
 
   const renderNoResponse = ({
     title = UI_MESSAGES.not_available,
