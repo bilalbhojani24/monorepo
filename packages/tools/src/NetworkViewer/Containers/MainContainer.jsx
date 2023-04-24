@@ -48,7 +48,7 @@ const MainContainer = ({
     <>
       <section
         className={twClassNames(
-          'sticky top-0 bg-white z-10 p-4 flex items-center justify-between',
+          'sticky top-0 bg-white z-10 py-4 flex items-center justify-between',
           filtersWrapperClassName,
           {
             'pointer-events-none opacity-50': isDisabled
@@ -61,7 +61,7 @@ const MainContainer = ({
         />
       </section>
       <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
-        <section className="relative flex flex-1 px-4">
+        <section className="relative flex flex-1">
           <NetworkTableContainer
             showWaterfall={showWaterfall}
             tableHeaderClassName={tableHeaderClassName}
