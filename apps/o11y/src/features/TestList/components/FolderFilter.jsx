@@ -70,10 +70,11 @@ const ControlledNestedTreeWithCheckbox = ({
           showIcon={false}
           label={
             <Checkbox
+              fullWidthLabel
               inputClassName="w-3 h-3"
               data={{
                 label: (
-                  <>
+                  <p className="flex items-center">
                     {!isEmpty(item.contents) ? (
                       <MdFolderSpecial className="text-info-400 mr-2 inline-block h-5 w-5 shrink-0 select-none" />
                     ) : (
@@ -90,7 +91,7 @@ const ControlledNestedTreeWithCheckbox = ({
                         item.name
                       )}
                     </span>
-                  </>
+                  </p>
                 ),
                 value: item.uuid
               }}
@@ -117,6 +118,7 @@ const ControlledNestedTreeWithCheckbox = ({
           isNodeSelected={false}
           isFocused={false}
           leadingIcon={<></>}
+          hideArrowIcon={isEmpty(item.contents)}
         />
         {!!item?.contents && (
           <ListTreeNodeContents isTreeOpen={openNodeMap[item.uuid]}>
@@ -237,7 +239,8 @@ export const FolderFilter = ({
         placementSide="bottom"
         size="lg"
         content={
-          <div className="flex max-h-80 w-96 flex-col overflow-hidden">
+          // eslint-disable-next-line tailwindcss/no-arbitrary-value
+          <div className="flex max-h-80 w-[335px] flex-col overflow-hidden">
             <div className="py-2">
               <O11yInputField
                 value={searchValue}
