@@ -6,7 +6,7 @@ import NetworkTableHeader from '../Components/NetworkTable/NetworkTableHeader';
 import NetworkTableRow from '../Components/NetworkTable/NetworkTableRow';
 import { useNetwork } from '../state/Context';
 
-const NetworkTableContainer = ({ showWaterfall }) => {
+const NetworkTableContainer = ({ showWaterfall, tableHeaderClassName }) => {
   const { state, actions } = useNetwork();
   const data = state.get('data');
   const totalNetworkTime = state.get('totalNetworkTime');
@@ -29,6 +29,7 @@ const NetworkTableContainer = ({ showWaterfall }) => {
         <NetworkTableHeader
           showWaterfall={showWaterfall}
           shouldShowLimitedCols={shouldShowLimitedCols}
+          tableHeaderClassName={tableHeaderClassName}
         />
         <TableBody>
           {data.map((rowInfo) => (
@@ -49,7 +50,8 @@ const NetworkTableContainer = ({ showWaterfall }) => {
 };
 
 NetworkTableContainer.propTypes = {
-  showWaterfall: PropTypes.bool
+  showWaterfall: PropTypes.bool,
+  tableHeaderClassName: PropTypes.string.isRequired
 };
 
 NetworkTableContainer.defaultProps = {

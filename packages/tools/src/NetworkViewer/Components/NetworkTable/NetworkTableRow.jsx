@@ -54,7 +54,8 @@ const NetworkTableRow = ({
               'align-top border border-base-300',
               getStatusClass(payload),
               {
-                hidden: idx > 0 && shouldShowLimitedCols
+                hidden: idx > 0 && shouldShowLimitedCols,
+                'border-r-0': shouldShowLimitedCols
               }
             )}
           >

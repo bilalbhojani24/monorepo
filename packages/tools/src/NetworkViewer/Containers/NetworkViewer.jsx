@@ -16,7 +16,8 @@ const NetworkViewer = ({
   isResponseNotCapturedDueToCaps,
   responseHelpLink,
   filtersWrapperClassName,
-  tableWrapperClassName
+  tableHeaderClassName,
+  reqDetailsWrapperClassName
 }) => {
   const parentContainerRef = useRef(null);
   const parentContainerSize = useResizeObserver(parentContainerRef);
@@ -41,7 +42,8 @@ const NetworkViewer = ({
           fetchOptions={fetchOptions}
           showWaterfall={showWaterfall}
           filtersWrapperClassName={filtersWrapperClassName}
-          tableWrapperClassName={tableWrapperClassName}
+          tableHeaderClassName={tableHeaderClassName}
+          reqDetailsWrapperClassName={reqDetailsWrapperClassName}
         />
       </NetworkProvider>
     </section>
@@ -57,7 +59,8 @@ NetworkViewer.propTypes = {
   fetchOptions: PropTypes.object,
   responseHelpLink: PropTypes.string,
   filtersWrapperClassName: PropTypes.string,
-  tableWrapperClassName: PropTypes.string
+  tableHeaderClassName: PropTypes.string,
+  reqDetailsWrapperClassName: PropTypes.string
 };
 
 NetworkViewer.defaultProps = {
@@ -69,7 +72,8 @@ NetworkViewer.defaultProps = {
   fetchOptions: {},
   responseHelpLink: '',
   filtersWrapperClassName: '',
-  tableWrapperClassName: ''
+  tableHeaderClassName: '',
+  reqDetailsWrapperClassName: ''
 };
 
 export default React.memo(NetworkViewer);

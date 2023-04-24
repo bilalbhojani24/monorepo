@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Tabs } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import TimeChartTooltip from '../Components/NetworkTable/TimeChartTooltip';
@@ -35,7 +36,8 @@ const APPLICABLE_TABS = {
 const ReqDetailContainer = ({
   isResponseCaptured,
   isResponseNotCapturedDueToCaps,
-  responseHelpLink
+  responseHelpLink,
+  reqDetailsWrapperClassName
 }) => {
   const [activeTab, setActiveTab] = useState({
     id: APPLICABLE_TABS.headers.value,
@@ -86,7 +88,10 @@ const ReqDetailContainer = ({
     <InlineSlideOverContainer
       ref={reqDetailContainerRef}
       key={reqDetail.index}
-      wrapperClassName="pt-0 px-6 w-9/12 sticky top-[56px] h-[calc(100vh-56px)]"
+      wrapperClassName={twClassNames(
+        'pt-0 px-6 w-9/12 sticky top-[56px] h-[calc(100vh-56px)]',
+        reqDetailsWrapperClassName
+      )}
     >
       <InlineSlideOverHeader handleClickDismiss={handleCloseClick}>
         <Tabs
@@ -124,7 +129,8 @@ const ReqDetailContainer = ({
 ReqDetailContainer.propTypes = {
   isResponseCaptured: PropTypes.bool.isRequired,
   isResponseNotCapturedDueToCaps: PropTypes.bool.isRequired,
-  responseHelpLink: PropTypes.string.isRequired
+  responseHelpLink: PropTypes.string.isRequired,
+  reqDetailsWrapperClassName: PropTypes.string.isRequired
 };
 
 export default ReqDetailContainer;

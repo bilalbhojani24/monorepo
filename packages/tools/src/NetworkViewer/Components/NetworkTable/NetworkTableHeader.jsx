@@ -15,7 +15,11 @@ import { useNetwork } from '../../state/Context';
 import { initialState } from '../../state/reducer';
 import { isWidthAvailableToShowWaterfall } from '../../utils';
 
-const NetworkTableHeader = ({ showWaterfall, shouldShowLimitedCols }) => {
+const NetworkTableHeader = ({
+  showWaterfall,
+  shouldShowLimitedCols,
+  tableHeaderClassName
+}) => {
   const { state, actions } = useNetwork();
   const selectedSort = state.get('sort');
   const containerWidth = state.get('containerWidth');
@@ -40,7 +44,9 @@ const NetworkTableHeader = ({ showWaterfall, shouldShowLimitedCols }) => {
   };
 
   return (
-    <TableHead wrapperClassName="sticky top-[70px]">
+    <TableHead
+      wrapperClassName={twClassNames('sticky top-[70px]', tableHeaderClassName)}
+    >
       <TableRow>
         {Object.entries(VIEWER_FIELDS).map(
           ([datakey, { name, key, columnWidth }], idx) => (
@@ -50,7 +56,8 @@ const NetworkTableHeader = ({ showWaterfall, shouldShowLimitedCols }) => {
                 'py-2 hover:bg-base-100 bg-base-50 border-0 border-x border-x-base-300 relative',
                 columnWidth,
                 {
-                  hidden: idx > 0 && shouldShowLimitedCols
+                  hidden: idx > 0 && shouldShowLimitedCols,
+                  'border-r-0': shouldShowLimitedCols
                 }
               )}
               variant="header"
@@ -103,7 +110,8 @@ const NetworkTableHeader = ({ showWaterfall, shouldShowLimitedCols }) => {
 
 NetworkTableHeader.propTypes = {
   showWaterfall: PropTypes.bool,
-  shouldShowLimitedCols: PropTypes.bool
+  shouldShowLimitedCols: PropTypes.bool,
+  tableHeaderClassName: PropTypes.string.isRequired
 };
 
 NetworkTableHeader.defaultProps = {

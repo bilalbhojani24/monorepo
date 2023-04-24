@@ -17,7 +17,8 @@ const MainContainer = ({
   showWaterfall,
   responseHelpLink,
   filtersWrapperClassName,
-  tableWrapperClassName
+  tableHeaderClassName,
+  reqDetailsWrapperClassName
 }) => {
   const { state } = useNetwork();
   const showReqDetail = state.get('showReqDetail');
@@ -60,18 +61,17 @@ const MainContainer = ({
         />
       </section>
       <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
-        <section
-          className={twClassNames(
-            'relative flex flex-1 px-4',
-            tableWrapperClassName
-          )}
-        >
-          <NetworkTableContainer showWaterfall={showWaterfall} />
+        <section className="relative flex flex-1 px-4">
+          <NetworkTableContainer
+            showWaterfall={showWaterfall}
+            tableHeaderClassName={tableHeaderClassName}
+          />
           {showReqDetail && (
             <ReqDetailContainer
               isResponseCaptured={isResponseCaptured}
               isResponseNotCapturedDueToCaps={isResponseNotCapturedDueToCaps}
               responseHelpLink={responseHelpLink}
+              reqDetailsWrapperClassName={reqDetailsWrapperClassName}
             />
           )}
         </section>
@@ -88,7 +88,8 @@ MainContainer.propTypes = {
   fetchOptions: PropTypes.object.isRequired,
   showWaterfall: PropTypes.bool,
   filtersWrapperClassName: PropTypes.string.isRequired,
-  tableWrapperClassName: PropTypes.string.isRequired
+  tableHeaderClassName: PropTypes.string.isRequired,
+  reqDetailsWrapperClassName: PropTypes.string.isRequired
 };
 
 MainContainer.defaultProps = {
