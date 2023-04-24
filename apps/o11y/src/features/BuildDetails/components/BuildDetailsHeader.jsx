@@ -29,6 +29,7 @@ import StatusBadges from 'common/StatusBadges';
 import VCIcon from 'common/VCIcon';
 import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -105,6 +106,7 @@ function BuildDetailsHeader({
     logMetaInteractionEvent('tab_changed', {
       active: tabInfo.value
     });
+    dispatch(hideIntegrationsWidget());
     navigate({ search: searchParams.toString() });
   };
 
