@@ -19,7 +19,7 @@ const NetworkTableContainer = ({ showWaterfall }) => {
   return (
     <section className="h-full flex-1 overflow-auto">
       <Table
-        containerWrapperClass="overflow-visible overflow-x-visible divide-none"
+        containerWrapperClass="overflow-visible overflow-x-visible divide-none shadow-none"
         tableWrapperClass="w-full table-fixed "
       >
         <NetworkTableHeader showWaterfall={showWaterfall} />

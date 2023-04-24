@@ -15,7 +15,9 @@ const MainContainer = ({
   fetchOptions,
   isResponseNotCapturedDueToCaps,
   showWaterfall,
-  responseHelpLink
+  responseHelpLink,
+  filtersWrapperClassName,
+  tableWrapperClassName
 }) => {
   const { state } = useNetwork();
   const showReqDetail = state.get('showReqDetail');
@@ -43,15 +45,27 @@ const MainContainer = ({
 
   return (
     <>
-      <div
-        className={twClassNames('sticky top-0 bg-white z-10 py-4', {
-          'pointer-events-none opacity-50': isDisabled
-        })}
+      <section
+        className={twClassNames(
+          'sticky top-0 bg-white z-10 p-4 flex items-center justify-between',
+          filtersWrapperClassName,
+          {
+            'pointer-events-none opacity-50': isDisabled
+          }
+        )}
       >
-        <FilterContainer logsURL={logsURL} />
-      </div>
+        <FilterContainer
+          logsURL={logsURL}
+          filtersWrapperClassName={filtersWrapperClassName}
+        />
+      </section>
       <StateHandler logsURL={logsURL} fetchOptions={fetchOptions}>
-        <section className="relative flex flex-1 flex-col flex-wrap overflow-hidden">
+        <section
+          className={twClassNames(
+            'relative flex flex-1 flex-col flex-wrap overflow-hidden px-4',
+            tableWrapperClassName
+          )}
+        >
           <NetworkTableContainer showWaterfall={showWaterfall} />
           {showReqDetail && (
             <ReqDetailContainer
@@ -72,7 +86,9 @@ MainContainer.propTypes = {
   isResponseNotCapturedDueToCaps: PropTypes.bool.isRequired,
   responseHelpLink: PropTypes.string.isRequired,
   fetchOptions: PropTypes.object.isRequired,
-  showWaterfall: PropTypes.bool
+  showWaterfall: PropTypes.bool,
+  filtersWrapperClassName: PropTypes.string.isRequired,
+  tableWrapperClassName: PropTypes.string.isRequired
 };
 
 MainContainer.defaultProps = {

@@ -14,17 +14,16 @@ const NetworkViewer = ({
   showWaterfall,
   isResponseCaptured,
   isResponseNotCapturedDueToCaps,
-  responseHelpLink
+  responseHelpLink,
+  filtersWrapperClassName,
+  tableWrapperClassName
 }) => {
   const parentContainerRef = useRef(null);
   const parentContainerSize = useResizeObserver(parentContainerRef);
 
   return (
     <section
-      className={twClassNames(
-        'px-4 max-h-full flex flex-col',
-        containerClassName
-      )}
+      className={twClassNames('max-h-full flex flex-col', containerClassName)}
       ref={parentContainerRef}
     >
       <NetworkProvider
@@ -41,6 +40,8 @@ const NetworkViewer = ({
           logsURL={logsURL}
           fetchOptions={fetchOptions}
           showWaterfall={showWaterfall}
+          filtersWrapperClassName={filtersWrapperClassName}
+          tableWrapperClassName={tableWrapperClassName}
         />
       </NetworkProvider>
     </section>
@@ -54,7 +55,9 @@ NetworkViewer.propTypes = {
   logsURL: PropTypes.string,
   showWaterfall: PropTypes.bool,
   fetchOptions: PropTypes.object,
-  responseHelpLink: PropTypes.string
+  responseHelpLink: PropTypes.string,
+  filtersWrapperClassName: PropTypes.string,
+  tableWrapperClassName: PropTypes.string
 };
 
 NetworkViewer.defaultProps = {
@@ -64,7 +67,9 @@ NetworkViewer.defaultProps = {
   isResponseNotCapturedDueToCaps: false,
   showWaterfall: false,
   fetchOptions: {},
-  responseHelpLink: ''
+  responseHelpLink: '',
+  filtersWrapperClassName: '',
+  tableWrapperClassName: ''
 };
 
 export default React.memo(NetworkViewer);
