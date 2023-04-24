@@ -137,7 +137,7 @@ function BuildItemDetails({
           {data?.tags.map((singleTag) => (
             <PropagationBlocker variant="span" key={singleTag}>
               <O11yBadge
-                wrapperClassName="mx-1 flex-shrink-0"
+                wrapperClassName="mx-1 flex-shrink-0 bg-base-200"
                 hasRemoveButton={false}
                 onClick={() => addFilterTag(singleTag)}
                 modifier="base"

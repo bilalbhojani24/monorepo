@@ -251,7 +251,7 @@ function BuildDetailsHeader({
           {tags?.map((tag) => (
             <O11yBadge
               key={tag}
-              wrapperClassName="mx-2 text-sm leading-5 font-medium"
+              wrapperClassName="mx-2 text-sm leading-5 font-medium bg-base-200"
               hasRemoveButton={false}
               modifier="base"
               hasDot={false}

@@ -151,7 +151,7 @@ export default function FailureCategories() {
   return (
     <>
       <div className="mt-4 flex h-full flex-col">
-        <div className="overflow-auto py-5 pt-0 pb-2">
+        <div className="overflow-auto py-5 pb-2 pt-0">
           <div className="flex items-end gap-4 bg-white pt-1">
             <BigNumber
               data={{
