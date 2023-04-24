@@ -15,6 +15,12 @@ const Search = () => {
   };
 
   useEffect(() => {
+    if (!currSearch) {
+      setSearchValue('');
+    }
+  }, [currSearch]);
+
+  useEffect(() => {
     let timeout;
     if (currSearch !== searchValue) {
       timeout = setTimeout(() => {

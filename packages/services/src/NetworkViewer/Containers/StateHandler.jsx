@@ -18,7 +18,9 @@ function StateHandler({ children, logsURL, fetchOptions }) {
   const data = state.get('data');
   const filterByError = state.get('errorFilter');
   const filter = state.get('filter');
-  const isFilterApplied = filterByError || !!filter.name || !!filter.value;
+  const currSearch = state.get('search');
+  const isFilterApplied =
+    filterByError || !!filter.name || !!filter.value || currSearch;
 
   const fetchLogsAgain = () => {
     actions.fetchFile(logsURL, fetchOptions);
