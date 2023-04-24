@@ -46,7 +46,7 @@ const IntegrationsWidget = () => {
   const options = {
     description: data.description,
     attachments: [],
-    successCallback: (event, { data: cbData }) => {
+    successCallback: ({ event, data: cbData }) => {
       const { integration, issueUrl } = cbData;
       window.pubSub.publish('onCreateJiraIssue', {
         testRunId: data?.testRunId,
@@ -59,7 +59,9 @@ const IntegrationsWidget = () => {
         status: ''
       });
       o11yNotify({
-        title: `Issue ${issueUrl.split('/').pop()} ${event}ed successfully!`,
+        title: `Issue ${issueUrl.split('/').pop()} ${
+          event === 'create' ? 'created' : 'updated'
+        } successfully!`,
         type: 'success',
         actionButtons: () => (
           <O11yHyperlink href={issueUrl} target="_blank">
