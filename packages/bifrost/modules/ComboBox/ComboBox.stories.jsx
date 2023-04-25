@@ -91,7 +91,7 @@ const selectMenuOptions = [
   'Tom Cook',
   'Tanya Fox'
 ];
-const assignedTo = '{assignedToConst}';
+const assignedTo = assignedToConst;
 const selectMenuOptionsSelector = '[role="option"]';
 const placeholder = 'Placeholder';
 
