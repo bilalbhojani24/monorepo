@@ -51,12 +51,12 @@ const NetworkProvider = (props) => {
 };
 
 NetworkProvider.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.objectOf(PropTypes.any),
   containerWidth: PropTypes.number,
   showSummary: PropTypes.bool,
   file: PropTypes.string,
   onProcessingDone: PropTypes.func,
-  fetchOptions: PropTypes.object
+  fetchOptions: PropTypes.objectOf(PropTypes.any)
 };
 
 NetworkProvider.defaultProps = {
