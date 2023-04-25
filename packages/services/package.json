@@ -9,10 +9,11 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "axios": "1.2.2",
-    "react-copy-to-clipboard": "5.1.0"
+    "react-copy-to-clipboard": "5.1.0",
+    "react-router-dom": "6.6.1"
   },
   "dependencies": {
-    "@browserstack/bifrost": "3.1.0",
+    "@browserstack/bifrost": "4.0.0",
     "@browserstack/hooks": "workspace:*",
     "@browserstack/utils": "workspace:*"
   },

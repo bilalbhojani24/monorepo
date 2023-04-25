@@ -99,7 +99,7 @@ const ReqDetailContainer = ({
       ref={reqDetailContainerRef}
       key={reqDetail.index}
       wrapperClassName={twClassNames(
-        'pt-0 px-6 w-9/12 sticky top-[56px] h-[calc(100vh-56px)]',
+        'pt-0 px-6 w-9/12 sticky top-[56px] h-[calc(100vh-56px)] border-t border-t-base-300 border-l border-l-base-300 border-r border-r-base-300',
         reqDetailsWrapperClassName
       )}
     >
