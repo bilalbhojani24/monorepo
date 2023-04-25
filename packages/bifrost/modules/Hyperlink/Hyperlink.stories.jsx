@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { EnvelopeIcon } from '../Icon';
@@ -82,8 +84,25 @@ const TrailingIconTemplate = (args) => (
 );
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('View')).toBeVisible();
+  await userEvent.click(canvas.getByText('View'));
+};
+
 const LeadingIcon = LeadingIconTemplate.bind({});
+LeadingIcon.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('View')).toBeVisible();
+  // cannot add click interaction due to href
+};
+
 const TrailingIcon = TrailingIconTemplate.bind({});
+TrailingIcon.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('View')).toBeVisible();
+  await userEvent.click(canvas.getByText('View'));
+};
 
 Primary.parameters = {
   controls: {}
