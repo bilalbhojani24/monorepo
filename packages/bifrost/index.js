@@ -106,6 +106,7 @@ import TooltipBody from './modules/TooltipBody/index';
 import TooltipFooter from './modules/TooltipFooter/index';
 import TooltipHeader from './modules/TooltipHeader/index';
 import TruncateText from './modules/TruncateText/index';
+import listTreeCheckboxHelper from './utils/listTreeCheckbox';
 
 export * from './modules/Icon/index';
 
@@ -154,6 +155,7 @@ export {
   InputGroupSelectMenuTrigger,
   KeyValue,
   ListTree,
+  listTreeCheckboxHelper,
   ListTreeNode,
   ListTreeNodeContents,
   Loader,
