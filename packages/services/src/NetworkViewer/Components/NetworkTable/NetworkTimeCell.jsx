@@ -54,7 +54,7 @@ const NetworkTimeCell = ({ formattedValue, payload, showWaterfall }) => {
 
 NetworkTimeCell.propTypes = {
   formattedValue: PropTypes.string.isRequired,
-  payload: PropTypes.object.isRequired,
+  payload: PropTypes.objectOf(PropTypes.any).isRequired,
   showWaterfall: PropTypes.bool
 };
 NetworkTimeCell.defaultProps = {

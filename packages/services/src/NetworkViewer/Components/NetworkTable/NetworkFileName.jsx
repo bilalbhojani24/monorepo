@@ -51,7 +51,7 @@ const NetworkFileName = ({ formattedValue, payload }) => {
 };
 
 NetworkFileName.propTypes = {
-  payload: PropTypes.object.isRequired,
+  payload: PropTypes.objectOf(PropTypes.any).isRequired,
   formattedValue: PropTypes.string.isRequired
 };
 

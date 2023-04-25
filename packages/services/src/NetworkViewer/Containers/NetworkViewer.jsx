@@ -58,7 +58,7 @@ NetworkViewer.propTypes = {
   isResponseNotCapturedDueToCaps: PropTypes.bool,
   logsURL: PropTypes.string,
   showWaterfall: PropTypes.bool,
-  fetchOptions: PropTypes.object,
+  fetchOptions: PropTypes.objectOf(PropTypes.any),
   responseHelpLink: PropTypes.string,
   filtersWrapperClassName: PropTypes.string,
   tableHeaderClassName: PropTypes.string,

@@ -101,7 +101,7 @@ const HeaderInfo = ({
 
 HeaderInfo.propTypes = {
   component: PropTypes.func.isRequired,
-  data: PropTypes.object,
+  data: PropTypes.objectOf(PropTypes.any),
   eventKey: PropTypes.string.isRequired,
   isEncodeEnabled: PropTypes.bool,
   isParseEnabled: PropTypes.bool

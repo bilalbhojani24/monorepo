@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 const Response = ({ data }) => (
   <div className="mt-2 flex flex-col gap-3">
-    {data.headers.response.map(({ name, value }, index) => (
+    {data.headers.response.map(({ name, value }) => (
       <p
-        key={`${name}-${index}`}
+        key={`${name}`}
         className="text-base-800 whitespace-normal break-all text-sm"
       >
         <span className="font-medium">{`${name}: `}</span>
@@ -16,7 +16,7 @@ const Response = ({ data }) => (
 );
 
 Response.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.objectOf(PropTypes.any)
 };
 
 Response.defaultProps = {

@@ -36,9 +36,9 @@ const prepareTooltipData = (data) => ({
   startedAt: data.startTime + data._blocked_queueing,
   totalTime: calcTotalTime(data),
   ...Object.keys(data).reduce((acc, key) => {
-    // eslint-disable-next-line no-param-reassign
-    acc[key] = data[key];
-    return acc;
+    const updatedData = acc;
+    updatedData[key] = data[key];
+    return updatedData;
   }, {})
 });
 
@@ -124,7 +124,7 @@ const TimeChartTooltip = ({ data, fromRequestDetail }) => {
 };
 
 TimeChartTooltip.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
   fromRequestDetail: PropTypes.bool.isRequired
 };
 

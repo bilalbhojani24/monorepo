@@ -34,7 +34,7 @@ const General = ({ data }) => (
 );
 
 General.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.objectOf(PropTypes.any)
 };
 
 General.defaultProps = {

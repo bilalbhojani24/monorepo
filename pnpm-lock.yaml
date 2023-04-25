@@ -372,7 +372,7 @@ importers:
         version: 9.0.4(stylelint@14.16.0)
       stylelint-config-standard-scss:
         specifier: latest
-        version: 8.0.0(postcss@8.4.20)(stylelint@14.16.0)
+        version: 9.0.0(postcss@8.4.20)(stylelint@14.16.0)
       stylelint-prettier:
         specifier: 2.0.0
         version: 2.0.0(prettier@2.8.1)(stylelint@14.16.0)
@@ -839,8 +839,8 @@ importers:
   packages/integrations:
     dependencies:
       '@browserstack/bifrost':
-        specifier: 2.6.0
-        version: 2.6.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
+        specifier: 3.1.0
+        version: 3.1.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
       '@browserstack/hooks':
         specifier: workspace:*
         version: link:../hooks
@@ -2807,47 +2807,6 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost@2.6.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1):
-    resolution: {integrity: sha512-IBDye4YCCgXiAlrbEdoAR0657yP1v8JgQeEQcePGLMeu4awObvEJp7Af9IpC3c/dRIR5og/hsDJg9goviZ9HXw==, tarball: download/@browserstack/bifrost/2.6.0/ec6386b07dafade268f28200c607cbceed9c2cb4}
-    peerDependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0
-      react-router-dom: 6.6.1
-    dependencies:
-      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
-      '@browserstack/utils': 0.2.4(@reduxjs/toolkit@1.9.1)(axios@1.2.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
-      '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
-      '@heroicons/react': 2.0.13(react@18.2.0)
-      '@internationalized/date': 3.1.0
-      '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
-      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
-      '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-aria: 3.23.1(react-dom@18.2.0)(react@18.2.0)
-      react-dom: 18.2.0(react@18.2.0)
-      react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
-      react-hot-toast: 2.4.0(csstype@3.1.1)(react-dom@18.2.0)(react@18.2.0)
-      react-icons: 4.7.1(react@18.2.0)
-      react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
-      react-stately: 3.21.0(react@18.2.0)
-    transitivePeerDependencies:
-      - '@juggle/resize-observer'
-      - '@reduxjs/toolkit'
-      - '@types/react'
-      - axios
-      - csstype
-      - dexie
-      - enzyme
-      - lodash
-      - react-redux
-      - redux-mock-store
-      - ua-parser-js
-      - uuid
-    dev: false
-
   /@browserstack/bifrost@3.0.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@9.0.0):
     resolution: {integrity: sha512-T0vwdvkc0oW4Hn5yxasy233lUVfVaEvYPCfm16RpFUKY0RA/OBzulrGeIComWgYUOIwfpGE16nbqFgXsKc5+DA==, tarball: download/@browserstack/bifrost/3.0.0/b6ea536f38e5ee11f48f404d1e1ab4c5a58ce065}
     peerDependencies:
@@ -2901,6 +2860,48 @@ packages:
     dependencies:
       '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
       '@browserstack/utils': 0.2.4(@reduxjs/toolkit@1.7.1)(axios@1.2.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
+      '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
+      '@heroicons/react': 2.0.13(react@18.2.0)
+      '@internationalized/date': 3.1.0
+      '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
+      '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1(react-dom@18.2.0)(react@18.2.0)
+      react-dom: 18.2.0(react@18.2.0)
+      react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      react-hot-toast: 2.4.0(csstype@3.1.1)(react-dom@18.2.0)(react@18.2.0)
+      react-icons: 4.7.1(react@18.2.0)
+      react-player: 2.12.0(react@18.2.0)
+      react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
+      react-stately: 3.21.0(react@18.2.0)
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@types/react'
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-redux
+      - redux-mock-store
+      - ua-parser-js
+      - uuid
+    dev: false
+
+  /@browserstack/bifrost@3.1.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1):
+    resolution: {integrity: sha512-SwE6h1VZX+x29guVEStNlj6d1Xal9QggCbgVeEFeRel0bC3posuEt+DBhWgpsVYzfgmyU8DcsH2tDg0gX4oIoA==, tarball: download/@browserstack/bifrost/3.1.0/5a348a52758af605eae340d86bdb3490a6105f6e}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
+      '@browserstack/utils': 0.2.4(@reduxjs/toolkit@1.9.1)(axios@1.2.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
       '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
       '@heroicons/react': 2.0.13(react@18.2.0)
       '@internationalized/date': 3.1.0
@@ -9462,7 +9463,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.1.4(postcss@8.4.20)
+      tailwindcss: 3.1.4(postcss@8.4.21)
 
   /@tailwindcss/line-clamp@0.4.2(tailwindcss@3.1.4):
     resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==}
@@ -15869,7 +15870,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -21123,6 +21124,7 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
+    dev: true
 
   /postcss-import@14.1.0(postcss@8.4.21):
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -21158,6 +21160,7 @@ packages:
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.20
+    dev: true
 
   /postcss-js@4.0.0(postcss@8.4.21):
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
@@ -21204,6 +21207,7 @@ packages:
       lilconfig: 2.0.6
       postcss: 8.4.20
       yaml: 1.10.2
+    dev: true
 
   /postcss-load-config@3.1.4(postcss@8.4.21):
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
@@ -21466,6 +21470,7 @@ packages:
     dependencies:
       postcss: 8.4.20
       postcss-selector-parser: 6.0.11
+    dev: true
 
   /postcss-nested@5.0.6(postcss@8.4.21):
     resolution: {integrity: sha512-rKqm2Fk0KbA8Vt3AdGN0FB9OBOMDVajMG6ZCf/GoHgdxUJ4sBFp0A/uMIRm+MJUdo33YXEtjqIz8u7DAp8B7DA==}
@@ -21964,6 +21969,7 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: true
 
   /postcss@8.4.21:
     resolution: {integrity: sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==}
@@ -24763,11 +24769,11 @@ packages:
     dependencies:
       stylelint: 14.16.0
 
-  /stylelint-config-recommended-scss@10.0.0(postcss@8.4.20)(stylelint@14.16.0):
-    resolution: {integrity: sha512-+YvPgUHi0W5mCJCKdupBCIsWPYNbWuJcRmFtSYujwNg+41ljFknhO9bpY6C+oahv659zW7W1AT7i6DQvJYYr1A==}
+  /stylelint-config-recommended-scss@11.0.0(postcss@8.4.20)(stylelint@14.16.0):
+    resolution: {integrity: sha512-EDghTDU7aOv2LTsRZvcT1w8mcjUaMhuy+t38iV5I/0Qiu6ixdkRwhLEMul3K/fnB2v9Nwqvb3xpvJfPH+HduDw==}
     peerDependencies:
       postcss: ^8.3.3
-      stylelint: ^15.3.0
+      stylelint: ^15.5.0
     peerDependenciesMeta:
       postcss:
         optional: true
@@ -24775,7 +24781,7 @@ packages:
       postcss: 8.4.20
       postcss-scss: 4.0.6(postcss@8.4.20)
       stylelint: 14.16.0
-      stylelint-config-recommended: 11.0.0(stylelint@14.16.0)
+      stylelint-config-recommended: 12.0.0(stylelint@14.16.0)
       stylelint-scss: 4.6.0(stylelint@14.16.0)
     dev: true
 
@@ -24817,10 +24823,10 @@ packages:
     dependencies:
       stylelint: 14.16.0
 
-  /stylelint-config-recommended@11.0.0(stylelint@14.16.0):
-    resolution: {integrity: sha512-SoGIHNI748OCZn6BxFYT83ytWoYETCINVHV3LKScVAWQQauWdvmdDqJC5YXWjpBbxg2E761Tg5aUGKLFOVhEkA==}
+  /stylelint-config-recommended@12.0.0(stylelint@14.16.0):
+    resolution: {integrity: sha512-x6x8QNARrGO2sG6iURkzqL+Dp+4bJorPMMRNPScdvaUK8PsynriOcMW7AFDKqkWAS5wbue/u8fUT/4ynzcmqdQ==}
     peerDependencies:
-      stylelint: ^15.3.0
+      stylelint: ^15.5.0
     dependencies:
       stylelint: 14.16.0
     dev: true
@@ -24854,19 +24860,19 @@ packages:
       stylelint-config-recommended-scss: 9.0.0(postcss@8.4.21)(stylelint@14.16.0)
       stylelint-config-standard: 30.0.1(stylelint@14.16.0)
 
-  /stylelint-config-standard-scss@8.0.0(postcss@8.4.20)(stylelint@14.16.0):
-    resolution: {integrity: sha512-TDT/gJD/0LUDoUgkjF1uoI/4DfczXHxg7gJVcWT4/JbE6k5hszVuI14reNX+tEwSyMNhcK2BA7izrK+uVAz7XA==}
+  /stylelint-config-standard-scss@9.0.0(postcss@8.4.20)(stylelint@14.16.0):
+    resolution: {integrity: sha512-yPKpJsrZn4ybuQZx/DkEHuCjw7pJginErE/47dFhCnrvD48IJ4UYec8tSiCuJWMA3HRjbIa3nh5ZeSauDGuVAg==}
     peerDependencies:
       postcss: ^8.3.3
-      stylelint: ^15.4.0
+      stylelint: ^15.5.0
     peerDependenciesMeta:
       postcss:
         optional: true
     dependencies:
       postcss: 8.4.20
       stylelint: 14.16.0
-      stylelint-config-recommended-scss: 10.0.0(postcss@8.4.20)(stylelint@14.16.0)
-      stylelint-config-standard: 32.0.0(stylelint@14.16.0)
+      stylelint-config-recommended-scss: 11.0.0(postcss@8.4.20)(stylelint@14.16.0)
+      stylelint-config-standard: 33.0.0(stylelint@14.16.0)
     dev: true
 
   /stylelint-config-standard@30.0.1(stylelint@14.16.0):
@@ -24877,13 +24883,13 @@ packages:
       stylelint: 14.16.0
       stylelint-config-recommended: 10.0.1(stylelint@14.16.0)
 
-  /stylelint-config-standard@32.0.0(stylelint@14.16.0):
-    resolution: {integrity: sha512-UnGJxYDyYFrIE9CjDMZRkrNh2o4lOtO+MVZ9qG5b8yARfsWho0GMx4YvhHfsv8zKKgHeWX2wfeyxmuoqcaYZ4w==}
+  /stylelint-config-standard@33.0.0(stylelint@14.16.0):
+    resolution: {integrity: sha512-eyxnLWoXImUn77+ODIuW9qXBDNM+ALN68L3wT1lN2oNspZ7D9NVGlNHb2QCUn4xDug6VZLsh0tF8NyoYzkgTzg==}
     peerDependencies:
-      stylelint: ^15.4.0
+      stylelint: ^15.5.0
     dependencies:
       stylelint: 14.16.0
-      stylelint-config-recommended: 11.0.0(stylelint@14.16.0)
+      stylelint-config-recommended: 12.0.0(stylelint@14.16.0)
     dev: true
 
   /stylelint-order@5.0.0(stylelint@14.16.0):
@@ -25138,6 +25144,7 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
+    dev: true
 
   /tailwindcss@3.1.4(postcss@8.4.21):
     resolution: {integrity: sha512-NrxbFV4tYsga/hpWbRyUfIaBrNMXDxx5BsHgBS4v5tlyjf+sDsgBg5m9OxjrXIqAS/uR9kicxLKP+bEHI7BSeQ==}

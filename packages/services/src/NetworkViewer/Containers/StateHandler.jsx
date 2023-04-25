@@ -34,7 +34,7 @@ function StateHandler({ children, logsURL, fetchOptions, noLogsHelpLink }) {
 
   if (isLoading) {
     return (
-      <div className="flex h-full w-full items-center justify-center py-20 px-10">
+      <div className="flex h-full w-full items-center justify-center px-10 py-20">
         <Loader wrapperClassName="text-base-200 fill-base-400 w-8 h-8" />
       </div>
     );
@@ -122,6 +122,6 @@ StateHandler.propTypes = {
   children: PropTypes.node.isRequired,
   logsURL: PropTypes.string.isRequired,
   noLogsHelpLink: PropTypes.string.isRequired,
-  fetchOptions: PropTypes.object.isRequired
+  fetchOptions: PropTypes.objectOf(PropTypes.any).isRequired
 };
 export default StateHandler;
