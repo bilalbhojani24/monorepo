@@ -24,9 +24,11 @@ const TestNetworkLogs = () => {
     <NetworkViewer
       filtersWrapperClassName="top-[54px]"
       tableHeaderClassName="top-[124px]"
-      reqDetailsWrapperClassName="top-[124px] h-[calc(100vh-360px)] pr-2"
+      reqDetailsWrapperClassName="top-[124px] h-[calc(100vh-370px)] pr-2"
       isResponseCaptured
-      logsURL={`${versionedBaseRoute()}/testRuns/${currentTestRunId}/networkLogs?trim=true`}
+      logsURL={`${
+        stageConfig.apiUrl
+      }${versionedBaseRoute()}/testRuns/${currentTestRunId}/networkLogs?trim=true`}
       fetchOptions={{
         baseURL: stageConfig.apiUrl,
         withCredentials: stageConfig.withCredentials,
