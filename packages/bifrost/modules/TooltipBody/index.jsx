@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import { TP_TOOLTIP_THEME } from '../../shared/tooltipPopoverConstants';
 import { ThemeContextData } from '../../shared/tooltipPopoverThemeContext';
 
-import './styles.scss';
-
 const TooltipBody = ({ children, wrapperClassName }) => {
   const tooltipTheme = useContext(ThemeContextData);
 

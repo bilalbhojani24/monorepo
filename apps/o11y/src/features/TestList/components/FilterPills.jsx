@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import { capitalizeFirstLetter } from 'utils/stringUtils';
 
 const truncateMax = (text) => {
-  const MAX_CHARACTERS = 40;
+  const MAX_CHARACTERS = 20;
   return text.length > MAX_CHARACTERS
     ? `...${text.substring(text.length - MAX_CHARACTERS, text.length)}`
     : text;
