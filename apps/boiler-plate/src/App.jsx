@@ -1,4 +1,5 @@
 import React from 'react';
+import { ErrorBoundary } from '@browserstack/bifrost';
 import axios from 'axios';
 
 import env from './constants/envConstants';
@@ -36,7 +37,17 @@ const App = () => {
   // eslint-disable-next-line no-console
   console.log(env);
 
-  return <>{Routes}</>;
+  return (
+    <ErrorBoundary
+      fallbackUI={
+        <div className="bg-danger-200 text-danger-900 bold absolute flex h-full w-full content-between items-center justify-center text-6xl">
+          <h1>Fallback UI</h1>
+        </div>
+      }
+    >
+      {Routes}
+    </ErrorBoundary>
+  );
 };
 
 export default App;
