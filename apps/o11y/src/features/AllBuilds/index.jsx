@@ -19,6 +19,7 @@ import SearchBuilds from './components/SearchBuilds';
 import {
   getAllAppliedFilters,
   getBuilds,
+  getBuildsPagingParams,
   getIsLoadingFilters
 } from './slices/buildsSelectors';
 import {
@@ -26,7 +27,6 @@ import {
   getBuildsData,
   getBuildsFiltersData
 } from './slices/buildsSlice';
-import { getBuildsPagingParams } from './slices/selectors';
 import { getFilterQueryParams } from './utils/common';
 
 const AllBuildsPage = () => {

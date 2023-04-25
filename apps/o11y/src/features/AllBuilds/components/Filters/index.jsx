@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdFilterAlt } from '@browserstack/bifrost';
 import {
@@ -14,13 +14,16 @@ import {
   setSelectedFilterAsApplied
 } from 'features/AllBuilds/slices/buildsSlice';
 
+import BuildFrameworkFilter from './BuildFrameworkFilter';
 import BuildStatusFilter from './BuildStatusFilter';
+import DateRangeFilter from './DateRangeFilter';
 
 const Filters = () => {
   const dispatch = useDispatch();
   const unAppliedFilters = useSelector(getUnAppliedSelectedFilters);
-
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
+
+  const [isValid, setIsValid] = useState(true);
 
   const showSlideover = () => {
     setIsSlideoverVisible(true);
@@ -39,52 +42,13 @@ const Filters = () => {
     hideSlideover();
   };
 
-  // const onChangeDate = (dateObj, targetBound) => {
-  //   try {
-  //     const dateString = dateObj.toString();
-  //     const date = new Date(dateString);
-  //     dispatch(
-  //       setSelectedFilters({
-  //         dateRange: {
-  //           lowerBound:
-  //             targetBound === 'lowerBound'
-  //               ? date.getTime()
-  //               : dateRange.lowerBound,
-  //           upperBound:
-  //             targetBound === 'upperBound'
-  //               ? new Date(date.setUTCHours(23, 59, 59, 999)).getTime()
-  //               : dateRange.upperBound
-  //         }
-  //       })
-  //     );
-  //   } catch (err) {
-  //     // clear value if invalid entered by user
-  //     dispatch(
-  //       setSelectedFilters({
-  //         dateRange: {
-  //           lowerBound:
-  //             targetBound === 'lowerBound' ? '' : dateRange.lowerBound,
-  //           upperBound: targetBound === 'upperBound' ? '' : dateRange.upperBound
-  //         }
-  //       })
-  //     );
-  //   }
-  // };
-
-  // const isValid = useMemo(
-  //   () =>
-  //     !(
-  //       (dateRange.lowerBound && !dateRange.upperBound) ||
-  //       (dateRange.upperBound && !dateRange.lowerBound) ||
-  //       dateRange.lowerBound > dateRange.upperBound
-  //     ),
-  //   [dateRange.lowerBound, dateRange.upperBound]
-  // );
-
+  const setValidStatus = useCallback((status) => {
+    setIsValid(status);
+  }, []);
   return (
     <>
       <O11ySlideover
-        size="sm"
+        size="md"
         show={isSlideoverVisible}
         backgroundOverlay={false}
       >
@@ -96,6 +60,8 @@ const Filters = () => {
           {isSlideoverVisible && (
             <div className="flex flex-col gap-6 px-4">
               <BuildStatusFilter />
+              <BuildFrameworkFilter />
+              <DateRangeFilter setValidStatus={setValidStatus} />
             </div>
           )}
           {/* {staticFilters?.statuses ? (
@@ -191,10 +157,7 @@ const Filters = () => {
           >
             Cancel
           </O11yButton>
-          <O11yButton
-            // disabled={!isValid}
-            onClick={onApplyFilterClick}
-          >
+          <O11yButton disabled={!isValid} onClick={onApplyFilterClick}>
             Apply
           </O11yButton>
         </O11ySlideoverFooter>
