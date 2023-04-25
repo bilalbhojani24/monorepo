@@ -53,7 +53,7 @@ const FilterPills = () => {
               modifier="base"
               text={item.appliedText}
               onClose={() => handleRemoveTag(item)}
-              wrapperClassName="bg-white font-medium  ml-4"
+              wrapperClassName="bg-base-200 ml-4"
             />
           );
         })}

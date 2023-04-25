@@ -8,6 +8,7 @@ import {
   ComboboxTrigger
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import O11yLoader from 'common/O11yLoader';
 import PropTypes from 'prop-types';
 
 const O11yComboBox = ({
@@ -52,7 +53,7 @@ const O11yComboBox = ({
       value={value}
       isMulti={!!filteredOptions.length && isMulti}
       disabled={disabled}
-      isLoadingRight={isLoading}
+      // isLoadingRight={isLoading}
     >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
@@ -64,28 +65,51 @@ const O11yComboBox = ({
           'h-60': filteredOptions.length > 10
         })}
       >
-        {filteredOptions.length > 10 ? (
-          <Virtuoso
-            style={virtuosoStyles}
-            data={filteredOptions || []}
-            overscan={10}
-            itemContent={(_, item) => (
-              <ComboboxOptionItem
-                option={item}
-                checkPosition={checkPosition}
-                wrapperClassName="text-sm"
-              />
-            )}
+        {!filteredOptions.length && !isLoading && (
+          <ComboboxOptionItem
+            option={{
+              label: 'No options available',
+              value: 'noData'
+            }}
+            disabled
+            checkPosition={checkPosition}
+            wrapperClassName="text-sm"
           />
-        ) : (
-          filteredOptions.map((item) => (
-            <ComboboxOptionItem
-              key={item.value}
-              option={item}
-              checkPosition={checkPosition}
-              wrapperClassName="text-sm"
+        )}
+        {isLoading ? (
+          <div className="p-2">
+            <O11yLoader
+              text="Fetching..."
+              textClass="text-sm text-base-500"
+              loaderClass="w-6 h-6"
             />
-          ))
+          </div>
+        ) : (
+          <>
+            {filteredOptions.length > 10 ? (
+              <Virtuoso
+                style={virtuosoStyles}
+                data={filteredOptions || []}
+                overscan={10}
+                itemContent={(_, item) => (
+                  <ComboboxOptionItem
+                    option={item}
+                    checkPosition={checkPosition}
+                    wrapperClassName="text-sm"
+                  />
+                )}
+              />
+            ) : (
+              filteredOptions.map((item) => (
+                <ComboboxOptionItem
+                  key={item.value}
+                  option={item}
+                  checkPosition={checkPosition}
+                  wrapperClassName="text-sm"
+                />
+              ))
+            )}
+          </>
         )}
       </ComboboxOptionGroup>
     </ComboBox>
