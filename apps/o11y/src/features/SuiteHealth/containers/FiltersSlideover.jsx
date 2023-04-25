@@ -66,14 +66,11 @@ const FiltersSlideover = memo(
       onClose();
     };
 
-    // const onInit = useCallback(() => {}, []);
-
     return (
       <>
         <FilterSkeleton
           isVisible={isVisible}
           onClose={handleClose}
-          // onInit={onInit}
           onApply={handleApplyFilter}
         >
           {isVisible && (

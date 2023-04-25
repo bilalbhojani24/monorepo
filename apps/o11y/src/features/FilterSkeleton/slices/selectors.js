@@ -1,23 +1,23 @@
-// import { createSelector } from '@reduxjs/toolkit';
+import { createSelector } from '@reduxjs/toolkit';
 
-// import { FILTER_CATEGORIES } from '../constants';
+export const getIsFiltersLoading = (state) => {
+  const { currentCategory } = state.allFilters;
+  return state.allFilters[currentCategory].isLoadingFilters;
+};
 
-// export const getCurrentFilterCategory = (state) =>
-//   state.allFilters.currentCategory;
+export const getSelectedFilters = (state) => {
+  const { currentCategory } = state.allFilters;
+  return state.allFilters[currentCategory].selectedFilters;
+};
 
-// export const getSelectedFilters = (state) =>
-//   createSelector(
-//     getCurrentFilterCategory,
-//     (cat) =>
-//       state.allFilters[FILTER_CATEGORIES.SUITE_HEALTH_TESTS].selectedFilters
-//   );
+// custom selectors
 
-// export const getSelectedFiltersByType = (type) =>
-//   createSelector(getSelectedFilters, (selectedFilters) =>
-//     selectedFilters.filter((item) => item.type === type)
-//   );
+export const getSelectedFiltersByType = (type) =>
+  createSelector(getSelectedFilters, (selectedFilters) =>
+    selectedFilters.filter((item) => item.type === type)
+  );
 
-// export const getSelectedFiltersIdsByType = (type) =>
-//   createSelector(getSelectedFiltersByType(type), (selectedFilters) =>
-//     selectedFilters.map((item) => item.id)
-//   );
+export const getSelectedFiltersIdsByType = (type) =>
+  createSelector(getSelectedFiltersByType(type), (selectedFilters) =>
+    selectedFilters.map((item) => item.id)
+  );

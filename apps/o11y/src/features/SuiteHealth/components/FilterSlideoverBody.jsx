@@ -1,15 +1,8 @@
 import React, { useMemo } from 'react';
-// import { useSelector } from 'react-redux';
 import { O11yComboBox, O11ySwitch } from 'common/bifrostProxy';
-// import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
-// import { getSelectedFiltersIdsByType } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 
 const FilterSlideoverBody = ({ filters, setFilters, allBuildNames }) => {
-  // const selectedBuildNames = useSelector(
-  //   getSelectedFiltersIdsByType(ADV_FILTER_TYPES.tags)
-  // );
-
   const updateFilters = (selectedValues) => {
     setFilters((state) => ({ ...state, buildNames: selectedValues }));
   };

@@ -12,13 +12,13 @@ const { reducer, actions } = createSlice({
   initialState: {
     currentCategory: FILTER_CATEGORIES.SUITE_HEALTH_TESTS,
     [FILTER_CATEGORIES.SUITE_HEALTH_TESTS]: {
-      isLoadingFilters: false,
+      isLoadingFilters: true,
       selectedFilters: [],
       appliedFilters: [],
       staticFilters: {}
     },
     [FILTER_CATEGORIES.SUITE_HEALTH_UNIQUE_ERRORS]: {
-      isLoadingFilters: false,
+      isLoadingFilters: true,
       selectedFilters: [],
       appliedFilters: [],
       staticFilters: {}

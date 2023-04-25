@@ -244,7 +244,6 @@ export const getSnPTestsFiltersData = createAsyncThunk(
   // eslint-disable-next-line sonarjs/cognitive-complexity
   async (data, { rejectWithValue, dispatch }) => {
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_TESTS));
-    dispatch(setIsLoadingBuildsFilters(true));
     try {
       const response = await getSnPTestsFilters({ ...data });
       if (!isEmpty(response?.data?.applied)) {
@@ -339,11 +338,11 @@ export const getSnPTestsFiltersData = createAsyncThunk(
       if (!isEmpty(response?.data?.staticFilters)) {
         dispatch(setStaticFilters(response.data.staticFilters));
       }
-      dispatch(setIsLoadingBuildsFilters(false));
       return response.data;
     } catch (err) {
-      dispatch(setIsLoadingBuildsFilters(false));
       return rejectWithValue(err);
+    } finally {
+      dispatch(setIsLoadingBuildsFilters(false));
     }
   }
 );
