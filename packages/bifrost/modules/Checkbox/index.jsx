@@ -23,7 +23,7 @@ const Checkbox = ({
   onChange,
   position,
   wrapperClassName,
-  fullWidthLabel,
+  isFullWidthLabel,
   ...props
 }) => {
   const ref = useRef();
@@ -89,7 +89,7 @@ const Checkbox = ({
               className={twClassNames('text-base-700 select-none font-medium', {
                 'flex flex-row items-center gap-1.5': icon,
                 'cursor-not-allowed': disabled,
-                block: fullWidthLabel
+                block: isFullWidthLabel
               })}
             >
               {icon}
@@ -150,7 +150,7 @@ Checkbox.propTypes = {
   onChange: PropTypes.func,
   position: PropTypes.oneOf(Object.values(CHECKBOX_POSITION_VARIANT)),
   wrapperClassName: PropTypes.string,
-  fullWidthLabel: PropTypes.bool
+  isFullWidthLabel: PropTypes.bool
 };
 
 Checkbox.defaultProps = {
@@ -167,7 +167,7 @@ Checkbox.defaultProps = {
   onChange: () => {},
   position: CHECKBOX_POSITION_VARIANT.left,
   wrapperClassName: '',
-  fullWidthLabel: false
+  isFullWidthLabel: false
 };
 
 export default Checkbox;
