@@ -20,7 +20,7 @@ importers:
       lint-staged: 13.1.0
       turbo: 1.8.3
 
-  apps/Accessibility:
+  apps/accessibility:
     specifiers:
       '@browserstack/bifrost': 2.11.0
       '@browserstack/hooks': workspace:*
@@ -2461,49 +2461,6 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/4.0.0_wuvwllacrnu6wbitqfs6jnvuw4:
-    resolution: {integrity: sha512-V1BP/bttM2wfEl4o0y/9nXlzNZEyJ+IPWtqy003nmUMX3+d4ekaoXqLd2xfdbwSW+bfKI/oXQGW3/f91/OGBCA==, tarball: download/@browserstack/bifrost/4.0.0/4f70b94391a3fab5f0b7477844130f567eb45710}
-    peerDependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0
-      react-router-dom: 6.6.1
-    dependencies:
-      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
-      '@browserstack/utils': 0.2.4_m35panixhb2s546toyri3kd67e
-      '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
-      '@heroicons/react': 2.0.13_react@18.2.0
-      '@internationalized/date': 3.1.0
-      '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
-      '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
-      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
-      '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-aria: 3.23.1_biqbaboplfbrettd7655fr4n2y
-      react-dom: 18.2.0_react@18.2.0
-      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
-      react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
-      react-icons: 4.7.1_react@18.2.0
-      react-player: 2.12.0_react@18.2.0
-      react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
-      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
-      react-stately: 3.21.0_react@18.2.0
-    transitivePeerDependencies:
-      - '@juggle/resize-observer'
-      - '@reduxjs/toolkit'
-      - '@types/react'
-      - axios
-      - csstype
-      - dexie
-      - enzyme
-      - lodash
-      - react-redux
-      - redux-mock-store
-      - ua-parser-js
-      - uuid
-    dev: false
-
   /@browserstack/bifrost/3.1.0_6yg45wcyfc3ji7cjgcaxhkjfwy:
     resolution: {integrity: sha512-SwE6h1VZX+x29guVEStNlj6d1Xal9QggCbgVeEFeRel0bC3posuEt+DBhWgpsVYzfgmyU8DcsH2tDg0gX4oIoA==, tarball: download/@browserstack/bifrost/3.1.0/5a348a52758af605eae340d86bdb3490a6105f6e}
     peerDependencies:
@@ -2572,6 +2529,49 @@ packages:
       react-icons: 4.7.1_react@18.2.0
       react-player: 2.12.0_react@18.2.0
       react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
+      react-stately: 3.21.0_react@18.2.0
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@types/react'
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-redux
+      - redux-mock-store
+      - ua-parser-js
+      - uuid
+    dev: false
+
+  /@browserstack/bifrost/4.0.0_wuvwllacrnu6wbitqfs6jnvuw4:
+    resolution: {integrity: sha512-V1BP/bttM2wfEl4o0y/9nXlzNZEyJ+IPWtqy003nmUMX3+d4ekaoXqLd2xfdbwSW+bfKI/oXQGW3/f91/OGBCA==, tarball: download/@browserstack/bifrost/4.0.0/4f70b94391a3fab5f0b7477844130f567eb45710}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
+      '@browserstack/utils': 0.2.4_m35panixhb2s546toyri3kd67e
+      '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
+      '@heroicons/react': 2.0.13_react@18.2.0
+      '@internationalized/date': 3.1.0
+      '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1_biqbaboplfbrettd7655fr4n2y
+      react-dom: 18.2.0_react@18.2.0
+      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
+      react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
+      react-icons: 4.7.1_react@18.2.0
+      react-player: 2.12.0_react@18.2.0
+      react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
+      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
       react-stately: 3.21.0_react@18.2.0
     transitivePeerDependencies:
       - '@juggle/resize-observer'
@@ -16451,12 +16451,8 @@ packages:
   /immer/9.0.17:
     resolution: {integrity: sha512-+hBruaLSQvkPfxRiTLK/mi4vLH+/VQS6z2KJahdoxlleFOI8ARqzOF17uy12eFDlqWmPoygwc5evgwcp+dlHhg==}
 
-  /immutable/4.2.1:
-    resolution: {integrity: sha512-7WYV7Q5BTs0nlQm7tl92rDYYoyELLKHoDMBKhrxEoiV4mrfVdRz8hzPiYOzH7yWjzoVEamxRuAqhxL2PLRwZYQ==}
-
   /immutable/4.3.0:
     resolution: {integrity: sha512-0AOCmOip+xgJwEVTQj1EfiDDOkPmuyllDuTuEX+DDXUgapLAsBIfkg3sxCYyCEA8mQqZrrxPUGjcOQ2JS3WLkg==}
-    dev: false
 
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
@@ -21143,6 +21139,7 @@ packages:
     dependencies:
       postcss: 8.4.21
       postcss-selector-parser: 6.0.11
+    dev: false
 
   /postcss-nesting/10.2.0_postcss@8.4.20:
     resolution: {integrity: sha512-EwMkYchxiDiKUhlJGzWsD9b2zvq/r2SSubcRrgP+jujMXFzqvANLt16lJANC+5uZ6hjI7lpRmI6O8JIl+8l1KA==}
@@ -22541,7 +22538,7 @@ packages:
       semver: 7.3.8
       source-map-loader: 3.0.2_webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
-      tailwindcss: 3.2.4_postcss@8.4.21
+      tailwindcss: 3.1.4_postcss@8.4.21
       terser-webpack-plugin: 5.3.6_webpack@5.75.0
       typescript: 4.9.4
       webpack: 5.75.0
@@ -23408,7 +23405,7 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.3
-      immutable: 4.2.1
+      immutable: 4.3.0
       source-map-js: 1.0.2
 
   /sax/1.2.4:
@@ -24862,6 +24859,7 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
+    dev: false
 
   /tapable/0.1.10:
     resolution: {integrity: sha512-jX8Et4hHg57mug1/079yitEKWGB3LCwoxByLsNim89LABq8NqgiX+6iYVOsq0vX8uJHkU+DZ5fnq95f800bEsQ==}
