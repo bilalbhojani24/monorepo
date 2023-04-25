@@ -25,7 +25,8 @@ export function RangeCalendar(props) {
   const {
     years,
     currentPicker,
-    setCurrentPicker,
+    // TODO: Add logic to jump calendar dates
+    // setCurrentPicker,
     selectedYear,
     selectedMonth,
     setSelectedYear,
@@ -83,13 +84,13 @@ export function RangeCalendar(props) {
                   variant="minimal"
                   colors="white"
                   wrapperClassName="text-base font-semibold leading-6 mr-2 outline-none"
-                  onClick={() => setCurrentPicker(PICKER_LEVELS[1])}
+                  // onClick={() => setCurrentPicker(PICKER_LEVELS[1])}
                 >
                   {MONTHS_DATA[selectedMonth].name}
                 </Button>
               )}
               <Button
-                onClick={() => setCurrentPicker(PICKER_LEVELS[0])}
+                // onClick={() => setCurrentPicker(PICKER_LEVELS[0])}
                 type="button"
                 variant="minimal"
                 colors="white"
