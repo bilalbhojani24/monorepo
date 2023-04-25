@@ -15,6 +15,23 @@ export const getBuilds = async ({
   return axios.get(endpoint);
 };
 
+export const getBuildsAPI = async ({
+  projectNormalisedName,
+  searchString,
+  currentPagingParams
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/?`;
+  if (currentPagingParams?.searchAfter?.length) {
+    endpoint += `searchAfter=${currentPagingParams.searchAfter}`;
+  }
+  if (searchString) {
+    endpoint += searchString.startsWith('?')
+      ? `&${searchString.substring(1, searchString.length)}`
+      : `&${searchString}`;
+  }
+  return axios.get(endpoint);
+};
+
 export const getBuildMetaDataAPI = async ({ buildUUID }) =>
   axios.get(`${versionedBaseRoute()}/builds/${buildUUID}`);
 

@@ -1,35 +1,26 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdFilterAlt } from '@browserstack/bifrost';
 import {
   O11yButton,
-  O11yComboBox,
-  O11ySingleDatePicker,
   O11ySlideover,
   O11ySlideoverBody,
   O11ySlideoverFooter,
   O11ySlideoverHeader
 } from 'common/bifrostProxy';
-import O11yLoader from 'common/O11yLoader';
-import { getISOParsedDate } from 'utils/dateTime';
-import { capitalizeFirstLetter } from 'utils/stringUtils';
-
+import { getUnAppliedSelectedFilters } from 'features/AllBuilds/slices/buildsSelectors';
 import {
-  cancelSelectedFilters,
-  setAppliedFilters,
-  setSelectedFilters
-} from '../../slices/dataSlice';
-import { getSelectedFilters, getStaticFilters } from '../../slices/selectors';
+  discardUnAppliedFilters,
+  setSelectedFilterAsApplied
+} from 'features/AllBuilds/slices/buildsSlice';
 
-import TagsFilters from './TagsFilter';
-import UsersFilters from './UsersFilter';
+import BuildStatusFilter from './BuildStatusFilter';
 
 const Filters = () => {
   const dispatch = useDispatch();
+  const unAppliedFilters = useSelector(getUnAppliedSelectedFilters);
+
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
-  const selectedFilters = useSelector(getSelectedFilters);
-  const staticFilters = useSelector(getStaticFilters);
-  const { statuses, users, tags, dateRange, frameworks } = selectedFilters;
 
   const showSlideover = () => {
     setIsSlideoverVisible(true);
@@ -38,84 +29,57 @@ const Filters = () => {
     setIsSlideoverVisible(false);
   };
   const onCancelSelectedFilters = () => {
-    dispatch(cancelSelectedFilters());
+    dispatch(discardUnAppliedFilters());
     hideSlideover();
   };
   const onApplyFilterClick = () => {
-    dispatch(
-      setAppliedFilters({
-        statuses,
-        users,
-        tags,
-        dateRange,
-        frameworks
-      })
-    );
+    if (unAppliedFilters.length) {
+      dispatch(setSelectedFilterAsApplied());
+    }
     hideSlideover();
   };
-  const onChangeArrayFilter = (selectedValues, targetFilterName) => {
-    dispatch(
-      setSelectedFilters({
-        [targetFilterName]: selectedValues.map((el) => el.value)
-      })
-    );
-  };
 
-  const onChangeDate = (dateObj, targetBound) => {
-    try {
-      const dateString = dateObj.toString();
-      const date = new Date(dateString);
-      dispatch(
-        setSelectedFilters({
-          dateRange: {
-            lowerBound:
-              targetBound === 'lowerBound'
-                ? date.getTime()
-                : dateRange.lowerBound,
-            upperBound:
-              targetBound === 'upperBound'
-                ? new Date(date.setUTCHours(23, 59, 59, 999)).getTime()
-                : dateRange.upperBound
-          }
-        })
-      );
-    } catch (err) {
-      // clear value if invalid entered by user
-      dispatch(
-        setSelectedFilters({
-          dateRange: {
-            lowerBound:
-              targetBound === 'lowerBound' ? '' : dateRange.lowerBound,
-            upperBound: targetBound === 'upperBound' ? '' : dateRange.upperBound
-          }
-        })
-      );
-    }
-  };
+  // const onChangeDate = (dateObj, targetBound) => {
+  //   try {
+  //     const dateString = dateObj.toString();
+  //     const date = new Date(dateString);
+  //     dispatch(
+  //       setSelectedFilters({
+  //         dateRange: {
+  //           lowerBound:
+  //             targetBound === 'lowerBound'
+  //               ? date.getTime()
+  //               : dateRange.lowerBound,
+  //           upperBound:
+  //             targetBound === 'upperBound'
+  //               ? new Date(date.setUTCHours(23, 59, 59, 999)).getTime()
+  //               : dateRange.upperBound
+  //         }
+  //       })
+  //     );
+  //   } catch (err) {
+  //     // clear value if invalid entered by user
+  //     dispatch(
+  //       setSelectedFilters({
+  //         dateRange: {
+  //           lowerBound:
+  //             targetBound === 'lowerBound' ? '' : dateRange.lowerBound,
+  //           upperBound: targetBound === 'upperBound' ? '' : dateRange.upperBound
+  //         }
+  //       })
+  //     );
+  //   }
+  // };
 
-  const isValid = useMemo(
-    () =>
-      !(
-        (dateRange.lowerBound && !dateRange.upperBound) ||
-        (dateRange.upperBound && !dateRange.lowerBound) ||
-        dateRange.lowerBound > dateRange.upperBound
-      ),
-    [dateRange.lowerBound, dateRange.upperBound]
-  );
-
-  const statusOptions = staticFilters?.statuses
-    ? Object.values(staticFilters?.statuses).map((el) => ({
-        value: el,
-        label: capitalizeFirstLetter(el)
-      }))
-    : [];
-
-  const frameworkOptions = staticFilters?.frameworks
-    ? Object.values(staticFilters?.frameworks).map((el) => ({
-        value: el,
-        label: el
-      }))
-    : [];
+  // const isValid = useMemo(
+  //   () =>
+  //     !(
+  //       (dateRange.lowerBound && !dateRange.upperBound) ||
+  //       (dateRange.upperBound && !dateRange.lowerBound) ||
+  //       dateRange.lowerBound > dateRange.upperBound
+  //     ),
+  //   [dateRange.lowerBound, dateRange.upperBound]
+  // );
 
   return (
     <>
@@ -129,7 +93,12 @@ const Filters = () => {
           handleDismissClick={onCancelSelectedFilters}
         />
         <O11ySlideoverBody wrapperClassName="overflow-auto">
-          {staticFilters?.statuses ? (
+          {isSlideoverVisible && (
+            <div className="flex flex-col gap-6 px-4">
+              <BuildStatusFilter />
+            </div>
+          )}
+          {/* {staticFilters?.statuses ? (
             <div className="flex flex-col gap-6 px-4">
               <O11yComboBox
                 isMulti
@@ -211,7 +180,7 @@ const Filters = () => {
             </div>
           ) : (
             <O11yLoader loaderClass="h-8 w-8 self-center p-1" />
-          )}
+          )} */}
         </O11ySlideoverBody>
 
         <O11ySlideoverFooter isBorder="true" position="right">
@@ -222,7 +191,10 @@ const Filters = () => {
           >
             Cancel
           </O11yButton>
-          <O11yButton disabled={!isValid} onClick={onApplyFilterClick}>
+          <O11yButton
+            // disabled={!isValid}
+            onClick={onApplyFilterClick}
+          >
             Apply
           </O11yButton>
         </O11ySlideoverFooter>
