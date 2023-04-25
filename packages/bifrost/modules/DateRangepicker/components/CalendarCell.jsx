@@ -1,10 +1,5 @@
 import React, { useRef } from 'react';
-import {
-  mergeProps,
-  useCalendarCell,
-  useFocusRing
-  // useLocale
-} from 'react-aria';
+import { mergeProps, useCalendarCell, useFocusRing } from 'react-aria';
 import { twClassNames } from '@browserstack/utils';
 import { isSameDay } from '@internationalized/date';
 import Proptypes from 'prop-types';

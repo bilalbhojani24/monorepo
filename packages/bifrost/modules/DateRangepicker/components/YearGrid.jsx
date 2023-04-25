@@ -16,7 +16,7 @@ const YearGrid = ({ years, minYear, maxYear }) => {
   };
 
   return (
-    <div className="text-base-900 mx-4 my-16 grid grid-cols-3 gap-2.5 text-sm font-normal leading-5">
+    <div className="text-base-900 mx-3.5 my-16 grid grid-cols-3 gap-2.5 pb-0.5 text-sm font-normal leading-5">
       {years.map((year) => (
         <Button
           disabled={year > maxYear || year < minYear}

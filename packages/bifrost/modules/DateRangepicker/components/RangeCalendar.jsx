@@ -8,6 +8,7 @@ import Proptype from 'prop-types';
 
 import Button from '../../Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../Icon';
+import Loader from '../../Loader';
 import {
   MONTHS_DATA,
   MONTHS_DATA_JSON,
@@ -30,7 +31,7 @@ export function RangeCalendar(props) {
     setSelectedYear,
     setSelectedMonth
   } = useContext(PickerLevelContext);
-  const { minValue, maxValue } = props;
+  const { minValue, maxValue, isLoading } = props;
   const { locale } = useLocale();
   const state = useRangeCalendarState({
     ...props,
@@ -64,147 +65,160 @@ export function RangeCalendar(props) {
 
   return (
     <div {...calendarProps} ref={ref} className="inline-block">
-      <div className="flex items-center pb-4">
-        <p className="ml-2 flex-1 ">
-          {currentPicker === PICKER_LEVELS[2] && (
-            <Button
-              type="button"
-              variant="minimal"
-              colors="white"
-              wrapperClassName="text-base font-semibold leading-6 mr-2 outline-none"
-              onClick={() => setCurrentPicker(PICKER_LEVELS[1])}
-            >
-              {MONTHS_DATA[selectedMonth].name}
-            </Button>
-          )}
-          <Button
-            onClick={() => setCurrentPicker(PICKER_LEVELS[0])}
-            type="button"
-            variant="minimal"
-            colors="white"
-            wrapperClassName={twClassNames(
-              'text-base font-semibold leading-6 outline-none ',
-              {
-                'bg-base-100 px-1 -mx-1': currentPicker === PICKER_LEVELS[0]
-              }
+      {isLoading ? (
+        <div className="mx-36 my-40 py-3.5">
+          <Loader
+            height="h-9"
+            width="w-9"
+            wrapperClassName="text-base-400 fill-base-300 mx-1.5"
+          />
+        </div>
+      ) : (
+        <>
+          <div className="flex items-center pb-4">
+            <p className="ml-2 flex-1 ">
+              {currentPicker === PICKER_LEVELS[2] && (
+                <Button
+                  type="button"
+                  variant="minimal"
+                  colors="white"
+                  wrapperClassName="text-base font-semibold leading-6 mr-2 outline-none"
+                  onClick={() => setCurrentPicker(PICKER_LEVELS[1])}
+                >
+                  {MONTHS_DATA[selectedMonth].name}
+                </Button>
+              )}
+              <Button
+                onClick={() => setCurrentPicker(PICKER_LEVELS[0])}
+                type="button"
+                variant="minimal"
+                colors="white"
+                wrapperClassName={twClassNames(
+                  'text-base font-semibold leading-6 outline-none ',
+                  {
+                    'bg-base-100 px-1 -mx-1': currentPicker === PICKER_LEVELS[0]
+                  }
+                )}
+              >
+                {selectedYear}
+              </Button>
+            </p>
+
+            {/* year picker carousel button */}
+            {currentPicker === PICKER_LEVELS[0] && (
+              <>
+                <YearPickerButton
+                  onClick={jumpToPreviousYear}
+                  disableChevron={
+                    years.currentPage === 1 ||
+                    Math.ceil(years.currentPage) ===
+                      Math.ceil(minValue?.year / 12 + 1)
+                  }
+                  {...prevButtonProps}
+                >
+                  <ChevronLeftIcon
+                    className={twClassNames('text-base-700 h-6 w-6', {
+                      'text-base-400':
+                        years.currentPage === 1 ||
+                        years.currentData()[0] <= minValue?.year,
+                      'hover:text-base-500': !(
+                        years.currentPage === 1 ||
+                        years.currentData()[0] <= minValue?.year
+                      )
+                    })}
+                  />
+                </YearPickerButton>
+                <YearPickerButton
+                  onClick={jumpToNextYear}
+                  disableChevron={
+                    years.maxPage === years.currentPage ||
+                    Math.ceil(years.currentPage) ===
+                      Math.ceil(maxValue?.year / 12 + 1)
+                  }
+                  {...nextButtonProps}
+                >
+                  <ChevronRightIcon
+                    className={twClassNames('text-base-700 h-6 w-6', {
+                      'text-base-400':
+                        years.maxPage === years.currentPage ||
+                        years.currentData()[11] >= maxValue?.year,
+                      'hover:text-base-500': !(
+                        years.maxPage === years.currentPage ||
+                        years.currentData()[11] >= maxValue?.year
+                      )
+                    })}
+                  />
+                </YearPickerButton>
+              </>
             )}
-          >
-            {selectedYear}
-          </Button>
-        </p>
 
-        {/* year picker carousel button */}
-        {currentPicker === PICKER_LEVELS[0] && (
-          <>
-            <YearPickerButton
-              onClick={jumpToPreviousYear}
-              disableChevron={
-                years.currentPage === 1 ||
-                Math.ceil(years.currentPage) ===
-                  Math.ceil(minValue?.year / 12 + 1)
-              }
-              {...prevButtonProps}
-            >
-              <ChevronLeftIcon
-                className={twClassNames('text-base-700 h-6 w-6', {
-                  'text-base-400':
-                    years.currentPage === 1 ||
-                    years.currentData()[0] <= minValue?.year,
-                  'hover:text-base-500': !(
-                    years.currentPage === 1 ||
-                    years.currentData()[0] <= minValue?.year
-                  )
-                })}
-              />
-            </YearPickerButton>
-            <YearPickerButton
-              onClick={jumpToNextYear}
-              disableChevron={
-                years.maxPage === years.currentPage ||
-                Math.ceil(years.currentPage) ===
-                  Math.ceil(maxValue?.year / 12 + 1)
-              }
-              {...nextButtonProps}
-            >
-              <ChevronRightIcon
-                className={twClassNames('text-base-700 h-6 w-6', {
-                  'text-base-400':
-                    years.maxPage === years.currentPage ||
-                    years.currentData()[11] >= maxValue?.year,
-                  'hover:text-base-500': !(
-                    years.maxPage === years.currentPage ||
-                    years.currentData()[11] >= maxValue?.year
-                  )
-                })}
-              />
-            </YearPickerButton>
-          </>
-        )}
+            {/* month picker carousel button */}
+            {currentPicker === PICKER_LEVELS[1] && (
+              <>
+                <YearPickerButton disableChevron {...prevButtonProps}>
+                  <ChevronLeftIcon
+                    aria-hidden="true"
+                    className={twClassNames('text-base-400 h-6 w-6')}
+                  />
+                </YearPickerButton>
+                <YearPickerButton disableChevron {...nextButtonProps}>
+                  <ChevronRightIcon
+                    className={twClassNames('text-base-400 h-6 w-6')}
+                  />
+                </YearPickerButton>
+              </>
+            )}
 
-        {/* month picker carousel button */}
-        {currentPicker === PICKER_LEVELS[1] && (
-          <>
-            <YearPickerButton disableChevron {...prevButtonProps}>
-              <ChevronLeftIcon
-                aria-hidden="true"
-                className={twClassNames('text-base-400 h-6 w-6')}
-              />
-            </YearPickerButton>
-            <YearPickerButton disableChevron {...nextButtonProps}>
-              <ChevronRightIcon
-                className={twClassNames('text-base-400 h-6 w-6')}
-              />
-            </YearPickerButton>
-          </>
-        )}
+            {currentPicker === PICKER_LEVELS[2] && (
+              <>
+                <CalendarButton
+                  onClick={updateTitleOnChevronClick}
+                  disableChevron={state.isPreviousVisibleRangeInvalid()}
+                  {...prevButtonProps}
+                >
+                  <ChevronLeftIcon
+                    className={twClassNames('text-base-700 h-6 w-6', {
+                      'text-base-400': state.isPreviousVisibleRangeInvalid(),
+                      'hover:text-base-500':
+                        !state.isPreviousVisibleRangeInvalid()
+                    })}
+                  />
+                </CalendarButton>
+                <CalendarButton
+                  onClick={updateTitleOnChevronClick}
+                  disableChevron={state.isNextVisibleRangeInvalid()}
+                  {...nextButtonProps}
+                >
+                  <ChevronRightIcon
+                    className={twClassNames('text-base-700 h-6 w-6', {
+                      'text-base-400': state.isNextVisibleRangeInvalid(),
+                      'hover:text-base-500': !state.isNextVisibleRangeInvalid()
+                    })}
+                  />
+                </CalendarButton>
+              </>
+            )}
+          </div>
 
-        {currentPicker === PICKER_LEVELS[2] && (
-          <>
-            <CalendarButton
-              onClick={updateTitleOnChevronClick}
-              disableChevron={state.isPreviousVisibleRangeInvalid()}
-              {...prevButtonProps}
-            >
-              <ChevronLeftIcon
-                className={twClassNames('text-base-700 h-6 w-6', {
-                  'text-base-400': state.isPreviousVisibleRangeInvalid(),
-                  'hover:text-base-500': !state.isPreviousVisibleRangeInvalid()
-                })}
-              />
-            </CalendarButton>
-            <CalendarButton
-              onClick={updateTitleOnChevronClick}
-              disableChevron={state.isNextVisibleRangeInvalid()}
-              {...nextButtonProps}
-            >
-              <ChevronRightIcon
-                className={twClassNames('text-base-700 h-6 w-6', {
-                  'text-base-400': state.isNextVisibleRangeInvalid(),
-                  'hover:text-base-500': !state.isNextVisibleRangeInvalid()
-                })}
-              />
-            </CalendarButton>
-          </>
-        )}
-      </div>
-
-      {/* year picker */}
-      {currentPicker === PICKER_LEVELS[0] && (
-        <YearGrid
-          years={years.currentData()}
-          minYear={minValue?.year}
-          maxYear={maxValue?.year}
-        />
+          {/* year picker */}
+          {currentPicker === PICKER_LEVELS[0] && (
+            <YearGrid
+              years={years.currentData()}
+              minYear={minValue?.year}
+              maxYear={maxValue?.year}
+            />
+          )}
+          {currentPicker === PICKER_LEVELS[1] && (
+            <MonthGrid
+              minMonth={minValue?.month}
+              maxMonth={maxValue?.month}
+              minYear={minValue?.year}
+              maxYear={maxValue?.year}
+            />
+          )}
+          {currentPicker === PICKER_LEVELS[2] && <CalendarGrid state={state} />}
+        </>
       )}
-      {currentPicker === PICKER_LEVELS[1] && (
-        <MonthGrid
-          minMonth={minValue?.month}
-          maxMonth={maxValue?.month}
-          minYear={minValue?.year}
-          maxYear={maxValue?.year}
-        />
-      )}
-      {currentPicker === PICKER_LEVELS[2] && <CalendarGrid state={state} />}
     </div>
   );
 }
@@ -221,7 +235,10 @@ RangeCalendar.propTypes = {
     era: Proptype.string,
     month: Proptype.number,
     year: Proptype.number
-  }).isRequired
+  }).isRequired,
+  isLoading: Proptype.bool
 };
 
-RangeCalendar.defaultProps = {};
+RangeCalendar.defaultProps = {
+  isLoading: false
+};

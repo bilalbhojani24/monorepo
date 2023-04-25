@@ -35,7 +35,8 @@ const DateRangepicker = (props) => {
     offset,
     crossOffset,
     placement,
-    wrapperClassName
+    wrapperClassName,
+    isLoading
   } = props;
 
   const years = useYearpicker(YEARS_DATA, 12);
@@ -139,7 +140,7 @@ const DateRangepicker = (props) => {
             crossOffset={crossOffset}
           >
             <Dialog {...dialogProps}>
-              <RangeCalendar {...calendarProps} />
+              <RangeCalendar isLoading={isLoading} {...calendarProps} />
             </Dialog>
           </Popover>
         )}
@@ -157,7 +158,8 @@ DateRangepicker.propTypes = {
   offset: Proptypes.number,
   crossOffset: Proptypes.number,
   placement: Proptypes.string,
-  label: Proptypes.string
+  label: Proptypes.string,
+  isLoading: Proptypes.bool
 };
 DateRangepicker.defaultProps = {
   wrapperClassName: '',
@@ -168,7 +170,8 @@ DateRangepicker.defaultProps = {
   offset: 0,
   crossOffset: 0,
   placement: 'bottom end',
-  label: ''
+  label: '',
+  isLoading: false
 };
 
 export default DateRangepicker;
