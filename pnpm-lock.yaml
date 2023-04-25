@@ -176,7 +176,7 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': workspace:*
+      '@browserstack/bifrost': 4.0.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -220,7 +220,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': link:../../packages/bifrost
+      '@browserstack/bifrost': 4.0.0_wuvwllacrnu6wbitqfs6jnvuw4
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@internationalized/date': 3.1.0
@@ -258,7 +258,7 @@ importers:
       sass: 1.57.1
       stylelint: 14.16.0
       stylelint-config-prettier: 9.0.4_stylelint@14.16.0
-      stylelint-config-standard-scss: 8.0.0_l3s4qeu3gkar2knsdy3w5miimm
+      stylelint-config-standard-scss: 9.0.0_l3s4qeu3gkar2knsdy3w5miimm
       stylelint-prettier: 2.0.0_lzrral356zwd7lm6e3scl4w4om
       stylelint-scss: 4.3.0_stylelint@14.16.0
       tailwindcss: 3.1.4_postcss@8.4.20
@@ -2376,6 +2376,79 @@ packages:
       - uuid
     dev: false
 
+  /@browserstack/bifrost/4.0.0_wuvwllacrnu6wbitqfs6jnvuw4:
+    resolution: {integrity: sha512-V1BP/bttM2wfEl4o0y/9nXlzNZEyJ+IPWtqy003nmUMX3+d4ekaoXqLd2xfdbwSW+bfKI/oXQGW3/f91/OGBCA==, tarball: download/@browserstack/bifrost/4.0.0/4f70b94391a3fab5f0b7477844130f567eb45710}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
+      '@browserstack/utils': 0.2.4_m35panixhb2s546toyri3kd67e
+      '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
+      '@heroicons/react': 2.0.13_react@18.2.0
+      '@internationalized/date': 3.1.0
+      '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1_biqbaboplfbrettd7655fr4n2y
+      react-dom: 18.2.0_react@18.2.0
+      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
+      react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
+      react-icons: 4.7.1_react@18.2.0
+      react-player: 2.12.0_react@18.2.0
+      react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
+      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+      react-stately: 3.21.0_react@18.2.0
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@types/react'
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-redux
+      - redux-mock-store
+      - ua-parser-js
+      - uuid
+    dev: false
+
+  /@browserstack/hooks/0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue:
+    resolution: {integrity: sha512-QByx60ZjITSFicBV8PVLU4GCLiY1ujv+vUSPC94GP366B5UqM6J2jBbUww1ZISbPCE6/ZsWUhwHatTrB4/0aWw==, tarball: download/@browserstack/hooks/0.3.1/4bebca235f78f5332a9f859115b7cc50e7cb8b7c}
+    peerDependencies:
+      '@juggle/resize-observer': 3.3.1
+      '@reduxjs/toolkit': 1.7.1
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      prop-types: 15.7.2
+      react: 16.13.1
+      react-dom: 16.13.1
+      react-redux: 7.2.1
+      react-router-dom: 5.2.0
+      redux-mock-store: 1.5.4
+      uuid: 8.3.1
+    dependencies:
+      '@juggle/resize-observer': 3.3.1
+      '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-redux: 8.0.5_uuwhlgwbifc5kqyyuyp3ihkqwu
+      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+      redux-mock-store: 1.5.4
+      uuid: 9.0.0
+    dev: false
+
   /@browserstack/hooks/0.3.1_s2fchye64fhceybhhmcri77qki:
     resolution: {integrity: sha512-QByx60ZjITSFicBV8PVLU4GCLiY1ujv+vUSPC94GP366B5UqM6J2jBbUww1ZISbPCE6/ZsWUhwHatTrB4/0aWw==, tarball: download/@browserstack/hooks/0.3.1/4bebca235f78f5332a9f859115b7cc50e7cb8b7c}
     peerDependencies:
@@ -2433,6 +2506,34 @@ packages:
       react-redux: 8.0.5_z6jct6nsyrzuhjsgpst3woph7a
       redux-mock-store: 1.5.4
       uuid: 8.3.1
+    dev: false
+
+  /@browserstack/utils/0.2.4_m35panixhb2s546toyri3kd67e:
+    resolution: {integrity: sha512-otFtJCOs8ReJAlEV/6wkULbSBu5rVd3Mu4b5b4dpf0bVxtdiTRc5uP+xAolLmu81JbGiku1Y67ccoUwNTI1jww==, tarball: download/@browserstack/utils/0.2.4/bc95a50349e72ee200d9659cdbf09f4b926feb38}
+    peerDependencies:
+      '@reduxjs/toolkit': 1.7.1
+      axios: 0.25.0
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      react: 16.13.1
+      react-dom: 16.13.1
+      react-redux: 7.2.1
+      redux-mock-store: 1.5.4
+      ua-parser-js: 1.0.2
+      uuid: 8.3.1
+    dependencies:
+      '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
+      axios: 1.2.2
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-redux: 8.0.5_uuwhlgwbifc5kqyyuyp3ihkqwu
+      redux-mock-store: 1.5.4
+      ua-parser-js: 1.0.2
+      uuid: 9.0.0
     dev: false
 
   /@browserstack/utils/0.2.4_nnlqmyufqhjndtfjqk6u3aglwy:
@@ -15055,7 +15156,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -23918,11 +24019,11 @@ packages:
     dependencies:
       stylelint: 14.16.0
 
-  /stylelint-config-recommended-scss/10.0.0_l3s4qeu3gkar2knsdy3w5miimm:
-    resolution: {integrity: sha512-+YvPgUHi0W5mCJCKdupBCIsWPYNbWuJcRmFtSYujwNg+41ljFknhO9bpY6C+oahv659zW7W1AT7i6DQvJYYr1A==}
+  /stylelint-config-recommended-scss/11.0.0_l3s4qeu3gkar2knsdy3w5miimm:
+    resolution: {integrity: sha512-EDghTDU7aOv2LTsRZvcT1w8mcjUaMhuy+t38iV5I/0Qiu6ixdkRwhLEMul3K/fnB2v9Nwqvb3xpvJfPH+HduDw==}
     peerDependencies:
       postcss: ^8.3.3
-      stylelint: ^15.3.0
+      stylelint: ^15.5.0
     peerDependenciesMeta:
       postcss:
         optional: true
@@ -23930,7 +24031,7 @@ packages:
       postcss: 8.4.20
       postcss-scss: 4.0.6_postcss@8.4.20
       stylelint: 14.16.0
-      stylelint-config-recommended: 11.0.0_stylelint@14.16.0
+      stylelint-config-recommended: 12.0.0_stylelint@14.16.0
       stylelint-scss: 4.6.0_stylelint@14.16.0
     dev: true
 
@@ -23972,10 +24073,10 @@ packages:
     dependencies:
       stylelint: 14.16.0
 
-  /stylelint-config-recommended/11.0.0_stylelint@14.16.0:
-    resolution: {integrity: sha512-SoGIHNI748OCZn6BxFYT83ytWoYETCINVHV3LKScVAWQQauWdvmdDqJC5YXWjpBbxg2E761Tg5aUGKLFOVhEkA==}
+  /stylelint-config-recommended/12.0.0_stylelint@14.16.0:
+    resolution: {integrity: sha512-x6x8QNARrGO2sG6iURkzqL+Dp+4bJorPMMRNPScdvaUK8PsynriOcMW7AFDKqkWAS5wbue/u8fUT/4ynzcmqdQ==}
     peerDependencies:
-      stylelint: ^15.3.0
+      stylelint: ^15.5.0
     dependencies:
       stylelint: 14.16.0
     dev: true
@@ -24009,19 +24110,19 @@ packages:
       stylelint-config-standard: 30.0.1_stylelint@14.16.0
     dev: true
 
-  /stylelint-config-standard-scss/8.0.0_l3s4qeu3gkar2knsdy3w5miimm:
-    resolution: {integrity: sha512-TDT/gJD/0LUDoUgkjF1uoI/4DfczXHxg7gJVcWT4/JbE6k5hszVuI14reNX+tEwSyMNhcK2BA7izrK+uVAz7XA==}
+  /stylelint-config-standard-scss/9.0.0_l3s4qeu3gkar2knsdy3w5miimm:
+    resolution: {integrity: sha512-yPKpJsrZn4ybuQZx/DkEHuCjw7pJginErE/47dFhCnrvD48IJ4UYec8tSiCuJWMA3HRjbIa3nh5ZeSauDGuVAg==}
     peerDependencies:
       postcss: ^8.3.3
-      stylelint: ^15.4.0
+      stylelint: ^15.5.0
     peerDependenciesMeta:
       postcss:
         optional: true
     dependencies:
       postcss: 8.4.20
       stylelint: 14.16.0
-      stylelint-config-recommended-scss: 10.0.0_l3s4qeu3gkar2knsdy3w5miimm
-      stylelint-config-standard: 32.0.0_stylelint@14.16.0
+      stylelint-config-recommended-scss: 11.0.0_l3s4qeu3gkar2knsdy3w5miimm
+      stylelint-config-standard: 33.0.0_stylelint@14.16.0
     dev: true
 
   /stylelint-config-standard/30.0.1_stylelint@14.16.0:
@@ -24032,13 +24133,13 @@ packages:
       stylelint: 14.16.0
       stylelint-config-recommended: 10.0.1_stylelint@14.16.0
 
-  /stylelint-config-standard/32.0.0_stylelint@14.16.0:
-    resolution: {integrity: sha512-UnGJxYDyYFrIE9CjDMZRkrNh2o4lOtO+MVZ9qG5b8yARfsWho0GMx4YvhHfsv8zKKgHeWX2wfeyxmuoqcaYZ4w==}
+  /stylelint-config-standard/33.0.0_stylelint@14.16.0:
+    resolution: {integrity: sha512-eyxnLWoXImUn77+ODIuW9qXBDNM+ALN68L3wT1lN2oNspZ7D9NVGlNHb2QCUn4xDug6VZLsh0tF8NyoYzkgTzg==}
     peerDependencies:
-      stylelint: ^15.4.0
+      stylelint: ^15.5.0
     dependencies:
       stylelint: 14.16.0
-      stylelint-config-recommended: 11.0.0_stylelint@14.16.0
+      stylelint-config-recommended: 12.0.0_stylelint@14.16.0
     dev: true
 
   /stylelint-order/5.0.0_stylelint@14.16.0:
