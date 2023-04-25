@@ -73,13 +73,13 @@ const EmptyStateWRecommendation = (props) => {
           })}
         >
           {data.map((item, itemIdx) => (
-            <div key={itemIdx}>
+            <React.Fragment key={itemIdx}>
               {layout === LAYOUT_TYPES[0] ? (
                 <TwoColumnLayout item={item} handleClick={handleClick} />
               ) : (
                 <SignleColumnLayout item={item} handleClick={handleClick} />
               )}
-            </div>
+            </React.Fragment>
           ))}
         </ul>
       </div>
