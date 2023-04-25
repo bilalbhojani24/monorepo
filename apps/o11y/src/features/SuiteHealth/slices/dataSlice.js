@@ -3,8 +3,24 @@ import {
   getSnPErrors,
   getSnPTests,
   getSnPTestsBreakdown,
+  getSnPTestsFilters,
   getSnPUEBreakdown
 } from 'api/snp';
+import {
+  ADV_FILTER_TYPES,
+  ADV_FILTERS_PREFIX,
+  FILTER_CATEGORIES
+} from 'features/FilterSkeleton/constants';
+import {
+  setBulkAppliedFilters,
+  setBulkSelectedFilters,
+  setCurrentFilterCategory,
+  setIsLoadingBuildsFilters,
+  setStaticFilters
+} from 'features/FilterSkeleton/slices/filterSlice';
+import { getAppliedFilterObj } from 'features/FilterSkeleton/utils';
+import isEmpty from 'lodash/isEmpty';
+import { getDateInFormat } from 'utils/dateTime';
 
 import {
   TESTS_HEADER_LABEL_MAPPING,
@@ -141,6 +157,38 @@ export const getSnPTestsData = createAsyncThunk(
   }
 );
 
+// let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/?orderKey=${
+//   sortOptions.type
+// }&orderValue=${sortOptions.status}&isMuted=${filters.isMuted}&isFlaky=${
+//   filters.isFlaky
+// }`;
+// if (pagingParams?.pageNumber) {
+//   endpoint = `${endpoint}&pageNumber=${pagingParams.pageNumber}`;
+// }
+// if (filters.buildName.length > 0) {
+//   // :TODO need to pass all values as comma seperated
+//   endpoint = `${endpoint}&buildName=${filters.buildName}`;
+// }
+// if (filters.dateRange.key) {
+//   const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
+//   endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
+// }
+
+// export const getBuildsData = createAsyncThunk('testlist/getBuilds', async (data, { rejectWithValue, getState }) => {
+//   try {
+//     const appliedFilters = getAllAppliedFilters(getState());
+//     const initialSearchString = getInitialSearchString(getState());
+//     let searchString = initialSearchString ? `${initialSearchString}&` : '';
+//     if (appliedFilters.length) {
+//       searchString = getFilterQueryParams(appliedFilters).toString();
+//     }
+//     const response = await getBuilds({ ...data, searchString });
+//     return { ...response?.data, ...data };
+//   } catch (err) {
+//     return rejectWithValue(err);
+//   }
+// });
+
 export const getSnPTestsBreakdownData = createAsyncThunk(
   'testlist/getSnPTestsBreakdownData',
   async (data, { rejectWithValue }) => {
@@ -186,6 +234,115 @@ export const getSnPUEBreakdownData = createAsyncThunk(
       const response = await getSnPUEBreakdown({ ...data });
       return response.data;
     } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getSnPTestsFiltersData = createAsyncThunk(
+  'testlist/getSnPTestsFilters',
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  async (data, { rejectWithValue, dispatch }) => {
+    dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_TESTS));
+    dispatch(setIsLoadingBuildsFilters(true));
+    try {
+      const response = await getSnPTestsFilters({ ...data });
+      if (!isEmpty(response?.data?.applied)) {
+        const applied = response.data?.applied;
+        const updatedSelectedFilters = [];
+        if (applied[ADV_FILTER_TYPES.uniqueBuildNames]?.length) {
+          applied[ADV_FILTER_TYPES.uniqueBuildNames].forEach((item) => {
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: item.id,
+                text: item.name,
+                type: ADV_FILTER_TYPES.uniqueBuildNames
+              })
+            );
+          });
+        }
+        if (applied[ADV_FILTER_TYPES.users]?.length) {
+          applied[ADV_FILTER_TYPES.users].forEach((item) => {
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: item.id,
+                text: item.name,
+                type: ADV_FILTER_TYPES.users
+              })
+            );
+          });
+        }
+        if (applied[ADV_FILTER_TYPES.tags]?.length) {
+          applied[ADV_FILTER_TYPES.tags].forEach((item) => {
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: item,
+                text: item,
+                type: ADV_FILTER_TYPES.tags
+              })
+            );
+          });
+        }
+        if (applied[ADV_FILTER_TYPES.status]?.length) {
+          applied[ADV_FILTER_TYPES.status].forEach((item) => {
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: item,
+                text: item,
+                type: ADV_FILTER_TYPES.status
+              })
+            );
+          });
+        }
+        if (applied[ADV_FILTER_TYPES.framework]?.length) {
+          applied[ADV_FILTER_TYPES.framework].forEach((item) => {
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: item,
+                text: item,
+                type: ADV_FILTER_TYPES.framework
+              })
+            );
+          });
+        }
+        if (applied[ADV_FILTER_TYPES.dateRange]) {
+          const text = `${getDateInFormat(
+            applied[ADV_FILTER_TYPES.dateRange].lowerBound
+          )} - ${getDateInFormat(
+            applied[ADV_FILTER_TYPES.dateRange].upperBound
+          )}`;
+          updatedSelectedFilters.push({
+            type: ADV_FILTER_TYPES.dateRange,
+            id: `${applied[ADV_FILTER_TYPES.dateRange].lowerBound},${
+              applied[ADV_FILTER_TYPES.dateRange].upperBound
+            }`,
+            range: applied[ADV_FILTER_TYPES.dateRange],
+            text,
+            appliedText: `${
+              ADV_FILTERS_PREFIX[ADV_FILTER_TYPES.dateRange]
+            }: ${text}`,
+            isApplied: true
+          });
+        }
+        if (applied[ADV_FILTER_TYPES.search]) {
+          updatedSelectedFilters.push(
+            getAppliedFilterObj({
+              id: applied[ADV_FILTER_TYPES.search],
+              text: applied[ADV_FILTER_TYPES.search],
+              type: ADV_FILTER_TYPES.search
+            })
+          );
+        }
+        dispatch(setBulkSelectedFilters(updatedSelectedFilters));
+        dispatch(setBulkAppliedFilters(updatedSelectedFilters));
+      }
+      if (!isEmpty(response?.data?.staticFilters)) {
+        dispatch(setStaticFilters(response.data.staticFilters));
+      }
+      dispatch(setIsLoadingBuildsFilters(false));
+      return response.data;
+    } catch (err) {
+      dispatch(setIsLoadingBuildsFilters(false));
       return rejectWithValue(err);
     }
   }

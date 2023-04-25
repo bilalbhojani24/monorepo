@@ -1,0 +1,21 @@
+{
+  "applied": {
+    "buildTags": null,
+    "uniqueBuildNames": null,
+    "folder": null,
+    "testTags": null,
+    "hostName": null,
+    "isFlaky": null,
+    "isNewFailure": null,
+    "isAlwaysFailing": null,
+    "hasJiraDefects": null,
+    "isMuted": null,
+    "failureCategories": null,
+    "device": null,
+    "os": null,
+    "browser": null,
+    "search": null,
+    "dateRange": null
+  },
+  "staticFilters": {}
+}

@@ -176,7 +176,7 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 3.0.0
+      '@browserstack/bifrost': 4.0.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -220,7 +220,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 3.0.0_wuvwllacrnu6wbitqfs6jnvuw4
+      '@browserstack/bifrost': 4.0.0_wuvwllacrnu6wbitqfs6jnvuw4
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@internationalized/date': 3.1.0
@@ -258,7 +258,7 @@ importers:
       sass: 1.57.1
       stylelint: 14.16.0
       stylelint-config-prettier: 9.0.4_stylelint@14.16.0
-      stylelint-config-standard-scss: 8.0.0_l3s4qeu3gkar2knsdy3w5miimm
+      stylelint-config-standard-scss: 9.0.0_l3s4qeu3gkar2knsdy3w5miimm
       stylelint-prettier: 2.0.0_lzrral356zwd7lm6e3scl4w4om
       stylelint-scss: 4.3.0_stylelint@14.16.0
       tailwindcss: 3.1.4_postcss@8.4.20
@@ -2378,8 +2378,8 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/3.0.0_wuvwllacrnu6wbitqfs6jnvuw4:
-    resolution: {integrity: sha512-T0vwdvkc0oW4Hn5yxasy233lUVfVaEvYPCfm16RpFUKY0RA/OBzulrGeIComWgYUOIwfpGE16nbqFgXsKc5+DA==, tarball: download/@browserstack/bifrost/3.0.0/b6ea536f38e5ee11f48f404d1e1ab4c5a58ce065}
+  /@browserstack/bifrost/4.0.0_wuvwllacrnu6wbitqfs6jnvuw4:
+    resolution: {integrity: sha512-V1BP/bttM2wfEl4o0y/9nXlzNZEyJ+IPWtqy003nmUMX3+d4ekaoXqLd2xfdbwSW+bfKI/oXQGW3/f91/OGBCA==, tarball: download/@browserstack/bifrost/4.0.0/4f70b94391a3fab5f0b7477844130f567eb45710}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
@@ -15167,7 +15167,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -24030,11 +24030,11 @@ packages:
     dependencies:
       stylelint: 14.16.0
 
-  /stylelint-config-recommended-scss/10.0.0_l3s4qeu3gkar2knsdy3w5miimm:
-    resolution: {integrity: sha512-+YvPgUHi0W5mCJCKdupBCIsWPYNbWuJcRmFtSYujwNg+41ljFknhO9bpY6C+oahv659zW7W1AT7i6DQvJYYr1A==}
+  /stylelint-config-recommended-scss/11.0.0_l3s4qeu3gkar2knsdy3w5miimm:
+    resolution: {integrity: sha512-EDghTDU7aOv2LTsRZvcT1w8mcjUaMhuy+t38iV5I/0Qiu6ixdkRwhLEMul3K/fnB2v9Nwqvb3xpvJfPH+HduDw==}
     peerDependencies:
       postcss: ^8.3.3
-      stylelint: ^15.3.0
+      stylelint: ^15.5.0
     peerDependenciesMeta:
       postcss:
         optional: true
@@ -24042,7 +24042,7 @@ packages:
       postcss: 8.4.20
       postcss-scss: 4.0.6_postcss@8.4.20
       stylelint: 14.16.0
-      stylelint-config-recommended: 11.0.0_stylelint@14.16.0
+      stylelint-config-recommended: 12.0.0_stylelint@14.16.0
       stylelint-scss: 4.6.0_stylelint@14.16.0
     dev: true
 
@@ -24084,10 +24084,10 @@ packages:
     dependencies:
       stylelint: 14.16.0
 
-  /stylelint-config-recommended/11.0.0_stylelint@14.16.0:
-    resolution: {integrity: sha512-SoGIHNI748OCZn6BxFYT83ytWoYETCINVHV3LKScVAWQQauWdvmdDqJC5YXWjpBbxg2E761Tg5aUGKLFOVhEkA==}
+  /stylelint-config-recommended/12.0.0_stylelint@14.16.0:
+    resolution: {integrity: sha512-x6x8QNARrGO2sG6iURkzqL+Dp+4bJorPMMRNPScdvaUK8PsynriOcMW7AFDKqkWAS5wbue/u8fUT/4ynzcmqdQ==}
     peerDependencies:
-      stylelint: ^15.3.0
+      stylelint: ^15.5.0
     dependencies:
       stylelint: 14.16.0
     dev: true
@@ -24121,19 +24121,19 @@ packages:
       stylelint-config-standard: 30.0.1_stylelint@14.16.0
     dev: true
 
-  /stylelint-config-standard-scss/8.0.0_l3s4qeu3gkar2knsdy3w5miimm:
-    resolution: {integrity: sha512-TDT/gJD/0LUDoUgkjF1uoI/4DfczXHxg7gJVcWT4/JbE6k5hszVuI14reNX+tEwSyMNhcK2BA7izrK+uVAz7XA==}
+  /stylelint-config-standard-scss/9.0.0_l3s4qeu3gkar2knsdy3w5miimm:
+    resolution: {integrity: sha512-yPKpJsrZn4ybuQZx/DkEHuCjw7pJginErE/47dFhCnrvD48IJ4UYec8tSiCuJWMA3HRjbIa3nh5ZeSauDGuVAg==}
     peerDependencies:
       postcss: ^8.3.3
-      stylelint: ^15.4.0
+      stylelint: ^15.5.0
     peerDependenciesMeta:
       postcss:
         optional: true
     dependencies:
       postcss: 8.4.20
       stylelint: 14.16.0
-      stylelint-config-recommended-scss: 10.0.0_l3s4qeu3gkar2knsdy3w5miimm
-      stylelint-config-standard: 32.0.0_stylelint@14.16.0
+      stylelint-config-recommended-scss: 11.0.0_l3s4qeu3gkar2knsdy3w5miimm
+      stylelint-config-standard: 33.0.0_stylelint@14.16.0
     dev: true
 
   /stylelint-config-standard/30.0.1_stylelint@14.16.0:
@@ -24144,13 +24144,13 @@ packages:
       stylelint: 14.16.0
       stylelint-config-recommended: 10.0.1_stylelint@14.16.0
 
-  /stylelint-config-standard/32.0.0_stylelint@14.16.0:
-    resolution: {integrity: sha512-UnGJxYDyYFrIE9CjDMZRkrNh2o4lOtO+MVZ9qG5b8yARfsWho0GMx4YvhHfsv8zKKgHeWX2wfeyxmuoqcaYZ4w==}
+  /stylelint-config-standard/33.0.0_stylelint@14.16.0:
+    resolution: {integrity: sha512-eyxnLWoXImUn77+ODIuW9qXBDNM+ALN68L3wT1lN2oNspZ7D9NVGlNHb2QCUn4xDug6VZLsh0tF8NyoYzkgTzg==}
     peerDependencies:
-      stylelint: ^15.4.0
+      stylelint: ^15.5.0
     dependencies:
       stylelint: 14.16.0
-      stylelint-config-recommended: 11.0.0_stylelint@14.16.0
+      stylelint-config-recommended: 12.0.0_stylelint@14.16.0
     dev: true
 
   /stylelint-order/5.0.0_stylelint@14.16.0:

@@ -300,3 +300,8 @@ export const getSnPErrorDetailsPlatforms = async ({
   }
   return axios.get(endpoint);
 };
+
+export const getSnPTestsFilters = async ({ normalisedName }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/filters`;
+  return axios.get(endpoint);
+};

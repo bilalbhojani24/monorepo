@@ -1,19 +1,17 @@
-import React, { memo, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import {
-  O11yButton,
-  O11ySlideover,
-  O11ySlideoverBody,
-  O11ySlideoverFooter,
-  O11ySlideoverHeader
-} from 'common/bifrostProxy';
+import React, { memo, useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import FilterSkeleton from 'features/FilterSkeleton';
+import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import FilterSlideoverBody from '../components/FilterSlideoverBody';
+import { getSnPTestsFiltersData } from '../slices/dataSlice';
 import { getSnPTestFilterByKey } from '../slices/selectors';
 
 const FiltersSlideover = memo(
   ({ isVisible, onClose, onApplyFilter, allBuildNames }) => {
+    const dispatch = useDispatch();
+    const activeProject = useSelector(getActiveProject);
     const appliedBuildNames = useSelector((state) =>
       getSnPTestFilterByKey(state, 'buildName')
     );
@@ -31,6 +29,14 @@ const FiltersSlideover = memo(
     });
 
     useEffect(() => {
+      dispatch(
+        getSnPTestsFiltersData({
+          normalisedName: activeProject?.normalisedName
+        })
+      );
+    }, [activeProject?.normalisedName, dispatch]);
+
+    useEffect(() => {
       setFilters({
         buildNames: appliedBuildNames.map((build) => ({
           label: build,
@@ -41,12 +47,12 @@ const FiltersSlideover = memo(
       });
     }, [isMuted, isFlaky, appliedBuildNames]);
 
-    const handleApplyFilter = () => {
+    const handleApplyFilter = useCallback(() => {
       onApplyFilter({
         ...filters,
         buildNames: filters.buildNames.map((build) => build.value)
       });
-    };
+    }, [filters, onApplyFilter]);
 
     const handleClose = () => {
       setFilters({
@@ -60,20 +66,16 @@ const FiltersSlideover = memo(
       onClose();
     };
 
+    // const onInit = useCallback(() => {}, []);
+
     return (
-      <O11ySlideover
-        show={isVisible}
-        backgroundOverlay={false}
-        size="sm"
-        closeButtonOutside={false}
-      >
-        <O11ySlideoverHeader
-          heading="Filters"
-          headingWrapperClassName="text-base-900 text-lg font-medium leading-7"
-          handleDismissClick={handleClose}
-          wrapperClassName="pb-0"
-        />
-        <O11ySlideoverBody wrapperClassName="px-6 pb-0 border-b border-base-200">
+      <>
+        <FilterSkeleton
+          isVisible={isVisible}
+          onClose={handleClose}
+          // onInit={onInit}
+          onApply={handleApplyFilter}
+        >
           {isVisible && (
             <FilterSlideoverBody
               allBuildNames={allBuildNames}
@@ -81,16 +83,8 @@ const FiltersSlideover = memo(
               setFilters={setFilters}
             />
           )}
-        </O11ySlideoverBody>
-        <O11ySlideoverFooter>
-          <div className="flex w-full items-center justify-end gap-4 py-1">
-            <O11yButton colors="white" onClick={handleClose}>
-              Cancel
-            </O11yButton>
-            <O11yButton onClick={handleApplyFilter}>Apply</O11yButton>
-          </div>
-        </O11ySlideoverFooter>
-      </O11ySlideover>
+        </FilterSkeleton>
+      </>
     );
   }
 );

@@ -46,7 +46,7 @@ const O11yComboBox = ({
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
-        onInputValueChange={(e) => setQuery(e.target.value)}
+        onInputValueChange={setQuery}
       />
       <ComboboxOptionGroup
         wrapperClassName={twClassNames('w-80', optionsListWrapperClassName, {
@@ -134,6 +134,7 @@ O11yComboBox.defaultProps = {
   checkPosition: '',
   label: '',
   options: [],
+  // eslint-disable-next-line lodash/prefer-noop
   onChange: () => {},
   value: null,
   virtuosoWidth: '',

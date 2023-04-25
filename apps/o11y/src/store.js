@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
 import buildsReducer from 'features/AllBuilds/slices/dataSlice';
 import buildDetailsReducer from 'features/BuildDetails/slices/buildDetailsSlice';
+import AllFiltersSlice from 'features/FilterSkeleton/slices/filterSlice';
 import integrationsReducer from 'features/Integrations/slices/integrationsSlice';
 import alertsSettingsReducer from 'features/Settings/slices/alertsSettings';
 import autoAnalyserSettingsReducer from 'features/Settings/slices/autoAnalyserSettings';
@@ -42,7 +43,8 @@ export const store = configureStore({
     integrations: integrationsReducer,
     testingTrend: testingTrendReducer,
     modalToShow,
-    testInsights: testInsightsSlice
+    testInsights: testInsightsSlice,
+    allFilters: AllFiltersSlice
   },
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware({ serializableCheck: false });
