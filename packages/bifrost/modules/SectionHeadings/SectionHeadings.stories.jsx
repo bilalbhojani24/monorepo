@@ -60,7 +60,7 @@ const defaultConfig = {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
       defaultValue: (
-        <div className="min-w-fit">
+        <div className="flex items-center">
           <Button aria-label="Increment value" wrapperClassName="mr-3">
             Really long
           </Button>
