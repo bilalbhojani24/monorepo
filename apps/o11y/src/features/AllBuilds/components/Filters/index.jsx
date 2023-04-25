@@ -49,6 +49,7 @@ const Filters = () => {
         size="md"
         show={isSlideoverVisible}
         backgroundOverlay={false}
+        onEscPress={onCancelSelectedFilters}
       >
         <O11ySlideoverHeader
           heading="Filters"

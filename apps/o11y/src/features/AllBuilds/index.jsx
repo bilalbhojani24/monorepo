@@ -146,7 +146,7 @@ const AllBuildsPage = () => {
     const build = builds[currentIdx];
     navigate(
       getBuildPath(
-        activeProject?.projectNormalisedName,
+        activeProject?.normalisedName,
         build?.normalisedName,
         build?.buildNumber
       )

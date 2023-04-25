@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import { O11yMetaData, O11yTableCell } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
@@ -18,7 +18,6 @@ import FailureCategoriesPill from './FailureCategoriesPill';
 
 const BuildCardDetails = ({ data }) => {
   const navigate = useNavigate();
-  const { projectNormalisedName } = useParams();
 
   const activeProject = useSelector(getActiveProject);
 
@@ -41,7 +40,7 @@ const BuildCardDetails = ({ data }) => {
     }_clicked`;
     logBuildListingInteracted(interactionName);
     let endpoint = `${getBuildPath(
-      projectNormalisedName,
+      activeProject.normalisedName,
       data.normalisedName,
       data?.buildNumber
     )}?tab=tests`;
