@@ -10,7 +10,7 @@ export const WARNING_DATA = {
   title:
     'Import activity still in progress. We will notify you once it completes.',
   isCondensed: true,
-  description: '',
+  description: null,
   headerIcon: <AccessTimeFilledIcon className="text-attention-400" />,
   type: 'ongoing'
 };

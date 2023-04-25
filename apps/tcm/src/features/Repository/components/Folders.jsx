@@ -21,6 +21,7 @@ import useFolders from './useFolders';
 
 import '../styles/Folders.scss';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Folders() {
   const {
     isFoldersLoading,
@@ -32,6 +33,7 @@ export default function Folders() {
     folderId,
     allFolders,
     isMoveToRootAvailable,
+    moveFolderCtaLoading,
     showAddFolderModal,
     updateRouteHelper,
     folderUpdateHandler,
@@ -62,6 +64,7 @@ export default function Folders() {
         isRootAvailable={isMoveToRootAvailable}
         confirmButtonText="Move Folder"
         disabledFolders={[openedFolderModal?.folder?.id]}
+        loading={moveFolderCtaLoading}
       />
       <AddEditFolderModal
         isEditFolder
@@ -79,18 +82,17 @@ export default function Folders() {
           <div className="border-base-300 flex w-full items-center border-b p-3">
             <span className="text-base">Folders</span>
             <TMButton
-              buttonType="half-rounded-button"
               variant="primary"
               colors="white"
               wrapperClassName="ml-2 p-2"
               size="extra-small"
-              onClick={showAddFolderModal}
+              onClick={() => showAddFolderModal()}
             >
               <CreateNewFolderOutlinedIcon className="text-base-500  !h-5 !w-5" />
             </TMButton>
           </div>
 
-          <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
+          <div className="flex h-full w-full flex-1 shrink flex-col overflow-y-auto">
             {isFoldersLoading ? (
               <Loader wrapperClassName="h-full" />
             ) : (
@@ -150,7 +152,7 @@ export default function Folders() {
             }
             buttonProps={{
               children: 'Create Folder',
-              onClick: showAddFolderModal,
+              onClick: () => showAddFolderModal(true),
               colors: 'white'
             }}
           />

@@ -1,27 +1,31 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { ExclamationTriangleIcon } from '@browserstack/bifrost';
 import {
   TMButton,
   TMModal,
-  TMModalBody,
   TMModalFooter,
-  TMModalHeader
+  TMModalHeader,
+  TMProgressBar
 } from 'common/bifrostProxy';
-import { bool, shape, string } from 'prop-types';
+import { addNotificaton } from 'globalSlice';
+import { bool, number, shape, string } from 'prop-types';
+import { logEventHelper } from 'utils/logEvent';
 
 import { cancelImport, downloadReport } from '../../../api/importCSV.api';
 import { AccessTimeIcon } from '../../../assets/icons';
-import { IMPORT_CSV_STEPS } from '../const/importCSVConstants';
+import { SECOND_SCREEN } from '../const/importCSVConstants';
 import {
   setCSVCurrentScreen,
-  setCSVImportSteps,
   setNotificationConfigForConfirmCSVImport,
   setRetryImport
 } from '../slices/importCSVSlice';
 
-const ImportCSVModal = ({ data, show, status }) => {
+const ImportCSVModal = ({ data, show, status, progress }) => {
   const dispatch = useDispatch();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
   const mapFieldsConfig = useSelector(
     (state) => state.importCSV.mapFieldsConfig
   );
@@ -41,7 +45,7 @@ const ImportCSVModal = ({ data, show, status }) => {
     });
   };
 
-  const detoxNotification = () => {
+  const resetNotification = () => {
     dispatch(
       setNotificationConfigForConfirmCSVImport({
         show: false,
@@ -53,37 +57,42 @@ const ImportCSVModal = ({ data, show, status }) => {
 
   const firstButtonCb = () => {
     if (data.firstButtonText === 'Cancel Import') {
-      detoxNotification();
+      dispatch(
+        logEventHelper('TM_ImportCsvCancelBtnClicked', {
+          project_id: queryParams.get('project')
+        })
+      );
+      resetNotification();
       cancelImport(mapFieldsConfig.importId);
+      dispatch(
+        addNotificaton({
+          id: `import_cancelled_${mapFieldsConfig.import_id}`,
+          title: 'CSV import cancelled successfully',
+          description: null,
+          variant: 'success'
+        })
+      );
     }
     // download report
     else handleDownloadReport();
   };
 
   const secondButtonCb = () => {
-    // retry import
-    dispatch(
-      setCSVImportSteps(
-        IMPORT_CSV_STEPS.map((step, idx) => {
-          if (idx === 0) return { ...step, status: 'complete' };
-          if (idx === 1) return { ...step, status: 'current' };
-          return step;
-        })
-      )
-    );
-    dispatch(setCSVCurrentScreen('mapFields'));
+    dispatch(setCSVCurrentScreen(SECOND_SCREEN));
     dispatch(setRetryImport(true));
-    detoxNotification();
+    resetNotification();
   };
 
   const onModalCloseHandler = () => {
-    detoxNotification();
+    resetNotification();
   };
 
   return (
     <TMModal show={show}>
       <TMModalHeader
-        heading={data?.label}
+        heading={`${data?.label} ${
+          status === 'ongoing' ? `${progress || 0}%` : ''
+        }`}
         handleDismissClick={onModalCloseHandler}
         icon={
           status === 'ongoing' ? (
@@ -98,14 +107,26 @@ const ImportCSVModal = ({ data, show, status }) => {
             />
           )
         }
+        subHeading={
+          status === 'ongoing' ? (
+            <>
+              <TMProgressBar title={null} percentage={progress} />
+              {data?.text}
+            </>
+          ) : (
+            data?.text
+          )
+        }
         iconWrapperClassname={
           status === 'ongoing' ? 'bg-brand-100' : 'bg-danger-100'
         }
         dismissButton={data.secondButtonText}
       />
-      <TMModalBody>
-        <div>{data?.text}</div>
-      </TMModalBody>
+      {/* {status !== 'ongoing' && ( //TODO: check with Arsalan before removing
+        <TMModalBody>
+          <div className="pl-14">{data?.text}</div>
+        </TMModalBody>
+      )} */}
       <TMModalFooter position="right">
         {data?.firstButtonText && (
           <TMButton variant="primary" colors="white" onClick={firstButtonCb}>
@@ -130,6 +151,7 @@ ImportCSVModal.propTypes = {
     secondButtonText: string
   }),
   show: bool,
+  progress: number,
   status: string
 };
 
@@ -141,6 +163,7 @@ ImportCSVModal.defaultProps = {
     secondButtonText: ''
   },
   show: false,
+  progress: 0,
   status: ''
 };
 
