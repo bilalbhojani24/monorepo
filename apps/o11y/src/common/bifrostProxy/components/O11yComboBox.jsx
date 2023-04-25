@@ -42,30 +42,19 @@ const O11yComboBox = ({
       value={value}
       isMulti={!!filteredOptions.length && isMulti}
       disabled={disabled}
+      noResultFoundText="No options available"
+      noOptionsText="No options available"
     >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
-        onInputValueChange={(text) => {
-          setQuery(text);
-        }}
+        onInputValueChange={setQuery}
       />
       <ComboboxOptionGroup
         wrapperClassName={twClassNames('w-80', optionsListWrapperClassName, {
           'h-60': filteredOptions.length > 10
         })}
       >
-        {!filteredOptions.length && (
-          <ComboboxOptionItem
-            option={{
-              label: 'No options available',
-              value: 'noData'
-            }}
-            disabled
-            checkPosition={checkPosition}
-            wrapperClassName="text-sm"
-          />
-        )}
         {filteredOptions.length > 10 ? (
           <Virtuoso
             style={virtuosoStyles}

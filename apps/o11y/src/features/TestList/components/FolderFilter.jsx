@@ -271,28 +271,30 @@ export const FolderFilter = ({
         }}
         wrapperClassName="px-2 py-0"
       >
-        <div className="mb-1 text-left">
-          <span className="text-base-700 text-sm font-medium">Folder</span>
-        </div>
-        {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-        <div
-          className={twClassNames(
-            'border-base-300 flex min-h-[38px] flex-wrap gap-2 rounded-md border px-3 py-2 shadow',
-            {
-              "after:content-['Select'] after:text-sm after:font-normal after:text-base-500":
-                isEmpty(Object.values(selectedValue))
-            }
-          )}
-        >
-          {Object.values(selectedValue).map((el) => (
-            <FileBadge
-              key={el.uuid}
-              text={el.name}
-              hasRemoveButton
-              isRounded
-              onClose={() => removeSelectedItem(el)}
-            />
-          ))}
+        <div>
+          <div className="mb-1 text-left">
+            <span className="text-base-700 text-sm font-medium">Folder</span>
+          </div>
+          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+          <div
+            className={twClassNames(
+              'border-base-300 flex min-h-[38px] flex-wrap gap-2 rounded-md border px-3 py-2 shadow',
+              {
+                "after:content-['Select'] after:text-sm after:font-normal after:text-base-500":
+                  isEmpty(Object.values(selectedValue))
+              }
+            )}
+          >
+            {Object.values(selectedValue).map((el) => (
+              <FileBadge
+                key={el.uuid}
+                text={el.name}
+                hasRemoveButton
+                isRounded
+                onClose={() => removeSelectedItem(el)}
+              />
+            ))}
+          </div>
         </div>
       </O11yPopover>
     </>
