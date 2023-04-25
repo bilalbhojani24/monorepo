@@ -1,20 +1,6 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
 
-export const getBuilds = async ({
-  projectNormalisedName,
-  currentPagingParams
-}) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/`;
-  const searchParams = window.location.search || '?';
-  endpoint += searchParams;
-  if (currentPagingParams?.searchAfter?.length) {
-    if (searchParams) endpoint += '&';
-    endpoint += `searchAfter=${currentPagingParams.searchAfter}`;
-  }
-  return axios.get(endpoint);
-};
-
 export const getBuildsAPI = async ({
   projectNormalisedName,
   searchString,

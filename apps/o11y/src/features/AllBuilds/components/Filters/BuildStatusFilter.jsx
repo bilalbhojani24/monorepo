@@ -24,14 +24,15 @@ function BuildStatusFilter() {
   const [selectedStatus, setSelectedStatus] = useState([]);
 
   useEffect(() => {
-    if (appliedFilters.length && !selectedStatus.length) {
+    if (appliedFilters.length) {
       const selectedFilters = appliedFilters.map((item) => ({
         label: capitalize(item),
         value: item
       }));
       setSelectedStatus(selectedFilters);
     }
-  }, [appliedFilters, selectedStatus.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!availableFilters.length) {
     return null;

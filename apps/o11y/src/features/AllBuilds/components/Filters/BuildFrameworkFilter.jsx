@@ -11,7 +11,6 @@ import {
 } from 'features/AllBuilds/slices/buildsSelectors';
 import { setSelectedFilters } from 'features/AllBuilds/slices/buildsSlice';
 import { getComboBoxDiffStatus } from 'features/AllBuilds/utils/common';
-import { capitalize } from 'utils/common';
 
 function BuildFrameworkFilter() {
   const dispatch = useDispatch();
@@ -26,19 +25,20 @@ function BuildFrameworkFilter() {
   useEffect(() => {
     if (appliedFilters.length && !selectedFrameworks.length) {
       const selectedFilters = appliedFilters.map((item) => ({
-        label: capitalize(item),
+        label: item,
         value: item
       }));
       setSelectedFrameworks(selectedFilters);
     }
-  }, [appliedFilters, selectedFrameworks.length]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!availableFilters.length) {
     return null;
   }
 
   const options = availableFilters.map((item) => ({
-    label: capitalize(item),
+    label: item,
     value: item
   }));
 
@@ -50,7 +50,7 @@ function BuildFrameworkFilter() {
           type: BUILD_FILTER_TYPES.framework,
           operation: BUILD_FILTER_OPERATIONS.ADD,
           id: item.value,
-          text: capitalize(item.value)
+          text: item.value
         })
       );
     } else {
@@ -59,7 +59,7 @@ function BuildFrameworkFilter() {
           type: BUILD_FILTER_TYPES.framework,
           operation: BUILD_FILTER_OPERATIONS.REMOVE_BY_ID,
           id: item.value,
-          text: capitalize(item.value)
+          text: item.value
         })
       );
     }

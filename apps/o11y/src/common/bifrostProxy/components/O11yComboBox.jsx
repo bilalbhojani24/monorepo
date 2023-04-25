@@ -20,9 +20,19 @@ const O11yComboBox = ({
   value,
   checkPosition,
   virtuosoWidth,
-  optionsListWrapperClassName
+  optionsListWrapperClassName,
+  isLoading,
+  isAsyncSearch,
+  onSearch
 }) => {
   const [query, setQuery] = useState('');
+
+  const handleSearch = (val) => {
+    if (!isAsyncSearch) {
+      setQuery(val);
+    }
+    onSearch(val);
+  };
 
   const filteredOptions =
     query === ''
@@ -42,13 +52,12 @@ const O11yComboBox = ({
       value={value}
       isMulti={!!filteredOptions.length && isMulti}
       disabled={disabled}
-      noResultFoundText="No options available"
-      noOptionsText="No options available"
+      isLoadingRight={isLoading}
     >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
-        onInputValueChange={setQuery}
+        onInputValueChange={handleSearch}
       />
       <ComboboxOptionGroup
         wrapperClassName={twClassNames('w-80', optionsListWrapperClassName, {
@@ -115,7 +124,10 @@ O11yComboBox.propTypes = {
     })
   ]),
   virtuosoWidth: PropTypes.string,
-  optionsListWrapperClassName: PropTypes.string
+  optionsListWrapperClassName: PropTypes.string,
+  isLoading: PropTypes.bool,
+  isAsyncSearch: PropTypes.bool,
+  onSearch: PropTypes.func
 };
 
 O11yComboBox.defaultProps = {
@@ -128,6 +140,9 @@ O11yComboBox.defaultProps = {
   onChange: () => {},
   value: null,
   virtuosoWidth: '',
-  optionsListWrapperClassName: ''
+  optionsListWrapperClassName: '',
+  isLoading: false,
+  isAsyncSearch: false,
+  onSearch: () => {}
 };
 export default O11yComboBox;
