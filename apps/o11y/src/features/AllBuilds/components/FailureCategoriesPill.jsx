@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { O11yHyperlink, O11yTooltip } from 'common/bifrostProxy';
+import PropagationBlocker from 'common/PropagationBlocker';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { getDocUrl } from 'utils/common';
+import { getBuildPath } from 'utils/routeUtils';
 
 import { aggregateColors } from '../constants';
 
@@ -21,8 +24,17 @@ const areAllTbi = (data) => {
 const areAllZero = (data) => Object.values(data)?.every((item) => item === 0);
 
 function FailureCategoriesPill({ data, logBuildListingInteracted }) {
-  const investigationRequiredClicked = () =>
+  const navigate = useNavigate();
+  const { projectNormalisedName } = useParams();
+  const investigationRequiredClicked = () => {
     logBuildListingInteracted('to_be_investigated_clicked');
+    const endpoint = `${getBuildPath(
+      projectNormalisedName,
+      data.normalisedName,
+      data?.buildNumber
+    )}/?tab=tests&issueTypeGroup=To+be+Investigated`;
+    navigate(endpoint);
+  };
   const noDefectClicked = () => logBuildListingInteracted('no_defect_clicked');
   if (isEmpty(data?.issueTypeAggregate)) {
     return null;
@@ -66,16 +78,15 @@ function FailureCategoriesPill({ data, logBuildListingInteracted }) {
           </div>
         }
       >
-        <p
-          role="presentation"
-          className="bg-base-200 m-auto h-3 w-28 rounded-xl"
-          onClick={investigationRequiredClicked}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              investigationRequiredClicked();
-            }
-          }}
-        />
+        <PropagationBlocker>
+          <p
+            role="presentation"
+            // className="bg-base-200 m-auto h-3 w-28 rounded-xl"
+            onClick={investigationRequiredClicked}
+          >
+            To be investigated
+          </p>
+        </PropagationBlocker>
       </O11yTooltip>
     );
   }
