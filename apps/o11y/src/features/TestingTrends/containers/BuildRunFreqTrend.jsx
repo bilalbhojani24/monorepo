@@ -14,10 +14,10 @@ import { getAllTTFilters } from '../slices/selectors';
 
 const BuildRunsList = React.memo(({ item, maxRunCount }) => (
   <>
-    <O11yTableCell wrapperClassName="font-medium text-base-900">
+    <O11yTableCell wrapperClassName="text-base-900 whitespace-normal break-normal">
       {item.buildName}
     </O11yTableCell>
-    <O11yTableCell wrapperClassName="font-medium text-base-500">
+    <O11yTableCell wrapperClassName="text-base-500">
       <div className="flex">
         <div
           className="mr-3 h-3 rounded-r-lg"
@@ -26,7 +26,7 @@ const BuildRunsList = React.memo(({ item, maxRunCount }) => (
             backgroundColor: '#865CC1'
           }}
         />
-        <p className="pl-2">{abbrNumber(item.runs)}</p>
+        <p className="shrink-0 pl-2">{abbrNumber(item.runs)}</p>
       </div>
     </O11yTableCell>
   </>
@@ -83,26 +83,23 @@ export default function BuildRunFreqTrend() {
       onClickCTA={fetchData}
     >
       {!isLoading && (
-        <div className="h-96 flex-1">
+        <div className="h-full flex-1">
           <VirtualisedTable
             data={buildData?.data}
             showFixedFooter={isAtBottom}
-            tableContainerWrapperClassName="border-none rounded-none md:rounded-none shadow-none overflow-visible overflow-x-visible md:rounded-none"
+            tableContainerWrapperClassName="overflow-visible overflow-x-visible md:rounded-none"
             customScrollParent={containerRef.current}
             itemContent={(index, singleBuildData) => (
               <BuildRunsList item={singleBuildData} maxRunCount={maxRunCount} />
             )}
             fixedHeaderContent={() => (
-              <O11yTableRow wrapperClassName="bg-white font-semibold text-base-900">
-                <O11yTableCell
-                  isSticky
-                  wrapperClassName="text-base-900 bg-white"
-                >
+              <O11yTableRow>
+                <O11yTableCell isSticky wrapperClassName="font-medium text-xs">
                   BUILD NAME
                 </O11yTableCell>
                 <O11yTableCell
                   isSticky
-                  wrapperClassName="text-base-900 bg-white w-2/3"
+                  wrapperClassName="font-medium text-xs w-2/3"
                 >
                   RUNS
                 </O11yTableCell>

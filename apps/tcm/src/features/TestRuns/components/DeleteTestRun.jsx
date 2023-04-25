@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { WarningAmberOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -11,11 +11,17 @@ import PropTypes from 'prop-types';
 import useMiscConnections from './useMiscConnections';
 
 const DeleteTestRun = ({ redirectToDetails }) => {
-  const { closeAll, deleteTestRunHandler, isDeleteModalVisible } =
-    useMiscConnections({ redirectToDetails });
+  const {
+    closeAll,
+    deleteTestRunHandler,
+    deleteTestRunCtaLoading,
+    isDeleteModalVisible
+  } = useMiscConnections({ redirectToDetails });
+  const deleteModalInitialFocus = useRef();
 
   return (
     <TMModal
+      ref={deleteModalInitialFocus}
       show={isDeleteModalVisible}
       withDismissButton
       onOverlayClick={closeAll}
@@ -28,7 +34,12 @@ const DeleteTestRun = ({ redirectToDetails }) => {
         icon={<WarningAmberOutlinedIcon className="text-danger-600" />}
       />
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={closeAll}>
+        <TMButton
+          ref={deleteModalInitialFocus}
+          variant="primary"
+          colors="white"
+          onClick={closeAll}
+        >
           Cancel
         </TMButton>
         <TMButton
@@ -36,6 +47,8 @@ const DeleteTestRun = ({ redirectToDetails }) => {
           colors="danger"
           wrapperClassName="ml-3"
           onClick={deleteTestRunHandler}
+          loading={deleteTestRunCtaLoading}
+          isIconOnlyButton={deleteTestRunCtaLoading}
         >
           Delete
         </TMButton>

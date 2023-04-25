@@ -46,7 +46,7 @@ export const getDocUrl = ({ path, prependO11y = true }) =>
     prependO11y ? 'test-observability/' : ''
   }${path}`;
 
-export const getNumericValue = (value) => +value.replace(/\D/g, '');
+export const getNumericValue = (value) => +value.replace(/\D/g, '') || '';
 
 export const logOllyEvent = ({ event, data = {} }) => {
   const commonData = {

@@ -7,7 +7,7 @@ import AppRoute from 'const/routes';
 import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
 import { IMPORT_OPTIONS } from '../const/topSectionConst';
 
-import useAddEditTestCase from './useAddEditTestCase';
+import useAddEditTestCase from './AddEditTestCase/useAddEditTestCase';
 
 const TopSection = () => {
   const {

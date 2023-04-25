@@ -9,8 +9,10 @@ import Banner from './modules/Banner/index';
 import Breadcrumb from './modules/Breadcrumb/index';
 import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
-import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
+import ComboboxAddNewItem from './modules/ComboboxAddNewItem/index';
+import BadgeComboBox from './modules/ComboboxBadge/index';
+import BadgeComboBoxTrigger from './modules/ComboboxBadgeTrigger';
 import ComboboxLabel from './modules/ComboboxLabel/index';
 import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
 import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
@@ -118,12 +120,14 @@ export {
   Alerts,
   Attachments,
   Badge,
+  BadgeComboBox,
+  BadgeComboBoxTrigger,
   Banner,
   Breadcrumb,
   Button,
   Checkbox,
-  ColorPicker,
   ComboBox,
+  ComboboxAddNewItem,
   ComboboxLabel,
   ComboboxOptionGroup,
   ComboboxOptionItem,

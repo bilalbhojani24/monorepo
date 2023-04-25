@@ -18,6 +18,10 @@ export const TT_DATE_RANGE = {
   months2: {
     key: 'months2',
     label: '2M'
+  },
+  custom: {
+    key: 'custom',
+    label: 'Custom'
   }
 };
 
@@ -62,32 +66,30 @@ export const TREND_CARDS = {
 
 export const TREND_CARDS_LAYOUT = {
   md: [
-    { w: 10, h: 3, x: 0, y: 0, i: 'latestUniqueBuildRuns', minW: 10, minH: 3 },
+    { w: 5, h: 3, x: 0, y: 0, i: 'latestUniqueBuildRuns', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 0, y: 12, i: 'alwaysFailing', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 5, y: 9, i: 'newFailures', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 5, y: 0, i: 'flakiness', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 0, y: 9, i: 'failureCategories', minW: 5, minH: 3 },
     { w: 10, h: 3, x: 0, y: 3, i: 'stability', minW: 5, minH: 3 },
     { w: 10, h: 3, x: 0, y: 6, i: 'performance', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 0, y: 12, i: 'alwaysFailing', minW: 5, minH: 3 },
     { w: 5, h: 3, x: 0, y: 15, i: 'buildRunFrequency', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 0, y: 18, i: 'cbt', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 0, y: 21, i: 'parallelExecutions', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 0, y: 9, i: 'failureCategories', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 5, y: 12, i: 'newFailures', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 5, y: 15, i: 'testGrowthOverTime', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 5, y: 18, i: 'testExecutions', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 5, y: 9, i: 'flakiness', minW: 5, minH: 3 }
+    { w: 5, h: 3, x: 5, y: 12, i: 'testGrowthOverTime', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 5, y: 15, i: 'testExecutions', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 0, y: 18, i: 'cbt', minW: 5, minH: 3 }
   ],
   lg: [
-    { w: 10, h: 3, x: 0, y: 0, i: 'latestUniqueBuildRuns', minW: 10, minH: 3 },
+    { w: 5, h: 3, x: 0, y: 0, i: 'latestUniqueBuildRuns', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 0, y: 12, i: 'alwaysFailing', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 5, y: 9, i: 'newFailures', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 5, y: 0, i: 'flakiness', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 0, y: 9, i: 'failureCategories', minW: 5, minH: 3 },
     { w: 10, h: 3, x: 0, y: 3, i: 'stability', minW: 10, minH: 3 },
     { w: 10, h: 3, x: 0, y: 6, i: 'performance', minW: 10, minH: 3 },
-    { w: 5, h: 3, x: 0, y: 12, i: 'alwaysFailing', minW: 5, minH: 3 },
     { w: 5, h: 3, x: 0, y: 15, i: 'buildRunFrequency', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 0, y: 18, i: 'cbt', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 0, y: 21, i: 'parallelExecutions', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 0, y: 9, i: 'failureCategories', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 5, y: 12, i: 'newFailures', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 5, y: 15, i: 'testGrowthOverTime', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 5, y: 18, i: 'testExecutions', minW: 5, minH: 3 },
-    { w: 5, h: 3, x: 5, y: 9, i: 'flakiness', minW: 5, minH: 3 }
+    { w: 5, h: 3, x: 5, y: 12, i: 'testGrowthOverTime', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 5, y: 15, i: 'testExecutions', minW: 5, minH: 3 },
+    { w: 5, h: 3, x: 0, y: 18, i: 'cbt', minW: 5, minH: 3 }
   ],
   sm: [
     { w: 1, h: 5, x: 0, y: 0, i: 'latestUniqueBuildRuns', minW: 1, minH: 5 },

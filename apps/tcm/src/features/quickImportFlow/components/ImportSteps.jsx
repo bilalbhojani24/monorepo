@@ -5,8 +5,14 @@ import { arrayOf, shape, string } from 'prop-types';
 
 import {
   COMPLETE_STEP,
+  CONFIGURE_DATA,
+  CONFIGURE_TOOL,
+  CONFIRM_IMPORT,
   CURRENT_COMPLETED_STEP,
-  CURRENT_STEP
+  CURRENT_STEP,
+  SCREEN_1,
+  SCREEN_2,
+  SCREEN_3
 } from '../const/importSteps';
 import { setCurrentScreen, setImportSteps } from '../slices/importSlice';
 
@@ -15,12 +21,9 @@ const ImportSteps = (props) => {
   const dispatch = useDispatch();
 
   const redirectToScreen = (stepName) => {
-    if (stepName === 'CONFIGURE TOOL')
-      dispatch(setCurrentScreen('configureTool'));
-    else if (stepName === 'CONFIGURE DATA')
-      dispatch(setCurrentScreen('configureData'));
-    else if (stepName === 'CONFIRM IMPORT')
-      dispatch(setCurrentScreen('confirmImport'));
+    if (stepName === CONFIGURE_TOOL) dispatch(setCurrentScreen(SCREEN_1));
+    else if (stepName === CONFIGURE_DATA) dispatch(setCurrentScreen(SCREEN_2));
+    else if (stepName === CONFIRM_IMPORT) dispatch(setCurrentScreen(SCREEN_3));
   };
 
   // eslint-disable-next-line sonarjs/cognitive-complexity

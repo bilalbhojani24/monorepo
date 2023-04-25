@@ -4,9 +4,15 @@ import { getTTTimeBounds } from 'utils/dateTime';
 
 const getCommonFilterQuery = (filters) => {
   let queryString = '';
+
   if (filters.dateRange.key) {
     const { lowerBound, upperBound } = getTTTimeBounds(filters.dateRange.key);
-    queryString = `${queryString}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
+    const isCustomDateRange = filters.dateRange.key === 'custom';
+    queryString = `${queryString}&lowerBound=${
+      isCustomDateRange ? filters.dateRange.lowerBound : lowerBound
+    }&upperBound=${
+      isCustomDateRange ? filters.dateRange.upperBound : upperBound
+    }`;
   }
   if (filters?.buildName?.value !== 'all') {
     queryString = `${queryString}&buildName=${filters.buildName.value}`;

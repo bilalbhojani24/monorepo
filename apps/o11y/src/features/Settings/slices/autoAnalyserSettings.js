@@ -19,7 +19,7 @@ export const getAutoAnalyserSettingsData = createAsyncThunk(
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -33,7 +33,7 @@ export const updateAutoAnalyserSettingsData = createAsyncThunk(
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
