@@ -242,9 +242,9 @@ const AddEditTestCaseMoreFields = () => {
             wrapperClassName="w-64 h-36"
             heading=""
             linkText="Upload a file"
-            subHeading="PNG, JPG, DOC, PDF, CSV, MP4 up to 50 MB"
+            subHeading="PNG, JPG, PDF, CSV, MP4 up to 50 MB"
             onChange={fileUploaderHelper}
-            accept="application/pdf, image/jpeg, image/png, .doc, .docx, text/csv, video/mp4"
+            accept="application/pdf, image/jpeg, image/png, text/csv, video/mp4"
           />
         </div>
         <div className="flex-1" />
