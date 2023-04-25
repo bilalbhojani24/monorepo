@@ -256,8 +256,8 @@ importers:
   apps/o11y:
     dependencies:
       '@browserstack/bifrost':
-        specifier: 4.0.0
-        version: 4.0.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@9.0.0)
+        specifier: 3.0.0
+        version: 3.0.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@9.0.0)
       '@browserstack/hooks':
         specifier: workspace:*
         version: link:../../packages/hooks
@@ -2807,6 +2807,49 @@ packages:
       - uuid
     dev: false
 
+  /@browserstack/bifrost@3.0.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@9.0.0):
+    resolution: {integrity: sha512-T0vwdvkc0oW4Hn5yxasy233lUVfVaEvYPCfm16RpFUKY0RA/OBzulrGeIComWgYUOIwfpGE16nbqFgXsKc5+DA==, tarball: download/@browserstack/bifrost/3.0.0/b6ea536f38e5ee11f48f404d1e1ab4c5a58ce065}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@9.0.0)
+      '@browserstack/utils': 0.2.4(@reduxjs/toolkit@1.9.1)(axios@1.2.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@9.0.0)
+      '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
+      '@heroicons/react': 2.0.13(react@18.2.0)
+      '@internationalized/date': 3.1.0
+      '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
+      '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1(react-dom@18.2.0)(react@18.2.0)
+      react-dom: 18.2.0(react@18.2.0)
+      react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      react-hot-toast: 2.4.0(csstype@3.1.1)(react-dom@18.2.0)(react@18.2.0)
+      react-icons: 4.7.1(react@18.2.0)
+      react-player: 2.12.0(react@18.2.0)
+      react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
+      react-stately: 3.21.0(react@18.2.0)
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@types/react'
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-redux
+      - redux-mock-store
+      - ua-parser-js
+      - uuid
+    dev: false
+
   /@browserstack/bifrost@3.1.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1):
     resolution: {integrity: sha512-SwE6h1VZX+x29guVEStNlj6d1Xal9QggCbgVeEFeRel0bC3posuEt+DBhWgpsVYzfgmyU8DcsH2tDg0gX4oIoA==, tarball: download/@browserstack/bifrost/3.1.0/5a348a52758af605eae340d86bdb3490a6105f6e}
     peerDependencies:
@@ -2875,49 +2918,6 @@ packages:
       react-icons: 4.7.1(react@18.2.0)
       react-player: 2.12.0(react@18.2.0)
       react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
-      react-stately: 3.21.0(react@18.2.0)
-    transitivePeerDependencies:
-      - '@juggle/resize-observer'
-      - '@reduxjs/toolkit'
-      - '@types/react'
-      - axios
-      - csstype
-      - dexie
-      - enzyme
-      - lodash
-      - react-redux
-      - redux-mock-store
-      - ua-parser-js
-      - uuid
-    dev: false
-
-  /@browserstack/bifrost@4.0.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@9.0.0):
-    resolution: {integrity: sha512-V1BP/bttM2wfEl4o0y/9nXlzNZEyJ+IPWtqy003nmUMX3+d4ekaoXqLd2xfdbwSW+bfKI/oXQGW3/f91/OGBCA==, tarball: download/@browserstack/bifrost/4.0.0/4f70b94391a3fab5f0b7477844130f567eb45710}
-    peerDependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0
-      react-router-dom: 6.6.1
-    dependencies:
-      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@9.0.0)
-      '@browserstack/utils': 0.2.4(@reduxjs/toolkit@1.9.1)(axios@1.2.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(react-dom@18.2.0)(react-redux@8.0.5)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@9.0.0)
-      '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
-      '@heroicons/react': 2.0.13(react@18.2.0)
-      '@internationalized/date': 3.1.0
-      '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
-      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
-      '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-aria: 3.23.1(react-dom@18.2.0)(react@18.2.0)
-      react-dom: 18.2.0(react@18.2.0)
-      react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
-      react-hot-toast: 2.4.0(csstype@3.1.1)(react-dom@18.2.0)(react@18.2.0)
-      react-icons: 4.7.1(react@18.2.0)
-      react-player: 2.12.0(react@18.2.0)
-      react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
-      react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
       react-stately: 3.21.0(react@18.2.0)
     transitivePeerDependencies:
       - '@juggle/resize-observer'
