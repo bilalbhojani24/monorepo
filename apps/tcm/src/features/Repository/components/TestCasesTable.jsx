@@ -90,7 +90,7 @@ const TestCasesTable = ({
       cell: (rowData) => (
         <div
           role="button"
-          className="hover:text-brand-600 cursor-pointer"
+          className="text-base-900 hover:text-brand-600 cursor-pointer"
           tabIndex={0}
           onClick={handleTestCaseViewClick(rowData, 'ID')}
           onKeyDown={handleTestCaseViewClick(rowData, 'ID')}
@@ -175,7 +175,7 @@ const TestCasesTable = ({
       name: 'PRIORITY',
       key: 'priority',
       cell: (rowData) => (
-        <span className="flex items-center capitalize">
+        <span className="text-base-500 flex items-center capitalize">
           {formatPriority(rowData?.priority)}
           {getSystemOrCustomValue(
             rowData?.priority,
@@ -189,7 +189,7 @@ const TestCasesTable = ({
       name: 'OWNER',
       key: 'owner',
       cell: (rowData) => (
-        <span>
+        <span className="text-base-500">
           {getSystemOrCustomValue(
             rowData?.assignee?.full_name,
             rowData?.owner_imported
