@@ -49,8 +49,8 @@ const defaultConfig = {
 };
 const Template = (args) => (
   <DateRangepicker
-    minValue={today(getLocalTimeZone()).subtract({ years: 5 })}
-    maxValue={today(getLocalTimeZone()).add({ years: 3 })}
+    minValue={today(getLocalTimeZone()).subtract({ years: 2 })}
+    maxValue={today(getLocalTimeZone()).add({ years: 2 })}
     {...args}
   />
 );

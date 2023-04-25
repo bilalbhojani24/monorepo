@@ -42,8 +42,7 @@ const DateRangepicker = (props) => {
   const years = useYearpicker(YEARS_DATA, 12);
   useEffect(() => {
     years.jump(new Date().getFullYear() / 12 + 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [years]);
 
   const [currentPicker, setCurrentPicker] = useState(PICKER_LEVELS[2]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());

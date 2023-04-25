@@ -10,8 +10,8 @@ import Button from '../../Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../Icon';
 import Loader from '../../Loader';
 import {
-  MONTHS_DATA,
-  MONTHS_DATA_JSON,
+  // MONTHS_DATA,
+  // MONTHS_DATA_JSON,
   PICKER_LEVELS
 } from '../const/DateRangepickerconst';
 import { PickerLevelContext } from '../context/PickerLevelContext';
@@ -24,13 +24,13 @@ import YearGrid from './YearGrid';
 export function RangeCalendar(props) {
   const {
     years,
-    currentPicker,
+    currentPicker
     // TODO: Add logic to jump calendar dates
     // setCurrentPicker,
-    selectedYear,
-    selectedMonth,
-    setSelectedYear,
-    setSelectedMonth
+    // selectedYear,
+    // selectedMonth,
+    // setSelectedYear,
+    // setSelectedMonth
   } = useContext(PickerLevelContext);
   const { minValue, maxValue, isLoading } = props;
   const { locale } = useLocale();
@@ -59,10 +59,10 @@ export function RangeCalendar(props) {
     years.next();
   };
 
-  const updateTitleOnChevronClick = () => {
-    setSelectedYear(title.split(' ')[1]);
-    setSelectedMonth(MONTHS_DATA_JSON[title.split(' ')[0]]);
-  };
+  // const updateTitleOnChevronClick = () => {
+  //   setSelectedYear(title.split(' ')[1]);
+  //   setSelectedMonth(MONTHS_DATA_JSON[title.split(' ')[0]]);
+  // };
 
   return (
     <div {...calendarProps} ref={ref} className="inline-block">
@@ -86,7 +86,8 @@ export function RangeCalendar(props) {
                   wrapperClassName="text-base font-semibold leading-6 mr-2 outline-none"
                   // onClick={() => setCurrentPicker(PICKER_LEVELS[1])}
                 >
-                  {MONTHS_DATA[selectedMonth].name}
+                  {/* {MONTHS_DATA[selectedMonth].name} */}
+                  {title.split(' ')[0]}
                 </Button>
               )}
               <Button
@@ -101,7 +102,8 @@ export function RangeCalendar(props) {
                   }
                 )}
               >
-                {selectedYear}
+                {/* {selectedYear} */}
+                {title.split(' ')[1]}
               </Button>
             </p>
 
@@ -173,7 +175,7 @@ export function RangeCalendar(props) {
             {currentPicker === PICKER_LEVELS[2] && (
               <>
                 <CalendarButton
-                  onClick={updateTitleOnChevronClick}
+                  // onClick={updateTitleOnChevronClick}
                   disableChevron={state.isPreviousVisibleRangeInvalid()}
                   {...prevButtonProps}
                 >
@@ -186,7 +188,7 @@ export function RangeCalendar(props) {
                   />
                 </CalendarButton>
                 <CalendarButton
-                  onClick={updateTitleOnChevronClick}
+                  // onClick={updateTitleOnChevronClick}
                   disableChevron={state.isNextVisibleRangeInvalid()}
                   {...nextButtonProps}
                 >

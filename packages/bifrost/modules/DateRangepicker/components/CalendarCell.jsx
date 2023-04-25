@@ -45,9 +45,9 @@ export function CalendarCell({ state, date, currentDate }) {
             disabled: isDisabled,
             'bg-base-200 border-y-4 border-white font-semibold': isSelected,
             'rounded-l-full bg-gradient-to-r from-white to-base-200':
-              isSelectionStart,
+              isSelectionStart && !isOutsideVisibleRange,
             'rounded-r-full bg-gradient-to-r from-base-200 to-white':
-              isSelectionEnd,
+              isSelectionEnd && !isOutsideVisibleRange,
             'bg-gradient-to-r from-white to-white': singleDateRange,
             'bg-danger-300': isSelected && isInvalid
           }
@@ -65,7 +65,7 @@ export function CalendarCell({ state, date, currentDate }) {
 
               // Darker selection background for the start and end.
               'bg-base-900 text-white rounded-full w-5/6 mx-auto':
-                isSelectionStart || isSelectionEnd,
+                (isSelectionStart || isSelectionEnd) && !isOutsideVisibleRange,
               'bg-base-900 hover:bg-danger-700 text-white w-5/6 mx-auto':
                 (isSelectionStart || isSelectionEnd) && isInvalid,
 
