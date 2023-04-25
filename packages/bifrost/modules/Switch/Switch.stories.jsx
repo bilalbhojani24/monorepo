@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { MdCheck, MdClose } from '../Icon';
@@ -169,12 +171,26 @@ const ToggleWithIcons = (args) => {
 
 const UncontrolledTemplate = (args) => <Switch {...args} defaultValue />;
 const Uncontrolled = UncontrolledTemplate.bind({});
+Uncontrolled.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('switch')).toBeVisible();
+  await userEvent.click(canvas.getByRole('switch'));
+  await userEvent.click(canvas.getByRole('switch'));
+};
+
 Uncontrolled.parameters = {
   controls: {}
 };
 
 const ControlledTemplate = (args) => <ControlledComponent {...args} />;
 const Controlled = ControlledTemplate.bind({});
+Controlled.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('switch')).toBeVisible();
+  await userEvent.click(canvas.getByRole('switch'));
+  await userEvent.click(canvas.getByRole('switch'));
+};
+
 Uncontrolled.parameters = {
   controls: {}
 };
