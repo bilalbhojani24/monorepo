@@ -83,7 +83,7 @@ const defaultConfig = {
     },
     children: {
       option: { type: null },
-      defaultValue: 'Click me'
+      defaultValue: <Button>Hover me</Button>
     },
     defaultOpen: {
       option: { type: 'boolean' },
@@ -172,8 +172,7 @@ const defaultConfig = {
     },
     wrapperClassName: {
       option: { type: 'string' },
-      defaultValue:
-        'leading-5 text-sm py-2 px-4 rounded-md bg-brand-600 text-white hover:bg-brand-700 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2'
+      defaultValue: ''
     }
   },
   controls: {}
