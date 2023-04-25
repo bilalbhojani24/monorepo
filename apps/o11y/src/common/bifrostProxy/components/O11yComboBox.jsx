@@ -46,7 +46,9 @@ const O11yComboBox = ({
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
-        onInputValueChange={(e) => setQuery(e.target.value)}
+        onInputValueChange={(text) => {
+          setQuery(text);
+        }}
       />
       <ComboboxOptionGroup
         wrapperClassName={twClassNames('w-80', optionsListWrapperClassName, {
