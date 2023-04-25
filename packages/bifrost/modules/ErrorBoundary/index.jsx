@@ -10,7 +10,7 @@ import React, {
 import { PropTypes } from 'prop-types';
 
 // Error Boundary class component start
-class ErrorBoundary extends Component {
+class ErrorBoundaryContainer extends Component {
   componentDidCatch(...args) {
     const { onError } = this.props;
     this.setState({});
@@ -18,17 +18,24 @@ class ErrorBoundary extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, error, fallbackUI } = this.props;
+    if (error && fallbackUI) {
+      return fallbackUI;
+    }
     return children;
   }
 }
 
-ErrorBoundary.propTypes = {
+ErrorBoundaryContainer.propTypes = {
   children: PropTypes.node,
+  fallbackUI: PropTypes.node,
+  error: PropTypes.bool,
   onError: PropTypes.func.isRequired
 };
-ErrorBoundary.defaultProps = {
-  children: null
+ErrorBoundaryContainer.defaultProps = {
+  children: null,
+  fallbackUI: null,
+  error: false
 };
 // Error Boundary class component end
 
@@ -40,7 +47,7 @@ const errorBoundaryContext = createContext({
   setError: noop
 });
 
-export const ErrorBoundaryContext = ({ children }) => {
+export const ErrorBoundary = ({ children, fallbackUI }) => {
   const [error, setError] = useState();
   const componentDidCatch = useRef();
 
@@ -55,36 +62,39 @@ export const ErrorBoundaryContext = ({ children }) => {
 
   return (
     <errorBoundaryContext.Provider value={ctx}>
-      <ErrorBoundary
+      <ErrorBoundaryContainer
         error={error}
         onError={(err, errorInfo) => {
           setError(err);
           componentDidCatch.current?.(err, errorInfo);
         }}
+        fallbackUI={fallbackUI}
       >
         {children}
-      </ErrorBoundary>
+      </ErrorBoundaryContainer>
     </errorBoundaryContext.Provider>
   );
 };
 
-ErrorBoundaryContext.propTypes = {
-  children: PropTypes.node
+ErrorBoundary.propTypes = {
+  children: PropTypes.node,
+  fallbackUI: PropTypes.node
 };
-ErrorBoundaryContext.defaultProps = {
-  children: null
+ErrorBoundary.defaultProps = {
+  children: null,
+  fallbackUI: null
 };
 
-ErrorBoundaryContext.displayName = 'ReactUseErrorBoundaryContext';
+ErrorBoundary.displayName = 'ReactUseErrorBoundaryContext';
 // Error boundary context end
 
 // Error Boundary HOC component start
 export const withErrorBoundary = (WrappedComponent) => {
   function WithErrorBoundary(props) {
     return (
-      <ErrorBoundaryContext>
+      <ErrorBoundary>
         <WrappedComponent key="WrappedComponent" {...props} />
-      </ErrorBoundaryContext>
+      </ErrorBoundary>
     );
   }
   WithErrorBoundary.displayName = `WithErrorBoundary(${

@@ -3,7 +3,7 @@ import React from 'react';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
 import ErrorBoundary, {
-  ErrorBoundaryContext,
+  ErrorBoundary as ErrorBoundarySheild,
   useErrorBoundary,
   withErrorBoundary
 } from './index';
@@ -56,9 +56,9 @@ const DemoComponent = () => {
 };
 
 const ContextAndHooks = () => (
-  <ErrorBoundaryContext>
+  <ErrorBoundarySheild fallbackUI={<div>Fallback UI</div>}>
     <DemoComponent />
-  </ErrorBoundaryContext>
+  </ErrorBoundarySheild>
 );
 
 const HOCAndHooksComponent = () => {
