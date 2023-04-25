@@ -420,8 +420,8 @@ export default function SiteScanner() {
         <div>
           <h1 className="mb-2 text-2xl font-bold">Website scanner</h1>
           <h3 className="text-base-500 mb-4 text-sm font-medium">
-            Scan multiple pages in one go and schedule periodic scans to monitor
-            your pages for accessibility issues
+            Scan multiple pages on-demand or on a schedule and monitor the
+            accessibility health of your website.
           </h3>
         </div>
         <NewScan
@@ -452,7 +452,7 @@ export default function SiteScanner() {
           <div className="block p-6 pt-0">
             <div className="flex justify-between">
               <div className="flex items-center">
-                <div className="mr-4 mt-1 w-64">
+                <div className="mr-4 mt-1 w-80">
                   <InputField
                     onChange={handleSearch}
                     id="search-scan"

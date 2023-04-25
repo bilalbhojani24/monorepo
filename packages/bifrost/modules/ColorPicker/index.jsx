@@ -19,7 +19,10 @@ const ColorPicker = (props) => {
   return (
     <RadioGroup value={selectedColor} onChange={handleChange}>
       {label && (
-        <RadioGroup.Label className="text-base-700 block text-sm font-medium">
+        <RadioGroup.Label
+          className="text-base-700 block text-sm font-medium"
+          as="p"
+        >
           {label}
         </RadioGroup.Label>
       )}

@@ -18,6 +18,10 @@ import Popover from './index';
 
 const inlineRadio = 'inline-radio';
 
+const popoverHeading = 'This is a tooltip heading';
+const popoverBody =
+  'Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec sodales augue eu viverra tempus';
+
 const defaultConfig = {
   title: 'Application/Components/Popover',
   component: Popover,
@@ -64,7 +68,7 @@ const defaultConfig = {
       option: { type: null },
       defaultValue: (
         <>
-          <PopoverHeader>This is a tooltip heading</PopoverHeader>
+          <PopoverHeader>{popoverHeading}</PopoverHeader>
           <PopoverBody>
             Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit.
             Donec sodales augue eu viverra tempus.
@@ -78,7 +82,7 @@ const defaultConfig = {
     },
     children: {
       option: { type: null },
-      defaultValue: <Button>Click me</Button>
+      defaultValue: 'Click me'
     },
     defaultOpen: {
       option: { type: 'boolean' },
@@ -159,7 +163,8 @@ const defaultConfig = {
     },
     triggerWrapperClassName: {
       option: { type: 'string' },
-      defaultValue: ''
+      defaultValue:
+        'leading-5 text-sm py-2 px-4 rounded-md bg-brand-600 text-white hover:bg-brand-700 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2'
     }
   },
   controls: {}
@@ -185,11 +190,8 @@ DarkTheme.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <PopoverHeader>This is a tooltip heading</PopoverHeader>
-      <PopoverBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </PopoverBody>
+      <PopoverHeader>{popoverHeading}</PopoverHeader>
+      <PopoverBody>{popoverBody}</PopoverBody>
       <PopoverFooter>
         <Button>Action 1</Button>
         <Button
@@ -208,11 +210,8 @@ DarkTheme.args = {
 LightThemeHyperlink.args = {
   content: (
     <>
-      <PopoverHeader>This is a tooltip heading</PopoverHeader>
-      <PopoverBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </PopoverBody>
+      <PopoverHeader>{popoverHeading}</PopoverHeader>
+      <PopoverBody>{popoverBody}</PopoverBody>
       <PopoverFooter>
         <Hyperlink
           isCSR={false}
@@ -247,11 +246,8 @@ DarkThemeHyperlink.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <PopoverHeader>This is a tooltip heading</PopoverHeader>
-      <PopoverBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </PopoverBody>
+      <PopoverHeader>{popoverHeading}</PopoverHeader>
+      <PopoverBody>{popoverBody}</PopoverBody>
       <PopoverFooter>
         <Hyperlink
           isCSR={false}
