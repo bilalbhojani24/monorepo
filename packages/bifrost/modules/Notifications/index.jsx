@@ -31,10 +31,12 @@ const Notifications = forwardRef((props, ref) => {
           'ml-3': !isCondensed
         })}
       >
-        <p className="text-base-900 text-sm font-medium">{title}</p>
+        <p className="text-base-900 line-clamp-2 break-words text-sm font-medium">
+          {title}
+        </p>
 
         {!isCondensed && (
-          <p className="text-base-500 mt-1 text-sm">{description}</p>
+          <p className="text-base-500 mt-1 break-keep text-sm">{description}</p>
         )}
 
         {!isCondensed && actionButtons && (
