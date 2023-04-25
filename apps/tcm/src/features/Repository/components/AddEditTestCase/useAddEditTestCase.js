@@ -14,7 +14,7 @@ import {
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
-import { findFolderRouted } from 'utils/folderHelpers';
+import { findFolderPath } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -647,12 +647,19 @@ export default function useAddEditTestCase(prop) {
       isAddTestCasePageVisible &&
       prop?.isAddEditOnly // to reduce recalculation for other components
     ) {
+      console.log(
+        'inside use effect to schedule folder',
+        allFolders,
+        testCaseFormData?.test_case_folder_id
+        // findFolderPath(allFolders, testCaseFormData?.test_case_folder_id, [])
+      );
+
       setScheduledFolder(
-        findFolderRouted(allFolders, testCaseFormData?.test_case_folder_id)
+        findFolderPath(allFolders, testCaseFormData?.test_case_folder_id, [])
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [testCaseFormData?.test_case_folder_id, prop?.isAddEditOnly]);
+  }, [allFolders, testCaseFormData?.test_case_folder_id, prop?.isAddEditOnly]);
 
   useEffect(() => {
     if (projectId === loadedDataProjectId) {
