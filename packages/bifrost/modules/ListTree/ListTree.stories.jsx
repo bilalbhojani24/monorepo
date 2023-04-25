@@ -1,17 +1,169 @@
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import listTreeCheckboxHelper from '../../utils/listTreeCheckbox';
 import Dropdown from '../Dropdown';
 import DropdownOptionGroup from '../DropdownOptionGroup';
 import DropdownOptionItem from '../DropdownOptionItem';
 import DropdownTrigger from '../DropdownTrigger';
 import { EllipsisVerticalIcon, MdFolderSpecial } from '../Icon';
+import InputField from '../InputField';
+import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent.stories';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 import TruncateText from '../TruncateText';
 
 import ListTree from './index';
+
+const {
+  getSearchResultsCustomBSFTraversal,
+  getSelectedListTreeItems,
+  updateTargetNodes
+} = listTreeCheckboxHelper;
+
+const sampleListTreeCheckboxData = [
+  {
+    uuid: '0',
+    name: 'file 1',
+    isChecked: false,
+    isIndeterminate: false,
+    contents: [
+      {
+        uuid: '0-0',
+        name: 'file 1a',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: null
+      },
+      {
+        uuid: '0-1',
+        name: 'file 1b',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: [
+          {
+            uuid: '0-1-0',
+            name: 'file 1b1',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    uuid: '1',
+    name: 'file 2',
+    isChecked: false,
+    isIndeterminate: false,
+    contents: [
+      {
+        uuid: '1-0',
+        name: 'file 2a',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: null
+      },
+      {
+        uuid: '1-1',
+        name: 'file 2 john',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: [
+          {
+            uuid: '1-1-0',
+            name: 'file 2b1',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '1-1-0-0',
+                name: 'file 2b1a john',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: [
+                  {
+                    uuid: '1-1-0-0-0',
+                    name: 'file 2b1a1',
+                    isChecked: false,
+                    isIndeterminate: false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            uuid: '1-1-1',
+            name: 'file 2b2',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '1-1-1-0',
+                name: 'file 2b2a',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: [
+                  {
+                    uuid: '1-1-1-0-0',
+                    name: 'file 2b2a1',
+                    isChecked: false,
+                    isIndeterminate: false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            uuid: '1-1-2',
+            name: 'file 2b3',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '1-1-2-0',
+                name: 'file 2b3a',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              },
+              {
+                uuid: '1-1-2-1',
+                name: 'file 2b3b',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              },
+              {
+                uuid: '1-1-2-2',
+                name: 'file 2b3c',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        uuid: '1-2',
+        name: 'file 2c',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: null
+      }
+    ]
+  },
+  {
+    uuid: '2',
+    name: 'file 3 john',
+    isChecked: false,
+    isIndeterminate: false,
+    contents: []
+  }
+];
 
 const options = [
   {
@@ -113,20 +265,19 @@ const listTreeDemoDataSet = [
   }
 ];
 
-// eslint-disable-next-line no-unused-vars
-const findNodeinTree = (keyName, tree) => {
-  // you might need this, :-*
+// const findNodeinTree = (keyName, tree) => {
+//   // you might need this, :-*
 
-  for (let i = 0; i < tree.length; i += 1) {
-    if (tree[i].keyName === keyName) {
-      return tree[i];
-    }
-    if (tree[i].contents) {
-      findNodeinTree(tree[i].contents, keyName);
-    }
-  }
-  return null;
-};
+//   for (let i = 0; i < tree.length; i += 1) {
+//     if (tree[i].keyName === keyName) {
+//       return tree[i];
+//     }
+//     if (tree[i].contents) {
+//       findNodeinTree(tree[i].contents, keyName);
+//     }
+//   }
+//   return null;
+// };
 
 /**
  * This is just an example runner function that renders,a tree,
@@ -188,7 +339,7 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
                 </DropdownTrigger>
                 <DropdownOptionGroup>
                   {options.map((op) => (
-                    <DropdownOptionItem option={op} />
+                    <DropdownOptionItem key={op.id} option={op} />
                   ))}
                 </DropdownOptionGroup>
               </Dropdown>
@@ -201,6 +352,104 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
           )}
         </ListTree>
       ))}
+    </>
+  );
+};
+
+const SearchableSelectableListTree = () => {
+  const [listOfItems, setListOfItems] = useState(sampleListTreeCheckboxData);
+  const [selectedValue, setSelectedValue] = useState({});
+  const [searchValue, setSearchValue] = useState(''); // Debounce this state for optimal performance
+  const [filteredUUIDs, setFilteredUUIDs] = useState({
+    searchedUUIDs: {},
+    filteredUUIDsWithHierarchy: {}
+  });
+  const [openNodeMap, setOpenNodeMap] = useState({
+    0: true,
+    1: true
+  });
+  const onSearchChange = (e) => {
+    const newSearchValue = e.target.value;
+    let newFilterUUUIDValue;
+    const searchLogicCallback = (item) =>
+      item.name.toLowerCase().includes(newSearchValue.toLowerCase());
+    if (newSearchValue.includes(searchValue) && searchValue.length > 0) {
+      newFilterUUUIDValue = getSearchResultsCustomBSFTraversal(
+        listOfItems,
+        searchLogicCallback,
+        Object.values(filteredUUIDs.searchedUUIDs)
+      );
+    } else {
+      newFilterUUUIDValue = getSearchResultsCustomBSFTraversal(
+        listOfItems,
+        searchLogicCallback
+      );
+    }
+    const newOpenNodeMap = {};
+    Object.keys(newFilterUUUIDValue.filteredUUIDsWithHierarchy).forEach(
+      (uuid) => {
+        newOpenNodeMap[uuid] = true;
+      }
+    );
+    setOpenNodeMap((prev) => ({ ...prev, ...newOpenNodeMap }));
+    setFilteredUUIDs(newFilterUUUIDValue);
+    setSearchValue(newSearchValue);
+  };
+  const onCheckboxChange = (isChecked, targetIndexes) => {
+    const { newItems, targetItem } = updateTargetNodes(
+      isChecked,
+      targetIndexes,
+      JSON.parse(JSON.stringify(listOfItems)) // pass a deep copy of the object preferably loadsh deep copy
+    );
+    const { selectedValuesAdjusted } = getSelectedListTreeItems(
+      selectedValue,
+      targetItem,
+      isChecked
+    );
+    setSelectedValue(selectedValuesAdjusted);
+    setListOfItems(newItems);
+  };
+
+  return (
+    <>
+      <InputField
+        label={`${Object.values(selectedValue).length} Items Selected:`}
+        wrapperClassName="min-w-[300px] cursor-pointer"
+        addOnBeforeInlineWrapperClassName="max-w-[300px]"
+        addOnBeforeInline={
+          <TruncateText
+            tooltipTriggerIcon={
+              <span className="absolute top-0 left-0 text-xs font-medium ">
+                ({Object.keys(selectedValue)?.length})
+              </span>
+            }
+          >
+            {Object.values(selectedValue)
+              ?.map((el) => el.name)
+              ?.join(', ')}
+          </TruncateText>
+        }
+        style={{ width: 0, paddingLeft: 0 }}
+        disabled
+      />
+      <p className="mt-3 mb-4">
+        <InputField label="Search Items here" onChange={onSearchChange} />
+      </p>
+      {Object.keys(filteredUUIDs.filteredUUIDsWithHierarchy).length === 0 &&
+      searchValue.length ? (
+        <p className="text-sm">No items matching search results</p>
+      ) : (
+        <ControlledNestedTreeWithCheckbox
+          openNodeMap={openNodeMap}
+          setOpenNodeMap={setOpenNodeMap}
+          data={listOfItems}
+          searchValue={searchValue}
+          filteredUUIDs={filteredUUIDs}
+          isParentSearched={false}
+          allowFilter={searchValue.length}
+          onCheckboxChange={onCheckboxChange}
+        />
+      )}
     </>
   );
 };
@@ -231,7 +480,7 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
                 </DropdownTrigger>
                 <DropdownOptionGroup>
                   {options.map((op) => (
-                    <DropdownOptionItem option={op} />
+                    <DropdownOptionItem key={op.id} option={op} />
                   ))}
                 </DropdownOptionGroup>
               </Dropdown>
@@ -298,7 +547,7 @@ const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
                 </DropdownTrigger>
                 <DropdownOptionGroup>
                   {options.map((op) => (
-                    <DropdownOptionItem option={op} />
+                    <DropdownOptionItem key={op.id} option={op} />
                   ))}
                 </DropdownOptionGroup>
               </Dropdown>
@@ -327,11 +576,31 @@ const FocusedNodeNestedTreeTemplate = () => (
   <FocusedNodeNestedTree data={listTreeDemoDataSet} />
 );
 
+const SearchableSelectableListTreeTemplate = () => (
+  <SearchableSelectableListTree />
+);
+
 const ControlledTree = ControlledTreeTemplate.bind({});
 
 const UncontrolledTree = UncontrolledTreeTemplate.bind({});
 
+const SearchableSelectableListTreeTemplateExample =
+  SearchableSelectableListTreeTemplate.bind({});
+
 const FocusedNodeTree = FocusedNodeNestedTreeTemplate.bind({});
 
 export default defaultConfig;
-export { ControlledTree, FocusedNodeTree, UncontrolledTree };
+export {
+  ControlledTree,
+  FocusedNodeTree,
+  SearchableSelectableListTreeTemplateExample,
+  UncontrolledTree
+};
+
+const propTypeDefault = {
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  indent: PropTypes.number.isRequired
+};
+ConrolledNestedTree.propTypes = propTypeDefault;
+UnconrolledNestedTree.propTypes = propTypeDefault;
+FocusedNodeNestedTree.propTypes = propTypeDefault;
