@@ -916,7 +916,7 @@ importers:
     dependencies:
       '@browserstack/bifrost':
         specifier: 4.0.0
-        version: 4.0.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
+        version: 4.0.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
       '@browserstack/hooks':
         specifier: workspace:*
         version: link:../hooks
@@ -941,6 +941,9 @@ importers:
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
+      react-router-dom:
+        specifier: 6.6.1
+        version: 6.6.1(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@babel/core':
         specifier: 7.20.12
@@ -2892,7 +2895,7 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost@4.0.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1):
+  /@browserstack/bifrost@4.0.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@types/react@18.0.26)(axios@1.2.2)(csstype@3.1.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1):
     resolution: {integrity: sha512-V1BP/bttM2wfEl4o0y/9nXlzNZEyJ+IPWtqy003nmUMX3+d4ekaoXqLd2xfdbwSW+bfKI/oXQGW3/f91/OGBCA==, tarball: download/@browserstack/bifrost/4.0.0/4f70b94391a3fab5f0b7477844130f567eb45710}
     peerDependencies:
       prop-types: 15.8.1
@@ -2900,7 +2903,7 @@ packages:
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
+      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
       '@browserstack/utils': 0.2.4(@reduxjs/toolkit@1.7.1)(axios@1.2.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(ua-parser-js@1.0.2)(uuid@8.3.1)
       '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
       '@heroicons/react': 2.0.13(react@18.2.0)
@@ -2918,6 +2921,7 @@ packages:
       react-icons: 4.7.1(react@18.2.0)
       react-player: 2.12.0(react@18.2.0)
       react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
       react-stately: 3.21.0(react@18.2.0)
     transitivePeerDependencies:
       - '@juggle/resize-observer'
@@ -2934,7 +2938,7 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/hooks@0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1):
+  /@browserstack/hooks@0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1):
     resolution: {integrity: sha512-QByx60ZjITSFicBV8PVLU4GCLiY1ujv+vUSPC94GP366B5UqM6J2jBbUww1ZISbPCE6/ZsWUhwHatTrB4/0aWw==, tarball: download/@browserstack/hooks/0.3.1/4bebca235f78f5332a9f859115b7cc50e7cb8b7c}
     peerDependencies:
       '@juggle/resize-observer': 3.3.1
@@ -2959,6 +2963,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-redux: 7.2.1(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
+      react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
       redux-mock-store: 1.5.4
       uuid: 8.3.1
     dev: false
@@ -9463,7 +9468,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.1.4(postcss@8.4.21)
+      tailwindcss: 3.1.4(postcss@8.4.20)
 
   /@tailwindcss/line-clamp@0.4.2(tailwindcss@3.1.4):
     resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==}
@@ -21124,7 +21129,6 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
-    dev: true
 
   /postcss-import@14.1.0(postcss@8.4.21):
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -21160,7 +21164,6 @@ packages:
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.20
-    dev: true
 
   /postcss-js@4.0.0(postcss@8.4.21):
     resolution: {integrity: sha512-77QESFBwgX4irogGVPgQ5s07vLvFqWr228qZY+w6lW599cRlK/HmnlivnnVUxkjHnCu4J16PDMHcH+e+2HbvTQ==}
@@ -21207,7 +21210,6 @@ packages:
       lilconfig: 2.0.6
       postcss: 8.4.20
       yaml: 1.10.2
-    dev: true
 
   /postcss-load-config@3.1.4(postcss@8.4.21):
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
@@ -21470,7 +21472,6 @@ packages:
     dependencies:
       postcss: 8.4.20
       postcss-selector-parser: 6.0.11
-    dev: true
 
   /postcss-nested@5.0.6(postcss@8.4.21):
     resolution: {integrity: sha512-rKqm2Fk0KbA8Vt3AdGN0FB9OBOMDVajMG6ZCf/GoHgdxUJ4sBFp0A/uMIRm+MJUdo33YXEtjqIz8u7DAp8B7DA==}
@@ -21969,7 +21970,6 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: true
 
   /postcss@8.4.21:
     resolution: {integrity: sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==}
@@ -25144,7 +25144,6 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
-    dev: true
 
   /tailwindcss@3.1.4(postcss@8.4.21):
     resolution: {integrity: sha512-NrxbFV4tYsga/hpWbRyUfIaBrNMXDxx5BsHgBS4v5tlyjf+sDsgBg5m9OxjrXIqAS/uR9kicxLKP+bEHI7BSeQ==}
