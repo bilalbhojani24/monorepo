@@ -8,8 +8,6 @@ module.exports = {
       {
         config: tailwindConfig
       }
-    ],
-    'react/forbid-prop-types': 'off',
-    'react/no-array-index-key': 'off'
+    ]
   }
 };

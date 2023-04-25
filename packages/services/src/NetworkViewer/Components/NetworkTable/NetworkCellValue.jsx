@@ -62,7 +62,7 @@ const NetworkCellValue = ({
 
 NetworkCellValue.propTypes = {
   datakey: PropTypes.string.isRequired,
-  payload: PropTypes.object,
+  payload: PropTypes.objectOf(PropTypes.any),
   renderComponent: PropTypes.func,
   showWaterfall: PropTypes.bool
 };

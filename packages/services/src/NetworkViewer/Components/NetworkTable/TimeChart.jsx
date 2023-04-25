@@ -87,7 +87,7 @@ const TimeChart = ({ timings, maxTime, isWaterfall, renderFrom }) => {
 
 TimeChart.propTypes = {
   maxTime: PropTypes.number.isRequired,
-  timings: PropTypes.object.isRequired,
+  timings: PropTypes.objectOf(PropTypes.any).isRequired,
   isWaterfall: PropTypes.bool,
   renderFrom: PropTypes.oneOf(['tooltip', 'time-cell', 'request-detail'])
     .isRequired

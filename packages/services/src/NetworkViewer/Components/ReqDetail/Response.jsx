@@ -81,7 +81,7 @@ const Response = ({
 
   return (
     <div className="text-base-700 relative mt-2 text-sm">
-      <pre className="bg-base-50 border-base-300 overflow-auto rounded border py-3 px-4">
+      <pre className="bg-base-50 border-base-300 overflow-auto rounded border px-4 py-3">
         <div className="bg-base-50 absolute right-2 top-2">
           <Tooltip
             content={
@@ -133,7 +133,7 @@ const Response = ({
 };
 
 Response.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.objectOf(PropTypes.any),
   isResponseCaptured: PropTypes.bool.isRequired,
   isResponseNotCapturedDueToCaps: PropTypes.bool.isRequired,
   responseHelpLink: PropTypes.string.isRequired

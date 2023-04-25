@@ -124,7 +124,7 @@ const TimeChartTooltip = ({ data, fromRequestDetail }) => {
 };
 
 TimeChartTooltip.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.objectOf(PropTypes.any).isRequired,
   fromRequestDetail: PropTypes.bool.isRequired
 };
 

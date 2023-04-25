@@ -82,7 +82,7 @@ const NetworkTableHeader = ({
               )}
               variant="header"
             >
-              <hr className="text-base-300 absolute top-0 left-0 w-full" />
+              <hr className="text-base-300 absolute left-0 top-0 w-full" />
               <hr className="text-base-300 absolute bottom-[-1px] left-0 w-full" />
               <button
                 className="relative flex w-full items-center justify-between"

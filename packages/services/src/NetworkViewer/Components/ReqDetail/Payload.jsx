@@ -36,7 +36,7 @@ const Payload = ({ data }) => (
 );
 
 Payload.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
 export default Payload;

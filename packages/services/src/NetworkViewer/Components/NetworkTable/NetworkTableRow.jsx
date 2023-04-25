@@ -67,7 +67,7 @@ const NetworkTableRow = ({
 
 NetworkTableRow.propTypes = {
   onSelect: PropTypes.func.isRequired,
-  payload: PropTypes.object.isRequired,
+  payload: PropTypes.objectOf(PropTypes.any).isRequired,
   scrollHighlight: PropTypes.bool.isRequired,
   showWaterfall: PropTypes.bool,
   shouldShowLimitedCols: PropTypes.bool

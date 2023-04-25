@@ -90,7 +90,7 @@ MainContainer.propTypes = {
   logsURL: PropTypes.string.isRequired,
   isResponseNotCapturedDueToCaps: PropTypes.bool.isRequired,
   responseHelpLink: PropTypes.string.isRequired,
-  fetchOptions: PropTypes.object.isRequired,
+  fetchOptions: PropTypes.objectOf(PropTypes.any).isRequired,
   showWaterfall: PropTypes.bool,
   filtersWrapperClassName: PropTypes.string.isRequired,
   tableHeaderClassName: PropTypes.string.isRequired,
