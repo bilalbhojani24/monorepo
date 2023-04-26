@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  matchPath,
-  matchRoutes,
-  useLocation,
-  useNavigate
-} from 'react-router-dom';
+import { matchRoutes, useLocation, useNavigate } from 'react-router-dom';
 import { initLogger } from '@browserstack/utils';
 import { getPusherConfig } from 'api/global';
 import ModalToShow from 'common/ModalToShow';
@@ -14,11 +9,10 @@ import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_API_KEY } from 'constants/keys';
 import { ROUTES } from 'constants/routes';
 import { APP_ROUTES } from 'constants/routesConstants';
 import { initO11yProduct } from 'globalSlice';
-import { getActiveProject, getUserDetails } from 'globalSlice/selectors';
+import { getUserDetails } from 'globalSlice/selectors';
 import useAuthRoutes from 'hooks/useAuthRoutes';
 import isEmpty from 'lodash/isEmpty';
 import { getEnvConfig } from 'utils/common';
-import { delightedInit } from 'utils/delighted';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
@@ -27,15 +21,8 @@ const PUSHER_CONNECTION_NAME = 'o11y-pusher';
 const App = () => {
   const dispatch = useDispatch();
   const userDetails = useSelector(getUserDetails);
-  const activeProject = useSelector(getActiveProject);
   const location = useLocation();
   const [{ params }] = matchRoutes(ROUTES_ARRAY, location);
-  const isProjectListing = matchPath(
-    {
-      path: ROUTES.projects
-    },
-    location.pathname
-  );
 
   // init custom history object to allow navigation from
   // anywhere in the react app (inside or outside components)
@@ -68,29 +55,12 @@ const App = () => {
           }
         }
       };
-
       if (!window.initialized) {
         initLogger(keys);
         window.initialized = true;
       }
     }
   }, [userDetails]);
-
-  useEffect(() => {
-    // Note: Disabling for onboarding, Get access and project selection pages
-    if (activeProject.id && !isProjectListing) {
-      // Initialize delighted survey
-      const delightedConfig = {
-        group_id: userDetails.groupId,
-        screen_height: window.innerHeight,
-        screen_width: window.innerWidth,
-        url: o11yHistory.location.pathname,
-        user_id: userDetails.userId
-      };
-      delightedInit(delightedConfig);
-      // End delighted survey
-    }
-  }, [activeProject, isProjectListing, userDetails]);
 
   const fetchAndInitPusher = useCallback(async () => {
     try {
