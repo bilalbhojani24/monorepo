@@ -12,22 +12,36 @@ import {
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
-import { setAppliedFilter } from '../slices/filterSlice';
-import { getAllAppliedFilters, getIsFiltersLoading } from '../slices/selectors';
+import {
+  clearFilters,
+  discardUnAppliedFilters,
+  setAppliedFilter,
+  setSelectedFilterAsApplied
+} from '../slices/filterSlice';
+import {
+  getAllAppliedFilters,
+  getIsFiltersLoading,
+  getUnAppliedSelectedFilters
+} from '../slices/selectors';
 
 const FilterSkeleton = ({ children }) => {
   const dispatch = useDispatch();
 
   const isFilterLoading = useSelector(getIsFiltersLoading);
   const appliedFilters = useSelector(getAllAppliedFilters);
+  const unAppliedFilters = useSelector(getUnAppliedSelectedFilters);
 
   const [showSlideOver, setShowSlideOver] = useState(false);
 
   const handleClose = () => {
+    dispatch(discardUnAppliedFilters());
     setShowSlideOver(false);
   };
 
   const handleApply = () => {
+    if (unAppliedFilters.length) {
+      dispatch(setSelectedFilterAsApplied());
+    }
     setShowSlideOver(false);
   };
 
@@ -39,6 +53,10 @@ const FilterSkeleton = ({ children }) => {
         ...item
       })
     );
+  };
+
+  const handleRemoveAll = () => {
+    dispatch(clearFilters());
   };
 
   return (
@@ -54,7 +72,7 @@ const FilterSkeleton = ({ children }) => {
         </O11yButton>
       </div>
       {!isFilterLoading && !isEmpty(appliedFilters) && (
-        <div className="">
+        <div className="flex flex-wrap gap-x-2 gap-y-1">
           {appliedFilters.map((appliedFilter) => (
             <O11yBadge
               key={appliedFilter.id}
@@ -66,6 +84,13 @@ const FilterSkeleton = ({ children }) => {
               }}
             />
           ))}
+          <button
+            className="text-base-700 text-sm font-medium leading-4"
+            onClick={handleRemoveAll}
+            type="button"
+          >
+            Clear all
+          </button>
         </div>
       )}
       <O11ySlideover

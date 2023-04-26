@@ -15,6 +15,11 @@ export const getAllAppliedFilters = (state) => {
   return state.allFilters[currentCategory].appliedFilters;
 };
 
+export const getUnAppliedSelectedFilters = createSelector(
+  getSelectedFilters,
+  (selectedFilters) => selectedFilters.filter((item) => !item.isApplied)
+);
+
 // custom selectors
 
 export const getSelectedFiltersByType = (type) =>
