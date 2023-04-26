@@ -3,15 +3,14 @@ import { mergeProps, useButton, useFocusRing } from 'react-aria';
 import { twClassNames } from '@browserstack/utils';
 import Proptypes from 'prop-types';
 
-import Button from '../../Button';
-
 export function CalendarButton(props) {
   const { children, disableChevron } = props;
   const ref = useRef();
   const { buttonProps } = useButton(props, ref);
   const { focusProps } = useFocusRing();
   return (
-    <Button
+    <button
+      type="button"
       {...mergeProps(buttonProps, focusProps)}
       ref={ref}
       className={twClassNames('rounded-full p-2 outline-none', {
@@ -20,7 +19,7 @@ export function CalendarButton(props) {
       })}
     >
       {children}
-    </Button>
+    </button>
   );
 }
 
@@ -32,7 +31,8 @@ CalendarButton.propTypes = {
 export function YearPickerButton(props) {
   const { children, disableChevron, onClick } = props;
   return (
-    <Button
+    <button
+      type="button"
       onClick={onClick}
       className={twClassNames('rounded-full p-2 outline-none', {
         'cursor-not-allowed': disableChevron,
@@ -40,7 +40,7 @@ export function YearPickerButton(props) {
       })}
     >
       {children}
-    </Button>
+    </button>
   );
 }
 YearPickerButton.propTypes = {
@@ -55,7 +55,8 @@ export function FieldButton(props) {
   const { buttonProps, isPressed } = useButton(props, ref);
 
   return (
-    <Button
+    <button
+      type="button"
       {...(disabled
         ? null
         : {
@@ -75,7 +76,7 @@ export function FieldButton(props) {
       )}
     >
       {children}
-    </Button>
+    </button>
   );
 }
 
