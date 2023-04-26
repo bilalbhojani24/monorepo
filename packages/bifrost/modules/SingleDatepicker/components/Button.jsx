@@ -3,15 +3,14 @@ import { mergeProps, useButton, useFocusRing } from 'react-aria';
 import { twClassNames } from '@browserstack/utils';
 import Proptypes from 'prop-types';
 
-import Button from '../../Button';
-
 export function CalendarButton(props) {
   const { children } = props;
   const ref = useRef();
   const { buttonProps, isDisabled } = useButton(props, ref);
   const { focusProps } = useFocusRing();
   return (
-    <Button
+    <button
+      type="button"
       {...mergeProps(buttonProps, focusProps)}
       ref={ref}
       className={twClassNames('rounded-full p-2 outline-none', {
@@ -21,7 +20,7 @@ export function CalendarButton(props) {
       })}
     >
       {children}
-    </Button>
+    </button>
   );
 }
 
@@ -34,15 +33,17 @@ export function FieldButton(props) {
   const ref = useRef();
   const { buttonProps, isPressed } = useButton(props, ref);
   return (
-    <Button
+    <button
       {...buttonProps}
       ref={ref}
-      className={`border-base-300 focus:ring-brand-600 -ml-px rounded-r-md border-l px-3.5 outline-none focus:ring-2 ${
+      colors="white"
+      type="button"
+      className={`border-base-300 focus:ring-brand-600 -ml-px rounded-r-md border-l px-3.5 py-1.5 outline-none focus:ring-2 ${
         isPressed || isCurrentlyPressed ? 'bg-base-300' : 'bg-base-50'
       }`}
     >
       {children}
-    </Button>
+    </button>
   );
 }
 
