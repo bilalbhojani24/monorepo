@@ -254,11 +254,7 @@ const SingleValueSelect = ({
       <ComboBox
         onChange={handleChange}
         onOpenChange={handleOpen}
-        value={
-          !lengthOfOptionsToRender
-            ? null
-            : (fieldsData[fieldKey] || cleanedValue) ?? {}
-        }
+        value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
         disabled={disabled}
         isLoadingRight={

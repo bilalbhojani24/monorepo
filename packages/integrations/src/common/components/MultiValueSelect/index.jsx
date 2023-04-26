@@ -216,7 +216,7 @@ const MultiSelect = ({
     >
       <ComboBox
         onChange={handleChange}
-        value={!lengthOfOptionsToRender ? null : valueToRender}
+        value={valueToRender}
         isMulti={Boolean(lengthOfOptionsToRender)}
         isLoadingRight={
           areOptionsLoading || (!lengthOfOptionsToRender && searchLoading)
