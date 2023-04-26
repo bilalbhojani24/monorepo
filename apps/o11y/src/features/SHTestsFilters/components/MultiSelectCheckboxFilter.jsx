@@ -50,11 +50,17 @@ const MultiSelectCheckboxFilter = ({ type, label, yesLabel, noLabel, id }) => {
 
   const handleYesChange = () => {
     setIsYesChecked(!isYesChecked);
+    if (isNoChecked && !isYesChecked) {
+      setIsNoChecked(false);
+    }
     handleChange({ yes: !isYesChecked, no: isNoChecked });
   };
 
   const handleNoChange = () => {
     setIsNoChecked(!isNoChecked);
+    if (isYesChecked && !isNoChecked) {
+      setIsYesChecked(false);
+    }
     handleChange({ yes: isYesChecked, no: !isNoChecked });
   };
 
