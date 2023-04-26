@@ -157,13 +157,13 @@ const TopSection = () => {
                 <>
                   <TMTooltipBody wrapperClassName="flex flex-col">
                     <div className="text-sm ">
-                      <div>Created on:</div>
+                      <div>Created at:</div>
                       {testRunDetails?.created_at
                         ? formatTime(testRunDetails?.created_at, 'timeG')
                         : '--'}
                     </div>
                     <div className="mt-4 text-sm">
-                      <div>Last Updated on:</div>
+                      <div>Updated at:</div>
                       {testRunDetails?.updated_at
                         ? formatTime(testRunDetails?.updated_at, 'timeG')
                         : '--'}
