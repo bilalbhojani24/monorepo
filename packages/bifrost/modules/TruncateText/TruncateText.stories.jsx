@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { MdErrorOutline } from '../Icon';
@@ -7,6 +9,8 @@ import TableRow from '../TableRow';
 
 import TruncateText from './index';
 
+const text =
+  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero incidunt, officia sed vero perspiciatis neque labore aspernatur numquam temporibus suscipit deserunt nulla recusandae voluptates quos iure excepturi exercitationem, nisi a? Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde labore quod temporibus cumque, eaque aperiam maxime praesentium. Earum quidem ipsum quia a similique est, maxime vero quos odit beatae officia.';
 const defaultConfig = {
   title: 'Application/Components/TruncateText',
   component: TruncateText,
@@ -27,17 +31,7 @@ const defaultConfig = {
   argTypes: {
     children: {
       option: { type: null },
-      defaultValue: (
-        <span>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero
-          incidunt, officia sed vero perspiciatis neque labore aspernatur
-          numquam temporibus suscipit deserunt nulla recusandae voluptates quos
-          iure excepturi exercitationem, nisi a? Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Unde labore quod temporibus cumque,
-          eaque aperiam maxime praesentium. Earum quidem ipsum quia a similique
-          est, maxime vero quos odit beatae officia.
-        </span>
-      )
+      defaultValue: <span>{text}</span>
     },
     wrapperClassName: {
       option: { type: 'string' },
@@ -92,11 +86,24 @@ const defaultConfig = {
 };
 const Template = (args) => <TruncateText {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const textEle = await canvas.getByText(text);
+  await expect(textEle).toBeVisible();
+  await userEvent.hover(canvas.getByRole('tooltip'));
+};
 Primary.parameters = {
   controls: {}
 };
 
 const FullWidthDelayedTooltip = Template.bind({});
+FullWidthDelayedTooltip.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const textEle = await canvas.getByText(text);
+  await expect(textEle).toBeVisible();
+  await userEvent.hover(textEle);
+};
+
 FullWidthDelayedTooltip.args = {
   headerTooltipProps: {
     delay: 600
@@ -113,10 +120,13 @@ const TruncateInsideTableTemplate = (args) => (
     <TableCell>
       <div>
         <TruncateText {...args}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere ipsam
-          esse magni maiores deleniti officiis, architecto et sed exercitationem
-          fugit in rerum quae modi. Expedita ut laudantium cumque explicabo
-          voluptate?
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero
+          incidunt, officia sed vero perspiciatis neque labore aspernatur
+          numquam temporibus suscipit deserunt nulla recusandae voluptates quos
+          iure excepturi exercitationem, nisi a? Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Unde labore quod temporibus cumque,
+          eaque aperiam maxime praesentium. Earum quidem ipsum quia a similique
+          est, maxime vero quos odit beatae officia.
         </TruncateText>
       </div>
     </TableCell>
@@ -128,6 +138,13 @@ const TruncateInsideTableTemplate = (args) => (
 );
 
 const TruncateInsideTable = TruncateInsideTableTemplate.bind({});
+TruncateInsideTable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const textEle = await canvas.getByText(text);
+  await expect(textEle).toBeVisible();
+  await userEvent.hover(textEle);
+};
+
 TruncateInsideTable.args = {
   wrapperClassName: 'w-28',
   truncateUsingClamp: false,

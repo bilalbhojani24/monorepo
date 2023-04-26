@@ -75,6 +75,7 @@ const Search = () => {
           />
         ) : null
       }
+      wrapperClassName="w-44"
     />
   );
 };

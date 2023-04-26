@@ -29,7 +29,7 @@ export const SUCCESS_DATA = {
 
 export const FAILURE_DATA = {
   id: 'import-project-failure',
-  title: 'Project import failed',
+  title: 'Projects Imported',
   description:
     'Unfortunately, due to some issues we couldn’t import your projects',
   isCondensed: false,
