@@ -22,7 +22,6 @@
     "@browserstack/eslint-config": "workspace:*",
     "@browserstack/prettier-config": "workspace:*",
     "@browserstack/stylelint-config": "workspace:*",
-    "@browserstack/services": "workspace:*",
     "husky": "8.0.0",
     "lint-staged": "13.1.0",
     "turbo": "1.8.3"
