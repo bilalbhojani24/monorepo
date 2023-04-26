@@ -5,6 +5,8 @@ import {
   addFolderWithoutProjectAPI,
   addSubFolder
 } from 'api/folders.api';
+import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
 export default function useAddFolderModal(prop) {
   const navigate = useNavigate();
@@ -24,7 +26,11 @@ export default function useAddFolderModal(prop) {
     prop.hideModal();
     setFormError({ ...formError, nameError: '' });
     if (prop.projectId === 'new')
-      navigate(`/import/csv?project=${newProjectId}`);
+      navigate(
+        routeFormatter(AppRoute.IMPORT_CSV, {
+          projectId: newProjectId
+        })
+      );
   };
 
   const addSubFolderHandler = () => {
