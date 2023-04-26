@@ -55,12 +55,11 @@ const usePreviewAndConfirm = () => {
       );
       dispatch(resetImportCSVState());
       dispatch(clearNotificationConfig());
-      navigate(
-        routeFormatter(AppRoute.TEST_CASES, {
-          projectId: res.project_id,
-          folderId: res.folder_id
-        })
-      );
+      const projectAndFolderIdObj = {};
+      if (res?.folder_id) projectAndFolderIdObj.folderId = res?.folder_id;
+      projectAndFolderIdObj.projectId = res?.project_id;
+      const route = routeFormatter(AppRoute.TEST_CASES, projectAndFolderIdObj);
+      navigate(route);
     });
   };
 
