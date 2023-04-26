@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { HomeIcon } from '../Icon';
@@ -50,6 +52,12 @@ const defaultConfig = {
 };
 const Template = (args) => <GridListWHorizontalLink {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Lorem')).toBeVisible();
+  await userEvent.click(canvas.getByText('Lorem'));
+};
+
 Primary.parameters = {
   controls: {}
 };

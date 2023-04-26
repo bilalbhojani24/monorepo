@@ -1,0 +1,38 @@
+{
+  "name": "@browserstack/integrations",
+  "version": "0.0.0",
+  "main": "src/index.js",
+  "description": "Integrations Management Tool",
+  "peerDependencies": {
+    "prop-types": "15.8.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "dependencies": {
+    "@browserstack/bifrost": "3.3.0",
+    "@browserstack/hooks": "workspace:*",
+    "@browserstack/utils": "workspace:*",
+    "@reduxjs/toolkit": "^1.9.1",
+    "axios": "1.2.2",
+    "react-redux": "^8.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@browserstack/stylelint-config": "workspace:*",
+    "@browserstack/tailwind-config": "workspace:*",
+    "@browserstack/vite-config": "workspace:*",
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/builder-webpack4": "^6.5.16",
+    "@storybook/manager-webpack4": "^6.5.16",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
+    "babel-loader": "^8.3.0"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
+  }
+}

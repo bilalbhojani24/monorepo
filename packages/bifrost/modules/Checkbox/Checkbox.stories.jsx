@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { MdSearch } from '../Icon';
@@ -88,12 +90,39 @@ const defaultConfig = {
   },
   controls: {}
 };
+
+const name = 'Annette Black';
+
 const Template = (args) => <Checkbox {...args} />;
 const ControlledCheckboxTemplate = (args) => <Checkbox {...args} />;
 const CheckboxWithIconTemplate = (args) => <Checkbox {...args} />;
 const CheckboxPrimary = Template.bind({});
+CheckboxPrimary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(name)).toBeVisible();
+  await userEvent.click(canvas.getByRole('checkbox'));
+  await expect(canvas.getByRole('checkbox')).not.toBeChecked();
+  await userEvent.click(canvas.getByRole('checkbox'));
+  await expect(canvas.getByRole('checkbox')).toBeChecked();
+};
+
 const ControlledCheckbox = ControlledCheckboxTemplate.bind({});
+ControlledCheckbox.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(name)).toBeVisible();
+  await userEvent.click(canvas.getByRole('checkbox'));
+  await expect(canvas.getByRole('checkbox')).toBeChecked();
+};
+
 const CheckboxWithIcon = CheckboxWithIconTemplate.bind({});
+CheckboxWithIcon.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(name)).toBeVisible();
+  await userEvent.click(canvas.getByRole('checkbox'));
+  await expect(canvas.getByRole('checkbox')).not.toBeChecked();
+  await userEvent.click(canvas.getByRole('checkbox'));
+  await expect(canvas.getByRole('checkbox')).toBeChecked();
+};
 
 CheckboxPrimary.parameters = {};
 

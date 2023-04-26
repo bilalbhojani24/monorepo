@@ -255,6 +255,7 @@ const Alerts = (props) => {
                   </div>
 
                   {alertLinkPosition === ALERT_LINK_POSITION[0] &&
+                    linkText &&
                     link(
                       alertLinkPosition,
                       modifier,
@@ -265,7 +266,7 @@ const Alerts = (props) => {
                 </span>
               </div>
 
-              {alertLinkPosition === ALERT_LINK_POSITION[1] && (
+              {alertLinkPosition === ALERT_LINK_POSITION[1] && linkText && (
                 <p className="mt-3 h-fit text-sm md:mt-0 md:ml-6">
                   {link(
                     alertLinkPosition,

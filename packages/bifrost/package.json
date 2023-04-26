@@ -1,6 +1,6 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "2.1.0",
+  "version": "4.1.0",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@browserstack/hooks": "workspace:*",
-    "@browserstack/utils": "workspace:*",
+    "@browserstack/utils": "1.2.0",
     "@headlessui/react": "1.7.5",
     "@heroicons/react": "2.0.13",
     "@internationalized/date": "^3.1.0",
@@ -34,6 +34,7 @@
     "react-draggable": "4.4.5",
     "react-hot-toast": "2.4.0",
     "react-icons": "4.7.1",
+    "react-player": "2.12.0",
     "react-resizable": "3.0.4",
     "react-stately": "^3.21.0"
   },

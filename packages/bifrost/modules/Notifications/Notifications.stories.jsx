@@ -1,5 +1,7 @@
 import React from 'react';
 import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -26,7 +28,7 @@ const defaultConfig = {
   argTypes: {
     actionButtons: {
       option: { type: null },
-      defaultValue: (toastData) => (
+      defaultValue: () => (
         <>
           <Button variant="minimal" colors="brand">
             Undo
@@ -64,9 +66,44 @@ const CondensedTemplate = (args) => <Notifications {...args} />;
 const FillButtonAndAvatarTemplate = (args) => <Notifications {...args} />;
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Discussion moved')).toBeVisible();
+  const buttons = await canvas.queryAllByRole('button');
+  buttons.forEach(async (button) => {
+    await userEvent.click(button);
+  });
+};
+
 const Basic = BasicTemplate.bind({});
+Basic.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Successfully saved!')).toBeVisible();
+  const buttons = await canvas.queryAllByRole('button');
+  buttons.forEach(async (button) => {
+    await userEvent.click(button);
+  });
+};
+
 const Condensed = CondensedTemplate.bind({});
+Condensed.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Discussion archived')).toBeVisible();
+  const buttons = await canvas.queryAllByRole('button');
+  buttons.forEach(async (button) => {
+    await userEvent.click(button);
+  });
+};
+
 const FillButtonAndAvatar = FillButtonAndAvatarTemplate.bind({});
+FillButtonAndAvatar.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Emilia Gates')).toBeVisible();
+  const buttons = await canvas.queryAllByRole('button');
+  buttons.forEach(async (button) => {
+    await userEvent.click(button);
+  });
+};
 
 Primary.parameters = {
   controls: {}
@@ -83,7 +120,7 @@ Basic.args = {
 };
 
 Condensed.args = {
-  actionButtons: (toastData) => (
+  actionButtons: () => (
     <Button variant="minimal" colors="brand">
       Undo
     </Button>
@@ -95,7 +132,7 @@ Condensed.args = {
 };
 
 FillButtonAndAvatar.args = {
-  actionButtons: (toastData) => (
+  actionButtons: () => (
     <>
       <Button>Undo</Button>
       <Button variant="primary" colors="white">

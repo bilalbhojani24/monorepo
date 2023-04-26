@@ -27,7 +27,7 @@ const Badge = ({
     <span
       onClick={handleClick}
       onKeyDown={() => {}}
-      role="button"
+      role="link"
       tabIndex={-1}
       className={twClassNames(
         'inline-flex items-center font-medium cursor-pointer',

@@ -9,14 +9,18 @@ import Banner from './modules/Banner/index';
 import Breadcrumb from './modules/Breadcrumb/index';
 import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
-import ColorPicker from './modules/ColorPicker/index';
 import ComboBox from './modules/ComboBox/index';
+import ComboboxAddNewItem from './modules/ComboboxAddNewItem/index';
+import BadgeComboBox from './modules/ComboboxBadge/index';
+import BadgeComboBoxTrigger from './modules/ComboboxBadgeTrigger';
 import ComboboxLabel from './modules/ComboboxLabel/index';
 import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
 import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
 import DescriptionList from './modules/DescriptionList/index';
+import DescriptionListBody from './modules/DescriptionListBody/index';
+import DescriptionListHeader from './modules/DescriptionListHeader/index';
 import Draggable from './modules/Draggable/index';
 import Dropdown from './modules/Dropdown/index';
 import DropdownOptionGroup from './modules/DropdownOptionGroup/index';
@@ -38,12 +42,16 @@ import InputGroupAddOn from './modules/InputField/components/InputGroupAddOn';
 import InputGroupButton from './modules/InputField/components/InputGroupButton';
 import InputGroupSelectMenuTrigger from './modules/InputField/components/InputGroupSelectMenuTrigger';
 import InputField from './modules/InputField/index';
+import KeyValue from './modules/KeyValuePair/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
 import Loader from './modules/Loader/index';
 import MediaPlayer from './modules/MediaPlayer';
-import MediaPlayerControlPanel from './modules/MediaPlayerControlPanel';
+import MediaPlayerLeftControls from './modules/MediaPlayerLeftControls';
+import MediaPlayerRightControls from './modules/MediaPlayerRightControls';
+import MediaPlayerSeekbar from './modules/MediaPlayerSeekbar';
+import MediaPlayerStates from './modules/MediaPlayerStates';
 import Metadata from './modules/Metadata';
 import Modal from './modules/Modal';
 import ModalBody from './modules/ModalBody';
@@ -63,6 +71,7 @@ import RadioGroup from './modules/RadioGroup/index';
 import RadioSmallCards from './modules/RadioSmallCards/index';
 import RadioStackedCard from './modules/RadioStackedCard/index';
 import RadioTable from './modules/RadioTable/index';
+import Resizable from './modules/Resizable/index';
 import RichTextEditor from './modules/RichTextEditor/index';
 import SectionHeadings from './modules/SectionHeadings/index';
 import SelectMenu from './modules/SelectMenu/index';
@@ -99,6 +108,7 @@ import TooltipBody from './modules/TooltipBody/index';
 import TooltipFooter from './modules/TooltipFooter/index';
 import TooltipHeader from './modules/TooltipHeader/index';
 import TruncateText from './modules/TruncateText/index';
+import listTreeCheckboxHelper from './utils/listTreeCheckbox';
 
 export * from './modules/Icon/index';
 
@@ -110,18 +120,22 @@ export {
   Alerts,
   Attachments,
   Badge,
+  BadgeComboBox,
+  BadgeComboBoxTrigger,
   Banner,
   Breadcrumb,
   Button,
   Checkbox,
-  ColorPicker,
   ComboBox,
+  ComboboxAddNewItem,
   ComboboxLabel,
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
   DataVisualization,
   DescriptionList,
+  DescriptionListBody,
+  DescriptionListHeader,
   Draggable,
   Dropdown,
   DropdownOptionGroup,
@@ -143,12 +157,17 @@ export {
   InputGroupAddOn,
   InputGroupButton,
   InputGroupSelectMenuTrigger,
+  KeyValue,
   ListTree,
+  listTreeCheckboxHelper,
   ListTreeNode,
   ListTreeNodeContents,
   Loader,
   MediaPlayer,
-  MediaPlayerControlPanel,
+  MediaPlayerLeftControls,
+  MediaPlayerRightControls,
+  MediaPlayerSeekbar,
+  MediaPlayerStates,
   Metadata,
   Modal,
   ModalBody,
@@ -169,6 +188,7 @@ export {
   RadioSmallCards,
   RadioStackedCard,
   RadioTable,
+  Resizable,
   RichTextEditor,
   SectionHeadings,
   SelectMenu,

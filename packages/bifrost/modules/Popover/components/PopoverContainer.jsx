@@ -25,9 +25,9 @@ const PopoverContainer = (props) => {
     children,
     content,
     defaultOpen,
+    disabled,
     hideWhenDetached,
     forceMount,
-    modal,
     onOpenChange,
     onOpenAutoFocus,
     onCloseAutoFocus,
@@ -42,7 +42,8 @@ const PopoverContainer = (props) => {
     sideOffset,
     sticky,
     theme,
-    triggerWrapperClassName
+    triggerWrapperClassName,
+    wrapperClassName
   } = props;
 
   return (
@@ -55,9 +56,12 @@ const PopoverContainer = (props) => {
         open={show}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange}
-        modal={modal}
       >
-        <PopoverPrimitive.Trigger className={triggerWrapperClassName}>
+        <PopoverPrimitive.Trigger
+          className={triggerWrapperClassName}
+          disabled={disabled}
+          asChild
+        >
           {children}
         </PopoverPrimitive.Trigger>
         <PopoverPrimitive.Portal>
@@ -77,9 +81,9 @@ const PopoverContainer = (props) => {
             sideOffset={sideOffset}
             side={placementSide}
             sticky={sticky}
-          >
-            <div
-              className={twClassNames('rounded-md shadow bg-white py-4', {
+            className={twClassNames(
+              'z-50 rounded-md shadow bg-white py-4 space-y-2',
+              {
                 'bg-white': theme === TP_TOOLTIP_THEME[0],
                 'bg-base-800': theme === TP_TOOLTIP_THEME[1],
                 'max-w-xs': TP_SIZE[0] === size,
@@ -93,21 +97,25 @@ const PopoverContainer = (props) => {
                 'sm:max-w-5xl': TP_SIZE[8] === size,
                 'sm:max-w-6xl': TP_SIZE[9] === size,
                 'sm:max-w-full': TP_SIZE[10] === size
-              })}
-            >
-              {content}
+              },
+              wrapperClassName
+            )}
+          >
+            {content}
+            <div className="!m-0">
+              <PopoverPrimitive.Arrow
+                height={arrowHeight}
+                width={arrowWidth}
+                className={twClassNames(
+                  {
+                    'drop-shadow-sm fill-white': theme === TP_TOOLTIP_THEME[0],
+                    'drop-shadow-sm fill-base-800':
+                      theme === TP_TOOLTIP_THEME[1]
+                  },
+                  arrowClassName
+                )}
+              />
             </div>
-            <PopoverPrimitive.Arrow
-              height={arrowHeight}
-              width={arrowWidth}
-              className={twClassNames(
-                {
-                  'drop-shadow-sm fill-white': theme === TP_TOOLTIP_THEME[0],
-                  'drop-shadow-sm fill-base-800': theme === TP_TOOLTIP_THEME[1]
-                },
-                arrowClassName
-              )}
-            />
           </PopoverPrimitive.Content>
         </PopoverPrimitive.Portal>
       </PopoverPrimitive.Root>
@@ -125,9 +133,9 @@ PopoverContainer.propTypes = {
   content: PropTypes.node,
   children: PropTypes.node,
   defaultOpen: PropTypes.bool,
+  disabled: PropTypes.bool,
   forceMount: PropTypes.bool,
   hideWhenDetached: PropTypes.bool,
-  modal: PropTypes.bool,
   onOpenChange: PropTypes.func,
   onOpenAutoFocus: PropTypes.func,
   onCloseAutoFocus: PropTypes.func,
@@ -142,7 +150,8 @@ PopoverContainer.propTypes = {
   size: PropTypes.oneOf(TP_SIZE),
   sticky: PropTypes.oneOf(TP_STICKY_OPTIONS),
   theme: PropTypes.oneOf(TP_TOOLTIP_THEME),
-  triggerWrapperClassName: PropTypes.string
+  triggerWrapperClassName: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 PopoverContainer.defaultProps = {
   arrowClassName: '',
@@ -154,9 +163,9 @@ PopoverContainer.defaultProps = {
   content: null,
   children: null,
   defaultOpen: undefined,
+  disabled: false,
   forceMount: undefined,
   hideWhenDetached: false,
-  modal: false,
   onOpenChange: null,
   onOpenAutoFocus: null,
   onCloseAutoFocus: null,
@@ -171,7 +180,8 @@ PopoverContainer.defaultProps = {
   size: TP_SIZE[0],
   sticky: TP_STICKY_OPTIONS[0],
   theme: TP_TOOLTIP_THEME[0],
-  triggerWrapperClassName: ''
+  triggerWrapperClassName: '',
+  wrapperClassName: ''
 };
 
 export default PopoverContainer;

@@ -96,7 +96,7 @@ const Button = (
       <span className={effectiveChildrenClasses}>
         {iconPlacement === BUTTON_ICON_PLACEMENT[0] && (
           <Loader
-            wrapperStyle={`mx-auto ${
+            wrapperClassName={`mx-auto ${
               BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
             }`}
             height={smallButtons(size) ? 'h-4' : 'h-5'}
@@ -106,7 +106,7 @@ const Button = (
         {isIconOnlyButton === false && loaderText}
         {iconPlacement === BUTTON_ICON_PLACEMENT[1] && (
           <Loader
-            wrapperStyle={`mx-auto ${
+            wrapperClassName={`mx-auto ${
               BUTTON_LOADER_CLASSES[`${colors}-${variant}`]
             }`}
             height={smallButtons(size) ? 'h-4' : 'h-5'}
@@ -193,10 +193,13 @@ const Button = (
 
   return (
     <button
+      {...props}
       {...getConditionalProps()}
       type={type === 'submit' ? 'submit' : 'button'}
       ref={ref || buttonRef}
       aria-disabled={disabled}
+      onClick={handleClick}
+      form={form}
       className={twClassNames(
         'border border-transparent font-medium',
         stylePicker(),
@@ -206,9 +209,6 @@ const Button = (
         getIconOnlyBtnStyle(),
         wrapperClassName
       )}
-      onClick={handleClick}
-      form={form}
-      {...props}
     >
       {effectiveChildren}
     </button>
