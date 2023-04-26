@@ -53,7 +53,7 @@ const MiniatureRepository = ({
                   {/* <Filter onFilterChange={onFilterChange} isMini /> */}
                   {selectedFolder && (
                     <div className="border-base-300 w-full border-l">
-                      <div className="border-base-200 w-full border-b p-4">
+                      <div className="border-base-200 w-full border-b px-4 py-3 ">
                         <div className="text-base-800 w-full font-medium">
                           {selectedFolder?.name}
                           <TMTooltip
@@ -158,7 +158,7 @@ const MiniatureRepository = ({
 
           <aside className="lg:order-first lg:block lg:shrink-0">
             <div className="relative flex h-full w-96 flex-col overflow-hidden">
-              <div className="border-base-300  flex h-12 w-full  items-center border-b py-0.5 px-3">
+              <div className="border-base-300  flex w-full  items-center border-b p-3">
                 <span className="text-base">Folders</span>
               </div>
 
