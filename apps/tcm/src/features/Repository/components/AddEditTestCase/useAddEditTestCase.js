@@ -60,7 +60,6 @@ export default function useAddEditTestCase(prop) {
   const [inputError, setInputError] = useState({
     name: false
   });
-  const [isUploadInProgress, setUploadProgress] = useState(false);
   const [scheduledFolder, setScheduledFolder] = useState([]);
   const [usersArrayMapped, setUsersArrayMapped] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
@@ -127,6 +126,9 @@ export default function useAddEditTestCase(prop) {
   );
   const bulkEditTestCaseCtaLoading = useSelector(
     (state) => state.repository.isLoading.bulkEditTestCaseCta
+  );
+  const isUploadInProgress = useSelector(
+    (state) => state.repository.isLoading.uploadingAttachments
   );
 
   const hideTestCaseAddEditPage = (e, isForced, action) => {
@@ -479,7 +481,8 @@ export default function useAddEditTestCase(prop) {
       for (let idx = 0; idx < selectedFiles.length; idx += 1) {
         files.push({
           name: selectedFiles[idx].name,
-          id: null
+          id: null,
+          tempIdx: idx
         });
       }
       handleTestCaseFieldChange('attachments', files);
@@ -489,7 +492,7 @@ export default function useAddEditTestCase(prop) {
         filesData.append('attachments[]', selectedFiles[idx]);
       }
 
-      setUploadProgress(true);
+      dispatch(updateCtaLoading({ key: 'uploadingAttachments', value: true }));
       uploadFilesAPI({ projectId, payload: filesData })
         .then((item) => {
           const uploadedFiles = files.filter((thisItem) => thisItem.id);
@@ -501,14 +504,18 @@ export default function useAddEditTestCase(prop) {
           }
           // update with id
           handleTestCaseFieldChange('attachments', uploadedFiles);
-          setUploadProgress(false);
+          dispatch(
+            updateCtaLoading({ key: 'uploadingAttachments', value: false })
+          );
         })
         .catch((err) => {
           handleTestCaseFieldChange(
             'attachments',
             files.filter((item) => item.id)
           );
-          setUploadProgress(false);
+          dispatch(
+            updateCtaLoading({ key: 'uploadingAttachments', value: false })
+          );
           dispatch(
             addNotificaton({
               id: `error-upload${Math.random()}`,
@@ -524,7 +531,9 @@ export default function useAddEditTestCase(prop) {
   const fileRemoveHandler = (data) => {
     handleTestCaseFieldChange(
       'attachments',
-      testCaseFormData?.attachments.filter((item) => item.id !== data.id)
+      testCaseFormData?.attachments.filter((item) =>
+        item.id ? item.id !== data.id : item.tempIdx !== data.tempIdx
+      )
     );
   };
 
