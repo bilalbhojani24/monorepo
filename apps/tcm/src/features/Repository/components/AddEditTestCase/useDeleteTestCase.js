@@ -1,7 +1,11 @@
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
+import {
+  deleteTestCaseAPI,
+  deleteTestCasesBulkAPI,
+  getTestCasesAPI
+} from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -12,7 +16,8 @@ import {
   setDeleteTestCaseModalVisibility,
   setMetaPage,
   updateAllTestCases,
-  updateCtaLoading
+  updateCtaLoading,
+  updateTestCasesListLoading
 } from '../../slices/repositorySlice';
 
 import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
@@ -97,8 +102,27 @@ export default function useDeleteTestCase() {
         setMetaCount(updatedCount);
         if (updatedTestCases.length === 0 && updatedCount > 0) {
           // TC exists but need to fetch, set page to 1
-          setSearchParams({});
-        } else dispatch(updateAllTestCases(updatedTestCases));
+          // setSearchParams({});
+          if (metaPage?.page > 1) {
+            searchParams.set('p', `${metaPage?.page - 1}`);
+            setSearchParams(searchParams.toString());
+          } else {
+            dispatch(updateTestCasesListLoading(true));
+            getTestCasesAPI({ projectId, folderId })
+              .then((res) => {
+                dispatch(updateAllTestCases(res?.test_cases || []));
+                dispatch(setMetaPage(res.info));
+                dispatch(updateTestCasesListLoading(false));
+              })
+              .catch(() => {
+                // if page error, reset p=1
+                setSearchParams({});
+                dispatch(updateTestCasesListLoading(false));
+              });
+          }
+        }
+        // else dispatch(updateAllTestCases(updatedTestCases));
+        dispatch(updateAllTestCases(updatedTestCases));
 
         dispatch(
           logEventHelper('TM_TcBulkDeleteNotification', {
