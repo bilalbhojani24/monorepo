@@ -89,14 +89,37 @@ export const getSystemOrCustomValue = (
   return '--';
 };
 
-export const handleZeroEntryInAPage = ({
+export const handleLastEntryDeletionInAPage = ({
+  // it is used in case of last entry is deleted in paginated setup
   metaPage,
   searchParams,
-  setSearchParams
+  setSearchParams,
+  moveToPrevPage,
+  handleNoEntryOnFirstPage
 }) => {
-  if (metaPage?.prev === null) return;
-  if (metaPage?.prev * metaPage?.page_size + 1 === metaPage?.count) {
-    searchParams.set('p', `${metaPage.prev}`);
+  if (moveToPrevPage && metaPage?.prev === null) {
+    handleNoEntryOnFirstPage();
+  } else if (moveToPrevPage) {
+    if (metaPage?.prev === 1) searchParams.delete('p');
+    else searchParams.set('p', `${metaPage?.prev}`);
+
     setSearchParams(searchParams.toString());
+  }
+};
+
+export const handleBulkEntryDeletion = ({
+  metaPage,
+  searchParams,
+  setSearchParams,
+  handleNoEntryOnFirstPage
+}) => {
+  if (metaPage?.page - 1 === 1) {
+    searchParams.delete('p');
+    setSearchParams(searchParams.toString());
+  } else if (metaPage?.page - 1 > 1) {
+    searchParams.set('p', `${metaPage?.page - 1}`);
+    setSearchParams(searchParams.toString());
+  } else {
+    handleNoEntryOnFirstPage();
   }
 };

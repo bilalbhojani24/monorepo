@@ -14,7 +14,10 @@ import {
   deleteGlobalProject,
   updateGlobalProject
 } from 'globalSlice';
-import { handleZeroEntryInAPage, routeFormatter } from 'utils/helperFunctions';
+import {
+  handleLastEntryDeletionInAPage,
+  routeFormatter
+} from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -181,7 +184,11 @@ const useProjects = (prop) => {
           );
           dispatch(deleteProject(res.data.project));
           dispatch(deleteGlobalProject(res.data.project));
-          handleZeroEntryInAPage({ metaPage, searchParams, setSearchParams });
+          handleLastEntryDeletionInAPage({
+            metaPage,
+            searchParams,
+            setSearchParams
+          });
           dispatch(
             setMetaPage({
               ...metaPage,

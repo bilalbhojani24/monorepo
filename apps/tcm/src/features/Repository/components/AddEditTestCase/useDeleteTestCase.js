@@ -7,7 +7,10 @@ import {
   getTestCasesAPI
 } from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
-import { handleZeroEntryInAPage } from 'utils/helperFunctions';
+import {
+  handleBulkEntryDeletion,
+  handleLastEntryDeletionInAPage
+} from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -29,9 +32,10 @@ export default function useDeleteTestCase() {
   // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
+  const deletedTestCaseCountRef = useRef({
+    [folderId]: { page: null, count: 0 }
+  });
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // const location = useLocation();
   const { updateTCCount } = useUpdateTCCountInFolders();
 
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
@@ -55,6 +59,22 @@ export default function useDeleteTestCase() {
     ? metaPage.count - bulkSelection.de_selected_ids.length
     : bulkSelection.ids.length;
 
+  console.log('delete test case count', deletedTestCaseCountRef.current);
+  const handleNoEntryOnFirstPage = () => {
+    dispatch(updateTestCasesListLoading(true));
+    getTestCasesAPI({ projectId, folderId })
+      .then((res) => {
+        dispatch(updateAllTestCases(res?.test_cases || []));
+        dispatch(setMetaPage(res.info));
+        dispatch(updateTestCasesListLoading(false));
+      })
+      .catch(() => {
+        // if page error, reset p=1
+        setSearchParams({});
+        dispatch(updateTestCasesListLoading(false));
+      });
+  };
+
   const setMetaCount = (newCount) => {
     dispatch(
       setMetaPage({
@@ -62,6 +82,19 @@ export default function useDeleteTestCase() {
         count: newCount
       })
     );
+  };
+
+  const setDeletedTestCaseCount = (count) => {
+    if (
+      Object.keys(deletedTestCaseCountRef.current)[0] === folderId &&
+      searchParams.get('p') ===
+        deletedTestCaseCountRef.current[`${folderId}`].page
+    )
+      deletedTestCaseCountRef.current[`${folderId}`].count += count;
+    else
+      deletedTestCaseCountRef.current = {
+        [folderId]: { page: searchParams.get('p'), count }
+      };
   };
 
   const hideDeleteTestCaseModal = () => {
@@ -91,7 +124,7 @@ export default function useDeleteTestCase() {
 
         let updatedTestCases = [];
         const updatedCount = metaPage.count - selectedBulkTCCount;
-
+        setDeletedTestCaseCount(selectedBulkTCCount);
         if (bulkSelection.select_all) {
           updatedTestCases = allTestCases.filter((item) =>
             bulkSelection.de_selected_ids.includes(item.id)
@@ -106,23 +139,12 @@ export default function useDeleteTestCase() {
         if (updatedTestCases.length === 0 && updatedCount > 0) {
           // TC exists but need to fetch, set page to 1
           // setSearchParams({});
-          if (metaPage?.page > 1) {
-            searchParams.set('p', `${metaPage?.page - 1}`);
-            setSearchParams(searchParams.toString());
-          } else {
-            dispatch(updateTestCasesListLoading(true));
-            getTestCasesAPI({ projectId, folderId })
-              .then((res) => {
-                dispatch(updateAllTestCases(res?.test_cases || []));
-                dispatch(setMetaPage(res.info));
-                dispatch(updateTestCasesListLoading(false));
-              })
-              .catch(() => {
-                // if page error, reset p=1
-                setSearchParams({});
-                dispatch(updateTestCasesListLoading(false));
-              });
-          }
+          handleBulkEntryDeletion({
+            metaPage,
+            searchParams,
+            setSearchParams,
+            handleNoEntryOnFirstPage
+          });
         }
         // else dispatch(updateAllTestCases(updatedTestCases));
         dispatch(updateAllTestCases(updatedTestCases));
@@ -170,6 +192,7 @@ export default function useDeleteTestCase() {
           casesObj: { [folderData.id]: folderData.cases_count }
         });
         dispatch(updateCtaLoading({ key: 'deleteTestCaseCta', value: false }));
+        setDeletedTestCaseCount(1);
 
         dispatch(
           logEventHelper('TM_TcDeletedNotification', {
@@ -179,7 +202,18 @@ export default function useDeleteTestCase() {
         );
 
         dispatch(deleteTestCase([selectedTestCase.id]));
-        handleZeroEntryInAPage({ metaPage, searchParams, setSearchParams });
+        console.log(
+          'deleted test case count',
+          deletedTestCaseCountRef.current[`${folderId}`]
+        );
+        handleLastEntryDeletionInAPage({
+          metaPage,
+          searchParams,
+          setSearchParams,
+          moveToPrevPage:
+            deletedTestCaseCountRef.current[`${folderId}`] % 30 === 0,
+          handleNoEntryOnFirstPage
+        });
         setMetaCount(metaPage.count - 1);
         hideDeleteTestCaseModal();
       })
