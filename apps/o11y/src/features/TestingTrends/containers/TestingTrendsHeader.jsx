@@ -195,7 +195,7 @@ export default function TestingTrendsHeader() {
 
             if (key === 'custom') {
               return (
-                <O11yDropdown align="center" wrapperClassName="">
+                <O11yDropdown align="center">
                   <O11yDropdownTrigger
                     aria-label={TT_DATE_RANGE[key].label}
                     key={key}

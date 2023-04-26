@@ -79,11 +79,7 @@ function FailureCategoriesPill({ data, logBuildListingInteracted }) {
         }
       >
         <PropagationBlocker>
-          <p
-            role="presentation"
-            // className="bg-base-200 m-auto h-3 w-28 rounded-xl"
-            onClick={investigationRequiredClicked}
-          >
+          <p role="presentation" onClick={investigationRequiredClicked}>
             To be investigated
           </p>
         </PropagationBlocker>

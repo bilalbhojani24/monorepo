@@ -51,6 +51,7 @@ export default {
     baseUrl: 'https://browserstack.com',
     withCredentials: true,
     enableAnalytics: true,
-    disableLogs: true
+    disableLogs: true,
+    enableSentry: true
   }
 };
