@@ -88,3 +88,15 @@ export const getSystemOrCustomValue = (
   if (customValue) return customValue;
   return '--';
 };
+
+export const handleZeroEntryInAPage = ({
+  metaPage,
+  searchParams,
+  setSearchParams
+}) => {
+  if (metaPage?.prev === null) return;
+  if (metaPage?.prev * metaPage?.page_size + 1 === metaPage?.count) {
+    searchParams.set('p', `${metaPage.prev}`);
+    setSearchParams(searchParams.toString());
+  }
+};

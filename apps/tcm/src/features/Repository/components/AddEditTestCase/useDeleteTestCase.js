@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
+import { handleZeroEntryInAPage } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -24,6 +25,8 @@ export default function useDeleteTestCase() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
   const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const location = useLocation();
   const { updateTCCount } = useUpdateTCCountInFolders();
 
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
@@ -152,6 +155,7 @@ export default function useDeleteTestCase() {
         );
 
         dispatch(deleteTestCase([selectedTestCase.id]));
+        handleZeroEntryInAPage({ metaPage, searchParams, setSearchParams });
         setMetaCount(metaPage.count - 1);
         hideDeleteTestCaseModal();
       })

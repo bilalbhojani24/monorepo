@@ -14,7 +14,7 @@ import {
   deleteGlobalProject,
   updateGlobalProject
 } from 'globalSlice';
-import { routeFormatter } from 'utils/helperFunctions';
+import { handleZeroEntryInAPage, routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -45,7 +45,7 @@ import {
 } from '../slices/projectSlice';
 
 const useProjects = (prop) => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalFocusRef = useRef();
@@ -181,6 +181,7 @@ const useProjects = (prop) => {
           );
           dispatch(deleteProject(res.data.project));
           dispatch(deleteGlobalProject(res.data.project));
+          handleZeroEntryInAPage({ metaPage, searchParams, setSearchParams });
           dispatch(
             setMetaPage({
               ...metaPage,
