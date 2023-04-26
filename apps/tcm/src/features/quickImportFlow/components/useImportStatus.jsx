@@ -190,7 +190,7 @@ const useImportStatus = () => {
         id={data?.id}
         title={
           totalCount > successCount
-            ? `${successCount}/${totalCount} ${data?.title}`
+            ? `${successCount} of ${totalCount} ${data?.title}`
             : data?.title
         }
         description={data?.description}

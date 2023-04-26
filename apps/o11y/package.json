@@ -16,7 +16,7 @@
     "prettier:fix": "npm run prettier:check -- --write"
   },
   "dependencies": {
-    "@browserstack/bifrost": "3.0.0",
+    "@browserstack/bifrost": "4.0.0",
     "@browserstack/hooks": "workspace:*",
     "@browserstack/utils": "workspace:*",
     "@browserstack/services": "workspace:*",
