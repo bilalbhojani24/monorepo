@@ -18,7 +18,11 @@ import {
   setIsLoadingBuildsFilters,
   setStaticFilters
 } from 'features/FilterSkeleton/slices/filterSlice';
-import { getAppliedFilterObj } from 'features/FilterSkeleton/utils';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
+import {
+  getAppliedFilterObj,
+  getFilterQueryParams
+} from 'features/FilterSkeleton/utils';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import { getDateInFormat } from 'utils/dateTime';
@@ -141,9 +145,13 @@ export const {
 
 export const getSnPTestsData = createAsyncThunk(
   'testlist/getSnPTestsData',
-  async (data, { rejectWithValue, dispatch }) => {
+  async (data, { rejectWithValue, dispatch, getState }) => {
     try {
-      const response = await getSnPTests({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPTests({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       if (data?.shouldUpdate) {
         dispatch(updateTests(response.data.tests));
       } else {
@@ -465,7 +473,10 @@ export const getSnPTestsFiltersData = createAsyncThunk(
   async (data, { rejectWithValue, dispatch }) => {
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_TESTS));
     try {
-      const response = await getSnPTestsFilters({ ...data });
+      const response = await getSnPTestsFilters({
+        ...data,
+        searchString: window.location.search
+      });
       updateFilterFields(response.data, dispatch);
       return response.data;
     } catch (err) {

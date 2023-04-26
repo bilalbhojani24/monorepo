@@ -13,12 +13,13 @@ export const getAppliedFilterObj = ({ id, text, type, value }) => ({
 
 export const getFilterQueryParams = (appliedFilters = []) => {
   const searchParams = new URLSearchParams();
-  Object.values(ADV_FILTER_TYPES).forEach((type) => {
+  Object.values(ADV_FILTER_TYPES).forEach((filterTypeObj) => {
+    const { key } = filterTypeObj;
     const filters = appliedFilters
-      .filter((item) => item.type === type)
-      .map((i) => i?.id);
+      .filter((item) => item.type === key)
+      .map((i) => i?.value);
     if (!isEmpty(filters)) {
-      searchParams.set(type, filters);
+      searchParams.set(key, filters);
     }
   });
   return searchParams;

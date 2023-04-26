@@ -11,23 +11,13 @@ export const getSnPTests = async ({
   normalisedName,
   pagingParams,
   sortOptions,
-  filters
+  searchString
 }) => {
   let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/?orderKey=${
     sortOptions.type
-  }&orderValue=${sortOptions.status}&isMuted=${filters.isMuted}&isFlaky=${
-    filters.isFlaky
-  }`;
+  }&orderValue=${sortOptions.status}&${searchString}`;
   if (pagingParams?.pageNumber) {
     endpoint = `${endpoint}&pageNumber=${pagingParams.pageNumber}`;
-  }
-  if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -301,7 +291,7 @@ export const getSnPErrorDetailsPlatforms = async ({
   return axios.get(endpoint);
 };
 
-export const getSnPTestsFilters = async ({ normalisedName }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/filters`;
+export const getSnPTestsFilters = async ({ normalisedName, searchString }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/filters${searchString}`;
   return axios.get(endpoint);
 };

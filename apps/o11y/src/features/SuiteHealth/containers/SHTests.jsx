@@ -6,7 +6,11 @@ import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
-import { getIsFiltersLoading } from 'features/FilterSkeleton/slices/selectors';
+import {
+  getAllAppliedFilters,
+  getIsFiltersLoading
+} from 'features/FilterSkeleton/slices/selectors';
+import { getFilterQueryParams } from 'features/FilterSkeleton/utils';
 import {
   setIsSHTestsDetailsVisible,
   setShowSHTestsDetailsFor,
@@ -46,6 +50,7 @@ export default function SHTests() {
   const activeProject = useSelector(getActiveProject);
   const isFiltersLoading = useSelector(getIsFiltersLoading);
   const navigate = useNavigate();
+  const appliedFilters = useSelector(getAllAppliedFilters);
 
   useEffect(() => {
     logOllyEvent({
@@ -83,8 +88,7 @@ export default function SHTests() {
       dispatch(
         getSnPTestsData({
           normalisedName: activeProject?.normalisedName,
-          sortOptions: sortBy,
-          filters
+          sortOptions: sortBy
         })
       )
         .unwrap()
@@ -97,7 +101,7 @@ export default function SHTests() {
     };
   }, [
     dispatch,
-    filters,
+    appliedFilters,
     activeProject?.normalisedName,
     sortBy,
     isFiltersLoading
@@ -127,6 +131,12 @@ export default function SHTests() {
       dispatch(setIsSHTestsDetailsVisible(false));
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    navigate({
+      search: getFilterQueryParams(appliedFilters).toString()
+    });
+  }, [appliedFilters, navigate]);
 
   const handleClickSortBy = (val) => {
     const updatedData = { type: val };
