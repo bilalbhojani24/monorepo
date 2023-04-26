@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdOutlineTimer } from '@browserstack/bifrost';
+import { useNavigate } from 'react-router-dom';
+import { MdOpenInNew, MdOutlineTimer, MdSettings } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yBadge } from 'common/bifrostProxy';
+import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
+import { ROUTES } from 'constants/routes';
 import isEmpty from 'lodash/isEmpty';
 import {
   capitalize,
@@ -21,6 +23,7 @@ import { getCurrentTestRunId } from '../slices/selectors';
 const TestOverview = () => {
   const mounted = useRef(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const [isLoading, setIsLoading] = useState(true);
   const [testOverview, setTestOverview] = useState({});
@@ -46,6 +49,10 @@ const TestOverview = () => {
       mounted.current = false;
     };
   }, [dispatch, currentTestRunId]);
+
+  const handleClickConfigureSmartTags = () => {
+    navigate(ROUTES.smartTags);
+  };
 
   if (isLoading) {
     return <O11yLoader wrapperClassName="py-6" />;
@@ -89,9 +96,30 @@ const TestOverview = () => {
             'pt-5': testOverview.userTags?.length > 0
           })}
         >
-          <p className="text-base-900 text-sm font-medium leading-5">
-            Smart test info
-          </p>
+          <div className="flex justify-between">
+            <p className="text-base-900 text-sm font-medium leading-5">
+              Smart tags
+            </p>
+            <span className="text-brand-600 text-xs font-medium">
+              <O11yButton
+                icon={<MdOpenInNew className="cursor-pointer text-base" />}
+                variant="minimal"
+                iconPlacement="end"
+                wrapperClassName="text-xs mr-2"
+              >
+                Learn More
+              </O11yButton>
+              <O11yButton
+                icon={<MdSettings className="cursor-pointer text-base" />}
+                variant="minimal"
+                iconPlacement="end"
+                wrapperClassName="text-xs"
+                onClick={handleClickConfigureSmartTags}
+              >
+                Configure
+              </O11yButton>
+            </span>
+          </div>
           <div className="flex flex-col gap-6">
             {testOverview.bsTags.map((item) => (
               <div className="flex flex-col gap-2" key={item.label}>
