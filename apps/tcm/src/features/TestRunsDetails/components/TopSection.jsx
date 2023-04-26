@@ -148,15 +148,41 @@ const TopSection = () => {
               textColorClass="text-base-500 mt-1"
               icon={<MdPersonOutline className="text-base-500 h-5 w-5" />}
             />
-            <TMMetadata
-              metaDescription={
-                testRunDetails?.created_at
-                  ? formatTime(testRunDetails?.created_at, 'timeG')
-                  : '--'
+            <TMTooltip
+              size="xs"
+              placementSide="bottom"
+              theme="dark"
+              delay="200"
+              content={
+                <>
+                  <TMTooltipBody wrapperClassName="flex flex-col">
+                    <div className="text-sm ">
+                      <div>Created on:</div>
+                      {testRunDetails?.created_at
+                        ? formatTime(testRunDetails?.created_at, 'timeG')
+                        : '--'}
+                    </div>
+                    <div className="mt-4 text-sm">
+                      <div>Last Updated on:</div>
+                      {testRunDetails?.updated_at
+                        ? formatTime(testRunDetails?.updated_at, 'timeG')
+                        : '--'}
+                    </div>
+                  </TMTooltipBody>
+                </>
               }
-              textColorClass="text-base-500 mt-1"
-              icon={<MdOutlineAccessTime className="text-base-500 h-5 w-5" />}
-            />
+            >
+              <TMMetadata
+                metaDescription={
+                  testRunDetails?.updated_at
+                    ? formatTime(testRunDetails?.updated_at, 'timeG')
+                    : '--'
+                }
+                textColorClass="text-base-500 mt-1"
+                icon={<MdOutlineAccessTime className="text-base-500 h-5 w-5" />}
+              />
+            </TMTooltip>
+
             <ClampedTags tagsArray={testRunDetails?.tags || []} noTagsText="" />
           </div>
         }
