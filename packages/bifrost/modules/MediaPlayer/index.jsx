@@ -78,7 +78,7 @@ const MediaPlayer = forwardRef(
       }
       if (videoRef.current.getCurrentTime() - startTime >= duration)
         setIsPlaying(false);
-      timeUpdateCallBack?.(videoRef.current);
+      timeUpdateCallBack?.();
     };
 
     const handleOnPlay = () => {
