@@ -149,119 +149,28 @@ export const replaceFolderHelper = (array, toBeReplacedFolder) =>
     return item;
   });
 
-export const findFolderRouted = (thisArray, findFolderId, depth = 0) => {
-  if (!thisArray || !thisArray.length) return false;
+export const findFolderPath = (thisArray, targetFolderId, folderPath = []) => {
+  if (!thisArray || !thisArray.length) return folderPath;
 
-  let selectedItem = null;
-  let ancestors = [];
-  thisArray?.every((item) => {
-    if (item.id === findFolderId) {
-      selectedItem = item;
-      return false;
+  for (let i = 0; i < thisArray.length; i += 1) {
+    if (thisArray[i].id === targetFolderId) {
+      folderPath.unshift(thisArray[i].name);
+      return folderPath;
     }
-    if (item.contents) {
-      const matched = findFolderRouted(item.contents, findFolderId, depth + 1);
-      if (matched.length) {
-        const thisItem = { ...item };
-        delete thisItem.contents;
-        ancestors = [{ ...thisItem, depth }, ...matched];
-        return false;
+    if (thisArray[i].contents) {
+      const path = findFolderPath(
+        thisArray[i].contents,
+        targetFolderId,
+        folderPath
+      );
+      if (path.length) {
+        folderPath.unshift(thisArray[i].name);
+        return folderPath;
       }
     }
-    return true;
-  });
-
-  return ancestors.length ? ancestors : [{ ...selectedItem, depth }];
+  }
+  return folderPath;
 };
-
-// export const findFolderPath = (thisArray, targetFolderId, folderPath = []) => {
-//   if (!thisArray || !thisArray.length) return folderPath;
-
-//   for (let i = 0; i < thisArray.length; i += 1) {
-//     console.log('loop through', thisArray[i], thisArray.length);
-//     if (thisArray[i].id === targetFolderId) {
-//       console.log('inside equal', thisArray[i].id);
-//       folderPath.unshift(thisArray[i].name);
-//       return folderPath;
-//     }
-//     if (thisArray[i].contents) {
-//       console.log('inside contents', thisArray[i].contents);
-//       const path = findFolderPath(
-//         thisArray[i].contents,
-//         targetFolderId,
-//         folderPath
-//       );
-//       if (path.length) folderPath.unshift(thisArray[i].name);
-
-//       return folderPath;
-//     }
-//   }
-//   return folderPath;
-// };
-
-// export const findFolderPath = (thisArray, targetFolderId, folderPath = []) => {
-//   if (typeof thisArray === 'object' && thisArray.id === targetFolderId) {
-//     folderPath.unshift(thisArray.name);
-//     return folderPath;
-//   }
-
-//   for (let i = 0; i < thisArray.length; i += 1) {
-//     console.log('loop through', thisArray[i], thisArray.length);
-//     findFolderPath(thisArray[i], targetFolderId, folderPath);
-//     if (thisArray[i].contents) {
-//       console.log('inside contents', thisArray[i].contents);
-//       const path = findFolderPath(
-//         thisArray[i].contents,
-//         targetFolderId,
-//         folderPath
-//       );
-//       if (path.length) folderPath.unshift(thisArray[i].name);
-
-//       return folderPath;
-//     }
-//   }
-
-//   return folderPath;
-// };
-
-// thisArray.forEach((item) => {
-//   if (item.id === targetFolderId) {
-//     folderPath.unshift(item.name);
-//     return folderPath;
-//   }
-//   if (item.contents) {
-//     const path = findFolderPath(item.contents, targetFolderId, folderPath);
-//     if (path.length) folderPath.unshift(item.name);
-
-//     return folderPath;
-//   }
-//   return [];
-// });
-
-// export const findFolderRouted = (thisArray, findFolderId, parentId) => {
-//   if (!thisArray || !thisArray.length) return false;
-
-//   let selectedItem = null;
-//   let ancestors = [];
-//   thisArray?.every((item) => {
-//     if (item.id === findFolderId) {
-//       selectedItem = item;
-//       return false;
-//     }
-//     if (item.contents) {
-//       const matched = findFolderRouted(item.contents, findFolderId, depth + 1);
-//       if (matched.length) {
-//         const thisItem = { ...item };
-//         delete thisItem.contents;
-//         ancestors = [{ ...thisItem, depth }, ...matched];
-//         return false;
-//       }
-//     }
-//     return true;
-//   });
-
-//   return ancestors.length ? ancestors : [{ ...selectedItem, depth }];
-// };
 
 export const folderPropertyUpdater = (
   folders, // all folders

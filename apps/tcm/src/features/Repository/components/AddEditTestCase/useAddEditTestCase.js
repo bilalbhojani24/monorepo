@@ -647,19 +647,12 @@ export default function useAddEditTestCase(prop) {
       isAddTestCasePageVisible &&
       prop?.isAddEditOnly // to reduce recalculation for other components
     ) {
-      console.log(
-        'inside use effect to schedule folder',
-        allFolders,
-        testCaseFormData?.test_case_folder_id
-        // findFolderPath(allFolders, testCaseFormData?.test_case_folder_id, [])
-      );
-
       setScheduledFolder(
         findFolderPath(allFolders, testCaseFormData?.test_case_folder_id, [])
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [allFolders, testCaseFormData?.test_case_folder_id, prop?.isAddEditOnly]);
+  }, [testCaseFormData?.test_case_folder_id, prop?.isAddEditOnly]);
 
   useEffect(() => {
     if (projectId === loadedDataProjectId) {

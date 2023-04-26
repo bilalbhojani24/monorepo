@@ -73,7 +73,6 @@ const AddEditTestCase = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isTestCaseEditing, isTagsLoading]);
 
-  console.log('schduled folder', scheduledFolder);
   return (
     <div className="border-base-200 flex w-full shrink-0 grow flex-col items-start overflow-hidden border-l">
       <div className="w-full p-4 pb-0">
@@ -139,7 +138,7 @@ const AddEditTestCase = () => {
                       delay: 500
                     }}
                   >
-                    {scheduledFolder?.map((item) => item).join(' / ')}
+                    {scheduledFolder?.join(' / ')}
                   </TMTruncateText>
                 </div>
               </div>
