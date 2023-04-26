@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
@@ -9,14 +11,15 @@ import {
   TP_TOOLTIP_THEME
 } from '../../shared/tooltipPopoverConstants';
 import Button from '../Button';
-import Hyperlink from '../Hyperlink';
 import TooltipBody from '../TooltipBody';
-import TooltipFooter from '../TooltipFooter';
 import TooltipHeader from '../TooltipHeader';
 
 import Tooltip from './index';
 
 const inlineRadio = 'inline-radio';
+const bodyText =
+  'Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec sodales augue eu viverra tempus.';
+const headingText = 'This is a tooltip heading';
 
 const defaultConfig = {
   title: 'Application/Components/Tooltip',
@@ -63,15 +66,8 @@ const defaultConfig = {
       option: { type: null },
       defaultValue: (
         <>
-          <TooltipHeader>This is a tooltip heading</TooltipHeader>
-          <TooltipBody>
-            Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit.
-            Donec sodales augue eu viverra tempus.
-          </TooltipBody>
-          <TooltipFooter>
-            <Button>Action 1</Button>
-            <Button colors="white">Action 2</Button>
-          </TooltipFooter>
+          <TooltipHeader>{headingText}</TooltipHeader>
+          <TooltipBody>{bodyText}</TooltipBody>
         </>
       )
     },
@@ -145,133 +141,37 @@ const defaultConfig = {
 };
 const Template = (args) => <Tooltip {...args} />;
 const DarkThemeTemplate = (args) => <Tooltip {...args} />;
-const LightThemeHyperlinkTemplate = (args) => <Tooltip {...args} />;
-const DarkThemeHyperlinkTemplate = (args) => <Tooltip {...args} />;
-const CustomTooltipTemplate = (args) => <Tooltip {...args} />;
 
+// adding hover interactions to verify in vrt
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.hover(canvas.getByRole('button'));
+};
+
 const DarkTheme = DarkThemeTemplate.bind({});
-const LightThemeHyperlink = LightThemeHyperlinkTemplate.bind({});
-const DarkThemeHyperlink = DarkThemeHyperlinkTemplate.bind({});
-const CustomTooltip = CustomTooltipTemplate.bind({});
+DarkTheme.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.hover(canvas.getByRole('button'));
+};
 
 Primary.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
-export {
-  CustomTooltip,
-  DarkTheme,
-  DarkThemeHyperlink,
-  LightThemeHyperlink,
-  Primary
-};
-
-// CustomTooltip tooltip start
-CustomTooltip.args = {
-  theme: TP_TOOLTIP_THEME[1],
-  content: (
-    <TooltipBody wrapperClassName="mb-0">
-      Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-      sodales augue eu viverra tempus.
-    </TooltipBody>
-  )
-};
-// CustomTooltip tooltip end
+export { DarkTheme, Primary };
 
 // Darktheme tooltip start
 DarkTheme.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <TooltipHeader>This is a tooltip heading</TooltipHeader>
-      <TooltipBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </TooltipBody>
-      <TooltipFooter>
-        <Button>Action 1</Button>
-        <Button
-          // colors="white"
-          wrapperClassName="bg-base-600 text-white outline-0"
-        >
-          Action 2
-        </Button>
-      </TooltipFooter>
+      <TooltipHeader>{headingText}</TooltipHeader>
+      <TooltipBody>{bodyText}</TooltipBody>
     </>
   )
 };
 // Darktheme tooltip end
-
-// LightThemeHyperlink tooltip start
-LightThemeHyperlink.args = {
-  content: (
-    <>
-      <TooltipHeader>This is a tooltip heading</TooltipHeader>
-      <TooltipBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </TooltipBody>
-      <TooltipFooter>
-        <Hyperlink
-          underlined
-          fontWeight="font-light"
-          color="text-brand-600"
-          wrapperClassName="mr-4"
-          href="https://www.google.com"
-          rel="noreferrer noopener"
-        >
-          Action 1
-        </Hyperlink>
-        <Hyperlink
-          underlined
-          fontWeight="font-light"
-          color="text-brand-600"
-          wrapperClassName="mr-4"
-          href="https://www.google.com"
-          rel="noreferrer noopener"
-        >
-          Action 1
-        </Hyperlink>
-      </TooltipFooter>
-    </>
-  )
-};
-// LightThemeHyperlink tooltip start
-
-// DarkThemeHyperlink tooltip start
-DarkThemeHyperlink.args = {
-  theme: TP_TOOLTIP_THEME[1],
-  content: (
-    <>
-      <TooltipHeader>This is a tooltip heading</TooltipHeader>
-      <TooltipBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </TooltipBody>
-      <TooltipFooter>
-        <Hyperlink
-          underlined
-          fontWeight="font-light"
-          color="text-base-50"
-          wrapperClassName="mr-4"
-          href="https://www.google.com"
-          rel="noreferrer noopener"
-        >
-          Action 1
-        </Hyperlink>
-        <Hyperlink
-          underlined
-          fontWeight="font-light"
-          color="text-base-50"
-          href="https://www.google.com"
-          rel="noreferrer noopener"
-        >
-          Action 1
-        </Hyperlink>
-      </TooltipFooter>
-    </>
-  )
-};
-// DarkThemeHyperlink tooltip start

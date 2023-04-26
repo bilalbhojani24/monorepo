@@ -9,6 +9,7 @@ import {
 import { selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
+import { STATUS_OPTIONS } from '../const/immutableConst';
 import {
   addTestResultItem,
   closeAllVisibleForms,
@@ -62,6 +63,9 @@ export default function useTRTCFolders() {
   );
   const selectedTestCase = useSelector(
     (state) => state.testRunsDetails.selectedTestCase
+  );
+  const testCaseDetails = useSelector(
+    (state) => state.testRunsDetails.testCaseDetails
   );
   const testResultsArray = useSelector(
     (state) => state.testRunsDetails.testResultsArray
@@ -194,7 +198,7 @@ export default function useTRTCFolders() {
       );
       dispatch(setSelectedTestCase(null));
       dispatch(addTestResultItem(data.data['test-result']));
-      fetchTestRunDetails();
+      fetchTestRunDetails(true, true);
       closeAll();
     });
   };
@@ -221,8 +225,21 @@ export default function useTRTCFolders() {
         },
         data
       );
+
+      dispatch(
+        // quick update the current view
+        setAllTestCases(
+          allTestCases.map((item) =>
+            item.id === data.id
+              ? { ...item, latest_status: selectedOption.value }
+              : item
+          )
+        )
+      );
     } else {
-      dispatch(initAddStatusForm(selectedOption?.value || null));
+      dispatch(
+        initAddStatusForm(selectedOption?.value || STATUS_OPTIONS[0].value)
+      ); // default passed, else whaterver user preselected
       dispatch(setIsVisibleProps({ key: 'addStatus', value: true }));
     }
   };
@@ -240,6 +257,7 @@ export default function useTRTCFolders() {
   };
 
   return {
+    testCaseDetails,
     isTableLoading: isTestCasesLoading || isTestRunDetailsLoading,
     page,
     testRunDetails,

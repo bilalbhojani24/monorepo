@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import { XMarkIcon } from '../Icon';
 
-import './styles.scss';
-
 const SlideoverHeader = ({
   dismissButton,
   handleDismissClick,
@@ -13,7 +11,7 @@ const SlideoverHeader = ({
   isBorder,
   Icon,
   subHeading,
-  backgroundColorClass,
+  wrapperClassName,
   lightText,
   isEllipsisHeader,
   headingWrapperClassName,
@@ -25,7 +23,7 @@ const SlideoverHeader = ({
       {
         'border-b border-base-300': isBorder
       },
-      backgroundColorClass
+      wrapperClassName
     )}
   >
     {Icon ? (
@@ -107,7 +105,7 @@ SlideoverHeader.propTypes = {
   isBorder: PropTypes.bool,
   Icon: PropTypes.node,
   subHeading: PropTypes.string,
-  backgroundColorClass: PropTypes.string,
+  wrapperClassName: PropTypes.string,
   lightText: PropTypes.bool,
   isEllipsisHeader: PropTypes.bool,
   headingWrapperClassName: PropTypes.string,
@@ -120,7 +118,7 @@ SlideoverHeader.defaultProps = {
   isBorder: false,
   Icon: null,
   subHeading: '',
-  backgroundColorClass: '',
+  wrapperClassName: '',
   lightText: false,
   isEllipsisHeader: true,
   headingWrapperClassName: '',

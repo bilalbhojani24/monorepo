@@ -14,8 +14,6 @@ import {
   WEBSITE_TESTING_PRODUCTS
 } from './const/headerProductContainerConstants';
 
-import './styles.scss';
-
 const TITLE_CLASSNAMES =
   'not-italic font-semibold text-sm leading-4 text-[#666666]';
 const LINK_CLASSNAMES = 'flex flex-col items-start p-0 w-[254px] gap-5';
@@ -28,6 +26,7 @@ const HeaderProductContainer = () => {
     productLink
   ) => (
     <Hyperlink
+      isCSR={false}
       wrapperClassName={twClassNames(
         'group flex flex-row items-start w-64 h-10 py-0 px-[10px] gap-[5px]'
       )}
@@ -208,6 +207,7 @@ const HeaderProductContainer = () => {
               >
                 Use Browserstack with your favourite products. See our
                 <Hyperlink
+                  isCSR={false}
                   wrapperClassName={twClassNames(
                     'not-italic font-bold text-sm leading-4 text-base-600 hover:text-brand-600'
                   )}
@@ -258,6 +258,7 @@ const HeaderProductContainer = () => {
             <div className={twClassNames('flex flex-col items-start p-0 w-24')}>
               {FOR_TEAMS_PRODUCTS.map((product) => (
                 <Hyperlink
+                  isCSR={false}
                   href={product.link}
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'
@@ -308,6 +309,7 @@ const HeaderProductContainer = () => {
             >
               {TOOL_PRODUCTS.map((product) => (
                 <Hyperlink
+                  isCSR={false}
                   href={product.link}
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'

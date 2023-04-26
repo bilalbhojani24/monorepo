@@ -38,9 +38,8 @@ const UsersFilters = ({ onChangeArrayFilter, allowFetchingData }) => {
         onChangeArrayFilter(selectedValues, 'users');
       }}
       value={selectedUserOptions}
-      checkPosition
-      virtuosoWidth="480px"
-      optionsListWrapperClassName="min-w-max overflow-hidden"
+      checkPosition="right"
+      virtuosoWidth="350px"
     />
   ) : null;
 };

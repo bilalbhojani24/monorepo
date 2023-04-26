@@ -54,25 +54,29 @@ export default function useTestRunDetails() {
     dispatch(logEventHelper('TM_QiViewReportLinkClicked', {}));
   };
 
-  const fetchTestRunDetails = (forceRefetch = true) => {
+  const fetchAndSetStateTRDetails = () => {
+    getTestRunDetailsAPI({ projectId, testRunId }).then((data) => {
+      dispatch(setTestRunsDetails(data.data.test_run));
+      dispatch(setIsLoadingProps({ key: 'testRunDetails', value: false }));
+
+      if (!searchParams.get('p')) {
+        // if not paginated set this data else the test cases will query in a different API
+        dispatch(setAllTestCases(data.data.test_run.test_cases || []));
+        dispatch(setMetaPage(data.data.test_run.links.info));
+        dispatch(
+          setIsLoadingProps({ key: 'isTestCasesLoading', value: false })
+        );
+      }
+    });
+  };
+
+  const fetchTestRunDetails = (forceRefetch = true, noLoader = false) => {
     if (testRunDetails?.id !== parseInt(testRunId, 10))
       dispatch(setTestRunsDetails({ id: testRunId })); // clear in case there is a difference
 
     if (forceRefetch || testRunDetails?.id !== parseInt(testRunId, 10)) {
-      dispatch(setIsLoadingProps({ key: 'testRunDetails', value: true }));
-      getTestRunDetailsAPI({ projectId, testRunId }).then((data) => {
-        dispatch(setTestRunsDetails(data.data.test_run));
-        dispatch(setIsLoadingProps({ key: 'testRunDetails', value: false }));
-
-        if (!searchParams.get('p')) {
-          // if not paginated set this data else the test cases will query in a different API
-          dispatch(setAllTestCases(data.data.test_run.test_cases || []));
-          dispatch(setMetaPage(data.data.test_run.links.info));
-          dispatch(
-            setIsLoadingProps({ key: 'isTestCasesLoading', value: false })
-          );
-        }
-      });
+      dispatch(setIsLoadingProps({ key: 'testRunDetails', value: !noLoader }));
+      fetchAndSetStateTRDetails();
     } else {
       // incase data already exists in the redux state then set laoding to false and move forward
       dispatch(setIsLoadingProps({ key: 'testRunDetails', value: false }));

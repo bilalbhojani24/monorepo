@@ -8,8 +8,6 @@ import { ChevronDownIcon } from '../Icon';
 import GridViewSolidIcon from '../Icon/HeaderIcons/GridViewSolidIcon';
 import ToolTip from '../Tooltip';
 
-import './styles.scss';
-
 const DEFAULT_PRODUCT_ARRAY = [
   { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
   { name: 'Automate', link: 'https://automate.browserstack.com' },
@@ -29,6 +27,7 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
     >
       {Array.from(Array(productCount), (e, index) => (
         <Hyperlink
+          isCSR={false}
           wrapperClassName={twClassNames(
             'flex flex-row items-center py-2 px-3'
           )}

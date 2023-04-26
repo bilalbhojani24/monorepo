@@ -1,9 +1,10 @@
 {
   "name": "@browserstack/utils",
-  "version": "0.2.4",
+  "version": "1.2.0",
   "description": "Utility functions for browserstack frontend monorepo",
   "main": "dist/index.js",
   "license": "MIT",
+  "repository": "https://github.com/browserstack/frontend.git",
   "scripts": {
     "build": "vite build"
   },
@@ -23,7 +24,8 @@
     "@sentry/react": "7.38.0",
     "@sentry/tracing": "7.38.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "socket.io-client": "2.5.0"
   },
   "files": [
     "dist/*",
