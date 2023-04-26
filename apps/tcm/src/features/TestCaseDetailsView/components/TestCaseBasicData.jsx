@@ -205,6 +205,14 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             </div>
           </div>
         </div>
+        {testCaseDetails?.custom_fields.map((field) => (
+          <DetailsSnippet
+            key={field?.field_name}
+            parseContent
+            title={<span className="capitalize">{field.field_user_name}</span>}
+            value={field?.value && field?.value !== '' ? field.value : '--'}
+          />
+        ))}
         <DetailsSnippet
           dontCapitalize
           title="Attachments"
@@ -230,14 +238,6 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           title="Preconditions"
           value={testCaseDetails?.preconditions || '--'}
         />
-        {testCaseDetails?.custom_fields.map((field) => (
-          <DetailsSnippet
-            key={field?.field_name}
-            parseContent
-            title={<span className="capitalize">{field.field_user_name}</span>}
-            value={field?.value && field?.value !== '' ? field.value : '--'}
-          />
-        ))}
         <div />
       </div>
 
