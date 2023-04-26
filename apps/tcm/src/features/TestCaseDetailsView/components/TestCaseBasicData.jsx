@@ -20,7 +20,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
   const {
     detailsRef,
     showImagePreview,
-    imageLink,
+    imageViewData,
     testCaseDetails,
     onAttachmentClick,
     closePreview,
@@ -234,10 +234,14 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
         <div />
       </div>
       <ImageModal
-        imageLink={imageLink}
+        imageLink={imageViewData?.link}
         show={showImagePreview}
         onClose={closePreview}
-        altText={`${testCaseDetails?.identifier || '--'} attached Image`}
+        altText={
+          imageViewData?.name
+            ? imageViewData.name
+            : `${testCaseDetails?.identifier || '--'}_image`
+        }
       />
     </>
   );
