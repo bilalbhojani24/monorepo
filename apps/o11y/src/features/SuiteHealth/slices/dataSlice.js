@@ -220,7 +220,7 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
+                  id: `${appliedKey}`,
                   text: item,
                   value: item,
                   type: ADV_FILTER_TYPES.buildTags.key
@@ -235,7 +235,7 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
+                  id: `${appliedKey}`,
                   text: item,
                   value: item,
                   type: ADV_FILTER_TYPES.uniqueBuildNames.key
@@ -250,7 +250,7 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
+                  id: `${appliedKey}`,
                   text: item,
                   value: item,
                   type: ADV_FILTER_TYPES.folder.key
@@ -265,7 +265,7 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
+                  id: `${appliedKey}`,
                   text: item,
                   value: item,
                   type: ADV_FILTER_TYPES.testTags.key
@@ -280,7 +280,7 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
+                  id: `${appliedKey}`,
                   text: item,
                   value: item,
                   type: ADV_FILTER_TYPES.hostName.key
@@ -295,7 +295,7 @@ const updateFilterFields = (data, dispatch) => {
           if (!isNil(item))
             updatedSelectedFilters.push(
               getAppliedFilterObj({
-                id: `${appliedKey}:${item}`,
+                id: `${appliedKey}`,
                 text: item,
                 value: item,
                 type: ADV_FILTER_TYPES.isFlaky.key
@@ -308,7 +308,7 @@ const updateFilterFields = (data, dispatch) => {
           if (!isNil(item))
             updatedSelectedFilters.push(
               getAppliedFilterObj({
-                id: `${appliedKey}:${item}`,
+                id: `${appliedKey}`,
                 text: item,
                 value: item,
                 type: ADV_FILTER_TYPES.isNewFailure.key
@@ -321,7 +321,7 @@ const updateFilterFields = (data, dispatch) => {
           if (!isNil(item))
             updatedSelectedFilters.push(
               getAppliedFilterObj({
-                id: `${appliedKey}:${item}`,
+                id: `${appliedKey}`,
                 text: item,
                 value: item,
                 type: ADV_FILTER_TYPES.isAlwaysFailing.key
@@ -334,7 +334,7 @@ const updateFilterFields = (data, dispatch) => {
           if (!isNil(item))
             updatedSelectedFilters.push(
               getAppliedFilterObj({
-                id: `${appliedKey}:${item}`,
+                id: `${appliedKey}`,
                 text: item,
                 value: item,
                 type: ADV_FILTER_TYPES.hasJiraDefects.key
@@ -347,7 +347,7 @@ const updateFilterFields = (data, dispatch) => {
           if (!isNil(item))
             updatedSelectedFilters.push(
               getAppliedFilterObj({
-                id: `${appliedKey}:${item}`,
+                id: `${appliedKey}`,
                 text: item,
                 value: item,
                 type: ADV_FILTER_TYPES.isMuted.key
@@ -360,7 +360,7 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
+                  id: `${appliedKey}`,
                   text: item,
                   value: item,
                   type: ADV_FILTER_TYPES.failureCategories.key
@@ -375,7 +375,7 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
+                  id: `${appliedKey}`,
                   text: item,
                   value: item,
                   type: ADV_FILTER_TYPES.device.key
@@ -390,7 +390,7 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
+                  id: `${appliedKey}`,
                   text: item,
                   value: item,
                   type: ADV_FILTER_TYPES.os.key
@@ -405,7 +405,7 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
+                  id: `${appliedKey}`,
                   text: item,
                   value: item,
                   type: ADV_FILTER_TYPES.browser.key
@@ -420,7 +420,7 @@ const updateFilterFields = (data, dispatch) => {
           if (searchText?.length > 0)
             updatedSelectedFilters.push(
               getAppliedFilterObj({
-                id: `${appliedKey}:${searchText}`,
+                id: `${appliedKey}`,
                 text: searchText,
                 value: searchText,
                 type: ADV_FILTER_TYPES.search.key
