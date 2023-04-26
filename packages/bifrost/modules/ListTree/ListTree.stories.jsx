@@ -12,6 +12,7 @@ import InputField from '../InputField';
 import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent.stories';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
+import ListTreeRootWrapper from '../ListTreeRootWrapper';
 import TruncateText from '../TruncateText';
 
 import ListTree from './index';
@@ -222,7 +223,12 @@ const listTreeDemoDataSet = [
     contents: [
       {
         name: (
-          <TruncateText wrapperClassName="line-clamp-1">
+          <TruncateText
+            wrapperClassName="line-clamp-1"
+            headerTooltipProps={{
+              triggerAriaLabel: 'label'
+            }}
+          >
             file A-1 Really long file name case. Lorem Ipsum is simply dummy
             text of the printing and typesetting industry. Lorem Ipsum has been
             the industrys standard dummy text ever since the 1500s, when an
@@ -302,7 +308,7 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
   });
 
   return (
-    <>
+    <ListTreeRootWrapper>
       {data.map((item, index) => (
         <ListTree
           key={item.name}
@@ -311,6 +317,7 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
         >
           <ListTreeNode
             label={item.name}
+            ariaLabel={item.name}
             description={`(level=${indent})`}
             isNodeSelected={selectedNodeMap[item.name]}
             onNodeClick={() => {
@@ -352,7 +359,7 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
           )}
         </ListTree>
       ))}
-    </>
+    </ListTreeRootWrapper>
   );
 };
 
@@ -413,16 +420,21 @@ const SearchableSelectableListTree = () => {
   return (
     <>
       <InputField
+        role="presentation"
+        id="selectedbar"
         label={`${Object.values(selectedValue).length} Items Selected:`}
         wrapperClassName="min-w-[300px] cursor-pointer"
         addOnBeforeInlineWrapperClassName="max-w-[300px]"
         addOnBeforeInline={
           <TruncateText
             tooltipTriggerIcon={
-              <span className="absolute top-0 left-0 text-xs font-medium ">
+              <span className="absolute left-0 top-0 text-xs font-medium ">
                 ({Object.keys(selectedValue)?.length})
               </span>
             }
+            headerTooltipProps={{
+              triggerAriaLabel: 'label'
+            }}
           >
             {Object.values(selectedValue)
               ?.map((el) => el.name)
@@ -432,8 +444,13 @@ const SearchableSelectableListTree = () => {
         style={{ width: 0, paddingLeft: 0 }}
         disabled
       />
-      <p className="mt-3 mb-4">
-        <InputField label="Search Items here" onChange={onSearchChange} />
+      <p className="mb-4 mt-3">
+        <InputField
+          id="searchbar"
+          role="presentation"
+          label="Search Items here"
+          onChange={onSearchChange}
+        />
       </p>
       {Object.keys(filteredUUIDs.filteredUUIDsWithHierarchy).length === 0 &&
       searchValue.length ? (
@@ -458,11 +475,12 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
   const [selectedNodeMap, setSelectedNodeMap] = useState({});
 
   return (
-    <>
+    <ListTreeRootWrapper>
       {data.map((item) => (
         <ListTree key={item.name} indentationLevel={indent}>
           <ListTreeNode
             label={item.name}
+            ariaLabel={item.name}
             description={`(level=${indent})`}
             isNodeSelected={selectedNodeMap[item.name]}
             onNodeClick={() => {
@@ -493,7 +511,7 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
           )}
         </ListTree>
       ))}
-    </>
+    </ListTreeRootWrapper>
   );
 };
 
@@ -508,7 +526,7 @@ const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
   });
 
   return (
-    <>
+    <ListTreeRootWrapper>
       {data.map((item) => (
         <ListTree
           key={item.name}
@@ -518,6 +536,7 @@ const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
           <ListTreeNode
             isFocused={focused === item.name}
             label={item.name}
+            ariaLabel={item.name}
             description={`(level=${indent})`}
             isNodeSelected={selectedNodeMap[item.name]}
             onNodeClick={() => {
@@ -560,7 +579,7 @@ const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
           )}
         </ListTree>
       ))}
-    </>
+    </ListTreeRootWrapper>
   );
 };
 
