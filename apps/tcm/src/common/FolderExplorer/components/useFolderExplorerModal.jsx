@@ -48,7 +48,10 @@ const useFolderExplorerModal = ({
 
   const handleNewFolderCreated = (folder, parentId) => {
     if (!parentId)
-      setInternalAllFolders([...internalAllFolders, folder]); // root folder
+      setInternalAllFolders(
+        internalAllFolders ? [...internalAllFolders, folder] : [folder]
+      );
+    // root folder
     else {
       // sub folder
       const updatedFolders = injectFolderToParent(
