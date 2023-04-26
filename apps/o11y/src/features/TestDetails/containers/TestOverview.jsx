@@ -8,6 +8,7 @@ import DetailIcon from 'common/DetailIcon';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { ROUTES } from 'constants/routes';
+import { SMART_TAG_LEARN_MORE_URL } from 'features/TestList/constants';
 import isEmpty from 'lodash/isEmpty';
 import {
   capitalize,
@@ -106,6 +107,13 @@ const TestOverview = () => {
                 variant="minimal"
                 iconPlacement="end"
                 wrapperClassName="text-xs mr-2"
+                onClick={() =>
+                  window.open(
+                    SMART_TAG_LEARN_MORE_URL,
+                    '_blank',
+                    'noopener,noreferrer'
+                  )
+                }
               >
                 Learn More
               </O11yButton>

@@ -15,7 +15,10 @@ import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { LOG_TYPES } from 'features/TestList/constants';
+import {
+  LOG_TYPES,
+  SMART_TAG_LEARN_MORE_URL
+} from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getTestHistoryDetails } from 'features/TestList/slices/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -141,6 +144,13 @@ function TestListHistoryTooltip({ testRunId, status }) {
                         variant="minimal"
                         iconPlacement="end"
                         wrapperClassName="text-xs mr-2"
+                        onClick={() =>
+                          window.open(
+                            SMART_TAG_LEARN_MORE_URL,
+                            '_blank',
+                            'noopener,noreferrer'
+                          )
+                        }
                       >
                         Learn More
                       </O11yButton>

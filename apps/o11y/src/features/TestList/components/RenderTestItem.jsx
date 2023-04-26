@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   MdOutlineAirplay,
   MdOutlineTimer,
@@ -17,13 +18,15 @@ import {
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
+import { ROUTES } from 'constants/routes';
 import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
   HIERARCHY_SPACING,
   HIERARCHY_SPACING_START,
   HIERARCHY_TEST_ADDITIONAL_SPACING,
   LOG_TYPES,
-  singleItemTestDetails
+  singleItemTestDetails,
+  SMART_TAG_LEARN_MORE_URL
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getAppliedFilters } from 'features/TestList/slices/selectors';
@@ -43,6 +46,7 @@ const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;
   const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { o11yTestListingInteraction } = useContext(TestListContext);
   const addFilterOnClick = (filterCategory, filterValue) => {
     if (filterCategory === 'tags' && !tags.includes(filterValue)) {
@@ -69,6 +73,10 @@ const RenderTestItem = ({ item: data }) => {
 
   const handleClickTestItem = () => {
     dispatch(showTestDetailsDrawer(details.id));
+  };
+
+  const handleClickConfigureSmartTags = () => {
+    navigate(ROUTES.smartTags);
   };
 
   const renderTag = (
@@ -116,8 +124,19 @@ const RenderTestItem = ({ item: data }) => {
                 <div className="w-60 break-normal">
                   {description}
                   <div className="mt-3 flex gap-3">
-                    <O11yButton>Configure</O11yButton>
-                    <O11yButton wrapperClassName="bg-base-600 hover:bg-base-700 rounded py-1.5 px-3 text-white">
+                    <O11yButton onClick={handleClickConfigureSmartTags}>
+                      Configure
+                    </O11yButton>
+                    <O11yButton
+                      wrapperClassName="bg-base-600 hover:bg-base-700 rounded py-1.5 px-3 text-white"
+                      onClick={() =>
+                        window.open(
+                          SMART_TAG_LEARN_MORE_URL,
+                          '_blank',
+                          'noopener,noreferrer'
+                        )
+                      }
+                    >
                       Learn More
                     </O11yButton>
                   </div>
