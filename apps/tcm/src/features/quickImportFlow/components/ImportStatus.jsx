@@ -165,7 +165,7 @@ const ImportStatus = () => {
           id={notificationData?.id}
           title={
             totalImportProjectsCount > successImportProjectCount
-              ? `${successImportProjectCount}/${totalImportProjectsCount} ${notificationData?.title}`
+              ? `${successImportProjectCount} of ${totalImportProjectsCount} ${notificationData?.title}`
               : notificationData?.title
           }
           description={notificationData?.description}
@@ -233,7 +233,7 @@ const ImportStatus = () => {
             handleDismissClick={onModalCloseHandler}
           />
           <TMModalBody>
-            <div className="text-base-700 mt-4 mb-2 block text-sm font-medium">
+            <div className="text-base-700 mb-2 mt-4 block text-sm font-medium">
               Below is a report on import progress
             </div>
             <div className="border-base-100 text-base-500 mt-7 flex place-content-between border-b p-3 text-xs font-medium">

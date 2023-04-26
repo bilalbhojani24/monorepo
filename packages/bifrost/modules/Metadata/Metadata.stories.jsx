@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { MdPerson } from '../Icon';
@@ -39,6 +41,11 @@ const defaultConfig = {
 };
 const Template = (args) => <Metadata {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('John Doe')).toBeVisible();
+};
+
 Primary.parameters = {
   controls: {}
 };
