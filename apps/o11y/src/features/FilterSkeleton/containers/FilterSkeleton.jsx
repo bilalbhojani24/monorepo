@@ -1,15 +1,26 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdFilterAlt } from '@browserstack/bifrost';
 import {
+  O11yBadge,
   O11yButton,
   O11ySlideover,
   O11ySlideoverBody,
   O11ySlideoverFooter,
   O11ySlideoverHeader
 } from 'common/bifrostProxy';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
+import { setAppliedFilter } from '../slices/filterSlice';
+import { getAllAppliedFilters, getIsFiltersLoading } from '../slices/selectors';
+
 const FilterSkeleton = ({ children }) => {
+  const dispatch = useDispatch();
+
+  const isFilterLoading = useSelector(getIsFiltersLoading);
+  const appliedFilters = useSelector(getAllAppliedFilters);
+
   const [showSlideOver, setShowSlideOver] = useState(false);
 
   const handleClose = () => {
@@ -20,9 +31,19 @@ const FilterSkeleton = ({ children }) => {
     setShowSlideOver(false);
   };
 
+  const handleRemoveTag = (item) => {
+    dispatch(
+      setAppliedFilter({
+        type: item.type,
+        operationType: 'removeOperation',
+        ...item
+      })
+    );
+  };
+
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between">
         <O11yButton
           onClick={() => setShowSlideOver(true)}
           icon={<MdFilterAlt className="text-base-500 h-5 w-5" />}
@@ -32,6 +53,21 @@ const FilterSkeleton = ({ children }) => {
           Filters
         </O11yButton>
       </div>
+      {!isFilterLoading && !isEmpty(appliedFilters) && (
+        <div className="">
+          {appliedFilters.map((appliedFilter) => (
+            <O11yBadge
+              key={appliedFilter.id}
+              text={appliedFilter.appliedText}
+              isRounded
+              hasRemoveButton
+              onClose={() => {
+                handleRemoveTag(appliedFilter);
+              }}
+            />
+          ))}
+        </div>
+      )}
       <O11ySlideover
         show={showSlideOver}
         backgroundOverlay={false}

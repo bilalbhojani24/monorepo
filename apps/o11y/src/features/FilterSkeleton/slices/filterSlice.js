@@ -43,7 +43,7 @@ const { reducer, actions } = createSlice({
       state[state.currentCategory].selectedFilters = payload;
     },
     setAppliedFilter: (state, { payload }) => {
-      const { type, operation, id, text } = payload;
+      const { type, id, text, value, operationType } = payload;
       const updatedItem = {
         id,
         text,
@@ -51,8 +51,10 @@ const { reducer, actions } = createSlice({
         appliedText: ADV_FILTERS_PREFIX[type]
           ? `${ADV_FILTERS_PREFIX[type]}: ${text}`
           : text,
-        isApplied: true
+        isApplied: true,
+        value
       };
+      const operation = ADV_FILTER_TYPES[type][operationType];
       if (type === ADV_FILTER_TYPES.dateRange) {
         const { range } = payload;
         updatedItem.range = range;
@@ -94,7 +96,7 @@ const { reducer, actions } = createSlice({
       ];
     },
     setSelectedFilters: (state, { payload }) => {
-      const { type, operation, id, text } = payload;
+      const { type, operationType, id, text, value } = payload;
       const updatedItem = {
         id,
         text,
@@ -102,8 +104,10 @@ const { reducer, actions } = createSlice({
         appliedText: ADV_FILTERS_PREFIX[type]
           ? `${ADV_FILTERS_PREFIX[type]}: ${text}`
           : text,
-        isApplied: false
+        isApplied: false,
+        value
       };
+      const operation = ADV_FILTER_TYPES[type][operationType];
       if (type === ADV_FILTER_TYPES.dateRange) {
         const { range } = payload;
         updatedItem.range = range;

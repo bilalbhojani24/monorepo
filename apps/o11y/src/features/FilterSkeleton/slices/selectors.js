@@ -10,6 +10,11 @@ export const getSelectedFilters = (state) => {
   return state.allFilters[currentCategory].selectedFilters;
 };
 
+export const getAllAppliedFilters = (state) => {
+  const { currentCategory } = state.allFilters;
+  return state.allFilters[currentCategory].appliedFilters;
+};
+
 // custom selectors
 
 export const getSelectedFiltersByType = (type) =>
@@ -20,4 +25,10 @@ export const getSelectedFiltersByType = (type) =>
 export const getSelectedFiltersIdsByType = (type) =>
   createSelector(getSelectedFiltersByType(type), (selectedFilters) =>
     selectedFilters.map((item) => item.id)
+  );
+
+export const getSelectedFilterByBooleanType = (type) =>
+  createSelector(
+    getSelectedFiltersByType(type),
+    (selectedFilters) => selectedFilters[0]
   );

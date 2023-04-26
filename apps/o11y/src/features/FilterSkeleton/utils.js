@@ -2,12 +2,13 @@ import isEmpty from 'lodash/isEmpty';
 
 import { ADV_FILTER_TYPES, ADV_FILTERS_PREFIX } from './constants';
 
-export const getAppliedFilterObj = ({ id, text, type }) => ({
+export const getAppliedFilterObj = ({ id, text, type, value }) => ({
   id,
   text,
   type,
   appliedText: `${ADV_FILTERS_PREFIX[type]}: ${text}`,
-  isApplied: true
+  isApplied: true,
+  value
 });
 
 export const getFilterQueryParams = (appliedFilters = []) => {

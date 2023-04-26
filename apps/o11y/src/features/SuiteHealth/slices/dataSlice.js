@@ -20,6 +20,7 @@ import {
 } from 'features/FilterSkeleton/slices/filterSlice';
 import { getAppliedFilterObj } from 'features/FilterSkeleton/utils';
 import isEmpty from 'lodash/isEmpty';
+import isNil from 'lodash/isNil';
 import { getDateInFormat } from 'utils/dateTime';
 
 import {
@@ -157,38 +158,6 @@ export const getSnPTestsData = createAsyncThunk(
   }
 );
 
-// let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/?orderKey=${
-//   sortOptions.type
-// }&orderValue=${sortOptions.status}&isMuted=${filters.isMuted}&isFlaky=${
-//   filters.isFlaky
-// }`;
-// if (pagingParams?.pageNumber) {
-//   endpoint = `${endpoint}&pageNumber=${pagingParams.pageNumber}`;
-// }
-// if (filters.buildName.length > 0) {
-//   // :TODO need to pass all values as comma seperated
-//   endpoint = `${endpoint}&buildName=${filters.buildName}`;
-// }
-// if (filters.dateRange.key) {
-//   const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-//   endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-// }
-
-// export const getBuildsData = createAsyncThunk('testlist/getBuilds', async (data, { rejectWithValue, getState }) => {
-//   try {
-//     const appliedFilters = getAllAppliedFilters(getState());
-//     const initialSearchString = getInitialSearchString(getState());
-//     let searchString = initialSearchString ? `${initialSearchString}&` : '';
-//     if (appliedFilters.length) {
-//       searchString = getFilterQueryParams(appliedFilters).toString();
-//     }
-//     const response = await getBuilds({ ...data, searchString });
-//     return { ...response?.data, ...data };
-//   } catch (err) {
-//     return rejectWithValue(err);
-//   }
-// });
-
 export const getSnPTestsBreakdownData = createAsyncThunk(
   'testlist/getSnPTestsBreakdownData',
   async (data, { rejectWithValue }) => {
@@ -239,105 +208,265 @@ export const getSnPUEBreakdownData = createAsyncThunk(
   }
 );
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
+const updateFilterFields = (data, dispatch) => {
+  if (!isEmpty(data?.applied)) {
+    const { applied } = data;
+    const updatedSelectedFilters = [];
+    Object.keys(applied).forEach((appliedKey) => {
+      switch (appliedKey) {
+        case ADV_FILTER_TYPES.buildTags.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item}`,
+                  text: item,
+                  value: item,
+                  type: ADV_FILTER_TYPES.buildTags.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.uniqueBuildNames.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item}`,
+                  text: item,
+                  value: item,
+                  type: ADV_FILTER_TYPES.uniqueBuildNames.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.folder.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item}`,
+                  text: item,
+                  value: item,
+                  type: ADV_FILTER_TYPES.folder.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.testTags.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item}`,
+                  text: item,
+                  value: item,
+                  type: ADV_FILTER_TYPES.testTags.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.hostName.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item}`,
+                  text: item,
+                  value: item,
+                  type: ADV_FILTER_TYPES.hostName.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.isFlaky.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}:${item}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.isFlaky.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.isNewFailure.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}:${item}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.isNewFailure.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.isAlwaysFailing.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}:${item}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.isAlwaysFailing.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.hasJiraDefects.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}:${item}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.hasJiraDefects.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.isMuted.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}:${item}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.isMuted.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.failureCategories.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item}`,
+                  text: item,
+                  value: item,
+                  type: ADV_FILTER_TYPES.failureCategories.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.device.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item}`,
+                  text: item,
+                  value: item,
+                  type: ADV_FILTER_TYPES.device.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.os.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item}`,
+                  text: item,
+                  value: item,
+                  type: ADV_FILTER_TYPES.os.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.browser.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item}`,
+                  text: item,
+                  value: item,
+                  type: ADV_FILTER_TYPES.browser.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.search.key: {
+          const searchText = applied[appliedKey];
+          if (searchText?.length > 0)
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}:${searchText}`,
+                text: searchText,
+                value: searchText,
+                type: ADV_FILTER_TYPES.search.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.dateRange.key: {
+          if (applied[appliedKey]) {
+            const text = `${getDateInFormat(
+              applied[appliedKey].lowerBound
+            )} - ${getDateInFormat(applied[appliedKey].upperBound)}`;
+            updatedSelectedFilters.push({
+              type: ADV_FILTER_TYPES.dateRange.key,
+              id: `${applied[ADV_FILTER_TYPES.dateRange.key].lowerBound},${
+                applied[ADV_FILTER_TYPES.dateRange.key].upperBound
+              }`,
+              range: applied[ADV_FILTER_TYPES.dateRange.key],
+              text,
+              appliedText: `${
+                ADV_FILTERS_PREFIX[ADV_FILTER_TYPES.dateRange.key]
+              }: ${text}`,
+              isApplied: true
+            });
+          }
+          break;
+        }
+        default:
+          break;
+      }
+    });
+    dispatch(setBulkSelectedFilters(updatedSelectedFilters));
+    dispatch(setBulkAppliedFilters(updatedSelectedFilters));
+  }
+  if (!isEmpty(data?.staticFilters)) {
+    dispatch(setStaticFilters(data.staticFilters));
+  }
+};
+
 export const getSnPTestsFiltersData = createAsyncThunk(
   'testlist/getSnPTestsFilters',
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   async (data, { rejectWithValue, dispatch }) => {
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_TESTS));
     try {
       const response = await getSnPTestsFilters({ ...data });
-      if (!isEmpty(response?.data?.applied)) {
-        const applied = response.data?.applied;
-        const updatedSelectedFilters = [];
-        if (applied[ADV_FILTER_TYPES.uniqueBuildNames]?.length) {
-          applied[ADV_FILTER_TYPES.uniqueBuildNames].forEach((item) => {
-            updatedSelectedFilters.push(
-              getAppliedFilterObj({
-                id: item.id,
-                text: item.name,
-                type: ADV_FILTER_TYPES.uniqueBuildNames
-              })
-            );
-          });
-        }
-        if (applied[ADV_FILTER_TYPES.users]?.length) {
-          applied[ADV_FILTER_TYPES.users].forEach((item) => {
-            updatedSelectedFilters.push(
-              getAppliedFilterObj({
-                id: item.id,
-                text: item.name,
-                type: ADV_FILTER_TYPES.users
-              })
-            );
-          });
-        }
-        if (applied[ADV_FILTER_TYPES.tags]?.length) {
-          applied[ADV_FILTER_TYPES.tags].forEach((item) => {
-            updatedSelectedFilters.push(
-              getAppliedFilterObj({
-                id: item,
-                text: item,
-                type: ADV_FILTER_TYPES.tags
-              })
-            );
-          });
-        }
-        if (applied[ADV_FILTER_TYPES.status]?.length) {
-          applied[ADV_FILTER_TYPES.status].forEach((item) => {
-            updatedSelectedFilters.push(
-              getAppliedFilterObj({
-                id: item,
-                text: item,
-                type: ADV_FILTER_TYPES.status
-              })
-            );
-          });
-        }
-        if (applied[ADV_FILTER_TYPES.framework]?.length) {
-          applied[ADV_FILTER_TYPES.framework].forEach((item) => {
-            updatedSelectedFilters.push(
-              getAppliedFilterObj({
-                id: item,
-                text: item,
-                type: ADV_FILTER_TYPES.framework
-              })
-            );
-          });
-        }
-        if (applied[ADV_FILTER_TYPES.dateRange]) {
-          const text = `${getDateInFormat(
-            applied[ADV_FILTER_TYPES.dateRange].lowerBound
-          )} - ${getDateInFormat(
-            applied[ADV_FILTER_TYPES.dateRange].upperBound
-          )}`;
-          updatedSelectedFilters.push({
-            type: ADV_FILTER_TYPES.dateRange,
-            id: `${applied[ADV_FILTER_TYPES.dateRange].lowerBound},${
-              applied[ADV_FILTER_TYPES.dateRange].upperBound
-            }`,
-            range: applied[ADV_FILTER_TYPES.dateRange],
-            text,
-            appliedText: `${
-              ADV_FILTERS_PREFIX[ADV_FILTER_TYPES.dateRange]
-            }: ${text}`,
-            isApplied: true
-          });
-        }
-        if (applied[ADV_FILTER_TYPES.search]) {
-          updatedSelectedFilters.push(
-            getAppliedFilterObj({
-              id: applied[ADV_FILTER_TYPES.search],
-              text: applied[ADV_FILTER_TYPES.search],
-              type: ADV_FILTER_TYPES.search
-            })
-          );
-        }
-        dispatch(setBulkSelectedFilters(updatedSelectedFilters));
-        dispatch(setBulkAppliedFilters(updatedSelectedFilters));
-      }
-      if (!isEmpty(response?.data?.staticFilters)) {
-        dispatch(setStaticFilters(response.data.staticFilters));
-      }
+      updateFilterFields(response.data, dispatch);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
