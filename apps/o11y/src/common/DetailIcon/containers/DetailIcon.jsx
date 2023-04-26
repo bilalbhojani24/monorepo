@@ -99,7 +99,7 @@ DetailIcon.defaultProps = {
   text: '',
   forSpecInfo: false,
   size: '',
-  tooltipTheme: 'light',
+  tooltipTheme: 'dark',
   openTextInTooltip: false
 };
 

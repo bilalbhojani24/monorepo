@@ -26,7 +26,7 @@ function TestListStackTrace({ wrapperClassName, details, size }) {
       delay={500}
       placementSide="bottom"
       placementAlign="start"
-      wrapperClassName="p-1 shadow-lg"
+      wrapperClassName="p-0 border border-base-200 rounded"
       content={
         <StackTraceTooltip
           traceLines={
@@ -42,7 +42,7 @@ function TestListStackTrace({ wrapperClassName, details, size }) {
         wrapperClassName
       )}
     >
-      <p className="text-danger-700 line-clamp-1 my-1 cursor-default break-all font-mono text-xs">
+      <p className="text-danger-700 my-1 line-clamp-1 cursor-default break-all font-mono text-xs">
         {ReactHtmlParser(
           retries[retries.length - 1].logs?.[LOG_TYPES.STACKTRACE][0],
           {

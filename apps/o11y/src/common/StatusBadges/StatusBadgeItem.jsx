@@ -21,6 +21,7 @@ function StatusBadgeItem({ text, number, modifier, onClickHandler, size }) {
         hasDot={false}
         text={number}
         size={size}
+        wrapperClassName="shrink-0"
       />
     </O11yTooltip>
   );

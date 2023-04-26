@@ -63,15 +63,15 @@ export const SNP_PARAMS_MAPPING = {
 export const SNP_DATE_RANGE = {
   days7: {
     key: 'days7',
-    label: '7 Days'
+    label: '7D'
   },
   days15: {
     key: 'days15',
-    label: '15 Days'
+    label: '15D'
   },
   days30: {
     key: 'days30',
-    label: '30 Days'
+    label: '30D'
   }
 };
 

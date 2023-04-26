@@ -15,8 +15,8 @@ function UniqueErrorTitle({ title }) {
       {titleSplit.length > 3 && (
         <O11yTooltip
           placementSide="bottom"
-          mouseEnterDelay={250}
-          wrapperClassName="p-1 shadow-lg"
+          delay={250}
+          wrapperClassName="p-0 border border-base-200 rounded"
           placementAlign="start"
           size="2xl"
           arrowWidth={0}
