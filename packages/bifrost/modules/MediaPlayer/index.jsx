@@ -22,6 +22,7 @@ const MediaPlayer = forwardRef(
       onPlayCallback,
       onVideoError,
       controlPanelAtBottom,
+      timeUpdateCallBack,
       url,
       wrapperClassName
     },
@@ -77,6 +78,7 @@ const MediaPlayer = forwardRef(
       }
       if (videoRef.current.getCurrentTime() - startTime >= duration)
         setIsPlaying(false);
+      timeUpdateCallBack?.(videoRef.current);
     };
 
     const handleOnPlay = () => {
@@ -181,6 +183,7 @@ MediaPlayer.propTypes = {
   onVideoError: PropTypes.func,
   controlPanelAtBottom: PropTypes.bool,
   url: PropTypes.string,
+  timeUpdateCallBack: PropTypes.func,
   wrapperClassName: PropTypes.string
 };
 MediaPlayer.defaultProps = {
@@ -192,6 +195,7 @@ MediaPlayer.defaultProps = {
   onVideoError: null,
   controlPanelAtBottom: true,
   url: '',
+  timeUpdateCallBack: null,
   wrapperClassName: ''
 };
 
