@@ -4,9 +4,9 @@ import { twClassNames } from '@browserstack/utils';
 import Proptypes from 'prop-types';
 
 export function CalendarButton(props) {
-  const { children } = props;
+  const { children, disableChevron } = props;
   const ref = useRef();
-  const { buttonProps, isDisabled } = useButton(props, ref);
+  const { buttonProps } = useButton(props, ref);
   const { focusProps } = useFocusRing();
   return (
     <button
@@ -14,9 +14,8 @@ export function CalendarButton(props) {
       {...mergeProps(buttonProps, focusProps)}
       ref={ref}
       className={twClassNames('rounded-full p-2 outline-none', {
-        'text-base-400': isDisabled,
-        'hover:bg-base-100 active:bg-base-200 focus:ring-brand-600 focus:ring-2':
-          !isDisabled
+        'cursor-not-allowed': disableChevron,
+        'active:bg-base-200 focus:ring-brand-600 focus:ring-2': !disableChevron
       })}
     >
       {children}
@@ -25,22 +24,53 @@ export function CalendarButton(props) {
 }
 
 CalendarButton.propTypes = {
-  children: Proptypes.node.isRequired
+  children: Proptypes.node.isRequired,
+  disableChevron: Proptypes.bool.isRequired
+};
+
+export function YearPickerButton(props) {
+  const { children, disableChevron, onClick } = props;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={twClassNames('rounded-full p-2 outline-none', {
+        'cursor-not-allowed': disableChevron,
+        'active:bg-base-200 focus:ring-brand-600 focus:ring-2': !disableChevron
+      })}
+    >
+      {children}
+    </button>
+  );
+}
+YearPickerButton.propTypes = {
+  children: Proptypes.node.isRequired,
+  disableChevron: Proptypes.bool.isRequired,
+  onClick: Proptypes.func.isRequired
 };
 
 export function FieldButton(props) {
-  const { children, isPressed: isCurrentlyPressed } = props;
+  const { children, disabled } = props;
   const ref = useRef();
-  const { buttonProps, isPressed } = useButton(props, ref);
+  const { buttonProps } = useButton(props, ref);
+
   return (
     <button
-      {...buttonProps}
-      ref={ref}
-      colors="white"
       type="button"
-      className={`border-base-300 focus:ring-brand-600 -ml-px rounded-r-md border-l px-3.5 py-1.5 outline-none focus:ring-2 ${
-        isPressed || isCurrentlyPressed ? 'bg-base-300' : 'bg-base-50'
-      }`}
+      {...(disabled
+        ? null
+        : {
+            ...buttonProps,
+            tabIndex: '-1'
+          })}
+      disabled={disabled}
+      ref={ref}
+      className={twClassNames(
+        'border-base-300 -ml-px rounded-r-md border-l px-3.5 outline-none bg-white hover:bg-base-50',
+        {
+          'cursor-not-allowed bg-base-50': disabled
+        }
+      )}
     >
       {children}
     </button>
@@ -49,9 +79,9 @@ export function FieldButton(props) {
 
 FieldButton.propTypes = {
   children: Proptypes.node.isRequired,
-  isPressed: Proptypes.bool
+  disabled: Proptypes.bool
 };
 
 FieldButton.defaultProps = {
-  isPressed: false
+  disabled: false
 };

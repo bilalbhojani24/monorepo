@@ -1,22 +1,19 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDatePicker } from 'react-aria';
 import { useDatePickerState } from 'react-stately';
+import { useYearpicker } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import Proptypes from 'prop-types';
 
-import {
-  CalendarIcon,
-  ExclamationCircleIcon,
-  QuestionMarkCircleIcon
-} from '../Icon';
-import Tooltip from '../Tooltip';
-import TooltipBody from '../TooltipBody';
+import { CalendarIcon } from '../Icon';
 
 import { FieldButton } from './components/Button';
 import { Calendar } from './components/Calendar';
 import { DateField } from './components/DateField';
 import { Dialog } from './components/Dialog';
 import { Popover } from './components/Popover';
+import { PICKER_LEVELS, YEARS_DATA } from './const/singleDatepicker';
+import { PickerLevelContext } from './context/PickerLevelContext';
 
 const SingleDatepicker = (props) => {
   const state = useDatePickerState(props);
@@ -34,96 +31,117 @@ const SingleDatepicker = (props) => {
     label,
     errorMessage,
     disabled,
-    disabledMessage,
     offset,
     crossOffset,
     placement,
-    wrapperClassName
+    wrapperClassName,
+    isLoading
   } = props;
 
-  return (
-    <div className="relative inline-flex w-full flex-col text-left">
-      {label && (
-        <span
-          {...labelProps}
-          className="text-base-700 break-all text-sm font-medium leading-5"
-        >
-          {label}
-        </span>
-      )}
+  const years = useYearpicker(YEARS_DATA, 12);
+  useEffect(() => {
+    years.jump(new Date().getFullYear() / 12 + 1);
+  }, [years]);
 
-      <div
-        className={twClassNames(wrapperClassName, {
-          'cursor-not-allowed': disabled
-        })}
-      >
+  const [currentPicker, setCurrentPicker] = useState(PICKER_LEVELS[2]);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [localYear, setLocalYear] = useState(new Date().getFullYear());
+  return (
+    <PickerLevelContext.Provider
+      value={{
+        years,
+        currentPicker,
+        setCurrentPicker,
+        selectedYear,
+        setSelectedYear,
+        selectedMonth,
+        setSelectedMonth,
+        localYear,
+        setLocalYear
+      }}
+    >
+      <div className={twClassNames(wrapperClassName)}>
+        {label && (
+          <span
+            {...labelProps}
+            className="text-base-700 mb-1 block break-all text-sm font-medium leading-5"
+          >
+            {label}
+          </span>
+        )}
         <div
-          {...groupProps}
-          ref={ref}
-          className={twClassNames(
-            'border-base-300 flex w-full rounded-md border',
-            {
-              'border-danger-300': errorMessage,
-              'hover:border-brand-500': !disabled
-            }
-          )}
+          className={twClassNames(wrapperClassName, {
+            'cursor-not-allowed': disabled
+          })}
         >
-          <div className="relative flex w-full items-center rounded-md rounded-r-none p-1 py-2 pl-3">
-            <DateField
-              {...fieldProps}
-              disabled={disabled}
-              errorMessage={errorMessage}
-            />
-          </div>
-          {errorMessage ? (
-            <div className="flex flex-col justify-around">
-              <ExclamationCircleIcon
-                className="text-danger-500 mr-4 h-5 w-5"
-                aria-hidden="true"
+          <div
+            {...groupProps}
+            ref={ref}
+            {...(disabled
+              ? null
+              : {
+                  tabIndex: 0,
+                  role: 'textbox'
+                })}
+            className={twClassNames(
+              'border-base-300 cursor-pointer flex w-full rounded-md border justify-between',
+              {
+                'border-danger-300': errorMessage,
+                'cursor-not-allowed': disabled,
+                'focus:outline-brand-500 focus:outline-1': !disabled
+              }
+            )}
+          >
+            <div
+              className={twClassNames(
+                'flex w-full items-center rounded-md rounded-r-none p-1 py-2.5 pl-3',
+                {
+                  'bg-base-50': disabled
+                }
+              )}
+            >
+              <DateField
+                {...fieldProps}
+                disabled={disabled}
+                errorMessage={errorMessage}
               />
             </div>
-          ) : null}
-          {disabled ? (
-            <div className="flex flex-col justify-around">
-              <Tooltip
-                content={
-                  <TooltipBody wrapperClassName="mb-0">
-                    {disabledMessage}
-                  </TooltipBody>
-                }
-                wrapperClassName="break-all"
-                theme="dark"
-              >
-                <QuestionMarkCircleIcon
-                  className="text-base-400 mr-4 h-5 w-5 cursor-pointer"
-                  aria-hidden="true"
-                />
-              </Tooltip>
-            </div>
-          ) : (
-            <FieldButton {...buttonProps} isPressed={state.isOpen}>
-              <CalendarIcon className="text-base-400 h-5 w-5" />
+            <FieldButton
+              disabled={disabled}
+              {...buttonProps}
+              isPressed={state.isOpen}
+            >
+              <CalendarIcon
+                aria-hidden="true"
+                className={twClassNames('text-base-400 h-5 w-5', {
+                  'text-base-300': disabled
+                })}
+              />
             </FieldButton>
-          )}
+          </div>
         </div>
-        <p className="text-danger-600 mt-1.5 break-all text-sm font-normal leading-5">
-          {errorMessage}
-        </p>
+        {errorMessage && (
+          <p className="text-danger-600 mt-2 break-all text-sm font-normal leading-5">
+            {errorMessage}
+          </p>
+        )}
+
+        {state.isOpen && (
+          <Popover
+            triggerRef={ref}
+            state={state}
+            placement={placement}
+            offset={offset}
+            crossOffset={crossOffset}
+          >
+            <Dialog {...dialogProps}>
+              <Calendar isLoading={isLoading} {...calendarProps} />
+            </Dialog>
+          </Popover>
+        )}
       </div>
-      {state.isOpen && (
-        <Popover
-          triggerRef={ref}
-          state={state}
-          placement={placement}
-          offset={offset}
-          crossOffset={crossOffset}
-        >
-          <Dialog {...dialogProps}>
-            <Calendar {...calendarProps} />
-          </Dialog>
-        </Popover>
-      )}
-    </div>
+    </PickerLevelContext.Provider>
   );
 };
 
@@ -132,24 +150,24 @@ SingleDatepicker.propTypes = {
   errorMessage: Proptypes.string,
   disabled: Proptypes.bool,
   onChange: Proptypes.func,
-  disabledMessage: Proptypes.string,
   isDateUnavailable: Proptypes.func,
   offset: Proptypes.number,
   crossOffset: Proptypes.number,
   placement: Proptypes.string,
-  label: Proptypes.string
+  label: Proptypes.string,
+  isLoading: Proptypes.bool
 };
 SingleDatepicker.defaultProps = {
   wrapperClassName: '',
   errorMessage: null,
   disabled: false,
   onChange: () => {},
-  disabledMessage: 'Datepicker has been disabled',
   isDateUnavailable: () => {},
   offset: 0,
   crossOffset: 0,
   placement: 'bottom end',
-  label: ''
+  label: '',
+  isLoading: false
 };
 
 export default SingleDatepicker;

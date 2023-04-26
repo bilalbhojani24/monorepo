@@ -20,23 +20,18 @@ export function DateField(props) {
     <div
       {...fieldProps}
       ref={ref}
-      className="flex w-full items-center gap-1"
+      className="flex w-fit items-center gap-1"
       aria-label="Enter valid date"
     >
-      {disabled ? (
-        <p className="text-base-500 text-sm font-normal leading-5">
-          00-00-0000
-        </p>
-      ) : (
-        state.segments.map((segment, i) => (
-          <DateSegment
-            key={`${i + 1}`}
-            segment={segment}
-            state={state}
-            errorState={!!errorMessage}
-          />
-        ))
-      )}
+      {state.segments.map((segment, i) => (
+        <DateSegment
+          disabled={disabled}
+          key={`${i + 1}`}
+          segment={segment}
+          state={state}
+          errorState={!!errorMessage}
+        />
+      ))}
     </div>
   );
 }
@@ -51,13 +46,12 @@ DateField.defaultProps = {
   errorMessage: ''
 };
 
-function DateSegment({ segment, state, errorState }) {
+function DateSegment({ segment, state, errorState, disabled }) {
   const ref = useRef();
   const { segmentProps } = useDateSegment(segment, state, ref);
-
   return (
     <div
-      {...segmentProps}
+      {...(disabled ? null : { ...segmentProps })}
       ref={ref}
       className="focus:bg-brand-200 group w-fit rounded-sm uppercase outline-none focus:text-white"
     >
@@ -74,7 +68,7 @@ function DateSegment({ segment, state, errorState }) {
           className={twClassNames(
             'text-base-900 m-0 block w-fit text-sm font-normal leading-5',
             {
-              'text-base-500': segment.text === '/',
+              'text-base-500': disabled,
               'text-danger-900': errorState
             }
           )}
@@ -95,11 +89,13 @@ DateSegment.propTypes = {
     text: PropTypes.string
   }),
   state: PropTypes.shape({}),
-  errorState: PropTypes.bool
+  errorState: PropTypes.bool,
+  disabled: PropTypes.bool
 };
 
 DateSegment.defaultProps = {
   segment: {},
   state: {},
-  errorState: false
+  errorState: false,
+  disabled: false
 };
