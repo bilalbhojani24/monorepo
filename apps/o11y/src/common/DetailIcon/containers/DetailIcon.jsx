@@ -18,8 +18,7 @@ const DetailIcon = ({
   const getIconClass = () => {
     let iconClass = '';
     if (text && icon !== 'device_icon' && !BROWSERS_ICON_LIST.includes(icon)) {
-      if (text.toLowerCase().indexOf('samsung') !== -1)
-        iconClass = 'w-[42px] h-5';
+      if (text.toLowerCase().indexOf('samsung') !== -1) iconClass = 'h-5';
       else if (
         text.toLowerCase().indexOf('vivo') !== -1 ||
         text.toLowerCase().indexOf('oppo') !== -1

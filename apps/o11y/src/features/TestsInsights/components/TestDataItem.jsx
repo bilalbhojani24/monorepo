@@ -22,7 +22,7 @@ export default function TestDataItem({ data }) {
     <>
       {data.map((item) => (
         <div
-          className="border-base-200 pointer-events-auto flex cursor-pointer items-center justify-between border-b py-2 px-4 text-sm"
+          className="border-base-200 pointer-events-auto flex cursor-pointer items-center justify-between border-b px-4 py-2 text-sm"
           onClick={() => handleClickTest(item?.details?.id)}
           role="presentation"
           key={item?.details?.id}
