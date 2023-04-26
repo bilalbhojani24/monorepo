@@ -14,8 +14,9 @@ const Folders = () => {
   const {
     // projectId,
     // allFolders,
-    isTestCasesLoading,
-    allTestCases
+    isTestRunDetailsLoading,
+    // allTestCases,
+    testRunDetails
     // selectedFolder,
     // isFoldersLoading,
     // onFoldersUpdate,
@@ -24,19 +25,19 @@ const Folders = () => {
 
   return (
     <aside className="lg:order-first lg:block lg:shrink-0">
-      <div className="relative flex h-full w-96 flex-col overflow-hidden">
+      <div className="relative flex h-full w-72 flex-col overflow-hidden">
         {/* <div className="border-base-300  flex h-12 w-full  items-center border-b py-0.5 px-3">
           <span className="text-base">Folder View</span>
         </div> */}
 
         <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
-          {isTestCasesLoading ? (
+          {isTestRunDetailsLoading ? (
             <Loader wrapperClassName="h-full" />
           ) : (
             <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
               <TMEmptyState
                 // title=""
-                title={`${allTestCases.length} test cases in this test run`}
+                title={`${testRunDetails?.test_cases_count} test cases in this test run`}
                 mainIcon={
                   <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
                 }

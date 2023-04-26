@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -13,49 +15,60 @@ const defaultConfig = {
         <DocPageTemplate
           importStatement={"import Radio from 'bifrost/Radio'"}
         />
-      ),
-    },
+      )
+    }
   },
   argTypes: {
     id: {
       option: { type: 'string' },
-      defaultValue: 'radio-id',
+      defaultValue: 'radio-id'
     },
     checked: {
       option: { type: 'boolean' },
-      defaultValue: undefined,
+      defaultValue: undefined
     },
     defaultChecked: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     description: {
       option: { type: 'string' },
-      defaultValue: 'It is the description',
+      defaultValue: 'It is the description'
     },
     disabled: {
       option: { type: 'boolean' },
-      defaultValue: false,
+      defaultValue: false
     },
     name: {
       option: { type: 'string' },
-      defaultValue: 'Name',
+      defaultValue: 'Name'
     },
     onChange: {
       control: { type: 'text' },
-      defaultValue: (e) => console.log(e.target.value),
-    },
+      defaultValue: (e) => console.log(e.target.value)
+    }
   },
-  controls: {},
+  controls: {}
 };
 const Template = (args) => <Radio {...args} />;
 const ControlledRadioTemplate = (args) => <Radio {...args} />;
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('radio')).toBeVisible();
+  await userEvent.click(canvas.getByRole('radio'));
+};
+
 const ControlledRadio = ControlledRadioTemplate.bind({});
+ControlledRadio.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('radio')).toBeVisible();
+  await userEvent.click(canvas.getByRole('radio'));
+};
 
 Primary.parameters = {
-  controls: {},
+  controls: {}
 };
 
 export default defaultConfig;
@@ -63,5 +76,5 @@ export { ControlledRadio, Primary };
 
 ControlledRadio.args = {
   checked: false,
-  defaultChecked: undefined,
+  defaultChecked: undefined
 };

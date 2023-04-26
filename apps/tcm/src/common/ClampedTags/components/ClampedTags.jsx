@@ -9,7 +9,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-const ClampedTags = ({ tagsArray, badgeModifier }) => {
+const ClampedTags = ({ tagsArray, badgeModifier, noTagsText }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -23,25 +23,26 @@ const ClampedTags = ({ tagsArray, badgeModifier }) => {
             wrapperClassName="pointer-events-none"
             key={tagsArray[0]}
           />
-          {tagsArray.length > 2 ? (
-            <TMBadge
-              modifier={badgeModifier}
-              text={`+${tagsArray.length - 1} tags`}
-              size="large"
-              key={`+${tagsArray.length - 1}`}
-              onClick={() => setShowModal(true)}
-            />
-          ) : (
-            tagsArray.length > 1 && (
+          {
+            tagsArray.length > 1 ? (
               <TMBadge
-                text={tagsArray[1]}
-                size="large"
-                wrapperClassName="pointer-events-none"
                 modifier={badgeModifier}
-                key={tagsArray[1]}
+                text={`+${tagsArray.length - 1} tags`}
+                size="large"
+                key={`+${tagsArray.length - 1}`}
+                onClick={() => setShowModal(true)}
               />
-            )
-          )}
+            ) : null
+            // tagsArray.length > 1 && (
+            //   <TMBadge
+            //     text={tagsArray[1]}
+            //     size="large"
+            //     wrapperClassName="pointer-events-none"
+            //     modifier={badgeModifier}
+            //     key={tagsArray[1]}
+            //   />
+            // )
+          }
 
           <TMModal show={showModal} onOverlayClick={() => setShowModal(false)}>
             <TMModalHeader
@@ -75,20 +76,22 @@ const ClampedTags = ({ tagsArray, badgeModifier }) => {
           </TMModal>
         </div>
       ) : (
-        '--'
+        noTagsText
       )}
     </>
   );
 };
 
 ClampedTags.propTypes = {
-  tagsArray: PropTypes.arrayOf([PropTypes.string]),
-  badgeModifier: PropTypes.string
+  tagsArray: PropTypes.arrayOf(PropTypes.string),
+  badgeModifier: PropTypes.string,
+  noTagsText: PropTypes.string
 };
 
 ClampedTags.defaultProps = {
   tagsArray: [],
-  badgeModifier: 'primary'
+  badgeModifier: 'primary',
+  noTagsText: '--'
 };
 
 export default ClampedTags;

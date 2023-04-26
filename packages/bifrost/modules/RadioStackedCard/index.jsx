@@ -20,7 +20,9 @@ const RadioStackedCard = (props) => {
         if (onChange) onChange(selectedRadioItem);
       }}
     >
-      <RadioGroup.Label className="sr-only">{name}</RadioGroup.Label>
+      <RadioGroup.Label as="p" className="sr-only">
+        {name}
+      </RadioGroup.Label>
       <div
         className={twClassNames('mt-4 ', {
           'grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4':

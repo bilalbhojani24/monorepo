@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { ChevronRightIcon } from '../Icon';
@@ -56,6 +58,14 @@ const defaultConfig = {
 };
 const Template = (args) => <Breadcrumb {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Home')).toBeVisible();
+  await expect(canvas.getByText('Project Nero')).toBeVisible();
+  await expect(canvas.getByText('Current Page')).toBeVisible();
+  // cannot add click interaction due to href
+};
+
 Primary.parameters = {
   controls: {}
 };

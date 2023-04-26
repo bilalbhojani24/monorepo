@@ -2,10 +2,13 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Notifications, notify } from '@browserstack/bifrost';
+import { getQuickImportStatus } from 'api/import.api';
+import { getProjectsMinifiedAPI } from 'api/projects.api';
 import { TMButton } from 'common/bifrostProxy';
+import AppRoute from 'const/routes';
+import { setAllProjects } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
-import { getQuickImportStatus } from '../../../api/import.api';
-import AppRoute from '../../../const/routes';
 import useProjects from '../../Projects/components/useProjects';
 import {
   COMPLETED,
@@ -15,10 +18,12 @@ import {
   SUCCESS_DATA,
   WARNING_DATA
 } from '../const/importConst';
+import { SCREEN_1 } from '../const/importSteps';
 import {
   setCheckImportStatusClicked,
   setCurrentScreen,
   setCurrentTestManagementTool,
+  setImportedProjectCount,
   setImportStarted,
   setImportStatus,
   setNotificationData,
@@ -26,6 +31,7 @@ import {
   setNotificationProjectConfig,
   setRetryImport,
   setSelectedRadioIdMap,
+  setShowNewProjectBanner,
   setShowNotificationModal
 } from '../slices/importSlice';
 
@@ -61,6 +67,12 @@ const useImportStatus = () => {
     (state) => state.import.quickImportProjectId
   );
 
+  const refreshMinifiedProjects = () => {
+    getProjectsMinifiedAPI().then((res) => {
+      dispatch(setAllProjects(res.projects));
+    });
+  };
+
   const dismissNotification = (
     toastData,
     currentImportStatus,
@@ -75,7 +87,7 @@ const useImportStatus = () => {
   };
 
   const retryImportFn = (testTool) => {
-    dispatch(setCurrentScreen('configureTool'));
+    dispatch(setCurrentScreen(SCREEN_1));
 
     // api call for retry
     const currentTestManagementTool =
@@ -106,11 +118,19 @@ const useImportStatus = () => {
   const handleFirstButtonClick =
     (toastData, currentImportStatus, totalCount, successCount) => () => {
       if (currentImportStatus === COMPLETED && totalCount > successCount) {
+        // failure
+        dispatch(
+          logEventHelper('TM_QiViewReportLinkClicked', {
+            tool_selected: testManagementTool
+          })
+        );
         dispatch(setShowNotificationModal(true));
         dismissNotification(toastData, currentImportStatus, 'showModal');
       } else {
         dismissNotification(toastData, currentImportStatus);
+        refreshMinifiedProjects();
         fetchProjects();
+        dispatch(setShowNewProjectBanner(true));
         navigate('/');
       }
     };
@@ -119,8 +139,14 @@ const useImportStatus = () => {
     (toastData, currentImportStatus, totalCount, successCount, importType) =>
     () => {
       dismissNotification(toastData, currentImportStatus);
-      if (currentImportStatus === COMPLETED && totalCount > successCount)
+      if (currentImportStatus === COMPLETED && totalCount > successCount) {
+        dispatch(
+          logEventHelper('TM_QiRetryImportLinkClicked', {
+            tool_selected: testManagementTool
+          })
+        );
         retryImportFn(importType);
+      }
     };
 
   const showNotification = (
@@ -130,47 +156,49 @@ const useImportStatus = () => {
     successCount,
     importType
   ) => {
+    const actionButtons = (toastData) => (
+      <>
+        <TMButton
+          onClick={handleFirstButtonClick(
+            toastData,
+            currentImportStatus,
+            totalCount,
+            successCount
+          )}
+          variant="minimal"
+          colors="white"
+        >
+          {data?.firstButton}
+        </TMButton>
+        <TMButton
+          variant="minimal"
+          wrapperClassName="text-base-600"
+          onClick={handleSecondButtonClick(
+            toastData,
+            currentImportStatus,
+            totalCount,
+            successCount,
+            importType
+          )}
+        >
+          {data?.secondButton}
+        </TMButton>
+      </>
+    );
     notify(
       <Notifications
         id={data?.id}
-        // isCondensed
         title={
           totalCount > successCount
-            ? `${successCount}/${totalCount} ${data?.title}`
+            ? `${successCount} of ${totalCount} ${data?.title}`
             : data?.title
         }
         description={data?.description}
         headerIcon={data?.headerIcon}
         handleClose={handleNotificationClose(currentImportStatus)}
-        actionButtons={(toastData) => (
-          <>
-            <TMButton
-              onClick={handleFirstButtonClick(
-                toastData,
-                currentImportStatus,
-                totalCount,
-                successCount
-              )}
-              variant="minimal"
-              colors="white"
-            >
-              {data?.firstButton}
-            </TMButton>
-            <TMButton
-              variant="minimal"
-              wrapperClassName="text-base-600"
-              onClick={handleSecondButtonClick(
-                toastData,
-                currentImportStatus,
-                totalCount,
-                successCount,
-                importType
-              )}
-            >
-              {data?.secondButton}
-            </TMButton>
-          </>
-        )}
+        actionButtons={
+          !data?.firstButton && !data?.secondButton ? null : actionButtons
+        }
       />,
       {
         position: 'top-right',
@@ -180,8 +208,15 @@ const useImportStatus = () => {
   };
 
   const checkImportStatusClickHandler = () => {
+    dispatch(
+      logEventHelper('TM_QiCheckStatusLinkClicked', {
+        tool_selected: testManagementTool
+      })
+    );
     dispatch(setCheckImportStatusClicked(true));
     getQuickImportStatus(importId).then((data) => {
+      const currentUsedTool =
+        data.import_type.split('_')[0] === 'testrail' ? 'testrails' : 'zephyr';
       dispatch(setImportStatus(data.status));
       if (data.status === ONGOING) {
         dispatch(setNotificationData(WARNING_DATA));
@@ -196,12 +231,11 @@ const useImportStatus = () => {
               successCount: data.success_count
             })
           );
+          dispatch(setCurrentTestManagementTool(currentUsedTool));
           dispatch(
-            setCurrentTestManagementTool(
-              data.import_type.split('_')[0] === 'testrail'
-                ? 'testrails'
-                : 'zephyr'
-            )
+            logEventHelper('TM_QiErrorNotification', {
+              tool_selected: currentUsedTool
+            })
           );
           showNotification(
             FAILURE_DATA,
@@ -211,7 +245,13 @@ const useImportStatus = () => {
             data.import_type
           );
         } else {
+          dispatch(
+            logEventHelper('TM_QiSuccessNotification', {
+              tool_selected: currentUsedTool
+            })
+          );
           dispatch(setNotificationData(SUCCESS_DATA));
+          dispatch(setImportedProjectCount(data.success_count));
           showNotification(SUCCESS_DATA, data.status);
         }
       }

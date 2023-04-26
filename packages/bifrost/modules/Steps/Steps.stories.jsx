@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -91,6 +93,14 @@ const defaultConfig = {
 
 const Bullet = (args) => <Steps {...args} />;
 const BulletList = Bullet.bind({});
+BulletList.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const liItems = await canvas.queryAllByRole('listitem');
+  await expect(liItems.length).toBe(5);
+  liItems.forEach(async (liItem) => {
+    await userEvent.click(liItem);
+  });
+};
 Bullet.parameters = {
   controls: {}
 };
@@ -101,6 +111,14 @@ BulletList.args = {
 
 const Panels = (args) => <Steps {...args} />;
 const PanelsList = Panels.bind({});
+PanelsList.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const liItems = await canvas.queryAllByRole('listitem');
+  await expect(liItems.length).toBe(5);
+  liItems.forEach(async (liItem) => {
+    await userEvent.click(liItem);
+  });
+};
 Panels.parameters = {
   controls: {}
 };
@@ -111,6 +129,14 @@ PanelsList.args = {
 
 const Circle = (args) => <Steps {...args} />;
 const CircleList = Circle.bind({});
+CircleList.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const liItems = await canvas.queryAllByRole('listitem');
+  await expect(liItems.length).toBe(5);
+  liItems.forEach(async (liItem) => {
+    await userEvent.click(liItem);
+  });
+};
 Circle.parameters = {
   controls: {}
 };
@@ -121,6 +147,14 @@ CircleList.args = {
 
 const BulletsAndText = (args) => <Steps {...args} />;
 const BulletsAndTextList = BulletsAndText.bind({});
+BulletsAndTextList.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const liItems = await canvas.queryAllByRole('listitem');
+  await expect(liItems.length).toBe(5);
+  liItems.forEach(async (liItem) => {
+    await userEvent.click(liItem);
+  });
+};
 BulletsAndText.parameters = {
   controls: {}
 };
@@ -131,6 +165,14 @@ BulletsAndTextList.args = {
 
 const Simple = (args) => <Steps {...args} />;
 const SimpleList = Simple.bind({});
+SimpleList.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const liItems = await canvas.queryAllByRole('listitem');
+  await expect(liItems.length).toBe(5);
+  liItems.forEach(async (liItem) => {
+    await userEvent.click(liItem);
+  });
+};
 Simple.parameters = {
   controls: {}
 };
