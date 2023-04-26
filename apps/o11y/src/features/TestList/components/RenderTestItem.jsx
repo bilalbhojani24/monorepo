@@ -1,9 +1,19 @@
 import React, { useContext } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdOutlineAirplay, MdOutlineTimer } from '@browserstack/bifrost';
+import {
+  MdOutlineAirplay,
+  MdOutlineTimer,
+  TooltipBody,
+  TooltipHeader
+} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
+import {
+  O11yBadge,
+  O11yButton,
+  O11yHyperlink,
+  O11yTooltip
+} from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
@@ -61,9 +71,70 @@ const RenderTestItem = ({ item: data }) => {
     dispatch(showTestDetailsDrawer(details.id));
   };
 
+  const renderTag = (
+    text,
+    modifier,
+    tooltipHeader = 'Tooltip Header',
+    description = 'testing',
+    onClick
+  ) => {
+    if (!text) return null;
+    let filterCategory = '';
+    let filterValue = '';
+    switch (text) {
+      case 'Flaky':
+        filterCategory = 'flaky';
+        filterValue = true;
+        break;
+      case 'Always Failing':
+        filterCategory = 'history';
+        filterValue = 'isAlwaysFailing';
+        break;
+      case 'New Failures':
+        filterCategory = 'history';
+        filterValue = 'isNewFailure';
+        break;
+      case 'Performance Anomaly':
+        filterCategory = 'history';
+        filterValue = 'isPerformanceAnomaly';
+        break;
+      default:
+    }
+    return (
+      <PropagationBlocker className="ml-1 inline">
+        <O11yTooltip
+          placementSide="top"
+          placementAlign="center"
+          wrapperClassName="px-1"
+          theme="dark"
+          size="sm"
+          onClick={() => onClick(filterCategory, filterValue)}
+          content={
+            <>
+              <TooltipHeader>{tooltipHeader}</TooltipHeader>
+              <TooltipBody>
+                <div className="w-60 break-normal">
+                  {description}
+                  <div className="mt-3 flex gap-3">
+                    <O11yButton>Configure</O11yButton>
+                    <O11yButton wrapperClassName="bg-base-600 hover:bg-base-700 rounded py-1.5 px-3 text-white">
+                      Learn More
+                    </O11yButton>
+                  </div>
+                </div>
+              </TooltipBody>
+            </>
+          }
+        >
+          <O11yBadge text={text} modifier={modifier} />
+        </O11yTooltip>
+      </PropagationBlocker>
+    );
+  };
+
   return (
     <div
-      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-1 pr-6"
+      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pr-6 pt-1"
       style={{
         paddingLeft:
           HIERARCHY_SPACING_START +
@@ -103,50 +174,39 @@ const RenderTestItem = ({ item: data }) => {
                       />
                     </PropagationBlocker>
                   ))}
-                  {details?.isFlaky && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Flaky"
-                        modifier="warn"
-                        onClick={() => {
-                          addFilterOnClick('flaky', 'true');
-                        }}
-                      />
-                    </PropagationBlocker>
-                  )}
-                  {details?.isAlwaysFailing && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Always Failing"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick('history', 'isAlwaysFailing');
-                        }}
-                      />
-                    </PropagationBlocker>
-                  )}
-                  {details?.isNewFailure && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="New Failures"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick('history', 'isNewFailure');
-                        }}
-                      />
-                    </PropagationBlocker>
-                  )}
-                  {details?.isPerformanceAnomaly && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Performance Anomaly"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick('history', 'isPerformanceAnomaly');
-                        }}
-                      />
-                    </PropagationBlocker>
-                  )}
+                  {details?.isFlaky &&
+                    renderTag(
+                      'Flaky',
+                      'warn',
+                      `Flake detected in re-run within ${12}`,
+                      `Test passing on a retry attempt in the same run 
+                      across last ${1} consecutive runs`,
+                      addFilterOnClick
+                    )}
+                  {details?.isAlwaysFailing &&
+                    renderTag(
+                      'Always Failing',
+                      'error',
+                      'Always failing test',
+                      `The test has been failing with the same error for last ${1} consecutive runs`,
+                      addFilterOnClick
+                    )}
+                  {details?.isNewFailure &&
+                    renderTag(
+                      'New Failures',
+                      'error',
+                      'New failure detected',
+                      `This test failed for the first time across last ${1} consecutive runs`,
+                      addFilterOnClick
+                    )}
+                  {details?.isPerformanceAnomaly &&
+                    renderTag(
+                      'Performance Anomaly',
+                      'error',
+                      'Performance anomaly detected',
+                      `Duration is more than ${1}th percentile across last ${2} consecutive runs.`,
+                      addFilterOnClick
+                    )}
                 </div>
               </div>
             </div>

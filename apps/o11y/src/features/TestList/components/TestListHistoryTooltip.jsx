@@ -1,13 +1,20 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdOutlineAirplay, MdOutlineTimer } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
-import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
+import { useNavigate } from 'react-router-dom';
+import {
+  MdContentPaste,
+  MdLink,
+  MdOpenInNew,
+  MdOutlineTimer,
+  MdSettings
+} from '@browserstack/bifrost';
+import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
+import { ROUTES } from 'constants/routes';
 import { LOG_TYPES } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getTestHistoryDetails } from 'features/TestList/slices/selectors';
@@ -17,26 +24,24 @@ import { milliSecondsToTime } from 'utils/dateTime';
 
 function TestListHistoryTooltip({ testRunId, status }) {
   const dispatch = useDispatch();
-  const mounted = useRef(false);
+  const navigate = useNavigate();
   const { o11yTestListingInteraction } = useContext(TestListContext);
+  const mounted = useRef(false);
   const historyData = useSelector((state) =>
     getTestHistoryDetails(state, testRunId)
   );
   const [isLoading, setIsLoading] = useState(false);
-  const getClassesByStatus = (historyStatus) => {
-    o11yTestListingInteraction('history_hovered');
-    switch (historyStatus) {
-      case TEST_STATUS.FAIL:
-        return 'text-danger-600';
-      case TEST_STATUS.PASS:
-        return 'text-success-600';
-      case TEST_STATUS.SKIPPED:
-        return 'text-base-600';
-      case TEST_STATUS.TIMEOUT:
-        return 'text-attention-600';
-      default:
-        return 'text-base-600';
-    }
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text);
+  };
+
+  const handleClickConfigureSmartTags = () => {
+    navigate(ROUTES.smartTags);
+  };
+
+  const handleCopyLink = () => {
+    copyToClipboard(`${window.location.href}&details=${historyData.serialId}`);
   };
 
   useEffect(() => {
@@ -51,6 +56,10 @@ function TestListHistoryTooltip({ testRunId, status }) {
     };
   }, [dispatch, historyData]);
 
+  useEffect(() => {
+    o11yTestListingInteraction('history_hovered');
+  }, [o11yTestListingInteraction]);
+
   return (
     <div>
       {isLoading ? (
@@ -64,64 +73,96 @@ function TestListHistoryTooltip({ testRunId, status }) {
         </div>
       ) : (
         <PropagationBlocker>
-          <p className="text-sm font-medium leading-5">
-            Build #{historyData?.serialId}
-          </p>
-          <div className="mt-3 text-sm">
-            <p className="text-sm font-medium leading-4">Status</p>
-            <p className="mt-1 flex items-center">
-              {historyData?.status && (
-                <StatusIcon status={historyData?.status} />
-              )}
-              <span
-                className={twClassNames(
-                  'ml-1 text-xs leading-normal',
-                  getClassesByStatus(historyData?.status)
-                )}
-              >
-                {historyData?.status === TEST_STATUS.SKIPPED && 'Skipped'}
-                {historyData?.status === TEST_STATUS.FAIL && 'Failed'}
-                {historyData?.status === TEST_STATUS.PASS && 'Passed'}
-                {historyData?.status === TEST_STATUS.PENDING && 'Running'}
-                {historyData?.status === TEST_STATUS.TIMEOUT && 'Timeout'}
+          <div className="flex flex-col p-4">
+            <div className="flex justify-between">
+              <p className="text-sm font-semibold">#{historyData?.serialId}</p>
+              <span className="text-brand-600 text-xs font-medium">
+                <O11yButton
+                  icon={<MdLink className="cursor-pointer text-base" />}
+                  variant="minimal"
+                  iconPlacement="end"
+                  wrapperClassName="text-xs"
+                  onClick={handleCopyLink}
+                >
+                  Copy Link
+                </O11yButton>
               </span>
-            </p>
-            {!!historyData?.logs?.[LOG_TYPES.STACKTRACE]?.length && (
-              <div className="border-base-200 mt-2 border">
-                <StackTraceTooltip
-                  showOnlyTraceData
-                  traceLines={historyData?.logs[LOG_TYPES.STACKTRACE] || []}
-                  size="small"
-                />
+            </div>
+            <span className="border-b-base-300 my-3 border-b" />
+            <div className="text-base-500 flex justify-between text-xs font-medium">
+              <div className="flex">
+                <div className="flex flex-col">
+                  Test Status
+                  <p className="mt-1 flex items-center gap-1">
+                    <StatusIcon
+                      status={historyData?.status}
+                      customClass="text-base"
+                    />
+                    <span className="text-center">{historyData?.status}</span>
+                  </p>
+                </div>
+                {!!historyData?.issueType && (
+                  <>
+                    <span className="border-r-base-300 mx-3 border-r" />
+                    <div className="flex flex-col">
+                      Failure Category
+                      <span className="text-base-800 font-medium">
+                        {historyData?.issueType?.name}
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
-            )}
-          </div>
-          {!!historyData?.issueType && (
-            <div className="mt-3 text-sm">
-              <p className="font-medium leading-tight">Defect Type</p>
-              <p className="text-base-500 mt-1 flex items-center text-xs font-normal leading-tight">
-                {historyData?.issueType?.name}
-              </p>
+              <div className="flex flex-col">
+                Duration
+                <p className="flex items-center justify-end">
+                  <MdOutlineTimer className="text-base-600" />
+                  <span>{milliSecondsToTime(historyData?.duration)}</span>
+                </p>
+              </div>
             </div>
-          )}
-          {(!!historyData?.duration || historyData?.duration === 0) && (
-            <div className="mt-3 text-sm">
-              <p className="font-medium leading-tight">Duration</p>
-              <p className="text-base-500 mt-1 flex items-center text-xs font-normal leading-tight">
-                <MdOutlineTimer className="text-base-500 text-xs" />
-                <span>{milliSecondsToTime(historyData?.duration)}</span>
-              </p>
-            </div>
-          )}
-          {!!historyData?.tags?.length ||
-            (historyData?.isFlaky && (
-              <div className="mt-3">
-                <p className="text-sm font-medium leading-tight">Tags</p>
-                <div className="mt-2 flex flex-wrap items-center">
-                  {historyData?.tags?.map((item) => (
-                    <PropagationBlocker className="ml-1" key={item}>
+            {(historyData?.tags?.length ||
+              historyData?.isFlaky ||
+              historyData?.isAlwaysFailing ||
+              historyData?.isNewFailure ||
+              historyData?.isPerformanceAnomaly) && (
+              <>
+                <span className="border-b-base-300 my-3 border-b" />
+                <div className="flex flex-col">
+                  <div className="flex justify-between">
+                    <p className="text-base-500 text-xs font-medium">
+                      Smart Tags
+                    </p>
+                    <span className="text-brand-600 text-xs font-medium">
+                      <O11yButton
+                        icon={
+                          <MdOpenInNew className="cursor-pointer text-base" />
+                        }
+                        variant="minimal"
+                        iconPlacement="end"
+                        wrapperClassName="text-xs mr-2"
+                      >
+                        Learn More
+                      </O11yButton>
+                      <O11yButton
+                        icon={
+                          <MdSettings className="cursor-pointer text-base" />
+                        }
+                        variant="minimal"
+                        iconPlacement="end"
+                        wrapperClassName="text-xs"
+                        onClick={handleClickConfigureSmartTags}
+                      >
+                        Configure
+                      </O11yButton>
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-2 inline shrink-0">
+                  {historyData?.tags.map((singleTag) => (
+                    <PropagationBlocker className="mr-1 inline" key={singleTag}>
                       <O11yBadge
-                        text={item}
+                        text={singleTag}
                         wrapperClassName="mx-1"
                         hasRemoveButton={false}
                         onClick={() => {}}
@@ -131,7 +172,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
                     </PropagationBlocker>
                   ))}
                   {historyData?.isFlaky && (
-                    <PropagationBlocker className="ml-1">
+                    <PropagationBlocker className="mr-1 inline">
                       <O11yBadge
                         text="Flaky"
                         modifier="warn"
@@ -139,23 +180,65 @@ function TestListHistoryTooltip({ testRunId, status }) {
                       />
                     </PropagationBlocker>
                   )}
+                  {historyData?.isAlwaysFailing && (
+                    <PropagationBlocker className="mr-1 inline">
+                      <O11yBadge
+                        text="Always Failing"
+                        modifier="error"
+                        onClick={() => {}}
+                      />
+                    </PropagationBlocker>
+                  )}
+                  {historyData?.isNewFailure && (
+                    <PropagationBlocker className="mr-1 inline">
+                      <O11yBadge
+                        text="New Failures"
+                        modifier="error"
+                        onClick={() => {}}
+                      />
+                    </PropagationBlocker>
+                  )}
+                  {historyData?.isPerformanceAnomaly && (
+                    <PropagationBlocker className="mr-1 inline">
+                      <O11yBadge
+                        text="Performance Anomaly"
+                        modifier="error"
+                        onClick={() => {}}
+                      />
+                    </PropagationBlocker>
+                  )}
                 </div>
+                {historyData?.isFlaky && (
+                  <p className="text-base-500 mt-3 text-xs font-medium">
+                    <span className="text-base-800">Flaky reason:</span>{' '}
+                    {historyData?.flaky?.flakyReason}
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+          {!!historyData?.logs?.[LOG_TYPES.STACKTRACE]?.length && (
+            <div className="flex flex-col">
+              <div className="bg-base-100 flex h-8 items-center justify-between px-4">
+                <p className="text-base-600 text-xs font-medium">Stacktrace</p>
+                <O11yButton
+                  icon={<MdContentPaste className="cursor-pointer text-base" />}
+                  variant="minimal"
+                  iconPlacement="end"
+                  wrapperClassName="text-xs"
+                  onClick={() => {
+                    copyToClipboard(historyData?.logs[LOG_TYPES.STACKTRACE]);
+                  }}
+                >
+                  Copy to Clipboard
+                </O11yButton>
               </div>
-            ))}
-          {!!historyData?.sessionUrl && (
-            <PropagationBlocker className="mt-1">
-              <O11yHyperlink
-                href={historyData?.sessionUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                wrapperClassName="ml-2"
-              >
-                <MdOutlineAirplay className="text-base-500 h-4 w-4" />
-                <span className="text-base-500 ml-1 text-sm font-normal">
-                  Interactive Session
-                </span>
-              </O11yHyperlink>
-            </PropagationBlocker>
+              <StackTraceTooltip
+                showOnlyTraceData
+                traceLines={historyData?.logs[LOG_TYPES.STACKTRACE] || []}
+                size="medium"
+              />
+            </div>
           )}
         </PropagationBlocker>
       )}

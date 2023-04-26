@@ -11,6 +11,7 @@ export const ROUTES = {
   settings: '/projects/:projectNormalisedName/settings',
   settings_general: '/projects/:projectNormalisedName/settings/general',
   settings_alerts: '/projects/:projectNormalisedName/settings/alerts',
+  smartTags: '/projects/:projectNormalisedName/settings/smart_tags',
   settings_auto_analyser:
     '/projects/:projectNormalisedName/settings/auto_analyser',
   settings_failure_categories:
