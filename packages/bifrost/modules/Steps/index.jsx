@@ -6,8 +6,6 @@ import { CheckCircleIcon, CheckIcon } from '../Icon';
 
 import { STEPS_FORMAT, STEPS_STATUS } from './const/stepsConstants';
 
-import './styles.scss';
-
 const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
   const onClickHandler = (event, step) => {
     onClick(event, step);
