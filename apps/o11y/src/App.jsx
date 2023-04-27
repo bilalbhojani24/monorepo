@@ -12,8 +12,9 @@ import {
   setErrorLoggerUserContext
 } from '@browserstack/utils';
 import { getPusherConfig } from 'api/global';
+import GenericErrorPage from 'common/GenericErrorPage';
 import ModalToShow from 'common/ModalToShow';
-import { o11yHistory } from 'constants/common';
+import { o11yHistory, PORTAL_ID } from 'constants/common';
 import {
   AMPLITUDE_KEY,
   ANALYTICS_KEY,
@@ -23,11 +24,16 @@ import {
 import { ROUTES } from 'constants/routes';
 import { APP_ROUTES } from 'constants/routesConstants';
 import { initO11yProduct } from 'globalSlice';
-import { getActiveProject, getUserDetails } from 'globalSlice/selectors';
+import {
+  getActiveProject,
+  getHasInitFailed,
+  getUserDetails
+} from 'globalSlice/selectors';
 import useAuthRoutes from 'hooks/useAuthRoutes';
 import isEmpty from 'lodash/isEmpty';
 import { getEnvConfig } from 'utils/common';
 import { delightedInit } from 'utils/delighted';
+import { portalize } from 'utils/portalize';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
 import { isIntegrationsPage } from 'utils/routeUtils';
 
@@ -36,6 +42,7 @@ const PUSHER_CONNECTION_NAME = 'o11y-pusher';
 
 const App = () => {
   const dispatch = useDispatch();
+  const hasInitFailed = useSelector(getHasInitFailed);
   const userDetails = useSelector(getUserDetails);
   const activeProject = useSelector(getActiveProject);
   const location = useLocation();
@@ -150,6 +157,13 @@ const App = () => {
     <>
       {Routes}
       <ModalToShow />
+      {portalize(
+        hasInitFailed,
+        <div className="absolute">
+          <GenericErrorPage />
+        </div>,
+        PORTAL_ID
+      )}
     </>
   );
 };
