@@ -17,7 +17,10 @@ const NetworkTimeCell = ({ formattedValue, payload, showWaterfall }) => {
     () => showWaterfall && isWidthAvailableToShowWaterfall(containerWidth),
     [containerWidth, showWaterfall]
   );
-  return payload.time ? (
+  if (!payload.time) {
+    return null;
+  }
+  return (
     <Tooltip
       content={
         <TooltipBody wrapperClassName="max-h-screen overflow-auto">
@@ -51,7 +54,7 @@ const NetworkTimeCell = ({ formattedValue, payload, showWaterfall }) => {
         </section>
       </section>
     </Tooltip>
-  ) : null;
+  );
 };
 
 NetworkTimeCell.propTypes = {
