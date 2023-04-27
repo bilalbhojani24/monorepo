@@ -4,7 +4,8 @@ module.exports = {
   ...globalConfigs.globalTailwindConfig,
   content: [
     'src/**/*.{js,jsx}',
-    '../../packages/bifrost/modules/**/*.{js,jsx}'
+    '../../packages/bifrost/modules/**/*.{js,jsx}',
+    '../../packages/integrations/src/**/*.{js,jsx}'
   ],
   theme: {
     ...globalConfigs.globalTailwindConfig.theme,
