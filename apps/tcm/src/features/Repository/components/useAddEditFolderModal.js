@@ -95,7 +95,6 @@ export default function useAddEditFolderModal(prop) {
         folderItem,
         parentId
       );
-
       setAllFoldersHelper(updatedFolders);
     }
     updateRouteHelper(folderItem);
