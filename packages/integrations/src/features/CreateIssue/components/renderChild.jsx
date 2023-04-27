@@ -23,7 +23,9 @@ const renderChild = ({
   resetCreateMeta,
   resetUpdateMeta,
   projectFieldData,
+  issuesForProject,
   isWorkInProgress,
+  previousProjectId,
   deselectIssueType,
   projectsHaveError,
   scrollWidgetToTop,
@@ -31,13 +33,16 @@ const renderChild = ({
   cleanedIssueTypes,
   areProjectsLoading,
   issueTypeFieldData,
+  setIssuesForProject,
   isCreateMetaLoading,
   isUpdateMetaLoading,
   setIsWorkInProgress,
   isFormBeingSubmitted,
   handleIssueTabChange,
+  areIssueOptionsLoading,
   setIsFormBeingSubmitted,
-  integrationToolFieldData
+  integrationToolFieldData,
+  setAreIssueOptionsLoading
 }) => {
   if (areProjectsLoading) {
     return (
@@ -109,13 +114,18 @@ const renderChild = ({
           issueFieldData={issueFieldData}
           projectFieldData={projectFieldData}
           isWorkInProgress={isWorkInProgress}
+          issuesForProject={issuesForProject}
+          previousProjectId={previousProjectId}
           scrollWidgetToTop={scrollWidgetToTop}
           clearErrorMessage={clearErrorMessage}
+          setIssuesForProject={setIssuesForProject}
           isUpdateMetaLoading={isUpdateMetaLoading}
           setIsWorkInProgress={setIsWorkInProgress}
           isFormBeingSubmitted={isFormBeingSubmitted}
+          areIssueOptionsLoading={areIssueOptionsLoading}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
           integrationToolFieldData={integrationToolFieldData}
+          setAreIssueOptionsLoading={setAreIssueOptionsLoading}
         />
       )}
     </>

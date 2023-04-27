@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Loader } from '@browserstack/bifrost';
-import { usePrevious } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { getTickets, updateIssue } from '../../../api';
@@ -24,19 +23,21 @@ const UpdateIssueForm = ({
   setFieldsData,
   issueFieldData,
   setAttachments,
+  issuesForProject,
   isWorkInProgress,
   projectFieldData,
   scrollWidgetToTop,
+  previousProjectId,
+  setIssuesForProject,
   isUpdateMetaLoading,
   setIsWorkInProgress,
   isFormBeingSubmitted,
+  areIssueOptionsLoading,
   setIsFormBeingSubmitted,
-  integrationToolFieldData
+  integrationToolFieldData,
+  setAreIssueOptionsLoading
 }) => {
   const dispatch = useDispatch();
-  const prevProject = usePrevious(projectFieldData);
-  const [issuesOptions, setIssueOptions] = useState([]);
-  const [areIssueOptionsLoading, setAreIssueOptionsLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
   const {
     description: descriptionMeta,
@@ -57,7 +58,7 @@ const UpdateIssueForm = ({
       'single-value-select'
     )
       .then((response) => {
-        setIssueOptions(response);
+        setIssuesForProject(response);
         setAreIssueOptionsLoading(false);
       })
       .catch((err) => {
@@ -67,7 +68,13 @@ const UpdateIssueForm = ({
   };
 
   useEffect(() => {
-    if (projectFieldData?.value !== prevProject?.value) {
+    if (
+      projectFieldData &&
+      // are the projects same?
+      (projectFieldData.value !== previousProjectId ||
+        // if project is same, have we already fetched issues for it?
+        (!areIssueOptionsLoading && !issuesForProject.length))
+    ) {
       getTicketForProject();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -230,7 +237,7 @@ const UpdateIssueForm = ({
           required
           label="Issue"
           fieldsData={fieldsData}
-          options={issuesOptions}
+          options={issuesForProject}
           searchPath={searchPath}
           setFieldsData={setFieldsData}
           fieldKey={FIELD_KEYS.TICKET_ID}
@@ -280,14 +287,19 @@ UpdateIssueForm.propTypes = {
   options: CreateIssueOptionsType.isRequired,
   isWorkInProgress: PropTypes.bool.isRequired,
   scrollWidgetToTop: PropTypes.func.isRequired,
+  setIssuesForProject: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
+  previousProjectId: PropTypes.string.isRequired,
   isUpdateMetaLoading: PropTypes.bool.isRequired,
   isFormBeingSubmitted: PropTypes.bool.isRequired,
+  areIssueOptionsLoading: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
+  setAreIssueOptionsLoading: PropTypes.func.isRequired,
   issueFieldData: SingleValueSelectOptionType.isRequired,
   projectFieldData: SingleValueSelectOptionType.isRequired,
   attachments: PropTypes.arrayOf(PropTypes.string).isRequired,
-  integrationToolFieldData: SingleValueSelectOptionType.isRequired
+  integrationToolFieldData: SingleValueSelectOptionType.isRequired,
+  issuesForProject: PropTypes.arrayOf(SingleValueSelectOptionType).isRequired
 };
 
 export default UpdateIssueForm;

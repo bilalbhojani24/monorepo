@@ -50,6 +50,8 @@ const IssueForm = ({
   const [isCreateMetaLoading, setIsCreateMetaLoading] = useState(false);
   const [isUpdateMetaLoading, setIsUpdateMetaLoading] = useState(false);
   const [files, setFiles] = useState(attachments);
+  const [issuesForProject, setIssuesForProject] = useState([]);
+  const [areIssueOptionsLoading, setAreIssueOptionsLoading] = useState(false);
   const projectsLoadingStatus = useSelector(projectsLoadingSelector);
   const baseURL = useSelector(baseURLSelector);
   const areProjectsLoading = projectsLoadingStatus === LOADING_STATUS.PENDING;
@@ -233,6 +235,9 @@ const IssueForm = ({
     if (mode === ISSUE_MODES.UPDATION) {
       setUpdateFields([]);
     }
+    if (mode === ISSUE_MODES.CREATION) {
+      setIssuesForProject([]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectFieldData]);
 
@@ -287,10 +292,12 @@ const IssueForm = ({
             handleTryAgain,
             resetCreateMeta,
             resetUpdateMeta,
+            issuesForProject,
             projectFieldData,
             isWorkInProgress,
             deselectIssueType,
             projectsHaveError,
+            previousProjectId,
             scrollWidgetToTop,
             cleanedIssueTypes,
             attachments: files,
@@ -299,11 +306,14 @@ const IssueForm = ({
             setIsWorkInProgress,
             isCreateMetaLoading,
             isUpdateMetaLoading,
+            setIssuesForProject,
             isFormBeingSubmitted,
             handleIssueTabChange,
+            areIssueOptionsLoading,
+            setIsFormBeingSubmitted,
             setAttachments: setFiles,
             integrationToolFieldData,
-            setIsFormBeingSubmitted
+            setAreIssueOptionsLoading
           })}
         </div>
       </div>
