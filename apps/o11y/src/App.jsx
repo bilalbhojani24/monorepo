@@ -8,23 +8,30 @@ import {
 } from 'react-router-dom';
 import { initLogger } from '@browserstack/utils';
 import { getPusherConfig } from 'api/global';
+import GenericErrorPage from 'common/GenericErrorPage';
 import ModalToShow from 'common/ModalToShow';
-import { o11yHistory } from 'constants/common';
+import { o11yHistory, PORTAL_ID } from 'constants/common';
 import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_API_KEY } from 'constants/keys';
 import { ROUTES } from 'constants/routes';
 import { APP_ROUTES } from 'constants/routesConstants';
 import { initO11yProduct } from 'globalSlice';
-import { getActiveProject, getUserDetails } from 'globalSlice/selectors';
+import {
+  getActiveProject,
+  getHasInitFailed,
+  getUserDetails
+} from 'globalSlice/selectors';
 import useAuthRoutes from 'hooks/useAuthRoutes';
 import isEmpty from 'lodash/isEmpty';
 import { getEnvConfig } from 'utils/common';
 import { delightedInit } from 'utils/delighted';
+import { portalize } from 'utils/portalize';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 const PUSHER_CONNECTION_NAME = 'o11y-pusher';
 
 const App = () => {
+  const hasInitFailed = useSelector(getHasInitFailed);
   const dispatch = useDispatch();
   const userDetails = useSelector(getUserDetails);
   const activeProject = useSelector(getActiveProject);
@@ -125,6 +132,13 @@ const App = () => {
     <>
       {Routes}
       <ModalToShow />
+      {portalize(
+        hasInitFailed,
+        <div className="absolute">
+          <GenericErrorPage />
+        </div>,
+        PORTAL_ID
+      )}
     </>
   );
 };

@@ -1,3 +1,4 @@
+export const PORTAL_ID = 'root-portal';
 export const DOC_KEY_MAPPING = {
   introduction: 'overview/what-is-test-observability',
   wdio: 'quick-start/webdriverio',
