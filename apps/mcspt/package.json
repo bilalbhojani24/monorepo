@@ -49,7 +49,7 @@
     "@browserstack/bifrost": "1.1.0",
     "@browserstack/stylelint-config": "workspace:*",
     "@browserstack/tailwind-config": "workspace:*",
-    "@browserstack/utils": "workspace:^0.2.4",
+    "@browserstack/utils": "1.2.0",
     "@electron-forge/maker-dmg": "^6.0.5",
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "1.2.2",
