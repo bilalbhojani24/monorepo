@@ -1,4 +1,5 @@
 import React from 'react';
+import { BsFillPlusCircleFill } from 'react-icons/bs';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
@@ -12,7 +13,7 @@ import Badge from '../Badge';
 import Checkbox from '../Checkbox';
 import { MdFolder } from '../Icon';
 
-import sampleImg from './stories-sample/sample-image.png';
+import sampleImg from './stories-assets/sample-image.png';
 import ListFeedsNode from './index';
 
 const optionRadio = 'inline-radio';
@@ -248,11 +249,12 @@ const FeedWithCheckboxTemplate = (args) =>
           id={el.feedNumber}
           border={false}
           name="list-feed"
+          aria-label="List Feed"
         />
       }
       isFeedIconBorder={false}
       headerNode={
-        <label htmlFor={`list-feed${el.feedNumber}`}>
+        <>
           <div className="flex select-none">
             <p className="text-base-500 text-sm">
               <b className="text-base-800">Nathan Ellis2</b> added a ap
@@ -261,7 +263,7 @@ const FeedWithCheckboxTemplate = (args) =>
             <Badge text="Passed" modifier="success" />
           </div>
           <p className="text-base-500 text-sm">Jan 29, 2023 | 3:20 PM (IST)</p>
-        </label>
+        </>
       }
       descriptionNode={
         <p className="text-base-700 text-sm">
@@ -305,7 +307,7 @@ const FeedWithHoverTemplate = (args) =>
       }
       footerNode={
         <div
-          className="flex h-4 cursor-pointer flex-col justify-center bg-white"
+          className="flex h-4 cursor-pointer flex-row items-center justify-center bg-white"
           tabIndex="0"
           role="button"
           onKeyDown={(e) => {
@@ -314,8 +316,10 @@ const FeedWithHoverTemplate = (args) =>
             }
           }}
           onClick={() => console.log('Clicked')}
+          aria-label="Add a step"
         >
-          <hr className="text-brand-500" />
+          <BsFillPlusCircleFill className="text-brand-500" />
+          <hr className="text-brand-500 ml-2 inline-block w-full" />
         </div>
       }
     />

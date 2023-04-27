@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
-import { throttle } from '@browserstack/utils/src/throttle';
 import PropTypes from 'prop-types';
 
 import {
@@ -24,11 +23,18 @@ const ListFeeds = (props) => {
     footerNode,
     headerNode,
     descriptionNode,
-    throttleSpeed,
     showConnector
   } = props;
   const footerNodeRef = useRef(null);
   const containerRef = useRef(null);
+  const showHoverContainer = () => {
+    footerNodeRef.current.style.opacity = '100';
+    footerNodeRef.current.style.zIndex = '1';
+  };
+  const hideHoverContainer = () => {
+    footerNodeRef.current.style.opacity = '0';
+    footerNodeRef.current.style.zIndex = '-1';
+  };
   const handleMouseMove = (e) => {
     const containerRect = containerRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
@@ -36,25 +42,17 @@ const ListFeeds = (props) => {
       containerRect.bottom - e.clientY < 40 &&
       containerRect.bottom < viewportHeight
     ) {
-      footerNodeRef.current.style.visibility = 'visible';
+      showHoverContainer();
     } else {
-      footerNodeRef.current.style.visibility = 'hidden';
+      hideHoverContainer();
     }
-  };
-  const handleMouseEnter = () => {
-    footerNodeRef.current.style.display = 'block';
-  };
-  const handleMouseLeave = () => {
-    footerNodeRef.current.style.visibility = 'hidden';
-    footerNodeRef.current.style.display = 'none';
   };
   return (
     <div
       ref={containerRef}
       className="relative mb-2 flex"
-      onMouseLeave={handleMouseLeave}
-      onMouseEnter={handleMouseEnter}
-      onMouseMove={throttle(handleMouseMove, throttleSpeed)}
+      onMouseLeave={hideHoverContainer}
+      onMouseMove={handleMouseMove}
     >
       {!!feedNumber && (
         <div
@@ -144,7 +142,12 @@ const ListFeeds = (props) => {
         {!!descriptionNode && <div className="mt-2">{descriptionNode}</div>}
       </div>
       {!!footerNode && (
-        <div ref={footerNodeRef} className="invisible absolute bottom-0 w-full">
+        <div
+          ref={footerNodeRef}
+          onFocus={showHoverContainer}
+          onBlur={hideHoverContainer}
+          className="absolute bottom-0 w-full opacity-0 transition-opacity"
+        >
           {footerNode}
         </div>
       )}
@@ -164,8 +167,7 @@ ListFeeds.propTypes = {
   feedIconVariant: PropTypes.oneOf(LF_ICON_VARIANT),
   feedIconContainerSize: PropTypes.oneOf(LF_ICON_CONTAINER_SIZE),
   showConnector: PropTypes.bool,
-  isFeedIconBorder: PropTypes.bool,
-  throttleSpeed: PropTypes.number
+  isFeedIconBorder: PropTypes.bool
 };
 
 ListFeeds.defaultProps = {
@@ -178,8 +180,7 @@ ListFeeds.defaultProps = {
   feedIconVariant: LF_ICON_VARIANT.dark,
   feedIconContainerSize: LF_ICON_CONTAINER_SIZE.lg,
   showConnector: true,
-  isFeedIconBorder: false,
-  throttleSpeed: 200
+  isFeedIconBorder: false
 };
 
 export default ListFeeds;
