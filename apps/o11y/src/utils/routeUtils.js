@@ -31,7 +31,7 @@ export const isSuiteHealth = () =>
 export const isTestingTrendsPage = () =>
   /testing_trends/.test(window.location.pathname);
 
-export const isIntegrations = () =>
+export const isIntegrationsPage = () =>
   /integrations/.test(window.location.pathname);
 
 export const isActivePage = (slug) => {

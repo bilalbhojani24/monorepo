@@ -29,6 +29,7 @@ import isEmpty from 'lodash/isEmpty';
 import { getEnvConfig } from 'utils/common';
 import { delightedInit } from 'utils/delighted';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
+import { isIntegrationsPage } from 'utils/routeUtils';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 const PUSHER_CONNECTION_NAME = 'o11y-pusher';
@@ -139,7 +140,10 @@ const App = () => {
     }
   }, [userDetails.userId]);
 
-  const initO11y = async () => dispatch(initO11yProduct(params));
+  const initO11y = async () =>
+    dispatch(
+      initO11yProduct({ params, setFirstProjectActive: isIntegrationsPage() })
+    );
 
   const Routes = useAuthRoutes(APP_ROUTES, initO11y, getEnvConfig().signInUrl);
   return (
