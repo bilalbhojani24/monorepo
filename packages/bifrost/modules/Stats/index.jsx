@@ -1,6 +1,10 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
-import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  EllipsisVerticalIcon
+} from '@heroicons/react/20/solid';
 import PropTypes, { oneOf } from 'prop-types';
 
 import { STATS_INC, STATS_VARIANTS } from './const/statsConstants';
@@ -34,6 +38,7 @@ const Stats = (props) => {
               variant === STATS_VARIANTS.SIMPLE ||
               variant === STATS_VARIANTS.KPI_VARIANT,
             'py-10 sm:py-10': variant === STATS_VARIANTS.WITH_ICON,
+            'pt-4 pb-10': variant === STATS_VARIANTS.GRAPH_VARIANT,
             shadow: !hideBoxShadow
           },
           'relative overflow-hidden bg-white px-4 sm:px-6 rounded-lg',
@@ -47,7 +52,11 @@ const Stats = (props) => {
         }}
         tabIndex={typeof option.onClick === 'function' ? 0 : -1}
       >
-        <div>
+        <div
+          className={twClassNames({
+            'flex justify-between': variant === STATS_VARIANTS.GRAPH_VARIANT
+          })}
+        >
           {variant === STATS_VARIANTS.WITH_ICON && (
             <div
               className={twClassNames(
@@ -66,11 +75,20 @@ const Stats = (props) => {
                 variant === STATS_VARIANTS.WITHOUT_ICON,
               'truncate text-sm font-medium text-base-500':
                 variant === STATS_VARIANTS.SIMPLE ||
-                variant === STATS_VARIANTS.KPI_VARIANT
+                variant === STATS_VARIANTS.KPI_VARIANT ||
+                variant === STATS_VARIANTS.GRAPH_VARIANT
             })}
           >
             {option.name}
           </p>
+          {variant === STATS_VARIANTS.GRAPH_VARIANT && (
+            <div className="flex">
+              <EllipsisVerticalIcon
+                className="text-base-500 h-5 w-5"
+                aria-hidden="true"
+              />
+            </div>
+          )}
         </div>
         {variant === STATS_VARIANTS.WITH_ICON && (
           <div className="ml-16 flex items-baseline pb-6 sm:pb-7">
@@ -142,6 +160,38 @@ const Stats = (props) => {
                 by
               </span>
               {option.change}
+            </div>
+          </div>
+        )}
+        {variant === STATS_VARIANTS.GRAPH_VARIANT && (
+          <div className="flex items-baseline pb-6 sm:pb-7">
+            <p className="text-base-900 text-2xl font-semibold">
+              {option.stat}
+            </p>
+            <p
+              className={twClassNames(
+                option.changeType === STATS_INC
+                  ? 'text-success-600'
+                  : 'text-danger-600',
+                'ml-2 flex items-baseline text-sm font-semibold'
+              )}
+            >
+              {option.changeType === STATS_INC ? (
+                <ArrowUpIcon
+                  className="text-success-500 h-5 w-5 shrink-0 self-center"
+                  aria-hidden="true"
+                />
+              ) : (
+                <ArrowDownIcon
+                  className="text-danger-500 h-5 w-5 shrink-0 self-center"
+                  aria-hidden="true"
+                />
+              )}
+              {option.change}
+            </p>
+            <div className="h-8" />
+            <div className="bg-base-50 absolute inset-x-0 bottom-0 p-4 sm:px-6">
+              <p>{option.link}</p>
             </div>
           </div>
         )}

@@ -69,6 +69,22 @@ const options = [
     changeType: null,
     link: null,
     onClick: () => console.log('stats null.com')
+  },
+  {
+    id: 5,
+    name: (
+      <div className="flex items-center">
+        Total Subscribers
+        <MdErrorOutline className="ml-3" />
+      </div>
+    ),
+    stat: '71,897',
+    icon: null,
+    change: '122',
+    previousStat: null,
+    changeType: 'increase',
+    link: 'View all',
+    onClick: () => console.log('stats null.com')
   }
 ];
 
@@ -159,7 +175,7 @@ export const StatsWithbrandIcon = () => (
 );
 
 export const SharedBorder = () => (
-  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
     {options.map((opt) => (
       <Stats
         key={opt.id}
@@ -172,13 +188,23 @@ export const SharedBorder = () => (
 );
 
 export const KpiVariantCard = () => (
-  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
     <Stats
       key={options[3].id}
       option={options[3]}
       variant={STATS_VARIANTS.KPI_VARIANT}
       cardWrapperClassname="rounded-none"
       hideBoxShadow
+    />
+  </dl>
+);
+
+export const GraphVariantCard = () => (
+  <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <Stats
+      key={options[4].id}
+      option={options[4]}
+      variant={STATS_VARIANTS.GRAPH_VARIANT}
     />
   </dl>
 );
