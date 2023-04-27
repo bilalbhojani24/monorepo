@@ -92,9 +92,7 @@ const FeedbackModal = () => {
               <InputField
                 id="feedbackEmailInput"
                 label="Email ID"
-                className="w-full"
                 placeholder="Enter Email"
-                rows={4}
                 onChange={emailValueChanged}
                 value={emailValue}
                 errorText={emailErrorText}
