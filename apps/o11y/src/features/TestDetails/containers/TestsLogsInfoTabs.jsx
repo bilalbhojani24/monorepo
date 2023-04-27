@@ -1,19 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdOutlineBugReport } from '@browserstack/bifrost';
-import { O11yButton, O11yTabs } from 'common/bifrostProxy';
-import {
-  hideIntegrationsWidget,
-  showIntegrationsWidget
-} from 'features/IntegrationsWidget/utils';
-import { AppContext } from 'features/Layout/context/AppContext';
+import { O11yTabs } from 'common/bifrostProxy';
+import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
 
 import SessionTestToggle from '../components/SessionTestToggle';
 import { useLogsContext } from '../contexts/LogsContext';
-import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
-import { getShowTestDetailsFor, getTestDetails } from '../slices/selectors';
+import { getTestDetails } from '../slices/selectors';
 
 import { LOGS_INFO_TAB_KEYS } from './DebugTab';
+import ReportBugTrigger from './ReportBugTrigger';
 import TestConsolidatedLogs from './TestConsolidatedLogs';
 import TestNetworkLogs from './TestNetworkLogs';
 
@@ -29,14 +24,8 @@ const tabs = [
 ];
 
 const TestsLogsInfoTabs = () => {
-  const { setWidgetPositionRef } = useContext(AppContext);
-
   const dispatch = useDispatch();
   const details = useSelector(getTestDetails);
-  const testRunId = useSelector(getShowTestDetailsFor);
-  const { handleLogTDInteractionEvent, panelRef } =
-    useTestDetailsContentContext();
-  const [isLoadingBugDetails, setIsLoadingBugDetails] = useState(false);
   const { videoSeekTime, sessionTestToggle, activeTab, setActiveTab } =
     useLogsContext();
 
@@ -48,23 +37,6 @@ const TestsLogsInfoTabs = () => {
       idx: activeIndex,
       value: tabInfo.value
     });
-  };
-
-  const handleReportBugClick = async () => {
-    handleLogTDInteractionEvent({
-      interaction: 'report_bug_clicked'
-    });
-    setIsLoadingBugDetails(true);
-    if (panelRef.current) {
-      setWidgetPositionRef(panelRef.current);
-    }
-    dispatch(showIntegrationsWidget({ testRunId, widgetPosition: 'left' }))
-      .then(() => {
-        setIsLoadingBugDetails(true);
-      })
-      .finally(() => {
-        setIsLoadingBugDetails(false);
-      });
   };
 
   useEffect(
@@ -86,13 +58,7 @@ const TestsLogsInfoTabs = () => {
         />
         <div className="flex items-center gap-3 pr-1">
           {details.isValidVideo && <SessionTestToggle />}
-          <O11yButton
-            isIconOnlyButton
-            icon={<MdOutlineBugReport className="h-full w-full" />}
-            colors="white"
-            onClick={handleReportBugClick}
-            loading={isLoadingBugDetails}
-          />
+          <ReportBugTrigger />
         </div>
       </div>
       <div className="flex-1">
