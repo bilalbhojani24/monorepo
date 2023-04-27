@@ -122,11 +122,6 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
         }
         dismissButton={data.secondButtonText}
       />
-      {/* {status !== 'ongoing' && ( //TODO: check with Arsalan before removing
-        <TMModalBody>
-          <div className="pl-14">{data?.text}</div>
-        </TMModalBody>
-      )} */}
       <TMModalFooter position="right">
         {data?.firstButtonText && (
           <TMButton variant="primary" colors="white" onClick={firstButtonCb}>

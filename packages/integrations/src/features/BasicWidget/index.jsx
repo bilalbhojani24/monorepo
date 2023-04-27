@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
+import { getSetupStatus } from '../../api/getSetupStatus';
 import { fetchTokenThunk, getIntegrationsThunk } from '../../api/index';
 import {
   GenericError as ErrorWithTryAgain,
@@ -11,9 +12,11 @@ import {
 } from '../../common/components';
 import { LOADING_STATUS } from '../slices/constants';
 import {
+  activeIntegrationSelector,
   integrationsErrorSelector,
   integrationsLoadingSelector,
-  integrationsSelector
+  integrationsSelector,
+  setHasIntegrated
 } from '../slices/integrationsSlice';
 import {
   hasTokenSelector,
@@ -35,6 +38,21 @@ const Widget = ({
   positionRef,
   hasAtLeastOneIntegrationSetup
 }) => {
+  const dispatch = useDispatch();
+  const activeIntegration = useSelector(activeIntegrationSelector);
+  useEffect(() => {
+    if (activeIntegration.value) {
+      getSetupStatus(activeIntegration.value).then((response) => {
+        dispatch(
+          setHasIntegrated({
+            integrationKey: activeIntegration.value,
+            setupCompleted: response.data.setup_completed
+          })
+        );
+      });
+    }
+  }, [activeIntegration.value, dispatch]);
+
   const childRef = useRef(null);
   if (hasAtLeastOneIntegrationSetup) {
     return (
@@ -45,6 +63,7 @@ const Widget = ({
       >
         <div ref={childRef} className="relative h-full flex-1 bg-white">
           <WidgetHeader handleClose={handleClose} />
+
           {children}
         </div>
       </DraggableResizableContainer>

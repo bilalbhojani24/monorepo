@@ -67,6 +67,10 @@ const defaultConfig = {
       option: { type: 'boolean' },
       defaultValue: true
     },
+    tooltipAriaLabel: {
+      option: { type: 'string' },
+      defaultValue: 'truncated text'
+    },
     isFullWidthTooltip: {
       option: { type: 'boolean' },
       defaultValue: false
@@ -86,7 +90,8 @@ Primary.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const textEle = await canvas.getByText(text);
   await expect(textEle).toBeVisible();
-  await userEvent.hover(canvas.getByRole('tooltip'));
+  const tooltip = await canvas.findByRole('tooltip');
+  await userEvent.hover(tooltip);
 };
 Primary.parameters = {
   controls: {}
