@@ -13,7 +13,7 @@
     "react-router-dom": "6.6.1"
   },
   "dependencies": {
-    "@browserstack/bifrost": "4.0.0",
+    "@browserstack/bifrost": "4.1.0",
     "@browserstack/hooks": "workspace:*",
     "@browserstack/utils": "workspace:*"
   },
