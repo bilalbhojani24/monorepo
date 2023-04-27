@@ -12,7 +12,7 @@
 
 ## Using .env
 #### `BSTACK_STAGE`
-To be used to define signInUrl, apiUrl and cookiePrefix used in `interceptor.js` and `App.jsx`
+To be used to define signInUrl, apiUrl used in `interceptor.js` and `App.jsx`
 
 Default Value: `local`
 
@@ -20,26 +20,23 @@ Possible Values:
 
 `local-staging`: defines api-url of staging
 
-`devtestops, dev-staging, staging`: for staging signInUrl, apiUrl and cookiePrefix
+`devtestops, dev-staging, staging`: for staging signInUrl, apiUrl
 
 ```
 const STAGING_CONFIG = (envName) => ({
-  cookiePrefix: `${envName}__`,
   signInUrl: `https://${envName}.bsstag.com/users/signin`,
   apiUrl: 'https://devtestops-api.bsstag.com'
 });
 ```
 
-`preprod`: for preprod signInUrl, apiUrl and cookiePrefix
+`preprod`: for preprod signInUrl, apiUrl
 ```
-cookiePrefix: 'preprod__',
 signInUrl: 'https://preprod.bsstag.com/users/signin',
 apiUrl: 'https://api-observability-preprod.bsstag.com'
 ```
 
-`production`: for production signInUrl, apiUrl and cookiePrefix
+`production`: for production signInUrl, apiUrl
 ```
-cookiePrefix: '',
 signInUrl: 'https://browserstack.com/users/signin',
 apiUrl: 'https://api-observability.browserstack.com'
 ```

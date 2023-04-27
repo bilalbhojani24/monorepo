@@ -114,7 +114,13 @@ const App = () => {
 
   const initO11y = async () => dispatch(initO11yProduct(params));
 
-  const Routes = useAuthRoutes(APP_ROUTES, initO11y, getEnvConfig().signInUrl);
+  const Routes = useAuthRoutes(
+    APP_ROUTES,
+    initO11y,
+    `${getEnvConfig().signInUrl}?redirect_url=${encodeURIComponent(
+      window.location.href
+    )}`
+  );
   return (
     <>
       {Routes}
