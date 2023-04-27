@@ -14,7 +14,7 @@ export default function useTestCaseViewDetails() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
-  const [imageLink, setImageLink] = useState(null);
+  const [imageViewData, setImageViewData] = useState(null);
   const [isShowAddIssuesModal, setIsShowAddIssuesModal] = useState(false);
   const [showImagePreview, setImagePreviewVisibility] = useState(false);
   const jiraConfig = useSelector((state) => state.global.userConfig?.jira);
@@ -84,7 +84,10 @@ export default function useTestCaseViewDetails() {
   const onAttachmentClick = (item) => {
     if (item?.url) {
       if (item.content_type.includes('image/')) {
-        setImageLink(item.url);
+        setImageViewData({
+          link: item.url,
+          name: item.name
+        });
         setImagePreviewVisibility(true);
       } else window.open(item.url);
     }
@@ -93,7 +96,7 @@ export default function useTestCaseViewDetails() {
   const closePreview = () => {
     setImagePreviewVisibility(false);
     setTimeout(() => {
-      setImageLink(null);
+      setImageViewData(null);
     }, 400);
   };
 
@@ -131,7 +134,7 @@ export default function useTestCaseViewDetails() {
   const imageClickOpener = (e) => {
     const imageURL = e?.currentTarget?.getAttribute('src');
     if (imageURL) {
-      setImageLink(imageURL);
+      setImageViewData({ link: imageURL });
       setImagePreviewVisibility(true);
     }
   };
@@ -176,7 +179,7 @@ export default function useTestCaseViewDetails() {
     testResultsArray,
     testCaseId: metaIds?.testCaseId,
     showImagePreview,
-    imageLink,
+    imageViewData,
     testRunsCount,
     selectedTab,
     testCaseIssues,
