@@ -22,7 +22,7 @@ export const integrationsSlice = createSlice({
       );
       state.listOfIntegrations[targetIdx].setup_completed =
         action.payload.setupCompleted;
-      state.hasIntegrated = true;
+      state.hasIntegrated = action.payload.setupCompleted;
     },
     setActiveIntegration: (state, action) => {
       state.activeIntegration = action.payload;
