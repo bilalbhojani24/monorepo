@@ -89,37 +89,25 @@ export const getSystemOrCustomValue = (
   return '--';
 };
 
-export const handleLastEntryDeletionInAPage = ({
-  // it is used in case of last entry is deleted in paginated setup
-  metaPage,
-  searchParams,
-  setSearchParams,
-  moveToPrevPage,
-  handleNoEntryOnFirstPage
-}) => {
-  if (moveToPrevPage && metaPage?.prev === null) {
-    handleNoEntryOnFirstPage();
-  } else if (moveToPrevPage) {
-    if (metaPage?.prev === 1) searchParams.delete('p');
-    else searchParams.set('p', `${metaPage?.prev}`);
-
-    setSearchParams(searchParams.toString());
-  }
+export const getFilterOptions = (thisParams) => {
+  const tags = thisParams.get('tags');
+  const owner = thisParams.get('owner');
+  const priority = thisParams.get('priority');
+  const q = thisParams.get('q');
+  return {
+    tags: tags?.split(',') || [],
+    owner: owner?.split(',') || [],
+    priority: priority?.split(',') || [],
+    q: q || ''
+  };
 };
 
-export const handleBulkEntryDeletion = ({
-  metaPage,
-  searchParams,
-  setSearchParams,
-  handleNoEntryOnFirstPage
-}) => {
-  if (metaPage?.page - 1 === 1) {
+export const redirectToPrevPage = (searchParams, setSearchParams) => {
+  if (searchParams.get('p') - 1 === 1) {
     searchParams.delete('p');
-    setSearchParams(searchParams.toString());
-  } else if (metaPage?.page - 1 > 1) {
-    searchParams.set('p', `${metaPage?.page - 1}`);
-    setSearchParams(searchParams.toString());
+    setSearchParams(searchParams);
   } else {
-    handleNoEntryOnFirstPage();
+    searchParams.set('p', `${searchParams.get('p') - 1}`);
+    setSearchParams(searchParams.toString());
   }
 };

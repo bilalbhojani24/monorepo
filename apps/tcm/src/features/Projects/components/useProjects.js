@@ -14,10 +14,7 @@ import {
   deleteGlobalProject,
   updateGlobalProject
 } from 'globalSlice';
-import {
-  // handleLastEntryDeletionInAPage,
-  routeFormatter
-} from 'utils/helperFunctions';
+import { redirectToPrevPage, routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -103,9 +100,6 @@ const useProjects = (prop) => {
     (state) => state.import.showNewProjectBanner
   );
 
-  // const lastPageLastEntry = () =>
-  //   totalTestCaseCountRef.current === (searchParams.get('p') - 1) * 30;
-
   const handleAmplitudeEvent = (projectId, action) => {
     dispatch(
       logEventHelper(`TM_${action}ClickedProjectList`, {
@@ -189,19 +183,10 @@ const useProjects = (prop) => {
           );
           dispatch(deleteProject(res.data.project));
           dispatch(deleteGlobalProject(res.data.project));
-          // handleLastEntryDeletionInAPage({
-          //   metaPage,
-          //   searchParams,
-          //   setSearchParams
-          // });
-          // if (lastPageLastEntry()) {
-          //   searchParams.set('p', `${searchParams.get('p') - 1}`);
-          //   setSearchParams(searchParams.toString());
-          // } else fetchProjects();
-          if (totalProjectsCountRef.current === 1 && searchParams.get('p')) {
-            searchParams.set('p', `${searchParams.get('p') - 1}`);
-            setSearchParams(searchParams.toString());
-          } else fetchProjects();
+
+          if (totalProjectsCountRef.current === 1 && searchParams.get('p'))
+            redirectToPrevPage(searchParams, setSearchParams);
+          else fetchProjects();
 
           dispatch(
             setMetaPage({
