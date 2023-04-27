@@ -123,9 +123,9 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
-                  text: item,
-                  value: item,
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label,
+                  value: item.value,
                   type: ADV_FILTER_TYPES.buildTags.key
                 })
               );
@@ -138,9 +138,9 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
-                  text: item,
-                  value: item,
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label,
+                  value: item.value,
                   type: ADV_FILTER_TYPES.uniqueBuildNames.key
                 })
               );
@@ -148,15 +148,15 @@ const updateFilterFields = (data, dispatch) => {
           }
           break;
         }
-        case ADV_FILTER_TYPES.folder.key: {
+        case ADV_FILTER_TYPES.folders.key: {
           if (applied[appliedKey]?.length) {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
-                  text: item,
-                  value: item,
-                  type: ADV_FILTER_TYPES.folder.key
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.folders.key
                 })
               );
             });
@@ -168,9 +168,9 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
-                  text: item,
-                  value: item,
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label,
+                  value: item.value,
                   type: ADV_FILTER_TYPES.testTags.key
                 })
               );
@@ -178,15 +178,15 @@ const updateFilterFields = (data, dispatch) => {
           }
           break;
         }
-        case ADV_FILTER_TYPES.hostName.key: {
+        case ADV_FILTER_TYPES.hostNames.key: {
           if (applied[appliedKey]?.length) {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
-                  text: item,
-                  value: item,
-                  type: ADV_FILTER_TYPES.hostName.key
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.hostNames.key
                 })
               );
             });
@@ -263,9 +263,9 @@ const updateFilterFields = (data, dispatch) => {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
-                  text: item,
-                  value: item,
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label,
+                  value: item.value,
                   type: ADV_FILTER_TYPES.failureCategories.key
                 })
               );
@@ -273,45 +273,45 @@ const updateFilterFields = (data, dispatch) => {
           }
           break;
         }
-        case ADV_FILTER_TYPES.device.key: {
+        case ADV_FILTER_TYPES.deviceList.key: {
           if (applied[appliedKey]?.length) {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
-                  text: item,
-                  value: item,
-                  type: ADV_FILTER_TYPES.device.key
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.deviceList.key
                 })
               );
             });
           }
           break;
         }
-        case ADV_FILTER_TYPES.os.key: {
+        case ADV_FILTER_TYPES.osList.key: {
           if (applied[appliedKey]?.length) {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
-                  text: item,
-                  value: item,
-                  type: ADV_FILTER_TYPES.os.key
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.osList.key
                 })
               );
             });
           }
           break;
         }
-        case ADV_FILTER_TYPES.browser.key: {
+        case ADV_FILTER_TYPES.browserList.key: {
           if (applied[appliedKey]?.length) {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
-                  id: `${appliedKey}:${item}`,
-                  text: item,
-                  value: item,
-                  type: ADV_FILTER_TYPES.browser.key
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.browserList.key
                 })
               );
             });

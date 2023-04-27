@@ -110,23 +110,23 @@ const SHTestsFilters = () => {
             type={ADV_FILTER_TYPES.isMuted.key}
           />
           <MultiSelectSearchFilterField
-            type={ADV_FILTER_TYPES.hostName.key}
+            type={ADV_FILTER_TYPES.hostNames.key}
             placeholder="Select"
             label="Host name"
             searchAPI={getHostNamesData}
           />
           <MultiSelectStaticFilterField
-            type={ADV_FILTER_TYPES.device.key}
+            type={ADV_FILTER_TYPES.deviceList.key}
             placeholder="Select"
             label="Device"
           />
           <MultiSelectStaticFilterField
-            type={ADV_FILTER_TYPES.os.key}
+            type={ADV_FILTER_TYPES.osList.key}
             placeholder="Select"
             label="OS"
           />
           <MultiSelectStaticFilterField
-            type={ADV_FILTER_TYPES.browser.key}
+            type={ADV_FILTER_TYPES.browserList.key}
             placeholder="Select"
             label="Browser"
           />

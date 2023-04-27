@@ -21,8 +21,8 @@ export const ADV_FILTER_TYPES = {
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
-  folder: {
-    key: 'folder',
+  folders: {
+    key: 'folders',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
@@ -31,8 +31,8 @@ export const ADV_FILTER_TYPES = {
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
-  hostName: {
-    key: 'hostName',
+  hostNames: {
+    key: 'hostNames',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
@@ -66,18 +66,18 @@ export const ADV_FILTER_TYPES = {
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
-  device: {
-    key: 'device',
+  deviceList: {
+    key: 'deviceList',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
-  os: {
-    key: 'os',
+  osList: {
+    key: 'osList',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
-  browser: {
-    key: 'browser',
+  browserList: {
+    key: 'browserList',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
@@ -96,18 +96,18 @@ export const ADV_FILTER_TYPES = {
 export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.buildTags.key]: 'Build Tags',
   [ADV_FILTER_TYPES.uniqueBuildNames.key]: 'Unique Build Names',
-  [ADV_FILTER_TYPES.folder.key]: 'Folder',
+  [ADV_FILTER_TYPES.folders.key]: 'Folder',
   [ADV_FILTER_TYPES.testTags.key]: 'Test Tags',
-  [ADV_FILTER_TYPES.hostName.key]: 'Host name',
+  [ADV_FILTER_TYPES.hostNames.key]: 'Host name',
   [ADV_FILTER_TYPES.isFlaky.key]: 'Is Flaky',
   [ADV_FILTER_TYPES.isNewFailure.key]: 'Is New Failure',
   [ADV_FILTER_TYPES.isAlwaysFailing.key]: 'Is Always Failing',
   [ADV_FILTER_TYPES.hasJiraDefects.key]: 'Has JIRA Defects',
   [ADV_FILTER_TYPES.isMuted.key]: 'Is Muted',
   [ADV_FILTER_TYPES.failureCategories.key]: 'Failure Categories',
-  [ADV_FILTER_TYPES.device.key]: 'Device',
-  [ADV_FILTER_TYPES.os.key]: 'OS',
-  [ADV_FILTER_TYPES.browser.key]: 'Browser',
+  [ADV_FILTER_TYPES.deviceList.key]: 'Device',
+  [ADV_FILTER_TYPES.osList.key]: 'OS',
+  [ADV_FILTER_TYPES.browserList.key]: 'Browser',
   [ADV_FILTER_TYPES.search.key]: 'Search',
   [ADV_FILTER_TYPES.dateRange.key]: 'Date Range'
 };

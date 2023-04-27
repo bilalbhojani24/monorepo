@@ -27,10 +27,10 @@ export default function FolderFilterField() {
   const dispatch = useDispatch();
 
   const staticFolderOptions = useSelector(
-    getStaticFiltersByType(ADV_FILTER_TYPES.folder.key)
+    getStaticFiltersByType(ADV_FILTER_TYPES.folders.key)
   );
   const selectedFolders = useSelector(
-    getSelectedFiltersByType(ADV_FILTER_TYPES.folder.key)
+    getSelectedFiltersByType(ADV_FILTER_TYPES.folders.key)
   );
 
   const { treeData, selectedNodes } = useMemo(
@@ -43,9 +43,9 @@ export default function FolderFilterField() {
       id: sValue.id,
       text: sValue.name,
       value: sValue.id,
-      type: ADV_FILTER_TYPES.folder.key,
-      appliedText: ADV_FILTER_TYPES.folder.key
-        ? `${ADV_FILTER_TYPES.folder.key}: ${sValue.name}`
+      type: ADV_FILTER_TYPES.folders.key,
+      appliedText: ADV_FILTER_TYPES.folders.key
+        ? `${ADV_FILTER_TYPES.folders.key}: ${sValue.name}`
         : sValue.name,
       isApplied: false
     }));
