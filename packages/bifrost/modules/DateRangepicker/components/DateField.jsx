@@ -59,7 +59,12 @@ function DateSegment({ segment, state, errorState, disabled }) {
       {segment.isPlaceholder ? (
         <span
           aria-hidden="true"
-          className="text-base-500 pointer-events-none block w-full text-sm font-normal leading-5"
+          className={twClassNames(
+            'text-base-900 pointer-events-none block w-full text-sm font-normal leading-5',
+            {
+              'text-danger-900': errorState
+            }
+          )}
         >
           {segment.placeholder}
         </span>

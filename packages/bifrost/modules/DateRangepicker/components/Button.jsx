@@ -50,9 +50,9 @@ YearPickerButton.propTypes = {
 };
 
 export function FieldButton(props) {
-  const { children, isPressed: isCurrentlyPressed, disabled } = props;
+  const { children, disabled } = props;
   const ref = useRef();
-  const { buttonProps, isPressed } = useButton(props, ref);
+  const { buttonProps } = useButton(props, ref);
 
   return (
     <button
@@ -66,12 +66,9 @@ export function FieldButton(props) {
       disabled={disabled}
       ref={ref}
       className={twClassNames(
-        'border-base-300 -ml-px rounded-r-md border-l px-3.5 outline-none',
+        'border-base-300 -ml-px rounded-r-md border-l px-3.5 outline-none bg-white hover:bg-base-50',
         {
-          'bg-base-300': isPressed || isCurrentlyPressed,
-          'bg-base-50': !(isPressed || isCurrentlyPressed),
-          'focus:ring-brand-600 focus:ring-2': !disabled,
-          'cursor-not-allowed': disabled
+          'cursor-not-allowed bg-base-50': disabled
         }
       )}
     >

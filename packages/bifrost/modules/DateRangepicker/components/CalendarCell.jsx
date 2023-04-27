@@ -57,6 +57,7 @@ export function CalendarCell({ state, date, currentDate }) {
           className={twClassNames(
             'flex h-full w-full items-center justify-center cursor-default text-base-900 text-sm leading-5',
             {
+              'cursor-pointer': !isDisabled && !isInvalid,
               'text-base-300 cursor-not-allowed': isDisabled && !isInvalid,
 
               // Focus ring, visible while the cell has keyboard focus.
@@ -79,7 +80,7 @@ export function CalendarCell({ state, date, currentDate }) {
               'hover:bg-base-100': !isSelected && !isDisabled,
 
               // Current date styles
-              'text-brand-600': currentDate,
+              'text-brand-600 font-medium': currentDate,
 
               // dates outside of current month
               'bg-base-50 cursor-not-allowed text-base-900':
