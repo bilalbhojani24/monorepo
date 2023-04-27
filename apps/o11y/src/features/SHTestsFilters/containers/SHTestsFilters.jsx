@@ -2,10 +2,16 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FilterSkeleton from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
-import { getSnPTestsFiltersData } from 'features/SuiteHealth/slices/dataSlice';
+import {
+  getBuildTagsData,
+  getSnPTestsFiltersData
+} from 'features/SuiteHealth/slices/dataSlice';
+import { getBuildNamesData } from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 
 import MultiSelectCheckboxFilter from '../components/MultiSelectCheckboxFilter';
+import MultiSelectSearchFilter from '../components/MultiSelectSearchFilter';
+import MultiSelectStaticFilter from '../components/MultiSelectStaticFilter';
 import SingleSelectCheckboxFilter from '../components/SingleSelectCheckboxFilter';
 
 const SHTestsFilters = () => {
@@ -20,7 +26,19 @@ const SHTestsFilters = () => {
   }, [activeProject?.normalisedName, dispatch]);
   return (
     <FilterSkeleton>
-      <div className="flex flex-col gap-6">
+      <div className="mb-6 flex flex-col gap-6">
+        <MultiSelectSearchFilter
+          type={ADV_FILTER_TYPES.buildTags.key}
+          placeholder="Select"
+          label="Build Tags"
+          searchAPI={getBuildTagsData}
+        />
+        <MultiSelectSearchFilter
+          type={ADV_FILTER_TYPES.uniqueBuildNames.key}
+          placeholder="Select"
+          label="Unique BuildNames"
+          searchAPI={getBuildNamesData}
+        />
         <MultiSelectCheckboxFilter
           id={ADV_FILTER_TYPES.isFlaky.key}
           label="Flaky Tests"
@@ -54,6 +72,26 @@ const SHTestsFilters = () => {
           yesLabel="Muted"
           noLabel="Unmuted"
           type={ADV_FILTER_TYPES.isMuted.key}
+        />
+        <MultiSelectStaticFilter
+          type={ADV_FILTER_TYPES.failureCategories.key}
+          placeholder="Select"
+          label="Failure categories"
+        />
+        <MultiSelectStaticFilter
+          type={ADV_FILTER_TYPES.os.key}
+          placeholder="Select"
+          label="OS"
+        />
+        <MultiSelectStaticFilter
+          type={ADV_FILTER_TYPES.browser.key}
+          placeholder="Select"
+          label="Browser"
+        />
+        <MultiSelectStaticFilter
+          type={ADV_FILTER_TYPES.device.key}
+          placeholder="Select"
+          label="Device"
         />
       </div>
     </FilterSkeleton>

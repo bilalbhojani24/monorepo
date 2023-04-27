@@ -20,7 +20,17 @@ export const getUnAppliedSelectedFilters = createSelector(
   (selectedFilters) => selectedFilters.filter((item) => !item.isApplied)
 );
 
+export const getStaticFiltersByType = (type) => (state) => {
+  const { currentCategory } = state.allFilters;
+  return state.allFilters[currentCategory].staticFilters[type] || [];
+};
+
 // custom selectors
+
+export const getAppliedFiltersByType = (type) =>
+  createSelector(getAllAppliedFilters, (appliedFilters) =>
+    appliedFilters.filter((item) => item.type === type)
+  );
 
 export const getSelectedFiltersByType = (type) =>
   createSelector(getSelectedFilters, (selectedFilters) =>

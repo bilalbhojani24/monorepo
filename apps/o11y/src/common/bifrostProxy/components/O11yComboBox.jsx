@@ -161,7 +161,6 @@ O11yComboBox.defaultProps = {
   checkPosition: '',
   label: '',
   options: [],
-  // eslint-disable-next-line lodash/prefer-noop
   onChange: () => {},
   value: null,
   virtuosoWidth: '',

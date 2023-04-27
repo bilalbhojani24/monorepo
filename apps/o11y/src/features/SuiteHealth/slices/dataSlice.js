@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { getBuildTags } from 'api/builds';
 import {
   getSnPErrors,
   getSnPTests,
@@ -33,7 +34,7 @@ import {
 } from '../constants';
 
 const { reducer, actions } = createSlice({
-  name: 'snp data',
+  name: 'suite health',
   initialState: {
     tests: {
       data: [],
@@ -144,7 +145,7 @@ export const {
 } = actions;
 
 export const getSnPTestsData = createAsyncThunk(
-  'testlist/getSnPTestsData',
+  'suitehealth/getSnPTestsData',
   async (data, { rejectWithValue, dispatch, getState }) => {
     try {
       const appliedFilters = getAllAppliedFilters(getState());
@@ -167,7 +168,7 @@ export const getSnPTestsData = createAsyncThunk(
 );
 
 export const getSnPTestsBreakdownData = createAsyncThunk(
-  'testlist/getSnPTestsBreakdownData',
+  'suitehealth/getSnPTestsBreakdownData',
   async (data, { rejectWithValue }) => {
     try {
       const response = await getSnPTestsBreakdown({ ...data });
@@ -178,7 +179,7 @@ export const getSnPTestsBreakdownData = createAsyncThunk(
   }
 );
 export const getSnPErrorsData = createAsyncThunk(
-  'testlist/getSnPErrorsData',
+  'suitehealth/getSnPErrorsData',
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const response = await getSnPErrors({ ...data });
@@ -205,7 +206,7 @@ export const getSnPErrorsData = createAsyncThunk(
   }
 );
 export const getSnPUEBreakdownData = createAsyncThunk(
-  'testlist/getSnPUEBreakdownData',
+  'suitehealth/getSnPUEBreakdownData',
   async (data, { rejectWithValue }) => {
     try {
       const response = await getSnPUEBreakdown({ ...data });
@@ -469,7 +470,7 @@ const updateFilterFields = (data, dispatch) => {
 };
 
 export const getSnPTestsFiltersData = createAsyncThunk(
-  'testlist/getSnPTestsFilters',
+  'suitehealth/getSnPTestsFilters',
   async (data, { rejectWithValue, dispatch }) => {
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_TESTS));
     try {
@@ -483,6 +484,18 @@ export const getSnPTestsFiltersData = createAsyncThunk(
       return rejectWithValue(err);
     } finally {
       dispatch(setIsLoadingBuildsFilters(false));
+    }
+  }
+);
+
+export const getBuildTagsData = createAsyncThunk(
+  `suitehealth/getBuildTags`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getBuildTags({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
     }
   }
 );
