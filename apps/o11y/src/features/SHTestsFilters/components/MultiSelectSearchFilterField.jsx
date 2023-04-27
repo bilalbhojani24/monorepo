@@ -14,7 +14,12 @@ import { getActiveProject } from 'globalSlice/selectors';
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 
-const MultiSelectSearchFilter = ({ type, placeholder, label, searchAPI }) => {
+const MultiSelectSearchFilterField = ({
+  type,
+  placeholder,
+  label,
+  searchAPI
+}) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const selectedFilters = useSelector(getSelectedFiltersByType(type));
@@ -134,11 +139,11 @@ const MultiSelectSearchFilter = ({ type, placeholder, label, searchAPI }) => {
   );
 };
 
-MultiSelectSearchFilter.propTypes = {
+MultiSelectSearchFilterField.propTypes = {
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   searchAPI: PropTypes.func.isRequired
 };
 
-export default MultiSelectSearchFilter;
+export default MultiSelectSearchFilterField;

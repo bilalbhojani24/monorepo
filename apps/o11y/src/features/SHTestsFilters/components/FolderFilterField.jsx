@@ -23,7 +23,7 @@ const {
   getSearchResultsCustomBSFTraversal
 } = listTreeCheckboxHelper;
 
-export const FolderFilter = () => {
+export default function FolderFilterField() {
   const dispatch = useDispatch();
 
   const staticFolderOptions = useSelector(
@@ -91,9 +91,9 @@ export const FolderFilter = () => {
       prevSelectedValues={selectedNodes}
     />
   );
-};
+}
 
-export const FolderFilterChild = ({
+const FolderFilterChild = ({
   listTreeCheckboxData,
   onChange,
   prevSelectedValues

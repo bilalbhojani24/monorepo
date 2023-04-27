@@ -6,7 +6,13 @@ import { getSelectedFilterByBooleanType } from 'features/FilterSkeleton/slices/s
 import isNil from 'lodash/isNil';
 import PropTypes from 'prop-types';
 
-const MultiSelectCheckboxFilter = ({ type, label, yesLabel, noLabel, id }) => {
+const MultiSelectCheckboxFilterField = ({
+  type,
+  label,
+  yesLabel,
+  noLabel,
+  id
+}) => {
   const dispatch = useDispatch();
   const storedValue = useSelector(getSelectedFilterByBooleanType(type));
 
@@ -98,7 +104,7 @@ const MultiSelectCheckboxFilter = ({ type, label, yesLabel, noLabel, id }) => {
     </div>
   );
 };
-MultiSelectCheckboxFilter.propTypes = {
+MultiSelectCheckboxFilterField.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   yesLabel: PropTypes.string.isRequired,
@@ -106,4 +112,4 @@ MultiSelectCheckboxFilter.propTypes = {
   id: PropTypes.string.isRequired
 };
 
-export default MultiSelectCheckboxFilter;
+export default MultiSelectCheckboxFilterField;

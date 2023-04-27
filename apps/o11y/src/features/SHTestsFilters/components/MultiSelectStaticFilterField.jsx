@@ -9,7 +9,7 @@ import {
 } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 
-const MultiSelectStaticFilter = ({ type, placeholder, label }) => {
+const MultiSelectStaticFilterField = ({ type, placeholder, label }) => {
   const dispatch = useDispatch();
 
   const staticOptions = useSelector(getStaticFiltersByType(type));
@@ -67,10 +67,10 @@ const MultiSelectStaticFilter = ({ type, placeholder, label }) => {
   );
 };
 
-MultiSelectStaticFilter.propTypes = {
+MultiSelectStaticFilterField.propTypes = {
   type: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired
 };
 
-export default MultiSelectStaticFilter;
+export default MultiSelectStaticFilterField;

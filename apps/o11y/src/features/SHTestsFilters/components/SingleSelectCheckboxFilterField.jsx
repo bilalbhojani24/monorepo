@@ -5,7 +5,7 @@ import { setSelectedFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import { getSelectedFilterByBooleanType } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 
-const SingleSelectCheckboxFilter = ({ type, label, inputLabel, id }) => {
+const SingleSelectCheckboxFilterField = ({ type, label, inputLabel, id }) => {
   const dispatch = useDispatch();
   const storedValue = useSelector(getSelectedFilterByBooleanType(type));
 
@@ -57,11 +57,11 @@ const SingleSelectCheckboxFilter = ({ type, label, inputLabel, id }) => {
     </div>
   );
 };
-SingleSelectCheckboxFilter.propTypes = {
+SingleSelectCheckboxFilterField.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   inputLabel: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired
 };
 
-export default SingleSelectCheckboxFilter;
+export default SingleSelectCheckboxFilterField;

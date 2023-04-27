@@ -1,3 +1,5 @@
-import FilterSkeleton from './containers/FilterSkeleton';
+import FilterPills from './containers/FilterPills';
+import FilterSlideover from './containers/FilterSlideover';
+import FilterSlideoverTrigger from './containers/FilterSlideoverTrigger';
 
-export default FilterSkeleton;
+export { FilterPills, FilterSlideover, FilterSlideoverTrigger };
