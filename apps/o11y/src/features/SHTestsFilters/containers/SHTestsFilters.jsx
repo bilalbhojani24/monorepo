@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   FilterPills,
   FilterSlideover,
-  FilterSlideoverTrigger
+  FilterSlideoverTrigger,
+  FolderFilterField,
+  MultiSelectCheckboxFilterField,
+  MultiSelectSearchFilterField,
+  MultiSelectStaticFilterField,
+  SingleSelectCheckboxFilterField
 } from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import {
@@ -15,11 +20,8 @@ import {
 } from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 
-import FolderFilterField from '../components/FolderFilterField';
-import MultiSelectCheckboxFilterField from '../components/MultiSelectCheckboxFilterField';
-import MultiSelectSearchFilterField from '../components/MultiSelectSearchFilterField';
-import MultiSelectStaticFilterField from '../components/MultiSelectStaticFilterField';
-import SingleSelectCheckboxFilterField from '../components/SingleSelectCheckboxFilterField';
+import DatePickerField from '../components/DatePickerField';
+import SearchField from '../components/SearchField';
 
 const SHTestsFilters = () => {
   const dispatch = useDispatch();
@@ -43,9 +45,11 @@ const SHTestsFilters = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <div>Search</div>
+        <div>
+          <SearchField />
+        </div>
         <div className="flex items-center gap-5">
-          <span>Date picker</span>
+          <DatePickerField />
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
       </div>
