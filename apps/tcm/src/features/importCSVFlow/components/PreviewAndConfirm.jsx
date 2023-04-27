@@ -81,7 +81,7 @@ const PreviewAndConfirm = () => {
           </div>
         }
       />
-      <div className="text-base-800 mt-8 text-base font-medium">
+      <div className="text-base-800 mt-4 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>
       <div className="text-base-500 mb-4 text-sm font-normal">
