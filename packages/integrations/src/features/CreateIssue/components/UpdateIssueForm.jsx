@@ -12,7 +12,7 @@ import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
 import { parseFieldsForCreate } from '../helpers';
 import { CreateIssueOptionsType } from '../types';
 
-import { FIELD_KEYS } from './constants';
+import { FIELD_KEYS, VALIDATION_FAILURE_ERROR_MESSAGE } from './constants';
 
 const UpdateIssueForm = ({
   fields,
@@ -272,6 +272,9 @@ const UpdateIssueForm = ({
           scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
           isFormBeingSubmitted={isFormBeingSubmitted}
+          validationFailureErrorMessage={
+            VALIDATION_FAILURE_ERROR_MESSAGE.UPDATE
+          }
         />
       )}
     </>

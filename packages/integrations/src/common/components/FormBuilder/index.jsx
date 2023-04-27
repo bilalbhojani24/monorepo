@@ -19,7 +19,8 @@ const FormBuilder = ({
   scrollWidgetToTop,
   setIsWorkInProgress,
   isFormBeingSubmitted,
-  hideDescription = false
+  hideDescription = false,
+  validationFailureErrorMessage
 }) => {
   const dispatch = useDispatch();
   const [fieldsData, setFieldsData] = useState({});
@@ -134,7 +135,7 @@ const FormBuilder = ({
       dispatch(
         setGlobalAlert({
           kind: 'error',
-          message: `There are some errors in the form, please correct them to continue.`,
+          message: validationFailureErrorMessage,
           autoDismiss: true
         })
       );

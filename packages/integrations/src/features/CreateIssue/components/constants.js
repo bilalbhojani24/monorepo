@@ -14,3 +14,10 @@ export const TABS = [
   { name: 'Create issue', mode: ISSUE_MODES.CREATION },
   { name: 'Update existing issue', mode: ISSUE_MODES.UPDATION }
 ];
+
+export const VALIDATION_FAILURE_ERROR_MESSAGE = {
+  CREATE:
+    'Error creating the ticket due to invalid input(s) in some fields. Please fix them to continue.',
+  UPDATE:
+    'Error updating the ticket due to invalid input(s) in some fields. Please fix them to continue.'
+};
