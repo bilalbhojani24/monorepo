@@ -72,15 +72,18 @@ const EmptyStateWRecommendation = (props) => {
             'grid grid-cols-1 gap-4 sm:grid-cols-2': LAYOUT_TYPES[0] === layout
           })}
         >
-          {data.map((item, itemIdx) => (
-            <div key={itemIdx}>
-              {layout === LAYOUT_TYPES[0] ? (
-                <TwoColumnLayout item={item} handleClick={handleClick} />
-              ) : (
-                <SignleColumnLayout item={item} handleClick={handleClick} />
-              )}
-            </div>
-          ))}
+          {data.map((item, itemIdx) => {
+            const id = itemIdx;
+            return (
+              <React.Fragment key={id}>
+                {layout === LAYOUT_TYPES[0] ? (
+                  <TwoColumnLayout item={item} handleClick={handleClick} />
+                ) : (
+                  <SignleColumnLayout item={item} handleClick={handleClick} />
+                )}
+              </React.Fragment>
+            );
+          })}
         </ul>
       </div>
     </div>

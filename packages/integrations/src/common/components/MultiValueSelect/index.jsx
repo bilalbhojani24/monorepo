@@ -179,8 +179,8 @@ const MultiSelect = ({
     searchPath
   ]);
 
-  const handleInputChange = (e) => {
-    const queryArr = e.target.value?.trim().split(',');
+  const handleInputChange = (inputValue) => {
+    const queryArr = inputValue?.trim().split(',');
     const query = queryArr[queryArr.length - 1];
     if (searchPath) {
       debouncedFetchQuery(query);
@@ -200,6 +200,14 @@ const MultiSelect = ({
     !areOptionsLoading &&
     !shouldFetchIntialOptions.current;
 
+  const noOptionsText =
+    (shouldShowNoOptions
+      ? 'No Options'
+      : shouldFetchIntialOptions.current && 'Loading...') || '';
+
+  const noResultFoundText =
+    !lengthOfOptionsToRender && searchLoading ? 'Searching...' : undefined;
+
   return (
     <div
       className="py-3"
@@ -208,12 +216,15 @@ const MultiSelect = ({
     >
       <ComboBox
         onChange={handleChange}
-        value={!lengthOfOptionsToRender ? null : valueToRender}
+        value={valueToRender}
         isMulti={Boolean(lengthOfOptionsToRender)}
-        isLoading={areOptionsLoading}
-        loadingText="Loading"
+        isLoadingRight={
+          areOptionsLoading || (!lengthOfOptionsToRender && searchLoading)
+        }
         onOpenChange={handleOpen}
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
+        noOptionsText={noOptionsText}
+        noResultFoundText={noResultFoundText}
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
@@ -221,35 +232,15 @@ const MultiSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        {Boolean(lengthOfOptionsToRender) && (
-          <ComboboxOptionGroup maxWidth={300}>
-            {optionsToRender?.map((item) => (
-              <ComboboxOptionItem
-                key={item.value}
-                option={item}
-                wrapperClassName="text-base-500"
-              />
-            ))}
-          </ComboboxOptionGroup>
-        )}
-        {shouldShowNoOptions && (
-          <ComboboxOptionGroup>
+        <ComboboxOptionGroup maxWidth={300}>
+          {optionsToRender?.map((item) => (
             <ComboboxOptionItem
-              key="no options"
-              option={{ label: 'No options' }}
-              disabled
+              key={item.value}
+              option={item}
+              wrapperClassName="text-base-500"
             />
-          </ComboboxOptionGroup>
-        )}
-        {!lengthOfOptionsToRender && searchLoading && (
-          <ComboboxOptionGroup>
-            <ComboboxOptionItem
-              key="searching-for-options"
-              option={{ label: 'Searching...' }}
-              disabled
-            />
-          </ComboboxOptionGroup>
-        )}
+          ))}
+        </ComboboxOptionGroup>
       </ComboBox>
     </div>
   );
