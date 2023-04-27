@@ -5,8 +5,8 @@ import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import FilterSlideoverBody from '../components/FilterSlideoverBody';
-import { getSnPTestsFiltersData } from '../slices/dataSlice';
 import { getSnPTestFilterByKey } from '../slices/selectors';
+import { getSnPTestsFiltersData } from '../slices/uiSlice';
 
 const FiltersSlideover = memo(
   ({ isVisible, onClose, onApplyFilter, allBuildNames }) => {
