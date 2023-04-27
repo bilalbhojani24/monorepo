@@ -54,6 +54,14 @@ export default function useDashboard() {
       inActiveIcon: MdOutlineDynamicFeed,
       path: '/site-scanner',
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
+    },
+    {
+      id: 'test-automation',
+      label: 'Test Automation',
+      activeIcon: MdOutlineDynamicFeed,
+      inActiveIcon: MdOutlineDynamicFeed,
+      path: '/test-automation',
+      badge: shouldShowNewBadge() ? <Badge text="New" /> : null
     }
   ];
 
