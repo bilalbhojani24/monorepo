@@ -139,4 +139,4 @@ NetworkTableHeader.defaultProps = {
   shouldShowLimitedCols: false
 };
 
-export default NetworkTableHeader;
+export default React.memo(NetworkTableHeader);
