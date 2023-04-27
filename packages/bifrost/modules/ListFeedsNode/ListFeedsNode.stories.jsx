@@ -137,6 +137,7 @@ const Template = (args) =>
   sampleFeedPrimary.map((el) => (
     <ListFeedsNode
       {...args}
+      key={el.feedNumber}
       feedNumber={
         <p className="text-base-400 text-center text-xs leading-5">
           {el.feedNumber}
@@ -169,6 +170,7 @@ const FeedIconSizesTemplate = (args) =>
   sampleFeedVariousSizes.map((el) => (
     <ListFeedsNode
       {...args}
+      key={el.feedNumber}
       feedNumber={
         <p className="text-base-400 text-center text-xs leading-5">
           {el.feedNumber}
@@ -203,6 +205,7 @@ const FeedWithImageTemplate = (args) =>
   sampleFeedPrimary.map((el) => (
     <ListFeedsNode
       {...args}
+      key={el.feedNumber}
       feedNumber={
         <p className="text-base-400 text-center text-xs leading-5">
           {el.feedNumber}
@@ -238,6 +241,7 @@ const FeedWithCheckboxTemplate = (args) =>
   sampleFeedPrimary.map((el) => (
     <ListFeedsNode
       {...args}
+      key={el.feedNumber}
       feedNumber={
         <p className="text-base-400 text-center text-xs leading-5">
           {el.feedNumber}
@@ -280,6 +284,7 @@ const FeedWithHoverTemplate = (args) =>
   sampleFeedPrimary.map((el) => (
     <ListFeedsNode
       {...args}
+      key={el.feedNumber}
       feedNumber={
         <p className="text-base-400 text-center text-xs leading-5">
           {el.feedNumber}
