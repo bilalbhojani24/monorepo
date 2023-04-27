@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Hyperlink from '../Hyperlink';
@@ -12,10 +14,11 @@ import {
 import { STATS_VARIANTS } from './const/statsConstants';
 import Stats from './index';
 
+const title = 'Total Subscribers';
 const options = [
   {
     id: 1,
-    name: 'Total Subscribers',
+    name: title,
     stat: '71,897',
     icon: <UsersIcon className="h-6 w-6 text-white" />,
     change: '12%',
@@ -109,7 +112,7 @@ const defaultConfig = {
     option: {
       defaultValue: {
         id: 1,
-        name: 'Total Subscribers',
+        name: title,
         stat: '71,897',
         icon: <UsersIcon className="h-6 w-6 text-white" />,
         change: '12%',
@@ -136,6 +139,13 @@ const defaultConfig = {
 };
 const Template = (args) => <Stats {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Last 30 days')).toBeVisible();
+  await expect(canvas.getByText(title)).toBeVisible();
+  await expect(canvas.getByText('12%')).toBeVisible();
+  await userEvent.click(canvas.getByText(title));
+};
 Primary.parameters = {
   controls: {}
 };
@@ -149,7 +159,7 @@ export const StatsWithbrandIcon = () => (
 );
 
 export const SharedBorder = () => (
-  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
     {options.map((opt) => (
       <Stats
         key={opt.id}
@@ -162,7 +172,7 @@ export const SharedBorder = () => (
 );
 
 export const KpiVariantCard = () => (
-  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
     <Stats
       key={options[3].id}
       option={options[3]}

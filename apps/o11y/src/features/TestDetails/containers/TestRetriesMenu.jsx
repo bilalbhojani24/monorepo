@@ -26,7 +26,7 @@ const TestRetriesMenu = () => {
     if (retries && retries?.length > 0) {
       return retries.map((retryOption, idx) => ({
         label: (
-          <div className="flex items-center gap-1 space-x-2">
+          <div className="mr-4 flex items-center gap-1 space-x-2">
             <div
               className={twClassNames(
                 'h-2 w-2 rounded-full',
@@ -79,6 +79,7 @@ const TestRetriesMenu = () => {
               <O11ySelectMenuOptionItem
                 key={retryOption.id}
                 option={retryOption}
+                checkPosition="right"
               />
             ))}
           </O11ySelectMenuOptionGroup>

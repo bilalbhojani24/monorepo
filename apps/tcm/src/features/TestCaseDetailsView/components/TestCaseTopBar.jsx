@@ -37,7 +37,7 @@ const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
         </div>
       )}
       <div className="mb-4 flex  w-full items-start justify-between">
-        <div className="relative flex w-full  items-end pr-2 text-base font-medium">
+        <div className="relative flex w-full  items-start pr-2 text-base font-medium">
           {/* <div className="text-ellipsis">{testCaseDetails?.name}</div> */}
           <div className="line-clamp-2 overflow-hidden break-all">
             {testCaseDetails?.name}
@@ -71,11 +71,11 @@ const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
               </>
             }
           >
-            <InfoOutlinedIcon className="ml-1 !h-5 !w-5" />
+            <InfoOutlinedIcon className="ml-1 -mt-0.5 !h-5 !w-5" />
           </TMTooltip>
         </div>
         {!(testRunsTestCaseDetails?.deleted === 1) && (
-          <div className="flex items-center">
+          <div className="mt-0.5 flex items-center">
             <TMDropdown
               onClick={actionHandler}
               triggerVariant="meatball-button"

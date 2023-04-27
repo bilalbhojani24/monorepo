@@ -86,7 +86,8 @@ const initialState = {
     bulkEditTestCaseCta: false,
     bulkDeleteTestCaseCta: false,
     bulkMoveTestCaseCta: false,
-    tags: true
+    tags: true,
+    uploadingAttachments: false
   },
   isUnsavedDataExists: false,
   isUnsavedDataModalVisible: false,
