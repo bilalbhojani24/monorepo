@@ -37,6 +37,9 @@ const IntegrationsWidget = () => {
         url: STATIC_INTEGRATIONS_PREPROD_URL,
         headers: {
           Authorization: STATIC_INTEGRATIONS_PREPROD_TOKEN
+        },
+        fetchOptions: {
+          withCredentials: true
         }
       }
     : {

@@ -10,7 +10,7 @@ import {
 import { REQUEST_TIMOUT, UAT_COOKIE_NAME } from './constants';
 
 export const fetchToken = (_, { getState, dispatch }) => {
-  const { url, headers } = uatConfigSelector(getState());
+  const { url, headers, fetchOptions = {} } = uatConfigSelector(getState());
   const cookie = new Cookie();
   const integrationsToken = cookie.read(UAT_COOKIE_NAME);
   const hasToken = Boolean(integrationsToken);
@@ -26,7 +26,8 @@ export const fetchToken = (_, { getState, dispatch }) => {
       timeout: REQUEST_TIMOUT,
       timeoutErrorMessage: 'Request timed out',
       headers,
-      retry: 1
+      retry: 1,
+      ...fetchOptions
     })
     .then((response) => {
       cookie.create(UAT_COOKIE_NAME, response.data.access_token);
