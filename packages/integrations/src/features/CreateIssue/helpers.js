@@ -61,7 +61,7 @@ export const parseFieldsForCreate = (createMeta, fieldData) =>
     // if the meta field has data in the state i.e. fieldData
     if (currentMetaField.key in fieldData) {
       // check if the field with data is a system field or a custom field
-      if (currentMetaField.schema.system_field) {
+      if (currentMetaField.schema.system_field === true) {
         // field is a system field
 
         // pass the helper the schema and state data for the field in question

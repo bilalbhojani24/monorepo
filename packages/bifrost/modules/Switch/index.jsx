@@ -3,8 +3,6 @@ import { twClassNames } from '@browserstack/utils';
 import { Switch as HeadlessSwitch } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const Switch = ({
   isShortToggle,
   onChange,
