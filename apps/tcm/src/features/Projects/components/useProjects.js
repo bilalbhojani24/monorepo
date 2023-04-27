@@ -15,7 +15,7 @@ import {
   updateGlobalProject
 } from 'globalSlice';
 import {
-  handleLastEntryDeletionInAPage,
+  // handleLastEntryDeletionInAPage,
   routeFormatter
 } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
@@ -52,6 +52,7 @@ const useProjects = (prop) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalFocusRef = useRef();
+  const totalProjectsCountRef = useRef(0);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -102,6 +103,9 @@ const useProjects = (prop) => {
     (state) => state.import.showNewProjectBanner
   );
 
+  // const lastPageLastEntry = () =>
+  //   totalTestCaseCountRef.current === (searchParams.get('p') - 1) * 30;
+
   const handleAmplitudeEvent = (projectId, action) => {
     dispatch(
       logEventHelper(`TM_${action}ClickedProjectList`, {
@@ -129,6 +133,7 @@ const useProjects = (prop) => {
 
     getProjectsAPI(searchParams.get('p'))
       .then((res) => {
+        totalProjectsCountRef.current = res.projects.length;
         dispatch(setProjects(res.projects));
         dispatch(setMetaPage(res.info));
         dispatch(setLoading(false));
@@ -184,11 +189,20 @@ const useProjects = (prop) => {
           );
           dispatch(deleteProject(res.data.project));
           dispatch(deleteGlobalProject(res.data.project));
-          handleLastEntryDeletionInAPage({
-            metaPage,
-            searchParams,
-            setSearchParams
-          });
+          // handleLastEntryDeletionInAPage({
+          //   metaPage,
+          //   searchParams,
+          //   setSearchParams
+          // });
+          // if (lastPageLastEntry()) {
+          //   searchParams.set('p', `${searchParams.get('p') - 1}`);
+          //   setSearchParams(searchParams.toString());
+          // } else fetchProjects();
+          if (totalProjectsCountRef.current === 1 && searchParams.get('p')) {
+            searchParams.set('p', `${searchParams.get('p') - 1}`);
+            setSearchParams(searchParams.toString());
+          } else fetchProjects();
+
           dispatch(
             setMetaPage({
               ...metaPage,

@@ -4,7 +4,8 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import {
   deleteTestCaseAPI,
   deleteTestCasesBulkAPI,
-  getTestCasesAPI
+  getTestCasesAPI,
+  getTestCasesSearchFilterAPI
 } from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
 // import {
@@ -24,6 +25,7 @@ import {
   updateTestCasesListLoading
 } from '../../slices/repositorySlice';
 
+// import useFilter from '../useFilter';
 import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
 
 export default function useDeleteTestCase() {
@@ -38,6 +40,7 @@ export default function useDeleteTestCase() {
   // });
   const dispatch = useDispatch();
   const { updateTCCount } = useUpdateTCCountInFolders();
+  // useFilter();
 
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
   const metaPage = useSelector((state) => state.repository.metaPage);
@@ -55,25 +58,85 @@ export default function useDeleteTestCase() {
   const bulkDeleteTestCaseCtaLoading = useSelector(
     (state) => state.repository.isLoading.bulkDeleteTestCaseCta
   );
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
 
   const selectedBulkTCCount = bulkSelection.select_all
     ? metaPage.count - bulkSelection.de_selected_ids.length
     : bulkSelection.ids.length;
 
+  const getFilterOptions = (thisParams) => {
+    const tags = thisParams.get('tags');
+    const owner = thisParams.get('owner');
+    const priority = thisParams.get('priority');
+    const q = thisParams.get('q');
+    return {
+      tags: tags?.split(',') || [],
+      owner: owner?.split(',') || [],
+      priority: priority?.split(',') || [],
+      q: q || ''
+    };
+  };
   // console.log('delete test case count', deletedTestCaseCountRef.current);
   const refreshAllTestCases = () => {
-    dispatch(updateTestCasesListLoading(true));
-    getTestCasesAPI({ projectId, folderId, page: searchParams.get('p') })
-      .then((res) => {
-        dispatch(updateAllTestCases(res?.test_cases || []));
-        dispatch(setMetaPage(res.info));
-        dispatch(updateTestCasesListLoading(false));
-      })
-      .catch(() => {
-        // if page error, reset p=1
-        setSearchParams({});
-        dispatch(updateTestCasesListLoading(false));
+    if (isSearchFilterView) {
+      const page = searchParams.get('p');
+      const filterOptions = getFilterOptions(searchParams);
+      const queryParams = {};
+      Object.keys(filterOptions).forEach((key) => {
+        const value = Array.isArray(filterOptions[key])
+          ? filterOptions[key].join(',')
+          : filterOptions[key];
+
+        if (value) {
+          if (key === 'q') {
+            queryParams[`q[query]`] = value;
+            // dispatch(
+            //   logEventHelper('TM_TcSearchPageLoaded', {
+            //     project_id: projectId,
+            //     keyword: value
+            //   })
+            // );
+          } else queryParams[`q[${key}]`] = value;
+        }
       });
+
+      if (page) queryParams.p = page;
+      dispatch(updateTestCasesListLoading(true));
+      getTestCasesSearchFilterAPI({
+        projectId,
+        props: queryParams
+      })
+        .then((res) => {
+          const testCases = res.test_cases.map((item) => ({
+            ...item,
+            folders: res?.folders?.[item.test_case_folder_id] || null
+          }));
+
+          dispatch(setMetaPage(res.info));
+          dispatch(updateAllTestCases(testCases));
+          dispatch(updateTestCasesListLoading(false));
+          // dispatch(updateFoldersLoading(false));
+        })
+        .catch(() => {
+          dispatch(updateTestCasesListLoading(false));
+          // dispatch(updateFoldersLoading(false));
+        });
+    } else {
+      // dispatch(updateTestCasesListLoading(true));
+      getTestCasesAPI({ projectId, folderId, page: searchParams.get('p') })
+        .then((res) => {
+          dispatch(updateAllTestCases(res?.test_cases || []));
+          dispatch(setMetaPage(res.info));
+          // dispatch(updateTestCasesListLoading(false));
+        })
+        .catch(() => {
+          // if page error, reset p=1
+          setSearchParams({});
+          dispatch(updateTestCasesListLoading(false));
+        });
+    }
   };
 
   const setMetaCount = (newCount) => {
@@ -275,12 +338,12 @@ export default function useDeleteTestCase() {
     }
   };
 
-  useEffect(() => {
-    console.log('inside delete effect');
-    getTestCasesAPI({ projectId, folderId }).then((data) => {
-      totalTestCaseCountRef.current = data?.cases_count[folderId];
-    });
-  }, [projectId, folderId]);
+  // useEffect(() => {
+  //   console.log('inside delete effect');
+  //   getTestCasesAPI({ projectId, folderId }).then((data) => {
+  //     totalTestCaseCountRef.current = data?.cases_count[folderId];
+  //   });
+  // }, [projectId, folderId]);
 
   return {
     modalFocusRef,
