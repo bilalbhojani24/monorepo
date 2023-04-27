@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -33,6 +33,7 @@ import {
 const useMapFields = () => {
   const dispatch = useDispatch();
   const { search } = useLocation();
+  const { projectId } = useParams();
   const queryParams = new URLSearchParams(search);
   const rowRef = useRef([]);
   const mapFieldsConfig = useSelector(
@@ -259,7 +260,7 @@ const useMapFields = () => {
         setValueMappingsThunk({
           importId: mapFieldsConfig?.importId,
           field,
-          projectId: queryParams.get('project'),
+          projectId,
           mappedField: mapDisplayToName[selectedOption.label]
         })
       );
@@ -361,12 +362,11 @@ const useMapFields = () => {
   const handleMappingProceedClick = () => {
     dispatch(
       logEventHelper('TM_ImportCsvStep2ProceedBtnClicked', {
-        project_id: queryParams.get('project'),
+        project_id: projectId,
         'column_name[]': Object.keys(myFieldMappings),
         'field_name[]': Object.keys(valueMappings)
       })
     );
-    const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');
     const mappingData = {
       importId: mapFieldsConfig.importId,

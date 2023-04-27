@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdFilterAlt } from '@browserstack/bifrost';
 import {
@@ -22,13 +22,23 @@ import {
   setSelectedFilters
 } from 'features/TestList/slices/testListSlice';
 
+import { constructTreeData } from '../utils';
+
+import { FolderFilter } from './FolderFilter';
+
 const TestListFilters = () => {
   const dispatch = useDispatch();
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
   const staticFilters = useSelector(getStaticFilters);
-  const { issueType, os, flaky, browser, history, tags, status } =
+  const { issueType, folder, os, flaky, browser, history, tags, status } =
     staticFilters?.data;
   const selectedFilters = useSelector(getSelectedFilters);
+
+  const { treeData, selectedNodes } = useMemo(
+    () => constructTreeData(folder, selectedFilters.folder),
+    [folder, selectedFilters.folder]
+  );
+
   const showSlideover = () => {
     setIsSlideoverVisible(true);
   };
@@ -132,21 +142,17 @@ const TestListFilters = () => {
                 virtuosoWidth="350px"
                 optionsListWrapperClassName="min-w-max overflow-hidden"
               />
-              {/* <O11yComboBox
-                isMulti
-                placeholder="Select"
-                label="Folder"
-                options={folder}
+              <FolderFilter
+                listTreeCheckboxData={treeData}
                 onChange={(selectedValues) => {
-                  onChangeArrayFilter(selectedValues, 'folder');
+                  dispatch(
+                    setSelectedFilters({
+                      folder: selectedValues
+                    })
+                  );
                 }}
-                value={folder.filter((el) =>
-                  selectedFilters?.folder?.includes(el.value)
-                )}
-                checkPosition="right"
-                virtuosoWidth="350px"
-                optionsListWrapperClassName="min-w-max overflow-hidden"
-              /> */}
+                prevSelectedValues={selectedNodes}
+              />
               <O11yComboBox
                 isMulti
                 placeholder="Select"
