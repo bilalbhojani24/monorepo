@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Tooltip, TooltipBody } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
@@ -11,10 +11,12 @@ import TimeChartTooltip from './TimeChartTooltip';
 
 const NetworkTimeCell = ({ formattedValue, payload, showWaterfall }) => {
   const { state } = useNetwork();
+  const containerWidth = state.get('containerWidth');
   const maxTime = state.get('totalNetworkTime');
-  const isWaterfall =
-    showWaterfall &&
-    isWidthAvailableToShowWaterfall(state.get('containerWidth'));
+  const isWaterfall = useMemo(
+    () => showWaterfall && isWidthAvailableToShowWaterfall(containerWidth),
+    [containerWidth, showWaterfall]
+  );
   return payload.time ? (
     <Tooltip
       content={
@@ -61,4 +63,4 @@ NetworkTimeCell.defaultProps = {
   showWaterfall: true
 };
 
-export default NetworkTimeCell;
+export default React.memo(NetworkTimeCell);
