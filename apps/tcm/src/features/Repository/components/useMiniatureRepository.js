@@ -80,7 +80,6 @@ const useMiniatureRepository = ({ projectId }) => {
   };
 
   const onPaginationClick = ({ p }) => {
-    console.log('on pagination click');
     dispatch(
       logEventHelper('TM_TcPaginationClicked', {
         project_id: projectId,
