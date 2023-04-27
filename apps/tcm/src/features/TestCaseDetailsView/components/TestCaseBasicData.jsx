@@ -1,16 +1,9 @@
 import React from 'react';
 import { SiJirasoftware } from '@browserstack/bifrost';
 import AddIssuesModal from 'common/AddIssuesModal/components/AddIssuesModal';
-import {
-  TMAttachments,
-  TMBadge,
-  TMButton,
-  TMModal,
-  TMModalBody,
-  TMModalFooter,
-  TMModalHeader
-} from 'common/bifrostProxy';
+import { TMAttachments, TMBadge, TMButton } from 'common/bifrostProxy';
 import { DetailsSnippet, StepSnippet } from 'common/DataBox';
+import ImageModal from 'common/ImageModal';
 import {
   BDD,
   statusOptions,
@@ -27,7 +20,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
   const {
     detailsRef,
     showImagePreview,
-    imageLink,
+    imageViewData,
     testCaseDetails,
     onAttachmentClick,
     closePreview,
@@ -240,26 +233,16 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
         />
         <div />
       </div>
-
-      <TMModal
+      <ImageModal
+        imageLink={imageViewData?.link}
         show={showImagePreview}
-        withDismissButton
-        onOverlayClick={closePreview}
-        size="4xl"
-      >
-        <TMModalHeader
-          heading="Image Preview"
-          handleDismissClick={closePreview}
-        />
-        <TMModalBody className=" flex justify-center">
-          <img
-            src={imageLink}
-            alt={imageLink}
-            className="h-full max-h-full max-w-full object-contain"
-          />
-        </TMModalBody>
-        <TMModalFooter position="right" />
-      </TMModal>
+        onClose={closePreview}
+        altText={
+          imageViewData?.name
+            ? imageViewData.name
+            : `${testCaseDetails?.identifier || '--'}_image`
+        }
+      />
     </>
   );
 };

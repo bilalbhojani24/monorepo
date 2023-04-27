@@ -13,6 +13,7 @@ const DetailsSnippet = ({
   <div className="mb-4 flex flex-col">
     <div
       className={className(
+        'text-base-900',
         isPrimary ? 'text-base font-medium' : 'text-sm font-semibold'
       )}
     >
