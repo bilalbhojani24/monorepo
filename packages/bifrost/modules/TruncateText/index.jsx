@@ -7,8 +7,6 @@ import { TooltipPropTypes } from '../Tooltip/components/TooltipContainer';
 
 import TooltipWrapper from './components/TooltipWrapper';
 
-import './styles.scss';
-
 const variantsMapping = {
   h1: 'h1',
   h2: 'h2',
@@ -26,6 +24,7 @@ const TruncateText = ({
   tooltipTriggerIcon,
   hidetooltipTriggerIcon,
   isTooltip,
+  tooltipAriaLabel,
   containerClassName,
   variant,
   tooltipContent,
@@ -71,6 +70,7 @@ const TruncateText = ({
           isFullWidthTooltip && truncatedDataTooltip && isTooltip
         }
         headerTooltipProps={{ ...headerTooltipProps }}
+        ariaLabel={tooltipAriaLabel}
       >
         <Component
           className={twClassNames(
@@ -109,6 +109,7 @@ const TruncateText = ({
             }
             isTooltipToBeWrapped
             headerTooltipProps={{ ...headerTooltipProps }}
+            ariaLabel={tooltipAriaLabel}
           >
             {hidetooltipTriggerIcon ? (
               <span className="invisible">...</span>
@@ -128,6 +129,7 @@ TruncateText.propTypes = {
   tooltipContent: PropTypes.node,
   headerTooltipProps: PropTypes.shape(TooltipPropTypes),
   isTooltip: PropTypes.bool,
+  tooltipAriaLabel: PropTypes.string,
   tooltipTriggerIcon: PropTypes.node,
   hidetooltipTriggerIcon: PropTypes.bool,
   containerClassName: PropTypes.string,
@@ -141,6 +143,7 @@ TruncateText.defaultProps = {
   tooltipContent: null,
   headerTooltipProps: {},
   isTooltip: true,
+  tooltipAriaLabel: '',
   tooltipTriggerIcon: <MdErrorOutline className="max-h-4" />,
   hidetooltipTriggerIcon: false,
   containerClassName: '',

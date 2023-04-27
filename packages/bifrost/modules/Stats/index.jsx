@@ -5,8 +5,6 @@ import PropTypes, { oneOf } from 'prop-types';
 
 import { STATS_INC, STATS_VARIANTS } from './const/statsConstants';
 
-import './styles.scss';
-
 const Stats = (props) => {
   const {
     cardWrapperClassname,
@@ -80,14 +78,14 @@ const Stats = (props) => {
             <p
               className={twClassNames(
                 option.changeType === STATS_INC
-                  ? 'text-success-600'
+                  ? 'text-success-700'
                   : 'text-danger-600',
                 'ml-2 flex items-baseline text-sm font-semibold'
               )}
             >
               {option.changeType === STATS_INC ? (
                 <ArrowUpIcon
-                  className="text-success-500 h-5 w-5 shrink-0 self-center"
+                  className="text-success-600 h-5 w-5 shrink-0 self-center"
                   aria-hidden="true"
                 />
               ) : (

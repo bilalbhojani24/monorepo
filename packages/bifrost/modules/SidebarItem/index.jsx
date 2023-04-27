@@ -8,8 +8,6 @@ import {
   SIDEBAR_MODIFIER
 } from './const/sidebarItemConstants';
 
-import './styles.scss';
-
 const printIcon = (Icon, classes) => <Icon className={classes} />;
 
 const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {

@@ -33,7 +33,7 @@ DropdownTrigger.propTypes = {
 
 DropdownTrigger.defaultProps = {
   onClick: null,
-  triggerAriaLabel: '',
+  triggerAriaLabel: 'menu-button',
   wrapperClassName: ''
 };
 
