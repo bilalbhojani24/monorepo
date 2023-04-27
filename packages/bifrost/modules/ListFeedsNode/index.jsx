@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { twClassNames } from '@browserstack/utils';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { throttleFn, twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import {
@@ -35,7 +35,7 @@ const ListFeeds = (props) => {
     footerNodeRef.current.style.opacity = '0';
     footerNodeRef.current.style.zIndex = '-1';
   };
-  const handleMouseMove = (e) => {
+  const handleMouseMove = useCallback((e) => {
     const containerRect = containerRef.current.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
     if (
@@ -46,13 +46,19 @@ const ListFeeds = (props) => {
     } else {
       hideHoverContainer();
     }
-  };
+  }, []);
+
+  const throttledMouseMove = useMemo(
+    () => throttleFn(handleMouseMove, 500, { trailing: false }),
+    [handleMouseMove]
+  );
+
   return (
     <div
       ref={containerRef}
       className="relative mb-2 flex"
       onMouseLeave={hideHoverContainer}
-      onMouseMove={handleMouseMove}
+      onMouseMove={throttledMouseMove}
     >
       {!!feedNumber && (
         <div
