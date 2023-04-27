@@ -27,7 +27,9 @@ const setupInterceptors = (navigateTo, dispatch) => {
           navigateTo(AppRoute.NOT_FOUND);
           break;
 
-        default:
+        case 400:
+        case 421:
+        case 422:
           dispatch(
             addNotificaton({
               id: '4xx_error',
@@ -36,28 +38,33 @@ const setupInterceptors = (navigateTo, dispatch) => {
               variant: 'error'
             })
           );
+          break;
+        default:
+        // console.log(response);
       }
     } else if (statusCode >= 500 && statusCode <= 599) {
-      if (res?.response?.status === 500) {
-        // if server error, show toast
-        dispatch(
-          addNotificaton({
-            id: 'server_error',
-            title: ERROR_TITLE,
-            description: GENERIC_MESSAGE,
-            variant: 'error'
-          })
-        );
-      } else {
-        // generic error toast
-        dispatch(
-          addNotificaton({
-            id: 'server_error_generic_error',
-            title: ERROR_TITLE,
-            description: GENERIC_MESSAGE,
-            variant: 'error'
-          })
-        );
+      switch (statusCode) {
+        case 500:
+        case 501:
+        case 502:
+        case 503:
+        case 504:
+        case 505:
+        case 506:
+        case 507:
+        case 509:
+        case 510:
+          dispatch(
+            addNotificaton({
+              id: '4xx_error',
+              title: ERROR_TITLE,
+              description: response?.errors?.message || GENERIC_MESSAGE,
+              variant: 'error'
+            })
+          );
+          break;
+        default:
+        // console.log(response);
       }
     }
 
