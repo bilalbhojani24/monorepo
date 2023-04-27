@@ -89,14 +89,25 @@ export const getSystemOrCustomValue = (
   return '--';
 };
 
-export const handleZeroEntryInAPage = ({
-  metaPage,
-  searchParams,
-  setSearchParams
-}) => {
-  if (metaPage?.prev === null) return;
-  if (metaPage?.prev * metaPage?.page_size + 1 === metaPage?.count) {
-    searchParams.set('p', `${metaPage.prev}`);
+export const getFilterOptions = (thisParams) => {
+  const tags = thisParams.get('tags');
+  const owner = thisParams.get('owner');
+  const priority = thisParams.get('priority');
+  const q = thisParams.get('q');
+  return {
+    tags: tags?.split(',') || [],
+    owner: owner?.split(',') || [],
+    priority: priority?.split(',') || [],
+    q: q || ''
+  };
+};
+
+export const redirectToPrevPage = (searchParams, setSearchParams) => {
+  if (searchParams.get('p') - 1 === 1) {
+    searchParams.delete('p');
+    setSearchParams(searchParams);
+  } else {
+    searchParams.set('p', `${searchParams.get('p') - 1}`);
     setSearchParams(searchParams.toString());
   }
 };
