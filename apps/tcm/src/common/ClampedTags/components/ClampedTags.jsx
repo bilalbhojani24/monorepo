@@ -23,25 +23,26 @@ const ClampedTags = ({ tagsArray, badgeModifier, noTagsText }) => {
             wrapperClassName="pointer-events-none"
             key={tagsArray[0]}
           />
-          {tagsArray.length > 2 ? (
-            <TMBadge
-              modifier={badgeModifier}
-              text={`+${tagsArray.length - 1} tags`}
-              size="large"
-              key={`+${tagsArray.length - 1}`}
-              onClick={() => setShowModal(true)}
-            />
-          ) : (
-            tagsArray.length > 1 && (
+          {
+            tagsArray.length > 1 ? (
               <TMBadge
-                text={tagsArray[1]}
-                size="large"
-                wrapperClassName="pointer-events-none"
                 modifier={badgeModifier}
-                key={tagsArray[1]}
+                text={`+${tagsArray.length - 1} tags`}
+                size="large"
+                key={`+${tagsArray.length - 1}`}
+                onClick={() => setShowModal(true)}
               />
-            )
-          )}
+            ) : null
+            // tagsArray.length > 1 && (
+            //   <TMBadge
+            //     text={tagsArray[1]}
+            //     size="large"
+            //     wrapperClassName="pointer-events-none"
+            //     modifier={badgeModifier}
+            //     key={tagsArray[1]}
+            //   />
+            // )
+          }
 
           <TMModal show={showModal} onOverlayClick={() => setShowModal(false)}>
             <TMModalHeader
