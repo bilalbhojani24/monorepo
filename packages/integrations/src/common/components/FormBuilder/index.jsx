@@ -24,6 +24,7 @@ const FormBuilder = ({
   const dispatch = useDispatch();
   const [fieldsData, setFieldsData] = useState({});
   const [formFieldErrors, setFormFieldErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState({});
   const [shouldShowOptionalFields, setShouldShowOptionalFields] =
     useState(false);
   const showAllFieldsButtonText = shouldShowOptionalFields
@@ -42,6 +43,23 @@ const FormBuilder = ({
 
   const resetFieldsData = () => {
     setFieldsData({});
+  };
+
+  const setValidationErrorForField = (key, value) => {
+    setValidationErrors({
+      ...validationErrors,
+      [key]: value
+    });
+  };
+  const clearValidationErrorForField = (key) => {
+    if (
+      // read https://eslint.org/docs/latest/rules/no-prototype-builtins
+      Object.prototype.hasOwnProperty.call(validationErrors, key)
+    ) {
+      const validationErrorsCopy = { ...validationErrors };
+      delete validationErrorsCopy[key];
+      setValidationErrors(validationErrorsCopy);
+    }
   };
 
   useEffect(() => {
@@ -100,6 +118,8 @@ const FormBuilder = ({
               descriptionMeta={descriptionMeta}
               hideDescription={hideDescription}
               areSomeRequiredFieldsEmpty={areSomeRequiredFieldsEmpty}
+              setValidationErrorForField={setValidationErrorForField}
+              clearValidationErrorForField={clearValidationErrorForField}
             />
           );
         }
@@ -110,6 +130,17 @@ const FormBuilder = ({
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (!isWorkInProgress || isFormBeingSubmitted) return null;
+    if (Object.keys(validationErrors).length) {
+      dispatch(
+        setGlobalAlert({
+          kind: 'error',
+          message: `There are some errors in the form, please correct them to continue.`,
+          autoDismiss: true
+        })
+      );
+      scrollWidgetToTop();
+      return null;
+    }
     if (typeof handleSubmit === 'function') {
       const hasSomeEmptyRequiredFields = requiredFields?.some((field) => {
         const stateValue = fieldsData[field.key];

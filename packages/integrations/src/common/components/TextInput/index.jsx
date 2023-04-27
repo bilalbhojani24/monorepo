@@ -19,7 +19,9 @@ const TextField = ({
   defaultValue,
   setFieldsData,
   disabled = false,
-  areSomeRequiredFieldsEmpty
+  setValidationErrorForField,
+  areSomeRequiredFieldsEmpty,
+  clearValidationErrorForField
 }) => {
   const [error, setError] = useState(null);
   const valueToRender = Array.isArray(fieldsData?.[fieldKey])
@@ -84,6 +86,9 @@ const TextField = ({
               const isValid = validationRegex.test(input);
               if (!isValid) {
                 errors.push(validationErrorMessage);
+                setValidationErrorForField(fieldKey, validationErrorMessage);
+              } else {
+                clearValidationErrorForField(fieldKey);
               }
             }
           }
@@ -95,6 +100,7 @@ const TextField = ({
         }
       } else {
         clearError();
+        clearValidationErrorForField(fieldKey);
       }
     }
   };
