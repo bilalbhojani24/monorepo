@@ -69,7 +69,7 @@ const FilterSkeleton = ({ children }) => {
 
   return (
     <div>
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-end">
         <O11yButton
           onClick={() => setShowSlideOver(!showSlideOver)}
           icon={<MdFilterAlt className="text-base-500 h-5 w-5" />}
@@ -80,25 +80,31 @@ const FilterSkeleton = ({ children }) => {
         </O11yButton>
       </div>
       {!isFilterLoading && !isEmpty(appliedFilters) && (
-        <div className="flex flex-wrap gap-x-2 gap-y-1">
-          {appliedFilters.map((appliedFilter) => (
-            <O11yBadge
-              key={appliedFilter.id}
-              text={appliedFilter.appliedText}
-              isRounded
-              hasRemoveButton
-              onClose={() => {
-                handleRemoveTag(appliedFilter);
-              }}
-            />
-          ))}
-          <button
-            className="text-base-700 text-sm font-medium leading-4"
-            onClick={handleRemoveAll}
-            type="button"
-          >
-            Clear all
-          </button>
+        <div className="flex items-center gap-2">
+          <div className="border-base-300 flex items-center self-stretch border-r pr-2">
+            <span className="text-base-500  text-sm leading-5">Filters</span>
+          </div>
+          <div className="flex flex-wrap gap-x-2 gap-y-1">
+            {appliedFilters.map((appliedFilter) => (
+              <O11yBadge
+                key={appliedFilter.id}
+                text={appliedFilter.appliedText}
+                isRounded
+                hasRemoveButton
+                onClose={() => {
+                  handleRemoveTag(appliedFilter);
+                }}
+                wrapperClassName="bg-white hover:bg-base-50 ring-1 ring-base-200"
+              />
+            ))}
+            <button
+              className="text-base-700 text-sm font-medium leading-4 "
+              onClick={handleRemoveAll}
+              type="button"
+            >
+              Clear all
+            </button>
+          </div>
         </div>
       )}
       <O11ySlideover

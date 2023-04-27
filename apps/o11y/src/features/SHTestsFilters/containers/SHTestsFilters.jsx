@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import FilterSkeleton from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import {
+  getBuildNamesData,
   getBuildTagsData,
-  getSnPTestsFiltersData
-} from 'features/SuiteHealth/slices/dataSlice';
-import { getBuildNamesData } from 'features/SuiteHealth/slices/uiSlice';
+  getHostNamesData,
+  getSnPTestsFiltersData,
+  getTestTagsData
+} from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 
 import { FolderFilter } from '../components/FolderFilter';
@@ -29,18 +31,24 @@ const SHTestsFilters = () => {
     <FilterSkeleton>
       <div className="mb-6 flex flex-col gap-6">
         <MultiSelectSearchFilter
-          type={ADV_FILTER_TYPES.buildTags.key}
-          placeholder="Select"
-          label="Build Tags"
-          searchAPI={getBuildTagsData}
-        />
-        <MultiSelectSearchFilter
           type={ADV_FILTER_TYPES.uniqueBuildNames.key}
           placeholder="Select"
           label="Unique BuildNames"
           searchAPI={getBuildNamesData}
         />
+        <MultiSelectSearchFilter
+          type={ADV_FILTER_TYPES.buildTags.key}
+          placeholder="Select"
+          label="Build Tags"
+          searchAPI={getBuildTagsData}
+        />
         <FolderFilter />
+        <MultiSelectSearchFilter
+          type={ADV_FILTER_TYPES.testTags.key}
+          placeholder="Select"
+          label="Test Tags"
+          searchAPI={getTestTagsData}
+        />
         <MultiSelectCheckboxFilter
           id={ADV_FILTER_TYPES.isFlaky.key}
           label="Flaky Tests"
@@ -75,10 +83,16 @@ const SHTestsFilters = () => {
           noLabel="Unmuted"
           type={ADV_FILTER_TYPES.isMuted.key}
         />
-        <MultiSelectStaticFilter
-          type={ADV_FILTER_TYPES.failureCategories.key}
+        <MultiSelectSearchFilter
+          type={ADV_FILTER_TYPES.hostName.key}
           placeholder="Select"
-          label="Failure categories"
+          label="Host name"
+          searchAPI={getHostNamesData}
+        />
+        <MultiSelectStaticFilter
+          type={ADV_FILTER_TYPES.device.key}
+          placeholder="Select"
+          label="Device"
         />
         <MultiSelectStaticFilter
           type={ADV_FILTER_TYPES.os.key}
@@ -91,9 +105,9 @@ const SHTestsFilters = () => {
           label="Browser"
         />
         <MultiSelectStaticFilter
-          type={ADV_FILTER_TYPES.device.key}
+          type={ADV_FILTER_TYPES.failureCategories.key}
           placeholder="Select"
-          label="Device"
+          label="Failure categories"
         />
       </div>
     </FilterSkeleton>

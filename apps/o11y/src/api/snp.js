@@ -2,11 +2,6 @@ import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
 import { getTimeBounds } from 'utils/dateTime';
 
-export const getBuildNames = async ({ normalisedName }) =>
-  axios.get(
-    `${versionedBaseRoute()}/projects/${normalisedName}/snp/buildNames`
-  );
-
 export const getSnPTests = async ({
   normalisedName,
   pagingParams,
@@ -293,5 +288,34 @@ export const getSnPErrorDetailsPlatforms = async ({
 
 export const getSnPTestsFilters = async ({ normalisedName, searchString }) => {
   const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/filters${searchString}`;
+  return axios.get(endpoint);
+};
+
+export const getBuildNames = async ({ normalisedName }) =>
+  axios.get(
+    `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/filters/buildNames`
+  );
+
+export const getBuildTags = async ({ projectNormalisedName, query }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/tags`;
+  if (query) {
+    endpoint += `?q=${query}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getTestTags = async ({ projectNormalisedName, query }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/snp/tests/filters/testTags`;
+  if (query) {
+    endpoint += `?q=${query}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getHostNames = async ({ projectNormalisedName, query }) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/snp/tests/filters/hostNames`;
+  if (query) {
+    endpoint += `?q=${query}`;
+  }
   return axios.get(endpoint);
 };
