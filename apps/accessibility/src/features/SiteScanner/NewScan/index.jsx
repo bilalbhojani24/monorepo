@@ -318,6 +318,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                       type="time"
                       value={formData.time}
                       ref={timeRef}
+                      wrapperClassName="w-30"
                     />
                   </div>
                   <div className="mt-4">
