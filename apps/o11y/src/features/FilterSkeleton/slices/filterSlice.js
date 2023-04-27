@@ -152,9 +152,15 @@ const { reducer, actions } = createSlice({
         ...state[state.currentCategory].selectedFilters
       ];
     },
-    clearFilters: (state) => {
+    clearAllAppliedFilters: (state) => {
       state[state.currentCategory].selectedFilters = [];
       state[state.currentCategory].appliedFilters = [];
+    },
+    resetFilters: (state) => {
+      state[state.currentCategory].isLoadingFilters = true;
+      state[state.currentCategory].appliedFilters = [];
+      state[state.currentCategory].selectedFilters = [];
+      state[state.currentCategory].staticFilters = [];
     },
     setStaticFilters: (state, { payload }) => {
       state[state.currentCategory].staticFilters = payload;
@@ -170,13 +176,14 @@ export const {
   setSelectedFilters,
   setAppliedFilter,
   setSelectedFilterAsApplied,
-  clearFilters,
+  clearAllAppliedFilters,
   setBulkSelectedFilters,
   setBulkAppliedFilters,
   setIsLoadingBuildsFilters,
   setStaticFilters,
   discardUnAppliedFilters,
-  setInitialSearchString
+  setInitialSearchString,
+  resetFilters
 } = actions;
 
 export default reducer;

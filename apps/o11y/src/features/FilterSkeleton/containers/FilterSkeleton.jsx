@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdFilterAlt } from '@browserstack/bifrost';
 import {
@@ -13,8 +13,9 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 import {
-  clearFilters,
+  clearAllAppliedFilters,
   discardUnAppliedFilters,
+  resetFilters,
   setAppliedFilter,
   setSelectedFilterAsApplied
 } from '../slices/filterSlice';
@@ -32,6 +33,13 @@ const FilterSkeleton = ({ children }) => {
   const unAppliedFilters = useSelector(getUnAppliedSelectedFilters);
 
   const [showSlideOver, setShowSlideOver] = useState(false);
+
+  useEffect(
+    () => () => {
+      dispatch(resetFilters());
+    },
+    [dispatch]
+  );
 
   const handleClose = () => {
     dispatch(discardUnAppliedFilters());
@@ -56,8 +64,7 @@ const FilterSkeleton = ({ children }) => {
   };
 
   const handleRemoveAll = () => {
-    // #TODO: to be remove all filters on unmount
-    dispatch(clearFilters());
+    dispatch(clearAllAppliedFilters());
   };
 
   return (
