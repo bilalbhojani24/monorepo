@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
 import { O11yBadge, O11ySlideoverHeader } from 'common/bifrostProxy';
 import StatusIcon from 'common/StatusIcon';
@@ -10,7 +9,6 @@ import PropTypes from 'prop-types';
 import { getTestMetaData } from '../slices/dataSlice';
 import { getShowTestDetailsFor, getTestMeta } from '../slices/selectors';
 import { setCurrentTestRunId } from '../slices/uiSlice';
-import { hideTestDetailsDrawer } from '../utils';
 
 const TestDetailsHeading = ({ testMeta }) => (
   <div className="flex flex-wrap items-center gap-1">
@@ -28,9 +26,8 @@ TestDetailsHeading.propTypes = {
   testMeta: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
-const TestDetailsHeader = () => {
+const TestDetailsHeader = ({ handleCloseDetails }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const testRunId = useSelector(getShowTestDetailsFor);
   const activeProject = useSelector(getActiveProject);
@@ -60,13 +57,6 @@ const TestDetailsHeader = () => {
     }
   }, [testMeta.data]);
 
-  const handleCloseDetails = () => {
-    dispatch(hideTestDetailsDrawer());
-    const searchParams = new URLSearchParams(window?.location.search);
-    searchParams.delete('details');
-    navigate({ search: searchParams.toString() });
-  };
-
   return (
     <O11ySlideoverHeader
       handleDismissClick={handleCloseDetails}
@@ -77,6 +67,10 @@ const TestDetailsHeader = () => {
       wrapperClassName="pb-0"
     />
   );
+};
+
+TestDetailsHeader.propTypes = {
+  handleCloseDetails: PropTypes.func.isRequired
 };
 
 export default TestDetailsHeader;

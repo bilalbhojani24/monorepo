@@ -36,7 +36,7 @@ const SlideOverBody = () => {
 
   return (
     <O11ySlideoverBody wrapperClassName="flex flex-col overflow-hidden pt-0">
-      <div className="py-0 px-6">
+      <div className="px-6 py-0">
         <O11yTabs
           defaultIndex={activeTab.idx}
           tabsArray={tabsList}
@@ -44,7 +44,7 @@ const SlideOverBody = () => {
         />
       </div>
       <div
-        className="flex flex-1 flex-col overflow-auto px-6 pt-5 pb-0"
+        className="flex flex-1 flex-col overflow-auto px-6 pb-0 pt-5"
         id={SH_TEST_DETAIL_CUSTOM_SCROLL_PARENT_ID}
       >
         {activeTab.value === TABS.platforms && <PlatformsTab />}
