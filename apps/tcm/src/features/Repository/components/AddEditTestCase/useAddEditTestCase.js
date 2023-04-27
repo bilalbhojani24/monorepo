@@ -27,6 +27,7 @@ import {
   addSingleTestCase,
   // resetBulkFormData,
   resetBulkSelection,
+  resetFilterSearchMeta,
   setAddIssuesModal,
   setAddTagModal,
   setAddTestCaseFromSearch,
@@ -579,6 +580,7 @@ export default function useAddEditTestCase(prop) {
   };
 
   const showTestCaseAdditionPage = (thisFolder, isFromListTree) => {
+    dispatch(resetFilterSearchMeta());
     unsavedFormConfirmation(false, () => {
       if (isFromListTree) {
         dispatch(
