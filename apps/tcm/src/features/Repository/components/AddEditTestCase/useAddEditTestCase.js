@@ -656,8 +656,13 @@ export default function useAddEditTestCase(prop) {
       isAddTestCasePageVisible &&
       prop?.isAddEditOnly // to reduce recalculation for other components
     ) {
+      const folderPath = findFolderPath(
+        allFolders,
+        testCaseFormData?.test_case_folder_id,
+        []
+      );
       setScheduledFolder(
-        findFolderPath(allFolders, testCaseFormData?.test_case_folder_id, [])
+        folderPath?.length ? folderPath : [allFolders[0]?.name]
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
