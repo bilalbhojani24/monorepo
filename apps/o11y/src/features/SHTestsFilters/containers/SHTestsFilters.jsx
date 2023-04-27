@@ -9,6 +9,7 @@ import {
 import { getBuildNamesData } from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 
+import { FolderFilter } from '../components/FolderFilter';
 import MultiSelectCheckboxFilter from '../components/MultiSelectCheckboxFilter';
 import MultiSelectSearchFilter from '../components/MultiSelectSearchFilter';
 import MultiSelectStaticFilter from '../components/MultiSelectStaticFilter';
@@ -39,6 +40,7 @@ const SHTestsFilters = () => {
           label="Unique BuildNames"
           searchAPI={getBuildNamesData}
         />
+        <FolderFilter />
         <MultiSelectCheckboxFilter
           id={ADV_FILTER_TYPES.isFlaky.key}
           label="Flaky Tests"

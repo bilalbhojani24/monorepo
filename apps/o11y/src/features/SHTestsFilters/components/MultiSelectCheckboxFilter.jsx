@@ -18,9 +18,14 @@ const MultiSelectCheckboxFilter = ({ type, label, yesLabel, noLabel, id }) => {
       const isChecked = !!storedValue.value;
       if (isChecked) {
         setIsYesChecked(true);
+        setIsNoChecked(false);
       } else {
+        setIsYesChecked(false);
         setIsNoChecked(true);
       }
+    } else {
+      setIsYesChecked(false);
+      setIsNoChecked(false);
     }
   }, [storedValue]);
 
@@ -52,16 +57,18 @@ const MultiSelectCheckboxFilter = ({ type, label, yesLabel, noLabel, id }) => {
     setIsYesChecked(!isYesChecked);
     if (isNoChecked && !isYesChecked) {
       setIsNoChecked(false);
+      handleChange({ yes: false, no: false });
     }
-    handleChange({ yes: !isYesChecked, no: isNoChecked });
+    handleChange({ yes: !isYesChecked, no: false });
   };
 
   const handleNoChange = () => {
     setIsNoChecked(!isNoChecked);
     if (isYesChecked && !isNoChecked) {
       setIsYesChecked(false);
+      handleChange({ yes: false, no: false });
     }
-    handleChange({ yes: isYesChecked, no: !isNoChecked });
+    handleChange({ yes: false, no: !isNoChecked });
   };
 
   return (

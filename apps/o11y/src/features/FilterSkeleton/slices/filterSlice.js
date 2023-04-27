@@ -32,9 +32,9 @@ const { reducer, actions } = createSlice({
       state[state.currentCategory].isLoadingFilters = payload;
     },
     discardUnAppliedFilters: (state) => {
-      state[state.currentCategory].selectedFilters = state[
-        state.currentCategory
-      ].selectedFilters.filter((item) => item.isApplied);
+      state[state.currentCategory].selectedFilters = [
+        ...state[state.currentCategory].appliedFilters
+      ];
     },
     setBulkAppliedFilters: (state, { payload }) => {
       state[state.currentCategory].appliedFilters = payload;
@@ -145,6 +145,9 @@ const { reducer, actions } = createSlice({
       }
     },
     setSelectedFilterAsApplied: (state) => {
+      state[state.currentCategory].selectedFilters = state[
+        state.currentCategory
+      ].selectedFilters.map((sFilter) => ({ ...sFilter, isApplied: true }));
       state[state.currentCategory].appliedFilters = [
         ...state[state.currentCategory].selectedFilters
       ];

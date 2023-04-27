@@ -56,6 +56,7 @@ const FilterSkeleton = ({ children }) => {
   };
 
   const handleRemoveAll = () => {
+    // #TODO: to be remove all filters on unmount
     dispatch(clearFilters());
   };
 
@@ -63,7 +64,7 @@ const FilterSkeleton = ({ children }) => {
     <div>
       <div className="mb-2 flex items-center justify-between">
         <O11yButton
-          onClick={() => setShowSlideOver(true)}
+          onClick={() => setShowSlideOver(!showSlideOver)}
           icon={<MdFilterAlt className="text-base-500 h-5 w-5" />}
           wrapperClassName="text-sm font-medium text-base-700 self-end"
           colors="white"
