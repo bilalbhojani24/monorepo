@@ -6,6 +6,7 @@ projects=(
   "packages/utils"
   "packages/hooks"
   "packages/bifrost"
+  "packages/services"
 )
 
 # Loop through each project and build the React app

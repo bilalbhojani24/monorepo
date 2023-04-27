@@ -1,54 +1,65 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from '@browserstack/bifrost';
+import React from 'react';
+import ReactHtmlParser from 'react-html-parser';
+import { MdFolderOpen } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import {
   ArrowDownwardOutlinedIcon,
   ArrowUpwardOutlinedIcon,
-  FolderIcon,
   KeyboardDoubleArrowUpOutlinedIcon,
   RemoveOutlinedIcon
 } from 'assets/icons';
-import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
+import {
+  TMAccordion,
+  TMAccordionInteractiveHeader,
+  TMAccordionPanel,
+  TMButton,
+  TMSectionHeadings
+} from 'common/bifrostProxy';
 
-import { PREVIEW_AND_CONFIRM_COLUMNS } from '../const/importCSVConstants';
-import { resetImportCSVState } from '../slices/csvThunk';
-
-import FolderInputWButton from './folderInputWButtons';
 import ImportCSVModal from './importCSVModal';
+import PreviewAndConfirmSingleNode from './previewAndConfirmSingleNode';
 import usePreviewAndConfirm from './usePreviewAndConfirm';
 
 const PreviewAndConfirm = () => {
   const {
-    folderName,
+    previewData,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
-    previewAndConfirmTableRows,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const formatPriority = (priority) => {
     switch (priority) {
       case 'high':
-        return <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />;
+        return (
+          <>
+            <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />
+            <span>High</span>
+          </>
+        );
       case 'low':
-        return <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />;
+        return (
+          <>
+            <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />
+            <span>Low</span>
+          </>
+        );
       case 'critical':
         return (
-          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
+          <>
+            <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
+            <span>Critical</span>
+          </>
         );
       case 'medium':
-        return <RemoveOutlinedIcon className="text-brand-500 mr-2" />;
+        return (
+          <>
+            <RemoveOutlinedIcon className="text-brand-500 mr-2" />
+            <span>Medium</span>
+          </>
+        );
       default:
-        return '';
+        return priority;
     }
   };
 
@@ -57,18 +68,8 @@ const PreviewAndConfirm = () => {
     return 'Steps';
   };
 
-  useEffect(() => {
-    if (confirmCSVImportNotificationConfig.status === 'success') {
-      navigate({
-        pathname: `/projects/${confirmCSVImportNotificationConfig?.csvImportProjectId}/folder/${confirmCSVImportNotificationConfig?.csvImportFolderId}/test-cases`
-      });
-      dispatch(resetImportCSVState());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate, confirmCSVImportNotificationConfig]);
-
   return (
-    <div className="border-base-200 m-4 flex h-max w-4/5 max-w-7xl flex-col rounded-md border-2 border-solid bg-white p-6">
+    <div className="border-base-300 mx-4 mb-4 flex h-max w-4/5 max-w-7xl flex-col rounded-md border border-solid bg-white p-6">
       <TMSectionHeadings
         title="Preview & Confirm"
         variant="buttons"
@@ -80,56 +81,100 @@ const PreviewAndConfirm = () => {
           </div>
         }
       />
-      <FolderInputWButton
-        label="Folder Location"
-        icon={<FolderIcon className="text-brand-400 h-4 w-4" />}
-        text={folderName}
-        firstCta="Change Folder"
-        secondCta="Upload to Root Folder"
-      />
-      <div className="text-base-500 mb-4 text-sm font-normal">
-        This is the folder location where test cases will be imported
-      </div>
       <div className="text-base-800 mt-8 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>
       <div className="text-base-500 mb-4 text-sm font-normal">
         Showing a preview of few test cases before importing:
       </div>
-      <Table className="h-full">
-        <TableHead wrapperClass="w-full rounded-xs">
-          <TableRow wrapperClass="relative">
-            {PREVIEW_AND_CONFIRM_COLUMNS.map((col) => (
-              <TableCell
-                key={col.key}
-                variant="header"
-                textTransform="uppercase"
-                wrapperClassName="text-base-500 font-medium"
-              >
-                {col.name}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {previewAndConfirmTableRows.map((row) => (
-            <TableRow key={row.title}>
-              <TableCell>{row.id}</TableCell>
-              <TableCell wrapperClassName="text-base-900 font-medium">
-                {row.title}
-              </TableCell>
-              <TableCell>{formatTemplate(row.templateType)}</TableCell>
-              <TableCell>{formatPriority(row.priority)}</TableCell>
-              <TableCell>{row.owner}</TableCell>
-              <TableCell>{row.type}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {previewData.map((data, idx) => (
+        <div className="border-base-100 border-y">
+          <TMAccordion defaultOpen={idx === 0}>
+            <TMAccordionInteractiveHeader
+              title={data?.name}
+              wrapperClassName={twClassNames('pr-0 pl-0 ribin')}
+            />
+            <TMAccordionPanel wrapperClassName={twClassNames('pl-0')}>
+              <div className="border-base-300 mt-2 flex flex-col rounded-md border bg-white p-4">
+                <div className="flex w-full justify-between gap-4">
+                  <PreviewAndConfirmSingleNode
+                    text="Folder"
+                    descWrapperClassName=" flex-wrap break-all"
+                    wrapperClassName="w-1/2"
+                    description={
+                      <div className="flex">
+                        <MdFolderOpen className="text-brand-500 mr-1 h-5 w-5 shrink-0" />
+                        {data?.test_case_folder_id}
+                      </div>
+                    }
+                  />
+                  <div className="flex w-1/2">
+                    <PreviewAndConfirmSingleNode
+                      text="Template Type"
+                      descWrapperClassName=""
+                      wrapperClassName="w-1/2"
+                      description={formatTemplate(data?.template)}
+                    />
+                    <PreviewAndConfirmSingleNode
+                      text="Priority"
+                      descWrapperClassName=" flex flex-row items-center"
+                      wrapperClassName="w-1/2"
+                      description={formatPriority(data?.priority)}
+                    />
+                  </div>
+                </div>
+                {data?.steps &&
+                  data?.steps?.length &&
+                  typeof data?.steps?.[0] === 'string' && (
+                    <div className="mt-4 flex justify-between gap-4">
+                      <PreviewAndConfirmSingleNode
+                        text="Steps"
+                        wrapperClassName="basis-1/2"
+                        description={ReactHtmlParser(data?.steps?.[0])}
+                      />
+                      <PreviewAndConfirmSingleNode
+                        text="Expected Results"
+                        wrapperClassName="basis-1/2"
+                        description={ReactHtmlParser(data?.expected_result)}
+                      />
+                    </div>
+                  )}
+                {data?.steps &&
+                  data?.steps?.length &&
+                  typeof data?.steps[0] === 'object' &&
+                  data?.steps.map((step, index) => (
+                    <div className="mt-4 flex justify-between gap-4">
+                      <PreviewAndConfirmSingleNode
+                        text={`Steps ${(index + 1).toLocaleString('en-US', {
+                          minimumIntegerDigits: 2,
+                          useGrouping: false
+                        })}`}
+                        wrapperClassName="basis-1/2"
+                        description={ReactHtmlParser(step?.step)}
+                      />
+                      <PreviewAndConfirmSingleNode
+                        text={`Expected Result ${(index + 1).toLocaleString(
+                          'en-US',
+                          {
+                            minimumIntegerDigits: 2,
+                            useGrouping: false
+                          }
+                        )}`}
+                        wrapperClassName="basis-1/2"
+                        description={ReactHtmlParser(step?.expected_result)}
+                      />
+                    </div>
+                  ))}
+              </div>
+            </TMAccordionPanel>
+          </TMAccordion>
+        </div>
+      ))}
       {confirmCSVImportNotificationConfig.show && (
         <ImportCSVModal
           show={confirmCSVImportNotificationConfig.show}
           data={confirmCSVImportNotificationConfig.modalData}
+          progress={confirmCSVImportNotificationConfig?.progress}
           status={confirmCSVImportNotificationConfig.status}
         />
       )}

@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 import { MdOutlineExpandMore } from '@browserstack/bifrost';
 import { TMButton, TMDropdown, TMPageHeadings } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
+import { routeFormatter } from 'utils/helperFunctions';
 
 import { setCurrentTestManagementTool } from '../../quickImportFlow/slices/importSlice';
 import { IMPORT_OPTIONS } from '../const/topSectionConst';
 
-import useAddEditTestCase from './useAddEditTestCase';
+import useAddEditTestCase from './AddEditTestCase/useAddEditTestCase';
 
 const TopSection = () => {
   const {
@@ -23,6 +24,7 @@ const TopSection = () => {
     if (selectedOption?.route) goToThisURL(selectedOption?.route);
     dispatch(setCurrentTestManagementTool(''));
   };
+  const queryParams = folderId ? { folder: folderId } : {};
 
   return (
     <div className="w-full">
@@ -47,13 +49,9 @@ const TopSection = () => {
                 // onClick={showAddProjectModal}
                 onClick={() =>
                   goToThisURL(
-                    `${AppRoute.IMPORT_CSV}${
+                    `${routeFormatter(AppRoute.IMPORT_CSV, {
                       projectId
-                        ? `?project=${projectId}${
-                            folderId ? `&folder=${folderId}` : ''
-                          }`
-                        : ''
-                    }`,
+                    })}?${new URLSearchParams(queryParams).toString()}`,
                     true
                   )
                 }

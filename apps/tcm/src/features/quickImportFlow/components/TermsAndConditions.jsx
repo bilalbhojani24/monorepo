@@ -6,7 +6,7 @@ const TermsAndConditions = () => (
     <div>
       Learn more about importing your data{' '}
       <a
-        className="text-base-700"
+        className="text-base-700 hover:text-brand-600"
         href="https://www.browserstack.com/docs/test-management/quick-start/quick-import"
       >
         Read Documentation

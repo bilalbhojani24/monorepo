@@ -14,7 +14,7 @@ import {
   SUCCESS_DATA,
   WARNING_DATA
 } from '../const/importConst';
-import { IMPORT_STEPS } from '../const/importSteps';
+import { IMPORT_STEPS, SCREEN_1 } from '../const/importSteps';
 
 const initialState = {
   configureToolTestConnectionLoading: false,
@@ -39,7 +39,7 @@ const initialState = {
     zephyr: 'import-from-tool'
   },
   projectsForTestManagementImport: [],
-  currentScreen: 'configureTool',
+  currentScreen: SCREEN_1,
   importSteps: IMPORT_STEPS,
   currentTestManagementTool: '',
   testRailsCredTouched: { email: false, host: false, key: false },
@@ -51,14 +51,20 @@ const initialState = {
   },
   isJiraConfiguredForZephyr: false,
   importId: null,
+  importIdBeforeImport: null,
   importStatus: COMPLETED,
   isDismissed: true,
+  showNewProjectBanner: false,
+  isNewProjectBannerDismissed: true,
   notificationData: null,
   notificationProjectConfig: { projects: [], totalCount: 0, successCount: 0 },
   showNotificationModal: false,
   checkImportStatusClicked: false,
   quickImportProjectId: null,
-  beginImportLoading: false
+  beginImportLoading: false,
+  configureToolPageLoading: true,
+  latestImportTool: null,
+  successfulImportedProjects: 0
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -122,6 +128,9 @@ const importSlice = createSlice({
   reducers: {
     setConfigureToolProceedLoading: (state, { payload }) => {
       state.configureToolProceedLoading = payload;
+    },
+    setConfigureToolPageLoading: (state, { payload }) => {
+      state.configureToolPageLoading = payload;
     },
     setConfigureToolTestConnectionLoading: (state, { payload }) => {
       state.configureToolTestConnectionLoading = payload;
@@ -188,6 +197,7 @@ const importSlice = createSlice({
         checkImportStatusClicked,
         quickImportProjectId,
         currentTestManagementTool,
+        successfulImportedProjects,
         ...restInitialState
       } = initialState;
 
@@ -202,6 +212,7 @@ const importSlice = createSlice({
         checkImportStatusClicked: payload?.checkImportStatusClicked,
         quickImportProjectId: payload?.quickImportProjectId,
         currentTestManagementTool: payload?.currentTestManagementTool,
+        successfulImportedProjects: payload?.successfulImportedProjects,
         ...restInitialState
       };
     },
@@ -211,6 +222,8 @@ const importSlice = createSlice({
     setNotificationProjectConfig: (state, { payload }) => {
       Object.keys(payload).forEach((key) => {
         state.notificationProjectConfig[key] = payload[key];
+        if (key === 'successCount')
+          state.successfulImportedProjects = payload[key];
       });
     },
     setShowNotificationModal: (state, { payload }) => {
@@ -225,26 +238,40 @@ const importSlice = createSlice({
     },
     setBeginImportLoading: (state, { payload }) => {
       state.beginImportLoading = payload;
+    },
+    setLatestImportTool: (state, { payload }) => {
+      state.latestImportTool = payload;
+    },
+    setNewProjectBannerDismiss: (state, { payload }) => {
+      state.isNewProjectBannerDismissed = payload;
+    },
+    setShowNewProjectBanner: (state, { payload }) => {
+      state.showNewProjectBanner = payload;
+    },
+    setImportedProjectCount: (state, { payload }) => {
+      state.successfulImportedProjects = payload;
+    },
+    setImportIdBeforeImport: (state, { payload }) => {
+      state.importIdBeforeImport = payload;
     }
   },
   extraReducers: (builder) => {
     builder.addCase(setJiraConfigurationStatus.fulfilled, (state, action) => {
-      if (action.payload.code === 'ERR_BAD_REQUEST')
-        state.isJiraConfiguredForZephyr = false;
-      else {
+      if (!action.payload.success) state.isJiraConfiguredForZephyr = false;
+      if (action.payload.success && state.latestImportTool !== 'zephyr') {
         state.isJiraConfiguredForZephyr = true;
         state.zephyrCred.email = action.payload.data.email;
         state.zephyrCred.host = action.payload.data.host;
-        state.zephyrCred.jira_key = action.payload.data.key;
       }
-    });
-    builder.addCase(setJiraConfigurationStatus.rejected, (state) => {
-      state.isJiraConfiguredForZephyr = false;
+      if (state.latestImportTool === 'zephyr' && action.payload.success) {
+        state.isJiraConfiguredForZephyr = true;
+      }
     });
     builder.addCase(setImportConfigurations.fulfilled, (state, { payload }) => {
       state.importId = payload.import_id;
       state.importStatus = payload.status;
       state.isDismissed = payload.is_dismissed;
+      state.isNewProjectBannerDismissed = payload.new_projects_banner_dismissed;
     });
     builder.addCase(setQuickImportStatus.fulfilled, (state, { payload }) => {
       if (payload.status === ONGOING) {
@@ -259,6 +286,7 @@ const importSlice = createSlice({
         state.notificationProjectConfig.projects = payload.projects;
         state.notificationProjectConfig.totalCount = payload.total;
         state.notificationProjectConfig.successCount = payload.success_count;
+        state.successfulImportedProjects = payload.success_count;
         state.importStatus = COMPLETED;
         state.currentTestManagementTool =
           payload.import_type.split('_')[0] === 'testrail'
@@ -277,6 +305,7 @@ const importSlice = createSlice({
         state.zephyrCred.jira_key = payload.credentials.jira_key;
         state.zephyrCred.zephyr_key = payload.credentials.zephyr_key;
       }
+      state.configureToolPageLoading = false;
     });
     builder.addCase(setNotificationDismissed.fulfilled, (state) => {
       state.isDismissed = true;
@@ -290,6 +319,7 @@ export const {
   setConfigureToolProceeded,
   setCurrentTestManagementTool,
   setCurrentScreen,
+  setImportIdBeforeImport,
   setErrorForConfigureData,
   setTestRailsCred,
   setTestRailsCredTouched,
@@ -310,6 +340,11 @@ export const {
   setShowNotificationModal,
   setProjectIdForQuickImport,
   setImportStatusOngoing,
-  setBeginImportLoading
+  setBeginImportLoading,
+  setConfigureToolPageLoading,
+  setLatestImportTool,
+  setShowNewProjectBanner,
+  setNewProjectBannerDismiss,
+  setImportedProjectCount
 } = importSlice.actions;
 export default importSlice.reducer;
