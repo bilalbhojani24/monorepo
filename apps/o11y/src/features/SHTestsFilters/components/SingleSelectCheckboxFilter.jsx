@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yCheckbox } from 'common/bifrostProxy';
 import { setSelectedFilters } from 'features/FilterSkeleton/slices/filterSlice';
@@ -8,6 +8,12 @@ import PropTypes from 'prop-types';
 const SingleSelectCheckboxFilter = ({ type, label, inputLabel, id }) => {
   const dispatch = useDispatch();
   const storedValue = useSelector(getSelectedFilterByBooleanType(type));
+
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setChecked(!!storedValue?.value);
+  }, [storedValue]);
 
   const handleChange = () => {
     if (storedValue?.value) {
@@ -40,7 +46,7 @@ const SingleSelectCheckboxFilter = ({ type, label, inputLabel, id }) => {
       </p>
       <O11yCheckbox
         border={false}
-        checked={storedValue?.value}
+        checked={checked}
         data={{
           label: inputLabel,
           value: `${id}-true`
