@@ -12,7 +12,6 @@ import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
 import {
   deleteFolderFromArray,
-  folderPropertyUpdater,
   injectFolderToParent,
   replaceFolderHelper
 } from 'utils/folderHelpers';
@@ -91,17 +90,12 @@ export default function useAddEditFolderModal(prop) {
       setAllFoldersHelper([...allFolders, folderItem]); // root folder
     else {
       // sub folder
-      let updatedFolders = injectFolderToParent(
+      const updatedFolders = injectFolderToParent(
         allFolders,
         folderItem,
         parentId
       );
-      updatedFolders = folderPropertyUpdater(
-        updatedFolders, // all folders
-        parentId, // folder to which the changes is to be applied
-        'isOpened', // name of the property to be updated
-        true // value of the property
-      );
+
       setAllFoldersHelper(updatedFolders);
     }
     updateRouteHelper(folderItem);
