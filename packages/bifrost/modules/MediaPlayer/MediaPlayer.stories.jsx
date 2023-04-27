@@ -50,7 +50,7 @@ const defaultConfig = {
     url: {
       option: { type: 'string' },
       defaultValue:
-        'https://app-automate.browserstack.com/s3-upload/bs-video-logs-euw/s3.eu-west-1/32fa65b7876058c9eff0c542b470067dff969ca9/video-32fa65b7876058c9eff0c542b470067dff969ca9.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2XUQHUQMLGDEA5FL%2F20230414%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20230414T092419Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=f9766c3585094cc101ea297a159c9d33e2583f738463ba3dde77af75537e87cc'
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
     },
     wrapperClassName: {
       option: { type: 'string' },
