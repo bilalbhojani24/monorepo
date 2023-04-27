@@ -65,7 +65,10 @@ const NetworkTableHeader = ({
 
   return (
     <TableHead
-      wrapperClassName={twClassNames('sticky top-[70px]', tableHeaderClassName)}
+      wrapperClassName={twClassNames(
+        'sticky top-[70px] z-[1]',
+        tableHeaderClassName
+      )}
     >
       <TableRow>
         {Object.entries(VIEWER_FIELDS).map(
