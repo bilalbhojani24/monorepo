@@ -10,7 +10,7 @@ import {
 import { useOnClickOutside } from '@browserstack/hooks';
 import { getTestCasesSearchFilterAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { routeFormatter } from 'utils/helperFunctions';
+import { getFilterOptions, routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -57,19 +57,6 @@ const useFilter = (prop) => {
 
   const updateFilterSearchMeta = (data) => {
     dispatch(setFilterSearchMeta(data));
-  };
-
-  const getFilterOptions = (thisParams) => {
-    const tags = thisParams.get('tags');
-    const owner = thisParams.get('owner');
-    const priority = thisParams.get('priority');
-    const q = thisParams.get('q');
-    return {
-      tags: tags?.split(',') || [],
-      owner: owner?.split(',') || [],
-      priority: priority?.split(',') || [],
-      q: q || ''
-    };
   };
 
   const proceedWithLocalFilter = (searchParamsTemp) => {

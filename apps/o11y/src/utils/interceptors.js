@@ -33,10 +33,6 @@ axios.interceptors.request.use((config) => {
   updatedConfig.withCredentials = shouldExcludeConfig
     ? false
     : stageConfig.withCredentials;
-  updatedConfig.headers = updatedConfig.headers || {};
-  if (!shouldExcludeConfig) {
-    updatedConfig.headers['x-cookie-prefix'] = stageConfig.cookiePrefix;
-  }
 
   // for use in local api-mocker only
   if (

@@ -152,7 +152,13 @@ const App = () => {
       initO11yProduct({ params, setFirstProjectActive: isIntegrationsPage() })
     );
 
-  const Routes = useAuthRoutes(APP_ROUTES, initO11y, getEnvConfig().signInUrl);
+  const Routes = useAuthRoutes(
+    APP_ROUTES,
+    initO11y,
+    `${getEnvConfig().signInUrl}?redirect_url=${encodeURIComponent(
+      window.location.href
+    )}`
+  );
   return (
     <>
       {Routes}
