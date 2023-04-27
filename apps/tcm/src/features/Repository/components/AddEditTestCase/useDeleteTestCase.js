@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
@@ -7,10 +7,10 @@ import {
   getTestCasesAPI
 } from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
-import {
-  handleBulkEntryDeletion,
-  handleLastEntryDeletionInAPage
-} from 'utils/helperFunctions';
+// import {
+//   handleBulkEntryDeletion,
+//   handleLastEntryDeletionInAPage
+// } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -32,9 +32,10 @@ export default function useDeleteTestCase() {
   // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
-  const deletedTestCaseCountRef = useRef({
-    [folderId]: { page: null, count: 0 }
-  });
+  const totalTestCaseCountRef = useRef(0);
+  // const deletedTestCaseCountRef = useRef({
+  //   [folderId]: { page: null, count: 0 }
+  // });
   const dispatch = useDispatch();
   const { updateTCCount } = useUpdateTCCountInFolders();
 
@@ -43,7 +44,7 @@ export default function useDeleteTestCase() {
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
-  const allTestCases = useSelector((state) => state.repository.allTestCases);
+  // const allTestCases = useSelector((state) => state.repository.allTestCases);
 
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase
@@ -59,10 +60,10 @@ export default function useDeleteTestCase() {
     ? metaPage.count - bulkSelection.de_selected_ids.length
     : bulkSelection.ids.length;
 
-  console.log('delete test case count', deletedTestCaseCountRef.current);
-  const handleNoEntryOnFirstPage = () => {
+  // console.log('delete test case count', deletedTestCaseCountRef.current);
+  const refreshAllTestCases = () => {
     dispatch(updateTestCasesListLoading(true));
-    getTestCasesAPI({ projectId, folderId })
+    getTestCasesAPI({ projectId, folderId, page: searchParams.get('p') })
       .then((res) => {
         dispatch(updateAllTestCases(res?.test_cases || []));
         dispatch(setMetaPage(res.info));
@@ -84,18 +85,18 @@ export default function useDeleteTestCase() {
     );
   };
 
-  const setDeletedTestCaseCount = (count) => {
-    if (
-      Object.keys(deletedTestCaseCountRef.current)[0] === folderId &&
-      searchParams.get('p') ===
-        deletedTestCaseCountRef.current[`${folderId}`].page
-    )
-      deletedTestCaseCountRef.current[`${folderId}`].count += count;
-    else
-      deletedTestCaseCountRef.current = {
-        [folderId]: { page: searchParams.get('p'), count }
-      };
-  };
+  // const setDeletedTestCaseCount = (count) => {
+  //   if (
+  //     Object.keys(deletedTestCaseCountRef.current)[0] === folderId &&
+  //     searchParams.get('p') ===
+  //       deletedTestCaseCountRef.current[`${folderId}`].page
+  //   )
+  //     deletedTestCaseCountRef.current[`${folderId}`].count += count;
+  //   else
+  //     deletedTestCaseCountRef.current = {
+  //       [folderId]: { page: searchParams.get('p'), count }
+  //     };
+  // };
 
   const hideDeleteTestCaseModal = () => {
     dispatch(setDeleteTestCaseModalVisibility(false));
@@ -103,6 +104,29 @@ export default function useDeleteTestCase() {
       // animation wait
       dispatch(setBulkUpdateProgress(false));
     }, 500);
+  };
+
+  const lastPageLastEntry = () =>
+    totalTestCaseCountRef.current === (searchParams.get('p') - 1) * 30;
+
+  const lastPageEntriesBulk = () =>
+    totalTestCaseCountRef.current === searchParams.get('p') * 30;
+
+  const getBulkDeletePage = () => {
+    // console.log('bulk delete page', totalTestCaseCountRef.current);
+    if (searchParams.get('p') === null) return 1;
+    // for last page entries
+    // console.log('last page last entry', lastPageEntriesBulk());
+    // if (lastPageEntriesBulk()) {
+    //   return searchParams.get('p') - 1;
+    // }
+    // if (
+    //   (searchParams.get('p') - 1) * 30 <
+    //   totalTestCaseCountRef.current <
+    //   searchParams.get('p') * 30 + 1
+    // )
+    //   return null;
+    return searchParams.get('p');
   };
 
   const bulkDeleteHandler = () => {
@@ -115,39 +139,47 @@ export default function useDeleteTestCase() {
     );
     dispatch(updateCtaLoading({ key: 'bulkDeleteTestCaseCta', value: true }));
 
-    deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection })
+    deleteTestCasesBulkAPI({
+      projectId,
+      folderId,
+      bulkSelection,
+      page: getBulkDeletePage()
+    })
       .then((data) => {
+        totalTestCaseCountRef.current = data?.cases_count;
         updateTCCount({ casesObj: data?.cases_count });
         dispatch(
           updateCtaLoading({ key: 'bulkDeleteTestCaseCta', value: false })
         );
 
-        let updatedTestCases = [];
+        // let updatedTestCases = [];
         const updatedCount = metaPage.count - selectedBulkTCCount;
-        setDeletedTestCaseCount(selectedBulkTCCount);
-        if (bulkSelection.select_all) {
-          updatedTestCases = allTestCases.filter((item) =>
-            bulkSelection.de_selected_ids.includes(item.id)
-          );
-        } else {
-          updatedTestCases = allTestCases.filter(
-            (item) => !bulkSelection.ids.includes(item.id)
-          );
-        }
+        // // setDeletedTestCaseCount(selectedBulkTCCount);
+        // if (bulkSelection.select_all) {
+        //   updatedTestCases = allTestCases.filter((item) =>
+        //     bulkSelection.de_selected_ids.includes(item.id)
+        //   );
+        // } else {
+        //   updatedTestCases = allTestCases.filter(
+        //     (item) => !bulkSelection.ids.includes(item.id)
+        //   );
+        // }
 
         setMetaCount(updatedCount);
-        if (updatedTestCases.length === 0 && updatedCount > 0) {
-          // TC exists but need to fetch, set page to 1
-          // setSearchParams({});
-          handleBulkEntryDeletion({
-            metaPage,
-            searchParams,
-            setSearchParams,
-            handleNoEntryOnFirstPage
-          });
-        }
-        // else dispatch(updateAllTestCases(updatedTestCases));
-        dispatch(updateAllTestCases(updatedTestCases));
+        dispatch(updateAllTestCases(data?.test_cases));
+        // if (updatedTestCases.length === 0 && updatedCount > 0) {
+        // all test cases are deleted
+        // TC exists but need to fetch, set page to 1
+        // setSearchParams({});
+        // handleBulkEntryDeletion({
+        //   metaPage,
+        //   searchParams,
+        //   setSearchParams,
+        //   handleNoEntryOnFirstPage
+        // });
+        // dispatch(updateAllTestCases(data?.test_cases));
+        // } else dispatch(updateAllTestCases(updatedTestCases));
+        // dispatch(updateAllTestCases(updatedTestCases));
 
         dispatch(
           logEventHelper('TM_TcBulkDeleteNotification', {
@@ -188,11 +220,12 @@ export default function useDeleteTestCase() {
     })
       .then((data) => {
         const folderData = data.data.folder;
+        totalTestCaseCountRef.current = data?.data?.folder?.cases_count;
         updateTCCount({
           casesObj: { [folderData.id]: folderData.cases_count }
         });
         dispatch(updateCtaLoading({ key: 'deleteTestCaseCta', value: false }));
-        setDeletedTestCaseCount(1);
+        // setDeletedTestCaseCount(1);
 
         dispatch(
           logEventHelper('TM_TcDeletedNotification', {
@@ -202,19 +235,24 @@ export default function useDeleteTestCase() {
         );
 
         dispatch(deleteTestCase([selectedTestCase.id]));
-        console.log(
-          'deleted test case count',
-          deletedTestCaseCountRef.current[`${folderId}`]
-        );
-        handleLastEntryDeletionInAPage({
-          metaPage,
-          searchParams,
-          setSearchParams,
-          moveToPrevPage:
-            deletedTestCaseCountRef.current[`${folderId}`] % 30 === 0,
-          handleNoEntryOnFirstPage
-        });
+        // console.log(
+        //   'deleted test case count',
+        //   deletedTestCaseCountRef.current[`${folderId}`]
+        // );
+        // handleLastEntryDeletionInAPage({
+        //   metaPage,
+        //   searchParams,
+        //   setSearchParams,
+        //   moveToPrevPage:
+        //     deletedTestCaseCountRef.current[`${folderId}`] % 30 === 0,
+        //   handleNoEntryOnFirstPage
+        // });
         setMetaCount(metaPage.count - 1);
+        if (lastPageLastEntry()) {
+          searchParams.set('p', `${searchParams.get('p') - 1}`);
+          setSearchParams(searchParams.toString());
+        } else refreshAllTestCases();
+
         hideDeleteTestCaseModal();
       })
       .catch(() => {
@@ -236,6 +274,13 @@ export default function useDeleteTestCase() {
       singleItemDeleteHelper();
     }
   };
+
+  useEffect(() => {
+    console.log('inside delete effect');
+    getTestCasesAPI({ projectId, folderId }).then((data) => {
+      totalTestCaseCountRef.current = data?.cases_count[folderId];
+    });
+  }, [projectId, folderId]);
 
   return {
     modalFocusRef,
