@@ -185,7 +185,8 @@ export default function useFolders() {
           }
           dispatch(updateFoldersLoading(false));
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err.rejectAll) return;
           dispatch(updateFoldersLoading(false));
         });
     } else setAllFoldersHelper([]);

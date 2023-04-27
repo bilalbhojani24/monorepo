@@ -10,6 +10,7 @@ const setupInterceptors = (navigateTo, dispatch) => {
   const onSuccess = (res) => Promise.resolve(res);
 
   const onFailure = (res) => {
+    let rejectResponse = res;
     const statusCode = res?.response?.status;
     const response = JSON.stringify(res?.request?.response);
 
@@ -24,6 +25,7 @@ const setupInterceptors = (navigateTo, dispatch) => {
 
         case 404:
           // if API doesnt exist go to 404 page
+          rejectResponse = { rejectAll: true };
           navigateTo(AppRoute.NOT_FOUND);
           break;
 
@@ -68,7 +70,7 @@ const setupInterceptors = (navigateTo, dispatch) => {
       }
     }
 
-    return Promise.reject(res);
+    return Promise.reject(rejectResponse);
   };
 
   axios.interceptors.response.use(onSuccess, onFailure);
