@@ -71,7 +71,7 @@ const App = () => {
           config: {
             server: 'eds.browserstack.com',
             port: '443',
-            api: EDS_API_KEY
+            apiKey: EDS_API_KEY
           }
         }
       };
