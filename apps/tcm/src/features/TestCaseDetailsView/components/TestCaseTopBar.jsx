@@ -71,7 +71,7 @@ const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
               </>
             }
           >
-            <InfoOutlinedIcon className="ml-1 -mt-0.5 !h-5 !w-5" />
+            <InfoOutlinedIcon className="-mt-0.5 ml-1 !h-5 !w-5" />
           </TMTooltip>
         </div>
         {!(testRunsTestCaseDetails?.deleted === 1) && (

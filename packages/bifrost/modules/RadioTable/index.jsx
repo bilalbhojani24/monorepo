@@ -3,8 +3,6 @@ import { twClassNames } from '@browserstack/utils';
 import { RadioGroup } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const RadioTable = (props) => {
   const { options, onChange, withDescription } = props;
   const [selected, setSelected] = useState(options[0]);
