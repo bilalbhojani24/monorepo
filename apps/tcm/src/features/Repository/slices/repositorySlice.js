@@ -147,7 +147,10 @@ export const repositorySlice = createSlice({
         // reset form data
         state.testCaseFormData = {
           ...initialState.testCaseFormData,
-          test_case_folder_id: !Number.isNaN(payload) ? payload : null
+          test_case_folder_id:
+            !Number.isNaN(payload) && typeof payload !== 'boolean'
+              ? payload
+              : state?.allFolders[0]?.id
         };
       }
     },

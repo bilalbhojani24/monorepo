@@ -148,7 +148,7 @@ const MediaPlayer = forwardRef(
                 'absolute top-0 left-0 w-full h-full bg-base-400 opacity-50 z-10 block'
               )}
             >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <Loader wrapperClassName="w-6 h-6" />
               </div>
             </div>
