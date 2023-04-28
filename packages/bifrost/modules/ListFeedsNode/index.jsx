@@ -62,11 +62,14 @@ const ListFeeds = (props) => {
     >
       {!!feedNumber && (
         <div
-          className={twClassNames('mr-1 w-5 flex items-center justify-center', {
-            'h-6': feedIconSize === LF_ICON_SIZE.sm,
-            'h-8': feedIconSize === LF_ICON_SIZE.md,
-            'h-10': feedIconSize === LF_ICON_SIZE.lg
-          })}
+          className={twClassNames(
+            'min-w-[20px] max-w-[20px] flex items-center justify-center',
+            {
+              'h-6': feedIconSize === LF_ICON_SIZE.sm,
+              'h-8': feedIconSize === LF_ICON_SIZE.md,
+              'h-10': feedIconSize === LF_ICON_SIZE.lg
+            }
+          )}
         >
           {feedNumber}
         </div>
