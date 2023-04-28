@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Badge,
+  MdOutlineMotionPhotosAuto,
   MdOutlineDynamicFeed,
   MdOutlineHome,
   MdOutlineRecordVoiceOver,
@@ -58,8 +59,8 @@ export default function useDashboard() {
     {
       id: 'test-automation',
       label: 'Test Automation',
-      activeIcon: MdOutlineDynamicFeed,
-      inActiveIcon: MdOutlineDynamicFeed,
+      activeIcon: MdOutlineMotionPhotosAuto,
+      inActiveIcon: MdOutlineMotionPhotosAuto,
       path: '/test-automation',
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
     }

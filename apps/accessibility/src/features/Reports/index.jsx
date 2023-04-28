@@ -105,7 +105,7 @@ export default function Reports() {
         </ModalFooter>
       </Modal>
       <div
-        className="border-base-200 fixed z-10 w-full border-b p-6"
+        className="border-base-200 fixed z-[9] w-full border-b p-6"
         style={{
           width: 'calc(100vw - 256px)',
           top: isShowingBanner ? '128px' : '64px'

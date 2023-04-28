@@ -70,7 +70,13 @@ export default function Dashboard({ children }) {
             link: 'https://percy.io/api/auth/start-sso'
           }
         ]}
-        headerElementArray={['team', 'help', 'notifications', 'account']}
+        headerElementArray={[
+          'team',
+          'help',
+          'notifications',
+          'search',
+          'account'
+        ]}
         documentation={{
           title: 'Documentation',
           options: [
@@ -93,7 +99,7 @@ export default function Dashboard({ children }) {
         )}
       />
       {isShowingReportListingBanner ? (
-        <div className="fixed inset-x-0 top-[64px] z-10 flex justify-between">
+        <div className="fixed inset-x-0 top-[64px] z-[9] flex justify-between">
           <Banner
             description="Download the Accessibility Testing extension to scan your websites for accessibility issues."
             isDismissButton
