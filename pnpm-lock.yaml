@@ -268,7 +268,7 @@ importers:
 
   apps/tcm:
     specifiers:
-      '@browserstack/bifrost': 2.12.0
+      '@browserstack/bifrost': 2.2.1
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -311,7 +311,7 @@ importers:
       utils: link:@mui/material/utils
       vite: 3.2.5
     dependencies:
-      '@browserstack/bifrost': 2.12.0_hkbbqhhe7yspx6haowtlreoieq
+      '@browserstack/bifrost': 2.2.1_hkbbqhhe7yspx6haowtlreoieq
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@emotion/react': 11.10.5_idayr2oxcsxtldkhf4tt4nnf6q
@@ -4122,11 +4122,11 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/2.12.0_hkbbqhhe7yspx6haowtlreoieq:
+  /@browserstack/bifrost/2.2.1_hkbbqhhe7yspx6haowtlreoieq:
     resolution:
       {
-        integrity: sha512-OTIlg9sbsZO6BnI8NHIo8Fg1O+XGnqsKZYF0AWrhEA2yN6HuXKsr2hY9JJ7r+h9J5ybpKCj207+sZFoe+THmJQ==,
-        tarball: download/@browserstack/bifrost/2.12.0/d7c81c1da268d9dbefb6b3cb715ba123ce88b2d0
+        integrity: sha512-nSBPht9A2GoHLBT2MHZyFUiYzrgG/HYC6fE2gf5wYpJIf8F4VAhpoYGUxAwY2CDZGLsiIxAfLsoD1wL4HASlCA==,
+        tarball: download/@browserstack/bifrost/2.2.1/13a914f53f0a4cbc626acf5255d14b20c99937a2
       }
     peerDependencies:
       prop-types: 15.8.1
