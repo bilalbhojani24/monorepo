@@ -14,7 +14,7 @@ export const getInitialData = createAsyncThunk(
       const response = await initO11y();
       return response.data;
     } catch (err) {
-      return rejectWithValue(null);
+      return rejectWithValue(err);
     }
   }
 );
@@ -29,7 +29,7 @@ export const getProjectsList = createAsyncThunk(
         projectNormalisedName: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue(null);
+      return rejectWithValue(err);
     }
   }
 );
@@ -46,32 +46,10 @@ export const getBuildInfoFromUuid = createAsyncThunk(
   }
 );
 
-export const initO11yProduct = (params) => (dispatch) =>
-  Promise.all([
-    dispatch(getInitialData())
-      .unwrap()
-      .catch((err) => {
-        throw err;
-      }),
-    dispatch(
-      getProjectsList({
-        projectNormalisedName: encodeURI(
-          params?.projectNormalisedName ||
-            getStorage(PROJECT_NORMALISED_NAME_IDENTIFIER)
-        )
-      })
-    )
-      .unwrap()
-      .catch((err) => {
-        throw err;
-      })
-  ])
-    .then((res) => Promise.resolve(res))
-    .catch(() => null);
-
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
+    hasProductInitFailed: false,
     projects: {
       isLoading: true,
       list: [],
@@ -109,6 +87,9 @@ const { actions, reducer } = createSlice({
       if (!isEmpty(payload)) {
         state.projects.list = [payload, ...state.projects.list];
       }
+    },
+    setHasProductInitFailed: (state, { payload }) => {
+      state.hasProductInitFailed = payload;
     }
   },
   extraReducers: (builder) => {
@@ -172,7 +153,40 @@ export const {
   setProjectList,
   setActiveProject,
   setHasAcceptedTnC,
-  updateProjectList
+  updateProjectList,
+  setHasProductInitFailed
 } = actions;
+
+export const initO11yProduct = (params) => (dispatch) =>
+  Promise.all([
+    dispatch(getInitialData())
+      .unwrap()
+      .catch((err) => {
+        throw err;
+      }),
+    dispatch(
+      getProjectsList({
+        projectNormalisedName: encodeURI(
+          params?.projectNormalisedName ||
+            getStorage(PROJECT_NORMALISED_NAME_IDENTIFIER)
+        )
+      })
+    )
+      .unwrap()
+      .catch((err) => {
+        throw err;
+      })
+  ])
+    .then((res) => Promise.resolve(res))
+    .catch((err) => {
+      if (
+        err?.response?.status &&
+        err?.response?.status >= 400 &&
+        err?.response?.status !== 401
+      ) {
+        dispatch(setHasProductInitFailed(true));
+      }
+      return null;
+    });
 
 export default reducer;
