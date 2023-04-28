@@ -101,8 +101,16 @@ const DatePickerFilterField = ({ dateRangeObject }) => {
               <O11yDropdownOptionGroup wrapperClassName="w-full p-4">
                 <DatePickerGroup
                   onDateSelect={handleCustomDateRange}
-                  startDate={appliedDateRange?.value.lowerBound}
-                  endDate={appliedDateRange?.value?.upperBound}
+                  startDate={
+                    appliedDateRange.id === 'key'
+                      ? appliedDateRange?.value?.lowerBound
+                      : Date.now()
+                  }
+                  endDate={
+                    appliedDateRange.id === 'key'
+                      ? appliedDateRange?.value?.upperBound
+                      : Date.now()
+                  }
                   minDate={getSubtractedUnixTime(2, 'months') * 1000}
                   maxDate={getUnixEndOfDay(new Date()) * 1000}
                 />
