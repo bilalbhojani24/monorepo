@@ -13,28 +13,28 @@ export const sessionStateTextMap = {
 
 export const generateTestDataDescriptionList = (deviceDetails) => [
   {
-    title: 'Device Model',
-    description: deviceDetails?.name || 'N.A'
+    label: 'Device Model',
+    value: deviceDetails?.name || 'N.A'
   },
   {
-    title: 'OS Version',
-    description: deviceDetails?.osVersion || 'N.A'
+    label: 'OS Version',
+    value: deviceDetails?.osVersion || 'N.A'
   },
   {
-    title: 'Screen Resolution',
-    description: deviceDetails?.resolution || 'N.A'
+    label: 'Screen Resolution',
+    value: deviceDetails?.resolution || 'N.A'
   },
   {
-    title: 'CPU',
-    description: deviceDetails?.cpu || 'N.A'
+    label: 'CPU',
+    value: deviceDetails?.cpu || 'N.A'
   },
   {
-    title: 'RAM',
-    description: deviceDetails?.ram || 'N.A'
+    label: 'RAM',
+    value: deviceDetails?.ram || 'N.A'
   },
   {
-    title: 'Network',
-    description: 'N.A'
+    label: 'Network',
+    value: 'N.A'
   }
 ];
 

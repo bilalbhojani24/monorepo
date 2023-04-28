@@ -2,6 +2,9 @@ import React from 'react';
 import {
   Button,
   DescriptionList,
+  DescriptionListBody,
+  DescriptionListHeader,
+  KeyValue,
   MdChevronLeft,
   MdOutlineAnalytics,
   MdTipsAndUpdates
@@ -117,12 +120,31 @@ const ReportLoading = () => {
 
         <div className="flex-1 px-4 py-2">
           {testDataDescriptionList?.length > 0 && (
-            <DescriptionList
-              heading={sessionDetails?.sessionName}
-              subHeading={sessionDetails?.package?.bundleId}
-              descriptions={testDataDescriptionList}
-              alignment="two-column"
-            />
+            <DescriptionList isCard>
+              <DescriptionListHeader
+                heading={sessionDetails?.sessionName}
+                subHeading={sessionDetails?.package?.bundleId}
+              />
+              <DescriptionListBody>
+                <div className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                  {testDataDescriptionList?.map((item) => (
+                    <div
+                      className={twClassNames({
+                        'sm:col-span-2': item.id > 4,
+                        'sm:col-span-1': item.id <= 4
+                      })}
+                      key={item.id}
+                    >
+                      <KeyValue
+                        label={item.label}
+                        value={item.value}
+                        valueClassNames="mt-1"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </DescriptionListBody>
+            </DescriptionList>
           )}
 
           {sessionState !== REPORT_LOADING_STATES.STOPPING &&

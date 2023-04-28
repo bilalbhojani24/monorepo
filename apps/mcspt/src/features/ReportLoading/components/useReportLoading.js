@@ -85,8 +85,7 @@ const useReportLoading = () => {
         if (existingList?.length > 0) {
           const updatedVal = [...existingList];
 
-          updatedVal[updatedVal.length - 1].description =
-            sessionDetails?.cellular;
+          updatedVal[updatedVal.length - 1].value = sessionDetails?.cellular;
 
           return updatedVal;
         }

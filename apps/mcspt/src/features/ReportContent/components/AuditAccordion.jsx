@@ -1,40 +1,30 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Accordion, Badge, Button } from '@browserstack/bifrost';
-import { getSessionMetrics } from 'features/Report';
-import PropTypes from 'prop-types';
 import {
-  calculateTestDurationForAnalytics,
-  formatDeviceAndAppAnalyticsData
-} from 'utils/analyticsDataUtils';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
+  Accordion,
+  AccordionInteractiveHeader,
+  AccordionPanel,
+  Badge,
+  Button
+} from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
+
+import { useAuditAccordion } from './useAuditAccordion';
 
 const AuditAccordion = ({ auditDetails }) => {
-  const sessionData = useSelector(getSessionMetrics);
+  const { isAuditAccordionOpen, accordionOpened, learnHowToFix } =
+    useAuditAccordion(auditDetails);
 
   return (
-    <Accordion
-      triggerClassName="pt-0 items-center"
-      triggerContentNode={
-        <div className="flex flex-1 items-center justify-between py-3 pl-2">
-          <div className="flex flex-col">
-            <div className="text-sm font-normal leading-5">
-              {auditDetails.title}
-            </div>
-
-            <div className="text-base-500 flex items-center">
-              <div className="text-sm font-normal leading-5">
-                {`Current: ${auditDetails.current} ${auditDetails?.unit}`}
-              </div>
-
-              <span className="px-2">•</span>
-
-              <div className="text-sm font-normal leading-5">
-                {`Recommended: ${auditDetails.recommended} ${auditDetails?.unit}`}
-              </div>
-            </div>
-          </div>
-
+    <Accordion>
+      <AccordionInteractiveHeader
+        controller={isAuditAccordionOpen}
+        wrapperClassName="px-0"
+        title={
+          <span className="flex font-normal">
+            <span className="text-sm leading-5">{auditDetails.title}</span>
+          </span>
+        }
+        asideContent={
           <div className="flex min-w-[150px] justify-end">
             <Badge
               hasDot={false}
@@ -48,9 +38,23 @@ const AuditAccordion = ({ auditDetails }) => {
               wrapperClassName=""
             />
           </div>
+        }
+        onClick={accordionOpened}
+      >
+        <div className="text-base-500 flex items-center">
+          <div className="text-sm font-normal leading-5">
+            {`Current: ${auditDetails.current} ${auditDetails?.unit}`}
+          </div>
+
+          <span className="px-2">•</span>
+
+          <div className="text-sm font-normal leading-5">
+            {`Recommended: ${auditDetails.recommended} ${auditDetails?.unit}`}
+          </div>
         </div>
-      }
-      panelContentNode={
+      </AccordionInteractiveHeader>
+
+      <AccordionPanel controller={isAuditAccordionOpen}>
         <div className="flex flex-col pb-4 pl-7">
           <div className="mb-2 text-sm font-normal leading-5">
             {auditDetails.subtitle}
@@ -62,39 +66,14 @@ const AuditAccordion = ({ auditDetails }) => {
               fullWidth={false}
               colors="brand"
               variant="minimal"
-              onClick={() => {
-                if (auditDetails?.link) {
-                  window.remoteThreadFunctions?.openUrlInSystemBrowser(
-                    auditDetails?.link
-                  );
-                }
-
-                mcpAnalyticsEvent('csptReportSummaryRecClick', {
-                  issues_detected_title: auditDetails.title,
-                  duration: calculateTestDurationForAnalytics(sessionData),
-                  ...formatDeviceAndAppAnalyticsData(
-                    sessionData?.device,
-                    sessionData?.package
-                  )
-                });
-              }}
+              onClick={learnHowToFix}
             >
               Learn How to fix it
             </Button>
           </div>
         </div>
-      }
-      onTriggerClick={() => {
-        mcpAnalyticsEvent('csptReportSummaryAccordionClick', {
-          issues_detected_title: auditDetails.title,
-          duration: calculateTestDurationForAnalytics(sessionData),
-          ...formatDeviceAndAppAnalyticsData(
-            sessionData?.device,
-            sessionData?.package
-          )
-        });
-      }}
-    />
+      </AccordionPanel>
+    </Accordion>
   );
 };
 

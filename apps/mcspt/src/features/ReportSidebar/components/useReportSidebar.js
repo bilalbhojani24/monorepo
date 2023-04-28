@@ -1,12 +1,10 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getLatestSeekTimeInSeconds,
   getSessionMetrics,
   updateLatestVideoCurrentTimeInSeconds
 } from 'features/Report';
-
-import { resizeVideoOnMcpReport } from '../utils/videoResizeUtils';
 
 const useReportSidebar = () => {
   const sessionData = useSelector(getSessionMetrics);
@@ -17,15 +15,26 @@ const useReportSidebar = () => {
 
   const dispatch = useDispatch();
 
-  const updateChartSeekerPosition = (videoRefCurrent) => {
-    dispatch(
-      updateLatestVideoCurrentTimeInSeconds(videoRefCurrent?.currentTime)
-    );
+  const updateChartSeekerPosition = () => {
+    if (deviceVideoRef) {
+      dispatch(
+        updateLatestVideoCurrentTimeInSeconds(
+          deviceVideoRef.current?.getCurrentTime?.()
+        )
+      );
+    }
+  };
+
+  const pauseVideoOnManualSeek = () => {
+    if (deviceVideoRef) {
+      deviceVideoRef.current?.pause?.();
+    }
   };
 
   useEffect(() => {
     if (latestSeekTimeInSeconds) {
-      deviceVideoRef.current.seekToTimeStampCallBack(latestSeekTimeInSeconds);
+      deviceVideoRef.current.seekTo(latestSeekTimeInSeconds);
+      deviceVideoRef.current?.pause?.();
     }
   }, [latestSeekTimeInSeconds]);
 
@@ -36,24 +45,11 @@ const useReportSidebar = () => {
     [dispatch]
   );
 
-  useLayoutEffect(() => {
-    /**
-     * This hook is written because chromium does not
-     * support object-fit property for video elements at all.
-     */
-
-    resizeVideoOnMcpReport();
-    window.addEventListener('resize', resizeVideoOnMcpReport);
-
-    return () => {
-      window.removeEventListener('resize', resizeVideoOnMcpReport);
-    };
-  }, []);
-
   return {
     sessionData,
     updateChartSeekerPosition,
-    deviceVideoRef
+    deviceVideoRef,
+    pauseVideoOnManualSeek
   };
 };
 
