@@ -14,6 +14,8 @@ import {
 } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import { HardPaywallWrapper } from 'common/PaywallWrapper';
+import { PAYWALL_FEATURES } from 'constants/paywall';
 import { ROUTES } from 'constants/routes';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
@@ -28,7 +30,7 @@ const ALERT_LEVEL = {
   CRITICAL: <MdError className="text-attention-500 inline-block !h-7 !w-7" />
 };
 
-export default function Alerts() {
+function Alerts() {
   const { logInsightsInteractionEvent, applyTestListFilter } =
     useContext(TestInsightsContext);
 
@@ -144,3 +146,19 @@ export default function Alerts() {
     </div>
   );
 }
+
+const PaywallWrappedAlert = () => (
+  <HardPaywallWrapper
+    featureKey={PAYWALL_FEATURES.ALERTS}
+    shouldReFetchPlanDetails
+    cardConfig={{
+      showBg: false,
+      hideIllustration: true,
+      wrapperClassName: 'shadow-none pl-0 pt-4'
+    }}
+  >
+    <Alerts />
+  </HardPaywallWrapper>
+);
+
+export default PaywallWrappedAlert;

@@ -12,7 +12,9 @@ import {
 } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
+import { HardPaywallWrapper } from 'common/PaywallWrapper';
 import { MODAL_TYPES } from 'constants/modalTypes';
+import { PAYWALL_FEATURES } from 'constants/paywall';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 
@@ -23,7 +25,7 @@ import { FAILURE_CATEGORIES_TYPES } from '../constants';
 import { getFailureSubCategories } from '../slices/failureCategoriesSettings';
 import { getFailureSubCategoriesState } from '../slices/selectors';
 
-export default function FailureCategoriesSettings() {
+function FailureCategoriesSettings() {
   const data = useSelector(getFailureSubCategoriesState);
   const activeProject = useSelector(getActiveProject);
   const dispatch = useDispatch();
@@ -117,3 +119,15 @@ export default function FailureCategoriesSettings() {
     </SettingsCard>
   );
 }
+
+const PaywallWrappedFailureCategoriesSettings = () => (
+  <HardPaywallWrapper
+    featureKey={PAYWALL_FEATURES.FAILURE_CATEGORY}
+    shouldReFetchPlanDetails
+    cardConfig={{ illustrationClassName: 'max-w-md' }}
+  >
+    <FailureCategoriesSettings />
+  </HardPaywallWrapper>
+);
+
+export default PaywallWrappedFailureCategoriesSettings;

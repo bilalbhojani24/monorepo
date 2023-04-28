@@ -12,7 +12,9 @@ import {
 } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
+import { HardPaywallWrapper } from 'common/PaywallWrapper';
 import { MODAL_TYPES } from 'constants/modalTypes';
+import { PAYWALL_FEATURES } from 'constants/paywall';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 
@@ -23,7 +25,7 @@ import { ALERT_TYPES } from '../constants';
 import { getAlertsSettings } from '../slices/alertsSettings';
 import { getAlertsState } from '../slices/selectors';
 
-export default function AlertsSettings() {
+function AlertsSettings() {
   const data = useSelector(getAlertsState);
   const activeProject = useSelector(getActiveProject);
   const dispatch = useDispatch();
@@ -128,3 +130,15 @@ export default function AlertsSettings() {
     </SettingsCard>
   );
 }
+
+const PaywallWrappedAlertSettings = () => (
+  <HardPaywallWrapper
+    featureKey={PAYWALL_FEATURES.ALERTS}
+    shouldReFetchPlanDetails
+    cardConfig={{ illustrationClassName: 'max-w-md' }}
+  >
+    <AlertsSettings />
+  </HardPaywallWrapper>
+);
+
+export default PaywallWrappedAlertSettings;

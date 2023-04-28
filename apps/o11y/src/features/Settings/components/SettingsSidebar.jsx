@@ -2,11 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { SidebarItem } from '@browserstack/bifrost';
+import { O11yBadge } from 'common/bifrostProxy';
 import { ROUTES } from 'constants/routes';
-import { getActiveProject } from 'globalSlice/selectors';
+import { getActiveProject, getPlanType } from 'globalSlice/selectors';
 import { getSettingsPath } from 'utils/routeUtils';
 
-const getNav = ({ projectNormalisedName }) => [
+const getNav = ({ projectNormalisedName, planType }) => [
   {
     id: 'general',
     label: 'General',
@@ -21,7 +22,16 @@ const getNav = ({ projectNormalisedName }) => [
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
     path: getSettingsPath(projectNormalisedName, 'alerts'),
-    pattern: ROUTES.settings_alerts
+    pattern: ROUTES.settings_alerts,
+    badge: planType ? (
+      <O11yBadge
+        wrapperClassName="mx-1 flex-shrink-0"
+        hasRemoveButton={false}
+        modifier="info"
+        hasDot={false}
+        text={planType}
+      />
+    ) : undefined
   },
   {
     id: 'auto_analyser',
@@ -37,7 +47,16 @@ const getNav = ({ projectNormalisedName }) => [
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
     path: getSettingsPath(projectNormalisedName, 'failure_categories'),
-    pattern: ROUTES.settings_failure_categories
+    pattern: ROUTES.settings_failure_categories,
+    badge: planType ? (
+      <O11yBadge
+        wrapperClassName="mx-1 flex-shrink-0"
+        hasRemoveButton={false}
+        modifier="info"
+        hasDot={false}
+        text={planType}
+      />
+    ) : undefined
   },
   {
     id: 're_run',
@@ -59,6 +78,7 @@ const getNav = ({ projectNormalisedName }) => [
 
 export default function SettingsSidebar() {
   const activeProject = useSelector(getActiveProject);
+  const planType = useSelector(getPlanType());
   const location = useLocation();
   const navigate = useNavigate();
   const onLinkChange = (item) => {
@@ -67,24 +87,25 @@ export default function SettingsSidebar() {
   };
   return (
     // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <aside className="sticky top-0 max-w-[250px] flex-1 shrink-0 pr-8">
-      {getNav({ projectNormalisedName: activeProject.normalisedName }).map(
-        (item) => (
-          <SidebarItem
-            key={item.id}
-            nav={item}
-            current={
-              !!matchPath(
-                {
-                  path: item.pattern
-                },
-                location.pathname
-              )
-            }
-            handleNavigationClick={onLinkChange}
-          />
-        )
-      )}
+    <aside className="sticky top-0 min-w-[250px] max-w-[250px] flex-1 shrink-0 pr-8">
+      {getNav({
+        projectNormalisedName: activeProject.normalisedName,
+        planType
+      }).map((item) => (
+        <SidebarItem
+          key={item.id}
+          nav={item}
+          current={
+            !!matchPath(
+              {
+                path: item.pattern
+              },
+              location.pathname
+            )
+          }
+          handleNavigationClick={onLinkChange}
+        />
+      ))}
     </aside>
   );
 }
