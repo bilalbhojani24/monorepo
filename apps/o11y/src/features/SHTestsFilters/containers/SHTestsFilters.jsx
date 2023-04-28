@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  DatePickerFilterField,
   FilterPills,
   FilterSlideover,
   FilterSlideoverTrigger,
@@ -21,7 +22,7 @@ import {
 } from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 
-import DatePickerField from '../components/DatePickerField';
+import { SH_TESTS_DATE_RANGE_OBJECT } from '../constants';
 
 const SHTestsFilters = () => {
   const dispatch = useDispatch();
@@ -51,7 +52,7 @@ const SHTestsFilters = () => {
           placeholder="Search by Test name or File path"
         />
         <div className="flex items-center gap-5">
-          <DatePickerField />
+          <DatePickerFilterField dateRangeObject={SH_TESTS_DATE_RANGE_OBJECT} />
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
       </div>

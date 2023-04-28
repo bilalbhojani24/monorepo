@@ -12,6 +12,7 @@ import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
 import { getTimeBounds } from 'features/FilterSkeleton/utils';
+import PropTypes from 'prop-types';
 import {
   getDateInFormat,
   getSubtractedUnixTime,
@@ -19,29 +20,7 @@ import {
   getUnixStartOfDay
 } from 'utils/dateTime';
 
-export const DATE_RANGE_OBJECT = {
-  days7: {
-    key: 'days7',
-    label: '7D',
-    appliedText: 'Last 7 days'
-  },
-  days15: {
-    key: 'days15',
-    label: '15D',
-    appliedText: 'Last 15 days'
-  },
-  days30: {
-    key: 'days30',
-    label: '30D',
-    appliedText: 'Last 30 days'
-  },
-  custom: {
-    key: 'custom',
-    label: 'Custom'
-  }
-};
-
-const DatePickerField = () => {
+const DatePickerFilterField = ({ dateRangeObject }) => {
   const dispatch = useDispatch();
   const appliedDateRange = useSelector(
     findAppliedFilterByType(ADV_FILTER_TYPES.dateRange.key)
@@ -69,7 +48,7 @@ const DatePickerField = () => {
         type: ADV_FILTER_TYPES.dateRange.key,
         id: key,
         operationType: 'addOperation',
-        text: DATE_RANGE_OBJECT[key].appliedText,
+        text: dateRangeObject[key].appliedText,
         value: timeBounds,
         isApplied: true
       })
@@ -100,12 +79,12 @@ const DatePickerField = () => {
   };
   return (
     <div className="flex">
-      {Object.keys(DATE_RANGE_OBJECT).map((key, index) => {
+      {Object.keys(dateRangeObject).map((key, index) => {
         if (key === 'custom') {
           return (
             <O11yDropdown align="center">
               <O11yDropdownTrigger
-                aria-label={DATE_RANGE_OBJECT[key].label}
+                aria-label={dateRangeObject[key].label}
                 key={key}
                 wrapperClassName={twClassNames(
                   `focus:z-[1] focus:ring-1 
@@ -116,7 +95,7 @@ const DatePickerField = () => {
                   }
                 )}
               >
-                {DATE_RANGE_OBJECT[key].label}
+                {dateRangeObject[key].label}
               </O11yDropdownTrigger>
 
               <O11yDropdownOptionGroup wrapperClassName="w-full p-4">
@@ -134,7 +113,7 @@ const DatePickerField = () => {
         return (
           <>
             <O11yButton
-              aria-label={DATE_RANGE_OBJECT[key].label}
+              aria-label={dateRangeObject[key].label}
               colors="white"
               onClick={() => handleClickRange(key)}
               size="large"
@@ -146,12 +125,12 @@ const DatePickerField = () => {
                   'border-brand-500 ring-1 z-[1] border-r': activeType === key,
                   'rounded-l-md': index === 0,
                   'rounded-r-md border-r':
-                    index === Object.keys(DATE_RANGE_OBJECT).length - 1 &&
+                    index === Object.keys(dateRangeObject).length - 1 &&
                     key !== 'custom'
                 }
               )}
             >
-              {DATE_RANGE_OBJECT[key].label}
+              {dateRangeObject[key].label}
             </O11yButton>
           </>
         );
@@ -160,6 +139,18 @@ const DatePickerField = () => {
   );
 };
 
-DatePickerField.propTypes = {};
+DatePickerFilterField.propTypes = {
+  dateRangeObject: PropTypes.objectOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      label: PropTypes.string,
+      appliedText: PropTypes.string
+    })
+  )
+};
 
-export default DatePickerField;
+DatePickerFilterField.defaultProps = {
+  dateRangeObject: {}
+};
+
+export default DatePickerFilterField;
