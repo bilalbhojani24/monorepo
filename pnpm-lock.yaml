@@ -178,7 +178,7 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 4.1.0
+      '@browserstack/bifrost': 4.2.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -222,7 +222,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 4.1.0_tlihl7wy5bel2naaj56hlnmskm
+      '@browserstack/bifrost': 4.2.0_tlihl7wy5bel2naaj56hlnmskm
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@internationalized/date': 3.1.0
@@ -2476,7 +2476,7 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/4.1.0_tlihl7wy5bel2naaj56hlnmskm:
+  /@browserstack/bifrost/4.1.0_tp62wn6ovheevpti6ssuot3rme:
     resolution: {integrity: sha512-IlCJkPkow+S1Dya7I44hgZGehOJ78jSSK+ein8ue03T2hLL8ZEpiJJGkUN7v3dbakMCVotrFLihG6RZi0GNk5g==, tarball: download/@browserstack/bifrost/4.1.0/d9a2aef24360866d354c4315c7363537e355239a}
     peerDependencies:
       prop-types: 15.8.1
@@ -2484,7 +2484,7 @@ packages:
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
+      '@browserstack/hooks': 0.3.1_oxb3a2cqd6gjar7bvjlpriiq5i
       '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
@@ -2523,15 +2523,15 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/4.1.0_tp62wn6ovheevpti6ssuot3rme:
-    resolution: {integrity: sha512-IlCJkPkow+S1Dya7I44hgZGehOJ78jSSK+ein8ue03T2hLL8ZEpiJJGkUN7v3dbakMCVotrFLihG6RZi0GNk5g==, tarball: download/@browserstack/bifrost/4.1.0/d9a2aef24360866d354c4315c7363537e355239a}
+  /@browserstack/bifrost/4.2.0_tlihl7wy5bel2naaj56hlnmskm:
+    resolution: {integrity: sha512-+ZNqQlsFjMnaS2TKpQw10H6LtGjUOPgwQQAcY36TIWZ6dMB/Hx6novklq4sOQt9869RjGBrIz1qg171FZSGJrg==, tarball: download/@browserstack/bifrost/4.2.0/46ad407148c86b79044a4739b64f7a1928be4c60}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_oxb3a2cqd6gjar7bvjlpriiq5i
+      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
       '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
@@ -9040,7 +9040,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.1.4_postcss@8.4.21
+      tailwindcss: 3.1.4_postcss@8.4.20
 
   /@tailwindcss/line-clamp/0.4.2_tailwindcss@3.1.4:
     resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==}
@@ -20720,7 +20720,6 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
-    dev: true
 
   /postcss-import/14.1.0_postcss@8.4.21:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -20756,7 +20755,6 @@ packages:
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.20
-    dev: true
 
   /postcss-js/4.0.1_postcss@8.4.21:
     resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
@@ -20803,7 +20801,6 @@ packages:
       lilconfig: 2.0.6
       postcss: 8.4.20
       yaml: 1.10.2
-    dev: true
 
   /postcss-load-config/3.1.4_postcss@8.4.21:
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
@@ -21066,7 +21063,6 @@ packages:
     dependencies:
       postcss: 8.4.20
       postcss-selector-parser: 6.0.11
-    dev: true
 
   /postcss-nested/5.0.6_postcss@8.4.21:
     resolution: {integrity: sha512-rKqm2Fk0KbA8Vt3AdGN0FB9OBOMDVajMG6ZCf/GoHgdxUJ4sBFp0A/uMIRm+MJUdo33YXEtjqIz8u7DAp8B7DA==}
@@ -21565,7 +21561,6 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: true
 
   /postcss/8.4.21:
     resolution: {integrity: sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==}
@@ -24741,7 +24736,6 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
-    dev: true
 
   /tailwindcss/3.1.4_postcss@8.4.21:
     resolution: {integrity: sha512-NrxbFV4tYsga/hpWbRyUfIaBrNMXDxx5BsHgBS4v5tlyjf+sDsgBg5m9OxjrXIqAS/uR9kicxLKP+bEHI7BSeQ==}
