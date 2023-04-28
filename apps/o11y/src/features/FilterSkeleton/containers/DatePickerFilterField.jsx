@@ -74,6 +74,7 @@ const DatePickerFilterField = ({ dateRangeObject }) => {
       setShowCustomDatePicker(false);
     }
   };
+
   return (
     <div className="flex">
       {Object.keys(dateRangeObject).map((key, index) => {
@@ -108,27 +109,25 @@ const DatePickerFilterField = ({ dateRangeObject }) => {
               }
               wrapperClassName="p-4"
             >
-              <div>
-                <O11yButton
-                  aria-label={dateRangeObject[key].label}
-                  colors="white"
-                  onClick={() => {
-                    setShowCustomDatePicker(true);
-                  }}
-                  size="large"
-                  variant="primary"
-                  wrapperClassName={twClassNames(
-                    `focus:z-[1] focus:ring-1 
-              ring-brand-500 border border-base-300 rounded-none rounded-r-md focus:ring-offset-0 
+              <O11yButton
+                aria-label={dateRangeObject[key].label}
+                colors="white"
+                onClick={() => {
+                  setShowCustomDatePicker(true);
+                }}
+                size="large"
+                variant="primary"
+                wrapperClassName={twClassNames(
+                  `focus:z-[1] focus:ring-1
+              ring-brand-500 border border-base-300 rounded-none rounded-r-md focus:ring-offset-0
               focus:border-r border-r-0 text-sm font-medium text-base-700 border-r focus:outline-0`,
-                    {
-                      'border-brand-500 ring-1 z-[1]': activeType === key
-                    }
-                  )}
-                >
-                  {dateRangeObject[key].label}
-                </O11yButton>
-              </div>
+                  {
+                    'border-brand-500 ring-1 z-[1]': activeType === key
+                  }
+                )}
+              >
+                {dateRangeObject[key].label}
+              </O11yButton>
             </O11yPopover>
           );
         }

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { MdClose, MdOutlineFilterAlt, MdSearch } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yInputField, O11yPopover } from 'common/bifrostProxy';
+import { O11yButton, O11yInputField, O11yPopover } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import StepsList from '../components/StepsList';
@@ -91,16 +91,13 @@ const TestLogFilters = ({
             }
           }}
         >
-          <div
-            className={twClassNames(
-              'border-base-300 rounded border px-2 py-1.5 h-8',
-              {
-                'ring-2 ring-offset-2 ring-brand-500': showFilterPopover
-              }
-            )}
-          >
-            <MdOutlineFilterAlt className="text-base-700 h-full w-full" />
-          </div>
+          <O11yButton
+            colors="white"
+            icon={
+              <MdOutlineFilterAlt className="text-base-700 h-full w-full" />
+            }
+            isIconOnlyButton
+          />
         </O11yPopover>
       </div>
     </>
