@@ -131,7 +131,8 @@ export default function useTestCases() {
           dispatch(setMetaPage(res.info));
           dispatch(updateTestCasesListLoading(false));
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err.rejectAll) return;
           // if page error, reset p=1
           setSearchParams({});
           dispatch(updateTestCasesListLoading(false));
