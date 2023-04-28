@@ -8,6 +8,7 @@ import {
   MultiSelectCheckboxFilterField,
   MultiSelectSearchFilterField,
   MultiSelectStaticFilterField,
+  SearchFilterField,
   SingleSelectCheckboxFilterField
 } from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
@@ -21,7 +22,6 @@ import {
 import { getActiveProject } from 'globalSlice/selectors';
 
 import DatePickerField from '../components/DatePickerField';
-import SearchField from '../components/SearchField';
 
 const SHTestsFilters = () => {
   const dispatch = useDispatch();
@@ -44,10 +44,12 @@ const SHTestsFilters = () => {
   };
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <div>
-          <SearchField />
-        </div>
+      <div className="mb-4 flex items-center justify-between">
+        <SearchFilterField
+          type={ADV_FILTER_TYPES.search.key}
+          id="search-by-test-or-file-path"
+          placeholder="Search by Test name or File path"
+        />
         <div className="flex items-center gap-5">
           <DatePickerField />
           <FilterSlideoverTrigger onClick={handleTriggerClick} />

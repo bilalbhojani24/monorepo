@@ -47,3 +47,8 @@ export const getSelectedFilterByBooleanType = (type) =>
     getSelectedFiltersByType(type),
     (selectedFilters) => selectedFilters[0]
   );
+
+export const findAppliedFilterByType = (type) =>
+  createSelector(getAllAppliedFilters, (appliedFilters) =>
+    appliedFilters.find((item) => item.type === type)
+  );

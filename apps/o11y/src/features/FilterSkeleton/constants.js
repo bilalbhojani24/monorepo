@@ -83,7 +83,7 @@ export const ADV_FILTER_TYPES = {
   },
   search: {
     key: 'search',
-    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    addOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_TYPE
   },
   dateRange: {
