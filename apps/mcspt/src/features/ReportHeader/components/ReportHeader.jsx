@@ -15,7 +15,7 @@ const ReportHeader = () => {
        px-4 py-2 shadow"
     >
       <div className="text-base-500 flex items-center">
-        <div className="text-xl">
+        <div className="cursor-pointer text-xl">
           <MdChevronLeft onClick={backButtonClicked} />
         </div>
 

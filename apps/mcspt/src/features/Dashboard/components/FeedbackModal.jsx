@@ -37,7 +37,7 @@ const FeedbackModal = () => {
                 so far?
               </div>
 
-              <div className="text-base-500 text-xl">
+              <div className="text-base-500 cursor-pointer pt-1.5 text-xl">
                 <MdClose onClick={closeFeedbackModal} />
               </div>
             </div>
