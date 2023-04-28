@@ -12,7 +12,7 @@ const setupInterceptors = (navigateTo, dispatch) => {
   const onFailure = (res) => {
     let rejectResponse = res;
     const statusCode = res?.response?.status;
-    const response = JSON.stringify(res?.request?.response);
+    const response = JSON.parse(res?.request?.response);
 
     if (statusCode >= 400 && statusCode <= 499) {
       // 4xx codes
