@@ -10,7 +10,7 @@ import {
   getAllAppliedFilters,
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
-import { getFilterQueryParams } from 'features/FilterSkeleton/utils';
+import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
 import {
   setIsSHTestsDetailsVisible,
   setShowSHTestsDetailsFor,
@@ -134,7 +134,7 @@ export default function SHTests() {
 
   useEffect(() => {
     navigate({
-      search: getFilterQueryParams(appliedFilters).toString()
+      search: getSearchStringFromFilters(appliedFilters).toString()
     });
   }, [appliedFilters, navigate]);
 

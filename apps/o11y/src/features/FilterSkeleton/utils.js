@@ -1,5 +1,6 @@
 import { listTreeCheckboxHelper } from '@browserstack/bifrost';
 import isEmpty from 'lodash/isEmpty';
+import { getSubtractedUnixTime } from 'utils/dateTime';
 
 import { ADV_FILTER_TYPES, ADV_FILTERS_PREFIX } from './constants';
 
@@ -12,17 +13,111 @@ export const getAppliedFilterObj = ({ id, text, type, value }) => ({
   value
 });
 
+const DATE_RANGE_KEYS = {
+  days7: 'days7',
+  days15: 'days15',
+  days30: 'days30',
+  months2: 'months2'
+};
+
+export function getTimeBounds(activeKey) {
+  const timebounds = {
+    upperBound: Date.now(),
+    lowerBound: 0
+  };
+  switch (activeKey) {
+    case DATE_RANGE_KEYS.days7: {
+      timebounds.lowerBound = getSubtractedUnixTime(7) * 1000;
+      break;
+    }
+    case DATE_RANGE_KEYS.days15: {
+      timebounds.lowerBound = getSubtractedUnixTime(15) * 1000;
+      break;
+    }
+    case DATE_RANGE_KEYS.days30: {
+      timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
+      break;
+    }
+    case DATE_RANGE_KEYS.months2: {
+      timebounds.lowerBound = getSubtractedUnixTime(2, 'months') * 1000;
+      break;
+    }
+    default:
+      break;
+  }
+  return timebounds;
+}
+
+export const getSearchStringFromFilters = (appliedFilters = []) => {
+  const searchParams = new URLSearchParams();
+  Object.values(ADV_FILTER_TYPES).forEach((filterTypeObj) => {
+    const { key } = filterTypeObj;
+
+    if (ADV_FILTER_TYPES.dateRange.key === key) {
+      const filters = appliedFilters.find((item) => item.type === key);
+      if (filters) {
+        searchParams.set('daterangetype', filters.id);
+        if (filters.id === 'custom') {
+          searchParams.set(
+            key,
+            `${filters.value.lowerBound},${filters.value.upperBound}`
+          );
+        }
+      }
+    } else {
+      const filters = appliedFilters
+        .filter((item) => item.type === key)
+        .map((i) => i?.value);
+      if (!isEmpty(filters)) {
+        searchParams.set(key, filters);
+      }
+    }
+  });
+  return searchParams;
+};
+
 export const getFilterQueryParams = (appliedFilters = []) => {
   const searchParams = new URLSearchParams();
   Object.values(ADV_FILTER_TYPES).forEach((filterTypeObj) => {
     const { key } = filterTypeObj;
-    const filters = appliedFilters
-      .filter((item) => item.type === key)
-      .map((i) => i?.value);
-    if (!isEmpty(filters)) {
-      searchParams.set(key, filters);
+
+    if (ADV_FILTER_TYPES.dateRange.key === key) {
+      const filters = appliedFilters.find((item) => item.type === key);
+      if (filters) {
+        if (filters.id === 'custom') {
+          searchParams.set(
+            key,
+            `${filters.value.lowerBound},${filters.value.upperBound}`
+          );
+        } else {
+          const { lowerBound, upperBound } = getTimeBounds(filters.id);
+          searchParams.set(key, `${lowerBound},${upperBound}`);
+        }
+      }
+    } else {
+      const filters = appliedFilters
+        .filter((item) => item.type === key)
+        .map((i) => i?.value);
+      if (!isEmpty(filters)) {
+        searchParams.set(key, filters);
+      }
     }
   });
+  return searchParams;
+};
+
+export const getFilterFromSearchString = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const daterangetype = searchParams.get('daterangetype');
+
+  if (daterangetype && daterangetype !== 'custom') {
+    const { lowerBound, upperBound } = getTimeBounds(daterangetype);
+    searchParams.set(
+      ADV_FILTER_TYPES.dateRange.key,
+      `${lowerBound},${upperBound}`
+    );
+  }
+
   return searchParams;
 };
 

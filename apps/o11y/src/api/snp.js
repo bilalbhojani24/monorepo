@@ -287,7 +287,7 @@ export const getSnPErrorDetailsPlatforms = async ({
 };
 
 export const getSnPTestsFilters = async ({ normalisedName, searchString }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/filters${searchString}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/filters?${searchString}`;
   return axios.get(endpoint);
 };
 

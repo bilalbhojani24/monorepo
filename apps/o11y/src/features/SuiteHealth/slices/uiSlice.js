@@ -19,7 +19,10 @@ import {
   setIsLoadingBuildsFilters,
   setStaticFilters
 } from 'features/FilterSkeleton/slices/filterSlice';
-import { getAppliedFilterObj } from 'features/FilterSkeleton/utils';
+import {
+  getAppliedFilterObj,
+  getFilterFromSearchString
+} from 'features/FilterSkeleton/utils';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import { getDateInFormat } from 'utils/dateTime';
@@ -370,7 +373,7 @@ export const getSnPTestsFiltersData = createAsyncThunk(
     try {
       const response = await getSnPTestsFilters({
         ...data,
-        searchString: window.location.search
+        searchString: getFilterFromSearchString()
       });
       updateFilterFields(response.data, dispatch);
       return response.data;
