@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { O11ySlideover } from 'common/bifrostProxy';
+import { getIsFiltersLoading } from 'features/FilterSkeleton/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
@@ -16,6 +17,7 @@ const TestDetails = () => {
   const isVisible = useSelector(getIsSHTestsDetailsVisible);
   const activeProject = useSelector(getActiveProject);
   const testId = useSelector(getShowSHTestsDetailsFor);
+  const isFiltersLoading = useSelector(getIsFiltersLoading);
 
   useEffect(() => {
     logOllyEvent({
@@ -30,8 +32,12 @@ const TestDetails = () => {
 
   return (
     <O11ySlideover show={isVisible} backgroundOverlay={false} size="5xl">
-      <SlideOverHeader />
-      <SlideOverBody />
+      {!isFiltersLoading && (
+        <>
+          <SlideOverHeader />
+          <SlideOverBody />
+        </>
+      )}
     </O11ySlideover>
   );
 };

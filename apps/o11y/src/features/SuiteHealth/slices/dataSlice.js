@@ -149,9 +149,13 @@ export const getSnPTestsData = createAsyncThunk(
 
 export const getSnPTestsBreakdownData = createAsyncThunk(
   'suitehealth/getSnPTestsBreakdownData',
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getSnPTestsBreakdown({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPTestsBreakdown({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);

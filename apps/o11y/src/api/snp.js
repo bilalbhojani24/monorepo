@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { getTimeBounds } from 'utils/dateTime';
 
 export const getSnPTests = async ({
@@ -20,37 +21,18 @@ export const getSnPTests = async ({
 export const getSnPTestsBreakdown = async ({
   normalisedName,
   testId,
-  filters
+  searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/${testId}/breakdown?`;
-  if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
-
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/${testId}/breakdown?${searchString}`;
   return axios.get(endpoint);
 };
 
 export const getSnPTestsDetailsInfo = async ({
   normalisedName,
   testId,
-  filters
+  searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/${testId}/details/info?isMuted=${
-    filters.isMuted
-  }&isFlaky=${filters.isFlaky}`;
-  if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/${testId}/details/info?${searchString}`;
   return axios.get(endpoint);
 };
 
@@ -58,42 +40,22 @@ export const getSnPDetailsStats = async ({
   normalisedName,
   testId,
   cbtInfo,
-  filters
+  searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/${testId}/details/stats?browser=${
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/${testId}/details/stats?browser=${
     cbtInfo.browserKey
-  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&isMuted=${
-    filters.isMuted
-  }&isFlaky=${filters.isFlaky}`;
-  if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
+  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&${searchString}`;
   return axios.get(endpoint);
 };
 export const getSnPDetailsTrend = async ({
   normalisedName,
   testId,
   cbtInfo,
-  filters
+  searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/${testId}/details/trend?browser=${
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/${testId}/details/trend?browser=${
     cbtInfo.browserKey
-  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&isMuted=${
-    filters.isMuted
-  }&isFlaky=${filters.isFlaky}`;
-  if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
+  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&${searchString}`;
   return axios.get(endpoint);
 };
 export const getSnPDetailsBuilds = async ({
@@ -102,26 +64,23 @@ export const getSnPDetailsBuilds = async ({
   cbtInfo,
   pagingParams,
   chartBounds,
-  filters
+  searchString
 }) => {
   let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/${testId}/details/builds?browser=${
     cbtInfo.browserKey
-  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}&isMuted=${
-    filters.isMuted
-  }&isFlaky=${filters.isFlaky}`;
+  }&os=${cbtInfo.osKey}&device=${cbtInfo.deviceKey}`;
   if (pagingParams?.offset && pagingParams?.start) {
     endpoint = `${endpoint}&start=${pagingParams.start}&offset=${pagingParams.offset}`;
   }
-  if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (!chartBounds.lower && !chartBounds.upper && filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
   if (chartBounds.lower && chartBounds.upper) {
-    endpoint = `${endpoint}&lowerBound=${chartBounds.lower}&upperBound=${chartBounds.upper}`;
+    const searchParams = new URLSearchParams(searchString);
+    searchParams.set(
+      ADV_FILTER_TYPES.dateRange.key,
+      `lowerBound=${chartBounds.lower},upperBound=${chartBounds.upper}`
+    );
+    endpoint = `${endpoint}&${searchParams.toString()}`;
+  } else {
+    endpoint = `${endpoint}&${searchString}`;
   }
   return axios.get(endpoint);
 };
