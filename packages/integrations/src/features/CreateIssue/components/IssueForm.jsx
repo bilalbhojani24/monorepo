@@ -256,7 +256,7 @@ const IssueForm = ({
           disabled={!((toolOptions ?? []).length > 1)}
         >
           <div className="flex items-center">
-            <SelectMenuLabel wrapperClassName="flex-1 mr-3 text-base-500 min-w-fit">
+            <SelectMenuLabel wrapperClassName="flex-1 mr-3 text-base-500 min-w-fit whitespace-nowrap">
               CREATE A:
             </SelectMenuLabel>
             <SelectMenuTrigger placeholder="Select tool" />
