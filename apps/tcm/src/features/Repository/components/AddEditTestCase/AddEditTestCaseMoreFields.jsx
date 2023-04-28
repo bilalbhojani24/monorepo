@@ -242,7 +242,7 @@ const AddEditTestCaseMoreFields = () => {
           <TMFileUpload
             isUploading={isUploadInProgress}
             // multiple
-            wrapperClassName="w-64 h-36"
+            wrapperClassName="w-72 h-36"
             heading=""
             linkText="Upload a file"
             subHeading="PNG, JPG, PDF, CSV, MP4 up to 50 MB"

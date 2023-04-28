@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { STATIC_INTEGRATIONS_PREPROD_BASE_URL } from 'features/IntegrationsWidget/constants';
 import { getEnvConfig } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
@@ -34,13 +33,6 @@ axios.interceptors.request.use((config) => {
   updatedConfig.withCredentials = shouldExcludeConfig
     ? false
     : stageConfig.withCredentials;
-  updatedConfig.headers = updatedConfig.headers || {};
-  if (
-    !shouldExcludeConfig &&
-    !config.url.includes(STATIC_INTEGRATIONS_PREPROD_BASE_URL)
-  ) {
-    updatedConfig.headers['x-cookie-prefix'] = stageConfig.cookiePrefix;
-  }
 
   // for use in local api-mocker only
   if (
