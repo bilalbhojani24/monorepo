@@ -1,5 +1,7 @@
 import React from 'react';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Badge from '../Badge';
@@ -16,6 +18,7 @@ import {
 import ListFeedsNode from './index';
 
 const optionRadio = 'inline-radio';
+const nathanText = 'Nathan Ellis';
 
 const defaultConfig = {
   title: 'Application/Components/ListFeedsNode',
@@ -181,7 +184,7 @@ const FeedIconSizesTemplate = (args) =>
         <>
           <div className="flex">
             <p className="text-base-500 text-sm">
-              <b className="text-base-800">Nathan Ellises</b> added a a
+              <b className="text-base-800">{nathanText}</b> added a a
               result:&nbsp;
             </p>
             <Badge size="basic" role="none" text="Passed" modifier="success" />
@@ -221,7 +224,7 @@ const FeedWithImageTemplate = (args) =>
         <>
           <div className="flex">
             <p className="text-base-500 text-sm">
-              <b className="text-base-800">Nathan Ellis</b> added a
+              <b className="text-base-800">{nathanText}</b> added a
               result:&nbsp;
             </p>
             <Badge size="basic" role="none" text="Passed" modifier="success" />
@@ -297,7 +300,7 @@ const FeedWithHoverTemplate = (args) =>
         <>
           <div className="flex">
             <p className="text-base-500 text-sm">
-              <b className="text-base-800">Nathan Ellis</b> added a
+              <b className="text-base-800">{nathanText}</b> added a
               result:&nbsp;
             </p>
             <Badge size="basic" role="none" text="Passed" modifier="success" />
@@ -334,10 +337,51 @@ const FeedWithHoverTemplate = (args) =>
   ));
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const name = 'Nathan Elliss';
+  await expect(canvas.queryAllByRole('none').length).toBe(3);
+  await expect(canvas.queryAllByText(name).length).toBe(3);
+};
+
 const FeedIconSizes = FeedIconSizesTemplate.bind({});
+FeedIconSizes.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByRole('none').length).toBe(3);
+  await expect(canvas.queryAllByText(nathanText).length).toBe(3);
+};
+
 const FeedWithImage = FeedWithImageTemplate.bind({});
+FeedIconSizes.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByRole('none').length).toBe(3);
+  await expect(canvas.queryAllByText(nathanText).length).toBe(3);
+};
+
 const FeedWithCheckbox = FeedWithCheckboxTemplate.bind({});
+FeedWithCheckbox.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const name = 'Nathan Ellis2';
+  await expect(canvas.queryAllByRole('none').length).toBe(3);
+  await expect(canvas.queryAllByText(name).length).toBe(3);
+  const checkboxes = canvas.queryAllByRole('checkbox');
+  checkboxes.forEach(async (checkbox) => {
+    await userEvent.click(checkbox);
+  });
+};
+
 const FeedWithHover = FeedWithHoverTemplate.bind({});
+FeedWithHover.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.queryAllByRole('none').length).toBe(3);
+  await expect(canvas.queryAllByText(nathanText).length).toBe(3);
+  const buttons = canvas.queryAllByRole('button');
+  await expect(buttons.length).toBe(3);
+  buttons.forEach(async (button) => {
+    await userEvent.hover(button);
+  });
+};
+
 Primary.parameters = {
   controls: {}
 };
