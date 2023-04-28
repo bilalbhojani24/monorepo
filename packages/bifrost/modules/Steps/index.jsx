@@ -94,7 +94,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
         {step.status === STEPS_STATUS[3] && (
           <a href={step.href} className="group">
             <span
-              className="bg-brand-600 absolute top-0 left-0 h-full w-1 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+              className="bg-brand-600 absolute left-0 top-0 h-full w-1 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
               aria-hidden="true"
             />
             <span
@@ -111,7 +111,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
                   />
                 </span>
               </span>
-              <span className="mt-0.5 ml-4 flex min-w-0 flex-col">
+              <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
                 <span className="text-brand-600 text-sm font-medium">
                   {step.name}
                 </span>
@@ -125,7 +125,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
         {step.status === 'complete' && (
           <a href={step.href} className="group">
             <span
-              className="group-hover:bg-base-200 absolute top-0 left-0 h-full w-1 bg-transparent lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+              className="group-hover:bg-base-200 absolute left-0 top-0 h-full w-1 bg-transparent lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
               aria-hidden="true"
             />
             <span
@@ -142,7 +142,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
                   />
                 </span>
               </span>
-              <span className="mt-0.5 ml-4 flex min-w-0 flex-col">
+              <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
                 <span className="text-sm font-medium">{step.name}</span>
                 <span className="text-base-500 text-sm font-medium">
                   {step.description}
@@ -154,7 +154,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
         {step.status === 'current' && (
           <a href={step.href} aria-current="step">
             <span
-              className="bg-brand-600 absolute top-0 left-0 h-full w-1 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+              className="bg-brand-600 absolute left-0 top-0 h-full w-1 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
               aria-hidden="true"
             />
             <span
@@ -168,7 +168,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
                   <span className="text-brand-600">{stepIdx + 1}</span>
                 </span>
               </span>
-              <span className="mt-0.5 ml-4 flex min-w-0 flex-col">
+              <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
                 <span className="text-brand-600 text-sm font-medium">
                   {step.name}
                 </span>
@@ -182,7 +182,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
         {step.status === 'upcoming' && (
           <a href={step.href} className="group">
             <span
-              className="group-hover:bg-base-200 absolute top-0 left-0 h-full w-1 bg-transparent lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
+              className="group-hover:bg-base-200 absolute left-0 top-0 h-full w-1 bg-transparent lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
               aria-hidden="true"
             />
             <span
@@ -196,7 +196,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
                   <span className="text-base-500">{stepIdx + 1}</span>
                 </span>
               </span>
-              <span className="mt-0.5 ml-4 flex min-w-0 flex-col">
+              <span className="ml-4 mt-0.5 flex min-w-0 flex-col">
                 <span className="text-base-500 text-sm font-medium">
                   {step.name}
                 </span>
