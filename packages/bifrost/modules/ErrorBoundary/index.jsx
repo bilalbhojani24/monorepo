@@ -9,6 +9,17 @@ import React, {
 } from 'react';
 import { PropTypes } from 'prop-types';
 
+/**
+ * How to use ?
+ * 1. ErrorBoundaryContext and useErrorBoundary
+ * 2. withErrorBoundary and useErrorBoundary
+ 
+ * Limitation:-
+ * Because React recreates the component tree from scratch after catching an error, the component using the useErrorBoundary hook is always remounted after an error is encountered. This means any state will be reinitialized: useState and useRef hooks will be reinitialized to their initial value and will not persist across caught errors. Any values that need to be preserved across error catching must be lifted into a parent component above the component wrapped in withErrorBoundary
+ * 
+ * For more check implementation in BoilerPlate
+ */
+
 // Error Boundary class component start
 class ErrorBoundaryContainer extends Component {
   componentDidCatch(...args) {
@@ -115,12 +126,3 @@ export const useErrorBoundary = (componentDidCatch) => {
   return [ctx.error, resetError];
 };
 // Error Boundary custom hook end
-
-/**
- * How to use ?
- * 1. ErrorBoundaryContext and useErrorBoundary
- * 2. withErrorBoundary and useErrorBoundary
- 
- * Limitation:-
- * Because React recreates the component tree from scratch after catching an error, the component using the useErrorBoundary hook is always remounted after an error is encountered. This means any state will be reinitialized: useState and useRef hooks will be reinitialized to their initial value and will not persist across caught errors. Any values that need to be preserved across error catching must be lifted into a parent component above the component wrapped in withErrorBoundary
- */
