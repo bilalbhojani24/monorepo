@@ -104,16 +104,15 @@ const useTestTriggerPanel = () => {
     );
   };
 
-  const searchApplications = (event) => {
+  const searchApplications = (changedValue) => {
     if (lisOfApplications) {
       let searchResults = [];
 
-      if (event?.target?.value?.length > 0) {
+      if (changedValue?.length > 0) {
         searchResults = lisOfApplications?.filter?.(
           (app) =>
-            app?.name
-              ?.toLowerCase()
-              ?.indexOf(event?.target?.value?.toLowerCase()) !== -1
+            app?.name?.toLowerCase()?.indexOf(changedValue?.toLowerCase()) !==
+            -1
         );
       } else {
         searchResults = lisOfApplications;
