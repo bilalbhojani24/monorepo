@@ -149,7 +149,7 @@ const Template = (args) =>
               <b className="text-base-800">Nathan Elliss</b> added a T
               result:&nbsp;
             </p>
-            <Badge text="Passed" modifier="success" />
+            <Badge size="basic" role="none" text="Passed" modifier="success" />
           </div>
           <p className="text-base-500 text-sm">Jan 26, 2023 | 3:20 PM (IST)</p>
         </>
@@ -184,7 +184,7 @@ const FeedIconSizesTemplate = (args) =>
               <b className="text-base-800">Nathan Ellises</b> added a a
               result:&nbsp;
             </p>
-            <Badge text="Passed" modifier="success" />
+            <Badge size="basic" role="none" text="Passed" modifier="success" />
           </div>
           <p className="text-base-500 text-sm">Jan 27, 2023 | 3:20 PM (IST)</p>
         </>
@@ -224,7 +224,7 @@ const FeedWithImageTemplate = (args) =>
               <b className="text-base-800">Nathan Ellis</b> added a
               result:&nbsp;
             </p>
-            <Badge text="Passed" modifier="success" />
+            <Badge size="basic" role="none" text="Passed" modifier="success" />
           </div>
           <p className="text-base-500 text-sm">Jan 25, 2023 | 3:20 PM (IST)</p>
         </>
@@ -267,7 +267,7 @@ const FeedWithCheckboxTemplate = (args) =>
               <b className="text-base-800">Nathan Ellis2</b> added a ap
               result:&nbsp;
             </p>
-            <Badge text="Passed" modifier="success" />
+            <Badge size="basic" role="none" text="Passed" modifier="success" />
           </div>
           <p className="text-base-500 text-sm">Jan 29, 2023 | 3:20 PM (IST)</p>
         </>
@@ -300,7 +300,7 @@ const FeedWithHoverTemplate = (args) =>
               <b className="text-base-800">Nathan Ellis</b> added a
               result:&nbsp;
             </p>
-            <Badge text="Passed" modifier="success" />
+            <Badge size="basic" role="none" text="Passed" modifier="success" />
           </div>
           <p className="text-base-500 text-sm">Jan 25, 2023 | 3:20 PM (IST)</p>
         </>
