@@ -60,7 +60,7 @@ const AllProjects = () => {
       cell: (rowData) => (
         <div
           role="button"
-          className="hover:text-brand-600 cursor-pointer"
+          className="text-base-900 hover:text-brand-600 cursor-pointer"
           tabIndex={0}
           onClick={handleClickDynamicLink(
             rowData.test_cases_count > 0
@@ -187,14 +187,14 @@ const AllProjects = () => {
             )}
             role="button"
             tabIndex={0}
-            className="hover:text-brand-600 w-28 cursor-pointer"
+            className="text-base-500 hover:text-brand-600 w-28 cursor-pointer"
           >
             {rowData.test_cases_count} Test Cases
           </div>
           <div
             tabIndex={0}
             role="button"
-            className="hover:text-brand-600 ml-6  w-1 cursor-pointer"
+            className="text-base-500 hover:text-brand-600 ml-6  w-1 cursor-pointer"
             onClick={handleClickDynamicLink(
               AppRoute.TEST_RUNS,
               rowData.id,

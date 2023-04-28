@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
-import buildsReducer from 'features/AllBuilds/slices/dataSlice';
+import buildsReducer from 'features/AllBuilds/slices/buildsSlice';
 import buildDetailsReducer from 'features/BuildDetails/slices/buildDetailsSlice';
 import integrationsReducer from 'features/Integrations/slices/integrationsSlice';
 import alertsSettingsReducer from 'features/Settings/slices/alertsSettings';

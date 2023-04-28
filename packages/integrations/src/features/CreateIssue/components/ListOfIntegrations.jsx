@@ -1,9 +1,12 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import IntegrationAuth from '../../Auth';
-import { integrationsSelector } from '../../slices/integrationsSlice';
+import {
+  integrationsSelector,
+  setActiveIntegration
+} from '../../slices/integrationsSlice';
 import { CreateIssueOptionsType } from '../types';
 
 import IssueForm from './IssueForm';
@@ -44,9 +47,16 @@ const ListOfIntegrations = ({
   setIsFormBeingSubmitted
 }) => {
   const integrations = useSelector(integrationsSelector);
+  const dispatch = useDispatch();
   // user has single integration available
   if (integrations.length === 1) {
     const integration = integrations[0];
+    const formattedIntegration = {
+      value: integration.key,
+      label: `${integration.label} issue`,
+      title: integration.label
+    };
+    dispatch(setActiveIntegration(formattedIntegration));
     // user doesn't have the single integration set up
     if (!integration.setup_completed) return renderAuth(integration);
     // user has the single integration set up

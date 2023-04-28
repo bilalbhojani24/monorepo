@@ -14,7 +14,7 @@ import {
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
-import { findFolderRouted } from 'utils/folderHelpers';
+import { findFolderPath } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -27,6 +27,7 @@ import {
   addSingleTestCase,
   // resetBulkFormData,
   resetBulkSelection,
+  resetFilterSearchMeta,
   setAddIssuesModal,
   setAddTagModal,
   setAddTestCaseFromSearch,
@@ -60,7 +61,6 @@ export default function useAddEditTestCase(prop) {
   const [inputError, setInputError] = useState({
     name: false
   });
-  const [isUploadInProgress, setUploadProgress] = useState(false);
   const [scheduledFolder, setScheduledFolder] = useState([]);
   const [usersArrayMapped, setUsersArrayMapped] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
@@ -127,6 +127,9 @@ export default function useAddEditTestCase(prop) {
   );
   const bulkEditTestCaseCtaLoading = useSelector(
     (state) => state.repository.isLoading.bulkEditTestCaseCta
+  );
+  const isUploadInProgress = useSelector(
+    (state) => state.repository.isLoading.uploadingAttachments
   );
 
   const hideTestCaseAddEditPage = (e, isForced, action) => {
@@ -479,7 +482,8 @@ export default function useAddEditTestCase(prop) {
       for (let idx = 0; idx < selectedFiles.length; idx += 1) {
         files.push({
           name: selectedFiles[idx].name,
-          id: null
+          id: null,
+          tempIdx: idx
         });
       }
       handleTestCaseFieldChange('attachments', files);
@@ -489,7 +493,7 @@ export default function useAddEditTestCase(prop) {
         filesData.append('attachments[]', selectedFiles[idx]);
       }
 
-      setUploadProgress(true);
+      dispatch(updateCtaLoading({ key: 'uploadingAttachments', value: true }));
       uploadFilesAPI({ projectId, payload: filesData })
         .then((item) => {
           const uploadedFiles = files.filter((thisItem) => thisItem.id);
@@ -501,22 +505,26 @@ export default function useAddEditTestCase(prop) {
           }
           // update with id
           handleTestCaseFieldChange('attachments', uploadedFiles);
-          setUploadProgress(false);
+          dispatch(
+            updateCtaLoading({ key: 'uploadingAttachments', value: false })
+          );
         })
-        .catch((err) => {
+        .catch(() => {
           handleTestCaseFieldChange(
             'attachments',
             files.filter((item) => item.id)
           );
-          setUploadProgress(false);
           dispatch(
-            addNotificaton({
-              id: `error-upload${Math.random()}`,
-              title: err.response.statusText || 'File upload',
-              variant: 'error',
-              description: null
-            })
+            updateCtaLoading({ key: 'uploadingAttachments', value: false })
           );
+          // dispatch( //moved to generic error handler
+          //   addNotificaton({
+          //     id: `error-upload${Math.random()}`,
+          //     title: err.response.statusText || 'File upload',
+          //     variant: 'error',
+          //     description: null
+          //   })
+          // );
         });
     }
   };
@@ -524,7 +532,9 @@ export default function useAddEditTestCase(prop) {
   const fileRemoveHandler = (data) => {
     handleTestCaseFieldChange(
       'attachments',
-      testCaseFormData?.attachments.filter((item) => item.id !== data.id)
+      testCaseFormData?.attachments.filter((item) =>
+        item.id ? item.id !== data.id : item.tempIdx !== data.tempIdx
+      )
     );
   };
 
@@ -570,6 +580,7 @@ export default function useAddEditTestCase(prop) {
   };
 
   const showTestCaseAdditionPage = (thisFolder, isFromListTree) => {
+    dispatch(resetFilterSearchMeta());
     unsavedFormConfirmation(false, () => {
       if (isFromListTree) {
         dispatch(
@@ -647,8 +658,13 @@ export default function useAddEditTestCase(prop) {
       isAddTestCasePageVisible &&
       prop?.isAddEditOnly // to reduce recalculation for other components
     ) {
+      const folderPath = findFolderPath(
+        allFolders,
+        testCaseFormData?.test_case_folder_id,
+        []
+      );
       setScheduledFolder(
-        findFolderRouted(allFolders, testCaseFormData?.test_case_folder_id)
+        folderPath?.length ? folderPath : [allFolders[0]?.name]
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

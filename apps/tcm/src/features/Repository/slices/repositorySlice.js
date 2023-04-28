@@ -86,7 +86,8 @@ const initialState = {
     bulkEditTestCaseCta: false,
     bulkDeleteTestCaseCta: false,
     bulkMoveTestCaseCta: false,
-    tags: true
+    tags: true,
+    uploadingAttachments: false
   },
   isUnsavedDataExists: false,
   isUnsavedDataModalVisible: false,
@@ -146,7 +147,10 @@ export const repositorySlice = createSlice({
         // reset form data
         state.testCaseFormData = {
           ...initialState.testCaseFormData,
-          test_case_folder_id: !Number.isNaN(payload) ? payload : null
+          test_case_folder_id:
+            !Number.isNaN(payload) && typeof payload !== 'boolean'
+              ? payload
+              : state?.allFolders[0]?.id
         };
       }
     },

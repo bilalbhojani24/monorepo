@@ -14,7 +14,7 @@ import {
   deleteGlobalProject,
   updateGlobalProject
 } from 'globalSlice';
-import { routeFormatter } from 'utils/helperFunctions';
+import { redirectToPrevPage, routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -45,10 +45,11 @@ import {
 } from '../slices/projectSlice';
 
 const useProjects = (prop) => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalFocusRef = useRef();
+  const totalProjectsCountRef = useRef(0);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -126,6 +127,7 @@ const useProjects = (prop) => {
 
     getProjectsAPI(searchParams.get('p'))
       .then((res) => {
+        totalProjectsCountRef.current = res.projects.length;
         dispatch(setProjects(res.projects));
         dispatch(setMetaPage(res.info));
         dispatch(setLoading(false));
@@ -181,6 +183,11 @@ const useProjects = (prop) => {
           );
           dispatch(deleteProject(res.data.project));
           dispatch(deleteGlobalProject(res.data.project));
+
+          if (totalProjectsCountRef.current === 1 && searchParams.get('p'))
+            redirectToPrevPage(searchParams, setSearchParams);
+          else fetchProjects();
+
           dispatch(
             setMetaPage({
               ...metaPage,

@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import AutomationIcon from '../Icon/CustomIcons/AutomationIcon';
@@ -6,6 +8,7 @@ import AutomationIcon from '../Icon/CustomIcons/AutomationIcon';
 import { ALERT_LINK_POSITION, ALERT_MODIFIER } from './const/alertConstants';
 import Alerts from './index';
 
+const attentionNeeded = 'Attention needed';
 const defaultConfig = {
   title: 'Application/Components/Alerts',
   component: Alerts,
@@ -67,7 +70,7 @@ const defaultConfig = {
       type: { summary: 'TEXT', required: false },
       description:
         "Renders title of the alert component, while passing title prop make sure 'dismissButton' prop is not enabled.",
-      defaultValue: 'Attention needed'
+      defaultValue: attentionNeeded
     },
     enableActions: {
       option: { type: 'boolean' },
@@ -110,7 +113,18 @@ const Template = (args) => <Alerts {...args} />;
 const CustomIconTemplate = (args) => <Alerts {...args} />;
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(attentionNeeded)).toBeVisible();
+  await userEvent.click(canvas.getByText('Details'));
+};
+
 const CustomIcon = CustomIconTemplate.bind({});
+CustomIcon.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(attentionNeeded)).toBeVisible();
+  await userEvent.click(canvas.getByText('Details'));
+};
 
 Primary.parameters = {
   controls: {}

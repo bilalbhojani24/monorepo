@@ -12,6 +12,7 @@ const ComboboxLabel = ({ children, wrapperClassName }) => (
           'text-base-700 mb-1 block text-sm font-medium',
           wrapperClassName
         )}
+        aria-label="Combobox label"
       >
         {children}
       </Combobox.Label>
