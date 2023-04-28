@@ -3,9 +3,8 @@ import {
   MdOutlineAccessTime,
   MdOutlineAutoFixHigh
 } from '@browserstack/bifrost';
-import { O11yBadge, O11yTooltip } from 'common/bifrostProxy';
+import { O11yBadge, O11yMetaData, O11yTooltip } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
-import MetaData from 'common/MetaData';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import PropTypes from 'prop-types';
 import {
@@ -93,13 +92,13 @@ const BuildInfo = ({ buildDetails }) => (
         </div>
       )}
       {!!buildDetails?.startedAt && (
-        <MetaData
-          label={`${getCustomTimeStamp({
+        <O11yMetaData
+          metaDescription={`${getCustomTimeStamp({
             dateString: buildDetails.startedAt
           })}`}
-          icon={<MdOutlineAccessTime />}
-          title="Started at"
-          hasDot={false}
+          icon={<MdOutlineAccessTime className="text-base-400 h-4 w-4" />}
+          metaTitle="Started at"
+          textColorClass="text-base-500"
         />
       )}
     </div>

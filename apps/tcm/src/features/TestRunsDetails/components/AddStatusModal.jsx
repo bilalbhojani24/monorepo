@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import AddIssuesModal from 'common/AddIssuesModal';
 import {
   TMButton,
@@ -6,7 +6,7 @@ import {
   TMModalBody,
   TMModalFooter,
   TMModalHeader,
-  TMRichTextEditor,
+  // TMRichTextEditor,
   TMSelectMenu
 } from 'common/bifrostProxy';
 
@@ -17,7 +17,7 @@ import useTRTCFolders from './useTRTCFolders';
 const AddStatusModal = () => {
   const {
     statusError,
-    projectId,
+    // projectId,
     isAddIssuesModalShown,
     issuesArray,
     addStatusFormData,
@@ -30,9 +30,11 @@ const AddStatusModal = () => {
     addIssuesSaveHelper,
     setStatusError
   } = useTRTCFolders();
+  const statusFocusRef = useRef();
 
   return (
     <TMModal
+      ref={statusFocusRef}
       show={isAddStatusVisible}
       withDismissButton
       onOverlayClick={closeAll}
@@ -44,10 +46,11 @@ const AddStatusModal = () => {
       />
       <TMModalBody>
         <div className="w-full">
-          <div className="mb-4 max-w-xs">
+          <div className="mb-4 w-72">
             <TMSelectMenu
               label="Status"
               checkPosition="right"
+              ref={statusFocusRef}
               placeholder="Choose from options"
               options={STATUS_OPTIONS.map((el) => ({
                 label: (
@@ -78,7 +81,7 @@ const AddStatusModal = () => {
               </p>
             )}
           </div>
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <TMRichTextEditor
               label="Add Remarks"
               value={addStatusFormData?.description}
@@ -87,9 +90,9 @@ const AddStatusModal = () => {
               onChange={(val) => statusFormChangeHandler('description', val)}
               projectId={projectId}
             />
-          </div>
+          </div> */}
           <div className="flex flex-1 items-end justify-between pb-2">
-            <div className="mr-4 flex-1">
+            <div className="mr-4 w-72">
               <TMSelectMenu
                 checkPosition="right"
                 isMulti

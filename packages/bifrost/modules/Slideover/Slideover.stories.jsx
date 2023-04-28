@@ -122,7 +122,7 @@ predefinedComponents.args = {
         subHeading="Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone."
         Icon={<ExclamationTriangleIcon className="text-white" />}
         isBorder
-        backgroundColorClass="bg-danger-700"
+        wrapperClassName="bg-danger-700"
         lightText
       />
 
@@ -132,7 +132,7 @@ predefinedComponents.args = {
         ))}
       </SlideoverBody>
 
-      <SlideoverFooter backgroundColorClass="bg-brand-100">
+      <SlideoverFooter wrapperClassName="bg-brand-100">
         <Button fullWidth colors="brand">
           Go to Dashboard
         </Button>

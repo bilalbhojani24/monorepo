@@ -1,11 +1,11 @@
 // data selectors
-export const getTestDetailsInfo = (state) =>
+export const getSHTestsDetailsInfo = (state) =>
   state.shTestdetails.data.testDetailsInfo;
 
 // ui selectors
-export const getIsSnPDetailsVisible = (state) =>
+export const getIsSHTestsDetailsVisible = (state) =>
   state.shTestdetails.ui.isDetailsVisible;
-export const getShowSnPDetailsFor = (state) =>
+export const getShowSHTestsDetailsFor = (state) =>
   state.shTestdetails.ui.showDetailsFor;
 export const getSnPCbtInfo = (state) => state.shTestdetails.ui.cbtInfo;
 export const getTestDetailsActiveTab = (state) =>

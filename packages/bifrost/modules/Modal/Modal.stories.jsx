@@ -64,7 +64,7 @@ const defaultConfig = {
     },
     show: {
       option: { type: 'boolean' },
-      defaultValue: false
+      defaultValue: true
     },
     size: {
       options: MODAL_SIZE,

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
+import { MdOutlineAutoAwesome } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yBadge, O11yTableCell } from 'common/bifrostProxy';
 import JiraTag from 'common/JiraTag';
@@ -36,7 +37,12 @@ const BuildRow = ({ buildData }) => (
         BUILDS_HEADER_COLUMN_STYLE_MAPPING.failureCategory.defaultClass
       )}
     >
-      <span className="">{buildData?.issueType?.value}</span>
+      <p className="flex items-center gap-1">
+        {buildData?.issueType?.isAutoAnalyzed && (
+          <MdOutlineAutoAwesome className="text-base-500 h-4 w-4" />
+        )}
+        <span className="">{buildData?.issueType?.value}</span>
+      </p>
     </O11yTableCell>
     <O11yTableCell
       wrapperClassName={twClassNames(

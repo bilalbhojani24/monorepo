@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getEnvConfig } from 'utils/common';
+import { o11yNotify } from 'utils/notification';
 
 const getMockerConfig = (config) => {
   const updatedConfig = {};
@@ -32,14 +33,10 @@ axios.interceptors.request.use((config) => {
   updatedConfig.withCredentials = shouldExcludeConfig
     ? false
     : stageConfig.withCredentials;
-  updatedConfig.headers = updatedConfig.headers || {};
-  if (!shouldExcludeConfig) {
-    updatedConfig.headers['x-cookie-prefix'] = stageConfig.cookiePrefix;
-  }
 
   // for use in local api-mocker only
   if (
-    !stageConfig.isMocker &&
+    stageConfig.isMocker &&
     (config.method === 'post' ||
       config.method === 'put' ||
       config.method === 'patch')
@@ -51,3 +48,19 @@ axios.interceptors.request.use((config) => {
   }
   return updatedConfig;
 });
+
+axios.interceptors.response.use(
+  (res) => Promise.resolve(res),
+  (res) => {
+    if (res?.response?.status === 500) {
+      // if server error, show toast
+      o11yNotify({
+        title: 'Error occurred',
+        description:
+          'Some technical error occurred. Please try again. If this issue persists, contact Support.',
+        type: 'error'
+      });
+    }
+    return Promise.reject(res);
+  }
+);

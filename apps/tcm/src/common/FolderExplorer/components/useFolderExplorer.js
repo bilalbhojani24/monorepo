@@ -12,6 +12,7 @@ const useFolderExplorer = ({
 }) => {
   const [selectedNodesId, setSelectedNodesId] = useState([]);
   const [foldersArray, setFoldersArray] = useState([]);
+  const [isInitialFetchDone, setInitialFetch] = useState(false);
 
   const fireOnFoldersUpdate = (folders, thisSelectedNodesId, testCases) => {
     onFoldersUpdate(folders, thisSelectedNodesId, testCases);
@@ -22,6 +23,7 @@ const useFolderExplorer = ({
       getFolders({ projectId }).then((data) => {
         setFoldersArray(data?.folders || []);
         fireOnFoldersUpdate(data?.folders, selectedNodesId);
+        setInitialFetch(true);
       });
   };
 
@@ -107,6 +109,7 @@ const useFolderExplorer = ({
   return {
     selectedNodesId,
     foldersArray,
+    isInitialFetchDone,
     folderClickHandler,
     subFolderOpenHandler
   };

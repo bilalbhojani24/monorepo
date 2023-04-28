@@ -19,7 +19,7 @@ const SectionHeadings = ({
       'border-b border-base-200 pb-5': !tabsProps
     })}
   >
-    <div className="border-base-200 sm:flex sm:items-baseline sm:justify-between">
+    <div className="border-base-200 sm:flex sm:items-start sm:justify-between">
       <div className="w-auto" role="contentinfo">
         {(subTitle || title) && (
           <div className="flex flex-wrap items-baseline">

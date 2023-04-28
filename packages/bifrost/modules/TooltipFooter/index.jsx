@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 
 import { TP_ACTION_ITEM_POSITION } from '../../shared/tooltipPopoverConstants';
 
-import './styles.scss';
-
 const TooltipFooter = ({ children, position, wrapperClassName }) => (
   <div
     className={twClassNames(

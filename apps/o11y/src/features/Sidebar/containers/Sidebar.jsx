@@ -27,7 +27,7 @@ import ProjectSelector from '../components/ProjectSelector';
 const getPrimaryNav = ({ projectNormalisedName }) => [
   {
     id: 'builds',
-    label: 'Builds',
+    label: 'Build Runs',
     activeIcon: MdOutlineBuildCircle,
     inActiveIcon: MdOutlineBuildCircle,
     path: getProjectBuildsPath(projectNormalisedName),

@@ -25,7 +25,7 @@ export const getAlertsSettings = createAsyncThunk(
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -39,7 +39,7 @@ export const submitNewAlert = createAsyncThunk(
         alertData: data.payload || {}
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -52,7 +52,7 @@ export const updateAlert = createAsyncThunk(
         alertData: data.payload || {}
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -66,7 +66,7 @@ export const deleteAlertById = createAsyncThunk(
         alertType: data.alertType
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -86,7 +86,7 @@ export const getBuildNamesData = createAsyncThunk(
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -154,6 +154,9 @@ const { reducer } = createSlice({
         state.alerts.data[payload.alertType] = state.alerts.data[
           payload.alertType
         ].filter((item) => item.id !== payload.alertId);
+        if (!state.alerts.data[payload.alertType].length) {
+          delete state.alerts.data[payload.alertType];
+        }
       })
       // Build Names
       .addCase(getBuildNamesData.pending, (state) => {

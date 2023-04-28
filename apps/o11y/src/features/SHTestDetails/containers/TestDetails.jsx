@@ -5,17 +5,17 @@ import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
 import {
-  getIsSnPDetailsVisible,
-  getShowSnPDetailsFor
+  getIsSHTestsDetailsVisible,
+  getShowSHTestsDetailsFor
 } from '../slices/selectors';
 
 import SlideOverBody from './SlideOverBody';
 import SlideOverHeader from './SlideOverHeader';
 
 const TestDetails = () => {
-  const isVisible = useSelector(getIsSnPDetailsVisible);
+  const isVisible = useSelector(getIsSHTestsDetailsVisible);
   const activeProject = useSelector(getActiveProject);
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
 
   useEffect(() => {
     logOllyEvent({

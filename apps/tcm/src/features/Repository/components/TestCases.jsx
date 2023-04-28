@@ -1,6 +1,7 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect, useRef } from 'react';
 import ReactHtmlParser from 'react-html-parser';
+// import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon, SearchOffOutlinedIcon } from 'assets/icons';
 import {
   TMEmptyState,
@@ -12,12 +13,13 @@ import {
 import CopyButton from 'common/CopyButton';
 import Loader from 'common/Loader';
 
+import BulkEditTestCase from './AddEditTestCase/BulkEditTestCase';
+import DeleteTestCase from './AddEditTestCase/DeleteTestCase';
+import InlineAddTestCase from './AddEditTestCase/InlineAddTestCase';
+// import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
-import BulkEditTestCase from './BulkEditTestCase';
-import DeleteTestCase from './DeleteTestCase';
 import Filter from './Filter';
-import InlineAddTestCase from './InlineAddTestCase';
 import TestCasesTable from './TestCasesTable';
 import useTestCases from './useTestCases';
 
@@ -39,7 +41,16 @@ export default function TestCases() {
   } = useTestCases();
 
   const focusRef = useRef(null);
-
+  // const dispatch = useDispatch();
+  // useEffect(
+  //   () =>
+  //     // just want this on unmount
+  //     () => {
+  //       console.log('test case view visibility on unmount');
+  //       dispatch(setTestCaseViewVisibility(false));
+  //     },
+  //   [dispatch]
+  // );
   useEffect(() => {
     focusRef?.current?.focus();
   }, [

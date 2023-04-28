@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @import '@browserstack/tailwind-config/default-theme';
+@import './ThirdPartyStyles.scss';
 
 body {
   font-synthesis: none;

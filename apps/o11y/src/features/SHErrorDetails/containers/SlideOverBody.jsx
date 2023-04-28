@@ -44,7 +44,7 @@ const SlideOverBody = () => {
         />
       </div>
       <div
-        className="flex flex-1 flex-col overflow-auto px-6 pt-6 pb-0"
+        className="flex flex-1 flex-col overflow-auto px-6 pt-5 pb-0"
         id={SH_UE_DETAILS_CUSTOM_SCROLL_PARENT_ID}
       >
         {activeTab.value === TABS.platforms && <PlatformsTab />}

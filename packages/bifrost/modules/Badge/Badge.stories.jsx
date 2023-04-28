@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -75,9 +77,22 @@ const defaultConfig = {
     onClose: {}
   }
 };
+
+const badgeText = 'Badge';
 const Template = (args) => <Badge {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(badgeText)).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 const DisabledBadge = Template.bind({});
+DisabledBadge.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(badgeText)).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 
 Primary.parameters = {
   controls: {}

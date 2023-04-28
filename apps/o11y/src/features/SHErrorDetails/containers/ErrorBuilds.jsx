@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import VirtualisedTable from 'common/VirtualisedTable';
+import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
@@ -111,15 +112,20 @@ export default function ErrorBuilds() {
     }
   };
 
-  const handleRowClick = () => {
-    logOllyEvent({
-      event: 'O11ySuiteHealthErrorsTimelineInteracted',
-      data: {
-        project_name: activeProject.name,
-        project_id: activeProject.id,
-        interaction: 'test_details_opened'
-      }
-    });
+  const handleRowClick = (rest) => {
+    const activeData = buildsData?.builds[rest];
+    if (activeData) {
+      dispatch(showTestDetailsDrawer(activeData.id));
+
+      logOllyEvent({
+        event: 'O11ySuiteHealthErrorsTimelineInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          interaction: 'test_details_opened'
+        }
+      });
+    }
   };
 
   if ((!isLoadingData && !buildsData.builds.length) || isLoadingData) {
@@ -139,8 +145,10 @@ export default function ErrorBuilds() {
             <O11yTableCell
               key={key}
               wrapperClassName={twClassNames(
-                BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass
+                BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].defaultClass,
+                'bg-white -top-5'
               )}
+              isSticky
             >
               <div className="text-xs font-medium uppercase leading-4">
                 {BUILDS_HEADER_COLUMN_STYLE_MAPPING[key].name}
@@ -152,8 +160,8 @@ export default function ErrorBuilds() {
       itemContent={(index, buildData) => <BuildRow buildData={buildData} />}
       showFixedFooter={isLoadingMore}
       handleRowClick={handleRowClick}
-      tableContainerWrapperClassName="bg-white ring-0 shadow-none border-0 rounded-none md:rounded-none border-b"
-      tableHeaderWrapperClassName="bg-white"
+      tableContainerWrapperClassName="bg-white ring-0 shadow-none border-0 rounded-none md:rounded-none overflow-visible overflow-x-visible"
+      tableWrapperClassName="border-separate border-spacing-0 divide-y-0"
     />
   );
 }

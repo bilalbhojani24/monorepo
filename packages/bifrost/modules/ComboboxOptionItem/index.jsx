@@ -18,14 +18,14 @@ import { CheckIcon } from '../Icon';
 
 const ComboboxOptionItem = forwardRef(
   ({ disabled, option, checkPosition, wrapperClassName }, ref) => {
-    const { isMulti } = useContext(ComboboxContextData);
+    const { isMulti, isBadge } = useContext(ComboboxContextData);
 
     return (
       <Combobox.Option
         ref={ref}
         key={option.value}
         value={option}
-        className={({ active }) =>
+        className={({ active, selected }) =>
           twClassNames(
             'group relative cursor-pointer select-none py-2 pl-3 pr-9',
             active && !isMulti ? 'bg-brand-600 text-white' : 'text-base-900',
@@ -33,7 +33,8 @@ const ComboboxOptionItem = forwardRef(
               'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1] && !isMulti,
               'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0] && !isMulti,
               'hover:bg-base-50 py-2 pl-2 cursor-pointer': isMulti,
-              'bg-base-50 text-base-500': disabled
+              'bg-base-50 text-base-500': disabled,
+              'pl-3': isBadge && !selected
             },
             wrapperClassName
           )
@@ -61,10 +62,10 @@ const ComboboxOptionItem = forwardRef(
                       'block truncate'
                     )}
                   >
-                    {option.label}
+                    {option?.visualLabel || option.label}
                   </span>
                 </div>
-                {selected && (
+                {selected && !isBadge && (
                   <span
                     className={twClassNames(
                       'absolute inset-y-0 right-0 flex items-center pr-4',

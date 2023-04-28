@@ -29,6 +29,9 @@ const CHART_OPTIONS = {
     area: {
       lineWidth: 1
     },
+    series: {
+      connectNulls: true
+    },
     column: {
       stacking: 'normal',
       cursor: 'pointer',

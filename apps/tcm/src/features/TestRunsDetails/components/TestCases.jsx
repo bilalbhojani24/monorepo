@@ -15,6 +15,7 @@ import useTRTCFolders from './useTRTCFolders';
 
 const TestCases = () => {
   const {
+    page,
     isTestCasesLoading,
     allTestCases,
     isSearchFilterView, // TODO POST ALPHA
@@ -27,7 +28,7 @@ const TestCases = () => {
   useEffect(() => {
     fetchTestCases();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page]);
 
   return (
     <section className="flex h-full w-full  min-w-0 lg:order-last">

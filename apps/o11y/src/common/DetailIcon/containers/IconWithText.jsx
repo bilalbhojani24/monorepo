@@ -12,7 +12,8 @@ const IconWithText = ({
   iconClass,
   textClass,
   size,
-  forSpecInfo
+  forSpecInfo,
+  openTextInTooltip
 }) => {
   const IconComponent = ICON_LIST[icon] ? ICON_LIST[icon] : UnknownIcon;
 
@@ -45,11 +46,13 @@ const IconWithText = ({
       data-analytics-id={analyticsId}
     >
       <IconComponent className={`h-4 w-4 ${getIconSizeClass()} ${iconClass}`} />
-      <div
-        className={`text-base-500 overflow-hidden text-ellipsis font-normal leading-5 ${textClass}`}
-      >
-        {text}
-      </div>
+      {!openTextInTooltip && (
+        <div
+          className={`text-base-500 overflow-hidden text-ellipsis font-normal leading-5 ${textClass}`}
+        >
+          {text}
+        </div>
+      )}
     </div>
   );
 };
@@ -61,7 +64,8 @@ IconWithText.propTypes = {
   iconClass: PropTypes.string,
   textClass: PropTypes.string,
   size: PropTypes.string,
-  forSpecInfo: PropTypes.bool
+  forSpecInfo: PropTypes.bool,
+  openTextInTooltip: PropTypes.bool
 };
 
 IconWithText.defaultProps = {
@@ -69,7 +73,8 @@ IconWithText.defaultProps = {
   iconClass: '',
   textClass: '',
   size: '',
-  forSpecInfo: false
+  forSpecInfo: false,
+  openTextInTooltip: false
 };
 
 export default IconWithText;

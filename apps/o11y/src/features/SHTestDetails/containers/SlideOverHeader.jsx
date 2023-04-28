@@ -9,18 +9,21 @@ import {
   clearTestDetailsInfo,
   getSnPTestsDetailsInfoData,
   resetActiveTab,
-  setIsSnPDetailsVisible,
-  setShowSnPDetailsFor
+  setIsSHTestsDetailsVisible,
+  setShowSHTestsDetailsFor
 } from '../slices/dataSlice';
-import { getShowSnPDetailsFor, getTestDetailsInfo } from '../slices/selectors';
+import {
+  getShowSHTestsDetailsFor,
+  getSHTestsDetailsInfo
+} from '../slices/selectors';
 
 const TestDetailsHeader = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const activeProject = useSelector(getActiveProject);
-  const testDetailsInfo = useSelector(getTestDetailsInfo);
+  const testDetailsInfo = useSelector(getSHTestsDetailsInfo);
   const mounted = useRef(null);
 
   useEffect(() => {
@@ -39,8 +42,8 @@ const TestDetailsHeader = () => {
   }, [dispatch, testId, activeProject?.normalisedName]);
 
   const handleCloseDetails = () => {
-    dispatch(setIsSnPDetailsVisible(false));
-    dispatch(setShowSnPDetailsFor(''));
+    dispatch(setIsSHTestsDetailsVisible(false));
+    dispatch(setShowSHTestsDetailsFor(''));
     dispatch(clearTestDetailsInfo());
     dispatch(resetActiveTab());
     const searchParams = new URLSearchParams(window?.location.search);
@@ -52,6 +55,7 @@ const TestDetailsHeader = () => {
       handleDismissClick={handleCloseDetails}
       heading={testDetailsInfo.data?.name || ''}
       headingWrapperClassName="leading-7"
+      wrapperClassName="pb-0"
     />
   );
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
-// import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { ChevronDownIcon, ChevronUpIcon } from '../Icon';
@@ -11,8 +10,6 @@ import {
   CELL_TEXT_TRANSFORM,
   CELL_VARIANT
 } from './const/tableCellConstants';
-
-import './styles.scss';
 
 const TableCell = ({
   align,
@@ -39,9 +36,9 @@ const TableCell = ({
     <td
       className={twClassNames(
         {
-          'px-3 py-3.5 text-base-500 whitespace-nowrap py-4 text-sm':
+          'px-3 text-base-500 whitespace-nowrap py-4 text-sm':
             variant === CELL_VARIANT[0],
-          'px-3 py-3.5 text-left text-sm font-semibold text-base-900':
+          'px-3 py-3.5 text-left text-xs font-semibold text-base-900':
             variant === CELL_VARIANT[1],
           [`text-${align}`]: align,
           [textTransform]: textTransform,

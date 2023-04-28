@@ -1,3 +1,3 @@
-import TestDetailsSlideOver from './containers/TestDetailsSlideOver';
+import TestDetails from './containers/TestDetails';
 
-export default TestDetailsSlideOver;
+export default TestDetails;

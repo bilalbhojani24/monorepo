@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { MdInfoOutline } from '@browserstack/bifrost';
 import classNames from 'classnames';
 import {
@@ -11,6 +12,7 @@ import Highcharts from 'highcharts';
 import variablePie from 'highcharts/modules/variable-pie';
 import HighchartsReact from 'highcharts-react-official';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import useDashboard from './useDashboard';
 
@@ -27,11 +29,37 @@ const Dashboard = () => {
     jiraIssuesOptions,
     closedTestRunsDailyLineOptions,
     testCasesTrendOptions,
-    fetchAllChartData
+    fetchAllChartData,
+    logTheEvent
   } = useDashboard();
+  const dispatch = useDispatch();
+
+  // const activeRunsButtonClicked = () => {
+  //   dispatch(
+  //     logEventHelper('TM_DashboardActiveRunLinkClicked', {
+  //       project_id: projectId,
+  //       dashboard_id: '1'
+  //     })
+  //   );
+  // };
+
+  // const daysClosedButtonClicked = () => {
+  //   dispatch(
+  //     logEventHelper('TM_DashboardDaysClosedRunLinkClicked', {
+  //       project_id: projectId,
+  //       dashboard_id: '1'
+  //     })
+  //   );
+  // };
 
   useEffect(() => {
     fetchAllChartData();
+    dispatch(
+      logEventHelper('TM_DashboardPageLoaded', {
+        project_id: projectId,
+        dashboard_id: '0'
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
@@ -68,7 +96,8 @@ const Dashboard = () => {
               size="fit-content"
               footerProps={{
                 linkText: 'View All Active Runs',
-                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }),
+                onClick: () => logTheEvent('TM_DashboardActiveRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -120,7 +149,9 @@ const Dashboard = () => {
                 linkTo:
                   `${routeFormatter(AppRoute.TEST_RUNS, {
                     projectId
-                  })}?closed=true` || ''
+                  })}?closed=true` || '',
+                onClick: () =>
+                  logTheEvent('TM_DashboardMonthsClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -165,7 +196,9 @@ const Dashboard = () => {
                 linkText: 'View All Closed Runs',
                 linkTo: `${routeFormatter(AppRoute.TEST_RUNS, {
                   projectId
-                })}?closed=true`
+                })}?closed=true`,
+                onClick: () =>
+                  logTheEvent('TM_Dashboard15DaysClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">

@@ -11,9 +11,12 @@ const ComboboxOptionGroup = ({
   alignment,
   children,
   wrapperClassName,
-  maxWidth
+  maxWidth,
+  addNewItemComponent
 }) => {
-  const { width } = useContext(ComboboxContextData);
+  const { width, query, isBadge, noOptionsText, noResultFoundText } =
+    useContext(ComboboxContextData);
+
   return (
     <Popover.Portal>
       <Popover.Content
@@ -40,7 +43,24 @@ const ComboboxOptionGroup = ({
               wrapperClassName
             )}
           >
-            {children}
+            {!isBadge ? (
+              <>
+                {children}
+                {children.length === 0 && (
+                  <Combobox.Option
+                    disabled
+                    className={twClassNames(
+                      'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3'
+                    )}
+                  >
+                    {query.length > 0 ? noResultFoundText : noOptionsText}
+                  </Combobox.Option>
+                )}
+                {addNewItemComponent}
+              </>
+            ) : (
+              children
+            )}
           </Combobox.Options>
         </Transition>
       </Popover.Content>
@@ -52,12 +72,14 @@ ComboboxOptionGroup.propTypes = {
   alignment: oneOf(OPTION_GROUP_ALIGNMENT),
   children: node.isRequired,
   maxWidth: string,
+  addNewItemComponent: node,
   wrapperClassName: string
 };
 
 ComboboxOptionGroup.defaultProps = {
   alignment: OPTION_GROUP_ALIGNMENT[0],
   maxWidth: '80vw',
+  addNewItemComponent: null,
   wrapperClassName: ''
 };
 

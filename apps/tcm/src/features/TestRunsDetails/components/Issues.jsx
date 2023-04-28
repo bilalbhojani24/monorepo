@@ -1,16 +1,35 @@
 import React, { useEffect } from 'react';
 import { InfoOutlinedIcon } from 'assets/icons';
-import { TMDataTable, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
+import {
+  TMDataTable,
+  TMEmptyState,
+  TMPageHeadings,
+  TMTabs
+} from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 import { formatTime, routeFormatter } from 'utils/helperFunctions';
+
+import { ISSUES_TABS_ARRAY } from '../const/immutableConst';
 
 import useIssues from './useIssues';
 import useTestRunDetails from './useTestRunDetails';
 
 const Issues = () => {
-  const { testRunDetails, isIssuesLoading, issuesArray } = useIssues();
-  const { projectId, testRunId, fetchTestRunDetails } = useTestRunDetails();
+  const {
+    jiraHost,
+    testRunDetails,
+    isIssuesLoading,
+    issuesArray,
+    handleTabChange
+  } = useIssues();
+  const {
+    projectId,
+    testRunId,
+    testRunPageQuery,
+    sourceTab,
+    fetchTestRunDetails
+  } = useTestRunDetails();
 
   useEffect(() => {
     fetchTestRunDetails(false);
@@ -21,7 +40,19 @@ const Issues = () => {
     {
       name: 'ISSUES',
       key: 'jira_id',
-      cell: (data) => <div className="text-black">{data?.jira_id}</div>
+      cell: (data) =>
+        jiraHost ? (
+          <a
+            href={`${jiraHost}/browse/${data?.jira_id}`}
+            target="_blank"
+            rel="noreferrer"
+            className="text-black"
+          >
+            {data?.jira_id}
+          </a>
+        ) : (
+          <div className="text-black">{data?.jira_id}</div>
+        )
     },
     {
       name: 'LINKED ON',
@@ -45,31 +76,43 @@ const Issues = () => {
   ];
 
   return (
-    <div className="flex w-full flex-1 shrink-0 grow flex-col overflow-hidden pb-4">
+    <div className="flex w-full flex-1 shrink-0 grow flex-col overflow-hidden">
       <TMPageHeadings
         wrapperClassName="px-4 py-6 bg-transparent"
-        heading="All Linked Issues"
+        heading="Issues"
         breadcrumbs={[
           {
             name: 'Test Runs',
-            url: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+            url:
+              routeFormatter(AppRoute.TEST_RUNS, { projectId }) +
+              testRunPageQuery
           },
           {
-            name: testRunDetails?.name || testRunId,
+            name: testRunDetails?.identifier || '--',
             url: routeFormatter(AppRoute.TEST_RUN_DETAILS, {
               projectId,
               testRunId
-            })
+            }),
+            options: { state: { sourceTab } }
           },
           { name: 'Issues' }
         ]}
       />
-      <div className="flex  shrink-0 grow flex-col overflow-y-auto">
+      <div className="mb-0 -mt-6 w-full px-4">
+        <TMTabs
+          defaultIndex={null}
+          // key={TABS_ARRAY.findIndex((item) => item.name === currentTab)}
+          id="issues-tabs"
+          tabsArray={ISSUES_TABS_ARRAY}
+          onTabChange={handleTabChange}
+        />
+      </div>
+      <div className="flex w-full flex-1 shrink-0 grow flex-col overflow-hidden">
         <div className="border-base-200 flex-col overflow-y-auto border border-l-0 bg-white p-4">
           {isIssuesLoading ? (
             <Loader wrapperClassName="h-96" />
           ) : (
-            <div>
+            <>
               {issuesArray.length ? (
                 <>
                   <div className="text-base-900 text-sm">
@@ -96,7 +139,7 @@ const Issues = () => {
                   />
                 </div>
               )}
-            </div>
+            </>
           )}
         </div>
       </div>

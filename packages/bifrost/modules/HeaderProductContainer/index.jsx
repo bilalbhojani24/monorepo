@@ -14,8 +14,6 @@ import {
   WEBSITE_TESTING_PRODUCTS
 } from './const/headerProductContainerConstants';
 
-import './styles.scss';
-
 const TITLE_CLASSNAMES =
   'not-italic font-semibold text-sm leading-4 text-[#666666]';
 const LINK_CLASSNAMES = 'flex flex-col items-start p-0 w-[254px] gap-5';

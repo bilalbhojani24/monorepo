@@ -6,10 +6,15 @@ import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { ROUTES } from 'constants/routes';
 import Sidebar from 'features/Sidebar';
-import { getProjects } from 'globalSlice/selectors';
+import { getInitData, getProjects } from 'globalSlice/selectors';
 
 const LayoutWSidebar = () => {
   const projects = useSelector(getProjects);
+  const initData = useSelector(getInitData);
+
+  if (!initData.isLoading && !initData.data?.hasAcceptedTnC) {
+    return <Navigate to={ROUTES.request_access} />;
+  }
 
   if (!projects?.list?.length) {
     return <Navigate to={ROUTES.get_started} />;

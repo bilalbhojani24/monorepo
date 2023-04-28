@@ -1,11 +1,20 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
+import { O11yTooltip } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import { BROWSERS_ICON_LIST } from '../constants';
 
 import IconWithText from './IconWithText';
 
-const DetailIcon = ({ icon, text, forSpecInfo, size }) => {
+const DetailIcon = ({
+  icon,
+  text,
+  forSpecInfo,
+  size,
+  openTextInTooltip,
+  tooltipTheme
+}) => {
   const getIconClass = () => {
     let iconClass = '';
     if (text && icon !== 'device_icon' && !BROWSERS_ICON_LIST.includes(icon)) {
@@ -22,21 +31,58 @@ const DetailIcon = ({ icon, text, forSpecInfo, size }) => {
     return iconClass;
   };
 
+  if (!openTextInTooltip) {
+    return (
+      <IconWithText
+        icon={icon}
+        text={text.indexOf('ios') !== -1 ? text.replace('ios', 'iOS') : text}
+        forSpecInfo={forSpecInfo}
+        iconClass={getIconClass()}
+        textClass={`${
+          text &&
+          (text.toLowerCase().indexOf('ios') !== -1 ||
+          text.toLowerCase().indexOf('iphone') !== -1
+            ? 'normal-case'
+            : '')
+        }`}
+        size={size}
+      />
+    );
+  }
+
   return (
-    <IconWithText
-      icon={icon}
-      text={text.indexOf('ios') !== -1 ? text.replace('ios', 'iOS') : text}
-      forSpecInfo={forSpecInfo}
-      iconClass={getIconClass()}
-      textClass={`${
-        text &&
-        (text.toLowerCase().indexOf('ios') !== -1 ||
-        text.toLowerCase().indexOf('iphone') !== -1
-          ? 'normal-case'
-          : '')
-      }`}
-      size={size}
-    />
+    <O11yTooltip
+      placementSide="top"
+      placementAlign="center"
+      wrapperClassName="p-3"
+      theme={tooltipTheme}
+      content={
+        <span
+          className={twClassNames(
+            'text-base-500 text-sm font-normal leading-5',
+            { 'text-white': tooltipTheme === 'dark' }
+          )}
+        >
+          {text.indexOf('ios') !== -1 ? text.replace('ios', 'iOS') : text}
+        </span>
+      }
+    >
+      <IconWithText
+        icon={icon}
+        text={text.indexOf('ios') !== -1 ? text.replace('ios', 'iOS') : text}
+        forSpecInfo={forSpecInfo}
+        iconClass={getIconClass()}
+        textClass={`${
+          text &&
+          (text.toLowerCase().indexOf('ios') !== -1 ||
+          text.toLowerCase().indexOf('iphone') !== -1
+            ? 'normal-case'
+            : '')
+        }`}
+        size={size}
+        openTextInTooltip={openTextInTooltip}
+      />
+    </O11yTooltip>
   );
 };
 
@@ -44,13 +90,17 @@ DetailIcon.propTypes = {
   icon: PropTypes.string.isRequired,
   text: PropTypes.string,
   forSpecInfo: PropTypes.bool,
-  size: PropTypes.string
+  size: PropTypes.string,
+  tooltipTheme: PropTypes.string,
+  openTextInTooltip: PropTypes.bool
 };
 
 DetailIcon.defaultProps = {
   text: '',
   forSpecInfo: false,
-  size: ''
+  size: '',
+  tooltipTheme: 'light',
+  openTextInTooltip: false
 };
 
 export default DetailIcon;

@@ -785,6 +785,7 @@ SelectableTable.args = {
                       wrapperClassName="pt-0 mr-6 h-4 w-4"
                       border={false}
                       name={col.key}
+                      aria-label={col.key}
                     />
                     {col.name}
                   </TableCell>
@@ -813,6 +814,8 @@ SelectableTable.args = {
                       <Checkbox
                         border={false}
                         wrapperClassName="pt-0 mr-6 h-4 w-4"
+                        name={value}
+                        aria-label={value}
                       />
                       {column.cell ? <>{column.cell}</> : value}
                     </TableCell>

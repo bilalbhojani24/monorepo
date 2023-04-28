@@ -15,10 +15,11 @@ const TMDropdown = ({
   options,
   triggerVariant,
   triggerClassName,
+  wrapperClassName,
   triggerIcon,
   onClick
 }) => (
-  <Dropdown onClick={onClick}>
+  <Dropdown onClick={onClick} wrapperClassName={wrapperClassName}>
     <div className="flex">
       <DropdownTrigger
         wrapperClassName={twClassNames(
@@ -62,11 +63,13 @@ const TMDropdown = ({
 
 TMDropdown.propTypes = {
   triggerVariant: PropTypes.string,
+  wrapperClassName: PropTypes.string,
   triggerIcon: PropTypes.node
 };
 
 TMDropdown.defaultProps = {
   triggerVariant: '',
+  wrapperClassName: '',
   triggerIcon: null
 };
 

@@ -57,7 +57,7 @@ const defaultConfig = {
       defaultValue: false
     },
     icon: {
-      defaultValue: <EnvelopeIcon />
+      defaultValue: <EnvelopeIcon aria-hidden="true" />
     },
     iconPlacement: {
       options: BUTTON_ICON_PLACEMENT,
@@ -97,9 +97,11 @@ const buttonText = 'Button';
 const Template = (args) => {
   const { isIconOnlyButton } = args;
   return isIconOnlyButton ? (
-    <Button {...args} />
+    <Button {...args} aria-label="Icon button example" />
   ) : (
-    <Button {...args}>Button</Button>
+    <Button {...args} aria-label="Button example">
+      Button
+    </Button>
   );
 };
 const Default = Template.bind({});

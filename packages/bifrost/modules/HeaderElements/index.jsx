@@ -14,8 +14,6 @@ import {
   ELEMENTS_WITH_LABEL
 } from './const/headerElementsConstants';
 
-import './styles.scss';
-
 const ACCOUNT_LINKS_CLASSNAMES =
   'flex flex-row items-start p-2 gap-2 w-full hover:bg-[#edf8ff]';
 const LINKS_TEXT_CLASSNAMES =

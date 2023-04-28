@@ -11,6 +11,7 @@
     "build:dev-package": "./scripts/build-packages-dev.sh",
     "build:app": "./scripts/build-app.sh",
     "upload:s3": "./scripts/publish.sh",
+    "upload:s3-backup": "./scripts/publish-backup.sh",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
     "lint:check": "eslint --format=table --ignore-pattern node_modules --max-warnings 0 \"**/*.{js,jsx}\"",
@@ -21,6 +22,7 @@
     "@browserstack/eslint-config": "workspace:*",
     "@browserstack/prettier-config": "workspace:*",
     "@browserstack/stylelint-config": "workspace:*",
+    "@browserstack/services": "workspace:*",
     "husky": "8.0.0",
     "lint-staged": "13.1.0",
     "turbo": "1.8.3"

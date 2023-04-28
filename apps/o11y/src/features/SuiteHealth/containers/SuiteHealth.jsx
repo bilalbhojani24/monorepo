@@ -2,16 +2,18 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
-import EmptyPage from 'common/EmptyPage';
-import { SNP_PARAMS_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
+import {
+  SNP_PARAMS_MAPPING,
+  TEST_DETAILS_SOURCE,
+  WRAPPER_GAP_CLASS
+} from 'constants/common';
 import SHErrorDetailsSlideOver from 'features/SHErrorDetails';
 import { getIsUEDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
-import { setIsSnPDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
-import { getIsSnPDetailsVisible } from 'features/SHTestDetails/slices/selectors';
-import TestDetailsSlideOver from 'features/TestDetails';
-import { getIsDetailsVisible } from 'features/TestDetails/slices/selectors';
-import { setIsDetailsVisible } from 'features/TestDetails/slices/uiSlice';
+import { setIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
+import { getIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/selectors';
+import TestDetails from 'features/TestDetails';
+import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 
 import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
@@ -25,16 +27,15 @@ import SHUniqueErrors from './SHUniqueErrors';
 export default function SnP() {
   const dispatch = useDispatch();
   const isSnPErrorDetailsVisible = useSelector(getIsUEDetailsVisible);
-  const isDetailsVisible = useSelector(getIsDetailsVisible);
-  const isSnPDetailsVisible = useSelector(getIsSnPDetailsVisible);
+  const isSnPDetailsVisible = useSelector(getIsSHTestsDetailsVisible);
   const activeTab = useSelector(getSnPActiveTab);
   const navigate = useNavigate();
 
   useEffect(
     () => () => {
-      dispatch(setIsSnPDetailsVisible(false));
-      dispatch(setIsDetailsVisible(false));
+      dispatch(setIsSHTestsDetailsVisible(false));
       dispatch(clearSnPTests());
+      dispatch(hideTestDetailsDrawer());
     },
     [dispatch]
   );
@@ -45,7 +46,6 @@ export default function SnP() {
 
   const removeCommonParams = useCallback(() => {
     const searchParams = new URLSearchParams(window?.location?.search);
-    searchParams.delete('details');
     searchParams.delete(SNP_PARAMS_MAPPING.snpTestDetails);
     searchParams.delete(SNP_PARAMS_MAPPING.snpOsName);
     searchParams.delete(SNP_PARAMS_MAPPING.snpBrowserName);
@@ -58,6 +58,7 @@ export default function SnP() {
 
   const onTabChange = useCallback(
     (tabInfo) => {
+      dispatch(hideTestDetailsDrawer());
       const searchParams = removeCommonParams();
       let activeIndex = Object.keys(TABS).findIndex(
         (item) => item === tabInfo.value
@@ -88,18 +89,15 @@ export default function SnP() {
       <div className={twClassNames('flex-1')}>
         {activeTab.value === TABS.tests && <SHTests />}
         {activeTab.value === TABS.unique_errors && <SHUniqueErrors />}
-        {activeTab.value === TABS.build_performance && (
-          <div
-            className={twClassNames('flex items-center justify-center h-full')}
-          >
-            <EmptyPage text="Something awesome is coming soon" isUpcoming />
-          </div>
-        )}
         {isSnPDetailsVisible && <SHTestDetailsSlideOver />}
         {isSnPErrorDetailsVisible && <SHErrorDetailsSlideOver />}
-        {isDetailsVisible && (
-          <TestDetailsSlideOver isVisible={isSnPErrorDetailsVisible} />
-        )}
+        <TestDetails
+          source={
+            activeTab.value === TABS.tests
+              ? TEST_DETAILS_SOURCE.SUITE_HEALTH_TESTS
+              : TEST_DETAILS_SOURCE.SUITE_HEALTH_ERRORS
+          }
+        />
       </div>
     </div>
   );

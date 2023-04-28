@@ -90,9 +90,9 @@ export default function AlertsSettings() {
         <div className="mt-6">
           <O11yTable containerWrapperClass="overflow-visible overflow-x-visible">
             <O11yTableHead wrapperClassName="bg-white sticky top-0">
-              <O11yTableRow>
+              <O11yTableRow wrapperClassName="border-b-base-200 border-b">
                 <O11yTableCell
-                  wrapperClassName="md:rounded-lg  w-2/5"
+                  wrapperClassName="md:rounded-lg w-2/5"
                   variant="header"
                 >
                   Alert

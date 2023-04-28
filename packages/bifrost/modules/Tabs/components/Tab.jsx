@@ -64,7 +64,11 @@ const Tab = ({
 
   useEffect(() => {
     if (ref.current && isCurrent) {
-      ref.current.scrollIntoView({ behavior: 'smooth' });
+      ref.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest'
+      });
     }
   }, [isCurrent]);
 

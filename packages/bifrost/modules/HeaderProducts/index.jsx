@@ -8,8 +8,6 @@ import Hyperlink from '../Hyperlink';
 import { ChevronDownIcon } from '../Icon';
 import GridViewSolidIcon from '../Icon/HeaderIcons/GridViewSolidIcon';
 
-import './styles.scss';
-
 const DEFAULT_PRODUCT_ARRAY = [
   { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
   { name: 'Automate', link: 'https://automate.browserstack.com' },

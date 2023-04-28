@@ -2,7 +2,9 @@ import React from 'react';
 import { Header } from '@browserstack/bifrost';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { getDocUrl } from 'utils/common';
+import { getDocUrl, getEnvConfig } from 'utils/common';
+
+const envConfig = getEnvConfig();
 
 const O11yHeader = () => (
   <Header
@@ -11,9 +13,9 @@ const O11yHeader = () => (
     productName="Test Observability"
     productLink={ROUTES.root}
     release="Beta"
-    // beamerProductId="XxcUulZf52793"
-    documentationLink="https://www.browserstack.com/docs/test-observability/"
-    supportLink="https://www.browserstack.com/contact"
+    // beamerProductId="xTSGUhhN11000"
+    documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
+    supportLink={`${envConfig.baseUrl}/contact#other`}
     headerElementArray={[
       'team',
       'pricing',
@@ -22,6 +24,7 @@ const O11yHeader = () => (
       // 'notifications',
       'account'
     ]}
+    showTestInsights={false}
     documentation={{
       title: 'Key Features',
       options: [
@@ -72,6 +75,12 @@ const O11yHeader = () => (
           link: getDocUrl({ path: DOC_KEY_MAPPING.mocha })
         }
       ]
+    }}
+    onSignoutClick={(e) => {
+      if (envConfig.signOutUrl) {
+        e.preventDefault();
+        window.location.href = envConfig.signOutUrl;
+      }
     }}
   />
 );
