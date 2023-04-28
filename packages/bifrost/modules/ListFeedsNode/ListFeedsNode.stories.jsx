@@ -155,7 +155,7 @@ const Template = (args) =>
         </>
       }
       descriptionNode={
-        <p className="text-base-700 text-sm">
+        <p className="text-base-700 mt-2 text-sm">
           I Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis
           minus animi nam natus. Ex commodi temporibus possimus rem eveniet
           repellendus inventore sapiente mollitia excepturi, magni incidunt est
@@ -190,7 +190,7 @@ const FeedIconSizesTemplate = (args) =>
         </>
       }
       descriptionNode={
-        <p className="text-base-700 text-sm">
+        <p className="text-base-700 mt-2 text-sm">
           P Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis
           minus animi nam natus. Ex commodi temporibus possimus rem eveniet
           repellendus inventore sapiente mollitia excepturi, magni incidunt est
@@ -230,7 +230,7 @@ const FeedWithImageTemplate = (args) =>
         </>
       }
       descriptionNode={
-        <p className="text-base-700 text-sm">
+        <p className="text-base-700 mt-2 text-sm">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis
           minus animi nam natus. Ex commodi temporibus possimus rem eveniet
           repellendus inventore sapiente mollitia excepturi, magni incidunt est
@@ -273,7 +273,7 @@ const FeedWithCheckboxTemplate = (args) =>
         </>
       }
       descriptionNode={
-        <p className="text-base-700 text-sm">
+        <p className="text-base-700 mt-2 text-sm">
           pLorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis
           minus animi nam natus. Ex commodi temporibus possimus rem eveniet
           repellendus inventore sapiente mollitia excepturi, magni incidunt est
@@ -306,7 +306,7 @@ const FeedWithHoverTemplate = (args) =>
         </>
       }
       descriptionNode={
-        <p className="text-base-700 text-sm">
+        <p className="text-base-700 mt-2 text-sm">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis
           minus animi nam natus. Ex commodi temporibus possimus rem eveniet
           repellendus inventore sapiente mollitia excepturi, magni incidunt est

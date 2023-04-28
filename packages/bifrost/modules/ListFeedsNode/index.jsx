@@ -80,10 +80,10 @@ const ListFeeds = (props) => {
         })}
       >
         <div
-          className={twClassNames('flex items-center justify-center', {
-            'w-6 h-6': feedIconContainerSize === LF_ICON_SIZE.sm,
-            'w-8 h-8': feedIconContainerSize === LF_ICON_SIZE.md,
-            'w-10 h-10': feedIconContainerSize === LF_ICON_SIZE.lg
+          className={twClassNames('flex items-start justify-center', {
+            'w-6 max-h-[24px]': feedIconContainerSize === LF_ICON_SIZE.sm,
+            'w-8 max-h-[32px]': feedIconContainerSize === LF_ICON_SIZE.md,
+            'w-10 max-h-[40px]': feedIconContainerSize === LF_ICON_SIZE.lg
           })}
         >
           <div
@@ -135,11 +135,11 @@ const ListFeeds = (props) => {
         {showConnector && (
           <div
             className={twClassNames(
-              'divide-base-300 flex h-full min-h-[16px] divide-x pt-2'
+              'divide-base-300 flex grow min-h-[16px] divide-x pt-2'
             )}
           >
-            <div className="w-1/2" />
-            <div className="w-1/2" />
+            <div className="h-full w-1/2" />
+            <div className="h-full w-1/2" />
           </div>
         )}
       </div>
@@ -151,7 +151,7 @@ const ListFeeds = (props) => {
         })}
       >
         <div>{headerNode}</div>
-        {!!descriptionNode && <div className="mt-2">{descriptionNode}</div>}
+        {!!descriptionNode && <div>{descriptionNode}</div>}
       </div>
       {!!footerNode && (
         <div
