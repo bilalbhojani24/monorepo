@@ -2,18 +2,17 @@ import React from 'react';
 import { BsFillPlusCircleFill } from 'react-icons/bs';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Badge from '../Badge';
+import Checkbox from '../Checkbox';
+import { MdFolder } from '../Icon';
+
 import {
   LF_ICON_COLOR,
   LF_ICON_CONTAINER_SIZE,
   LF_ICON_SIZE,
   LF_ICON_VARIANT,
   LF_MARGIN_SIZE
-} from '../../shared/listFeedsNodeConstants';
-import Badge from '../Badge';
-import Checkbox from '../Checkbox';
-import { MdFolder } from '../Icon';
-
-import sampleImg from './stories-assets/sample-image.png';
+} from './const/listFeedsNodeContants';
 import ListFeedsNode from './index';
 
 const optionRadio = 'inline-radio';
@@ -212,7 +211,11 @@ const FeedWithImageTemplate = (args) =>
         </p>
       }
       feedIcon={
-        <img src={sampleImg} className="w-full" alt="Sample Feed Title" />
+        <img
+          src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
+          className="w-full rounded-full"
+          alt="Sample Feed Title"
+        />
       }
       headerNode={
         <>

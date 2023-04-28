@@ -8,7 +8,7 @@ import {
   LF_ICON_SIZE,
   LF_ICON_VARIANT,
   LF_MARGIN_SIZE
-} from '../../shared/listFeedsNodeConstants';
+} from './const/listFeedsNodeContants';
 
 const ListFeeds = (props) => {
   const {
@@ -133,8 +133,11 @@ const ListFeeds = (props) => {
           </div>
         </div>
         {showConnector && (
-          // eslint-disable-next-line tailwindcss/no-arbitrary-value
-          <div className="divide-base-300 flex h-full min-h-[16px] divide-x pt-2">
+          <div
+            className={twClassNames(
+              'divide-base-300 flex h-full min-h-[16px] divide-x pt-2'
+            )}
+          >
             <div className="w-1/2" />
             <div className="w-1/2" />
           </div>
