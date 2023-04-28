@@ -14,7 +14,7 @@ import {
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
-import { findFolderRouted } from 'utils/folderHelpers';
+import { findFolderPath } from 'utils/folderHelpers';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -27,6 +27,7 @@ import {
   addSingleTestCase,
   // resetBulkFormData,
   resetBulkSelection,
+  resetFilterSearchMeta,
   setAddIssuesModal,
   setAddTagModal,
   setAddTestCaseFromSearch,
@@ -579,6 +580,7 @@ export default function useAddEditTestCase(prop) {
   };
 
   const showTestCaseAdditionPage = (thisFolder, isFromListTree) => {
+    dispatch(resetFilterSearchMeta());
     unsavedFormConfirmation(false, () => {
       if (isFromListTree) {
         dispatch(
@@ -656,8 +658,13 @@ export default function useAddEditTestCase(prop) {
       isAddTestCasePageVisible &&
       prop?.isAddEditOnly // to reduce recalculation for other components
     ) {
+      const folderPath = findFolderPath(
+        allFolders,
+        testCaseFormData?.test_case_folder_id,
+        []
+      );
       setScheduledFolder(
-        findFolderRouted(allFolders, testCaseFormData?.test_case_folder_id)
+        folderPath?.length ? folderPath : [allFolders[0]?.name]
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
