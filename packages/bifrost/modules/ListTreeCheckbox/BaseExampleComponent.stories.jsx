@@ -6,7 +6,6 @@ import { MdFolderSpecial } from '../Icon';
 import ListTree from '../ListTree';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
-import ListTreeRootWrapper from '../ListTreeRootWrapper';
 
 const ControlledNestedTreeWithCheckbox = ({
   data,
@@ -30,77 +29,80 @@ const ControlledNestedTreeWithCheckbox = ({
     const startIndex = item.name.indexOf(searchValue);
     const endIndex = startIndex + searchValue.length;
     return (
-      <ListTreeRootWrapper key={item.uuid}>
-        <ListTree indentationLevel={indent} isTreeOpen={openNodeMap[item.uuid]}>
-          <ListTreeNode
-            showIcon={false}
-            ariaLabel="Label"
-            label={
-              <Checkbox
-                isFullWidthLabel
-                data={{
-                  label: (
-                    <>
-                      <MdFolderSpecial className="text-info-400 mr-2 inline-block h-5 w-5 shrink-0 select-none" />
-                      <span className="text-base-700 mr-2 text-xs leading-5">
-                        {searchValue.length && startIndex !== -1 ? (
-                          <>
-                            {item.name.slice(0, startIndex)}
-                            <mark>{item.name.slice(startIndex, endIndex)}</mark>
-                            {item.name.slice(endIndex, item.name.length)}
-                          </>
-                        ) : (
-                          item.name
-                        )}
-                      </span>
-                    </>
-                  ),
-                  value: item.uuid
-                }}
-                border={false}
-                indeterminate={item.isIndeterminate}
-                checked={item.isChecked}
-                onChange={() => {
-                  onCheckboxChange(!item.isChecked, item.uuid);
-                }}
-                wrapperClassName="py-0"
-              />
+      <ListTree
+        key={item.id}
+        indentationLevel={indent}
+        isTreeOpen={openNodeMap[item.uuid]}
+      >
+        <ListTreeNode
+          showIcon={false}
+          ariaLabel="Label"
+          focusUUID={item.uuid}
+          label={
+            <Checkbox
+              isFullWidthLabel
+              data={{
+                label: (
+                  <>
+                    <MdFolderSpecial className="text-info-400 mr-2 inline-block h-5 w-5 shrink-0 select-none" />
+                    <span className="text-base-700 mr-2 text-xs leading-5">
+                      {searchValue.length && startIndex !== -1 ? (
+                        <>
+                          {item.name.slice(0, startIndex)}
+                          <mark>{item.name.slice(startIndex, endIndex)}</mark>
+                          {item.name.slice(endIndex, item.name.length)}
+                        </>
+                      ) : (
+                        item.name
+                      )}
+                    </span>
+                  </>
+                ),
+                value: item.uuid
+              }}
+              border={false}
+              indeterminate={item.isIndeterminate}
+              checked={item.isChecked}
+              onChange={() => {
+                onCheckboxChange(!item.isChecked, item.uuid);
+              }}
+              wrapperClassName="py-0"
+            />
+          }
+          isNodeSelectable={false}
+          description={item.uuid}
+          hideArrowIcon={!item.contents?.length}
+          onNodeOpen={() => {
+            const newOpenNodeMap = { ...openNodeMap };
+            if (newOpenNodeMap[item.uuid] !== undefined) {
+              newOpenNodeMap[item.uuid] = !openNodeMap[item.uuid];
+            } else {
+              newOpenNodeMap[item.uuid] = true;
             }
-            isNodeSelectable={false}
-            description={item.uuid}
-            hideArrowIcon={!item.contents?.length}
-            onNodeOpen={() => {
-              const newOpenNodeMap = { ...openNodeMap };
-              if (newOpenNodeMap[item.uuid] !== undefined) {
-                newOpenNodeMap[item.uuid] = !openNodeMap[item.uuid];
-              } else {
-                newOpenNodeMap[item.uuid] = true;
+            setOpenNodeMap({ ...newOpenNodeMap });
+          }}
+          isNodeSelected={false}
+          isFocused={false}
+          leadingIcon={<></>}
+        />
+        {!!item?.contents && (
+          <ListTreeNodeContents isTreeOpen={openNodeMap[item.uuid]}>
+            <ControlledNestedTreeWithCheckbox
+              openNodeMap={openNodeMap}
+              setOpenNodeMap={setOpenNodeMap}
+              onCheckboxChange={onCheckboxChange}
+              filteredUUIDs={filteredUUIDs}
+              allowFilter={allowFilter}
+              data={item.contents}
+              searchValue={searchValue}
+              isParentSearched={
+                filteredUUIDs.searchedUUIDs[item.uuid] || isParentSearched
               }
-              setOpenNodeMap({ ...newOpenNodeMap });
-            }}
-            isNodeSelected={false}
-            isFocused={false}
-            leadingIcon={<></>}
-          />
-          {!!item?.contents && (
-            <ListTreeNodeContents isTreeOpen={openNodeMap[item.uuid]}>
-              <ControlledNestedTreeWithCheckbox
-                openNodeMap={openNodeMap}
-                setOpenNodeMap={setOpenNodeMap}
-                onCheckboxChange={onCheckboxChange}
-                filteredUUIDs={filteredUUIDs}
-                allowFilter={allowFilter}
-                data={item.contents}
-                searchValue={searchValue}
-                isParentSearched={
-                  filteredUUIDs.searchedUUIDs[item.uuid] || isParentSearched
-                }
-                indent={1 + indent}
-              />
-            </ListTreeNodeContents>
-          )}
-        </ListTree>
-      </ListTreeRootWrapper>
+              indent={1 + indent}
+            />
+          </ListTreeNodeContents>
+        )}
+      </ListTree>
     );
   });
 export default ControlledNestedTreeWithCheckbox;

@@ -15,6 +15,7 @@ const ListTreeNode = forwardRef(
       isFocused,
       hideArrowIcon,
       label,
+      focusUUID,
       description,
       nodeLabelClassName,
       onTrailingIconClick,
@@ -29,7 +30,12 @@ const ListTreeNode = forwardRef(
     },
     ref
   ) => (
-    <div role="treeitem" aria-label={ariaLabel}>
+    <div
+      role="treeitem"
+      tabIndex="-1"
+      aria-label={ariaLabel}
+      data-focus-id={focusUUID}
+    >
       <ListTreeNodeWrapper
         isNodeSelectable={isNodeSelectable}
         isNodeSelected={isNodeSelected}
@@ -130,7 +136,8 @@ ListTreeNode.propTypes = {
   leadingIcon: PropTypes.node,
   showIcon: PropTypes.bool,
   isNodeSelectable: PropTypes.bool,
-  ariaLabel: PropTypes.string
+  ariaLabel: PropTypes.string,
+  focusUUID: PropTypes.string
 };
 
 ListTreeNode.defaultProps = {
@@ -146,7 +153,8 @@ ListTreeNode.defaultProps = {
   leadingIcon: null,
   showIcon: true,
   isNodeSelectable: true,
-  ariaLabel: ''
+  ariaLabel: '',
+  focusUUID: undefined
 };
 
 export default ListTreeNode;
