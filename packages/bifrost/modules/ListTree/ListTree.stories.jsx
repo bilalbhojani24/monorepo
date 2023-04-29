@@ -221,6 +221,7 @@ const defaultConfig = {
 const listTreeDemoDataSet = [
   {
     name: 'file A',
+    uuid: '0',
     contents: [
       {
         name: (
@@ -239,14 +240,17 @@ const listTreeDemoDataSet = [
             unchanged.
           </TruncateText>
         ),
-        contents: null
+        uuid: '0-0',
+        contents: []
       },
       {
         name: 'file A-2',
+        uuid: '0-1',
         contents: [
           {
             name: 'file A-2-a',
-            contents: null
+            uuid: '0-1-0',
+            contents: []
           }
         ]
       }
@@ -254,17 +258,21 @@ const listTreeDemoDataSet = [
   },
   {
     name: 'file 2',
+    uuid: '1',
     contents: [
       {
         name: 'file 2a',
-        contents: null
+        uuid: '1-0',
+        contents: []
       },
       {
         name: 'file 2b',
+        uuid: '1-1',
         contents: [
           {
             name: 'file 2b1',
-            contents: null
+            uuid: '1-1-0',
+            contents: []
           }
         ]
       }
@@ -291,55 +299,57 @@ const listTreeDemoDataSet = [
  * recursively, using our DS components, using the given dummy dataset,
  * it uses DFS by default, feel free to re-use this in your product implementation
  */
-const ConrolledNestedTree = ({ data, indent = 1 }) => {
-  const [selectedNodeMap, setSelectedNodeMap] = useState({});
-
-  /**
-   * use a map for keeping your treenodes under parent control,
-   * Remember: for controlled treenodes or pre-opened treenodes,
-   * following props must be compulsorily provided:
-   * ListTree => isTreeOpen
-   * ListTreeNode => onNodeOpen
-   * ListTreeContents => isTreeOpen
-   */
-  const [openNodeMap, setOpenNodeMap] = useState({
-    'file 2': true,
-    'file 2b': true,
-    'file A': true
-  });
-
-  return data.map((item, index) => (
+const ControlledNestedTreeBase = ({
+  data,
+  openNodeMap,
+  setOpenNodeMap,
+  selectedNodeMap,
+  setSelectedNodeMap,
+  setFocused,
+  indent = 1,
+  focused = ''
+}) =>
+  data.map((item, index) => (
     <ListTree
-      key={item.name}
+      key={item.uuid}
       indentationLevel={indent}
-      isTreeOpen={openNodeMap[item.name]}
+      isTreeOpen={openNodeMap[item.uuid]}
     >
       <ListTreeNode
+        isFocused={focused ? focused === item.uuid : false}
         label={item.name}
-        ariaLabel={item.name}
+        focusUUID={item.uuid}
+        ariaLabel={item.uuid}
         description={`(level=${indent})`}
-        isNodeSelected={selectedNodeMap[item.name]}
+        isNodeSelected={selectedNodeMap[item.uuid]}
         onNodeClick={() => {
-          if (selectedNodeMap[item.name] !== undefined) {
-            selectedNodeMap[item.name] = !selectedNodeMap[item.name];
+          const newSelectedNodeMap = { ...selectedNodeMap };
+          if (newSelectedNodeMap[item.uuid] !== undefined) {
+            newSelectedNodeMap[item.uuid] = !newSelectedNodeMap[item.uuid];
           } else {
-            selectedNodeMap[item.name] = true;
+            newSelectedNodeMap[item.uuid] = true;
           }
-          setSelectedNodeMap({ ...selectedNodeMap });
+          setSelectedNodeMap(newSelectedNodeMap);
         }}
         onNodeOpen={() => {
-          if (openNodeMap[item.name] !== undefined) {
-            openNodeMap[item.name] = !openNodeMap[item.name];
+          const newOpenNodeMap = { ...openNodeMap };
+          if (newOpenNodeMap[item.uuid] !== undefined) {
+            newOpenNodeMap[item.uuid] = !newOpenNodeMap[item.uuid];
           } else {
-            openNodeMap[item.name] = true;
+            newOpenNodeMap[item.uuid] = true;
           }
-          setOpenNodeMap({ ...openNodeMap });
+          setOpenNodeMap(newOpenNodeMap);
         }}
+        hideArrowIcon={!item.contents?.length}
         leadingIcon={
           index % 2 === 0 && <MdFolderSpecial className="h-full w-full" />
         }
         trailingVisualElement={
-          <Dropdown>
+          <Dropdown
+            onOpenChange={(isOpen) => {
+              setFocused?.(isOpen ? item.name : null);
+            }}
+          >
             <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
               <EllipsisVerticalIcon className="h-5 w-5" />
             </DropdownTrigger>
@@ -352,12 +362,64 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
         }
       />
       {!!item?.contents && (
-        <ListTreeNodeContents isTreeOpen={openNodeMap[item.name]}>
-          <ConrolledNestedTree data={item.contents} indent={1 + indent} />
+        <ListTreeNodeContents isTreeOpen={openNodeMap[item.uuid]}>
+          <ControlledNestedTreeBase
+            openNodeMap={openNodeMap}
+            setOpenNodeMap={setOpenNodeMap}
+            selectedNodeMap={selectedNodeMap}
+            setSelectedNodeMap={setSelectedNodeMap}
+            data={item.contents}
+            focused={focused}
+            setFocused={setFocused}
+            indent={1 + indent}
+          />
         </ListTreeNodeContents>
       )}
     </ListTree>
   ));
+
+const ControlledNestedTree = ({ data }) => {
+  const [selectedNodeMap, setSelectedNodeMap] = useState({});
+  const [listOfItems] = useState(data);
+  /**
+   * use a map for keeping your treenodes under parent control,
+   * Remember: for controlled treenodes or pre-opened treenodes,
+   * following props must be compulsorily provided:
+   * ListTree => isTreeOpen
+   * ListTreeNode => onNodeOpen
+   * ListTreeContents => isTreeOpen
+   */
+  const [openNodeMap, setOpenNodeMap] = useState({
+    0: true,
+    1: true
+  });
+  const onKeyPressSelect = useCallback(
+    (itemIndexes) => {
+      setSelectedNodeMap((prev) => {
+        const newItems = { ...prev };
+        newItems[itemIndexes] = true;
+        return newItems;
+      });
+    },
+    [setSelectedNodeMap]
+  );
+  return (
+    <ListTreeRootWrapper
+      data={listOfItems}
+      openNodeMap={openNodeMap}
+      setOpenNodeMap={setOpenNodeMap}
+      onSelectCallback={onKeyPressSelect}
+    >
+      <ControlledNestedTreeBase
+        indent={1}
+        data={listOfItems}
+        openNodeMap={openNodeMap}
+        setOpenNodeMap={setOpenNodeMap}
+        selectedNodeMap={selectedNodeMap}
+        setSelectedNodeMap={setSelectedNodeMap}
+      />
+    </ListTreeRootWrapper>
+  );
 };
 
 const SearchableSelectableListTree = () => {
@@ -528,86 +590,63 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
   ));
 };
 
-const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
+const FocusedNodeNestedTree = ({ data }) => {
   const [selectedNodeMap, setSelectedNodeMap] = useState({});
+  const [listOfItems] = useState(data);
   const [focused, setFocused] = useState(null);
-
+  /**
+   * use a map for keeping your treenodes under parent control,
+   * Remember: for controlled treenodes or pre-opened treenodes,
+   * following props must be compulsorily provided:
+   * ListTree => isTreeOpen
+   * ListTreeNode => onNodeOpen
+   * ListTreeContents => isTreeOpen
+   */
   const [openNodeMap, setOpenNodeMap] = useState({
-    'file 2': true,
-    'file 2b': true,
-    'file A': true
+    0: true,
+    1: true
   });
-
-  return data.map((item) => (
-    <ListTree
-      key={item.name}
-      indentationLevel={indent}
-      isTreeOpen={openNodeMap[item.name]}
+  const onKeyPressSelect = useCallback(
+    (itemIndexes) => {
+      setSelectedNodeMap((prev) => {
+        const newItems = { ...prev };
+        newItems[itemIndexes] = true;
+        return newItems;
+      });
+    },
+    [setSelectedNodeMap]
+  );
+  return (
+    <ListTreeRootWrapper
+      data={listOfItems}
+      openNodeMap={openNodeMap}
+      setOpenNodeMap={setOpenNodeMap}
+      onSelectCallback={onKeyPressSelect}
     >
-      <ListTreeNode
-        isFocused={focused === item.name}
-        label={item.name}
-        ariaLabel={item.name}
-        description={`(level=${indent})`}
-        isNodeSelected={selectedNodeMap[item.name]}
-        onNodeClick={() => {
-          if (selectedNodeMap[item.name] !== undefined) {
-            selectedNodeMap[item.name] = !selectedNodeMap[item.name];
-          } else {
-            selectedNodeMap[item.name] = true;
-          }
-          setSelectedNodeMap({ ...selectedNodeMap });
-        }}
-        onNodeOpen={() => {
-          if (openNodeMap[item.name] !== undefined) {
-            openNodeMap[item.name] = !openNodeMap[item.name];
-          } else {
-            openNodeMap[item.name] = true;
-          }
-          setOpenNodeMap({ ...openNodeMap });
-        }}
-        trailingVisualElement={
-          <Dropdown
-            onOpenChange={(isOpen) => {
-              setFocused(isOpen ? item.name : null);
-            }}
-          >
-            <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
-              <EllipsisVerticalIcon className="h-5 w-5" />
-            </DropdownTrigger>
-            <DropdownOptionGroup>
-              {options.map((op) => (
-                <DropdownOptionItem key={op.id} option={op} />
-              ))}
-            </DropdownOptionGroup>
-          </Dropdown>
-        }
+      <ControlledNestedTreeBase
+        indent={1}
+        data={listOfItems}
+        openNodeMap={openNodeMap}
+        setOpenNodeMap={setOpenNodeMap}
+        selectedNodeMap={selectedNodeMap}
+        setSelectedNodeMap={setSelectedNodeMap}
+        focused={focused}
+        setFocused={setFocused}
       />
-      {!!item?.contents && (
-        <ListTreeNodeContents isTreeOpen={openNodeMap[item.name]}>
-          <FocusedNodeNestedTree data={item.contents} indent={1 + indent} />
-        </ListTreeNodeContents>
-      )}
-    </ListTree>
-  ));
+    </ListTreeRootWrapper>
+  );
 };
 
 const ControlledTreeTemplate = () => (
-  <ListTreeRootWrapper>
-    <ConrolledNestedTree data={listTreeDemoDataSet} />
-  </ListTreeRootWrapper>
+  <ControlledNestedTree data={listTreeDemoDataSet} />
 );
 
 const UncontrolledTreeTemplate = () => (
-  <ListTreeRootWrapper>
-    <UnconrolledNestedTree data={listTreeDemoDataSet} />
-  </ListTreeRootWrapper>
+  <UnconrolledNestedTree data={listTreeDemoDataSet} />
 );
 
 const FocusedNodeNestedTreeTemplate = () => (
-  <ListTreeRootWrapper>
-    <FocusedNodeNestedTree data={listTreeDemoDataSet} />
-  </ListTreeRootWrapper>
+  <FocusedNodeNestedTree data={listTreeDemoDataSet} />
 );
 
 const SearchableSelectableListTreeTemplate = () => (
@@ -632,9 +671,8 @@ export {
 };
 
 const propTypeDefault = {
-  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  indent: PropTypes.number.isRequired
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 };
-ConrolledNestedTree.propTypes = propTypeDefault;
+ControlledNestedTree.propTypes = propTypeDefault;
 UnconrolledNestedTree.propTypes = propTypeDefault;
 FocusedNodeNestedTree.propTypes = propTypeDefault;
