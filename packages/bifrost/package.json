@@ -30,6 +30,8 @@
     "@radix-ui/react-tooltip": "1.0.2",
     "@react-aria/overlays": "^3.13.0",
     "@tinymce/tinymce-react": "4.3.0",
+    "babel-plugin-prismjs": "^2.1.0",
+    "prismjs": "1.29.0",
     "react-aria": "^3.23.1",
     "react-draggable": "4.4.5",
     "react-hot-toast": "2.4.0",
