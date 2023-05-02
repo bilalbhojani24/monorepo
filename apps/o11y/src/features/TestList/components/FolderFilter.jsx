@@ -239,7 +239,7 @@ export const FolderFilter = ({
               <O11yInputField
                 value={searchValue}
                 onChange={onSearchChange}
-                placeholder="Select..."
+                placeholder="Search"
                 id="select-folders"
               />
             </div>
@@ -247,7 +247,9 @@ export const FolderFilter = ({
               <div className="min-w-min">
                 {Object.keys(filteredUUIDs.filteredUUIDsWithHierarchy)
                   .length === 0 && searchValue.length ? (
-                  <p className="text-sm">No items matching search results</p>
+                  <p className="text-base-500 px-2 py-1 text-sm">
+                    No items matching search results
+                  </p>
                 ) : (
                   <ControlledNestedTreeWithCheckbox
                     openNodeMap={openNodeMap}

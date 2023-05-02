@@ -85,7 +85,7 @@ export default function useAddEditFolderModal(prop) {
     setFormError({ ...formError, nameError: '' });
   };
 
-  const updateFolders = (folderItem, parentId) => {
+  const updateFolders = (folderItem, parentId, doNotUpdateRoute) => {
     if (!parentId)
       setAllFoldersHelper([...allFolders, folderItem]); // root folder
     else {
@@ -97,7 +97,7 @@ export default function useAddEditFolderModal(prop) {
       );
       setAllFoldersHelper(updatedFolders);
     }
-    updateRouteHelper(folderItem);
+    if (!doNotUpdateRoute) updateRouteHelper(folderItem);
   };
 
   const renameFolderHelper = (folderItem) => {
@@ -195,7 +195,8 @@ export default function useAddEditFolderModal(prop) {
       payload: filledFormData
     })
       .then((item) => {
-        if (item.data?.folder) updateFolders(item.data.folder, prop?.folderId);
+        if (item.data?.folder)
+          updateFolders(item.data.folder, prop?.folderId, true);
         hideFolderModal();
         setTimeout(() => {
           dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: false }));
