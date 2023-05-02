@@ -116,8 +116,8 @@ const MultiSelectSearchFilterField = ({
   const allOptions = useMemo(
     () =>
       availableOptions.map((item) => ({
-        value: item,
-        label: item
+        value: item.id,
+        label: item.label
       })),
     [availableOptions]
   );
