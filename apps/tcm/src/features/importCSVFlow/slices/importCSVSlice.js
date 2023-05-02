@@ -185,6 +185,7 @@ const importCSVSlice = createSlice({
       }
       state.showMappings = true;
       state.csvUploadError = '';
+      state.mappingFieldsError = '';
     },
     uploadFileRejected: (state, { payload }) => {
       state.csvUploadError = payload.response.data.message;
