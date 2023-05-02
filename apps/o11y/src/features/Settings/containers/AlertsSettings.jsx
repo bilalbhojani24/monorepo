@@ -12,9 +12,9 @@ import {
 } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
-import { HardPaywallWrapper } from 'common/PaywallWrapper';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { PAYWALL_FEATURES } from 'constants/paywall';
+import { HardPaywallWrapper } from 'features/Paywall';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 

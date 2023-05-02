@@ -4,7 +4,10 @@ import failureCategoryIllustration from 'assets/illustrations/failure_categories
 export const PAYWALL_FEATURES = {
   ALERTS: 'alerts',
   FAILURE_CATEGORY: 'failureCategory',
-  SMART_TAGS: 'smartTags'
+  SMART_TAGS: 'smartTags',
+  JIRA: 'jira',
+  RE_RUN: 'rerun',
+  MUTE: 'rerun'
 };
 
 export const FEATURE_CARD_DATA = {

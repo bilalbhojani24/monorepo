@@ -192,6 +192,7 @@ importers:
       '@types/react-dom': 18.0.9
       '@vitejs/plugin-react': 2.2.0
       axios: 1.2.2
+      canvas-confetti: 1.6.0
       classnames: 2.2.6
       date-fns: 2.29.3
       highcharts: 10.3.3
@@ -228,6 +229,7 @@ importers:
       '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
+      canvas-confetti: 1.6.0
       classnames: 2.2.6
       date-fns: 2.29.3
       highcharts: 10.3.3
@@ -12910,6 +12912,10 @@ packages:
 
   /caniuse-lite/1.0.30001481:
     resolution: {integrity: sha512-KCqHwRnaa1InZBtqXzP98LPg0ajCVujMKjqKDhZEthIpAsJl/YEIa3YvXjGXPVqzZVguccuu7ga9KOE1J9rKPQ==}
+
+  /canvas-confetti/1.6.0:
+    resolution: {integrity: sha512-ej+w/m8Jzpv9Z7W7uJZer14Ke8P2ogsjg4ZMGIuq4iqUOqY2Jq8BNW42iGmNfRwREaaEfFIczLuZZiEVSYNHAA==}
+    dev: false
 
   /capture-exit/2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==}

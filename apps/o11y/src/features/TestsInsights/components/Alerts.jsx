@@ -14,10 +14,10 @@ import {
 } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { HardPaywallWrapper } from 'common/PaywallWrapper';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 import { ROUTES } from 'constants/routes';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import { HardPaywallWrapper } from 'features/Paywall';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
 

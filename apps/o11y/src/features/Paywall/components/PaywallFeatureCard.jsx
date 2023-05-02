@@ -15,16 +15,16 @@ function PaywallFeatureCard({
     <O11yFeatureCard
       showBg={cardConfig.showBg}
       wrapperClassName={twClassNames(
-        'shadow pt-10 pl-6 overflow-hidden break-words',
+        'shadow pt-10 pl-6 overflow-hidden classic-break-words max-w-4xl',
         cardConfig?.wrapperClassName
       )}
     >
       <div className="flex items-center justify-between gap-6">
         <div
           className={twClassNames(
-            'flex max-w-xs flex-1 shrink-0 flex-col pb-6',
+            'flex max-w-sm flex-1 shrink-0 flex-col pb-6',
             {
-              'w-full': cardConfig?.hideIllustration
+              'w-full max-w-none': cardConfig?.hideIllustration
             }
           )}
         >
