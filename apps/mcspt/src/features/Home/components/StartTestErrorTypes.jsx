@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Hyperlink } from '@browserstack/bifrost';
 import { CONTACT_US, DEVICE_DETECT_TROUBLESHOOT } from 'constants/docLinks';
+import { HyperlinkWithAnalytics } from 'features/Abstractions';
 
 import {
   getStartTestError,
@@ -21,14 +21,15 @@ const DeviceLocked = () => (
     <div className="text-base-500 text-sm font-normal leading-5">
       <span>{`If the error persists, please `}</span>
 
-      <Hyperlink
+      <HyperlinkWithAnalytics
         wrapperClassName="inline-flex text-sm font-normal leading-5 text-base-500 underline"
+        linkToBeSentToAnalytics={CONTACT_US}
         onClick={() => {
           window.remoteThreadFunctions?.openUrlInSystemBrowser(CONTACT_US);
         }}
       >
         contact us.
-      </Hyperlink>
+      </HyperlinkWithAnalytics>
     </div>
   </>
 );
@@ -46,8 +47,9 @@ const DevModeDisabled = () => (
     <div className="text-base-500 text-sm font-normal leading-5">
       <span>{`Check steps to enable in `}</span>
 
-      <Hyperlink
+      <HyperlinkWithAnalytics
         wrapperClassName="inline-flex text-sm font-normal leading-5 text-base-500 underline"
+        linkToBeSentToAnalytics={DEVICE_DETECT_TROUBLESHOOT}
         onClick={() => {
           window.remoteThreadFunctions?.openUrlInSystemBrowser(
             DEVICE_DETECT_TROUBLESHOOT
@@ -55,7 +57,7 @@ const DevModeDisabled = () => (
         }}
       >
         troubleshooting docs.
-      </Hyperlink>
+      </HyperlinkWithAnalytics>
     </div>
   </>
 );
@@ -69,14 +71,15 @@ const GenericError = () => (
     <div className="text-base-500 text-sm font-normal leading-5">
       <span>{`If the error persists, please `}</span>
 
-      <Hyperlink
+      <HyperlinkWithAnalytics
         wrapperClassName="inline-flex text-sm font-normal leading-5 text-base-500 underline"
+        linkToBeSentToAnalytics={CONTACT_US}
         onClick={() => {
           window.remoteThreadFunctions?.openUrlInSystemBrowser(CONTACT_US);
         }}
       >
         contact us.
-      </Hyperlink>
+      </HyperlinkWithAnalytics>
     </div>
   </>
 );
