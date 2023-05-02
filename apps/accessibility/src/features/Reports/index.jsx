@@ -119,14 +119,13 @@ export default function Reports() {
         <div>
           <div className="flex items-center justify-between">
             <div className="flex">
-              <div className="mr-4 w-80">
-                <InputField
-                  id="search-report"
-                  leadingIcon={<MdSearch />}
-                  placeholder="Search for report name or user..."
-                  onChange={onInputValueChange}
-                />
-              </div>
+              <InputField
+                id="search-report"
+                leadingIcon={<MdSearch />}
+                placeholder="Search for report name or user..."
+                onChange={onInputValueChange}
+                wrapperClassName="mr-4 w-80"
+              />
               <div className="w-40">
                 <SelectMenu
                   onChange={onUpdateSelectedReportType}
