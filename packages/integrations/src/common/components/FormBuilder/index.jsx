@@ -64,14 +64,10 @@ const FormBuilder = ({
   };
 
   useEffect(() => {
-    const isWIP = Object.values(fieldsData).some((field) => {
-      if (Array.isArray(field) && field.length) return true;
-      return Boolean(field);
-    });
-    if (isWIP) {
+    if (fields?.length) {
       setIsWorkInProgress(true);
     }
-  }, [fieldsData, setIsWorkInProgress]);
+  }, [fields, setIsWorkInProgress]);
 
   useEffect(() => {
     if (fieldErrors) {

@@ -22,6 +22,7 @@ const CreateIssueForm = ({
   resetMeta,
   fieldsData,
   attachments,
+  discardIssue,
   setFieldsData,
   setAttachments,
   isWorkInProgress,
@@ -61,12 +62,24 @@ const CreateIssueForm = ({
       resetFieldErrors();
       return createIssue(integrationToolFieldData?.value, parsed)
         .catch((errorResponse) => {
-          if (errorResponse?.field_errors) {
+          if (Object.keys(errorResponse?.field_errors).length) {
             setFieldErrors(errorResponse.field_errors);
           }
-          dispatch(
-            setGlobalAlert({ kind: 'error', message: 'Error creating issue.' })
-          );
+          if (errorResponse?.message?.length) {
+            dispatch(
+              setGlobalAlert({
+                kind: 'error',
+                message: errorResponse?.message[0]
+              })
+            );
+          } else {
+            dispatch(
+              setGlobalAlert({
+                kind: 'error',
+                message: 'Error creating issue.'
+              })
+            );
+          }
           if (typeof errorCallback === 'function') {
             errorCallback({
               event: 'create',
@@ -191,18 +204,31 @@ const CreateIssueForm = ({
     ]
   );
 
+  const handleIssueTypeChange = (key, issueType) => {
+    if (isWorkInProgress) {
+      const setIssueType = setFieldsData.bind(null, {
+        ...fieldsData,
+        [key]: issueType
+      });
+      discardIssue(setIssueType);
+    } else {
+      setFieldsData({ ...fieldsData, [key]: issueType });
+    }
+  };
+
   return (
     <>
       <div className="pt-3">
         <SingleValueSelect
-          fieldsData={fieldsData}
-          fieldKey={FIELD_KEYS.ISSUE_TYPE}
-          setFieldsData={setFieldsData}
-          label="Issue type"
-          placeholder="Select issue"
           required
+          label="Issue type"
+          fieldsData={fieldsData}
+          placeholder="Select issue"
           options={cleanedIssueTypes}
           disabled={!projectFieldData}
+          setFieldsData={setFieldsData}
+          fieldKey={FIELD_KEYS.ISSUE_TYPE}
+          onChange={handleIssueTypeChange}
         />
       </div>
       {isCreateMetaLoading && (
@@ -233,6 +259,7 @@ const CreateIssueForm = ({
 };
 CreateIssueForm.propTypes = {
   resetMeta: PropTypes.func.isRequired,
+  discardIssue: PropTypes.func.isRequired,
   fields: PropTypes.arrayOf({}).isRequired,
   setFieldsData: PropTypes.func.isRequired,
   setAttachments: PropTypes.func.isRequired,

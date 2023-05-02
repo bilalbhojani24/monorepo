@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -18,13 +18,19 @@ const IntegrationAuth = ({
   integrationKey,
   label,
   oAuthMeta,
-  apiTokenMeta
+  apiTokenMeta,
+  resetAppState
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const dispatch = useDispatch();
   const [hasOAuthFailed, setHasOAuthFailed] = useState(false);
   const [isOAuthActive, setIsOAuthActive] = useState(true);
   const [isSyncInProgress, setIsSyncInProgress] = useState(false);
+
+  useEffect(() => {
+    resetAppState();
+  }, [resetAppState]);
+
   const showOAuth = () => {
     setIsOAuthActive(true);
   };
@@ -119,7 +125,8 @@ IntegrationAuth.propTypes = {
   integrationKey: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   oAuthMeta: PropTypes.shape(OAuthMetaType),
-  apiTokenMeta: PropTypes.shape(APITokenMetaType)
+  apiTokenMeta: PropTypes.shape(APITokenMetaType),
+  resetAppState: PropTypes.func.isRequired
 };
 
 IntegrationAuth.defaultProps = {

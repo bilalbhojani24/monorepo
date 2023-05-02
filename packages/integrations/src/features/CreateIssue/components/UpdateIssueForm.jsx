@@ -20,6 +20,7 @@ const UpdateIssueForm = ({
   resetMeta,
   fieldsData,
   attachments,
+  discardIssue,
   setFieldsData,
   issueFieldData,
   setAttachments,
@@ -230,15 +231,28 @@ const UpdateIssueForm = ({
     ? `/api/pm-tools/v1/tickets?integration_key=jira&project_id=${projectFieldData?.value}&format=single-value-select&query=`
     : null;
 
+  const handleIssueChange = (key, issueType) => {
+    if (isWorkInProgress) {
+      const setIssueType = setFieldsData.bind(null, {
+        ...fieldsData,
+        [key]: issueType
+      });
+      discardIssue(setIssueType);
+    } else {
+      setFieldsData({ ...fieldsData, [key]: issueType });
+    }
+  };
+
   return (
     <>
       <div className="pt-3">
         <SingleValueSelect
           required
           label="Issue"
+          searchPath={searchPath}
           fieldsData={fieldsData}
           options={issuesForProject}
-          searchPath={searchPath}
+          onChange={handleIssueChange}
           setFieldsData={setFieldsData}
           fieldKey={FIELD_KEYS.TICKET_ID}
           disabled={!projectFieldData?.value}
@@ -283,6 +297,7 @@ const UpdateIssueForm = ({
 
 UpdateIssueForm.propTypes = {
   resetMeta: PropTypes.func.isRequired,
+  discardIssue: PropTypes.func.isRequired,
   fields: PropTypes.arrayOf({}).isRequired,
   setFieldsData: PropTypes.func.isRequired,
   setAttachments: PropTypes.func.isRequired,

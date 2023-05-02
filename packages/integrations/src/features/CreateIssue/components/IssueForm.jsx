@@ -33,6 +33,7 @@ const IssueForm = ({
   options,
   attachments,
   changeTabTo,
+  discardIssue,
   integrations,
   continueEditing,
   isWorkInProgress,
@@ -157,15 +158,21 @@ const IssueForm = ({
   }, 300);
 
   useEffect(() => {
+    // console.log(
+    //   'issue',
+    //   previousIssueType !== issueTypeFieldData?.value,
+    //   !isWorkInProgress
+    // );
+    // console.log('project', previousProjectId !== projectFieldData?.value);
+
     if (
       areProjectsLoaded &&
       integrationToolFieldData &&
       projectFieldData?.value &&
       issueTypeFieldData?.value &&
       mode === ISSUE_MODES.CREATION &&
-      (previousProjectId !== projectFieldData.value ||
-        previousIssueType !== issueTypeFieldData.value ||
-        !isWorkInProgress)
+      previousIssueType !== issueTypeFieldData.value &&
+      !isWorkInProgress
     ) {
       debouncedGetCreateMeta();
     }
@@ -185,9 +192,8 @@ const IssueForm = ({
       projectFieldData?.value &&
       issueFieldData?.value &&
       mode === ISSUE_MODES.UPDATION &&
-      (previousProjectId !== projectFieldData.value ||
-        previousIssueFieldData !== issueFieldData.value ||
-        !isWorkInProgress)
+      previousIssueFieldData !== issueFieldData.value &&
+      !isWorkInProgress
     ) {
       debouncedGetUpdateMeta(issueFieldData);
     }
@@ -232,9 +238,10 @@ const IssueForm = ({
       [FIELD_KEYS.ISSUE_TYPE]: {},
       [FIELD_KEYS.TICKET_ID]: {}
     });
-    if (mode === ISSUE_MODES.UPDATION) {
-      setUpdateFields([]);
-    }
+    // if (mode === ISSUE_MODES.UPDATION) {
+    // }
+    setUpdateFields([]);
+    setCreateFields([]);
     if (mode === ISSUE_MODES.CREATION) {
       setIssuesForProject([]);
     }
@@ -285,6 +292,7 @@ const IssueForm = ({
             options,
             projects,
             fieldsData,
+            discardIssue,
             createFields,
             updateFields,
             setFieldsData,
@@ -325,6 +333,7 @@ IssueForm.propTypes = {
   tab: PropTypes.string.isRequired,
   mode: PropTypes.string.isRequired,
   changeTabTo: PropTypes.func.isRequired,
+  discardIssue: PropTypes.func.isRequired,
   confirmIssueDiscard: PropTypes.isRequired,
   options: CreateIssueOptionsType.isRequired,
   continueEditing: PropTypes.func.isRequired,

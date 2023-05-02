@@ -45,6 +45,16 @@ export const CreateIssue = ({
   const [isFormBeingSubmitted, setIsFormBeingSubmitted] = useState(false);
   const [mode, setMode] = useState(ISSUE_MODES.CREATION);
   const [tab, setTab] = useState(ISSUE_MODES.CREATION);
+  const discardIssueCB = useRef(null);
+
+  const resetAppState = useCallback(() => {
+    setIsBeingDiscarded(false);
+    setIsWorkInProgress(false);
+    setIsFormBeingSubmitted(false);
+    setMode(ISSUE_MODES.CREATION);
+    setTab(ISSUE_MODES.CREATION);
+    dispatch(clearGlobalAlert());
+  }, [dispatch]);
 
   const continueEditing = useCallback(() => {
     if (tab !== mode) {
@@ -53,7 +63,10 @@ export const CreateIssue = ({
     setIsBeingDiscarded(false);
   }, [mode, tab]);
 
-  const discardIssue = useCallback(() => {
+  const discardIssue = useCallback((callback) => {
+    if (typeof callback === 'function') {
+      discardIssueCB.current = callback;
+    }
     setIsBeingDiscarded(true);
   }, []);
 
@@ -61,12 +74,17 @@ export const CreateIssue = ({
     dispatch(clearGlobalAlert());
     if (tab !== mode) {
       setMode(tab);
+    } else if (typeof discardIssueCB.current === 'function') {
+      discardIssueCB.current();
+      discardIssueCB.current = null;
     } else {
+      resetAppState();
       handleClose();
     }
+
     setIsBeingDiscarded(false);
     setIsWorkInProgress(false);
-  }, [dispatch, handleClose, mode, tab]);
+  }, [dispatch, handleClose, mode, resetAppState, tab]);
 
   useEffect(() => {
     if (isBeingDiscarded && !isWorkInProgress) {
@@ -126,6 +144,7 @@ export const CreateIssue = ({
           attachments={attachments}
           changeTabTo={changeTabTo}
           discardIssue={discardIssue}
+          resetAppState={resetAppState}
           continueEditing={continueEditing}
           isWorkInProgress={isWorkInProgress}
           isBeingDiscarded={isBeingDiscarded}

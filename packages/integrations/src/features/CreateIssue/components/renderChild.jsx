@@ -14,6 +14,7 @@ const renderChild = ({
   projects,
   fieldsData,
   attachments,
+  discardIssue,
   createFields,
   updateFields,
   setFieldsData,
@@ -61,17 +62,30 @@ const renderChild = ({
     );
   }
 
+  const handleProjectChange = (key, project) => {
+    if (isWorkInProgress) {
+      const setProject = setFieldsData.bind(null, {
+        ...fieldsData,
+        [key]: project
+      });
+      discardIssue(setProject);
+    } else {
+      setFieldsData({ ...fieldsData, [key]: project });
+    }
+  };
+
   return (
     <>
       <div className="pt-3">
         <SingleValueSelect
+          required
+          label="Project"
+          options={projects}
           fieldsData={fieldsData}
+          placeholder="Select project"
           fieldKey={FIELD_KEYS.PROJECT}
           setFieldsData={setFieldsData}
-          label="Project"
-          required
-          placeholder="Select project"
-          options={projects}
+          onChange={handleProjectChange}
         />
       </div>
       <Tabs
@@ -86,6 +100,7 @@ const renderChild = ({
           fields={createFields}
           fieldsData={fieldsData}
           attachments={attachments}
+          discardIssue={discardIssue}
           resetMeta={resetCreateMeta}
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
@@ -108,6 +123,7 @@ const renderChild = ({
           fields={updateFields}
           fieldsData={fieldsData}
           attachments={attachments}
+          discardIssue={discardIssue}
           resetMeta={resetUpdateMeta}
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
