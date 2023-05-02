@@ -84,7 +84,7 @@ const ComboBox = forwardRef((props, ref) => {
                     )
                   : selectedValue
               );
-              comboInputRef.current.value = '';
+              if (!isBadge) comboInputRef.current.value = '';
             }
             if (query) setQuery('');
           }}
