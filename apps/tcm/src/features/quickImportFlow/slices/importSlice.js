@@ -103,7 +103,8 @@ export const setRetryImport = createAsyncThunk(
   'import/retryImport',
   async ({ id, testTool }) => {
     try {
-      const response = await retryImport(id, testTool);
+      const tool = testTool === 'testrails' ? 'testrail' : testTool;
+      const response = await retryImport(id, tool);
       return { ...response, testTool };
     } catch (err) {
       return err;
