@@ -40,7 +40,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
   };
 
   const handleClickConfigureSmartTags = () => {
-    navigate(ROUTES.smartTags);
+    navigate(ROUTES.smart_tags);
   };
 
   const handleCopyLink = () => {

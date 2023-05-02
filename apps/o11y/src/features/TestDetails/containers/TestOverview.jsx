@@ -52,7 +52,7 @@ const TestOverview = () => {
   }, [dispatch, currentTestRunId]);
 
   const handleClickConfigureSmartTags = () => {
-    navigate(ROUTES.smartTags);
+    navigate(ROUTES.smart_tags);
   };
 
   if (isLoading) {

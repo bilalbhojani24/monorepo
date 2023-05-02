@@ -76,7 +76,7 @@ const RenderTestItem = ({ item: data }) => {
   };
 
   const handleClickConfigureSmartTags = () => {
-    navigate(ROUTES.smartTags);
+    navigate(ROUTES.smart_tags);
   };
 
   const renderTag = (
@@ -131,7 +131,7 @@ const RenderTestItem = ({ item: data }) => {
                       wrapperClassName="bg-base-600 hover:bg-base-700 rounded py-1.5 px-3 text-white"
                       onClick={() =>
                         window.open(
-                          SMART_TAG_LEARN_MORE_URL,
+                          `${SMART_TAG_LEARN_MORE_URL}#${text.toLowerCase()}`,
                           '_blank',
                           'noopener,noreferrer'
                         )

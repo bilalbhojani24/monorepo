@@ -105,4 +105,4 @@ export const LOG_TYPES = {
 };
 
 export const SMART_TAG_LEARN_MORE_URL =
-  'https://www.browserstack.com/docs/observability/smart-tags';
+  'https://www.browserstack.com/docs/test-observability/features/smart-tags';

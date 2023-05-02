@@ -5,6 +5,7 @@ import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
+import SmartTags from 'features/Settings/containers/SmartTags';
 
 import { ROUTES } from './routes';
 
@@ -137,6 +138,11 @@ export const APP_ROUTES = [
             path: ROUTES.settings_re_run,
             isProtected: true,
             component: <ReRunSettings />
+          },
+          {
+            path: ROUTES.smart_tags,
+            isProtected: true,
+            component: <SmartTags />
           },
           {
             path: ROUTES.settings_notifications,
