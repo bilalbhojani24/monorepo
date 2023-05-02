@@ -20,6 +20,7 @@ const options = [
     id: 1,
     name: title,
     stat: '71,897',
+    graph: null,
     icon: <UsersIcon className="h-6 w-6 text-white" />,
     change: '12%',
     previousStat: '28.62%',
@@ -31,6 +32,7 @@ const options = [
     id: 2,
     name: 'Avg. Open Rate',
     stat: '58.16%',
+    graph: null,
     icon: <EnvelopeOpenIcon className="h-6 w-6 text-white" />,
     change: '5.4%',
     previousStat: '50.62%',
@@ -42,6 +44,7 @@ const options = [
     id: 3,
     name: 'Avg. Click Rate',
     stat: '24.57%',
+    graph: null,
     icon: <CursorArrowRaysIcon className="h-6 w-6 text-white" />,
     change: '3.2%',
     previousStat: '28.62%',
@@ -63,6 +66,7 @@ const options = [
         24.57%
       </div>
     ),
+    graph: null,
     icon: null,
     change: null,
     previousStat: null,
@@ -79,6 +83,40 @@ const options = [
       </div>
     ),
     stat: '71,897',
+    graph: (
+      <div className="mb-4 flex h-28 justify-between">
+        <div className="flex h-24 w-full flex-col justify-between">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-40 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">300</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 1</p>
+          </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-48 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">310</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 2</p>
+          </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-36 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">290</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 3</p>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-52 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">320</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 4</p>
+          </div>
+        </div>
+      </div>
+    ),
     icon: null,
     change: '122',
     previousStat: null,
@@ -200,13 +238,13 @@ export const KpiVariantCard = () => (
 );
 
 export const GraphVariantCard = () => (
-  <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
     <Stats
       key={options[4].id}
       option={options[4]}
       variant={STATS_VARIANTS.GRAPH_VARIANT}
     />
-  </dl>
+  </div>
 );
 
 export default defaultConfig;
