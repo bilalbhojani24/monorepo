@@ -6,9 +6,15 @@ import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 
-const SearchFilterField = ({ type, id, placeholder }) => {
+import { ADV_FILTER_TYPES } from '../constants';
+
+const FILTER_FIELD_TYPE = ADV_FILTER_TYPES.search.key;
+
+const SearchFilterField = ({ id, placeholder }) => {
   const dispatch = useDispatch();
-  const appliedSearchText = useSelector(findAppliedFilterByType(type));
+  const appliedSearchText = useSelector(
+    findAppliedFilterByType(FILTER_FIELD_TYPE)
+  );
 
   const [searchText, setSearchText] = useState('');
 
@@ -24,8 +30,8 @@ const SearchFilterField = ({ type, id, placeholder }) => {
   const handleSearch = () => {
     dispatch(
       setAppliedFilter({
-        type,
-        id: `${type}:${searchText.toLowerCase()}`,
+        type: FILTER_FIELD_TYPE,
+        id: `${FILTER_FIELD_TYPE}:${searchText.toLowerCase()}`,
         operationType: 'addOperation',
         text: searchText,
         value: searchText,
@@ -38,7 +44,7 @@ const SearchFilterField = ({ type, id, placeholder }) => {
     setSearchText('');
     dispatch(
       setAppliedFilter({
-        type,
+        type: FILTER_FIELD_TYPE,
         operationType: 'removeOperation',
         text: '',
         value: '',
@@ -79,7 +85,6 @@ const SearchFilterField = ({ type, id, placeholder }) => {
 };
 
 SearchFilterField.propTypes = {
-  type: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired
 };

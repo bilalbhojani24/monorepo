@@ -6,13 +6,7 @@ import { getSelectedFilterByBooleanType } from 'features/FilterSkeleton/slices/s
 import isNil from 'lodash/isNil';
 import PropTypes from 'prop-types';
 
-const MultiSelectCheckboxFilterField = ({
-  type,
-  label,
-  yesLabel,
-  noLabel,
-  id
-}) => {
+const MultiSelectCheckboxFilterField = ({ type, label, yesLabel, noLabel }) => {
   const dispatch = useDispatch();
   const storedValue = useSelector(getSelectedFilterByBooleanType(type));
 
@@ -41,7 +35,7 @@ const MultiSelectCheckboxFilterField = ({
         setSelectedFilters({
           type,
           operationType: 'removeOperation',
-          id,
+          id: type,
           text: null,
           value: null
         })
@@ -51,7 +45,7 @@ const MultiSelectCheckboxFilterField = ({
         setSelectedFilters({
           type,
           operationType: 'addOperation',
-          id,
+          id: type,
           text: yes || !no,
           value: yes || !no
         })
@@ -87,7 +81,7 @@ const MultiSelectCheckboxFilterField = ({
         checked={isYesChecked}
         data={{
           label: yesLabel,
-          value: `${id}-true`
+          value: `${type}-true`
         }}
         onChange={handleYesChange}
         wrapperClassName="mb-1"
@@ -97,7 +91,7 @@ const MultiSelectCheckboxFilterField = ({
         checked={isNoChecked}
         data={{
           label: noLabel,
-          value: `${id}-false`
+          value: `${type}-false`
         }}
         onChange={handleNoChange}
       />
@@ -108,8 +102,7 @@ MultiSelectCheckboxFilterField.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   yesLabel: PropTypes.string.isRequired,
-  noLabel: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  noLabel: PropTypes.string.isRequired
 };
 
 export default MultiSelectCheckboxFilterField;

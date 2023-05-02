@@ -5,7 +5,7 @@ import { setSelectedFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import { getSelectedFilterByBooleanType } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 
-const SingleSelectCheckboxFilterField = ({ type, label, inputLabel, id }) => {
+const SingleSelectCheckboxFilterField = ({ type, label, inputLabel }) => {
   const dispatch = useDispatch();
   const storedValue = useSelector(getSelectedFilterByBooleanType(type));
 
@@ -21,7 +21,7 @@ const SingleSelectCheckboxFilterField = ({ type, label, inputLabel, id }) => {
         setSelectedFilters({
           type,
           operationType: 'removeOperation',
-          id,
+          id: type,
           text: null,
           value: null
         })
@@ -31,7 +31,7 @@ const SingleSelectCheckboxFilterField = ({ type, label, inputLabel, id }) => {
         setSelectedFilters({
           type,
           operationType: 'addOperation',
-          id,
+          id: type,
           text: true,
           value: true
         })
@@ -49,7 +49,7 @@ const SingleSelectCheckboxFilterField = ({ type, label, inputLabel, id }) => {
         checked={checked}
         data={{
           label: inputLabel,
-          value: `${id}-true`
+          value: `${type}-true`
         }}
         onChange={handleChange}
         wrapperClassName="mb-1"
@@ -60,8 +60,7 @@ const SingleSelectCheckboxFilterField = ({ type, label, inputLabel, id }) => {
 SingleSelectCheckboxFilterField.propTypes = {
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  inputLabel: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  inputLabel: PropTypes.string.isRequired
 };
 
 export default SingleSelectCheckboxFilterField;

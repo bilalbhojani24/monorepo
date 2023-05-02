@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   O11yButton,
   O11ySlideover,
@@ -14,11 +14,9 @@ import {
   resetFilters,
   setSelectedFilterAsApplied
 } from '../slices/filterSlice';
-import { getUnAppliedSelectedFilters } from '../slices/selectors';
 
 const FilterSlideover = ({ children, show, onClose }) => {
   const dispatch = useDispatch();
-  const unAppliedFilters = useSelector(getUnAppliedSelectedFilters);
 
   useEffect(
     () => () => {
@@ -33,9 +31,7 @@ const FilterSlideover = ({ children, show, onClose }) => {
   };
 
   const handleApply = () => {
-    if (unAppliedFilters.length) {
-      dispatch(setSelectedFilterAsApplied());
-    }
+    dispatch(setSelectedFilterAsApplied());
     onClose();
   };
 

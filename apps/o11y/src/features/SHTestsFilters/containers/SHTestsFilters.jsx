@@ -79,34 +79,29 @@ const SHTestsFilters = () => {
             searchAPI={getTestTagsData}
           />
           <MultiSelectCheckboxFilterField
-            id={ADV_FILTER_TYPES.isFlaky.key}
             label="Flaky Tests"
             yesLabel="Flaky"
             noLabel="Not Flaky"
             type={ADV_FILTER_TYPES.isFlaky.key}
           />
           <MultiSelectCheckboxFilterField
-            id={ADV_FILTER_TYPES.isAlwaysFailing.key}
             label="Always Failing Tests"
             yesLabel="Always Failing"
             noLabel="Not Always Failing"
             type={ADV_FILTER_TYPES.isAlwaysFailing.key}
           />
           <SingleSelectCheckboxFilterField
-            id={ADV_FILTER_TYPES.isNewFailure.key}
             label="Newly Failed Tests"
             inputLabel="Newly Failed Tests"
             type={ADV_FILTER_TYPES.isNewFailure.key}
           />
           <MultiSelectCheckboxFilterField
-            id={ADV_FILTER_TYPES.hasJiraDefects.key}
             label="Defects (JIRA Issues)"
             yesLabel="Tests with associated defects"
             noLabel="Tests with no associated defects"
             type={ADV_FILTER_TYPES.hasJiraDefects.key}
           />
           <MultiSelectCheckboxFilterField
-            id={ADV_FILTER_TYPES.isMuted.key}
             label="Muted Tests"
             yesLabel="Muted"
             noLabel="Unmuted"
