@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Badge,
-  MdOutlineMotionPhotosAuto,
   MdOutlineDynamicFeed,
   MdOutlineHome,
+  MdOutlineMotionPhotosAuto,
   MdOutlineRecordVoiceOver,
   MdTextSnippet
 } from '@browserstack/bifrost';
@@ -57,11 +57,11 @@ export default function useDashboard() {
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
     },
     {
-      id: 'test-automation',
-      label: 'Test Automation',
+      id: 'automated-tests',
+      label: 'Automated tests',
       activeIcon: MdOutlineMotionPhotosAuto,
       inActiveIcon: MdOutlineMotionPhotosAuto,
-      path: '/test-automation',
+      path: '/automated-tests',
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
     }
   ];

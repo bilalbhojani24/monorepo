@@ -1,0 +1,161 @@
+import React from 'react';
+import {
+  Badge,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Tooltip,
+  TooltipBody,
+  TooltipHeader
+} from '@browserstack/bifrost';
+import { issueTypes } from 'constants';
+import formatDistance from 'date-fns/formatDistance';
+import PropTypes from 'prop-types';
+
+export default function AutomatedTestList({ buildList }) {
+  const now = new Date();
+  const columns = [
+    {
+      id: 'build-listing',
+      name: 'builds',
+      cell: (row) => (
+        <div>
+          <p className="text-base-900 mb-1 text-sm">{row.name}</p>
+          <div className="text-base-500 flex">
+            by <p className="ml-1">{row.createdBy.name}</p>,
+            <p className="ml-1">
+              {formatDistance(new Date(row.createdAt), now)} ago
+            </p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 'summary',
+      name: 'Summary',
+      cell: (row) => (
+        <div>
+          <p className="text-base-900 mb-1 text-sm">
+            {row.summary.issueCount} issues
+          </p>
+          <p className="text-base-500 text-sm">
+            {row.summary.pageCount} pages, {row.summary.componentCount}{' '}
+            components
+          </p>
+        </div>
+      )
+    },
+    {
+      id: 'severity-breakdown',
+      name: 'Severity breakdown',
+      cell: (row) => (
+        <div
+          className="hidden items-center xl:flex"
+          style={{ minWidth: '427px' }}
+        >
+          {issueTypes.map(({ modifier, type }) => (
+            <Tooltip
+              theme="dark"
+              placementAlign="center"
+              placementSide="bottom"
+              wrapperClassName="py-2 px-2"
+              content={
+                <>
+                  <TooltipBody wrapperClassName="p-0 text-sm">{`${
+                    row.summary.severityBreakdown[type]
+                  } ${type.charAt(0).toUpperCase()}${type.slice(
+                    1,
+                    type.length
+                  )}`}</TooltipBody>
+                </>
+              }
+            >
+              <div className="mr-2" key={type}>
+                <Badge
+                  wrapperClassName={
+                    type === 'serious' ? 'bg-[#FCE7F3] text-[#9D174D]' : ''
+                  }
+                  hasDot={false}
+                  hasRemoveButton={false}
+                  isRounded
+                  modifier={modifier}
+                  text={row.summary.severityBreakdown[type]}
+                />
+              </div>
+            </Tooltip>
+          ))}
+        </div>
+      )
+    },
+    {
+      id: 'build-health',
+      name: 'Build health',
+      cell: (row) => <div className="flex items-center" />
+    }
+  ];
+  return (
+    <div>
+      <Table containerWrapperClass="md:rounded-none shadow-none">
+        <TableHead>
+          <TableRow>
+            {columns.map((col) => (
+              <TableCell
+                key={col.key}
+                variant="header"
+                textTransform="uppercase"
+                wrapperClassName="text-base-500 font-medium"
+              >
+                {col.name}
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {buildList.map((row) => (
+            <TableRow>
+              {columns.map((column) => {
+                const value = row[column.key];
+                return (
+                  <TableCell key={column.id}>
+                    {column.cell ? <>{column.cell(row)}</> : value}
+                  </TableCell>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+AutomatedTestList.propTypes = {
+  buildList: PropTypes.objectOf({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+    createdBy: PropTypes.objectOf({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    }).isRequired,
+    summary: PropTypes.objectOf({
+      pageCount: PropTypes.number.isRequired,
+      componentCount: PropTypes.number.isRequired,
+      issueCount: PropTypes.number.isRequired,
+      severityBreakdown: PropTypes.objectOf({
+        critical: PropTypes.number.isRequired,
+        serious: PropTypes.number.isRequired,
+        moderate: PropTypes.number.isRequired,
+        minor: PropTypes.number.isRequired
+      }),
+      health: PropTypes.objectOf({
+        passed: PropTypes.number.isRequired,
+        failed: PropTypes.number.isRequired,
+        skipped: PropTypes.number.isRequired,
+        total: PropTypes.number.isRequired
+      })
+    }).isRequired
+  }).isRequired
+};

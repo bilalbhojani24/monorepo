@@ -10,6 +10,10 @@ export const ROUTES = {
   siteScanner: '/site-scanner',
   scanDetails: '/site-scanner/scan-details/:id',
   scanReports: '/site-scanner/scan-report',
+  automatedTests: '/automated-tests',
+  automatedTestBuild: '/automated-tests/build',
+  // automatedTestBuild:
+  //   '/automated-tests/projects/:projectName/builds/:buildName/:buildNumber',
   root: '/',
   welcome: '/welcome'
 };
@@ -179,19 +183,31 @@ export const reportPerPage = 15;
 export const severityOptions = [
   {
     label: 'Critical',
-    value: 'critical'
+    value: 'critical',
+    meta: {
+      color: 'bg-[#F95D6A]'
+    }
   },
   {
     label: 'Serious',
-    value: 'serious'
+    value: 'serious',
+    meta: {
+      color: 'bg-[#F472B6]'
+    }
   },
   {
     label: 'Moderate',
-    value: 'moderate'
+    value: 'moderate',
+    meta: {
+      color: 'bg-[#E3C500]'
+    }
   },
   {
     label: 'Minor',
-    value: 'minor'
+    value: 'minor',
+    meta: {
+      color: 'bg-[#C5D1D8]'
+    }
   }
 ];
 
