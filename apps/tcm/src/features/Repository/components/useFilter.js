@@ -21,7 +21,8 @@ import {
   setSearchInitiatedURL,
   updateAllTestCases,
   updateFoldersLoading,
-  updateTestCasesListLoading
+  updateTestCasesListLoading,
+  setSearchEmptyText
 } from '../slices/repositorySlice';
 
 const useFilter = (prop) => {
@@ -231,6 +232,20 @@ const useFilter = (prop) => {
     });
   };
 
+  const setSearchErrorText = () => {
+    let allKeys = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key of searchParams.keys()) {
+      allKeys.push(key);
+    }
+    if (allKeys.length === 1 && allKeys.includes('q')) {
+      // only search is done
+      dispatch(setSearchEmptyText('Try different keywords.'));
+    } else {
+      dispatch(setSearchEmptyText('Reset the filters or try again.'));
+    }
+  };
+
   useEffect(() => {
     if (isSearchFilterView) {
       const filterOptions = getFilterOptions(searchParams);
@@ -259,6 +274,7 @@ const useFilter = (prop) => {
           })
         );
 
+      setSearchErrorText();
       fetchFilteredCases(filterOptions, searchParams?.get('p'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
