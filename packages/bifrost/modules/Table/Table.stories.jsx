@@ -753,7 +753,7 @@ StickyHeaderTable.args = {
               const value = row[column.key];
               return (
                 <TableCell key={column.id}>
-                  {column.cell ? <>{column.cell}</> : value}
+                  {column.cell ? <>{column.cell()}</> : value}
                 </TableCell>
               );
             })}
@@ -817,11 +817,11 @@ SelectableTable.args = {
                         name={value}
                         aria-label={value}
                       />
-                      {column.cell ? <>{column.cell}</> : value}
+                      {column.cell ? <>{column.cell()}</> : value}
                     </TableCell>
                   ) : (
                     <TableCell key={column.id}>
-                      {column.cell ? <>{column.cell}</> : value}
+                      {column.cell ? <>{column.cell()}</> : value}
                     </TableCell>
                   )}
                 </>
