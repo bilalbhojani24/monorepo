@@ -10,15 +10,41 @@ import {
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
+import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
 import {
   saveSmartTagsChanges,
   submitSmartTagsChanges
 } from '../slices/smartTagsSettings';
 
+const STATIC_RE_RUN_DROPDOWN_DATA = [
+  ...Array(30)
+    .fill(0)
+    .map((_, i) => ({ name: i + 1, value: i + 1 }))
+];
+const STATIC_TEST_STATUS_FLIPPING = [
+  ...Array(10)
+    .fill(0)
+    .map((_, i) => ({
+      name: `${(i + 1) * 10}%`,
+      value: (i + 1) * 10
+    }))
+];
+const STATIC_TEST_STATUS_FLIPPING_TOTAL = [
+  ...Array(10)
+    .fill(0)
+    .map((_, i) => ({ name: i + 1, value: i + 1 }))
+];
+
 export const FlakyTags = ({ data, isActive, isLoading }) => {
   const dispatch = useDispatch();
-  const { automaticFlaky, flakeInHistory, flakeInRerun } = data;
   const activeProject = useSelector(getActiveProject);
+
+  const { automaticFlaky, flakeInHistory, flakeInRerun } = data;
+  const {
+    testStatusFlipping: testStatusFlippingDefault,
+    testStatusFlippingTotal: testStatusFlippingTotalDefault
+  } = SMART_TAGS_DEFAULT_VALUES.flaky.flakeInHistory;
+  const { rerun: rerunDefault } = SMART_TAGS_DEFAULT_VALUES.flaky.flakeInRerun;
 
   const updateAutomaticFlakyTags = (key, value) => {
     dispatch(
@@ -133,25 +159,22 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
                   value: flakeInHistory.testStatusFlipping
                 }}
                 onChange={setTestStatusFlipping}
-                defaultValue={{ label: 10, value: 10 }}
+                defaultValue={{
+                  label: testStatusFlippingDefault,
+                  value: testStatusFlippingDefault
+                }}
                 disabled={isActive ? !automaticFlaky : true}
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>
-                  {[
-                    ...Array(10)
-                      .fill(0)
-                      .map((_, i) => ({
-                        name: `${(i + 1) * 10}%`,
-                        value: (i + 1) * 10
-                      }))
-                  ].map((integration) => (
+                  {STATIC_TEST_STATUS_FLIPPING.map((item) => (
                     <O11ySelectMenuOptionItem
+                      key={item.value}
                       checkPosition="right"
                       wrapperClassName="text-sm"
                       option={{
-                        label: integration.name,
-                        value: integration.value
+                        label: item.name,
+                        value: item.value
                       }}
                     />
                   ))}
@@ -166,22 +189,22 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
                   value: flakeInHistory.testStatusFlippingTotal
                 }}
                 onChange={setTestStatusFlippingTotal}
-                defaultValue={{ label: 10, value: 10 }}
+                defaultValue={{
+                  label: testStatusFlippingTotalDefault,
+                  value: testStatusFlippingTotalDefault
+                }}
                 disabled={isActive ? !automaticFlaky : true}
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>
-                  {[
-                    ...Array(10)
-                      .fill(0)
-                      .map((_, i) => ({ name: i + 1, value: i + 1 }))
-                  ].map((integration) => (
+                  {STATIC_TEST_STATUS_FLIPPING_TOTAL.map((item) => (
                     <O11ySelectMenuOptionItem
+                      key={item.value}
                       checkPosition="right"
                       wrapperClassName="text-sm"
                       option={{
-                        label: integration.name,
-                        value: integration.value
+                        label: item.name,
+                        value: item.value
                       }}
                     />
                   ))}
@@ -208,22 +231,19 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
               <O11ySelectMenu
                 value={{ label: flakeInRerun.rerun, value: flakeInRerun.rerun }}
                 onChange={setFlakeInRerun}
-                defaultValue={{ label: 10, value: 10 }}
+                defaultValue={{ label: rerunDefault, value: rerunDefault }}
                 disabled={isActive ? !automaticFlaky : true}
               >
                 <O11ySelectMenuTrigger placeholder="Select" />
                 <O11ySelectMenuOptionGroup>
-                  {[
-                    ...Array(30)
-                      .fill(0)
-                      .map((_, i) => ({ name: i + 1, value: i + 1 }))
-                  ].map((integration) => (
+                  {STATIC_RE_RUN_DROPDOWN_DATA.map((item) => (
                     <O11ySelectMenuOptionItem
+                      key={item.value}
                       checkPosition="right"
                       wrapperClassName="text-sm"
                       option={{
-                        label: integration.name,
-                        value: integration.value
+                        label: item.name,
+                        value: item.value
                       }}
                     />
                   ))}

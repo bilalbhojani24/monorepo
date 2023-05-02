@@ -17,7 +17,7 @@ import {
 } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
-import { TEST_STATUS } from 'constants/common';
+import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
@@ -25,14 +25,13 @@ import {
   HIERARCHY_SPACING_START,
   HIERARCHY_TEST_ADDITIONAL_SPACING,
   LOG_TYPES,
-  singleItemTestDetails,
-  SMART_TAG_LEARN_MORE_URL
+  singleItemTestDetails
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getAppliedFilters } from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import PropTypes from 'prop-types';
-import { transformUnsupportedTags } from 'utils/common';
+import { getDocUrl, transformUnsupportedTags } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
 
 import TestItemJiraTag from './TestItemJiraTag';
@@ -131,7 +130,9 @@ const RenderTestItem = ({ item: data }) => {
                       wrapperClassName="bg-base-600 hover:bg-base-700 rounded py-1.5 px-3 text-white"
                       onClick={() =>
                         window.open(
-                          `${SMART_TAG_LEARN_MORE_URL}#${text.toLowerCase()}`,
+                          `${getDocUrl({
+                            path: DOC_KEY_MAPPING.smart_tags
+                          })}#${text.toLowerCase()}`,
                           '_blank',
                           'noopener,noreferrer'
                         )

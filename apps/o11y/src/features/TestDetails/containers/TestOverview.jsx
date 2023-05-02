@@ -7,11 +7,12 @@ import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
+import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { SMART_TAG_LEARN_MORE_URL } from 'features/TestList/constants';
 import isEmpty from 'lodash/isEmpty';
 import {
   capitalize,
+  getDocUrl,
   getIconName,
   getOsIconName,
   getShortOSName
@@ -109,7 +110,7 @@ const TestOverview = () => {
                 wrapperClassName="text-xs mr-2"
                 onClick={() =>
                   window.open(
-                    SMART_TAG_LEARN_MORE_URL,
+                    getDocUrl({ path: DOC_KEY_MAPPING.smart_tags }),
                     '_blank',
                     'noopener,noreferrer'
                   )

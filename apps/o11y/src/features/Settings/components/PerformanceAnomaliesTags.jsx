@@ -10,10 +10,29 @@ import {
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
+import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
 import {
   saveSmartTagsChanges,
   submitSmartTagsChanges
 } from '../slices/smartTagsSettings';
+
+const STATIC_DURATION_DROPDOWN_DATA = [
+  ...Array(19)
+    .fill(0)
+    .map((_, i) => ({
+      name: i + 80,
+      value: i + 80
+    }))
+];
+
+const STATIC_EXECUTION_DROPDOWN_DATA = [
+  ...Array(471)
+    .fill(0)
+    .map((_, i) => ({
+      name: i + 30,
+      value: i + 30
+    }))
+];
 
 export const PerformanceAnomaliesTags = ({ data, isActive }) => {
   const dispatch = useDispatch();
@@ -23,6 +42,8 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
     lastExecution,
     enabled: performanceAnomaliesEnabled
   } = data;
+  const { duration: durationDefault, lastExecution: lastExecutionDefault } =
+    SMART_TAGS_DEFAULT_VALUES.performanceAnomalies;
 
   const setPerformanceAnomaliesSwitch = (key, value) => {
     dispatch(
@@ -68,25 +89,22 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
                 onChange={(item) =>
                   setPerformanceAnomaliesDropdowns('duration', item.value)
                 }
-                defaultValue={{ label: '80%', value: '80%' }}
+                defaultValue={{
+                  label: durationDefault,
+                  value: durationDefault
+                }}
                 disabled={!isActive}
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" />
                 <O11ySelectMenuOptionGroup>
-                  {[
-                    ...Array(19)
-                      .fill(0)
-                      .map((_, i) => ({
-                        name: `${i + 80}%`,
-                        value: `${i + 80}%`
-                      }))
-                  ].map((integration) => (
+                  {STATIC_DURATION_DROPDOWN_DATA.map((item) => (
                     <O11ySelectMenuOptionItem
+                      key={item.value}
                       checkPosition="right"
                       wrapperClassName="text-sm"
                       option={{
-                        label: integration.name,
-                        value: integration.value
+                        label: item.name,
+                        value: item.value
                       }}
                     />
                   ))}
@@ -101,24 +119,21 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
                   setPerformanceAnomaliesDropdowns('lastExecution', item.value)
                 }
                 disabled={!isActive}
-                defaultValue={{ label: 30, value: 30 }}
+                defaultValue={{
+                  label: lastExecutionDefault,
+                  value: lastExecutionDefault
+                }}
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" />
                 <O11ySelectMenuOptionGroup>
-                  {[
-                    ...Array(471)
-                      .fill(0)
-                      .map((_, i) => ({
-                        name: i + 30,
-                        value: i + 30
-                      }))
-                  ].map((integration) => (
+                  {STATIC_EXECUTION_DROPDOWN_DATA.map((item) => (
                     <O11ySelectMenuOptionItem
+                      key={item.value}
                       checkPosition="right"
                       wrapperClassName="text-sm"
                       option={{
-                        label: integration.name,
-                        value: integration.value
+                        label: item.name,
+                        value: item.value
                       }}
                     />
                   ))}

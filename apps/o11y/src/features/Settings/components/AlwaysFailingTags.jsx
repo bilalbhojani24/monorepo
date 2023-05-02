@@ -10,6 +10,7 @@ import {
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
+import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
 import {
   saveSmartTagsChanges,
   submitSmartTagsChanges
@@ -20,14 +21,25 @@ const ALWAYS_FAILING_TAGS_DATA = [
   { label: 'any error', value: 'any error' }
 ];
 
+const STATIC_DROPDOWN_DATA = [
+  ...Array(29)
+    .fill(0)
+    .map((_, i) => ({ name: i + 2, value: i + 2 }))
+];
+
 export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
   const dispatch = useDispatch();
+  const activeProject = useSelector(getActiveProject);
+
   const {
     errorType,
     consecutiveRuns,
     enabled: alwaysFailingSwitchEnabled
   } = data;
-  const activeProject = useSelector(getActiveProject);
+  const {
+    errorType: errorTypeDefault,
+    consecutiveRuns: consecutiveRunsDefault
+  } = SMART_TAGS_DEFAULT_VALUES.alwaysFailing;
 
   const setAlwaysFailingSwitch = (key, value) => {
     dispatch(
@@ -71,7 +83,10 @@ export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
             <div className="mx-1 w-20">
               <O11ySelectMenu
                 value={{ label: errorType, value: errorType }}
-                defaultValue={ALWAYS_FAILING_TAGS_DATA[0]}
+                defaultValue={{
+                  label: errorTypeDefault,
+                  value: errorTypeDefault
+                }}
                 onChange={(item) =>
                   setAlwaysFailingDropdowns('errorType', item.value)
                 }
@@ -79,13 +94,14 @@ export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
               >
                 <O11ySelectMenuTrigger />
                 <O11ySelectMenuOptionGroup>
-                  {ALWAYS_FAILING_TAGS_DATA.map((integration) => (
+                  {ALWAYS_FAILING_TAGS_DATA.map((item) => (
                     <O11ySelectMenuOptionItem
+                      key={item.value}
                       checkPosition="right"
                       wrapperClassName="text-sm"
                       option={{
-                        label: integration.label,
-                        value: integration.value
+                        label: item.label,
+                        value: item.value
                       }}
                     />
                   ))}
@@ -100,21 +116,21 @@ export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
                   setAlwaysFailingDropdowns('consecutiveRuns', item.value)
                 }
                 disabled={isActive ? !alwaysFailingSwitchEnabled : true}
-                defaultValue={{ label: 5, value: 5 }}
+                defaultValue={{
+                  label: consecutiveRunsDefault,
+                  value: consecutiveRunsDefault
+                }}
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" />
                 <O11ySelectMenuOptionGroup>
-                  {[
-                    ...Array(29)
-                      .fill(0)
-                      .map((_, i) => ({ name: i + 2, value: i + 2 }))
-                  ].map((integration) => (
+                  {STATIC_DROPDOWN_DATA.map((item) => (
                     <O11ySelectMenuOptionItem
+                      key={item.value}
                       checkPosition="right"
                       wrapperClassName="text-sm"
                       option={{
-                        label: integration.name,
-                        value: integration.value
+                        label: item.name,
+                        value: item.value
                       }}
                     />
                   ))}

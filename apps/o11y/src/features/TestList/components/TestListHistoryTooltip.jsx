@@ -13,16 +13,14 @@ import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
-import { TEST_STATUS } from 'constants/common';
+import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import {
-  LOG_TYPES,
-  SMART_TAG_LEARN_MORE_URL
-} from 'features/TestList/constants';
+import { LOG_TYPES } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getTestHistoryDetails } from 'features/TestList/slices/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
+import { getDocUrl } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
 
 function TestListHistoryTooltip({ testRunId, status }) {
@@ -146,7 +144,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
                         wrapperClassName="text-xs mr-2"
                         onClick={() =>
                           window.open(
-                            SMART_TAG_LEARN_MORE_URL,
+                            getDocUrl({ path: DOC_KEY_MAPPING.smart_tags }),
                             '_blank',
                             'noopener,noreferrer'
                           )

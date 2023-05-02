@@ -103,6 +103,3 @@ export const LOG_TYPES = {
   STACKTRACE: 'TEST_FAILURE',
   IMAGES: 'TEST_LOG'
 };
-
-export const SMART_TAG_LEARN_MORE_URL =
-  'https://www.browserstack.com/docs/test-observability/features/smart-tags';
