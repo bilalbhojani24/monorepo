@@ -16,7 +16,6 @@ const BlankPage = forwardRef((props, ref) => {
   const { projectId, folderId } = useTestCases();
   const dispatch = useDispatch();
   const urlQueryParam = {};
-  if (projectId) urlQueryParam.project = projectId;
   if (folderId) urlQueryParam.folder = folderId;
 
   return (
@@ -49,9 +48,9 @@ const BlankPage = forwardRef((props, ref) => {
         </Link>
 
         <Link
-          to={`${AppRoute.IMPORT_CSV}?${new URLSearchParams(
-            urlQueryParam
-          ).toString()}`}
+          to={`${routeFormatter(AppRoute.IMPORT_CSV, {
+            projectId
+          })}?${new URLSearchParams(urlQueryParam).toString()}`}
         >
           <TMButton
             wrapperClassName="ml-4 whitespace-nowrap w-64 py-3"

@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 
 import { RADIO_STACKED_CARD_PLACEMENT } from './const/radioStackedCardConstants';
 
-import './styles.scss';
-
 const RadioStackedCard = (props) => {
   const { placement = 'vertical', data, onChange, name } = props;
   const [selected, setSelected] = useState(data[0]);

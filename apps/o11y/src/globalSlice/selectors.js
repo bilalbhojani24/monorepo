@@ -9,3 +9,4 @@ export const getFeatureFlag = (state, feature) =>
     isMetered: false,
     isActive: false
   };
+export const getHasInitFailed = (state) => state.global.hasProductInitFailed;

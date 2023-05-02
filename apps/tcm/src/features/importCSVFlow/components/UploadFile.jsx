@@ -105,7 +105,7 @@ const UploadFile = () => {
           <TMFileUpload
             linkText="Upload a file"
             heading=""
-            subHeading="CSV format allowed"
+            subHeading="CSV format allowed (up to 10 MB)"
             accept=".csv"
             onChange={handleFileUpload}
           />
@@ -137,7 +137,7 @@ const UploadFile = () => {
           text={folderId ? selectedFolderLocation : '/'}
           secondBtnDisabled={!folderId}
           firstCta="Change Folder"
-          secondCta="Upload to Root Location"
+          secondCta="Upload to Root Level"
           firstCtaClick={() => {
             handleChangeFolderClick();
           }}
