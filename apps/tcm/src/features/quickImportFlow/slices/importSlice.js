@@ -251,6 +251,9 @@ const importSlice = createSlice({
     setImportedProjectCount: (state, { payload }) => {
       state.successfulImportedProjects = payload;
     },
+    setImportId: (state, { payload }) => {
+      state.importId = payload;
+    },
     setImportIdBeforeImport: (state, { payload }) => {
       state.importIdBeforeImport = payload;
     }
@@ -319,6 +322,7 @@ export const {
   setConfigureToolProceeded,
   setCurrentTestManagementTool,
   setCurrentScreen,
+  setImportId,
   setImportIdBeforeImport,
   setErrorForConfigureData,
   setTestRailsCred,
