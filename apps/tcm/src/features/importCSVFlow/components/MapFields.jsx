@@ -263,7 +263,7 @@ const MapFields = () => {
                           {
                             'border-danger-400':
                               errorLabelInMapFields.has(
-                                row.mappedField.defaultValue.label
+                                row?.mappedField?.defaultValue?.label
                               ) && showSelectMenuErrorInMapFields
                           },
                           {
