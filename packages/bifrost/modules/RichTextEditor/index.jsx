@@ -1,5 +1,6 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
+import { arrayOf } from 'prop-types';
 
 import {
   func,
@@ -15,6 +16,7 @@ import Editor from './components/TextEditor';
 import './styles.scss';
 
 const RichTextEditor = ({
+  allowedFormats,
   assetsURL,
   onAssetUpload,
   height,
@@ -38,6 +40,7 @@ const RichTextEditor = ({
       </label>
     ) : null}
     <Editor
+      allowedFormats={allowedFormats}
       assetsURL={assetsURL}
       id={id}
       onAssetUpload={onAssetUpload}
@@ -54,6 +57,7 @@ const RichTextEditor = ({
 );
 
 RichTextEditor.propTypes = {
+  allowedFormats: arrayOf(string),
   assetsURL: string.isRequired,
   onAssetUpload: func.isRequired,
   initialValue: string,
@@ -69,6 +73,18 @@ RichTextEditor.propTypes = {
 };
 
 RichTextEditor.defaultProps = {
+  allowedFormats: [
+    'jpeg',
+    'jpg',
+    'jpe',
+    'jfi',
+    'jif',
+    'jfif',
+    'png',
+    'gif',
+    'bmp',
+    'webp'
+  ],
   initialValue: undefined,
   onChange: undefined,
   height: 100,
