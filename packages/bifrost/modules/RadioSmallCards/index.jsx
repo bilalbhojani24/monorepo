@@ -2,8 +2,6 @@ import React from 'react';
 import { RadioGroup } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 function twClassNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }

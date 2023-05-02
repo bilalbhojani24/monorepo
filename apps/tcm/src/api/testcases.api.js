@@ -72,14 +72,24 @@ export const moveTestCasesBulkAPI = async ({
 export const deleteTestCasesBulkAPI = async ({
   projectId,
   folderId,
-  bulkSelection
-}) =>
-  fetchPost(
+  bulkSelection,
+  page
+}) => {
+  if (page) {
+    return fetchPost(
+      `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-delete?p=${page}`,
+      {
+        test_case: bulkSelection
+      }
+    );
+  }
+  return fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-delete`,
     {
       test_case: bulkSelection
     }
   );
+};
 
 export const editTestCasesBulkAPI = async ({
   projectId,

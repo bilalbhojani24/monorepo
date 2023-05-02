@@ -25,8 +25,9 @@ import PropTypes from 'prop-types';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
-import { setAppliedFilters } from '../slices/dataSlice';
-import { getAppliedFilterTags } from '../slices/selectors';
+import { BUILD_FILTER_OPERATIONS, BUILD_FILTER_TYPES } from '../constants';
+import { getSelectedFiltersIdsByType } from '../slices/buildsSelectors';
+import { setAppliedFilter } from '../slices/buildsSlice';
 
 function BuildItemDetails({
   data,
@@ -34,7 +35,9 @@ function BuildItemDetails({
   navigateToTestPage
 }) {
   const dispatch = useDispatch();
-  const tags = useSelector(getAppliedFilterTags);
+  const appliedFilterTags = useSelector(
+    getSelectedFiltersIdsByType(BUILD_FILTER_TYPES.tags)
+  );
 
   const renderStatusIcon = () => {
     const status = getBuildMarkedStatus(data.status, data.statusStats);
@@ -66,16 +69,6 @@ function BuildItemDetails({
     );
   };
 
-  const addFilterTag = (item) => {
-    if (!tags.includes(item)) {
-      dispatch(
-        setAppliedFilters({
-          tags: [...tags, item]
-        })
-      );
-    }
-  };
-
   const handleCIClicked = () => logBuildListingInteracted('ci_link_clicked');
   const buildCardNameClicked = () =>
     logBuildListingInteracted('build_name_card_clicked');
@@ -84,6 +77,29 @@ function BuildItemDetails({
   const onAutoDetectHover = (isVisible) => {
     if (isVisible) {
       logBuildListingInteracted('auto_detect_hovered');
+    }
+  };
+
+  const handleBuildTagFilter = (tagName) => {
+    if (appliedFilterTags.includes(tagName)) {
+      dispatch(
+        setAppliedFilter({
+          type: BUILD_FILTER_TYPES.tags,
+          operation: BUILD_FILTER_OPERATIONS.REMOVE_BY_ID,
+          id: tagName,
+          text: tagName
+        })
+      );
+    } else {
+      dispatch(
+        setAppliedFilter({
+          type: BUILD_FILTER_TYPES.tags,
+          operation: BUILD_FILTER_OPERATIONS.ADD,
+          id: tagName,
+          text: tagName,
+          isApplied: true
+        })
+      );
     }
   };
 
@@ -137,9 +153,9 @@ function BuildItemDetails({
           {data?.tags.map((singleTag) => (
             <PropagationBlocker variant="span" key={singleTag}>
               <O11yBadge
-                wrapperClassName="mx-1 flex-shrink-0"
+                wrapperClassName="mx-1 flex-shrink-0 bg-base-200"
                 hasRemoveButton={false}
-                onClick={() => addFilterTag(singleTag)}
+                onClick={() => handleBuildTagFilter(singleTag)}
                 modifier="base"
                 hasDot={false}
                 text={singleTag}
