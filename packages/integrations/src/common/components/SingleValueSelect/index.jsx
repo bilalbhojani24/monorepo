@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   ComboBox,
   ComboboxOptionGroup,
@@ -11,7 +11,10 @@ import { makeDebounce } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { fetchOptionsThunk } from '../../../api';
+import { fetchBase64IconThunk } from '../../../api/fetchBase64Icon';
+import { activeIntegrationSelector } from '../../../features/slices/integrationsSlice';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
+import { baseURLSelector } from '../../slices/configSlice';
 import Label from '../Label';
 import { FieldType, SingleValueSelectRawOptionType } from '../types';
 
@@ -31,14 +34,46 @@ const SingleValueSelect = ({
   defaultValue,
   setFieldsData,
   wrapperClassName,
+  onChange: onChangeHandler,
   selectFirstByDefault = false,
   selectFirstOnOptionChange = false,
   areSomeRequiredFieldsEmpty,
   areOptionsLoading: areOptionsLoadingProps = false
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
+  const [optionsToRender, setOptionsToRender] = useState(null);
   const [areOptionsLoading, setAreOptionsLoading] = useState(false);
+  const initialOptions = useRef(null);
   const dispatch = useDispatch();
+  const baseURL = useSelector(baseURLSelector);
+  const activeIntegration = useSelector(activeIntegrationSelector);
+
+  const handleIconError = (itemWithError) => {
+    if (
+      typeof itemWithError.image === 'string' &&
+      baseURL &&
+      itemWithError.image.includes(baseURL) &&
+      !activeIntegration.value &&
+      !optionsToRender
+    ) {
+      return;
+    }
+
+    dispatch(
+      fetchBase64IconThunk({
+        url: `${baseURL}/api/pm-tools/v1/resources/icons?uri=${itemWithError.image}&integration_key=${activeIntegration.value}`
+      })
+    ).then(({ payload: base64Image }) => {
+      if (base64Image) {
+        const itemInOptions = optionsToRender.find(
+          (option) => option.value === itemWithError.value
+        );
+        itemInOptions.image = base64Image;
+        setOptionsToRender([...optionsToRender]);
+      }
+    });
+  };
+
   const cleanOptions = (data) =>
     Array.isArray(data) &&
     data.reduce((acc, currOption) => {
@@ -73,7 +108,6 @@ const SingleValueSelect = ({
     }
   }, [value, defaultValue, fieldsData, fieldKey, setFieldsData, cleanedValue]);
 
-  const [optionsToRender, setOptionsToRender] = useState(null);
   const [dynamicOptions, setDynamicOptions] = useState(null);
   const previousOptions = usePrevious(optionsToRender);
   const requiredFieldError = useRequiredFieldError(
@@ -82,7 +116,6 @@ const SingleValueSelect = ({
     areSomeRequiredFieldsEmpty
   );
   const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
-  const initialOptions = useRef(null);
   const lengthOfOptionsToRender = optionsToRender?.length;
 
   const appendOptionIfMissing = (optionList = [], target) => {
@@ -168,7 +201,9 @@ const SingleValueSelect = ({
   ]);
 
   const handleChange = (val) => {
-    if (typeof setFieldsData === 'function') {
+    if (typeof onChangeHandler === 'function') {
+      onChangeHandler(fieldKey, val);
+    } else if (typeof setFieldsData === 'function') {
       setFieldsData({ ...fieldsData, [fieldKey]: val });
     }
   };
@@ -271,7 +306,11 @@ const SingleValueSelect = ({
         />
         <ComboboxOptionGroup maxWidth={300}>
           {(optionsToRender ?? []).map((item) => (
-            <ComboboxOptionItem key={item.value} option={item} />
+            <ComboboxOptionItem
+              key={item.value}
+              option={item}
+              handleIconError={handleIconError}
+            />
           ))}
         </ComboboxOptionGroup>
       </ComboBox>
