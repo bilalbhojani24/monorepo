@@ -49,7 +49,7 @@ const useReportLoading = () => {
       })
     );
 
-    mcpAnalyticsEvent('csptTestQuit', {
+    mcpAnalyticsEvent('csptTestQuitClicked', {
       test_duration: secondsElapsed,
       ...formatDeviceAndAppAnalyticsData(
         sessionDetails?.device,
@@ -64,7 +64,7 @@ const useReportLoading = () => {
 
     dispatch(stopRecordingSession(navigateToPath));
 
-    mcpAnalyticsEvent('csptTestCompleted', {
+    mcpAnalyticsEvent('csptTestGenerateReportClicked', {
       test_duration: secondsElapsed,
       ...formatDeviceAndAppAnalyticsData(
         sessionDetails?.device,

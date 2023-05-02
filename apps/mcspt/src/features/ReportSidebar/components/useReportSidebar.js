@@ -5,6 +5,8 @@ import {
   getSessionMetrics,
   updateLatestVideoCurrentTimeInSeconds
 } from 'features/Report';
+import { formatDeviceAndAppAnalyticsData } from 'utils/analyticsDataUtils';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const useReportSidebar = () => {
   const sessionData = useSelector(getSessionMetrics);
@@ -23,6 +25,24 @@ const useReportSidebar = () => {
         )
       );
     }
+  };
+
+  const sendPlayAnalyticsEvent = (action) => {
+    mcpAnalyticsEvent('csptReportPlayPauseBtnClick', {
+      playbtn_action: action,
+      ...formatDeviceAndAppAnalyticsData(
+        sessionData?.device,
+        sessionData?.package
+      )
+    });
+  };
+
+  const onPauseClick = () => {
+    sendPlayAnalyticsEvent('pause');
+  };
+
+  const onPlayClick = () => {
+    sendPlayAnalyticsEvent('play');
   };
 
   const pauseVideoOnManualSeek = () => {
@@ -49,7 +69,9 @@ const useReportSidebar = () => {
     sessionData,
     updateChartSeekerPosition,
     deviceVideoRef,
-    pauseVideoOnManualSeek
+    pauseVideoOnManualSeek,
+    onPauseClick,
+    onPlayClick
   };
 };
 

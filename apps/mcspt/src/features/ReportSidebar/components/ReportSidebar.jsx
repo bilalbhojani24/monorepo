@@ -12,7 +12,9 @@ const ReportSidebar = () => {
     sessionData,
     updateChartSeekerPosition,
     deviceVideoRef,
-    pauseVideoOnManualSeek
+    pauseVideoOnManualSeek,
+    onPauseClick,
+    onPlayClick
   } = useReportSidebar();
 
   return (
@@ -24,6 +26,8 @@ const ReportSidebar = () => {
         controlPanelAtBottom
         controlPanelWrapperClassName="fixed z-[9] -ml-2 bottom-8"
         timeUpdateCallBack={updateChartSeekerPosition}
+        onPauseCallback={onPauseClick}
+        onPlayCallback={onPlayClick}
       >
         <MediaPlayerLeftControls />
         <MediaPlayerSeekbar onSeekTime={pauseVideoOnManualSeek} />

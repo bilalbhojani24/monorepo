@@ -99,7 +99,7 @@ const useTestTriggerPanel = () => {
     );
 
     mcpAnalyticsEvent(
-      'csptTestStarted',
+      'csptTestStartClicked',
       formatDeviceAndAppAnalyticsData(selectedDevice, selectedApplication)
     );
   };
