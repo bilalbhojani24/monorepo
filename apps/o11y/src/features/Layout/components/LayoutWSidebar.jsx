@@ -4,6 +4,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
 import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import O11yTopBanner from 'common/O11yTopBanner';
 import { ROUTES } from 'constants/routes';
 import Sidebar from 'features/Sidebar';
 import { getInitData, getProjects } from 'globalSlice/selectors';
@@ -23,6 +24,7 @@ const LayoutWSidebar = () => {
   return (
     <>
       <O11yHeader />
+      <O11yTopBanner />
       <main className="flex">
         <Sidebar />
         <Suspense fallback={<O11yLoader wrapperClassName="h-screen" />}>
