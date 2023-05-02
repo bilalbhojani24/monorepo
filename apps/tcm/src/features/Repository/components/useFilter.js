@@ -154,6 +154,13 @@ const useFilter = (prop) => {
         dispatch(setSearchInitiatedURL(location.pathname));
       }
 
+      updateFilterSearchMeta({
+        owner: [],
+        tags: [],
+        priority: [],
+        q: '',
+        ...thisFilterSearchMeta
+      }); // reconfirm the redux states (happens when filter was updated but not applied and user goes to earch and change and hit (or other way around))
       navigate({
         pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
           projectId
