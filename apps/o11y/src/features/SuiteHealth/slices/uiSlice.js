@@ -23,6 +23,7 @@ import {
   getAppliedFilterObj,
   getFilterFromSearchString
 } from 'features/FilterSkeleton/utils';
+import { SH_TESTS_DATE_RANGE_OBJECT } from 'features/SHTestsFilters/constants';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
@@ -116,7 +117,7 @@ const { reducer, actions } = createSlice({
 export const { setSnPTestFilters, clearSnpTestFilter, setActiveTab } = actions;
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const updateFilterFields = (data, dispatch) => {
+const updateFilterFields = (data, dispatch, searchParams) => {
   if (!isEmpty(data?.applied)) {
     const { applied } = data;
     const updatedSelectedFilters = [];
@@ -128,7 +129,7 @@ const updateFilterFields = (data, dispatch) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
                   id: `${appliedKey}:${item.value}`,
-                  text: item.label,
+                  text: item.label || item.value,
                   value: item.value,
                   type: ADV_FILTER_TYPES.buildTags.key
                 })
@@ -143,7 +144,7 @@ const updateFilterFields = (data, dispatch) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
                   id: `${appliedKey}:${item.value}`,
-                  text: item.label,
+                  text: item.label || item.value,
                   value: item.value,
                   type: ADV_FILTER_TYPES.uniqueBuildNames.key
                 })
@@ -158,7 +159,7 @@ const updateFilterFields = (data, dispatch) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
                   id: `${appliedKey}:${item.value}`,
-                  text: item.label,
+                  text: item.label || item.value,
                   value: item.value,
                   type: ADV_FILTER_TYPES.folders.key
                 })
@@ -173,7 +174,7 @@ const updateFilterFields = (data, dispatch) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
                   id: `${appliedKey}:${item.value}`,
-                  text: item.label,
+                  text: item.label || item.value,
                   value: item.value,
                   type: ADV_FILTER_TYPES.testTags.key
                 })
@@ -188,7 +189,7 @@ const updateFilterFields = (data, dispatch) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
                   id: `${appliedKey}:${item.value}`,
-                  text: item.label,
+                  text: item.label || item.value,
                   value: item.value,
                   type: ADV_FILTER_TYPES.hostNames.key
                 })
@@ -268,7 +269,7 @@ const updateFilterFields = (data, dispatch) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
                   id: `${appliedKey}:${item.value}`,
-                  text: item.label,
+                  text: item.label || item.value,
                   value: item.value,
                   type: ADV_FILTER_TYPES.failureCategories.key
                 })
@@ -283,7 +284,7 @@ const updateFilterFields = (data, dispatch) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
                   id: `${appliedKey}:${item.value}`,
-                  text: item.label,
+                  text: item.label || item.value,
                   value: item.value,
                   type: ADV_FILTER_TYPES.deviceList.key
                 })
@@ -298,7 +299,7 @@ const updateFilterFields = (data, dispatch) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
                   id: `${appliedKey}:${item.value}`,
-                  text: item.label,
+                  text: item.label || item.value,
                   value: item.value,
                   type: ADV_FILTER_TYPES.osList.key
                 })
@@ -313,7 +314,7 @@ const updateFilterFields = (data, dispatch) => {
               updatedSelectedFilters.push(
                 getAppliedFilterObj({
                   id: `${appliedKey}:${item.value}`,
-                  text: item.label,
+                  text: item.label || item.value,
                   value: item.value,
                   type: ADV_FILTER_TYPES.browserList.key
                 })
@@ -337,15 +338,23 @@ const updateFilterFields = (data, dispatch) => {
         }
         case ADV_FILTER_TYPES.dateRange.key: {
           if (applied[appliedKey]) {
-            const text = `${getDateInFormat(
-              applied[appliedKey].lowerBound
-            )} - ${getDateInFormat(applied[appliedKey].upperBound)}`;
+            const daterangetype = searchParams.get('daterangetype');
+            let text = '';
+            let id = '';
+            if (daterangetype !== 'custom') {
+              text = SH_TESTS_DATE_RANGE_OBJECT[daterangetype].appliedText;
+              id = daterangetype;
+            } else {
+              text = `${getDateInFormat(
+                applied[appliedKey].lowerBound
+              )} - ${getDateInFormat(applied[appliedKey].upperBound)}`;
+              id = 'custom';
+            }
+
             updatedSelectedFilters.push({
               type: ADV_FILTER_TYPES.dateRange.key,
-              id: `${applied[ADV_FILTER_TYPES.dateRange.key].lowerBound},${
-                applied[ADV_FILTER_TYPES.dateRange.key].upperBound
-              }`,
-              range: applied[ADV_FILTER_TYPES.dateRange.key],
+              id,
+              value: applied[ADV_FILTER_TYPES.dateRange.key],
               text,
               appliedText: `${
                 ADV_FILTERS_PREFIX[ADV_FILTER_TYPES.dateRange.key]
@@ -372,11 +381,12 @@ export const getSnPTestsFiltersData = createAsyncThunk(
   async (data, { rejectWithValue, dispatch }) => {
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_TESTS));
     try {
+      const searchString = getFilterFromSearchString();
       const response = await getSnPTestsFilters({
         ...data,
-        searchString: getFilterFromSearchString()
+        searchString
       });
-      updateFilterFields(response.data, dispatch);
+      updateFilterFields(response.data, dispatch, searchString);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);

@@ -27,13 +27,7 @@ const DatePickerFilterField = ({ dateRangeObject }) => {
     if (appliedDateRange?.id) {
       setActiveType(appliedDateRange.id);
     } else {
-      const searchParams = new URLSearchParams(window.location.search);
-      const dateRangeType = searchParams.get('daterangetype');
-      if (dateRangeType) {
-        setActiveType(dateRangeType);
-      } else {
-        setActiveType(null);
-      }
+      setActiveType(null);
     }
   }, [appliedDateRange]);
 
