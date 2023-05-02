@@ -207,13 +207,14 @@ export default function TestingTrendsHeader() {
                     {TT_DATE_RANGE[key].label}
                   </O11yDropdownTrigger>
 
-                  <O11yDropdownOptionGroup wrapperClassName="w-full p-4">
+                  <O11yDropdownOptionGroup wrapperClassName="w-[440px] p-4">
                     <DatePickerGroup
                       onDateSelect={handleCustomDateRange}
                       startDate={activeDateRange?.lowerBound}
                       endDate={activeDateRange?.upperBound}
                       minDate={getSubtractedUnixTime(2, 'months') * 1000}
                       maxDate={getUnixEndOfDay(new Date()) * 1000}
+                      datePickerWrapperClass="w-48"
                     />
                   </O11yDropdownOptionGroup>
                 </O11yDropdown>
