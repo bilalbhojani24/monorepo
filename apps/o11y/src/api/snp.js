@@ -246,35 +246,26 @@ export const getSnPErrorDetailsPlatforms = async ({
 };
 
 export const getSnPTestsFilters = async ({ normalisedName, searchString }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/filters?${searchString}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters?${searchString}`;
   return axios.get(endpoint);
 };
 
-export const getBuildNames = async ({ normalisedName }) =>
+export const getBuildNames = async ({ normalisedName, query }) =>
   axios.get(
-    `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/filters/buildNames`
+    `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/buildNames?q=${query}`
   );
 
-export const getBuildTags = async ({ projectNormalisedName, query }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds/tags`;
-  if (query) {
-    endpoint += `?q=${query}`;
-  }
+export const getBuildTags = async ({ normalisedName, query }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/buildTags?q=${query}`;
   return axios.get(endpoint);
 };
 
-export const getTestTags = async ({ projectNormalisedName, query }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/snp/tests/filters/testTags`;
-  if (query) {
-    endpoint += `?q=${query}`;
-  }
+export const getTestTags = async ({ normalisedName, query }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/testTags?q=${query}`;
   return axios.get(endpoint);
 };
 
-export const getHostNames = async ({ projectNormalisedName, query }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${projectNormalisedName}/snp/tests/filters/hostNames`;
-  if (query) {
-    endpoint += `?q=${query}`;
-  }
+export const getHostNames = async ({ normalisedName, query }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/hostNames?q=${query}`;
   return axios.get(endpoint);
 };

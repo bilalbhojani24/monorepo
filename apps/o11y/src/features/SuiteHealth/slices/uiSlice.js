@@ -23,6 +23,7 @@ import {
   getAppliedFilterObj,
   getFilterFromSearchString
 } from 'features/FilterSkeleton/utils';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import { getDateInFormat } from 'utils/dateTime';
@@ -387,9 +388,13 @@ export const getSnPTestsFiltersData = createAsyncThunk(
 
 export const getBuildNamesData = createAsyncThunk(
   'testlist/getBuildNamesData',
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getBuildNames({ ...data });
+      const activeProject = getActiveProject(getState());
+      const response = await getBuildNames({
+        ...data,
+        normalisedName: activeProject.normalisedName
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -399,9 +404,13 @@ export const getBuildNamesData = createAsyncThunk(
 
 export const getBuildTagsData = createAsyncThunk(
   `suitehealth/getBuildTags`,
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getBuildTags({ ...data });
+      const activeProject = getActiveProject(getState());
+      const response = await getBuildTags({
+        ...data,
+        normalisedName: activeProject.normalisedName
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -411,9 +420,13 @@ export const getBuildTagsData = createAsyncThunk(
 
 export const getTestTagsData = createAsyncThunk(
   `suitehealth/getBuildTags`,
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getTestTags({ ...data });
+      const activeProject = getActiveProject(getState());
+      const response = await getTestTags({
+        ...data,
+        normalisedName: activeProject.normalisedName
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -423,9 +436,13 @@ export const getTestTagsData = createAsyncThunk(
 
 export const getHostNamesData = createAsyncThunk(
   `suitehealth/getBuildTags`,
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getHostNames({ ...data });
+      const activeProject = getActiveProject(getState());
+      const response = await getHostNames({
+        ...data,
+        normalisedName: activeProject.normalisedName
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
