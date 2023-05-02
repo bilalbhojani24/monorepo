@@ -7,6 +7,6 @@ export const getBuildInfo = (state) => state.global.buildInfo;
 export const getFeatureFlag = (state, feature) =>
   state.global.initData?.data?.userDetails?.planDetails?.features[feature] || {
     isMetered: false,
-    isActive: true
+    isActive: false
   };
 export const getHasInitFailed = (state) => state.global.hasProductInitFailed;
