@@ -40,7 +40,7 @@ const ReportLoading = () => {
   return (
     <div className="flex w-full flex-col">
       <div className="border-base-300 text-base-500 flex items-center border-b p-4">
-        <div className="text-xl">
+        <div className="cursor-pointer text-xl">
           <MdChevronLeft
             onClick={() => {
               if (sessionState === REPORT_LOADING_STATES.RECORDING) {
