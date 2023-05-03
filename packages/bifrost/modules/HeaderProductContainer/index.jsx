@@ -128,12 +128,12 @@ const HeaderProductContainer = () => {
             </div>
             <div
               className={twClassNames(
-                'flex flex-col items-start w-[254px] h-[192px] gap-[10px] p-0'
+                'flex flex-col items-start w-[254px] h-[248px] gap-[10px] p-0'
               )}
             >
               <div
                 className={twClassNames(
-                  'flex flex-col items-start w-[254px] h-[96px] gap-[22px] pt-0 px-0 pb-[10px]'
+                  'flex flex-col items-start w-[254px] h-[154px] gap-[22px] pt-0 px-0 pb-[10px]'
                 )}
               >
                 <div
@@ -161,7 +161,7 @@ const HeaderProductContainer = () => {
               </div>
               <div
                 className={twClassNames(
-                  'flex flex-col items-start w-[254px] h-[96px] gap-[22px] p-0'
+                  'flex flex-col items-start w-[254px] h-[84px] gap-[22px] p-0'
                 )}
               >
                 <div
