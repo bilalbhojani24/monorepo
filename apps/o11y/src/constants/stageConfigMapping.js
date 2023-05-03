@@ -57,6 +57,7 @@ export default {
     enableAnalytics: true,
     integrationsBaseUrl: '',
     disableLogs: true,
-    useIntegrationsPreProdAuth: false
+    useIntegrationsPreProdAuth: false,
+    enableSentry: true
   }
 };

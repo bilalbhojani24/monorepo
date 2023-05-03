@@ -452,14 +452,13 @@ export default function SiteScanner() {
           <div className="block p-6 pt-0">
             <div className="flex justify-between">
               <div className="flex items-center">
-                <div className="mr-4 mt-1 w-80">
-                  <InputField
-                    onChange={handleSearch}
-                    id="search-scan"
-                    placeholder="Search for scan name or user..."
-                    leadingIcon={<MdSearch />}
-                  />
-                </div>
+                <InputField
+                  onChange={handleSearch}
+                  id="search-scan"
+                  placeholder="Search for scan name or user..."
+                  leadingIcon={<MdSearch />}
+                  wrapperClassName="mr-4 mt-1 w-80"
+                />
                 <div className="mr-4 mt-1">
                   <Dropdown onClick={handleSearchFilter} id="scanFilter">
                     <div className="flex">
