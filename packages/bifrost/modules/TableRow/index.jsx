@@ -23,8 +23,8 @@ const TableRow = ({
       if (e.key === 'Enter' && onRowClick) onRowClick(e);
       if (e.key === ' ' && onRowClick) onRowClick(e);
     }}
-    tabIndex={typeof onRowClick === 'function' ? 0 : -1}
-    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...(typeof onRowClick === 'function' && { role: 'tab' })}
+    {...(typeof onRowClick === 'function' && { tabIndex: 0 })}
     {...rest}
   >
     {children}
