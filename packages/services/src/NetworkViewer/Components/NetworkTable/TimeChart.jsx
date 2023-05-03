@@ -97,4 +97,4 @@ TimeChart.defaultProps = {
   isWaterfall: false
 };
 
-export default TimeChart;
+export default React.memo(TimeChart);
