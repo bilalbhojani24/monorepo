@@ -1,7 +1,10 @@
 import { fetchSessionStatus, stopSession } from 'api/reportLoading';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
-import { getSelectedDevice, resetSessionSetupData } from 'features/Home';
-import { getSelectedApplication } from 'features/Home/slices/newPerformanceSessionSlice';
+import {
+  getDeviceOfNewPerformanceSession,
+  getSelectedApplication,
+  resetSessionSetupData
+} from 'features/Home';
 import {
   setPreviousRouteForReport,
   updateSessionMetrics
@@ -21,7 +24,7 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
       getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
     const previousSessionState = getLatestSessionStatus(getState());
-    const currentdevice = getSelectedDevice(getState());
+    const currentdevice = getDeviceOfNewPerformanceSession(getState());
     const currentapp = getSelectedApplication(getState());
 
     const response = await fetchSessionStatus(currentSessionId);
@@ -77,7 +80,7 @@ export const stopRecordingSession =
     const currentSessionId =
       getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
-    const currentdevice = getSelectedDevice(getState());
+    const currentdevice = getDeviceOfNewPerformanceSession(getState());
     const currentapp = getSelectedApplication(getState());
 
     try {
@@ -115,7 +118,7 @@ export const cancelRecordingSession =
     const currentSessionId =
       getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
-    const currentdevice = getSelectedDevice(getState());
+    const currentdevice = getDeviceOfNewPerformanceSession(getState());
     const currentapp = getSelectedApplication(getState());
 
     try {
