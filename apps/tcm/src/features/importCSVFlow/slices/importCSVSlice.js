@@ -184,8 +184,11 @@ const importCSVSlice = createSlice({
         state.fieldsMapping[key] = value;
       }
       state.showMappings = true;
+      // removing all errors from 1st and 2nd screen
       state.csvUploadError = '';
       state.mappingFieldsError = '';
+      state.showSelectMenuErrorInMapFields = false;
+      state.errorLabelInMapFields = new Set();
     },
     uploadFileRejected: (state, { payload }) => {
       state.csvUploadError = payload.response.data.message;
