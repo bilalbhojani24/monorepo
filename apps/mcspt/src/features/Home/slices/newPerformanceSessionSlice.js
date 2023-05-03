@@ -75,6 +75,9 @@ export const getStartTestError = (state) =>
 export const getSessionDetails = (state) =>
   state.newPerformanceSession.sessionDetails;
 
+export const getDeviceOfNewPerformanceSession = (state) =>
+  state.newPerformanceSession.sessionDetails?.device;
+
 // Action creators are generated for each case reducer function
 export const {
   setCurrentSetupStep,

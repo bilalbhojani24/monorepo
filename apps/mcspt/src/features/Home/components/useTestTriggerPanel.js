@@ -91,16 +91,16 @@ const useTestTriggerPanel = () => {
   };
 
   const startTestSession = () => {
+    mcpAnalyticsEvent(
+      'csptTestStartClicked',
+      formatDeviceAndAppAnalyticsData(selectedDevice, selectedApplication)
+    );
+
     dispatch(
       triggerSession(
         navigateToPath,
         getDefaultAutoGenerateName(selectedDevice, selectedApplication)
       )
-    );
-
-    mcpAnalyticsEvent(
-      'csptTestStarted',
-      formatDeviceAndAppAnalyticsData(selectedDevice, selectedApplication)
     );
   };
 
