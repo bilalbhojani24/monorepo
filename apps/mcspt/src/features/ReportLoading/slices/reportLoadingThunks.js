@@ -105,6 +105,13 @@ export const stopRecordingSession =
 
       navigationCallback('/report');
     } catch (error) {
+      if (error?.response?.status !== 200) {
+        mcpAnalyticsEvent(
+          'csptTestGenerateReportFailure',
+          formatDeviceAndAppAnalyticsData(currentdevice, currentapp)
+        );
+      }
+
       if (error?.response?.status === 500) {
         throw error;
       }
@@ -118,9 +125,6 @@ export const cancelRecordingSession =
     const currentSessionId =
       getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
-    const currentdevice = getDeviceOfNewPerformanceSession(getState());
-    const currentapp = getSelectedApplication(getState());
-
     try {
       dispatch(setIsSessionStopInProgress(true));
 
@@ -130,13 +134,6 @@ export const cancelRecordingSession =
 
       await stopSession(currentSessionId, { cancelled: true });
     } catch (error) {
-      if (error?.response?.status !== 200) {
-        mcpAnalyticsEvent(
-          'csptTestGenerateReportFailure',
-          formatDeviceAndAppAnalyticsData(currentdevice, currentapp)
-        );
-      }
-
       if (error?.response?.status === 500) {
         throw error;
       }
