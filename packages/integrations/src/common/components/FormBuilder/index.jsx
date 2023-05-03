@@ -177,7 +177,11 @@ const FormBuilder = ({
             variant="minimal"
             wrapperClassName="border-0 shadow-none focus:ring-0 px-0 text-sm focus:ring-offset-0 mb-2"
             icon={
-              shouldShowOptionalFields ? <ChevronUpIcon /> : <ChevronDownIcon />
+              shouldShowOptionalFields ? (
+                <ChevronUpIcon className="h-6 w-6" />
+              ) : (
+                <ChevronDownIcon className="h-6 w-6" />
+              )
             }
             iconPlacement="end"
             onClick={toggleOptionalFieldsVisibility}
