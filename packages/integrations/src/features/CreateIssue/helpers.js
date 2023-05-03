@@ -83,3 +83,39 @@ export const parseFieldsForCreate = (createMeta, fieldData) =>
     }
     return parsedFields;
   }, {});
+
+const getIsNewValueEqualToCurrentValue = (currentValue, newValue) => {
+  if (typeof currentValue === 'string' || typeof currentValue === 'number') {
+    return currentValue === newValue;
+  }
+
+  if (Array.isArray(newValue)) {
+    if (!Array.isArray(currentValue)) return false;
+    return currentValue.every((currentValueItem) =>
+      Boolean(newValue.find((item) => item.value === currentValueItem.key))
+    );
+  }
+
+  if (typeof currentValue === 'object') {
+    return 'options' in currentValue
+      ? currentValue.key === newValue.value &&
+          currentValue.options.key === newValue.child.value
+      : currentValue.key === newValue.value;
+  }
+
+  return false;
+};
+export const removedUnchangedFields = (updateMeta, fieldData) => {
+  updateMeta.forEach((field) => {
+    if (field.key in fieldData && field.current_value) {
+      const isNewValueEqualToCurrentValue = getIsNewValueEqualToCurrentValue(
+        field.current_value,
+        fieldData[field.key]
+      );
+      if (isNewValueEqualToCurrentValue) {
+        delete fieldData[field.key];
+      }
+    }
+  });
+  return fieldData;
+};

@@ -9,7 +9,7 @@ import { FormBuilder, SingleValueSelect } from '../../../common/components';
 import Attachments from '../../../common/components/Attachments';
 import { SingleValueSelectOptionType } from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
-import { parseFieldsForCreate } from '../helpers';
+import { parseFieldsForCreate, removedUnchangedFields } from '../helpers';
 import { CreateIssueOptionsType } from '../types';
 
 import { FIELD_KEYS, VALIDATION_FAILURE_ERROR_MESSAGE } from './constants';
@@ -85,12 +85,13 @@ const UpdateIssueForm = ({
     // eslint-disable-next-line sonarjs/cognitive-complexity
     (formData) => {
       setIsFormBeingSubmitted(true);
-      const data = { ...fieldsData, ...formData };
+      const data = { ...formData };
       if (descriptionMeta) {
         data.comment =
           (data.comment ? `${data.comment}\n` : '') + descriptionMeta;
       }
-      const parsed = parseFieldsForCreate(fields, data);
+      const dataOfChangedFields = removedUnchangedFields(fields, data);
+      const parsed = parseFieldsForCreate(fields, dataOfChangedFields);
       resetFieldErrors();
       return updateIssue(
         integrationToolFieldData?.value,
