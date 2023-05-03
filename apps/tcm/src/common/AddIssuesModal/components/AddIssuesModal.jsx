@@ -91,7 +91,7 @@ const AddIssuesModal = ({ isVisible, onClose, onSave }) => {
                 <div className="mb-2 mt-4 flex flex-1 items-start justify-between">
                   <div className="mr-4 flex-1">
                     <TMInputField
-                      placeholder="Enter comma separated Jira IDs"
+                      placeholder="Enter Jira IDs (comma separated)"
                       label="Issue IDs"
                       errorText={errorText}
                       value={enterdIssueIDs}
