@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SingleDatepicker } from '@browserstack/bifrost';
+import { usePrevious } from '@browserstack/hooks';
+import { parseDate } from '@internationalized/date';
 
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
@@ -7,11 +9,13 @@ import { FieldType } from '../types';
 
 const DateField = ({
   label,
+  value,
   schema,
   fieldKey,
   required,
   fieldsData,
   fieldErrors,
+  defaultValue,
   setFieldsData,
   areSomeRequiredFieldsEmpty
 }) => {
@@ -20,14 +24,37 @@ const DateField = ({
     fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
-
   const handleChange = (e) => {
-    const fieldVal = `${e.year}-${e.month}-${e.day}`;
+    const fieldVal = e.toString();
     setFieldsData({
       ...fieldsData,
       [fieldKey]: fieldVal
     });
   };
+  const valueFromProps = value || defaultValue;
+  const prevValueFromProps = usePrevious(valueFromProps);
+
+  useEffect(() => {
+    if (
+      valueFromProps &&
+      valueFromProps !== prevValueFromProps &&
+      typeof setFieldsData === 'function'
+    ) {
+      setFieldsData({ ...fieldsData, [fieldKey]: value || defaultValue });
+    }
+  }, [
+    value,
+    defaultValue,
+    setFieldsData,
+    fieldKey,
+    fieldsData,
+    valueFromProps,
+    prevValueFromProps
+  ]);
+  const valueToRender = fieldsData?.[fieldKey];
+  // should pass undefined in case there's no date since parseDate
+  // is not null-error safe
+  const parsedValueForDatePicker = valueToRender && parseDate(valueToRender);
 
   return (
     <div
@@ -38,6 +65,7 @@ const DateField = ({
       <Label required={required} label={label} />
       <SingleDatepicker
         onChange={handleChange}
+        value={parsedValueForDatePicker}
         errorMessage={requiredFieldError || fieldErrors?.[fieldKey]}
       />
     </div>
