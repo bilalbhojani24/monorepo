@@ -40,7 +40,8 @@ const TooltipContainer = (props) => {
     triggerOnTouch,
     triggerAriaLabel,
     triggerAsChild,
-    wrapperClassName
+    wrapperClassName,
+    onMouseLeave
   } = props;
   const triggerRef = useRef(null);
   const handlePointerDownOutside = (event) => {
@@ -69,8 +70,10 @@ const TooltipContainer = (props) => {
             }}
             aria-label={triggerAriaLabel}
             asChild={triggerAsChild}
+            onMouseLeave={onMouseLeave}
           >
             <div
+              role="tooltip"
               className={twClassNames('inline-block', triggerWrapperClassName)}
             >
               {children}
@@ -88,7 +91,7 @@ const TooltipContainer = (props) => {
               sideOffset={sideOffset}
               sticky={sticky}
               className={twClassNames(
-                'z-50 rounded-md shadow bg-white py-4',
+                'z-50 rounded-md shadow bg-white py-4 space-y-2',
                 {
                   'bg-white': theme === TP_TOOLTIP_THEME[0],
                   'bg-base-800': theme === TP_TOOLTIP_THEME[1],
@@ -108,18 +111,21 @@ const TooltipContainer = (props) => {
               )}
             >
               {content}
-              <TooltipPrimitive.Arrow
-                height={arrowHeight}
-                width={arrowWidth}
-                className={twClassNames(
-                  {
-                    'drop-shadow-sm fill-white': theme === TP_TOOLTIP_THEME[0],
-                    'drop-shadow-sm fill-base-800':
-                      theme === TP_TOOLTIP_THEME[1]
-                  },
-                  arrowClassName
-                )}
-              />
+              <div className="!m-0">
+                <TooltipPrimitive.Arrow
+                  height={arrowHeight}
+                  width={arrowWidth}
+                  className={twClassNames(
+                    {
+                      'drop-shadow-sm fill-white':
+                        theme === TP_TOOLTIP_THEME[0],
+                      'drop-shadow-sm fill-base-800':
+                        theme === TP_TOOLTIP_THEME[1]
+                    },
+                    arrowClassName
+                  )}
+                />
+              </div>
             </TooltipPrimitive.Content>
           </TooltipPrimitive.Portal>
         </TooltipPrimitive.Root>
@@ -141,6 +147,7 @@ export const TooltipPropTypes = {
   defaultOpen: PropTypes.bool,
   onEscapeKeyDown: PropTypes.func,
   onPointerDownOutside: PropTypes.func,
+  onMouseLeave: PropTypes.func,
   onOpenChange: PropTypes.func,
   placementAlign: PropTypes.oneOf(TP_PLACEMENT_ALIGN),
   placementSide: PropTypes.oneOf(TP_PLACEMENT_SIDE),
@@ -170,6 +177,7 @@ TooltipContainer.defaultProps = {
   defaultOpen: undefined,
   onEscapeKeyDown: null,
   onPointerDownOutside: null,
+  onMouseLeave: null,
   onOpenChange: null,
   placementAlign: TP_PLACEMENT_ALIGN[0],
   placementSide: TP_PLACEMENT_SIDE[0],

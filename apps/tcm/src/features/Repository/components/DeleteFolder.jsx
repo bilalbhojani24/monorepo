@@ -11,8 +11,12 @@ import PropTypes from 'prop-types';
 import useAddEditFolderModal from './useAddEditFolderModal';
 
 const DeleteFolder = ({ show }) => {
-  const { hideFolderModal, deleteFolderHandler, modalFocusRef } =
-    useAddEditFolderModal();
+  const {
+    hideFolderModal,
+    deleteFolderHandler,
+    deleteFolderCtaLoading,
+    modalFocusRef
+  } = useAddEditFolderModal();
   return (
     <TMModal
       show={show}
@@ -41,6 +45,8 @@ const DeleteFolder = ({ show }) => {
           colors="danger"
           wrapperClassName="ml-3"
           onClick={deleteFolderHandler}
+          isIconOnlyButton={deleteFolderCtaLoading}
+          loading={deleteFolderCtaLoading}
         >
           Delete Folder
         </TMButton>

@@ -4,16 +4,17 @@ import { useParams } from 'react-router-dom';
 import { getJIRAConfigAPI } from 'api/common.api';
 import { editTestCaseAPI } from 'api/testcases.api';
 import { setUserConfig } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 import { TABS_ARRAY } from '../const/testCaseViewConst';
 import { setTestCaseDetails } from '../slices/testCaseDetailsSlice';
 
 export default function useTestCaseViewDetails() {
   const detailsRef = useRef();
-  const { projectId, folderId } = useParams();
+  const { projectId } = useParams();
   const dispatch = useDispatch();
   const [selectedTab, setTab] = useState(TABS_ARRAY[0]);
-  const [imageLink, setImageLink] = useState(null);
+  const [imageViewData, setImageViewData] = useState(null);
   const [isShowAddIssuesModal, setIsShowAddIssuesModal] = useState(false);
   const [showImagePreview, setImagePreviewVisibility] = useState(false);
   const jiraConfig = useSelector((state) => state.global.userConfig?.jira);
@@ -37,8 +38,39 @@ export default function useTestCaseViewDetails() {
     (state) => state.testCaseDetails.testResultsArray || []
   );
   const metaIds = useSelector((state) => state.testCaseDetails.metaIds);
+  const testObservabilityUrl = useSelector(
+    (state) => state.testCaseDetails.testObservabilityUrl
+  );
+  const testRunsTestCaseDetails = useSelector(
+    (state) => state.testCaseDetails.testRunsTestCaseDetails
+  );
 
-  const handleTabChange = (value) => {
+  const handleTabChange = (value, isFromTestRun, testRunId) => {
+    if (isFromTestRun) {
+      dispatch(
+        logEventHelper(
+          value.name === TABS_ARRAY[1].name
+            ? 'TM_TcIssuesTabClickedTrTc'
+            : 'TM_TcResultsTabClickedTrTc',
+          {
+            project_id: projectId,
+            testcase_id: testCaseDetails?.id,
+            testrun_id: testRunId
+          }
+        )
+      );
+    } else
+      dispatch(
+        logEventHelper(
+          value.name === TABS_ARRAY[1].name
+            ? 'TM_TcDetailIssuesTabClicked'
+            : 'TM_TcDetailResultsTabClicked',
+          {
+            project_id: projectId,
+            testcase_id: testCaseDetails?.id
+          }
+        )
+      );
     setTab(value);
   };
 
@@ -52,7 +84,10 @@ export default function useTestCaseViewDetails() {
   const onAttachmentClick = (item) => {
     if (item?.url) {
       if (item.content_type.includes('image/')) {
-        setImageLink(item.url);
+        setImageViewData({
+          link: item.url,
+          name: item.name
+        });
         setImagePreviewVisibility(true);
       } else window.open(item.url);
     }
@@ -61,11 +96,17 @@ export default function useTestCaseViewDetails() {
   const closePreview = () => {
     setImagePreviewVisibility(false);
     setTimeout(() => {
-      setImageLink(null);
+      setImageViewData(null);
     }, 400);
   };
 
   const showAddIssuesModal = () => {
+    dispatch(
+      logEventHelper('TM_TcDetailLinkToJiraBtnClicked', {
+        project_id: projectId,
+        testcase_id: testCaseDetails?.id
+      })
+    );
     setIsShowAddIssuesModal(true);
   };
   const hideAddIssuesModal = () => {
@@ -80,8 +121,8 @@ export default function useTestCaseViewDetails() {
     ];
     newTestCaseDetails.issues = updatedIssuesArray;
     editTestCaseAPI({
-      projectId,
-      folderId,
+      projectId: newTestCaseDetails.project_id,
+      folderId: newTestCaseDetails.test_case_folder_id,
       testCaseId: newTestCaseDetails.id,
       payload: { test_case: newTestCaseDetails }
     }).then((data) => {
@@ -93,7 +134,7 @@ export default function useTestCaseViewDetails() {
   const imageClickOpener = (e) => {
     const imageURL = e?.currentTarget?.getAttribute('src');
     if (imageURL) {
-      setImageLink(imageURL);
+      setImageViewData({ link: imageURL });
       setImagePreviewVisibility(true);
     }
   };
@@ -122,7 +163,7 @@ export default function useTestCaseViewDetails() {
         });
       }
     }
-  }, [detailsRef]);
+  }, [detailsRef, testCaseDetails]);
 
   useEffect(() => {
     if (!jiraConfig) {
@@ -138,13 +179,14 @@ export default function useTestCaseViewDetails() {
     testResultsArray,
     testCaseId: metaIds?.testCaseId,
     showImagePreview,
-    imageLink,
+    imageViewData,
     testRunsCount,
     selectedTab,
     testCaseIssues,
     testCaseDetails,
     testRunsDetails,
     isTestCaseViewVisible,
+    testObservabilityUrl,
     handleTabChange,
     onAttachmentClick,
     closePreview,
@@ -153,6 +195,7 @@ export default function useTestCaseViewDetails() {
     hideAddIssuesModal,
     saveAddIssesModal,
     onJiraButtonClick,
-    testRunButtonClick
+    testRunButtonClick,
+    testRunsTestCaseDetails
   };
 }

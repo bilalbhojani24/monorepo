@@ -21,8 +21,10 @@ import useFolders from './useFolders';
 
 import '../styles/Folders.scss';
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Folders() {
   const {
+    noResultsText,
     isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
@@ -32,6 +34,7 @@ export default function Folders() {
     folderId,
     allFolders,
     isMoveToRootAvailable,
+    moveFolderCtaLoading,
     showAddFolderModal,
     updateRouteHelper,
     folderUpdateHandler,
@@ -62,6 +65,7 @@ export default function Folders() {
         isRootAvailable={isMoveToRootAvailable}
         confirmButtonText="Move Folder"
         disabledFolders={[openedFolderModal?.folder?.id]}
+        loading={moveFolderCtaLoading}
       />
       <AddEditFolderModal
         isEditFolder
@@ -79,18 +83,17 @@ export default function Folders() {
           <div className="border-base-300 flex w-full items-center border-b p-3">
             <span className="text-base">Folders</span>
             <TMButton
-              buttonType="half-rounded-button"
               variant="primary"
               colors="white"
               wrapperClassName="ml-2 p-2"
               size="extra-small"
-              onClick={showAddFolderModal}
+              onClick={() => showAddFolderModal()}
             >
               <CreateNewFolderOutlinedIcon className="text-base-500  !h-5 !w-5" />
             </TMButton>
           </div>
 
-          <div className="flex h-full w-full flex-1 shrink  flex-col overflow-y-auto">
+          <div className="flex h-full w-full flex-1 shrink flex-col overflow-y-auto">
             {isFoldersLoading ? (
               <Loader wrapperClassName="h-full" />
             ) : (
@@ -119,11 +122,7 @@ export default function Folders() {
                             ? `We found ${testCasesCount} results across all folders`
                             : 'No Results Found'
                         }
-                        description={
-                          testCasesCount !== 0
-                            ? ''
-                            : 'Reset the filters or try again.'
-                        }
+                        description={testCasesCount !== 0 ? '' : noResultsText}
                         mainIcon={
                           testCasesCount !== 0 ? (
                             <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
@@ -141,19 +140,21 @@ export default function Folders() {
           </div>
         </>
       ) : (
-        <div className="flex h-full w-full flex-col items-stretch justify-center">
-          <TMEmptyState
-            title={<p className="text-base-800">Create New Folder</p>}
-            description="You can organize test cases in folders. Get started now."
-            mainIcon={
-              <MdOutlineCreateNewFolder className="text-base-400 m-auto h-12 w-12" />
-            }
-            buttonProps={{
-              children: 'Create Folder',
-              onClick: showAddFolderModal,
-              colors: 'white'
-            }}
-          />
+        <div className="flex h-full w-full flex-col items-center justify-center">
+          <div className="w-64">
+            <TMEmptyState
+              title={<p className="text-base-800">Create New Folder</p>}
+              description="You can organize test cases in folders. Get started now."
+              mainIcon={
+                <MdOutlineCreateNewFolder className="text-base-400 m-auto h-12 w-12" />
+              }
+              buttonProps={{
+                children: 'Create Folder',
+                onClick: () => showAddFolderModal(true),
+                colors: 'white'
+              }}
+            />
+          </div>
         </div>
       )}
     </div>

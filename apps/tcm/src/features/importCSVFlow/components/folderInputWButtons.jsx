@@ -1,31 +1,152 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
+import { TMTooltip, TMTooltipBody } from 'common/bifrostProxy';
+import { bool, func, node, string } from 'prop-types';
+
+import useTextTransformer from './useTextTransformer';
 
 const FolderInputWButton = ({
   label,
   text,
-  icon
-  // firstCta,
-  // secondCta,
-}) => (
-  <div className="my-4">
-    <div className="text-base-500 mb-2 text-sm font-medium">{label}</div>
-    <div className="border-base-100 flex items-center justify-between rounded-md border-2 p-2">
-      <span>
-        <span>{icon}</span>
-        <span className="text-base-900 ml-2 text-sm">{text}</span>
-      </span>
-      {/* <span className="text-brand-500 text-sm font-medium">
-        <span className="cursor-pointer" onClick={firstCtaClick}>
-          {firstCta}
+  icon,
+  firstCta,
+  secondCta,
+  description,
+  firstBtnDisabled,
+  secondBtnDisabled,
+  firstCtaClick,
+  secondCtaClick,
+  descriptionIcon
+}) => {
+  const { isOverflowing, textRef } = useTextTransformer({
+    text
+  });
+
+  return (
+    <div className="my-5">
+      <div className="text-base-500 mb-2 text-sm font-medium">{label}</div>
+      <div className="border-base-100 flex items-center justify-between rounded-md border-2 p-2">
+        <span className="flex overflow-hidden whitespace-nowrap">
+          <span>{icon}</span>
+          {isOverflowing ? (
+            <TMTooltip
+              size="6xl"
+              placementSide="top"
+              theme="dark"
+              triggerWrapperClassName="overflow-hidden"
+              wrapperClassName="break-words"
+              content={
+                <>
+                  <TMTooltipBody>{text}</TMTooltipBody>
+                </>
+              }
+            >
+              <div
+                ref={textRef}
+                className="text-base-900 ml-2 overflow-hidden text-ellipsis text-sm"
+              >
+                {text}
+              </div>
+            </TMTooltip>
+          ) : (
+            <div
+              ref={textRef}
+              className="text-base-900 ml-2 overflow-hidden text-ellipsis text-sm"
+            >
+              {text}
+            </div>
+          )}
         </span>
-        <span className="text-base-300 mx-2"> | </span>
-        <span className="cursor-pointer">{secondCta}</span>
-      </span> */}
+        <span className="text-brand-500 flex min-w-max pl-4 text-sm font-medium">
+          <button
+            type="button"
+            className="disabled:text-brand-300 cursor-pointer disabled:cursor-not-allowed "
+            onClick={firstCtaClick}
+            disabled={firstBtnDisabled}
+          >
+            {firstCta}
+          </button>
+          <span className="text-base-300 px-2"> | </span>
+          {secondBtnDisabled ? (
+            <TMTooltip
+              size="xs"
+              placementAlign="center"
+              placementSide="top"
+              theme="dark"
+              content={
+                <>
+                  <TMTooltipBody>
+                    <p className="text-sm">
+                      <div>Upload to Root Location is</div>
+                      <div>already selected as the folder</div>
+                      <div>location.</div>
+                    </p>
+                  </TMTooltipBody>
+                </>
+              }
+            >
+              <button
+                type="button"
+                className="disabled:text-brand-300 cursor-pointer disabled:cursor-not-allowed "
+                onClick={secondCtaClick}
+                disabled={secondBtnDisabled}
+              >
+                {secondCta}
+              </button>
+            </TMTooltip>
+          ) : (
+            <button
+              type="button"
+              className="cursor-pointer"
+              onClick={secondCtaClick}
+              disabled={secondBtnDisabled}
+            >
+              {secondCta}
+            </button>
+          )}
+        </span>
+      </div>
+      <div
+        className={twClassNames(
+          'text-base-500 mt-1 flex items-center text-sm font-normal',
+          {
+            'text-base-700': descriptionIcon
+          }
+        )}
+      >
+        {descriptionIcon}
+        {description}
+      </div>
     </div>
-    {/*<div className="text-base-500 text-sm font-normal">*/}
-    {/*  Update your folder location where you want to import the test cases*/}
-    {/*</div>*/}
-  </div>
-);
+  );
+};
+
+FolderInputWButton.propTypes = {
+  label: string,
+  text: string,
+  icon: node,
+  firstCta: string,
+  secondCta: string,
+  firstBtnDisabled: bool,
+  secondBtnDisabled: bool,
+  firstCtaClick: func,
+  secondCtaClick: func,
+  description: string,
+  descriptionIcon: node
+};
+
+FolderInputWButton.defaultProps = {
+  label: '',
+  text: '',
+  icon: null,
+  firstCta: '',
+  secondCta: '',
+  firstBtnDisabled: false,
+  secondBtnDisabled: false,
+  firstCtaClick: () => {},
+  secondCtaClick: () => {},
+  description: '',
+  descriptionIcon: null
+};
 
 export default FolderInputWButton;

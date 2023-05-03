@@ -8,6 +8,7 @@ import {
   ComboboxTrigger
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import O11yLoader from 'common/O11yLoader';
 import PropTypes from 'prop-types';
 
 const O11yComboBox = ({
@@ -20,9 +21,19 @@ const O11yComboBox = ({
   value,
   checkPosition,
   virtuosoWidth,
-  optionsListWrapperClassName
+  optionsListWrapperClassName,
+  isLoading,
+  isAsyncSearch,
+  onSearch
 }) => {
   const [query, setQuery] = useState('');
+
+  const handleSearch = (val) => {
+    if (!isAsyncSearch) {
+      setQuery(val);
+    }
+    onSearch(val);
+  };
 
   const filteredOptions =
     query === ''
@@ -42,18 +53,19 @@ const O11yComboBox = ({
       value={value}
       isMulti={!!filteredOptions.length && isMulti}
       disabled={disabled}
+      // isLoadingRight={isLoading}
     >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
-        onInputValueChange={(e) => setQuery(e.target.value)}
+        onInputValueChange={handleSearch}
       />
       <ComboboxOptionGroup
         wrapperClassName={twClassNames('w-80', optionsListWrapperClassName, {
           'h-60': filteredOptions.length > 10
         })}
       >
-        {!filteredOptions.length && (
+        {!filteredOptions.length && !isLoading && (
           <ComboboxOptionItem
             option={{
               label: 'No options available',
@@ -64,28 +76,40 @@ const O11yComboBox = ({
             wrapperClassName="text-sm"
           />
         )}
-        {filteredOptions.length > 10 ? (
-          <Virtuoso
-            style={virtuosoStyles}
-            data={filteredOptions || []}
-            overscan={10}
-            itemContent={(_, item) => (
-              <ComboboxOptionItem
-                option={item}
-                checkPosition={checkPosition}
-                wrapperClassName="text-sm"
-              />
-            )}
-          />
-        ) : (
-          filteredOptions.map((item) => (
-            <ComboboxOptionItem
-              key={item.value}
-              option={item}
-              checkPosition={checkPosition}
-              wrapperClassName="text-sm"
+        {isLoading ? (
+          <div className="p-2">
+            <O11yLoader
+              text="Fetching..."
+              textClass="text-sm text-base-500"
+              loaderClass="w-6 h-6"
             />
-          ))
+          </div>
+        ) : (
+          <>
+            {filteredOptions.length > 10 ? (
+              <Virtuoso
+                style={virtuosoStyles}
+                data={filteredOptions || []}
+                overscan={10}
+                itemContent={(_, item) => (
+                  <ComboboxOptionItem
+                    option={item}
+                    checkPosition={checkPosition}
+                    wrapperClassName="text-sm"
+                  />
+                )}
+              />
+            ) : (
+              filteredOptions.map((item) => (
+                <ComboboxOptionItem
+                  key={item.value}
+                  option={item}
+                  checkPosition={checkPosition}
+                  wrapperClassName="text-sm"
+                />
+              ))
+            )}
+          </>
         )}
       </ComboboxOptionGroup>
     </ComboBox>
@@ -124,7 +148,10 @@ O11yComboBox.propTypes = {
     })
   ]),
   virtuosoWidth: PropTypes.string,
-  optionsListWrapperClassName: PropTypes.string
+  optionsListWrapperClassName: PropTypes.string,
+  isLoading: PropTypes.bool,
+  isAsyncSearch: PropTypes.bool,
+  onSearch: PropTypes.func
 };
 
 O11yComboBox.defaultProps = {
@@ -137,6 +164,9 @@ O11yComboBox.defaultProps = {
   onChange: () => {},
   value: null,
   virtuosoWidth: '',
-  optionsListWrapperClassName: ''
+  optionsListWrapperClassName: '',
+  isLoading: false,
+  isAsyncSearch: false,
+  onSearch: () => {}
 };
 export default O11yComboBox;

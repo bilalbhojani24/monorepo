@@ -3,8 +3,6 @@ import { twClassNames } from '@browserstack/utils';
 import { RadioGroup } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const RadioTable = (props) => {
   const { options, onChange, withDescription } = props;
   const [selected, setSelected] = useState(options[0]);
@@ -16,7 +14,9 @@ const RadioTable = (props) => {
 
   return (
     <RadioGroup value={selected} onChange={handleChange}>
-      <RadioGroup.Label className="sr-only"> Pricing plans </RadioGroup.Label>
+      <RadioGroup.Label as="p" className="sr-only">
+        Pricing plans
+      </RadioGroup.Label>
       <div className="relative -space-y-px rounded-md bg-white">
         {options.map((option, optionIdx) => (
           <RadioGroup.Option

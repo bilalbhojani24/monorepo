@@ -11,8 +11,12 @@ import PropTypes from 'prop-types';
 import useProjects from './useProjects';
 
 const DeleteProjects = ({ show }) => {
-  const { modalFocusRef, hideDeleteProjectModal, deleteProjectHandler } =
-    useProjects();
+  const {
+    modalFocusRef,
+    deleteProjectCtaLoading,
+    hideDeleteProjectModal,
+    deleteProjectHandler
+  } = useProjects();
 
   return (
     <TMModal
@@ -25,7 +29,7 @@ const DeleteProjects = ({ show }) => {
         heading="Delete Project"
         subHeading="Are you sure you want to delete your project? All the data will be permanently deleted. This action cannot be undone."
         handleDismissClick={hideDeleteProjectModal}
-        Icon={WarningAmberOutlinedIcon}
+        icon={<WarningAmberOutlinedIcon className="text-danger-600" />}
       />
       <TMModalFooter position="right">
         <TMButton
@@ -41,6 +45,8 @@ const DeleteProjects = ({ show }) => {
           colors="danger"
           wrapperClassName="ml-3"
           onClick={deleteProjectHandler}
+          isIconOnlyButton={deleteProjectCtaLoading}
+          loading={deleteProjectCtaLoading}
         >
           Delete Project
         </TMButton>

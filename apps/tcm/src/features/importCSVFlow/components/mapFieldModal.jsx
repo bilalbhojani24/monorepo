@@ -15,6 +15,7 @@ import {
   TMModalHeader,
   TMSelectMenu
 } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
 import {
   ADD_VALUE_LABEL,
@@ -48,12 +49,6 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
         ];
       let defaultSelected = null;
       for (let i = 0; i < displayOptions?.length; i += 1) {
-        console.log(
-          'inside loop',
-          mappedField,
-          displayOptions[i].value,
-          value[field]
-        );
         if (value[field]?.action === ADD_VALUE_VALUE) {
           defaultSelected = { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE };
           break;
@@ -64,9 +59,12 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           };
           break;
         } else if (
-          ((mappedField === 'State' || mappedField === 'Test Case Type') &&
+          (mappedField === 'State' &&
             displayOptions[i].value === value[field].toLowerCase()) ||
-          displayOptions[i].value === value[field]
+          displayOptions[i].value === value[field] ||
+          (mappedField === 'Test Case Type' &&
+            displayOptions[i].value === 'smoke_sanity' &&
+            value[field].toLowerCase() === 'smoke & sanity')
         ) {
           defaultSelected = displayOptions[i];
           break;
@@ -122,10 +120,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                     checkPosition="right"
                     options={row?.displayOptions}
                     defaultValue={row?.defaultSelected}
-                    onChange={handleModalSelectMenuChange(
-                      csvFileField,
-                      row.csvValue
-                    )}
+                    onChange={handleModalSelectMenuChange(row.csvValue)}
                     dividerIdx={row?.displayOptions.length - 3}
                   />
                 </TableCell>
@@ -148,12 +143,26 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
         >
           Cancel
         </TMButton>
-        <TMButton variant="primary" colors="brand" onClick={handleSaveClick}>
+        <TMButton
+          variant="primary"
+          colors="brand"
+          onClick={() => handleSaveClick(csvFileField)}
+        >
           Save
         </TMButton>
       </TMModalFooter>
     </TMModal>
   );
+};
+
+MapFieldModal.propTypes = {
+  modalConfig: PropTypes.shape(PropTypes.object),
+  valueMappings: PropTypes.shape(PropTypes.object)
+};
+
+MapFieldModal.defaultProps = {
+  modalConfig: {},
+  valueMappings: {}
 };
 
 export default MapFieldModal;

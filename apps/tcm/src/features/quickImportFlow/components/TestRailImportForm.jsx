@@ -1,5 +1,5 @@
 import React from 'react';
-import { InfoOutlinedIcon } from 'assets/icons';
+import { MdInfoOutline } from '@browserstack/bifrost';
 import {
   TMAlerts,
   TMInputField,
@@ -45,7 +45,7 @@ const TestRailImportForm = () => {
             onChange={handleInputFieldChange('host')}
             autoComplete="on"
             label={
-              <>
+              <span className="flex items-center">
                 TestRail Host Name
                 <TMTooltip
                   size="xs"
@@ -63,9 +63,9 @@ const TestRailImportForm = () => {
                     </>
                   }
                 >
-                  <InfoOutlinedIcon fontSize="inherit" className="ml-2" />
+                  <MdInfoOutline className="ml-1 h-4 w-4" />
                 </TMTooltip>
-              </>
+              </span>
             }
             placeholder="Enter Host Name"
             errorText={
@@ -83,7 +83,7 @@ const TestRailImportForm = () => {
           value={testRailsCred.key}
           onChange={handleInputFieldChange('key')}
           label={
-            <>
+            <span className="flex items-center">
               TestRail API Key
               <TMTooltip
                 size="xs"
@@ -107,9 +107,9 @@ const TestRailImportForm = () => {
                   </>
                 }
               >
-                <InfoOutlinedIcon fontSize="inherit" className="ml-2" />
+                <MdInfoOutline className="ml-1 h-4 w-4" />
               </TMTooltip>
-            </>
+            </span>
           }
           placeholder="Enter API Key"
           errorText={

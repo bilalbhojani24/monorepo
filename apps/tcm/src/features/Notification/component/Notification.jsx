@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   MdCheckCircleOutline,
   MdErrorOutline,
@@ -9,6 +9,8 @@ import { TMNotifications } from 'common/bifrostProxy';
 import useNotification from './useNotification';
 
 const Notification = () => {
+  const timerRef = useRef();
+  const AUTO_CLOSE_TIMER = 5000;
   const { notification, removeThisToast } = useNotification();
 
   const headerIcon = (variant) => {
@@ -22,6 +24,12 @@ const Notification = () => {
     }
   };
 
+  const notificationGarbageCollector = (toastData) => {
+    removeThisToast(toastData.id);
+    notify.remove(toastData.id);
+    clearTimeout(timerRef.current);
+  };
+
   useEffect(() => {
     if (notification?.id) {
       notify(
@@ -31,18 +39,19 @@ const Notification = () => {
           description={notification?.description || null}
           actionButtons={null}
           headerIcon={headerIcon(notification?.variant)}
-          handleClose={(toastData) => {
-            removeThisToast(toastData.id);
-            notify.remove(toastData.id);
-          }}
+          handleClose={notificationGarbageCollector}
         />,
         {
           position: 'top-right',
-          duration: 5000,
+          duration: AUTO_CLOSE_TIMER,
           // autoClose: true,
           id: notification?.id
         }
       );
+
+      timerRef.current = setTimeout(() => {
+        notificationGarbageCollector(notification);
+      }, AUTO_CLOSE_TIMER);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notification?.id]);

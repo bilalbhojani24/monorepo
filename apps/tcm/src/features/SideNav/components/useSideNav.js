@@ -5,6 +5,7 @@ import { getProjectsMinifiedAPI } from 'api/projects.api';
 import AppRoute from 'const/routes';
 import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   basePrimaryNavLinks,
@@ -33,6 +34,7 @@ export default function useSideNav() {
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId
   );
+  const allFolders = useSelector((state) => state.repository?.allFolders);
 
   const fetchAllProjects = () => {
     getProjectsMinifiedAPI().then((res) => {
@@ -41,11 +43,24 @@ export default function useSideNav() {
     });
   };
 
+  const onPageChangeLogger = (linkItem) => {
+    if (linkItem?.instrumentKey) {
+      dispatch(
+        logEventHelper(linkItem?.instrumentKey, {
+          project_id: selectedProjectId
+        })
+      );
+    }
+  };
+
   const onLinkChange = (linkItem) => {
     if (linkItem?.isExternalLink) {
       window.open(linkItem.path);
     } else {
-      navigate(linkItem.path);
+      onPageChangeLogger(linkItem);
+      if (linkItem?.label === 'Test Cases' && allFolders?.[0]?.id) {
+        navigate(`${linkItem.path}/${allFolders?.[0]?.id}/test-cases`);
+      } else navigate(linkItem.path);
     }
   };
 
@@ -68,12 +83,16 @@ export default function useSideNav() {
 
   const onProjectChange = (project) => {
     if (project.id === allProjectOptionValue) {
+      dispatch(logEventHelper('TM_AllProjectClickedProjectDropDown', {}));
       navigate(AppRoute.ROOT);
     } else
       navigate(
-        routeFormatter(activeRoute.id, {
-          projectId: project?.id
-        })
+        routeFormatter(
+          project?.hasTestCases ? AppRoute.DASHBOARD : AppRoute.TEST_CASES,
+          {
+            projectId: project?.id
+          }
+        )
       );
   };
 
@@ -131,7 +150,8 @@ export default function useSideNav() {
       ...allProjects.map((item) => ({
         ...item,
         label: item.name,
-        value: item.id
+        value: item.id,
+        hasTestCases: true
       })),
       {
         label: 'View All Projects',

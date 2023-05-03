@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React from 'react';
+import React, { forwardRef } from 'react';
 import {
   SelectMenu,
   SelectMenuLabel,
@@ -10,43 +10,56 @@ import {
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-const TMSelectMenu = ({
-  placeholder,
-  dividerIdx,
-  label,
-  options,
-  onChange,
-  value,
-  isMulti,
-  defaultValue,
-  triggerWrapperClassName,
-  checkPosition
-}) => (
-  <SelectMenu
-    onChange={onChange}
-    value={value}
-    isMulti={isMulti}
-    defaultValue={defaultValue}
-  >
-    {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
-    <SelectMenuTrigger
-      placeholder={placeholder}
-      wrapperClassName={twClassNames('cursor-pointer', triggerWrapperClassName)}
-    />
-    <SelectMenuOptionGroup>
-      {React.Children.toArray(
-        options.map((item, idx) => (
-          <SelectMenuOptionItem
-            checkPosition={checkPosition}
-            option={item}
-            wrapperClassName={
-              idx === dividerIdx ? 'border-base-100 border-b' : ''
-            }
-          />
-        ))
-      )}
-    </SelectMenuOptionGroup>
-  </SelectMenu>
+const TMSelectMenu = forwardRef(
+  (
+    {
+      placeholder,
+      dividerIdx,
+      label,
+      options,
+      onChange,
+      value,
+      isMulti,
+      defaultValue,
+      triggerWrapperClassName,
+      checkPosition,
+      onOpenChange
+    },
+    ref
+  ) => (
+    <SelectMenu
+      onChange={onChange}
+      value={value}
+      isMulti={isMulti}
+      defaultValue={defaultValue}
+      onOpenChange={onOpenChange}
+    >
+      {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
+      <SelectMenuTrigger
+        ref={ref}
+        placeholder={placeholder}
+        wrapperClassName={twClassNames(
+          'cursor-pointer',
+          triggerWrapperClassName
+        )}
+      />
+      {options.length ? (
+        <SelectMenuOptionGroup>
+          {React.Children.toArray(
+            options.map((item, idx) => (
+              <SelectMenuOptionItem
+                checkPosition={checkPosition}
+                option={item}
+                wrapperClassName={
+                  idx === dividerIdx ? 'border-base-100 border-b' : ''
+                }
+              />
+            ))
+          )}
+        </SelectMenuOptionGroup>
+      ) : null}
+    </SelectMenu>
+  )
 );
 
 TMSelectMenu.propTypes = {
@@ -74,7 +87,8 @@ TMSelectMenu.propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.string.isRequired,
     image: PropTypes.string
-  })
+  }),
+  onOpenChange: PropTypes.func
 };
 
 TMSelectMenu.defaultProps = {
@@ -87,6 +101,7 @@ TMSelectMenu.defaultProps = {
   options: [],
   onChange: () => {},
   value: null,
-  defaultValue: null
+  defaultValue: null,
+  onOpenChange: () => {}
 };
 export default TMSelectMenu;

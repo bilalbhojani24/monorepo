@@ -68,12 +68,12 @@ export default function UniqueBuildItem({ data }) {
       onClick={handleClick}
       role="presentation"
     >
-      <div className="pt-4 pl-3">{renderStatusIcon()}</div>
+      <div className="mt-1 pl-3 pt-3">{renderStatusIcon()}</div>
 
       <div className="flex flex-1 flex-col overflow-hidden p-4 pr-0">
         <div className="flex items-start justify-between">
           <p className="mr-3 text-base font-medium">{data?.name}</p>
-          <PropagationBlocker className="pr-3 text-xs">
+          <PropagationBlocker className="mt-1 shrink-0 pr-3 text-xs">
             <StatusBadges
               statusStats={data.statusStats}
               onClickHandler={(clickData) =>

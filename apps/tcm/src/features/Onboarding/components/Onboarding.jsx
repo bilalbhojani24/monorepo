@@ -17,6 +17,7 @@ const Onboarding = () => {
     onFormChange,
     continueClickHandler
   } = useOnboarding();
+
   return (
     <div className="flex h-full w-full items-start justify-center py-10">
       <div className="border-base-300 max-h-full w-screen max-w-4xl overflow-y-auto rounded-md border bg-white">
@@ -83,7 +84,7 @@ const Onboarding = () => {
             <p className="text-base-700 text-xs">
               By continuing you agree to our&nbsp;
               <a
-                className="text-brand-500 font-medium"
+                className="hover:text-brand-600 font-medium"
                 href="https://www.browserstack.com/terms"
                 target="new"
               >
@@ -95,11 +96,16 @@ const Onboarding = () => {
               <a
                 href="https://www.browserstack.com/docs/test-management/references/terms-and-conditions"
                 target="new"
+                className="hover:text-brand-600"
               >
                 Test Management Documentation
               </a>
               &nbsp;&
-              <a href="https://www.browserstack.com/privacy" target="new">
+              <a
+                href="https://www.browserstack.com/privacy"
+                target="new"
+                className="hover:text-brand-600"
+              >
                 &nbsp;Privacy Policy
               </a>
             </p>
@@ -108,6 +114,7 @@ const Onboarding = () => {
             size="default"
             onClick={continueClickHandler}
             loading={isProcessing}
+            isIconOnlyButton={isProcessing}
           >
             Continue
           </TMButton>

@@ -2,8 +2,6 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const TableHead = ({ children, wrapperClassName }) => (
   <thead className={twClassNames('bg-base-50', wrapperClassName)}>
     {children}

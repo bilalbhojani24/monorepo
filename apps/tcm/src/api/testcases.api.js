@@ -35,6 +35,15 @@ export const editTestCaseAPI = async ({
     payload
   );
 
+export const getTestRunDetailsOfTestCaseAPI = async ({
+  projectId,
+  testCaseId,
+  testRunId
+}) =>
+  fetchGet(
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/${testCaseId}/detail`
+  );
+
 export const getTestCaseDetailsAPI = async ({
   folderId,
   projectId,
@@ -63,14 +72,24 @@ export const moveTestCasesBulkAPI = async ({
 export const deleteTestCasesBulkAPI = async ({
   projectId,
   folderId,
-  bulkSelection
-}) =>
-  fetchPost(
+  bulkSelection,
+  page
+}) => {
+  if (page) {
+    return fetchPost(
+      `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-delete?p=${page}`,
+      {
+        test_case: bulkSelection
+      }
+    );
+  }
+  return fetchPost(
     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases/bulk-delete`,
     {
       test_case: bulkSelection
     }
   );
+};
 
 export const editTestCasesBulkAPI = async ({
   projectId,

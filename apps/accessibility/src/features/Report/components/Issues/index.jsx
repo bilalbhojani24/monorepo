@@ -114,7 +114,7 @@ export default function Issues() {
           <ModalHeader handleDismissClick={onCloseClick} heading="Filters" />
           <ModalBody>
             <div className="mb-6">
-              <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
+              <p className="text-base-700 mb-4 mr-4 text-sm font-medium">
                 Severity
               </p>
               <div className="flex">
@@ -140,11 +140,9 @@ export default function Issues() {
                 <ComboboxLabel>Pages</ComboboxLabel>
                 <ComboboxTrigger
                   placeholder="Select"
-                  onInputValueChange={(e) =>
-                    setPageValue(e.target.value.trim())
-                  }
+                  onInputValueChange={(value) => setPageValue(value)}
                 />
-                <ComboboxOptionGroup>
+                <ComboboxOptionGroup maxWidth="30vw">
                   {urls
                     .filter(({ value }) =>
                       value.toLowerCase().includes(pageValue.toLowerCase())
@@ -167,11 +165,9 @@ export default function Issues() {
                 <ComboboxLabel>Components</ComboboxLabel>
                 <ComboboxTrigger
                   placeholder="Select"
-                  onInputValueChange={(e) =>
-                    setComponentValue(e.target.value.trim())
-                  }
+                  onInputValueChange={(value) => setComponentValue(value)}
                 />
-                <ComboboxOptionGroup>
+                <ComboboxOptionGroup maxWidth="30vw">
                   {componentIds
                     .filter(({ value }) =>
                       value.toLowerCase().includes(componentValue.toLowerCase())
@@ -194,9 +190,7 @@ export default function Issues() {
                 <ComboboxLabel>Category</ComboboxLabel>
                 <ComboboxTrigger
                   placeholder="Select"
-                  onInputValueChange={(e) =>
-                    setCategoryValue(e.target.value.trim())
-                  }
+                  onInputValueChange={(value) => setCategoryValue(value)}
                 />
                 <ComboboxOptionGroup>
                   {categories
@@ -234,7 +228,7 @@ export default function Issues() {
           className="bg-base-50 border-base-200 fixed z-10 border-b"
           style={{ width: 'calc(100% - 256px)', top: '230px' }}
         >
-          <div className="flex w-full items-center justify-between py-4 px-6">
+          <div className="flex w-full items-center justify-between px-6 py-4">
             <div className="flex items-center">
               {showHiddenIssues && (
                 <Button
@@ -369,7 +363,7 @@ export default function Issues() {
           }}
         >
           {showEmptyScreen ? (
-            <div className="mt-8 mb-5 flex w-full flex-col items-center justify-center">
+            <div className="mb-5 mt-8 flex w-full flex-col items-center justify-center">
               <img
                 src={IssuesNotFound}
                 alt="No Issues Found"
@@ -381,7 +375,7 @@ export default function Issues() {
             <div className="flex h-full overflow-auto">
               <div
                 className={twClassNames(
-                  'w-full border-r border-base-200 overflow-auto pb-20',
+                  'w-full border-r border-base-200 overflow-auto pb-20 bg-base-50',
                   {
                     'w-2/4': isHalfView && sectionData
                   }

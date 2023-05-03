@@ -35,6 +35,7 @@ const SingleValueSelect = ({
   selectFirstOnOptionChange = false,
   areSomeRequiredFieldsEmpty,
   areOptionsLoading: areOptionsLoadingProps = false
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const [areOptionsLoading, setAreOptionsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ const SingleValueSelect = ({
     }
   }, [value, defaultValue, fieldsData, fieldKey, setFieldsData, cleanedValue]);
 
-  const [optionsToRender, setOptionsToRender] = useState([]);
+  const [optionsToRender, setOptionsToRender] = useState(null);
   const [dynamicOptions, setDynamicOptions] = useState(null);
   const previousOptions = usePrevious(optionsToRender);
   const requiredFieldError = useRequiredFieldError(
@@ -80,8 +81,9 @@ const SingleValueSelect = ({
     fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
-  const shouldFetchIntialOptions = useRef(true);
+  const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
+  const lengthOfOptionsToRender = optionsToRender?.length;
 
   const appendOptionIfMissing = (optionList = [], target) => {
     if (target) {
@@ -129,7 +131,7 @@ const SingleValueSelect = ({
       shouldFetchIntialOptions.current &&
       isOpen &&
       optionsPath &&
-      !optionsToRender?.length
+      !lengthOfOptionsToRender
     ) {
       getOptions();
     }
@@ -211,8 +213,8 @@ const SingleValueSelect = ({
     searchPath
   ]);
 
-  const handleInputChange = (e) => {
-    const query = e.target.value?.trim();
+  const handleInputChange = (inputValue) => {
+    const query = inputValue?.trim();
     if (searchPath) {
       debouncedFetchQuery(query);
     }
@@ -224,6 +226,24 @@ const SingleValueSelect = ({
   };
 
   const isLoading = areOptionsLoading || areOptionsLoadingProps;
+  const shouldShowNoOptions =
+    !lengthOfOptionsToRender &&
+    !isLoading &&
+    !searchLoading &&
+    !shouldFetchIntialOptions.current;
+
+  const noOptionsText =
+    (shouldShowNoOptions
+      ? 'No Options'
+      : shouldFetchIntialOptions.current && 'Loading...') || '';
+
+  const noResultFoundText =
+    (!lengthOfOptionsToRender ||
+      (lengthOfOptionsToRender === 1 &&
+        fieldsData?.[fieldKey]?.value === optionsToRender[0].value)) &&
+    searchLoading
+      ? 'Searching...'
+      : undefined;
 
   return (
     <div
@@ -234,15 +254,14 @@ const SingleValueSelect = ({
       <ComboBox
         onChange={handleChange}
         onOpenChange={handleOpen}
-        value={
-          !optionsToRender?.length
-            ? null
-            : (fieldsData[fieldKey] || cleanedValue) ?? {}
-        }
+        value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
         disabled={disabled}
-        isLoading={isLoading}
-        loadingText="Loading"
+        isLoadingRight={
+          isLoading || (!lengthOfOptionsToRender && searchLoading)
+        }
+        noOptionsText={noOptionsText}
+        noResultFoundText={noResultFoundText}
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
@@ -250,40 +269,11 @@ const SingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        {Boolean(optionsToRender?.length) && (
-          <ComboboxOptionGroup maxWidth={300}>
-            {optionsToRender?.map((item) => (
-              <ComboboxOptionItem key={item.value} option={item} />
-            ))}
-            {optionsToRender?.length === 1 &&
-              fieldsData?.[fieldKey]?.value === optionsToRender[0].value &&
-              searchLoading && (
-                <ComboboxOptionItem
-                  key="searching-for-options"
-                  option={{ label: 'Searching...' }}
-                  disabled
-                />
-              )}
-          </ComboboxOptionGroup>
-        )}
-        {!optionsToRender?.length && !isLoading && !searchLoading && (
-          <ComboboxOptionGroup>
-            <ComboboxOptionItem
-              key="no options"
-              option={{ label: 'No options' }}
-              disabled
-            />
-          </ComboboxOptionGroup>
-        )}
-        {!optionsToRender?.length && searchLoading && (
-          <ComboboxOptionGroup>
-            <ComboboxOptionItem
-              key="searching-for-options"
-              option={{ label: 'Searching...' }}
-              disabled
-            />
-          </ComboboxOptionGroup>
-        )}
+        <ComboboxOptionGroup maxWidth={300}>
+          {(optionsToRender ?? []).map((item) => (
+            <ComboboxOptionItem key={item.value} option={item} />
+          ))}
+        </ComboboxOptionGroup>
       </ComboBox>
     </div>
   );
