@@ -58,6 +58,7 @@ const createWindow = async () => {
     height: 360,
     center: true,
     frame: false,
+    hasShadow: true,
     transparent: true,
     alwaysOnTop: true,
     resizable: false
