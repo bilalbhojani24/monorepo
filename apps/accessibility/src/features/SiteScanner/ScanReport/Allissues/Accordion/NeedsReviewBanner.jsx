@@ -187,7 +187,7 @@ function NeedsReviewBanner({
       <AccordionInteractiveHeader
         wrapperClassName={twClassNames('flex py-2 px-6 bg-attention-50', {
           'bg-success-50': isConfirmedInAllReports,
-          'base-error-50': isFail
+          'bg-danger-50': isFail
         })}
         title={
           <p className="text-base-900 mr-2 text-left text-sm">
@@ -199,7 +199,7 @@ function NeedsReviewBanner({
         <div
           className={twClassNames('px-6 py-2 bg-attention-50', {
             'bg-success-50': isConfirmedInAllReports,
-            'base-error-50': isFail
+            'bg-danger-50': isFail
           })}
         >
           <div className="flex items-start">

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 import { getImportResultAPI } from 'api/importCSV.api';
 import AppRoute, { WS_URL } from 'const/routes';
@@ -23,6 +23,7 @@ const usePreviewAndConfirm = () => {
   const dispatch = useDispatch();
   const { search } = useLocation();
   const { sendMessage, lastMessage } = useWebSocket(WS_URL);
+  const { projectId } = useParams();
   const queryParams = new URLSearchParams(search);
   const previewData = useSelector((state) => state.importCSV.previewData);
   const showFolderExplorerModal = useSelector(
@@ -55,12 +56,11 @@ const usePreviewAndConfirm = () => {
       );
       dispatch(resetImportCSVState());
       dispatch(clearNotificationConfig());
-      navigate(
-        routeFormatter(AppRoute.TEST_CASES, {
-          projectId: res.project_id,
-          folderId: res.folder_id
-        })
-      );
+      const projectAndFolderIdObj = {};
+      if (res?.folder_id) projectAndFolderIdObj.folderId = res?.folder_id;
+      projectAndFolderIdObj.projectId = res?.project_id;
+      const route = routeFormatter(AppRoute.TEST_CASES, projectAndFolderIdObj);
+      navigate(route);
     });
   };
 
@@ -80,11 +80,10 @@ const usePreviewAndConfirm = () => {
   const handleImportTestCaseClick = () => {
     dispatch(
       logEventHelper('TM_ImportCsvStep3ProceedBtnClicked', {
-        project_id: queryParams.get('project')
+        project_id: projectId
       })
     );
     // make an api call
-    const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');
 
     connectWSS();

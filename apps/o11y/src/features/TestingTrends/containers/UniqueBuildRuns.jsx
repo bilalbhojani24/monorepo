@@ -11,7 +11,7 @@ import TrendStatesWrapper from '../components/TrendStatesWrapper';
 import UniqueBuildItem from '../components/UniqueBuildItem';
 
 const LoadingFooter = () => (
-  <div className="flex items-center py-6 px-0">
+  <div className="flex items-center px-0 py-6">
     <O11yLoader />
   </div>
 );
@@ -124,7 +124,7 @@ export default function UniqueBuildRuns() {
             />
           )}
           {!isAtBottom && (
-            <div className="absolute bottom-0 left-0 m-0 w-full py-2 px-0 text-center" />
+            <div className="absolute bottom-0 left-0 m-0 w-full px-0 py-2 text-center" />
           )}
         </div>
       )}

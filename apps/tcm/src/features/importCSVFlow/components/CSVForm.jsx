@@ -23,6 +23,7 @@ const CSVForm = () => {
         <div className="mx-6 flex-1">
           <TMInputField
             id="first-row-input"
+            placeholder="Enter first row number to read from"
             value={csvFormData.row}
             type="number"
             label="First Row"

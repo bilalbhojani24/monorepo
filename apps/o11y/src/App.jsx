@@ -6,26 +6,43 @@ import {
   useLocation,
   useNavigate
 } from 'react-router-dom';
-import { initLogger } from '@browserstack/utils';
+import {
+  initErrorLogger,
+  initLogger,
+  setErrorLoggerUserContext
+} from '@browserstack/utils';
 import { getPusherConfig } from 'api/global';
+import GenericErrorPage from 'common/GenericErrorPage';
 import ModalToShow from 'common/ModalToShow';
-import { o11yHistory } from 'constants/common';
-import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_API_KEY } from 'constants/keys';
+import { o11yHistory, PORTAL_ID } from 'constants/common';
+import {
+  AMPLITUDE_KEY,
+  ANALYTICS_KEY,
+  EDS_API_KEY,
+  SENTRY_DSN
+} from 'constants/keys';
 import { ROUTES } from 'constants/routes';
 import { APP_ROUTES } from 'constants/routesConstants';
 import { initO11yProduct } from 'globalSlice';
-import { getActiveProject, getUserDetails } from 'globalSlice/selectors';
+import {
+  getActiveProject,
+  getHasInitFailed,
+  getUserDetails
+} from 'globalSlice/selectors';
 import useAuthRoutes from 'hooks/useAuthRoutes';
 import isEmpty from 'lodash/isEmpty';
 import { getEnvConfig } from 'utils/common';
 import { delightedInit } from 'utils/delighted';
+import { portalize } from 'utils/portalize';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
+import { isIntegrationsPage } from 'utils/routeUtils';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 const PUSHER_CONNECTION_NAME = 'o11y-pusher';
 
 const App = () => {
   const dispatch = useDispatch();
+  const hasInitFailed = useSelector(getHasInitFailed);
   const userDetails = useSelector(getUserDetails);
   const activeProject = useSelector(getActiveProject);
   const location = useLocation();
@@ -64,7 +81,7 @@ const App = () => {
           config: {
             server: 'eds.browserstack.com',
             port: '443',
-            api: EDS_API_KEY
+            apiKey: EDS_API_KEY
           }
         }
       };
@@ -112,13 +129,47 @@ const App = () => {
     fetchAndInitPusher();
   }, [fetchAndInitPusher]);
 
-  const initO11y = async () => dispatch(initO11yProduct(params));
+  // init sentry
+  useEffect(() => {
+    const { enableSentry } = getEnvConfig();
+    if (enableSentry && !window.isSentryInitialized) {
+      window.isSentryInitialized = true;
+      initErrorLogger({
+        dsn: SENTRY_DSN,
+        debug: true,
+        release: 'v0.1-o11y',
+        environment: 'production',
+        tracesSampleRate: 1.0
+      });
+    }
+    if (userDetails.userId && window.isSentryInitialized) {
+      setErrorLoggerUserContext(userDetails.userId);
+    }
+  }, [userDetails.userId]);
 
-  const Routes = useAuthRoutes(APP_ROUTES, initO11y, getEnvConfig().signInUrl);
+  const initO11y = async () =>
+    dispatch(
+      initO11yProduct({ params, setFirstProjectActive: isIntegrationsPage() })
+    );
+
+  const Routes = useAuthRoutes(
+    APP_ROUTES,
+    initO11y,
+    `${getEnvConfig().signInUrl}?redirect_url=${encodeURIComponent(
+      window.location.href
+    )}`
+  );
   return (
     <>
       {Routes}
       <ModalToShow />
+      {portalize(
+        hasInitFailed,
+        <div className="absolute">
+          <GenericErrorPage />
+        </div>,
+        PORTAL_ID
+      )}
     </>
   );
 };

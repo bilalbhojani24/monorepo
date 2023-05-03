@@ -73,4 +73,4 @@ NetworkCellValue.defaultProps = {
   showWaterfall: true
 };
 
-export default NetworkCellValue;
+export default React.memo(NetworkCellValue);
