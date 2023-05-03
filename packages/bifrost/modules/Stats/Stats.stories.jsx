@@ -118,8 +118,8 @@ const options = [
       </div>
     ),
     icon: null,
-    change: '122',
-    previousStat: null,
+    change: 23,
+    previousStat: '23',
     changeType: 'increase',
     link: 'View all',
     onClick: () => console.log('stats null.com')

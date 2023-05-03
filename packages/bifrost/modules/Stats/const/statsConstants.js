@@ -6,3 +6,4 @@ export const STATS_VARIANTS = {
   GRAPH_VARIANT: 'graph_variant'
 };
 export const STATS_INC = 'increase';
+export const STATS_DEC = 'decrease';

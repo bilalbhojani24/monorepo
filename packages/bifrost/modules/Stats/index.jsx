@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/20/solid';
 import PropTypes, { oneOf } from 'prop-types';
 
-import { STATS_INC, STATS_VARIANTS } from './const/statsConstants';
+import { STATS_DEC, STATS_INC, STATS_VARIANTS } from './const/statsConstants';
 
 const Stats = (props) => {
   const {
@@ -166,6 +166,9 @@ const Stats = (props) => {
             <div className="flex items-baseline pb-4">
               <p className="text-base-900 text-2xl font-semibold">
                 {option.stat}
+                <span className="text-base-500 ml-2 text-sm font-medium">
+                  {option.previousStat}
+                </span>
               </p>
               <p
                 className={twClassNames(
@@ -175,12 +178,13 @@ const Stats = (props) => {
                   'ml-2 flex items-baseline text-sm font-semibold'
                 )}
               >
-                {option.changeType === STATS_INC ? (
+                {option.changeType === STATS_INC && (
                   <ArrowUpIcon
                     className="text-success-500 h-5 w-5 shrink-0 self-center"
                     aria-hidden="true"
                   />
-                ) : (
+                )}
+                {option.changeType === STATS_DEC && (
                   <ArrowDownIcon
                     className="text-danger-500 h-5 w-5 shrink-0 self-center"
                     aria-hidden="true"
