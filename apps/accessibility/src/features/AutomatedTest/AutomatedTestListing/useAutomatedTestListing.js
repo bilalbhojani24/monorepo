@@ -10,7 +10,6 @@ export default function useAutomatedTestListing() {
 
   useEffect(() => {
     fetchBuildListing().then((response) => {
-      console.log('response: ', response);
       setBuildListing(response);
     });
   });

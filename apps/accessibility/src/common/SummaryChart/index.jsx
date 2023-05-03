@@ -20,56 +20,54 @@ export default function SummaryChart({
     onRowClick
   });
   return (
-    <div>
-      <DataVisualization
-        title="Issue summary"
-        headerInfo={null}
-        wrapperClassName="h-[440px]"
-        size="fit-content"
-        analytics={
-          <div className="flex w-full items-center justify-between">
-            <div className="w-2/4">
-              <Chart options={chartOption} />
-            </div>
-            <div className="flex w-2/4 flex-col items-center px-6">
-              <div className="w-full">
-                {severityOptions.map(({ value: impact, meta: { color } }) => (
-                  <div
-                    aria-label={impact}
-                    tabIndex={0}
-                    className="border-base-200 mb-4 flex h-6 cursor-pointer items-center justify-between border-b"
-                    // onClick={() =>
-                    //   onRowClick(
-                    //     'impact',
-                    //     severityOptions.find(({ value }) => value === impact)
-                    //   )
-                    // }
-                    // onKeyDown={(e) =>
-                    //   handleClickByEnterOrSpace(e, () =>
-                    //     onRowClick(
-                    //       'impact',
-                    //       severityOptions.find(({ value }) => value === impact)
-                    //     )
-                    //   )
-                    // }
-                    role="button"
-                  >
-                    <div className="text-base-800 flex items-center pb-3 text-sm">
-                      <div className={`mr-1.5 h-2 w-2 rounded-full ${color}`} />
-                      {impact.charAt(0).toUpperCase()}
-                      {impact.slice(1, impact.length)}
-                    </div>
-                    <p className="text-base-800 flex pb-3 text-sm">
-                      {issueSummary[impact]}
-                    </p>
+    <DataVisualization
+      title="Issue summary"
+      headerInfo={null}
+      wrapperClassName="h-[440px] bg-white"
+      size="fit-content"
+      analytics={
+        <div className="flex w-full items-center justify-between">
+          <div className="w-2/4">
+            <Chart options={chartOption} />
+          </div>
+          <div className="flex w-2/4 flex-col items-center px-6">
+            <div className="w-full">
+              {severityOptions.map(({ value: impact, meta: { color } }) => (
+                <div
+                  aria-label={impact}
+                  tabIndex={0}
+                  className="border-base-200 mb-4 flex h-6 cursor-pointer items-center justify-between border-b"
+                  // onClick={() =>
+                  //   onRowClick(
+                  //     'impact',
+                  //     severityOptions.find(({ value }) => value === impact)
+                  //   )
+                  // }
+                  // onKeyDown={(e) =>
+                  //   handleClickByEnterOrSpace(e, () =>
+                  //     onRowClick(
+                  //       'impact',
+                  //       severityOptions.find(({ value }) => value === impact)
+                  //     )
+                  //   )
+                  // }
+                  role="button"
+                >
+                  <div className="text-base-800 flex items-center pb-3 text-sm">
+                    <div className={`mr-1.5 h-2 w-2 rounded-full ${color}`} />
+                    {impact.charAt(0).toUpperCase()}
+                    {impact.slice(1, impact.length)}
                   </div>
-                ))}
-              </div>
+                  <p className="text-base-800 flex pb-3 text-sm">
+                    {issueSummary[impact]}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
-        }
-      />
-    </div>
+        </div>
+      }
+    />
   );
 }
 

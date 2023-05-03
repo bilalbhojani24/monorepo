@@ -1,5 +1,5 @@
 // import axios from 'axios';
-import mockData from './mockData';
+import { data as mockData } from './mockData';
 
 const data = [
   {

@@ -7,8 +7,7 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  TooltipBody,
-  TooltipHeader
+  TooltipBody
 } from '@browserstack/bifrost';
 import { issueTypes } from 'constants';
 import formatDistance from 'date-fns/formatDistance';

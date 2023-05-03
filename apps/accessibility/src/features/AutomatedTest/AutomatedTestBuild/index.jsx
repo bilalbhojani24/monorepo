@@ -1,21 +1,55 @@
 import React from 'react';
-import SummaryChart from 'common/SummaryChart';
+import { MdPerson, Tabs } from '@browserstack/bifrost';
 
+import Issues from './components/Issues';
+import Overview from './components/Overview';
+import Tests from './components/Tests';
 import useAutomatedTestBuild from './useAutomatedTestBuild';
 
+const tabList = [
+  {
+    name: 'Overview',
+    value: 'overview'
+  },
+  {
+    name: 'All issues',
+    value: 'all-issues'
+  },
+  {
+    name: 'Tests',
+    value: 'tests'
+  }
+];
+
 export default function AutomatedTestBuild() {
-  const { actionType, eventName, issueSummary, onRowClick } =
-    useAutomatedTestBuild();
+  const { buildData, activeTab, onTabChange } = useAutomatedTestBuild();
+
+  if (!buildData) {
+    return null;
+  }
+
   return (
     <div>
-      <div className="mx-4 w-6/12 bg-white">
-        <SummaryChart
-          actionType={actionType}
-          eventName={eventName}
-          issueSummary={issueSummary}
-          onRowClick={onRowClick}
-        />
+      <div className="px-6 pt-6">
+        <h1 className="text-base-900 mb-2 text-2xl font-bold">
+          Mocha awesome build regression #112
+        </h1>
+        <div className="text-base-500 mb-6">
+          <div className="mr-6 flex items-center">
+            <MdPerson className="text-base-400 mr-1.5" />
+            <p className="text-sm">Mirudhula Nadar</p>
+          </div>
+        </div>
       </div>
+      <Tabs
+        id="build-tabs"
+        onTabChange={onTabChange}
+        navigationClassName="ml-6"
+        tabsArray={tabList}
+      />
+      {activeTab === 'overview' && <Overview />}
+      {activeTab === 'all-issues' && <Issues />}
+      {activeTab === 'tests' && <Tests />}
     </div>
   );
 }

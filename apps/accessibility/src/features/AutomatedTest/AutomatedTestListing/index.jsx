@@ -11,7 +11,6 @@ import useAutomatedTestListing from './useAutomatedTestListing';
 
 export default function AutomatedTestListing() {
   const { buildListing, onInputValueChange } = useAutomatedTestListing();
-  console.log('buildListing', buildListing);
 
   return (
     <div className="bg-white">
