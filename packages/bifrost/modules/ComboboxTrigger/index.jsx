@@ -95,7 +95,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           key={open || isLoading}
           placeholder={isLoading ? null : placeholder}
           className={twClassNames(
-            'cursor-pointer flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 flex-1 p-0 text-ellipsis pr-7',
+            'cursor-pointer flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 flex-1 p-0 text-ellipsis pr-7 text-sm leading-6',
             {
               'bg-base-50 cursor-not-allowed': disabled || isLoading,
               'pr-0': isTruncated
