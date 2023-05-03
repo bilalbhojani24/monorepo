@@ -119,7 +119,7 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
           <TMButton
             variant="primary"
             colors="white"
-            isIconOnlyButton
+            isIconOnlyButton={data?.isButtonLoading}
             onClick={firstButtonCb}
             loading={data?.isButtonLoading}
           >
