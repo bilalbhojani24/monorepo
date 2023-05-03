@@ -60,8 +60,9 @@ function DateSegment({ segment, state, errorState, disabled }) {
         <span
           aria-hidden="true"
           className={twClassNames(
-            'text-base-900 pointer-events-none block w-full text-sm font-normal leading-5',
+            'text-base-500 pointer-events-none block w-full text-sm font-normal leading-5',
             {
+              'text-base-900': state.value,
               'text-danger-900': errorState
             }
           )}
@@ -71,8 +72,9 @@ function DateSegment({ segment, state, errorState, disabled }) {
       ) : (
         <span
           className={twClassNames(
-            'text-base-900 m-0 block w-fit text-sm font-normal leading-5',
+            'text-base-500 m-0 block w-fit text-sm font-normal leading-5',
             {
+              'text-base-900': state.value,
               'text-base-500': disabled,
               'text-danger-900': errorState
             }
@@ -93,7 +95,9 @@ DateSegment.propTypes = {
     placeholder: PropTypes.string,
     text: PropTypes.string
   }),
-  state: PropTypes.shape({}),
+  state: PropTypes.shape({
+    value: PropTypes.shape({})
+  }),
   errorState: PropTypes.bool,
   disabled: PropTypes.bool
 };

@@ -101,7 +101,13 @@ const DateRangepicker = (props) => {
                 disabled={disabled}
                 errorMessage={errorMessage}
               />
-              <span aria-hidden="true" className="px-2">
+              <span
+                aria-hidden="true"
+                className={twClassNames('px-2', {
+                  'text-base-500': disabled,
+                  'text-danger-900': errorMessage
+                })}
+              >
                 –
               </span>
               <DateField
@@ -117,7 +123,7 @@ const DateRangepicker = (props) => {
             >
               <CalendarIcon
                 aria-hidden="true"
-                className={twClassNames('text-base-700 h-5 w-5', {
+                className={twClassNames('text-base-400 h-5 w-5', {
                   'text-base-300': disabled
                 })}
               />

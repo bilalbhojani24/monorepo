@@ -64,6 +64,9 @@ export function CalendarCell({ state, date, currentDate }) {
               'group-focus:z-2 ring-brand-600 ring-2 ring-offset-2':
                 isFocusVisible,
 
+              // Current date styles
+              'text-brand-600 font-medium': currentDate,
+
               // Darker selection background for the start and end.
               'bg-base-900 text-white rounded-full w-5/6 mx-auto':
                 (isSelectionStart || isSelectionEnd) && !isOutsideVisibleRange,
@@ -78,9 +81,6 @@ export function CalendarCell({ state, date, currentDate }) {
 
               // Hover state for non-selected cells.
               'hover:bg-base-100': !isSelected && !isDisabled,
-
-              // Current date styles
-              'text-brand-600 font-medium': currentDate,
 
               // dates outside of current month
               'bg-base-50 cursor-not-allowed text-base-900':
