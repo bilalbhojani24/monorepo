@@ -127,6 +127,7 @@ export default function useFolders() {
               )
             );
           } else setAllFoldersHelper(loadedFolders);
+          dispatch(updateFoldersLoading(false));
         }
       );
   };
@@ -167,6 +168,7 @@ export default function useFolders() {
       dispatch(updateFoldersLoading(true));
       getFolders({ projectId })
         .then((data) => {
+          let isFoldersLoaded = true; //if sub folder to be selectd, thats done in a different fcntion, hence the laoder should be maintained
           if (!data?.folders?.length) {
             // if no folders
             setAllFoldersHelper([]);
@@ -182,11 +184,15 @@ export default function useFolders() {
             if (folderId && !isParentFolderDefault && data?.folders?.length) {
               // if the folderId in URL is not a parent level folder
               fetchFolderSelectedFromParam(data?.folders || []);
-            } else setAllFoldersHelper(data?.folders || []);
+              isFoldersLoaded = false;
+            } else {
+              setAllFoldersHelper(data?.folders || []);
+            }
 
             selectFolderPerDefault(data?.folders);
           }
-          dispatch(updateFoldersLoading(false));
+
+          if (isFoldersLoaded) dispatch(updateFoldersLoading(false));
         })
         .catch((err) => {
           if (err.rejectAll) return;
