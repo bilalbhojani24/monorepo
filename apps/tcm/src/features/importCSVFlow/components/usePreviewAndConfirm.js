@@ -60,7 +60,7 @@ const usePreviewAndConfirm = () => {
         addNotificaton({
           id: `import_success_ ${res.import_id}`,
           title: 'CSV data imported',
-          description: `${res.total_count} test cases   have been imported successfully`,
+          description: `${res.total_count} test cases have been imported successfully`,
           variant: 'success'
         })
       );
