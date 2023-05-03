@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 import { getImportResultAPI } from 'api/importCSV.api';
+import { getProjectsMinifiedAPI } from 'api/projects.api';
 import AppRoute, { WS_URL } from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addNotificaton, setAllProjects } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -39,6 +40,15 @@ const usePreviewAndConfirm = () => {
   const totalImportedProjectsInPreview = useSelector(
     (state) => state.importCSV.totalImportedProjectsInPreview
   );
+  const hasProjects = useSelector((state) => state.onboarding.hasProjects);
+
+  const refreshMinifiedProjects = () => {
+    if (!hasProjects) {
+      getProjectsMinifiedAPI().then((response) => {
+        dispatch(setAllProjects(response?.projects || []));
+      });
+    }
+  };
 
   const reRouteOnSuccess = () => {
     getImportResultAPI(mapFieldsConfig.importId).then((res) => {
@@ -54,6 +64,7 @@ const usePreviewAndConfirm = () => {
           variant: 'success'
         })
       );
+      refreshMinifiedProjects();
       dispatch(resetImportCSVState());
       dispatch(clearNotificationConfig());
       const projectAndFolderIdObj = {};
