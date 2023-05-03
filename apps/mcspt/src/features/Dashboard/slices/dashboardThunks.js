@@ -48,7 +48,7 @@ export const checkAuthAndSaveUserDetails =
 
         dispatch(setAuthToken(loginToken));
 
-        userDetailsResponse = await fetchUserDetails();
+        userDetailsResponse = await fetchUserDetails('ssoRedirect');
       }
 
       if (!ssoRedirectUrl && !getAuthToken(getState())) {

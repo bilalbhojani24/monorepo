@@ -2,8 +2,17 @@ import axios from 'axios';
 
 import { getBaseUrl, getCsptApiUrl } from './apiUtils';
 
-export const fetchUserDetails = async () =>
-  axios.get(`${getBaseUrl()}/auth/getUserDetails`);
+export const fetchUserDetails = async (medium) => {
+  const config = {};
+
+  if (medium) {
+    config.params = {
+      medium
+    };
+  }
+
+  return axios.get(`${getBaseUrl()}/auth/getUserDetails`, config);
+};
 
 export const fetchLatestToken = async () =>
   axios.get(`${getBaseUrl()}/auth/getLatestToken`);
