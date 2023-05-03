@@ -4,10 +4,11 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 import { getImportResultAPI } from 'api/importCSV.api';
 import AppRoute, { WS_URL } from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addNotificaton, setAllProjects } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
+import { getProjectsMinifiedAPI } from '../../../api/projects.api';
 import {
   resetImportCSVState,
   startImportingTestCases
@@ -39,6 +40,15 @@ const usePreviewAndConfirm = () => {
   const totalImportedProjectsInPreview = useSelector(
     (state) => state.importCSV.totalImportedProjectsInPreview
   );
+  const hasProjects = useSelector((state) => state.onboarding.hasProjects);
+
+  const refreshMinifiedProjects = () => {
+    if (!hasProjects) {
+      getProjectsMinifiedAPI().then((response) => {
+        dispatch(setAllProjects(response?.projects));
+      });
+    }
+  };
 
   const reRouteOnSuccess = () => {
     getImportResultAPI(mapFieldsConfig.importId).then((res) => {
@@ -50,10 +60,11 @@ const usePreviewAndConfirm = () => {
         addNotificaton({
           id: `import_success_ ${res.import_id}`,
           title: 'CSV data imported',
-          description: `${res.total_count} test cases have been imported successfully`,
+          description: `${res.total_count} test cases   have been imported successfully`,
           variant: 'success'
         })
       );
+      refreshMinifiedProjects();
       dispatch(resetImportCSVState());
       dispatch(clearNotificationConfig());
       const projectAndFolderIdObj = {};
