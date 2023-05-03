@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { MdOutlineError } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { parseDate } from '@internationalized/date';
 import { O11ySingleDatePicker } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
@@ -21,7 +22,9 @@ const DatePickerGroup = ({
   onDateSelect,
   onErrorCb,
   minDate,
-  maxDate
+  maxDate,
+  wrapperClassName,
+  datePickerWrapperClass
 }) => {
   const [fromDateValue, onChangeFromDateValue] = useState(null);
   const [toDateValue, onChangeToDateValue] = useState(null);
@@ -102,10 +105,15 @@ const DatePickerGroup = ({
 
   return (
     <div>
-      <div className="flex w-96 items-center gap-2">
+      <div
+        className={twClassNames(
+          'flex w-96 items-center gap-2',
+          wrapperClassName
+        )}
+      >
         <O11ySingleDatePicker
           onChange={handleFromDateChange}
-          wrapperClassName="w-44"
+          wrapperClassName={twClassNames('w-44', datePickerWrapperClass)}
           label="Start date"
           defaultValue={parseDate(fromDateValue)}
           placement="bottom start"
@@ -114,7 +122,7 @@ const DatePickerGroup = ({
         <div className="shrink-0 basis-2 pt-3">-</div>
         <O11ySingleDatePicker
           onChange={handleToDateChange}
-          wrapperClassName="w-44"
+          wrapperClassName={twClassNames('w-44', datePickerWrapperClass)}
           label="End date"
           defaultValue={parseDate(toDateValue)}
           placement="bottom end"
@@ -160,7 +168,9 @@ DatePickerGroup.propTypes = {
     PropTypes.number
   ]),
   onDateSelect: PropTypes.func.isRequired,
-  onErrorCb: PropTypes.func
+  onErrorCb: PropTypes.func,
+  wrapperClassName: PropTypes.string,
+  datePickerWrapperClass: PropTypes.string
 };
 
 DatePickerGroup.defaultProps = {
@@ -168,7 +178,9 @@ DatePickerGroup.defaultProps = {
   minDate: null,
   maxDate: null,
   startDate: null,
-  endDate: null
+  endDate: null,
+  wrapperClassName: '',
+  datePickerWrapperClass: ''
 };
 
 export default DatePickerGroup;

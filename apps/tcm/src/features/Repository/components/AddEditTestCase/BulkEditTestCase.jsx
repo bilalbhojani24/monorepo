@@ -28,6 +28,7 @@ import useAddEditTestCase from './useAddEditTestCase';
 
 const BulkEditTestCase = () => {
   const {
+    bulkSelection,
     showBulkEditConfirmModal,
     isAddIssuesModalShown,
     bulkEditTestCaseCtaLoading,
@@ -270,7 +271,7 @@ const BulkEditTestCase = () => {
             wrapperClassName="ml-3"
             onClick={saveBulkEditHelper}
           >
-            Update All
+            Update {bulkSelection?.ids.length} Cases
           </TMButton>
         </TMModalFooter>
       </TMModal>

@@ -95,7 +95,8 @@ export const ONGOING_IMPORT_MODAL_DATA = {
   label: 'Import Progress:',
   text: "Please don't close/refresh this page until the import is complete.",
   firstButtonText: 'Cancel Import',
-  secondButtonText: null
+  secondButtonText: null,
+  isButtonLoading: false
 };
 
 export const FAILED_IMPORT_MODAL_DATA = {

@@ -68,7 +68,8 @@ const useTestRuns = () => {
           dispatch(setMetaPage(data?.info));
           setTestRunsLoader(false);
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err.rejectAll) return;
           setTestRunsLoader(false);
         });
     }

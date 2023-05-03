@@ -26,7 +26,8 @@ export const getProjectsList = createAsyncThunk(
       const response = await getProjectsListAPI();
       return {
         list: response.data,
-        projectNormalisedName: data?.projectNormalisedName
+        projectNormalisedName: data?.projectNormalisedName,
+        setFirstProjectActive: data?.setFirstProjectActive || false
       };
     } catch (err) {
       return rejectWithValue(err);
@@ -101,7 +102,7 @@ const { actions, reducer } = createSlice({
         state.projects.isLoading = false;
       })
       .addCase(getProjectsList.fulfilled, (state, { payload }) => {
-        const { list, projectNormalisedName } = payload;
+        const { list, projectNormalisedName, setFirstProjectActive } = payload;
         state.projects.list = list;
         if (list.length) {
           const foundProject = list.find(
@@ -113,17 +114,21 @@ const { actions, reducer } = createSlice({
               name: foundProject.name,
               normalisedName: foundProject.normalisedName
             };
-          } else {
+            setStorage(
+              PROJECT_NORMALISED_NAME_IDENTIFIER,
+              state.projects.active.normalisedName
+            );
+          } else if (setFirstProjectActive) {
             state.projects.active = {
               id: list[0].id,
               name: list[0].name,
               normalisedName: list[0].normalisedName
             };
+            setStorage(
+              PROJECT_NORMALISED_NAME_IDENTIFIER,
+              state.projects.active.normalisedName
+            );
           }
-          setStorage(
-            PROJECT_NORMALISED_NAME_IDENTIFIER,
-            state.projects.active.normalisedName
-          );
         }
         state.projects.isLoading = false;
       })
@@ -157,36 +162,39 @@ export const {
   setHasProductInitFailed
 } = actions;
 
-export const initO11yProduct = (params) => (dispatch) =>
-  Promise.all([
-    dispatch(getInitialData())
-      .unwrap()
+export const initO11yProduct =
+  ({ params, setFirstProjectActive }) =>
+  (dispatch) =>
+    Promise.all([
+      dispatch(getInitialData())
+        .unwrap()
+        .catch((err) => {
+          throw err;
+        }),
+      dispatch(
+        getProjectsList({
+          projectNormalisedName: encodeURI(
+            params?.projectNormalisedName ||
+              getStorage(PROJECT_NORMALISED_NAME_IDENTIFIER)
+          ),
+          setFirstProjectActive
+        })
+      )
+        .unwrap()
+        .catch((err) => {
+          throw err;
+        })
+    ])
+      .then((res) => Promise.resolve(res))
       .catch((err) => {
-        throw err;
-      }),
-    dispatch(
-      getProjectsList({
-        projectNormalisedName: encodeURI(
-          params?.projectNormalisedName ||
-            getStorage(PROJECT_NORMALISED_NAME_IDENTIFIER)
-        )
-      })
-    )
-      .unwrap()
-      .catch((err) => {
-        throw err;
-      })
-  ])
-    .then((res) => Promise.resolve(res))
-    .catch((err) => {
-      if (
-        err?.response?.status &&
-        err?.response?.status >= 400 &&
-        err?.response?.status !== 401
-      ) {
-        dispatch(setHasProductInitFailed(true));
-      }
-      return null;
-    });
+        if (
+          err?.response?.status &&
+          err?.response?.status >= 400 &&
+          err?.response?.status !== 401
+        ) {
+          dispatch(setHasProductInitFailed(true));
+        }
+        return null;
+      });
 
 export default reducer;

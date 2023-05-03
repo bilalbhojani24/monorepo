@@ -16,18 +16,21 @@ export default function StackTraceTooltip({
   return (
     <PropagationBlocker>
       {!showOnlyTraceData && (
-        <div className="bg-base-100 flex items-center justify-between">
+        <div className="border-b-base-200 flex items-center justify-between border-b bg-white">
           <p className="px-3 text-xs">Stack trace</p>
           <Copy2Clipboard text={copyText} showBtnText />
         </div>
       )}
 
       <pre
-        className={twClassNames('text-danger-700 overflow-auto p-3', {
-          'max-h-60': size === 'large',
-          'max-h-40': size === 'medium',
-          'max-h-28': size === 'small'
-        })}
+        className={twClassNames(
+          'text-danger-700 overflow-auto p-3 bg-base-50',
+          {
+            'max-h-60': size === 'large',
+            'max-h-40': size === 'medium',
+            'max-h-28': size === 'small'
+          }
+        )}
       >
         {traceLines.map((item, idx) => (
           // eslint-disable-next-line react/no-array-index-key
