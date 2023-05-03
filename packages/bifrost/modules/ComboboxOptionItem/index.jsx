@@ -18,7 +18,7 @@ import { CheckIcon } from '../Icon';
 
 const ComboboxOptionItem = forwardRef(
   (
-    { disabled, option, checkPosition, wrapperClassName, handleImageFailure },
+    { disabled, option, checkPosition, wrapperClassName, onImageError },
     ref
   ) => {
     const { isMulti, isBadge } = useContext(ComboboxContextData);
@@ -54,7 +54,7 @@ const ComboboxOptionItem = forwardRef(
                       src={option.image}
                       alt=""
                       className="mr-3 h-6 w-6 shrink-0 rounded-full"
-                      onError={handleImageFailure}
+                      onError={onImageError}
                     />
                   )}
                   <span
@@ -113,7 +113,7 @@ ComboboxOptionItem.propTypes = {
     image: string,
     visualLabel: node
   }).isRequired,
-  handleImageFailure: func,
+  onImageError: func,
   wrapperClassName: string
 };
 
@@ -121,7 +121,7 @@ ComboboxOptionItem.defaultProps = {
   checkPosition: CHECK_POSITION[0],
   disabled: false,
   wrapperClassName: '',
-  handleImageFailure: null
+  onImageError: null
 };
 
 export default ComboboxOptionItem;
