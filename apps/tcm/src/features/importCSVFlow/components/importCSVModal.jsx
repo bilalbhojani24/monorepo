@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { ExclamationTriangleIcon } from '@browserstack/bifrost';
@@ -23,6 +23,7 @@ import {
 } from '../slices/importCSVSlice';
 
 const ImportCSVModal = ({ data, show, status, progress }) => {
+  const [isFirstButtonLoading, setFirstButtonLoading] = useState(false);
   const dispatch = useDispatch();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -57,21 +58,24 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
 
   const firstButtonCb = () => {
     if (data.firstButtonText === 'Cancel Import') {
+      setFirstButtonLoading(true);
       dispatch(
         logEventHelper('TM_ImportCsvCancelBtnClicked', {
           project_id: queryParams.get('project')
         })
       );
-      resetNotification();
-      cancelImport(mapFieldsConfig.importId);
-      dispatch(
-        addNotificaton({
-          id: `import_cancelled_${mapFieldsConfig.import_id}`,
-          title: 'CSV import cancelled successfully',
-          description: null,
-          variant: 'success'
-        })
-      );
+      cancelImport(mapFieldsConfig.importId).then(() => {
+        setFirstButtonLoading(false);
+        resetNotification();
+        dispatch(
+          addNotificaton({
+            id: `import_cancelled_${mapFieldsConfig.import_id}`,
+            title: 'CSV import cancelled successfully',
+            description: null,
+            variant: 'success'
+          })
+        );
+      });
     }
     // download report
     else handleDownloadReport();
@@ -124,7 +128,12 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
       />
       <TMModalFooter position="right">
         {data?.firstButtonText && (
-          <TMButton variant="primary" colors="white" onClick={firstButtonCb}>
+          <TMButton
+            variant="primary"
+            colors="white"
+            onClick={firstButtonCb}
+            loading={isFirstButtonLoading}
+          >
             {data?.firstButtonText}
           </TMButton>
         )}
