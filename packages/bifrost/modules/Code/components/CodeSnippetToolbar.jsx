@@ -2,9 +2,9 @@ import React from 'react';
 import { node } from 'prop-types';
 
 const CodeSnippetToolbar = ({ leadingNode, trailingNode }) => (
-  <div className="border-base-300 flex items-center justify-between rounded-t-lg border-b bg-white px-4 py-2">
-    <div className="">{leadingNode}</div>
-    <div className="">{trailingNode}</div>
+  <div className="border-base-300 flex items-stretch justify-between rounded-t-lg border-b bg-white">
+    <div className="bg-base-200 flex-1 p-2">{leadingNode}</div>
+    <div className="bg-base-200 flex-1 p-2">{trailingNode}</div>
   </div>
 );
 
