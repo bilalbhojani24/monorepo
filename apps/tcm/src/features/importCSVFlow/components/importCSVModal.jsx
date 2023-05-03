@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { ExclamationTriangleIcon } from '@browserstack/bifrost';
@@ -9,7 +9,6 @@ import {
   TMModalHeader,
   TMProgressBar
 } from 'common/bifrostProxy';
-import { addNotificaton } from 'globalSlice';
 import { bool, number, shape, string } from 'prop-types';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -18,12 +17,12 @@ import { AccessTimeIcon } from '../../../assets/icons';
 import { SECOND_SCREEN } from '../const/importCSVConstants';
 import {
   setCSVCurrentScreen,
+  setFirstButtonLoading,
   setNotificationConfigForConfirmCSVImport,
   setRetryImport
 } from '../slices/importCSVSlice';
 
 const ImportCSVModal = ({ data, show, status, progress }) => {
-  const [isFirstButtonLoading, setFirstButtonLoading] = useState(false);
   const dispatch = useDispatch();
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -58,24 +57,13 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
 
   const firstButtonCb = () => {
     if (data.firstButtonText === 'Cancel Import') {
-      setFirstButtonLoading(true);
+      dispatch(setFirstButtonLoading(true));
       dispatch(
         logEventHelper('TM_ImportCsvCancelBtnClicked', {
           project_id: queryParams.get('project')
         })
       );
-      cancelImport(mapFieldsConfig.importId).then(() => {
-        setFirstButtonLoading(false);
-        resetNotification();
-        dispatch(
-          addNotificaton({
-            id: `import_cancelled_${mapFieldsConfig.import_id}`,
-            title: 'CSV import cancelled successfully',
-            description: null,
-            variant: 'success'
-          })
-        );
-      });
+      cancelImport(mapFieldsConfig.importId);
     }
     // download report
     else handleDownloadReport();
@@ -133,7 +121,7 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
             colors="white"
             isIconOnlyButton
             onClick={firstButtonCb}
-            loading={isFirstButtonLoading}
+            loading={data?.isButtonLoading}
           >
             {data?.firstButtonText}
           </TMButton>
