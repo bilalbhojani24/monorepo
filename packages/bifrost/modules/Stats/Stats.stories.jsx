@@ -119,8 +119,9 @@ const options = [
     ),
     icon: null,
     change: 23,
-    previousStat: '23',
-    changeType: 'increase',
+    previousStat: null,
+    subText: null,
+    changeType: 'decrease',
     link: 'View all',
     onClick: () => console.log('stats null.com')
   }
@@ -172,6 +173,7 @@ const defaultConfig = {
         change: '12%',
         previousStat: '28.62%',
         changeType: 'increase',
+        subText: null,
         link: (
           <Hyperlink
             isCSR={false}

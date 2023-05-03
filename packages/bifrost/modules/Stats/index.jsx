@@ -7,7 +7,7 @@ import {
 } from '@heroicons/react/20/solid';
 import PropTypes, { oneOf } from 'prop-types';
 
-import { STATS_DEC, STATS_INC, STATS_VARIANTS } from './const/statsConstants';
+import { STATS_INC, STATS_VARIANTS } from './const/statsConstants';
 
 const Stats = (props) => {
   const {
@@ -163,39 +163,42 @@ const Stats = (props) => {
         )}
         {variant === STATS_VARIANTS.GRAPH_VARIANT && (
           <div className="flex flex-col">
-            <div className="flex items-baseline pb-4">
+            <div className="flex items-baseline pb-4 pt-2">
               <p className="text-base-900 text-2xl font-semibold">
                 {option.stat}
-                <span className="text-base-500 ml-2 text-sm font-medium">
-                  {option.previousStat}
-                </span>
               </p>
-              <p
-                className={twClassNames(
-                  option.changeType === STATS_INC
-                    ? 'text-success-700'
-                    : 'text-danger-600',
-                  'ml-2 flex items-baseline text-sm font-semibold'
-                )}
-              >
-                {option.changeType === STATS_INC && (
-                  <ArrowUpIcon
-                    className="text-success-500 h-5 w-5 shrink-0 self-center"
-                    aria-hidden="true"
-                  />
-                )}
-                {option.changeType === STATS_DEC && (
-                  <ArrowDownIcon
-                    className="text-danger-500 h-5 w-5 shrink-0 self-center"
-                    aria-hidden="true"
-                  />
-                )}
-                {option.change}
-              </p>
-              <div className="h-8" />
+              {option.subText && (
+                <p className="text-base-500 ml-2 text-sm font-medium">
+                  {option.subText}
+                </p>
+              )}
+              {option.change && (
+                <p
+                  className={twClassNames(
+                    option.changeType === STATS_INC
+                      ? 'text-success-700'
+                      : 'text-danger-600',
+                    'ml-2 flex items-baseline text-sm font-semibold'
+                  )}
+                >
+                  {option.changeType === STATS_INC ? (
+                    <ArrowUpIcon
+                      className="text-success-500 h-5 w-5 shrink-0 self-center"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <ArrowDownIcon
+                      className="text-danger-500 h-5 w-5 shrink-0 self-center"
+                      aria-hidden="true"
+                    />
+                  )}
+                  {option.change}
+                </p>
+              )}
             </div>
             {option?.graph ? (
-              <div className="max-h-64">{option.graph}</div>
+              // eslint-disable-next-line tailwindcss/no-arbitrary-value
+              <div className="max-h-[248px] min-h-[100px]">{option.graph}</div>
             ) : (
               <div className="h-4" />
             )}
@@ -233,7 +236,8 @@ Stats.propTypes = {
     previousStat: PropTypes.string,
     link: PropTypes.node,
     changeType: oneOf([STATS_INC, 'decrease']),
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    subText: PropTypes.string
   }).isRequired,
   variant: PropTypes.string,
   textColor: PropTypes.string,
