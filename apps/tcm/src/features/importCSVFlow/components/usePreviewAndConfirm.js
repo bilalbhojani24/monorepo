@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 import { getImportResultAPI } from 'api/importCSV.api';
+import { getProjectsMinifiedAPI } from 'api/projects.api';
 import AppRoute, { WS_URL } from 'const/routes';
 import { addNotificaton, setAllProjects } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { getProjectsMinifiedAPI } from '../../../api/projects.api';
 import {
   resetImportCSVState,
   startImportingTestCases
@@ -45,7 +45,7 @@ const usePreviewAndConfirm = () => {
   const refreshMinifiedProjects = () => {
     if (!hasProjects) {
       getProjectsMinifiedAPI().then((response) => {
-        dispatch(setAllProjects(response?.projects));
+        dispatch(setAllProjects(response?.projects || []));
       });
     }
   };
