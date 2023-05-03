@@ -135,7 +135,7 @@ const SingleDatepicker = (props) => {
             offset={offset}
             crossOffset={crossOffset}
           >
-            <Dialog {...dialogProps}>
+            <Dialog {...dialogProps} isLoading={isLoading}>
               <Calendar isLoading={isLoading} {...calendarProps} />
             </Dialog>
           </Popover>
