@@ -32,7 +32,7 @@ export default function O11ySwitcher({
       defaultValue={defaultValue}
       checked={checked}
       wrapperClassName={twClassNames(wrapperClassName, {
-        'bg-base-100 focus:ring-0 focus:ring-offset-0 cursor-not-allowed focus:outline-0':
+        'opacity-50 focus:ring-0 focus:ring-offset-0 cursor-not-allowed focus:outline-0':
           disabled
       })}
       toggleIcons={loading ? loadingToggleIcons : toggleIcons}

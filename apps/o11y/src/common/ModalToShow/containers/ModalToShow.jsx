@@ -11,6 +11,7 @@ import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCate
 import AddNotificationUserModal from 'features/Settings/components/AddNotificationUserModal';
 import DeleteAlertModal from 'features/Settings/components/DeleteAlertModal';
 import DeleteSubCatModal from 'features/Settings/components/DeleteSubCatModal';
+import SmartTagConfirmationModal from 'features/Settings/components/SmartTagConfirmationModal';
 import MuteUnmuteTestModal from 'features/TestList/components/MuteUnmuteTestModal';
 import RerunTestsModal from 'features/TestList/components/RerunTestModal';
 
@@ -41,6 +42,8 @@ export default function ModalToShow() {
       return <JenkinsIntegrationModal />;
     case MODAL_TYPES.azure_connect_modal:
       return <AzureIntegrationModal />;
+    case MODAL_TYPES.smart_tags_confirmation_modal:
+      return <SmartTagConfirmationModal />;
     case MODAL_TYPES.upgrade_modal:
       return <StartFreeTrialModal />;
     default:

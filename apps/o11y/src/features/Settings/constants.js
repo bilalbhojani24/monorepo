@@ -127,3 +127,33 @@ export const FAILURE_CATEGORIES_INFO = {
 };
 
 export const MAX_SUB_CATEGORIES_ALLOWED = 5;
+
+export const SMART_TAGS_DEFAULT_VALUES = {
+  flaky: {
+    automaticFlaky: true,
+    flakeInHistory: {
+      enabled: true,
+      testStatusFlipping: 10,
+      testStatusFlippingTotal: 10
+    },
+    flakeInRerun: {
+      enabled: true,
+      rerun: 10
+    }
+  },
+  alwaysFailing: {
+    enabled: true,
+    errorType: 'same error',
+    consecutiveRuns: 5
+  },
+  newFailure: {
+    enabled: true,
+    newFailureType: 'new',
+    consecutiveRuns: 5
+  },
+  performanceAnomalies: {
+    enabled: true,
+    duration: 80,
+    lastExecution: 30
+  }
+};
