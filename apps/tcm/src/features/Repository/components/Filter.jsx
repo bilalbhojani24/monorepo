@@ -92,7 +92,7 @@ const Filter = ({ isMini, onFilterChange }) => {
     >
       <div className="w-full">
         <TMInputField
-          placeholder="Search by Test Case name or Test Case ID"
+          placeholder="Search by Test Case ID or Title"
           value={filterSearchMeta?.q}
           onChange={(e) => searchChangeHandler(e.currentTarget.value)}
           onKeyDown={(e) => onSubmitKeyHandler(e, () => applyFilterHandler())}

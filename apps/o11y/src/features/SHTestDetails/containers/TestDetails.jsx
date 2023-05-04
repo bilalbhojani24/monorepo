@@ -1,10 +1,18 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { O11ySlideover } from 'common/bifrostProxy';
+import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { getIsFiltersLoading } from 'features/FilterSkeleton/slices/selectors';
+import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
+import {
+  clearTestDetailsInfo,
+  resetActiveTab,
+  setIsSHTestsDetailsVisible
+} from '../slices/dataSlice';
 import {
   getIsSHTestsDetailsVisible,
   getShowSHTestsDetailsFor
@@ -18,6 +26,8 @@ const TestDetails = () => {
   const activeProject = useSelector(getActiveProject);
   const testId = useSelector(getShowSHTestsDetailsFor);
   const isFiltersLoading = useSelector(getIsFiltersLoading);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     logOllyEvent({
@@ -30,11 +40,26 @@ const TestDetails = () => {
     });
   }, [activeProject.name, activeProject.id, testId]);
 
+  const handleCloseDetails = () => {
+    dispatch(setIsSHTestsDetailsVisible(false));
+    dispatch(hideTestDetailsDrawer());
+    dispatch(clearTestDetailsInfo());
+    dispatch(resetActiveTab());
+    const searchParams = new URLSearchParams(window?.location.search);
+    searchParams.delete(SNP_PARAMS_MAPPING.snpTestDetails);
+    navigate({ search: searchParams.toString() });
+  };
+
   return (
-    <O11ySlideover show={isVisible} backgroundOverlay={false} size="5xl">
+    <O11ySlideover
+      show={isVisible}
+      backgroundOverlay={false}
+      size="5xl"
+      onEscPress={handleCloseDetails}
+    >
       {!isFiltersLoading && (
         <>
-          <SlideOverHeader />
+          <SlideOverHeader handleCloseDetails={handleCloseDetails} />
           <SlideOverBody />
         </>
       )}

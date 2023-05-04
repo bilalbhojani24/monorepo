@@ -173,8 +173,6 @@ export default function IssueItem() {
     }
   ];
 
-  console.log({ testType, issueItem });
-
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
     reportMetaData,
@@ -191,6 +189,10 @@ export default function IssueItem() {
   const title = `${activeComponentId.split('#')[0].toLowerCase()}${
     activeComponentId.split('#')[1] ? '.' : ''
   }${activeComponentId.split('#')[1]}`;
+
+  const isShowingSourceReport =
+    needsReviewStatusinReports.length > 0 &&
+    Object.values(reportMetaData?.meta).length > 1;
 
   return (
     <div className="relative">
@@ -306,7 +308,7 @@ export default function IssueItem() {
                 ))}
               </div>
             )}
-            {needsReviewStatusinReports.length > 0 && (
+            {isShowingSourceReport && (
               <div className="mt-4 flex text-sm font-medium">
                 <p className="text-base-500 mr-1 flex items-center text-sm font-medium">
                   Source report(s):
@@ -330,9 +332,12 @@ export default function IssueItem() {
             <div className="mt-4">
               <p className="text-base-700 mb-1 text-sm">Affected page: </p>
               <div className="flex">
-                <div className="mr-2 w-full">
-                  <InputField id={url} value={url} readonly />
-                </div>
+                <InputField
+                  id={url}
+                  value={url}
+                  readonly
+                  wrapperClassName="mr-2 w-full"
+                />
                 <CopyButton text={url} />
               </div>
             </div>
