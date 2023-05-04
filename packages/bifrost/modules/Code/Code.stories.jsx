@@ -118,7 +118,7 @@ export default defaultConfig;
 export { LeadingAndTrailingToolbar, Primary, SingleLine };
 
 SingleLine.args = {
-  code: 'npm install @browserstack/design-system-components',
+  code: 'pnpm install @browserstack@1.0.0',
   singleLine: true
 };
 

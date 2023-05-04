@@ -8,16 +8,11 @@ import { copyToClipboard } from '../utils';
 
 const CopyButton = () => {
   const [isCopied, setIsCopied] = useState(false);
-  const { code, setShowCopy, toolbar } = useContext(CodeSnippetContextData);
+  const { code, setShowCopy } = useContext(CodeSnippetContextData);
   return (
     <Button
       onMouseEnter={() => setShowCopy(true)}
-      wrapperClassName={twClassNames(
-        'z-10 absolute top-14 right-2 rounded-md',
-        {
-          'top-4': !toolbar
-        }
-      )}
+      wrapperClassName={twClassNames('z-10 absolute top-2 right-2 rounded-md')}
       variant="rounded"
       colors="white"
       onClick={() => {
