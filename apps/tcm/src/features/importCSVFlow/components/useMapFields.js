@@ -20,7 +20,7 @@ import {
   submitMappingData
 } from '../slices/csvThunk';
 import {
-  setFieldsMapping,
+  // setFieldsMapping,
   setMapFieldModalConfig,
   setMapFieldsError,
   setShowMappings,
@@ -225,7 +225,11 @@ const useMapFields = () => {
   const handleSelectMenuChange = (field) => (selectedOption) => {
     if (selectedOption.label === ADD_FIELD_LABEL) {
       dispatch(
-        setFieldsMapping({ key: field, value: { action: ADD_FIELD_VALUE } })
+        setFieldsMappingThunk({
+          key: field,
+          value: { action: ADD_FIELD_VALUE },
+          mapper: mapNameToDisplay
+        })
       );
       dispatch(
         setValueMappings({ key: field, value: { action: ADD_FIELD_VALUE } })
@@ -234,7 +238,11 @@ const useMapFields = () => {
     }
     if (selectedOption.label === IGNORE_FIELD_LABEL) {
       dispatch(
-        setFieldsMapping({ key: field, value: { action: IGNORE_FIELD_VALUE } })
+        setFieldsMappingThunk({
+          key: field,
+          value: { action: IGNORE_FIELD_VALUE },
+          mapper: mapNameToDisplay
+        })
       );
       dispatch(
         setValueMappings({ key: field, value: { action: IGNORE_FIELD_VALUE } })

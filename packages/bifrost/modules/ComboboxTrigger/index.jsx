@@ -15,6 +15,7 @@ import { renderMultiOptions, renderSingleOptions } from './helper';
 const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const buttonRef = useRef();
+  const renderCount = useRef(0);
   const onInputValueChangeRef = useLatestRef(onInputValueChange);
 
   const {
@@ -37,10 +38,17 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
       setWidth(buttonRef.current?.offsetWidth);
       comboInputRef.current.focus();
     }
-    if (!open) {
-      onInputValueChangeRef.current?.('');
-    }
   }, [setWidth, open, onInputValueChangeRef, comboInputRef]);
+
+  // render this useEffect only from 2nd re-render
+  // From 2nd re-render when options group closes make an inputChange call with empty value
+  useEffect(() => {
+    if (renderCount.current > 1 && !open) {
+      onInputValueChangeRef.current?.('');
+    } else {
+      renderCount.current += 1;
+    }
+  }, [open, onInputValueChangeRef]);
 
   return (
     <Popover.Trigger ref={buttonRef} asChild>
