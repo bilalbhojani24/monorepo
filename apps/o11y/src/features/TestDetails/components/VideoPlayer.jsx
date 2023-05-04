@@ -129,7 +129,6 @@ const VideoPlayer = forwardRef(
             placementSide="top"
             sideOffset={10}
             wrapperClassName="py-2 w-64"
-            defaultOpen
           >
             <O11yButton
               isIconOnlyButton
