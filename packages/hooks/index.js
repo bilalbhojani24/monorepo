@@ -22,6 +22,7 @@ import useSafariWebInspectorFromWorker from './src/useSafariWebInspectorFromWork
 import useStateCallback from './src/useStateCallback';
 import useWindowDimensionChange from './src/useWindowDimensionChange';
 import useWindowSize from './src/useWindowSize';
+import useYearpicker from './src/useYearpicker';
 
 export {
   useAuthRoutes,
@@ -47,5 +48,6 @@ export {
   useSafariWebInspectorFromWorker,
   useStateCallback,
   useWindowDimensionChange,
-  useWindowSize
+  useWindowSize,
+  useYearpicker
 };
