@@ -31,7 +31,8 @@ const getNav = ({ projectNormalisedName }) => [
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
     path: getSettingsPath(projectNormalisedName, 'smart_tags'),
-    pattern: ROUTES.smart_tags
+    pattern: ROUTES.smart_tags,
+    badge: <PlanTypeBadge />
   },
   {
     id: 'auto_analyser',

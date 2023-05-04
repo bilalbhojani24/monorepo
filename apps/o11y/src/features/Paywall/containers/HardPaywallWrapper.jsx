@@ -6,13 +6,14 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { FEATURE_CARD_DATA } from 'constants/paywall';
-import { getInitialData } from 'globalSlice/index';
+import { getInitialData, o11yPlanUpgrade } from 'globalSlice/index';
 import {
   canStartFreeTrial,
   getPlanDetailsKey,
   isLoadingInitData
 } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
+import { o11yNotify } from 'utils/notification';
 
 import PaywallFeatureCard from '../components/PaywallFeatureCard';
 
@@ -28,6 +29,7 @@ function HardPaywallWrapper({
   const dispatch = useDispatch();
   const isLoading = useSelector(isLoadingInitData);
   const [hasSubmittedUpgradeReq, setHasSubmittedUpgradeReq] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   useEffect(() => {
     if (shouldReFetchPlanDetails) {
       dispatch(getInitialData());
@@ -61,11 +63,26 @@ function HardPaywallWrapper({
       );
     };
     const handleClickUpgrade = () => {
-      clearTimeout(timeOutRef.current);
-      setHasSubmittedUpgradeReq(true);
-      timeOutRef.current = setTimeout(() => {
-        setHasSubmittedUpgradeReq(false);
-      }, 5000);
+      setIsSubmitting(true);
+      dispatch(o11yPlanUpgrade())
+        .unwrap()
+        .then(() => {
+          clearTimeout(timeOutRef.current);
+          setHasSubmittedUpgradeReq(true);
+          timeOutRef.current = setTimeout(() => {
+            setHasSubmittedUpgradeReq(false);
+          }, 5000);
+        })
+        .catch(() => {
+          o11yNotify({
+            title: 'Something went wrong!',
+            description: 'Please try again later.',
+            type: 'error'
+          });
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
     };
 
     if (hasSubmittedUpgradeReq) {
@@ -87,7 +104,13 @@ function HardPaywallWrapper({
             Get a 14-days free trial
           </O11yButton>
         ) : (
-          <O11yButton onClick={handleClickUpgrade}>Upgrade</O11yButton>
+          <O11yButton
+            loading={isSubmitting}
+            isIconOnlyButton={isSubmitting}
+            onClick={handleClickUpgrade}
+          >
+            Upgrade
+          </O11yButton>
         )}
         <Hyperlink wrapperClassName="text-xs font-medium text-base-700 hover:text-brand-700 inline-flex gap-1">
           Learn more <MdOpenInNew />
@@ -96,7 +119,7 @@ function HardPaywallWrapper({
     );
   };
 
-  if (!planDetails?.isActive) {
+  if (planDetails && !planDetails?.isActive) {
     return (
       <PaywallFeatureCard
         {...FEATURE_CARD_DATA[featureKey]}

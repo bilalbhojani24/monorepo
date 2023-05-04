@@ -4,7 +4,8 @@ import { O11yButton } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
 import { MODAL_TYPES } from 'constants/modalTypes';
-import { getActiveProject, getFeatureFlag } from 'globalSlice/selectors';
+import { PAYWALL_FEATURES } from 'constants/paywall';
+import { getActiveProject, getPlanDetailsKey } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 
@@ -16,14 +17,15 @@ import SettingsCard from '../components/SettingsCard';
 import { getSmartTagsSettings } from '../slices/selectors';
 import { getSmartTags } from '../slices/smartTagsSettings';
 
+import SmartTagPaywallAlert from './SmartTagPaywallAlert';
+
 export default function SmartTags() {
   const smartTags = useSelector(getSmartTagsSettings);
   const activeProject = useSelector(getActiveProject);
-  const smartTagEnabled = useSelector((state) =>
-    getFeatureFlag(state, 'smartTags')
+  const planDetails = useSelector(
+    getPlanDetailsKey(PAYWALL_FEATURES.SMART_TAGS)
   );
   const dispatch = useDispatch();
-
   const mounted = useRef(false);
 
   useEffect(() => {
@@ -55,45 +57,48 @@ export default function SmartTags() {
   }
 
   return (
-    <SettingsCard>
-      <FlakyTags
-        data={smartTags.localState.flaky}
-        isActive={smartTagEnabled.isActive}
-        isLoading={smartTags.isLoading}
-      />
-      <AlwaysFailingTags
-        data={smartTags.localState.alwaysFailing}
-        isActive={smartTagEnabled.isActive}
-        isLoading={smartTags.isLoading}
-      />
-      <NewFailureTags
-        data={smartTags.localState.newFailure}
-        isActive={smartTagEnabled.isActive}
-        isLoading={smartTags.isLoading}
-      />
-      <PerformanceAnomaliesTags
-        data={smartTags.localState.performanceAnomalies}
-        isActive={smartTagEnabled.isActive}
-        isLoading={smartTags.isLoading}
-      />
-      {smartTagEnabled.isActive &&
-        !isEqual(smartTags.localState, smartTags.data) && (
-          <div className="flex justify-end p-6">
-            <O11yButton
-              variant="primary"
-              onClick={() =>
-                dispatch(
-                  toggleModal({
-                    version: MODAL_TYPES.smart_tags_confirmation_modal,
-                    data: {}
-                  })
-                )
-              }
-            >
-              Save Changes
-            </O11yButton>
-          </div>
-        )}
-    </SettingsCard>
+    <div className="flex flex-col gap-4">
+      <SmartTagPaywallAlert />
+      <SettingsCard>
+        <FlakyTags
+          data={smartTags.localState.flaky}
+          isActive={planDetails?.isActive}
+          isLoading={smartTags.isLoading}
+        />
+        <AlwaysFailingTags
+          data={smartTags.localState.alwaysFailing}
+          isActive={planDetails?.isActive}
+          isLoading={smartTags.isLoading}
+        />
+        <NewFailureTags
+          data={smartTags.localState.newFailure}
+          isActive={planDetails?.isActive}
+          isLoading={smartTags.isLoading}
+        />
+        <PerformanceAnomaliesTags
+          data={smartTags.localState.performanceAnomalies}
+          isActive={planDetails?.isActive}
+          isLoading={smartTags.isLoading}
+        />
+        {planDetails?.isActive &&
+          !isEqual(smartTags.localState, smartTags.data) && (
+            <div className="flex justify-end p-6">
+              <O11yButton
+                variant="primary"
+                onClick={() =>
+                  dispatch(
+                    toggleModal({
+                      version: MODAL_TYPES.smart_tags_confirmation_modal,
+                      data: {}
+                    })
+                  )
+                }
+              >
+                Save Changes
+              </O11yButton>
+            </div>
+          )}
+      </SettingsCard>
+    </div>
   );
 }
