@@ -2,8 +2,6 @@ import React from 'react';
 import { ResizableBox } from 'react-resizable';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const ResizableWrapper = ({
   children,
   handle,

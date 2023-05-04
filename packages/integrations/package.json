@@ -1,15 +1,16 @@
 {
   "name": "@browserstack/integrations",
   "version": "0.0.0",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "description": "Integrations Management Tool",
   "peerDependencies": {
     "prop-types": "15.8.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.6.1"
   },
   "dependencies": {
-    "@browserstack/bifrost": "2.6.0",
+    "@browserstack/bifrost": "4.1.0",
     "@browserstack/hooks": "workspace:*",
     "@browserstack/utils": "workspace:*",
     "@reduxjs/toolkit": "^1.9.1",
@@ -29,10 +30,15 @@
     "@storybook/manager-webpack4": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
-    "babel-loader": "^8.3.0"
+    "babel-loader": "^8.3.0",
+    "vite": "3.2.5"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
-  }
+    "build-storybook": "build-storybook",
+    "build": "vite build"
+  },
+  "files": [
+    "dist/*"
+  ]
 }

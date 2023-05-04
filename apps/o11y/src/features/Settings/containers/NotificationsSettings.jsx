@@ -168,7 +168,7 @@ function NotificationsSettings() {
               <O11yTableHead wrapperClassName="bg-white sticky top-0">
                 <O11yTableRow>
                   <O11yTableCell
-                    wrapperClassName="md:rounded-lg w-2/5 text-base-900 font-medium py-3"
+                    wrapperClassName="md:rounded-lg w-2/5 text-xs leading-4 uppercase text-base-500 font-medium py-3"
                     variant="header"
                   >
                     Username

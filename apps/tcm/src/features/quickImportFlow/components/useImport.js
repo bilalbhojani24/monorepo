@@ -31,6 +31,7 @@ import {
   setCurrentScreen,
   setCurrentTestManagementTool,
   setErrorForConfigureData,
+  setImportIdBeforeImport,
   setImportStarted,
   setImportStatusOngoing,
   setImportSteps,
@@ -100,14 +101,19 @@ const useImport = () => {
   const beginImportLoading = useSelector(
     (state) => state.import.beginImportLoading
   );
+  const importIdBeforeImport = useSelector(
+    (state) => state.import.importIdBeforeImport
+  );
 
   const handleInputFieldChange = (key) => (e) => {
+    e?.preventDefault();
     const { value } = e.target;
     if (currentTestManagementTool === 'testrails') {
       dispatch(setTestRailsCred({ key, value }));
       dispatch(setTestRailsCredTouched({ key, value: true }));
     } else if (currentTestManagementTool === 'zephyr')
       dispatch(setZephyrCred({ key, value }));
+    dispatch(setZephyrCredTouched({ key, value: true }));
   };
 
   const setConnectionStatus = ({ key, value }) => {
@@ -123,6 +129,18 @@ const useImport = () => {
       return step;
     });
 
+  const trimSpacesTestRails = () => {
+    Object.entries(testRailsCred).forEach(([key, value]) => {
+      dispatch(setTestRailsCred({ key, value: value?.trim() }));
+    });
+  };
+
+  const trimSpacesZephyr = () => {
+    Object.entries(zephyrCred).forEach(([key, value]) => {
+      dispatch(setZephyrCred({ key, value: value?.trim() }));
+    });
+  };
+
   const connectionSuccessful = (data) => {
     dispatch(
       setProjectForTestManagementImport(
@@ -132,6 +150,7 @@ const useImport = () => {
         }))
       )
     );
+    if (data?.import_id) dispatch(setImportIdBeforeImport(data?.import_id));
     dispatch(setConfigureToolProceeded(true));
     dispatch(setImportSteps(handleStepChange(CONFIGURE_TOOL, CONFIGURE_DATA)));
     dispatch(setCurrentScreen(SCREEN_2));
@@ -154,11 +173,15 @@ const useImport = () => {
       );
     }
     if (
-      (testRailsCred.key && testRailsCred.host && testRailsCred.email) ||
-      (zephyrCred.jira_key &&
-        zephyrCred.host &&
-        zephyrCred.email &&
-        zephyrCred.zephyr_key)
+      (currentTestManagementTool === 'testrails' &&
+        testRailsCred.key?.trim() &&
+        testRailsCred.host?.trim() &&
+        testRailsCred.email?.trim()) ||
+      (currentTestManagementTool === 'zephyr' &&
+        zephyrCred.jira_key?.trim() &&
+        zephyrCred.host?.trim() &&
+        zephyrCred.email?.trim() &&
+        zephyrCred.zephyr_key?.trim())
     ) {
       if (decider === 'proceed') {
         dispatch(setConfigureToolProceedLoading(true));
@@ -178,9 +201,11 @@ const useImport = () => {
               setConnectionStatus({ key: 'testrails', value: 'success' });
               dispatch(setConfigureToolTestConnectionLoading(false));
             }
+            trimSpacesTestRails();
           })
           .catch(() => {
             // show failure banner
+            trimSpacesTestRails();
             connectionFailed(decider);
             setConnectionStatus({ key: 'testrails', value: 'error' });
           });
@@ -194,9 +219,11 @@ const useImport = () => {
               setConnectionStatus({ key: 'zephyr', value: 'success' });
               dispatch(setConfigureToolTestConnectionLoading(false));
             }
+            trimSpacesZephyr();
           })
           .catch(() => {
             // show failure banner
+            trimSpacesZephyr();
             connectionFailed(decider);
             setConnectionStatus({ key: 'zephyr', value: 'error' });
           });
@@ -205,10 +232,12 @@ const useImport = () => {
       Object.keys(testRailsCredTouched).forEach((key) => {
         dispatch(setTestRailsCredTouched({ key, value: true }));
       });
+      trimSpacesTestRails();
     } else if (currentTestManagementTool === 'zephyr') {
       Object.keys(zephyrCredTouched).forEach((key) => {
         dispatch(setZephyrCredTouched({ key, value: true }));
       });
+      trimSpacesZephyr();
     }
   };
 
@@ -274,11 +303,11 @@ const useImport = () => {
 
   const handleConfirmImport = () => {
     dispatch(logEventHelper(proceedActionEventName(), {}));
-    // dispatch(startQuickImport(currentTestManagementTool));
     dispatch(setBeginImportLoading(true));
     if (currentTestManagementTool === 'testrails') {
       importProjects('testrail', {
         ...testRailsCred,
+        import_id: importIdBeforeImport,
         testrail_projects: testManagementProjects
           .map((project) => (project.checked ? project : null))
           .filter((project) => project !== null)
@@ -292,6 +321,7 @@ const useImport = () => {
     } else if (currentTestManagementTool === 'zephyr') {
       importProjects('zephyr', {
         ...zephyrCred,
+        import_id: importIdBeforeImport,
         projects: testManagementProjects
           .map((project) => (project.checked ? project : null))
           .filter((project) => project !== null)

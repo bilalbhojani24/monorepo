@@ -1,17 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams
-} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MdOutlineRefresh, MdSearchOff } from '@browserstack/bifrost';
-import { O11yButton } from 'common/bifrostProxy';
+import { O11yButton, O11yEmptyState } from 'common/bifrostProxy';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
-import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
+import { PUSHER_EVENTS } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 import { getBuildPath } from 'utils/routeUtils';
@@ -22,24 +17,17 @@ import Filters from './components/Filters';
 import FilterPills from './components/Filters/FilterPills';
 import SearchBuilds from './components/SearchBuilds';
 import {
-  getBuildsData,
-  setAppliedFilters,
-  setBuilds,
-  setFiltersMetaData,
-  setSelectedFilters
-} from './slices/dataSlice';
-import {
-  getAppliedFilters,
+  getAllAppliedFilters,
   getBuilds,
-  getBuildsApiState,
-  getBuildsPagingParams
-} from './slices/selectors';
-import { getParamsFromFiltersObject } from './utils/common';
+  getBuildsPagingParams,
+  getIsLoadingFilters
+} from './slices/buildsSelectors';
 import {
-  EMPTY_APPLIED_FILTERS,
-  EMPTY_METADATA_FILTERS,
-  EMPTY_SELECTED_FILTERS
-} from './constants';
+  clearFilters,
+  getBuildsData,
+  getBuildsFiltersData
+} from './slices/buildsSlice';
+import { getFilterQueryParams } from './utils/common';
 
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
@@ -47,60 +35,52 @@ const AllBuildsPage = () => {
   const { pathname } = useLocation();
   const activeProject = useSelector(getActiveProject);
   const [updates, setUpdates] = useState();
+  const builds = useSelector(getBuilds);
+  const appliedFilters = useSelector(getAllAppliedFilters);
+  const [isLoadingBuilds, setIsLoadingBuilds] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const isLoadingFilters = useSelector(getIsLoadingFilters);
+  const pagingParams = useSelector(getBuildsPagingParams);
 
-  const { projectNormalisedName } = useParams();
-  const [, setSearchParams] = useSearchParams();
-  const buildsData = useSelector(getBuilds);
-  const appliedFilters = useSelector(getAppliedFilters);
-  const buildsPagingParamsData = useSelector(getBuildsPagingParams);
-  const { status: buildsApiStatus } = useSelector(getBuildsApiState);
-
-  const resetReduxStore = useCallback(
-    (itemsToReset) => {
-      if (itemsToReset.includes('selected'))
-        dispatch(setSelectedFilters(EMPTY_SELECTED_FILTERS));
-      if (itemsToReset.includes('applied'))
-        dispatch(setAppliedFilters(EMPTY_APPLIED_FILTERS));
-      if (itemsToReset.includes('buildsData'))
-        dispatch(setBuilds({ builds: [], buildsPagingParams: {} }));
-      if (itemsToReset.includes('metaData')) {
-        dispatch(setFiltersMetaData(EMPTY_METADATA_FILTERS));
-      }
-    },
-    [dispatch]
-  );
-
-  const loadFreshBuildsData = useCallback(() => {
-    dispatch(
-      getBuildsData({
-        projectNormalisedName,
-        currentPagingParams: {}
-      })
-    )
-      .unwrap()
-      .then(() => {
-        setUpdates(0);
-      });
-  }, [dispatch, projectNormalisedName]);
-
-  const viewAllBuilds = useCallback(() => {
-    navigate({
-      search: ''
-    });
-    resetReduxStore(['selected', 'applied', 'buildsData']);
-    loadFreshBuildsData();
-  }, [loadFreshBuildsData, navigate, resetReduxStore]);
-
-  const loadBuildsData = () => {
-    if (buildsPagingParamsData.hasNext) {
+  const fetchBuilds = useCallback(() => {
+    if (activeProject?.normalisedName && !isLoadingFilters) {
+      setShowErrorToast(false);
+      setIsLoadingBuilds(true);
       dispatch(
-        getBuildsData({
-          projectNormalisedName,
-          currentPagingParams: buildsPagingParamsData
+        getBuildsData({ projectNormalisedName: activeProject?.normalisedName })
+      )
+        .unwrap()
+        .catch(() => {
+          setShowErrorToast(true);
+        })
+        .finally(() => {
+          setUpdates(0);
+          window.scrollTo(0, 0);
+          setIsLoadingBuilds(false);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    dispatch,
+    activeProject.normalisedName,
+    appliedFilters,
+    isLoadingFilters
+  ]);
+
+  useEffect(() => {
+    if (activeProject?.normalisedName) {
+      dispatch(
+        getBuildsFiltersData({
+          projectNormalisedName: activeProject?.normalisedName
         })
       );
     }
-  };
+  }, [dispatch, activeProject.normalisedName]);
+
+  useEffect(() => {
+    fetchBuilds();
+  }, [fetchBuilds]);
 
   useEffect(() => {
     logOllyEvent({
@@ -113,32 +93,11 @@ const AllBuildsPage = () => {
     });
   }, [pathname, activeProject]);
 
-  useEffect(
-    () => () => {
-      // Clean builds on project change
-      resetReduxStore(['selected', 'applied', 'buildsData', 'metaData']);
-    },
-    [dispatch, resetReduxStore, projectNormalisedName]
-  );
-
-  useEffect(() => {
-    const filtersParams = getParamsFromFiltersObject(appliedFilters);
-    setSearchParams(filtersParams);
-    dispatch(
-      setSelectedFilters({
-        ...appliedFilters
-      })
-    );
-    resetReduxStore(['buildsData']);
-    loadFreshBuildsData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appliedFilters]);
-
   useEffect(() => {
     const unSubscribe = window.pubSub.subscribe(
       PUSHER_EVENTS.BUILD_STARTED,
       (data) => {
-        if (projectNormalisedName === data.projectNormalisedName) {
+        if (activeProject?.normalisedName === data.projectNormalisedName) {
           setUpdates((prev) => prev + data.updatesCount);
         }
       }
@@ -146,28 +105,57 @@ const AllBuildsPage = () => {
     return () => {
       unSubscribe();
     };
-  }, [projectNormalisedName]);
+  }, [activeProject?.normalisedName]);
+
+  useEffect(() => {
+    navigate({ search: getFilterQueryParams(appliedFilters).toString() });
+  }, [appliedFilters, navigate]);
+
+  const loadMoreRows = () => {
+    if (pagingParams?.hasNext) {
+      setIsLoadingMore(true);
+      dispatch(
+        getBuildsData({
+          projectNormalisedName: activeProject?.normalisedName,
+          newPage: true,
+          currentPagingParams: pagingParams
+        })
+      )
+        .unwrap()
+        .finally(() => {
+          setIsLoadingMore(false);
+        });
+    }
+  };
+
+  const isBuildsEmpty = useMemo(
+    () =>
+      !builds?.length &&
+      !showErrorToast &&
+      !isLoadingBuilds &&
+      !isLoadingFilters,
+    [builds?.length, isLoadingBuilds, isLoadingFilters, showErrorToast]
+  );
+
+  const isBuildLoading = useMemo(
+    () => isLoadingBuilds || isLoadingFilters,
+    [isLoadingBuilds, isLoadingFilters]
+  );
 
   const handleClickBuildItem = (currentIdx) => {
-    const build = buildsData[currentIdx];
+    const build = builds[currentIdx];
     navigate(
       getBuildPath(
-        projectNormalisedName,
+        activeProject?.normalisedName,
         build?.normalisedName,
         build?.buildNumber
       )
     );
   };
 
-  const handleClickFetchNewBuilds = () => {
-    resetReduxStore(['buildsData']);
-    loadFreshBuildsData();
+  const handleViewAll = () => {
+    dispatch(clearFilters());
   };
-
-  const isLoadingInitialData = useMemo(
-    () => buildsData.length === 0 && buildsApiStatus === API_STATUSES.PENDING,
-    [buildsApiStatus, buildsData.length]
-  );
 
   return (
     <div className="flex h-full flex-col">
@@ -179,9 +167,9 @@ const AllBuildsPage = () => {
             icon={<MdOutlineRefresh className="text-sm" />}
             iconPlacement="end"
             size="extra-small"
-            isIconOnlyButton={isLoadingInitialData}
-            loading={isLoadingInitialData}
-            onClick={handleClickFetchNewBuilds}
+            isIconOnlyButton={isLoadingBuilds}
+            loading={isLoadingBuilds}
+            onClick={fetchBuilds}
           >
             {updates} new build{updates > 1 ? 's' : ''}
           </O11yButton>
@@ -193,50 +181,54 @@ const AllBuildsPage = () => {
           <SearchBuilds />
           <Filters />
         </div>
+
         <div className="mb-4">
-          <FilterPills viewAllBuilds={viewAllBuilds} />
+          <FilterPills />
         </div>
-        {buildsApiStatus === API_STATUSES.FAILED && (
+        {showErrorToast && (
           <EmptyPage
             heading="Unable to fetch data"
             text="Something went wrong while fetching builds data"
           />
         )}
-        {isLoadingInitialData ? (
+        {isBuildLoading ? (
           <O11yLoader loaderClass="self-center p-1 my-5" />
-        ) : null}
-        {buildsData.length === 0 &&
-        buildsApiStatus === API_STATUSES.FULFILLED ? (
-          <div className="m-auto">
-            <MdSearchOff className="text-base-500 mx-auto h-11 w-11" />
-            <h2 className="text-center font-bold">No matching results found</h2>
-            <p className="text-base-500 text-center">
-              We couldn&apos;t find the results you were looking for.
-            </p>
-            <O11yButton
-              wrapperClassName="mx-auto mt-6 block"
-              onClick={viewAllBuilds}
-            >
-              View All Builds
-            </O11yButton>
-          </div>
-        ) : null}
-        {!!buildsData.length && (
-          <VirtualisedTable
-            data={buildsData}
-            endReached={loadBuildsData}
-            showFixedFooter={buildsApiStatus === API_STATUSES.PENDING}
-            itemContent={(index, singleBuildData) => (
-              <BuildCardDetails
-                key={singleBuildData.uuid}
-                data={singleBuildData}
+        ) : (
+          <>
+            {!!builds.length && (
+              <VirtualisedTable
+                data={builds}
+                endReached={loadMoreRows}
+                showFixedFooter={isLoadingMore}
+                itemContent={(index, singleBuildData) => (
+                  <BuildCardDetails
+                    key={singleBuildData.uuid}
+                    data={singleBuildData}
+                  />
+                )}
+                fixedHeaderContent={BuildTableHeader}
+                handleRowClick={handleClickBuildItem}
+                tableWrapperClassName="border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0 table-fixed"
+                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
               />
             )}
-            fixedHeaderContent={BuildTableHeader}
-            handleRowClick={handleClickBuildItem}
-            tableWrapperClassName="border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0 table-fixed"
-            tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
-          />
+          </>
+        )}
+        {isBuildsEmpty && !isBuildLoading && (
+          <div className="m-auto">
+            <O11yEmptyState
+              title="No matching results found"
+              description="We couldn't find the results you were looking for."
+              mainIcon={
+                <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+              }
+              buttonProps={{
+                children: 'View all builds',
+                onClick: handleViewAll,
+                size: 'default'
+              }}
+            />
+          </div>
         )}
       </div>
     </div>

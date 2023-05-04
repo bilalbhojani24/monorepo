@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -60,7 +62,7 @@ const defaultConfig = {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
       defaultValue: (
-        <div className="min-w-fit">
+        <div className="flex items-center">
           <Button aria-label="Increment value" wrapperClassName="mr-3">
             Really long
           </Button>
@@ -81,6 +83,17 @@ const defaultConfig = {
 };
 const Template = (args) => <SectionHeadings {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Job Postings')).toBeVisible();
+  await userEvent.click(canvas.getByText('Really long'));
+  await userEvent.click(canvas.getByText('Button name'));
+  tabs.forEach(async (tab) => {
+    await expect(canvas.getByText(tab.name)).toBeVisible();
+    await userEvent.click(canvas.getByText(tab.name));
+  });
+};
+
 Primary.parameters = {
   controls: {}
 };

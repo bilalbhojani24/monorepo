@@ -34,7 +34,10 @@ export const ELEMENTS_WITH_LABEL = [
   {
     name: 'account',
     icon: (
-      <MdAccountCircle className="text-base-400 hover:text-base-100 h-6 w-6" />
+      <MdAccountCircle
+        className="text-base-400 hover:text-base-100 h-6 w-6"
+        aria-label="Account"
+      />
     )
   },
   {

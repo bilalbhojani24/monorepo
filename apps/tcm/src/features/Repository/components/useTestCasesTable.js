@@ -32,7 +32,7 @@ import useUpdateTCCountInFolders from './AddEditTestCase/useUpdateTCCountInFolde
 
 const useTestCasesTable = (prop) => {
   const navigate = useNavigate();
-  const { projectId, folderId } = useParams();
+  const { projectId, folderId, testCaseId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
@@ -283,6 +283,7 @@ const useTestCasesTable = (prop) => {
   }, []);
 
   return {
+    testCaseId,
     isIndeterminate,
     isAllChecked,
     isSearchFilterView,

@@ -51,6 +51,7 @@ const initialState = {
   },
   isJiraConfiguredForZephyr: false,
   importId: null,
+  importIdBeforeImport: null,
   importStatus: COMPLETED,
   isDismissed: true,
   showNewProjectBanner: false,
@@ -249,6 +250,9 @@ const importSlice = createSlice({
     },
     setImportedProjectCount: (state, { payload }) => {
       state.successfulImportedProjects = payload;
+    },
+    setImportIdBeforeImport: (state, { payload }) => {
+      state.importIdBeforeImport = payload;
     }
   },
   extraReducers: (builder) => {
@@ -258,7 +262,6 @@ const importSlice = createSlice({
         state.isJiraConfiguredForZephyr = true;
         state.zephyrCred.email = action.payload.data.email;
         state.zephyrCred.host = action.payload.data.host;
-        state.zephyrCred.jira_key = action.payload.data.key;
       }
       if (state.latestImportTool === 'zephyr' && action.payload.success) {
         state.isJiraConfiguredForZephyr = true;
@@ -316,6 +319,7 @@ export const {
   setConfigureToolProceeded,
   setCurrentTestManagementTool,
   setCurrentScreen,
+  setImportIdBeforeImport,
   setErrorForConfigureData,
   setTestRailsCred,
   setTestRailsCredTouched,

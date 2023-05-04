@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -44,7 +46,20 @@ const defaultConfig = {
 };
 const Template = (args) => <Draggable {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Drag here')).toBeVisible();
+  await userEvent.click(canvas.getByText('Drag here'));
+  // no userevent for drag at the moment
+};
+
 const DraggableAndResizable = Template.bind({});
+DraggableAndResizable.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Drag here')).toBeVisible();
+  await userEvent.click(canvas.getByText('Drag here'));
+  // no userevent for drag at the moment
+};
 Primary.parameters = {
   controls: {}
 };

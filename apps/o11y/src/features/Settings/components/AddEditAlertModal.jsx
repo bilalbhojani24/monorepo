@@ -408,17 +408,19 @@ function AddEditAlertModal() {
                     )
                   }
                 />
-                <O11yInputField
-                  label={`${
-                    ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
-                      .placeholder_text
-                  }`}
-                  id="alert-critical-value"
-                  isMandatory
-                  placeholder="Enter numeric value"
-                  value={criticalValue}
-                  onChange={handleChangeCriticalValue}
-                />
+                <div className="w-48">
+                  <O11yInputField
+                    label={`${
+                      ALERT_TYPES_INFO[selectedTypeOfAlert?.value]
+                        .placeholder_text
+                    }`}
+                    id="alert-critical-value"
+                    isMandatory
+                    placeholder="Enter numeric value"
+                    value={criticalValue}
+                    onChange={handleChangeCriticalValue}
+                  />
+                </div>
               </div>
               <div className="mt-4 flex gap-2">
                 <AlertStaticBlock
