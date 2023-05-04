@@ -688,6 +688,7 @@ export default function useAddEditTestCase(prop) {
   }, [projectId, usersArray]);
 
   return {
+    bulkSelection,
     isTagsLoading,
     scheduledFolder,
     isAddTestCasePageVisible,
