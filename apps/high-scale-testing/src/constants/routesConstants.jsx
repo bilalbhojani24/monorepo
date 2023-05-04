@@ -1,10 +1,15 @@
 import React from 'react';
 
 import Counter from '../features/Counter';
-import Home from '../features/Home';
+import Dashboard from '../features/GridConsole/components/Dashboard';
+import { Layout } from '../features/Layout';
+import { Onboarding } from '../features/Onboarding';
+
+import ROUTES from './routes';
 
 const Dummy = () => <h1>Hello world</h1>;
 export const APP_ROUTES = [
+  // Todo: Remove the Counter Router...
   {
     path: '/counter',
     isProtected: true,
@@ -28,6 +33,18 @@ export const APP_ROUTES = [
   {
     path: '/',
     isProtected: true,
-    component: <Home />
+    component: <Layout />,
+    children: [
+      {
+        path: ROUTES.grid_console,
+        isProtected: true,
+        component: <Dashboard />
+      },
+      {
+        path: ROUTES.onboarding,
+        isProtected: true,
+        component: <Onboarding />
+      }
+    ]
   }
 ];
