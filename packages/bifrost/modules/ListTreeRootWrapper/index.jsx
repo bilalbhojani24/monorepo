@@ -21,9 +21,23 @@ const ListTreeRootWrapper = ({
         : [],
     [filteredUUIDs?.filteredUUIDsWithHierarchy]
   );
-  // eslint-disable-next-line no-unused-vars
+  const searchedUUIDsArray = useMemo(
+    () =>
+      filteredUUIDs?.searchedUUIDs
+        ? Object.keys(filteredUUIDs?.searchedUUIDs)
+        : [],
+    [filteredUUIDs?.searchedUUIDs]
+  );
   const getFilteredContents = useCallback(
-    (item) => {
+    (item, selectedNodeHierarchy) => {
+      const selectedNodeHierarchyIds = selectedNodeHierarchy?.map(
+        (el) => el.uuid
+      );
+      if (
+        selectedNodeHierarchyIds.some((el) => searchedUUIDsArray.includes(el))
+      ) {
+        return item?.contents;
+      }
       if (
         filteredUUIDsHierarchyArray?.length &&
         filteredUUIDsHierarchyArray?.length !== 0
@@ -34,7 +48,7 @@ const ListTreeRootWrapper = ({
       }
       return item?.contents;
     },
-    [filteredUUIDsHierarchyArray]
+    [filteredUUIDsHierarchyArray, searchedUUIDsArray]
   );
   const wrapperRef = useRef(null);
   const focusElementByUUID = useCallback(
@@ -64,13 +78,23 @@ const ListTreeRootWrapper = ({
         activeElement.closest('[data-focus-id]')?.dataset?.focusId;
     }
     // if still no focus consider as root element is focused
-    if (!parentFocusId && data?.length > 0) parentFocusId = `${focusIDPrefix}0`;
+    if (!parentFocusId && data?.length > 0) {
+      const uuidOfFirstVisibleItem = getFilteredContents(
+        { contents: data },
+        []
+      ).at(0)?.uuid;
+      parentFocusId = `${focusIDPrefix}${uuidOfFirstVisibleItem}`;
+    }
     const parsedFocusId = removePrefixFromID(focusId);
     const parsedParentFocusId = removePrefixFromID(parentFocusId);
     return { parsedFocusId, parsedParentFocusId };
-  }, [data?.length, focusIDPrefix, removePrefixFromID]);
+  }, [data, focusIDPrefix, getFilteredContents, removePrefixFromID]);
   const handleArrowRightPress = useCallback(
     (selectedNodeHierarchy) => {
+      const filteredContents = getFilteredContents(
+        selectedNodeHierarchy[0],
+        selectedNodeHierarchy
+      );
       if (!openNodeMap[selectedNodeHierarchy[0]?.uuid]) {
         // open node if the current focused node is in closed state
         setOpenNodeMap((prev) => {
@@ -79,14 +103,15 @@ const ListTreeRootWrapper = ({
           return newList;
         });
       } else if (
-        selectedNodeHierarchy[0]?.contents?.length &&
+        filteredContents?.length &&
         openNodeMap[selectedNodeHierarchy[0]?.uuid] === true
       ) {
-        // focus first child if the state is already open
-        focusElementByUUID(selectedNodeHierarchy[0]?.contents[0]?.uuid);
+        // focus first visible child if the state is already open
+        const firstVisibleChildUUID = filteredContents?.at(0)?.uuid;
+        focusElementByUUID(firstVisibleChildUUID);
       }
     },
-    [focusElementByUUID, openNodeMap, setOpenNodeMap]
+    [focusElementByUUID, getFilteredContents, openNodeMap, setOpenNodeMap]
   );
   const handleArrowLeftPress = useCallback(
     (selectedNodeHierarchy) => {
@@ -98,14 +123,16 @@ const ListTreeRootWrapper = ({
           return newList;
         });
       } else if (
-        selectedNodeHierarchy[1]?.contents?.at(-1)?.uuid ===
-        selectedNodeHierarchy[0]?.uuid
+        getFilteredContents(
+          selectedNodeHierarchy[1],
+          selectedNodeHierarchy
+        )?.at(-1)?.uuid === selectedNodeHierarchy[0]?.uuid
       ) {
         // focus parent if the current focused node is the last node
         focusElementByUUID(selectedNodeHierarchy[1].uuid);
       }
     },
-    [focusElementByUUID, openNodeMap, setOpenNodeMap]
+    [focusElementByUUID, getFilteredContents, openNodeMap, setOpenNodeMap]
   );
   const handleSelectionPress = useCallback(
     (focusId) => {
@@ -125,77 +152,97 @@ const ListTreeRootWrapper = ({
     },
     [focusElementByUUID]
   );
-  const handleArrowUpExceptFirstElement = useCallback(
-    (selectedNodeHierarchy) => {
-      let targetUUID = null;
-      // if it has no hierarchy it has sibling get siblings using some other method
-      if (selectedNodeHierarchy[1]) {
-        selectedNodeHierarchy[1]?.contents?.forEach((el, index) => {
-          if (el.uuid === selectedNodeHierarchy[0]?.uuid) {
-            targetUUID = selectedNodeHierarchy[1]?.contents[index - 1]?.uuid;
-          }
-        });
-      } else {
-        // item with no hierarchy means that it is one of the root nodes
-        data?.forEach((el, index) => {
-          if (el.uuid === selectedNodeHierarchy[0]?.uuid && data[index - 1]) {
-            targetUUID = data[index - 1]?.uuid;
-          }
-        });
-      }
-      if (targetUUID) focusElementByUUID(targetUUID);
-    },
-    [data, focusElementByUUID]
-  );
   const handleArrowUpPress = useCallback(
     (selectedNodeHierarchy) => {
-      if (
-        selectedNodeHierarchy[1]?.contents?.at(0)?.uuid !==
-        selectedNodeHierarchy[0]?.uuid
+      const selectionParentsFirstChildID = getFilteredContents(
+        selectedNodeHierarchy[1],
+        selectedNodeHierarchy
+      )?.at(0)?.uuid;
+      if (selectedNodeHierarchy?.length === 1) {
+        // item with no hierarchy means that it is one of the root nodes so use data which is array of root nodes.
+        const filteredContents = getFilteredContents(
+          { contents: data },
+          selectedNodeHierarchy
+        );
+        filteredContents?.forEach((el, index) => {
+          if (
+            el.uuid === selectedNodeHierarchy[0]?.uuid &&
+            filteredContents[index - 1]
+          ) {
+            focusElementByUUID(filteredContents[index - 1]?.uuid);
+          }
+        });
+      } else if (
+        selectionParentsFirstChildID !== undefined &&
+        selectionParentsFirstChildID !== selectedNodeHierarchy[0]?.uuid
       ) {
-        handleArrowUpExceptFirstElement(selectedNodeHierarchy);
-      } else if (selectedNodeHierarchy[1]?.uuid) {
+        // if the current selected node is not the first element among the sibling then use parent to get previous visbile sibling
+        const filteredContents = getFilteredContents(
+          selectedNodeHierarchy[1],
+          selectedNodeHierarchy
+        );
+        filteredContents?.forEach((el, index) => {
+          if (el.uuid === selectedNodeHierarchy[0]?.uuid) {
+            focusElementByUUID(filteredContents[index - 1]?.uuid);
+          }
+        });
+      } else if (
+        selectedNodeHierarchy[1]?.uuid &&
+        selectedNodeHierarchy?.length !== 0
+      ) {
+        // if the current selected node is the first element among siblings and has hierarchy then focus the hierarchy
         focusElementByUUID(selectedNodeHierarchy[1]?.uuid);
       }
     },
-    [focusElementByUUID, handleArrowUpExceptFirstElement]
-  );
-  const handleArrowDownExceptThanLastElement = useCallback(
-    (selectedNodeHierarchy) => {
-      let targetUUID = null;
-      if (selectedNodeHierarchy[1]) {
-        selectedNodeHierarchy[1]?.contents?.forEach((el, index) => {
-          if (el.uuid === selectedNodeHierarchy[0]?.uuid) {
-            targetUUID = selectedNodeHierarchy[1]?.contents[index + 1]?.uuid;
-          }
-        });
-      } else {
-        // item with no hierarchy means that it is one of the root nodes
-        data?.forEach((el, index) => {
-          if (el.uuid === selectedNodeHierarchy[0]?.uuid && data[index + 1]) {
-            targetUUID = data[index + 1]?.uuid;
-          }
-        });
-      }
-      if (targetUUID) focusElementByUUID(targetUUID);
-    },
-    [data, focusElementByUUID]
+    [data, focusElementByUUID, getFilteredContents]
   );
   const handleArrowDownPress = useCallback(
     (selectedNodeHierarchy) => {
+      const targetContentHierarchyFirst = getFilteredContents(
+        selectedNodeHierarchy[0],
+        selectedNodeHierarchy
+      );
+      const targetContentHierarchySecond = getFilteredContents(
+        selectedNodeHierarchy[1],
+        selectedNodeHierarchy
+      );
       if (
-        selectedNodeHierarchy[0]?.contents?.length &&
+        targetContentHierarchyFirst?.length &&
         openNodeMap[selectedNodeHierarchy[0]?.uuid] === true
       ) {
-        focusElementByUUID(selectedNodeHierarchy[0]?.contents[0]?.uuid);
+        // if selected node is open then focus the first visible child
+        focusElementByUUID(targetContentHierarchyFirst[0]?.uuid);
+      } else if (selectedNodeHierarchy?.length === 1) {
+        // item with no hierarchy means that it is one of the root nodes
+        const filteredContents = getFilteredContents(
+          { contents: data },
+          selectedNodeHierarchy
+        );
+        filteredContents?.forEach((el, index) => {
+          if (
+            el.uuid === selectedNodeHierarchy[0]?.uuid &&
+            filteredContents[index + 1]
+          ) {
+            focusElementByUUID(filteredContents[index + 1]?.uuid);
+          }
+        });
       } else if (
-        selectedNodeHierarchy[1]?.contents?.at(-1)?.uuid !==
+        targetContentHierarchySecond?.at(-1)?.uuid !==
         selectedNodeHierarchy[0]?.uuid
       ) {
-        handleArrowDownExceptThanLastElement(selectedNodeHierarchy);
+        // item with hierarchy use hierarchy to get siblings
+        const filteredContents = getFilteredContents(
+          selectedNodeHierarchy[1],
+          selectedNodeHierarchy
+        );
+        filteredContents?.forEach((el, index) => {
+          if (el.uuid === selectedNodeHierarchy[0]?.uuid) {
+            focusElementByUUID(filteredContents[index + 1]?.uuid);
+          }
+        });
       }
     },
-    [focusElementByUUID, handleArrowDownExceptThanLastElement, openNodeMap]
+    [data, focusElementByUUID, getFilteredContents, openNodeMap]
   );
   const handleAsteriskPress = useCallback(
     (listOfItems) => {
