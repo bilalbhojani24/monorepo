@@ -103,7 +103,7 @@ const DateRangepicker = (props) => {
               />
               <span
                 aria-hidden="true"
-                className={twClassNames('px-2', {
+                className={twClassNames('px-2 text-base-500', {
                   'text-base-500': disabled,
                   'text-danger-900': errorMessage
                 })}
