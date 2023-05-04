@@ -14,10 +14,9 @@ import { FlakyTags } from '../components/FlakyTags';
 import { NewFailureTags } from '../components/NewFailureTags';
 import { PerformanceAnomaliesTags } from '../components/PerformanceAnomaliesTags';
 import SettingsCard from '../components/SettingsCard';
+import SmartTagPaywallAlert from '../components/SmartTagPaywallAlert';
 import { getSmartTagsSettings } from '../slices/selectors';
 import { getSmartTags } from '../slices/smartTagsSettings';
-
-import SmartTagPaywallAlert from './SmartTagPaywallAlert';
 
 export default function SmartTags() {
   const smartTags = useSelector(getSmartTagsSettings);

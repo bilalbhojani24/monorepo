@@ -3,8 +3,6 @@ import { getSettingsByKey, updateSettingsByKey } from 'api/settings';
 
 import { getSmartTagsSettings } from './selectors';
 
-// import { getGeneralSettingsState } from './selectors';
-
 const SLICE_NAME = 'smartTagsSettings';
 
 // Smart Tags Settings
@@ -73,7 +71,8 @@ const { reducer, actions } = createSlice({
         state.smartTags = {
           isLoading: false,
           project: '',
-          data: {}
+          data: {},
+          localState: {}
         };
       })
       .addCase(submitSmartTagsChanges.pending, (state) => {

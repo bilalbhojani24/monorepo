@@ -62,7 +62,7 @@ function SmartTagPaywallAlert() {
     return 'Upgrade';
   }, [hasSubmittedUpgradeReq, isSubmitting, shouldAllowFreeTrial]);
 
-  if (planDetails && planDetails?.isActive) {
+  if (planDetails?.isActive) {
     return null;
   }
 

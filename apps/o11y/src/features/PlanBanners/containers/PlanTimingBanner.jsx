@@ -5,6 +5,7 @@ import { O11yBanner, O11yButton } from 'common/bifrostProxy';
 import { getTopBannerData } from 'common/O11yTopBanner/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_LAST_SEEN } from 'constants/paywall';
+import { o11yPlanUpgrade } from 'globalSlice/index';
 import { getIsOnFreeTrial, getPlanType } from 'globalSlice/selectors';
 import { o11yNotify } from 'utils/notification';
 
@@ -41,6 +42,7 @@ function PlanTimingBanner() {
   };
 
   const handleClickUpgrade = () => {
+    dispatch(o11yPlanUpgrade());
     o11yNotify({
       title: 'Request for upgrade received',
       description: "We'll reach out to you soon with upgrade related details",

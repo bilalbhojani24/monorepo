@@ -7,6 +7,8 @@ import {
   O11ySelectMenuTrigger,
   O11ySwitcher
 } from 'common/bifrostProxy';
+import { PAYWALL_FEATURES } from 'constants/paywall';
+import { PaywallTooltip } from 'features/Paywall';
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
@@ -131,12 +133,20 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
     <section className="p-6 pb-9">
       <div className="flex justify-between">
         <span className="text-lg font-medium">Flaky</span>
-        <O11ySwitcher
-          checked={automaticFlaky}
-          onChange={(item) => updateAutomaticFlakyTags('automaticFlaky', item)}
-          disabled={!isActive}
-          loading={isLoading}
-        />
+        <PaywallTooltip
+          title="Configuring Smart tags is a pro feature."
+          content="Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec sodales augue eu viverra tempus."
+          featureKey={PAYWALL_FEATURES.SMART_TAGS}
+        >
+          <O11ySwitcher
+            checked={automaticFlaky}
+            onChange={(item) =>
+              updateAutomaticFlakyTags('automaticFlaky', item)
+            }
+            disabled={!isActive}
+            loading={isLoading}
+          />
+        </PaywallTooltip>
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
       <div className="flex flex-col">
@@ -144,7 +154,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
           <div className="flex justify-between">
             <p className="text-base-900">Flake in history of test execution</p>
             <O11ySwitcher
-              checked={flakeInHistory.enabled}
+              checked={flakeInHistory?.enabled}
               onChange={setTestStatusFlippingSwitch}
               disabled={isActive ? !automaticFlaky : true}
               loading={isLoading}
@@ -155,8 +165,8 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
             <span className="mx-1 w-16">
               <O11ySelectMenu
                 value={{
-                  label: flakeInHistory.testStatusFlipping,
-                  value: flakeInHistory.testStatusFlipping
+                  label: flakeInHistory?.testStatusFlipping,
+                  value: flakeInHistory?.testStatusFlipping
                 }}
                 onChange={setTestStatusFlipping}
                 defaultValue={{
@@ -185,8 +195,8 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
             <div className="mx-1 w-16">
               <O11ySelectMenu
                 value={{
-                  label: flakeInHistory.testStatusFlippingTotal,
-                  value: flakeInHistory.testStatusFlippingTotal
+                  label: flakeInHistory?.testStatusFlippingTotal,
+                  value: flakeInHistory?.testStatusFlippingTotal
                 }}
                 onChange={setTestStatusFlippingTotal}
                 defaultValue={{
@@ -219,7 +229,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
           <div className="flex justify-between">
             <p className="text-base-900">Flake in test re-runs</p>
             <O11ySwitcher
-              checked={flakeInRerun.enabled}
+              checked={flakeInRerun?.enabled}
               onChange={setFlakeInRerunSwitch}
               disabled={isActive ? !automaticFlaky : true}
               loading={isLoading}
@@ -229,7 +239,10 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
             Test passing on a retry attempt in the same run across last
             <div className="mx-1 w-16">
               <O11ySelectMenu
-                value={{ label: flakeInRerun.rerun, value: flakeInRerun.rerun }}
+                value={{
+                  label: flakeInRerun?.rerun,
+                  value: flakeInRerun?.rerun
+                }}
                 onChange={setFlakeInRerun}
                 defaultValue={{ label: rerunDefault, value: rerunDefault }}
                 disabled={isActive ? !automaticFlaky : true}
