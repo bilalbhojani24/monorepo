@@ -37,9 +37,10 @@ export default function Report() {
     location: { search, origin, pathname }
   } = window;
   const params = new URLSearchParams(search);
-  const currentPageUrl = `${origin}${pathname}?ids=${params.get(
-    'ids'
-  )}&wcagVersion=${params.get('wcagVersion')}`;
+  const ids = params.get('ar_ids') ?? params.get('wsr_ids');
+  const currentPageUrl = `${origin}${pathname}?ids=${ids}&wcagVersion=${params.get(
+    'wcagVersion'
+  )}`;
 
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 

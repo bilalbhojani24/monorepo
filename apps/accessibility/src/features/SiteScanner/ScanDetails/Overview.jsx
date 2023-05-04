@@ -115,7 +115,7 @@ const Overview = ({ scanOverviewData }) => {
         </div>
       </div>
       <div className="mx-2 my-4 w-full rounded-lg bg-white p-6 pt-4 shadow-md">
-        <span className="ml-6 mt-8 font-semibold">Added pages</span>
+        <span className="mt-8 text-lg font-semibold">Added pages</span>
         <div className="mt-4 shadow">
           <Table>
             <TableHead>
@@ -124,7 +124,7 @@ const Overview = ({ scanOverviewData }) => {
                   <TableCell
                     key={col.key}
                     variant="header"
-                    wrapperClassName="first:pr-3 last:pl-3 px-2 h-9"
+                    wrapperClassName="first:pr-3 last:pl-3 py-3 px-0 h-9"
                   >
                     {col.name}
                   </TableCell>
@@ -141,19 +141,19 @@ const Overview = ({ scanOverviewData }) => {
                 >
                   <TableCell
                     key={row}
-                    wrapperClassName="first:pr-3 last:pl-3 p-5 h-9"
+                    wrapperClassName="first:pr-3 last:pl-3 p-0 h-9"
                   >
                     {idx + 1}
                   </TableCell>
                   <TableCell
                     key={row}
-                    wrapperClassName="first:pr-3 last:pl-3 p-5 h-9"
+                    wrapperClassName="first:pr-3 last:pl-3 p-0 h-9"
                   >
                     {row}
                   </TableCell>
                   <TableCell
                     key={row}
-                    wrapperClassName="first:pr-3 last:pl-3 p-5 h-9"
+                    wrapperClassName="first:pr-3 last:pl-3 p-0 h-9"
                   >
                     <div className="flex justify-end">
                       <CopyButton text={row} hasBorder={false} />
