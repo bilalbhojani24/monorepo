@@ -24,6 +24,7 @@ import '../styles/Folders.scss';
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Folders() {
   const {
+    noResultsText,
     isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
@@ -121,11 +122,7 @@ export default function Folders() {
                             ? `We found ${testCasesCount} results across all folders`
                             : 'No Results Found'
                         }
-                        description={
-                          testCasesCount !== 0
-                            ? ''
-                            : 'Reset the filters or try again.'
-                        }
+                        description={testCasesCount !== 0 ? '' : noResultsText}
                         mainIcon={
                           testCasesCount !== 0 ? (
                             <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
