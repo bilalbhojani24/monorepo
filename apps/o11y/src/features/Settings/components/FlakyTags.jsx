@@ -152,7 +152,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
           </div>
           <div className="text-base-500 flex flex-wrap items-center">
             Test status flipping (pass to fail or vice-versa) more than{' '}
-            <span className="mx-1 w-16">
+            <span className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{
                   label: flakeInHistory.testStatusFlipping,
@@ -163,7 +163,9 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
                   label: testStatusFlippingDefault,
                   value: testStatusFlippingDefault
                 }}
-                disabled={isActive ? !automaticFlaky : true}
+                disabled={
+                  !isActive || !flakeInHistory.enabled || !automaticFlaky
+                }
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>
@@ -182,7 +184,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
               </O11ySelectMenu>{' '}
             </span>
             times out of{' '}
-            <div className="mx-1 w-16">
+            <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{
                   label: flakeInHistory.testStatusFlippingTotal,
@@ -193,7 +195,9 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
                   label: testStatusFlippingTotalDefault,
                   value: testStatusFlippingTotalDefault
                 }}
-                disabled={isActive ? !automaticFlaky : true}
+                disabled={
+                  !isActive || !flakeInHistory.enabled || !automaticFlaky
+                }
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>
@@ -227,12 +231,12 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
           </div>
           <div className="text-base-500 flex items-center">
             Test passing on a retry attempt in the same run across last
-            <div className="mx-1 w-16">
+            <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{ label: flakeInRerun.rerun, value: flakeInRerun.rerun }}
                 onChange={setFlakeInRerun}
                 defaultValue={{ label: rerunDefault, value: rerunDefault }}
-                disabled={isActive ? !automaticFlaky : true}
+                disabled={!isActive || !flakeInRerun.enabled || !automaticFlaky}
               >
                 <O11ySelectMenuTrigger placeholder="Select" />
                 <O11ySelectMenuOptionGroup>

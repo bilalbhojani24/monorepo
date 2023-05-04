@@ -80,7 +80,7 @@ export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
         <>
           <div className="text-base-500 flex items-center">
             The test has been failing with
-            <div className="mx-1 w-20">
+            <div className="text-base-900 mx-1 w-20">
               <O11ySelectMenu
                 value={{ label: errorType, value: errorType }}
                 defaultValue={{
@@ -109,7 +109,7 @@ export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
               </O11ySelectMenu>{' '}
             </div>
             for last
-            <div className="mx-1 w-16">
+            <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>

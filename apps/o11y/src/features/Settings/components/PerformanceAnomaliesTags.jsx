@@ -49,7 +49,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
     dispatch(
       submitSmartTagsChanges({
         projectNormalisedName: activeProject.normalisedName,
-        newFailure: {
+        performanceAnomalies: {
           ...data,
           [key]: value
         }
@@ -60,7 +60,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
   const setPerformanceAnomaliesDropdowns = (key, value) => {
     dispatch(
       saveSmartTagsChanges({
-        newFailure: {
+        performanceAnomalies: {
           ...data,
           [key]: value
         }
@@ -83,7 +83,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
         <>
           <div className="text-base-500 flex items-center">
             Detect as anomaly when duration
-            <div className="mx-1 w-20">
+            <div className="text-base-900 mx-1 w-20">
               <O11ySelectMenu
                 value={{ label: duration, value: duration }}
                 onChange={(item) =>
@@ -93,7 +93,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
                   label: durationDefault,
                   value: durationDefault
                 }}
-                disabled={!isActive}
+                disabled={!isActive || !performanceAnomaliesEnabled}
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" />
                 <O11ySelectMenuOptionGroup>
@@ -112,13 +112,13 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
               </O11ySelectMenu>{' '}
             </div>
             percentile among last
-            <div className="mx-1 w-16">
+            <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{ label: lastExecution, value: lastExecution }}
                 onChange={(item) =>
                   setPerformanceAnomaliesDropdowns('lastExecution', item.value)
                 }
-                disabled={!isActive}
+                disabled={!isActive || !performanceAnomaliesEnabled}
                 defaultValue={{
                   label: lastExecutionDefault,
                   value: lastExecutionDefault
