@@ -1,22 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { O11ySlideoverHeader } from 'common/bifrostProxy';
-import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
+import PropTypes from 'prop-types';
 
-import {
-  clearUEDetailsInfo,
-  getSnPErrorDetailsInfoData,
-  resetUEDetailsActiveTab,
-  setIsUEDetailsVisible,
-  setShowUEDetailsFor
-} from '../slices/dataSlice';
+import { getSnPErrorDetailsInfoData } from '../slices/dataSlice';
 import { getShowUEDetailsFor, getUEDetailsInfo } from '../slices/selectors';
 
-const UEDetailsHeader = () => {
+const UEDetailsHeader = ({ handleCloseDetails }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { testId, errorId } = useSelector(getShowUEDetailsFor);
   const activeProject = useSelector(getActiveProject);
@@ -39,16 +31,6 @@ const UEDetailsHeader = () => {
     };
   }, [dispatch, testId, errorId, activeProject?.normalisedName]);
 
-  const handleCloseDetails = () => {
-    dispatch(setIsUEDetailsVisible(false));
-    dispatch(setShowUEDetailsFor(''));
-    dispatch(clearUEDetailsInfo());
-    dispatch(resetUEDetailsActiveTab());
-    const searchParams = new URLSearchParams(window?.location.search);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpErrorId);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpErrorTestId);
-    navigate({ search: searchParams.toString() });
-  };
   return (
     <O11ySlideoverHeader
       handleDismissClick={handleCloseDetails}
@@ -57,6 +39,10 @@ const UEDetailsHeader = () => {
       wrapperClassName="pb-0"
     />
   );
+};
+
+UEDetailsHeader.propTypes = {
+  handleCloseDetails: PropTypes.func.isRequired
 };
 
 export default UEDetailsHeader;

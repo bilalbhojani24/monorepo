@@ -228,9 +228,6 @@ export default function useAddEditTestCase(prop) {
       testCase.issues = formData?.issues?.map((item) => item.value);
     if (formData.attachments)
       testCase.attachments = formData?.attachments?.map((item) => item.id);
-    if (!formData.owner && !isBulkUpdate) {
-      testCase.owner = userData?.id;
-    }
     return { test_case: testCase, create_at_root: isNoFolderTCCreation };
   };
 
@@ -509,7 +506,7 @@ export default function useAddEditTestCase(prop) {
             updateCtaLoading({ key: 'uploadingAttachments', value: false })
           );
         })
-        .catch((err) => {
+        .catch(() => {
           handleTestCaseFieldChange(
             'attachments',
             files.filter((item) => item.id)
@@ -517,14 +514,14 @@ export default function useAddEditTestCase(prop) {
           dispatch(
             updateCtaLoading({ key: 'uploadingAttachments', value: false })
           );
-          dispatch(
-            addNotificaton({
-              id: `error-upload${Math.random()}`,
-              title: err.response.statusText || 'File upload',
-              variant: 'error',
-              description: null
-            })
-          );
+          // dispatch( //moved to generic error handler
+          //   addNotificaton({
+          //     id: `error-upload${Math.random()}`,
+          //     title: err.response.statusText || 'File upload',
+          //     variant: 'error',
+          //     description: null
+          //   })
+          // );
         });
     }
   };
@@ -691,6 +688,7 @@ export default function useAddEditTestCase(prop) {
   }, [projectId, usersArray]);
 
   return {
+    bulkSelection,
     isTagsLoading,
     scheduledFolder,
     isAddTestCasePageVisible,

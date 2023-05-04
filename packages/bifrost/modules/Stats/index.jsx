@@ -162,32 +162,46 @@ const Stats = (props) => {
           </div>
         )}
         {variant === STATS_VARIANTS.GRAPH_VARIANT && (
-          <div className="flex items-baseline pb-6 sm:pb-7">
-            <p className="text-base-900 text-2xl font-semibold">
-              {option.stat}
-            </p>
-            <p
-              className={twClassNames(
-                option.changeType === STATS_INC
-                  ? 'text-success-600'
-                  : 'text-danger-600',
-                'ml-2 flex items-baseline text-sm font-semibold'
+          <div className="flex flex-col">
+            <div className="flex items-baseline pb-4 pt-2">
+              <p className="text-base-900 text-2xl font-semibold">
+                {option.stat}
+              </p>
+              {option.subText && (
+                <p className="text-base-500 ml-2 text-sm font-medium">
+                  {option.subText}
+                </p>
               )}
-            >
-              {option.changeType === STATS_INC ? (
-                <ArrowUpIcon
-                  className="text-success-500 h-5 w-5 shrink-0 self-center"
-                  aria-hidden="true"
-                />
-              ) : (
-                <ArrowDownIcon
-                  className="text-danger-500 h-5 w-5 shrink-0 self-center"
-                  aria-hidden="true"
-                />
+              {option.change && (
+                <p
+                  className={twClassNames(
+                    option.changeType === STATS_INC
+                      ? 'text-success-700'
+                      : 'text-danger-600',
+                    'ml-2 flex items-baseline text-sm font-semibold'
+                  )}
+                >
+                  {option.changeType === STATS_INC ? (
+                    <ArrowUpIcon
+                      className="text-success-500 h-5 w-5 shrink-0 self-center"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <ArrowDownIcon
+                      className="text-danger-500 h-5 w-5 shrink-0 self-center"
+                      aria-hidden="true"
+                    />
+                  )}
+                  {option.change}
+                </p>
               )}
-              {option.change}
-            </p>
-            <div className="h-8" />
+            </div>
+            {option?.graph ? (
+              // eslint-disable-next-line tailwindcss/no-arbitrary-value
+              <div className="max-h-[248px] min-h-[100px]">{option.graph}</div>
+            ) : (
+              <div className="h-4" />
+            )}
             <div className="bg-base-50 absolute inset-x-0 bottom-0 p-4 sm:px-6">
               <p>{option.link}</p>
             </div>
@@ -215,13 +229,15 @@ Stats.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
     stat: oneOf([PropTypes.node, PropTypes.string]),
+    graph: PropTypes.node,
     icon: PropTypes.node,
     iconContainerWrapperClass: PropTypes.string,
     change: PropTypes.string,
     previousStat: PropTypes.string,
     link: PropTypes.node,
     changeType: oneOf([STATS_INC, 'decrease']),
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    subText: PropTypes.string
   }).isRequired,
   variant: PropTypes.string,
   textColor: PropTypes.string,

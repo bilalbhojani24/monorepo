@@ -46,3 +46,29 @@ export const FILTER_LABEL_MAPPING = {
   users: 'User',
   tags: 'Tag'
 };
+
+export const BUILD_FILTER_TYPES = {
+  buildName: 'buildNames',
+  users: 'users',
+  dateRange: 'dateRange',
+  tags: 'tags',
+  status: 'statuses',
+  framework: 'frameworks',
+  search: 'search'
+};
+export const BUILD_FILTER_OPERATIONS = {
+  ADD: 'ADD',
+  REMOVE_BY_ID: 'REMOVE_BY_ID',
+  REMOVE_BY_TYPE: 'REMOVE_BY_TYPE',
+  REPLACE_BY_TYPE: 'REPLACE_BY_TYPE'
+};
+
+export const BUILD_FILTERS_PREFIX = {
+  [BUILD_FILTER_TYPES.buildName]: 'Build Name',
+  [BUILD_FILTER_TYPES.users]: 'User',
+  [BUILD_FILTER_TYPES.dateRange]: 'Date Range',
+  [BUILD_FILTER_TYPES.tags]: 'Tag',
+  [BUILD_FILTER_TYPES.status]: 'Status',
+  [BUILD_FILTER_TYPES.framework]: 'Framework',
+  [BUILD_FILTER_TYPES.search]: 'Search'
+};

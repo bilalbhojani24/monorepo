@@ -49,6 +49,9 @@ export default function useFolders() {
   const isTestCasesLoading = useSelector(
     (state) => state.repository.isLoading.testCases
   );
+  const noResultsText = useSelector(
+    (state) => state.repository.searchEmptyText
+  );
   const testCasesCount =
     useSelector((state) => state.repository.metaPage?.count) || 0;
   const moveFolderCtaLoading = useSelector(
@@ -185,7 +188,8 @@ export default function useFolders() {
           }
           dispatch(updateFoldersLoading(false));
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err.rejectAll) return;
           dispatch(updateFoldersLoading(false));
         });
     } else setAllFoldersHelper([]);
@@ -354,6 +358,7 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    noResultsText,
     isMoveToRootAvailable,
     isTestCasesLoading,
     searchKey: searchParams.get('q'),

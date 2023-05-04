@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMCheckBox, TMInputField, TMSelectMenu } from 'common/bifrostProxy';
+import { TMInputField, TMSelectMenu } from 'common/bifrostProxy';
 
 import useImportCSV from './useImportCSV';
 
@@ -23,6 +23,7 @@ const CSVForm = () => {
         <div className="mx-6 flex-1">
           <TMInputField
             id="first-row-input"
+            placeholder="Enter first row number to read from"
             value={csvFormData.row}
             type="number"
             label="First Row"
@@ -40,7 +41,7 @@ const CSVForm = () => {
           />
         </div>
       </div>
-      <TMCheckBox
+      {/* <TMCheckBox
         border={false}
         checked={csvFormData?.firstRowIsHeader}
         description="block"
@@ -49,7 +50,7 @@ const CSVForm = () => {
           description: 'Select if first row has column name'
         }}
         onChange={handleCSVFieldChange('firstRowIsHeader')}
-      />
+      /> */}
     </>
   );
 };

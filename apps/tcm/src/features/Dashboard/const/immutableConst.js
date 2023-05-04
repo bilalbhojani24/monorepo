@@ -15,3 +15,5 @@ export const ACTIVE_TEST_RUNS_COLOR = {
   Skipped: '#4B5563',
   Untested: '#E5E7EB'
 };
+
+export const NO_DATA_TEXT = 'No data to display';
