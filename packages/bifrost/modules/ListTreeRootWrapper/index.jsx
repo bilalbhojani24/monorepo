@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import listTreeCheckboxHelper from '../../utils/listTreeCheckbox/index';
@@ -6,7 +6,7 @@ import listTreeCheckboxHelper from '../../utils/listTreeCheckbox/index';
 const { bfsTraversal, getTargetHierarchyByIndex } = listTreeCheckboxHelper;
 
 const ListTreeRootWrapper = ({
-  // filteredUUIDs,
+  filteredUUIDs,
   openNodeMap,
   setOpenNodeMap,
   onSelectCallback,
@@ -14,12 +14,35 @@ const ListTreeRootWrapper = ({
   focusIDPrefix,
   children
 }) => {
+  const filteredUUIDsHierarchyArray = useMemo(
+    () =>
+      filteredUUIDs?.filteredUUIDsWithHierarchy
+        ? Object.keys(filteredUUIDs?.filteredUUIDsWithHierarchy)
+        : [],
+    [filteredUUIDs?.filteredUUIDsWithHierarchy]
+  );
+  // eslint-disable-next-line no-unused-vars
+  const getFilteredContents = useCallback(
+    (item) => {
+      if (
+        filteredUUIDsHierarchyArray?.length &&
+        filteredUUIDsHierarchyArray?.length !== 0
+      ) {
+        return item?.contents?.filter((el) =>
+          filteredUUIDsHierarchyArray.includes(el.uuid)
+        );
+      }
+      return item?.contents;
+    },
+    [filteredUUIDsHierarchyArray]
+  );
   const wrapperRef = useRef(null);
   const focusElementByUUID = useCallback(
     (uuidToFocus) => {
-      document
-        .querySelector(`[data-focus-id="${focusIDPrefix + uuidToFocus}"]`)
-        ?.focus();
+      if (uuidToFocus)
+        document
+          .querySelector(`[data-focus-id="${focusIDPrefix + uuidToFocus}"]`)
+          ?.focus();
     },
     [focusIDPrefix]
   );
@@ -276,7 +299,8 @@ ListTreeRootWrapper.propTypes = {
   ).isRequired,
   setOpenNodeMap: PropTypes.func.isRequired,
   openNodeMap: PropTypes.shape({}).isRequired,
-  // filteredUUIDs: PropTypes.any.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  filteredUUIDs: PropTypes.any.isRequired,
   focusIDPrefix: PropTypes.string,
   onSelectCallback: PropTypes.func.isRequired
 };
