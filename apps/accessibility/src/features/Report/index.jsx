@@ -37,8 +37,21 @@ export default function Report() {
     location: { search, origin, pathname }
   } = window;
   const params = new URLSearchParams(search);
-  const ids = params.get('ar_ids') ?? params.get('wsr_ids');
-  const currentPageUrl = `${origin}${pathname}?ids=${ids}&wcagVersion=${params.get(
+  let idsParam;
+  let ids;
+
+  if (params.get('ar_ids')) {
+    idsParam = 'ar_ids';
+    ids = params.get('ar_ids');
+  } else if (params.get('wsr_ids')) {
+    idsParam = 'wsr_ids';
+    ids = params.get('wsr_ids');
+  } else if (params.get('ids')) {
+    idsParam = 'ids';
+    ids = params.get('ids');
+  }
+
+  const currentPageUrl = `${origin}${pathname}?${idsParam}=${ids}&wcagVersion=${params.get(
     'wcagVersion'
   )}`;
 
