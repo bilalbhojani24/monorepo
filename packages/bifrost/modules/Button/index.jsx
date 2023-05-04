@@ -204,7 +204,7 @@ const Button = (
       onClick={handleClick}
       form={form}
       className={twClassNames(
-        'border border-transparent font-medium',
+        'border border-transparent font-medium outline-none',
         stylePicker(),
         {
           'w-full': fullWidth === true
