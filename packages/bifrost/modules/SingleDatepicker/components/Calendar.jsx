@@ -80,7 +80,12 @@ export function Calendar(props) {
               {...nextButtonProps}
               disableChevron={state.isNextVisibleRangeInvalid()}
             >
-              <ChevronRightIcon className="h-6 w-6" />
+              <ChevronRightIcon
+                className={twClassNames('text-base-700 h-6 w-6', {
+                  'text-base-400': state.isNextVisibleRangeInvalid(),
+                  'hover:text-base-500': !state.isNextVisibleRangeInvalid()
+                })}
+              />
             </CalendarButton>
           </div>
           <CalendarGrid state={state} />
