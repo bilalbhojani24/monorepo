@@ -32,7 +32,9 @@ const IntegrationsWidget = () => {
     dispatch(toggleWidget(false));
   };
 
-  const auth = getEnvConfig().useIntegrationsPreProdAuth
+  const envConfig = getEnvConfig();
+
+  const auth = envConfig.useIntegrationsPreProdAuth
     ? {
         url: STATIC_INTEGRATIONS_PREPROD_URL,
         headers: {
@@ -43,7 +45,11 @@ const IntegrationsWidget = () => {
         }
       }
     : {
-        url: `${versionedBaseRoute()}/integration-service/accessToken`
+        url: `${versionedBaseRoute()}/integration-service/accessToken`,
+        fetchOptions: {
+          baseURL: envConfig.apiUrl,
+          withCredentials: true
+        }
       };
 
   const options = {
