@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { vs } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { twClassNames } from '@browserstack/utils';
 import { arrayOf, bool, node, oneOf, shape, string } from 'prop-types';
 
 import CopyButton from './components/CopyButton';
-import { colorShades, HIGHLIGHT_TYPE } from './const/codeConstants';
+import { CODE_VIEW, colorShades, HIGHLIGHT_TYPE } from './const/codeConstants';
 import { convertRangeToArray, isNumber } from './utils';
+
+import './style.css';
 
 const Code = ({
   code,
@@ -14,6 +17,7 @@ const Code = ({
   showLineNumbers,
   singleLine,
   toolbar,
+  view,
   wordWrap
 }) => {
   const [showCopy, setShowCopy] = useState(false);
@@ -24,28 +28,40 @@ const Code = ({
         language="javascript"
         style={vs}
         customStyle={{
-          padding: !showLineNumbers ? '8px' : '8px 0',
+          padding: '0px',
           ...(singleLine && { padding: '16px' }),
-
-          maxHeight
+          maxHeight,
+          background: '#F9FAFB'
         }}
-        className="bg-base-50 relative rounded-md"
+        className={twClassNames('relative rounded-b-md', {
+          'rounded-md': !toolbar
+        })}
         {...(!singleLine && { showLineNumbers })}
         wrapLines={!wordWrap}
         wrapLongLines={wordWrap}
         lineNumberStyle={(n) => {
+          const commonStyles = {
+            width: '36px',
+            textAlign: 'center',
+            padding: 0,
+            marginRight: '16px',
+            borderRight: '1px solid #D1D5DB'
+          };
           const lineNumberStyles = {
             [HIGHLIGHT_TYPE[0]]: {
               background: colorShades.neutral.darkColor,
-              color: colorShades.neutral.textColor
+              color: colorShades.neutral.textColor,
+              ...commonStyles
             },
             [HIGHLIGHT_TYPE[1]]: {
               background: colorShades.danger.darkColor,
-              color: colorShades.danger.textColor
+              color: colorShades.danger.textColor,
+              ...commonStyles
             },
             [HIGHLIGHT_TYPE[2]]: {
               background: colorShades.attention.darkColor,
-              color: colorShades.attention.textColor
+              color: colorShades.attention.textColor,
+              ...commonStyles
             }
           };
 
@@ -77,7 +93,9 @@ const Code = ({
             return lineNumberStyles[type];
           }
 
-          return {};
+          return {
+            ...commonStyles
+          };
         }}
         lineProps={(n) => {
           const style = {};
@@ -92,14 +110,11 @@ const Code = ({
               }
             }
           });
+
           return { style };
         }}
         onMouseEnter={() => setShowCopy(true)}
         onMouseLeave={() => setShowCopy(false)}
-        lineNumberContainerStyle={{
-          borderRight: '1px solid gray !important',
-          marginRight: '5px !important'
-        }}
       >
         {code}
       </SyntaxHighlighter>
@@ -122,6 +137,7 @@ Code.propTypes = {
   showLineNumbers: bool,
   singleLine: bool,
   toolbar: node,
+  view: oneOf(CODE_VIEW),
   wordWrap: bool
 };
 
@@ -132,5 +148,6 @@ Code.defaultProps = {
   showLineNumbers: false,
   singleLine: false,
   toolbar: null,
+  view: CODE_VIEW[0],
   wordWrap: false
 };

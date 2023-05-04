@@ -6,7 +6,6 @@ importers:
     specifiers:
       '@browserstack/eslint-config': workspace:*
       '@browserstack/prettier-config': workspace:*
-      '@browserstack/services': workspace:*
       '@browserstack/stylelint-config': workspace:*
       husky: 8.0.0
       lint-staged: 13.1.0
@@ -14,7 +13,6 @@ importers:
     devDependencies:
       '@browserstack/eslint-config': link:packages/eslint-config
       '@browserstack/prettier-config': link:packages/prettier-config
-      '@browserstack/services': link:packages/services
       '@browserstack/stylelint-config': link:packages/stylelint-config
       husky: 8.0.0
       lint-staged: 13.1.0
@@ -22,11 +20,11 @@ importers:
 
   apps/Accessibility:
     specifiers:
-      '@browserstack/bifrost': workspace:*
+      '@browserstack/bifrost': 4.1.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
-      '@browserstack/utils': workspace:*
+      '@browserstack/utils': 1.2.0
       '@browserstack/vite-config': workspace:*
       '@emotion/react': 11.10.5
       '@emotion/styled': 11.10.5
@@ -69,7 +67,7 @@ importers:
       tailwindcss: 3.1.4
       vite: 3.2.5
     dependencies:
-      '@browserstack/bifrost': link:../../packages/bifrost
+      '@browserstack/bifrost': 4.1.0_hkbbqhhe7yspx6haowtlreoieq
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@emotion/react': 11.10.5_idayr2oxcsxtldkhf4tt4nnf6q
@@ -178,8 +176,9 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 4.1.0
+      '@browserstack/bifrost': 4.2.0
       '@browserstack/hooks': workspace:*
+      '@browserstack/services': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': workspace:*
@@ -222,8 +221,9 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 4.1.0_2durtr67xmbfiygk63c6oc672q
+      '@browserstack/bifrost': 4.2.0_2durtr67xmbfiygk63c6oc672q
       '@browserstack/hooks': link:../../packages/hooks
+      '@browserstack/services': link:../../packages/services
       '@browserstack/utils': link:../../packages/utils
       '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
@@ -3439,53 +3439,6 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/4.1.0_2durtr67xmbfiygk63c6oc672q:
-    resolution: {integrity: sha512-IlCJkPkow+S1Dya7I44hgZGehOJ78jSSK+ein8ue03T2hLL8ZEpiJJGkUN7v3dbakMCVotrFLihG6RZi0GNk5g==, tarball: download/@browserstack/bifrost/4.1.0/d9a2aef24360866d354c4315c7363537e355239a}
-    peerDependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0
-      react-router-dom: 6.6.1
-    dependencies:
-      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
-      '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
-      '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
-      '@heroicons/react': 2.0.13_react@18.2.0
-      '@internationalized/date': 3.2.0
-      '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
-      '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
-      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
-      '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-aria: 3.24.0_biqbaboplfbrettd7655fr4n2y
-      react-dom: 18.2.0_react@18.2.0
-      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
-      react-hot-toast: 2.4.0_s7mghcr6idhb4d5ook54gl4n44
-      react-icons: 4.7.1_react@18.2.0
-      react-player: 2.12.0_react@18.2.0
-      react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
-      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
-      react-stately: 3.22.0_react@18.2.0
-    transitivePeerDependencies:
-      - '@juggle/resize-observer'
-      - '@reduxjs/toolkit'
-      - '@sentry/react'
-      - '@sentry/tracing'
-      - '@types/react'
-      - amplitude-js
-      - axios
-      - csstype
-      - dexie
-      - enzyme
-      - lodash
-      - react-ga4
-      - react-redux
-      - redux-mock-store
-      - socket.io-client
-      - uuid
-    dev: false
-
   /@browserstack/bifrost/4.1.0_hkbbqhhe7yspx6haowtlreoieq:
     resolution: {integrity: sha512-IlCJkPkow+S1Dya7I44hgZGehOJ78jSSK+ein8ue03T2hLL8ZEpiJJGkUN7v3dbakMCVotrFLihG6RZi0GNk5g==, tarball: download/@browserstack/bifrost/4.1.0/d9a2aef24360866d354c4315c7363537e355239a}
     peerDependencies:
@@ -3542,6 +3495,53 @@ packages:
       react-router-dom: 6.6.1
     dependencies:
       '@browserstack/hooks': 0.3.1_oxb3a2cqd6gjar7bvjlpriiq5i
+      '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
+      '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
+      '@heroicons/react': 2.0.13_react@18.2.0
+      '@internationalized/date': 3.2.0
+      '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
+      '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.24.0_biqbaboplfbrettd7655fr4n2y
+      react-dom: 18.2.0_react@18.2.0
+      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
+      react-hot-toast: 2.4.0_s7mghcr6idhb4d5ook54gl4n44
+      react-icons: 4.7.1_react@18.2.0
+      react-player: 2.12.0_react@18.2.0
+      react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
+      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+      react-stately: 3.22.0_react@18.2.0
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@sentry/react'
+      - '@sentry/tracing'
+      - '@types/react'
+      - amplitude-js
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-ga4
+      - react-redux
+      - redux-mock-store
+      - socket.io-client
+      - uuid
+    dev: false
+
+  /@browserstack/bifrost/4.2.0_2durtr67xmbfiygk63c6oc672q:
+    resolution: {integrity: sha512-+ZNqQlsFjMnaS2TKpQw10H6LtGjUOPgwQQAcY36TIWZ6dMB/Hx6novklq4sOQt9869RjGBrIz1qg171FZSGJrg==, tarball: download/@browserstack/bifrost/4.2.0/46ad407148c86b79044a4739b64f7a1928be4c60}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
       '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0

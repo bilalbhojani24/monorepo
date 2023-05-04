@@ -69,17 +69,19 @@ function ViewMetaPopOver({ data, handleInteraction }) {
         </div>
       }
     >
-      <O11yButton
-        colors="white"
-        iconPlacement="end"
-        icon={<MdOutlineExpandMore className="text-xl" />}
-        onClick={() => handleInteraction({ interaction: 'viewed_metadata' })}
-        type="submit"
-        variant="minimal"
-        wrapperClassName="font-medium text-sm text-base-700"
-      >
-        View metadata
-      </O11yButton>
+      <div>
+        <O11yButton
+          colors="white"
+          iconPlacement="end"
+          icon={<MdOutlineExpandMore className="text-xl" />}
+          onClick={() => handleInteraction({ interaction: 'viewed_metadata' })}
+          type="submit"
+          variant="minimal"
+          wrapperClassName="font-medium text-sm text-base-700"
+        >
+          View metadata
+        </O11yButton>
+      </div>
     </O11yPopover>
   );
 }

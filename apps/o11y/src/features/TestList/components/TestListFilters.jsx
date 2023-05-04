@@ -89,6 +89,7 @@ const TestListFilters = () => {
         size="sm"
         show={isSlideoverVisible}
         backgroundOverlay={false}
+        onEscPress={onCancelSelectedFilters}
       >
         <O11ySlideoverHeader
           heading="Filters"

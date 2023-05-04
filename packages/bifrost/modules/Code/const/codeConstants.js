@@ -19,3 +19,5 @@ export const colorShades = {
 };
 
 export const HIGHLIGHT_TYPE = ['neutral', 'danger', 'attention'];
+
+export const CODE_VIEW = ['default', 'error', 'attention'];

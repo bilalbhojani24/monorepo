@@ -14,6 +14,8 @@ import HighchartsReact from 'highcharts-react-official';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
+import { NO_DATA_TEXT } from '../const/immutableConst';
+
 import useDashboard from './useDashboard';
 
 variablePie(Highcharts);
@@ -116,7 +118,7 @@ const Dashboard = () => {
                     </div>
                     <div className="text-base-500 text-xs font-semibold">
                       {activeTestRunsOptions?.isEmpty
-                        ? 'No data to display'
+                        ? NO_DATA_TEXT
                         : 'Total Test Cases'}
                     </div>
                   </div>
@@ -160,9 +162,9 @@ const Dashboard = () => {
                     options={closedTestRunsMonthlyLineOptions}
                   />
                   {closedTestRunsMonthlyLineOptions?.isEmpty ? (
-                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
                       <div className="text-base-500 text-xs font-semibold">
-                        No data to display
+                        {NO_DATA_TEXT}
                       </div>
                     </div>
                   ) : null}
@@ -189,7 +191,7 @@ const Dashboard = () => {
                 size: 'xs',
                 children: <MdInfoOutline className="h-5 w-5" />
               }}
-              title="Closed Test Runs (Last 15 days)"
+              title="Results from Closed Test Runs (Last 15 days)"
               wrapperClassName="bg-white relative"
               size="fit-content"
               footerProps={{
@@ -207,9 +209,9 @@ const Dashboard = () => {
                     options={closedTestRunsDailyLineOptions}
                   />
                   {closedTestRunsDailyLineOptions?.isEmpty ? (
-                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
                       <div className="text-base-500 text-xs font-semibold">
-                        No data to display
+                        {NO_DATA_TEXT}
                       </div>
                     </div>
                   ) : null}
@@ -255,7 +257,7 @@ const Dashboard = () => {
                     </div>
                     <div className="text-base-500 text-xs font-semibold">
                       {testCaseTypesOptions?.isEmpty
-                        ? 'No data to display'
+                        ? NO_DATA_TEXT
                         : 'Total Test Cases'}
                     </div>
                   </div>
@@ -290,9 +292,9 @@ const Dashboard = () => {
                     options={testCasesTrendOptions}
                   />
                   {testCasesTrendOptions?.isEmpty ? (
-                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
                       <div className="text-base-500 text-xs font-semibold">
-                        No data to display
+                        {NO_DATA_TEXT}
                       </div>
                     </div>
                   ) : null}
@@ -329,9 +331,9 @@ const Dashboard = () => {
                     options={jiraIssuesOptions}
                   />
                   {jiraIssuesOptions?.isEmpty ? (
-                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
                       <div className="text-base-500 text-xs font-semibold">
-                        No data to display
+                        {NO_DATA_TEXT}
                       </div>
                     </div>
                   ) : null}

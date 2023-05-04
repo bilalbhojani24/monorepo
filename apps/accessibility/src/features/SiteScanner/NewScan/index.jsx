@@ -167,7 +167,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
           handleDismissClick={handleCloseWithLogEvent}
           heading="New website scan"
           subHeading="Setup your new website scan"
-          backgroundColorClass="bg-base-50"
+          wrapperClassName="bg-base-50"
         />
         <SlideoverBody>
           <div className="border-base-200 flex-col border-b pb-4">
@@ -318,6 +318,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                       type="time"
                       value={formData.time}
                       ref={timeRef}
+                      wrapperClassName="w-30"
                     />
                   </div>
                   <div className="mt-4">

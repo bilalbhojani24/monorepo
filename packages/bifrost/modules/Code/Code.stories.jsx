@@ -1,10 +1,11 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { MdOutlineInsertDriveFile } from '../Icon';
+import Button from '../Button';
+import { MdOutlineFileDownload, MdOutlineInsertDriveFile } from '../Icon';
 
 import CodeSnippetToolbar from './components/CodeSnippetToolbar';
-import { HIGHLIGHT_TYPE } from './const/codeConstants';
+import { CODE_VIEW, HIGHLIGHT_TYPE } from './const/codeConstants';
 import Code from './index';
 
 const JSCode = `function createStyleObject(classNames, style) {
@@ -88,6 +89,11 @@ const defaultConfig = {
       description: 'Single line',
       defaultValue: false
     },
+    view: {
+      options: CODE_VIEW,
+      description: 'View',
+      defaultValue: CODE_VIEW[0]
+    },
     wordWrap: {
       option: { type: 'boolean' },
       description: 'wrap the line or not',
@@ -98,18 +104,49 @@ const defaultConfig = {
 };
 const Template = (args) => <Code {...args} />;
 const SingleLineTemplate = (args) => <Code {...args} />;
+const LeadingAndTrailingToolbarTemplate = (args) => <Code {...args} />;
 
 const Primary = Template.bind({});
 const SingleLine = SingleLineTemplate.bind({});
+const LeadingAndTrailingToolbar = LeadingAndTrailingToolbarTemplate.bind({});
 
 Primary.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
-export { Primary, SingleLine };
+export { LeadingAndTrailingToolbar, Primary, SingleLine };
 
 SingleLine.args = {
   code: 'npm install @browserstack/design-system-components',
   singleLine: true
+};
+
+LeadingAndTrailingToolbar.args = {
+  toolbar: (
+    <CodeSnippetToolbar
+      leadingNode={
+        <div className="flex items-center space-x-2">
+          <div>
+            <MdOutlineInsertDriveFile className="text-base-500 h-5 w-5" />
+          </div>
+          <div>index.tsx</div>
+        </div>
+      }
+      trailingNode={
+        <div className="flex items-center space-x-2">
+          <div>
+            <Button
+              icon={<MdOutlineFileDownload className="h-5 w-5" />}
+              size="small"
+              variant="minimal"
+              colors="white"
+            >
+              Download
+            </Button>
+          </div>
+        </div>
+      }
+    />
+  )
 };
