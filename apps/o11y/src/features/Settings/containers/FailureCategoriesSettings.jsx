@@ -123,7 +123,6 @@ function FailureCategoriesSettings() {
 const PaywallWrappedFailureCategoriesSettings = () => (
   <HardPaywallWrapper
     featureKey={PAYWALL_FEATURES.FAILURE_CATEGORY}
-    shouldReFetchPlanDetails
     cardConfig={{ illustrationClassName: 'max-w-sm' }}
   >
     <FailureCategoriesSettings />

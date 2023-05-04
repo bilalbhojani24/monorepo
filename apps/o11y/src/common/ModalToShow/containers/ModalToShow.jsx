@@ -5,7 +5,7 @@ import BulkTaggingModal from 'features/BulkTagging';
 import AzureIntegrationModal from 'features/Integrations/components/AzureIntegrationModal';
 import EmailPreferenceModal from 'features/Integrations/components/EmailPreferenceModal';
 import JenkinsIntegrationModal from 'features/Integrations/components/JenkinsIntegrationModal';
-import UpgradeModal from 'features/Paywall/components/UpgradeModal';
+import StartFreeTrialModal from 'features/Paywall/components/StartFreeTrialModal';
 import AddEditAlertModal from 'features/Settings/components/AddEditAlertModal';
 import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCategoryModal';
 import AddNotificationUserModal from 'features/Settings/components/AddNotificationUserModal';
@@ -42,7 +42,7 @@ export default function ModalToShow() {
     case MODAL_TYPES.azure_connect_modal:
       return <AzureIntegrationModal />;
     case MODAL_TYPES.upgrade_modal:
-      return <UpgradeModal />;
+      return <StartFreeTrialModal />;
     default:
       return null;
   }

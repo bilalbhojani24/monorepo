@@ -1,6 +1,8 @@
 import alertIllustration from 'assets/illustrations/alerts_illustration.png';
 import failureCategoryIllustration from 'assets/illustrations/failure_categories.png';
 
+export const BANNER_LAST_SEEN = 'BANNER_LAST_SEEN';
+
 export const PAYWALL_FEATURES = {
   ALERTS: 'alerts',
   FAILURE_CATEGORY: 'failureCategory',

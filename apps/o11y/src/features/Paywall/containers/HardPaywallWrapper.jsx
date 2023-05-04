@@ -24,7 +24,7 @@ function HardPaywallWrapper({
 }) {
   const timeOutRef = useRef();
   const planDetails = useSelector(getPlanDetailsKey(featureKey));
-  const shouldAllowFreeTrial = useSelector(canStartFreeTrial());
+  const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
   const dispatch = useDispatch();
   const isLoading = useSelector(isLoadingInitData);
   const [hasSubmittedUpgradeReq, setHasSubmittedUpgradeReq] = useState('');
@@ -84,7 +84,7 @@ function HardPaywallWrapper({
       <>
         {shouldAllowFreeTrial ? (
           <O11yButton colors="success" onClick={handleClickGetFreeTrial}>
-            Get a 14-day free trial
+            Get a 14-days free trial
           </O11yButton>
         ) : (
           <O11yButton onClick={handleClickUpgrade}>Upgrade</O11yButton>

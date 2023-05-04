@@ -33,6 +33,7 @@ import useAuthRoutes from 'hooks/useAuthRoutes';
 import isEmpty from 'lodash/isEmpty';
 import { getEnvConfig } from 'utils/common';
 import { delightedInit } from 'utils/delighted';
+import { checkUserPlanState } from 'utils/paywall';
 import { portalize } from 'utils/portalize';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
 import { isIntegrationsPage } from 'utils/routeUtils';
@@ -88,14 +89,15 @@ const App = () => {
 
       if (!window.initialized) {
         initLogger(keys);
+        dispatch(checkUserPlanState());
         window.initialized = true;
       }
     }
-  }, [userDetails]);
+  }, [dispatch, userDetails]);
 
   useEffect(() => {
     // Note: Disabling for onboarding, Get access and project selection pages
-    if (activeProject.id && !isProjectListing) {
+    if (activeProject.id && !isProjectListing && !isEmpty(userDetails)) {
       // Initialize delighted survey
       const delightedConfig = {
         group_id: userDetails.groupId,
@@ -136,7 +138,7 @@ const App = () => {
       window.isSentryInitialized = true;
       initErrorLogger({
         dsn: SENTRY_DSN,
-        debug: true,
+        debug: false,
         release: 'v0.1-o11y',
         environment: 'production',
         tracesSampleRate: 1.0
@@ -159,6 +161,7 @@ const App = () => {
       window.location.href
     )}`
   );
+
   return (
     <>
       {Routes}

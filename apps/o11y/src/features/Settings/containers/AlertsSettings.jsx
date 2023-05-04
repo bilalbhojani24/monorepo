@@ -134,7 +134,6 @@ function AlertsSettings() {
 const PaywallWrappedAlertSettings = () => (
   <HardPaywallWrapper
     featureKey={PAYWALL_FEATURES.ALERTS}
-    shouldReFetchPlanDetails
     cardConfig={{ illustrationClassName: 'max-w-md' }}
   >
     <AlertsSettings />

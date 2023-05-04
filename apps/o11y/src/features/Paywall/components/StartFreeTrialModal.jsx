@@ -1,48 +1,51 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdCheck } from '@browserstack/bifrost';
 import bgIllustration from 'assets/illustrations/bg-illustration.png';
-import confetti from 'canvas-confetti';
 import { O11yButton, O11yModal, O11yModalBody } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
-import { canStartFreeTrial } from 'globalSlice/selectors';
+import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
+import { BANNER_TYPES } from 'constants/bannerTypes';
+import { o11yPlanUpgrade } from 'globalSlice/index';
+import { canStartFreeTrial, getPlanType } from 'globalSlice/selectors';
+import { o11yNotify } from 'utils/notification';
 
 import { MODAL_CONFIG } from '../constants';
 
-function UpgradeModal() {
-  const canvasRef = useRef(null);
+function StartFreeTrialModal() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
+  const planType = useSelector(getPlanType);
   const modalData = useSelector(getModalData);
-  const shouldAllowFreeTrial = useSelector(canStartFreeTrial());
+  const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
   const handleCloseModal = () => {
     dispatch(toggleModal({ version: '', data: {} }));
   };
 
   const handleSubmitFreeTrial = () => {
-    if (canvasRef.current) {
-      canvasRef.current.confetti = confetti.create(canvasRef.current, {
-        resize: true
+    setIsSubmitting(true);
+    dispatch(o11yPlanUpgrade())
+      .unwrap()
+      .then(() => {
+        handleCloseModal();
+        dispatch(
+          toggleBanner({
+            version: BANNER_TYPES.plan_started,
+            data: {}
+          })
+        );
+      })
+      .catch(() => {
+        o11yNotify({
+          title: 'Something went wrong!',
+          description: 'Please try again later.',
+          type: 'error'
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
       });
-      canvasRef.current.confetti({
-        particleCount: 400,
-        spread: 120,
-        startVelocity: 40,
-        origin: {
-          x: 1,
-          y: 0.7
-        }
-      });
-      canvasRef.current.confetti({
-        particleCount: 400,
-        spread: 120,
-        startVelocity: 40,
-        origin: {
-          x: 0,
-          y: 0.7
-        }
-      });
-    }
   };
 
   return (
@@ -54,7 +57,7 @@ function UpgradeModal() {
     >
       <O11yModalBody>
         <section className="relative flex flex-col py-6">
-          <section className="relative flex h-64 items-end">
+          <section className="relative flex h-64 items-end justify-end">
             <img
               src={bgIllustration}
               alt=""
@@ -66,12 +69,12 @@ function UpgradeModal() {
                 MODAL_CONFIG.common.img
               }
               alt="showing product features"
-              className="relative w-full"
+              className="relative max-h-full object-contain"
             />
           </section>
           <section className="flex w-full flex-col">
             <p className="text-base-900 pt-5 text-center text-lg font-medium">
-              Upgrade to pro
+              Upgrade to Observability {planType}
             </p>
             <p className="text-base-500 mt-2 text-center text-sm leading-5">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius
@@ -120,21 +123,19 @@ function UpgradeModal() {
                 colors="success"
                 wrapperClassName="flex-1"
                 onClick={handleSubmitFreeTrial}
+                loading={isSubmitting}
+                isIconOnlyButton={isSubmitting}
               >
-                Get a 14-day free trial
+                Get a 14-days free trial
               </O11yButton>
             ) : (
               <O11yButton wrapperClassName="flex-1">Upgrade</O11yButton>
             )}
           </section>
-          <canvas
-            className="pointer-events-none absolute left-0 top-0 h-full w-full"
-            ref={canvasRef}
-          />
         </section>
       </O11yModalBody>
     </O11yModal>
   );
 }
 
-export default UpgradeModal;
+export default StartFreeTrialModal;

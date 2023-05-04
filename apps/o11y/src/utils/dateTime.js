@@ -1,6 +1,7 @@
 import { parseDate } from '@internationalized/date';
 import { ISO_DATE_FORMAT, SNP_DATE_RANGE } from 'constants/common';
 import {
+  differenceInDays,
   endOfDay,
   format,
   getUnixTime,
@@ -164,3 +165,6 @@ export function getTTTimeBounds(activeKey) {
 
 export const getISOParsedDate = (date) =>
   parseDate(getDateInFormat(date, ISO_DATE_FORMAT));
+
+export const getDifferenceInDays = (date1, date2) =>
+  differenceInDays(date1, date2);

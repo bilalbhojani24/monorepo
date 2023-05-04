@@ -7,8 +7,7 @@ export const getUserDetails = (state) =>
   state.global.initData?.data?.userDetails || {};
 export const getBuildInfo = (state) => state.global.buildInfo;
 export const getHasInitFailed = (state) => state.global.hasProductInitFailed;
-export const getPlanDetails = (state) =>
-  state.global.initData?.data?.userDetails?.planDetails || {};
+export const getPlanDetails = (state) => state.global.planDetails || {};
 export const isLoadingInitData = (state) => state.global.initData.isLoading;
 
 export const getPlanDetailsKey = (key) =>
@@ -16,11 +15,21 @@ export const getPlanDetailsKey = (key) =>
     getPlanDetails,
     (planDetails) => planDetails?.features?.[key] || {}
   );
-export const canStartFreeTrial = () =>
-  createSelector(
-    getPlanDetails,
-    (planDetails) =>
-      planDetails?.canClaimFreeTrial && !planDetails?.isOnFreeTrial
-  );
-export const getPlanType = () =>
-  createSelector(getPlanDetails, (planDetails) => planDetails?.type);
+export const canStartFreeTrial = createSelector(
+  getPlanDetails,
+  (planDetails) => planDetails?.canClaimFreeTrial && !planDetails?.isOnFreeTrial
+);
+export const getPlanType = createSelector(
+  getPlanDetails,
+  (planDetails) => planDetails?.type
+);
+
+export const getPlanExpires = createSelector(
+  getPlanDetails,
+  (planDetails) => planDetails?.expires || null
+);
+
+export const getIsOnFreeTrial = createSelector(
+  getPlanDetails,
+  (planDetails) => planDetails?.isOnFreeTrial || false
+);
