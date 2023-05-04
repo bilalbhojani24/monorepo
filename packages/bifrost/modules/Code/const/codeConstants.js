@@ -1,23 +1,32 @@
 export const colorShades = {
   danger: {
     textColor: '#7F1D1D',
-    darkColor: '#FEE2E2',
-    lightColor: '#FEF2F2',
-    borderColor: '#FCA5A5'
+    darkColor: '#FECACA',
+    lightColor: '#FEE2E2'
   },
   attention: {
     textColor: '#78350F',
-    darkColor: '#FEF3C7',
-    lightColor: '#FFFBEB',
-    borderColor: '#FBBF24'
+    darkColor: '#FDE68A',
+    lightColor: '#FEF3C7'
   },
   neutral: {
     textColor: '#111827',
-    darkColor: '#E5E7EB',
-    lightColor: '#F3F4F6'
+    darkColor: '#D1D5DB',
+    lightColor: '#E5E7EB'
+  }
+};
+
+export const viewShades = {
+  danger: {
+    textColor: '#B91C1C',
+    backgroundBorderColor: '#B91C1C'
+  },
+  attention: {
+    textColor: '#B45309',
+    backgroundBorderColor: '#FBBF24'
   }
 };
 
 export const HIGHLIGHT_TYPE = ['neutral', 'danger', 'attention'];
 
-export const CODE_VIEW = ['default', 'error', 'attention'];
+export const CODE_VIEW = ['default', 'danger', 'attention'];

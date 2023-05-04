@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import { useLatestRef } from '@browserstack/hooks';
-import { func, string } from 'prop-types';
+import React, { useContext, useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 
+import { CodeSnippetContextData } from '../../../shared/codeSnippetContext';
 import Button from '../../Button';
-import { MdOutlineContentCopy } from '../../Icon';
+import { MdCheckCircle, MdOutlineContentCopy } from '../../Icon';
 import { copyToClipboard } from '../utils';
 
-const CopyButton = ({ code, setShowCopy }) => {
+const CopyButton = () => {
   const [isCopied, setIsCopied] = useState(false);
-
-  const setShowCopyRef = useLatestRef(setShowCopy);
-
+  const { code, setShowCopy, toolbar } = useContext(CodeSnippetContextData);
   return (
     <Button
-      onMouseEnter={() => setShowCopyRef.current(true)}
-      wrapperClassName="z-10 absolute top-14 right-2 rounded-md"
+      onMouseEnter={() => setShowCopy(true)}
+      wrapperClassName={twClassNames(
+        'z-10 absolute top-14 right-2 rounded-md',
+        {
+          'top-4': !toolbar
+        }
+      )}
       variant="rounded"
       colors="white"
       onClick={() => {
@@ -22,11 +25,15 @@ const CopyButton = ({ code, setShowCopy }) => {
         setIsCopied(true);
         setTimeout(() => {
           setIsCopied(false);
-        }, 2000);
+        }, 3000);
       }}
     >
       <div className="flex items-center space-x-1">
-        <MdOutlineContentCopy />
+        {isCopied ? (
+          <MdCheckCircle className="h-4 w-4" />
+        ) : (
+          <MdOutlineContentCopy className="h-4 w-4" />
+        )}
         <span>{!isCopied ? 'Copy' : 'Copied!'}</span>
       </div>
     </Button>
@@ -34,8 +41,3 @@ const CopyButton = ({ code, setShowCopy }) => {
 };
 
 export default CopyButton;
-
-CopyButton.propTypes = {
-  code: string.isRequired,
-  setShowCopy: func.isRequired
-};
