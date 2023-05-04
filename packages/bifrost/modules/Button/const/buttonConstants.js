@@ -20,11 +20,19 @@ export const BUTTON_VARIANTS = ['primary', 'secondary', 'rounded', 'minimal'];
 export const BUTTON_ICON_PLACEMENT = ['start', 'end'];
 
 export const BUTTON_ICON_SIZES = {
-  'extra-small': '16px',
-  small: '16px',
-  default: '20px',
-  large: '20px',
-  'extra-large': '20px'
+  // non icon only buttons
+  'false-extra-small': '16px',
+  'false-small': '16px',
+  'false-default': '20px',
+  'false-large': '20px',
+  'false-extra-large': '20px',
+
+  // icon only buttons
+  'true-extra-small': '20px',
+  'true-small': '20px',
+  'true-default': '20px',
+  'true-large': '24px',
+  'true-extra-large': '24px'
 };
 
 export const BUTTON_LOADER_CLASSES = {

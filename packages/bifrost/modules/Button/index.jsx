@@ -119,11 +119,15 @@ const Button = (
       <span className={effectiveChildrenClasses}>
         {iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
           icon &&
-          React.cloneElement(icon, { height: BUTTON_ICON_SIZES[size] })}
+          React.cloneElement(icon, {
+            height: BUTTON_ICON_SIZES[`${isIconOnlyButton}-${size}`]
+          })}
         {children}
         {iconPlacement === BUTTON_ICON_PLACEMENT[1] &&
           icon &&
-          React.cloneElement(icon, { height: BUTTON_ICON_SIZES[size] })}
+          React.cloneElement(icon, {
+            height: BUTTON_ICON_SIZES[`${isIconOnlyButton}-${size}`]
+          })}
       </span>
     );
 
