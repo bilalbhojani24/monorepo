@@ -19,6 +19,14 @@ export const BUTTON_VARIANTS = ['primary', 'secondary', 'rounded', 'minimal'];
 
 export const BUTTON_ICON_PLACEMENT = ['start', 'end'];
 
+export const BUTTON_ICON_SIZES = {
+  'extra-small': '16px',
+  small: '16px',
+  default: '20px',
+  large: '20px',
+  'extra-large': '20px'
+};
+
 export const BUTTON_LOADER_CLASSES = {
   'brand-primary': 'fill-brand-50 text-brand-400',
   'brand-secondary': 'fill-brand-500 text-brand-300',

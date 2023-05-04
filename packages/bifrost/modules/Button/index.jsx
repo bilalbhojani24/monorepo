@@ -8,6 +8,7 @@ import Loader from '../Loader/index';
 import {
   BUTTON_COLORS,
   BUTTON_ICON_PLACEMENT,
+  BUTTON_ICON_SIZES,
   BUTTON_LOADER_CLASSES,
   BUTTON_SIZES,
   BUTTON_STYLE_CLASSES,
@@ -62,7 +63,7 @@ const Button = (
 
   const effectiveChildrenClasses = twClassNames({
     'flex items-center justify-center gap-2.5 mx-auto': loading,
-    'mx-auto grid w-fit items-center gap-2.5': icon !== null,
+    'grid mx-auto w-fit items-center gap-2.5': icon !== null,
     'grid-cols-[16px,2fr]':
       iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
       icon !== null &&
@@ -116,9 +117,11 @@ const Button = (
       </span>
     ) : (
       <span className={effectiveChildrenClasses}>
-        {iconPlacement === BUTTON_ICON_PLACEMENT[0] && icon}
+        {iconPlacement === BUTTON_ICON_PLACEMENT[0] &&
+          React.cloneElement(icon, { height: BUTTON_ICON_SIZES[size] })}
         {children}
-        {iconPlacement === BUTTON_ICON_PLACEMENT[1] && icon}
+        {iconPlacement === BUTTON_ICON_PLACEMENT[1] &&
+          React.cloneElement(icon, { height: BUTTON_ICON_SIZES[size] })}
       </span>
     );
 
