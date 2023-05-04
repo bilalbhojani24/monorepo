@@ -227,9 +227,7 @@ const listTreeDemoDataSet = [
         name: (
           <TruncateText
             wrapperClassName="line-clamp-1"
-            headerTooltipProps={{
-              triggerAriaLabel: 'label'
-            }}
+            tooltipAriaLabel="File A-1"
           >
             file A-1 Really long file name case. Lorem Ipsum is simply dummy
             text of the printing and typesetting industry. Lorem Ipsum has been
@@ -510,9 +508,7 @@ const SearchableSelectableListTree = () => {
                 ({Object.keys(selectedValue)?.length})
               </span>
             }
-            headerTooltipProps={{
-              triggerAriaLabel: 'label'
-            }}
+            tooltipAriaLabel="Total Selected Items"
           >
             {Object.values(selectedValue)
               ?.map((el) => el.name)
