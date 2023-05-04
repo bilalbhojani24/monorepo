@@ -125,7 +125,7 @@ const ListTreeRootWrapper = ({
       } else if (
         getFilteredContents(
           selectedNodeHierarchy[1],
-          selectedNodeHierarchy
+          selectedNodeHierarchy.slice(1)
         )?.at(-1)?.uuid === selectedNodeHierarchy[0]?.uuid
       ) {
         // focus parent if the current focused node is the last node
@@ -156,7 +156,7 @@ const ListTreeRootWrapper = ({
     (selectedNodeHierarchy) => {
       const selectionParentsFirstChildID = getFilteredContents(
         selectedNodeHierarchy[1],
-        selectedNodeHierarchy
+        selectedNodeHierarchy.slice(1)
       )?.at(0)?.uuid;
       if (selectedNodeHierarchy?.length === 1) {
         // item with no hierarchy means that it is one of the root nodes so use data which is array of root nodes.
