@@ -77,7 +77,7 @@ export const initializeBackendServerForMac = async (
     serverEntities.nodeServerPort = await getPort({ port: 3000 });
 
     serverEntities.nodeServerInstance = await exec(
-      `CSPT_ENV=${IS_PROD ? 'production' : 'staging'} ${
+      `CSPT_ENV=${IS_PROD ? 'production' : 'staging'} SYSTEM_VERSION_COMPAT=0 ${
         processPaths.bsPerf
       } server -p ${serverEntities.nodeServerPort} -pi ${
         serverEntities.pyServerPort
