@@ -1,5 +1,6 @@
 import React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
+import { AuthWall } from 'features/AuthWall';
 import Dashboard, {
   RouteWithoutSidebarWrapper,
   Sidebar
@@ -14,10 +15,10 @@ import ReportLoading from './features/ReportLoading';
 
 const App = () => (
   <HashRouter>
-    <Dashboard>
-      <Routes>
+    <Routes>
+      <Route element={<Dashboard />}>
         <Route element={<Sidebar />}>
-          <Route index element={<Home />} />
+          <Route path="home" element={<Home />} />
 
           <Route path="testHistory" element={<TestHistory />} />
           <Route path="thresholdPresets" element={<></>} />
@@ -27,8 +28,10 @@ const App = () => (
           <Route path="generate" element={<ReportLoading />} />
           <Route path="report" element={<Report />} />
         </Route>
-      </Routes>
-    </Dashboard>
+      </Route>
+
+      <Route index element={<AuthWall />} />
+    </Routes>
   </HashRouter>
 );
 

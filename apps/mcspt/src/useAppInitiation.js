@@ -1,11 +1,10 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { pubSub } from '@browserstack/utils';
 import { mcpAnalyticsEvent, useMcpAnalytics } from 'utils/analyticsUtils';
 
-import { checkAuthAndSaveUserDetails } from '../slices/dashboardThunks';
+import { checkAuthAndSaveUserDetails } from './features/Dashboard/slices/dashboardThunks';
 
-const useDashboard = () => {
+const useAppInitiation = () => {
   const dispatch = useDispatch();
 
   useMcpAnalytics();
@@ -18,20 +17,14 @@ const useDashboard = () => {
   );
 
   useEffect(() => {
-    window.pubSub = pubSub();
-
     window.remoteThreadFunctions?.registerCallbackForSavingAuthToken(
       initializeSaveAuthTokenCallback
     );
   }, [initializeSaveAuthTokenCallback]);
 
   useEffect(() => {
-    dispatch(checkAuthAndSaveUserDetails());
-  }, [dispatch]);
-
-  useEffect(() => {
     mcpAnalyticsEvent('csptAppLaunch');
   }, []);
 };
 
-export default useDashboard;
+export default useAppInitiation;

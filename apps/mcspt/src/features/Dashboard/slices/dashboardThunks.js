@@ -58,8 +58,6 @@ export const checkAuthAndSaveUserDetails =
           dispatch(setAuthToken(latestTokenResponse?.data?.token));
 
           userDetailsResponse = await fetchUserDetails();
-        } else {
-          throw latestTokenResponse;
         }
       }
 

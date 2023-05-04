@@ -1,33 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom';
 
 import AuthLoadingModal from './AuthLoadingModal';
 import FeedbackModal from './FeedbackModal';
 import Footer from './Footer';
-import useDashboard from './useDashboard';
 
-const Dashboard = ({ children }) => {
-  useDashboard();
+const Dashboard = () => (
+  <div className="flex h-screen w-screen flex-col">
+    <Outlet />
 
-  return (
-    <div className="flex h-screen w-screen flex-col">
-      <>{children}</>
+    <Footer />
 
-      <Footer />
+    <AuthLoadingModal />
 
-      <AuthLoadingModal />
-
-      <FeedbackModal />
-    </div>
-  );
-};
-
-Dashboard.propTypes = {
-  children: PropTypes.node
-};
-
-Dashboard.defaultProps = {
-  children: null
-};
+    <FeedbackModal />
+  </div>
+);
 
 export default Dashboard;
