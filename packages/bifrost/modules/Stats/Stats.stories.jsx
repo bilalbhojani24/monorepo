@@ -84,7 +84,7 @@ const options = [
     ),
     stat: '71,897',
     graph: (
-      <div className="mb-4 flex h-28 justify-between">
+      <div className="flex h-28 justify-between">
         <div className="flex h-24 w-full flex-col justify-between">
           <div className="mb-2 flex items-center justify-between">
             <div className="flex items-center">
@@ -122,7 +122,7 @@ const options = [
     previousStat: null,
     subText: null,
     changeType: 'decrease',
-    link: 'View all',
+    link: null,
     onClick: () => console.log('stats null.com')
   }
 ];

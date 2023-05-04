@@ -36,7 +36,7 @@ const Stats = (props) => {
               variant === STATS_VARIANTS.SIMPLE ||
               variant === STATS_VARIANTS.KPI_VARIANT,
             'py-10 sm:py-10': variant === STATS_VARIANTS.WITH_ICON,
-            'pt-4 pb-10': variant === STATS_VARIANTS.GRAPH_VARIANT,
+            'py-4': variant === STATS_VARIANTS.GRAPH_VARIANT,
             shadow: !hideBoxShadow
           },
           'relative overflow-hidden bg-white px-4 sm:px-6 rounded-lg',
@@ -202,9 +202,6 @@ const Stats = (props) => {
             ) : (
               <div className="h-4" />
             )}
-            <div className="bg-base-50 absolute inset-x-0 bottom-0 p-4 sm:px-6">
-              <p>{option.link}</p>
-            </div>
           </div>
         )}
         {variant === STATS_VARIANTS.SIMPLE && (
