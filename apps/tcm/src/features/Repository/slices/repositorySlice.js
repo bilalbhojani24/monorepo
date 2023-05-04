@@ -99,7 +99,8 @@ const initialState = {
   customFieldData: {
     projectId: null,
     fields: []
-  }
+  },
+  searchEmptyText: ''
 };
 
 export const repositorySlice = createSlice({
@@ -147,7 +148,10 @@ export const repositorySlice = createSlice({
         // reset form data
         state.testCaseFormData = {
           ...initialState.testCaseFormData,
-          test_case_folder_id: !Number.isNaN(payload) ? payload : null
+          test_case_folder_id:
+            !Number.isNaN(payload) && typeof payload !== 'boolean'
+              ? payload
+              : state?.allFolders[0]?.id
         };
       }
     },
@@ -267,11 +271,15 @@ export const repositorySlice = createSlice({
       state.testCaseDetails = initialState.testCaseDetails;
       state.allFolders = initialState.allFolders;
       state.customFieldData = initialState.customFieldData;
+    },
+    setSearchEmptyText: (state, { payload }) => {
+      state.searchEmptyText = payload;
     }
   }
 });
 
 export const {
+  setSearchEmptyText,
   cleanUpValues,
   setSearchInitiatedURL,
   setTestCaseDetails,

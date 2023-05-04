@@ -77,4 +77,4 @@ NetworkTableRow.defaultProps = {
   shouldShowLimitedCols: false
 };
 
-export default NetworkTableRow;
+export default React.memo(NetworkTableRow);

@@ -123,7 +123,7 @@ const TestCasesTable = () => {
             placeholder="Not Started"
             checkPosition="right"
             triggerWrapperClassName={twClassNames(
-              'border-none shadow-none pr-6'
+              'border-none shadow-none pr-6 py-1'
             )}
             options={STATUS_OPTIONS.map((el) => ({
               label: (
@@ -204,7 +204,7 @@ const TestCasesTable = () => {
                         key={column.key}
                         wrapperClassName={classNames(
                           column?.class,
-                          'first:pr-3 last:pl-3 px-2 py-2',
+                          'first:pr-3 last:pl-3 px-2 py-1',
                           column?.maxWidth,
                           {
                             'sticky bg-white': column.isSticky,

@@ -22,6 +22,7 @@ const MediaPlayer = forwardRef(
       onPlayCallback,
       onVideoError,
       controlPanelAtBottom,
+      timeUpdateCallBack,
       url,
       wrapperClassName
     },
@@ -77,6 +78,7 @@ const MediaPlayer = forwardRef(
       }
       if (videoRef.current.getCurrentTime() - startTime >= duration)
         setIsPlaying(false);
+      timeUpdateCallBack?.();
     };
 
     const handleOnPlay = () => {
@@ -146,7 +148,7 @@ const MediaPlayer = forwardRef(
                 'absolute top-0 left-0 w-full h-full bg-base-400 opacity-50 z-10 block'
               )}
             >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                 <Loader wrapperClassName="w-6 h-6" />
               </div>
             </div>
@@ -181,6 +183,7 @@ MediaPlayer.propTypes = {
   onVideoError: PropTypes.func,
   controlPanelAtBottom: PropTypes.bool,
   url: PropTypes.string,
+  timeUpdateCallBack: PropTypes.func,
   wrapperClassName: PropTypes.string
 };
 MediaPlayer.defaultProps = {
@@ -192,6 +195,7 @@ MediaPlayer.defaultProps = {
   onVideoError: null,
   controlPanelAtBottom: true,
   url: '',
+  timeUpdateCallBack: null,
   wrapperClassName: ''
 };
 

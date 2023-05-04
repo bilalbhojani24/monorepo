@@ -1,5 +1,6 @@
 import React from 'react';
 import { getLocalTimeZone, today } from '@internationalized/date';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -51,6 +52,14 @@ const defaultConfig = {
 };
 const Template = (args) => <SingleDatepicker {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const eleRoles = canvas.queryAllByRole('spinbutton');
+  await userEvent.type(eleRoles[0], '01');
+  await userEvent.type(eleRoles[0], '01');
+  await userEvent.type(eleRoles[0], '2000');
+  await userEvent.click(canvas.getByRole('button'));
+};
 Primary.parameters = {
   controls: {}
 };
