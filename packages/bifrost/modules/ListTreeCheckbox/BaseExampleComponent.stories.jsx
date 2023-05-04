@@ -16,6 +16,7 @@ const ControlledNestedTreeWithCheckbox = ({
   allowFilter,
   onCheckboxChange,
   isParentSearched,
+  focusIDPrefix,
   indent = 1
 }) =>
   data?.map((item) => {
@@ -39,6 +40,7 @@ const ControlledNestedTreeWithCheckbox = ({
           showIcon={false}
           ariaLabel="Label"
           focusUUID={item.uuid}
+          focusIDPrefix={focusIDPrefix}
           label={
             <Checkbox
               isFullWidthLabel
@@ -99,6 +101,7 @@ const ControlledNestedTreeWithCheckbox = ({
               isParentSearched={
                 filteredUUIDs.searchedUUIDs[item.uuid] || isParentSearched
               }
+              focusIDPrefix={focusIDPrefix}
               indent={1 + indent}
             />
           </ListTreeNodeContents>
@@ -125,9 +128,11 @@ ControlledNestedTreeWithCheckbox.propTypes = {
   }).isRequired,
   allowFilter: PropTypes.bool.isRequired,
   onCheckboxChange: PropTypes.func.isRequired,
-  indent: PropTypes.number
+  indent: PropTypes.number,
+  focusIDPrefix: PropTypes.string
 };
 
 ControlledNestedTreeWithCheckbox.defaultProps = {
+  focusIDPrefix: '',
   indent: 1
 };

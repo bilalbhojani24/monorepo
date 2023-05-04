@@ -11,12 +11,25 @@ const ListTreeRootWrapper = ({
   setOpenNodeMap,
   onSelectCallback,
   data,
+  focusIDPrefix,
   children
 }) => {
   const wrapperRef = useRef(null);
-  const focusElementByUUID = (uuidToFocus) => {
-    document.querySelector(`[data-focus-id="${uuidToFocus}"]`)?.focus();
-  };
+  const focusElementByUUID = useCallback(
+    (uuidToFocus) => {
+      document
+        .querySelector(`[data-focus-id="${focusIDPrefix + uuidToFocus}"]`)
+        ?.focus();
+    },
+    [focusIDPrefix]
+  );
+  const removePrefixFromID = useCallback(
+    (uuidToFocus) =>
+      uuidToFocus?.includes(focusIDPrefix)
+        ? uuidToFocus?.substring(focusIDPrefix.length, uuidToFocus.length)
+        : uuidToFocus,
+    [focusIDPrefix]
+  );
   const getFocusID = useCallback(() => {
     const { activeElement } = document;
     // get focus id from active element
@@ -28,9 +41,11 @@ const ListTreeRootWrapper = ({
         activeElement.closest('[data-focus-id]')?.dataset?.focusId;
     }
     // if still no focus consider as root element is focused
-    if (!parentFocusId && data?.length > 0) parentFocusId = '0';
-    return { focusId, parentFocusId };
-  }, [data?.length]);
+    if (!parentFocusId && data?.length > 0) parentFocusId = `${focusIDPrefix}0`;
+    const parsedFocusId = removePrefixFromID(focusId);
+    const parsedParentFocusId = removePrefixFromID(parentFocusId);
+    return { parsedFocusId, parsedParentFocusId };
+  }, [data?.length, focusIDPrefix, removePrefixFromID]);
   const handleArrowRightPress = useCallback(
     (selectedNodeHierarchy) => {
       if (!openNodeMap[selectedNodeHierarchy[0]?.uuid]) {
@@ -48,7 +63,7 @@ const ListTreeRootWrapper = ({
         focusElementByUUID(selectedNodeHierarchy[0]?.contents[0]?.uuid);
       }
     },
-    [openNodeMap, setOpenNodeMap]
+    [focusElementByUUID, openNodeMap, setOpenNodeMap]
   );
   const handleArrowLeftPress = useCallback(
     (selectedNodeHierarchy) => {
@@ -67,7 +82,7 @@ const ListTreeRootWrapper = ({
         focusElementByUUID(selectedNodeHierarchy[1].uuid);
       }
     },
-    [openNodeMap, setOpenNodeMap]
+    [focusElementByUUID, openNodeMap, setOpenNodeMap]
   );
   const handleSelectionPress = useCallback(
     (focusId) => {
@@ -75,12 +90,18 @@ const ListTreeRootWrapper = ({
     },
     [onSelectCallback]
   );
-  const handleHomePress = useCallback((homeId) => {
-    focusElementByUUID(homeId); // move focus to first element
-  }, []);
-  const handleEndPress = useCallback((endId) => {
-    focusElementByUUID(endId); // move focus to last element
-  }, []);
+  const handleHomePress = useCallback(
+    (homeId) => {
+      focusElementByUUID(homeId); // move focus to first element
+    },
+    [focusElementByUUID]
+  );
+  const handleEndPress = useCallback(
+    (endId) => {
+      focusElementByUUID(endId); // move focus to last element
+    },
+    [focusElementByUUID]
+  );
   const handleArrowUpExceptFirstElement = useCallback(
     (selectedNodeHierarchy) => {
       let targetUUID = null;
@@ -101,7 +122,7 @@ const ListTreeRootWrapper = ({
       }
       if (targetUUID) focusElementByUUID(targetUUID);
     },
-    [data]
+    [data, focusElementByUUID]
   );
   const handleArrowUpPress = useCallback(
     (selectedNodeHierarchy) => {
@@ -114,7 +135,7 @@ const ListTreeRootWrapper = ({
         focusElementByUUID(selectedNodeHierarchy[1]?.uuid);
       }
     },
-    [handleArrowUpExceptFirstElement]
+    [focusElementByUUID, handleArrowUpExceptFirstElement]
   );
   const handleArrowDownExceptThanLastElement = useCallback(
     (selectedNodeHierarchy) => {
@@ -135,7 +156,7 @@ const ListTreeRootWrapper = ({
       }
       if (targetUUID) focusElementByUUID(targetUUID);
     },
-    [data]
+    [data, focusElementByUUID]
   );
   const handleArrowDownPress = useCallback(
     (selectedNodeHierarchy) => {
@@ -151,7 +172,7 @@ const ListTreeRootWrapper = ({
         handleArrowDownExceptThanLastElement(selectedNodeHierarchy);
       }
     },
-    [handleArrowDownExceptThanLastElement, openNodeMap]
+    [focusElementByUUID, handleArrowDownExceptThanLastElement, openNodeMap]
   );
   const handleAsteriskPress = useCallback(
     (listOfItems) => {
@@ -166,7 +187,8 @@ const ListTreeRootWrapper = ({
   );
   const onKeyPress = useCallback(
     (e) => {
-      const { focusId, parentFocusId } = getFocusID();
+      const { parsedFocusId: focusId, parsedParentFocusId: parentFocusId } =
+        getFocusID();
       if (focusId !== undefined || parentFocusId !== undefined) {
         const selectedNodeHierarchy = getTargetHierarchyByIndex(
           data,
@@ -241,6 +263,10 @@ const ListTreeRootWrapper = ({
   );
 };
 
+ListTreeRootWrapper.defaultProps = {
+  focusIDPrefix: ''
+};
+
 ListTreeRootWrapper.propTypes = {
   children: PropTypes.node.isRequired,
   data: PropTypes.arrayOf(
@@ -251,6 +277,7 @@ ListTreeRootWrapper.propTypes = {
   setOpenNodeMap: PropTypes.func.isRequired,
   openNodeMap: PropTypes.shape({}).isRequired,
   // filteredUUIDs: PropTypes.any.isRequired,
+  focusIDPrefix: PropTypes.string,
   onSelectCallback: PropTypes.func.isRequired
 };
 

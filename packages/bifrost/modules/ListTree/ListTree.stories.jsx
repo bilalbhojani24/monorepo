@@ -307,7 +307,8 @@ const ControlledNestedTreeBase = ({
   setSelectedNodeMap,
   setFocused,
   indent = 1,
-  focused = ''
+  focused = '',
+  focusIDPrefix
 }) =>
   data.map((item, index) => (
     <ListTree
@@ -322,6 +323,7 @@ const ControlledNestedTreeBase = ({
         ariaLabel={item.uuid}
         description={`(level=${indent})`}
         isNodeSelected={selectedNodeMap[item.uuid]}
+        focusIDPrefix={focusIDPrefix}
         onNodeClick={() => {
           const newSelectedNodeMap = { ...selectedNodeMap };
           if (newSelectedNodeMap[item.uuid] !== undefined) {
@@ -372,6 +374,7 @@ const ControlledNestedTreeBase = ({
             focused={focused}
             setFocused={setFocused}
             indent={1 + indent}
+            focusIDPrefix={focusIDPrefix}
           />
         </ListTreeNodeContents>
       )}
@@ -389,6 +392,7 @@ const ControlledNestedTree = ({ data }) => {
    * ListTreeNode => onNodeOpen
    * ListTreeContents => isTreeOpen
    */
+  const focusIDPrefix = 'controlled-';
   const [openNodeMap, setOpenNodeMap] = useState({
     0: true,
     1: true
@@ -409,6 +413,7 @@ const ControlledNestedTree = ({ data }) => {
       openNodeMap={openNodeMap}
       setOpenNodeMap={setOpenNodeMap}
       onSelectCallback={onKeyPressSelect}
+      focusIDPrefix={focusIDPrefix}
     >
       <ControlledNestedTreeBase
         indent={1}
@@ -417,6 +422,7 @@ const ControlledNestedTree = ({ data }) => {
         setOpenNodeMap={setOpenNodeMap}
         selectedNodeMap={selectedNodeMap}
         setSelectedNodeMap={setSelectedNodeMap}
+        focusIDPrefix={focusIDPrefix}
       />
     </ListTreeRootWrapper>
   );
@@ -487,6 +493,7 @@ const SearchableSelectableListTree = () => {
     },
     [listOfItems, onCheckboxChange]
   );
+  const focusIDPrefix = 'checkbox-list-';
 
   return (
     <>
@@ -533,6 +540,7 @@ const SearchableSelectableListTree = () => {
           setOpenNodeMap={setOpenNodeMap}
           filteredUUIDs={filteredUUIDs}
           onSelectCallback={onKeyPressSelect}
+          focusIDPrefix={focusIDPrefix}
         >
           <ControlledNestedTreeWithCheckbox
             openNodeMap={openNodeMap}
@@ -543,6 +551,7 @@ const SearchableSelectableListTree = () => {
             isParentSearched={false}
             allowFilter={searchValue.length}
             onCheckboxChange={onCheckboxChange}
+            focusIDPrefix={focusIDPrefix}
           />
         </ListTreeRootWrapper>
       )}
@@ -606,6 +615,7 @@ const FocusedNodeNestedTree = ({ data }) => {
     0: true,
     1: true
   });
+  const focusIDPrefix = 'focused-list-';
   const onKeyPressSelect = useCallback(
     (itemIndexes) => {
       setSelectedNodeMap((prev) => {
@@ -622,6 +632,7 @@ const FocusedNodeNestedTree = ({ data }) => {
       openNodeMap={openNodeMap}
       setOpenNodeMap={setOpenNodeMap}
       onSelectCallback={onKeyPressSelect}
+      focusIDPrefix={focusIDPrefix}
     >
       <ControlledNestedTreeBase
         indent={1}
@@ -632,6 +643,7 @@ const FocusedNodeNestedTree = ({ data }) => {
         setSelectedNodeMap={setSelectedNodeMap}
         focused={focused}
         setFocused={setFocused}
+        focusIDPrefix={focusIDPrefix}
       />
     </ListTreeRootWrapper>
   );

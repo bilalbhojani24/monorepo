@@ -46,6 +46,7 @@ import KeyValue from './modules/KeyValuePair/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
+import ListTreeRootWrapper from './modules/ListTreeRootWrapper';
 import Loader from './modules/Loader/index';
 import MediaPlayer from './modules/MediaPlayer';
 import MediaPlayerLeftControls from './modules/MediaPlayerLeftControls';
@@ -162,6 +163,7 @@ export {
   listTreeCheckboxHelper,
   ListTreeNode,
   ListTreeNodeContents,
+  ListTreeRootWrapper,
   Loader,
   MediaPlayer,
   MediaPlayerLeftControls,
