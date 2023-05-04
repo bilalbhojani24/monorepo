@@ -73,7 +73,7 @@ export const NewFailureTags = ({ data, isActive }) => {
         <>
           <div className="text-base-500 flex items-center">
             Any test failing with
-            <div className="mx-1 w-20">
+            <div className="text-base-900 mx-1 w-20">
               <O11ySelectMenu
                 value={{ label: newFailureType, value: newFailureType }}
                 onChange={(item) =>
@@ -83,7 +83,7 @@ export const NewFailureTags = ({ data, isActive }) => {
                   label: newFailureTypeDefault,
                   value: newFailureTypeDefault
                 }}
-                disabled={!isActive}
+                disabled={!isActive || !newFailureEnabled}
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>
@@ -102,7 +102,7 @@ export const NewFailureTags = ({ data, isActive }) => {
               </O11ySelectMenu>{' '}
             </div>
             for the first time among last
-            <div className="mx-1 w-16">
+            <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
@@ -112,7 +112,7 @@ export const NewFailureTags = ({ data, isActive }) => {
                   label: consecutiveRunsDefault,
                   value: consecutiveRunsDefault
                 }}
-                disabled={!isActive}
+                disabled={!isActive || !newFailureEnabled}
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>

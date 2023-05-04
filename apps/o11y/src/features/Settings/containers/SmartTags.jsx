@@ -79,24 +79,26 @@ export default function SmartTags() {
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
         />
-        {planDetails?.isActive &&
-          !isEqual(smartTags.localState, smartTags.data) && (
-            <div className="flex justify-end p-6">
-              <O11yButton
-                variant="primary"
-                onClick={() =>
-                  dispatch(
-                    toggleModal({
-                      version: MODAL_TYPES.smart_tags_confirmation_modal,
-                      data: {}
-                    })
-                  )
-                }
-              >
-                Save Changes
-              </O11yButton>
-            </div>
-          )}
+        <div className="bg-base-50 sticky bottom-0 flex justify-end px-6 py-3">
+          <O11yButton
+            loading={smartTags.isLoading}
+            isIconOnlyButton={smartTags.isLoading}
+            disabled={
+              planDetails?.isActive &&
+              isEqual(smartTags.localState, smartTags.data)
+            }
+            onClick={() =>
+              dispatch(
+                toggleModal({
+                  version: MODAL_TYPES.smart_tags_confirmation_modal,
+                  data: {}
+                })
+              )
+            }
+          >
+            Save Changes
+          </O11yButton>
+        </div>
       </SettingsCard>
     </div>
   );
