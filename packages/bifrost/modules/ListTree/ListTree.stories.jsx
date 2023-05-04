@@ -559,23 +559,30 @@ const SearchableSelectableListTree = () => {
   );
 };
 
-const UnconrolledNestedTree = ({ data, indent = 1 }) => {
-  const [selectedNodeMap, setSelectedNodeMap] = useState({});
-
-  return data.map((item) => (
+const UnconrolledNestedTreeBase = ({
+  data,
+  focusIDPrefix,
+  indent = 1,
+  selectedNodeMap,
+  setSelectedNodeMap
+}) =>
+  data.map((item) => (
     <ListTree key={item.name} indentationLevel={indent}>
       <ListTreeNode
         label={item.name}
         ariaLabel={item.name}
         description={`(level=${indent})`}
-        isNodeSelected={selectedNodeMap[item.name]}
+        focusUUID={item.uuid}
+        isNodeSelected={selectedNodeMap[item.uuid]}
+        focusIDPrefix={focusIDPrefix}
         onNodeClick={() => {
-          if (selectedNodeMap[item.name] !== undefined) {
-            selectedNodeMap[item.name] = !selectedNodeMap[item.name];
+          const newSelectedNodeMap = { ...selectedNodeMap };
+          if (selectedNodeMap[item.uuid] !== undefined) {
+            newSelectedNodeMap[item.uuid] = !newSelectedNodeMap[item.uuid];
           } else {
-            selectedNodeMap[item.name] = true;
+            newSelectedNodeMap[item.uuid] = true;
           }
-          setSelectedNodeMap({ ...selectedNodeMap });
+          setSelectedNodeMap({ ...newSelectedNodeMap });
         }}
         trailingVisualElement={
           <Dropdown>
@@ -592,11 +599,46 @@ const UnconrolledNestedTree = ({ data, indent = 1 }) => {
       />
       {!!item?.contents && (
         <ListTreeNodeContents>
-          <UnconrolledNestedTree data={item.contents} indent={1 + indent} />
+          <UnconrolledNestedTreeBase
+            data={item.contents}
+            indent={1 + indent}
+            focusIDPrefix={focusIDPrefix}
+            selectedNodeMap={selectedNodeMap}
+            setSelectedNodeMap={setSelectedNodeMap}
+          />
         </ListTreeNodeContents>
       )}
     </ListTree>
   ));
+
+const UnconrolledNestedTree = ({ data }) => {
+  const [selectedNodeMap, setSelectedNodeMap] = useState({});
+  const onKeyPressSelect = useCallback(
+    (itemIndexes) => {
+      setSelectedNodeMap((prev) => {
+        const newItems = { ...prev };
+        newItems[itemIndexes] = true;
+        return newItems;
+      });
+    },
+    [setSelectedNodeMap]
+  );
+  return (
+    <ListTreeRootWrapper
+      data={listTreeDemoDataSet}
+      openNodeMap={{}}
+      setOpenNodeMap={() => {}}
+      onSelectCallback={onKeyPressSelect}
+      focusIDPrefix="controlled-"
+    >
+      <UnconrolledNestedTreeBase
+        data={data}
+        focusIDPrefix="controlled-"
+        selectedNodeMap={selectedNodeMap}
+        setSelectedNodeMap={setSelectedNodeMap}
+      />
+    </ListTreeRootWrapper>
+  );
 };
 
 const FocusedNodeNestedTree = ({ data }) => {
