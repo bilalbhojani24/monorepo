@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   MdInfoOutline,
   Table,
@@ -58,9 +58,7 @@ const MapFields = () => {
     handleMappingProceedClick,
     handleValueMappingMenuChange
   } = useMapFields();
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
-
+  const { projectId } = useParams();
   const rows = rowRef.current;
 
   const getValueMappingsCount = (mapping) =>
@@ -159,15 +157,19 @@ const MapFields = () => {
 
   useEffect(() => {
     rows.forEach((row) => {
-      if (typeMapper[row.mappedValue] === 'field_multi')
+      if (
+        typeMapper[row.mappedValue] === 'field_multi' &&
+        !Object.keys(valueMappings).includes(row.field)
+      ) {
         setDefaultDropdownValue(
           row.field,
           row.mappedValue,
           allowedValueMapper[row.mappedValue]?.allowedValueDisplayOptions[0]
         );
+      }
     });
-    dispatch(setUsers(queryParams.get('project')));
-    dispatch(setTags(queryParams.get('project')));
+    dispatch(setUsers(projectId));
+    dispatch(setTags(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -186,7 +188,7 @@ const MapFields = () => {
           />
         </div>
       )}
-      <div className="border-base-300 h-full max-h-max rounded-md border border-solid bg-white pt-5">
+      <div className="border-base-300 max-h-max rounded-md border border-solid bg-white pt-5">
         <div>
           <div className="bg-white px-5">
             <TMSectionHeadings
@@ -256,14 +258,22 @@ const MapFields = () => {
                     </TableCell>
                     <TableCell wrapperClassName="py-1 px-4 w-1/5">
                       <TMSelectMenu
-                        triggerWrapperClassName={
-                          (errorLabelInMapFields?.has(
-                            row.mappedField.defaultValue.label
-                          ) && showSelectMenuErrorInMapFields
-                            ? 'border-danger-400'
-                            : '',
-                          'border-none text-base-900 shadow-none pr-6 w-full max-w-[180px]')
-                        }
+                        triggerWrapperClassName={twClassNames(
+                          'text-base-900 shadow-none pr-6 w-full max-w-[180px]',
+                          {
+                            'border-danger-400':
+                              errorLabelInMapFields.has(
+                                row?.mappedField?.defaultValue?.label
+                              ) && showSelectMenuErrorInMapFields
+                          },
+                          {
+                            'border-none': !(
+                              errorLabelInMapFields.has(
+                                row.mappedField.defaultValue.label
+                              ) && showSelectMenuErrorInMapFields
+                            )
+                          }
+                        )}
                         checkPosition="right"
                         options={row.mappedField.displayOptions}
                         dividerIdx={1}

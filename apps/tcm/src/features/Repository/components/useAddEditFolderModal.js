@@ -12,6 +12,7 @@ import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
 import {
   deleteFolderFromArray,
+  findFolder,
   injectFolderToParent,
   replaceFolderHelper
 } from 'utils/folderHelpers';
@@ -101,7 +102,14 @@ export default function useAddEditFolderModal(prop) {
   };
 
   const renameFolderHelper = (folderItem) => {
-    setAllFoldersHelper(replaceFolderHelper(allFolders, folderItem));
+    const currentFolderItem = findFolder(allFolders, folderItem?.id);
+    // as per TM-1390 cases count wont change on rename, hence avoiding that calculation at server and setting it as what exists in the cache
+    setAllFoldersHelper(
+      replaceFolderHelper(allFolders, {
+        ...folderItem,
+        cases_count: currentFolderItem?.cases_count || 0
+      })
+    );
   };
 
   const deleteFolderHandler = () => {

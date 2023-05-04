@@ -128,4 +128,4 @@ TimeChartTooltip.propTypes = {
   fromRequestDetail: PropTypes.bool.isRequired
 };
 
-export default TimeChartTooltip;
+export default React.memo(TimeChartTooltip);
