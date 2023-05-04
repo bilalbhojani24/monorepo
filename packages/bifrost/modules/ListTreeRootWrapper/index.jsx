@@ -346,8 +346,10 @@ ListTreeRootWrapper.propTypes = {
   ).isRequired,
   setOpenNodeMap: PropTypes.func.isRequired,
   openNodeMap: PropTypes.shape({}).isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  filteredUUIDs: PropTypes.any.isRequired,
+  filteredUUIDs: PropTypes.shape({
+    filteredUUIDsWithHierarchy: {},
+    searchedUUIDs: {}
+  }).isRequired,
   focusIDPrefix: PropTypes.string,
   onSelectCallback: PropTypes.func.isRequired
 };
