@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   O11ySelectMenu,
@@ -35,7 +35,8 @@ const STATIC_TEST_STATUS_FLIPPING_TOTAL = [
     .map((_, i) => ({ name: i + 1, value: i + 1 }))
 ];
 
-export const FlakyTags = ({ data, isActive, isLoading }) => {
+export const FlakyTags = ({ data, isActive }) => {
+  const [isSubmittingData, setIsSubmittingData] = useState(false);
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
 
@@ -46,33 +47,38 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
   } = SMART_TAGS_DEFAULT_VALUES.flaky.flakeInHistory;
   const { rerun: rerunDefault } = SMART_TAGS_DEFAULT_VALUES.flaky.flakeInRerun;
 
-  const updateAutomaticFlakyTags = (key, value) => {
+  const saveAndSubmitData = (payload) => {
+    setIsSubmittingData(true);
+    dispatch(saveSmartTagsChanges(payload));
     dispatch(
       submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
-        flaky: { ...data, [key]: value }
+        projectNormalisedName: activeProject.normalisedName
       })
-    );
+    )
+      .unwrap()
+      .finally(() => {
+        setIsSubmittingData(false);
+      });
+  };
+
+  const updateAutomaticFlakyTags = (key, value) => {
+    saveAndSubmitData({ flaky: { ...data, [key]: value } });
   };
 
   const setTestStatusFlippingSwitch = (value) => {
-    dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
-        flaky: {
-          ...data,
-          flakeInHistory: {
-            ...flakeInHistory,
-            enabled: value
-          }
+    saveAndSubmitData({
+      flaky: {
+        ...data,
+        flakeInHistory: {
+          ...flakeInHistory,
+          enabled: value
         }
-      })
-    );
+      }
+    });
   };
   const setTestStatusFlipping = (item) => {
     dispatch(
       saveSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
         flaky: {
           ...data,
           flakeInHistory: {
@@ -86,7 +92,6 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
   const setTestStatusFlippingTotal = (item) => {
     dispatch(
       saveSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
         flaky: {
           ...data,
           flakeInHistory: {
@@ -98,24 +103,20 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
     );
   };
   const setFlakeInRerunSwitch = (value) => {
-    dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
-        flaky: {
-          ...data,
-          flakeInRerun: {
-            ...flakeInRerun,
-            enabled: value
-          }
+    saveAndSubmitData({
+      flaky: {
+        ...data,
+        flakeInRerun: {
+          ...flakeInRerun,
+          enabled: value
         }
-      })
-    );
+      }
+    });
   };
 
   const setFlakeInRerun = (item) => {
     dispatch(
       saveSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
         flaky: {
           ...data,
           flakeInRerun: {
@@ -135,7 +136,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
           checked={automaticFlaky}
           onChange={(item) => updateAutomaticFlakyTags('automaticFlaky', item)}
           disabled={!isActive}
-          loading={isLoading}
+          loading={isSubmittingData}
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
@@ -147,7 +148,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
               checked={flakeInHistory.enabled}
               onChange={setTestStatusFlippingSwitch}
               disabled={isActive ? !automaticFlaky : true}
-              loading={isLoading}
+              loading={isSubmittingData}
             />
           </div>
           <div className="text-base-500 flex flex-wrap items-center">
@@ -226,7 +227,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
               checked={flakeInRerun.enabled}
               onChange={setFlakeInRerunSwitch}
               disabled={isActive ? !automaticFlaky : true}
-              loading={isLoading}
+              loading={isSubmittingData}
             />
           </div>
           <div className="text-base-500 flex items-center">
@@ -264,11 +265,9 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
 
 FlakyTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
-  isActive: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool
+  isActive: PropTypes.bool.isRequired
 };
 
 FlakyTags.defaultProps = {
-  data: {},
-  isLoading: false
+  data: {}
 };

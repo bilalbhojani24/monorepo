@@ -81,7 +81,7 @@ export default function SmartTags() {
           loading={smartTags.isLoading}
           isIconOnlyButton={smartTags.isLoading}
           disabled={
-            smartTagEnabled.isActive &&
+            !smartTagEnabled.isActive ||
             isEqual(smartTags.localState, smartTags.data)
           }
           onClick={() =>

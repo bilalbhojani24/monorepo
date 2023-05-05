@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   O11ySelectMenu,
@@ -35,6 +35,8 @@ const STATIC_EXECUTION_DROPDOWN_DATA = [
 ];
 
 export const PerformanceAnomaliesTags = ({ data, isActive }) => {
+  const [isSubmittingData, setIsSubmittingData] = useState(false);
+
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const {
@@ -46,15 +48,24 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
     SMART_TAGS_DEFAULT_VALUES.performanceAnomalies;
 
   const setPerformanceAnomaliesSwitch = (key, value) => {
+    setIsSubmittingData(true);
     dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
+      saveSmartTagsChanges({
         performanceAnomalies: {
           ...data,
           [key]: value
         }
       })
     );
+    dispatch(
+      submitSmartTagsChanges({
+        projectNormalisedName: activeProject.normalisedName
+      })
+    )
+      .unwrap()
+      .finally(() => {
+        setIsSubmittingData(false);
+      });
   };
 
   const setPerformanceAnomaliesDropdowns = (key, value) => {
@@ -76,6 +87,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
           checked={performanceAnomaliesEnabled}
           onChange={(value) => setPerformanceAnomaliesSwitch('enabled', value)}
           disabled={!isActive}
+          loading={isSubmittingData}
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />

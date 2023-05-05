@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getSettingsByKey, updateSettingsByKey } from 'api/settings';
+import { o11yNotify } from 'utils/notification';
 
 import { getSmartTagsSettings } from './selectors';
-
-// import { getGeneralSettingsState } from './selectors';
 
 const SLICE_NAME = 'smartTagsSettings';
 
@@ -28,11 +27,11 @@ export const submitSmartTagsChanges = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     const currentState = getSmartTagsSettings(getState());
     try {
-      await updateSettingsByKey('smart-tags', { ...data });
-      return {
-        ...currentState,
-        data: { ...currentState.data, ...data }
-      };
+      await updateSettingsByKey('smart-tags', {
+        ...data,
+        payload: currentState.localState
+      });
+      return { data: currentState.localState };
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -81,6 +80,18 @@ const { reducer, actions } = createSlice({
       })
       .addCase(submitSmartTagsChanges.rejected, (state) => {
         state.smartTags.isLoading = false;
+        state.smartTags = {
+          ...state.smartTags,
+          localState: {
+            ...state.smartTags.data
+          },
+          isLoading: false
+        };
+        o11yNotify({
+          type: 'error',
+          title: 'Something went wrong',
+          description: 'We were unable to update settings. Please try again'
+        });
       })
       .addCase(submitSmartTagsChanges.fulfilled, (state, { payload }) => {
         state.smartTags = {
@@ -88,12 +99,12 @@ const { reducer, actions } = createSlice({
           data: {
             ...payload.data
           },
-          localState: {
-            ...state.smartTags.localState,
-            ...payload.data
-          },
           isLoading: false
         };
+        o11yNotify({
+          type: 'success',
+          title: 'Settings updated successfully'
+        });
       });
   }
 });

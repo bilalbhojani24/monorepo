@@ -10,10 +10,13 @@ import {
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 
+import { getSmartTagsSettings } from '../slices/selectors';
 import { submitSmartTagsChanges } from '../slices/smartTagsSettings';
 
 function SmartTagConfirmationModal() {
   const dispatch = useDispatch();
+  const smartTags = useSelector(getSmartTagsSettings);
+
   const activeProject = useSelector(getActiveProject);
 
   const handleCloseModal = () => {
@@ -23,7 +26,8 @@ function SmartTagConfirmationModal() {
   const onSaveChanges = () => {
     dispatch(
       submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName
+        projectNormalisedName: activeProject.normalisedName,
+        payload: smartTags?.localState
       })
     );
     handleCloseModal();

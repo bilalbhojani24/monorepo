@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   O11ySelectMenu,
@@ -27,7 +27,9 @@ const STATIC_DROPDOWN_DATA = [
     .map((_, i) => ({ name: i + 2, value: i + 2 }))
 ];
 
-export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
+export const AlwaysFailingTags = ({ data, isActive }) => {
+  const [isSubmittingData, setIsSubmittingData] = useState(false);
+
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
 
@@ -42,15 +44,24 @@ export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
   } = SMART_TAGS_DEFAULT_VALUES.alwaysFailing;
 
   const setAlwaysFailingSwitch = (key, value) => {
+    setIsSubmittingData(true);
     dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
+      saveSmartTagsChanges({
         alwaysFailing: {
           ...data,
           [key]: value
         }
       })
     );
+    dispatch(
+      submitSmartTagsChanges({
+        projectNormalisedName: activeProject.normalisedName
+      })
+    )
+      .unwrap()
+      .finally(() => {
+        setIsSubmittingData(false);
+      });
   };
 
   const setAlwaysFailingDropdowns = (key, value) => {
@@ -72,7 +83,7 @@ export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
           checked={alwaysFailingSwitchEnabled}
           onChange={(value) => setAlwaysFailingSwitch('enabled', value)}
           disabled={!isActive}
-          loading={isLoading}
+          loading={isSubmittingData}
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
@@ -147,11 +158,9 @@ export const AlwaysFailingTags = ({ data, isActive, isLoading }) => {
 
 AlwaysFailingTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
-  isActive: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool
+  isActive: PropTypes.bool.isRequired
 };
 
 AlwaysFailingTags.defaultProps = {
-  data: {},
-  isLoading: false
+  data: {}
 };

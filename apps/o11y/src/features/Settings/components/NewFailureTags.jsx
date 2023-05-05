@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   O11ySelectMenu,
@@ -28,6 +28,8 @@ const STATIC_DROPDOWN_DATA = [
 ];
 
 export const NewFailureTags = ({ data, isActive }) => {
+  const [isSubmittingData, setIsSubmittingData] = useState(false);
+
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const { newFailureType, consecutiveRuns, enabled: newFailureEnabled } = data;
@@ -37,15 +39,24 @@ export const NewFailureTags = ({ data, isActive }) => {
   } = SMART_TAGS_DEFAULT_VALUES.newFailure;
 
   const setNewFailureSwitch = (key, value) => {
+    setIsSubmittingData(true);
     dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
+      saveSmartTagsChanges({
         newFailure: {
           ...data,
           [key]: value
         }
       })
     );
+    dispatch(
+      submitSmartTagsChanges({
+        projectNormalisedName: activeProject.normalisedName
+      })
+    )
+      .unwrap()
+      .finally(() => {
+        setIsSubmittingData(false);
+      });
   };
 
   const setNewFailureDropdowns = (key, value) => {
@@ -66,6 +77,7 @@ export const NewFailureTags = ({ data, isActive }) => {
           checked={newFailureEnabled}
           onChange={(value) => setNewFailureSwitch('enabled', value)}
           disabled={!isActive}
+          loading={isSubmittingData}
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
