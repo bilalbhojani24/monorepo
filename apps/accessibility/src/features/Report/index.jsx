@@ -33,27 +33,28 @@ export default function Report() {
   } = useReport();
   const reportData = useSelector(getReportData);
 
-  const {
-    location: { search, origin, pathname }
-  } = window;
-  const params = new URLSearchParams(search);
-  let idsParam;
-  let ids;
+  const getCurrentPageURL = () => {
+    const {
+      location: { search, origin, pathname }
+    } = window;
+    const params = new URLSearchParams(search);
+    let url = `${origin}${pathname}?wcagVersion=${params.get('wcagVersion')}`;
 
-  if (params.get('ar_ids')) {
-    idsParam = 'ar_ids';
-    ids = params.get('ar_ids');
-  } else if (params.get('wsr_ids')) {
-    idsParam = 'wsr_ids';
-    ids = params.get('wsr_ids');
-  } else if (params.get('ids')) {
-    idsParam = 'ids';
-    ids = params.get('ids');
-  }
+    if (params.get('ar_ids')) {
+      url += `&ar_ids=${params.get('ar_ids')}`;
+    }
 
-  const currentPageUrl = `${origin}${pathname}?${idsParam}=${ids}&wcagVersion=${params.get(
-    'wcagVersion'
-  )}`;
+    if (params.get('wsr_ids')) {
+      url += `&wsr_ids=${params.get('wsr_ids')}`;
+    }
+
+    if (params.get('ids')) {
+      url += `&ids=${params.get('ids')}`;
+    }
+    return url;
+  };
+
+  const currentPageUrl = getCurrentPageURL();
 
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 
