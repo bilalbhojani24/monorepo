@@ -12,7 +12,7 @@ function PlanTypeBadge() {
 
   return (
     <O11yBadge
-      wrapperClassName="mx-1 flex-shrink-0 bg-success-600 text-white"
+      wrapperClassName="mx-1 flex-shrink-0 bg-success-600 text-white pointer-events-none"
       hasRemoveButton={false}
       modifier="info"
       hasDot={false}
