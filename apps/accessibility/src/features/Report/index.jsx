@@ -33,29 +33,6 @@ export default function Report() {
   } = useReport();
   const reportData = useSelector(getReportData);
 
-  const getCurrentPageURL = () => {
-    const {
-      location: { search, origin, pathname }
-    } = window;
-    const params = new URLSearchParams(search);
-    let url = `${origin}${pathname}?wcagVersion=${params.get('wcagVersion')}`;
-
-    if (params.get('ar_ids')) {
-      url += `&ar_ids=${params.get('ar_ids')}`;
-    }
-
-    if (params.get('wsr_ids')) {
-      url += `&wsr_ids=${params.get('wsr_ids')}`;
-    }
-
-    if (params.get('ids')) {
-      url += `&ids=${params.get('ids')}`;
-    }
-    return url;
-  };
-
-  const currentPageUrl = getCurrentPageURL();
-
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 
   const isSingleReport = reportsLength === 1;
@@ -155,7 +132,10 @@ export default function Report() {
                   Copied
                 </Button>
               ) : (
-                <CopyToClipboard text={currentPageUrl} onCopy={onCopyClick}>
+                <CopyToClipboard
+                  text={window.location.href}
+                  onCopy={onCopyClick}
+                >
                   <Button
                     icon={<MdShare className="text-xl" />}
                     iconPlacement="end"
