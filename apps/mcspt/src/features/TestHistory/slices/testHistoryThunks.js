@@ -4,7 +4,7 @@ import {
   fetchSessionById,
   fetchSessions
 } from 'api/testHistory';
-import { setSessionAuthMetaData } from 'features/Dashboard/slices/dashboardSlice';
+import { setSessionAuthMetaData } from 'features/Dashboard';
 import { fetchConnectedDevices } from 'features/Home';
 import {
   setPreviousRouteForReport,

@@ -8,7 +8,7 @@ import {
   getIsUserLoggedIn,
   getTotalAllowedSessions,
   getTotalCompletedSessions
-} from 'features/Dashboard/slices/dashboardSlice';
+} from 'features/Dashboard';
 import {
   checkForPreviousUserSessions,
   getPreviousUserSessions

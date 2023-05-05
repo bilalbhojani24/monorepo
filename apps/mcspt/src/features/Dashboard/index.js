@@ -5,8 +5,10 @@ import dashboardReducer, {
   getAuthToken,
   getGeneralAnalytics,
   getIsUserLoggedIn,
+  getTotalAllowedSessions,
   getTotalCompletedSessions,
-  getUserData
+  getUserData,
+  setSessionAuthMetaData
 } from './slices/dashboardSlice';
 import {
   checkAuthAndSaveUserDetails,
@@ -19,10 +21,12 @@ export {
   getAuthToken,
   getGeneralAnalytics,
   getIsUserLoggedIn,
+  getTotalAllowedSessions,
   getTotalCompletedSessions,
   getUserData,
   logUserOutAndPurgeSessionData,
   RouteWithoutSidebarWrapper,
+  setSessionAuthMetaData,
   Sidebar
 };
 

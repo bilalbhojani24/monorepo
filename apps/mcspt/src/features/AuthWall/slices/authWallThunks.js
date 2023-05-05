@@ -1,9 +1,9 @@
 import { MCP_ROUTES } from 'constants/routeConstants';
 import {
   checkAuthAndSaveUserDetails,
-  getIsUserLoggedIn
+  getIsUserLoggedIn,
+  getTotalAllowedSessions
 } from 'features/Dashboard';
-import { getTotalAllowedSessions } from 'features/Dashboard/slices/dashboardSlice';
 import { checkForPreviousUserSessions } from 'features/TestHistory';
 
 import { setAuthWall, setIsAuthWallChecked } from './authWallSlice';
@@ -20,7 +20,7 @@ export const checkHistoryAndUserForAuthWall =
       try {
         await dispatch(checkAuthAndSaveUserDetails());
       } catch (e) {
-        // login failed
+        // silent error until PM defines Scenario
       }
 
       const isLoggedIn = getIsUserLoggedIn(getState());
@@ -32,7 +32,7 @@ export const checkHistoryAndUserForAuthWall =
         dispatch(setAuthWall(true));
       }
     } catch (e) {
-      // console.log(e);
+      // handle error when PM defines Scenario
     } finally {
       dispatch(setIsAuthWallChecked(true));
     }

@@ -5,7 +5,7 @@ import {
   getIsUserLoggedIn,
   getTotalAllowedSessions,
   getTotalCompletedSessions
-} from 'features/Dashboard/slices/dashboardSlice';
+} from 'features/Dashboard';
 import { formatDeviceAndAppAnalyticsData } from 'utils/analyticsDataUtils';
 import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 

@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { initLogger, logEvent } from '@browserstack/utils';
-
-import { getGeneralAnalytics } from '../features/Dashboard/slices/dashboardSlice';
+import { getGeneralAnalytics } from 'features/Dashboard';
 
 export const ANALYTICS_KEYS = {
   amplitudeConfig: {
