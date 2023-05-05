@@ -1,7 +1,7 @@
 import React, { forwardRef, useContext } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
-import { oneOf } from 'prop-types';
+import { func, oneOf } from 'prop-types';
 
 import CheckboxClone from '../../shared/CheckboxClone';
 import { ComboboxContextData } from '../../shared/comboboxContext';
@@ -17,7 +17,10 @@ import { CHECK_POSITION } from '../ComboBox/const/comboBoxConstants';
 import { CheckIcon } from '../Icon';
 
 const ComboboxOptionItem = forwardRef(
-  ({ disabled, option, checkPosition, wrapperClassName }, ref) => {
+  (
+    { disabled, option, checkPosition, wrapperClassName, onImageError },
+    ref
+  ) => {
     const { isMulti, isBadge } = useContext(ComboboxContextData);
 
     return (
@@ -51,6 +54,7 @@ const ComboboxOptionItem = forwardRef(
                       src={option.image}
                       alt=""
                       className="mr-3 h-6 w-6 shrink-0 rounded-full"
+                      onError={onImageError}
                     />
                   )}
                   <span
@@ -109,13 +113,15 @@ ComboboxOptionItem.propTypes = {
     image: string,
     visualLabel: node
   }).isRequired,
+  onImageError: func,
   wrapperClassName: string
 };
 
 ComboboxOptionItem.defaultProps = {
   checkPosition: CHECK_POSITION[0],
   disabled: false,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  onImageError: null
 };
 
 export default ComboboxOptionItem;
