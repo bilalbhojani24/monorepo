@@ -136,7 +136,7 @@ const App = () => {
       window.isSentryInitialized = true;
       initErrorLogger({
         dsn: SENTRY_DSN,
-        debug: true,
+        debug: false,
         release: 'v0.1-o11y',
         environment: 'production',
         tracesSampleRate: 1.0
