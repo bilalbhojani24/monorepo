@@ -339,7 +339,7 @@ function BuildDetailsHeader({
             }
           >
             <Hyperlink
-              href={versionControlInfo?.url}
+              href={ciBuildData?.buildUrl}
               target="_blank"
               onClick={() => logMetaInteractionEvent('ci_url_clicked')}
             >
