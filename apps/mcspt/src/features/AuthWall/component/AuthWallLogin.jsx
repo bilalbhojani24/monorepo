@@ -17,7 +17,7 @@ const AuthWallLogin = () => {
 
   return (
     <div
-      className="flex min-h-screen flex-col items-center justify-center"
+      className="flex min-h-screen flex-col items-center justify-center bg-contain bg-no-repeat"
       style={{ backgroundImage: `url(${authWallLoginBg})` }}
     >
       <div className="">
