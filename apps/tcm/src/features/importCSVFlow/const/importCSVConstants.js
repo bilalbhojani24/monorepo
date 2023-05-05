@@ -55,21 +55,22 @@ export const DEFAULT_MODAL_DROPDOWN_OPTIONS = [
 
 export const VALUE_MAPPING_OPTIONS = {
   PRIORITY: [
+    ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
     { label: 'Critical', value: 'critical' },
     { label: 'High', value: 'high' },
     { label: 'Medium', value: 'medium' },
-    { label: 'Low', value: 'low' },
-    ...DEFAULT_MODAL_DROPDOWN_OPTIONS
+    { label: 'Low', value: 'low' }
   ],
   STATE: [
+    ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
     { label: 'Active', value: 'active' },
     { label: 'Draft', value: 'draft' },
     { label: 'In Review', value: 'in review' },
     { label: 'Rejected', value: 'rejected' },
-    { label: 'Outdated', value: 'outdated' },
-    ...DEFAULT_MODAL_DROPDOWN_OPTIONS
+    { label: 'Outdated', value: 'outdated' }
   ],
   TESTCASETYPE: [
+    ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
     { label: 'Acceptance', value: 'acceptance' },
     { label: 'Accessibility', value: 'accessibility' },
     { label: 'Automated', value: 'automated' },
@@ -82,8 +83,7 @@ export const VALUE_MAPPING_OPTIONS = {
     { label: 'Security', value: 'security' },
     { label: 'Smoke & Sanity', value: 'smoke_sanity' },
     { label: 'Usability', value: 'usability' },
-    { label: 'Manual', value: 'manual' },
-    ...DEFAULT_MODAL_DROPDOWN_OPTIONS
+    { label: 'Manual', value: 'manual' }
   ]
 };
 
