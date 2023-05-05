@@ -28,6 +28,7 @@ import {
   getSnpErrorsSortBy
 } from '../slices/selectors';
 
+import UEMetrics from './UEMetrics';
 import UERow from './UERow';
 
 const List = forwardRef((props, ref) => (
@@ -145,6 +146,7 @@ const SnPUniqueErrors = () => {
   return (
     <div className={twClassNames('flex flex-col h-full ')}>
       <ErrorsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
+      <UEMetrics />
       {isLoadingErrors ? (
         <O11yLoader
           wrapperClassName="flex-1"

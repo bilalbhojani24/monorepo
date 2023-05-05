@@ -300,3 +300,81 @@ export const getSnPErrorDetailsPlatforms = async ({
   }
   return axios.get(endpoint);
 };
+
+export const getSnPTestsFailuresMetrics = async ({
+  normalisedName,
+  dateRange
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/metrics/failures`;
+
+  if (dateRange) {
+    const { lowerBound, upperBound } = dateRange;
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getSnPTestsAverageFailureRatesMetrics = async ({
+  normalisedName,
+  dateRange
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/metrics/averageFailureRates`;
+
+  if (dateRange) {
+    const { lowerBound, upperBound } = dateRange;
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getSnPTestsAvergeDurationMetrics = async ({
+  normalisedName,
+  dateRange
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/metrics/averageDuration`;
+
+  if (dateRange) {
+    const { lowerBound, upperBound } = dateRange;
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getSnPUETotalUniqueErrorsMetrics = async ({
+  normalisedName,
+  dateRange
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/metrics/totalUniqueErrors`;
+
+  if (dateRange) {
+    const { lowerBound, upperBound } = dateRange;
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getSnPUEUniqueImpactedTestsMetrics = async ({
+  normalisedName,
+  dateRange
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/metrics/uniqueImpactedTests`;
+
+  if (dateRange) {
+    const { lowerBound, upperBound } = dateRange;
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
+  }
+  return axios.get(endpoint);
+};
+
+export const getSnPTotalImpactedTestsMetrics = async ({
+  normalisedName,
+  dateRange
+}) => {
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/metrics/totalImpactedTests`;
+
+  if (dateRange) {
+    const { lowerBound, upperBound } = dateRange;
+    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
+  }
+  return axios.get(endpoint);
+};

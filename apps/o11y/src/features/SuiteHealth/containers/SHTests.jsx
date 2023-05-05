@@ -32,6 +32,8 @@ import {
   getSnpTestsSortBy
 } from '../slices/selectors';
 
+import TestsMetrics from './TestsMetrics';
+
 export default function SHTests() {
   const mounted = useRef(null);
 
@@ -157,6 +159,7 @@ export default function SHTests() {
   return (
     <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
       <SHTestsHeader />
+      <TestsMetrics />
       {isLoadingTests ? (
         <O11yLoader wrapperClassName="flex-1" />
       ) : (

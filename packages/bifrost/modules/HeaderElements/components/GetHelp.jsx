@@ -9,6 +9,7 @@ import { ChevronDownIcon, MdArrowRightAlt } from '../../Icon';
 const GetHelp = ({
   elementOptions,
   documentation,
+  others,
   references,
   documentationLink,
   supportLink
@@ -150,6 +151,7 @@ const GetHelp = ({
       content={helpPopover(
         documentation,
         references,
+        others,
         documentationLink,
         supportLink
       )}
@@ -195,6 +197,7 @@ const GetHelp = ({
 GetHelp.propTypes = {
   documentation: PropTypes.objectOf(PropTypes.any).isRequired,
   references: PropTypes.objectOf(PropTypes.any).isRequired,
+  others: PropTypes.objectOf(PropTypes.any).isRequired,
   documentationLink: PropTypes.string.isRequired,
   supportLink: PropTypes.string.isRequired,
   elementOptions: PropTypes.shape({

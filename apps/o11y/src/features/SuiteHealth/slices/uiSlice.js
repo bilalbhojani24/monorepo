@@ -1,5 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getBuildNames } from 'api/snp';
+import {
+  getBuildNames,
+  getSnPTestsAverageFailureRatesMetrics,
+  getSnPTestsAvergeDurationMetrics,
+  getSnPTestsFailuresMetrics,
+  getSnPTotalImpactedTestsMetrics,
+  getSnPUETotalUniqueErrorsMetrics,
+  getSnPUEUniqueImpactedTestsMetrics
+} from 'api/snp';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 
 import { TABS } from '../constants';
@@ -94,6 +102,78 @@ export const getBuildNamesData = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await getBuildNames({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getSnPTestsFailuresMetricsData = createAsyncThunk(
+  'snptests/FailureMetrics',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getSnPTestsFailuresMetrics({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getSnPTestsAverageFailureRatesMetricsData = createAsyncThunk(
+  'snptests/AverageFailureRates',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getSnPTestsAverageFailureRatesMetrics({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getSnPTestsAvergeDurationMetricsData = createAsyncThunk(
+  'snptests/AverageDurationMetrics',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getSnPTestsAvergeDurationMetrics({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getSnPUETotalUniqueErrorsMetricsData = createAsyncThunk(
+  'snpue/FailureMetrics',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getSnPUETotalUniqueErrorsMetrics({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getSnPUEUniqueImpactedTestsMetricsData = createAsyncThunk(
+  'snpue/AverageFailureRates',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getSnPUEUniqueImpactedTestsMetrics({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getSnPTotalImpactedTestsMetricsData = createAsyncThunk(
+  'snpue/AverageDurationMetrics',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await getSnPTotalImpactedTestsMetrics({ ...data });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
