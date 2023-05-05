@@ -2,26 +2,27 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  MdContentPaste,
   MdLink,
   MdOpenInNew,
   MdOutlineTimer,
   MdSettings
 } from '@browserstack/bifrost';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
+import Copy2Clipboard from 'common/Copy2Clipboard';
 import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
-import { ROUTES } from 'constants/routes';
 import { LOG_TYPES } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getTestHistoryDetails } from 'features/TestList/slices/selectors';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import { getDocUrl } from 'utils/common';
+import { capitalize, getDocUrl } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
+import { getSettingsPath } from 'utils/routeUtils';
 
 function TestListHistoryTooltip({ testRunId, status }) {
   const dispatch = useDispatch();
@@ -31,18 +32,12 @@ function TestListHistoryTooltip({ testRunId, status }) {
   const historyData = useSelector((state) =>
     getTestHistoryDetails(state, testRunId)
   );
+  const activeProject = useSelector(getActiveProject);
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-  };
-
   const handleClickConfigureSmartTags = () => {
-    navigate(ROUTES.smart_tags);
-  };
-
-  const handleCopyLink = () => {
-    copyToClipboard(`${window.location.href}&details=${historyData.serialId}`);
+    navigate(getSettingsPath(activeProject?.normalisedName, 'smart_tags'));
   };
 
   useEffect(() => {
@@ -78,15 +73,13 @@ function TestListHistoryTooltip({ testRunId, status }) {
             <div className="flex justify-between">
               <p className="text-sm font-semibold">#{historyData?.serialId}</p>
               <span className="text-brand-600 text-xs font-medium">
-                <O11yButton
-                  icon={<MdLink className="cursor-pointer text-base" />}
-                  variant="minimal"
-                  iconPlacement="end"
-                  wrapperClassName="text-xs"
-                  onClick={handleCopyLink}
-                >
-                  Copy Link
-                </O11yButton>
+                <Copy2Clipboard
+                  text={historyData?.logs[LOG_TYPES.STACKTRACE]?.join('/n')}
+                  showBtnText
+                  wrapperClassName="text-brand-600 font-medium p-0 hover:bg-transparent hover:text-brand-500"
+                  btnText="Copy Link"
+                  icon={<MdLink className="text-base" />}
+                />
               </span>
             </div>
             <span className="border-b-base-300 my-3 border-b" />
@@ -99,7 +92,9 @@ function TestListHistoryTooltip({ testRunId, status }) {
                       status={historyData?.status}
                       customClass="text-base"
                     />
-                    <span className="text-center">{historyData?.status}</span>
+                    <span className="text-center">
+                      {capitalize(historyData?.status)}
+                    </span>
                   </p>
                 </div>
                 {!!historyData?.issueType && (
@@ -117,7 +112,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
               <div className="flex flex-col">
                 Duration
                 <p className="flex items-center justify-end">
-                  <MdOutlineTimer className="text-base-600" />
+                  <MdOutlineTimer className="text-base-600 mr-1" />
                   <span>{milliSecondsToTime(historyData?.duration)}</span>
                 </p>
               </div>
@@ -229,17 +224,11 @@ function TestListHistoryTooltip({ testRunId, status }) {
             <div className="flex flex-col">
               <div className="bg-base-100 flex h-8 items-center justify-between px-4">
                 <p className="text-base-600 text-xs font-medium">Stacktrace</p>
-                <O11yButton
-                  icon={<MdContentPaste className="cursor-pointer text-base" />}
-                  variant="minimal"
-                  iconPlacement="end"
-                  wrapperClassName="text-xs"
-                  onClick={() => {
-                    copyToClipboard(historyData?.logs[LOG_TYPES.STACKTRACE]);
-                  }}
-                >
-                  Copy to Clipboard
-                </O11yButton>
+                <Copy2Clipboard
+                  text={historyData?.logs[LOG_TYPES.STACKTRACE]?.join('/n')}
+                  showBtnText
+                  wrapperClassName="text-brand-600 font-medium p-0 hover:bg-transparent hover:text-brand-500"
+                />
               </div>
               <StackTraceTooltip
                 showOnlyTraceData

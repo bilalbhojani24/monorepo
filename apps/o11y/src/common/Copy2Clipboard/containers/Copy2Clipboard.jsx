@@ -4,7 +4,14 @@ import { MdCheck, MdOutlineContentCopy } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-function Copy2Clipboard({ text, showBtnText, onCopyCb, wrapperClassName }) {
+function Copy2Clipboard({
+  text,
+  showBtnText,
+  onCopyCb,
+  wrapperClassName,
+  btnText,
+  icon
+}) {
   const mounted = useRef(false);
   const [isCopied, setIsCopied] = useState(false);
 
@@ -52,16 +59,16 @@ function Copy2Clipboard({ text, showBtnText, onCopyCb, wrapperClassName }) {
         {showBtnText && (
           <>
             {isCopied ? (
-              <span className="text-brand-500 text-xs">Copied</span>
+              <span className="text-brand-600 text-xs">Copied</span>
             ) : (
-              <span className="text-xs">Copy to Clipboard</span>
+              <span className="text-xs">{btnText}</span>
             )}
           </>
         )}
         {isCopied ? (
           <MdCheck className="text-brand-500 h-4 w-4" />
         ) : (
-          <MdOutlineContentCopy className="h-4 w-4" />
+          <>{icon || <MdOutlineContentCopy className="h-4 w-4" />}</>
         )}
       </div>
     </CopyToClipboard>
@@ -72,14 +79,18 @@ Copy2Clipboard.propTypes = {
   text: PropTypes.string,
   showBtnText: PropTypes.bool,
   onCopyCb: PropTypes.func,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  btnText: PropTypes.string,
+  icon: PropTypes.node
 };
 
 Copy2Clipboard.defaultProps = {
   text: '',
   showBtnText: false,
   onCopyCb: () => {},
-  wrapperClassName: ''
+  wrapperClassName: '',
+  btnText: 'Copy to clipboard',
+  icon: null
 };
 
 export default Copy2Clipboard;
