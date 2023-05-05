@@ -1,8 +1,14 @@
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { deleteTestCaseAPI, deleteTestCasesBulkAPI } from 'api/testcases.api';
+import {
+  deleteTestCaseAPI,
+  deleteTestCasesBulkAPI,
+  getTestCasesAPI,
+  getTestCasesSearchFilterAPI
+} from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
+import { getFilterOptions, redirectToPrevPage } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -12,7 +18,8 @@ import {
   setDeleteTestCaseModalVisibility,
   setMetaPage,
   updateAllTestCases,
-  updateCtaLoading
+  updateCtaLoading,
+  updateTestCasesListLoading
 } from '../../slices/repositorySlice';
 
 import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
@@ -23,6 +30,7 @@ export default function useDeleteTestCase() {
   // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId } = useParams();
+
   const dispatch = useDispatch();
   const { updateTCCount } = useUpdateTCCountInFolders();
 
@@ -31,7 +39,6 @@ export default function useDeleteTestCase() {
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
-  const allTestCases = useSelector((state) => state.repository.allTestCases);
 
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase
@@ -42,10 +49,85 @@ export default function useDeleteTestCase() {
   const bulkDeleteTestCaseCtaLoading = useSelector(
     (state) => state.repository.isLoading.bulkDeleteTestCaseCta
   );
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
 
   const selectedBulkTCCount = bulkSelection.select_all
     ? metaPage.count - bulkSelection.de_selected_ids.length
     : bulkSelection.ids.length;
+
+  const lastPageLastEntry = (totalCount) =>
+    totalCount - 1 === (searchParams.get('p') - 1) * 30;
+
+  const getQueryParams = (filterOptions) => {
+    const queryParams = {};
+    Object.keys(filterOptions).forEach((key) => {
+      const value = Array.isArray(filterOptions[key])
+        ? filterOptions[key].join(',')
+        : filterOptions[key];
+
+      if (value) {
+        if (key === 'q') {
+          queryParams[`q[query]`] = value;
+        } else queryParams[`q[${key}]`] = value;
+      }
+    });
+    return queryParams;
+  };
+
+  const refreshSearchAndFilterTestCases = () => {
+    const page = searchParams.get('p');
+    const filterOptions = getFilterOptions(searchParams);
+    const queryParams = getQueryParams(filterOptions);
+
+    if (page) queryParams.p = page;
+    dispatch(updateTestCasesListLoading(true));
+    if (lastPageLastEntry(metaPage?.count))
+      redirectToPrevPage(searchParams, setSearchParams);
+    else {
+      getTestCasesSearchFilterAPI({
+        projectId,
+        props: queryParams
+      })
+        .then((res) => {
+          const testCases = res.test_cases.map((item) => ({
+            ...item,
+            folders: res?.folders?.[item.test_case_folder_id] || null
+          }));
+
+          dispatch(setMetaPage(res.info));
+          dispatch(updateAllTestCases(testCases));
+          dispatch(updateTestCasesListLoading(false));
+        })
+        .catch(() => {
+          dispatch(updateTestCasesListLoading(false));
+        });
+    }
+  };
+
+  const refreshNormalViewTestCases = () => {
+    dispatch(updateTestCasesListLoading(true));
+    getTestCasesAPI({ projectId, folderId, page: searchParams.get('p') })
+      .then((res) => {
+        dispatch(updateAllTestCases(res?.test_cases || []));
+        dispatch(setMetaPage(res.info));
+        dispatch(updateTestCasesListLoading(false));
+      })
+      .catch(() => {
+        // if page error, reset p=1
+        setSearchParams({});
+        dispatch(updateTestCasesListLoading(false));
+      });
+  };
+
+  const refreshAllTestCases = () => {
+    if (isSearchFilterView) {
+      refreshSearchAndFilterTestCases();
+    } else {
+      refreshNormalViewTestCases();
+    }
+  };
 
   const setMetaCount = (newCount) => {
     dispatch(
@@ -74,31 +156,29 @@ export default function useDeleteTestCase() {
     );
     dispatch(updateCtaLoading({ key: 'bulkDeleteTestCaseCta', value: true }));
 
-    deleteTestCasesBulkAPI({ projectId, folderId, bulkSelection })
+    deleteTestCasesBulkAPI({
+      projectId,
+      folderId,
+      bulkSelection,
+      page: searchParams.get('p') === null ? 1 : searchParams.get('p')
+    })
       .then((data) => {
         updateTCCount({ casesObj: data?.cases_count });
         dispatch(
           updateCtaLoading({ key: 'bulkDeleteTestCaseCta', value: false })
         );
 
-        let updatedTestCases = [];
         const updatedCount = metaPage.count - selectedBulkTCCount;
 
-        if (bulkSelection.select_all) {
-          updatedTestCases = allTestCases.filter((item) =>
-            bulkSelection.de_selected_ids.includes(item.id)
-          );
-        } else {
-          updatedTestCases = allTestCases.filter(
-            (item) => !bulkSelection.ids.includes(item.id)
-          );
-        }
-
+        // this case handles last page bulk delete and also the first page bulk delete
+        if (
+          metaPage?.next === null &&
+          data?.test_cases?.length === 0 &&
+          searchParams.get('p') !== null
+        )
+          redirectToPrevPage(searchParams, setSearchParams);
+        else dispatch(updateAllTestCases(data?.test_cases));
         setMetaCount(updatedCount);
-        if (updatedTestCases.length === 0 && updatedCount > 0) {
-          // TC exists but need to fetch, set page to 1
-          setSearchParams({});
-        } else dispatch(updateAllTestCases(updatedTestCases));
 
         dispatch(
           logEventHelper('TM_TcBulkDeleteNotification', {
@@ -152,6 +232,10 @@ export default function useDeleteTestCase() {
         );
 
         dispatch(deleteTestCase([selectedTestCase.id]));
+        if (lastPageLastEntry(metaPage?.count))
+          redirectToPrevPage(searchParams, setSearchParams);
+        else refreshAllTestCases();
+
         setMetaCount(metaPage.count - 1);
         hideDeleteTestCaseModal();
       })

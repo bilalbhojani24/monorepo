@@ -50,107 +50,133 @@ const defaultConfig = {
   argTypes: {
     label: {
       type: { summary: 'STRING', required: false },
-      description: 'Content that goes inside the banner',
+      description: 'The value of input label.',
       control: { type: 'text' },
       defaultValue: 'Label'
     },
     autoComplete: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description:
+        'This prop helps users to fill forms faster, especially on mobile devices. Allows user to auto-complete the value of the input element.',
       control: { type: 'text' },
       defaultValue: 'off'
     },
     cornerHintText: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'It provides the hint text to user.',
       control: { type: 'text' },
       defaultValue: ''
     },
     defaultValue: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'The default value for the input field.',
       control: { type: 'text' },
       defaultValue: undefined
     },
     value: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'The value of the input element.',
       control: { type: 'text' },
       defaultValue: undefined
     },
     description: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'The description of the input field.',
       control: { type: 'text' },
       defaultValue: ''
     },
     errorText: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'The error message to be displayed.',
       control: { type: 'text' },
       defaultValue: ''
     },
     id: {
       type: { summary: 'STRING', required: true },
-      description: 'ABCDEFGHIJK',
+      description:
+        'The ID of the input element to uniquely identify every element.',
       control: { type: 'text' },
       defaultValue: 'test-id'
     },
     inputRef: {
       type: { summary: 'OBJECT', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'Pass a ref to the input element.',
       control: { type: null }
     },
     addOnBeforeInline: {
       type: { summary: 'NODE', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'To add a node before the input field but inline.',
       control: { type: null },
       defaultValue: null
     },
     addOnAfterInline: {
       type: { summary: 'NODE', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'To add a node after the input field but inline.',
       defaultValue: null
     },
     addOnBefore: {
       type: { summary: 'NODE', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'To add a node before the input field.',
       control: { type: null },
       defaultValue: null
     },
     addOnAfter: {
       type: { summary: 'NODE', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'To add a node after the input field.',
       //   control: { type: null },
       defaultValue: null
     },
     addOnAfterInlineWrapperClassName: {
       type: { summary: 'NODE', required: false },
-      description: 'ABCDEFGHIJK',
+      description:
+        'To add or modify classes for the addOnAfter inline container.',
       //   control: { type: null },
       defaultValue: ''
     },
     addOnBeforeInlineWrapperClassName: {
       type: { summary: 'NODE', required: false },
-      description: 'ABCDEFGHIJK',
+      description:
+        'To add or modify classes for the addOnBefore inline container.',
       //   control: { type: null },
       defaultValue: ''
     },
+    onChange: {
+      type: { summary: 'FUNCTION', required: false },
+      description: 'Callback fired when the value of input element is changed.',
+      defaultValue: null
+    },
+    onBlur: {
+      type: { summary: 'FUNCTION', required: false },
+      description: 'Callback fired when the input element loses focus.',
+      defaultValue: null
+    },
+    onFocus: {
+      type: { summary: 'FUNCTION', required: false },
+      description: 'Callback fired when the input field is in the focus.',
+      defaultValue: null
+    },
+    onKeyDown: {
+      type: { summary: 'FUNCTION', required: false },
+      description:
+        'Callback fired when the user presses a key on the keyboard.',
+      defaultValue: null
+    },
     placeholder: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description:
+        'The short hint displayed in the input before the user enters a value.',
       control: { type: 'text' },
       defaultValue: placeholderText
     },
     readonly: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'It prevents the user from changing the value of the field.',
       control: { type: 'boolean' },
       defaultValue: false
     },
     type: {
       type: { summary: 'STRING', required: false },
-      description: 'ABCDEFGHIJK',
+      description: 'Type of the input field.',
       control: { type: 'text' },
       defaultValue: 'text'
     }
@@ -164,7 +190,9 @@ const InputWithLeadingIconAndTrailingButtonTemplate = (args) => (
 const InputWithLabelAndHelpTextTemplate = (args) => <InputField {...args} />;
 const InputWithValidationErrorTemplate = (args) => <InputField {...args} />;
 const InputWithDisabledStateTemplate = (args) => <InputField {...args} />;
-const InputWithHiddenLabelTemplate = (args) => <InputField {...args} />;
+const InputWithHiddenLabelTemplate = (args) => (
+  <InputField {...args} aria-label="some label" />
+);
 const InputWithCornerHintTemplate = (args) => <InputField {...args} />;
 const InputWithLeadingIconTemplate = (args) => <InputField {...args} />;
 const InputWithTrailingIconTemplate = (args) => <InputField {...args} />;

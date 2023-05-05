@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -20,7 +20,7 @@ import {
   submitMappingData
 } from '../slices/csvThunk';
 import {
-  setFieldsMapping,
+  // setFieldsMapping,
   setMapFieldModalConfig,
   setMapFieldsError,
   setShowMappings,
@@ -33,6 +33,7 @@ import {
 const useMapFields = () => {
   const dispatch = useDispatch();
   const { search } = useLocation();
+  const { projectId } = useParams();
   const queryParams = new URLSearchParams(search);
   const rowRef = useRef([]);
   const mapFieldsConfig = useSelector(
@@ -224,7 +225,11 @@ const useMapFields = () => {
   const handleSelectMenuChange = (field) => (selectedOption) => {
     if (selectedOption.label === ADD_FIELD_LABEL) {
       dispatch(
-        setFieldsMapping({ key: field, value: { action: ADD_FIELD_VALUE } })
+        setFieldsMappingThunk({
+          key: field,
+          value: { action: ADD_FIELD_VALUE },
+          mapper: mapNameToDisplay
+        })
       );
       dispatch(
         setValueMappings({ key: field, value: { action: ADD_FIELD_VALUE } })
@@ -233,7 +238,11 @@ const useMapFields = () => {
     }
     if (selectedOption.label === IGNORE_FIELD_LABEL) {
       dispatch(
-        setFieldsMapping({ key: field, value: { action: IGNORE_FIELD_VALUE } })
+        setFieldsMappingThunk({
+          key: field,
+          value: { action: IGNORE_FIELD_VALUE },
+          mapper: mapNameToDisplay
+        })
       );
       dispatch(
         setValueMappings({ key: field, value: { action: IGNORE_FIELD_VALUE } })
@@ -259,7 +268,7 @@ const useMapFields = () => {
         setValueMappingsThunk({
           importId: mapFieldsConfig?.importId,
           field,
-          projectId: queryParams.get('project'),
+          projectId,
           mappedField: mapDisplayToName[selectedOption.label]
         })
       );
@@ -361,12 +370,11 @@ const useMapFields = () => {
   const handleMappingProceedClick = () => {
     dispatch(
       logEventHelper('TM_ImportCsvStep2ProceedBtnClicked', {
-        project_id: queryParams.get('project'),
+        project_id: projectId,
         'column_name[]': Object.keys(myFieldMappings),
         'field_name[]': Object.keys(valueMappings)
       })
     );
-    const projectId = queryParams.get('project');
     const folderId = queryParams.get('folder');
     const mappingData = {
       importId: mapFieldsConfig.importId,

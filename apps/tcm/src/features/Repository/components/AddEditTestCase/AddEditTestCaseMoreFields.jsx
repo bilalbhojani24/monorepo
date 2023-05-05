@@ -41,6 +41,7 @@ const AddEditTestCaseMoreFields = () => {
           <TMSelectMenu
             checkPosition="right"
             label="Type of Test Case"
+            placeholder="Select type of test case"
             options={testCaseTypesOptions}
             onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
             value={
@@ -55,6 +56,7 @@ const AddEditTestCaseMoreFields = () => {
           <TMSelectMenu
             checkPosition="right"
             label="Priority"
+            placeholder="Select priority"
             options={priorityOptions}
             value={
               testCaseFormData.priority &&
@@ -78,6 +80,7 @@ const AddEditTestCaseMoreFields = () => {
             }
             checkPosition="right"
             label="State"
+            placeholder="Select state"
             options={statusOptions}
             onChange={(e) => handleTestCaseFieldChange('status', e.value)}
           />
@@ -239,7 +242,7 @@ const AddEditTestCaseMoreFields = () => {
           <TMFileUpload
             isUploading={isUploadInProgress}
             // multiple
-            wrapperClassName="w-64 h-36"
+            wrapperClassName="w-72 h-36"
             heading=""
             linkText="Upload a file"
             subHeading="PNG, JPG, PDF, CSV, MP4 up to 50 MB"

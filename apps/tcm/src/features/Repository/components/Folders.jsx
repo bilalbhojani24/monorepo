@@ -24,6 +24,7 @@ import '../styles/Folders.scss';
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export default function Folders() {
   const {
+    noResultsText,
     isFoldersLoading,
     testCasesCount,
     isSearchFilterView,
@@ -121,11 +122,7 @@ export default function Folders() {
                             ? `We found ${testCasesCount} results across all folders`
                             : 'No Results Found'
                         }
-                        description={
-                          testCasesCount !== 0
-                            ? ''
-                            : 'Reset the filters or try again.'
-                        }
+                        description={testCasesCount !== 0 ? '' : noResultsText}
                         mainIcon={
                           testCasesCount !== 0 ? (
                             <FindInPageOutlinedIcon className="text-base-400 !h-12 !w-12" />
@@ -143,19 +140,21 @@ export default function Folders() {
           </div>
         </>
       ) : (
-        <div className="flex h-full w-full flex-col items-stretch justify-center">
-          <TMEmptyState
-            title={<p className="text-base-800">Create New Folder</p>}
-            description="You can organize test cases in folders. Get started now."
-            mainIcon={
-              <MdOutlineCreateNewFolder className="text-base-400 m-auto h-12 w-12" />
-            }
-            buttonProps={{
-              children: 'Create Folder',
-              onClick: () => showAddFolderModal(true),
-              colors: 'white'
-            }}
-          />
+        <div className="flex h-full w-full flex-col items-center justify-center">
+          <div className="w-64">
+            <TMEmptyState
+              title={<p className="text-base-800">Create New Folder</p>}
+              description="You can organize test cases in folders. Get started now."
+              mainIcon={
+                <MdOutlineCreateNewFolder className="text-base-400 m-auto h-12 w-12" />
+              }
+              buttonProps={{
+                children: 'Create Folder',
+                onClick: () => showAddFolderModal(true),
+                colors: 'white'
+              }}
+            />
+          </div>
         </div>
       )}
     </div>
