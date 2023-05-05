@@ -1,13 +1,19 @@
 import React from 'react';
 
-// import AuthWallLoader from './AuthWallLoader';
+import AuthWallLoader from './AuthWallLoader';
 import AuthWallLogin from './AuthWallLogin';
 import useAuthWall from './useAuthWall';
 
 const AuthWall = () => {
-  useAuthWall();
+  const { isAuthWallChecked, authWallActivated } = useAuthWall();
 
-  return <AuthWallLogin />;
+  return (
+    <>
+      {!isAuthWallChecked && <AuthWallLoader />}
+
+      {isAuthWallChecked && authWallActivated && <AuthWallLogin />}
+    </>
+  );
 };
 
 export default AuthWall;

@@ -1,3 +1,4 @@
 import AuthWall from './component/AuthWall';
+import authWallReducer from './slices/authWallSlice';
 
-export { AuthWall };
+export { AuthWall, authWallReducer };

@@ -12,27 +12,30 @@ import './api/httpInterceptor';
 
 import Report from './features/Report';
 import ReportLoading from './features/ReportLoading';
+import useAppInitiation from './useAppInitiation';
 
-const App = () => (
-  <HashRouter>
-    <Routes>
-      <Route element={<Dashboard />}>
-        <Route element={<Sidebar />}>
-          <Route path="home" element={<Home />} />
+const App = () => {
+  useAppInitiation();
 
-          <Route path="testHistory" element={<TestHistory />} />
-          <Route path="thresholdPresets" element={<></>} />
+  return (
+    <HashRouter>
+      <Routes>
+        <Route element={<Dashboard />}>
+          <Route element={<Sidebar />}>
+            <Route path="home" element={<Home />} />
+            <Route path="testHistory" element={<TestHistory />} />
+          </Route>
+
+          <Route element={<RouteWithoutSidebarWrapper />}>
+            <Route path="generate" element={<ReportLoading />} />
+            <Route path="report" element={<Report />} />
+          </Route>
         </Route>
 
-        <Route element={<RouteWithoutSidebarWrapper />}>
-          <Route path="generate" element={<ReportLoading />} />
-          <Route path="report" element={<Report />} />
-        </Route>
-      </Route>
-
-      <Route index element={<AuthWall />} />
-    </Routes>
-  </HashRouter>
-);
+        <Route index path="/" element={<AuthWall />} />
+      </Routes>
+    </HashRouter>
+  );
+};
 
 export default App;

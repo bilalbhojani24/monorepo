@@ -1,4 +1,3 @@
-import { initLogger } from '@browserstack/utils';
 import {
   confirmLoginForReverseSync,
   fetchGeneralAnalytics,
@@ -8,7 +7,7 @@ import {
   userLogOut
 } from 'api/authentication';
 import { checkForPreviousUserSessions } from 'features/TestHistory';
-import { ANALYTICS_KEYS } from 'utils/analyticsUtils';
+import { updateAndInitiateAnalytics } from 'utils/analyticsUtils';
 
 import {
   getAuthToken,
@@ -25,7 +24,7 @@ export const checkGeneralAnalytics = () => async (dispatch) => {
 
     if (analyticsResponse?.status === 200) {
       dispatch(setGeneralAnalytics(analyticsResponse.data));
-      initLogger(ANALYTICS_KEYS);
+      updateAndInitiateAnalytics(analyticsResponse.data);
     } else {
       throw analyticsResponse;
     }
@@ -49,6 +48,14 @@ export const checkAuthAndSaveUserDetails =
         dispatch(setAuthToken(loginToken));
 
         userDetailsResponse = await fetchUserDetails('ssoRedirect');
+
+        /**
+         * We do this one line of indomitable sin here because
+         * central-FE wont provide a way to re-initialize anayltics instances,
+         * neither do they allow to use sdks directly,
+         * but PM wants to release feature at the earliest.
+         */
+        window.location.href = window.location.href.split('#')?.[0];
       }
 
       if (!ssoRedirectUrl && !getAuthToken(getState())) {
@@ -78,7 +85,7 @@ export const checkAuthAndSaveUserDetails =
       // handle login errors after PM defines scenario
     } finally {
       dispatch(setShowAuthLoadingModal(false));
-      dispatch(checkGeneralAnalytics());
+      await dispatch(checkGeneralAnalytics());
     }
   };
 
@@ -87,17 +94,18 @@ export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
     dispatch(setAuthModalStatusText('Logging Out'));
     dispatch(setShowAuthLoadingModal(true));
 
-    const logOutResponse = await userLogOut();
-
-    if (logOutResponse?.status === 200) {
-      dispatch(setAuthToken(null));
-      dispatch(setUserDetails(null));
-      await dispatch(checkForPreviousUserSessions(true));
-    }
+    await userLogOut();
   } catch (e) {
     // handle logout errors after PM defines scenario
   } finally {
     dispatch(setShowAuthLoadingModal(false));
+    /**
+     * We do this one line of indomitable sin here because
+     * central-FE wont provide a way to re-initialize anayltics instances,
+     * neither do they allow to use sdks directly,
+     * but PM wants to release feature at the earliest.
+     */
+    window.location.href = window.location.href.split('#')?.[0];
   }
 };
 

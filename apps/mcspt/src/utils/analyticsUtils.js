@@ -1,19 +1,17 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { logEvent } from '@browserstack/utils';
+import { initLogger, logEvent } from '@browserstack/utils';
 
 import { getGeneralAnalytics } from '../features/Dashboard/slices/dashboardSlice';
 
 export const ANALYTICS_KEYS = {
-  amplitudeKey: '985eaa9c45d824a94344e64a2a3ca724',
   amplitudeConfig: {
-    key: '985eaa9c45d824a94344e64a2a3ca724'
+    key: '985eaa9c45d824a94344e64a2a3ca724',
+    userData: {}
   },
   analyticsKey: 'UA-418548-19',
   EDSDetails: {
-    userDetails: {
-      user_id: '12'
-    },
+    userDetails: {},
     config: {
       server: 'eds.browserstack.com',
       port: '443',
@@ -101,7 +99,15 @@ export const useMcpAnalytics = () => {
   useEffect(() => {
     if (generalAnalytics) {
       analyticsEntities.generalAnalyticsData = generalAnalytics;
+
       sendDelayedEvents();
     }
   }, [generalAnalytics]);
+};
+
+export const updateAndInitiateAnalytics = (analyticsDataFromBE) => {
+  ANALYTICS_KEYS.amplitudeConfig.userData = { ...analyticsDataFromBE };
+  ANALYTICS_KEYS.EDSDetails.userDetails = { ...analyticsDataFromBE };
+
+  initLogger(ANALYTICS_KEYS);
 };

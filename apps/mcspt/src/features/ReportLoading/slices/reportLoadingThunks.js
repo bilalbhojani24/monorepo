@@ -1,5 +1,6 @@
 import { fetchSessionStatus, stopSession } from 'api/reportLoading';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
+import { MCP_ROUTES } from 'constants/routeConstants';
 import { resetSessionSetupData } from 'features/Home';
 import {
   setPreviousRouteForReport,
@@ -72,9 +73,9 @@ export const stopRecordingSession =
 
       dispatch(resetSessionSetupData());
 
-      dispatch(setPreviousRouteForReport('/'));
+      dispatch(setPreviousRouteForReport(MCP_ROUTES.HOME));
 
-      navigationCallback('/report');
+      navigationCallback(MCP_ROUTES.REPORT);
     } catch (error) {
       if (error?.response?.status === 500) {
         throw error;
@@ -103,7 +104,7 @@ export const cancelRecordingSession =
       }
     } finally {
       closeModalCallback();
-      navigationCallback('/');
+      navigationCallback(MCP_ROUTES.HOME);
       dispatch(setIsSessionStopInProgress(false));
       dispatch(resetSessionSetupData());
     }
