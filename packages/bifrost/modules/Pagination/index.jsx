@@ -29,6 +29,9 @@ const getPageRange = (page, totalPages) => {
   return totalPages.slice(startIndex, endIndex);
 };
 
+const buttonClass =
+  'text-base-500 pt-4 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent text-sm font-medium';
+
 const Pagination = (props) => {
   const {
     count,
@@ -54,6 +57,10 @@ const Pagination = (props) => {
   useEffect(() => {
     setTotalPages(getPageRangeNumbers());
   }, [count, pageSize, getPageRangeNumbers]);
+
+  useEffect(() => {
+    setCurrentPage(pageNumber);
+  }, [pageNumber]);
 
   const prevClick = (e) => {
     e.preventDefault();
@@ -124,7 +131,7 @@ const Pagination = (props) => {
       <div className="-mt-px flex w-0 flex-1">
         <a
           href="/"
-          className="text-base-500 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium"
+          className={`${buttonClass} pr-1`}
           onClick={prevClick}
           disabled={currentPage === 1}
         >
@@ -144,7 +151,7 @@ const Pagination = (props) => {
       <div className="-mt-px flex w-0 flex-1 justify-end">
         <a
           href="/"
-          className="text-base-500 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium"
+          className={`${buttonClass} pl-1`}
           onClick={nextClick}
           disabled={currentPage === totalPages[totalPages.length - 1]}
         >
