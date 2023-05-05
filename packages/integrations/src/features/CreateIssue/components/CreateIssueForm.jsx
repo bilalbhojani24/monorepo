@@ -212,7 +212,7 @@ const CreateIssueForm = ({
       });
       discardIssue(setIssueType);
     } else {
-      setFieldsData({ ...fieldsData, [key]: issueType });
+      setFieldsData((prev) => ({ ...prev, [key]: issueType }));
     }
   };
 

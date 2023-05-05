@@ -70,7 +70,7 @@ const renderChild = ({
       });
       discardIssue(setProject);
     } else {
-      setFieldsData({ ...fieldsData, [key]: project });
+      setFieldsData((prev) => ({ ...prev, [key]: project }));
     }
   };
 

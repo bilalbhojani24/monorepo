@@ -89,11 +89,11 @@ const IssueForm = ({
   const previousIssueFieldData = usePrevious(issueFieldData?.value ?? null);
 
   const selectTool = (item) => {
-    setFieldsData({ ...fieldsData, [FIELD_KEYS.INTEGRATON_TOOL]: item });
+    setFieldsData((prev) => ({ ...prev, [FIELD_KEYS.INTEGRATON_TOOL]: item }));
   };
 
   const deselectIssueType = () => {
-    setFieldsData({ ...fieldsData, [FIELD_KEYS.ISSUE_TYPE]: null });
+    setFieldsData((prev) => ({ ...prev, [FIELD_KEYS.ISSUE_TYPE]: null }));
   };
 
   const cleanedIssueTypes = useMemo(
@@ -115,10 +115,10 @@ const IssueForm = ({
   useEffect(() => {
     if (mode === ISSUE_MODES.CREATION) {
       resetUpdateMeta();
-      setFieldsData({ ...fieldsData, [FIELD_KEYS.TICKET_ID]: {} });
+      setFieldsData((prev) => ({ ...prev, [FIELD_KEYS.TICKET_ID]: {} }));
     } else {
       resetCreateMeta();
-      setFieldsData({ ...fieldsData, [FIELD_KEYS.ISSUE_TYPE]: {} });
+      setFieldsData((prev) => ({ ...prev, [FIELD_KEYS.ISSUE_TYPE]: {} }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode]);
@@ -233,11 +233,11 @@ const IssueForm = ({
   }, [areProjectsLoaded, projects, integrationToolFieldData, dispatch]);
 
   useEffect(() => {
-    setFieldsData({
-      ...fieldsData,
+    setFieldsData((prev) => ({
+      ...prev,
       [FIELD_KEYS.ISSUE_TYPE]: {},
       [FIELD_KEYS.TICKET_ID]: {}
-    });
+    }));
     // if (mode === ISSUE_MODES.UPDATION) {
     // }
     setUpdateFields([]);

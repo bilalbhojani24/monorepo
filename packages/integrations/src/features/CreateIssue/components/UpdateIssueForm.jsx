@@ -49,7 +49,7 @@ const UpdateIssueForm = ({
     setFieldErrors({});
   };
   const resetIssueField = () => {
-    setFieldsData({ ...fieldsData, [FIELD_KEYS.TICKET_ID]: {} });
+    setFieldsData((prev) => ({ ...prev, [FIELD_KEYS.TICKET_ID]: {} }));
   };
   const getTicketForProject = () => {
     setAreIssueOptionsLoading(true);
@@ -252,7 +252,7 @@ const UpdateIssueForm = ({
       });
       discardIssue(setIssueType);
     } else {
-      setFieldsData({ ...fieldsData, [key]: issueType });
+      setFieldsData((prev) => ({ ...prev, [key]: issueType }));
     }
   };
 

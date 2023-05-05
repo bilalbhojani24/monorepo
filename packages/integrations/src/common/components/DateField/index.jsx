@@ -26,10 +26,10 @@ const DateField = ({
   );
   const handleChange = (e) => {
     const fieldVal = e.toString();
-    setFieldsData({
-      ...fieldsData,
+    setFieldsData((prev) => ({
+      ...prev,
       [fieldKey]: fieldVal
-    });
+    }));
   };
   const valueFromProps = value || defaultValue;
   const prevValueFromProps = usePrevious(valueFromProps);
@@ -40,7 +40,7 @@ const DateField = ({
       valueFromProps !== prevValueFromProps &&
       typeof setFieldsData === 'function'
     ) {
-      setFieldsData({ ...fieldsData, [fieldKey]: value || defaultValue });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: valueFromProps }));
     }
   }, [
     value,

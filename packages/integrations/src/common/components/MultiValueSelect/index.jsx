@@ -41,7 +41,7 @@ const MultiSelect = ({
     }));
 
   const handleChange = (val) => {
-    setFieldsData({ ...fieldsData, [fieldKey]: val });
+    setFieldsData((prev) => ({ ...prev, [fieldKey]: val }));
   };
 
   const [optionsToRender, setOptionsToRender] = useState([]);
@@ -63,7 +63,7 @@ const MultiSelect = ({
       typeof setFieldsData === 'function'
     ) {
       const cleanedValue = cleanOptions(value || defaultValue);
-      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: cleanedValue }));
     }
   }, [value, defaultValue, fieldsData, fieldKey, setFieldsData]);
 

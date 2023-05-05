@@ -45,7 +45,7 @@ const TextField = ({
         : // single text, simply pass it
           fieldValue;
 
-    setFieldsData({ ...fieldsData, [fieldKey]: val });
+    setFieldsData((prev) => ({ ...prev, [fieldKey]: val }));
   };
 
   const requiredFieldError = useRequiredFieldError(
@@ -68,7 +68,7 @@ const TextField = ({
       !ALLOWED_TYPES.includes(typeof fieldsData?.[fieldKey]) &&
       typeof setFieldsData === 'function'
     ) {
-      setFieldsData({ ...fieldsData, [fieldKey]: valueToRender });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: valueToRender }));
     }
   }, [value, defaultValue, setFieldsData, fieldKey, fieldsData, valueToRender]);
 

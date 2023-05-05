@@ -104,7 +104,7 @@ const NestedSingleValueSelect = ({
         const [cleanedChild] = cleanOptions([cleanedValue.options]);
         cleanedValue.child = cleanedChild;
       }
-      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: cleanedValue }));
       const currentParentItem = options?.find(
         (parentOption) => parentOption.key === cleanedValue.value
       );
@@ -134,15 +134,15 @@ const NestedSingleValueSelect = ({
       ...valWithoutChild,
       child: cleanedChildOptions[0]
     };
-    setFieldsData({ ...fieldsData, [fieldKey]: valWithOneChild });
+    setFieldsData((prev) => ({ ...prev, [fieldKey]: valWithOneChild }));
     setChildOptions(cleanedChildOptions);
   };
 
   const handleChildChange = (val) => {
-    setFieldsData({
-      ...fieldsData,
+    setFieldsData((prev) => ({
+      ...prev,
       [fieldKey]: { ...fieldsData[fieldKey], child: val }
-    });
+    }));
   };
 
   const fetchQuery = (query) => {

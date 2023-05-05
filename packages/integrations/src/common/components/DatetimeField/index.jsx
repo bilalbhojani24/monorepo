@@ -42,10 +42,10 @@ const DatetimeField = ({
       valueFromProps !== prevValueFromProps &&
       typeof setFieldsData === 'function'
     ) {
-      setFieldsData({
-        ...fieldsData,
+      setFieldsData((prev) => ({
+        ...prev,
         [fieldKey]: valueFromProps
-      });
+      }));
     }
   }, [valueFromProps, prevValueFromProps, setFieldsData, fieldsData, fieldKey]);
 
@@ -89,10 +89,10 @@ const DatetimeField = ({
     } else {
       newDate = new Date(e.year, e.month - 1, e.day, 0, 0);
     }
-    setFieldsData({
-      ...fieldsData,
+    setFieldsData((prev) => ({
+      ...prev,
       [fieldKey]: newDate.toISOString()
-    });
+    }));
   };
 
   const handleTimeChange = (e) => {
@@ -110,10 +110,10 @@ const DatetimeField = ({
         newMin
       );
     }
-    setFieldsData({
-      ...fieldsData,
+    setFieldsData((prev) => ({
+      ...prev,
       [fieldKey]: newDate.toISOString()
-    });
+    }));
   };
 
   return (

@@ -103,7 +103,7 @@ const SingleValueSelect = ({
       !fieldsData?.[fieldKey] &&
       typeof setFieldsData === 'function'
     ) {
-      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: cleanedValue }));
     }
   }, [value, defaultValue, fieldsData, fieldKey, setFieldsData, cleanedValue]);
 
@@ -187,7 +187,7 @@ const SingleValueSelect = ({
         optionsToRender?.[0]) ||
       (selectFirstOnOptionChange && optionsToRender !== previousOptions)
     ) {
-      setFieldsData({ ...fieldsData, [fieldKey]: optionsToRender?.[0] });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: optionsToRender?.[0] }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -203,7 +203,7 @@ const SingleValueSelect = ({
     if (typeof onChangeHandler === 'function') {
       onChangeHandler(fieldKey, val);
     } else if (typeof setFieldsData === 'function') {
-      setFieldsData({ ...fieldsData, [fieldKey]: val });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: val }));
     }
   };
 
