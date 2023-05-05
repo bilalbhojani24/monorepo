@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   SelectMenu,
   SelectMenuOptionGroup,
@@ -6,6 +6,8 @@ import {
   SelectMenuTrigger,
   SingleDatepicker
 } from '@browserstack/bifrost';
+import { usePrevious } from '@browserstack/hooks';
+import { parseDate } from '@internationalized/date';
 
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
@@ -15,11 +17,13 @@ import { TIME_PICKER_OPTIONS } from './constants';
 
 const DatetimeField = ({
   label,
+  value,
   schema,
   fieldKey,
   required,
   fieldsData,
   fieldErrors,
+  defaultValue,
   setFieldsData,
   areSomeRequiredFieldsEmpty
 }) => {
@@ -29,6 +33,48 @@ const DatetimeField = ({
     areSomeRequiredFieldsEmpty
   );
 
+  const valueFromProps = value || defaultValue;
+  const prevValueFromProps = usePrevious(valueFromProps);
+
+  useEffect(() => {
+    if (
+      valueFromProps &&
+      valueFromProps !== prevValueFromProps &&
+      typeof setFieldsData === 'function'
+    ) {
+      setFieldsData({
+        ...fieldsData,
+        [fieldKey]: valueFromProps
+      });
+    }
+  }, [valueFromProps, prevValueFromProps, setFieldsData, fieldsData, fieldKey]);
+
+  const valueToRender =
+    fieldsData?.[fieldKey] && new Date(fieldsData?.[fieldKey]);
+
+  const dateToRender =
+    valueToRender &&
+    `${valueToRender.getFullYear()}-${
+      valueToRender.getMonth() + 1 > 9
+        ? valueToRender.getMonth() + 1
+        : `0${valueToRender.getMonth() + 1}`
+    }-${
+      valueToRender.getDate() > 9
+        ? valueToRender.getDate()
+        : `0${valueToRender.getDate()}`
+    }`;
+
+  const time =
+    valueToRender &&
+    valueToRender.toTimeString().split(':').slice(0, 2).join(':');
+
+  const timeToRender = time
+    ? TIME_PICKER_OPTIONS.find((item) => item.label === time)
+    : null;
+
+  // should pass undefined in case there's no date since parseDate
+  // is not null-error safe
+  const parsedValueForDatePicker = dateToRender && parseDate(dateToRender);
   const handleDateChange = (e) => {
     let newDate = null;
     if (fieldsData?.[fieldKey]) {
@@ -41,7 +87,7 @@ const DatetimeField = ({
         prevDate.getSeconds()
       );
     } else {
-      newDate = new Date(e.year, e.month - 1, e.day);
+      newDate = new Date(e.year, e.month - 1, e.day, 0, 0);
     }
     setFieldsData({
       ...fieldsData,
@@ -81,11 +127,13 @@ const DatetimeField = ({
         <div className="flex-1">
           <SingleDatepicker
             onChange={handleDateChange}
+            value={parsedValueForDatePicker}
             errorMessage={requiredFieldError || fieldErrors?.[fieldKey]}
           />
         </div>
         <div className="ml-2 flex-1">
           <SelectMenu
+            value={timeToRender}
             onChange={handleTimeChange}
             disabled={!fieldsData?.[fieldKey]}
           >
