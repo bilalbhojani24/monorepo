@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@browserstack/hooks": "workspace:*",
-    "@browserstack/utils": "2.0.0",
+    "@browserstack/utils": "2.1.0",
     "@headlessui/react": "1.7.5",
     "@heroicons/react": "2.0.13",
     "@internationalized/date": "^3.1.0",
