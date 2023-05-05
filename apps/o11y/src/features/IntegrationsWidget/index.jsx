@@ -111,9 +111,13 @@ const IntegrationsWidget = () => {
       position={configuration.position}
       positionRef={widgetPositionRef || null}
       auth={auth}
-      config={{
-        baseURL: getEnvConfig().integrationsBaseUrl
-      }}
+      config={
+        envConfig.integrationsBaseUrl
+          ? {
+              baseURL: envConfig.integrationsBaseUrl
+            }
+          : undefined
+      }
       options={options}
     />
   );
