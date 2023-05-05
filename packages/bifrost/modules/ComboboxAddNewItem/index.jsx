@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useId, useRef, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
 import { bool, string } from 'prop-types';
@@ -22,7 +22,7 @@ const ComboboxAddNewItem = ({
   const firstRef = useRef();
   const secondRef = useRef();
   const thirdRef = useRef();
-  const uniqueId = '0';
+  const uniqueId = useId();
 
   const content = !showQuery ? '' : query;
 
