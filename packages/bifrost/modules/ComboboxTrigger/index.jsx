@@ -95,7 +95,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           key={open || isLoading}
           placeholder={isLoading ? null : placeholder}
           className={twClassNames(
-            'cursor-pointer flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 flex-1 p-0 text-ellipsis pr-7 text-sm leading-6',
+            'cursor-pointer flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 flex-1 p-0 truncate pr-7 text-sm leading-6',
             {
               'bg-base-50 cursor-not-allowed': disabled || isLoading,
               'pr-0': isTruncated
@@ -117,10 +117,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           autoComplete="off"
         />
         {(isLoadingRight || errorText || isTruncated) && (
-          <div className="mr-5 flex items-center space-x-2 pr-1">
-            {isMulti && isTruncated && !open ? (
-              <span className="mr-1 font-bold">{`(${currentSelectedValues.length})`}</span>
-            ) : null}
+          <div className="flex items-center space-x-2 pr-1">
             {isLoadingRight && (
               <span className="text-base-500 flex items-center space-x-2 rounded-r-md focus:outline-none">
                 <Loader wrapperClassName="text-base-200 fill-base-400 h-5 w-5" />
@@ -134,10 +131,13 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
                 />
               </span>
             )}
+            {isMulti && isTruncated && !open ? (
+              <span className="mr-1 font-bold">{`(${currentSelectedValues.length})`}</span>
+            ) : null}
           </div>
         )}
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center justify-end rounded-r-md px-2 focus:outline-none">
-          <TriggerButton setIsTruncated={setIsTruncated} />
+          <TriggerButton setIsTruncated={setIsTruncated} ref={comboInputRef} />
         </Combobox.Button>
       </Combobox.Button>
     </Popover.Trigger>
