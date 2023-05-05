@@ -12,12 +12,12 @@ import removePaddingfromBeginning from './src/removePaddingfromBeginning';
 
 export * from './src/axiosUtils';
 export * from './src/delay';
-export * from './src/errorLogger';
 export * from './src/getNumberOrdinal';
 export * from './src/helper';
 export * from './src/keyboardNavigationHelper';
 export * from './src/localStorage';
 export * from './src/logger';
+export * from './src/errorLogger';
 export * from './src/tailwindUtils';
 export * from './src/validateEmail';
 
