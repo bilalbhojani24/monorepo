@@ -37,7 +37,8 @@ const Code = ({
       value={{
         view,
         code,
-        setShowCopy
+        setShowCopy,
+        showCopy
       }}
     >
       <div
@@ -58,7 +59,7 @@ const Code = ({
               maxHeight
             }}
             className={twClassNames(
-              'text-sm !p-0 overflow-hidden relative rounded-b-md bg-white',
+              'text-sm !p-0 overflow-y-scroll relative rounded-b-md bg-white',
               {
                 'rounded-md': !toolbar,
                 '!p-4': !showLineNumbers || singleLine,
@@ -163,7 +164,7 @@ const Code = ({
           >
             {code}
           </SyntaxHighlighter>
-          {showCopy && <CopyButton />}
+          <CopyButton />
         </div>
       </div>
     </CodeSnippetContextData.Provider>
@@ -191,7 +192,7 @@ Code.propTypes = {
 Code.defaultProps = {
   code: '',
   maxHeight: undefined,
-  highlight: null,
+  highlight: [],
   showLineNumbers: false,
   singleLine: false,
   toolbar: null,
