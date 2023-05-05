@@ -48,7 +48,7 @@ const SingleValueSelect = ({
   const baseURL = useSelector(baseURLSelector);
   const activeIntegration = useSelector(activeIntegrationSelector);
 
-  const handleIconError = (itemWithError) => {
+  const handleIconError = (__, itemWithError) => {
     if (
       typeof itemWithError.image === 'string' &&
       baseURL &&
@@ -58,7 +58,6 @@ const SingleValueSelect = ({
     ) {
       return;
     }
-
     dispatch(
       fetchBase64IconThunk({
         url: `${baseURL}/api/pm-tools/v1/resources/icons?uri=${itemWithError.image}&integration_key=${activeIntegration.value}`
@@ -309,7 +308,7 @@ const SingleValueSelect = ({
             <ComboboxOptionItem
               key={item.value}
               option={item}
-              handleIconError={handleIconError}
+              onImageError={(e) => handleIconError(e, item)}
             />
           ))}
         </ComboboxOptionGroup>
