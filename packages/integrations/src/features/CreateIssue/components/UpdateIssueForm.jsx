@@ -99,12 +99,24 @@ const UpdateIssueForm = ({
         parsed
       )
         .catch((errorResponse) => {
-          if (errorResponse?.field_errors) {
+          if (Object.keys(errorResponse?.field_errors).length) {
             setFieldErrors(errorResponse.field_errors);
           }
-          dispatch(
-            setGlobalAlert({ kind: 'error', message: 'Error updating issue.' })
-          );
+          if (errorResponse?.message?.length) {
+            dispatch(
+              setGlobalAlert({
+                kind: 'error',
+                message: errorResponse?.message[0]
+              })
+            );
+          } else {
+            dispatch(
+              setGlobalAlert({
+                kind: 'error',
+                message: 'Error updating issue.'
+              })
+            );
+          }
           if (typeof errorCallback === 'function') {
             errorCallback({
               event: 'update',
