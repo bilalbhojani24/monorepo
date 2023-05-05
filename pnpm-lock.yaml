@@ -411,7 +411,6 @@ importers:
       react-player: 2.12.0
       react-resizable: 3.0.4
       react-router-dom: 6.6.1
-      react-stately: ^3.21.0
       react-syntax-highlighter: 15.5.0
       sass: 1.57.1
       storybook-addon-designs: 6.3.1
@@ -446,7 +445,6 @@ importers:
       react-player: 2.12.0_react@18.2.0
       react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
-      react-stately: 3.22.0_react@18.2.0
       react-syntax-highlighter: 15.5.0_react@18.2.0
     devDependencies:
       '@browserstack/stylelint-config': link:../stylelint-config
