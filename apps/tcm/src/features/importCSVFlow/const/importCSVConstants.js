@@ -63,11 +63,11 @@ export const VALUE_MAPPING_OPTIONS = {
   ],
   STATE: [
     ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
-    { label: 'Active', value: 'active' },
-    { label: 'Draft', value: 'draft' },
-    { label: 'In Review', value: 'in review' },
-    { label: 'Rejected', value: 'rejected' },
-    { label: 'Outdated', value: 'outdated' }
+    { label: 'Active', value: 'active_status' },
+    { label: 'Draft', value: 'draft_status' },
+    { label: 'In Review', value: 'in_review_status' },
+    { label: 'Rejected', value: 'rejected_status' },
+    { label: 'Outdated', value: 'outdated_status' }
   ],
   TESTCASETYPE: [
     ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
