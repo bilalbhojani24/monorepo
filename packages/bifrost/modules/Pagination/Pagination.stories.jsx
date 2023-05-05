@@ -26,6 +26,12 @@ const defaultConfig = {
       defaultValue: 100,
       description: 'Total number of results in pagination'
     },
+    defaultPageNumber: {
+      option: { type: 'number' },
+      defaultValue: 2,
+      description:
+        'Current page number, default is undefined and it is uncontrolled'
+    },
     isCentered: {
       option: { type: 'boolean' },
       defaultValue: false,
@@ -54,8 +60,9 @@ const defaultConfig = {
     },
     pageNumber: {
       option: { type: 'number' },
-      defaultValue: 1,
-      description: 'Current page number, default is 1'
+      defaultValue: 4,
+      description:
+        'Current page number, default is undefined and it is controlled from consumer'
     },
     pageSize: {
       option: { type: 'number' },

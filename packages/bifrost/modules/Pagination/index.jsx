@@ -35,6 +35,7 @@ const buttonClass =
 const Pagination = (props) => {
   const {
     count,
+    defaultPageNumber,
     pageSize,
     pageNumber,
     onNextClick,
@@ -46,7 +47,8 @@ const Pagination = (props) => {
     inActiveLinkClass,
     hideDetailsString
   } = props;
-  const [currentPage, setCurrentPage] = useState(pageNumber);
+  const [currentPage, setCurrentPage] = useState(defaultPageNumber);
+
   const [totalPages, setTotalPages] = useState([]);
 
   const getPageRangeNumbers = useCallback(() => {
@@ -59,7 +61,7 @@ const Pagination = (props) => {
   }, [count, pageSize, getPageRangeNumbers]);
 
   useEffect(() => {
-    setCurrentPage(pageNumber);
+    if (pageNumber) setCurrentPage(pageNumber);
   }, [pageNumber]);
 
   const prevClick = (e) => {
@@ -229,6 +231,7 @@ const Pagination = (props) => {
 Pagination.propTypes = {
   activeLinkClass: PropTypes.string,
   count: PropTypes.number,
+  defaultPageNumber: PropTypes.number,
   inActiveLinkClass: PropTypes.string,
   isCentered: PropTypes.bool,
   onNextClick: PropTypes.func,
@@ -243,12 +246,13 @@ Pagination.propTypes = {
 Pagination.defaultProps = {
   activeLinkClass: '',
   count: 100,
+  defaultPageNumber: 1,
   isCentered: false,
   inActiveLinkClass: '',
   onNextClick: () => {},
   onPageNumberClick: () => {},
   onPreviousClick: () => {},
-  pageNumber: 1,
+  pageNumber: undefined,
   pageSize: 25,
   withNumber: true,
   hideDetailsString: false
