@@ -1,5 +1,5 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -9,6 +9,7 @@ import {
 } from 'common/bifrostProxy';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 import { PaywallTooltip } from 'features/Paywall';
+import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
@@ -36,8 +37,10 @@ const STATIC_TEST_STATUS_FLIPPING_TOTAL = [
     .map((_, i) => ({ name: i + 1, value: i + 1 }))
 ];
 
-export const FlakyTags = ({ data, isActive, isLoading }) => {
+export const FlakyTags = ({ data, isActive }) => {
+  const [isSubmittingData, setIsSubmittingData] = useState(false);
   const dispatch = useDispatch();
+  const activeProject = useSelector(getActiveProject);
 
   const { automaticFlaky, flakeInHistory, flakeInRerun } = data;
   const {
@@ -46,26 +49,34 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
   } = SMART_TAGS_DEFAULT_VALUES.flaky.flakeInHistory;
   const { rerun: rerunDefault } = SMART_TAGS_DEFAULT_VALUES.flaky.flakeInRerun;
 
-  const updateAutomaticFlakyTags = (key, value) => {
+  const saveAndSubmitData = (payload) => {
+    setIsSubmittingData(true);
+    dispatch(saveSmartTagsChanges(payload));
     dispatch(
       submitSmartTagsChanges({
-        flaky: { ...data, [key]: value }
+        projectNormalisedName: activeProject.normalisedName
       })
-    );
+    )
+      .unwrap()
+      .finally(() => {
+        setIsSubmittingData(false);
+      });
+  };
+
+  const updateAutomaticFlakyTags = (key, value) => {
+    saveAndSubmitData({ flaky: { ...data, [key]: value } });
   };
 
   const setTestStatusFlippingSwitch = (value) => {
-    dispatch(
-      submitSmartTagsChanges({
-        flaky: {
-          ...data,
-          flakeInHistory: {
-            ...flakeInHistory,
-            enabled: value
-          }
+    saveAndSubmitData({
+      flaky: {
+        ...data,
+        flakeInHistory: {
+          ...flakeInHistory,
+          enabled: value
         }
-      })
-    );
+      }
+    });
   };
   const setTestStatusFlipping = (item) => {
     dispatch(
@@ -94,17 +105,15 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
     );
   };
   const setFlakeInRerunSwitch = (value) => {
-    dispatch(
-      submitSmartTagsChanges({
-        flaky: {
-          ...data,
-          flakeInRerun: {
-            ...flakeInRerun,
-            enabled: value
-          }
+    saveAndSubmitData({
+      flaky: {
+        ...data,
+        flakeInRerun: {
+          ...flakeInRerun,
+          enabled: value
         }
-      })
-    );
+      }
+    });
   };
 
   const setFlakeInRerun = (item) => {
@@ -136,7 +145,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
               updateAutomaticFlakyTags('automaticFlaky', item)
             }
             disabled={!isActive}
-            loading={isLoading}
+            loading={isSubmittingData}
           />
         </PaywallTooltip>
       </div>
@@ -149,7 +158,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
               checked={flakeInHistory?.enabled}
               onChange={setTestStatusFlippingSwitch}
               disabled={isActive ? !automaticFlaky : true}
-              loading={isLoading}
+              loading={isSubmittingData}
             />
           </div>
           <div className="text-base-500 flex flex-wrap items-center">
@@ -228,7 +237,7 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
               checked={flakeInRerun?.enabled}
               onChange={setFlakeInRerunSwitch}
               disabled={isActive ? !automaticFlaky : true}
-              loading={isLoading}
+              loading={isSubmittingData}
             />
           </div>
           <div className="text-base-500 flex items-center">
@@ -269,11 +278,9 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
 
 FlakyTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
-  isActive: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool
+  isActive: PropTypes.bool.isRequired
 };
 
 FlakyTags.defaultProps = {
-  data: {},
-  isLoading: false
+  data: {}
 };

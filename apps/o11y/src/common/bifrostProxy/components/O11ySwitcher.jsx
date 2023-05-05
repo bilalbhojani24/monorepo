@@ -19,7 +19,7 @@ export default function O11ySwitcher({
       aria-hidden="true"
     >
       <Loader
-        wrapperStyle="mx-auto fill-brand-500 text-brand-300"
+        wrapperClassName="mx-auto fill-brand-500 text-brand-300"
         height="h-4"
         width="h-4"
       />
