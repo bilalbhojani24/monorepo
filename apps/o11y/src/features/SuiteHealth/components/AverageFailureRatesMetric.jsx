@@ -32,7 +32,7 @@ const AverageFailureRatesMetric = () => {
 
   return (
     <StatsCard
-      title="Total Failures"
+      title="Avg. Failure Rate"
       stat={metricInfo.value}
       subText={metricInfo.subText}
       isLoading={isLoading}

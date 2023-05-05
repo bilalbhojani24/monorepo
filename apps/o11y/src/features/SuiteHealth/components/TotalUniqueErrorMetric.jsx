@@ -32,7 +32,7 @@ const TotalUniqueErrorMetric = () => {
 
   return (
     <StatsCard
-      title="Total Failures"
+      title="Total Unique Errors"
       stat={metricInfo.value}
       subText={metricInfo.subText}
       isLoading={isLoading}

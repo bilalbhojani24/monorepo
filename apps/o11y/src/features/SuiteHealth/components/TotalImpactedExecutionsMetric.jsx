@@ -32,7 +32,7 @@ const TotalImpactedExecutionsMetric = () => {
 
   return (
     <StatsCard
-      title="Total Failures"
+      title="Impacted Tests"
       stat={metricInfo.value}
       subText={metricInfo.subText}
       isLoading={isLoading}
