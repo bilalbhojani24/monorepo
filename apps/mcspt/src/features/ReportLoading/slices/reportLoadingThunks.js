@@ -1,13 +1,20 @@
 import { fetchSessionStatus, stopSession } from 'api/reportLoading';
 import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
 import { MCP_ROUTES } from 'constants/routeConstants';
-import { resetSessionSetupData } from 'features/Home';
+import {
+  getDeviceOfNewPerformanceSession,
+  getSelectedApplication,
+  resetSessionSetupData
+} from 'features/Home';
 import {
   setPreviousRouteForReport,
   updateSessionMetrics
 } from 'features/Report';
+import { formatDeviceAndAppAnalyticsData } from 'utils/analyticsDataUtils';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import {
+  getLatestSessionStatus,
   setIsSessionStopInProgress,
   updateSessionStatus
 } from './reportLoadingSlice';
@@ -17,10 +24,24 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
     const currentSessionId =
       getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
+    const previousSessionState = getLatestSessionStatus(getState());
+    const currentdevice = getDeviceOfNewPerformanceSession(getState());
+    const currentapp = getSelectedApplication(getState());
+
     const response = await fetchSessionStatus(currentSessionId);
 
     if (response?.state === REPORT_LOADING_STATES.FAILED) {
       throw response;
+    }
+
+    if (
+      previousSessionState === REPORT_LOADING_STATES.LAUNCHING &&
+      response?.state === REPORT_LOADING_STATES.RECORDING
+    ) {
+      mcpAnalyticsEvent(
+        'csptTestStartSuccess',
+        formatDeviceAndAppAnalyticsData(currentdevice, currentapp)
+      );
     }
 
     if (
@@ -57,15 +78,23 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
 
 export const stopRecordingSession =
   (navigationCallback) => async (dispatch, getState) => {
-    try {
-      const currentSessionId =
-        getState()?.newPerformanceSession?.sessionDetails?.sessionID;
+    const currentSessionId =
+      getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
+    const currentdevice = getDeviceOfNewPerformanceSession(getState());
+    const currentapp = getSelectedApplication(getState());
+
+    try {
       dispatch(setIsSessionStopInProgress(true));
 
       dispatch(updateSessionStatus({ status: REPORT_LOADING_STATES.STOPPING })); // this needs to come from api later
 
       const response = await stopSession(currentSessionId);
+
+      mcpAnalyticsEvent(
+        'csptTestGenerateReportSuccess',
+        formatDeviceAndAppAnalyticsData(currentdevice, currentapp)
+      );
 
       await new Promise((resolve) => setTimeout(resolve, 4000));
 
@@ -77,6 +106,13 @@ export const stopRecordingSession =
 
       navigationCallback(MCP_ROUTES.REPORT);
     } catch (error) {
+      if (error?.response?.status !== 200) {
+        mcpAnalyticsEvent(
+          'csptTestGenerateReportFailure',
+          formatDeviceAndAppAnalyticsData(currentdevice, currentapp)
+        );
+      }
+
       if (error?.response?.status === 500) {
         throw error;
       }
@@ -87,10 +123,10 @@ export const stopRecordingSession =
 
 export const cancelRecordingSession =
   (navigationCallback, closeModalCallback) => async (dispatch, getState) => {
-    try {
-      const currentSessionId =
-        getState()?.newPerformanceSession?.sessionDetails?.sessionID;
+    const currentSessionId =
+      getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
+    try {
       dispatch(setIsSessionStopInProgress(true));
 
       dispatch(

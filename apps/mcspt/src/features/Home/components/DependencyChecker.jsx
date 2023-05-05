@@ -1,13 +1,13 @@
 import React from 'react';
 import {
   Button,
-  Hyperlink,
   MdDeviceUnknown,
   MdOutlineAutorenew
 } from '@browserstack/bifrost';
 import checkDependeciesBg from 'assets/checkDependeciesBg.svg';
 import dependencyLoader from 'assets/tripleDots.gif';
 import { CONTACT_US, DEVICE_DETECT_TROUBLESHOOT } from 'constants/docLinks';
+import { HyperlinkWithAnalytics } from 'features/Abstractions';
 
 import StartTestErrorModal from './StartTestErrorModal';
 import TestTriggerPanel from './TestTriggerPanel';
@@ -83,8 +83,9 @@ const DependencyChecker = () => {
                 device and click refresh. For more details, check our `}
               </span>
 
-              <Hyperlink
+              <HyperlinkWithAnalytics
                 wrapperClassName="inline-flex text-base-600 text-base font-normal leading-6 underline"
+                linkToBeSentToAnalytics={DEVICE_DETECT_TROUBLESHOOT}
                 onClick={() => {
                   window.remoteThreadFunctions?.openUrlInSystemBrowser(
                     DEVICE_DETECT_TROUBLESHOOT
@@ -92,12 +93,13 @@ const DependencyChecker = () => {
                 }}
               >
                 device troubleshooting docs
-              </Hyperlink>
+              </HyperlinkWithAnalytics>
 
               <span>{' or '}</span>
 
-              <Hyperlink
+              <HyperlinkWithAnalytics
                 wrapperClassName="inline-flex text-base-600 text-base font-normal leading-6 underline"
+                linkToBeSentToAnalytics={CONTACT_US}
                 onClick={() => {
                   window.remoteThreadFunctions?.openUrlInSystemBrowser(
                     CONTACT_US
@@ -105,7 +107,7 @@ const DependencyChecker = () => {
                 }}
               >
                 contact us.
-              </Hyperlink>
+              </HyperlinkWithAnalytics>
             </div>
           </div>
         )}

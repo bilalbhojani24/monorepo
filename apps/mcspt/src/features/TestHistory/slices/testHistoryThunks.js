@@ -10,6 +10,11 @@ import {
   setPreviousRouteForReport,
   updateSessionMetrics
 } from 'features/Report';
+import {
+  calculateTestDurationForAnalytics,
+  formatDeviceAndAppAnalyticsData
+} from 'utils/analyticsDataUtils';
+import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 import { decideCurrentRoute } from 'utils/baseUtils';
 
 import {
@@ -54,6 +59,14 @@ export const extractSessionDetailsById =
       if (response.status === 'success') {
         dispatch(updateSessionMetrics(response));
 
+        mcpAnalyticsEvent('csptViewReportClick', {
+          test_duration: calculateTestDurationForAnalytics(response),
+          ...formatDeviceAndAppAnalyticsData(
+            response?.device,
+            response?.package
+          )
+        });
+
         dispatch(setPreviousRouteForReport(decideCurrentRoute()));
 
         navigatorCallback('/report');
@@ -94,6 +107,14 @@ export const nevigateToSampleReport =
 
       if (response.status === 'success') {
         dispatch(updateSessionMetrics(response));
+
+        mcpAnalyticsEvent('csptViewReportClick', {
+          test_duration: calculateTestDurationForAnalytics(response),
+          ...formatDeviceAndAppAnalyticsData(
+            response?.device,
+            response?.package
+          )
+        });
 
         dispatch(setPreviousRouteForReport(decideCurrentRoute()));
 

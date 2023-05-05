@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Hyperlink,
   MdInfoOutline,
   Tooltip,
   TooltipBody,
   TooltipFooter
 } from '@browserstack/bifrost';
+import { HyperlinkWithAnalytics } from 'features/Abstractions';
 import { getSessionMetrics } from 'features/Report';
 import PropTypes from 'prop-types';
 import {
@@ -34,29 +34,22 @@ const ReportTooltip = ({ cardToolTipData }) => {
           </TooltipBody>
 
           <TooltipFooter>
-            <Hyperlink
+            <HyperlinkWithAnalytics
+              linkToBeSentToAnalytics={cardToolTipData?.link?.(
+                sessionData?.device?.os
+              )}
               onClick={() => {
                 if (cardToolTipData?.link) {
                   window.remoteThreadFunctions?.openUrlInSystemBrowser(
                     cardToolTipData.link(sessionData?.device?.os)
                   );
                 }
-
-                mcpAnalyticsEvent('csptReportLearnMoreClick', {
-                  metric_name: cardToolTipData.analyticsTitle,
-                  duration: calculateTestDurationForAnalytics(sessionData),
-                  ...formatDeviceAndAppAnalyticsData(
-                    sessionData?.device,
-                    sessionData?.package
-                  )
-                });
               }}
               wrapperClassName="text-white underline cursor-pointer font-normal mt-2"
-              href={cardToolTipData.link}
               rel="noreferrer noopener"
             >
               Learn More
-            </Hyperlink>
+            </HyperlinkWithAnalytics>
           </TooltipFooter>
         </>
       }
