@@ -411,7 +411,7 @@ importers:
       react-player: 2.12.0
       react-resizable: 3.0.4
       react-router-dom: 6.6.1
-      react-stately: ^3.21.0
+      react-stately: 3.21.0
       react-syntax-highlighter: 15.5.0
       sass: 1.57.1
       storybook-addon-designs: 6.3.1
@@ -446,7 +446,7 @@ importers:
       react-player: 2.12.0_react@18.2.0
       react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
-      react-stately: 3.22.0_react@18.2.0
+      react-stately: 3.21.0_react@18.2.0
       react-syntax-highlighter: 15.5.0_react@18.2.0
     devDependencies:
       '@browserstack/stylelint-config': link:../stylelint-config
@@ -23821,6 +23821,36 @@ packages:
       shallowequal: 1.1.0
       throttle-debounce: 3.0.1
     dev: true
+
+  /react-stately/3.21.0_react@18.2.0:
+    resolution: {integrity: sha512-nnGkuRAoq9auj5SYRwxM6eVYvkS9WhxH9iKuzlqE1Gverp3JDFMFgKSaG/DFWG/m1TPlGvwYUwdVjyhINsFUqA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      '@react-stately/calendar': 3.2.0_react@18.2.0
+      '@react-stately/checkbox': 3.4.1_react@18.2.0
+      '@react-stately/collections': 3.7.0_react@18.2.0
+      '@react-stately/combobox': 3.5.0_react@18.2.0
+      '@react-stately/data': 3.9.1_react@18.2.0
+      '@react-stately/datepicker': 3.4.0_react@18.2.0
+      '@react-stately/dnd': 3.2.0_react@18.2.0
+      '@react-stately/list': 3.8.0_react@18.2.0
+      '@react-stately/menu': 3.5.1_react@18.2.0
+      '@react-stately/numberfield': 3.4.1_react@18.2.0
+      '@react-stately/overlays': 3.5.1_react@18.2.0
+      '@react-stately/radio': 3.8.0_react@18.2.0
+      '@react-stately/searchfield': 3.4.1_react@18.2.0
+      '@react-stately/select': 3.5.0_react@18.2.0
+      '@react-stately/selection': 3.13.0_react@18.2.0
+      '@react-stately/slider': 3.3.1_react@18.2.0
+      '@react-stately/table': 3.9.0_react@18.2.0
+      '@react-stately/tabs': 3.4.0_react@18.2.0
+      '@react-stately/toggle': 3.5.1_react@18.2.0
+      '@react-stately/tooltip': 3.4.0_react@18.2.0
+      '@react-stately/tree': 3.6.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
+      react: 18.2.0
+    dev: false
 
   /react-stately/3.22.0_react@18.2.0:
     resolution: {integrity: sha512-w5itlPtjfUpxy+195LxRbaCNaGN1NVfPHelhYXuoPoKNgUvmy54uKXvP1Ek1ETZ9e55BaXuMs83yXv94wIMdpQ==}
