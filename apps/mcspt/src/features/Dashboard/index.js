@@ -8,9 +8,13 @@ import dashboardReducer, {
   getTotalCompletedSessions,
   getUserData
 } from './slices/dashboardSlice';
-import { logUserOutAndPurgeSessionData } from './slices/dashboardThunks';
+import {
+  checkAuthAndSaveUserDetails,
+  logUserOutAndPurgeSessionData
+} from './slices/dashboardThunks';
 
 export {
+  checkAuthAndSaveUserDetails,
   dashboardReducer,
   getAuthToken,
   getGeneralAnalytics,

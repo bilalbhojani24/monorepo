@@ -1,9 +1,10 @@
 import { MCP_ROUTES } from 'constants/routeConstants';
-import { getIsUserLoggedIn } from 'features/Dashboard';
+import {
+  checkAuthAndSaveUserDetails,
+  getIsUserLoggedIn
+} from 'features/Dashboard';
 import { getTotalAllowedSessions } from 'features/Dashboard/slices/dashboardSlice';
 import { checkForPreviousUserSessions } from 'features/TestHistory';
-
-import { checkAuthAndSaveUserDetails } from '../../Dashboard/slices/dashboardThunks';
 
 import { setAuthWall, setIsAuthWallChecked } from './authWallSlice';
 
