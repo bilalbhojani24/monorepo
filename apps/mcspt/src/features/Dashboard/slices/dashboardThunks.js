@@ -8,7 +8,7 @@ import {
 } from 'api/authentication';
 import { checkForPreviousUserSessions } from 'features/TestHistory';
 import { updateAndInitiateAnalytics } from 'utils/analyticsUtils';
-import { reloadRootRoute } from 'utils/baseUtils';
+import { purgeAmplitudeMemory, reloadRootRoute } from 'utils/baseUtils';
 
 import {
   getAuthToken,
@@ -57,6 +57,7 @@ export const checkAuthAndSaveUserDetails =
          * but PM wants to release feature at the earliest.
          */
         reloadRootRoute();
+        purgeAmplitudeMemory();
       }
 
       if (!ssoRedirectUrl && !getAuthToken(getState())) {
@@ -108,6 +109,7 @@ export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
      */
 
     reloadRootRoute();
+    purgeAmplitudeMemory();
   }
 };
 
