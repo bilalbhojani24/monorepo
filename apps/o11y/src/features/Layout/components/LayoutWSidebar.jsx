@@ -28,6 +28,10 @@ const LayoutWSidebar = () => {
     return <Navigate to={ROUTES.get_started} />;
   }
 
+  if (!projects.active.normalisedName) {
+    return <Navigate to={ROUTES.projects} replace />;
+  }
+
   return (
     <AppContext.Provider
       value={{
