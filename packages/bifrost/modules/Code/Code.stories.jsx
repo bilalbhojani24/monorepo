@@ -6,7 +6,7 @@ import { MdOutlineFileDownload, MdOutlineInsertDriveFile } from '../Icon';
 
 import CodeSnippetToolbar from './components/CodeSnippetToolbar';
 import { CODE_VIEW, HIGHLIGHT_TYPE } from './const/codeConstants';
-import Code from './index';
+import CodeSnippet from './index';
 
 const JSCode = `function createStyleObject(classNames, style) {
   return classNames.reduce((styleObject, className) => {
@@ -34,8 +34,8 @@ function createChildren(style, useInlineStyles) {
 }`;
 
 const defaultConfig = {
-  title: 'Application/Components/Code',
-  component: Code,
+  title: 'Application/Components/CodeSnippet',
+  component: CodeSnippet,
   parameters: {
     docs: {
       page: () => (
@@ -102,9 +102,9 @@ const defaultConfig = {
   },
   controls: {}
 };
-const Template = (args) => <Code {...args} />;
-const SingleLineTemplate = (args) => <Code {...args} />;
-const LeadingAndTrailingToolbarTemplate = (args) => <Code {...args} />;
+const Template = (args) => <CodeSnippet {...args} />;
+const SingleLineTemplate = (args) => <CodeSnippet {...args} />;
+const LeadingAndTrailingToolbarTemplate = (args) => <CodeSnippet {...args} />;
 
 const Primary = Template.bind({});
 const SingleLine = SingleLineTemplate.bind({});

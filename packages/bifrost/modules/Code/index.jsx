@@ -15,8 +15,9 @@ import {
 } from './const/codeConstants';
 import { convertRangeToArray, isNumber } from './utils';
 
-const Code = ({
+const CodeSnippet = ({
   code,
+  language,
   maxHeight,
   highlight,
   showLineNumbers,
@@ -53,7 +54,7 @@ const Code = ({
         {toolbar}
         <div className="relative">
           <SyntaxHighlighter
-            language="javascript"
+            language={language}
             style={getTheme()}
             customStyle={{
               maxHeight
@@ -171,11 +172,12 @@ const Code = ({
   );
 };
 
-export default Code;
+export default CodeSnippet;
 
-Code.propTypes = {
+CodeSnippet.propTypes = {
   code: string,
   maxHeight: string,
+  language: string,
   highlight: arrayOf(
     shape({
       range: string,
@@ -189,8 +191,9 @@ Code.propTypes = {
   wordWrap: bool
 };
 
-Code.defaultProps = {
+CodeSnippet.defaultProps = {
   code: '',
+  language: 'javascript',
   maxHeight: undefined,
   highlight: [],
   showLineNumbers: false,
