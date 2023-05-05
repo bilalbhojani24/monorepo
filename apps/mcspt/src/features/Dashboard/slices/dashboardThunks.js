@@ -8,6 +8,7 @@ import {
 } from 'api/authentication';
 import { checkForPreviousUserSessions } from 'features/TestHistory';
 import { updateAndInitiateAnalytics } from 'utils/analyticsUtils';
+import { reloadRootRoute } from 'utils/baseUtils';
 
 import {
   getAuthToken,
@@ -55,7 +56,7 @@ export const checkAuthAndSaveUserDetails =
          * neither do they allow to use sdks directly,
          * but PM wants to release feature at the earliest.
          */
-        window.location.href = window.location.href.split('#')?.[0];
+        reloadRootRoute();
       }
 
       if (!ssoRedirectUrl && !getAuthToken(getState())) {
@@ -105,7 +106,8 @@ export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
      * neither do they allow to use sdks directly,
      * but PM wants to release feature at the earliest.
      */
-    window.location.href = window.location.href.split('#')?.[0];
+
+    reloadRootRoute();
   }
 };
 
@@ -113,6 +115,6 @@ export const submitUserFeedback = (rqdata) => async () => {
   try {
     await saveUserFeedback(rqdata);
   } catch (error) {
-    // silent error for feedback failure
+    // silent error for feedback failure until PM defines scenario
   }
 };

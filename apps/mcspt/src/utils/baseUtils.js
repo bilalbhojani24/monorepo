@@ -27,3 +27,7 @@ export const decideCurrentRoute = () => {
 
   return '/';
 };
+
+export const reloadRootRoute = () => {
+  window.location.href = window.location.href.split('#')?.[0];
+};
