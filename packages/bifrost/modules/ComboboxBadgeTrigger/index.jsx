@@ -119,7 +119,7 @@ const ComboboxBadgeTrigger = ({
                 placeholder: isLoading ? null : placeholder
               })}
               className={twClassNames(
-                'cursor-pointer focus:ring-0 focus-outline-0 focus-border-none border-0 sm:text-sm p-0 w-full',
+                'cursor-pointer focus:ring-0 focus-outline-0 focus-border-none border-0 sm:text-sm p-0 w-full text-sm',
                 {
                   'border-base-200 bg-base-50 text-base-500': disabled
                 }
