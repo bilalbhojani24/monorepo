@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -9,7 +9,6 @@ import {
 } from 'common/bifrostProxy';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 import { PaywallTooltip } from 'features/Paywall';
-import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
@@ -39,7 +38,6 @@ const STATIC_TEST_STATUS_FLIPPING_TOTAL = [
 
 export const FlakyTags = ({ data, isActive, isLoading }) => {
   const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
 
   const { automaticFlaky, flakeInHistory, flakeInRerun } = data;
   const {
@@ -51,7 +49,6 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
   const updateAutomaticFlakyTags = (key, value) => {
     dispatch(
       submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
         flaky: { ...data, [key]: value }
       })
     );
@@ -60,7 +57,6 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
   const setTestStatusFlippingSwitch = (value) => {
     dispatch(
       submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
         flaky: {
           ...data,
           flakeInHistory: {
@@ -74,7 +70,6 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
   const setTestStatusFlipping = (item) => {
     dispatch(
       saveSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
         flaky: {
           ...data,
           flakeInHistory: {
@@ -88,7 +83,6 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
   const setTestStatusFlippingTotal = (item) => {
     dispatch(
       saveSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
         flaky: {
           ...data,
           flakeInHistory: {
@@ -102,7 +96,6 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
   const setFlakeInRerunSwitch = (value) => {
     dispatch(
       submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
         flaky: {
           ...data,
           flakeInRerun: {
@@ -117,12 +110,11 @@ export const FlakyTags = ({ data, isActive, isLoading }) => {
   const setFlakeInRerun = (item) => {
     dispatch(
       saveSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName,
         flaky: {
           ...data,
           flakeInRerun: {
             ...flakeInRerun,
-            testStatusFlipping: item.value
+            rerun: item.value
           }
         }
       })

@@ -41,6 +41,17 @@ export default function SmartTags() {
     };
   }, [activeProject.normalisedName, dispatch]);
 
+  const handleClickSaveChanges = () => {
+    if (!smartTags.isLoading) {
+      dispatch(
+        toggleModal({
+          version: MODAL_TYPES.smart_tags_confirmation_modal,
+          data: {}
+        })
+      );
+    }
+  };
+
   if (smartTags.isLoading && isEmpty(smartTags.data)) {
     return (
       <SettingsCard>
@@ -56,7 +67,7 @@ export default function SmartTags() {
   }
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex max-h-full flex-col gap-4">
       <SmartTagPaywallAlert />
       <SettingsCard>
         <FlakyTags
@@ -84,17 +95,11 @@ export default function SmartTags() {
             loading={smartTags.isLoading}
             isIconOnlyButton={smartTags.isLoading}
             disabled={
-              planDetails?.isActive &&
-              isEqual(smartTags.localState, smartTags.data)
+              (!planDetails?.isActive ||
+                isEqual(smartTags.localState, smartTags.data)) &&
+              !smartTags.isLoading
             }
-            onClick={() =>
-              dispatch(
-                toggleModal({
-                  version: MODAL_TYPES.smart_tags_confirmation_modal,
-                  data: {}
-                })
-              )
-            }
+            onClick={handleClickSaveChanges}
           >
             Save Changes
           </O11yButton>

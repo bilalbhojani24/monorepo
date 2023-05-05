@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getSettingsByKey, updateSettingsByKey } from 'api/settings';
 
-import { getSmartTagsSettings } from './selectors';
-
 const SLICE_NAME = 'smartTagsSettings';
 
 // Smart Tags Settings
@@ -23,14 +21,10 @@ export const getSmartTags = createAsyncThunk(
 );
 export const submitSmartTagsChanges = createAsyncThunk(
   `${SLICE_NAME}/submitSmartTagsChanges`,
-  async (data, { rejectWithValue, getState }) => {
-    const currentState = getSmartTagsSettings(getState());
+  async (data, { rejectWithValue }) => {
     try {
       await updateSettingsByKey('smart-tags', { ...data });
-      return {
-        ...currentState,
-        data: { ...currentState.data, ...data }
-      };
+      return data.payload;
     } catch (err) {
       return rejectWithValue(err);
     }
@@ -85,10 +79,6 @@ const { reducer, actions } = createSlice({
         state.smartTags = {
           ...state.smartTags,
           data: {
-            ...payload.data
-          },
-          localState: {
-            ...state.smartTags.localState,
             ...payload.data
           },
           isLoading: false
