@@ -1,11 +1,8 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  EllipsisVerticalIcon
-} from '@heroicons/react/20/solid';
 import PropTypes, { oneOf } from 'prop-types';
+
+import { ArrowDownIcon, ArrowUpIcon, EllipsisVerticalIcon } from '../Icon';
 
 import { STATS_INC, STATS_VARIANTS } from './const/statsConstants';
 
@@ -36,7 +33,8 @@ const Stats = (props) => {
               variant === STATS_VARIANTS.SIMPLE ||
               variant === STATS_VARIANTS.KPI_VARIANT,
             'py-10 sm:py-10': variant === STATS_VARIANTS.WITH_ICON,
-            'pt-4 pb-10': variant === STATS_VARIANTS.GRAPH_VARIANT,
+            'py-4': variant === STATS_VARIANTS.GRAPH_VARIANT,
+            'pb-10': variant === STATS_VARIANTS.GRAPH_VARIANT && option.link,
             shadow: !hideBoxShadow
           },
           'relative overflow-hidden bg-white px-4 sm:px-6 rounded-lg',
@@ -80,12 +78,10 @@ const Stats = (props) => {
             {option.name}
           </p>
           {variant === STATS_VARIANTS.GRAPH_VARIANT && (
-            <div className="flex">
-              <EllipsisVerticalIcon
-                className="text-base-500 h-5 w-5"
-                aria-hidden="true"
-              />
-            </div>
+            <EllipsisVerticalIcon
+              className="text-base-500 h-5 w-5"
+              aria-hidden="true"
+            />
           )}
         </div>
         {variant === STATS_VARIANTS.WITH_ICON && (
@@ -164,9 +160,11 @@ const Stats = (props) => {
         {variant === STATS_VARIANTS.GRAPH_VARIANT && (
           <div className="flex flex-col">
             <div className="flex items-baseline pb-4 pt-2">
-              <p className="text-base-900 text-2xl font-semibold">
-                {option.stat}
-              </p>
+              {option.stat && (
+                <p className="text-base-900 text-2xl font-semibold">
+                  {option.stat}
+                </p>
+              )}
               {option.subText && (
                 <p className="text-base-500 ml-2 text-sm font-medium">
                   {option.subText}
@@ -196,15 +194,16 @@ const Stats = (props) => {
                 </p>
               )}
             </div>
-            {option?.graph ? (
-              // eslint-disable-next-line tailwindcss/no-arbitrary-value
-              <div className="max-h-[248px] min-h-[100px]">{option.graph}</div>
-            ) : (
-              <div className="h-4" />
+            {option?.graph && (
+              <div className={twClassNames('min-h-[100px] max-h-[248px]')}>
+                {option.graph}
+              </div>
             )}
-            <div className="bg-base-50 absolute inset-x-0 bottom-0 p-4 sm:px-6">
-              <p>{option.link}</p>
-            </div>
+            {option.link && (
+              <div className="bg-base-50 absolute inset-x-0 bottom-0 p-4 sm:px-6">
+                <p>{option.link}</p>
+              </div>
+            )}
           </div>
         )}
         {variant === STATS_VARIANTS.SIMPLE && (
