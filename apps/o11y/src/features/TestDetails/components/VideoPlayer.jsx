@@ -95,7 +95,10 @@ const VideoPlayer = forwardRef(
     };
 
     return (
-      <div ref={containerRef} className="relative flex flex-col">
+      <div
+        ref={containerRef}
+        className="border-base-200 relative flex flex-col rounded border"
+      >
         {isLoading && (
           <MediaPlayerStates
             variant="loading"
@@ -125,7 +128,7 @@ const VideoPlayer = forwardRef(
           onPlayCallback={handlePlayCallback}
           onPauseCallback={handlePauseCallback}
           controlPanelWrapperClassName={twClassNames(
-            'border border-base-200 flex-1 rounded-b overflow-hidden z-20',
+            'flex-1 overflow-hidden z-20',
             {
               'pointer-events-none': isLoading,
               hidden: hasError || isVideoExpired

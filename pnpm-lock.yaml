@@ -10,9 +10,6 @@ importers:
       '@browserstack/prettier-config':
         specifier: workspace:*
         version: link:packages/prettier-config
-      '@browserstack/services':
-        specifier: workspace:*
-        version: link:packages/services
       '@browserstack/stylelint-config':
         specifier: workspace:*
         version: link:packages/stylelint-config
