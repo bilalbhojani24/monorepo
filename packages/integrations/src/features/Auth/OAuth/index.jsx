@@ -116,7 +116,7 @@ const OAuth = ({
       <div className="sticky bottom-0 bg-white pb-2">
         <Button
           variant="primary"
-          wrapperClassName="mt-3"
+          wrapperClassName="mt-3 h-9"
           fullWidth
           icon={<MdArrowForward className="text-xl text-white" />}
           iconPlacement="end"
@@ -128,7 +128,7 @@ const OAuth = ({
         </Button>
         {hasOAuthFailed && (
           <Button
-            wrapperClassName="mt-3"
+            wrapperClassName="mt-3 h-9"
             variant="secondary"
             fullWidth
             onClick={handleAPIConnect}

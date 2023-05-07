@@ -11,24 +11,20 @@ import { CreateIssueOptionsType } from '../types';
 
 import IssueForm from './IssueForm';
 
-const renderAuth = (
-  {
-    key: integrationKey,
-    label,
-    auth_meta: {
-      api_token: { fields }
-    },
-    static_content: {
-      oauth_screen: oAuthMeta,
-      api_token_screen: apiTokenMeta
-    } = {}
+const renderAuth = ({
+  key: integrationKey,
+  label,
+  auth_meta: {
+    api_token: { fields }
   },
-  resetAppState
-) => (
+  static_content: {
+    oauth_screen: oAuthMeta,
+    api_token_screen: apiTokenMeta
+  } = {}
+}) => (
   <IntegrationAuth
     label={label}
     oAuthMeta={oAuthMeta}
-    resetAppState={resetAppState}
     integrationKey={integrationKey}
     apiTokenMeta={{ ...apiTokenMeta, fields }}
   />
@@ -41,7 +37,6 @@ const ListOfIntegrations = ({
   attachments,
   changeTabTo,
   discardIssue,
-  resetAppState,
   continueEditing,
   isBeingDiscarded,
   isWorkInProgress,
@@ -63,8 +58,7 @@ const ListOfIntegrations = ({
     };
     dispatch(setActiveIntegration(formattedIntegration));
     // user doesn't have the single integration set up
-    if (!integration.setup_completed)
-      return renderAuth(integration, resetAppState);
+    if (!integration.setup_completed) return renderAuth(integration);
     // user has the single integration set up
     return (
       <IssueForm
@@ -94,7 +88,6 @@ ListOfIntegrations.propTypes = {
   mode: PropTypes.string.isRequired,
   changeTabTo: PropTypes.func.isRequired,
   discardIssue: PropTypes.func.isRequired,
-  resetAppState: PropTypes.func.isRequired,
   options: CreateIssueOptionsType.isRequired,
   continueEditing: PropTypes.func.isRequired,
   isBeingDiscarded: PropTypes.bool.isRequired,

@@ -144,7 +144,6 @@ export const CreateIssue = ({
           attachments={attachments}
           changeTabTo={changeTabTo}
           discardIssue={discardIssue}
-          resetAppState={resetAppState}
           continueEditing={continueEditing}
           isWorkInProgress={isWorkInProgress}
           isBeingDiscarded={isBeingDiscarded}
