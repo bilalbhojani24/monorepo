@@ -1,4 +1,5 @@
 import { o11yHistory, TEST_STATUS } from 'constants/common';
+import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
 
 import {
   setIsTestDetailsVisible,
@@ -185,6 +186,7 @@ export const showTestDetailsDrawer = (testId) => (dispatch) => {
 };
 
 export const hideTestDetailsDrawer = () => (dispatch) => {
+  dispatch(hideIntegrationsWidget());
   dispatch(setIsTestDetailsVisible(false));
   dispatch(setShowTestDetailsFor(''));
   const searchParams = new URLSearchParams(window?.location?.search);

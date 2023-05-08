@@ -31,7 +31,6 @@ const setupInterceptors = (navigateTo, dispatch) => {
 
         case 400:
         case 421:
-        case 422:
           dispatch(
             addNotificaton({
               id: '4xx_error',

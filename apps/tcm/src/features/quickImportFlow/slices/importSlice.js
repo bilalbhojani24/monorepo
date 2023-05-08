@@ -103,7 +103,8 @@ export const setRetryImport = createAsyncThunk(
   'import/retryImport',
   async ({ id, testTool }) => {
     try {
-      const response = await retryImport(id, testTool);
+      const tool = testTool === 'testrails' ? 'testrail' : testTool;
+      const response = await retryImport(id, tool);
       return { ...response, testTool };
     } catch (err) {
       return err;
@@ -251,6 +252,9 @@ const importSlice = createSlice({
     setImportedProjectCount: (state, { payload }) => {
       state.successfulImportedProjects = payload;
     },
+    setImportId: (state, { payload }) => {
+      state.importId = payload;
+    },
     setImportIdBeforeImport: (state, { payload }) => {
       state.importIdBeforeImport = payload;
     }
@@ -319,6 +323,7 @@ export const {
   setConfigureToolProceeded,
   setCurrentTestManagementTool,
   setCurrentScreen,
+  setImportId,
   setImportIdBeforeImport,
   setErrorForConfigureData,
   setTestRailsCred,
