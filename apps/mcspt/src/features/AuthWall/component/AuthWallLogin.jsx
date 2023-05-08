@@ -2,15 +2,15 @@ import React from 'react';
 import {
   Badge,
   Button,
+  MdInsights,
   MdLogin,
-  MdOutlineSettings,
-  MdSpeed,
-  MdTune
+  MdOutlineAnalytics,
+  MdSpeed
 } from '@browserstack/bifrost';
 import authWallLoginBg from 'assets/authWallLoginBg.svg';
 import cspAuthWallLogo from 'assets/cspAuthWallLogo.png';
 
-import { useAuthWallLogin } from './useAuthWallLogin';
+import useAuthWallLogin from './useAuthWallLogin';
 
 const AuthWallLogin = () => {
   const { authLoginButtonClicked } = useAuthWallLogin();
@@ -48,7 +48,7 @@ const AuthWallLogin = () => {
       <div className="my-14 flex w-[808px]">
         <div className="flex flex-1 flex-col items-center px-2">
           <div className="text-base-500 mb-3 text-5xl">
-            <MdOutlineSettings className="" />
+            <MdSpeed className="" />
           </div>
 
           <div className="text-base-900 text-center text-base font-normal leading-6">
@@ -58,7 +58,7 @@ const AuthWallLogin = () => {
 
         <div className="flex flex-1 flex-col items-center px-2">
           <div className="text-base-500 mb-3 text-5xl">
-            <MdSpeed className="" />
+            <MdInsights className="" />
           </div>
 
           <div className="text-base-900 text-center text-base font-normal leading-6">
@@ -69,7 +69,7 @@ const AuthWallLogin = () => {
 
         <div className="flex flex-1 flex-col items-center px-2">
           <div className="text-base-500 mb-3 text-5xl">
-            <MdTune className="" />
+            <MdOutlineAnalytics className="" />
           </div>
 
           <div className="text-base-900 text-center text-base font-normal leading-6">
