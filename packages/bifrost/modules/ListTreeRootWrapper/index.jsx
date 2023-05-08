@@ -54,8 +54,8 @@ const ListTreeRootWrapper = ({
   const focusElementByUUID = useCallback(
     (uuidToFocus) => {
       if (uuidToFocus)
-        document
-          .querySelector(`[data-focus-id="${focusIDPrefix + uuidToFocus}"]`)
+        wrapperRef.current
+          ?.querySelector(`[data-focus-id="${focusIDPrefix + uuidToFocus}"]`)
           ?.focus();
     },
     [focusIDPrefix]
@@ -77,18 +77,10 @@ const ListTreeRootWrapper = ({
       parentFocusId =
         activeElement.closest('[data-focus-id]')?.dataset?.focusId;
     }
-    // if still no focus consider as root element is focused
-    if (!parentFocusId && data?.length > 0) {
-      const uuidOfFirstVisibleItem = getFilteredContents(
-        { contents: data },
-        []
-      ).at(0)?.uuid;
-      parentFocusId = `${focusIDPrefix}${uuidOfFirstVisibleItem}`;
-    }
     const parsedFocusId = removePrefixFromID(focusId);
     const parsedParentFocusId = removePrefixFromID(parentFocusId);
     return { parsedFocusId, parsedParentFocusId };
-  }, [data, focusIDPrefix, getFilteredContents, removePrefixFromID]);
+  }, [removePrefixFromID]);
   const handleArrowRightPress = useCallback(
     (selectedNodeHierarchy) => {
       const filteredContents = getFilteredContents(
@@ -182,17 +174,21 @@ const ListTreeRootWrapper = ({
     [onSelectCallback]
   );
   const handleHomePress = useCallback(
-    (homeId) => {
-      focusElementByUUID(homeId); // move focus to first element
+    (selectedNodeHierarchy) => {
+      const uuidOfFirstVisibleItem = getFilteredContents({ contents: data }, [
+        selectedNodeHierarchy.at(-1)
+      ])?.at(0)?.uuid;
+      focusElementByUUID(uuidOfFirstVisibleItem); // move focus to first element
     },
-    [focusElementByUUID]
+    [data, focusElementByUUID, getFilteredContents]
   );
-  const handleEndPress = useCallback(
-    (endId) => {
-      focusElementByUUID(endId); // move focus to last element
-    },
-    [focusElementByUUID]
-  );
+  const handleEndPress = useCallback(() => {
+    const uuidOfLastVisibleItem = getFilteredContents(
+      { contents: data },
+      []
+    ).at(-1)?.uuid;
+    focusElementByUUID(uuidOfLastVisibleItem); // move focus to last element
+  }, [data, focusElementByUUID, getFilteredContents]);
   const handleArrowUpPress = useCallback(
     (selectedNodeHierarchy) => {
       const selectionParentsFirstChildID = getFilteredContents(
@@ -296,10 +292,46 @@ const ListTreeRootWrapper = ({
     },
     [openNodeMap, setOpenNodeMap]
   );
+  const recursivelyGetLastUUID = useCallback((item) => {
+    if (item?.contents?.length > 0) {
+      return recursivelyGetLastUUID(item?.contents?.at(-1));
+    }
+    return item?.uuid;
+  }, []);
+  const handleCtrlArrowDownPress = useCallback(() => {
+    let id;
+    if (filteredUUIDs?.searchedUUIDs?.length) {
+      // if search enabled then get last search index using hierarchy arrray and get its last node
+      const lastSearchItemID = filteredUUIDsHierarchyArray.at(-1);
+      id = recursivelyGetLastUUID(
+        filteredUUIDs?.searchedUUIDs[lastSearchItemID]
+      );
+    } else {
+      // if search not enabled then use last data index and get its last node
+      id = recursivelyGetLastUUID(data.at(-1));
+    }
+    const newOpenNodeMap = { ...openNodeMap };
+    const datasplit = id.replaceAll('-', '').split('');
+    datasplit.forEach((_, index) => {
+      const parentIds = datasplit.slice(0, index + 1).join('-');
+      newOpenNodeMap[parentIds] = true;
+    });
+    setOpenNodeMap(newOpenNodeMap);
+    focusElementByUUID(id);
+  }, [
+    data,
+    filteredUUIDs?.searchedUUIDs,
+    filteredUUIDsHierarchyArray,
+    focusElementByUUID,
+    openNodeMap,
+    recursivelyGetLastUUID,
+    setOpenNodeMap
+  ]);
   const onKeyPress = useCallback(
     (e) => {
       const { parsedFocusId: focusId, parsedParentFocusId: parentFocusId } =
         getFocusID();
+      // if parent is list tree then only take action else ignore
       if (focusId !== undefined || parentFocusId !== undefined) {
         const selectedNodeHierarchy = getTargetHierarchyByIndex(
           data,
@@ -320,24 +352,24 @@ const ListTreeRootWrapper = ({
             handleSelectionPress(focusId);
             break;
           case 'Home':
-            handleHomePress(data[0]?.uuid);
+            handleHomePress(selectedNodeHierarchy);
             break;
           case 'End':
-            handleEndPress(data.at(-1)?.uuid);
+            handleEndPress();
             break;
           case '*':
             handleAsteriskPress(data);
             break;
           case 'ArrowUp':
             if (e.ctrlKey) {
-              handleHomePress(data[0]?.uuid);
+              handleHomePress(selectedNodeHierarchy);
             } else {
               handleArrowUpPress(selectedNodeHierarchy);
             }
             break;
           case 'ArrowDown':
             if (e.ctrlKey) {
-              handleEndPress(data.at(-1)?.uuid);
+              handleCtrlArrowDownPress();
             } else {
               handleArrowDownPress(selectedNodeHierarchy);
             }
@@ -355,6 +387,7 @@ const ListTreeRootWrapper = ({
       handleArrowRightPress,
       handleArrowUpPress,
       handleAsteriskPress,
+      handleCtrlArrowDownPress,
       handleEndPress,
       handleHomePress,
       handleSelectionPress

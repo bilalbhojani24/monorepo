@@ -164,6 +164,109 @@ const sampleListTreeCheckboxData = [
     isChecked: false,
     isIndeterminate: false,
     contents: []
+  },
+  {
+    uuid: '3',
+    name: 'file 4',
+    isChecked: false,
+    isIndeterminate: false,
+    contents: [
+      {
+        uuid: '3-0',
+        name: 'file 4a',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: null
+      },
+      {
+        uuid: '3-1',
+        name: 'file 4 john',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: [
+          {
+            uuid: '3-1-0',
+            name: 'file 4b1',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '3-1-0-0',
+                name: 'file 4b1a john',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: [
+                  {
+                    uuid: '3-1-0-0-0',
+                    name: 'file 4b1a1',
+                    isChecked: false,
+                    isIndeterminate: false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            uuid: '3-1-1',
+            name: 'file 4b2',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '3-1-1-0',
+                name: 'file 4b2a',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: [
+                  {
+                    uuid: '3-1-1-0-0',
+                    name: 'file 4b2a1',
+                    isChecked: false,
+                    isIndeterminate: false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            uuid: '3-1-2',
+            name: 'file 4b3',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '3-1-2-0',
+                name: 'file 4b3a',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              },
+              {
+                uuid: '3-1-2-1',
+                name: 'file 4b3b',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              },
+              {
+                uuid: '3-1-2-2',
+                name: 'file 4b3c',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        uuid: '3-2',
+        name: 'file 4c',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: null
+      }
+    ]
   }
 ];
 
