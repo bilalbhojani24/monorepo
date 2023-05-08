@@ -295,6 +295,10 @@ const importCSVSlice = createSlice({
     },
     updateImportProgress: (state, { payload }) => {
       state.confirmCSVImportNotificationConfig.progress = payload;
+    },
+    setFirstButtonLoading: (state, { payload }) => {
+      state.confirmCSVImportNotificationConfig.modalData.isButtonLoading =
+        payload;
     }
   }
 });
@@ -333,6 +337,7 @@ export const {
   setShowChangeFolderModal,
   setFoldersForCSV,
   updateImportProgress,
-  clearNotificationConfig
+  clearNotificationConfig,
+  setFirstButtonLoading
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;
