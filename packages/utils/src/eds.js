@@ -41,12 +41,12 @@ export const logEDSEvent = (eventName, eventType, extraData, sessionId) => {
   }
 
   const eventData = {
-    eventName,
     event_type: eventType,
     data: {
       user: EDS.user,
       session_id: sessionId,
       eds_timestamp: parseInt(new Date().getTime() / 1000, 10),
+      event_name: eventName,
       ...extraData
     },
     api_key: EDS.config.apiKey

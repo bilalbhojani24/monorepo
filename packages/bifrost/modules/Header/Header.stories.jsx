@@ -141,17 +141,19 @@ Primary.play = async ({ canvasElement }) => {
     // 'Get Help',
     'Buy a Plan'
   ];
-
   await expect(canvas.getByLabelText('Browserstack Logo')).toBeVisible();
   await expect(canvas.getByLabelText('Notification button')).toBeVisible();
   await expect(canvas.getByLabelText('Search button')).toBeVisible();
   headerTextElements.forEach(async (item) => {
     await expect(canvas.getByText(item)).toBeVisible();
   });
-  await userEvent.hover(canvas.getByLabelText('help popover'));
-  await userEvent.hover(canvas.getByLabelText('account popover'));
-  const productPopover = await canvas.getAllByLabelText('product popover');
-  await userEvent.hover(productPopover[0]);
+  // 0 -> click and 1 -> Hover
+  const popoverButton = await canvas.queryAllByLabelText('popover button');
+  const accountButton = await canvas.queryAllByLabelText('account popover');
+  const productPopover = await canvas.queryAllByLabelText('product popover');
+  await userEvent.hover(popoverButton[1]);
+  await userEvent.hover(accountButton[1]);
+  await userEvent.hover(productPopover[1]);
 };
 Primary.parameters = {
   controls: {}

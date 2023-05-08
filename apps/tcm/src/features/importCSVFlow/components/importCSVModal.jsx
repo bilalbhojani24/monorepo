@@ -9,7 +9,6 @@ import {
   TMModalHeader,
   TMProgressBar
 } from 'common/bifrostProxy';
-import { addNotificaton } from 'globalSlice';
 import { bool, number, shape, string } from 'prop-types';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -18,6 +17,7 @@ import { AccessTimeIcon } from '../../../assets/icons';
 import { SECOND_SCREEN } from '../const/importCSVConstants';
 import {
   setCSVCurrentScreen,
+  setFirstButtonLoading,
   setNotificationConfigForConfirmCSVImport,
   setRetryImport
 } from '../slices/importCSVSlice';
@@ -57,21 +57,13 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
 
   const firstButtonCb = () => {
     if (data.firstButtonText === 'Cancel Import') {
+      dispatch(setFirstButtonLoading(true));
       dispatch(
         logEventHelper('TM_ImportCsvCancelBtnClicked', {
           project_id: queryParams.get('project')
         })
       );
-      resetNotification();
       cancelImport(mapFieldsConfig.importId);
-      dispatch(
-        addNotificaton({
-          id: `import_cancelled_${mapFieldsConfig.import_id}`,
-          title: 'CSV import cancelled successfully',
-          description: null,
-          variant: 'success'
-        })
-      );
     }
     // download report
     else handleDownloadReport();
@@ -124,7 +116,13 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
       />
       <TMModalFooter position="right">
         {data?.firstButtonText && (
-          <TMButton variant="primary" colors="white" onClick={firstButtonCb}>
+          <TMButton
+            variant="primary"
+            colors="white"
+            isIconOnlyButton={data?.isButtonLoading}
+            onClick={firstButtonCb}
+            loading={data?.isButtonLoading}
+          >
             {data?.firstButtonText}
           </TMButton>
         )}

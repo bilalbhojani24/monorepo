@@ -50,6 +50,6 @@ export const STATUS_OPTIONS = [
 ];
 
 export const ISSUES_TABS_ARRAY = [
-  { name: 'Issues created while Testing', id: 'test_result_issues' },
-  { name: 'All Linked Issues', id: 'issues' }
+  { name: 'Linked with Test Results', id: 'test_result_issues' },
+  { name: 'Linked with Test Runs', id: 'issues' }
 ];
