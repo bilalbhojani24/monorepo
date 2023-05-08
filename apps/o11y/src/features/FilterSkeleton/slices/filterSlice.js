@@ -153,8 +153,20 @@ const { reducer, actions } = createSlice({
       ];
     },
     clearAllAppliedFilters: (state) => {
-      state[state.currentCategory].selectedFilters = [];
-      state[state.currentCategory].appliedFilters = [];
+      state[state.currentCategory].selectedFilters = state[
+        state.currentCategory
+      ].selectedFilters.filter((sFilter) =>
+        [ADV_FILTER_TYPES.search.key, ADV_FILTER_TYPES.dateRange.key].includes(
+          sFilter.type
+        )
+      );
+      state[state.currentCategory].appliedFilters = state[
+        state.currentCategory
+      ].appliedFilters.filter((aFilter) =>
+        [ADV_FILTER_TYPES.search.key, ADV_FILTER_TYPES.dateRange.key].includes(
+          aFilter.type
+        )
+      );
     },
     resetFilters: (state) => {
       state[state.currentCategory].isLoadingFilters = true;

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge } from 'common/bifrostProxy';
 import isEmpty from 'lodash/isEmpty';
 
+import { ADV_FILTER_TYPES } from '../constants';
 import {
   clearAllAppliedFilters,
   setAppliedFilter
@@ -27,7 +28,20 @@ const FilterPills = () => {
   const handleRemoveAll = () => {
     dispatch(clearAllAppliedFilters());
   };
-  if (isFilterLoading || isEmpty(appliedFilters)) {
+
+  const allAppliedFilters = useMemo(
+    () =>
+      appliedFilters.filter(
+        (appFilter) =>
+          ![
+            ADV_FILTER_TYPES.search.key,
+            ADV_FILTER_TYPES.dateRange.key
+          ].includes(appFilter.type)
+      ),
+    [appliedFilters]
+  );
+
+  if (isFilterLoading || isEmpty(allAppliedFilters)) {
     return null;
   }
   return (
@@ -36,7 +50,7 @@ const FilterPills = () => {
         <span className="text-base-500  text-sm leading-5">Filters</span>
       </div>
       <div className="flex flex-wrap gap-x-2 gap-y-1">
-        {appliedFilters.map((appliedFilter) => (
+        {allAppliedFilters.map((appliedFilter) => (
           <O11yBadge
             key={appliedFilter.id}
             text={appliedFilter.appliedText}
