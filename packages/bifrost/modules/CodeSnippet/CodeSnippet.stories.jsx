@@ -134,7 +134,7 @@ LeadingAndTrailingToolbar.args = {
         </div>
       }
       trailingNode={
-        <div className="inline-flex">
+        <div className="flex">
           <Button
             icon={<MdOutlineFileDownload className="h-5 w-5" />}
             size="default"
