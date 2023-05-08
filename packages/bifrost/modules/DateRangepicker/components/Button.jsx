@@ -57,16 +57,11 @@ export function FieldButton(props) {
   return (
     <button
       type="button"
-      {...(disabled
-        ? null
-        : {
-            ...buttonProps,
-            tabIndex: '-1'
-          })}
+      {...buttonProps}
       disabled={disabled}
       ref={ref}
       className={twClassNames(
-        'border-base-300 -ml-px rounded-r-md border-l px-3.5 outline-none bg-white hover:bg-base-50',
+        'border-base-300 -ml-px rounded-r-md border-l px-3.5 bg-white hover:bg-base-50',
         {
           'cursor-not-allowed bg-base-50': disabled
         }

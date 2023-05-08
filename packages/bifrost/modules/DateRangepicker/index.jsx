@@ -79,8 +79,10 @@ const DateRangepicker = (props) => {
           <div
             {...groupProps}
             ref={ref}
+            // INTENTIONALY ADDED SO THAT SCREEN-READERS READ THE DATE-FIELDS CORRECTLY
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
             tabIndex="0"
-            role="textbox"
+            role="group"
             className={twClassNames(
               'border-base-300 flex w-full rounded-md border justify-between focus:outline-brand-500 focus:outline-1',
               {
@@ -97,6 +99,7 @@ const DateRangepicker = (props) => {
               )}
             >
               <DateField
+                aria-label="some reader text"
                 {...startFieldProps}
                 disabled={disabled}
                 errorMessage={errorMessage}
