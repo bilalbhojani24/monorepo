@@ -75,7 +75,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
         {isLoading && (
-          <div className="flex items-center space-x-2 pr-2">
+          <div className="flex items-center space-x-2 pr-2 text-sm">
             <Loader wrapperClassName="text-base-200 fill-base-400 h-5 w-5" />
             <span>{loadingText}</span>
           </div>
