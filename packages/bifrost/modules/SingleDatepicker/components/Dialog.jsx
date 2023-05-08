@@ -1,13 +1,18 @@
 import React from 'react';
 import { useDialog } from 'react-aria';
+import { twClassNames } from '@browserstack/utils';
 import Proptypes from 'prop-types';
 
-export function Dialog({ title, children, ...props }) {
+export function Dialog({ title, children, isLoading, ...props }) {
   const ref = React.useRef();
   const { dialogProps } = useDialog(props, ref);
 
   return (
-    <div {...dialogProps} ref={ref}>
+    <div
+      {...dialogProps}
+      ref={ref}
+      className={twClassNames({ 'outline-0': isLoading })}
+    >
       {children}
     </div>
   );
@@ -15,9 +20,11 @@ export function Dialog({ title, children, ...props }) {
 
 Dialog.propTypes = {
   title: Proptypes.string,
-  children: Proptypes.node.isRequired
+  children: Proptypes.node.isRequired,
+  isLoading: Proptypes.bool
 };
 
 Dialog.defaultProps = {
-  title: ''
+  title: '',
+  isLoading: false
 };
