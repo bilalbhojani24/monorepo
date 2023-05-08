@@ -37,6 +37,9 @@ export default function useTestCases() {
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
+  const noResultsText = useSelector(
+    (state) => state.repository.searchEmptyText
+  );
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
   );
@@ -211,6 +214,7 @@ export default function useTestCases() {
   }, [projectId]);
 
   return {
+    noResultsText,
     testCaseDetailsIDs,
     testCaseId,
     metaPage,

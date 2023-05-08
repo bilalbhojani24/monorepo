@@ -10,6 +10,7 @@ const GetHelp = ({
   elementOptions,
   documentation,
   references,
+  others,
   documentationLink,
   supportLink
 }) => {
@@ -150,6 +151,7 @@ const GetHelp = ({
       content={helpPopover(
         documentation,
         references,
+        others,
         documentationLink,
         supportLink
       )}
@@ -195,6 +197,7 @@ const GetHelp = ({
 GetHelp.propTypes = {
   documentation: PropTypes.objectOf(PropTypes.any).isRequired,
   references: PropTypes.objectOf(PropTypes.any).isRequired,
+  others: PropTypes.objectOf(PropTypes.any),
   documentationLink: PropTypes.string.isRequired,
   supportLink: PropTypes.string.isRequired,
   elementOptions: PropTypes.shape({
@@ -202,6 +205,10 @@ GetHelp.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired
   }).isRequired
+};
+
+GetHelp.defaultProps = {
+  others: null
 };
 
 export default GetHelp;

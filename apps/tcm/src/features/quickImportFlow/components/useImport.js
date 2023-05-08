@@ -31,6 +31,7 @@ import {
   setCurrentScreen,
   setCurrentTestManagementTool,
   setErrorForConfigureData,
+  setImportId,
   setImportIdBeforeImport,
   setImportStarted,
   setImportStatusOngoing,
@@ -295,6 +296,7 @@ const useImport = () => {
 
   const beginImportSuccessful = () => {
     dispatch(setBeginImportLoading(false));
+    dispatch(setImportId(importIdBeforeImport));
     navigate(AppRoute.ROOT);
     dispatch(setImportStarted(true));
     dispatch(setCheckImportStatusClicked(false));
