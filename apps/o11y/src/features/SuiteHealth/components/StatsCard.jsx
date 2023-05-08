@@ -3,7 +3,7 @@ import { Stats } from '@browserstack/bifrost';
 import O11yLoader from 'common/O11yLoader';
 import PropTypes from 'prop-types';
 
-const StatsCard = ({ title, stat, subText, isLoading }) => (
+const StatsCard = ({ title, stat, subText, isLoading, graph }) => (
   <div className="relative flex-1">
     {isLoading && (
       <O11yLoader wrapperClassName="absolute top-0 left-0 w-full h-full rounded-lg z-10 bg-base-200 opacity-50" />
@@ -15,7 +15,7 @@ const StatsCard = ({ title, stat, subText, isLoading }) => (
         name: title,
         stat,
         subText,
-        graph: <div className="mb-4 flex h-28 justify-between">Graph</div>,
+        graph: <div className="mb-4 flex h-28 justify-between">{graph}</div>,
         icon: null,
         previousStat: null,
         link: null,
@@ -31,7 +31,8 @@ StatsCard.propTypes = {
   title: PropTypes.string.isRequired,
   stat: PropTypes.string.isRequired,
   subText: PropTypes.string.isRequired,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  graph: PropTypes.node.isRequired
 };
 
 StatsCard.defaultProps = {
