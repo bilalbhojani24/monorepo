@@ -1,12 +1,8 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
-import {
-  getCustomTimeStamp,
-  getUnixEndOfDay,
-  getUnixStartOfDay,
-  milliSecondsToTime
-} from 'utils/dateTime';
+import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { getSnPTestsAvergeDurationMetricsData } from '../slices/uiSlice';
 
@@ -35,6 +31,7 @@ const AverageDurationMetric = () => {
   const activeProject = useSelector(getActiveProject);
   const [chartPoints, setChartPoints] = useState([]);
   const [metricInfo, setMetricInfo] = useState({});
+  const appliedFilters = useSelector(getAllAppliedFilters);
 
   useEffect(() => {
     setIsLoading(true);
@@ -51,19 +48,7 @@ const AverageDurationMetric = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [activeProject?.normalisedName, dispatch]);
-
-  const afterSetExtremes = useCallback((e) => {
-    if (e.trigger) {
-      const lower = Math.round(e.min);
-      const upper = Math.round(e.max);
-      const toTime = getUnixEndOfDay(upper) * 1000;
-      const fromTime = getUnixStartOfDay(lower) * 1000;
-
-      // eslint-disable-next-line no-console
-      console.log(toTime, fromTime);
-    }
-  }, []);
+  }, [activeProject?.normalisedName, dispatch, appliedFilters]);
 
   const seriesData = useMemo(
     () => [
@@ -86,7 +71,6 @@ const AverageDurationMetric = () => {
       isLoading={isLoading}
       graph={
         <StatsCardGraph
-          afterSetExtremes={afterSetExtremes}
           yAxisLabelFormatter={getFormattedYAxisLabel}
           series={seriesData}
           markerColor="var(--colors-brand-500)"

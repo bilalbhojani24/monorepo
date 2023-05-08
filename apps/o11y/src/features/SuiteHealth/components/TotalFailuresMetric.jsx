@@ -1,12 +1,9 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { memo, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
 import Highcharts from 'highcharts/highstock';
-import {
-  getCustomTimeStamp,
-  getUnixEndOfDay,
-  getUnixStartOfDay
-} from 'utils/dateTime';
+import { getCustomTimeStamp } from 'utils/dateTime';
 
 import { getSnPTestsFailuresMetricsData } from '../slices/uiSlice';
 
@@ -47,6 +44,7 @@ const TotalFailuresMetric = () => {
   const [totalFailuresPoints, setTotalFailuresPoints] = useState([]);
   const [totalExecutionPoints, setTotalExecutionPoints] = useState([]);
   const [metricInfo, setMetricInfo] = useState({});
+  const appliedFilters = useSelector(getAllAppliedFilters);
 
   useEffect(() => {
     setIsLoading(true);
@@ -64,19 +62,7 @@ const TotalFailuresMetric = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [activeProject?.normalisedName, dispatch]);
-
-  const afterSetExtremes = useCallback((e) => {
-    if (e.trigger) {
-      const lower = Math.round(e.min);
-      const upper = Math.round(e.max);
-      const toTime = getUnixEndOfDay(upper) * 1000;
-      const fromTime = getUnixStartOfDay(lower) * 1000;
-
-      // eslint-disable-next-line no-console
-      console.log(toTime, fromTime);
-    }
-  }, []);
+  }, [activeProject?.normalisedName, dispatch, appliedFilters]);
 
   const seriesData = useMemo(
     () => [
@@ -106,7 +92,6 @@ const TotalFailuresMetric = () => {
       isLoading={isLoading}
       graph={
         <StatsCardGraph
-          afterSetExtremes={afterSetExtremes}
           yAxisLabelFormatter={getFormattedYAxisLabel}
           series={seriesData}
           markerColor="var(--colors-danger-500)"

@@ -3,6 +3,8 @@ import Chart from 'common/Chart';
 import { TOOLTIP_STYLES } from 'constants/common';
 import PropTypes from 'prop-types';
 
+import useStatsChart from '../hooks/useStatsChart';
+
 const CHART_OPTIONS = {
   title: {
     text: null
@@ -116,12 +118,12 @@ const CHART_OPTIONS = {
 };
 
 const StatsCardGraph = ({
-  afterSetExtremes,
   series,
   yAxisLabelFormatter,
   markerColor,
   tooltipFormatter
 }) => {
+  const { afterSetExtremes } = useStatsChart();
   const updatedChartOptions = useMemo(
     () => ({
       ...CHART_OPTIONS,
@@ -173,7 +175,6 @@ const StatsCardGraph = ({
 };
 
 StatsCardGraph.propTypes = {
-  afterSetExtremes: PropTypes.func.isRequired,
   yAxisLabelFormatter: PropTypes.func.isRequired,
   tooltipFormatter: PropTypes.func,
   series: PropTypes.arrayOf(PropTypes.shape(PropTypes.any)).isRequired,

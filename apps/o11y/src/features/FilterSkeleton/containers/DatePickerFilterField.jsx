@@ -88,12 +88,12 @@ const DatePickerFilterField = ({ dateRangeObject }) => {
                 <DatePickerGroup
                   onDateSelect={handleCustomDateRange}
                   startDate={
-                    appliedDateRange?.id === 'key'
+                    appliedDateRange?.id
                       ? appliedDateRange?.value?.lowerBound
                       : Date.now()
                   }
                   endDate={
-                    appliedDateRange?.id === 'key'
+                    appliedDateRange?.id
                       ? appliedDateRange?.value?.upperBound
                       : Date.now()
                   }
