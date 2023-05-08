@@ -136,7 +136,6 @@ const UpdateIssueForm = ({
         .then((response) => {
           if (response?.success) {
             // ticket updation was successful
-            getTicketForProject(); // renew ticket data
             if (attachments?.length) {
               // has attachments to add
               return addAttachment(
