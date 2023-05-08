@@ -1,5 +1,13 @@
 import React from 'react';
-import { Breadcrumb, Button, RadioTable } from '@browserstack/bifrost';
+import {
+  Breadcrumb,
+  Button,
+  Hyperlink,
+  InformationCircleIcon,
+  MdOutlineOpenInNew,
+  RadioTable
+} from '@browserstack/bifrost';
+import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 
 import useOnboarding from './useOnboarding';
 
@@ -10,7 +18,7 @@ const Onboarding = () => {
     onboardingState,
     radioGroupOptions,
     selectedOption,
-    setSelectedOption,
+    // setSelectedOption,
     subHeaderText
   } = useOnboarding();
 
@@ -26,7 +34,7 @@ const Onboarding = () => {
                   current: false,
 
                   name: 'Setup Guide',
-                  url: '/'
+                  url: '/onboarding'
                 },
                 {
                   current: false,
@@ -34,16 +42,18 @@ const Onboarding = () => {
                   url: '/'
                 }
               ]}
-              size="full-width"
+              size="default"
             />
           )}
 
           <div>
             <div className="flex justify-between">
               <p className="text-2xl font-bold">{headerText}</p>
-              View Documentation
+              <Hyperlink wrapperClassName=" gap-x-2 text-sm">
+                View Documentation <MdOutlineOpenInNew />
+              </Hyperlink>
             </div>
-            <p className="mt-2">{subHeaderText}</p>
+            <p className="text-base-600 mt-2">{subHeaderText}</p>
           </div>
         </div>
 
@@ -51,49 +61,51 @@ const Onboarding = () => {
         <div className="border-base-300 border-y px-7 py-6">
           {onboardingState === 0 && (
             <div>
-              <h3 className="mb-4">
-                {' '}
+              <h3 className="mb-4 flex gap-x-2 text-lg font-semibold">
                 Do you have an existing Kubernetes setup?{' '}
+                <InformationCircleIcon className="text-base-700 h-5 w-5 shrink-0 cursor-pointer" />
               </h3>
               <RadioTable
                 direction="vertical"
                 options={radioGroupOptions}
-                selectedOption={selectedOption}
-                onChange={(e, selectedRadioButtonID) => {
-                  const newlySelectedRadioButtonID = radioGroupOptions.find(
-                    (elem) => elem.id === selectedRadioButtonID
-                  );
-                  setSelectedOption(newlySelectedRadioButtonID);
+                onChange={() => {
+                  // console.log('Log: e:', e);
+                  // const newlySelectedRadioButton = radioGroupOptions.find(
+                  //   (elem) => elem.id === e.id
+                  // );
+                  // setSelectedOption(newlySelectedRadioButton);
                 }}
+                selectedOption={selectedOption}
               />
-            </div>
-          )}
-        </div>
-
-        {/* Footer component */}
-        <div className="bg-base-50 flex justify-end px-7 ">
-          {onboardingState === 0 && (
-            <div className="py-6">
-              <Button
-                colors="brand"
-                onClick={continueClickHandler}
-                size="default"
-                type="button"
-                variant="primary"
-              >
-                Continue
-              </Button>
             </div>
           )}
 
           {onboardingState === 1 && (
-            <div>
-              {' '}
-              Icon Waiting for you to complete the above steps to connect the
-              grid...
-            </div>
+            <p>Waiting for Central component here :) </p>
           )}
         </div>
+
+        {/* Footer component */}
+        {onboardingState === 0 && (
+          <div className="bg-base-50 flex justify-end px-7 py-6">
+            <Button
+              colors="brand"
+              onClick={continueClickHandler}
+              size="default"
+              type="button"
+              variant="primary"
+            >
+              Continue
+            </Button>
+          </div>
+        )}
+
+        {onboardingState === 1 && (
+          <div className="bg-base-50 text-base-700  flex px-7 py-3">
+            <HourglassBottomOutlinedIcon /> Waiting for you to complete the
+            above steps to connect the grid...
+          </div>
+        )}
       </div>
     </>
   );
