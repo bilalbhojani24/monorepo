@@ -129,7 +129,7 @@ const TestRailImportForm = () => {
           title={
             connectionStatusMap[TEST_RAILS] === 'success'
               ? 'Connection was successful. Proceed to continue.'
-              : connectionStatusMap[TEST_RAILS]?.message ||
+              : connectionStatusMap[TEST_RAILS]?.error ||
                 'Connection was not successful. Try again.'
           }
           linkText={null}

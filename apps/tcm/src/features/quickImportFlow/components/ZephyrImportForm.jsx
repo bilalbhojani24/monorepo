@@ -186,7 +186,7 @@ const ZephyrImportForm = (props) => {
           title={
             connectionStatusMap[ZEPHYR] === 'success'
               ? 'Connection was successful. Proceed to continue.'
-              : connectionStatusMap[ZEPHYR]?.message ||
+              : connectionStatusMap[ZEPHYR]?.error ||
                 'Connection was not successful. Try again.'
           }
           linkText={null}
