@@ -95,7 +95,14 @@ const ListTreeRootWrapper = ({
         selectedNodeHierarchy[0],
         selectedNodeHierarchy
       );
-      if (!openNodeMap[selectedNodeHierarchy[0]?.uuid]) {
+      const targetContentHierarchySecond = getFilteredContents(
+        selectedNodeHierarchy[1],
+        selectedNodeHierarchy
+      );
+      if (
+        !openNodeMap[selectedNodeHierarchy[0]?.uuid] &&
+        filteredContents?.length
+      ) {
         // open node if the current focused node is in closed state
         setOpenNodeMap((prev) => {
           const newList = { ...prev };
@@ -109,9 +116,43 @@ const ListTreeRootWrapper = ({
         // focus first visible child if the state is already open
         const firstVisibleChildUUID = filteredContents?.at(0)?.uuid;
         focusElementByUUID(firstVisibleChildUUID);
+      } else if (
+        selectedNodeHierarchy?.length === 1 &&
+        !filteredContents?.length
+      ) {
+        // if no children focus next visible parent
+        // item with no hierarchy means that it is one of the root nodes
+        const filteredItems = getFilteredContents(
+          { contents: data },
+          selectedNodeHierarchy
+        );
+        filteredItems?.forEach((el, index) => {
+          if (
+            el.uuid === selectedNodeHierarchy[0]?.uuid &&
+            filteredItems[index + 1]
+          ) {
+            focusElementByUUID(filteredItems[index + 1]?.uuid);
+          }
+        });
+      } else if (
+        targetContentHierarchySecond?.at(-1)?.uuid !==
+          selectedNodeHierarchy[0]?.uuid &&
+        !filteredContents?.length
+      ) {
+        // if no child focus the next visible parent
+        // item with hierarchy use hierarchy to get siblings
+        const filteredItems = getFilteredContents(
+          selectedNodeHierarchy[1],
+          selectedNodeHierarchy
+        );
+        filteredItems?.forEach((el, index) => {
+          if (el.uuid === selectedNodeHierarchy[0]?.uuid) {
+            focusElementByUUID(filteredItems[index + 1]?.uuid);
+          }
+        });
       }
     },
-    [focusElementByUUID, getFilteredContents, openNodeMap, setOpenNodeMap]
+    [data, focusElementByUUID, getFilteredContents, openNodeMap, setOpenNodeMap]
   );
   const handleArrowLeftPress = useCallback(
     (selectedNodeHierarchy) => {
@@ -327,7 +368,7 @@ const ListTreeRootWrapper = ({
   }, [data, onKeyPress, onSelectCallback, openNodeMap, setOpenNodeMap]);
 
   return (
-    <div role="tree" tabIndex={0} ref={wrapperRef} aria-busy="true">
+    <div role="tree" ref={wrapperRef} aria-busy="true">
       <div role="group">{children}</div>
     </div>
   );
