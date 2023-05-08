@@ -78,12 +78,10 @@ const SingleDatepicker = (props) => {
           <div
             {...groupProps}
             ref={ref}
-            {...(disabled
-              ? null
-              : {
-                  tabIndex: 0,
-                  role: 'textbox'
-                })}
+            // INTENTIONALY ADDED SO THAT SCREEN-READERS READ THE DATE-FIELDS CORRECTLY
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+            tabIndex="0"
+            role="group"
             className={twClassNames(
               'border-base-300 cursor-pointer flex w-full rounded-md border justify-between',
               {
