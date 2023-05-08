@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Draggable, Resizable } from '@browserstack/bifrost';
+import { useResizeObserver } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { setWidgetHeight as setWidgetHeightInRedux } from '../../slices/widgetSlice';
@@ -12,22 +13,30 @@ const DraggableResizable = ({ children, position, positionRef }) => {
   const dispatch = useDispatch();
   const widgetRef = useRef(null);
   // additional 16 px space for easy access to grab and use resize handle
-  const windowHeight = window.innerHeight - 16;
+  const bodyRef = useRef(document.body);
+  const bodyResizeObserver = useResizeObserver(bodyRef);
+  const windowHeight = document.body.getBoundingClientRect().height - 16;
+  const windowWidth = document.body.getBoundingClientRect().width - 16;
+
   // initial widget height should be 90% of the window height
   // multiply by 0.9 to get 90% of the windowHeight
-  const widgetInitialHeight = windowHeight * 0.9;
+  const widgetInitialHeight =
+    windowHeight * 0.9 < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+      ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+      : windowHeight * 0.9;
   const [widgetHeight, setWidgetHeight] = useState(widgetInitialHeight);
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
-  const [showWidget, setShowWidget] = useState(false);
 
   useEffect(() => {
     setRefAquired(true);
   }, []);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (refAquired && widgetRef.current) {
       const widgetRefClientRect = widgetRef.current?.getBoundingClientRect();
+
       const pos = getWidgetRenderPosition(
         position,
         positionRef?.current?.getBoundingClientRect(),
@@ -38,25 +47,59 @@ const DraggableResizable = ({ children, position, positionRef }) => {
       // is widget going out of screen?
       if (y + widgetRefClientRect.height > windowHeight) {
         const overflowY = y + widgetRefClientRect.height - windowHeight;
-        y -= overflowY + 24;
+        y = y - overflowY > 8 ? y - overflowY : 8;
       }
 
-      setWidgetPosition({
-        x: pos.x,
-        y
+      setWidgetPosition((prev) => {
+        const xVal = prev && prev.x < pos.x ? prev.x : pos.x;
+        const yVal = prev?.y ?? y;
+        return {
+          x: xVal < 8 ? 8 : xVal,
+          y: yVal
+        };
       });
     }
-  }, [dispatch, position, positionRef, refAquired, windowHeight]);
+  }, [
+    dispatch,
+    position,
+    refAquired,
+    windowWidth,
+    positionRef,
+    windowHeight,
+    bodyResizeObserver.inlineSize,
+    widgetHeight
+  ]);
 
-  useEffect(() => {
-    setWidgetPosition(null);
-    setShowWidget(true);
-  }, [widgetPosition]);
+  const onDrag = (__, { x, y }) => {
+    setWidgetPosition({
+      x,
+      y
+    });
+  };
 
   const onResize = (__, { size }) => {
     setWidgetHeight(size.height);
     dispatch(setWidgetHeightInRedux({ height: size.height }));
   };
+
+  useEffect(() => {
+    if (widgetPosition && widgetPosition.y + widgetHeight > windowHeight) {
+      let newHeight = widgetHeight - 2;
+      newHeight =
+        newHeight < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+          ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+          : newHeight;
+      setWidgetHeight(newHeight);
+      dispatch(setWidgetHeightInRedux({ height: newHeight }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    dispatch,
+    widgetHeight,
+    windowHeight,
+    bodyResizeObserver,
+    widgetInitialHeight
+  ]);
 
   // intialise redux
   useEffect(() => {
@@ -66,15 +109,16 @@ const DraggableResizable = ({ children, position, positionRef }) => {
 
   return (
     <Draggable
-      className={''.concat(showWidget ? '' : 'hidden')}
+      className={''.concat(widgetPosition ? '' : 'hidden')}
       ref={widgetRef}
       handle=".drag-handle"
       isBodyBounded
+      onDrag={onDrag}
       position={widgetPosition}
     >
       <div
         ref={widgetRef}
-        className="border-base-200 absolute z-10 overflow-hidden rounded-md border bg-white drop-shadow-lg"
+        className="border-base-200 absolute top-0 overflow-hidden rounded-md border bg-white drop-shadow-lg"
       >
         <Resizable
           className="relative z-10 flex flex-col items-center overflow-hidden"
@@ -92,7 +136,7 @@ const DraggableResizable = ({ children, position, positionRef }) => {
           maxConstraints={[DEFAULT_WIDGET_DIMENSIONS.MAX[0], windowHeight]}
         >
           <div
-            className="h-auto w-full bg-white"
+            className="h-auto w-full overflow-hidden bg-white"
             style={{ height: `${widgetHeight}px` }}
           >
             {children}

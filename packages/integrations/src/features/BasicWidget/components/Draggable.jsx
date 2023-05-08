@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Draggable } from '@browserstack/bifrost';
+import { useResizeObserver } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { DEFAULT_WIDGET_DIMENSIONS } from '../constants';
@@ -8,6 +9,8 @@ import { getWidgetRenderPosition } from './helpers';
 
 const DraggableContainer = ({ children, position, positionRef }) => {
   const widgetRef = useRef(null);
+  const bodyRef = useRef(document.body);
+  const bodyResizeObserver = useResizeObserver(bodyRef);
   const windowHeight = window.innerHeight;
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
@@ -16,6 +19,7 @@ const DraggableContainer = ({ children, position, positionRef }) => {
   useEffect(() => {
     setRefAquired(true);
   }, []);
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (refAquired && widgetRef.current) {
       const widgetRefClientRect = widgetRef.current?.getBoundingClientRect();
@@ -31,12 +35,24 @@ const DraggableContainer = ({ children, position, positionRef }) => {
         const overflowY = y + widgetRefClientRect.height - windowHeight + 24;
         y -= overflowY;
       }
-      setWidgetPosition({
-        x: pos.x,
-        y
+      setWidgetPosition((prev) => {
+        const xVal = prev && prev.x < pos.x ? prev.x : pos.x;
+        const yVal = prev?.y ? prev?.y : y;
+
+        return {
+          x: xVal < 8 ? 8 : xVal,
+          y: yVal < 8 ? 8 : yVal
+        };
       });
     }
-  }, [position, positionRef, refAquired, windowHeight]);
+  }, [position, positionRef, refAquired, windowHeight, bodyResizeObserver]);
+
+  const onDrag = (__, { x, y }) => {
+    setWidgetPosition({
+      x,
+      y
+    });
+  };
 
   useEffect(() => {
     setWidgetPosition(null);
@@ -49,10 +65,11 @@ const DraggableContainer = ({ children, position, positionRef }) => {
       handle=".drag-handle"
       isBodyBounded
       position={widgetPosition}
+      onDrag={onDrag}
     >
       <div
         ref={widgetRef}
-        className={'border-base-200 absolute flex flex-col overflow-hidden rounded-md border border-solid drop-shadow-lg z-10'.concat(
+        className={'border-base-200 absolute top-0 flex flex-col overflow-hidden rounded-md border border-solid drop-shadow-lg z-10'.concat(
           showWidget ? '' : ' hidden'
         )}
         style={{

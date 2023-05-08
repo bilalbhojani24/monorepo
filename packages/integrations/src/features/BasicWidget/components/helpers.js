@@ -5,9 +5,9 @@ export const getWidgetRenderPosition = (
   dockRefClientRect,
   widgetRefClientRect
 ) => {
+  const bodyWidth = document.body.getBoundingClientRect().width;
   let x = MARGIN.FROM_SCREEN_EDGES;
   let y = 0;
-  const bodyWidth = document.body.getBoundingClientRect().width;
   const widgetWidth = widgetRefClientRect.width;
   const widgetTop = widgetRefClientRect.top;
   const hasDockElement = Boolean(dockRefClientRect);
@@ -22,7 +22,7 @@ export const getWidgetRenderPosition = (
             ? bodyWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES
             : // gap between widget and dock
               dockRight + MARGIN.DOCK_AND_WIDGET;
-        y = dockTop - widgetTop;
+        y = dockTop;
         break;
       }
       default:
@@ -34,7 +34,7 @@ export const getWidgetRenderPosition = (
             ? MARGIN.FROM_SCREEN_EDGES
             : // gap between widget and dock
               dockLeft - widgetWidth - MARGIN.DOCK_AND_WIDGET;
-        y = dockTop - widgetTop;
+        y = dockTop;
         break;
       }
     }
