@@ -44,7 +44,7 @@ const setupInterceptors = (navigateTo, dispatch) => {
 
         case 400:
         case 421:
-          // case 422:
+          // case 422: //TODO: revert after postbeta
           showGenericToast({ id: '4xx_error', response });
           break;
         default:
