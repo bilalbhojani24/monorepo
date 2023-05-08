@@ -220,8 +220,12 @@ const defaultConfig = {
 
 const listTreeDemoDataSet = [
   {
-    name: 'file A',
     uuid: '0',
+    name: (
+      <TruncateText tooltipAriaLabel="File A" wrapperClassName="line-clamp-1">
+        file A
+      </TruncateText>
+    ),
     contents: [
       {
         name: (
@@ -242,35 +246,116 @@ const listTreeDemoDataSet = [
         contents: []
       },
       {
-        name: 'file A-2',
         uuid: '0-1',
+        name: (
+          <TruncateText
+            isWidthAdjustable
+            wrapperClassName="line-clamp-1"
+            tooltipAriaLabel="File A-2"
+          >
+            file A-2 Really long file name case. Lorem Ipsum is simply dummy
+            text of the printing
+          </TruncateText>
+        ),
         contents: [
           {
-            name: 'file A-2-a',
             uuid: '0-1-0',
-            contents: []
+            name: (
+              <TruncateText
+                isWidthAdjustable
+                wrapperClassName="line-clamp-1"
+                tooltipAriaLabel="File A-2-a"
+              >
+                file A-2-a Really long file name case. Lorem Ipsum is simply
+                dummy text
+              </TruncateText>
+            ),
+            contents: null
           }
         ]
       }
     ]
   },
   {
-    name: 'file 2',
     uuid: '1',
+    name: (
+      <TruncateText wrapperClassName="line-clamp-1" tooltipAriaLabel="File B">
+        file B
+      </TruncateText>
+    ),
     contents: [
       {
-        name: 'file 2a',
         uuid: '1-0',
-        contents: []
+        name: (
+          <TruncateText
+            wrapperClassName="line-clamp-1"
+            tooltipAriaLabel="File B-1"
+          >
+            file B-1 Really long file name case. Lorem Ipsum is simply dummy
+            text of the printing and typesetting industry.
+          </TruncateText>
+        ),
+        contents: null
       },
       {
-        name: 'file 2b',
         uuid: '1-1',
+        name: (
+          <TruncateText
+            tooltipAriaLabel="File B-2"
+            wrapperClassName="line-clamp-1"
+          >
+            file B-2
+          </TruncateText>
+        ),
         contents: [
           {
-            name: 'file 2b1',
             uuid: '1-1-0',
-            contents: []
+            name: (
+              <TruncateText
+                tooltipAriaLabel="File B-2-a"
+                wrapperClassName="line-clamp-1"
+              >
+                file B-2-a Really short file name case.
+              </TruncateText>
+            ),
+            contents: null
+          }
+        ]
+      },
+      {
+        uuid: '1-2',
+        name: (
+          <TruncateText
+            tooltipAriaLabel="File B-3"
+            wrapperClassName="line-clamp-1"
+          >
+            file B-3
+          </TruncateText>
+        ),
+        contents: [
+          {
+            uuid: '1-2-0',
+            name: (
+              <TruncateText
+                tooltipAriaLabel="File B-3-a"
+                wrapperClassName="line-clamp-1"
+              >
+                file B-3-a
+              </TruncateText>
+            ),
+            contents: null
+          },
+          {
+            uuid: '1-2-1',
+            name: (
+              <TruncateText
+                tooltipAriaLabel="File B-3-b"
+                wrapperClassName="line-clamp-1"
+              >
+                file B-3-b
+              </TruncateText>
+            ),
+            contents: null
           }
         ]
       }
