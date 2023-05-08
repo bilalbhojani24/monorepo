@@ -1,53 +1,98 @@
 import React from 'react';
-import { Button, RadioGroup } from '@browserstack/bifrost';
+import { Breadcrumb, Button, RadioTable } from '@browserstack/bifrost';
+
+import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
-  const headerText = 'Hey John Doe, Welcome to High Scale Testing';
-  const subHeaderText =
-    'Create your own Automation Grid to support functional testing at scale';
-
-  const radioGroupOptions = [
-    {
-      description: 'Create complete Automation Grid from scratch',
-      disabled: false,
-      id: 'radio-1',
-      name: "No, I don't have a setup"
-    },
-    {
-      description: 'Create Automation Grid in my existing Kubernetes setup',
-      disabled: false,
-      id: 'radio-2',
-      name: 'Yes, I have a setup'
-    }
-  ];
+  const {
+    continueClickHandler,
+    headerText,
+    onboardingState,
+    radioGroupOptions,
+    selectedOption,
+    setSelectedOption,
+    subHeaderText
+  } = useOnboarding();
 
   return (
     <>
       <div className=" border-base-300 m-auto mt-28 w-4/6 max-w-4xl rounded-lg border">
+        {/* Header Component */}
         <div className="bg-base-50 px-7 py-6 ">
-          <div className="flex justify-between">
-            <p className="text-2xl font-bold">{headerText}</p>
-            View Documentation
+          {onboardingState > 0 && (
+            <Breadcrumb
+              data={[
+                {
+                  current: false,
+
+                  name: 'Setup Guide',
+                  url: '/'
+                },
+                {
+                  current: false,
+                  name: 'Create complete Automation Grid from Scratch',
+                  url: '/'
+                }
+              ]}
+              size="full-width"
+            />
+          )}
+
+          <div>
+            <div className="flex justify-between">
+              <p className="text-2xl font-bold">{headerText}</p>
+              View Documentation
+            </div>
+            <p className="mt-2">{subHeaderText}</p>
           </div>
-          <p className="mt-2">{subHeaderText}</p>
         </div>
+
+        {/* Body of Onboarding */}
         <div className="border-base-300 border-y px-7 py-6">
-          <h3 className="mb-4"> Do you have an existing Kubernetes setup? </h3>
-          <RadioGroup
-            direction="vertical"
-            options={radioGroupOptions}
-            selectedOption={{
-              description: 'Create complete Automation Grid from scratch',
-              disabled: false,
-              id: 'radio-1',
-              name: "No, I don't have a setup"
-            }}
-          />
+          {onboardingState === 0 && (
+            <div>
+              <h3 className="mb-4">
+                {' '}
+                Do you have an existing Kubernetes setup?{' '}
+              </h3>
+              <RadioTable
+                direction="vertical"
+                options={radioGroupOptions}
+                selectedOption={selectedOption}
+                onChange={(e, selectedRadioButtonID) => {
+                  const newlySelectedRadioButtonID = radioGroupOptions.find(
+                    (elem) => elem.id === selectedRadioButtonID
+                  );
+                  setSelectedOption(newlySelectedRadioButtonID);
+                }}
+              />
+            </div>
+          )}
         </div>
-        <div className="bg-base-50 flex justify-end px-7 py-6">
-          <Button variant="primary" type="button" colors="brand" size="default">
-            Continue
-          </Button>
+
+        {/* Footer component */}
+        <div className="bg-base-50 flex justify-end px-7 ">
+          {onboardingState === 0 && (
+            <div className="py-6">
+              <Button
+                colors="brand"
+                onClick={continueClickHandler}
+                size="default"
+                type="button"
+                variant="primary"
+              >
+                Continue
+              </Button>
+            </div>
+          )}
+
+          {onboardingState === 1 && (
+            <div>
+              {' '}
+              Icon Waiting for you to complete the above steps to connect the
+              grid...
+            </div>
+          )}
         </div>
       </div>
     </>
