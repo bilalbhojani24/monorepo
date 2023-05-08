@@ -92,10 +92,15 @@ const Pagination = (props) => {
     <div
       className={twClassNames('flex flex-1 justify-between sm:justify-end', {
         'sm:hidden': withNumber,
-        block: !withNumber
+        flex: !withNumber
       })}
     >
-      <Button onClick={prevClick} colors="white" disabled={currentPage === 1}>
+      <Button
+        onClick={prevClick}
+        colors="white"
+        disabled={currentPage === 1}
+        aria-label="Go to previous page"
+      >
         Previous
       </Button>
       <Button
@@ -103,6 +108,7 @@ const Pagination = (props) => {
         onClick={nextClick}
         colors="white"
         disabled={currentPage === totalPages[totalPages.length - 1]}
+        aria-label="Go to next page"
       >
         Next
       </Button>
@@ -136,6 +142,7 @@ const Pagination = (props) => {
           className={`${buttonClass} pr-1`}
           onClick={prevClick}
           disabled={currentPage === 1}
+          aria-label="Go to previous page"
         >
           <ArrowLongLeftIcon
             className="text-base-400 mr-3 h-5 w-5"
@@ -156,6 +163,7 @@ const Pagination = (props) => {
           className={`${buttonClass} pl-1`}
           onClick={nextClick}
           disabled={currentPage === totalPages[totalPages.length - 1]}
+          aria-label="Go to next page"
         >
           Next
           <ArrowLongRightIcon
