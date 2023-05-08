@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yButton } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
@@ -6,7 +6,6 @@ import O11yLoader from 'common/O11yLoader';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 import { getActiveProject, getPlanDetailsKey } from 'globalSlice/selectors';
-import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 
 import { AlwaysFailingTags } from '../components/AlwaysFailingTags';
@@ -24,17 +23,23 @@ export default function SmartTags() {
   const planDetails = useSelector(
     getPlanDetailsKey(PAYWALL_FEATURES.SMART_TAGS)
   );
+  const [isLoadingData, setIsLoadingData] = useState(false);
   const dispatch = useDispatch();
   const mounted = useRef(false);
 
   useEffect(() => {
     mounted.current = true;
     if (activeProject.normalisedName) {
+      setIsLoadingData(true);
       dispatch(
         getSmartTags({
           projectNormalisedName: activeProject.normalisedName
         })
-      );
+      )
+        .unwrap()
+        .finally(() => {
+          setIsLoadingData(false);
+        });
     }
     return () => {
       mounted.current = false;
@@ -52,7 +57,7 @@ export default function SmartTags() {
     }
   };
 
-  if (smartTags.isLoading && isEmpty(smartTags.data)) {
+  if (isLoadingData) {
     return (
       <SettingsCard>
         <div className="m-auto flex h-72 w-72 flex-col items-center justify-center p-6">
