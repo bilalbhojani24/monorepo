@@ -2,7 +2,7 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes, { oneOf } from 'prop-types';
 
-import { ArrowDownIcon, ArrowUpIcon, EllipsisVerticalIcon } from '../Icon';
+import { ArrowDownIcon, ArrowUpIcon } from '../Icon';
 
 import { STATS_INC, STATS_VARIANTS } from './const/statsConstants';
 
@@ -40,12 +40,14 @@ const Stats = (props) => {
           'relative overflow-hidden bg-white px-4 sm:px-6 rounded-lg',
           cardWrapperClassname
         )}
-        role="button"
-        onClick={(e) => option.onClick?.(e)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') option.onClick?.(e);
-          if (e.key === ' ') option.onClick?.(e);
-        }}
+        {...(typeof option.onClick === 'function' && {
+          role: 'button',
+          onClick: (e) => option.onClick?.(e),
+          onKeyDown: (e) => {
+            if (e.key === 'Enter') option.onClick?.(e);
+            if (e.key === ' ') option.onClick?.(e);
+          }
+        })}
         tabIndex={typeof option.onClick === 'function' ? 0 : -1}
       >
         <div
@@ -77,12 +79,7 @@ const Stats = (props) => {
           >
             {option.name}
           </p>
-          {variant === STATS_VARIANTS.GRAPH_VARIANT && (
-            <EllipsisVerticalIcon
-              className="text-base-500 h-5 w-5"
-              aria-hidden="true"
-            />
-          )}
+          {variant === STATS_VARIANTS.GRAPH_VARIANT && option.menuDropdown}
         </div>
         {variant === STATS_VARIANTS.WITH_ICON && (
           <div className="ml-16 flex items-baseline pb-6 sm:pb-7">
@@ -236,7 +233,8 @@ Stats.propTypes = {
     link: PropTypes.node,
     changeType: oneOf([STATS_INC, 'decrease']),
     onClick: PropTypes.func,
-    subText: PropTypes.string
+    subText: PropTypes.string,
+    menuDropdown: PropTypes.node
   }).isRequired,
   variant: PropTypes.string,
   textColor: PropTypes.string,

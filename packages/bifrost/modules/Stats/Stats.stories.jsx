@@ -3,9 +3,14 @@ import { expect } from '@storybook/jest';
 import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Dropdown from '../Dropdown';
+import DropdownOptionGroup from '../DropdownOptionGroup';
+import DropdownOptionItem from '../DropdownOptionItem';
+import DropdownTrigger from '../DropdownTrigger';
 import Hyperlink from '../Hyperlink';
 import {
   CursorArrowRaysIcon,
+  EllipsisVerticalIcon,
   EnvelopeOpenIcon,
   MdErrorOutline,
   UsersIcon
@@ -15,6 +20,22 @@ import { STATS_VARIANTS } from './const/statsConstants';
 import Stats from './index';
 
 const title = 'Total Subscribers';
+const dropdownOptions = [
+  {
+    id: '1',
+    body: 'Edit'
+  },
+  {
+    id: '2',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '3',
+    body: 'Archive',
+    divider: true
+  }
+];
 const options = [
   {
     id: 1,
@@ -124,6 +145,75 @@ const options = [
     changeType: 'decrease',
     link: null,
     onClick: () => console.log('stats null.com')
+  },
+  {
+    id: 6,
+    name: (
+      <div className="flex items-center">
+        {title}
+        <MdErrorOutline className="ml-3" />
+      </div>
+    ),
+    stat: '71,897',
+    graph: (
+      <div className="mb-2 flex h-28 justify-between">
+        <div className="flex h-24 w-full flex-col justify-between">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-40 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">300</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 1</p>
+          </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-48 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">310</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 2</p>
+          </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-36 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">290</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 3</p>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-52 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">320</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 4</p>
+          </div>
+        </div>
+      </div>
+    ),
+    icon: null,
+    change: null,
+    previousStat: null,
+    subText: 'out of 100 tests',
+    changeType: null,
+    link: null,
+    menuDropdown: (
+      <Dropdown
+        onClick={(value) => {
+          console.log(value);
+        }}
+      >
+        <div className="flex">
+          <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+            <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
+          </DropdownTrigger>
+        </div>
+
+        <DropdownOptionGroup>
+          {dropdownOptions.map((opt) => (
+            <DropdownOptionItem key={opt.value} option={opt} />
+          ))}
+        </DropdownOptionGroup>
+      </Dropdown>
+    )
   }
 ];
 
@@ -239,11 +329,21 @@ export const KpiVariantCard = () => (
   </div>
 );
 
-export const GraphVariantCard = () => (
+export const ClickableGraphVariantCard = () => (
   <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
     <Stats
       key={options[4].id}
       option={options[4]}
+      variant={STATS_VARIANTS.GRAPH_VARIANT}
+    />
+  </div>
+);
+
+export const GraphVariantCard = () => (
+  <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <Stats
+      key={options[5].id}
+      option={options[5]}
       variant={STATS_VARIANTS.GRAPH_VARIANT}
     />
   </div>
