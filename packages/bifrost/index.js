@@ -43,6 +43,7 @@ import InputGroupButton from './modules/InputField/components/InputGroupButton';
 import InputGroupSelectMenuTrigger from './modules/InputField/components/InputGroupSelectMenuTrigger';
 import InputField from './modules/InputField/index';
 import KeyValue from './modules/KeyValuePair/index';
+import ListFeedsNode from './modules/ListFeedsNode/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
@@ -158,6 +159,7 @@ export {
   InputGroupButton,
   InputGroupSelectMenuTrigger,
   KeyValue,
+  ListFeedsNode,
   ListTree,
   listTreeCheckboxHelper,
   ListTreeNode,
