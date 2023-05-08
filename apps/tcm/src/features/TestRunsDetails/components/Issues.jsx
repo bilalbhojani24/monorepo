@@ -17,7 +17,6 @@ import useTestRunDetails from './useTestRunDetails';
 
 const Issues = () => {
   const {
-    issueType,
     jiraHost,
     testRunDetails,
     isIssuesLoading,
@@ -117,7 +116,8 @@ const Issues = () => {
               {issuesArray.length ? (
                 <>
                   <div className="text-base-900 text-sm">
-                    {issueType?.description}
+                    List of all the links which are created while testing test
+                    cases within this test run:
                   </div>
                   <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-none">
                     <TMDataTable
