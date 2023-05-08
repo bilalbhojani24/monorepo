@@ -60,7 +60,7 @@ const defaultConfig = {
     },
     pageNumber: {
       option: { type: 'number' },
-      defaultValue: 4,
+      defaultValue: undefined,
       description:
         'Current page number, default is undefined and it is controlled from consumer'
     },
