@@ -2,6 +2,7 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getActiveProject } from 'globalSlice/selectors';
 import {
+  getCustomTimeStamp,
   getUnixEndOfDay,
   getUnixStartOfDay,
   milliSecondsToTime
@@ -14,6 +15,18 @@ import StatsCardGraph from './StatsCardGraph';
 
 function getFormattedYAxisLabel() {
   return milliSecondsToTime(this.value);
+}
+
+function getFormattedTooltip() {
+  return this.points.reduce(
+    (s, data) =>
+      `${s}<br/><span>${data.series.name}: <b>${milliSecondsToTime(
+        data.y
+      )}</b></span>`,
+    `<span>${getCustomTimeStamp({
+      dateString: this.x
+    })}</span>`
+  );
 }
 
 const AverageDurationMetric = () => {
@@ -77,6 +90,7 @@ const AverageDurationMetric = () => {
           yAxisLabelFormatter={getFormattedYAxisLabel}
           series={seriesData}
           markerColor="var(--colors-brand-500)"
+          tooltipFormatter={getFormattedTooltip}
         />
       }
     />

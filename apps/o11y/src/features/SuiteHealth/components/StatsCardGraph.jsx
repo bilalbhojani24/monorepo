@@ -1,5 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import Chart from 'common/Chart';
+import { TOOLTIP_STYLES } from 'constants/common';
 import PropTypes from 'prop-types';
 
 const CHART_OPTIONS = {
@@ -40,7 +41,14 @@ const CHART_OPTIONS = {
     lineWidth: 1
   },
   tooltip: {
-    enabled: true
+    shared: true,
+    useHTML: true,
+    ...TOOLTIP_STYLES,
+    style: {
+      width: '250px',
+      whiteSpace: 'normal',
+      color: '#fff'
+    }
   },
   plotOptions: {
     spline: {
@@ -111,7 +119,8 @@ const StatsCardGraph = ({
   afterSetExtremes,
   series,
   yAxisLabelFormatter,
-  markerColor
+  markerColor,
+  tooltipFormatter
 }) => {
   const updatedChartOptions = useMemo(
     () => ({
@@ -143,9 +152,21 @@ const StatsCardGraph = ({
           }
         }
       },
+      tooltip: {
+        ...CHART_OPTIONS.tooltip,
+        formatter() {
+          return tooltipFormatter.call(this);
+        }
+      },
       series
     }),
-    [afterSetExtremes, markerColor, series, yAxisLabelFormatter]
+    [
+      afterSetExtremes,
+      markerColor,
+      series,
+      tooltipFormatter,
+      yAxisLabelFormatter
+    ]
   );
 
   return <Chart options={updatedChartOptions} />;
@@ -154,8 +175,13 @@ const StatsCardGraph = ({
 StatsCardGraph.propTypes = {
   afterSetExtremes: PropTypes.func.isRequired,
   yAxisLabelFormatter: PropTypes.func.isRequired,
+  tooltipFormatter: PropTypes.func,
   series: PropTypes.arrayOf(PropTypes.shape(PropTypes.any)).isRequired,
   markerColor: PropTypes.string.isRequired
+};
+
+StatsCardGraph.defaultProps = {
+  tooltipFormatter() {}
 };
 
 export default memo(StatsCardGraph);

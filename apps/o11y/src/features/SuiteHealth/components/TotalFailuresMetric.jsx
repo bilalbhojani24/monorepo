@@ -2,7 +2,11 @@ import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getActiveProject } from 'globalSlice/selectors';
 import Highcharts from 'highcharts/highstock';
-import { getUnixEndOfDay, getUnixStartOfDay } from 'utils/dateTime';
+import {
+  getCustomTimeStamp,
+  getUnixEndOfDay,
+  getUnixStartOfDay
+} from 'utils/dateTime';
 
 import { getSnPTestsFailuresMetricsData } from '../slices/uiSlice';
 
@@ -21,6 +25,19 @@ function getFormattedYAxisLabel() {
   }
   const formattedValue = Highcharts.numberFormat(absValue, 0) + suffixes[i];
   return value >= 0 ? formattedValue : `-${formattedValue}`;
+}
+
+function getFormattedTooltip() {
+  return this.points.reduce(
+    (s, data) =>
+      `${s}<br/><span>${data.series.name}: <b>${Highcharts.numberFormat(
+        data.y,
+        0
+      )}%</b></span>`,
+    `<span>${getCustomTimeStamp({
+      dateString: this.x
+    })}</span>`
+  );
 }
 
 const TotalFailuresMetric = () => {
@@ -93,6 +110,7 @@ const TotalFailuresMetric = () => {
           yAxisLabelFormatter={getFormattedYAxisLabel}
           series={seriesData}
           markerColor="var(--colors-danger-500)"
+          tooltipFormatter={getFormattedTooltip}
         />
       }
     />
