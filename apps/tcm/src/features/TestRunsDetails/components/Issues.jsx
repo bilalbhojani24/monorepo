@@ -98,7 +98,7 @@ const Issues = () => {
           { name: 'Issues' }
         ]}
       />
-      <div className="mb-0 -mt-6 w-full px-4">
+      <div className="-mt-6 mb-0 w-full px-4">
         <TMTabs
           defaultIndex={null}
           // key={TABS_ARRAY.findIndex((item) => item.name === currentTab)}
