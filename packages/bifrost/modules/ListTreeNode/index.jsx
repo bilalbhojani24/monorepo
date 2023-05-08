@@ -33,7 +33,8 @@ const ListTreeNode = forwardRef(
   ) => (
     <div
       role="treeitem"
-      tabIndex="-1"
+      tabIndex={focusUUID === '0' && !isNodeSelectable ? 0 : -1}
+      className="group"
       aria-label={ariaLabel}
       data-focus-id={focusIDPrefix + focusUUID}
     >
@@ -44,7 +45,7 @@ const ListTreeNode = forwardRef(
         isFocused={isFocused}
         ref={ref}
         wrapperClassName={twClassNames(
-          'hover:bg-base-100 focus:bg-base-100 focus:border-info-600  group flex flex-1 items-center justify-between rounded border border-transparent p-1.5',
+          'hover:bg-base-100 focus:bg-base-100 focus:border-info-600 flex flex-1 items-center justify-between rounded border border-transparent p-1.5',
           {
             'bg-info-50': isNodeSelected,
             'bg-base-100': isFocused
@@ -94,7 +95,7 @@ const ListTreeNode = forwardRef(
           <div
             role="presentation"
             className={twClassNames(
-              'invisible flex group-hover:visible group-focus:visible',
+              'opacity-0 flex group-hover:opacity-100 group-focus:opacity-100 group-focus-within:opacity-100',
               {
                 visible: isFocused
               }
