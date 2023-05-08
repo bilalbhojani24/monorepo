@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { getAuthToken } from 'features/Dashboard';
 
-import { getAuthToken } from '../features/Dashboard';
 import { store } from '../store';
 
 axios.interceptors.request.use((config) => {

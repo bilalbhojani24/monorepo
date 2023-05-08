@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { MCP_ROUTES } from 'constants/routeConstants';
 
 const initialState = {
   sessionData: {},
   latestSeekTimeInSeconds: undefined,
   latestVideoCurrentTimeInSeconds: 0,
-  previousRouteForReport: '/'
+  previousRouteForReport: MCP_ROUTES.HOME
 };
 
 export const reportSlice = createSlice({

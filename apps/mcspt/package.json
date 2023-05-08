@@ -1,7 +1,7 @@
 {
   "name": "mcspt",
   "productName": "BrowserStack-AppPerformance",
-  "version": "0.1.1",
+  "version": "1.1.0",
   "description": "BrowserStack AppPerformance",
   "repository": "https://github.com/browserstack/app-performance-releases",
   "main": ".webpack/main",

@@ -58,8 +58,4 @@ const Sidebar = () => {
   );
 };
 
-Sidebar.propTypes = {};
-
-Sidebar.defaultProps = {};
-
 export default Sidebar;

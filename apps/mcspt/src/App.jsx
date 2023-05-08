@@ -1,5 +1,6 @@
 import React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
+import { AuthWall } from 'features/AuthWall';
 import Dashboard, {
   RouteWithoutSidebarWrapper,
   Sidebar
@@ -11,25 +12,30 @@ import './api/httpInterceptor';
 
 import Report from './features/Report';
 import ReportLoading from './features/ReportLoading';
+import useAppInitiation from './useAppInitiation';
 
-const App = () => (
-  <HashRouter>
-    <Dashboard>
+const App = () => {
+  useAppInitiation();
+
+  return (
+    <HashRouter>
       <Routes>
-        <Route element={<Sidebar />}>
-          <Route index element={<Home />} />
+        <Route element={<Dashboard />}>
+          <Route element={<Sidebar />}>
+            <Route path="home" element={<Home />} />
+            <Route path="testHistory" element={<TestHistory />} />
+          </Route>
 
-          <Route path="testHistory" element={<TestHistory />} />
-          <Route path="thresholdPresets" element={<></>} />
+          <Route element={<RouteWithoutSidebarWrapper />}>
+            <Route path="generate" element={<ReportLoading />} />
+            <Route path="report" element={<Report />} />
+          </Route>
         </Route>
 
-        <Route element={<RouteWithoutSidebarWrapper />}>
-          <Route path="generate" element={<ReportLoading />} />
-          <Route path="report" element={<Report />} />
-        </Route>
+        <Route index path="/" element={<AuthWall />} />
       </Routes>
-    </Dashboard>
-  </HashRouter>
-);
+    </HashRouter>
+  );
+};
 
 export default App;

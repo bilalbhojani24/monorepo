@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { SSO_AUTH_URL } from 'constants/mcpConstants';
+import { MCP_ROUTES } from 'constants/routeConstants';
 import { getUserData } from 'features/Dashboard';
 import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
@@ -10,13 +11,13 @@ const generatePrimaryNavs = (iconMap) => {
     {
       id: 'dashboard',
       label: 'Dashboard',
-      routePath: '/',
+      routePath: MCP_ROUTES.HOME,
       active: true
     },
     {
       id: 'testHistory',
       label: 'Test History',
-      routePath: '/testHistory'
+      routePath: MCP_ROUTES.TEST_HISTORY
     }
   ];
 

@@ -27,3 +27,17 @@ export const decideCurrentRoute = () => {
 
   return '/';
 };
+
+export const purgeAmplitudeMemory = () => {
+  window.cookieStore.getAll().then((cookies) =>
+    cookies.forEach((cookie) => {
+      window.cookieStore.delete(cookie.name);
+    })
+  );
+
+  window.localStorage.clear();
+};
+
+export const reloadRootRoute = () => {
+  window.location.href = window.location.href.split('#')?.[0];
+};

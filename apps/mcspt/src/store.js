@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { authWallReducer } from './features/AuthWall';
 import { dashboardReducer } from './features/Dashboard';
 import {
   loadingStateForNewPerformanceSessionReducer,
@@ -11,6 +12,7 @@ import { testHistoryReducer } from './features/TestHistory';
 
 export const store = configureStore({
   reducer: {
+    authWall: authWallReducer,
     dashboard: dashboardReducer,
     loadingStateForNewPerformanceSession:
       loadingStateForNewPerformanceSessionReducer,

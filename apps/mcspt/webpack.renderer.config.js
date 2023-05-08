@@ -27,6 +27,7 @@ module.exports = {
   module: {
     rules: commonRules
   },
+  devtool: !process.argv.includes('IS_PROD') ? 'eval-source-map' : undefined,
   plugins: [
     new DefinePlugin({
       IS_DEV: JSON.stringify(process.argv.includes('IS_DEV')),
