@@ -21,6 +21,17 @@ import Issues from './components/Issues';
 import Summary from './components/Summary';
 import useReport from './useReport';
 
+const tabs = [
+  {
+    name: 'Summary',
+    value: SUMMARY
+  },
+  {
+    name: 'All issues',
+    value: ISSUES
+  }
+];
+
 export default function Report() {
   const {
     activeTab,
@@ -165,16 +176,7 @@ export default function Report() {
         </div>
         <div className="pl-6">
           <Tabs
-            tabsArray={[
-              {
-                name: 'Summary',
-                value: SUMMARY
-              },
-              {
-                name: 'All issues',
-                value: ISSUES
-              }
-            ]}
+            tabsArray={tabs}
             onTabChange={onTabChange}
             defaultIndex={defaultIndex}
             disableFullWidthBorder

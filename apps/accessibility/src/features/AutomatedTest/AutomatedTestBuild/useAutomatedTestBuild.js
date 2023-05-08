@@ -1,26 +1,29 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import fetchCustomData from 'api/fetchCustomData';
 import { fetchBuildData } from 'api/fetchTestAutomationData';
 
-import { setBuildData } from './slices/dataSlice';
+import { setBuildData, setCustomData } from './slices/dataSlice';
 import { getBuildData } from './slices/selector';
 
 export default function useAutomatedTestBuild() {
-  // const [buildData, setBuildData] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
   const dispatch = useDispatch();
   const buildData = useSelector(getBuildData);
 
-  const onTabChange = (option, event) => {
-    // event.preventDefault();
-    console.log('option: ', option);
+  const onTabChange = (option) => {
     setActiveTab(option.value);
-    console.log('Hi');
   };
   // const [activeTab, setActiveTab] = useState();
 
   useEffect(() => {
-    fetchBuildData().then((response) => dispatch(setBuildData(response)));
+    fetchBuildData();
+    Promise.all([fetchCustomData(), fetchBuildData()]).then(
+      ([customData, response]) => {
+        dispatch(setCustomData(customData.data));
+        dispatch(setBuildData(response));
+      }
+    );
   }, []);
 
   const actionType = '';

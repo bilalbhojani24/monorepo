@@ -5,6 +5,7 @@ const { actions, reducer } = createSlice({
   initialState: {
     buildData: null,
     customData: null,
+    filters: {},
     buildMetaData: {
       issueSummary: null,
       meta: null,
@@ -25,10 +26,14 @@ const { actions, reducer } = createSlice({
         meta: metaV2,
         chartData
       };
+      state.filters = payload.filters;
+    },
+    setCustomData: (state, { payload }) => {
+      state.customData = payload;
     }
   }
 });
 
-export const { setBuildData } = actions;
+export const { setBuildData, setCustomData } = actions;
 
 export default reducer;

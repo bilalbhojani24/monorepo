@@ -1,5 +1,24 @@
 export const data = {
   success: true,
+  filters: {
+    severity: ['critical', 'serious', 'moderate', 'minor'],
+    tags: ['create-post', 'delete-user'],
+    folders: ['Folder1', 'Folder2', 'SignInPage.outline.feature'],
+    tests: [
+      {
+        id: 4,
+        name: 'Should add item to cart'
+      }
+    ],
+    pages: [
+      {
+        pageId: '10yE',
+        url: 'https://k8s-web.bsstag.com/'
+      }
+    ],
+    componentIds: ['H4#', 'H5#'],
+    category: ['cat.label', 'cat.keyboard']
+  },
   data: {
     meta: {
       2716: {

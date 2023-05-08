@@ -1,3 +1,4 @@
+import automatedTestBuildApp from 'features/AutomatedTest/AutomatedTestBuild/slices/appSlice';
 import automatedTestBuildData from 'features/AutomatedTest/AutomatedTestBuild/slices/dataSlice';
 import dashboardApp from 'features/Dashboard/slices/appSlice';
 import dashboardUI from 'features/Dashboard/slices/uiSlice';
@@ -37,6 +38,7 @@ const accessibilityReducers = combineReducers({
   app,
   data,
   automatedTestBuild: combineReducers({
+    app: automatedTestBuildApp,
     data: automatedTestBuildData
   })
 });
