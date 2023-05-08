@@ -78,16 +78,12 @@ const SingleDatepicker = (props) => {
           <div
             {...groupProps}
             ref={ref}
-            // INTENTIONALY ADDED SO THAT SCREEN-READERS READ THE DATE-FIELDS CORRECTLY
-            // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-            tabIndex="0"
-            role="group"
             className={twClassNames(
               'border-base-300 cursor-pointer flex w-full rounded-md border justify-between',
               {
                 'border-danger-300': errorMessage,
                 'cursor-not-allowed': disabled,
-                'focus:outline-brand-500 focus:outline-1': !disabled
+                'focus-within:border-brand-500 focus-within:border-2': !disabled
               }
             )}
           >
