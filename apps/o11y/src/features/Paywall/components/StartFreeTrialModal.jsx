@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdCheck } from '@browserstack/bifrost';
 import bgIllustration from 'assets/illustrations/bg-illustration.png';
@@ -9,6 +9,7 @@ import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
 import { o11yPlanUpgrade } from 'globalSlice/index';
 import { canStartFreeTrial, getPlanType } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import { MODAL_CONFIG } from '../constants';
@@ -21,9 +22,27 @@ function StartFreeTrialModal() {
   const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
   const handleCloseModal = () => {
     dispatch(toggleModal({ version: '', data: {} }));
+    logOllyEvent({
+      event: 'O11yUpgradeModalInteracted',
+      data: {
+        interaction: 'dismissed'
+      }
+    });
   };
 
+  useEffect(() => {
+    logOllyEvent({
+      event: 'O11yUpgradeModalShown'
+    });
+  }, []);
+
   const handleSubmitFreeTrial = () => {
+    logOllyEvent({
+      event: 'O11yUpgradeModalInteracted',
+      data: {
+        interaction: 'cta_clicked'
+      }
+    });
     setIsSubmitting(true);
     dispatch(o11yPlanUpgrade())
       .unwrap()
