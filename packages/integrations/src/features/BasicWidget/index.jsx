@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '@browserstack/hooks';
+import { initLogger } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { getSetupStatus } from '../../api/getSetupStatus';
@@ -10,6 +11,7 @@ import {
   GenericError as ErrorWithTryAgain,
   Loader
 } from '../../common/components';
+import { getAnalyticsKeys } from '../../utils/analytics';
 import { LOADING_STATUS } from '../slices/constants';
 import {
   activeIntegrationSelector,
@@ -21,6 +23,7 @@ import {
 import {
   hasTokenSelector,
   setUATConfig,
+  setUserId,
   userAuthErrorSelector,
   userAuthLoadingSelector
 } from '../slices/userAuthSlice';
@@ -150,7 +153,13 @@ const WidgetPortal = ({
     if (auth?.url !== prevAuth?.url) {
       dispatch(setUATConfig(auth));
       dispatch(fetchTokenThunk()).then(() => {
-        dispatch(getIntegrationsThunk({ projectId, componentKey }));
+        dispatch(getIntegrationsThunk({ projectId, componentKey })).then(
+          ({ payload }) => {
+            const { data: { user_id: userId } = {} } = payload || {};
+            dispatch(setUserId(userId));
+            initLogger(getAnalyticsKeys(userId));
+          }
+        );
       });
     }
   }, [auth, componentKey, dispatch, hasToken, prevAuth, projectId]);

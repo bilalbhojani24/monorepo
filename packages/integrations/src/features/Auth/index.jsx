@@ -7,6 +7,7 @@ import {
   clearGlobalAlert,
   setGlobalAlert
 } from '../../common/slices/globalAlertSlice';
+import { ANALYTICS_EVENTS, analyticsEvent } from '../../utils/analytics';
 import { setHasIntegrated } from '../slices/integrationsSlice';
 
 import APIToken from './APIToken';
@@ -44,10 +45,14 @@ const IntegrationAuth = ({
     // clear timers queue
     pollTimers.current = [];
   };
-  const pollerFn = (attempt = 1, setLoadingState) => {
+  const pollerFn = (attempt = 1, setLoadingState, authMethod) => {
     if (attempt <= SYNC_POLL_MAX_ATTEMPTS) {
       getSetupStatus(integrationKey).then((response) => {
+        const metricsPayload = {
+          auth_method: authMethod
+        };
         if (response?.data?.success && response?.data?.setup_completed) {
+          analyticsEvent(ANALYTICS_EVENTS.AUTH_SUCCESS, metricsPayload);
           clearTimersAfter(attempt);
           dispatch(setHasIntegrated({ integrationKey, setupCompleted: true }));
           dispatch(clearGlobalAlert());
@@ -56,6 +61,7 @@ const IntegrationAuth = ({
         } else if (attempt === pollTimers.current.length) {
           // clear timers queue
           pollTimers.current = [];
+          analyticsEvent(ANALYTICS_EVENTS.AUTH_ERROR, metricsPayload);
           setHasOAuthFailed(true);
           dispatch(
             setGlobalAlert({
@@ -71,7 +77,7 @@ const IntegrationAuth = ({
     }
   };
 
-  const syncPoller = (setLoadingState, pollCount) => {
+  const syncPoller = (setLoadingState, pollCount, authMethod) => {
     // polling is in progress
     if (pollTimers.current.length) return;
     setIsSyncInProgress(true);
@@ -86,7 +92,7 @@ const IntegrationAuth = ({
       const n = oAuthPollCounter + 1;
       const delayConstant = (n * (n + 1)) / 2;
       const timer = setTimeout(() => {
-        pollerFn(n, setLoadingState);
+        pollerFn(n, setLoadingState, authMethod);
       }, delayConstant * 1000);
       pollTimers.current.push(timer);
     }

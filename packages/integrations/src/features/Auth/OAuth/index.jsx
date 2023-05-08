@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
 import { Logo } from '../../../common/components';
 import { clearGlobalAlert } from '../../../common/slices/globalAlertSlice';
+import { ANALYTICS_EVENTS, analyticsEvent } from '../../../utils/analytics';
 import { OAuthMetaType } from '../types';
 
 const OAuth = ({
@@ -39,7 +40,7 @@ const OAuth = ({
       if (message.hasError) {
         setHasOAuthFailed(true);
       } else {
-        syncPoller(setIsOAuthConnecting);
+        syncPoller(setIsOAuthConnecting, null, 'oauth');
       }
       authWindow?.close();
       return null;
@@ -62,6 +63,10 @@ const OAuth = ({
   };
 
   const handleOAuthConnection = () => {
+    const metricsPayload = {
+      auth_method: 'oauth'
+    };
+    analyticsEvent(ANALYTICS_EVENTS.AUTH_CONNECT, metricsPayload);
     setIsOAuthConnecting(true);
     getOAuthUrlForTool(integrationKey)
       .then((redirectUri) => {
@@ -77,7 +82,7 @@ const OAuth = ({
 
         function checkChild() {
           if (childWindow.closed) {
-            syncPoller(setIsOAuthConnecting, 1);
+            syncPoller(setIsOAuthConnecting, 1, 'oauth');
             clearInterval(timer);
           }
         }
