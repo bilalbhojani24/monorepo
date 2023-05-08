@@ -23,7 +23,7 @@ const TableRow = ({
       if (e.key === 'Enter' && onRowClick) onRowClick(e);
       if (e.key === ' ' && onRowClick) onRowClick(e);
     }}
-    {...(typeof onRowClick === 'function' && { role: 'tab' })}
+    {...(typeof onRowClick === 'function' && { role: 'button' })}
     {...(typeof onRowClick === 'function' && { tabIndex: 0 })}
     {...rest}
   >
