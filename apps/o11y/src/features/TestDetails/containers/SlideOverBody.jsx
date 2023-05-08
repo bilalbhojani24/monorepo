@@ -5,6 +5,7 @@ import {
   TEST_DETAILS_SLIDEOVER_ELEMENT_ID,
   TEST_DETAILS_TABS
 } from '../constants';
+import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 
 import DebugTab from './DebugTab';
 import HistorySlider from './HistorySlider';
@@ -12,6 +13,7 @@ import InfoTab from './InfoTab';
 import TestDetailsHeader from './TestDetailsHeader';
 
 const SlideOverBody = () => {
+  const { panelRef } = useTestDetailsContentContext();
   const [activeTab, setActiveTab] = useState({
     idx: 0,
     value: TEST_DETAILS_TABS.logs
@@ -41,6 +43,7 @@ const SlideOverBody = () => {
       <div
         className="flex h-full w-full flex-col"
         id={TEST_DETAILS_SLIDEOVER_ELEMENT_ID}
+        ref={panelRef}
       >
         <HistorySlider />
         <TestDetailsHeader activeTab={activeTab} onTabChange={onTabChange} />
