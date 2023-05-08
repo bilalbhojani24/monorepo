@@ -175,7 +175,7 @@ export const FlakyTags = ({ data, isActive }) => {
                   value: testStatusFlippingDefault
                 }}
                 disabled={
-                  !isActive || !flakeInHistory.enabled || !automaticFlaky
+                  !isActive || !flakeInHistory?.enabled || !automaticFlaky
                 }
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
@@ -207,7 +207,7 @@ export const FlakyTags = ({ data, isActive }) => {
                   value: testStatusFlippingTotalDefault
                 }}
                 disabled={
-                  !isActive || !flakeInHistory.enabled || !automaticFlaky
+                  !isActive || !flakeInHistory?.enabled || !automaticFlaky
                 }
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
@@ -250,7 +250,9 @@ export const FlakyTags = ({ data, isActive }) => {
                 }}
                 onChange={setFlakeInRerun}
                 defaultValue={{ label: rerunDefault, value: rerunDefault }}
-                disabled={!isActive || !flakeInRerun.enabled || !automaticFlaky}
+                disabled={
+                  !isActive || !flakeInRerun?.enabled || !automaticFlaky
+                }
               >
                 <O11ySelectMenuTrigger placeholder="Select" />
                 <O11ySelectMenuOptionGroup>
