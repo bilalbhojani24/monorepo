@@ -1,0 +1,198 @@
+import React, { useCallback, useMemo, useRef } from 'react';
+import { throttleFn, twClassNames } from '@browserstack/utils';
+import PropTypes from 'prop-types';
+
+import {
+  LF_ICON_COLOR,
+  LF_ICON_CONTAINER_SIZE,
+  LF_ICON_SIZE,
+  LF_ICON_VARIANT,
+  LF_MARGIN_SIZE
+} from './const/listFeedsNodeContants';
+
+const ListFeeds = (props) => {
+  const {
+    feedNumber,
+    isFeedIconBorder,
+    feedIcon,
+    feedIconSize,
+    feedIconColor,
+    feedIconVariant,
+    feedIconContainerSize,
+    spacing,
+    footerNode,
+    headerNode,
+    descriptionNode,
+    showConnector
+  } = props;
+  const footerNodeRef = useRef(null);
+  const containerRef = useRef(null);
+  const showHoverContainer = () => {
+    footerNodeRef.current.style.opacity = '100';
+    footerNodeRef.current.style.zIndex = '1';
+  };
+  const hideHoverContainer = () => {
+    footerNodeRef.current.style.opacity = '0';
+    footerNodeRef.current.style.zIndex = '-1';
+  };
+  const handleMouseMove = useCallback((e) => {
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    if (
+      containerRect.bottom - e.clientY < 40 &&
+      containerRect.bottom < viewportHeight
+    ) {
+      showHoverContainer();
+    } else {
+      hideHoverContainer();
+    }
+  }, []);
+
+  const throttledMouseMove = useMemo(
+    () => throttleFn(handleMouseMove, 500, { trailing: false }),
+    [handleMouseMove]
+  );
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative mb-2 flex"
+      onMouseLeave={hideHoverContainer}
+      onMouseMove={throttledMouseMove}
+    >
+      {!!feedNumber && (
+        <div
+          className={twClassNames(
+            'min-w-[20px] max-w-[20px] flex items-center justify-center',
+            {
+              'h-6': feedIconSize === LF_ICON_SIZE.sm,
+              'h-8': feedIconSize === LF_ICON_SIZE.md,
+              'h-10': feedIconSize === LF_ICON_SIZE.lg
+            }
+          )}
+        >
+          {feedNumber}
+        </div>
+      )}
+      <div
+        className={twClassNames('flex flex-col justify-center', {
+          'self-start': !showConnector
+        })}
+      >
+        <div
+          className={twClassNames('flex items-start justify-center', {
+            'w-6 max-h-[24px]': feedIconContainerSize === LF_ICON_SIZE.sm,
+            'w-8 max-h-[32px]': feedIconContainerSize === LF_ICON_SIZE.md,
+            'w-10 max-h-[40px]': feedIconContainerSize === LF_ICON_SIZE.lg
+          })}
+        >
+          <div
+            className={twClassNames(
+              'rounded-full flex items-center justify-center box-border',
+              {
+                'w-6 h-6 text-base': feedIconSize === LF_ICON_SIZE.sm,
+                'w-8 h-8 text-base': feedIconSize === LF_ICON_SIZE.md,
+                'w-10 h-10 text-xl': feedIconSize === LF_ICON_SIZE.lg,
+                'bg-white text-base-700 border border-base-300':
+                  feedIconColor === LF_ICON_COLOR.white,
+                'bg-base-600 text-white':
+                  feedIconColor === LF_ICON_COLOR.grey &&
+                  feedIconVariant === LF_ICON_VARIANT.dark,
+                'bg-brand-600 text-white':
+                  feedIconColor === LF_ICON_COLOR.brand &&
+                  feedIconVariant === LF_ICON_VARIANT.dark,
+                'bg-danger-600 text-white':
+                  feedIconColor === LF_ICON_COLOR.danger &&
+                  feedIconVariant === LF_ICON_VARIANT.dark,
+                'bg-success-600 text-white':
+                  feedIconColor === LF_ICON_COLOR.success &&
+                  feedIconVariant === LF_ICON_VARIANT.dark,
+                'bg-attention-300 text-attention-900':
+                  feedIconColor === LF_ICON_COLOR.attention &&
+                  feedIconVariant === LF_ICON_VARIANT.dark,
+                'bg-base-200 text-base-500':
+                  feedIconColor === LF_ICON_COLOR.grey &&
+                  feedIconVariant === LF_ICON_VARIANT.light,
+                'bg-brand-100 text-brand-700':
+                  feedIconColor === LF_ICON_COLOR.brand &&
+                  feedIconVariant === LF_ICON_VARIANT.light,
+                'bg-danger-100 text-danger-700':
+                  feedIconColor === LF_ICON_COLOR.danger &&
+                  feedIconVariant === LF_ICON_VARIANT.light,
+                'bg-success-100 text-success-700':
+                  feedIconColor === LF_ICON_COLOR.success &&
+                  feedIconVariant === LF_ICON_VARIANT.light,
+                'bg-attention-100 text-attention-800':
+                  feedIconColor === LF_ICON_COLOR.attention &&
+                  feedIconVariant === LF_ICON_VARIANT.light,
+                'border-0': !isFeedIconBorder
+              }
+            )}
+          >
+            {feedIcon}
+          </div>
+        </div>
+        {showConnector && (
+          <div
+            className={twClassNames(
+              'divide-base-300 flex grow min-h-[16px] divide-x pt-2'
+            )}
+          >
+            <div className="h-full w-1/2" />
+            <div className="h-full w-1/2" />
+          </div>
+        )}
+      </div>
+      <div
+        className={twClassNames('ml-3 grow', {
+          'mb-0': spacing === LF_MARGIN_SIZE.condensed,
+          'mb-2': spacing === LF_MARGIN_SIZE.default,
+          'mb-4': spacing === LF_MARGIN_SIZE.large
+        })}
+      >
+        <div>{headerNode}</div>
+        {!!descriptionNode && <div>{descriptionNode}</div>}
+      </div>
+      {!!footerNode && (
+        <div
+          ref={footerNodeRef}
+          onFocus={showHoverContainer}
+          onBlur={hideHoverContainer}
+          className="absolute bottom-0 w-full opacity-0 transition-opacity"
+        >
+          {footerNode}
+        </div>
+      )}
+    </div>
+  );
+};
+
+ListFeeds.propTypes = {
+  feedNumber: PropTypes.node,
+  feedIcon: PropTypes.node.isRequired,
+  headerNode: PropTypes.node.isRequired,
+  descriptionNode: PropTypes.node,
+  footerNode: PropTypes.node,
+  spacing: PropTypes.oneOf(LF_MARGIN_SIZE),
+  feedIconSize: PropTypes.oneOf(LF_ICON_SIZE),
+  feedIconColor: PropTypes.oneOf(LF_ICON_COLOR),
+  feedIconVariant: PropTypes.oneOf(LF_ICON_VARIANT),
+  feedIconContainerSize: PropTypes.oneOf(LF_ICON_CONTAINER_SIZE),
+  showConnector: PropTypes.bool,
+  isFeedIconBorder: PropTypes.bool
+};
+
+ListFeeds.defaultProps = {
+  feedNumber: null,
+  descriptionNode: null,
+  footerNode: null,
+  spacing: LF_MARGIN_SIZE.default,
+  feedIconSize: LF_ICON_SIZE.md,
+  feedIconColor: LF_ICON_COLOR.grey,
+  feedIconVariant: LF_ICON_VARIANT.dark,
+  feedIconContainerSize: LF_ICON_CONTAINER_SIZE.lg,
+  showConnector: true,
+  isFeedIconBorder: false
+};
+
+export default ListFeeds;
