@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -106,9 +108,34 @@ const Template = (args) => <CodeSnippet {...args} />;
 const SingleLineTemplate = (args) => <CodeSnippet {...args} />;
 const LeadingAndTrailingToolbarTemplate = (args) => <CodeSnippet {...args} />;
 
+const fileName = 'index.tsx';
+const copiedText = 'Copied!';
+
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(fileName)).toBeVisible();
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await expect(canvas.getByText(copiedText)).toBeVisible();
+};
+
 const SingleLine = SingleLineTemplate.bind({});
+SingleLine.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(fileName)).toBeVisible();
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await expect(canvas.getByText(copiedText)).toBeVisible();
+};
+
 const LeadingAndTrailingToolbar = LeadingAndTrailingToolbarTemplate.bind({});
+LeadingAndTrailingToolbar.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(fileName)).toBeVisible();
+  await expect(canvas.getByText('Download')).toBeVisible();
+  await userEvent.click(canvas.queryAllByRole('button')[0]);
+  await userEvent.click(canvas.queryAllByRole('button')[1]);
+  await expect(canvas.getByText(copiedText)).toBeVisible();
+};
 
 Primary.parameters = {
   controls: {}
