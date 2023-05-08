@@ -51,11 +51,11 @@ const defaultConfig = {
     },
     maxHeight: {
       option: { type: 'string' },
-      dscription: 'The max height of the code component'
+      dscription: 'The max height of the code component snippet container'
     },
     highlight: {
       option: { type: null },
-      description: 'The lines to be highlighted',
+      description: 'The lines range to be highlighted',
       defaultValue: [
         { range: '3', type: HIGHLIGHT_TYPE[1] },
         { range: '11', type: HIGHLIGHT_TYPE[1] },
@@ -81,24 +81,24 @@ const defaultConfig = {
     },
     showLineNumbers: {
       option: { type: 'boolean' },
-      description: 'Show line number or not',
+      description: 'Prop to enable the line number or not',
       defaultValue: true
     },
     singleLine: {
       option: { type: 'boolean' },
-      description: 'Single line',
+      description: 'The code snippet is singleLine or multiline',
       defaultValue: false
     },
     view: {
       options: CODE_VIEW,
-      description: 'View',
+      description: 'The code view (default, error, warning)',
       defaultValue: CODE_VIEW[0]
-    },
-    wordWrap: {
-      option: { type: 'boolean' },
-      description: 'wrap the line or not',
-      defaultValue: true
     }
+    // wordWrap: {
+    //   option: { type: 'boolean' },
+    //   description: 'wrap the line or not',
+    //   defaultValue: true
+    // }
   },
   controls: {}
 };
@@ -134,17 +134,15 @@ LeadingAndTrailingToolbar.args = {
         </div>
       }
       trailingNode={
-        <div className="flex items-center space-x-2">
-          <div>
-            <Button
-              icon={<MdOutlineFileDownload className="h-5 w-5" />}
-              size="small"
-              variant="minimal"
-              colors="white"
-            >
-              Download
-            </Button>
-          </div>
+        <div className="inline-flex">
+          <Button
+            icon={<MdOutlineFileDownload className="h-5 w-5" />}
+            size="default"
+            variant="minimal"
+            colors="white"
+          >
+            Download
+          </Button>
         </div>
       }
     />

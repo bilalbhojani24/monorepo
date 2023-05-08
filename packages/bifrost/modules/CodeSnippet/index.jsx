@@ -23,8 +23,8 @@ const CodeSnippet = ({
   showLineNumbers,
   singleLine,
   toolbar,
-  view,
-  wordWrap
+  view
+  // wordWrap
 }) => {
   const [showCopy, setShowCopy] = useState(false);
 
@@ -70,8 +70,8 @@ const CodeSnippet = ({
               }
             )}
             {...(!singleLine && { showLineNumbers })}
-            wrapLines={!wordWrap}
-            wrapLongLines={wordWrap}
+            // wrapLines={!wordWrap}
+            wrapLongLines
             lineNumberStyle={(n) => {
               const commonStyles = {
                 minWidth: '36px',
@@ -187,8 +187,8 @@ CodeSnippet.propTypes = {
   showLineNumbers: bool,
   singleLine: bool,
   toolbar: node,
-  view: oneOf(CODE_VIEW),
-  wordWrap: bool
+  view: oneOf(CODE_VIEW)
+  // wordWrap: bool
 };
 
 CodeSnippet.defaultProps = {
@@ -199,6 +199,6 @@ CodeSnippet.defaultProps = {
   showLineNumbers: false,
   singleLine: false,
   toolbar: null,
-  view: CODE_VIEW[0],
-  wordWrap: false
+  view: CODE_VIEW[0]
+  // wordWrap: false
 };
