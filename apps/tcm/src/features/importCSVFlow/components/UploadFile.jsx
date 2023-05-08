@@ -105,7 +105,7 @@ const UploadFile = () => {
           <TMFileUpload
             linkText="Upload a file"
             heading=""
-            subHeading="CSV format allowed"
+            subHeading="CSV format allowed (up to 10 MB)"
             accept=".csv"
             onChange={handleFileUpload}
           />
@@ -137,7 +137,7 @@ const UploadFile = () => {
           text={folderId ? selectedFolderLocation : '/'}
           secondBtnDisabled={!folderId}
           firstCta="Change Folder"
-          secondCta="Upload to Root Location"
+          secondCta="Upload to Root Level"
           firstCtaClick={() => {
             handleChangeFolderClick();
           }}
@@ -147,7 +147,7 @@ const UploadFile = () => {
           icon={<MdFolder className="text-brand-400 h-5 w-5" />}
           description={
             folderId
-              ? 'Update your folder location where you want to import the test cases'
+              ? 'Update folder location where you want to import the test cases'
               : 'Test Cases will be created at root location. New folders will be created if they are defined in the uploaded CSV.'
           }
           descriptionIcon={

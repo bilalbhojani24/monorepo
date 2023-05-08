@@ -70,7 +70,11 @@ const importCSVSlice = createSlice({
         state.topInfoSteps = [
           {
             title: `Uploaded CSV: ${state.fileConfig?.fileName}`,
-            description: `${state.selectedFolderLocation}`,
+            description: `${
+              state.selectedFolderLocation === null
+                ? '/'
+                : state.selectedFolderLocation
+            }`,
             ctaText: 'Update File',
             redirectTo: FIRST_SCREEN
           }
@@ -180,6 +184,11 @@ const importCSVSlice = createSlice({
         state.fieldsMapping[key] = value;
       }
       state.showMappings = true;
+      // removing all errors from 1st and 2nd screen
+      state.csvUploadError = '';
+      state.mappingFieldsError = '';
+      state.showSelectMenuErrorInMapFields = false;
+      state.errorLabelInMapFields = new Set();
     },
     uploadFileRejected: (state, { payload }) => {
       state.csvUploadError = payload.response.data.message;
@@ -286,6 +295,10 @@ const importCSVSlice = createSlice({
     },
     updateImportProgress: (state, { payload }) => {
       state.confirmCSVImportNotificationConfig.progress = payload;
+    },
+    setFirstButtonLoading: (state, { payload }) => {
+      state.confirmCSVImportNotificationConfig.modalData.isButtonLoading =
+        payload;
     }
   }
 });
@@ -324,6 +337,7 @@ export const {
   setShowChangeFolderModal,
   setFoldersForCSV,
   updateImportProgress,
-  clearNotificationConfig
+  clearNotificationConfig,
+  setFirstButtonLoading
 } = importCSVSlice.actions;
 export default importCSVSlice.reducer;

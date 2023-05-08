@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { O11ySlideover } from 'common/bifrostProxy';
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
@@ -15,6 +16,7 @@ import {
   setIsTestDetailsVisible,
   setShowTestDetailsFor
 } from '../slices/uiSlice';
+import { hideTestDetailsDrawer } from '../utils';
 
 import SlideOverBody from './SlideOverBody';
 import SlideOverHeader from './SlideOverHeader';
@@ -25,6 +27,7 @@ const TestDetails = ({ source }) => {
   const testId = useSelector(getShowTestDetailsFor);
   const currentTestRunId = useSelector(getCurrentTestRunId); // #TODO: CHECK behaviour
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isVisible) {
@@ -68,12 +71,28 @@ const TestDetails = ({ source }) => {
     };
   }, [dispatch]);
 
+  const handleCloseDetails = () => {
+    dispatch(hideTestDetailsDrawer());
+    const searchParams = new URLSearchParams(window?.location.search);
+    searchParams.delete('details');
+    navigate({ search: searchParams.toString() });
+  };
+
   return (
-    <O11ySlideover show={isVisible} backgroundOverlay={false} size="3xl">
+    <O11ySlideover
+      show={isVisible}
+      backgroundOverlay={false}
+      size="3xl"
+      onEscPress={() => {
+        if (isVisible) {
+          handleCloseDetails();
+        }
+      }}
+    >
       <TEST_DETAILS_CONTEXT.Provider value={{ handleLogTDInteractionEvent }}>
         {isVisible && (
           <>
-            <SlideOverHeader />
+            <SlideOverHeader handleCloseDetails={handleCloseDetails} />
             <SlideOverBody />
           </>
         )}

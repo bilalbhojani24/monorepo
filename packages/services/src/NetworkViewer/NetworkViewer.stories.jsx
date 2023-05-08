@@ -7,7 +7,7 @@ const defaultConfig = {
   component: NetworkViewer,
   argTypes: {
     logsURL: {
-      defaultValue: 'https://apimocha.com/o11y/nlogs'
+      defaultValue: 'https://apimocha.com/o11y/logs-staging'
     }
   },
   controls: {}

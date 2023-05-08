@@ -27,6 +27,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    noResultsText,
     metaPage,
     allFolders,
     isSearchFilterView,
@@ -137,7 +138,7 @@ export default function TestCases() {
                   <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
                     <TMEmptyState
                       title="No Results Found"
-                      description="Reset the filters or try again."
+                      description={noResultsText}
                       mainIcon={
                         <SearchOffOutlinedIcon className="text-base-400 !h-12 !w-12" />
                       }
