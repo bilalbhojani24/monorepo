@@ -126,7 +126,7 @@ const Pagination = (props) => {
             [`${activeClass} ${activeLinkClass}`]: currentPage === page
           })}
           onClick={(e) => pageNumberClick(e, page)}
-          aria-current="page"
+          aria-current={currentPage === page ? 'page' : ''}
         >
           {page}
         </a>
@@ -216,7 +216,7 @@ const Pagination = (props) => {
           className="border-base-300 text-base-500 hover:bg-base-50 relative inline-flex items-center rounded-l-md border  p-2 text-sm font-medium"
           onClick={prevClick}
         >
-          <span className="sr-only">Previous</span>
+          <span className="sr-only">Go to previous page</span>
           <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
         </a>
         {renderPageNumber(
@@ -228,7 +228,7 @@ const Pagination = (props) => {
           className="border-base-300 text-base-500 hover:bg-base-50 relative inline-flex items-center rounded-r-md border  p-2 text-sm font-medium"
           onClick={nextClick}
         >
-          <span className="sr-only">Next</span>
+          <span className="sr-only">Go to next page</span>
           <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
         </a>
       </nav>
