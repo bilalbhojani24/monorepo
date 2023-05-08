@@ -57,11 +57,15 @@ export function FieldButton(props) {
   return (
     <button
       type="button"
-      {...buttonProps}
+      {...(disabled
+        ? null
+        : {
+            ...buttonProps
+          })}
       disabled={disabled}
       ref={ref}
       className={twClassNames(
-        'border-base-300 -ml-px rounded-r-md border-l px-3.5 bg-white hover:bg-base-50',
+        'border-base-300 -ml-px rounded-r-md border-l px-3.5 bg-white hover:bg-base-50 focus:outline-0',
         {
           'cursor-not-allowed bg-base-50': disabled
         }
@@ -74,11 +78,9 @@ export function FieldButton(props) {
 
 FieldButton.propTypes = {
   children: Proptypes.node.isRequired,
-  isPressed: Proptypes.bool,
   disabled: Proptypes.bool
 };
 
 FieldButton.defaultProps = {
-  isPressed: false,
   disabled: false
 };
