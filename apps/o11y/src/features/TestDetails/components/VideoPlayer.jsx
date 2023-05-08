@@ -31,7 +31,8 @@ const VideoPlayer = forwardRef(
       onPlayCallback,
       isVideoPlayed,
       isVideoExpired,
-      videoFullUrl
+      videoFullUrl,
+      isFloatingVideo
     },
     ref
   ) => {
@@ -188,8 +189,9 @@ const VideoPlayer = forwardRef(
             'rounded-t overflow-hidden [&_video]:object-cover transition-all duration-300 ease-in overflow-hidden',
             {
               hidden: hasError || isVideoExpired,
-              [`h-auto max-h-[70vh] min-h-[256px]`]: isVideoPlayed,
-              'max-h-64': !isVideoPlayed
+              [`h-auto max-h-[70vh] min-h-[256px]`]:
+                isVideoPlayed && !isFloatingVideo,
+              'max-h-64': !isVideoPlayed && !isFloatingVideo
             }
           )}
         >
@@ -239,12 +241,14 @@ VideoPlayer.propTypes = {
   onMetadataFailed: PropTypes.func.isRequired,
   onPlayCallback: PropTypes.func.isRequired,
   isVideoPlayed: PropTypes.bool.isRequired,
-  videoFullUrl: PropTypes.string.isRequired
+  videoFullUrl: PropTypes.string.isRequired,
+  isFloatingVideo: PropTypes.bool
 };
 
 VideoPlayer.defaultProps = {
   containerRef: null,
-  exceptions: []
+  exceptions: [],
+  isFloatingVideo: false
 };
 
 export default VideoPlayer;
