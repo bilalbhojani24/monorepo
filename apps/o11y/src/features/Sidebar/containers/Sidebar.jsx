@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import {
   MdOutlineBuildCircle,
@@ -13,6 +13,7 @@ import {
 } from '@browserstack/bifrost';
 import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
+import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getDocUrl } from 'utils/common';
 import {
@@ -79,6 +80,7 @@ const secondaryNav = [
 ];
 
 export default function Sidebar() {
+  const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const navigate = useNavigate();
   const onLinkChange = (linkItem) => {
@@ -86,6 +88,7 @@ export default function Sidebar() {
       window.open(linkItem.path);
       return;
     }
+    dispatch(hideIntegrationsWidget());
     navigate(linkItem.path);
     window.scrollTo(0, 0);
   };

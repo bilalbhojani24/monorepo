@@ -3,6 +3,7 @@ import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
 import buildsReducer from 'features/AllBuilds/slices/buildsSlice';
 import buildDetailsReducer from 'features/BuildDetails/slices/buildDetailsSlice';
 import integrationsReducer from 'features/Integrations/slices/integrationsSlice';
+import integrationsWidgetReducer from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
 import alertsSettingsReducer from 'features/Settings/slices/alertsSettings';
 import autoAnalyserSettingsReducer from 'features/Settings/slices/autoAnalyserSettings';
 import failureCategoriesSettingsReducer from 'features/Settings/slices/failureCategoriesSettings';
@@ -31,6 +32,9 @@ export const store = configureStore({
     failureCategoriesSettings: failureCategoriesSettingsReducer,
     generalSettings: generalSettingsReducer,
     global: globalReducer,
+    integrations: integrationsReducer,
+    integrationsWidget: integrationsWidgetReducer,
+    modalToShow,
     reRunSettings: reRunSettingsReducer,
     notificationsSettings: notificationsSettingsReducer,
     shErrordetails: shErrorDetailsReducer,
@@ -41,9 +45,7 @@ export const store = configureStore({
     testList: testListReducer,
     testdetails: testDetailsDataReducer,
     testdetailsui: testDetailsUIReducer,
-    integrations: integrationsReducer,
     testingTrend: testingTrendReducer,
-    modalToShow,
     testInsights: testInsightsSlice
   },
   middleware: (getDefaultMiddleware) => {
