@@ -7,17 +7,22 @@ import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
+  getAllAppliedFilters,
+  getIsFiltersLoading
+} from 'features/FilterSkeleton/slices/selectors';
+import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
+import {
   setIsSHTestsDetailsVisible,
   setShowSHTestsDetailsFor,
   setSnPCbtInfo
 } from 'features/SHTestDetails/slices/dataSlice';
+import SHTestsFilters from 'features/SHTestsFilters';
 import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 
 import SHTestItem from '../components/TestItem';
-import SHTestsHeader from '../components/TestsHeader';
 import TestsTableHeader from '../components/TestsTableHeader';
 import {
   getSnPTestsData,
@@ -45,7 +50,9 @@ export default function SHTests() {
   const pagingParams = useSelector(getSnpTestsPaging);
   const sortBy = useSelector(getSnpTestsSortBy);
   const activeProject = useSelector(getActiveProject);
+  const isFiltersLoading = useSelector(getIsFiltersLoading);
   const navigate = useNavigate();
+  const appliedFilters = useSelector(getAllAppliedFilters);
 
   useEffect(() => {
     logOllyEvent({
@@ -78,13 +85,12 @@ export default function SHTests() {
 
   useEffect(() => {
     mounted.current = true;
-    if (activeProject?.normalisedName) {
+    if (activeProject?.normalisedName && !isFiltersLoading) {
       dispatch(setTestsLoading(true));
       dispatch(
         getSnPTestsData({
           normalisedName: activeProject?.normalisedName,
-          sortOptions: sortBy,
-          filters
+          sortOptions: sortBy
         })
       )
         .unwrap()
@@ -95,7 +101,13 @@ export default function SHTests() {
     return () => {
       mounted.current = false;
     };
-  }, [dispatch, filters, activeProject?.normalisedName, sortBy]);
+  }, [
+    dispatch,
+    appliedFilters,
+    activeProject?.normalisedName,
+    sortBy,
+    isFiltersLoading
+  ]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -121,6 +133,12 @@ export default function SHTests() {
       dispatch(setIsSHTestsDetailsVisible(false));
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    navigate({
+      search: getSearchStringFromFilters(appliedFilters).toString()
+    });
+  }, [appliedFilters, navigate]);
 
   const handleClickSortBy = (val) => {
     const updatedData = { type: val };
@@ -158,7 +176,9 @@ export default function SHTests() {
 
   return (
     <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
-      <SHTestsHeader />
+      <div className={twClassNames('mb-4 px-6 pt-5')}>
+        <SHTestsFilters />
+      </div>
       <TestsMetrics />
       {isLoadingTests ? (
         <O11yLoader wrapperClassName="flex-1" />

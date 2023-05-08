@@ -5,6 +5,8 @@ import {
   getSnPTestsBreakdown,
   getSnPUEBreakdown
 } from 'api/snp';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
+import { getFilterQueryParams } from 'features/FilterSkeleton/utils';
 
 import {
   TESTS_HEADER_LABEL_MAPPING,
@@ -12,7 +14,7 @@ import {
 } from '../constants';
 
 const { reducer, actions } = createSlice({
-  name: 'snp data',
+  name: 'suite health',
   initialState: {
     tests: {
       data: [],
@@ -123,10 +125,14 @@ export const {
 } = actions;
 
 export const getSnPTestsData = createAsyncThunk(
-  'testlist/getSnPTestsData',
-  async (data, { rejectWithValue, dispatch }) => {
+  'suitehealth/getSnPTestsData',
+  async (data, { rejectWithValue, dispatch, getState }) => {
     try {
-      const response = await getSnPTests({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPTests({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       if (data?.shouldUpdate) {
         dispatch(updateTests(response.data.tests));
       } else {
@@ -142,10 +148,14 @@ export const getSnPTestsData = createAsyncThunk(
 );
 
 export const getSnPTestsBreakdownData = createAsyncThunk(
-  'testlist/getSnPTestsBreakdownData',
-  async (data, { rejectWithValue }) => {
+  'suitehealth/getSnPTestsBreakdownData',
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getSnPTestsBreakdown({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPTestsBreakdown({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -153,7 +163,7 @@ export const getSnPTestsBreakdownData = createAsyncThunk(
   }
 );
 export const getSnPErrorsData = createAsyncThunk(
-  'testlist/getSnPErrorsData',
+  'suitehealth/getSnPErrorsData',
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const response = await getSnPErrors({ ...data });
@@ -180,7 +190,7 @@ export const getSnPErrorsData = createAsyncThunk(
   }
 );
 export const getSnPUEBreakdownData = createAsyncThunk(
-  'testlist/getSnPUEBreakdownData',
+  'suitehealth/getSnPUEBreakdownData',
   async (data, { rejectWithValue }) => {
     try {
       const response = await getSnPUEBreakdown({ ...data });

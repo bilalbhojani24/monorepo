@@ -224,7 +224,10 @@ export const FolderFilter = ({
   };
 
   return (
-    <>
+    <div>
+      <div className="mb-1 text-left">
+        <span className="text-base-700 text-sm font-medium">Folder</span>
+      </div>
       <O11yPopover
         theme="light"
         arrowWidth={0}
@@ -273,10 +276,7 @@ export const FolderFilter = ({
         }}
         wrapperClassName="px-2 py-0"
       >
-        <div>
-          <div className="mb-1 text-left">
-            <span className="text-base-700 text-sm font-medium">Folder</span>
-          </div>
+        <button type="button" className="w-full">
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
           <div
             className={twClassNames(
@@ -297,9 +297,9 @@ export const FolderFilter = ({
               />
             ))}
           </div>
-        </div>
+        </button>
       </O11yPopover>
-    </>
+    </div>
   );
 };
 

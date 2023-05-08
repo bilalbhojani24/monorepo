@@ -44,22 +44,10 @@ export default function SnP() {
     window.scrollTo(0, 0);
   }, [activeTab.value]);
 
-  const removeCommonParams = useCallback(() => {
-    const searchParams = new URLSearchParams(window?.location?.search);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpTestDetails);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpOsName);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpBrowserName);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpOsVersion);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpBrowserVersion);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpErrorId);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpErrorTestId);
-    return searchParams;
-  }, []);
-
   const onTabChange = useCallback(
     (tabInfo) => {
       dispatch(hideTestDetailsDrawer());
-      const searchParams = removeCommonParams();
+      const searchParams = new URLSearchParams();
       let activeIndex = Object.keys(TABS).findIndex(
         (item) => item === tabInfo.value
       );
@@ -76,7 +64,7 @@ export default function SnP() {
         })
       );
     },
-    [dispatch, navigate, removeCommonParams]
+    [dispatch, navigate]
   );
   return (
     <div
