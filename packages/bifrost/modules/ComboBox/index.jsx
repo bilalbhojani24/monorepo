@@ -26,6 +26,7 @@ const ComboBox = forwardRef((props, ref) => {
     onChange,
     isBadge,
     isMulti,
+    isMandatory,
     noResultFoundText,
     noOptionsText,
     value,
@@ -47,6 +48,7 @@ const ComboBox = forwardRef((props, ref) => {
     <ComboboxContextData.Provider
       value={{
         isMulti,
+        isMandatory,
         width,
         setWidth,
         errorText,
@@ -140,6 +142,7 @@ ComboBox.propTypes = {
   noResultFoundText: string,
   noOptionsText: string,
   isMulti: bool,
+  isMandatory: bool,
   isBadge: bool,
   onChange: func,
   value: oneOfType([
@@ -170,6 +173,7 @@ ComboBox.defaultProps = {
   noOptionsText: 'No options available',
   errorText: '',
   isMulti: false,
+  isMandatory: false,
   onChange: () => {},
   value: null,
   onOpenChange: null
