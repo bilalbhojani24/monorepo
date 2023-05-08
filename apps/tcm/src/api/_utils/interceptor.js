@@ -10,7 +10,7 @@ const setupInterceptors = (navigateTo, dispatch) => {
   const onSuccess = (res) => Promise.resolve(res);
 
   const showGenericToast = ({ response, id }) => {
-    if (response?.no_toast) return;
+    // if (response?.no_toast) return;
 
     dispatch(
       addNotificaton({
