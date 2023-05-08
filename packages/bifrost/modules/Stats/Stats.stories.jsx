@@ -329,7 +329,7 @@ export const KpiVariantCard = () => (
   </div>
 );
 
-export const ClickableGraphVariantCard = () => (
+export const GraphVariantCard = () => (
   <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
     <Stats
       key={options[4].id}
@@ -339,7 +339,7 @@ export const ClickableGraphVariantCard = () => (
   </div>
 );
 
-export const GraphVariantCard = () => (
+export const NonClickableGraphVariantCard = () => (
   <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
     <Stats
       key={options[5].id}
