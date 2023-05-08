@@ -21,11 +21,6 @@ export default function AutoAnalysisSettings() {
       state: false,
       loading: true
     });
-  const [uniqueErrorDetectionEnabled, setUniqueErrorDetectionEnabled] =
-    useState({
-      state: false,
-      loading: true
-    });
   const [thresholdPercentage, setThresholdPercentage] = useState(0);
 
   const dispatch = useDispatch();
@@ -46,19 +41,11 @@ export default function AutoAnalysisSettings() {
               state: res.data.failureCategoryDetectionEnabled === 'true',
               loading: false
             });
-            setUniqueErrorDetectionEnabled({
-              state: res.data.uniqueErrorDetectionEnabled === 'true',
-              loading: false
-            });
             setThresholdPercentage(res.data.thresholdPercentage);
           }
         })
         .catch(() => {
           setFailureCategoryDetectionEnabled((prev) => ({
-            state: prev.state,
-            loading: false
-          }));
-          setUniqueErrorDetectionEnabled((prev) => ({
             state: prev.state,
             loading: false
           }));
@@ -87,10 +74,6 @@ export default function AutoAnalysisSettings() {
           state: prev.state,
           loading: false
         }));
-        setUniqueErrorDetectionEnabled((prev) => ({
-          state: prev.state,
-          loading: false
-        }));
         logOllyEvent({
           event: 'O11ySettingsPageInteracted',
           data: {
@@ -110,10 +93,6 @@ export default function AutoAnalysisSettings() {
           state: data.data.failureCategoryDetectionEnabled,
           loading: false
         });
-        setUniqueErrorDetectionEnabled({
-          state: data.data.uniqueErrorDetectionEnabled,
-          loading: false
-        });
         setThresholdPercentage(data.data.thresholdPercentage);
         o11yNotify({
           title: 'Something went wrong!',
@@ -129,15 +108,6 @@ export default function AutoAnalysisSettings() {
     });
     handleUpdateSettings({
       failureCategoryDetectionEnabled: checked.toString()
-    });
-  };
-  const handleChangeUniqueErrorSwitch = (checked) => {
-    setUniqueErrorDetectionEnabled({
-      state: checked,
-      loading: true
-    });
-    handleUpdateSettings({
-      uniqueErrorDetectionEnabled: checked.toString()
     });
   };
   const handleChangeThreshold = ({ target: { value } }) => {
@@ -172,22 +142,6 @@ export default function AutoAnalysisSettings() {
             disabled={failureCategoryDetectionEnabled.loading}
             loading={failureCategoryDetectionEnabled.loading}
             onChange={handleChangeFailureCatSwitch}
-          />
-        </div>
-        <h3 className="mt-6 text-sm font-medium leading-5">
-          Automatic unique error detection
-        </h3>
-        <div className="flex gap-4">
-          <p className="text-base-500 mt-1 text-sm leading-5">
-            Enable to auto detect unique errors that occurred across various
-            tests in a build resulting in test failures. This analysis helps in
-            consolidating multiple common cause test failures.
-          </p>
-          <O11ySwitcher
-            checked={uniqueErrorDetectionEnabled.state}
-            disabled={uniqueErrorDetectionEnabled.loading}
-            loading={uniqueErrorDetectionEnabled.loading}
-            onChange={handleChangeUniqueErrorSwitch}
           />
         </div>
       </section>
