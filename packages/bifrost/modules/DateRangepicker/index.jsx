@@ -144,7 +144,7 @@ const DateRangepicker = (props) => {
             offset={offset}
             crossOffset={crossOffset}
           >
-            <Dialog {...dialogProps}>
+            <Dialog {...dialogProps} isLoading={isLoading}>
               <RangeCalendar isLoading={isLoading} {...calendarProps} />
             </Dialog>
           </Popover>
