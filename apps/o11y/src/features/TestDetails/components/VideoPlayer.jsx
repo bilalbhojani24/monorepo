@@ -191,7 +191,8 @@ const VideoPlayer = forwardRef(
               hidden: hasError || isVideoExpired,
               [`h-auto max-h-[70vh] min-h-[256px]`]:
                 isVideoPlayed && !isFloatingVideo,
-              'max-h-64': !isVideoPlayed && !isFloatingVideo
+              'max-h-[35vh]': !isVideoPlayed && !isFloatingVideo,
+              'max-h-[70vh]': isFloatingVideo
             }
           )}
         >
