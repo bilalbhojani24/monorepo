@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { vs } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { twClassNames } from '@browserstack/utils';
 import { arrayOf, bool, node, oneOf, shape, string } from 'prop-types';
 
@@ -30,7 +30,7 @@ const CodeSnippet = ({
 
   const getTheme = () => {
     if (singleLine) return '';
-    if (view === CODE_VIEW[0]) return vs;
+    if (view === CODE_VIEW[0]) return a11yLight;
     return '';
   };
   return (
