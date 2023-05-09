@@ -60,7 +60,9 @@ export const O11yTable = (props) => <Table {...props} />;
 export const O11yRefTableBody = React.forwardRef((props, ref) => (
   <TableBody {...props} ref={ref} />
 ));
-export const O11yButton = (props) => <Button {...props} />;
+export const O11yButton = forwardRef((props, ref) => (
+  <Button {...props} ref={ref} />
+));
 export const O11ySwitch = (props) => <Switch {...props} />;
 export const O11yDropdown = (props) => <Dropdown {...props} />;
 export const O11yDropdownOptionGroup = (props) => (
