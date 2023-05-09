@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -56,12 +56,19 @@ const DemoComponent = () => {
 };
 
 const ContextAndHooks = () => (
-  <ErrorBoundarySheild fallbackUI={<div>Fallback UI</div>}>
+  <ErrorBoundarySheild
+    fallbackUI={
+      <div className="bg-danger-200 text-danger-900 bold absolute flex h-full w-full content-between items-center justify-center text-6xl">
+        <h1>Fallback UI</h1>
+      </div>
+    }
+  >
     <DemoComponent />
   </ErrorBoundarySheild>
 );
 
 const HOCAndHooksComponent = () => {
+  const [data, setData] = useState();
   const [error, resetError] = useErrorBoundary((err, errorInfo) => {
     console.log('error', err);
     console.log('error-info', errorInfo);
@@ -69,9 +76,16 @@ const HOCAndHooksComponent = () => {
 
   if (error) {
     return (
-      <div>
+      <div className="bg-danger-200 text-danger-900 bold content-between items-center justify-center">
+        <h1>Fallback UI</h1>
         <p>{error.message}</p>
-        <button type="button" onClick={resetError}>
+        <button
+          type="button"
+          onClick={() => {
+            resetError();
+            setData([1, 2, 3]);
+          }}
+        >
           Try again
         </button>
       </div>
@@ -79,7 +93,7 @@ const HOCAndHooksComponent = () => {
   }
 
   // eslint-disable-next-line no-undef
-  return <div>HOCAndHooks - {hocAndHooks}</div>;
+  return <div>HOCAndHooks - {data.map((item) => item)}</div>;
 };
 
 const HOCAndHooks = withErrorBoundary(HOCAndHooksComponent);
