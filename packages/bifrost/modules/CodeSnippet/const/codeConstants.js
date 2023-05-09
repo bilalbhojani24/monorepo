@@ -1,17 +1,17 @@
 export const colorShades = {
   danger: {
     textColor: '#7F1D1D',
-    darkColor: '#FECACA',
+    darkColor: '#EF4444',
     lightColor: '#FEE2E2'
   },
   attention: {
     textColor: '#78350F',
-    darkColor: '#FDE68A',
+    darkColor: '#D97706',
     lightColor: '#FEF3C7'
   },
   neutral: {
     textColor: '#111827',
-    darkColor: '#D1D5DB',
+    darkColor: '#9CA3AF',
     lightColor: '#E5E7EB'
   }
 };
@@ -29,4 +29,4 @@ export const viewShades = {
 
 export const HIGHLIGHT_TYPE = ['neutral', 'danger', 'attention'];
 
-export const CODE_VIEW = ['default', 'danger', 'attention'];
+export const CODE_VIEW = ['neutral', 'danger', 'attention'];

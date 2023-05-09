@@ -1,3 +1,5 @@
+import { colorShades } from '../const/codeConstants';
+
 export const convertRangeToArray = (range) => {
   const [start, end] = range.split('-').map(Number);
 
@@ -20,3 +22,5 @@ export const copyToClipboard = (text) => {
   document.execCommand('copy');
   document.body.removeChild(textarea);
 };
+
+export const borderConst = (type) => `1px solid ${colorShades[type].darkColor}`;

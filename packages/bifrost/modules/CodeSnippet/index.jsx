@@ -13,7 +13,7 @@ import {
   HIGHLIGHT_TYPE,
   viewShades
 } from './const/codeConstants';
-import { convertRangeToArray, isNumber } from './utils';
+import { borderConst, convertRangeToArray, isNumber } from './utils';
 
 const CodeSnippet = ({
   code,
@@ -60,11 +60,10 @@ const CodeSnippet = ({
               maxHeight
             }}
             className={twClassNames(
-              'text-sm !p-0 overflow-y-scroll relative rounded-b-md bg-white',
+              'text-sm !p-0 overflow-y-scroll relative rounded-b-md !bg-white',
               {
                 'rounded-md': !toolbar,
                 '!p-4': !showLineNumbers || singleLine,
-                'bg-base-50': view === CODE_VIEW[0],
                 'text-danger-700': view === CODE_VIEW[1],
                 'text-attention-700': view === CODE_VIEW[2]
               }
@@ -89,19 +88,22 @@ const CodeSnippet = ({
               if (view === CODE_VIEW[0] && showLineNumbers) {
                 const lineNumberStyles = {
                   [HIGHLIGHT_TYPE[0]]: {
-                    background: colorShades.neutral.darkColor,
+                    background: colorShades.neutral.lightColor,
                     color: colorShades.neutral.textColor,
-                    ...commonStyles
+                    ...commonStyles,
+                    borderRight: `1px solid ${colorShades.neutral.darkColor}`
                   },
                   [HIGHLIGHT_TYPE[1]]: {
-                    background: colorShades.danger.darkColor,
+                    background: colorShades.danger.lightColor,
                     color: colorShades.danger.textColor,
-                    ...commonStyles
+                    ...commonStyles,
+                    borderRight: `1px solid ${colorShades.danger.darkColor}`
                   },
                   [HIGHLIGHT_TYPE[2]]: {
-                    background: colorShades.attention.darkColor,
+                    background: colorShades.attention.lightColor,
                     color: colorShades.attention.textColor,
-                    ...commonStyles
+                    ...commonStyles,
+                    borderRight: `1px solid ${colorShades.attention.darkColor}`
                   }
                 };
 
@@ -140,25 +142,26 @@ const CodeSnippet = ({
               return { ...commonStyles };
             }}
             lineProps={(n) => {
+              const style = {};
               if (view === CODE_VIEW[0] && showLineNumbers) {
-                const style = {
-                  ...((view === CODE_VIEW[1] || view === CODE_VIEW[2]) && {})
-                };
-
                 highlight.forEach(({ range, type }) => {
-                  if (isNumber(range) && Number(range) === n) {
-                    style.background = colorShades[type].lightColor;
-                  } else {
-                    const lineNumbersRange = convertRangeToArray(range);
-                    if (lineNumbersRange.includes(n)) {
-                      style.background = colorShades[type].lightColor;
+                  const lineNumber = Number(range);
+                  const lineNumbersRange = convertRangeToArray(range);
+                  if (isNumber(range)) {
+                    if (lineNumber === n) {
+                      style.borderTop = borderConst(type);
+                      style.borderBottom = borderConst(type);
                     }
+                  } else if (lineNumbersRange[0] === n) {
+                    style.borderTop = borderConst(type);
+                  } else if (
+                    lineNumbersRange[lineNumbersRange.length - 1] === n
+                  ) {
+                    style.borderBottom = borderConst(type);
                   }
                 });
-
-                return { style };
               }
-              return {};
+              return { style };
             }}
             onMouseEnter={() => setShowCopy(true)}
             onMouseLeave={() => setShowCopy(false)}

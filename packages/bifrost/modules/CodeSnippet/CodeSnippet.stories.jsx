@@ -60,9 +60,11 @@ const defaultConfig = {
       description: 'The lines range to be highlighted',
       defaultValue: [
         { range: '3', type: HIGHLIGHT_TYPE[1] },
-        { range: '11', type: HIGHLIGHT_TYPE[1] },
-        { range: '5-7', type: HIGHLIGHT_TYPE[2] },
-        { range: '13-14', type: HIGHLIGHT_TYPE[0] }
+        { range: '5-7', type: HIGHLIGHT_TYPE[1] },
+        { range: '11', type: HIGHLIGHT_TYPE[2] },
+        { range: '13-14', type: HIGHLIGHT_TYPE[2] },
+        { range: '17', type: HIGHLIGHT_TYPE[0] },
+        { range: '20-23', type: HIGHLIGHT_TYPE[0] }
       ]
     },
     toolbar: {
