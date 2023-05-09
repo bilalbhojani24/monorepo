@@ -42,7 +42,7 @@ const AverageDurationMetric = () => {
     )
       .unwrap()
       .then((res) => {
-        setChartPoints(res.data);
+        setChartPoints(res.data.averageDuration);
         setMetricInfo(res.insights);
       })
       .finally(() => {

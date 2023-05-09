@@ -44,7 +44,7 @@ const AverageFailureRatesMetric = () => {
     )
       .unwrap()
       .then((res) => {
-        setChartPoints(res.data);
+        setChartPoints(res.data.averageFailureRates);
         setMetricInfo(res.insights);
       })
       .finally(() => {

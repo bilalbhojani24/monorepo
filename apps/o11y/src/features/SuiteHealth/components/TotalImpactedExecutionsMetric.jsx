@@ -44,7 +44,7 @@ const TotalImpactedExecutionsMetric = () => {
     )
       .unwrap()
       .then((res) => {
-        setChartPoints(res.data);
+        setChartPoints(res.data.totalImpactedTests);
         setMetricInfo(res.insights);
       })
       .finally(() => {

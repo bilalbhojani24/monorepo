@@ -44,7 +44,7 @@ const TotalUniqueErrorMetric = () => {
     )
       .unwrap()
       .then((res) => {
-        setChartPoints(res.data);
+        setChartPoints(res.data.totalUniqueErrors);
         setMetricInfo(res.insights);
       })
       .finally(() => {

@@ -44,7 +44,7 @@ const UniqueImpactedTestsMetric = () => {
     )
       .unwrap()
       .then((res) => {
-        setChartPoints(res.data);
+        setChartPoints(res.data.uniqueImpactedTests);
         setMetricInfo(res.insights);
       })
       .finally(() => {
