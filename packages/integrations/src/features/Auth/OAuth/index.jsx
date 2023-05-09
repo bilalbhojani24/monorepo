@@ -11,7 +11,11 @@ import PropTypes from 'prop-types';
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
 import { Logo } from '../../../common/components';
 import { clearGlobalAlert } from '../../../common/slices/globalAlertSlice';
-import { ANALYTICS_EVENTS, analyticsEvent } from '../../../utils/analytics';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
 import { OAuthMetaType } from '../types';
 
 const OAuth = ({
@@ -64,6 +68,7 @@ const OAuth = ({
 
   const handleOAuthConnection = () => {
     const metricsPayload = {
+      ...getCommonMetrics(),
       auth_method: 'oauth'
     };
     analyticsEvent(ANALYTICS_EVENTS.AUTH_CONNECT, metricsPayload);

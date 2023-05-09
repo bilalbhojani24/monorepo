@@ -7,7 +7,11 @@ import {
   clearGlobalAlert,
   setGlobalAlert
 } from '../../common/slices/globalAlertSlice';
-import { ANALYTICS_EVENTS, analyticsEvent } from '../../utils/analytics';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../utils/analytics';
 import { setHasIntegrated } from '../slices/integrationsSlice';
 
 import APIToken from './APIToken';
@@ -49,6 +53,7 @@ const IntegrationAuth = ({
     if (attempt <= SYNC_POLL_MAX_ATTEMPTS) {
       getSetupStatus(integrationKey).then((response) => {
         const metricsPayload = {
+          ...getCommonMetrics(),
           auth_method: authMethod
         };
         if (response?.data?.success && response?.data?.setup_completed) {

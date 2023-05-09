@@ -9,7 +9,11 @@ import {
   clearGlobalAlert,
   setGlobalAlert
 } from '../../../common/slices/globalAlertSlice';
-import { ANALYTICS_EVENTS, analyticsEvent } from '../../../utils/analytics';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
 import { LOADING_STATUS } from '../../slices/constants';
 import { toolAuthLoadingSelector } from '../../slices/toolAuthSlice';
 import { APITokenMetaType } from '../types';
@@ -34,6 +38,7 @@ const APIToken = ({
   };
   const handleConnect = () => {
     const metricsPayload = {
+      ...getCommonMetrics(),
       auth_method: 'token'
     };
     analyticsEvent(ANALYTICS_EVENTS.AUTH_CONNECT, metricsPayload);

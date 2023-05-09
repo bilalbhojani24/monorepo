@@ -9,7 +9,11 @@ import { FormBuilder, SingleValueSelect } from '../../../common/components';
 import Attachments from '../../../common/components/Attachments';
 import { SingleValueSelectOptionType } from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
-import { ANALYTICS_EVENTS, analyticsEvent } from '../../../utils/analytics';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
 import {
   getIssueSuccessAnalyticsPayload,
   parseFieldsForCreate,
@@ -48,6 +52,7 @@ const UpdateIssueForm = ({
   setAreIssueOptionsLoading
 }) => {
   const dispatch = useDispatch();
+  const commonMetrics = getCommonMetrics();
   const [fieldErrors, setFieldErrors] = useState({});
   const {
     description: descriptionMeta,
@@ -109,6 +114,7 @@ const UpdateIssueForm = ({
       )
         .catch((errorResponse) => {
           const metricsPayload = {
+            ...commonMetrics,
             error_mesage: errorResponse
           };
           analyticsEvent(ANALYTICS_EVENTS.TICKET_UPDATE_ERROR, metricsPayload);
@@ -167,6 +173,7 @@ const UpdateIssueForm = ({
         .then((response) => {
           if (response?.success) {
             const metricPayload = {
+              ...commonMetrics,
               fields: getIssueSuccessAnalyticsPayload(
                 ISSUE_MODES.UPDATION,
                 fields,

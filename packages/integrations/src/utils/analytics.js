@@ -1,9 +1,15 @@
 import { logEvent } from '@browserstack/utils';
 
+import { activeIntegrationSelector } from '../features/slices/integrationsSlice';
+import { store } from '../features/store';
+
 export const getAnalyticsKeys = (userId) => ({
   amplitudeKey: '985eaa9c45d824a94344e64a2a3ca724',
   amplitudeConfig: {
-    key: '985eaa9c45d824a94344e64a2a3ca724'
+    key: '985eaa9c45d824a94344e64a2a3ca724',
+    userData: {
+      user_id: userId
+    }
   },
   analyticsKey: 'UA-418548-19',
   EDSDetails: {
@@ -64,4 +70,12 @@ export const analyticsEvent = (eventName, eventData, sendToGA) => {
     },
     sendToGA
   );
+};
+
+export const getCommonMetrics = () => {
+  const activeIntegration = activeIntegrationSelector(store.getState());
+  return {
+    category: activeIntegration.category,
+    integration_tool: activeIntegration.value
+  };
 };

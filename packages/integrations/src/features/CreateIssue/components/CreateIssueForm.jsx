@@ -11,7 +11,11 @@ import {
   SingleValueSelectRawOptionType
 } from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
-import { ANALYTICS_EVENTS, analyticsEvent } from '../../../utils/analytics';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
 import {
   getIssueSuccessAnalyticsPayload,
   parseFieldsForCreate
@@ -46,6 +50,7 @@ const CreateIssueForm = ({
   integrationToolFieldData
 }) => {
   const dispatch = useDispatch();
+  const commonMetrics = getCommonMetrics();
   const [fieldErrors, setFieldErrors] = useState({});
   const {
     description: descriptionMeta,
@@ -71,6 +76,7 @@ const CreateIssueForm = ({
       return createIssue(integrationToolFieldData?.value, parsed)
         .catch((errorResponse) => {
           const metricsPayload = {
+            ...commonMetrics,
             error_mesage: errorResponse
           };
           analyticsEvent(ANALYTICS_EVENTS.TICKET_CREATE_ERROR, metricsPayload);
@@ -129,6 +135,7 @@ const CreateIssueForm = ({
         .then((response) => {
           if (response?.success) {
             const metricPayload = {
+              ...commonMetrics,
               fields: getIssueSuccessAnalyticsPayload(
                 ISSUE_MODES.CREATION,
                 fields,
@@ -229,6 +236,7 @@ const CreateIssueForm = ({
 
   const handleIssueTypeChange = (key, issueType) => {
     const metricsPayload = {
+      ...commonMetrics,
       issue_type: (issueType.label ?? '').toLowerCase()
     };
     if (isWorkInProgress) {
