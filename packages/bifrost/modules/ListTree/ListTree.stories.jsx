@@ -334,7 +334,7 @@ const listTreeDemoDataSet = [
         name: (
           <TruncateText
             wrapperClassName="line-clamp-1"
-            tooltipAriaLabel="File A-1"
+            tooltipAriaLabel="File A-1 Long Description"
           >
             file A-1 Really long file name case. Lorem Ipsum is simply dummy
             text of the printing and typesetting industry. Lorem Ipsum has been
