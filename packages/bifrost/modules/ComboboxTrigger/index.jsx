@@ -117,7 +117,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           autoComplete="off"
         />
         {(isLoadingRight || errorText || isTruncated) && (
-          <div className="flex items-center space-x-2 pr-1">
+          <div className="mr-5 flex items-center space-x-2 pr-1">
             {isLoadingRight && (
               <span className="text-base-500 flex items-center space-x-2 rounded-r-md focus:outline-none">
                 <Loader wrapperClassName="text-base-200 fill-base-400 h-5 w-5" />
