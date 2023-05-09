@@ -506,7 +506,7 @@ const ControlledNestedTreeBase = ({
         isFocused={focused ? focused === item.uuid : false}
         label={item.name}
         focusUUID={item.uuid}
-        ariaLabel={item.uuid}
+        ariaLabel="Label name"
         description={`(level=${indent})`}
         isNodeSelected={selectedNodeMap[item.uuid]}
         focusIDPrefix={focusIDPrefix}
@@ -754,7 +754,7 @@ const UnconrolledNestedTreeBase = ({
     <ListTree key={item.name} indentationLevel={indent}>
       <ListTreeNode
         label={item.name}
-        ariaLabel={item.name}
+        ariaLabel="Label name"
         description={`(level=${indent})`}
         focusUUID={item.uuid}
         isNodeSelected={selectedNodeMap[item.uuid]}

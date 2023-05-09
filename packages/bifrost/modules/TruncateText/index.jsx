@@ -65,7 +65,6 @@ const TruncateText = ({
         },
         containerClassName
       )}
-      id="3"
     >
       <TooltipWrapper
         tooltipContent={
