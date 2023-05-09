@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { MdCheckCircle } from '@browserstack/bifrost';
@@ -25,7 +26,7 @@ const SingleStep = ({
 
   return (
     <div className="flex justify-between">
-      <div className="w-full">
+      <div className="w-full max-w-[calc(100%-90px)]">
         <div className="flex">
           <MdCheckCircle className="text-success-600 h-5 w-5" />
           <span className="text-base-800 ml-2 text-sm font-medium">
