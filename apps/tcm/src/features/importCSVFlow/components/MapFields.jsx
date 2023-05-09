@@ -139,12 +139,18 @@ const MapFields = () => {
             <>
               <TMTooltipHeader>Value Mapping</TMTooltipHeader>
               <TMTooltipBody>
-                <p className="text-sm">
+                <p className="mb-0 text-sm">
                   Select and map values from your CSV to values of Test
                   Management’s system values. This will help you maintain the
                   fields with correct values
-                  <div className="underline">Learn more</div>
                 </p>
+                <a
+                  target="blank"
+                  href="https://www.browserstack.com/docs/test-management/quick-start/import-csv"
+                  className="text-sm underline"
+                >
+                  Learn more
+                </a>
               </TMTooltipBody>
             </>
           }
