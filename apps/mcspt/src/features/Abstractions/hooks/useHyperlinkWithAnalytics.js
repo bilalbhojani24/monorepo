@@ -8,7 +8,7 @@ const useHyperlinkWithAnalytics = (
     linkEvent.preventDefault?.();
     linkEvent.stopPropagation?.();
 
-    mcpAnalyticsEvent('csptLinkClick', { url: linkToBeSentToAnalytics });
+    mcpAnalyticsEvent('csptLinkClick', { link_url: linkToBeSentToAnalytics });
 
     consumerClickFn();
   };

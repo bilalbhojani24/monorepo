@@ -56,8 +56,9 @@ export const checkAuthAndSaveUserDetails =
          * neither do they allow to use sdks directly,
          * but PM wants to release feature at the earliest.
          */
-        reloadRootRoute();
+
         purgeAmplitudeMemory();
+        reloadRootRoute();
       }
 
       if (!ssoRedirectUrl && !getAuthToken(getState())) {
@@ -107,9 +108,8 @@ export const logUserOutAndPurgeSessionData = () => async (dispatch) => {
      * neither do they allow to use sdks directly,
      * but PM wants to release feature at the earliest.
      */
-
-    reloadRootRoute();
     purgeAmplitudeMemory();
+    reloadRootRoute();
   }
 };
 
