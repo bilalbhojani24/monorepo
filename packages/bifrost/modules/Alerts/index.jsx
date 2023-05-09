@@ -20,7 +20,8 @@ const link = (
   modifier,
   handleLinkClick,
   linkUrl,
-  linkText
+  linkText,
+  hideLinkTextArrow
 ) => {
   if (linkText?.length > 0)
     return (
@@ -44,7 +45,7 @@ const link = (
         }}
       >
         {linkText}
-        <span aria-hidden="true"> &rarr;</span>
+        {!hideLinkTextArrow && <span aria-hidden="true"> &rarr;</span>}
       </a>
     );
   return null;
@@ -69,7 +70,8 @@ const Alerts = (props) => {
     alphaActionTitle,
     betaActionTitle,
     dismissButton,
-    dismissButtonFn
+    dismissButtonFn,
+    hideLinkTextArrow
   } = props;
 
   const iconClassTypes = twClassNames('h-5 w-5 ', {
@@ -261,19 +263,21 @@ const Alerts = (props) => {
                       modifier,
                       handleLinkClick,
                       linkUrl,
-                      linkText
+                      linkText,
+                      hideLinkTextArrow
                     )}
                 </span>
               </div>
 
               {alertLinkPosition === ALERT_LINK_POSITION[1] && linkText && (
-                <p className="mt-3 h-fit text-sm md:mt-0 md:ml-6">
+                <p className="mt-3 h-fit text-sm md:ml-6 md:mt-0">
                   {link(
                     alertLinkPosition,
                     modifier,
                     handleLinkClick,
                     linkUrl,
-                    linkText
+                    linkText,
+                    hideLinkTextArrow
                   )}
                 </p>
               )}
@@ -354,7 +358,8 @@ Alerts.propTypes = {
     return null;
   },
   dismissButtonFn: PropTypes.func,
-  textColorClass: PropTypes.string
+  textColorClass: PropTypes.string,
+  hideLinkTextArrow: PropTypes.bool
 };
 
 Alerts.defaultProps = {
@@ -375,7 +380,8 @@ Alerts.defaultProps = {
   betaActionTitle: '',
   dismissButton: false,
   dismissButtonFn: () => {},
-  textColorClass: ''
+  textColorClass: '',
+  hideLinkTextArrow: false
 };
 
 export default Alerts;
