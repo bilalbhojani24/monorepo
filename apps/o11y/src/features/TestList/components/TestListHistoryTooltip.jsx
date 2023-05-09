@@ -14,6 +14,7 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import { LOG_TYPES } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getTestHistoryDetails } from 'features/TestList/slices/selectors';
@@ -22,7 +23,7 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { capitalize, getDocUrl } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
-import { getSettingsPath } from 'utils/routeUtils';
+import { getBuildPath, getSettingsPath } from 'utils/routeUtils';
 
 function TestListHistoryTooltip({ testRunId, status }) {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
   const historyData = useSelector((state) =>
     getTestHistoryDetails(state, testRunId)
   );
+  const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +76,11 @@ function TestListHistoryTooltip({ testRunId, status }) {
               <p className="text-sm font-semibold">#{historyData?.serialId}</p>
               <span className="text-brand-600 text-xs font-medium">
                 <Copy2Clipboard
-                  text={historyData?.logs[LOG_TYPES.STACKTRACE]?.join('/n')}
+                  text={`${window.location.origin}${getBuildPath(
+                    activeProject?.normalisedName,
+                    buildMeta.data?.name,
+                    historyData?.serialId
+                  )}?tab=tests&details=${testRunId}`}
                   showBtnText
                   wrapperClassName="text-brand-600 font-medium p-0 hover:bg-transparent hover:text-brand-500"
                   btnText="Copy Link"

@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { O11ySlideoverBody } from 'common/bifrostProxy';
+import O11yLoader from 'common/O11yLoader';
 
 import {
   TEST_DETAILS_SLIDEOVER_ELEMENT_ID,
   TEST_DETAILS_TABS
 } from '../constants';
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
+import { getTestMeta } from '../slices/selectors';
 
 import DebugTab from './DebugTab';
 import HistorySlider from './HistorySlider';
@@ -13,6 +16,7 @@ import InfoTab from './InfoTab';
 import TestDetailsHeader from './TestDetailsHeader';
 
 const SlideOverBody = () => {
+  const testMeta = useSelector(getTestMeta);
   const { panelRef } = useTestDetailsContentContext();
   const [activeTab, setActiveTab] = useState({
     idx: 0,
@@ -37,6 +41,16 @@ const SlideOverBody = () => {
       value: tabInfo.name
     });
   }, []);
+
+  if (testMeta.isLoading) {
+    return (
+      <O11ySlideoverBody wrapperClassName="overflow-hidden pt-0">
+        <div className="flex h-full w-full items-center justify-center">
+          <O11yLoader />
+        </div>
+      </O11ySlideoverBody>
+    );
+  }
 
   return (
     <O11ySlideoverBody wrapperClassName="overflow-hidden pt-0">
