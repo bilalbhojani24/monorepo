@@ -13,7 +13,7 @@ const TMHeader = () => (
     headerID="bstack-header"
     productLink={AppRoute.ROOT}
     productName="Test Management"
-    release="Beta"
+    release="Alpha"
     headerElementArray={[
       'team',
       'pricing',
