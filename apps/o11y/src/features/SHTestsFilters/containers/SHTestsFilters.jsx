@@ -95,12 +95,14 @@ const SHTestsFilters = () => {
             inputLabel="Newly Failed Tests"
             type={ADV_FILTER_TYPES.isNewFailure.key}
           />
+          {/* #TODO: to be added after the backend change is moved
           <MultiSelectCheckboxFilterField
             label="Defects (JIRA Issues)"
             yesLabel="Tests with associated defects"
             noLabel="Tests with no associated defects"
             type={ADV_FILTER_TYPES.hasJiraDefects.key}
           />
+           */}
           <MultiSelectCheckboxFilterField
             label="Muted Tests"
             yesLabel="Muted"
