@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { SingleDatepicker } from '@browserstack/bifrost';
 import { usePrevious } from '@browserstack/hooks';
-import { parseDate } from '@internationalized/date';
 
+import { getInternationalizedDate } from '../../../utils/getInternationalizedDate';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
 import { FieldType } from '../types';
@@ -51,10 +51,10 @@ const DateField = ({
     valueFromProps,
     prevValueFromProps
   ]);
-  const valueToRender = fieldsData?.[fieldKey];
-  // should pass undefined in case there's no date since parseDate
-  // is not null-error safe
-  const parsedValueForDatePicker = valueToRender && parseDate(valueToRender);
+
+  const parsedValueForDatePicker = getInternationalizedDate(
+    fieldsData?.[fieldKey]
+  );
 
   return (
     <div

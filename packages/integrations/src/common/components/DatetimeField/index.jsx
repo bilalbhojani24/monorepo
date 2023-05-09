@@ -7,8 +7,9 @@ import {
   SingleDatepicker
 } from '@browserstack/bifrost';
 import { usePrevious } from '@browserstack/hooks';
-import { parseDate } from '@internationalized/date';
+import { format } from 'date-fns';
 
+import { getInternationalizedDate } from '../../../utils/getInternationalizedDate';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import Label from '../Label';
 import { FieldType } from '../types';
@@ -52,17 +53,7 @@ const DatetimeField = ({
   const valueToRender =
     fieldsData?.[fieldKey] && new Date(fieldsData?.[fieldKey]);
 
-  const dateToRender =
-    valueToRender &&
-    `${valueToRender.getFullYear()}-${
-      valueToRender.getMonth() + 1 > 9
-        ? valueToRender.getMonth() + 1
-        : `0${valueToRender.getMonth() + 1}`
-    }-${
-      valueToRender.getDate() > 9
-        ? valueToRender.getDate()
-        : `0${valueToRender.getDate()}`
-    }`;
+  const dateToRender = valueToRender && format(valueToRender, 'yyyy-MM-dd');
 
   const time =
     valueToRender &&
@@ -72,9 +63,8 @@ const DatetimeField = ({
     ? TIME_PICKER_OPTIONS.find((item) => item.label === time)
     : null;
 
-  // should pass undefined in case there's no date since parseDate
-  // is not null-error safe
-  const parsedValueForDatePicker = dateToRender && parseDate(dateToRender);
+  const parsedValueForDatePicker = getInternationalizedDate(dateToRender);
+
   const handleDateChange = (e) => {
     let newDate = null;
     if (fieldsData?.[fieldKey]) {
@@ -89,6 +79,7 @@ const DatetimeField = ({
     } else {
       newDate = new Date(e.year, e.month - 1, e.day, 0, 0);
     }
+
     setFieldsData((prev) => ({
       ...prev,
       [fieldKey]: newDate.toISOString()
