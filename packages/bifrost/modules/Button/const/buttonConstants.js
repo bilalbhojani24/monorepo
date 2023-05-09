@@ -19,6 +19,22 @@ export const BUTTON_VARIANTS = ['primary', 'secondary', 'rounded', 'minimal'];
 
 export const BUTTON_ICON_PLACEMENT = ['start', 'end'];
 
+export const BUTTON_ICON_SIZES = {
+  // non icon only buttons
+  'false-extra-small': '16px',
+  'false-small': '16px',
+  'false-default': '20px',
+  'false-large': '20px',
+  'false-extra-large': '20px',
+
+  // icon only buttons
+  'true-extra-small': '20px',
+  'true-small': '20px',
+  'true-default': '20px',
+  'true-large': '24px',
+  'true-extra-large': '24px'
+};
+
 export const BUTTON_LOADER_CLASSES = {
   'brand-primary': 'fill-brand-50 text-brand-400',
   'brand-secondary': 'fill-brand-500 text-brand-300',
