@@ -367,12 +367,12 @@ importers:
       '@browserstack/vite-config': workspace:*
       '@headlessui/react': 1.7.5
       '@heroicons/react': 2.0.13
-      '@internationalized/date': ^3.1.0
+      '@internationalized/date': 3.1.0
       '@percy/cli': 1.21.0
       '@percy/storybook': 4.3.5
       '@radix-ui/react-popover': 1.0.2
       '@radix-ui/react-tooltip': 1.0.2
-      '@react-aria/overlays': ^3.13.0
+      '@react-aria/overlays': 3.13.0
       '@storybook/addon-a11y': 6.5.16
       '@storybook/addon-actions': 6.5.16
       '@storybook/addon-docs': 6.5.16
@@ -405,7 +405,7 @@ importers:
       prettier: 2.8.1
       prop-types: 15.8.1
       react: 18.2.0
-      react-aria: ^3.23.1
+      react-aria: 3.23.1
       react-dom: 18.2.0
       react-draggable: 4.4.5
       react-hot-toast: 2.4.0
@@ -432,14 +432,14 @@ importers:
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
-      '@internationalized/date': 3.2.0
+      '@internationalized/date': 3.1.0
       '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
       '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
-      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
       '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
       prop-types: 15.8.1
       react: 18.2.0
-      react-aria: 3.24.0_biqbaboplfbrettd7655fr4n2y
+      react-aria: 3.23.1_biqbaboplfbrettd7655fr4n2y
       react-dom: 18.2.0_react@18.2.0
       react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
       react-hot-toast: 2.4.0_s7mghcr6idhb4d5ook54gl4n44
@@ -6402,6 +6402,27 @@ packages:
       '@react-types/numberfield': 3.4.1_react@18.2.0
       '@react-types/shared': 3.18.0_react@18.2.0
       '@react-types/textfield': 3.7.1_react@18.2.0
+      '@swc/helpers': 0.4.14
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@react-aria/overlays/3.13.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-hRZyhAYzrlCcEWQ2k2jP24b0wc5/355Xl5w5FZHRmPeU1U4XlFwKX/eFlBs/li9Sprm1bTDXrCY480Kl6UsKDA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      '@react-aria/focus': 3.12.0_react@18.2.0
+      '@react-aria/i18n': 3.7.1_react@18.2.0
+      '@react-aria/interactions': 3.15.0_react@18.2.0
+      '@react-aria/ssr': 3.6.0_react@18.2.0
+      '@react-aria/utils': 3.16.0_react@18.2.0
+      '@react-aria/visually-hidden': 3.8.0_react@18.2.0
+      '@react-stately/overlays': 3.5.1_react@18.2.0
+      '@react-types/button': 3.7.2_react@18.2.0
+      '@react-types/overlays': 3.7.1_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       '@swc/helpers': 0.4.14
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -23273,6 +23294,50 @@ packages:
       regenerator-runtime: 0.13.11
       whatwg-fetch: 3.6.2
     dev: true
+
+  /react-aria/3.23.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-fptvkglL/HiX/llx2QCCt4WUJzuj6SLoyUJzF50kOLnX+sz5QhWQ+6dCEN/d3TWCRaXudC1nREUu8MgoV+lg7g==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
+    dependencies:
+      '@react-aria/breadcrumbs': 3.5.1_react@18.2.0
+      '@react-aria/button': 3.7.1_react@18.2.0
+      '@react-aria/calendar': 3.2.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/checkbox': 3.9.0_react@18.2.0
+      '@react-aria/combobox': 3.6.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/datepicker': 3.4.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/dialog': 3.5.1_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/dnd': 3.2.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/focus': 3.12.0_react@18.2.0
+      '@react-aria/gridlist': 3.3.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/i18n': 3.7.1_react@18.2.0
+      '@react-aria/interactions': 3.15.0_react@18.2.0
+      '@react-aria/label': 3.5.1_react@18.2.0
+      '@react-aria/link': 3.5.0_react@18.2.0
+      '@react-aria/listbox': 3.9.0_react@18.2.0
+      '@react-aria/menu': 3.9.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/meter': 3.4.1_react@18.2.0
+      '@react-aria/numberfield': 3.5.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/progress': 3.4.1_react@18.2.0
+      '@react-aria/radio': 3.6.0_react@18.2.0
+      '@react-aria/searchfield': 3.5.1_react@18.2.0
+      '@react-aria/select': 3.10.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/selection': 3.14.0_react@18.2.0
+      '@react-aria/separator': 3.3.1_react@18.2.0
+      '@react-aria/slider': 3.4.0_react@18.2.0
+      '@react-aria/ssr': 3.6.0_react@18.2.0
+      '@react-aria/switch': 3.5.0_react@18.2.0
+      '@react-aria/table': 3.9.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/tabs': 3.5.0_react@18.2.0
+      '@react-aria/textfield': 3.9.1_react@18.2.0
+      '@react-aria/tooltip': 3.5.0_react@18.2.0
+      '@react-aria/utils': 3.16.0_react@18.2.0
+      '@react-aria/visually-hidden': 3.8.0_react@18.2.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /react-aria/3.24.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-uqqUOTlRVbOTsbCMr2+SVgRg4345LYBnpBXpLZnYwhlDwDK+w7qXf+AO0cUty6fD3jYw0FmCp0PhyF1bfk1MGg==}

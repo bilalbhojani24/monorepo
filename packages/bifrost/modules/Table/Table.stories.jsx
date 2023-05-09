@@ -401,7 +401,6 @@ CondensedTable.play = async ({ canvasElement }) => {
   Roles.forEach(async (role) => {
     await expect(canvas.getByText(role)).toBeVisible();
   });
-  await expect(canvas.queryAllByText('Edit').length).toBe(3);
 };
 
 Primary.parameters = {
@@ -430,7 +429,7 @@ CondensedTable.args = {
     <>
       <TableHead>
         <TableRow>
-          {columns.map((col) => (
+          {columns.slice(0, 4).map((col) => (
             <TableCell
               key={col.key}
               variant="header"
@@ -449,7 +448,7 @@ CondensedTable.args = {
               console.log('Row clicked');
             }}
           >
-            {columns.map((column, colIdx) => {
+            {columns.slice(0, 4).map((column, colIdx) => {
               const value = row[column.key];
               return (
                 <TableCell
@@ -753,7 +752,7 @@ StickyHeaderTable.args = {
               const value = row[column.key];
               return (
                 <TableCell key={column.id}>
-                  {column.cell ? <>{column.cell}</> : value}
+                  {column.cell ? <>{column.cell()}</> : value}
                 </TableCell>
               );
             })}
@@ -817,11 +816,11 @@ SelectableTable.args = {
                         name={value}
                         aria-label={value}
                       />
-                      {column.cell ? <>{column.cell}</> : value}
+                      {column.cell ? <>{column.cell()}</> : value}
                     </TableCell>
                   ) : (
                     <TableCell key={column.id}>
-                      {column.cell ? <>{column.cell}</> : value}
+                      {column.cell ? <>{column.cell()}</> : value}
                     </TableCell>
                   )}
                 </>

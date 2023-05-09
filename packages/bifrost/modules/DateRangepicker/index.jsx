@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDatePicker } from 'react-aria';
-import { useDatePickerState } from 'react-stately';
+import { useDateRangePicker } from 'react-aria';
+import { useDateRangePickerState } from 'react-stately';
 import { useYearpicker } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import Proptypes from 'prop-types';
@@ -8,24 +8,25 @@ import Proptypes from 'prop-types';
 import { CalendarIcon } from '../Icon';
 
 import { FieldButton } from './components/Button';
-import { Calendar } from './components/Calendar';
 import { DateField } from './components/DateField';
 import { Dialog } from './components/Dialog';
 import { Popover } from './components/Popover';
-import { PICKER_LEVELS, YEARS_DATA } from './const/singleDatepicker';
+import { RangeCalendar } from './components/RangeCalendar';
+import { PICKER_LEVELS, YEARS_DATA } from './const/DateRangepickerconst';
 import { PickerLevelContext } from './context/PickerLevelContext';
 
-const SingleDatepicker = (props) => {
-  const state = useDatePickerState(props);
+const DateRangepicker = (props) => {
+  const state = useDateRangePickerState(props);
   const ref = useRef();
   const {
     groupProps,
     labelProps,
-    fieldProps,
+    startFieldProps,
+    endFieldProps,
     buttonProps,
     dialogProps,
     calendarProps
-  } = useDatePicker(props, state, ref);
+  } = useDateRangePicker(props, state, ref);
 
   const {
     label,
@@ -65,7 +66,7 @@ const SingleDatepicker = (props) => {
         {label && (
           <span
             {...labelProps}
-            className="text-base-700 mb-1 block break-all text-sm font-medium leading-5"
+            className="text-base-700 break-all text-sm font-medium leading-5"
           >
             {label}
           </span>
@@ -79,24 +80,38 @@ const SingleDatepicker = (props) => {
             {...groupProps}
             ref={ref}
             className={twClassNames(
-              'border-base-300 cursor-pointer flex w-full rounded-md border justify-between',
+              'border-base-300 flex w-full rounded-md border justify-between focus:outline-brand-500 focus:outline-1',
               {
                 'border-danger-300': errorMessage,
-                'cursor-not-allowed': disabled,
                 'focus-within:border-brand-500 focus-within:border-2': !disabled
               }
             )}
           >
             <div
               className={twClassNames(
-                'flex w-full items-center rounded-md rounded-r-none p-1 py-2.5 pl-3',
+                'flex w-full items-center rounded-md rounded-r-none p-1 py-2 pl-3',
                 {
                   'bg-base-50': disabled
                 }
               )}
             >
               <DateField
-                {...fieldProps}
+                aria-label="some reader text"
+                {...startFieldProps}
+                disabled={disabled}
+                errorMessage={errorMessage}
+              />
+              <span
+                aria-hidden="true"
+                className={twClassNames('px-2 text-base-500', {
+                  'text-base-500': disabled,
+                  'text-danger-900': errorMessage
+                })}
+              >
+                –
+              </span>
+              <DateField
+                {...endFieldProps}
                 disabled={disabled}
                 errorMessage={errorMessage}
               />
@@ -116,7 +131,7 @@ const SingleDatepicker = (props) => {
           </div>
         </div>
         {errorMessage && (
-          <p className="text-danger-600 mt-2 break-all text-sm font-normal leading-5">
+          <p className="text-danger-600 mt-1.5 break-all text-sm font-normal leading-5">
             {errorMessage}
           </p>
         )}
@@ -130,7 +145,7 @@ const SingleDatepicker = (props) => {
             crossOffset={crossOffset}
           >
             <Dialog {...dialogProps} isLoading={isLoading}>
-              <Calendar isLoading={isLoading} {...calendarProps} />
+              <RangeCalendar isLoading={isLoading} {...calendarProps} />
             </Dialog>
           </Popover>
         )}
@@ -139,7 +154,7 @@ const SingleDatepicker = (props) => {
   );
 };
 
-SingleDatepicker.propTypes = {
+DateRangepicker.propTypes = {
   wrapperClassName: Proptypes.string,
   errorMessage: Proptypes.string,
   disabled: Proptypes.bool,
@@ -151,7 +166,7 @@ SingleDatepicker.propTypes = {
   label: Proptypes.string,
   isLoading: Proptypes.bool
 };
-SingleDatepicker.defaultProps = {
+DateRangepicker.defaultProps = {
   wrapperClassName: '',
   errorMessage: null,
   disabled: false,
@@ -164,4 +179,4 @@ SingleDatepicker.defaultProps = {
   isLoading: false
 };
 
-export default SingleDatepicker;
+export default DateRangepicker;
