@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton, O11yPopover } from 'common/bifrostProxy';
 import DatePickerGroup from 'common/DatePickerGroup';
-import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
+import {
+  ADV_FILTER_TYPES,
+  FILTER_OPERATION_TYPE
+} from 'features/FilterSkeleton/constants';
 import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
 import { getTimeBounds } from 'features/FilterSkeleton/utils';
@@ -37,7 +40,7 @@ const DatePickerFilterField = ({ dateRangeObject }) => {
       setAppliedFilter({
         type: ADV_FILTER_TYPES.dateRange.key,
         id: key,
-        operationType: 'addOperation',
+        operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
         text: dateRangeObject[key].appliedText,
         value: timeBounds,
         isApplied: true
@@ -56,7 +59,7 @@ const DatePickerFilterField = ({ dateRangeObject }) => {
         setAppliedFilter({
           type: ADV_FILTER_TYPES.dateRange.key,
           id: 'custom',
-          operationType: 'addOperation',
+          operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
           text: formattedText,
           value: {
             upperBound: toTime,

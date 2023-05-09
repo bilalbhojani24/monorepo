@@ -6,7 +6,7 @@ import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 
-import { ADV_FILTER_TYPES } from '../constants';
+import { ADV_FILTER_TYPES, FILTER_OPERATION_TYPE } from '../constants';
 
 const FILTER_FIELD_TYPE = ADV_FILTER_TYPES.search.key;
 
@@ -32,7 +32,7 @@ const SearchFilterField = ({ id, placeholder }) => {
       setAppliedFilter({
         type: FILTER_FIELD_TYPE,
         id: `${FILTER_FIELD_TYPE}:${searchText.toLowerCase()}`,
-        operationType: 'addOperation',
+        operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
         text: searchText,
         value: searchText,
         isApplied: true
@@ -45,7 +45,7 @@ const SearchFilterField = ({ id, placeholder }) => {
     dispatch(
       setAppliedFilter({
         type: FILTER_FIELD_TYPE,
-        operationType: 'removeOperation',
+        operationType: FILTER_OPERATION_TYPE.REMOVE_OPERATION,
         text: '',
         value: '',
         isApplied: false

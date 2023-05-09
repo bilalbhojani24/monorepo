@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listTreeCheckboxHelper } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yInputField, O11yPopover } from 'common/bifrostProxy';
-import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
+import {
+  ADV_FILTER_TYPES,
+  FILTER_OPERATION_TYPE
+} from 'features/FilterSkeleton/constants';
 import { setSelectedFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import {
   getSelectedFiltersByType,
@@ -63,7 +66,7 @@ export default function FolderFilterField() {
       dispatch(
         setSelectedFilters({
           type: dItem.type,
-          operationType: 'removeOperation',
+          operationType: FILTER_OPERATION_TYPE.REMOVE_OPERATION,
           id: dItem.id,
           text: null,
           value: null
@@ -75,7 +78,7 @@ export default function FolderFilterField() {
       dispatch(
         setSelectedFilters({
           type: newItem.type,
-          operationType: 'addOperation',
+          operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
           id: newItem.id,
           text: newItem.text,
           value: newItem.value

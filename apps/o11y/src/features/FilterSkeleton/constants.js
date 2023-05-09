@@ -10,6 +10,11 @@ export const ADV_FILTER_OPERATIONS = {
   REPLACE_BY_TYPE: 'REPLACE_BY_TYPE'
 };
 
+export const FILTER_OPERATION_TYPE = {
+  ADD_OPERATION: 'addOperation',
+  REMOVE_OPERATION: 'removeOperation'
+};
+
 export const ADV_FILTER_TYPES = {
   buildTags: {
     key: 'buildTags',

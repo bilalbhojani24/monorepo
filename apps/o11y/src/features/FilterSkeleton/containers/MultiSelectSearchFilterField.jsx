@@ -14,6 +14,8 @@ import { getActiveProject } from 'globalSlice/selectors';
 import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 
+import { FILTER_OPERATION_TYPE } from '../constants';
+
 const MultiSelectSearchFilterField = ({
   type,
   placeholder,
@@ -80,7 +82,7 @@ const MultiSelectSearchFilterField = ({
         dispatch(
           setSelectedFilters({
             type,
-            operationType: 'addOperation',
+            operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
             id: `${type}:${item.value}`,
             text: item.value,
             value: item.value
@@ -90,7 +92,7 @@ const MultiSelectSearchFilterField = ({
         dispatch(
           setSelectedFilters({
             type,
-            operationType: 'removeOperation',
+            operationType: FILTER_OPERATION_TYPE.REMOVE_OPERATION,
             id: `${type}:${item.value}`,
             text: item.value,
             value: item.value

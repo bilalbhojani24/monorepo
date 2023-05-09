@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge } from 'common/bifrostProxy';
 import isEmpty from 'lodash/isEmpty';
 
-import { ADV_FILTER_TYPES } from '../constants';
+import { ADV_FILTER_TYPES, FILTER_OPERATION_TYPE } from '../constants';
 import {
   clearAllAppliedFilters,
   setAppliedFilter
@@ -19,7 +19,7 @@ const FilterPills = () => {
     dispatch(
       setAppliedFilter({
         type: item.type,
-        operationType: 'removeOperation',
+        operationType: FILTER_OPERATION_TYPE.REMOVE_OPERATION,
         ...item
       })
     );
