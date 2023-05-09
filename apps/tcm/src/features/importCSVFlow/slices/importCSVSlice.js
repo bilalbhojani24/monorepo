@@ -70,13 +70,14 @@ const importCSVSlice = createSlice({
         state.topInfoSteps = [
           {
             title: `Uploaded CSV: ${state.fileConfig?.fileName}`,
-            description: `${
+            description: `Import Location: ${
               state.selectedFolderLocation === null
                 ? '/'
                 : state.selectedFolderLocation
             }`,
             ctaText: 'Update File',
-            redirectTo: FIRST_SCREEN
+            redirectTo: FIRST_SCREEN,
+            showPreText: true
           }
         ];
       else if (payload === THIRD_SCREEN)
