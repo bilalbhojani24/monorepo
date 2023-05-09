@@ -95,7 +95,7 @@ const ListTreeNode = forwardRef(
           <div
             role="presentation"
             className={twClassNames(
-              'opacity-0 flex group-hover:opacity-100 group-focus:opacity-100 group-focus-within:opacity-100',
+              'invisible group-hover:visible group-focus:visible group-focus-within:invisbile opacity-0 flex group-hover:opacity-100 group-focus:opacity-100 group-focus-within:opacity-100',
               {
                 visible: isFocused
               }
