@@ -204,11 +204,14 @@ const useImport = () => {
             }
             trimSpacesTestRails();
           })
-          .catch(() => {
+          .catch((error) => {
             // show failure banner
             trimSpacesTestRails();
             connectionFailed(decider);
-            setConnectionStatus({ key: 'testrails', value: 'error' });
+            setConnectionStatus({
+              key: 'testrails',
+              value: error?.response?.data
+            });
           });
       } else if (currentTestManagementTool === 'zephyr') {
         checkTestManagementConnection('zephyr', zephyrCred)
@@ -222,11 +225,14 @@ const useImport = () => {
             }
             trimSpacesZephyr();
           })
-          .catch(() => {
+          .catch((error) => {
             // show failure banner
             trimSpacesZephyr();
             connectionFailed(decider);
-            setConnectionStatus({ key: 'zephyr', value: 'error' });
+            setConnectionStatus({
+              key: 'zephyr',
+              value: error?.response?.data
+            });
           });
       }
     } else if (currentTestManagementTool === 'testrails') {
