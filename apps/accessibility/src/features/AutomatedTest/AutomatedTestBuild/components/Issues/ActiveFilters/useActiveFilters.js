@@ -18,34 +18,18 @@ import { logEvent } from 'utils/logEvent';
 export default function useActiveFilters() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { activeSwitch, setActiveSwitch, onFilterButtonClick } =
-    useContext(SectionsDataContext);
+  const {
+    activeSwitch,
+    hasFilters,
+    onUpdateSwitch,
+    onFilterButtonClick,
+    onUpdateImpact
+  } = useContext(SectionsDataContext);
   const showHiddenIssues = useSelector(getShowHiddenIssuesState);
   const buildFilters = useSelector(getBuildFilters);
 
-  const onUpdateImpact = (values) => {
-    // dispatch(
-    //   setReportFiltersKey({
-    //     key: 'impact',
-    //     values
-    //   })
-    // );
-    // dispatch(resetIssueItem());
-    // const path = deleteUrlQueryParam([
-    //   'activeViolationId',
-    //   'activeComponentId',
-    //   'activeIssueIndex',
-    //   'isShowingIssue'
-    // ]);
-    // navigate(`?${path}`);
-    // const updatedPath = updateUrlWithQueryParam({
-    //   impact: values.map(({ value }) => value)
-    // });
-    // navigate(`?${updatedPath}`);
-  };
-
   const onTabSelect = (tabValue) => {
-    setActiveSwitch(tabValue);
+    onUpdateSwitch(tabValue);
     logEvent('OnADReportView', {
       actionType: events.allIssuesTab,
       tab: tabValue
@@ -89,6 +73,7 @@ export default function useActiveFilters() {
   return {
     showHiddenIssues,
     activeSwitch,
+    hasFilters,
     buildFilters,
     onFilterButtonClick,
     onTabSelect,

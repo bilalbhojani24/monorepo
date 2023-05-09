@@ -13,15 +13,17 @@ import {
   ModalHeader
 } from '@browserstack/bifrost';
 import { severityOptions } from 'constants';
-import PropTypes from 'prop-types';
 
 import useFilterModal from './useFilterModal';
 
-export default function FilterModal({ onSubmit }) {
+export default function FilterModal() {
   const {
     selectedImpact,
     showNeedsReviewIssues,
     pageValue,
+    selectedPages,
+    selectedComponent,
+    selectedCategory,
     urls,
     componentIds,
     categories,
@@ -35,9 +37,7 @@ export default function FilterModal({ onSubmit }) {
     onInputBoxChange,
     onApplyFilters,
     onUpdateFilters
-  } = useFilterModal({
-    onSubmit
-  });
+  } = useFilterModal();
 
   return (
     <Modal show size="lg" onOverlayClick={onCloseClick}>
@@ -62,7 +62,7 @@ export default function FilterModal({ onSubmit }) {
         <div className="mb-6">
           <ComboBox
             onChange={(values) => onUpdateFilters('page', values)}
-            value={pageValue}
+            value={selectedPages}
             isMulti
           >
             <ComboboxLabel>Pages</ComboboxLabel>
@@ -87,7 +87,7 @@ export default function FilterModal({ onSubmit }) {
         <div className="mb-6">
           <ComboBox
             onChange={(values) => onUpdateFilters('component', values)}
-            value={componentValue}
+            value={selectedComponent}
             isMulti
           >
             <ComboboxLabel>Components</ComboboxLabel>
@@ -112,7 +112,7 @@ export default function FilterModal({ onSubmit }) {
         <div className="mb-6">
           <ComboBox
             onChange={(values) => onUpdateFilters('category', values)}
-            value={categoryValue}
+            value={selectedCategory}
             isMulti
           >
             <ComboboxLabel>Category</ComboboxLabel>
@@ -154,9 +154,3 @@ export default function FilterModal({ onSubmit }) {
     </Modal>
   );
 }
-
-FilterModal.propTypes = {
-  isFilterModalVisible: PropTypes.bool.isRequired,
-  onCloseClick: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired
-};

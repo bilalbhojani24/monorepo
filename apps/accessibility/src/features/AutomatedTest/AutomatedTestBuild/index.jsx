@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdPerson, Tabs } from '@browserstack/bifrost';
+import { ISSUES, SUMMARY, TESTS } from 'constants';
 
 import Issues from './components/Issues';
 import Overview from './components/Overview';
@@ -9,20 +10,34 @@ import useAutomatedTestBuild from './useAutomatedTestBuild';
 const tabList = [
   {
     name: 'Overview',
-    value: 'overview'
+    value: SUMMARY
   },
   {
     name: 'All issues',
-    value: 'all-issues'
+    value: ISSUES
   },
   {
     name: 'Tests',
-    value: 'tests'
+    value: TESTS
   }
 ];
 
 export default function AutomatedTestBuild() {
   const { buildData, activeTab, onTabChange } = useAutomatedTestBuild();
+  let defaultIndex = 0;
+  switch (activeTab) {
+    case SUMMARY:
+      defaultIndex = 0;
+      break;
+    case ISSUES:
+      defaultIndex = 1;
+      break;
+    case TESTS:
+      defaultIndex = 2;
+      break;
+    default:
+      break;
+  }
 
   if (!buildData) {
     return null;
@@ -46,10 +61,11 @@ export default function AutomatedTestBuild() {
         onTabChange={onTabChange}
         navigationClassName="ml-6"
         tabsArray={tabList}
+        defaultIndex={defaultIndex}
       />
-      {activeTab === 'overview' && <Overview />}
-      {activeTab === 'all-issues' && <Issues />}
-      {activeTab === 'tests' && <Tests />}
+      {activeTab === SUMMARY && <Overview />}
+      {activeTab === ISSUES && <Issues />}
+      {activeTab === TESTS && <Tests />}
     </div>
   );
 }

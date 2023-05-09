@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { activeInitFilters, ISSUE_TYPE, ISSUES, SUMMARY } from 'constants';
+import {
+  activeInitFilters,
+  ISSUE_TYPE,
+  ISSUES,
+  SUMMARY,
+  TESTS
+} from 'constants';
 import { formatComponentIdString } from 'utils/helper';
 
 const initialParamState = {
@@ -38,10 +44,7 @@ const getInitialTab = () => {
   };
 
   if (params.get('impact')) {
-    activeFilters.impact = params
-      .get('impact')
-      .split(',')
-      .map((value) => ({ label: value, value }));
+    activeFilters.impact = params.get('impact').split(',');
   }
 
   if (params.get('page')) {
@@ -93,6 +96,8 @@ const getInitialTab = () => {
     } else if (activeTab === SUMMARY) {
       result.activeTab = SUMMARY;
       result.defaultIndex = 0;
+    } else if (activeTab === TESTS) {
+      result.activeTab = TESTS;
     }
   }
 

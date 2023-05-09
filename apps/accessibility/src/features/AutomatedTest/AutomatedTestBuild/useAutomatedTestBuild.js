@@ -1,20 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
 import { fetchBuildData } from 'api/fetchTestAutomationData';
+import { updateUrlWithQueryParam } from 'utils/helper';
 
+import { setActiveTab } from './slices/appSlice';
 import { setBuildData, setCustomData } from './slices/dataSlice';
-import { getBuildData } from './slices/selector';
+import { getActiveTab, getBuildData } from './slices/selector';
 
 export default function useAutomatedTestBuild() {
-  const [activeTab, setActiveTab] = useState('overview');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const activeTab = useSelector(getActiveTab);
   const buildData = useSelector(getBuildData);
 
   const onTabChange = (option) => {
-    setActiveTab(option.value);
+    dispatch(setActiveTab(option.value));
+    const updatedPath = updateUrlWithQueryParam({
+      activeTab: option.value
+    });
+    navigate(`?${updatedPath}`);
   };
-  // const [activeTab, setActiveTab] = useState();
 
   useEffect(() => {
     fetchBuildData();

@@ -14,11 +14,15 @@ export const getIsShowingIssue = (state) =>
 export const getCustomData = (state) =>
   state.accessibility.automatedTestBuild.data.customData;
 export const getShowHiddenIssuesState = (state) =>
-  state.accessibility.automatedTestBuild.app.isShowingIssue;
+  state.accessibility.automatedTestBuild.app.showHiddenIssues.hideIssues;
 export const getIsFilterModalVisible = (state) =>
   state.accessibility.automatedTestBuild.app.isFilterModalVisible;
 export const getFilters = (state) =>
   state.accessibility.automatedTestBuild.data.filters;
+export const getActiveSwitch = (state) =>
+  state.accessibility.automatedTestBuild.app.activeSwitch;
+export const getActiveTab = (state) =>
+  state.accessibility.automatedTestBuild.app.activeTab;
 
 export const getUniqFilterValues = createSelector(getFilters, (filters) => {
   const { pages, componentIds, category: categoryList } = filters;

@@ -16,8 +16,9 @@ import PropTypes from 'prop-types';
 
 import useActiveFilters from './useActiveFilters';
 
-export default function ActiveFilters({ hasFilters }) {
+export default function ActiveFilters() {
   const {
+    hasFilters,
     showHiddenIssues,
     activeSwitch,
     buildFilters,
@@ -89,7 +90,12 @@ export default function ActiveFilters({ hasFilters }) {
           <div className="mr-4 w-36">
             <SelectMenu
               onChange={onUpdateImpact}
-              value={buildFilters.impact}
+              value={buildFilters.impact.map((impact) => ({
+                label:
+                  impact.charAt(0).toUpperCase() +
+                  impact.slice(1, impact.length),
+                value: impact
+              }))}
               isMulti
             >
               <SelectMenuTrigger placeholder="Severity" />
