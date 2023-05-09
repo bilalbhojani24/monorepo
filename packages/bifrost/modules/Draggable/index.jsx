@@ -12,7 +12,7 @@ const DraggableWrapper = (
     handle,
     initialPosition,
     position,
-    onDrag
+    onDrag,
   },
   nodeRef
 ) => {
@@ -46,18 +46,18 @@ DraggableWrapper.propTypes = {
   bounds: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.string,
-    PropTypes.bool
+    PropTypes.bool,
   ]),
   handle: PropTypes.string,
   initialPosition: PropTypes.objectOf({
     x: PropTypes.number,
-    y: PropTypes.number
+    y: PropTypes.number,
   }),
   position: PropTypes.objectOf({
     x: PropTypes.number,
-    y: PropTypes.number
+    y: PropTypes.number,
   }),
-  onDrag: PropTypes.func
+  onDrag: PropTypes.func,
 };
 
 DraggableWrapper.defaultProps = {
@@ -67,7 +67,7 @@ DraggableWrapper.defaultProps = {
   handle: null,
   initialPosition: { x: 0, y: 0 },
   position: null,
-  onDrag: () => {}
+  onDrag: null,
 };
 
 export default forwardRef(DraggableWrapper);
