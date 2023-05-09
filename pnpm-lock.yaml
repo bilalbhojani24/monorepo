@@ -178,6 +178,7 @@ importers:
     specifiers:
       '@browserstack/bifrost': 5.2.0
       '@browserstack/hooks': workspace:*
+      '@browserstack/integrations': workspace:*
       '@browserstack/services': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -223,6 +224,7 @@ importers:
     dependencies:
       '@browserstack/bifrost': 5.2.0_tlihl7wy5bel2naaj56hlnmskm
       '@browserstack/hooks': link:../../packages/hooks
+      '@browserstack/integrations': link:../../packages/integrations
       '@browserstack/services': link:../../packages/services
       '@browserstack/utils': link:../../packages/utils
       '@internationalized/date': 3.1.0
@@ -361,7 +363,7 @@ importers:
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
-      '@browserstack/utils': 1.2.0
+      '@browserstack/utils': 2.1.0
       '@browserstack/vite-config': workspace:*
       '@headlessui/react': 1.7.5
       '@heroicons/react': 2.0.13
@@ -427,7 +429,7 @@ importers:
       wait-on: 7.0.1
     dependencies:
       '@browserstack/hooks': link:../hooks
-      '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
+      '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
       '@internationalized/date': 3.1.0
