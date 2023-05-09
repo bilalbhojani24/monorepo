@@ -224,7 +224,7 @@ const HeaderProductContainer = () => {
         </div>
         <div
           className={twClassNames(
-            'flex flex-col items-start bg-[#f7f7f7] w-[124px] h-[287px] gap-4 py-4 px-2.5'
+            'flex flex-col items-start bg-[#f7f7f7] w-[124px] h-[319px] gap-4 py-4 px-2.5'
           )}
         >
           <div
