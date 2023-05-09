@@ -153,7 +153,7 @@ export const TEST_DETAILS_SOURCE = {
   SUITE_HEALTH_ERRORS: 'suite_health_errors'
 };
 
-export const BSTACK_TOPNAV_ELEMENT_ID = 'bstack-header';
+export const BSTACK_TOPNAV_ELEMENT_ID = 'o11y-header';
 export const PUSHER_EVENTS = {
   BUILD_STARTED: 'BUILD_STARTED',
   BUILD_FINISHED: 'BUILD_FINISHED',
