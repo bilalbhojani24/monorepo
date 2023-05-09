@@ -12,6 +12,9 @@ const { reducer, actions } = createSlice({
     toggleBanner: (state, { payload }) => {
       state.version = payload.version;
       state.data = payload?.data || {};
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+      }, 0);
     }
   }
 });
