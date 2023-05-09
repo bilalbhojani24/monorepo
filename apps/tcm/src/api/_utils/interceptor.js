@@ -9,6 +9,19 @@ const ERROR_TITLE = 'Error occurred';
 const setupInterceptors = (navigateTo, dispatch) => {
   const onSuccess = (res) => Promise.resolve(res);
 
+  const showGenericToast = ({ response, id }) => {
+    // if (response?.no_toast) return;
+
+    dispatch(
+      addNotificaton({
+        id,
+        title: ERROR_TITLE,
+        description: response?.errors?.message || GENERIC_MESSAGE,
+        variant: 'error'
+      })
+    );
+  };
+
   const onFailure = (res) => {
     let rejectResponse = res;
     const statusCode = res?.response?.status;
@@ -31,15 +44,8 @@ const setupInterceptors = (navigateTo, dispatch) => {
 
         case 400:
         case 421:
-        case 422:
-          dispatch(
-            addNotificaton({
-              id: '4xx_error',
-              title: ERROR_TITLE,
-              description: response?.errors?.message || GENERIC_MESSAGE,
-              variant: 'error'
-            })
-          );
+          // case 422: //TODO: revert after postbeta
+          showGenericToast({ id: '4xx_error', response });
           break;
         default:
         // console.log(response);
@@ -56,14 +62,7 @@ const setupInterceptors = (navigateTo, dispatch) => {
         case 507:
         case 509:
         case 510:
-          dispatch(
-            addNotificaton({
-              id: '4xx_error',
-              title: ERROR_TITLE,
-              description: response?.errors?.message || GENERIC_MESSAGE,
-              variant: 'error'
-            })
-          );
+          showGenericToast({ id: '5xx_error', response });
           break;
         default:
         // console.log(response);

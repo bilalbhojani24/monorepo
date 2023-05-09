@@ -107,7 +107,7 @@ const TestCasesTable = ({
           </TMTruncateText>
         </div>
       ),
-      class: 'w-[9%] max-w-[112px]'
+      class: 'w-[4%] max-w-[112px]'
     },
     {
       name: 'TITLE',

@@ -7,15 +7,15 @@ module.exports = {
     'tailwindcss/no-custom-classname': [
       2,
       {
-        config: tailwindConfig,
-      },
-    ],
+        config: tailwindConfig
+      }
+    ]
   },
   settings: {
     'import/resolver': {
       node: {
-        paths: [path.resolve(__dirname, 'src')],
-      },
-    },
-  },
+        paths: [path.resolve(__dirname, 'src')]
+      }
+    }
+  }
 };
