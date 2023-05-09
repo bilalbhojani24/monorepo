@@ -158,13 +158,6 @@ const IssueForm = ({
   }, 300);
 
   useEffect(() => {
-    // console.log(
-    //   'issue',
-    //   previousIssueType !== issueTypeFieldData?.value,
-    //   !isWorkInProgress
-    // );
-    // console.log('project', previousProjectId !== projectFieldData?.value);
-
     if (
       areProjectsLoaded &&
       integrationToolFieldData &&
