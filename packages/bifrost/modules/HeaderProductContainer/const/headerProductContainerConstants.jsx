@@ -66,7 +66,7 @@ export const TEST_MANAGEMENT_PRODUCTS = [
   },
   {
     name: 'Test Observability',
-    description: 'Centralized & faster debugging',
+    description: 'Smart test reporting & debugging',
     icon: <TestObservabilityIcon iconClass="w-9 h-[34px]" />,
     link: 'https://observability.browserstack.com'
   }
