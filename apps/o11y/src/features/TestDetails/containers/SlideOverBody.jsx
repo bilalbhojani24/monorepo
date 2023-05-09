@@ -42,16 +42,6 @@ const SlideOverBody = () => {
     });
   }, []);
 
-  if (testMeta.isLoading) {
-    return (
-      <O11ySlideoverBody wrapperClassName="overflow-hidden pt-0">
-        <div className="flex h-full w-full items-center justify-center">
-          <O11yLoader />
-        </div>
-      </O11ySlideoverBody>
-    );
-  }
-
   return (
     <O11ySlideoverBody wrapperClassName="overflow-hidden pt-0">
       <div
@@ -60,11 +50,23 @@ const SlideOverBody = () => {
         ref={panelRef}
       >
         <HistorySlider />
-        <TestDetailsHeader activeTab={activeTab} onTabChange={onTabChange} />
-        <div className="flex-1 overflow-hidden px-6" ref={scrollParentRef}>
-          {activeTab.value === TEST_DETAILS_TABS.logs && <DebugTab />}
-          {activeTab.value === TEST_DETAILS_TABS.info && <InfoTab />}
-        </div>
+        {testMeta.isLoading ? (
+          <div className="flex h-full w-full items-center justify-center">
+            <O11yLoader />
+          </div>
+        ) : (
+          <>
+            <TestDetailsHeader
+              activeTab={activeTab}
+              onTabChange={onTabChange}
+            />
+
+            <div className="flex-1 overflow-hidden px-6" ref={scrollParentRef}>
+              {activeTab.value === TEST_DETAILS_TABS.logs && <DebugTab />}
+              {activeTab.value === TEST_DETAILS_TABS.info && <InfoTab />}
+            </div>
+          </>
+        )}
       </div>
     </O11ySlideoverBody>
   );
