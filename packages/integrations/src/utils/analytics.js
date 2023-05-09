@@ -1,5 +1,7 @@
 import { logEvent } from '@browserstack/utils';
 
+import { baseURLSelector } from '../common/slices/configSlice';
+import { DEFAULT_CONFIG } from '../features/CreateIssue/constants';
 import { activeIntegrationSelector } from '../features/slices/integrationsSlice';
 import { store } from '../features/store';
 
@@ -54,9 +56,11 @@ const logIntegrationsEvent = (name, data, sendToGA) => {
    *
    */
 
-  //   if (IS_PROD) {
-  logEvent([], 'web_events', name, data, undefined, sendToGA);
-  //   }
+  // if base url is the default base url, then we are hitting prod
+  const isProd = baseURLSelector(store.getState()) === DEFAULT_CONFIG.baseURL;
+  if (isProd) {
+    logEvent([], 'web_events', name, data, undefined, sendToGA);
+  }
 };
 
 export const analyticsEvent = (eventName, eventData, sendToGA) => {

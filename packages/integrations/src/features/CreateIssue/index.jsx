@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { GlobalAlert } from '../../common/components';
 import { setConfig } from '../../common/slices/configSlice';
 import { clearGlobalAlert } from '../../common/slices/globalAlertSlice';
+import { addConfigParams } from '../../utils/addConfigParams';
 import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
 import { widgetHeightSelector } from '../slices/widgetSlice';
@@ -13,14 +14,13 @@ import { store } from '../store';
 
 import { ISSUE_MODES } from './components/constants';
 import ListOfIntegrations from './components/ListOfIntegrations';
-import { DEFAULT_CONFIG } from './constants';
 import { CreateIssueOptionsType } from './types';
 
 const WIDGET_POSITIONS = ['left', 'right', 'center'];
 
 export const CreateIssue = ({
   auth,
-  config = DEFAULT_CONFIG,
+  config,
   isOpen,
   options,
   position,
@@ -31,9 +31,8 @@ export const CreateIssue = ({
 }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    if (config?.baseURL) {
-      dispatch(setConfig(config));
-    }
+    const configWithParams = addConfigParams(config);
+    dispatch(setConfig(configWithParams));
   }, [config, dispatch]);
   const integrations = useSelector(integrationsSelector);
   const hasAtLeastOneIntegrationSetup = integrations?.some(
