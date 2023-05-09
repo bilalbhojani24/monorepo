@@ -6,6 +6,8 @@ import { getSelectedFilterByBooleanType } from 'features/FilterSkeleton/slices/s
 import isNil from 'lodash/isNil';
 import PropTypes from 'prop-types';
 
+import { FILTER_OPERATION_TYPE } from '../constants';
+
 const MultiSelectCheckboxFilterField = ({ type, label, yesLabel, noLabel }) => {
   const dispatch = useDispatch();
   const storedValue = useSelector(getSelectedFilterByBooleanType(type));
@@ -34,7 +36,7 @@ const MultiSelectCheckboxFilterField = ({ type, label, yesLabel, noLabel }) => {
       dispatch(
         setSelectedFilters({
           type,
-          operationType: 'removeOperation',
+          operationType: FILTER_OPERATION_TYPE.REMOVE_OPERATION,
           id: type,
           text: null,
           value: null
@@ -44,7 +46,7 @@ const MultiSelectCheckboxFilterField = ({ type, label, yesLabel, noLabel }) => {
       dispatch(
         setSelectedFilters({
           type,
-          operationType: 'addOperation',
+          operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
           id: type,
           text: yes || !no,
           value: yes || !no

@@ -5,6 +5,8 @@ import { setSelectedFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import { getSelectedFilterByBooleanType } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 
+import { FILTER_OPERATION_TYPE } from '../constants';
+
 const SingleSelectCheckboxFilterField = ({ type, label, inputLabel }) => {
   const dispatch = useDispatch();
   const storedValue = useSelector(getSelectedFilterByBooleanType(type));
@@ -20,7 +22,7 @@ const SingleSelectCheckboxFilterField = ({ type, label, inputLabel }) => {
       dispatch(
         setSelectedFilters({
           type,
-          operationType: 'removeOperation',
+          operationType: FILTER_OPERATION_TYPE.REMOVE_OPERATION,
           id: type,
           text: null,
           value: null
@@ -30,7 +32,7 @@ const SingleSelectCheckboxFilterField = ({ type, label, inputLabel }) => {
       dispatch(
         setSelectedFilters({
           type,
-          operationType: 'addOperation',
+          operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
           id: type,
           text: true,
           value: true
