@@ -20,8 +20,7 @@ const link = (
   modifier,
   handleLinkClick,
   linkUrl,
-  linkText,
-  hideLinkTextArrow
+  linkText
 ) => {
   if (linkText?.length > 0)
     return (
@@ -45,7 +44,6 @@ const link = (
         }}
       >
         {linkText}
-        {!hideLinkTextArrow && <span aria-hidden="true"> &rarr;</span>}
       </a>
     );
   return null;
@@ -70,8 +68,7 @@ const Alerts = (props) => {
     alphaActionTitle,
     betaActionTitle,
     dismissButton,
-    dismissButtonFn,
-    hideLinkTextArrow
+    dismissButtonFn
   } = props;
 
   const iconClassTypes = twClassNames('h-5 w-5 ', {
@@ -263,8 +260,7 @@ const Alerts = (props) => {
                       modifier,
                       handleLinkClick,
                       linkUrl,
-                      linkText,
-                      hideLinkTextArrow
+                      linkText
                     )}
                 </span>
               </div>
@@ -276,8 +272,7 @@ const Alerts = (props) => {
                     modifier,
                     handleLinkClick,
                     linkUrl,
-                    linkText,
-                    hideLinkTextArrow
+                    linkText
                   )}
                 </p>
               )}
@@ -358,8 +353,7 @@ Alerts.propTypes = {
     return null;
   },
   dismissButtonFn: PropTypes.func,
-  textColorClass: PropTypes.string,
-  hideLinkTextArrow: PropTypes.bool
+  textColorClass: PropTypes.string
 };
 
 Alerts.defaultProps = {
@@ -380,8 +374,7 @@ Alerts.defaultProps = {
   betaActionTitle: '',
   dismissButton: false,
   dismissButtonFn: () => {},
-  textColorClass: '',
-  hideLinkTextArrow: false
+  textColorClass: ''
 };
 
 export default Alerts;
