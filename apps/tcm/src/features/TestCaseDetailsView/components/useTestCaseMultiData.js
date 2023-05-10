@@ -3,12 +3,16 @@ import { useEffect, useState } from 'react';
 const useTestCaseMultiData = (prop) => {
   const [testCaseIssues, setTestCaseIssues] = useState([]);
 
+  const checkIsDuplicate = (issuesArray, issue) =>
+    issuesArray.some((singleIssue) => singleIssue?.jira_id === issue?.jira_id);
+
   useEffect(() => {
     let testCaseIssuesTemp = [];
     if (prop?.isFromTestRun) {
       prop?.testResultsArray.forEach((item) => {
         for (let i = item?.issues.length - 1; i >= 0; i -= 1) {
-          testCaseIssuesTemp.push(item?.issues[i]);
+          if (!checkIsDuplicate(testCaseIssuesTemp, item?.issues[i]))
+            testCaseIssuesTemp.push(item?.issues[i]);
         }
       });
     } else testCaseIssuesTemp = prop?.testResultsArray;
