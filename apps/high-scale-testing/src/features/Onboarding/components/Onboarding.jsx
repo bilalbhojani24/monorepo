@@ -1,6 +1,7 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import {
+  Alerts,
   Badge,
   Breadcrumb,
   Button,
@@ -43,17 +44,29 @@ const Onboarding = () => {
       <ol className="text-base-500 list-disc">
         <li className="py-2">
           <div>
-            <p>Download CLI</p>
+            <p>Download CLI.</p>
             CODE BLOCK HERE
           </div>
         </li>
         <li className="py-2">
           <div>
-            <p>Setup CLI with AWS credentials</p>
+            <p>Setup CLI with AWS credentials.</p>
             CODE BLOCK HERE
           </div>
         </li>
-        <li className="py-2"> Execute grid creation command</li>
+        <li className="py-2"> Execute grid creation command.</li>
+        <Alerts
+          accentBorder={false}
+          alertIcon={<InformationCircleIcon iconClass="h-5 w-5" />}
+          alphaActionFn={() => {}}
+          alphaActionTitle="View Status"
+          dismissButton={false}
+          handleLinkClick={() => {}}
+          linkText=""
+          modifier="primary"
+          title="This command will create an EKS cluster ‘high-scale-grid-cluster’ with a grid named ‘high-scale-grid’ that supports a concurrency of ‘50’ browsers sessions. The instance type for worker nodes will be ‘m7g.medium (vCPU-1, memory-8GB)’."
+        />
+        CODE BLOCK HERE
       </ol>
     </div>
   );
@@ -163,7 +176,7 @@ const Onboarding = () => {
                 descriptionNode={
                   <>
                     <SelectMenu onChange={() => {}} value="">
-                      <SelectMenuLabel>Assigned to</SelectMenuLabel>
+                      <SelectMenuLabel>Select Region:</SelectMenuLabel>
                       <SelectMenuTrigger placeholder="Select Region" />
                       <SelectMenuOptionGroup>
                         {SELECT_OPTIONS.map((item) => (
