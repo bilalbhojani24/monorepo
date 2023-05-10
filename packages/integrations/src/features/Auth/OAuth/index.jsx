@@ -44,7 +44,11 @@ const OAuth = ({
       if (message.hasError) {
         setHasOAuthFailed(true);
       } else {
-        syncPoller(setIsOAuthConnecting, null, 'oauth');
+        syncPoller({
+          setLoadingState: setIsOAuthConnecting,
+          pollCount: null, // no specifc poll count, use default
+          authMethod: 'oauth'
+        });
       }
       authWindow?.close();
       return null;
@@ -87,7 +91,11 @@ const OAuth = ({
 
         function checkChild() {
           if (childWindow.closed) {
-            syncPoller(setIsOAuthConnecting, 1, 'oauth');
+            syncPoller({
+              setLoadingState: setIsOAuthConnecting,
+              pollCount: 1, // poll exactly 1 time
+              authMethod: 'oauth'
+            });
             clearInterval(timer);
           }
         }

@@ -64,7 +64,11 @@ const APIToken = ({
           })
         );
       } else {
-        syncPoller(null, null, 'token');
+        syncPoller({
+          setLoadingState: null, // no loading state to handle
+          pollCount: null, // no specifc poll count, use default
+          authMethod: 'token'
+        });
       }
     });
   };

@@ -83,7 +83,7 @@ const IntegrationAuth = ({
     }
   };
 
-  const syncPoller = (setLoadingState, pollCount, authMethod) => {
+  const syncPoller = ({ setLoadingState, pollCount, authMethod }) => {
     // polling is in progress
     if (pollTimers.current.length) return;
     setIsSyncInProgress(true);
