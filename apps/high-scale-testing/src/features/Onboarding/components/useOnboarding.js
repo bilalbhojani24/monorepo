@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 const useOnboarding = () => {
-  const headerTextsObject = {
+  const HEADER_TEXTS_OBJECT = {
     intro: 'Hey John Doe, Welcome to High Scale Testing',
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
@@ -13,7 +13,7 @@ const useOnboarding = () => {
     { label: 'A', value: 'A' },
     { label: 'A', value: 'A' }
   ];
-  const subTextsObject = {
+  const SUB_TEXTS_OBJECT = {
     intro:
       'Create and manage your own Automation Grid that supports frameworks like Selenium, Playwright, and Cypress to support browser testing at scale',
     scratch: 'Setting up everything from scratch.',
@@ -36,8 +36,8 @@ const useOnboarding = () => {
     }
   ];
 
-  const [subHeaderText, setSubHeaderText] = useState(subTextsObject.intro);
-  const [headerText, setHeaderText] = useState(headerTextsObject.intro);
+  const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
+  const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
   );
@@ -52,8 +52,8 @@ const useOnboarding = () => {
 
   useEffect(() => {
     if (onboardingState > 0) {
-      setHeaderText(headerTextsObject[onboardingType]);
-      setSubHeaderText(subTextsObject[onboardingType]);
+      setHeaderText(HEADER_TEXTS_OBJECT[onboardingType]);
+      setSubHeaderText(SUB_TEXTS_OBJECT[onboardingType]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingState]);

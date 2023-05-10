@@ -88,7 +88,7 @@ const Onboarding = () => {
                 },
                 {
                   current: false,
-                  name: 'Create complete Automation Grid from Scratch',
+                  name: 'Create Automation Grid from Scratch',
                   url: '/'
                 }
               ]}
