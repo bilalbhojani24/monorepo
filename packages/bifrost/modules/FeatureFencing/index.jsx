@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Button from '../Button';
 import { MdClose } from '../Icon';
 
-import { FEATURE_FENCING_SIZES } from './const';
+import { FEATURE_FENCING_SIZES, WIDTH_STYLES } from './const';
 import { FEATURE_FENCING_CONTEXT } from './context';
 
 const FeatureFencing = (props) => {
@@ -30,7 +30,7 @@ const FeatureFencing = (props) => {
         setHasMediaNode
       }}
     >
-      <div className="relative flex h-40 shadow">
+      <div className={twClassNames('relative flex shadow', WIDTH_STYLES[size])}>
         {children}
         {isDismissable && (
           <Button
