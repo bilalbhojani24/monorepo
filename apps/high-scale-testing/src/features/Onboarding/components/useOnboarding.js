@@ -8,6 +8,12 @@ const useOnboarding = () => {
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };
+  const LIST_FEED_PROPS = {
+    feedIconColor: 'grey',
+    feedIconContainerSize: 'sm',
+    feedIconSize: 'sm',
+    feedIconVariant: 'light'
+  };
   const SELECT_OPTIONS = [
     { label: 'A', value: 'A' },
     { label: 'A', value: 'A' },
@@ -100,13 +106,14 @@ const useOnboarding = () => {
   }, [selectedOption]);
 
   return {
+    LIST_FEED_PROPS,
+    STEP_1_RADIO_GROUP_OPTIONS,
+    SELECT_OPTIONS,
     breadcrumbDataTrace,
     continueClickHandler,
     headerText,
     onboardingState,
     onboardingType,
-    STEP_1_RADIO_GROUP_OPTIONS,
-    SELECT_OPTIONS,
     selectedOption,
     setSelectedOption,
     subHeaderText

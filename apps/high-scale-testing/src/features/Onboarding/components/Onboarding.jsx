@@ -23,22 +23,20 @@ import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
   const {
+    LIST_FEED_PROPS,
+    STEP_1_RADIO_GROUP_OPTIONS,
+    SELECT_OPTIONS,
     breadcrumbDataTrace,
     continueClickHandler,
     headerText,
     onboardingState,
     onboardingType,
-    STEP_1_RADIO_GROUP_OPTIONS,
-    SELECT_OPTIONS,
     selectedOption,
     setSelectedOption,
     subHeaderText
   } = useOnboarding();
 
-  const ListFeedProps = {
-    feedIconColor: 'grey',
-    feedIconSize: 'sm'
-  };
+  const listFeedStepValue = (number) => <span>{number}</span>;
 
   const CreateGridOnboardingSteps = (
     <div>
@@ -71,7 +69,133 @@ const Onboarding = () => {
       </ol>
     </div>
   );
-  const listFeedStepValue = (number) => <span>{number}</span>;
+  const ListFeedsContainerComponent = (
+    <>
+      <ListFeedsNode
+        key="1"
+        descriptionNode={
+          <>
+            <RadioGroup
+              onChange={() => {}}
+              options={[
+                {
+                  disabled: false,
+                  id: 'radio-1',
+                  name: 'Amazon Cloud'
+                },
+                {
+                  disabled: true,
+                  id: 'radio-2',
+                  name: 'Google Cloud'
+                },
+                {
+                  disabled: true,
+                  id: 'radio-3',
+                  name: 'Microsoft Azure'
+                }
+              ]}
+              selectedOption={{
+                disabled: false,
+                id: 'radio-1',
+                name: 'Amazon Cloud'
+              }}
+            />
+          </>
+        }
+        feedIcon={listFeedStepValue('1')}
+        feedIconColor={LIST_FEED_PROPS.feedIconColor}
+        feedIconContainerSize={LIST_FEED_PROPS.feedIconContainerSize}
+        feedIconSize={LIST_FEED_PROPS.feedIconSize}
+        feedIconVariant={LIST_FEED_PROPS.feedIconVariant}
+        headerNode={
+          <div className="flex">
+            <p className="text-base-500 text-sm">
+              <b className="text-base-800">Choose Cloud Provider</b>
+            </p>
+          </div>
+        }
+      />
+      <ListFeedsNode
+        key="2"
+        descriptionNode={
+          <>
+            <SelectMenu onChange={() => {}} value="">
+              <SelectMenuLabel>Select Region:</SelectMenuLabel>
+              <SelectMenuTrigger placeholder="Select Region" />
+              <SelectMenuOptionGroup>
+                {SELECT_OPTIONS.map((item) => (
+                  <SelectMenuOptionItem key={item.value} option={item} />
+                ))}
+              </SelectMenuOptionGroup>
+            </SelectMenu>
+          </>
+        }
+        feedIcon={listFeedStepValue(2)}
+        feedIconColor={LIST_FEED_PROPS.feedIconColor}
+        feedIconContainerSize={LIST_FEED_PROPS.feedIconContainerSize}
+        feedIconSize={LIST_FEED_PROPS.feedIconSize}
+        feedIconVariant={LIST_FEED_PROPS.feedIconVariant}
+        headerNode={
+          <>
+            <div className="flex">
+              <p className="text-base-500 text-sm">
+                <b className="text-base-800">Grid Profile Details </b>
+              </p>
+              <Badge hasRemoveButton={false} modifier="warn" text="Default" />
+            </div>
+            <p className="text-base-500 text-sm">
+              The selected region is based on the default grid profile. Select
+              an AWS region nearest to your staging components.
+            </p>
+          </>
+        }
+      />
+      <ListFeedsNode
+        key="3"
+        descriptionNode={
+          <p className="text-base-700 mt-2 text-sm">
+            Set up a new IAM role via the CloudFormation link and generate the
+            AWS access key and secret to create and manage the Automation Grid.
+            Read more about this here.
+          </p>
+        }
+        feedIcon={listFeedStepValue(3)}
+        feedIconColor={LIST_FEED_PROPS.feedIconColor}
+        feedIconContainerSize={LIST_FEED_PROPS.feedIconContainerSize}
+        feedIconSize={LIST_FEED_PROPS.feedIconSize}
+        feedIconVariant={LIST_FEED_PROPS.feedIconVariant}
+        headerNode={
+          <div className="flex">
+            <p className="text-base-500 text-sm">
+              <b className="text-base-800">Setup IAM Role</b>
+            </p>
+          </div>
+        }
+      />
+      <ListFeedsNode
+        key="4"
+        descriptionNode={CreateGridOnboardingSteps}
+        feedIcon={listFeedStepValue(4)}
+        feedIconColor={LIST_FEED_PROPS.feedIconColor}
+        feedIconContainerSize={LIST_FEED_PROPS.feedIconContainerSize}
+        feedIconSize={LIST_FEED_PROPS.feedIconSize}
+        feedIconVariant={LIST_FEED_PROPS.feedIconVariant}
+        headerNode={
+          <>
+            <div className="flex">
+              <p className="text-base-500 text-sm">
+                <b className="text-base-800">Create Grid</b>
+              </p>
+            </div>
+            <p>
+              Execute the below commands to setup the BrowserStack CLI and
+              create an Automation Grid.
+            </p>
+          </>
+        }
+      />
+    </>
+  );
 
   return (
     <>
@@ -110,132 +234,9 @@ const Onboarding = () => {
             </>
           )}
 
-          {onboardingState === 1 && onboardingType === 'scratch' && (
-            <>
-              <ListFeedsNode
-                key="1"
-                descriptionNode={
-                  <>
-                    <RadioGroup
-                      onChange={() => {}}
-                      options={[
-                        {
-                          disabled: false,
-                          id: 'radio-1',
-                          name: 'Amazon Cloud'
-                        },
-                        {
-                          disabled: true,
-                          id: 'radio-2',
-                          name: 'Google Cloud'
-                        },
-                        {
-                          disabled: true,
-                          id: 'radio-3',
-                          name: 'Microsoft Azure'
-                        }
-                      ]}
-                      selectedOption={{
-                        disabled: false,
-                        id: 'radio-1',
-                        name: 'Amazon Cloud'
-                      }}
-                    />
-                  </>
-                }
-                feedIcon={listFeedStepValue('1')}
-                feedIconColor={ListFeedProps.feedIconColor}
-                feedIconSize={ListFeedProps.feedIconSize}
-                headerNode={
-                  <div className="flex">
-                    <p className="text-base-500 text-sm">
-                      <b className="text-base-800">Choose Cloud Provider</b>
-                    </p>
-                  </div>
-                }
-              />
-              <ListFeedsNode
-                key="2"
-                descriptionNode={
-                  <>
-                    <SelectMenu onChange={() => {}} value="">
-                      <SelectMenuLabel>Select Region:</SelectMenuLabel>
-                      <SelectMenuTrigger placeholder="Select Region" />
-                      <SelectMenuOptionGroup>
-                        {SELECT_OPTIONS.map((item) => (
-                          <SelectMenuOptionItem
-                            key={item.value}
-                            option={item}
-                          />
-                        ))}
-                      </SelectMenuOptionGroup>
-                    </SelectMenu>
-                  </>
-                }
-                feedIcon={listFeedStepValue(2)}
-                feedIconColor={ListFeedProps.feedIconColor}
-                feedIconSize={ListFeedProps.feedIconSize}
-                headerNode={
-                  <>
-                    <div className="flex">
-                      <p className="text-base-500 text-sm">
-                        <b className="text-base-800">Grid Profile Details </b>
-                      </p>
-                      <Badge
-                        hasRemoveButton={false}
-                        modifier="warn"
-                        text="Default"
-                      />
-                    </div>
-                    <p className="text-base-500 text-sm">
-                      The selected region is based on the default grid profile.
-                      Select an AWS region nearest to your staging components.
-                    </p>
-                  </>
-                }
-              />
-              <ListFeedsNode
-                key="3"
-                descriptionNode={
-                  <p className="text-base-700 mt-2 text-sm">
-                    Set up a new IAM role via the CloudFormation link and
-                    generate the AWS access key and secret to create and manage
-                    the Automation Grid. Read more about this here.
-                  </p>
-                }
-                feedIcon={listFeedStepValue(3)}
-                feedIconColor={ListFeedProps.feedIconColor}
-                feedIconSize={ListFeedProps.feedIconSize}
-                headerNode={
-                  <div className="flex">
-                    <p className="text-base-500 text-sm">
-                      <b className="text-base-800">Setup IAM Role</b>
-                    </p>
-                  </div>
-                }
-              />
-              <ListFeedsNode
-                key="4"
-                descriptionNode={CreateGridOnboardingSteps}
-                feedIcon={listFeedStepValue(4)}
-                feedIconColor={ListFeedProps.feedIconColor}
-                feedIconSize={ListFeedProps.feedIconSize}
-                headerNode={
-                  <>
-                    <div className="flex">
-                      <p className="text-base-500 text-sm">
-                        <b className="text-base-800">Create Grid</b>
-                      </p>
-                    </div>
-                    <p>
-                      Execute the below commands to setup the BrowserStack CLI
-                      and create an Automation Grid.
-                    </p>
-                  </>
-                }
-              />
-            </>
-          )}
+          {onboardingState === 1 &&
+            onboardingType === 'scratch' &&
+            ListFeedsContainerComponent}
 
           {onboardingState === 1 && onboardingType === 'existing' && (
             <>
