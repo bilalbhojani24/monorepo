@@ -135,7 +135,7 @@ const ListFeeds = (props) => {
         {showConnector && (
           <div
             className={twClassNames(
-              'divide-base-300 flex grow min-h-[16px] divide-x pt-2'
+              'divide-base-300 flex grow justify-center min-h-[16px] divide-x pt-2'
             )}
           >
             <div className="h-full w-1/2" />
