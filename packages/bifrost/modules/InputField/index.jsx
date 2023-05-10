@@ -36,7 +36,7 @@ const InputField = forwardRef(
     },
     ref
   ) => (
-    <div>
+    <>
       {(label || cornerHintText) && (
         <div className="mb-1 flex justify-between" role="contentinfo">
           <label
@@ -52,11 +52,13 @@ const InputField = forwardRef(
           )}
         </div>
       )}
-      <div className={twClassNames('flex w-full shadow-sm')}>
+      <div
+        className={twClassNames('w-full flex z-10 shadow-sm', wrapperClassName)}
+      >
         {addOnBefore}
         <div
           className={twClassNames(
-            'rounded-md w-full flex items-center border-1 border border-base-300 z-10 ',
+            'w-full flex items-center border-1 border border-base-300 rounded-md',
             {
               'border-danger-500 focus-within:border-danger-500 focus-within:outline-danger-500':
                 errorText,
@@ -67,8 +69,7 @@ const InputField = forwardRef(
                 readonly,
               'rounded-l-none': addOnBefore,
               'rounded-r-none': addOnAfter
-            },
-            wrapperClassName
+            }
           )}
         >
           {addOnBeforeInline && (
@@ -94,7 +95,7 @@ const InputField = forwardRef(
             name={label}
             id={id}
             className={twClassNames(
-              'border-none flex-1 rounded-md bg-transparent focus:ring-0 block rounded-md border-base-300 shadow-sm sm:text-sm disabled:cursor-not-allowed',
+              'border-none flex-1 bg-transparent focus:ring-0 block rounded-md border-base-300 shadow-sm w-full sm:text-sm disabled:cursor-not-allowed',
               {
                 'text-danger-900 placeholder:text-danger-300': errorText,
                 'disabled:text-base-500': disabled,
@@ -136,7 +137,7 @@ const InputField = forwardRef(
       {description && (
         <p className="text-base-500 mt-2 text-sm">{description}</p>
       )}
-    </div>
+    </>
   )
 );
 

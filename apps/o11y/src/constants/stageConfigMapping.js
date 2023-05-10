@@ -1,26 +1,32 @@
-const COOKIE_SEPARATOR = '___';
 const STAGING_CONFIG = (envName) => ({
-  cookiePrefix: `${envName}${COOKIE_SEPARATOR}`,
-  signInUrl: `https://${envName}.bsstag.com/users/sign_in`,
+  signInUrl: `https://devtestops-api.bsstag.com/api/v1/auth/start-sso`,
+  signOutUrl: `https://${envName}.bsstag.com/users/sign_out`,
   apiUrl: 'https://devtestops-api.bsstag.com',
-  baseDocUrl: 'https://devtestops.bsstag.com',
-  withCredentials: true
+  baseUrl: 'https://devtestops.bsstag.com',
+  withCredentials: true,
+  integrationsBaseUrl: 'https://integrations-preprod.bsstag.com',
+  useIntegrationsPreProdAuth: true
 });
 
 export default {
   local: {
-    cookiePrefix: `development${COOKIE_SEPARATOR}`,
-    signInUrl: 'https://local.bsstag.com/users/sign_in',
+    signInUrl: `${STAGING_CONFIG('').apiUrl}/api/v1/auth/start-sso`,
+    signOutUrl: STAGING_CONFIG('devtestops').signOutUrl,
     apiUrl: 'https://localhost:8082/testops',
-    baseDocUrl: STAGING_CONFIG('').baseDocUrl,
-    withCredentials: false
+    baseUrl: STAGING_CONFIG('').baseUrl,
+    withCredentials: false,
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
+    useIntegrationsPreProdAuth: true,
+    isMocker: true
   },
   'local-staging': {
-    cookiePrefix: `development${COOKIE_SEPARATOR}`,
-    signInUrl: 'https://local.bsstag.com/users/sign_in',
-    baseDocUrl: STAGING_CONFIG('').baseDocUrl,
+    signInUrl: `${STAGING_CONFIG('').apiUrl}/api/v1/auth/start-sso`,
+    signOutUrl: STAGING_CONFIG('devtestops').signOutUrl,
+    baseUrl: STAGING_CONFIG('').baseUrl,
     apiUrl: STAGING_CONFIG('').apiUrl,
-    withCredentials: true
+    withCredentials: true,
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
+    useIntegrationsPreProdAuth: true
   },
   staging: {
     ...STAGING_CONFIG('devtestops')
@@ -32,18 +38,26 @@ export default {
     ...STAGING_CONFIG('devtestops')
   },
   preprod: {
-    cookiePrefix: `preprod${COOKIE_SEPARATOR}`,
-    signInUrl: 'https://preprod.bsstag.com/users/sign_in',
+    signInUrl:
+      'https://api-observability-preprod.bsstag.com/api/v1/auth/start-sso',
+    signOutUrl: 'https://preprod.bsstag.com/users/sign_out',
     apiUrl: 'https://api-observability-preprod.bsstag.com',
-    baseDocUrl: 'https://preprod.bsstag.com',
-    withCredentials: true
+    baseUrl: 'https://preprod.bsstag.com',
+    withCredentials: true,
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
+    useIntegrationsPreProdAuth: false
   },
   production: {
-    cookiePrefix: '',
-    signInUrl: 'https://browserstack.com/users/sign_in',
+    signInUrl:
+      'https://api-observability.browserstack.com/api/v1/auth/start-sso',
+    signOutUrl: '',
     apiUrl: 'https://api-observability.browserstack.com',
-    baseDocUrl: 'https://browserstack.com',
+    baseUrl: 'https://browserstack.com',
     withCredentials: true,
-    enableAnalytics: true
+    enableAnalytics: true,
+    integrationsBaseUrl: '',
+    disableLogs: true,
+    useIntegrationsPreProdAuth: false,
+    enableSentry: true
   }
 };

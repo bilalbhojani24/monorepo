@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useLatestRef } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -15,7 +16,7 @@ const effectiveClasses = ({
   isFullWidth
 }) =>
   twClassNames(
-    // contained
+    'tabs-item',
     isContained && isCurrent
       ? 'text-base-900'
       : 'text-base-500 hover:text-base-700',
@@ -27,7 +28,9 @@ const effectiveClasses = ({
     {
       'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm flex border-transparent text-base-500 hover:text-base-700 hover:border-base-300':
         shape === TAB_SHAPE[0] && !isContained,
-      'px-3 py-2 font-medium text-sm rounded-md text-base-500 hover:text-base-700':
+      'hover:text-brand-600 hover:border-brand-500':
+        shape === TAB_SHAPE[0] && !isContained && isCurrent,
+      'whitespace-nowrap px-3 py-2 font-medium text-sm rounded-md text-base-500 hover:text-base-700':
         shape === TAB_SHAPE[1] && !isContained,
 
       'border-brand-500 text-brand-600':
@@ -48,8 +51,11 @@ const Tab = ({
   onTabClick,
   shape,
   totalTabs,
-  tabIdx
+  tabIdx,
+  scrollOnMount
 }) => {
+  const ref = useRef();
+  const scrollOnMountRef = useLatestRef(scrollOnMount);
   const classNames = effectiveClasses({
     isFullWidth,
     totalTabs,
@@ -59,8 +65,15 @@ const Tab = ({
     shape
   });
 
+  useEffect(() => {
+    if (ref.current && isCurrent) {
+      scrollOnMountRef.current(ref);
+    }
+  }, [isCurrent, scrollOnMountRef]);
+
   return (
     <button
+      ref={ref}
       type="button"
       onClick={(event) => onTabClick(event, tab)}
       key={tab.name}
@@ -113,7 +126,8 @@ Tab.propTypes = {
   }).isRequired,
   shape: PropTypes.string,
   totalTabs: PropTypes.number,
-  tabIdx: PropTypes.number
+  tabIdx: PropTypes.number,
+  scrollOnMount: PropTypes.func.isRequired
 };
 
 Tab.defaultProps = {

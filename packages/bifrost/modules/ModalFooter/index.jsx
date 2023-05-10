@@ -1,11 +1,8 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { twClassNames } from '@browserstack/utils';
-
 import { POSITION } from './const/modalFooterConstants';
-
-import './styles.scss';
 
 const ModalFooter = ({
   backgroundColorClass,

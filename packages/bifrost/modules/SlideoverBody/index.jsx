@@ -2,11 +2,13 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const SlideoverBody = ({ children, wrapperClassName }) => (
   <div
     className={twClassNames(`overflow-scroll py-4 flex-1`, wrapperClassName)}
+    tabIndex={0}
+    role="scrollbar"
+    aria-valuenow={0}
+    aria-controls=""
   >
     {children}
   </div>

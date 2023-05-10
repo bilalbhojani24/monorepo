@@ -9,10 +9,6 @@ import {
   setIsUEDetailsVisible,
   setShowUEDetailsFor
 } from 'features/SHErrorDetails/slices/dataSlice';
-import {
-  setIsDetailsVisible,
-  setShowDetailsFor
-} from 'features/TestDetails/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
@@ -38,9 +34,16 @@ const List = forwardRef((props, ref) => (
   <div
     {...props}
     ref={ref}
-    className="border-base-300 rounded-b-md border border-t-0"
+    className="border-base-300 overflow-hidden rounded-b-md border border-t-0"
   />
 ));
+
+const Item = (props) => (
+  <div
+    {...props}
+    className="border-base-200 border-b last-of-type:border-b-0"
+  />
+);
 
 const LoadingFooter = () => (
   <div className="flex w-full justify-center py-2">
@@ -112,18 +115,6 @@ const SnPUniqueErrors = () => {
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const testDetails = searchParams.get('details');
-    if (testDetails) {
-      dispatch(setIsDetailsVisible(true));
-      dispatch(setShowDetailsFor(testDetails));
-    }
-    return () => {
-      dispatch(setIsDetailsVisible(false));
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
     const snpErrorId = searchParams.get(SNP_PARAMS_MAPPING.snpErrorId);
     const snpErrorTestId = searchParams.get(SNP_PARAMS_MAPPING.snpErrorTestId);
 
@@ -185,7 +176,8 @@ const SnPUniqueErrors = () => {
                   itemContent={(index, data) => <UERow data={data} />}
                   components={{
                     Footer: isLoadingMore ? LoadingFooter : null,
-                    List
+                    List,
+                    Item
                   }}
                 />
               </div>

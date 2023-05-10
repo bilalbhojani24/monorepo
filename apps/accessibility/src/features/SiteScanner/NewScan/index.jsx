@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import {
   Accordion,
+  AccordionPanel,
+  AccordionSimpleHeader,
   Button,
   Checkbox,
   Dropdown,
@@ -165,7 +167,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
           handleDismissClick={handleCloseWithLogEvent}
           heading="New website scan"
           subHeading="Setup your new website scan"
-          backgroundColorClass="bg-base-50"
+          wrapperClassName="bg-base-50"
         />
         <SlideoverBody>
           <div className="border-base-200 flex-col border-b pb-4">
@@ -314,9 +316,9 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                       id="time"
                       placeholder="Time"
                       type="time"
-                      className="text-base-500"
                       value={formData.time}
                       ref={timeRef}
+                      wrapperClassName="w-30"
                     />
                   </div>
                   <div className="mt-4">
@@ -336,12 +338,13 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 ''
               )}
               <div className="pt-2">
-                <Accordion
-                  onTriggerClick={() => {}}
-                  onChevronClick={() => {}}
-                  panelContentNode={getAccordionBody()}
-                  triggerContentNode={<div>Additional settings</div>}
-                />
+                <Accordion>
+                  <AccordionSimpleHeader
+                    title={<div>Additional settings</div>}
+                    wrapperClassName="py-1.5 px-0"
+                  />
+                  <AccordionPanel>{getAccordionBody()}</AccordionPanel>
+                </Accordion>
               </div>
             </div>
           </div>
@@ -395,18 +398,21 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                     });
                     if (validUrls.length) {
                       notify(
-                        <Notifications
-                          title={`${validUrls.length} pages added from CSV file`}
-                          description={`${invalidUrls.length} invalid URLs were ignored.`}
-                          actionButtons={null}
-                          headerIcon={
-                            <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
-                          }
-                          handleClose={(toastData) => {
-                            notify.remove(toastData.id);
-                            setShowToast(false);
-                          }}
-                        />,
+                        <div id="file-uploaded">
+                          <Notifications
+                            title={`${validUrls.length} pages added from CSV file`}
+                            description={`${invalidUrls.length} invalid URLs were ignored.`}
+                            actionButtons={null}
+                            headerIcon={
+                              <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
+                            }
+                            handleClose={(toastData) => {
+                              scanNameRef.current.focus();
+                              notify.remove(toastData.id);
+                              setShowToast(false);
+                            }}
+                          />
+                        </div>,
                         {
                           position: 'top-right',
                           duration: 4000,
@@ -416,18 +422,21 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                       );
                     } else {
                       notify(
-                        <Notifications
-                          title={`${validUrls.length} pages added from CSV file`}
-                          description={`${invalidUrls.length} invalid URLs were ignored.`}
-                          actionButtons={null}
-                          headerIcon={
-                            <MdOutlineClose className="text-danger-400 h-6 w-6" />
-                          }
-                          handleClose={(toastData) => {
-                            notify.remove(toastData.id);
-                            setShowToast(false);
-                          }}
-                        />,
+                        <div id="file-uploaded">
+                          <Notifications
+                            title={`${validUrls.length} pages added from CSV file`}
+                            description={`${invalidUrls.length} invalid URLs were ignored.`}
+                            actionButtons={null}
+                            headerIcon={
+                              <MdOutlineClose className="text-danger-400 h-6 w-6" />
+                            }
+                            handleClose={(toastData) => {
+                              scanNameRef.current.focus();
+                              notify.remove(toastData.id);
+                              setShowToast(false);
+                            }}
+                          />
+                        </div>,
                         {
                           position: 'top-right',
                           duration: 4000,
@@ -436,11 +445,9 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                         }
                       );
                     }
-
                     handleFormData(validUrls, 'csvUpload');
                     // Continue processing...
                   };
-
                   reader.readAsText(e.target.files[0]);
                 }}
               />
@@ -466,7 +473,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                   : ''
               }
               tabIndex="0"
-              className="text-info-600 ml-6 mb-5 text-sm"
+              className="text-info-600 mb-5 ml-6 text-sm"
             >
               Download sample CSV
             </div>
@@ -474,7 +481,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
               download
             </a> */}
             <div>
-              <div className="bg-base-50 text-base-500 py-3 px-6 text-xs">
+              <div className="bg-base-50 text-base-500 px-6 py-3 text-xs">
                 ADDED PAGES ({formData?.scanData?.urlSet?.length || 0})
               </div>
               {formData?.scanData?.urlSet?.length

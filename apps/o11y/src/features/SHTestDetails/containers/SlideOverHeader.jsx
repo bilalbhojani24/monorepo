@@ -1,26 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { O11ySlideoverHeader } from 'common/bifrostProxy';
-import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
+import PropTypes from 'prop-types';
 
+import { getSnPTestsDetailsInfoData } from '../slices/dataSlice';
 import {
-  clearTestDetailsInfo,
-  getSnPTestsDetailsInfoData,
-  resetActiveTab,
-  setIsSnPDetailsVisible,
-  setShowSnPDetailsFor
-} from '../slices/dataSlice';
-import { getShowSnPDetailsFor, getTestDetailsInfo } from '../slices/selectors';
+  getShowSHTestsDetailsFor,
+  getSHTestsDetailsInfo
+} from '../slices/selectors';
 
-const TestDetailsHeader = () => {
+const TestDetailsHeader = ({ handleCloseDetails }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const testId = useSelector(getShowSnPDetailsFor);
+  const testId = useSelector(getShowSHTestsDetailsFor);
   const activeProject = useSelector(getActiveProject);
-  const testDetailsInfo = useSelector(getTestDetailsInfo);
+  const testDetailsInfo = useSelector(getSHTestsDetailsInfo);
   const mounted = useRef(null);
 
   useEffect(() => {
@@ -38,22 +33,18 @@ const TestDetailsHeader = () => {
     };
   }, [dispatch, testId, activeProject?.normalisedName]);
 
-  const handleCloseDetails = () => {
-    dispatch(setIsSnPDetailsVisible(false));
-    dispatch(setShowSnPDetailsFor(''));
-    dispatch(clearTestDetailsInfo());
-    dispatch(resetActiveTab());
-    const searchParams = new URLSearchParams(window?.location.search);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpTestDetails);
-    navigate({ search: searchParams.toString() });
-  };
   return (
     <O11ySlideoverHeader
       handleDismissClick={handleCloseDetails}
       heading={testDetailsInfo.data?.name || ''}
       headingWrapperClassName="leading-7"
+      wrapperClassName="pb-0"
     />
   );
+};
+
+TestDetailsHeader.propTypes = {
+  handleCloseDetails: PropTypes.func.isRequired
 };
 
 export default TestDetailsHeader;

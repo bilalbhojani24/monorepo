@@ -59,7 +59,7 @@ export const MOBILE_APP_TESTING_PRODUCTS = [
 export const TEST_MANAGEMENT_PRODUCTS = [
   {
     name: 'Test Observability',
-    description: 'Interactive cross browser testing',
+    description: 'Centralized & faster debugging',
     icon: <TestObservabilityIcon iconClass="w-9 h-[34px]" />,
     link: 'https://observability.browserstack.com'
   }
@@ -67,7 +67,7 @@ export const TEST_MANAGEMENT_PRODUCTS = [
 export const TEST_DEVELOPMENT_PRODUCTS = [
   {
     name: 'Nightwatch.js',
-    description: 'Interactive mobile app testing',
+    description: 'End-to-End testing framework',
     icon: <NightwatchIcon iconClass="w-9 h-[34px]" />,
     link: 'https://nightwatchjs.org/'
   }

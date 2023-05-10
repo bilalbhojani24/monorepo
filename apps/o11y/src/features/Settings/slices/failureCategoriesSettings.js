@@ -20,17 +20,17 @@ export const getFailureSubCategories = createAsyncThunk(
     try {
       const response = await getAvailableSubCategories({ ...data });
       return {
-        data: response.data?.data || [],
+        data: response.data?.data || {},
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
 
 export const submitNewSubCat = createAsyncThunk(
-  `${SLICE_NAME}/submitNewAlert`,
+  `${SLICE_NAME}/submitNewCat`,
   async (data, { rejectWithValue }) => {
     try {
       const response = await createNewSubCat({ ...data });
@@ -39,7 +39,7 @@ export const submitNewSubCat = createAsyncThunk(
         subCatData: data.payload || {}
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -54,7 +54,7 @@ export const updateSubCat = createAsyncThunk(
         subCatData: data.payload || {}
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -68,7 +68,7 @@ export const deleteSubCatById = createAsyncThunk(
         category: data.category
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -118,8 +118,9 @@ const { reducer } = createSlice({
             ...state.failureSubCategories.data[payload.subCatData.category]
           ];
         }
-        state.failureSubCategories.data[payload.subCatData.category] =
-          updatedData;
+        state.failureSubCategories.data[payload.subCatData.category] = [
+          ...updatedData
+        ];
       })
       .addCase(updateSubCat.fulfilled, (state, { payload }) => {
         const foundAlertIdx = state.failureSubCategories.data[
@@ -132,10 +133,12 @@ const { reducer } = createSlice({
         }
       })
       .addCase(deleteSubCatById.fulfilled, (state, { payload }) => {
-        state.failureSubCategories.data[payload.category] =
-          state.failureSubCategories.data[payload.category].filter(
-            (item) => item.id !== payload.subCatId
-          );
+        if (state.failureSubCategories.data[payload.category]) {
+          state.failureSubCategories.data[payload.category] =
+            state.failureSubCategories.data[payload.category].filter(
+              (item) => item.id !== payload.subCatId
+            );
+        }
       });
   }
 });

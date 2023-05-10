@@ -7,7 +7,6 @@ import { addNotificaton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-// import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
 import { dropDownOptions } from '../const/testCaseConst';
 import {
   resetBulkFormData,
@@ -28,12 +27,16 @@ import {
 } from '../slices/repositorySlice';
 import { formDataRetriever } from '../utils/sharedFunctions';
 
+// import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
+import useUpdateTCCountInFolders from './AddEditTestCase/useUpdateTCCountInFolders';
+
 const useTestCasesTable = (prop) => {
   const navigate = useNavigate();
-  const { projectId, folderId } = useParams();
+  const { projectId, folderId, testCaseId } = useParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
+  const { updateTCCount } = useUpdateTCCountInFolders();
   const dispatch = useDispatch();
 
   const setSelectedTestCaseIDs = (data) => {
@@ -65,6 +68,15 @@ const useTestCasesTable = (prop) => {
   const bulkMoveTestCaseCtaLoading = useSelector(
     (state) => state.repository.isLoading.bulkMoveTestCaseCta
   );
+
+  const closeTCDetailsSlide = () => {
+    dispatch(
+      setTestCaseDetails({
+        folderId: null,
+        testCaseId: null
+      })
+    );
+  };
 
   const updateSelection = (e, listItem) => {
     if (e.currentTarget.checked) {
@@ -106,10 +118,12 @@ const useTestCasesTable = (prop) => {
   };
 
   const initBulkMove = () => {
+    closeTCDetailsSlide();
     setshowMoveModal(true);
   };
 
   const initBulkEdit = () => {
+    closeTCDetailsSlide();
     dispatch(
       logEventHelper('TM_BulkEditBtnClicked', {
         project_id: projectId,
@@ -124,6 +138,7 @@ const useTestCasesTable = (prop) => {
   };
 
   const initBulkDelete = () => {
+    closeTCDetailsSlide();
     dispatch(
       logEventHelper('TM_BulkDeleteBtnClicked', {
         project_id: projectId,
@@ -157,6 +172,7 @@ const useTestCasesTable = (prop) => {
         bulkSelection
       })
         .then((data) => {
+          updateTCCount({ casesObj: data?.cases_count });
           dispatch(
             updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: false })
           );
@@ -279,6 +295,7 @@ const useTestCasesTable = (prop) => {
   }, []);
 
   return {
+    testCaseId,
     isIndeterminate,
     isAllChecked,
     isSearchFilterView,

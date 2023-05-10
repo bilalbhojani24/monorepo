@@ -14,6 +14,7 @@ export default function useSiteScanner() {
   const [rowMenuOpen, setRowMenuOpen] = useState(false);
   const [dataFilter, setDataFilter] = useState('allScans');
   const [preConfigData, setPreConfigData] = useState(false);
+  const [isUserSearch, setIsuserSearch] = useState(false);
   const dispatch = useDispatch();
   const scanConfigsData = useSelector(getScanConfigData);
   const userInfo = useSelector(getUser);
@@ -34,6 +35,7 @@ export default function useSiteScanner() {
   }, [scanConfigsData]);
 
   const handleSearch = (e) => {
+    setIsuserSearch(true);
     if (scanConfigsData?.data?.scanConfigs) {
       const searchTerm = e.target.value.toLowerCase();
       const searchedResults = scanConfigsData?.data?.scanConfigs?.filter(
@@ -57,7 +59,6 @@ export default function useSiteScanner() {
         TODO
     */
     if (e.id === 'yourScans') {
-      console.log(userInfo);
       const filteredScanConfigData = cloneDeep(scanConfigStateData);
       filteredScanConfigData.data.scanConfigs =
         filteredScanConfigData.data.scanConfigs.filter(
@@ -89,6 +90,7 @@ export default function useSiteScanner() {
     dataFilter,
     setIsLoading,
     dispatch,
-    userInfo
+    userInfo,
+    isUserSearch
   };
 }

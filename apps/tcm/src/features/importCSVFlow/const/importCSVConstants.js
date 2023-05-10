@@ -1,40 +1,14 @@
-export const CURRENT_STEP = 'current';
-export const UPCOMING_STEP = 'upcoming';
-export const COMPLETE_STEP = 'complete';
-export const CURRENT_COMPLETED_STEP = 'current_completed';
-
-export const IMPORT_CSV_STEPS = [
-  {
-    id: 1,
-    name: 'UPLOAD FILE',
-    description: 'Upload CSV with test case data',
-    status: CURRENT_STEP
-  },
-  {
-    id: 2,
-    name: 'MAP FIELDS',
-    description: 'Map CSV columns with system parameters',
-    status: UPCOMING_STEP
-  },
-  {
-    id: 3,
-    name: 'PREVIEW & CONFIRM IMPORT',
-    description: 'Preview the entries and confirm import',
-    status: UPCOMING_STEP
-  }
-];
-
 export const MAP_FIELD_COLUMNS = [
   {
-    name: 'CSV Column Header',
+    name: 'YOUR CSV DATA',
     key: 'field'
   },
   {
-    name: 'Test Management Fields',
+    name: 'WILL BE MAPPED TO',
     key: 'mappedField'
   },
   {
-    name: 'Value Mapping',
+    name: 'VALUES FROM YOUR CSV',
     key: 'mappedValue'
   }
 ];
@@ -81,21 +55,22 @@ export const DEFAULT_MODAL_DROPDOWN_OPTIONS = [
 
 export const VALUE_MAPPING_OPTIONS = {
   PRIORITY: [
+    ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
     { label: 'Critical', value: 'critical' },
     { label: 'High', value: 'high' },
     { label: 'Medium', value: 'medium' },
-    { label: 'Low', value: 'low' },
-    ...DEFAULT_MODAL_DROPDOWN_OPTIONS
+    { label: 'Low', value: 'low' }
   ],
   STATE: [
-    { label: 'Active', value: 'active' },
-    { label: 'Draft', value: 'draft' },
-    { label: 'In Review', value: 'in review' },
-    { label: 'Rejected', value: 'rejected' },
-    { label: 'Outdated', value: 'outdated' },
-    ...DEFAULT_MODAL_DROPDOWN_OPTIONS
+    ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
+    { label: 'Active', value: 'active_status' },
+    { label: 'Draft', value: 'draft_status' },
+    { label: 'In Review', value: 'in_review_status' },
+    { label: 'Rejected', value: 'rejected_status' },
+    { label: 'Outdated', value: 'outdated_status' }
   ],
   TESTCASETYPE: [
+    ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
     { label: 'Acceptance', value: 'acceptance' },
     { label: 'Accessibility', value: 'accessibility' },
     { label: 'Automated', value: 'automated' },
@@ -108,20 +83,20 @@ export const VALUE_MAPPING_OPTIONS = {
     { label: 'Security', value: 'security' },
     { label: 'Smoke & Sanity', value: 'smoke_sanity' },
     { label: 'Usability', value: 'usability' },
-    { label: 'Manual', value: 'manual' },
-    ...DEFAULT_MODAL_DROPDOWN_OPTIONS
+    { label: 'Manual', value: 'manual' }
   ]
 };
 
-export const UPLOAD_FILE = 'uploadFile';
-export const MAP_FIELDS = 'mapFields';
-export const PREVIEW_AND_CONFIRM_IMPORT = 'previewAndConfirmImport';
+export const FIRST_SCREEN = 'uploadFile';
+export const SECOND_SCREEN = 'mapFields';
+export const THIRD_SCREEN = 'previewAndConfirmImport';
 
 export const ONGOING_IMPORT_MODAL_DATA = {
-  label: 'Import is in progress',
-  text: 'This will take a few minutes. Please don’t close/refresh this page until the import is complete.',
+  label: 'Import Progress:',
+  text: "Please don't close/refresh this page until the import is complete.",
   firstButtonText: 'Cancel Import',
-  secondButtonText: null
+  secondButtonText: null,
+  isButtonLoading: false
 };
 
 export const FAILED_IMPORT_MODAL_DATA = {
@@ -130,8 +105,3 @@ export const FAILED_IMPORT_MODAL_DATA = {
   firstButtonText: 'Download Report',
   secondButtonText: 'Retry Import'
 };
-
-// export const IMPORT_FROM_TOOL = 'import-from-tool';
-// export const UPLOAD_FILE = 'upload-file';
-// export const TEST_RAILS = 'testrails';
-// export const ZEPHYR = 'zephyr';

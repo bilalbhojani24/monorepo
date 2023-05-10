@@ -10,13 +10,13 @@ export const TABS = {
   runs: 'Runs'
 };
 
-const BUILDS_HEADER_COMMON_STYLES = 'py-3 text-base-500 text-sm leading-4';
+const BUILDS_HEADER_COMMON_STYLES =
+  'py-3 text-base-500 text-sm leading-4 border-b border-base-200';
 
 export const BUILDS_HEADER_COLUMN_STYLE_MAPPING = {
   buildName: {
     name: BUILDS_HEADER_LABEL_MAPPING.buildName,
-    defaultClass:
-      'w-7/12 py-3 whitespace-normal !pl-0 text-base-500 text-sm leading-4'
+    defaultClass: `w-7/12 whitespace-normal !pl-0 ${BUILDS_HEADER_COMMON_STYLES}`
   },
   testStatus: {
     name: BUILDS_HEADER_LABEL_MAPPING.testStatus,

@@ -13,13 +13,13 @@ import {
 import CopyButton from 'common/CopyButton';
 import Loader from 'common/Loader';
 
+import BulkEditTestCase from './AddEditTestCase/BulkEditTestCase';
+import DeleteTestCase from './AddEditTestCase/DeleteTestCase';
+import InlineAddTestCase from './AddEditTestCase/InlineAddTestCase';
 // import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
 import AddEditTestCase from './AddEditTestCase';
 import BlankPage from './BlankPage';
-import BulkEditTestCase from './BulkEditTestCase';
-import DeleteTestCase from './DeleteTestCase';
 import Filter from './Filter';
-import InlineAddTestCase from './InlineAddTestCase';
 import TestCasesTable from './TestCasesTable';
 import useTestCases from './useTestCases';
 
@@ -27,6 +27,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    noResultsText,
     metaPage,
     allFolders,
     isSearchFilterView,
@@ -137,7 +138,7 @@ export default function TestCases() {
                   <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
                     <TMEmptyState
                       title="No Results Found"
-                      description="Reset the filters or try again."
+                      description={noResultsText}
                       mainIcon={
                         <SearchOffOutlinedIcon className="text-base-400 !h-12 !w-12" />
                       }

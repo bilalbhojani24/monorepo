@@ -21,7 +21,7 @@ export const getGeneralSettingsData = createAsyncThunk(
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -37,7 +37,7 @@ export const submitGeneralSettingsChanges = createAsyncThunk(
         project: data?.projectNormalisedName
       };
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );

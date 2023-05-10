@@ -11,14 +11,14 @@ const TagsComponent = ({
 }) => (
   <button
     className={twClassNames(
-      'border border-base-300 px-1 py-1 flex items-center rounded',
+      'border border-base-300 py-0.5 px-2.5 flex items-center rounded-md',
       wrapperClassName
     )}
     onClick={tagClickCb}
     type="button"
   >
     {icon}
-    {!iconOnly && <span className="text-xs font-semibold">{text}</span>}
+    {!iconOnly && <span className="text-xs font-medium">{text}</span>}
   </button>
 );
 

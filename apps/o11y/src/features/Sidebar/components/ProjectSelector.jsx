@@ -8,6 +8,10 @@ import {
 } from 'react-router-dom';
 import { O11yComboBox } from 'common/bifrostProxy';
 import { ROUTES } from 'constants/routes';
+import { setIsUEDetailsVisible } from 'features/SHErrorDetails/slices/dataSlice';
+import { setIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
+import { clearSnpTestFilter } from 'features/SuiteHealth/slices/uiSlice';
+import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { setActiveProject } from 'globalSlice';
 import { getProjects } from 'globalSlice/selectors';
 import { getProjectBuildsPath, isBuildsPage } from 'utils/routeUtils';
@@ -43,6 +47,10 @@ export default function ProjectSelector() {
         normalisedName: item.normalisedName
       })
     );
+    dispatch(setIsSHTestsDetailsVisible(false));
+    dispatch(hideTestDetailsDrawer());
+    dispatch(setIsUEDetailsVisible(false));
+    dispatch(clearSnpTestFilter());
     if (isBuildsPage()) {
       navigate(getProjectBuildsPath(encodeURI(item.normalisedName)), {
         replace: true

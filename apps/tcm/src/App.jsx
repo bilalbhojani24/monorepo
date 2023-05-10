@@ -16,6 +16,7 @@ import ImportStatusGlobal from 'features/quickImportFlow/components/ImportStatus
 import SideNav from 'features/SideNav';
 
 import { PRODUCTION_HOST } from './const/immutables';
+import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
 
 if (window.initialized !== true) {
   window.initialized = false;
@@ -34,9 +35,9 @@ function App() {
 
   useMemo(() => {
     const keys = {
-      amplitudeKey: '985eaa9c45d824a94344e64a2a3ca724',
+      amplitudeKey: AMPLITUDE_KEY,
       amplitudeConfig: {
-        key: '985eaa9c45d824a94344e64a2a3ca724',
+        key: AMPLITUDE_KEY,
         userData: {
           user_id: userAndGroupConfig?.bsUserId,
           tm_user_id: userAndGroupConfig?.tmUserId,
@@ -46,13 +47,17 @@ function App() {
           group_id: userAndGroupConfig?.bsGroupId
         }
       },
-      analyticsKey: 'UA-418548-19',
+      analyticsKey: ANALYTICS_KEY,
       EDSDetails: {
-        userDetails: '12',
+        userDetails: {
+          user_id: userAndGroupConfig?.bsUserId,
+          tm_user_id: userAndGroupConfig?.tmUserId,
+          tm_group_id: userAndGroupConfig?.tmGroupId
+        },
         config: {
           server: 'eds.browserstack.com',
           port: '443',
-          api: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
+          api: EDS_KEY
         }
       }
     };

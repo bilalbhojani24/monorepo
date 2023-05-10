@@ -50,6 +50,7 @@ const initialState = {
   },
   isJiraConfiguredForZephyr: false,
   importId: null,
+  importIdBeforeImport: null,
   importStatus: COMPLETED,
   isDismissed: true,
   showNewProjectBanner: false,
@@ -105,7 +106,8 @@ export const setRetryImport = createAsyncThunk(
   'import/retryImport',
   async ({ id, testTool }) => {
     try {
-      const response = await retryImport(id, testTool);
+      const tool = testTool === 'testrails' ? 'testrail' : testTool;
+      const response = await retryImport(id, tool);
       return { ...response, testTool };
     } catch (err) {
       return err;
@@ -276,6 +278,12 @@ const importSlice = createSlice({
     },
     setShowArtificialLoader: (state, { payload }) => {
       state.showArtificialLoader = payload;
+    },
+    setImportId: (state, { payload }) => {
+      state.importId = payload;
+    },
+    setImportIdBeforeImport: (state, { payload }) => {
+      state.importIdBeforeImport = payload;
     }
   },
   extraReducers: (builder) => {
@@ -342,6 +350,8 @@ export const {
   setConfigureToolProceeded,
   setCurrentTestManagementTool,
   setCurrentScreen,
+  setImportId,
+  setImportIdBeforeImport,
   setErrorForConfigureData,
   setTestRailsCred,
   setTestRailsCredTouched,

@@ -20,7 +20,8 @@ const initialState = {
     editTestRunCta: false,
     assignTestRunCta: false,
     closeTestRunCta: false,
-    deleteTestRunCta: false
+    deleteTestRunCta: false,
+    testRunFormData: true
   },
   selectedTestRun: null,
   loadedDataProjectId: null, // data fetched for which projectID (to cache data)
@@ -59,6 +60,7 @@ const testRunslice = createSlice({
         // reset form data
         state.testRunFormData = initialState.testRunFormData;
         state.isVisible.editTestRunsForm = false;
+        state.isLoading.testRunFormData = true;
         state.selectedTestRun = null;
       }
     },

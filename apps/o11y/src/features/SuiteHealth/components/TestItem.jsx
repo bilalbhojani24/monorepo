@@ -13,6 +13,8 @@ import { SUITE_TESTS_HEADER_LABEL_MAPPING } from '../constants';
 import Platforms from './Platforms';
 import TestInfo from './TestInfo';
 
+const ROW_STYLES = 'border-b border-base-200';
+
 const SnPTestItem = ({ testDetails }) => {
   const dispatch = useDispatch();
   const handleViewMorePlatforms = () => {
@@ -27,14 +29,16 @@ const SnPTestItem = ({ testDetails }) => {
     <>
       <O11yTableCell
         wrapperClassName={twClassNames(
-          SUITE_TESTS_HEADER_LABEL_MAPPING.tests.defaultClass
+          SUITE_TESTS_HEADER_LABEL_MAPPING.tests.defaultClass,
+          ROW_STYLES
         )}
       >
         <TestInfo testDetails={testDetails} />
       </O11yTableCell>
       <O11yTableCell
         wrapperClassName={twClassNames(
-          SUITE_TESTS_HEADER_LABEL_MAPPING.platforms.defaultClass
+          SUITE_TESTS_HEADER_LABEL_MAPPING.platforms.defaultClass,
+          ROW_STYLES
         )}
       >
         <Platforms
@@ -45,7 +49,8 @@ const SnPTestItem = ({ testDetails }) => {
       </O11yTableCell>
       <O11yTableCell
         wrapperClassName={twClassNames(
-          SUITE_TESTS_HEADER_LABEL_MAPPING.totalFailures.defaultClass
+          SUITE_TESTS_HEADER_LABEL_MAPPING.totalFailures.defaultClass,
+          ROW_STYLES
         )}
       >
         {testDetails?.totalFailures?.failed === undefined ? (
@@ -61,7 +66,8 @@ const SnPTestItem = ({ testDetails }) => {
       </O11yTableCell>
       <O11yTableCell
         wrapperClassName={twClassNames(
-          SUITE_TESTS_HEADER_LABEL_MAPPING.reliability.defaultClass
+          SUITE_TESTS_HEADER_LABEL_MAPPING.reliability.defaultClass,
+          ROW_STYLES
         )}
       >
         {testDetails?.reliability === undefined ? (
@@ -75,7 +81,8 @@ const SnPTestItem = ({ testDetails }) => {
       </O11yTableCell>
       <O11yTableCell
         wrapperClassName={twClassNames(
-          SUITE_TESTS_HEADER_LABEL_MAPPING.average.defaultClass
+          SUITE_TESTS_HEADER_LABEL_MAPPING.average.defaultClass,
+          ROW_STYLES
         )}
       >
         <div className="text-base-500 text-sm leading-5">

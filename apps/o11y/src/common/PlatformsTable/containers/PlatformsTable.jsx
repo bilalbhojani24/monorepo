@@ -20,7 +20,7 @@ const PlatformsTable = ({
   if (isEmpty(data)) {
     return (
       <div className={twClassNames('flex items-center justify-center flex-1')}>
-        <EmptyPage text="No data found" />
+        <EmptyPage text="No platforms available" />
       </div>
     );
   }

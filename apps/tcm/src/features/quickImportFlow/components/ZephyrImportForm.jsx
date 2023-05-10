@@ -137,7 +137,7 @@ const ZephyrImportForm = (props) => {
           )}
         </div>
         {!alreadyLoggedIn && (
-          <div className="mt-6 mb-4 flex justify-around">
+          <div className="mb-4 mt-6 flex justify-around">
             <div className="mr-6 w-full">
               <TMInputField
                 id="jira-email"
@@ -202,7 +202,9 @@ const ZephyrImportForm = (props) => {
             <TMAlerts
               accentBorder={false}
               show={!!connectionStatusMap[ZEPHYR]}
-              modifier={connectionStatusMap[ZEPHYR]}
+              modifier={
+                connectionStatusMap[ZEPHYR] === 'success' ? 'success' : 'error'
+              }
               title={
                 connectionStatusMap[ZEPHYR] === 'success'
                   ? 'Connection was successful. Proceed to continue.'

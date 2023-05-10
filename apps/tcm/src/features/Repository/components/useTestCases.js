@@ -37,6 +37,9 @@ export default function useTestCases() {
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
+  const noResultsText = useSelector(
+    (state) => state.repository.searchEmptyText
+  );
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
   );
@@ -131,7 +134,8 @@ export default function useTestCases() {
           dispatch(setMetaPage(res.info));
           dispatch(updateTestCasesListLoading(false));
         })
-        .catch(() => {
+        .catch((err) => {
+          if (err.rejectAll) return;
           // if page error, reset p=1
           setSearchParams({});
           dispatch(updateTestCasesListLoading(false));
@@ -179,7 +183,7 @@ export default function useTestCases() {
       currentParams[key] = value;
     }
 
-    setSearchParams({ ...currentParams, p });
+    setSearchParams({ ...currentParams, p: p || 1 });
   };
 
   const quickImportButtonClicked = () => {
@@ -210,6 +214,7 @@ export default function useTestCases() {
   }, [projectId]);
 
   return {
+    noResultsText,
     testCaseDetailsIDs,
     testCaseId,
     metaPage,

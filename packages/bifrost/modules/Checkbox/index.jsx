@@ -9,22 +9,23 @@ import {
 
 import './styles.scss';
 
-const Checkbox = (props) => {
-  const {
-    border,
-    checked,
-    data,
-    defaultChecked,
-    disabled,
-    description,
-    icon,
-    indeterminate,
-    isCard,
-    name,
-    onChange,
-    position,
-    wrapperClassName
-  } = props;
+const Checkbox = ({
+  border,
+  checked,
+  data,
+  defaultChecked,
+  disabled,
+  description,
+  icon,
+  indeterminate,
+  isCard,
+  name,
+  onChange,
+  position,
+  wrapperClassName,
+  isFullWidthLabel,
+  ...props
+}) => {
   const ref = useRef();
 
   useLayoutEffect(() => {
@@ -70,6 +71,7 @@ const Checkbox = (props) => {
             checked={checked}
             onChange={(e) => handleChange(e)}
             disabled={disabled}
+            {...props}
           />
         </div>
         {data ? (
@@ -86,7 +88,8 @@ const Checkbox = (props) => {
               htmlFor={`${name}${data.value}`}
               className={twClassNames('text-base-700 select-none font-medium', {
                 'flex flex-row items-center gap-1.5': icon,
-                'cursor-not-allowed': disabled
+                'cursor-not-allowed': disabled,
+                block: isFullWidthLabel
               })}
             >
               {icon}
@@ -146,7 +149,8 @@ Checkbox.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   position: PropTypes.oneOf(Object.values(CHECKBOX_POSITION_VARIANT)),
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  isFullWidthLabel: PropTypes.bool
 };
 
 Checkbox.defaultProps = {
@@ -162,7 +166,8 @@ Checkbox.defaultProps = {
   name: 'checkbox',
   onChange: () => {},
   position: CHECKBOX_POSITION_VARIANT.left,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  isFullWidthLabel: false
 };
 
 export default Checkbox;

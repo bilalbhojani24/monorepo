@@ -1,28 +1,29 @@
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { twClassNames } from '@browserstack/utils';
 import { TMPageHeadings } from 'common/bifrostProxy';
 
 import {
-  IMPORT_CSV_STEPS,
-  MAP_FIELDS,
-  PREVIEW_AND_CONFIRM_IMPORT,
-  UPLOAD_FILE
+  FIRST_SCREEN,
+  SECOND_SCREEN,
+  THIRD_SCREEN
 } from '../const/importCSVConstants';
 
-import ImportCSVSteps from './ImportCSVSteps';
 import MapFields from './MapFields';
 import PreviewAndConfirm from './PreviewAndConfirm';
+import TopSectionInfo from './topSectionInfo';
 import UploadFile from './UploadFile';
 import useImportCSV from './useImportCSV';
 
 const ImportCSV = () => {
-  const navigate = useNavigate();
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
-  const projectId = queryParams.get('project');
-  const folderId = queryParams.get('folder');
-  const { currentCSVScreen, importCSVSteps, fetchCSVConfigurations } =
-    useImportCSV();
+  const {
+    currentCSVScreen,
+    fetchCSVConfigurations,
+    topInfoSteps,
+    projectId,
+    navigate,
+    folderId,
+    showMappings
+  } = useImportCSV();
 
   const handleBreadcrumbClick = (_, clickedOption) => {
     const { name } = clickedOption;
@@ -30,10 +31,9 @@ const ImportCSV = () => {
   };
 
   const getCurrentScreen = () => {
-    if (currentCSVScreen === UPLOAD_FILE) return <UploadFile />;
-    if (currentCSVScreen === MAP_FIELDS) return <MapFields />;
-    if (currentCSVScreen === PREVIEW_AND_CONFIRM_IMPORT)
-      return <PreviewAndConfirm />;
+    if (currentCSVScreen === FIRST_SCREEN) return <UploadFile />;
+    if (currentCSVScreen === SECOND_SCREEN) return <MapFields />;
+    if (currentCSVScreen === THIRD_SCREEN) return <PreviewAndConfirm />;
 
     return <>Something went wrong!</>;
   };
@@ -51,11 +51,18 @@ const ImportCSV = () => {
         onBreadcrumbClick={handleBreadcrumbClick}
         heading="Import via CSV file"
       />
-      <ImportCSVSteps steps={importCSVSteps || IMPORT_CSV_STEPS} />
       <div
         id="current-import-csv-screen"
-        className="mb-4 flex flex-col items-center overflow-auto pt-4"
+        className={twClassNames(
+          'flex flex-col items-center overflow-scroll pt-6',
+          {
+            'min-h-min max-h-screen': showMappings
+          }
+        )}
       >
+        {topInfoSteps.length && currentCSVScreen !== FIRST_SCREEN ? (
+          <TopSectionInfo steps={topInfoSteps} />
+        ) : null}
         {getCurrentScreen()}
       </div>
     </>

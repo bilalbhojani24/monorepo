@@ -7,11 +7,16 @@ import {
   postMappingData,
   startCSVImport
 } from '../../../api/importCSV.api';
-import { DEFAULT_MODAL_DROPDOWN_OPTIONS } from '../const/importCSVConstants';
+import {
+  DEFAULT_MODAL_DROPDOWN_OPTIONS,
+  SECOND_SCREEN,
+  THIRD_SCREEN
+} from '../const/importCSVConstants';
 
 import {
   importCSVCleanUp,
   setCSVConfigurationsFulfilled,
+  setCSVCurrentScreen,
   setErrorLabelInMapFields,
   setFieldsMapping,
   setMapFieldsError,
@@ -21,7 +26,6 @@ import {
   setValueMappingThunkFulfilled,
   startImportingTestCaseFulfilled,
   startImportingTestCasePending,
-  startImportingTestCaseRejected,
   submitMappingDataFulfilled,
   submitMappingDataPending,
   submitMappingDataRejected,
@@ -73,7 +77,9 @@ export const uploadFile = (payload) => async (dispatch) => {
   dispatch(uploadFilePending());
   try {
     const response = await postCSV(payload);
+
     dispatch(uploadFileFulfilled(response));
+    dispatch(setCSVCurrentScreen(SECOND_SCREEN));
   } catch (err) {
     dispatch(uploadFileRejected(err));
   }
@@ -161,6 +167,7 @@ export const submitMappingData =
         }
       });
       dispatch(submitMappingDataFulfilled(response));
+      dispatch(setCSVCurrentScreen(THIRD_SCREEN));
     } catch (err) {
       dispatch(submitMappingDataRejected(err));
     }
@@ -204,6 +211,7 @@ export const startImportingTestCases =
     const payload = {};
     if (projectId && projectId !== 'new') payload.project_id = projectId;
     if (folderId) payload.folder_id = folderId;
+
     try {
       const response = await startCSVImport({
         importId,
@@ -213,7 +221,7 @@ export const startImportingTestCases =
 
       dispatch(startImportingTestCaseFulfilled(response));
     } catch (err) {
-      dispatch(startImportingTestCaseRejected(err));
+      // dispatch(startImportingTestCaseRejected(err)); //TODO: Confirm with Arsalan if its safe to remove, we moved this logic to WS
     }
   };
 

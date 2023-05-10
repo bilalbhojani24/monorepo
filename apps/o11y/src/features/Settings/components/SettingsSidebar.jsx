@@ -46,6 +46,14 @@ const getNav = ({ projectNormalisedName }) => [
     inActiveIcon: () => <></>,
     path: getSettingsPath(projectNormalisedName, 're_run'),
     pattern: ROUTES.settings_re_run
+  },
+  {
+    id: 'notifications',
+    label: 'Notifications',
+    activeIcon: () => <></>,
+    inActiveIcon: () => <></>,
+    path: getSettingsPath(projectNormalisedName, 'notifications'),
+    pattern: ROUTES.settings_notifications
   }
 ];
 
@@ -58,7 +66,8 @@ export default function SettingsSidebar() {
     window.scrollTo(0, 0);
   };
   return (
-    <aside className="sticky top-0 max-w-xs flex-1 shrink-0 pr-8">
+    // eslint-disable-next-line tailwindcss/no-arbitrary-value
+    <aside className="sticky top-0 max-w-[250px] flex-1 shrink-0 pr-8">
       {getNav({ projectNormalisedName: activeProject.normalisedName }).map(
         (item) => (
           <SidebarItem

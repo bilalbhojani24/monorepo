@@ -1,0 +1,429 @@
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  background-color: unset;
+}
+
+/* END */
+
+/** GALLERY COMPONENT OVERRIDE **/
+
+.to-image-gallery {
+  width: 0%;
+  height: 0%;
+  position: absolute;
+  overflow: hidden;
+
+  .invisible {
+    visibility: hidden;
+  }
+
+  .image-gallery,
+  .single-image-gallery {
+    background: var(--colors-base-800);
+    padding: 32px;
+
+    .image-gallery-content {
+      height: 100%;
+
+      .full-screen-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        top: 0;
+        right: 0;
+        svg {
+          fill: white;
+        }
+
+        &:hover {
+          background: rgba(var(--colors-base-500), 0.08);
+          border-radius: 3px;
+        }
+
+        &:active {
+          background: rgba(var(--colors-base-500), 0.12);
+          border-radius: 3px;
+        }
+      }
+
+      .left-nav-btn {
+        left: 1.7%;
+      }
+
+      .right-nav-btn {
+        right: -20px;
+      }
+
+      .left-nav-btn,
+      .right-nav-btn {
+        cursor: pointer;
+        z-index: 1;
+        top: 50%;
+        transform: translateY(-50%);
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        border-radius: 3px;
+        filter: drop-shadow(0px 0px 8px rgba(black, 0.5));
+
+        svg {
+          fill: var(--colors-base-600);
+        }
+
+        &:hover {
+          background: var(--colors-base-300);
+        }
+
+        &:active {
+          background: var(--colors-base-400);
+        }
+      }
+
+      .image-gallery-thumbnails-wrapper {
+        margin: 0px;
+        width: 10%;
+        height: inherit;
+        .image-gallery-thumbnails {
+          display: flex;
+          align-items: center;
+          .image-gallery-thumbnail {
+            width: inherit;
+            margin-bottom: 24px;
+            .image-gallery-thumbnail-inner {
+              width: inherit;
+            }
+          }
+        }
+      }
+
+      .image-gallery-slide-wrapper {
+        height: inherit;
+        &.left {
+          width: 90%;
+          .image-gallery-slide .image-gallery-image {
+            max-height: calc(100vh - 150px);
+          }
+        }
+        .image-gallery-swipe {
+          height: 100%;
+          .image-gallery-slides {
+            display: flex;
+            height: inherit;
+            margin-left: 40px;
+            .image-gallery-slide {
+              display: flex;
+              height: inherit;
+              .image-gallery-image {
+                max-height: calc(100vh - 64px);
+              }
+            }
+          }
+        }
+      }
+
+      &.fullscreen {
+        background: var(--colors-base-900);
+      }
+    }
+  }
+  // For gallery with single image there is no sidebar with thumbnails
+  // hence giving the image full width of 100%
+  .single-image-gallery {
+    .image-gallery-content .image-gallery-slide-wrapper.left {
+      width: 100% !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+/* END */
+
+/** IMAGE WITH GALLERY COMPONENT OVERRIDE **/
+
+.imgvw-container {
+  margin: 16px 0 8px;
+  min-height: 200px;
+  width: fit-content;
+  max-width: 340px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  .stack-image,
+  .stack-svg {
+    z-index: 1; // To show above hidden image gallery
+    grid-row-start: 1;
+    grid-column-start: 1;
+  }
+  .stack-image {
+    filter: drop-shadow(0 -2px 0 white) drop-shadow(0 2px 0 white)
+      drop-shadow(-2px 0 0 white) drop-shadow(2px 0 0 white)
+      drop-shadow(0 4px 6px rgba(var(--colors-base-500), 0.25)) !important;
+    transition: -webkit-filter 500ms;
+  }
+  .stack-svg {
+    border: none;
+  }
+  img {
+    max-height: 300px;
+  }
+  &:hover > .stack-image {
+    cursor: zoom-in;
+    filter: drop-shadow(0 -2px 0 white) drop-shadow(0 2px 0 white)
+      drop-shadow(-2px 0 0 white) drop-shadow(2px 0 0 white)
+      drop-shadow(0 6px 14px rgba(var(--colors-base-500), 0.5)) !important;
+  }
+
+  &--stack-2 {
+    // 1st image position
+    .stack-image-0 {
+      transform: rotate(-3deg);
+      margin-left: -4px;
+    }
+    // 2nd image position
+    .stack-image-1 {
+      transform: rotate(0deg);
+    }
+    // 1st svg position
+    .stack-svg-0 {
+      transform: rotate(-3deg);
+      margin-left: -4px;
+    }
+    // 2nd svg position
+    .stack-svg-1 {
+      transform: rotate(0deg);
+    }
+  }
+  &--stack-3 {
+    // 1st image position
+    .stack-image-0 {
+      transform: rotate(4deg);
+      margin-left: -4px;
+    }
+    // 2nd image position
+    .stack-image-1 {
+      transform: rotate(-3deg);
+      margin-left: -4px;
+    }
+    // 3rd image position
+    .stack-image-2 {
+      transform: rotate(0deg);
+    }
+    // 1st svg position
+    .stack-svg-0 {
+      transform: rotate(4deg);
+      margin-left: -4px;
+    }
+    // 2nd svg position
+    .stack-svg-1 {
+      transform: rotate(-3deg);
+      margin-left: -4px;
+    }
+    // 3rd svg position
+    .stack-svg-2 {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+/* END */
+/* stylelint-disable no-descending-specificity */
+// RGL-CSS
+.react-resizable {
+  position: relative;
+}
+.react-resizable-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  box-sizing: border-box;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2IDYiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI2cHgiIGhlaWdodD0iNnB4Ij48ZyBvcGFjaXR5PSIwLjMwMiI+PHBhdGggZD0iTSA2IDYgTCAwIDYgTCAwIDQuMiBMIDQgNC4yIEwgNC4yIDQuMiBMIDQuMiAwIEwgNiAwIEwgNiA2IEwgNiA2IFoiIGZpbGw9IiMwMDAwMDAiLz48L2c+PC9zdmc+');
+  background-position: bottom right;
+  padding: 0 3px 3px 0;
+}
+.react-resizable-handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: sw-resize;
+  transform: rotate(90deg);
+}
+.react-resizable-handle-se {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+}
+.react-resizable-handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nw-resize;
+  transform: rotate(180deg);
+}
+.react-resizable-handle-ne {
+  top: 0;
+  right: 0;
+  cursor: ne-resize;
+  transform: rotate(270deg);
+}
+.react-resizable-handle-w,
+.react-resizable-handle-e {
+  top: 50%;
+  margin-top: -10px;
+  cursor: ew-resize;
+}
+.react-resizable-handle-w {
+  left: 0;
+  transform: rotate(135deg);
+}
+.react-resizable-handle-e {
+  right: 0;
+  transform: rotate(315deg);
+}
+.react-resizable-handle-n,
+.react-resizable-handle-s {
+  left: 50%;
+  margin-left: -10px;
+  cursor: ns-resize;
+}
+.react-resizable-handle-n {
+  top: 0;
+  transform: rotate(225deg);
+}
+.react-resizable-handle-s {
+  bottom: 0;
+  transform: rotate(45deg);
+}
+.react-grid-layout {
+  position: relative;
+  transition: height 200ms ease;
+}
+.react-grid-item {
+  transition: all 200ms ease;
+  transition-property: left, top;
+}
+.react-grid-item img {
+  pointer-events: none;
+  user-select: none;
+}
+.react-grid-item.cssTransforms {
+  transition-property: none;
+}
+.react-grid-item.resizing {
+  z-index: 1;
+  will-change: width, height;
+}
+
+.react-grid-item.react-draggable-dragging {
+  transition: none;
+  z-index: 3;
+  will-change: transform;
+}
+
+.react-grid-item.dropping {
+  visibility: hidden;
+}
+
+.react-grid-item.react-grid-placeholder {
+  background: var(--colors-brand-400);
+  opacity: 0.2;
+  transition-duration: 100ms;
+  z-index: 2;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.react-grid-item > .react-resizable-handle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+
+.react-grid-item > .react-resizable-handle:after {
+  content: '';
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 5px;
+  height: 5px;
+  border-right: 2px solid rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+}
+
+.react-resizable-hide > .react-resizable-handle {
+  display: none;
+}
+
+.react-grid-item > .react-resizable-handle.react-resizable-handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: sw-resize;
+  transform: rotate(90deg);
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-se {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nw-resize;
+  transform: rotate(180deg);
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-ne {
+  top: 0;
+  right: 0;
+  cursor: ne-resize;
+  transform: rotate(270deg);
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-w,
+.react-grid-item > .react-resizable-handle.react-resizable-handle-e {
+  top: 50%;
+  margin-top: -10px;
+  cursor: ew-resize;
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-w {
+  left: 0;
+  transform: rotate(135deg);
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-e {
+  right: 0;
+  transform: rotate(315deg);
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-n,
+.react-grid-item > .react-resizable-handle.react-resizable-handle-s {
+  left: 50%;
+  margin-left: -10px;
+  cursor: ns-resize;
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-n {
+  top: 0;
+  transform: rotate(225deg);
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-s {
+  bottom: 0;
+  transform: rotate(45deg);
+}
+// RGL CSS END

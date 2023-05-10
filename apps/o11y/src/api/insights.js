@@ -36,3 +36,6 @@ export const getTopErrorsTestRuns = async (buildId, statId) =>
 
 export const getFailureCategoriesData = async (buildId) =>
   axios.get(`${versionedBaseRoute()}/builds/${buildId}/buildRerunStats`);
+
+export const getFailureByModules = async (buildId) =>
+  axios.get(`${versionedBaseRoute()}/builds/${buildId}/failureByModules`);

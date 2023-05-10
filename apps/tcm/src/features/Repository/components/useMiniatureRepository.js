@@ -11,6 +11,7 @@ const useMiniatureRepository = ({ projectId }) => {
   const [metaPage, setMetaPage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isFoldersLoading, setIsFoldersLoading] = useState(true);
+  const [isInitialLoadingDone, setIsInitialLoadDone] = useState(false);
   const [isTestCasesLoading, setIsTestCasesLoading] = useState(true);
   const [isSearchFilterView, setIsSearchFilterView] = useState(false);
   const [filterOptions, setFilterOptions] = useState({});
@@ -22,6 +23,7 @@ const useMiniatureRepository = ({ projectId }) => {
 
     if (isFoldersLoading) setIsFoldersLoading(false);
 
+    if (!isInitialLoadingDone) setIsInitialLoadDone(true);
     if (!selectedFolder && data?.length) setSelectedFolder(data[0]);
   };
 
@@ -80,7 +82,6 @@ const useMiniatureRepository = ({ projectId }) => {
   };
 
   const onPaginationClick = ({ p }) => {
-    console.log('on pagination click');
     dispatch(
       logEventHelper('TM_TcPaginationClicked', {
         project_id: projectId,
@@ -101,6 +102,7 @@ const useMiniatureRepository = ({ projectId }) => {
   }, [selectedFolder, currentPage, filterOptions]);
 
   return {
+    isInitialLoadingDone,
     filterOptions,
     metaPage,
     isSearchFilterView,

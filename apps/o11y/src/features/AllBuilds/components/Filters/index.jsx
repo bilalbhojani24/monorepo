@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { MdFilterAlt } from '@browserstack/bifrost';
 import {
   O11yButton,
-  O11yComboBox,
   O11ySlideover,
   O11ySlideoverBody,
   O11ySlideoverFooter,
   O11ySlideoverHeader
 } from 'common/bifrostProxy';
-import O11yLoader from 'common/O11yLoader';
-import { getCustomTimeStamp } from 'utils/dateTime';
-import { capitalizeFirstLetter } from 'utils/stringUtils';
+import {
+  discardUnAppliedFilters,
+  setSelectedFilterAsApplied
+} from 'features/AllBuilds/slices/buildsSlice';
 
-import { setAppliedFilters, setSelectedFilters } from '../../slices/dataSlice';
-import { getSelectedFilters, getStaticFilters } from '../../slices/selectors';
-
+import BuildFrameworkFilter from './BuildFrameworkFilter';
+import BuildStatusFilter from './BuildStatusFilter';
+import DateRangeFilter from './DateRangeFilter';
 import TagsFilters from './TagsFilter';
 import UsersFilters from './UsersFilter';
 
 const Filters = () => {
   const dispatch = useDispatch();
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
-  const selectedFilters = useSelector(getSelectedFilters);
-  const staticFilters = useSelector(getStaticFilters);
-  const { statuses, users, tags, dateRange } = selectedFilters;
+
+  const [isValid, setIsValid] = useState(true);
 
   const showSlideover = () => {
     setIsSlideoverVisible(true);
@@ -32,138 +31,53 @@ const Filters = () => {
   const hideSlideover = () => {
     setIsSlideoverVisible(false);
   };
-  const onApplyFilterClick = () => {
-    dispatch(
-      setAppliedFilters({
-        statuses,
-        users,
-        tags,
-        dateRange
-      })
-    );
+  const onCancelSelectedFilters = () => {
+    dispatch(discardUnAppliedFilters());
     hideSlideover();
   };
-  const onChangeArrayFilter = (selectedValues, targetFilterName) => {
-    dispatch(
-      setSelectedFilters({
-        [targetFilterName]: selectedValues.map((el) => el.value)
-      })
-    );
+  const onApplyFilterClick = () => {
+    dispatch(setSelectedFilterAsApplied());
+    hideSlideover();
   };
-  const onChangeUpperLowerBound = (e, targetBound) => {
-    const newValue = new Date(e.target.value).getTime();
-    dispatch(
-      setSelectedFilters({
-        dateRange: {
-          lowerBound:
-            targetBound === 'lowerBound' ? newValue : dateRange.lowerBound,
-          upperBound:
-            targetBound === 'upperBound' ? newValue : dateRange.upperBound
-        }
-      })
-    );
-  };
-  const statusOptions = staticFilters?.statuses
-    ? Object.values(staticFilters?.statuses).map((el) => ({
-        value: el,
-        label: capitalizeFirstLetter(el)
-      }))
-    : [];
 
+  const setValidStatus = useCallback((status) => {
+    setIsValid(status);
+  }, []);
   return (
     <>
-      <O11ySlideover show={isSlideoverVisible} backgroundOverlay={false}>
+      <O11ySlideover
+        size="md"
+        show={isSlideoverVisible}
+        backgroundOverlay={false}
+        onEscPress={onCancelSelectedFilters}
+      >
         <O11ySlideoverHeader
           heading="Filters"
-          handleDismissClick={hideSlideover}
+          handleDismissClick={onCancelSelectedFilters}
         />
         <O11ySlideoverBody wrapperClassName="overflow-auto">
-          {staticFilters?.statuses ? (
+          {isSlideoverVisible && (
             <div className="flex flex-col gap-6 px-4">
-              <O11yComboBox
-                isMulti
-                placeholder="Select"
-                label="Status"
-                options={statusOptions}
-                onChange={(selectedValues) => {
-                  onChangeArrayFilter(selectedValues, 'statuses');
-                }}
-                value={statusOptions.filter((el) =>
-                  statuses.includes(el.value)
-                )}
-                checkPosition
-                virtuosoWidth="480px"
-                optionsListWrapperClassName="min-w-max h-100 overflow-hidden"
-              />
-              <UsersFilters
-                onChangeArrayFilter={onChangeArrayFilter}
-                allowFetchingData={isSlideoverVisible}
-              />
-              <TagsFilters
-                onChangeArrayFilter={onChangeArrayFilter}
-                allowFetchingData={isSlideoverVisible}
-              />
-              <div>
-                <label
-                  className="text-base-700 text-sm"
-                  htmlFor="start-date-filter"
-                >
-                  Start Date
-                </label>
-                <input
-                  className="border-base-300 placeholder:text-base-200 block w-full rounded-md"
-                  id="start-date-filter"
-                  type="date"
-                  value={
-                    dateRange.lowerBound
-                      ? getCustomTimeStamp({
-                          dateString: new Date(dateRange.lowerBound),
-                          withoutTZ: true,
-                          withoutTime: true,
-                          dateFormat: 'yyyy-MM-dd'
-                        })
-                      : '00-00-0000'
-                  }
-                  onChange={(e) => onChangeUpperLowerBound(e, 'lowerBound')}
-                  placeholder="Start Date"
-                />
-              </div>
-              <div>
-                <label
-                  className="text-base-700 text-sm"
-                  htmlFor="end-date-filter"
-                >
-                  End Date
-                </label>
-                <input
-                  className="border-base-300 placeholder:text-base-200 block w-full rounded-md"
-                  id="end-date-filter"
-                  value={
-                    dateRange.upperBound
-                      ? getCustomTimeStamp({
-                          dateString: new Date(dateRange.upperBound),
-                          withoutTZ: true,
-                          withoutTime: true,
-                          dateFormat: 'yyyy-MM-dd'
-                        })
-                      : '00-00-0000'
-                  }
-                  onChange={(e) => onChangeUpperLowerBound(e, 'upperBound')}
-                  type="date"
-                  placeholder="End Date"
-                />
-              </div>
+              <BuildStatusFilter />
+              <UsersFilters />
+              <TagsFilters />
+              <BuildFrameworkFilter />
+              <DateRangeFilter setValidStatus={setValidStatus} />
             </div>
-          ) : (
-            <O11yLoader loaderClass="h-8 w-8 self-center p-1" />
           )}
         </O11ySlideoverBody>
 
-        <O11ySlideoverFooter isBorder="true" backgroundColorClass="justify-end">
-          <O11yButton variant="primary" colors="white" onClick={hideSlideover}>
+        <O11ySlideoverFooter isBorder="true" position="right">
+          <O11yButton
+            variant="primary"
+            colors="white"
+            onClick={onCancelSelectedFilters}
+          >
             Cancel
           </O11yButton>
-          <O11yButton onClick={onApplyFilterClick}>Apply</O11yButton>
+          <O11yButton disabled={!isValid} onClick={onApplyFilterClick}>
+            Apply
+          </O11yButton>
         </O11ySlideoverFooter>
       </O11ySlideover>
       <O11yButton

@@ -107,7 +107,7 @@ const TestDetailsCombinationsMenu = () => {
   };
 
   return (
-    <div className="mb-6">
+    <div className="mb-5">
       <CombinationsMenu
         defaultValue={getDefaultSelectedCombination}
         isLoading={errorDetailsInfo.isLoading}

@@ -92,8 +92,9 @@ const Filter = ({ isMini, onFilterChange }) => {
     >
       <div className="w-full">
         <TMInputField
-          placeholder="Search by Test Case name or Test Case ID"
+          placeholder="Search by Test Case ID or Title"
           value={filterSearchMeta?.q}
+          // onFocus={handleSearchFocus}
           onChange={(e) => searchChangeHandler(e.currentTarget.value)}
           onKeyDown={(e) => onSubmitKeyHandler(e, () => applyFilterHandler())}
           addOnBeforeInline={<SearchIcon className="text-base-400" />}
@@ -142,7 +143,7 @@ const Filter = ({ isMini, onFilterChange }) => {
       </div>
       {isFilterVisible && (
         <div
-          className="absolute top-full right-0 w-full max-w-[calc(100%-2px)] rounded-md bg-white drop-shadow-lg"
+          className="absolute right-0 top-full w-full max-w-[calc(100%-2px)] rounded-md bg-white drop-shadow-lg"
           ref={filterBoxRef}
         >
           <div className="flex h-96 w-full gap-4 p-4 pb-1 pl-3">
@@ -158,7 +159,7 @@ const Filter = ({ isMini, onFilterChange }) => {
                   addOnBeforeInline={<SearchIcon className="text-base-400" />}
                 />
               </div>
-              <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
+              <div className="mt-4 h-full w-full overflow-y-auto pl-1 pt-1">
                 {ownersFilteredArray.length ? (
                   <p className="mb-3 text-xs font-medium">
                     RECENTLY ADDED USERS
@@ -188,7 +189,7 @@ const Filter = ({ isMini, onFilterChange }) => {
                   addOnBeforeInline={<SearchIcon className="text-base-400" />}
                 />
               </div>
-              <div className="mt-4 h-full w-full overflow-y-auto pt-1 pl-1">
+              <div className="mt-4 h-full w-full overflow-y-auto pl-1 pt-1">
                 {tagsFilteredArray.length ? (
                   <p className="mb-3 text-xs font-medium">
                     RECENTLY ADDED TAGS

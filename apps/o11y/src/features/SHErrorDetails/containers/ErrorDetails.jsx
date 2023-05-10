@@ -1,9 +1,18 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { O11ySlideover } from 'common/bifrostProxy';
+import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
+import {
+  clearUEDetailsInfo,
+  resetUEDetailsActiveTab,
+  setIsUEDetailsVisible,
+  setShowUEDetailsFor
+} from '../slices/dataSlice';
 import {
   getIsUEDetailsVisible,
   getShowUEDetailsFor
@@ -13,6 +22,8 @@ import SlideOverBody from './SlideOverBody';
 import SlideOverHeader from './SlideOverHeader';
 
 const ErrorDetails = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isVisible = useSelector(getIsUEDetailsVisible);
   const activeProject = useSelector(getActiveProject);
   const { testId } = useSelector(getShowUEDetailsFor);
@@ -28,9 +39,26 @@ const ErrorDetails = () => {
     });
   }, [activeProject.name, activeProject.id, testId]);
 
+  const handleCloseDetails = () => {
+    dispatch(setIsUEDetailsVisible(false));
+    dispatch(setShowUEDetailsFor(''));
+    dispatch(clearUEDetailsInfo());
+    dispatch(resetUEDetailsActiveTab());
+    dispatch(hideTestDetailsDrawer());
+    const searchParams = new URLSearchParams(window?.location.search);
+    searchParams.delete(SNP_PARAMS_MAPPING.snpErrorId);
+    searchParams.delete(SNP_PARAMS_MAPPING.snpErrorTestId);
+    navigate({ search: searchParams.toString() });
+  };
+
   return (
-    <O11ySlideover show={isVisible} backgroundOverlay={false} size="5xl">
-      <SlideOverHeader />
+    <O11ySlideover
+      show={isVisible}
+      backgroundOverlay={false}
+      size="5xl"
+      onEscPress={handleCloseDetails}
+    >
+      <SlideOverHeader handleCloseDetails={handleCloseDetails} />
       <SlideOverBody />
     </O11ySlideover>
   );

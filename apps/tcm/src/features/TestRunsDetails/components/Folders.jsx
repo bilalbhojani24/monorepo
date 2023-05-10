@@ -25,7 +25,7 @@ const Folders = () => {
 
   return (
     <aside className="lg:order-first lg:block lg:shrink-0">
-      <div className="relative flex h-full w-96 flex-col overflow-hidden">
+      <div className="relative flex h-full w-72 flex-col overflow-hidden">
         {/* <div className="border-base-300  flex h-12 w-full  items-center border-b py-0.5 px-3">
           <span className="text-base">Folder View</span>
         </div> */}

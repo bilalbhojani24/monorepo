@@ -36,6 +36,10 @@ const SnPTestFilter = () => {
     }
   }, [dispatch, activeProject?.normalisedName]);
 
+  useEffect(() => {
+    setShowFilter(false);
+  }, [activeProject.id]);
+
   const handleClickRange = (key) => {
     const searchParams = new URLSearchParams(window?.location?.search);
     searchParams.set(SNP_PARAMS_MAPPING.snpDateRange, key);

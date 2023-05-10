@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -52,12 +54,25 @@ const defaultConfig = {
       description: 'Active progression in the progress bar',
       control: { type: 'number', min: 0, max: 12, step: 1 },
       defaultValue: '0'
+    },
+    wrapperClassName: {
+      type: { summary: 'STRING', required: false },
+      description: 'Provide classnames to progress bar',
+      control: { type: 'text' },
+      defaultValue: ''
     }
   },
   controls: {}
 };
 const Template = (args) => <ProgressBar {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Title')).toBeVisible();
+  steps.forEach(async (item) => {
+    await expect(canvas.getByText(item)).toBeVisible();
+  });
+};
 Primary.parameters = {
   controls: {}
 };

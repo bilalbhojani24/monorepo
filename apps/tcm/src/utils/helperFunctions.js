@@ -88,10 +88,26 @@ export const getSystemOrCustomValue = (
   if (customValue) return customValue;
   return '--';
 };
-// export const attachEventListener = (target, event, cbFunction) => {
-//   target?.addEventListener(event, cbFunction);
-// };
 
-// export const detachEventListener = (target, event, cbFunction) => {
-//   target?.removeEventListener(event, cbFunction);
-// };
+export const getFilterOptions = (thisParams) => {
+  const tags = thisParams.get('tags');
+  const owner = thisParams.get('owner');
+  const priority = thisParams.get('priority');
+  const q = thisParams.get('q');
+  return {
+    tags: tags?.split(',') || [],
+    owner: owner?.split(',') || [],
+    priority: priority?.split(',') || [],
+    q: q || ''
+  };
+};
+
+export const redirectToPrevPage = (searchParams, setSearchParams) => {
+  if (searchParams.get('p') - 1 === 1) {
+    searchParams.delete('p');
+    setSearchParams(searchParams);
+  } else {
+    searchParams.set('p', `${searchParams.get('p') - 1}`);
+    setSearchParams(searchParams.toString());
+  }
+};

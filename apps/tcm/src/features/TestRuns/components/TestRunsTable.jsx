@@ -48,7 +48,7 @@ const TestRunsTable = () => {
       class: 'w-[10%]',
       cell: (rowData) => (
         <Link
-          className="hover:text-brand-600 cursor-pointer font-medium"
+          className="text-base-900 hover:text-brand-600 cursor-pointer font-medium"
           state={{ sourceTab: currentTab }}
           to={routeFormatter(AppRoute.TEST_RUN_DETAILS, {
             projectId,
@@ -112,7 +112,7 @@ const TestRunsTable = () => {
       key: 'is_automation',
       class: 'w-[15%]',
       cell: (rowData) => (
-        <div>
+        <div className="text-base-500">
           {rowData.is_automation ? (
             <div className="flex">
               Automation
@@ -172,7 +172,18 @@ const TestRunsTable = () => {
     {
       name: 'ASSIGNED TO',
       key: 'owner',
-      cell: (rowData) => rowData.assignee?.full_name || 'Unassigned',
+      cell: (rowData) => (
+        <TMTruncateText
+          truncateUsingClamp={false}
+          hidetooltipTriggerIcon
+          isFullWidthTooltip
+          headerTooltipProps={{
+            delay: 500
+          }}
+        >
+          {rowData.assignee?.full_name || 'Unassigned'}
+        </TMTruncateText>
+      ),
       class: 'w-[15%]'
     },
     {

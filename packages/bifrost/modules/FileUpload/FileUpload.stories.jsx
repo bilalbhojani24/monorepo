@@ -1,10 +1,13 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { MdOutlineInsertPhoto } from '../Icon';
 
 import FileUpload from './index';
 
+const uploadAFile = 'Upload a file';
 const defaultConfig = {
   title: 'Application/Components/FileUpload',
   component: FileUpload,
@@ -26,7 +29,7 @@ const defaultConfig = {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
       description: 'Lorem',
-      defaultValue: 'Upload a file'
+      defaultValue: uploadAFile
     },
     heading: {
       control: { type: 'text' },
@@ -82,12 +85,24 @@ const defaultConfig = {
 };
 const BaseTemp = (args) => <FileUpload {...args} />;
 const Base = BaseTemp.bind({});
+Base.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  // await expect(canvas.getByRole('input')).toBeVisible();
+  await expect(canvas.getByText(uploadAFile)).toBeVisible();
+  await userEvent.click(canvas.getByText(uploadAFile));
+  // upload handled on consumer side
+};
 Base.parameters = {
   controls: {}
 };
 
 const UploadingTemp = (args) => <FileUpload {...args} />;
 const Uploading = UploadingTemp.bind({});
+Uploading.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('status')).toBeVisible();
+  await expect(canvas.getByText('Uploading...')).toBeVisible();
+};
 Uploading.parameters = {
   controls: {}
 };

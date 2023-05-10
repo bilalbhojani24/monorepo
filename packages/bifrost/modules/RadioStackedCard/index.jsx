@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 
 import { RADIO_STACKED_CARD_PLACEMENT } from './const/radioStackedCardConstants';
 
-import './styles.scss';
-
 const RadioStackedCard = (props) => {
   const { placement = 'vertical', data, onChange, name } = props;
   const [selected, setSelected] = useState(data[0]);
@@ -20,7 +18,9 @@ const RadioStackedCard = (props) => {
         if (onChange) onChange(selectedRadioItem);
       }}
     >
-      <RadioGroup.Label className="sr-only">{name}</RadioGroup.Label>
+      <RadioGroup.Label as="p" className="sr-only">
+        {name}
+      </RadioGroup.Label>
       <div
         className={twClassNames('mt-4 ', {
           'grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4':

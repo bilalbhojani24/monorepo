@@ -8,8 +8,6 @@ import HeaderProducts from '../HeaderProducts';
 
 import useHeader from './useHeader';
 
-import './styles.scss';
-
 const Header = ({
   headerID,
   wrapperClassName,

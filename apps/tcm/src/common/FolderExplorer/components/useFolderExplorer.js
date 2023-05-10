@@ -11,18 +11,24 @@ const useFolderExplorer = ({
   isSingleSelect
 }) => {
   const [selectedNodesId, setSelectedNodesId] = useState([]);
+  const [isFetchInProgress, setFetchinProgress] = useState(false);
   const [foldersArray, setFoldersArray] = useState([]);
+  const [isInitialFetchDone, setInitialFetch] = useState(false);
 
   const fireOnFoldersUpdate = (folders, thisSelectedNodesId, testCases) => {
     onFoldersUpdate(folders, thisSelectedNodesId, testCases);
   };
 
   const fetchAllFolders = () => {
-    if (projectId && !allFolders && !folderId)
+    if (projectId && !allFolders && !folderId) {
+      setFetchinProgress(true);
       getFolders({ projectId }).then((data) => {
         setFoldersArray(data?.folders || []);
         fireOnFoldersUpdate(data?.folders, selectedNodesId);
+        setInitialFetch(true);
+        setFetchinProgress(false);
       });
+    }
   };
 
   const folderClickHandler = (selectedFolder) => {
@@ -105,8 +111,10 @@ const useFolderExplorer = ({
   }, [folderId]);
 
   return {
+    isFetchInProgress,
     selectedNodesId,
     foldersArray,
+    isInitialFetchDone,
     folderClickHandler,
     subFolderOpenHandler
   };

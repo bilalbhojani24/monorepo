@@ -42,6 +42,7 @@ const useConfigureTool = () => {
   const zephyrCredTouched = useSelector(
     (state) => state.import.zephyrCredTouched
   );
+
   const isJiraConfiguredForZephyr = () => {
     dispatch(setJiraConfigurationStatus());
   };

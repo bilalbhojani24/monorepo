@@ -1,16 +1,27 @@
 import React from 'react';
-import RadioStackedCard from './index';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { dummyData, RADIO_STACKED_CARD_PLACEMENT } from './const/radioStackedCardConstants';
+
+import {
+  dummyData,
+  RADIO_STACKED_CARD_PLACEMENT
+} from './const/radioStackedCardConstants';
+import RadioStackedCard from './index';
 
 const defaultConfig = {
   title: 'Application/Components/RadioStackedCard',
   component: RadioStackedCard,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import RadioStackedCard from 'bifrost/RadioStackedCard'"} />;
-      }
+      page: () => (
+        <DocPageTemplate
+          importStatement={
+            "import RadioStackedCard from 'bifrost/RadioStackedCard'"
+          }
+        />
+      )
     }
   },
   argTypes: {
@@ -38,6 +49,15 @@ const defaultConfig = {
 };
 const Template = (args) => <RadioStackedCard {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('radiogroup')).toBeVisible();
+  await expect(canvas.queryAllByRole('radio')[0]).toBeChecked();
+  await userEvent.click(canvas.queryAllByRole('radio')[1]);
+  await expect(canvas.queryAllByRole('radio')[1]).toBeChecked();
+  await userEvent.click(canvas.queryAllByRole('radio')[3]);
+  await expect(canvas.queryAllByRole('radio')[1]).toBeChecked();
+};
 Primary.parameters = {
   controls: {}
 };

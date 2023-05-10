@@ -10,7 +10,7 @@ import {
 import { useOnClickOutside } from '@browserstack/hooks';
 import { getTestCasesSearchFilterAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { routeFormatter } from 'utils/helperFunctions';
+import { getFilterOptions, routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -18,6 +18,7 @@ import {
   resetFilterSearchMeta,
   setFilterSearchMeta,
   setMetaPage,
+  setSearchEmptyText,
   setSearchInitiatedURL,
   updateAllTestCases,
   updateFoldersLoading,
@@ -59,19 +60,6 @@ const useFilter = (prop) => {
     dispatch(setFilterSearchMeta(data));
   };
 
-  const getFilterOptions = (thisParams) => {
-    const tags = thisParams.get('tags');
-    const owner = thisParams.get('owner');
-    const priority = thisParams.get('priority');
-    const q = thisParams.get('q');
-    return {
-      tags: tags?.split(',') || [],
-      owner: owner?.split(',') || [],
-      priority: priority?.split(',') || [],
-      q: q || ''
-    };
-  };
-
   const proceedWithLocalFilter = (searchParamsTemp) => {
     prop?.onFilterChange(searchParamsTemp);
     const count = [
@@ -99,6 +87,30 @@ const useFilter = (prop) => {
     return { queryParams, searchParamsTemp };
   };
 
+  const resetFilterAndSearch = (forceClearAll) => {
+    if (forceClearAll) {
+      // clear search and filter
+      dispatch(resetFilterSearchMeta());
+      navigate({
+        pathname:
+          searchInitiatedFromURL ||
+          routeFormatter(AppRoute.TEST_CASES, {
+            projectId
+          })
+      });
+    } else {
+      // clear only filter
+      dispatch(resetFilterMeta());
+      // eslint-disable-next-line no-use-before-define
+      applyFilterHandler({ q: filterSearchMeta?.q }, false, true);
+    }
+
+    if (prop?.onFilterChange) {
+      prop?.onFilterChange({});
+      setAppliedFiltersCount(0);
+    }
+  };
+
   const applyFilterHandler = (metaData, isFilterInvoke, isClearFitlers) => {
     let thisFilterSearchMeta = {};
     const workingMetaData = metaData || filterSearchMeta;
@@ -109,6 +121,10 @@ const useFilter = (prop) => {
       !Object.values({ ...workingMetaData, q: '' }).find((item) => item.length)
     ) {
       // if not filter values then do not continue
+      if (isSearchFilterView) {
+        // if no filters selected and is currently in filter view, reset to test case view
+        resetFilterAndSearch();
+      }
       return;
     }
 
@@ -139,6 +155,13 @@ const useFilter = (prop) => {
         dispatch(setSearchInitiatedURL(location.pathname));
       }
 
+      updateFilterSearchMeta({
+        owner: [],
+        tags: [],
+        priority: [],
+        q: '',
+        ...thisFilterSearchMeta
+      }); // reconfirm the redux states (happens when filter was updated but not applied and user goes to earch and change and hit (or other way around))
       navigate({
         pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
           projectId
@@ -147,29 +170,6 @@ const useFilter = (prop) => {
       });
     }
     setFilter(false);
-  };
-
-  const resetFilterAndSearch = (forceClearAll) => {
-    if (forceClearAll) {
-      // clear search and filter
-      dispatch(resetFilterSearchMeta());
-      navigate({
-        pathname:
-          searchInitiatedFromURL ||
-          routeFormatter(AppRoute.TEST_CASES, {
-            projectId
-          })
-      });
-    } else {
-      // clear only filter
-      dispatch(resetFilterMeta());
-      applyFilterHandler({ q: filterSearchMeta?.q }, false, true);
-    }
-
-    if (prop?.onFilterChange) {
-      prop?.onFilterChange({});
-      setAppliedFiltersCount(0);
-    }
   };
 
   const fetchFilteredCases = (filterOptions, page) => {
@@ -237,11 +237,30 @@ const useFilter = (prop) => {
     }
   };
 
+  // const handleSearchFocus = () => {
+
+  // }
   const searchChangeHandler = (value) => {
     updateFilterSearchMeta({
       ...filterSearchMeta,
       q: value
     });
+    if (!filterSearchMeta?.q)
+      dispatch(setSearchInitiatedURL(location.pathname));
+  };
+
+  const setSearchErrorText = () => {
+    const allKeys = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key of searchParams.keys()) {
+      allKeys.push(key);
+    }
+    if (allKeys.length === 1 && allKeys.includes('q')) {
+      // only search is done
+      dispatch(setSearchEmptyText('Try different keywords.'));
+    } else {
+      dispatch(setSearchEmptyText('Reset the filters or try again.'));
+    }
   };
 
   useEffect(() => {
@@ -272,6 +291,7 @@ const useFilter = (prop) => {
           })
         );
 
+      setSearchErrorText();
       fetchFilteredCases(filterOptions, searchParams?.get('p'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
