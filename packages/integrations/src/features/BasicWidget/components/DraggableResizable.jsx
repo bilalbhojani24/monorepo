@@ -60,7 +60,6 @@ const DraggableResizable = ({ children, position, positionRef }) => {
       });
     }
   }, [
-    dispatch,
     position,
     refAquired,
     windowWidth,
@@ -109,7 +108,6 @@ const DraggableResizable = ({ children, position, positionRef }) => {
 
   return (
     <Draggable
-      className={''.concat(widgetPosition ? '' : 'hidden')}
       ref={widgetRef}
       handle=".drag-handle"
       isBodyBounded
@@ -118,7 +116,9 @@ const DraggableResizable = ({ children, position, positionRef }) => {
     >
       <div
         ref={widgetRef}
-        className="border-base-200 absolute top-0 z-10 overflow-hidden rounded-md border bg-white drop-shadow-lg"
+        className={'border-base-200 absolute top-0 z-10 overflow-hidden rounded-md border bg-white drop-shadow-lg'.concat(
+          widgetPosition ? '' : ' hidden'
+        )}
       >
         <Resizable
           className="relative z-10 flex flex-col items-center overflow-hidden"

@@ -98,7 +98,7 @@ const APIToken = ({
       <div className="sticky bottom-0 mb-1 bg-white pb-2">
         <Button
           variant="primary"
-          wrapperClassName="h-9"
+          wrapperClassName="h-9 flex justify-center items-center"
           fullWidth
           icon={<MdArrowForward className="text-xl text-white" />}
           iconPlacement="end"
