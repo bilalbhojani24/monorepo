@@ -8,7 +8,7 @@ import {
   thumbsUp
 } from './iconsConstants';
 
-export const feedbackType = ['emoji', 'form', 'thumbs', 'nps'];
+export const FEEDBACK_TYPE = ['emoji', 'form', 'thumbs', 'nps'];
 
 export const emojisConstants = [
   {

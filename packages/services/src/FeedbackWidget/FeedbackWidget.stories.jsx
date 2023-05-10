@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
-import {
-  Hyperlink as Link,
-  SelectMenu,
-  SelectMenuLabel,
-  SelectMenuOptionGroup,
-  SelectMenuOptionItem,
-  SelectMenuTrigger
-} from '@browserstack/bifrost';
+import { Button } from '@browserstack/bifrost';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
-import FeedbackSuccess from './components/FeedbackSuccess';
-import { feedbackType } from './const/feedbackWidgetConst';
+import { FEEDBACK_TYPE } from './const/feedbackWidgetConst';
 import FeedbackWidget from './index';
+
+const successIcon = (
+  <svg
+    width="49"
+    height="49"
+    viewBox="0 0 49 49"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="0.5" y="0.5" width="48" height="48" rx="24" fill="#D1FAE5" />
+    <path
+      d="M17.5 25.5L21.5 29.5L31.5 19.5"
+      stroke="#059669"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 const fields = [
   {
@@ -63,8 +74,8 @@ const defaultConfig = {
       defaultValue: 'How was your experience with Lorem Ipsum?'
     },
     type: {
-      options: feedbackType,
-      defaultValue: feedbackType[0]
+      options: FEEDBACK_TYPE,
+      defaultValue: FEEDBACK_TYPE[0]
     }
   },
   controls: {}
@@ -76,77 +87,43 @@ Primary.parameters = {
 };
 
 export default defaultConfig;
-export { Primary };
-
-export const FeedbackSuccessComponent = () => (
-  <FeedbackSuccess
-    icon=""
-    title="Thank you for your feedback!"
-    description={
-      <>
-        <div className="flex flex-col space-y-2">
-          <p>This will help us to improve your experience</p>
-          <p className="flex items-center space-x-1">
-            <span>If you have any queries please</span>
-            <Link
-              href="https://www.browserstack.com/contact"
-              wrapperClassName="text-base-500 underline"
-            >
-              contact us
-            </Link>
-          </p>
-        </div>
-      </>
-    }
-  />
-);
 
 export const ModalFeedbackWidget = () => {
   const [show, setShow] = useState(false);
-  const [currentType, setCurrentType] = useState(feedbackType[0]);
 
   return (
     <>
-      <SelectMenu
-        onChange={(val) => {
-          setCurrentType(val);
+      <Button
+        onClick={() => {
           setShow(true);
         }}
-        value={currentType}
       >
-        <SelectMenuLabel>Select the type of feedback widget</SelectMenuLabel>
-        <SelectMenuTrigger placeholder="Select.." />
-        <SelectMenuOptionGroup>
-          {feedbackType.map((s) => (
-            <SelectMenuOptionItem
-              key={s}
-              option={{
-                label: s,
-                value: s
-              }}
-            />
-          ))}
-        </SelectMenuOptionGroup>
-      </SelectMenu>
-      <SelectMenu>
-        <SelectMenuOptionGroup>
-          {feedbackType.map((s) => (
-            <SelectMenuOptionItem
-              option={{
-                label: s,
-                value: s
-              }}
-            />
-          ))}
-        </SelectMenuOptionGroup>
-      </SelectMenu>
+        Click to open feedback widget
+      </Button>
 
       <FeedbackWidget
         title="How was your experience with Lorem Ipsum?"
         description="Optional description text for added context"
         formFields={fields}
+        flow={[
+          {
+            type: 'nps',
+            title: 'How was your experience with Lorem Ipsum?',
+            description: 'Emoji Optional description text for added context '
+          },
+          {
+            type: 'form',
+            title: 'How was your experience with Lorem Ipsum 1?',
+            description: 'Form Optional description text for added context 1'
+          },
+          {
+            type: 'success',
+            title: 'How was your experience with Lorem Ipsum 2?',
+            description: 'Success Optional description text for added context',
+            icon: successIcon
+          }
+        ]}
         handleFeedbackClick={(i) => console.log(i)}
-        type={currentType.value}
         variationsProps={{
           modal: {
             show

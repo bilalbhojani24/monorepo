@@ -4,77 +4,96 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader,
-  RadioSmallCards
+  ModalHeader
 } from '@browserstack/bifrost';
 
-import { feedbackType, npsConstants } from '../const/feedbackWidgetConst';
+import { FEEDBACK_TYPE, npsConstants } from '../const/feedbackWidgetConst';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
+import FeedbackSuccess from './FeedbackSuccess';
 import FormBuilder from './FormBuilder';
 
 const RenderModal = () => {
   const {
-    formData,
-    title,
     handleFeedbackClick,
-    description,
-    arrayType,
-    type,
+    feedbacktype,
     variationsProps,
-    handleFormSubmit
+    handleClick,
+    handleFormSubmit,
+    finalFeedbackTypeArray
   } = useContext(FeedbackWidgetContextData);
 
-  const [selectedNPS, setSelectedNPS] = useState({});
+  const [selectedNPS, setSelectedNPS] = useState();
+
+  const renderNPSBody = () => (
+    <div className="flex items-center justify-center space-x-2">
+      {npsConstants.map((item) => (
+        <Button
+          key={item.id}
+          colors={selectedNPS === item.id ? 'brand' : 'white'}
+          iconOnly
+          wrapperClassName=""
+          onClick={() => {
+            setSelectedNPS(item.id);
+            handleClick();
+          }}
+        >
+          {item.name}
+        </Button>
+      ))}
+    </div>
+  );
+
+  const renderEmojiThumb = () => (
+    <div className="flex justify-center space-x-1">
+      {finalFeedbackTypeArray().map((item) => (
+        <Button
+          key={item.label}
+          variant="minimal"
+          isIconOnlyButton
+          onClick={() => {
+            handleClick();
+            handleFeedbackClick?.(item);
+          }}
+        >
+          {item.icon}
+        </Button>
+      ))}
+    </div>
+  );
 
   return (
     <Modal {...variationsProps.modal}>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleFormSubmit(formData);
-        }}
-      >
-        <ModalHeader
-          {...variationsProps.modalHeader}
-          heading={title}
-          subHeading={description}
-        />
-        <ModalBody {...variationsProps.modalBody} className="py-4">
-          {[feedbackType[0], feedbackType[2]].includes(type) && (
-            <div className="flex justify-center space-x-1">
-              {arrayType().map((item) => (
-                <Button
-                  key={item.label}
-                  variant="minimal"
-                  isIconOnlyButton
-                  onClick={() => handleFeedbackClick?.(item)}
-                >
-                  {item.icon}
-                </Button>
-              ))}
-            </div>
-          )}
-          {type === 'nps' && (
-            <RadioSmallCards
-              value={selectedNPS}
-              onChange={(e) => {
-                setSelectedNPS(e);
-                handleFeedbackClick?.(e);
-              }}
-              columnWrapperClassName="sm:grid-cols-10 gap-[2px]"
-              cardWrapperClassName="!ring-0"
-              options={npsConstants}
-            />
-          )}
-          {type === 'form' && <FormBuilder />}
-        </ModalBody>
-        {type === 'form' && (
-          <ModalFooter position="right" backgroundColorClass="bg-base-50">
-            <Button type="submit">Submit Feedback</Button>
-          </ModalFooter>
-        )}
-      </form>
+      <ModalHeader
+        {...variationsProps.modalHeader}
+        {...(feedbacktype.type !== 'success' && {
+          heading: feedbacktype.title,
+          subHeading: feedbacktype.description
+        })}
+      />
+
+      <ModalBody {...variationsProps.modalBody} className="py-4">
+        {/* render thumb or emoji view */}
+        {[FEEDBACK_TYPE[0], FEEDBACK_TYPE[2]].includes(feedbacktype.type) &&
+          renderEmojiThumb()}
+
+        {/* render nps(number) view */}
+        {feedbacktype.type === 'nps' && renderNPSBody()}
+
+        {/* render form view */}
+        {feedbacktype.type === 'form' && <FormBuilder />}
+
+        {/* render success view */}
+        {feedbacktype.type === 'success' && <FeedbackSuccess />}
+      </ModalBody>
+
+      {feedbacktype.type === 'form' && (
+        <ModalFooter position="right" backgroundColorClass="bg-base-50">
+          <Button type="submit" onClick={handleFormSubmit}>
+            Submit Feedback
+          </Button>
+        </ModalFooter>
+      )}
     </Modal>
   );
 };

@@ -4,7 +4,7 @@ import { InputField, TextArea } from '@browserstack/bifrost';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
 const FormBuilder = () => {
-  const { fields, formData, setFormData, formError } = useContext(
+  const { formFields, formData, setFormData, formError } = useContext(
     FeedbackWidgetContextData
   );
   const handleChange = (e) => {
@@ -16,7 +16,7 @@ const FormBuilder = () => {
 
   return (
     <div className="space-y-2">
-      {fields.map((field) => {
+      {formFields.map((field) => {
         if (field.fileType === 'textarea')
           return <TextArea {...field} onChange={handleChange} />;
         if (field.fileType === 'input')
