@@ -22,7 +22,7 @@ const link = (
   linkUrl,
   linkText
 ) => {
-  if (linkText?.length > 0)
+  if (linkText)
     return (
       <a
         href="/"
@@ -43,7 +43,7 @@ const link = (
           if (handleLinkClick) handleLinkClick(linkUrl);
         }}
       >
-        {linkText}
+        <div className="inline-flex">{linkText}</div>
       </a>
     );
   return null;
@@ -324,7 +324,7 @@ Alerts.propTypes = {
   accentBorder: PropTypes.bool,
   alertLinkPosition: PropTypes.oneOf(Object.values(ALERT_LINK_POSITION)),
   handleLinkClick: PropTypes.func,
-  linkText: PropTypes.string,
+  linkText: PropTypes.node,
   linkUrl: PropTypes.string,
   show: PropTypes.bool,
   modifier: PropTypes.string,
@@ -361,7 +361,7 @@ Alerts.defaultProps = {
   accentBorder: false,
   alertLinkPosition: 'end',
   handleLinkClick: () => {},
-  linkText: 'Details',
+  linkText: <>Details</>,
   linkUrl: '/',
   show: true,
   description: '',
