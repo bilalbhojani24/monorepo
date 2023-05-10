@@ -50,6 +50,7 @@
     "@browserstack/stylelint-config": "workspace:*",
     "@browserstack/tailwind-config": "workspace:*",
     "@browserstack/utils": "1.2.0",
+    "@browserstack/mcp-shared": "workspace:*",
     "@electron-forge/maker-dmg": "^6.0.5",
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "1.2.2",

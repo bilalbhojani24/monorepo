@@ -1,6 +1,6 @@
 import React from 'react';
 import { Hyperlink } from '@browserstack/bifrost';
-import { formatReportTime } from 'utils/dateUtils';
+import { formatReportTime } from '@browserstack/mcp-shared';
 
 export const recentTestsColumns = [
   {

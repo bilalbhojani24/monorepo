@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
+import {
+  formatDeviceAndAppAnalyticsData,
+  mcpAnalyticsEvent
+} from '@browserstack/mcp-shared';
+import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
 import { getSessionDetails } from 'features/Home';
-import { formatDeviceAndAppAnalyticsData } from 'utils/analyticsDataUtils';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import {
   getIsSessionStopInProgress,

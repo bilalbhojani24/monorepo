@@ -9,11 +9,11 @@ import {
   MdOutlineAnalytics,
   MdTipsAndUpdates
 } from '@browserstack/bifrost';
+import { secondsToMinutes } from '@browserstack/mcp-shared';
 import { twClassNames } from '@browserstack/utils';
 import reportRunningAnimation from 'assets/reportRunningAnimation.gif';
 import reportLoadingAnimation from 'assets/tripleDots.gif';
-import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
-import { secondsToMinutes } from 'utils/dateUtils';
+import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
 
 import { sessionStateTextMap } from '../utils/reportLoadingUtils';
 

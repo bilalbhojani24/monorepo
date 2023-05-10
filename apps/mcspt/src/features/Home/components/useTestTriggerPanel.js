@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
+  formatDeviceAndAppAnalyticsData,
+  mcpAnalyticsEvent
+} from '@browserstack/mcp-shared';
+import {
   getIsUserLoggedIn,
   getTotalAllowedSessions,
   getTotalCompletedSessions
 } from 'features/Dashboard';
-import { formatDeviceAndAppAnalyticsData } from 'utils/analyticsDataUtils';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import {
   getAreApplicationsStillLoading,

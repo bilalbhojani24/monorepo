@@ -1,4 +1,4 @@
-import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
+import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
 
 export const sessionStateTextMap = {
   [REPORT_LOADING_STATES.CONNECTING]: `BrowserStack AppPerformance is warming up...`,

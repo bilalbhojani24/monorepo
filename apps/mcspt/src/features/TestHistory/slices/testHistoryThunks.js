@@ -1,4 +1,11 @@
 import {
+  calculateTestDurationForAnalytics,
+  formatDeviceAndAppAnalyticsData,
+  mcpAnalyticsEvent,
+  setPreviousRouteForReport,
+  updateSessionMetrics
+} from '@browserstack/mcp-shared';
+import {
   fetchSampleSessionById,
   fetchSampleSessions,
   fetchSessionById,
@@ -6,16 +13,7 @@ import {
 } from 'api/testHistory';
 import { setSessionAuthMetaData } from 'features/Dashboard';
 import { fetchConnectedDevices } from 'features/Home';
-import {
-  setPreviousRouteForReport,
-  updateSessionMetrics
-} from 'features/Report';
-import {
-  calculateTestDurationForAnalytics,
-  formatDeviceAndAppAnalyticsData
-} from 'utils/analyticsDataUtils';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
-import { decideCurrentRoute } from 'utils/baseUtils';
+import { decideCurrentRoute } from 'utils/routeUtils';
 
 import {
   setAreSampleReportsLoading,

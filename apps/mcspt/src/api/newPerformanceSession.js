@@ -1,6 +1,5 @@
+import { getBaseUrl } from '@browserstack/mcp-shared';
 import axios from 'axios';
-
-import { getBaseUrl } from './apiUtils';
 
 export const fetchDevices = async (platformName) => {
   const response = await axios.get(`${getBaseUrl()}/${platformName}/devices`);

@@ -1,10 +1,10 @@
+import { mcpAnalyticsEvent } from '@browserstack/mcp-shared';
 import {
   fetchDeviceApplications,
   fetchDevices,
   startSession
 } from 'api/newPerformanceSession';
 import { getPreviousUserSessions } from 'features/TestHistory';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import {
   setAreApplicationsStillLoading,

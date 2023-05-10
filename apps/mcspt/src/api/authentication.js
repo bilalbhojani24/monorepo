@@ -1,6 +1,5 @@
+import { getBaseUrl, getCsptApiUrl } from '@browserstack/mcp-shared';
 import axios from 'axios';
-
-import { getBaseUrl, getCsptApiUrl } from './apiUtils';
 
 export const fetchUserDetails = async (medium) => {
   const config = {};

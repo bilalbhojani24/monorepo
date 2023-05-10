@@ -1,3 +1,4 @@
+import { updateAndInitiateAnalytics } from '@browserstack/mcp-shared';
 import {
   confirmLoginForReverseSync,
   fetchGeneralAnalytics,
@@ -7,8 +8,7 @@ import {
   userLogOut
 } from 'api/authentication';
 import { checkForPreviousUserSessions } from 'features/TestHistory';
-import { updateAndInitiateAnalytics } from 'utils/analyticsUtils';
-import { purgeAmplitudeMemory, reloadRootRoute } from 'utils/baseUtils';
+import { purgeAmplitudeMemory, reloadRootRoute } from 'utils/routeUtils';
 
 import {
   getAuthToken,

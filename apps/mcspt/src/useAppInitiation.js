@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { mcpAnalyticsEvent, useMcpAnalytics } from '@browserstack/mcp-shared';
 import { checkAuthAndSaveUserDetails } from 'features/Dashboard';
-import { mcpAnalyticsEvent, useMcpAnalytics } from 'utils/analyticsUtils';
 
 const useAppInitiation = () => {
   const dispatch = useDispatch();

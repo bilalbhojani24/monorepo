@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CONTACT_US, DEVICE_DETECT_TROUBLESHOOT } from 'constants/docLinks';
-import { HyperlinkWithAnalytics } from 'features/Abstractions';
+import {
+  DOC_LINKS_CONSTANTS,
+  HyperlinkWithAnalytics
+} from '@browserstack/mcp-shared';
 
 import {
   getStartTestError,
@@ -23,9 +25,11 @@ const DeviceLocked = () => (
 
       <HyperlinkWithAnalytics
         wrapperClassName="inline-flex text-sm font-normal leading-5 text-base-500 underline"
-        linkToBeSentToAnalytics={CONTACT_US}
+        linkToBeSentToAnalytics={DOC_LINKS_CONSTANTS.CONTACT_US}
         onClick={() => {
-          window.remoteThreadFunctions?.openUrlInSystemBrowser(CONTACT_US);
+          window.remoteThreadFunctions?.openUrlInSystemBrowser(
+            DOC_LINKS_CONSTANTS.CONTACT_US
+          );
         }}
       >
         contact us.
@@ -49,10 +53,10 @@ const DevModeDisabled = () => (
 
       <HyperlinkWithAnalytics
         wrapperClassName="inline-flex text-sm font-normal leading-5 text-base-500 underline"
-        linkToBeSentToAnalytics={DEVICE_DETECT_TROUBLESHOOT}
+        linkToBeSentToAnalytics={DOC_LINKS_CONSTANTS.DEVICE_DETECT_TROUBLESHOOT}
         onClick={() => {
           window.remoteThreadFunctions?.openUrlInSystemBrowser(
-            DEVICE_DETECT_TROUBLESHOOT
+            DOC_LINKS_CONSTANTS.DEVICE_DETECT_TROUBLESHOOT
           );
         }}
       >
@@ -73,9 +77,11 @@ const GenericError = () => (
 
       <HyperlinkWithAnalytics
         wrapperClassName="inline-flex text-sm font-normal leading-5 text-base-500 underline"
-        linkToBeSentToAnalytics={CONTACT_US}
+        linkToBeSentToAnalytics={DOC_LINKS_CONSTANTS.CONTACT_US}
         onClick={() => {
-          window.remoteThreadFunctions?.openUrlInSystemBrowser(CONTACT_US);
+          window.remoteThreadFunctions?.openUrlInSystemBrowser(
+            DOC_LINKS_CONSTANTS.CONTACT_US
+          );
         }}
       >
         contact us.

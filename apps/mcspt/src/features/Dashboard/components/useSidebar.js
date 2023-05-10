@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { SSO_AUTH_URL } from 'constants/mcpConstants';
+import { MCP_CONSTANTS, mcpAnalyticsEvent } from '@browserstack/mcp-shared';
 import { MCP_ROUTES } from 'constants/routeConstants';
 import { getUserData } from 'features/Dashboard';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const generatePrimaryNavs = (iconMap) => {
   const initialPrimaryNavsrimaryNavs = [
@@ -55,7 +54,9 @@ const useSidebar = (sideNavIcons) => {
   const navigateToPath = useNavigate();
 
   const loginViaSSO = () => {
-    window.remoteThreadFunctions?.openUrlInSystemBrowser(SSO_AUTH_URL);
+    window.remoteThreadFunctions?.openUrlInSystemBrowser(
+      MCP_CONSTANTS.SSO_AUTH_URL
+    );
 
     mcpAnalyticsEvent('csptUserLoginLogoutClick', {
       loginbtn_action: 'login'

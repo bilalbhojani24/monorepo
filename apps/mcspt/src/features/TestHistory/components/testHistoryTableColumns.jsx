@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatReportTime } from 'utils/dateUtils';
+import { formatReportTime } from '@browserstack/mcp-shared';
 
 export const testHistoryTableColumns = [
   {

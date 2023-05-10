@@ -1,6 +1,5 @@
+import { getBaseUrl } from '@browserstack/mcp-shared';
 import axios from 'axios';
-
-import { getBaseUrl } from './apiUtils';
 
 export const fetchSessions = async () => {
   const response = await axios.get(`${getBaseUrl()}/sessions`);

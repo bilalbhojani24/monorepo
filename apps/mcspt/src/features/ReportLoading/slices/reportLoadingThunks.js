@@ -1,17 +1,17 @@
+import {
+  formatDeviceAndAppAnalyticsData,
+  mcpAnalyticsEvent,
+  setPreviousRouteForReport,
+  updateSessionMetrics
+} from '@browserstack/mcp-shared';
 import { fetchSessionStatus, stopSession } from 'api/reportLoading';
-import { REPORT_LOADING_STATES } from 'constants/mcpConstants';
+import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
 import { MCP_ROUTES } from 'constants/routeConstants';
 import {
   getDeviceOfNewPerformanceSession,
   getSelectedApplication,
   resetSessionSetupData
 } from 'features/Home';
-import {
-  setPreviousRouteForReport,
-  updateSessionMetrics
-} from 'features/Report';
-import { formatDeviceAndAppAnalyticsData } from 'utils/analyticsDataUtils';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 import {
   getLatestSessionStatus,

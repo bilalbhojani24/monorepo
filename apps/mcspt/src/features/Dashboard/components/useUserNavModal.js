@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { mcpAnalyticsEvent } from '@browserstack/mcp-shared';
 import { getUserData, logUserOutAndPurgeSessionData } from 'features/Dashboard';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const useUserNavModal = (setShowUserNavModal) => {
   const userData = useSelector(getUserData);

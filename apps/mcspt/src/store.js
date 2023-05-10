@@ -1,3 +1,4 @@
+import { reportReducer } from '@browserstack/mcp-shared';
 import { configureStore } from '@reduxjs/toolkit';
 
 import { authWallReducer } from './features/AuthWall';
@@ -6,7 +7,6 @@ import {
   loadingStateForNewPerformanceSessionReducer,
   newPerformanceSessionReducer
 } from './features/Home';
-import { reportReducer } from './features/Report';
 import { reportLoadingReducer } from './features/ReportLoading';
 import { testHistoryReducer } from './features/TestHistory';
 

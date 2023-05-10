@@ -4,10 +4,12 @@ import {
   MdDeviceUnknown,
   MdOutlineAutorenew
 } from '@browserstack/bifrost';
+import {
+  DOC_LINKS_CONSTANTS,
+  HyperlinkWithAnalytics
+} from '@browserstack/mcp-shared';
 import checkDependeciesBg from 'assets/checkDependeciesBg.svg';
 import dependencyLoader from 'assets/tripleDots.gif';
-import { CONTACT_US, DEVICE_DETECT_TROUBLESHOOT } from 'constants/docLinks';
-import { HyperlinkWithAnalytics } from 'features/Abstractions';
 
 import StartTestErrorModal from './StartTestErrorModal';
 import TestTriggerPanel from './TestTriggerPanel';
@@ -85,10 +87,12 @@ const DependencyChecker = () => {
 
               <HyperlinkWithAnalytics
                 wrapperClassName="inline-flex text-base-600 text-base font-normal leading-6 underline"
-                linkToBeSentToAnalytics={DEVICE_DETECT_TROUBLESHOOT}
+                linkToBeSentToAnalytics={
+                  DOC_LINKS_CONSTANTS.DEVICE_DETECT_TROUBLESHOOT
+                }
                 onClick={() => {
                   window.remoteThreadFunctions?.openUrlInSystemBrowser(
-                    DEVICE_DETECT_TROUBLESHOOT
+                    DOC_LINKS_CONSTANTS.DEVICE_DETECT_TROUBLESHOOT
                   );
                 }}
               >
@@ -99,10 +103,10 @@ const DependencyChecker = () => {
 
               <HyperlinkWithAnalytics
                 wrapperClassName="inline-flex text-base-600 text-base font-normal leading-6 underline"
-                linkToBeSentToAnalytics={CONTACT_US}
+                linkToBeSentToAnalytics={DOC_LINKS_CONSTANTS.CONTACT_US}
                 onClick={() => {
                   window.remoteThreadFunctions?.openUrlInSystemBrowser(
-                    CONTACT_US
+                    DOC_LINKS_CONSTANTS.CONTACT_US
                   );
                 }}
               >

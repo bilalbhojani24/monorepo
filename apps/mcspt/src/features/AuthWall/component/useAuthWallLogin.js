@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
-import { SSO_AUTH_URL } from 'constants/mcpConstants';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
+import { MCP_CONSTANTS, mcpAnalyticsEvent } from '@browserstack/mcp-shared';
 
 const useAuthWallLogin = () => {
   const authLoginButtonClicked = () => {
-    window.remoteThreadFunctions?.openUrlInSystemBrowser(SSO_AUTH_URL);
+    window.remoteThreadFunctions?.openUrlInSystemBrowser(
+      MCP_CONSTANTS.SSO_AUTH_URL
+    );
 
     mcpAnalyticsEvent('csptUserLoginLogoutClick', {
       loginbtn_action: 'login'

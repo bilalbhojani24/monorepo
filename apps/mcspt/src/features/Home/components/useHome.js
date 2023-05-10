@@ -1,9 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  EXISTING_REPORTS_SAMPLE_SWITCH,
-  SSO_AUTH_URL
-} from 'constants/mcpConstants';
+import { MCP_CONSTANTS, mcpAnalyticsEvent } from '@browserstack/mcp-shared';
 import {
   getIsUserLoggedIn,
   getTotalAllowedSessions,
@@ -13,7 +10,6 @@ import {
   checkForPreviousUserSessions,
   getPreviousUserSessions
 } from 'features/TestHistory';
-import { mcpAnalyticsEvent } from 'utils/analyticsUtils';
 
 const useHome = () => {
   const dispatch = useDispatch();
@@ -24,7 +20,9 @@ const useHome = () => {
   const previousUserSessions = useSelector(getPreviousUserSessions);
 
   const loginViaSSO = () => {
-    window.remoteThreadFunctions?.openUrlInSystemBrowser(SSO_AUTH_URL);
+    window.remoteThreadFunctions?.openUrlInSystemBrowser(
+      MCP_CONSTANTS.SSO_AUTH_URL
+    );
 
     mcpAnalyticsEvent('csptUserLoginLogoutClick', {
       loginbtn_action: 'login'
@@ -40,7 +38,8 @@ const useHome = () => {
     totalAllowedSessions,
     loginViaSSO,
     shouldShowExistingSessionsTable:
-      previousUserSessions?.length >= EXISTING_REPORTS_SAMPLE_SWITCH,
+      previousUserSessions?.length >=
+      MCP_CONSTANTS.EXISTING_REPORTS_SAMPLE_SWITCH,
     showAuthBanner:
       !isUserLoggedIn && totalCompletedSessions >= totalAllowedSessions
   };

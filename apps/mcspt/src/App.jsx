@@ -1,5 +1,6 @@
 import React from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
+import { Report } from '@browserstack/mcp-shared';
 import { AuthWall } from 'features/AuthWall';
 import Dashboard, {
   RouteWithoutSidebarWrapper,
@@ -10,7 +11,6 @@ import TestHistory from 'features/TestHistory';
 
 import './api/httpInterceptor';
 
-import Report from './features/Report';
 import ReportLoading from './features/ReportLoading';
 import useAppInitiation from './useAppInitiation';
 
