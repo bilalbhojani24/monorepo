@@ -218,7 +218,11 @@ const Onboarding = () => {
         {/* Header Component */}
         <div className="bg-base-50 px-7 py-6 ">
           {onboardingState > 0 && (
-            <Breadcrumb data={breadcrumbDataTrace} size="default" />
+            <Breadcrumb
+              data={breadcrumbDataTrace}
+              size="default"
+              wrapperClassName="mb-2"
+            />
           )}
 
           <div className="flex justify-between">
