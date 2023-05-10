@@ -71,7 +71,13 @@ const Template = (props) => (
       />
     </FeatureFencingContent>
 
-    <FeatureFencingMedia>Media component</FeatureFencingMedia>
+    <FeatureFencingMedia>
+      <img
+        className="w-full"
+        src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+        alt="Grapefruit slice atop a pile of other slices"
+      />
+    </FeatureFencingMedia>
   </FeatureFencing>
 );
 const Primary = Template.bind({});
