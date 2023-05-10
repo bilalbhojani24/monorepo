@@ -25,6 +25,7 @@ const FolderExplorer = ({
   // disabledFolders // these folders wont be able to be selected/opened
 }) => {
   const {
+    isFetchInProgress,
     isInitialFetchDone,
     selectedNodesId,
     folderClickHandler,
@@ -60,7 +61,7 @@ const FolderExplorer = ({
         </div>
       ) : (
         <>
-          {foldersArray.length ? (
+          {!isFetchInProgress ? (
             <ConrolledNestedTree
               actionOptions={actionOptions}
               foldersArray={foldersArray}

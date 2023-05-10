@@ -19,7 +19,7 @@ importers:
 
   apps/Accessibility:
     specifiers:
-      '@browserstack/bifrost': 4.1.0
+      '@browserstack/bifrost': 4.1.1
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -66,7 +66,7 @@ importers:
       tailwindcss: 3.1.4
       vite: 3.2.5
     dependencies:
-      '@browserstack/bifrost': 4.1.0_zobw7knvwnmbekpfl2eh5i3cpi
+      '@browserstack/bifrost': 4.1.1_zobw7knvwnmbekpfl2eh5i3cpi
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@emotion/react': 11.10.5_jp5qgyg6plq757v5hojp7ls2oe
@@ -270,7 +270,7 @@ importers:
 
   apps/tcm:
     specifiers:
-      '@browserstack/bifrost': 2.2.1
+      '@browserstack/bifrost': 2.2.2
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -313,7 +313,7 @@ importers:
       utils: link:@mui/material/utils
       vite: 3.2.5
     dependencies:
-      '@browserstack/bifrost': 2.2.1_zobw7knvwnmbekpfl2eh5i3cpi
+      '@browserstack/bifrost': 2.2.2_zobw7knvwnmbekpfl2eh5i3cpi
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
       '@emotion/react': 11.10.5_jp5qgyg6plq757v5hojp7ls2oe
@@ -428,7 +428,7 @@ importers:
       wait-on: 7.0.1
     dependencies:
       '@browserstack/hooks': link:../hooks
-      '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
+      '@browserstack/utils': link:../utils
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
       '@internationalized/date': 3.1.0
@@ -2676,8 +2676,8 @@ packages:
       }
     dev: true
 
-  /@browserstack/bifrost/2.2.1_zobw7knvwnmbekpfl2eh5i3cpi:
-    resolution: {integrity: sha512-nSBPht9A2GoHLBT2MHZyFUiYzrgG/HYC6fE2gf5wYpJIf8F4VAhpoYGUxAwY2CDZGLsiIxAfLsoD1wL4HASlCA==, tarball: download/@browserstack/bifrost/2.2.1/13a914f53f0a4cbc626acf5255d14b20c99937a2}
+  /@browserstack/bifrost/2.2.2_zobw7knvwnmbekpfl2eh5i3cpi:
+    resolution: {integrity: sha512-z3JSihIfE6pxx5mWXlwtP1cjPlE9RMV2ZgTycX5zz0y4ZRWGhyXndAT0gBt+V3DfqxxQ2cDFHxxxVr3+QHMxfg==, tarball: download/@browserstack/bifrost/2.2.2/441af856859113ee33fd4719576fc1468cd31165}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
@@ -2688,10 +2688,10 @@ packages:
       '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
-      '@internationalized/date': 3.1.0
+      '@internationalized/date': 3.2.0
       '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
       '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
-      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
       '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
       prop-types: 15.8.1
       react: 18.2.0
@@ -2785,6 +2785,53 @@ packages:
       '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
       '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
       '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1_biqbaboplfbrettd7655fr4n2y
+      react-dom: 18.2.0_react@18.2.0
+      react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
+      react-hot-toast: 2.4.0_owo25xnefcwdq3zjgtohz6dbju
+      react-icons: 4.7.1_react@18.2.0
+      react-player: 2.12.0_react@18.2.0
+      react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
+      react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
+      react-stately: 3.21.0_react@18.2.0
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@sentry/react'
+      - '@sentry/tracing'
+      - '@types/react'
+      - amplitude-js
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-ga4
+      - react-redux
+      - redux-mock-store
+      - socket.io-client
+      - uuid
+    dev: false
+
+  /@browserstack/bifrost/4.1.1_zobw7knvwnmbekpfl2eh5i3cpi:
+    resolution: {integrity: sha512-1Yeo/PKGwlGsC6r/ijzjXujbHVQRruYpQfaIS1z11s1sGebRYCHkDo6OLuTAHhAp7e0r3vRmvKarYYUTwzFETg==, tarball: download/@browserstack/bifrost/4.1.1/652d27779662944e897569df7469e0e8b58bef87}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
+      '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
+      '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
+      '@heroicons/react': 2.0.13_react@18.2.0
+      '@internationalized/date': 3.2.0
+      '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
       '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
       prop-types: 15.8.1
       react: 18.2.0
@@ -5842,7 +5889,7 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@internationalized/date': 3.1.0
+      '@internationalized/date': 3.2.0
       '@react-aria/i18n': 3.7.0_react@18.2.0
       '@react-aria/interactions': 3.14.0_react@18.2.0
       '@react-aria/live-announcer': 3.2.0
@@ -5883,7 +5930,7 @@ packages:
       '@react-aria/listbox': 3.8.1_react@18.2.0
       '@react-aria/live-announcer': 3.2.0
       '@react-aria/menu': 3.8.1_biqbaboplfbrettd7655fr4n2y
-      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
       '@react-aria/selection': 3.13.1_react@18.2.0
       '@react-aria/textfield': 3.9.0_react@18.2.0
       '@react-aria/utils': 3.15.0_react@18.2.0
@@ -5904,7 +5951,7 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@internationalized/date': 3.1.0
+      '@internationalized/date': 3.2.0
       '@internationalized/number': 3.2.0
       '@internationalized/string': 3.1.0
       '@react-aria/focus': 3.11.0_react@18.2.0
@@ -5930,7 +5977,7 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
       '@react-aria/focus': 3.11.0_react@18.2.0
-      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
       '@react-aria/utils': 3.15.0_react@18.2.0
       '@react-stately/overlays': 3.5.0_react@18.2.0
       '@react-types/dialog': 3.5.0_react@18.2.0
@@ -5951,7 +5998,7 @@ packages:
       '@react-aria/i18n': 3.7.0_react@18.2.0
       '@react-aria/interactions': 3.14.0_react@18.2.0
       '@react-aria/live-announcer': 3.2.0
-      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
       '@react-aria/utils': 3.15.0_react@18.2.0
       '@react-aria/visually-hidden': 3.7.0_react@18.2.0
       '@react-stately/dnd': 3.1.0_react@18.2.0
@@ -6039,7 +6086,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@internationalized/date': 3.1.0
+      '@internationalized/date': 3.2.0
       '@internationalized/message': 3.1.0
       '@internationalized/number': 3.2.0
       '@internationalized/string': 3.1.0
@@ -6153,7 +6200,7 @@ packages:
     dependencies:
       '@react-aria/i18n': 3.7.1_react@18.2.0
       '@react-aria/interactions': 3.15.0_react@18.2.0
-      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
       '@react-aria/selection': 3.13.1_react@18.2.0
       '@react-aria/utils': 3.16.0_react@18.2.0
       '@react-stately/collections': 3.6.0_react@18.2.0
@@ -6589,7 +6636,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       '@swc/helpers': 0.4.14
       react: 18.2.0
     dev: false
@@ -6652,7 +6699,7 @@ packages:
     dependencies:
       '@react-stately/selection': 3.12.0_react@18.2.0
       '@react-types/grid': 3.1.6_react@18.2.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       '@swc/helpers': 0.4.14
       react: 18.2.0
     dev: false
@@ -6679,7 +6726,7 @@ packages:
       '@react-stately/collections': 3.6.0_react@18.2.0
       '@react-stately/selection': 3.12.0_react@18.2.0
       '@react-stately/utils': 3.6.0_react@18.2.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       '@swc/helpers': 0.4.14
       react: 18.2.0
     dev: false
@@ -6810,7 +6857,7 @@ packages:
       '@react-stately/grid': 3.5.0_react@18.2.0
       '@react-stately/selection': 3.12.0_react@18.2.0
       '@react-types/grid': 3.1.6_react@18.2.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       '@react-types/table': 3.5.0_react@18.2.0
       '@swc/helpers': 0.4.14
       react: 18.2.0
@@ -6835,7 +6882,7 @@ packages:
     dependencies:
       '@react-stately/utils': 3.6.0_react@18.2.0
       '@react-types/checkbox': 3.4.2_react@18.2.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       '@swc/helpers': 0.4.14
       react: 18.2.0
     dev: false
@@ -6845,7 +6892,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-stately/overlays': 3.5.0_react@18.2.0
+      '@react-stately/overlays': 3.5.1_react@18.2.0
       '@react-stately/utils': 3.6.0_react@18.2.0
       '@react-types/tooltip': 3.3.0_react@18.2.0
       '@swc/helpers': 0.4.14
@@ -6860,7 +6907,7 @@ packages:
       '@react-stately/collections': 3.6.0_react@18.2.0
       '@react-stately/selection': 3.12.0_react@18.2.0
       '@react-stately/utils': 3.6.0_react@18.2.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       '@swc/helpers': 0.4.14
       react: 18.2.0
     dev: false
@@ -6924,8 +6971,8 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@internationalized/date': 3.1.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@internationalized/date': 3.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -6934,7 +6981,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -6943,7 +6990,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -6952,9 +6999,9 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@internationalized/date': 3.1.0
-      '@react-types/overlays': 3.7.0_react@18.2.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@internationalized/date': 3.2.0
+      '@react-types/overlays': 3.7.1_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -6973,7 +7020,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -7010,8 +7057,8 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/overlays': 3.7.0_react@18.2.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/overlays': 3.7.1_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -7030,7 +7077,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -7069,7 +7116,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -7078,7 +7125,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       '@react-types/textfield': 3.7.0_react@18.2.0
       react: 18.2.0
     dev: false
@@ -7088,7 +7135,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -7116,7 +7163,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -7136,7 +7183,7 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
       '@react-types/grid': 3.1.6_react@18.2.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -7145,7 +7192,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -7154,7 +7201,7 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -7163,8 +7210,8 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0
     dependencies:
-      '@react-types/overlays': 3.7.0_react@18.2.0
-      '@react-types/shared': 3.17.0_react@18.2.0
+      '@react-types/overlays': 3.7.1_react@18.2.0
+      '@react-types/shared': 3.18.0_react@18.2.0
       react: 18.2.0
     dev: false
 
@@ -10286,7 +10333,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.1.4_postcss@8.4.20
+      tailwindcss: 3.1.4_postcss@8.4.21
 
   /@tailwindcss/line-clamp/0.4.2_tailwindcss@3.1.4:
     resolution:
@@ -26010,6 +26057,7 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
+    dev: true
 
   /postcss-import/14.1.0_postcss@8.4.21:
     resolution:
@@ -26054,6 +26102,7 @@ packages:
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.20
+    dev: true
 
   /postcss-js/4.0.1_postcss@8.4.21:
     resolution:
@@ -26109,6 +26158,7 @@ packages:
       lilconfig: 2.0.6
       postcss: 8.4.20
       yaml: 1.10.2
+    dev: true
 
   /postcss-load-config/3.1.4_postcss@8.4.21:
     resolution:
@@ -26434,6 +26484,7 @@ packages:
     dependencies:
       postcss: 8.4.20
       postcss-selector-parser: 6.0.11
+    dev: true
 
   /postcss-nested/5.0.6_postcss@8.4.21:
     resolution:
@@ -26458,7 +26509,6 @@ packages:
     dependencies:
       postcss: 8.4.21
       postcss-selector-parser: 6.0.11
-    dev: false
 
   /postcss-nesting/10.2.0_postcss@8.4.20:
     resolution:
@@ -27061,6 +27111,7 @@ packages:
       nanoid: 3.3.4
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: true
 
   /postcss/8.4.21:
     resolution:
@@ -28240,7 +28291,7 @@ packages:
       semver: 7.3.8
       source-map-loader: 3.0.2_webpack@5.75.0
       style-loader: 3.3.1_webpack@5.75.0
-      tailwindcss: 3.1.4_postcss@8.4.21
+      tailwindcss: 3.2.6_postcss@8.4.21
       terser-webpack-plugin: 5.3.6_webpack@5.75.0
       typescript: 4.9.5
       webpack: 5.75.0
@@ -31250,6 +31301,7 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
+    dev: true
 
   /tailwindcss/3.1.4_postcss@8.4.21:
     resolution: {integrity: sha512-NrxbFV4tYsga/hpWbRyUfIaBrNMXDxx5BsHgBS4v5tlyjf+sDsgBg5m9OxjrXIqAS/uR9kicxLKP+bEHI7BSeQ==}
@@ -31315,7 +31367,6 @@ packages:
       resolve: 1.22.1
     transitivePeerDependencies:
       - ts-node
-    dev: false
 
   /tapable/0.1.10:
     resolution:
