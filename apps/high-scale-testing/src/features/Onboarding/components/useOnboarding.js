@@ -47,7 +47,7 @@ const useOnboarding = () => {
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
   const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
   const [onboardingState, setOnboardingState] = useState(0);
-  const [onboardingType, setOnboardingType] = useState('existing');
+  const [onboardingType, setOnboardingType] = useState('scratch');
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
