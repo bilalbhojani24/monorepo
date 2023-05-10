@@ -98,6 +98,9 @@ const DraggableResizable = ({ children, position, positionRef }) => {
     dispatch(setWidgetHeightInRedux({ height: size.height }));
   };
 
+  const bodyObservedHeight =
+    bodyResizeObserver.blockSize || bodyResizeObserver.blockSize.height;
+
   // adjusts height of the widget in case there's any
   // change in the body height
   useEffect(() => {
@@ -122,7 +125,7 @@ const DraggableResizable = ({ children, position, positionRef }) => {
     dispatch,
     windowHeight,
     widgetDimensions.height,
-    bodyResizeObserver.blockSize,
+    bodyObservedHeight,
     widgetInitialHeight
   ]);
 
