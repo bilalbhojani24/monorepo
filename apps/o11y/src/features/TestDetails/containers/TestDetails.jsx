@@ -27,7 +27,7 @@ const TestDetails = ({ source }) => {
   const isVisible = useSelector(getIsTestDetailsVisible);
   const activeProject = useSelector(getActiveProject);
   const testId = useSelector(getShowTestDetailsFor);
-  const currentTestRunId = useSelector(getCurrentTestRunId); // #TODO: CHECK behaviour
+  const currentTestRunId = useSelector(getCurrentTestRunId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

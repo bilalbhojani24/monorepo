@@ -30,7 +30,7 @@ const ComboboxOptionItem = forwardRef(
         value={option}
         className={({ active, selected }) =>
           twClassNames(
-            'group relative cursor-pointer select-none py-2 pl-3 pr-9',
+            'group relative cursor-pointer select-none py-2 pl-3 pr-9 text-sm',
             active && !isMulti ? 'bg-brand-600 text-white' : 'text-base-900',
             {
               'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1] && !isMulti,

@@ -49,5 +49,21 @@ export const useTabs = (containerRef, tabsArray, isSlideableTabs) => {
     setScrollPos(newScrollPos);
   };
 
-  return { isOverflowed, scroll, handleScroll, disablePrev, disableNext };
+  const scrollOnMount = (element) => {
+    const container = containerRef.current;
+    const currentRef = element.current;
+    container.scrollTo({
+      left: currentRef.offsetLeft - 50,
+      behavior: 'smooth'
+    });
+  };
+
+  return {
+    isOverflowed,
+    scroll,
+    handleScroll,
+    disablePrev,
+    disableNext,
+    scrollOnMount
+  };
 };
