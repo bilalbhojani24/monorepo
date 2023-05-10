@@ -99,7 +99,7 @@ const DraggableResizable = ({ children, position, positionRef }) => {
   };
 
   const bodyObservedHeight =
-    bodyResizeObserver.blockSize || bodyResizeObserver.blockSize.height;
+    bodyResizeObserver?.blockSize || bodyResizeObserver?.height;
 
   // adjusts height of the widget in case there's any
   // change in the body height
