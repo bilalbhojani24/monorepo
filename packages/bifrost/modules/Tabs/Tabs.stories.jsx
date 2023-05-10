@@ -133,6 +133,6 @@ const slidableTabs = [
 
 export const SlidableTabs = () => (
   <>
-    <Tabs tabsArray={slidableTabs} isSlideableTabs />
+    <Tabs tabsArray={slidableTabs} isSlideableTabs defaultIndex={10} />
   </>
 );

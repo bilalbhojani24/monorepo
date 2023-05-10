@@ -70,7 +70,7 @@ const ComboboxBadgeTrigger = ({
       <Combobox.Button
         as="div"
         className={twClassNames(
-          'cursor-pointer border-base-300 relative flex items-center border px-2 py-1.5 rounded-md',
+          'cursor-pointer border-base-300 relative flex items-center border px-2 py-1.5 rounded-md text-sm leading-6',
           {
             'focus-within:border-brand-500 focus-within:ring-1 focus-within:outline-none focus-within:ring-brand-500':
               !disabled,
@@ -119,7 +119,7 @@ const ComboboxBadgeTrigger = ({
                 placeholder: isLoading ? null : placeholder
               })}
               className={twClassNames(
-                'cursor-pointer focus:ring-0 focus-outline-0 focus-border-none border-0 sm:text-sm p-0 w-full',
+                'cursor-pointer focus:ring-0 focus-outline-0 focus-border-none border-0 sm:text-sm p-0 w-full text-sm',
                 {
                   'border-base-200 bg-base-50 text-base-500': disabled
                 }

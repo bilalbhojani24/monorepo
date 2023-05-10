@@ -3,7 +3,9 @@ const STAGING_CONFIG = (envName) => ({
   signOutUrl: `https://${envName}.bsstag.com/users/sign_out`,
   apiUrl: 'https://devtestops-api.bsstag.com',
   baseUrl: 'https://devtestops.bsstag.com',
-  withCredentials: true
+  withCredentials: true,
+  integrationsBaseUrl: 'https://integrations-preprod.bsstag.com',
+  useIntegrationsPreProdAuth: true
 });
 
 export default {
@@ -13,6 +15,8 @@ export default {
     apiUrl: 'https://localhost:8082/testops',
     baseUrl: STAGING_CONFIG('').baseUrl,
     withCredentials: false,
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
+    useIntegrationsPreProdAuth: true,
     isMocker: true
   },
   'local-staging': {
@@ -20,7 +24,9 @@ export default {
     signOutUrl: STAGING_CONFIG('devtestops').signOutUrl,
     baseUrl: STAGING_CONFIG('').baseUrl,
     apiUrl: STAGING_CONFIG('').apiUrl,
-    withCredentials: true
+    withCredentials: true,
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
+    useIntegrationsPreProdAuth: true
   },
   staging: {
     ...STAGING_CONFIG('devtestops')
@@ -37,7 +43,9 @@ export default {
     signOutUrl: 'https://preprod.bsstag.com/users/sign_out',
     apiUrl: 'https://api-observability-preprod.bsstag.com',
     baseUrl: 'https://preprod.bsstag.com',
-    withCredentials: true
+    withCredentials: true,
+    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
+    useIntegrationsPreProdAuth: false
   },
   production: {
     signInUrl:
@@ -47,7 +55,9 @@ export default {
     baseUrl: 'https://browserstack.com',
     withCredentials: true,
     enableAnalytics: true,
+    integrationsBaseUrl: '',
     disableLogs: true,
+    useIntegrationsPreProdAuth: false,
     enableSentry: true
   }
 };

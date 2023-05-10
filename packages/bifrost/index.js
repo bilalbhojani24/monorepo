@@ -20,6 +20,7 @@ import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
 import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
 import DataVisualization from './modules/DataVisualization/index';
+import DateRangepicker from './modules/DateRangepicker';
 import DescriptionList from './modules/DescriptionList/index';
 import DescriptionListBody from './modules/DescriptionListBody/index';
 import DescriptionListHeader from './modules/DescriptionListHeader/index';
@@ -45,6 +46,7 @@ import InputGroupButton from './modules/InputField/components/InputGroupButton';
 import InputGroupSelectMenuTrigger from './modules/InputField/components/InputGroupSelectMenuTrigger';
 import InputField from './modules/InputField/index';
 import KeyValue from './modules/KeyValuePair/index';
+import ListFeedsNode from './modules/ListFeedsNode/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
@@ -137,6 +139,7 @@ export {
   ComboboxOptionItem,
   ComboboxTrigger,
   DataVisualization,
+  DateRangepicker,
   DescriptionList,
   DescriptionListBody,
   DescriptionListHeader,
@@ -162,6 +165,7 @@ export {
   InputGroupButton,
   InputGroupSelectMenuTrigger,
   KeyValue,
+  ListFeedsNode,
   ListTree,
   listTreeCheckboxHelper,
   ListTreeNode,

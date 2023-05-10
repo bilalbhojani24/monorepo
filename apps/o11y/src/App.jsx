@@ -12,6 +12,7 @@ import {
   setErrorLoggerUserContext
 } from '@browserstack/utils';
 import { getPusherConfig } from 'api/global';
+import ErrorBoundary from 'common/ErrorBoundary';
 import GenericErrorPage from 'common/GenericErrorPage';
 import ModalToShow from 'common/ModalToShow';
 import { o11yHistory, PORTAL_ID } from 'constants/common';
@@ -136,7 +137,7 @@ const App = () => {
       window.isSentryInitialized = true;
       initErrorLogger({
         dsn: SENTRY_DSN,
-        debug: true,
+        debug: false,
         release: 'v0.1-o11y',
         environment: 'production',
         tracesSampleRate: 1.0
@@ -160,7 +161,7 @@ const App = () => {
     )}`
   );
   return (
-    <>
+    <ErrorBoundary>
       {Routes}
       <ModalToShow />
       {portalize(
@@ -170,7 +171,7 @@ const App = () => {
         </div>,
         PORTAL_ID
       )}
-    </>
+    </ErrorBoundary>
   );
 };
 
