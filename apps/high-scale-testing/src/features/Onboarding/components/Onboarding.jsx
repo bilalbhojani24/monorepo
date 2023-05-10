@@ -23,6 +23,7 @@ import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
   const {
+    breadcrumbDataTrace,
     continueClickHandler,
     headerText,
     onboardingState,
@@ -78,22 +79,7 @@ const Onboarding = () => {
         {/* Header Component */}
         <div className="bg-base-50 px-7 py-6 ">
           {onboardingState > 0 && (
-            <Breadcrumb
-              data={[
-                {
-                  current: false,
-
-                  name: 'Setup Guide',
-                  url: '/onboarding'
-                },
-                {
-                  current: false,
-                  name: 'Create Automation Grid from Scratch',
-                  url: '/'
-                }
-              ]}
-              size="default"
-            />
+            <Breadcrumb data={breadcrumbDataTrace} size="default" />
           )}
 
           <div className="flex justify-between">

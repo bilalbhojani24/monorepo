@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 
 const useOnboarding = () => {
+  // All Constants:
   const HEADER_TEXTS_OBJECT = {
     intro: 'Hey John Doe, Welcome to High Scale Testing',
     scratch: 'Create Automation Grid',
@@ -36,20 +37,24 @@ const useOnboarding = () => {
     }
   ];
 
-  const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
+  // All State variables:
+  const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
   const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
+  const [onboardingState, setOnboardingState] = useState(0);
+  const [onboardingType, setOnboardingType] = useState('existing');
+  const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
   );
-  const [onboardingState, setOnboardingState] = useState(0);
-  const [onboardingType, setOnboardingType] = useState('existing');
 
+  // All functions:
   const continueClickHandler = () => {
     console.group('Log: continueClickHandler');
     setOnboardingState(1);
     console.groupEnd('Log: continueClickHandler');
   };
 
+  // All useEffects:
   useEffect(() => {
     if (onboardingState > 0) {
       setHeaderText(HEADER_TEXTS_OBJECT[onboardingType]);
@@ -62,13 +67,40 @@ const useOnboarding = () => {
     console.log('Log: selectedOption has changed to:', selectedOption);
     if (selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label) {
       setOnboardingType('scratch');
+      setBreadcrumbDataTrace([
+        {
+          current: false,
+
+          name: 'Setup Guide',
+          url: '/onboarding'
+        },
+        {
+          current: false,
+          name: 'Create Automation Grid from Scratch',
+          url: '/'
+        }
+      ]);
     } else {
       setOnboardingType('existing');
+      setBreadcrumbDataTrace([
+        {
+          current: false,
+
+          name: 'Setup Guide',
+          url: '/onboarding'
+        },
+        {
+          current: false,
+          name: 'Create Automation Grid in existing Kubernetes setup',
+          url: '/'
+        }
+      ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption]);
 
   return {
+    breadcrumbDataTrace,
     continueClickHandler,
     headerText,
     onboardingState,
