@@ -21,25 +21,22 @@ const DraggableContainer = ({ children, position, positionRef }) => {
     width: DEFAULT_WIDGET_DIMENSIONS.MIN[1]
   });
 
-  useEffect(
-    (prevDim) => {
-      const widgetRect = widgetRef.current?.getBoundingClientRect() || {};
-      let { height, width } = widgetRect;
-      width =
-        width < DEFAULT_WIDGET_DIMENSIONS.MIN[0]
-          ? DEFAULT_WIDGET_DIMENSIONS.MIN[0]
-          : height;
-      height =
-        height < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
-          ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
-          : height;
+  // looks at width and heightrelated changes of the container so that
+  // widget renders properly with the body
+  useEffect(() => {
+    const widgetRect = widgetRef.current?.getBoundingClientRect() || {};
+    let { height, width } = widgetRect;
+    width =
+      width < DEFAULT_WIDGET_DIMENSIONS.MIN[0]
+        ? DEFAULT_WIDGET_DIMENSIONS.MIN[0]
+        : height;
+    height =
+      height < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+        ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+        : height;
 
-      if (prevDim?.height !== height || prevDim?.width !== width) {
-        setWidgetDimensions({ height, width });
-      }
-    },
-    [widgetResizeObserver]
-  );
+    setWidgetDimensions({ height, width });
+  }, [widgetResizeObserver]);
 
   useEffect(() => {
     setRefAquired(true);
@@ -96,7 +93,7 @@ const DraggableContainer = ({ children, position, positionRef }) => {
     >
       <div
         ref={widgetRef}
-        className={'border-base-200 absolute top-0 z-10 flex flex-col overflow-hidden rounded-md border border-solid drop-shadow-lg'.concat(
+        className={'border-base-200 absolute top-0 z-10 flex flex-col overflow-hidden rounded-md border border-solid transform-gpu drop-shadow-lg'.concat(
           widgetPosition ? '' : ' hidden'
         )}
         style={{
