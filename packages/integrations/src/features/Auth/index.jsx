@@ -66,6 +66,7 @@ const IntegrationAuth = ({
         } else if (attempt === pollTimers.current.length) {
           // clear timers queue
           pollTimers.current = [];
+          metricsPayload.error_message = response?.data?.error_message;
           analyticsEvent(ANALYTICS_EVENTS.AUTH_ERROR, metricsPayload);
           setHasOAuthFailed(true);
           dispatch(
