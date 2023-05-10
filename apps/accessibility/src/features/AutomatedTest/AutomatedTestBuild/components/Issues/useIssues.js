@@ -261,6 +261,33 @@ export default function useIssues() {
     navigate(`?${updatedPath}`);
   };
 
+  const onNextClick = () => {
+    if (activeIssueIndex < maxLimit) {
+      const newIndex = activeIssueIndex + 1;
+      dispatch(setActiveIssueIndex(newIndex));
+      const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
+      navigate(`?${path}`);
+    }
+  };
+
+  const onPreviousClick = () => {
+    if (activeIssueIndex > 0) {
+      const newIndex = activeIssueIndex - 1;
+      dispatch(setActiveIssueIndex(newIndex));
+      const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
+      navigate(`?${path}`);
+    }
+  };
+
+  const onIssueCloseClick = () => {
+    dispatch(setIsShowingIssue(false));
+    const path = updateUrlWithQueryParam({
+      activeIssueIndex: 0,
+      isShowingIssue: false
+    });
+    navigate(`?${path}`);
+  };
+
   // const onTagClose = (key) => {
   //   // if (key === 'all') {
   //   //   dispatch(resetFilters());
@@ -315,6 +342,9 @@ export default function useIssues() {
     sectionData,
     showHiddenIssues,
     activeSwitch,
+    onNextClick,
+    onPreviousClick,
+    onIssueCloseClick,
     onUpdateSwitch,
     onApplyFilters,
     onUpdateImpact,
