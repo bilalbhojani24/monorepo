@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -6,8 +6,14 @@ import Button from '../Button';
 import { FEATURE_FENCING_SIZES } from '../FeatureFencing/const';
 import { useFeatureFencingContext } from '../FeatureFencing/context';
 import HyperLink from '../Hyperlink';
+import { MdOpenInNew } from '../Icon';
 
-import { FEATURE_FENCING_ACTIONS_ALIGNMENT } from './const';
+import {
+  CTA_BUTTON_SIZES,
+  FEATURE_FENCING_ACTIONS_ALIGNMENT,
+  LEARN_MORE_TEXT_STYLES,
+  OPEN_IN_NEW_ICON_STYLES
+} from './const';
 
 const FeatureFencingActions = (props) => {
   const { ctaText, alignment, learnMoreLink, onCTAClick, onLearnMoreClick } =
@@ -15,37 +21,41 @@ const FeatureFencingActions = (props) => {
 
   const { size } = useFeatureFencingContext();
 
-  const ctaBtnSize = useMemo(() => {
-    switch (size) {
-      case FEATURE_FENCING_SIZES.SM:
-        return 'extra-small';
-      case FEATURE_FENCING_SIZES.BASE:
-        return 'small';
-      case FEATURE_FENCING_SIZES.XL:
-        return 'extra-large';
-      default:
-        return 'extra-small';
-    }
-  }, [size]);
-
   return (
     <div
       className={twClassNames('flex items-center', {
         'justify-center':
           alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.CENTER,
-        'justify-start': alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT
+        'justify-start': alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT,
+
+        'gap-6': FEATURE_FENCING_SIZES.SM || FEATURE_FENCING_SIZES.BASE,
+        'gap-9': FEATURE_FENCING_SIZES.XL
       })}
     >
-      <Button onClick={onCTAClick} size={ctaBtnSize}>
+      <Button onClick={onCTAClick} size={CTA_BUTTON_SIZES[size]}>
         {ctaText}
       </Button>
       <HyperLink
         href={learnMoreLink}
         onClick={onLearnMoreClick}
         target="_blank"
-        wrapperClassName=""
+        wrapperClassName="text-base-700"
       >
-        {learnMoreLink}
+        <span
+          className={twClassNames(
+            'leading-4 font-medium',
+            LEARN_MORE_TEXT_STYLES[size],
+            {
+              'mr-1.5': FEATURE_FENCING_SIZES.SM || FEATURE_FENCING_SIZES.BASE,
+              'mr-2': FEATURE_FENCING_SIZES.XL
+            }
+          )}
+        >
+          Learn more
+        </span>
+        <MdOpenInNew
+          className={twClassNames('', OPEN_IN_NEW_ICON_STYLES[size])}
+        />
       </HyperLink>
     </div>
   );

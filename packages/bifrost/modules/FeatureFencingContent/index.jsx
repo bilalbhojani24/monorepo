@@ -5,20 +5,41 @@ import PropTypes from 'prop-types';
 import { FEATURE_FENCING_SIZES } from '../FeatureFencing/const';
 import { useFeatureFencingContext } from '../FeatureFencing/context';
 
-const CONTENT_PADDING = {
-  [FEATURE_FENCING_SIZES.SM]: 'px-5 pt-9 pb-7',
-  [FEATURE_FENCING_SIZES.BASE]: 'px-9 py-12',
-  [FEATURE_FENCING_SIZES.XL]: 'px-15 py-20'
-};
+import { CONTENT_PADDING, DESCRIPTION_STYLES, HEADER_STYLES } from './const';
 
 const FeatureFencingContent = ({ children, header, description }) => {
   const { size } = useFeatureFencingContext();
 
   return (
     <div className={twClassNames('flex-1', CONTENT_PADDING[size], {})}>
-      <p className="">{header}</p>
-      <p className="">{description}</p>
-      <div className="">{children}</div>
+      <p
+        className={twClassNames(
+          'text-base-900 font-semibold',
+          HEADER_STYLES[size]
+        )}
+      >
+        {header}
+      </p>
+      <p
+        className={twClassNames(
+          'text-base-500 font-normal',
+          DESCRIPTION_STYLES[size],
+          {
+            'mt-1.5': FEATURE_FENCING_SIZES.SM || FEATURE_FENCING_SIZES.BASE,
+            'mt-2': FEATURE_FENCING_SIZES.XL
+          }
+        )}
+      >
+        {description}
+      </p>
+      <div
+        className={twClassNames({
+          'mt-6': FEATURE_FENCING_SIZES.SM || FEATURE_FENCING_SIZES.BASE,
+          'mt-9': FEATURE_FENCING_SIZES.XL
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 };

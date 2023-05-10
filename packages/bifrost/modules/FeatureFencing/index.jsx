@@ -1,27 +1,21 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import { MdClose } from '../Icon';
 
-import { FEATURE_FENCING_SIZES, WIDTH_STYLES } from './const';
+import {
+  CLOSE_BUTTON_SIZES,
+  FEATURE_FENCING_SIZES,
+  WIDTH_STYLES
+} from './const';
 import { FEATURE_FENCING_CONTEXT } from './context';
 
 const FeatureFencing = (props) => {
   const { children, isDismissable, size } = props;
 
   const [hasMediaNode, setHasMediaNode] = useState(false);
-
-  const closeButtonSize = useMemo(() => {
-    switch (size) {
-      case FEATURE_FENCING_SIZES.BASE:
-      case FEATURE_FENCING_SIZES.SM:
-        return 'extra-small';
-      default:
-        return 'extra-large';
-    }
-  }, [size]);
 
   return (
     <FEATURE_FENCING_CONTEXT.Provider
@@ -35,11 +29,16 @@ const FeatureFencing = (props) => {
         {isDismissable && (
           <Button
             wrapperClassName={twClassNames('absolute top-0 right-0', {
-              '': hasMediaNode
+              'border-0 shadow-none':
+                !hasMediaNode || size === FEATURE_FENCING_SIZES.SM,
+              'top-2 right-4': size === FEATURE_FENCING_SIZES.SM,
+              'top-3 right-4': size === FEATURE_FENCING_SIZES.BASE,
+              'top-5 right-6': size === FEATURE_FENCING_SIZES.XL
             })}
             isIconOnlyButton
-            size={closeButtonSize}
+            size={CLOSE_BUTTON_SIZES[size]}
             icon={<MdClose className="h-full w-full" />}
+            colors="white"
           />
         )}
       </div>
