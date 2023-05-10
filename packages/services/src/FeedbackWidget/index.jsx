@@ -31,8 +31,8 @@ const FeedbackWidget = ({
   });
 
   const renderVariation = () => {
-    if (variation === 'modal') return <RenderModal />;
-    if (variation === 'toast') return <RenderToast />;
+    if (variation === VARIATIONS[0]) return <RenderModal />;
+    if (variation === VARIATIONS[1]) return <RenderToast />;
     return null;
   };
 
