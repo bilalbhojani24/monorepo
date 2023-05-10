@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import Button from '../Button';
@@ -8,17 +9,11 @@ import { FEATURE_FENCING_SIZES } from './const';
 import { FEATURE_FENCING_CONTEXT } from './context';
 
 const FeatureFencing = (props) => {
-  const {
-    children,
-    // isDismissable,
-    size,
-    header,
-    description
-  } = props;
+  const { children, isDismissable, size } = props;
 
-  // const [hasMediaNode, setHasMediaNode] = useState(false);
+  const [hasMediaNode, setHasMediaNode] = useState(false);
 
-  const buttonSize = useMemo(() => {
+  const closeButtonSize = useMemo(() => {
     switch (size) {
       case FEATURE_FENCING_SIZES.BASE:
       case FEATURE_FENCING_SIZES.SM:
@@ -32,52 +27,34 @@ const FeatureFencing = (props) => {
     <FEATURE_FENCING_CONTEXT.Provider
       value={{
         size,
-        header,
-        description
-        // setHasMediaNode
+        setHasMediaNode
       }}
     >
-      <div className="relative h-20 shadow">
+      <div className="relative flex h-40 shadow">
         {children}
-        <Button
-          wrapperClassName="absolute top-0 right-0"
-          isIconOnlyButton
-          size={buttonSize}
-          icon={<MdClose className="h-full w-full" />}
-        />
+        {isDismissable && (
+          <Button
+            wrapperClassName={twClassNames('absolute top-0 right-0', {
+              '': hasMediaNode
+            })}
+            isIconOnlyButton
+            size={closeButtonSize}
+            icon={<MdClose className="h-full w-full" />}
+          />
+        )}
       </div>
     </FEATURE_FENCING_CONTEXT.Provider>
   );
 };
 
 FeatureFencing.propTypes = {
-  // isDismissable: PropTypes.bool,
+  isDismissable: PropTypes.bool,
   size: PropTypes.oneOf(Object.values(FEATURE_FENCING_SIZES)),
-  header: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired
 };
 FeatureFencing.defaultProps = {
-  // isDismissable: false,
+  isDismissable: true,
   size: FEATURE_FENCING_SIZES.SM
 };
 
 export default FeatureFencing;
-
-/* <FeatureFencing header={} description={} isDismissable={true} size={"sm"} wrapperClassName="">
-  <FeatureFencingMedia wrapperClassName="">
-
-  </FeatureFencingMedia>
-  <FeatureFencingActions
-    ctaBtnText=""
-    ctaBtnWrapperClassName=""
-    wrapperClassName=""
-    alignment=""
-    learnMoreLink=""
-    onCtaClick=""
-    onLearnMoreClick=""
-  />
-  <FeatureFencingActionSubText wrapperClassName="">
-    Successfully trail
-  </FeatureFencingActionSubText>
-</FeatureFencing> */

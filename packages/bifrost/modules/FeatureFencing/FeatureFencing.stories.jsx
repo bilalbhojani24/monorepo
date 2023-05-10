@@ -1,8 +1,8 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import Button from '../Button';
 import FeatureFencingActions from '../FeatureFencingActions';
+import FeatureFencingContent from '../FeatureFencingContent';
 import FeatureFencingMedia from '../FeatureFencingMedia';
 
 import { FEATURE_FENCING_SIZES } from './const';
@@ -23,25 +23,6 @@ const defaultConfig = {
     }
   },
   argTypes: {
-    children: {
-      option: { type: 'string' },
-      defaultValue: (
-        <>
-          <FeatureFencingActions wrapperClassName="">
-            <Button
-              onClick={() => {}}
-              wrapperClassName=""
-              variant=""
-              colors=""
-              size="default"
-            >
-              Get a 14-day free trial
-            </Button>
-          </FeatureFencingActions>
-          <FeatureFencingMedia>Media component</FeatureFencingMedia>
-        </>
-      )
-    },
     header: {
       type: { summary: 'STRING', required: false },
       description: 'Header',
@@ -72,7 +53,27 @@ const defaultConfig = {
   },
   controls: {}
 };
-const Template = (args) => <FeatureFencing {...args} />;
+const Template = (props) => (
+  <FeatureFencing {...props}>
+    <FeatureFencingContent {...props}>
+      <FeatureFencingActions
+        wrapperClassName=""
+        ctaText="Start a 14-day free trial"
+        // ctaButtonProps={}
+        alignment="left"
+        learnMoreLink="https://www.google.com"
+        onCTAClick={() => {
+          console.log('ff-actions-cta-clicked');
+        }}
+        onLearnMoreClick={() => {
+          console.log('ff-actions-learn-more-clicked');
+        }}
+      />
+    </FeatureFencingContent>
+
+    <FeatureFencingMedia>Media component</FeatureFencingMedia>
+  </FeatureFencing>
+);
 const Primary = Template.bind({});
 Primary.parameters = {
   controls: {}

@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const FeatureFencingMedia = () => <div>FeatureFencingMedia</div>;
+import { useFeatureFencingContext } from '../FeatureFencing/context';
+
+const FeatureFencingMedia = () => {
+  const { setHasMediaNode } = useFeatureFencingContext();
+  useEffect(() => {
+    setHasMediaNode(true);
+  }, [setHasMediaNode]);
+  return <div>FeatureFencingMedia</div>;
+};
 
 FeatureFencingMedia.propTypes = {};
 
