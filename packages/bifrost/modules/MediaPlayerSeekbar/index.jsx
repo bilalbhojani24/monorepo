@@ -150,7 +150,11 @@ const MediaPlayerSeekbar = forwardRef(
                 style={{ width: `calc(${progress}% - 2px)` }}
               />
               {showMarkers && (
-                <div className={twClassNames('absolute top-0 w-full h-2')}>
+                <div
+                  className={twClassNames(
+                    'absolute top-0 w-full h-2 overflow-hidden'
+                  )}
+                >
                   {exceptions?.map(
                     (exception) =>
                       exception.startTime <= duration && (
