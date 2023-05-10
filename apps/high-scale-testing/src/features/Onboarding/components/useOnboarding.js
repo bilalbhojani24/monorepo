@@ -2,33 +2,43 @@
 import { useEffect, useState } from 'react';
 
 const useOnboarding = () => {
-  const headerTextsArray = [
-    'Hey John Doe, Welcome to High Scale Testing',
-    'Create Automation Grid'
+  const headerTextsObject = {
+    intro: 'Hey John Doe, Welcome to High Scale Testing',
+    scratch: 'Create Automation Grid',
+    existing: 'Create Automation Grid'
+  };
+  const SELECT_OPTIONS = [
+    { label: 'A', value: 'A' },
+    { label: 'A', value: 'A' },
+    { label: 'A', value: 'A' },
+    { label: 'A', value: 'A' }
   ];
-  const subTextsArray = [
-    'Create your own Automation Grid to support functional testing at scale',
-    'Setting up everything from scratch.'
-  ];
+  const subTextsObject = {
+    intro:
+      'Create your own Automation Grid to support functional testing at scale',
+    scratch: 'Setting up everything from scratch.',
+    existing: 'Setting up grid in your existing Kubernetes setup.'
+  };
   const radioGroupOptions = [
     {
       description: 'Create complete Automation Grid from scratch',
       disabled: false,
       id: 'radio-1',
-      name: "No, I don't have a setup"
+      label: "No, I don't have a setup"
     },
     {
       description: 'Create Automation Grid in my existing Kubernetes setup',
       disabled: false,
       id: 'radio-2',
-      name: 'Yes, I have a setup'
+      label: 'Yes, I have a setup'
     }
   ];
-  const [subHeaderText, setSubHeaderText] = useState(subTextsArray);
 
-  const [headerText, setHeaderText] = useState(headerTextsArray[0]);
+  const [subHeaderText, setSubHeaderText] = useState(subTextsObject.intro);
+  const [headerText, setHeaderText] = useState(headerTextsObject.intro);
   const [selectedOption, setSelectedOption] = useState(radioGroupOptions[0]);
   const [onboardingState, setOnboardingState] = useState(0);
+  const [onboardingType, setOnboardingType] = useState('existing');
 
   const continueClickHandler = () => {
     console.group('Log: continueClickHandler');
@@ -37,16 +47,30 @@ const useOnboarding = () => {
   };
 
   useEffect(() => {
-    setHeaderText(headerTextsArray[onboardingState]);
-    setSubHeaderText(subTextsArray[onboardingState]);
+    if (onboardingState > 0) {
+      setHeaderText(headerTextsObject[onboardingType]);
+      setSubHeaderText(subTextsObject[onboardingType]);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingState]);
+
+  useEffect(() => {
+    console.log('Log: selectedOption has changed to:', selectedOption);
+    if (selectedOption.label === radioGroupOptions[0].label) {
+      setOnboardingType('scratch');
+    } else {
+      setOnboardingType('existing');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOption]);
 
   return {
     continueClickHandler,
     headerText,
     onboardingState,
+    onboardingType,
     radioGroupOptions,
+    SELECT_OPTIONS,
     selectedOption,
     setSelectedOption,
     subHeaderText

@@ -13,9 +13,7 @@ const initAPI = async () => {
   });
 
   // returns status code - 200 (uncomment and test)
-  return axios.get(
-    'https://run.mocky.io/v3/ae5ce0d2-cecc-4580-8bdb-a91cd9d8db94'
-  );
+  return axios.get('https://localhost:8082/high-scale-testing/v1/init');
 
   // returns status code - 401 (uncomment and test)
   // return axios.get(
@@ -27,7 +25,7 @@ const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initAPI,
-    'https://www.browserstack.com/users/sign_in'
+    'http://localhost:5000/api/v1/auth/start-sso?redirect_url=https://high-scale-testing-local.bsstag.com'
   );
 
   // kept for usasge reference
