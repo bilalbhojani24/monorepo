@@ -3,7 +3,7 @@ import React from 'react';
 import NetworkViewer from '.';
 
 const defaultConfig = {
-  title: 'NetworkViewer',
+  title: 'Application/Components/NetworkViewer',
   component: NetworkViewer,
   argTypes: {
     logsURL: {
