@@ -361,7 +361,7 @@ Alerts.defaultProps = {
   accentBorder: false,
   alertLinkPosition: 'end',
   handleLinkClick: () => {},
-  linkText: <>Details</>,
+  linkText: null,
   linkUrl: '/',
   show: true,
   description: '',
