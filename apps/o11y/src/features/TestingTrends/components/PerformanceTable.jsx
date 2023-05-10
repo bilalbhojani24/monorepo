@@ -104,9 +104,7 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
             }));
           } else {
             setPerformanceData(res);
-            if (!selectedBuild) {
-              handleBuildSelect(res?.data?.[0]?.buildName);
-            }
+            handleBuildSelect(res?.data?.[0]?.buildName);
           }
         })
         .catch(() => {
