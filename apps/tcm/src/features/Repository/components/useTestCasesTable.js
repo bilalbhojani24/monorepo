@@ -69,6 +69,15 @@ const useTestCasesTable = (prop) => {
     (state) => state.repository.isLoading.bulkMoveTestCaseCta
   );
 
+  const closeTCDetailsSlide = () => {
+    dispatch(
+      setTestCaseDetails({
+        folderId: null,
+        testCaseId: null
+      })
+    );
+  };
+
   const updateSelection = (e, listItem) => {
     if (e.currentTarget.checked) {
       setSelectedTestCaseIDs([...selectedTestCaseIDs, listItem.id]);
@@ -109,10 +118,12 @@ const useTestCasesTable = (prop) => {
   };
 
   const initBulkMove = () => {
+    closeTCDetailsSlide();
     setshowMoveModal(true);
   };
 
   const initBulkEdit = () => {
+    closeTCDetailsSlide();
     dispatch(
       logEventHelper('TM_BulkEditBtnClicked', {
         project_id: projectId,
@@ -127,6 +138,7 @@ const useTestCasesTable = (prop) => {
   };
 
   const initBulkDelete = () => {
+    closeTCDetailsSlide();
     dispatch(
       logEventHelper('TM_BulkDeleteBtnClicked', {
         project_id: projectId,

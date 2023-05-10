@@ -210,7 +210,10 @@ const useImport = () => {
             connectionFailed(decider);
             setConnectionStatus({
               key: 'testrails',
-              value: error?.response?.data
+              value:
+                error?.response?.status === 400
+                  ? error?.response?.data
+                  : 'error'
             });
           });
       } else if (currentTestManagementTool === 'zephyr') {
@@ -231,7 +234,10 @@ const useImport = () => {
             connectionFailed(decider);
             setConnectionStatus({
               key: 'zephyr',
-              value: error?.response?.data
+              value:
+                error?.response?.status === 400
+                  ? error?.response?.data
+                  : 'error'
             });
           });
       }

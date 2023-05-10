@@ -76,7 +76,8 @@ const importCSVSlice = createSlice({
                 : state.selectedFolderLocation
             }`,
             ctaText: 'Update File',
-            redirectTo: FIRST_SCREEN
+            redirectTo: FIRST_SCREEN,
+            showPreText: true
           }
         ];
       else if (payload === THIRD_SCREEN)
