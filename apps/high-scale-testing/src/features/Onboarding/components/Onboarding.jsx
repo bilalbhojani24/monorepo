@@ -7,7 +7,6 @@ import {
   Hyperlink,
   InformationCircleIcon,
   ListFeedsNode,
-  MdFolder,
   MdOutlineOpenInNew,
   RadioGroup,
   RadioStackedCard,
@@ -27,12 +26,17 @@ const Onboarding = () => {
     headerText,
     onboardingState,
     onboardingType,
-    radioGroupOptions,
+    STEP_1_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
     selectedOption,
     setSelectedOption,
     subHeaderText
   } = useOnboarding();
+
+  const ListFeedProps = {
+    feedIconColor: 'grey',
+    feedIconSize: 'sm'
+  };
 
   const CreateGridOnboardingSteps = (
     <div>
@@ -86,7 +90,7 @@ const Onboarding = () => {
                 View Documentation <MdOutlineOpenInNew />
               </Hyperlink>
             </div>
-            <p className="text-base-600 mt-2">{subHeaderText}</p>
+            <p className="text-base-600 mt-2 text-sm">{subHeaderText}</p>
           </div>
         </div>
 
@@ -100,11 +104,10 @@ const Onboarding = () => {
               </h3>
               <RadioStackedCard
                 placement="vertical"
-                data={radioGroupOptions}
+                data={STEP_1_RADIO_GROUP_OPTIONS}
                 onChange={(e) => {
-                  const newlySelectedRadioButton = radioGroupOptions.find(
-                    (elem) => elem.id === e.id
-                  );
+                  const newlySelectedRadioButton =
+                    STEP_1_RADIO_GROUP_OPTIONS.find((elem) => elem.id === e.id);
                   setSelectedOption(newlySelectedRadioButton);
                 }}
               />
@@ -145,8 +148,8 @@ const Onboarding = () => {
                   </>
                 }
                 feedIcon={ele('1')}
-                feedIconColor="grey"
-                feedIconSize="sm"
+                feedIconColor={ListFeedProps.feedIconColor}
+                feedIconSize={ListFeedProps.feedIconSize}
                 headerNode={
                   <div className="flex">
                     <p className="text-base-500 text-sm">
@@ -154,7 +157,6 @@ const Onboarding = () => {
                     </p>
                   </div>
                 }
-                isFeedIconBorder
               />
               <ListFeedsNode
                 key="2"
@@ -175,9 +177,8 @@ const Onboarding = () => {
                   </>
                 }
                 feedIcon={ele(2)}
-                feedIconColor="grey"
-                feedIconContainerSize="sm"
-                feedIconSize="sm"
+                feedIconColor={ListFeedProps.feedIconColor}
+                feedIconSize={ListFeedProps.feedIconSize}
                 headerNode={
                   <>
                     <div className="flex">
@@ -196,7 +197,6 @@ const Onboarding = () => {
                     </p>
                   </>
                 }
-                isFeedIconBorder
               />
               <ListFeedsNode
                 key="3"
@@ -208,8 +208,8 @@ const Onboarding = () => {
                   </p>
                 }
                 feedIcon={ele(3)}
-                feedIconColor="grey"
-                feedIconSize="sm"
+                feedIconColor={ListFeedProps.feedIconColor}
+                feedIconSize={ListFeedProps.feedIconSize}
                 headerNode={
                   <div className="flex">
                     <p className="text-base-500 text-sm">
@@ -217,14 +217,13 @@ const Onboarding = () => {
                     </p>
                   </div>
                 }
-                isFeedIconBorder
               />
               <ListFeedsNode
                 key="4"
                 descriptionNode={CreateGridOnboardingSteps}
                 feedIcon={ele(4)}
-                feedIconColor="grey"
-                feedIconSize="sm"
+                feedIconColor={ListFeedProps.feedIconColor}
+                feedIconSize={ListFeedProps.feedIconSize}
                 headerNode={
                   <>
                     <div className="flex">
@@ -238,7 +237,6 @@ const Onboarding = () => {
                     </p>
                   </>
                 }
-                isFeedIconBorder
               />
             </>
           )}
@@ -247,6 +245,7 @@ const Onboarding = () => {
             <>
               <p>Grid Setup</p>
               <p>Execute the below commands to initialise grid creation.</p>
+              CODE BLOCK HERE
             </>
           )}
         </div>

@@ -15,28 +15,32 @@ const useOnboarding = () => {
   ];
   const subTextsObject = {
     intro:
-      'Create your own Automation Grid to support functional testing at scale',
+      'Create and manage your own Automation Grid that supports frameworks like Selenium, Playwright, and Cypress to support browser testing at scale',
     scratch: 'Setting up everything from scratch.',
     existing: 'Setting up grid in your existing Kubernetes setup.'
   };
-  const radioGroupOptions = [
+  const STEP_1_RADIO_GROUP_OPTIONS = [
     {
-      description: 'Create complete Automation Grid from scratch',
+      description:
+        'Create Automation Grid from scratch. Choose this option to create a new grid with a new Kubernetes Cluster.',
       disabled: false,
       id: 'radio-1',
-      label: "No, I don't have a setup"
+      label: "No, I don't have a setup."
     },
     {
-      description: 'Create Automation Grid in my existing Kubernetes setup',
+      description:
+        'Create Automation Grid in the existing setup. Choose this option to create a grid in your existing Kubernetes Cluster.',
       disabled: false,
       id: 'radio-2',
-      label: 'Yes, I have a setup'
+      label: 'Yes, I have a setup.'
     }
   ];
 
   const [subHeaderText, setSubHeaderText] = useState(subTextsObject.intro);
   const [headerText, setHeaderText] = useState(headerTextsObject.intro);
-  const [selectedOption, setSelectedOption] = useState(radioGroupOptions[0]);
+  const [selectedOption, setSelectedOption] = useState(
+    STEP_1_RADIO_GROUP_OPTIONS[0]
+  );
   const [onboardingState, setOnboardingState] = useState(0);
   const [onboardingType, setOnboardingType] = useState('existing');
 
@@ -56,7 +60,7 @@ const useOnboarding = () => {
 
   useEffect(() => {
     console.log('Log: selectedOption has changed to:', selectedOption);
-    if (selectedOption.label === radioGroupOptions[0].label) {
+    if (selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label) {
       setOnboardingType('scratch');
     } else {
       setOnboardingType('existing');
@@ -69,7 +73,7 @@ const useOnboarding = () => {
     headerText,
     onboardingState,
     onboardingType,
-    radioGroupOptions,
+    STEP_1_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
     selectedOption,
     setSelectedOption,
