@@ -70,7 +70,7 @@ const Onboarding = () => {
       </ol>
     </div>
   );
-  const ele = (number) => <span>{number}</span>;
+  const listFeedStepValue = (number) => <span>{number}</span>;
 
   return (
     <>
@@ -96,24 +96,21 @@ const Onboarding = () => {
             />
           )}
 
-          <div>
-            <div className="flex justify-between">
-              <p className="text-2xl font-bold">{headerText}</p>
-              <Hyperlink wrapperClassName=" gap-x-2 text-sm">
-                View Documentation <MdOutlineOpenInNew />
-              </Hyperlink>
-            </div>
-            <p className="text-base-600 mt-2 text-sm">{subHeaderText}</p>
+          <div className="flex justify-between">
+            <p className="text-2xl font-bold leading-7">{headerText}</p>
+            <Hyperlink wrapperClassName=" gap-x-2 text-sm font-medium">
+              View Documentation <MdOutlineOpenInNew />
+            </Hyperlink>
           </div>
+          <p className="text-base-600 mt-2 text-sm">{subHeaderText}</p>
         </div>
 
         {/* Body of Onboarding */}
         <div className="border-base-300 border-y px-7 py-6">
           {onboardingState === 0 && (
-            <div>
-              <h3 className="mb-4 flex gap-x-2 text-lg font-semibold">
-                Do you have an existing Kubernetes setup?{' '}
-                <InformationCircleIcon className="text-base-700 h-5 w-5 shrink-0 cursor-pointer" />
+            <>
+              <h3 className="mb-4 flex gap-x-2 text-lg font-semibold leading-6">
+                Do you have an existing Kubernetes setup?
               </h3>
               <RadioStackedCard
                 placement="vertical"
@@ -124,7 +121,7 @@ const Onboarding = () => {
                   setSelectedOption(newlySelectedRadioButton);
                 }}
               />
-            </div>
+            </>
           )}
 
           {onboardingState === 1 && onboardingType === 'scratch' && (
@@ -160,7 +157,7 @@ const Onboarding = () => {
                     />
                   </>
                 }
-                feedIcon={ele('1')}
+                feedIcon={listFeedStepValue('1')}
                 feedIconColor={ListFeedProps.feedIconColor}
                 feedIconSize={ListFeedProps.feedIconSize}
                 headerNode={
@@ -189,7 +186,7 @@ const Onboarding = () => {
                     </SelectMenu>
                   </>
                 }
-                feedIcon={ele(2)}
+                feedIcon={listFeedStepValue(2)}
                 feedIconColor={ListFeedProps.feedIconColor}
                 feedIconSize={ListFeedProps.feedIconSize}
                 headerNode={
@@ -220,7 +217,7 @@ const Onboarding = () => {
                     the Automation Grid. Read more about this here.
                   </p>
                 }
-                feedIcon={ele(3)}
+                feedIcon={listFeedStepValue(3)}
                 feedIconColor={ListFeedProps.feedIconColor}
                 feedIconSize={ListFeedProps.feedIconSize}
                 headerNode={
@@ -234,7 +231,7 @@ const Onboarding = () => {
               <ListFeedsNode
                 key="4"
                 descriptionNode={CreateGridOnboardingSteps}
-                feedIcon={ele(4)}
+                feedIcon={listFeedStepValue(4)}
                 feedIconColor={ListFeedProps.feedIconColor}
                 feedIconSize={ListFeedProps.feedIconSize}
                 headerNode={
