@@ -12,6 +12,7 @@ import {
   setErrorLoggerUserContext
 } from '@browserstack/utils';
 import { getPusherConfig } from 'api/global';
+import ErrorBoundary from 'common/ErrorBoundary';
 import GenericErrorPage from 'common/GenericErrorPage';
 import ModalToShow from 'common/ModalToShow';
 import { o11yHistory, PORTAL_ID } from 'constants/common';
@@ -160,7 +161,7 @@ const App = () => {
     )}`
   );
   return (
-    <>
+    <ErrorBoundary>
       {Routes}
       <ModalToShow />
       {portalize(
@@ -170,7 +171,7 @@ const App = () => {
         </div>,
         PORTAL_ID
       )}
-    </>
+    </ErrorBoundary>
   );
 };
 
