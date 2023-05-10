@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import {
   emojisConstants,
+  FEEDBACK_TYPE,
   npsConstants,
   thumbsConstants
 } from './const/feedbackWidgetConst';
@@ -16,9 +17,9 @@ export const useFeedbackWidget = ({
   const [feedbacktype, setFeedbacktype] = useState(flow[0]);
 
   const finalFeedbackTypeArray = () => {
-    if (feedbacktype.type === 'emoji') return emojisConstants;
-    if (feedbacktype.type === 'thumbs') return thumbsConstants;
-    if (feedbacktype.type === 'nps') return npsConstants;
+    if (feedbacktype.type === FEEDBACK_TYPE[0]) return emojisConstants;
+    if (feedbacktype.type === FEEDBACK_TYPE[2]) return thumbsConstants;
+    if (feedbacktype.type === FEEDBACK_TYPE[3]) return npsConstants;
     return [];
   };
 

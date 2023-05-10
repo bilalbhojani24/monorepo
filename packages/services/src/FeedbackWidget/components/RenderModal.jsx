@@ -32,7 +32,6 @@ const RenderModal = () => {
           key={item.id}
           colors={selectedNPS === item.id ? 'brand' : 'white'}
           iconOnly
-          wrapperClassName=""
           onClick={() => {
             setSelectedNPS(item.id);
             handleClick();
@@ -66,7 +65,7 @@ const RenderModal = () => {
     <Modal {...variationsProps.modal}>
       <ModalHeader
         {...variationsProps.modalHeader}
-        {...(feedbacktype.type !== 'success' && {
+        {...(feedbacktype.type !== FEEDBACK_TYPE[4] && {
           heading: feedbacktype.title,
           subHeading: feedbacktype.description
         })}
@@ -78,16 +77,16 @@ const RenderModal = () => {
           renderEmojiThumb()}
 
         {/* render nps(number) view */}
-        {feedbacktype.type === 'nps' && renderNPSBody()}
+        {feedbacktype.type === FEEDBACK_TYPE[3] && renderNPSBody()}
 
         {/* render form view */}
-        {feedbacktype.type === 'form' && <FormBuilder />}
+        {feedbacktype.type === FEEDBACK_TYPE[1] && <FormBuilder />}
 
         {/* render success view */}
-        {feedbacktype.type === 'success' && <FeedbackSuccess />}
+        {feedbacktype.type === FEEDBACK_TYPE[4] && <FeedbackSuccess />}
       </ModalBody>
 
-      {feedbacktype.type === 'form' && (
+      {feedbacktype.type === FEEDBACK_TYPE[1] && (
         <ModalFooter position="right" backgroundColorClass="bg-base-50">
           <Button type="submit" onClick={handleFormSubmit}>
             Submit Feedback

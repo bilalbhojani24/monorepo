@@ -132,6 +132,7 @@ export const ModalFeedbackWidget = () => {
             handleDismissClick: () => setShow(false)
           }
         }}
+        variation="modal"
       />
     </>
   );

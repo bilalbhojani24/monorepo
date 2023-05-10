@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import RenderModal from './components/RenderModal';
 import RenderToast from './components/RenderToast';
+import { VARIATIONS } from './const/feedbackWidgetConst';
 import { FeedbackWidgetContextData } from './context/feedbackWidgetContext';
 import { useFeedbackWidget } from './useFeedbackWidget';
 
@@ -62,7 +63,7 @@ FeedbackWidget.propTypes = {
   handleFeedbackClick: PropTypes.func,
   formFields: PropTypes.arrayOf(PropTypes.shape({})),
   flow: PropTypes.arrayOf(PropTypes.string).isRequired,
-  variation: PropTypes.oneOf(['modal', 'toast']),
+  variation: PropTypes.oneOf(VARIATIONS),
   variationsProps: {
     modal: PropTypes.shape({}),
     modalHeader: PropTypes.shape({}),
@@ -73,7 +74,7 @@ FeedbackWidget.propTypes = {
 FeedbackWidget.defaultProps = {
   handleFeedbackClick: null,
   formFields: [],
-  variation: 'modal',
+  variation: VARIATIONS[2],
   variationsProps: {
     modal: {},
     modalHeader: {},
