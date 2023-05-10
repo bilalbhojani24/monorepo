@@ -14,6 +14,10 @@ const defaultConfig = {
           importStatement={"import Resizable from 'bifrost/Resizable'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

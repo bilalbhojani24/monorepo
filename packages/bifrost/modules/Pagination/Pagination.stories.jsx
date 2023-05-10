@@ -14,6 +14,10 @@ const defaultConfig = {
           importStatement={"import Pagination from 'bifrost/Pagination'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=371-7919&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {
@@ -21,6 +25,12 @@ const defaultConfig = {
       option: { type: 'number' },
       defaultValue: 100,
       description: 'Total number of results in pagination'
+    },
+    defaultPageNumber: {
+      option: { type: 'number' },
+      defaultValue: 2,
+      description:
+        'Current page number, default is undefined and it is uncontrolled'
     },
     isCentered: {
       option: { type: 'boolean' },
@@ -50,8 +60,9 @@ const defaultConfig = {
     },
     pageNumber: {
       option: { type: 'number' },
-      defaultValue: 1,
-      description: 'Current page number, default is 1'
+      defaultValue: undefined,
+      description:
+        'Current page number, default is undefined and it is controlled from consumer'
     },
     pageSize: {
       option: { type: 'number' },

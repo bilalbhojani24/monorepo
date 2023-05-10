@@ -5,9 +5,9 @@ import { postNewScanConfig } from 'api/siteScannerScanConfigs';
 import parser from 'cron-parser';
 import cronTime from 'cron-time-generator';
 import cronstrue from 'cronstrue';
+import { addZero } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
 
-import { logEvent } from '../../../../../../packages/utils/src/logger';
-import { addZero, isValidHttpUrl } from '../../../utils/helper';
 import { getScanConfigs } from '../slices/dataSlice';
 
 import { dayMap, days, urlPattern, wcagVersions } from './constants';
@@ -51,7 +51,7 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
 
   const getWcagVersionFromVal = (val) =>
     wcagVersions.filter((version) => version.id === val)[0];
-  
+
   useEffect(() => {
     const formDataCpy = { ...formData };
     if (preConfigData) {
@@ -143,7 +143,10 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
     }
     scanUrlRef.current.value = null;
     setRecurringStatus(true);
-    document.querySelector('#recurring').checked = false;
+    const ele = document.querySelector('#recurring');
+    if(ele) {
+      ele.checked = false;
+    }
     closeSlideover();
     setValidationError({});
   };
@@ -208,6 +211,15 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
         formDataObj.type = name;
         break;
       case 'csvUpload':
+        // move focus to toast once file has been uploaded
+        setTimeout(() => {
+          const ele = document.getElementById('file-uploaded');
+          if (ele) {
+            ele.tabIndex = 0;
+            ele.focus();
+            ele.tabIndex = -1;
+          }
+        }, 0);
         if (!formDataObj.scanData) {
           formDataObj.scanData = {};
         }
@@ -219,6 +231,7 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
           new Set(formDataObj.scanData.urlSet)
         );
         fileUploadRef.current.value = null;
+
         break;
       case 'deleteUrl':
         formDataObj.scanData.urlSet.splice(
@@ -239,7 +252,7 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
           const timeval = formData.time.split(':');
           // eslint-disable-next-line radix
           const minutes = parseInt(timeval[0]) * 60 + parseInt(timeval[1]);
-          
+
           const diff = minutes + timezoneOffset;
           let finalUTCValue = toHoursAndMinutes(diff);
           let dayVal = formData.day;
@@ -277,29 +290,37 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
             label: selectedWcagVersion.body,
             value: selectedWcagVersion.id
           };
-          logEvent(
-            ['EDS'],
-            'accessibility_dashboard_web_events',
-            'InteractedWithWSNewWebsiteScanSlideOver',
-            {
-              actionType: 'Scan changes',
-              action: 'Create Scan',
-              scanFrequency: recurringStatus ? formData.type : null,
-              scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
-              scanTime: recurringStatus
-                ? formData.time
-                : new Date().toLocaleTimeString(),
-              wcagVersion: formData.scanData.wcagVersion.label,
-              day: recurringStatus
-                ? formData.day
-                : new Date().toLocaleDateString(),
-              bestPractices: formData.scanData.bestPractices,
-              needsReview: formData.scanData.needsReview
-            }
-          );
+          logEvent('InteractedWithWSNewWebsiteScanSlideOver', {
+            action: 'Create Scan',
+            scanFrequency: recurringStatus ? formData.type : null,
+            scanType: recurringStatus ? 'Recurring scan' : 'On-demand scan',
+            scanTime: recurringStatus
+              ? {
+                  time: formData.time,
+                  timeZone: new Date()
+                    .toString()
+                    .match(/([A-Z]+[\+-][0-9]+.*)/)[1]
+                }
+              : {
+                  time: new Date().toLocaleTimeString(),
+                  timeZone: new Date()
+                    .toString()
+                    .match(/([A-Z]+[\+-][0-9]+.*)/)[1]
+                },
+            wcagVersion: formData.scanData.wcagVersion.label,
+            day: recurringStatus
+              ? formData.day
+              : new Date().toLocaleDateString(),
+            bestPractices: formData.scanData.bestPractices,
+            needsReview: formData.scanData.needsReview,
+            urlCount: formData.scanData.urlSet
+              ? formData.scanData.urlSet.length
+              : undefined
+          });
 
           postNewScanConfig(payload)
-            .then(() => {
+            .then((res) => {
+              console.log(res);
               dispatch(getScanConfigs());
               setShowToast(true);
               handlerCloseOver();

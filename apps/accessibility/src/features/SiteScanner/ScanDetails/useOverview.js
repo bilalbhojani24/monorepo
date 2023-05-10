@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { chartOptionsSpline, chartOptionStacked } from './chartOptions';
 
@@ -21,7 +21,11 @@ export default function useOverview({ scanOverviewData }) {
       };
 
       const categories = [];
-      for (let i = 0; i < currentRunFilter; i += 1) {
+      const minRuns = Math.min(
+        currentRunFilter,
+        scanOverviewData?.data?.overview?.issueHistory?.length
+      );
+      for (let i = 0; i < minRuns; i += 1) {
         const item =
           currentRunFilter === 4
             ? scanOverviewData?.data?.overview?.issueHistory.slice(
@@ -34,17 +38,17 @@ export default function useOverview({ scanOverviewData }) {
           severity.serious.push(item.serious);
           severity.moderate.push(item.moderate);
         }
-        categories.push(i + 1);
+        categories.push(`#${i + 1}`);
       }
       const currentStackedChartData = { ...stackedChartData };
       currentStackedChartData.xAxis.categories = categories;
-      currentStackedChartData.xAxis.max = currentRunFilter - 1;
+      currentStackedChartData.xAxis.max = minRuns - 1;
       currentStackedChartData.series = [
         {
           name: 'Minor',
           data: severity.minor,
           borderWidth: 0,
-          color: '#DFE7E8',
+          color: '#9CA3AF',
           pointWidth: 12,
           borderRadiusTopLeft: '10px',
           borderRadiusTopRight: '10px',
@@ -58,7 +62,7 @@ export default function useOverview({ scanOverviewData }) {
           name: 'Moderate',
           data: severity.moderate,
           borderWidth: 0,
-          color: '#EAB308',
+          color: '#F59E0B',
           pointWidth: 12,
           events: {
             click(event) {
@@ -70,7 +74,7 @@ export default function useOverview({ scanOverviewData }) {
           name: 'Serious',
           data: severity.serious,
           borderWidth: 0,
-          color: '#F97316',
+          color: '#F472B6',
           pointWidth: 12,
           events: {
             click(event) {
@@ -81,7 +85,7 @@ export default function useOverview({ scanOverviewData }) {
         {
           name: 'Critical',
           data: severity.critical,
-          color: '#DC2626',
+          color: '#EF4444',
           pointWidth: 12,
           borderWidth: 0,
           events: {
@@ -91,7 +95,6 @@ export default function useOverview({ scanOverviewData }) {
           }
         }
       ];
-      console.log(currentStackedChartData, scanOverviewData);
       return currentStackedChartData;
     }
     return null;
@@ -106,8 +109,11 @@ export default function useOverview({ scanOverviewData }) {
       };
 
       const categories = [];
-      for (let i = 0; i < currentSplineRunFilter; i += 1) {
-        // const item = scanOverviewData.data.overview.scanStability[i];
+      const minRuns = Math.min(
+        currentRunFilter,
+        scanOverviewData?.data?.overview?.issueHistory?.length
+      );
+      for (let i = 0; i < minRuns; i += 1) {
         const item =
           currentSplineRunFilter === 4
             ? scanOverviewData?.data?.overview?.scanStability.slice(
@@ -119,11 +125,11 @@ export default function useOverview({ scanOverviewData }) {
           stability.failure.push(item.failure);
           stability.success.push(item.success);
         }
-        categories.push(i + 1);
+        categories.push(`#${i + 1}`);
       }
       const currentSplineChartData = { ...splineChartData };
       currentSplineChartData.xAxis.categories = categories;
-      currentSplineChartData.xAxis.max = currentSplineRunFilter;
+      currentSplineChartData.xAxis.max = minRuns;
       currentSplineChartData.series = [
         {
           name: 'Success',

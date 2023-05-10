@@ -13,7 +13,9 @@ const TestCaseDetailsView = ({
   isFromTestRun,
   onResultClick,
   testResultsArray,
-  resultUpdatable
+  resultUpdatable,
+  testRunId,
+  testRunName
 }) => {
   const {
     initTestCaseDetails,
@@ -23,7 +25,9 @@ const TestCaseDetailsView = ({
   } = useTestCaseView({
     projectId,
     folderId,
+    testRunId,
     testCaseId,
+    isFromTestRun,
     onDetailsClose,
     testResultsArray
   });
@@ -46,8 +50,8 @@ const TestCaseDetailsView = ({
   return (
     <TMSlideover
       onEscPress={hideTestCaseViewDrawer}
-      key={testCaseId}
-      show={isTestCaseViewVisible}
+      // key={testCaseId}
+      show={!!(isTestCaseViewVisible && testCaseId)}
       onClose={hideTestCaseViewDrawer}
       onOverlayClick={hideTestCaseViewDrawer}
       closeButtonOutside={false}
@@ -61,13 +65,16 @@ const TestCaseDetailsView = ({
         heading="TEST CASE DETAILS"
         isBorder
         backgroundColorClass="bg-white"
-        handleDismissClick={hideTestCaseViewDrawer}
+        handleDismissClick={() => hideTestCaseViewDrawer(null, true)}
       />
       <TestCaseView
         actionHandler={actionHandler}
         isFromTestRun={isFromTestRun}
         resultUpdatable={resultUpdatable}
         onResultClick={onResultClick}
+        testRunId={testRunId}
+        testResultsArray={testResultsArray}
+        testRunName={testRunName}
       />
     </TMSlideover>
   );
@@ -80,19 +87,23 @@ TestCaseDetailsView.propTypes = {
   onDetailsClose: PropTypes.func,
   isFromTestRun: PropTypes.bool,
   resultUpdatable: PropTypes.bool,
-  onResultClick: PropTypes.bool,
-  testResultsArray: PropTypes.arrayOf(PropTypes.object)
+  testRunId: PropTypes.number,
+  onResultClick: PropTypes.func,
+  testResultsArray: PropTypes.arrayOf(PropTypes.object),
+  testRunName: PropTypes.string
 };
 
 TestCaseDetailsView.defaultProps = {
   projectId: null,
   folderId: null,
+  testRunId: null,
   testCaseId: null,
   onDetailsClose: () => {},
   isFromTestRun: false,
   resultUpdatable: false,
   onResultClick: () => {},
-  testResultsArray: []
+  testResultsArray: [],
+  testRunName: ''
 };
 
 export default TestCaseDetailsView;

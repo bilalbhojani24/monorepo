@@ -5,10 +5,10 @@ import {
   getOnboardingInitDataAPI,
   setOnboardingDataAPI
 } from 'api/onboarding.api';
-import { AUTH_TOKEN_KEY } from 'const/immutables';
 import AppRoute from 'const/routes';
 import { setUser } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { SETUP_FORMATS } from '../const/immutableConst';
 import {
@@ -56,7 +56,6 @@ const useOnboarding = () => {
   const updateUserValue = () => {
     const updatedUserData = { ...userData };
     updatedUserData.onboarded = 1;
-    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(updatedUserData));
     dispatch(setUser(updatedUserData));
   };
 
@@ -76,6 +75,7 @@ const useOnboarding = () => {
       dispatch(setIsProcessing(false));
       switch (formData.start_method) {
         case SETUP_FORMATS[0].title: // quick_import
+          dispatch(logEventHelper('TM_QiOptionSelectedOnboarding', {}));
           navigate(AppRoute.IMPORT, {
             state: {
               isFromOnboarding: true
@@ -84,10 +84,12 @@ const useOnboarding = () => {
           });
           break;
         // case SETUP_FORMATS[1].title: // example_project
+        // dispatch(logEventHelper('TM_ExampleProjectSelectedOnboarding', {}));
         //   // create new project API TODO
         //   navigate(AppRoute.ROOT);
         //   break;
         case SETUP_FORMATS[1].title: // scratch
+          dispatch(logEventHelper('TM_ScratchProjectSelectedOnboarding', {}));
           navigate(
             hasProjects
               ? AppRoute.ROOT
@@ -102,6 +104,7 @@ const useOnboarding = () => {
   };
 
   useEffect(() => {
+    dispatch(logEventHelper('TM_OnboardingPageLoaded', {}));
     initFormData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

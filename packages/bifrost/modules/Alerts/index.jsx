@@ -183,10 +183,8 @@ const Alerts = (props) => {
                     {typeof description === 'object' ? (
                       <div className="mt-2 text-sm">
                         <ul className="list-disc space-y-1 pl-5">
-                          {description?.map((descriptionItem, index) => (
-                            <li key={`${descriptionItem}-${index}`}>
-                              {descriptionItem}
-                            </li>
+                          {description?.map((descriptionItem) => (
+                            <li key={descriptionItem}>{descriptionItem}</li>
                           ))}
                         </ul>
                       </div>
@@ -257,6 +255,7 @@ const Alerts = (props) => {
                   </div>
 
                   {alertLinkPosition === ALERT_LINK_POSITION[0] &&
+                    linkText &&
                     link(
                       alertLinkPosition,
                       modifier,
@@ -266,16 +265,18 @@ const Alerts = (props) => {
                     )}
                 </span>
               </div>
-              <p className="mt-3 h-fit text-sm md:mt-0 md:ml-6">
-                {alertLinkPosition === ALERT_LINK_POSITION[1] &&
-                  link(
+
+              {alertLinkPosition === ALERT_LINK_POSITION[1] && linkText && (
+                <p className="mt-3 h-fit text-sm md:mt-0 md:ml-6">
+                  {link(
                     alertLinkPosition,
                     modifier,
                     handleLinkClick,
                     linkUrl,
                     linkText
                   )}
-              </p>
+                </p>
+              )}
             </div>
 
             {/* Dismiss alert */}
@@ -334,10 +335,11 @@ Alerts.propTypes = {
   betaActionFn: PropTypes.func,
   alphaActionTitle: PropTypes.string,
   betaActionTitle: PropTypes.string,
-  description: (props, propName) => {
-    if (typeof props.propName !== 'string' && props.title === '') {
+  description: (props, pName) => {
+    const { propName, title } = props;
+    if (typeof propName !== 'string' && title === '') {
       return new Error(
-        `'${propName}' can only be of type 'String' if no value is assigned to 'title' prop.`
+        `'${pName}' can only be of type 'String' if no value is assigned to 'title' prop.`
       );
     }
     return null;

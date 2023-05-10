@@ -134,7 +134,6 @@ export const getScanOverview = (id) => async (dispatch) => {
     .then((data) => {
       dispatch(setScanOverview(data));
       const commonData = { ...data.data.scanConfigInfo };
-      console.log(commonData);
       dispatch(
         setScanRunCommonData({
           ...commonData

@@ -23,12 +23,12 @@ import parser from 'cron-parser';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
 
+import { toHoursAndMinutes } from '../../../utils/helper';
+import { dayMap } from '../NewScan/constants';
 import ScanRuns from '../ScanRuns';
 
 import Overview from './Overview';
 import useScanDetails from './useScanDetails';
-import { toHoursAndMinutes } from '../../../utils/helper';
-import { dayMap } from '../NewScan/constants';
 
 export const tabsArray = [
   {
@@ -63,26 +63,33 @@ const ScanDetails = () => {
     Convert back to Local Timezone
   */
   const convertToLocale = () => {
-    const cronStringArray = scanRunDataCommon.schedulePattern.split(" ");
+    const cronStringArray = scanRunDataCommon.schedulePattern.split(' ');
     const timezoneOffset = new Date().getTimezoneOffset();
+    const day = cronStringArray[4];
     const minutes =
-      parseInt(cronStringArray[1]) * 60 + parseInt(cronStringArray[0]);
+      parseInt(cronStringArray[1], 10) * 60 + parseInt(cronStringArray[0], 10);
     const diff = minutes - timezoneOffset;
 
-    const finalUTCVal = toHoursAndMinutes(diff);
+    let finalUTCVal = toHoursAndMinutes(diff);
     let dayVal = cronStringArray[cronStringArray.length - 1];
-        // console.log(diff, minutes, timezoneOffset, toHoursAndMinutes(diff), dayMap[day]);
-    if (diff < 0 && day !== '*') {
-      dayVal = parseInt(day) === 0 ? dayMap[6] : dayMap[day - 1];
+    // console.log(diff, minutes, timezoneOffset, toHoursAndMinutes(diff), dayMap[day]);
+    if (diff < 0) {
+      finalUTCVal = toHoursAndMinutes(1440 + diff);
+      if (day === '*') {
+        dayVal = day;
+      } else {
+        dayVal = parseInt(day, 10) === 0 ? dayMap[6] : parseInt(day, 10) - 1;
+      }
     }
-    if (diff > 1439 && day !== '*') {
-      dayVal =
-        parseInt(day) === 6
-          ? dayMap[0]
-          : dayMap[getKeyByValue(dayMap, day) + 1];
+    if (diff > 1439) {
+      finalUTCVal = toHoursAndMinutes(diff - 1440);
+      if (day === '*') {
+        dayVal = day;
+      } else {
+        dayVal = parseInt(day, 10) === 6 ? dayMap[0] : parseInt(day, 10) + 1;
+      }
     }
     const adjustedCronExpression = `${finalUTCVal.minutes} ${finalUTCVal.hours} * * ${dayVal}`;
-    
     return cronstrue.toString(adjustedCronExpression);
   };
   if (isLoading || !scanOverviewData) {
@@ -154,31 +161,32 @@ const ScanDetails = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <Button
-              colors="white"
-              onClick={handleNewScanRun}
-              size="small"
-              type="subtle"
-              icon={<MdAdd />}
-              iconPlacement="start"
-              wrapperClassName="h-10 mr-2"
-            >
-              New scan run
-            </Button>
-            {/* handleStopRecurringScan */}
             {scanRunDataCommon?.nextScanDate &&
-              userInfo.user_id === scanRunDataCommon.createdBy.id && (
-                <Button
-                  colors="white"
-                  onClick={() => setStopModal(true)}
-                  size="small"
-                  type="subtle"
-                  icon={<MdStop />}
-                  iconPlacement="start"
-                  wrapperClassName="h-10 mr-2"
-                >
-                  Stop recurring
-                </Button>
+              userInfo.user_id === scanRunDataCommon?.createdBy?.id && (
+                <>
+                  <Button
+                    colors="white"
+                    onClick={handleNewScanRun}
+                    size="small"
+                    type="subtle"
+                    icon={<MdAdd className="text-xl" />}
+                    iconPlacement="start"
+                    wrapperClassName="h-10 mr-2"
+                  >
+                    New scan run
+                  </Button>
+                  <Button
+                    colors="white"
+                    onClick={() => setStopModal(true)}
+                    size="small"
+                    type="subtle"
+                    icon={<MdStop className="text-xl" />}
+                    iconPlacement="start"
+                    wrapperClassName="h-10 mr-2"
+                  >
+                    Stop recurring
+                  </Button>
+                </>
               )}
             <Dropdown
               trigger={
@@ -195,12 +203,14 @@ const ScanDetails = () => {
             />
           </div>
         </div>
-        <div className="pl-6">
+        <div className="border-base-200 border-b  pl-6">
           <Tabs
             defaultIndex={activeTabIndex}
             id="menu"
             onTabChange={tabChangeHandler}
             tabsArray={tabsArray}
+            isFullWidth={false}
+            disableFullWidthBorder
           />
         </div>
       </div>

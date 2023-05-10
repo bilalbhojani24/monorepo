@@ -1,11 +1,12 @@
 import React, { useRef } from 'react';
 import { expect } from '@storybook/jest';
-import { within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
 import SkipToContent from './index';
 
+const skipToText = 'Skip to main content';
 const defaultConfig = {
   title: 'Application/Components/SkipToContent',
   component: SkipToContent,
@@ -16,6 +17,10 @@ const defaultConfig = {
           importStatement={"import SkipToContent from 'bifrost/SkipToContent'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {
@@ -28,12 +33,14 @@ const defaultConfig = {
   controls: {}
 };
 const Template = (args) => (
-  <SkipToContent {...args}>Skip to main content</SkipToContent>
+  <SkipToContent {...args}>{skipToText}</SkipToContent>
 );
 const Primary = Template.bind({});
 Primary.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  expect(canvas.getByText('Skip to main content')).toBeInTheDocument();
+  expect(canvas.getByText(skipToText)).toBeInTheDocument();
+  await userEvent.click(canvas.getByText(skipToText));
+  await userEvent.keyboard('[TAB]');
 };
 Primary.parameters = {
   controls: {}

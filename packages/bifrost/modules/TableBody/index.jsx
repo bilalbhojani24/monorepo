@@ -2,13 +2,17 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
-const TableBody = ({ children, wrapperClassName }) => (
-  <tbody className={twClassNames('divide-base-200 divide-y', wrapperClassName)}>
+const TableBody = React.forwardRef(({ children, wrapperClassName }, ref) => (
+  <tbody
+    className={twClassNames(
+      'divide-base-200 border-b border-t divide-y',
+      wrapperClassName
+    )}
+    ref={ref}
+  >
     {children}
   </tbody>
-);
+));
 
 TableBody.propTypes = {
   children: PropTypes.node,

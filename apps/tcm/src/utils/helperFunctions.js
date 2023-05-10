@@ -1,5 +1,7 @@
 import moment from 'moment-timezone';
 
+import { BDD } from '../features/Repository/const/addTestCaseConst';
+
 export const routeFormatter = (
   link,
   replaceConf,
@@ -65,3 +67,47 @@ export const capitalizeString = (phrase) =>
     .split(' ')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
+
+export const getMappedValue = (mapArray, value) => {
+  if (value === BDD) return 'Text';
+
+  const match = mapArray.find((item) => item.value === value);
+  return match?.label ? match.label : '--';
+};
+
+export const getSystemOrCustomValue = (
+  systemValue,
+  customValue,
+  mapArray = []
+) => {
+  if (systemValue) {
+    return mapArray.length
+      ? getMappedValue(mapArray, systemValue)
+      : systemValue;
+  }
+  if (customValue) return customValue;
+  return '--';
+};
+
+export const getFilterOptions = (thisParams) => {
+  const tags = thisParams.get('tags');
+  const owner = thisParams.get('owner');
+  const priority = thisParams.get('priority');
+  const q = thisParams.get('q');
+  return {
+    tags: tags?.split(',') || [],
+    owner: owner?.split(',') || [],
+    priority: priority?.split(',') || [],
+    q: q || ''
+  };
+};
+
+export const redirectToPrevPage = (searchParams, setSearchParams) => {
+  if (searchParams.get('p') - 1 === 1) {
+    searchParams.delete('p');
+    setSearchParams(searchParams);
+  } else {
+    searchParams.set('p', `${searchParams.get('p') - 1}`);
+    setSearchParams(searchParams.toString());
+  }
+};

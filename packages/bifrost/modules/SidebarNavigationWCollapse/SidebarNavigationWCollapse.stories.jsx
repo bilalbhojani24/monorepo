@@ -52,6 +52,10 @@ const defaultConfig = {
           }
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=210-40002&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {
@@ -83,7 +87,7 @@ Primary.play = async ({ canvasElement }) => {
 };
 
 const cutOffVariant = cutOffTemplate.bind({});
-cutOffVariant.play = async ({ canvasElement }) => {
+cutOffVariant.play = async () => {
   await delay(1);
   const buttons = document.querySelectorAll('button');
   buttons.forEach(async (button) => {

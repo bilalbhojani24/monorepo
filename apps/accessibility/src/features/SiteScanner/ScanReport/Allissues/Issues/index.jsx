@@ -23,6 +23,7 @@ import {
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
+import ZeroIssues from 'assets/zero_issues.svg';
 import { FILTER_KEYS, issueTabs, severityOptions } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 
@@ -33,7 +34,6 @@ import {
   getReportFilters,
   getUniqFilterValues
 } from '../../slice/selector';
-// import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Accordion';
 import IssueItem from '../Accordion/IssueItem';
 
@@ -48,6 +48,7 @@ export default function Issues() {
   const {
     activeSwitch,
     isOpen,
+    reportOverviewMetaData,
     intermediateFilters,
     sectionData,
     showHiddenIssues,
@@ -98,7 +99,28 @@ export default function Issues() {
   );
 
   const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
-  console.log('halfview', isHalfView, activeComponentId, isShowingIssue);
+
+  const {
+    issueSummary: { issueCount }
+  } = reportOverviewMetaData;
+
+  if (!issueCount) {
+    return (
+      <div
+        style={{ height: 'calc(100vh - 250px)' }}
+        className="flex flex-col items-center justify-center"
+      >
+        <img src={ZeroIssues} alt="zero issues" className="mb-5" />
+        <div className="text-center">
+          <p className="text-base-900 text-base font-medium">Hurray!</p>
+          <p className="text-base-500 text-base">
+            We found zero issues in this scan.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}
@@ -108,7 +130,7 @@ export default function Issues() {
           <ModalHeader handleDismissClick={onCloseClick} heading="Filters" />
           <ModalBody>
             <div className="mb-6">
-              <p className="text-base-700 mr-4 mb-4 text-sm font-medium">
+              <p className="text-base-700 mb-4 mr-4 text-sm font-medium">
                 Severity
               </p>
               <div className="flex">
@@ -133,7 +155,7 @@ export default function Issues() {
               >
                 <ComboboxLabel>Pages</ComboboxLabel>
                 <ComboboxTrigger placeholder="Select" />
-                <ComboboxOptionGroup>
+                <ComboboxOptionGroup maxWidth="30vw">
                   {urls.map((item) => (
                     <ComboboxOptionItem
                       option={item}
@@ -151,7 +173,7 @@ export default function Issues() {
               >
                 <ComboboxLabel>Components</ComboboxLabel>
                 <ComboboxTrigger placeholder="Select" />
-                <ComboboxOptionGroup>
+                <ComboboxOptionGroup maxWidth="30vw">
                   {componentIds.map((item) => (
                     <ComboboxOptionItem
                       option={item}
@@ -169,7 +191,7 @@ export default function Issues() {
               >
                 <ComboboxLabel>Category</ComboboxLabel>
                 <ComboboxTrigger placeholder="Select..." />
-                <ComboboxOptionGroup>
+                <ComboboxOptionGroup maxWidth="30vw">
                   {categories.map((item) => (
                     <ComboboxOptionItem
                       option={item}
@@ -183,7 +205,7 @@ export default function Issues() {
               border={false}
               wrapperClassName="pt-0"
               data={{
-                label: "Show only 'Needs Review' Issues",
+                label: "Show only 'Needs Review' issues",
                 value: 'needsReview'
               }}
               checked={intermediateFilters.showNeedsReviewIssues}
@@ -201,7 +223,7 @@ export default function Issues() {
           className="bg-base-50 border-base-200 fixed z-10 border-b"
           style={{ width: 'calc(100% - 256px)', top: '250px' }}
         >
-          <div className="flex w-full items-center justify-between py-4 px-6">
+          <div className="flex w-full items-center justify-between px-6 py-4">
             <div className="flex items-center">
               {showHiddenIssues && (
                 <Button
@@ -336,7 +358,7 @@ export default function Issues() {
           }}
         >
           {showEmptyScreen ? (
-            <div className="mt-8 mb-5 flex w-full flex-col items-center justify-center">
+            <div className="mb-5 mt-8 flex w-full flex-col items-center justify-center">
               <img
                 src={IssuesNotFound}
                 alt="No Issues Found"

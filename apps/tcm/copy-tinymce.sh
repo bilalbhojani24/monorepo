@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the source and destination paths
-SOURCE="node_modules/@browserstack/bifrost/utils/texteditorSkin"
+SOURCE="../../packages/bifrost/utils/texteditorSkin"
 DESTINATION="dist/assets/css/texteditorSkin"
 
 # Check if the source folder exists

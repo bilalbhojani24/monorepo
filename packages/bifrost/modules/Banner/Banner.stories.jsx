@@ -1,5 +1,7 @@
 import React from 'react';
 import { MegaphoneIcon } from '@heroicons/react/24/outline';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -23,6 +25,10 @@ const defaultConfig = {
           importStatement={"import Banner from 'bifrost/Banner'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=142-35545&t=TWCLo3KWhysdxj9F-0'
     }
   },
 
@@ -74,6 +80,18 @@ const defaultConfig = {
 };
 const Template = (args) => <Banner {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(
+    canvas.getByText("Big news! We're excited to announce a brand new product.")
+  ).toBeVisible();
+  const buttons = canvas.queryAllByRole('button');
+  buttons.forEach(async (button) => {
+    await expect(button).toBeVisible();
+    await userEvent.click(button);
+  });
+};
+
 Primary.parameters = {
   controls: {}
 };

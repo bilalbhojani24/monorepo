@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { ChevronRightIcon } from '../Icon';
@@ -16,6 +18,10 @@ const defaultConfig = {
           importStatement={"import Breadcrumb from 'bifrost/Breadcrumb'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=132-35886&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {
@@ -52,6 +58,14 @@ const defaultConfig = {
 };
 const Template = (args) => <Breadcrumb {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Home')).toBeVisible();
+  await expect(canvas.getByText('Project Nero')).toBeVisible();
+  await expect(canvas.getByText('Current Page')).toBeVisible();
+  // cannot add click interaction due to href
+};
+
 Primary.parameters = {
   controls: {}
 };

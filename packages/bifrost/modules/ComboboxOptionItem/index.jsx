@@ -1,8 +1,9 @@
 import React, { forwardRef, useContext } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { Combobox } from '@headlessui/react';
-import { oneOf } from 'prop-types';
+import { func, oneOf } from 'prop-types';
 
+import CheckboxClone from '../../shared/CheckboxClone';
 import { ComboboxContextData } from '../../shared/comboboxContext';
 import {
   bool,
@@ -16,23 +17,27 @@ import { CHECK_POSITION } from '../ComboBox/const/comboBoxConstants';
 import { CheckIcon } from '../Icon';
 
 const ComboboxOptionItem = forwardRef(
-  ({ disabled, option, checkPosition, wrapperClassName }, ref) => {
-    const { isMulti } = useContext(ComboboxContextData);
+  (
+    { disabled, option, checkPosition, wrapperClassName, onImageError },
+    ref
+  ) => {
+    const { isMulti, isBadge } = useContext(ComboboxContextData);
 
     return (
       <Combobox.Option
         ref={ref}
         key={option.value}
         value={option}
-        className={({ active }) =>
+        className={({ active, selected }) =>
           twClassNames(
-            'group relative cursor-pointer select-none py-2 pl-3 pr-9',
+            'group relative cursor-pointer select-none py-2 pl-3 pr-9 text-sm',
             active && !isMulti ? 'bg-brand-600 text-white' : 'text-base-900',
             {
               'py-2 pl-3 pr-9': checkPosition === CHECK_POSITION[1] && !isMulti,
               'py-2 pl-8 pr-4': checkPosition === CHECK_POSITION[0] && !isMulti,
               'hover:bg-base-50 py-2 pl-2 cursor-pointer': isMulti,
-              'bg-base-50 text-base-500': disabled
+              'bg-base-50 text-base-500': disabled,
+              'pl-3': isBadge && !selected
             },
             wrapperClassName
           )
@@ -49,18 +54,22 @@ const ComboboxOptionItem = forwardRef(
                       src={option.image}
                       alt=""
                       className="mr-3 h-6 w-6 shrink-0 rounded-full"
+                      onError={onImageError}
                     />
                   )}
                   <span
                     className={twClassNames(
-                      'block truncate',
-                      selected && 'font-semibold'
+                      {
+                        'font-semibold': selected,
+                        'font-normal': !selected
+                      },
+                      'block truncate'
                     )}
                   >
-                    {option.label}
+                    {option?.visualLabel || option.label}
                   </span>
                 </div>
-                {selected && (
+                {selected && !isBadge && (
                   <span
                     className={twClassNames(
                       'absolute inset-y-0 right-0 flex items-center pr-4',
@@ -78,18 +87,12 @@ const ComboboxOptionItem = forwardRef(
               </>
             ) : (
               <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={selected}
-                  id={option.name}
-                  className={`border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 cursor-pointer rounded ${
-                    active
-                      ? 'ring-brand-500 ring-2 ring-offset-2 group-hover:ring-0 group-hover:ring-offset-0'
-                      : ''
-                  }`}
-                  readOnly
-                />
-                <label htmlFor={option.name} className="cursor-pointer">
+                <CheckboxClone checked={selected} active={active} />
+
+                <label
+                  htmlFor={option.name}
+                  className="cursor-pointer truncate"
+                >
                   {option?.visualLabel || option.label}
                 </label>
               </div>
@@ -110,13 +113,15 @@ ComboboxOptionItem.propTypes = {
     image: string,
     visualLabel: node
   }).isRequired,
+  onImageError: func,
   wrapperClassName: string
 };
 
 ComboboxOptionItem.defaultProps = {
   checkPosition: CHECK_POSITION[0],
   disabled: false,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  onImageError: null
 };
 
 export default ComboboxOptionItem;

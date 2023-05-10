@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -62,6 +64,16 @@ const defaultConfig = {
 };
 const Template = (args) => <Attachments {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('abc.xyz')).toBeVisible();
+  await expect(canvas.getByText('lorem.ipsum')).toBeVisible();
+  const buttons = canvas.queryAllByRole('button');
+  buttons.forEach(async (button) => {
+    await expect(button).toBeVisible();
+    await userEvent.click(button);
+  });
+};
 Primary.parameters = {
   controls: {}
 };

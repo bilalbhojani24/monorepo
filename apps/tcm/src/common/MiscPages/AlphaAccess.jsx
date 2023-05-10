@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { MdLock, MdMail, MdOutlineTextSnippet } from '@browserstack/bifrost';
@@ -6,33 +6,50 @@ import { requestAccessAPI } from 'api/common.api';
 import { TMButton, TMEmptyState } from 'common/bifrostProxy';
 import AppRoute from 'const/routes';
 import { addNotificaton } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 const AlphaAccess = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(logEventHelper('TM_RequestAccessPageLoaded', {}));
+  }, [dispatch]);
+
   const requestAccess = () => {
-    requestAccessAPI().then((data) => {
-      if (data.message === 'Already Accessible') {
-        dispatch(
-          addNotificaton({
-            id: 'access_requested_done',
-            title: data.message,
-            description: 'Redirecting you to the main page'
-          })
-        );
-        navigate(AppRoute.ROOT);
-      } else
-        dispatch(
-          addNotificaton({
-            id: 'access_requested',
-            title: 'Access has been requested',
-            description:
-              "You've requested access for Test Management. Check email for updates.",
-            variant: 'success'
-          })
-        );
-    });
+    requestAccessAPI()
+      .then((data) => {
+        if (data.message === 'Already Accessible') {
+          dispatch(
+            addNotificaton({
+              id: 'access_requested_done',
+              title: data.message,
+              description: 'Redirecting you to the main page'
+            })
+          );
+          navigate(AppRoute.ROOT);
+        } else
+          dispatch(
+            addNotificaton({
+              id: 'access_requested',
+              title: 'Access has been requested',
+              description:
+                'Your request for access has been received. We will reach out to you soon.',
+              variant: 'success'
+            })
+          );
+      })
+      .catch((err) => {
+        if (err?.response?.data?.error)
+          dispatch(
+            addNotificaton({
+              id: 'access_requested_already',
+              description: null,
+              title: err.response.data.error,
+              variant: 'success'
+            })
+          );
+      });
   };
 
   return (

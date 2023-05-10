@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 // import { EnvelopeIcon } from '@heroicons/react/20/solid';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
@@ -23,6 +25,10 @@ const defaultConfig = {
           importStatement={"import Button from 'bifrost/Button'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=5108-71365&t=pdW8TqWMUZrVSu5l-0'
     }
   },
   argTypes: {
@@ -51,7 +57,7 @@ const defaultConfig = {
       defaultValue: false
     },
     icon: {
-      defaultValue: <EnvelopeIcon />
+      defaultValue: <EnvelopeIcon aria-hidden="true" />
     },
     iconPlacement: {
       options: BUTTON_ICON_PLACEMENT,
@@ -85,20 +91,36 @@ const defaultConfig = {
   },
   controls: {}
 };
+
+const buttonText = 'Button';
+
 const Template = (args) => {
   const { isIconOnlyButton } = args;
   return isIconOnlyButton ? (
-    <Button {...args} />
+    <Button {...args} aria-label="Icon button example" />
   ) : (
-    <Button {...args}>Button</Button>
+    <Button {...args} aria-label="Button example">
+      Button
+    </Button>
   );
 };
 const Default = Template.bind({});
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(buttonText)).toBeVisible();
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 Default.parameters = {
   size: 'primary'
 };
 
 const IconOnly = Template.bind({});
+IconOnly.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 IconOnly.parameters = {
   size: 'primary'
 };
@@ -108,6 +130,12 @@ IconOnly.args = {
 };
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(buttonText)).toBeVisible();
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 Primary.parameters = {
   size: 'primary'
 };
@@ -117,6 +145,12 @@ Primary.args = {
 };
 
 const Secondary = Template.bind({});
+Secondary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(buttonText)).toBeVisible();
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 Secondary.parameters = {
   size: 'primary'
 };
@@ -126,6 +160,12 @@ Secondary.args = {
 };
 
 const Rounded = Template.bind({});
+Rounded.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(buttonText)).toBeVisible();
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 Rounded.parameters = {
   size: 'primary'
 };
@@ -135,6 +175,12 @@ Rounded.args = {
 };
 
 const Minimal = Template.bind({});
+Minimal.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(buttonText)).toBeVisible();
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 Minimal.parameters = {
   size: 'primary'
 };
@@ -144,6 +190,12 @@ Minimal.args = {
 };
 
 const FullWidth = Template.bind({});
+FullWidth.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(buttonText)).toBeVisible();
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 FullWidth.parameters = {
   size: 'primary'
 };
@@ -153,6 +205,11 @@ FullWidth.args = {
 };
 
 const LoadingWithText = Template.bind({});
+LoadingWithText.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 LoadingWithText.parameters = {
   size: 'primary'
 };
@@ -163,6 +220,11 @@ LoadingWithText.args = {
 };
 
 const LoadingWithoutText = Template.bind({});
+LoadingWithoutText.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 LoadingWithoutText.parameters = {
   size: 'primary'
 };
@@ -173,6 +235,12 @@ LoadingWithoutText.args = {
 };
 
 const Disabled = Template.bind({});
+Disabled.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(buttonText)).toBeVisible();
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 Disabled.parameters = {
   size: 'primary'
 };
@@ -182,6 +250,12 @@ Disabled.args = {
 };
 
 const CustomButtonType = Template.bind({});
+CustomButtonType.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(buttonText)).toBeVisible();
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
 CustomButtonType.args = {
   type: 'submit'
 };

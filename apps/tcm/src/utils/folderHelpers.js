@@ -149,27 +149,57 @@ export const replaceFolderHelper = (array, toBeReplacedFolder) =>
     return item;
   });
 
-export const findFolderRouted = (thisArray, findFolderId, depth = 0) => {
-  if (!thisArray || !thisArray.length) return false;
+export const findFolderPath = (thisArray, targetFolderId, folderPath = []) => {
+  if (!thisArray || !thisArray.length) return folderPath;
 
-  let selectedItem = null;
-  let ancestors = [];
-  thisArray?.every((item) => {
-    if (item.id === findFolderId) {
-      selectedItem = item;
-      return false;
+  for (let i = 0; i < thisArray.length; i += 1) {
+    if (thisArray[i].id === targetFolderId) {
+      folderPath.unshift(thisArray[i].name);
+      return folderPath;
     }
-    if (item.contents) {
-      const matched = findFolderRouted(item.contents, findFolderId, depth + 1);
-      if (matched.length) {
-        const thisItem = { ...item };
-        delete thisItem.contents;
-        ancestors = [{ ...thisItem, depth }, ...matched];
-        return false;
+    if (thisArray[i].contents) {
+      const path = findFolderPath(
+        thisArray[i].contents,
+        targetFolderId,
+        folderPath
+      );
+      if (path.length) {
+        folderPath.unshift(thisArray[i].name);
+        return folderPath;
       }
     }
-    return true;
-  });
-
-  return ancestors.length ? ancestors : [{ ...selectedItem, depth }];
+  }
+  return folderPath;
 };
+
+export const folderPropertyUpdater = (
+  folders, // all folders
+  workingFolderId, // folder to which the changes is to be applied
+  propertyName, // name of the property to be updated
+  propertyValue, // value of the property
+  level = 0
+) =>
+  folders?.map((item) => {
+    if (`${item.id}` === `${workingFolderId}`) {
+      return {
+        ...item,
+        [propertyName]: propertyValue
+      };
+    }
+
+    if (item?.contents?.length) {
+      const updatedContents = folderPropertyUpdater(
+        item.contents,
+        workingFolderId,
+        propertyName,
+        propertyValue,
+        level + 1
+      );
+      return {
+        ...item,
+        contents: updatedContents
+      };
+    }
+
+    return item;
+  });

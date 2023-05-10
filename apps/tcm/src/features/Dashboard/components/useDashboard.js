@@ -10,6 +10,7 @@ import {
   getTestCaseTypeSplitAPI
 } from 'api/dashboard.api';
 import { setSelectedProject } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   ACTIVE_TEST_RUNS_COLOR,
@@ -40,7 +41,9 @@ export default function useDashboard() {
   const [jiraIssuesOptions, setJiraIssuesOptions] = useState(null);
 
   const isLoadingStates = useSelector((state) => state.dashboard.isLoading);
-
+  const currentProjectName = useSelector(
+    (state) => state.projects.currentSelectedProjectName
+  );
   useEffect(() => {
     if (
       activeTestRunsOptions?.isEmpty &&
@@ -69,10 +72,14 @@ export default function useDashboard() {
       });
     } else {
       dispatch(setIsLoadingProps({ key, value: true }));
-      apiFunction(projectId).then((res) => {
-        doAfter?.(res);
-        dispatch(setIsLoadingProps({ key, value: false }));
-      });
+      apiFunction(projectId)
+        .then((res) => {
+          doAfter?.(res);
+          dispatch(setIsLoadingProps({ key, value: false }));
+        })
+        .catch(() => {
+          dispatch(setIsLoadingProps({ key, value: false }));
+        });
     }
   };
 
@@ -210,6 +217,14 @@ export default function useDashboard() {
     fetchJiraIssues(); // JIRA Issues (Last 12 Months) - bar
   };
 
+  const logTheEvent = (eventName) => {
+    dispatch(
+      logEventHelper(eventName, {
+        project_id: projectId,
+        project_name: currentProjectName
+      })
+    );
+  };
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -225,6 +240,7 @@ export default function useDashboard() {
     testCasesTrendOptions,
     projectId,
     isLoadingStates,
-    fetchAllChartData
+    fetchAllChartData,
+    logTheEvent
   };
 }

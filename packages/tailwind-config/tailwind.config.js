@@ -1,6 +1,7 @@
 const tailwindForms = require('@tailwindcss/forms');
 const tailwindLineClamp = require('@tailwindcss/line-clamp');
 const tailwindAspectRatio = require('@tailwindcss/aspect-ratio');
+const tailwindScrollPlugin = require('tailwind-scrollbar-hide');
 
 module.exports = {
   content: ['../../packages/bifrost/modules/**/*.{js,jsx}'],
@@ -149,5 +150,10 @@ module.exports = {
   variants: {
     extend: {}
   },
-  plugins: [tailwindForms, tailwindLineClamp, tailwindAspectRatio]
+  plugins: [
+    tailwindForms,
+    tailwindLineClamp,
+    tailwindAspectRatio,
+    tailwindScrollPlugin
+  ]
 };

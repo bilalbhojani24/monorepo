@@ -5,7 +5,6 @@ import {
   Badge,
   Breadcrumb,
   Button,
-  Hyperlink,
   MdDownload,
   MdOutlineCalendarToday,
   MdPerson,
@@ -34,14 +33,6 @@ export default function Report() {
   } = useReport();
   const reportData = useSelector(getReportData);
 
-  const {
-    location: { search, origin, pathname }
-  } = window;
-  const params = new URLSearchParams(search);
-  const currentPageUrl = `${origin}${pathname}?ids=${params.get(
-    'ids'
-  )}&wcagVersion=${params.get('wcagVersion')}`;
-
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 
   const isSingleReport = reportsLength === 1;
@@ -63,7 +54,7 @@ export default function Report() {
   return reportData && !isLoading ? (
     <div className="bg-base-50 h-full">
       <div
-        className="bg-base-50 border-base-200 fixed top-16 z-20 border-b"
+        className="bg-base-50 border-base-200 fixed top-16 z-10 border-b"
         style={{ width: 'calc(100vw - 256px)' }}
       >
         <div className="px-6 pt-6">
@@ -141,7 +132,10 @@ export default function Report() {
                   Copied
                 </Button>
               ) : (
-                <CopyToClipboard text={currentPageUrl} onCopy={onCopyClick}>
+                <CopyToClipboard
+                  text={window.location.href}
+                  onCopy={onCopyClick}
+                >
                   <Button
                     icon={<MdShare className="text-xl" />}
                     iconPlacement="end"

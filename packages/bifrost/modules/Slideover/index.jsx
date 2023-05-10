@@ -9,8 +9,6 @@ import { XMarkIcon } from '../Icon';
 import { MODAL_SIZE } from './const/modalConstants';
 import useSlideover from './useSlideover';
 
-import './styles.scss';
-
 const Slideover = (props) => {
   const {
     children,
@@ -93,6 +91,7 @@ const Slideover = (props) => {
                 onClick={() => {
                   onCloseWithOutsideButton?.();
                 }}
+                aria-label="close icon"
               >
                 <XMarkIcon
                   className="text-base-300 h-6 w-6"

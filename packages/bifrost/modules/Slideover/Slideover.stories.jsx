@@ -1,5 +1,7 @@
 import React from 'react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -35,6 +37,10 @@ const defaultConfig = {
           importStatement={"import Slideover from '@browserstack/bifrost'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=157-36713&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {
@@ -94,6 +100,15 @@ const defaultConfig = {
 const predefinedComponentsTemplate = (args) => <Slideover {...args} />;
 
 const predefinedComponents = predefinedComponentsTemplate.bind({});
+predefinedComponents.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Go to Dashboard')).toBeVisible();
+  await expect(canvas.getByText('Deactive account')).toBeVisible();
+  await expect(canvas.queryAllByRole('button').length).toBe(3);
+  for (let i = 0; i < 3; i += 1) {
+    userEvent.click(canvas.queryAllByRole('button')[i]);
+  }
+};
 
 export default defaultConfig;
 export { predefinedComponents };
@@ -107,7 +122,7 @@ predefinedComponents.args = {
         subHeading="Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone."
         Icon={<ExclamationTriangleIcon className="text-white" />}
         isBorder
-        backgroundColorClass="bg-danger-700"
+        wrapperClassName="bg-danger-700"
         lightText
       />
 
@@ -117,7 +132,7 @@ predefinedComponents.args = {
         ))}
       </SlideoverBody>
 
-      <SlideoverFooter backgroundColorClass="bg-brand-100">
+      <SlideoverFooter wrapperClassName="bg-brand-100">
         <Button fullWidth colors="brand">
           Go to Dashboard
         </Button>

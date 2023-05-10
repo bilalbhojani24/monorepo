@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -15,6 +17,10 @@ const defaultConfig = {
           importStatement={"import RadioGroup from 'bifrost/RadioGroup'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?node-id=122-34479&t=TWCLo3KWhysdxj9F-0'
     }
   },
   argTypes: {
@@ -68,6 +74,14 @@ const defaultConfig = {
 };
 const Template = (args) => <RadioGroup {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const radios = canvas.queryAllByRole('radio');
+  await expect(radios.length).toBe(3);
+  await userEvent.click(radios[0]);
+  await expect(radios[1]).toBeChecked();
+};
+
 Primary.parameters = {
   controls: {}
 };

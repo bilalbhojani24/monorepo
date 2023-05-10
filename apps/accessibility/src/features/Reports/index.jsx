@@ -13,10 +13,13 @@ import {
   SelectMenu,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
-  SelectMenuTrigger
+  SelectMenuTrigger,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
+import Loader from 'common/Loader';
 import { CHROME_EXTENSION_URL, reportPerPage, reportType } from 'constants';
 
 import ReportRow from './components/ReportRow';
@@ -72,7 +75,7 @@ export default function Reports() {
             <img src={Logo} alt="extension-images" className="h-12 w-12" />
           </div>
           <p className="text-base-900 mb-2 text-center text-lg font-medium">
-            Welcome to BrowserStack Accessibility!
+            Welcome to BrowserStack Accessibility Testing!
           </p>
           <p className="text-base-500 mb-2 text-center text-sm">
             To get started, download our browser extension and automatically
@@ -116,14 +119,13 @@ export default function Reports() {
         <div>
           <div className="flex items-center justify-between">
             <div className="flex">
-              <div className="mr-4 w-80">
-                <InputField
-                  id="search-report"
-                  leadingIcon={<MdSearch />}
-                  placeholder="Search for report name or user..."
-                  onChange={onInputValueChange}
-                />
-              </div>
+              <InputField
+                id="search-report"
+                leadingIcon={<MdSearch />}
+                placeholder="Search for report name or user..."
+                onChange={onInputValueChange}
+                wrapperClassName="mr-4 w-80"
+              />
               <div className="w-40">
                 <SelectMenu
                   onChange={onUpdateSelectedReportType}
@@ -157,14 +159,36 @@ export default function Reports() {
                   Clear {selectedReportsLength} selected
                 </Button>
               )}
-              <Button
-                iconPlacement="end"
-                icon={<MdOutlineArrowForward className="text-xl" />}
-                onClick={onReportConsolidateButtonClick}
-                disabled={isMergeDisabled}
-              >
-                View consolidated report
-              </Button>
+              {isMergeDisabled ? (
+                <Tooltip
+                  theme="dark"
+                  placementAlign="center"
+                  placementSide="bottom"
+                  content={
+                    <TooltipBody wrapperClassName="text-center w-56 text-sm text-base-300">
+                      Select at least two reports to consolidate them
+                    </TooltipBody>
+                  }
+                >
+                  <Button
+                    iconPlacement="end"
+                    icon={<MdOutlineArrowForward className="text-xl" />}
+                    onClick={onReportConsolidateButtonClick}
+                    disabled={isMergeDisabled}
+                  >
+                    View consolidated report
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Button
+                  iconPlacement="end"
+                  icon={<MdOutlineArrowForward className="text-xl" />}
+                  onClick={onReportConsolidateButtonClick}
+                  disabled={isMergeDisabled}
+                >
+                  View consolidated report
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -179,6 +203,9 @@ export default function Reports() {
           width: 'calc(100vw - 256px)'
         }}
       >
+        {isLoading && searchFilterList.length === 0 && (
+          <Loader wrapperClassName="mt-28 h-96" />
+        )}
         {!isLoading && searchFilterList.length === 0 && (
           <div
             className="bg-base-50 mt-12 "

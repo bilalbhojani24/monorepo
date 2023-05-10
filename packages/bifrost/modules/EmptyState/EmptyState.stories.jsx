@@ -1,13 +1,15 @@
 import React from 'react';
-import EmptyState from './index';
-import { PlusIcon } from '../Icon';
+
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { ES_VARIANTS } from './const/emptyStateComstants';
 import { BUTTON_VARIANTS } from '../Button/const/buttonConstants';
+import { PlusIcon } from '../Icon';
+
+import { ES_VARIANTS } from './const/emptyStateComstants';
+import EmptyState from './index';
 
 const mainIcon = (
   <svg
-    className="mx-auto h-12 w-12 text-base-400"
+    className="text-base-400 mx-auto h-12 w-12"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -28,9 +30,15 @@ const defaultConfig = {
   component: EmptyState,
   parameters: {
     docs: {
-      page: () => {
-        return <DocPageTemplate importStatement={"import EmptyState from 'bifrost/EmptyState'"} />;
-      }
+      page: () => (
+        <DocPageTemplate
+          importStatement={"import EmptyState from 'bifrost/EmptyState'"}
+        />
+      )
+    },
+    design: {
+      type: 'figma',
+      url: ''
     }
   },
   argTypes: {

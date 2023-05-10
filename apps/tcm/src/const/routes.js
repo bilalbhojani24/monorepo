@@ -16,7 +16,7 @@ const AppRoute = {
   REPORTS: '/reports',
   IMPORT: '/projects/quick-import',
   IMPORT_WITH_PROJECTS: '/projects/:projectId/quick-import',
-  IMPORT_CSV: '/import/csv',
+  IMPORT_CSV: '/projects/:projectId/import/csv',
   SETTINGS_API_KEYS: '/settings/api-keys'
 };
 
@@ -25,7 +25,14 @@ const AppRoute = {
 //   : 'https://api.teststack.bsstag.com';
 
 export const BASE_API_URL = import.meta.env.DEV
-    ? 'https://teststack.bsstag.com'
-    : window.location.origin;
+  ? 'https://test-management.bsstag.com'
+  : window.location.origin;
+
+export const WS_URL = import.meta.env.DEV
+  ? 'wss://test-management.bsstag.com/api/v1/cable'
+  : `wss://${window.location.host}/api/v1/cable`;
+
+export const DEV_SIGN_OUT_URL =
+  'https://devteststack.bsstag.com/users/sign_out';
 
 export default AppRoute;
