@@ -28,12 +28,16 @@ const ListFeeds = (props) => {
   const footerNodeRef = useRef(null);
   const containerRef = useRef(null);
   const showHoverContainer = () => {
-    footerNodeRef.current.style.opacity = '100';
-    footerNodeRef.current.style.zIndex = '1';
+    if (footerNodeRef?.current) {
+      footerNodeRef.current.style.opacity = '100';
+      footerNodeRef.current.style.zIndex = '1';
+    }
   };
   const hideHoverContainer = () => {
-    footerNodeRef.current.style.opacity = '0';
-    footerNodeRef.current.style.zIndex = '-1';
+    if (footerNodeRef?.current) {
+      footerNodeRef.current.style.opacity = '0';
+      footerNodeRef.current.style.zIndex = '-1';
+    }
   };
   const handleMouseMove = useCallback((e) => {
     const containerRect = containerRef.current.getBoundingClientRect();
