@@ -13,9 +13,12 @@ import './api/httpInterceptor';
 
 import ReportLoading from './features/ReportLoading';
 import useAppInitiation from './useAppInitiation';
+import useReportRemoteFunctions from './useReportRemoteFunctions';
 
 const App = () => {
   useAppInitiation();
+  const { openUrlInSystemBrowser, openSystemFileFromPath } =
+    useReportRemoteFunctions();
 
   return (
     <HashRouter>
@@ -28,7 +31,15 @@ const App = () => {
 
           <Route element={<RouteWithoutSidebarWrapper />}>
             <Route path="generate" element={<ReportLoading />} />
-            <Route path="report" element={<Report />} />
+            <Route
+              path="report"
+              element={
+                <Report
+                  handleUrlViaConsumer={openUrlInSystemBrowser}
+                  handleFolderViaConsumer={openSystemFileFromPath}
+                />
+              }
+            />
           </Route>
         </Route>
 

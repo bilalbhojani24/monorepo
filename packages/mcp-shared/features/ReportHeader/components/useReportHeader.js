@@ -1,13 +1,17 @@
+import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { formatDeviceAndAppAnalyticsData } from '../../../utils/analyticsDataUtils';
 import { mcpAnalyticsEvent } from '../../../utils/analyticsUtils';
 import { getPreviousRouteForReport, getSessionMetrics } from '../../Report';
+import { ReportContext } from '../../Report/ReportContext';
 
 const useReportHeader = () => {
   const sessionData = useSelector(getSessionMetrics);
   const previousRouteForReport = useSelector(getPreviousRouteForReport);
+
+  const { handleFolderViaConsumer } = useContext(ReportContext);
 
   const navigateToPath = useNavigate();
 
@@ -21,9 +25,7 @@ const useReportHeader = () => {
       formatDeviceAndAppAnalyticsData(sessionData?.device, sessionData?.package)
     );
 
-    window.remoteThreadFunctions.openSystemFileFromPath(
-      sessionData?.metadata?.video
-    );
+    handleFolderViaConsumer(sessionData?.metadata?.video);
   };
 
   return { sessionData, backButtonClicked, openDiagnosticFolder };

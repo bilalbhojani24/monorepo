@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
@@ -7,9 +7,12 @@ import {
 } from '../../../utils/analyticsDataUtils';
 import { mcpAnalyticsEvent } from '../../../utils/analyticsUtils';
 import { getSessionMetrics } from '../../Report';
+import { ReportContext } from '../../Report/ReportContext';
 
 export const useAuditAccordion = (auditDetails) => {
   const sessionData = useSelector(getSessionMetrics);
+  const { handleUrlViaConsumer } = useContext(ReportContext);
+
   const [isAuditAccordionOpen, setIsAuditAccordionOpen] = useState(false);
 
   const accordionOpened = () => {
@@ -27,7 +30,7 @@ export const useAuditAccordion = (auditDetails) => {
 
   const learnHowToFix = () => {
     if (auditDetails?.link) {
-      window.remoteThreadFunctions?.openUrlInSystemBrowser(auditDetails?.link);
+      handleUrlViaConsumer(auditDetails?.link);
     }
 
     mcpAnalyticsEvent('csptReportSummaryRecClick', {

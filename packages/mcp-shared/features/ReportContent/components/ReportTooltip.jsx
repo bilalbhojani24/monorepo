@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import {
   MdInfoOutline,
@@ -15,9 +15,12 @@ import {
 import { mcpAnalyticsEvent } from '../../../utils/analyticsUtils';
 import { HyperlinkWithAnalytics } from '../../Abstractions';
 import { getSessionMetrics } from '../../Report';
+import { ReportContext } from '../../Report/ReportContext';
 
 const ReportTooltip = ({ cardToolTipData }) => {
   const sessionData = useSelector(getSessionMetrics);
+
+  const { handleUrlViaConsumer } = useContext(ReportContext);
 
   const [showReportTooltip, setShowReportTooltip] = React.useState(false);
 
@@ -41,7 +44,7 @@ const ReportTooltip = ({ cardToolTipData }) => {
               )}
               onClick={() => {
                 if (cardToolTipData?.link) {
-                  window.remoteThreadFunctions?.openUrlInSystemBrowser(
+                  handleUrlViaConsumer(
                     cardToolTipData.link(sessionData?.device?.os)
                   );
                 }
