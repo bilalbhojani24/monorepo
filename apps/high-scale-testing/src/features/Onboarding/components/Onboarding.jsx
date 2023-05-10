@@ -39,35 +39,37 @@ const Onboarding = () => {
   const listFeedStepValue = (number) => <span>{number}</span>;
 
   const DescriptionNodeStep1 = (
-    <RadioGroup
-      onChange={() => {}}
-      options={[
-        {
+    <div className="mt-4">
+      <RadioGroup
+        onChange={() => {}}
+        options={[
+          {
+            disabled: false,
+            id: 'radio-1',
+            name: 'Amazon Cloud'
+          },
+          {
+            disabled: true,
+            id: 'radio-2',
+            name: 'Google Cloud'
+          },
+          {
+            disabled: true,
+            id: 'radio-3',
+            name: 'Microsoft Azure'
+          }
+        ]}
+        selectedOption={{
           disabled: false,
           id: 'radio-1',
           name: 'Amazon Cloud'
-        },
-        {
-          disabled: true,
-          id: 'radio-2',
-          name: 'Google Cloud'
-        },
-        {
-          disabled: true,
-          id: 'radio-3',
-          name: 'Microsoft Azure'
-        }
-      ]}
-      selectedOption={{
-        disabled: false,
-        id: 'radio-1',
-        name: 'Amazon Cloud'
-      }}
-    />
+        }}
+      />
+    </div>
   );
 
   const DescriptionNodeStep2 = (
-    <>
+    <div className="mt-4">
       <SelectMenu onChange={() => {}} value="">
         <SelectMenuLabel>Select Region:</SelectMenuLabel>
         <SelectMenuTrigger placeholder="Select Region" />
@@ -77,19 +79,19 @@ const Onboarding = () => {
           ))}
         </SelectMenuOptionGroup>
       </SelectMenu>
-    </>
+    </div>
   );
 
   const DescriptionNodeStep3 = (
-    <p className="text-base-700 mt-2 text-sm">
-      Set up a new IAM role via the CloudFormation link and generate the AWS
-      access key and secret to create and manage the Automation Grid. Read more
-      about this here.
+    <p className="text-base-700 mt-1 text-sm">
+      Set up a <a href="/">new IAM role</a> via the CloudFormation link and
+      generate the AWS access key and secret to create and manage the Automation
+      Grid. Read more about this <a href="/">here</a>.
     </p>
   );
 
   const DescriptionNodeStep4 = (
-    <div>
+    <div className="mt-4">
       <ol className="text-base-500 list-disc">
         <li className="py-2">
           <div>
@@ -130,13 +132,13 @@ const Onboarding = () => {
 
   const HeaderNodeStep2 = (
     <>
-      <div className="flex">
+      <div className="flex gap-1">
         <p className="text-base-500 text-sm">
           <b className="text-base-800">Grid Profile Details </b>
         </p>
         <Badge hasRemoveButton={false} modifier="warn" text="Default" />
       </div>
-      <p className="text-base-500 text-sm">
+      <p className="text-base-900 mt-1 text-sm">
         The selected region is based on the default grid profile. Select an AWS
         region nearest to your staging components.
       </p>
@@ -158,7 +160,7 @@ const Onboarding = () => {
           <b className="text-base-800">Create Grid</b>
         </p>
       </div>
-      <p>
+      <p className="mt-1">
         Execute the below commands to setup the BrowserStack CLI and create an
         Automation Grid.
       </p>
