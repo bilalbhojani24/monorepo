@@ -1,6 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 /* eslint-disable tailwindcss/enforces-negative-arbitrary-values */
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -30,6 +30,7 @@ import VCIcon from 'common/VCIcon';
 import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
+import { AppContext } from 'features/Layout/context/AppContext';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -61,6 +62,7 @@ function BuildDetailsHeader({
   isNewItemLoading,
   applyTestListFilter
 }) {
+  const { headerSize } = useContext(AppContext);
   const getActiveTab = useSelector(getBuildDetailsActiveTab);
   const navigate = useNavigate();
   const buildMeta = useSelector(getBuildMeta);
@@ -214,7 +216,12 @@ function BuildDetailsHeader({
   } = buildMeta.data;
 
   return (
-    <div className="border-base-200 bg-base-50 z-10 border-b px-6 pt-6">
+    <div
+      className="border-base-200 bg-base-50 sticky top-16 z-10 border-b px-6 pt-6"
+      style={{
+        top: `${headerSize.blockSize}px`
+      }}
+    >
       <div className="flex justify-between">
         <h1 className="w-full text-2xl font-bold leading-7">
           {isAutoDetectedName ? originalName : name}{' '}
