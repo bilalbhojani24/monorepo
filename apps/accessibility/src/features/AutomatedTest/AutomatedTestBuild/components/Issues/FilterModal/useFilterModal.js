@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react';
-import SectionsDataContext from 'features/AutomatedTest/AutomatedTestBuild/context/SectionsDataContext';
 
-export default function useFilterModal() {
+export default function useFilterModal(sectionsDataContext) {
   const {
     urls,
     componentIds,
@@ -9,7 +8,7 @@ export default function useFilterModal() {
     buildFilters,
     onCloseClick,
     onApplyFilters: onSubmit
-  } = useContext(SectionsDataContext);
+  } = useContext(sectionsDataContext);
   const [selectedImpact, setSelectedImpact] = useState(buildFilters.impact);
   const [selectedPages, setSelectedPages] = useState(buildFilters.page);
   const [pageValue, setPageValue] = useState('');

@@ -16,7 +16,7 @@ import { severityOptions } from 'constants';
 
 import useFilterModal from './useFilterModal';
 
-export default function FilterModal() {
+export default function FilterModal({ sectionsDataContext }) {
   const {
     selectedImpact,
     showNeedsReviewIssues,
@@ -37,7 +37,7 @@ export default function FilterModal() {
     onInputBoxChange,
     onApplyFilters,
     onUpdateFilters
-  } = useFilterModal();
+  } = useFilterModal(sectionsDataContext);
 
   return (
     <Modal show size="lg" onOverlayClick={onCloseClick}>

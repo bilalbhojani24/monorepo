@@ -27,21 +27,30 @@ import {
 import NeedsReviewBanner from './NeedsReviewBanner';
 import useIssueItem from './useIssueItem';
 
-export default function IssueItem() {
+export default function IssueItem({ sectionsDataContext }) {
   const {
     activeTab,
     isCopied,
+    activeIssueIndex,
+    activeViolation,
+    showHiddenIssues,
+    activeComponentNodes,
+    activeViolationId,
+    isGuidelineMode,
     headerData,
     issueItem,
-    onTabChange,
+    buildMetaData,
+    activeComponentId,
+    sanitizeValue,
     onNextClick,
     onPreviousClick,
-    onCloseClick,
+    onIssueCloseClick,
+    onTabChange,
     onTagClick,
     setIsCopied,
     getNodeNeedsReviewStatusInReports,
     getReviewMessage
-  } = useIssueItem();
+  } = useIssueItem(sectionsDataContext);
   const {
     page: { url },
     html,
@@ -75,7 +84,6 @@ export default function IssueItem() {
 
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
-    reportMetaData,
     testType
   );
 
@@ -92,7 +100,7 @@ export default function IssueItem() {
 
   const isShowingSourceReport =
     needsReviewStatusinReports.length > 0 &&
-    Object.values(reportMetaData?.meta).length > 1;
+    Object.values(buildMetaData?.meta).length > 1;
 
   return (
     <div className="relative">
@@ -140,7 +148,7 @@ export default function IssueItem() {
         </div>
         <Button
           icon={<MdClose className="text-base-400 text-2xl" />}
-          onClick={onCloseClick}
+          onClick={onIssueCloseClick}
           colors="white"
           size="large"
           isIconOnlyButton

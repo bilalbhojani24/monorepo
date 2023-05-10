@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 
 import useActiveFilters from './useActiveFilters';
 
-export default function ActiveFilters() {
+export default function ActiveFilters({ sectionsDataContext }) {
   const {
     hasFilters,
     showHiddenIssues,
@@ -27,7 +27,7 @@ export default function ActiveFilters() {
     onHiddenIssueClick,
     onTagClose,
     onUpdateImpact
-  } = useActiveFilters();
+  } = useActiveFilters(sectionsDataContext);
 
   const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
 

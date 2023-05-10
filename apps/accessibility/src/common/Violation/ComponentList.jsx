@@ -15,7 +15,8 @@ import { updateUrlWithQueryParam } from 'utils/helper';
 export default function ComponentList({
   nodes,
   violationId,
-  activeComponentId
+  activeComponentId,
+  onRowClick
 }) {
   // const dispatch = useDispatch();
   // const navigate = useNavigate();
@@ -107,7 +108,7 @@ export default function ComponentList({
           {tableData.map(({ id, isActive, ...rest }) => (
             <TableRow
               wrapperClassName="cursor-pointer"
-              // onRowClick={() => onRowClick(id)}
+              onRowClick={() => onRowClick(id, violationId)}
             >
               {columns.map((column, index) => (
                 <TableCell
@@ -147,7 +148,8 @@ export default function ComponentList({
 ComponentList.propTypes = {
   nodes: PropTypes.arrayOf(PropTypes.object).isRequired,
   violationId: PropTypes.string.isRequired,
-  activeComponentId: PropTypes.string
+  activeComponentId: PropTypes.string,
+  onRowClick: PropTypes.func.isRequired
 };
 
 ComponentList.defaultProps = {

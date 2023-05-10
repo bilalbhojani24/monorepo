@@ -10,6 +10,8 @@ import IssueItem from './IssueItem';
 import useIssues from './useIssues';
 import ViolationList from './ViolationList';
 
+import './customStyle.scss';
+
 export default function Issues() {
   const {
     urls,
@@ -18,13 +20,30 @@ export default function Issues() {
     activeComponentId,
     isShowingIssue,
     isFilterModalVisible,
+    activeIssueIndex,
     buildFilters,
     sectionData,
     showHiddenIssues,
     activeSwitch,
+    activeComponentNodes,
+    buildMetaData,
+    activeViolation,
+    isGuidelineMode,
+    headerData,
+    issueItem,
+    issueNode,
+    activeNodes,
+    activeViolationId,
+    activeIssueSection,
+    activeBuildFilters,
+    wcagVersion,
+    onRowClick,
+    onTagClose,
+    onHiddenIssueClick,
     onNextClick,
     onPreviousClick,
     onIssueCloseClick,
+    onTabSelect,
     onApplyFilters,
     onUpdateImpact,
     onFilterButtonClick,
@@ -54,6 +73,24 @@ export default function Issues() {
         violations,
         activeSwitch,
         hasFilters,
+        buildMetaData,
+        activeComponentNodes,
+        issueNode,
+        headerData,
+        issueItem,
+        activeNodes,
+        activeIssueIndex,
+        activeViolation,
+        isGuidelineMode,
+        activeViolationId,
+        activeComponentId,
+        activeIssueSection,
+        activeBuildFilters,
+        wcagVersion,
+        onHiddenIssueClick,
+        onTabSelect,
+        onRowClick,
+        onTagClose,
         onApplyFilters,
         onUpdateSwitch,
         onCloseClick,
@@ -69,8 +106,10 @@ export default function Issues() {
       }}
     >
       <div className="fixed" style={{ top: '171px' }}>
-        <ActiveFilters />
-        {isFilterModalVisible && <FilterModal />}
+        <ActiveFilters sectionsDataContext={SectionsDataContext} />
+        {isFilterModalVisible && (
+          <FilterModal sectionsDataContext={SectionsDataContext} />
+        )}
         <div
           className="fixed overflow-auto"
           style={{
@@ -99,7 +138,7 @@ export default function Issues() {
                 )}
                 style={{ minHeight: 'calc(100vh - 228px)', height: '100%' }}
               >
-                <ViolationList />
+                <ViolationList sectionsDataContext={SectionsDataContext} />
               </div>
               {isHalfView && sectionData && (
                 <div
@@ -109,7 +148,7 @@ export default function Issues() {
                     width: 'calc((100vw - 256px) / 2)'
                   }}
                 >
-                  <IssueItem />
+                  <IssueItem sectionsDataContext={SectionsDataContext} />
                 </div>
               )}
             </div>

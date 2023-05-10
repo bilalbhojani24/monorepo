@@ -11,7 +11,12 @@ import PropTypes from 'prop-types';
 
 import ComponentList from './ComponentList';
 
-export default function Violation({ violation, index, activeComponentId }) {
+export default function Violation({
+  violation,
+  index,
+  activeComponentId,
+  onRowClick
+}) {
   // const activeComponentId = useSelector(getActiveComponentId);
   // const isShowingIssue = useSelector(getIsShowingIssue);
   // const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
@@ -79,6 +84,7 @@ export default function Violation({ violation, index, activeComponentId }) {
           nodes={violation.nodes}
           violationId={violation.id}
           activeComponentId={activeComponentId}
+          onRowClick={onRowClick}
         />
       </AccordionPanel>
     </Accordion>
@@ -87,11 +93,12 @@ export default function Violation({ violation, index, activeComponentId }) {
 
 Violation.propTypes = {
   violation: PropTypes.objectOf(PropTypes.any),
-  // activeComponentId: PropTypes.string,
-  index: PropTypes.number.isRequired
+  activeComponentId: PropTypes.string,
+  index: PropTypes.number.isRequired,
+  onRowClick: PropTypes.func.isRequired
 };
 
 Violation.defaultProps = {
-  violation: {}
-  // activeComponentId: ''
+  violation: {},
+  activeComponentId: ''
 };

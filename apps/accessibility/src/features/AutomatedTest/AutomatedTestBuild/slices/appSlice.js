@@ -88,7 +88,7 @@ const getInitialTab = () => {
         result.activeIssueIndex = parseInt(activeIssueIndex, 10);
       }
       if (isShowingIssue) {
-        result.isShowingIssue = isShowingIssue;
+        result.isShowingIssue = isShowingIssue !== 'false';
       }
       if (activeFilters) {
         result.activeFilters = activeFilters;

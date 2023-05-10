@@ -1,39 +1,40 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { activeInitFilters, events, GUIDELINES } from 'constants';
 import {
+  resetFilters,
+  resetIssueItem,
+  setActiveComponentId,
+  setActiveIssueIndex,
   setActiveSwitch,
+  setActiveViolationId,
   setBuildFilters,
   setBuildFiltersKey,
-  setIsFilterModalVisible
+  setIsFilterModalVisible,
+  setIsShowingIssue,
+  setResetFilterKey,
+  setShowHiddenIssues
 } from 'features/AutomatedTest/AutomatedTestBuild/slices/appSlice';
 import {
   getActiveComponentId,
+  getActiveComponentNodes,
+  getActiveIssueIndex,
   getActiveSwitch,
+  getActiveViolation,
+  getActiveViolationId,
   getBuildData,
   getBuildFilters,
+  getBuildMetaData,
   getCustomData,
   getIsFilterModalVisible,
   getIsShowingIssue,
+  getIssueItem,
   getShowHiddenIssuesState,
   getUniqFilterValues
 } from 'features/AutomatedTest/AutomatedTestBuild/slices/selector';
-// import {
-//   resetFilters,
-//   resetIntermediateFilters,
-//   resetIntermediateFiltersToActiveFilters,
-//   resetIntermediateResetFilterKey,
-//   resetIssueItem,
-//   setIntermediateReportFiltersKey,
-//   setOpenAccordionId,
-//   // setReportFilters,
-//   setReportFiltersKey,
-//   setResetFilterKey,
-//   setShowHiddenIssues
-// } from 'features/Report/slice/appSlice';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
-
-// import { logEvent } from 'utils/logEvent';
+import { logEvent } from 'utils/logEvent';
 
 export default function useIssues() {
   const dispatch = useDispatch();
@@ -48,8 +49,80 @@ export default function useIssues() {
   const customData = useSelector(getCustomData);
   const activeBuildFilters = useSelector(getBuildFilters);
   const showHiddenIssues = useSelector(getShowHiddenIssuesState);
+  const buildMetaData = useSelector(getBuildMetaData);
+  const issueNode = useSelector(getIssueItem);
+  const activeNodes = useSelector(getActiveComponentNodes);
+  const activeViolationId = useSelector(getActiveViolationId);
+  const activeIssueSection = useSelector(getActiveViolation);
+  const activeIssueIndex = useSelector(getActiveIssueIndex);
+  const params = new URLSearchParams(window.location.search);
+  const wcagVersion = params.get('wcagVersion');
+
   const [sectionData, setSectionData] = useState(null);
   const [filteredBuildData, setFilteredBuildData] = useState(buildData);
+
+  let activeIssueItem = null;
+  let activeViolationItem = null;
+  let activeSectionNodes = null;
+
+  const isGuidelineMode = activeSwitch === GUIDELINES;
+  if (isGuidelineMode && sectionData && activeViolationId) {
+    activeViolationItem = sectionData.find(
+      ({ violation }) => violation.id === activeViolationId
+    ).violation;
+    if (showHiddenIssues) {
+      activeViolationItem = {
+        ...activeViolationItem,
+        nodes: activeViolationItem.nodes.filter(({ hidden }) => hidden)
+      };
+    } else {
+      activeViolationItem = {
+        ...activeViolationItem,
+        nodes: activeViolationItem.nodes.filter(({ confirmed }) =>
+          activeBuildFilters.showNeedsReviewIssues
+            ? confirmed === null
+            : confirmed || confirmed === null
+        )
+      };
+    }
+    activeIssueItem = activeViolationItem.nodes.filter(
+      ({ componentId }) => componentId === activeComponentId
+    )[activeIssueIndex];
+    activeSectionNodes = activeViolationItem.nodes.filter(
+      (node) => node.componentId === activeComponentId
+    );
+  }
+
+  const issueItem = isGuidelineMode ? activeIssueItem : issueNode;
+  const activeViolation = isGuidelineMode
+    ? activeViolationItem
+    : activeIssueSection;
+  let activeComponentNodes = isGuidelineMode ? activeSectionNodes : activeNodes;
+
+  // NOTE: Node filter logic for the right panel
+  if (activeBuildFilters.page.length) {
+    activeComponentNodes = activeComponentNodes.filter((node) =>
+      activeBuildFilters.page.map(({ value }) => value).includes(node.page.url)
+    );
+  }
+  if (activeBuildFilters.component.length) {
+    activeComponentNodes = activeComponentNodes.filter((node) =>
+      activeBuildFilters.component
+        .map(({ value }) => value)
+        .includes(node.componentId)
+    );
+  }
+
+  const headerData = {
+    tags: isGuidelineMode
+      ? isShowingIssue &&
+        activeViolation.tags.filter((tag) => tag === activeViolation.id)
+      : isShowingIssue && activeViolation.tags,
+    help: isShowingIssue && activeViolation.help,
+    description: isShowingIssue && activeViolation.description
+  };
+
+  const maxLimit = activeComponentNodes && activeComponentNodes.length - 1;
 
   useEffect(() => {
     let filteredViolations = buildData.map((violation) => ({
@@ -210,6 +283,19 @@ export default function useIssues() {
     dispatch(setIsFilterModalVisible(true));
   };
 
+  const onRowClick = (key, violationId) => {
+    dispatch(setActiveViolationId(violationId));
+    dispatch(setActiveComponentId(key));
+    dispatch(setIsShowingIssue(true));
+    const path = updateUrlWithQueryParam({
+      activeViolationId: violationId,
+      activeComponentId: key,
+      isShowingIssue: true,
+      activeIssueIndex: 0
+    });
+    navigate(`?${path}`);
+  };
+
   const onCloseClick = () => {
     dispatch(setIsFilterModalVisible(false));
   };
@@ -225,7 +311,7 @@ export default function useIssues() {
         values: values.map(({ value }) => value)
       })
     );
-    // dispatch(resetIssueItem());
+    dispatch(resetIssueItem());
     const path = deleteUrlQueryParam([
       'activeViolationId',
       'activeComponentId',
@@ -241,7 +327,7 @@ export default function useIssues() {
 
   const onApplyFilters = (intermediateFilters) => {
     dispatch(setBuildFilters(intermediateFilters));
-    // dispatch(resetIssueItem());
+    dispatch(resetIssueItem());
     const path = deleteUrlQueryParam([
       'activeViolationId',
       'activeComponentId',
@@ -288,48 +374,44 @@ export default function useIssues() {
     navigate(`?${path}`);
   };
 
-  // const onTagClose = (key) => {
-  //   // if (key === 'all') {
-  //   //   dispatch(resetFilters());
-  //   //   dispatch(resetIntermediateFilters());
-  //   //   const path = deleteUrlQueryParam(Object.keys(activeInitFilters));
-  //   //   navigate(`?${path}`);
-  //   // } else if (key === 'showNeedsReviewIssues') {
-  //   //   const path = deleteUrlQueryParam(['showNeedsReviewIssues']);
-  //   //   navigate(`?${path}`);
-  //   //   dispatch(resetIntermediateResetFilterKey({ key, value: false }));
-  //   //   dispatch(setResetFilterKey({ key, value: false }));
-  //   // } else {
-  //   //   dispatch(resetIntermediateResetFilterKey({ key, value: [] }));
-  //   //   const path = deleteUrlQueryParam([key]);
-  //   //   navigate(`?${path}`);
-  //   //   dispatch(setResetFilterKey({ key, value: [] }));
-  //   // }
-  // };
+  const onTagClose = (key) => {
+    if (key === 'all') {
+      dispatch(resetFilters());
+      const path = deleteUrlQueryParam(Object.keys(activeInitFilters));
+      navigate(`?${path}`);
+    } else if (key === 'showNeedsReviewIssues') {
+      const path = deleteUrlQueryParam(['showNeedsReviewIssues']);
+      navigate(`?${path}`);
+      dispatch(setResetFilterKey({ key, value: false }));
+    } else {
+      const path = deleteUrlQueryParam([key]);
+      navigate(`?${path}`);
+      dispatch(setResetFilterKey({ key, value: [] }));
+    }
+  };
 
-  // const onTabSelect = (tabValue) => {
-  //   dispatch(setActiveSwitch(tabValue));
-  //   // dispatch(setOpenAccordionId(''));
-  //   logEvent('OnADReportView', {
-  //     actionType: events.allIssuesTab,
-  //     tab: tabValue
-  //   });
-  //   const path = updateUrlWithQueryParam({
-  //     activeSwitch: tabValue,
-  //     activeViolationId: '',
-  //     activeComponentId: '',
-  //     activeIssueIndex: 0,
-  //     isShowingIssue: false
-  //   });
-  //   navigate(`?${path}`);
-  // };
+  const onTabSelect = (tabValue) => {
+    dispatch(setActiveSwitch(tabValue));
+    logEvent('OnADReportView', {
+      actionType: events.allIssuesTab,
+      tab: tabValue
+    });
+    const path = updateUrlWithQueryParam({
+      activeSwitch: tabValue,
+      activeViolationId: '',
+      activeComponentId: '',
+      activeIssueIndex: 0,
+      isShowingIssue: false
+    });
+    navigate(`?${path}`);
+  };
 
-  // const onHiddenIssueClick = (val) => {
-  //   const path = updateUrlWithQueryParam({ hideIssues: val });
-  //   navigate(`?${path}`);
-  //   // dispatch(resetIssueItem());
-  //   // dispatch(setShowHiddenIssues({ hideIssues: val }));
-  // };
+  const onHiddenIssueClick = (val) => {
+    const path = updateUrlWithQueryParam({ hideIssues: val });
+    navigate(`?${path}`);
+    dispatch(resetIssueItem());
+    dispatch(setShowHiddenIssues({ hideIssues: val }));
+  };
 
   return {
     urls,
@@ -341,7 +423,24 @@ export default function useIssues() {
     buildFilters,
     sectionData,
     showHiddenIssues,
+    isGuidelineMode,
+    activeIssueIndex,
     activeSwitch,
+    buildMetaData,
+    issueNode,
+    headerData,
+    issueItem,
+    activeComponentNodes,
+    activeNodes,
+    activeViolation,
+    activeViolationId,
+    activeIssueSection,
+    activeBuildFilters,
+    wcagVersion,
+    onTagClose,
+    onTabSelect,
+    onHiddenIssueClick,
+    onRowClick,
     onNextClick,
     onPreviousClick,
     onIssueCloseClick,
