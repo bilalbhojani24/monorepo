@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import RenderModal from './components/RenderModal';
@@ -14,11 +14,15 @@ import { FeedbackWidgetContextData } from './context/feedbackWidgetContext';
 const FeedbackWidget = ({
   description,
   handleFeedbackClick,
+  formFields,
   title,
   type,
   variation,
   variationsProps
 }) => {
+  const [formData, setFormData] = useState({});
+  const [formError, setFormError] = useState({});
+
   const arrayType = () => {
     if (type === 'emoji') return emojisConstants;
     if (type === 'thumbs') return thumbsConstants;
@@ -32,6 +36,34 @@ const FeedbackWidget = ({
     return null;
   };
 
+  const handleFormSubmit = () => {
+    setFormError({});
+
+    formFields.forEach((field) => {
+      let error = 0;
+      const currentFieldValue = formData[field.id];
+      if (field.isMandatory && !currentFieldValue) {
+        setFormError((prev) => ({
+          ...prev,
+          [field.id]: 'Required field'
+        }));
+        error += 1;
+      }
+
+      if (field.regex && !field.regex.test(formData[field?.id])) {
+        setFormError({
+          ...formError,
+          [field.id]: field.errorMessage
+        });
+        error += 1;
+      }
+
+      if (!error) {
+        handleFeedbackClick?.(formData);
+      }
+    });
+  };
+
   return (
     <FeedbackWidgetContextData.Provider
       value={{
@@ -40,7 +72,13 @@ const FeedbackWidget = ({
         type,
         title,
         description,
-        variationsProps
+        variationsProps,
+        formData,
+        setFormData,
+        formError,
+        setFormError,
+        fields: formFields,
+        handleFormSubmit
       }}
     >
       {renderVariation()}
@@ -54,6 +92,7 @@ FeedbackWidget.propTypes = {
   type: PropTypes.oneOf(feedbackType),
   title: PropTypes.node,
   variation: PropTypes.oneOf(['modal', 'toast']),
+  formFields: PropTypes.arrayOf(PropTypes.shape({})),
   variationsProps: {
     modal: PropTypes.shape({}),
     modalHeader: PropTypes.shape({}),
@@ -64,6 +103,7 @@ FeedbackWidget.propTypes = {
 FeedbackWidget.defaultProps = {
   description: null,
   handleFeedbackClick: null,
+  formFields: [],
   type: feedbackType[0],
   title: null,
   variation: 'modal',

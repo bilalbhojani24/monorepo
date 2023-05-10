@@ -14,6 +14,27 @@ import FeedbackSuccess from './components/FeedbackSuccess';
 import { feedbackType } from './const/feedbackWidgetConst';
 import FeedbackWidget from './index';
 
+const fields = [
+  {
+    id: 'comment',
+    label: 'Other comments',
+    fileType: 'textarea',
+    placeholder: 'Please elaborate here',
+    isMandatory: true,
+    isResizable: true
+  },
+  {
+    id: 'email',
+    label: 'Business email',
+    fileType: 'input',
+    placeholder: 'you@example.com',
+    wrapperClassName: '',
+    isMandatory: true,
+    errorMessage: 'Invalid email address',
+    regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+  }
+];
+
 const defaultConfig = {
   title: 'Application/Components/FeedbackWidget',
   component: FeedbackWidget,
@@ -32,6 +53,10 @@ const defaultConfig = {
     description: {
       option: { type: 'string' },
       defaultValue: 'Optional description text for added context'
+    },
+    formFields: {
+      option: { type: 'object' },
+      defaultValue: fields
     },
     title: {
       option: { type: 'string' },
@@ -119,6 +144,7 @@ export const ModalFeedbackWidget = () => {
       <FeedbackWidget
         title="How was your experience with Lorem Ipsum?"
         description="Optional description text for added context"
+        formFields={fields}
         handleFeedbackClick={(i) => console.log(i)}
         type={currentType.value}
         variationsProps={{

@@ -1,34 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { InputField, TextArea } from '@browserstack/bifrost';
 
-const fields = [
-  {
-    label: 'Other comments',
-    fileType: 'textarea',
-    placeholder: 'Please elaborate here',
-    isMandatory: true,
-    isResizable: true
-
-    // initialValue: ''
-  },
-  {
-    label: 'Business email',
-    fileType: 'input',
-    placeholder: 'you@example.com',
-    // initialValue: '',
-    wrapperClassName: '',
-    isMandatory: true
-  }
-];
+import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
 const FormBuilder = () => {
-  //   const [fields, setFields] = useState([]);
-  console.log('');
+  const { fields, formData, setFormData, formError } = useContext(
+    FeedbackWidgetContextData
+  );
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    });
+  };
+
   return (
     <div className="space-y-2">
       {fields.map((field) => {
-        if (field.fileType === 'textarea') return <TextArea {...field} />;
-        if (field.fileType === 'input') return <InputField {...field} />;
+        if (field.fileType === 'textarea')
+          return <TextArea {...field} onChange={handleChange} />;
+        if (field.fileType === 'input')
+          return (
+            <InputField
+              {...field}
+              onChange={handleChange}
+              errorText={formError[field.id]}
+            />
+          );
         return null;
       })}
     </div>
