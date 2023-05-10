@@ -20,9 +20,9 @@ const link = (
   modifier,
   handleLinkClick,
   linkUrl,
-  linkText
+  detailsNode
 ) => {
-  if (linkText)
+  if (detailsNode)
     return (
       <a
         href="/"
@@ -43,7 +43,7 @@ const link = (
           if (handleLinkClick) handleLinkClick(linkUrl);
         }}
       >
-        <div className="inline-flex">{linkText}</div>
+        <div className="inline-flex">{detailsNode}</div>
       </a>
     );
   return null;
@@ -55,7 +55,7 @@ const Alerts = (props) => {
     accentBorder,
     alertLinkPosition,
     handleLinkClick,
-    linkText,
+    detailsNode,
     linkUrl,
     show,
     description,
@@ -254,25 +254,25 @@ const Alerts = (props) => {
                   </div>
 
                   {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                    linkText &&
+                    detailsNode &&
                     link(
                       alertLinkPosition,
                       modifier,
                       handleLinkClick,
                       linkUrl,
-                      linkText
+                      detailsNode
                     )}
                 </span>
               </div>
 
-              {alertLinkPosition === ALERT_LINK_POSITION[1] && linkText && (
+              {alertLinkPosition === ALERT_LINK_POSITION[1] && detailsNode && (
                 <p className="mt-3 h-fit text-sm md:ml-6 md:mt-0">
                   {link(
                     alertLinkPosition,
                     modifier,
                     handleLinkClick,
                     linkUrl,
-                    linkText
+                    detailsNode
                   )}
                 </p>
               )}
@@ -324,7 +324,7 @@ Alerts.propTypes = {
   accentBorder: PropTypes.bool,
   alertLinkPosition: PropTypes.oneOf(Object.values(ALERT_LINK_POSITION)),
   handleLinkClick: PropTypes.func,
-  linkText: PropTypes.node,
+  detailsNode: PropTypes.node,
   linkUrl: PropTypes.string,
   show: PropTypes.bool,
   modifier: PropTypes.string,
@@ -361,7 +361,7 @@ Alerts.defaultProps = {
   accentBorder: false,
   alertLinkPosition: 'end',
   handleLinkClick: () => {},
-  linkText: null,
+  detailsNode: null,
   linkUrl: '/',
   show: true,
   description: '',
