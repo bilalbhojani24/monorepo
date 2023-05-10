@@ -11,10 +11,32 @@ const DraggableContainer = ({ children, position, positionRef }) => {
   const widgetRef = useRef(null);
   const bodyRef = useRef(document.body);
   const bodyResizeObserver = useResizeObserver(bodyRef);
-  const windowHeight = window.innerHeight;
+  const widgetResizeObserver = useResizeObserver(widgetRef);
+  const windowHeight = document.body.getBoundingClientRect().height - 8;
+  const windowWidth = document.body.getBoundingClientRect().width - 8;
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
-  const [showWidget, setShowWidget] = useState(false);
+  const [widgetDimensions, setWidgetDimensions] = useState({
+    height: DEFAULT_WIDGET_DIMENSIONS.MIN[0],
+    width: DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+  });
+
+  // looks at width and heightrelated changes of the container so that
+  // widget renders properly with the body
+  useEffect(() => {
+    const widgetRect = widgetRef.current?.getBoundingClientRect() || {};
+    let { height, width } = widgetRect;
+    width =
+      width < DEFAULT_WIDGET_DIMENSIONS.MIN[0]
+        ? DEFAULT_WIDGET_DIMENSIONS.MIN[0]
+        : height;
+    height =
+      height < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+        ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+        : height;
+
+    setWidgetDimensions({ height, width });
+  }, [widgetResizeObserver]);
 
   useEffect(() => {
     setRefAquired(true);
@@ -22,7 +44,6 @@ const DraggableContainer = ({ children, position, positionRef }) => {
   // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (refAquired && widgetRef.current) {
-      const widgetRefClientRect = widgetRef.current?.getBoundingClientRect();
       const pos = getWidgetRenderPosition(
         position,
         positionRef?.current?.getBoundingClientRect(),
@@ -31,21 +52,29 @@ const DraggableContainer = ({ children, position, positionRef }) => {
       let { y } = pos;
 
       // is widget going out of screen?
-      if (y + widgetRefClientRect.height >= windowHeight) {
-        const overflowY = y + widgetRefClientRect.height - windowHeight + 24;
-        y -= overflowY;
+      if (y + widgetDimensions.height >= windowHeight) {
+        const overflowY = y + widgetDimensions.height - windowHeight;
+        y = y - overflowY > 8 ? y - overflowY : 8;
       }
+
       setWidgetPosition((prev) => {
         const xVal = prev && prev.x < pos.x ? prev.x : pos.x;
-        const yVal = prev?.y ? prev?.y : y;
-
+        const yVal = prev && prev.y < y ? prev.y : y;
         return {
           x: xVal < 8 ? 8 : xVal,
           y: yVal < 8 ? 8 : yVal
         };
       });
     }
-  }, [position, positionRef, refAquired, windowHeight, bodyResizeObserver]);
+  }, [
+    position,
+    positionRef,
+    refAquired,
+    windowWidth,
+    windowHeight,
+    bodyResizeObserver,
+    widgetDimensions
+  ]);
 
   const onDrag = (__, { x, y }) => {
     setWidgetPosition({
@@ -53,11 +82,6 @@ const DraggableContainer = ({ children, position, positionRef }) => {
       y
     });
   };
-
-  useEffect(() => {
-    setWidgetPosition(null);
-    setShowWidget(true);
-  }, [widgetPosition]);
 
   return (
     <Draggable
@@ -69,8 +93,8 @@ const DraggableContainer = ({ children, position, positionRef }) => {
     >
       <div
         ref={widgetRef}
-        className={'border-base-200 absolute top-0 flex flex-col overflow-hidden rounded-md border border-solid drop-shadow-lg z-10'.concat(
-          showWidget ? '' : ' hidden'
+        className={'border-base-200 absolute top-0 z-10 flex flex-col overflow-hidden rounded-md border border-solid transform-gpu drop-shadow-lg'.concat(
+          widgetPosition ? '' : ' hidden'
         )}
         style={{
           width: DEFAULT_WIDGET_DIMENSIONS.INITIAL_WIDTH,
