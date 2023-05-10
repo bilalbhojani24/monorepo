@@ -27,6 +27,7 @@ const MiniatureRepository = ({
   selectedTestCases
 }) => {
   const {
+    isInitialLoadingDone,
     filterOptions,
     metaPage,
     selectedFolder,
@@ -179,14 +180,22 @@ const MiniatureRepository = ({
                     />
                   </div>
                 ) : (
-                  <FolderExplorer
-                    projectId={projectId}
-                    folderId={selectedFolder?.id || null}
-                    allFolders={allFolders}
-                    isSingleSelect
-                    onFolderClick={onFolderClick}
-                    onFoldersUpdate={onFoldersUpdate}
-                  />
+                  <>
+                    {allFolders?.length || !isInitialLoadingDone ? (
+                      <FolderExplorer
+                        projectId={projectId}
+                        folderId={selectedFolder?.id || null}
+                        allFolders={allFolders}
+                        isSingleSelect
+                        onFolderClick={onFolderClick}
+                        onFoldersUpdate={onFoldersUpdate}
+                      />
+                    ) : (
+                      <div className="flex w-full flex-1 items-center justify-center">
+                        No Folders
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>

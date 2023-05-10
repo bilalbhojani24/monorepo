@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { O11yTabs } from 'common/bifrostProxy';
 import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
 
-import SessionTestToggle from '../components/SessionTestToggle';
 import { useLogsContext } from '../contexts/LogsContext';
 import { getTestDetails } from '../slices/selectors';
 
@@ -57,7 +56,6 @@ const TestsLogsInfoTabs = () => {
           wrapperClassName="flex-1"
         />
         <div className="flex items-center gap-3 pr-1">
-          {details.isValidVideo && <SessionTestToggle />}
           <ReportBugTrigger />
         </div>
       </div>
