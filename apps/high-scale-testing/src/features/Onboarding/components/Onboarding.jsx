@@ -259,8 +259,10 @@ const Onboarding = () => {
 
           {onboardingState === 1 && onboardingType === 'existing' && (
             <>
-              <p>Grid Setup</p>
-              <p>Execute the below commands to initialise grid creation.</p>
+              <p className="text-base-900 font-semibold">Grid Setup</p>
+              <p className="text-base-900 mt-1 text-sm">
+                Execute the below commands to initialise grid creation.
+              </p>
               CODE BLOCK HERE
             </>
           )}
