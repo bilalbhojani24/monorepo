@@ -33,9 +33,10 @@ const Onboarding = () => {
     STEP_1_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
     breadcrumbDataTrace,
+    breadcrumbStepClickHandler,
     continueClickHandler,
     headerText,
-    onboardingState,
+    onboardingStep,
     onboardingType,
     selectedOption,
     setSelectedOption,
@@ -43,6 +44,40 @@ const Onboarding = () => {
   } = useOnboarding();
 
   const listFeedStepValue = (number) => <span>{number}</span>;
+
+  const CodeSnippetForExistingSetup = (
+    <CodeSnippet
+      code="helm upgrade --install hst-grid --namespace hst-grid --create-namespace \
+--repo https://github.com/browserstack/hst/helm-chart/ helm-chart \
+--set username=”<username>”  --set password=”<password>”
+"
+      singleLine={false}
+      showLineNumbers={false}
+      view="neutral"
+      toolbar={
+        <Tabs
+          id="tabID"
+          label="Tabs"
+          onTabChange={(e) => {
+            console.log('Log: e:', e);
+          }}
+          isContained={false}
+          navigationClassName="first:ml-4"
+          tabsArray={[
+            {
+              name: 'Helm'
+            },
+            {
+              name: 'Kubectl'
+            },
+            {
+              name: 'cli'
+            }
+          ]}
+        />
+      }
+    />
+  );
 
   const DescriptionNodeStep1 = (
     <div className="mt-4">
@@ -233,8 +268,9 @@ const Onboarding = () => {
               </Hyperlink>
             </>
           }
-          breadcrumbs={onboardingState > 0 ? breadcrumbDataTrace : ''}
+          breadcrumbs={onboardingStep > 0 ? breadcrumbDataTrace : ''}
           heading={headerText}
+          onBreadcrumbClick={breadcrumbStepClickHandler}
           subSection={
             <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
           }
@@ -242,7 +278,7 @@ const Onboarding = () => {
         />
         {/* Body of Onboarding */}
         <div className="border-base-300 border-y px-7 py-6">
-          {onboardingState === 0 && (
+          {onboardingStep === 0 && (
             <>
               <h3 className="mb-4 flex gap-x-2 text-lg font-semibold leading-6">
                 Do you have an existing Kubernetes setup?
@@ -259,54 +295,25 @@ const Onboarding = () => {
             </>
           )}
 
-          {onboardingState === 1 &&
+          {onboardingStep === 1 &&
             onboardingType === 'scratch' &&
             ListFeedsContainerComponent}
 
-          {onboardingState === 1 && onboardingType === 'existing' && (
+          {onboardingStep === 1 && onboardingType === 'existing' && (
             <>
               <p className="text-base-900 font-semibold">Grid Setup</p>
               <p className="text-base-900 mt-1 text-sm">
                 Execute the below commands to initialise grid creation.
               </p>
-              <CodeSnippet
-                code="helm upgrade --install hst-grid --namespace hst-grid --create-namespace \
---repo https://github.com/browserstack/hst/helm-chart/ helm-chart \
---set username=”<username>”  --set password=”<password>”
-"
-                singleLine={false}
-                showLineNumbers={false}
-                view="neutral"
-                toolbar={
-                  <Tabs
-                    id="tabID"
-                    label="Tabs"
-                    onTabChange={(e) => {
-                      console.log('Log: e:', e);
-                    }}
-                    isContained={false}
-                    navigationClassName="first:ml-4"
-                    tabsArray={[
-                      {
-                        name: 'Helm'
-                      },
-                      {
-                        name: 'Kubectl'
-                      },
-                      {
-                        name: 'cli'
-                      }
-                    ]}
-                  />
-                }
-              />
+
+              {CodeSnippetForExistingSetup}
             </>
           )}
         </div>
         {/* --X-- Body of Onboarding --X-- */}
 
         {/* Footer component */}
-        {onboardingState === 0 && (
+        {onboardingStep === 0 && (
           <div className="bg-base-50 flex justify-end px-7 py-6">
             <Button
               colors="brand"
@@ -320,14 +327,14 @@ const Onboarding = () => {
           </div>
         )}
 
-        {onboardingState === 1 && onboardingType === 'scratch' && (
+        {onboardingStep === 1 && onboardingType === 'scratch' && (
           <div className="bg-base-50 text-base-700  flex px-7 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
             above steps to connect the grid...
           </div>
         )}
 
-        {onboardingState === 1 && onboardingType === 'existing' && (
+        {onboardingStep === 1 && onboardingType === 'existing' && (
           <div className="bg-base-50 text-base-700  flex px-7 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
             above steps to connect the grid...

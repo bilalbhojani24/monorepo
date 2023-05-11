@@ -48,7 +48,7 @@ const useOnboarding = () => {
   // All State variables:
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
   const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
-  const [onboardingState, setOnboardingState] = useState(0);
+  const [onboardingStep, setOnboardingStep] = useState(0);
   const [onboardingType, setOnboardingType] = useState('scratch');
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
@@ -56,36 +56,47 @@ const useOnboarding = () => {
   );
 
   // All functions:
+  const breadcrumbStepClickHandler = (event, stepData) => {
+    const { goToStep } = stepData;
+    if (Number.isInteger(goToStep)) {
+      setOnboardingStep(goToStep);
+    }
+  };
+
   const continueClickHandler = () => {
     console.group('Log: continueClickHandler');
-    setOnboardingState(1);
+    setOnboardingStep(1);
     console.groupEnd('Log: continueClickHandler');
   };
 
   // All useEffects:
   useEffect(() => {
-    if (onboardingState > 0) {
+    if (onboardingStep > 0) {
       setHeaderText(HEADER_TEXTS_OBJECT[onboardingType]);
       setSubHeaderText(SUB_TEXTS_OBJECT[onboardingType]);
+    } else {
+      setHeaderText(HEADER_TEXTS_OBJECT.intro);
+      setSubHeaderText(SUB_TEXTS_OBJECT.intro);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onboardingState]);
+  }, [onboardingStep]);
 
   useEffect(() => {
-    console.log('Log: selectedOption has changed to:', selectedOption);
+    // console.log('Log: selectedOption has changed to:', selectedOption);
     if (selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label) {
       setOnboardingType('scratch');
       setBreadcrumbDataTrace([
         {
           current: false,
-
           name: 'Setup Guide',
-          url: '/onboarding'
+          url: '#',
+          goToStep: 0
         },
         {
           current: false,
           name: 'Create Automation Grid from Scratch',
-          url: '/'
+          url: '#',
+          goToStep: 1
         }
       ]);
     } else {
@@ -95,12 +106,14 @@ const useOnboarding = () => {
           current: false,
 
           name: 'Setup Guide',
-          url: '/onboarding'
+          url: '#',
+          goToStep: 0
         },
         {
           current: false,
           name: 'Create Automation Grid in existing Kubernetes setup',
-          url: '/'
+          url: '#',
+          goToStep: 1
         }
       ]);
     }
@@ -114,9 +127,10 @@ const useOnboarding = () => {
     STEP_1_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
     breadcrumbDataTrace,
+    breadcrumbStepClickHandler,
     continueClickHandler,
     headerText,
-    onboardingState,
+    onboardingStep,
     onboardingType,
     selectedOption,
     setSelectedOption,
