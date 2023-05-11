@@ -6,7 +6,6 @@ import {
   saveUserFeedback,
   userLogOut
 } from 'api/authentication';
-import { checkForPreviousUserSessions } from 'features/TestHistory';
 import { updateAndInitiateAnalytics } from 'utils/analyticsUtils';
 import { purgeAmplitudeMemory, reloadRootRoute } from 'utils/baseUtils';
 
@@ -50,6 +49,11 @@ export const checkAuthAndSaveUserDetails =
 
         userDetailsResponse = await fetchUserDetails('ssoRedirect');
 
+        if (userDetailsResponse?.status === 200) {
+          // reverse syncing reports if user is logged in
+          await confirmLoginForReverseSync();
+        }
+
         /**
          * We do this one line of indomitable sin here because
          * central-FE wont provide a way to re-initialize anayltics instances,
@@ -74,12 +78,6 @@ export const checkAuthAndSaveUserDetails =
       if (userDetailsResponse) {
         if (userDetailsResponse?.status === 200) {
           dispatch(setUserDetails(userDetailsResponse?.data));
-
-          if (ssoRedirectUrl) {
-            // reverse syncing reports if user is logged in
-            await confirmLoginForReverseSync();
-            await dispatch(checkForPreviousUserSessions(true));
-          }
         } else {
           throw userDetailsResponse;
         }
