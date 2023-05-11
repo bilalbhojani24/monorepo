@@ -92,7 +92,7 @@ const Onboarding = () => {
 
   const DescriptionNodeStep4 = (
     <div className="mt-4">
-      <ol className="text-base-500 list-disc">
+      <ol className="text-base-500 list-disc text-sm">
         <li className="py-2">
           <div>
             <p>Download CLI.</p>
@@ -160,7 +160,7 @@ const Onboarding = () => {
           <b className="text-base-800">Create Grid</b>
         </p>
       </div>
-      <p className="mt-1">
+      <p className="text-base-700 mt-1 text-sm">
         Execute the below commands to setup the BrowserStack CLI and create an
         Automation Grid.
       </p>
