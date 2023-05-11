@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import {
   MdOutlineClass,
@@ -10,6 +11,7 @@ import {
 } from '@browserstack/bifrost';
 
 import { ROUTES } from '../../../constants/routes';
+import { headerSizeSelector } from '../../Layout/slices/headerSlice';
 
 const getPrimaryNav = () => [
   {
@@ -47,6 +49,7 @@ const getPrimaryNav = () => [
 ];
 
 export default function Sidebar() {
+  const { height: headerHeight } = useSelector(headerSizeSelector);
   const navigate = useNavigate();
   const onLinkChange = (linkItem) => {
     if (linkItem?.isExternalLink) {
@@ -74,7 +77,13 @@ export default function Sidebar() {
   );
 
   return (
-    <nav className="sticky h-screen">
+    <nav
+      className="sticky"
+      style={{
+        height: `calc(100vh - ${headerHeight}px)`,
+        top: `${headerHeight}px`
+      }}
+    >
       <SidebarNavigation
         wrapperClassName="md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full border-none"
         sidebarPrimaryNavigation={getPrimaryNav().map((item) => (
