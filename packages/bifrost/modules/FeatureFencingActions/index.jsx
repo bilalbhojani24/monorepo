@@ -5,19 +5,21 @@ import PropTypes from 'prop-types';
 import Button from '../Button';
 import { FEATURE_FENCING_SIZES } from '../FeatureFencing/const';
 import { useFeatureFencingContext } from '../FeatureFencing/context';
-import HyperLink from '../Hyperlink';
-import { MdOpenInNew } from '../Icon';
 
-import {
-  CTA_BUTTON_SIZES,
-  FEATURE_FENCING_ACTIONS_ALIGNMENT,
-  LEARN_MORE_TEXT_STYLES,
-  OPEN_IN_NEW_ICON_STYLES
-} from './const';
+import { CTA_BUTTON_SIZES, FEATURE_FENCING_ACTIONS_ALIGNMENT } from './const';
 
 const FeatureFencingActions = (props) => {
-  const { ctaText, alignment, learnMoreLink, onCTAClick, onLearnMoreClick } =
-    props;
+  const {
+    alignment,
+    primaryBtnText,
+    secondaryBtnText,
+    primaryBtnProps,
+    secondaryBtnProps,
+    onPrimayBtnClick,
+    onSecondaryBtnClick,
+    actionText,
+    showActionTextOnly
+  } = props;
 
   const { size } = useFeatureFencingContext();
 
@@ -34,48 +36,51 @@ const FeatureFencingActions = (props) => {
         'gap-9': size === FEATURE_FENCING_SIZES.XL
       })}
     >
-      <Button onClick={onCTAClick} size={CTA_BUTTON_SIZES[size]}>
-        {ctaText}
-      </Button>
-      <HyperLink
-        href={learnMoreLink}
-        onClick={onLearnMoreClick}
-        target="_blank"
-        wrapperClassName="text-base-700"
-      >
-        <span
-          className={twClassNames(
-            'leading-4 font-medium',
-            LEARN_MORE_TEXT_STYLES[size],
-            {
-              'mr-1.5':
-                size === FEATURE_FENCING_SIZES.SM ||
-                size === FEATURE_FENCING_SIZES.BASE,
-              'mr-2': size === FEATURE_FENCING_SIZES.XL
-            }
+      {!showActionTextOnly && (
+        <>
+          <Button
+            {...primaryBtnProps}
+            onClick={onPrimayBtnClick}
+            size={CTA_BUTTON_SIZES[size]}
+          >
+            {primaryBtnText}
+          </Button>
+          {secondaryBtnText && (
+            <Button
+              {...secondaryBtnProps}
+              onClick={onSecondaryBtnClick}
+              size={CTA_BUTTON_SIZES[size]}
+            >
+              {secondaryBtnText}
+            </Button>
           )}
-        >
-          Learn more
-        </span>
-        <MdOpenInNew
-          className={twClassNames('', OPEN_IN_NEW_ICON_STYLES[size])}
-        />
-      </HyperLink>
+        </>
+      )}
+      {showActionTextOnly && <>{actionText}</>}
     </div>
   );
 };
 FeatureFencingActions.propTypes = {
-  ctaText: PropTypes.string.isRequired,
   alignment: PropTypes.oneOf(Object.values(FEATURE_FENCING_ACTIONS_ALIGNMENT)),
-  learnMoreLink: PropTypes.string.isRequired,
-  onCTAClick: PropTypes.func,
-  onLearnMoreClick: PropTypes.func
+  primaryBtnText: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+    .isRequired,
+  secondaryBtnText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  primaryBtnProps: PropTypes.shape(Button.propTypes),
+  secondaryBtnProps: PropTypes.shape(Button.propTypes),
+  onPrimayBtnClick: PropTypes.func.isRequired,
+  onSecondaryBtnClick: PropTypes.func,
+  actionText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  showActionTextOnly: PropTypes.bool
 };
 
 FeatureFencingActions.defaultProps = {
-  onCTAClick: () => {},
-  onLearnMoreClick: () => {},
-  alignment: FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT
+  secondaryBtnText: null,
+  primaryBtnProps: {},
+  secondaryBtnProps: {},
+  onSecondaryBtnClick: () => {},
+  alignment: FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT,
+  actionText: '',
+  showActionTextOnly: false
 };
 
 export default FeatureFencingActions;

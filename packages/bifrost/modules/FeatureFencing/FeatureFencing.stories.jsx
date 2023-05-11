@@ -55,21 +55,6 @@ const defaultConfig = {
 };
 const Template = (props) => (
   <FeatureFencing {...props}>
-    <FeatureFencingContent {...props}>
-      <FeatureFencingActions
-        wrapperClassName=""
-        ctaText="Start a 14-day free trial"
-        // ctaButtonProps={}
-        alignment="left"
-        learnMoreLink="https://www.google.com"
-        onCTAClick={() => {
-          console.log('ff-actions-cta-clicked');
-        }}
-        onLearnMoreClick={() => {
-          console.log('ff-actions-learn-more-clicked');
-        }}
-      />
-    </FeatureFencingContent>
     <FeatureFencingMedia>
       <img
         className="w-full"
@@ -77,6 +62,21 @@ const Template = (props) => (
         alt="Grapefruit slice atop a pile of other slices"
       />
     </FeatureFencingMedia>
+    <FeatureFencingContent {...props}>
+      <FeatureFencingActions
+        primaryBtnText="Start a 14-day free trial"
+        alignment="left"
+        secondaryBtnText="Learn more"
+        onPrimayBtnClick={() => {
+          console.log('ff-actions-cta-clicked');
+        }}
+        onSecondaryBtnClick={() => {
+          console.log('ff-actions-learn-more-clicked');
+        }}
+        actionText="Successfully achieved more things"
+        showActionTextOnly={false}
+      />
+    </FeatureFencingContent>
   </FeatureFencing>
 );
 const Primary = Template.bind({});
