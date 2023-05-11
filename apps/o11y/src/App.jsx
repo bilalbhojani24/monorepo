@@ -37,6 +37,7 @@ import { delightedInit } from 'utils/delighted';
 import { portalize } from 'utils/portalize';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
 import { isIntegrationsPage } from 'utils/routeUtils';
+import { showBannerPerPriority } from 'utils/showBannerPerPriority';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 const PUSHER_CONNECTION_NAME = 'o11y-pusher';
@@ -89,10 +90,11 @@ const App = () => {
 
       if (!window.initialized) {
         initLogger(keys);
+        dispatch(showBannerPerPriority());
         window.initialized = true;
       }
     }
-  }, [userDetails]);
+  }, [dispatch, userDetails]);
 
   useEffect(() => {
     // Note: Disabling for onboarding, Get access and project selection pages

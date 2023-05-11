@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react';
 import {
   Accordion,
   Badge,
+  Banner,
   Button,
   Checkbox,
   Dropdown,
@@ -121,5 +122,6 @@ export const O11yStackedListItem = (props) => <StackedListItem {...props} />;
 export const O11yStackedListCommon = (props) => (
   <StackedListCommon {...props} />
 );
+export const O11yBanner = (props) => <Banner {...props} />;
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };
