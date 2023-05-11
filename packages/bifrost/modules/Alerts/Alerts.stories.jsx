@@ -45,7 +45,7 @@ const defaultConfig = {
         console.log(url);
       }
     },
-    linkText: {
+    detailsNode: {
       option: { type: 'object' },
       defaultValue: (
         <>
