@@ -96,7 +96,7 @@ const FolderExplorerModal = ({
                     folderExplorerWrapperClassName
                   )}
                 >
-                  <div className="border-base-200 flex justify-between border-b py-2 px-4">
+                  <div className="border-base-200 flex justify-between border-b px-4 py-2">
                     <span>{folderExplorerHeader}</span>
                     {isCreateFolderButton && internalAllFolders?.length ? (
                       <TMButton
@@ -144,7 +144,7 @@ const FolderExplorerModal = ({
               <div className="border-base-300 mb-4 flex max-h-64 flex-col items-center justify-center overflow-auto rounded-md border px-12 py-4">
                 <MdOutlineCreateNewFolder className="text-base-300 mb-1.5 h-12 w-12" />
                 <div>Add Folders</div>
-                <div className="text-base-700 mt-2 mb-6 flex flex-col text-sm">
+                <div className="text-base-700 mb-6 mt-2 flex flex-col text-sm">
                   <div className="flex justify-center">
                     No folder available. Create a folder by
                   </div>
