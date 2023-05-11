@@ -5,9 +5,12 @@ import {
   Badge,
   Breadcrumb,
   Button,
+  CodeSnippet,
+  CodeSnippetToolbar,
   Hyperlink,
   InformationCircleIcon,
   ListFeedsNode,
+  MdOutlineInsertDriveFile,
   MdOutlineOpenInNew,
   RadioGroup,
   RadioStackedCard,
@@ -19,11 +22,13 @@ import {
 } from '@browserstack/bifrost';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 
+import EventLogs from './EventLogs';
 import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
   const {
     LIST_FEED_PROPS,
+    SHOW_SINGLE_LINE_CODE_SNIPPET,
     STEP_1_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
     breadcrumbDataTrace,
@@ -96,7 +101,11 @@ const Onboarding = () => {
         <li className="py-2">
           <div>
             <p>Download CLI.</p>
-            CODE BLOCK HERE
+            <CodeSnippet
+              code="npm install @browserstack/browserstack-cli"
+              showLineNumbers={SHOW_SINGLE_LINE_CODE_SNIPPET}
+              view="neutral"
+            />
           </div>
         </li>
         <li className="py-2">
@@ -233,7 +242,6 @@ const Onboarding = () => {
           </div>
           <p className="text-base-600 mt-2 text-sm">{subHeaderText}</p>
         </div>
-
         {/* Body of Onboarding */}
         <div className="border-base-300 border-y px-7 py-6">
           {onboardingState === 0 && (
@@ -268,7 +276,6 @@ const Onboarding = () => {
           )}
         </div>
         {/* --X-- Body of Onboarding --X-- */}
-
         {/* Footer component */}
         {onboardingState === 0 && (
           <div className="bg-base-50 flex justify-end px-7 py-6">
@@ -283,14 +290,12 @@ const Onboarding = () => {
             </Button>
           </div>
         )}
-
         {onboardingState === 1 && onboardingType === 'scratch' && (
           <div className="bg-base-50 text-base-700  flex px-7 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
             above steps to connect the grid...
           </div>
         )}
-
         {onboardingState === 1 && onboardingType === 'existing' && (
           <div className="bg-base-50 text-base-700  flex px-7 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
@@ -298,6 +303,8 @@ const Onboarding = () => {
           </div>
         )}
         {/* --X-- Footer component --X-- */}
+
+        <EventLogs />
       </div>
     </>
   );
