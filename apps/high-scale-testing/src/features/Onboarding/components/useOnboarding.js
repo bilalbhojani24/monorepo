@@ -26,6 +26,10 @@ browserstack-cli hst init`,
     feedIconSize: 'sm',
     feedIconVariant: 'light'
   };
+  const ONBOARDING_TYPES = {
+    scratch: 'scratch',
+    existing: 'existing'
+  };
   const SCRATCH_RADIO_GROUP_OPTIONS = [
     {
       disabled: false,
@@ -152,6 +156,7 @@ browserstack-cli hst init`,
   return {
     CODE_SNIPPETS_SCRATCH,
     LIST_FEED_PROPS,
+    ONBOARDING_TYPES,
     SCRATCH_RADIO_GROUP_OPTIONS,
     SHOW_LINE_NUMBERS,
     SHOW_SINGLE_LINE,

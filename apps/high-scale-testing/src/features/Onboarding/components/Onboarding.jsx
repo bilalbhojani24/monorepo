@@ -29,6 +29,7 @@ const Onboarding = () => {
   const {
     CODE_SNIPPETS_SCRATCH,
     LIST_FEED_PROPS,
+    ONBOARDING_TYPES,
     SCRATCH_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
     STEP_1_RADIO_GROUP_OPTIONS,
@@ -281,19 +282,20 @@ const Onboarding = () => {
         )}
 
         {onboardingStep === 1 &&
-          onboardingType === 'scratch' &&
+          onboardingType === ONBOARDING_TYPES.scratch &&
           ListFeedsContainerComponent}
 
-        {onboardingStep === 1 && onboardingType === 'existing' && (
-          <>
-            <p className="text-base-900 font-semibold">Grid Setup</p>
-            <p className="text-base-900 mt-1 text-sm">
-              Execute the below commands to initialise grid creation.
-            </p>
+        {onboardingStep === 1 &&
+          onboardingType === ONBOARDING_TYPES.existing && (
+            <>
+              <p className="text-base-900 font-semibold">Grid Setup</p>
+              <p className="text-base-900 mt-1 text-sm">
+                Execute the below commands to initialise grid creation.
+              </p>
 
-            {CodeSnippetForExistingSetup}
-          </>
-        )}
+              {CodeSnippetForExistingSetup}
+            </>
+          )}
       </div>
       {/* --X-- Body of Onboarding --X-- */}
 
@@ -312,14 +314,14 @@ const Onboarding = () => {
         </div>
       )}
 
-      {onboardingStep === 1 && onboardingType === 'scratch' && (
+      {onboardingStep === 1 && onboardingType === ONBOARDING_TYPES.scratch && (
         <div className="bg-base-50 text-base-700  flex px-7 py-3">
           <HourglassBottomOutlinedIcon /> Waiting for you to complete the above
           steps to connect the grid...
         </div>
       )}
 
-      {onboardingStep === 1 && onboardingType === 'existing' && (
+      {onboardingStep === 1 && onboardingType === ONBOARDING_TYPES.existing && (
         <div className="bg-base-50 text-base-700  flex px-7 py-3">
           <HourglassBottomOutlinedIcon /> Waiting for you to complete the above
           steps to connect the grid...
