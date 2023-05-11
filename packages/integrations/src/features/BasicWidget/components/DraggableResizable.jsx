@@ -69,10 +69,10 @@ const DraggableResizable = ({ children, position, positionRef }) => {
 
       setWidgetPosition((prev) => {
         const xVal = prev && prev.x < pos.x ? prev.x : pos.x;
-        const yVal = prev?.y ?? y;
+        const yVal = prev && prev.y < y ? prev.y : y;
         return {
           x: xVal < 8 ? 8 : xVal,
-          y: yVal
+          y: yVal < 8 ? 8 : yVal
         };
       });
     }
