@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-boolean-value */
 /* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import {
@@ -18,17 +19,19 @@ import {
   SelectMenuLabel,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
-  SelectMenuTrigger
+  SelectMenuTrigger,
+  Tabs
 } from '@browserstack/bifrost';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 
-import EventLogs from './EventLogs';
+// import EventLogs from './EventLogs';
 import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
   const {
     LIST_FEED_PROPS,
-    SHOW_SINGLE_LINE_CODE_SNIPPET,
+    SHOW_LINE_NUMBERS,
+    SHOW_SINGLE_LINE,
     STEP_1_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
     breadcrumbDataTrace,
@@ -103,8 +106,7 @@ const Onboarding = () => {
             <p>Download CLI.</p>
             <CodeSnippet
               code="npm install @browserstack/browserstack-cli"
-              showLineNumbers={SHOW_SINGLE_LINE_CODE_SNIPPET}
-              view="neutral"
+              singleLine
             />
           </div>
         </li>
@@ -235,12 +237,14 @@ const Onboarding = () => {
           )}
 
           <div className="flex justify-between">
-            <p className="text-2xl font-bold leading-7">{headerText}</p>
+            <p className="text-base-900 text-2xl font-bold leading-7">
+              {headerText}
+            </p>
             <Hyperlink wrapperClassName=" gap-x-2 text-sm font-medium">
               View Documentation <MdOutlineOpenInNew />
             </Hyperlink>
           </div>
-          <p className="text-base-600 mt-2 text-sm">{subHeaderText}</p>
+          <p className="text-base-500 mt-2 text-sm">{subHeaderText}</p>
         </div>
         {/* Body of Onboarding */}
         <div className="border-base-300 border-y px-7 py-6">
@@ -271,11 +275,42 @@ const Onboarding = () => {
               <p className="text-base-900 mt-1 text-sm">
                 Execute the below commands to initialise grid creation.
               </p>
-              CODE BLOCK HERE
+              <CodeSnippet
+                code="helm upgrade --install hst-grid --namespace hst-grid --create-namespace \
+--repo https://github.com/browserstack/hst/helm-chart/ helm-chart \
+--set username=”<username>”  --set password=”<password>”
+"
+                singleLine={false}
+                showLineNumbers={false}
+                view="neutral"
+                toolbar={
+                  <Tabs
+                    id="tabID"
+                    label="Tabs"
+                    onTabChange={(e) => {
+                      console.log('Log: e:', e);
+                    }}
+                    isContained={false}
+                    navigationClassName="first:ml-4"
+                    tabsArray={[
+                      {
+                        name: 'Helm'
+                      },
+                      {
+                        name: 'Kubectl'
+                      },
+                      {
+                        name: 'cli'
+                      }
+                    ]}
+                  />
+                }
+              />
             </>
           )}
         </div>
         {/* --X-- Body of Onboarding --X-- */}
+
         {/* Footer component */}
         {onboardingState === 0 && (
           <div className="bg-base-50 flex justify-end px-7 py-6">
@@ -290,12 +325,14 @@ const Onboarding = () => {
             </Button>
           </div>
         )}
+
         {onboardingState === 1 && onboardingType === 'scratch' && (
           <div className="bg-base-50 text-base-700  flex px-7 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
             above steps to connect the grid...
           </div>
         )}
+
         {onboardingState === 1 && onboardingType === 'existing' && (
           <div className="bg-base-50 text-base-700  flex px-7 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
@@ -304,7 +341,7 @@ const Onboarding = () => {
         )}
         {/* --X-- Footer component --X-- */}
 
-        <EventLogs />
+        {/* <EventLogs /> */}
       </div>
     </>
   );

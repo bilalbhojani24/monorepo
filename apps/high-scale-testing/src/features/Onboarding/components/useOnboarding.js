@@ -20,7 +20,8 @@ const useOnboarding = () => {
     { label: 'A', value: 'A' },
     { label: 'A', value: 'A' }
   ];
-  const SHOW_SINGLE_LINE_CODE_SNIPPET = false;
+  const SHOW_LINE_NUMBERS = false;
+  const SHOW_SINGLE_LINE = true;
   const SUB_TEXTS_OBJECT = {
     intro:
       'Create and manage your own Automation Grid that supports frameworks like Selenium, Playwright, and Cypress to support browser testing at scale',
@@ -108,7 +109,8 @@ const useOnboarding = () => {
 
   return {
     LIST_FEED_PROPS,
-    SHOW_SINGLE_LINE_CODE_SNIPPET,
+    SHOW_LINE_NUMBERS,
+    SHOW_SINGLE_LINE,
     STEP_1_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
     breadcrumbDataTrace,
