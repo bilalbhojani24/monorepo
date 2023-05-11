@@ -17,8 +17,8 @@ const DraggableContainer = ({ children, position, positionRef }) => {
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
   const [widgetDimensions, setWidgetDimensions] = useState({
-    height: DEFAULT_WIDGET_DIMENSIONS.MIN[0],
-    width: DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+    height: 0,
+    width: 0
   });
 
   // looks at width and heightrelated changes of the container so that
