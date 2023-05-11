@@ -28,7 +28,7 @@ const FeatureFencingContent = ({ children, header, description }) => {
             'mt-1.5':
               size === FEATURE_FENCING_SIZES.SM ||
               size === FEATURE_FENCING_SIZES.BASE,
-            'mt-2': size === FEATURE_FENCING_SIZES.XL
+            'mt-2.5': size === FEATURE_FENCING_SIZES.XL
           }
         )}
       >
