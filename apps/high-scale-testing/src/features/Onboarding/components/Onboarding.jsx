@@ -27,56 +27,63 @@ import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
   const {
+    CODE_SNIPPETS_EXISTING,
     CODE_SNIPPETS_SCRATCH,
+    GRID_MANAGER_NAMES,
     LIST_FEED_PROPS,
     ONBOARDING_TYPES,
     SCRATCH_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
     STEP_1_RADIO_GROUP_OPTIONS,
+    activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
     continueClickHandler,
     headerText,
     onboardingStep,
     onboardingType,
+    setActiveGridManagerCodeSnippet,
     setSelectedOption,
     subHeaderText
   } = useOnboarding();
 
   const listFeedStepValue = (number) => <span>{number}</span>;
 
-  const CodeSnippetForExistingSetup = (
-    <CodeSnippet
-      code="helm upgrade --install hst-grid --namespace hst-grid --create-namespace \
---repo https://github.com/browserstack/hst/helm-chart/ helm-chart \
---set username=”<username>”  --set password=”<password>”
-"
-      singleLine={false}
-      showLineNumbers={false}
-      view="neutral"
-      toolbar={
-        <Tabs
-          id="tabID"
-          label="Tabs"
-          onTabChange={(e) => {
-            console.log('Log: e:', e);
-          }}
-          isContained={false}
-          navigationClassName="first:ml-4"
-          tabsArray={[
-            {
-              name: 'Helm'
-            },
-            {
-              name: 'Kubectl'
-            },
-            {
-              name: 'cli'
-            }
-          ]}
-        />
-      }
+  const TabsForCodeSnippet = (
+    <Tabs
+      id="tabID"
+      label="Tabs"
+      onTabChange={(e) => {
+        setActiveGridManagerCodeSnippet(e.name);
+      }}
+      isContained={false}
+      navigationClassName="first:ml-4"
+      tabsArray={[
+        {
+          name: GRID_MANAGER_NAMES.helm
+        },
+        {
+          name: GRID_MANAGER_NAMES.kubectl
+        },
+        {
+          name: GRID_MANAGER_NAMES.cli
+        }
+      ]}
     />
+  );
+
+  const CodeSnippetForExistingSetup = (
+    <div className="mt-4">
+      <CodeSnippet
+        code={
+          CODE_SNIPPETS_EXISTING[activeGridManagerCodeSnippet.toLowerCase()]
+        }
+        singleLine={false}
+        showLineNumbers={false}
+        view="neutral"
+        toolbar={TabsForCodeSnippet}
+      />
+    </div>
   );
 
   const DescriptionNodeStep1 = (

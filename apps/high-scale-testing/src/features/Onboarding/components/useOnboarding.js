@@ -24,6 +24,32 @@ browserstack-cli hst init`,
       }
     }
   };
+  const CODE_SNIPPETS_EXISTING = {
+    helm: `helm upgrade --install hst-grid --namespace hst-grid --create-namespace \
+    --repo https://github.com/browserstack/hst/helm-chart/ helm-chart \
+    --set username=”<username>”  --set password=”<password>`,
+    kubectl: `curl -u "<username>:<password>" "https://hst.browserstack.com/v1/create-grid.yaml" 
+    | kubectl apply -f -
+    `,
+    cli: `/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
+export BROWSERSTACK_USERNAME=<username>
+export BROWSERSTACK_ACCESS_KEY=<accesskey>
+    
+/* Download BrowserStack CLI */
+npm install @browserstack/browserstack-cli
+    
+/* Create HST configuration profile with AWS credentials */
+browserstack-cli hst init
+    
+/* Attach HST Grid to existing Kubernetes Cluster */
+browserstack-cli hst attach grid --cloud <aws> --clusterName <clustername> --region<regionName>    
+    `
+  };
+  const GRID_MANAGER_NAMES = {
+    helm: 'Helm',
+    kubectl: 'Kubectl',
+    cli: 'cli'
+  };
   const HEADER_TEXTS_OBJECT = {
     intro: 'Hey John Doe, Welcome to High Scale Testing',
     scratch: 'Create Automation Grid',
@@ -89,9 +115,13 @@ browserstack-cli hst init`,
 
   // All State variables:
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
+  const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
+    useState(GRID_MANAGER_NAMES.helm);
   const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
   const [onboardingStep, setOnboardingStep] = useState(0);
-  const [onboardingType, setOnboardingType] = useState('scratch');
+  const [onboardingType, setOnboardingType] = useState(
+    ONBOARDING_TYPES.scratch
+  );
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
@@ -162,8 +192,17 @@ browserstack-cli hst init`,
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption]);
 
+  useEffect(() => {
+    console.log(
+      'Log: activeGridManagerCodeSnippet:',
+      activeGridManagerCodeSnippet
+    );
+  }, [activeGridManagerCodeSnippet]);
+
   return {
+    CODE_SNIPPETS_EXISTING,
     CODE_SNIPPETS_SCRATCH,
+    GRID_MANAGER_NAMES,
     LIST_FEED_PROPS,
     ONBOARDING_TYPES,
     SCRATCH_RADIO_GROUP_OPTIONS,
@@ -171,6 +210,7 @@ browserstack-cli hst init`,
     SHOW_SINGLE_LINE,
     STEP_1_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
+    activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
     continueClickHandler,
@@ -178,6 +218,7 @@ browserstack-cli hst init`,
     onboardingStep,
     onboardingType,
     selectedOption,
+    setActiveGridManagerCodeSnippet,
     setSelectedOption,
     subHeaderText
   };
