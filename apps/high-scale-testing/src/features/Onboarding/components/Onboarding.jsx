@@ -4,15 +4,13 @@ import React from 'react';
 import {
   Alerts,
   Badge,
-  Breadcrumb,
   Button,
   CodeSnippet,
-  CodeSnippetToolbar,
   Hyperlink,
   InformationCircleIcon,
   ListFeedsNode,
-  MdOutlineInsertDriveFile,
   MdOutlineOpenInNew,
+  PageHeadings,
   RadioGroup,
   RadioStackedCard,
   SelectMenu,
@@ -227,25 +225,21 @@ const Onboarding = () => {
     <>
       <div className=" border-base-300 m-auto mt-28 w-4/6 max-w-4xl rounded-lg border">
         {/* Header Component */}
-        <div className="bg-base-50 px-7 py-6 ">
-          {onboardingState > 0 && (
-            <Breadcrumb
-              data={breadcrumbDataTrace}
-              size="default"
-              wrapperClassName="mb-2"
-            />
-          )}
-
-          <div className="flex justify-between">
-            <p className="text-base-900 text-2xl font-bold leading-7">
-              {headerText}
-            </p>
-            <Hyperlink wrapperClassName=" gap-x-2 text-sm font-medium">
-              View Documentation <MdOutlineOpenInNew />
-            </Hyperlink>
-          </div>
-          <p className="text-base-500 mt-2 text-sm">{subHeaderText}</p>
-        </div>
+        <PageHeadings
+          actions={
+            <>
+              <Hyperlink wrapperClassName=" gap-x-2 text-sm font-medium">
+                View Documentation <MdOutlineOpenInNew />
+              </Hyperlink>
+            </>
+          }
+          breadcrumbs={onboardingState > 0 ? breadcrumbDataTrace : ''}
+          heading={headerText}
+          subSection={
+            <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
+          }
+          wrapperClassName="bg-base-50 px-7 py-6 "
+        />
         {/* Body of Onboarding */}
         <div className="border-base-300 border-y px-7 py-6">
           {onboardingState === 0 && (
