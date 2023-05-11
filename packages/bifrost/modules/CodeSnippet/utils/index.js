@@ -9,6 +9,7 @@ export const convertRangeToArray = (range) => {
   return [];
 };
 
+// eslint-disable-next-line no-restricted-globals
 export const isNumber = (str) => !isNaN(str);
 
 export const copyToClipboard = (text) => {
