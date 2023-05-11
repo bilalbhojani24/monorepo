@@ -68,11 +68,19 @@ const DraggableResizable = ({ children, position, positionRef }) => {
       }
 
       setWidgetPosition((prev) => {
-        const xVal = prev && prev.x < pos.x ? prev.x : pos.x;
-        const yVal = prev && prev.y < y ? prev.y : y;
+        const xVal = prev?.x < pos.x ? prev?.x : pos.x;
+        let yVal = null;
+        if (widgetDimensions.height === DEFAULT_WIDGET_DIMENSIONS.MIN[1]) {
+          // cannot shrink
+          yVal = prev && prev.y < y ? prev.y : y; // move to new y cord
+          yVal = yVal < 8 ? 8 : yVal; // 8 px space
+        } else {
+          // can shrink, retain y coord
+          yVal = prev?.y ?? y;
+        }
         return {
           x: xVal < 8 ? 8 : xVal,
-          y: yVal < 8 ? 8 : yVal
+          y: yVal
         };
       });
     }
