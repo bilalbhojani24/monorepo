@@ -14,6 +14,23 @@ const useOnboarding = () => {
     feedIconSize: 'sm',
     feedIconVariant: 'light'
   };
+  const SCRATCH_RADIO_GROUP_OPTIONS = [
+    {
+      disabled: false,
+      id: 'radio-1',
+      name: 'Amazon Cloud'
+    },
+    {
+      disabled: true,
+      id: 'radio-2',
+      name: 'Google Cloud'
+    },
+    {
+      disabled: true,
+      id: 'radio-3',
+      name: 'Microsoft Azure'
+    }
+  ];
   const SELECT_OPTIONS = [
     { label: 'A', value: 'A' },
     { label: 'A', value: 'A' },
@@ -122,6 +139,7 @@ const useOnboarding = () => {
 
   return {
     LIST_FEED_PROPS,
+    SCRATCH_RADIO_GROUP_OPTIONS,
     SHOW_LINE_NUMBERS,
     SHOW_SINGLE_LINE,
     STEP_1_RADIO_GROUP_OPTIONS,

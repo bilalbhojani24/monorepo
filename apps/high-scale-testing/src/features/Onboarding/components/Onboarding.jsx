@@ -28,17 +28,15 @@ import useOnboarding from './useOnboarding';
 const Onboarding = () => {
   const {
     LIST_FEED_PROPS,
-    SHOW_LINE_NUMBERS,
-    SHOW_SINGLE_LINE,
-    STEP_1_RADIO_GROUP_OPTIONS,
+    SCRATCH_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
+    STEP_1_RADIO_GROUP_OPTIONS,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
     continueClickHandler,
     headerText,
     onboardingStep,
     onboardingType,
-    selectedOption,
     setSelectedOption,
     subHeaderText
   } = useOnboarding();
@@ -83,23 +81,7 @@ const Onboarding = () => {
     <div className="mt-4">
       <RadioGroup
         onChange={() => {}}
-        options={[
-          {
-            disabled: false,
-            id: 'radio-1',
-            name: 'Amazon Cloud'
-          },
-          {
-            disabled: true,
-            id: 'radio-2',
-            name: 'Google Cloud'
-          },
-          {
-            disabled: true,
-            id: 'radio-3',
-            name: 'Microsoft Azure'
-          }
-        ]}
+        options={SCRATCH_RADIO_GROUP_OPTIONS}
         selectedOption={{
           disabled: false,
           id: 'radio-1',
@@ -257,94 +239,92 @@ const Onboarding = () => {
   );
 
   return (
-    <>
-      <div className=" border-base-300 m-auto mt-28 w-4/6 max-w-4xl rounded-lg border">
-        {/* Header Component */}
-        <PageHeadings
-          actions={
-            <>
-              <Hyperlink wrapperClassName=" gap-x-2 text-sm font-medium">
-                View Documentation <MdOutlineOpenInNew />
-              </Hyperlink>
-            </>
-          }
-          breadcrumbs={onboardingStep > 0 ? breadcrumbDataTrace : ''}
-          heading={headerText}
-          onBreadcrumbClick={breadcrumbStepClickHandler}
-          subSection={
-            <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
-          }
-          wrapperClassName="bg-base-50 px-7 py-6 "
-        />
-        {/* Body of Onboarding */}
-        <div className="border-base-300 border-y px-7 py-6">
-          {onboardingStep === 0 && (
-            <>
-              <h3 className="mb-4 flex gap-x-2 text-lg font-semibold leading-6">
-                Do you have an existing Kubernetes setup?
-              </h3>
-              <RadioStackedCard
-                placement="vertical"
-                data={STEP_1_RADIO_GROUP_OPTIONS}
-                onChange={(e) => {
-                  const newlySelectedRadioButton =
-                    STEP_1_RADIO_GROUP_OPTIONS.find((elem) => elem.id === e.id);
-                  setSelectedOption(newlySelectedRadioButton);
-                }}
-              />
-            </>
-          )}
-
-          {onboardingStep === 1 &&
-            onboardingType === 'scratch' &&
-            ListFeedsContainerComponent}
-
-          {onboardingStep === 1 && onboardingType === 'existing' && (
-            <>
-              <p className="text-base-900 font-semibold">Grid Setup</p>
-              <p className="text-base-900 mt-1 text-sm">
-                Execute the below commands to initialise grid creation.
-              </p>
-
-              {CodeSnippetForExistingSetup}
-            </>
-          )}
-        </div>
-        {/* --X-- Body of Onboarding --X-- */}
-
-        {/* Footer component */}
+    <div className=" border-base-300 m-auto mt-28 w-4/6 max-w-4xl rounded-lg border">
+      {/* Header Component */}
+      <PageHeadings
+        actions={
+          <>
+            <Hyperlink wrapperClassName=" gap-x-2 text-sm font-medium">
+              View Documentation <MdOutlineOpenInNew />
+            </Hyperlink>
+          </>
+        }
+        breadcrumbs={onboardingStep > 0 ? breadcrumbDataTrace : ''}
+        heading={headerText}
+        onBreadcrumbClick={breadcrumbStepClickHandler}
+        subSection={
+          <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
+        }
+        wrapperClassName="bg-base-50 px-7 py-6 "
+      />
+      {/* Body of Onboarding */}
+      <div className="border-base-300 border-y px-7 py-6">
         {onboardingStep === 0 && (
-          <div className="bg-base-50 flex justify-end px-7 py-6">
-            <Button
-              colors="brand"
-              onClick={continueClickHandler}
-              size="default"
-              type="button"
-              variant="primary"
-            >
-              Continue
-            </Button>
-          </div>
+          <>
+            <h3 className="mb-4 flex gap-x-2 text-lg font-semibold leading-6">
+              Do you have an existing Kubernetes setup?
+            </h3>
+            <RadioStackedCard
+              placement="vertical"
+              data={STEP_1_RADIO_GROUP_OPTIONS}
+              onChange={(e) => {
+                const newlySelectedRadioButton =
+                  STEP_1_RADIO_GROUP_OPTIONS.find((elem) => elem.id === e.id);
+                setSelectedOption(newlySelectedRadioButton);
+              }}
+            />
+          </>
         )}
 
-        {onboardingStep === 1 && onboardingType === 'scratch' && (
-          <div className="bg-base-50 text-base-700  flex px-7 py-3">
-            <HourglassBottomOutlinedIcon /> Waiting for you to complete the
-            above steps to connect the grid...
-          </div>
-        )}
+        {onboardingStep === 1 &&
+          onboardingType === 'scratch' &&
+          ListFeedsContainerComponent}
 
         {onboardingStep === 1 && onboardingType === 'existing' && (
-          <div className="bg-base-50 text-base-700  flex px-7 py-3">
-            <HourglassBottomOutlinedIcon /> Waiting for you to complete the
-            above steps to connect the grid...
-          </div>
-        )}
-        {/* --X-- Footer component --X-- */}
+          <>
+            <p className="text-base-900 font-semibold">Grid Setup</p>
+            <p className="text-base-900 mt-1 text-sm">
+              Execute the below commands to initialise grid creation.
+            </p>
 
-        {/* <EventLogs /> */}
+            {CodeSnippetForExistingSetup}
+          </>
+        )}
       </div>
-    </>
+      {/* --X-- Body of Onboarding --X-- */}
+
+      {/* Footer component */}
+      {onboardingStep === 0 && (
+        <div className="bg-base-50 flex justify-end px-7 py-6">
+          <Button
+            colors="brand"
+            onClick={continueClickHandler}
+            size="default"
+            type="button"
+            variant="primary"
+          >
+            Continue
+          </Button>
+        </div>
+      )}
+
+      {onboardingStep === 1 && onboardingType === 'scratch' && (
+        <div className="bg-base-50 text-base-700  flex px-7 py-3">
+          <HourglassBottomOutlinedIcon /> Waiting for you to complete the above
+          steps to connect the grid...
+        </div>
+      )}
+
+      {onboardingStep === 1 && onboardingType === 'existing' && (
+        <div className="bg-base-50 text-base-700  flex px-7 py-3">
+          <HourglassBottomOutlinedIcon /> Waiting for you to complete the above
+          steps to connect the grid...
+        </div>
+      )}
+      {/* --X-- Footer component --X-- */}
+
+      {/* <EventLogs /> */}
+    </div>
   );
 };
 
