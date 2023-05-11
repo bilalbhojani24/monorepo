@@ -17,8 +17,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.1",
-    "@browserstack/bifrost": "workspace:*",
-    "@browserstack/utils": "workspace:*",
+    "@browserstack/bifrost": "6.1.0",
+    "@browserstack/utils": "2.1.0",
     "@browserstack/hooks": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
