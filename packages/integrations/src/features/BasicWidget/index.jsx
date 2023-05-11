@@ -11,7 +11,9 @@ import {
   GenericError as ErrorWithTryAgain,
   Loader
 } from '../../common/components';
+import { baseURLSelector } from '../../common/slices/configSlice';
 import { getAnalyticsKeys } from '../../utils/analytics';
+import { DEFAULT_CONFIG } from '../CreateIssue/constants';
 import { LOADING_STATUS } from '../slices/constants';
 import {
   activeIntegrationSelector,
@@ -135,6 +137,8 @@ const WidgetPortal = ({
 }) => {
   const hasToken = useSelector(hasTokenSelector);
   const prevAuth = usePrevious(auth);
+  const baseURL = useSelector(baseURLSelector);
+  const isProd = baseURL === DEFAULT_CONFIG.baseURL;
   const userAuthLoadingStatus = useSelector(userAuthLoadingSelector);
   const integrationsLoadingStatus = useSelector(integrationsLoadingSelector);
   const integrationsHasError = Boolean(useSelector(integrationsErrorSelector));
@@ -157,12 +161,14 @@ const WidgetPortal = ({
           ({ payload }) => {
             const { data: { user_id: userId } = {} } = payload || {};
             dispatch(setUserId(userId));
-            initLogger(getAnalyticsKeys(userId));
+            if (isProd) {
+              initLogger(getAnalyticsKeys(userId));
+            }
           }
         );
       });
     }
-  }, [auth, componentKey, dispatch, hasToken, prevAuth, projectId]);
+  }, [auth, componentKey, dispatch, hasToken, isProd, prevAuth, projectId]);
 
   const handleTryAgain = () => {
     if (userAuthHasError) {
