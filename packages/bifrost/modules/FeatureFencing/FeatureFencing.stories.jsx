@@ -1,10 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import FeatureFencingActions from '../FeatureFencingActions';
+import { FEATURE_FENCING_ACTIONS_ALIGNMENT } from '../FeatureFencingActions/const';
 import FeatureFencingContent from '../FeatureFencingContent';
 import FeatureFencingMedia from '../FeatureFencingMedia';
 
+import CSPExampleImage from './assets/CSPExampleImage';
+import O11yExampleImage from './assets/O11yExampleImage';
 import { FEATURE_FENCING_SIZES } from './const';
 import FeatureFencing from './index';
 
@@ -53,39 +57,79 @@ const defaultConfig = {
   },
   controls: {}
 };
-const Template = (props) => (
+const Template = ({ header, description, ...props }) => (
   <FeatureFencing {...props}>
-    <FeatureFencingContent {...props}>
+    <FeatureFencingContent header={header} description={description}>
       <FeatureFencingActions
         primaryBtnText="Start a 14-day free trial"
         alignment="left"
         secondaryBtnText="Learn more"
         onPrimayBtnClick={() => {
-          console.log('ff-actions-cta-clicked');
+          console.log('Primary action clicked');
         }}
         onSecondaryBtnClick={() => {
-          console.log('ff-actions-learn-more-clicked');
+          console.log('Secondary action clicked');
         }}
-        actionText="Successfully achieved more things"
-        showActionTextOnly
+        actionText="Successfully 14-day trial enabled"
+        showActionTextOnly={false}
         primaryBtnProps={{
           colors: 'success'
         }}
       />
     </FeatureFencingContent>
     <FeatureFencingMedia>
-      <img
-        className="w-full"
-        src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
-        alt="Grapefruit slice atop a pile of other slices"
-      />
+      <O11yExampleImage />
     </FeatureFencingMedia>
   </FeatureFencing>
 );
+
+Template.propTypes = {
+  header: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
+};
+
 const Primary = Template.bind({});
 Primary.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
-export { Primary };
+
+const WithSingleCTATemplate = ({ header, description, ...props }) => (
+  <FeatureFencing {...props}>
+    <FeatureFencingContent header={header} description={description}>
+      <FeatureFencingActions
+        primaryBtnText="Start a 14-day free trial"
+        alignment={FEATURE_FENCING_ACTIONS_ALIGNMENT.CENTER}
+        onPrimayBtnClick={() => {
+          console.log('Primay action clicked');
+        }}
+        actionText="Successfully 14-day trial enabled"
+        showActionTextOnly={false}
+        primaryBtnProps={{
+          colors: 'success'
+        }}
+      />
+    </FeatureFencingContent>
+    <FeatureFencingMedia>
+      <CSPExampleImage />
+    </FeatureFencingMedia>
+  </FeatureFencing>
+);
+
+WithSingleCTATemplate.propTypes = {
+  header: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
+};
+
+const WithSingleCTAButton = WithSingleCTATemplate.bind({});
+
+WithSingleCTAButton.parameters = {
+  controls: {}
+};
+
+WithSingleCTAButton.args = {
+  // controls: {}
+};
+
+export { Primary, WithSingleCTAButton };
