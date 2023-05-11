@@ -2,11 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
-import {
-  SNP_PARAMS_MAPPING,
-  TEST_DETAILS_SOURCE,
-  WRAPPER_GAP_CLASS
-} from 'constants/common';
+import { SNP_PARAMS_MAPPING, TEST_DETAILS_SOURCE } from 'constants/common';
 import SHErrorDetailsSlideOver from 'features/SHErrorDetails';
 import { getIsUEDetailsVisible } from 'features/SHErrorDetails/slices/selectors';
 import SHTestDetailsSlideOver from 'features/SHTestDetails';
@@ -79,12 +75,7 @@ export default function SnP() {
     [dispatch, navigate, removeCommonParams]
   );
   return (
-    <div
-      className={twClassNames(
-        'flex flex-col overflow-hidden',
-        WRAPPER_GAP_CLASS
-      )}
-    >
+    <>
       <SHHeader activeTab={activeTab} onTabChange={onTabChange} />
       <div className={twClassNames('flex-1')}>
         {activeTab.value === TABS.tests && <SHTests />}
@@ -99,6 +90,6 @@ export default function SnP() {
           }
         />
       </div>
-    </div>
+    </>
   );
 }
