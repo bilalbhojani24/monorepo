@@ -42,6 +42,8 @@ import { isIntegrationsPage } from 'utils/routeUtils';
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 const PUSHER_CONNECTION_NAME = 'o11y-pusher';
 
+const envConfig = getEnvConfig();
+
 const App = () => {
   const dispatch = useDispatch();
   const hasInitFailed = useSelector(getHasInitFailed);
@@ -133,7 +135,7 @@ const App = () => {
 
   // init sentry
   useEffect(() => {
-    const { enableSentry } = getEnvConfig();
+    const { enableSentry } = envConfig;
     if (enableSentry && !window.isSentryInitialized) {
       window.isSentryInitialized = true;
       initErrorLogger({
@@ -157,13 +159,13 @@ const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initO11y,
-    `${getEnvConfig().signInUrl}?redirect_url=${encodeURIComponent(
+    `${envConfig.signInUrl}?redirect_url=${encodeURIComponent(
       window.location.href
     )}`
   );
   return (
     <ErrorBoundary>
-      <VWO />
+      {envConfig?.enableAnalytics && <VWO />}
       {Routes}
       <ModalToShow />
       {portalize(
