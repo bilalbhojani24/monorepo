@@ -148,9 +148,9 @@ const importSlice = createSlice({
     setTestRailsCred: (state, { payload }) => {
       state.testRailsCred[payload.key] = payload.value;
     },
-    setTestRailsCredTouched: (state, { payload }) => {
-      state.testRailsCredTouched[payload.key] = payload.value;
-    },
+    // setTestRailsCredTouched: (state, { payload }) => {
+    //   state.testRailsCredTouched[payload.key] = payload.value;
+    // },
     setProjectForTestManagementImport: (state, { payload }) => {
       state.projectsForTestManagementImport = payload;
     },
@@ -203,8 +203,27 @@ const importSlice = createSlice({
     setZephyrCred: (state, { payload }) => {
       state.zephyrCred[payload.key] = payload.value;
     },
-    setZephyrCredTouched: (state, { payload }) => {
-      state.zephyrCredTouched[payload.key] = payload.value;
+    setTestConnectionFulfilled: (state) => {
+      state.connectionStatusMap[state.currentTestManagementTool] = 'success';
+      state.configureToolTestConnectionLoading = false;
+    },
+    setTestConnectionFailed: (state) => {
+      state.connectionStatusMap[state.currentTestManagementTool] = 'error';
+      state.configureToolTestConnectionLoading = false;
+    },
+    setProceedFulfilled: (state, { payload }) => {
+      if (payload?.import_id) state.importIdBeforeImport = payload?.import_id;
+      state.projectsForTestManagementImport = payload.projects.map(
+        (project) => ({
+          ...project,
+          checked: true
+        })
+      );
+      state.configureToolProceed = true;
+      state.configureToolProceedLoading = false;
+    },
+    setProceedFailed: (state) => {
+      state.configureToolProceedLoading = false;
     },
     quickImportCleanUp: (state, { payload }) => {
       const {
@@ -354,9 +373,9 @@ export const {
   setImportIdBeforeImport,
   setErrorForConfigureData,
   setTestRailsCred,
-  setTestRailsCredTouched,
+  // setTestRailsCredTouched,
   setZephyrCred,
-  setZephyrCredTouched,
+  // setZephyrCredTouched,
   setProjectForTestManagementImport,
   setImportSteps,
   setImportStarted,
@@ -379,6 +398,10 @@ export const {
   setNewProjectBannerDismiss,
   setImportedProjectCount,
   setShowLoggedInScreen,
-  setShowArtificialLoader
+  setShowArtificialLoader,
+  setTestConnectionFulfilled,
+  setTestConnectionFailed,
+  setProceedFailed,
+  setProceedFulfilled
 } = importSlice.actions;
 export default importSlice.reducer;

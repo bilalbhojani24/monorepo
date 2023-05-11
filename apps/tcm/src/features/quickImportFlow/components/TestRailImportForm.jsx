@@ -13,13 +13,13 @@ import { TEST_RAILS } from '../const/importSteps';
 
 import TermsAndConditions from './TermsAndConditions';
 import useConfigureTool from './useConfigureTool';
+import useForms from './useForms';
 
 const TestRailImportForm = () => {
+  const { testRailsCredTouched, handleInputFieldChange } = useForms();
   const {
     connectionStatusMap,
-    handleInputFieldChange,
     testRailsCred,
-    testRailsCredTouched,
     loggedInScreen,
     loggedInForTool,
     currentTestManagementTool

@@ -14,15 +14,16 @@ import { ZEPHYR } from '../const/importSteps';
 
 import TermsAndConditions from './TermsAndConditions';
 import useConfigureTool from './useConfigureTool';
+import useForms from './useForms';
 
 const ZephyrImportForm = (props) => {
   const { jiraConfigured } = props;
+  const { zephyrCredTouched, handleInputFieldChange } = useForms();
   const {
     connectionStatusMap,
-    handleInputFieldChange,
+    // handleInputFieldChange,
     // configureToolProceed,
     zephyrCred,
-    zephyrCredTouched,
     loggedInScreen,
     loggedInForTool,
     currentTestManagementTool

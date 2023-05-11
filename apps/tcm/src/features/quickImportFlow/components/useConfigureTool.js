@@ -1,21 +1,22 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { logEventHelper } from 'utils/logEvent';
 
+import { SCREEN_1 } from '../const/importSteps';
 import {
   setCurrentTestManagementTool,
   setJiraConfigurationStatus,
   setSelectedRadioIdMap,
-  setShowLoggedInScreen,
-  setTestRailsCred,
-  setTestRailsCredTouched,
-  setZephyrCred
+  setShowLoggedInScreen
 } from '../slices/importSlice';
+import { requestTestConnection } from '../slices/quickImportThunk';
 
 const useConfigureTool = () => {
   const dispatch = useDispatch();
   const [showConnectNewAccountModal, setShowConnectNewAccountModal] =
     useState(false);
+  const { projectId } = useParams();
 
   const jiraConfiguredForZephyr = useSelector(
     (state) => state.import.isJiraConfiguredForZephyr
@@ -29,18 +30,19 @@ const useConfigureTool = () => {
   const configureToolProceed = useSelector(
     (state) => state.import.configureToolProceed
   );
+  const configureToolTestConnectionLoading = useSelector(
+    (state) => state.import.configureToolTestConnectionLoading
+  );
+  const configureToolProceedLoading = useSelector(
+    (state) => state.import.configureToolProceedLoading
+  );
+  const currentScreen = useSelector((state) => state.import.currentScreen);
   const loggedInScreen = useSelector((state) => state.import.loggedInScreen);
   const loggedInForTool = useSelector((state) => state.import.loggedInForTool);
   const testRailsCred = useSelector((state) => state.import.testRailsCred);
   const zephyrCred = useSelector((state) => state.import.zephyrCred);
   const connectionStatusMap = useSelector(
     (state) => state.import.connectionStatusMap
-  );
-  const testRailsCredTouched = useSelector(
-    (state) => state.import.testRailsCredTouched
-  );
-  const zephyrCredTouched = useSelector(
-    (state) => state.import.zephyrCredTouched
   );
 
   const isJiraConfiguredForZephyr = () => {
@@ -56,15 +58,6 @@ const useConfigureTool = () => {
     dispatch(setCurrentTestManagementTool(tool));
   };
 
-  const handleInputFieldChange = (key) => (e) => {
-    const { value } = e.target;
-    if (currentTestManagementTool === 'testrails') {
-      dispatch(setTestRailsCred({ key, value }));
-      dispatch(setTestRailsCredTouched({ key, value: true }));
-    } else if (currentTestManagementTool === 'zephyr')
-      dispatch(setZephyrCred({ key, value }));
-  };
-
   const handleRadioGroupChange = (testManagementTool) => (_, id) => {
     dispatch(setSelectedRadioIdMap({ key: testManagementTool, value: id }));
   };
@@ -77,11 +70,29 @@ const useConfigureTool = () => {
     setShowConnectNewAccountModal(false);
   };
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
+  const handleTestConnection = (decider, logEvent = true) => {
+    dispatch(requestTestConnection());
+    if (logEvent && currentScreen === SCREEN_1) {
+      dispatch(
+        logEventHelper('TM_QiStep1TestConnectionBtnClicked', {
+          project_id: projectId,
+          tool_selected: currentTestManagementTool
+        })
+      );
+    }
+  };
+
+  const handleProceed = () => {
+    dispatch(requestTestConnection(true));
+  };
+
   return {
     connectionStatusMap,
     configureToolProceed,
     jiraConfiguredForZephyr,
-    handleInputFieldChange,
+    handleProceed,
+    handleTestConnection,
     isJiraConfiguredForZephyr,
     setTestManagementTool,
     currentTestManagementTool,
@@ -93,14 +104,14 @@ const useConfigureTool = () => {
     showConnectNewAccountModal,
     setShowConnectNewAccountModal,
     handleDisconnectAccount,
+    configureToolTestConnectionLoading,
+    configureToolProceedLoading,
     currentEmail:
       currentTestManagementTool === 'zephyr'
         ? zephyrCred?.email
         : testRailsCred?.email,
     testRailsCred,
-    zephyrCred,
-    testRailsCredTouched,
-    zephyrCredTouched
+    zephyrCred
   };
 };
 

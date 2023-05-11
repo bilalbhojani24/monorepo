@@ -1,7 +1,8 @@
 import React from 'react';
 import { TMButton } from 'common/bifrostProxy';
 
-import useImport from './useImport';
+import useConfigureTool from './useConfigureTool';
+// import useImport from './useImport';
 
 const ImportFooter = () => {
   const {
@@ -12,7 +13,7 @@ const ImportFooter = () => {
     currentTestManagementTool,
     configureToolProceedLoading,
     configureToolTestConnectionLoading
-  } = useImport();
+  } = useConfigureTool();
 
   const alreadyLoggedIn =
     loggedInScreen && loggedInForTool === currentTestManagementTool;

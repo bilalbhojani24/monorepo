@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
-  checkTestManagementConnection,
+  // checkTestManagementConnection,
   getLatestQuickImportConfig,
   importProjects
 } from 'api/import.api';
@@ -9,38 +9,27 @@ import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { SCREEN_1, SCREEN_2, SCREEN_3 } from '../const/importSteps';
+import { SCREEN_3 } from '../const/importSteps';
 import {
   setBeginImportLoading,
   setCheckImportStatusClicked,
   setConfigureToolPageLoading,
-  setConfigureToolProceeded,
-  setConfigureToolProceedLoading,
-  setConfigureToolTestConnectionLoading,
-  setConnectionStatusMap,
   setCurrentScreen,
   setCurrentTestManagementTool,
   setErrorForConfigureData,
   setImportId,
-  setImportIdBeforeImport,
   setImportStarted,
   setImportStatusOngoing,
   setLatestImportTool,
-  setProjectForTestManagementImport,
   setRetryImport,
-  setShowLoggedInScreen,
-  setTestRailsCred,
-  setTestRailsCredTouched,
-  setZephyrCred,
-  setZephyrCredTouched
+  setShowLoggedInScreen
 } from '../slices/importSlice';
-import { handleArtificialLoader } from '../slices/quickImportThunk';
+// import { handleArtificialLoader } from '../slices/quickImportThunk';
 
 const useImport = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { projectId } = useParams();
 
   const isFromOnboarding = location?.state?.isFromOnboarding;
   // global selector
@@ -97,171 +86,6 @@ const useImport = () => {
   const importIdBeforeImport = useSelector(
     (state) => state.import.importIdBeforeImport
   );
-
-  const setConnectionStatus = ({ key, value }) => {
-    dispatch(setConnectionStatusMap({ key, value }));
-  };
-
-  // const handleStepChange = (prevStep, currentStep) =>
-  //   allImportSteps.map((step) => {
-  //     if (step.name === prevStep) return { ...step, status: COMPLETE_STEP };
-  //     if (step.name === currentStep) return { ...step, status: CURRENT_STEP };
-  //     if (step.name === CONFIRM_IMPORT)
-  //       return { ...step, status: UPCOMING_STEP };
-  //     return step;
-  //   });
-
-  const trimSpacesTestRails = () => {
-    Object.entries(testRailsCred).forEach(([key, value]) => {
-      dispatch(setTestRailsCred({ key, value: value?.trim() }));
-    });
-  };
-
-  const trimSpacesZephyr = () => {
-    Object.entries(zephyrCred).forEach(([key, value]) => {
-      dispatch(setZephyrCred({ key, value: value?.trim() }));
-    });
-  };
-
-  const connectionSuccessful = (data) => {
-    dispatch(
-      setProjectForTestManagementImport(
-        data.projects.map((project) => ({
-          ...project,
-          checked: true
-        }))
-      )
-    );
-    dispatch(handleArtificialLoader(2000)); // this is to show loader before showing project, why we didn't went with a state because we had to give h-screen conditionally when we have that loader.
-    if (data?.import_id) dispatch(setImportIdBeforeImport(data?.import_id));
-    dispatch(setConfigureToolProceeded(true));
-    dispatch(setCurrentScreen(SCREEN_2));
-    dispatch(setConfigureToolProceedLoading(false));
-  };
-
-  const connectionFailed = (decider) => {
-    if (decider === 'proceed') dispatch(setConfigureToolProceedLoading(false));
-    else dispatch(setConfigureToolTestConnectionLoading(false));
-  };
-
-  // eslint-disable-next-line sonarjs/cognitive-complexity
-  const handleTestConnection = (decider, logEvent = true) => {
-    if (logEvent && currentScreen === SCREEN_1) {
-      dispatch(
-        logEventHelper('TM_QiStep1TestConnectionBtnClicked', {
-          project_id: projectId,
-          tool_selected: currentTestManagementTool
-        })
-      );
-    }
-    if (
-      (currentTestManagementTool === 'testrails' &&
-        testRailsCred.key?.trim() &&
-        testRailsCred.host?.trim() &&
-        testRailsCred.email?.trim()) ||
-      (currentTestManagementTool === 'zephyr' &&
-        zephyrCred.jira_key?.trim() &&
-        zephyrCred.host?.trim() &&
-        zephyrCred.email?.trim() &&
-        zephyrCred.zephyr_key?.trim())
-    ) {
-      if (decider === 'proceed') {
-        dispatch(setConfigureToolProceedLoading(true));
-      } else {
-        dispatch(setConfigureToolTestConnectionLoading(true));
-      }
-
-      if (currentTestManagementTool === 'testrails') {
-        checkTestManagementConnection('testrail', testRailsCred)
-          .then((data) => {
-            // show the success banners
-            if (decider === 'proceed') {
-              connectionSuccessful(data);
-              // set connection status
-              setConnectionStatus({ key: 'testrails', value: '' }); // proceed button click
-            } else {
-              setConnectionStatus({ key: 'testrails', value: 'success' });
-              dispatch(setConfigureToolTestConnectionLoading(false));
-            }
-            trimSpacesTestRails();
-          })
-          .catch((error) => {
-            // show failure banner
-            trimSpacesTestRails();
-            connectionFailed(decider);
-            setConnectionStatus({
-              key: 'testrails',
-              value:
-                error?.response?.status === 400
-                  ? error?.response?.data
-                  : 'error'
-            });
-          });
-      } else if (currentTestManagementTool === 'zephyr') {
-        checkTestManagementConnection('zephyr', zephyrCred)
-          .then((data) => {
-            if (decider === 'proceed') {
-              connectionSuccessful(data);
-              setConnectionStatus({ key: 'zephyr', value: '' });
-            } else {
-              setConnectionStatus({ key: 'zephyr', value: 'success' });
-              dispatch(setConfigureToolTestConnectionLoading(false));
-            }
-            trimSpacesZephyr();
-          })
-          .catch((error) => {
-            // show failure banner
-            trimSpacesZephyr();
-            connectionFailed(decider);
-            setConnectionStatus({
-              key: 'zephyr',
-              value:
-                error?.response?.status === 400
-                  ? error?.response?.data
-                  : 'error'
-            });
-          });
-      }
-    } else if (currentTestManagementTool === 'testrails') {
-      Object.keys(testRailsCredTouched).forEach((key) => {
-        dispatch(setTestRailsCredTouched({ key, value: true }));
-      });
-      trimSpacesTestRails();
-    } else if (currentTestManagementTool === 'zephyr') {
-      Object.keys(zephyrCredTouched).forEach((key) => {
-        dispatch(setZephyrCredTouched({ key, value: true }));
-      });
-      trimSpacesZephyr();
-    }
-  };
-
-  const handleProceed = () => {
-    // dispatch(
-    //   logEventHelper(proceedActionEventName(), {
-    //     tool_selected: currentTestManagementTool
-    //   })
-    // );
-    if (currentTestManagementTool === 'testrails') {
-      if (testRailsCred.key && testRailsCred.host && testRailsCred.email)
-        handleTestConnection('proceed', false);
-      else {
-        Object.keys(testRailsCredTouched).forEach((key) => {
-          dispatch(setTestRailsCredTouched({ key, value: true }));
-        });
-      }
-    } else if (currentTestManagementTool === 'zephyr') {
-      if (
-        (zephyrCred.jira_key && zephyrCred.host && zephyrCred.email,
-        zephyrCred.zephyr_key)
-      )
-        handleTestConnection('proceed', false);
-      else {
-        Object.keys(zephyrCredTouched).forEach((key) => {
-          dispatch(setZephyrCredTouched({ key, value: true }));
-        });
-      }
-    }
-  };
 
   const handleConfigureDataProceed = () => {
     // dispatch(logEventHelper(proceedActionEventName(), {}));
@@ -397,8 +221,8 @@ const useImport = () => {
     handleChangeSetup,
     handleConfigureDataProceed,
     handleConfirmImport,
-    handleProceed,
-    handleTestConnection,
+    // handleProceed,
+    // handleTestConnection,
     handleTopSectionCtaClick,
     importStatus,
     isFromOnboarding,
