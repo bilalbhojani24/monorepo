@@ -235,6 +235,7 @@ const TestVideoPlayer = () => {
         onPlayCallback={() => setIsVideoPlayed(true)}
         isVideoExpired={isVideoExpired}
         videoFullUrl={details.data.videoLogs?.url}
+        isFloatingVideo={false}
       />
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
@@ -262,6 +263,7 @@ const TestVideoPlayer = () => {
           onPlayCallback={() => setIsVideoPlayed(true)}
           isVideoExpired={isVideoExpired}
           videoFullUrl={details.data.videoLogs?.url}
+          isFloatingVideo
         />
       </DraggableComponent>
     </div>
