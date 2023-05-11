@@ -29,6 +29,7 @@ const StepsList = memo(({ steps, onClickStep }) => {
           handleLogTDInteractionEvent({ interaction: 'steps_viewed' });
         }
       }}
+      side="bottom"
     >
       <O11yDropdownTrigger wrapperClassName="h-8 items-center">
         <MdOutlineMenu className="text-base-500 mr-2 h-4 w-4" />
@@ -36,15 +37,15 @@ const StepsList = memo(({ steps, onClickStep }) => {
           Steps
         </span>
       </O11yDropdownTrigger>
-      <O11yDropdownOptionGroup wrapperClassName="max-w-lg w-auto">
+      <O11yDropdownOptionGroup wrapperClassName="max-w-lg w-auto py-1">
         {steps.map((step, idx) => (
           <O11yDropdownOptionItem
-            key={step}
+            key={step.key}
             option={{
               id: idx,
               body: <StepLogItem data={step} />
             }}
-            wrapperClassName="pr-0"
+            wrapperClassName="pr-2"
           />
         ))}
       </O11yDropdownOptionGroup>

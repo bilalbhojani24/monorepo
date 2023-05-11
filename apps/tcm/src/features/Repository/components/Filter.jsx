@@ -94,6 +94,7 @@ const Filter = ({ isMini, onFilterChange }) => {
         <TMInputField
           placeholder="Search by Test Case ID or Title"
           value={filterSearchMeta?.q}
+          // onFocus={handleSearchFocus}
           onChange={(e) => searchChangeHandler(e.currentTarget.value)}
           onKeyDown={(e) => onSubmitKeyHandler(e, () => applyFilterHandler())}
           addOnBeforeInline={<SearchIcon className="text-base-400" />}
