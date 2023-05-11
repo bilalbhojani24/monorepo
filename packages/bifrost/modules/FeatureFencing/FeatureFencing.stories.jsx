@@ -55,13 +55,6 @@ const defaultConfig = {
 };
 const Template = (props) => (
   <FeatureFencing {...props}>
-    <FeatureFencingMedia>
-      <img
-        className="w-full"
-        src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
-        alt="Grapefruit slice atop a pile of other slices"
-      />
-    </FeatureFencingMedia>
     <FeatureFencingContent {...props}>
       <FeatureFencingActions
         primaryBtnText="Start a 14-day free trial"
@@ -74,9 +67,19 @@ const Template = (props) => (
           console.log('ff-actions-learn-more-clicked');
         }}
         actionText="Successfully achieved more things"
-        showActionTextOnly={false}
+        showActionTextOnly
+        primaryBtnProps={{
+          colors: 'success'
+        }}
       />
     </FeatureFencingContent>
+    <FeatureFencingMedia>
+      <img
+        className="w-full"
+        src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg"
+        alt="Grapefruit slice atop a pile of other slices"
+      />
+    </FeatureFencingMedia>
   </FeatureFencing>
 );
 const Primary = Template.bind({});
