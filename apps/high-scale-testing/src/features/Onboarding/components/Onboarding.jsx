@@ -27,6 +27,7 @@ import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
   const {
+    CODE_SNIPPETS_SCRATCH,
     LIST_FEED_PROPS,
     SCRATCH_RADIO_GROUP_OPTIONS,
     SELECT_OPTIONS,
@@ -120,7 +121,7 @@ const Onboarding = () => {
           <div>
             <p>Download CLI.</p>
             <CodeSnippet
-              code="npm install @browserstack/browserstack-cli"
+              code={CODE_SNIPPETS_SCRATCH['create-grid'].a}
               singleLine
             />
           </div>
@@ -128,7 +129,10 @@ const Onboarding = () => {
         <li className="py-2">
           <div>
             <p>Setup CLI with AWS credentials.</p>
-            CODE BLOCK HERE
+            <CodeSnippet
+              code={CODE_SNIPPETS_SCRATCH['create-grid'].b}
+              singleLine
+            />
           </div>
         </li>
         <li className="py-2"> Execute grid creation command.</li>
@@ -143,7 +147,7 @@ const Onboarding = () => {
           modifier="primary"
           title="This command will create an EKS cluster ‘high-scale-grid-cluster’ with a grid named ‘high-scale-grid’ that supports a concurrency of ‘50’ browsers sessions. The instance type for worker nodes will be ‘m7g.medium (vCPU-1, memory-8GB)’."
         />
-        CODE BLOCK HERE
+        <CodeSnippet code={CODE_SNIPPETS_SCRATCH['create-grid'].c} singleLine />
       </ol>
     </div>
   );
@@ -240,7 +244,6 @@ const Onboarding = () => {
 
   return (
     <div className=" border-base-300 m-auto mt-28 w-4/6 max-w-4xl rounded-lg border">
-      {/* Header Component */}
       <PageHeadings
         actions={
           <>
@@ -257,6 +260,7 @@ const Onboarding = () => {
         }
         wrapperClassName="bg-base-50 px-7 py-6 "
       />
+
       {/* Body of Onboarding */}
       <div className="border-base-300 border-y px-7 py-6">
         {onboardingStep === 0 && (

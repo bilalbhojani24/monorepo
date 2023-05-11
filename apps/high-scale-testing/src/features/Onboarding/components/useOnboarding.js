@@ -3,6 +3,18 @@ import { useEffect, useState } from 'react';
 
 const useOnboarding = () => {
   // All Constants:
+  const CODE_SNIPPETS_SCRATCH = {
+    'create-grid': {
+      a: 'npm install @browserstack/browserstack-cli',
+      b: `/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
+export BROWSERSTACK_USERNAME=<username>
+export BROWSERSTACK_ACCESS_KEY=<accesskey>
+
+/* Create HST configuration profile with AWS credentials */
+browserstack-cli hst init`,
+      c: 'browserstack-cli hst create grid'
+    }
+  };
   const HEADER_TEXTS_OBJECT = {
     intro: 'Hey John Doe, Welcome to High Scale Testing',
     scratch: 'Create Automation Grid',
@@ -138,6 +150,7 @@ const useOnboarding = () => {
   }, [selectedOption]);
 
   return {
+    CODE_SNIPPETS_SCRATCH,
     LIST_FEED_PROPS,
     SCRATCH_RADIO_GROUP_OPTIONS,
     SHOW_LINE_NUMBERS,
