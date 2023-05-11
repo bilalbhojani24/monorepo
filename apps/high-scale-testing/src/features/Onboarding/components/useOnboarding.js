@@ -5,14 +5,23 @@ const useOnboarding = () => {
   // All Constants:
   const CODE_SNIPPETS_SCRATCH = {
     'create-grid': {
-      a: 'npm install @browserstack/browserstack-cli',
-      b: `/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
+      a: {
+        code: 'npm install @browserstack/browserstack-cli',
+        text: 'Download CLI.'
+      },
+      b: {
+        code: `/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
 export BROWSERSTACK_USERNAME=<username>
 export BROWSERSTACK_ACCESS_KEY=<accesskey>
 
 /* Create HST configuration profile with AWS credentials */
 browserstack-cli hst init`,
-      c: 'browserstack-cli hst create grid'
+        text: 'Setup CLI with AWS credentials.'
+      },
+      c: {
+        code: 'browserstack-cli hst create grid',
+        text: 'Execute grid creation command.'
+      }
     }
   };
   const HEADER_TEXTS_OBJECT = {
