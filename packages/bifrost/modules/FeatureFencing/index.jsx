@@ -13,7 +13,7 @@ import {
 import { FEATURE_FENCING_CONTEXT } from './context';
 
 const FeatureFencing = (props) => {
-  const { children, isDismissable, size } = props;
+  const { children, isDismissable, size, onClose } = props;
 
   const [hasMediaNode, setHasMediaNode] = useState(false);
 
@@ -24,7 +24,18 @@ const FeatureFencing = (props) => {
         setHasMediaNode
       }}
     >
-      <div className={twClassNames('relative flex shadow', WIDTH_STYLES[size])}>
+      <div
+        className={twClassNames(
+          'relative flex shadow overflow-hidden',
+          WIDTH_STYLES[size],
+          {
+            'rounded-lg':
+              size === FEATURE_FENCING_SIZES.SM ||
+              size === FEATURE_FENCING_SIZES.BASE,
+            'rounded-xl': size === FEATURE_FENCING_SIZES.XL
+          }
+        )}
+      >
         {children}
         {isDismissable && (
           <Button
@@ -39,6 +50,7 @@ const FeatureFencing = (props) => {
             size={CLOSE_BUTTON_SIZES[size]}
             icon={<MdClose className="h-full w-full" />}
             colors="white"
+            onClick={onClose}
           />
         )}
       </div>
@@ -49,11 +61,13 @@ const FeatureFencing = (props) => {
 FeatureFencing.propTypes = {
   isDismissable: PropTypes.bool,
   size: PropTypes.oneOf(Object.values(FEATURE_FENCING_SIZES)),
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  onClose: PropTypes.func
 };
 FeatureFencing.defaultProps = {
   isDismissable: true,
-  size: FEATURE_FENCING_SIZES.SM
+  size: FEATURE_FENCING_SIZES.SM,
+  onClose: () => {}
 };
 
 export default FeatureFencing;

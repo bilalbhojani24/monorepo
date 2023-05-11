@@ -25,8 +25,10 @@ const FeatureFencingContent = ({ children, header, description }) => {
           'text-base-500 font-normal',
           DESCRIPTION_STYLES[size],
           {
-            'mt-1.5': FEATURE_FENCING_SIZES.SM || FEATURE_FENCING_SIZES.BASE,
-            'mt-2': FEATURE_FENCING_SIZES.XL
+            'mt-1.5':
+              size === FEATURE_FENCING_SIZES.SM ||
+              size === FEATURE_FENCING_SIZES.BASE,
+            'mt-2': size === FEATURE_FENCING_SIZES.XL
           }
         )}
       >
@@ -34,8 +36,10 @@ const FeatureFencingContent = ({ children, header, description }) => {
       </p>
       <div
         className={twClassNames({
-          'mt-6': FEATURE_FENCING_SIZES.SM || FEATURE_FENCING_SIZES.BASE,
-          'mt-9': FEATURE_FENCING_SIZES.XL
+          'mt-6':
+            size === FEATURE_FENCING_SIZES.SM ||
+            size === FEATURE_FENCING_SIZES.BASE,
+          'mt-9': size === FEATURE_FENCING_SIZES.XL
         })}
       >
         {children}

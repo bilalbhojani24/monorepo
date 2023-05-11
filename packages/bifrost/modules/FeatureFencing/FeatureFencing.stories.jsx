@@ -70,7 +70,6 @@ const Template = (props) => (
         }}
       />
     </FeatureFencingContent>
-
     <FeatureFencingMedia>
       <img
         className="w-full"

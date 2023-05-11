@@ -28,8 +28,10 @@ const FeatureFencingActions = (props) => {
           alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.CENTER,
         'justify-start': alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT,
 
-        'gap-6': FEATURE_FENCING_SIZES.SM || FEATURE_FENCING_SIZES.BASE,
-        'gap-9': FEATURE_FENCING_SIZES.XL
+        'gap-6':
+          size === FEATURE_FENCING_SIZES.SM ||
+          size === FEATURE_FENCING_SIZES.BASE,
+        'gap-9': size === FEATURE_FENCING_SIZES.XL
       })}
     >
       <Button onClick={onCTAClick} size={CTA_BUTTON_SIZES[size]}>
@@ -46,8 +48,10 @@ const FeatureFencingActions = (props) => {
             'leading-4 font-medium',
             LEARN_MORE_TEXT_STYLES[size],
             {
-              'mr-1.5': FEATURE_FENCING_SIZES.SM || FEATURE_FENCING_SIZES.BASE,
-              'mr-2': FEATURE_FENCING_SIZES.XL
+              'mr-1.5':
+                size === FEATURE_FENCING_SIZES.SM ||
+                size === FEATURE_FENCING_SIZES.BASE,
+              'mr-2': size === FEATURE_FENCING_SIZES.XL
             }
           )}
         >
