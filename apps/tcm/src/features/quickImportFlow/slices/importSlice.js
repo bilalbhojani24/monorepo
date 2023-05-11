@@ -14,7 +14,7 @@ import {
   SUCCESS_DATA,
   WARNING_DATA
 } from '../const/importConst';
-import { SCREEN_1, SCREEN_2 } from '../const/importSteps';
+import { SCREEN_1, SCREEN_2, TESTRAIL, ZEPHYR } from '../const/importSteps';
 
 const initialState = {
   configureToolTestConnectionLoading: false,
@@ -33,9 +33,9 @@ const initialState = {
     host: ''
   },
   importStarted: false,
-  connectionStatusMap: { testrails: '', zephyr: '' },
+  connectionStatusMap: { testrail: '', zephyr: '' },
   selectedRadioIdMap: {
-    testrails: 'import-from-tool',
+    testrail: 'import-from-tool',
     zephyr: 'import-from-tool'
   },
   projectsForTestManagementImport: [],
@@ -106,8 +106,7 @@ export const setRetryImport = createAsyncThunk(
   'import/retryImport',
   async ({ id, testTool }) => {
     try {
-      const tool = testTool === 'testrails' ? 'testrail' : testTool;
-      const response = await retryImport(id, tool);
+      const response = await retryImport(id, testTool);
       return { ...response, testTool };
     } catch (err) {
       return err;
@@ -148,9 +147,6 @@ const importSlice = createSlice({
     setTestRailsCred: (state, { payload }) => {
       state.testRailsCred[payload.key] = payload.value;
     },
-    // setTestRailsCredTouched: (state, { payload }) => {
-    //   state.testRailsCredTouched[payload.key] = payload.value;
-    // },
     setProjectForTestManagementImport: (state, { payload }) => {
       state.projectsForTestManagementImport = payload;
     },
@@ -182,10 +178,10 @@ const importSlice = createSlice({
     },
     setConnectionStatusMap: (state, { payload }) => {
       state.connectionStatusMap[payload.key] = payload.value;
-      if (payload.key === 'testrails') {
+      if (payload.key === TESTRAIL) {
         state.connectionStatusMap.zephyr = '';
-      } else if (payload.key === 'zephyr') {
-        state.connectionStatusMap.testrails = '';
+      } else if (payload.key === ZEPHYR) {
+        state.connectionStatusMap.testrail = '';
       }
     },
     setImportStatus: (state, { payload }) => {
@@ -308,12 +304,12 @@ const importSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(setJiraConfigurationStatus.fulfilled, (state, action) => {
       if (!action.payload.success) state.isJiraConfiguredForZephyr = false;
-      if (action.payload.success && state.latestImportTool !== 'zephyr') {
+      if (action.payload.success && state.latestImportTool !== ZEPHYR) {
         state.isJiraConfiguredForZephyr = true;
         state.zephyrCred.email = action.payload.data.email;
         state.zephyrCred.host = action.payload.data.host;
       }
-      if (state.latestImportTool === 'zephyr' && action.payload.success) {
+      if (state.latestImportTool === ZEPHYR && action.payload.success) {
         state.isJiraConfiguredForZephyr = true;
       }
     });
@@ -338,18 +334,16 @@ const importSlice = createSlice({
         state.notificationProjectConfig.successCount = payload.success_count;
         state.successfulImportedProjects = payload.success_count;
         state.importStatus = COMPLETED;
-        state.currentTestManagementTool =
-          payload.import_type.split('_')[0] === 'testrail'
-            ? `${payload.import_type.split('_')[0]}s`
-            : payload.import_type.split('_')[0];
+        // eslint-disable-next-line prefer-destructuring
+        state.currentTestManagementTool = payload.import_type.split('_')[0];
       }
     });
     builder.addCase(setRetryImport.fulfilled, (state, { payload }) => {
-      if (payload.testTool === 'testrail') {
+      if (payload.testTool === TESTRAIL) {
         state.testRailsCred.email = payload.credentials.email;
         state.testRailsCred.host = payload.credentials.host;
         state.testRailsCred.key = payload.credentials.key;
-      } else if (payload.testTool === 'zephyr') {
+      } else if (payload.testTool === ZEPHYR) {
         state.zephyrCred.email = payload.credentials.email;
         state.zephyrCred.host = payload.credentials.host;
         state.zephyrCred.jira_key = payload.credentials.jira_key;
@@ -373,9 +367,7 @@ export const {
   setImportIdBeforeImport,
   setErrorForConfigureData,
   setTestRailsCred,
-  // setTestRailsCredTouched,
   setZephyrCred,
-  // setZephyrCredTouched,
   setProjectForTestManagementImport,
   setImportSteps,
   setImportStarted,

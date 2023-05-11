@@ -1,15 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {
-  // checkTestManagementConnection,
-  getLatestQuickImportConfig,
-  importProjects
-} from 'api/import.api';
+import { getLatestQuickImportConfig, importProjects } from 'api/import.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { SCREEN_3 } from '../const/importSteps';
+import { SCREEN_3, TESTRAIL, ZEPHYR } from '../const/importSteps';
 import {
   setBeginImportLoading,
   setCheckImportStatusClicked,
@@ -24,7 +20,6 @@ import {
   setRetryImport,
   setShowLoggedInScreen
 } from '../slices/importSlice';
-// import { handleArtificialLoader } from '../slices/quickImportThunk';
 
 const useImport = () => {
   const dispatch = useDispatch();
@@ -87,6 +82,7 @@ const useImport = () => {
     (state) => state.import.importIdBeforeImport
   );
 
+  // this has to be revamped but leaving this as it will be covered in WS implementation
   const handleConfigureDataProceed = () => {
     // dispatch(logEventHelper(proceedActionEventName(), {}));
     const noProjectSelected = testManagementProjects
@@ -109,11 +105,12 @@ const useImport = () => {
     dispatch(setImportStatusOngoing());
   };
 
+  // this has to be revamped but leaving this as it will be covered in WS implementation
   const handleConfirmImport = () => {
     // dispatch(logEventHelper(proceedActionEventName(), {}));
     dispatch(setBeginImportLoading(true));
-    if (currentTestManagementTool === 'testrails') {
-      importProjects('testrail', {
+    if (currentTestManagementTool === TESTRAIL) {
+      importProjects(TESTRAIL, {
         ...testRailsCred,
         import_id: importIdBeforeImport,
         testrail_projects: testManagementProjects
@@ -126,8 +123,8 @@ const useImport = () => {
         .catch(() => {
           dispatch(setBeginImportLoading(false));
         });
-    } else if (currentTestManagementTool === 'zephyr') {
-      importProjects('zephyr', {
+    } else if (currentTestManagementTool === ZEPHYR) {
+      importProjects(ZEPHYR, {
         ...zephyrCred,
         import_id: importIdBeforeImport,
         projects: testManagementProjects
@@ -177,14 +174,8 @@ const useImport = () => {
     getLatestQuickImportConfig()
       .then((response) => {
         const testTool = response.import_type.split('_')[0];
-        dispatch(
-          setLatestImportTool(testTool === 'testrail' ? 'testrails' : testTool)
-        );
-        dispatch(
-          setCurrentTestManagementTool(
-            testTool === 'testrail' ? 'testrails' : testTool
-          )
-        );
+        dispatch(setLatestImportTool(testTool));
+        dispatch(setCurrentTestManagementTool(testTool));
         dispatch(setRetryImport({ id: response.import_id, testTool }));
       })
       .catch(() => {
@@ -221,8 +212,6 @@ const useImport = () => {
     handleChangeSetup,
     handleConfigureDataProceed,
     handleConfirmImport,
-    // handleProceed,
-    // handleTestConnection,
     handleTopSectionCtaClick,
     importStatus,
     isFromOnboarding,
@@ -237,7 +226,7 @@ const useImport = () => {
     zephyrCred,
     zephyrCredTouched,
     currentEmail:
-      currentTestManagementTool === 'zephyr'
+      currentTestManagementTool === ZEPHYR
         ? zephyrCred?.email
         : testRailsCred?.email
   };

@@ -31,10 +31,7 @@ const apiTestConnection = async (tool, creds, dispatch, isFromProceed) => {
   else dispatch(setConfigureToolTestConnectionLoading(true));
 
   try {
-    const response = await checkTestManagementConnection(
-      tool === 'zephyr' ? tool : 'testrail',
-      creds
-    );
+    const response = await checkTestManagementConnection(tool, creds);
     if (isFromProceed) {
       dispatch(setProceedFulfilled(response));
       dispatch(handleArtificialLoader(2000));

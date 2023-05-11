@@ -2,7 +2,6 @@ import React from 'react';
 import { TMButton } from 'common/bifrostProxy';
 
 import useConfigureTool from './useConfigureTool';
-// import useImport from './useImport';
 
 const ImportFooter = () => {
   const {

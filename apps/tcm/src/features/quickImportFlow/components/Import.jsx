@@ -10,6 +10,7 @@ import { setSelectedProject } from 'globalSlice';
 import { logEventHelper } from 'utils/logEvent';
 
 import AppRoute from '../../../const/routes';
+import { ONGOING } from '../const/importConst';
 import { SCREEN_1, SCREEN_2, SCREEN_3 } from '../const/importSteps';
 import {
   setNotificationData,
@@ -84,7 +85,7 @@ const Import = () => {
 
   if (configureToolPageLoading) return <Loader wrapperClassName="grow" />;
   if (
-    importStatus === 'ongoing' &&
+    importStatus === ONGOING &&
     !beginImportLoading &&
     currentScreen === SCREEN_1
   )

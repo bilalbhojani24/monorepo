@@ -67,10 +67,7 @@ const ImportStatus = () => {
     dispatch(setCurrentScreen(SCREEN_1));
 
     // api call for retry
-    const currentTestManagementTool =
-      testManagementTool.split('_')[0] === 'testrail'
-        ? `${testManagementTool.split('_')[0]}s`
-        : testManagementTool.split('_')[0];
+    const currentTestManagementTool = testManagementTool.split('_')[0];
 
     dispatch(
       setSelectedRadioIdMap({

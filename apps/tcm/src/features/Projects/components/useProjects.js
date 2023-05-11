@@ -322,11 +322,7 @@ const useProjects = (prop) => {
         dispatch(setShowNewProjectBanner(true));
         dispatch(setImportedProjectCount(response.import_projects_count));
         dispatch(
-          setCurrentTestManagementTool(
-            response.import_type.split('_')[0] === 'testrail'
-              ? `${response.import_type.split('_')[0]}s`
-              : response.import_type.split('_')[0]
-          )
+          setCurrentTestManagementTool(response.import_type.split('_')[0])
         );
       }
     } catch (err) {

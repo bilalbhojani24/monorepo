@@ -90,10 +90,7 @@ const useImportStatus = () => {
     dispatch(setCurrentScreen(SCREEN_1));
 
     // api call for retry
-    const currentTestManagementTool =
-      testTool.split('_')[0] === 'testrail'
-        ? `${testTool.split('_')[0]}s`
-        : testTool.split('_')[0];
+    const currentTestManagementTool = testTool.split('_')[0];
 
     dispatch(
       setSelectedRadioIdMap({
@@ -215,8 +212,7 @@ const useImportStatus = () => {
     );
     dispatch(setCheckImportStatusClicked(true));
     getQuickImportStatus(importId).then((data) => {
-      const currentUsedTool =
-        data.import_type.split('_')[0] === 'testrail' ? 'testrails' : 'zephyr';
+      const currentUsedTool = data.import_type.split('_')[0];
       dispatch(setImportStatus(data.status));
       if (data.status === ONGOING) {
         dispatch(setNotificationData(WARNING_DATA));

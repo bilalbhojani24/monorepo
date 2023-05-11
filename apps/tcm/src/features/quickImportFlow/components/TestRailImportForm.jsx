@@ -9,7 +9,7 @@ import {
 } from 'common/bifrostProxy';
 
 import { INPUT_FIELD_ERROR } from '../const/importConst';
-import { TEST_RAILS } from '../const/importSteps';
+import { TESTRAIL } from '../const/importSteps';
 
 import TermsAndConditions from './TermsAndConditions';
 import useConfigureTool from './useConfigureTool';
@@ -139,17 +139,17 @@ const TestRailImportForm = () => {
               }
             />
           </div>
-          {connectionStatusMap[TEST_RAILS] && (
+          {connectionStatusMap[TESTRAIL] && (
             <TMAlerts
               accentBorder={false}
-              show={!!connectionStatusMap[TEST_RAILS]}
+              show={!!connectionStatusMap[TESTRAIL]}
               modifier={
-                connectionStatusMap[TEST_RAILS] === 'success'
+                connectionStatusMap[TESTRAIL] === 'success'
                   ? 'success'
                   : 'error'
               }
               title={
-                connectionStatusMap[TEST_RAILS] === 'success'
+                connectionStatusMap[TESTRAIL] === 'success'
                   ? 'Connection was successful. Proceed to continue.'
                   : 'Connection was not successful. Try again.'
               }

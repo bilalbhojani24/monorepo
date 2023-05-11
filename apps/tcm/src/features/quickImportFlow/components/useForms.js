@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  setTestRailsCred,
-  //   setTestRailsCredTouched,
-  setZephyrCred
-  //   setZephyrCredTouched
-} from '../slices/importSlice';
+import { TESTRAIL, ZEPHYR } from '../const/importSteps';
+import { setTestRailsCred, setZephyrCred } from '../slices/importSlice';
 
 const useForms = () => {
   const dispatch = useDispatch();
@@ -27,10 +23,10 @@ const useForms = () => {
 
   const handleInputFieldChange = (key) => (e) => {
     const { value } = e.target;
-    if (currentTestManagementTool === 'testrails') {
+    if (currentTestManagementTool === TESTRAIL) {
       dispatch(setTestRailsCred({ key, value }));
       setTestRailsCredTouched({ ...testRailsCredTouched, [key]: true });
-    } else if (currentTestManagementTool === 'zephyr') {
+    } else if (currentTestManagementTool === ZEPHYR) {
       dispatch(setZephyrCred({ key, value }));
       setZephyrCredTouched({ ...zephyrCredTouched, [key]: true });
     }

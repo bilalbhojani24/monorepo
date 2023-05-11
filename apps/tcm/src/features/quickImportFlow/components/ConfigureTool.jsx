@@ -12,7 +12,7 @@ import {
 
 import {
   IMPORT_FROM_TOOL,
-  TEST_RAILS,
+  TESTRAIL,
   UPLOAD_FILE,
   ZEPHYR
 } from '../const/importSteps';
@@ -41,7 +41,7 @@ const ConfigureTool = () => {
   } = useConfigureTool();
 
   const testMgmtNameInDesc =
-    currentTestManagementTool === 'testrails' ? 'TestRail' : 'Zephyr Scale';
+    currentTestManagementTool === TESTRAIL ? 'TestRail' : 'Zephyr Scale';
   const handleButtonClick = (text) => () => {
     if (text === ZEPHYR) isJiraConfiguredForZephyr();
     setTestManagementTool(text);
@@ -49,7 +49,7 @@ const ConfigureTool = () => {
 
   const getForm = () => {
     if (selectedRadioIdMap[currentTestManagementTool] === IMPORT_FROM_TOOL) {
-      return currentTestManagementTool === TEST_RAILS ? (
+      return currentTestManagementTool === TESTRAIL ? (
         <TestRailImportForm />
       ) : (
         <ZephyrImportForm jiraConfigured={jiraConfiguredForZephyr} />
@@ -71,15 +71,13 @@ const ConfigureTool = () => {
           <div className="mr-3">
             <TMButton
               colors={
-                currentTestManagementTool === TEST_RAILS ? 'brand' : 'white'
+                currentTestManagementTool === TESTRAIL ? 'brand' : 'white'
               }
               variant={
-                currentTestManagementTool === TEST_RAILS
-                  ? 'secondary'
-                  : 'primary'
+                currentTestManagementTool === TESTRAIL ? 'secondary' : 'primary'
               }
               size="large"
-              onClick={handleButtonClick(TEST_RAILS)}
+              onClick={handleButtonClick(TESTRAIL)}
             >
               TestRail
             </TMButton>

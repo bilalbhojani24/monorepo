@@ -71,7 +71,7 @@ const useConfigureTool = () => {
   };
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  const handleTestConnection = (decider, logEvent = true) => {
+  const handleTestConnection = (logEvent = true) => {
     dispatch(requestTestConnection());
     if (logEvent && currentScreen === SCREEN_1) {
       dispatch(
