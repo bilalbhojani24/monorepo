@@ -15,6 +15,7 @@ import { getPusherConfig } from 'api/global';
 import ErrorBoundary from 'common/ErrorBoundary';
 import GenericErrorPage from 'common/GenericErrorPage';
 import ModalToShow from 'common/ModalToShow';
+import VWO from 'common/scripts/VWO';
 import { o11yHistory, PORTAL_ID } from 'constants/common';
 import {
   AMPLITUDE_KEY,
@@ -162,6 +163,7 @@ const App = () => {
   );
   return (
     <ErrorBoundary>
+      <VWO />
       {Routes}
       <ModalToShow />
       {portalize(
