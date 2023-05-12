@@ -165,15 +165,15 @@ export const isWarning = (logLevel) => {
 export const getStatusColors = (status) => {
   switch (status) {
     case TEST_STATUS.PASS:
-      return 'bg-success-400';
+      return 'bg-success-500';
     case TEST_STATUS.FAIL:
-      return 'bg-danger-400';
+      return 'bg-danger-500';
     case TEST_STATUS.PENDING:
-      return 'bg-brand-400';
+      return 'bg-brand-500';
     case TEST_STATUS.TIMEOUT:
-      return 'bg-attention-400';
+      return 'bg-attention-500';
     default:
-      return 'bg-base-400';
+      return 'bg-base-500';
   }
 };
 
