@@ -46,7 +46,8 @@ const HeaderElements = ({
   planPricingLink,
   contactLink,
   buyPlanText,
-  buyPlanLink
+  buyPlanLink,
+  buyPlanTarget
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchBarRef = useRef(null);
@@ -329,6 +330,7 @@ const HeaderElements = ({
             wrapperClassName={twClassNames(
               'flex flex-row items-start p-0 w-[104px] focus:ring-attention-600'
             )}
+            target={buyPlanTarget}
             href={buyPlanLink}
           >
             <div
@@ -365,6 +367,7 @@ HeaderElements.propTypes = {
   isFreeUser: PropTypes.bool,
   onSignoutClick: PropTypes.func,
   planPricingLink: PropTypes.string,
+  buyPlanTarget: PropTypes.string,
   buyPlanLink: PropTypes.string,
   contactLink: PropTypes.bool,
   buyPlanText: PropTypes.string
@@ -382,6 +385,7 @@ HeaderElements.defaultProps = {
   planButtonVisible: true,
   isFreeUser: true,
   onSignoutClick: null,
+  buyPlanTarget: '_self',
   planPricingLink: 'https://www.browserstack.com/accounts/subscriptions',
   buyPlanLink: 'https://www.browserstack.com/accounts/subscriptions',
   contactLink: 'https://www.browserstack.com/contact?ref=header',

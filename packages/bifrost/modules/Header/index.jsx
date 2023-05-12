@@ -30,7 +30,8 @@ const Header = ({
   buyPlanLink,
   planPricingLink,
   contactLink,
-  buyPlanText
+  buyPlanText,
+  buyPlanTarget
 }) => {
   const { productsToShow, headerRef } = useHeader();
   return (
@@ -66,6 +67,7 @@ const Header = ({
           planButtonVisible={planButtonVisible}
           isFreeUser={isFreeUser}
           onSignoutClick={onSignoutClick}
+          buyPlanTarget={buyPlanTarget}
           buyPlanLink={buyPlanLink}
           planPricingLink={planPricingLink}
           contactLink={contactLink}
@@ -97,6 +99,7 @@ Header.propTypes = {
   planButtonVisible: PropTypes.bool,
   isFreeUser: PropTypes.bool,
   onSignoutClick: PropTypes.func,
+  buyPlanTarget: PropTypes.string,
   buyPlanLink: PropTypes.string,
   planPricingLink: PropTypes.string,
   contactLink: PropTypes.string,
@@ -121,6 +124,7 @@ Header.defaultProps = {
   planButtonVisible: true,
   isFreeUser: true,
   onSignoutClick: null,
+  buyPlanTarget: undefined,
   buyPlanLink: undefined,
   planPricingLink: undefined,
   contactLink: undefined,
