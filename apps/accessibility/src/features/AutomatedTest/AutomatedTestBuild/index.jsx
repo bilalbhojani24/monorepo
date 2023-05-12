@@ -46,6 +46,7 @@ export default function AutomatedTestBuild() {
   if (activeTab === SUMMARY && !buildMetaData.issueSummary) {
     return null;
   }
+  console.log('buildData: ', buildData);
   if (activeTab === ISSUES && !buildData) {
     return null;
   }

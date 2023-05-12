@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
 import {
-  fetchBuildData,
   fetchBuildIssues,
   fetchBuildMetaData,
   fetchOverview,
@@ -38,9 +37,7 @@ export default function useAutomatedTestBuild() {
     if (tab === SUMMARY && !buildMetaData.issueSummary) {
       fetchOverview().then((response) => dispatch(setBuildOverview(response)));
     } else if (tab === ISSUES && !buildData) {
-      fetchBuildIssues().then((response) =>
-        dispatch(setBuildOverview(response))
-      );
+      fetchBuildIssues().then((response) => dispatch(setBuildData(response)));
     }
     dispatch(setActiveTab(tab));
     const updatedPath = updateUrlWithQueryParam({

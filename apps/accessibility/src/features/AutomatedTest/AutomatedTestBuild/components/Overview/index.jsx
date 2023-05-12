@@ -7,7 +7,6 @@ import useOverview from './useOverView';
 export default function Overview() {
   const { actionType, buildMetaData, eventName, issueSummary, onRowClick } =
     useOverview();
-  console.log('buildMetaData1: ', buildMetaData);
 
   return (
     <div className="grid grid-cols-1 gap-4 px-6 py-4 lg:grid-cols-2">
