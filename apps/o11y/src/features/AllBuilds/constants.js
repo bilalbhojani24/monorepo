@@ -30,12 +30,12 @@ export const aggregateColors = {
 export const TABLE_CLASSES = {
   HEADER_COMMON: 'py-3 border-t border-base-300 text-xs font-medium z-auto',
   ROW_CLASSES:
-    'overflow-hidden border-b border-base-300 whitespace-normal break-words',
+    'overflow-hidden border-b border-base-300 whitespace-normal classic-break-words',
   COL: {
-    BUILD: '',
-    TEST: 'w-48 text-right',
+    BUILD: 'border-l border-base-300',
+    TEST: 'w-56 text-right',
     DURATION: 'w-24 text-center',
-    FAILURE_CATEGORY: 'w-[164px] text-center',
+    FAILURE_CATEGORY: 'w-[164px] text-center border-r border-base-300',
     SMART_TAGS: 'w-48'
   }
 };

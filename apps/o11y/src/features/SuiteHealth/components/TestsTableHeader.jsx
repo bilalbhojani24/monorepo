@@ -3,10 +3,13 @@ import { useSelector } from 'react-redux';
 import { ArrowDownIcon, ArrowUpIcon } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
+import { roundedTableHeaderHack } from 'constants/common';
 import PropTypes from 'prop-types';
 
 import { SUITE_TESTS_HEADER_LABEL_MAPPING } from '../constants';
 import { getSnpTestsSortBy } from '../slices/selectors';
+
+const TOTAL_COLS = Object.keys(SUITE_TESTS_HEADER_LABEL_MAPPING).length;
 
 const TestsTableHeader = ({ isLoadingMore, handleClickSortBy }) => {
   const sortBy = useSelector(getSnpTestsSortBy);
@@ -19,7 +22,11 @@ const TestsTableHeader = ({ isLoadingMore, handleClickSortBy }) => {
               key={key}
               wrapperClassName={twClassNames(
                 SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass,
-                'py-3 border-t border-base-300 z-[2]' // #TODO: Z-INDEX CHANGE
+                'py-3 border-t border-base-300 z-[2]',
+                {
+                  [roundedTableHeaderHack.common]: idx === TOTAL_COLS - 1,
+                  [roundedTableHeaderHack.right]: idx === TOTAL_COLS - 1
+                }
               )}
               isSticky
             >
@@ -50,7 +57,11 @@ const TestsTableHeader = ({ isLoadingMore, handleClickSortBy }) => {
             key={key}
             wrapperClassName={twClassNames(
               SUITE_TESTS_HEADER_LABEL_MAPPING[key].defaultClass,
-              'py-3 border-t border-base-300 z-[2]' // #TODO: Z-INDEX CHANGE
+              'py-3 border-t border-base-300 z-[2]',
+              {
+                [roundedTableHeaderHack.common]: idx === 0,
+                [roundedTableHeaderHack.left]: idx === 0
+              }
             )}
             isSticky
           >
