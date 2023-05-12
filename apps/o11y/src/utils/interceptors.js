@@ -51,11 +51,12 @@ export const isBsCrossDomain = (url) => {
 
 axios.interceptors.request.use((config) => {
   let updatedConfig = config;
-  const shouldExcludeConfig = excludeConfig(config.url);
+  const shouldExcludeConfig =
+    excludeConfig(config.url) || !isBsCrossDomain(config.url);
   updatedConfig.baseURL = envConfig.apiUrl;
   updatedConfig.withCredentials = shouldExcludeConfig
     ? false
-    : envConfig.withCredentials && isBsCrossDomain(config.url);
+    : envConfig.withCredentials;
 
   // for use in local api-mocker only
   if (
