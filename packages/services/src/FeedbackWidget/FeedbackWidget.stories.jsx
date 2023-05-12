@@ -137,3 +137,54 @@ export const ModalFeedbackWidget = () => {
     </>
   );
 };
+
+export const ToastFeedbackWidget = () => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <>
+      <Button
+        onClick={() => {
+          setShow(true);
+        }}
+      >
+        Click to open feedback widget
+      </Button>
+
+      <FeedbackWidget
+        show={show}
+        title="How was your experience with Lorem Ipsum?"
+        description="Optional description text for added context"
+        formFields={fields}
+        flow={[
+          {
+            type: 'nps',
+            title: 'How was your experience with Lorem Ipsum?',
+            description: 'Emoji Optional description text for added context '
+          },
+          {
+            type: 'form',
+            title: 'How was your experience with Lorem Ipsum 1?',
+            description: 'Form Optional description text for added context 1'
+          },
+          {
+            type: 'success',
+            title: 'How was your experience with Lorem Ipsum 2?',
+            description: 'Success Optional description text for added context',
+            icon: successIcon
+          }
+        ]}
+        handleFeedbackClick={(i) => console.log(i)}
+        variationsProps={{
+          modal: {
+            show
+          },
+          modalHeader: {
+            handleDismissClick: () => setShow(false)
+          }
+        }}
+        variation="toast"
+      />
+    </>
+  );
+};

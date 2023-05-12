@@ -11,6 +11,7 @@ const FeedbackWidget = ({
   handleFeedbackClick,
   formFields,
   flow,
+  show,
   variation,
   variationsProps
 }) => {
@@ -51,7 +52,8 @@ const FeedbackWidget = ({
         flow,
         handleClick,
         handleFormSubmit,
-        finalFeedbackTypeArray
+        finalFeedbackTypeArray,
+        show
       }}
     >
       {renderVariation()}
