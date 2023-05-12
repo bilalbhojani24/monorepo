@@ -87,10 +87,10 @@ info: Creating cluster “high-scale-grid-cluster”`;
     }
   ];
   const SELECT_OPTIONS = [
-    { label: 'A', value: 'A' },
-    { label: 'A', value: 'A' },
-    { label: 'A', value: 'A' },
-    { label: 'A', value: 'A' }
+    { label: 'N. Virginia (us-east-1)', value: 'N. Virginia (us-east-1)' },
+    { label: 'Ohio (us-east-1)', value: 'Ohio (us-east-1)' },
+    { label: 'N. California (us-west-1)', value: 'N. California (us-west-1)' },
+    { label: 'Oregon (us-west-2)', value: 'Oregon (us-west-2)' }
   ];
   const SHOW_LINE_NUMBERS = false;
   const SHOW_SINGLE_LINE = true;
@@ -131,6 +131,7 @@ info: Creating cluster “high-scale-grid-cluster”`;
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
   );
+  const [selectedRegion, setSelectedRegion] = useState();
 
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
@@ -224,10 +225,11 @@ info: Creating cluster “high-scale-grid-cluster”`;
     onboardingStep,
     onboardingType,
     selectedOption,
-
+    selectedRegion,
     setActiveGridManagerCodeSnippet,
     setEventLogsCode,
     setSelectedOption,
+    setSelectedRegion,
     subHeaderText
   };
 };

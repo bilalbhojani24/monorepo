@@ -44,8 +44,10 @@ const Onboarding = () => {
     headerText,
     onboardingStep,
     onboardingType,
+    selectedRegion,
     setActiveGridManagerCodeSnippet,
     setSelectedOption,
+    setSelectedRegion,
     subHeaderText
   } = useOnboarding();
 
@@ -103,8 +105,13 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep2 = (
-    <div className="mt-4">
-      <SelectMenu onChange={() => {}} value="">
+    <div className="mt-4 w-2/5">
+      <SelectMenu
+        onChange={(e) => {
+          setSelectedRegion(e);
+        }}
+        value={selectedRegion}
+      >
         <SelectMenuLabel>Select Region:</SelectMenuLabel>
         <SelectMenuTrigger placeholder="Select Region" />
         <SelectMenuOptionGroup>
