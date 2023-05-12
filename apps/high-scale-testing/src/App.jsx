@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { INIT_URL } from './constants/apiURLs';
+import { INIT_URL, SSO_URL } from './constants/apiURLs';
 import env from './constants/envConstants';
 import { APP_ROUTES } from './constants/routesConstants';
 import useAuthRoutes from './hooks/useAuthRoutes';
@@ -26,7 +26,7 @@ const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initAPI,
-    'http://localhost:5000/api/v1/auth/start-sso?redirect_url=https://high-scale-testing-local.bsstag.com'
+    `${SSO_URL}?redirect_url=${window.location.href}`
   );
 
   // eslint-disable-next-line no-console

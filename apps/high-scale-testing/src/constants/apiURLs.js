@@ -1,7 +1,10 @@
 import { getBaseURL } from '../utils/getBaseURL';
 
-import { INIT_PATH } from './apiPaths';
+import { INIT_PATH, SSO_PATH } from './apiPaths';
 
-const INIT_URL = `${getBaseURL()}${INIT_PATH}`;
+const BASE_URL = getBaseURL();
 
-export { INIT_URL };
+const INIT_URL = `${BASE_URL}${INIT_PATH}`;
+const SSO_URL = `${BASE_URL}${SSO_PATH}`;
+
+export { INIT_URL, SSO_URL };
