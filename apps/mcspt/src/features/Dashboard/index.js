@@ -1,3 +1,4 @@
+import AuthLoadingModal from './components/AuthLoadingModal';
 import Dashboard from './components/Dashboard';
 import RouteWithoutSidebarWrapper from './components/RouteWithoutSidebarWrapper';
 import Sidebar from './components/Sidebar';
@@ -16,6 +17,7 @@ import {
 } from './slices/dashboardThunks';
 
 export {
+  AuthLoadingModal,
   checkAuthAndSaveUserDetails,
   dashboardReducer,
   getAuthToken,
