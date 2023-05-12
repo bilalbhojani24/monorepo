@@ -59,6 +59,11 @@ const defaultConfig = {
       option: { type: 'string' },
       defaultValue: '#'
     },
+    buyPlanTarget: {
+      options: ['_self', '_blank'],
+      control: { type: 'inline-radio' },
+      defaultValue: '_self'
+    },
     release: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
