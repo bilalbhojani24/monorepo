@@ -9,6 +9,8 @@ import Banner from './modules/Banner/index';
 import Breadcrumb from './modules/Breadcrumb/index';
 import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
+import CodeSnippetToolbar from './modules/CodeSnippet/components/CodeSnippetToolbar';
+import CodeSnippet from './modules/CodeSnippet/index';
 import ComboBox from './modules/ComboBox/index';
 import ComboboxAddNewItem from './modules/ComboboxAddNewItem/index';
 import BadgeComboBox from './modules/ComboboxBadge/index';
@@ -128,6 +130,8 @@ export {
   Breadcrumb,
   Button,
   Checkbox,
+  CodeSnippet,
+  CodeSnippetToolbar,
   ComboBox,
   ComboboxAddNewItem,
   ComboboxLabel,
