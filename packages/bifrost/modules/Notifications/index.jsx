@@ -25,6 +25,9 @@ const Notifications = forwardRef((props, ref) => {
     if (ref && ref.current !== null) ref.current.focus();
   }, [ref]);
 
+  console.log(title);
+  console.log(body);
+
   return (
     <div className="pointer-events-auto max-w-sm rounded-lg bg-white shadow-lg ring-1 ring-black/5">
       <div className="flex w-full items-start p-4 ">
@@ -34,7 +37,7 @@ const Notifications = forwardRef((props, ref) => {
 
         <div className={twClassNames('w-0 flex-1 pt-0.5')}>
           <p className="text-base-900 line-clamp-2 break-words text-sm font-medium">
-            {title}
+            {title} Tiel
           </p>
 
           {!isCondensed && description && (

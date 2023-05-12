@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
+import Notifications from '../../../../bifrost/modules/Notifications/index';
 import {
-  Notifications,
   NotificationsContainer,
   notify
-} from '@browserstack/bifrost';
+} from '../../../../bifrost/modules/Notifications/notificationsUtils';
 
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
@@ -13,8 +13,8 @@ const RenderToast = () => {
   const showNotification = () => {
     notify(
       <Notifications
-        title={title}
-        description={description}
+        title={'Some Title'}
+        description={'Some description'}
         body={<div>Show</div>}
         footer={<div>Show</div>}
       />,
