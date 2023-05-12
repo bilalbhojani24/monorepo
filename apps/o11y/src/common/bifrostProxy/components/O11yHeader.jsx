@@ -82,7 +82,9 @@ const O11yHeader = () => (
         window.location.href = envConfig.signOutUrl;
       }
     }}
-    planButtonVisible={false}
+    buyPlanText="Contact sales"
+    buyPlanTarget="_blank"
+    buyPlanLink={`${envConfig.baseUrl}/pricing?product=test-observability`}
   />
 );
 
