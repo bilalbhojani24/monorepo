@@ -25,9 +25,9 @@ import {
 import {
   hasTokenSelector,
   setUATConfig,
-  setUserId,
   userAuthErrorSelector,
-  userAuthLoadingSelector
+  userAuthLoadingSelector,
+  userIdSelector
 } from '../slices/userAuthSlice';
 
 import DraggableContainer from './components/Draggable';
@@ -143,6 +143,7 @@ const WidgetPortal = ({
   const integrationsLoadingStatus = useSelector(integrationsLoadingSelector);
   const integrationsHasError = Boolean(useSelector(integrationsErrorSelector));
   const userAuthHasError = Boolean(useSelector(userAuthErrorSelector));
+  const userIdFromStore = useSelector(userIdSelector);
   const isUserAuthLoading = userAuthLoadingStatus === LOADING_STATUS.PENDING;
   const areIntegrationsLoading =
     integrationsLoadingStatus === LOADING_STATUS.PENDING;
@@ -157,18 +158,16 @@ const WidgetPortal = ({
     if (auth?.url !== prevAuth?.url) {
       dispatch(setUATConfig(auth));
       dispatch(fetchTokenThunk()).then(() => {
-        dispatch(getIntegrationsThunk({ projectId, componentKey })).then(
-          ({ payload }) => {
-            const { data: { user_id: userId } = {} } = payload || {};
-            dispatch(setUserId(userId));
-            if (isProd) {
-              initLogger(getAnalyticsKeys(userId));
-            }
-          }
-        );
+        dispatch(getIntegrationsThunk({ projectId, componentKey }));
       });
     }
   }, [auth, componentKey, dispatch, hasToken, isProd, prevAuth, projectId]);
+
+  useEffect(() => {
+    if (userIdFromStore && isProd) {
+      initLogger(getAnalyticsKeys(userIdFromStore));
+    }
+  }, [userIdFromStore, isProd]);
 
   const handleTryAgain = () => {
     if (userAuthHasError) {
