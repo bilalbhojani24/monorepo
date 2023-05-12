@@ -19,6 +19,17 @@ const ACCOUNT_LINKS_CLASSNAMES =
 const LINKS_TEXT_CLASSNAMES =
   'not-italic font-normal text-sm leading-4 text-black';
 
+const getAccountDropdownHref = (item, supportLink, contactLink) => {
+  switch (item.name) {
+    case 'Support':
+      return supportLink;
+    case 'Contact':
+      return contactLink;
+    default:
+      return item.link;
+  }
+};
+
 const HeaderElements = ({
   documentation,
   references,
@@ -31,7 +42,11 @@ const HeaderElements = ({
   headerElementArray,
   planButtonVisible,
   isFreeUser,
-  onSignoutClick
+  onSignoutClick,
+  planPricingLink,
+  contactLink,
+  buyPlanText,
+  buyPlanLink
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchBarRef = useRef(null);
@@ -126,9 +141,11 @@ const HeaderElements = ({
             <Hyperlink
               isCSR={false}
               wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
-              href={
-                element.name === 'Support' ? productSupportLink : element.link
-              }
+              href={getAccountDropdownHref(
+                element,
+                productSupportLink,
+                contactLink
+              )}
               key={element.name}
             >
               <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
@@ -219,8 +236,12 @@ const HeaderElements = ({
 
   const elementRender = (element) => {
     let temp = null;
-    if (['team', 'pricing'].includes(element.name)) {
+    if (element.name === 'team') {
       temp = hyperlinkElements(element);
+    } else if (element.name === 'pricing') {
+      const newElements = { ...element };
+      newElements.link = planPricingLink;
+      temp = hyperlinkElements(newElements);
     } else if (element.name === 'help') {
       temp = (
         <GetHelp
@@ -308,7 +329,7 @@ const HeaderElements = ({
             wrapperClassName={twClassNames(
               'flex flex-row items-start p-0 w-[104px] focus:ring-attention-600'
             )}
-            href="https://www.browserstack.com/accounts/subscriptions"
+            href={buyPlanLink}
           >
             <div
               className={twClassNames(
@@ -320,7 +341,7 @@ const HeaderElements = ({
                   'not-italic font-medium text-sm leading-5 text-white py-0 px-0.5 float-left whitespace-nowrap'
                 )}
               >
-                {isFreeUser ? 'Buy a Plan' : 'Upgrade'}
+                {isFreeUser ? buyPlanText : 'Upgrade'}
               </p>
             </div>
           </Hyperlink>
@@ -342,7 +363,11 @@ HeaderElements.propTypes = {
   headerElementArray: PropTypes.arrayOf(PropTypes.string),
   planButtonVisible: PropTypes.bool,
   isFreeUser: PropTypes.bool,
-  onSignoutClick: PropTypes.func
+  onSignoutClick: PropTypes.func,
+  planPricingLink: PropTypes.string,
+  buyPlanLink: PropTypes.string,
+  contactLink: PropTypes.bool,
+  buyPlanText: PropTypes.string
 };
 HeaderElements.defaultProps = {
   documentation: null,
@@ -356,7 +381,11 @@ HeaderElements.defaultProps = {
   headerElementArray: [],
   planButtonVisible: true,
   isFreeUser: true,
-  onSignoutClick: null
+  onSignoutClick: null,
+  planPricingLink: 'https://www.browserstack.com/accounts/subscriptions',
+  buyPlanLink: 'https://www.browserstack.com/accounts/subscriptions',
+  contactLink: 'https://www.browserstack.com/contact?ref=header',
+  buyPlanText: 'Buy a Plan'
 };
 
 export default HeaderElements;

@@ -43,6 +43,22 @@ const defaultConfig = {
       type: { summary: 'TEXT', required: true },
       defaultValue: 'https://www.browserstack.com'
     },
+    buyPlanText: {
+      option: { type: 'string' },
+      defaultValue: 'Buy a Plan'
+    },
+    contactLink: {
+      option: { type: 'string' },
+      defaultValue: 'https://www.browserstack.com/contacts'
+    },
+    buyPlanLink: {
+      option: { type: 'string' },
+      defaultValue: '#'
+    },
+    planPricingLink: {
+      option: { type: 'string' },
+      defaultValue: '#'
+    },
     release: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
