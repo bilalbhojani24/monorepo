@@ -25,7 +25,7 @@ export const getActiveTab = (state) =>
   state.accessibility.automatedTestBuild.app.activeTab;
 
 export const getUniqFilterValues = createSelector(getFilters, (filters) => {
-  const { pages, componentIds, category: categoryList } = filters;
+  const { pages, componentIds, categories: categoryList } = filters;
   const urls = pages.map((page) => ({
     label: page.url,
     value: page.url

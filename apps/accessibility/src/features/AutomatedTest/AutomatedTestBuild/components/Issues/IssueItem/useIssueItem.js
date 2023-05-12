@@ -40,7 +40,7 @@ export default function useIssueItem(sectionsDataContext) {
             result.push({
               id: `${testType}:${item.reportId}`,
               reportName:
-                buildMetaData.meta[`${testType}:${item.reportId}`].name,
+                buildMetaData?.meta[`${testType}:${item.reportId}`]?.name,
               confirmed: false
             });
           }
@@ -49,14 +49,15 @@ export default function useIssueItem(sectionsDataContext) {
             result.push({
               id: `${testType}:${item.reportId}`,
               reportName:
-                buildMetaData.meta[`${testType}:${item.reportId}`].name,
+                buildMetaData?.meta[`${testType}:${item.reportId}`]?.name,
               confirmed: item.confirmed
             });
           }
         } else {
           result.push({
             id: `${testType}:${item.reportId}`,
-            reportName: buildMetaData.meta[`${testType}:${item.reportId}`].name,
+            reportName:
+              buildMetaData?.meta[`${testType}:${item.reportId}`]?.name,
             confirmed: item.confirmed
           });
         }

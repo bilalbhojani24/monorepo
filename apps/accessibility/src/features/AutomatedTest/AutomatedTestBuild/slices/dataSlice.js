@@ -14,19 +14,24 @@ const { actions, reducer } = createSlice({
   },
   reducers: {
     setBuildData: (state, { payload }) => {
-      const {
-        issueSummary,
-        meta_v2: metaV2,
-        chartData,
-        reportData
-      } = payload.data;
-      state.buildData = reportData;
+      const { data, filters } = payload;
+      state.buildData = data;
+      state.filters = filters;
+    },
+    setBuildMetaData: (state, { payload }) => {
       state.buildMetaData = {
-        issueSummary,
-        meta: metaV2,
-        chartData
+        ...state.buildMetaData,
+        meta: payload
       };
-      state.filters = payload.filters;
+    },
+    setBuildOverview: (state, { payload }) => {
+      const { chartData, issueSummary, trendData } = payload;
+      state.buildMetaData = {
+        ...state.buildMetaData,
+        issueSummary,
+        chartData,
+        trendData
+      };
     },
     setCustomData: (state, { payload }) => {
       state.customData = payload;
@@ -34,6 +39,11 @@ const { actions, reducer } = createSlice({
   }
 });
 
-export const { setBuildData, setCustomData } = actions;
+export const {
+  setBuildData,
+  setCustomData,
+  setBuildMetaData,
+  setBuildOverview
+} = actions;
 
 export default reducer;

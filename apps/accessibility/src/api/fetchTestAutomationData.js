@@ -1,4 +1,5 @@
-// import axios from 'axios';
+import axios from 'axios';
+
 import { data as mockData } from './mockData';
 
 const data = [
@@ -38,6 +39,21 @@ export async function fetchBuildListing() {
       resolve(data);
     }, 1000);
   });
+}
+
+export async function fetchBuildMetaData() {
+  const response = await axios.get('/test_runs/1/meta');
+  return response.data.metaData;
+}
+
+export async function fetchOverview() {
+  const response = await axios.get('test_runs/1/overview');
+  return response.data.data;
+}
+
+export async function fetchBuildIssues() {
+  const response = await axios.get('test_runs/1/issues');
+  return response.data;
 }
 
 export async function fetchBuildData() {

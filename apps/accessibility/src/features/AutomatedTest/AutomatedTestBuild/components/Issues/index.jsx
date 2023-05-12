@@ -7,6 +7,7 @@ import SectionsDataContext from '../../context/SectionsDataContext';
 import ActiveFilters from './ActiveFilters';
 import FilterModal from './FilterModal';
 import IssueItem from './IssueItem';
+import TestIssues from './TestIssues';
 import useIssues from './useIssues';
 import ViolationList from './ViolationList';
 
@@ -105,6 +106,7 @@ export default function Issues() {
         isHalfView
       }}
     >
+      <TestIssues />
       <div className="fixed" style={{ top: '171px' }}>
         <ActiveFilters sectionsDataContext={SectionsDataContext} />
         {isFilterModalVisible && (

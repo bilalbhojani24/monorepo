@@ -2,33 +2,71 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
-import { fetchBuildData } from 'api/fetchTestAutomationData';
+import {
+  fetchBuildData,
+  fetchBuildIssues,
+  fetchBuildMetaData,
+  fetchOverview
+} from 'api/fetchTestAutomationData';
+import { ISSUES, SUMMARY, TESTS } from 'constants';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
 import { setActiveTab } from './slices/appSlice';
-import { setBuildData, setCustomData } from './slices/dataSlice';
-import { getActiveTab, getBuildData } from './slices/selector';
+import {
+  setBuildData,
+  setBuildMetaData,
+  setBuildOverview,
+  setCustomData
+} from './slices/dataSlice';
+import {
+  getActiveTab,
+  getBuildData,
+  getBuildMetaData
+} from './slices/selector';
 
 export default function useAutomatedTestBuild() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const activeTab = useSelector(getActiveTab);
   const buildData = useSelector(getBuildData);
+  const buildMetaData = useSelector(getBuildMetaData);
 
   const onTabChange = (option) => {
-    dispatch(setActiveTab(option.value));
+    const tab = option.value;
+    if (tab === SUMMARY && !buildMetaData.issueSummary) {
+      fetchOverview().then((response) => dispatch(setBuildOverview(response)));
+    } else if (tab === ISSUES && !buildData) {
+      fetchBuildIssues().then((response) =>
+        dispatch(setBuildOverview(response))
+      );
+    }
+    dispatch(setActiveTab(tab));
     const updatedPath = updateUrlWithQueryParam({
-      activeTab: option.value
+      activeTab: tab
     });
     navigate(`?${updatedPath}`);
   };
 
   useEffect(() => {
-    fetchBuildData();
-    Promise.all([fetchCustomData(), fetchBuildData()]).then(
-      ([customData, response]) => {
+    const fetchData = (() => {
+      switch (activeTab) {
+        case SUMMARY:
+          return fetchOverview;
+        case ISSUES:
+          return fetchBuildIssues;
+        default:
+          return fetchOverview;
+      }
+    })();
+    Promise.all([fetchCustomData(), fetchBuildMetaData(), fetchData()]).then(
+      ([customData, metaData, tabData]) => {
         dispatch(setCustomData(customData.data));
-        dispatch(setBuildData(response));
+        if (activeTab === SUMMARY) {
+          dispatch(setBuildOverview(tabData));
+        } else if (activeTab === ISSUES) {
+          dispatch(setBuildData(tabData));
+        }
+        dispatch(setBuildMetaData(metaData));
       }
     );
   }, []);
@@ -46,6 +84,7 @@ export default function useAutomatedTestBuild() {
   return {
     activeTab,
     actionType,
+    buildMetaData,
     buildData,
     eventName,
     issueSummary,

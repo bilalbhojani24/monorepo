@@ -23,7 +23,8 @@ const tabList = [
 ];
 
 export default function AutomatedTestBuild() {
-  const { buildData, activeTab, onTabChange } = useAutomatedTestBuild();
+  const { buildData, buildMetaData, activeTab, onTabChange } =
+    useAutomatedTestBuild();
   let defaultIndex = 0;
   switch (activeTab) {
     case SUMMARY:
@@ -39,7 +40,13 @@ export default function AutomatedTestBuild() {
       break;
   }
 
-  if (!buildData) {
+  if (!buildMetaData) {
+    return null;
+  }
+  if (activeTab === SUMMARY && !buildMetaData.issueSummary) {
+    return null;
+  }
+  if (activeTab === ISSUES && !buildData) {
     return null;
   }
 
