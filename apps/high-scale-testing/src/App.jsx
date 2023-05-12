@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
+import { INIT_URL } from './constants/apiURLs';
 import env from './constants/envConstants';
 import { APP_ROUTES } from './constants/routesConstants';
 import useAuthRoutes from './hooks/useAuthRoutes';
@@ -13,7 +14,7 @@ const initAPI = async () => {
   });
 
   // returns status code - 200 (uncomment and test)
-  return axios.get('https://localhost:8082/high-scale-testing/v1/init');
+  return axios.get(INIT_URL);
 
   // returns status code - 401 (uncomment and test)
   // return axios.get(
@@ -28,11 +29,8 @@ const App = () => {
     'http://localhost:5000/api/v1/auth/start-sso?redirect_url=https://high-scale-testing-local.bsstag.com'
   );
 
-  // kept for usasge reference
   // eslint-disable-next-line no-console
-  console.log(env.BSTACK_DEMO);
-  // eslint-disable-next-line no-console
-  console.log(env);
+  console.log('Log:', env);
 
   return <>{Routes}</>;
 };
