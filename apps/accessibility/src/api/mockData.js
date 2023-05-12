@@ -12078,3 +12078,97 @@ export const data = {
     ]
   }
 };
+
+export const testCases = [
+  {
+    id: 0,
+    name: 'tap_main_page_workflow#111',
+    status: 'passed',
+    createdAt: '2023-04-27T17:03:16.616Z',
+    summary: {
+      pageCount: 15,
+      componentCount: 40,
+      issueCount: 0,
+      severityBreakdown: {
+        critical: 12,
+        serious: 1234,
+        moderate: 0,
+        minor: 0
+      },
+      health: {
+        passed: 20,
+        failed: 5,
+        skipped: 5,
+        total: 30
+      }
+    },
+    folder: 'Folder 1',
+    tags: ['create-post'],
+    errors: null,
+    pages: [
+      'https://en.wikipedia.org/wiki/Main_Page',
+      'https://www.google.com/'
+    ]
+  },
+  {
+    id: 1,
+    name: 'BUTTON#border-base-300.text-base-700.hover:bg-base-50.focus:ring-offset-base-100.focus:ring-brand-500.inline-flex.w-full.justify-center.rounded-md.bg-white.text-sm.font-medium.focus:outline-none.focus:ring-2.focus:ring-offset-2.p-0.border-0.shadow-none bg-white.text-sm.font-medium.focus:outline-none.focus:ring-2.focus:ring-offset-2.p-0.border-0.shadow-none',
+    status: 'failed',
+    createdAt: '2023-04-27T17:03:16.616Z',
+
+    summary: {
+      pageCount: 15,
+      componentCount: 40,
+      issueCount: 300,
+      severityBreakdown: {
+        critical: 75,
+        serious: 75,
+        moderate: 75,
+        minor: 75
+      },
+      health: {
+        passed: 20,
+        failed: 5,
+        skipped: 5,
+        total: 30
+      }
+    },
+    folder: 'Folder 2',
+    tags: ['create-post'],
+    errors: null,
+    pages: [
+      'https://en.wikipedia.org/wiki/Main_Page',
+      'https://www.google.com/'
+    ]
+  },
+  {
+    id: 0,
+    name: 'tap_main_page_workflow#111',
+    status: 'skipped',
+    createdAt: '2023-04-27T17:03:16.616Z',
+    summary: {
+      pageCount: 15,
+      componentCount: 40,
+      issueCount: 0,
+      severityBreakdown: {
+        critical: 12,
+        serious: 1234,
+        moderate: 0,
+        minor: 0
+      },
+      health: {
+        passed: 20,
+        failed: 5,
+        skipped: 5,
+        total: 30
+      }
+    },
+    folder: 'Folder 3',
+    tags: ['create-post'],
+    errors: null,
+    pages: [
+      'https://en.wikipedia.org/wiki/Main_Page',
+      'https://www.google.com/'
+    ]
+  }
+];
