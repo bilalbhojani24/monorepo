@@ -107,7 +107,7 @@ const Stats = (props) => {
               )}
 
               <span className="sr-only">
-                {option.changeType === STATS_INC ? 'Increased' : 'Decreased'}
+                {option.changeType === STATS_INC ? 'Increased ' : 'Decreased '}
                 by
               </span>
               {option.change}
@@ -147,7 +147,7 @@ const Stats = (props) => {
               )}
 
               <span className="sr-only">
-                {option.changeType === STATS_INC ? 'Increased' : 'Decreased'}
+                {option.changeType === STATS_INC ? 'Increased ' : 'Decreased '}
                 by
               </span>
               {option.change}
@@ -187,6 +187,12 @@ const Stats = (props) => {
                       aria-hidden="true"
                     />
                   )}
+                  <span className="sr-only">
+                    {option.changeType === STATS_INC
+                      ? 'Increased '
+                      : 'Decreased '}
+                    by
+                  </span>
                   {option.change}
                 </p>
               )}

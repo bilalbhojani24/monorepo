@@ -15,6 +15,8 @@ import {
   MdErrorOutline,
   UsersIcon
 } from '../Icon';
+import Tooltip from '../Tooltip';
+import TooltipBody from '../TooltipBody';
 
 import { STATS_VARIANTS } from './const/statsConstants';
 import Stats from './index';
@@ -94,7 +96,9 @@ const options = [
     changeType: null,
     link: null,
     onClick: () => console.log('stats null.com')
-  },
+  }
+];
+const graphVariantOptions = [
   {
     id: 5,
     name: (
@@ -151,7 +155,16 @@ const options = [
     name: (
       <div className="flex items-center">
         {title}
-        <MdErrorOutline className="ml-3" />
+        <Tooltip
+          content={
+            <TooltipBody>
+              Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit.
+              Donec sodales augue eu viverra tempus.
+            </TooltipBody>
+          }
+        >
+          <MdErrorOutline className="ml-3" />
+        </Tooltip>
       </div>
     ),
     stat: '71,897',
@@ -194,7 +207,7 @@ const options = [
     previousStat: null,
     subText: 'out of 100 tests',
     changeType: null,
-    link: null,
+    link: 'View all',
     menuDropdown: (
       <Dropdown
         onClick={(value) => {
@@ -305,20 +318,20 @@ export const StatsWithbrandIcon = () => (
 );
 
 export const SharedBorder = () => (
-  <div className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
+  <div className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
     {options.map((opt) => (
       <Stats
         key={opt.id}
         option={opt}
         variant={STATS_VARIANTS.WITHOUT_ICON}
-        cardWrapperClassname="rounded-none"
+        cardWrapperClassname="rounded-none h-full"
       />
     ))}
   </div>
 );
 
 export const KpiVariantCard = () => (
-  <div className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
+  <div className="mt-5 grid grid-cols-1 divide-y overflow-hidden bg-white shadow">
     <Stats
       key={options[3].id}
       option={options[3]}
@@ -332,8 +345,8 @@ export const KpiVariantCard = () => (
 export const GraphVariantCard = () => (
   <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
     <Stats
-      key={options[4].id}
-      option={options[4]}
+      key={graphVariantOptions[0].id}
+      option={graphVariantOptions[0]}
       variant={STATS_VARIANTS.GRAPH_VARIANT}
     />
   </div>
@@ -342,8 +355,8 @@ export const GraphVariantCard = () => (
 export const NonClickableGraphVariantCard = () => (
   <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
     <Stats
-      key={options[5].id}
-      option={options[5]}
+      key={graphVariantOptions[1].id}
+      option={graphVariantOptions[1]}
       variant={STATS_VARIANTS.GRAPH_VARIANT}
     />
   </div>
