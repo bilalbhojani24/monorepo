@@ -13,6 +13,12 @@ const DraggableContainer = ({ children, position, positionRef }) => {
   const bodyResizeObserver = useResizeObserver(bodyRef);
   const widgetResizeObserver = useResizeObserver(widgetRef);
   const windowHeight = document.body.getBoundingClientRect().height - 8;
+  // max widget height should be 90% of the window height
+  // multiply by 0.9 to get 90% of the windowHeight
+  const widgetMaxHeight =
+    windowHeight * 0.9 < DEFAULT_WIDGET_DIMENSIONS.MAX[1]
+      ? DEFAULT_WIDGET_DIMENSIONS.MAX[1]
+      : windowHeight * 0.9;
   const windowWidth = document.body.getBoundingClientRect().width - 8;
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
@@ -99,7 +105,7 @@ const DraggableContainer = ({ children, position, positionRef }) => {
         style={{
           width: DEFAULT_WIDGET_DIMENSIONS.INITIAL_WIDTH,
           minHeight: DEFAULT_WIDGET_DIMENSIONS.MIN[1],
-          maxHeight: DEFAULT_WIDGET_DIMENSIONS.MAX[1]
+          maxHeight: widgetMaxHeight
         }}
       >
         {children}
