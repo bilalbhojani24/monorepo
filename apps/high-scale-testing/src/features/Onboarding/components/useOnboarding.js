@@ -45,6 +45,10 @@ browserstack-cli hst init
 browserstack-cli hst attach grid --cloud <aws> --clusterName <clustername> --region<regionName>    
     `
   };
+  const DUMMY_EVENT_LOGS = `info: Creating required dependencies - EKS Role, VPC & Subnets
+info: Dependencies created successfully
+debug: Role => arn:aws:iam:72354175:role/EKSServiceRole-ac309e2e-1987-49jh
+info: Creating cluster “high-scale-grid-cluster”`;
   const GRID_MANAGER_NAMES = {
     helm: 'Helm',
     kubectl: 'Kubectl',
@@ -117,6 +121,7 @@ browserstack-cli hst attach grid --cloud <aws> --clusterName <clustername> --reg
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
     useState(GRID_MANAGER_NAMES.helm);
+  const [eventLogsCode, setEventLogsCode] = useState(DUMMY_EVENT_LOGS);
   const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
   const [onboardingStep, setOnboardingStep] = useState(0);
   const [onboardingType, setOnboardingType] = useState(
@@ -214,11 +219,14 @@ browserstack-cli hst attach grid --cloud <aws> --clusterName <clustername> --reg
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
     continueClickHandler,
+    eventLogsCode,
     headerText,
     onboardingStep,
     onboardingType,
     selectedOption,
+
     setActiveGridManagerCodeSnippet,
+    setEventLogsCode,
     setSelectedOption,
     subHeaderText
   };

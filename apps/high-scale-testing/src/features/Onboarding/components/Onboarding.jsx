@@ -21,8 +21,9 @@ import {
   Tabs
 } from '@browserstack/bifrost';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
+import classnames from 'classnames';
 
-// import EventLogs from './EventLogs';
+import EventLogs from './EventLogs';
 import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
@@ -39,6 +40,7 @@ const Onboarding = () => {
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
     continueClickHandler,
+    eventLogsCode,
     headerText,
     onboardingStep,
     onboardingType,
@@ -256,7 +258,7 @@ const Onboarding = () => {
   );
 
   return (
-    <div className=" border-base-300 m-auto mt-28 w-4/6 max-w-4xl rounded-lg border">
+    <div className=" border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-4xl rounded-lg border">
       <PageHeadings
         actions={
           <>
@@ -275,7 +277,13 @@ const Onboarding = () => {
       />
 
       {/* Body of Onboarding */}
-      <div className="border-base-300 border-y px-7 py-6">
+      <div
+        // eslint-disable-next-line tailwindcss/no-arbitrary-value
+        className={classnames(
+          'border-base-300 overflow-scroll border-y px-7 py-6',
+          { 'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0 }
+        )}
+      >
         {onboardingStep === 0 && (
           <>
             <h3 className="mb-4 flex gap-x-2 text-lg font-semibold leading-6">
@@ -341,7 +349,7 @@ const Onboarding = () => {
       )}
       {/* --X-- Footer component --X-- */}
 
-      {/* <EventLogs /> */}
+      {/* <EventLogs eventLogsCode={eventLogsCode} /> */}
     </div>
   );
 };

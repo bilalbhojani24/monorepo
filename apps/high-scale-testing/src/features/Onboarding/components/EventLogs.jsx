@@ -1,18 +1,20 @@
 import React from 'react';
 import {
+  CodeSnippet,
   Hyperlink,
   MdOutlineOpenInNew,
   Modal,
   ProgressBar
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
-const EventLogs = () => (
+const EventLogs = ({ eventLogsCode }) => (
   // eslint-disable-next-line react/jsx-boolean-value
   <Modal size="3xl" show={true}>
     <div className="mx-6 my-4">
       <p className="text-lg font-medium">Event Logs</p>
       <div className="border-base-300 mt-4 rounded-lg border">
-        CODE SNIPPET HERE
+        <CodeSnippet code={eventLogsCode} maxHeight="260px" singleLine />
         <div className="border-base-300 border-y p-4">
           <ProgressBar
             currentStep="0"
@@ -41,5 +43,13 @@ const EventLogs = () => (
     </div>
   </Modal>
 );
+
+EventLogs.defaultProps = {
+  eventLogsCode: ''
+};
+
+EventLogs.propTypes = {
+  eventLogsCode: PropTypes.string
+};
 
 export default EventLogs;
