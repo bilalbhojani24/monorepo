@@ -23,7 +23,7 @@ export const getAlwaysFailingData = createAsyncThunk(
       const response = await getAlwaysFailingStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -35,7 +35,7 @@ export const getNewFailureData = createAsyncThunk(
       const response = await getNewFailureStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -47,7 +47,7 @@ export const getMutedData = createAsyncThunk(
       const response = await getMutedStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -59,7 +59,7 @@ export const getFlakyData = createAsyncThunk(
       const response = await getFlakyStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -71,7 +71,7 @@ export const getDefectsData = createAsyncThunk(
       const response = await getDefectStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -83,7 +83,7 @@ export const getBuildSummaryData = createAsyncThunk(
       const response = await getBuildSummaryStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -95,7 +95,7 @@ export const getFailureByModulesData = createAsyncThunk(
       const response = await getFailureByModules(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -109,7 +109,7 @@ export const getBuildHistoryData = createAsyncThunk(
       const response = await getBuildHistoryStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -120,7 +120,7 @@ export const getBuildStabilityData = createAsyncThunk(
       const response = await getBuildStabilityStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -131,7 +131,7 @@ export const getBuildAlertsData = createAsyncThunk(
       const response = await getBuildAlerts(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -142,7 +142,7 @@ export const getRerunData = createAsyncThunk(
       const response = await getRerunStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -153,7 +153,7 @@ export const getBuildTimelineData = createAsyncThunk(
       const response = await getBuildTimelineStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -164,7 +164,7 @@ export const getTopErrorsData = createAsyncThunk(
       const response = await getTopErrorsStats(data.buildId);
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -481,7 +481,7 @@ export const getTopErrorsTestRunsData = createAsyncThunk(
       );
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );

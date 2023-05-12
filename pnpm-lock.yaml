@@ -18,7 +18,7 @@ importers:
       lint-staged: 13.1.0
       turbo: 1.8.3
 
-  apps/accessibility:
+  apps/Accessibility:
     specifiers:
       '@browserstack/bifrost': 4.1.1
       '@browserstack/hooks': workspace:*
@@ -3634,10 +3634,10 @@ packages:
       '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
-      '@internationalized/date': 3.2.0
+      '@internationalized/date': 3.1.0
       '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
       '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
-      '@react-aria/overlays': 3.14.0_biqbaboplfbrettd7655fr4n2y
+      '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
       '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
       prop-types: 15.8.1
       react: 18.2.0
