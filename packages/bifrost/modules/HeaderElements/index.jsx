@@ -322,13 +322,13 @@ const HeaderElements = ({
       {planButtonVisible && (
         <div
           className={twClassNames(
-            'lg:flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 hidden'
+            'lg:flex flex-col items-start h-[38px] py-0 pr-0 pl-2 gap-2 hidden'
           )}
         >
           <Hyperlink
             isCSR={false}
             wrapperClassName={twClassNames(
-              'flex flex-row items-start p-0 w-[104px] focus:ring-attention-600'
+              'flex flex-row items-start p-0 focus:ring-attention-600'
             )}
             target={buyPlanTarget}
             href={buyPlanLink}
