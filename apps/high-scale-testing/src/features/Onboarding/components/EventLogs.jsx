@@ -31,7 +31,7 @@ const EventLogs = ({ eventLogsCode }) => (
             }
           />
         </div>
-        <div className="border-base-300 text-base-600 flex gap-2 border-y p-4 text-sm">
+        <div className="text-base-600 flex gap-2 p-4 text-sm">
           Icon{' '}
           <p>
             Hang tight! We are completing the setup of your grid. It could take
