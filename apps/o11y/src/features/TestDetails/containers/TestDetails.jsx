@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { O11ySlideover } from 'common/bifrostProxy';
@@ -22,10 +22,12 @@ import SlideOverBody from './SlideOverBody';
 import SlideOverHeader from './SlideOverHeader';
 
 const TestDetails = ({ source }) => {
+  const panelRef = useRef(null);
+
   const isVisible = useSelector(getIsTestDetailsVisible);
   const activeProject = useSelector(getActiveProject);
   const testId = useSelector(getShowTestDetailsFor);
-  const currentTestRunId = useSelector(getCurrentTestRunId); // #TODO: CHECK behaviour
+  const currentTestRunId = useSelector(getCurrentTestRunId);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -89,7 +91,9 @@ const TestDetails = ({ source }) => {
         }
       }}
     >
-      <TEST_DETAILS_CONTEXT.Provider value={{ handleLogTDInteractionEvent }}>
+      <TEST_DETAILS_CONTEXT.Provider
+        value={{ handleLogTDInteractionEvent, panelRef }}
+      >
         {isVisible && (
           <>
             <SlideOverHeader handleCloseDetails={handleCloseDetails} />

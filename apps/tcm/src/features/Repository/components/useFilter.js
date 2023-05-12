@@ -18,6 +18,7 @@ import {
   resetFilterSearchMeta,
   setFilterSearchMeta,
   setMetaPage,
+  setSearchEmptyText,
   setSearchInitiatedURL,
   updateAllTestCases,
   updateFoldersLoading,
@@ -236,11 +237,30 @@ const useFilter = (prop) => {
     }
   };
 
+  // const handleSearchFocus = () => {
+
+  // }
   const searchChangeHandler = (value) => {
     updateFilterSearchMeta({
       ...filterSearchMeta,
       q: value
     });
+    if (!filterSearchMeta?.q)
+      dispatch(setSearchInitiatedURL(location.pathname));
+  };
+
+  const setSearchErrorText = () => {
+    const allKeys = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key of searchParams.keys()) {
+      allKeys.push(key);
+    }
+    if (allKeys.length === 1 && allKeys.includes('q')) {
+      // only search is done
+      dispatch(setSearchEmptyText('Try different keywords.'));
+    } else {
+      dispatch(setSearchEmptyText('Reset the filters or try again.'));
+    }
   };
 
   useEffect(() => {
@@ -271,6 +291,7 @@ const useFilter = (prop) => {
           })
         );
 
+      setSearchErrorText();
       fetchFilteredCases(filterOptions, searchParams?.get('p'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

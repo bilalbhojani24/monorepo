@@ -50,7 +50,7 @@ const ComboboxOptionGroup = ({
                   <Combobox.Option
                     disabled
                     className={twClassNames(
-                      'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3'
+                      'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3 text-sm'
                     )}
                   >
                     {query.length > 0 ? noResultFoundText : noOptionsText}

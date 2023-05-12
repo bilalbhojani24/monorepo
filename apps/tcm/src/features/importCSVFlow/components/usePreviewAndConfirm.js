@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 import { getImportResultAPI } from 'api/importCSV.api';
+import { getProjectsMinifiedAPI } from 'api/projects.api';
 import AppRoute, { WS_URL } from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addNotificaton, setAllProjects } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -14,6 +15,7 @@ import {
 } from '../slices/csvThunk';
 import {
   clearNotificationConfig,
+  setNotificationConfigForConfirmCSVImport,
   startImportingTestCaseRejected,
   updateImportProgress
 } from '../slices/importCSVSlice';
@@ -39,6 +41,15 @@ const usePreviewAndConfirm = () => {
   const totalImportedProjectsInPreview = useSelector(
     (state) => state.importCSV.totalImportedProjectsInPreview
   );
+  const hasProjects = useSelector((state) => state.onboarding.hasProjects);
+
+  const refreshMinifiedProjects = () => {
+    if (!hasProjects) {
+      getProjectsMinifiedAPI().then((response) => {
+        dispatch(setAllProjects(response?.projects || []));
+      });
+    }
+  };
 
   const reRouteOnSuccess = () => {
     getImportResultAPI(mapFieldsConfig.importId).then((res) => {
@@ -54,6 +65,7 @@ const usePreviewAndConfirm = () => {
           variant: 'success'
         })
       );
+      refreshMinifiedProjects();
       dispatch(resetImportCSVState());
       dispatch(clearNotificationConfig());
       const projectAndFolderIdObj = {};
@@ -97,34 +109,69 @@ const usePreviewAndConfirm = () => {
     );
   };
 
-  const handleWSMessage = (thisMessage) => {
+  const resetNotification = () => {
+    dispatch(
+      setNotificationConfigForConfirmCSVImport({
+        show: false,
+        status: '',
+        modalData: null
+      })
+    );
+  };
+
+  const handleWSErrorMessage = (message) => {
+    if (confirmCSVImportNotificationConfig?.modalData?.isButtonLoading) {
+      // import was cancelled by the user
+      resetNotification();
+      dispatch(
+        addNotificaton({
+          id: `import_cancelled_`,
+          title: 'CSV import cancelled successfully',
+          description: null,
+          variant: 'success'
+        })
+      );
+    } else {
+      dispatch(
+        startImportingTestCaseRejected({
+          response: { status: message?.status }
+        })
+      );
+    }
+  };
+
+  const handleWSProgressUpdate = (message) => {
+    if (confirmCSVImportNotificationConfig?.modalData?.isButtonLoading)
+      // if user already cancelled, then dont incerement even if any packets are receieved
+      return;
+
+    const percent = message?.percent;
+    if (percent && percent > confirmCSVImportNotificationConfig?.progress) {
+      // if percent exists and only if its greated than the existing progress (incase the WS packets are delayed)
+      dispatch(updateImportProgress(percent));
+
+      if (percent >= 100) {
+        // once done, reroute
+        reRouteOnSuccess();
+      }
+    }
+  };
+
+  const interpretWSMessage = (thisMessage) => {
     if (thisMessage?.data) {
       const message = JSON.parse(thisMessage.data)?.message;
 
       if (message?.error) {
         // if upload ends in error
-        dispatch(
-          startImportingTestCaseRejected({
-            response: { status: message?.status }
-          })
-        );
+        handleWSErrorMessage(message);
       } else {
-        const percent = message?.percent;
-        if (percent && percent > confirmCSVImportNotificationConfig?.progress) {
-          // if percent exists and only if its greated than the existing progress (incase the WS packets are delayed)
-          dispatch(updateImportProgress(percent));
-
-          if (percent >= 100) {
-            // once done, reroute
-            reRouteOnSuccess();
-          }
-        }
+        handleWSProgressUpdate(message);
       }
     }
   };
 
   useEffect(() => {
-    handleWSMessage(lastMessage);
+    interpretWSMessage(lastMessage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastMessage]);
 

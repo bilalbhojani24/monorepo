@@ -182,7 +182,7 @@ export const setTags = (projectId) => async (dispatch) => {
       label: item,
       value: item
     }));
-    const allOptions = [...options, ...DEFAULT_MODAL_DROPDOWN_OPTIONS];
+    const allOptions = [...DEFAULT_MODAL_DROPDOWN_OPTIONS, ...options];
     dispatch(setSystemTags(allOptions));
   } catch (err) {
     dispatch(setSystemTags(DEFAULT_MODAL_DROPDOWN_OPTIONS));
@@ -197,7 +197,7 @@ export const setUsers = (projectId) => async (dispatch) => {
       label: item.full_name,
       value: item.full_name
     }));
-    const allOptions = [...options, ...DEFAULT_MODAL_DROPDOWN_OPTIONS];
+    const allOptions = [...DEFAULT_MODAL_DROPDOWN_OPTIONS, ...options];
     dispatch(setSystemUsers(allOptions));
   } catch (err) {
     dispatch(setSystemUsers(DEFAULT_MODAL_DROPDOWN_OPTIONS));
