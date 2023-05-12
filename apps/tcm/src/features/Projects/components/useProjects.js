@@ -234,7 +234,7 @@ const useProjects = (prop) => {
             dispatch(
               addNotificaton({
                 id: `project_added${res.data.project?.id}`,
-                title: `${res.data.project?.identifier} : Project created`,
+                title: `${res.data.project?.name} : Project created`,
                 description: null,
                 variant: 'success'
               })

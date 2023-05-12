@@ -1,5 +1,7 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo } from 'react';
 import {
+  MdFileDownload,
+  MdMoreVert,
   MediaPlayer,
   MediaPlayerLeftControls,
   MediaPlayerRightControls,
@@ -7,9 +9,12 @@ import {
   MediaPlayerStates
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import { O11yButton, O11yPopover } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
+
+import SessionTestToggle from './SessionTestToggle';
 
 const VideoPlayer = forwardRef(
   (
@@ -25,7 +30,9 @@ const VideoPlayer = forwardRef(
       onMetadataFailed,
       onPlayCallback,
       isVideoPlayed,
-      isVideoExpired
+      isVideoExpired,
+      videoFullUrl,
+      isFloatingVideo
     },
     ref
   ) => {
@@ -49,12 +56,22 @@ const VideoPlayer = forwardRef(
       onMetadataFailed();
     };
 
-    const handleDownload = () => {
-      handleLogTDInteractionEvent({
-        event: 'O11yTestDetailsVideoInteracted',
-        interaction: 'downloaded'
-      });
-    };
+    const handleDownload = useCallback(() => {
+      if (videoFullUrl) {
+        const link = document.createElement('a');
+        link.href = videoFullUrl;
+        link.download = 'video.mp4';
+        link.role = 'button';
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        handleLogTDInteractionEvent({
+          event: 'O11yTestDetailsVideoInteracted',
+          interaction: 'downloaded'
+        });
+      }
+    }, [handleLogTDInteractionEvent, videoFullUrl]);
 
     const handlePlayCallback = () => {
       onPlayCallback();
@@ -93,6 +110,39 @@ const VideoPlayer = forwardRef(
         interaction: 'full_size_clicked'
       });
     };
+
+    const VideoMoreOptions = useMemo(
+      () => (
+        <div className="flex items-center gap-4">
+          <O11yButton
+            isIconOnlyButton
+            icon={<MdFileDownload className="text-base-500 h-full w-full" />}
+            colors="white"
+            onClick={handleDownload}
+            wrapperClassName="p-0 border-0 shadow-transparent h-6 w-6"
+          />
+          <O11yPopover
+            content={<SessionTestToggle />}
+            theme="light"
+            arrowWidth={0}
+            arrowHeight={0}
+            placementAlign="end"
+            placementSide="top"
+            sideOffset={10}
+            wrapperClassName="py-2 w-64"
+          >
+            <O11yButton
+              isIconOnlyButton
+              icon={<MdMoreVert className="text-base-500 h-full w-full" />}
+              colors="white"
+              onClick={() => {}}
+              wrapperClassName="p-0 border-0 shadow-transparent h-6 w-6"
+            />
+          </O11yPopover>
+        </div>
+      ),
+      [handleDownload]
+    );
 
     return (
       <div
@@ -139,8 +189,10 @@ const VideoPlayer = forwardRef(
             'rounded-t overflow-hidden [&_video]:object-cover transition-all duration-300 ease-in overflow-hidden',
             {
               hidden: hasError || isVideoExpired,
-              [`h-auto max-h-[70vh] min-h-[256px]`]: isVideoPlayed,
-              'max-h-64': !isVideoPlayed
+              [`h-auto max-h-[70vh] min-h-[256px]`]:
+                isVideoPlayed && !isFloatingVideo,
+              'max-h-[35vh]': !isVideoPlayed && !isFloatingVideo,
+              'max-h-[70vh]': isFloatingVideo
             }
           )}
         >
@@ -157,9 +209,10 @@ const VideoPlayer = forwardRef(
             onFullScreen={handleFullscreen}
             onPlaybackSpeedClick={handleSpeedChange}
             wrapperClassName=""
-            showAdditionalSettings
+            showAdditionalSettings={false}
             showFullScreenOption
             showSpeedOption
+            customSetting={VideoMoreOptions}
           />
         </MediaPlayer>
       </div>
@@ -188,12 +241,15 @@ VideoPlayer.propTypes = {
   isVideoExpired: PropTypes.bool.isRequired,
   onMetadataFailed: PropTypes.func.isRequired,
   onPlayCallback: PropTypes.func.isRequired,
-  isVideoPlayed: PropTypes.bool.isRequired
+  isVideoPlayed: PropTypes.bool.isRequired,
+  videoFullUrl: PropTypes.string.isRequired,
+  isFloatingVideo: PropTypes.bool
 };
 
 VideoPlayer.defaultProps = {
   containerRef: null,
-  exceptions: []
+  exceptions: [],
+  isFloatingVideo: false
 };
 
 export default VideoPlayer;
