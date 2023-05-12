@@ -15,6 +15,7 @@ import { getPusherConfig } from 'api/global';
 import ErrorBoundary from 'common/ErrorBoundary';
 import GenericErrorPage from 'common/GenericErrorPage';
 import ModalToShow from 'common/ModalToShow';
+import VWO from 'common/scripts/VWO';
 import { o11yHistory, PORTAL_ID } from 'constants/common';
 import {
   AMPLITUDE_KEY,
@@ -41,6 +42,8 @@ import { showBannerPerPriority } from 'utils/showBannerPerPriority';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 const PUSHER_CONNECTION_NAME = 'o11y-pusher';
+
+const envConfig = getEnvConfig();
 
 const App = () => {
   const dispatch = useDispatch();
@@ -134,7 +137,7 @@ const App = () => {
 
   // init sentry
   useEffect(() => {
-    const { enableSentry } = getEnvConfig();
+    const { enableSentry } = envConfig;
     if (enableSentry && !window.isSentryInitialized) {
       window.isSentryInitialized = true;
       initErrorLogger({
@@ -158,12 +161,13 @@ const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initO11y,
-    `${getEnvConfig().signInUrl}?redirect_url=${encodeURIComponent(
+    `${envConfig.signInUrl}?redirect_url=${encodeURIComponent(
       window.location.href
     )}`
   );
   return (
     <ErrorBoundary>
+      {envConfig?.enableAnalytics && <VWO />}
       {Routes}
       <ModalToShow />
       {portalize(

@@ -20,7 +20,7 @@ const O11yHeader = () => (
       'team',
       // 'pricing',
       'help',
-      // 'search',
+      'search',
       // 'notifications',
       'account'
     ]}
