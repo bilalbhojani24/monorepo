@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
-import { fetchBuildData } from 'api/fetchTestAutomationData';
+import { fetchBuildData, fetchTestCases } from 'api/fetchTestAutomationData';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
 import { setActiveTab } from './slices/appSlice';
@@ -14,6 +14,7 @@ export default function useAutomatedTestBuild() {
   const navigate = useNavigate();
   const activeTab = useSelector(getActiveTab);
   const buildData = useSelector(getBuildData);
+  const [testRuns, setTestRuns] = useState([]);
 
   const onTabChange = (option) => {
     dispatch(setActiveTab(option.value));
@@ -33,6 +34,10 @@ export default function useAutomatedTestBuild() {
     );
   }, []);
 
+  useEffect(() => {
+    fetchTestCases().then((response) => setTestRuns(response));
+  }, []);
+
   const actionType = '';
   const eventName = 'Sample event name...';
   const issueSummary = {
@@ -50,6 +55,7 @@ export default function useAutomatedTestBuild() {
     eventName,
     issueSummary,
     onRowClick,
-    onTabChange
+    onTabChange,
+    testRuns
   };
 }

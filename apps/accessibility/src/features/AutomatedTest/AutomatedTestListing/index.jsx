@@ -1,6 +1,10 @@
 import React from 'react';
 import {
   Button,
+  ComboBox,
+  ComboboxOptionGroup,
+  ComboboxOptionItem,
+  ComboboxTrigger,
   InputField,
   InputGroupAddOn,
   MdSearch
@@ -10,7 +14,13 @@ import AutomatedTestList from './AutomatedTestList';
 import useAutomatedTestListing from './useAutomatedTestListing';
 
 export default function AutomatedTestListing() {
-  const { buildListing, onInputValueChange } = useAutomatedTestListing();
+  const {
+    buildListing,
+    onInputValueChange,
+    onComboboxValueChange,
+    comboboxItems,
+    handleSelectChange
+  } = useAutomatedTestListing();
 
   return (
     <div className="bg-white">
@@ -27,7 +37,27 @@ export default function AutomatedTestListing() {
           </div>
           <Button colors="white">View documentation</Button>
         </div>
-        <div>
+
+        <div className="flex gap-4">
+          <ComboBox
+            onChange={(project) => handleSelectChange(project.value)}
+            defaultValue={{
+              value: 0,
+              label: 'All projects'
+            }}
+          >
+            <ComboboxTrigger
+              onInputValueChange={onComboboxValueChange}
+              placeholder="Search Project"
+            />
+            <ComboboxOptionGroup>
+              {comboboxItems
+                .map((project) => ({ label: project.name, value: project.id }))
+                .map((item) => (
+                  <ComboboxOptionItem key={item.value} option={item} />
+                ))}
+            </ComboboxOptionGroup>
+          </ComboBox>
           <InputField
             id="search-report"
             addOnBeforeInline={

@@ -1,6 +1,8 @@
 import React from 'react';
 import {
   Badge,
+  MdOutlineCancel,
+  MdOutlineCheckCircleOutline,
   Table,
   TableBody,
   TableCell,
@@ -15,6 +17,14 @@ import PropTypes from 'prop-types';
 
 export default function AutomatedTestList({ buildList }) {
   const now = new Date();
+
+  const formatSuccessTests = (num) => {
+    if (num > 999) {
+      return `${num / 1000}k +`;
+    }
+    return num;
+  };
+
   const columns = [
     {
       id: 'build-listing',
@@ -91,9 +101,40 @@ export default function AutomatedTestList({ buildList }) {
     {
       id: 'build-health',
       name: 'Build health',
-      cell: (row) => <div className="flex items-center" />
+      cell: (row) => (
+        <div className="flex items-center gap-0.5">
+          {row.summary.health.failed ? (
+            <>
+              <p className="text-danger-700">{row.summary.health.failed}</p>
+              <Tooltip
+                theme="dark"
+                placementAlign="center"
+                placementSide="bottom"
+                wrapperClassName="py-2 px-2"
+                content={
+                  <>
+                    <TooltipBody wrapperClassName="p-0 text-sm">{`${row.summary.health.failed}/${row.summary.health.total} failed`}</TooltipBody>
+                  </>
+                }
+              >
+                <MdOutlineCancel className="text-danger-700 h-4 w-4" />
+              </Tooltip>
+              <span>/</span>
+              <p>{row.summary.health.total}</p>
+            </>
+          ) : (
+            <>
+              <p className="text-success-700">
+                {formatSuccessTests(row.summary.health.passed)}
+              </p>
+              <MdOutlineCheckCircleOutline className="text-success-700 h-4 w-4" />
+            </>
+          )}
+        </div>
+      )
     }
   ];
+
   return (
     <div>
       <Table containerWrapperClass="md:rounded-none shadow-none">

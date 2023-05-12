@@ -1,5 +1,10 @@
 import React from 'react';
 
+import useAutomatedTestBuild from '../../useAutomatedTestBuild';
+
+import TestsTable from './TestsTable';
+
 export default function Tests() {
-  return <div>Tests</div>;
+  const { testRuns } = useAutomatedTestBuild();
+  return <TestsTable testRuns={testRuns} />;
 }
