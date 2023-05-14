@@ -10,6 +10,7 @@ import ComboboxOptionGroup from '../ComboboxOptionGroup';
 import ComboboxOptionItem from '../ComboboxOptionItem';
 import ComboboxTrigger from '../ComboboxTrigger';
 import { MdSearch } from '../Icon';
+import SingleDatePicker from '../SingleDatepicker';
 
 import { COMBOBOX_OPTIONS } from './const/comboBoxConstants';
 import ComboBox from './index';
@@ -164,15 +165,22 @@ Primary.parameters = {
 export const ControlledCombobox = () => {
   const [selected, setSelected] = useState([]);
   return (
-    <ComboBox onChange={(val) => setSelected(val)} value={selected} isMulti>
-      <ComboboxLabel>{assignedToConst}</ComboboxLabel>
-      <ComboboxTrigger placeholder="Placeholder" />
-      <ComboboxOptionGroup>
-        {COMBOBOX_OPTIONS.map((item) => (
-          <ComboboxOptionItem key={item.value} option={item} />
-        ))}
-      </ComboboxOptionGroup>
-    </ComboBox>
+    <>
+      <ComboBox onChange={(val) => setSelected(val)} value={selected} isMulti>
+        <ComboboxLabel>{assignedToConst}</ComboboxLabel>
+        <ComboboxTrigger placeholder="Placeholder" />
+        <ComboboxOptionGroup>
+          {COMBOBOX_OPTIONS.map((item) => (
+            <ComboboxOptionItem key={item.value} option={item} />
+          ))}
+        </ComboboxOptionGroup>
+      </ComboBox>
+
+      <p className="mt-14 pt-14">divier</p>
+      <p className="mt-14 pt-14">divier</p>
+
+      <SingleDatePicker />
+    </>
   );
 };
 

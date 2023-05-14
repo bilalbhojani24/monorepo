@@ -1,4 +1,7 @@
+import { AiFillFileText, AiFillPlayCircle } from 'react-icons/ai';
+import { BsExclamationTriangleFill } from 'react-icons/bs';
 import { FaApple } from 'react-icons/fa';
+import { MdPictureAsPdf } from 'react-icons/md';
 import { SiJira, SiJirasoftware } from 'react-icons/si';
 import {
   ArrowDownIcon,
@@ -31,8 +34,10 @@ import {
   MagnifyingGlassIcon,
   PaperClipIcon,
   PhotoIcon,
+  PlayCircleIcon,
   PlusIcon,
   QuestionMarkCircleIcon,
+  TrashIcon,
   UserIcon,
   UsersIcon,
   XCircleIcon,
@@ -45,6 +50,8 @@ import AutomationIcon from './CustomIcons/AutomationIcon';
 export * from 'react-icons/md';
 
 export {
+  AiFillFileText,
+  AiFillPlayCircle,
   ArrowDownIcon,
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
@@ -53,6 +60,7 @@ export {
   AutomationIcon,
   Bars3Icon,
   BarsArrowUpIcon,
+  BsExclamationTriangleFill,
   BuildingOfficeIcon,
   CalendarIcon,
   ChartBarIcon,
@@ -76,12 +84,15 @@ export {
   InboxIcon,
   InformationCircleIcon,
   MagnifyingGlassIcon,
+  MdPictureAsPdf,
   PaperClipIcon,
   PhotoIcon,
+  PlayCircleIcon,
   PlusIcon,
   QuestionMarkCircleIcon,
   SiJira,
   SiJirasoftware,
+  TrashIcon,
   UserIcon,
   UsersIcon,
   XCircleIcon,
