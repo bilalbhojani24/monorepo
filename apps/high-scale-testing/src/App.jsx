@@ -1,28 +1,24 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import { INIT_URL, SSO_URL } from './constants/apiURLs';
 import env from './constants/envConstants';
 import { APP_ROUTES } from './constants/routesConstants';
 import useAuthRoutes from './hooks/useAuthRoutes';
-
-const initAPI = async () => {
-  await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(false);
-    }, 3000);
-  });
-
-  // returns status code - 200 (uncomment and test)
-  return axios.get(INIT_URL);
-
-  // returns status code - 401 (uncomment and test)
-  // return axios.get(
-  //   'https://run.mocky.io/v3/a1656866-98fe-49cd-9b97-1163c2866b48'
-  // );
-};
+import { initialiseApplication } from './globalSlice';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  const initAPI = async () => {
+    const response = await axios.get(INIT_URL);
+
+    dispatch(initialiseApplication(response.data));
+
+    return response;
+  };
+
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initAPI,
