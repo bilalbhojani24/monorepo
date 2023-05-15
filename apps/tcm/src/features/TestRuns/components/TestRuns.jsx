@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { InfoOutlinedIcon } from 'assets/icons';
@@ -89,8 +90,8 @@ const TestRuns = ({ isEditView }) => {
         </div>
       </div>
 
-      <div className="flex flex-1 shrink-0  grow flex-col overflow-y-auto p-4">
-        <div className="border-base-200 flex grow flex-col justify-start  rounded-md border bg-white">
+      <div className="flex flex-1  shrink-0 grow flex-col overflow-y-auto p-4">
+        <div className="border-base-200 flex min-w-[1040px] grow flex-col  justify-start rounded-md border bg-white">
           {isTestRunsLoading ? (
             <div className="flex w-full shrink-0 grow flex-col  justify-center ">
               <Loader wrapperClassName="h-96 w-full" />

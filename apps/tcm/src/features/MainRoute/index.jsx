@@ -133,7 +133,7 @@ const MainRoute = () => {
 
   return (
     <div
-      className={classNames('flex flex-1 flex-col overflow-hidden', {
+      className={classNames('flex flex-1 flex-col overflow-hidden ribin', {
         'md:pl-64': !noNavRoutes.includes(location.pathname)
       })}
     >
