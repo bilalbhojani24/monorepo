@@ -4,14 +4,15 @@ import { InputField, TextArea } from '@browserstack/bifrost';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
 const FormBuilder = () => {
-  const { formFields, formData, setFormData, formError } = useContext(
+  const { formFields, formError, setFormData } = useContext(
     FeedbackWidgetContextData
   );
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [e.target.id]: e.target.value
-    });
+    }));
   };
 
   return (

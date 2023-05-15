@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 
@@ -25,51 +25,57 @@ const RenderToast = () => {
 
   const [selectedNPS, setSelectedNPS] = useState();
 
-  const renderNPSBody = () => (
-    <div className="flex items-center justify-center">
-      {npsConstants.map((item, index) => (
-        <Button
-          key={item.id}
-          colors={selectedNPS === item.id ? 'brand' : 'white'}
-          iconOnly
-          onClick={() => {
-            setSelectedNPS(item.id);
-            handleClick();
-          }}
-          size="large"
-          wrapperClassName={twClassNames(
-            'w-[42.5px] rounded-none border-r-0 flex items-center justify-center foucs:ring-0',
-            {
-              'rounded-l-md': index === 0,
-              'rounded-r-md border-r-1 border-base-300': index === 9
-            }
-          )}
-        >
-          {item.name}
-        </Button>
-      ))}
-    </div>
+  const renderNPSBody = useCallback(
+    () => (
+      <div className="flex items-center justify-center">
+        {npsConstants.map((item, index) => (
+          <Button
+            key={item.id}
+            colors={selectedNPS === item.id ? 'brand' : 'white'}
+            iconOnly
+            onClick={() => {
+              setSelectedNPS(item.id);
+              handleClick();
+            }}
+            size="large"
+            wrapperClassName={twClassNames(
+              'w-[42.5px] rounded-none border-r-0 flex items-center justify-center foucs:ring-0',
+              {
+                'rounded-l-md': index === 0,
+                'rounded-r-md border-r-1 border-base-300': index === 9
+              }
+            )}
+          >
+            {item.name}
+          </Button>
+        ))}
+      </div>
+    ),
+    [handleClick, selectedNPS]
   );
 
-  const renderEmojiThumb = () => (
-    <div className="flex justify-center space-x-1">
-      {finalFeedbackTypeArray().map((item) => (
-        <Button
-          key={item.label}
-          variant="minimal"
-          isIconOnlyButton
-          onClick={() => {
-            handleClick();
-            handleFeedbackClick?.(item);
-          }}
-        >
-          {item.icon}
-        </Button>
-      ))}
-    </div>
+  const renderEmojiThumb = useCallback(
+    () => (
+      <div className="flex justify-center space-x-1">
+        {finalFeedbackTypeArray().map((item) => (
+          <Button
+            key={item.label}
+            variant="minimal"
+            isIconOnlyButton
+            onClick={() => {
+              handleClick();
+              handleFeedbackClick?.(item);
+            }}
+          >
+            {item.icon}
+          </Button>
+        ))}
+      </div>
+    ),
+    [finalFeedbackTypeArray, handleClick, handleFeedbackClick]
   );
 
-  const showNotification = () => {
+  const showNotification = useCallback(() => {
     notify(
       <Notifications
         size="md"
@@ -105,14 +111,22 @@ const RenderToast = () => {
         position: 'bottom-right',
         autoClose: false,
         id: 'feedback-widget',
-        size: 'md'
+        size: 'md',
+        
       }
     );
-  };
+  }, [
+    feedbacktype.description,
+    feedbacktype.title,
+    feedbacktype.type,
+    handleFormSubmit,
+    renderEmojiThumb,
+    renderNPSBody
+  ]);
 
   useEffect(() => {
     if (show) showNotification();
-  }, [show, feedbacktype.type]);
+  }, [show, feedbacktype.type, showNotification]);
 
   return <NotificationsContainer />;
 };
