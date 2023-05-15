@@ -595,7 +595,7 @@ const ControlledNestedTree = ({ data }) => {
   );
   return (
     <ListTreeRootWrapper
-      data={listOfItems}
+      listData={listOfItems}
       openNodeMap={openNodeMap}
       setOpenNodeMap={setOpenNodeMap}
       onSelectCallback={onKeyPressSelect}
@@ -719,7 +719,7 @@ const SearchableSelectableListTree = () => {
         <p className="text-sm">No items matching search results</p>
       ) : (
         <ListTreeRootWrapper
-          data={listOfItems}
+          listData={listOfItems}
           openNodeMap={openNodeMap}
           setOpenNodeMap={setOpenNodeMap}
           filteredUUIDs={filteredUUIDs}
@@ -809,7 +809,7 @@ const UnconrolledNestedTree = ({ data }) => {
   );
   return (
     <ListTreeRootWrapper
-      data={listTreeDemoDataSet}
+      listData={listTreeDemoDataSet}
       openNodeMap={{}}
       setOpenNodeMap={() => {}}
       onSelectCallback={onKeyPressSelect}
@@ -854,7 +854,7 @@ const FocusedNodeNestedTree = ({ data }) => {
   );
   return (
     <ListTreeRootWrapper
-      data={listOfItems}
+      listData={listOfItems}
       openNodeMap={openNodeMap}
       setOpenNodeMap={setOpenNodeMap}
       onSelectCallback={onKeyPressSelect}
