@@ -15,6 +15,10 @@ export const checkUserPlanState = () => (dispatch, getState) => {
       ? getDifferenceInDays(new Date(), new Date(lastSeenOn))
       : 2;
     const diff = getDifferenceInDays(new Date(planExpires), new Date());
+    // if plan has expired more than 14 days ago, don't show banner
+    if (diff < -14) {
+      return;
+    }
     const payload = {};
     if (lastSeenDiff >= 2) {
       if (diff <= 0) {

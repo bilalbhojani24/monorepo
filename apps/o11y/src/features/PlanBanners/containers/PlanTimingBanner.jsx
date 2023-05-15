@@ -15,7 +15,7 @@ function PlanTimingBanner() {
   const isOnFreeTrial = useSelector(getIsOnFreeTrial);
   const description = useMemo(() => {
     if (bannerData?.expired) {
-      return `Your Observability Pro plan has expired on ${bannerData.expiredAt}. Please complete the upgrade process to retain test logs and keep using all the  Pro features.`;
+      return `Your Observability Pro plan has expired on ${bannerData.expiredAt}. Please complete the upgrade process to retain test logs.`;
     }
     if (isOnFreeTrial) {
       return `Your free trial for Observability Pro expires in ${bannerData.expiringInDays} days`;
