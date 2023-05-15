@@ -585,13 +585,21 @@ const ControlledNestedTree = ({ data }) => {
   });
   const onKeyPressSelect = useCallback(
     (itemIndexes) => {
-      setSelectedNodeMap((prev) => {
-        const newItems = { ...prev };
-        newItems[itemIndexes] = true;
-        return newItems;
-      });
+      if (!selectedNodeMap[itemIndexes]) {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = true;
+          return newItems;
+        });
+      } else {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = false;
+          return newItems;
+        });
+      }
     },
-    [setSelectedNodeMap]
+    [selectedNodeMap]
   );
   return (
     <ListTreeRootWrapper
@@ -799,13 +807,21 @@ const UnconrolledNestedTree = ({ data }) => {
   const [selectedNodeMap, setSelectedNodeMap] = useState({});
   const onKeyPressSelect = useCallback(
     (itemIndexes) => {
-      setSelectedNodeMap((prev) => {
-        const newItems = { ...prev };
-        newItems[itemIndexes] = true;
-        return newItems;
-      });
+      if (!selectedNodeMap[itemIndexes]) {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = true;
+          return newItems;
+        });
+      } else {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = false;
+          return newItems;
+        });
+      }
     },
-    [setSelectedNodeMap]
+    [selectedNodeMap]
   );
   return (
     <ListTreeRootWrapper
@@ -844,13 +860,21 @@ const FocusedNodeNestedTree = ({ data }) => {
   const focusIDPrefix = 'focused-list-';
   const onKeyPressSelect = useCallback(
     (itemIndexes) => {
-      setSelectedNodeMap((prev) => {
-        const newItems = { ...prev };
-        newItems[itemIndexes] = true;
-        return newItems;
-      });
+      if (!selectedNodeMap[itemIndexes]) {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = true;
+          return newItems;
+        });
+      } else {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = false;
+          return newItems;
+        });
+      }
     },
-    [setSelectedNodeMap]
+    [selectedNodeMap]
   );
   return (
     <ListTreeRootWrapper
