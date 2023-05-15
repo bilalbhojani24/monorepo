@@ -64,7 +64,7 @@ const TestCaseDetailsView = ({
         headingWrapperClassName="text-sm text-base-700 flex justify-center items-center"
         heading="TEST CASE DETAILS"
         isBorder
-        backgroundColorClass="bg-white"
+        wrapperClassName="bg-white"
         handleDismissClick={() => hideTestCaseViewDrawer(null, true)}
       />
       <TestCaseView
