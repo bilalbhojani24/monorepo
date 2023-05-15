@@ -9,5 +9,9 @@ module.exports = {
         config: tailwindConfig
       }
     ]
+  },
+  globals: {
+    IS_DEV: 'readonly',
+    IS_PROD: 'readonly'
   }
 };

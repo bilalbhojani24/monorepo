@@ -3,7 +3,8 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --open",
+    "dev-prod": "vite --open -- IS_PROD",
     "build": "vite build",
     "preview": "vite preview",
     "lint:check": "eslint --format=table --ignore-pattern dist --max-warnings 0 \"**/*.{js,jsx}\"",
@@ -20,6 +21,7 @@
     "@browserstack/bifrost": "4.2.0",
     "@browserstack/utils": "1.2.0",
     "@browserstack/hooks": "workspace:*",
+    "@browserstack/mcp-shared": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "8.0.5",

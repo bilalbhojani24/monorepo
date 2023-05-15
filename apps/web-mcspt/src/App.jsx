@@ -1,20 +1,17 @@
 import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import env from './constants/envConstants';
 import Home from './features/Home';
+import ReportContainer from './features/ReportContainer';
 
-const App = () => {
-  // kept for usasge reference
-  // eslint-disable-next-line no-console
-  console.log(env.BSTACK_DEMO);
-  // eslint-disable-next-line no-console
-  console.log(env);
+const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route index path="/" element={<Home />} />
 
-  return (
-    <>
-      <Home />
-    </>
-  );
-};
+      <Route path="report/:reportId" element={<ReportContainer />} />
+    </Routes>
+  </BrowserRouter>
+);
 
 export default App;

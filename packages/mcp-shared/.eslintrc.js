@@ -17,6 +17,8 @@ module.exports = {
   },
   globals: {
     IS_DEV: 'readonly',
-    IS_PROD: 'readonly'
+    IS_PROD: 'readonly',
+    IS_WEB: 'readonly',
+    IS_ELECTRON: 'readonly'
   }
 };
