@@ -1,7 +1,7 @@
-/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
+import { getOnboardingData } from '../../../apis';
 import { getUserDetails } from '../../../globalSlice/selector';
 
 const useOnboarding = () => {
@@ -30,27 +30,7 @@ browserstack-cli hst init`,
       }
     }
   };
-  const CODE_SNIPPETS_EXISTING = {
-    helm: `helm upgrade --install hst-grid --namespace hst-grid --create-namespace \
-    --repo https://github.com/browserstack/hst/helm-chart/ helm-chart \
-    --set username=”<username>”  --set password=”<password>`,
-    kubectl: `curl -u "<username>:<password>" "https://hst.browserstack.com/v1/create-grid.yaml" 
-    | kubectl apply -f -
-    `,
-    cli: `/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
-export BROWSERSTACK_USERNAME=<username>
-export BROWSERSTACK_ACCESS_KEY=<accesskey>
-    
-/* Download BrowserStack CLI */
-npm install @browserstack/browserstack-cli
-    
-/* Create HST configuration profile with AWS credentials */
-browserstack-cli hst init
-    
-/* Attach HST Grid to existing Kubernetes Cluster */
-browserstack-cli hst attach grid --cloud <aws> --clusterName <clustername> --region<regionName>    
-    `
-  };
+
   const DUMMY_EVENT_LOGS = `info: Creating required dependencies - EKS Role, VPC & Subnets
 info: Dependencies created successfully
 debug: Role => arn:aws:iam:72354175:role/EKSServiceRole-ac309e2e-1987-49jh
@@ -79,25 +59,24 @@ info: Creating cluster “high-scale-grid-cluster”`;
     {
       disabled: false,
       id: 'radio-1',
-      name: 'Amazon Cloud'
+      name: 'Amazon Cloud',
+      configName: 'amazon-cloud'
     },
     {
-      disabled: true,
+      disabled: false,
       id: 'radio-2',
-      name: 'Google Cloud'
+      name: 'Google Cloud',
+      configName: 'google-cloud'
     },
     {
       disabled: true,
       id: 'radio-3',
-      name: 'Microsoft Azure'
+      name: 'Microsoft Azure',
+      configName: 'microsoft-azure'
     }
   ];
-  const SELECT_OPTIONS = [
-    { label: 'N. Virginia (us-east-1)', value: 'N. Virginia (us-east-1)' },
-    { label: 'Ohio (us-east-1)', value: 'Ohio (us-east-1)' },
-    { label: 'N. California (us-west-1)', value: 'N. California (us-west-1)' },
-    { label: 'Oregon (us-west-2)', value: 'Oregon (us-west-2)' }
-  ];
+  const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
+
   const SHOW_LINE_NUMBERS = false;
   const SHOW_SINGLE_LINE = true;
   const SUB_TEXTS_OBJECT = {
@@ -124,14 +103,24 @@ info: Creating cluster “high-scale-grid-cluster”`;
   ];
 
   // All State variables:
+  const [allAvailableRegionsByProvider, setAllAvailableRegionsByProvider] =
+    useState(null);
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
     useState(GRID_MANAGER_NAMES.helm);
+  const [codeSnippetsForExistingSetup, setCodeSnippetsForExistingSetup] =
+    useState(null);
+  const [currentSelectedCloudProvider, setCurrentCloudProvider] = useState(
+    DEFAULT_CLOUD_PROVIDER
+  );
   const [eventLogsCode, setEventLogsCode] = useState(DUMMY_EVENT_LOGS);
   const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
   const [onboardingStep, setOnboardingStep] = useState(0);
   const [onboardingType, setOnboardingType] = useState(
     ONBOARDING_TYPES.scratch
+  );
+  const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
+    allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER]
   );
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
@@ -166,7 +155,6 @@ info: Creating cluster “high-scale-grid-cluster”`;
   }, [onboardingStep]);
 
   useEffect(() => {
-    // console.log('Log: selectedOption has changed to:', selectedOption);
     if (selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label) {
       setOnboardingType('scratch');
       setBreadcrumbDataTrace([
@@ -211,9 +199,30 @@ info: Creating cluster “high-scale-grid-cluster”`;
     );
   }, [activeGridManagerCodeSnippet]);
 
+  useEffect(() => {
+    if (allAvailableRegionsByProvider) {
+      setCurrentProvidersRegions(
+        allAvailableRegionsByProvider[currentSelectedCloudProvider.configName]
+      );
+    }
+  }, [allAvailableRegionsByProvider, currentSelectedCloudProvider]);
+
+  useEffect(() => {
+    const fetchOnboardingData = async () => {
+      const response = await getOnboardingData(userDetails.id);
+      const res = response.data;
+
+      setAllAvailableRegionsByProvider(res.scratch['step-1'].regions);
+      setCodeSnippetsForExistingSetup(res.existing);
+
+      return response.data;
+    };
+    fetchOnboardingData();
+  }, []);
+
   return {
-    CODE_SNIPPETS_EXISTING,
     CODE_SNIPPETS_SCRATCH,
+    DEFAULT_CLOUD_PROVIDER,
     GRID_MANAGER_NAMES,
     LIST_FEED_PROPS,
     ONBOARDING_TYPES,
@@ -221,11 +230,13 @@ info: Creating cluster “high-scale-grid-cluster”`;
     SHOW_LINE_NUMBERS,
     SHOW_SINGLE_LINE,
     STEP_1_RADIO_GROUP_OPTIONS,
-    SELECT_OPTIONS,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
+    codeSnippetsForExistingSetup,
     continueClickHandler,
+    currentProvidersRegions,
+    currentSelectedCloudProvider,
     eventLogsCode,
     headerText,
     onboardingStep,
@@ -233,6 +244,7 @@ info: Creating cluster “high-scale-grid-cluster”`;
     selectedOption,
     selectedRegion,
     setActiveGridManagerCodeSnippet,
+    setCurrentCloudProvider,
     setEventLogsCode,
     setSelectedOption,
     setSelectedRegion,

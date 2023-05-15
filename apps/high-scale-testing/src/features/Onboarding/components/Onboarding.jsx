@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-boolean-value */
-/* eslint-disable sonarjs/no-duplicate-string */
 import React from 'react';
 import {
   Alerts,
@@ -28,24 +26,26 @@ import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
   const {
-    CODE_SNIPPETS_EXISTING,
     CODE_SNIPPETS_SCRATCH,
     GRID_MANAGER_NAMES,
     LIST_FEED_PROPS,
     ONBOARDING_TYPES,
     SCRATCH_RADIO_GROUP_OPTIONS,
-    SELECT_OPTIONS,
+    currentProvidersRegions,
     STEP_1_RADIO_GROUP_OPTIONS,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
+    codeSnippetsForExistingSetup,
     continueClickHandler,
+    currentSelectedCloudProvider,
     eventLogsCode,
     headerText,
     onboardingStep,
     onboardingType,
     selectedRegion,
     setActiveGridManagerCodeSnippet,
+    setCurrentCloudProvider,
     setSelectedOption,
     setSelectedRegion,
     subHeaderText
@@ -78,7 +78,9 @@ const Onboarding = () => {
     <div className="mt-4">
       <CodeSnippet
         code={
-          CODE_SNIPPETS_EXISTING[activeGridManagerCodeSnippet.toLowerCase()]
+          codeSnippetsForExistingSetup?.[
+            activeGridManagerCodeSnippet.toLowerCase()
+          ]
         }
         singleLine={false}
         showLineNumbers={false}
@@ -91,13 +93,15 @@ const Onboarding = () => {
   const DescriptionNodeStep1 = (
     <div className="mt-4">
       <RadioGroup
-        onChange={() => {}}
-        options={SCRATCH_RADIO_GROUP_OPTIONS}
-        selectedOption={{
-          disabled: false,
-          id: 'radio-1',
-          name: 'Amazon Cloud'
+        onChange={(e, option) => {
+          const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
+            (item) => item.id === option
+          );
+
+          setCurrentCloudProvider(newOption);
         }}
+        options={SCRATCH_RADIO_GROUP_OPTIONS}
+        selectedOption={currentSelectedCloudProvider}
       />
     </div>
   );
@@ -113,7 +117,7 @@ const Onboarding = () => {
         <SelectMenuLabel>Select Region:</SelectMenuLabel>
         <SelectMenuTrigger placeholder="Select Region" />
         <SelectMenuOptionGroup>
-          {SELECT_OPTIONS.map((item) => (
+          {currentProvidersRegions?.map((item) => (
             <SelectMenuOptionItem key={item.value} option={item} />
           ))}
         </SelectMenuOptionGroup>
