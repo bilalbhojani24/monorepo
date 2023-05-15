@@ -102,7 +102,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
         <div className="w-full pb-8">
           {resultUpdatable && (
             <>
-              <div className="mt-8 mb-4 text-sm">
+              <div className="mb-4 mt-8 text-sm">
                 You can log results for this test case from the options below:
               </div>
               <div className="flex gap-4">

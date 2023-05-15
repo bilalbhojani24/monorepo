@@ -13,7 +13,6 @@ const TestCaseView = ({
   resultUpdatable,
   onResultClick,
   testRunId,
-  testResultsArray,
   testRunName
 }) => {
   const { testCaseDetails, testCaseId } = useTestCaseViewDetails();
@@ -42,11 +41,7 @@ const TestCaseView = ({
             onResultClick={onResultClick}
             resultUpdatable={resultUpdatable}
             testRunId={testRunId}
-            testResultsArray={
-              isFromTestRun
-                ? testResultsArray
-                : testCaseDetails?.test_run_issues
-            }
+            testCaseTestRunIssues={testCaseDetails?.test_run_issues}
             testRunName={testRunName}
           />
         </div>
@@ -69,7 +64,6 @@ TestCaseView.propTypes = {
   isFromTestRun: PropTypes.bool,
   resultUpdatable: PropTypes.bool,
   onResultClick: PropTypes.func,
-  testResultsArray: PropTypes.arrayOf({}),
   testRunName: PropTypes.string
 };
 
@@ -79,7 +73,6 @@ TestCaseView.defaultProps = {
   isFromTestRun: false,
   resultUpdatable: false,
   onResultClick: () => {},
-  testResultsArray: [],
   testRunName: ''
 };
 

@@ -1,24 +1,17 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const useTestCaseMultiData = (prop) => {
+  const testResultUniqueIssue = useSelector(
+    (state) => state.testRunsDetails.uniqueIssueTestResults
+  );
   const [testCaseIssues, setTestCaseIssues] = useState([]);
 
-  const checkIsDuplicate = (issuesArray, issue) =>
-    issuesArray.some((singleIssue) => singleIssue?.jira_id === issue?.jira_id);
-
   useEffect(() => {
-    let testCaseIssuesTemp = [];
-    if (prop?.isFromTestRun) {
-      prop?.testResultsArray.forEach((item) => {
-        for (let i = item?.issues.length - 1; i >= 0; i -= 1) {
-          if (!checkIsDuplicate(testCaseIssuesTemp, item?.issues[i]))
-            testCaseIssuesTemp.push(item?.issues[i]);
-        }
-      });
-    } else testCaseIssuesTemp = prop?.testResultsArray;
-
-    setTestCaseIssues(testCaseIssuesTemp);
-  }, [prop?.isFromTestRun, prop?.testResultsArray]);
+    setTestCaseIssues(
+      prop?.isFromTestRun ? testResultUniqueIssue : prop?.testCaseTestRunIssues
+    );
+  }, [prop?.isFromTestRun, prop?.testCaseTestRunIssues, testResultUniqueIssue]);
 
   return { testCaseIssues };
 };

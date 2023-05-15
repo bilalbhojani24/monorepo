@@ -21,7 +21,7 @@ const TestCaseMutliData = ({
   resultUpdatable,
   onResultClick,
   testRunId,
-  testResultsArray,
+  testCaseTestRunIssues,
   testRunName
 }) => {
   const {
@@ -33,7 +33,7 @@ const TestCaseMutliData = ({
   } = useTestCaseViewDetails();
   const { testCaseIssues } = useTestCaseMultiData({
     isFromTestRun,
-    testResultsArray
+    testCaseTestRunIssues
   });
 
   const trTcIssuesTableColumn = [
@@ -177,7 +177,7 @@ TestCaseMutliData.propTypes = {
   resultUpdatable: PropTypes.bool,
   testRunId: PropTypes.number,
   onResultClick: PropTypes.bool,
-  testResultsArray: PropTypes.arrayOf(PropTypes.object),
+  testCaseTestRunIssues: PropTypes.arrayOf(PropTypes.object),
   testRunName: PropTypes.string
 };
 
@@ -186,7 +186,7 @@ TestCaseMutliData.defaultProps = {
   resultUpdatable: false,
   testRunId: null,
   onResultClick: () => {},
-  testResultsArray: [],
+  testCaseTestRunIssues: [],
   testRunName: ''
 };
 
