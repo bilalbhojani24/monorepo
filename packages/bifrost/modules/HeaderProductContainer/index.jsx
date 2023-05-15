@@ -1,6 +1,10 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 
+import {
+  CALLBACK_FUNCTIONS_PROP_TYPE,
+  hyperlinkClickHandler
+} from '../Header/utils';
 import Hyperlink from '../Hyperlink';
 import { MdArrowRightAlt, MdOutlinePeopleAlt } from '../Icon';
 import ToolsIcon from '../Icon/HeaderIcons/ToolsIcon';
@@ -18,7 +22,7 @@ const TITLE_CLASSNAMES =
   'not-italic font-semibold text-sm leading-4 text-[#666666]';
 const LINK_CLASSNAMES = 'flex flex-col items-start p-0 w-[254px] gap-5';
 
-const HeaderProductContainer = () => {
+const HeaderProductContainer = ({ callbackFunctions }) => {
   const productElementContainer = (
     productIcon,
     productName,
@@ -26,12 +30,21 @@ const HeaderProductContainer = () => {
     productLink
   ) => (
     <Hyperlink
+      key={productName}
       isCSR={false}
       wrapperClassName={twClassNames(
         'group flex flex-row items-start w-64 h-10 py-0 px-[10px] gap-[5px]'
       )}
       href={productLink}
-      key={productName}
+      onClick={(e) => {
+        hyperlinkClickHandler(
+          e,
+          productLink,
+          callbackFunctions?.onProductLinkClick,
+          '_self',
+          productName
+        );
+      }}
     >
       <span>{productIcon}</span>
       <div className={twClassNames('flex flex-col items-start p-0 w-48 h-10')}>
@@ -334,3 +347,10 @@ const HeaderProductContainer = () => {
 };
 
 export default HeaderProductContainer;
+
+HeaderProductContainer.propTypes = {
+  callbackFunctions: CALLBACK_FUNCTIONS_PROP_TYPE
+};
+HeaderProductContainer.defaultProps = {
+  callbackFunctions: null
+};

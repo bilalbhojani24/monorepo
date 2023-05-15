@@ -8,6 +8,47 @@ import Header from './index';
 
 const DEFAULT_LINK = 'https://www.browserstack.com';
 
+// Try to use the below method send request for analytics as in our use-case on click of link page will be unloaded and to make API success sendBeacon will be ideal solution
+// Ref: https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
+const makeAnalyticsCall = (data) => {
+  const payload = JSON.stringify({
+    id: 100000,
+    data
+  });
+
+  if (navigator.sendBeacon) {
+    navigator.sendBeacon('API_ENDPOINT_URL', payload);
+  }
+};
+
+const CALLBACK_FUNCTIONS = {
+  buyPlanClick: () => {
+    console.log('buyPlanClick');
+    makeAnalyticsCall();
+  },
+  onSearchClick: () => {
+    console.log('onSearchClick');
+  },
+  onNotificationClick: () => {
+    console.log('onNotificationClick');
+  },
+  onInviteTeamClick: () => {
+    console.log('onInviteTeamClick');
+  },
+  onPlanAndPricingClick: () => {
+    console.log('onPlanAndPricingClick');
+  },
+  onAccountDropdownOptionClick: (option) => {
+    console.log(`${option} clicked`);
+  },
+  onHelpDropdownOptionClick: (option) => {
+    console.log(`${option} clicked`);
+  },
+  onProductLinkClick: (product) => {
+    console.log(`${product} clicked`);
+  }
+};
+
 const defaultConfig = {
   title: 'Application/Components/Header',
   component: Header,
@@ -29,6 +70,10 @@ const defaultConfig = {
     }
   },
   argTypes: {
+    callbackFunctions: {
+      option: { type: null },
+      defaultValue: CALLBACK_FUNCTIONS
+    },
     wrapperClassName: {
       option: { type: 'string' },
       defaultValue: ''
@@ -122,7 +167,13 @@ const defaultConfig = {
       }
     },
     others: {
-      defaultValue: null
+      defaultValue: {
+        title: 'Bilal',
+        options: [
+          { name: 'lorem', link: '' },
+          { name: 'ipsum', link: '' }
+        ]
+      }
     },
     productArray: {
       defaultValue: [
