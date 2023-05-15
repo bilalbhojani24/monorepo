@@ -40,9 +40,7 @@ export default function useAutomatedTestBuild() {
     if (tab === SUMMARY && !buildMetaData.issueSummary) {
       fetchOverview().then((response) => dispatch(setBuildOverview(response)));
     } else if (tab === ISSUES && !buildData) {
-      fetchBuildIssues().then((response) =>
-        dispatch(setBuildOverview(response))
-      );
+      fetchBuildIssues().then((response) => dispatch(setBuildData(response)));
     } else if (tab === TESTS) {
       fetchTestCasesData(buildNumber).then((response) =>
         dispatch(setTestCasesData(response))

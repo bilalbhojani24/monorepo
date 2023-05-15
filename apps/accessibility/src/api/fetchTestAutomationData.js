@@ -122,3 +122,8 @@ export async function fetchTestCasesData(id) {
   const response = await axios.get(`test_runs/${id}/test_cases`, header);
   return response.data;
 }
+
+export async function fetchTestCaseData() {
+  const response = await axios.get('/tests/consolidate?tc_ids=1');
+  return response.data.data;
+}
