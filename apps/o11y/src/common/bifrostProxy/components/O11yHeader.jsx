@@ -82,9 +82,8 @@ const O11yHeader = () => (
         window.location.href = envConfig.signOutUrl;
       }
     }}
-    buyPlanText="Contact sales"
     buyPlanTarget="_blank"
-    buyPlanLink={`${envConfig.baseUrl}/pricing?product=test-observability`}
+    buyPlanLink={`${envConfig.baseUrl}/contact?&ref=observability-dashboard-top-header-csf-lead`}
   />
 );
 
