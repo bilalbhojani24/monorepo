@@ -51,8 +51,6 @@ const Onboarding = () => {
     subHeaderText
   } = useOnboarding();
 
-  const listFeedStepValue = (number) => <span>{number}</span>;
-
   const TabsForCodeSnippet = (
     <Tabs
       id="tabID"
@@ -219,48 +217,51 @@ const Onboarding = () => {
     </>
   );
 
+  const listFeedHeaderNode = (step) => {
+    switch (step) {
+      case 1:
+        return HeaderNodeStep1;
+      case 2:
+        return HeaderNodeStep2;
+      case 3:
+        return HeaderNodeStep3;
+      case 4:
+        return HeaderNodeStep4;
+      default:
+        break;
+    }
+    return null;
+  };
+
+  const listFeedStepValue = (number) => <span>{number}</span>;
+
+  const listFeedDescriptionNode = (step) => {
+    switch (step) {
+      case 1:
+        return DescriptionNodeStep1;
+      case 2:
+        return DescriptionNodeStep2;
+      case 3:
+        return DescriptionNodeStep3;
+      case 4:
+        return DescriptionNodeStep4;
+      default:
+        break;
+    }
+    return null;
+  };
+
   const ListFeedsContainerComponent = (
     <>
-      <ListFeedsNode
-        key="1"
-        descriptionNode={DescriptionNodeStep1}
-        feedIcon={listFeedStepValue('1')}
-        feedIconColor={LIST_FEED_PROPS.feedIconColor}
-        feedIconContainerSize={LIST_FEED_PROPS.feedIconContainerSize}
-        feedIconSize={LIST_FEED_PROPS.feedIconSize}
-        feedIconVariant={LIST_FEED_PROPS.feedIconVariant}
-        headerNode={HeaderNodeStep1}
-      />
-      <ListFeedsNode
-        key="2"
-        descriptionNode={DescriptionNodeStep2}
-        feedIcon={listFeedStepValue(2)}
-        feedIconColor={LIST_FEED_PROPS.feedIconColor}
-        feedIconContainerSize={LIST_FEED_PROPS.feedIconContainerSize}
-        feedIconSize={LIST_FEED_PROPS.feedIconSize}
-        feedIconVariant={LIST_FEED_PROPS.feedIconVariant}
-        headerNode={HeaderNodeStep2}
-      />
-      <ListFeedsNode
-        key="3"
-        descriptionNode={DescriptionNodeStep3}
-        feedIcon={listFeedStepValue(3)}
-        feedIconColor={LIST_FEED_PROPS.feedIconColor}
-        feedIconContainerSize={LIST_FEED_PROPS.feedIconContainerSize}
-        feedIconSize={LIST_FEED_PROPS.feedIconSize}
-        feedIconVariant={LIST_FEED_PROPS.feedIconVariant}
-        headerNode={HeaderNodeStep3}
-      />
-      <ListFeedsNode
-        key="4"
-        descriptionNode={DescriptionNodeStep4}
-        feedIcon={listFeedStepValue(4)}
-        feedIconColor={LIST_FEED_PROPS.feedIconColor}
-        feedIconContainerSize={LIST_FEED_PROPS.feedIconContainerSize}
-        feedIconSize={LIST_FEED_PROPS.feedIconSize}
-        feedIconVariant={LIST_FEED_PROPS.feedIconVariant}
-        headerNode={HeaderNodeStep4}
-      />
+      {[1, 2, 3, 4].map((x) => (
+        <ListFeedsNode
+          key={x}
+          descriptionNode={listFeedDescriptionNode(x)}
+          feedIcon={listFeedStepValue(x)}
+          {...LIST_FEED_PROPS}
+          headerNode={listFeedHeaderNode(x)}
+        />
+      ))}
     </>
   );
 
