@@ -63,7 +63,7 @@ info: Creating cluster “high-scale-grid-cluster”`;
       configName: 'amazon-cloud'
     },
     {
-      disabled: false,
+      disabled: true,
       id: 'radio-2',
       name: 'Google Cloud',
       configName: 'google-cloud'
