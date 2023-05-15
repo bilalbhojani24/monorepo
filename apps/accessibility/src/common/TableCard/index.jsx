@@ -7,15 +7,21 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-import { formatComponentIdString } from 'utils/helper';
 
-export default function TableCard({ title, list, columns, onRowClick }) {
+export default function TableCard({
+  title,
+  list,
+  columns,
+  onRowClick,
+  wrapperClassName
+}) {
   return (
     <DataVisualization
       title={title}
       headerInfo={null}
-      wrapperClassName="h-[440px]"
+      wrapperClassName={twClassNames('h-[440px] bg-white', wrapperClassName)}
       size="fit-content"
       analytics={
         <div>
@@ -44,13 +50,13 @@ export default function TableCard({ title, list, columns, onRowClick }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {list.map(({ componentId, count }, index) => (
+              {list.map(({ label, value, count }, index) => (
                 <TableRow
                   wrapperClassName="cursor-pointer"
                   onRowClick={() =>
                     onRowClick('component', {
-                      label: formatComponentIdString(componentId),
-                      value: componentId
+                      label,
+                      value
                     })
                   }
                 >
@@ -64,7 +70,7 @@ export default function TableCard({ title, list, columns, onRowClick }) {
                       {colIndex === 0 ? index + 1 : ''}
                       {colIndex === 1 ? (
                         <div className="w-80 overflow-hidden truncate">
-                          {formatComponentIdString(componentId)}
+                          {label}
                         </div>
                       ) : (
                         ''
@@ -94,9 +100,11 @@ TableCard.propTypes = {
     name: PropTypes.string,
     key: PropTypes.string
   }).isRequired,
-  onRowClick: PropTypes.func
+  onRowClick: PropTypes.func,
+  wrapperClassName: PropTypes.string
 };
 
 TableCard.defaultProps = {
-  onRowClick: () => {}
+  onRowClick: () => {},
+  wrapperClassName: ''
 };

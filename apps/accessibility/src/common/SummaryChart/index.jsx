@@ -1,5 +1,6 @@
 import React from 'react';
 import { DataVisualization } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import Chart from 'common/Chart';
 import { events, severityOptions } from 'constants';
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ export default function SummaryChart({
   actionType,
   eventName,
   issueSummary,
+  wrapperClassName,
   onRowClick
 }) {
   const { chartOption } = useSummaryChart({
@@ -23,7 +25,7 @@ export default function SummaryChart({
     <DataVisualization
       title="Issue summary"
       headerInfo={null}
-      wrapperClassName="h-[440px] bg-white"
+      wrapperClassName={twClassNames('h-[440px] bg-white', wrapperClassName)}
       size="fit-content"
       analytics={
         <div className="flex w-full items-center justify-between">
@@ -81,11 +83,13 @@ SummaryChart.propTypes = {
     minor: PropTypes.number,
     issueCount: PropTypes.number
   }).isRequired,
-  onRowClick: PropTypes.func
+  onRowClick: PropTypes.func,
+  wrapperClassName: PropTypes.string
 };
 
 SummaryChart.defaultProps = {
   actionType: events.INTERACT_WITH_CHART,
   eventName: '',
+  wrapperClassName: '',
   onRowClick: () => {}
 };

@@ -4,22 +4,74 @@ import { getBuildMetaData } from '../../slices/selector';
 
 export default function useOverview() {
   const buildMetaData = useSelector(getBuildMetaData);
+  const ISSUE_COUNT = 'Issue Count';
+  const componentColumns = [
+    {
+      id: 'index',
+      name: '#',
+      key: 'index'
+    },
+    {
+      id: 'affectedComponents',
+      name: 'Affected Components',
+      key: 'affectedComponents'
+    },
+    {
+      id: 'issueCount',
+      name: ISSUE_COUNT,
+      key: 'issueCount'
+    }
+  ];
+
+  const urlColumns = [
+    {
+      id: 'index',
+      name: '#',
+      key: 'index'
+    },
+    {
+      id: 'affectedUrls',
+      name: 'Affected URLs',
+      key: 'affectedUrls'
+    },
+    {
+      id: 'issueCount',
+      name: ISSUE_COUNT,
+      key: 'issueCount'
+    }
+  ];
+
+  const categoryColumns = [
+    {
+      id: 'index',
+      name: '#',
+      key: 'index'
+    },
+    {
+      id: 'category',
+      name: 'Category',
+      key: 'category'
+    },
+    {
+      id: 'issueCount',
+      name: ISSUE_COUNT,
+      key: 'issueCount'
+    }
+  ];
   const actionType = '';
   const eventName = 'Sample event name...';
-  const issueSummary = {
-    critical: 100,
-    serious: 200,
-    moderate: 300,
-    minor: 400,
-    issueCount: 1000
+
+  const onRowClick = (key, option) => {
+    console.log('key, option: ', option, key);
   };
 
-  const onRowClick = () => {};
   return {
     actionType,
     buildMetaData,
     eventName,
-    issueSummary,
+    urlColumns,
+    componentColumns,
+    categoryColumns,
     onRowClick
   };
 }

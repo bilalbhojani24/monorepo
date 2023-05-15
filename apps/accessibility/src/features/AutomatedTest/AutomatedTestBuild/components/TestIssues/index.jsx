@@ -59,8 +59,6 @@ export default function TestIssues() {
     setIsOpen(false);
   };
 
-  console.log('testMetaData: ', testMetaData);
-
   return (
     <Slideover
       show={isOpen}

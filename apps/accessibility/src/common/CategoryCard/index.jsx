@@ -15,11 +15,16 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import useCategoryCard from './useCategoryCard';
 
-export default function CategoryCard({ eventName, issueCountByCategory }) {
+export default function CategoryCard({
+  eventName,
+  issueCountByCategory,
+  wrapperClassName
+}) {
   const { categoryList, categoryColumns, maxCategoryIssue, map, onMenuChange } =
     useCategoryCard({
       eventName,
@@ -60,7 +65,7 @@ export default function CategoryCard({ eventName, issueCountByCategory }) {
       title="Issues by category"
       headerInfo={null}
       size="fit-content"
-      wrapperClassName="bg-white"
+      wrapperClassName={twClassNames('bg-white', wrapperClassName)}
       analytics={
         <div>
           <p className="text-base-500 mr-1 text-sm">Total</p>
@@ -173,5 +178,10 @@ CategoryCard.propTypes = {
       category: PropTypes.string.isRequired,
       count: PropTypes.number.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  wrapperClassName: PropTypes.string
+};
+
+CategoryCard.defaultProps = {
+  wrapperClassName: ''
 };
