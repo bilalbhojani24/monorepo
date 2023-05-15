@@ -229,7 +229,8 @@ NotificationWithBodyContent.args = {
         'aria-live': '',
       }
       autoClose : true/false, [default - false],
-      id : string should be unique [To avoid duplicate]
+      id : string should be unique [To avoid duplicate],
+      size : "sm" | "md" | "lg" [default - sm]
  * }
  */
 
@@ -252,9 +253,10 @@ export const StackedNotification = () => (
             />,
             {
               position: 'top-left',
-              duration: 4000,
+              duration: 40000,
               autoClose: true,
-              id: 'one'
+              id: 'one',
+              size: 'lg'
             }
           )
         }
@@ -284,7 +286,8 @@ export const StackedNotification = () => (
             />,
             {
               position: 'top-right',
-              duration: 4000
+              duration: 4000,
+              size: 'md'
             }
           )
         }
