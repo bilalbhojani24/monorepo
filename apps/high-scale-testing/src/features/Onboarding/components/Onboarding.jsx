@@ -42,6 +42,7 @@ const Onboarding = () => {
     currentStep,
     currentSelectedCloudProvider,
     eventLogsCode,
+    exploreAutomationClickHandler,
     headerText,
     isSetupComplete,
     onboardingStep,
@@ -51,8 +52,10 @@ const Onboarding = () => {
     setCurrentCloudProvider,
     setSelectedOption,
     setSelectedRegion,
+    showSetupStatusModal,
     subHeaderText,
-    totalSteps
+    totalSteps,
+    viewAllBuildsClickHandler
   } = useOnboarding();
 
   const TabsForCodeSnippet = (
@@ -113,6 +116,7 @@ const Onboarding = () => {
   const DescriptionNodeStep2 = (
     <div className="mt-4 w-2/5">
       <SelectMenu
+        disabled={eventLogsCode && eventLogsCode.length > 0}
         onChange={(e) => {
           setSelectedRegion(e);
         }}
@@ -274,7 +278,7 @@ const Onboarding = () => {
   );
 
   return (
-    <div className=" border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-4xl rounded-lg border">
+    <div className=" border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
       <PageHeadings
         actions={
           <>
@@ -350,19 +354,27 @@ const Onboarding = () => {
         </div>
       )}
 
-      {onboardingStep === 1 && onboardingType === ONBOARDING_TYPES.scratch && (
-        <div className="bg-base-50 text-base-700  flex px-7 py-3">
-          <HourglassBottomOutlinedIcon /> Waiting for you to complete the above
-          steps to connect the grid...
-        </div>
-      )}
+      {onboardingStep === 1 &&
+        (onboardingType === ONBOARDING_TYPES.scratch ||
+          onboardingType === ONBOARDING_TYPES.existing) &&
+        (!eventLogsCode || eventLogsCode?.length === 0) && (
+          <div className="bg-base-50 text-base-700  flex px-7 py-3">
+            <HourglassBottomOutlinedIcon /> Waiting for you to complete the
+            above steps to connect the grid...
+          </div>
+        )}
 
-      {onboardingStep === 1 && onboardingType === ONBOARDING_TYPES.existing && (
-        <div className="bg-base-50 text-base-700  flex px-7 py-3">
-          <HourglassBottomOutlinedIcon /> Waiting for you to complete the above
-          steps to connect the grid...
-        </div>
-      )}
+      {onboardingStep === 1 &&
+        (onboardingType === ONBOARDING_TYPES.scratch ||
+          onboardingType === ONBOARDING_TYPES.existing) &&
+        eventLogsCode &&
+        eventLogsCode.length > 0 && (
+          <div className="bg-base-50 text-base-700  flex px-7 py-3">
+            <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
+            Initialising events log...
+          </div>
+        )}
+
       {/* --X-- Footer component --X-- */}
 
       {onboardingStep > 0 &&
@@ -377,7 +389,13 @@ const Onboarding = () => {
           />
         )}
 
-      {isSetupComplete && <SetupStatus isSetupComplete={isSetupComplete} />}
+      {isSetupComplete && showSetupStatusModal && (
+        <SetupStatus
+          exploreAutomationClickHandler={exploreAutomationClickHandler}
+          isSetupComplete={isSetupComplete}
+          viewAllBuildsClickHandler={viewAllBuildsClickHandler}
+        />
+      )}
     </div>
   );
 };
