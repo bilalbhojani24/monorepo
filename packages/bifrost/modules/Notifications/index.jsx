@@ -26,7 +26,11 @@ const Notifications = forwardRef((props, ref) => {
   }, [ref]);
 
   return (
-    <div className="pointer-events-auto max-w-sm rounded-lg bg-white shadow-lg ring-1 ring-black/5">
+    <div
+      className={twClassNames(
+        'pointer-events-auto rounded-lg bg-white shadow-lg ring-1 ring-black/5'
+      )}
+    >
       <div className="flex w-full items-start p-4 ">
         {!isCondensed && headerIcon && (
           <div className="mr-3 shrink-0">{headerIcon}</div>
