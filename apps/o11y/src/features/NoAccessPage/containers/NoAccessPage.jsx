@@ -16,8 +16,8 @@ function NoAccessPage() {
     <div className="bg-base-50 flex h-screen w-screen flex-col items-center justify-center p-14">
       <div className="border-base-300 flex h-72 w-screen max-w-xl flex-col items-center justify-center rounded-md border">
         <O11yEmptyState
-          title="It appears you don't have access to Test Observability yet!"
-          description="Contact your administrator to provide access privileges."
+          title="You do not have access to BrowserStack Test Observability yet!"
+          description="Request your group owner or administrator for access."
           mainIcon={
             <MdLock className="text-base-500 inline-block !h-12 !w-12" />
           }
