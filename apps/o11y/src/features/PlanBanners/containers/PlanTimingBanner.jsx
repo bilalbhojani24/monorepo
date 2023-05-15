@@ -5,28 +5,26 @@ import { O11yBanner, O11yButton } from 'common/bifrostProxy';
 import { getTopBannerData } from 'common/O11yTopBanner/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_LAST_SEEN } from 'constants/paywall';
-import { getIsOnFreeTrial, getPlanType } from 'globalSlice/selectors';
+import { getIsOnFreeTrial } from 'globalSlice/selectors';
 import { o11yNotify } from 'utils/notification';
 
 function PlanTimingBanner() {
   const dispatch = useDispatch();
   const bannerData = useSelector(getTopBannerData);
-  const planType = useSelector(getPlanType);
   const isOnFreeTrial = useSelector(getIsOnFreeTrial);
   const description = useMemo(() => {
     if (bannerData?.expired) {
-      return `Your Observability ${planType} plan has expired on ${bannerData.expiredAt}. Please complete the upgrade process to retain test logs and keep using all the  ${planType} features.`;
+      return `Your Observability Pro plan has expired on ${bannerData.expiredAt}. Please complete the upgrade process to retain test logs and keep using all the  Pro features.`;
     }
     if (isOnFreeTrial) {
-      return `Your free trial for Observability ${planType} expires in ${bannerData.expiringInDays} days`;
+      return `Your free trial for Observability Pro expires in ${bannerData.expiringInDays} days`;
     }
-    return `Your Observability ${planType} expires in ${bannerData.expiringInDays} days`;
+    return `Your Observability Pro expires in ${bannerData.expiringInDays} days`;
   }, [
     bannerData?.expired,
     bannerData.expiredAt,
     bannerData.expiringInDays,
-    isOnFreeTrial,
-    planType
+    isOnFreeTrial
   ]);
 
   const handleCloseBanner = () => {

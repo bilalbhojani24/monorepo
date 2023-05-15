@@ -24,6 +24,16 @@ export const getPlanType = createSelector(
   (planDetails) => planDetails?.type
 );
 
+export const getIsOnFreemium = createSelector(
+  getPlanDetails,
+  (planDetails) => planDetails?.isOnFreemium
+);
+
+export const getHasExperiencedPaidPlan = createSelector(
+  getPlanDetails,
+  (planDetails) => planDetails?.hasExperiencedPaidPlan
+);
+
 export const getPlanExpires = createSelector(
   getPlanDetails,
   (planDetails) => planDetails?.expires || null

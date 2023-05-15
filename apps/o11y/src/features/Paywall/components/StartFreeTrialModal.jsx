@@ -8,7 +8,7 @@ import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
 import { o11yPlanUpgrade } from 'globalSlice/index';
-import { canStartFreeTrial, getPlanType } from 'globalSlice/selectors';
+import { canStartFreeTrial } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
@@ -17,7 +17,6 @@ import { MODAL_CONFIG } from '../constants';
 function StartFreeTrialModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
-  const planType = useSelector(getPlanType);
   const modalData = useSelector(getModalData);
   const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
   const handleCloseModal = () => {
@@ -93,7 +92,7 @@ function StartFreeTrialModal() {
           </section>
           <section className="flex w-full flex-col">
             <p className="text-base-900 pt-5 text-center text-lg font-medium">
-              Upgrade to Observability {planType}
+              Upgrade to Observability Pro
             </p>
             <p className="text-base-500 mt-2 text-center text-sm leading-5">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius
