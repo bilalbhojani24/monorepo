@@ -44,7 +44,8 @@ export default function useIssues() {
   const isFilterModalVisible = useSelector(getIsFilterModalVisible);
   const buildFilters = useSelector(getBuildFilters);
   const activeSwitch = useSelector(getActiveSwitch);
-  const { urls, componentIds, categories } = useSelector(getUniqFilterValues);
+  const { urls, componentIds, categories, tests } =
+    useSelector(getUniqFilterValues);
   const buildData = useSelector(getBuildData);
   const customData = useSelector(getCustomData);
   const activeBuildFilters = useSelector(getBuildFilters);
@@ -60,6 +61,7 @@ export default function useIssues() {
 
   const [sectionData, setSectionData] = useState(null);
   const [filteredBuildData, setFilteredBuildData] = useState(buildData);
+  const [isSliderOpen, setIsSliderOpen] = useState(false);
 
   let activeIssueItem = null;
   let activeViolationItem = null;
@@ -413,8 +415,13 @@ export default function useIssues() {
     dispatch(setShowHiddenIssues({ hideIssues: val }));
   };
 
+  const onSliderOpenClick = () => {
+    setIsSliderOpen(true);
+  };
+
   return {
     urls,
+    isSliderOpen,
     componentIds,
     categories,
     activeComponentId,
@@ -437,6 +444,8 @@ export default function useIssues() {
     activeIssueSection,
     activeBuildFilters,
     wcagVersion,
+    tests,
+    onSliderOpenClick,
     onTagClose,
     onTabSelect,
     onHiddenIssueClick,

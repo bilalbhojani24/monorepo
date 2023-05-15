@@ -10,12 +10,22 @@ import {
   MdClose,
   MdLink,
   Pagination,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Tabs,
   Tooltip,
   TooltipBody
 } from '@browserstack/bifrost';
 import CopyButton from 'common/CopyButton';
-import { HOW_TO_FIX_TAB, ISSUE_DETAILS_TAB, TEST_TYPE } from 'constants';
+import {
+  HOW_TO_FIX_TAB,
+  ISSUE_DETAILS_TAB,
+  SOURCE_TESTS,
+  TEST_TYPE
+} from 'constants';
 import { getEnvUrl } from 'utils';
 import {
   generateReportUrl,
@@ -26,6 +36,21 @@ import {
 
 import NeedsReviewBanner from './NeedsReviewBanner';
 import useIssueItem from './useIssueItem';
+
+const tabs = [
+  {
+    name: 'Issue details',
+    value: ISSUE_DETAILS_TAB
+  },
+  {
+    name: 'How to fix',
+    value: HOW_TO_FIX_TAB
+  },
+  {
+    name: 'Source tests',
+    value: SOURCE_TESTS
+  }
+];
 
 export default function IssueItem({ sectionsDataContext }) {
   const {
@@ -41,6 +66,8 @@ export default function IssueItem({ sectionsDataContext }) {
     issueItem,
     buildMetaData,
     activeComponentId,
+    tests,
+    onSliderOpenClick,
     sanitizeValue,
     onNextClick,
     onPreviousClick,
@@ -62,7 +89,8 @@ export default function IssueItem({ sectionsDataContext }) {
     childNodes,
     needsReview,
     testType,
-    failureSummary
+    failureSummary,
+    testCaseIds
   } = issueItem;
 
   const tagList = tagToView(headerData.tags);
@@ -81,6 +109,23 @@ export default function IssueItem({ sectionsDataContext }) {
       nodeList: none
     }
   ];
+
+  const testColumns = [
+    {
+      id: 'test',
+      name: 'Test',
+      key: 'test'
+    },
+    {
+      id: 'button',
+      name: '',
+      key: 'button'
+    }
+  ];
+
+  // if (testCaseIds) {
+  //   tabs.push();
+  // }
 
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
@@ -253,16 +298,8 @@ export default function IssueItem({ sectionsDataContext }) {
         </div>
         <div className="px-6">
           <Tabs
-            tabsArray={[
-              {
-                name: 'Issue details',
-                value: ISSUE_DETAILS_TAB
-              },
-              {
-                name: 'How to fix',
-                value: HOW_TO_FIX_TAB
-              }
-            ]}
+            id="issue-tabs"
+            tabsArray={tabs}
             onTabChange={({ value }) => onTabChange(value)}
           />
           {activeTab === ISSUE_DETAILS_TAB && (
@@ -366,6 +403,66 @@ export default function IssueItem({ sectionsDataContext }) {
                     })}
                 </div>
               )}
+            </div>
+          )}
+          {activeTab === SOURCE_TESTS && (
+            <div className="mt-4">
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {testColumns.map((col, index) => (
+                      <TableCell
+                        key={col.key}
+                        variant="header"
+                        textTransform="uppercase"
+                        wrapperClassName={`text-xs text-base-500 ${
+                          index === 0 ? 'w-16' : ''
+                        } ${index === 1 ? 'w-40' : ''}`}
+                      >
+                        {col.name}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {tests
+                    .filter(({ id }) => testCaseIds.includes(id))
+                    .map((test, index) => (
+                      <TableRow
+                        wrapperClassName="cursor-pointer"
+                        // onRowClick={() =>
+                        //   onRowClick('category', {
+                        //     label: category.split('cat.')[1],
+                        //     value: category.split('cat.')[1]
+                        //   })
+                        // }
+                      >
+                        {testColumns.map((column, colIndex) => (
+                          <TableCell
+                            key={column.id}
+                            wrapperClassName={`px-3 py-2 ${
+                              colIndex === 0 ? 'w-16' : ''
+                            } ${colIndex === 1 ? 'w-40' : ''}`}
+                          >
+                            {colIndex === 0 ? (
+                              <div>
+                                <p>{test.name}</p>
+                                <p>{test.folder}</p>
+                              </div>
+                            ) : (
+                              <Button
+                                variant="minimal"
+                                onClick={onSliderOpenClick}
+                              >
+                                View in log
+                              </Button>
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                </TableBody>
+              </Table>
             </div>
           )}
         </div>

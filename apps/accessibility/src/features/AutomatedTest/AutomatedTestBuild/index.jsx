@@ -43,12 +43,6 @@ export default function AutomatedTestBuild() {
   if (!buildMetaData) {
     return null;
   }
-  if (activeTab === SUMMARY && !buildMetaData.issueSummary) {
-    return null;
-  }
-  if (activeTab === ISSUES && !buildData) {
-    return null;
-  }
 
   if (activeTab === TESTS && !testRuns) {
     return null;
@@ -74,8 +68,8 @@ export default function AutomatedTestBuild() {
         tabsArray={tabList}
         defaultIndex={defaultIndex}
       />
-      {activeTab === SUMMARY && <Overview />}
-      {activeTab === ISSUES && <Issues />}
+      {activeTab === SUMMARY && buildMetaData.issueSummary && <Overview />}
+      {activeTab === ISSUES && buildData && <Issues />}
       {activeTab === TESTS && <Tests />}
     </div>
   );

@@ -98,23 +98,17 @@ export async function fetchBuildData() {
 }
 
 export async function fetchAllProjectList() {
-  const response = await axios.get('/projects', {
-    header
-  });
+  const response = await axios.get('/projects');
   return response.data.projects;
 }
 
 export async function fetchProjectById(id) {
-  const response = await axios.get(`/projects/${id}`, {
-    header
-  });
+  const response = await axios.get(`/projects/${id}`);
   return response.data.testRuns;
 }
 
 export async function fetchAllTestRuns() {
-  const response = await axios.get('/test_runs', {
-    header
-  });
+  const response = await axios.get('/test_runs');
   return response.data.testRuns;
 }
 

@@ -16,9 +16,11 @@ export default function useIssueItem(sectionsDataContext) {
     showHiddenIssues,
     wcagVersion,
     issueItem,
+    tests,
     onNextClick,
     onPreviousClick,
-    onIssueCloseClick
+    onIssueCloseClick,
+    onSliderOpenClick
   } = useContext(sectionsDataContext);
   const [activeTab, setActiveTab] = useState(ISSUE_DETAILS_TAB);
   const [isCopied, setIsCopied] = useState(false);
@@ -96,6 +98,8 @@ export default function useIssueItem(sectionsDataContext) {
     isGuidelineMode,
     headerData,
     issueItem,
+    tests,
+    onSliderOpenClick,
     buildMetaData,
     activeComponentId,
     sanitizeValue,
