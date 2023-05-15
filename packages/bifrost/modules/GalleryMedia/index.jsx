@@ -146,12 +146,12 @@ const GalleryMedia = ({
   };
 
   return (
-    <div className="w-[197px]">
+    <div className="mx-auto w-[197px]">
       <button
         className={twClassNames(
           'border-base-300 outline-brand-500 relative w-full rounded-md border outline-2 outline-offset-4 hover:opacity-80',
           {
-            'border-brand-500 border-2 rounded': checkBoxChecked
+            'border-brand-600 border-2 rounded': checkBoxChecked
           }
         )}
         onMouseEnter={() => {

@@ -1,10 +1,12 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Checkbox from '../Checkbox';
 import GalleryMedia from '../GalleryMedia';
 import { MEDIA_CARD_STATUS } from '../GalleryMedia/const/GalleryMediaConstants';
+import GalleryMediaActionbar from '../GalleryMediaActionbar';
 import GalleryMediaFooterButton from '../GalleryMediaFooterButton';
-import { TrashIcon } from '../Icon';
+import { HiOutlineDownload, MdContentCopy, TrashIcon } from '../Icon';
 
 import Gallery from './index';
 
@@ -89,6 +91,29 @@ Primary.parameters = {
 Primary.args = {
   children: (
     <>
+      <GalleryMediaActionbar
+        primaryActions={
+          <div className="flex items-center gap-3">
+            <Checkbox border={false} />
+            <p className="text-base-900 text-sm font-medium leading-5">
+              sit amet consectetur adipisicing elit.
+            </p>
+          </div>
+        }
+        secondaryActions={
+          <div className="flex gap-3">
+            <MdContentCopy
+              className="h-5 w-5 cursor-pointer"
+              aria-hidden="true"
+            />
+            <HiOutlineDownload
+              className="h-5 w-5 cursor-pointer"
+              aria-hidden="true"
+            />
+            <TrashIcon className="h-5 w-5 cursor-pointer" aria-hidden="true" />
+          </div>
+        }
+      />
       <div className="grid grid-cols-6 gap-3">
         {dummyData.map((dummyItem, id) => (
           <GalleryMedia

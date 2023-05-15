@@ -1,7 +1,8 @@
 import { AiFillFileText, AiFillPlayCircle } from 'react-icons/ai';
 import { BsExclamationTriangleFill } from 'react-icons/bs';
 import { FaApple } from 'react-icons/fa';
-import { MdPictureAsPdf } from 'react-icons/md';
+import { HiOutlineDownload } from 'react-icons/hi';
+import { MdContentCopy, MdPictureAsPdf } from 'react-icons/md';
 import { SiJira, SiJirasoftware } from 'react-icons/si';
 import {
   ArrowDownIcon,
@@ -80,10 +81,12 @@ export {
   ExclamationTriangleIcon,
   FaApple,
   FolderIcon,
+  HiOutlineDownload,
   HomeIcon,
   InboxIcon,
   InformationCircleIcon,
   MagnifyingGlassIcon,
+  MdContentCopy,
   MdPictureAsPdf,
   PaperClipIcon,
   PhotoIcon,
