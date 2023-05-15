@@ -97,14 +97,6 @@ export async function fetchBuildData() {
   });
 }
 
-export async function fetchTestCases() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(testCases);
-    }, 1000);
-  });
-}
-
 export async function fetchAllProjectList() {
   const response = await axios.get('/projects');
   return response.data.projects;
@@ -118,6 +110,11 @@ export async function fetchProjectById(id) {
 export async function fetchAllTestRuns() {
   const response = await axios.get('/test_runs');
   return response.data.testRuns;
+}
+
+export async function fetchTestCasesData(id) {
+  const response = await axios.get(`test_runs/${id}/test_cases`, header);
+  return response.data;
 }
 
 export async function fetchTestCaseData() {

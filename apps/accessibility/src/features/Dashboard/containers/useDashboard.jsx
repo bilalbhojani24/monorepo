@@ -61,7 +61,7 @@ export default function useDashboard() {
       label: 'Automated tests',
       activeIcon: MdOutlineMotionPhotosAuto,
       inActiveIcon: MdOutlineMotionPhotosAuto,
-      path: '/automated-tests',
+      path: '/automated-tests/projects',
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
     }
   ];
