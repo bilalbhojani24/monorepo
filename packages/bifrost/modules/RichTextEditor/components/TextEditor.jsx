@@ -9,6 +9,7 @@ import { imageDialogConfig } from '../config/index';
 const TextEditor = forwardRef((props, ref) => {
   const containerRef = useRef();
   const {
+    allowedFormats,
     id,
     onAssetUpload,
     height,
@@ -86,7 +87,12 @@ const TextEditor = forwardRef((props, ref) => {
                 //   .classList.add('rich-text-editor-modal-open');
 
                 editor.windowManager.open(
-                  imageDialogConfig(editor, onAssetUpload, containerId)
+                  imageDialogConfig(
+                    editor,
+                    onAssetUpload,
+                    containerId,
+                    allowedFormats
+                  )
                 );
               }
             });

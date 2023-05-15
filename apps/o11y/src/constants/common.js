@@ -1,3 +1,4 @@
+export const PORTAL_ID = 'root-portal';
 export const DOC_KEY_MAPPING = {
   introduction: 'overview/what-is-test-observability',
   wdio: 'quick-start/webdriverio',
@@ -63,15 +64,15 @@ export const SNP_PARAMS_MAPPING = {
 export const SNP_DATE_RANGE = {
   days7: {
     key: 'days7',
-    label: '7 Days'
+    label: '7D'
   },
   days15: {
     key: 'days15',
-    label: '15 Days'
+    label: '15D'
   },
   days30: {
     key: 'days30',
-    label: '30 Days'
+    label: '30D'
   }
 };
 
@@ -151,7 +152,7 @@ export const TEST_DETAILS_SOURCE = {
   SUITE_HEALTH_ERRORS: 'suite_health_errors'
 };
 
-export const BSTACK_TOPNAV_ELEMENT_ID = 'bstack-header';
+export const BSTACK_TOPNAV_ELEMENT_ID = 'o11y-header';
 export const PUSHER_EVENTS = {
   BUILD_STARTED: 'BUILD_STARTED',
   BUILD_FINISHED: 'BUILD_FINISHED',
@@ -184,4 +185,11 @@ export const TEST_LIST_FILTERS_TAGS = {
 export const o11yHistory = {
   navigate: null,
   location: null
+};
+
+export const roundedTableHeaderHack = {
+  left: 'rounded-tl-lg before:left-[-1px]',
+  right: 'rounded-tr-lg before:right-[-1px]',
+  common:
+    'before:absolute before:block before:w-[1px] before:h-[6px] before:bg-base-50 before:top-[-1px] before:rounded'
 };

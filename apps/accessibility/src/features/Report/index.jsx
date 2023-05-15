@@ -44,14 +44,6 @@ export default function Report() {
   } = useReport();
   const reportData = useSelector(getReportData);
 
-  const {
-    location: { search, origin, pathname }
-  } = window;
-  const params = new URLSearchParams(search);
-  const currentPageUrl = `${origin}${pathname}?ids=${params.get(
-    'ids'
-  )}&wcagVersion=${params.get('wcagVersion')}`;
-
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 
   const isSingleReport = reportsLength === 1;
@@ -151,7 +143,10 @@ export default function Report() {
                   Copied
                 </Button>
               ) : (
-                <CopyToClipboard text={currentPageUrl} onCopy={onCopyClick}>
+                <CopyToClipboard
+                  text={window.location.href}
+                  onCopy={onCopyClick}
+                >
                   <Button
                     icon={<MdShare className="text-xl" />}
                     iconPlacement="end"

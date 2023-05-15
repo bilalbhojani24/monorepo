@@ -37,7 +37,7 @@ const TimeChart = ({ timings, maxTime, isWaterfall, renderFrom }) => {
   const isFromReqTiming = renderFrom === 'request-detail';
 
   return (
-    <div className="flex overflow-hidden rounded-xl">
+    <div className="flex overflow-hidden rounded">
       {isWaterfall && (
         <div
           style={{
@@ -97,4 +97,4 @@ TimeChart.defaultProps = {
   isWaterfall: false
 };
 
-export default TimeChart;
+export default React.memo(TimeChart);

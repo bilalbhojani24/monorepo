@@ -55,4 +55,4 @@ NetworkFileName.propTypes = {
   formattedValue: PropTypes.string.isRequired
 };
 
-export default NetworkFileName;
+export default React.memo(NetworkFileName);

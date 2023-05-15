@@ -15,6 +15,7 @@ import { renderMultiOptions, renderSingleOptions } from './helper';
 const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
   const [isTruncated, setIsTruncated] = useState(false);
   const buttonRef = useRef();
+  const renderCount = useRef(0);
   const onInputValueChangeRef = useLatestRef(onInputValueChange);
 
   const {
@@ -37,10 +38,17 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
       setWidth(buttonRef.current?.offsetWidth);
       comboInputRef.current.focus();
     }
-    if (!open) {
-      onInputValueChangeRef.current?.('');
-    }
   }, [setWidth, open, onInputValueChangeRef, comboInputRef]);
+
+  // render this useEffect only from 2nd re-render
+  // From 2nd re-render when options group closes make an inputChange call with empty value
+  useEffect(() => {
+    if (renderCount.current > 1 && !open) {
+      onInputValueChangeRef.current?.('');
+    } else {
+      renderCount.current += 1;
+    }
+  }, [open, onInputValueChangeRef]);
 
   return (
     <Popover.Trigger ref={buttonRef} asChild>
@@ -67,7 +75,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
         {isLoading && (
-          <div className="flex items-center space-x-2 pr-2">
+          <div className="flex items-center space-x-2 pr-2 text-sm">
             <Loader wrapperClassName="text-base-200 fill-base-400 h-5 w-5" />
             <span>{loadingText}</span>
           </div>
@@ -87,7 +95,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           key={open || isLoading}
           placeholder={isLoading ? null : placeholder}
           className={twClassNames(
-            'cursor-pointer flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 flex-1 p-0 text-ellipsis pr-7',
+            'cursor-pointer flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 flex-1 p-0 truncate pr-7 text-sm leading-6 text-sm',
             {
               'bg-base-50 cursor-not-allowed': disabled || isLoading,
               'pr-0': isTruncated
@@ -110,9 +118,6 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
         />
         {(isLoadingRight || errorText || isTruncated) && (
           <div className="mr-5 flex items-center space-x-2 pr-1">
-            {isMulti && isTruncated && !open ? (
-              <span className="mr-1 font-bold">{`(${currentSelectedValues.length})`}</span>
-            ) : null}
             {isLoadingRight && (
               <span className="text-base-500 flex items-center space-x-2 rounded-r-md focus:outline-none">
                 <Loader wrapperClassName="text-base-200 fill-base-400 h-5 w-5" />
@@ -126,10 +131,13 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
                 />
               </span>
             )}
+            {isMulti && isTruncated && !open ? (
+              <span className="mr-1 font-bold">{`(${currentSelectedValues.length})`}</span>
+            ) : null}
           </div>
         )}
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center justify-end rounded-r-md px-2 focus:outline-none">
-          <TriggerButton setIsTruncated={setIsTruncated} />
+          <TriggerButton setIsTruncated={setIsTruncated} ref={comboInputRef} />
         </Combobox.Button>
       </Combobox.Button>
     </Popover.Trigger>

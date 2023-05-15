@@ -81,7 +81,7 @@ const PreviewAndConfirm = () => {
           </div>
         }
       />
-      <div className="text-base-800 mt-8 text-base font-medium">
+      <div className="text-base-800 mt-4 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>
       <div className="text-base-500 mb-4 text-sm font-normal">
@@ -92,15 +92,15 @@ const PreviewAndConfirm = () => {
           <TMAccordion defaultOpen={idx === 0}>
             <TMAccordionInteractiveHeader
               title={data?.name}
-              wrapperClassName={twClassNames('pr-0 pl-0 ribin')}
+              wrapperClassName={twClassNames('pr-0 pl-0')}
             />
             <TMAccordionPanel wrapperClassName={twClassNames('pl-0')}>
               <div className="border-base-300 mt-2 flex flex-col rounded-md border bg-white p-4">
                 <div className="flex w-full justify-between gap-4">
                   <PreviewAndConfirmSingleNode
                     text="Folder"
-                    descWrapperClassName=" flex-wrap break-all"
-                    wrapperClassName="w-1/2"
+                    descWrapperClassName="flex-wrap break-all"
+                    wrapperClassName="basis-1/2"
                     description={
                       <div className="flex">
                         <MdFolderOpen className="text-brand-500 mr-1 h-5 w-5 shrink-0" />
@@ -108,17 +108,17 @@ const PreviewAndConfirm = () => {
                       </div>
                     }
                   />
-                  <div className="flex w-1/2">
+                  <div className="flex basis-1/2">
                     <PreviewAndConfirmSingleNode
                       text="Template Type"
                       descWrapperClassName=""
-                      wrapperClassName="w-1/2"
+                      wrapperClassName="basis-1/2"
                       description={formatTemplate(data?.template)}
                     />
                     <PreviewAndConfirmSingleNode
                       text="Priority"
-                      descWrapperClassName=" flex flex-row items-center"
-                      wrapperClassName="w-1/2"
+                      descWrapperClassName="flex flex-row items-center"
+                      wrapperClassName="basis-1/2"
                       description={formatPriority(data?.priority)}
                     />
                   </div>

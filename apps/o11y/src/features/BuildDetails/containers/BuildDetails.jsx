@@ -2,14 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import {
-  API_STATUSES,
-  PUSHER_EVENTS,
-  WRAPPER_GAP_CLASS
-} from 'constants/common';
+import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
 import TestList from 'features/TestList';
 import { EMPTY_TESTLIST_DATA_STATE } from 'features/TestList/constants';
 import {
@@ -217,12 +212,7 @@ function BuildDetails() {
   };
 
   return (
-    <div
-      className={twClassNames(
-        'flex flex-col overflow-hidden',
-        WRAPPER_GAP_CLASS
-      )}
-    >
+    <>
       <BuildDetailsHeader
         isNewItemLoading={isLoading}
         onUpdateBtnClick={onUpdateBtnClick}
@@ -230,9 +220,7 @@ function BuildDetails() {
         applyTestListFilter={applyTestListFilter}
       />
       {activeTab.id === TABS.insights.id && (
-        <div className="overflow-auto">
-          <TestInsightsLayout applyTestListFilter={applyTestListFilter} />
-        </div>
+        <TestInsightsLayout applyTestListFilter={applyTestListFilter} />
       )}
       {activeTab.id === TABS.tests.id && (
         <TestList
@@ -245,7 +233,7 @@ function BuildDetails() {
           updateScrollIndexMapping={updateScrollIndexMapping}
         />
       )}
-    </div>
+    </>
   );
 }
 

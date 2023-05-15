@@ -12,6 +12,7 @@ import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
 import {
   deleteFolderFromArray,
+  findFolder,
   injectFolderToParent,
   replaceFolderHelper
 } from 'utils/folderHelpers';
@@ -85,7 +86,7 @@ export default function useAddEditFolderModal(prop) {
     setFormError({ ...formError, nameError: '' });
   };
 
-  const updateFolders = (folderItem, parentId) => {
+  const updateFolders = (folderItem, parentId, doNotUpdateRoute) => {
     if (!parentId)
       setAllFoldersHelper([...allFolders, folderItem]); // root folder
     else {
@@ -97,11 +98,18 @@ export default function useAddEditFolderModal(prop) {
       );
       setAllFoldersHelper(updatedFolders);
     }
-    updateRouteHelper(folderItem);
+    if (!doNotUpdateRoute) updateRouteHelper(folderItem);
   };
 
   const renameFolderHelper = (folderItem) => {
-    setAllFoldersHelper(replaceFolderHelper(allFolders, folderItem));
+    const currentFolderItem = findFolder(allFolders, folderItem?.id);
+    // as per TM-1390 cases count wont change on rename, hence avoiding that calculation at server and setting it as what exists in the cache
+    setAllFoldersHelper(
+      replaceFolderHelper(allFolders, {
+        ...folderItem,
+        cases_count: currentFolderItem?.cases_count || 0
+      })
+    );
   };
 
   const deleteFolderHandler = () => {
@@ -195,7 +203,8 @@ export default function useAddEditFolderModal(prop) {
       payload: filledFormData
     })
       .then((item) => {
-        if (item.data?.folder) updateFolders(item.data.folder, prop?.folderId);
+        if (item.data?.folder)
+          updateFolders(item.data.folder, prop?.folderId, true);
         hideFolderModal();
         setTimeout(() => {
           dispatch(updateCtaLoading({ key: 'addSubFolderCta', value: false }));

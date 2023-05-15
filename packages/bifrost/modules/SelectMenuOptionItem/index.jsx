@@ -35,7 +35,7 @@ const SelectMenuOptionItem = forwardRef(
               'py-2 pl-3 hover:bg-base-50': selectMenuCtx.isMulti,
               'bg-base-50 text-base-500': disabled
             },
-            'group relative cursor-pointer select-none',
+            'group relative cursor-pointer select-none text-sm',
             wrapperClassName
           )
         }
