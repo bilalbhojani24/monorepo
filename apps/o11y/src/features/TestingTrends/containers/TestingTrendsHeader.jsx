@@ -241,7 +241,7 @@ export default function TestingTrendsHeader() {
           })}
         </div>
 
-        <div>
+        <div className="bg-white">
           <O11yComboBox
             placeholder="Select a build"
             value={selectedBuildListOptions[0]}
