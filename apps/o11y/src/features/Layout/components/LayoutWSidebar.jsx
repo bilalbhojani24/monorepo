@@ -44,7 +44,7 @@ const LayoutWSidebar = () => {
       }}
     >
       <>
-        <div id="o11y-header" className="sticky top-0 z-10" ref={headerRef}>
+        <div id="o11y-header" className="sticky top-0 z-20" ref={headerRef}>
           <O11yHeader />
         </div>
         <main className="flex">
