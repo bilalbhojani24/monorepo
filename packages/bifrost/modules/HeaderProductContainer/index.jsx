@@ -37,7 +37,7 @@ const HeaderProductContainer = () => {
       <div className={twClassNames('flex flex-col items-start p-0 w-48 h-10')}>
         <p
           className={twClassNames(
-            'w-[152px] h-5 not-italic font-semibold text-base leading-5 text-[#333333] group-hover:text-brand-600'
+            'h-5 not-italic font-semibold text-base leading-5 text-[#333333] group-hover:text-brand-600'
           )}
         >
           {productName}
@@ -224,7 +224,7 @@ const HeaderProductContainer = () => {
         </div>
         <div
           className={twClassNames(
-            'flex flex-col items-start bg-[#f7f7f7] w-[124px] h-[319px] gap-4 py-4 px-2.5'
+            'flex flex-col items-start bg-[#f7f7f7] w-[124px] h-[347px] gap-4 py-4 px-2.5'
           )}
         >
           <div
