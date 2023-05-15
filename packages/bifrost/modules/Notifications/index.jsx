@@ -12,7 +12,8 @@ const Notifications = forwardRef((props, ref) => {
     isCondensed,
     handleClose,
     headerIcon,
-    title
+    title,
+    wrapperClassName
   } = props;
 
   const toastCtx = useContext(NotificationsContextData);
@@ -22,7 +23,12 @@ const Notifications = forwardRef((props, ref) => {
   }, [ref]);
 
   return (
-    <div className="pointer-events-auto flex w-full max-w-sm items-start rounded-lg bg-white p-4 shadow-lg ring-1 ring-black/5">
+    <div
+      className={twClassNames(
+        'z-80 pointer-events-auto flex w-full max-w-sm items-start rounded-lg bg-white p-4 shadow-lg ring-1 ring-black/5',
+        wrapperClassName
+      )}
+    >
       <div className="shrink-0 ">
         {!isCondensed && headerIcon && headerIcon}
       </div>
@@ -72,7 +78,8 @@ Notifications.propTypes = {
   isCondensed: PropTypes.bool,
   handleClose: PropTypes.func,
   headerIcon: PropTypes.node,
-  title: PropTypes.string
+  title: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 
 Notifications.defaultProps = {
@@ -82,7 +89,8 @@ Notifications.defaultProps = {
   isCondensed: false,
   handleClose: () => {},
   headerIcon: null,
-  title: 'Discussion moved'
+  title: 'Discussion moved',
+  wrapperClassName: ''
 };
 
 export default Notifications;

@@ -22,7 +22,7 @@ const SkipToContent = ({ wrapperClassName, children, target }) => {
       }}
       type="button"
       className={twClassNames(
-        '-ml-80 absolute text-brand-600 px-4 rounded-sm text-sm bg-transparent py-2.5 focus:outline-none focus:ring-brand-600 focus:ring-2 focus:ring-offset-1',
+        'z-70 -ml-80 absolute text-brand-600 px-4 rounded-sm text-sm bg-transparent py-2.5 focus:outline-none focus:ring-brand-600 focus:ring-2 focus:ring-offset-1',
         {
           'ml-0': focused
         },

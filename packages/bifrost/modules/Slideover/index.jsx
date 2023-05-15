@@ -56,7 +56,7 @@ const Slideover = (props) => {
           <div
             role="presentation"
             style={{ marginTop: marginTopAdjustment }}
-            className={twClassNames(`bg-base-500 fixed inset-0 z-10`, {
+            className={twClassNames(`bg-base-500 fixed inset-0 z-60`, {
               'opacity-75': backgroundOverlay,
               'opacity-0': !backgroundOverlay
             })}
@@ -79,11 +79,11 @@ const Slideover = (props) => {
         leaveTo="translate-x-full"
       >
         <div
-          className="fixed inset-y-0 right-0 z-10 flex items-start"
+          className="z-60 fixed inset-y-0 right-0 flex items-start"
           style={{ marginTop: marginTopAdjustment }}
         >
           {closeButtonOutside && (
-            <div className="flex pt-4 pr-1">
+            <div className="flex pr-1 pt-4">
               <Button
                 colors="white"
                 size="large"

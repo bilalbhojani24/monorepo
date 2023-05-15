@@ -78,7 +78,7 @@ const HeaderElements = ({
       >
         <div
           role="presentation"
-          className={twClassNames(`bg-base-500 fixed inset-0 z-10 opacity-75`)}
+          className={twClassNames(`bg-base-500 fixed inset-0 z-40 opacity-75`)}
           onClick={() => setIsSearchOpen(!isSearchOpen)}
         />
       </Transition.Child>
@@ -95,7 +95,7 @@ const HeaderElements = ({
         leaveTo="translate-y-full"
         afterEnter={focusSearchInput}
       >
-        <div className="fixed right-0 top-16 z-10 flex items-start">
+        <div className="fixed right-0 top-16 z-40 flex items-start">
           <SearchField
             isSearchOpen={isSearchOpen}
             setIsSearchOpen={setIsSearchOpen}

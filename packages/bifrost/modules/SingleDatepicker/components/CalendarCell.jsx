@@ -29,7 +29,7 @@ export function CalendarCell({ state, date, currentDate }) {
   return (
     <td
       {...cellProps}
-      className={`relative ${isFocusVisible ? 'z-10' : 'z-0'}`}
+      className={`relative ${isFocusVisible ? 'z-50' : 'z-0'}`}
     >
       <div
         {...mergeProps(buttonProps, focusProps)}
@@ -50,7 +50,7 @@ export function CalendarCell({ state, date, currentDate }) {
               'text-base-300 cursor-not-allowed': isDisabled && !isInvalid,
 
               // Focus ring, visible while the cell has keyboard focus.
-              'group-focus:z-2 ring-brand-600 ring-2 ring-offset-2':
+              'group-focus:z-50 ring-brand-600 ring-2 ring-offset-2':
                 isFocusVisible,
 
               // Current date styles
