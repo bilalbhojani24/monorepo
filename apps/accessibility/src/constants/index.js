@@ -95,6 +95,7 @@ export const TESTS = 'tests';
 
 export const ISSUE_DETAILS_TAB = 'ISSUE_DETAILS_TAB';
 export const HOW_TO_FIX_TAB = 'HOW_TO_FIX_TAB';
+export const SOURCE_TESTS = 'SOURCE_TESTS';
 
 export const ISSUE_TYPE = 'issue-type';
 export const GUIDELINES = 'guidelines';

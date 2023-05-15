@@ -190,6 +190,9 @@ export default function ActiveFilters({ sectionsDataContext }) {
 }
 
 ActiveFilters.propTypes = {
-  hasFilters: PropTypes.bool.isRequired,
-  onFilterButtonClick: PropTypes.func.isRequired
+  sectionsDataContext: PropTypes.any
+};
+
+ActiveFilters.defaultProps = {
+  sectionsDataContext: {}
 };

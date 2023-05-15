@@ -1,31 +1,31 @@
 import { createSelector } from 'reselect';
 import { formatComponentIdString } from 'utils/helper';
 
-export const getBuildData = (state) =>
-  state.accessibility.automatedTestBuild.data.buildData;
-export const getBuildMetaData = (state) =>
-  state.accessibility.automatedTestBuild.data.buildMetaData;
+export const getTestData = (state) =>
+  state.accessibility.automatedTestBuild.test.data.testData;
+export const getTestMetaData = (state) =>
+  state.accessibility.automatedTestBuild.test.data.testMetaData;
 export const getActiveComponentId = (state) =>
-  state.accessibility.automatedTestBuild.app.activeComponentId;
-export const getBuildFilters = (state) =>
-  state.accessibility.automatedTestBuild.app.activeFilters;
+  state.accessibility.automatedTestBuild.test.app.activeComponentId;
+export const getTestFilters = (state) =>
+  state.accessibility.automatedTestBuild.test.app.activeFilters;
 export const getIsShowingIssue = (state) =>
-  state.accessibility.automatedTestBuild.app.isShowingIssue;
+  state.accessibility.automatedTestBuild.test.app.isShowingIssue;
 export const getCustomData = (state) =>
-  state.accessibility.automatedTestBuild.data.customData;
+  state.accessibility.automatedTestBuild.test.data.customData;
 export const getShowHiddenIssuesState = (state) =>
-  state.accessibility.automatedTestBuild.app.showHiddenIssues.hideIssues;
+  state.accessibility.automatedTestBuild.test.app.showHiddenIssues.hideIssues;
 export const getIsFilterModalVisible = (state) =>
-  state.accessibility.automatedTestBuild.app.isFilterModalVisible;
+  state.accessibility.automatedTestBuild.test.app.isFilterModalVisible;
 export const getFilters = (state) =>
-  state.accessibility.automatedTestBuild.data.filters;
+  state.accessibility.automatedTestBuild.test.data.filters;
 export const getActiveSwitch = (state) =>
-  state.accessibility.automatedTestBuild.app.activeSwitch;
+  state.accessibility.automatedTestBuild.test.app.activeSwitch;
 export const getActiveTab = (state) =>
-  state.accessibility.automatedTestBuild.app.activeTab;
+  state.accessibility.automatedTestBuild.test.app.activeTab;
 
 export const getUniqFilterValues = createSelector(getFilters, (filters) => {
-  const { pages, componentIds, categories: categoryList, tests } = filters;
+  const { pages, componentIds, categories: categoryList } = filters;
   const urls = pages.map((page) => ({
     label: page.url,
     value: page.url
@@ -38,20 +38,20 @@ export const getUniqFilterValues = createSelector(getFilters, (filters) => {
     label: category.split('cat.')[1],
     value: category.split('cat.')[1]
   }));
-  return { urls, componentIds: ids, categories, tests };
+  return { urls, componentIds: ids, categories };
 });
 
 export const getActiveViolationId = (state) =>
-  state.accessibility.automatedTestBuild.app.activeViolationId;
+  state.accessibility.automatedTestBuild.test.app.activeViolationId;
 export const getActiveIssueIndex = (state) =>
-  state.accessibility.automatedTestBuild.app.activeIssueIndex;
+  state.accessibility.automatedTestBuild.test.app.activeIssueIndex;
 
 export const getActiveViolation = createSelector(
   getActiveViolationId,
-  getBuildData,
-  (activeViolationId, buildData) => {
+  getTestData,
+  (activeViolationId, testData) => {
     if (activeViolationId) {
-      return buildData.find(({ id }) => id === activeViolationId);
+      return testData.find(({ id }) => id === activeViolationId);
     }
     return null;
   }
@@ -61,7 +61,7 @@ export const getActiveComponentNodes = createSelector(
   getActiveViolation,
   getActiveComponentId,
   getShowHiddenIssuesState,
-  getBuildFilters,
+  getTestFilters,
   (activeViolation, activeComponentId, showHiddenIssues, activeFilters) => {
     if (activeViolation) {
       let activeViolationCopy = activeViolation;

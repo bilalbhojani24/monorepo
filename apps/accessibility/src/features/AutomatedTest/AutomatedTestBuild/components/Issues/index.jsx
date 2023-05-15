@@ -1,13 +1,13 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import IssuesNotFound from 'assets/not_found.svg';
+import ActiveFilters from 'common/ActiveFilters';
+import FilterModal from 'common/FilterModal';
+import IssueItem from 'common/IssueItem';
+import SectionsDataContext from 'features/AutomatedTest/AutomatedTestBuild/context/SectionsDataContext';
 
-import SectionsDataContext from '../../context/SectionsDataContext';
+import TestIssues from '../TestIssues';
 
-import ActiveFilters from './ActiveFilters';
-import FilterModal from './FilterModal';
-import IssueItem from './IssueItem';
-import TestIssues from './TestIssues';
 import useIssues from './useIssues';
 import ViolationList from './ViolationList';
 
@@ -16,6 +16,9 @@ import './customStyle.scss';
 export default function Issues() {
   const {
     urls,
+    isSliderOpen,
+    onSliderOpenClick,
+    tests,
     componentIds,
     categories,
     activeComponentId,
@@ -66,97 +69,101 @@ export default function Issues() {
   const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
 
   return (
-    <SectionsDataContext.Provider
-      value={{
-        buildFilters,
-        isFilterModalVisible,
-        sectionData,
-        violations,
-        activeSwitch,
-        hasFilters,
-        buildMetaData,
-        activeComponentNodes,
-        issueNode,
-        headerData,
-        issueItem,
-        activeNodes,
-        activeIssueIndex,
-        activeViolation,
-        isGuidelineMode,
-        activeViolationId,
-        activeComponentId,
-        activeIssueSection,
-        activeBuildFilters,
-        wcagVersion,
-        onHiddenIssueClick,
-        onTabSelect,
-        onRowClick,
-        onTagClose,
-        onApplyFilters,
-        onUpdateSwitch,
-        onCloseClick,
-        onFilterButtonClick,
-        onUpdateImpact,
-        onNextClick,
-        onPreviousClick,
-        onIssueCloseClick,
-        urls,
-        componentIds,
-        categories,
-        isHalfView
-      }}
-    >
-      <TestIssues />
-      <div className="fixed" style={{ top: '171px' }}>
-        <ActiveFilters sectionsDataContext={SectionsDataContext} />
-        {isFilterModalVisible && (
-          <FilterModal sectionsDataContext={SectionsDataContext} />
-        )}
-        <div
-          className="fixed overflow-auto"
-          style={{
-            top: `${hasFilterOrHiddenView ? '348px' : '300px'}`,
-            height: 'calc(100vh - 228px)',
-            width: 'calc(100vw - 256px)'
-          }}
-        >
-          {showEmptyScreen ? (
-            <div className="mb-5 mt-8 flex w-full flex-col items-center justify-center">
-              <img
-                src={IssuesNotFound}
-                alt="No Issues Found"
-                className="w-80"
-              />
-              <p className="text-base-500 text-sm">No Issues Found</p>
-            </div>
-          ) : (
-            <div className="flex h-full overflow-auto">
-              <div
-                className={twClassNames(
-                  'w-full border-r border-base-200 overflow-auto pb-20 bg-base-50',
-                  {
-                    'w-2/4': isHalfView && sectionData
-                  }
-                )}
-                style={{ minHeight: 'calc(100vh - 228px)', height: '100%' }}
-              >
-                <ViolationList sectionsDataContext={SectionsDataContext} />
-              </div>
-              {isHalfView && sectionData && (
-                <div
-                  className="fixed right-0 overflow-auto bg-white"
-                  style={{
-                    height: 'calc(100vh - 228px)',
-                    width: 'calc((100vw - 256px) / 2)'
-                  }}
-                >
-                  <IssueItem sectionsDataContext={SectionsDataContext} />
-                </div>
-              )}
-            </div>
+    <>
+      {isSliderOpen && <TestIssues />}
+      <SectionsDataContext.Provider
+        value={{
+          buildFilters,
+          isFilterModalVisible,
+          sectionData,
+          violations,
+          activeSwitch,
+          hasFilters,
+          buildMetaData,
+          activeComponentNodes,
+          issueNode,
+          headerData,
+          issueItem,
+          activeNodes,
+          activeIssueIndex,
+          activeViolation,
+          isGuidelineMode,
+          activeViolationId,
+          activeComponentId,
+          activeIssueSection,
+          activeBuildFilters,
+          wcagVersion,
+          tests,
+          onSliderOpenClick,
+          onHiddenIssueClick,
+          onTabSelect,
+          onRowClick,
+          onTagClose,
+          onApplyFilters,
+          onUpdateSwitch,
+          onCloseClick,
+          onFilterButtonClick,
+          onUpdateImpact,
+          onNextClick,
+          onPreviousClick,
+          onIssueCloseClick,
+          urls,
+          componentIds,
+          categories,
+          isHalfView
+        }}
+      >
+        <div className="fixed" style={{ top: '171px' }}>
+          <ActiveFilters sectionsDataContext={SectionsDataContext} />
+          {isFilterModalVisible && (
+            <FilterModal sectionsDataContext={SectionsDataContext} />
           )}
+          <div
+            className="fixed overflow-auto"
+            style={{
+              top: `${hasFilterOrHiddenView ? '348px' : '300px'}`,
+              height: 'calc(100vh - 228px)',
+              width: 'calc(100vw - 256px)'
+            }}
+          >
+            {showEmptyScreen ? (
+              <div className="mb-5 mt-8 flex w-full flex-col items-center justify-center">
+                <img
+                  src={IssuesNotFound}
+                  alt="No Issues Found"
+                  className="w-80"
+                />
+                <p className="text-base-500 text-sm">No Issues Found</p>
+              </div>
+            ) : (
+              <div className="flex h-full overflow-auto">
+                <div
+                  className={twClassNames(
+                    'w-full border-r border-base-200 overflow-auto pb-20 bg-base-50',
+                    {
+                      'w-2/4': isHalfView && sectionData
+                    }
+                  )}
+                  style={{ minHeight: 'calc(100vh - 228px)', height: '100%' }}
+                >
+                  <ViolationList sectionsDataContext={SectionsDataContext} />
+                </div>
+                {isHalfView && sectionData && (
+                  <div
+                    className="fixed right-0 overflow-auto bg-white"
+                    style={{
+                      height: 'calc(100vh - 228px)',
+                      width: 'calc((100vw - 256px) / 2)'
+                    }}
+                  >
+                    <IssueItem sectionsDataContext={SectionsDataContext} />
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </SectionsDataContext.Provider>
+      </SectionsDataContext.Provider>
+    </>
   );
 }
