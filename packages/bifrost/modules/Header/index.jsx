@@ -26,7 +26,12 @@ const Header = ({
   productArray,
   planButtonVisible,
   isFreeUser,
-  onSignoutClick
+  onSignoutClick,
+  buyPlanLink,
+  planPricingLink,
+  contactLink,
+  buyPlanText,
+  buyPlanTarget
 }) => {
   const { productsToShow, headerRef } = useHeader();
   return (
@@ -62,6 +67,11 @@ const Header = ({
           planButtonVisible={planButtonVisible}
           isFreeUser={isFreeUser}
           onSignoutClick={onSignoutClick}
+          buyPlanTarget={buyPlanTarget}
+          buyPlanLink={buyPlanLink}
+          planPricingLink={planPricingLink}
+          contactLink={contactLink}
+          buyPlanText={buyPlanText}
         />
       </div>
     </nav>
@@ -88,7 +98,12 @@ Header.propTypes = {
   ),
   planButtonVisible: PropTypes.bool,
   isFreeUser: PropTypes.bool,
-  onSignoutClick: PropTypes.func
+  onSignoutClick: PropTypes.func,
+  buyPlanTarget: PropTypes.string,
+  buyPlanLink: PropTypes.string,
+  planPricingLink: PropTypes.string,
+  contactLink: PropTypes.string,
+  buyPlanText: PropTypes.string
 };
 Header.defaultProps = {
   wrapperClassName: '',
@@ -108,7 +123,12 @@ Header.defaultProps = {
   productArray: [],
   planButtonVisible: true,
   isFreeUser: true,
-  onSignoutClick: null
+  onSignoutClick: null,
+  buyPlanTarget: undefined,
+  buyPlanLink: undefined,
+  planPricingLink: undefined,
+  contactLink: undefined,
+  buyPlanText: undefined
 };
 
 export default Header;

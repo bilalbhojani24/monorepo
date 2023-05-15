@@ -15,10 +15,10 @@ const O11yHeader = () => (
     release="Beta"
     // beamerProductId="xTSGUhhN11000"
     documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
-    supportLink={`${envConfig.baseUrl}/contact#other`}
+    supportLink={`${envConfig.baseUrl}/support/test-observability`}
     headerElementArray={[
       'team',
-      'pricing',
+      // 'pricing',
       'help',
       'search',
       // 'notifications',
@@ -82,6 +82,7 @@ const O11yHeader = () => (
         window.location.href = envConfig.signOutUrl;
       }
     }}
+    planButtonVisible={false}
   />
 );
 
