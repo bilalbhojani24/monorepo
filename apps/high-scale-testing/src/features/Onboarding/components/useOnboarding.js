@@ -1,7 +1,13 @@
 /* eslint-disable no-console */
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { getUserDetails } from '../../../globalSlice/selector';
 
 const useOnboarding = () => {
+  // All Store variables:
+  const userDetails = useSelector(getUserDetails);
+
   // All Constants:
   const CODE_SNIPPETS_SCRATCH = {
     'create-grid': {
@@ -55,7 +61,7 @@ info: Creating cluster “high-scale-grid-cluster”`;
     cli: 'cli'
   };
   const HEADER_TEXTS_OBJECT = {
-    intro: 'Hey John Doe, Welcome to High Scale Testing',
+    intro: `Hey ${userDetails.username}, Welcome to High Scale Testing`,
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };
