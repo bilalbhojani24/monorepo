@@ -10,7 +10,8 @@ const { actions, reducer } = createSlice({
       issueSummary: null,
       meta: null,
       chartData: null
-    }
+    },
+    testCasesData: null
   },
   reducers: {
     setBuildData: (state, { payload }) => {
@@ -35,6 +36,10 @@ const { actions, reducer } = createSlice({
     },
     setCustomData: (state, { payload }) => {
       state.customData = payload;
+    },
+    setTestCasesData: (state, { payload }) => {
+      const { testCases } = payload;
+      state.testCasesData = testCases;
     }
   }
 });
@@ -43,7 +48,8 @@ export const {
   setBuildData,
   setCustomData,
   setBuildMetaData,
-  setBuildOverview
+  setBuildOverview,
+  setTestCasesData
 } = actions;
 
 export default reducer;

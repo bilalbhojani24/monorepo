@@ -73,7 +73,10 @@ export default function AutomatedTestListing() {
       </div>
       <div>
         {buildListing.length > 0 && (
-          <AutomatedTestList buildList={buildListing} />
+          <AutomatedTestList
+            buildList={buildListing}
+            comboboxItems={comboboxItems}
+          />
         )}
       </div>
     </div>
