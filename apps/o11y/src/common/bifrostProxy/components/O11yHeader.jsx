@@ -82,7 +82,8 @@ const O11yHeader = () => (
         window.location.href = envConfig.signOutUrl;
       }
     }}
-    planButtonVisible={false}
+    buyPlanTarget="_blank"
+    buyPlanLink={`${envConfig.baseUrl}/contact?&ref=observability-dashboard-top-header-csf-lead`}
   />
 );
 

@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { MdChevronRight } from '@browserstack/bifrost';
 import confetti from 'canvas-confetti';
 import { O11yBanner, O11yHyperlink } from 'common/bifrostProxy';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
-import { getPlanType } from 'globalSlice/selectors';
 
 function PlanSuccessBanner() {
   const dispatch = useDispatch();
-  const planType = useSelector(getPlanType);
 
   useEffect(() => {
     confetti({
@@ -50,7 +48,7 @@ function PlanSuccessBanner() {
             Learn More <MdChevronRight className="ml-1 text-lg" />
           </O11yHyperlink>
         }
-        description={`Your Observability ${planType} 14 day trial has started`}
+        description="Your Observability Pro 14 day trial has started"
         modifier="success"
         onDismissClick={handleCloseBanner}
         align="centered"

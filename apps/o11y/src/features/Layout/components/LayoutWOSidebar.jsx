@@ -4,6 +4,7 @@ import { matchPath, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
 import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import O11yTopBanner from 'common/O11yTopBanner';
 import { ROUTES } from 'constants/routes';
 import { getInitData } from 'globalSlice/selectors';
 
@@ -23,7 +24,10 @@ export default function LayoutWOSidebar() {
 
   return (
     <Suspense fallback={<O11yLoader wrapperClassName="h-screen" />}>
-      <O11yHeader />
+      <div id="o11y-header" className="sticky top-0 z-10">
+        <O11yHeader />
+        <O11yTopBanner />
+      </div>
       <main>
         <Outlet />
       </main>
