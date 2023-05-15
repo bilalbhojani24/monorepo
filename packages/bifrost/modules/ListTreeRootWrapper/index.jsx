@@ -163,9 +163,11 @@ const ListTreeRootWrapper = ({
       newOpenNodeMap[parentIds] = true;
     });
     setOpenNodeMap(newOpenNodeMap);
-    wrapperRef?.current
-      ?.querySelector(`[${focusDatasetName}="${focusIDPrefix + id}"]`)
-      ?.focus();
+    setTimeout(() => {
+      wrapperRef?.current
+        ?.querySelector(`[${focusDatasetName}="${focusIDPrefix + id}"]`)
+        ?.focus();
+    }, 100);
   }, [
     filteredUUIDs?.filteredUUIDsWithHierarchy,
     filteredUUIDs?.searchedUUIDs,
