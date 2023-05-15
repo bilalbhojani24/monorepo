@@ -390,7 +390,7 @@ const Onboarding = () => {
           />
         )}
 
-      {isSetupComplete && showSetupStatusModal && (
+      {onboardingStep > 0 && isSetupComplete && showSetupStatusModal && (
         <SetupStatus
           exploreAutomationClickHandler={exploreAutomationClickHandler}
           frameworkURLs={frameworkURLs}
