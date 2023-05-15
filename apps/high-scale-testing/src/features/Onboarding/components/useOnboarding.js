@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getOnboardingData } from '../../../apis';
+import { getOnboardingData, getOnboardingEventsLogsData } from '../../../apis';
 import { getUserDetails } from '../../../globalSlice/selector';
 
 const useOnboarding = () => {
@@ -17,8 +17,8 @@ const useOnboarding = () => {
       },
       b: {
         code: `/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
-export BROWSERSTACK_USERNAME=<username>
-export BROWSERSTACK_ACCESS_KEY=<accesskey>
+export BROWSERSTACK_USERNAME=${userDetails.username}
+export BROWSERSTACK_ACCESS_KEY=${userDetails.accessKey}
 
 /* Create HST configuration profile with AWS credentials */
 browserstack-cli hst init`,
@@ -110,11 +110,13 @@ info: Creating cluster “high-scale-grid-cluster”`;
     useState(GRID_MANAGER_NAMES.helm);
   const [codeSnippetsForExistingSetup, setCodeSnippetsForExistingSetup] =
     useState(null);
+  const [currentStep, setCurrentStep] = useState(0);
   const [currentSelectedCloudProvider, setCurrentCloudProvider] = useState(
     DEFAULT_CLOUD_PROVIDER
   );
-  const [eventLogsCode, setEventLogsCode] = useState(DUMMY_EVENT_LOGS);
+  const [eventLogsCode, setEventLogsCode] = useState();
   const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
+  const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
   const [onboardingType, setOnboardingType] = useState(
     ONBOARDING_TYPES.scratch
@@ -122,11 +124,13 @@ info: Creating cluster “high-scale-grid-cluster”`;
   const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
     allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER]
   );
+  const [pollForEventLogs, setPollForEventLogs] = useState(true);
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
   );
   const [selectedRegion, setSelectedRegion] = useState();
+  const [totalSteps, setTotalSteps] = useState(0);
 
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
@@ -137,9 +141,7 @@ info: Creating cluster “high-scale-grid-cluster”`;
   };
 
   const continueClickHandler = () => {
-    console.group('Log: continueClickHandler');
     setOnboardingStep(1);
-    console.groupEnd('Log: continueClickHandler');
   };
 
   // All useEffects:
@@ -217,7 +219,34 @@ info: Creating cluster “high-scale-grid-cluster”`;
 
       return response.data;
     };
+
+    const fetchEventsLogsData = async () => {
+      const response = await getOnboardingEventsLogsData(
+        userDetails.id,
+        onboardingType
+      );
+      const res = response.data;
+
+      setEventLogsCode(res.currentLogs);
+      setCurrentStep(res.currentStep);
+      setTotalSteps(res.totalSteps);
+
+      if (res.currentStep === res.totalSteps) {
+        setPollForEventLogs(false);
+        setTimeout(() => {
+          setIsSetupComplete(true);
+        }, 1000);
+      }
+    };
+
     fetchOnboardingData();
+
+    if (pollForEventLogs) {
+      setInterval(() => {
+        console.log('Log: Polling for EventLogs...');
+        fetchEventsLogsData();
+      }, 5000);
+    }
   }, []);
 
   return {
@@ -235,20 +264,22 @@ info: Creating cluster “high-scale-grid-cluster”`;
     breadcrumbStepClickHandler,
     codeSnippetsForExistingSetup,
     continueClickHandler,
+    currentStep,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     eventLogsCode,
     headerText,
+    isSetupComplete,
     onboardingStep,
     onboardingType,
     selectedOption,
     selectedRegion,
     setActiveGridManagerCodeSnippet,
     setCurrentCloudProvider,
-    setEventLogsCode,
     setSelectedOption,
     setSelectedRegion,
-    subHeaderText
+    subHeaderText,
+    totalSteps
   };
 };
 

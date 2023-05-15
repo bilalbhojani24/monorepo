@@ -8,9 +8,8 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-const EventLogs = ({ eventLogsCode }) => (
-  // eslint-disable-next-line react/jsx-boolean-value
-  <Modal size="3xl" show={true}>
+const EventLogs = ({ eventLogsCode, currentStep, totalSteps }) => (
+  <Modal size="3xl" show={eventLogsCode && eventLogsCode.length > 0}>
     <div className="mx-6 my-4">
       <p className="text-lg font-medium">Event Logs</p>
       <div className="border-base-300 mt-4 rounded-lg border">
@@ -19,11 +18,11 @@ const EventLogs = ({ eventLogsCode }) => (
           <ProgressBar
             currentStep="0"
             label="label"
-            percentage="25"
+            percentage={(currentStep / totalSteps) * 100}
             steps={[]}
             title={
               <span className="flex justify-between">
-                Current Progress: 1/5{' '}
+                Current Progress: {`${currentStep}/${totalSteps}`}
                 <Hyperlink wrapperClassName=" gap-x-2 text-sm font-medium">
                   View Documentation <MdOutlineOpenInNew />
                 </Hyperlink>
@@ -44,12 +43,10 @@ const EventLogs = ({ eventLogsCode }) => (
   </Modal>
 );
 
-EventLogs.defaultProps = {
-  eventLogsCode: ''
-};
-
 EventLogs.propTypes = {
-  eventLogsCode: PropTypes.string
+  currentStep: PropTypes.number.isRequired,
+  eventLogsCode: PropTypes.string.isRequired,
+  totalSteps: PropTypes.number.isRequired
 };
 
 export default EventLogs;

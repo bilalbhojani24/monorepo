@@ -10,8 +10,9 @@ const { actions, reducer } = createSlice({
     userDetails: {
       groupId: null,
       id: null,
-      name: null,
-      planType: null
+      username: null,
+      planType: null,
+      accessKey: null
     }
   },
   reducers: {

@@ -22,6 +22,7 @@ import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutl
 import classnames from 'classnames';
 
 import EventLogs from './EventLogs';
+import SetupStatus from './SetupStatus';
 import useOnboarding from './useOnboarding';
 
 const Onboarding = () => {
@@ -38,9 +39,11 @@ const Onboarding = () => {
     breadcrumbStepClickHandler,
     codeSnippetsForExistingSetup,
     continueClickHandler,
+    currentStep,
     currentSelectedCloudProvider,
     eventLogsCode,
     headerText,
+    isSetupComplete,
     onboardingStep,
     onboardingType,
     selectedRegion,
@@ -48,7 +51,8 @@ const Onboarding = () => {
     setCurrentCloudProvider,
     setSelectedOption,
     setSelectedRegion,
-    subHeaderText
+    subHeaderText,
+    totalSteps
   } = useOnboarding();
 
   const TabsForCodeSnippet = (
@@ -361,7 +365,19 @@ const Onboarding = () => {
       )}
       {/* --X-- Footer component --X-- */}
 
-      {/* <EventLogs eventLogsCode={eventLogsCode} /> */}
+      {onboardingStep > 0 &&
+        eventLogsCode &&
+        eventLogsCode.length > 0 &&
+        !isSetupComplete && (
+          <EventLogs
+            currentStep={currentStep}
+            eventLogsCode={eventLogsCode}
+            totalSteps={totalSteps}
+            isSetupComplete={isSetupComplete}
+          />
+        )}
+
+      {isSetupComplete && <SetupStatus isSetupComplete={isSetupComplete} />}
     </div>
   );
 };
