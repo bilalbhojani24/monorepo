@@ -12,7 +12,11 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-const SetupStatus = ({ isSetupComplete }) => (
+const SetupStatus = ({
+  exploreAutomationClickHandler,
+  isSetupComplete,
+  viewAllBuildsClickHandler
+}) => (
   <Modal size="3xl" show={isSetupComplete}>
     <div className="mx-6 my-4">
       <p className="text-lg font-medium">Automation Grid Complete</p>
@@ -115,6 +119,7 @@ const SetupStatus = ({ isSetupComplete }) => (
         <Button
           aria-label="Explore Automation Console"
           colors="white"
+          onClick={exploreAutomationClickHandler}
           type="button"
           varaint="primary"
         >
@@ -123,6 +128,7 @@ const SetupStatus = ({ isSetupComplete }) => (
         <Button
           aria-label="View Builds"
           colors="brand"
+          onClick={viewAllBuildsClickHandler}
           type="button"
           varaint="primary"
         >
@@ -134,7 +140,9 @@ const SetupStatus = ({ isSetupComplete }) => (
 );
 
 SetupStatus.propTypes = {
-  isSetupComplete: PropTypes.bool.isRequired
+  exploreAutomationClickHandler: PropTypes.func.isRequired,
+  isSetupComplete: PropTypes.bool.isRequired,
+  viewAllBuildsClickHandler: PropTypes.func.isRequired
 };
 
 export default SetupStatus;

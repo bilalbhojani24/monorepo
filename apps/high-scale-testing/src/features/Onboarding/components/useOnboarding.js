@@ -31,10 +31,6 @@ browserstack-cli hst init`,
     }
   };
 
-  const DUMMY_EVENT_LOGS = `info: Creating required dependencies - EKS Role, VPC & Subnets
-info: Dependencies created successfully
-debug: Role => arn:aws:iam:72354175:role/EKSServiceRole-ac309e2e-1987-49jh
-info: Creating cluster “high-scale-grid-cluster”`;
   const GRID_MANAGER_NAMES = {
     helm: 'Helm',
     kubectl: 'Kubectl',
@@ -125,6 +121,7 @@ info: Creating cluster “high-scale-grid-cluster”`;
     allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER]
   );
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
+  const [showSetupStatusModal, setShowSetupStatusModal] = useState(true);
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
@@ -142,6 +139,14 @@ info: Creating cluster “high-scale-grid-cluster”`;
 
   const continueClickHandler = () => {
     setOnboardingStep(1);
+  };
+
+  const exploreAutomationClickHandler = () => {
+    setShowSetupStatusModal(false);
+  };
+
+  const viewAllBuildsClickHandler = () => {
+    setShowSetupStatusModal(false);
   };
 
   // All useEffects:
@@ -195,13 +200,6 @@ info: Creating cluster “high-scale-grid-cluster”`;
   }, [selectedOption]);
 
   useEffect(() => {
-    console.log(
-      'Log: activeGridManagerCodeSnippet:',
-      activeGridManagerCodeSnippet
-    );
-  }, [activeGridManagerCodeSnippet]);
-
-  useEffect(() => {
     if (allAvailableRegionsByProvider) {
       setCurrentProvidersRegions(
         allAvailableRegionsByProvider[currentSelectedCloudProvider.configName]
@@ -216,7 +214,7 @@ info: Creating cluster “high-scale-grid-cluster”`;
 
       setAllAvailableRegionsByProvider(res.scratch['step-1'].regions);
       setCodeSnippetsForExistingSetup(res.existing);
-
+      setSelectedRegion(res.scratch['step-1']['default-region']);
       return response.data;
     };
 
@@ -268,6 +266,7 @@ info: Creating cluster “high-scale-grid-cluster”`;
     currentProvidersRegions,
     currentSelectedCloudProvider,
     eventLogsCode,
+    exploreAutomationClickHandler,
     headerText,
     isSetupComplete,
     onboardingStep,
@@ -278,8 +277,10 @@ info: Creating cluster “high-scale-grid-cluster”`;
     setCurrentCloudProvider,
     setSelectedOption,
     setSelectedRegion,
+    showSetupStatusModal,
     subHeaderText,
-    totalSteps
+    totalSteps,
+    viewAllBuildsClickHandler
   };
 };
 
