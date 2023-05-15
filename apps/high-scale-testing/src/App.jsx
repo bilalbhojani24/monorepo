@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
-import { INIT_URL, SSO_URL } from './constants/apiURLs';
+import { INIT_URL, SSO_URL } from './apis/constants/apiURLs';
 import env from './constants/envConstants';
 import { APP_ROUTES } from './constants/routesConstants';
 import useAuthRoutes from './hooks/useAuthRoutes';
