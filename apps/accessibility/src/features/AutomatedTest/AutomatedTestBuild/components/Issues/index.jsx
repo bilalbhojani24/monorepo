@@ -113,7 +113,7 @@ export default function Issues() {
           isHalfView
         }}
       >
-        <div className="fixed" style={{ top: '171px' }}>
+        <div className="fixed">
           <ActiveFilters sectionsDataContext={SectionsDataContext} />
           {isFilterModalVisible && (
             <FilterModal sectionsDataContext={SectionsDataContext} />

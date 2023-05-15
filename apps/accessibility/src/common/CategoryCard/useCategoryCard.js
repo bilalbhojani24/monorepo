@@ -4,8 +4,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import max from 'lodash/max';
 import { logEvent } from 'utils/logEvent';
 
-export default function useCategoryCard({ issueCountByCategory, eventName }) {
-  const [categoryList, setCategoryList] = useState(issueCountByCategory);
+export default function useCategoryCard({ list, eventName }) {
+  const [categoryList, setCategoryList] = useState(list);
   const maxCategoryIssue = max(categoryList.map(({ count }) => count));
   const categoryColumns = [
     {
@@ -46,8 +46,8 @@ export default function useCategoryCard({ issueCountByCategory, eventName }) {
     if (id === 'char-sort') {
       setCategoryList(
         cloneDeep(categoryList).sort((a, b) =>
-          map[a.category.split('cat.')[1]].localeCompare(
-            map[b.category.split('cat.')[1]]
+          map[a.label.split('cat.')[1]].localeCompare(
+            map[b.label.split('cat.')[1]]
           )
         )
       );

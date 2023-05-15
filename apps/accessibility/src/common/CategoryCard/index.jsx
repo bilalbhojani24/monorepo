@@ -22,14 +22,17 @@ import useCategoryCard from './useCategoryCard';
 
 export default function CategoryCard({
   eventName,
-  issueCountByCategory,
+  list,
+  columns,
+  onRowClick,
   wrapperClassName
 }) {
-  const { categoryList, categoryColumns, maxCategoryIssue, map, onMenuChange } =
-    useCategoryCard({
+  const { categoryList, maxCategoryIssue, map, onMenuChange } = useCategoryCard(
+    {
       eventName,
-      issueCountByCategory
-    });
+      list
+    }
+  );
 
   const dropdownOptions = [
     {
@@ -75,7 +78,7 @@ export default function CategoryCard({
           <Table>
             <TableHead>
               <TableRow>
-                {categoryColumns.map((col, index) => (
+                {columns.map((col, index) => (
                   <TableCell
                     key={col.key}
                     variant="header"
@@ -90,20 +93,20 @@ export default function CategoryCard({
               </TableRow>
             </TableHead>
             <TableBody>
-              {categoryList.map(({ category, count }, index) => (
+              {categoryList.map(({ label, count }, index) => (
                 <TableRow
                   wrapperClassName="cursor-pointer"
-                  // onRowClick={() =>
-                  //   onRowClick('category', {
-                  //     label: category.split('cat.')[1],
-                  //     value: category.split('cat.')[1]
-                  //   })
-                  // }
+                  onRowClick={() =>
+                    onRowClick('category', {
+                      label: label.split('cat.')[1],
+                      value: label.split('cat.')[1]
+                    })
+                  }
                 >
-                  {categoryColumns.map((column, colIndex) => {
+                  {columns.map((column, colIndex) => {
                     const cellUI = () => {
                       if (colIndex === 0) return index + 1;
-                      if (colIndex === 1) return map[category.split('cat.')[1]];
+                      if (colIndex === 1) return map[label.split('cat.')[1]];
                       if (count === 0) {
                         return (
                           <div className="flex items-center">
@@ -173,15 +176,21 @@ export default function CategoryCard({
 
 CategoryCard.propTypes = {
   eventName: PropTypes.string.isRequired,
-  issueCountByCategory: PropTypes.arrayOf(
-    PropTypes.objectOf({
-      category: PropTypes.string.isRequired,
-      count: PropTypes.number.isRequired
-    })
-  ).isRequired,
+  columns: PropTypes.arrayOf({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    key: PropTypes.string
+  }).isRequired,
+  list: PropTypes.objectOf({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired
+  }).isRequired,
+  onRowClick: PropTypes.func,
   wrapperClassName: PropTypes.string
 };
 
 CategoryCard.defaultProps = {
-  wrapperClassName: ''
+  wrapperClassName: '',
+  onRowClick: () => {}
 };

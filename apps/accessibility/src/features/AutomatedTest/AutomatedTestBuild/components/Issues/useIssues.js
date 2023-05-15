@@ -267,9 +267,9 @@ export default function useIssues() {
     }
   }, [filteredBuildData, customData]);
 
-  useEffect(() => {
-    document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-  }, []);
+  // useEffect(() => {
+  //   document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+  // }, []);
 
   const generateData = () =>
     filteredBuildData.map((violation) => {

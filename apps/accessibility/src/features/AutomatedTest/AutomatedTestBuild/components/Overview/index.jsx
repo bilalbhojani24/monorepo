@@ -25,7 +25,7 @@ export default function Overview() {
     })
   );
 
-  const urlCountList = buildMetaData.chartData.issueCountByPage.map(
+  const urlCountList = buildMetaData.chartData.issueCountByUrl.map(
     ({ url, count }) => ({
       label: url,
       value: url,
@@ -33,8 +33,16 @@ export default function Overview() {
     })
   );
 
+  const categoryList = buildMetaData.chartData.issueCountByCategory.map(
+    ({ category, count }) => ({
+      label: category,
+      value: category,
+      count
+    })
+  );
+
   return (
-    <div className="grid grid-cols-1 gap-4 px-6 py-4 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 px-6 pb-6 lg:grid-cols-2">
       <div>
         <SummaryChart
           actionType={actionType}
@@ -68,7 +76,8 @@ export default function Overview() {
       <div>
         <CategoryCard
           eventName="test-name"
-          issueCountByCategory={buildMetaData.chartData.issueCountByCategory}
+          columns={categoryColumns}
+          list={categoryList}
           wrapperClassName="mt-4"
         />
       </div>

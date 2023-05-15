@@ -38,13 +38,19 @@ export default function TableCard({
                     variant="header"
                     isSticky
                     textTransform="uppercase"
-                    wrapperClassName={`text-xs text-base-500 ${
-                      index === 0 ? 'w-14' : ''
-                    } ${index === 1 ? 'w-80' : ''} ${
-                      index === 2 ? 'w-32' : ''
-                    }`}
+                    wrapperClassName="text-xs text-base-500 py-3 px-6 font-medium tracking-wider"
                   >
-                    {col.name}
+                    {index === 0 ? (
+                      <div className="w-2.5 text-center">{col.name}</div>
+                    ) : (
+                      ''
+                    )}
+                    {index === 1 ? <div>{col.name}</div> : ''}
+                    {index === 2 ? (
+                      <div className="w-24 text-center">{col.name}</div>
+                    ) : (
+                      ''
+                    )}
                   </TableCell>
                 ))}
               </TableRow>
@@ -61,21 +67,24 @@ export default function TableCard({
                   }
                 >
                   {columns.map((column, colIndex) => (
-                    <TableCell
-                      key={column.id}
-                      wrapperClassName={`px-3 py-2 ${
-                        colIndex === 0 ? 'w-14' : ''
-                      }`}
-                    >
-                      {colIndex === 0 ? index + 1 : ''}
+                    <TableCell key={column.id} wrapperClassName="py-2 px-6">
+                      {colIndex === 0 ? (
+                        <div className="w-2.5 text-center">{index + 1}</div>
+                      ) : (
+                        ''
+                      )}
                       {colIndex === 1 ? (
-                        <div className="w-80 overflow-hidden truncate">
+                        <div className="w-64 overflow-hidden truncate">
                           {label}
                         </div>
                       ) : (
                         ''
                       )}
-                      {colIndex === 2 ? count : ''}
+                      {colIndex === 2 ? (
+                        <div className="w-24">{count}</div>
+                      ) : (
+                        ''
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>

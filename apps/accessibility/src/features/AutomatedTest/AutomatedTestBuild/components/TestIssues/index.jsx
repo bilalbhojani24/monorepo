@@ -1,8 +1,10 @@
 import React from 'react';
 import {
+  MdClose,
   MdFolderOpen,
   Slideover,
   SlideoverBody,
+  SlideoverHeader,
   Tabs
 } from '@browserstack/bifrost';
 import { ISSUES, SUMMARY, TESTS } from 'constants';
@@ -62,7 +64,7 @@ export default function TestIssues() {
   return (
     <Slideover
       show={isOpen}
-      slideoverWidth="max-w-screen-md w-screen overflow-y"
+      slideoverWidth="max-w-screen-md w-screen overflow-y bg-base-50"
       onOverlayClick={handleCloseWithLogEvent}
       backgroundOverlay
       onClose={handleCloseWithLogEvent}
@@ -70,25 +72,32 @@ export default function TestIssues() {
     >
       <SlideoverBody>
         <div>
-          <div className="px-6 pt-6">
-            <h1 className="text-base-900 mb-1 text-2xl font-bold">
-              Mocha awesome build regression #112
-            </h1>
-            <p className="mb-2 text-sm">Suite / com.ddf.test.PDFInvoiceTest</p>
-            <p className="text-sm">
-              <MdFolderOpen className="text-base-500" />
-              .../test/smoke-test.js
-            </p>
+          <MdClose className="absolute right-8 z-10 cursor-pointer text-2xl" />
+          <div className="fixed z-[2] w-[calc(100vw-256px)] bg-white">
+            <div className="px-6 pt-6">
+              <h1 className="text-base-900 mb-1 text-2xl font-bold">
+                Mocha awesome build regression #112
+              </h1>
+              <p className="mb-2 text-sm">
+                Suite / com.ddf.test.PDFInvoiceTest
+              </p>
+              <p className="text-sm">
+                <MdFolderOpen className="text-base-500" />
+                .../test/smoke-test.js
+              </p>
+            </div>
+            <Tabs
+              id="build-tabs"
+              onTabChange={onTabChange}
+              navigationClassName="ml-6"
+              tabsArray={tabList}
+              defaultIndex={defaultIndex}
+            />
           </div>
-          <Tabs
-            id="build-tabs"
-            onTabChange={onTabChange}
-            navigationClassName="ml-6"
-            tabsArray={tabList}
-            defaultIndex={defaultIndex}
-          />
-          {activeTab === SUMMARY && testMetaData.issueSummary && <Overview />}
-          {/* {activeTab === ISSUES && testData && <Issues />} */}
+          <div className="bg-base-50 relative top-[176px]">
+            {activeTab === SUMMARY && testMetaData.issueSummary && <Overview />}
+            {/* {activeTab === ISSUES && testData && <Issues />} */}
+          </div>
         </div>
       </SlideoverBody>
     </Slideover>

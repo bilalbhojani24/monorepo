@@ -13,7 +13,7 @@ export default function useOverview() {
     },
     {
       id: 'affectedComponents',
-      name: 'Affected Components',
+      name: 'Top Affected Components',
       key: 'affectedComponents'
     },
     {
@@ -31,7 +31,7 @@ export default function useOverview() {
     },
     {
       id: 'affectedUrls',
-      name: 'Affected URLs',
+      name: 'Top Affected URLs',
       key: 'affectedUrls'
     },
     {

@@ -6,11 +6,7 @@ const { actions, reducer } = createSlice({
     buildData: null,
     customData: null,
     filters: {},
-    buildMetaData: {
-      issueSummary: null,
-      meta: null,
-      chartData: null
-    },
+    buildMetaData: null,
     testCasesData: null
   },
   reducers: {
