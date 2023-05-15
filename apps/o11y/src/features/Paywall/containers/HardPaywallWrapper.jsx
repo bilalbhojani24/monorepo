@@ -5,7 +5,7 @@ import { O11yButton } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
 import { MODAL_TYPES } from 'constants/modalTypes';
-import { FEATURE_CARD_DATA } from 'constants/paywall';
+import { CTA_TEXTS, FEATURE_CARD_DATA } from 'constants/paywall';
 import { getInitialData } from 'globalSlice/index';
 import {
   canStartFreeTrial,
@@ -84,10 +84,12 @@ function HardPaywallWrapper({
       <>
         {shouldAllowFreeTrial ? (
           <O11yButton colors="success" onClick={handleClickGetFreeTrial}>
-            Get a 14-days free trial
+            {CTA_TEXTS.FREE_TRIAL}
           </O11yButton>
         ) : (
-          <O11yButton onClick={handleClickUpgrade}>Upgrade</O11yButton>
+          <O11yButton onClick={handleClickUpgrade}>
+            {CTA_TEXTS.UPGRADE}
+          </O11yButton>
         )}
         <Hyperlink wrapperClassName="text-xs font-medium text-base-700 hover:text-brand-700 inline-flex gap-1">
           Learn more <MdOpenInNew />
