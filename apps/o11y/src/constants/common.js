@@ -187,3 +187,10 @@ export const o11yHistory = {
   navigate: null,
   location: null
 };
+
+export const roundedTableHeaderHack = {
+  left: 'rounded-tl-lg before:left-[-1px]',
+  right: 'rounded-tr-lg before:right-[-1px]',
+  common:
+    'before:absolute before:block before:w-[1px] before:h-[6px] before:bg-base-50 before:top-[-1px] before:rounded'
+};

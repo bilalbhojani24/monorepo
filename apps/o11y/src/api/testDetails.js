@@ -10,9 +10,10 @@ export const getTestDetails = async (testRunId) =>
 export const getNetworkLogs = async (testRunId) =>
   axios.get(`${versionedBaseRoute()}/testRuns/${testRunId}/networkLogs`);
 
-export const getConsolidatedLogs = async (testRunId) =>
+export const getConsolidatedLogs = async (testRunId, signal) =>
   axios.get(
-    `${versionedBaseRoute()}/testRuns/${testRunId}/consolidatedLogs?trim=true`
+    `${versionedBaseRoute()}/testRuns/${testRunId}/consolidatedLogs?trim=true`,
+    { signal }
   );
 
 export const getCapabilities = async (testRunId) =>
