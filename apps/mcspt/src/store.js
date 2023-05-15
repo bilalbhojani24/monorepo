@@ -1,5 +1,6 @@
 import { reportReducer } from '@browserstack/mcp-shared';
 import { configureStore } from '@reduxjs/toolkit';
+import { reportHeaderReducer } from 'features/ReportHeader';
 
 import { authWallReducer } from './features/AuthWall';
 import { dashboardReducer } from './features/Dashboard';
@@ -19,6 +20,7 @@ export const store = configureStore({
     newPerformanceSession: newPerformanceSessionReducer,
     testHistory: testHistoryReducer,
     reportLoading: reportLoadingReducer,
+    reportHeader: reportHeaderReducer,
     report: reportReducer
   }
 });

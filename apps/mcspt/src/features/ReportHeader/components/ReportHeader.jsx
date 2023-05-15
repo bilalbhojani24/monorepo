@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, MdChevronLeft, MdFolderOpen } from '@browserstack/bifrost';
 
+import ShareReportButton from './ShareReportButton';
 import useReportHeader from './useReportHeader';
 
 const ReportHeader = () => {
@@ -25,8 +26,10 @@ const ReportHeader = () => {
       </div>
 
       <div className="text-base-700">
+        <ShareReportButton />
+
         <Button
-          size="large"
+          size="default"
           colors="white"
           variant="primary"
           icon={<MdFolderOpen />}

@@ -7,6 +7,7 @@ import Dashboard, {
   Sidebar
 } from 'features/Dashboard';
 import Home from 'features/Home';
+import ReportHeader from 'features/ReportHeader';
 import TestHistory from 'features/TestHistory';
 
 import './api/httpInterceptor';
@@ -37,6 +38,7 @@ const App = () => {
                 <Report
                   handleUrlViaConsumer={openUrlInSystemBrowser}
                   handleFolderViaConsumer={openSystemFileFromPath}
+                  headerComponent={<ReportHeader />}
                 />
               }
             />

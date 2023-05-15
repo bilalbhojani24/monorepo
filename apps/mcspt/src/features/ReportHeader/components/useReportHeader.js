@@ -1,11 +1,13 @@
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
-import { formatDeviceAndAppAnalyticsData } from '../../../utils/analyticsDataUtils';
-import { mcpAnalyticsEvent } from '../../../utils/analyticsUtils';
-import { getPreviousRouteForReport, getSessionMetrics } from '../../Report';
-import { ReportContext } from '../../Report/ReportContext';
+import {
+  getPreviousRouteForReport,
+  getSessionMetrics
+} from '@browserstack/mcp-shared/features/Report';
+import { ReportContext } from '@browserstack/mcp-shared/features/Report/ReportContext';
+import { formatDeviceAndAppAnalyticsData } from '@browserstack/mcp-shared/utils/analyticsDataUtils';
+import { mcpAnalyticsEvent } from '@browserstack/mcp-shared/utils/analyticsUtils';
 
 const useReportHeader = () => {
   const sessionData = useSelector(getSessionMetrics);
