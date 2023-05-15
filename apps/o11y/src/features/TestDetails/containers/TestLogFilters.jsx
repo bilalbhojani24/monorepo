@@ -83,7 +83,7 @@ const TestLogFilters = ({
           content={<FilterPopoverContent onClose={closeFilterPopover} />}
           show={showFilterPopover}
           onOpenChange={(isOpen) => {
-            setShowFilterPopover(!showFilterPopover);
+            setShowFilterPopover(isOpen);
             if (isOpen) {
               handleLogTDInteractionEvent({
                 interaction: 'filter_logs_clicked'

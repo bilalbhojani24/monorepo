@@ -2,6 +2,8 @@ import axios from 'axios';
 import { getEnvConfig } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
+export const ALLOWED_COOKIE_DOMAINS = ['bsstag.com', 'browserstack.com'];
+
 const getMockerConfig = (config) => {
   const updatedConfig = {};
   if (typeof config.data === 'object') {
@@ -24,19 +26,41 @@ const getMockerConfig = (config) => {
 
 export const excludeConfig = (url) => !!url.includes('https://eds');
 
-const stageConfig = getEnvConfig();
+const envConfig = getEnvConfig();
+
+export const isBsCrossDomain = (url) => {
+  if (typeof url === 'undefined') {
+    return false;
+  }
+  const originAnchor = document.createElement('a');
+  originAnchor.href = window.location.href;
+
+  const urlAnchor = document.createElement('a');
+  urlAnchor.href = url;
+
+  const originalHostName = originAnchor.hostname;
+  const urlHostName = urlAnchor.hostname;
+
+  const originDomain = originalHostName.split('.').slice(-2).join('.');
+  const urlDomain = urlHostName.split('.').slice(-2).join('.');
+
+  return (
+    ALLOWED_COOKIE_DOMAINS.indexOf(urlDomain) >= 0 && originDomain === urlDomain
+  );
+};
 
 axios.interceptors.request.use((config) => {
   let updatedConfig = config;
-  const shouldExcludeConfig = excludeConfig(config.url);
-  updatedConfig.baseURL = stageConfig.apiUrl;
+  const shouldExcludeConfig =
+    excludeConfig(config.url) || !isBsCrossDomain(config.url);
+  updatedConfig.baseURL = envConfig.apiUrl;
   updatedConfig.withCredentials = shouldExcludeConfig
     ? false
-    : stageConfig.withCredentials;
+    : envConfig.withCredentials;
 
   // for use in local api-mocker only
   if (
-    stageConfig.isMocker &&
+    envConfig.isMocker &&
     (config.method === 'post' ||
       config.method === 'put' ||
       config.method === 'patch')

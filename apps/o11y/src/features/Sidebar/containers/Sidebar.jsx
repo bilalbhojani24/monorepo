@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -11,9 +11,10 @@ import {
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
-import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
+import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
+import { AppContext } from 'features/Layout/context/AppContext';
 import { getActiveProject } from 'globalSlice/selectors';
 import { getDocUrl } from 'utils/common';
 import {
@@ -80,6 +81,8 @@ const secondaryNav = [
 ];
 
 export default function Sidebar() {
+  const { headerSize } = useContext(AppContext);
+
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const navigate = useNavigate();
@@ -110,30 +113,37 @@ export default function Sidebar() {
   );
 
   return (
-    <SidebarNavigation
-      wrapperClassName={`
-        md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16
-        ${WRAPPER_GAP_CLASS}
+    <nav
+      className="sticky"
+      style={{
+        height: `calc(100vh - ${headerSize.blockSize}px)`,
+        top: `${headerSize.blockSize}px`
+      }}
+    >
+      <SidebarNavigation
+        wrapperClassName={`
+        md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full
       `}
-      sidebarHeader={<ProjectSelector />}
-      sidebarPrimaryNavigation={getPrimaryNav({
-        projectNormalisedName: activeProject.normalisedName
-      }).map((item) => (
-        <SidebarItem
-          key={item.id}
-          nav={item}
-          current={isCurrent(item)}
-          handleNavigationClick={onLinkChange}
-        />
-      ))}
-      sidebarSecondaryNavigation={secondaryNav.map((item) => (
-        <SidebarItem
-          key={item.id}
-          nav={item}
-          current={isCurrent(item)}
-          handleNavigationClick={onLinkChange}
-        />
-      ))}
-    />
+        sidebarHeader={<ProjectSelector />}
+        sidebarPrimaryNavigation={getPrimaryNav({
+          projectNormalisedName: activeProject.normalisedName
+        }).map((item) => (
+          <SidebarItem
+            key={item.id}
+            nav={item}
+            current={isCurrent(item)}
+            handleNavigationClick={onLinkChange}
+          />
+        ))}
+        sidebarSecondaryNavigation={secondaryNav.map((item) => (
+          <SidebarItem
+            key={item.id}
+            nav={item}
+            current={isCurrent(item)}
+            handleNavigationClick={onLinkChange}
+          />
+        ))}
+      />
+    </nav>
   );
 }

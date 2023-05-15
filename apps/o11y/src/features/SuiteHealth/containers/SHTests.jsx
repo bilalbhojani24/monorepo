@@ -206,7 +206,7 @@ export default function SHTests() {
                 )}
                 showFixedFooter={isLoadingMore}
                 handleRowClick={handleClickTestItem}
-                tableWrapperClassName="border border-t-0 border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0"
+                tableWrapperClassName="border border-t-0 border-base-300 bg-white border-separate border-spacing-0 rounded-lg"
                 tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
               />
             </div>
