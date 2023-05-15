@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Button from '../Button';
 
 import ActionPanel from './index';
 
@@ -28,8 +29,7 @@ const defaultConfig = {
     },
     content: {
       option: { type: 'text' },
-      defaultValue:
-        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus praesentium tenetur pariatur.'
+      defaultValue: <Button colors="white">Contact sales</Button>
     }
   },
   controls: {}
