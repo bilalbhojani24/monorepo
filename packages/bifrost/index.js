@@ -32,6 +32,11 @@ import DropdownTrigger from './modules/DropdownTrigger/index';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
+import {
+  ErrorBoundary,
+  useErrorBoundary,
+  withErrorBoundary
+} from './modules/ErrorBoundary/index';
 import FileUpload from './modules/FileUpload/index';
 import GridListWHorizontalLink from './modules/GridListWHorizontalLink/index';
 import GridListWImage from './modules/GridListWImage/index';
@@ -151,6 +156,7 @@ export {
   EmptyState,
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
+  ErrorBoundary,
   FileUpload,
   GridListWHorizontalLink,
   GridListWImage,
@@ -232,5 +238,7 @@ export {
   TooltipBody,
   TooltipFooter,
   TooltipHeader,
-  TruncateText
+  TruncateText,
+  useErrorBoundary,
+  withErrorBoundary
 };
