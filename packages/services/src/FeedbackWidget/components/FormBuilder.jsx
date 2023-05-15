@@ -17,14 +17,25 @@ const FormBuilder = () => {
   return (
     <div className="space-y-2">
       {formFields.map((field) => {
-        if (field.fileType === 'textarea')
-          return <TextArea {...field} onChange={handleChange} />;
-        if (field.fileType === 'input')
+        if (field.fieldType === 'textarea')
+          return (
+            <TextArea
+              key={field.id}
+              id={field.id}
+              onChange={handleChange}
+              placeholder={field.placeholder}
+              isResizable={field.isResizable}
+            />
+          );
+        if (field.fieldType === 'input')
           return (
             <InputField
-              {...field}
+              key={field.id}
+              id={field.id}
               onChange={handleChange}
               errorText={formError[field.id]}
+              placeholder={field.placeholder}
+              isMandatory={field.isMandatory}
             />
           );
         return null;

@@ -29,7 +29,7 @@ const fields = [
   {
     id: 'comment',
     label: 'Other comments',
-    fileType: 'textarea',
+    fieldType: 'textarea',
     placeholder: 'Please elaborate here',
     isMandatory: true,
     isResizable: true
@@ -37,12 +37,12 @@ const fields = [
   {
     id: 'email',
     label: 'Business email',
-    fileType: 'input',
+    fieldType: 'input',
     placeholder: 'you@example.com',
     wrapperClassName: '',
     isMandatory: true,
-    errorMessage: 'Invalid email address',
-    regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    errorMessage: 'Invalid email address'
+    // regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
   }
 ];
 
@@ -107,7 +107,7 @@ export const ModalFeedbackWidget = () => {
         formFields={fields}
         flow={[
           {
-            type: 'nps',
+            type: 'thumbs',
             title: 'How was your experience with Lorem Ipsum?',
             description: 'Emoji Optional description text for added context '
           },
@@ -155,7 +155,26 @@ export const ToastFeedbackWidget = () => {
         show={show}
         title="How was your experience with Lorem Ipsum?"
         description="Optional description text for added context"
-        formFields={fields}
+        formFields={[
+          {
+            id: 'toast-comment',
+            label: 'Other comments',
+            fieldType: 'textarea',
+            placeholder: 'Please elaborate here',
+            isMandatory: true,
+            isResizable: true
+          },
+          {
+            id: 'toast-email',
+            label: 'Business email',
+            fieldType: 'input',
+            placeholder: 'you@example.com',
+            wrapperClassName: '',
+            isMandatory: false,
+            errorMessage: 'Invalid email address',
+            regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+          }
+        ]}
         flow={[
           {
             type: 'nps',
