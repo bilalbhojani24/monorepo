@@ -7,16 +7,14 @@ import PropTypes from 'prop-types';
 
 const TMInputWButton = forwardRef((props, ref) => (
   <div className="relative z-0 flex w-full items-end justify-end">
-    <div className="w-full">
-      <TMInputField
-        {...props}
-        ref={ref}
-        wrapperClassName={twClassNames(
-          'flex-1 w-full rounded-none rounded-l-md',
-          props.wrapperClassName
-        )}
-      />
-    </div>
+    <TMInputField
+      {...props}
+      ref={ref}
+      wrapperClassName={twClassNames(
+        'ribin flex-1 w-full [&_input]:rounded-none [&_input]:rounded-l-md',
+        props.wrapperClassName
+      )}
+    />
     <TMButton
       onClick={props?.onButtonClick}
       colors="white"
