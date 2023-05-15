@@ -17,17 +17,17 @@ import {
 import { redirectToPrevPage, routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import {
-  dismissNewProjectNotification,
-  getLatestQuickImportConfig
-} from '../../../api/import.api';
-import { COMPLETED } from '../../quickImportFlow/const/importConst';
-import {
-  setCurrentTestManagementTool,
-  setImportedProjectCount,
-  setNewProjectBannerDismiss,
-  setShowNewProjectBanner
-} from '../../quickImportFlow/slices/importSlice';
+// import {
+//   dismissNewProjectNotification,
+//   getLatestQuickImportConfig
+// } from '../../../api/import.api';
+// import { COMPLETED } from '../../quickImportFlow/const/importConst';
+// import {
+//   setCurrentTestManagementTool,
+//   setImportedProjectCount,
+//   // setNewProjectBannerDismiss,
+//   setShowNewProjectBanner
+// } from '../../quickImportFlow/slices/importSlice';
 import { dropDownOptions } from '../const/projectsConst';
 import {
   addProject,
@@ -88,7 +88,6 @@ const useProjects = (prop) => {
   const isNewProjectBannerDismissed = useSelector(
     (state) => state.import.isNewProjectBannerDismissed
   );
-  const importStatus = useSelector((state) => state.import.importStatus);
   const latestImportId = useSelector((state) => state.import.importId);
   const countOfProjectsImported = useSelector(
     (state) => state.import.successfulImportedProjects
@@ -98,6 +97,13 @@ const useProjects = (prop) => {
   );
   const showNewProjectBanner = useSelector(
     (state) => state.import.showNewProjectBanner
+  );
+  // import progress
+  const importStatus = useSelector(
+    (state) => state.importProgress.importStatus
+  );
+  const isProgressDismissed = useSelector(
+    (state) => state.importProgress.isProgressDismissed
   );
 
   const handleAmplitudeEvent = (projectId, action) => {
@@ -309,32 +315,32 @@ const useProjects = (prop) => {
     }
   };
 
-  const getStatusOfNewImportedProjects = async () => {
-    try {
-      const response = await getLatestQuickImportConfig();
-      dispatch(
-        setNewProjectBannerDismiss(response.new_projects_banner_dismissed)
-      );
-      if (
-        !response.new_projects_banner_dismissed &&
-        response.status === COMPLETED
-      ) {
-        dispatch(setShowNewProjectBanner(true));
-        dispatch(setImportedProjectCount(response.import_projects_count));
-        dispatch(
-          setCurrentTestManagementTool(response.import_type.split('_')[0])
-        );
-      }
-    } catch (err) {
-      // catch error
-    }
-  };
+  // const getStatusOfNewImportedProjects = async () => {
+  //   try {
+  //     const response = await getLatestQuickImportConfig();
+  //     dispatch(
+  //       setNewProjectBannerDismiss(response.new_projects_banner_dismissed)
+  //     );
+  //     if (
+  //       !response.new_projects_banner_dismissed &&
+  //       response.status === COMPLETED
+  //     ) {
+  //       dispatch(setShowNewProjectBanner(true));
+  //       dispatch(setImportedProjectCount(response.import_projects_count));
+  //       dispatch(
+  //         setCurrentTestManagementTool(response.import_type.split('_')[0])
+  //       );
+  //     }
+  //   } catch (err) {
+  //     // catch error
+  //   }
+  // };
 
-  const dismissImportProjectAlert = () => {
-    dismissNewProjectNotification(latestImportId).then(() => {
-      dispatch(setNewProjectBannerDismiss(true));
-    });
-  };
+  // const dismissImportProjectAlert = () => {
+  //   dismissNewProjectNotification(latestImportId).then(() => {
+  //     dispatch(setNewProjectBannerDismiss(true));
+  //   });
+  // };
 
   return {
     modalFocusRef,
@@ -349,11 +355,12 @@ const useProjects = (prop) => {
     showDeleteModal,
     latestImportId,
     importStatus,
+    isProgressDismissed,
     showNewProjectBanner,
     countOfProjectsImported,
     isNewProjectBannerDismissed,
     currentTestManagementTool,
-    dismissImportProjectAlert,
+    // dismissImportProjectAlert,
     showAddProjectModal,
     handleClickDynamicLink,
     fetchProjects,
@@ -368,7 +375,7 @@ const useProjects = (prop) => {
     createProjectCtaLoading,
     editProjectCtaLoading,
     deleteProjectCtaLoading,
-    getStatusOfNewImportedProjects,
+    // getStatusOfNewImportedProjects,
     editProjectHandler,
     hideEditProjectModal,
     dispatch

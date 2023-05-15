@@ -9,15 +9,17 @@ import {
   TMEmptyState,
   TMPageHeadings,
   TMPagination,
-  TMTooltip,
-  TMTooltipBody,
+  // TMTooltip,
+  // TMTooltipBody,
   TMTruncateText
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
+import ImportProgress from 'features/ImportProgress';
 import { logEventHelper } from 'utils/logEvent';
 
-import { COMPLETED } from '../../quickImportFlow/const/importConst';
+// import { COMPLETED } from '../../quickImportFlow/const/importConst';
+import { IMPORT_STATUS } from '../../ImportProgress/const/immutables';
 import { dropDownOptions } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
@@ -34,7 +36,7 @@ const AllProjects = () => {
     showAddModal,
     showEditModal,
     showDeleteModal,
-    latestImportId,
+    // latestImportId,
     importStatus,
     showNewProjectBanner,
     countOfProjectsImported,
@@ -46,7 +48,8 @@ const AllProjects = () => {
     fetchProjects,
     showAddProjectModal,
     dismissImportProjectAlert,
-    getStatusOfNewImportedProjects
+    isProgressDismissed
+    // getStatusOfNewImportedProjects
   } = useProjects();
 
   useEffect(() => {
@@ -122,7 +125,7 @@ const AllProjects = () => {
                 {rowData.name}
               </TMTruncateText>
             </div>
-            {importStatus === COMPLETED &&
+            {/* {importStatus === COMPLETED &&
               !isNewProjectBannerDismissed &&
               latestImportId === rowData.import_id && (
                 <div className="ml-2">
@@ -146,7 +149,7 @@ const AllProjects = () => {
                     <CheckCircleRoundedIcon className="text-success-600" />
                   </TMTooltip>
                 </div>
-              )}
+              )} */}
           </div>
           {rowData.description && (
             <div className="text-base-500 inline">
@@ -229,10 +232,10 @@ const AllProjects = () => {
     }
   ];
 
-  useEffect(() => {
-    getStatusOfNewImportedProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   getStatusOfNewImportedProjects();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   useEffect(() => {
     fetchProjects();
@@ -259,9 +262,13 @@ const AllProjects = () => {
         }
       />
       <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
+        {importStatus === IMPORT_STATUS.ONGOING ||
+          (importStatus === IMPORT_STATUS.COMPLETED && !isProgressDismissed && (
+            <ImportProgress />
+          ))}
         {countOfProjectsImported > 0 &&
           showNewProjectBanner &&
-          importStatus === COMPLETED &&
+          importStatus === IMPORT_STATUS.COMPLETED &&
           !isNewProjectBannerDismissed && (
             <div className="mb-4">
               <TMAlerts

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { TMAlerts, TMButton, TMCheckBox } from 'common/bifrostProxy';
-import { bool, func, number, shape, string } from 'prop-types';
+import { TMAlerts, TMCheckBox } from 'common/bifrostProxy';
+import { bool, number, shape, string } from 'prop-types';
 
 import {
   setErrorForConfigureData,
@@ -9,7 +9,7 @@ import {
 } from '../slices/importSlice';
 
 const ConfigureDataList = (props) => {
-  const { projects, showError, handleConfigureDataProceed } = props;
+  const { projects, showError } = props;
   const dispatch = useDispatch();
   const allChecked = projects.every((project) => project.checked);
   const someChecked = projects.some((project) => project.checked);
@@ -83,11 +83,6 @@ const ConfigureDataList = (props) => {
           />
         ))}
       </div>
-      <div className="bg-base-50 sticky bottom-0 flex justify-end px-4 py-3">
-        <TMButton onClick={handleConfigureDataProceed}>
-          Begin Importing
-        </TMButton>
-      </div>
     </div>
   );
 };
@@ -97,14 +92,12 @@ ConfigureDataList.propTypes = {
     name: string,
     suite_mode: number
   }),
-  showError: bool,
-  handleConfigureDataProceed: func
+  showError: bool
 };
 
 ConfigureDataList.defaultProps = {
   projects: [],
-  showError: false,
-  handleConfigureDataProceed: () => {}
+  showError: false
 };
 
 export default ConfigureDataList;

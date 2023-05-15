@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
@@ -12,11 +12,17 @@ import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
 import Notification from 'features/Notification';
-import ImportStatusGlobal from 'features/quickImportFlow/components/ImportStatusGlobal';
+// import ImportStatusGlobal from 'features/quickImportFlow/components/ImportStatusGlobal';
 import SideNav from 'features/SideNav';
 
+import { getLatestQuickImportConfig } from './api/import.api';
 import { PRODUCTION_HOST } from './const/immutables';
 import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
+import {
+  setImportStatus,
+  setIsProgressDismissed
+} from './features/ImportProgress/slices/importProgressSlice';
+import { setImportId } from './features/quickImportFlow/slices/importSlice';
 
 if (window.initialized !== true) {
   window.initialized = false;
@@ -26,7 +32,6 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.global.user);
-  const importStatus = useSelector((state) => state.import.importStatus);
   const userAndGroupConfig = useSelector(
     (state) => state.global.userAndGroupConfig
   );
@@ -75,22 +80,29 @@ function App() {
     }
   }, [userAndGroupConfig]);
 
+  useEffect(() => {
+    getLatestQuickImportConfig().then((data) => {
+      dispatch(setImportStatus(data?.status));
+      dispatch(setImportId(data?.import_id));
+      dispatch(setIsProgressDismissed(data?.is_dismissed));
+    });
+  }, [dispatch]);
+
   return (
     <>
       <TMHeader />
       <div className="bg-base-50 flex h-screen items-stretch pt-16">
         {/* Only if user is logged in proceed */}
-        {!!userData && <ImportStatusGlobal />}
         <div
           className={twClassNames(
-            'relative flex w-full items-stretch overflow-hidden',
-            {
-              'mt-16': importStatus === 'ongoing'
-            }
+            'relative flex w-full items-stretch overflow-hidden'
+            // {
+            //   'mt-16': importStatus === 'ongoing'
+            // }
           )}
         >
           {/* Only if user is logged in proceed */}
-          {!!userData && <SideNav importStatus={importStatus} />}
+          {!!userData && <SideNav />}
           <MainRoute />
         </div>
       </div>

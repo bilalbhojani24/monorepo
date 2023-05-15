@@ -1,11 +1,14 @@
-import { checkTestManagementConnection } from '../../../api/import.api';
-import { SCREEN_2 } from '../const/importSteps';
+import { checkTestManagementConnection, importProjects } from 'api/import.api';
+import AppRoute from 'const/routes';
+
+import { SCREEN_2, ZEPHYR } from '../const/importSteps';
 
 import {
   quickImportCleanUp,
   setConfigureToolProceedLoading,
   setConfigureToolTestConnectionLoading,
   setCurrentScreen,
+  setImportId,
   setProceedFailed,
   setProceedFulfilled,
   setShowArtificialLoader,
@@ -15,6 +18,8 @@ import {
   setZephyrCred
 } from './importSlice';
 
+const getImportIdBeforeImport = (state) => state.import.importIdBeforeImport;
+const getProjects = (state) => state.import.projectsForTestManagementImport;
 const getCurrentUsedTool = (state) => state.import.currentTestManagementTool;
 const getTestRailsCred = (state) => state.import.testRailsCred;
 const getZephyrCred = (state) => state.import.zephyrCred;
@@ -76,6 +81,32 @@ export const requestTestConnection =
       trimSpaces(currentUsedTool, creds, dispatch);
     }
   };
+
+export const startImport = (navigate) => async (dispatch, getState) => {
+  const state = getState();
+  const tool = getCurrentUsedTool(state);
+  const testRailsCred = getTestRailsCred(state);
+  const zephyrCred = getZephyrCred(state);
+  const importIdBeforeImport = getImportIdBeforeImport(state);
+  const projects = getProjects(state);
+
+  const creds = tool === ZEPHYR ? zephyrCred : testRailsCred;
+  dispatch(setImportId(importIdBeforeImport));
+
+  try {
+    await importProjects(tool, {
+      ...creds,
+      import_id: importIdBeforeImport,
+      projects: projects
+        .map((project) => (project.checked ? project : null))
+        .filter((project) => project !== null)
+    });
+    navigate(AppRoute.ROOT);
+  } catch (err) {
+    // something for failure
+    // need to discuss this with harsh
+  }
+};
 
 export const resetQuickImport = () => (dispatch, getState) => {
   // reset everything except related to notification and modal

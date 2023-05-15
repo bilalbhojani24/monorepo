@@ -8,10 +8,10 @@ import {
   retryImport
 } from '../../../api/import.api';
 import {
-  COMPLETED,
-  FAILURE_DATA,
-  ONGOING,
-  SUCCESS_DATA,
+  // COMPLETED,
+  // FAILURE_DATA,
+  // ONGOING,
+  // SUCCESS_DATA,
   WARNING_DATA
 } from '../const/importConst';
 import { SCREEN_1, SCREEN_2, TESTRAIL, ZEPHYR } from '../const/importSteps';
@@ -51,7 +51,7 @@ const initialState = {
   isJiraConfiguredForZephyr: false,
   importId: null,
   importIdBeforeImport: null,
-  importStatus: COMPLETED,
+  // importStatus: COMPLETED,
   isDismissed: true,
   showNewProjectBanner: false,
   isNewProjectBannerDismissed: true,
@@ -155,27 +155,27 @@ const importSlice = createSlice({
         state.topImportInfoSteps = [
           {
             title: `Successfully connected to ${
-              state.currentTestManagementTool === 'zephyr'
+              state.currentTestManagementTool === ZEPHYR
                 ? 'Zephyr Scale'
                 : 'Testrails'
             }`,
             description: `Connected with: '${
-              state.currentTestManagementTool === 'zephyr'
+              state.currentTestManagementTool === ZEPHYR
                 ? state.zephyrCred.email
                 : state.testRailsCred.email
             }'`,
-            ctaText: 'Change',
+            ctaText: 'Edit Connection',
             redirectTo: SCREEN_1
           }
         ];
       state.currentScreen = payload;
     },
-    setImportSteps: (state, { payload }) => {
-      state.importSteps = payload;
-    },
-    setImportStarted: (state, { payload }) => {
-      state.importStarted = payload;
-    },
+    // setImportSteps: (state, { payload }) => {
+    //   state.importSteps = payload;
+    // },
+    // setImportStarted: (state, { payload }) => {
+    //   state.importStarted = payload;
+    // },
     setConnectionStatusMap: (state, { payload }) => {
       state.connectionStatusMap[payload.key] = payload.value;
       if (payload.key === TESTRAIL) {
@@ -184,12 +184,12 @@ const importSlice = createSlice({
         state.connectionStatusMap.testrail = '';
       }
     },
-    setImportStatus: (state, { payload }) => {
-      state.importStatus = payload;
-    },
-    setNotificationData: (state, { payload }) => {
-      state.notificationData = payload;
-    },
+    // setImportStatus: (state, { payload }) => {
+    //   state.importStatus = payload;
+    // },
+    // setNotificationData: (state, { payload }) => {
+    //   state.notificationData = payload;
+    // },
     setSelectedRadioIdMap: (state, { payload }) => {
       state.selectedRadioIdMap[payload.key] = payload.value;
     },
@@ -269,7 +269,7 @@ const importSlice = createSlice({
       state.quickImportProjectId = payload;
     },
     setImportStatusOngoing: (state) => {
-      state.importStatus = ONGOING;
+      // state.importStatus = ONGOING;
       state.notificationData = WARNING_DATA;
     },
     setBeginImportLoading: (state, { payload }) => {
@@ -297,6 +297,9 @@ const importSlice = createSlice({
     setImportId: (state, { payload }) => {
       state.importId = payload;
     },
+    // setImportNotificationDismissed: (state, { payload }) => {
+    //   state.isDismissed = payload;
+    // },
     setImportIdBeforeImport: (state, { payload }) => {
       state.importIdBeforeImport = payload;
     }
@@ -319,25 +322,25 @@ const importSlice = createSlice({
       state.isDismissed = payload.is_dismissed;
       state.isNewProjectBannerDismissed = payload.new_projects_banner_dismissed;
     });
-    builder.addCase(setQuickImportStatus.fulfilled, (state, { payload }) => {
-      if (payload.status === ONGOING) {
-        state.importStatus = ONGOING;
-        state.notificationData = WARNING_DATA;
-      } else if (payload.status === COMPLETED) {
-        if (payload.success_count < payload.total) {
-          state.notificationData = FAILURE_DATA;
-        } else {
-          state.notificationData = SUCCESS_DATA;
-        }
-        state.notificationProjectConfig.projects = payload.projects;
-        state.notificationProjectConfig.totalCount = payload.total;
-        state.notificationProjectConfig.successCount = payload.success_count;
-        state.successfulImportedProjects = payload.success_count;
-        state.importStatus = COMPLETED;
-        // eslint-disable-next-line prefer-destructuring
-        state.currentTestManagementTool = payload.import_type.split('_')[0];
-      }
-    });
+    // builder.addCase(setQuickImportStatus.fulfilled, (state, { payload }) => {
+    //   if (payload.status === ONGOING) {
+    //     state.importStatus = ONGOING;
+    //     state.notificationData = WARNING_DATA;
+    //   } else if (payload.status === COMPLETED) {
+    //     if (payload.success_count < payload.total) {
+    //       state.notificationData = FAILURE_DATA;
+    //     } else {
+    //       state.notificationData = SUCCESS_DATA;
+    //     }
+    //     state.notificationProjectConfig.projects = payload.projects;
+    //     state.notificationProjectConfig.totalCount = payload.total;
+    //     state.notificationProjectConfig.successCount = payload.success_count;
+    //     state.successfulImportedProjects = payload.success_count;
+    //     state.importStatus = COMPLETED;
+    //     // eslint-disable-next-line prefer-destructuring
+    //     state.currentTestManagementTool = payload.import_type.split('_')[0];
+    //   }
+    // });
     builder.addCase(setRetryImport.fulfilled, (state, { payload }) => {
       if (payload.testTool === TESTRAIL) {
         state.testRailsCred.email = payload.credentials.email;
@@ -369,25 +372,25 @@ export const {
   setTestRailsCred,
   setZephyrCred,
   setProjectForTestManagementImport,
-  setImportSteps,
-  setImportStarted,
+  // setImportSteps,
+  // setImportStarted,
   setConnectionStatusMap,
   setSelectedRadioIdMap,
   quickImportCleanUp,
   setImportConfig,
-  setImportStatus,
-  setNotificationData,
-  setCheckImportStatusClicked,
+  // setImportStatus,
+  // setNotificationData,
+  // setCheckImportStatusClicked,
   setImportedProjects,
   setNotificationProjectConfig,
-  setShowNotificationModal,
+  // setShowNotificationModal,
   setProjectIdForQuickImport,
-  setImportStatusOngoing,
+  // setImportStatusOngoing,
   setBeginImportLoading,
   setConfigureToolPageLoading,
   setLatestImportTool,
   setShowNewProjectBanner,
-  setNewProjectBannerDismiss,
+  // setNewProjectBannerDismiss,
   setImportedProjectCount,
   setShowLoggedInScreen,
   setShowArtificialLoader,
@@ -395,5 +398,6 @@ export const {
   setTestConnectionFailed,
   setProceedFailed,
   setProceedFulfilled
+  // setImportNotificationDismissed
 } = importSlice.actions;
 export default importSlice.reducer;

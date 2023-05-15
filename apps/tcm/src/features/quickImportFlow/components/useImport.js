@@ -1,25 +1,26 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getLatestQuickImportConfig, importProjects } from 'api/import.api';
+import { getLatestQuickImportConfig } from 'api/import.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { SCREEN_3, TESTRAIL, ZEPHYR } from '../const/importSteps';
+import { ZEPHYR } from '../const/importSteps';
 import {
-  setBeginImportLoading,
-  setCheckImportStatusClicked,
+  // setBeginImportLoading,
+  // setCheckImportStatusClicked,
   setConfigureToolPageLoading,
   setCurrentScreen,
   setCurrentTestManagementTool,
-  setErrorForConfigureData,
-  setImportId,
-  setImportStarted,
-  setImportStatusOngoing,
+  // setErrorForConfigureData,
+  // setImportId,
+  // setImportStarted,
+  // setImportStatusOngoing,
   setLatestImportTool,
   setRetryImport,
   setShowLoggedInScreen
 } from '../slices/importSlice';
+import { startImport } from '../slices/quickImportThunk';
 
 const useImport = () => {
   const dispatch = useDispatch();
@@ -78,66 +79,70 @@ const useImport = () => {
   const showArtificialLoader = useSelector(
     (state) => state.import.showArtificialLoader
   );
-  const importIdBeforeImport = useSelector(
-    (state) => state.import.importIdBeforeImport
-  );
+  // const importIdBeforeImport = useSelector(
+  //   (state) => state.import.importIdBeforeImport
+  // );
 
   // this has to be revamped but leaving this as it will be covered in WS implementation
-  const handleConfigureDataProceed = () => {
-    // dispatch(logEventHelper(proceedActionEventName(), {}));
-    const noProjectSelected = testManagementProjects
-      .map((project) => project.checked)
-      .every((checked) => checked === false);
+  // const handleConfigureDataProceed = () => {
+  //   // dispatch(logEventHelper(proceedActionEventName(), {}));
+  //   const noProjectSelected = testManagementProjects
+  //     .map((project) => project.checked)
+  //     .every((checked) => checked === false);
 
-    if (!noProjectSelected) {
-      dispatch(setCurrentScreen(SCREEN_3));
-    } else {
-      dispatch(setErrorForConfigureData(true));
-    }
-  };
+  //   if (!noProjectSelected) {
+  //     dispatch(setCurrentScreen(SCREEN_3));
+  //   } else {
+  //     dispatch(setErrorForConfigureData(true));
+  //   }
+  // };
 
-  const beginImportSuccessful = () => {
-    dispatch(setBeginImportLoading(false));
-    dispatch(setImportId(importIdBeforeImport));
-    navigate(AppRoute.ROOT);
-    dispatch(setImportStarted(true));
-    dispatch(setCheckImportStatusClicked(false));
-    dispatch(setImportStatusOngoing());
-  };
+  // const beginImportSuccessful = () => {
+  //   dispatch(setBeginImportLoading(false));
+  //   dispatch(setImportId(importIdBeforeImport));
+  //   navigate(AppRoute.ROOT);
+  //   dispatch(setImportStarted(true));
+  //   dispatch(setCheckImportStatusClicked(false));
+  //   dispatch(setImportStatusOngoing());
+  // };
 
-  // this has to be revamped but leaving this as it will be covered in WS implementation
-  const handleConfirmImport = () => {
-    // dispatch(logEventHelper(proceedActionEventName(), {}));
-    dispatch(setBeginImportLoading(true));
-    if (currentTestManagementTool === TESTRAIL) {
-      importProjects(TESTRAIL, {
-        ...testRailsCred,
-        import_id: importIdBeforeImport,
-        testrail_projects: testManagementProjects
-          .map((project) => (project.checked ? project : null))
-          .filter((project) => project !== null)
-      })
-        .then(() => {
-          beginImportSuccessful();
-        })
-        .catch(() => {
-          dispatch(setBeginImportLoading(false));
-        });
-    } else if (currentTestManagementTool === ZEPHYR) {
-      importProjects(ZEPHYR, {
-        ...zephyrCred,
-        import_id: importIdBeforeImport,
-        projects: testManagementProjects
-          .map((project) => (project.checked ? project : null))
-          .filter((project) => project !== null)
-      })
-        .then(() => {
-          beginImportSuccessful();
-        })
-        .catch(() => {
-          dispatch(setBeginImportLoading(false));
-        });
-    }
+  // // this has to be revamped but leaving this as it will be covered in WS implementation
+  // const handleConfirmImport = () => {
+  //   // dispatch(logEventHelper(proceedActionEventName(), {}));
+  //   dispatch(setBeginImportLoading(true));
+  //   if (currentTestManagementTool === TESTRAIL) {
+  //     importProjects(TESTRAIL, {
+  //       ...testRailsCred,
+  //       import_id: importIdBeforeImport,
+  //       testrail_projects: testManagementProjects
+  //         .map((project) => (project.checked ? project : null))
+  //         .filter((project) => project !== null)
+  //     })
+  //       .then(() => {
+  //         beginImportSuccessful();
+  //       })
+  //       .catch(() => {
+  //         dispatch(setBeginImportLoading(false));
+  //       });
+  //   } else if (currentTestManagementTool === ZEPHYR) {
+  //     importProjects(ZEPHYR, {
+  //       ...zephyrCred,
+  //       import_id: importIdBeforeImport,
+  //       projects: testManagementProjects
+  //         .map((project) => (project.checked ? project : null))
+  //         .filter((project) => project !== null)
+  //     })
+  //       .then(() => {
+  //         beginImportSuccessful();
+  //       })
+  //       .catch(() => {
+  //         dispatch(setBeginImportLoading(false));
+  //       });
+  //   }
+  // };
+
+  const handleBeginImport = () => {
+    dispatch(startImport(navigate));
   };
 
   const setTestManagementTool = (tool) => {
@@ -210,8 +215,9 @@ const useImport = () => {
     loggedInForTool,
     showArtificialLoader,
     handleChangeSetup,
-    handleConfigureDataProceed,
-    handleConfirmImport,
+    handleBeginImport,
+    // handleConfigureDataProceed,
+    // handleConfirmImport,
     handleTopSectionCtaClick,
     importStatus,
     isFromOnboarding,

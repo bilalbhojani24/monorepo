@@ -10,17 +10,16 @@ import { setSelectedProject } from 'globalSlice';
 import { logEventHelper } from 'utils/logEvent';
 
 import AppRoute from '../../../const/routes';
-import { ONGOING } from '../const/importConst';
-import { SCREEN_1, SCREEN_2, SCREEN_3 } from '../const/importSteps';
+// import { ONGOING } from '../const/importConst';
+import { SCREEN_1, SCREEN_2 } from '../const/importSteps';
 import {
-  setNotificationData,
+  // setNotificationData,
   setProjectIdForQuickImport
 } from '../slices/importSlice';
 import { resetQuickImport } from '../slices/quickImportThunk';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
-import ConfirmImport from './ConfirmImport';
 import useImport from './useImport';
 // import ViewDetailsModal from './viewDetailsModal';
 
@@ -30,11 +29,11 @@ const Import = () => {
   const navigate = useNavigate();
   const {
     isFromOnboarding,
-    beginImportLoading,
+    // beginImportLoading,
     currentScreen,
     testManagementProjects,
     topImportInfoSteps,
-    importStatus,
+    // importStatus,
     configureToolPageLoading,
     showArtificialLoader,
     handleTopSectionCtaClick,
@@ -49,7 +48,7 @@ const Import = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(setNotificationData(null));
+    // dispatch(setNotificationData(null));
   }, [dispatch]);
 
   useEffect(() => {
@@ -65,13 +64,13 @@ const Import = () => {
           showLoader={showArtificialLoader}
         />
       );
-    if (currentScreen === SCREEN_3)
-      return <ConfirmImport projects={testManagementProjects} />;
+    // if (currentScreen === SCREEN_3)
+    //   return <ConfirmImport projects={testManagementProjects} />;
     return <>Something went wrong!</>;
   };
 
   useEffect(() => {
-    dispatch(setNotificationData(null));
+    // dispatch(setNotificationData(null));
     dispatch(logEventHelper('TM_QiPageLoaded', {}));
     return () => {
       dispatch(resetQuickImport());
@@ -84,23 +83,23 @@ const Import = () => {
   }, [projectId]);
 
   if (configureToolPageLoading) return <Loader wrapperClassName="grow" />;
-  if (
-    importStatus === ONGOING &&
-    !beginImportLoading &&
-    currentScreen === SCREEN_1
-  )
-    return (
-      <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
-        <TMEmptyState
-          title="Import In Progress"
-          description="Please wait for the current import to finish to start next import."
-          mainIcon={
-            <HideSourceOutlinedIcon className="text-base-400 !h-12 !w-12" />
-          }
-          buttonProps={null}
-        />
-      </div>
-    );
+  // if (
+  //   importStatus === ONGOING &&
+  //   !beginImportLoading &&
+  //   currentScreen === SCREEN_1
+  // )
+  //   return (
+  //     <div className="flex h-full w-full flex-col items-stretch justify-center p-16">
+  //       <TMEmptyState
+  //         title="Import In Progress"
+  //         description="Please wait for the current import to finish to start next import."
+  //         mainIcon={
+  //           <HideSourceOutlinedIcon className="text-base-400 !h-12 !w-12" />
+  //         }
+  //         buttonProps={null}
+  //       />
+  //     </div>
+  //   );
 
   const handleBreadcrumbClick = (_, clickedOption) => {
     const { name } = clickedOption;

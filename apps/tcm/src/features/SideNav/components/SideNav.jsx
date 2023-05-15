@@ -14,14 +14,14 @@ import {
 import { twClassNames } from '@browserstack/utils';
 import { TMButton } from 'common/bifrostProxy';
 import { AddProjects } from 'features/Projects';
-import PropTypes from 'prop-types';
 
+// import PropTypes from 'prop-types';
 import { noNavRoutes } from '../const/navsConst';
 
 import useSideNav from './useSideNav';
 
-const SideNav = (props) => {
-  const { importStatus } = props;
+const SideNav = () => {
+  // const { importStatus } = props;
   const location = useLocation();
   const {
     // selectMenuRef,
@@ -44,9 +44,12 @@ const SideNav = (props) => {
   return (
     <>
       <SidebarNavigation
-        wrapperClassName={twClassNames('mt-16 bg-white', {
-          'mt-32': importStatus === 'ongoing'
-        })}
+        wrapperClassName={twClassNames(
+          'mt-16 bg-white'
+          //   {
+          //   'mt-32': importStatus === 'ongoing'
+          // }
+        )}
         sidebarPrimaryNavigation={primaryNavs?.map((item) => (
           <SidebarItem
             key={item.id}
@@ -130,12 +133,12 @@ const SideNav = (props) => {
   );
 };
 
-SideNav.propTypes = {
-  importStatus: PropTypes.bool
-};
+// SideNav.propTypes = {
+//   importStatus: PropTypes.bool
+// };
 
-SideNav.defaultProps = {
-  importStatus: false
-};
+// SideNav.defaultProps = {
+//   importStatus: false
+// };
 
 export default SideNav;
