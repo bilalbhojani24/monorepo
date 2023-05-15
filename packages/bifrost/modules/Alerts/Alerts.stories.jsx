@@ -49,7 +49,7 @@ const defaultConfig = {
       option: { type: 'object' },
       defaultValue: (
         <>
-          <p>Details</p>
+          <p className="text-sm">Details</p>
           <span aria-hidden="true"> &rarr;</span>
         </>
       )

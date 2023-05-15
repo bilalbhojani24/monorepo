@@ -147,7 +147,7 @@ const Alerts = (props) => {
               {alertIcon || renderAlertIcon(modifier)}
             </div>
             <div className="ml-3 flex-1 items-end md:flex md:justify-between">
-              <div>
+              <div className="w-full">
                 {/* alert title */}
 
                 {title?.length > 0 && (
