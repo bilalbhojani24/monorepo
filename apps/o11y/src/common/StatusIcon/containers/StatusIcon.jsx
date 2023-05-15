@@ -10,7 +10,7 @@ import { LoadingIcon } from 'assets/icons/components';
 import { TEST_STATUS } from 'constants/common';
 import PropTypes from 'prop-types';
 
-const commonStatusClass = "'w-4 h-4 flex-shrink-0";
+const commonStatusClass = "'w-5 h-5 flex-shrink-0";
 export default function StatusIcon({ status, customClass, noColor }) {
   if (status === TEST_STATUS.PASS) {
     return (

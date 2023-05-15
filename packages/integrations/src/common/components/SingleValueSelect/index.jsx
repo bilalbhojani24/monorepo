@@ -4,7 +4,9 @@ import {
   ComboBox,
   ComboboxOptionGroup,
   ComboboxOptionItem,
-  ComboboxTrigger
+  ComboboxTrigger,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 import { usePrevious } from '@browserstack/hooks';
 import { makeDebounce } from '@browserstack/utils';
@@ -303,13 +305,21 @@ const SingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        <ComboboxOptionGroup maxWidth={300}>
+        <ComboboxOptionGroup maxWidth={300} wrapperClassName="flex flex-col">
           {(optionsToRender ?? []).map((item) => (
-            <ComboboxOptionItem
-              key={item.value}
-              option={item}
-              onImageError={(e) => handleIconError(e, item)}
-            />
+            <Tooltip
+              theme="dark"
+              placementSide="right"
+              content={
+                <TooltipBody wrapperClassName="mb-0">{item.label}</TooltipBody>
+              }
+            >
+              <ComboboxOptionItem
+                key={item.value}
+                option={item}
+                onImageError={(e) => handleIconError(e, item)}
+              />
+            </Tooltip>
           ))}
         </ComboboxOptionGroup>
       </ComboBox>
