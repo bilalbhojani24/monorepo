@@ -146,7 +146,7 @@ export default function TestInsightsLayout({ applyTestListFilter }) {
           >
             {Object.keys(cards).map((key) => (
               <div
-                className="group relative flex flex-col"
+                className="group relative flex flex-col overflow-y-hidden"
                 key={key}
                 data-grid={cards[key]}
               >
