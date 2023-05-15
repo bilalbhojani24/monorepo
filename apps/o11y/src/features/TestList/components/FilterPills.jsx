@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import StatusBadges from 'common/StatusBadges';
+import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import {
   EMPTY_STATIC_FILTERS,
   FILTER_TAGNAME_MAPPING
@@ -11,8 +12,10 @@ import {
   getAppliedFilters
 } from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
+import { getActiveProject } from 'globalSlice/selectors';
 import startCase from 'lodash/startCase';
 import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 import { capitalizeFirstLetter } from 'utils/stringUtils';
 
 const truncateMax = (text) => {
@@ -38,6 +41,38 @@ const FilterPills = ({ viewAllTests }) => {
   const dispatch = useDispatch();
   const appliedFilters = useSelector(getAppliedFilters);
   const aggregatedStatus = useSelector(getAggregatedStatus);
+  const buildMeta = useSelector(getBuildMeta);
+  const activeProject = useSelector(getActiveProject);
+
+  const handleClickStatusBadge = useCallback(
+    ({ itemClicked }) => {
+      logOllyEvent({
+        event: 'O11yBuildMetaHeaderInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          build_name: buildMeta.data?.name,
+          build_uuid: buildMeta.data?.uuid,
+          interaction: `${itemClicked}_clicked`
+        }
+      });
+      const searchParams = new URLSearchParams(window?.location?.search);
+      searchParams.set('status', itemClicked);
+      // apply directly
+      dispatch(
+        setAppliedFilters({
+          status: [itemClicked]
+        })
+      );
+    },
+    [
+      activeProject.id,
+      activeProject.name,
+      buildMeta.data?.name,
+      buildMeta.data?.uuid,
+      dispatch
+    ]
+  );
 
   const removeFilter = (filterCategory, targetValue) => {
     if (filterCategory === 'isMuted') {
@@ -140,7 +175,12 @@ const FilterPills = ({ viewAllTests }) => {
           </O11yButton>
         </div>
       </div>
-      {aggregatedStatus && <StatusBadges statusStats={aggregatedStatus} />}
+      {aggregatedStatus && (
+        <StatusBadges
+          statusStats={aggregatedStatus}
+          onClickHandler={handleClickStatusBadge}
+        />
+      )}
     </div>
   ) : null;
 };
