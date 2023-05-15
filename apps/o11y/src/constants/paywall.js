@@ -26,3 +26,8 @@ export const FEATURE_CARD_DATA = {
     illustration: failureCategoryIllustration
   }
 };
+
+export const CTA_TEXTS = {
+  FREE_TRIAL: 'Start a 14-days free trial',
+  UPGRADE: 'Upgrade'
+};

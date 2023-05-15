@@ -7,6 +7,7 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
+import { CTA_TEXTS } from 'constants/paywall';
 import { o11yPlanUpgrade } from 'globalSlice/index';
 import { canStartFreeTrial } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
@@ -144,10 +145,12 @@ function StartFreeTrialModal() {
                 loading={isSubmitting}
                 isIconOnlyButton={isSubmitting}
               >
-                Get a 14-days free trial
+                {CTA_TEXTS.FREE_TRIAL}
               </O11yButton>
             ) : (
-              <O11yButton wrapperClassName="flex-1">Upgrade</O11yButton>
+              <O11yButton wrapperClassName="flex-1">
+                {CTA_TEXTS.UPGRADE}
+              </O11yButton>
             )}
           </section>
         </section>

@@ -4,6 +4,7 @@ import { Hyperlink, MdCheckCircle, MdOpenInNew } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { MODAL_TYPES } from 'constants/modalTypes';
+import { CTA_TEXTS } from 'constants/paywall';
 import { o11yPlanUpgrade } from 'globalSlice/index';
 import { canStartFreeTrial } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
@@ -74,7 +75,7 @@ function PaywallActions({ featureKey, showTextOnSubmit, isOnDarkBg }) {
     <>
       {shouldAllowFreeTrial ? (
         <O11yButton colors="success" onClick={handleClickGetFreeTrial}>
-          Get a 14-days free trial
+          {CTA_TEXTS.FREE_TRIAL}
         </O11yButton>
       ) : (
         <O11yButton
@@ -82,7 +83,7 @@ function PaywallActions({ featureKey, showTextOnSubmit, isOnDarkBg }) {
           isIconOnlyButton={isSubmitting}
           onClick={handleClickUpgrade}
         >
-          Upgrade
+          {CTA_TEXTS.UPGRADE}
         </O11yButton>
       )}
       {isOnDarkBg ? (
