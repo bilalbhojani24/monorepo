@@ -25,7 +25,7 @@ const ListTreeRootWrapper = ({
       const focusableNodes = [...focusableNodesNodeList];
       if (!idToFind) return { focusableNodes };
       const indexOfItem = focusableNodes.findIndex(
-        (el) => el.dataset.focusId === focusIDPrefix + idToFind
+        (el) => el?.dataset?.focusId === focusIDPrefix + idToFind
       );
       return { focusableNodes, indexOfItem };
     },
@@ -130,7 +130,7 @@ const ListTreeRootWrapper = ({
   const handleAsteriskPress = useCallback(() => {
     const newOpenNodeMap = { ...openNodeMap };
     bfsTraversal({ contents: listData }, (item) => {
-      newOpenNodeMap[item.uuid] = true;
+      newOpenNodeMap[item?.uuid] = true;
       return true;
     });
     setOpenNodeMap(newOpenNodeMap);
@@ -145,9 +145,10 @@ const ListTreeRootWrapper = ({
 
   const handleCtrlArrowDownPress = useCallback(() => {
     let id;
-    const filteredUUIDsHierarchyArray = Object.keys(
+    const filteredUUIDsHierarchyArray =
       filteredUUIDs?.filteredUUIDsWithHierarchy
-    );
+        ? Object.keys(filteredUUIDs?.filteredUUIDsWithHierarchy)
+        : [];
     if (filteredUUIDsHierarchyArray?.length) {
       // if search enabled then get last search index using hierarchy arrray and get its last node
       const lastSearchItemID = filteredUUIDsHierarchyArray?.at(-1);
