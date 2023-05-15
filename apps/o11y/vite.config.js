@@ -24,7 +24,8 @@ export default defineConfig(({ command }) => {
   if (command !== 'build') {
     commonConfig.server = {
       port: 9000,
-      host: '127.0.0.1'
+      host: '127.0.0.1',
+      https: true
     };
     commonConfig.plugins = [...productViteConfig.plugins, basicSsl()];
   }
