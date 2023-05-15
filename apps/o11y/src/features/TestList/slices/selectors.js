@@ -1,4 +1,6 @@
 export const getTestList = (state) => state.testList.testList;
+export const getAggregatedStatus = (state) =>
+  state.testList.testList.data.status;
 export const getSearchTextFilters = (state) =>
   state.testList.appliedFilters.search;
 export const getSelectedFilters = (state) => state.testList.selectedFilters;

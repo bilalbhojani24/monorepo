@@ -1,11 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
+import StatusBadges from 'common/StatusBadges';
 import {
   EMPTY_STATIC_FILTERS,
   FILTER_TAGNAME_MAPPING
 } from 'features/TestList/constants';
-import { getAppliedFilters } from 'features/TestList/slices/selectors';
+import {
+  getAggregatedStatus,
+  getAppliedFilters
+} from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import startCase from 'lodash/startCase';
 import PropTypes from 'prop-types';
@@ -33,6 +37,7 @@ const FilterBadge = ({ text, onClose }) => (
 const FilterPills = ({ viewAllTests }) => {
   const dispatch = useDispatch();
   const appliedFilters = useSelector(getAppliedFilters);
+  const aggregatedStatus = useSelector(getAggregatedStatus);
 
   const removeFilter = (filterCategory, targetValue) => {
     if (filterCategory === 'isMuted') {
@@ -123,14 +128,11 @@ const FilterPills = ({ viewAllTests }) => {
     .filter((el) => el !== null && el.length !== 0);
 
   return itemsArray.length ? (
-    <div className="bg-base-100 px-8 py-4">
-      <div className="flex gap-x-4">
-        {!!itemsArray.length && (
-          <>
-            <p className="text-base-500 text-sm">Filters</p>
-            <div className="border-base-300 my-auto h-5 border-l" />
-          </>
-        )}
+    <div className="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6">
+      <div className="flex items-center gap-x-4">
+        <div className="border-base-300 flex items-center self-stretch border-r pr-2">
+          <p className="text-base-500 text-sm">Filters</p>
+        </div>
         <div className="flex flex-wrap gap-4">
           {itemsArray}
           <O11yButton variant="minimal" colors="white" onClick={viewAllTests}>
@@ -138,6 +140,7 @@ const FilterPills = ({ viewAllTests }) => {
           </O11yButton>
         </div>
       </div>
+      {aggregatedStatus && <StatusBadges statusStats={aggregatedStatus} />}
     </div>
   ) : null;
 };

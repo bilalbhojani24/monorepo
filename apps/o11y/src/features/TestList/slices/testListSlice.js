@@ -236,7 +236,7 @@ const initialState = {
     apiState: { status: API_STATUSES.IDLE, details: {} }
   },
   testList: {
-    data: EMPTY_TESTLIST_DATA_STATE,
+    data: { ...EMPTY_TESTLIST_DATA_STATE, status: null },
     apiState: { status: API_STATUSES.IDLE, details: {} }
   },
   historyDetails: {
@@ -323,7 +323,8 @@ const { actions, reducer } = createSlice({
         state.testList.data = {
           hierarchy: [...prevValue, ...payload.hierarchy],
           pagingParams: payload.pagingParams,
-          buildId: payload.buildId
+          buildId: payload.buildId,
+          status: payload.status
         };
         state.testList.apiState = newAPIStatus;
       })
