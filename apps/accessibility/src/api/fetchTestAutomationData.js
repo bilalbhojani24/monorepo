@@ -97,14 +97,6 @@ export async function fetchBuildData() {
   });
 }
 
-export async function fetchTestCases() {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(testCases);
-    }, 1000);
-  });
-}
-
 export async function fetchAllProjectList() {
   const response = await axios.get('/projects', {
     header
@@ -124,4 +116,9 @@ export async function fetchAllTestRuns() {
     header
   });
   return response.data.testRuns;
+}
+
+export async function fetchTestCasesData(id) {
+  const response = await axios.get(`test_runs/${id}/test_cases`, header);
+  return response.data;
 }

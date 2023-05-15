@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   MdOutlineCancel,
@@ -15,7 +16,8 @@ import { issueTypes } from 'constants';
 import formatDistance from 'date-fns/formatDistance';
 import PropTypes from 'prop-types';
 
-export default function AutomatedTestList({ buildList }) {
+export default function AutomatedTestList({ buildList, comboboxItems }) {
+  const navigate = useNavigate();
   const now = new Date();
 
   const formatSuccessTests = (num) => {
@@ -23,6 +25,15 @@ export default function AutomatedTestList({ buildList }) {
       return `${num / 1000}k +`;
     }
     return num;
+  };
+
+  const handleRowClick = ({ normalisedName, buildNumber }) => {
+    const project = comboboxItems.find((val) => val.id === buildNumber);
+    navigate(
+      `${project.normalisedName}/builds/${
+        normalisedName.split('%')[0]
+      }/${buildNumber}`
+    );
   };
 
   const columns = [
@@ -154,7 +165,7 @@ export default function AutomatedTestList({ buildList }) {
         </TableHead>
         <TableBody>
           {buildList.map((row) => (
-            <TableRow>
+            <TableRow onRowClick={() => handleRowClick(row)}>
               {columns.map((column) => {
                 const value = row[column.key];
                 return (
@@ -197,5 +208,9 @@ AutomatedTestList.propTypes = {
         total: PropTypes.number.isRequired
       })
     }).isRequired
+  }).isRequired,
+  comboboxItems: PropTypes.objectOf({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
   }).isRequired
 };

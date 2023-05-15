@@ -10,10 +10,9 @@ export const ROUTES = {
   siteScanner: '/site-scanner',
   scanDetails: '/site-scanner/scan-details/:id',
   scanReports: '/site-scanner/scan-report',
-  automatedTests: '/automated-tests',
-  automatedTestBuild: '/automated-tests/build',
-  // automatedTestBuild:
-  //   '/automated-tests/projects/:projectName/builds/:buildName/:buildNumber',
+  automatedTests: '/automated-tests/projects',
+  automatedTestBuild:
+    '/automated-tests/projects/:projectName/builds/:buildName/:buildNumber',
   root: '/',
   welcome: '/welcome'
 };

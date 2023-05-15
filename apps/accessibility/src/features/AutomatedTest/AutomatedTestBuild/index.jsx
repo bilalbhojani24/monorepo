@@ -23,7 +23,7 @@ const tabList = [
 ];
 
 export default function AutomatedTestBuild() {
-  const { buildData, buildMetaData, activeTab, onTabChange } =
+  const { buildData, buildMetaData, activeTab, onTabChange, testRuns } =
     useAutomatedTestBuild();
   let defaultIndex = 0;
   switch (activeTab) {
@@ -47,6 +47,10 @@ export default function AutomatedTestBuild() {
     return null;
   }
   if (activeTab === ISSUES && !buildData) {
+    return null;
+  }
+
+  if (activeTab === TESTS && !testRuns) {
     return null;
   }
 

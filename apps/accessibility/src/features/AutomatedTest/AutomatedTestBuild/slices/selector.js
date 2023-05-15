@@ -23,6 +23,8 @@ export const getActiveSwitch = (state) =>
   state.accessibility.automatedTestBuild.app.activeSwitch;
 export const getActiveTab = (state) =>
   state.accessibility.automatedTestBuild.app.activeTab;
+export const getTestCasesData = (state) =>
+  state.accessibility.automatedTestBuild.data.testCasesData;
 
 export const getUniqFilterValues = createSelector(getFilters, (filters) => {
   const { pages, componentIds, categories: categoryList } = filters;

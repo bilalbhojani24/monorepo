@@ -1,13 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
 import {
-  fetchBuildData,
   fetchBuildIssues,
   fetchBuildMetaData,
   fetchOverview,
-  fetchTestCases
+  fetchTestCasesData
 } from 'api/fetchTestAutomationData';
 import { ISSUES, SUMMARY, TESTS } from 'constants';
 import { updateUrlWithQueryParam } from 'utils/helper';
@@ -17,12 +16,14 @@ import {
   setBuildData,
   setBuildMetaData,
   setBuildOverview,
-  setCustomData
+  setCustomData,
+  setTestCasesData
 } from './slices/dataSlice';
 import {
   getActiveTab,
   getBuildData,
-  getBuildMetaData
+  getBuildMetaData,
+  getTestCasesData
 } from './slices/selector';
 
 export default function useAutomatedTestBuild() {
@@ -31,7 +32,8 @@ export default function useAutomatedTestBuild() {
   const activeTab = useSelector(getActiveTab);
   const buildData = useSelector(getBuildData);
   const buildMetaData = useSelector(getBuildMetaData);
-  const [testRuns, setTestRuns] = useState([]);
+  const testRuns = useSelector(getTestCasesData);
+  const { buildNumber } = useParams();
 
   const onTabChange = (option) => {
     const tab = option.value;
@@ -41,6 +43,10 @@ export default function useAutomatedTestBuild() {
       fetchBuildIssues().then((response) =>
         dispatch(setBuildOverview(response))
       );
+    } else if (tab === TESTS) {
+      fetchTestCasesData(buildNumber).then((response) =>
+        dispatch(setTestCasesData(response))
+      );
     }
     dispatch(setActiveTab(tab));
     const updatedPath = updateUrlWithQueryParam({
@@ -49,6 +55,8 @@ export default function useAutomatedTestBuild() {
     navigate(`?${updatedPath}`);
   };
 
+  const fetchTestCasesHelper = () => fetchTestCasesData(buildNumber);
+
   useEffect(() => {
     const fetchData = (() => {
       switch (activeTab) {
@@ -56,6 +64,8 @@ export default function useAutomatedTestBuild() {
           return fetchOverview;
         case ISSUES:
           return fetchBuildIssues;
+        case TESTS:
+          return fetchTestCasesHelper;
         default:
           return fetchOverview;
       }
@@ -67,14 +77,12 @@ export default function useAutomatedTestBuild() {
           dispatch(setBuildOverview(tabData));
         } else if (activeTab === ISSUES) {
           dispatch(setBuildData(tabData));
+        } else if (activeTab === TESTS) {
+          dispatch(setTestCasesData(tabData));
         }
         dispatch(setBuildMetaData(metaData));
       }
     );
-  }, []);
-
-  useEffect(() => {
-    fetchTestCases().then((response) => setTestRuns(response));
   }, []);
 
   const actionType = '';
