@@ -5,7 +5,7 @@ import { ROUTES } from '../../../constants/routes';
 
 const INTGHeader = () => (
   <Header
-    wrapperClassName="sticky top-0"
+    wrapperClassName="relative top-unset"
     headerID="bstack-header"
     productName="Integrate"
     productLink={ROUTES.root}
