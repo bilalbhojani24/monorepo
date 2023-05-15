@@ -120,6 +120,10 @@ browserstack-cli hst init`,
   const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
     allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER]
   );
+  const [frameworkURLs, setFrameworkURLs] = useState({
+    selenium: null,
+    playwright: null
+  });
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
   const [showSetupStatusModal, setShowSetupStatusModal] = useState(true);
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
@@ -231,6 +235,7 @@ browserstack-cli hst init`,
 
       if (res.currentStep === res.totalSteps) {
         setPollForEventLogs(false);
+        setFrameworkURLs(res.framework);
         setTimeout(() => {
           setIsSetupComplete(true);
         }, 1000);
@@ -241,7 +246,6 @@ browserstack-cli hst init`,
 
     if (pollForEventLogs) {
       setInterval(() => {
-        console.log('Log: Polling for EventLogs...');
         fetchEventsLogsData();
       }, 5000);
     }
@@ -267,6 +271,7 @@ browserstack-cli hst init`,
     currentSelectedCloudProvider,
     eventLogsCode,
     exploreAutomationClickHandler,
+    frameworkURLs,
     headerText,
     isSetupComplete,
     onboardingStep,

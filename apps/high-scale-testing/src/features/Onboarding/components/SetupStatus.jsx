@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 
 const SetupStatus = ({
   exploreAutomationClickHandler,
+  frameworkURLs,
   isSetupComplete,
   viewAllBuildsClickHandler
 }) => (
@@ -61,7 +62,7 @@ const SetupStatus = ({
                     
                    first:pr-3 last:pl-3 px-2 py-2"
                   >
-                    http://35.244.48.186:4444/wd/hub
+                    {frameworkURLs.selenium}
                   </TableCell>
                 </TableRow>
                 <TableRow onRowClick={() => {}}>
@@ -77,7 +78,7 @@ const SetupStatus = ({
                     
                    first:pr-3 last:pl-3 px-2 py-2"
                   >
-                    wss://35.244.48.186:5555/playwright
+                    {frameworkURLs.playwright}
                   </TableCell>
                 </TableRow>
                 <TableRow onRowClick={() => {}}>
@@ -141,6 +142,7 @@ const SetupStatus = ({
 
 SetupStatus.propTypes = {
   exploreAutomationClickHandler: PropTypes.func.isRequired,
+  frameworkURLs: PropTypes.oneOfType([PropTypes.object]).isRequired,
   isSetupComplete: PropTypes.bool.isRequired,
   viewAllBuildsClickHandler: PropTypes.func.isRequired
 };

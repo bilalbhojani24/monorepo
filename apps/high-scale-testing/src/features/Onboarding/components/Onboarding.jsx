@@ -43,6 +43,7 @@ const Onboarding = () => {
     currentSelectedCloudProvider,
     eventLogsCode,
     exploreAutomationClickHandler,
+    frameworkURLs,
     headerText,
     isSetupComplete,
     onboardingStep,
@@ -392,6 +393,7 @@ const Onboarding = () => {
       {isSetupComplete && showSetupStatusModal && (
         <SetupStatus
           exploreAutomationClickHandler={exploreAutomationClickHandler}
+          frameworkURLs={frameworkURLs}
           isSetupComplete={isSetupComplete}
           viewAllBuildsClickHandler={viewAllBuildsClickHandler}
         />
