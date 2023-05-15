@@ -176,7 +176,7 @@ const AllBuildsPage = () => {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-6 pt-5">
+      <div className="flex flex-1 flex-col p-6 pt-5 pb-0">
         <div className="mb-2 flex justify-between">
           <SearchBuilds />
           <Filters />
@@ -208,8 +208,8 @@ const AllBuildsPage = () => {
                 )}
                 fixedHeaderContent={BuildTableHeader}
                 handleRowClick={handleClickBuildItem}
-                tableWrapperClassName="border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0 table-fixed"
-                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
+                tableWrapperClassName="bg-white border-separate border-spacing-0 table-fixed"
+                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-6"
               />
             )}
           </>

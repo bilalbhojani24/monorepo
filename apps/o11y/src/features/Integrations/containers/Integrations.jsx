@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { MdClose, MdSearch, MdSearchOff } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
   O11yEmptyState,
@@ -13,7 +12,7 @@ import {
   O11yStackedList,
   O11yStackedListGroup
 } from 'common/bifrostProxy';
-import { WRAPPER_GAP_CLASS } from 'constants/common';
+import { AppContext } from 'features/Layout/context/AppContext';
 
 import ListGroupHeader from '../components/ListGroupHeader';
 import { INTEGRATIONS } from '../constants';
@@ -34,6 +33,8 @@ const getMatchedIntegrationsByText = (list, searchVal) => {
 };
 
 function Integrations() {
+  const { headerSize } = useContext(AppContext);
+
   const [availableIntegrations, setAvailableIntegrations] =
     useState(INTEGRATIONS);
 
@@ -116,7 +117,12 @@ function Integrations() {
   };
 
   return (
-    <div className={twClassNames('w-full flex flex-col', WRAPPER_GAP_CLASS)}>
+    <div
+      className="flex w-full flex-col"
+      style={{
+        height: `calc(100vh - ${headerSize.blockSize}px)`
+      }}
+    >
       <O11yPageHeadings
         heading="Integrations"
         wrapperClassName="p-6 border-b border-b-base-200"
