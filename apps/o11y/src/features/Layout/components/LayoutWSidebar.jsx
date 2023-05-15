@@ -23,6 +23,10 @@ const LayoutWSidebar = () => {
     widgetPositionRef.current = ref;
   }, []);
 
+  if (!initData.isLoading && !initData.data?.hasAccess) {
+    return <Navigate to={ROUTES.no_access} />;
+  }
+
   if (!initData.isLoading && !initData.data?.hasAcceptedTnC) {
     return <Navigate to={ROUTES.request_access} />;
   }
