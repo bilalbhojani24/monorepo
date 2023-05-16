@@ -11,12 +11,12 @@ import {
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
 import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
+import { SHTestsFilters } from 'features/SHFilters';
 import {
   setIsSHTestsDetailsVisible,
   setShowSHTestsDetailsFor,
   setSnPCbtInfo
 } from 'features/SHTestDetails/slices/dataSlice';
-import SHTestsFilters from 'features/SHTestsFilters';
 import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';

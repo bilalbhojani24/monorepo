@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
-import { getTimeBounds } from 'utils/dateTime';
 
 export const getSnPTests = async ({
   normalisedName,
@@ -74,10 +73,9 @@ export const getSnPDetailsBuilds = async ({
   }
   if (chartBounds.lower && chartBounds.upper) {
     const searchParams = new URLSearchParams(searchString);
-    searchParams.set(
-      ADV_FILTER_TYPES.dateRange.key,
-      `lowerBound=${chartBounds.lower},upperBound=${chartBounds.upper}`
-    );
+    searchParams.delete(ADV_FILTER_TYPES.dateRange.key);
+    searchParams.set(`lowerBound`, `${chartBounds.lower}`);
+    searchParams.set('upperBound', `${chartBounds.upper}`);
     endpoint = `${endpoint}&${searchParams.toString()}`;
   } else {
     endpoint = `${endpoint}&${searchString}`;
@@ -89,22 +87,13 @@ export const getSnPErrors = async ({
   normalisedName,
   pagingParams,
   sortOptions,
-  filters
+  searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/?orderKey=${
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/?orderKey=${
     sortOptions.type
-  }&orderValue=${sortOptions.status}&isMuted=${filters.isMuted}&isFlaky=${
-    filters.isFlaky
-  }`;
+  }&orderValue=${sortOptions.status}&${searchString}`;
   if (pagingParams?.pageNumber) {
     endpoint = `${endpoint}&pageNumber=${pagingParams.pageNumber}`;
-  }
-  if (filters.buildName.length > 0) {
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
   }
   return axios.get(endpoint);
 };
@@ -112,38 +101,21 @@ export const getSnPErrors = async ({
 export const getSnPUEBreakdown = async ({
   normalisedName,
   errorId,
-  filters,
+  searchString,
   sortOptions
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/breakdown?orderKey=${
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/breakdown?orderKey=${
     sortOptions.type
-  }&orderValue=${sortOptions.status}`;
-  if (filters.buildName.length > 0) {
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
+  }&orderValue=${sortOptions.status}&${searchString}`;
   return axios.get(endpoint);
 };
 export const getSnPErrorDetailsInfo = async ({
   normalisedName,
   testId,
   errorId,
-  filters
+  searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/info?testId=${testId}&isMuted=${
-    filters.isMuted
-  }&isFlaky=${filters.isFlaky}
-  `;
-  if (filters.buildName.length > 0) {
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/info?testId=${testId}&${searchString}`;
   return axios.get(endpoint);
 };
 export const getSnPErrorDetailsErrorCount = async ({
@@ -151,18 +123,10 @@ export const getSnPErrorDetailsErrorCount = async ({
   testId,
   errorId,
   cbtInfo,
-  filters
+  searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/errorCount?testId=${testId}&browser=${
-    cbtInfo.browserKey
-  }&os=${cbtInfo.osKey}&isMuted=${filters.isMuted}&isFlaky=${filters.isFlaky}`;
-  if (filters.buildName.length > 0) {
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/errorCount?testId=${testId}&${searchString}`;
+  endpoint = `${endpoint}&browser=${cbtInfo.browserKey}&os=${cbtInfo.osKey}`;
   return axios.get(endpoint);
 };
 export const getSnPErrorDetailsTrend = async ({
@@ -170,21 +134,11 @@ export const getSnPErrorDetailsTrend = async ({
   testId,
   errorId,
   cbtInfo,
-  filters,
+  searchString,
   showAllBuilds
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/trend?testId=${testId}&browser=${
-    cbtInfo.browserKey
-  }&os=${cbtInfo.osKey}&allBuilds=${showAllBuilds}&isMuted=${
-    filters.isMuted
-  }&isFlaky=${filters.isFlaky}`;
-  if (filters.buildName.length > 0) {
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/trend?testId=${testId}&${searchString}`;
+  endpoint = `${endpoint}&browser=${cbtInfo.browserKey}&os=${cbtInfo.osKey}&allBuilds=${showAllBuilds}`;
   return axios.get(endpoint);
 };
 export const getSnPErrorDetailsBuilds = async ({
@@ -194,26 +148,23 @@ export const getSnPErrorDetailsBuilds = async ({
   cbtInfo,
   pagingParams,
   chartBounds,
-  filters,
+  searchString,
   showAllBuilds
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/builds?testId=${testId}&browser=${
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/builds?testId=${testId}&browser=${
     cbtInfo.browserKey
-  }&os=${cbtInfo.osKey}&allBuilds=${showAllBuilds}&isMuted=${
-    filters.isMuted
-  }&isFlaky=${filters.isFlaky}`;
+  }&os=${cbtInfo.osKey}&allBuilds=${showAllBuilds}`;
   if (pagingParams?.searchAfter) {
     endpoint = `${endpoint}&searchAfter=${pagingParams.searchAfter}`;
   }
-  if (filters.buildName.length > 0) {
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (!chartBounds.lower && !chartBounds.upper && filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
   if (chartBounds.lower && chartBounds.upper) {
-    endpoint = `${endpoint}&lowerBound=${chartBounds.lower}&upperBound=${chartBounds.upper}`;
+    const searchParams = new URLSearchParams(searchString);
+    searchParams.delete(ADV_FILTER_TYPES.dateRange.key);
+    searchParams.set(`lowerBound`, `${chartBounds.lower}`);
+    searchParams.set('upperBound', `${chartBounds.upper}`);
+    endpoint = `${endpoint}&${searchParams.toString()}`;
+  } else {
+    endpoint = `${endpoint}&${searchString}`;
   }
   return axios.get(endpoint);
 };
@@ -222,19 +173,9 @@ export const getSnPErrorDetailsPlatforms = async ({
   normalisedName,
   testId,
   errorId,
-  filters
+  searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/platforms?testId=${testId}&isMuted=${
-    filters.isMuted
-  }&isFlaky=${filters.isFlaky}`;
-
-  if (filters.buildName.length > 0) {
-    endpoint = `${endpoint}&buildName=${filters.buildName}`;
-  }
-  if (filters.dateRange.key) {
-    const { lowerBound, upperBound } = getTimeBounds(filters.dateRange.key);
-    endpoint = `${endpoint}&lowerBound=${lowerBound}&upperBound=${upperBound}`;
-  }
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/platforms?testId=${testId}&${searchString}`;
   return axios.get(endpoint);
 };
 
@@ -243,22 +184,47 @@ export const getSnPTestsFilters = async ({ normalisedName, searchString }) => {
   return axios.get(endpoint);
 };
 
-export const getBuildNames = async ({ normalisedName, query }) =>
+export const getSnPUEFilters = async ({ normalisedName, searchString }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters?${searchString}`;
+  return axios.get(endpoint);
+};
+
+export const getTestBuildNames = async ({ normalisedName, query }) =>
   axios.get(
     `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/buildNames?q=${query}`
   );
 
-export const getBuildTags = async ({ normalisedName, query }) => {
+export const getTestBuildTags = async ({ normalisedName, query }) => {
   const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/buildTags?q=${query}`;
   return axios.get(endpoint);
 };
 
-export const getTestTags = async ({ normalisedName, query }) => {
+export const getTestTestTags = async ({ normalisedName, query }) => {
   const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/testTags?q=${query}`;
   return axios.get(endpoint);
 };
 
-export const getHostNames = async ({ normalisedName, query }) => {
+export const getTestHostNames = async ({ normalisedName, query }) => {
   const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/hostNames?q=${query}`;
+  return axios.get(endpoint);
+};
+
+export const getUEBuildNames = async ({ normalisedName, query }) =>
+  axios.get(
+    `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/buildNames?q=${query}`
+  );
+
+export const getUEBuildTags = async ({ normalisedName, query }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/buildTags?q=${query}`;
+  return axios.get(endpoint);
+};
+
+export const getUETestTags = async ({ normalisedName, query }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/testTags?q=${query}`;
+  return axios.get(endpoint);
+};
+
+export const getUEHostNames = async ({ normalisedName, query }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/hostNames?q=${query}`;
   return axios.get(endpoint);
 };

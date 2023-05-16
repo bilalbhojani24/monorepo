@@ -14,11 +14,11 @@ import {
 } from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import {
-  getBuildNamesData,
-  getBuildTagsData,
-  getHostNamesData,
   getSnPTestsFiltersData,
-  getTestTagsData
+  getTestsBuildNamesData,
+  getTestsBuildTagsData,
+  getTestsHostNamesData,
+  getTestsTestTagsData
 } from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 
@@ -63,20 +63,20 @@ const SHTestsFilters = () => {
             type={ADV_FILTER_TYPES.uniqueBuildNames.key}
             placeholder="Select"
             label="Unique BuildNames"
-            searchAPI={getBuildNamesData}
+            searchAPI={getTestsBuildNamesData}
           />
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.buildTags.key}
             placeholder="Select"
             label="Build Tags"
-            searchAPI={getBuildTagsData}
+            searchAPI={getTestsBuildTagsData}
           />
           <FolderFilterField />
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.testTags.key}
             placeholder="Select"
             label="Test Tags"
-            searchAPI={getTestTagsData}
+            searchAPI={getTestsTestTagsData}
           />
           <MultiSelectCheckboxFilterField
             label="Flaky Tests"
@@ -113,7 +113,7 @@ const SHTestsFilters = () => {
             type={ADV_FILTER_TYPES.hostNames.key}
             placeholder="Select"
             label="Host name"
-            searchAPI={getHostNamesData}
+            searchAPI={getTestsHostNamesData}
           />
           <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.deviceList.key}

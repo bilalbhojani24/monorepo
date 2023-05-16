@@ -1,10 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
-  getBuildNames,
-  getBuildTags,
-  getHostNames,
   getSnPTestsFilters,
-  getTestTags
+  getSnPUEFilters,
+  getTestBuildNames,
+  getTestBuildTags,
+  getTestHostNames,
+  getTestTestTags,
+  getUEBuildNames,
+  getUEBuildTags,
+  getUEHostNames,
+  getUETestTags
 } from 'api/snp';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
@@ -23,7 +28,7 @@ import {
   getAppliedFilterObj,
   getFilterFromSearchString
 } from 'features/FilterSkeleton/utils';
-import { SH_TESTS_DATE_RANGE_OBJECT } from 'features/SHTestsFilters/constants';
+import { SH_TESTS_DATE_RANGE_OBJECT } from 'features/SHFilters/constants';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
@@ -117,7 +122,7 @@ const { reducer, actions } = createSlice({
 export const { setSnPTestFilters, clearSnpTestFilter, setActiveTab } = actions;
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const updateFilterFields = (data, dispatch, searchParams) => {
+const updateTestsFilterFields = (data, dispatch, searchParams) => {
   if (!isEmpty(data?.applied)) {
     const { applied } = data;
     const updatedSelectedFilters = [];
@@ -376,6 +381,253 @@ const updateFilterFields = (data, dispatch, searchParams) => {
   }
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
+const updateUEFilterFields = (data, dispatch, searchParams) => {
+  if (!isEmpty(data?.applied)) {
+    const { applied } = data;
+    const updatedSelectedFilters = [];
+    Object.keys(applied).forEach((appliedKey) => {
+      switch (appliedKey) {
+        case ADV_FILTER_TYPES.buildTags.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.buildTags.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.uniqueBuildNames.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.uniqueBuildNames.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.folders.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.folders.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.testTags.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.testTags.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.hostNames.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.hostNames.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.isFlaky.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.isFlaky.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.isAlwaysFailing.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.isAlwaysFailing.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.hasJiraDefects.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.hasJiraDefects.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.isMuted.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.isMuted.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.failureCategories.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.failureCategories.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.deviceList.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.deviceList.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.osList.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.osList.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.browserList.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.browserList.key
+                })
+              );
+            });
+          }
+          break;
+        }
+        case ADV_FILTER_TYPES.search.key: {
+          const searchText = applied[appliedKey];
+          if (searchText?.length > 0)
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}`,
+                text: searchText,
+                value: searchText,
+                type: ADV_FILTER_TYPES.search.key
+              })
+            );
+          break;
+        }
+        case ADV_FILTER_TYPES.dateRange.key: {
+          if (applied[appliedKey]) {
+            const daterangetype = searchParams.get('daterangetype');
+            let text = '';
+            let id = '';
+            if (daterangetype !== 'custom') {
+              text = SH_TESTS_DATE_RANGE_OBJECT[daterangetype].appliedText;
+              id = daterangetype;
+            } else {
+              text = `${getDateInFormat(
+                applied[appliedKey].lowerBound
+              )} - ${getDateInFormat(applied[appliedKey].upperBound)}`;
+              id = 'custom';
+            }
+
+            updatedSelectedFilters.push({
+              type: ADV_FILTER_TYPES.dateRange.key,
+              id,
+              value: applied[ADV_FILTER_TYPES.dateRange.key],
+              text,
+              appliedText: `${
+                ADV_FILTERS_PREFIX[ADV_FILTER_TYPES.dateRange.key]
+              }: ${text}`,
+              isApplied: true
+            });
+          }
+          break;
+        }
+        default:
+          break;
+      }
+    });
+    dispatch(setBulkSelectedFilters(updatedSelectedFilters));
+    dispatch(setBulkAppliedFilters(updatedSelectedFilters));
+  }
+  if (!isEmpty(data?.staticFilters)) {
+    dispatch(setStaticFilters(data.staticFilters));
+  }
+};
+
 export const getSnPTestsFiltersData = createAsyncThunk(
   'suitehealth/getSnPTestsFilters',
   async (data, { rejectWithValue, dispatch }) => {
@@ -386,7 +638,7 @@ export const getSnPTestsFiltersData = createAsyncThunk(
         ...data,
         searchString
       });
-      updateFilterFields(response.data, dispatch, searchString);
+      updateTestsFilterFields(response.data, dispatch, searchString);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -396,12 +648,34 @@ export const getSnPTestsFiltersData = createAsyncThunk(
   }
 );
 
-export const getBuildNamesData = createAsyncThunk(
+export const getSnPUEFiltersData = createAsyncThunk(
+  'suitehealth/getSnPUEFilters',
+  async (data, { rejectWithValue, dispatch }) => {
+    dispatch(
+      setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_UNIQUE_ERRORS)
+    );
+    try {
+      const searchString = getFilterFromSearchString();
+      const response = await getSnPUEFilters({
+        ...data,
+        searchString
+      });
+      updateUEFilterFields(response.data, dispatch, searchString);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    } finally {
+      dispatch(setIsLoadingBuildsFilters(false));
+    }
+  }
+);
+
+export const getTestsBuildNamesData = createAsyncThunk(
   'testlist/getBuildNamesData',
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
-      const response = await getBuildNames({
+      const response = await getTestBuildNames({
         ...data,
         normalisedName: activeProject.normalisedName
       });
@@ -412,12 +686,12 @@ export const getBuildNamesData = createAsyncThunk(
   }
 );
 
-export const getBuildTagsData = createAsyncThunk(
+export const getTestsBuildTagsData = createAsyncThunk(
   `suitehealth/getBuildTags`,
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
-      const response = await getBuildTags({
+      const response = await getTestBuildTags({
         ...data,
         normalisedName: activeProject.normalisedName
       });
@@ -428,12 +702,12 @@ export const getBuildTagsData = createAsyncThunk(
   }
 );
 
-export const getTestTagsData = createAsyncThunk(
+export const getTestsTestTagsData = createAsyncThunk(
   `suitehealth/getBuildTags`,
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
-      const response = await getTestTags({
+      const response = await getTestTestTags({
         ...data,
         normalisedName: activeProject.normalisedName
       });
@@ -444,12 +718,76 @@ export const getTestTagsData = createAsyncThunk(
   }
 );
 
-export const getHostNamesData = createAsyncThunk(
+export const getTestsHostNamesData = createAsyncThunk(
   `suitehealth/getBuildTags`,
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
-      const response = await getHostNames({
+      const response = await getTestHostNames({
+        ...data,
+        normalisedName: activeProject.normalisedName
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getUEBuildNamesData = createAsyncThunk(
+  'testlist/getBuildNamesData',
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const activeProject = getActiveProject(getState());
+      const response = await getUEBuildNames({
+        ...data,
+        normalisedName: activeProject.normalisedName
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getUEBuildTagsData = createAsyncThunk(
+  `suitehealth/getBuildTags`,
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const activeProject = getActiveProject(getState());
+      const response = await getUEBuildTags({
+        ...data,
+        normalisedName: activeProject.normalisedName
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getUETestTagsData = createAsyncThunk(
+  `suitehealth/getBuildTags`,
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const activeProject = getActiveProject(getState());
+      const response = await getUETestTags({
+        ...data,
+        normalisedName: activeProject.normalisedName
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getUEHostNamesData = createAsyncThunk(
+  `suitehealth/getBuildTags`,
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const activeProject = getActiveProject(getState());
+      const response = await getUEHostNames({
         ...data,
         normalisedName: activeProject.normalisedName
       });

@@ -1,0 +1,138 @@
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  DatePickerFilterField,
+  FilterPills,
+  FilterSlideover,
+  FilterSlideoverTrigger,
+  FolderFilterField,
+  MultiSelectCheckboxFilterField,
+  MultiSelectSearchFilterField,
+  MultiSelectStaticFilterField,
+  SearchFilterField
+} from 'features/FilterSkeleton';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
+import {
+  getSnPUEFiltersData,
+  getUEBuildNamesData,
+  getUEBuildTagsData,
+  getUEHostNamesData,
+  getUETestTagsData
+} from 'features/SuiteHealth/slices/uiSlice';
+import { getActiveProject } from 'globalSlice/selectors';
+
+import { SH_TESTS_DATE_RANGE_OBJECT } from '../constants';
+
+const SHUEFilters = () => {
+  const dispatch = useDispatch();
+  const activeProject = useSelector(getActiveProject);
+  const [showSlideOver, setShowSlideOver] = useState(false);
+  useEffect(() => {
+    dispatch(
+      getSnPUEFiltersData({
+        normalisedName: activeProject?.normalisedName
+      })
+    );
+  }, [activeProject?.normalisedName, dispatch]);
+
+  const handleTriggerClick = () => {
+    setShowSlideOver(!showSlideOver);
+  };
+
+  const handleClose = () => {
+    setShowSlideOver(false);
+  };
+  return (
+    <div>
+      <div className="mb-4 flex items-center justify-between">
+        <SearchFilterField
+          type={ADV_FILTER_TYPES.search.key}
+          id="search-by-test-or-file-path"
+          placeholder="Search by Test name or File path"
+        />
+        <div className="flex items-center gap-5">
+          <DatePickerFilterField dateRangeObject={SH_TESTS_DATE_RANGE_OBJECT} />
+          <FilterSlideoverTrigger onClick={handleTriggerClick} />
+        </div>
+      </div>
+      <FilterPills />
+      <FilterSlideover show={showSlideOver} onClose={handleClose}>
+        <div className="mb-6 flex flex-col gap-6">
+          <MultiSelectSearchFilterField
+            type={ADV_FILTER_TYPES.uniqueBuildNames.key}
+            placeholder="Select"
+            label="Unique BuildNames"
+            searchAPI={getUEBuildNamesData}
+          />
+          <MultiSelectSearchFilterField
+            type={ADV_FILTER_TYPES.buildTags.key}
+            placeholder="Select"
+            label="Build Tags"
+            searchAPI={getUEBuildTagsData}
+          />
+          <FolderFilterField />
+          <MultiSelectSearchFilterField
+            type={ADV_FILTER_TYPES.testTags.key}
+            placeholder="Select"
+            label="Test Tags"
+            searchAPI={getUETestTagsData}
+          />
+          <MultiSelectCheckboxFilterField
+            label="Flaky Tests"
+            yesLabel="Flaky"
+            noLabel="Not Flaky"
+            type={ADV_FILTER_TYPES.isFlaky.key}
+          />
+          <MultiSelectCheckboxFilterField
+            label="Always Failing Tests"
+            yesLabel="Always Failing"
+            noLabel="Not Always Failing"
+            type={ADV_FILTER_TYPES.isAlwaysFailing.key}
+          />
+          {/* #TODO: to be added after the backend change is moved
+          <MultiSelectCheckboxFilterField
+            label="Defects (JIRA Issues)"
+            yesLabel="Tests with associated defects"
+            noLabel="Tests with no associated defects"
+            type={ADV_FILTER_TYPES.hasJiraDefects.key}
+          />
+           */}
+          <MultiSelectCheckboxFilterField
+            label="Muted Tests"
+            yesLabel="Muted"
+            noLabel="Unmuted"
+            type={ADV_FILTER_TYPES.isMuted.key}
+          />
+          <MultiSelectSearchFilterField
+            type={ADV_FILTER_TYPES.hostNames.key}
+            placeholder="Select"
+            label="Host name"
+            searchAPI={getUEHostNamesData}
+          />
+          <MultiSelectStaticFilterField
+            type={ADV_FILTER_TYPES.deviceList.key}
+            placeholder="Select"
+            label="Device"
+          />
+          <MultiSelectStaticFilterField
+            type={ADV_FILTER_TYPES.osList.key}
+            placeholder="Select"
+            label="OS"
+          />
+          <MultiSelectStaticFilterField
+            type={ADV_FILTER_TYPES.browserList.key}
+            placeholder="Select"
+            label="Browser"
+          />
+          <MultiSelectStaticFilterField
+            type={ADV_FILTER_TYPES.failureCategories.key}
+            placeholder="Select"
+            label="Failure categories"
+          />
+        </div>
+      </FilterSlideover>
+    </div>
+  );
+};
+
+export default SHUEFilters;
