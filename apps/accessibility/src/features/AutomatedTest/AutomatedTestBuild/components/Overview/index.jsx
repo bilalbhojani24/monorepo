@@ -1,5 +1,6 @@
 import React from 'react';
 import CategoryCard from 'common/CategoryCard';
+import DataVisualizationWrapper from 'common/DataVisualizationWrapper';
 import SummaryChart from 'common/SummaryChart';
 import TableCard from 'common/TableCard';
 import { formatComponentIdString } from 'utils/helper';
@@ -14,7 +15,8 @@ export default function Overview() {
     urlColumns,
     componentColumns,
     categoryColumns,
-    onRowClick
+    onRowClick,
+    prepareDataForChart
   } = useOverview();
 
   const componentCountList = buildMetaData.chartData.issueCountByComponent.map(
@@ -80,6 +82,9 @@ export default function Overview() {
           list={categoryList}
           wrapperClassName="mt-4"
         />
+      </div>
+      <div>
+        <DataVisualizationWrapper data={prepareDataForChart()} />
       </div>
     </div>
   );

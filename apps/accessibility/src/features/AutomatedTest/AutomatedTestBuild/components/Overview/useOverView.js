@@ -65,6 +65,32 @@ export default function useOverview() {
     console.log('key, option: ', option, key);
   };
 
+  const prepareDataForChart = () => {
+    const dataPoints = {};
+    const categories = [];
+    const colors = {
+      minor: '#9CA3AF',
+      moderate: '#EAB308',
+      serious: ' #F97316',
+      critical: '#EF4444'
+    };
+    const series = Object.keys(buildMetaData?.trendData[0].issueSummary);
+    series.forEach((val) => {
+      dataPoints[val] = [];
+    });
+
+    buildMetaData?.trendData.forEach((val) => {
+      if (val.issueSummary) {
+        Object.keys(dataPoints).forEach((key) => {
+          dataPoints[key].push(val.issueSummary[key]);
+        });
+      }
+      categories.push(`#${val.buildNumber}`);
+    });
+
+    return { dataPoints, categories, series, colors };
+  };
+
   return {
     actionType,
     buildMetaData,
@@ -72,6 +98,7 @@ export default function useOverview() {
     urlColumns,
     componentColumns,
     categoryColumns,
-    onRowClick
+    onRowClick,
+    prepareDataForChart
   };
 }
