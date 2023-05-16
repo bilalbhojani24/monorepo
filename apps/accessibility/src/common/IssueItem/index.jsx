@@ -123,10 +123,6 @@ export default function IssueItem({ sectionsDataContext }) {
     }
   ];
 
-  // if (testCaseIds) {
-  //   tabs.push();
-  // }
-
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
     testType
@@ -201,7 +197,7 @@ export default function IssueItem({ sectionsDataContext }) {
           wrapperClassName="text-2xl p-0"
         />
       </div>
-      <div className="pb-40" style={{ top: '90px' }}>
+      <div className="pb-40">
         {needsReview && (
           <NeedsReviewBanner
             message={message}
@@ -416,8 +412,8 @@ export default function IssueItem({ sectionsDataContext }) {
                         variant="header"
                         textTransform="uppercase"
                         wrapperClassName={`text-xs text-base-500 ${
-                          index === 0 ? 'w-16' : ''
-                        } ${index === 1 ? 'w-40' : ''}`}
+                          index === 0 ? 'w-3/4' : ''
+                        } ${index === 1 ? 'w-1/4' : ''}`}
                       >
                         {col.name}
                       </TableCell>
@@ -427,27 +423,23 @@ export default function IssueItem({ sectionsDataContext }) {
                 <TableBody>
                   {tests
                     .filter(({ id }) => testCaseIds.includes(id))
-                    .map((test, index) => (
-                      <TableRow
-                        wrapperClassName="cursor-pointer"
-                        // onRowClick={() =>
-                        //   onRowClick('category', {
-                        //     label: category.split('cat.')[1],
-                        //     value: category.split('cat.')[1]
-                        //   })
-                        // }
-                      >
+                    .map((test) => (
+                      <TableRow>
                         {testColumns.map((column, colIndex) => (
                           <TableCell
                             key={column.id}
                             wrapperClassName={`px-3 py-2 ${
-                              colIndex === 0 ? 'w-16' : ''
-                            } ${colIndex === 1 ? 'w-40' : ''}`}
+                              colIndex === 0 ? 'w-3/4' : ''
+                            } ${colIndex === 1 ? 'w-1/4' : ''}`}
                           >
                             {colIndex === 0 ? (
                               <div>
-                                <p>{test.name}</p>
-                                <p>{test.folder}</p>
+                                <p className="text-base-900 text-sm">
+                                  {test.name}
+                                </p>
+                                <p className="text-base-500 text-sm">
+                                  {test.folder}
+                                </p>
                               </div>
                             ) : (
                               <Button
