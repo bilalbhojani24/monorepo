@@ -40,14 +40,25 @@ export default function Dashboard({ children }) {
     />
   ));
 
-  const SWBSidebarSec = secondaryNav.map((item) => (
-    <SidebarItem
-      key={item.id}
-      nav={item}
-      current={item.id === currentPath}
-      handleNavigationClick={handleNavigationClick}
-    />
-  ));
+  const SWBSidebarSec = (
+    <div className="flex flex-col items-start justify-center">
+      {/* <div className="bg-base-50 border-base-100 text-base-900 w-56 rounded border p-6 text-sm">
+        <p className="text-base-900 mb-2 text-base font-semibold">Need help?</p>
+        <p className="mb-5">
+          Learn how to unlock the full potential of Accessibility Testing
+        </p>
+        <Button colors="white">Get a demo</Button>
+      </div> */}
+      {secondaryNav.map((item) => (
+        <SidebarItem
+          key={item.id}
+          nav={item}
+          current={item.id === currentPath}
+          handleNavigationClick={handleNavigationClick}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <div>
@@ -90,7 +101,7 @@ export default function Dashboard({ children }) {
         buyPlanLink="https://www.browserstack.com/contact?&ref=accessibility-dashboard-top-header-csf-lead"
         buyPlanTarget="_blank"
         planButtonVisible
-        planPricingLink="https://minion.browserstack.com/job/FrontendDeploys/job/DeployStagingEnvironmentFrontend/"
+        planPricingLink="https://www.browserstack.com/pricing?product=accessibility-testing"
         supportLink={getUrlForHeader('contact#other')}
         documentationLink={getUrlForHeader(
           'docs/accessibility/overview/introduction'
