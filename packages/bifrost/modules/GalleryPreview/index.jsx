@@ -7,55 +7,68 @@ import { BsChevronLeft, BsChevronRight } from '../Icon';
 import Modal from '../Modal';
 
 const GalleryPreview = ({
-  previewVisible,
+  visible,
   topAction,
   bottomAction,
   wrapperClassName,
   bottomWrapperClassName,
   arrowsWrapperClassName,
-  content
-}) => (
-  <div className={wrapperClassName}>
-    <Modal
-      wrapperClassName="static bg-transparent shadow-none"
-      show={previewVisible}
-    >
-      {topAction}
-      {content ? (
-        <div>{content}</div>
-      ) : (
-        <p className="text-center">No content to preview</p>
-      )}
-      <div
-        className={twClassNames(
-          'mx-auto absolute flex w-full left-0 justify-between',
-          arrowsWrapperClassName
-        )}
+  content,
+  onNextClick,
+  onPrevClick
+}) => {
+  const handleNextClick = () => {
+    onNextClick();
+  };
+  const handlePrevClick = () => {
+    onPrevClick();
+  };
+
+  return (
+    <div className={wrapperClassName}>
+      <Modal
+        wrapperClassName="static bg-transparent shadow-none"
+        show={visible}
       >
-        <Button
-          wrapperClassName="ml-3"
-          colors="white"
-          icon={<BsChevronLeft className="mx-auto h-4 w-4" />}
-          isIconOnlyButton
-        />
-        <Button
-          wrapperClassName="mr-3"
-          colors="white"
-          icon={<BsChevronRight className="mx-auto h-4 w-4" />}
-          isIconOnlyButton
-        />
-      </div>
-      <div
-        className={twClassNames(
-          'flex absolute bottom-3 w-full left-0 justify-center',
-          bottomWrapperClassName
+        {topAction}
+        {content ? (
+          <div className="bg-white">{content}</div>
+        ) : (
+          <p className="text-center">No content to preview</p>
         )}
-      >
-        <div>{bottomAction}</div>
-      </div>
-    </Modal>
-  </div>
-);
+        <div
+          className={twClassNames(
+            'mx-auto absolute flex w-full left-0 justify-between top-1/2',
+            arrowsWrapperClassName
+          )}
+        >
+          <Button
+            onClick={handlePrevClick}
+            wrapperClassName="ml-3"
+            colors="white"
+            icon={<BsChevronLeft className="mx-auto h-4 w-4" />}
+            isIconOnlyButton
+          />
+          <Button
+            onClick={handleNextClick}
+            wrapperClassName="mr-3"
+            colors="white"
+            icon={<BsChevronRight className="mx-auto h-4 w-4" />}
+            isIconOnlyButton
+          />
+        </div>
+        <div
+          className={twClassNames(
+            'flex absolute bottom-3 w-full left-0 justify-center',
+            bottomWrapperClassName
+          )}
+        >
+          <div>{bottomAction}</div>
+        </div>
+      </Modal>
+    </div>
+  );
+};
 
 GalleryPreview.propTypes = {
   content: PropTypes.node,
@@ -64,16 +77,20 @@ GalleryPreview.propTypes = {
   wrapperClassName: PropTypes.string,
   arrowsWrapperClassName: PropTypes.string,
   bottomWrapperClassName: PropTypes.string,
-  previewVisible: PropTypes.bool
+  visible: PropTypes.bool,
+  onPrevClick: PropTypes.func,
+  onNextClick: PropTypes.func
 };
 GalleryPreview.defaultProps = {
-  previewVisible: true,
+  visible: true,
   topAction: null,
   bottomAction: null,
   content: null,
   wrapperClassName: '',
   arrowsWrapperClassName: '',
-  bottomWrapperClassName: ''
+  bottomWrapperClassName: '',
+  onNextClick: () => {},
+  onPrevClick: () => {}
 };
 
 export default GalleryPreview;

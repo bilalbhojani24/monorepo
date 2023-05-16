@@ -100,6 +100,29 @@ Primary.args = {
   children: (
     <>
       <GalleryPreview
+        topAction={
+          <div className="bg-base-900 absolute left-0 top-0 flex w-full justify-between p-5 text-white">
+            <div className="flex items-center gap-3">
+              <p className="text-sm font-medium leading-5 text-white">
+                sit amet consectetur adipisicing elit.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <MdContentCopy
+                className="h-5 w-5 cursor-pointer"
+                aria-hidden="true"
+              />
+              <HiOutlineDownload
+                className="h-5 w-5 cursor-pointer"
+                aria-hidden="true"
+              />
+              <TrashIcon
+                className="h-5 w-5 cursor-pointer"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+        }
         bottomAction={
           <div>
             <Button
