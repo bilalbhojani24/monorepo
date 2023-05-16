@@ -22,7 +22,7 @@ export default defineConfig(({ command }) => {
   };
   if (command !== 'build') {
     commonConfig.server = {
-      port: 9000,
+      port: 8081,
       host: '127.0.0.1'
     };
   }
