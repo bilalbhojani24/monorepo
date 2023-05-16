@@ -14,7 +14,7 @@ function PlanTimingBanner() {
   const isOnFreeTrial = useSelector(getIsOnFreeTrial);
   const description = useMemo(() => {
     if (bannerData?.expired) {
-      return `Your Observability Pro plan has expired on ${bannerData.expiredAt}. Please complete the upgrade process to retain test logs and keep using all the  Pro features.`;
+      return `Your Observability Pro plan has expired on ${bannerData.expiredAt}. Upgrade now to retain test logs and continue enjoying all the Pro features.`;
     }
     if (isOnFreeTrial) {
       return `Your free trial for Observability Pro expires in ${bannerData.expiringInDays} days`;
@@ -51,12 +51,7 @@ function PlanTimingBanner() {
     <div className="text-sm">
       <O11yBanner
         ctaButton={
-          <O11yButton
-            colors="white"
-            variant="minimal"
-            wrapperClassName="underline hover:text-base-300"
-            onClick={handleClickUpgrade}
-          >
+          <O11yButton colors="white" onClick={handleClickUpgrade}>
             Upgrade now
           </O11yButton>
         }
