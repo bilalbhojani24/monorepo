@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getOnboardingData, getOnboardingEventsLogsData } from '../../../apis';
+import {
+  getOnboardingData,
+  getOnboardingEventsLogsData,
+  markOnboardingStatus
+} from '../../../apis';
 import ROUTES from '../../../constants/routes';
 import { getUserDetails } from '../../../globalSlice/selector';
 
@@ -242,6 +246,8 @@ browserstack-cli hst init`,
         setTimeout(() => {
           setIsSetupComplete(true);
         }, 1000);
+
+        markOnboardingStatus(userDetails.id, 'success');
       }
     };
 
