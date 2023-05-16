@@ -69,7 +69,7 @@ export default function Dashboard({ children }) {
             link: 'https://percy.io/api/auth/start-sso'
           }
         ]}
-        headerElementArray={['team', 'help', 'account']}
+        headerElementArray={['team', 'help', 'account', 'pricing']}
         documentation={{
           title: 'Documentation',
           options: [
@@ -87,9 +87,10 @@ export default function Dashboard({ children }) {
           ]
         }}
         buyPlanText="Buy a plan"
-        buyPlanLink="https://www.browserstack.com/contact?&ref=observability-dashboard-top-header-csf-lead"
+        buyPlanLink="https://www.browserstack.com/contact?&ref=accessibility-dashboard-top-header-csf-lead"
+        buyPlanTarget="_blank"
         planButtonVisible
-        planPricingLink=""
+        planPricingLink="https://minion.browserstack.com/job/FrontendDeploys/job/DeployStagingEnvironmentFrontend/"
         supportLink={getUrlForHeader('contact#other')}
         documentationLink={getUrlForHeader(
           'docs/accessibility/overview/introduction'
