@@ -13,6 +13,7 @@ import {
 import Logo from 'assets/accessibility_logo.png';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
+import { logEvent } from 'utils/logEvent';
 
 import useDashboard from './useDashboard';
 
@@ -101,6 +102,13 @@ export default function Dashboard({ children }) {
         buyPlanLink="https://www.browserstack.com/contact?&ref=accessibility-dashboard-top-header-csf-lead"
         buyPlanTarget="_blank"
         planButtonVisible
+        callbackFunctions={{
+          onPlanAndPricingClick: () => {
+            logEvent('ClickHeaderPlansAndPricing', {
+              url: window.location.href
+            });
+          }
+        }}
         planPricingLink="https://www.browserstack.com/pricing?product=accessibility-testing"
         supportLink={getUrlForHeader('contact#other')}
         documentationLink={getUrlForHeader(
