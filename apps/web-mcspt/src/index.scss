@@ -3,3 +3,7 @@
 @tailwind utilities;
 
 @import '@browserstack/tailwind-config/default-theme';
+
+body {
+  -webkit-font-smoothing: antialiased;
+}

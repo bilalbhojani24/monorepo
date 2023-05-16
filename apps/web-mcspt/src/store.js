@@ -1,10 +1,15 @@
 import { reportReducer } from '@browserstack/mcp-shared';
 import { configureStore } from '@reduxjs/toolkit';
 
-import { homeReducer } from './features/Home';
+import { dashboardReducer } from './features/Dashboard';
+import { reportContainerReducer } from './features/ReportContainer';
 
 export const store = configureStore({
-  reducer: { home: homeReducer, report: reportReducer }
+  reducer: {
+    dashboard: dashboardReducer,
+    report: reportReducer,
+    reportContainer: reportContainerReducer
+  }
 });
 
 // only enable in dev mode

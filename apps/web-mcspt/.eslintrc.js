@@ -8,7 +8,9 @@ module.exports = {
       {
         config: tailwindConfig
       }
-    ]
+    ],
+    'simple-import-sort/imports': 1,
+    'tailwindcss/no-arbitrary-value': 0
   },
   globals: {
     IS_DEV: 'readonly',
