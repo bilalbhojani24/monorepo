@@ -5,6 +5,7 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { PAYWALL_FEATURES } from 'constants/paywall';
+import PaywallAlert from 'features/Paywall/components/PaywallAlert';
 import { getActiveProject, getPlanDetailsKey } from 'globalSlice/selectors';
 import isEqual from 'lodash/isEqual';
 
@@ -13,7 +14,6 @@ import { FlakyTags } from '../components/FlakyTags';
 import { NewFailureTags } from '../components/NewFailureTags';
 import { PerformanceAnomaliesTags } from '../components/PerformanceAnomaliesTags';
 import SettingsCard from '../components/SettingsCard';
-import SmartTagPaywallAlert from '../components/SmartTagPaywallAlert';
 import { getSmartTagsSettings } from '../slices/selectors';
 import { getSmartTags } from '../slices/smartTagsSettings';
 
@@ -73,7 +73,9 @@ export default function SmartTags() {
 
   return (
     <div className="flex max-h-full flex-col gap-4">
-      <SmartTagPaywallAlert />
+      {!planDetails?.isActive && (
+        <PaywallAlert title="Configuring Smart tags is a pro feature" />
+      )}
       <SettingsCard>
         <FlakyTags
           data={smartTags.localState.flaky}
