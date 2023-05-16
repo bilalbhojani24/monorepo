@@ -110,9 +110,10 @@ export default function Dashboard({ children }) {
             });
           },
           buyPlanClick: () => {
-            logEvent('ClickHeaderBuyPlan_A11Y', {
-              url: window.location.href,
-              source: 'accessibility-dashboard-top-header'
+            logEvent('ClickedBuyaPlan', {
+              Product: 'Accessibility Testing',
+              section: 'dashboard-top-header',
+              URL: window.location.href
             });
           }
         }}
