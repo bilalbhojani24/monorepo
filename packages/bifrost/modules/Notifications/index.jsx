@@ -25,9 +25,6 @@ const Notifications = forwardRef((props, ref) => {
     if (ref && ref.current !== null) ref.current.focus();
   }, [ref]);
 
-  console.log(title);
-  console.log(body);
-
   return (
     <div
       className={twClassNames(
@@ -41,7 +38,7 @@ const Notifications = forwardRef((props, ref) => {
 
         <div className={twClassNames('w-0 flex-1 pt-0.5')}>
           <p className="text-base-900 line-clamp-2 break-words text-sm font-medium">
-            {title} Tiel
+            {title}
           </p>
 
           {!isCondensed && description && (

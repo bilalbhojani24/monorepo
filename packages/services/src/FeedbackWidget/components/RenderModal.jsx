@@ -71,7 +71,7 @@ const RenderModal = () => {
         })}
       />
 
-      <ModalBody {...variationsProps.modalBody} className="py-4">
+      <ModalBody {...variationsProps.modalBody} className="pb-6 pt-3">
         {/* render thumb or emoji view */}
         {[FEEDBACK_TYPE[0], FEEDBACK_TYPE[2]].includes(feedbacktype.type) &&
           renderEmojiThumb()}
@@ -87,7 +87,7 @@ const RenderModal = () => {
       </ModalBody>
 
       {feedbacktype.type === FEEDBACK_TYPE[1] && (
-        <ModalFooter position="right" backgroundColorClass="bg-base-50">
+        <ModalFooter position="right" backgroundColorClass="bg-base-50 py-3">
           <Button type="submit" onClick={handleFormSubmit}>
             Submit Feedback
           </Button>

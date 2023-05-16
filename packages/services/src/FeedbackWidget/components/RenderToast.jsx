@@ -79,8 +79,10 @@ const RenderToast = () => {
     notify(
       <Notifications
         size="md"
-        title={feedbacktype.title}
-        description={feedbacktype.description}
+        {...(feedbacktype.type !== FEEDBACK_TYPE[4] && {
+          title: feedbacktype.title,
+          description: feedbacktype.description
+        })}
         body={
           <div className="w-full">
             {/* render thumb or emoji view */}
@@ -111,8 +113,7 @@ const RenderToast = () => {
         position: 'bottom-right',
         autoClose: false,
         id: 'feedback-widget',
-        size: 'md',
-        
+        size: 'md'
       }
     );
   }, [
