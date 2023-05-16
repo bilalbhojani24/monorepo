@@ -36,7 +36,7 @@ function ReqDemoBanner() {
     logOllyEvent({
       event: 'O11yDemoCTADismissed',
       data: {
-        source: 'hero',
+        source: 'banner',
         url: window.location.href
       }
     });
