@@ -73,12 +73,16 @@ export async function fetchBuildListing() {
 }
 
 export async function fetchBuildMetaData() {
-  const response = await axios.get('/test_runs/1/meta');
+  const response = await axios.get(
+    '/projects/Project+1/test_runs/First+Build%231/meta'
+  );
   return response.data.metaData;
 }
 
 export async function fetchOverview() {
-  const response = await axios.get('test_runs/1/overview');
+  const response = await axios.get(
+    '/projects/Project+1/test_runs/First+Build%231/overview'
+  );
   return response.data.data;
 }
 

@@ -14,8 +14,8 @@ import useVisualizationWrapper from './useVisualizationWrapper';
 
 const singleMenu = [
   {
-    id: 'lastEight',
-    value: 'lastEight',
+    id: 'eight',
+    value: 8,
     body: (
       <div className="flex items-center">
         <span className="ml-2">Last 8</span>
@@ -23,8 +23,8 @@ const singleMenu = [
     )
   },
   {
-    id: 'lastFour',
-    value: 'lastFour',
+    id: 'four',
+    value: 4,
     body: (
       <div className="flex items-center">
         <span className="ml-2">Last 4</span>
@@ -33,41 +33,41 @@ const singleMenu = [
   }
 ];
 
-export default function DataVisualizationWrapper({ data }) {
-  const { currentStackedChartData } = useVisualizationWrapper(data);
-  return (
-    <>
-      <DataVisualization
-        title="Issue trend"
-        analytics={
-          <div className="flex items-center justify-between">
-            <div className="m-4 w-full">
-              <Chart options={currentStackedChartData} />
-            </div>
-          </div>
-        }
-        otherOptions={
-          <Dropdown onClick={(e) => console.log(e)} id="scanFilter">
-            <div className="flex">
-              <DropdownTrigger
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                wrapperClassName="p-0 border-0 shadow-none"
-              >
-                <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
-              </DropdownTrigger>
-            </div>
+export default function DataVisualizationWrapper({ data, title }) {
+  const { getStackedChartData, applyFilter } = useVisualizationWrapper(data);
 
-            <DropdownOptionGroup>
-              {singleMenu.map((opt) => (
-                <DropdownOptionItem key={opt.id} option={opt} />
-              ))}
-            </DropdownOptionGroup>
-          </Dropdown>
-        }
-      />
-    </>
+  return (
+    <DataVisualization
+      title={title}
+      wrapperClassName="mt-4 bg-white"
+      analytics={
+        <div className="flex items-center justify-between">
+          <div className="m-4 w-full">
+            <Chart options={getStackedChartData()} />
+          </div>
+        </div>
+      }
+      otherOptions={
+        <Dropdown onClick={(e) => applyFilter(e.value)} id="scanFilter">
+          <div className="flex">
+            <DropdownTrigger
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              wrapperClassName="p-0 border-0 shadow-none"
+            >
+              <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
+            </DropdownTrigger>
+          </div>
+
+          <DropdownOptionGroup>
+            {singleMenu.map((opt) => (
+              <DropdownOptionItem key={opt.id} option={opt} />
+            ))}
+          </DropdownOptionGroup>
+        </Dropdown>
+      }
+    />
   );
 }
 
@@ -77,5 +77,6 @@ DataVisualizationWrapper.propTypes = {
     dataPoints: PropTypes.instanceOf(Object),
     series: PropTypes.arrayOf(String),
     color: PropTypes.arrayOf(String)
-  }.isRequired
+  }.isRequired,
+  title: PropTypes.string.isRequired
 };

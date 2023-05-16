@@ -16,7 +16,8 @@ export default function Overview() {
     componentColumns,
     categoryColumns,
     onRowClick,
-    prepareDataForChart
+    prepareDataForIssueTrendChart,
+    prepareDataForHealthHistoryChart
   } = useOverview();
 
   const componentCountList = buildMetaData.chartData.issueCountByComponent.map(
@@ -76,15 +77,20 @@ export default function Overview() {
         />
       </div>
       <div>
+        <DataVisualizationWrapper
+          data={prepareDataForIssueTrendChart()}
+          title="Issue trend"
+        />
+        <DataVisualizationWrapper
+          data={prepareDataForHealthHistoryChart()}
+          title="Health history"
+        />
         <CategoryCard
           eventName="test-name"
           columns={categoryColumns}
           list={categoryList}
           wrapperClassName="mt-4"
         />
-      </div>
-      <div>
-        <DataVisualizationWrapper data={prepareDataForChart()} />
       </div>
     </div>
   );

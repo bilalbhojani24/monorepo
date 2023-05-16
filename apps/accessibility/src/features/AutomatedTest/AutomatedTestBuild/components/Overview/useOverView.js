@@ -65,7 +65,7 @@ export default function useOverview() {
     console.log('key, option: ', option, key);
   };
 
-  const prepareDataForChart = () => {
+  const prepareDataForIssueTrendChart = () => {
     const dataPoints = {};
     const categories = [];
     const colors = {
@@ -80,11 +80,36 @@ export default function useOverview() {
     });
 
     buildMetaData?.trendData.forEach((val) => {
-      if (val.issueSummary) {
-        Object.keys(dataPoints).forEach((key) => {
-          dataPoints[key].push(val.issueSummary[key]);
-        });
-      }
+      Object.keys(dataPoints).forEach((key) => {
+        dataPoints[key].push(val.issueSummary[key]);
+      });
+      categories.push(`#${val.buildNumber}`);
+    });
+
+    return { dataPoints, categories, series, colors };
+  };
+
+  const prepareDataForHealthHistoryChart = () => {
+    const dataPoints = {};
+    const categories = [];
+    const colors = {
+      passed: '#53CA95',
+      failed: '#FC5F6C',
+      skipped: '#FBBF24'
+    };
+    const excludeSeries = ['total'];
+
+    const series = Object.keys(
+      buildMetaData?.trendData[0].healthSummary
+    ).filter((val) => !excludeSeries.includes(val));
+    series.forEach((val) => {
+      dataPoints[val] = [];
+    });
+
+    buildMetaData?.trendData.forEach((val) => {
+      Object.keys(dataPoints).forEach((key) => {
+        dataPoints[key].push(val.healthSummary[key]);
+      });
       categories.push(`#${val.buildNumber}`);
     });
 
@@ -99,6 +124,7 @@ export default function useOverview() {
     componentColumns,
     categoryColumns,
     onRowClick,
-    prepareDataForChart
+    prepareDataForIssueTrendChart,
+    prepareDataForHealthHistoryChart
   };
 }
