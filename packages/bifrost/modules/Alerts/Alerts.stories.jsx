@@ -49,8 +49,10 @@ const defaultConfig = {
       option: { type: 'object' },
       defaultValue: (
         <>
-          <p>Details </p>
-          <span aria-hidden="true">&nbsp;&rarr;</span>
+          <p>Details</p>
+          <span aria-hidden="true" className="ml-1">
+            &rarr;
+          </span>
         </>
       )
     },
