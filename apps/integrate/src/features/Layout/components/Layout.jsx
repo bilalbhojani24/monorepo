@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 import { useResizeObserver } from '@browserstack/hooks';
 
 import INTGHeader from '../../../common/bifrostProxy/components/INTGHeader';
-import Overview from '../../Overview';
 import { Sidebar } from '../../Sidebar/index';
 import { headerSizeSelector, setHeaderSize } from '../slices/headerSlice';
 
@@ -33,9 +33,11 @@ const Layout = () => {
         }}
       >
         <Sidebar />
-        <div className="flex-1 overflow-auto">
-          <Overview />
-        </div>
+        <Suspense>
+          <div className="flex-1 overflow-auto">
+            <Outlet />
+          </div>
+        </Suspense>
       </div>
     </div>
   );
