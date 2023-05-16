@@ -81,15 +81,11 @@ const ListTreeRootWrapper = ({
         `[${focusDatasetName}="${focusIDPrefix + actionID}"]`
       );
       if (item?.dataset?.hasChildren === 'false') {
-        // focus parent if the current focused node has no children
-        const parentId = actionID?.slice(0, -2);
-        if (parentId) {
-          wrapperRef?.current
-            ?.querySelector(
-              `[${focusDatasetName}="${focusIDPrefix + parentId}"]`
-            )
-            ?.focus();
-        }
+        // focus previous node if the current focused node has no children
+        const { focusableNodes: allFocusableNodes, indexOfItem } =
+          getAllFocusAbleItems(actionID);
+        if (indexOfItem === -1) return;
+        allFocusableNodes[indexOfItem - 1]?.focus();
       } else if (openNodeMap[actionID] === true) {
         // close node if the current focused node is in open state
         setOpenNodeMap((prev) => {
@@ -98,18 +94,13 @@ const ListTreeRootWrapper = ({
           return newList;
         });
       } else {
-        // focus parent if the current focused node is closed
-        const parentActionID = actionID?.slice(0, -2);
-        if (parentActionID) {
-          wrapperRef?.current
-            ?.querySelector(
-              `[${focusDatasetName}="${focusIDPrefix + parentActionID}"]`
-            )
-            ?.focus();
-        }
+        // focus previous node if the current focused node has no children
+        const { focusableNodes, indexOfItem } = getAllFocusAbleItems(actionID);
+        if (indexOfItem === -1) return;
+        focusableNodes[indexOfItem - 1]?.focus();
       }
     },
-    [focusIDPrefix, openNodeMap, setOpenNodeMap]
+    [focusIDPrefix, getAllFocusAbleItems, openNodeMap, setOpenNodeMap]
   );
 
   const handleSelectionPress = useCallback(
