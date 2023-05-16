@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "NODE_EXTRA_CA_CERTS=\"$(mkcert -CAROOT)/rootCA.pem\" vite serve",
+    "dev": "vite serve",
     "build": "vite build",
     "preview": "vite preview",
     "lint:check": "eslint --format=table --ignore-pattern dist --max-warnings 0 \"**/*.{js,jsx}\"",
@@ -52,6 +52,7 @@
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
     "@vitejs/plugin-react": "2.2.0",
+    "@vitejs/plugin-basic-ssl": "1.0.1",
     "postcss": "8.4.20",
     "postcss-preset-env": "7.8.3",
     "redux-logger": "3.0.6",

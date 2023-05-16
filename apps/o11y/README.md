@@ -6,9 +6,8 @@
 6. install turbo globally `npm install turbo --global`
 7. install `pnpm` globally `npm install -g pnpm`
 8. run `pnpm run build:dev-package` command on root to build utils, hooks and design system
-9. Generate certs using `./generateCerts.sh` and open Keychain access app on mac > under system you will see mkcert certificate > Double click on it to open and under trust change settings to always trust 
-10. run `turbo run dev --filter o11y` to start
-11. open url https://observability-local.bsstag.com:9000/
+9. run `turbo run dev --filter o11y` to start
+10. open url https://observability-local.bsstag.com:9000/
 
 ## Using .env
 #### `BSTACK_STAGE`
