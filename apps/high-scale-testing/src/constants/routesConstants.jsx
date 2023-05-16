@@ -36,12 +36,12 @@ export const APP_ROUTES = [
     component: <Layout />,
     children: [
       {
-        path: ROUTES.grid_console,
+        path: ROUTES.GRID_CONSOLE,
         isProtected: true,
         component: <Dashboard />
       },
       {
-        path: ROUTES.onboarding,
+        path: ROUTES.ONBOARDING,
         isProtected: true,
         component: <Onboarding />
       }
