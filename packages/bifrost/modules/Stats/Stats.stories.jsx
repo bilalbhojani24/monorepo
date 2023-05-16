@@ -170,8 +170,8 @@ const graphVariantOptions = [
     ),
     stat: '71,897',
     graph: (
-      <div className="mb-2 flex h-28 justify-between">
-        <div className="flex h-24 w-full flex-col justify-between">
+      <div className="mb-4 flex justify-between">
+        <div className="flex w-full flex-col justify-between">
           <div className="mb-2 flex items-center justify-between">
             <div className="flex items-center">
               <div className="bg-info-500 h-3 w-40 rounded-r-full" />
@@ -193,7 +193,7 @@ const graphVariantOptions = [
             </div>
             <p className="text-base-500 text-right text-xs">Name 3</p>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="mb-2 flex items-center justify-between">
             <div className="flex items-center">
               <div className="bg-info-500 h-3 w-52 rounded-r-full" />
               <p className="text-base-900 ml-2 text-xs">320</p>
