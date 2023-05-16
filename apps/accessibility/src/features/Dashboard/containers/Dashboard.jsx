@@ -58,7 +58,6 @@ export default function Dashboard({ children }) {
         wrapperClassName="fixed top-0 z-10 w-full"
         productName="Accessibility Testing"
         release="Beta"
-        planButtonVisible={false}
         productArray={[
           { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
           {
@@ -87,6 +86,10 @@ export default function Dashboard({ children }) {
             { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
           ]
         }}
+        buyPlanText="Buy a plan"
+        buyPlanLink="https://www.browserstack.com/contact?&ref=observability-dashboard-top-header-csf-lead"
+        planButtonVisible
+        planPricingLink=""
         supportLink={getUrlForHeader('contact#other')}
         documentationLink={getUrlForHeader(
           'docs/accessibility/overview/introduction'
