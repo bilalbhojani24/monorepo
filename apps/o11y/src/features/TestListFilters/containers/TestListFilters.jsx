@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
+import { O11yButton } from 'common/bifrostProxy';
 import StatusBadges from 'common/StatusBadges';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import {
@@ -13,6 +15,7 @@ import {
   SearchFilterField
 } from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
+import { useTestListContext } from 'features/TestList/context/TestListContext';
 import {
   getTestListHostNamesData,
   getTestListingFiltersData
@@ -28,6 +31,7 @@ const TestListFilters = ({ buildUUID }) => {
   const [showSlideOver, setShowSlideOver] = useState(false);
   const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
+  const { expandAll, invertExpandAll } = useTestListContext();
 
   const handleClickStatusBadge = useCallback(
     ({ itemClicked }) => {
@@ -65,27 +69,48 @@ const TestListFilters = ({ buildUUID }) => {
   const handleClose = () => {
     setShowSlideOver(false);
   };
+
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <SearchFilterField
-          type={ADV_FILTER_TYPES.search.key}
-          id="search-by-test-or-file-path"
-          placeholder="Search by Test name or File path"
-        />
+      <div className="border-base-200 flex justify-between border-b bg-white px-6 py-4">
+        <div className="flex w-full">
+          <O11yButton
+            isIconOnlyButton
+            colors="white"
+            variant="minimal"
+            wrapperClassName="mr-2.5 p-0.5"
+            icon={
+              expandAll ? (
+                <MdUnfoldLess className="h-5 w-5" />
+              ) : (
+                <MdUnfoldMore className="h-5 w-5" />
+              )
+            }
+            onClick={invertExpandAll}
+          />
+          <SearchFilterField
+            type={ADV_FILTER_TYPES.search.key}
+            id="search-by-test-or-file-path"
+            placeholder="Search by Test name or File path"
+          />
+        </div>
         <div className="flex items-center gap-5">
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
       </div>
-      <div className="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6">
-        <FilterPills />
-        {aggregatedStatus && (
-          <StatusBadges
-            statusStats={aggregatedStatus}
-            onClickHandler={handleClickStatusBadge}
-          />
-        )}
-      </div>
+      <FilterPills
+        rightNode={
+          <>
+            {aggregatedStatus && (
+              <StatusBadges
+                statusStats={aggregatedStatus}
+                onClickHandler={handleClickStatusBadge}
+              />
+            )}
+          </>
+        }
+        wrapperClassName="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6"
+      />
       <FilterSlideover show={showSlideOver} onClose={handleClose}>
         <div className="mb-6 flex flex-col gap-6">
           <MultiSelectStaticFilterField

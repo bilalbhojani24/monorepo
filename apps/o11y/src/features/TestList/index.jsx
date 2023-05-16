@@ -8,8 +8,8 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
-import { MdSearchOff, MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
-import { O11yButton, O11yEmptyState } from 'common/bifrostProxy';
+import { MdSearchOff } from '@browserstack/bifrost';
+import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
@@ -41,9 +41,7 @@ import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
-import FilterPills from './components/FilterPills';
 import RenderRootItem from './components/RenderRootItem';
-import TestListSearch from './components/TestListSearch';
 
 const TestList = ({
   buildUUID,
@@ -94,14 +92,15 @@ const TestList = ({
     [OllyTestListingEvent]
   );
 
-  const invertExpandAll = () => {
+  const invertExpandAll = useCallback(() => {
     if (expandAll) {
       o11yTestListingInteraction('collapse_all');
     } else {
       o11yTestListingInteraction('expand_all');
     }
     setExpandAll((prevValue) => !prevValue);
-  };
+  }, [expandAll, o11yTestListingInteraction]);
+
   const { data: testListData, apiState: testListDataApiState } =
     useSelector(getTestList);
   const appliedFilters = useSelector(getAppliedFilters);
@@ -164,7 +163,8 @@ const TestList = ({
       setClosedAccordionIds,
       o11yTestListingInteraction,
       scrollIndexMapping,
-      updateScrollIndexMapping
+      updateScrollIndexMapping,
+      invertExpandAll
     }),
     [
       expandAll,
@@ -175,7 +175,8 @@ const TestList = ({
       setClosedAccordionIds,
       o11yTestListingInteraction,
       scrollIndexMapping,
-      updateScrollIndexMapping
+      updateScrollIndexMapping,
+      invertExpandAll
     ]
   );
 
@@ -294,33 +295,9 @@ const TestList = ({
   return (
     <>
       <div className="flex h-full flex-col bg-white">
-        <div className="border-base-200 flex justify-between border-b bg-white px-6 py-4">
-          <div className="flex w-full">
-            <O11yButton
-              isIconOnlyButton
-              colors="white"
-              variant="minimal"
-              wrapperClassName="mr-2.5 p-0.5"
-              icon={
-                expandAll ? (
-                  <MdUnfoldLess className="h-5 w-5" />
-                ) : (
-                  <MdUnfoldMore className="h-5 w-5" />
-                )
-              }
-              onClick={invertExpandAll}
-            />
-            <TestListSearch
-              o11yTestListingInteraction={o11yTestListingInteraction}
-            />
-          </div>
-          <div className="flex items-center">
-            <TestListFilters buildUUID={buildUUID} />
-          </div>
-        </div>
-        <FilterPills viewAllTests={viewAllTests} />
-        {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
-          <TestListContext.Provider value={testListContextValues}>
+        <TestListContext.Provider value={testListContextValues}>
+          <TestListFilters buildUUID={buildUUID} />
+          {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
             <Virtuoso
               ref={virtuosoRef}
               style={{ zIndex: 0 }}
@@ -332,8 +309,8 @@ const TestList = ({
                 updateTestScrollPos(e.target.scrollTop);
               }}
             />
-          </TestListContext.Provider>
-        )}
+          )}
+        </TestListContext.Provider>
         {testListDataApiState.status === API_STATUSES.PENDING && (
           <O11yLoader loaderClass="self-center p-1 my-5" />
         )}
