@@ -43,7 +43,7 @@ const link = (
           if (handleLinkClick) handleLinkClick(linkUrl);
         }}
       >
-        <div className="inline-flex">{detailsNode}</div>
+        <div className="inline-flex items-center">{detailsNode}</div>
       </a>
     );
   return null;
