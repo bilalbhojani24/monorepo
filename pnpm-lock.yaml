@@ -235,13 +235,13 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 6.2.0
+      '@browserstack/bifrost': 6.3.0
       '@browserstack/hooks': workspace:*
       '@browserstack/integrations': workspace:*
       '@browserstack/services': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
-      '@browserstack/utils': workspace:*
+      '@browserstack/utils': 2.1.0
       '@browserstack/vite-config': workspace:*
       '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1
@@ -249,6 +249,7 @@ importers:
       '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
+      '@vitejs/plugin-basic-ssl': 1.0.1
       '@vitejs/plugin-react': 2.2.0
       axios: 1.2.2
       classnames: 2.2.6
@@ -282,11 +283,11 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 6.2.0_2durtr67xmbfiygk63c6oc672q
+      '@browserstack/bifrost': 6.3.0_2durtr67xmbfiygk63c6oc672q
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/integrations': link:../../packages/integrations
       '@browserstack/services': link:../../packages/services
-      '@browserstack/utils': link:../../packages/utils
+      '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
@@ -316,6 +317,7 @@ importers:
       '@tailwindcss/nesting': 0.0.0-insiders.565cd3e_postcss@8.4.20
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
+      '@vitejs/plugin-basic-ssl': 1.0.1_vite@3.2.5
       '@vitejs/plugin-react': 2.2.0_vite@3.2.5
       postcss: 8.4.20
       postcss-preset-env: 7.8.3_postcss@8.4.20
@@ -378,8 +380,8 @@ importers:
       '@browserstack/bifrost': 2.2.2_hkbbqhhe7yspx6haowtlreoieq
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
-      '@emotion/react': 11.10.5_idayr2oxcsxtldkhf4tt4nnf6q
-      '@emotion/styled': 11.10.5_ndjzcbtdnptlgfk66yazydp4vu
+      '@emotion/react': 11.10.5_jp5qgyg6plq757v5hojp7ls2oe
+      '@emotion/styled': 11.10.5_jp5djshq6aqfasno3mth3hguci
       '@mui/icons-material': 5.11.0_oiuuhmk4wjjpe4qb2sby7usney
       '@mui/material': 5.11.3_lskpmcsdi7ipu6qpuapyu56ihm
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
@@ -995,6 +997,7 @@ packages:
       semver: 6.3.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
 
   /@babel/eslint-parser/7.21.3_f4tnwb7yxqwpyreao4kfvpek4e:
     resolution: {integrity: sha512-kfhmPimwo6k4P8zxNs8+T7yR44q1LdpsZdE1NkCsVlfiuTPRfnGgjaF8Qgug9q9Pou17u6wneYF0lDCZJATMFg==}
@@ -1058,6 +1061,7 @@ packages:
       browserslist: 4.21.5
       lru-cache: 5.1.1
       semver: 6.3.0
+    dev: true
 
   /@babel/helper-create-class-features-plugin/7.21.4_@babel+core@7.20.12:
     resolution: {integrity: sha512-46QrX2CQlaFRF4TkwfTt6nJD7IHq8539cCL7SDpqWSDeJKY1xylKKY5F/33mJhLZ3mFvKv2gGrVS6NkyF6qs+Q==}
@@ -3728,8 +3732,8 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/6.2.0_2durtr67xmbfiygk63c6oc672q:
-    resolution: {integrity: sha512-2Xbvo4kxHclrmbigO1+++oMxfnTR+UPO16Kt9SCZ0cwxdCdnT+DnSRJZmhYzicwAF6lSMHqApxVtHrC9VDxfGA==, tarball: download/@browserstack/bifrost/6.2.0/92539a7c7d35f11c8dc410f053ef24bed9874000}
+  /@browserstack/bifrost/6.3.0_2durtr67xmbfiygk63c6oc672q:
+    resolution: {integrity: sha512-PMRG0o8VHCnbaCIEKqOUVCgQ0mikrdF/SX4rIWEKjnDbyf8CNNiL9CWWiiWsz/MkhLNeYIGpVbEpEIjayMrS9A==, tarball: download/@browserstack/bifrost/6.3.0/1865f130ba07f53374a5d3d8c6adbe844343d974}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
@@ -4354,31 +4358,6 @@ packages:
   /@emotion/memoize/0.8.0:
     resolution: {integrity: sha512-G/YwXTkv7Den9mXDO7AhLWkE3q+I92B+VqAE+dYG4NGPaHZGvt3G8Q0p9vmE+sq7rTGphUbAvmQ9YpbfMQGGlA==}
 
-  /@emotion/react/11.10.5_idayr2oxcsxtldkhf4tt4nnf6q:
-    resolution: {integrity: sha512-TZs6235tCJ/7iF6/rvTaOH4oxQg2gMAcdHemjwLKIjKz4rRuYe1HJ2TQJKnAcRAfOUDdU8XoDadCe1rl72iv8A==}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-      '@types/react': '*'
-      react: '>=16.8.0'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/core': 7.21.4
-      '@babel/runtime': 7.21.0
-      '@emotion/babel-plugin': 11.10.6
-      '@emotion/cache': 11.10.7
-      '@emotion/serialize': 1.1.1
-      '@emotion/use-insertion-effect-with-fallbacks': 1.0.0_react@18.2.0
-      '@emotion/utils': 1.2.0
-      '@emotion/weak-memoize': 0.3.0
-      '@types/react': 18.0.26
-      hoist-non-react-statics: 3.3.2
-      react: 18.2.0
-    dev: false
-
   /@emotion/react/11.10.5_jp5qgyg6plq757v5hojp7ls2oe:
     resolution: {integrity: sha512-TZs6235tCJ/7iF6/rvTaOH4oxQg2gMAcdHemjwLKIjKz4rRuYe1HJ2TQJKnAcRAfOUDdU8XoDadCe1rl72iv8A==}
     peerDependencies:
@@ -4436,31 +4415,6 @@ packages:
       '@emotion/babel-plugin': 11.10.6
       '@emotion/is-prop-valid': 1.2.0
       '@emotion/react': 11.10.5_jp5qgyg6plq757v5hojp7ls2oe
-      '@emotion/serialize': 1.1.1
-      '@emotion/use-insertion-effect-with-fallbacks': 1.0.0_react@18.2.0
-      '@emotion/utils': 1.2.0
-      '@types/react': 18.0.26
-      react: 18.2.0
-    dev: false
-
-  /@emotion/styled/11.10.5_ndjzcbtdnptlgfk66yazydp4vu:
-    resolution: {integrity: sha512-8EP6dD7dMkdku2foLoruPCNkRevzdcBaY6q0l0OsbyJK+x8D9HWjX27ARiSIKNF634hY9Zdoedh8bJCiva8yZw==}
-    peerDependencies:
-      '@babel/core': ^7.0.0
-      '@emotion/react': ^11.0.0-rc.0
-      '@types/react': '*'
-      react: '>=16.8.0'
-    peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/core': 7.21.4
-      '@babel/runtime': 7.21.0
-      '@emotion/babel-plugin': 11.10.6
-      '@emotion/is-prop-valid': 1.2.0
-      '@emotion/react': 11.10.5_idayr2oxcsxtldkhf4tt4nnf6q
       '@emotion/serialize': 1.1.1
       '@emotion/use-insertion-effect-with-fallbacks': 1.0.0_react@18.2.0
       '@emotion/utils': 1.2.0
@@ -11243,6 +11197,15 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.59.0
       eslint-visitor-keys: 3.4.0
+
+  /@vitejs/plugin-basic-ssl/1.0.1_vite@3.2.5:
+    resolution: {integrity: sha512-pcub+YbFtFhaGRTo1832FQHQSHvMrlb43974e2eS8EKleR3p1cDdkJFPci1UhwkEf1J9Bz+wKBSzqpKp7nNj2A==}
+    engines: {node: '>=14.6.0'}
+    peerDependencies:
+      vite: ^3.0.0 || ^4.0.0
+    dependencies:
+      vite: 3.2.5_sass@1.57.1
+    dev: true
 
   /@vitejs/plugin-react/2.2.0_vite@3.2.5:
     resolution: {integrity: sha512-FFpefhvExd1toVRlokZgxgy2JtnBOdp4ZDsq7ldCWaqGSGn9UhWMAVm/1lxPL14JfNS5yGz+s9yFrQY6shoStA==}
