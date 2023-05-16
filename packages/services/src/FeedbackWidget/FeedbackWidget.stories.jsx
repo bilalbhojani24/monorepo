@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from '@browserstack/bifrost';
+import { Button, CheckCircleIcon } from '@browserstack/bifrost';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -69,10 +69,30 @@ const defaultConfig = {
       option: { type: 'object' },
       defaultValue: fields
     },
-    title: {
-      option: { type: 'string' },
-      defaultValue: 'How was your experience with Lorem Ipsum?'
+    flow: {
+      option: { type: 'object' },
+      defaultValue: [
+        {
+          type: 'thumbs',
+          title: 'How was your experience with Lorem Ipsum Modal?',
+          description: 'Emoji Optional description text for added context Modal'
+        },
+        {
+          type: 'form',
+          title: 'How was your experience with Lorem Ipsum Modal form?',
+          description:
+            'Form Optional description text for added context Modal form'
+        },
+        {
+          type: 'success',
+          title: 'How was your experience with Lorem Ipsum modal success?',
+          description:
+            'Success Optional description text for added context modal success',
+          icon: <CheckCircleIcon className="text-success-400 h-6 w-6" />
+        }
+      ]
     },
+
     type: {
       options: FEEDBACK_TYPE,
       defaultValue: FEEDBACK_TYPE[0]
@@ -105,16 +125,19 @@ export const ModalFeedbackWidget = () => {
         title="How was your experience with Lorem Ipsum?"
         description="Optional description text for added context"
         formFields={fields}
+        handleFeedbackClick={(i) => console.log(i)}
         flow={[
           {
             type: 'thumbs',
-            title: 'How was your experience with Lorem Ipsum?',
-            description: 'Emoji Optional description text for added context '
+            title: 'How was your experience with Lorem Ipsum Modal?',
+            description:
+              'Emoji Optional description text for added context Modal'
           },
           {
             type: 'form',
-            title: 'How was your experience with Lorem Ipsum 1?',
-            description: 'Form Optional description text for added context 1'
+            title: 'How was your experience with Lorem Ipsum Modal form?',
+            description:
+              'Form Optional description text for added context Modal form'
           },
           {
             type: 'success',
@@ -123,15 +146,12 @@ export const ModalFeedbackWidget = () => {
             icon: successIcon
           }
         ]}
-        handleFeedbackClick={(i) => console.log(i)}
         variationsProps={{
-          modal: {
-            show
-          },
           modalHeader: {
             handleDismissClick: () => setShow(false)
           }
         }}
+        isOpen={show}
         variation="modal"
       />
     </>
@@ -152,7 +172,6 @@ export const ToastFeedbackWidget = () => {
       </Button>
 
       <FeedbackWidget
-        show={show}
         title="How was your experience with Lorem Ipsum?"
         description="Optional description text for added context"
         formFields={[
@@ -177,7 +196,7 @@ export const ToastFeedbackWidget = () => {
         ]}
         flow={[
           {
-            type: 'nps',
+            type: 'thumbs',
             title: 'How was your experience with Lorem Ipsum?',
             description: 'Emoji Optional description text for added context '
           },
@@ -190,19 +209,19 @@ export const ToastFeedbackWidget = () => {
             type: 'success',
             title: 'How was your experience with Lorem Ipsum 2?',
             description: 'Success Optional description text for added context',
-            icon: successIcon
+            icon: <CheckCircleIcon className="text-success-400 h-6 w-6" />
           }
         ]}
         handleFeedbackClick={(i) => console.log(i)}
+        isOpen={show}
+        variation="toast"
         variationsProps={{
-          modal: {
-            show
-          },
-          modalHeader: {
-            handleDismissClick: () => setShow(false)
+          notifications: {
+            handleClose: () => {
+              setShow(false);
+            }
           }
         }}
-        variation="toast"
       />
     </>
   );

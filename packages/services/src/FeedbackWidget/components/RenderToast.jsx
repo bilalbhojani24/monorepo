@@ -10,17 +10,17 @@ import {
 import { FEEDBACK_TYPE, npsConstants } from '../const/feedbackWidgetConst';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
-import FeedbackSuccess from './FeedbackSuccess';
 import FormBuilder from './FormBuilder';
 
 const RenderToast = () => {
   const {
     handleFormSubmit,
-    show,
+    isOpen,
     feedbacktype,
     finalFeedbackTypeArray,
     handleClick,
-    handleFeedbackClick
+    handleFeedbackClick,
+    variationsProps
   } = useContext(FeedbackWidgetContextData);
 
   const [selectedNPS, setSelectedNPS] = useState();
@@ -78,27 +78,30 @@ const RenderToast = () => {
   const showNotification = useCallback(() => {
     notify(
       <Notifications
+        {...variationsProps.notifications}
         size="md"
+        title={feedbacktype.title}
+        description={feedbacktype.description}
+        headerIcon={feedbacktype.icon}
         {...(feedbacktype.type !== FEEDBACK_TYPE[4] && {
-          title: feedbacktype.title,
-          description: feedbacktype.description
+          body: (
+            <div className="w-full">
+              {/* render thumb or emoji view */}
+              {[FEEDBACK_TYPE[0], FEEDBACK_TYPE[2]].includes(
+                feedbacktype.type
+              ) && renderEmojiThumb()}
+
+              {/* render nps(number) view */}
+              {feedbacktype.type === FEEDBACK_TYPE[3] && renderNPSBody()}
+
+              {/* render form view */}
+              {feedbacktype.type === FEEDBACK_TYPE[1] && <FormBuilder />}
+            </div>
+          ),
+          bodyClassName: twClassNames('pt-1 pb-7', {
+            'pb-4': feedbacktype.type === FEEDBACK_TYPE[1]
+          })
         })}
-        body={
-          <div className="w-full">
-            {/* render thumb or emoji view */}
-            {[FEEDBACK_TYPE[0], FEEDBACK_TYPE[2]].includes(feedbacktype.type) &&
-              renderEmojiThumb()}
-
-            {/* render nps(number) view */}
-            {feedbacktype.type === FEEDBACK_TYPE[3] && renderNPSBody()}
-
-            {/* render form view */}
-            {feedbacktype.type === FEEDBACK_TYPE[1] && <FormBuilder />}
-
-            {/* render success view */}
-            {feedbacktype.type === FEEDBACK_TYPE[4] && <FeedbackSuccess />}
-          </div>
-        }
         {...(feedbacktype.type === FEEDBACK_TYPE[1] && {
           footer: (
             <div>
@@ -106,7 +109,8 @@ const RenderToast = () => {
                 Submit Feedback
               </Button>
             </div>
-          )
+          ),
+          footerClassName: 'py-3 px-4'
         })}
       />,
       {
@@ -118,16 +122,23 @@ const RenderToast = () => {
     );
   }, [
     feedbacktype.description,
+    feedbacktype.icon,
     feedbacktype.title,
     feedbacktype.type,
     handleFormSubmit,
     renderEmojiThumb,
-    renderNPSBody
+    renderNPSBody,
+    variationsProps.notifications
   ]);
 
+  const hideNotification = () => {
+    notify.remove('feedback-widget');
+  };
+
   useEffect(() => {
-    if (show) showNotification();
-  }, [show, feedbacktype.type, showNotification]);
+    if (isOpen) showNotification();
+    else hideNotification();
+  }, [isOpen, feedbacktype.type, showNotification]);
 
   return <NotificationsContainer />;
 };

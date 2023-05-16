@@ -11,7 +11,7 @@ const FeedbackWidget = ({
   handleFeedbackClick,
   formFields,
   flow,
-  show,
+  isOpen,
   variation,
   variationsProps
 }) => {
@@ -28,7 +28,8 @@ const FeedbackWidget = ({
   } = useFeedbackWidget({
     handleFeedbackClick,
     formFields,
-    flow
+    flow,
+    isOpen
   });
 
   const renderVariation = () => {
@@ -53,7 +54,7 @@ const FeedbackWidget = ({
         handleClick,
         handleFormSubmit,
         finalFeedbackTypeArray,
-        show
+        isOpen
       }}
     >
       {renderVariation()}
@@ -65,6 +66,7 @@ FeedbackWidget.propTypes = {
   handleFeedbackClick: PropTypes.func,
   formFields: PropTypes.arrayOf(PropTypes.shape({})),
   flow: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isOpen: PropTypes.bool,
   variation: PropTypes.oneOf(VARIATIONS),
   variationsProps: {
     modal: PropTypes.shape({}),
@@ -76,6 +78,7 @@ FeedbackWidget.propTypes = {
 FeedbackWidget.defaultProps = {
   handleFeedbackClick: null,
   formFields: [],
+  isOpen: false,
   variation: VARIATIONS[2],
   variationsProps: {
     modal: {},

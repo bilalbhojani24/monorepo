@@ -20,7 +20,8 @@ const RenderModal = () => {
     variationsProps,
     handleClick,
     handleFormSubmit,
-    finalFeedbackTypeArray
+    finalFeedbackTypeArray,
+    isOpen
   } = useContext(FeedbackWidgetContextData);
 
   const [selectedNPS, setSelectedNPS] = useState();
@@ -62,7 +63,7 @@ const RenderModal = () => {
   );
 
   return (
-    <Modal {...variationsProps.modal}>
+    <Modal {...variationsProps.modal} show={isOpen}>
       <ModalHeader
         {...variationsProps.modalHeader}
         {...(feedbacktype.type !== FEEDBACK_TYPE[4] && {
