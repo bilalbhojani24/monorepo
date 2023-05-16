@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 const AccessibilityToolkitIcon = ({ iconClass }) => (
   <svg
-    width="40"
-    height="40"
-    viewBox="0 0 40 40"
+    width="36"
+    height="34"
+    viewBox="0 0 36 34"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className={iconClass}
