@@ -4,12 +4,11 @@ import {
   MdFolderOpen,
   Slideover,
   SlideoverBody,
-  SlideoverHeader,
   Tabs
 } from '@browserstack/bifrost';
 import { ISSUES, SUMMARY, TESTS } from 'constants';
 
-// import Issues from './components/Issues';
+import Issues from './components/Issues';
 import Overview from './components/Overview';
 import useTestIssues from './useTestIssues';
 
@@ -35,7 +34,6 @@ export default function TestIssues() {
     testMetaData,
     testData,
     eventName,
-    issueSummary,
     isOpen,
     setIsOpen,
     onRowClick,
@@ -96,7 +94,7 @@ export default function TestIssues() {
           </div>
           <div className="bg-base-50 relative top-[176px]">
             {activeTab === SUMMARY && testMetaData.issueSummary && <Overview />}
-            {/* {activeTab === ISSUES && testData && <Issues />} */}
+            {activeTab === ISSUES && testData && <Issues />}
           </div>
         </div>
       </SlideoverBody>
