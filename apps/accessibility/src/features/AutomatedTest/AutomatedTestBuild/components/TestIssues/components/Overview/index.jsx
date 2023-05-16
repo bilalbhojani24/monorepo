@@ -12,6 +12,7 @@ export default function Overview() {
     testMetaData,
     eventName,
     urlColumns,
+    issueSummaryData,
     componentColumns,
     categoryColumns,
     onRowClick
@@ -45,19 +46,23 @@ export default function Overview() {
     <div className="grid grid-cols-1 gap-4 px-6 pb-6 lg:grid-cols-2">
       <div>
         <SummaryChart
+          title="Build issue summary"
+          chartTitle="Issues"
           actionType={actionType}
           eventName={eventName}
-          issueSummary={testMetaData.issueSummary}
+          totalCount={testMetaData.issueSummary.issueCount}
+          summary={issueSummaryData}
           onRowClick={onRowClick}
           wrapperClassName="mt-4"
         />
-        <SummaryChart
-          actionType={actionType}
-          eventName={eventName}
-          issueSummary={testMetaData.issueSummary}
-          onRowClick={onRowClick}
+        <CategoryCard
+          eventName="test-name"
+          columns={categoryColumns}
+          list={categoryList}
           wrapperClassName="mt-4"
         />
+      </div>
+      <div>
         <TableCard
           title="Affected Components"
           list={componentCountList}
@@ -70,14 +75,6 @@ export default function Overview() {
           list={urlCountList}
           columns={urlColumns}
           onRowClick={onRowClick}
-          wrapperClassName="mt-4"
-        />
-      </div>
-      <div>
-        <CategoryCard
-          eventName="test-name"
-          columns={categoryColumns}
-          list={categoryList}
           wrapperClassName="mt-4"
         />
       </div>

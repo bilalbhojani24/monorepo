@@ -52,7 +52,10 @@ export default function AutomatedTestListing() {
             />
             <ComboboxOptionGroup>
               {comboboxItems
-                .map((project) => ({ label: project.name, value: project.id }))
+                .map((project) => ({
+                  label: project.name,
+                  value: project.normalisedName
+                }))
                 .map((item) => (
                   <ComboboxOptionItem key={item.value} option={item} />
                 ))}

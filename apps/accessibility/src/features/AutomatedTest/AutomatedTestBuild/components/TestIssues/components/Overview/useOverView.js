@@ -4,6 +4,7 @@ import { getTestMetaData } from '../../slices/selector';
 
 export default function useOverview() {
   const testMetaData = useSelector(getTestMetaData);
+  const { critical, serious, moderate, minor } = testMetaData.issueSummary;
   const ISSUE_COUNT = 'Issue Count';
   const componentColumns = [
     {
@@ -58,6 +59,34 @@ export default function useOverview() {
       key: 'issueCount'
     }
   ];
+
+  const issueSummaryData = [
+    {
+      name: 'Critical',
+      y: critical,
+      color: '#F95D6A',
+      selected: true,
+      value: 'critical'
+    },
+    {
+      name: 'Serious',
+      y: serious,
+      color: '#F472B6',
+      value: 'serious'
+    },
+    {
+      name: 'Moderate',
+      y: moderate,
+      color: '#E3C500',
+      value: 'moderate'
+    },
+    {
+      name: 'Minor',
+      y: minor,
+      color: '#C5D1D8',
+      value: 'minor'
+    }
+  ];
   const actionType = '';
   const eventName = 'Sample event name...';
 
@@ -67,6 +96,7 @@ export default function useOverview() {
 
   return {
     actionType,
+    issueSummaryData,
     testMetaData,
     eventName,
     urlColumns,

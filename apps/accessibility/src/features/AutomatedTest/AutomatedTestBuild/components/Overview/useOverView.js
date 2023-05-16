@@ -5,6 +5,8 @@ import { getBuildMetaData } from '../../slices/selector';
 export default function useOverview() {
   const buildMetaData = useSelector(getBuildMetaData);
   const ISSUE_COUNT = 'Issue Count';
+  const { critical, serious, moderate, minor } = buildMetaData.issueSummary;
+  const { passed, failed, skipped } = buildMetaData.healthSummary;
   const componentColumns = [
     {
       id: 'index',
@@ -58,6 +60,57 @@ export default function useOverview() {
       key: 'issueCount'
     }
   ];
+
+  const issueSummaryData = [
+    {
+      name: 'Critical',
+      y: critical,
+      color: '#F95D6A',
+      selected: true,
+      value: 'critical'
+    },
+    {
+      name: 'Serious',
+      y: serious,
+      color: '#F472B6',
+      value: 'serious'
+    },
+    {
+      name: 'Moderate',
+      y: moderate,
+      color: '#E3C500',
+      value: 'moderate'
+    },
+    {
+      name: 'Minor',
+      y: minor,
+      color: '#C5D1D8',
+      value: 'minor'
+    }
+  ];
+
+  const healthSummaryData = [
+    {
+      name: 'Passed',
+      y: passed,
+      color: '#53CA95',
+      selected: true,
+      value: 'passed'
+    },
+    {
+      name: 'Failed',
+      y: failed,
+      color: '#FC5F6C',
+      value: 'failed'
+    },
+    {
+      name: 'Skipped',
+      y: skipped,
+      color: '#F59E0B',
+      value: 'skipped'
+    }
+  ];
+
   const actionType = '';
   const eventName = 'Sample event name...';
 
@@ -66,6 +119,8 @@ export default function useOverview() {
   };
 
   return {
+    issueSummaryData,
+    healthSummaryData,
     actionType,
     buildMetaData,
     eventName,

@@ -3,11 +3,11 @@ import { logEvent } from 'utils/logEvent';
 export default function useSummaryChart({
   actionType,
   eventName,
-  issueSummary,
+  summary,
+  chartTitle,
+  totalCount,
   onRowClick
 }) {
-  const { critical, serious, moderate, minor, issueCount } = issueSummary;
-
   const chartOption = {
     chart: {
       plotBackgroundColor: null,
@@ -23,7 +23,7 @@ export default function useSummaryChart({
       enabled: false
     },
     title: {
-      text: `<div style="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${issueCount}</p><p class="text-xs text-base-500">Issues</p></div>`,
+      text: `<div style="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${totalCount}</p><p class="text-xs text-base-500">${chartTitle}</p></div>`,
       verticalAlign: 'middle',
       useHTML: true
     },
@@ -60,29 +60,7 @@ export default function useSummaryChart({
             }
           }
         },
-        data: [
-          {
-            name: 'Critical',
-            y: critical,
-            color: '#F95D6A',
-            selected: true
-          },
-          {
-            name: 'Serious',
-            y: serious,
-            color: '#F472B6'
-          },
-          {
-            name: 'Moderate',
-            y: moderate,
-            color: '#E3C500'
-          },
-          {
-            name: 'Minor',
-            y: minor,
-            color: '#C5D1D8'
-          }
-        ]
+        data: summary
       }
     ]
   };

@@ -10,20 +10,25 @@ import useSummaryChart from './useSummaryChart';
 
 export default function SummaryChart({
   actionType,
+  title,
   eventName,
-  issueSummary,
+  summary,
+  totalCount,
+  chartTitle,
   wrapperClassName,
   onRowClick
 }) {
   const { chartOption } = useSummaryChart({
     actionType,
     eventName,
-    issueSummary,
+    summary,
+    totalCount,
+    chartTitle,
     onRowClick
   });
   return (
     <DataVisualization
-      title="Issue summary"
+      title={title}
       headerInfo={null}
       wrapperClassName={twClassNames('h-[440px] bg-white', wrapperClassName)}
       size="fit-content"
@@ -34,7 +39,7 @@ export default function SummaryChart({
           </div>
           <div className="flex w-2/4 flex-col items-center px-6">
             <div className="w-full">
-              {severityOptions.map(({ value: impact, meta: { color } }) => (
+              {summary.map(({ value: impact, color, y: count }) => (
                 <div
                   aria-label={impact}
                   tabIndex={0}
@@ -60,9 +65,7 @@ export default function SummaryChart({
                     {impact.charAt(0).toUpperCase()}
                     {impact.slice(1, impact.length)}
                   </div>
-                  <p className="text-base-800 flex pb-3 text-sm">
-                    {issueSummary[impact]}
-                  </p>
+                  <p className="text-base-800 flex pb-3 text-sm">{count}</p>
                 </div>
               ))}
             </div>
@@ -74,9 +77,12 @@ export default function SummaryChart({
 }
 
 SummaryChart.propTypes = {
+  title: PropTypes.string.isRequired,
   actionType: PropTypes.string,
   eventName: PropTypes.string,
-  issueSummary: PropTypes.objectOf({
+  totalCount: PropTypes.number.isRequired,
+  chartTitle: PropTypes.string.isRequired,
+  summary: PropTypes.objectOf({
     critical: PropTypes.number,
     serious: PropTypes.number,
     moderate: PropTypes.number,

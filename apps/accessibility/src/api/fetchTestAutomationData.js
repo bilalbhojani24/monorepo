@@ -72,18 +72,31 @@ export async function fetchBuildListing() {
   });
 }
 
-export async function fetchBuildMetaData() {
-  const response = await axios.get('/test_runs/1/meta');
+export async function fetchBuildMetaData(project, name, number) {
+  const response = await axios.get(
+    `/projects/${project}/test_runs/${name}%23${number}/meta`
+  );
   return response.data.metaData;
 }
 
-export async function fetchOverview() {
-  const response = await axios.get('test_runs/1/overview');
+export async function fetchOverview(project, name, number) {
+  const response = await axios.get(
+    `/projects/${project}/test_runs/${name}%23${number}/overview`
+  );
   return response.data.data;
 }
 
-export async function fetchBuildIssues() {
-  const response = await axios.get('test_runs/1/issues');
+export async function fetchBuildIssues(project, name, number) {
+  const response = await axios.get(
+    `/projects/${project}/test_runs/${name}%23${number}/issues`
+  );
+  return response.data;
+}
+
+export async function fetchTestCasesData(project, name, number) {
+  const response = await axios.get(
+    `/projects/${project}/test_runs/${name}%23${number}/test_cases`
+  );
   return response.data;
 }
 
@@ -110,11 +123,6 @@ export async function fetchProjectById(id) {
 export async function fetchAllTestRuns() {
   const response = await axios.get('/test_runs');
   return response.data.testRuns;
-}
-
-export async function fetchTestCasesData(id) {
-  const response = await axios.get(`test_runs/${id}/test_cases`, header);
-  return response.data;
 }
 
 export async function fetchTestCaseData() {

@@ -10,6 +10,8 @@ export default function Overview() {
   const {
     actionType,
     buildMetaData,
+    issueSummaryData,
+    healthSummaryData,
     eventName,
     urlColumns,
     componentColumns,
@@ -45,16 +47,22 @@ export default function Overview() {
     <div className="grid grid-cols-1 gap-4 px-6 pb-6 lg:grid-cols-2">
       <div>
         <SummaryChart
+          title="Build issue summary"
+          chartTitle="Issues"
           actionType={actionType}
           eventName={eventName}
-          issueSummary={buildMetaData.issueSummary}
+          totalCount={buildMetaData.issueSummary.issueCount}
+          summary={issueSummaryData}
           onRowClick={onRowClick}
           wrapperClassName="mt-4"
         />
         <SummaryChart
+          title="Accessibility health summary"
+          chartTitle="TESTS"
+          totalCount={buildMetaData.healthSummary.total}
           actionType={actionType}
           eventName={eventName}
-          issueSummary={buildMetaData.issueSummary}
+          summary={healthSummaryData}
           onRowClick={onRowClick}
           wrapperClassName="mt-4"
         />
