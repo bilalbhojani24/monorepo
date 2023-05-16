@@ -26,7 +26,9 @@
     "react-dom": "18.2.0",
     "react-redux": "8.0.5",
     "react-router-dom": "6.6.1",
-    "axios": "1.2.2"
+    "axios": "1.2.2",
+    "prop-types": "15.8.1",
+    "date-fns": "2.29.3"
   },
   "devDependencies": {
     "@browserstack/stylelint-config": "workspace:*",

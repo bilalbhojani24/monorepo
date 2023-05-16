@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   SelectMenu,
   SelectMenuOptionGroup,
@@ -6,51 +7,59 @@ import {
   SelectMenuTrigger
 } from '@browserstack/bifrost';
 
+import {
+  activeConfigurationsSelector,
+  configurationsSelector,
+  setActiveConfigurations
+} from '../../../globalSlice';
+
 const SelectConfigurations = () => {
-  const [activeConfigs, setActiveConfigs] = useState([]);
+  const dispatch = useDispatch();
   const AllConfigurationsOption = {
     label: 'All Configurations',
     value: 'All Configurations'
   };
-  const configs = [
-    { label: 'Configuration 1', value: '1' },
-    { label: 'Configuration 2', value: '2' },
-    { label: 'Configuration 3', value: '3' }
-  ];
+  const configurations = useSelector(configurationsSelector);
+  const activeConfigurations = useSelector(activeConfigurationsSelector);
+
   const selectConfiguration = (val) => {
     const hasSelectAllConfigurations = val?.find(
       (option) => option.value === AllConfigurationsOption.value
     );
     if (hasSelectAllConfigurations) {
-      setActiveConfigs([AllConfigurationsOption, ...configs]);
+      dispatch(
+        setActiveConfigurations([AllConfigurationsOption, ...configurations])
+      );
     } else {
-      setActiveConfigs((prev) => {
-        const deselectedAllConfigurations = prev?.find(
-          (option) => option.value === AllConfigurationsOption.value
-        );
-        if (deselectedAllConfigurations) {
-          setActiveConfigs([]);
-        } else {
-          setActiveConfigs(val);
-        }
-      });
+      const deselectedAllConfigurations = activeConfigurations?.find(
+        (option) => option.value === AllConfigurationsOption.value
+      );
+      if (deselectedAllConfigurations) {
+        dispatch(setActiveConfigurations([]));
+      } else {
+        dispatch(setActiveConfigurations(val));
+      }
     }
   };
 
   return (
-    <SelectMenu onChange={selectConfiguration} value={activeConfigs} isMulti>
+    <SelectMenu
+      onChange={selectConfiguration}
+      value={activeConfigurations}
+      isMulti
+    >
       <SelectMenuTrigger
         placeholder="All Configurations"
         wrapperClassName="w-48 ml-6"
       />
       <SelectMenuOptionGroup>
-        {configs?.length > 1 && (
+        {configurations?.length > 1 && (
           <SelectMenuOptionItem
             key={AllConfigurationsOption.value}
             option={AllConfigurationsOption}
           />
         )}
-        {configs.map((item) => (
+        {configurations.map((item) => (
           <SelectMenuOptionItem key={item.value} option={item} />
         ))}
       </SelectMenuOptionGroup>
