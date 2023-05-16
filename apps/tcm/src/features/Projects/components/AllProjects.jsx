@@ -271,7 +271,6 @@ const AllProjects = () => {
                     ? 'Zephyr Scale'
                     : 'TestRail'
                 } successfully`}
-                linkText={null}
                 dismissButton
                 dismissButtonFn={dismissImportProjectAlert}
               />
