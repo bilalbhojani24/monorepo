@@ -49,7 +49,16 @@ const ListTreeRootWrapper = ({
 
   const handleArrowRightPress = useCallback(
     (actionID) => {
-      if (!openNodeMap[actionID]) {
+      const item = wrapperRef?.current?.querySelector(
+        `[${focusDatasetName}="${focusIDPrefix + actionID}"]`
+      );
+      if (item.dataset.hasChildren) {
+        // focus the next node if node has no children
+        const { focusableNodes: allFocusAbleItems, indexOfItem } =
+          getAllFocusAbleItems(actionID);
+        if (indexOfItem === -1) return;
+        allFocusAbleItems[indexOfItem + 1]?.focus();
+      } else if (!openNodeMap[actionID]) {
         // open node if the current focused node is in closed state
         setOpenNodeMap((prev) => {
           const newList = { ...prev };
@@ -57,12 +66,13 @@ const ListTreeRootWrapper = ({
           return newList;
         });
       } else {
+        // focus the next node if node is closed
         const { focusableNodes, indexOfItem } = getAllFocusAbleItems(actionID);
         if (indexOfItem === -1) return;
         focusableNodes[indexOfItem + 1]?.focus();
       }
     },
-    [getAllFocusAbleItems, openNodeMap, setOpenNodeMap]
+    [focusIDPrefix, getAllFocusAbleItems, openNodeMap, setOpenNodeMap]
   );
 
   const handleArrowLeftPress = useCallback(
