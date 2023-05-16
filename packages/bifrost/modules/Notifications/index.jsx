@@ -25,7 +25,7 @@ const Notifications = forwardRef((props, ref) => {
   return (
     <div
       className={twClassNames(
-        'z-80 pointer-events-auto flex w-full max-w-sm items-start rounded-lg bg-white p-4 shadow-lg ring-1 ring-black/5',
+        'z-90 pointer-events-auto flex w-full max-w-sm items-start rounded-lg bg-white p-4 shadow-lg ring-1 ring-black/5',
         wrapperClassName
       )}
     >

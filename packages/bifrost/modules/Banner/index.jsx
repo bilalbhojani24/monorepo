@@ -80,7 +80,7 @@ const Banner = ({
           'fixed bottom-0 inset-x-0': placement === BANNER_PLACEMENT[2]
         },
         classes[modifier].containerColor,
-        'z-50'
+        'z-40'
       )}
       id={headerID || null}
     >

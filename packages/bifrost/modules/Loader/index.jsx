@@ -7,7 +7,7 @@ const Loader = ({ height, width, wrapperClassName }) => (
     <svg
       aria-hidden="true"
       className={twClassNames([
-        'animate-spin fill-white text-transparent z-70',
+        'animate-spin fill-white text-transparent z-80',
         height || 'h-5',
         width || 'w-5',
         wrapperClassName

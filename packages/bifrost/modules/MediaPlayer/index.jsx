@@ -145,7 +145,7 @@ const MediaPlayer = forwardRef(
           {isBuffering && (
             <div
               className={twClassNames(
-                'absolute top-0 left-0 w-full h-full bg-base-400 opacity-50 z-70 block'
+                'absolute top-0 left-0 w-full h-full bg-base-400 opacity-50 z-80 block'
               )}
             >
               <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
