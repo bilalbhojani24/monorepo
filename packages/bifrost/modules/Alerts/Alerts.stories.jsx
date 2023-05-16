@@ -51,8 +51,7 @@ const defaultConfig = {
         <>
           <p className="text-sm">Details</p>
           <span aria-hidden="true" className="text-sm">
-            {' '}
-            &rarr;
+            &nbps; &rarr;
           </span>
         </>
       )
