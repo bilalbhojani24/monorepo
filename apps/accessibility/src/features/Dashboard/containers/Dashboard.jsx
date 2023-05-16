@@ -70,7 +70,7 @@ export default function Dashboard({ children }) {
             link: 'https://percy.io/api/auth/start-sso'
           }
         ]}
-        headerElementArray={['team', 'help', 'notifications', 'account']}
+        headerElementArray={['team', 'help', 'account']}
         documentation={{
           title: 'Documentation',
           options: [
