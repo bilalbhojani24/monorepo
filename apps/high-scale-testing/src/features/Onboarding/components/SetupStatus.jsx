@@ -3,6 +3,7 @@ import {
   Alerts,
   Badge,
   Button,
+  MdContentCopy,
   MdInfoOutline,
   Modal,
   Table,
@@ -12,6 +13,8 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
+
+import CopyButton from '../../../common/CopyButton/components/CopyButton';
 
 const SetupStatus = ({
   exploreAutomationClickHandler,
@@ -47,6 +50,10 @@ const SetupStatus = ({
                   >
                     URL
                   </TableCell>
+                  <TableCell
+                    variant="header"
+                    wrapperClassName="first:pr-3 last:pl-3 px-2"
+                  />
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -65,6 +72,15 @@ const SetupStatus = ({
                   >
                     {frameworkURLs.selenium}
                   </TableCell>
+                  <TableCell>
+                    <CopyButton
+                      copyValue={frameworkURLs.selenium}
+                      textColor=""
+                      wrapperClassName="text-xl"
+                    >
+                      <MdContentCopy />
+                    </CopyButton>
+                  </TableCell>
                 </TableRow>
                 <TableRow onRowClick={() => {}}>
                   <TableCell
@@ -80,6 +96,15 @@ const SetupStatus = ({
                    first:pr-3 last:pl-3 px-2 py-2"
                   >
                     {frameworkURLs.playwright}
+                  </TableCell>
+                  <TableCell>
+                    <CopyButton
+                      copyValue={frameworkURLs.playwright}
+                      textColor=""
+                      wrapperClassName="text-xl"
+                    >
+                      <MdContentCopy />
+                    </CopyButton>
                   </TableCell>
                 </TableRow>
                 <TableRow onRowClick={() => {}}>
