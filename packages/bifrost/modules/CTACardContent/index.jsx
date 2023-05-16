@@ -2,12 +2,12 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import { FEATURE_FENCING_SIZES } from '../FeatureFencing/const';
-import { useFeatureFencingContext } from '../FeatureFencing/context';
+import { FEATURE_FENCING_SIZES } from '../CTACard/const';
+import { useFeatureFencingContext } from '../CTACard/context';
 
 import { CONTENT_PADDING, DESCRIPTION_STYLES, HEADER_STYLES } from './const';
 
-const FeatureFencingContent = ({ children, header, description }) => {
+const CTACardContent = ({ children, header, description }) => {
   const { size } = useFeatureFencingContext();
 
   return (
@@ -25,10 +25,7 @@ const FeatureFencingContent = ({ children, header, description }) => {
           'text-base-500 font-normal',
           DESCRIPTION_STYLES[size],
           {
-            'mt-1.5':
-              size === FEATURE_FENCING_SIZES.SM ||
-              size === FEATURE_FENCING_SIZES.BASE,
-            'mt-2.5': size === FEATURE_FENCING_SIZES.XL
+            'mt-1.5': size === FEATURE_FENCING_SIZES.BASE
           }
         )}
       >
@@ -36,10 +33,7 @@ const FeatureFencingContent = ({ children, header, description }) => {
       </p>
       <div
         className={twClassNames({
-          'mt-6':
-            size === FEATURE_FENCING_SIZES.SM ||
-            size === FEATURE_FENCING_SIZES.BASE,
-          'mt-9': size === FEATURE_FENCING_SIZES.XL
+          'mt-6': size === FEATURE_FENCING_SIZES.BASE
         })}
       >
         {children}
@@ -48,10 +42,10 @@ const FeatureFencingContent = ({ children, header, description }) => {
   );
 };
 
-FeatureFencingContent.propTypes = {
+CTACardContent.propTypes = {
   header: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired
 };
 
-export default FeatureFencingContent;
+export default CTACardContent;

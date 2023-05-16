@@ -1,6 +1,6 @@
 import React from 'react';
 
-const O11yExampleImage = (props) => (
+const ExampleImage = (props) => (
   <svg
     width="348"
     height="248"
@@ -823,4 +823,4 @@ const O11yExampleImage = (props) => (
   </svg>
 );
 
-export default O11yExampleImage;
+export default ExampleImage;

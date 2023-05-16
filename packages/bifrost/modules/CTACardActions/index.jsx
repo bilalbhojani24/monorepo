@@ -3,12 +3,12 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import Button from '../Button';
-import { FEATURE_FENCING_SIZES } from '../FeatureFencing/const';
-import { useFeatureFencingContext } from '../FeatureFencing/context';
+import { FEATURE_FENCING_SIZES } from '../CTACard/const';
+import { useFeatureFencingContext } from '../CTACard/context';
 
 import { CTA_BUTTON_SIZES, FEATURE_FENCING_ACTIONS_ALIGNMENT } from './const';
 
-const FeatureFencingActions = (props) => {
+const CTACardActions = (props) => {
   const {
     alignment,
     primaryBtnText,
@@ -30,10 +30,7 @@ const FeatureFencingActions = (props) => {
           alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.CENTER,
         'justify-start': alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT,
 
-        'gap-6':
-          size === FEATURE_FENCING_SIZES.SM ||
-          size === FEATURE_FENCING_SIZES.BASE,
-        'gap-9': size === FEATURE_FENCING_SIZES.XL
+        'gap-6': size === FEATURE_FENCING_SIZES.BASE
       })}
     >
       {!showActionTextOnly && (
@@ -47,7 +44,7 @@ const FeatureFencingActions = (props) => {
           </Button>
           {secondaryBtnText && (
             <Button
-              {...secondaryBtnProps}
+              {...{ variant: 'minimal', colors: 'white', ...secondaryBtnProps }}
               onClick={onSecondaryBtnClick}
               size={CTA_BUTTON_SIZES[size]}
             >
@@ -60,7 +57,7 @@ const FeatureFencingActions = (props) => {
     </div>
   );
 };
-FeatureFencingActions.propTypes = {
+CTACardActions.propTypes = {
   alignment: PropTypes.oneOf(Object.values(FEATURE_FENCING_ACTIONS_ALIGNMENT)),
   primaryBtnText: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
     .isRequired,
@@ -73,7 +70,7 @@ FeatureFencingActions.propTypes = {
   showActionTextOnly: PropTypes.bool
 };
 
-FeatureFencingActions.defaultProps = {
+CTACardActions.defaultProps = {
   secondaryBtnText: null,
   primaryBtnProps: {},
   secondaryBtnProps: {},
@@ -83,4 +80,4 @@ FeatureFencingActions.defaultProps = {
   showActionTextOnly: false
 };
 
-export default FeatureFencingActions;
+export default CTACardActions;
