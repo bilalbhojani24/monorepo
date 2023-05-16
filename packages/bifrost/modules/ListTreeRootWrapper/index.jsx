@@ -164,11 +164,12 @@ const ListTreeRootWrapper = ({
       newOpenNodeMap[parentIds] = true;
     });
     setOpenNodeMap(newOpenNodeMap);
+    // hold execution till all the hierarchial nodes are opened and then find dom node.
     setTimeout(() => {
       wrapperRef?.current
         ?.querySelector(`[${focusDatasetName}="${focusIDPrefix + id}"]`)
         ?.focus();
-    }, 100);
+    }, 10);
   }, [
     filteredUUIDs?.filteredUUIDsWithHierarchy,
     filteredUUIDs?.searchedUUIDs,
