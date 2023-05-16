@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Header } from '@browserstack/bifrost';
-import { DOC_KEY_MAPPING } from 'constants/common';
+import { DOC_KEY_MAPPING, EXTERNAL_LINKS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getIsOnFreemium } from 'globalSlice/selectors';
-import { getDocUrl, getEnvConfig } from 'utils/common';
+import { getDocUrl, getEnvConfig, getExternalUrl } from 'utils/common';
 
 const envConfig = getEnvConfig();
 
@@ -86,10 +86,10 @@ const O11yHeader = () => {
           window.location.href = envConfig.signOutUrl;
         }
       }}
-      planPricingLink={`${envConfig.baseUrl}/pricing?product=test-observability`}
+      planPricingLink={getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing })}
       buyPlanText={isOnFreemium ? 'Buy a Plan' : 'Upgrade'}
       buyPlanTarget="_blank"
-      buyPlanLink={`${envConfig.baseUrl}/contact?&ref=observability-dashboard-top-header-csf-lead`}
+      buyPlanLink={getExternalUrl({ path: EXTERNAL_LINKS.buyAPlan })}
     />
   );
 };

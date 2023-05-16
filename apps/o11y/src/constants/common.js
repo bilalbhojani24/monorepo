@@ -14,6 +14,11 @@ export const DOC_KEY_MAPPING = {
   uploading_logs: 'integrations/application-logs',
   wdio: 'quick-start/webdriverio'
 };
+export const EXTERNAL_LINKS = {
+  getADemo: 'contact?&ref=observability-dashboard-top-header-csf-lead#sales',
+  planAndPricing: 'pricing?product=test-observability',
+  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead'
+};
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
   'to_activeProjectNormalizedName';
