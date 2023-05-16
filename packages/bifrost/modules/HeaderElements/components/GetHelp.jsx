@@ -3,6 +3,10 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import AccessibleTooltip from '../../Header/components/AccessibleTooltip';
+import {
+  CALLBACK_FUNCTIONS_PROP_TYPE,
+  hyperlinkClickHandler
+} from '../../Header/utils';
 import Hyperlink from '../../Hyperlink';
 import { ChevronDownIcon, MdArrowRightAlt } from '../../Icon';
 
@@ -12,7 +16,8 @@ const GetHelp = ({
   references,
   others,
   documentationLink,
-  supportLink
+  supportLink,
+  callbackFunctions
 }) => {
   const LINKS_TEXT_CLASSNAMES =
     'not-italic font-normal text-sm leading-4 text-black';
@@ -44,12 +49,21 @@ const GetHelp = ({
       >
         {optionArray.map((element) => (
           <Hyperlink
+            key={element.name}
             isCSR={false}
             wrapperClassName={twClassNames(
               'flex flex-row items-start p-2 gap-2 w-full hover:bg-[#edf8ff]'
             )}
             href={element.link}
-            key={element.name}
+            onClick={(e) => {
+              hyperlinkClickHandler(
+                e,
+                element.link,
+                callbackFunctions?.onHelpDropdownOptionClick,
+                '_self',
+                element.name
+              );
+            }}
           >
             <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
               {element.name}
@@ -116,6 +130,15 @@ const GetHelp = ({
             'flex flex-row items-center py-0 px-2 gap-1 text-base-800 w-[188px]'
           )}
           href={footerLeftLink}
+          onClick={(e) => {
+            hyperlinkClickHandler(
+              e,
+              footerLeftLink,
+              callbackFunctions?.onHelpDropdownOptionClick,
+              '_self',
+              'View documentation'
+            );
+          }}
         >
           <p
             className={twClassNames(
@@ -132,6 +155,15 @@ const GetHelp = ({
             'flex flex-row items-center py-0 px-2 gap-1 text-base-800 w-[188px]'
           )}
           href={footerRightLink}
+          onClick={(e) => {
+            hyperlinkClickHandler(
+              e,
+              footerLeftLink,
+              callbackFunctions?.onHelpDropdownOptionClick,
+              '_self',
+              'View Support'
+            );
+          }}
         >
           <p
             className={twClassNames(
@@ -195,6 +227,7 @@ const GetHelp = ({
 };
 
 GetHelp.propTypes = {
+  callbackFunctions: CALLBACK_FUNCTIONS_PROP_TYPE,
   documentation: PropTypes.objectOf(PropTypes.any).isRequired,
   references: PropTypes.objectOf(PropTypes.any).isRequired,
   others: PropTypes.objectOf(PropTypes.any),
@@ -208,6 +241,7 @@ GetHelp.propTypes = {
 };
 
 GetHelp.defaultProps = {
+  callbackFunctions: null,
   others: null
 };
 

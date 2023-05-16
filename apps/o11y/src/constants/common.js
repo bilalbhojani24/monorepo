@@ -152,7 +152,7 @@ export const TEST_DETAILS_SOURCE = {
   SUITE_HEALTH_ERRORS: 'suite_health_errors'
 };
 
-export const BSTACK_TOPNAV_ELEMENT_ID = 'bstack-header';
+export const BSTACK_TOPNAV_ELEMENT_ID = 'o11y-header';
 export const PUSHER_EVENTS = {
   BUILD_STARTED: 'BUILD_STARTED',
   BUILD_FINISHED: 'BUILD_FINISHED',
@@ -185,4 +185,11 @@ export const TEST_LIST_FILTERS_TAGS = {
 export const o11yHistory = {
   navigate: null,
   location: null
+};
+
+export const roundedTableHeaderHack = {
+  left: 'rounded-tl-lg before:left-[-1px]',
+  right: 'rounded-tr-lg before:right-[-1px]',
+  common:
+    'before:absolute before:block before:w-[1px] before:h-[6px] before:bg-base-50 before:top-[-1px] before:rounded'
 };

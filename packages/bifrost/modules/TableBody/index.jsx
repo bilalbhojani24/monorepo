@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 
 const TableBody = React.forwardRef(({ children, wrapperClassName }, ref) => (
   <tbody
-    className={twClassNames('divide-base-200 divide-y', wrapperClassName)}
+    className={twClassNames(
+      'divide-base-200 border-b border-t divide-y',
+      wrapperClassName
+    )}
     ref={ref}
   >
     {children}

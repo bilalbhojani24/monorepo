@@ -123,7 +123,7 @@ const getChartOptions = ({ afterSetExtremes, activeProject }) => ({
     series: {
       color: '#376D98',
       animation: false,
-      connectNulls: null,
+      connectNulls: true,
       marker: {
         radius: 3
       },
