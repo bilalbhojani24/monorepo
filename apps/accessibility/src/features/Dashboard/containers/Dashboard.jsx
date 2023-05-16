@@ -13,6 +13,7 @@ import {
 import Logo from 'assets/accessibility_logo.png';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
+import { getBrowserStackBase } from 'utils';
 import { logEvent } from 'utils/logEvent';
 
 import useDashboard from './useDashboard';
@@ -99,7 +100,7 @@ export default function Dashboard({ children }) {
           ]
         }}
         buyPlanText="Buy a plan"
-        buyPlanLink="https://www.browserstack.com/contact?&ref=accessibility-dashboard-top-header-csf-lead"
+        buyPlanLink={`${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-top-header-csf-lead`}
         buyPlanTarget="_blank"
         planButtonVisible
         callbackFunctions={{
@@ -107,9 +108,15 @@ export default function Dashboard({ children }) {
             logEvent('ClickHeaderPlansAndPricing', {
               url: window.location.href
             });
+          },
+          buyPlanClick: () => {
+            logEvent('ClickHeaderBuyPlan_A11Y', {
+              url: window.location.href,
+              source: 'accessibility-dashboard-top-header'
+            });
           }
         }}
-        planPricingLink="https://www.browserstack.com/pricing?product=accessibility-testing"
+        planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing`}
         supportLink={getUrlForHeader('contact#other')}
         documentationLink={getUrlForHeader(
           'docs/accessibility/overview/introduction'
