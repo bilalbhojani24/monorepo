@@ -15,7 +15,7 @@ export const generateSharableLinkForReport =
 
       const response = await fetchSharableLink(sessionId);
 
-      dispatch(setShareableLinkForReport(response?.URL));
+      dispatch(setShareableLinkForReport(response?.url));
 
       openPopoverCallback(true);
     } catch (error) {

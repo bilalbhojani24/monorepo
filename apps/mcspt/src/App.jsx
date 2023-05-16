@@ -9,17 +9,18 @@ import Dashboard, {
 import Home from 'features/Home';
 import ReportHeader from 'features/ReportHeader';
 import TestHistory from 'features/TestHistory';
+import {
+  openSystemFileFromPath,
+  openUrlInSystemBrowser
+} from 'utils/reportRemoteFunctions';
 
 import './api/httpInterceptor';
 
 import ReportLoading from './features/ReportLoading';
 import useAppInitiation from './useAppInitiation';
-import useReportRemoteFunctions from './useReportRemoteFunctions';
 
 const App = () => {
   useAppInitiation();
-  const { openUrlInSystemBrowser, openSystemFileFromPath } =
-    useReportRemoteFunctions();
 
   return (
     <HashRouter>
