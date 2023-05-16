@@ -1,6 +1,7 @@
 export const FILTER_CATEGORIES = {
   SUITE_HEALTH_TESTS: 'suite_health_tests',
-  SUITE_HEALTH_UNIQUE_ERRORS: 'suite_health_unique_errors'
+  SUITE_HEALTH_UNIQUE_ERRORS: 'suite_health_unique_errors',
+  TEST_LISTING: 'test_listing'
 };
 
 export const ADV_FILTER_OPERATIONS = {
@@ -18,6 +19,21 @@ export const FILTER_OPERATION_TYPE = {
 export const ADV_FILTER_TYPES = {
   buildTags: {
     key: 'buildTags',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
+  },
+  reRunsList: {
+    key: 'reRunsList',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
+  },
+  ciBuildNumbers: {
+    key: 'ciBuildNumbers',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
+  },
+  status: {
+    key: 'status',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
@@ -43,6 +59,11 @@ export const ADV_FILTER_TYPES = {
   },
   isFlaky: {
     key: 'isFlaky',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_TYPE
+  },
+  hasPerformanceAnomaly: {
+    key: 'hasPerformanceAnomaly',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_TYPE
   },

@@ -34,6 +34,7 @@ import {
   setStaticFilters,
   setTestList
 } from 'features/TestList/slices/testListSlice';
+import TestListFilters from 'features/TestListFilters';
 import { getActiveProject } from 'globalSlice/selectors';
 import useIsUnmounted from 'hooks/useIsMounted';
 import isEqual from 'lodash/isEqual';
@@ -42,7 +43,6 @@ import { logOllyEvent } from 'utils/common';
 
 import FilterPills from './components/FilterPills';
 import RenderRootItem from './components/RenderRootItem';
-import TestListFilters from './components/TestListFilters';
 import TestListSearch from './components/TestListSearch';
 
 const TestList = ({
@@ -315,7 +315,7 @@ const TestList = ({
             />
           </div>
           <div className="flex items-center">
-            <TestListFilters />
+            <TestListFilters buildUUID={buildUUID} />
           </div>
         </div>
         <FilterPills viewAllTests={viewAllTests} />

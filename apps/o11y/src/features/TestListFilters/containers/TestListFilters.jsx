@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import StatusBadges from 'common/StatusBadges';
+import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import {
   FilterPills,
   FilterSlideover,
@@ -8,30 +10,53 @@ import {
   MultiSelectCheckboxFilterField,
   MultiSelectSearchFilterField,
   MultiSelectStaticFilterField,
-  SearchFilterField,
-  SingleSelectCheckboxFilterField
+  SearchFilterField
 } from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import {
-  getSnPTestsFiltersData,
-  getTestsBuildNamesData,
-  getTestsBuildTagsData,
-  getTestsHostNamesData,
-  getTestsTestTagsData
-} from 'features/SuiteHealth/slices/uiSlice';
+  getTestListHostNamesData,
+  getTestListingFiltersData
+} from 'features/TestList/slices/filterSlice';
+import { getAggregatedStatus } from 'features/TestList/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
+import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 
-const TestListFilters = () => {
+const TestListFilters = ({ buildUUID }) => {
   const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
+  const aggregatedStatus = useSelector(getAggregatedStatus);
   const [showSlideOver, setShowSlideOver] = useState(false);
+  const buildMeta = useSelector(getBuildMeta);
+  const activeProject = useSelector(getActiveProject);
+
+  const handleClickStatusBadge = useCallback(
+    ({ itemClicked }) => {
+      /* #TODO confirm this log event */
+      logOllyEvent({
+        event: 'O11yBuildMetaHeaderInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          build_name: buildMeta.data?.name,
+          build_uuid: buildMeta.data?.uuid,
+          interaction: `${itemClicked}_clicked`
+        }
+      });
+      const searchParams = new URLSearchParams(window?.location?.search);
+      searchParams.set('status', itemClicked);
+      // #TODO need to apply status directly from here
+    },
+    [
+      activeProject.id,
+      activeProject.name,
+      buildMeta.data?.name,
+      buildMeta.data?.uuid
+    ]
+  );
+
   useEffect(() => {
-    dispatch(
-      getSnPTestsFiltersData({
-        normalisedName: activeProject?.normalisedName
-      })
-    );
-  }, [activeProject?.normalisedName, dispatch]);
+    dispatch(getTestListingFiltersData({ buildId: buildUUID }));
+  }, [buildUUID, dispatch]);
 
   const handleTriggerClick = () => {
     setShowSlideOver(!showSlideOver);
@@ -52,27 +77,37 @@ const TestListFilters = () => {
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
       </div>
-      <FilterPills />
+      <div className="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6">
+        <FilterPills />
+        {aggregatedStatus && (
+          <StatusBadges
+            statusStats={aggregatedStatus}
+            onClickHandler={handleClickStatusBadge}
+          />
+        )}
+      </div>
       <FilterSlideover show={showSlideOver} onClose={handleClose}>
         <div className="mb-6 flex flex-col gap-6">
-          <MultiSelectSearchFilterField
-            type={ADV_FILTER_TYPES.uniqueBuildNames.key}
+          <MultiSelectStaticFilterField
+            type={ADV_FILTER_TYPES.reRunsList.key}
             placeholder="Select"
-            label="Unique BuildNames"
-            searchAPI={getTestsBuildNamesData}
+            label="Re runs"
           />
-          <MultiSelectSearchFilterField
-            type={ADV_FILTER_TYPES.buildTags.key}
+          <MultiSelectStaticFilterField
+            type={ADV_FILTER_TYPES.ciBuildNumbers.key}
             placeholder="Select"
-            label="Build Tags"
-            searchAPI={getTestsBuildTagsData}
+            label="CI Build Number"
           />
           <FolderFilterField />
-          <MultiSelectSearchFilterField
+          <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.testTags.key}
             placeholder="Select"
             label="Test Tags"
-            searchAPI={getTestsTestTagsData}
+          />
+          <MultiSelectStaticFilterField
+            type={ADV_FILTER_TYPES.status.key}
+            placeholder="Select"
+            label="Test Status"
           />
           <MultiSelectCheckboxFilterField
             label="Flaky Tests"
@@ -86,10 +121,11 @@ const TestListFilters = () => {
             noLabel="Not Always Failing"
             type={ADV_FILTER_TYPES.isAlwaysFailing.key}
           />
-          <SingleSelectCheckboxFilterField
-            label="Newly Failed Tests"
-            inputLabel="Newly Failed Tests"
-            type={ADV_FILTER_TYPES.isNewFailure.key}
+          <MultiSelectCheckboxFilterField
+            label="Performance Anomalies"
+            yesLabel="Performance Anomalies"
+            noLabel="Not Performance Anomalies"
+            type={ADV_FILTER_TYPES.isAlwaysFailing.key}
           />
           {/* #TODO: to be added after the backend change is moved
           <MultiSelectCheckboxFilterField
@@ -109,7 +145,7 @@ const TestListFilters = () => {
             type={ADV_FILTER_TYPES.hostNames.key}
             placeholder="Select"
             label="Host name"
-            searchAPI={getTestsHostNamesData}
+            searchAPI={getTestListHostNamesData}
           />
           <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.deviceList.key}
@@ -135,6 +171,10 @@ const TestListFilters = () => {
       </FilterSlideover>
     </div>
   );
+};
+
+TestListFilters.propTypes = {
+  buildUUID: PropTypes.string.isRequired
 };
 
 export default TestListFilters;
