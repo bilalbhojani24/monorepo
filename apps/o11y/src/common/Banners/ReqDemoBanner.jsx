@@ -17,6 +17,11 @@ function ReqDemoBanner() {
         url: window.location.href
       }
     });
+    window.open(
+      'https://www.browserstack.com/contact?&ref=observability-dashboard-top-header-csf-lead#sales',
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   const handleDismissBanner = () => {

@@ -53,12 +53,7 @@ function PlanTimingBanner() {
     <div className="text-sm">
       <O11yBanner
         ctaButton={
-          <O11yButton
-            colors="white"
-            variant="minimal"
-            wrapperClassName="underline hover:text-base-300"
-            onClick={handleClickUpgrade}
-          >
+          <O11yButton colors="white" onClick={handleClickUpgrade}>
             Upgrade now
           </O11yButton>
         }

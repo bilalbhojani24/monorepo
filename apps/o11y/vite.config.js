@@ -1,4 +1,4 @@
-import basicSsl from '@vitejs/plugin-basic-ssl';
+import fs from 'fs';
 import path from 'path';
 import { defineConfig } from 'vite';
 
@@ -21,13 +21,16 @@ export default defineConfig(({ command }) => {
       }
     }
   };
+
   if (command !== 'build') {
     commonConfig.server = {
-      port: 9000,
-      host: '127.0.0.1',
-      https: true
+      https: {
+        key: fs.readFileSync('./certs/key.pem'),
+        cert: fs.readFileSync('./certs/cert.pem')
+      },
+      port: 8081,
+      host: '127.0.0.1'
     };
-    commonConfig.plugins = [...productViteConfig.plugins, basicSsl()];
   }
   return commonConfig;
 });
