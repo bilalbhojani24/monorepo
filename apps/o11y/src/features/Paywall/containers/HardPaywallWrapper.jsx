@@ -44,7 +44,7 @@ function HardPaywallWrapper({
     return (
       <PaywallFeatureCard
         {...FEATURE_CARD_DATA[featureKey]}
-        actions={<PaywallActions showTextOnSubmit featureKey={featureKey} />}
+        actions={<PaywallActions showTextOnSubmit />}
         cardConfig={cardConfig}
       />
     );

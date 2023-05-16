@@ -136,7 +136,7 @@ export const FlakyTags = ({ data, isActive }) => {
         <span className="text-lg font-medium">Flaky</span>
         <PaywallTooltip
           title="Configuring Smart tags is a pro feature."
-          content="Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec sodales augue eu viverra tempus."
+          content="Configure your personalized definition of flakiness."
           featureKey={PAYWALL_FEATURES.SMART_TAGS}
         >
           <O11ySwitcher

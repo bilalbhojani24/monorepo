@@ -26,7 +26,7 @@ function PaywallTooltip({ children, title, content, featureKey }) {
               <p className="text-sm">{content}</p>
             </TooltipBody>
             <TooltipFooter>
-              <PaywallActions isOnDarkBg />
+              <PaywallActions isOnDarkBg showToastOnUpgrade />
             </TooltipFooter>
           </>
         ) : null

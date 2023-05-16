@@ -1,22 +1,16 @@
-import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
-import { MODAL_TYPES } from 'constants/modalTypes';
 import { o11yPlanUpgrade } from 'globalSlice/index';
+import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
-
-export const handleStartFreeTrial = (featureKey) => (dispatch) => {
-  dispatch(
-    toggleModal({
-      version: MODAL_TYPES.upgrade_modal,
-      data: {
-        featureKey
-      }
-    })
-  );
-};
 
 export const handleUpgrade =
   ({ successCb, errorCb, finalCb }) =>
   (dispatch) => {
+    logOllyEvent({
+      event: 'O11yUpgradeModalInteracted',
+      data: {
+        interaction: 'cta_clicked'
+      }
+    });
     dispatch(o11yPlanUpgrade())
       .unwrap()
       .then(() => {
