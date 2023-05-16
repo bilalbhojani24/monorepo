@@ -19,16 +19,16 @@ const defaultConfig = {
   },
   argTypes: {
     title: {
-      option: { type: 'text' },
+      option: { type: null },
       defaultValue: 'Need more bandwidth?'
     },
     description: {
-      option: { type: 'text' },
+      option: { type: null },
       defaultValue:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus praesentium tenetur pariatur.'
     },
     content: {
-      option: { type: 'text' },
+      option: { type: null },
       defaultValue: <Button colors="white">Contact sales</Button>
     }
   },
