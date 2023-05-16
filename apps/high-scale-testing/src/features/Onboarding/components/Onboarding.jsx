@@ -5,7 +5,6 @@ import {
   Button,
   CodeSnippet,
   Hyperlink,
-  InformationCircleIcon,
   ListFeedsNode,
   MdOutlineOpenInNew,
   PageHeadings,
@@ -150,14 +149,17 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep4 = (
-    <div className="mt-4">
-      <ol className="text-base-500 list-disc text-sm">
+    <div className="ml-4 mt-4">
+      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+      <ol className="text-base-500 list-[lower-alpha] text-sm">
         <li className="py-2">
           <div>
             <p>{CODE_SNIPPETS_SCRATCH['create-grid'].a.text}</p>
             <CodeSnippet
               code={CODE_SNIPPETS_SCRATCH['create-grid'].a.code}
-              singleLine
+              showLineNumbers={false}
+              singleLine={false}
+              view="neutral"
             />
           </div>
         </li>
@@ -166,7 +168,9 @@ const Onboarding = () => {
             <p>{CODE_SNIPPETS_SCRATCH['create-grid'].b.text}</p>
             <CodeSnippet
               code={CODE_SNIPPETS_SCRATCH['create-grid'].b.code}
-              singleLine
+              showLineNumbers={false}
+              singleLine={false}
+              view="neutral"
             />
           </div>
         </li>
@@ -174,7 +178,6 @@ const Onboarding = () => {
         <div className="mb-2">
           <Alerts
             accentBorder={false}
-            alertIcon={<InformationCircleIcon iconClass="h-5 w-5" />}
             alphaActionFn={() => {}}
             alphaActionTitle="View Status"
             dismissButton={false}
@@ -385,7 +388,7 @@ const Onboarding = () => {
 
       {/* --X-- Footer component --X-- */}
 
-      {/* {onboardingStep > 0 &&
+      {onboardingStep > 0 &&
         eventLogsCode &&
         eventLogsCode.length > 0 &&
         !isSetupComplete && (
@@ -395,7 +398,7 @@ const Onboarding = () => {
             totalSteps={totalSteps}
             isSetupComplete={isSetupComplete}
           />
-        )} */}
+        )}
 
       {onboardingStep > 0 && isSetupComplete && showSetupStatusModal && (
         <SetupStatus

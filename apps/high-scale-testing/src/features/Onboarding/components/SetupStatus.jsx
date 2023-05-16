@@ -3,6 +3,7 @@ import {
   Alerts,
   Badge,
   Button,
+  MdInfoOutline,
   Modal,
   Table,
   TableBody,
@@ -109,7 +110,7 @@ const SetupStatus = ({
           </Table>
         </div>
         <div className="text-base-600 flex gap-2 p-4 text-sm">
-          Icon{' '}
+          <MdInfoOutline className="text-xl" />
           <p>
             Copy the above framework URLs to seamlessly integrate your test
             suite with the grid.

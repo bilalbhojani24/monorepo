@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getOnboardingData, getOnboardingEventsLogsData } from '../../../apis';
+import ROUTES from '../../../constants/routes';
 import { getUserDetails } from '../../../globalSlice/selector';
 
 const useOnboarding = () => {
@@ -147,10 +148,12 @@ browserstack-cli hst init`,
 
   const exploreAutomationClickHandler = () => {
     setShowSetupStatusModal(false);
+    window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
   };
 
   const viewAllBuildsClickHandler = () => {
     setShowSetupStatusModal(false);
+    window.location = `${window.location.origin}${ROUTES.BUILDS}`;
   };
 
   // All useEffects:
