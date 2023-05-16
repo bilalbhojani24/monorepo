@@ -11,12 +11,13 @@ import {
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
-import { DOC_KEY_MAPPING } from 'constants/common';
+import { O11yButton } from 'common/bifrostProxy';
+import { DOC_KEY_MAPPING, EXTERNAL_LINKS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
 import { AppContext } from 'features/Layout/context/AppContext';
 import { getActiveProject } from 'globalSlice/selectors';
-import { getDocUrl } from 'utils/common';
+import { getDocUrl, getExternalUrl, logOllyEvent } from 'utils/common';
 import {
   getProjectBuildsPath,
   getSettingsPath,
@@ -24,6 +25,7 @@ import {
   getTestingTrendPath
 } from 'utils/routeUtils';
 
+import ActionPanel from '../components/ActionPanel';
 import ProjectSelector from '../components/ProjectSelector';
 
 const getPrimaryNav = ({ projectNormalisedName }) => [
@@ -112,6 +114,21 @@ export default function Sidebar() {
     [location.pathname]
   );
 
+  const handleClickGetDemo = () => {
+    logOllyEvent({
+      event: 'O11yDemoCTAClicked',
+      data: {
+        source: 'sidebar',
+        url: window.location.href
+      }
+    });
+    window.open(
+      getExternalUrl({ path: EXTERNAL_LINKS.getADemo }),
+      '_blank',
+      'noopener,noreferrer'
+    );
+  };
+
   return (
     <nav
       className="sticky"
@@ -135,14 +152,29 @@ export default function Sidebar() {
             handleNavigationClick={onLinkChange}
           />
         ))}
-        sidebarSecondaryNavigation={secondaryNav.map((item) => (
-          <SidebarItem
-            key={item.id}
-            nav={item}
-            current={isCurrent(item)}
-            handleNavigationClick={onLinkChange}
-          />
-        ))}
+        sidebarSecondaryNavigation={
+          <>
+            <div className="mb-4">
+              <ActionPanel
+                title="Have questions?"
+                description="Unlock the full potential of Test Observability"
+                content={
+                  <O11yButton colors="white" onClick={handleClickGetDemo}>
+                    Get a demo
+                  </O11yButton>
+                }
+              />
+            </div>
+            {secondaryNav.map((item) => (
+              <SidebarItem
+                key={item.id}
+                nav={item}
+                current={isCurrent(item)}
+                handleNavigationClick={onLinkChange}
+              />
+            ))}
+          </>
+        }
       />
     </nav>
   );

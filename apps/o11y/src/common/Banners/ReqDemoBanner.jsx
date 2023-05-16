@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import { setStorage } from '@browserstack/utils';
 import { O11yBanner, O11yButton } from 'common/bifrostProxy';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
-import { logOllyEvent } from 'utils/common';
+import { EXTERNAL_LINKS } from 'constants/common';
+import { getExternalUrl, logOllyEvent } from 'utils/common';
 import { REQ_DEMO_BANNER_SEEN } from 'utils/showBannerPerPriority';
 
 function ReqDemoBanner() {
@@ -13,12 +14,12 @@ function ReqDemoBanner() {
     logOllyEvent({
       event: 'O11yDemoCTAClicked',
       data: {
-        source: 'hero',
+        source: 'banner',
         url: window.location.href
       }
     });
     window.open(
-      'https://www.browserstack.com/contact?&ref=observability-dashboard-top-header-csf-lead#sales',
+      getExternalUrl({ path: EXTERNAL_LINKS.getADemo }),
       '_blank',
       'noopener,noreferrer'
     );
