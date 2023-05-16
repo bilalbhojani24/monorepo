@@ -173,9 +173,9 @@ const importSlice = createSlice({
     // setImportSteps: (state, { payload }) => {
     //   state.importSteps = payload;
     // },
-    // setImportStarted: (state, { payload }) => {
-    //   state.importStarted = payload;
-    // },
+    setImportStarted: (state, { payload }) => {
+      state.importStarted = payload;
+    },
     setConnectionStatusMap: (state, { payload }) => {
       state.connectionStatusMap[payload.key] = payload.value;
       if (payload.key === TESTRAIL) {
@@ -373,7 +373,7 @@ export const {
   setZephyrCred,
   setProjectForTestManagementImport,
   // setImportSteps,
-  // setImportStarted,
+  setImportStarted,
   setConnectionStatusMap,
   setSelectedRadioIdMap,
   quickImportCleanUp,

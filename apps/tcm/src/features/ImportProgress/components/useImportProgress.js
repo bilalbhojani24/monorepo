@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
-import { WS_URL } from 'const/routes';
 
+// import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
+// import { WS_URL } from 'const/routes';
 import { IMPORT_STATUS } from '../const/immutables';
 import {
   setDetailsModal,
@@ -13,10 +13,10 @@ import {
 
 const useImportProgress = () => {
   const dispatch = useDispatch();
-  const { sendMessage, _ } = useWebSocket(WS_URL);
+  // const { sendMessage, _ } = useWebSocket(WS_URL);
 
   const [isCancelConfirmView, setCancelConfirmView] = useState(false);
-  const importId = useSelector((state) => state.import.importId);
+  // const importId = useSelector((state) => state.import.importId);
   const importStatus = useSelector(
     (state) => state.importProgress.importStatus
   );
@@ -56,22 +56,22 @@ const useImportProgress = () => {
 
   const cancelImportHandler = () => {};
 
-  const connectWSSForQuickImport = useCallback(() => {
-    const identifier = {
-      channel: 'ImportChannel',
-      import_id: importId
-    };
-    sendMessage(
-      JSON.stringify({
-        command: 'subscribe',
-        identifier: JSON.stringify(identifier)
-      })
-    );
-  }, [importId, sendMessage]);
+  // const connectWSSForQuickImport = useCallback(() => {
+  //   const identifier = {
+  //     channel: 'ImportChannel',
+  //     import_id: importId
+  //   };
+  //   sendMessage(
+  //     JSON.stringify({
+  //       command: 'subscribe',
+  //       identifier: JSON.stringify(identifier)
+  //     })
+  //   );
+  // }, [importId, sendMessage]);
 
-  useEffect(() => {
-    connectWSSForQuickImport();
-  }, [connectWSSForQuickImport]);
+  // useEffect(() => {
+  //   connectWSSForQuickImport();
+  // }, [connectWSSForQuickImport]);
 
   return {
     importStatus,

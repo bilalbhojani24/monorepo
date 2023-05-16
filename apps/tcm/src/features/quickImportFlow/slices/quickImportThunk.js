@@ -9,6 +9,7 @@ import {
   setConfigureToolTestConnectionLoading,
   setCurrentScreen,
   setImportId,
+  setImportStarted,
   setProceedFailed,
   setProceedFulfilled,
   setShowArtificialLoader,
@@ -101,6 +102,7 @@ export const startImport = (navigate) => async (dispatch, getState) => {
         .map((project) => (project.checked ? project : null))
         .filter((project) => project !== null)
     });
+    dispatch(setImportStarted(true));
     navigate(AppRoute.ROOT);
   } catch (err) {
     // something for failure

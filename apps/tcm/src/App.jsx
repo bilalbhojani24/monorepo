@@ -12,29 +12,32 @@ import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
 import MainRoute from 'features/MainRoute';
 import Notification from 'features/Notification';
-// import ImportStatusGlobal from 'features/quickImportFlow/components/ImportStatusGlobal';
 import SideNav from 'features/SideNav';
 
 import { getLatestQuickImportConfig } from './api/import.api';
 import { PRODUCTION_HOST } from './const/immutables';
 import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
+import { IMPORT_STATUS } from './features/ImportProgress/const/immutables';
 import {
   setImportStatus,
   setIsProgressDismissed
 } from './features/ImportProgress/slices/importProgressSlice';
 import { setImportId } from './features/quickImportFlow/slices/importSlice';
+import useWebSocketQI from './useWebSocketQI';
 
 if (window.initialized !== true) {
   window.initialized = false;
 }
 
 function App() {
+  const { connectWSQI } = useWebSocketQI();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.global.user);
   const userAndGroupConfig = useSelector(
     (state) => state.global.userAndGroupConfig
   );
+  const importStarted = useSelector((state) => state.import.importStarted);
 
   setupInterceptors(navigate, dispatch);
 
@@ -85,8 +88,11 @@ function App() {
       dispatch(setImportStatus(data?.status));
       dispatch(setImportId(data?.import_id));
       dispatch(setIsProgressDismissed(data?.is_dismissed));
+      if (data?.status === IMPORT_STATUS.ONGOING)
+        connectWSQI({ importId: data?.import_id });
     });
-  }, [dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, importStarted]);
 
   return (
     <>
