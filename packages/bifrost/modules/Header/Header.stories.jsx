@@ -10,21 +10,20 @@ const DEFAULT_LINK = 'https://www.browserstack.com';
 
 // Try to use the below method send request for analytics as in our use-case on click of link page will be unloaded and to make API success sendBeacon will be ideal solution
 // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
-const makeAnalyticsCall = (data) => {
-  const payload = JSON.stringify({
-    id: 100000,
-    data
-  });
+// const makeAnalyticsCall = (data) => {
+//   const payload = JSON.stringify({
+//     id: 100000,
+//     data
+//   });
 
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon('API_ENDPOINT_URL', payload);
-  }
-};
+//   if (navigator.sendBeacon) {
+//     navigator.sendBeacon('API_ENDPOINT_URL', payload);
+//   }
+// };
 
 const CALLBACK_FUNCTIONS = {
   buyPlanClick: () => {
     console.log('buyPlanClick');
-    makeAnalyticsCall();
   },
   onSearchClick: () => {
     console.log('onSearchClick');
