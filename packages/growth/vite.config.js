@@ -7,7 +7,7 @@ export default defineConfig(() => ({
   ...packageViteConfig,
   build: {
     lib: {
-      entry: resolve('./src/index.js'),
+      entry: resolve('./index.js'),
       name: 'growth',
       formats: ['es'],
       fileName: () => `index.js`
