@@ -7,8 +7,10 @@ import HeaderElements from '../HeaderElements';
 import HeaderProducts from '../HeaderProducts';
 
 import useHeader from './useHeader';
+import { CALLBACK_FUNCTIONS_PROP_TYPE } from './utils';
 
 const Header = ({
+  callbackFunctions,
   headerID,
   wrapperClassName,
   productName,
@@ -52,9 +54,11 @@ const Header = ({
         wrapperClassName="[@media(max-width:1360px)]:hidden max-[1360px]:hidden"
         productCount={productsToShow}
         productArray={productArray}
+        callbackFunctions={callbackFunctions}
       />
       <div className="float-right ml-auto">
         <HeaderElements
+          callbackFunctions={callbackFunctions}
           documentation={documentation}
           references={references}
           others={others}
@@ -79,6 +83,7 @@ const Header = ({
 };
 
 Header.propTypes = {
+  callbackFunctions: CALLBACK_FUNCTIONS_PROP_TYPE,
   wrapperClassName: PropTypes.string,
   productName: PropTypes.string,
   productLink: PropTypes.string,
@@ -106,6 +111,7 @@ Header.propTypes = {
   buyPlanText: PropTypes.string
 };
 Header.defaultProps = {
+  callbackFunctions: null,
   wrapperClassName: '',
   productName: '',
   productLink: '',
