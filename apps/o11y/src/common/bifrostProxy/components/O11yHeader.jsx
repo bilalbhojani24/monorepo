@@ -18,7 +18,7 @@ const O11yHeader = () => (
     supportLink={`${envConfig.baseUrl}/support/test-observability`}
     headerElementArray={[
       'team',
-      // 'pricing',
+      'pricing',
       'help',
       // 'search',
       // 'notifications',
@@ -82,6 +82,7 @@ const O11yHeader = () => (
         window.location.href = envConfig.signOutUrl;
       }
     }}
+    planPricingLink={`${envConfig.baseUrl}/pricing?product=test-observability`}
     buyPlanTarget="_blank"
     buyPlanLink={`${envConfig.baseUrl}/contact?&ref=observability-dashboard-top-header-csf-lead`}
   />
