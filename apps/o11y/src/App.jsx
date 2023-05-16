@@ -130,7 +130,9 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    fetchAndInitPusher();
+    if (!envConfig.isMocker) {
+      fetchAndInitPusher();
+    }
   }, [fetchAndInitPusher]);
 
   // init sentry
