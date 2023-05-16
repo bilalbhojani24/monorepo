@@ -90,11 +90,10 @@ const cutOffVariant = cutOffTemplate.bind({});
 cutOffVariant.play = async () => {
   await delay(1);
   const buttons = document.querySelectorAll('button');
-  buttons.forEach(async (button) => {
-    if (Array.prototype.indexOf.call(buttons, button) > 2) {
-      await userEvent.hover(button);
-    }
-  });
+  await userEvent.hover(buttons[3]);
+  await userEvent.hover(buttons[4]);
+  await userEvent.hover(buttons[5]);
+  await userEvent.hover(buttons[6]);
 };
 cutOffVariant.parameters = {
   controls: {}
