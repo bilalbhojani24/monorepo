@@ -50,7 +50,10 @@ const defaultConfig = {
       defaultValue: (
         <>
           <p className="text-sm">Details</p>
-          <span aria-hidden="true"> &rarr;</span>
+          <span aria-hidden="true" className="text-sm">
+            {' '}
+            &rarr;
+          </span>
         </>
       )
     },
