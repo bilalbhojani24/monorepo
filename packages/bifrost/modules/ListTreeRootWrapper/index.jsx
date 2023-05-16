@@ -67,7 +67,20 @@ const ListTreeRootWrapper = ({
 
   const handleArrowLeftPress = useCallback(
     (actionID) => {
-      if (openNodeMap[actionID] === true) {
+      const item = wrapperRef?.current?.querySelector(
+        `[${focusDatasetName}="${focusIDPrefix + actionID}"]`
+      );
+      if (item.dataset.hasChildren) {
+        // focus parent if the current focused node has no children
+        const parentId = actionID?.slice(0, -2);
+        if (parentId) {
+          wrapperRef?.current
+            ?.querySelector(
+              `[${focusDatasetName}="${focusIDPrefix + parentId}"]`
+            )
+            ?.focus();
+        }
+      } else if (openNodeMap[actionID] === true) {
         // close node if the current focused node is in open state
         setOpenNodeMap((prev) => {
           const newList = { ...prev };

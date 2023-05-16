@@ -37,6 +37,7 @@ const ListTreeNode = forwardRef(
       className="group"
       aria-label={ariaLabel}
       data-focus-id={focusIDPrefix + focusUUID}
+      data-has-children={!hideArrowIcon}
     >
       <ListTreeNodeWrapper
         isNodeSelectable={isNodeSelectable}
