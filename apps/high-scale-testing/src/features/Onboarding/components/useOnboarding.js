@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import {
   getOnboardingData,
   getOnboardingEventsLogsData,
+  markOnboardingRegionChange,
   markOnboardingStatus
 } from '../../../apis';
 import ROUTES from '../../../constants/routes';
@@ -217,6 +218,10 @@ browserstack-cli hst init`,
       );
     }
   }, [allAvailableRegionsByProvider, currentSelectedCloudProvider]);
+
+  useEffect(() => {
+    markOnboardingRegionChange(userDetails.id, selectedRegion);
+  }, [selectedRegion, userDetails]);
 
   useEffect(() => {
     const fetchOnboardingData = async () => {

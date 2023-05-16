@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   ONBOARDING_DATA_URL,
   ONBOARDING_EVENT_LOGS_DATA_URL,
+  ONBOARDING_REGION_CHANGE_URL,
   ONBOARDING_STATUS_URL
 } from './constants/apiURLs';
 
@@ -29,4 +30,15 @@ const markOnboardingStatus = (userId, status) =>
     }
   });
 
-export { getOnboardingData, getOnboardingEventsLogsData, markOnboardingStatus };
+const markOnboardingRegionChange = (userId, newRegionObject) =>
+  axios.post(ONBOARDING_REGION_CHANGE_URL, {
+    userId,
+    region: newRegionObject
+  });
+
+export {
+  getOnboardingData,
+  getOnboardingEventsLogsData,
+  markOnboardingRegionChange,
+  markOnboardingStatus
+};
