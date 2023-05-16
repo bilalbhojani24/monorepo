@@ -12,7 +12,7 @@ import {
   SidebarNavigation
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { TMButton } from 'common/bifrostProxy';
+import { TMActionPanel, TMButton } from 'common/bifrostProxy';
 import { AddProjects } from 'features/Projects';
 import PropTypes from 'prop-types';
 
@@ -55,14 +55,31 @@ const SideNav = (props) => {
             handleNavigationClick={onLinkChange}
           />
         ))}
-        sidebarSecondaryNavigation={secondaryNavs?.map((item) => (
-          <SidebarItem
-            key={item.id}
-            nav={item}
-            current={activeRoute?.id === item.id}
-            handleNavigationClick={onLinkChange}
-          />
-        ))}
+        sidebarSecondaryNavigation={
+          <>
+            <TMActionPanel
+              title="Need help?"
+              description="Unlock the full potential of Test Management"
+              content={
+                <a
+                  target="_blank"
+                  rel="noreferrer"
+                  href="https://www.browserstack.com/contact?&ref=test-management-dashboard-top-header-csf-lead"
+                >
+                  <TMButton colors="white">Contact sales</TMButton>
+                </a>
+              }
+            />
+            {secondaryNavs?.map((item) => (
+              <SidebarItem
+                key={item.id}
+                nav={item}
+                current={activeRoute?.id === item.id}
+                handleNavigationClick={onLinkChange}
+              />
+            ))}
+          </>
+        }
         sidebarHeader={
           showProjects && !isAllProjectsLoading ? (
             <>
@@ -106,6 +123,7 @@ const SideNav = (props) => {
                 </SidebarHeader>
               ) : (
                 <div className="w-full p-2">
+                  ƒ
                   <TMButton
                     wrapperClassName="w-full"
                     variant="secondary"
