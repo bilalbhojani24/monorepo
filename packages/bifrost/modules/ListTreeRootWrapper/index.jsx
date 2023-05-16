@@ -52,7 +52,7 @@ const ListTreeRootWrapper = ({
       const item = wrapperRef?.current?.querySelector(
         `[${focusDatasetName}="${focusIDPrefix + actionID}"]`
       );
-      if (item.dataset.hasChildren) {
+      if (item.dataset.hasChildren === 'false') {
         // focus the next node if node has no children
         const { focusableNodes: allFocusAbleItems, indexOfItem } =
           getAllFocusAbleItems(actionID);
@@ -80,7 +80,7 @@ const ListTreeRootWrapper = ({
       const item = wrapperRef?.current?.querySelector(
         `[${focusDatasetName}="${focusIDPrefix + actionID}"]`
       );
-      if (item.dataset.hasChildren) {
+      if (item.dataset.hasChildren === 'false') {
         // focus parent if the current focused node has no children
         const parentId = actionID?.slice(0, -2);
         if (parentId) {
