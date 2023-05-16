@@ -80,16 +80,3 @@ Primary.parameters = {
 export default defaultConfig;
 
 export { Primary };
-
-// {
-//    <CTACard>
-//   <CTAContent>
-//     <CTAActions>
-
-//     </CTAActions>
-//   </CTAContent>
-//   <CTAMedia>
-
-//   </CTAMedia>
-// </CTACard>
-// }
