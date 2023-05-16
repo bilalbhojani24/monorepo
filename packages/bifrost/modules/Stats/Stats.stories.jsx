@@ -156,6 +156,7 @@ const graphVariantOptions = [
       <div className="flex items-center">
         {title}
         <Tooltip
+          triggerAriaLabel="info-tooltip"
           content={
             <TooltipBody>
               Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit.

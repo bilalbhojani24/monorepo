@@ -66,16 +66,19 @@ const Stats = (props) => {
             </div>
           )}
           <p
-            className={twClassNames({
-              'truncate ml-16 font-medium text-sm text-base-500':
-                variant === STATS_VARIANTS.WITH_ICON,
-              'font-normal text-base text-base-900':
-                variant === STATS_VARIANTS.WITHOUT_ICON,
-              'truncate text-sm font-medium text-base-500':
-                variant === STATS_VARIANTS.SIMPLE ||
-                variant === STATS_VARIANTS.KPI_VARIANT ||
-                variant === STATS_VARIANTS.GRAPH_VARIANT
-            })}
+            className={twClassNames(
+              {
+                'ml-16 font-medium text-sm text-base-500':
+                  variant === STATS_VARIANTS.WITH_ICON,
+                'font-normal text-base text-base-900':
+                  variant === STATS_VARIANTS.WITHOUT_ICON,
+                'text-sm font-medium text-base-500':
+                  variant === STATS_VARIANTS.SIMPLE ||
+                  variant === STATS_VARIANTS.KPI_VARIANT ||
+                  variant === STATS_VARIANTS.GRAPH_VARIANT
+              },
+              'line-clamp-1'
+            )}
           >
             {option.name}
           </p>
@@ -107,8 +110,9 @@ const Stats = (props) => {
               )}
 
               <span className="sr-only">
-                {option.changeType === STATS_INC ? 'Increased ' : 'Decreased '}
-                by
+                {`${
+                  option.changeType === STATS_INC ? 'Increased ' : 'Decreased '
+                }by`}
               </span>
               {option.change}
             </p>
@@ -147,8 +151,9 @@ const Stats = (props) => {
               )}
 
               <span className="sr-only">
-                {option.changeType === STATS_INC ? 'Increased ' : 'Decreased '}
-                by
+                {`${
+                  option.changeType === STATS_INC ? 'Increased ' : 'Decreased '
+                }by`}
               </span>
               {option.change}
             </div>
@@ -188,10 +193,11 @@ const Stats = (props) => {
                     />
                   )}
                   <span className="sr-only">
-                    {option.changeType === STATS_INC
-                      ? 'Increased '
-                      : 'Decreased '}
-                    by
+                    {`${
+                      option.changeType === STATS_INC
+                        ? 'Increased '
+                        : 'Decreased '
+                    }by`}
                   </span>
                   {option.change}
                 </p>
