@@ -51,7 +51,20 @@ function PaywallAlert({ title }) {
 
   return (
     <O11yAlerts
-      linkText={linkText}
+      detailsNode={
+        <>
+          {linkText && (
+            <>
+              <p>{linkText}</p>
+              {!isSubmitting && (
+                <span aria-hidden="true" className="ml-1">
+                  &rarr;
+                </span>
+              )}
+            </>
+          )}
+        </>
+      }
       accentBorder
       handleLinkClick={handleClickUpgrade}
       modifier={hasSubmittedUpgradeReq ? 'success' : 'warn'}
