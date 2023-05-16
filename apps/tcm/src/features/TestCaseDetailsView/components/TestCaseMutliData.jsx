@@ -110,11 +110,9 @@ const TestCaseMutliData = ({
     },
     {
       name: 'Linked On',
-      key: 'created_at',
+      key: 'linked_at',
       cell: (rowData) =>
-        rowData?.test_run_created_at
-          ? formatTime(rowData?.test_run_created_at, 'date')
-          : '--'
+        rowData?.linked_at ? formatTime(rowData?.linked_at, 'date') : '--'
     }
   ];
 

@@ -34,7 +34,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
             className="text-base-900 font-medium"
           >{`${rowData.test_run_identifier} | ${rowData.test_run_name}`}</Link>
           <div className="text-base-500">
-            {formatTime(rowData.created_at, 'time')}
+            {formatTime(rowData?.updated_at, 'time')}
           </div>
         </div>
       )
