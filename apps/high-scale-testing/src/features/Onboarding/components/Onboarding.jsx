@@ -136,9 +136,16 @@ const Onboarding = () => {
 
   const DescriptionNodeStep3 = (
     <p className="text-base-700 mt-1 text-sm">
-      Set up a <a href="/">new IAM role</a> via the CloudFormation link and
-      generate the AWS access key and secret to create and manage the Automation
-      Grid. Read more about this <a href="/">here</a>.
+      Set up a{' '}
+      <a href="/#" className="text-brand-600 underline" target="_blank">
+        new IAM role
+      </a>{' '}
+      via the CloudFormation link and generate the AWS access key and secret to
+      create and manage the Automation Grid. Read more about this{' '}
+      <a href="/" className=" text-brand-600 underline" target="_blank">
+        here
+      </a>
+      .
     </p>
   );
 
@@ -378,7 +385,7 @@ const Onboarding = () => {
 
       {/* --X-- Footer component --X-- */}
 
-      {onboardingStep > 0 &&
+      {/* {onboardingStep > 0 &&
         eventLogsCode &&
         eventLogsCode.length > 0 &&
         !isSetupComplete && (
@@ -388,7 +395,7 @@ const Onboarding = () => {
             totalSteps={totalSteps}
             isSetupComplete={isSetupComplete}
           />
-        )}
+        )} */}
 
       {onboardingStep > 0 && isSetupComplete && showSetupStatusModal && (
         <SetupStatus
