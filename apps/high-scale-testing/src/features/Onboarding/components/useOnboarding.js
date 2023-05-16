@@ -22,11 +22,11 @@ const useOnboarding = () => {
         text: 'Download CLI.'
       },
       b: {
-        code: `/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
+        code: `# Set these values in your ~/.zprofile (zsh) or ~/.profile (bash)
 export BROWSERSTACK_USERNAME=${userDetails.username}
 export BROWSERSTACK_ACCESS_KEY=${userDetails.accessKey}
 
-/* Create HST configuration profile with AWS credentials */
+# Create HST configuration profile with AWS credentials
 browserstack-cli hst init`,
         text: 'Setup CLI with AWS credentials.'
       },
@@ -40,7 +40,7 @@ browserstack-cli hst init`,
   const GRID_MANAGER_NAMES = {
     helm: 'Helm',
     kubectl: 'Kubectl',
-    cli: 'cli'
+    cli: 'CLI'
   };
   const HEADER_TEXTS_OBJECT = {
     intro: `Hey ${userDetails.fullname}, Welcome to High Scale Testing`,
@@ -84,8 +84,8 @@ browserstack-cli hst init`,
   const SUB_TEXTS_OBJECT = {
     intro:
       'Create and manage your own Automation Grid that supports frameworks like Selenium, Playwright, and Cypress to support browser testing at scale',
-    scratch: 'Setting up everything from scratch.',
-    existing: 'Setting up grid in your existing Kubernetes setup.'
+    scratch: '',
+    existing: ''
   };
   const STEP_1_RADIO_GROUP_OPTIONS = [
     {

@@ -98,7 +98,7 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep1 = (
-    <div className="mt-4">
+    <div className="my-4">
       <RadioGroup
         onChange={(e, option) => {
           const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
@@ -114,7 +114,7 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep2 = (
-    <div className="mt-4 w-2/5">
+    <div className="my-4 w-2/5">
       <SelectMenu
         disabled={eventLogsCode && eventLogsCode.length > 0}
         onChange={(e) => {
@@ -134,7 +134,7 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep3 = (
-    <p className="text-base-700 mt-1 text-sm">
+    <p className="text-base-700 mb-4 mt-1 text-sm">
       Set up a{' '}
       <a href="/#" className="text-brand-600 underline" target="_blank">
         new IAM role
@@ -149,7 +149,7 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep4 = (
-    <div className="ml-4 mt-4">
+    <div className="m-4">
       {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
       <ol className="text-base-500 list-[lower-alpha] text-sm">
         <li className="py-2">
@@ -184,7 +184,7 @@ const Onboarding = () => {
             handleLinkClick={() => {}}
             linkText=""
             modifier="primary"
-            title="This command will create an EKS cluster ‘high-scale-grid-cluster’ with a grid named ‘high-scale-grid’ that supports a concurrency of ‘50’ browsers sessions. The instance type for worker nodes will be ‘m7g.medium (vCPU-1, memory-8GB)’."
+            description="This command will create an EKS cluster ‘high-scale-grid-cluster’ with a grid named ‘high-scale-grid’ that supports a concurrency of ‘50’ browsers sessions. The instance type for worker nodes will be ‘m7g.medium (vCPU-1, memory-8GB)’."
           />
         </div>
         <CodeSnippet
@@ -197,17 +197,17 @@ const Onboarding = () => {
 
   const HeaderNodeStep1 = (
     <div className="flex">
-      <p className="text-base-500 text-sm">
-        <b className="text-base-800">Choose Cloud Provider</b>
+      <p className="text-base-900 text-base font-semibold">
+        Choose Cloud Provider
       </p>
     </div>
   );
 
   const HeaderNodeStep2 = (
     <>
-      <div className="flex gap-1">
-        <p className="text-base-500 text-sm">
-          <b className="text-base-800">Grid Profile Details </b>
+      <div className="flex gap-2">
+        <p className="text-base-900 text-base font-semibold">
+          Grid Profile Details
         </p>
         <Badge hasRemoveButton={false} modifier="warn" text="Default" />
       </div>
@@ -220,18 +220,14 @@ const Onboarding = () => {
 
   const HeaderNodeStep3 = (
     <div className="flex">
-      <p className="text-base-500 text-sm">
-        <b className="text-base-800">Setup IAM Role</b>
-      </p>
+      <p className="text-base-900 text-base font-semibold">Setup IAM Role</p>
     </div>
   );
 
   const HeaderNodeStep4 = (
     <>
       <div className="flex">
-        <p className="text-base-500 text-sm">
-          <b className="text-base-800">Create Grid</b>
-        </p>
+        <p className="text-base-900 text-base font-semibold">Create Grid</p>
       </div>
       <p className="text-base-700 mt-1 text-sm">
         Execute the below commands to setup the BrowserStack CLI and create an
@@ -256,7 +252,9 @@ const Onboarding = () => {
     return null;
   };
 
-  const listFeedStepValue = (number) => <span>{number}</span>;
+  const listFeedStepValue = (number) => (
+    <span className="text-base-900 text-xs">{number}</span>
+  );
 
   const listFeedDescriptionNode = (step) => {
     switch (step) {
@@ -304,20 +302,29 @@ const Onboarding = () => {
         subSection={
           <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
         }
-        wrapperClassName="bg-base-50 px-7 py-6 "
+        wrapperClassName="p-6"
       />
 
       {/* Body of Onboarding */}
       <div
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
         className={classnames(
-          'border-base-300 overflow-scroll border-y px-7 py-6',
-          { 'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0 }
+          'border-base-300 overflow-scroll border-y px-7 ',
+          {
+            'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
+            'py-6':
+              onboardingStep === 0 ||
+              (onboardingStep === 1 &&
+                onboardingType !== ONBOARDING_TYPES.scratch),
+            'pt-6':
+              onboardingStep === 1 &&
+              onboardingType === ONBOARDING_TYPES.scratch
+          }
         )}
       >
         {onboardingStep === 0 && (
           <>
-            <h3 className="mb-4 flex gap-x-2 text-lg font-semibold leading-6">
+            <h3 className="text-base-900 mb-4 flex gap-x-2 text-base font-medium leading-6">
               Do you have an existing Kubernetes setup?
             </h3>
             <RadioStackedCard
@@ -352,7 +359,7 @@ const Onboarding = () => {
 
       {/* Footer component */}
       {onboardingStep === 0 && (
-        <div className="bg-base-50 flex justify-end px-7 py-6">
+        <div className="flex justify-end px-6 py-3">
           <Button
             colors="brand"
             onClick={continueClickHandler}
@@ -369,7 +376,7 @@ const Onboarding = () => {
         (onboardingType === ONBOARDING_TYPES.scratch ||
           onboardingType === ONBOARDING_TYPES.existing) &&
         (!eventLogsCode || eventLogsCode?.length === 0) && (
-          <div className="bg-base-50 text-base-700  flex px-7 py-3">
+          <div className="text-base-700 flex gap-2 px-6 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
             above steps to connect the grid...
           </div>
@@ -380,7 +387,7 @@ const Onboarding = () => {
           onboardingType === ONBOARDING_TYPES.existing) &&
         eventLogsCode &&
         eventLogsCode.length > 0 && (
-          <div className="bg-base-50 text-base-700  flex px-7 py-3">
+          <div className="text-base-700 flex gap-2 px-6 py-3">
             <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
             Initialising events log...
           </div>
@@ -388,7 +395,7 @@ const Onboarding = () => {
 
       {/* --X-- Footer component --X-- */}
 
-      {onboardingStep > 0 &&
+      {/* {onboardingStep > 0 &&
         eventLogsCode &&
         eventLogsCode.length > 0 &&
         !isSetupComplete && (
@@ -407,7 +414,7 @@ const Onboarding = () => {
           isSetupComplete={isSetupComplete}
           viewAllBuildsClickHandler={viewAllBuildsClickHandler}
         />
-      )}
+      )} */}
     </div>
   );
 };
