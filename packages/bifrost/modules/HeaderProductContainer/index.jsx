@@ -225,6 +225,15 @@ const HeaderProductContainer = ({ callbackFunctions }) => {
                     'not-italic font-bold text-sm leading-4 text-base-600 hover:text-brand-600'
                   )}
                   href="https://www.browserstack.com/integrations"
+                  onClick={(e) => {
+                    hyperlinkClickHandler(
+                      e,
+                      'https://www.browserstack.com/integrations',
+                      callbackFunctions?.onProductLinkClick,
+                      '_self',
+                      'Integrations'
+                    );
+                  }}
                 >
                   Integrations
                   <span>
@@ -271,12 +280,21 @@ const HeaderProductContainer = ({ callbackFunctions }) => {
             <div className={twClassNames('flex flex-col items-start p-0 w-24')}>
               {FOR_TEAMS_PRODUCTS.map((product) => (
                 <Hyperlink
+                  key={product.name}
                   isCSR={false}
                   href={product.link}
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'
                   )}
-                  key={product.name}
+                  onClick={(e) => {
+                    hyperlinkClickHandler(
+                      e,
+                      product.link,
+                      callbackFunctions?.onProductLinkClick,
+                      '_self',
+                      product.name
+                    );
+                  }}
                 >
                   <span
                     className={twClassNames(
@@ -322,12 +340,21 @@ const HeaderProductContainer = ({ callbackFunctions }) => {
             >
               {TOOL_PRODUCTS.map((product) => (
                 <Hyperlink
+                  key={product.name}
                   isCSR={false}
                   href={product.link}
                   wrapperClassName={twClassNames(
                     'flex flex-row items-start w-24 py-[5px] px-4'
                   )}
-                  key={product.name}
+                  onClick={(e) => {
+                    hyperlinkClickHandler(
+                      e,
+                      product.link,
+                      callbackFunctions?.onProductLinkClick,
+                      '_self',
+                      product.name
+                    );
+                  }}
                 >
                   <span
                     className={twClassNames(
