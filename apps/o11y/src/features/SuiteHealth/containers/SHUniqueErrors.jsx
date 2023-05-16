@@ -131,7 +131,8 @@ const SnPUniqueErrors = () => {
     filters,
     activeProject?.normalisedName,
     sortBy,
-    isFiltersLoading
+    isFiltersLoading,
+    appliedFilters
   ]);
 
   useEffect(() => {
