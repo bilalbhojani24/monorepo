@@ -10,9 +10,7 @@ const GalleryMediaActionbar = ({
   <div
     className={twClassNames(
       'flex align-center justify-between w-100 border-b border-base-300 mb-5 py-4 flex',
-      {
-        wrapperClassName
-      }
+      wrapperClassName
     )}
   >
     {primaryActions}

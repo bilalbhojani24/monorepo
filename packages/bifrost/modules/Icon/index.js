@@ -1,5 +1,9 @@
 import { AiFillFileText, AiFillPlayCircle } from 'react-icons/ai';
-import { BsExclamationTriangleFill } from 'react-icons/bs';
+import {
+  BsChevronLeft,
+  BsChevronRight,
+  BsExclamationTriangleFill
+} from 'react-icons/bs';
 import { FaApple } from 'react-icons/fa';
 import { HiOutlineDownload } from 'react-icons/hi';
 import { MdContentCopy, MdPictureAsPdf } from 'react-icons/md';
@@ -33,6 +37,7 @@ import {
   InboxIcon,
   InformationCircleIcon,
   MagnifyingGlassIcon,
+  MinusIcon,
   PaperClipIcon,
   PhotoIcon,
   PlayCircleIcon,
@@ -61,6 +66,8 @@ export {
   AutomationIcon,
   Bars3Icon,
   BarsArrowUpIcon,
+  BsChevronLeft,
+  BsChevronRight,
   BsExclamationTriangleFill,
   BuildingOfficeIcon,
   CalendarIcon,
@@ -88,6 +95,7 @@ export {
   MagnifyingGlassIcon,
   MdContentCopy,
   MdPictureAsPdf,
+  MinusIcon,
   PaperClipIcon,
   PhotoIcon,
   PlayCircleIcon,

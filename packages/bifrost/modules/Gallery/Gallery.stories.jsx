@@ -1,12 +1,20 @@
 import React from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Button from '../Button';
 import Checkbox from '../Checkbox';
 import GalleryMedia from '../GalleryMedia';
 import { MEDIA_CARD_STATUS } from '../GalleryMedia/const/GalleryMediaConstants';
 import GalleryMediaActionbar from '../GalleryMediaActionbar';
 import GalleryMediaFooterButton from '../GalleryMediaFooterButton';
-import { HiOutlineDownload, MdContentCopy, TrashIcon } from '../Icon';
+import GalleryPreview from '../GalleryPreview';
+import {
+  HiOutlineDownload,
+  MdContentCopy,
+  MinusIcon,
+  PlusIcon,
+  TrashIcon
+} from '../Icon';
 
 import Gallery from './index';
 
@@ -91,6 +99,24 @@ Primary.parameters = {
 Primary.args = {
   children: (
     <>
+      <GalleryPreview
+        bottomAction={
+          <div>
+            <Button
+              wrapperClassName="rounded-r-none"
+              colors="white"
+              icon={<MinusIcon className="mx-auto h-5 w-5" />}
+              isIconOnlyButton
+            />
+            <Button
+              wrapperClassName="rounded-l-none"
+              colors="white"
+              icon={<PlusIcon className="mx-auto h-5 w-5" />}
+              isIconOnlyButton
+            />
+          </div>
+        }
+      />
       <GalleryMediaActionbar
         primaryActions={
           <div className="flex items-center gap-3">
