@@ -106,7 +106,7 @@ browserstack-cli hst init`,
 
   // All State variables:
   const [allAvailableRegionsByProvider, setAllAvailableRegionsByProvider] =
-    useState(null);
+    useState({});
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
     useState(GRID_MANAGER_NAMES.helm);
@@ -212,10 +212,20 @@ browserstack-cli hst init`,
   }, [selectedOption]);
 
   useEffect(() => {
-    if (allAvailableRegionsByProvider) {
+    if (Object.keys(allAvailableRegionsByProvider).length > 0) {
       setCurrentProvidersRegions(
         allAvailableRegionsByProvider[currentSelectedCloudProvider.configName]
       );
+
+      /*
+        allAvailableRegionsByProvider contains the absolute list of regions supported by various cloud Providers.
+        Now, we are setting the default region based on the currently selected Cloud Provider below
+      */
+      const defaultRegionToSet = allAvailableRegionsByProvider[
+        currentSelectedCloudProvider.configName
+      ].find((region) => region.default === true);
+
+      setSelectedRegion(defaultRegionToSet);
     }
   }, [allAvailableRegionsByProvider, currentSelectedCloudProvider]);
 
@@ -230,7 +240,6 @@ browserstack-cli hst init`,
 
       setAllAvailableRegionsByProvider(res.scratch['step-1'].regions);
       setCodeSnippetsForExistingSetup(res.existing);
-      setSelectedRegion(res.scratch['step-1']['default-region']);
       return response.data;
     };
 
