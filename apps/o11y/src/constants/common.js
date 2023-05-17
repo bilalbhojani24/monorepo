@@ -14,7 +14,7 @@ export const DOC_KEY_MAPPING = {
   tnc: `references/terms-and-conditions`
 };
 export const EXTERNAL_LINKS = {
-  getADemo: 'contact?&ref=observability-dashboard-top-header-csf-lead#sales',
+  getADemo: 'contact?&ref=observability-dashboard-demo-lead',
   planAndPricing: 'pricing?product=test-observability',
   buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead'
 };
