@@ -45,7 +45,7 @@ export default function Dashboard({ children }) {
   ));
 
   const SWBSidebarSec = (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-start justify-center">
       <ActionPanel
         content={
           <Button colors="white" onClick={onGetADemoClick}>
