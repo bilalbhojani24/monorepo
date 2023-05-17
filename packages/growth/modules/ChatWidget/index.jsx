@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Button } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-const ChatWidget = () => {
-  useEffect(() => {
-    // Make an API call to check chat widget should be enabled or not
+import { setWidgetEvents } from './utils';
 
-    // Yes
-    const id = 'freshchat-lib';
-    if (document.getElementById(id) || window.fcWidget) return null;
+const ChatWidget = () => {
+  const [showWidget, setShowWidget] = useState(true);
+
+  useEffect(() => {
+    const id = 'freshchat-lib-fe-2';
+    if (document.getElementById(id) || window.fcWidget) return undefined;
 
     const script = document.createElement('script');
     script.async = true;
@@ -16,29 +18,26 @@ const ChatWidget = () => {
     script.id = id;
 
     const handleScriptLoad = () => {
-      console.log(window.fcWidget);
-
       window.fcWidget.init({
-        token: '43f27d7f-70fe-4747-8d28-e12cd62d96f1',
-        host: 'https://wchat.freshchat.com'
-        // origin: 'https://www.browserstack.com',
-        // tags: ['free_users_visiting_speedboat'],
-        // external_id: 'ga_based_id',
-        // domain: 'dkfjvdkfj',
-        // fullscreen: false,
-        // config: {
-        //   headerProperty: {
-        //     // hideChatButton: customWidget,
-        //     backgroundColor: '#0070f0',
-        //     direction: 'ltr'
-        //   }
-        // }
+        token: '624243d8-8006-4cae-a3f5-54cdaa3c156a',
+        host: 'https://wchat.freshchat.com',
+        origin: 'https://www.browserstack.com',
+        tags: ['free_users_visiting_speedboat'],
+        external_id: 'ga_based_id',
+        fullscreen: false,
+        config: {
+          headerProperty: {
+            hideChatButton: true,
+            backgroundColor: '#0070f0',
+            welcomeMessage: 'Welcome to our support chat!'
+          },
+          content: {
+            placeholder: 'Welcome Bilal'
+          }
+        }
       });
 
-      window.fcWidget.on('widget:loaded', () => {
-        console.log('d,fjbvkjdfvkjdfsnvdfn');
-        window.fcWidget.open();
-      });
+      setWidgetEvents(setShowWidget);
     };
 
     script.addEventListener('load', handleScriptLoad);
@@ -50,19 +49,36 @@ const ChatWidget = () => {
       document.head.removeChild(script);
     };
   }, []);
+
+  const showChatWindow = () => {
+    if (window.fcWidget) {
+      setShowWidget(false);
+      window.fcWidget.open();
+    }
+  };
+
+  const closeChatWindow = () => {
+    if (window.fcWidget) {
+      window.fcWidget.close();
+    }
+  };
+
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => {
-          if (window.fcWidget) {
-            console.log('dkjfvjkdf');
-            window.fcWidget.open({ name: 'Bilal' });
-          }
-        }}
-      >
-        Open chat window
-      </button>
+      {showWidget && (
+        <Button
+          onClick={() => {
+            showChatWindow();
+          }}
+          wrapperClassName="rounded-none shadow-lg absolute"
+          style={{
+            bottom: '20px',
+            right: '20px'
+          }}
+        >
+          Talk to an Expert
+        </Button>
+      )}
     </div>
   );
 };
