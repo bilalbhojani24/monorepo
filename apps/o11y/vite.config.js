@@ -1,4 +1,3 @@
-import fs from 'fs';
 import path from 'path';
 import { defineConfig } from 'vite';
 
@@ -23,11 +22,7 @@ export default defineConfig(({ command }) => {
   };
   if (command !== 'build') {
     commonConfig.server = {
-      https: {
-        key: fs.readFileSync('./certs/bsstag.com.key'),
-        cert: fs.readFileSync('./certs/bsstag.com.crt')
-      },
-      port: 9000,
+      port: 8081,
       host: '127.0.0.1'
     };
   }
