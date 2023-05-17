@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { MdArrowBack } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { URL_REGEX, WRAPPER_GAP_CLASS } from 'constants/common';
+import { URL_REGEX } from 'constants/common';
+import { AppContext } from 'features/Layout/context/AppContext';
 import PropTypes from 'prop-types';
 import { getDocUrl, logOllyEvent } from 'utils/common';
 
@@ -19,6 +20,7 @@ const allowedOrigin = (origin) => {
 };
 export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
   const [isLoading, setIsLoading] = useState(true);
+  const { headerSize } = useContext(AppContext);
 
   const onLoad = () => {
     setIsLoading(false);
@@ -55,10 +57,10 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
 
   return (
     <div
-      className={twClassNames(
-        'm-auto flex w-full max-w-screen-xl flex-col overflow-hidden p-12 pt-0',
-        WRAPPER_GAP_CLASS
-      )}
+      className="m-auto flex w-full max-w-screen-xl flex-col overflow-hidden p-12 pt-0"
+      style={{
+        height: `calc(100vh - ${headerSize.blockSize}px)`
+      }}
     >
       <div className="mb-5 flex w-full items-center justify-between pt-12">
         <O11yButton
