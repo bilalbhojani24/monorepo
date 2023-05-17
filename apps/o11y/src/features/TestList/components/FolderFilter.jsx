@@ -233,8 +233,10 @@ export const FolderFilter = ({
         placementSide="bottom"
         size="lg"
         content={
-          // eslint-disable-next-line tailwindcss/no-arbitrary-value
-          <div className="flex max-h-80 w-[335px] flex-col overflow-hidden">
+          <div
+            // eslint-disable-next-line tailwindcss/no-arbitrary-value
+            className="flex max-h-80 w-[335px] flex-col overflow-hidden"
+          >
             <div className="py-2">
               <O11yInputField
                 value={searchValue}
@@ -273,7 +275,7 @@ export const FolderFilter = ({
         }}
         wrapperClassName="px-2 py-0"
       >
-        <div>
+        <button type="button">
           <div className="mb-1 text-left">
             <span className="text-base-700 text-sm font-medium">Folder</span>
           </div>
@@ -297,7 +299,7 @@ export const FolderFilter = ({
               />
             ))}
           </div>
-        </div>
+        </button>
       </O11yPopover>
     </>
   );

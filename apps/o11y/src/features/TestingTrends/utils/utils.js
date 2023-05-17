@@ -95,6 +95,7 @@ export const getCommonChartOptions = (data = {}) => {
       gridLineWidth: 1,
       gridZIndex: 0,
       gridLineDashStyle: 'Dash',
+      min: 0,
       title: {
         text: null
       },

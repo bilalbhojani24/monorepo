@@ -94,7 +94,7 @@ function getChartOptions({ afterSetExtremes, activeProject, filters }) {
       series: {
         color: '#1b8bff',
         animation: false,
-        connectNulls: null,
+        connectNulls: true,
         marker: {
           radius: 3
         },

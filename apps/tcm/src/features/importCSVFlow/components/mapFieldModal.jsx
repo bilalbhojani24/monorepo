@@ -121,7 +121,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                     options={row?.displayOptions}
                     defaultValue={row?.defaultSelected}
                     onChange={handleModalSelectMenuChange(row.csvValue)}
-                    dividerIdx={row?.displayOptions.length - 3}
+                    dividerIdx={1}
                   />
                 </TableCell>
               </TableRow>
