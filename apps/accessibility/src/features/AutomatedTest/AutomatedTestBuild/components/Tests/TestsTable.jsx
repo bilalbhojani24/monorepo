@@ -11,10 +11,14 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import ChromeIcon from 'assets/chrome_icon.svg';
+import MacIcon from 'assets/mac_icon.svg';
 import { issueTypes } from 'constants';
-import PropTypes from 'prop-types';
 
-export default function TestsTable({ testRuns }) {
+import useAutomatedTestBuild from '../../useAutomatedTestBuild';
+
+export default function TestsTable() {
+  const { testRuns } = useAutomatedTestBuild();
   const getTestIcon = (status) => {
     const components = {
       passed: <MdCheckCircle className="text-success-500 mt-0.5 h-4 w-4" />,
@@ -24,6 +28,14 @@ export default function TestsTable({ testRuns }) {
     return components[status];
   };
 
+  const getOSIcon = (name) => {
+    const icons = {
+      chrome: ChromeIcon,
+      mac: MacIcon
+    };
+
+    return icons[name];
+  };
   const columns = [
     {
       name: 'TESTS',
@@ -36,10 +48,31 @@ export default function TestsTable({ testRuns }) {
             <p className="text-base-900 line-clamp-4 inline max-h-[80px] w-[603px] overflow-hidden text-ellipsis">
               {row.name}
             </p>
-            <div className="flex items-center gap-1">
-              <MdFolderOpen />
-              <p className="text-base-500">{row.folder}</p>
-            </div>
+            <ul className="mt-1 flex items-center gap-3">
+              <li className="flex items-center gap-1">
+                <img
+                  className="h-5 w-5"
+                  src={getOSIcon('chrome')}
+                  alt="android icon"
+                />
+                <p className="text-base-500">Chrome 112</p>
+              </li>
+              <li className="flex items-center gap-1">
+                <img
+                  className="h-4 w-3"
+                  src={getOSIcon('mac')}
+                  alt="android icon"
+                />
+                <p className="text-base-500">Ventura</p>
+              </li>
+              <li>
+                <div className="bg-base-500 h-1 w-1 rounded-lg" />
+              </li>
+              <li className="flex items-center gap-1">
+                <MdFolderOpen />
+                <p className="text-base-500">{row.folder}</p>
+              </li>
+            </ul>
           </div>
         </div>
       )
@@ -125,8 +158,3 @@ export default function TestsTable({ testRuns }) {
     </Table>
   );
 }
-
-TestsTable.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  testRuns: PropTypes.array.isRequired
-};

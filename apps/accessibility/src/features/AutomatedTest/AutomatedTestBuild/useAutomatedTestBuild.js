@@ -57,6 +57,9 @@ export default function useAutomatedTestBuild() {
     navigate(`?${updatedPath}`);
   };
 
+  const onInputValueChange = () => {};
+  const handleSearchFilter = () => {};
+
   const fetchTestCasesHelper = () =>
     fetchTestCasesData(projectName, buildName, buildNumber);
 
@@ -101,6 +104,8 @@ export default function useAutomatedTestBuild() {
     eventName,
     onRowClick,
     onTabChange,
-    testRuns
+    testRuns,
+    onInputValueChange,
+    handleSearchFilter
   };
 }
