@@ -89,6 +89,11 @@ const Onboarding = () => {
             activeGridManagerCodeSnippet.toLowerCase()
           ]
         }
+        language={
+          activeGridManagerCodeSnippet.toLowerCase() === GRID_MANAGER_NAMES.cli
+            ? 'node'
+            : activeGridManagerCodeSnippet.toLowerCase()
+        }
         singleLine={false}
         showLineNumbers={false}
         view="neutral"
@@ -159,6 +164,7 @@ const Onboarding = () => {
             </p>
             <CodeSnippet
               code={CODE_SNIPPETS_SCRATCH['create-grid'].a.code}
+              language={CODE_SNIPPETS_SCRATCH['create-grid'].a.language}
               showLineNumbers={false}
               singleLine={false}
               view="neutral"
@@ -172,6 +178,7 @@ const Onboarding = () => {
             </p>
             <CodeSnippet
               code={CODE_SNIPPETS_SCRATCH['create-grid'].b.code}
+              language={CODE_SNIPPETS_SCRATCH['create-grid'].b.language}
               showLineNumbers={false}
               singleLine={false}
               view="neutral"
@@ -195,6 +202,7 @@ const Onboarding = () => {
         </div>
         <CodeSnippet
           code={CODE_SNIPPETS_SCRATCH['create-grid'].c.code}
+          language={CODE_SNIPPETS_SCRATCH['create-grid'].c.language}
           singleLine
         />
       </ol>
