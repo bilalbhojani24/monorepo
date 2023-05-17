@@ -4,7 +4,7 @@ import { Header } from '@browserstack/bifrost';
 
 const Layout = () => (
   <>
-    <Header productName="High Scale Testing" release="alpha" />
+    <Header productName="Automation Grid" release="alpha" />
     <main>
       <Outlet />
     </main>

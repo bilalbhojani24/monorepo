@@ -43,7 +43,7 @@ browserstack-cli hst init`,
     cli: 'CLI'
   };
   const HEADER_TEXTS_OBJECT = {
-    intro: `Hey ${userDetails.fullname}, Welcome to High Scale Testing`,
+    intro: `Hey ${userDetails.fullname}, Welcome to Automation Grid`,
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };
