@@ -13,7 +13,7 @@ import { setStorage } from '@browserstack/utils';
 import { CHROME_EXTENSION_URL, events } from 'constants';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
-import { defaultPath } from 'utils';
+import { defaultPath, getBrowserStackBase } from 'utils';
 import { getTimeDiffInDays } from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
 
@@ -98,6 +98,19 @@ export default function useDashboard() {
     window.open(CHROME_EXTENSION_URL, '_target');
   };
 
+  const onGetADemoClick = () => {
+    logEvent('ClickedGetaDemo', {
+      signed_in: true,
+      Product: 'Accessibility Testing',
+      Section: 'dashboard-left-panel',
+      URL: window.location.href
+    });
+    window.open(
+      `${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-demo-lead`,
+      '_blank'
+    );
+  };
+
   useEffect(() => {
     if (!localStorage.getItem('newSiteScannerBadge')) {
       localStorage.setItem('newSiteScannerBadge', new Date().getTime());
@@ -115,6 +128,7 @@ export default function useDashboard() {
     primaryNav,
     currentPath,
     secondaryNav,
+    onGetADemoClick,
     handleNavigationClick,
     onDownloadExtensionClick,
     onCloseClick

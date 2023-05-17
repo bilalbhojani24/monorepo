@@ -176,7 +176,7 @@ const AllBuildsPage = () => {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-6 pt-5 pb-0">
+      <div className="flex flex-1 flex-col p-6 pb-0 pt-5">
         <div className="mb-2 flex justify-between">
           <SearchBuilds />
           <Filters />
