@@ -13,7 +13,7 @@ const TMHeader = () => (
     headerID="bstack-header"
     productLink={AppRoute.ROOT}
     productName="Test Management"
-    release="Alpha"
+    release="Beta"
     headerElementArray={[
       'team',
       'pricing',
@@ -22,6 +22,8 @@ const TMHeader = () => (
       'notifications',
       'account'
     ]}
+    buyPlanTarget="_blank"
+    buyPlanLink="https://www.browserstack.com/contact?&ref=test-management-dashboard-top-header-csf-lead"
     documentation={{
       title: 'Key Features',
       options: [

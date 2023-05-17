@@ -46,7 +46,7 @@ const TableBodyWithRef = forwardRef(
     // eslint-disable-next-line react/jsx-props-no-spreading
     <O11yRefTableBody
       {...restProps}
-      wrapperClassName={wrapperClassName}
+      wrapperClassName={`border-0 ${wrapperClassName}`}
       ref={ref}
     />
   )
