@@ -185,3 +185,29 @@ export const getTimeDiffInDays = (d1, d2) => {
   const diff = Math.abs(d1 - d2) / 1000; // divide by 1000 to get seconds
   return Math.floor(diff / 86400); // divide by 86400 to get days
 };
+
+export const getHiddenIssuesCount = (reportData) => {
+  let hiddenIssues = 0;
+  let needsReviewIssues = 0;
+
+  reportData.forEach((data) => {
+    data.nodes.forEach((node) => {
+      node.childNodes.forEach((item) => {
+        if (item.hidden) {
+          hiddenIssues += 1;
+        }
+      });
+      if (node.confirmed === null) {
+        needsReviewIssues += 1;
+      }
+    });
+  });
+  if (hiddenIssues < 10) {
+    hiddenIssues = `0${hiddenIssues}`;
+  }
+
+  if (needsReviewIssues < 10) {
+    needsReviewIssues = `0${needsReviewIssues}`;
+  }
+  return { hiddenIssues, needsReviewIssues };
+};

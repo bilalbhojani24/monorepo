@@ -1,4 +1,5 @@
 import React from 'react';
+import { Stats } from '@browserstack/bifrost';
 import CategoryCard from 'common/CategoryCard';
 import SummaryChart from 'common/SummaryChart';
 import TableCard from 'common/TableCard';
@@ -12,11 +13,29 @@ export default function Overview() {
     testMetaData,
     eventName,
     urlColumns,
+    hiddenIssues,
+    needsReviewIssues,
     issueSummaryData,
     componentColumns,
     categoryColumns,
+    onHiddenIssueClick,
     onRowClick
   } = useOverview();
+
+  const options = [
+    {
+      id: 1,
+      name: 'Needs review issues',
+      stat: needsReviewIssues,
+      onClick: () => onRowClick('showNeedsReviewIssues', true, true)
+    },
+    {
+      id: 2,
+      name: 'Hidden issues',
+      stat: hiddenIssues,
+      onClick: onHiddenIssueClick
+    }
+  ];
 
   const componentCountList = testMetaData.chartData.issueCountByComponent.map(
     ({ componentId, count }) => ({
@@ -77,6 +96,13 @@ export default function Overview() {
           onRowClick={onRowClick}
           wrapperClassName="mt-4"
         />
+        <div className="mt-4 flex">
+          {options.map((option) => (
+            <div className="mr-4 w-2/4">
+              <Stats option={option} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

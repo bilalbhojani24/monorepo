@@ -1,9 +1,24 @@
-import { useSelector } from 'react-redux';
-
-import { getTestMetaData } from '../../slices/selector';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  resetFilters,
+  resetIssueItem,
+  setShowHiddenIssues
+} from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/slices/appSlice';
+import {
+  getTestData,
+  getTestMetaData
+} from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/slices/selector';
+import { getHiddenIssuesCount, updateUrlWithQueryParam } from 'utils/helper';
 
 export default function useOverview() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const testMetaData = useSelector(getTestMetaData);
+  const testData = useSelector(getTestData);
+
+  const { hiddenIssues, needsReviewIssues } = getHiddenIssuesCount(testData);
+
   const { critical, serious, moderate, minor } = testMetaData.issueSummary;
   const ISSUE_COUNT = 'Issue Count';
   const componentColumns = [
@@ -94,14 +109,26 @@ export default function useOverview() {
     console.log('key, option: ', option, key);
   };
 
+  const onHiddenIssueClick = () => {
+    dispatch(setShowHiddenIssues({ hideIssues: true }));
+    dispatch(resetFilters());
+    dispatch(resetIssueItem());
+    const path = updateUrlWithQueryParam({ hideIssues: true });
+    navigate(`?${path}`);
+    document.querySelector('button[value="All issues"]').click();
+  };
+
   return {
     actionType,
     issueSummaryData,
+    hiddenIssues,
+    needsReviewIssues,
     testMetaData,
     eventName,
     urlColumns,
     componentColumns,
     categoryColumns,
+    onHiddenIssueClick,
     onRowClick
   };
 }
