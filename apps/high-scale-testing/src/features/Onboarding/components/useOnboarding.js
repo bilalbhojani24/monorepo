@@ -18,6 +18,7 @@ const useOnboarding = () => {
     'create-grid': {
       a: {
         code: 'npm install @browserstack/browserstack-cli',
+        language: 'node',
         text: 'Download CLI.'
       },
       b: {
@@ -27,10 +28,12 @@ export BROWSERSTACK_ACCESS_KEY=${userDetails.accessKey}
 
 # Create HST configuration profile with AWS credentials
 browserstack-cli hst init`,
+        language: 'node',
         text: 'Setup CLI with AWS credentials.'
       },
       c: {
         code: 'browserstack-cli hst create grid',
+        language: 'node',
         text: 'Execute grid creation command.'
       }
     }
