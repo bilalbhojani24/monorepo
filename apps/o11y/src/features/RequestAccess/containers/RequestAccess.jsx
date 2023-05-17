@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {
@@ -23,6 +23,10 @@ function RequestAccess() {
   const initData = useSelector(getInitData);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    logOllyEvent({ event: 'O11yGetAccessPageVisited' });
+  }, []);
 
   if (!initData.isLoading && initData.data?.hasAcceptedTnC) {
     return <Navigate to={ROUTES.get_started} />;
@@ -60,7 +64,7 @@ function RequestAccess() {
           <h1 className="text-3xl font-bold leading-10">
             Welcome to Test Observability!
           </h1>
-          <p className="text-base-500 pt-2 pb-6 text-base">
+          <p className="text-base-500 pb-6 pt-2 text-base">
             Test Observability is a precision debugger, a test suite health
             dashboard, a collaborative tool & more. Works with all automation
             tests, even if they don&apos;t run on the BrowserStack Cloud!
