@@ -152,9 +152,11 @@ const Onboarding = () => {
     <div className="m-4">
       {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
       <ol className="text-base-500 list-[lower-alpha] text-sm">
-        <li className="py-2">
+        <li className="text-base-900 py-2">
           <div>
-            <p>{CODE_SNIPPETS_SCRATCH['create-grid'].a.text}</p>
+            <p className="text-base-900 mb-2">
+              {CODE_SNIPPETS_SCRATCH['create-grid'].a.text}
+            </p>
             <CodeSnippet
               code={CODE_SNIPPETS_SCRATCH['create-grid'].a.code}
               showLineNumbers={false}
@@ -163,9 +165,11 @@ const Onboarding = () => {
             />
           </div>
         </li>
-        <li className="py-2">
+        <li className="text-base-900 py-2">
           <div>
-            <p>{CODE_SNIPPETS_SCRATCH['create-grid'].b.text}</p>
+            <p className="text-base-900 mb-2">
+              {CODE_SNIPPETS_SCRATCH['create-grid'].b.text}
+            </p>
             <CodeSnippet
               code={CODE_SNIPPETS_SCRATCH['create-grid'].b.code}
               showLineNumbers={false}
@@ -174,7 +178,9 @@ const Onboarding = () => {
             />
           </div>
         </li>
-        <li className="py-2">{CODE_SNIPPETS_SCRATCH['create-grid'].c.text}</li>
+        <li className="text-base-900 mb-2">
+          {CODE_SNIPPETS_SCRATCH['create-grid'].c.text}
+        </li>
         <div className="mb-2">
           <Alerts
             accentBorder={false}
@@ -395,7 +401,7 @@ const Onboarding = () => {
 
       {/* --X-- Footer component --X-- */}
 
-      {/* {onboardingStep > 0 &&
+      {onboardingStep > 0 &&
         eventLogsCode &&
         eventLogsCode.length > 0 &&
         !isSetupComplete && (
@@ -414,7 +420,7 @@ const Onboarding = () => {
           isSetupComplete={isSetupComplete}
           viewAllBuildsClickHandler={viewAllBuildsClickHandler}
         />
-      )} */}
+      )}
     </div>
   );
 };
