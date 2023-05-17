@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
@@ -22,43 +22,87 @@ const dummyData = [
   {
     title: 'lorem some file.jsx',
     subTitle: 'sub-lorem',
-    icon: <TrashIcon className="text-base-700 h-4" aria-hidden="true" />,
-    status: MEDIA_CARD_STATUS[0]
+    icon: (
+      <TrashIcon
+        className="text-base-700 h-4 cursor-pointer"
+        aria-hidden="true"
+      />
+    ),
+    status: MEDIA_CARD_STATUS[0],
+    selected: true,
+    id: 1,
+    thumbnail: 'https://rb.gy/3b4b0'
   },
 
   {
     title: 'ipsum lorem some file.jsx',
     subTitle: 'sub-ipsum',
-    icon: <TrashIcon className="text-base-700 h-4" aria-hidden="true" />,
-    status: MEDIA_CARD_STATUS[1]
+    icon: (
+      <TrashIcon
+        className="text-base-700 h-4 cursor-pointer"
+        aria-hidden="true"
+      />
+    ),
+    status: MEDIA_CARD_STATUS[1],
+    selected: true,
+    id: 2
   },
 
   {
     title: 'dolor sub-dolor.ts',
     subTitle: 'Meta Data',
-    icon: <TrashIcon className="text-base-700 h-4" aria-hidden="true" />,
-    status: MEDIA_CARD_STATUS[2]
+    icon: (
+      <TrashIcon
+        className="text-base-700 h-4 cursor-pointer"
+        aria-hidden="true"
+      />
+    ),
+    status: MEDIA_CARD_STATUS[2],
+    selected: false,
+    id: 3
   },
 
   {
     title: 'lorem some file.jsx',
     subTitle: 'sub-lorem',
-    icon: <TrashIcon className="text-base-700 h-4" aria-hidden="true" />,
-    status: MEDIA_CARD_STATUS[3]
+    icon: (
+      <TrashIcon
+        className="text-base-700 h-4 cursor-pointer"
+        aria-hidden="true"
+      />
+    ),
+    status: MEDIA_CARD_STATUS[3],
+    selected: true,
+    id: 4,
+    thumbnail: 'https://rb.gy/3b4b0'
   },
 
   {
     title: 'ipsum.lorem.some.file.jsx',
     subTitle: 'sub-ipsum',
-    icon: <TrashIcon className="text-base-700 h-4" aria-hidden="true" />,
-    status: MEDIA_CARD_STATUS[4]
+    icon: (
+      <TrashIcon
+        className="text-base-700 h-4 cursor-pointer"
+        aria-hidden="true"
+      />
+    ),
+    status: MEDIA_CARD_STATUS[4],
+    selected: false,
+    id: 5
   },
 
   {
     title: 'ipsum lorem some really big file.jsx',
     subTitle: 'sub-ipsum',
-    icon: <TrashIcon className="text-base-700 h-4" aria-hidden="true" />,
-    status: MEDIA_CARD_STATUS[5]
+    icon: (
+      <TrashIcon
+        className="text-base-700 h-4 cursor-pointer"
+        aria-hidden="true"
+      />
+    ),
+    status: MEDIA_CARD_STATUS[5],
+    selected: false,
+    id: 6
   }
 ];
 
@@ -76,16 +120,7 @@ const defaultConfig = {
   },
   argTypes: {
     galleryItems: {
-      defaultValue: [
-        {
-          title: 'lorem',
-          subTitle: 'sub lorem',
-          action: <TrashIcon />,
-          thumbnail:
-            'https://images.pexels.com/photos/1843717/pexels-photo-1843717.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-          key: '1'
-        }
-      ]
+      defaultValue: []
     }
   },
   controls: {}
@@ -104,7 +139,7 @@ Primary.args = {
           <div className="bg-base-900 absolute left-0 top-0 flex w-full justify-between p-5 text-white">
             <div className="flex items-center gap-3">
               <p className="text-sm font-medium leading-5 text-white">
-                sit amet consectetur adipisicing elit.
+                sit amet consectetur adipisicisng elit.
               </p>
             </div>
             <div className="flex gap-3">
@@ -145,7 +180,7 @@ Primary.args = {
           <div className="flex items-center gap-3">
             <Checkbox border={false} />
             <p className="text-base-900 text-sm font-medium leading-5">
-              sit amet consectetur adipisicing elit.
+              sit amet consectetur adispisicing elit.
             </p>
           </div>
         }
@@ -163,16 +198,8 @@ Primary.args = {
           </div>
         }
       />
-      <div className="grid grid-cols-6 gap-3">
-        {dummyData.map((dummyItem, id) => (
-          <GalleryMedia
-            key={`${id + 1}`}
-            title={dummyItem.title}
-            subTitle={dummyItem.subTitle}
-            icon={dummyItem.icon}
-            status={dummyItem.status}
-          />
-        ))}
+      <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <GalleryMedia data={dummyData} />
       </div>
       <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
         See All
@@ -180,6 +207,152 @@ Primary.args = {
     </>
   ),
   wrapperClassName: ''
+};
+
+export const WorkingExample = () => {
+  const [data, setData] = useState(dummyData);
+  // const [previewVisible, setPreviewVisible] = useState(false);
+  const [previewItem, setPreviewItem] = useState(null);
+
+  const [selectedItems, setSelectedItems] = useState(
+    data.filter((item) => item.selected)
+  );
+
+  const handleMediaUpdate = (change, id) => {
+    const dupData = [...data];
+    const res = dupData.find((item) => item.id === id);
+    res.selected = change;
+    setData(dupData);
+    setSelectedItems(data.filter((item) => item.selected));
+  };
+
+  const handleCardClick = (id) => {
+    const clickedItem = data.find((item) => item.id === id);
+    if (
+      clickedItem?.status === MEDIA_CARD_STATUS[1] ||
+      clickedItem?.status === MEDIA_CARD_STATUS[2] ||
+      clickedItem?.status === MEDIA_CARD_STATUS[3] ||
+      clickedItem?.status === MEDIA_CARD_STATUS[5]
+    )
+      return;
+    setPreviewItem(clickedItem);
+  };
+
+  const handleBulkSelect = (e) => {
+    if (e.target.checked) {
+      setData(
+        dummyData.map((item) => ({
+          ...item,
+          selected: true
+        }))
+      );
+      setSelectedItems(data);
+    } else {
+      setData(
+        dummyData.map((item) => ({
+          ...item,
+          selected: false
+        }))
+      );
+      setSelectedItems([]);
+    }
+  };
+
+  return (
+    <>
+      <GalleryPreview
+        onClose={() => setPreviewItem(null)}
+        topAction={
+          <div className="bg-base-900 absolute left-0 top-0 flex w-full justify-between p-5 text-white">
+            <div className="flex items-center gap-3">
+              <p className="text-sm font-medium leading-5 text-white">
+                {previewItem?.title}
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <MdContentCopy
+                className="h-5 w-5 cursor-pointer"
+                aria-hidden="true"
+              />
+              <HiOutlineDownload
+                className="h-5 w-5 cursor-pointer"
+                aria-hidden="true"
+              />
+              <TrashIcon
+                className="h-5 w-5 cursor-pointer"
+                aria-hidden="true"
+              />
+            </div>
+          </div>
+        }
+        bottomAction={
+          <div>
+            <Button
+              wrapperClassName="rounded-r-none"
+              colors="white"
+              icon={<MinusIcon className="mx-auto h-5 w-5" />}
+              isIconOnlyButton
+            />
+            <Button
+              wrapperClassName="rounded-l-none"
+              colors="white"
+              icon={<PlusIcon className="mx-auto h-5 w-5" />}
+              isIconOnlyButton
+            />
+          </div>
+        }
+        content={
+          previewItem?.status === MEDIA_CARD_STATUS[0] && (
+            <img src={data[0].thumbnail} alt={data[0].subTitle} />
+          )
+        }
+        visible={!!previewItem}
+      />
+      <Gallery className="h-full w-full">
+        {selectedItems.length > 0 && (
+          <GalleryMediaActionbar
+            primaryActions={
+              <div className="flex items-center gap-3">
+                <Checkbox
+                  border={false}
+                  onChange={(e) => handleBulkSelect(e)}
+                />
+                <p className="text-base-900 text-sm font-medium leading-5">
+                  {selectedItems.length} item(s) selected
+                </p>
+              </div>
+            }
+            secondaryActions={
+              <div className="flex gap-3">
+                <MdContentCopy
+                  className="h-5 w-5 cursor-pointer"
+                  aria-hidden="true"
+                />
+                <HiOutlineDownload
+                  className="h-5 w-5 cursor-pointer"
+                  aria-hidden="true"
+                />
+                <TrashIcon
+                  className="h-5 w-5 cursor-pointer"
+                  aria-hidden="true"
+                />
+              </div>
+            }
+          />
+        )}
+        <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <GalleryMedia
+            onCardClick={(id) => handleCardClick(id)}
+            data={data}
+            onChange={(status, id) => handleMediaUpdate(status, id)}
+          />
+        </div>
+        <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
+          See All
+        </GalleryMediaFooterButton>
+      </Gallery>
+    </>
+  );
 };
 
 export default defaultConfig;

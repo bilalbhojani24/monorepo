@@ -1,9 +1,8 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useState } from 'react';
+import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import Checkbox from '../Checkbox';
 import {
   AiFillFileText,
   AiFillPlayCircle,
@@ -13,32 +12,22 @@ import {
 import Loader from '../Loader';
 import Tooltip from '../Tooltip';
 
+import GalleryMediaCheckbox from './components/GalleryMediaCheckbox';
 import {
   MEDIA_CARD_STATUS,
   MEDIA_CARD_THUMBNAIL_RATIO
 } from './const/GalleryMediaConstants';
 
 const GalleryMedia = ({
-  thumbnail,
-  title,
-  subTitle,
-  icon,
-  status,
+  data,
   ratio,
   showExtensions,
-  multiSelect,
-  selected,
-  onSelect
+  alwaysVisible,
+  onChange,
+  onCardClick
 }) => {
-  const [checkBoxVisisble, setCheckBoxVisisble] = useState(false);
-  const [checkBoxChecked, setCheckBoxChecked] = useState(selected);
-
-  const handleChange = (e) => {
-    onSelect(e);
-    setCheckBoxChecked(e.target.checked);
-  };
-
-  const renderMediaThumbnail = () => {
+  const renderMediaThumbnail = (item) => {
+    const { status, thumbnail } = item;
     switch (status) {
       case MEDIA_CARD_STATUS[0]:
         return (
@@ -112,7 +101,7 @@ const GalleryMedia = ({
     }
   };
 
-  const renderFileWithExtension = () => {
+  const renderFileWithExtension = (title) => {
     const extension = title.split('.').slice(-1);
     const effectiveTitle = title.split('.').slice(0, -1).join('.');
     return effectiveTitle.length < 18 ? (
@@ -127,7 +116,7 @@ const GalleryMedia = ({
     );
   };
 
-  const renderFileWithoutExtension = () => {
+  const renderFileWithoutExtension = (title) => {
     const effectiveTitle = title.split('.').slice(0, -1).join('.');
     return effectiveTitle.length < 20 ? (
       effectiveTitle
@@ -145,88 +134,73 @@ const GalleryMedia = ({
     );
   };
 
-  return (
-    <div className="mx-auto w-[197px]">
-      <button
-        className={twClassNames(
-          'border-base-300 outline-brand-500 relative w-full rounded-md border outline-2 outline-offset-4 hover:opacity-80',
-          {
-            'border-brand-600 border-2 rounded': checkBoxChecked
-          }
-        )}
-        onMouseEnter={() => {
-          setCheckBoxVisisble(true);
-        }}
-        onMouseLeave={() => {
-          setCheckBoxVisisble(false);
-        }}
-        onFocus={() => {
-          setCheckBoxVisisble(true);
-        }}
-        type="button"
-        aria-label="particular button"
+  const handleOnClick = (id) => {
+    onCardClick(id);
+  };
+
+  const handleChange = (e, itemId) => {
+    onChange(e.target.checked, itemId);
+  };
+
+  return data.map((mediaItem) => (
+    <div key={mediaItem.id} className="mx-auto w-[197px]" role="region">
+      <GalleryMediaCheckbox
+        onClick={() => handleOnClick(mediaItem.id)}
+        selected={mediaItem.selected}
+        alwaysVisible={alwaysVisible}
+        onChange={(e) => handleChange(e, mediaItem.id)}
       >
-        {(checkBoxVisisble || multiSelect || checkBoxChecked) && (
-          <Checkbox
-            checked={checkBoxChecked}
-            border={false}
-            onChange={(e) => handleChange(e)}
-            onBlur={() => {
-              setCheckBoxVisisble(false);
-            }}
-            wrapperClassName="absolute right-3 top-2"
-          />
-        )}
-        {renderMediaThumbnail()}
-      </button>
-      <div
-        className={twClassNames('mt-4 flex justify-between', {
-          'mt-[15px]': checkBoxChecked
-        })}
-      >
+        {renderMediaThumbnail(mediaItem)}
+      </GalleryMediaCheckbox>
+
+      <div className="mt-4 flex justify-between">
         <div>
-          {title && (
+          {mediaItem.title && (
             <p className="text-base-900 text-sm font-normal leading-none">
               {showExtensions
-                ? renderFileWithExtension()
-                : renderFileWithoutExtension()}
+                ? renderFileWithExtension(mediaItem.title)
+                : renderFileWithoutExtension(mediaItem.title)}
             </p>
           )}
-          {subTitle && (
+          {mediaItem.subTitle && (
             <p className="text-base-500 mt-2 text-xs font-medium leading-4">
-              {subTitle}
+              {mediaItem.subTitle}
             </p>
           )}
         </div>
-        {icon}
+        {mediaItem.icon}
       </div>
     </div>
-  );
+  ));
 };
 
 GalleryMedia.propTypes = {
-  thumbnail: PropTypes.string,
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
-  icon: PropTypes.node,
-  status: PropTypes.oneOf(MEDIA_CARD_STATUS),
   ratio: PropTypes.string,
   showExtensions: PropTypes.bool,
   multiSelect: PropTypes.bool,
-  selected: PropTypes.bool,
-  onSelect: PropTypes.func
+  onChange: PropTypes.func,
+  alwaysVisible: PropTypes.bool,
+  onCardClick: PropTypes.func,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      thumbnail: PropTypes.string,
+      title: PropTypes.string,
+      subTitle: PropTypes.string,
+      icon: PropTypes.node,
+      status: PropTypes.oneOf(MEDIA_CARD_STATUS),
+      id: PropTypes.string,
+      selected: PropTypes.bool
+    })
+  )
 };
 GalleryMedia.defaultProps = {
-  thumbnail: 'https://rb.gy/3b4b0',
-  title: '',
-  subTitle: '',
-  icon: null,
-  status: MEDIA_CARD_STATUS[0],
+  data: [],
   ratio: '16/9',
   showExtensions: false,
   multiSelect: false,
-  selected: false,
-  onSelect: () => {}
+  onChange: () => {},
+  onCardClick: () => {},
+  alwaysVisible: false
 };
 
 export default GalleryMedia;

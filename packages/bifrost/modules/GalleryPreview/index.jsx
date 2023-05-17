@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import { BsChevronLeft, BsChevronRight } from '../Icon';
-import Modal from '../Modal';
+
+import Modal from './components/Modal';
 
 const GalleryPreview = ({
   visible,
@@ -15,7 +16,8 @@ const GalleryPreview = ({
   arrowsWrapperClassName,
   content,
   onNextClick,
-  onPrevClick
+  onPrevClick,
+  onClose
 }) => {
   const handleNextClick = () => {
     onNextClick();
@@ -27,6 +29,8 @@ const GalleryPreview = ({
   return (
     <div className={wrapperClassName}>
       <Modal
+        onOverlayClick={() => onClose()}
+        onClose={() => onClose()}
         wrapperClassName="static bg-transparent shadow-none"
         show={visible}
       >
@@ -79,10 +83,11 @@ GalleryPreview.propTypes = {
   bottomWrapperClassName: PropTypes.string,
   visible: PropTypes.bool,
   onPrevClick: PropTypes.func,
-  onNextClick: PropTypes.func
+  onNextClick: PropTypes.func,
+  onClose: PropTypes.func
 };
 GalleryPreview.defaultProps = {
-  visible: true,
+  visible: false,
   topAction: null,
   bottomAction: null,
   content: null,
@@ -90,7 +95,8 @@ GalleryPreview.defaultProps = {
   arrowsWrapperClassName: '',
   bottomWrapperClassName: '',
   onNextClick: () => {},
-  onPrevClick: () => {}
+  onPrevClick: () => {},
+  onClose: () => {}
 };
 
 export default GalleryPreview;
