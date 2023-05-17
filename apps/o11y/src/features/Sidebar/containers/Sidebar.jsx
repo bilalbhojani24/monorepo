@@ -2,6 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import {
+  ActionPanel,
   MdOutlineBuildCircle,
   MdOutlineDataUsage,
   MdOutlineExtension,
@@ -25,7 +26,6 @@ import {
   getTestingTrendPath
 } from 'utils/routeUtils';
 
-import ActionPanel from '../components/ActionPanel';
 import ProjectSelector from '../components/ProjectSelector';
 
 const getPrimaryNav = ({ projectNormalisedName }) => [
@@ -120,6 +120,14 @@ export default function Sidebar() {
       data: {
         source: 'sidebar',
         url: window.location.href
+      }
+    });
+    logOllyEvent({
+      event: 'ClickedGetaDemo',
+      data: {
+        section: 'dashboard-left-panel',
+        url: window.location.href,
+        signed_in: true
       }
     });
     window.open(

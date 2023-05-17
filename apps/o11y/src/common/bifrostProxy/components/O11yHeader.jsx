@@ -4,7 +4,12 @@ import { Header } from '@browserstack/bifrost';
 import { DOC_KEY_MAPPING, EXTERNAL_LINKS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getIsOnFreemium } from 'globalSlice/selectors';
-import { getDocUrl, getEnvConfig, getExternalUrl } from 'utils/common';
+import {
+  getDocUrl,
+  getEnvConfig,
+  getExternalUrl,
+  logOllyEvent
+} from 'utils/common';
 
 const envConfig = getEnvConfig();
 
@@ -90,6 +95,25 @@ const O11yHeader = () => {
       buyPlanText={isOnFreemium ? 'Buy a Plan' : 'Upgrade'}
       buyPlanTarget="_blank"
       buyPlanLink={getExternalUrl({ path: EXTERNAL_LINKS.buyAPlan })}
+      callbackFunctions={{
+        onPlanAndPricingClick: () => {
+          logOllyEvent({
+            event: 'ClickHeaderPlansAndPricing',
+            data: {
+              url: window.location.href
+            }
+          });
+        },
+        buyPlanClick: () => {
+          logOllyEvent({
+            event: 'ClickedBuyaPlan',
+            data: {
+              section: 'dashboard-top-header',
+              url: window.location.href
+            }
+          });
+        }
+      }}
     />
   );
 };
