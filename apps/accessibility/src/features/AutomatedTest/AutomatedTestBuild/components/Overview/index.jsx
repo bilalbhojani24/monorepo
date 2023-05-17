@@ -1,5 +1,6 @@
 import React from 'react';
 import CategoryCard from 'common/CategoryCard';
+import DataVisualizationWrapper from 'common/DataVisualizationWrapper';
 import SummaryChart from 'common/SummaryChart';
 import TableCard from 'common/TableCard';
 import { formatComponentIdString } from 'utils/helper';
@@ -16,7 +17,9 @@ export default function Overview() {
     urlColumns,
     componentColumns,
     categoryColumns,
-    onRowClick
+    onRowClick,
+    prepareDataForIssueTrendChart,
+    prepareDataForHealthHistoryChart
   } = useOverview();
 
   const componentCountList = buildMetaData.chartData.issueCountByComponent.map(
@@ -82,6 +85,14 @@ export default function Overview() {
         />
       </div>
       <div>
+        <DataVisualizationWrapper
+          data={prepareDataForIssueTrendChart()}
+          title="Issue trend"
+        />
+        <DataVisualizationWrapper
+          data={prepareDataForHealthHistoryChart()}
+          title="Health history"
+        />
         <CategoryCard
           eventName="test-name"
           columns={categoryColumns}

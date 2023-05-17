@@ -118,6 +118,57 @@ export default function useOverview() {
     console.log('key, option: ', option, key);
   };
 
+  const prepareDataForIssueTrendChart = () => {
+    const dataPoints = {};
+    const categories = [];
+    const colors = {
+      minor: '#9CA3AF',
+      moderate: '#EAB308',
+      serious: ' #F97316',
+      critical: '#EF4444'
+    };
+    const series = Object.keys(buildMetaData?.trendData[0].issueSummary);
+    series.forEach((val) => {
+      dataPoints[val] = [];
+    });
+
+    buildMetaData?.trendData.forEach((val) => {
+      Object.keys(dataPoints).forEach((key) => {
+        dataPoints[key].push(val.issueSummary[key]);
+      });
+      categories.push(`#${val.buildNumber}`);
+    });
+
+    return { dataPoints, categories, series, colors };
+  };
+
+  const prepareDataForHealthHistoryChart = () => {
+    const dataPoints = {};
+    const categories = [];
+    const colors = {
+      passed: '#53CA95',
+      failed: '#FC5F6C',
+      skipped: '#FBBF24'
+    };
+    const excludeSeries = ['total'];
+
+    const series = Object.keys(
+      buildMetaData?.trendData[0].healthSummary
+    ).filter((val) => !excludeSeries.includes(val));
+    series.forEach((val) => {
+      dataPoints[val] = [];
+    });
+
+    buildMetaData?.trendData.forEach((val) => {
+      Object.keys(dataPoints).forEach((key) => {
+        dataPoints[key].push(val.healthSummary[key]);
+      });
+      categories.push(`#${val.buildNumber}`);
+    });
+
+    return { dataPoints, categories, series, colors };
+  };
+
   return {
     issueSummaryData,
     healthSummaryData,
@@ -127,6 +178,8 @@ export default function useOverview() {
     urlColumns,
     componentColumns,
     categoryColumns,
-    onRowClick
+    onRowClick,
+    prepareDataForIssueTrendChart,
+    prepareDataForHealthHistoryChart
   };
 }
