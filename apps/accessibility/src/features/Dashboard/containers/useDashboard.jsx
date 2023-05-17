@@ -12,7 +12,7 @@ import { setStorage } from '@browserstack/utils';
 import { CHROME_EXTENSION_URL, events } from 'constants';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
-import { defaultPath } from 'utils';
+import { defaultPath, getBrowserStackBase } from 'utils';
 import { getTimeDiffInDays } from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
 
@@ -96,6 +96,10 @@ export default function useDashboard() {
       Section: 'dashboard-left-panel',
       URL: window.location.href
     });
+    window.open(
+      `${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-demo-lead`,
+      '_blank'
+    );
   };
 
   useEffect(() => {
