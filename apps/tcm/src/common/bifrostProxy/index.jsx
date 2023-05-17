@@ -25,6 +25,8 @@ import {
   ModalFooter,
   ModalHeader,
   Notifications,
+  Popover,
+  PopoverBody,
   ProgressBar,
   RadioGroup,
   SectionHeadings,
@@ -122,6 +124,9 @@ export const TMSlideoverHeader = (props) => (
     heading={<TruncateText>{props?.heading}</TruncateText>}
   />
 );
+
+export const TMPopover = (props) => <Popover {...props} />;
+export const TMPopoverBody = (props) => <PopoverBody {...props} />;
 
 export {
   TMAttachments,

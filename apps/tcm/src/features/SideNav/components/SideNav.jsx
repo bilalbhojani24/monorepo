@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 // import { Virtuoso } from 'react-virtuoso';
 import {
+  MdClose,
   MdOutlineAddBox,
   SelectMenu,
   SelectMenuOptionGroup,
@@ -12,21 +13,29 @@ import {
   SidebarNavigation
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { TMButton } from 'common/bifrostProxy';
+import {
+  TMButton,
+  TMTooltip,
+  TMTooltipBody,
+  TMTooltipHeader
+} from 'common/bifrostProxy';
 import { AddProjects } from 'features/Projects';
 
+import CancelModal from '../../ImportProgress/components/CancelModal';
+import ImportDetailsModal from '../../ImportProgress/components/ImportDetailsModal';
 // import PropTypes from 'prop-types';
 import { noNavRoutes } from '../const/navsConst';
 
 import useSideNav from './useSideNav';
 
 const SideNav = () => {
-  // const { importStatus } = props;
   const location = useLocation();
   const {
     // selectMenuRef,
     hasProjects,
     isAllProjectsLoading,
+    isDetailsModalVisible,
+    isCancelModalVisible,
     onLinkChange,
     showAddProject,
     primaryNavs,
@@ -36,7 +45,9 @@ const SideNav = () => {
     activeRoute,
     selectedProjectId,
     onProjectChange,
-    setAddProjectModal
+    setAddProjectModal,
+    closeTooltipHandler,
+    showImportInProgTooltip
   } = useSideNav();
 
   if (noNavRoutes.includes(location.pathname)) return '';
@@ -58,14 +69,51 @@ const SideNav = () => {
             handleNavigationClick={onLinkChange}
           />
         ))}
-        sidebarSecondaryNavigation={secondaryNavs?.map((item) => (
-          <SidebarItem
-            key={item.id}
-            nav={item}
-            current={activeRoute?.id === item.id}
-            handleNavigationClick={onLinkChange}
-          />
-        ))}
+        sidebarSecondaryNavigation={secondaryNavs?.map((item) => {
+          if (item.id === 'import_in_progress') {
+            return (
+              <TMTooltip
+                size="xs"
+                placementSide="top"
+                theme="dark"
+                sideOffset={-10}
+                show={showImportInProgTooltip}
+                content={
+                  <>
+                    <TMTooltipHeader wrapperClassName="flex items-center justify-between">
+                      Import in Progress
+                      <MdClose
+                        className="h-5 w-5 hover:cursor-pointer"
+                        onClick={closeTooltipHandler}
+                      />
+                    </TMTooltipHeader>
+                    <TMTooltipBody>
+                      <div>You can track progress of</div>
+                      <div>import by clicking here</div>
+                    </TMTooltipBody>
+                  </>
+                }
+              >
+                <div className="hover:cursor-pointer">
+                  <SidebarItem
+                    key={item.id}
+                    nav={item}
+                    current={activeRoute?.id === item.id}
+                    handleNavigationClick={onLinkChange}
+                  />
+                </div>
+              </TMTooltip>
+            );
+          }
+          return (
+            <SidebarItem
+              key={item.id}
+              nav={item}
+              current={activeRoute?.id === item.id}
+              handleNavigationClick={onLinkChange}
+            />
+          );
+        })}
         sidebarHeader={
           showProjects && !isAllProjectsLoading ? (
             <>
@@ -129,6 +177,11 @@ const SideNav = () => {
         show={showAddProject}
         onClose={() => setAddProjectModal(false)}
       />
+      <ImportDetailsModal
+        headerText="Quick Import"
+        show={isDetailsModalVisible}
+      />
+      <CancelModal show={isCancelModalVisible} />
     </>
   );
 };

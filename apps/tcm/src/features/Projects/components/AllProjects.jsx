@@ -18,6 +18,7 @@ import AppRoute from 'const/routes';
 import ImportProgress from 'features/ImportProgress';
 import { logEventHelper } from 'utils/logEvent';
 
+import ViewReportModal from '../../ImportProgress/components/ViewReportModal';
 // import { COMPLETED } from '../../quickImportFlow/const/importConst';
 import { IMPORT_STATUS } from '../../ImportProgress/const/immutables';
 import { dropDownOptions } from '../const/projectsConst';
@@ -262,10 +263,11 @@ const AllProjects = () => {
         }
       />
       <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
-        {importStatus === IMPORT_STATUS.ONGOING ||
-          (importStatus === IMPORT_STATUS.COMPLETED && !isProgressDismissed && (
-            <ImportProgress />
-          ))}
+        {/* {importStatus === IMPORT_STATUS.ONGOING ||
+          (importStatus === IMPORT_STATUS.COMPLETED && !isProgressDismissed && ( */}
+        <ImportProgress />
+        <ViewReportModal />
+        {/* ))} */}
         {countOfProjectsImported > 0 &&
           showNewProjectBanner &&
           importStatus === IMPORT_STATUS.COMPLETED &&

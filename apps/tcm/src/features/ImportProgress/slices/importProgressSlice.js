@@ -1,17 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { IMPORT_STATUS } from '../const/immutables';
+
 const initialState = {
   isDetailsModalVisible: false,
   isReportModalVisible: false,
+  isCancelModalVisible: false,
   isLoading: {},
   importDetails: {
     overallProgress: 30,
     imported: 2,
     notImported: 2,
-    totalImports: 40,
-    timeRemaining: 'About 6 min'
+    totalImports: 40
+    // timeRemaining: 'About 6 min'
   },
-  importStatus: 'failure',
+  importStatus: IMPORT_STATUS.ONGOING,
   isProgressDismissed: true
 };
 
@@ -36,6 +39,9 @@ export const importProgressSlice = createSlice({
     },
     setIsProgressDismissed: (state, { payload }) => {
       state.isProgressDismissed = payload;
+    },
+    setCancelModal: (state, { payload }) => {
+      state.isCancelModalVisible = payload;
     }
   }
 });
@@ -46,6 +52,7 @@ export const {
   setImportDetails,
   setIsLoadingProps,
   setDetailsModal,
+  setCancelModal,
   setIsProgressDismissed
 } = importProgressSlice.actions;
 

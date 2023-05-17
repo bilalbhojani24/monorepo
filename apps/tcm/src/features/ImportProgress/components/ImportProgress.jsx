@@ -8,6 +8,8 @@ import {
 
 import { IMPORT_STATUS } from '../const/immutables';
 
+import CancelModal from './CancelModal';
+import ImportDetailsModal from './ImportDetailsModal';
 // import ImportDetailsModal from './ImportDetailsModal';
 import useImportProgress from './useImportProgress';
 import ViewReportModal from './ViewReportModal';
@@ -19,7 +21,9 @@ const ImportProgress = () => {
     importDetails,
     showDetailsModal,
     showReportModal,
-    closeProgress
+    closeProgress,
+    isDetailsModalVisible,
+    isCancelModalVisible
   } = useImportProgress();
 
   if (!isVisible) return null;
@@ -82,11 +86,15 @@ const ImportProgress = () => {
           percentage={importDetails?.overallProgress}
         />
       </div>
-      <div className="border-base-300 flex  w-36 flex-col justify-center break-normal border-l pl-5 text-sm">
+      {/* <div className="border-base-300 flex  w-36 flex-col justify-center break-normal border-l pl-5 text-sm">
         <div className="text-base-600">Time Remaining</div>
         <div className="text-base-700 mt-1 font-medium">About 5 min</div>
-      </div>
-      {/* <ImportDetailsModal /> */}
+      </div> */}
+      <ImportDetailsModal
+        headerText="Quick Import"
+        show={isDetailsModalVisible}
+      />
+      <CancelModal show={isCancelModalVisible} />
     </div>
   );
 };

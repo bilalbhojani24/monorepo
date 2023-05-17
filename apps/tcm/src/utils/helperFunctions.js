@@ -13,8 +13,8 @@ export const routeFormatter = (
       tempLink = tempLink.replace(`:${keyValue}`, replaceConf[keyValue]);
     });
 
-  tempLink = tempLink.split(':')[0].replace(/[?]/g, '');
-  tempLink = tempLink.slice(-1) === '/' ? tempLink.slice(0, -1) : tempLink;
+  tempLink = tempLink?.split(':')[0]?.replace(/[?]/g, '');
+  tempLink = tempLink?.slice(-1) === '/' ? tempLink?.slice(0, -1) : tempLink;
   return maintainSearchParams ? tempLink + window.location.search : tempLink;
 };
 

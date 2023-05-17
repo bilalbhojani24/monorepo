@@ -1,10 +1,15 @@
-import { checkTestManagementConnection, importProjects } from 'api/import.api';
+import {
+  checkTestManagementConnection,
+  importProjects,
+  retryImport
+} from 'api/import.api';
 import AppRoute from 'const/routes';
 
 import { SCREEN_2, ZEPHYR } from '../const/importSteps';
 
 import {
   quickImportCleanUp,
+  retryQuickImportFulfilled,
   setConfigureToolProceedLoading,
   setConfigureToolTestConnectionLoading,
   setCurrentScreen,
@@ -24,6 +29,8 @@ const getProjects = (state) => state.import.projectsForTestManagementImport;
 const getCurrentUsedTool = (state) => state.import.currentTestManagementTool;
 const getTestRailsCred = (state) => state.import.testRailsCred;
 const getZephyrCred = (state) => state.import.zephyrCred;
+const getImportId = (state) => state.import.importId;
+const getQuickImportProjectId = (state) => state.import.quickImportProjectId;
 
 export const handleArtificialLoader = (delay) => (dispatch) => {
   dispatch(setShowArtificialLoader(true));
@@ -109,6 +116,26 @@ export const startImport = (navigate) => async (dispatch, getState) => {
     // need to discuss this with harsh
   }
 };
+
+export const retryQuickImport =
+  (jusFetchCreds, navigate) => async (dispatch, getState) => {
+    const state = getState();
+    const id = getImportId(state);
+    const testTool = getCurrentUsedTool(state);
+    const quickImportProjectId = getQuickImportProjectId(state);
+
+    try {
+      const response = await retryImport(id, testTool);
+      dispatch(retryQuickImportFulfilled(response));
+      if (!jusFetchCreds) {
+        if (quickImportProjectId)
+          navigate(`/projects/${quickImportProjectId}/quick-import`);
+        else navigate(AppRoute.IMPORT);
+      }
+    } catch (err) {
+      // return err;
+    }
+  };
 
 export const resetQuickImport = () => (dispatch, getState) => {
   // reset everything except related to notification and modal

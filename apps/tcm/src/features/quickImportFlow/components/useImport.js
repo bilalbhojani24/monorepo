@@ -16,11 +16,11 @@ import {
   // setImportId,
   // setImportStarted,
   // setImportStatusOngoing,
-  setLatestImportTool,
-  setRetryImport,
+  // setLatestImportTool,
+  // setRetryImport,
   setShowLoggedInScreen
 } from '../slices/importSlice';
-import { startImport } from '../slices/quickImportThunk';
+import { retryQuickImport, startImport } from '../slices/quickImportThunk';
 
 const useImport = () => {
   const dispatch = useDispatch();
@@ -179,9 +179,8 @@ const useImport = () => {
     getLatestQuickImportConfig()
       .then((response) => {
         const testTool = response.import_type.split('_')[0];
-        dispatch(setLatestImportTool(testTool));
         dispatch(setCurrentTestManagementTool(testTool));
-        dispatch(setRetryImport({ id: response.import_id, testTool }));
+        dispatch(retryQuickImport(true));
       })
       .catch(() => {
         dispatch(setConfigureToolPageLoading(false));

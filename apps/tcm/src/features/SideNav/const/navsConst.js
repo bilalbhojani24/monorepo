@@ -70,6 +70,15 @@ export const secondaryNavLinks = [
   }
 ];
 
+export const IMPORT_IN_PROGRESS = [
+  {
+    id: 'import_in_progress',
+    label: 'Import in progress',
+    activeIcon: SettingsOutlinedIcon,
+    inActiveIcon: SettingsOutlinedIcon
+  }
+];
+
 export const noNavRoutes = [
   AppRoute.LANDING,
   AppRoute.ONBOARDING,

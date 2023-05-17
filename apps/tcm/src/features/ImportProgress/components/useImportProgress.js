@@ -1,22 +1,13 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-// import { useWebSocket } from 'react-use-websocket/dist/lib/use-websocket';
-// import { WS_URL } from 'const/routes';
 import { IMPORT_STATUS } from '../const/immutables';
-import {
-  setDetailsModal,
-  // setImportDetails,
-  // setIsProgressVisible,
-  setReportModal
-} from '../slices/importProgressSlice';
+import { setDetailsModal, setReportModal } from '../slices/importProgressSlice';
 
 const useImportProgress = () => {
   const dispatch = useDispatch();
-  // const { sendMessage, _ } = useWebSocket(WS_URL);
-
   const [isCancelConfirmView, setCancelConfirmView] = useState(false);
-  // const importId = useSelector((state) => state.import.importId);
+
   const importStatus = useSelector(
     (state) => state.importProgress.importStatus
   );
@@ -32,6 +23,9 @@ const useImportProgress = () => {
   const isProgressDismissed = useSelector(
     (state) => state.importProgress.isProgressDismissed
   );
+  const isCancelModalVisible = useSelector(
+    (state) => state.importProgress.isCancelModalVisible
+  );
 
   const showDetailsModal = () => {
     dispatch(setDetailsModal(true));
@@ -41,38 +35,6 @@ const useImportProgress = () => {
     dispatch(setReportModal(true));
   };
 
-  // const closeProgress = () => {
-  //   dispatch(setIsProgressVisible(false));
-  // };
-
-  const closeDetailsModal = () => {
-    setCancelConfirmView(false);
-    dispatch(setDetailsModal(false));
-  };
-
-  const closeReportModal = () => {
-    dispatch(setReportModal(false));
-  };
-
-  const cancelImportHandler = () => {};
-
-  // const connectWSSForQuickImport = useCallback(() => {
-  //   const identifier = {
-  //     channel: 'ImportChannel',
-  //     import_id: importId
-  //   };
-  //   sendMessage(
-  //     JSON.stringify({
-  //       command: 'subscribe',
-  //       identifier: JSON.stringify(identifier)
-  //     })
-  //   );
-  // }, [importId, sendMessage]);
-
-  // useEffect(() => {
-  //   connectWSSForQuickImport();
-  // }, [connectWSSForQuickImport]);
-
   return {
     importStatus,
     isVisible: !(
@@ -81,14 +43,11 @@ const useImportProgress = () => {
     importDetails,
     isDetailsModalVisible,
     isReportModalVisible,
+    isCancelModalVisible,
     isCancelConfirmView,
     setCancelConfirmView,
     showDetailsModal,
-    closeDetailsModal,
-    cancelImportHandler,
-    showReportModal,
-    // closeProgress,
-    closeReportModal
+    showReportModal
   };
 };
 

@@ -4,8 +4,8 @@ import {
   dismissNotificationForImport,
   getJiraConfigStatus,
   getLatestQuickImportConfig,
-  getQuickImportStatus,
-  retryImport
+  getQuickImportStatus
+  // retryImport
 } from '../../../api/import.api';
 import {
   // COMPLETED,
@@ -32,7 +32,7 @@ const initialState = {
     jira_key: '',
     host: ''
   },
-  importStarted: false,
+  importStarted: null,
   connectionStatusMap: { testrail: '', zephyr: '' },
   selectedRadioIdMap: {
     testrail: 'import-from-tool',
@@ -102,17 +102,17 @@ export const setQuickImportStatus = createAsyncThunk(
     }
   }
 );
-export const setRetryImport = createAsyncThunk(
-  'import/retryImport',
-  async ({ id, testTool }) => {
-    try {
-      const response = await retryImport(id, testTool);
-      return { ...response, testTool };
-    } catch (err) {
-      return err;
-    }
-  }
-);
+// export const setRetryImport = createAsyncThunk(
+//   'import/retryImport',
+//   async ({ id, testTool }) => {
+//     try {
+//       const response = await retryImport(id, testTool);
+//       return { ...response, testTool };
+//     } catch (err) {
+//       return err;
+//     }
+//   }
+// );
 
 export const setNotificationDismissed = createAsyncThunk(
   'import/setNotificationDismissed',
@@ -302,6 +302,20 @@ const importSlice = createSlice({
     // },
     setImportIdBeforeImport: (state, { payload }) => {
       state.importIdBeforeImport = payload;
+    },
+    retryQuickImportFulfilled: (state, { payload }) => {
+      const testTool = state.currentTestManagementTool;
+      if (testTool === TESTRAIL) {
+        state.testRailsCred.email = payload.credentials.email;
+        state.testRailsCred.host = payload.credentials.host;
+        state.testRailsCred.key = payload.credentials.key;
+      } else if (testTool === ZEPHYR) {
+        state.zephyrCred.email = payload.credentials.email;
+        state.zephyrCred.host = payload.credentials.host;
+        state.zephyrCred.jira_key = payload.credentials.jira_key;
+        state.zephyrCred.zephyr_key = payload.credentials.zephyr_key;
+      }
+      state.configureToolPageLoading = false;
     }
   },
   extraReducers: (builder) => {
@@ -341,19 +355,19 @@ const importSlice = createSlice({
     //     state.currentTestManagementTool = payload.import_type.split('_')[0];
     //   }
     // });
-    builder.addCase(setRetryImport.fulfilled, (state, { payload }) => {
-      if (payload.testTool === TESTRAIL) {
-        state.testRailsCred.email = payload.credentials.email;
-        state.testRailsCred.host = payload.credentials.host;
-        state.testRailsCred.key = payload.credentials.key;
-      } else if (payload.testTool === ZEPHYR) {
-        state.zephyrCred.email = payload.credentials.email;
-        state.zephyrCred.host = payload.credentials.host;
-        state.zephyrCred.jira_key = payload.credentials.jira_key;
-        state.zephyrCred.zephyr_key = payload.credentials.zephyr_key;
-      }
-      state.configureToolPageLoading = false;
-    });
+    // builder.addCase(setRetryImport.fulfilled, (state, { payload }) => {
+    //   if (payload.testTool === TESTRAIL) {
+    //     state.testRailsCred.email = payload.credentials.email;
+    //     state.testRailsCred.host = payload.credentials.host;
+    //     state.testRailsCred.key = payload.credentials.key;
+    //   } else if (payload.testTool === ZEPHYR) {
+    //     state.zephyrCred.email = payload.credentials.email;
+    //     state.zephyrCred.host = payload.credentials.host;
+    //     state.zephyrCred.jira_key = payload.credentials.jira_key;
+    //     state.zephyrCred.zephyr_key = payload.credentials.zephyr_key;
+    //   }
+    //   state.configureToolPageLoading = false;
+    // });
     builder.addCase(setNotificationDismissed.fulfilled, (state) => {
       state.isDismissed = true;
     });
@@ -397,7 +411,8 @@ export const {
   setTestConnectionFulfilled,
   setTestConnectionFailed,
   setProceedFailed,
-  setProceedFulfilled
+  setProceedFulfilled,
+  retryQuickImportFulfilled
   // setImportNotificationDismissed
 } = importSlice.actions;
 export default importSlice.reducer;

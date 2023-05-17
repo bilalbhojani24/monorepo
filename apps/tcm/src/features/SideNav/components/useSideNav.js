@@ -7,8 +7,10 @@ import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
+import { setDetailsModal } from '../../ImportProgress/slices/importProgressSlice';
 import {
   basePrimaryNavLinks,
+  IMPORT_IN_PROGRESS,
   internalPrimaryNavLinks,
   secondaryNavLinks
 } from '../const/navsConst';
@@ -20,11 +22,12 @@ export default function useSideNav() {
   const dispatch = useDispatch();
   const location = useLocation();
   const [primaryNavs, setPrimaryNavs] = useState([]);
-  const [secondaryNavs] = useState(secondaryNavLinks);
+  const [secondaryNavs, setSecondaryNavs] = useState(secondaryNavLinks);
   const [allProjectsDrop, setAllProjectsDrop] = useState([]);
   const [showAddProject, setShowAddProject] = useState(false);
   const [showProjects, setShowProjects] = useState(true);
   const [activeRoute, setActiveRoute] = useState(null);
+  const [showImportInProgTooltip, setShowInProgTooltip] = useState(true);
   const baseViewRoutes = [AppRoute.ROOT, AppRoute.SETTINGS, AppRoute.RESOURCES];
   const hasProjects = useSelector((state) => state.onboarding.hasProjects);
   const allProjects = useSelector((state) => state.global.allProjects);
@@ -35,6 +38,15 @@ export default function useSideNav() {
     (state) => state.global.selectedProjectId
   );
   const allFolders = useSelector((state) => state.repository?.allFolders);
+  const overallImportProgress = useSelector(
+    (state) => state.importProgress.importDetails.overallProgress
+  );
+  const isDetailsModalVisible = useSelector(
+    (state) => state.importProgress.isDetailsModalVisible
+  );
+  const isCancelModalVisible = useSelector(
+    (state) => state.importProgress.isCancelModalVisible
+  );
 
   const fetchAllProjects = () => {
     getProjectsMinifiedAPI().then((res) => {
@@ -54,6 +66,9 @@ export default function useSideNav() {
   };
 
   const onLinkChange = (linkItem) => {
+    if (linkItem?.id === 'import_in_progress') {
+      dispatch(setDetailsModal(true));
+    }
     if (linkItem?.isExternalLink) {
       window.open(linkItem.path);
     } else {
@@ -99,6 +114,8 @@ export default function useSideNav() {
   const setAddProjectModal = (value) => {
     setShowAddProject(value);
   };
+
+  const closeTooltipHandler = () => {};
 
   useEffect(() => {
     if (location?.state?.isFromOnboarding && selectedProjectId === 'new') {
@@ -163,7 +180,40 @@ export default function useSideNav() {
   }, [allProjects]);
 
   useEffect(() => {
+    const addProgress = (allNavs) => {
+      setSecondaryNavs(
+        allNavs.map((item) => {
+          if (item.id === 'import_in_progress')
+            return {
+              ...item,
+              label: `Import in Progress (${overallImportProgress}%)`
+            };
+          return item;
+        })
+      );
+    };
+    if (
+      location.pathname !== AppRoute.ROOT &&
+      secondaryNavs[0].id !== 'import_in_progress'
+    ) {
+      const toBeSecondaryNavs = [...IMPORT_IN_PROGRESS, ...secondaryNavs];
+
+      addProgress(toBeSecondaryNavs);
+    } else if (
+      location.pathname !== AppRoute.ROOT &&
+      secondaryNavs[0].id === 'import_in_progress'
+    ) {
+      addProgress(secondaryNavs);
+    } else setSecondaryNavs(secondaryNavLinks);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, overallImportProgress]);
+
+  useEffect(() => {
     fetchAllProjects();
+    setTimeout(() => {
+      closeTooltipHandler();
+      setShowInProgTooltip(false);
+    }, 5000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -171,6 +221,8 @@ export default function useSideNav() {
     hasProjects,
     selectMenuRef,
     isAllProjectsLoading,
+    isDetailsModalVisible,
+    isCancelModalVisible,
     showAddProject,
     primaryNavs,
     secondaryNavs,
@@ -178,6 +230,7 @@ export default function useSideNav() {
     showProjects,
     activeRoute,
     selectedProjectId,
+    showImportInProgTooltip,
     onLinkChange,
     onProjectChange,
     setAddProjectModal

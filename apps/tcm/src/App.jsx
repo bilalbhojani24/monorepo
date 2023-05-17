@@ -22,7 +22,11 @@ import {
   setImportStatus,
   setIsProgressDismissed
 } from './features/ImportProgress/slices/importProgressSlice';
-import { setImportId } from './features/quickImportFlow/slices/importSlice';
+import {
+  setCurrentTestManagementTool,
+  setImportId,
+  setImportStarted
+} from './features/quickImportFlow/slices/importSlice';
 import useWebSocketQI from './useWebSocketQI';
 
 if (window.initialized !== true) {
@@ -84,13 +88,20 @@ function App() {
   }, [userAndGroupConfig]);
 
   useEffect(() => {
-    getLatestQuickImportConfig().then((data) => {
-      dispatch(setImportStatus(data?.status));
-      dispatch(setImportId(data?.import_id));
-      dispatch(setIsProgressDismissed(data?.is_dismissed));
-      if (data?.status === IMPORT_STATUS.ONGOING)
-        connectWSQI({ importId: data?.import_id });
-    });
+    if (importStarted === null || importStarted) {
+      // refresh or import is actually started
+      getLatestQuickImportConfig().then((data) => {
+        // dispatch(setImportStatus(data?.status));
+        dispatch(setCurrentTestManagementTool(data?.import_type.split('_')[0]));
+        dispatch(setImportId(data?.import_id));
+        dispatch(setIsProgressDismissed(data?.is_dismissed));
+        console.log('status from latest', data?.status);
+        if (data?.status === IMPORT_STATUS.ONGOING)
+          connectWSQI({ importId: data?.import_id });
+
+        dispatch(setImportStarted(false));
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, importStarted]);
 

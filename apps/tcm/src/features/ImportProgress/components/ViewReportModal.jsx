@@ -9,10 +9,11 @@ import {
   TMModalHeader
 } from 'common/bifrostProxy';
 
-import useImportProgress from './useImportProgress';
+import useReportModal from './useReportModal';
 
 const ViewReportModal = () => {
-  const { isReportModalVisible, closeReportModal } = useImportProgress();
+  const { isReportModalVisible, closeReportModal, retryImport } =
+    useReportModal();
 
   const tableColumns = [
     {
@@ -34,6 +35,7 @@ const ViewReportModal = () => {
   return (
     <TMModal
       size="3xl"
+      // show
       show={isReportModalVisible}
       onOverlayClick={closeReportModal}
     >
@@ -62,7 +64,10 @@ const ViewReportModal = () => {
         />
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="brand" onClick={closeReportModal}>
+        <TMButton variant="primary" colors="white" onClick={closeReportModal}>
+          Cancel
+        </TMButton>
+        <TMButton variant="primary" colors="brand" onClick={retryImport}>
           Retry Import
         </TMButton>
       </TMModalFooter>
