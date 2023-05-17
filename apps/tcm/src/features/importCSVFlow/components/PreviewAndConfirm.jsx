@@ -88,7 +88,12 @@ const PreviewAndConfirm = () => {
         Showing a preview of few test cases before importing:
       </div>
       {previewData.map((data, idx) => (
-        <div className="border-base-100 border-y">
+        <div
+          className={twClassNames(
+            'border-base-100',
+            idx < previewData.length - 1 ? 'border-y' : ''
+          )}
+        >
           <TMAccordion defaultOpen={idx === 0}>
             <TMAccordionInteractiveHeader
               title={data?.name}
