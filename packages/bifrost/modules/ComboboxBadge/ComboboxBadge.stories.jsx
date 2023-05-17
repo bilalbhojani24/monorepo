@@ -15,7 +15,7 @@ const defaultConfig = {
     docs: {
       page: () => (
         <DocPageTemplate
-          importStatement={"import ComboboxBadge from 'bifrost/ComboboxBadge'"}
+          importStatement={"import BadgeCombobox from 'bifrost/ComboboxBadge'"}
         />
       )
     }
