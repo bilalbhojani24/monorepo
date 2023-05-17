@@ -4,6 +4,7 @@ import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import MiniChart from 'common/MiniChart';
 import VirtualisedTable from 'common/VirtualisedTable';
+import { roundedTableHeaderHack } from 'constants/common';
 import { getTrendPerformanceData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getActiveProject, getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -15,12 +16,18 @@ import { getAllTTFilters } from '../slices/selectors';
 
 import TrendStatesWrapper from './TrendStatesWrapper';
 
-const TEXT_BASE_500 = 'text-base-500';
+const TABLE_CLASSES = {
+  ROW_CLASSES:
+    'overflow-hidden border-b border-base-300 whitespace-normal classic-break-words',
+  HEADER_CLASSES: 'py-3 border-t border-base-300 text-xs font-medium z-[2]'
+};
+
 const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
       wrapperClassName={twClassNames(
-        'text-base-900 whitespace-normal break-normal',
+        TABLE_CLASSES.ROW_CLASSES,
+        'text-base-900 border-l border-l-base-300',
         {
           'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
         }
@@ -29,11 +36,11 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
       {item?.buildName}
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames(TEXT_BASE_500, {
+      wrapperClassName={twClassNames(TABLE_CLASSES.ROW_CLASSES, 'pr-0', {
         'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
-      <div className="h-5 w-12 shrink-0">
+      <div className="ml-auto h-5 w-12 shrink-0">
         <MiniChart
           data={item?.lineChartData || []}
           lineColor="#376D98"
@@ -43,19 +50,23 @@ const PerformanceTableItem = React.memo(({ item, selectedBuild }) => (
       </div>
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames(TEXT_BASE_500, {
+      wrapperClassName={twClassNames(TABLE_CLASSES.ROW_CLASSES, {
         'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
-      <p className="pl-2">{abbrNumber(item?.testCount)}</p>
+      <p className="pl-2 text-right">{abbrNumber(item?.testCount)}</p>
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames(TEXT_BASE_500, {
-        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
-      })}
+      wrapperClassName={twClassNames(
+        TABLE_CLASSES.ROW_CLASSES,
+        'border-r border-r-base-300 w-[150px]',
+        {
+          'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
+        }
+      )}
     >
       <div className="flex">
-        <div className="h-5 w-12 shrink-0">
+        <div className="ml-auto h-5 w-12 shrink-0">
           <MiniChart
             data={item?.barChartData || []}
             color="#9DD0CA"
@@ -170,7 +181,8 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
             endReached={loadMoreRows}
             overscan={100}
             showFixedFooter={isLoadingMore}
-            tableContainerWrapperClassName="overflow-visible overflow-x-visible md:rounded-none"
+            tableWrapperClassName="bg-white border-separate border-spacing-0 table-fixed"
+            tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-6"
             itemContent={(index, singleBuildData) => (
               <PerformanceTableItem
                 item={singleBuildData}
@@ -179,19 +191,41 @@ export default function PerformanceTable({ handleBuildSelect, selectedBuild }) {
             )}
             fixedHeaderContent={() => (
               <O11yTableRow>
-                <O11yTableCell isSticky wrapperClassName="font-medium text-xs">
+                <O11yTableCell
+                  isSticky
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.HEADER_CLASSES,
+                    'border-l border-l-base-300',
+                    roundedTableHeaderHack.common,
+                    roundedTableHeaderHack.left
+                  )}
+                >
                   BUILD NAME
                 </O11yTableCell>
                 <O11yTableCell
                   isSticky
-                  wrapperClassName="font-medium text-xs"
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.HEADER_CLASSES,
+                    'w-16 text-right pr-0'
+                  )}
                 />
-                <O11yTableCell isSticky wrapperClassName="font-medium text-xs">
+                <O11yTableCell
+                  isSticky
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.HEADER_CLASSES,
+                    'w-20 text-right'
+                  )}
+                >
                   TESTS
                 </O11yTableCell>
                 <O11yTableCell
                   isSticky
-                  wrapperClassName="font-medium text-xs text-right"
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.HEADER_CLASSES,
+                    'border-r border-r-base-300 text-right',
+                    roundedTableHeaderHack.common,
+                    roundedTableHeaderHack.right
+                  )}
                 >
                   AVG. DURATION
                 </O11yTableCell>
