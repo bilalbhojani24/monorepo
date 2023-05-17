@@ -7,6 +7,7 @@ import {
   Tabs
 } from '@browserstack/bifrost';
 import { ISSUES, SUMMARY, TESTS } from 'constants';
+import PropTypes from 'prop-types';
 
 import Issues from './components/Issues';
 import Overview from './components/Overview';
@@ -23,15 +24,13 @@ const tabList = [
   }
 ];
 
-export default function TestIssues() {
+export default function TestIssues({ isSliderOpen, onSliderClose }) {
   const {
     activeTab,
     actionType,
     testMetaData,
     testData,
     eventName,
-    isOpen,
-    setIsOpen,
     onRowClick,
     onTabChange
   } = useTestIssues();
@@ -51,51 +50,57 @@ export default function TestIssues() {
       break;
   }
 
-  const handleCloseWithLogEvent = () => {
-    setIsOpen(false);
-  };
-
-  console.log('Object.values(testMetaData.meta): ', testMetaData.meta);
-
   return (
     <Slideover
-      show={isOpen}
+      show={isSliderOpen}
       slideoverWidth="max-w-screen-md w-screen overflow-y bg-base-50"
-      onOverlayClick={handleCloseWithLogEvent}
+      onOverlayClick={onSliderClose}
       backgroundOverlay
-      onClose={handleCloseWithLogEvent}
+      onClose={onSliderClose}
       size="6xl"
     >
       <SlideoverBody>
-        <div>
-          <MdClose className="absolute right-8 z-10 cursor-pointer text-2xl" />
-          <div className="fixed z-[2] w-[calc(100vw-256px)] bg-white">
-            <div className="px-6 pt-6">
-              <h1 className="text-base-900 mb-1 text-2xl font-bold">
-                {Object.values(testMetaData.meta)[0].name}
-              </h1>
-              <p className="mb-2 text-sm">
-                Suite / com.ddf.test.PDFInvoiceTest
-              </p>
-              <p className="text-sm">
-                <MdFolderOpen className="text-base-500" />
-                .../test/smoke-test.js
-              </p>
-            </div>
-            <Tabs
-              id="build-tabs"
-              onTabChange={onTabChange}
-              navigationClassName="ml-6"
-              tabsArray={tabList}
-              defaultIndex={defaultIndex}
+        {testMetaData.meta && (
+          <div>
+            <MdClose
+              className="absolute right-8 z-10 cursor-pointer text-2xl"
+              onClick={onSliderClose}
             />
+            <div className="fixed z-[2] w-[calc(100vw-256px)] bg-white">
+              <div className="px-6 pt-6">
+                <h1 className="text-base-900 mb-1 text-2xl font-bold">
+                  {Object.values(testMetaData.meta)[0].name}
+                </h1>
+                <p className="mb-2 text-sm">
+                  Suite / com.ddf.test.PDFInvoiceTest
+                </p>
+                <p className="text-sm">
+                  <MdFolderOpen className="text-base-500" />
+                  .../test/smoke-test.js
+                </p>
+              </div>
+              <Tabs
+                id="build-tabs"
+                onTabChange={onTabChange}
+                navigationClassName="ml-6"
+                tabsArray={tabList}
+                defaultIndex={defaultIndex}
+              />
+            </div>
+            <div className="bg-base-50 relative top-[176px]">
+              {activeTab === SUMMARY && testMetaData.issueSummary && (
+                <Overview />
+              )}
+              {activeTab === ISSUES && testData && <Issues />}
+            </div>
           </div>
-          <div className="bg-base-50 relative top-[176px]">
-            {activeTab === SUMMARY && testMetaData.issueSummary && <Overview />}
-            {activeTab === ISSUES && testData && <Issues />}
-          </div>
-        </div>
+        )}
       </SlideoverBody>
     </Slideover>
   );
 }
+
+TestIssues.propTypes = {
+  isSliderOpen: PropTypes.bool.isRequired,
+  onSliderClose: PropTypes.func.isRequired
+};
