@@ -15,7 +15,6 @@ import {
   PlusIcon,
   TrashIcon
 } from '../Icon';
-import PdfViewer from '../PdfViewer';
 
 import { DummyData } from './const/GalleryConstants';
 import Gallery from './index';
@@ -149,6 +148,12 @@ export const GalleryExampleWPreview = () => {
       clickedItem?.status === MEDIA_CARD_STATUS[5]
     )
       return;
+
+    if (clickedItem?.status === MEDIA_CARD_STATUS[4]) {
+      window.open(clickedItem.file);
+      return;
+    }
+
     setPreviewItem(clickedItem);
   };
 
@@ -219,9 +224,6 @@ export const GalleryExampleWPreview = () => {
           <>
             {previewItem?.status === MEDIA_CARD_STATUS[0] && (
               <img src={previewItem?.file} alt={previewItem?.subTitle} />
-            )}
-            {previewItem?.status === MEDIA_CARD_STATUS[4] && (
-              <PdfViewer renderPageNumber file={previewItem?.file} />
             )}
           </>
         }
