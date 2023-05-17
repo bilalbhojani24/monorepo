@@ -4,7 +4,14 @@ import { Dialog, Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
 const Modal = forwardRef((props, ref) => {
-  const { children, onClose, onOverlayClick, show, wrapperClassName } = props;
+  const {
+    children,
+    onClose,
+    onOverlayClick,
+    show,
+    wrapperClassName,
+    backdropWrapperClassName
+  } = props;
 
   return (
     <Transition.Root show={show}>
@@ -25,10 +32,15 @@ const Modal = forwardRef((props, ref) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="bg-base-500 fixed inset-0  opacity-75 transition-opacity" />
+          <div
+            className={twClassNames(
+              'bg-base-500 fixed inset-0 transition-opacity',
+              backdropWrapperClassName
+            )}
+          />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 z-10 overflow-y-auto ">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -41,7 +53,7 @@ const Modal = forwardRef((props, ref) => {
             >
               <Dialog.Panel
                 className={twClassNames(
-                  'relative flex max-h-[75vh] sm:max-w-lg flex-col rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full',
+                  'relative flex max-h-[75vh] sm:max-w-xl flex-col rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full',
                   wrapperClassName
                 )}
               >
@@ -60,14 +72,16 @@ Modal.propTypes = {
   onOverlayClick: PropTypes.func,
   onClose: PropTypes.func,
   show: PropTypes.bool,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  backdropWrapperClassName: PropTypes.string
 };
 Modal.defaultProps = {
   children: null,
   onOverlayClick: null,
   onClose: null,
   show: false,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  backdropWrapperClassName: ''
 };
 
 export default Modal;

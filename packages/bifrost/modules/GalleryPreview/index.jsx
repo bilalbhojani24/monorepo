@@ -14,6 +14,7 @@ const GalleryPreview = ({
   wrapperClassName,
   bottomWrapperClassName,
   arrowsWrapperClassName,
+  backdropWrapperClassName,
   content,
   onNextClick,
   onPrevClick,
@@ -29,6 +30,7 @@ const GalleryPreview = ({
   return (
     <div className={wrapperClassName}>
       <Modal
+        backdropWrapperClassName={backdropWrapperClassName}
         onOverlayClick={() => onClose()}
         onClose={() => onClose()}
         wrapperClassName="static bg-transparent shadow-none"
@@ -36,7 +38,7 @@ const GalleryPreview = ({
       >
         {topAction}
         {content ? (
-          <div className="bg-white">{content}</div>
+          <div className="overflow-auto bg-white">{content}</div>
         ) : (
           <p className="text-center">No content to preview</p>
         )}
@@ -75,12 +77,13 @@ const GalleryPreview = ({
 };
 
 GalleryPreview.propTypes = {
-  content: PropTypes.node,
+  content: PropTypes.node.isRequired,
   topAction: PropTypes.node,
   bottomAction: PropTypes.node,
   wrapperClassName: PropTypes.string,
   arrowsWrapperClassName: PropTypes.string,
   bottomWrapperClassName: PropTypes.string,
+  backdropWrapperClassName: PropTypes.string,
   visible: PropTypes.bool,
   onPrevClick: PropTypes.func,
   onNextClick: PropTypes.func,
@@ -90,10 +93,10 @@ GalleryPreview.defaultProps = {
   visible: false,
   topAction: null,
   bottomAction: null,
-  content: null,
   wrapperClassName: '',
   arrowsWrapperClassName: '',
   bottomWrapperClassName: '',
+  backdropWrapperClassName: '',
   onNextClick: () => {},
   onPrevClick: () => {},
   onClose: () => {}

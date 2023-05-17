@@ -15,96 +15,10 @@ import {
   PlusIcon,
   TrashIcon
 } from '../Icon';
+import PdfViewer from '../PdfViewer';
 
+import { DummyData } from './const/GalleryConstants';
 import Gallery from './index';
-
-const dummyData = [
-  {
-    title: 'lorem some file.jsx',
-    subTitle: 'sub-lorem',
-    icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
-        aria-hidden="true"
-      />
-    ),
-    status: MEDIA_CARD_STATUS[0],
-    selected: true,
-    id: 1,
-    thumbnail: 'https://rb.gy/3b4b0'
-  },
-
-  {
-    title: 'ipsum lorem some file.jsx',
-    subTitle: 'sub-ipsum',
-    icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
-        aria-hidden="true"
-      />
-    ),
-    status: MEDIA_CARD_STATUS[1],
-    selected: true,
-    id: 2
-  },
-
-  {
-    title: 'dolor sub-dolor.ts',
-    subTitle: 'Meta Data',
-    icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
-        aria-hidden="true"
-      />
-    ),
-    status: MEDIA_CARD_STATUS[2],
-    selected: false,
-    id: 3
-  },
-
-  {
-    title: 'lorem some file.jsx',
-    subTitle: 'sub-lorem',
-    icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
-        aria-hidden="true"
-      />
-    ),
-    status: MEDIA_CARD_STATUS[3],
-    selected: true,
-    id: 4,
-    thumbnail: 'https://rb.gy/3b4b0'
-  },
-
-  {
-    title: 'ipsum.lorem.some.file.jsx',
-    subTitle: 'sub-ipsum',
-    icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
-        aria-hidden="true"
-      />
-    ),
-    status: MEDIA_CARD_STATUS[4],
-    selected: false,
-    id: 5
-  },
-
-  {
-    title: 'ipsum lorem some really big file.jsx',
-    subTitle: 'sub-ipsum',
-    icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
-        aria-hidden="true"
-      />
-    ),
-    status: MEDIA_CARD_STATUS[5],
-    selected: false,
-    id: 6
-  }
-];
 
 const defaultConfig = {
   title: 'Application/Components/Gallery',
@@ -135,6 +49,7 @@ Primary.args = {
   children: (
     <>
       <GalleryPreview
+        backdropWrapperClassName="bg-brand-300"
         topAction={
           <div className="bg-base-900 absolute left-0 top-0 flex w-full justify-between p-5 text-white">
             <div className="flex items-center gap-3">
@@ -199,7 +114,7 @@ Primary.args = {
         }
       />
       <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        <GalleryMedia data={dummyData} />
+        <GalleryMedia data={DummyData} />
       </div>
       <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
         See All
@@ -209,9 +124,8 @@ Primary.args = {
   wrapperClassName: ''
 };
 
-export const WorkingExample = () => {
-  const [data, setData] = useState(dummyData);
-  // const [previewVisible, setPreviewVisible] = useState(false);
+export const GalleryExampleWPreview = () => {
+  const [data, setData] = useState(DummyData);
   const [previewItem, setPreviewItem] = useState(null);
 
   const [selectedItems, setSelectedItems] = useState(
@@ -241,7 +155,7 @@ export const WorkingExample = () => {
   const handleBulkSelect = (e) => {
     if (e.target.checked) {
       setData(
-        dummyData.map((item) => ({
+        data.map((item) => ({
           ...item,
           selected: true
         }))
@@ -249,7 +163,7 @@ export const WorkingExample = () => {
       setSelectedItems(data);
     } else {
       setData(
-        dummyData.map((item) => ({
+        data.map((item) => ({
           ...item,
           selected: false
         }))
@@ -259,7 +173,7 @@ export const WorkingExample = () => {
   };
 
   return (
-    <>
+    <Gallery className="h-full w-full">
       <GalleryPreview
         onClose={() => setPreviewItem(null)}
         topAction={
@@ -302,56 +216,56 @@ export const WorkingExample = () => {
           </div>
         }
         content={
-          previewItem?.status === MEDIA_CARD_STATUS[0] && (
-            <img src={data[0].thumbnail} alt={data[0].subTitle} />
-          )
+          <>
+            {previewItem?.status === MEDIA_CARD_STATUS[0] && (
+              <img src={previewItem?.file} alt={previewItem?.subTitle} />
+            )}
+            {previewItem?.status === MEDIA_CARD_STATUS[4] && (
+              <PdfViewer renderPageNumber file={previewItem?.file} />
+            )}
+          </>
         }
         visible={!!previewItem}
       />
-      <Gallery className="h-full w-full">
-        {selectedItems.length > 0 && (
-          <GalleryMediaActionbar
-            primaryActions={
-              <div className="flex items-center gap-3">
-                <Checkbox
-                  border={false}
-                  onChange={(e) => handleBulkSelect(e)}
-                />
-                <p className="text-base-900 text-sm font-medium leading-5">
-                  {selectedItems.length} item(s) selected
-                </p>
-              </div>
-            }
-            secondaryActions={
-              <div className="flex gap-3">
-                <MdContentCopy
-                  className="h-5 w-5 cursor-pointer"
-                  aria-hidden="true"
-                />
-                <HiOutlineDownload
-                  className="h-5 w-5 cursor-pointer"
-                  aria-hidden="true"
-                />
-                <TrashIcon
-                  className="h-5 w-5 cursor-pointer"
-                  aria-hidden="true"
-                />
-              </div>
-            }
-          />
-        )}
-        <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-          <GalleryMedia
-            onCardClick={(id) => handleCardClick(id)}
-            data={data}
-            onChange={(status, id) => handleMediaUpdate(status, id)}
-          />
-        </div>
-        <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
-          See All
-        </GalleryMediaFooterButton>
-      </Gallery>
-    </>
+      {selectedItems.length > 0 && (
+        <GalleryMediaActionbar
+          primaryActions={
+            <div className="flex items-center gap-3">
+              <Checkbox border={false} onChange={(e) => handleBulkSelect(e)} />
+              <p className="text-base-900 text-sm font-medium leading-5">
+                {selectedItems.length} item(s) selected
+              </p>
+            </div>
+          }
+          secondaryActions={
+            <div className="flex gap-3">
+              <MdContentCopy
+                className="h-5 w-5 cursor-pointer"
+                aria-hidden="true"
+              />
+              <HiOutlineDownload
+                className="h-5 w-5 cursor-pointer"
+                aria-hidden="true"
+              />
+              <TrashIcon
+                className="h-5 w-5 cursor-pointer"
+                aria-hidden="true"
+              />
+            </div>
+          }
+        />
+      )}
+      <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <GalleryMedia
+          onCardClick={(id) => handleCardClick(id)}
+          data={data}
+          onChange={(status, id) => handleMediaUpdate(status, id)}
+        />
+      </div>
+      <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
+        See All
+      </GalleryMediaFooterButton>
+    </Gallery>
   );
 };
 

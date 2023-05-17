@@ -27,7 +27,7 @@ const GalleryMedia = ({
   onCardClick
 }) => {
   const renderMediaThumbnail = (item) => {
-    const { status, thumbnail } = item;
+    const { status, file } = item;
     switch (status) {
       case MEDIA_CARD_STATUS[0]:
         return (
@@ -35,7 +35,7 @@ const GalleryMedia = ({
             className={twClassNames(
               `bg-cover bg-no-repeat ${MEDIA_CARD_THUMBNAIL_RATIO[ratio]}`
             )}
-            style={{ backgroundImage: `url(${thumbnail})` }}
+            style={{ backgroundImage: `url(${file})` }}
           />
         );
       case MEDIA_CARD_STATUS[1]:
@@ -64,7 +64,7 @@ const GalleryMedia = ({
         return (
           <div
             className={`bg-cover bg-no-repeat ${MEDIA_CARD_THUMBNAIL_RATIO[ratio]}`}
-            style={{ backgroundImage: `url(${thumbnail})` }}
+            style={{ backgroundImage: `url(${file})` }}
           >
             <AiFillPlayCircle
               className="text-base-700 mx-auto flex h-full w-8 flex-col"
@@ -95,7 +95,7 @@ const GalleryMedia = ({
           <div
             className={`${MEDIA_CARD_THUMBNAIL_RATIO[ratio]} text-base-900 text-lg font-normal leading-none`}
           >
-            Unsupported File format
+            Unsupported format
           </div>
         );
     }
@@ -183,7 +183,7 @@ GalleryMedia.propTypes = {
   onCardClick: PropTypes.func,
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      thumbnail: PropTypes.string,
+      file: PropTypes.oneOf([PropTypes.string, PropTypes.node]),
       title: PropTypes.string,
       subTitle: PropTypes.string,
       icon: PropTypes.node,
