@@ -8,9 +8,6 @@ import {
 } from '@browserstack/bifrost';
 
 const Dashboard = () => {
-  // eslint-disable-next-line no-console
-  console.log('Log: Dashboard ');
-
   const primaryNavs = [
     {
       id: 'dashboard',

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { createSlice } from '@reduxjs/toolkit';
 
 const SLICE_NAME = 'global';
