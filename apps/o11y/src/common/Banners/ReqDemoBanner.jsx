@@ -18,6 +18,14 @@ function ReqDemoBanner() {
         url: window.location.href
       }
     });
+    logOllyEvent({
+      event: 'ClickedGetaDemo',
+      data: {
+        section: 'dashboard-top-banner',
+        url: window.location.href,
+        signed_in: true
+      }
+    });
     window.open(
       getExternalUrl({ path: EXTERNAL_LINKS.getADemo }),
       '_blank',

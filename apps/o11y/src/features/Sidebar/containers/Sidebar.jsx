@@ -122,6 +122,14 @@ export default function Sidebar() {
         url: window.location.href
       }
     });
+    logOllyEvent({
+      event: 'ClickedGetaDemo',
+      data: {
+        section: 'dashboard-left-panel',
+        url: window.location.href,
+        signed_in: true
+      }
+    });
     window.open(
       getExternalUrl({ path: EXTERNAL_LINKS.getADemo }),
       '_blank',
