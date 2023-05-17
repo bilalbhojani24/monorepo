@@ -55,10 +55,6 @@ const { reducer, actions } = createSlice({
         value
       };
       const operation = ADV_FILTER_TYPES[type][operationType];
-      if (type === ADV_FILTER_TYPES.dateRange) {
-        const { range } = payload;
-        updatedItem.range = range;
-      }
       switch (operation) {
         case ADV_FILTER_OPERATIONS.ADD: {
           state[state.currentCategory].appliedFilters.push(updatedItem);
@@ -108,10 +104,6 @@ const { reducer, actions } = createSlice({
         value
       };
       const operation = ADV_FILTER_TYPES[type][operationType];
-      if (type === ADV_FILTER_TYPES.dateRange) {
-        const { range } = payload;
-        updatedItem.range = range;
-      }
       switch (operation) {
         case ADV_FILTER_OPERATIONS.ADD: {
           state[state.currentCategory].selectedFilters.push(updatedItem);
