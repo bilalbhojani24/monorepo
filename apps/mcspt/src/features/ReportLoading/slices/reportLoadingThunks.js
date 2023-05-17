@@ -96,8 +96,6 @@ export const stopRecordingSession =
         formatDeviceAndAppAnalyticsData(currentdevice, currentapp)
       );
 
-      await new Promise((resolve) => setTimeout(resolve, 4000));
-
       dispatch(updateSessionMetrics(response));
 
       dispatch(resetSessionSetupData());
