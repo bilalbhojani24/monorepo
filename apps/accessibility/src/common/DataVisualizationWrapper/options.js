@@ -22,11 +22,7 @@ export const chartOptionStacked = {
     headerFormat: '',
     pointFormat: '<b>{series.name} : {point.y} / {point.stackTotal}</b><br/>'
   },
-  title: {
-    text: `<div stySle="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${''}</p><p class="text-xs text-base-500"></p></div>`,
-    verticalAlign: 'middle',
-    useHTML: true
-  },
+  title: false,
   xAxis: {
     categories: []
   },

@@ -7,6 +7,7 @@ import {
   DropdownTrigger,
   EllipsisVerticalIcon
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import Chart from 'common/Chart';
 import PropTypes from 'prop-types';
 
@@ -33,13 +34,18 @@ const singleMenu = [
   }
 ];
 
-export default function DataVisualizationWrapper({ data, title }) {
+export default function DataVisualizationWrapper({
+  data,
+  title,
+  wrapperClassName
+}) {
   const { getStackedChartData, applyFilter } = useVisualizationWrapper(data);
 
   return (
     <DataVisualization
       title={title}
-      wrapperClassName="mt-4 bg-white"
+      wrapperClassName={twClassNames('h-[440px] bg-white', wrapperClassName)}
+      size="fit-content"
       analytics={
         <div className="flex items-center justify-between">
           <div className="m-4 w-full">
@@ -72,6 +78,7 @@ export default function DataVisualizationWrapper({ data, title }) {
 }
 
 DataVisualizationWrapper.propTypes = {
+  wrapperClassName: PropTypes.string,
   data: {
     categories: PropTypes.instanceOf(Array),
     dataPoints: PropTypes.instanceOf(Object),
@@ -79,4 +86,8 @@ DataVisualizationWrapper.propTypes = {
     color: PropTypes.arrayOf(String)
   }.isRequired,
   title: PropTypes.string.isRequired
+};
+
+DataVisualizationWrapper.defaultProps = {
+  wrapperClassName: ''
 };
