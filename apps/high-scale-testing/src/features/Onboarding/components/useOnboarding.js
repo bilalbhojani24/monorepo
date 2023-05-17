@@ -230,8 +230,12 @@ browserstack-cli hst init`,
   }, [allAvailableRegionsByProvider, currentSelectedCloudProvider]);
 
   useEffect(() => {
-    markOnboardingRegionChange(userDetails.id, selectedRegion);
-  }, [selectedRegion, userDetails]);
+    markOnboardingRegionChange(
+      userDetails.id,
+      currentSelectedCloudProvider,
+      selectedRegion
+    );
+  }, [currentSelectedCloudProvider, selectedRegion, userDetails]);
 
   useEffect(() => {
     const fetchOnboardingData = async () => {

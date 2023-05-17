@@ -30,9 +30,9 @@ const markOnboardingStatus = (userId, status) =>
     }
   });
 
-const markOnboardingRegionChange = (userId, newRegionObject) =>
+const markOnboardingRegionChange = (userId, cloudProvider, newRegionObject) =>
   axios.put(ONBOARDING_REGION_CHANGE_URL, {
-    params: { userId, region: newRegionObject }
+    params: { userId, cloudProvider, region: newRegionObject }
   });
 
 export {
