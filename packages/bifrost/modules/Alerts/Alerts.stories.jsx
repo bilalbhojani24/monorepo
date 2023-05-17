@@ -45,7 +45,17 @@ const defaultConfig = {
         console.log(url);
       }
     },
-    linkText: { option: { type: 'string' }, defaultValue: 'Details' },
+    detailsNode: {
+      option: { type: 'object' },
+      defaultValue: (
+        <>
+          <p>Details</p>
+          <span aria-hidden="true" className="ml-1">
+            &rarr;
+          </span>
+        </>
+      )
+    },
     linkUrl: { option: { type: 'string' }, defaultValue: '/' },
     show: {
       control: { type: 'boolean' },
