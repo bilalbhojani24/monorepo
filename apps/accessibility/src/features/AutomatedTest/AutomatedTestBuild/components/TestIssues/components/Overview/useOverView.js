@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import {
   resetFilters,
   resetIssueItem,
-  setShowHiddenIssues
+  setShowHiddenIssues,
+  setTestFiltersKey
 } from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/slices/appSlice';
 import {
   getTestData,
@@ -105,8 +106,16 @@ export default function useOverview() {
   const actionType = '';
   const eventName = 'Sample event name...';
 
-  const onRowClick = (key, option) => {
-    console.log('key, option: ', option, key);
+  const onRowClick = (filter, value, shouldShowNeedsReviewIssues = false) => {
+    const values = shouldShowNeedsReviewIssues || [value];
+    dispatch(resetFilters());
+    dispatch(setShowHiddenIssues({ hideIssues: false }));
+    dispatch(setTestFiltersKey({ key: filter, values }));
+
+    // append filter to url as query param
+    const path = updateUrlWithQueryParam({ [filter]: value });
+    navigate(`?${path}`);
+    document.querySelector('button[value="Overview"]').click();
   };
 
   const onHiddenIssueClick = () => {

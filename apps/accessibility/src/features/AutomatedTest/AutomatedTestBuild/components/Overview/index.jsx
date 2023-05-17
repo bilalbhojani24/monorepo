@@ -56,6 +56,7 @@ export default function Overview() {
           eventName={eventName}
           totalCount={buildMetaData.issueSummary.issueCount}
           summary={issueSummaryData}
+          filterKey="impact"
           onRowClick={onRowClick}
           wrapperClassName="mt-4"
         />
@@ -75,11 +76,13 @@ export default function Overview() {
           columns={componentColumns}
           onRowClick={onRowClick}
           wrapperClassName="mt-4"
+          filterKey="component"
         />
         <TableCard
           title="Affected Pages"
           list={urlCountList}
           columns={urlColumns}
+          filterKey="page"
           onRowClick={onRowClick}
           wrapperClassName="mt-4"
         />

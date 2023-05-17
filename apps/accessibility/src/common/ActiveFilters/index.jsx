@@ -90,12 +90,7 @@ export default function ActiveFilters({ sectionsDataContext }) {
           <div className="mr-4 w-36">
             <SelectMenu
               onChange={onUpdateImpact}
-              value={buildFilters.impact.map((impact) => ({
-                label:
-                  impact.charAt(0).toUpperCase() +
-                  impact.slice(1, impact.length),
-                value: impact
-              }))}
+              value={buildFilters.impact}
               isMulti
             >
               <SelectMenuTrigger placeholder="Severity" />

@@ -1,8 +1,17 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  resetFilters,
+  setBuildFiltersKey,
+  setShowHiddenIssues
+} from 'features/AutomatedTest/AutomatedTestBuild/slices/appSlice';
+import { updateUrlWithQueryParam } from 'utils/helper';
 
 import { getBuildMetaData } from '../../slices/selector';
 
 export default function useOverview() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const buildMetaData = useSelector(getBuildMetaData);
   const ISSUE_COUNT = 'Issue Count';
   const { critical, serious, moderate, minor } = buildMetaData.issueSummary;
@@ -63,6 +72,7 @@ export default function useOverview() {
 
   const issueSummaryData = [
     {
+      label: 'Critical',
       name: 'Critical',
       y: critical,
       color: '#F95D6A',
@@ -70,18 +80,21 @@ export default function useOverview() {
       value: 'critical'
     },
     {
+      label: 'Serious',
       name: 'Serious',
       y: serious,
       color: '#F472B6',
       value: 'serious'
     },
     {
+      label: 'Moderate',
       name: 'Moderate',
       y: moderate,
       color: '#E3C500',
       value: 'moderate'
     },
     {
+      label: 'Minor',
       name: 'Minor',
       y: minor,
       color: '#C5D1D8',
@@ -114,8 +127,20 @@ export default function useOverview() {
   const actionType = '';
   const eventName = 'Sample event name...';
 
-  const onRowClick = (key, option) => {
-    console.log('key, option: ', option, key);
+  const onRowClick = (filter, value, shouldShowNeedsReviewIssues = false) => {
+    const values = shouldShowNeedsReviewIssues || [value];
+    dispatch(resetFilters());
+    dispatch(setShowHiddenIssues({ hideIssues: false }));
+    dispatch(setBuildFiltersKey({ key: filter, values }));
+
+    // append filter to url as query param
+    let val = value;
+    if (filter !== 'showNeedsReviewIssues') {
+      val = value.value;
+    }
+    const path = updateUrlWithQueryParam({ [filter]: val });
+    navigate(`?${path}`);
+    document.querySelector('button[value="All issues"]').click();
   };
 
   const prepareDataForIssueTrendChart = () => {

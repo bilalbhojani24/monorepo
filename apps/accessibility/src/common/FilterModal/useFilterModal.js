@@ -39,10 +39,13 @@ export default function useFilterModal(sectionsDataContext) {
 
     let finalList;
     if (checked) {
-      finalList = [...selectedImpact, option.value];
+      finalList = [...selectedImpact, option];
     } else {
-      finalList = [...selectedImpact.filter((value) => value !== option.value)];
+      finalList = [
+        ...selectedImpact.filter(({ value }) => value !== option.value)
+      ];
     }
+
     setSelectedImpact(finalList);
   };
 

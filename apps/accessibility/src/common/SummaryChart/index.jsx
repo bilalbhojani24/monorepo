@@ -13,6 +13,7 @@ export default function SummaryChart({
   title,
   eventName,
   summary,
+  filterKey,
   totalCount,
   chartTitle,
   wrapperClassName,
@@ -44,20 +45,20 @@ export default function SummaryChart({
                   aria-label={impact}
                   tabIndex={0}
                   className="border-base-200 mb-4 flex h-6 cursor-pointer items-center justify-between border-b"
-                  // onClick={() =>
-                  //   onRowClick(
-                  //     'impact',
-                  //     severityOptions.find(({ value }) => value === impact)
-                  //   )
-                  // }
-                  // onKeyDown={(e) =>
-                  //   handleClickByEnterOrSpace(e, () =>
-                  //     onRowClick(
-                  //       'impact',
-                  //       severityOptions.find(({ value }) => value === impact)
-                  //     )
-                  //   )
-                  // }
+                  onClick={() =>
+                    onRowClick(
+                      filterKey,
+                      summary.find(({ value }) => value === impact)
+                    )
+                  }
+                  onKeyDown={(e) =>
+                    handleClickByEnterOrSpace(e, () =>
+                      onRowClick(
+                        filterKey,
+                        summary.find(({ value }) => value === impact)
+                      )
+                    )
+                  }
                   role="button"
                 >
                   <div className="text-base-800 flex items-center pb-3 text-sm">
@@ -81,6 +82,7 @@ SummaryChart.propTypes = {
   actionType: PropTypes.string,
   eventName: PropTypes.string,
   totalCount: PropTypes.number.isRequired,
+  filterKey: PropTypes.string,
   chartTitle: PropTypes.string.isRequired,
   summary: PropTypes.objectOf({
     critical: PropTypes.number,
@@ -97,5 +99,6 @@ SummaryChart.defaultProps = {
   actionType: events.INTERACT_WITH_CHART,
   eventName: '',
   wrapperClassName: '',
-  onRowClick: () => {}
+  onRowClick: () => {},
+  filterKey: ''
 };

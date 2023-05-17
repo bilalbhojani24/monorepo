@@ -158,7 +158,9 @@ export default function useIssues() {
       }));
     }
     if (activeBuildFilters.impact.length) {
-      const appliedSeverityFilter = activeBuildFilters.impact;
+      const appliedSeverityFilter = activeBuildFilters.impact.map(
+        ({ value }) => value
+      );
       filteredViolations = buildData.filter((violation) =>
         appliedSeverityFilter.includes(violation.impact)
       );
@@ -310,7 +312,7 @@ export default function useIssues() {
     dispatch(
       setBuildFiltersKey({
         key: 'impact',
-        values: values.map(({ value }) => value)
+        values
       })
     );
     dispatch(resetIssueItem());

@@ -3,6 +3,7 @@ import {
   activeInitFilters,
   ISSUE_TYPE,
   ISSUES,
+  severityOptions,
   SUMMARY,
   TESTS
 } from 'constants';
@@ -44,7 +45,10 @@ const getInitialTab = () => {
   };
 
   if (params.get('impact')) {
-    activeFilters.impact = params.get('impact').split(',');
+    activeFilters.impact = params
+      .get('impact')
+      .split(',')
+      .map((impact) => severityOptions.find(({ value }) => impact === value));
   }
 
   if (params.get('page')) {

@@ -14,6 +14,7 @@ export default function TableCard({
   title,
   list,
   columns,
+  filterKey,
   onRowClick,
   wrapperClassName
 }) {
@@ -60,7 +61,7 @@ export default function TableCard({
                 <TableRow
                   wrapperClassName="cursor-pointer"
                   onRowClick={() =>
-                    onRowClick('component', {
+                    onRowClick(filterKey, {
                       label,
                       value
                     })
@@ -99,6 +100,7 @@ export default function TableCard({
 
 TableCard.propTypes = {
   title: PropTypes.string.isRequired,
+  filterKey: PropTypes.string,
   list: PropTypes.arrayOf({
     label: PropTypes.string,
     value: PropTypes.string,
@@ -115,5 +117,6 @@ TableCard.propTypes = {
 
 TableCard.defaultProps = {
   onRowClick: () => {},
-  wrapperClassName: ''
+  wrapperClassName: '',
+  filterKey: ''
 };
