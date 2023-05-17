@@ -91,7 +91,7 @@ const PreviewAndConfirm = () => {
         <div
           className={twClassNames(
             'border-base-100',
-            idx < previewData.length - 1 ? 'border-y' : ''
+            idx < previewData.length - 1 ? 'border-y' : 'border-t'
           )}
         >
           <TMAccordion defaultOpen={idx === 0}>
