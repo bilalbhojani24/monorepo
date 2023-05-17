@@ -17,7 +17,7 @@ const TMInputWButton = forwardRef((props, ref) => (
       label={null}
       ref={ref}
       wrapperClassName={twClassNames(
-        'ribin flex-1 w-full [&_*]:rounded-none [&_*]:rounded-l-md',
+        'flex-1 w-full [&_*]:rounded-none [&_*]:rounded-l-md',
         props.wrapperClassName
       )}
     />
