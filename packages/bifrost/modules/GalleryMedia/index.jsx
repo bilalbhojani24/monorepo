@@ -179,7 +179,6 @@ GalleryMedia.propTypes = {
   showExtensions: PropTypes.bool,
   multiSelect: PropTypes.bool,
   onChange: PropTypes.func,
-  alwaysVisible: PropTypes.bool,
   onCardClick: PropTypes.func,
   data: PropTypes.arrayOf(
     PropTypes.shape({
@@ -197,7 +196,6 @@ GalleryMedia.defaultProps = {
   data: [],
   ratio: '16/9',
   showExtensions: false,
-  multiSelect: false,
   onChange: () => {},
   onCardClick: () => {},
   alwaysVisible: false

@@ -126,6 +126,7 @@ Primary.args = {
 export const GalleryExampleWPreview = () => {
   const [data, setData] = useState(DummyData);
   const [previewItem, setPreviewItem] = useState(null);
+  const [multiSelect, setMultiSelect] = useState(true);
 
   const [selectedItems, setSelectedItems] = useState(
     data.filter((item) => item.selected)
@@ -135,12 +136,23 @@ export const GalleryExampleWPreview = () => {
     const dupData = [...data];
     const res = dupData.find((item) => item.id === id);
     res.selected = change;
+
+    const selectedData = data.filter((item) => item.selected);
+    // if image is selected enable multiselect mode
+    if (
+      selectedData.filter((item) => item.status === MEDIA_CARD_STATUS[0])
+        .length > 0
+    )
+      setMultiSelect(true);
+    else setMultiSelect(false);
+
     setData(dupData);
-    setSelectedItems(data.filter((item) => item.selected));
+    setSelectedItems(selectedData);
   };
 
   const handleCardClick = (id) => {
     const clickedItem = data.find((item) => item.id === id);
+    // no action for error, loading, video and doc formats
     if (
       clickedItem?.status === MEDIA_CARD_STATUS[1] ||
       clickedItem?.status === MEDIA_CARD_STATUS[2] ||
@@ -149,6 +161,7 @@ export const GalleryExampleWPreview = () => {
     )
       return;
 
+    // open pdf in new tab
     if (clickedItem?.status === MEDIA_CARD_STATUS[4]) {
       window.open(clickedItem.file);
       return;
@@ -262,6 +275,7 @@ export const GalleryExampleWPreview = () => {
           onCardClick={(id) => handleCardClick(id)}
           data={data}
           onChange={(status, id) => handleMediaUpdate(status, id)}
+          alwaysVisible={multiSelect}
         />
       </div>
       <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
