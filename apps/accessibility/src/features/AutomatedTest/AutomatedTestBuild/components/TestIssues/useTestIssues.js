@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
@@ -12,7 +12,6 @@ import { getActiveTab, getTestData, getTestMetaData } from './slices/selector';
 export default function useAutomatedTestBuild() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(true);
   const activeTab = useSelector(getActiveTab);
   const testData = useSelector(getTestData);
   const testMetaData = useSelector(getTestMetaData);
@@ -37,13 +36,6 @@ export default function useAutomatedTestBuild() {
 
   const actionType = '';
   const eventName = 'Sample event name...';
-  const issueSummary = {
-    critical: 100,
-    serious: 200,
-    moderate: 300,
-    minor: 400,
-    issueCount: 1000
-  };
   const onRowClick = () => {};
   return {
     activeTab,
@@ -51,9 +43,6 @@ export default function useAutomatedTestBuild() {
     testMetaData,
     testData,
     eventName,
-    issueSummary,
-    isOpen,
-    setIsOpen,
     onRowClick,
     onTabChange
   };

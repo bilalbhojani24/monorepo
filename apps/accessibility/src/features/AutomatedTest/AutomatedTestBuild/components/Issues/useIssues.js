@@ -419,6 +419,10 @@ export default function useIssues() {
     setIsSliderOpen(true);
   };
 
+  const onSliderClose = () => {
+    setIsSliderOpen(false);
+  };
+
   return {
     urls,
     isSliderOpen,
@@ -445,6 +449,7 @@ export default function useIssues() {
     activeBuildFilters,
     wcagVersion,
     tests,
+    onSliderClose,
     onSliderOpenClick,
     onTagClose,
     onTabSelect,

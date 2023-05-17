@@ -17,7 +17,6 @@ export default function Issues() {
   const {
     urls,
     isSliderOpen,
-    onSliderOpenClick,
     tests,
     componentIds,
     categories,
@@ -41,6 +40,8 @@ export default function Issues() {
     activeIssueSection,
     activeBuildFilters,
     wcagVersion,
+    onSliderOpenClick,
+    onSliderClose,
     onRowClick,
     onTagClose,
     onHiddenIssueClick,
@@ -70,7 +71,7 @@ export default function Issues() {
 
   return (
     <>
-      {isSliderOpen && <TestIssues />}
+      <TestIssues onSliderClose={onSliderClose} isSliderOpen={isSliderOpen} />
       <SectionsDataContext.Provider
         value={{
           buildFilters,

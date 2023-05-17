@@ -86,10 +86,12 @@ export default function Overview() {
       </div>
       <div>
         <DataVisualizationWrapper
+          wrapperClassName="mt-4"
           data={prepareDataForIssueTrendChart()}
           title="Issue trend"
         />
         <DataVisualizationWrapper
+          wrapperClassName="mt-4"
           data={prepareDataForHealthHistoryChart()}
           title="Health history"
         />

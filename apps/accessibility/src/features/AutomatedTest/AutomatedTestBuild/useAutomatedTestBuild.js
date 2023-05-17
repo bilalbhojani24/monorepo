@@ -57,7 +57,8 @@ export default function useAutomatedTestBuild() {
     navigate(`?${updatedPath}`);
   };
 
-  const fetchTestCasesHelper = () => fetchTestCasesData(buildNumber);
+  const fetchTestCasesHelper = () =>
+    fetchTestCasesData(projectName, buildName, buildNumber);
 
   useEffect(() => {
     const fetchData = (() => {
