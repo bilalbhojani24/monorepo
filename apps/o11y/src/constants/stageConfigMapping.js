@@ -1,7 +1,7 @@
 const STAGING_CONFIG = (envName) => ({
   signInUrl: `https://devtestops-api.bsstag.com/api/v1/auth/start-sso`,
   signOutUrl: `https://${envName}.bsstag.com/users/sign_out`,
-  apiUrl: 'https://devtestops-api.bsstag.com',
+  apiUrl: 'http://devtestops-api.bsstag.com',
   baseUrl: 'https://devtestops.bsstag.com',
   withCredentials: true,
   integrationsBaseUrl: 'https://integrations-preprod.bsstag.com',
