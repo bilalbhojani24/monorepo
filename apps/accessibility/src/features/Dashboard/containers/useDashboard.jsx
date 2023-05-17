@@ -89,6 +89,15 @@ export default function useDashboard() {
     window.open(CHROME_EXTENSION_URL, '_target');
   };
 
+  const onGetADemoClick = () => {
+    logEvent('ClickedGetaDemo', {
+      signed_in: true,
+      Product: 'Accessibility Testing',
+      Section: 'dashboard-left-panel',
+      URL: window.location.href
+    });
+  };
+
   useEffect(() => {
     if (!localStorage.getItem('newSiteScannerBadge')) {
       localStorage.setItem('newSiteScannerBadge', new Date().getTime());
@@ -106,6 +115,7 @@ export default function useDashboard() {
     primaryNav,
     currentPath,
     secondaryNav,
+    onGetADemoClick,
     handleNavigationClick,
     onDownloadExtensionClick,
     onCloseClick

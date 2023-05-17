@@ -1,6 +1,7 @@
 // NOTE: Don't remove sidebar logic, will add once it required
 import React from 'react';
 import {
+  ActionPanel,
   Banner,
   Button,
   Header,
@@ -27,6 +28,7 @@ export default function Dashboard({ children }) {
     secondaryNav,
     handleNavigationClick,
     onDownloadExtensionClick,
+    onGetADemoClick,
     onCloseClick
   } = useDashboard();
 
@@ -43,14 +45,16 @@ export default function Dashboard({ children }) {
   ));
 
   const SWBSidebarSec = (
-    <div className="flex flex-col items-start justify-center">
-      {/* <div className="bg-base-50 border-base-100 text-base-900 w-56 rounded border p-6 text-sm">
-        <p className="text-base-900 mb-2 text-base font-semibold">Need help?</p>
-        <p className="mb-5">
-          Learn how to unlock the full potential of Accessibility Testing
-        </p>
-        <Button colors="white">Get a demo</Button>
-      </div> */}
+    <div className="flex flex-col items-center justify-center">
+      <ActionPanel
+        content={
+          <Button colors="white" onClick={onGetADemoClick}>
+            Get a demo
+          </Button>
+        }
+        description="Learn how to unlock the full potential of Accessibility Testing"
+        title="Need help?"
+      />
       {secondaryNav.map((item) => (
         <SidebarItem
           key={item.id}
@@ -113,7 +117,8 @@ export default function Dashboard({ children }) {
             logEvent('ClickedBuyaPlan', {
               Product: 'Accessibility Testing',
               section: 'dashboard-top-header',
-              URL: window.location.href
+              URL: window.location.href,
+              signed_in: true
             });
           }
         }}
