@@ -224,14 +224,14 @@ const ListTreeRootWrapper = ({
             handleAsteriskPress();
             break;
           case 'ArrowUp':
-            if (e.ctrlKey) {
+            if (e.ctrlKey || e.metaKey) {
               handleHomePress();
             } else {
               handleArrowUpPress(actionID);
             }
             break;
           case 'ArrowDown':
-            if (e.ctrlKey) {
+            if (e.ctrlKey || e.metaKey) {
               handleCtrlArrowDownPress();
             } else {
               handleArrowDownPress(actionID);
@@ -257,9 +257,9 @@ const ListTreeRootWrapper = ({
   );
 
   useEffect(() => {
-    document.addEventListener('keyup', onKeyPress);
+    document.addEventListener('keydown', onKeyPress);
     return () => {
-      document.removeEventListener('keyup', onKeyPress);
+      document.removeEventListener('keydown', onKeyPress);
     };
   }, [listData, onKeyPress, onSelectCallback, openNodeMap, setOpenNodeMap]);
 
