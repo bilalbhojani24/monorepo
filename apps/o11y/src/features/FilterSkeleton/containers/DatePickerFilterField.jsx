@@ -1,30 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { twClassNames } from '@browserstack/utils';
-import { O11yButton, O11yPopover } from 'common/bifrostProxy';
-import DatePickerGroup from 'common/DatePickerGroup';
+import DatePickerField from 'common/DatePickerField';
 import {
   ADV_FILTER_TYPES,
   FILTER_OPERATION_TYPE
 } from 'features/FilterSkeleton/constants';
 import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
-import { getTimeBounds } from 'features/FilterSkeleton/utils';
 import PropTypes from 'prop-types';
-import {
-  getDateInFormat,
-  getSubtractedUnixTime,
-  getUnixEndOfDay,
-  getUnixStartOfDay
-} from 'utils/dateTime';
 
-const DatePickerFilterField = ({ dateRangeObject }) => {
+const DatePickerFilterField = ({ supportedKeys }) => {
   const dispatch = useDispatch();
   const appliedDateRange = useSelector(
     findAppliedFilterByType(ADV_FILTER_TYPES.dateRange.key)
   );
   const [activeType, setActiveType] = useState(null);
-  const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
 
   useEffect(() => {
     if (appliedDateRange?.id) {
@@ -34,141 +24,51 @@ const DatePickerFilterField = ({ dateRangeObject }) => {
     }
   }, [appliedDateRange]);
 
-  const handleClickRange = (key) => {
-    const timeBounds = getTimeBounds(key);
+  const handleClickRange = (key, timeBounds) => {
     dispatch(
       setAppliedFilter({
         type: ADV_FILTER_TYPES.dateRange.key,
         id: key,
         operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
-        text: dateRangeObject[key].appliedText,
+        text: '',
         value: timeBounds,
         isApplied: true
       })
     );
   };
 
-  const handleCustomDateRange = ({ from, to }) => {
-    if (from && to && new Date(from) <= new Date(to)) {
-      const fromTime = getUnixStartOfDay(from) * 1000;
-      const toTime = getUnixEndOfDay(to) * 1000;
-      const formattedText = `${getDateInFormat(fromTime)} - ${getDateInFormat(
-        toTime
-      )}`;
-      dispatch(
-        setAppliedFilter({
-          type: ADV_FILTER_TYPES.dateRange.key,
-          id: 'custom',
-          operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
-          text: formattedText,
-          value: {
-            upperBound: toTime,
-            lowerBound: fromTime
-          },
-          isApplied: true
-        })
-      );
-      setShowCustomDatePicker(false);
-    }
+  const handleCustomDateRange = (timeBounds) => {
+    dispatch(
+      setAppliedFilter({
+        type: ADV_FILTER_TYPES.dateRange.key,
+        id: 'custom',
+        operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
+        text: '',
+        value: timeBounds,
+        isApplied: true
+      })
+    );
   };
 
   return (
-    <div className="flex">
-      {Object.keys(dateRangeObject).map((key, index) => {
+    <DatePickerField
+      activeKey={activeType}
+      onChange={(key, timeBounds) => {
         if (key === 'custom') {
-          return (
-            <O11yPopover
-              arrowWidth={0}
-              arrowHeight={0}
-              placementAlign="end"
-              placementSide="bottom"
-              size="md"
-              show={showCustomDatePicker}
-              onOpenChange={(isOpen) => {
-                setShowCustomDatePicker(isOpen);
-              }}
-              content={
-                <DatePickerGroup
-                  onDateSelect={handleCustomDateRange}
-                  startDate={
-                    appliedDateRange?.id
-                      ? appliedDateRange?.value?.lowerBound
-                      : Date.now()
-                  }
-                  endDate={
-                    appliedDateRange?.id
-                      ? appliedDateRange?.value?.upperBound
-                      : Date.now()
-                  }
-                  minDate={getSubtractedUnixTime(2, 'months') * 1000}
-                  maxDate={getUnixEndOfDay(new Date()) * 1000}
-                />
-              }
-              wrapperClassName="p-4"
-            >
-              <O11yButton
-                aria-label={dateRangeObject[key].label}
-                colors="white"
-                onClick={() => {
-                  setShowCustomDatePicker(true);
-                }}
-                size="large"
-                variant="primary"
-                wrapperClassName={twClassNames(
-                  `focus:z-[1] focus:ring-1
-              ring-brand-500 border border-base-300 rounded-none rounded-r-md focus:ring-offset-0
-              focus:border-r border-r-0 text-sm font-medium text-base-700 border-r focus:outline-0`,
-                  {
-                    'border-brand-500 ring-1 z-[1]': activeType === key
-                  }
-                )}
-              >
-                {dateRangeObject[key].label}
-              </O11yButton>
-            </O11yPopover>
-          );
+          handleCustomDateRange(timeBounds);
+        } else {
+          handleClickRange(key, timeBounds);
         }
-        return (
-          <>
-            <O11yButton
-              aria-label={dateRangeObject[key].label}
-              colors="white"
-              onClick={() => handleClickRange(key)}
-              size="large"
-              variant="primary"
-              wrapperClassName={twClassNames(
-                `focus:z-[1] focus:ring-1 ring-brand-500 border border-base-300 
-              rounded-none border-r-0 focus:ring-offset-0 text-sm font-medium text-base-700`,
-                {
-                  'border-brand-500 ring-1 z-[1] border-r': activeType === key,
-                  'rounded-l-md': index === 0,
-                  'rounded-r-md border-r':
-                    index === Object.keys(dateRangeObject).length - 1 &&
-                    key !== 'custom'
-                }
-              )}
-            >
-              {dateRangeObject[key].label}
-            </O11yButton>
-          </>
-        );
-      })}
-    </div>
+      }}
+      supportedKeys={supportedKeys}
+      customKeyLowerBound={appliedDateRange?.value?.lowerBound}
+      customKeyUpperBound={appliedDateRange?.value?.upperBound}
+    />
   );
 };
 
 DatePickerFilterField.propTypes = {
-  dateRangeObject: PropTypes.objectOf(
-    PropTypes.shape({
-      key: PropTypes.string,
-      label: PropTypes.string,
-      appliedText: PropTypes.string
-    })
-  )
-};
-
-DatePickerFilterField.defaultProps = {
-  dateRangeObject: {}
+  supportedKeys: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 export default DatePickerFilterField;

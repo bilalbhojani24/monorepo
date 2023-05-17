@@ -28,7 +28,6 @@ import {
   getAppliedFilterObj,
   getFilterFromSearchString
 } from 'features/FilterSkeleton/utils';
-import { SH_TESTS_DATE_RANGE_OBJECT } from 'features/SHFilters/constants';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
@@ -347,7 +346,6 @@ const updateTestsFilterFields = (data, dispatch, searchParams) => {
             let text = '';
             let id = '';
             if (daterangetype !== 'custom') {
-              text = SH_TESTS_DATE_RANGE_OBJECT[daterangetype].appliedText;
               id = daterangetype;
             } else {
               text = `${getDateInFormat(
@@ -594,7 +592,6 @@ const updateUEFilterFields = (data, dispatch, searchParams) => {
             let text = '';
             let id = '';
             if (daterangetype !== 'custom') {
-              text = SH_TESTS_DATE_RANGE_OBJECT[daterangetype].appliedText;
               id = daterangetype;
             } else {
               text = `${getDateInFormat(
