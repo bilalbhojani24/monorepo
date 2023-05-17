@@ -314,19 +314,15 @@ const Onboarding = () => {
       {/* Body of Onboarding */}
       <div
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
-        className={classnames(
-          'border-base-300 overflow-scroll border-y px-7 ',
-          {
-            'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
-            'py-6':
-              onboardingStep === 0 ||
-              (onboardingStep === 1 &&
-                onboardingType !== ONBOARDING_TYPES.scratch),
-            'pt-6':
-              onboardingStep === 1 &&
-              onboardingType === ONBOARDING_TYPES.scratch
-          }
-        )}
+        className={classnames('border-base-300 overflow-auto border-y px-7 ', {
+          'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
+          'py-6':
+            onboardingStep === 0 ||
+            (onboardingStep === 1 &&
+              onboardingType !== ONBOARDING_TYPES.scratch),
+          'pt-6':
+            onboardingStep === 1 && onboardingType === ONBOARDING_TYPES.scratch
+        })}
       >
         {onboardingStep === 0 && (
           <>
