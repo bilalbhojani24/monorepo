@@ -150,7 +150,7 @@ const TestListFilters = ({ buildUUID }) => {
             label="Performance Anomalies"
             yesLabel="Performance Anomalies"
             noLabel="Not Performance Anomalies"
-            type={ADV_FILTER_TYPES.isAlwaysFailing.key}
+            type={ADV_FILTER_TYPES.hasPerformanceAnomaly.key}
           />
           {/* #TODO: to be added after the backend change is moved
           <MultiSelectCheckboxFilterField

@@ -35,7 +35,8 @@ export const TESTLIST_TYPES = {
 export const EMPTY_TESTLIST_DATA_STATE = {
   hierarchy: [],
   pagingParams: {},
-  buildId: ''
+  buildId: '',
+  status: null
 };
 
 export const FILTER_TAGNAME_MAPPING = {

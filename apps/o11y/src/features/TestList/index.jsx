@@ -6,38 +6,33 @@ import React, {
   useState
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
 import { MdSearchOff } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
+import {
+  getAllAppliedFilters,
+  getIsFiltersLoading
+} from 'features/FilterSkeleton/slices/selectors';
+import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
 import TestDetails from 'features/TestDetails';
 import {
-  EMPTY_APPLIED_FILTERS,
-  EMPTY_SELECTED_FILTERS,
-  EMPTY_STATIC_FILTERS,
   EMPTY_TESTLIST_DATA_STATE,
   TESTLIST_TYPES
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
-import {
-  getAppliedFilters,
-  getTestList
-} from 'features/TestList/slices/selectors';
+import { getTestList } from 'features/TestList/slices/selectors';
 import {
   getTestListData,
   getTestlistFiltersData,
-  setAppliedFilters,
-  setSelectedFilters,
-  setStaticFilters,
   setTestList
 } from 'features/TestList/slices/testListSlice';
 import TestListFilters from 'features/TestListFilters';
 import { getActiveProject } from 'globalSlice/selectors';
 import useIsUnmounted from 'hooks/useIsMounted';
-import isEqual from 'lodash/isEqual';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
@@ -54,13 +49,14 @@ const TestList = ({
 }) => {
   const dispatch = useDispatch();
   const { isMounted } = useIsUnmounted();
-  const [, setSearchParams] = useSearchParams();
   const [expandAll, setExpandAll] = useState(true);
   const [closedAccordionIds, setClosedAccordionIds] = useState({});
   const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
   const virtuosoRef = useRef(null);
   const navigate = useNavigate();
+  const appliedFilters = useSelector(getAllAppliedFilters);
+  const isFiltersLoading = useSelector(getIsFiltersLoading);
 
   const OllyTestListingEvent = useCallback(
     (eventName, data = {}) => {
@@ -103,7 +99,6 @@ const TestList = ({
 
   const { data: testListData, apiState: testListDataApiState } =
     useSelector(getTestList);
-  const appliedFilters = useSelector(getAppliedFilters);
   const loadFreshData = useCallback(
     () => dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} })),
     [buildUUID, dispatch]
@@ -120,20 +115,14 @@ const TestList = ({
     }
   }, [buildUUID, dispatch, testListData]);
 
+  useEffect(() => {
+    navigate({
+      search: getSearchStringFromFilters(appliedFilters).toString()
+    });
+  }, [appliedFilters, navigate]);
+
   const resetReduxStore = useCallback(
     (itemsToReset) => {
-      if (itemsToReset.includes('staticFilters')) {
-        setStaticFilters({
-          data: EMPTY_STATIC_FILTERS,
-          apiState: { status: API_STATUSES.idle, details: {} }
-        });
-      }
-      if (itemsToReset.includes('selected')) {
-        dispatch(setSelectedFilters(EMPTY_SELECTED_FILTERS));
-      }
-      if (itemsToReset.includes('applied')) {
-        dispatch(setAppliedFilters(EMPTY_APPLIED_FILTERS));
-      }
       if (itemsToReset.includes('testList')) {
         dispatch(
           setTestList({
@@ -191,36 +180,13 @@ const TestList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted]);
 
-  const isFiltersApplied = useMemo(() => {
-    const sanitizedAppliedFilters = { ...appliedFilters };
-    delete sanitizedAppliedFilters?.tab;
-    delete sanitizedAppliedFilters?.details;
-    return !isEqual(sanitizedAppliedFilters, EMPTY_APPLIED_FILTERS);
-  }, [appliedFilters]);
+  const isFiltersApplied = useMemo(
+    () => appliedFilters.length > 0,
+    [appliedFilters]
+  );
 
   useEffect(() => {
     if (buildUUID) {
-      if (!testListData?.hierarchy?.length) {
-        const searchParams = new URLSearchParams(window?.location?.search);
-        const transformedAppliedFilters = {
-          tab: 'tests'
-        };
-        Array.from(searchParams).forEach(([key, value]) => {
-          if (key === 'search' && value.length) {
-            transformedAppliedFilters[key] = value;
-          } else if (key === 'isMuted' && value === 'true') {
-            transformedAppliedFilters[key] = true;
-          } else if (Object.keys(EMPTY_STATIC_FILTERS).includes(key)) {
-            transformedAppliedFilters[key] = value.split(',');
-          } else if (
-            (key === 'issueTypeGroup' || key === 'run') &&
-            value.length
-          ) {
-            transformedAppliedFilters[key] = value;
-          }
-        });
-        dispatch(setAppliedFilters(transformedAppliedFilters));
-      }
       // Onload we don't make a call to load data instead we update applied
       // filters and its in use effect dependency which trigger loading of fresh data
       dispatch(getTestlistFiltersData({ buildId: buildUUID }));
@@ -231,38 +197,13 @@ const TestList = ({
   useEffect(() => {
     // This works only when appliedFilters changes and not on mount but after mounted
     if (isMounted) {
-      const searchParams = new URLSearchParams(window.location.search);
-      const transformedAppliedFilters = {
-        tab: 'tests'
-      };
-      if (searchParams.get('details')) {
-        transformedAppliedFilters.details = searchParams.get('details');
-      }
-      Object.keys(appliedFilters).forEach((key) => {
-        if (Array.isArray(appliedFilters[key]) && appliedFilters[key]?.length) {
-          transformedAppliedFilters[key] = appliedFilters[key]?.join(',');
-        } else if (key === 'isMuted' && appliedFilters[key] === true) {
-          transformedAppliedFilters[key] = true;
-        } else if (key === 'search' && appliedFilters[key].length) {
-          transformedAppliedFilters[key] = appliedFilters[key];
-        } else if (
-          (key === 'issueTypeGroup' || key === 'run') &&
-          appliedFilters[key].length
-        ) {
-          transformedAppliedFilters[key] = appliedFilters[key];
-        }
-      });
-      setSearchParams(transformedAppliedFilters);
-      dispatch(
-        setSelectedFilters({
-          ...appliedFilters
-        })
-      );
       resetReduxStore(['testList']);
-      loadFreshData();
+      if (!isFiltersLoading) {
+        loadFreshData();
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appliedFilters]);
+  }, [appliedFilters, isFiltersLoading]);
 
   useEffect(() => {
     setClosedAccordionIds((data) => {

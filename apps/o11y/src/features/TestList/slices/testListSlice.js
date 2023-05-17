@@ -13,6 +13,8 @@ import {
 } from 'api/testlist';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { API_STATUSES } from 'constants/common';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
+import { getFilterQueryParams } from 'features/FilterSkeleton/utils';
 import { setWidgetData } from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
 import {
   EMPTY_APPLIED_FILTERS,
@@ -180,9 +182,13 @@ export const getHistoryDetails = createAsyncThunk(
 
 export const getTestListData = createAsyncThunk(
   `${sliceName}/getTestListData`,
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getTestList({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getTestList({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return { ...response?.data, sentData: data };
     } catch (err) {
       return rejectWithValue(err);
@@ -236,7 +242,7 @@ const initialState = {
     apiState: { status: API_STATUSES.IDLE, details: {} }
   },
   testList: {
-    data: { ...EMPTY_TESTLIST_DATA_STATE, status: null },
+    data: EMPTY_TESTLIST_DATA_STATE,
     apiState: { status: API_STATUSES.IDLE, details: {} }
   },
   historyDetails: {

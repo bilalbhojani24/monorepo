@@ -135,7 +135,11 @@ export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.osList.key]: 'OS',
   [ADV_FILTER_TYPES.browserList.key]: 'Browser',
   [ADV_FILTER_TYPES.search.key]: 'Search',
-  [ADV_FILTER_TYPES.dateRange.key]: 'Date Range'
+  [ADV_FILTER_TYPES.dateRange.key]: 'Date Range',
+  [ADV_FILTER_TYPES.reRunsList.key]: 'Re run',
+  [ADV_FILTER_TYPES.ciBuildNumbers.key]: 'CI Build Number',
+  [ADV_FILTER_TYPES.status.key]: 'Status',
+  [ADV_FILTER_TYPES.hasPerformanceAnomaly.key]: 'Has Performance Anomaly'
 };
 
 export const DATE_RANGE_KEYS = {
