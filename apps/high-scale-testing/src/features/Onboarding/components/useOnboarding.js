@@ -62,19 +62,19 @@ browserstack-cli hst init`,
       disabled: false,
       id: 'radio-1',
       name: 'Amazon Cloud',
-      configName: 'amazon-cloud'
+      configName: 'aws'
     },
     {
       disabled: true,
       id: 'radio-2',
       name: 'Google Cloud',
-      configName: 'google-cloud'
+      configName: 'gcp'
     },
     {
       disabled: true,
       id: 'radio-3',
       name: 'Microsoft Azure',
-      configName: 'microsoft-azure'
+      configName: 'azure'
     }
   ];
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
@@ -232,7 +232,7 @@ browserstack-cli hst init`,
   useEffect(() => {
     markOnboardingRegionChange(
       userDetails.id,
-      currentSelectedCloudProvider,
+      currentSelectedCloudProvider.configName,
       selectedRegion
     );
   }, [currentSelectedCloudProvider, selectedRegion, userDetails]);
