@@ -89,7 +89,7 @@ export const getSnPErrors = async ({
   sortOptions,
   searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/?orderKey=${
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/?orderKey=${
     sortOptions.type
   }&orderValue=${sortOptions.status}&${searchString}`;
   if (pagingParams?.pageNumber) {
@@ -104,7 +104,7 @@ export const getSnPUEBreakdown = async ({
   searchString,
   sortOptions
 }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/breakdown?orderKey=${
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/breakdown?orderKey=${
     sortOptions.type
   }&orderValue=${sortOptions.status}&${searchString}`;
   return axios.get(endpoint);
@@ -115,7 +115,7 @@ export const getSnPErrorDetailsInfo = async ({
   errorId,
   searchString
 }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/info?testId=${testId}&${searchString}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/info?stabilityHash=${testId}&${searchString}`;
   return axios.get(endpoint);
 };
 export const getSnPErrorDetailsErrorCount = async ({
@@ -125,7 +125,7 @@ export const getSnPErrorDetailsErrorCount = async ({
   cbtInfo,
   searchString
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/errorCount?testId=${testId}&${searchString}`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/errorCount?stabilityHash=${testId}&${searchString}`;
   endpoint = `${endpoint}&browser=${cbtInfo.browserKey}&os=${cbtInfo.osKey}`;
   return axios.get(endpoint);
 };
@@ -137,7 +137,7 @@ export const getSnPErrorDetailsTrend = async ({
   searchString,
   showAllBuilds
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/trend?testId=${testId}&${searchString}`;
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/trend?stabilityHash=${testId}&${searchString}`;
   endpoint = `${endpoint}&browser=${cbtInfo.browserKey}&os=${cbtInfo.osKey}&allBuilds=${showAllBuilds}`;
   return axios.get(endpoint);
 };
@@ -151,7 +151,7 @@ export const getSnPErrorDetailsBuilds = async ({
   searchString,
   showAllBuilds
 }) => {
-  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/builds?testId=${testId}&browser=${
+  let endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/builds?stabilityHash=${testId}&browser=${
     cbtInfo.browserKey
   }&os=${cbtInfo.osKey}&allBuilds=${showAllBuilds}`;
   if (pagingParams?.searchAfter) {
@@ -175,7 +175,7 @@ export const getSnPErrorDetailsPlatforms = async ({
   errorId,
   searchString
 }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/${errorId}/details/platforms?testId=${testId}&${searchString}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/${errorId}/details/platforms?stabilityHash=${testId}&${searchString}`;
   return axios.get(endpoint);
 };
 
