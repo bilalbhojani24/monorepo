@@ -4,6 +4,7 @@ import Chart from 'common/Chart';
 import {
   COMMON_CHART_CONFIGS,
   COMMON_CHART_STYLES,
+  SNP_PARAMS_MAPPING,
   TOOLTIP_STYLES
 } from 'constants/common';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
@@ -15,25 +16,46 @@ import {
 import { getTrendFailureCategoriesData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
-import { logOllyEvent } from 'utils/common';
+import { getBaseUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
-function getFormattedTooltip() {
-  return this.points.reduce((s, data) => {
+function getFormattedTooltip(activeProject, filters) {
+  const url = `${getBaseUrl()}:9000/projects/${
+    activeProject.normalisedName
+  }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
+    filters.buildName.value
+  }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
+
+  return `${this.points.reduce((s, data) => {
     let returnString = `${s}<br/><span style="color:${data.series.color}">\u25CF&nbsp;</span>`;
     returnString += `<span>${data.series.name}: <b>${data.y}</b></span>`;
     return returnString;
-  }, `<span class="tt-small-text" style="margin-bottom:6px">${getCustomTimeStamp({ dateString: this.x })}</span>`);
+  }, `<span class="tt-small-text" style="margin-bottom:6px">${getCustomTimeStamp({ dateString: this.x })}</span>`)}
+        <br/><a href=${url} target="_blank">View all tests (Pro)</a>`;
 }
 
-function getChartOptions({ afterSetExtremes, activeProject }) {
+function getChartOptions({ afterSetExtremes, activeProject, filters }) {
   return {
     ...COMMON_CHART_CONFIGS,
     tooltip: {
       ...TOOLTIP_STYLES,
+      useHTML: true,
+      // outside: true,
       shared: true,
       formatter() {
-        return getFormattedTooltip.call(this);
+        return getFormattedTooltip.call(this, activeProject, filters);
+      },
+      style: {
+        pointerEvents: 'auto',
+        ...TOOLTIP_STYLES.style
+      },
+      positioner(labelWidth, labelHeight, point) {
+        const tooltipX = point.plotX + 20;
+        const tooltipY = point.plotY - 30;
+        return {
+          x: tooltipX,
+          y: tooltipY
+        };
       }
     },
     chart: {
@@ -142,10 +164,14 @@ export default function FailureCategoryTrend() {
 
   const options = useMemo(
     () => ({
-      ...getChartOptions({ afterSetExtremes, activeProject: projects.active }),
+      ...getChartOptions({
+        afterSetExtremes,
+        activeProject: projects.active,
+        filters
+      }),
       series: chartData?.data || []
     }),
-    [afterSetExtremes, chartData?.data, projects.active]
+    [afterSetExtremes, chartData?.data, filters, projects.active]
   );
 
   return (

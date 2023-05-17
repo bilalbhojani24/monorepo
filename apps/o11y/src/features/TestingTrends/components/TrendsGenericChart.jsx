@@ -3,8 +3,12 @@ import { useSelector } from 'react-redux';
 import Chart from 'common/Chart';
 import { COMMON_CHART_STYLES } from 'constants/common';
 import useChartActions from 'features/TestingTrends/hooks/useChartActions';
-import { getTTFilterByKey } from 'features/TestingTrends/slices/selectors';
+import {
+  getAllTTFilters,
+  getTTFilterByKey
+} from 'features/TestingTrends/slices/selectors';
 import { getCommonChartOptions } from 'features/TestingTrends/utils/utils';
+import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 const P10_ID = 'Overall Stability';
@@ -16,6 +20,8 @@ export default function TrendsGenericChart({
   seriesOptions
 }) {
   const { afterSetExtremes } = useChartActions(config?.analyticsKey || '');
+  const filters = useSelector(getAllTTFilters);
+  const activeProject = useSelector(getActiveProject);
   const activeDateRange = useSelector((state) =>
     getTTFilterByKey(state, 'dateRange')
   );
@@ -23,7 +29,9 @@ export default function TrendsGenericChart({
     const chartOptions = {
       ...getCommonChartOptions({
         afterSetExtremes,
-        ...config
+        ...config,
+        activeProject,
+        filters
       }),
       chart: {
         animation: false,
@@ -71,7 +79,15 @@ export default function TrendsGenericChart({
       });
     }
     return chartOptions;
-  }, [afterSetExtremes, chartType, config, data, seriesOptions]);
+  }, [
+    activeProject,
+    afterSetExtremes,
+    chartType,
+    config,
+    data,
+    filters,
+    seriesOptions
+  ]);
 
   return (
     <div className="h-full">

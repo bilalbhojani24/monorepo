@@ -71,7 +71,7 @@ export default function TrendsCard({
                     <p className="text-base-500 text-sm font-medium">Total</p>
                   )}
                   <div className="flex">
-                    <p className="pr-2 pb-0 text-3xl font-semibold">
+                    <p className="pb-0 pr-2 text-3xl font-semibold">
                       {config?.abbrNumber
                         ? abbrNumber(chartData?.insights?.count)
                         : chartData?.insights?.count}
