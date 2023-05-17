@@ -21,7 +21,7 @@ const UserNavModal = ({ showUserNavModal, setShowUserNavModal }) => {
           </div>
 
           <MdClose
-            className="text-2xl"
+            className="cursor-pointer text-2xl"
             onClick={() => {
               setShowUserNavModal(false);
             }}

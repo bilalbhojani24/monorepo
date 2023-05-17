@@ -9,6 +9,7 @@ import {
 } from '@browserstack/bifrost';
 import authWallLoginBg from 'assets/authWallLoginBg.svg';
 import cspAuthWallLogo from 'assets/cspAuthWallLogo.png';
+import { AuthLoadingModal } from 'features/Dashboard';
 
 import useAuthWallLogin from './useAuthWallLogin';
 
@@ -90,6 +91,8 @@ const AuthWallLogin = () => {
       >
         Login to run performance tests
       </Button>
+
+      <AuthLoadingModal />
     </div>
   );
 };
