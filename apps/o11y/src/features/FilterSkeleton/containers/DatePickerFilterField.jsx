@@ -24,7 +24,7 @@ const DatePickerFilterField = ({ supportedKeys }) => {
     }
   }, [appliedDateRange]);
 
-  const handleClickRange = (key, timeBounds) => {
+  const handleDateRange = (key, timeBounds) => {
     dispatch(
       setAppliedFilter({
         type: ADV_FILTER_TYPES.dateRange.key,
@@ -37,28 +37,11 @@ const DatePickerFilterField = ({ supportedKeys }) => {
     );
   };
 
-  const handleCustomDateRange = (timeBounds) => {
-    dispatch(
-      setAppliedFilter({
-        type: ADV_FILTER_TYPES.dateRange.key,
-        id: 'custom',
-        operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
-        text: '',
-        value: timeBounds,
-        isApplied: true
-      })
-    );
-  };
-
   return (
     <DatePickerField
       activeKey={activeType}
       onChange={(key, timeBounds) => {
-        if (key === 'custom') {
-          handleCustomDateRange(timeBounds);
-        } else {
-          handleClickRange(key, timeBounds);
-        }
+        handleDateRange(key, timeBounds);
       }}
       supportedKeys={supportedKeys}
       customKeyLowerBound={appliedDateRange?.value?.lowerBound}
