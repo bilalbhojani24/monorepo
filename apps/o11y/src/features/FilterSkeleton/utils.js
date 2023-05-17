@@ -1,6 +1,6 @@
 import { listTreeCheckboxHelper } from '@browserstack/bifrost';
 import isEmpty from 'lodash/isEmpty';
-import { getSubtractedUnixTime } from 'utils/dateTime';
+import { getO11yTimeBounds } from 'utils/dateTime';
 
 import { ADV_FILTER_TYPES, ADV_FILTERS_PREFIX } from './constants';
 
@@ -12,41 +12,6 @@ export const getAppliedFilterObj = ({ id, text, type, value }) => ({
   isApplied: true,
   value
 });
-
-const DATE_RANGE_KEYS = {
-  days7: 'days7',
-  days15: 'days15',
-  days30: 'days30',
-  months2: 'months2'
-};
-
-export function getTimeBounds(activeKey) {
-  const timebounds = {
-    upperBound: Date.now(),
-    lowerBound: 0
-  };
-  switch (activeKey) {
-    case DATE_RANGE_KEYS.days7: {
-      timebounds.lowerBound = getSubtractedUnixTime(7) * 1000;
-      break;
-    }
-    case DATE_RANGE_KEYS.days15: {
-      timebounds.lowerBound = getSubtractedUnixTime(15) * 1000;
-      break;
-    }
-    case DATE_RANGE_KEYS.days30: {
-      timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
-      break;
-    }
-    case DATE_RANGE_KEYS.months2: {
-      timebounds.lowerBound = getSubtractedUnixTime(2, 'months') * 1000;
-      break;
-    }
-    default:
-      break;
-  }
-  return timebounds;
-}
 
 export const getSearchStringFromFilters = (appliedFilters = []) => {
   const searchParams = new URLSearchParams();
@@ -90,7 +55,7 @@ export const getFilterQueryParams = (appliedFilters = []) => {
             `${filters.value.lowerBound},${filters.value.upperBound}`
           );
         } else {
-          const { lowerBound, upperBound } = getTimeBounds(filters.id);
+          const { lowerBound, upperBound } = getO11yTimeBounds(filters.id);
           searchParams.set(key, `${lowerBound},${upperBound}`);
         }
       }
@@ -111,7 +76,7 @@ export const getFilterFromSearchString = () => {
   const daterangetype = searchParams.get('daterangetype');
 
   if (daterangetype && daterangetype !== 'custom') {
-    const { lowerBound, upperBound } = getTimeBounds(daterangetype);
+    const { lowerBound, upperBound } = getO11yTimeBounds(daterangetype);
     searchParams.set(
       ADV_FILTER_TYPES.dateRange.key,
       `${lowerBound},${upperBound}`

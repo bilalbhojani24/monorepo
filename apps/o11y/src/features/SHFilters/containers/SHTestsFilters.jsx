@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { O11Y_DATE_RANGE } from 'constants/common';
 import {
   DatePickerFilterField,
   FilterPills,
@@ -22,7 +23,12 @@ import {
 } from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 
-import { SH_TESTS_DATE_RANGE_OBJECT } from '../constants';
+const SUPPORTED_DATE_RANGE_KEYS = [
+  O11Y_DATE_RANGE.days7.key,
+  O11Y_DATE_RANGE.days15.key,
+  O11Y_DATE_RANGE.days30.key,
+  O11Y_DATE_RANGE.custom.key
+];
 
 const SHTestsFilters = () => {
   const dispatch = useDispatch();
@@ -52,7 +58,7 @@ const SHTestsFilters = () => {
           placeholder="Search by Test name or File path"
         />
         <div className="flex items-center gap-5">
-          <DatePickerFilterField dateRangeObject={SH_TESTS_DATE_RANGE_OBJECT} />
+          <DatePickerFilterField supportedKeys={SUPPORTED_DATE_RANGE_KEYS} />
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
       </div>

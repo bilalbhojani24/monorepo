@@ -141,10 +141,3 @@ export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.status.key]: 'Status',
   [ADV_FILTER_TYPES.hasPerformanceAnomaly.key]: 'Has Performance Anomaly'
 };
-
-export const DATE_RANGE_KEYS = {
-  days7: 'days7',
-  days15: 'days15',
-  days30: 'days30',
-  months2: 'months2'
-};
