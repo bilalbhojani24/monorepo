@@ -94,7 +94,14 @@ const SetupStatus = ({
                     
                    first:pr-3 last:pl-3 px-2 py-2"
                   >
-                    {frameworkURLs.playwright}
+                    <Badge
+                      disabled
+                      isRounded={{
+                        summary: 'false'
+                      }}
+                      modifier="primary"
+                      text="Coming Soon"
+                    />
                   </TableCell>
                   <TableCell>
                     <CopyButton
