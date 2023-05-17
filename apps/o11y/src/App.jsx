@@ -15,6 +15,7 @@ import { getPusherConfig } from 'api/global';
 import ErrorBoundary from 'common/ErrorBoundary';
 import GenericErrorPage from 'common/GenericErrorPage';
 import ModalToShow from 'common/ModalToShow';
+import VWO from 'common/scripts/VWO';
 import { o11yHistory, PORTAL_ID } from 'constants/common';
 import {
   AMPLITUDE_KEY,
@@ -40,6 +41,8 @@ import { isIntegrationsPage } from 'utils/routeUtils';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 const PUSHER_CONNECTION_NAME = 'o11y-pusher';
+
+const envConfig = getEnvConfig();
 
 const App = () => {
   const dispatch = useDispatch();
@@ -132,7 +135,7 @@ const App = () => {
 
   // init sentry
   useEffect(() => {
-    const { enableSentry } = getEnvConfig();
+    const { enableSentry } = envConfig;
     if (enableSentry && !window.isSentryInitialized) {
       window.isSentryInitialized = true;
       initErrorLogger({
@@ -140,7 +143,18 @@ const App = () => {
         debug: false,
         release: 'v0.1-o11y',
         environment: 'production',
-        tracesSampleRate: 1.0
+        tracesSampleRate: 1.0,
+        denyUrls: [
+          // Ignoring errors getting generated from Chrome extensions as these are not to be logged under our sentry env.
+          /extensions\//i,
+          /^chrome:\/\//i,
+          /extension:\//i,
+          // Ignoring VWO related errors as there is no specific library upgrade which can resolve the errors.
+          // Also the errors we are getting are more or less specfic to some of the users.
+          /https:\/\/dev.visualwebsiteoptimizer.com\/.*/gi,
+          // Ignore errors getting raised from freshchat widget related code.
+          /https:\/\/wchat.freshchat.com\/.*/gi
+        ]
       });
     }
     if (userDetails.userId && window.isSentryInitialized) {
@@ -156,12 +170,13 @@ const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initO11y,
-    `${getEnvConfig().signInUrl}?redirect_url=${encodeURIComponent(
+    `${envConfig.signInUrl}?redirect_url=${encodeURIComponent(
       window.location.href
     )}`
   );
   return (
     <ErrorBoundary>
+      {envConfig?.enableAnalytics && <VWO />}
       {Routes}
       <ModalToShow />
       {portalize(

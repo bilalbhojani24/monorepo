@@ -25,38 +25,52 @@ const defaultConfig = {
   argTypes: {
     id: {
       option: { type: 'string' },
-      defaultValue: 'Add your comment'
+      defaultValue: 'Add your comment',
+      description:
+        'The ID of the textarea element to uniquely identify every element.'
     },
     defaultValue: {
       option: { type: 'string' },
-      defaultValue: undefined
+      defaultValue: undefined,
+      description: 'The default value for the textarea. [uncontrolled]'
     },
     disabled: {
       option: { type: 'boolean' },
-      defaultValue: false
+      defaultValue: false,
+      description: 'The disabled '
     },
     label: {
       option: { type: 'string' },
-      defaultValue: 'Add your comment'
+      defaultValue: 'Add your comment',
+      description: 'The value of textarea.'
     },
     name: {
       option: { type: 'string' },
-      defaultValue: 'textarea'
+      defaultValue: 'textarea',
+      description:
+        'The name of the textarea element to uniquely identify every element.'
     },
     onChange: {
       option: { type: 'null' },
       defaultValue: (e) => {
-        // eslint-disable-next-line no-console
         console.log(e.target.value);
-      }
+      },
+      description: 'Triggered when the TextArea content changed'
     },
     rows: {
       option: { type: 'number' },
-      defaultValue: 3
+      defaultValue: 3,
+      description: 'Number of rows'
     },
     value: {
       option: { type: 'string' },
-      defaultValue: 'I am value'
+      defaultValue: 'I am value',
+      description: 'The value for the textarea. [controlled]'
+    },
+    isMandatory: {
+      option: { type: 'boolean' },
+      defaultValue: false,
+      description: 'Mandatory field or not'
     }
   },
   controls: {}
