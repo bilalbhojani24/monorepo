@@ -1,10 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { TableVirtuoso } from 'react-virtuoso';
 import { MdClose, MdOutlineOpenInNew, MdSearch } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
   O11yHyperlink,
@@ -13,8 +12,9 @@ import {
   O11yTable,
   O11yTableRow
 } from 'common/bifrostProxy';
-import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
+import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
+import { AppContext } from 'features/Layout/context/AppContext';
 import { getProjects } from 'globalSlice/selectors';
 import debounce from 'lodash/debounce';
 import { getDocUrl, logOllyEvent } from 'utils/common';
@@ -33,6 +33,8 @@ export default function ProjectList() {
   const projects = useSelector(getProjects);
   const [searchText, setSearchText] = useState('');
   const [projectsList, setProjectsList] = useState([]);
+
+  const { headerSize } = useContext(AppContext);
 
   useEffect(() => {
     setProjectsList(projects.list);
@@ -81,10 +83,10 @@ export default function ProjectList() {
 
   return (
     <div
-      className={twClassNames(
-        'flex w-screen justify-center p-12',
-        WRAPPER_GAP_CLASS
-      )}
+      className="flex w-screen justify-center p-12"
+      style={{
+        height: `calc(100vh - ${headerSize.blockSize}px)`
+      }}
     >
       <div className="border-base-200 flex h-full w-full max-w-xl flex-col rounded-lg border bg-white shadow-sm">
         <div className="p-6 pb-2">
