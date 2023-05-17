@@ -102,6 +102,10 @@ export default function useSideNav() {
   };
 
   const onGetADemoCTAClick = () => {
+    window.open(
+      'https://www.browserstack.com/contact?ref=test-management-dashboard-demo-lead',
+      '_blank'
+    );
     dispatch(
       logEventHelper('LoadContactForm', {
         source: `${TEAM_NAME_EVENTS}-dashboard-demo-lead`,

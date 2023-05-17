@@ -62,15 +62,9 @@ const SideNav = (props) => {
               title="Have questions?"
               description="Unlock the full potential of Test Management"
               content={
-                <a
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://www.browserstack.com/contact?ref=test-management-dashboard-demo-lead"
-                >
-                  <TMButton colors="white" onClick={onGetADemoCTAClick}>
-                    Get a demo
-                  </TMButton>
-                </a>
+                <TMButton colors="white" onClick={onGetADemoCTAClick}>
+                  Get a demo
+                </TMButton>
               }
             />
             {secondaryNavs?.map((item) => (
