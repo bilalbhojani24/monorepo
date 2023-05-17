@@ -20,7 +20,7 @@ importers:
 
   apps/accessibility:
     specifiers:
-      '@browserstack/bifrost': 7.1.0
+      '@browserstack/bifrost': 7.1.1
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -67,7 +67,7 @@ importers:
       tailwindcss: 3.1.4
       vite: 3.2.5
     dependencies:
-      '@browserstack/bifrost': 7.1.0_hkbbqhhe7yspx6haowtlreoieq
+      '@browserstack/bifrost': 7.1.1_hkbbqhhe7yspx6haowtlreoieq
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@emotion/react': 11.10.5_jp5qgyg6plq757v5hojp7ls2oe
@@ -3622,15 +3622,15 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/7.1.0_hkbbqhhe7yspx6haowtlreoieq:
-    resolution: {integrity: sha512-Yg23ImfL1mJQ1QF+E/yf7E4WIm4Lgyb7yCgbCSnchuv564OfskQZWphmKAVqPm83qVNakx6wkDl9P1HCWqDleg==, tarball: download/@browserstack/bifrost/7.1.0/3c59e3e15ef179de31c1af98afe0afbfb91b35ca}
+  /@browserstack/bifrost/7.1.1_2durtr67xmbfiygk63c6oc672q:
+    resolution: {integrity: sha512-N9luU7hhdFhjXgk5uVEiuw8XLVxqRlBip4JuAnGyi14fR83KWD+huR2u5eOj5e4YcUnEqV85g6XW3OreSh1NVw==, tarball: download/@browserstack/bifrost/7.1.1/b2218bd7df6eba05a3677bb7867c830de7a039ad}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
+      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
@@ -3670,7 +3670,7 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/7.1.1_2durtr67xmbfiygk63c6oc672q:
+  /@browserstack/bifrost/7.1.1_hkbbqhhe7yspx6haowtlreoieq:
     resolution: {integrity: sha512-N9luU7hhdFhjXgk5uVEiuw8XLVxqRlBip4JuAnGyi14fR83KWD+huR2u5eOj5e4YcUnEqV85g6XW3OreSh1NVw==, tarball: download/@browserstack/bifrost/7.1.1/b2218bd7df6eba05a3677bb7867c830de7a039ad}
     peerDependencies:
       prop-types: 15.8.1
@@ -3678,7 +3678,7 @@ packages:
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
+      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
