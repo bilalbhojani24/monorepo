@@ -1,7 +1,7 @@
 const ROUTES = {
   BUILDS: '/dashboard',
   GRID_CONSOLE: '/grid-console',
-  ONBOARDING: '/onboarding'
+  ONBOARDING: '/setup'
 };
 
 export default ROUTES;
