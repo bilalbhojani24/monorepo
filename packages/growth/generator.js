@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 
 const [name] = ()=> {
   return <div>[name]</div>;
-}; 
+};
 
 [name].propTypes = {}
 [name].defaultProps = {}
@@ -49,6 +49,17 @@ Primary.parameters = {
 
 export default defaultConfig;
 export { Primary };`
+        },
+        {
+          type: 'directory',
+          name: 'subfolder', // Specify the subfolder name
+          children: [
+            {
+              type: 'file',
+              name: 'subfile.js',
+              content: `// Content of the subfile.js`
+            }
+          ]
         }
       ]
     }
