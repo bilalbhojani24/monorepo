@@ -67,13 +67,13 @@ export default function Issues() {
   return (
     <SectionsDataContext.Provider
       value={{
-        testFilters,
+        buildFilters: testFilters,
         isFilterModalVisible,
         sectionData,
         violations,
         activeSwitch,
         hasFilters,
-        testMetaData,
+        buildMetaData: testMetaData,
         activeComponentNodes,
         issueNode,
         headerData,
@@ -85,7 +85,7 @@ export default function Issues() {
         activeViolationId,
         activeComponentId,
         activeIssueSection,
-        activeTestFilters,
+        activeBuildFilters: activeTestFilters,
         wcagVersion,
         tests,
         onHiddenIssueClick,

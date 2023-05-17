@@ -22,10 +22,11 @@ const { actions, reducer } = createSlice({
       };
     },
     setBuildOverview: (state, { payload }) => {
-      const { chartData, issueSummary, trendData } = payload;
+      const { chartData, issueSummary, trendData, healthSummary } = payload;
       state.buildMetaData = {
         ...state.buildMetaData,
         issueSummary,
+        healthSummary,
         chartData,
         trendData
       };

@@ -33,16 +33,20 @@ export default function useAutomatedTestBuild() {
   const buildData = useSelector(getBuildData);
   const buildMetaData = useSelector(getBuildMetaData);
   const testRuns = useSelector(getTestCasesData);
-  const { buildNumber } = useParams();
+  const { buildName, buildNumber, projectName } = useParams();
 
   const onTabChange = (option) => {
     const tab = option.value;
     if (tab === SUMMARY && !buildMetaData.issueSummary) {
-      fetchOverview().then((response) => dispatch(setBuildOverview(response)));
+      fetchOverview(projectName, buildName, buildNumber).then((response) =>
+        dispatch(setBuildOverview(response))
+      );
     } else if (tab === ISSUES && !buildData) {
-      fetchBuildIssues().then((response) => dispatch(setBuildData(response)));
+      fetchBuildIssues(projectName, buildName, buildNumber).then((response) =>
+        dispatch(setBuildData(response))
+      );
     } else if (tab === TESTS) {
-      fetchTestCasesData(buildNumber).then((response) =>
+      fetchTestCasesData(projectName, buildName, buildNumber).then((response) =>
         dispatch(setTestCasesData(response))
       );
     }
@@ -68,19 +72,21 @@ export default function useAutomatedTestBuild() {
           return fetchOverview;
       }
     })();
-    Promise.all([fetchCustomData(), fetchBuildMetaData(), fetchData()]).then(
-      ([customData, metaData, tabData]) => {
-        dispatch(setCustomData(customData.data));
-        if (activeTab === SUMMARY) {
-          dispatch(setBuildOverview(tabData));
-        } else if (activeTab === ISSUES) {
-          dispatch(setBuildData(tabData));
-        } else if (activeTab === TESTS) {
-          dispatch(setTestCasesData(tabData));
-        }
-        dispatch(setBuildMetaData(metaData));
+    Promise.all([
+      fetchCustomData(),
+      fetchBuildMetaData(projectName, buildName, buildNumber),
+      fetchData(projectName, buildName, buildNumber)
+    ]).then(([customData, metaData, tabData]) => {
+      dispatch(setCustomData(customData.data));
+      if (activeTab === SUMMARY) {
+        dispatch(setBuildOverview(tabData));
+      } else if (activeTab === ISSUES) {
+        dispatch(setBuildData(tabData));
+      } else if (activeTab === TESTS) {
+        dispatch(setTestCasesData(tabData));
       }
-    );
+      dispatch(setBuildMetaData(metaData));
+    });
   }, []);
 
   const actionType = '';

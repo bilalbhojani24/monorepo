@@ -20,10 +20,6 @@ const tabList = [
   {
     name: 'All issues',
     value: ISSUES
-  },
-  {
-    name: 'Tests',
-    value: TESTS
   }
 ];
 
@@ -59,6 +55,8 @@ export default function TestIssues() {
     setIsOpen(false);
   };
 
+  console.log('Object.values(testMetaData.meta): ', testMetaData.meta);
+
   return (
     <Slideover
       show={isOpen}
@@ -74,7 +72,7 @@ export default function TestIssues() {
           <div className="fixed z-[2] w-[calc(100vw-256px)] bg-white">
             <div className="px-6 pt-6">
               <h1 className="text-base-900 mb-1 text-2xl font-bold">
-                Mocha awesome build regression #112
+                {Object.values(testMetaData.meta)[0].name}
               </h1>
               <p className="mb-2 text-sm">
                 Suite / com.ddf.test.PDFInvoiceTest

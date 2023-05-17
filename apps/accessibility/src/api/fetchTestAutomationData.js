@@ -86,8 +86,17 @@ export async function fetchOverview(project, name, number) {
   return response.data.data;
 }
 
-export async function fetchBuildIssues() {
-  const response = await axios.get('test_runs/1/issues');
+export async function fetchBuildIssues(project, name, number) {
+  const response = await axios.get(
+    `/projects/${project}/test_runs/${name}%23${number}/issues`
+  );
+  return response.data;
+}
+
+export async function fetchTestCasesData(project, name, number) {
+  const response = await axios.get(
+    `/projects/${project}/test_runs/${name}%23${number}/test_cases`
+  );
   return response.data;
 }
 
@@ -114,11 +123,6 @@ export async function fetchProjectById(id) {
 export async function fetchAllTestRuns() {
   const response = await axios.get('/test_runs');
   return response.data.testRuns;
-}
-
-export async function fetchTestCasesData(id) {
-  const response = await axios.get(`test_runs/${id}/test_cases`, header);
-  return response.data;
 }
 
 export async function fetchTestCaseData() {
