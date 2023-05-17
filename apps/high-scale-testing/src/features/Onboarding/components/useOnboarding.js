@@ -271,12 +271,16 @@ browserstack-cli hst init`,
       }
     };
 
-    fetchOnboardingData();
+    if (!userDetails.onboardingCompleted) {
+      fetchOnboardingData();
 
-    if (pollForEventLogs) {
-      setInterval(() => {
-        fetchEventsLogsData();
-      }, 5000);
+      if (pollForEventLogs) {
+        setInterval(() => {
+          fetchEventsLogsData();
+        }, 5000);
+      }
+    } else {
+      window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
     }
   }, []);
 
