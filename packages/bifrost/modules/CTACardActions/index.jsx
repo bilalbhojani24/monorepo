@@ -16,9 +16,7 @@ const CTACardActions = (props) => {
     primaryBtnProps,
     secondaryBtnProps,
     onPrimayBtnClick,
-    onSecondaryBtnClick,
-    actionText,
-    showActionTextOnly
+    onSecondaryBtnClick
   } = props;
 
   const { size } = useFeatureFencingContext();
@@ -33,27 +31,22 @@ const CTACardActions = (props) => {
         'gap-6': size === FEATURE_FENCING_SIZES.BASE
       })}
     >
-      {!showActionTextOnly && (
-        <>
-          <Button
-            {...primaryBtnProps}
-            onClick={onPrimayBtnClick}
-            size={CTA_BUTTON_SIZES[size]}
-          >
-            {primaryBtnText}
-          </Button>
-          {secondaryBtnText && (
-            <Button
-              {...{ variant: 'minimal', colors: 'white', ...secondaryBtnProps }}
-              onClick={onSecondaryBtnClick}
-              size={CTA_BUTTON_SIZES[size]}
-            >
-              {secondaryBtnText}
-            </Button>
-          )}
-        </>
+      <Button
+        {...primaryBtnProps}
+        onClick={onPrimayBtnClick}
+        size={CTA_BUTTON_SIZES[size]}
+      >
+        {primaryBtnText}
+      </Button>
+      {secondaryBtnText && (
+        <Button
+          {...{ variant: 'minimal', colors: 'white', ...secondaryBtnProps }}
+          onClick={onSecondaryBtnClick}
+          size={CTA_BUTTON_SIZES[size]}
+        >
+          {secondaryBtnText}
+        </Button>
       )}
-      {showActionTextOnly && <>{actionText}</>}
     </div>
   );
 };
@@ -65,9 +58,7 @@ CTACardActions.propTypes = {
   primaryBtnProps: PropTypes.shape(Button.propTypes),
   secondaryBtnProps: PropTypes.shape(Button.propTypes),
   onPrimayBtnClick: PropTypes.func.isRequired,
-  onSecondaryBtnClick: PropTypes.func,
-  actionText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  showActionTextOnly: PropTypes.bool
+  onSecondaryBtnClick: PropTypes.func
 };
 
 CTACardActions.defaultProps = {
@@ -75,9 +66,7 @@ CTACardActions.defaultProps = {
   primaryBtnProps: {},
   secondaryBtnProps: {},
   onSecondaryBtnClick: () => {},
-  alignment: FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT,
-  actionText: '',
-  showActionTextOnly: false
+  alignment: FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT
 };
 
 export default CTACardActions;

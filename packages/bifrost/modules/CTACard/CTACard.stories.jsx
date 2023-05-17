@@ -16,7 +16,7 @@ const defaultConfig = {
     docs: {
       page: () => (
         <DocPageTemplate
-          importStatement={"import FeatureFencing from 'bifrost/CTACard'"}
+          importStatement={"import CTACard from 'bifrost/CTACard'"}
         />
       )
     }
