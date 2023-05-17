@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getProjectsMinifiedAPI } from 'api/projects.api';
+import { TEAM_NAME_EVENTS } from 'const/immutables';
 import AppRoute from 'const/routes';
 import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
@@ -100,6 +101,15 @@ export default function useSideNav() {
     setShowAddProject(value);
   };
 
+  const onGetADemoCTAClick = () => {
+    dispatch(
+      logEventHelper('LoadContactForm', {
+        source: `${TEAM_NAME_EVENTS}-dashboard-demo-lead`,
+        url: window.location.href
+      })
+    );
+  };
+
   useEffect(() => {
     if (location?.state?.isFromOnboarding && selectedProjectId === 'new') {
       setAddProjectModal(true);
@@ -180,6 +190,7 @@ export default function useSideNav() {
     selectedProjectId,
     onLinkChange,
     onProjectChange,
-    setAddProjectModal
+    setAddProjectModal,
+    onGetADemoCTAClick
   };
 }

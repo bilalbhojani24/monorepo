@@ -36,7 +36,8 @@ const SideNav = (props) => {
     activeRoute,
     selectedProjectId,
     onProjectChange,
-    setAddProjectModal
+    setAddProjectModal,
+    onGetADemoCTAClick
   } = useSideNav();
 
   if (noNavRoutes.includes(location.pathname)) return '';
@@ -58,15 +59,17 @@ const SideNav = (props) => {
         sidebarSecondaryNavigation={
           <>
             <TMActionPanel
-              title="Need help?"
+              title="Have questions?"
               description="Unlock the full potential of Test Management"
               content={
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href="https://www.browserstack.com/contact?&ref=test-management-dashboard-top-header-csf-lead"
+                  href="https://www.browserstack.com/contact?ref=test-management-dashboard-demo-lead"
                 >
-                  <TMButton colors="white">Contact sales</TMButton>
+                  <TMButton colors="white" onClick={onGetADemoCTAClick}>
+                    Get a demo
+                  </TMButton>
                 </a>
               }
             />

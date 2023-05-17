@@ -6,7 +6,7 @@ import {
   Accordion,
   AccordionInteractiveHeader,
   AccordionPanel,
-  // ActionPanel,
+  ActionPanel,
   Alerts,
   Badge,
   Banner,
@@ -104,7 +104,7 @@ export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
 export const TMProgressBar = (props) => <ProgressBar {...props} />;
-export const TMActionPanel = (props) => <div />; // <ActionPanel {...props} />;
+export const TMActionPanel = (props) => <ActionPanel {...props} />;
 
 export const TMAccordion = (props) => <Accordion {...props} />;
 export const TMAccordionInteractiveHeader = (props) => (
