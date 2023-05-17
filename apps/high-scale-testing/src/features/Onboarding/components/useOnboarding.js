@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import {
   getOnboardingData,
   getOnboardingEventsLogsData,
   markOnboardingRegionChange,
   markOnboardingStatus
-} from '../../../apis';
-import ROUTES from '../../../constants/routes';
-import { getUserDetails } from '../../../globalSlice/selector';
+} from 'api';
+import ROUTES from 'constants/routes';
+import { getUserDetails } from 'globalSlice/selector';
 
 const useOnboarding = () => {
   // All Store variables:

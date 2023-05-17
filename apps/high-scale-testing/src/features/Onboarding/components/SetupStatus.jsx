@@ -12,9 +12,8 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import CopyButton from 'common/CopyButton/components/CopyButton';
 import PropTypes from 'prop-types';
-
-import CopyButton from '../../../common/CopyButton/components/CopyButton';
 
 const SetupStatus = ({
   exploreAutomationClickHandler,

@@ -1,12 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { INIT_URL, SSO_URL } from 'api/constants/apiURLs';
 import axios from 'axios';
-
-import { INIT_URL, SSO_URL } from './apis/constants/apiURLs';
-import env from './constants/envConstants';
-import { APP_ROUTES } from './constants/routesConstants';
-import useAuthRoutes from './hooks/useAuthRoutes';
-import { initialiseApplication } from './globalSlice';
+import env from 'constants/envConstants';
+import { APP_ROUTES } from 'constants/routesConstants';
+import { initialiseApplication } from 'globalSlice';
+import useAuthRoutes from 'hooks/useAuthRoutes';
 
 const App = () => {
   const dispatch = useDispatch();

@@ -1,8 +1,7 @@
 import React from 'react';
-
-import Dashboard from '../features/GridConsole/components/Dashboard';
-import { Layout } from '../features/Layout';
-import { Onboarding } from '../features/Onboarding';
+import Dashboard from 'features/GridConsole/components/Dashboard';
+import { Layout } from 'features/Layout';
+import { Onboarding } from 'features/Onboarding';
 
 import ROUTES from './routes';
 
