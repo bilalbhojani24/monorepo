@@ -26,7 +26,7 @@ const useSharedReportPopover = () => {
     } catch {
       // Not given By PM
     } finally {
-      mcpAnalyticsEvent('csptShareReportBtnClick', {
+      mcpAnalyticsEvent('csptCopyLinkBtnClick', {
         ...formatDeviceAndAppAnalyticsData(
           sessionData?.device,
           sessionData?.package
