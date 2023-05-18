@@ -6,6 +6,7 @@ import {
   markOnboardingRegionChange,
   markOnboardingStatus
 } from 'api';
+import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
 import { getUserDetails } from 'globalSlice/selector';
 
@@ -119,6 +120,9 @@ browserstack-cli hst init`,
     DEFAULT_CLOUD_PROVIDER
   );
   const [eventLogsCode, setEventLogsCode] = useState();
+  const [eventLogsStatus, setEventLogsStatus] = useState(
+    EVENT_LOGS_STATUS.NOT_STARTED
+  );
   const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
@@ -133,7 +137,7 @@ browserstack-cli hst init`,
     playwright: null
   });
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
-  const [showSetupStatusModal, setShowSetupStatusModal] = useState(true);
+  const [showSetupStatusModal, setShowSetupStatusModal] = useState(false);
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
@@ -149,17 +153,21 @@ browserstack-cli hst init`,
     }
   };
 
+  const closeSetupStatusModal = () => {
+    setShowSetupStatusModal(false);
+  };
+
   const continueClickHandler = () => {
     setOnboardingStep(1);
   };
 
   const exploreAutomationClickHandler = () => {
-    setShowSetupStatusModal(false);
+    closeSetupStatusModal();
     window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
   };
 
   const viewAllBuildsClickHandler = () => {
-    setShowSetupStatusModal(false);
+    closeSetupStatusModal();
     window.location = `${window.location.origin}${ROUTES.BUILDS}`;
   };
 
@@ -240,6 +248,29 @@ browserstack-cli hst init`,
   }, [currentSelectedCloudProvider, selectedRegion, userDetails]);
 
   useEffect(() => {
+    if (currentStep === -1) {
+      setTimeout(() => {
+        setEventLogsStatus(EVENT_LOGS_STATUS.FAILED);
+        setIsSetupComplete(true);
+      }, 1000);
+    } else if (currentStep === 0) {
+      setEventLogsStatus(EVENT_LOGS_STATUS.NOT_STARTED);
+    } else if (currentStep > 0) {
+      setEventLogsStatus(EVENT_LOGS_STATUS.IN_PROGRESS);
+    } else if (currentStep === totalSteps) {
+      setEventLogsStatus(EVENT_LOGS_STATUS.FINISHED);
+
+      setTimeout(() => {
+        setIsSetupComplete(true);
+      }, 1000);
+    }
+  }, [currentStep, totalSteps]);
+
+  useEffect(() => {
+    setShowSetupStatusModal(isSetupComplete);
+  }, [isSetupComplete]);
+
+  useEffect(() => {
     const fetchOnboardingData = async () => {
       const response = await getOnboardingData(userDetails.id);
       const res = response.data;
@@ -297,12 +328,14 @@ browserstack-cli hst init`,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
+    closeSetupStatusModal,
     codeSnippetsForExistingSetup,
     continueClickHandler,
     currentStep,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     eventLogsCode,
+    eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
     headerText,

@@ -19,6 +19,7 @@ import {
 } from '@browserstack/bifrost';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 import classnames from 'classnames';
+import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 
 import EventLogs from './EventLogs';
 import SetupStatus from './SetupStatus';
@@ -37,10 +38,12 @@ const Onboarding = () => {
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
     codeSnippetsForExistingSetup,
+    closeSetupStatusModal,
     continueClickHandler,
     currentStep,
     currentSelectedCloudProvider,
     eventLogsCode,
+    eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
     headerText,
@@ -408,6 +411,7 @@ const Onboarding = () => {
       {onboardingStep > 0 &&
         eventLogsCode &&
         eventLogsCode.length > 0 &&
+        eventLogsStatus !== EVENT_LOGS_STATUS.FAILED &&
         !isSetupComplete && (
           <EventLogs
             currentStep={currentStep}
@@ -419,7 +423,10 @@ const Onboarding = () => {
 
       {onboardingStep > 0 && isSetupComplete && showSetupStatusModal && (
         <SetupStatus
+          closeSetupStatusModal={closeSetupStatusModal}
+          codeSnippets={CODE_SNIPPETS_SCRATCH}
           exploreAutomationClickHandler={exploreAutomationClickHandler}
+          eventLogsStatus={eventLogsStatus}
           frameworkURLs={frameworkURLs}
           isSetupComplete={isSetupComplete}
           viewAllBuildsClickHandler={viewAllBuildsClickHandler}
