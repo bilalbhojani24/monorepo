@@ -189,7 +189,6 @@ const MapFields = () => {
             dismissButton
             modifier="error"
             title={mapFieldsError}
-            linkText={null}
             dismissButtonFn={() => dispatch(setMapFieldsError(''))}
           />
         </div>
