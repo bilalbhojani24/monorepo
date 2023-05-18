@@ -13,6 +13,11 @@ export const DOC_KEY_MAPPING = {
   application_logs: 'integrations/application-logs',
   tnc: `references/terms-and-conditions`
 };
+export const EXTERNAL_LINKS = {
+  getADemo: 'contact?&ref=observability-dashboard-demo-lead',
+  planAndPricing: 'pricing?product=test-observability',
+  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead'
+};
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
   'to_activeProjectNormalizedName';
@@ -42,7 +47,6 @@ export const URL_REGEX =
   /* eslint-disable-next-line */
   /^(https:\/\/www\.|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,15}(:[0-9]{1,20})?(\/.*)?$/;
 
-export const WRAPPER_GAP_CLASS = 'h-[calc(100vh-4rem)]';
 export const SNP_PARAMS_MAPPING = {
   snpTestDetails: 'snp_test_details',
   snpOsName: 'snp_os_name',

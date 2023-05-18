@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
+import topBannerSlice from 'common/O11yTopBanner/slices/topBannerSlice';
 import buildsReducer from 'features/AllBuilds/slices/buildsSlice';
 import buildDetailsReducer from 'features/BuildDetails/slices/buildDetailsSlice';
 import AllFiltersSlice from 'features/FilterSkeleton/slices/filterSlice';
@@ -46,7 +47,8 @@ export const store = configureStore({
     testdetailsui: testDetailsUIReducer,
     testingTrend: testingTrendReducer,
     testInsights: testInsightsSlice,
-    allFilters: AllFiltersSlice
+    allFilters: AllFiltersSlice,
+    topBanner: topBannerSlice
   },
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware({ serializableCheck: false });
