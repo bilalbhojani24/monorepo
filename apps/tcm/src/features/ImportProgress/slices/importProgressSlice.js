@@ -16,7 +16,8 @@ const initialState = {
   },
   importStatus: IMPORT_STATUS.ONGOING,
   isProgressDismissed: true,
-  reportModalProjects: []
+  reportModalProjects: [],
+  showNotification: false
 };
 
 export const importProgressSlice = createSlice({
@@ -46,6 +47,9 @@ export const importProgressSlice = createSlice({
     },
     getQuickImportResultFulfilled: (state, { payload }) => {
       state.reportModalProjects = payload.projects;
+    },
+    setShowNotification: (state, { payload }) => {
+      state.showNotification = payload;
     }
   }
 });
@@ -58,6 +62,7 @@ export const {
   setDetailsModal,
   setCancelModal,
   setIsProgressDismissed,
+  setShowNotification,
   getQuickImportResultFulfilled
 } = importProgressSlice.actions;
 
