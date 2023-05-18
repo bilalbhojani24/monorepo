@@ -19,6 +19,8 @@ import {
   Tooltip,
   TooltipBody
 } from '@browserstack/bifrost';
+import ChromeIcon from 'assets/chrome_icon.svg';
+import MacIcon from 'assets/mac_icon.svg';
 import CopyButton from 'common/CopyButton';
 import {
   HOW_TO_FIX_TAB,
@@ -122,6 +124,17 @@ export default function IssueItem({ sectionsDataContext }) {
       key: 'button'
     }
   ];
+
+  const getOSIcon = (name) => {
+    const icons = {
+      chrome: ChromeIcon,
+      mac: MacIcon
+    };
+
+    return icons[name];
+  };
+
+  console.log('printing tests', tests);
 
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
@@ -440,6 +453,24 @@ export default function IssueItem({ sectionsDataContext }) {
                                 <p className="text-base-500 text-sm">
                                   {test.folder}
                                 </p>
+                                <div className="mt-2 flex items-center gap-2">
+                                  <div className="flex items-center gap-1">
+                                    <img
+                                      className="h-5 w-5"
+                                      src={getOSIcon('chrome')}
+                                      alt="android icon"
+                                    />
+                                    <p className="text-base-500">Chrome 112</p>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <img
+                                      className="h-4 w-3"
+                                      src={getOSIcon('mac')}
+                                      alt="android icon"
+                                    />
+                                    <p className="text-base-500">Ventura</p>
+                                  </div>
+                                </div>
                               </div>
                             ) : (
                               <Button
