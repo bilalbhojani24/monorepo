@@ -19,7 +19,7 @@ const singleMenu = [
     value: 8,
     body: (
       <div className="flex items-center">
-        <span className="ml-2">Last 8</span>
+        <span className="ml-2">Last 8 runs</span>
       </div>
     )
   },
@@ -28,7 +28,7 @@ const singleMenu = [
     value: 4,
     body: (
       <div className="flex items-center">
-        <span className="ml-2">Last 4</span>
+        <span className="ml-2">Last 4 runs</span>
       </div>
     )
   }

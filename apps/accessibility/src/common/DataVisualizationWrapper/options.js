@@ -3,7 +3,8 @@ export const chartOptionStacked = {
     plotBackgroundColor: null,
     plotBorderWidth: null,
     plotShadow: false,
-    type: 'column'
+    type: 'column',
+    height: '350px'
   },
   exporting: {
     enabled: false
@@ -14,9 +15,9 @@ export const chartOptionStacked = {
   legend: {
     layout: 'horizontal',
     align: 'left',
-    verticalAlign: 'top',
-    itemMarginTop: 10,
-    itemMarginBottom: 10
+    verticalAlign: 'top'
+    // itemMarginTop: 10,
+    // itemMarginBottom: 10
   },
   tooltip: {
     headerFormat: '',
@@ -36,10 +37,12 @@ export const chartOptionStacked = {
   plotOptions: {
     column: {
       stacking: 'normal',
-      minPointLength: 0
+      minPointLength: 0,
+      cornerRadiusTopLeft: 10,
+      cornerRadiusTopRight: 10
     },
     series: {
-      innerSize: '60%',
+      // innerSize: '60%',
       allowPointSelect: true,
       cursor: 'pointer',
       stacking: 'vertical',
