@@ -167,13 +167,11 @@ const SetupStatus = ({
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FAILED && (
               <div className="text-base-900 mt-4">
-                <p className=" text-sm font-semibold">Next Steps</p>
-                <ul className="mb-2 ml-6 mt-4 list-disc">
-                  <li>
-                    Copy and run the below command in your CLI, to retry Grid
-                    Creation.
-                  </li>
-                </ul>
+                <p className=" mb-2 text-sm font-semibold">Next Steps</p>
+                <p className="mb-2">
+                  Copy and run the below command in your CLI, to retry Grid
+                  Creation.
+                </p>
                 <CodeSnippet
                   code={codeSnippets['create-grid'].c.code}
                   language={codeSnippets['create-grid'].c.language}

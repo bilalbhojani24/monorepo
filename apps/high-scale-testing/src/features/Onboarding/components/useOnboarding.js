@@ -267,7 +267,7 @@ browserstack-cli hst init`,
       }, 1000);
     } else if (currentStep === 0) {
       setEventLogsStatus(EVENT_LOGS_STATUS.NOT_STARTED);
-    } else if (currentStep > 0) {
+    } else if (currentStep > 0 && currentStep !== totalSteps) {
       setEventLogsStatus(EVENT_LOGS_STATUS.IN_PROGRESS);
       if (showGridHeartBeats) {
         setTimeout(() => {
@@ -308,6 +308,16 @@ browserstack-cli hst init`,
       setCurrentStep(res.currentStep);
       setTotalSteps(res.totalSteps);
 
+      if (
+        onboardingStep === 0 &&
+        res.currentStep > 0 &&
+        (res.onboardingType === ONBOARDING_TYPES.scratch ||
+          res.onboardingType === ONBOARDING_TYPES.existing)
+      ) {
+        setOnboardingType(res.onboardingType);
+        setOnboardingStep(1);
+      }
+
       if (res.currentStep === res.totalSteps) {
         setPollForEventLogs(false);
         setFrameworkURLs(res.framework);
@@ -327,6 +337,8 @@ browserstack-cli hst init`,
           fetchEventsLogsData();
         }, 10000);
       }
+
+      fetchEventsLogsData();
     } else {
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
     }
