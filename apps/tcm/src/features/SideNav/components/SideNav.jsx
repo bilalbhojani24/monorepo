@@ -120,7 +120,6 @@ const SideNav = (props) => {
                 </SidebarHeader>
               ) : (
                 <div className="w-full p-2">
-                  ƒ
                   <TMButton
                     wrapperClassName="w-full"
                     variant="secondary"
