@@ -204,7 +204,7 @@ function NotificationsSettings() {
                     wrapperClassName={twClassNames(
                       'text-xs leading-4 font-medium tracking-wider uppercase text-base-500 text-center',
                       TABLE_CLASSES.HEADER_CLASSES,
-                      'border-r border-r-base-300 text-right',
+                      'border-r border-r-base-300 text-center',
                       roundedTableHeaderHack.common,
                       roundedTableHeaderHack.right,
                       'before:right-0'
