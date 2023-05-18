@@ -20,7 +20,7 @@ const generateEventBody = (eventName, eventBody) => ({
 const generateAnalyticsUrl = (port) =>
   port
     ? `http://localhost:${port}/api/v1/sendToBq`
-    : `http://cspt-api.${
+    : `https://cspt-api.${
         IS_PROD ? 'browserstack' : 'bsstag'
       }.com/api/v1/frontendEvents`;
 
