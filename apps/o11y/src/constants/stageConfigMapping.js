@@ -1,7 +1,7 @@
 const STAGING_CONFIG = (envName) => ({
   signInUrl: `https://devtestops-api.bsstag.com/api/v1/auth/start-sso`,
   signOutUrl: `https://${envName}.bsstag.com/users/sign_out`,
-  apiUrl: 'http://devtestops-api.bsstag.com',
+  apiUrl: 'https://devtestops-api.bsstag.com',
   baseUrl: 'https://devtestops.bsstag.com',
   withCredentials: true,
   integrationsBaseUrl: 'https://integrations-preprod.bsstag.com',
@@ -23,7 +23,7 @@ export default {
     signInUrl: `${STAGING_CONFIG('').apiUrl}/api/v1/auth/start-sso`,
     signOutUrl: STAGING_CONFIG('devtestops').signOutUrl,
     baseUrl: STAGING_CONFIG('').baseUrl,
-    apiUrl: STAGING_CONFIG('').apiUrl,
+    apiUrl: 'http://devtestops-api.bsstag.com',
     withCredentials: true,
     integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
     useIntegrationsPreProdAuth: true
