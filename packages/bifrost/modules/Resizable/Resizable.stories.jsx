@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import { UncontrolledTree } from '../ListTree/ListTree.stories';
+import { ControlledTree } from '../ListTree/ListTree.stories';
 import TruncateText from '../TruncateText';
 
 import Resizable from './index';
@@ -155,7 +155,7 @@ const ResizeableTreeExample = () => {
       )}
       className="border-base-300 relative h-full border border-solid p-4"
     >
-      <UncontrolledTree data={listTreeDemoDataSet} indent={1} />
+      <ControlledTree data={listTreeDemoDataSet} indent={1} />
     </Resizable>
   );
 };
