@@ -12,7 +12,11 @@
   "dependencies": {
     "@browserstack/bifrost": "6.3.0",
     "@browserstack/hooks": "workspace:*",
-    "@browserstack/utils": "workspace:*"
+    "@browserstack/utils": "workspace:*",
+    "@reduxjs/toolkit": "1.9.1",
+    "axios": "1.2.2",
+    "react-redux": "8.0.5",
+    "redux": "4.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
