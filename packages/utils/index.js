@@ -9,15 +9,16 @@ import pubSub from './src/pubSub';
 import Pusher from './src/pusher';
 import PusherManager from './src/pusherManager';
 import removePaddingfromBeginning from './src/removePaddingfromBeginning';
+import throttleFn from './src/throttleFn';
 
 export * from './src/axiosUtils';
 export * from './src/delay';
+export * from './src/errorLogger';
 export * from './src/getNumberOrdinal';
 export * from './src/helper';
 export * from './src/keyboardNavigationHelper';
 export * from './src/localStorage';
 export * from './src/logger';
-export * from './src/errorLogger';
 export * from './src/tailwindUtils';
 export * from './src/validateEmail';
 
@@ -32,5 +33,6 @@ export {
   pubSub,
   Pusher,
   PusherManager,
-  removePaddingfromBeginning
+  removePaddingfromBeginning,
+  throttleFn
 };

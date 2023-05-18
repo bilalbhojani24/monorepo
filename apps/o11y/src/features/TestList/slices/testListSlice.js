@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   getAnalyzerSimilarTests as getAnalyzerSimilarTestsAPI,
+  getBugDetails,
   getJenkinsBuildParams,
   getTestHistoryData,
   getTestList,
@@ -12,16 +13,23 @@ import {
 } from 'api/testlist';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { API_STATUSES } from 'constants/common';
+import { setWidgetData } from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
 import {
   EMPTY_APPLIED_FILTERS,
   EMPTY_SELECTED_FILTERS,
   EMPTY_STATIC_FILTERS,
-  EMPTY_TESTLIST_DATA_STATE
+  EMPTY_TESTLIST_DATA_STATE,
+  LOG_TYPES
 } from 'features/TestList/constants';
 import { getAllTestHistoryDetails } from 'features/TestList/slices/selectors';
 import { o11yNotify } from 'utils/notification';
 
-import { parseJenkinsBuildParams } from './utils';
+import {
+  getRetryInfoTable,
+  getStaticDescription,
+  getTableRow,
+  parseJenkinsBuildParams
+} from './utils';
 
 const sliceName = 'testList';
 const reRunError = {
@@ -181,6 +189,47 @@ export const getTestListData = createAsyncThunk(
     }
   }
 );
+
+export const getTestReportDetails = createAsyncThunk(
+  `${sliceName}/getTestReportDetails`,
+  async (data, { dispatch, rejectWithValue }) => {
+    let description = `\n\n Open [URL](${window.location.href}) on Browserstack\n`;
+    try {
+      const response = await getBugDetails(data.buildId, data.testRunId);
+      const details = response.data;
+      description += `\n\n ${getStaticDescription(details)}`;
+      if (details?.retries?.length) {
+        description += `\n\n ${getRetryInfoTable(details?.retries)}`;
+      }
+      if (details?.logStruct?.[LOG_TYPES.STACKTRACE]?.length) {
+        let assertionString = '';
+        details.logStruct[LOG_TYPES.STACKTRACE].forEach((item) => {
+          if (item) {
+            assertionString += `${item}\n`;
+          }
+        });
+        description += `\n\n\n **Exception** \n \`\`\`shell\n${assertionString}\`\`\``;
+      }
+      dispatch(
+        setWidgetData({
+          description,
+          testRunId: data.testRunId
+        })
+      );
+      return response;
+    } catch (err) {
+      description += `\n\n ${getTableRow('Build Id', data.buildId)}`;
+      description += getTableRow('Test Id', data.testRunId);
+      dispatch(
+        setWidgetData({
+          description
+        })
+      );
+      return rejectWithValue(err);
+    }
+  }
+);
+
 const initialState = {
   staticFilters: {
     data: EMPTY_STATIC_FILTERS,

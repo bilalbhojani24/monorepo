@@ -1,20 +1,26 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useContext, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
-import { WRAPPER_GAP_CLASS } from 'constants/common';
+import { AppContext } from 'features/Layout/context/AppContext';
 import { logOllyEvent } from 'utils/common';
 
 import SettingsSidebar from '../components/SettingsSidebar';
 
 export default function Settings() {
   const { pathname } = useLocation();
+  const { headerSize } = useContext(AppContext);
+
   useEffect(() => {
     logOllyEvent({ event: 'O11ySettingsPageVisited' });
   }, [pathname]);
 
   return (
-    <div className={twClassNames('flex h-screen flex-col', WRAPPER_GAP_CLASS)}>
+    <div
+      className="flex h-screen flex-col"
+      style={{
+        height: `calc(100vh - ${headerSize.blockSize}px)`
+      }}
+    >
       <header className="border-b-base-200 sticky top-16 border-b p-6">
         <h1 className="text-2xl font-bold leading-7">Settings</h1>
       </header>

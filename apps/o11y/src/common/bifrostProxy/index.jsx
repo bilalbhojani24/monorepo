@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react';
 import {
   Accordion,
   Badge,
+  Banner,
   Button,
   Checkbox,
   Dropdown,
@@ -57,10 +58,19 @@ export const O11yAccordion = (props) => <Accordion {...props} />;
 export const O11yBadge = (props) => <Badge {...props} />;
 export const O11yCheckbox = (props) => <Checkbox {...props} />;
 export const O11yTable = (props) => <Table {...props} />;
-export const O11yRefTableBody = React.forwardRef((props, ref) => (
-  <TableBody {...props} ref={ref} />
+export const O11yRefTableBody = React.forwardRef(
+  // eslint-disable-next-line react/prop-types
+  ({ wrapperClassName, ...props }, ref) => (
+    <TableBody
+      {...props}
+      ref={ref}
+      wrapperClassName={`border-0 ${wrapperClassName}`}
+    />
+  )
+);
+export const O11yButton = forwardRef((props, ref) => (
+  <Button {...props} ref={ref} />
 ));
-export const O11yButton = (props) => <Button {...props} />;
 export const O11ySwitch = (props) => <Switch {...props} />;
 export const O11yDropdown = (props) => <Dropdown {...props} />;
 export const O11yDropdownOptionGroup = (props) => (
@@ -71,7 +81,10 @@ export const O11yDropdownOptionItem = (props) => (
   <DropdownOptionItem {...props} />
 );
 export const O11ySlideoverFooter = (props) => <SlideoverFooter {...props} />;
-export const O11yTableBody = (props) => <TableBody {...props} />;
+// eslint-disable-next-line react/prop-types
+export const O11yTableBody = ({ wrapperClassName, ...props }) => (
+  <TableBody {...props} wrapperClassName={`border-0 ${wrapperClassName}`} />
+);
 export const O11yTableCell = (props) => <TableCell {...props} />;
 export const O11yTableHead = (props) => <TableHead {...props} />;
 export const O11yTableRow = (props) => <TableRow {...props} />;
@@ -119,5 +132,6 @@ export const O11yStackedListItem = (props) => <StackedListItem {...props} />;
 export const O11yStackedListCommon = (props) => (
   <StackedListCommon {...props} />
 );
+export const O11yBanner = (props) => <Banner {...props} />;
 
 export { O11yComboBox, O11yHeader, O11ySwitcher };

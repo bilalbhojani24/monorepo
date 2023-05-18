@@ -25,9 +25,9 @@ export const getTestMetaData = createAsyncThunk(
 );
 export const getConsolidatedLogsData = createAsyncThunk(
   'testDetails/getConsolidatedLogsData',
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, signal }) => {
     try {
-      const response = await getConsolidatedLogs(data?.testRunId);
+      const response = await getConsolidatedLogs(data?.testRunId, signal);
       return { res: response.data, data };
     } catch (err) {
       return rejectWithValue(err);
