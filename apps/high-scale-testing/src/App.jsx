@@ -20,7 +20,7 @@ const App = () => {
   const Routes = useAuthRoutes(
     APP_ROUTES,
     initAPI,
-    `${SSO_URL}?redirect_url=${window.location.href}`
+    `${SSO_URL}?redirect_url=${encodeURIComponent(window.location.href)}`
   );
 
   return <>{Routes}</>;
