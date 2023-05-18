@@ -101,7 +101,7 @@ const PreviewAndConfirm = () => {
                 'pr-0 pl-0 [&_button]:text-left text-sm'
               )}
             />
-            <TMAccordionPanel wrapperClassName={twClassNames('pl-8')}>
+            <TMAccordionPanel wrapperClassName={twClassNames('pl-8 pb-4')}>
               <div className="border-base-300 mt-2 flex flex-col rounded-md border bg-white p-4">
                 <div className="flex w-full justify-between gap-4">
                   <PreviewAndConfirmSingleNode
