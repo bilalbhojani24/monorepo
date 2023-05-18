@@ -1,31 +1,5 @@
 import PropTypes from 'prop-types';
 
-export const EMPTY_STATIC_FILTERS = {
-  issueType: [],
-  folder: [],
-  os: [],
-  flaky: [],
-  browser: [],
-  history: [],
-  tags: [],
-  status: []
-};
-
-export const EMPTY_SELECTED_FILTERS = {
-  ...EMPTY_STATIC_FILTERS,
-  isMuted: false,
-  issueTypeGroup: '',
-  run: ''
-};
-
-export const EMPTY_APPLIED_FILTERS = {
-  ...EMPTY_STATIC_FILTERS,
-  search: '',
-  isMuted: false,
-  issueTypeGroup: '',
-  run: ''
-};
-
 export const TESTLIST_TYPES = {
   ROOT: 'ROOT',
   TEST: 'TEST',

@@ -5,7 +5,6 @@ import {
   getJenkinsBuildParams,
   getTestHistoryData,
   getTestList,
-  getTestlistFilters,
   toggleMuteTest as toggleMuteTestAPI,
   triggerJenkinsBuildAPI,
   triggerReRunBE as triggerReRunBEAPI,
@@ -17,9 +16,6 @@ import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
 import { getFilterQueryParams } from 'features/FilterSkeleton/utils';
 import { setWidgetData } from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
 import {
-  EMPTY_APPLIED_FILTERS,
-  EMPTY_SELECTED_FILTERS,
-  EMPTY_STATIC_FILTERS,
   EMPTY_TESTLIST_DATA_STATE,
   LOG_TYPES
 } from 'features/TestList/constants';
@@ -44,18 +40,6 @@ const reRunSuccess = {
   description: '',
   type: 'success'
 };
-
-export const getTestlistFiltersData = createAsyncThunk(
-  `${sliceName}/getBuildId`,
-  async (data, { rejectWithValue }) => {
-    try {
-      const response = await getTestlistFilters({ ...data });
-      return { ...response?.data, ...data };
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
 
 export const getAnalyzerSimilarTests = createAsyncThunk(
   `${sliceName}/getAnalyzerSimilarTests`,
@@ -237,10 +221,6 @@ export const getTestReportDetails = createAsyncThunk(
 );
 
 const initialState = {
-  staticFilters: {
-    data: EMPTY_STATIC_FILTERS,
-    apiState: { status: API_STATUSES.IDLE, details: {} }
-  },
   testList: {
     data: EMPTY_TESTLIST_DATA_STATE,
     apiState: { status: API_STATUSES.IDLE, details: {} }
@@ -248,72 +228,22 @@ const initialState = {
   historyDetails: {
     data: {},
     apiState: { status: API_STATUSES.IDLE, details: {} }
-  },
-  selectedFilters: { ...EMPTY_SELECTED_FILTERS },
-  appliedFilters: { ...EMPTY_APPLIED_FILTERS }
+  }
 };
 const { actions, reducer } = createSlice({
   name: `${sliceName}`,
   initialState,
   reducers: {
-    setStaticFilters: (state, { payload }) => {
-      state.staticFilters = {
-        ...state.staticFilters,
-        ...payload
-      };
-    },
     setTestList: (state, { payload }) => {
       state.testList = {
         ...state.testList,
         ...payload
       };
     },
-    setSelectedFilters: (state, { payload }) => {
-      state.selectedFilters = {
-        ...state.selectedFilters,
-        ...payload
-      };
-    },
-    setAppliedFilters: (state, { payload }) => {
-      state.appliedFilters = {
-        ...state.appliedFilters,
-        ...payload
-      };
-    },
-    cancelSelectedFilters: (state) => {
-      state.selectedFilters = { ...state.appliedFilters };
-    },
     resetTestListSlice: () => initialState
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getTestlistFiltersData.pending, (state) => {
-        state.staticFilters = {
-          data: EMPTY_STATIC_FILTERS,
-          apiState: {
-            status: API_STATUSES.PENDING,
-            details: {}
-          }
-        };
-      })
-      .addCase(getTestlistFiltersData.fulfilled, (state, { payload }) => {
-        state.staticFilters = {
-          data: payload.filters,
-          apiState: {
-            status: API_STATUSES.FULFILLED,
-            details: {}
-          }
-        };
-      })
-      .addCase(getTestlistFiltersData.rejected, (state) => {
-        state.staticFilters = {
-          data: EMPTY_STATIC_FILTERS,
-          apiState: {
-            status: API_STATUSES.FAILED,
-            details: {}
-          }
-        };
-      })
       .addCase(getTestListData.pending, (state) => {
         state.testList.apiState = {
           status: API_STATUSES.PENDING,
@@ -364,13 +294,6 @@ const { actions, reducer } = createSlice({
   }
 });
 
-export const {
-  setAppliedFilters,
-  setSelectedFilters,
-  setStaticFilters,
-  setTestList,
-  resetTestListSlice,
-  cancelSelectedFilters
-} = actions;
+export const { setTestList, resetTestListSlice } = actions;
 
 export default reducer;

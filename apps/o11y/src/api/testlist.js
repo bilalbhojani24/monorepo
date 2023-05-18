@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
 
-export const getTestList = async ({ buildId, pagingParams }) => {
+export const getTestList = async ({ buildId, pagingParams, searchString }) => {
   const searchParams = new URLSearchParams(window.location.search);
   if (pagingParams?.searchAfter) {
     searchParams.append('nextRoot', JSON.stringify(pagingParams?.nextRoot));
@@ -12,9 +12,9 @@ export const getTestList = async ({ buildId, pagingParams }) => {
   }
   const searchParamsStr = searchParams.toString();
   return axios.get(
-    `${versionedBaseRoute()}/builds/${buildId}/testRuns${
-      searchParamsStr ? `?${searchParamsStr}` : ''
-    }`
+    `${versionedBaseRoute()}/builds/${buildId}/testRuns?${
+      searchParamsStr ? `${searchParamsStr}` : ''
+    }&${searchString || ''}`
   );
 };
 export const getTestRetryLogs = async (buildId, retryId) =>
@@ -25,8 +25,6 @@ export const getTestHistoryData = async (testRunIds) =>
   axios.post(`${versionedBaseRoute()}/builds/testRuns/historyDetails`, {
     testRunIds
   });
-export const getTestlistFilters = async ({ buildId }) =>
-  axios.get(`${versionedBaseRoute()}/builds/${buildId}/getFilters`);
 
 export const toggleMuteTest = async ({ buildId, testRunId, shouldMute }) =>
   axios.put(

@@ -27,7 +27,6 @@ import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getTestList } from 'features/TestList/slices/selectors';
 import {
   getTestListData,
-  getTestlistFiltersData,
   setTestList
 } from 'features/TestList/slices/testListSlice';
 import TestListFilters from 'features/TestListFilters';
@@ -184,15 +183,6 @@ const TestList = ({
     () => appliedFilters.length > 0,
     [appliedFilters]
   );
-
-  useEffect(() => {
-    if (buildUUID) {
-      // Onload we don't make a call to load data instead we update applied
-      // filters and its in use effect dependency which trigger loading of fresh data
-      dispatch(getTestlistFiltersData({ buildId: buildUUID }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, buildUUID, resetReduxStore]);
 
   useEffect(() => {
     // This works only when appliedFilters changes and not on mount but after mounted
