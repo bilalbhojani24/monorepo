@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   CodeSnippet,
   Hyperlink,
   MdOutlineLocalCafe,
@@ -9,7 +10,12 @@ import {
 } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
-const EventLogs = ({ eventLogsCode, currentStep, totalSteps }) => (
+const EventLogs = ({
+  closeEventLogsModal,
+  eventLogsCode,
+  currentStep,
+  totalSteps
+}) => (
   <Modal size="3xl" show={eventLogsCode && eventLogsCode.length > 0}>
     <div className="mx-6 my-4">
       <p className="text-lg font-medium">Event Logs</p>
@@ -44,11 +50,23 @@ const EventLogs = ({ eventLogsCode, currentStep, totalSteps }) => (
           </p>
         </div>
       </div>
+      <div className="mt-3 justify-end">
+        <Button
+          aria-label="Close"
+          colors="white"
+          onClick={closeEventLogsModal}
+          type="button"
+          varaint="primary"
+        >
+          Close
+        </Button>
+      </div>
     </div>
   </Modal>
 );
 
 EventLogs.propTypes = {
+  closeEventLogsModal: PropTypes.func.isRequired,
   currentStep: PropTypes.number.isRequired,
   eventLogsCode: PropTypes.string.isRequired,
   totalSteps: PropTypes.number.isRequired

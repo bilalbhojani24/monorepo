@@ -137,6 +137,8 @@ browserstack-cli hst init`,
     playwright: null
   });
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
+  const [showEventLogsModal, setShowEventLogsModal] = useState(true);
+  const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
   const [showSetupStatusModal, setShowSetupStatusModal] = useState(false);
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
@@ -151,6 +153,10 @@ browserstack-cli hst init`,
     if (Number.isInteger(goToStep)) {
       setOnboardingStep(goToStep);
     }
+  };
+
+  const closeEventLogsModal = () => {
+    setShowEventLogsModal(false);
   };
 
   const closeSetupStatusModal = () => {
@@ -171,14 +177,20 @@ browserstack-cli hst init`,
     window.location = `${window.location.origin}${ROUTES.BUILDS}`;
   };
 
+  const viewEventLogsClickHandler = () => {
+    setShowEventLogsModal(true);
+  };
+
   // All useEffects:
   useEffect(() => {
     if (onboardingStep > 0) {
       setHeaderText(HEADER_TEXTS_OBJECT[onboardingType]);
       setSubHeaderText(SUB_TEXTS_OBJECT[onboardingType]);
+      setPollForEventLogs(true);
     } else {
       setHeaderText(HEADER_TEXTS_OBJECT.intro);
       setSubHeaderText(SUB_TEXTS_OBJECT.intro);
+      setPollForEventLogs(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingStep]);
@@ -257,6 +269,11 @@ browserstack-cli hst init`,
       setEventLogsStatus(EVENT_LOGS_STATUS.NOT_STARTED);
     } else if (currentStep > 0) {
       setEventLogsStatus(EVENT_LOGS_STATUS.IN_PROGRESS);
+      if (showGridHeartBeats) {
+        setTimeout(() => {
+          setShowGridHeartbeats(false);
+        }, 1000);
+      }
     } else if (currentStep === totalSteps) {
       setEventLogsStatus(EVENT_LOGS_STATUS.FINISHED);
 
@@ -308,7 +325,7 @@ browserstack-cli hst init`,
       if (pollForEventLogs) {
         setInterval(() => {
           fetchEventsLogsData();
-        }, 5000);
+        }, 10000);
       }
     } else {
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
@@ -328,6 +345,7 @@ browserstack-cli hst init`,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
+    closeEventLogsModal,
     closeSetupStatusModal,
     codeSnippetsForExistingSetup,
     continueClickHandler,
@@ -348,10 +366,13 @@ browserstack-cli hst init`,
     setCurrentCloudProvider,
     setSelectedOption,
     setSelectedRegion,
+    showEventLogsModal,
+    showGridHeartBeats,
     showSetupStatusModal,
     subHeaderText,
     totalSteps,
-    viewAllBuildsClickHandler
+    viewAllBuildsClickHandler,
+    viewEventLogsClickHandler
   };
 };
 

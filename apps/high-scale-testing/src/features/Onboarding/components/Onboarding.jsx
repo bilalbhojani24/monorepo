@@ -6,6 +6,7 @@ import {
   CodeSnippet,
   Hyperlink,
   ListFeedsNode,
+  MdCached,
   MdOutlineOpenInNew,
   PageHeadings,
   RadioGroup,
@@ -38,6 +39,7 @@ const Onboarding = () => {
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
     codeSnippetsForExistingSetup,
+    closeEventLogsModal,
     closeSetupStatusModal,
     continueClickHandler,
     currentStep,
@@ -55,10 +57,13 @@ const Onboarding = () => {
     setCurrentCloudProvider,
     setSelectedOption,
     setSelectedRegion,
+    showEventLogsModal,
+    showGridHeartBeats,
     showSetupStatusModal,
     subHeaderText,
     totalSteps,
-    viewAllBuildsClickHandler
+    viewAllBuildsClickHandler,
+    viewEventLogsClickHandler
   } = useOnboarding();
 
   const TabsForCodeSnippet = (
@@ -388,32 +393,46 @@ const Onboarding = () => {
       {onboardingStep === 1 &&
         (onboardingType === ONBOARDING_TYPES.scratch ||
           onboardingType === ONBOARDING_TYPES.existing) &&
-        (!eventLogsCode || eventLogsCode?.length === 0) && (
+        (((!eventLogsCode || eventLogsCode?.length === 0) && (
           <div className="text-base-700 flex gap-2 px-6 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
             above steps to connect the grid...
           </div>
-        )}
+        )) ||
+          (eventLogsCode && eventLogsCode.length > 0 && showGridHeartBeats && (
+            <div className="text-base-700 flex gap-2 px-6 py-3">
+              <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
+              Initialising events log...
+            </div>
+          )))}
 
       {onboardingStep === 1 &&
         (onboardingType === ONBOARDING_TYPES.scratch ||
           onboardingType === ONBOARDING_TYPES.existing) &&
         eventLogsCode &&
-        eventLogsCode.length > 0 && (
-          <div className="text-base-700 flex gap-2 px-6 py-3">
-            <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
-            Initialising events log...
+        eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
+        !showGridHeartBeats && (
+          <div className="flex justify-between px-6 py-3">
+            <div className="text-base-700 flex gap-2">
+              <MdCached />
+              ‘high-scale-grid’ grid creation is in progress...
+            </div>
+            <Button colors="white" onClick={viewEventLogsClickHandler}>
+              View Event Logs
+            </Button>
           </div>
         )}
 
       {/* --X-- Footer component --X-- */}
 
       {onboardingStep > 0 &&
+        showEventLogsModal &&
         eventLogsCode &&
         eventLogsCode.length > 0 &&
         eventLogsStatus !== EVENT_LOGS_STATUS.FAILED &&
         !isSetupComplete && (
           <EventLogs
+            closeEventLogsModal={closeEventLogsModal}
             currentStep={currentStep}
             eventLogsCode={eventLogsCode}
             totalSteps={totalSteps}
