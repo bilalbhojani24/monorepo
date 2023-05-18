@@ -13,21 +13,17 @@ import {
   setTestList
 } from 'features/TestList/slices/testListSlice';
 import TestInsightsLayout from 'features/TestsInsights/containers/TestInsightsLayout';
-import isEmpty from 'lodash/isEmpty';
 import { o11yNotify } from 'utils/notification';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
+import BuildDetailsStateHandler from '../components/BuildDetailsStateHandler';
 import { TABS } from '../constants';
 import {
   clearBuildUUID,
   getBuildIdFromBuildInfo,
   setActiveTab
 } from '../slices/buildDetailsSlice';
-import {
-  getBuildDetailsActiveTab,
-  getBuildMeta,
-  getBuildUUID
-} from '../slices/selectors';
+import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);
@@ -35,7 +31,6 @@ function BuildDetails() {
   const [testDefectTypeMapping, setTestDefectTypeMapping] = useState({});
   const [updateCount, setUpdateCount] = useState(0);
   const buildUUID = useSelector(getBuildUUID);
-  const buildMeta = useSelector(getBuildMeta);
   const params = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -155,6 +150,42 @@ function BuildDetails() {
   }, []);
   // [END]Test list scroll positioning handling
 
+  const onUpdateBtnClick = useCallback(() => {
+    setIsLoading(true);
+    dispatch(
+      setTestList({
+        data: EMPTY_TESTLIST_DATA_STATE,
+        apiState: { status: API_STATUSES.idle, details: {} }
+      })
+    );
+    dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
+      .unwrap()
+      .catch(() => {
+        o11yNotify({
+          title: 'Something went wrong!',
+          description: 'There was an error while updating tests',
+          type: 'error'
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setUpdateCount(0);
+      });
+  }, [buildUUID, dispatch]);
+
+  const applyTestListFilter = useCallback(
+    ({ query, clearOnly = false, isFullQuery = false }) => {
+      dispatch(resetTestListSlice());
+      testListScrollPos.current = 0;
+      scrollIndexMapping.current = {};
+      if (!clearOnly) {
+        const searchString = isFullQuery ? query : `?tab=tests&${query}`;
+        navigate({ search: searchString });
+      }
+    },
+    [dispatch, navigate]
+  );
+
   if (!buildUUID) {
     return (
       <div className="bg-base-50 flex h-screen w-full items-center justify-center">
@@ -179,50 +210,16 @@ function BuildDetails() {
       </div>
     );
   }
+  return (
+    <>
+      <BuildDetailsHeader
+        isNewItemLoading={isLoading}
+        onUpdateBtnClick={onUpdateBtnClick}
+        updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
+        applyTestListFilter={applyTestListFilter}
+      />
 
-  const onUpdateBtnClick = () => {
-    setIsLoading(true);
-    dispatch(
-      setTestList({
-        data: EMPTY_TESTLIST_DATA_STATE,
-        apiState: { status: API_STATUSES.idle, details: {} }
-      })
-    );
-    dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
-      .unwrap()
-      .catch(() => {
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating tests',
-          type: 'error'
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setUpdateCount(0);
-      });
-  };
-
-  const applyTestListFilter = ({
-    query,
-    clearOnly = false,
-    isFullQuery = false
-  }) => {
-    dispatch(resetTestListSlice());
-    testListScrollPos.current = 0;
-    scrollIndexMapping.current = {};
-    if (!clearOnly) {
-      const searchString = isFullQuery ? query : `?tab=tests&${query}`;
-      navigate({ search: searchString });
-    }
-  };
-
-  const renderBody = () => {
-    if (buildMeta.isLoading && isEmpty(buildMeta.data)) {
-      return null;
-    }
-    return (
-      <>
+      <BuildDetailsStateHandler>
         {activeTab.id === TABS.insights.id && (
           <TestInsightsLayout applyTestListFilter={applyTestListFilter} />
         )}
@@ -237,19 +234,7 @@ function BuildDetails() {
             updateScrollIndexMapping={updateScrollIndexMapping}
           />
         )}
-      </>
-    );
-  };
-
-  return (
-    <>
-      <BuildDetailsHeader
-        isNewItemLoading={isLoading}
-        onUpdateBtnClick={onUpdateBtnClick}
-        updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
-        applyTestListFilter={applyTestListFilter}
-      />
-      {renderBody()}
+      </BuildDetailsStateHandler>
     </>
   );
 }

@@ -2,7 +2,10 @@ import { Pusher, PusherManager } from '@browserstack/utils';
 import { PUSHER_EVENTS, versionedBaseRoute } from 'constants/common';
 import { findAndUpdateBuilds } from 'features/AllBuilds/slices/buildsSlice';
 import { updateBuildMeta } from 'features/BuildDetails/slices/buildDetailsSlice';
-import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import {
+  getBuildMeta,
+  getBuildUUID
+} from 'features/BuildDetails/slices/selectors';
 import {
   getBuildHistoryData,
   getBuildSummaryData
@@ -69,6 +72,21 @@ class O11yPusherEvents {
       const state = this.getState();
       if (message.type) {
         switch (message.type) {
+          case PUSHER_EVENTS.NEW_TESTS:
+            {
+              const buildMeta = getBuildMeta(state);
+              if (buildMeta?.data?.isParsingReport) {
+                this.dispatch(
+                  updateBuildMeta({
+                    buildUID: message.buildId,
+                    data: {
+                      isParsingReport: false
+                    }
+                  })
+                );
+              }
+            }
+            break;
           case PUSHER_EVENTS.BUILD_FINISHED:
             {
               this.dispatch(findAndUpdateBuilds(message?.data || []));
@@ -83,7 +101,9 @@ class O11yPusherEvents {
                     buildUID: foundBuild.uuid,
                     data: {
                       status: foundBuild?.status || null,
-                      statusStats: foundBuild?.statusStats || {}
+                      statusStats: foundBuild?.statusStats || {},
+                      isParsingReport: false,
+                      buildError: foundBuild?.buildError || {}
                     }
                   })
                 );
