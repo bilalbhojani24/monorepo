@@ -2,7 +2,10 @@ import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
 
 export const getTestList = async ({ buildId, pagingParams, searchString }) => {
-  const searchParams = new URLSearchParams(window.location.search);
+  const searchParams = new URLSearchParams(
+    window.location.search,
+    searchString
+  );
   if (pagingParams?.searchAfter) {
     searchParams.append('nextRoot', JSON.stringify(pagingParams?.nextRoot));
     searchParams.append(
@@ -14,7 +17,7 @@ export const getTestList = async ({ buildId, pagingParams, searchString }) => {
   return axios.get(
     `${versionedBaseRoute()}/builds/${buildId}/testRuns?${
       searchParamsStr ? `${searchParamsStr}` : ''
-    }&${searchString || ''}`
+    }`
   );
 };
 export const getTestRetryLogs = async (buildId, retryId) =>

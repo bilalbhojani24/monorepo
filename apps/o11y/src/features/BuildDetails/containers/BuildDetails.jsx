@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
@@ -32,7 +32,6 @@ function BuildDetails() {
   const buildUUID = useSelector(getBuildUUID);
   const params = useParams();
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
   const activeTab = useSelector(getBuildDetailsActiveTab);
   const fetchBuildId = useCallback(() => {
@@ -76,7 +75,7 @@ function BuildDetails() {
   );
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
+    const searchParams = new URLSearchParams(window.location.search);
     if (searchParams.get('tab')) {
       const tabValue = searchParams.get('tab');
       const activeIndex = Object.keys(TABS).findIndex(
@@ -89,7 +88,7 @@ function BuildDetails() {
         })
       );
     }
-  }, [dispatch, location.search]);
+  }, [dispatch]);
 
   const updateTestDefectTypeMapping = useCallback((data, bulk = false) => {
     if (bulk) {

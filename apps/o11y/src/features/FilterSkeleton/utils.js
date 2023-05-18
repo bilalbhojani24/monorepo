@@ -14,7 +14,7 @@ export const getAppliedFilterObj = ({ id, text, type, value }) => ({
 });
 
 export const getSearchStringFromFilters = (appliedFilters = []) => {
-  const searchParams = new URLSearchParams();
+  const searchParams = new URLSearchParams(window.location.search);
   Object.values(ADV_FILTER_TYPES).forEach((filterTypeObj) => {
     const { key } = filterTypeObj;
 
@@ -35,6 +35,8 @@ export const getSearchStringFromFilters = (appliedFilters = []) => {
         .map((i) => i?.value);
       if (!isEmpty(filters)) {
         searchParams.set(key, filters);
+      } else {
+        searchParams.delete(key);
       }
     }
   });

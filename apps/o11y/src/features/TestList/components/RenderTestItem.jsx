@@ -1,12 +1,18 @@
 import React, { useContext } from 'react';
 import ReactHtmlParser from 'react-html-parser';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { MdOutlineAirplay, MdOutlineTimer } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
+import {
+  ADV_FILTER_OPERATIONS,
+  ADV_FILTER_TYPES,
+  FILTER_OPERATION_TYPE
+} from 'features/FilterSkeleton/constants';
+import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
   HIERARCHY_SPACING,
@@ -16,8 +22,6 @@ import {
   singleItemTestDetails
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
-import { getAppliedFilters } from 'features/TestList/slices/selectors';
-import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import PropTypes from 'prop-types';
 import { transformUnsupportedTags } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
@@ -29,30 +33,48 @@ import TestListGalleryContainer from './TestListGalleryContainer';
 import TestListStackTrace from './TestListStackTrace';
 import TestListTimeline from './TestlistTimeline';
 
+const dispatchAppliedFilter = ({ dispatch, type, value, customOperation }) => {
+  dispatch(
+    setAppliedFilter({
+      type,
+      id: type,
+      text: value,
+      value,
+      operationType: FILTER_OPERATION_TYPE.REMOVE_OPERATION,
+      ...(customOperation ? { customOperation } : {})
+    })
+  );
+};
+
 const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;
-  const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
   const { o11yTestListingInteraction } = useContext(TestListContext);
+
   const addFilterOnClick = (filterCategory, filterValue) => {
-    if (filterCategory === 'tags' && !tags.includes(filterValue)) {
-      dispatch(
-        setAppliedFilters({
-          tags: [...tags, filterValue]
-        })
-      );
-    } else if (filterCategory === 'history' && !history.includes(filterValue)) {
-      dispatch(
-        setAppliedFilters({
-          history: [...history, filterValue]
-        })
-      );
-    } else if (filterCategory === 'flaky' && !history.includes(filterValue)) {
-      dispatch(
-        setAppliedFilters({
-          flaky: [filterValue]
-        })
-      );
+    switch (filterCategory) {
+      case ADV_FILTER_TYPES.testTags.key: {
+        dispatchAppliedFilter({
+          type: filterCategory,
+          dispatch,
+          value: filterValue,
+          customOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE
+        });
+        break;
+      }
+      case ADV_FILTER_TYPES.isFlaky.key:
+      case ADV_FILTER_TYPES.isAlwaysFailing.key:
+      case ADV_FILTER_TYPES.isNewFailure.key:
+      case ADV_FILTER_TYPES.hasPerformanceAnomaly.key:
+        dispatchAppliedFilter({
+          type: filterCategory,
+          dispatch,
+          value: true,
+          customOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE
+        });
+        break;
+      default:
+        break;
     }
     o11yTestListingInteraction('filter_applied');
   };
@@ -63,7 +85,7 @@ const RenderTestItem = ({ item: data }) => {
 
   return (
     <div
-      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-1 pr-6"
+      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pr-6 pt-1"
       style={{
         paddingLeft:
           HIERARCHY_SPACING_START +
@@ -96,7 +118,10 @@ const RenderTestItem = ({ item: data }) => {
                         wrapperClassName="mx-1"
                         hasRemoveButton={false}
                         onClick={() => {
-                          addFilterOnClick('tags', singleTag);
+                          addFilterOnClick(
+                            ADV_FILTER_TYPES.testTags.key,
+                            singleTag
+                          );
                         }}
                         modifier="base"
                         hasDot={false}
@@ -109,7 +134,10 @@ const RenderTestItem = ({ item: data }) => {
                         text="Flaky"
                         modifier="warn"
                         onClick={() => {
-                          addFilterOnClick('flaky', 'true');
+                          addFilterOnClick(
+                            ADV_FILTER_TYPES.isFlaky.key,
+                            'true'
+                          );
                         }}
                       />
                     </PropagationBlocker>
@@ -120,7 +148,10 @@ const RenderTestItem = ({ item: data }) => {
                         text="Always Failing"
                         modifier="error"
                         onClick={() => {
-                          addFilterOnClick('history', 'isAlwaysFailing');
+                          addFilterOnClick(
+                            ADV_FILTER_TYPES.isAlwaysFailing.key,
+                            'isAlwaysFailing'
+                          );
                         }}
                       />
                     </PropagationBlocker>
@@ -131,7 +162,10 @@ const RenderTestItem = ({ item: data }) => {
                         text="New Failures"
                         modifier="error"
                         onClick={() => {
-                          addFilterOnClick('history', 'isNewFailure');
+                          addFilterOnClick(
+                            ADV_FILTER_TYPES.isNewFailure.key,
+                            'isNewFailure'
+                          );
                         }}
                       />
                     </PropagationBlocker>
@@ -142,7 +176,10 @@ const RenderTestItem = ({ item: data }) => {
                         text="Performance Anomaly"
                         modifier="error"
                         onClick={() => {
-                          addFilterOnClick('history', 'isPerformanceAnomaly');
+                          addFilterOnClick(
+                            ADV_FILTER_TYPES.hasPerformanceAnomaly.key,
+                            'isPerformanceAnomaly'
+                          );
                         }}
                       />
                     </PropagationBlocker>

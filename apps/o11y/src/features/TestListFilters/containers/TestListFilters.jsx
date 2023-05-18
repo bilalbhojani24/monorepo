@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
 import StatusBadges from 'common/StatusBadges';
-import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import {
   FilterPills,
   FilterSlideover,
@@ -21,42 +20,13 @@ import {
   getTestListingFiltersData
 } from 'features/TestList/slices/filterSlice';
 import { getAggregatedStatus } from 'features/TestList/slices/selectors';
-import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
-import { logOllyEvent } from 'utils/common';
 
 const TestListFilters = ({ buildUUID }) => {
   const dispatch = useDispatch();
   const aggregatedStatus = useSelector(getAggregatedStatus);
   const [showSlideOver, setShowSlideOver] = useState(false);
-  const buildMeta = useSelector(getBuildMeta);
-  const activeProject = useSelector(getActiveProject);
   const { expandAll, invertExpandAll } = useTestListContext();
-
-  const handleClickStatusBadge = useCallback(
-    ({ itemClicked }) => {
-      /* #TODO confirm this log event */
-      logOllyEvent({
-        event: 'O11yBuildMetaHeaderInteracted',
-        data: {
-          project_name: activeProject.name,
-          project_id: activeProject.id,
-          build_name: buildMeta.data?.name,
-          build_uuid: buildMeta.data?.uuid,
-          interaction: `${itemClicked}_clicked`
-        }
-      });
-      const searchParams = new URLSearchParams(window?.location?.search);
-      searchParams.set('status', itemClicked);
-      // #TODO need to apply status directly from here
-    },
-    [
-      activeProject.id,
-      activeProject.name,
-      buildMeta.data?.name,
-      buildMeta.data?.uuid
-    ]
-  );
 
   useEffect(() => {
     dispatch(getTestListingFiltersData({ buildId: buildUUID }));
@@ -102,10 +72,7 @@ const TestListFilters = ({ buildUUID }) => {
         rightNode={
           <>
             {aggregatedStatus && (
-              <StatusBadges
-                statusStats={aggregatedStatus}
-                onClickHandler={handleClickStatusBadge}
-              />
+              <StatusBadges statusStats={aggregatedStatus} />
             )}
           </>
         }
