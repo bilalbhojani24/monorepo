@@ -21,23 +21,15 @@ const AppPerformanceHeader = () => (
       options: OVERVIEW_LINKS
     }}
     references={{
-      title: 'Key Features',
+      title: 'References',
       options: [
         {
-          name: 'Test Case Repository',
-          link: 'https://www.browserstack.com/docs/test-management/features/test-cases'
+          name: 'Terms And Conditions',
+          link: 'https://www.browserstack.com/docs/app-performance/references/terms-and-conditions'
         }
       ]
     }}
-    others={{
-      title: 'Automation Runs',
-      options: [
-        {
-          name: 'Manual Test Runs',
-          link: 'https://www.browserstack.com/docs/test-management/features/test-runs#manual-test-runs'
-        }
-      ]
-    }}
+    others={null}
     onSignoutClick={(e) => {
       if (!IS_PROD) {
         e.preventDefault();
