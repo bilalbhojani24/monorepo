@@ -32,15 +32,15 @@ const Modal = forwardRef((props, ref) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div
-            className={twClassNames(
-              'bg-base-500 fixed inset-0 transition-opacity',
-              backdropWrapperClassName
-            )}
-          />
+          <div className="bg-base-500 fixed inset-0 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto ">
+        <div
+          className={twClassNames(
+            'fixed inset-0 z-10 overflow-y-auto',
+            backdropWrapperClassName
+          )}
+        >
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}

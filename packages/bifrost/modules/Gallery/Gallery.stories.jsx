@@ -48,7 +48,6 @@ Primary.args = {
   children: (
     <>
       <GalleryPreview
-        backdropWrapperClassName="bg-brand-300"
         topAction={
           <div className="bg-base-900 absolute left-0 top-0 flex w-full justify-between p-5 text-white">
             <div className="flex items-center gap-3">
@@ -193,6 +192,7 @@ export const GalleryExampleWPreview = () => {
   return (
     <Gallery className="h-full w-full">
       <GalleryPreview
+        backdropWrapperClassName="bg-base-900"
         onClose={() => setPreviewItem(null)}
         topAction={
           <div className="bg-base-900 absolute left-0 top-0 flex w-full justify-between p-5 text-white">
