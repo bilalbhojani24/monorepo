@@ -119,7 +119,7 @@ export default function FailuresByFolders() {
                   category,
                   styles: {
                     top: shapeArgs.y + plotBox.y,
-                    left: shapeArgs.x + 20,
+                    left: shapeArgs.x,
                     width: shapeArgs.width,
                     height: shapeArgs.height
                   }

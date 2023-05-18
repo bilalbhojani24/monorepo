@@ -13,6 +13,7 @@ import {
   setTestList
 } from 'features/TestList/slices/testListSlice';
 import TestInsightsLayout from 'features/TestsInsights/containers/TestInsightsLayout';
+import isEmpty from 'lodash/isEmpty';
 import { o11yNotify } from 'utils/notification';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
@@ -22,7 +23,11 @@ import {
   getBuildIdFromBuildInfo,
   setActiveTab
 } from '../slices/buildDetailsSlice';
-import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
+import {
+  getBuildDetailsActiveTab,
+  getBuildMeta,
+  getBuildUUID
+} from '../slices/selectors';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);
@@ -30,6 +35,7 @@ function BuildDetails() {
   const [testDefectTypeMapping, setTestDefectTypeMapping] = useState({});
   const [updateCount, setUpdateCount] = useState(0);
   const buildUUID = useSelector(getBuildUUID);
+  const buildMeta = useSelector(getBuildMeta);
   const params = useParams();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -211,6 +217,30 @@ function BuildDetails() {
     }
   };
 
+  const renderBody = () => {
+    if (buildMeta.isLoading && isEmpty(buildMeta.data)) {
+      return null;
+    }
+    return (
+      <>
+        {activeTab.id === TABS.insights.id && (
+          <TestInsightsLayout applyTestListFilter={applyTestListFilter} />
+        )}
+        {activeTab.id === TABS.tests.id && (
+          <TestList
+            buildUUID={buildUUID}
+            testDefectTypeMapping={testDefectTypeMapping}
+            updateTestDefectTypeMapping={updateTestDefectTypeMapping}
+            updateTestScrollPos={updateTestScrollPos}
+            testListScrollPos={testListScrollPos.current}
+            scrollIndexMapping={scrollIndexMapping.current}
+            updateScrollIndexMapping={updateScrollIndexMapping}
+          />
+        )}
+      </>
+    );
+  };
+
   return (
     <>
       <BuildDetailsHeader
@@ -219,20 +249,7 @@ function BuildDetails() {
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
         applyTestListFilter={applyTestListFilter}
       />
-      {activeTab.id === TABS.insights.id && (
-        <TestInsightsLayout applyTestListFilter={applyTestListFilter} />
-      )}
-      {activeTab.id === TABS.tests.id && (
-        <TestList
-          buildUUID={buildUUID}
-          testDefectTypeMapping={testDefectTypeMapping}
-          updateTestDefectTypeMapping={updateTestDefectTypeMapping}
-          updateTestScrollPos={updateTestScrollPos}
-          testListScrollPos={testListScrollPos.current}
-          scrollIndexMapping={scrollIndexMapping.current}
-          updateScrollIndexMapping={updateScrollIndexMapping}
-        />
-      )}
+      {renderBody()}
     </>
   );
 }
