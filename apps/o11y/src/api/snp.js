@@ -73,9 +73,10 @@ export const getSnPDetailsBuilds = async ({
   }
   if (chartBounds.lower && chartBounds.upper) {
     const searchParams = new URLSearchParams(searchString);
-    searchParams.delete(ADV_FILTER_TYPES.dateRange.key);
-    searchParams.set(`lowerBound`, `${chartBounds.lower}`);
-    searchParams.set('upperBound', `${chartBounds.upper}`);
+    searchParams.set(
+      ADV_FILTER_TYPES.dateRange.key,
+      `${chartBounds.lower},${chartBounds.upper}`
+    );
     endpoint = `${endpoint}&${searchParams.toString()}`;
   } else {
     endpoint = `${endpoint}&${searchString}`;
@@ -159,9 +160,10 @@ export const getSnPErrorDetailsBuilds = async ({
   }
   if (chartBounds.lower && chartBounds.upper) {
     const searchParams = new URLSearchParams(searchString);
-    searchParams.delete(ADV_FILTER_TYPES.dateRange.key);
-    searchParams.set(`lowerBound`, `${chartBounds.lower}`);
-    searchParams.set('upperBound', `${chartBounds.upper}`);
+    searchParams.set(
+      ADV_FILTER_TYPES.dateRange.key,
+      `${chartBounds.lower},${chartBounds.upper}`
+    );
     endpoint = `${endpoint}&${searchParams.toString()}`;
   } else {
     endpoint = `${endpoint}&${searchString}`;
