@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -16,13 +17,16 @@ const TMDataTable = ({
   containerWrapperClass,
   tableWrapperClass,
   isCondensed,
-  isLoading
+  isLoading,
+  headerWrapperClass
 }) => (
   <Table
     containerWrapperClass={containerWrapperClass}
     tableWrapperClass={tableWrapperClass}
   >
-    <TableHead wrapperClassName="w-full rounded-xs">
+    <TableHead
+      wrapperClassName={twClassNames('w-full rounded-xs', headerWrapperClass)}
+    >
       <TableRow>
         {columns?.map((col) => (
           <TableCell
@@ -79,14 +83,16 @@ TMDataTable.propTypes = {
   containerWrapperClass: PropTypes.string,
   tableWrapperClass: PropTypes.string,
   isCondensed: PropTypes.bool,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  headerWrapperClass: PropTypes.string
 };
 
 TMDataTable.defaultProps = {
   containerWrapperClass: '',
   tableWrapperClass: '',
   isCondensed: false,
-  isLoading: false
+  isLoading: false,
+  headerWrapperClass: ''
 };
 
 export default TMDataTable;

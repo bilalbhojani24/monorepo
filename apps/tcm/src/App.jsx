@@ -19,7 +19,7 @@ import { PRODUCTION_HOST } from './const/immutables';
 import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
 import { IMPORT_STATUS } from './features/ImportProgress/const/immutables';
 import {
-  setImportStatus,
+  // setImportStatus,
   setIsProgressDismissed
 } from './features/ImportProgress/slices/importProgressSlice';
 import {
@@ -95,7 +95,7 @@ function App() {
         dispatch(setCurrentTestManagementTool(data?.import_type.split('_')[0]));
         dispatch(setImportId(data?.import_id));
         dispatch(setIsProgressDismissed(data?.is_dismissed));
-        console.log('status from latest', data?.status);
+        // console.log('status from latest', data?.status);
         if (data?.status === IMPORT_STATUS.ONGOING)
           connectWSQI({ importId: data?.import_id });
 
@@ -108,14 +108,12 @@ function App() {
   return (
     <>
       <TMHeader />
+
       <div className="bg-base-50 flex h-screen items-stretch pt-16">
         {/* Only if user is logged in proceed */}
         <div
           className={twClassNames(
             'relative flex w-full items-stretch overflow-hidden'
-            // {
-            //   'mt-16': importStatus === 'ongoing'
-            // }
           )}
         >
           {/* Only if user is logged in proceed */}

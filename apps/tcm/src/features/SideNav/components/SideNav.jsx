@@ -23,7 +23,6 @@ import { AddProjects } from 'features/Projects';
 
 import CancelModal from '../../ImportProgress/components/CancelModal';
 import ImportDetailsModal from '../../ImportProgress/components/ImportDetailsModal';
-// import PropTypes from 'prop-types';
 import { noNavRoutes } from '../const/navsConst';
 
 import useSideNav from './useSideNav';
@@ -55,12 +54,7 @@ const SideNav = () => {
   return (
     <>
       <SidebarNavigation
-        wrapperClassName={twClassNames(
-          'mt-16 bg-white'
-          //   {
-          //   'mt-32': importStatus === 'ongoing'
-          // }
-        )}
+        wrapperClassName={twClassNames('mt-16 bg-white')}
         sidebarPrimaryNavigation={primaryNavs?.map((item) => (
           <SidebarItem
             key={item.id}
@@ -185,13 +179,5 @@ const SideNav = () => {
     </>
   );
 };
-
-// SideNav.propTypes = {
-//   importStatus: PropTypes.bool
-// };
-
-// SideNav.defaultProps = {
-//   importStatus: false
-// };
 
 export default SideNav;

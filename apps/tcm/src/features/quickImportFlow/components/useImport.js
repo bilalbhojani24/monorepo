@@ -7,17 +7,9 @@ import { logEventHelper } from 'utils/logEvent';
 
 import { ZEPHYR } from '../const/importSteps';
 import {
-  // setBeginImportLoading,
-  // setCheckImportStatusClicked,
   setConfigureToolPageLoading,
   setCurrentScreen,
   setCurrentTestManagementTool,
-  // setErrorForConfigureData,
-  // setImportId,
-  // setImportStarted,
-  // setImportStatusOngoing,
-  // setLatestImportTool,
-  // setRetryImport,
   setShowLoggedInScreen
 } from '../slices/importSlice';
 import { retryQuickImport, startImport } from '../slices/quickImportThunk';
@@ -79,67 +71,6 @@ const useImport = () => {
   const showArtificialLoader = useSelector(
     (state) => state.import.showArtificialLoader
   );
-  // const importIdBeforeImport = useSelector(
-  //   (state) => state.import.importIdBeforeImport
-  // );
-
-  // this has to be revamped but leaving this as it will be covered in WS implementation
-  // const handleConfigureDataProceed = () => {
-  //   // dispatch(logEventHelper(proceedActionEventName(), {}));
-  //   const noProjectSelected = testManagementProjects
-  //     .map((project) => project.checked)
-  //     .every((checked) => checked === false);
-
-  //   if (!noProjectSelected) {
-  //     dispatch(setCurrentScreen(SCREEN_3));
-  //   } else {
-  //     dispatch(setErrorForConfigureData(true));
-  //   }
-  // };
-
-  // const beginImportSuccessful = () => {
-  //   dispatch(setBeginImportLoading(false));
-  //   dispatch(setImportId(importIdBeforeImport));
-  //   navigate(AppRoute.ROOT);
-  //   dispatch(setImportStarted(true));
-  //   dispatch(setCheckImportStatusClicked(false));
-  //   dispatch(setImportStatusOngoing());
-  // };
-
-  // // this has to be revamped but leaving this as it will be covered in WS implementation
-  // const handleConfirmImport = () => {
-  //   // dispatch(logEventHelper(proceedActionEventName(), {}));
-  //   dispatch(setBeginImportLoading(true));
-  //   if (currentTestManagementTool === TESTRAIL) {
-  //     importProjects(TESTRAIL, {
-  //       ...testRailsCred,
-  //       import_id: importIdBeforeImport,
-  //       testrail_projects: testManagementProjects
-  //         .map((project) => (project.checked ? project : null))
-  //         .filter((project) => project !== null)
-  //     })
-  //       .then(() => {
-  //         beginImportSuccessful();
-  //       })
-  //       .catch(() => {
-  //         dispatch(setBeginImportLoading(false));
-  //       });
-  //   } else if (currentTestManagementTool === ZEPHYR) {
-  //     importProjects(ZEPHYR, {
-  //       ...zephyrCred,
-  //       import_id: importIdBeforeImport,
-  //       projects: testManagementProjects
-  //         .map((project) => (project.checked ? project : null))
-  //         .filter((project) => project !== null)
-  //     })
-  //       .then(() => {
-  //         beginImportSuccessful();
-  //       })
-  //       .catch(() => {
-  //         dispatch(setBeginImportLoading(false));
-  //       });
-  //   }
-  // };
 
   const handleBeginImport = () => {
     dispatch(startImport(navigate));
@@ -215,8 +146,6 @@ const useImport = () => {
     showArtificialLoader,
     handleChangeSetup,
     handleBeginImport,
-    // handleConfigureDataProceed,
-    // handleConfirmImport,
     handleTopSectionCtaClick,
     importStatus,
     isFromOnboarding,

@@ -3,17 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   dismissNotificationForImport,
   getJiraConfigStatus,
-  getLatestQuickImportConfig,
-  getQuickImportStatus
-  // retryImport
+  getLatestQuickImportConfig
 } from '../../../api/import.api';
-import {
-  // COMPLETED,
-  // FAILURE_DATA,
-  // ONGOING,
-  // SUCCESS_DATA,
-  WARNING_DATA
-} from '../const/importConst';
 import { SCREEN_1, SCREEN_2, TESTRAIL, ZEPHYR } from '../const/importSteps';
 
 const initialState = {
@@ -41,29 +32,12 @@ const initialState = {
   projectsForTestManagementImport: [],
   currentScreen: SCREEN_1,
   currentTestManagementTool: '',
-  testRailsCredTouched: { email: false, host: false, key: false },
-  zephyrCredTouched: {
-    zephyr_key: false,
-    email: false,
-    jira_key: false,
-    host: false
-  },
   isJiraConfiguredForZephyr: false,
   importId: null,
   importIdBeforeImport: null,
-  // importStatus: COMPLETED,
-  isDismissed: true,
-  showNewProjectBanner: false,
-  isNewProjectBannerDismissed: true,
-  notificationData: null,
-  notificationProjectConfig: { projects: [], totalCount: 0, successCount: 0 },
-  showNotificationModal: false,
-  checkImportStatusClicked: false,
   quickImportProjectId: null,
   beginImportLoading: false,
   configureToolPageLoading: true,
-  latestImportTool: null,
-  successfulImportedProjects: 0,
   topImportInfoSteps: [],
   loggedInScreen: false,
   loggedInForTool: '',
@@ -91,28 +65,6 @@ export const setImportConfigurations = createAsyncThunk(
     }
   }
 );
-
-export const setQuickImportStatus = createAsyncThunk(
-  'import/getQuickImportStatus',
-  async (id) => {
-    try {
-      return await getQuickImportStatus(id);
-    } catch (err) {
-      return err;
-    }
-  }
-);
-// export const setRetryImport = createAsyncThunk(
-//   'import/retryImport',
-//   async ({ id, testTool }) => {
-//     try {
-//       const response = await retryImport(id, testTool);
-//       return { ...response, testTool };
-//     } catch (err) {
-//       return err;
-//     }
-//   }
-// );
 
 export const setNotificationDismissed = createAsyncThunk(
   'import/setNotificationDismissed',
@@ -170,9 +122,6 @@ const importSlice = createSlice({
         ];
       state.currentScreen = payload;
     },
-    // setImportSteps: (state, { payload }) => {
-    //   state.importSteps = payload;
-    // },
     setImportStarted: (state, { payload }) => {
       state.importStarted = payload;
     },
@@ -184,12 +133,6 @@ const importSlice = createSlice({
         state.connectionStatusMap.testrail = '';
       }
     },
-    // setImportStatus: (state, { payload }) => {
-    //   state.importStatus = payload;
-    // },
-    // setNotificationData: (state, { payload }) => {
-    //   state.notificationData = payload;
-    // },
     setSelectedRadioIdMap: (state, { payload }) => {
       state.selectedRadioIdMap[payload.key] = payload.value;
     },
@@ -268,10 +211,6 @@ const importSlice = createSlice({
     setProjectIdForQuickImport: (state, { payload }) => {
       state.quickImportProjectId = payload;
     },
-    setImportStatusOngoing: (state) => {
-      // state.importStatus = ONGOING;
-      state.notificationData = WARNING_DATA;
-    },
     setBeginImportLoading: (state, { payload }) => {
       state.beginImportLoading = payload;
     },
@@ -297,9 +236,6 @@ const importSlice = createSlice({
     setImportId: (state, { payload }) => {
       state.importId = payload;
     },
-    // setImportNotificationDismissed: (state, { payload }) => {
-    //   state.isDismissed = payload;
-    // },
     setImportIdBeforeImport: (state, { payload }) => {
       state.importIdBeforeImport = payload;
     },
@@ -336,38 +272,6 @@ const importSlice = createSlice({
       state.isDismissed = payload.is_dismissed;
       state.isNewProjectBannerDismissed = payload.new_projects_banner_dismissed;
     });
-    // builder.addCase(setQuickImportStatus.fulfilled, (state, { payload }) => {
-    //   if (payload.status === ONGOING) {
-    //     state.importStatus = ONGOING;
-    //     state.notificationData = WARNING_DATA;
-    //   } else if (payload.status === COMPLETED) {
-    //     if (payload.success_count < payload.total) {
-    //       state.notificationData = FAILURE_DATA;
-    //     } else {
-    //       state.notificationData = SUCCESS_DATA;
-    //     }
-    //     state.notificationProjectConfig.projects = payload.projects;
-    //     state.notificationProjectConfig.totalCount = payload.total;
-    //     state.notificationProjectConfig.successCount = payload.success_count;
-    //     state.successfulImportedProjects = payload.success_count;
-    //     state.importStatus = COMPLETED;
-    //     // eslint-disable-next-line prefer-destructuring
-    //     state.currentTestManagementTool = payload.import_type.split('_')[0];
-    //   }
-    // });
-    // builder.addCase(setRetryImport.fulfilled, (state, { payload }) => {
-    //   if (payload.testTool === TESTRAIL) {
-    //     state.testRailsCred.email = payload.credentials.email;
-    //     state.testRailsCred.host = payload.credentials.host;
-    //     state.testRailsCred.key = payload.credentials.key;
-    //   } else if (payload.testTool === ZEPHYR) {
-    //     state.zephyrCred.email = payload.credentials.email;
-    //     state.zephyrCred.host = payload.credentials.host;
-    //     state.zephyrCred.jira_key = payload.credentials.jira_key;
-    //     state.zephyrCred.zephyr_key = payload.credentials.zephyr_key;
-    //   }
-    //   state.configureToolPageLoading = false;
-    // });
     builder.addCase(setNotificationDismissed.fulfilled, (state) => {
       state.isDismissed = true;
     });
@@ -386,25 +290,18 @@ export const {
   setTestRailsCred,
   setZephyrCred,
   setProjectForTestManagementImport,
-  // setImportSteps,
   setImportStarted,
   setConnectionStatusMap,
   setSelectedRadioIdMap,
   quickImportCleanUp,
   setImportConfig,
-  // setImportStatus,
-  // setNotificationData,
-  // setCheckImportStatusClicked,
   setImportedProjects,
   setNotificationProjectConfig,
-  // setShowNotificationModal,
   setProjectIdForQuickImport,
-  // setImportStatusOngoing,
   setBeginImportLoading,
   setConfigureToolPageLoading,
   setLatestImportTool,
   setShowNewProjectBanner,
-  // setNewProjectBannerDismiss,
   setImportedProjectCount,
   setShowLoggedInScreen,
   setShowArtificialLoader,
@@ -413,6 +310,5 @@ export const {
   setProceedFailed,
   setProceedFulfilled,
   retryQuickImportFulfilled
-  // setImportNotificationDismissed
 } = importSlice.actions;
 export default importSlice.reducer;

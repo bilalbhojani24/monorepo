@@ -1,3 +1,4 @@
+import { MdAvTimer } from '@browserstack/bifrost';
 import {
   AssignmentOutlinedIcon,
   BarChartOutlinedIcon,
@@ -74,8 +75,8 @@ export const IMPORT_IN_PROGRESS = [
   {
     id: 'import_in_progress',
     label: 'Import in progress',
-    activeIcon: SettingsOutlinedIcon,
-    inActiveIcon: SettingsOutlinedIcon
+    activeIcon: MdAvTimer,
+    inActiveIcon: MdAvTimer
   }
 ];
 

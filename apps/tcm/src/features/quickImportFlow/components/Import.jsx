@@ -2,54 +2,43 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
-import { HideSourceOutlinedIcon } from 'assets/icons';
-import { TMButton, TMEmptyState, TMPageHeadings } from 'common/bifrostProxy';
+// import { HideSourceOutlinedIcon } from 'assets/icons';
+import { TMButton, TMPageHeadings } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import TopSectionInfo from 'common/TopSectionInfo';
 import { setSelectedProject } from 'globalSlice';
 import { logEventHelper } from 'utils/logEvent';
 
 import AppRoute from '../../../const/routes';
-// import { ONGOING } from '../const/importConst';
 import { SCREEN_1, SCREEN_2 } from '../const/importSteps';
-import {
-  // setNotificationData,
-  setProjectIdForQuickImport
-} from '../slices/importSlice';
+import { setProjectIdForQuickImport } from '../slices/importSlice';
 import { resetQuickImport } from '../slices/quickImportThunk';
 
 import ConfigureData from './ConfigureData';
 import ConfigureTool from './ConfigureTool';
 import useImport from './useImport';
-// import ViewDetailsModal from './viewDetailsModal';
 
 const Import = () => {
   const dispatch = useDispatch();
   const { projectId } = useParams();
   const navigate = useNavigate();
   const {
-    isFromOnboarding,
-    // beginImportLoading,
-    currentScreen,
-    testManagementProjects,
-    topImportInfoSteps,
-    // importStatus,
     configureToolPageLoading,
-    showArtificialLoader,
-    handleTopSectionCtaClick,
+    currentScreen,
     handleChangeSetup,
+    handleTopSectionCtaClick,
+    isFromOnboarding,
     onCancelClickHandler,
-    populateQuickImportCredentials
+    populateQuickImportCredentials,
+    showArtificialLoader,
+    testManagementProjects,
+    topImportInfoSteps
   } = useImport();
 
   useLayoutEffect(() => {
     populateQuickImportCredentials();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    // dispatch(setNotificationData(null));
-  }, [dispatch]);
 
   useEffect(() => {
     dispatch(setProjectIdForQuickImport(projectId));
@@ -64,13 +53,11 @@ const Import = () => {
           showLoader={showArtificialLoader}
         />
       );
-    // if (currentScreen === SCREEN_3)
-    //   return <ConfirmImport projects={testManagementProjects} />;
+
     return <>Something went wrong!</>;
   };
 
   useEffect(() => {
-    // dispatch(setNotificationData(null));
     dispatch(logEventHelper('TM_QiPageLoaded', {}));
     return () => {
       dispatch(resetQuickImport());
@@ -159,7 +146,6 @@ const Import = () => {
           />
         ) : null}
         {getCurrentScreen()}
-        {/* <ViewDetailsModal headerText="Quick Import" /> */}
       </div>
     </>
   );

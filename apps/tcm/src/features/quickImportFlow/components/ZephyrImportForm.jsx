@@ -21,8 +21,6 @@ const ZephyrImportForm = (props) => {
   const { zephyrCredTouched, handleInputFieldChange } = useForms();
   const {
     connectionStatusMap,
-    // handleInputFieldChange,
-    // configureToolProceed,
     zephyrCred,
     loggedInScreen,
     loggedInForTool,

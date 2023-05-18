@@ -24,7 +24,7 @@ export const getJiraConfigStatus = async () =>
 export const getLatestQuickImportConfig = async () =>
   fetchGet('/api/v1/import/latest');
 
-export const getQuickImportStatus = async (id) =>
+export const getQuickImportResult = async (id) =>
   fetchGet(`/api/v1/import/quick/${id}/result`);
 
 export const dismissNotificationForImport = async (id) =>

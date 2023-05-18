@@ -10,17 +10,10 @@ import useImport from './useImport';
 
 const ConfigureData = (props) => {
   const { projects, showLoader } = props;
-  const {
-    testManagementProjects,
-    handleBeginImport,
-    // handleConfigureDataProceed,
-    // currentTestManagementTool,
-    showErrorForConfigData
-  } = useImport();
+  const { testManagementProjects, handleBeginImport, showErrorForConfigData } =
+    useImport();
 
   if (!testManagementProjects.length) return <NoProjects />;
-  // const displayNameOfTestTool =
-  //   currentTestManagementTool === ZEPHYR ? 'Zephyr Scale' : 'Testrails';
 
   return (
     <div className="border-base-300 shadow-base-200 mb-4 h-full w-3/4 max-w-7xl rounded-md border bg-white">
