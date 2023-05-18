@@ -4,6 +4,10 @@ import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
 import AccessibleTooltip from '../Header/components/AccessibleTooltip';
+import {
+  CALLBACK_FUNCTIONS_PROP_TYPE,
+  hyperlinkClickHandler
+} from '../Header/utils';
 import HeaderProducts from '../HeaderProducts';
 import Hyperlink from '../Hyperlink';
 
@@ -31,6 +35,7 @@ const getAccountDropdownHref = (item, supportLink, contactLink) => {
 };
 
 const HeaderElements = ({
+  callbackFunctions,
   documentation,
   references,
   others,
@@ -138,27 +143,48 @@ const HeaderElements = ({
             'flex flex-col items-start p-0 gap-0.5 w-[208px]'
           )}
         >
-          {ACCOUNT_ARRAY.map((element) => (
-            <Hyperlink
-              isCSR={false}
-              wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
-              href={getAccountDropdownHref(
-                element,
-                productSupportLink,
-                contactLink
-              )}
-              key={element.name}
-            >
-              <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
-                {element.name}
-              </p>
-            </Hyperlink>
-          ))}
+          {ACCOUNT_ARRAY.map((element) => {
+            const redirectionUTL = getAccountDropdownHref(
+              element,
+              productSupportLink,
+              contactLink
+            );
+            return (
+              <Hyperlink
+                key={element.name}
+                isCSR={false}
+                wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
+                href={redirectionUTL}
+                onClick={(e) =>
+                  hyperlinkClickHandler(
+                    e,
+                    redirectionUTL,
+                    callbackFunctions?.onAccountDropdownOptionClick,
+                    '_self',
+                    element.name
+                  )
+                }
+              >
+                <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
+                  {element.name}
+                </p>
+              </Hyperlink>
+            );
+          })}
           {testInsight && (
             <Hyperlink
               isCSR={false}
               wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
               href="https://www.browserstack.com/accounts/usage-reporting"
+              onClick={(e) =>
+                hyperlinkClickHandler(
+                  e,
+                  'https://www.browserstack.com/accounts/usage-reporting',
+                  callbackFunctions?.onAccountDropdownOptionClick,
+                  '_self',
+                  'Test insights'
+                )
+              }
             >
               <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
                 Test Insights
@@ -193,6 +219,13 @@ const HeaderElements = ({
             wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
             href="https://www.browserstack.com/users/sign_out"
             onClick={(e) => {
+              hyperlinkClickHandler(
+                e,
+                'https://www.browserstack.com/users/sign_out',
+                callbackFunctions?.onAccountDropdownOptionClick,
+                '_self',
+                'Sign out'
+              );
               onSignoutClick?.(e);
             }}
           >
@@ -209,7 +242,7 @@ const HeaderElements = ({
     </div>
   );
 
-  const hyperlinkElements = (elementOptions) => (
+  const hyperlinkElements = (elementOptions, handleClickCb) => (
     <Hyperlink
       isCSR={false}
       wrapperClassName={twClassNames(
@@ -217,6 +250,9 @@ const HeaderElements = ({
       )}
       href={elementOptions.link}
       key={elementOptions.name}
+      onClick={(e) =>
+        hyperlinkClickHandler(e, elementOptions.link, handleClickCb)
+      }
     >
       <div
         className={twClassNames(
@@ -238,15 +274,19 @@ const HeaderElements = ({
   const elementRender = (element) => {
     let temp = null;
     if (element.name === 'team') {
-      temp = hyperlinkElements(element);
+      temp = hyperlinkElements(element, callbackFunctions?.onInviteTeamClick);
     } else if (element.name === 'pricing') {
       const newElements = { ...element };
       newElements.link = planPricingLink;
-      temp = hyperlinkElements(newElements);
+      temp = hyperlinkElements(
+        newElements,
+        callbackFunctions?.onPlanAndPricingClick
+      );
     } else if (element.name === 'help') {
       temp = (
         <GetHelp
           elementOptions={element}
+          callbackFunctions={callbackFunctions}
           {...{
             documentation,
             references,
@@ -285,7 +325,10 @@ const HeaderElements = ({
             <button
               type="button"
               aria-label="Notification button"
-              onClick={attachCSSToBeamer}
+              onClick={() => {
+                attachCSSToBeamer();
+                callbackFunctions?.onNotificationClick();
+              }}
             >
               {element.icon}
             </button>
@@ -294,7 +337,10 @@ const HeaderElements = ({
             <button
               type="button"
               aria-label="Search button"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              onClick={() => {
+                setIsSearchOpen(!isSearchOpen);
+                callbackFunctions?.onSearchClick();
+              }}
             >
               {element.icon}
             </button>
@@ -332,6 +378,14 @@ const HeaderElements = ({
             )}
             target={buyPlanTarget}
             href={buyPlanLink}
+            onClick={(e) => {
+              hyperlinkClickHandler(
+                e,
+                buyPlanLink,
+                callbackFunctions?.buyPlanClick,
+                buyPlanTarget
+              );
+            }}
           >
             <div
               className={twClassNames(
@@ -354,6 +408,7 @@ const HeaderElements = ({
 };
 
 HeaderElements.propTypes = {
+  callbackFunctions: CALLBACK_FUNCTIONS_PROP_TYPE,
   documentation: PropTypes.objectOf(PropTypes.any),
   references: PropTypes.objectOf(PropTypes.any),
   others: PropTypes.objectOf(PropTypes.any),
@@ -373,6 +428,7 @@ HeaderElements.propTypes = {
   buyPlanText: PropTypes.string
 };
 HeaderElements.defaultProps = {
+  callbackFunctions: null,
   documentation: null,
   references: null,
   others: null,

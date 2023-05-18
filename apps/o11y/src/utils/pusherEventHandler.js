@@ -1,5 +1,5 @@
 import { Pusher, PusherManager } from '@browserstack/utils';
-import { PUSHER_EVENTS } from 'constants/common';
+import { PUSHER_EVENTS, versionedBaseRoute } from 'constants/common';
 import { findAndUpdateBuilds } from 'features/AllBuilds/slices/buildsSlice';
 import { updateBuildMeta } from 'features/BuildDetails/slices/buildDetailsSlice';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
@@ -144,7 +144,7 @@ class O11yPusherEvents {
         type: channelData.type,
         group_id: channelData.groupId
       },
-      ``
+      `${versionedBaseRoute()}/projects/pusherAuth`
     );
     this.attachEvents();
     pusherManager.add(channelData.connectionName, this.pusher);

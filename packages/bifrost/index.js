@@ -2,6 +2,7 @@ import Accordion from './modules/Accordion';
 import AccordionInteractiveHeader from './modules/AccordionInteractiveHeader';
 import AccordionPanel from './modules/AccordionPanel';
 import AccordionSimpleHeader from './modules/AccordionSimpleHeader';
+import ActionPanel from './modules/ActionPanel/index';
 import Alerts from './modules/Alerts/index';
 import Attachments from './modules/Attachments';
 import Badge from './modules/Badge/index';
@@ -126,6 +127,7 @@ export {
   AccordionInteractiveHeader,
   AccordionPanel,
   AccordionSimpleHeader,
+  ActionPanel,
   Alerts,
   Attachments,
   Badge,

@@ -1,4 +1,7 @@
+import React from 'react';
+import { MdOpenInNew } from '@browserstack/bifrost';
 import axios from 'axios';
+import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import { getEnvConfig } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
@@ -81,8 +84,26 @@ axios.interceptors.response.use(
       o11yNotify({
         title: 'Error occurred',
         description:
-          'Some technical error occurred. Please try again. If this issue persists, contact Support.',
-        type: 'error'
+          'Some technical error occurred. Please try again. If this issue persists',
+        type: 'error',
+        actionButtons: () => (
+          <O11yHyperlink
+            href={`${envConfig.baseUrl}/support/test-observability`}
+            target="_blank"
+          >
+            <O11yButton
+              variant="minimal"
+              colors="brand"
+              wrapperClassName="flex items-center"
+              icon={<MdOpenInNew className="text-lg" />}
+              iconPlacement="end"
+              size="small"
+            >
+              Contact Support
+            </O11yButton>
+          </O11yHyperlink>
+        ),
+        duration: 5000
       });
     }
     return Promise.reject(res);
