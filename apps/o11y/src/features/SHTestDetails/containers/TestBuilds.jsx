@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
+import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
+import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 
 import BuildRow from '../components/BuildRow';
@@ -115,6 +117,14 @@ export default function TestBuilds() {
 
   if (isLoadingData) {
     return <O11yLoader wrapperClassName="py-6" />;
+  }
+
+  if (!isEmpty(buildsData.builds)) {
+    return (
+      <div className={twClassNames('flex items-center justify-center flex-1')}>
+        <EmptyPage text="No builds found" />
+      </div>
+    );
   }
 
   return (
