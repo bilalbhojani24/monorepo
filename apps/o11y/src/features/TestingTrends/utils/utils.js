@@ -1,3 +1,5 @@
+import React from 'react';
+import { MdOpenInNew } from '@browserstack/bifrost';
 import {
   COMMON_CHART_CONFIGS,
   SNP_PARAMS_MAPPING,
@@ -7,8 +9,13 @@ import isEmpty from 'lodash/isEmpty';
 import { getBaseUrl } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
-function getFormattedTooltip(fixedToTwoDigits, activeProject, filters) {
-  const url = `${getBaseUrl()}:9000/projects/${
+function getFormattedTooltip(
+  fixedToTwoDigits,
+  activeProject,
+  filters,
+  seriesOptions
+) {
+  const url = `${getBaseUrl()}:8081/projects/${
     activeProject.normalisedName
   }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
     filters.buildName.value
@@ -16,6 +23,16 @@ function getFormattedTooltip(fixedToTwoDigits, activeProject, filters) {
 
   const str = this.points.reduce((s, data) => {
     let returnString = `${s}`;
+    let seriesValue = '';
+    // eslint-disable-next-line sonarjs/no-small-switch
+    switch (seriesOptions.id) {
+      case 'stabilityChart':
+        seriesValue = `${fixedToTwoDigits ? data.y?.toFixed(2) : data.y}%`;
+        break;
+      default:
+        seriesValue = fixedToTwoDigits ? data.y?.toFixed(2) : data.y;
+    }
+
     if (!isEmpty(data.point.pointRange)) {
       returnString += `<div><span class="font-sm">${getCustomTimeStamp({
         dateString: data.point.pointRange[0],
@@ -26,33 +43,31 @@ function getFormattedTooltip(fixedToTwoDigits, activeProject, filters) {
         withoutTime: true
       })}</span></div>`;
     }
-    if (returnString) {
-      returnString += `<br/>`;
-    }
     returnString += `<div class="flex-1 mt-0.5">`;
     returnString += `<div class="flex justify-between"><div>
-      <span style="color:${
-        data.series.color
-      }" class="font-sm">\u25CF&nbsp;</span>
+      <span style="color:${data.series.color}" class="font-sm">\u25CF&nbsp;</span>
       <span class="font-sm">${data.series.name}</span></div>
       <span>
-        <b>${fixedToTwoDigits ? data.y?.toFixed(2) : data.y}</b>
+        <b>${seriesValue}</b>
       </span>
     </div>
     </div>`;
     return returnString;
   }, ``);
-  return `<div class="flex flex-col px-2 py-1 bg-base-800 rounded-lg text-base-200">${str}
-  <br/><a class="text-white font-medium" href=${url} target="_blank">View all tests (Pro)</a></div>`;
+  return `<div class="px-2 py-1 flex flex-col bg-base-800 rounded-lg text-base-200">${str}
+  <a class="text-white font-medium mt-0.5" href=${url} target="_blank">View all tests (Pro) <MdOpenInNew /> </a></div>`;
 }
 
 export const getCommonChartOptions = (data = {}) => {
   const {
-    median,
-    showTrendLine,
-    tooltipFormatter,
+    activeProject,
+    afterSetExtremes,
+    filters,
     fixedToTwoDigits,
-    afterSetExtremes
+    median,
+    seriesOptions,
+    showTrendLine,
+    tooltipFormatter
   } = data;
   const chartData = {
     ...COMMON_CHART_CONFIGS,
@@ -60,12 +75,14 @@ export const getCommonChartOptions = (data = {}) => {
       ...TOOLTIP_STYLES,
       shared: true,
       useHTML: true,
+      outside: true,
       formatter() {
         return getFormattedTooltip.call(
           this,
           fixedToTwoDigits,
-          data.activeProject,
-          data.filters
+          activeProject,
+          filters,
+          seriesOptions
         );
       },
       style: {

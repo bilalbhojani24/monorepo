@@ -4,6 +4,7 @@ import Chart from 'common/Chart';
 import {
   COMMON_CHART_CONFIGS,
   COMMON_CHART_STYLES,
+  SNP_PARAMS_MAPPING,
   TOOLTIP_STYLES
 } from 'constants/common';
 import {
@@ -14,7 +15,7 @@ import { getTrendPerformanceChartData } from 'features/TestingTrends/slices/test
 import { getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import { logOllyEvent } from 'utils/common';
+import { getBaseUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import useChartActions from '../hooks/useChartActions';
@@ -24,40 +25,51 @@ import TrendStatesWrapper from './TrendStatesWrapper';
 function getFormattedYAxisLabel() {
   return milliSecondsToTime(this.value);
 }
-function getFormattedTooltip() {
-  return this.points.reduce((s, data) => {
+function getFormattedTooltip(activeProject, filters) {
+  const url = `${getBaseUrl()}:8081/projects/${
+    activeProject.normalisedName
+  }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
+    filters.buildName.value
+  }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
+
+  const str = this.points.reduce((s, data) => {
     let returnString = `${s}`;
     if (!isEmpty(data.point.pointRange)) {
-      returnString += `<span class="tt-small-text">${getCustomTimeStamp({
+      returnString += `<div><span class="font-sm">${getCustomTimeStamp({
         dateString: data.point.pointRange[0],
         withoutTime: true
       })} </span>`;
-      returnString += ` - <span class="tt-small-text">${getCustomTimeStamp({
+      returnString += ` - <span class="font-sm">${getCustomTimeStamp({
         dateString: data.point.pointRange[1],
         withoutTime: true
-      })}</span>`;
+      })}</span></div>`;
     }
-    if (returnString) {
-      returnString += `<br/>`;
-    }
-    returnString += `<span style="color:${data.series.color}">\u25CF&nbsp;</span>`;
-    if (data.series.name === 'Duration') {
-      returnString += `<span>${data.series.name}: <b>${milliSecondsToTime(
+
+    returnString += `<div class="flex-1 mt-0.5">`;
+    returnString += `<div class="flex justify-between"><div>
+      <span style="color:${data.series.color}" class="font-sm">\u25CF&nbsp;</span>`;
+    if (data.series.name === 'Average Duration') {
+      returnString += `<span>${
+        data.series.name
+      }</span></div> <span><b>${milliSecondsToTime(
         data.y
-      )}</b></span>`;
+      )}</b></span></div></div>`;
     } else {
-      returnString += `<span>${data.series.name}: <b>${data.y}</b></span>`;
+      returnString += `<span>${data.series.name}</span></div> <span><b>${data.y}</b></span></div></div>`;
     }
     return returnString;
-  }, ``);
+  }, '');
+
+  return `<div class="px-2 py-1 flex flex-col bg-base-800 rounded-lg text-base-200">${str}
+    <a class="text-white font-medium mt-0.5" href=${url} target="_blank">View all tests (Pro) </a></div>`;
 }
 
-const getChartOptions = ({ afterSetExtremes, activeProject }) => ({
+const getChartOptions = ({ afterSetExtremes, activeProject, filters }) => ({
   ...COMMON_CHART_CONFIGS,
   tooltip: {
     ...TOOLTIP_STYLES,
     formatter() {
-      return getFormattedTooltip.call(this);
+      return getFormattedTooltip.call(this, activeProject, filters);
     },
     shared: true
   },
@@ -192,7 +204,11 @@ export default function PerformanceGraph({ buildName }) {
 
   const options = useMemo(
     () => ({
-      ...getChartOptions({ afterSetExtremes, activeProject: projects.active }),
+      ...getChartOptions({
+        afterSetExtremes,
+        activeProject: projects.active,
+        filters
+      }),
       series: [
         {
           type: 'column',
@@ -210,7 +226,13 @@ export default function PerformanceGraph({ buildName }) {
         }
       ]
     }),
-    [afterSetExtremes, chartData?.barData, chartData?.lineData, projects.active]
+    [
+      afterSetExtremes,
+      chartData?.barData,
+      chartData?.lineData,
+      filters,
+      projects.active
+    ]
   );
 
   return (

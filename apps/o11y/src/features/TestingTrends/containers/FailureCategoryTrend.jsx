@@ -20,18 +20,28 @@ import { getBaseUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
 function getFormattedTooltip(activeProject, filters) {
-  const url = `${getBaseUrl()}:9000/projects/${
+  const url = `${getBaseUrl()}:8081/projects/${
     activeProject.normalisedName
   }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
     filters.buildName.value
   }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
 
-  return `${this.points.reduce((s, data) => {
-    let returnString = `${s}<br/><span style="color:${data.series.color}">\u25CF&nbsp;</span>`;
-    returnString += `<span>${data.series.name}: <b>${data.y}</b></span>`;
+  const str = `${this.points.reduce((s, data) => {
+    let returnString = `<div class="flex-1 mt-0.5">`;
+    returnString += `<div class="flex justify-between"><div>
+      <span style="color:${data.series.color}" class="font-sm">\u25CF&nbsp;</span>
+      <span class="font-sm">${data.series.name}</span></div>
+      <span>
+        <b>${data.y}</b>
+      </span>
+    </div>
+    </div>`;
     return returnString;
-  }, `<span class="tt-small-text" style="margin-bottom:6px">${getCustomTimeStamp({ dateString: this.x })}</span>`)}
-        <br/><a href=${url} target="_blank">View all tests (Pro)</a>`;
+  }, '')}`;
+  return `<div class="px-2 py-1 flex flex-col bg-base-800 rounded-lg text-base-200">
+  <span class="font-sm mb-1.5" style="margin-bottom:6px">${getCustomTimeStamp({
+    dateString: this.x
+  })}</span>${str}<a class="text-white font-medium mt-0.5" href=${url} target="_blank">View all tests (Pro) </a></div>`;
 }
 
 function getChartOptions({ afterSetExtremes, activeProject, filters }) {

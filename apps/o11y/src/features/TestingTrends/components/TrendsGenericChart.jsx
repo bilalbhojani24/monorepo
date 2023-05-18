@@ -31,7 +31,8 @@ export default function TrendsGenericChart({
         afterSetExtremes,
         ...config,
         activeProject,
-        filters
+        filters,
+        seriesOptions
       }),
       chart: {
         animation: false,
@@ -62,7 +63,7 @@ export default function TrendsGenericChart({
     }
     if (config.showTrendLine) {
       chartOptions.series.push({
-        name: 'Trend',
+        name: 'Trendline',
         type: 'trendline',
         linkedTo: seriesOptions.id
       });

@@ -11,20 +11,43 @@ import Chart from 'common/Chart';
 import {
   COMMON_CHART_CONFIGS,
   COMMON_CHART_STYLES,
+  SNP_PARAMS_MAPPING,
   TOOLTIP_STYLES
 } from 'constants/common';
 import { getTrendsData } from 'features/TestingTrends/slices/testingTrendsSlice';
-import { getProjects } from 'globalSlice/selectors';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
-import { logOllyEvent } from 'utils/common';
+import { getBaseUrl, logOllyEvent } from 'utils/common';
 
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
 import { getAllTTFilters } from '../slices/selectors';
 
-const getChartOptions = () => ({
+function getFormattedTooltip(activeProject, filters) {
+  const url = `${getBaseUrl()}:8081/projects/${
+    activeProject?.normalisedName
+  }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
+    filters.buildName.value
+  }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
+
+  let returnString = `<div class="flex-1 "><span>${this.point.name}</span>`;
+  returnString += `<div class="flex justify-between mt-1">
+  <div><span style="color:${this.point.series.color}" class="font-sm">\u25CF&nbsp;</span>`;
+  returnString += `<span>${this.point.series.name}</span> <span><b>${this.point.y}</b></span></div></div>`;
+
+  return `<div class="px-2 py-1 flex flex-col bg-base-800 rounded-lg text-base-200">${returnString}
+  <a class="text-white font-medium mt-0.5" href=${url} target="_blank">View tests (Pro)</a></div>`;
+}
+
+const getChartOptions = (activeProject, filters) => ({
   ...COMMON_CHART_CONFIGS,
   tooltip: {
-    ...TOOLTIP_STYLES
+    ...TOOLTIP_STYLES,
+    formatter() {
+      return getFormattedTooltip.call(this, activeProject, filters);
+    },
+    shared: true,
+    useHTML: true,
+    hideDelay: 1000
   },
   legend: { enabled: false },
   title: {
@@ -64,7 +87,7 @@ export default function CbtTrends() {
   const filters = useSelector(getAllTTFilters);
   const [chartData, setChartData] = useState({ data: [] });
   const dispatch = useDispatch();
-  const projects = useSelector(getProjects);
+  const activeProject = useSelector(getActiveProject);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [activeSeriesData, setActiveSeriesData] = useState([]);
@@ -77,7 +100,7 @@ export default function CbtTrends() {
     setChartData({ data: [] });
     dispatch(
       getTrendsData({
-        normalisedName: projects.active?.normalisedName,
+        normalisedName: activeProject?.normalisedName,
         filters,
         key: 'cbt'
       })
@@ -92,13 +115,13 @@ export default function CbtTrends() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [dispatch, projects.active?.normalisedName, filters]);
+  }, [dispatch, activeProject?.normalisedName, filters]);
 
   useEffect(() => {
-    if (projects.active?.normalisedName) {
+    if (activeProject?.normalisedName) {
       fetchData();
     }
-  }, [fetchData, projects.active?.normalisedName]);
+  }, [fetchData, activeProject?.normalisedName]);
 
   const setChartTitle = useCallback((totalCombinations, chartRef) => {
     const currentChart = chartRef || chart.current?.chart;
@@ -111,7 +134,7 @@ export default function CbtTrends() {
 
   const getOptions = useMemo(
     () => ({
-      ...getChartOptions(),
+      ...getChartOptions(activeProject, filters),
       chart: {
         type: 'pie',
         ...COMMON_CHART_STYLES,
@@ -128,8 +151,8 @@ export default function CbtTrends() {
               logOllyEvent({
                 event: 'O11yTestingTrendsInteracted',
                 data: {
-                  project_name: projects.active.name,
-                  project_id: projects.active.id,
+                  project_name: activeProject.name,
+                  project_id: activeProject.id,
                   interaction: 'cbt_drilldown'
                 }
               });
@@ -170,10 +193,10 @@ export default function CbtTrends() {
       }
     }),
     [
+      activeProject,
+      filters,
       chartData.data,
       chartData?.drillDownData,
-      projects.active.id,
-      projects.active.name,
       setChartTitle
     ]
   );
