@@ -11,7 +11,7 @@ import {
   getUEHostNames,
   getUETestTags
 } from 'api/snp';
-import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { O11Y_DATE_RANGE, SNP_PARAMS_MAPPING } from 'constants/common';
 import {
   ADV_FILTER_TYPES,
   ADV_FILTERS_PREFIX,
@@ -31,7 +31,7 @@ import {
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
-import { getDateInFormat } from 'utils/dateTime';
+import { getDateInFormat, getO11yTimeBounds } from 'utils/dateTime';
 
 import { TABS } from '../constants';
 
@@ -605,9 +605,6 @@ const updateUEFilterFields = (data, dispatch, searchParams) => {
               id,
               value: applied[ADV_FILTER_TYPES.dateRange.key],
               text,
-              appliedText: `${
-                ADV_FILTERS_PREFIX[ADV_FILTER_TYPES.dateRange.key]
-              }: ${text}`,
               isApplied: true
             });
           }
@@ -631,6 +628,14 @@ export const getSnPTestsFiltersData = createAsyncThunk(
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_TESTS));
     try {
       const searchString = getFilterFromSearchString();
+      if (!searchString.get(ADV_FILTER_TYPES.dateRange.key)) {
+        const timeBounds = getO11yTimeBounds(O11Y_DATE_RANGE.days30.key);
+        searchString.set('daterangetype', O11Y_DATE_RANGE.days30.key);
+        searchString.set(
+          ADV_FILTER_TYPES.dateRange.key,
+          `${timeBounds.lowerBound},${timeBounds.upperBound}`
+        );
+      }
       const response = await getSnPTestsFilters({
         ...data,
         searchString
@@ -653,6 +658,14 @@ export const getSnPUEFiltersData = createAsyncThunk(
     );
     try {
       const searchString = getFilterFromSearchString();
+      if (!searchString.get(ADV_FILTER_TYPES.dateRange.key)) {
+        const timeBounds = getO11yTimeBounds(O11Y_DATE_RANGE.days30.key);
+        searchString.set('daterangetype', O11Y_DATE_RANGE.days30.key);
+        searchString.set(
+          ADV_FILTER_TYPES.dateRange.key,
+          `${timeBounds.lowerBound},${timeBounds.upperBound}`
+        );
+      }
       const response = await getSnPUEFilters({
         ...data,
         searchString
