@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import ReportContent from '../../ReportContent';
@@ -21,7 +22,14 @@ const Report = ({
       <div id="reportContainer" className="flex w-full flex-col">
         {headerComponent}
 
-        <div className="mb-16 mt-14 flex max-w-full flex-1 overflow-hidden">
+        <div
+          className={twClassNames(
+            'mb-16 flex max-w-full flex-1 overflow-hidden',
+            {
+              'mt-14': IS_ELECTRON
+            }
+          )}
+        >
           <div className="flex w-64 shrink-0 grow-0 flex-col items-center lg:w-64 xl:w-[360px]">
             <ReportSidebar />
           </div>

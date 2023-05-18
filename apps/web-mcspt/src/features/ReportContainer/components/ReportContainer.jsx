@@ -17,7 +17,7 @@ const ReportContainer = () => {
       {isReportErrored && <ReportError />}
 
       {!isReportLoading && !isReportErrored && (
-        <div className="flex max-h-screen">
+        <div className="flex max-h-[calc(100vh-4rem)]">
           <Report
             handleUrlViaConsumer={() => {}}
             handleFolderViaConsumer={() => {}}
