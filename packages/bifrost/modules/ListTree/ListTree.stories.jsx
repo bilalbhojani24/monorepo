@@ -9,7 +9,7 @@ import DropdownOptionItem from '../DropdownOptionItem';
 import DropdownTrigger from '../DropdownTrigger';
 import { EllipsisVerticalIcon, MdFolderSpecial } from '../Icon';
 import InputField from '../InputField';
-import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent.stories';
+import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
 import ListTreeRootWrapper from '../ListTreeRootWrapper';
