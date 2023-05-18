@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getTestListFilters, getTestListHostNames } from 'api/testlist';
-import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import { getTestListFilters } from 'api/testlist';
 import {
   ADV_FILTER_TYPES,
   FILTER_CATEGORIES
@@ -282,22 +281,6 @@ export const getTestListingFiltersData = createAsyncThunk(
       return rejectWithValue(err);
     } finally {
       dispatch(setIsLoadingBuildsFilters(false));
-    }
-  }
-);
-
-export const getTestListHostNamesData = createAsyncThunk(
-  `testlist/getHostNames`,
-  async (data, { rejectWithValue, getState }) => {
-    try {
-      const buildId = getBuildUUID(getState());
-      const response = await getTestListHostNames({
-        ...data,
-        buildId
-      });
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err);
     }
   }
 );

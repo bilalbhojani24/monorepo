@@ -9,16 +9,12 @@ import {
   FilterSlideoverTrigger,
   FolderFilterField,
   MultiSelectCheckboxFilterField,
-  MultiSelectSearchFilterField,
   MultiSelectStaticFilterField,
   SearchFilterField
 } from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { useTestListContext } from 'features/TestList/context/TestListContext';
-import {
-  getTestListHostNamesData,
-  getTestListingFiltersData
-} from 'features/TestList/slices/filterSlice';
+import { getTestListingFiltersData } from 'features/TestList/slices/filterSlice';
 import { getAggregatedStatus } from 'features/TestList/slices/selectors';
 import PropTypes from 'prop-types';
 
@@ -133,11 +129,10 @@ const TestListFilters = ({ buildUUID }) => {
             noLabel="Unmuted"
             type={ADV_FILTER_TYPES.isMuted.key}
           />
-          <MultiSelectSearchFilterField
+          <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.hostNames.key}
             placeholder="Select"
             label="Host name"
-            searchAPI={getTestListHostNamesData}
           />
           <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.deviceList.key}

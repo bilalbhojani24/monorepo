@@ -158,8 +158,3 @@ export const getTestListFilters = async ({ searchString, buildId }) => {
   const endpoint = `${versionedBaseRoute()}/builds/${buildId}/testRuns/filters?${searchString}`;
   return axios.get(endpoint);
 };
-
-export const getTestListHostNames = async ({ buildId, query }) => {
-  const endpoint = `${versionedBaseRoute()}/builds/${buildId}/testRuns/filters/hostNames?q=${query}`;
-  return axios.get(endpoint);
-};
