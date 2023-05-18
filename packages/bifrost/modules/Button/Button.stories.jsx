@@ -57,7 +57,6 @@ const defaultConfig = {
       defaultValue: false
     },
     icon: {
-      option: { type: 'text' },
       defaultValue: <EnvelopeIcon aria-hidden="true" />
     },
     iconPlacement: {
