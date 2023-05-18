@@ -91,6 +91,7 @@ export const ControlledBadgeCombobox = () => {
           isLoading: states.leftLoader,
           disabled: states.disable
         }}
+        placeholder="Controlled combobox"
       />
 
       <div className="mt-5 space-x-2">
@@ -156,6 +157,7 @@ export const UncontrolledBadgeCombobox = () => {
           prefix="Add"
         />
       }
+      placeholder="Uncontrolled combobox"
 
       // onInputChange={async (value) =>
       //   await new Promise((resolve) =>
