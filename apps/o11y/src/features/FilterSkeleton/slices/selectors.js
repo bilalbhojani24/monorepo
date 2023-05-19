@@ -1,5 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+export const getCurrentFilterCategory = (state) =>
+  state.allFilters.currentCategory;
+
 export const getIsFiltersLoading = (state) => {
   const { currentCategory } = state.allFilters;
   return state.allFilters[currentCategory].isLoadingFilters;

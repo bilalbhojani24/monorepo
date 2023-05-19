@@ -6,8 +6,10 @@ import { twClassNames } from '@browserstack/utils';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
 import {
   getAllAppliedFilters,
+  getCurrentFilterCategory,
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
 import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
@@ -71,6 +73,7 @@ const SnPUniqueErrors = () => {
   const navigate = useNavigate();
   const appliedFilters = useSelector(getAllAppliedFilters);
   const isFiltersLoading = useSelector(getIsFiltersLoading);
+  const currentFilterCategory = useSelector(getCurrentFilterCategory);
 
   useEffect(() => {
     logOllyEvent({
@@ -109,7 +112,11 @@ const SnPUniqueErrors = () => {
 
   useEffect(() => {
     mounted.current = true;
-    if (activeProject?.normalisedName && !isFiltersLoading) {
+    if (
+      activeProject?.normalisedName &&
+      !isFiltersLoading &&
+      currentFilterCategory === FILTER_CATEGORIES.SUITE_HEALTH_UNIQUE_ERRORS
+    ) {
       dispatch(setErrorsLoading(true));
       dispatch(
         getSnPErrorsData({
@@ -132,7 +139,8 @@ const SnPUniqueErrors = () => {
     activeProject?.normalisedName,
     sortBy,
     isFiltersLoading,
-    appliedFilters
+    appliedFilters,
+    currentFilterCategory
   ]);
 
   useEffect(() => {

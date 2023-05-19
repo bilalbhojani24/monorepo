@@ -54,7 +54,7 @@ const SHUEFilters = () => {
         <SearchFilterField
           type={ADV_FILTER_TYPES.search.key}
           id="search-by-test-or-file-path"
-          placeholder="Search by Test name or File path"
+          placeholder="Search by error"
         />
         <div className="flex items-center gap-5">
           <DatePickerFilterField supportedKeys={SUPPORTED_DATE_RANGE_KEYS} />
