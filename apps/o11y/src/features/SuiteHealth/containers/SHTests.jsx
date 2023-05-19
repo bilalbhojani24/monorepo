@@ -6,8 +6,10 @@ import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
 import {
   getAllAppliedFilters,
+  getCurrentFilterCategory,
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
 import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
@@ -51,6 +53,7 @@ export default function SHTests() {
   const isFiltersLoading = useSelector(getIsFiltersLoading);
   const navigate = useNavigate();
   const appliedFilters = useSelector(getAllAppliedFilters);
+  const currentFilterCategory = useSelector(getCurrentFilterCategory);
 
   useEffect(() => {
     logOllyEvent({
@@ -83,7 +86,11 @@ export default function SHTests() {
 
   useEffect(() => {
     mounted.current = true;
-    if (activeProject?.normalisedName && !isFiltersLoading) {
+    if (
+      activeProject?.normalisedName &&
+      !isFiltersLoading &&
+      currentFilterCategory === FILTER_CATEGORIES.SUITE_HEALTH_TESTS
+    ) {
       dispatch(setTestsLoading(true));
       dispatch(
         getSnPTestsData({
@@ -104,7 +111,8 @@ export default function SHTests() {
     appliedFilters,
     activeProject?.normalisedName,
     sortBy,
-    isFiltersLoading
+    isFiltersLoading,
+    currentFilterCategory
   ]);
 
   useEffect(() => {
