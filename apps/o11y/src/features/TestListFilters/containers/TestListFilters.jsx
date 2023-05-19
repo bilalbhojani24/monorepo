@@ -10,7 +10,8 @@ import {
   FolderFilterField,
   MultiSelectCheckboxFilterField,
   MultiSelectStaticFilterField,
-  SearchFilterField
+  SearchFilterField,
+  SingleSelectCheckboxFilterField
 } from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { useTestListContext } from 'features/TestList/context/TestListContext';
@@ -108,6 +109,11 @@ const TestListFilters = ({ buildUUID }) => {
             yesLabel="Always Failing"
             noLabel="Not Always Failing"
             type={ADV_FILTER_TYPES.isAlwaysFailing.key}
+          />
+          <SingleSelectCheckboxFilterField
+            label="Newly Failed Tests"
+            inputLabel="Newly Failed Tests"
+            type={ADV_FILTER_TYPES.isNewFailure.key}
           />
           <MultiSelectCheckboxFilterField
             label="Performance Anomalies"

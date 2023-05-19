@@ -155,6 +155,6 @@ export const submitBulkDefectType = async ({ buildId, testId, payload }) =>
   );
 
 export const getTestListFilters = async ({ searchString, buildId }) => {
-  const endpoint = `${versionedBaseRoute()}/builds/${buildId}/testRuns/filters?${searchString}`;
+  const endpoint = `${versionedBaseRoute()}/builds/${buildId}/filters?${searchString}`;
   return axios.get(endpoint);
 };
