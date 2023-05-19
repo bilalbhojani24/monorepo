@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
+import GettingStarted from '../features/GettingStarted';
 import Layout from '../features/Layout';
 import Logs from '../features/LogsPage';
 import Overview from '../features/Overview';
@@ -26,8 +27,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.getting_started,
         isProtected: true,
-        // TODO : Replace component with GettingStarted
-        component: <Overview />
+        component: <GettingStarted />
       },
       {
         path: ROUTES.logs,

@@ -15,9 +15,20 @@ import requestCountReducers, {
   requestCountLoadingSelector,
   requestCountSelector
 } from './requestCountSlice';
+import usageSummaryReducers, {
+  closeUsageSummarySlideover,
+  isUsageSummarySlideoverOpenSelector,
+  openUsageSummarySlideover,
+  setUsageDetails,
+  usageDetailsSelector,
+  usageSummaryErrorSelector,
+  usageSummaryLoadingSelector,
+  usageSummarySelector
+} from './usageSummarySlice';
 
 export {
   activeConfigurationsSelector,
+  closeUsageSummarySlideover,
   configurationsErrorSelector,
   configurationsLoadingSelector,
   configurationsReducers,
@@ -26,9 +37,17 @@ export {
   integrationsLoadingSelector,
   integrationsReducers,
   integrationsSelector,
+  isUsageSummarySlideoverOpenSelector,
+  openUsageSummarySlideover,
   requestCountErrorSelector,
   requestCountLoadingSelector,
   requestCountReducers,
   requestCountSelector,
-  setActiveConfigurations
+  setActiveConfigurations,
+  setUsageDetails,
+  usageDetailsSelector,
+  usageSummaryErrorSelector,
+  usageSummaryLoadingSelector,
+  usageSummaryReducers,
+  usageSummarySelector
 };

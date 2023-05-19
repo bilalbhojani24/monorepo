@@ -34,8 +34,8 @@ export const requestCountSlice = createSlice({
 export default requestCountSlice.reducer;
 
 export const requestCountLoadingSelector = (state) =>
-  state.integrations.loading;
-export const requestCountErrorSelector = (state) => state.integrations.error;
+  state.requestCount.loading;
+export const requestCountErrorSelector = (state) => state.requestCount.error;
 export const requestCountSelector = (state) => ({
   total: state.requestCount.total,
   requests: state.requestCount.requests

@@ -22,7 +22,7 @@ const Layout = () => {
 
   return (
     <div className="bg-base-50 relative min-h-screen">
-      <div ref={headerRef}>
+      <div id="integrate-header-id" ref={headerRef}>
         <INTGHeader />
       </div>
       <div

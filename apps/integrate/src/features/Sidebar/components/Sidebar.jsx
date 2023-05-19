@@ -9,6 +9,7 @@ import {
   SidebarNavigation
 } from '@browserstack/bifrost';
 
+import { URLS } from '../../../api';
 import { ROUTES } from '../../../constants/routes';
 
 const getPrimaryNav = () => [
@@ -42,7 +43,7 @@ const getPrimaryNav = () => [
     activeIcon: MdOutlineClass,
     inActiveIcon: MdOutlineClass,
     isExternalLink: true,
-    path: '/documentation'
+    path: URLS.DOCUMENTATION
   }
 ];
 

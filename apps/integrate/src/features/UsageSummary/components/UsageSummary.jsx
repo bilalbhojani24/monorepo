@@ -7,17 +7,17 @@ import {
   SelectMenuOptionItem,
   SelectMenuTrigger
 } from '@browserstack/bifrost';
-import { fromUnixTime, getUnixTime, subMonths } from 'date-fns';
+import { getUnixTime, subMonths } from 'date-fns';
 
-import { getRequestCountThunk } from '../../../api';
+import { getUsageSummaryThunk } from '../../../api';
 import { LOADING_STATUS } from '../../../constants/loadingConstants';
 import {
   activeConfigurationsSelector,
-  requestCountLoadingSelector,
-  requestCountSelector
+  usageSummaryLoadingSelector,
+  usageSummarySelector
 } from '../../../globalSlice';
 
-import Chart from './Chart';
+import UsageSummaryTable from './UsageSummaryTable';
 
 const RequestsChart = () => {
   const dispatch = useDispatch();
@@ -37,9 +37,10 @@ const RequestsChart = () => {
       return activeConfigurationIds;
     }, [])
     .join();
-  const isrequesCountDataLoading =
-    useSelector(requestCountLoadingSelector) === LOADING_STATUS.PENDING;
-  const { total, requests } = useSelector(requestCountSelector) ?? {};
+
+  const isUsageSummaryLoading =
+    useSelector(usageSummaryLoadingSelector) === LOADING_STATUS.PENDING;
+  const usageSummaryData = useSelector(usageSummarySelector);
 
   const to = useMemo(() => new Date(), []);
   const from = useMemo(
@@ -49,29 +50,19 @@ const RequestsChart = () => {
 
   useEffect(() => {
     dispatch(
-      getRequestCountThunk({
+      getUsageSummaryThunk({
         to: getUnixTime(to),
         from: getUnixTime(from),
-        frequency: '1Y',
         configurationIds: activeConfigurationsIds
       })
     );
   }, [dispatch, activeConfigurationsIds, activeDateRange, to, from]);
 
-  if (isrequesCountDataLoading) {
-    return <Loader />;
-  }
-
-  const getXYCoordsForRequests = () =>
-    requests.map(({ timestamp, request_count: count }) => ({
-      x: fromUnixTime(timestamp),
-      y: count
-    }));
   return (
     // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="mb-6 h-[440px] flex-1 rounded-lg bg-white p-6 drop-shadow lg:mr-5">
+    <div className="mb-6 h-[440px] flex-1 rounded-lg bg-white p-6 drop-shadow">
       <div className="mb-5 flex justify-between">
-        <p className="text-lg font-semibold">API Requests</p>
+        <p className="text-lg font-semibold">Usage</p>
         <SelectMenu onChange={selectConfiguration} value={activeDateRange}>
           <SelectMenuTrigger wrapperClassName="w-48 ml-6" />
           <SelectMenuOptionGroup>
@@ -81,18 +72,10 @@ const RequestsChart = () => {
           </SelectMenuOptionGroup>
         </SelectMenu>
       </div>
-      {isrequesCountDataLoading ? (
-        <div className="w-full">
-          <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />
-        </div>
+      {isUsageSummaryLoading ? (
+        <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />
       ) : (
-        <>
-          <p className="text-base-900 mb-10 text-3xl font-semibold">{total}</p>
-          <Chart
-            pointStart={getUnixTime(from)}
-            data={getXYCoordsForRequests()}
-          />
-        </>
+        <UsageSummaryTable usageSummaryData={usageSummaryData} />
       )}
     </div>
   );

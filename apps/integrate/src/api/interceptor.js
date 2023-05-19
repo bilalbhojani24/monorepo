@@ -1,11 +1,16 @@
 import axios from 'axios';
 
+import { getEnvConfig } from '../utils/getEnvConfig';
+
+const envConfig = getEnvConfig();
+
 // Add a request interceptor
 export const requestInterceptor = axios.interceptors.request.use(
   (config) => {
     const configShallowCopy = config;
-    configShallowCopy.baseURL = 'http://localhost:3001';
-    configShallowCopy.withCredentials = true;
+    // configShallowCopy.baseURL = 'http://localhost:3001';
+    configShallowCopy.baseURL = envConfig.apiUrl;
+    configShallowCopy.withCredentials = envConfig.withCredentials;
     // Do something before request is sent
     return configShallowCopy;
   },
