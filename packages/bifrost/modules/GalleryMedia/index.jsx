@@ -23,7 +23,8 @@ const GalleryMedia = ({
   showExtensions,
   alwaysVisible,
   onChange,
-  onCardClick
+  onCardClick,
+  ratioConfig
 }) => {
   const renderMediaThumbnail = (item) => {
     const { status, file } = item;
@@ -32,20 +33,14 @@ const GalleryMedia = ({
         return (
           <div
             className={twClassNames(
-              `bg-cover bg-no-repeat ${
-                MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]
-              }`
+              `bg-cover bg-no-repeat ${ratioConfig[ratio].split(' ')[0]}`
             )}
             style={{ backgroundImage: `url(${file})` }}
           />
         );
       case MEDIA_CARD_STATUS[1]:
         return (
-          <div
-            className={twClassNames(
-              `${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]}`
-            )}
-          >
+          <div className={twClassNames(`${ratioConfig[ratio].split(' ')[0]}`)}>
             <BsExclamationTriangleFill
               className="text-base-700 mx-auto flex h-full w-6 flex-col"
               aria-hidden="true"
@@ -55,12 +50,9 @@ const GalleryMedia = ({
       case MEDIA_CARD_STATUS[2]:
         return (
           <div
-            className={twClassNames(
-              `${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]}`,
-              {
-                'flex justify-center': status === MEDIA_CARD_STATUS[2]
-              }
-            )}
+            className={twClassNames(`${ratioConfig[ratio].split(' ')[0]}`, {
+              'flex justify-center': status === MEDIA_CARD_STATUS[2]
+            })}
           >
             <Loader
               width="w-6"
@@ -72,7 +64,7 @@ const GalleryMedia = ({
         return (
           <div
             className={`bg-cover bg-no-repeat ${
-              MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]
+              ratioConfig[ratio].split(' ')[0]
             }`}
             style={{ backgroundImage: `url(${file})` }}
           >
@@ -84,7 +76,7 @@ const GalleryMedia = ({
         );
       case MEDIA_CARD_STATUS[4]:
         return (
-          <div className={`${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]}`}>
+          <div className={`${ratioConfig[ratio].split(' ')[0]}`}>
             <MdPictureAsPdf
               className="text-base-700 mx-auto flex h-full w-8 flex-col"
               aria-hidden="true"
@@ -93,7 +85,7 @@ const GalleryMedia = ({
         );
       case MEDIA_CARD_STATUS[5]:
         return (
-          <div className={`${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]}`}>
+          <div className={`${ratioConfig[ratio].split(' ')[0]}`}>
             <AiFillFileText
               className="text-base-700 mx-auto flex h-full w-8 flex-col"
               aria-hidden="true"
@@ -104,7 +96,7 @@ const GalleryMedia = ({
         return (
           <div
             className={`${
-              MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]
+              ratioConfig[ratio].split(' ')[0]
             } text-base-900 text-lg font-normal leading-none`}
           >
             Unsupported format
@@ -157,7 +149,7 @@ const GalleryMedia = ({
   return data.map((mediaItem) => (
     <div
       key={mediaItem.id}
-      className={`mx-auto ${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[1]}`}
+      className={`mx-auto ${ratioConfig[ratio].split(' ')[1]}`}
       role="region"
     >
       <GalleryMediaCheckbox
@@ -206,7 +198,13 @@ GalleryMedia.propTypes = {
       id: PropTypes.string,
       selected: PropTypes.bool
     })
-  )
+  ),
+  ratioConfig: PropTypes.shape({
+    '16/9': PropTypes.string,
+    '3/2': PropTypes.string,
+    '4/3': PropTypes.string,
+    '1/1': PropTypes.string
+  })
 };
 GalleryMedia.defaultProps = {
   data: [],
@@ -214,7 +212,8 @@ GalleryMedia.defaultProps = {
   showExtensions: false,
   onChange: () => {},
   onCardClick: () => {},
-  alwaysVisible: false
+  alwaysVisible: false,
+  ratioConfig: MEDIA_CARD_THUMBNAIL_RATIO
 };
 
 export default GalleryMedia;
