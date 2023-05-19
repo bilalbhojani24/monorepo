@@ -19,8 +19,6 @@ import {
   Tooltip,
   TooltipBody
 } from '@browserstack/bifrost';
-import ChromeIcon from 'assets/chrome_icon.svg';
-import MacIcon from 'assets/mac_icon.svg';
 import CopyButton from 'common/CopyButton';
 import {
   HOW_TO_FIX_TAB,
@@ -31,6 +29,8 @@ import {
 import { getEnvUrl } from 'utils';
 import {
   generateReportUrl,
+  getBrowserIcon,
+  getOSIcon,
   handleClickByEnterOrSpace,
   handleFocusElement,
   tagToView
@@ -124,17 +124,6 @@ export default function IssueItem({ sectionsDataContext }) {
       key: 'button'
     }
   ];
-
-  const getOSIcon = (name) => {
-    const icons = {
-      chrome: ChromeIcon,
-      mac: MacIcon
-    };
-
-    return icons[name];
-  };
-
-  console.log('printing tests', tests);
 
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
@@ -451,24 +440,26 @@ export default function IssueItem({ sectionsDataContext }) {
                                   {test.name}
                                 </p>
                                 <p className="text-base-500 text-sm">
-                                  {test.folder}
+                                  {test.file}
                                 </p>
                                 <div className="mt-2 flex items-center gap-2">
                                   <div className="flex items-center gap-1">
                                     <img
                                       className="h-5 w-5"
-                                      src={getOSIcon('chrome')}
-                                      alt="android icon"
+                                      src={getBrowserIcon(
+                                        test.browserData.name
+                                      )}
+                                      alt="browser icon"
                                     />
-                                    <p className="text-base-500">Chrome 112</p>
+                                    <p className="text-base-500">{`${test.browserData.name} ${test.browserData.version}`}</p>
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <img
                                       className="h-4 w-3"
-                                      src={getOSIcon('mac')}
-                                      alt="android icon"
+                                      src={getOSIcon(test.osData.name)}
+                                      alt="os icon"
                                     />
-                                    <p className="text-base-500">Ventura</p>
+                                    <p className="text-base-500">{`${test.osData.name} ${test.osData.version}`}</p>
                                   </div>
                                 </div>
                               </div>

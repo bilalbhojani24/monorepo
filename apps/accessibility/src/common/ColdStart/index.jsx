@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@browserstack/bifrost';
-
-import FolderAdd from '../../assets/folder-add.svg';
+import FolderAdd from 'assets/folder-add.svg';
+import { accessibilityIntroduction } from 'constants';
 
 export default function ColdStart() {
   return (
@@ -11,7 +11,9 @@ export default function ColdStart() {
       <p className="text-base-500 mb-6">
         Automate your accessibility testing with the BrowserStack SDK.
       </p>
-      <Button>Get started</Button>
+      <Button onClick={() => window.open(accessibilityIntroduction)}>
+        Get started
+      </Button>
     </>
   );
 }

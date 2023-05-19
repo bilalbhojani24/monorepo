@@ -1,3 +1,6 @@
+import ChromeIcon from 'assets/chrome_icon.svg';
+import MacIcon from 'assets/mac_icon.svg';
+import WindowsIcon from 'assets/windows_icon.svg';
 import { testTypes } from 'constants';
 import { wcagVersions } from 'features/SiteScanner/NewScan/constants';
 import { json2csv } from 'json-2-csv';
@@ -210,4 +213,21 @@ export const getHiddenIssuesCount = (reportData) => {
     needsReviewIssues = `0${needsReviewIssues}`;
   }
   return { hiddenIssues, needsReviewIssues };
+};
+
+export const getOSIcon = (name) => {
+  const icons = {
+    Windows: WindowsIcon,
+    Mac: MacIcon
+  };
+
+  return icons[name];
+};
+
+export const getBrowserIcon = (name) => {
+  const icons = {
+    Chrome: ChromeIcon
+  };
+
+  return icons[name];
 };

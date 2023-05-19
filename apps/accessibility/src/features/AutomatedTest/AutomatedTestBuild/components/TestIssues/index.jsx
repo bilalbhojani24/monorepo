@@ -7,10 +7,9 @@ import {
   SlideoverHeader,
   Tabs
 } from '@browserstack/bifrost';
-import ChromeIcon from 'assets/chrome_icon.svg';
-import WindowsIcon from 'assets/windows_icon.svg';
 import { ISSUES, SUMMARY, TESTS } from 'constants';
 import PropTypes from 'prop-types';
+import { getBrowserIcon, getOSIcon } from 'utils/helper';
 
 import Issues from './components/Issues';
 import Overview from './components/Overview';
@@ -68,47 +67,65 @@ export default function TestIssues({ isSliderOpen, onSliderClose }) {
         <SlideoverHeader
           headingWrapperClassName="flex justify-between w-full"
           heading={
-            <>
-              <div>
-                <p className="text-base-900 mb-1 w-auto text-lg font-normal">
-                  {Object.values(testMetaData.meta)[0].name}
-                </p>
-
-                <p className="text-base-500 mb-3 text-base font-normal">
-                  Suite / com.ddf.test.PDFInvoiceTest
-                </p>
-              </div>
-              <div>
+            testMetaData.meta && (
+              <>
                 <div>
-                  <MdClose
-                    className="cursor-pointer text-2xl"
-                    onClick={onSliderClose}
-                  />
+                  <p className="text-base-900 mb-1 w-auto text-lg font-normal">
+                    {Object.values(testMetaData.meta)[0].name}
+                  </p>
+
+                  <p className="text-base-500 mb-3 text-base font-normal">
+                    {Object.values(testMetaData.meta)[0].scopeList.join(' / ')}
+                  </p>
                 </div>
-              </div>
-            </>
+                <div>
+                  <div>
+                    <MdClose
+                      className="cursor-pointer text-2xl"
+                      onClick={onSliderClose}
+                    />
+                  </div>
+                </div>
+              </>
+            )
           }
           subHeading={
-            <>
-              <ul className="flex gap-2">
-                <li className="flex items-center gap-1">
-                  <img className="h-5 w-5" src={ChromeIcon} alt="chrome icon" />
-                  <p>Chrome 98</p>
-                </li>
-                <li className="flex items-center gap-1">
-                  <img
-                    className="h-4 w-4"
-                    src={WindowsIcon}
-                    alt="windows icon"
-                  />
-                  <p>Win 10</p>
-                </li>
-                <li className="flex items-center gap-1">
-                  <MdFolderOpen className="text-base-500" />
-                  <p>{Object.values(testMetaData.meta)[0].folder}</p>
-                </li>
-              </ul>
-            </>
+            testMetaData.meta && (
+              <>
+                <ul className="flex gap-2">
+                  <li className="flex items-center gap-1">
+                    <img
+                      className="h-5 w-5"
+                      src={getBrowserIcon(
+                        Object.values(testMetaData.meta)[0].browser_data.name
+                      )}
+                      alt="browser icon"
+                    />
+                    <p className="text-base-500">{`${
+                      Object.values(testMetaData.meta)[0].browser_data.name
+                    } ${
+                      Object.values(testMetaData.meta)[0].browser_data.version
+                    }`}</p>
+                  </li>
+                  <li className="flex items-center gap-1">
+                    <img
+                      className="h-4 w-4"
+                      src={getOSIcon(
+                        Object.values(testMetaData.meta)[0].os_data.name
+                      )}
+                      alt="windows icon"
+                    />
+                    <p>{`${Object.values(testMetaData.meta)[0].os_data.name} ${
+                      Object.values(testMetaData.meta)[0].os_data.version
+                    }`}</p>
+                  </li>
+                  <li className="flex items-center gap-1">
+                    <MdFolderOpen className="text-base-500" />
+                    <p>{Object.values(testMetaData.meta)[0].file}</p>
+                  </li>
+                </ul>
+              </>
+            )
           }
           dismissButton={false}
           isEllipsisHeader={false}

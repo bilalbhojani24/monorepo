@@ -231,3 +231,6 @@ export const ANALYTICS_KEYS = {
     }
   }
 };
+
+export const accessibilityIntroduction =
+  'https://www.browserstack.com/docs/automate-accessibility-testing/overview/introduction';

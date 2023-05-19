@@ -9,8 +9,7 @@ import {
   InputGroupAddOn,
   MdSearch
 } from '@browserstack/bifrost';
-
-import ColdStart from '../../../common/ColdStart';
+import ColdStart from 'common/ColdStart';
 
 import AutomatedTestList from './AutomatedTestList';
 import useAutomatedTestListing from './useAutomatedTestListing';
