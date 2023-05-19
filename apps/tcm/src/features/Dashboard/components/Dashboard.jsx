@@ -168,7 +168,7 @@ const Dashboard = () => {
                     options={closedTestRunsMonthlyLineOptions}
                   />
                   {closedTestRunsMonthlyLineOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
                       <div className="text-base-500 text-xs font-semibold">
                         {NO_DATA_TEXT}
                       </div>
@@ -215,7 +215,7 @@ const Dashboard = () => {
                     options={closedTestRunsDailyLineOptions}
                   />
                   {closedTestRunsDailyLineOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
                       <div className="text-base-500 text-xs font-semibold">
                         {NO_DATA_TEXT}
                       </div>
@@ -337,7 +337,7 @@ const Dashboard = () => {
                     options={jiraIssuesOptions}
                   />
                   {jiraIssuesOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
                       <div className="text-base-500 text-xs font-semibold">
                         {NO_DATA_TEXT}
                       </div>
