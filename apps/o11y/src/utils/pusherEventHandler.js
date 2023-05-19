@@ -70,6 +70,8 @@ class O11yPusherEvents {
       this.log(message);
 
       const state = this.getState();
+      let summaryPromise;
+      let historyPromise;
       if (message.type) {
         switch (message.type) {
           case PUSHER_EVENTS.NEW_TESTS:
@@ -126,13 +128,19 @@ class O11yPusherEvents {
           case PUSHER_EVENTS.INSIGHTS_UPDATED: {
             const activeBuildId = getBuildUUID(state);
             if (activeBuildId === message.buildId) {
-              this.dispatch(
+              if (summaryPromise) {
+                summaryPromise?.abort();
+              }
+              if (historyPromise) {
+                historyPromise?.abort();
+              }
+              summaryPromise = this.dispatch(
                 getBuildSummaryData({
                   buildId: activeBuildId,
                   fetchUpdate: true
                 })
               );
-              this.dispatch(
+              summaryPromise = this.dispatch(
                 getBuildHistoryData({
                   buildId: activeBuildId,
                   fetchUpdate: true
