@@ -38,6 +38,7 @@ import { delightedInit } from 'utils/delighted';
 import { portalize } from 'utils/portalize';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
 import { isIntegrationsPage } from 'utils/routeUtils';
+import { showBannerPerPriority } from 'utils/showBannerPerPriority';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 const PUSHER_CONNECTION_NAME = 'o11y-pusher';
@@ -92,10 +93,11 @@ const App = () => {
 
       if (!window.initialized) {
         initLogger(keys);
+        dispatch(showBannerPerPriority());
         window.initialized = true;
       }
     }
-  }, [userDetails]);
+  }, [dispatch, userDetails]);
 
   useEffect(() => {
     // Note: Disabling for onboarding, Get access and project selection pages
@@ -130,7 +132,9 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    fetchAndInitPusher();
+    if (!envConfig.isMocker) {
+      fetchAndInitPusher();
+    }
   }, [fetchAndInitPusher]);
 
   // init sentry
@@ -143,7 +147,18 @@ const App = () => {
         debug: false,
         release: 'v0.1-o11y',
         environment: 'production',
-        tracesSampleRate: 1.0
+        tracesSampleRate: 1.0,
+        denyUrls: [
+          // Ignoring errors getting generated from Chrome extensions as these are not to be logged under our sentry env.
+          /extensions\//i,
+          /^chrome:\/\//i,
+          /extension:\//i,
+          // Ignoring VWO related errors as there is no specific library upgrade which can resolve the errors.
+          // Also the errors we are getting are more or less specfic to some of the users.
+          /https:\/\/dev.visualwebsiteoptimizer.com\/.*/gi,
+          // Ignore errors getting raised from freshchat widget related code.
+          /https:\/\/wchat.freshchat.com\/.*/gi
+        ]
       });
     }
     if (userDetails.userId && window.isSentryInitialized) {
