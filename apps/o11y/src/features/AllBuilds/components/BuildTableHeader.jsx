@@ -1,13 +1,22 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
+import { roundedTableHeaderHack } from 'constants/common';
 
 import { TABLE_CLASSES } from '../constants';
 
 function BuildTableHeader() {
   return (
     <O11yTableRow>
-      <O11yTableCell wrapperClassName={TABLE_CLASSES.HEADER_COMMON} isSticky>
+      <O11yTableCell
+        wrapperClassName={twClassNames(
+          TABLE_CLASSES.HEADER_COMMON,
+          TABLE_CLASSES.COL.BUILD,
+          roundedTableHeaderHack.common,
+          roundedTableHeaderHack.left
+        )}
+        isSticky
+      >
         BUILD
       </O11yTableCell>
       <O11yTableCell
@@ -31,7 +40,9 @@ function BuildTableHeader() {
       <O11yTableCell
         wrapperClassName={twClassNames(
           TABLE_CLASSES.COL.FAILURE_CATEGORY,
-          TABLE_CLASSES.HEADER_COMMON
+          TABLE_CLASSES.HEADER_COMMON,
+          roundedTableHeaderHack.common,
+          roundedTableHeaderHack.right
         )}
         isSticky
       >

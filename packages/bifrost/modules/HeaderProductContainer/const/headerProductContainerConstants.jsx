@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import AccessibilityToolkitIcon from '../../Icon/HeaderIcons/AccessibilityToolkitIcon';
+import AccessibilityToolkitIcon from '../../Icon/HeaderIcons/AccessibilityToolkitIcon';
 import AppAutomateIcon from '../../Icon/HeaderIcons/AppAutomateIcon';
 import AppLiveIcon from '../../Icon/HeaderIcons/AppLiveIcon';
 import AppPercyIcon from '../../Icon/HeaderIcons/AppPercyIcon';
@@ -8,6 +8,7 @@ import AutomateIcon from '../../Icon/HeaderIcons/AutomateIcon';
 import LiveIcon from '../../Icon/HeaderIcons/LiveIcon';
 import NightwatchIcon from '../../Icon/HeaderIcons/NightwatchIcon';
 import PercyIcon from '../../Icon/HeaderIcons/PercyIcon';
+import TestManagementIcon from '../../Icon/HeaderIcons/TestManagementIcon';
 import TestObservabilityIcon from '../../Icon/HeaderIcons/TestObservabilityIcon';
 
 export const WEBSITE_TESTING_PRODUCTS = [
@@ -28,13 +29,13 @@ export const WEBSITE_TESTING_PRODUCTS = [
     description: 'Visual testing & review',
     icon: <PercyIcon iconClass="w-9 h-[34px]" />,
     link: 'https://percy.io/api/auth/start-sso'
+  },
+  {
+    name: 'Accessibility Testing',
+    description: 'Super app to find & report issues',
+    icon: <AccessibilityToolkitIcon iconClass="w-9 h-[34px]" />,
+    link: 'https://accessibility.browserstack.com/'
   }
-  // {
-  //   name: 'Accessibility Toolkit',
-  //   description: 'Interactive accessibility testing',
-  //   icon: <AccessibilityToolkitIcon iconClass="w-9 h-[34px]" />,
-  //   link: ''
-  // }
 ];
 export const MOBILE_APP_TESTING_PRODUCTS = [
   {
@@ -58,8 +59,14 @@ export const MOBILE_APP_TESTING_PRODUCTS = [
 ];
 export const TEST_MANAGEMENT_PRODUCTS = [
   {
+    name: 'Test Management',
+    description: 'Unify & track all test cases',
+    icon: <TestManagementIcon iconClass="w-9 h-[34px]" />,
+    link: 'https://test-management.browserstack.com'
+  },
+  {
     name: 'Test Observability',
-    description: 'Centralized & faster debugging',
+    description: 'Smart test reporting & debugging',
     icon: <TestObservabilityIcon iconClass="w-9 h-[34px]" />,
     link: 'https://observability.browserstack.com'
   }

@@ -18,11 +18,11 @@ import {
   resetFilterSearchMeta,
   setFilterSearchMeta,
   setMetaPage,
+  setSearchEmptyText,
   setSearchInitiatedURL,
   updateAllTestCases,
   updateFoldersLoading,
-  updateTestCasesListLoading,
-  setSearchEmptyText
+  updateTestCasesListLoading
 } from '../slices/repositorySlice';
 
 const useFilter = (prop) => {
@@ -237,15 +237,20 @@ const useFilter = (prop) => {
     }
   };
 
+  // const handleSearchFocus = () => {
+
+  // }
   const searchChangeHandler = (value) => {
     updateFilterSearchMeta({
       ...filterSearchMeta,
       q: value
     });
+    if (!filterSearchMeta?.q)
+      dispatch(setSearchInitiatedURL(location.pathname));
   };
 
   const setSearchErrorText = () => {
-    let allKeys = [];
+    const allKeys = [];
     // eslint-disable-next-line no-restricted-syntax
     for (const key of searchParams.keys()) {
       allKeys.push(key);

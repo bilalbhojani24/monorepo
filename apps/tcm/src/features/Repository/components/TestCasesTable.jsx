@@ -107,7 +107,7 @@ const TestCasesTable = ({
           </TMTruncateText>
         </div>
       ),
-      class: 'w-[9%] max-w-[112px]'
+      class: 'w-[4%] max-w-[112px]'
     },
     {
       name: 'TITLE',
@@ -341,7 +341,7 @@ const TestCasesTable = ({
             ))}
           </TMTableRow>
         </TMTableHead>
-        <TMTableBody>
+        <TMTableBody wrapperClassName="border-b-0">
           {!isLoading ? (
             <>
               {rows?.map((row, index) => (

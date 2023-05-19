@@ -7,7 +7,7 @@ import { ISSUES_TABS_ARRAY } from '../const/immutableConst';
 
 const useIssues = () => {
   const dispatch = useDispatch();
-  const [issueType, setIssueType] = useState(ISSUES_TABS_ARRAY[0].id);
+  const [issueType, setIssueType] = useState(ISSUES_TABS_ARRAY[0]);
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
   );
@@ -20,7 +20,7 @@ const useIssues = () => {
   );
 
   const handleTabChange = (data) => {
-    setIssueType(data?.id || null);
+    setIssueType(data || null);
   };
 
   const setJiraConfig = useCallback(
@@ -39,8 +39,9 @@ const useIssues = () => {
   }, [jiraConfig, setJiraConfig]);
 
   return {
+    issueType,
     jiraHost: jiraConfig?.data?.host || null,
-    issuesArray: fullDetails[issueType] || [],
+    issuesArray: fullDetails[issueType?.id] || [],
     isIssuesLoading,
     testRunDetails,
     handleTabChange

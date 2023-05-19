@@ -77,4 +77,3 @@ export const SkipToContentExample = () => {
 };
 
 export default defaultConfig;
-export { Primary };

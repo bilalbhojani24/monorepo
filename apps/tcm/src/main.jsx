@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { initErrorLogger } from '@browserstack/utils';
-import { PRODUCTION_HOST } from './const/immutables';
 
+import { PRODUCTION_HOST } from './const/immutables';
 import App from './App';
 import { store } from './store';
 
