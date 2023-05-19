@@ -16,7 +16,7 @@ export default function FailureByFoldersTooltip({ data }) {
   return (
     <div className="pointer-events-none flex flex-col p-3 pb-0 text-white">
       <section className="border-brand-900 flex flex-col gap-1 border-b pb-2">
-        <p className="text-xs font-medium">{data.name}</p>
+        <p className="break-words text-xs font-medium">{data.name}</p>
         <p className="text-xs">
           <span
             className="mb-0.5 mr-1 inline-block h-1.5 w-1.5 rounded-full"
