@@ -3,12 +3,12 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { FEATURE_FENCING_SIZES } from '../CTACard/const';
-import { useFeatureFencingContext } from '../CTACard/context';
+import { useCTACardContext } from '../CTACard/utils';
 
 import { CONTENT_PADDING, DESCRIPTION_STYLES, HEADER_STYLES } from './const';
 
 const CTACardContent = ({ children, header, description }) => {
-  const { size } = useFeatureFencingContext();
+  const { size } = useCTACardContext();
 
   return (
     <div className={twClassNames('flex-1', CONTENT_PADDING[size], {})}>

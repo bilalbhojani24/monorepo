@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import Button from '../Button';
 import { FEATURE_FENCING_SIZES } from '../CTACard/const';
-import { useFeatureFencingContext } from '../CTACard/context';
+import { useCTACardContext } from '../CTACard/utils';
 
 import { CTA_BUTTON_SIZES, FEATURE_FENCING_ACTIONS_ALIGNMENT } from './const';
 
@@ -19,7 +19,7 @@ const CTACardActions = (props) => {
     onSecondaryBtnClick
   } = props;
 
-  const { size } = useFeatureFencingContext();
+  const { size } = useCTACardContext();
 
   return (
     <div

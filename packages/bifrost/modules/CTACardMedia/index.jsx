@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { FEATURE_FENCING_SIZES } from '../CTACard/const';
-import { useFeatureFencingContext } from '../CTACard/context';
+import { useCTACardContext } from '../CTACard/utils';
 
 const CTACardMedia = ({ children }) => {
-  const { size } = useFeatureFencingContext();
+  const { size } = useCTACardContext();
 
   if (size === FEATURE_FENCING_SIZES.SM) {
     return null;
