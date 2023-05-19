@@ -10,6 +10,10 @@ export const formDataRetriever = (tagsArray, formData) => {
 
   return {
     ...formData,
+    priority:
+      typeof formData?.priority === 'object'
+        ? formData?.priority?.id
+        : formData?.priority,
     tags: hasTagsButNoMeta
       ? formData?.tags
       : tagsArray.filter((item) => formData?.tags.includes(item.value)),

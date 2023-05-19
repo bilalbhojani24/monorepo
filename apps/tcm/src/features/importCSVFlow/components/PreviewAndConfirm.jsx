@@ -25,42 +25,43 @@ const PreviewAndConfirm = () => {
     previewData,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
+    priorityIntNameAndValueMap,
+    priorityNameAndValueMap,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
 
-  const formatPriority = (priority) => {
+  const formatPriority = (priorityValue) => {
+    if (typeof priorityValue === 'string') return <span>{priorityValue}</span>;
+
+    const priority = priorityIntNameAndValueMap[priorityValue];
+    let icon = '';
+
     switch (priority) {
       case 'high':
-        return (
-          <>
-            <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />
-            <span>High</span>
-          </>
-        );
+        icon = <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />;
+        break;
       case 'low':
-        return (
-          <>
-            <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />
-            <span>Low</span>
-          </>
-        );
+        icon = <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />;
+        break;
       case 'critical':
-        return (
-          <>
-            <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
-            <span>Critical</span>
-          </>
+        icon = (
+          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
         );
+        break;
       case 'medium':
-        return (
-          <>
-            <RemoveOutlinedIcon className="text-brand-500 mr-2" />
-            <span>Medium</span>
-          </>
-        );
+        icon = <RemoveOutlinedIcon className="text-brand-500 mr-2" />;
+        break;
+
       default:
-        return priority;
+        icon = '';
+        break;
     }
+    return (
+      <>
+        {icon}
+        <span>{priorityNameAndValueMap[priorityValue]}</span>
+      </>
+    );
   };
 
   const formatTemplate = (template) => {

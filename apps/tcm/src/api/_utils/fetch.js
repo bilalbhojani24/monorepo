@@ -12,7 +12,12 @@ export const fetchPatch = async (url, data, config) => {
 };
 
 export const fetchGet = async (url, config) => {
-  const response = await axios.get(BASE_API_URL + url, config);
+  const response = await axios.get(BASE_API_URL + url, {
+    ...config,
+    headers: {
+      'ngrok-skip-browser-warning': true
+    }
+  });
   return response?.data;
 };
 export const fetchDel = async (url, config) => {

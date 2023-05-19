@@ -54,13 +54,13 @@ export const DEFAULT_MODAL_DROPDOWN_OPTIONS = [
 ];
 
 export const VALUE_MAPPING_OPTIONS = {
-  PRIORITY: [
-    ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
-    { label: 'Critical', value: 'critical' },
-    { label: 'High', value: 'high' },
-    { label: 'Medium', value: 'medium' },
-    { label: 'Low', value: 'low' }
-  ],
+  // PRIORITY: [
+  //   ...DEFAULT_MODAL_DROPDOWN_OPTIONS
+  //   // { label: 'Critical', value: 'critical' },
+  //   // { label: 'High', value: 'high' },
+  //   // { label: 'Medium', value: 'medium' },
+  //   // { label: 'Low', value: 'low' }
+  // ],
   STATE: [
     ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
     { label: 'Active', value: 'active_status' },

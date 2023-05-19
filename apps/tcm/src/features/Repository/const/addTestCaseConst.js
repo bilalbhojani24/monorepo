@@ -1,10 +1,5 @@
 export const BDD = 'bdd';
-export const priorityOptions = [
-  { label: 'Critical', value: 'critical' },
-  { label: 'High', value: 'high' },
-  { label: 'Medium', value: 'medium' },
-  { label: 'Low', value: 'low' }
-];
+export const PRIORITY_OPTIONS = { options: [], internalName: [] };
 
 export const templateOptions = [
   { label: 'Text', value: 'test_case_text' },

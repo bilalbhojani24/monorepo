@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getCustomFieldsAPI } from 'api/projects.api';
 
-import { setCustomFieldsData } from '../../slices/repositorySlice';
+import {
+  setCustomFieldsData,
+  setDefaultFormFieldsData
+} from '../../slices/repositorySlice';
 
 const useAddEditTestCaseCustomField = () => {
   const dispatch = useDispatch();
@@ -16,6 +19,7 @@ const useAddEditTestCaseCustomField = () => {
   const initCustomFormFields = useCallback(() => {
     if (customFieldData?.projectId !== projectId) {
       getCustomFieldsAPI(projectId).then((res) => {
+        dispatch(setDefaultFormFieldsData(res?.default_fields));
         dispatch(
           setCustomFieldsData({
             projectId,

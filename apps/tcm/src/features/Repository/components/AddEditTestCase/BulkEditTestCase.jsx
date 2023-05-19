@@ -17,7 +17,7 @@ import {
 } from 'common/bifrostProxy';
 
 import {
-  priorityOptions,
+  PRIORITY_OPTIONS,
   statusOptions,
   testCaseTypesOptions
 } from '../../const/addTestCaseConst';
@@ -107,13 +107,13 @@ const BulkEditTestCase = () => {
               checkPosition="right"
               label="Priority"
               placeholder="Select from options"
-              options={priorityOptions}
-              // value={
-              //   testCaseBulkFormData.priority &&
-              //   priorityOptions.find(
-              //     (item) => item.value === testCaseBulkFormData.priority
-              //   )
-              // }
+              options={PRIORITY_OPTIONS?.options}
+              value={
+                testCaseBulkFormData.priority &&
+                PRIORITY_OPTIONS?.options.find(
+                  (item) => item.value === testCaseBulkFormData.priority
+                )
+              }
               onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
             />
           </div>

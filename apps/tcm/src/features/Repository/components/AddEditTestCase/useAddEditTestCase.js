@@ -131,6 +131,9 @@ export default function useAddEditTestCase(prop) {
   const isUploadInProgress = useSelector(
     (state) => state.repository.isLoading.uploadingAttachments
   );
+  const PRIORITY_OPTIONS = useSelector(
+    (state) => state.repository.PRIORITY_OPTIONS
+  );
 
   const hideTestCaseAddEditPage = (e, isForced, action) => {
     if (action === 'Cancel')
@@ -716,6 +719,7 @@ export default function useAddEditTestCase(prop) {
     selectedTestCase,
     isTestCaseEditing,
     showMoreFields,
+    PRIORITY_OPTIONS,
     handleMenuOpen,
     setShowMoreFieldHelper,
     showAddTagsModal,

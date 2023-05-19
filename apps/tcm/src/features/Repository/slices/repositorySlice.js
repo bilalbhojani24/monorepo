@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  priorityOptions,
+  PRIORITY_OPTIONS,
+  // priorityOptions,
   statusOptions,
   templateOptions,
   testCaseTypesOptions
@@ -18,7 +19,7 @@ const initialState = {
     description: '',
     estimate: '',
     case_type: testCaseTypesOptions[7].value,
-    priority: priorityOptions[2].value,
+    priority: null,
     owner: null,
     status: statusOptions[0].value,
     preconditions: '',
@@ -100,7 +101,8 @@ const initialState = {
     projectId: null,
     fields: []
   },
-  searchEmptyText: ''
+  searchEmptyText: '',
+  PRIORITY_OPTIONS
 };
 
 export const repositorySlice = createSlice({
@@ -109,6 +111,15 @@ export const repositorySlice = createSlice({
   reducers: {
     setAllFolders: (state, { payload }) => {
       state.allFolders = [...payload];
+    },
+    setDefaultFormFieldsData: (state, { payload }) => {
+      state.PRIORITY_OPTIONS.options = payload?.priority.map((item) => ({
+        label: item?.name,
+        value: item.value
+      }));
+      state.PRIORITY_OPTIONS.internalName = payload?.priority.map(
+        (item) => item?.name
+      );
     },
     setCustomFieldsData: (state, { payload }) => {
       state.customFieldData = payload;
@@ -323,6 +334,7 @@ export const {
   updateLoader,
   setAddTestCaseFromSearch,
   updateCtaLoading,
+  setDefaultFormFieldsData,
   setCustomFieldsData,
   updateTestCaseFormCFData
 } = repositorySlice.actions;
