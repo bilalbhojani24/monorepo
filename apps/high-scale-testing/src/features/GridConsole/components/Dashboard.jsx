@@ -1,13 +1,15 @@
 import React from 'react';
 import {
   Badge,
+  Button,
   HomeIcon,
-  SidebarItem,
-  SidebarNavigation,
+  PageHeadings,
+  Tabs,
   UsersIcon
 } from '@browserstack/bifrost';
 
 const Dashboard = () => {
+  // ToDo: Remove the below Variavble
   const primaryNavs = [
     {
       id: 'dashboard',
@@ -27,16 +29,25 @@ const Dashboard = () => {
   ];
 
   return (
-    <>
-      <main>
-        <SidebarNavigation
-          sidebarPrimaryNavigation={primaryNavs.map((item, idx) => (
-            <SidebarItem nav={item} current={idx === 3} />
-          ))}
-          wrapperClassName="md:inset-y-16"
+    <div className="flex-1">
+      <div className="bg-white px-6 pt-9">
+        <PageHeadings
+          actions={<Button> Create Grid </Button>}
+          breadcrumbs={null}
+          heading="Automation Console"
         />
-      </main>
-    </>
+        <Tabs
+          tabsArray={[
+            {
+              name: 'Grids'
+            },
+            {
+              name: 'Clusters'
+            }
+          ]}
+        />
+      </div>
+    </div>
   );
 };
 
