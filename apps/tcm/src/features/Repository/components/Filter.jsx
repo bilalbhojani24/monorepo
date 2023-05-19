@@ -30,6 +30,9 @@ const Filter = ({ isMini, onFilterChange }) => {
     filterSearchMeta,
     tagSearchKey,
     ownerSearchKey,
+    PRIORITY_OPTIONS,
+    priorityNameAndValueMapTC,
+    priorityIntNameAndValueMapTC,
     setOwnerSearchKey,
     setTagSearchKey,
     filterChangeHandler,
@@ -44,41 +47,54 @@ const Filter = ({ isMini, onFilterChange }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFilterVisible]);
 
-  const priorityOptions = [
-    {
-      value: 'critical',
-      label: (
-        <>
-          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-1" />{' '}
-          Critical
-        </>
-      )
-    },
-    {
-      value: 'high',
-      label: (
-        <>
-          <ArrowUpwardOutlinedIcon className="text-danger-500 mr-1" /> High
-        </>
-      )
-    },
-    {
-      value: 'medium',
-      label: (
-        <>
-          <RemoveOutlinedIcon className="text-brand-500 mr-1" /> Medium
-        </>
-      )
-    },
-    {
-      value: 'low',
-      label: (
-        <>
-          <ArrowDownwardOutlinedIcon className="text-success-500 mr-1" /> Low
-        </>
-      )
+  const priorityOptions = PRIORITY_OPTIONS.map((item) => {
+    switch (priorityIntNameAndValueMapTC[item?.value]) {
+      case 'critical':
+        return {
+          value: item?.value,
+          label: (
+            <>
+              <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-1" />{' '}
+              Critical
+            </>
+          )
+        };
+      case 'high':
+        return {
+          value: item?.value,
+          label: (
+            <>
+              <ArrowUpwardOutlinedIcon className="text-danger-500 mr-1" /> High
+            </>
+          )
+        };
+      case 'medium':
+        return {
+          value: item?.value,
+          label: (
+            <>
+              <RemoveOutlinedIcon className="text-brand-500 mr-1" /> Medium
+            </>
+          )
+        };
+      case 'low':
+        return {
+          value: item?.value,
+          label: (
+            <>
+              <ArrowDownwardOutlinedIcon className="text-success-500 mr-1" />{' '}
+              Low
+            </>
+          )
+        };
+
+      default:
+        return {
+          value: item?.value,
+          label: <>{priorityNameAndValueMapTC[item?.value]}</>
+        };
     }
-  ];
+  });
 
   return (
     <div

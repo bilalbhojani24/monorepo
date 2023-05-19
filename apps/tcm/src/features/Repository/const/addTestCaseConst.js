@@ -1,5 +1,4 @@
 export const BDD = 'bdd';
-export const PRIORITY_OPTIONS = { options: [], internalName: [] };
 
 export const templateOptions = [
   { label: 'Text', value: 'test_case_text' },

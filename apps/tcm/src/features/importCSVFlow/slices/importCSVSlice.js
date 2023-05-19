@@ -60,8 +60,8 @@ const initialState = {
   currentFieldValueMapping: {},
   selectedFolderLocation: '/',
   showChangeFolderModal: false,
-  priorityIntNameAndValueMap: {},
-  priorityNameAndValueMap: {}
+  priorityIntNameAndValueMapCSV: {},
+  priorityNameAndValueMapCSV: {}
 };
 
 const importCSVSlice = createSlice({
@@ -170,11 +170,11 @@ const importCSVSlice = createSlice({
         ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
         ...priorityDropdownOptions
       ];
-      state.priorityIntNameAndValueMap = payload?.priority.reduce(
+      state.priorityIntNameAndValueMapCSV = payload?.priority.reduce(
         (obj, item) => ({ ...obj, [item.value]: item.internal_name }),
         {}
       );
-      state.priorityNameAndValueMap = payload?.priority.reduce(
+      state.priorityNameAndValueMapCSV = payload?.priority.reduce(
         (obj, item) => ({ ...obj, [item.value]: item.name }),
         {}
       );

@@ -55,6 +55,15 @@ const useFilter = (prop) => {
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
   );
+  const PRIORITY_OPTIONS = useSelector(
+    (state) => state.repository.PRIORITY_OPTIONS
+  );
+  const priorityIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.priorityIntNameAndValueMapTC
+  );
+  const priorityNameAndValueMapTC = useSelector(
+    (state) => state.repository.priorityNameAndValueMapTC
+  );
 
   const updateFilterSearchMeta = (data) => {
     dispatch(setFilterSearchMeta(data));
@@ -219,20 +228,19 @@ const useFilter = (prop) => {
   };
 
   const filterChangeHandler = (filterType, data) => {
-    const isSelected = filterSearchMeta?.[filterType]?.includes(
-      `${data.value}`
-    );
+    const isSelected = filterSearchMeta?.[filterType]?.includes(data.value);
+
     if (isSelected) {
       updateFilterSearchMeta({
         ...filterSearchMeta,
         [filterType]: filterSearchMeta?.[filterType].filter(
-          (item) => item !== `${data.value}`
+          (item) => item !== data.value
         )
       });
     } else {
       updateFilterSearchMeta({
         ...filterSearchMeta,
-        [filterType]: [...filterSearchMeta?.[filterType], `${data.value}`]
+        [filterType]: [...filterSearchMeta?.[filterType], data.value]
       });
     }
   };
@@ -341,6 +349,9 @@ const useFilter = (prop) => {
     tagSearchKey,
     ownerSearchKey,
     isFilterVisible,
+    PRIORITY_OPTIONS,
+    priorityNameAndValueMapTC,
+    priorityIntNameAndValueMapTC,
     setFilter,
     setOwnerSearchKey,
     setTagSearchKey,

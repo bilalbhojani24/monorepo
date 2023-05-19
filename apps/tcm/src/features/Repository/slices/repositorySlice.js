@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  PRIORITY_OPTIONS,
-  // priorityOptions,
   statusOptions,
   templateOptions,
   testCaseTypesOptions
@@ -102,7 +100,9 @@ const initialState = {
     fields: []
   },
   searchEmptyText: '',
-  PRIORITY_OPTIONS
+  PRIORITY_OPTIONS: [],
+  priorityIntNameAndValueMapTC: {},
+  priorityNameAndValueMapTC: {}
 };
 
 export const repositorySlice = createSlice({
@@ -113,12 +113,17 @@ export const repositorySlice = createSlice({
       state.allFolders = [...payload];
     },
     setDefaultFormFieldsData: (state, { payload }) => {
-      state.PRIORITY_OPTIONS.options = payload?.priority.map((item) => ({
+      state.PRIORITY_OPTIONS = payload?.priority.map((item) => ({
         label: item?.name,
         value: item.value
       }));
-      state.PRIORITY_OPTIONS.internalName = payload?.priority.map(
-        (item) => item?.name
+      state.priorityIntNameAndValueMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.internal_name }),
+        {}
+      );
+      state.priorityNameAndValueMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.name }),
+        {}
       );
     },
     setCustomFieldsData: (state, { payload }) => {

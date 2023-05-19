@@ -57,10 +57,10 @@ const AddEditTestCaseMoreFields = () => {
             checkPosition="right"
             label="Priority"
             placeholder="Select priority"
-            options={PRIORITY_OPTIONS?.options}
+            options={PRIORITY_OPTIONS}
             value={
               testCaseFormData.priority &&
-              PRIORITY_OPTIONS.options.find(
+              PRIORITY_OPTIONS.find(
                 (item) => item.value === testCaseFormData?.priority
               )
             }

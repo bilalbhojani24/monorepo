@@ -25,15 +25,15 @@ const PreviewAndConfirm = () => {
     previewData,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
-    priorityIntNameAndValueMap,
-    priorityNameAndValueMap,
+    priorityIntNameAndValueMapCSV,
+    priorityNameAndValueMapCSV,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
 
   const formatPriority = (priorityValue) => {
     if (typeof priorityValue === 'string') return <span>{priorityValue}</span>;
 
-    const priority = priorityIntNameAndValueMap[priorityValue];
+    const priority = priorityIntNameAndValueMapCSV[priorityValue];
     let icon = '';
 
     switch (priority) {
@@ -59,7 +59,7 @@ const PreviewAndConfirm = () => {
     return (
       <>
         {icon}
-        <span>{priorityNameAndValueMap[priorityValue]}</span>
+        <span>{priorityNameAndValueMapCSV[priorityValue]}</span>
       </>
     );
   };

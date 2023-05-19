@@ -1,8 +1,8 @@
 // import { useState } from 'react';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { getUsersOfProjectAPI } from 'api/projects.api';
+import { getCustomFieldsAPI, getUsersOfProjectAPI } from 'api/projects.api';
 import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { setSelectedProject } from 'globalSlice';
@@ -14,6 +14,8 @@ import {
   cleanUpValues,
   resetTestCaseDetails,
   setAddTestCaseVisibility,
+  setCustomFieldsData,
+  setDefaultFormFieldsData,
   setFilterSearchView,
   setLoadedDataProjectId,
   setMetaPage,
@@ -75,6 +77,9 @@ export default function useTestCases() {
   );
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase
+  );
+  const customFieldData = useSelector(
+    (state) => state.repository.customFieldData
   );
 
   const setRepoView = (update) => {
@@ -208,6 +213,20 @@ export default function useTestCases() {
     dispatch(cleanUpValues());
   };
 
+  const initCustomFormFields = useCallback(() => {
+    if (customFieldData?.projectId !== projectId) {
+      getCustomFieldsAPI(projectId).then((res) => {
+        dispatch(setDefaultFormFieldsData(res?.default_fields));
+        dispatch(
+          setCustomFieldsData({
+            projectId,
+            fields: res?.custom_fields || []
+          })
+        );
+      });
+    }
+  }, [customFieldData?.projectId, dispatch, projectId]);
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -234,6 +253,7 @@ export default function useTestCases() {
     selectedTestCase,
     isTestCasesLoading,
     isFoldersLoading,
+    initCustomFormFields,
     fetchAllTestCases,
     fetchUsers,
     initFormValues,
