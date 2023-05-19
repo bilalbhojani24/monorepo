@@ -2,6 +2,7 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
+import { ctaCardContext } from '../../shared/ctaCardContext';
 import Button from '../Button';
 import { MdClose } from '../Icon';
 
@@ -10,15 +11,12 @@ import {
   FEATURE_FENCING_SIZES,
   WIDTH_STYLES
 } from './const';
-import { FEATURE_FENCING_CONTEXT } from './context';
 
 const CTACard = (props) => {
   const { children, isDismissable, onClose } = props;
 
   return (
-    <FEATURE_FENCING_CONTEXT.Provider
-      value={{ size: FEATURE_FENCING_SIZES.BASE }}
-    >
+    <ctaCardContext.Provider value={{ size: FEATURE_FENCING_SIZES.BASE }}>
       <div
         className={twClassNames(
           'relative flex shadow overflow-hidden',
@@ -42,7 +40,7 @@ const CTACard = (props) => {
           />
         )}
       </div>
-    </FEATURE_FENCING_CONTEXT.Provider>
+    </ctaCardContext.Provider>
   );
 };
 
