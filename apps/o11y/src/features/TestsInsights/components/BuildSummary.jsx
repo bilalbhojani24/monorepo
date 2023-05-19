@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
 
@@ -44,7 +45,9 @@ export default function BuildSummary() {
     (data) => {
       if (data?.name) {
         logInsightsInteractionEvent({ interaction: `${data?.name}_clicked` });
-        applyTestListFilter({ query: `status=${data.name}` });
+        applyTestListFilter({
+          query: `${ADV_FILTER_TYPES.status.key}=${data.name}`
+        });
       }
     },
     [applyTestListFilter, logInsightsInteractionEvent]
@@ -52,9 +55,11 @@ export default function BuildSummary() {
   const handleFlakyClick = useCallback(
     (item) => {
       logInsightsInteractionEvent({ interaction: 'flaky_clicked' });
-      let searchString = `flaky=true`;
+      let searchString = `${ADV_FILTER_TYPES.isFlaky.key}=true`;
       if (item) {
-        searchString += `&status=${item?.label || item?.name}`;
+        searchString += `&${ADV_FILTER_TYPES.status.key}=${
+          item?.label || item?.name
+        }`;
       }
 
       applyTestListFilter({ query: searchString });

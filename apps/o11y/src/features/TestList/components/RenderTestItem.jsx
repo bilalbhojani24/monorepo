@@ -9,10 +9,8 @@ import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
 import {
   ADV_FILTER_OPERATIONS,
-  ADV_FILTER_TYPES,
-  FILTER_OPERATION_TYPE
+  ADV_FILTER_TYPES
 } from 'features/FilterSkeleton/constants';
-import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
   HIERARCHY_SPACING,
@@ -26,25 +24,14 @@ import PropTypes from 'prop-types';
 import { transformUnsupportedTags } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
 
+import { dispatchAppliedFilter } from '../utils';
+
 import TestItemJiraTag from './TestItemJiraTag';
 import TestListActionItems from './TestListActionItems';
 import TestListDefectType from './TestListDefectType';
 import TestListGalleryContainer from './TestListGalleryContainer';
 import TestListStackTrace from './TestListStackTrace';
 import TestListTimeline from './TestlistTimeline';
-
-const dispatchAppliedFilter = ({ dispatch, type, value, customOperation }) => {
-  dispatch(
-    setAppliedFilter({
-      type,
-      id: type,
-      text: value,
-      value,
-      operationType: FILTER_OPERATION_TYPE.REMOVE_OPERATION,
-      ...(customOperation ? { customOperation } : {})
-    })
-  );
-};
 
 const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;

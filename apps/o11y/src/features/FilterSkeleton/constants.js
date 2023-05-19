@@ -22,8 +22,8 @@ export const ADV_FILTER_TYPES = {
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
-  reRunsList: {
-    key: 'reRunsList',
+  runs: {
+    key: 'runs',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
@@ -136,7 +136,7 @@ export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.browserList.key]: 'Browser',
   [ADV_FILTER_TYPES.search.key]: 'Search',
   [ADV_FILTER_TYPES.dateRange.key]: 'Date Range',
-  [ADV_FILTER_TYPES.reRunsList.key]: 'Re run',
+  [ADV_FILTER_TYPES.runs.key]: 'Re run',
   [ADV_FILTER_TYPES.ciBuildNumbers.key]: 'CI Build Number',
   [ADV_FILTER_TYPES.status.key]: 'Status',
   [ADV_FILTER_TYPES.hasPerformanceAnomaly.key]: 'Has Performance Anomaly'

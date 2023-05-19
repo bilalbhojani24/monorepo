@@ -25,7 +25,7 @@ const updateTestsFilterFields = (data, dispatch) => {
     const updatedSelectedFilters = [];
     Object.keys(applied).forEach((appliedKey) => {
       switch (appliedKey) {
-        case ADV_FILTER_TYPES.reRunsList.key: {
+        case ADV_FILTER_TYPES.runs.key: {
           if (applied[appliedKey]?.length) {
             applied[appliedKey].forEach((item) => {
               updatedSelectedFilters.push(
@@ -33,7 +33,7 @@ const updateTestsFilterFields = (data, dispatch) => {
                   id: `${appliedKey}:${item.value}`,
                   text: item.label || item.value,
                   value: item.value,
-                  type: ADV_FILTER_TYPES.reRunsList.key
+                  type: ADV_FILTER_TYPES.runs.key
                 })
               );
             });

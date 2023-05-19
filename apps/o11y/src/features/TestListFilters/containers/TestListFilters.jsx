@@ -77,7 +77,7 @@ const TestListFilters = ({ buildUUID }) => {
       <FilterSlideover show={showSlideOver} onClose={handleClose}>
         <div className="mb-6 flex flex-col gap-6">
           <MultiSelectStaticFilterField
-            type={ADV_FILTER_TYPES.reRunsList.key}
+            type={ADV_FILTER_TYPES.runs.key}
             placeholder="Select"
             label="Re runs"
           />
