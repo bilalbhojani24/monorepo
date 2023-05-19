@@ -53,7 +53,10 @@ function TestlistTimeline({ details }) {
 
   return (
     <PropagationBlocker>
-      <div className="flex h-5 items-center" onMouseEnter={loadHistory}>
+      <div
+        className="flex h-5 flex-row-reverse items-center"
+        onMouseEnter={loadHistory}
+      >
         {history?.map((singleHistoryItem) => (
           <O11yTooltip
             size="md"
