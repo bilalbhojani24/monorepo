@@ -10,7 +10,6 @@ import {
 import { FEEDBACK_TYPE, npsConstants } from '../const/feedbackWidgetConst';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
-import FeedbackSuccess from './FeedbackSuccess';
 import FormBuilder from './FormBuilder';
 
 const RenderModal = () => {
@@ -66,26 +65,24 @@ const RenderModal = () => {
     <Modal {...variationsProps.modal} show={isOpen}>
       <ModalHeader
         {...variationsProps.modalHeader}
-        {...(feedbacktype.type !== FEEDBACK_TYPE[4] && {
-          heading: feedbacktype.title,
-          subHeading: feedbacktype.description
-        })}
+        heading={feedbacktype.title}
+        subHeading={feedbacktype.description}
+        icon={feedbacktype.icon}
       />
 
-      <ModalBody {...variationsProps.modalBody} className="pb-6 pt-3">
-        {/* render thumb or emoji view */}
-        {[FEEDBACK_TYPE[0], FEEDBACK_TYPE[2]].includes(feedbacktype.type) &&
-          renderEmojiThumb()}
+      {feedbacktype.type !== FEEDBACK_TYPE[4] && (
+        <ModalBody {...variationsProps.modalBody} className="pb-6 pt-3">
+          {/* render thumb or emoji view */}
+          {[FEEDBACK_TYPE[0], FEEDBACK_TYPE[2]].includes(feedbacktype.type) &&
+            renderEmojiThumb()}
 
-        {/* render nps(number) view */}
-        {feedbacktype.type === FEEDBACK_TYPE[3] && renderNPSBody()}
+          {/* render nps(number) view */}
+          {feedbacktype.type === FEEDBACK_TYPE[3] && renderNPSBody()}
 
-        {/* render form view */}
-        {feedbacktype.type === FEEDBACK_TYPE[1] && <FormBuilder />}
-
-        {/* render success view */}
-        {feedbacktype.type === FEEDBACK_TYPE[4] && <FeedbackSuccess />}
-      </ModalBody>
+          {/* render form view */}
+          {feedbacktype.type === FEEDBACK_TYPE[1] && <FormBuilder />}
+        </ModalBody>
+      )}
 
       {feedbacktype.type === FEEDBACK_TYPE[1] && (
         <ModalFooter position="right" backgroundColorClass="bg-base-50 py-3">

@@ -41,8 +41,8 @@ const fields = [
     placeholder: 'you@example.com',
     wrapperClassName: '',
     isMandatory: true,
-    errorMessage: 'Invalid email address'
-    // regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+    errorMessage: 'Invalid email address',
+    regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
   }
 ];
 
@@ -141,7 +141,7 @@ export const ModalFeedbackWidget = () => {
           },
           {
             type: 'success',
-            title: 'How was your experience with Lorem Ipsum 2?',
+            title: 'How was your experience with Lorem ?',
             description: 'Success Optional description text for added context',
             icon: successIcon
           }
