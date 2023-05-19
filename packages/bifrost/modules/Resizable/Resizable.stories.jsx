@@ -1,4 +1,6 @@
 import React, { useRef } from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { ControlledTree } from '../ListTree/ListTree.stories';
@@ -168,6 +170,21 @@ const ResizeableTreeTemplate = () => (
 
 const Primary = Template.bind({});
 const ResizeableTree = ResizeableTreeTemplate.bind({});
+ResizeableTree.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  let treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(7);
+  await userEvent.hover(canvas.queryAllByLabelText('menu-button')[0]);
+  await userEvent.click(canvas.queryAllByLabelText('menu-button')[0]);
+  const buttons = canvas.queryAllByRole('button');
+  await userEvent.click(buttons[1]);
+  await userEvent.click(buttons[9]);
+  await userEvent.click(buttons[11]);
+  treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(10);
+  const tooltips = canvas.queryAllByRole('tooltip');
+  await userEvent.hover(tooltips[3]);
+};
 
 Primary.parameters = {
   controls: {}

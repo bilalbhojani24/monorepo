@@ -1,4 +1,6 @@
 import React, { useCallback, useState } from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
@@ -914,15 +916,72 @@ const FocusedNodeNestedTreeTemplate = () => (
 const SearchableSelectableListTreeTemplate = () => (
   <SearchableSelectableListTree />
 );
+const menuButton = 'menu-button';
 
 const ControlledTree = ControlledTreeTemplate.bind({});
+ControlledTree.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  let treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(7);
+  await userEvent.hover(canvas.queryAllByLabelText(menuButton)[0]);
+  await userEvent.click(canvas.queryAllByLabelText(menuButton)[0]);
+  const buttons = canvas.queryAllByRole('button');
+  await userEvent.click(buttons[1]);
+  await userEvent.click(buttons[9]);
+  await userEvent.click(buttons[11]);
+  treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(10);
+};
 
 const UncontrolledTree = UncontrolledTreeTemplate.bind({});
+UncontrolledTree.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  let treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(2);
+  await userEvent.hover(canvas.queryAllByLabelText(menuButton)[0]);
+  await userEvent.click(canvas.queryAllByLabelText(menuButton)[0]);
+  const buttons = canvas.queryAllByRole('button');
+  await userEvent.click(buttons[1]);
+  await userEvent.click(buttons[3]);
+  treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(7);
+  const tooltips = canvas.queryAllByRole('tooltip');
+  await userEvent.hover(tooltips[0]);
+};
 
 const SearchableSelectableListTreeTemplateExample =
   SearchableSelectableListTreeTemplate.bind({});
+SearchableSelectableListTreeTemplateExample.play = async ({
+  canvasElement
+}) => {
+  const canvas = within(canvasElement);
+  let treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(7);
+  const buttons = canvas.queryAllByRole('button');
+  await userEvent.click(buttons[3]);
+  treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(10);
+  const checkboxess = canvas.queryAllByRole('checkbox');
+  await userEvent.click(checkboxess[0]);
+  await userEvent.click(checkboxess[3]);
+  await userEvent.click(checkboxess[6]);
+  await userEvent.type(canvas.getByLabelText('Search Items here'), 'file');
+};
 
 const FocusedNodeTree = FocusedNodeNestedTreeTemplate.bind({});
+FocusedNodeTree.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  let treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(7);
+  await userEvent.hover(canvas.queryAllByLabelText(menuButton)[0]);
+  await userEvent.click(canvas.queryAllByLabelText(menuButton)[0]);
+  const buttons = canvas.queryAllByRole('button');
+  await userEvent.click(buttons[3]);
+  treeItems = canvas.queryAllByRole('treeitem');
+  await expect(treeItems.length).toBe(7);
+  const tooltips = canvas.queryAllByRole('tooltip');
+  await userEvent.hover(tooltips[0]);
+};
 
 export default defaultConfig;
 export {
