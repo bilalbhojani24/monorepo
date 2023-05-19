@@ -132,7 +132,6 @@ const TestRailImportForm = () => {
               : connectionStatusMap[TEST_RAILS]?.error ||
                 'Connection was not successful. Try again.'
           }
-          linkText={null}
         />
       )}
       <TermsAndConditions />

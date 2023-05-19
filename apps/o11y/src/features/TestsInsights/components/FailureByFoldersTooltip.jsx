@@ -38,9 +38,10 @@ export default function FailureByFoldersTooltip({ data }) {
       </section>
       <section className="pointer-events-auto flex flex-col pt-1">
         <Button
-          wrapperClassName="font-medium flex items-center gap-1 text-white hover:text-white hover:bg-brand-900 -mx-3 px-4 py-1 rounded-none"
+          wrapperClassName="font-medium flex items-center gap-1 text-white hover:text-white hover:bg-brand-900 -mx-3 px-4 py-1 rounded-none justify-center"
           onClick={handleActionClick}
           variant="minimal"
+          size="small"
         >
           Click to view tests
         </Button>

@@ -12,7 +12,7 @@ import {
   SidebarNavigation
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { TMButton } from 'common/bifrostProxy';
+import { TMActionPanel, TMButton } from 'common/bifrostProxy';
 import { AddProjects } from 'features/Projects';
 import PropTypes from 'prop-types';
 
@@ -36,7 +36,8 @@ const SideNav = (props) => {
     activeRoute,
     selectedProjectId,
     onProjectChange,
-    setAddProjectModal
+    setAddProjectModal,
+    onGetADemoCTAClick
   } = useSideNav();
 
   if (noNavRoutes.includes(location.pathname)) return '';
@@ -55,14 +56,27 @@ const SideNav = (props) => {
             handleNavigationClick={onLinkChange}
           />
         ))}
-        sidebarSecondaryNavigation={secondaryNavs?.map((item) => (
-          <SidebarItem
-            key={item.id}
-            nav={item}
-            current={activeRoute?.id === item.id}
-            handleNavigationClick={onLinkChange}
-          />
-        ))}
+        sidebarSecondaryNavigation={
+          <>
+            <TMActionPanel
+              title="Have questions?"
+              description="Unlock the full potential of Test Management"
+              content={
+                <TMButton colors="white" onClick={onGetADemoCTAClick}>
+                  Get a demo
+                </TMButton>
+              }
+            />
+            {secondaryNavs?.map((item) => (
+              <SidebarItem
+                key={item.id}
+                nav={item}
+                current={activeRoute?.id === item.id}
+                handleNavigationClick={onLinkChange}
+              />
+            ))}
+          </>
+        }
         sidebarHeader={
           showProjects && !isAllProjectsLoading ? (
             <>

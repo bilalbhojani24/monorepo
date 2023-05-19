@@ -30,7 +30,6 @@ const ZephyrImportForm = (props) => {
         <div className="mb-6">
           <TMAlerts
             accentBorder={false}
-            linkText={null}
             modifier="success"
             title="We found JIRA Host Name as per your existing JIRA integration."
           />
@@ -189,7 +188,6 @@ const ZephyrImportForm = (props) => {
               : connectionStatusMap[ZEPHYR]?.error ||
                 'Connection was not successful. Try again.'
           }
-          linkText={null}
         />
       )}
       <TermsAndConditions />
