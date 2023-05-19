@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
@@ -28,6 +28,7 @@ import {
 export default function useDashboard() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
+  const scrollWrapElement = useRef();
   const [isAllDashboadEmpty, setAllDashboadEmpty] = useState(false);
   const [activeTestRunsOptions, setActiveTestRunsOptions] = useState(null);
   const [testCaseTypesOptions, setTestCaseTypesOptions] = useState(null);
@@ -225,12 +226,14 @@ export default function useDashboard() {
       })
     );
   };
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   return {
+    scrollWrapElement,
     isAllDashboadEmpty,
     testCaseTypesOptions,
     closedTestRunsDailyLineOptions,
