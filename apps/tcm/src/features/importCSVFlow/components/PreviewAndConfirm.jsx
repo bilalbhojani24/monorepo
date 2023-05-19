@@ -88,13 +88,20 @@ const PreviewAndConfirm = () => {
         Showing a preview of few test cases before importing:
       </div>
       {previewData.map((data, idx) => (
-        <div className="border-base-100 border-y">
+        <div
+          className={twClassNames(
+            'border-base-100',
+            idx < previewData.length - 1 ? 'border-y' : 'border-t'
+          )}
+        >
           <TMAccordion defaultOpen={idx === 0}>
             <TMAccordionInteractiveHeader
               title={data?.name}
-              wrapperClassName={twClassNames('pr-0 pl-0')}
+              wrapperClassName={twClassNames(
+                'pr-0 pl-0 [&_button]:text-left text-sm'
+              )}
             />
-            <TMAccordionPanel wrapperClassName={twClassNames('pl-0')}>
+            <TMAccordionPanel wrapperClassName={twClassNames('pl-8 pb-4')}>
               <div className="border-base-300 mt-2 flex flex-col rounded-md border bg-white p-4">
                 <div className="flex w-full justify-between gap-4">
                   <PreviewAndConfirmSingleNode
