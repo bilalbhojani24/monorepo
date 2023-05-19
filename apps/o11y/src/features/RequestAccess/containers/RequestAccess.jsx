@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {
@@ -22,6 +22,10 @@ function RequestAccess() {
   const initData = useSelector(getInitData);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    logOllyEvent({ event: 'O11yGetAccessPageVisited' });
+  }, []);
 
   if (!initData.isLoading && initData.data?.hasAcceptedTnC) {
     return <Navigate to={ROUTES.get_started} />;
