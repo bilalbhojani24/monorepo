@@ -99,7 +99,11 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
         subHeading={
           status === 'ongoing' ? (
             <>
-              <TMProgressBar title={null} percentage={progress} />
+              <TMProgressBar
+                title={null}
+                percentage={progress}
+                wrapperClassName="mt-3 mb-4"
+              />
               {data?.text}
             </>
           ) : (
@@ -111,7 +115,7 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
         }
         dismissButton={data.secondButtonText}
       />
-      <TMModalFooter position="right">
+      <TMModalFooter position="right" wrapperClassName="pt-0">
         {data?.firstButtonText && (
           <TMButton
             variant="primary"

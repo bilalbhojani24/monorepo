@@ -129,7 +129,7 @@ const FolderExplorerModal = ({
                 primaryMoveLocation === moveFolderOptions[1].id) && (
                 <TMAlerts
                   modifier="primary"
-                  linkText={null}
+                  detailsNode={null}
                   description={
                     primaryMoveLocation === moveFolderOptions[0].id
                       ? alertText

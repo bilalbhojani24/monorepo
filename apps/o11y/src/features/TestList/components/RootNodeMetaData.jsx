@@ -70,7 +70,7 @@ export default function RootNodeMetaData({
         </span>
         {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
-          className="text-base-600 truncate text-sm"
+          className="text-base-500 truncate text-sm"
           role="button"
           tabIndex="0"
           onClick={(e) => e.stopPropagation()}

@@ -74,7 +74,6 @@ const UploadFile = () => {
             dismissButton
             modifier="error"
             title={csvUploadError}
-            linkText={null}
             dismissButtonFn={() => dispatch(setCSVUploadError(''))}
           />
         </div>
