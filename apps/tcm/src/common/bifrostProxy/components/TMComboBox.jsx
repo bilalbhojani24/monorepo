@@ -37,7 +37,7 @@ const TMComboBox = ({
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
         placeholder={placeholder}
-        onInputValueChange={(e) => setQuery(e.target.value)}
+        onInputValueChange={(val) => setQuery(val)}
       />
       {options.length ? (
         <ComboboxOptionGroup>
