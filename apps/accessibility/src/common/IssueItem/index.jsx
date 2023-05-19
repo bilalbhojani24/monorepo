@@ -39,21 +39,6 @@ import {
 import NeedsReviewBanner from './NeedsReviewBanner';
 import useIssueItem from './useIssueItem';
 
-const tabs = [
-  {
-    name: 'Issue details',
-    value: ISSUE_DETAILS_TAB
-  },
-  {
-    name: 'How to fix',
-    value: HOW_TO_FIX_TAB
-  },
-  {
-    name: 'Source tests',
-    value: SOURCE_TESTS
-  }
-];
-
 export default function IssueItem({ sectionsDataContext }) {
   const {
     activeTab,
@@ -69,6 +54,8 @@ export default function IssueItem({ sectionsDataContext }) {
     buildMetaData,
     activeComponentId,
     tests,
+    tabs,
+    issueHeight,
     onSliderOpenClick,
     sanitizeValue,
     onNextClick,
@@ -130,7 +117,6 @@ export default function IssueItem({ sectionsDataContext }) {
     testType
   );
 
-  // const reportList = needsReviewStatusinReports.map((item) => item.reportName);
   const message = needsReview ? getReviewMessage(data) : '';
 
   useEffect(() => {
@@ -145,13 +131,14 @@ export default function IssueItem({ sectionsDataContext }) {
     needsReviewStatusinReports.length > 0 &&
     Object.values(buildMetaData?.meta).length > 1;
 
+  // sticky top-0
   return (
-    <div className="relative">
-      <div className="border-base-200 sticky top-0 z-[15] flex w-full items-start justify-between border-b bg-white py-4 pl-6 pr-4">
+    <div className="relative overflow-hidden">
+      <div className="border-base-200 absolute top-0 z-[15] flex w-full items-start justify-between border-b bg-white py-4 pl-6 pr-4">
         <div>
           <div className="flex items-center">
             <p
-              className="text-base-900 mb-1 mr-2 max-w-md overflow-hidden truncate text-lg font-medium"
+              className="text-base-900 mb-1 mr-2 max-w-md truncate text-lg font-medium"
               title={title}
             >
               {title}
@@ -199,7 +186,10 @@ export default function IssueItem({ sectionsDataContext }) {
           wrapperClassName="text-2xl p-0"
         />
       </div>
-      <div className="pb-40">
+      <div
+        className="mt-[91px] overflow-auto pb-20"
+        style={{ height: issueHeight }}
+      >
         {needsReview && (
           <NeedsReviewBanner
             message={message}
@@ -209,88 +199,84 @@ export default function IssueItem({ sectionsDataContext }) {
           />
         )}
         <div className="px-6 py-4">
-          <div>
-            <p className="text-base-900 mb-2 text-base font-medium">
-              {headerData.help}
-            </p>
-            <p className="text-base-500 mb-2 text-sm">
-              {headerData.description}
-              <Hyperlink
-                href={`${getEnvUrl()}/more-info/4.4/${activeViolation.id}`}
-                target="_blank"
-                onClick={
-                  isGuidelineMode
-                    ? (e) => {
-                        e.preventDefault();
-                        if (tagList[0].value) {
-                          onTagClick(tagList[0].value);
-                        }
+          <p className="text-base-900 mb-2 text-base font-medium">
+            {headerData.help}
+          </p>
+          <p className="text-base-500 mb-2 text-sm">
+            {headerData.description}
+            <Hyperlink
+              href={`${getEnvUrl()}/more-info/4.4/${activeViolation.id}`}
+              target="_blank"
+              onClick={
+                isGuidelineMode
+                  ? (e) => {
+                      e.preventDefault();
+                      if (tagList[0].value) {
+                        onTagClick(tagList[0].value);
                       }
-                    : () => {}
-                }
-                wrapperClassName="font-semibold inline-flex ml-1 font-normal"
-              >
-                Learn more
-              </Hyperlink>
-            </p>
-            {tagList.length > 0 && (
-              <div className="flex items-center">
-                {tagList.map(({ label, value }) => (
-                  <div
-                    key={label}
-                    tabIndex={0}
-                    className="mr-2"
-                    onClick={value ? () => onTagClick(value) : () => {}}
-                    role="button"
-                    aria-label={`Go to ${label}.Link will open in a new tab.`}
-                    onKeyDown={(e) =>
-                      handleClickByEnterOrSpace(e, () => onTagClick(value))
                     }
+                  : () => {}
+              }
+              wrapperClassName="font-semibold inline-flex ml-1 font-normal"
+            >
+              Learn more
+            </Hyperlink>
+          </p>
+          {tagList.length > 0 && (
+            <div className="flex items-center">
+              {tagList.map(({ label, value }) => (
+                <div
+                  key={label}
+                  tabIndex={0}
+                  className="mr-2"
+                  onClick={value ? () => onTagClick(value) : () => {}}
+                  role="button"
+                  aria-label={`Go to ${label}.Link will open in a new tab.`}
+                  onKeyDown={(e) =>
+                    handleClickByEnterOrSpace(e, () => onTagClick(value))
+                  }
+                >
+                  <Badge
+                    hasDot={false}
+                    hasRemoveButton={false}
+                    isRounded={false}
+                    size="large"
+                    text={label.toUpperCase()}
+                    modifier="primary"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          {isShowingSourceReport && (
+            <div className="mt-4 flex text-sm font-medium">
+              <p className="text-base-500 mr-1 flex items-center text-sm font-medium">
+                Source report(s):
+              </p>
+              {needsReviewStatusinReports.map(({ reportName, id }, index) => (
+                <div className="flex items-center">
+                  <Hyperlink
+                    href={generateReportUrl(id)}
+                    wrapperClassName="font-normal text-sm"
+                    target="_blank"
                   >
-                    <Badge
-                      hasDot={false}
-                      hasRemoveButton={false}
-                      isRounded={false}
-                      size="large"
-                      text={label.toUpperCase()}
-                      modifier="primary"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-            {isShowingSourceReport && (
-              <div className="mt-4 flex text-sm font-medium">
-                <p className="text-base-500 mr-1 flex items-center text-sm font-medium">
-                  Source report(s):
-                </p>
-                {needsReviewStatusinReports.map(({ reportName, id }, index) => (
-                  <div className="flex items-center">
-                    <Hyperlink
-                      href={generateReportUrl(id)}
-                      wrapperClassName="font-normal text-sm"
-                      target="_blank"
-                    >
-                      {reportName}
-                    </Hyperlink>
-                    {index !== needsReviewStatusinReports.length - 1
-                      ? ', '
-                      : ''}
-                  </div>
-                ))}
-              </div>
-            )}
-            <div className="mt-4">
-              <p className="text-base-700 mb-1 text-sm">Affected page: </p>
-              <div className="flex">
-                <InputField
-                  id={url}
-                  value={url}
-                  readonly
-                  wrapperClassName="mr-2 w-full"
-                />
-                <CopyButton text={url} />
-              </div>
+                    {reportName}
+                  </Hyperlink>
+                  {index !== needsReviewStatusinReports.length - 1 ? ', ' : ''}
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="mt-4">
+            <p className="text-base-700 mb-1 text-sm">Affected page: </p>
+            <div className="flex">
+              <InputField
+                id={url}
+                value={url}
+                readonly
+                wrapperClassName="mr-2 w-full"
+              />
+              <CopyButton text={url} />
             </div>
           </div>
         </div>
@@ -481,12 +467,7 @@ export default function IssueItem({ sectionsDataContext }) {
           )}
         </div>
       </div>
-      <div
-        className="fixed bottom-0 right-0 z-[15] bg-white"
-        style={{
-          width: 'calc((100vw - 256px) / 2)'
-        }}
-      >
+      <div className="absolute bottom-2 w-full bg-white">
         <Pagination
           key={`${activeViolationId}_${activeComponentId}`}
           hideDetailsString

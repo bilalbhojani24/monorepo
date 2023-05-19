@@ -5,11 +5,17 @@ import fetchCustomData from 'api/fetchCustomData';
 import { fetchTestCaseData } from 'api/fetchTestAutomationData';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
-import { setActiveTab } from './slices/appSlice';
+import {
+  resetActiveTab,
+  resetFilters,
+  resetIssueItem,
+  resetReportAppInfo,
+  setActiveTab
+} from './slices/appSlice';
 import { setCustomData, setTestData } from './slices/dataSlice';
 import { getActiveTab, getTestData, getTestMetaData } from './slices/selector';
 
-export default function useAutomatedTestBuild() {
+export default function useAutomatedTestBuild({ onSliderClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const activeTab = useSelector(getActiveTab);
@@ -23,6 +29,15 @@ export default function useAutomatedTestBuild() {
       activeTab: tab
     });
     navigate(`?${updatedPath}`);
+  };
+
+  const onClosingSlider = () => {
+    dispatch(resetFilters());
+    dispatch(resetReportAppInfo());
+    dispatch(resetIssueItem());
+    dispatch(resetActiveTab());
+
+    onSliderClose();
   };
 
   useEffect(() => {
@@ -43,6 +58,7 @@ export default function useAutomatedTestBuild() {
     testMetaData,
     testData,
     eventName,
+    onClosingSlider,
     onRowClick,
     onTabChange
   };

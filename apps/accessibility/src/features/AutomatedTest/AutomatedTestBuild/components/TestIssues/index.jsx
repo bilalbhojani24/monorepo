@@ -18,11 +18,13 @@ import useTestIssues from './useTestIssues';
 const tabList = [
   {
     name: 'Overview',
-    value: SUMMARY
+    value: SUMMARY,
+    id: 'slider-overview'
   },
   {
     name: 'All issues',
-    value: ISSUES
+    value: ISSUES,
+    id: 'slider-issues'
   }
 ];
 
@@ -34,8 +36,9 @@ export default function TestIssues({ isSliderOpen, onSliderClose }) {
     testData,
     eventName,
     onRowClick,
+    onClosingSlider,
     onTabChange
-  } = useTestIssues();
+  } = useTestIssues({ onSliderClose });
 
   let defaultIndex = 0;
   switch (activeTab) {
@@ -52,15 +55,13 @@ export default function TestIssues({ isSliderOpen, onSliderClose }) {
       break;
   }
 
-  console.log(testMetaData);
-
   return (
     <Slideover
       show={isSliderOpen}
       slideoverWidth="max-w-screen-md w-screen overflow-y bg-base-50"
-      onOverlayClick={onSliderClose}
+      onOverlayClick={onClosingSlider}
       backgroundOverlay
-      onClose={onSliderClose}
+      onClose={onClosingSlider}
       size="6xl"
     >
       <>

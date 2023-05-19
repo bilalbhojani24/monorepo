@@ -16,7 +16,10 @@ import PropTypes from 'prop-types';
 
 import useActiveFilters from './useActiveFilters';
 
-export default function ActiveFilters({ sectionsDataContext }) {
+export default function ActiveFilters({
+  sectionsDataContext,
+  wrapperClassName
+}) {
   const {
     hasFilters,
     showHiddenIssues,
@@ -52,8 +55,11 @@ export default function ActiveFilters({ sectionsDataContext }) {
 
   return (
     <div
-      className="bg-base-50 border-base-200 fixed z-10 border-b"
-      style={{ width: 'calc(100% - 256px)' }}
+      className={twClassNames(
+        'bg-base-50 border-base-200 fixed z-10 w-full border-b',
+        wrapperClassName
+      )}
+      // style={{ width: 'calc(100% - 256px)' }}
     >
       <div className="flex w-full items-center justify-between px-6 py-4">
         <div className="flex items-center">
