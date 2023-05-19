@@ -14,7 +14,8 @@ export default defineConfig({
       features: path.resolve(__dirname, 'src/features'),
       common: path.resolve(__dirname, 'src/common'),
       constants: path.resolve(__dirname, 'src/constants'),
-      hooks: path.resolve(__dirname, 'src/hooks')
+      hooks: path.resolve(__dirname, 'src/hooks'),
+      globalSlice: path.resolve(__dirname, 'src/globalSlice')
     }
   }
 });
