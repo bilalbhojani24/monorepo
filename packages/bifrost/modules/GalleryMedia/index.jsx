@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
@@ -33,14 +32,20 @@ const GalleryMedia = ({
         return (
           <div
             className={twClassNames(
-              `bg-cover bg-no-repeat ${MEDIA_CARD_THUMBNAIL_RATIO[ratio]}`
+              `bg-cover bg-no-repeat ${
+                MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]
+              }`
             )}
             style={{ backgroundImage: `url(${file})` }}
           />
         );
       case MEDIA_CARD_STATUS[1]:
         return (
-          <div className={twClassNames(`${MEDIA_CARD_THUMBNAIL_RATIO[ratio]}`)}>
+          <div
+            className={twClassNames(
+              `${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]}`
+            )}
+          >
             <BsExclamationTriangleFill
               className="text-base-700 mx-auto flex h-full w-6 flex-col"
               aria-hidden="true"
@@ -50,9 +55,12 @@ const GalleryMedia = ({
       case MEDIA_CARD_STATUS[2]:
         return (
           <div
-            className={twClassNames(`${MEDIA_CARD_THUMBNAIL_RATIO[ratio]}`, {
-              'flex justify-center': status === MEDIA_CARD_STATUS[2]
-            })}
+            className={twClassNames(
+              `${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]}`,
+              {
+                'flex justify-center': status === MEDIA_CARD_STATUS[2]
+              }
+            )}
           >
             <Loader
               width="w-6"
@@ -63,7 +71,9 @@ const GalleryMedia = ({
       case MEDIA_CARD_STATUS[3]:
         return (
           <div
-            className={`bg-cover bg-no-repeat ${MEDIA_CARD_THUMBNAIL_RATIO[ratio]}`}
+            className={`bg-cover bg-no-repeat ${
+              MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]
+            }`}
             style={{ backgroundImage: `url(${file})` }}
           >
             <AiFillPlayCircle
@@ -74,7 +84,7 @@ const GalleryMedia = ({
         );
       case MEDIA_CARD_STATUS[4]:
         return (
-          <div className={`${MEDIA_CARD_THUMBNAIL_RATIO[ratio]}`}>
+          <div className={`${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]}`}>
             <MdPictureAsPdf
               className="text-base-700 mx-auto flex h-full w-8 flex-col"
               aria-hidden="true"
@@ -83,7 +93,7 @@ const GalleryMedia = ({
         );
       case MEDIA_CARD_STATUS[5]:
         return (
-          <div className={`${MEDIA_CARD_THUMBNAIL_RATIO[ratio]}`}>
+          <div className={`${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]}`}>
             <AiFillFileText
               className="text-base-700 mx-auto flex h-full w-8 flex-col"
               aria-hidden="true"
@@ -93,7 +103,9 @@ const GalleryMedia = ({
       default:
         return (
           <div
-            className={`${MEDIA_CARD_THUMBNAIL_RATIO[ratio]} text-base-900 text-lg font-normal leading-none`}
+            className={`${
+              MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[0]
+            } text-base-900 text-lg font-normal leading-none`}
           >
             Unsupported format
           </div>
@@ -143,7 +155,11 @@ const GalleryMedia = ({
   };
 
   return data.map((mediaItem) => (
-    <div key={mediaItem.id} className="mx-auto w-[197px]" role="region">
+    <div
+      key={mediaItem.id}
+      className={`mx-auto ${MEDIA_CARD_THUMBNAIL_RATIO[ratio].split(' ')[1]}`}
+      role="region"
+    >
       <GalleryMediaCheckbox
         onClick={() => handleOnClick(mediaItem.id)}
         selected={mediaItem.selected}

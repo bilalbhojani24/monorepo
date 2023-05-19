@@ -24,17 +24,6 @@ const GalleryMediaCheckbox = ({
 
   return (
     <div className="relative">
-      {(checkBoxVisible || selected || alwaysVisible) && (
-        <Checkbox
-          checked={selected}
-          border={false}
-          onChange={(e) => handleChange(e)}
-          onMouseEnter={() => {
-            setCheckBoxVisible(true);
-          }}
-          wrapperClassName="absolute right-3 top-2 z-10"
-        />
-      )}
       <button
         onClick={handleClick}
         className={twClassNames(
@@ -49,11 +38,34 @@ const GalleryMediaCheckbox = ({
         onMouseLeave={() => {
           setCheckBoxVisible(false);
         }}
+        onFocus={() => {
+          setCheckBoxVisible(true);
+        }}
+        onKeyDown={(e) => {
+          if (e.shiftKey && e.key === 'Tab') setCheckBoxVisible(false);
+        }}
         type="button"
         aria-label="particular button"
       >
         {children}
       </button>
+      {(checkBoxVisible || selected || alwaysVisible) && (
+        <Checkbox
+          checked={selected}
+          border={false}
+          onChange={(e) => handleChange(e)}
+          onMouseEnter={() => {
+            setCheckBoxVisible(true);
+          }}
+          onFocus={() => {
+            setCheckBoxVisible(true);
+          }}
+          onBlur={() => {
+            setCheckBoxVisible(false);
+          }}
+          wrapperClassName="absolute right-3 top-2 z-5"
+        />
+      )}
     </div>
   );
 };

@@ -17,7 +17,7 @@ const Modal = forwardRef((props, ref) => {
     <Transition.Root show={show}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="z-70 relative"
         onClose={() => {
           if (onClose) onClose();
           if (onOverlayClick) onOverlayClick();
@@ -37,7 +37,7 @@ const Modal = forwardRef((props, ref) => {
 
         <div
           className={twClassNames(
-            'fixed inset-0 z-10 overflow-y-auto',
+            'fixed inset-0 z-70 overflow-y-auto',
             backdropWrapperClassName
           )}
         >

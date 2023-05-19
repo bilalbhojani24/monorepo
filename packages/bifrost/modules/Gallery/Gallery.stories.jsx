@@ -186,6 +186,9 @@ export const GalleryExampleWPreview = () => {
         }))
       );
       setSelectedItems([]);
+
+      // if everything is unselected, multiselect should be disabled as well
+      setMultiSelect(false);
     }
   };
 
