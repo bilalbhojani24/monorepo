@@ -36,7 +36,7 @@ export default function useDashboard() {
   const primaryNav = [
     {
       id: 'report-listing',
-      label: 'All reports',
+      label: 'Manual test reports',
       activeIcon: MdOutlineHome,
       inActiveIcon: MdOutlineHome,
       path: '/reports'

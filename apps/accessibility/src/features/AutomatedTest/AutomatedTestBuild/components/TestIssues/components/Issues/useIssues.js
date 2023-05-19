@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { activeInitFilters, events, GUIDELINES } from 'constants';
 import {
   resetFilters,
@@ -33,12 +33,12 @@ import {
   getTestMetaData,
   getUniqFilterValues
 } from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/slices/selector';
-import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
-import { logEvent } from 'utils/logEvent';
+// import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
+// import { logEvent } from 'utils/logEvent';
 
 export default function useIssues() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const activeComponentId = useSelector(getActiveComponentId);
   const isShowingIssue = useSelector(getIsShowingIssue);
   const isFilterModalVisible = useSelector(getIsFilterModalVisible);
@@ -291,13 +291,13 @@ export default function useIssues() {
     dispatch(setActiveViolationId(violationId));
     dispatch(setActiveComponentId(key));
     dispatch(setIsShowingIssue(true));
-    const path = updateUrlWithQueryParam({
-      activeViolationId: violationId,
-      activeComponentId: key,
-      isShowingIssue: true,
-      activeIssueIndex: 0
-    });
-    navigate(`?${path}`);
+    // const path = updateUrlWithQueryParam({
+    //   activeViolationId: violationId,
+    //   activeComponentId: key,
+    //   isShowingIssue: true,
+    //   activeIssueIndex: 0
+    // });
+    // navigate(`?${path}`);
   };
 
   const onCloseClick = () => {
@@ -316,29 +316,29 @@ export default function useIssues() {
       })
     );
     dispatch(resetIssueItem());
-    const path = deleteUrlQueryParam([
-      'activeViolationId',
-      'activeComponentId',
-      'activeIssueIndex',
-      'isShowingIssue'
-    ]);
-    navigate(`?${path}`);
-    const updatedPath = updateUrlWithQueryParam({
-      impact: values.map(({ value }) => value)
-    });
-    navigate(`?${updatedPath}`);
+    // const path = deleteUrlQueryParam([
+    //   'activeViolationId',
+    //   'activeComponentId',
+    //   'activeIssueIndex',
+    //   'isShowingIssue'
+    // ]);
+    // navigate(`?${path}`);
+    // const updatedPath = updateUrlWithQueryParam({
+    //   impact: values.map(({ value }) => value)
+    // });
+    // navigate(`?${updatedPath}`);
   };
 
   const onApplyFilters = (intermediateFilters) => {
     dispatch(setTestFilters(intermediateFilters));
     dispatch(resetIssueItem());
-    const path = deleteUrlQueryParam([
-      'activeViolationId',
-      'activeComponentId',
-      'activeIssueIndex',
-      'isShowingIssue'
-    ]);
-    navigate(`?${path}`);
+    // const path = deleteUrlQueryParam([
+    //   'activeViolationId',
+    //   'activeComponentId',
+    //   'activeIssueIndex',
+    //   'isShowingIssue'
+    // ]);
+    // navigate(`?${path}`);
 
     // update query params with applied filters
     const filterValues = {};
@@ -347,16 +347,16 @@ export default function useIssues() {
         filterValues[key] = values.map(({ value }) => value);
       }
     });
-    const updatedPath = updateUrlWithQueryParam(filterValues);
-    navigate(`?${updatedPath}`);
+    // const updatedPath = updateUrlWithQueryParam(filterValues);
+    // navigate(`?${updatedPath}`);
   };
 
   const onNextClick = () => {
     if (activeIssueIndex < maxLimit) {
       const newIndex = activeIssueIndex + 1;
       dispatch(setActiveIssueIndex(newIndex));
-      const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
-      navigate(`?${path}`);
+      // const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
+      // navigate(`?${path}`);
     }
   };
 
@@ -364,55 +364,55 @@ export default function useIssues() {
     if (activeIssueIndex > 0) {
       const newIndex = activeIssueIndex - 1;
       dispatch(setActiveIssueIndex(newIndex));
-      const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
-      navigate(`?${path}`);
+      // const path = updateUrlWithQueryParam({ activeIssueIndex: newIndex });
+      // navigate(`?${path}`);
     }
   };
 
   const onIssueCloseClick = () => {
     dispatch(setIsShowingIssue(false));
-    const path = updateUrlWithQueryParam({
-      activeIssueIndex: 0,
-      isShowingIssue: false
-    });
-    navigate(`?${path}`);
+    // const path = updateUrlWithQueryParam({
+    //   activeIssueIndex: 0,
+    //   isShowingIssue: false
+    // });
+    // navigate(`?${path}`);
   };
 
   const onTagClose = (key) => {
     if (key === 'all') {
       dispatch(resetFilters());
-      const path = deleteUrlQueryParam(Object.keys(activeInitFilters));
-      navigate(`?${path}`);
+      // const path = deleteUrlQueryParam(Object.keys(activeInitFilters));
+      // navigate(`?${path}`);
     } else if (key === 'showNeedsReviewIssues') {
-      const path = deleteUrlQueryParam(['showNeedsReviewIssues']);
-      navigate(`?${path}`);
+      // const path = deleteUrlQueryParam(['showNeedsReviewIssues']);
+      // navigate(`?${path}`);
       dispatch(setResetFilterKey({ key, value: false }));
     } else {
-      const path = deleteUrlQueryParam([key]);
-      navigate(`?${path}`);
+      // const path = deleteUrlQueryParam([key]);
+      // navigate(`?${path}`);
       dispatch(setResetFilterKey({ key, value: [] }));
     }
   };
 
   const onTabSelect = (tabValue) => {
     dispatch(setActiveSwitch(tabValue));
-    logEvent('OnADReportView', {
-      actionType: events.allIssuesTab,
-      tab: tabValue
-    });
-    const path = updateUrlWithQueryParam({
-      activeSwitch: tabValue,
-      activeViolationId: '',
-      activeComponentId: '',
-      activeIssueIndex: 0,
-      isShowingIssue: false
-    });
-    navigate(`?${path}`);
+    // logEvent('OnADReportView', {
+    //   actionType: events.allIssuesTab,
+    //   tab: tabValue
+    // });
+    // const path = updateUrlWithQueryParam({
+    //   activeSwitch: tabValue,
+    //   activeViolationId: '',
+    //   activeComponentId: '',
+    //   activeIssueIndex: 0,
+    //   isShowingIssue: false
+    // });
+    // navigate(`?${path}`);
   };
 
   const onHiddenIssueClick = (val) => {
-    const path = updateUrlWithQueryParam({ hideIssues: val });
-    navigate(`?${path}`);
+    // const path = updateUrlWithQueryParam({ hideIssues: val });
+    // navigate(`?${path}`);
     dispatch(resetIssueItem());
     dispatch(setShowHiddenIssues({ hideIssues: val }));
   };

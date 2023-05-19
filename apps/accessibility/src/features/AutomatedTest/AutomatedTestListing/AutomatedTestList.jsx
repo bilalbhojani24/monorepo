@@ -156,7 +156,7 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
                 key={col.key}
                 variant="header"
                 textTransform="uppercase"
-                wrapperClassName="text-base-500 font-medium"
+                wrapperClassName="text-base-500 font-medium text-xs tracking-wider"
               >
                 {col.name}
               </TableCell>

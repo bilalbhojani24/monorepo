@@ -4,12 +4,24 @@ import IssuesNotFound from 'assets/not_found.svg';
 import ActiveFilters from 'common/ActiveFilters';
 import FilterModal from 'common/FilterModal';
 import IssueItem from 'common/IssueItem';
+import { HOW_TO_FIX_TAB, ISSUE_DETAILS_TAB } from 'constants';
 import SectionsDataContext from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/context/SectionsDataContext';
 
 import useIssues from './useIssues';
 import ViolationList from './ViolationList';
 
 import './customStyle.scss';
+
+const tabs = [
+  {
+    name: 'Issue details',
+    value: ISSUE_DETAILS_TAB
+  },
+  {
+    name: 'How to fix',
+    value: HOW_TO_FIX_TAB
+  }
+];
 
 export default function Issues() {
   const {
@@ -64,6 +76,10 @@ export default function Issues() {
   const isHalfView = activeComponentId && isShowingIssue;
   const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
 
+  const issueHeight = hasFilterOrHiddenView
+    ? `calc(100vh - 401px)`
+    : `calc(100vh - 353px)`;
+
   return (
     <SectionsDataContext.Provider
       value={{
@@ -88,6 +104,8 @@ export default function Issues() {
         activeBuildFilters: activeTestFilters,
         wcagVersion,
         tests,
+        issueHeight,
+        tabs,
         onHiddenIssueClick,
         onTabSelect,
         onRowClick,
@@ -107,16 +125,19 @@ export default function Issues() {
       }}
     >
       <div className="fixed">
-        <ActiveFilters sectionsDataContext={SectionsDataContext} />
+        <ActiveFilters
+          sectionsDataContext={SectionsDataContext}
+          wrapperClassName="max-w-6xl"
+        />
         {isFilterModalVisible && (
           <FilterModal sectionsDataContext={SectionsDataContext} />
         )}
         <div
-          className="fixed overflow-auto"
+          className="fixed"
           style={{
-            top: `${hasFilterOrHiddenView ? '348px' : '300px'}`,
-            height: 'calc(100vh - 228px)',
-            width: 'calc(100vw - 256px)'
+            top: `${hasFilterOrHiddenView ? '310px' : '262px'}`,
+            height: 'calc(100vh - 262px)',
+            width: '1152px'
           }}
         >
           {showEmptyScreen ? (
@@ -129,7 +150,7 @@ export default function Issues() {
               <p className="text-base-500 text-sm">No Issues Found</p>
             </div>
           ) : (
-            <div className="flex h-full overflow-auto">
+            <div className="flex h-full">
               <div
                 className={twClassNames(
                   'w-full border-r border-base-200 overflow-auto pb-20 bg-base-50',
@@ -143,13 +164,13 @@ export default function Issues() {
               </div>
               {isHalfView && sectionData && (
                 <div
-                  className="fixed right-0 overflow-auto bg-white"
-                  style={{
-                    height: 'calc(100vh - 228px)',
-                    width: 'calc((100vw - 256px) / 2)'
-                  }}
+                  className={twClassNames({
+                    'w-2/4': isHalfView && sectionData
+                  })}
                 >
-                  <IssueItem sectionsDataContext={SectionsDataContext} />
+                  <div className="bg-white">
+                    <IssueItem sectionsDataContext={SectionsDataContext} />
+                  </div>
                 </div>
               )}
             </div>

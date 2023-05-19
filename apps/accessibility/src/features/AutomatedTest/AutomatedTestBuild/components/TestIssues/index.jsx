@@ -16,11 +16,13 @@ import useTestIssues from './useTestIssues';
 const tabList = [
   {
     name: 'Overview',
-    value: SUMMARY
+    value: SUMMARY,
+    id: 'slider-overview'
   },
   {
     name: 'All issues',
-    value: ISSUES
+    value: ISSUES,
+    id: 'slider-issues'
   }
 ];
 
@@ -32,8 +34,9 @@ export default function TestIssues({ isSliderOpen, onSliderClose }) {
     testData,
     eventName,
     onRowClick,
+    onClosingSlider,
     onTabChange
-  } = useTestIssues();
+  } = useTestIssues({ onSliderClose });
 
   let defaultIndex = 0;
   switch (activeTab) {
@@ -54,17 +57,17 @@ export default function TestIssues({ isSliderOpen, onSliderClose }) {
     <Slideover
       show={isSliderOpen}
       slideoverWidth="max-w-screen-md w-screen overflow-y bg-base-50"
-      onOverlayClick={onSliderClose}
+      onOverlayClick={onClosingSlider}
       backgroundOverlay
-      onClose={onSliderClose}
+      onClose={onClosingSlider}
       size="6xl"
     >
       <SlideoverBody>
         {testMetaData.meta && (
-          <div>
+          <div id="slide-over">
             <MdClose
               className="absolute right-8 z-10 cursor-pointer text-2xl"
-              onClick={onSliderClose}
+              onClick={onClosingSlider}
             />
             <div className="fixed z-[2] w-[calc(100vw-256px)] bg-white">
               <div className="px-6 pt-6">

@@ -45,6 +45,7 @@ export default function AutomatedTestListing() {
               value: 0,
               label: 'All projects'
             }}
+            wrapperClassName="bg-white"
           >
             <ComboboxTrigger
               onInputValueChange={onComboboxValueChange}
@@ -70,7 +71,7 @@ export default function AutomatedTestListing() {
             }
             placeholder="Search builds by name..."
             onChange={onInputValueChange}
-            wrapperClassName="mr-4 w-80"
+            wrapperClassName="mr-4 w-80 bg-white"
           />
         </div>
       </div>

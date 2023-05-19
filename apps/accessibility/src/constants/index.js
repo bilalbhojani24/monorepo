@@ -172,10 +172,6 @@ export const reportType = [
   {
     label: 'Assisted test',
     value: testTypes.assistiveTest
-  },
-  {
-    label: 'Website scan',
-    value: testTypes.websiteScan
   }
 ];
 

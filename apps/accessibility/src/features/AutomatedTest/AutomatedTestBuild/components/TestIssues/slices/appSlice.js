@@ -29,12 +29,12 @@ const initialAppState = {
 
 const getInitialTab = () => {
   const params = new URLSearchParams(window.location.search);
-  const activeTab = params.get('activeTab');
-  const activeSwitch = params.get('activeSwitch');
-  const activeViolationId = params.get('activeViolationId');
-  const activeComponentId = params.get('activeComponentId');
-  const activeIssueIndex = params.get('activeIssueIndex');
-  const isShowingIssue = params.get('isShowingIssue');
+  // const activeTab = params.get('activeTab');
+  // const activeSwitch = params.get('activeSwitch');
+  // const activeViolationId = params.get('activeViolationId');
+  // const activeComponentId = params.get('activeComponentId');
+  // const activeIssueIndex = params.get('activeIssueIndex');
+  // const isShowingIssue = params.get('isShowingIssue');
   const showHiddenIssues = { hideIssues: params.get('hideIssues') === 'true' };
 
   // filters
@@ -68,40 +68,39 @@ const getInitialTab = () => {
       .map((value) => ({ label: value, value }));
   }
 
-  const result = { ...initialParamState, showHiddenIssues };
-  if (activeTab) {
-    if (activeTab === ISSUES) {
-      result.activeTab = ISSUES;
-      result.defaultIndex = 1;
-      if (activeSwitch) {
-        result.activeSwitch = activeSwitch;
-      } else {
-        result.activeSwitch = ISSUE_TYPE;
-      }
-      if (activeViolationId) {
-        result.activeViolationId = activeViolationId;
-      }
-      if (activeComponentId) {
-        result.activeComponentId = activeComponentId;
-      }
-      if (activeIssueIndex) {
-        result.activeIssueIndex = parseInt(activeIssueIndex, 10);
-      }
-      if (isShowingIssue) {
-        result.isShowingIssue = isShowingIssue !== 'false';
-      }
-      if (activeFilters) {
-        result.activeFilters = activeFilters;
-      }
-    } else if (activeTab === SUMMARY) {
-      result.activeTab = SUMMARY;
-      result.defaultIndex = 0;
-    } else if (activeTab === TESTS) {
-      result.activeTab = TESTS;
-    }
-  }
+  // if (activeTab) {
+  //   if (activeTab === ISSUES) {
+  //     result.activeTab = ISSUES;
+  //     result.defaultIndex = 1;
+  //     if (activeSwitch) {
+  //       result.activeSwitch = activeSwitch;
+  //     } else {
+  //       result.activeSwitch = ISSUE_TYPE;
+  //     }
+  //     if (activeViolationId) {
+  //       result.activeViolationId = activeViolationId;
+  //     }
+  //     if (activeComponentId) {
+  //       result.activeComponentId = activeComponentId;
+  //     }
+  //     if (activeIssueIndex) {
+  //       result.activeIssueIndex = parseInt(activeIssueIndex, 10);
+  //     }
+  //     if (isShowingIssue) {
+  //       result.isShowingIssue = isShowingIssue !== 'false';
+  //     }
+  //     if (activeFilters) {
+  //       result.activeFilters = activeFilters;
+  //     }
+  //   } else if (activeTab === SUMMARY) {
+  //     result.activeTab = SUMMARY;
+  //     result.defaultIndex = 0;
+  //   } else if (activeTab === TESTS) {
+  //     result.activeTab = TESTS;
+  //   }
+  // }
 
-  return result;
+  return { ...initialParamState, showHiddenIssues };
 };
 
 const { actions, reducer } = createSlice({

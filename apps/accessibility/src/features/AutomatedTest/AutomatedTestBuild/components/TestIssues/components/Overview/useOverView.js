@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import {
   resetFilters,
   resetIssueItem,
@@ -14,7 +14,7 @@ import { getHiddenIssuesCount, updateUrlWithQueryParam } from 'utils/helper';
 
 export default function useOverview() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const testMetaData = useSelector(getTestMetaData);
   const testData = useSelector(getTestData);
 
@@ -113,18 +113,18 @@ export default function useOverview() {
     dispatch(setTestFiltersKey({ key: filter, values }));
 
     // append filter to url as query param
-    const path = updateUrlWithQueryParam({ [filter]: value });
-    navigate(`?${path}`);
-    document.querySelector('button[value="Overview"]').click();
+    // const path = updateUrlWithQueryParam({ [filter]: value });
+    // navigate(`?${path}`);
+    document.querySelector('#slide-over button[value="All issues"]').click();
   };
 
   const onHiddenIssueClick = () => {
     dispatch(setShowHiddenIssues({ hideIssues: true }));
     dispatch(resetFilters());
     dispatch(resetIssueItem());
-    const path = updateUrlWithQueryParam({ hideIssues: true });
-    navigate(`?${path}`);
-    document.querySelector('button[value="All issues"]').click();
+    // const path = updateUrlWithQueryParam({ hideIssues: true });
+    // navigate(`?${path}`);
+    document.querySelector('#slide-over button[value="All issues"]').click();
   };
 
   return {
