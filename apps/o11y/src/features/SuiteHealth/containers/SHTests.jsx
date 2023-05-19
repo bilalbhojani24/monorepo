@@ -86,12 +86,12 @@ export default function SHTests() {
 
   useEffect(() => {
     mounted.current = true;
+    dispatch(setTestsLoading(true));
     if (
       activeProject?.normalisedName &&
       !isFiltersLoading &&
       currentFilterCategory === FILTER_CATEGORIES.SUITE_HEALTH_TESTS
     ) {
-      dispatch(setTestsLoading(true));
       dispatch(
         getSnPTestsData({
           normalisedName: activeProject?.normalisedName,
