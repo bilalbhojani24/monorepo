@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
@@ -33,7 +33,20 @@ export default function useAutomatedTestBuild() {
   const buildData = useSelector(getBuildData);
   const buildMetaData = useSelector(getBuildMetaData);
   const testRuns = useSelector(getTestCasesData);
+  const [isCopied, setIsCopied] = useState(false);
   const { buildName, buildNumber, projectName } = useParams();
+
+  const onCopyClick = () => {
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 3000);
+  };
+
+  const formateUrl = () => {
+    const url = window.location.href;
+    return url.split('?')[0];
+  };
 
   const onTabChange = (option) => {
     const tab = option.value;
@@ -101,6 +114,9 @@ export default function useAutomatedTestBuild() {
     eventName,
     onRowClick,
     onTabChange,
-    testRuns
+    testRuns,
+    isCopied,
+    onCopyClick,
+    formateUrl
   };
 }
