@@ -23,7 +23,7 @@ export default {
     signInUrl: `${STAGING_CONFIG('').apiUrl}/api/v1/auth/start-sso`,
     signOutUrl: STAGING_CONFIG('devtestops').signOutUrl,
     baseUrl: STAGING_CONFIG('').baseUrl,
-    apiUrl: STAGING_CONFIG('').apiUrl,
+    apiUrl: 'http://devtestops-api.bsstag.com',
     withCredentials: true,
     integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
     useIntegrationsPreProdAuth: true
