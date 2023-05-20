@@ -11,20 +11,21 @@ const ChatWidget = () => {
 
   const [showWidget, setShowWidget] = useState(true);
 
-  useEffect(() => {
-    dispatch(fetchChatWidgetInitialData());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (chatWidget.data) handleScriptLoad(chatWidget.data, setShowWidget);
-  }, [chatWidget.data]);
-
   const showChatWindow = () => {
     if (window.fcWidget) {
       setShowWidget(false);
       window.fcWidget.open();
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchChatWidgetInitialData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (chatWidget.data)
+      handleScriptLoad(chatWidget.data, setShowWidget, showChatWindow);
+  }, [chatWidget.data]);
 
   if (
     !chatWidget.data ||
@@ -35,7 +36,7 @@ const ChatWidget = () => {
 
   return (
     <>
-      {showWidget && (
+      {showWidget && chatWidget.data.custom_widget && (
         <Button
           onClick={() => {
             showChatWindow();

@@ -22,9 +22,17 @@ export const setWidgetEvents = (setShowWidget) => {
     console.log('widget:closed');
     setShowWidget(true);
   });
+
+  window.fcWidget.on('user:created', (r) => {
+    console.log('user:created', r);
+  });
 };
 
-export const handleScriptLoad = async (chatWidgetData, setShowWidget) => {
+export const handleScriptLoad = async (
+  chatWidgetData,
+  setShowWidget,
+  showChatWindow
+) => {
   if (chatWidgetData.show_fresh_chat_widget) {
     const script = document.createElement('script');
     script.async = true;
@@ -47,7 +55,20 @@ export const handleScriptLoad = async (chatWidgetData, setShowWidget) => {
           }
         }
       });
+
       setWidgetEvents(setShowWidget);
+
+      if (chatWidgetData.user_info.email) {
+        window.fcWidget.user.update({
+          email: chatWidgetData.user_info.email
+        });
+      }
+
+      if (chatWidgetData.reopen_time) {
+        setTimeout(() => {
+          showChatWindow();
+        }, chatWidgetData.reopen_time);
+      }
     });
 
     document.head.appendChild(script);
