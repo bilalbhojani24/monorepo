@@ -2,76 +2,95 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-const TextArea = (props) => {
-  const {
-    defaultValue,
-    disabled,
-    id,
-    label,
-    name,
-    onChange,
-    placeholder,
-    rows,
-    value,
-    isResizable
-  } = props;
+const TextArea = ({
+  defaultValue,
+  disabled,
+  description,
+  id,
+  label,
+  name,
+  errorText,
+  onChange,
+  placeholder,
+  rows,
+  value,
+  isResizable,
+  isMandatory,
+  ...props
+}) => (
+  <div>
+    <label
+      htmlFor={id}
+      className={twClassNames('text-base-700 block text-sm font-medium', {
+        'opacity-25 cursor-not-allowed': disabled
+      })}
+    >
+      {label}
+      {isMandatory && <span className="text-danger-600 ml-0.5">*</span>}
+    </label>
+    <textarea
+      rows={rows}
+      name={name}
+      id={id}
+      defaultValue={defaultValue}
+      className={twClassNames(
+        'mt-1 min-h-[38px] border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md shadow-sm sm:text-sm',
+        {
+          'resize-none': !isResizable,
+          'opacity-25 cursor-not-allowed': disabled,
+          'border border-danger-500 focus:border-danger-500 focus:ring-danger-500 text-danger-900 placeholder:text-danger-300':
+            errorText
+        }
+      )}
+      disabled={disabled}
+      onChange={onChange}
+      value={value}
+      placeholder={placeholder}
+      isMandatory={isMandatory}
+      {...props}
+    />
 
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className={twClassNames('text-base-700 block text-sm font-medium', {
-          'opacity-25 cursor-not-allowed': disabled
+    {description && (
+      <p
+        className={twClassNames('text-base-500 mt-2 text-sm', {
+          'text-danger-600': errorText
         })}
       >
-        {label}
-      </label>
-      <div className="mt-1">
-        <textarea
-          rows={rows}
-          name={name}
-          id={id}
-          defaultValue={defaultValue}
-          className={twClassNames(
-            'min-h-[38px] border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md shadow-sm sm:text-sm',
-            {
-              'resize-none': !isResizable,
-              'opacity-25 cursor-not-allowed': disabled
-            }
-          )}
-          disabled={disabled}
-          onChange={onChange}
-          value={value}
-          placeholder={placeholder}
-        />
-      </div>
-    </div>
-  );
-};
+        {description}
+      </p>
+    )}
+  </div>
+);
 
 TextArea.propTypes = {
   id: PropTypes.string,
   defaultValue: PropTypes.string,
+  description: PropTypes.string,
   disabled: PropTypes.bool,
   label: PropTypes.string,
+  errorText: PropTypes.string,
   name: PropTypes.string,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   rows: PropTypes.number,
   value: PropTypes.string,
-  isResizable: PropTypes.bool
+  isResizable: PropTypes.bool,
+  isMandatory: PropTypes.bool
 };
 TextArea.defaultProps = {
   id: '',
   defaultValue: undefined,
+  description: '',
   disabled: false,
   label: '',
+  errorText: '',
   name: '',
   onChange: null,
   placeholder: '',
   rows: 3,
   value: undefined,
-  isResizable: false
+  isResizable: false,
+  isMandatory: false
 };
 
 export default TextArea;

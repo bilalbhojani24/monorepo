@@ -6,6 +6,7 @@ import {
   ModalFooter,
   ModalHeader
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 
 import { FEEDBACK_TYPE, npsConstants } from '../const/feedbackWidgetConst';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
@@ -68,6 +69,9 @@ const RenderModal = () => {
         heading={feedbacktype.title}
         subHeading={feedbacktype.description}
         icon={feedbacktype.icon}
+        wrapperClassName={twClassNames({
+          'rounded-b-lg': feedbacktype.type === FEEDBACK_TYPE[4]
+        })}
       />
 
       {feedbacktype.type !== FEEDBACK_TYPE[4] && (

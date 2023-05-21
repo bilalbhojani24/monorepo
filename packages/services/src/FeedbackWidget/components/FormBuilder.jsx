@@ -37,6 +37,7 @@ const FormBuilder = () => {
               errorText={formError[field.id]}
               placeholder={field.placeholder}
               isMandatory={field.isMandatory}
+              label={field.label}
             />
           );
         return null;
