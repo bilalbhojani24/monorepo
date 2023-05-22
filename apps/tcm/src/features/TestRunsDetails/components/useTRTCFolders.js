@@ -24,7 +24,8 @@ import {
   setSelectedTestCase,
   setTestCaseDetails,
   setTestResultsArray,
-  updateAddStatusForm
+  updateAddStatusForm,
+  updateBulkOperation
 } from '../slices/testRunDetailsSlice';
 
 import useTestRunDetails from './useTestRunDetails';
@@ -80,6 +81,9 @@ export default function useTRTCFolders() {
 
   const closeAll = () => {
     dispatch(closeAllVisibleForms());
+  };
+  const setBulkOperation = (operation) => {
+    dispatch(updateBulkOperation(operation));
   };
 
   const showAddIssueModal = () => {
@@ -287,6 +291,7 @@ export default function useTRTCFolders() {
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
-    setStatusError
+    setStatusError,
+    setBulkOperation
   };
 }

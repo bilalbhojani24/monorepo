@@ -3,6 +3,7 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import classNames from 'classnames';
 import {
+  TMButton,
   TMCheckBox,
   TMPagination,
   TMSelectMenu,
@@ -15,7 +16,7 @@ import {
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 
-import { STATUS_OPTIONS } from '../const/immutableConst';
+import { BULK_OPERATIONS, STATUS_OPTIONS } from '../const/immutableConst';
 
 import useTRTCFolders from './useTRTCFolders';
 
@@ -28,7 +29,8 @@ const TestCasesTable = () => {
     allTestCases,
     onPaginationClick,
     handleTestCaseViewClick,
-    onResultChange
+    onResultChange,
+    setBulkOperation
   } = useTRTCFolders();
 
   const datatableColumns = [
@@ -161,7 +163,7 @@ const TestCasesTable = () => {
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
             <td
-              className="border-base-50 text-base-500 w-[4%] max-w-[20px] p-2"
+              className="border-base-50 text-base-500 w-[3%]  p-2"
               textTransform="uppercase"
             >
               {/* all checkbox */}
@@ -204,6 +206,37 @@ const TestCasesTable = () => {
                 textTransform="uppercase"
               >
                 {col.name}
+                {index === 0 && (
+                  <div className="bg-base-50 border-base-300 absolute top-0 flex h-full items-center gap-3 border-b">
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={() =>
+                        setBulkOperation(BULK_OPERATIONS.ADD_RESULT.option)
+                      }
+                    >
+                      Add Result
+                    </TMButton>
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={() =>
+                        setBulkOperation(BULK_OPERATIONS.ASSIGN_TO.option)
+                      }
+                    >
+                      Assign to
+                    </TMButton>
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={() =>
+                        setBulkOperation(BULK_OPERATIONS.REMOVE.option)
+                      }
+                    >
+                      Remove from Run
+                    </TMButton>
+                  </div>
+                )}
               </TMTableCell>
             ))}
           </TMTableRow>

@@ -33,7 +33,8 @@ const initialState = {
   },
   issuesArray: [],
   selectedTestCase: null,
-  testResultsArray: []
+  testResultsArray: [],
+  bulkOperation: null
 };
 
 export const testRunDetailsSlice = createSlice({
@@ -91,11 +92,15 @@ export const testRunDetailsSlice = createSlice({
     },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
+    },
+    updateBulkOperation: (state, { payload }) => {
+      state.bulkOperation = payload;
     }
   }
 });
 
 export const {
+  updateBulkOperation,
   addTestResultItem,
   setTestResultsArray,
   setSelectedTestCase,
