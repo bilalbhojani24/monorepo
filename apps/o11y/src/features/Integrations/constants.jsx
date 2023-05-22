@@ -1,14 +1,18 @@
 import React from 'react';
 import {
   AzurePipelinesIcon,
+  CypressIcon,
   FilebeatNLogStashIcon,
   FluentdIcon,
   GithubIcon,
   GitLabIcon,
   JenkinsIcon,
   JiraIcon,
+  JUnitIcon,
   LogStashIcon,
   MochaIcon,
+  NightwatchIcon,
+  PlaywrightIcon,
   TestngIcon,
   WdioIcon,
   WinstonIcon
@@ -99,6 +103,68 @@ const TESTING_FRAMEWORKS = [
         subTitle="Documentation"
         link={getDocUrl({ path: DOC_KEY_MAPPING.wdio, prependO11y: true })}
         icon={<WdioIcon width="40" height="40" />}
+      />
+    )
+  },
+  {
+    name: 'Nightwatch',
+    Component: () => (
+      <DocumentStackListItem
+        analyticKey="framework_docs_visited"
+        title="Nightwatch"
+        subTitle="Documentation"
+        link={getDocUrl({
+          path: DOC_KEY_MAPPING.nightwatch,
+          prependO11y: true
+        })}
+        icon={<NightwatchIcon width="40" height="40" />}
+      />
+    )
+  },
+  {
+    name: 'JUnit Report',
+    Component: () => (
+      <DocumentStackListItem
+        analyticKey="framework_docs_visited"
+        title="Junit Report"
+        subTitle="Documentation"
+        link={getDocUrl({
+          path: DOC_KEY_MAPPING.junit,
+          prependO11y: true
+        })}
+        icon={<JUnitIcon width="40" height="40" />}
+      />
+    )
+  },
+  {
+    name: 'Playwright',
+    Component: () => (
+      <DocumentStackListItem
+        analyticKey="framework_docs_visited"
+        title="Playwright"
+        subTitle="Documentation"
+        link={getDocUrl({
+          path: DOC_KEY_MAPPING.playwright,
+          prependO11y: true
+        })}
+        isUpcoming
+        icon={<PlaywrightIcon width="40" height="40" />}
+      />
+    )
+  },
+  {
+    name: 'Cypress',
+    Component: () => (
+      <DocumentStackListItem
+        analyticKey="framework_docs_visited"
+        title="Cypress"
+        subTitle="Documentation"
+        link={getDocUrl({
+          path: DOC_KEY_MAPPING.cypress,
+          prependO11y: true
+        })}
+        isUpcoming
+        icon={<CypressIcon width="40" height="40" />}
       />
     )
   }

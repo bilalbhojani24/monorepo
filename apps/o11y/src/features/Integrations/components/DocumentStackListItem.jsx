@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  O11yBadge,
   O11yButton,
   O11yHyperlink,
   O11yStackedListCommon,
@@ -14,9 +15,13 @@ function DocumentStackListItem({
   title,
   subTitle,
   analyticKey,
-  cta
+  cta,
+  isUpcoming
 }) {
-  const handleLogIntegrationInteraction = () => {
+  const handleLogIntegrationInteraction = (e) => {
+    if (isUpcoming) {
+      e.preventDefault();
+    }
     logOllyEvent({
       event: 'O11yIntegrationsInteracted',
       data: {
@@ -34,13 +39,28 @@ function DocumentStackListItem({
           href={link}
           onClick={handleLogIntegrationInteraction}
         >
-          <O11yButton variant="rounded" colors="white" size="small">
+          <O11yButton
+            variant="rounded"
+            colors="white"
+            size="small"
+            disabled={isUpcoming}
+          >
             {cta || 'View'}
           </O11yButton>
         </O11yHyperlink>
       }
     >
-      <O11yStackedListCommon icon={icon} title={title} subTitle={subTitle} />
+      <O11yStackedListCommon
+        icon={icon}
+        title={title}
+        subTitle={
+          isUpcoming ? (
+            <O11yBadge disabled modifier="warn" text="Coming soon" />
+          ) : (
+            subTitle
+          )
+        }
+      />
     </O11yStackedListItem>
   );
 }
@@ -51,7 +71,8 @@ DocumentStackListItem.propTypes = {
   title: PropTypes.node,
   subTitle: PropTypes.node,
   analyticKey: PropTypes.string,
-  cta: PropTypes.string
+  cta: PropTypes.string,
+  isUpcoming: PropTypes.bool
 };
 
 DocumentStackListItem.defaultProps = {
@@ -60,7 +81,8 @@ DocumentStackListItem.defaultProps = {
   icon: null,
   title: null,
   analyticKey: '',
-  cta: ''
+  cta: '',
+  isUpcoming: false
 };
 
 export default DocumentStackListItem;
