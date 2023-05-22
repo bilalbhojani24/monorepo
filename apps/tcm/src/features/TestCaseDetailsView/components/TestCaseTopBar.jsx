@@ -29,7 +29,6 @@ const TestCaseTopBar = ({ actionHandler, isFromTestRun }) => {
         <div className="mb-4 w-full">
           <TMAlerts
             alertIcon={<AutomationIcon iconClass="h-5 w-5" />}
-            linkText={null}
             modifier="primary"
             accentBorder={false}
             title="This is an automation test case."
