@@ -2,6 +2,7 @@ import React from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
   Button,
+  Loader,
   MdOutlineSchedule,
   MdPerson,
   MdShare,
@@ -69,6 +70,12 @@ export default function AutomatedTestBuild() {
     return null;
   }
 
+  const loader = (
+    <div className="flex h-[calc(100vh-400px)] w-full items-center justify-center">
+      <Loader wrapperClassName="text-base-300 fill-base-400 w-7 h-7" />
+    </div>
+  );
+
   const { name, createdBy, createdAt } = buildMetaData.meta;
 
   return (
@@ -134,9 +141,11 @@ export default function AutomatedTestBuild() {
         />
       </div>
       <div className="bg-base-50 relative top-[162px]">
-        {activeTab === SUMMARY && buildMetaData.issueSummary && <Overview />}
-        {activeTab === ISSUES && buildData && <Issues />}
-        {activeTab === TESTS && testRuns && <Tests />}
+        {activeTab === SUMMARY && (
+          <>{buildMetaData.issueSummary ? <Overview /> : <>{loader}</>}</>
+        )}
+        {activeTab === ISSUES && <>{buildData ? <Issues /> : <>{loader}</>}</>}
+        {activeTab === TESTS && <>{testRuns ? <Tests /> : <>{loader}</>}</>}
       </div>
     </div>
   );
