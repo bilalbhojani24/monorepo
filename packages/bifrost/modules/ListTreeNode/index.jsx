@@ -72,7 +72,7 @@ const ListTreeNode = forwardRef(
 
         <div
           className={twClassNames(
-            'text-base-700 mr-2 text-xs leading-5 relative w-full',
+            'text-base-700 mr-2 text-xs leading-5 relative',
             nodeLabelClassName,
             {
               'font-medium': isNodeSelected
