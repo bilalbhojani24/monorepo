@@ -66,6 +66,14 @@ const useBulkFunctions = () => {
     // TODO remove API
     resetBulkOperation();
   };
+  const onAddResultHandler = () => {
+    // TODO remove API
+    resetBulkOperation();
+  };
+  const onAssignHandler = () => {
+    // TODO remove API
+    resetBulkOperation();
+  };
 
   useEffect(() => {
     if (allTestCases?.length) {
@@ -92,7 +100,9 @@ const useBulkFunctions = () => {
     updateSelection,
     setBulkOperation,
     resetBulkOperation,
-    onRemoveHandler
+    onRemoveHandler,
+    onAddResultHandler,
+    onAssignHandler
   };
 };
 

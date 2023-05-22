@@ -12,7 +12,7 @@ import { BULK_OPERATIONS } from '../const/immutableConst';
 import useBulkFunctions from './useBulkFunctions';
 
 const AssignTestCasesModal = () => {
-  const { addResultOnHandler, bulkOperationSelected, resetBulkOperation } =
+  const { onAssignHandler, bulkOperationSelected, resetBulkOperation } =
     useBulkFunctions();
   const statusFocusRef = useRef();
 
@@ -39,7 +39,7 @@ const AssignTestCasesModal = () => {
           variant="primary"
           colors="brand"
           wrapperClassName="ml-3"
-          onClick={addResultOnHandler}
+          onClick={onAssignHandler}
         >
           Assign
         </TMButton>
