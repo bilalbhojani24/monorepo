@@ -35,7 +35,8 @@ const ComboboxBadge = ({
   onChange,
   onBadgeCrossClick,
   deleteOnBackspace,
-  onClearAll
+  onClearAll,
+  placeholder
 }) => {
   const isControlledElement = !!value;
   const deleteOnBackspaceRef = useLatestRef(deleteOnBackspace);
@@ -80,7 +81,7 @@ const ComboboxBadge = ({
     >
       {label}
       <ComboboxBadgeTrigger
-        placeholder="Placeholder"
+        placeholder={placeholder}
         onInputValueChange={(e) => {
           handleChange(e.target.value);
         }}
@@ -165,7 +166,8 @@ ComboboxBadge.propTypes = {
       label: string.isRequired,
       image: string
     })
-  ])
+  ]),
+  placeholder: string
 };
 
 ComboboxBadge.defaultProps = {
@@ -183,7 +185,8 @@ ComboboxBadge.defaultProps = {
   onClearAll: null,
   onInputChange: null,
   options: [],
-  value: undefined
+  value: undefined,
+  placeholder: 'Placeholder'
 };
 
 export default ComboboxBadge;

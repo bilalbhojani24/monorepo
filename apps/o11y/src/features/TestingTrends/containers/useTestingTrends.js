@@ -42,13 +42,15 @@ const useTestingTrends = () => {
   };
 
   useEffect(() => {
-    logOllyEvent({
-      event: 'O11yTestingTrendsVisited',
-      data: {
-        project_name: activeProject.name,
-        project_id: activeProject.id
-      }
-    });
+    if (activeProject?.id) {
+      logOllyEvent({
+        event: 'O11yTestingTrendsVisited',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id
+        }
+      });
+    }
   }, [activeProject.id, activeProject.name]);
 
   return {

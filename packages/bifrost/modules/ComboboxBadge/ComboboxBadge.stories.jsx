@@ -15,7 +15,7 @@ const defaultConfig = {
     docs: {
       page: () => (
         <DocPageTemplate
-          importStatement={"import ComboboxBadge from 'bifrost/ComboboxBadge'"}
+          importStatement={"import BadgeCombobox from 'bifrost/ComboboxBadge'"}
         />
       )
     }
@@ -91,6 +91,7 @@ export const ControlledBadgeCombobox = () => {
           isLoading: states.leftLoader,
           disabled: states.disable
         }}
+        placeholder="Controlled combobox"
       />
 
       <div className="mt-5 space-x-2">
@@ -156,6 +157,7 @@ export const UncontrolledBadgeCombobox = () => {
           prefix="Add"
         />
       }
+      placeholder="Uncontrolled combobox"
 
       // onInputChange={async (value) =>
       //   await new Promise((resolve) =>

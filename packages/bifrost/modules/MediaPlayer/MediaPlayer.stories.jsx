@@ -49,8 +49,7 @@ const defaultConfig = {
     },
     url: {
       option: { type: 'string' },
-      defaultValue:
-        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+      defaultValue: ''
     },
     wrapperClassName: {
       option: { type: 'string' },

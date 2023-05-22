@@ -207,8 +207,8 @@ const TestVideoPlayer = () => {
 
   if (details.isLoading) {
     return (
-      <div className="flex h-80 w-full items-center justify-center">
-        <O11yLoader loaderClass="text-base-300 fill-base-400" />
+      <div className="flex justify-center p-14">
+        <O11yLoader />
       </div>
     );
   }
@@ -235,6 +235,7 @@ const TestVideoPlayer = () => {
         onPlayCallback={() => setIsVideoPlayed(true)}
         isVideoExpired={isVideoExpired}
         videoFullUrl={details.data.videoLogs?.url}
+        isFloatingVideo={false}
       />
       <DraggableComponent
         closeFloatingVideo={handleFloatingVideoClose}
@@ -262,6 +263,7 @@ const TestVideoPlayer = () => {
           onPlayCallback={() => setIsVideoPlayed(true)}
           isVideoExpired={isVideoExpired}
           videoFullUrl={details.data.videoLogs?.url}
+          isFloatingVideo
         />
       </DraggableComponent>
     </div>

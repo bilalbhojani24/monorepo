@@ -2,6 +2,7 @@ import Accordion from './modules/Accordion';
 import AccordionInteractiveHeader from './modules/AccordionInteractiveHeader';
 import AccordionPanel from './modules/AccordionPanel';
 import AccordionSimpleHeader from './modules/AccordionSimpleHeader';
+import ActionPanel from './modules/ActionPanel/index';
 import Alerts from './modules/Alerts/index';
 import Attachments from './modules/Attachments';
 import Badge from './modules/Badge/index';
@@ -9,6 +10,8 @@ import Banner from './modules/Banner/index';
 import Breadcrumb from './modules/Breadcrumb/index';
 import Button from './modules/Button/index';
 import Checkbox from './modules/Checkbox/index';
+import CodeSnippetToolbar from './modules/CodeSnippet/components/CodeSnippetToolbar';
+import CodeSnippet from './modules/CodeSnippet/index';
 import ComboBox from './modules/ComboBox/index';
 import ComboboxAddNewItem from './modules/ComboboxAddNewItem/index';
 import BadgeComboBox from './modules/ComboboxBadge/index';
@@ -30,6 +33,11 @@ import DropdownTrigger from './modules/DropdownTrigger/index';
 import EmptyState from './modules/EmptyState/index';
 import EmptyStateWRecommendation from './modules/EmptyStateWRecommendation/index';
 import EmptyStateWStartingPoints from './modules/EmptyStateWStartingPoints/index';
+import {
+  ErrorBoundary,
+  useErrorBoundary,
+  withErrorBoundary
+} from './modules/ErrorBoundary/index';
 import FileUpload from './modules/FileUpload/index';
 import GridListWHorizontalLink from './modules/GridListWHorizontalLink/index';
 import GridListWImage from './modules/GridListWImage/index';
@@ -119,6 +127,7 @@ export {
   AccordionInteractiveHeader,
   AccordionPanel,
   AccordionSimpleHeader,
+  ActionPanel,
   Alerts,
   Attachments,
   Badge,
@@ -128,6 +137,8 @@ export {
   Breadcrumb,
   Button,
   Checkbox,
+  CodeSnippet,
+  CodeSnippetToolbar,
   ComboBox,
   ComboboxAddNewItem,
   ComboboxLabel,
@@ -147,6 +158,7 @@ export {
   EmptyState,
   EmptyStateWRecommendation,
   EmptyStateWStartingPoints,
+  ErrorBoundary,
   FileUpload,
   GridListWHorizontalLink,
   GridListWImage,
@@ -228,5 +240,7 @@ export {
   TooltipBody,
   TooltipFooter,
   TooltipHeader,
-  TruncateText
+  TruncateText,
+  useErrorBoundary,
+  withErrorBoundary
 };
