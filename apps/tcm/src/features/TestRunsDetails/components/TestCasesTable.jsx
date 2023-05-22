@@ -18,8 +18,11 @@ import Loader from 'common/Loader';
 
 import { BULK_OPERATIONS, STATUS_OPTIONS } from '../const/immutableConst';
 
-import useTRTCFolders from './useTRTCFolders';
+import AddResultModal from './AddResultModal';
+import AssignTestCasesModal from './AssignTestCasesModal';
+import RemoveTCModal from './RemoveTCModal';
 import useBulkFunctions from './useBulkFunctions';
+import useTRTCFolders from './useTRTCFolders';
 
 const TestCasesTable = () => {
   const {
@@ -30,13 +33,17 @@ const TestCasesTable = () => {
     allTestCases,
     onPaginationClick,
     handleTestCaseViewClick,
-    onResultChange,
-    setBulkOperation,
+    onResultChange
   } = useTRTCFolders();
 
   const {
+    isAllChecked,
+    isIndeterminate,
+    selectedTestCaseIDs,
     selectAll,
-    updateSelection} = useBulkFunctions();
+    updateSelection,
+    setBulkOperation
+  } = useBulkFunctions();
 
   const datatableColumns = [
     {
@@ -175,21 +182,10 @@ const TestCasesTable = () => {
               <TMCheckBox
                 border={false}
                 wrapperClassName="pt-0 pl-2"
-                // checked={
-                //   isAllChecked
-                //   // (isAllSelected && !deSelectedTestCaseIDs.length) ||
-                //   // (rows.length !== 0 &&
-                //   //   selectedTestCaseIDs.length === rows.length)
-                // }
-                // indeterminate={
-                //   isIndeterminate
-                //   // !!(
-                //   //   (isAllSelected && deSelectedTestCaseIDs.length) ||
-                //   //   (selectedTestCaseIDs.length &&
-                //   //     selectedTestCaseIDs.length !== rows.length)
-                //   // )
-                // }
+                checked={isAllChecked}
+                indeterminate={isIndeterminate}
                 onChange={selectAll}
+                disabled={!allTestCases?.length}
               />
             </td>
             {datatableColumns?.map((col, index) => (
@@ -211,7 +207,7 @@ const TestCasesTable = () => {
                 textTransform="uppercase"
               >
                 {col.name}
-                {index === 0 && (
+                {index === 0 && selectedTestCaseIDs.length ? (
                   <div className="bg-base-50 border-base-300 absolute top-0 flex h-full items-center gap-3 border-b">
                     <TMButton
                       colors="white"
@@ -241,7 +237,7 @@ const TestCasesTable = () => {
                       Remove from Run
                     </TMButton>
                   </div>
-                )}
+                ) : null}
               </TMTableCell>
             ))}
           </TMTableRow>
@@ -265,10 +261,9 @@ const TestCasesTable = () => {
                     <TMCheckBox
                       border={false}
                       wrapperClassName="pt-0 pl-2"
-                      // checked={
-                      //   !deSelectedTestCaseIDs.includes(row.id) &&
-                      //   (isAllSelected || selectedTestCaseIDs.includes(row.id))
-                      // }
+                      checked={
+                        isAllChecked || selectedTestCaseIDs.includes(row.id)
+                      }
                       onChange={(e) => updateSelection(e, row)}
                     />
                   </td>
@@ -318,6 +313,14 @@ const TestCasesTable = () => {
           ) : (
             <div className="border-base-300 border-t" />
           )}
+        </>
+      )}
+
+      {allTestCases.length && (
+        <>
+          <AddResultModal />
+          <AssignTestCasesModal />
+          <RemoveTCModal />
         </>
       )}
     </div>

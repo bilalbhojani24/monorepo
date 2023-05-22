@@ -11,7 +11,7 @@ import { BULK_OPERATIONS } from '../const/immutableConst';
 
 import useBulkFunctions from './useBulkFunctions';
 
-const AddResultModal = () => {
+const AssignTestCasesModal = () => {
   const { addResultOnHandler, bulkOperationSelected, resetBulkOperation } =
     useBulkFunctions();
   const statusFocusRef = useRef();
@@ -19,12 +19,12 @@ const AddResultModal = () => {
   return (
     <TMModal
       ref={statusFocusRef}
-      show={bulkOperationSelected === BULK_OPERATIONS.ADD_RESULT.option}
+      show={bulkOperationSelected === BULK_OPERATIONS.ASSIGN_TO.option}
       withDismissButton
       onOverlayClick={resetBulkOperation}
     >
       <TMModalHeader
-        heading="Add Result"
+        heading="Assign Test Cases"
         subHeading=""
         handleDismissClick={resetBulkOperation}
       />
@@ -41,15 +41,15 @@ const AddResultModal = () => {
           wrapperClassName="ml-3"
           onClick={addResultOnHandler}
         >
-          Add Result
+          Assign
         </TMButton>
       </TMModalFooter>
     </TMModal>
   );
 };
 
-AddResultModal.propTypes = {};
+AssignTestCasesModal.propTypes = {};
 
-AddResultModal.defaultProps = {};
+AssignTestCasesModal.defaultProps = {};
 
-export default AddResultModal;
+export default AssignTestCasesModal;
