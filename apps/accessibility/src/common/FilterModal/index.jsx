@@ -27,6 +27,18 @@ export default function FilterModal({ sectionsDataContext }) {
     urls,
     componentIds,
     categories,
+    tags,
+    tagsValue,
+    tests,
+    files,
+    selectedTags,
+    testValue,
+    selectedTests,
+    setTestValue,
+    fileValue,
+    setFileValue,
+    selectedFiles,
+    setTagsValue,
     onCloseClick,
     setPageValue,
     categoryValue,
@@ -50,6 +62,7 @@ export default function FilterModal({ sectionsDataContext }) {
           <div className="flex">
             {severityOptions.map((option) => (
               <Checkbox
+                key={option.value}
                 data={option}
                 border={false}
                 wrapperClassName="pt-0 w-24 mr-5"
@@ -59,6 +72,87 @@ export default function FilterModal({ sectionsDataContext }) {
             ))}
           </div>
         </div>
+        {tags && (
+          <div className="mb-6">
+            <ComboBox
+              onChange={(values) => onUpdateFilters('tags', values)}
+              value={selectedTags}
+              isMulti
+            >
+              <ComboboxLabel>Tags</ComboboxLabel>
+              <ComboboxTrigger
+                placeholder="Select"
+                onInputValueChange={(value) => setTagsValue(value)}
+              />
+              <ComboboxOptionGroup maxWidth="30vw">
+                {tags
+                  .filter(({ value }) =>
+                    value.toLowerCase().includes(tagsValue.toLowerCase())
+                  )
+                  .map((item) => (
+                    <ComboboxOptionItem
+                      option={item}
+                      wrapperClassName="text-base-500 text-sm"
+                    />
+                  ))}
+              </ComboboxOptionGroup>
+            </ComboBox>
+          </div>
+        )}
+        {tests && (
+          <div className="mb-6">
+            <ComboBox
+              onChange={(values) => onUpdateFilters('tests', values)}
+              value={selectedTests}
+              isMulti
+            >
+              <ComboboxLabel>Tests</ComboboxLabel>
+              <ComboboxTrigger
+                placeholder="Select"
+                onInputValueChange={(value) => setTestValue(value)}
+              />
+              <ComboboxOptionGroup maxWidth="30vw">
+                {tests
+                  .filter(({ value }) =>
+                    value.toLowerCase().includes(testValue.toLowerCase())
+                  )
+                  .map((item) => (
+                    <ComboboxOptionItem
+                      option={item}
+                      wrapperClassName="text-base-500 text-sm"
+                    />
+                  ))}
+              </ComboboxOptionGroup>
+            </ComboBox>
+          </div>
+        )}
+        {files && (
+          <div className="mb-6">
+            <ComboBox
+              onChange={(values) => onUpdateFilters('files', values)}
+              value={selectedFiles}
+              isMulti
+            >
+              <ComboboxLabel>Files</ComboboxLabel>
+              <ComboboxTrigger
+                placeholder="Select"
+                onInputValueChange={(value) => setFileValue(value)}
+              />
+              <ComboboxOptionGroup maxWidth="30vw">
+                {files
+                  .filter(({ value }) =>
+                    value.toLowerCase().includes(fileValue.toLowerCase())
+                  )
+                  .map((item) => (
+                    <ComboboxOptionItem
+                      option={item}
+                      wrapperClassName="text-base-500 text-sm"
+                    />
+                  ))}
+              </ComboboxOptionGroup>
+            </ComboBox>
+          </div>
+        )}
         <div className="mb-6">
           <ComboBox
             onChange={(values) => onUpdateFilters('page', values)}
@@ -77,6 +171,7 @@ export default function FilterModal({ sectionsDataContext }) {
                 )
                 .map((item) => (
                   <ComboboxOptionItem
+                    key={item.value}
                     option={item}
                     wrapperClassName="text-base-500 text-sm"
                   />
@@ -102,6 +197,7 @@ export default function FilterModal({ sectionsDataContext }) {
                 )
                 .map((item) => (
                   <ComboboxOptionItem
+                    key={item.value}
                     option={item}
                     wrapperClassName="text-base-500 text-sm"
                   />
@@ -127,6 +223,7 @@ export default function FilterModal({ sectionsDataContext }) {
                 )
                 .map((item) => (
                   <ComboboxOptionItem
+                    key={item.value}
                     option={item}
                     wrapperClassName="text-base-500 text-sm"
                   />

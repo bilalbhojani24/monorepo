@@ -15,7 +15,7 @@ import {
 import { setCustomData, setTestData } from './slices/dataSlice';
 import { getActiveTab, getTestData, getTestMetaData } from './slices/selector';
 
-export default function useAutomatedTestBuild({ onSliderClose }) {
+export default function useAutomatedTestBuild({ onSliderClose, testID }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const activeTab = useSelector(getActiveTab);
@@ -41,13 +41,13 @@ export default function useAutomatedTestBuild({ onSliderClose }) {
   };
 
   useEffect(() => {
-    Promise.all([fetchCustomData(), fetchTestCaseData()]).then(
+    Promise.all([fetchCustomData(), fetchTestCaseData(testID)]).then(
       ([customData, tabData]) => {
         dispatch(setCustomData(customData.data));
         dispatch(setTestData(tabData));
       }
     );
-  }, []);
+  }, [testID]);
 
   const actionType = '';
   const eventName = 'Sample event name...';

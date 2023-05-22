@@ -148,6 +148,9 @@ export const activeInitFilters = {
   page: [],
   component: [],
   category: [],
+  tests: [],
+  files: [],
+  tags: [],
   showNeedsReviewIssues: false
 };
 

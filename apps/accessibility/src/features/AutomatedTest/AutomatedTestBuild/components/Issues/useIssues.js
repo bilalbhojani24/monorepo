@@ -44,7 +44,7 @@ export default function useIssues() {
   const isFilterModalVisible = useSelector(getIsFilterModalVisible);
   const buildFilters = useSelector(getBuildFilters);
   const activeSwitch = useSelector(getActiveSwitch);
-  const { urls, componentIds, categories, tests } =
+  const { urls, componentIds, categories, tests, tags, files } =
     useSelector(getUniqFilterValues);
   const buildData = useSelector(getBuildData);
   const customData = useSelector(getCustomData);
@@ -157,6 +157,12 @@ export default function useIssues() {
         nodes: violation.nodes.filter(({ confirmed }) => confirmed === null)
       }));
     }
+    // if (activeBuildFilters.tags.length) {
+    //   filteredViolations = buildData.map((violation) => ({
+    //     ...violation,
+    //     nodes: violation.nodes.filter(({ confirmed }) => confirmed === null)
+    //   }));
+    // }
     if (activeBuildFilters.impact.length) {
       const appliedSeverityFilter = activeBuildFilters.impact.map(
         ({ value }) => value
@@ -451,6 +457,8 @@ export default function useIssues() {
     activeBuildFilters,
     wcagVersion,
     tests,
+    tags,
+    files,
     onSliderClose,
     onSliderOpenClick,
     onTagClose,

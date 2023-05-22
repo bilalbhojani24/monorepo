@@ -83,7 +83,7 @@ export const getBrowserStackEnvUrl = () => {
 
 export const getBrowserStackBase = () => {
   const env = getCurrentEnv();
-  let baseURL = 'https://www.browserstack.com/accessibility/api';
+  let baseURL = 'https://www.browserstack.com';
   if (env === ENVS.LOCAL) {
     baseURL = 'https://local.bsstag.com';
   } else if (env === ENVS.STAGING) {

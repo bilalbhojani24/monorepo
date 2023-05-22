@@ -43,7 +43,7 @@ export async function fetchAllTestRuns() {
   return response.data.testRuns;
 }
 
-export async function fetchTestCaseData() {
-  const response = await axios.get('/tests/consolidate?tc_ids=1');
+export async function fetchTestCaseData(testID) {
+  const response = await axios.get(`/tests/consolidate?tc_ids=${testID}`);
   return response.data.data;
 }

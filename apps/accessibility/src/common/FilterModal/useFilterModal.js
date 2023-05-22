@@ -5,6 +5,9 @@ export default function useFilterModal(sectionsDataContext) {
     urls,
     componentIds,
     categories,
+    tags,
+    tests,
+    files,
     buildFilters,
     onCloseClick,
     onApplyFilters: onSubmit
@@ -20,6 +23,12 @@ export default function useFilterModal(sectionsDataContext) {
     buildFilters.category
   );
   const [categoryValue, setCategoryValue] = useState('');
+  const [tagsValue, setTagsValue] = useState('');
+  const [selectedTags, setSelectedTags] = useState(buildFilters.tags);
+  const [testValue, setTestValue] = useState('');
+  const [selectedTests, setSelectedTests] = useState(buildFilters.tests);
+  const [fileValue, setFileValue] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState(buildFilters.files);
   const [showNeedsReviewIssues, setShowNeedsReviewIssues] = useState(
     buildFilters.showNeedsReviewIssues
   );
@@ -70,9 +79,21 @@ export default function useFilterModal(sectionsDataContext) {
     urls,
     componentIds,
     categories,
+    tags,
+    tests,
+    files,
+    tagsValue,
     selectedPages,
     selectedComponent,
     selectedCategory,
+    selectedTags,
+    setTagsValue,
+    testValue,
+    selectedTests,
+    setTestValue,
+    fileValue,
+    setFileValue,
+    selectedFiles,
     pageValue,
     categoryValue,
     componentValue,

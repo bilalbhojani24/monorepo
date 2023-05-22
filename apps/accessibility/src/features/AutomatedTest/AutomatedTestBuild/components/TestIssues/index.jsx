@@ -26,7 +26,7 @@ const tabList = [
   }
 ];
 
-export default function TestIssues({ isSliderOpen, onSliderClose }) {
+export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
   const {
     activeTab,
     actionType,
@@ -105,5 +105,6 @@ export default function TestIssues({ isSliderOpen, onSliderClose }) {
 
 TestIssues.propTypes = {
   isSliderOpen: PropTypes.bool.isRequired,
-  onSliderClose: PropTypes.func.isRequired
+  onSliderClose: PropTypes.func.isRequired,
+  testID: PropTypes.string.isRequired
 };

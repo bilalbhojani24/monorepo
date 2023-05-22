@@ -27,7 +27,14 @@ export const getTestCasesData = (state) =>
   state.accessibility.automatedTestBuild.data.testCasesData;
 
 export const getUniqFilterValues = createSelector(getFilters, (filters) => {
-  const { pages, componentIds, categories: categoryList, tests } = filters;
+  const {
+    pages,
+    componentIds,
+    categories: categoryList,
+    tests,
+    tags,
+    files
+  } = filters;
   const urls = pages.map((page) => ({
     label: page.url,
     value: page.url
@@ -40,7 +47,27 @@ export const getUniqFilterValues = createSelector(getFilters, (filters) => {
     label: category.split('cat.')[1],
     value: category.split('cat.')[1]
   }));
-  return { urls, componentIds: ids, categories, tests };
+  const testList = tests.map((test) => ({
+    label: test.name,
+    value: test.id.toString()
+  }));
+  const tagList = tags.map((tag) => ({
+    label: tag,
+    value: tag
+  }));
+  const fileList = files.map((file) => ({
+    label: file,
+    value: file
+  }));
+
+  return {
+    urls,
+    componentIds: ids,
+    categories,
+    tests: testList,
+    tags: tagList,
+    files: fileList
+  };
 });
 
 export const getActiveViolationId = (state) =>
