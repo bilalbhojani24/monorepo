@@ -1,10 +1,9 @@
+import { reducers as growthReducers } from '@browserstack/growth';
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
-import { reducers } from '../../../../packages/growth/redux/store';
-
 const rootReducers = combineReducers({
-  ...reducers
+  ...growthReducers
 });
 
 export const store = configureStore({

@@ -9,8 +9,7 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-
-import ChatWidgetComponent from '../../../../../packages/growth/modules/ChatWidget/index';
+import { ChatWidget } from '@browserstack/growth';
 
 const GRTColumns = [
   {
@@ -59,12 +58,12 @@ const GRTRows = [
   }
 ];
 
-const ChatWidget = () => (
+const FreshChatWidget = () => (
   <div className="p-5">
     <h1 className="mb-5 text-center text-xl">
       FRESH CHAT WIDGET COMPONENT DOCUMENTATION AND DEMO
     </h1>
-    <ChatWidgetComponent direction="right">
+    <ChatWidget direction="right">
       {({ toggleChatWidget }) => (
         <Table>
           <TableHead wrapperClassName="bg-white">
@@ -125,7 +124,7 @@ const ChatWidget = () => (
           </TableBody>
         </Table>
       )}
-    </ChatWidgetComponent>
+    </ChatWidget>
 
     <div className="mt-5" />
     <CodeSnippet
@@ -163,4 +162,4 @@ const ChatWidget = () => (
   </div>
 );
 
-export default ChatWidget;
+export default FreshChatWidget;
