@@ -90,25 +90,25 @@ export default function TestsTable() {
               <li className="flex items-center gap-1">
                 <img
                   className="h-5 w-5"
-                  src={getBrowserIcon('Chrome')}
+                  src={getBrowserIcon(row.browserData.name)}
                   alt="android icon"
                 />
-                <p className="text-base-500">Chrome 112</p>
+                <p className="text-base-500">{`${row.browserData.name} ${row.browserData.version}`}</p>
               </li>
               <li className="flex items-center gap-1">
                 <img
                   className="h-4 w-3"
-                  src={getOSIcon('Mac')}
+                  src={getOSIcon(row.osData.name)}
                   alt="android icon"
                 />
-                <p className="text-base-500">Ventura</p>
+                <p className="text-base-500">{`${row.osData.name} ${row.browserData.version}`}</p>
               </li>
               <li>
                 <div className="bg-base-500 h-1 w-1 rounded-lg" />
               </li>
               <li className="flex items-center gap-1">
                 <MdFolderOpen />
-                <p className="text-base-500">{row.folder}</p>
+                <p className="text-base-500">{row.file}</p>
               </li>
             </ul>
           </div>
