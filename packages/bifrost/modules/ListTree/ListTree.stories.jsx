@@ -331,6 +331,7 @@ const listTreeDemoDataSet = [
         file A
       </TruncateText>
     ),
+    label: 'file A',
     contents: [
       {
         name: (
@@ -347,6 +348,8 @@ const listTreeDemoDataSet = [
             unchanged.
           </TruncateText>
         ),
+        label:
+          'file A-1 Really long file name case. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been sthe industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining essentially unchanged.',
         uuid: '0-0',
         contents: []
       },
@@ -362,6 +365,8 @@ const listTreeDemoDataSet = [
             text of the printing
           </TruncateText>
         ),
+        label:
+          'file A-2 Really long file name case. Lorem Ipsum is simply dummy text of the printing',
         contents: [
           {
             uuid: '0-1-0',
@@ -375,6 +380,8 @@ const listTreeDemoDataSet = [
                 dummy text
               </TruncateText>
             ),
+            label:
+              'file A-2 Really long file name case. Lorem Ipsum is simply dummy text',
             contents: null
           }
         ]
@@ -388,6 +395,7 @@ const listTreeDemoDataSet = [
         file B
       </TruncateText>
     ),
+    label: 'file B',
     contents: [
       {
         uuid: '1-0',
@@ -400,6 +408,8 @@ const listTreeDemoDataSet = [
             text of the printing and typesetting industry.
           </TruncateText>
         ),
+        label:
+          'file B-1 Really long file name case. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
         contents: null
       },
       {
@@ -412,6 +422,7 @@ const listTreeDemoDataSet = [
             file B-2
           </TruncateText>
         ),
+        label: 'file B-2',
         contents: [
           {
             uuid: '1-1-0',
@@ -437,6 +448,7 @@ const listTreeDemoDataSet = [
             file B-3
           </TruncateText>
         ),
+        label: 'file B-3',
         contents: [
           {
             uuid: '1-2-0',
@@ -448,6 +460,7 @@ const listTreeDemoDataSet = [
                 file B-3-a
               </TruncateText>
             ),
+            label: 'file B-3-a',
             contents: null
           },
           {
@@ -460,6 +473,7 @@ const listTreeDemoDataSet = [
                 file B-3-b
               </TruncateText>
             ),
+            label: 'file B-3-b',
             contents: null
           }
         ]
@@ -508,7 +522,7 @@ const ControlledNestedTreeBase = ({
         isFocused={focused ? focused === item.uuid : false}
         label={item.name}
         focusUUID={item.uuid}
-        ariaLabel="Label name"
+        ariaLabel={item.label}
         description={`(level=${indent})`}
         isNodeSelected={selectedNodeMap[item.uuid]}
         focusIDPrefix={focusIDPrefix}
@@ -764,7 +778,7 @@ const UnconrolledNestedTreeBase = ({
     <ListTree key={item.name} indentationLevel={indent}>
       <ListTreeNode
         label={item.name}
-        ariaLabel="Label name"
+        ariaLabel={item.label}
         description={`(level=${indent})`}
         focusUUID={item.uuid}
         isNodeSelected={selectedNodeMap[item.uuid]}
