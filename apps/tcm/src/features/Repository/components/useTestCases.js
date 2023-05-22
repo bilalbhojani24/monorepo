@@ -37,6 +37,9 @@ export default function useTestCases() {
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
+  const openedFolderModal = useSelector(
+    (state) => state.repository.openedFolderModal
+  );
   const noResultsText = useSelector(
     (state) => state.repository.searchEmptyText
   );
@@ -214,6 +217,7 @@ export default function useTestCases() {
   }, [projectId]);
 
   return {
+    openedFolderModal,
     noResultsText,
     testCaseDetailsIDs,
     testCaseId,
