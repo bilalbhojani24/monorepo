@@ -50,6 +50,12 @@ const TextArea = ({
       {...props}
     />
 
+    {errorText && (
+      <p className="text-danger-600 mt-2 text-sm" id={`${id}error-wrap`}>
+        {errorText}
+      </p>
+    )}
+
     {description && (
       <p
         className={twClassNames('text-base-500 mt-2 text-sm', {

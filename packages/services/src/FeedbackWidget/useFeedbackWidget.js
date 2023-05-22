@@ -34,31 +34,33 @@ export const useFeedbackWidget = ({
 
   const handleFormSubmit = () => {
     setFormError({});
+    let error = 0;
 
     formFields.forEach((field) => {
-      let error = 0;
       const currentFieldValue = formData[field.id];
+
       if (field.isMandatory && !currentFieldValue) {
         setFormError((prev) => ({
           ...prev,
-          [field.id]: 'Required field'
+          [field.id]: `${field?.label ? 'Required field' : 'is required'}`
         }));
         error += 1;
       }
 
-      if (field.regex && !field.regex.test(formData[field?.id])) {
-        setFormError({
-          ...formError,
-          [field.id]: field.errorMessage
-        });
+      if (
+        currentFieldValue?.length &&
+        field.regex &&
+        !field.regex.test(formData[field?.id])
+      ) {
+        setFormError((prev) => ({ ...prev, [field.id]: field.errorMessage }));
         error += 1;
       }
-
-      if (!error) {
-        handleFeedbackClick?.(formData);
-        handleClick();
-      }
     });
+
+    if (error <= 0) {
+      handleFeedbackClick?.(formData);
+      handleClick();
+    }
   };
 
   return {

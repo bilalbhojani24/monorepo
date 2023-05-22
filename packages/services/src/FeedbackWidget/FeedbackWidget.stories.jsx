@@ -32,14 +32,14 @@ const fields = [
     fieldType: 'textarea',
     placeholder: 'Please elaborate here',
     isMandatory: true,
-    isResizable: true
+    isResizable: true,
+    errorMessage: 'Invalid comment'
   },
   {
     id: 'email',
     label: 'Business email',
     fieldType: 'input',
     placeholder: 'you@example.com',
-    wrapperClassName: '',
     isMandatory: true,
     errorMessage: 'Invalid email address',
     regex: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/

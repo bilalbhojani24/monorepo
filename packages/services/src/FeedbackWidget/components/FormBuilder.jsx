@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
-import { InputField, TextArea } from '@browserstack/bifrost';
+import { InputField } from '@browserstack/bifrost';
 
+import TextArea from '../../../../bifrost/modules/TextArea/index';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
 const FormBuilder = () => {
@@ -26,6 +27,9 @@ const FormBuilder = () => {
               onChange={handleChange}
               placeholder={field.placeholder}
               isResizable={field.isResizable}
+              errorText={formError[field.id]}
+              isMandatory={field.isMandatory}
+              label={field.label}
             />
           );
         if (field.fieldType === 'input')
