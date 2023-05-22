@@ -186,13 +186,13 @@ const VideoPlayer = forwardRef(
           )}
           controlPanelAtBottom={false}
           wrapperClassName={twClassNames(
-            'rounded-t overflow-hidden [&_video]:object-cover transition-all duration-300 ease-in overflow-hidden',
+            'rounded-t overflow-hidden [&_video]:bg-black [&_video]:transition-all [&_video]:duration-300 [&_video]:ease-in',
             {
               hidden: hasError || isVideoExpired,
-              [`h-auto max-h-[70vh] min-h-[256px]`]:
+              [`[&_video]:max-h-[50vh] [&_video]:min-h-[256px]`]:
                 isVideoPlayed && !isFloatingVideo,
-              'max-h-[35vh]': !isVideoPlayed && !isFloatingVideo,
-              'max-h-[70vh]': isFloatingVideo
+              '[&_video]:max-h-[35vh]': !isVideoPlayed && !isFloatingVideo,
+              '[&_video]:max-h-[70vh]': isFloatingVideo
             }
           )}
         >

@@ -5,6 +5,7 @@ import { NotificationsContainer } from '@browserstack/bifrost';
 import { useResizeObserver } from '@browserstack/hooks';
 import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import O11yTopBanner from 'common/O11yTopBanner';
 import { ROUTES } from 'constants/routes';
 import IntegrationsWidget from 'features/IntegrationsWidget';
 import Sidebar from 'features/Sidebar';
@@ -48,8 +49,9 @@ const LayoutWSidebar = () => {
       }}
     >
       <>
-        <div id="o11y-header" className="sticky top-0 z-20" ref={headerRef}>
+        <div id="o11y-header" className="sticky top-0 z-10" ref={headerRef}>
           <O11yHeader />
+          <O11yTopBanner />
         </div>
         <main className="flex">
           <Sidebar />
