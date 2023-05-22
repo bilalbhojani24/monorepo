@@ -138,8 +138,7 @@ function TestListActionItems({ details }) {
                 <p className="text-base-300 text-sm">Re-run</p>
               ) : (
                 <p className="text-base-300 text-sm">
-                  Re-run not allowed. It could be attributed to your project
-                  settings.
+                  Re-run is not applicable or disabled in the project settings
                 </p>
               )}
             </div>

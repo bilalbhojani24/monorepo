@@ -246,7 +246,7 @@ export default function FailuresByFolders() {
   }
   if (isEmpty(failureByModules?.data) && !failureByModules?.isLoading) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="No data found"
           description={null}
