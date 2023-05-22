@@ -106,7 +106,7 @@ export default function Dashboard({ children }) {
           ]
         }}
         isFreeUser={isFreeUser}
-        buyPlanLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard`}
+        buyPlanLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard-top-header-csf-lead`}
         buyPlanTarget="_blank"
         planButtonVisible
         callbackFunctions={{
@@ -124,7 +124,7 @@ export default function Dashboard({ children }) {
             });
           }
         }}
-        planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard`}
+        planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard-top-header-csf-lead`}
         supportLink={getUrlForHeader('contact#other')}
         documentationLink={getUrlForHeader(
           'docs/accessibility/overview/introduction'
