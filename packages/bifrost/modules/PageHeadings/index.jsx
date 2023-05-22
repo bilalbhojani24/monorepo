@@ -36,7 +36,7 @@ const PageHeadings = (props) => {
           {/* title */}
           <h2
             className={twClassNames(
-              'text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight',
+              'text-2xl font-bold leading-7 sm:truncate',
               {
                 'text-base-900': theme === PAGE_HEADINGS_THEME[0],
                 'text-white': theme === PAGE_HEADINGS_THEME[1],
