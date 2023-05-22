@@ -13,13 +13,14 @@ const DetailsSnippet = ({
   <div className="mb-4 flex flex-col">
     <div
       className={className(
+        'text-base-900',
         isPrimary ? 'text-base font-medium' : 'text-sm font-semibold'
       )}
     >
       {title}
     </div>
     <div
-      className={className('text-base-700 text-sm', {
+      className={className('text-base-700 text-sm break-all', {
         'capitalize ': !parseContent && !dontCapitalize
       })}
     >

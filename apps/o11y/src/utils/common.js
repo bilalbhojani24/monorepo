@@ -2,7 +2,10 @@ import { convertNodeToElement } from 'react-html-parser';
 import { logEvent } from '@browserstack/utils';
 import { SUPPORTED_HTML_TAGS, TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
+import { getUserDetails } from 'globalSlice/selectors';
 import { keyBy, merge, values } from 'lodash';
+
+import { store } from '../store';
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
@@ -46,9 +49,12 @@ export const getDocUrl = ({ path, prependO11y = true }) =>
     prependO11y ? 'test-observability/' : ''
   }${path}`;
 
+export const getExternalUrl = ({ path }) => `${getEnvConfig().baseUrl}/${path}`;
+
 export const getNumericValue = (value) => +value.replace(/\D/g, '') || '';
 
 export const logOllyEvent = ({ event, data = {} }) => {
+  const isSuperUser = getUserDetails(store.getState())?.isSuperUser;
   const commonData = {
     url: window.location.href,
     screenResolution: {
@@ -72,7 +78,10 @@ export const logOllyEvent = ({ event, data = {} }) => {
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches
   };
-  if (getEnvConfig().enableAnalytics || window.BSTACK_LOG_ANALYTICS_ENABLED) {
+  if (
+    !isSuperUser &&
+    (getEnvConfig().enableAnalytics || window.BSTACK_LOG_ANALYTICS_ENABLED)
+  ) {
     logEvent([], 'web_events', event, { ...commonData, ...data });
   } else {
     // eslint-disable-next-line no-console

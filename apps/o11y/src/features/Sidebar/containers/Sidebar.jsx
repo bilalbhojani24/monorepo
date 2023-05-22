@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import {
+  ActionPanel,
   MdOutlineBuildCircle,
   MdOutlineDataUsage,
   MdOutlineExtension,
@@ -11,10 +12,13 @@ import {
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
-import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
+import { O11yButton } from 'common/bifrostProxy';
+import { DOC_KEY_MAPPING, EXTERNAL_LINKS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
+import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
+import { AppContext } from 'features/Layout/context/AppContext';
 import { getActiveProject } from 'globalSlice/selectors';
-import { getDocUrl } from 'utils/common';
+import { getDocUrl, getExternalUrl, logOllyEvent } from 'utils/common';
 import {
   getProjectBuildsPath,
   getSettingsPath,
@@ -79,6 +83,9 @@ const secondaryNav = [
 ];
 
 export default function Sidebar() {
+  const { headerSize } = useContext(AppContext);
+
+  const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const navigate = useNavigate();
   const onLinkChange = (linkItem) => {
@@ -86,6 +93,7 @@ export default function Sidebar() {
       window.open(linkItem.path);
       return;
     }
+    dispatch(hideIntegrationsWidget());
     navigate(linkItem.path);
     window.scrollTo(0, 0);
   };
@@ -106,31 +114,76 @@ export default function Sidebar() {
     [location.pathname]
   );
 
+  const handleClickGetDemo = () => {
+    logOllyEvent({
+      event: 'O11yDemoCTAClicked',
+      data: {
+        source: 'sidebar',
+        url: window.location.href
+      }
+    });
+    logOllyEvent({
+      event: 'ClickedGetaDemo',
+      data: {
+        section: 'dashboard-left-panel',
+        url: window.location.href,
+        signed_in: true
+      }
+    });
+    window.open(
+      getExternalUrl({ path: EXTERNAL_LINKS.getADemo }),
+      '_blank',
+      'noopener,noreferrer'
+    );
+  };
+
   return (
-    <SidebarNavigation
-      wrapperClassName={`
-        md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16
-        ${WRAPPER_GAP_CLASS}
+    <nav
+      className="sticky"
+      style={{
+        height: `calc(100vh - ${headerSize.blockSize}px)`,
+        top: `${headerSize.blockSize}px`
+      }}
+    >
+      <SidebarNavigation
+        wrapperClassName={`
+        md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full
       `}
-      sidebarHeader={<ProjectSelector />}
-      sidebarPrimaryNavigation={getPrimaryNav({
-        projectNormalisedName: activeProject.normalisedName
-      }).map((item) => (
-        <SidebarItem
-          key={item.id}
-          nav={item}
-          current={isCurrent(item)}
-          handleNavigationClick={onLinkChange}
-        />
-      ))}
-      sidebarSecondaryNavigation={secondaryNav.map((item) => (
-        <SidebarItem
-          key={item.id}
-          nav={item}
-          current={isCurrent(item)}
-          handleNavigationClick={onLinkChange}
-        />
-      ))}
-    />
+        sidebarHeader={<ProjectSelector />}
+        sidebarPrimaryNavigation={getPrimaryNav({
+          projectNormalisedName: activeProject.normalisedName
+        }).map((item) => (
+          <SidebarItem
+            key={item.id}
+            nav={item}
+            current={isCurrent(item)}
+            handleNavigationClick={onLinkChange}
+          />
+        ))}
+        sidebarSecondaryNavigation={
+          <>
+            <div className="mb-4">
+              <ActionPanel
+                title="Have questions?"
+                description="Unlock the full potential of Test Observability"
+                content={
+                  <O11yButton colors="white" onClick={handleClickGetDemo}>
+                    Get a demo
+                  </O11yButton>
+                }
+              />
+            </div>
+            {secondaryNav.map((item) => (
+              <SidebarItem
+                key={item.id}
+                nav={item}
+                current={isCurrent(item)}
+                handleNavigationClick={onLinkChange}
+              />
+            ))}
+          </>
+        }
+      />
+    </nav>
   );
 }

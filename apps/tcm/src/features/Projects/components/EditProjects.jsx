@@ -21,8 +21,11 @@ const EditProjects = ({ show }) => {
     selectedProject,
     editProjectHandler,
     formData,
+    formError,
+    setFormError,
     setFormData,
-    hideEditProjectModal
+    hideEditProjectModal,
+    editProjectCtaLoading
   } = useProjects();
 
   useEffect(() => {
@@ -49,12 +52,17 @@ const EditProjects = ({ show }) => {
         <div className="mb-4">
           <TMInputField
             label="Project Name"
+            ref={modalFocusRef}
             placeholder="Project Name 01"
             onKeyDown={(e) => onSubmitKeyHandler(e, editProjectHandler)}
             value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.currentTarget.value })
-            }
+            errorText={formError.nameError}
+            onChange={(e) => {
+              if (formError?.nameError && e.currentTarget.value.length) {
+                setFormError({ ...formError, nameError: '' });
+              }
+              setFormData({ ...formData, name: e.currentTarget.value });
+            }}
           />
         </div>
         <div className="mb-4">
@@ -79,7 +87,6 @@ const EditProjects = ({ show }) => {
         <TMButton
           variant="primary"
           colors="white"
-          ref={modalFocusRef}
           onClick={hideEditProjectModal}
         >
           Cancel
@@ -88,6 +95,8 @@ const EditProjects = ({ show }) => {
           variant="primary"
           wrapperClassName="ml-3"
           onClick={editProjectHandler}
+          isIconOnlyButton={editProjectCtaLoading}
+          loading={editProjectCtaLoading}
         >
           Update Project
         </TMButton>

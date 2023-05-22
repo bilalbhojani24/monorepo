@@ -1,5 +1,5 @@
 import React from 'react';
-import { InfoOutlinedIcon } from 'assets/icons';
+import { MdInfoOutline } from '@browserstack/bifrost';
 import {
   TMAlerts,
   TMInputField,
@@ -30,7 +30,6 @@ const ZephyrImportForm = (props) => {
         <div className="mb-6">
           <TMAlerts
             accentBorder={false}
-            linkText={null}
             modifier="success"
             title="We found JIRA Host Name as per your existing JIRA integration."
           />
@@ -44,7 +43,7 @@ const ZephyrImportForm = (props) => {
               onChange={handleInputFieldChange('host')}
               value={zephyrCred.host}
               label={
-                <>
+                <span className="flex items-center">
                   JIRA Host Name
                   <TMTooltip
                     size="xs"
@@ -62,9 +61,9 @@ const ZephyrImportForm = (props) => {
                       </>
                     }
                   >
-                    <InfoOutlinedIcon fontSize="inherit" className="ml-2" />
+                    <MdInfoOutline className="ml-1 h-4 w-4" />
                   </TMTooltip>
-                </>
+                </span>
               }
               placeholder="https://abcd.atlassian.net"
               errorText={
@@ -81,7 +80,7 @@ const ZephyrImportForm = (props) => {
               onChange={handleInputFieldChange('jira_key')}
               value={zephyrCred.jira_key}
               label={
-                <>
+                <span className="flex items-center">
                   JIRA API Token
                   <TMTooltip
                     size="xs"
@@ -105,9 +104,9 @@ const ZephyrImportForm = (props) => {
                       </>
                     }
                   >
-                    <InfoOutlinedIcon fontSize="inherit" className="ml-2" />
+                    <MdInfoOutline className="ml-1 h-4 w-4" />
                   </TMTooltip>
-                </>
+                </span>
               }
               placeholder="Enter JIRA API Token"
               errorText={
@@ -118,7 +117,7 @@ const ZephyrImportForm = (props) => {
             />
           </div>
         </div>
-        <div className="mt-6 mb-4 flex justify-around">
+        <div className="mb-4 mt-6 flex justify-around">
           <div className="mr-6 w-full">
             <TMInputField
               id="jira-email"
@@ -140,7 +139,7 @@ const ZephyrImportForm = (props) => {
               onChange={handleInputFieldChange('zephyr_key')}
               value={zephyrCred.zephyr_key}
               label={
-                <>
+                <span className="flex items-center">
                   Zephyr Scale API Access Token
                   <TMTooltip
                     size="xs"
@@ -162,9 +161,9 @@ const ZephyrImportForm = (props) => {
                       </TMTooltipBody>
                     }
                   >
-                    <InfoOutlinedIcon fontSize="inherit" className="ml-2" />
+                    <MdInfoOutline className="ml-1 h-4 w-4" />
                   </TMTooltip>
-                </>
+                </span>
               }
               placeholder="Enter Zephyr Scale API Access Token"
               errorText={
@@ -180,13 +179,15 @@ const ZephyrImportForm = (props) => {
         <TMAlerts
           accentBorder={false}
           show={!!connectionStatusMap[ZEPHYR]}
-          modifier={connectionStatusMap[ZEPHYR]}
+          modifier={
+            connectionStatusMap[ZEPHYR] === 'success' ? 'success' : 'error'
+          }
           title={
             connectionStatusMap[ZEPHYR] === 'success'
               ? 'Connection was successful. Proceed to continue.'
-              : 'Connection was not successful. Try again.'
+              : connectionStatusMap[ZEPHYR]?.error ||
+                'Connection was not successful. Try again.'
           }
-          linkText={null}
         />
       )}
       <TermsAndConditions />

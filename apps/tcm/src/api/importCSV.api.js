@@ -4,9 +4,16 @@ export const downloadSampleCSV = async () =>
   // eslint-disable-next-line no-return-await
   await fetchGet('/api/v1/import/csv/sample');
 
-export const getCSVConfigurations = async () =>
-  // eslint-disable-next-line no-return-await
-  await fetchGet('/api/v1/import/csv/configurations');
+export const getCSVConfigurations = async ({ projectId, folderId }) => {
+  let baseUrl = '/api/v1/import/csv/configurations';
+
+  if (projectId && folderId)
+    baseUrl = `${baseUrl}?project_id=${projectId}&folder_id=${folderId}`;
+  else if (projectId && projectId !== 'new')
+    baseUrl = `${baseUrl}?project_id=${projectId}`;
+
+  return fetchGet(baseUrl);
+};
 
 export const postCSV = async (payload) =>
   // eslint-disable-next-line no-return-await
@@ -19,12 +26,17 @@ export const getFieldMapping = async ({
   projectId,
   // eslint-disable-next-line camelcase
   mapped_field
-}) =>
-  // eslint-disable-next-line no-return-await
-  await fetchGet(
+}) => {
+  if (projectId && projectId !== 'new')
+    return fetchGet(
+      // eslint-disable-next-line camelcase
+      `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}&project_id=${projectId}`
+    );
+  return fetchGet(
     // eslint-disable-next-line camelcase
-    `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}&project_id=${projectId}`
+    `/api/v1/import/custom/csv/${importId}/fetch_values?field=${field}&mapped_field=${mapped_field}`
   );
+};
 
 export const getUsers = async (projectId) =>
   // eslint-disable-next-line no-return-await
@@ -52,3 +64,6 @@ export const cancelImport = async (importId) =>
 export const getSystemTags = async (projectId) =>
   // eslint-disable-next-line no-return-await
   await fetchGet(`/api/v1/projects/${projectId}/test-case/tags`);
+
+export const getImportResultAPI = async (importId) =>
+  fetchGet(`/api/v1/import/custom/csv/${importId}/results`);

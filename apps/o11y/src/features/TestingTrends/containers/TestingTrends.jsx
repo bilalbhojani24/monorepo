@@ -171,7 +171,7 @@ export default function TestingTrends() {
   };
 
   return (
-    <div className="flex flex-col">
+    <>
       <TestingTrendsHeader />
       <div className="p-2">
         <ResponsiveReactGridLayout
@@ -233,6 +233,6 @@ export default function TestingTrends() {
           ))}
         </ResponsiveReactGridLayout>
       </div>
-    </div>
+    </>
   );
 }

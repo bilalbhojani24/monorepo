@@ -15,10 +15,12 @@ const TMDropdown = ({
   options,
   triggerVariant,
   triggerClassName,
+  wrapperClassName,
+  optionGroupWrapperClassName,
   triggerIcon,
   onClick
 }) => (
-  <Dropdown onClick={onClick}>
+  <Dropdown onClick={onClick} wrapperClassName={wrapperClassName}>
     <div className="flex">
       <DropdownTrigger
         wrapperClassName={twClassNames(
@@ -35,7 +37,7 @@ const TMDropdown = ({
       </DropdownTrigger>
     </div>
 
-    <DropdownOptionGroup>
+    <DropdownOptionGroup wrapperClassName={optionGroupWrapperClassName}>
       {options.map((opt) => (
         <DropdownOptionItem key={opt.value} option={opt} />
       ))}
@@ -62,11 +64,15 @@ const TMDropdown = ({
 
 TMDropdown.propTypes = {
   triggerVariant: PropTypes.string,
+  optionGroupWrapperClassName: PropTypes.string,
+  wrapperClassName: PropTypes.string,
   triggerIcon: PropTypes.node
 };
 
 TMDropdown.defaultProps = {
   triggerVariant: '',
+  optionGroupWrapperClassName: '',
+  wrapperClassName: '',
   triggerIcon: null
 };
 

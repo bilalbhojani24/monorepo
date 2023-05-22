@@ -37,56 +37,90 @@ const defaultConfig = {
       control: { type: 'inline-radio' },
       type: { summary: BUTTON_VARIANTS.join(', '), required: false },
       options: BUTTON_VARIANTS,
-      description: 'Lorem'
+      description: `Controls the variant(shape) of the button. Available variants include ${BUTTON_VARIANTS.map(
+        (shape) => ` <b>${shape}</b>`
+      )}`
     },
     size: {
       control: { type: 'inline-radio' },
       type: { summary: BUTTON_SIZES.join(', '), required: false },
       options: BUTTON_SIZES,
-      description: 'Ipsum'
+      description: `Controls the size of the button. Available sizes include ${BUTTON_SIZES.map(
+        (size) => ` <b>${size}</b>`
+      )}`
     },
     disabled: {
       control: { type: 'boolean' },
       type: { summary: 'BOOLEAN', required: false },
-      description: 'Lorem Ipsum'
+      description:
+        'Boolean option that toggles whether a button is disabled or not.'
     },
     fullWidth: {
       control: { type: 'boolean' },
-      description: 'Lorem Ipsum',
+      description:
+        'Boolean option that toggles whether a button should occupy the full width of its container or not.',
       type: { summary: 'BOOLEAN', required: false },
       defaultValue: false
     },
     icon: {
-      defaultValue: <EnvelopeIcon />
+      defaultValue: <EnvelopeIcon aria-hidden="true" />,
+      description: 'Icon to be displayed inside the button'
     },
     iconPlacement: {
       options: BUTTON_ICON_PLACEMENT,
       control: { type: 'inline-radio' },
-      defaultValue: BUTTON_ICON_PLACEMENT[0]
+      defaultValue: BUTTON_ICON_PLACEMENT[0],
+      description:
+        'Icon to be displayed on the left hand side or right hand side inside the button.'
     },
     colors: {
       options: BUTTON_COLORS,
       control: { type: 'inline-radio' },
-      defaultValue: BUTTON_COLORS[0]
+      defaultValue: BUTTON_COLORS[0],
+      description: `Controls the color palette of the button. Available palette consists of ${BUTTON_SIZES.map(
+        (color) => ` <b>${color}</b>`
+      )}`
     },
     isIconOnlyButton: {
       options: [true, false],
       control: { type: 'inline-radio' },
-      defaultValue: false
+      defaultValue: false,
+      description:
+        'Boolean option that toggles whether a button should only render an icon or all of its effective children.'
     },
     ariaLabel: {
       options: { type: 'string' },
-      defaultValue: ''
+      defaultValue: '',
+      description: 'Provide label to the component.'
     },
     loaderText: {
       control: { type: 'text' },
       type: { summary: 'TEXT', required: false },
-      description: 'Text displayed when button is under loading state'
+      description: 'Text to be displayed when button is under loading state.'
     },
     type: {
       options: BUTTON_TYPES,
       control: { type: 'inline-radio' },
-      defaultValue: BUTTON_TYPES[0]
+      defaultValue: BUTTON_TYPES[0],
+      description: `Controls the "type" attribute of the button. Available types include ${BUTTON_TYPES.map(
+        (btnType) => ` <b>${btnType}</b>`
+      )}`
+    },
+    children: {
+      description:
+        'Effective children(content) to be rendered inside the button'
+    },
+    loading: {
+      description:
+        'Boolean option that toggles whether a button is in loading state or not.'
+    },
+    onClick: {
+      description:
+        'onClick callback that is triggered when the button element is clicked'
+    },
+    form: {
+      description:
+        'Controls the "form" attribute to specify the form the button belongs to.'
     }
   },
   controls: {}
@@ -97,9 +131,11 @@ const buttonText = 'Button';
 const Template = (args) => {
   const { isIconOnlyButton } = args;
   return isIconOnlyButton ? (
-    <Button {...args} />
+    <Button {...args} aria-label="Icon button example" />
   ) : (
-    <Button {...args}>Button</Button>
+    <Button {...args} aria-label="Button example">
+      Button
+    </Button>
   );
 };
 const Default = Template.bind({});

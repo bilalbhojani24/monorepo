@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getProjectsMinifiedAPI } from 'api/projects.api';
+import { TEAM_NAME_EVENTS } from 'const/immutables';
 import AppRoute from 'const/routes';
 import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import {
   basePrimaryNavLinks,
@@ -33,6 +35,7 @@ export default function useSideNav() {
   const selectedProjectId = useSelector(
     (state) => state.global.selectedProjectId
   );
+  const allFolders = useSelector((state) => state.repository?.allFolders);
 
   const fetchAllProjects = () => {
     getProjectsMinifiedAPI().then((res) => {
@@ -41,11 +44,24 @@ export default function useSideNav() {
     });
   };
 
+  const onPageChangeLogger = (linkItem) => {
+    if (linkItem?.instrumentKey) {
+      dispatch(
+        logEventHelper(linkItem?.instrumentKey, {
+          project_id: selectedProjectId
+        })
+      );
+    }
+  };
+
   const onLinkChange = (linkItem) => {
     if (linkItem?.isExternalLink) {
       window.open(linkItem.path);
     } else {
-      navigate(linkItem.path);
+      onPageChangeLogger(linkItem);
+      if (linkItem?.label === 'Test Cases' && allFolders?.[0]?.id) {
+        navigate(`${linkItem.path}/${allFolders?.[0]?.id}/test-cases`);
+      } else navigate(linkItem.path);
     }
   };
 
@@ -68,17 +84,34 @@ export default function useSideNav() {
 
   const onProjectChange = (project) => {
     if (project.id === allProjectOptionValue) {
+      dispatch(logEventHelper('TM_AllProjectClickedProjectDropDown', {}));
       navigate(AppRoute.ROOT);
     } else
       navigate(
-        routeFormatter(activeRoute.id, {
-          projectId: project?.id
-        })
+        routeFormatter(
+          project?.hasTestCases ? AppRoute.DASHBOARD : AppRoute.TEST_CASES,
+          {
+            projectId: project?.id
+          }
+        )
       );
   };
 
   const setAddProjectModal = (value) => {
     setShowAddProject(value);
+  };
+
+  const onGetADemoCTAClick = () => {
+    window.open(
+      'https://www.browserstack.com/contact?ref=test-management-dashboard-demo-lead',
+      '_blank'
+    );
+    dispatch(
+      logEventHelper('LoadContactForm', {
+        source: `${TEAM_NAME_EVENTS}-dashboard-demo-lead`,
+        url: window.location.href
+      })
+    );
   };
 
   useEffect(() => {
@@ -131,7 +164,8 @@ export default function useSideNav() {
       ...allProjects.map((item) => ({
         ...item,
         label: item.name,
-        value: item.id
+        value: item.id,
+        hasTestCases: true
       })),
       {
         label: 'View All Projects',
@@ -160,6 +194,7 @@ export default function useSideNav() {
     selectedProjectId,
     onLinkChange,
     onProjectChange,
-    setAddProjectModal
+    setAddProjectModal,
+    onGetADemoCTAClick
   };
 }

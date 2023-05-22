@@ -1,6 +1,7 @@
 // NOTE: Don't remove sidebar logic, will add once it required
 import React from 'react';
 import {
+  ActionPanel,
   Banner,
   Button,
   Header,
@@ -13,6 +14,8 @@ import {
 import Logo from 'assets/accessibility_logo.png';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
+import { getBrowserStackBase } from 'utils';
+import { logEvent } from 'utils/logEvent';
 
 import useDashboard from './useDashboard';
 
@@ -25,6 +28,7 @@ export default function Dashboard({ children }) {
     secondaryNav,
     handleNavigationClick,
     onDownloadExtensionClick,
+    onGetADemoClick,
     onCloseClick
   } = useDashboard();
 
@@ -40,14 +44,27 @@ export default function Dashboard({ children }) {
     />
   ));
 
-  const SWBSidebarSec = secondaryNav.map((item) => (
-    <SidebarItem
-      key={item.id}
-      nav={item}
-      current={item.id === currentPath}
-      handleNavigationClick={handleNavigationClick}
-    />
-  ));
+  const SWBSidebarSec = (
+    <div className="flex flex-col items-start justify-center">
+      <ActionPanel
+        content={
+          <Button colors="white" onClick={onGetADemoClick}>
+            Get a demo
+          </Button>
+        }
+        description="Learn how to unlock the full potential of Accessibility Testing"
+        title="Need help?"
+      />
+      {secondaryNav.map((item) => (
+        <SidebarItem
+          key={item.id}
+          nav={item}
+          current={item.id === currentPath}
+          handleNavigationClick={handleNavigationClick}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <div>
@@ -56,9 +73,8 @@ export default function Dashboard({ children }) {
       </SkipToContent>
       <Header
         wrapperClassName="fixed top-0 z-10 w-full"
-        productName="Accessibility"
+        productName="Accessibility Testing"
         release="Beta"
-        planButtonVisible={false}
         productArray={[
           { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
           {
@@ -70,13 +86,7 @@ export default function Dashboard({ children }) {
             link: 'https://percy.io/api/auth/start-sso'
           }
         ]}
-        headerElementArray={[
-          'team',
-          'help',
-          'search',
-          'notifications',
-          'account'
-        ]}
+        headerElementArray={['team', 'help', 'account', 'pricing']}
         documentation={{
           title: 'Documentation',
           options: [
@@ -93,6 +103,26 @@ export default function Dashboard({ children }) {
             { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
           ]
         }}
+        buyPlanText="Buy a plan"
+        buyPlanLink={`${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-top-header-csf-lead`}
+        buyPlanTarget="_blank"
+        planButtonVisible
+        callbackFunctions={{
+          onPlanAndPricingClick: () => {
+            logEvent('ClickHeaderPlansAndPricing', {
+              url: window.location.href
+            });
+          },
+          buyPlanClick: () => {
+            logEvent('ClickedBuyaPlan', {
+              Product: 'Accessibility Testing',
+              section: 'dashboard-top-header',
+              URL: window.location.href,
+              signed_in: true
+            });
+          }
+        }}
+        planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing`}
         supportLink={getUrlForHeader('contact#other')}
         documentationLink={getUrlForHeader(
           'docs/accessibility/overview/introduction'
@@ -101,7 +131,7 @@ export default function Dashboard({ children }) {
       {isShowingReportListingBanner ? (
         <div className="fixed inset-x-0 top-[64px] z-10 flex justify-between">
           <Banner
-            description="Download the Accessibility Toolkit extension to scan your websites for accessibility issues."
+            description="Download the Accessibility Testing extension to scan your websites for accessibility issues."
             isDismissButton
             bannerIcon={
               <img src={Logo} alt="accessibility logo" height={24} width={24} />

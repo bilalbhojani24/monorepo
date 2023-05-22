@@ -7,10 +7,10 @@ import HeaderElements from '../HeaderElements';
 import HeaderProducts from '../HeaderProducts';
 
 import useHeader from './useHeader';
-
-import './styles.scss';
+import { CALLBACK_FUNCTIONS_PROP_TYPE } from './utils';
 
 const Header = ({
+  callbackFunctions,
   headerID,
   wrapperClassName,
   productName,
@@ -28,7 +28,12 @@ const Header = ({
   productArray,
   planButtonVisible,
   isFreeUser,
-  onSignoutClick
+  onSignoutClick,
+  buyPlanLink,
+  planPricingLink,
+  contactLink,
+  buyPlanText,
+  buyPlanTarget
 }) => {
   const { productsToShow, headerRef } = useHeader();
   return (
@@ -49,9 +54,11 @@ const Header = ({
         wrapperClassName="[@media(max-width:1360px)]:hidden max-[1360px]:hidden"
         productCount={productsToShow}
         productArray={productArray}
+        callbackFunctions={callbackFunctions}
       />
       <div className="float-right ml-auto">
         <HeaderElements
+          callbackFunctions={callbackFunctions}
           documentation={documentation}
           references={references}
           others={others}
@@ -64,6 +71,11 @@ const Header = ({
           planButtonVisible={planButtonVisible}
           isFreeUser={isFreeUser}
           onSignoutClick={onSignoutClick}
+          buyPlanTarget={buyPlanTarget}
+          buyPlanLink={buyPlanLink}
+          planPricingLink={planPricingLink}
+          contactLink={contactLink}
+          buyPlanText={buyPlanText}
         />
       </div>
     </nav>
@@ -71,6 +83,7 @@ const Header = ({
 };
 
 Header.propTypes = {
+  callbackFunctions: CALLBACK_FUNCTIONS_PROP_TYPE,
   wrapperClassName: PropTypes.string,
   productName: PropTypes.string,
   productLink: PropTypes.string,
@@ -90,9 +103,15 @@ Header.propTypes = {
   ),
   planButtonVisible: PropTypes.bool,
   isFreeUser: PropTypes.bool,
-  onSignoutClick: PropTypes.func
+  onSignoutClick: PropTypes.func,
+  buyPlanTarget: PropTypes.string,
+  buyPlanLink: PropTypes.string,
+  planPricingLink: PropTypes.string,
+  contactLink: PropTypes.string,
+  buyPlanText: PropTypes.string
 };
 Header.defaultProps = {
+  callbackFunctions: null,
   wrapperClassName: '',
   productName: '',
   productLink: '',
@@ -110,7 +129,12 @@ Header.defaultProps = {
   productArray: [],
   planButtonVisible: true,
   isFreeUser: true,
-  onSignoutClick: null
+  onSignoutClick: null,
+  buyPlanTarget: undefined,
+  buyPlanLink: undefined,
+  planPricingLink: undefined,
+  contactLink: undefined,
+  buyPlanText: undefined
 };
 
 export default Header;

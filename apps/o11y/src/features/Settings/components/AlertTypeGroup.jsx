@@ -73,7 +73,7 @@ export default function AlertTypeGroup({ type }) {
       {alerts.map((alert) => (
         <O11yTableRow key={alert.id}>
           <O11yTableCell wrapperClassName="font-medium text-base-900 break-words whitespace-normal">
-            {alert.name}
+            <p className="pl-6">{alert.name}</p>
           </O11yTableCell>
           <O11yTableCell>
             {alert?.alertRules?.[ALERT_LEVELS.WARNING]?.value ? (

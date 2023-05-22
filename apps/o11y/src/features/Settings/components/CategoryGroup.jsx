@@ -70,7 +70,7 @@ function CategoryGroup({ type }) {
       {subcategories.map((subcategory) => (
         <O11yTableRow key={subcategory.id}>
           <O11yTableCell wrapperClassName="font-medium text-base-900 break-words whitespace-normal max-w-xs border-t border-t-base-200">
-            {subcategory.name}
+            <p className="pl-6">{subcategory.name}</p>
           </O11yTableCell>
           <O11yTableCell wrapperClassName="border-t border-t-base-200">
             <div className="flex justify-end">

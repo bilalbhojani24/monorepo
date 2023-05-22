@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { MdInfoOutline } from '@browserstack/bifrost';
 import classNames from 'classnames';
 import {
@@ -11,6 +12,9 @@ import Highcharts from 'highcharts';
 import variablePie from 'highcharts/modules/variable-pie';
 import HighchartsReact from 'highcharts-react-official';
 import { routeFormatter } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
+
+import { NO_DATA_TEXT } from '../const/immutableConst';
 
 import useDashboard from './useDashboard';
 
@@ -27,11 +31,37 @@ const Dashboard = () => {
     jiraIssuesOptions,
     closedTestRunsDailyLineOptions,
     testCasesTrendOptions,
-    fetchAllChartData
+    fetchAllChartData,
+    logTheEvent
   } = useDashboard();
+  const dispatch = useDispatch();
+
+  // const activeRunsButtonClicked = () => {
+  //   dispatch(
+  //     logEventHelper('TM_DashboardActiveRunLinkClicked', {
+  //       project_id: projectId,
+  //       dashboard_id: '1'
+  //     })
+  //   );
+  // };
+
+  // const daysClosedButtonClicked = () => {
+  //   dispatch(
+  //     logEventHelper('TM_DashboardDaysClosedRunLinkClicked', {
+  //       project_id: projectId,
+  //       dashboard_id: '1'
+  //     })
+  //   );
+  // };
 
   useEffect(() => {
     fetchAllChartData();
+    dispatch(
+      logEventHelper('TM_DashboardPageLoaded', {
+        project_id: projectId,
+        dashboard_id: '0'
+      })
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
@@ -42,7 +72,7 @@ const Dashboard = () => {
         <TMAlerts
           show={isAllDashboadEmpty}
           title="Currently, there is no data available in this project."
-          linkText={null}
+          detailsNode={null}
           modifier="primary"
         />
         <div className="mt-4 flex w-full gap-4">
@@ -68,7 +98,8 @@ const Dashboard = () => {
               size="fit-content"
               footerProps={{
                 linkText: 'View All Active Runs',
-                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId })
+                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }),
+                onClick: () => logTheEvent('TM_DashboardActiveRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -87,7 +118,7 @@ const Dashboard = () => {
                     </div>
                     <div className="text-base-500 text-xs font-semibold">
                       {activeTestRunsOptions?.isEmpty
-                        ? 'No data to display'
+                        ? NO_DATA_TEXT
                         : 'Total Test Cases'}
                     </div>
                   </div>
@@ -120,7 +151,9 @@ const Dashboard = () => {
                 linkTo:
                   `${routeFormatter(AppRoute.TEST_RUNS, {
                     projectId
-                  })}?closed=true` || ''
+                  })}?closed=true` || '',
+                onClick: () =>
+                  logTheEvent('TM_DashboardMonthsClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -129,9 +162,9 @@ const Dashboard = () => {
                     options={closedTestRunsMonthlyLineOptions}
                   />
                   {closedTestRunsMonthlyLineOptions?.isEmpty ? (
-                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
                       <div className="text-base-500 text-xs font-semibold">
-                        No data to display
+                        {NO_DATA_TEXT}
                       </div>
                     </div>
                   ) : null}
@@ -158,14 +191,16 @@ const Dashboard = () => {
                 size: 'xs',
                 children: <MdInfoOutline className="h-5 w-5" />
               }}
-              title="Closed Test Runs (Last 15 days)"
+              title="Results from Closed Test Runs (Last 15 days)"
               wrapperClassName="bg-white relative"
               size="fit-content"
               footerProps={{
                 linkText: 'View All Closed Runs',
                 linkTo: `${routeFormatter(AppRoute.TEST_RUNS, {
                   projectId
-                })}?closed=true`
+                })}?closed=true`,
+                onClick: () =>
+                  logTheEvent('TM_Dashboard15DaysClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -174,9 +209,9 @@ const Dashboard = () => {
                     options={closedTestRunsDailyLineOptions}
                   />
                   {closedTestRunsDailyLineOptions?.isEmpty ? (
-                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
                       <div className="text-base-500 text-xs font-semibold">
-                        No data to display
+                        {NO_DATA_TEXT}
                       </div>
                     </div>
                   ) : null}
@@ -222,7 +257,7 @@ const Dashboard = () => {
                     </div>
                     <div className="text-base-500 text-xs font-semibold">
                       {testCaseTypesOptions?.isEmpty
-                        ? 'No data to display'
+                        ? NO_DATA_TEXT
                         : 'Total Test Cases'}
                     </div>
                   </div>
@@ -257,9 +292,9 @@ const Dashboard = () => {
                     options={testCasesTrendOptions}
                   />
                   {testCasesTrendOptions?.isEmpty ? (
-                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
                       <div className="text-base-500 text-xs font-semibold">
-                        No data to display
+                        {NO_DATA_TEXT}
                       </div>
                     </div>
                   ) : null}
@@ -296,9 +331,9 @@ const Dashboard = () => {
                     options={jiraIssuesOptions}
                   />
                   {jiraIssuesOptions?.isEmpty ? (
-                    <div className="absolute top-0 left-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
                       <div className="text-base-500 text-xs font-semibold">
-                        No data to display
+                        {NO_DATA_TEXT}
                       </div>
                     </div>
                   ) : null}

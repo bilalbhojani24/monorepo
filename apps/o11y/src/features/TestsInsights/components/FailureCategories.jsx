@@ -151,7 +151,7 @@ export default function FailureCategories() {
   return (
     <>
       <div className="mt-4 flex h-full flex-col">
-        <div className="overflow-auto py-5 pt-0 pb-2">
+        <div className="overflow-auto py-5 pb-2 pt-0">
           <div className="flex items-end gap-4 bg-white pt-1">
             <BigNumber
               data={{
@@ -220,27 +220,29 @@ export default function FailureCategories() {
               </div>
             </div>
           </div>
-          <div className="mt-5 grid grid-cols-1 gap-x-2 gap-y-5">
-            {defectsStats.data?.data?.map((item) => (
-              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-              <div
-                className="flex cursor-pointer items-center justify-between pb-2 text-sm"
-                key={item.id}
-                onClick={() => handleCategoryClick(item)}
-              >
-                <p className="flex items-center gap-2">
-                  <span
-                    className="inline-flex h-2 w-2 shrink-0 rounded-full"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  <span>{item.name}</span>
-                </p>
-                <p className="font-medium">
-                  {item?.value >= 10 ? item.value : `0${item.value}`}
-                </p>
-              </div>
-            ))}
-          </div>
+          {!isEmpty(defectsStats.data?.data) && (
+            <div className="my-5 grid grid-cols-1 gap-x-2 gap-y-7">
+              {defectsStats.data?.data?.map((item) => (
+                // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+                <div
+                  className="flex cursor-pointer items-center justify-between text-sm"
+                  key={item.id}
+                  onClick={() => handleCategoryClick(item)}
+                >
+                  <p className="flex items-center gap-2">
+                    <span
+                      className="inline-flex h-2 w-2 shrink-0 rounded-full"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span>{item.name}</span>
+                  </p>
+                  <p className="font-medium">
+                    {item?.value >= 10 ? item.value : `0${item.value}`}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

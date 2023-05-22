@@ -3,16 +3,15 @@
 2. update /etc/hosts with entry `127.0.0.1 observability-local.bsstag.com`
 3. create `.npmrc` file from contents of `.npmrc.sample`
 4. create `.env` file from contents of `.env.sample`
-5. Create certs folder under `apps/o11y` folder
 6. install turbo globally `npm install turbo --global`
 7. install `pnpm` globally `npm install -g pnpm`
 8. run `pnpm run build:dev-package` command on root to build utils, hooks and design system
 9. run `turbo run dev --filter o11y` to start
-10. open url https://observability-local.bsstag.com:9000/
+10. open url http://observability-local.bsstag.com:8081/
 
 ## Using .env
 #### `BSTACK_STAGE`
-To be used to define signInUrl, apiUrl and cookiePrefix used in `interceptor.js` and `App.jsx`
+To be used to define signInUrl, apiUrl used in `interceptor.js` and `App.jsx`
 
 Default Value: `local`
 
@@ -20,26 +19,23 @@ Possible Values:
 
 `local-staging`: defines api-url of staging
 
-`devtestops, dev-staging, staging`: for staging signInUrl, apiUrl and cookiePrefix
+`devtestops, dev-staging, staging`: for staging signInUrl, apiUrl
 
 ```
 const STAGING_CONFIG = (envName) => ({
-  cookiePrefix: `${envName}__`,
   signInUrl: `https://${envName}.bsstag.com/users/signin`,
   apiUrl: 'https://devtestops-api.bsstag.com'
 });
 ```
 
-`preprod`: for preprod signInUrl, apiUrl and cookiePrefix
+`preprod`: for preprod signInUrl, apiUrl
 ```
-cookiePrefix: 'preprod__',
 signInUrl: 'https://preprod.bsstag.com/users/signin',
 apiUrl: 'https://api-observability-preprod.bsstag.com'
 ```
 
-`production`: for production signInUrl, apiUrl and cookiePrefix
+`production`: for production signInUrl, apiUrl
 ```
-cookiePrefix: '',
 signInUrl: 'https://browserstack.com/users/signin',
 apiUrl: 'https://api-observability.browserstack.com'
 ```
@@ -51,5 +47,10 @@ apiUrl: 'https://api-observability.browserstack.com'
 3. checkout branch `testops_static_data`
 4. start api-mocker
 
-## receiving pusher updates on local with staging api
+## Receiving pusher updates on local with staging api
 - add `54.160.231.205 pusher-local.bsstag.com` entry to etc/hosts
+
+## Raising jira issue from local and staging
+- Make sure you are connected to AWS VPN
+- open [this URL](https://integrations-preprod.bsstag.com/request/set-railsapp-host?namespace=devtestops) in browser to set rails namespace to `devtestops` for authentication
+- Thats all  🎉

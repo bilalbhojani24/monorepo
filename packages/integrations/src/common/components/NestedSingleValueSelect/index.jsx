@@ -60,8 +60,9 @@ const NestedSingleValueSelect = ({
     fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
-  const shouldFetchIntialOptions = useRef(true);
+  const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
+  const lengthOfOptionsToRender = optionsToRender?.length;
 
   const getOptions = makeDebounce(() => {
     setAreOptionsLoading(true);
@@ -86,7 +87,7 @@ const NestedSingleValueSelect = ({
       shouldFetchIntialOptions.current &&
       isOpen &&
       optionsPath &&
-      !optionsToRender?.length
+      !lengthOfOptionsToRender
     ) {
       getOptions();
     }
@@ -177,8 +178,8 @@ const NestedSingleValueSelect = ({
     searchPath
   ]);
 
-  const handleInputChange = (e) => {
-    const query = e.target.value?.trim();
+  const handleInputChange = (inputValue) => {
+    const query = inputValue?.trim();
     if (searchPath) {
       debouncedFetchQuery(query);
     }
@@ -188,6 +189,18 @@ const NestedSingleValueSelect = ({
       setOptionsToRender(initialOptions.current);
     }
   };
+
+  const shouldShowNoOptionsForParent =
+    !lengthOfOptionsToRender && !shouldFetchIntialOptions.current;
+  const shouldShowNoOptionsForChild =
+    !childOptions?.length && !areOptionsLoading;
+
+  const noOptionsTextForParent =
+    (shouldShowNoOptionsForParent
+      ? 'No Options'
+      : shouldFetchIntialOptions.current && 'Loading...') || '';
+
+  const noOptionsTextForChild = shouldShowNoOptionsForChild ? 'No Options' : '';
 
   return (
     <div
@@ -199,9 +212,9 @@ const NestedSingleValueSelect = ({
         onChange={handleChange}
         value={fieldsData[fieldKey] ?? {}}
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
-        isLoading={areOptionsLoading}
-        loadingText="Loading"
+        isLoadingRight={areOptionsLoading}
         onOpenChange={handleOpen}
+        noOptionsText={noOptionsTextForParent}
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
@@ -209,28 +222,18 @@ const NestedSingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        {Boolean(optionsToRender.length) && (
-          <ComboboxOptionGroup maxWidth={300}>
-            {optionsToRender?.map((item) => (
-              <ComboboxOptionItem key={item.value} option={item} />
-            ))}
-          </ComboboxOptionGroup>
-        )}
-        {!optionsToRender?.length && (
-          <ComboboxOptionGroup>
-            <ComboboxOptionItem
-              key="no options"
-              option={{ label: 'No options' }}
-              disabled
-            />
-          </ComboboxOptionGroup>
-        )}
+        <ComboboxOptionGroup maxWidth={300}>
+          {optionsToRender?.map((item) => (
+            <ComboboxOptionItem key={item.value} option={item} />
+          ))}
+        </ComboboxOptionGroup>
       </ComboBox>
       {Boolean(childOptions?.length) && (
         <div className="mt-2">
           <ComboBox
             onChange={handleChildChange}
             value={fieldsData?.[fieldKey]?.child}
+            noOptionsText={noOptionsTextForChild}
           >
             <ComboboxTrigger />
             {Boolean(childOptions?.length) && (
@@ -238,15 +241,6 @@ const NestedSingleValueSelect = ({
                 {childOptions?.map((item) => (
                   <ComboboxOptionItem key={item.value} option={item} />
                 ))}
-              </ComboboxOptionGroup>
-            )}
-            {!childOptions?.length && !areOptionsLoading && (
-              <ComboboxOptionGroup>
-                <ComboboxOptionItem
-                  key="no options"
-                  option={{ label: 'No options' }}
-                  disabled
-                />
               </ComboboxOptionGroup>
             )}
           </ComboBox>

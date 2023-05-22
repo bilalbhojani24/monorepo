@@ -27,13 +27,14 @@ const initialState = {
     attachments: [],
     issues: [],
     tags: [],
+    custom_fields: {},
     test_case_folder_id: null // this is for internal process not to be passed with API
   },
   testCaseBulkFormData: {
     case_type: null,
-    priority: priorityOptions[2].value,
+    priority: null,
     owner: null,
-    status: statusOptions[0].value,
+    status: null,
     preconditions: '',
     issues: []
   },
@@ -66,11 +67,27 @@ const initialState = {
     priority: [],
     q: ''
   },
+  isSearchFilterDoneOnce: false,
   isSearchFilterView: false,
   searchInitiatedFromURL: '',
   isLoading: {
     folder: true,
-    testCases: true
+    testCases: true,
+    // folder cta's
+    addFolderCta: false,
+    editFolderCta: false,
+    addSubFolderCta: false,
+    deleteFolderCta: false,
+    moveFolderCta: false,
+    // test case cta's
+    createTestCaseCta: false,
+    editTestCaseCta: false,
+    deleteTestCaseCta: false,
+    bulkEditTestCaseCta: false,
+    bulkDeleteTestCaseCta: false,
+    bulkMoveTestCaseCta: false,
+    tags: true,
+    uploadingAttachments: false
   },
   isUnsavedDataExists: false,
   isUnsavedDataModalVisible: false,
@@ -78,7 +95,12 @@ const initialState = {
   testCaseDetails: {
     folderId: null,
     testCaseId: null
-  }
+  },
+  customFieldData: {
+    projectId: null,
+    fields: []
+  },
+  searchEmptyText: ''
 };
 
 export const repositorySlice = createSlice({
@@ -88,8 +110,14 @@ export const repositorySlice = createSlice({
     setAllFolders: (state, { payload }) => {
       state.allFolders = [...payload];
     },
+    setCustomFieldsData: (state, { payload }) => {
+      state.customFieldData = payload;
+    },
     updateTestCaseFormData: (state, { payload }) => {
       state.testCaseFormData[payload.key] = payload.value;
+    },
+    updateTestCaseFormCFData: (state, { payload }) => {
+      state.testCaseFormData.custom_fields[payload.key] = payload.value;
     },
     updateBulkTestCaseFormData: (state, { payload }) => {
       state.testCaseBulkFormData[payload.key] = payload.value;
@@ -120,7 +148,10 @@ export const repositorySlice = createSlice({
         // reset form data
         state.testCaseFormData = {
           ...initialState.testCaseFormData,
-          test_case_folder_id: !Number.isNaN(payload) ? payload : null
+          test_case_folder_id:
+            !Number.isNaN(payload) && typeof payload !== 'boolean'
+              ? payload
+              : state?.allFolders[0]?.id
         };
       }
     },
@@ -178,6 +209,9 @@ export const repositorySlice = createSlice({
     resetBulkSelection: (state) => {
       state.bulkSelection = initialState.bulkSelection;
     },
+    resetBulkFormData: (state) => {
+      state.testCaseBulkFormData = initialState.testCaseBulkFormData;
+    },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
     },
@@ -192,6 +226,8 @@ export const repositorySlice = createSlice({
     },
     setFilterSearchMeta: (state, { payload }) => {
       state.filterSearchMeta = payload;
+
+      if (!state.isSearchFilterDoneOnce) state.isSearchFilterDoneOnce = true;
     },
     resetFilterSearchMeta: (state) => {
       state.filterSearchMeta = initialState.filterSearchMeta;
@@ -214,6 +250,7 @@ export const repositorySlice = createSlice({
     },
     setUnsavedDataExists: (state, { payload }) => {
       state.isUnsavedDataExists = payload;
+      if (!payload) state.isUnsavedDataModalVisible = false;
     },
     setUnsavedDataModal: (state, { payload }) => {
       state.isUnsavedDataModalVisible = payload;
@@ -226,11 +263,24 @@ export const repositorySlice = createSlice({
     },
     resetTestCaseDetails: (state) => {
       state.testCaseDetails = initialState.testCaseDetails;
+    },
+    updateCtaLoading: (state, { payload }) => {
+      state.isLoading[payload.key] = payload.value;
+    },
+    cleanUpValues: (state) => {
+      state.testCaseDetails = initialState.testCaseDetails;
+      state.allFolders = initialState.allFolders;
+      state.customFieldData = initialState.customFieldData;
+    },
+    setSearchEmptyText: (state, { payload }) => {
+      state.searchEmptyText = payload;
     }
   }
 });
 
 export const {
+  setSearchEmptyText,
+  cleanUpValues,
   setSearchInitiatedURL,
   setTestCaseDetails,
   resetTestCaseDetails,
@@ -264,13 +314,17 @@ export const {
   setBulkAllSelected,
   setBulkUpdateProgress,
   resetBulkSelection,
+  resetBulkFormData,
   updateBulkTestCaseFormData,
   updateTestCasesListLoading,
   updateFoldersLoading,
   setMetaPage,
   setFilterSearchView,
   updateLoader,
-  setAddTestCaseFromSearch
+  setAddTestCaseFromSearch,
+  updateCtaLoading,
+  setCustomFieldsData,
+  updateTestCaseFormCFData
 } = repositorySlice.actions;
 
 export default repositorySlice.reducer;

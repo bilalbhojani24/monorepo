@@ -176,7 +176,7 @@ const defaultConfig = {
             </TooltipFooter>
           </>
         ),
-        children: <MdInfoOutline />,
+        children: <MdInfoOutline className="text-base-700" />,
         size: 'extra-small',
         theme: 'dark'
       }

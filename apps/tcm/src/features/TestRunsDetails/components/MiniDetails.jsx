@@ -28,8 +28,8 @@ const MiniDetails = () => {
 
   return (
     <div className="border-base-300 border-b border-r-0 bg-white">
-      <TMTable containerWrapperClass="md:rounded-none max-w-6xl border-r-0 ring-0 shadow-none">
-        <TMTableBody>
+      <TMTable containerWrapperClass="md:rounded-none max-w-6xl border-r-0 ring-0 shadow-none border-none">
+        <TMTableBody wrapperClassName="border-none">
           <TMTableRow wrapperClassName="border-none flex">
             <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
               <div className="text-base-500 flex items-center text-sm">
@@ -42,15 +42,16 @@ const MiniDetails = () => {
                 </span>
                 {!isTestRunDetailsLoading && (
                   <>
-                    {(isPassed ||
-                      testRunDetails?.overall_progress?.failed > 0) && (
+                    {(isPassed && testRunDetails?.test_cases_count > 0) ||
+                    testRunDetails?.overall_progress?.failed > 0 ? (
                       <TMBadge
                         wrapperClassName="ml-1 pointer-events-none"
                         text={isPassed ? 'Passed' : 'Failed'}
                         modifier={isPassed ? 'success' : 'error'}
                         size="large"
-                        // key={rowData.tags[0]}
                       />
+                    ) : (
+                      <span className="ml-1">--</span>
                     )}
                   </>
                 )}
@@ -82,7 +83,7 @@ const MiniDetails = () => {
             </td>
             <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
               <div className="text-base-900 pl-7">
-                {testRunDetails?.test_cases?.length} Tests
+                {testRunDetails?.test_cases_count} Tests
               </div>
             </TMTableCell>
             <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">

@@ -6,8 +6,6 @@ import Hyperlink from '../Hyperlink';
 import BrandLogo from '../Icon/BrandLogo';
 import BrandLogoWithName from '../Icon/BrandLogoWithName';
 
-import './styles.scss';
-
 const HeaderBrand = ({ productName, productLink, release }) => (
   <div
     id="header-brand"

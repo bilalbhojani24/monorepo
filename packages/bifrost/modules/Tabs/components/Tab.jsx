@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useLatestRef } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -50,9 +51,11 @@ const Tab = ({
   onTabClick,
   shape,
   totalTabs,
-  tabIdx
+  tabIdx,
+  scrollOnMount
 }) => {
   const ref = useRef();
+  const scrollOnMountRef = useLatestRef(scrollOnMount);
   const classNames = effectiveClasses({
     isFullWidth,
     totalTabs,
@@ -64,9 +67,9 @@ const Tab = ({
 
   useEffect(() => {
     if (ref.current && isCurrent) {
-      ref.current.scrollIntoView({ behavior: 'smooth' });
+      scrollOnMountRef.current(ref);
     }
-  }, [isCurrent]);
+  }, [isCurrent, scrollOnMountRef]);
 
   return (
     <button
@@ -123,7 +126,8 @@ Tab.propTypes = {
   }).isRequired,
   shape: PropTypes.string,
   totalTabs: PropTypes.number,
-  tabIdx: PropTypes.number
+  tabIdx: PropTypes.number,
+  scrollOnMount: PropTypes.func.isRequired
 };
 
 Tab.defaultProps = {

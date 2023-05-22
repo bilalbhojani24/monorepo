@@ -1,22 +1,49 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import Dropdown from '../Dropdown';
+import DropdownOptionGroup from '../DropdownOptionGroup';
+import DropdownOptionItem from '../DropdownOptionItem';
+import DropdownTrigger from '../DropdownTrigger';
 import Hyperlink from '../Hyperlink';
 import {
   CursorArrowRaysIcon,
+  EllipsisVerticalIcon,
   EnvelopeOpenIcon,
   MdErrorOutline,
   UsersIcon
 } from '../Icon';
+import Tooltip from '../Tooltip';
+import TooltipBody from '../TooltipBody';
 
 import { STATS_VARIANTS } from './const/statsConstants';
 import Stats from './index';
 
+const title = 'Total Subscribers';
+const dropdownOptions = [
+  {
+    id: '1',
+    body: 'Edit'
+  },
+  {
+    id: '2',
+    body: 'Duplicate',
+    divider: false
+  },
+  {
+    id: '3',
+    body: 'Archive',
+    divider: true
+  }
+];
 const options = [
   {
     id: 1,
-    name: 'Total Subscribers',
+    name: title,
     stat: '71,897',
+    graph: null,
     icon: <UsersIcon className="h-6 w-6 text-white" />,
     change: '12%',
     previousStat: '28.62%',
@@ -28,6 +55,7 @@ const options = [
     id: 2,
     name: 'Avg. Open Rate',
     stat: '58.16%',
+    graph: null,
     icon: <EnvelopeOpenIcon className="h-6 w-6 text-white" />,
     change: '5.4%',
     previousStat: '50.62%',
@@ -39,6 +67,7 @@ const options = [
     id: 3,
     name: 'Avg. Click Rate',
     stat: '24.57%',
+    graph: null,
     icon: <CursorArrowRaysIcon className="h-6 w-6 text-white" />,
     change: '3.2%',
     previousStat: '28.62%',
@@ -60,12 +89,145 @@ const options = [
         24.57%
       </div>
     ),
+    graph: null,
     icon: null,
     change: null,
     previousStat: null,
     changeType: null,
     link: null,
     onClick: () => console.log('stats null.com')
+  }
+];
+const graphVariantOptions = [
+  {
+    id: 5,
+    name: (
+      <div className="flex items-center">
+        Total Subscribers
+        <MdErrorOutline className="ml-3" />
+      </div>
+    ),
+    stat: '71,897',
+    graph: (
+      <div className="mb-2 flex h-28 justify-between">
+        <div className="flex h-24 w-full flex-col justify-between">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-40 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">300</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 1</p>
+          </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-48 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">310</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 2</p>
+          </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-36 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">290</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 3</p>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-52 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">320</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 4</p>
+          </div>
+        </div>
+      </div>
+    ),
+    icon: null,
+    change: 23,
+    previousStat: null,
+    subText: null,
+    changeType: 'decrease',
+    link: null,
+    onClick: () => console.log('stats null.com')
+  },
+  {
+    id: 6,
+    name: (
+      <div className="flex items-center">
+        {title}
+        <Tooltip
+          triggerAriaLabel="info-tooltip"
+          content={
+            <TooltipBody>
+              Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit.
+              Donec sodales augue eu viverra tempus.
+            </TooltipBody>
+          }
+        >
+          <MdErrorOutline className="ml-3" />
+        </Tooltip>
+      </div>
+    ),
+    stat: '71,897',
+    graph: (
+      <div className="mb-4 flex justify-between">
+        <div className="flex w-full flex-col justify-between">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-40 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">300</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 1</p>
+          </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-48 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">310</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 2</p>
+          </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-36 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">290</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 3</p>
+          </div>
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="bg-info-500 h-3 w-52 rounded-r-full" />
+              <p className="text-base-900 ml-2 text-xs">320</p>
+            </div>
+            <p className="text-base-500 text-right text-xs">Name 4</p>
+          </div>
+        </div>
+      </div>
+    ),
+    icon: null,
+    change: null,
+    previousStat: null,
+    subText: 'out of 100 tests',
+    changeType: null,
+    link: 'View all',
+    menuDropdown: (
+      <Dropdown
+        onClick={(value) => {
+          console.log(value);
+        }}
+      >
+        <div className="flex">
+          <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+            <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
+          </DropdownTrigger>
+        </div>
+
+        <DropdownOptionGroup>
+          {dropdownOptions.map((opt) => (
+            <DropdownOptionItem key={opt.value} option={opt} />
+          ))}
+        </DropdownOptionGroup>
+      </Dropdown>
+    )
   }
 ];
 
@@ -109,12 +271,13 @@ const defaultConfig = {
     option: {
       defaultValue: {
         id: 1,
-        name: 'Total Subscribers',
+        name: title,
         stat: '71,897',
         icon: <UsersIcon className="h-6 w-6 text-white" />,
         change: '12%',
         previousStat: '28.62%',
         changeType: 'increase',
+        subText: null,
         link: (
           <Hyperlink
             isCSR={false}
@@ -136,33 +299,40 @@ const defaultConfig = {
 };
 const Template = (args) => <Stats {...args} />;
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText('Last 30 days')).toBeVisible();
+  await expect(canvas.getByText(title)).toBeVisible();
+  await expect(canvas.getByText('12%')).toBeVisible();
+  await userEvent.click(canvas.getByText(title));
+};
 Primary.parameters = {
   controls: {}
 };
 
 export const StatsWithbrandIcon = () => (
-  <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
     {options.map((opt) => (
       <Stats key={opt.id} option={opt} variant={STATS_VARIANTS.WITH_ICON} />
     ))}
-  </dl>
+  </div>
 );
 
 export const SharedBorder = () => (
-  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+  <div className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden bg-white shadow md:grid-cols-3 md:divide-x md:divide-y-0">
     {options.map((opt) => (
       <Stats
         key={opt.id}
         option={opt}
         variant={STATS_VARIANTS.WITHOUT_ICON}
-        cardWrapperClassname="rounded-none"
+        cardWrapperClassname="rounded-none h-full"
       />
     ))}
-  </dl>
+  </div>
 );
 
 export const KpiVariantCard = () => (
-  <dl className="divide-base-200 mt-5 grid grid-cols-1 divide-y overflow-hidden rounded-lg bg-white shadow md:grid-cols-3 md:divide-y-0 md:divide-x">
+  <div className="mt-5 grid grid-cols-1 divide-y overflow-hidden bg-white shadow">
     <Stats
       key={options[3].id}
       option={options[3]}
@@ -170,7 +340,27 @@ export const KpiVariantCard = () => (
       cardWrapperClassname="rounded-none"
       hideBoxShadow
     />
-  </dl>
+  </div>
+);
+
+export const GraphVariantCard = () => (
+  <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <Stats
+      key={graphVariantOptions[0].id}
+      option={graphVariantOptions[0]}
+      variant={STATS_VARIANTS.GRAPH_VARIANT}
+    />
+  </div>
+);
+
+export const NonClickableGraphVariantCard = () => (
+  <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <Stats
+      key={graphVariantOptions[1].id}
+      option={graphVariantOptions[1]}
+      variant={STATS_VARIANTS.GRAPH_VARIANT}
+    />
+  </div>
 );
 
 export default defaultConfig;

@@ -22,7 +22,7 @@ export default function TestDataItem({ data }) {
     <>
       {data.map((item) => (
         <div
-          className="border-base-200 pointer-events-auto flex cursor-pointer items-center justify-between border-b py-2 px-4 text-sm"
+          className="border-base-200 pointer-events-auto flex cursor-pointer items-center justify-between border-b px-4 py-5 text-sm"
           onClick={() => handleClickTest(item?.details?.id)}
           role="presentation"
           key={item?.details?.id}
@@ -34,7 +34,7 @@ export default function TestDataItem({ data }) {
               </p>
               {!!item?.scopeList?.length && (
                 // eslint-disable-next-line tailwindcss/no-arbitrary-value
-                <div className="text-base-600 w-[330px] truncate text-left text-xs font-normal">
+                <div className="text-base-500 w-[330px] truncate text-left text-xs font-normal">
                   <ScopeLine scopes={item.scopeList} />
                 </div>
               )}

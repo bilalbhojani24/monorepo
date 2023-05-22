@@ -51,9 +51,10 @@ const MultiSelect = ({
     fieldsData?.[fieldKey],
     areSomeRequiredFieldsEmpty
   );
-  const shouldFetchIntialOptions = useRef(true);
+  const shouldFetchIntialOptions = useRef(Boolean(optionsPath));
   const initialOptions = useRef(null);
   const [searchLoading, setSearchLoading] = useState(false);
+  const lengthOfOptionsToRender = optionsToRender?.length;
 
   useEffect(() => {
     if (
@@ -118,7 +119,7 @@ const MultiSelect = ({
       shouldFetchIntialOptions.current &&
       isOpen &&
       optionsPath &&
-      !optionsToRender?.length
+      !lengthOfOptionsToRender
     ) {
       getOptions();
     }
@@ -178,8 +179,8 @@ const MultiSelect = ({
     searchPath
   ]);
 
-  const handleInputChange = (e) => {
-    const queryArr = e.target.value?.trim().split(',');
+  const handleInputChange = (inputValue) => {
+    const queryArr = inputValue?.trim().split(',');
     const query = queryArr[queryArr.length - 1];
     if (searchPath) {
       debouncedFetchQuery(query);
@@ -194,6 +195,19 @@ const MultiSelect = ({
   const valueToRender =
     fieldsData[fieldKey] || cleanOptions(value || defaultValue) || [];
 
+  const shouldShowNoOptions =
+    !lengthOfOptionsToRender &&
+    !areOptionsLoading &&
+    !shouldFetchIntialOptions.current;
+
+  const noOptionsText =
+    (shouldShowNoOptions
+      ? 'No Options'
+      : shouldFetchIntialOptions.current && 'Loading...') || '';
+
+  const noResultFoundText =
+    !lengthOfOptionsToRender && searchLoading ? 'Searching...' : undefined;
+
   return (
     <div
       className="py-3"
@@ -202,12 +216,15 @@ const MultiSelect = ({
     >
       <ComboBox
         onChange={handleChange}
-        value={!optionsToRender?.length ? null : valueToRender}
-        isMulti={Boolean(optionsToRender?.length)}
-        isLoading={areOptionsLoading}
-        loadingText="Loading"
+        value={valueToRender}
+        isMulti={Boolean(lengthOfOptionsToRender)}
+        isLoadingRight={
+          areOptionsLoading || (!lengthOfOptionsToRender && searchLoading)
+        }
         onOpenChange={handleOpen}
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
+        noOptionsText={noOptionsText}
+        noResultFoundText={noResultFoundText}
       >
         <Label label={label} required={required} />
         <ComboboxTrigger
@@ -215,35 +232,15 @@ const MultiSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        {Boolean(optionsToRender?.length) && (
-          <ComboboxOptionGroup maxWidth={300}>
-            {optionsToRender?.map((item) => (
-              <ComboboxOptionItem
-                key={item.value}
-                option={item}
-                wrapperClassName="text-base-500"
-              />
-            ))}
-          </ComboboxOptionGroup>
-        )}
-        {!optionsToRender?.length && !areOptionsLoading && (
-          <ComboboxOptionGroup>
+        <ComboboxOptionGroup maxWidth={300}>
+          {optionsToRender?.map((item) => (
             <ComboboxOptionItem
-              key="no options"
-              option={{ label: 'No options' }}
-              disabled
+              key={item.value}
+              option={item}
+              wrapperClassName="text-base-500"
             />
-          </ComboboxOptionGroup>
-        )}
-        {!optionsToRender?.length && searchLoading && (
-          <ComboboxOptionGroup>
-            <ComboboxOptionItem
-              key="searching-for-options"
-              option={{ label: 'Searching...' }}
-              disabled
-            />
-          </ComboboxOptionGroup>
-        )}
+          ))}
+        </ComboboxOptionGroup>
       </ComboBox>
     </div>
   );

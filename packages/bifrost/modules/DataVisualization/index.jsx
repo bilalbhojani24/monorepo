@@ -46,7 +46,9 @@ const DataVisualization = ({
     <div className={twClassNames('p-6', contentWrapperClassName)}>
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <h3 className="mr-2.5 text-lg font-medium leading-6">{title}</h3>
+          <h3 className="text-base-900 mr-2.5 text-lg font-semibold leading-6">
+            {title}
+          </h3>
           {headerInfo && (
             <ToolTip
               triggerAriaLabel="header-info-tooltip"
@@ -76,7 +78,7 @@ const DataVisualization = ({
                 headerInfoTooltipProps?.children
               ) : (
                 <InformationCircleIcon
-                  className="h-5 w-5 shrink-0 cursor-pointer"
+                  className="text-base-700 h-5 w-5 shrink-0 cursor-pointer"
                   aria-hidden="true"
                 />
               )}

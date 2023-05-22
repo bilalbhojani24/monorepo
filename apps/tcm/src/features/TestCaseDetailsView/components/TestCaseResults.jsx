@@ -50,7 +50,10 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
           modifier={rowData?.latest_status
             ?.replace('untested', 'base')
             ?.replace('passed', 'success')
-            ?.replace('failed', 'error')}
+            ?.replace('failed', 'error')
+            ?.replace('blocked', 'error')
+            ?.replace('retest', 'warn')
+            ?.replace('skipped', 'base')}
         />
       )
     }
@@ -84,9 +87,9 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
           modifier={rowData?.status
             ?.replace('untested', 'base')
             ?.replace('passed', 'success')
-            ?.replace('retest', 'primary')
+            ?.replace('retest', 'warn')
             ?.replace('blocked', 'error')
-            ?.replace('skipped', 'warn')
+            ?.replace('skipped', 'base')
             ?.replace('failed', 'error')}
         />
       )

@@ -6,7 +6,6 @@ import {
   TMModalFooter,
   TMModalHeader
 } from 'common/bifrostProxy';
-import PropTypes from 'prop-types';
 
 import useUnsavedChanges from './useUnsavedChanges';
 
@@ -52,14 +51,6 @@ const UnsavedChanges = () => {
       </TMModalFooter>
     </TMModal>
   );
-};
-
-UnsavedChanges.propTypes = {
-  show: PropTypes.bool
-};
-
-UnsavedChanges.defaultProps = {
-  show: false
 };
 
 export default UnsavedChanges;

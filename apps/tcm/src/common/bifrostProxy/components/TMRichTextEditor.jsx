@@ -13,10 +13,20 @@ const TMRichTextEditor = (props) => {
     <RichTextEditor
       {...props}
       onAssetUpload={imageUploadRTEHelper}
+      allowedFormats={[
+        'jpeg',
+        'jpg',
+        // 'jpe',
+        // 'jfi',
+        // 'jif',
+        // 'jfif',
+        'png',
+        // 'gif',
+        'bmp',
+        'webp'
+      ]}
       assetsURL={
-        import.meta.env.DEV
-          ? '/dist/assets/css/texteditorSkin'
-          : '/assets/css/texteditorSkin'
+        import.meta.env.DEV ? '/dist/assets/css' : '/assets/css/texteditorSkin'
       }
     />
   );

@@ -2,8 +2,6 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-import './styles.scss';
-
 const TableRow = ({
   children,
   wrapperClassName,
@@ -25,8 +23,8 @@ const TableRow = ({
       if (e.key === 'Enter' && onRowClick) onRowClick(e);
       if (e.key === ' ' && onRowClick) onRowClick(e);
     }}
-    tabIndex={typeof onRowClick === 'function' ? 0 : -1}
-    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...(typeof onRowClick === 'function' && { role: 'button' })}
+    {...(typeof onRowClick === 'function' && { tabIndex: 0 })}
     {...rest}
   >
     {children}

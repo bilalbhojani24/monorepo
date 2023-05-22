@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import {
@@ -17,6 +19,9 @@ import PopoverHeader from '../TooltipHeader';
 import Popover from './index';
 
 const inlineRadio = 'inline-radio';
+const headingText = 'This is a tooltip heading';
+const bodyText =
+  'Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec sodales augue eu viverra tempus.';
 
 const defaultConfig = {
   title: 'Application/Components/Popover',
@@ -78,7 +83,7 @@ const defaultConfig = {
     },
     children: {
       option: { type: null },
-      defaultValue: <Button>Click me</Button>
+      defaultValue: <Button>Hover me</Button>
     },
     defaultOpen: {
       option: { type: 'boolean' },
@@ -160,6 +165,14 @@ const defaultConfig = {
     triggerWrapperClassName: {
       option: { type: 'string' },
       defaultValue: ''
+    },
+    triggerAsChild: {
+      option: { type: 'boolean' },
+      defaultValue: true
+    },
+    wrapperClassName: {
+      option: { type: 'string' },
+      defaultValue: ''
     }
   },
   controls: {}
@@ -170,9 +183,33 @@ const LightThemeHyperlinkTemplate = (args) => <Popover {...args} />;
 const DarkThemeHyperlinkTemplate = (args) => <Popover {...args} />;
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 const DarkTheme = DarkThemeTemplate.bind({});
+DarkTheme.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 const LightThemeHyperlink = LightThemeHyperlinkTemplate.bind({});
+LightThemeHyperlink.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 const DarkThemeHyperlink = DarkThemeHyperlinkTemplate.bind({});
+DarkThemeHyperlink.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByRole('button')).toBeVisible();
+  await userEvent.click(canvas.getByRole('button'));
+};
+
 Primary.parameters = {
   controls: {}
 };
@@ -185,11 +222,8 @@ DarkTheme.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <PopoverHeader>This is a tooltip heading</PopoverHeader>
-      <PopoverBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </PopoverBody>
+      <PopoverHeader>{headingText}</PopoverHeader>
+      <PopoverBody>{bodyText}</PopoverBody>
       <PopoverFooter>
         <Button>Action 1</Button>
         <Button
@@ -208,29 +242,20 @@ DarkTheme.args = {
 LightThemeHyperlink.args = {
   content: (
     <>
-      <PopoverHeader>This is a tooltip heading</PopoverHeader>
-      <PopoverBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </PopoverBody>
+      <PopoverHeader>{headingText}</PopoverHeader>
+      <PopoverBody>{bodyText}</PopoverBody>
       <PopoverFooter>
         <Hyperlink
+          wrapperClassName="mr-4 font-normal text-brand-600 underline"
           isCSR={false}
-          underlined
-          fontWeight="font-light"
-          color="text-brand-600"
-          wrapperClassName="mr-4"
           href="https://www.google.com"
           rel="noreferrer noopener"
         >
           Action 1
         </Hyperlink>
         <Hyperlink
+          wrapperClassName="mr-4 font-normal text-brand-600 underline"
           isCSR={false}
-          underlined
-          fontWeight="font-light"
-          color="text-brand-600"
-          wrapperClassName="mr-4"
           href="https://www.google.com"
           rel="noreferrer noopener"
         >
@@ -247,28 +272,19 @@ DarkThemeHyperlink.args = {
   theme: TP_TOOLTIP_THEME[1],
   content: (
     <>
-      <PopoverHeader>This is a tooltip heading</PopoverHeader>
-      <PopoverBody>
-        Lorem ipsum dolor sit amet lalala, consectetur adipiscing elit. Donec
-        sodales augue eu viverra tempus.
-      </PopoverBody>
+      <PopoverHeader>{headingText}</PopoverHeader>
+      <PopoverBody>{bodyText}</PopoverBody>
       <PopoverFooter>
         <Hyperlink
+          wrapperClassName="mr-4 font-normal text-base-50 underline"
           isCSR={false}
-          underlined
-          fontWeight="font-light"
-          color="text-base-50"
-          wrapperClassName="mr-4"
           href="https://www.google.com"
           rel="noreferrer noopener"
         >
           Action 1
         </Hyperlink>
         <Hyperlink
-          isCSR={false}
-          underlined
-          fontWeight="font-light"
-          color="text-base-50"
+          wrapperClassName="mr-4 font-normal text-base-50 underline"
           href="https://www.google.com"
           rel="noreferrer noopener"
         >

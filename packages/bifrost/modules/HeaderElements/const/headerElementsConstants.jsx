@@ -24,7 +24,7 @@ export const ELEMENTS_WITH_LABEL = [
     icon: (
       <MdLocalOffer className="text-base-400 group-hover:text-base-100 h-5 w-5" />
     ),
-    link: 'https://www.browserstack.com/accounts/subscriptions'
+    link: ''
   },
   {
     name: 'help',
@@ -34,7 +34,10 @@ export const ELEMENTS_WITH_LABEL = [
   {
     name: 'account',
     icon: (
-      <MdAccountCircle className="text-base-400 hover:text-base-100 h-6 w-6" />
+      <MdAccountCircle
+        className="text-base-400 hover:text-base-100 h-6 w-6"
+        aria-label="Account"
+      />
     )
   },
   {
@@ -61,5 +64,5 @@ export const ACCOUNT_ARRAY = [
   },
   { name: 'Settings', link: 'https://www.browserstack.com/accounts/settings' },
   { name: 'Support', link: '' },
-  { name: 'Contact', link: 'https://www.browserstack.com/contact?ref=header' }
+  { name: 'Contact', link: '' }
 ];

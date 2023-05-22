@@ -1,20 +1,50 @@
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getJIRAConfigAPI } from 'api/common.api';
+import { setUserConfig } from 'globalSlice';
+
+import { ISSUES_TABS_ARRAY } from '../const/immutableConst';
 
 const useIssues = () => {
+  const dispatch = useDispatch();
+  const [issueType, setIssueType] = useState(ISSUES_TABS_ARRAY[0]);
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
   );
-  const issuesArray = useSelector(
-    (state) => state.testRunsDetails.fullDetails?.test_result_issues || []
+  const jiraConfig = useSelector((state) => state.global.userConfig?.jira);
+  const fullDetails = useSelector(
+    (state) => state.testRunsDetails.fullDetails || []
   );
   const isIssuesLoading = useSelector(
     (state) => state.testRunsDetails.isLoading.testRunDetails
   );
 
+  const handleTabChange = (data) => {
+    setIssueType(data || null);
+  };
+
+  const setJiraConfig = useCallback(
+    (value) => {
+      dispatch(setUserConfig({ key: 'jira', value }));
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    if (!jiraConfig) {
+      getJIRAConfigAPI().then((e) => {
+        setJiraConfig(e?.success ? e : null);
+      });
+    }
+  }, [jiraConfig, setJiraConfig]);
+
   return {
-    issuesArray,
+    issueType,
+    jiraHost: jiraConfig?.data?.host || null,
+    issuesArray: fullDetails[issueType?.id] || [],
     isIssuesLoading,
-    testRunDetails
+    testRunDetails,
+    handleTabChange
   };
 };
 

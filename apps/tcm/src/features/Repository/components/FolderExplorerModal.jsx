@@ -26,7 +26,8 @@ const FolderExplorerModal = ({
   onOK,
   confirmButtonText,
   onClose,
-  disabledFolders
+  disabledFolders,
+  loading
 }) => {
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [primaryMoveLocation, setPrimaryMoveLocation] = useState(
@@ -87,7 +88,6 @@ const FolderExplorerModal = ({
         ) : null}
         <TMAlerts
           modifier="primary"
-          linkText={null}
           description={
             primaryMoveLocation === moveFolderOptions[0].id
               ? alertText
@@ -106,6 +106,8 @@ const FolderExplorerModal = ({
           variant="primary"
           wrapperClassName="ml-3"
           onClick={moveFolderOnOkHandler}
+          loading={loading}
+          isIconOnlyButton={loading}
         >
           {confirmButtonText || 'Move Test Cases'}
         </TMButton>
@@ -123,7 +125,8 @@ FolderExplorerModal.propTypes = {
   subHeading: PropTypes.string,
   confirmButtonText: PropTypes.string,
   alertText: PropTypes.string,
-  disabledFolders: PropTypes.arrayOf(PropTypes.number)
+  disabledFolders: PropTypes.arrayOf(PropTypes.number),
+  loading: PropTypes.bool
 };
 
 FolderExplorerModal.defaultProps = {
@@ -135,7 +138,8 @@ FolderExplorerModal.defaultProps = {
   subHeading: '',
   confirmButtonText: '',
   alertText: '',
-  disabledFolders: []
+  disabledFolders: [],
+  loading: false
 };
 
 export default FolderExplorerModal;

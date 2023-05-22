@@ -20,9 +20,11 @@ const TestCasesExplorer = () => {
     onItemSelectionHandler,
     selectTestCasesConfirm
   } = useAddEditTestRun();
+  // const textExplorerInitialFocusRef = useRef();
 
   return (
     <TMModal
+      // ref={textExplorerInitialFocusRef}
       show={isAddTestCaseModalShown}
       withDismissButton
       onOverlayClick={hideTestCasesModal}
@@ -43,7 +45,12 @@ const TestCasesExplorer = () => {
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={hideTestCasesModal}>
+        <TMButton
+          // ref={textExplorerInitialFocusRef}
+          variant="primary"
+          colors="white"
+          onClick={hideTestCasesModal}
+        >
           Cancel
         </TMButton>
         <TMButton

@@ -173,8 +173,6 @@ export default function IssueItem() {
     }
   ];
 
-  console.log({ testType, issueItem });
-
   const needsReviewStatusinReports = getNodeNeedsReviewStatusInReports(
     childNodes,
     reportMetaData,
@@ -192,9 +190,13 @@ export default function IssueItem() {
     activeComponentId.split('#')[1] ? '.' : ''
   }${activeComponentId.split('#')[1]}`;
 
+  const isShowingSourceReport =
+    needsReviewStatusinReports.length > 0 &&
+    Object.values(reportMetaData?.meta).length > 1;
+
   return (
     <div className="relative">
-      <div className="border-base-200 sticky top-0 z-10 flex w-full items-start justify-between border-b bg-white py-4 pr-4 pl-6">
+      <div className="border-base-200 sticky top-0 z-[15] flex w-full items-start justify-between border-b bg-white py-4 pl-6 pr-4">
         <div>
           <div className="flex items-center">
             <p
@@ -255,7 +257,7 @@ export default function IssueItem() {
             nodeNeedsReviewStatus={needsReviewStatusinReports}
           />
         )}
-        <div className="py-4 px-6">
+        <div className="px-6 py-4">
           <div>
             <p className="text-base-900 mb-2 text-base font-medium">
               {headerData.help}
@@ -306,7 +308,7 @@ export default function IssueItem() {
                 ))}
               </div>
             )}
-            {needsReviewStatusinReports.length > 0 && (
+            {isShowingSourceReport && (
               <div className="mt-4 flex text-sm font-medium">
                 <p className="text-base-500 mr-1 flex items-center text-sm font-medium">
                   Source report(s):
@@ -330,9 +332,12 @@ export default function IssueItem() {
             <div className="mt-4">
               <p className="text-base-700 mb-1 text-sm">Affected page: </p>
               <div className="flex">
-                <div className="mr-2 w-full">
-                  <InputField id={url} value={url} readonly />
-                </div>
+                <InputField
+                  id={url}
+                  value={url}
+                  readonly
+                  wrapperClassName="mr-2 w-full"
+                />
                 <CopyButton text={url} />
               </div>
             </div>
@@ -458,7 +463,7 @@ export default function IssueItem() {
         </div>
       </div>
       <div
-        className="fixed bottom-0 right-0 bg-white"
+        className="fixed bottom-0 right-0 z-[15] bg-white"
         style={{
           width: `${
             isSidebarCollapsed

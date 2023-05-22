@@ -2,13 +2,15 @@ import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
+import AccessibleTooltip from '../Header/components/AccessibleTooltip';
+import {
+  CALLBACK_FUNCTIONS_PROP_TYPE,
+  hyperlinkClickHandler
+} from '../Header/utils';
 import HeaderProductContainer from '../HeaderProductContainer';
 import Hyperlink from '../Hyperlink';
 import { ChevronDownIcon } from '../Icon';
 import GridViewSolidIcon from '../Icon/HeaderIcons/GridViewSolidIcon';
-import ToolTip from '../Tooltip';
-
-import './styles.scss';
 
 const DEFAULT_PRODUCT_ARRAY = [
   { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
@@ -16,7 +18,12 @@ const DEFAULT_PRODUCT_ARRAY = [
   { name: 'App Live', link: 'https://app-live.browserstack.com/dashboard' }
 ];
 
-const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
+const HeaderProducts = ({
+  wrapperClassName,
+  productCount,
+  productArray,
+  callbackFunctions
+}) => {
   const finalProductArray =
     productArray.length === 0 ? DEFAULT_PRODUCT_ARRAY : productArray;
 
@@ -35,6 +42,15 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
           )}
           href={finalProductArray[index]?.link}
           key={index}
+          onClick={(eve) => {
+            hyperlinkClickHandler(
+              eve,
+              finalProductArray[index]?.link,
+              callbackFunctions?.onProductLinkClick,
+              '_self',
+              finalProductArray[index]?.name
+            );
+          }}
         >
           <p
             className={twClassNames(
@@ -45,15 +61,11 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
           </p>
         </Hyperlink>
       ))}
-      <ToolTip
-        arrowClassName="w-4 h-2"
-        content={<HeaderProductContainer />}
-        theme="light"
-        placementSide="bottom"
-        size="5xl"
-        wrapperClassName="py-0"
-        triggerOnTouch
-        triggerAriaLabel="product popover"
+      <AccessibleTooltip
+        content={
+          <HeaderProductContainer callbackFunctions={callbackFunctions} />
+        }
+        ariaLabel="product popover"
       >
         <div className={twClassNames('group flex flex-row items-center p-0')}>
           <div
@@ -93,12 +105,13 @@ const HeaderProducts = ({ wrapperClassName, productCount, productArray }) => {
             </div>
           </div>
         </div>
-      </ToolTip>
+      </AccessibleTooltip>
     </div>
   );
 };
 
 HeaderProducts.propTypes = {
+  callbackFunctions: CALLBACK_FUNCTIONS_PROP_TYPE,
   wrapperClassName: PropTypes.string,
   productCount: PropTypes.number,
   productArray: PropTypes.arrayOf(
@@ -106,6 +119,7 @@ HeaderProducts.propTypes = {
   )
 };
 HeaderProducts.defaultProps = {
+  callbackFunctions: null,
   wrapperClassName: '',
   productCount: 0,
   productArray: []

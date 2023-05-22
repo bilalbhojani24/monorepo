@@ -1,20 +1,28 @@
+export const CONFIGURE_TOOL = 'SELECT TOOL';
+export const CONFIGURE_DATA = 'REVIEW DATA';
+export const CONFIRM_IMPORT = 'BEGIN IMPORT';
+
+export const SCREEN_1 = 'selectTool';
+export const SCREEN_2 = 'reviewData';
+export const SCREEN_3 = 'beginImport';
+
 export const IMPORT_STEPS = [
   {
     id: 1,
-    name: 'CONFIGURE TOOL',
-    description: 'Pick which tool you want to import from',
+    name: CONFIGURE_TOOL,
+    description: 'Pick tool you want to import from',
     status: 'current'
   },
   {
     id: 2,
-    name: 'CONFIGURE DATA',
-    description: 'Configure projects data for import',
+    name: CONFIGURE_DATA,
+    description: 'Review projects that will be imported',
     status: 'upcoming'
   },
   {
     id: 3,
-    name: 'CONFIRM IMPORT',
-    description: 'Once confirmed, importing will begin',
+    name: CONFIRM_IMPORT,
+    description: 'Once confirmed, importing will begin instantly',
     status: 'upcoming'
   }
 ];
