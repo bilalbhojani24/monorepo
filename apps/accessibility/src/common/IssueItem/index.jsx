@@ -82,6 +82,8 @@ export default function IssueItem({ sectionsDataContext }) {
     testCaseIds
   } = issueItem;
 
+  console.log('tests:', tests);
+
   const tagList = tagToView(headerData.tags);
 
   const data = [

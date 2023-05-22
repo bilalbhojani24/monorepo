@@ -49,7 +49,8 @@ export const getUniqFilterValues = createSelector(getFilters, (filters) => {
   }));
   const testList = tests.map((test) => ({
     label: test.name,
-    value: test.id.toString()
+    value: test.id.toString(),
+    ...test
   }));
   const tagList = tags.map((tag) => ({
     label: tag,
