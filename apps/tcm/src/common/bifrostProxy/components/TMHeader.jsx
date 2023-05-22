@@ -22,6 +22,7 @@ const TMHeader = () => (
       'notifications',
       'account'
     ]}
+    planPricingLink="https://www.browserstack.com/accounts/subscriptions?product=test-management"
     buyPlanTarget="_blank"
     buyPlanLink="https://www.browserstack.com/contact?ref=test-management-dashboard-top-header-csf-lead"
     documentation={{
