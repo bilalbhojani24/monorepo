@@ -21,9 +21,10 @@ export const getTestRetryLogs = async (buildId, retryId) =>
   axios.get(
     `${versionedBaseRoute()}/builds/${buildId}/testRuns/${retryId}/retryLogs`
   );
-export const getTestHistoryData = async (testRunIds) =>
+export const getTestHistoryData = async (testRunIds, isHook) =>
   axios.post(`${versionedBaseRoute()}/builds/testRuns/historyDetails`, {
-    testRunIds
+    testRunIds,
+    isHook
   });
 export const getTestlistFilters = async ({ buildId }) =>
   axios.get(`${versionedBaseRoute()}/builds/${buildId}/getFilters`);

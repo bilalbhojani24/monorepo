@@ -104,6 +104,13 @@ function TestListActionItems({ details, isMutedHidden }) {
     OllyTestListingEvent('O11yReportBugExecuted');
   };
 
+  const getMuteButtonText = (getMutedStatus) => {
+    // TODO: Need to Decide on Disabled Mute Button Text
+    if (isMutedHidden)
+      return 'Muting is ineffective for Before All/After All Hooks.';
+    return `${getMutedStatus} ? 'Un-Mute' : 'Mute'} Test`;
+  };
+
   useEffect(() => {
     const unSubscribe = window.pubSub.subscribe(
       'onToggleMuteStatus',
@@ -171,35 +178,34 @@ function TestListActionItems({ details, isMutedHidden }) {
         </O11yTooltip>
       )}
 
-      {!isMutedHidden && (
-        <O11yTooltip
-          theme="dark"
-          placementSide="top"
-          wrapperClassName="py-2"
-          content={
-            <div className="mx-4">
-              <p className="text-base-300 text-sm">
-                {getMutedStatus ? 'Un-Mute' : 'Mute'} Test
-              </p>
-            </div>
+      <O11yTooltip
+        theme="dark"
+        placementSide="top"
+        wrapperClassName="py-2"
+        content={
+          <div className="mx-4">
+            <p className="text-base-300 text-sm">
+              {getMuteButtonText(getMutedStatus)}
+            </p>
+          </div>
+        }
+      >
+        <O11yButton
+          type="button"
+          colors="white"
+          isIconOnlyButton
+          size="extra-small"
+          onClick={() => handleMuteUnmuteTestCase(!getMutedStatus)}
+          disabled={isMutedHidden}
+          icon={
+            getMutedStatus ? (
+              <MdOutlineVolumeOff className="h-5 w-5" />
+            ) : (
+              <MdOutlineVolumeUp className="h-5 w-5" />
+            )
           }
-        >
-          <O11yButton
-            type="button"
-            colors="white"
-            isIconOnlyButton
-            size="extra-small"
-            onClick={() => handleMuteUnmuteTestCase(!getMutedStatus)}
-            icon={
-              getMutedStatus ? (
-                <MdOutlineVolumeOff className="h-5 w-5" />
-              ) : (
-                <MdOutlineVolumeUp className="h-5 w-5" />
-              )
-            }
-          />
-        </O11yTooltip>
-      )}
+        />
+      </O11yTooltip>
     </PropagationBlocker>
   );
 }

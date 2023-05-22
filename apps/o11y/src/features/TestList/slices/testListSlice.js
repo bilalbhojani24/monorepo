@@ -170,7 +170,7 @@ export const getHistoryDetails = createAsyncThunk(
       return false;
     }
     try {
-      const response = await getTestHistoryData(data.testRunIds);
+      const response = await getTestHistoryData(data.testRunIds, data.isHook);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);

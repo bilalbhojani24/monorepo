@@ -58,12 +58,18 @@ const RenderTestItem = ({ item: data }) => {
   };
 
   const handleClickTestItem = () => {
+    if (data.isBeforeAllHook || data.isAfterAllHook) return;
     dispatch(showTestDetailsDrawer(details.id));
   };
 
   return (
     <div
-      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-1 pr-6"
+      className={twClassNames(
+        'border-base-100 hover:bg-base-50 group cursor-pointer border-b pr-6 pt-1',
+        {
+          'cursor-default': data.isBeforeAllHook || data.isAfterAllHook
+        }
+      )}
       style={{
         paddingLeft:
           HIERARCHY_SPACING_START +
@@ -83,9 +89,13 @@ const RenderTestItem = ({ item: data }) => {
                 />
               </div>
               <div className="text-base-900 ml-2 text-sm">
-                <span>
-                  {data.isBeforeAllHook ? 'Before All: ' : ''}
-                  {data.isAfterAllHook ? 'After All: ' : ''}
+                <span
+                  className={twClassNames('', {
+                    'text-base-500': data.isBeforeAllHook || data.isAfterAllHook
+                  })}
+                >
+                  {data.isBeforeAllHook ? 'Before Hook: ' : ''}
+                  {data.isAfterAllHook ? 'After Hook: ' : ''}
                   {ReactHtmlParser(displayName, {
                     transform: transformUnsupportedTags
                   })}
@@ -204,7 +214,10 @@ const RenderTestItem = ({ item: data }) => {
         </div>
         <div className="flex w-auto gap-1">
           <div className="flex w-auto items-start pt-1">
-            <TestListTimeline details={details} />
+            <TestListTimeline
+              details={details}
+              isHook={data.isAfterAllHook || data.isBeforeAllHook}
+            />
           </div>
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
           <div className="min-h-[34px] min-w-[100px]">
