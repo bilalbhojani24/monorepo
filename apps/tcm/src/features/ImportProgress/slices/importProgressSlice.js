@@ -8,11 +8,15 @@ const initialState = {
   isCancelModalVisible: false,
   isLoading: {},
   importDetails: {
-    overallProgress: 30,
+    percent: 30,
+    totalProjects: 12,
+    successfullyImportedProjects: 6,
+    failedProjects: 4,
+    currentlyImportingProjectNo: 4,
+    currentImportingProjectName: 'Hello',
     imported: 2,
     notImported: 2,
     totalImports: 40
-    // timeRemaining: 'About 6 min'
   },
   importStatus: IMPORT_STATUS.ONGOING,
   isProgressDismissed: true,

@@ -66,7 +66,7 @@ const ImportProgress = () => {
       <div className="w-full pr-4">
         <div className="flex w-full items-center justify-between">
           <div className="text-base-800 text-sm font-medium">
-            Quick Import in progress: {importDetails?.overallProgress}%{' '}
+            Quick Import in progress: {importDetails?.percent}%{' '}
             {importDetails?.imported > 0 && (
               <TMBadge
                 text={`${importDetails.imported} Project Imported`}
@@ -80,10 +80,7 @@ const ImportProgress = () => {
             View Details
           </TMButton>
         </div>
-        <TMProgressBar
-          title={null}
-          percentage={importDetails?.overallProgress}
-        />
+        <TMProgressBar title={null} percentage={importDetails?.percent} />
       </div>
       {/* <div className="border-base-300 flex  w-36 flex-col justify-center break-normal border-l pl-5 text-sm">
         <div className="text-base-600">Time Remaining</div>

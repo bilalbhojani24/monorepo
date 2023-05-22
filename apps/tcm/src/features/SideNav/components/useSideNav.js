@@ -39,7 +39,7 @@ export default function useSideNav() {
   );
   const allFolders = useSelector((state) => state.repository?.allFolders);
   const overallImportProgress = useSelector(
-    (state) => state.importProgress.importDetails.overallProgress
+    (state) => state.importProgress.importDetails.percent
   );
   const isDetailsModalVisible = useSelector(
     (state) => state.importProgress.isDetailsModalVisible

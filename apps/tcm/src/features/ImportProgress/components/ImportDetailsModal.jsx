@@ -34,13 +34,10 @@ const ImportDetailsModal = ({ show, headerText }) => {
           <div className="border-base-200 bg-base-50 border p-6">
             <div>
               <TitleDescriptionNode
-                title={`Current Progress: ${importDetails?.overallProgress}%`}
+                title={`Current Progress: ${importDetails?.percent}%`}
                 titleClassName="text-base-900"
               />
-              <TMProgressBar
-                title={null}
-                percentage={importDetails?.overallProgress}
-              />
+              <TMProgressBar title={null} percentage={importDetails?.percent} />
             </div>
             <div className="mt-6 flex">
               <TitleDescriptionNode
