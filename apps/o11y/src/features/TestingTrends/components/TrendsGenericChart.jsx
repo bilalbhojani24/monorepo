@@ -1,5 +1,7 @@
-import React, { useMemo } from 'react';
+/* eslint-disable react/no-this-in-sfc */
+import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { O11yTooltip } from 'common/bifrostProxy';
 import Chart from 'common/Chart';
 import { COMMON_CHART_STYLES } from 'constants/common';
 import useChartActions from 'features/TestingTrends/hooks/useChartActions';
@@ -10,6 +12,8 @@ import {
 import { getCommonChartOptions } from 'features/TestingTrends/utils/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
+
+import CustomChartTooltip from './CustomChartTooltip';
 
 const P10_ID = 'Overall Stability';
 
@@ -25,15 +29,25 @@ export default function TrendsGenericChart({
   const activeDateRange = useSelector((state) =>
     getTTFilterByKey(state, 'dateRange')
   );
+
+  // const [series, setSeries] = useState({});
+  const [tooltipData, setTooltipData] = useState({});
+
+  const handleTooltipData = useCallback((tooltipRes) => {
+    setTooltipData(tooltipRes);
+  }, []);
+
+  const chartData = getCommonChartOptions({
+    afterSetExtremes,
+    ...config,
+    activeProject,
+    filters,
+    seriesOptions
+  });
+
   const options = useMemo(() => {
     const chartOptions = {
-      ...getCommonChartOptions({
-        afterSetExtremes,
-        ...config,
-        activeProject,
-        filters,
-        seriesOptions
-      }),
+      ...chartData,
       chart: {
         animation: false,
         type: chartType,
@@ -42,6 +56,46 @@ export default function TrendsGenericChart({
         events: {
           render(e) {
             e?.target?.series?.[0]?.chart?.resetZoomButton?.hide();
+          }
+        }
+      },
+      tooltip: {
+        enabled: false
+      },
+      plotOptions: {
+        trendline: { ...chartData.plotOptions.trendline },
+        series: {
+          point: {
+            events: {
+              mouseOver(e) {
+                const {
+                  plotX,
+                  plotY,
+                  pointRange: pointRangeOptions
+                } = e.target;
+
+                const seriesData = this.series.chart.series.map(
+                  (res) => ({
+                    ...res,
+                    index: this.index,
+                    y: res.data[this.index]?.y,
+                    fixedToTwoDigits: config?.fixedToTwoDigits,
+                    pointRangeOptions
+                  }),
+                  this
+                );
+
+                handleTooltipData({
+                  options: [...seriesData],
+                  styles: {
+                    top: plotY + 45,
+                    left: plotX + 25,
+                    width: 32,
+                    height: 32
+                  }
+                });
+              }
+            }
           }
         }
       },
@@ -80,18 +134,42 @@ export default function TrendsGenericChart({
       });
     }
     return chartOptions;
-  }, [
-    activeProject,
-    afterSetExtremes,
-    chartType,
-    config,
-    data,
-    filters,
-    seriesOptions
-  ]);
+  }, [chartData, chartType, config, data, handleTooltipData, seriesOptions]);
 
   return (
     <div className="h-full">
+      <div
+        className="bg-danger-500 absolute z-10 rounded-sm"
+        key={tooltipData?.options?.id}
+        style={{
+          ...tooltipData?.styles
+          // cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
+        }}
+        onClick={() => {}}
+        role="presentation"
+      >
+        <O11yTooltip
+          theme="dark"
+          wrapperClassName="py-2"
+          placementSide="top"
+          placementAlign="center"
+          triggerAsChild
+          content={
+            <CustomChartTooltip
+              tooltipData={tooltipData.options || {}}
+              activeProject={activeProject}
+              filters={filters}
+            />
+          }
+        >
+          <div
+            className="bg-brand-500 h-full w-full"
+            style={{
+              ...tooltipData?.styles
+            }}
+          />
+        </O11yTooltip>
+      </div>
       <Chart
         options={options}
         key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { O11yTooltip } from 'common/bifrostProxy';
 import Chart from 'common/Chart';
 import {
   COMMON_CHART_CONFIGS,
@@ -20,58 +21,65 @@ import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import useChartActions from '../hooks/useChartActions';
 
+import CustomChartTooltip from './CustomChartTooltip';
 import TrendStatesWrapper from './TrendStatesWrapper';
 
 function getFormattedYAxisLabel() {
   return milliSecondsToTime(this.value);
 }
-function getFormattedTooltip(activeProject, filters) {
-  const url = `${getBaseUrl()}:8081/projects/${
-    activeProject.normalisedName
-  }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
-    filters.buildName.value
-  }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
+// function getFormattedTooltip(activeProject, filters) {
+//   const url = `${getBaseUrl()}:8081/projects/${
+//     activeProject.normalisedName
+//   }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
+//     filters.buildName.value
+//   }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
 
-  const str = this.points.reduce((s, data) => {
-    let returnString = `${s}`;
-    if (!isEmpty(data.point.pointRange)) {
-      returnString += `<div><span class="font-sm">${getCustomTimeStamp({
-        dateString: data.point.pointRange[0],
-        withoutTime: true
-      })} </span>`;
-      returnString += ` - <span class="font-sm">${getCustomTimeStamp({
-        dateString: data.point.pointRange[1],
-        withoutTime: true
-      })}</span></div>`;
-    }
+//   const str = this.points.reduce((s, data) => {
+//     let returnString = `${s}`;
+//     if (!isEmpty(data.point.pointRange)) {
+//       returnString += `<div><span class="font-sm">${getCustomTimeStamp({
+//         dateString: data.point.pointRange[0],
+//         withoutTime: true
+//       })} </span>`;
+//       returnString += ` - <span class="font-sm">${getCustomTimeStamp({
+//         dateString: data.point.pointRange[1],
+//         withoutTime: true
+//       })}</span></div>`;
+//     }
 
-    returnString += `<div class="flex-1 mt-0.5">`;
-    returnString += `<div class="flex justify-between"><div>
-      <span style="color:${data.series.color}" class="font-sm">\u25CF&nbsp;</span>`;
-    if (data.series.name === 'Average Duration') {
-      returnString += `<span>${
-        data.series.name
-      }</span></div> <span><b>${milliSecondsToTime(
-        data.y
-      )}</b></span></div></div>`;
-    } else {
-      returnString += `<span>${data.series.name}</span></div> <span><b>${data.y}</b></span></div></div>`;
-    }
-    return returnString;
-  }, '');
+//     returnString += `<div class="flex-1 mt-0.5">`;
+//     returnString += `<div class="flex justify-between"><div>
+//       <span style="color:${data.series.color}" class="font-sm">\u25CF&nbsp;</span>`;
+//     if (data.series.name === 'Average Duration') {
+//       returnString += `<span>${
+//         data.series.name
+//       }</span></div> <span><b>${milliSecondsToTime(
+//         data.y
+//       )}</b></span></div></div>`;
+//     } else {
+//       returnString += `<span>${data.series.name}</span></div> <span><b>${data.y}</b></span></div></div>`;
+//     }
+//     return returnString;
+//   }, '');
 
-  return `<div class="px-2 py-1 flex flex-col bg-base-800 rounded-lg text-base-200">${str}
-    <a class="text-white font-medium mt-0.5" href=${url} target="_blank">View all tests (Pro) </a></div>`;
-}
+//   return `<div class="px-2 py-1 flex flex-col bg-base-800 rounded-lg text-base-200">${str}
+//     <a class="text-white font-medium mt-0.5" href=${url} target="_blank">View all tests (Pro) </a></div>`;
+// }
 
-const getChartOptions = ({ afterSetExtremes, activeProject, filters }) => ({
+const getChartOptions = ({
+  afterSetExtremes,
+  activeProject,
+  filters,
+  handleTooltipData
+}) => ({
   ...COMMON_CHART_CONFIGS,
   tooltip: {
-    ...TOOLTIP_STYLES,
-    formatter() {
-      return getFormattedTooltip.call(this, activeProject, filters);
-    },
-    shared: true
+    enabled: false
+    // ...TOOLTIP_STYLES,
+    // formatter() {
+    //   return getFormattedTooltip.call(this, activeProject, filters);
+    // },
+    // shared: true
   },
   chart: {
     zoomType: 'x',
@@ -115,7 +123,7 @@ const getChartOptions = ({ afterSetExtremes, activeProject, filters }) => ({
       gridZIndex: 0,
       gridLineDashStyle: 'Dash',
       title: {
-        text: 'Duration',
+        text: 'Average Duration',
         style: {
           color: '#49837C'
         }
@@ -150,6 +158,29 @@ const getChartOptions = ({ afterSetExtremes, activeProject, filters }) => ({
                 interaction: 'performance_clicked'
               }
             });
+          },
+          mouseOver(e) {
+            const { plotX, plotY, pointRange: pointRangeOptions } = e.target;
+
+            const seriesData = this.series.chart.series.map(
+              (res) => ({
+                ...res,
+                index: this.index,
+                y: res.data[this.index]?.y,
+                pointRangeOptions
+              }),
+              this
+            );
+
+            handleTooltipData({
+              options: [...seriesData],
+              styles: {
+                top: plotY + 45,
+                left: plotX + 45,
+                width: 24,
+                height: 24
+              }
+            });
           }
         }
       }
@@ -171,8 +202,14 @@ export default function PerformanceGraph({ buildName }) {
   const projects = useSelector(getProjects);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [tooltipData, setTooltipData] = useState({});
+
   const filters = useSelector(getAllTTFilters);
   const { afterSetExtremes } = useChartActions();
+
+  const handleTooltipData = useCallback((tooltipRes) => {
+    setTooltipData(tooltipRes);
+  }, []);
 
   const fetchData = useCallback(() => {
     setIsLoading(true);
@@ -207,13 +244,14 @@ export default function PerformanceGraph({ buildName }) {
       ...getChartOptions({
         afterSetExtremes,
         activeProject: projects.active,
-        filters
+        filters,
+        handleTooltipData
       }),
       series: [
         {
           type: 'column',
           data: chartData?.barData,
-          name: 'Duration',
+          name: 'Average Duration',
           yAxis: 1,
           color: '#9DD0CA',
           borderRadiusTopLeft: 3,
@@ -231,6 +269,7 @@ export default function PerformanceGraph({ buildName }) {
       chartData?.barData,
       chartData?.lineData,
       filters,
+      handleTooltipData,
       projects.active
     ]
   );
@@ -244,6 +283,38 @@ export default function PerformanceGraph({ buildName }) {
     >
       {!isLoading && (
         <div className="h-full">
+          <div
+            className="bg-danger-500 absolute z-10 rounded-sm"
+            key={tooltipData?.options?.id}
+            style={{
+              ...tooltipData?.styles
+              // cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
+            }}
+            onClick={() => {}}
+            role="presentation"
+          >
+            <O11yTooltip
+              theme="dark"
+              wrapperClassName="py-2"
+              placementSide="top"
+              placementAlign="center"
+              triggerAsChild
+              content={
+                <CustomChartTooltip
+                  tooltipData={tooltipData.options || {}}
+                  activeProject={projects.active}
+                  filters={filters}
+                />
+              }
+            >
+              <div
+                className="bg-brand-500 h-full w-full"
+                style={{
+                  ...tooltipData?.styles
+                }}
+              />
+            </O11yTooltip>
+          </div>
           <Chart
             options={options}
             key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}

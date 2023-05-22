@@ -29,6 +29,7 @@ export default function TestingTrends() {
     TREND_CARDS
   } = useTestingTrends();
   const renderDashboardCard = (key) => {
+    // eslint-disable-next-line sonarjs/no-small-switch
     switch (key) {
       case 'stability':
         return <StabilityTrend />;
