@@ -8,6 +8,8 @@ import {
   UsersIcon
 } from '@browserstack/bifrost';
 
+import GridListing from './GridListing';
+
 const Dashboard = () => {
   // ToDo: Remove the below Variavble
   const primaryNavs = [
@@ -47,6 +49,9 @@ const Dashboard = () => {
           ]}
         />
       </div>
+
+      <GridListing />
+      <div>This is Cluster Listing component</div>
     </div>
   );
 };
