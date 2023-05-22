@@ -134,7 +134,14 @@ function TestListActionItems({ details }) {
           wrapperClassName="py-2"
           content={
             <div className="mx-4">
-              <p className="text-base-300 text-sm">Re-run</p>
+              {buildMeta?.data?.reRun ? (
+                <p className="text-base-300 text-sm">Re-run</p>
+              ) : (
+                <p className="text-base-300 text-sm">
+                  Re-run not allowed. It could be attributed to your project
+                  settings.
+                </p>
+              )}
             </div>
           }
         >
@@ -145,6 +152,7 @@ function TestListActionItems({ details }) {
             size="extra-small"
             onClick={handleRerunButtonClick}
             icon={<MdRedo className="h-5 w-5" />}
+            disabled={!buildMeta?.data?.reRun}
           />
         </O11yTooltip>
       )}
