@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ChatWidgetComponent from '../../../../modules/ChatWidget/index';
+import ChatWidgetComponent from '../../../../../packages/growth/modules/ChatWidget/index';
 
 const ChatWidget = () => (
   <div>

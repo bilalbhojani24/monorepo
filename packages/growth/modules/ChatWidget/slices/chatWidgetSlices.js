@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import chatWidgetService from '../../api/chatWidgetServices';
+import chatWidgetService from '../../../api/chatWidgetServices';
 
 export const fetchChatWidgetInitialData = createAsyncThunk(
   'chatWidget/getInitialData',
   async () => chatWidgetService.getChatWidgetInitialisation()
 );
 
-const userSlice = createSlice({
+export const { reducer, actions } = createSlice({
   name: 'fetchChatWidgetInitialData',
   initialState: {
     data: null,
@@ -32,4 +32,4 @@ const userSlice = createSlice({
   }
 });
 
-export default userSlice;
+export default reducer;

@@ -216,7 +216,8 @@ const Button = (
           'w-full': fullWidth === true
         },
         getIconOnlyBtnStyle(),
-        wrapperClassName
+        wrapperClassName,
+        'absolute bottom-6 right-6'
       )}
     >
       {effectiveChildren}

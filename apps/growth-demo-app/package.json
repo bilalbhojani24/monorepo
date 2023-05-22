@@ -16,15 +16,17 @@
     "prettier:fix": "npm run prettier:check -- --write"
   },
   "dependencies": {
-    "@browserstack/bifrost": "workspace:*",
+    "@browserstack/bifrost": "7.3.0",
     "@browserstack/hooks": "workspace:*",
-    "@browserstack/utils": "workspace:*",
+    "@browserstack/utils": "1.2.0",
+    "@browserstack/growth": "workspace:*",
     "@reduxjs/toolkit": "1.9.1",
     "axios": "1.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "8.0.5",
-    "react-router-dom": "6.6.1"
+    "react-router-dom": "6.6.1",
+    "redux": "4.2.1"
   },
   "devDependencies": {
     "@browserstack/stylelint-config": "workspace:*",

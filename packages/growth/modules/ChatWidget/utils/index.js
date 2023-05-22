@@ -1,13 +1,28 @@
-export const setWidgetEvents = (setShowWidget) => {
-  // Widget load event
+import { logEvent } from '@browserstack/utils';
+
+export const setWidgetEvents = (
+  chatWidgetData,
+  setShowWidget,
+  showChatWindow
+) => {
   window.fcWidget.on('widget:loaded', () => {
-    // window.WebEventTracker.logEvent([], window.EDS.webEvents, 'FreshChat', {
-    //   freshchatId: 'id',
-    //   userId: 'externalId',
-    //   action: 'WidgetLoaded',
-    //   channel: 'channel_name',
-    //   team: 'online_sales'
-    // });
+    setShowWidget(true);
+
+    if (chatWidgetData.reopen_time) {
+      setTimeout(() => {
+        showChatWindow();
+      }, chatWidgetData.reopen_time);
+    }
+
+    logEvent([], 'online_sales', 'FreshChat', {
+      widgetOpen: true,
+      action: 'WidgetOpened',
+      source: 'source',
+      freshchatId: 'freshchatId',
+      userId: 'externalId',
+      channel: 'channel_name',
+      team: 'online_sales'
+    });
   });
 
   window.fcWidget.on('message:sent', () => {
@@ -56,18 +71,14 @@ export const handleScriptLoad = async (
         }
       });
 
-      setWidgetEvents(setShowWidget);
+      setWidgetEvents(chatWidgetData, setShowWidget, showChatWindow);
 
       if (chatWidgetData.user_info.email) {
         window.fcWidget.user.update({
-          email: chatWidgetData.user_info.email
+          email: chatWidgetData.user_info.email,
+          firstName: chatWidgetData.user_info.first_name,
+          lastName: chatWidgetData.user_info.last_name
         });
-      }
-
-      if (chatWidgetData.reopen_time) {
-        setTimeout(() => {
-          showChatWindow();
-        }, chatWidgetData.reopen_time);
       }
     });
 

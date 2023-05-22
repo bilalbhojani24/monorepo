@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import rootReducer from './rootReducer';
+import chatWidgetSlice from '../modules/ChatWidget/slices/chatWidgetSlices';
 
-const store = configureStore({
-  reducer: rootReducer
+export const reducers = {
+  chatWidget: chatWidgetSlice
+};
+
+export const store = configureStore({
+  reducer: reducers
 });
-
-export default store;
