@@ -4,7 +4,10 @@ export const chartOptionStacked = {
     plotBorderWidth: null,
     plotShadow: false,
     type: 'column',
-    height: '350px'
+    height: '350px',
+    style: {
+      fontFamily: 'Inter'
+    }
   },
   exporting: {
     enabled: false
@@ -16,8 +19,6 @@ export const chartOptionStacked = {
     layout: 'horizontal',
     align: 'left',
     verticalAlign: 'top'
-    // itemMarginTop: 10,
-    // itemMarginBottom: 10
   },
   tooltip: {
     headerFormat: '',
@@ -25,13 +26,21 @@ export const chartOptionStacked = {
   },
   title: false,
   xAxis: {
-    categories: []
+    categories: [],
+    label: {
+      style: {
+        fontSize: 14
+      }
+    }
   },
   yAxis: {
     gridLineDashStyle: 'longdash',
     min: 0,
-    title: {
-      text: ''
+    title: '',
+    label: {
+      style: {
+        fontSize: 14
+      }
     }
   },
   plotOptions: {
@@ -42,7 +51,6 @@ export const chartOptionStacked = {
       cornerRadiusTopRight: 10
     },
     series: {
-      // innerSize: '60%',
       allowPointSelect: true,
       cursor: 'pointer',
       stacking: 'vertical',

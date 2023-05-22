@@ -33,6 +33,7 @@ import {
   getShowHiddenIssuesState,
   getUniqFilterValues
 } from 'features/AutomatedTest/AutomatedTestBuild/slices/selector';
+import intersection from 'lodash/intersection';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 // import { logEvent } from 'utils/logEvent';
 
@@ -167,8 +168,8 @@ export default function useIssues() {
       );
     }
     if (activeBuildFilters.category.length) {
-      filteredViolations = filteredViolations.filter(({ tags }) => {
-        const category = tags
+      filteredViolations = filteredViolations.filter(({ tags: tagItem }) => {
+        const category = tagItem
           .find((tag) => tag.includes('cat.'))
           ?.split('cat.')[1];
         return activeBuildFilters.category
@@ -185,9 +186,12 @@ export default function useIssues() {
       }));
     }
     if (activeBuildFilters.tests.length) {
+      const filterIds = activeBuildFilters.tests.map(({ id }) => id);
       filteredViolations = filteredViolations.map((violation) => ({
         ...violation,
-        nodes: violation.nodes.filter(({ testCaseIds }) => confirmed === null)
+        nodes: violation.nodes.filter(
+          ({ testCaseIds }) => intersection(testCaseIds, filterIds).length > 0
+        )
       }));
     }
     if (activeBuildFilters.component.length) {

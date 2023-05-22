@@ -40,6 +40,12 @@ export default function useFilterModal(sectionsDataContext) {
       setSelectedComponent(values);
     } else if (key === 'category') {
       setSelectedCategory(values);
+    } else if (key === 'tags') {
+      setSelectedTags(values);
+    } else if (key === 'tests') {
+      setSelectedTests(values);
+    } else if (key === 'files') {
+      setSelectedFiles(values);
     }
   };
 
@@ -69,6 +75,9 @@ export default function useFilterModal(sectionsDataContext) {
       page: selectedPages,
       component: selectedComponent,
       category: selectedCategory,
+      tag: selectedTags,
+      tests: selectedTests,
+      files: selectedFiles,
       showNeedsReviewIssues
     };
     onCloseClick();

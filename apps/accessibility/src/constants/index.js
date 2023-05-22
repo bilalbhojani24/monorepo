@@ -44,7 +44,10 @@ export const FILTER_KEYS = {
   CATEGORY: 'category',
   PAGE: 'page',
   COMPONENT: 'component',
-  IMPACT: 'impact'
+  IMPACT: 'impact',
+  TAGS: 'tags',
+  FILES: 'files',
+  TESTS: 'tests'
 };
 
 export const columns = [

@@ -295,7 +295,7 @@ export default function IssueItem({ sectionsDataContext }) {
                 <div className="flex items-start">
                   <div className="mr-2 w-full">
                     <SyntaxHighlighter
-                      language="css"
+                      language="java"
                       style={a11yLight}
                       wrapLongLines
                     >
