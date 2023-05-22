@@ -1,7 +1,9 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import classNames from 'classnames';
 import {
+  TMCheckBox,
   TMPagination,
   TMSelectMenu,
   TMTable,
@@ -59,7 +61,7 @@ const TestCasesTable = () => {
     {
       name: 'TITLE',
       key: 'name',
-      class: 'w-[80%]',
+      class: 'w-[75%]',
       cell: (rowData) => (
         <div
           role="button"
@@ -158,16 +160,31 @@ const TestCasesTable = () => {
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
-            {/* <TMTableCell
-            variant="body"
-            wrapperClassName=" border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
-            textTransform="uppercase"
-          >
-            <TMCheckBox
-              border={false}
-              wrapperClassName="pt-0"
-            />
-          </TMTableCell> */}
+            <td
+              className="border-base-50 text-base-500 w-[4%] max-w-[20px] p-2"
+              textTransform="uppercase"
+            >
+              {/* all checkbox */}
+              <TMCheckBox
+                border={false}
+                wrapperClassName="pt-0 pl-2"
+                // checked={
+                //   isAllChecked
+                //   // (isAllSelected && !deSelectedTestCaseIDs.length) ||
+                //   // (rows.length !== 0 &&
+                //   //   selectedTestCaseIDs.length === rows.length)
+                // }
+                // indeterminate={
+                //   isIndeterminate
+                //   // !!(
+                //   //   (isAllSelected && deSelectedTestCaseIDs.length) ||
+                //   //   (selectedTestCaseIDs.length &&
+                //   //     selectedTestCaseIDs.length !== rows.length)
+                //   // )
+                // }
+                // onChange={selectAll}
+              />
+            </td>
             {datatableColumns?.map((col, index) => (
               <TMTableCell
                 key={col.key}
@@ -197,6 +214,26 @@ const TestCasesTable = () => {
               {allTestCases?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TMTableRow isSelected key={row.id || index}>
+                  <td
+                    className={twClassNames(
+                      'border-base-50 test-base-500 p-2 w-[5%]'
+                      // !deSelectedTestCaseIDs.includes(row.id) &&
+                      //   (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                      //   ? 'border-l-brand-600'
+                      //   : 'border-l-white'
+                    )}
+                    textTransform="uppercase"
+                  >
+                    <TMCheckBox
+                      border={false}
+                      wrapperClassName="pt-0 pl-2"
+                      // checked={
+                      //   !deSelectedTestCaseIDs.includes(row.id) &&
+                      //   (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                      // }
+                      // onChange={(e) => updateSelection(e, row)}
+                    />
+                  </td>
                   {datatableColumns?.map((column) => {
                     const value = row[column.key];
                     return (
