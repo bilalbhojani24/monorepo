@@ -26,7 +26,7 @@ const {
   getSearchResultsCustomBSFTraversal
 } = listTreeCheckboxHelper;
 
-export default function FolderFilterField() {
+export default function FolderFilterField({ label }) {
   const dispatch = useDispatch();
 
   const staticFolderOptions = useSelector(
@@ -92,14 +92,24 @@ export default function FolderFilterField() {
       listTreeCheckboxData={treeData}
       onChange={handleFolderTreeSelectChange}
       prevSelectedValues={selectedNodes}
+      label={label}
     />
   );
 }
 
+FolderFilterField.propTypes = {
+  label: PropTypes.string
+};
+
+FolderFilterField.defaultProps = {
+  label: 'Folder'
+};
+
 const FolderFilterChild = ({
   listTreeCheckboxData,
   onChange,
-  prevSelectedValues
+  prevSelectedValues,
+  label
 }) => {
   const [listOfItems, setListOfItems] = useState(listTreeCheckboxData);
   const [searchValue, setSearchValue] = useState(''); // Debounce this state for optimal performance
@@ -179,7 +189,7 @@ const FolderFilterChild = ({
   return (
     <div>
       <div className="mb-1 text-left">
-        <span className="text-base-700 text-sm font-medium">Folder</span>
+        <span className="text-base-700 text-sm font-medium">{label}</span>
       </div>
       <O11yPopover
         theme="light"
@@ -261,7 +271,8 @@ const FolderFilterChild = ({
 FolderFilterChild.propTypes = {
   listTreeCheckboxData: PropTypes.arrayOf(PropTypes.shape(PropTypes.any)),
   onChange: PropTypes.func.isRequired,
-  prevSelectedValues: PropTypes.objectOf(PropTypes.any)
+  prevSelectedValues: PropTypes.objectOf(PropTypes.any),
+  label: PropTypes.string.isRequired
 };
 
 FolderFilterChild.defaultProps = {

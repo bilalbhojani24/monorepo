@@ -68,7 +68,7 @@ const SHTestsFilters = () => {
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.uniqueBuildNames.key}
             placeholder="Select"
-            label="Unique BuildNames"
+            label="Unique Build Name"
             searchAPI={getTestsBuildNamesData}
           />
           <MultiSelectSearchFilterField
@@ -77,7 +77,7 @@ const SHTestsFilters = () => {
             label="Build Tags"
             searchAPI={getTestsBuildTagsData}
           />
-          <FolderFilterField />
+          <FolderFilterField label="File Directory" />
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.testTags.key}
             placeholder="Select"
@@ -118,7 +118,7 @@ const SHTestsFilters = () => {
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.hostNames.key}
             placeholder="Select"
-            label="Host name"
+            label="Host"
             searchAPI={getTestsHostNamesData}
           />
           <MultiSelectStaticFilterField
@@ -139,7 +139,7 @@ const SHTestsFilters = () => {
           <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.failureCategories.key}
             placeholder="Select"
-            label="Failure categories"
+            label="Failure Categories"
           />
         </div>
       </FilterSlideover>
