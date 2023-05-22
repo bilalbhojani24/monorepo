@@ -62,6 +62,7 @@ export default function useIssues() {
   const [sectionData, setSectionData] = useState(null);
   const [filteredBuildData, setFilteredBuildData] = useState(buildData);
   const [isSliderOpen, setIsSliderOpen] = useState(false);
+  const [testID, setTestID] = useState(null);
 
   let activeIssueItem = null;
   let activeViolationItem = null;
@@ -423,8 +424,9 @@ export default function useIssues() {
     dispatch(setShowHiddenIssues({ hideIssues: val }));
   };
 
-  const onSliderOpenClick = () => {
+  const onSliderOpenClick = (id) => {
     setIsSliderOpen(true);
+    setTestID(id);
   };
 
   const onSliderClose = () => {
@@ -473,6 +475,7 @@ export default function useIssues() {
     onUpdateImpact,
     onFilterButtonClick,
     generateData,
-    onCloseClick
+    onCloseClick,
+    testID
   };
 }

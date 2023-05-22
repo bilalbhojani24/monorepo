@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Loader,
   MdClose,
   MdFolderOpen,
   Slideover,
@@ -38,7 +39,7 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
     onRowClick,
     onClosingSlider,
     onTabChange
-  } = useTestIssues({ onSliderClose });
+  } = useTestIssues({ onSliderClose, testID });
 
   let defaultIndex = 0;
   switch (activeTab) {
@@ -54,7 +55,6 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
     default:
       break;
   }
-
   return (
     <Slideover
       show={isSliderOpen}
@@ -132,7 +132,7 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
           isEllipsisHeader={false}
         />
         <SlideoverBody wrapperClassName="p-0">
-          {testMetaData.meta && (
+          {testMetaData.meta ? (
             <div>
               <div className="fixed z-[2] w-[calc(100vw-256px)] bg-white">
                 <Tabs
@@ -149,6 +149,10 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
                 )}
                 {activeTab === ISSUES && testData && <Issues />}
               </div>
+            </div>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <Loader wrapperClassName="text-base-300 fill-base-400 w-7 h-7" />
             </div>
           )}
         </SlideoverBody>

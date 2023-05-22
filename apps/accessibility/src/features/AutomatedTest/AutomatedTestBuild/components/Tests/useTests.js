@@ -6,12 +6,24 @@ export default function useTests() {
   const testRuns = useSelector(getTestCasesData);
   const [searchText, setSearchText] = useState('');
   const [filteredTestRuns, setFilteredTestRuns] = useState(testRuns);
+  const [isSliderOpen, setIsSliderOpen] = useState(false);
+  const [testId, setTestId] = useState(null);
+
   const onInputValueChange = (e) => {
     setSearchText(e.target.value);
   };
 
   const onFilterSearch = () => {
     console.log('onFilterSearch: ', onFilterSearch);
+  };
+
+  const handleRowClick = (id) => {
+    setIsSliderOpen(true);
+    setTestId(id);
+  };
+
+  const onSliderClose = () => {
+    setIsSliderOpen(false);
   };
 
   useEffect(() => {
@@ -33,6 +45,10 @@ export default function useTests() {
     testRuns,
     filteredTestRuns,
     onInputValueChange,
-    onFilterSearch
+    onFilterSearch,
+    isSliderOpen,
+    handleRowClick,
+    onSliderClose,
+    testId
   };
 }

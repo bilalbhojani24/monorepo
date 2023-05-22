@@ -82,8 +82,6 @@ export default function IssueItem({ sectionsDataContext }) {
     testCaseIds
   } = issueItem;
 
-  console.log('tests:', tests);
-
   const tagList = tagToView(headerData.tags);
 
   const data = [
@@ -454,7 +452,7 @@ export default function IssueItem({ sectionsDataContext }) {
                             ) : (
                               <Button
                                 variant="minimal"
-                                onClick={onSliderOpenClick}
+                                onClick={() => onSliderOpenClick(test.id)}
                               >
                                 View in log
                               </Button>

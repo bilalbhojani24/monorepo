@@ -1,16 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initState = {
+  testData: null,
+  customData: null,
+  filters: {},
+  testMetaData: {
+    issueSummary: null,
+    meta: null,
+    chartData: null
+  }
+};
+
 const { actions, reducer } = createSlice({
   name: 'testData',
   initialState: {
-    testData: null,
-    customData: null,
-    filters: {},
-    testMetaData: {
-      issueSummary: null,
-      meta: null,
-      chartData: null
-    }
+    ...initState
   },
   reducers: {
     setTestData: (state, { payload }) => {
@@ -31,10 +35,15 @@ const { actions, reducer } = createSlice({
     },
     setCustomData: (state, { payload }) => {
       state.customData = payload;
+    },
+    resetInitialState: (state) => {
+      Object.entries(initState).forEach(([key, value]) => {
+        state[key] = value;
+      });
     }
   }
 });
 
-export const { setTestData, setCustomData } = actions;
+export const { setTestData, setCustomData, resetInitialState } = actions;
 
 export default reducer;
