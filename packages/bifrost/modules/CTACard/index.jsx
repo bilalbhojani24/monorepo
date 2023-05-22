@@ -6,22 +6,18 @@ import { ctaCardContext } from '../../shared/ctaCardContext';
 import Button from '../Button';
 import { MdClose } from '../Icon';
 
-import {
-  CLOSE_BUTTON_SIZES,
-  FEATURE_FENCING_SIZES,
-  WIDTH_STYLES
-} from './const';
+import { CLOSE_BUTTON_SIZES, FEATURE_FENCING_SIZES } from './const';
 
 const CTACard = (props) => {
-  const { children, isDismissable, onClose } = props;
+  const { children, isDismissable, onClose, wrapperClassName } = props;
 
   return (
     <ctaCardContext.Provider value={{ size: FEATURE_FENCING_SIZES.BASE }}>
       <div
         className={twClassNames(
           'relative flex shadow overflow-hidden',
-          WIDTH_STYLES[FEATURE_FENCING_SIZES.BASE],
-          'rounded-lg'
+          'rounded-lg',
+          wrapperClassName
         )}
       >
         {children}
@@ -29,7 +25,6 @@ const CTACard = (props) => {
           <Button
             wrapperClassName={twClassNames(
               'absolute top-0 right-0',
-
               'top-3 right-4'
             )}
             isIconOnlyButton
@@ -47,11 +42,13 @@ const CTACard = (props) => {
 CTACard.propTypes = {
   isDismissable: PropTypes.bool,
   children: PropTypes.node.isRequired,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  wrapperClassName: PropTypes.string
 };
 CTACard.defaultProps = {
   isDismissable: false,
-  onClose: () => {}
+  onClose: () => {},
+  wrapperClassName: ''
 };
 
 export default CTACard;

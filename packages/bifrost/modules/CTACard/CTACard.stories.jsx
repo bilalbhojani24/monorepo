@@ -38,6 +38,11 @@ const defaultConfig = {
       control: { type: 'boolean' },
       type: { summary: 'BOOLEAN', required: false },
       description: 'Lorem Ipsum'
+    },
+    wrapperClassName: {
+      type: { summary: 'STRING', required: false },
+      control: { type: 'text' },
+      defaultValue: ''
     }
   },
   controls: {}
