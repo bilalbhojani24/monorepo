@@ -1,4 +1,3 @@
-import { MdAvTimer } from '@browserstack/bifrost';
 import {
   AssignmentOutlinedIcon,
   BarChartOutlinedIcon,
@@ -7,6 +6,7 @@ import {
   HomeOutlinedIcon,
   SettingsOutlinedIcon
 } from 'assets/icons';
+import Clock from 'assets/svg/clock';
 import AppRoute from 'const/routes';
 
 export const basePrimaryNavLinks = [
@@ -75,8 +75,8 @@ export const IMPORT_IN_PROGRESS = [
   {
     id: 'import_in_progress',
     label: 'Import in progress',
-    activeIcon: MdAvTimer,
-    inActiveIcon: MdAvTimer
+    activeIcon: Clock,
+    inActiveIcon: Clock
   }
 ];
 
