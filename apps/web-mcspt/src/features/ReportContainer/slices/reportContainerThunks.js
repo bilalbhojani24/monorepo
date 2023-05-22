@@ -1,4 +1,4 @@
-import { updateSessionMetrics } from '@browserstack/mcp-shared';
+import { MCP_CONSTANTS, updateSessionMetrics } from '@browserstack/mcp-shared';
 
 import { fetchReportDataById } from '../../../api/reportContainer';
 
@@ -17,7 +17,14 @@ export const getReportData =
       dispatch(updateSessionMetrics(response));
     } catch (error) {
       // handle error when PM defines Scenario
+
       dispatch(setIsReportErrored(true));
+
+      if (error?.response?.status === 401) {
+        window.location.href = MCP_CONSTANTS.WEB_SSO_AUTH_URL;
+      } else {
+        throw error;
+      }
     } finally {
       dispatch(setIsReportLoading(false));
     }
