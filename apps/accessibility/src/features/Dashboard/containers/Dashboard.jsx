@@ -1,4 +1,5 @@
 // NOTE: Don't remove sidebar logic, will add once it required
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import {
   ActionPanel,
@@ -23,6 +24,7 @@ export default function Dashboard({ children }) {
   const {
     mainRef,
     isShowingBanner,
+    isFreeUser,
     primaryNav,
     currentPath,
     secondaryNav,
@@ -103,8 +105,8 @@ export default function Dashboard({ children }) {
             { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
           ]
         }}
-        buyPlanText="Buy a plan"
-        buyPlanLink={`${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-top-header-csf-lead`}
+        isFreeUser={isFreeUser}
+        buyPlanLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard`}
         buyPlanTarget="_blank"
         planButtonVisible
         callbackFunctions={{
@@ -122,7 +124,7 @@ export default function Dashboard({ children }) {
             });
           }
         }}
-        planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing`}
+        planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard`}
         supportLink={getUrlForHeader('contact#other')}
         documentationLink={getUrlForHeader(
           'docs/accessibility/overview/introduction'
