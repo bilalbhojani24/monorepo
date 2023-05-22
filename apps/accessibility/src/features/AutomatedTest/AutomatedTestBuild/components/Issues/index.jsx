@@ -72,7 +72,8 @@ export default function Issues() {
     onFilterButtonClick,
     onUpdateSwitch,
     generateData,
-    onCloseClick
+    onCloseClick,
+    testID
   } = useIssues();
   const violations = generateData();
   const showEmptyScreen = violations.every(
@@ -93,7 +94,11 @@ export default function Issues() {
   return (
     <>
       {isSliderOpen && (
-        <TestIssues onSliderClose={onSliderClose} isSliderOpen={isSliderOpen} />
+        <TestIssues
+          onSliderClose={onSliderClose}
+          isSliderOpen={isSliderOpen}
+          testID={testID}
+        />
       )}
       <SectionsDataContext.Provider
         value={{

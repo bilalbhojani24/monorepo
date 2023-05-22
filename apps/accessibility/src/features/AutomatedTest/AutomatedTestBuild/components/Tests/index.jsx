@@ -19,9 +19,10 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-import ChromeIcon from 'assets/chrome_icon.svg';
-import MacIcon from 'assets/mac_icon.svg';
 import { issueTypes } from 'constants';
+import { getBrowserIcon, getOSIcon } from 'utils/helper';
+
+import TestIssues from '../TestIssues';
 
 import useTests from './useTests';
 
@@ -54,8 +55,16 @@ const pages = [
 ];
 
 export default function TestsTable() {
-  const { searchValue, filteredTestRuns, onInputValueChange, onFilterSearch } =
-    useTests();
+  const {
+    searchValue,
+    filteredTestRuns,
+    onInputValueChange,
+    onFilterSearch,
+    onSliderClose,
+    isSliderOpen,
+    handleRowClick,
+    testId
+  } = useTests();
 
   const getTestIcon = (statusValue) => {
     const components = {
@@ -66,14 +75,6 @@ export default function TestsTable() {
     return components[statusValue];
   };
 
-  const getOSIcon = (name) => {
-    const icons = {
-      chrome: ChromeIcon,
-      mac: MacIcon
-    };
-
-    return icons[name];
-  };
   const columns = [
     {
       name: 'TESTS',
@@ -89,25 +90,25 @@ export default function TestsTable() {
               <li className="flex items-center gap-1">
                 <img
                   className="h-5 w-5"
-                  src={getOSIcon('chrome')}
+                  src={getBrowserIcon(row.browserData.name)}
                   alt="android icon"
                 />
-                <p className="text-base-500">Chrome 112</p>
+                <p className="text-base-500">{`${row.browserData.name} ${row.browserData.version}`}</p>
               </li>
               <li className="flex items-center gap-1">
                 <img
                   className="h-4 w-3"
-                  src={getOSIcon('mac')}
+                  src={getOSIcon(row.osData.name)}
                   alt="android icon"
                 />
-                <p className="text-base-500">Ventura</p>
+                <p className="text-base-500">{`${row.osData.name} ${row.browserData.version}`}</p>
               </li>
               <li>
                 <div className="bg-base-500 h-1 w-1 rounded-lg" />
               </li>
               <li className="flex items-center gap-1">
                 <MdFolderOpen />
-                <p className="text-base-500">{row.folder}</p>
+                <p className="text-base-500">{row.file}</p>
               </li>
             </ul>
           </div>
@@ -165,6 +166,13 @@ export default function TestsTable() {
 
   return (
     <div>
+      {isSliderOpen && (
+        <TestIssues
+          onSliderClose={onSliderClose}
+          isSliderOpen={isSliderOpen}
+          testID={testId}
+        />
+      )}
       <div className="flex justify-between px-6 py-4">
         <div>
           <InputField
@@ -255,7 +263,7 @@ export default function TestsTable() {
         </TableHead>
         <TableBody>
           {filteredTestRuns?.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row.id} onRowClick={() => handleRowClick(row.id)}>
               {columns.map((column) => {
                 const value = 'what value';
                 return (

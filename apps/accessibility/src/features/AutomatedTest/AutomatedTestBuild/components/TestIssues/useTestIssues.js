@@ -12,7 +12,11 @@ import {
   resetReportAppInfo,
   setActiveTab
 } from './slices/appSlice';
-import { setCustomData, setTestData } from './slices/dataSlice';
+import {
+  resetInitialState,
+  setCustomData,
+  setTestData
+} from './slices/dataSlice';
 import { getActiveTab, getTestData, getTestMetaData } from './slices/selector';
 
 export default function useAutomatedTestBuild({ onSliderClose, testID }) {
@@ -32,13 +36,19 @@ export default function useAutomatedTestBuild({ onSliderClose, testID }) {
   };
 
   const onClosingSlider = () => {
-    dispatch(resetFilters());
-    dispatch(resetReportAppInfo());
-    dispatch(resetIssueItem());
-    dispatch(resetActiveTab());
-
     onSliderClose();
   };
+
+  useEffect(
+    () => () => {
+      dispatch(resetInitialState());
+      dispatch(resetFilters());
+      dispatch(resetReportAppInfo());
+      dispatch(resetIssueItem());
+      dispatch(resetActiveTab());
+    },
+    []
+  );
 
   useEffect(() => {
     Promise.all([fetchCustomData(), fetchTestCaseData(testID)]).then(
