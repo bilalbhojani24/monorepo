@@ -36,6 +36,7 @@ const ControlledNestedTreeWithCheckbox = ({
         isTreeOpen={openNodeMap[item.uuid]}
       >
         <ListTreeNode
+          isNodeOpen={openNodeMap[item.uuid]}
           nodeLabelClassName="w-full"
           showIcon={false}
           ariaLabel="Label"
