@@ -4,6 +4,8 @@ import headerReducer from './features/Layout/slices/headerSlice';
 import {
   configurationsReducers,
   integrationsReducers,
+  logDetailsReducers,
+  logsReducers,
   requestCountReducers,
   usageSummaryReducers
 } from './globalSlice';
@@ -14,6 +16,8 @@ export const store = configureStore({
     integrations: integrationsReducers,
     configurations: configurationsReducers,
     requestCount: requestCountReducers,
-    usageSummary: usageSummaryReducers
+    usageSummary: usageSummaryReducers,
+    logs: logsReducers,
+    logDetails: logDetailsReducers
   }
 });

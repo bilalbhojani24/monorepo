@@ -8,13 +8,9 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 
-import {
-  usageDetailsSelector
-  // usageSummarySelector
-} from '../../../globalSlice';
+import { usageDetailsSelector } from '../../../globalSlice';
 
 const UsageSummaryDetailsTable = () => {
-  // const usageSummaryData = useSelector(usageSummarySelector);
   const { headers, rows } = useSelector(usageDetailsSelector);
   return (
     <Table>

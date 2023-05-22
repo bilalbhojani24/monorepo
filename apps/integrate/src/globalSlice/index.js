@@ -10,6 +10,19 @@ import integrationsReducers, {
   integrationsLoadingSelector,
   integrationsSelector
 } from './integrationsSlice';
+import logDetailsReducers, {
+  closeLogDetailsSlideover,
+  isLogDetailsSlideoverOpenSelector,
+  logDetailsErrorSelector,
+  logDetailsLoadingSelector,
+  logDetailsSelector,
+  openLogDetailsSlideover
+} from './logDetailsSlice';
+import logsReducers, {
+  logsErrorSelector,
+  logsLoadingSelector,
+  logsSelector
+} from './logsSlice';
 import requestCountReducers, {
   requestCountErrorSelector,
   requestCountLoadingSelector,
@@ -28,6 +41,7 @@ import usageSummaryReducers, {
 
 export {
   activeConfigurationsSelector,
+  closeLogDetailsSlideover,
   closeUsageSummarySlideover,
   configurationsErrorSelector,
   configurationsLoadingSelector,
@@ -37,7 +51,17 @@ export {
   integrationsLoadingSelector,
   integrationsReducers,
   integrationsSelector,
+  isLogDetailsSlideoverOpenSelector,
   isUsageSummarySlideoverOpenSelector,
+  logDetailsErrorSelector,
+  logDetailsLoadingSelector,
+  logDetailsReducers,
+  logDetailsSelector,
+  logsErrorSelector,
+  logsLoadingSelector,
+  logsReducers,
+  logsSelector,
+  openLogDetailsSlideover,
   openUsageSummarySlideover,
   requestCountErrorSelector,
   requestCountLoadingSelector,
