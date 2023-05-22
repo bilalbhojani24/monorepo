@@ -7,7 +7,7 @@
 7. install `pnpm` globally `npm install -g pnpm`
 8. run `pnpm run build:dev-package` command on root to build utils, hooks and design system
 9. run `turbo run dev --filter o11y` to start
-10. open url https://observability-local.bsstag.com:9000/
+10. open url http://observability-local.bsstag.com:8081/
 
 ## Using .env
 #### `BSTACK_STAGE`
