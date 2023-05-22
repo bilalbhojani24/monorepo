@@ -29,7 +29,7 @@ export const setWidgetEvents = (
   });
 
   window.fcWidget.on('message:sent', () => {
-    logEvent([], 'online_sales', 'FreshChat Opened', {
+    logEvent([], 'online_sales', 'FreshChat', {
       widgetOpen: true,
       conversationCreated: true,
       action: 'ConversationCreated',
@@ -42,7 +42,7 @@ export const setWidgetEvents = (
   });
 
   window.fcWidget.on('widget:opened', () => {
-    logEvent([], 'online_sales', 'FreshChat Closed', {
+    logEvent([], 'online_sales', 'FreshChat', {
       widgetOpen: true,
       action: 'WidgetOpened',
       source,
@@ -54,7 +54,7 @@ export const setWidgetEvents = (
   });
 
   window.fcWidget.on('widget:closed', () => {
-    logEvent([], 'online_sales', 'FreshChat Closed', {
+    logEvent([], 'online_sales', 'FreshChat', {
       widgetClosed: true,
       action: 'WidgetClosed',
       freshchatId: '',
