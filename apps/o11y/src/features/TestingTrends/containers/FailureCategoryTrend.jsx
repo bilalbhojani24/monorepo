@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { O11yTooltip } from 'common/bifrostProxy';
 import Chart from 'common/Chart';
 import {
   COMMON_CHART_CONFIGS,
@@ -18,6 +19,8 @@ import { getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { getBaseUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
+
+import CustomChartTooltip from '../components/CustomChartTooltip';
 
 function getFormattedTooltip(activeProject, filters) {
   const url = `${getBaseUrl()}:8081/projects/${
@@ -44,29 +47,34 @@ function getFormattedTooltip(activeProject, filters) {
   })}</span>${str}<a class="text-white font-medium mt-0.5" href=${url} target="_blank">View all tests (Pro) </a></div>`;
 }
 
-function getChartOptions({ afterSetExtremes, activeProject, filters }) {
+function getChartOptions({
+  afterSetExtremes,
+  activeProject,
+  handleTooltipData
+}) {
   return {
     ...COMMON_CHART_CONFIGS,
     tooltip: {
-      ...TOOLTIP_STYLES,
-      useHTML: true,
-      // outside: true,
-      shared: true,
-      formatter() {
-        return getFormattedTooltip.call(this, activeProject, filters);
-      },
-      style: {
-        pointerEvents: 'auto',
-        ...TOOLTIP_STYLES.style
-      },
-      positioner(labelWidth, labelHeight, point) {
-        const tooltipX = point.plotX + 20;
-        const tooltipY = point.plotY - 30;
-        return {
-          x: tooltipX,
-          y: tooltipY
-        };
-      }
+      enabled: false
+      // ...TOOLTIP_STYLES,
+      // useHTML: true,
+      // // outside: true,
+      // shared: true,
+      // formatter() {
+      //   return getFormattedTooltip.call(this, activeProject, filters);
+      // },
+      // style: {
+      //   pointerEvents: 'auto',
+      //   ...TOOLTIP_STYLES.style
+      // },
+      // positioner(labelWidth, labelHeight, point) {
+      //   const tooltipX = point.plotX + 20;
+      //   const tooltipY = point.plotY - 30;
+      //   return {
+      //     x: tooltipX,
+      //     y: tooltipY
+      //   };
+      // }
     },
     chart: {
       type: 'area',
@@ -119,6 +127,29 @@ function getChartOptions({ afterSetExtremes, activeProject, filters }) {
                   interaction: 'failure_category_clicked'
                 }
               });
+            },
+            mouseOver(e) {
+              const { plotX, plotY, pointRange: pointRangeOptions } = e.target;
+
+              const seriesData = this.series.chart.series.map(
+                (res) => ({
+                  ...res,
+                  index: this.index,
+                  y: res.data[this.index]?.y,
+                  pointRangeOptions
+                }),
+                this
+              );
+
+              handleTooltipData({
+                options: [...seriesData],
+                styles: {
+                  top: plotY + 50,
+                  left: plotX + 40,
+                  width: 24,
+                  height: 24
+                }
+              });
             }
           }
         }
@@ -143,7 +174,12 @@ export default function FailureCategoryTrend() {
   const projects = useSelector(getProjects);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [tooltipData, setTooltipData] = useState({});
   const { afterSetExtremes } = useChartActions();
+
+  const handleTooltipData = useCallback((tooltipRes) => {
+    setTooltipData(tooltipRes);
+  }, []);
 
   const fetchData = useCallback(() => {
     setIsLoading(true);
@@ -177,11 +213,11 @@ export default function FailureCategoryTrend() {
       ...getChartOptions({
         afterSetExtremes,
         activeProject: projects.active,
-        filters
+        handleTooltipData
       }),
       series: chartData?.data || []
     }),
-    [afterSetExtremes, chartData?.data, filters, projects.active]
+    [afterSetExtremes, chartData?.data, handleTooltipData, projects.active]
   );
 
   return (
@@ -197,6 +233,38 @@ export default function FailureCategoryTrend() {
             <p className="">{chartData?.percentage}%</p>
           )}
           <div className="h-full flex-1">
+            <div
+              className="bg-danger-500 absolute z-10 rounded-sm"
+              key={tooltipData?.options?.id}
+              style={{
+                ...tooltipData?.styles
+                // cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
+              }}
+              onClick={() => {}}
+              role="presentation"
+            >
+              <O11yTooltip
+                theme="dark"
+                wrapperClassName="py-2"
+                placementSide="top"
+                placementAlign="center"
+                triggerAsChild
+                content={
+                  <CustomChartTooltip
+                    tooltipData={tooltipData.options || {}}
+                    activeProject={projects.active}
+                    filters={filters}
+                  />
+                }
+              >
+                <div
+                  className="bg-brand-500 h-full w-full"
+                  style={{
+                    ...tooltipData?.styles
+                  }}
+                />
+              </O11yTooltip>
+            </div>
             <Chart
               options={options}
               key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}
