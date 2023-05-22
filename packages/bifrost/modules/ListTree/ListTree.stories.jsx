@@ -544,6 +544,7 @@ const ControlledNestedTreeBase = ({
           }
           setOpenNodeMap(newOpenNodeMap);
         }}
+        isNodeOpen={openNodeMap[item.uuid]}
         hideArrowIcon={!item.contents?.length}
         leadingIcon={
           index % 2 === 0 && <MdFolderSpecial className="h-full w-full" />

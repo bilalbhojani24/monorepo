@@ -27,7 +27,8 @@ const ListTreeNode = forwardRef(
       isNodeSelectable,
       showIcon,
       ariaLabel,
-      focusIDPrefix
+      focusIDPrefix,
+      isNodeOpen
     },
     ref
   ) => (
@@ -66,7 +67,7 @@ const ListTreeNode = forwardRef(
                   event.stopPropagation();
                 }}
               >
-                {open ? (
+                {isNodeOpen || (isNodeOpen === undefined && open) ? (
                   <ChevronDownIcon className="w-5" />
                 ) : (
                   <ChevronRightIcon className="w-5" />
@@ -141,7 +142,8 @@ ListTreeNode.propTypes = {
   isNodeSelectable: PropTypes.bool,
   ariaLabel: PropTypes.string,
   focusUUID: PropTypes.string,
-  focusIDPrefix: PropTypes.string
+  focusIDPrefix: PropTypes.string,
+  isNodeOpen: PropTypes.bool.isRequired
 };
 
 ListTreeNode.defaultProps = {
