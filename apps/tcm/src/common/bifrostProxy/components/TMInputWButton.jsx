@@ -6,17 +6,21 @@ import { TMButton, TMInputField } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 const TMInputWButton = forwardRef((props, ref) => (
-  <div className="relative z-0 flex w-full items-end justify-end">
-    <div className="w-full">
-      <TMInputField
-        {...props}
-        ref={ref}
-        wrapperClassName={twClassNames(
-          'flex-1 w-full rounded-none rounded-l-md',
-          props.wrapperClassName
-        )}
-      />
-    </div>
+  <div className="relative z-0 flex w-full flex-wrap items-end justify-end">
+    {props?.label && (
+      <div className="text-base-700 mb-2 block w-full text-sm font-medium">
+        {props.label}
+      </div>
+    )}
+    <TMInputField
+      {...props}
+      label={null}
+      ref={ref}
+      wrapperClassName={twClassNames(
+        'flex-1 w-full [&_*]:rounded-none [&_*]:rounded-l-md',
+        props.wrapperClassName
+      )}
+    />
     <TMButton
       onClick={props?.onButtonClick}
       colors="white"
@@ -33,12 +37,14 @@ const TMInputWButton = forwardRef((props, ref) => (
 
 TMInputWButton.propTypes = {
   wrapperClassName: PropTypes.string,
+  label: PropTypes.string,
   onButtonClick: PropTypes.func,
   buttonElement: PropTypes.node
 };
 
 TMInputWButton.defaultProps = {
   wrapperClassName: '',
+  label: '',
   onButtonClick: () => {},
   buttonElement: null
 };
