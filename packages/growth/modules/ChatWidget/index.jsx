@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
+import PropTypes from 'prop-types';
 
 import { fetchChatWidgetInitialData } from './slices/chatWidgetSlices';
 import { handleScriptLoad } from './utils';
 
-const ChatWidget = () => {
+const ChatWidget = ({ children, direction }) => {
   const chatWidget = useSelector((state) => state.chatWidget);
   const dispatch = useDispatch();
-
   const [showWidget, setShowWidget] = useState(false);
 
   const showChatWindow = () => {
-    if (window.fcWidget) {
+    if (window.fcWidget && !window.fcWidget.isOpen()) {
       setShowWidget(false);
       window.fcWidget.open();
+    }
+  };
+
+  const toggleChatWidget = () => {
+    if (showWidget) {
+      setShowWidget(false);
+    } else {
+      setShowWidget(true);
     }
   };
 
@@ -24,8 +33,13 @@ const ChatWidget = () => {
 
   useEffect(() => {
     if (chatWidget.data)
-      handleScriptLoad(chatWidget.data, setShowWidget, showChatWindow);
-  }, [chatWidget.data]);
+      handleScriptLoad(
+        chatWidget.data,
+        setShowWidget,
+        showChatWindow,
+        direction
+      );
+  }, [chatWidget.data, direction]);
 
   if (
     !chatWidget.data ||
@@ -41,7 +55,13 @@ const ChatWidget = () => {
           onClick={() => {
             showChatWindow();
           }}
-          wrapperClassName="rounded-none shadow-md absolute p-3 bottom-6 right-6"
+          wrapperClassName={twClassNames(
+            'rounded-none shadow-md absolute p-3 bottom-6',
+            {
+              'left-6': direction === 'left',
+              'right-6': direction === 'right'
+            }
+          )}
         >
           <div className="flex items-center justify-between text-sm">
             <svg
@@ -62,11 +82,18 @@ const ChatWidget = () => {
           </div>
         </Button>
       )}
+      {children && children({ toggleChatWidget })}
     </>
   );
 };
 
-ChatWidget.propTypes = {};
-ChatWidget.defaultProps = {};
+ChatWidget.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  direction: PropTypes.oneOf(['left', 'right'])
+};
+ChatWidget.defaultProps = {
+  children: null,
+  direction: 'right'
+};
 
 export default ChatWidget;

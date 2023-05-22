@@ -5,48 +5,72 @@ export const setWidgetEvents = (
   setShowWidget,
   showChatWindow
 ) => {
+  const channelName = chatWidgetData?.triggers?.[0]?.channel;
+  let source = 'user_click';
+
   window.fcWidget.on('widget:loaded', () => {
     setShowWidget(true);
 
+    logEvent([], 'online_sales', 'FreshChat', {
+      freshchatId: '',
+      userId: chatWidgetData?.external_id,
+      action: 'WidgetLoaded',
+      channel: channelName,
+      team: 'online_sales'
+    });
+
     if (chatWidgetData.reopen_time) {
       setTimeout(() => {
+        source = 'timer';
         showChatWindow();
+        source = 'user_click';
       }, chatWidgetData.reopen_time);
     }
+  });
 
-    logEvent([], 'online_sales', 'FreshChat', {
+  window.fcWidget.on('message:sent', () => {
+    logEvent([], 'online_sales', 'FreshChat Opened', {
       widgetOpen: true,
-      action: 'WidgetOpened',
-      source: 'source',
-      freshchatId: 'freshchatId',
-      userId: 'externalId',
-      channel: 'channel_name',
+      conversationCreated: true,
+      action: 'ConversationCreated',
+      freshchatId: '',
+      userId: chatWidgetData?.external_id,
+      newUser: false,
+      channel: channelName,
       team: 'online_sales'
     });
   });
 
-  window.fcWidget.on('message:sent', () => {
-    console.log('widget:sent');
+  window.fcWidget.on('widget:opened', () => {
+    logEvent([], 'online_sales', 'FreshChat Closed', {
+      widgetOpen: true,
+      action: 'WidgetOpened',
+      source,
+      freshchatId: '',
+      userId: chatWidgetData?.external_id,
+      channel: channelName,
+      team: 'online_sales'
+    });
   });
 
-  window.fcWidget.on('widget:opened', (resp) => {
-    console.log('widget:opened');
-  });
-
-  window.fcWidget.on('widget:closed', (resp) => {
-    console.log('widget:closed');
+  window.fcWidget.on('widget:closed', () => {
+    logEvent([], 'online_sales', 'FreshChat Closed', {
+      widgetClosed: true,
+      action: 'WidgetClosed',
+      freshchatId: '',
+      userId: chatWidgetData?.external_id,
+      channel: channelName,
+      team: 'online_sales'
+    });
     setShowWidget(true);
-  });
-
-  window.fcWidget.on('user:created', (r) => {
-    console.log('user:created', r);
   });
 };
 
 export const handleScriptLoad = async (
   chatWidgetData,
   setShowWidget,
-  showChatWindow
+  showChatWindow,
+  direction
 ) => {
   if (chatWidgetData.show_fresh_chat_widget) {
     const script = document.createElement('script');
@@ -63,6 +87,7 @@ export const handleScriptLoad = async (
         fullscreen: false,
         config: {
           headerProperty: {
+            direction: direction === 'left' ? 'ltr' : 'rtl',
             hideChatButton:
               chatWidgetData.config.header_property.hide_chat_button,
             backgroundColor:
