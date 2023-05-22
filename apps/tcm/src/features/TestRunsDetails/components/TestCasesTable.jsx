@@ -19,6 +19,7 @@ import Loader from 'common/Loader';
 import { BULK_OPERATIONS, STATUS_OPTIONS } from '../const/immutableConst';
 
 import useTRTCFolders from './useTRTCFolders';
+import useBulkFunctions from './useBulkFunctions';
 
 const TestCasesTable = () => {
   const {
@@ -30,8 +31,12 @@ const TestCasesTable = () => {
     onPaginationClick,
     handleTestCaseViewClick,
     onResultChange,
-    setBulkOperation
+    setBulkOperation,
   } = useTRTCFolders();
+
+  const {
+    selectAll,
+    updateSelection} = useBulkFunctions();
 
   const datatableColumns = [
     {
@@ -184,7 +189,7 @@ const TestCasesTable = () => {
                 //   //     selectedTestCaseIDs.length !== rows.length)
                 //   // )
                 // }
-                // onChange={selectAll}
+                onChange={selectAll}
               />
             </td>
             {datatableColumns?.map((col, index) => (
@@ -264,7 +269,7 @@ const TestCasesTable = () => {
                       //   !deSelectedTestCaseIDs.includes(row.id) &&
                       //   (isAllSelected || selectedTestCaseIDs.includes(row.id))
                       // }
-                      // onChange={(e) => updateSelection(e, row)}
+                      onChange={(e) => updateSelection(e, row)}
                     />
                   </td>
                   {datatableColumns?.map((column) => {

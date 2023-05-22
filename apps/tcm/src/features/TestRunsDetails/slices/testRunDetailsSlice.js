@@ -34,7 +34,12 @@ const initialState = {
   issuesArray: [],
   selectedTestCase: null,
   testResultsArray: [],
-  bulkOperation: null
+  bulkOperation: null,
+  bulkSelection: {
+    ids: []
+    // de_selected_ids: [],
+    // select_all: false
+  }
 };
 
 export const testRunDetailsSlice = createSlice({
@@ -95,11 +100,19 @@ export const testRunDetailsSlice = createSlice({
     },
     updateBulkOperation: (state, { payload }) => {
       state.bulkOperation = payload;
-    }
+    },
+    setBulkSelectedtestCaseIDs: (state, { payload }) => {
+      state.bulkSelection.ids = payload;
+    },
+    resetBulkSelection: (state) => {
+      state.bulkSelection = initialState.bulkSelection;
+    },
   }
 });
 
 export const {
+  resetBulkSelection,
+  setBulkSelectedtestCaseIDs,
   updateBulkOperation,
   addTestResultItem,
   setTestResultsArray,
