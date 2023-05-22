@@ -4,10 +4,12 @@ import {
   MdFolderOpen,
   Slideover,
   SlideoverBody,
+  SlideoverHeader,
   Tabs
 } from '@browserstack/bifrost';
 import { ISSUES, SUMMARY, TESTS } from 'constants';
 import PropTypes from 'prop-types';
+import { getBrowserIcon, getOSIcon } from 'utils/helper';
 
 import Issues from './components/Issues';
 import Overview from './components/Overview';
@@ -62,43 +64,95 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
       onClose={onClosingSlider}
       size="6xl"
     >
-      <SlideoverBody>
-        {testMetaData.meta && (
-          <div id="slide-over">
-            <MdClose
-              className="absolute right-8 z-10 cursor-pointer text-2xl"
-              onClick={onClosingSlider}
-            />
-            <div className="fixed z-[2] w-[calc(100vw-256px)] bg-white">
-              <div className="px-6 pt-6">
-                <h1 className="text-base-900 mb-1 text-2xl font-bold">
-                  {Object.values(testMetaData.meta)[0].name}
-                </h1>
-                <p className="mb-2 text-sm">
-                  Suite / com.ddf.test.PDFInvoiceTest
-                </p>
-                <p className="text-sm">
-                  <MdFolderOpen className="text-base-500" />
-                  .../test/smoke-test.js
-                </p>
+      <>
+        <SlideoverHeader
+          headingWrapperClassName="flex justify-between w-full"
+          heading={
+            testMetaData.meta && (
+              <>
+                <div>
+                  <p className="text-base-900 mb-1 w-auto text-lg font-normal">
+                    {Object.values(testMetaData.meta)[0].name}
+                  </p>
+
+                  <p className="text-base-500 mb-3 text-base font-normal">
+                    {Object.values(testMetaData.meta)[0].scopeList.join(' / ')}
+                  </p>
+                </div>
+                <div>
+                  <div>
+                    <MdClose
+                      className="cursor-pointer text-2xl"
+                      onClick={onSliderClose}
+                    />
+                  </div>
+                </div>
+              </>
+            )
+          }
+          subHeading={
+            testMetaData.meta && (
+              <>
+                <ul className="flex gap-2">
+                  <li className="flex items-center gap-1">
+                    <img
+                      className="h-5 w-5"
+                      src={getBrowserIcon(
+                        Object.values(testMetaData.meta)[0].browser_data.name
+                      )}
+                      alt="browser icon"
+                    />
+                    <p className="text-base-500">{`${
+                      Object.values(testMetaData.meta)[0].browser_data.name
+                    } ${
+                      Object.values(testMetaData.meta)[0].browser_data.version
+                    }`}</p>
+                  </li>
+                  <li className="flex items-center gap-1">
+                    <img
+                      className="h-4 w-4"
+                      src={getOSIcon(
+                        Object.values(testMetaData.meta)[0].os_data.name
+                      )}
+                      alt="windows icon"
+                    />
+                    <p>{`${Object.values(testMetaData.meta)[0].os_data.name} ${
+                      Object.values(testMetaData.meta)[0].os_data.version
+                    }`}</p>
+                  </li>
+                  <li className="flex items-center gap-1">
+                    <MdFolderOpen className="text-base-500" />
+                    <p>{Object.values(testMetaData.meta)[0].file}</p>
+                  </li>
+                </ul>
+              </>
+            )
+          }
+          dismissButton={false}
+          isEllipsisHeader={false}
+        />
+        <SlideoverBody wrapperClassName="p-0">
+          {testMetaData.meta && (
+            <div>
+              <div className="fixed z-[2] w-[calc(100vw-256px)] bg-white">
+                <Tabs
+                  id="build-tabs"
+                  onTabChange={onTabChange}
+                  navigationClassName="ml-6"
+                  tabsArray={tabList}
+                  defaultIndex={defaultIndex}
+                />
               </div>
-              <Tabs
-                id="build-tabs"
-                onTabChange={onTabChange}
-                navigationClassName="ml-6"
-                tabsArray={tabList}
-                defaultIndex={defaultIndex}
-              />
+              <div className="bg-base-50 relative top-14">
+                {activeTab === SUMMARY && testMetaData.issueSummary && (
+                  <Overview />
+                )}
+                {activeTab === ISSUES && testData && <Issues />}
+              </div>
             </div>
-            <div className="bg-base-50 relative top-[176px]">
-              {activeTab === SUMMARY && testMetaData.issueSummary && (
-                <Overview />
-              )}
-              {activeTab === ISSUES && testData && <Issues />}
-            </div>
-          </div>
-        )}
-      </SlideoverBody>
+          )}
+        </SlideoverBody>
+      </>
     </Slideover>
   );
 }

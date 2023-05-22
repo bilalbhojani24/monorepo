@@ -29,6 +29,8 @@ import {
 import { getEnvUrl } from 'utils';
 import {
   generateReportUrl,
+  getBrowserIcon,
+  getOSIcon,
   handleClickByEnterOrSpace,
   handleFocusElement,
   tagToView
@@ -424,8 +426,28 @@ export default function IssueItem({ sectionsDataContext }) {
                                   {test.name}
                                 </p>
                                 <p className="text-base-500 text-sm">
-                                  {test.folder}
+                                  {test.file}
                                 </p>
+                                <div className="mt-2 flex items-center gap-2">
+                                  <div className="flex items-center gap-1">
+                                    <img
+                                      className="h-5 w-5"
+                                      src={getBrowserIcon(
+                                        test.browserData.name
+                                      )}
+                                      alt="browser icon"
+                                    />
+                                    <p className="text-base-500">{`${test.browserData.name} ${test.browserData.version}`}</p>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <img
+                                      className="h-4 w-3"
+                                      src={getOSIcon(test.osData.name)}
+                                      alt="os icon"
+                                    />
+                                    <p className="text-base-500">{`${test.osData.name} ${test.osData.version}`}</p>
+                                  </div>
+                                </div>
                               </div>
                             ) : (
                               <Button

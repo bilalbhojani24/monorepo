@@ -1,3 +1,5 @@
+import { getBrowserStackBase } from 'utils/index';
+
 export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
@@ -230,3 +232,5 @@ export const ANALYTICS_KEYS = {
     }
   }
 };
+
+export const accessibilityIntroduction = `${getBrowserStackBase()}/automate-accessibility-testing/overview/introduction`;
