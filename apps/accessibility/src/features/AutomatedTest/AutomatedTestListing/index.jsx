@@ -27,7 +27,7 @@ export default function AutomatedTestListing() {
     <div className="bg-white">
       {buildListing ? (
         <>
-          <div className="bg-base-50 px-6 pb-4 pt-6">
+          <div className="bg-base-50 fixed top-16 z-[2] w-[calc(100vw-256px)] px-6 pb-4 pt-6">
             <div className="flex items-start justify-between">
               <div>
                 <h1 className="text-base-900 mb-2 text-2xl font-bold">
@@ -77,7 +77,7 @@ export default function AutomatedTestListing() {
               />
             </div>
           </div>
-          <div>
+          <div className="mt-[218px]">
             {buildListing.length > 0 && (
               <AutomatedTestList
                 buildList={buildListing}
