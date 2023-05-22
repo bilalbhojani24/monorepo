@@ -135,8 +135,8 @@ export default function Issues() {
         <div
           className="fixed"
           style={{
-            top: `${hasFilterOrHiddenView ? '310px' : '262px'}`,
-            height: 'calc(100vh - 262px)',
+            top: `${hasFilterOrHiddenView ? '302px' : '254px'}`,
+            height: 'calc(100vh - 254px)',
             width: '1152px'
           }}
         >

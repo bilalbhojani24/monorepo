@@ -11,8 +11,15 @@ import {
 import { ISSUES, SUMMARY, TESTS } from 'constants';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
-import { setActiveTab } from './slices/appSlice';
 import {
+  resetActiveTab,
+  resetFilters,
+  resetIssueItem,
+  resetReportAppInfo,
+  setActiveTab
+} from './slices/appSlice';
+import {
+  resetBuildData,
   setBuildData,
   setBuildMetaData,
   setBuildOverview,
@@ -58,7 +65,7 @@ export default function useAutomatedTestBuild() {
       fetchBuildIssues(projectName, buildName, buildNumber).then((response) =>
         dispatch(setBuildData(response))
       );
-    } else if (tab === TESTS) {
+    } else if (tab === TESTS && !testRuns) {
       fetchTestCasesData(projectName, buildName, buildNumber).then((response) =>
         dispatch(setTestCasesData(response))
       );
@@ -70,9 +77,6 @@ export default function useAutomatedTestBuild() {
     navigate(`?${updatedPath}`);
   };
 
-  const fetchTestCasesHelper = () =>
-    fetchTestCasesData(projectName, buildName, buildNumber);
-
   useEffect(() => {
     const fetchData = (() => {
       switch (activeTab) {
@@ -81,7 +85,7 @@ export default function useAutomatedTestBuild() {
         case ISSUES:
           return fetchBuildIssues;
         case TESTS:
-          return fetchTestCasesHelper;
+          return fetchTestCasesData;
         default:
           return fetchOverview;
       }
@@ -101,6 +105,14 @@ export default function useAutomatedTestBuild() {
       }
       dispatch(setBuildMetaData(metaData));
     });
+    return () => {
+      console.log('unmounting...');
+      dispatch(resetFilters());
+      dispatch(resetReportAppInfo());
+      dispatch(resetIssueItem());
+      dispatch(resetActiveTab());
+      dispatch(resetBuildData());
+    };
   }, []);
 
   const actionType = '';

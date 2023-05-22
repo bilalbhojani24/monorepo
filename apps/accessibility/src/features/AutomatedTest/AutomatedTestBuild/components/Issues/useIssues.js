@@ -157,12 +157,6 @@ export default function useIssues() {
         nodes: violation.nodes.filter(({ confirmed }) => confirmed === null)
       }));
     }
-    // if (activeBuildFilters.tags.length) {
-    //   filteredViolations = buildData.map((violation) => ({
-    //     ...violation,
-    //     nodes: violation.nodes.filter(({ confirmed }) => confirmed === null)
-    //   }));
-    // }
     if (activeBuildFilters.impact.length) {
       const appliedSeverityFilter = activeBuildFilters.impact.map(
         ({ value }) => value
@@ -187,6 +181,12 @@ export default function useIssues() {
         nodes: violation.nodes.filter(({ page }) =>
           activeBuildFilters.page.map(({ value }) => value).includes(page.url)
         )
+      }));
+    }
+    if (activeBuildFilters.tests.length) {
+      filteredViolations = filteredViolations.map((violation) => ({
+        ...violation,
+        nodes: violation.nodes.filter(({ testCaseIds }) => confirmed === null)
       }));
     }
     if (activeBuildFilters.component.length) {

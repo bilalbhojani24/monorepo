@@ -51,7 +51,7 @@ export default function Overview() {
       <div>
         <SummaryChart
           title="Build issue summary"
-          chartTitle="Issues"
+          chartTitle="ISSUES"
           actionType={actionType}
           eventName={eventName}
           totalCount={buildMetaData.issueSummary.issueCount}

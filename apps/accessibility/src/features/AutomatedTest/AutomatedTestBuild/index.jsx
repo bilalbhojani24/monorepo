@@ -133,7 +133,7 @@ export default function AutomatedTestBuild() {
           defaultIndex={defaultIndex}
         />
       </div>
-      <div className="bg-base-50 relative top-[162px]">
+      <div className="bg-base-50 relative top-[150px]">
         {activeTab === SUMMARY && buildMetaData.issueSummary && <Overview />}
         {activeTab === ISSUES && buildData && <Issues />}
         {activeTab === TESTS && testRuns && <Tests />}

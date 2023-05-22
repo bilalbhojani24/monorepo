@@ -23,7 +23,7 @@ export default function useSummaryChart({
       enabled: false
     },
     title: {
-      text: `<div style="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center mb-2 text-base-800">${totalCount}</p><p class="text-xs text-base-500">${chartTitle}</p></div>`,
+      text: `<div style="font-family: Inter, Avenir, Helvetica, Arial, sans-serif"><p class="text-xl font-bold text-center text-base-800">${totalCount}</p><p class="text-xs text-base-500 font-semibold">${chartTitle}</p></div>`,
       verticalAlign: 'middle',
       useHTML: true
     },

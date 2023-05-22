@@ -82,8 +82,6 @@ export default function IssueItem({ sectionsDataContext }) {
     testCaseIds
   } = issueItem;
 
-  console.log('tests:', tests);
-
   const tagList = tagToView(headerData.tags);
 
   const data = [
@@ -469,7 +467,7 @@ export default function IssueItem({ sectionsDataContext }) {
           )}
         </div>
       </div>
-      <div className="absolute bottom-2 w-full bg-white">
+      <div className="absolute bottom-0 w-full bg-white">
         <Pagination
           key={`${activeViolationId}_${activeComponentId}`}
           hideDetailsString
