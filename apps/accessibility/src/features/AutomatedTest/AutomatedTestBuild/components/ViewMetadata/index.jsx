@@ -1,9 +1,9 @@
 import React from 'react';
-import { MdOutlineExpandMore, Popover } from '@browserstack/bifrost';
-import { MinimalButton } from 'common/MinimalDropdown/MinimalButton';
-import ViewMetaPopOverItem from 'common/MinimalDropdown/ViewMetaPopOverItem';
+import { Button, MdOutlineExpandMore, Popover } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 import { getCustomTimeStamp } from 'utils/dateTime';
+
+import ViewMetaPopOverItem from './ViewMetaPopOverItem';
 
 function ViewMetaPopOver({ data, handleInteraction }) {
   return (
@@ -61,7 +61,7 @@ function ViewMetaPopOver({ data, handleInteraction }) {
       }
     >
       <div>
-        <MinimalButton
+        <Button
           colors="white"
           iconPlacement="end"
           icon={<MdOutlineExpandMore className="text-xl" />}
@@ -71,7 +71,7 @@ function ViewMetaPopOver({ data, handleInteraction }) {
           wrapperClassName="font-medium text-sm text-base-700"
         >
           View metadata
-        </MinimalButton>
+        </Button>
       </div>
     </Popover>
   );

@@ -1,8 +1,7 @@
 import React from 'react';
-import { MdOutlineExpandMore, Popover } from '@browserstack/bifrost';
+import { Button, MdOutlineExpandMore, Popover } from '@browserstack/bifrost';
 import ChromeIcon from 'assets/chrome_icon.svg';
 import MacIcon from 'assets/mac_icon.svg';
-import { MinimalButton } from 'common/MinimalDropdown/MinimalButton';
 import PropTypes from 'prop-types';
 
 export default function ViewPlatformPopOver({ data, handleInteraction }) {
@@ -27,7 +26,7 @@ export default function ViewPlatformPopOver({ data, handleInteraction }) {
       }
     >
       <div>
-        <MinimalButton
+        <Button
           colors="white"
           iconPlacement="end"
           icon={<MdOutlineExpandMore className="text-xl" />}
@@ -37,7 +36,7 @@ export default function ViewPlatformPopOver({ data, handleInteraction }) {
           wrapperClassName="font-medium text-sm text-base-700"
         >
           Platforms
-        </MinimalButton>
+        </Button>
       </div>
     </Popover>
   );
