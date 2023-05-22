@@ -9,10 +9,23 @@ import { FormBuilder, SingleValueSelect } from '../../../common/components';
 import Attachments from '../../../common/components/Attachments';
 import { SingleValueSelectOptionType } from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
-import { parseFieldsForCreate, removedUnchangedFields } from '../helpers';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
+import {
+  getIssueSuccessAnalyticsPayload,
+  parseFieldsForCreate,
+  removedUnchangedFields
+} from '../helpers';
 import { CreateIssueOptionsType } from '../types';
 
-import { FIELD_KEYS, VALIDATION_FAILURE_ERROR_MESSAGE } from './constants';
+import {
+  FIELD_KEYS,
+  ISSUE_MODES,
+  VALIDATION_FAILURE_ERROR_MESSAGE
+} from './constants';
 
 const UpdateIssueForm = ({
   fields,
@@ -39,6 +52,7 @@ const UpdateIssueForm = ({
   setAreIssueOptionsLoading
 }) => {
   const dispatch = useDispatch();
+  const commonMetrics = getCommonMetrics();
   const [fieldErrors, setFieldErrors] = useState({});
   const {
     description: descriptionMeta,
@@ -99,6 +113,11 @@ const UpdateIssueForm = ({
         parsed
       )
         .catch((errorResponse) => {
+          const metricsPayload = {
+            ...commonMetrics,
+            error_mesage: errorResponse
+          };
+          analyticsEvent(ANALYTICS_EVENTS.TICKET_UPDATE_ERROR, metricsPayload);
           if (Object.keys(errorResponse?.field_errors).length) {
             setFieldErrors(errorResponse.field_errors);
           }
@@ -153,7 +172,19 @@ const UpdateIssueForm = ({
         })
         .then((response) => {
           if (response?.success) {
+            const metricPayload = {
+              ...commonMetrics,
+              fields: getIssueSuccessAnalyticsPayload(
+                ISSUE_MODES.UPDATION,
+                fields,
+                parsed
+              )
+            };
             resetMeta();
+            analyticsEvent(
+              ANALYTICS_EVENTS.TICKET_UPDATE_SUCCESS,
+              metricPayload
+            );
             dispatch(
               setGlobalAlert({
                 kind: 'success',

@@ -59,12 +59,13 @@ const IssueForm = ({
   const projectsHaveError = Boolean(useSelector(projectsErrorSelector));
   const areProjectsLoaded = projectsLoadingStatus === LOADING_STATUS.SUCCEEDED;
   const toolOptions = integrations.reduce((acc, curr) => {
-    const { key, label, icon } = curr;
+    const { key, label, icon, category } = curr;
     acc.push({
       value: key,
       label: `${label} issue`,
       image: `${baseURL}${icon}`,
-      title: label
+      title: label,
+      category
     });
     return acc;
   }, []);

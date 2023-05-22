@@ -9,6 +9,11 @@ import {
   clearGlobalAlert,
   setGlobalAlert
 } from '../../../common/slices/globalAlertSlice';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
 import { LOADING_STATUS } from '../../slices/constants';
 import { toolAuthLoadingSelector } from '../../slices/toolAuthSlice';
 import { APITokenMetaType } from '../types';
@@ -32,6 +37,11 @@ const APIToken = ({
     setData({ ...data, [fieldKey]: dataFromField });
   };
   const handleConnect = () => {
+    const metricsPayload = {
+      ...getCommonMetrics(),
+      auth_method: 'token'
+    };
+    analyticsEvent(ANALYTICS_EVENTS.AUTH_CONNECT, metricsPayload);
     dispatch(clearGlobalAlert());
     dispatch(
       getTokenConnectionForToolThunk({
@@ -41,6 +51,8 @@ const APIToken = ({
       })
     ).then((res) => {
       if (!res?.payload?.success) {
+        metricsPayload.error_message = res?.payload?.error;
+        analyticsEvent(ANALYTICS_EVENTS.AUTH_ERROR, metricsPayload);
         const message =
           res?.payload?.message ||
           `There was some problem connecting to ${label} software`;
@@ -52,7 +64,11 @@ const APIToken = ({
           })
         );
       } else {
-        syncPoller();
+        syncPoller({
+          setLoadingState: null, // no loading state to handle
+          pollCount: null, // no specifc poll count, use default
+          authMethod: 'token'
+        });
       }
     });
   };

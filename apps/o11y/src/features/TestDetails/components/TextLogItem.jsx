@@ -277,11 +277,11 @@ export default function TextLogItem({ data, searchText }) {
         <div className="flex items-start">
           {!logData?.response?.value?.isSnapShot &&
             (!isEmpty(logData?.args) || logData?.response?.value) && (
-              <span className="mr-2">
+              <span className="mr-2 self-start">
                 {isExpanded ? (
-                  <MdOutlineArrowDropDown className="text-base-400 h-4 w-4" />
+                  <MdOutlineArrowDropDown className="text-base-400 h-5 w-5" />
                 ) : (
-                  <MdOutlineArrowRight className="text-base-400 h-4 w-4" />
+                  <MdOutlineArrowRight className="text-base-400 h-5 w-5" />
                 )}
               </span>
             )}

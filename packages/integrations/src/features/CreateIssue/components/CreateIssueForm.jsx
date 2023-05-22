@@ -11,10 +11,22 @@ import {
   SingleValueSelectRawOptionType
 } from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
-import { parseFieldsForCreate } from '../helpers';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
+import {
+  getIssueSuccessAnalyticsPayload,
+  parseFieldsForCreate
+} from '../helpers';
 import { CreateIssueOptionsType } from '../types';
 
-import { FIELD_KEYS, VALIDATION_FAILURE_ERROR_MESSAGE } from './constants';
+import {
+  FIELD_KEYS,
+  ISSUE_MODES,
+  VALIDATION_FAILURE_ERROR_MESSAGE
+} from './constants';
 
 const CreateIssueForm = ({
   fields,
@@ -38,6 +50,7 @@ const CreateIssueForm = ({
   integrationToolFieldData
 }) => {
   const dispatch = useDispatch();
+  const commonMetrics = getCommonMetrics();
   const [fieldErrors, setFieldErrors] = useState({});
   const {
     description: descriptionMeta,
@@ -62,6 +75,11 @@ const CreateIssueForm = ({
       resetFieldErrors();
       return createIssue(integrationToolFieldData?.value, parsed)
         .catch((errorResponse) => {
+          const metricsPayload = {
+            ...commonMetrics,
+            error_mesage: errorResponse
+          };
+          analyticsEvent(ANALYTICS_EVENTS.TICKET_CREATE_ERROR, metricsPayload);
           if (Object.keys(errorResponse?.field_errors).length) {
             setFieldErrors(errorResponse.field_errors);
           }
@@ -116,8 +134,20 @@ const CreateIssueForm = ({
         })
         .then((response) => {
           if (response?.success) {
+            const metricPayload = {
+              ...commonMetrics,
+              fields: getIssueSuccessAnalyticsPayload(
+                ISSUE_MODES.CREATION,
+                fields,
+                parsed
+              )
+            };
             resetMeta();
             deselectIssueType();
+            analyticsEvent(
+              ANALYTICS_EVENTS.TICKET_CREATE_SUCCESS,
+              metricPayload
+            );
             dispatch(
               setGlobalAlert({
                 kind: 'success',
@@ -205,13 +235,24 @@ const CreateIssueForm = ({
   );
 
   const handleIssueTypeChange = (key, issueType) => {
+    const metricsPayload = {
+      ...commonMetrics,
+      issue_type: (issueType.label ?? '').toLowerCase()
+    };
     if (isWorkInProgress) {
       const setIssueType = setFieldsData.bind(null, {
         ...fieldsData,
         [key]: issueType
       });
-      discardIssue(setIssueType);
+      const setIssueTypeWithAnalytics = () => {
+        // if issue discarded, select new issue type for user
+        setIssueType();
+        analyticsEvent(ANALYTICS_EVENTS.ISSUE_TYPE_SELECTION, metricsPayload);
+      };
+      discardIssue(setIssueTypeWithAnalytics);
     } else {
+      // directly select issue since not WIP
+      analyticsEvent(ANALYTICS_EVENTS.ISSUE_TYPE_SELECTION, metricsPayload);
       setFieldsData((prev) => ({ ...prev, [key]: issueType }));
     }
   };

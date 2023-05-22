@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
 
+import { ISSUE_MODES } from './components/constants';
+
 // function that looks at the data schema of a field
 // and recursively builds out a response according to the required schema
 const parseFieldsForCreateHelper = (
@@ -118,4 +120,21 @@ export const removedUnchangedFields = (updateMeta, fieldData) => {
     }
   });
   return fieldData;
+};
+
+export const getIssueSuccessAnalyticsPayload = (mode, meta, fieldData) => {
+  const SINGLE_VALUE_SELECT = 'single-value-select';
+  const createInitialPayload = [
+    { project_id: SINGLE_VALUE_SELECT },
+    { ticket_type_id: SINGLE_VALUE_SELECT }
+  ];
+  const updateInitialPayload = [{ ticket_id: SINGLE_VALUE_SELECT }];
+  const payload =
+    mode === ISSUE_MODES.CREATION ? createInitialPayload : updateInitialPayload;
+  meta.forEach((field) => {
+    if (fieldData[field?.key] || fieldData?.custom?.[field?.key]) {
+      payload.push({ [field?.key]: field?.schema?.field });
+    }
+  });
+  return payload;
 };
