@@ -119,7 +119,7 @@ export default function TestBuilds() {
     return <O11yLoader wrapperClassName="py-6" />;
   }
 
-  if (!isEmpty(buildsData.builds)) {
+  if (isEmpty(buildsData.builds)) {
     return (
       <div className={twClassNames('flex items-center justify-center flex-1')}>
         <EmptyPage text="No builds found" />
