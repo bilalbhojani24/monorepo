@@ -100,7 +100,6 @@ export const getSnPErrors = async ({
     endpoint = `${endpoint}&pageNumber=${pagingParams.pageNumber}`;
   }
   if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName}`;
   }
   if (filters.dateRange.key) {
@@ -120,7 +119,6 @@ export const getSnPUEBreakdown = async ({
     sortOptions.type
   }&orderValue=${sortOptions.status}`;
   if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName}`;
   }
   if (filters.dateRange.key) {
@@ -140,7 +138,6 @@ export const getSnPErrorDetailsInfo = async ({
   }&isFlaky=${filters.isFlaky}
   `;
   if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName}`;
   }
   if (filters.dateRange.key) {
@@ -160,7 +157,6 @@ export const getSnPErrorDetailsErrorCount = async ({
     cbtInfo.browserKey
   }&os=${cbtInfo.osKey}&isMuted=${filters.isMuted}&isFlaky=${filters.isFlaky}`;
   if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName}`;
   }
   if (filters.dateRange.key) {
@@ -183,7 +179,6 @@ export const getSnPErrorDetailsTrend = async ({
     filters.isMuted
   }&isFlaky=${filters.isFlaky}`;
   if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName}`;
   }
   if (filters.dateRange.key) {
@@ -211,7 +206,6 @@ export const getSnPErrorDetailsBuilds = async ({
     endpoint = `${endpoint}&searchAfter=${pagingParams.searchAfter}`;
   }
   if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName}`;
   }
   if (!chartBounds.lower && !chartBounds.upper && filters.dateRange.key) {
@@ -235,7 +229,6 @@ export const getSnPErrorDetailsPlatforms = async ({
   }&isFlaky=${filters.isFlaky}`;
 
   if (filters.buildName.length > 0) {
-    // :TODO need to pass all values as comma seperated
     endpoint = `${endpoint}&buildName=${filters.buildName}`;
   }
   if (filters.dateRange.key) {

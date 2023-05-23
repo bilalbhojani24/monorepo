@@ -63,7 +63,7 @@ export default function StepLogItem({ data, isFromList, searchText }) {
       type="button"
       onClick={handleClick}
     >
-      <span>
+      <span className="self-start">
         <StatusIcon status={logData?.status} />
       </span>
       <span className="text-base-900 text-sm font-medium leading-5">

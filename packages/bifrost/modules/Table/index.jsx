@@ -10,10 +10,7 @@ const Table = ({ children, containerWrapperClass, tableWrapperClass }) => (
     )}
   >
     <table
-      className={twClassNames(
-        'divide-base-300 min-w-full divide-y ',
-        tableWrapperClass
-      )}
+      className={twClassNames('divide-base-300 min-w-full', tableWrapperClass)}
     >
       {children}
     </table>
