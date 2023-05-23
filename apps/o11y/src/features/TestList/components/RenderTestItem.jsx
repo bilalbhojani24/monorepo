@@ -13,7 +13,8 @@ import {
   HIERARCHY_SPACING_START,
   HIERARCHY_TEST_ADDITIONAL_SPACING,
   LOG_TYPES,
-  singleItemTestDetails
+  singleItemTestDetails,
+  TESTLIST_TYPES
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getAppliedFilters } from 'features/TestList/slices/selectors';
@@ -30,10 +31,10 @@ import TestListStackTrace from './TestListStackTrace';
 import TestListTimeline from './TestlistTimeline';
 
 const RenderTestItem = ({ item: data }) => {
-  const { displayName, details, rank, isBeforeAllHook, isAfterAllHook } = data;
+  const { details, displayName, isAfterAllHook, isBeforeAllHook, rank, type } =
+    data;
   const { tags, history } = useSelector(getAppliedFilters);
 
-  const isHook = isBeforeAllHook || isAfterAllHook;
   const dispatch = useDispatch();
   const { o11yTestListingInteraction } = useContext(TestListContext);
   const addFilterOnClick = (filterCategory, filterValue) => {
@@ -69,7 +70,7 @@ const RenderTestItem = ({ item: data }) => {
       className={twClassNames(
         'border-base-100 hover:bg-base-50 group cursor-pointer border-b pr-6 pt-1',
         {
-          'cursor-default': isHook
+          'cursor-default': type === TESTLIST_TYPES.HOOK
         }
       )}
       style={{
@@ -93,7 +94,7 @@ const RenderTestItem = ({ item: data }) => {
               <div className="text-base-900 ml-2 text-sm">
                 <span
                   className={twClassNames('', {
-                    'text-base-500': isHook
+                    'text-base-500': type === TESTLIST_TYPES.HOOK
                   })}
                 >
                   {isBeforeAllHook ? 'Before Hook: ' : ''}
@@ -216,7 +217,10 @@ const RenderTestItem = ({ item: data }) => {
         </div>
         <div className="flex w-auto gap-1">
           <div className="flex w-auto items-start pt-1">
-            <TestListTimeline details={details} isHook={isHook} />
+            <TestListTimeline
+              details={details}
+              isHook={type === TESTLIST_TYPES.HOOK}
+            />
           </div>
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
           <div className="min-h-[34px] min-w-[100px]">
@@ -226,7 +230,10 @@ const RenderTestItem = ({ item: data }) => {
                 {milliSecondsToTime(details?.duration)}
               </p>
             </div>
-            <TestListActionItems details={details} isMutedHidden={isHook} />
+            <TestListActionItems
+              details={details}
+              isMutedHidden={type === TESTLIST_TYPES.HOOK}
+            />
           </div>
         </div>
       </div>
