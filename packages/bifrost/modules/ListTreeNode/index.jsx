@@ -55,7 +55,7 @@ const ListTreeNode = forwardRef(
         )}
       >
         <div className="flex w-full grow items-center">
-          <Disclosure.Button as={Fragment} role="button" aria-label={label}>
+          <Disclosure.Button as={Fragment} role="button" aria-hidden>
             {({ open }) => (
               <div
                 className={twClassNames('mr-1 w-5 select-none', {
