@@ -30,8 +30,10 @@ import TestListStackTrace from './TestListStackTrace';
 import TestListTimeline from './TestlistTimeline';
 
 const RenderTestItem = ({ item: data }) => {
-  const { displayName, details, rank } = data;
+  const { displayName, details, rank, isBeforeAllHook, isAfterAllHook } = data;
   const { tags, history } = useSelector(getAppliedFilters);
+
+  const isHook = isBeforeAllHook || isAfterAllHook;
   const dispatch = useDispatch();
   const { o11yTestListingInteraction } = useContext(TestListContext);
   const addFilterOnClick = (filterCategory, filterValue) => {
@@ -67,7 +69,7 @@ const RenderTestItem = ({ item: data }) => {
       className={twClassNames(
         'border-base-100 hover:bg-base-50 group cursor-pointer border-b pr-6 pt-1',
         {
-          'cursor-default': data.isBeforeAllHook || data.isAfterAllHook
+          'cursor-default': isHook
         }
       )}
       style={{
@@ -91,11 +93,11 @@ const RenderTestItem = ({ item: data }) => {
               <div className="text-base-900 ml-2 text-sm">
                 <span
                   className={twClassNames('', {
-                    'text-base-500': data.isBeforeAllHook || data.isAfterAllHook
+                    'text-base-500': isHook
                   })}
                 >
-                  {data.isBeforeAllHook ? 'Before Hook: ' : ''}
-                  {data.isAfterAllHook ? 'After Hook: ' : ''}
+                  {isBeforeAllHook ? 'Before Hook: ' : ''}
+                  {isAfterAllHook ? 'After Hook: ' : ''}
                   {ReactHtmlParser(displayName, {
                     transform: transformUnsupportedTags
                   })}
@@ -214,10 +216,7 @@ const RenderTestItem = ({ item: data }) => {
         </div>
         <div className="flex w-auto gap-1">
           <div className="flex w-auto items-start pt-1">
-            <TestListTimeline
-              details={details}
-              isHook={data.isAfterAllHook || data.isBeforeAllHook}
-            />
+            <TestListTimeline details={details} isHook={isHook} />
           </div>
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
           <div className="min-h-[34px] min-w-[100px]">
@@ -227,10 +226,7 @@ const RenderTestItem = ({ item: data }) => {
                 {milliSecondsToTime(details?.duration)}
               </p>
             </div>
-            <TestListActionItems
-              details={details}
-              isMutedHidden={data.isBeforeAllHook || data.isAfterAllHook}
-            />
+            <TestListActionItems details={details} isMutedHidden={isHook} />
           </div>
         </div>
       </div>

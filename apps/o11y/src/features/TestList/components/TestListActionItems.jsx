@@ -105,9 +105,7 @@ function TestListActionItems({ details, isMutedHidden }) {
   };
 
   const getMuteButtonText = (getMutedStatus) => {
-    // TODO: Need to Decide on Disabled Mute Button Text
-    if (isMutedHidden)
-      return 'Muting is ineffective for Before All/After All Hooks.';
+    if (isMutedHidden) return 'Muting is not applicable for test hooks';
     return `${getMutedStatus} ? 'Un-Mute' : 'Mute'} Test`;
   };
 
