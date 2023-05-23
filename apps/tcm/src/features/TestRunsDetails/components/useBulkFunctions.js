@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import { assignToTCBulkAPI, removeTCFromTRBulkAPI } from 'api/testruns.api';
+import { addNotificaton } from 'globalSlice';
 
 import { BULK_OPERATIONS } from '../const/immutableConst';
 import {
@@ -135,6 +136,15 @@ const useBulkFunctions = () => {
       }).then(() => {
         // TODO happy flow edge cases
         fetchTestCases();
+
+        dispatch(
+          addNotificaton({
+            id: `test_cases_removed_${testRunDetails?.id}`,
+            title: `Test Cases Removed`,
+            description: `${selectedTestCaseIDs.length} Test Cases have been removed from this test run.`,
+            variant: 'success'
+          })
+        );
         resetBulkOperation(null, true);
       });
     }
@@ -154,6 +164,14 @@ const useBulkFunctions = () => {
         testRunId: testRunDetails.id,
         assigneeId: assignee?.value
       }).then(() => {
+        dispatch(
+          addNotificaton({
+            id: `assigness_updates${testRunDetails?.id}`,
+            title: `Test Cases Assigned`,
+            description: `${selectedTestCaseIDs.length} Test Cases have been assigned to ${assignee?.label}.`,
+            variant: 'success'
+          })
+        );
         resetBulkOperation(null, true);
       });
     }
