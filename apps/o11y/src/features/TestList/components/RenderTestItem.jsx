@@ -61,7 +61,7 @@ const RenderTestItem = ({ item: data }) => {
   };
 
   const handleClickTestItem = () => {
-    if (data.isBeforeAllHook || data.isAfterAllHook) return;
+    if (type === TESTLIST_TYPES.HOOK) return;
     dispatch(showTestDetailsDrawer(details.id));
   };
 
