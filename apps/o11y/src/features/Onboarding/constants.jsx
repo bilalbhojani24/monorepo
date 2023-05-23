@@ -37,7 +37,7 @@ export const FRAMEWORKS = [
   },
   {
     id: FRAMEWORK_IDS.nightwatch,
-    name: 'Nightwatch',
+    name: 'Nightwatch.js',
     logo: <NightwatchIcon width="48" height="48" />
   },
   {

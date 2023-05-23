@@ -107,11 +107,11 @@ const TESTING_FRAMEWORKS = [
     )
   },
   {
-    name: 'Nightwatch',
+    name: 'Nightwatch.js',
     Component: () => (
       <DocumentStackListItem
         analyticKey="framework_docs_visited"
-        title="Nightwatch"
+        title="Nightwatch.js"
         subTitle="Documentation"
         link={getDocUrl({
           path: DOC_KEY_MAPPING.nightwatch,
