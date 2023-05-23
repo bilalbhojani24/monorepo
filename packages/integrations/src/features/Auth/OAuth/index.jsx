@@ -11,6 +11,11 @@ import PropTypes from 'prop-types';
 import { getOAuthUrlForTool } from '../../../api/getOAuthUrlForTool';
 import { Logo } from '../../../common/components';
 import { clearGlobalAlert } from '../../../common/slices/globalAlertSlice';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
 import { OAuthMetaType } from '../types';
 
 const OAuth = ({
@@ -39,7 +44,11 @@ const OAuth = ({
       if (message.hasError) {
         setHasOAuthFailed(true);
       } else {
-        syncPoller(setIsOAuthConnecting);
+        syncPoller({
+          setLoadingState: setIsOAuthConnecting,
+          pollCount: null, // no specifc poll count, use default
+          authMethod: 'oauth'
+        });
       }
       authWindow?.close();
       return null;
@@ -62,6 +71,11 @@ const OAuth = ({
   };
 
   const handleOAuthConnection = () => {
+    const metricsPayload = {
+      ...getCommonMetrics(),
+      auth_method: 'oauth'
+    };
+    analyticsEvent(ANALYTICS_EVENTS.AUTH_CONNECT, metricsPayload);
     setIsOAuthConnecting(true);
     getOAuthUrlForTool(integrationKey)
       .then((redirectUri) => {
@@ -77,7 +91,11 @@ const OAuth = ({
 
         function checkChild() {
           if (childWindow.closed) {
-            syncPoller(setIsOAuthConnecting, 1);
+            syncPoller({
+              setLoadingState: setIsOAuthConnecting,
+              pollCount: 1, // poll exactly 1 time
+              authMethod: 'oauth'
+            });
             clearInterval(timer);
           }
         }
@@ -116,7 +134,7 @@ const OAuth = ({
       <div className="sticky bottom-0 bg-white pb-2">
         <Button
           variant="primary"
-          wrapperClassName="mt-3"
+          wrapperClassName="mt-3 h-9 flex justify-center items-center"
           fullWidth
           icon={<MdArrowForward className="text-xl text-white" />}
           iconPlacement="end"
@@ -128,7 +146,7 @@ const OAuth = ({
         </Button>
         {hasOAuthFailed && (
           <Button
-            wrapperClassName="mt-3"
+            wrapperClassName="mt-3 h-9 flex justify-center items-center"
             variant="secondary"
             fullWidth
             onClick={handleAPIConnect}
