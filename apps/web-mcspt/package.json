@@ -4,8 +4,8 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "vite --open -- IS_DEV",
-    "dev-prod": "vite --open -- IS_PROD",
-    "build": "vite build",
+    "start": "vite --open -- IS_PROD",
+    "build": "vite build -- IS_PROD",
     "preview": "vite build && vite preview -- IS_PROD",
     "lint:check": "eslint --format=table --ignore-pattern dist --max-warnings 0 \"**/*.{js,jsx}\"",
     "lint:fix": "npm run lint:check -- --fix",
