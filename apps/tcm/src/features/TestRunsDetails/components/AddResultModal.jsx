@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import {
-  TMBadgeComboBox,
+  // TMBadgeComboBox,
   TMButton,
   TMModal,
   TMModalBody,
@@ -16,6 +16,8 @@ import useBulkFunctions from './useBulkFunctions';
 
 const AddResultModal = () => {
   const {
+    // resultForm,
+    // resultIssuesArray,
     isBulkAddResultInProgress,
     onAddResultHandler,
     bulkOperationSelected,
@@ -76,14 +78,38 @@ const AddResultModal = () => {
             }))}
             onChange={(val) => onResultChange('status', val.value)}
           />
-          <TMBadgeComboBox
+
+          {/* <div className="mb-1 flex flex-1 items-end justify-between">
+            <div className="mr-4 flex-1">
+              <TMSelectMenu
+                checkPosition="right"
+                isMulti
+                placeholder="Select from options"
+                label="Issues"
+                options={resultIssuesArray || []}
+                value={resultForm.jiraIssues}
+                onChange={(e) => onResultChange('jiraIssues', e)}
+                // onOpenChange={(isMenuOpened) => {
+                //   handleMenuOpen('issues', isMenuOpened);
+                // }}
+              />
+            </div>
+            <TMButton
+              wrapperClassName=""
+              colors="white"
+              // onClick={showAddIssuesModal}
+            >
+              Add / Modify Issue
+            </TMButton>
+          </div> */}
+          {/* <TMBadgeComboBox
             placeholder="Select from options"
             label={
               <div className="text-base-700 mb-1 block text-sm font-medium">
                 Jira Issues
               </div>
             }
-          />
+          /> */}
         </div>
       </TMModalBody>
       <TMModalFooter position="right">

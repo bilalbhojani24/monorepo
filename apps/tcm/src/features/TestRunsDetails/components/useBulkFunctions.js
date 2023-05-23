@@ -16,6 +16,7 @@ import {
   setBulkSelectedtestCaseIDs,
   setIsLoadingProps,
   setLoadedDataProjectId,
+  // setResultIssuesArray,
   setUsers,
   updateAssignee,
   updateBulkOperation,
@@ -48,6 +49,9 @@ const useBulkFunctions = () => {
     (state) => state.testRunsDetails.bulkOperation
   );
   const usersArray = useSelector((state) => state.testRunsDetails.usersArray);
+  const resultIssuesArray = useSelector(
+    (state) => state.testRunsDetails.resultIssuesArray
+  );
   const isBulkRemoveInProgress = useSelector(
     (state) => state.testRunsDetails.isLoading.bulkRemoveInProgress
   );
@@ -241,6 +245,7 @@ const useBulkFunctions = () => {
   }, [allTestCases, selectedTestCaseIDs]);
 
   return {
+    resultIssuesArray,
     resultForm,
     isBulkAddResultInProgress,
     isBulkAssignInProgress,

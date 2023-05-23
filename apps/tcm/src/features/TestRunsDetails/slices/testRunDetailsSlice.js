@@ -52,6 +52,7 @@ const initialState = {
     jiraIssues: []
   },
   usersArray: null,
+  resultIssuesArray: null,
   loadedDataProjectId: null // data fetched for which projectID (to cache data)
 };
 
@@ -117,6 +118,9 @@ export const testRunDetailsSlice = createSlice({
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
     },
+    setResultIssuesArray: (state, { payload }) => {
+      state.resultIssuesArray = payload;
+    },
     updateBulkOperation: (state, { payload }) => {
       state.bulkOperation = payload;
     },
@@ -152,6 +156,7 @@ export const {
   setTestResultsArray,
   setSelectedTestCase,
   setIssuesArray,
+  setResultIssuesArray,
   initAddStatusForm,
   updateAddStatusForm,
   closeAllVisibleForms,
