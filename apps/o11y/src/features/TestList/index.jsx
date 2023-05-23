@@ -185,15 +185,19 @@ const TestList = ({
   );
 
   useEffect(() => {
-    // This works only when appliedFilters changes and not on mount but after mounted
     if (isMounted) {
       resetReduxStore(['testList']);
       if (!isFiltersLoading) {
         loadFreshData();
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appliedFilters, isFiltersLoading]);
+  }, [
+    appliedFilters,
+    isFiltersLoading,
+    isMounted,
+    loadFreshData,
+    resetReduxStore
+  ]);
 
   useEffect(() => {
     setClosedAccordionIds((data) => {
