@@ -1,13 +1,15 @@
 import React, { useRef } from 'react';
+import { twClassNames } from '@browserstack/utils';
 import {
   TMButton,
   TMModal,
   TMModalBody,
   TMModalFooter,
-  TMModalHeader
+  TMModalHeader,
+  TMSelectMenu
 } from 'common/bifrostProxy';
 
-import { BULK_OPERATIONS } from '../const/immutableConst';
+import { BULK_OPERATIONS, STATUS_OPTIONS } from '../const/immutableConst';
 
 import useBulkFunctions from './useBulkFunctions';
 
@@ -30,7 +32,27 @@ const AddResultModal = () => {
         handleDismissClick={resetBulkOperation}
       />
       <TMModalBody>
-        <div className="w-full">WIP</div>
+        <div className="w-full">
+          <TMSelectMenu
+            placeholder="Not Started"
+            checkPosition="right"
+            triggerWrapperClassName={twClassNames('w-72')}
+            options={STATUS_OPTIONS.map((el) => ({
+              label: (
+                <div>
+                  <div
+                    className={`${el.class} m-auto mx-2 inline-block h-2 w-2 flex-1 rounded-full`}
+                    style={{ backgroundColor: el.color ? el.color : 'auto' }}
+                  />
+                  <span className="inline-block">{el.label}</span>
+                </div>
+              ),
+              value: el.value
+            }))}
+            // value={valueMapped}
+            // onChange={(e) => onResultChange(e, rowData, true, true)}
+          />
+        </div>
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton variant="primary" colors="white" onClick={resetBulkOperation}>
