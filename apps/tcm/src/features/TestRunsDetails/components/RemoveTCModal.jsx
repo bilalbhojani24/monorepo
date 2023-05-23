@@ -13,9 +13,10 @@ import useBulkFunctions from './useBulkFunctions';
 
 const RemoveTCModal = () => {
   const {
-    onRemoveHandler,
+    isBulkRemoveInProgress,
     bulkOperationSelected,
     selectedTestCaseIDs,
+    onRemoveHandler,
     resetBulkOperation
   } = useBulkFunctions();
   const statusFocusRef = useRef();
@@ -44,8 +45,10 @@ const RemoveTCModal = () => {
           Cancel
         </TMButton>
         <TMButton
+          loading={isBulkRemoveInProgress}
           variant="primary"
           colors="danger"
+          isIconOnlyButton={isBulkRemoveInProgress}
           wrapperClassName="ml-3"
           onClick={onRemoveHandler}
         >

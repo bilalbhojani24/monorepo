@@ -31,7 +31,6 @@ const TestCasesTable = () => {
     metaPage,
     isTableLoading,
     allTestCases,
-    onPaginationClick,
     handleTestCaseViewClick,
     onResultChange
   } = useTRTCFolders();
@@ -308,7 +307,6 @@ const TestCasesTable = () => {
               pageNumber={metaPage?.page || 1}
               count={metaPage?.count || 0}
               pageSize={metaPage?.page_size}
-              onActionClick={onPaginationClick}
             />
           ) : (
             <div className="border-base-300 border-t" />
