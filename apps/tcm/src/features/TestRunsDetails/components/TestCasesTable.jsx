@@ -48,7 +48,7 @@ const TestCasesTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[9%]',
+      class: 'w-[8%] max-w-[50px]',
       cell: (rowData) => (
         <div
           role="button"

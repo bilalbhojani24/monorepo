@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import {
+  TMBadgeComboBox,
   TMButton,
   TMModal,
   TMModalBody,
@@ -60,7 +61,7 @@ const AddResultModal = () => {
               value: STATUS_OPTIONS[0].value
             }}
             checkPosition="right"
-            triggerWrapperClassName={twClassNames('w-72')}
+            triggerWrapperClassName={twClassNames('w-72 mb-4')}
             options={STATUS_OPTIONS.map((el) => ({
               label: (
                 <div>
@@ -74,6 +75,14 @@ const AddResultModal = () => {
               value: el.value
             }))}
             onChange={(val) => onResultChange('status', val.value)}
+          />
+          <TMBadgeComboBox
+            placeholder="Select from options"
+            label={
+              <div className="text-base-700 mb-1 block text-sm font-medium">
+                Jira Issues
+              </div>
+            }
           />
         </div>
       </TMModalBody>
