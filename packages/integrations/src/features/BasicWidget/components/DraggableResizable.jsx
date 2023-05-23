@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Draggable, Resizable } from '@browserstack/bifrost';
+import { useResizeObserver } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { setWidgetHeight as setWidgetHeightInRedux } from '../../slices/widgetSlice';
@@ -11,23 +12,48 @@ import { getWidgetRenderPosition } from './helpers';
 const DraggableResizable = ({ children, position, positionRef }) => {
   const dispatch = useDispatch();
   const widgetRef = useRef(null);
+  const bodyRef = useRef(document.body);
+  const bodyResizeObserver = useResizeObserver(bodyRef);
+  const widgetResizeObserver = useResizeObserver(widgetRef);
   // additional 16 px space for easy access to grab and use resize handle
-  const windowHeight = window.innerHeight - 16;
+  const windowHeight = document.body.getBoundingClientRect().height - 16;
+  const windowWidth = document.body.getBoundingClientRect().width - 16;
+
   // initial widget height should be 90% of the window height
   // multiply by 0.9 to get 90% of the windowHeight
-  const widgetInitialHeight = windowHeight * 0.9;
-  const [widgetHeight, setWidgetHeight] = useState(widgetInitialHeight);
+  const widgetInitialHeight =
+    windowHeight * 0.9 < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+      ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+      : windowHeight * 0.9;
+  const [widgetDimensions, setWidgetDimensions] = useState({
+    height: widgetInitialHeight,
+    width: DEFAULT_WIDGET_DIMENSIONS.MIN[0]
+  });
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
-  const [showWidget, setShowWidget] = useState(false);
 
   useEffect(() => {
     setRefAquired(true);
   }, []);
+  // looks at width related changes of the container so that
+  // widget renders properly with the body
+  useEffect(() => {
+    const widgetRect = widgetRef.current?.getBoundingClientRect() || {};
+    let { width } = widgetRect;
+    width =
+      width < DEFAULT_WIDGET_DIMENSIONS.MIN[0]
+        ? DEFAULT_WIDGET_DIMENSIONS.MIN[0]
+        : width;
+    if (widgetDimensions.width !== width) {
+      setWidgetDimensions({ ...widgetDimensions, width });
+    }
+  }, [widgetDimensions, widgetResizeObserver]);
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (refAquired && widgetRef.current) {
       const widgetRefClientRect = widgetRef.current?.getBoundingClientRect();
+
       const pos = getWidgetRenderPosition(
         position,
         positionRef?.current?.getBoundingClientRect(),
@@ -36,45 +62,100 @@ const DraggableResizable = ({ children, position, positionRef }) => {
       let { y } = pos;
 
       // is widget going out of screen?
-      if (y + widgetRefClientRect.height > windowHeight) {
-        const overflowY = y + widgetRefClientRect.height - windowHeight;
-        y -= overflowY + 24;
+      if (y + widgetDimensions.height > windowHeight) {
+        const overflowY = y + widgetDimensions.height - windowHeight;
+        y = y - overflowY > 8 ? y - overflowY : 8;
       }
 
-      setWidgetPosition({
-        x: pos.x,
-        y
+      setWidgetPosition((prev) => {
+        const xVal = prev?.x < pos.x ? prev?.x : pos.x;
+        let yVal = null;
+        if (widgetDimensions.height === DEFAULT_WIDGET_DIMENSIONS.MIN[1]) {
+          // cannot shrink
+          yVal = prev && prev.y < y ? prev.y : y; // move to new y cord
+          yVal = yVal < 8 ? 8 : yVal; // 8 px space
+        } else {
+          // can shrink, retain y coord
+          yVal = prev?.y ?? y;
+        }
+        return {
+          x: xVal < 8 ? 8 : xVal,
+          y: yVal
+        };
       });
     }
-  }, [dispatch, position, positionRef, refAquired, windowHeight]);
+  }, [
+    position,
+    refAquired,
+    windowWidth,
+    positionRef,
+    windowHeight,
+    bodyResizeObserver,
+    widgetDimensions
+  ]);
 
-  useEffect(() => {
-    setWidgetPosition(null);
-    setShowWidget(true);
-  }, [widgetPosition]);
+  const onDrag = (__, { x, y }) => {
+    setWidgetPosition({
+      x,
+      y
+    });
+  };
 
   const onResize = (__, { size }) => {
-    setWidgetHeight(size.height);
+    setWidgetDimensions({ ...widgetDimensions, height: size.height });
     dispatch(setWidgetHeightInRedux({ height: size.height }));
   };
 
+  const bodyObservedHeight =
+    bodyResizeObserver?.blockSize || bodyResizeObserver?.height;
+
+  // adjusts height of the widget in case there's any
+  // change in the body height
+  useEffect(() => {
+    if (
+      widgetPosition &&
+      widgetPosition.y + widgetDimensions.height > windowHeight
+    ) {
+      // decrease height by 2 pixels each times we cross
+      // the height threshold
+      // 1 px is smoother but needs more updates
+      // 3 px jump gives choppier change
+      let newHeight = widgetDimensions.height - 2;
+      newHeight =
+        newHeight < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+          ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+          : newHeight;
+      setWidgetDimensions({ ...widgetDimensions, height: newHeight });
+      dispatch(setWidgetHeightInRedux({ height: newHeight }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    dispatch,
+    windowHeight,
+    widgetDimensions.height,
+    bodyObservedHeight,
+    widgetInitialHeight
+  ]);
+
   // intialise redux
   useEffect(() => {
-    dispatch(setWidgetHeightInRedux({ height: widgetHeight }));
+    dispatch(setWidgetHeightInRedux({ height: widgetDimensions.height }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <Draggable
-      className={''.concat(showWidget ? '' : 'hidden')}
       ref={widgetRef}
       handle=".drag-handle"
       isBodyBounded
+      onDrag={onDrag}
       position={widgetPosition}
     >
       <div
         ref={widgetRef}
-        className="border-base-200 absolute z-10 overflow-hidden rounded-md border bg-white drop-shadow-lg"
+        className={'border-base-200 absolute top-0 z-10 overflow-hidden rounded-md border bg-white transform-gpu drop-shadow-lg'.concat(
+          widgetPosition ? '' : ' hidden'
+        )}
       >
         <Resizable
           className="relative z-10 flex flex-col items-center overflow-hidden"
@@ -85,15 +166,15 @@ const DraggableResizable = ({ children, position, positionRef }) => {
             />
           )}
           width={DEFAULT_WIDGET_DIMENSIONS.INITIAL_WIDTH}
-          height={widgetHeight}
+          height={widgetDimensions.height}
           onResize={onResize}
           resizeHandles={DEFAULT_RESIZE_HANDLE}
           minConstraints={DEFAULT_WIDGET_DIMENSIONS.MIN}
           maxConstraints={[DEFAULT_WIDGET_DIMENSIONS.MAX[0], windowHeight]}
         >
           <div
-            className="h-auto w-full bg-white"
-            style={{ height: `${widgetHeight}px` }}
+            className="h-auto w-full overflow-hidden bg-white"
+            style={{ height: `${widgetDimensions.height}px` }}
           >
             {children}
           </div>
