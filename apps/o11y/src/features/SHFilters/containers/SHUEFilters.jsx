@@ -67,7 +67,7 @@ const SHUEFilters = () => {
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.uniqueBuildNames.key}
             placeholder="Select"
-            label="Unique BuildNames"
+            label="Unique Build Name"
             searchAPI={getUEBuildNamesData}
           />
           <MultiSelectSearchFilterField
@@ -76,7 +76,7 @@ const SHUEFilters = () => {
             label="Build Tags"
             searchAPI={getUEBuildTagsData}
           />
-          <FolderFilterField />
+          <FolderFilterField label="File Directory" />
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.testTags.key}
             placeholder="Select"
@@ -112,7 +112,7 @@ const SHUEFilters = () => {
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.hostNames.key}
             placeholder="Select"
-            label="Host name"
+            label="Host"
             searchAPI={getUEHostNamesData}
           />
           <MultiSelectStaticFilterField
@@ -133,7 +133,7 @@ const SHUEFilters = () => {
           <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.failureCategories.key}
             placeholder="Select"
-            label="Failure categories"
+            label="Failure Categories"
           />
         </div>
       </FilterSlideover>

@@ -112,12 +112,12 @@ const SnPUniqueErrors = () => {
 
   useEffect(() => {
     mounted.current = true;
+    dispatch(setErrorsLoading(true));
     if (
       activeProject?.normalisedName &&
       !isFiltersLoading &&
       currentFilterCategory === FILTER_CATEGORIES.SUITE_HEALTH_UNIQUE_ERRORS
     ) {
-      dispatch(setErrorsLoading(true));
       dispatch(
         getSnPErrorsData({
           normalisedName: activeProject?.normalisedName,
