@@ -2,7 +2,6 @@ import React from 'react';
 import { Header } from '@browserstack/bifrost';
 import {
   DOC_LINKS_CONSTANTS,
-  getSignOutUrl,
   getWebsiteUrlOrigin
 } from '@browserstack/mcp-shared';
 
@@ -30,13 +29,7 @@ const AppPerformanceHeader = () => (
       ]
     }}
     others={null}
-    onSignoutClick={(e) => {
-      if (!IS_PROD) {
-        e.preventDefault();
-        e.stopPropagation();
-        window.location.href = getSignOutUrl();
-      }
-    }}
+    onSignoutClick={() => {}}
     documentationLink={DOC_LINKS_CONSTANTS.ROOT_DOC_LINK}
     supportLink={DOC_LINKS_CONSTANTS.CONTACT_US}
   />
