@@ -67,7 +67,12 @@ const AssignTestCasesModal = () => {
         )}
       </TMModalBody>
       <TMModalFooter position="right">
-        <TMButton variant="primary" colors="white" onClick={resetBulkOperation}>
+        <TMButton
+          variant="primary"
+          colors="white"
+          onClick={resetBulkOperation}
+          ref={statusFocusRef}
+        >
           Cancel
         </TMButton>
         <TMButton
