@@ -16,11 +16,14 @@ import useBulkFunctions from './useBulkFunctions';
 
 const AssignTestCasesModal = () => {
   const {
+    isBulkAssignInProgress,
+    assignee,
     isUsersArrayLoading,
     onAssignHandler,
     usersArray,
     bulkOperationSelected,
-    resetBulkOperation
+    resetBulkOperation,
+    setAssignee
   } = useBulkFunctions();
   const statusFocusRef = useRef();
 
@@ -48,13 +51,18 @@ const AssignTestCasesModal = () => {
               triggerWrapperClassName="mb-4 w-56"
               checkPosition="right"
               options={usersArray || []}
-              // onChange={handleValueMappingMenuChange(actualName, value)}
+              onChange={setAssignee}
             />
-            <TMAlerts
-              show
-              description="The test cases will be assigned to Tim Cook"
-              modifier="primary"
-            />
+            {assignee ? (
+              <TMAlerts
+                show
+                description={`The test cases will be assigned to ${assignee?.label}`}
+                modifier="primary"
+              />
+            ) : (
+              // eslint-disable-next-line tailwindcss/no-arbitrary-value
+              <div className="h-[52px]" />
+            )}
           </div>
         )}
       </TMModalBody>
@@ -63,9 +71,12 @@ const AssignTestCasesModal = () => {
           Cancel
         </TMButton>
         <TMButton
+          disabled={!assignee}
           variant="primary"
           colors="brand"
           wrapperClassName="ml-3"
+          loading={isBulkAssignInProgress}
+          isIconOnlyButton={isBulkAssignInProgress}
           onClick={onAssignHandler}
         >
           Assign

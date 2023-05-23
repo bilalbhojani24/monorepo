@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
-import { removeTCFromTRBulkAPI } from 'api/testruns.api';
+import { assignToTCBulkAPI, removeTCFromTRBulkAPI } from 'api/testruns.api';
 
 import { BULK_OPERATIONS } from '../const/immutableConst';
 import {
+  resetTestCaseDetails,
   setBulkSelectedtestCaseIDs,
   setIsLoadingProps,
   setLoadedDataProjectId,
   setUsers,
+  updateAssignee,
   updateBulkOperation
 } from '../slices/testRunDetailsSlice';
 
@@ -28,6 +30,7 @@ const useBulkFunctions = () => {
   const allTestCases = useSelector(
     (state) => state.testRunsDetails.allTestCases
   );
+  const assignee = useSelector((state) => state.testRunsDetails.assignee);
   const selectedTestCaseIDs = useSelector(
     (state) => state.testRunsDetails.bulkSelection.ids
   );
@@ -37,6 +40,9 @@ const useBulkFunctions = () => {
   const usersArray = useSelector((state) => state.testRunsDetails.usersArray);
   const isBulkRemoveInProgress = useSelector(
     (state) => state.testRunsDetails.isLoading.bulkRemoveInProgress
+  );
+  const isBulkAssignInProgress = useSelector(
+    (state) => state.testRunsDetails.isLoading.bulkAssignInProgress
   );
   const isUsersArrayLoading = useSelector(
     (state) => state.testRunsDetails.isLoading.usersArray
@@ -49,9 +55,16 @@ const useBulkFunctions = () => {
     dispatch(setBulkSelectedtestCaseIDs(data));
   };
 
-  const resetBulkOperation = () => {
+  const resetBulkOperation = (_event, clearSelections) => {
     dispatch(updateBulkOperation(null));
+    dispatch(updateAssignee(null));
+    dispatch(resetTestCaseDetails());
     dispatch(setIsLoadingProps({ key: 'bulkRemoveInProgress', value: false }));
+    dispatch(setIsLoadingProps({ key: 'bulkAssignInProgress', value: false }));
+
+    if (clearSelections) {
+      setSelectedTestCaseIDs([]);
+    }
   };
 
   const fetchUsers = () => {
@@ -59,7 +72,10 @@ const useBulkFunctions = () => {
       dispatch(
         setUsers(
           [
-            { full_name: 'Myself', id: data.myself.id },
+            {
+              full_name: `${data.myself.full_name} (Myself)`,
+              id: data.myself.id
+            },
             ...data.users.filter((item) => item.id !== data.myself.id)
           ].map((item) => ({ label: item.full_name, value: item.id }))
         )
@@ -119,19 +135,32 @@ const useBulkFunctions = () => {
       }).then(() => {
         // TODO happy flow edge cases
         fetchTestCases();
-        resetBulkOperation();
+        resetBulkOperation(null, true);
       });
     }
   };
 
   const onAddResultHandler = () => {
-    // TODO remove API
+    // TODO add result API
     resetBulkOperation();
   };
 
   const onAssignHandler = () => {
-    // TODO remove API
-    resetBulkOperation();
+    if (selectedTestCaseIDs.length && testRunDetails?.id && assignee) {
+      dispatch(setIsLoadingProps({ key: 'bulkAssignInProgress', value: true }));
+      assignToTCBulkAPI({
+        projectId,
+        ids: selectedTestCaseIDs,
+        testRunId: testRunDetails.id,
+        assigneeId: assignee?.value
+      }).then(() => {
+        resetBulkOperation(null, true);
+      });
+    }
+  };
+
+  const setAssignee = (data) => {
+    dispatch(updateAssignee(data));
   };
 
   useEffect(() => {
@@ -151,6 +180,8 @@ const useBulkFunctions = () => {
   }, [allTestCases, selectedTestCaseIDs]);
 
   return {
+    isBulkAssignInProgress,
+    assignee,
     isUsersArrayLoading,
     usersArray,
     isBulkRemoveInProgress,
@@ -164,7 +195,8 @@ const useBulkFunctions = () => {
     resetBulkOperation,
     onRemoveHandler,
     onAddResultHandler,
-    onAssignHandler
+    onAssignHandler,
+    setAssignee
   };
 };
 

@@ -37,6 +37,8 @@ const AddResultModal = () => {
           Cancel
         </TMButton>
         <TMButton
+          // loading={isBulkRemoveInProgress}
+          // isIconOnlyButton={isBulkRemoveInProgress}
           variant="primary"
           colors="brand"
           wrapperClassName="ml-3"

@@ -46,9 +46,9 @@ const RemoveTCModal = () => {
           Cancel
         </TMButton>
         <TMButton
-          loading={isBulkRemoveInProgress}
           variant="primary"
           colors="danger"
+          loading={isBulkRemoveInProgress}
           isIconOnlyButton={isBulkRemoveInProgress}
           wrapperClassName="ml-3"
           onClick={onRemoveHandler}

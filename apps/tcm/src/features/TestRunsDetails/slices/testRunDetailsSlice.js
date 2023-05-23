@@ -7,6 +7,7 @@ const initialState = {
     isFoldersLoading: true,
     isTestCasesLoading: true,
     bulkRemoveInProgress: false,
+    bulkAssignInProgress: false,
     usersArray: false
   },
   isVisible: {
@@ -42,6 +43,7 @@ const initialState = {
     // de_selected_ids: [],
     // select_all: false
   },
+  assignee: null,
   usersArray: null,
   loadedDataProjectId: null // data fetched for which projectID (to cache data)
 };
@@ -114,6 +116,9 @@ export const testRunDetailsSlice = createSlice({
     setLoadedDataProjectId: (state, { payload }) => {
       state.loadedDataProjectId = payload;
     },
+    updateAssignee: (state, { payload }) => {
+      state.assignee = payload;
+    },
     setUsers: (state, { payload }) => {
       // prefill for edit
       state.usersArray = payload || initialState.usersArray;
@@ -122,6 +127,7 @@ export const testRunDetailsSlice = createSlice({
 });
 
 export const {
+  updateAssignee,
   setLoadedDataProjectId,
   setUsers,
   resetBulkSelection,
