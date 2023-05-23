@@ -21,9 +21,7 @@ const TextArea = ({
   <div>
     <label
       htmlFor={id}
-      className={twClassNames('text-base-700 block text-sm font-medium', {
-        'opacity-25 cursor-not-allowed': disabled
-      })}
+      className={twClassNames('text-base-700 block text-sm font-medium')}
     >
       {label}
       {isMandatory && <span className="text-danger-600 ml-0.5">*</span>}
@@ -37,7 +35,7 @@ const TextArea = ({
         'mt-1 min-h-[38px] border-base-300 focus:border-brand-500 focus:ring-brand-500 block w-full rounded-md shadow-sm sm:text-sm',
         {
           'resize-none': !isResizable,
-          'opacity-25 cursor-not-allowed': disabled,
+          'cursor-not-allowed border-base-200 bg-base-50': disabled,
           'border border-danger-500 focus:border-danger-500 focus:ring-danger-500 text-danger-900 placeholder:text-danger-300':
             errorText
         }
