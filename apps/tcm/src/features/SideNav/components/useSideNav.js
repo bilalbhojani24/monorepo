@@ -227,11 +227,12 @@ export default function useSideNav() {
 
   useEffect(() => {
     fetchAllProjects();
-    setTimeout(() => {
-      closeTooltipHandler();
-    }, 5000);
+    if (location.pathname !== AppRoute.ROOT)
+      setTimeout(() => {
+        closeTooltipHandler();
+      }, 5000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location.pathname]);
 
   return {
     hasProjects,

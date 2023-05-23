@@ -114,11 +114,27 @@ const ViewReportModal = () => {
           description={
             <>
               For any assistance related to import, read{' '}
-              <button type="button" underline>
+              <button
+                type="button"
+                underline
+                className="text-brand-800"
+                onClick={() =>
+                  window.open(
+                    'https://www.browserstack.com/docs/test-management/quick-start/quick-import'
+                  )
+                }
+              >
                 documentation
               </button>{' '}
               or contact{' '}
-              <button type="button" underline>
+              <button
+                type="button"
+                underline
+                className="text-brand-800"
+                onClick={() =>
+                  window.open('https://www.browserstack.com/contact')
+                }
+              >
                 Support
               </button>
               .
