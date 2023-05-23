@@ -1,19 +1,27 @@
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
 import { twClassNames } from '@browserstack/utils';
 import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import {
+  getAllAppliedFilters,
+  getCurrentFilterCategory,
+  getIsFiltersLoading
+} from 'features/FilterSkeleton/slices/selectors';
+import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
 import {
   setIsUEDetailsVisible,
   setShowUEDetailsFor
 } from 'features/SHErrorDetails/slices/dataSlice';
+import { SHUEFilters } from 'features/SHFilters';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 
-import ErrorsHeader from '../components/ErrorsHeader';
 import UETableHeader from '../components/UETableHeader';
 import {
   getSnPErrorsData,
@@ -63,6 +71,10 @@ const SnPUniqueErrors = () => {
   const pagingParams = useSelector(getSnpErrorsPaging);
   const sortBy = useSelector(getSnpErrorsSortBy);
   const activeProject = useSelector(getActiveProject);
+  const navigate = useNavigate();
+  const appliedFilters = useSelector(getAllAppliedFilters);
+  const isFiltersLoading = useSelector(getIsFiltersLoading);
+  const currentFilterCategory = useSelector(getCurrentFilterCategory);
 
   useEffect(() => {
     logOllyEvent({
@@ -94,9 +106,19 @@ const SnPUniqueErrors = () => {
   };
 
   useEffect(() => {
+    navigate({
+      search: getSearchStringFromFilters(appliedFilters).toString()
+    });
+  }, [appliedFilters, navigate]);
+
+  useEffect(() => {
     mounted.current = true;
-    if (activeProject?.normalisedName) {
-      dispatch(setErrorsLoading(true));
+    dispatch(setErrorsLoading(true));
+    if (
+      activeProject?.normalisedName &&
+      !isFiltersLoading &&
+      currentFilterCategory === FILTER_CATEGORIES.SUITE_HEALTH_UNIQUE_ERRORS
+    ) {
       dispatch(
         getSnPErrorsData({
           normalisedName: activeProject?.normalisedName,
@@ -112,7 +134,15 @@ const SnPUniqueErrors = () => {
     return () => {
       mounted.current = false;
     };
-  }, [dispatch, filters, activeProject?.normalisedName, sortBy]);
+  }, [
+    dispatch,
+    filters,
+    activeProject?.normalisedName,
+    sortBy,
+    isFiltersLoading,
+    appliedFilters,
+    currentFilterCategory
+  ]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -145,7 +175,9 @@ const SnPUniqueErrors = () => {
 
   return (
     <div className={twClassNames('flex flex-col h-full ')}>
-      <ErrorsHeader handleClickSortBy={handleClickSortBy} sortBy={sortBy} />
+      <div className={twClassNames('mb-4 px-6 pt-5')}>
+        <SHUEFilters />
+      </div>
       <UEMetrics />
       {isLoadingErrors ? (
         <O11yLoader

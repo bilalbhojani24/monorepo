@@ -116,10 +116,3 @@ export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.search.key]: 'Search',
   [ADV_FILTER_TYPES.dateRange.key]: 'Date Range'
 };
-
-export const DATE_RANGE_KEYS = {
-  days7: 'days7',
-  days15: 'days15',
-  days30: 'days30',
-  months2: 'months2'
-};

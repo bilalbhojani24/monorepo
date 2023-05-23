@@ -6,17 +6,19 @@ import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
 import {
   getAllAppliedFilters,
+  getCurrentFilterCategory,
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
 import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
+import { SHTestsFilters } from 'features/SHFilters';
 import {
   setIsSHTestsDetailsVisible,
   setShowSHTestsDetailsFor,
   setSnPCbtInfo
 } from 'features/SHTestDetails/slices/dataSlice';
-import SHTestsFilters from 'features/SHTestsFilters';
 import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -53,6 +55,7 @@ export default function SHTests() {
   const isFiltersLoading = useSelector(getIsFiltersLoading);
   const navigate = useNavigate();
   const appliedFilters = useSelector(getAllAppliedFilters);
+  const currentFilterCategory = useSelector(getCurrentFilterCategory);
 
   useEffect(() => {
     logOllyEvent({
@@ -85,8 +88,12 @@ export default function SHTests() {
 
   useEffect(() => {
     mounted.current = true;
-    if (activeProject?.normalisedName && !isFiltersLoading) {
-      dispatch(setTestsLoading(true));
+    dispatch(setTestsLoading(true));
+    if (
+      activeProject?.normalisedName &&
+      !isFiltersLoading &&
+      currentFilterCategory === FILTER_CATEGORIES.SUITE_HEALTH_TESTS
+    ) {
       dispatch(
         getSnPTestsData({
           normalisedName: activeProject?.normalisedName,
@@ -106,7 +113,8 @@ export default function SHTests() {
     appliedFilters,
     activeProject?.normalisedName,
     sortBy,
-    isFiltersLoading
+    isFiltersLoading,
+    currentFilterCategory
   ]);
 
   useEffect(() => {

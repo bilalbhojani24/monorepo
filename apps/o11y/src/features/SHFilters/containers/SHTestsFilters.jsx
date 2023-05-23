@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { O11Y_DATE_RANGE } from 'constants/common';
 import {
   DatePickerFilterField,
   FilterPills,
@@ -14,15 +15,20 @@ import {
 } from 'features/FilterSkeleton';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import {
-  getBuildNamesData,
-  getBuildTagsData,
-  getHostNamesData,
   getSnPTestsFiltersData,
-  getTestTagsData
+  getTestsBuildNamesData,
+  getTestsBuildTagsData,
+  getTestsHostNamesData,
+  getTestsTestTagsData
 } from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
 
-import { SH_TESTS_DATE_RANGE_OBJECT } from '../constants';
+const SUPPORTED_DATE_RANGE_KEYS = [
+  O11Y_DATE_RANGE.days7.key,
+  O11Y_DATE_RANGE.days15.key,
+  O11Y_DATE_RANGE.days30.key,
+  O11Y_DATE_RANGE.custom.key
+];
 
 const SHTestsFilters = () => {
   const dispatch = useDispatch();
@@ -52,7 +58,7 @@ const SHTestsFilters = () => {
           placeholder="Search by Test name or File path"
         />
         <div className="flex items-center gap-5">
-          <DatePickerFilterField dateRangeObject={SH_TESTS_DATE_RANGE_OBJECT} />
+          <DatePickerFilterField supportedKeys={SUPPORTED_DATE_RANGE_KEYS} />
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
       </div>
@@ -62,21 +68,21 @@ const SHTestsFilters = () => {
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.uniqueBuildNames.key}
             placeholder="Select"
-            label="Unique BuildNames"
-            searchAPI={getBuildNamesData}
+            label="Unique Build Name"
+            searchAPI={getTestsBuildNamesData}
           />
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.buildTags.key}
             placeholder="Select"
             label="Build Tags"
-            searchAPI={getBuildTagsData}
+            searchAPI={getTestsBuildTagsData}
           />
-          <FolderFilterField />
+          <FolderFilterField label="File Directory" />
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.testTags.key}
             placeholder="Select"
             label="Test Tags"
-            searchAPI={getTestTagsData}
+            searchAPI={getTestsTestTagsData}
           />
           <MultiSelectCheckboxFilterField
             label="Flaky Tests"
@@ -112,8 +118,8 @@ const SHTestsFilters = () => {
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.hostNames.key}
             placeholder="Select"
-            label="Host name"
-            searchAPI={getHostNamesData}
+            label="Host"
+            searchAPI={getTestsHostNamesData}
           />
           <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.deviceList.key}
@@ -133,7 +139,7 @@ const SHTestsFilters = () => {
           <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.failureCategories.key}
             placeholder="Select"
-            label="Failure categories"
+            label="Failure Categories"
           />
         </div>
       </FilterSlideover>

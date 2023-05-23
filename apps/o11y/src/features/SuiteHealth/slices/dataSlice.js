@@ -164,9 +164,13 @@ export const getSnPTestsBreakdownData = createAsyncThunk(
 );
 export const getSnPErrorsData = createAsyncThunk(
   'suitehealth/getSnPErrorsData',
-  async (data, { rejectWithValue, dispatch }) => {
+  async (data, { rejectWithValue, dispatch, getState }) => {
     try {
-      const response = await getSnPErrors({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPErrors({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       const allBreakdownData = {};
       response.data.errors?.forEach((error) => {
         allBreakdownData[error.id] = {
@@ -191,9 +195,13 @@ export const getSnPErrorsData = createAsyncThunk(
 );
 export const getSnPUEBreakdownData = createAsyncThunk(
   'suitehealth/getSnPUEBreakdownData',
-  async (data, { rejectWithValue }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getSnPUEBreakdown({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPUEBreakdown({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
