@@ -9,9 +9,9 @@ import ReportContainer from './features/ReportContainer';
 const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route element={<Dashboard />}>
-        <Route index path="/" element={<RootRedirect />} />
+      <Route index path="/" element={<RootRedirect />} />
 
+      <Route element={<Dashboard />}>
         <Route path="report/:reportId" element={<ReportContainer />} />
       </Route>
     </Routes>

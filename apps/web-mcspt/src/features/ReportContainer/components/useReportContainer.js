@@ -18,13 +18,18 @@ const useReportContainer = () => {
 
   const { reportId } = useParams();
 
+  const openUrlInNewTab = (diagnosticUrl) => {
+    window.open(diagnosticUrl, '_blank');
+  };
+
   useEffect(() => {
     dispatch(getReportData(reportId, queryParams.get('auth_token')));
   }, [reportId, queryParams, dispatch]);
 
   return {
     isReportLoading,
-    isReportErrored
+    isReportErrored,
+    openUrlInNewTab
   };
 };
 

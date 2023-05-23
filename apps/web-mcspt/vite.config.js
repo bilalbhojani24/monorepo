@@ -7,7 +7,7 @@ const webMcpstViteConfig = {
 };
 
 // Enable this line when you wanna debug a prod build with source-maps
-// webMcpstViteConfig.build.sourcemaps
+// webMcpstViteConfig.build.sourcemap = true;
 
 webMcpstViteConfig.define = {
   IS_DEV: JSON.stringify(process.argv.includes('IS_DEV')),

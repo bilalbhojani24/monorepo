@@ -15,6 +15,10 @@ const useReportHeader = () => {
     setShowDesktopAppDownloadBanner(false);
   }, []);
 
+  const openDiagnosticUrlInNewTab = () => {
+    window.open(sessionData?.metadata?.video, '_blank');
+  };
+
   const redirectToDesktopApp = useCallback(() => {
     window.open(DOC_LINKS_CONSTANTS.MCP_LANDING, '_blank');
   }, []);
@@ -23,7 +27,8 @@ const useReportHeader = () => {
     sessionData,
     showDesktopAppDownloadBanner,
     dismissDesktopAppDownloadBanner,
-    redirectToDesktopApp
+    redirectToDesktopApp,
+    openDiagnosticUrlInNewTab
   };
 };
 

@@ -8,7 +8,8 @@ import ReportLoading from './ReportLoading';
 import useReportContainer from './useReportContainer';
 
 const ReportContainer = () => {
-  const { isReportLoading, isReportErrored } = useReportContainer();
+  const { isReportLoading, isReportErrored, openUrlInNewTab } =
+    useReportContainer();
 
   return (
     <>
@@ -19,8 +20,8 @@ const ReportContainer = () => {
       {!isReportLoading && !isReportErrored && (
         <div className="flex max-h-[calc(100vh-4rem)]">
           <Report
-            handleUrlViaConsumer={() => {}}
-            handleFolderViaConsumer={() => {}}
+            handleUrlViaConsumer={openUrlInNewTab}
+            handleFolderViaConsumer={openUrlInNewTab}
             headerComponent={<WebReportHeader />}
           />
         </div>

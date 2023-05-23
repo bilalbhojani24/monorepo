@@ -14,7 +14,8 @@ const ReportHeader = () => {
     sessionData,
     showDesktopAppDownloadBanner,
     dismissDesktopAppDownloadBanner,
-    redirectToDesktopApp
+    redirectToDesktopApp,
+    openDiagnosticUrlInNewTab
   } = useReportHeader();
 
   return (
@@ -41,7 +42,7 @@ const ReportHeader = () => {
             colors="white"
             variant="primary"
             icon={<MdOutlineFileDownload />}
-            onClick={() => {}}
+            onClick={openDiagnosticUrlInNewTab}
           >
             Download Logs
           </Button>
