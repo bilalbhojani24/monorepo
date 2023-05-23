@@ -33,6 +33,9 @@ export const CreateIssue = ({
   useEffect(() => {
     const configWithParams = addConfigParams(config);
     dispatch(setConfig(configWithParams));
+    return () => {
+      dispatch(clearGlobalAlert());
+    };
   }, [config, dispatch]);
   const integrations = useSelector(integrationsSelector);
   const hasAtLeastOneIntegrationSetup = integrations?.some(
@@ -132,7 +135,9 @@ export const CreateIssue = ({
           hasAtLeastOneIntegrationSetup ? ' p-6' : ' p-1',
           !isBeingDiscarded ? ' overflow-auto' : ''
         )}
-        style={{ maxHeight: `${maxHeight}px` }}
+        style={{
+          maxHeight: hasAtLeastOneIntegrationSetup ? `${maxHeight}px` : 'reset'
+        }}
       >
         {!isBeingDiscarded && <GlobalAlert className="pb-6" />}
         <ListOfIntegrations
@@ -154,7 +159,7 @@ export const CreateIssue = ({
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
-        <div className="border-base-200 fixed bottom-0 left-0 z-10 flex w-full justify-end border-t bg-white px-5 pt-4 pb-6">
+        <div className="border-base-200 fixed bottom-0 left-0 z-10 flex w-full justify-end border-t bg-white px-5 pb-6 pt-4">
           <Button
             wrapperClassName="mr-4"
             colors="white"
