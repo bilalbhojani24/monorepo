@@ -41,18 +41,18 @@ const ImportDetailsModal = ({ show, headerText }) => {
             </div>
             <div className="mt-6 flex">
               <TitleDescriptionNode
-                title="Currently Importing:"
-                description="Project May Updates 2023"
+                title={`Currently Importing (${importDetails?.currentProjectNumber}/${importDetails?.totalProjects}):`}
+                description={importDetails?.currentProjectName}
                 wrapperClassName="basis-2/5"
               />
               <div className="flex basis-3/5 justify-between">
                 <TitleDescriptionNode
                   title="Successfully Imported:"
-                  description="1/12"
+                  description={`${importDetails?.successfullyImportedProjects}/${importDetails?.totalProjects}`}
                 />
                 <TitleDescriptionNode
                   title="Failed to Import:"
-                  description="11/12"
+                  description={`${importDetails?.failedProjects}/${importDetails?.totalProjects}`}
                 />
               </div>
             </div>

@@ -10,8 +10,12 @@ import useImport from './useImport';
 
 const ConfigureData = (props) => {
   const { projects, showLoader } = props;
-  const { testManagementProjects, handleBeginImport, showErrorForConfigData } =
-    useImport();
+  const {
+    testManagementProjects,
+    handleBeginImport,
+    showErrorForConfigData,
+    beginImportLoading
+  } = useImport();
 
   if (!testManagementProjects.length) return <NoProjects />;
 
@@ -31,7 +35,11 @@ const ConfigureData = (props) => {
               <TMSectionHeadings
                 title="Select projects that you would like to import"
                 trailingHeadNode={
-                  <TMButton onClick={handleBeginImport}>
+                  <TMButton
+                    onClick={handleBeginImport}
+                    loading={beginImportLoading}
+                    isIconOnlyButton={beginImportLoading}
+                  >
                     Begin Importing
                   </TMButton>
                 }

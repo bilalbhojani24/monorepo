@@ -6,7 +6,7 @@ import {
   HomeOutlinedIcon,
   SettingsOutlinedIcon
 } from 'assets/icons';
-import Clock from 'assets/svg/clock';
+import AnimatedClock from 'assets/icons/customIcons/AnimatedClock';
 import AppRoute from 'const/routes';
 
 export const basePrimaryNavLinks = [
@@ -75,8 +75,8 @@ export const IMPORT_IN_PROGRESS = [
   {
     id: 'import_in_progress',
     label: 'Import in progress',
-    activeIcon: Clock,
-    inActiveIcon: Clock
+    activeIcon: AnimatedClock,
+    inActiveIcon: AnimatedClock
   }
 ];
 

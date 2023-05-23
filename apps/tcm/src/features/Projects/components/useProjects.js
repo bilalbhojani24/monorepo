@@ -17,6 +17,7 @@ import {
 import { redirectToPrevPage, routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
+import { setNotificationConfig } from '../../ImportProgress/slices/importProgressSlice';
 // import {
 //   dismissNewProjectNotification,
 //   getLatestQuickImportConfig
@@ -88,7 +89,7 @@ const useProjects = (prop) => {
   const isNewProjectBannerDismissed = useSelector(
     (state) => state.import.isNewProjectBannerDismissed
   );
-  const latestImportId = useSelector((state) => state.import.importId);
+  const importId = useSelector((state) => state.import.importId);
   const countOfProjectsImported = useSelector(
     (state) => state.import.successfulImportedProjects
   );
@@ -315,6 +316,10 @@ const useProjects = (prop) => {
     }
   };
 
+  const closeProgressNotification = () => {
+    dispatch(setNotificationConfig({ show: false }));
+  };
+
   // const getStatusOfNewImportedProjects = async () => {
   //   try {
   //     const response = await getLatestQuickImportConfig();
@@ -353,7 +358,7 @@ const useProjects = (prop) => {
     showAddModal,
     showEditModal,
     showDeleteModal,
-    latestImportId,
+    importId,
     importStatus,
     isProgressDismissed,
     showNewProjectBanner,
@@ -375,6 +380,7 @@ const useProjects = (prop) => {
     createProjectCtaLoading,
     editProjectCtaLoading,
     deleteProjectCtaLoading,
+    closeProgressNotification,
     // getStatusOfNewImportedProjects,
     editProjectHandler,
     hideEditProjectModal,

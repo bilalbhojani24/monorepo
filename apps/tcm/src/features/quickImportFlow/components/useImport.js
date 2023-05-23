@@ -37,9 +37,6 @@ const useImport = () => {
     (state) => state.import.currentTestManagementTool
   );
   const importStatus = useSelector((state) => state.import.importStatus);
-  const configureToolPageLoading = useSelector(
-    (state) => state.import.configureToolPageLoading
-  );
 
   const testRailsCredTouched = useSelector(
     (state) => state.import.testRailsCredTouched
@@ -47,12 +44,8 @@ const useImport = () => {
   const zephyrCredTouched = useSelector(
     (state) => state.import.zephyrCredTouched
   );
-
-  const configureToolTestConnectionLoading = useSelector(
-    (state) => state.import.configureToolTestConnectionLoading
-  );
-  const configureToolProceedLoading = useSelector(
-    (state) => state.import.configureToolProceedLoading
+  const configureToolPageLoading = useSelector(
+    (state) => state.import.loader.configureToolPageLoading
   );
   const configureToolProceed = useSelector(
     (state) => state.import.configureToolProceed
@@ -61,7 +54,7 @@ const useImport = () => {
     (state) => state.import.showErrorForConfigData
   );
   const beginImportLoading = useSelector(
-    (state) => state.import.beginImportLoading
+    (state) => state.import.loader.beginImportLoading
   );
   const topImportInfoSteps = useSelector(
     (state) => state.import.topImportInfoSteps
@@ -135,8 +128,8 @@ const useImport = () => {
     beginImportLoading,
     configureToolPageLoading,
     configureToolProceed,
-    configureToolProceedLoading,
-    configureToolTestConnectionLoading,
+    // configureToolProceedLoading,
+    // configureToolTestConnectionLoading,
     connectionStatusMap,
     currentScreen,
     currentTestManagementTool,

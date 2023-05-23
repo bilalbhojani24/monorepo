@@ -27,11 +27,14 @@ export const getLatestQuickImportConfig = async () =>
 export const getQuickImportResult = async (id) =>
   fetchGet(`/api/v1/import/quick/${id}/result`);
 
-export const dismissNotificationForImport = async (id) =>
+export const dismissNotification = async (id) =>
   fetchPost(`/api/v1/import/quick/${id}/dismiss_notification`);
 
 export const retryImport = async (id, tool) =>
   fetchGet(`/api/v1/import/${tool}/quick/${id}/retry`);
 
-export const dismissNewProjectNotification = async (importId) =>
-  fetchPost(`/api/v1/import/quick/${importId}/dismiss_new_projects_banner`);
+export const dismissProgressBar = async (importId) =>
+  fetchPost(`/api/v1/import/quick/${importId}/dismiss_progress_banner`);
+
+export const dismissTooltip = async () =>
+  fetchPost('/api/v1/user/dismiss-tooltip/quick_import_ftu');

@@ -1,19 +1,57 @@
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { notify } from '@browserstack/bifrost';
+import AppRoute from 'const/routes';
 
-import { setShowNotification } from '../slices/importProgressSlice';
+import { dismissNotification } from '../../../api/import.api';
+import { setReportModal } from '../slices/importProgressSlice';
 
 const useProgressNotification = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const showNotification = useSelector(
-    (state) => state.importProgress.showNotification
+  const notificationConfig = useSelector(
+    (state) => state.importProgress.progressNotification
+  );
+  const importDetails = useSelector(
+    (state) => state.importProgress.importDetails
+  );
+  const importId = useSelector((state) => state.import.importId);
+
+  const removeNotification = useCallback(
+    (toastDataId) => {
+      notify.remove(toastDataId);
+      dismissNotification(importId);
+    },
+    [importId]
   );
 
-  const removeNotification = (toastData, notify) => {
-    dispatch(setShowNotification(false));
-    notify.remove(toastData.id);
+  const handleFirstButtonClick = (toastDataId) => {
+    removeNotification(toastDataId);
+    dispatch(setReportModal(true));
   };
 
-  return { showNotification, removeNotification };
+  const handleSecondButtonClick = (toastDataId) => {
+    removeNotification(toastDataId);
+    navigate(AppRoute.ROOT);
+  };
+
+  useEffect(() => {
+    if (notificationConfig?.show === false)
+      removeNotification(notificationConfig?.id);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notificationConfig?.show, notificationConfig?.id]);
+
+  return {
+    notify,
+    dispatch,
+    notificationConfig,
+    removeNotification,
+    importDetails,
+    handleFirstButtonClick,
+    handleSecondButtonClick
+  };
 };
 
 export default useProgressNotification;

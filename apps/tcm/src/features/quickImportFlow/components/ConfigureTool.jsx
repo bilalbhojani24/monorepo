@@ -160,10 +160,10 @@ const ConfigureTool = () => {
             IMPORT_FROM_TOOL && (
             <div className="mt-4">
               <TMAlerts
-                description={`Successfully logged in with `}
+                description={`Successfully logged in with '${currentEmail}'`}
                 modifier="primary"
                 accentBorder={false}
-                linkText="Connect New Account"
+                detailsNode="Edit Connection &rarr;"
                 handleLinkClick={handleConnectNewAccount}
               />
             </div>

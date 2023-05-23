@@ -1,7 +1,7 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
 import {
   initLogger,
@@ -17,11 +17,17 @@ import SideNav from 'features/SideNav';
 import { getLatestQuickImportConfig } from './api/import.api';
 import { PRODUCTION_HOST } from './const/immutables';
 import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
+import ProgressNotification from './features/ImportProgress/components/ProgressNotification';
+import ViewReportModal from './features/ImportProgress/components/ViewReportModal';
 import { IMPORT_STATUS } from './features/ImportProgress/const/immutables';
 import {
-  // setImportStatus,
-  setIsProgressDismissed
+  setIsProgressDismissed,
+  setNotificationDismissed
 } from './features/ImportProgress/slices/importProgressSlice';
+import {
+  parseImportDetails,
+  setActualImportStatus
+} from './features/ImportProgress/slices/importProgressThunk';
 import {
   setCurrentTestManagementTool,
   setImportId,
@@ -37,6 +43,7 @@ function App() {
   const { connectWSQI } = useWebSocketQI();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const userData = useSelector((state) => state.global.user);
   const userAndGroupConfig = useSelector(
     (state) => state.global.userAndGroupConfig
@@ -91,10 +98,12 @@ function App() {
     if (importStarted === null || importStarted) {
       // refresh or import is actually started
       getLatestQuickImportConfig().then((data) => {
-        // dispatch(setImportStatus(data?.status));
+        dispatch(setActualImportStatus(data));
         dispatch(setCurrentTestManagementTool(data?.import_type.split('_')[0]));
         dispatch(setImportId(data?.import_id));
-        dispatch(setIsProgressDismissed(data?.is_dismissed));
+        dispatch(setIsProgressDismissed(data?.progress_banner_dismissed));
+        dispatch(setNotificationDismissed(data?.notification_dismissed));
+        dispatch(parseImportDetails(data, location));
         // console.log('status from latest', data?.status);
         if (data?.status === IMPORT_STATUS.ONGOING)
           connectWSQI({ importId: data?.import_id });
@@ -122,6 +131,8 @@ function App() {
         </div>
       </div>
       <Notification />
+      <ProgressNotification />
+      <ViewReportModal />
       <NotificationsContainer />
     </>
   );

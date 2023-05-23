@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { dismissProgressBar } from 'api/import.api';
 
 import { IMPORT_STATUS } from '../const/immutables';
-import { setDetailsModal, setReportModal } from '../slices/importProgressSlice';
+import {
+  setDetailsModal,
+  setIsProgressDismissed,
+  setReportModal
+} from '../slices/importProgressSlice';
 
 const useImportProgress = () => {
   const dispatch = useDispatch();
   const [isCancelConfirmView, setCancelConfirmView] = useState(false);
 
+  const importId = useSelector((state) => state.import.importId);
   const importStatus = useSelector(
     (state) => state.importProgress.importStatus
   );
@@ -26,6 +32,9 @@ const useImportProgress = () => {
   const isCancelModalVisible = useSelector(
     (state) => state.importProgress.isCancelModalVisible
   );
+  const showAlertLoader = useSelector(
+    (state) => state.importProgress.loader.alert
+  );
 
   const showDetailsModal = () => {
     dispatch(setDetailsModal(true));
@@ -35,16 +44,25 @@ const useImportProgress = () => {
     dispatch(setReportModal(true));
   };
 
+  const closeProgress = () => {
+    dispatch(setIsProgressDismissed(true));
+    dismissProgressBar(importId);
+  };
+
   return {
     importStatus,
-    isVisible: !(
-      importStatus === IMPORT_STATUS.COMPLETED && isProgressDismissed
-    ),
+    isVisible:
+      importStatus === IMPORT_STATUS.ONGOING ||
+      ((importStatus === IMPORT_STATUS.FAILURE ||
+        importStatus === IMPORT_STATUS.SUCCESS) &&
+        !isProgressDismissed),
     importDetails,
     isDetailsModalVisible,
     isReportModalVisible,
     isCancelModalVisible,
     isCancelConfirmView,
+    showAlertLoader,
+    closeProgress,
     setCancelConfirmView,
     showDetailsModal,
     showReportModal

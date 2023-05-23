@@ -10,6 +10,7 @@ import { SCREEN_2, ZEPHYR } from '../const/importSteps';
 import {
   quickImportCleanUp,
   retryQuickImportFulfilled,
+  setBeginImportLoading,
   setConfigureToolProceedLoading,
   setConfigureToolTestConnectionLoading,
   setCurrentScreen,
@@ -100,7 +101,7 @@ export const startImport = (navigate) => async (dispatch, getState) => {
 
   const creds = tool === ZEPHYR ? zephyrCred : testRailsCred;
   dispatch(setImportId(importIdBeforeImport));
-
+  dispatch(setBeginImportLoading(true));
   try {
     await importProjects(tool, {
       ...creds,
@@ -110,10 +111,10 @@ export const startImport = (navigate) => async (dispatch, getState) => {
         .filter((project) => project !== null)
     });
     dispatch(setImportStarted(true));
+    dispatch(setBeginImportLoading(false));
     navigate(AppRoute.ROOT);
   } catch (err) {
-    // something for failure
-    // need to discuss this with harsh
+    dispatch(setBeginImportLoading(false));
   }
 };
 
@@ -126,7 +127,12 @@ export const retryQuickImport =
 
     try {
       const response = await retryImport(id, testTool);
-      dispatch(retryQuickImportFulfilled(response));
+      dispatch(
+        retryQuickImportFulfilled({
+          justFetchCreds: jusFetchCreds,
+          ...response
+        })
+      );
       if (!jusFetchCreds) {
         if (quickImportProjectId)
           navigate(`/projects/${quickImportProjectId}/quick-import`);

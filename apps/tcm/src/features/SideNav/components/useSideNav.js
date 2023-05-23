@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { dismissTooltip } from 'api/import.api';
 import { getProjectsMinifiedAPI } from 'api/projects.api';
+import Clock from 'assets/icons/customIcons/Clock';
 import AppRoute from 'const/routes';
 import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
@@ -38,7 +40,7 @@ export default function useSideNav() {
     (state) => state.global.selectedProjectId
   );
   const allFolders = useSelector((state) => state.repository?.allFolders);
-  const overallImportProgress = useSelector(
+  const importProgress = useSelector(
     (state) => state.importProgress.importDetails.percent
   );
   const isDetailsModalVisible = useSelector(
@@ -46,6 +48,9 @@ export default function useSideNav() {
   );
   const isCancelModalVisible = useSelector(
     (state) => state.importProgress.isCancelModalVisible
+  );
+  const isTooltipDismissed = useSelector(
+    (state) => state.importProgress.isTooltipDismissed
   );
 
   const fetchAllProjects = () => {
@@ -115,7 +120,10 @@ export default function useSideNav() {
     setShowAddProject(value);
   };
 
-  const closeTooltipHandler = () => {};
+  const closeTooltipHandler = () => {
+    setShowInProgTooltip(false);
+    dismissTooltip();
+  };
 
   useEffect(() => {
     if (location?.state?.isFromOnboarding && selectedProjectId === 'new') {
@@ -183,11 +191,20 @@ export default function useSideNav() {
     const addProgress = (allNavs) => {
       setSecondaryNavs(
         allNavs.map((item) => {
-          if (item.id === 'import_in_progress')
+          if (item.id === 'import_in_progress') {
+            if (importProgress === 100) {
+              return {
+                ...item,
+                activeIcon: Clock,
+                inActiveIcon: Clock,
+                label: `Import Completed (${importProgress}%)`
+              };
+            }
             return {
               ...item,
-              label: `Import in Progress (${overallImportProgress}%)`
+              label: `Import in Progress (${importProgress}%)`
             };
+          }
           return item;
         })
       );
@@ -206,13 +223,12 @@ export default function useSideNav() {
       addProgress(secondaryNavs);
     } else setSecondaryNavs(secondaryNavLinks);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, overallImportProgress]);
+  }, [location.pathname, importProgress]);
 
   useEffect(() => {
     fetchAllProjects();
     setTimeout(() => {
       closeTooltipHandler();
-      setShowInProgTooltip(false);
     }, 5000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -231,6 +247,7 @@ export default function useSideNav() {
     activeRoute,
     selectedProjectId,
     showImportInProgTooltip,
+    isTooltipDismissed,
     onLinkChange,
     onProjectChange,
     setAddProjectModal

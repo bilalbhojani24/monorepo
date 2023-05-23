@@ -6,22 +6,21 @@ const initialState = {
   isDetailsModalVisible: false,
   isReportModalVisible: false,
   isCancelModalVisible: false,
-  isLoading: {},
+  loader: { alert: false },
   importDetails: {
-    percent: 30,
-    totalProjects: 12,
-    successfullyImportedProjects: 6,
-    failedProjects: 4,
-    currentlyImportingProjectNo: 4,
-    currentImportingProjectName: 'Hello',
-    imported: 2,
-    notImported: 2,
-    totalImports: 40
+    percent: 0,
+    totalProjects: 'N',
+    successfullyImportedProjects: 0,
+    failedProjects: 0,
+    currentProjectNumber: 0,
+    currentProjectName: '--'
   },
   importStatus: IMPORT_STATUS.ONGOING,
   isProgressDismissed: true,
+  isNotificationDismissed: true,
+  isTooltipDismissed: false,
   reportModalProjects: [],
-  showNotification: false
+  progressNotification: { show: null, id: 'progress-notification' }
 };
 
 export const importProgressSlice = createSlice({
@@ -38,7 +37,16 @@ export const importProgressSlice = createSlice({
       state.isLoading[payload.key] = payload.value;
     },
     setImportDetails: (state, { payload }) => {
-      state.importDetails = payload;
+      if (payload) {
+        state.importDetails.percent = payload?.percent;
+        state.importDetails.totalProjects = payload?.projects;
+        state.importDetails.currentProjectName = payload?.current_project;
+        state.importDetails.currentProjectNumber =
+          payload?.current_project_number;
+        state.importDetails.failedProjects = payload?.projects_failed;
+        state.importDetails.successfullyImportedProjects =
+          payload?.projects_done;
+      }
     },
     setImportStatus: (state, { payload }) => {
       state.importStatus = payload;
@@ -46,14 +54,25 @@ export const importProgressSlice = createSlice({
     setIsProgressDismissed: (state, { payload }) => {
       state.isProgressDismissed = payload;
     },
+    setNotificationDismissed: (state, { payload }) => {
+      state.isNotificationDismissed = payload;
+    },
+    setTooltipDismissed: (state, { payload }) => {
+      state.isTooltipDismissed = payload;
+    },
     setCancelModal: (state, { payload }) => {
       state.isCancelModalVisible = payload;
     },
     getQuickImportResultFulfilled: (state, { payload }) => {
       state.reportModalProjects = payload.projects;
     },
-    setShowNotification: (state, { payload }) => {
-      state.showNotification = payload;
+    setNotificationConfig: (state, { payload }) => {
+      state.progressNotification.show = payload?.show;
+      state.progressNotification.id =
+        payload?.id || initialState.progressNotification.id;
+    },
+    showAlertLoader: (state, { payload }) => {
+      state.loader.alert = payload;
     }
   }
 });
@@ -65,8 +84,11 @@ export const {
   setIsLoadingProps,
   setDetailsModal,
   setCancelModal,
+  showAlertLoader,
+  setTooltipDismissed,
+  setNotificationDismissed,
   setIsProgressDismissed,
-  setShowNotification,
+  setNotificationConfig,
   getQuickImportResultFulfilled
 } = importProgressSlice.actions;
 

@@ -1,59 +1,69 @@
 import React, { useEffect } from 'react';
 import {
   MdCheckCircleOutline,
-  //   MdErrorOutline,
-  notify
+  MdOutlineWarningAmber
 } from '@browserstack/bifrost';
-import { TMNotifications } from 'common/bifrostProxy';
+import { TMButton, TMNotifications } from 'common/bifrostProxy';
+
+import { setNotificationConfig } from '../slices/importProgressSlice';
 
 import useProgressNotification from './useProgressNotification';
 
 const ProgressNotification = () => {
   const AUTO_CLOSE_TIMER = 5000;
 
-  const { showNotification, removeNotification } = useProgressNotification();
+  const {
+    notify,
+    dispatch,
+    notificationConfig,
+    importDetails,
+    handleFirstButtonClick,
+    handleSecondButtonClick
+  } = useProgressNotification();
 
   useEffect(() => {
-    if (showNotification) {
+    if (notificationConfig?.show) {
       notify(
         <TMNotifications
-          title="Projects Imported" // yaha mujhe count leke aana hai.
+          title={`${importDetails?.successfullyImportedProject}/${importDetails?.totalProjects} Projects Imported`}
           description="Your import has been completed. You can  check the overall status of your import."
-          //   actionButtons={(toastData) => (
-          //     <>
-          //       <TMButton
-          //         onClick={handleFirstButtonClick(toastData)}
-          //         variant="minimal"
-          //         colors="white"
-          //       >
-          //         {notificationData?.firstButton}
-          //       </TMButton>
-          //       <TMButton
-          //         variant="minimal"
-          //         wrapperClassName="text-base-600"
-          //         onClick={handleSecondButtonClick(toastData)}
-          //       >
-          //         {notificationData?.secondButton}
-          //       </TMButton>
-          //     </>
-          //   )}
+          actionButtons={() => (
+            <>
+              <TMButton
+                onClick={() => handleFirstButtonClick(notificationConfig?.id)}
+                variant="minimal"
+                colors="white"
+              >
+                View Report
+              </TMButton>
+              <TMButton
+                variant="minimal"
+                wrapperClassName="text-base-600"
+                onClick={() => handleSecondButtonClick(notificationConfig?.id)}
+              >
+                Go to All Projects
+              </TMButton>
+            </>
+          )}
           headerIcon={
-            <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
+            importDetails?.failedProjects > 0 ? (
+              <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
+            ) : (
+              <MdOutlineWarningAmber className="text-attention-400 h-6 w-6" />
+            )
           }
-          handleClose={(toastData) => {
-            removeNotification(toastData, notify);
-          }}
+          handleClose={() => dispatch(setNotificationConfig({ show: false }))}
         />,
         {
           position: 'top-right',
           duration: AUTO_CLOSE_TIMER,
           autoClose: true,
-          id: 'progress-notification'
+          id: notificationConfig?.id
         }
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showNotification]);
+  }, [notificationConfig?.show]);
 
   return '';
 };

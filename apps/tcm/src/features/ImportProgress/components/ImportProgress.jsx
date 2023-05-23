@@ -5,19 +5,21 @@ import {
   TMButton,
   TMProgressBar
 } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 
 import { IMPORT_STATUS } from '../const/immutables';
 
 import CancelModal from './CancelModal';
 import ImportDetailsModal from './ImportDetailsModal';
 import useImportProgress from './useImportProgress';
-import ViewReportModal from './ViewReportModal';
+// import ViewReportModal from './ViewReportModal';
 
 const ImportProgress = () => {
   const {
     isVisible,
     importStatus,
     importDetails,
+    showAlertLoader,
     showDetailsModal,
     showReportModal,
     closeProgress,
@@ -27,6 +29,13 @@ const ImportProgress = () => {
 
   if (!isVisible) return null;
 
+  if (showAlertLoader) {
+    return (
+      <div className="border-base-300 mb-4 rounded-md border bg-white py-3">
+        <Loader />
+      </div>
+    );
+  }
   if (importStatus === IMPORT_STATUS.SUCCESS)
     return (
       <div className="mb-4">
@@ -35,12 +44,11 @@ const ImportProgress = () => {
           modifier="success"
           accentBorder
           dismissButton
+          detailsNode="View Report"
           alertLinkPosition="inline"
           handleLinkClick={showReportModal}
-          description={`Congratulations your import is completed. ${importDetails?.imported}/${importDetails?.totalImports} projects were imported successfully.`}
-          linkText="View Report"
+          description={`Congratulations your import is completed. ${importDetails?.successfullyImportedProjects}/${importDetails?.totalProjects} projects were imported successfully.`}
         />
-        <ViewReportModal />
       </div>
     );
 
@@ -54,10 +62,9 @@ const ImportProgress = () => {
           dismissButton
           alertLinkPosition="inline"
           handleLinkClick={showReportModal}
-          description={`Your import is completed. We could only import ${importDetails?.imported}/${importDetails?.totalImports} projects.`}
-          linkText="View Report"
+          description={`Your import is completed. We could only import ${importDetails?.successfullyImportedProjects}/${importDetails?.totalProjects} projects.`}
+          detailsNode="View Report"
         />
-        <ViewReportModal />
       </div>
     );
 
@@ -67,9 +74,9 @@ const ImportProgress = () => {
         <div className="flex w-full items-center justify-between">
           <div className="text-base-800 text-sm font-medium">
             Quick Import in progress: {importDetails?.percent}%{' '}
-            {importDetails?.imported > 0 && (
+            {importDetails?.successfullyImportedProjects > 0 && (
               <TMBadge
-                text={`${importDetails.imported} Project Imported`}
+                text={`${importDetails?.successfullyImportedProjects} Project Imported`}
                 isRounded
                 modifier="success"
                 wrapperClassName="ml-1"

@@ -33,49 +33,10 @@ const ViewReportModal = () => {
     {
       name: 'PROJECT NAME',
       key: 'project_name'
-      // cell: (rowData) => (
-      // <div className="flex">
-      //   <span>
-      //     {rowData?.status === 'success' ? (
-      //       <MdCheckCircle className="text-success-600 h-5 w-5" />
-      //     ) : (
-      //       <MdOutlineWarning className="text-attention-600 h-5 w-5" />
-      //     )}
-      //   </span>
-      //   <span className="text-base-900 ml-2 text-sm font-medium">
-      //     <TMTruncateText
-      //       truncateUsingClamp={false}
-      //       hidetooltipTriggerIcon
-      //       isFullWidthTooltip
-      //       headerTooltipProps={{
-      //         delay: 500
-      //       }}
-      //     >{`${rowData?.name}`}</TMTruncateText>
-      //   </span>
-      // </div>
-      // )
     },
     {
       name: 'STATUS',
       key: 'status'
-      // cell: (rowData) => (
-      //   <div className="text-base-700 text-sm font-normal">
-      //     <TMTruncateText
-      //       truncateUsingClamp={false}
-      //       hidetooltipTriggerIcon
-      //       isFullWidthTooltip
-      //       headerTooltipProps={{
-      //         delay: 500
-      //       }}
-      //     >
-      //       {`${
-      //         rowData?.status === 'success'
-      //           ? 'Successfully Imported'
-      //           : rowData?.error
-      //       }`}
-      //     </TMTruncateText>
-      //   </div>
-      // )
     }
   ];
 
@@ -149,10 +110,20 @@ const ViewReportModal = () => {
         <TMAlerts
           modifier="primary"
           accentBorder
-          // dismissButton
           alertLinkPosition="inline"
-          description="For any assistance related to import, read documentation or contact Support."
-          linkText={null}
+          description={
+            <>
+              For any assistance related to import, read{' '}
+              <button type="button" underline>
+                documentation
+              </button>{' '}
+              or contact{' '}
+              <button type="button" underline>
+                Support
+              </button>
+              .
+            </>
+          }
         />
       </TMModalBody>
       <TMModalFooter position="right">

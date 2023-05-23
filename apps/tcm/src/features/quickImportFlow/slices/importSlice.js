@@ -1,15 +1,19 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import {
-  dismissNotificationForImport,
+  // dismissNotificationForImport,
   getJiraConfigStatus,
   getLatestQuickImportConfig
 } from '../../../api/import.api';
 import { SCREEN_1, SCREEN_2, TESTRAIL, ZEPHYR } from '../const/importSteps';
 
 const initialState = {
-  configureToolTestConnectionLoading: false,
-  configureToolProceedLoading: false,
+  loader: {
+    configureToolTestConnectionLoading: false,
+    configureToolProceedLoading: false,
+    beginImportLoading: false,
+    configureToolPageLoading: true
+  },
   configureToolProceed: false,
   showErrorForConfigData: false,
   testRailsCred: {
@@ -36,8 +40,6 @@ const initialState = {
   importId: null,
   importIdBeforeImport: null,
   quickImportProjectId: null,
-  beginImportLoading: false,
-  configureToolPageLoading: true,
   topImportInfoSteps: [],
   loggedInScreen: false,
   loggedInForTool: '',
@@ -66,29 +68,29 @@ export const setImportConfigurations = createAsyncThunk(
   }
 );
 
-export const setNotificationDismissed = createAsyncThunk(
-  'import/setNotificationDismissed',
-  async (id) => {
-    try {
-      return await dismissNotificationForImport(id);
-    } catch (err) {
-      return err;
-    }
-  }
-);
+// export const setNotificationDismissed = createAsyncThunk(
+//   'import/setNotificationDismissed',
+//   async (id) => {
+//     try {
+//       return await dismissNotificationForImport(id);
+//     } catch (err) {
+//       return err;
+//     }
+//   }
+// );
 
 const importSlice = createSlice({
   name: 'import',
   initialState,
   reducers: {
     setConfigureToolProceedLoading: (state, { payload }) => {
-      state.configureToolProceedLoading = payload;
+      state.loader.configureToolProceedLoading = payload;
     },
     setConfigureToolPageLoading: (state, { payload }) => {
-      state.configureToolPageLoading = payload;
+      state.loader.configureToolPageLoading = payload;
     },
     setConfigureToolTestConnectionLoading: (state, { payload }) => {
-      state.configureToolTestConnectionLoading = payload;
+      state.loader.configureToolTestConnectionLoading = payload;
     },
     setErrorForConfigureData: (state, { payload }) => {
       state.showErrorForConfigData = payload;
@@ -144,11 +146,11 @@ const importSlice = createSlice({
     },
     setTestConnectionFulfilled: (state) => {
       state.connectionStatusMap[state.currentTestManagementTool] = 'success';
-      state.configureToolTestConnectionLoading = false;
+      state.loader.configureToolTestConnectionLoading = false;
     },
     setTestConnectionFailed: (state) => {
       state.connectionStatusMap[state.currentTestManagementTool] = 'error';
-      state.configureToolTestConnectionLoading = false;
+      state.loader.configureToolTestConnectionLoading = false;
     },
     setProceedFulfilled: (state, { payload }) => {
       if (payload?.import_id) state.importIdBeforeImport = payload?.import_id;
@@ -159,21 +161,21 @@ const importSlice = createSlice({
         })
       );
       state.configureToolProceed = true;
-      state.configureToolProceedLoading = false;
+      state.loader.configureToolProceedLoading = false;
     },
     setProceedFailed: (state) => {
-      state.configureToolProceedLoading = false;
+      state.loader.configureToolProceedLoading = false;
     },
     quickImportCleanUp: (state, { payload }) => {
       const {
         importId,
-        importStatus,
-        isDismissed,
+        // importStatus,
+        // isDismissed,
         importStarted,
-        notificationData,
-        notificationProjectConfig,
-        showNotificationModal,
-        checkImportStatusClicked,
+        // notificationData,
+        // notificationProjectConfig,
+        // showNotificationModal,
+        // checkImportStatusClicked,
         quickImportProjectId,
         currentTestManagementTool,
         successfulImportedProjects,
@@ -182,22 +184,22 @@ const importSlice = createSlice({
 
       return {
         importId: payload?.importId,
-        importStatus: payload?.importStatus,
+        // importStatus: payload?.importStatus,
         isDismissed: payload?.isDismissed,
         importStarted: payload?.importStarted,
-        notificationData: payload?.notificationData,
-        notificationProjectConfig: payload?.notificationProjectConfig,
-        showNotificationModal: payload?.showNotificationModal,
-        checkImportStatusClicked: payload?.checkImportStatusClicked,
+        // notificationData: payload?.notificationData,
+        // notificationProjectConfig: payload?.notificationProjectConfig,
+        // showNotificationModal: payload?.showNotificationModal,
+        // checkImportStatusClicked: payload?.checkImportStatusClicked,
         quickImportProjectId: payload?.quickImportProjectId,
         currentTestManagementTool: payload?.currentTestManagementTool,
         successfulImportedProjects: payload?.successfulImportedProjects,
         ...restInitialState
       };
     },
-    setCheckImportStatusClicked: (state, { payload }) => {
-      state.checkImportStatusClicked = payload;
-    },
+    // setCheckImportStatusClicked: (state, { payload }) => {
+    //   state.checkImportStatusClicked = payload;
+    // },
     setNotificationProjectConfig: (state, { payload }) => {
       Object.keys(payload).forEach((key) => {
         state.notificationProjectConfig[key] = payload[key];
@@ -212,7 +214,7 @@ const importSlice = createSlice({
       state.quickImportProjectId = payload;
     },
     setBeginImportLoading: (state, { payload }) => {
-      state.beginImportLoading = payload;
+      state.loader.beginImportLoading = payload;
     },
     setLatestImportTool: (state, { payload }) => {
       state.latestImportTool = payload;
@@ -240,6 +242,8 @@ const importSlice = createSlice({
       state.importIdBeforeImport = payload;
     },
     retryQuickImportFulfilled: (state, { payload }) => {
+      if (!payload.justFetchCreds) state.loggedInScreen = true;
+
       const testTool = state.currentTestManagementTool;
       if (testTool === TESTRAIL) {
         state.testRailsCred.email = payload.credentials.email;
@@ -251,7 +255,9 @@ const importSlice = createSlice({
         state.zephyrCred.jira_key = payload.credentials.jira_key;
         state.zephyrCred.zephyr_key = payload.credentials.zephyr_key;
       }
-      state.configureToolPageLoading = false;
+      state.currentScreen = SCREEN_1;
+      state.loggedInForTool = testTool;
+      state.loader.configureToolPageLoading = false;
     }
   },
   extraReducers: (builder) => {
@@ -268,13 +274,13 @@ const importSlice = createSlice({
     });
     builder.addCase(setImportConfigurations.fulfilled, (state, { payload }) => {
       state.importId = payload.import_id;
-      state.importStatus = payload.status;
-      state.isDismissed = payload.is_dismissed;
-      state.isNewProjectBannerDismissed = payload.new_projects_banner_dismissed;
+      // state.importStatus = payload.status;
+      // state.isDismissed = payload.is_dismissed;
+      // state.isNewProjectBannerDismissed = payload.new_projects_banner_dismissed;
     });
-    builder.addCase(setNotificationDismissed.fulfilled, (state) => {
-      state.isDismissed = true;
-    });
+    // builder.addCase(setNotificationDismissed.fulfilled, (state) => {
+    //   state.isDismissed = true;
+    // });
   }
 });
 

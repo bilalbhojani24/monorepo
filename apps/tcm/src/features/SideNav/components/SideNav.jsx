@@ -43,6 +43,7 @@ const SideNav = () => {
     showProjects,
     activeRoute,
     selectedProjectId,
+    isTooltipDismissed,
     onProjectChange,
     setAddProjectModal,
     closeTooltipHandler,
@@ -64,7 +65,7 @@ const SideNav = () => {
           />
         ))}
         sidebarSecondaryNavigation={secondaryNavs?.map((item) => {
-          if (item.id === 'import_in_progress') {
+          if (item.id === 'import_in_progress' && !isTooltipDismissed) {
             return (
               <TMTooltip
                 size="xs"

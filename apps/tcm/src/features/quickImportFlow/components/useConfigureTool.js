@@ -31,11 +31,12 @@ const useConfigureTool = () => {
     (state) => state.import.configureToolProceed
   );
   const configureToolTestConnectionLoading = useSelector(
-    (state) => state.import.configureToolTestConnectionLoading
+    (state) => state.import.loader.configureToolTestConnectionLoading
   );
   const configureToolProceedLoading = useSelector(
-    (state) => state.import.configureToolProceedLoading
+    (state) => state.import.loader.configureToolProceedLoading
   );
+
   const currentScreen = useSelector((state) => state.import.currentScreen);
   const loggedInScreen = useSelector((state) => state.import.loggedInScreen);
   const loggedInForTool = useSelector((state) => state.import.loggedInForTool);
