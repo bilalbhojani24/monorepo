@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { GlobalAlert } from '../../common/components';
 import { setConfig } from '../../common/slices/configSlice';
 import { clearGlobalAlert } from '../../common/slices/globalAlertSlice';
+import { addConfigParams } from '../../utils/addConfigParams';
 import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
 import { widgetHeightSelector } from '../slices/widgetSlice';
@@ -13,14 +14,13 @@ import { store } from '../store';
 
 import { ISSUE_MODES } from './components/constants';
 import ListOfIntegrations from './components/ListOfIntegrations';
-import { DEFAULT_CONFIG } from './constants';
 import { CreateIssueOptionsType } from './types';
 
 const WIDGET_POSITIONS = ['left', 'right', 'center'];
 
 export const CreateIssue = ({
   auth,
-  config = DEFAULT_CONFIG,
+  config,
   isOpen,
   options,
   position,
@@ -31,9 +31,11 @@ export const CreateIssue = ({
 }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    if (config?.baseURL) {
-      dispatch(setConfig(config));
-    }
+    const configWithParams = addConfigParams(config);
+    dispatch(setConfig(configWithParams));
+    return () => {
+      dispatch(clearGlobalAlert());
+    };
   }, [config, dispatch]);
   const integrations = useSelector(integrationsSelector);
   const hasAtLeastOneIntegrationSetup = integrations?.some(
@@ -45,6 +47,16 @@ export const CreateIssue = ({
   const [isFormBeingSubmitted, setIsFormBeingSubmitted] = useState(false);
   const [mode, setMode] = useState(ISSUE_MODES.CREATION);
   const [tab, setTab] = useState(ISSUE_MODES.CREATION);
+  const discardIssueCB = useRef(null);
+
+  const resetAppState = useCallback(() => {
+    setIsBeingDiscarded(false);
+    setIsWorkInProgress(false);
+    setIsFormBeingSubmitted(false);
+    setMode(ISSUE_MODES.CREATION);
+    setTab(ISSUE_MODES.CREATION);
+    dispatch(clearGlobalAlert());
+  }, [dispatch]);
 
   const continueEditing = useCallback(() => {
     if (tab !== mode) {
@@ -53,7 +65,10 @@ export const CreateIssue = ({
     setIsBeingDiscarded(false);
   }, [mode, tab]);
 
-  const discardIssue = useCallback(() => {
+  const discardIssue = useCallback((callback) => {
+    if (typeof callback === 'function') {
+      discardIssueCB.current = callback;
+    }
     setIsBeingDiscarded(true);
   }, []);
 
@@ -61,12 +76,17 @@ export const CreateIssue = ({
     dispatch(clearGlobalAlert());
     if (tab !== mode) {
       setMode(tab);
+    } else if (typeof discardIssueCB.current === 'function') {
+      discardIssueCB.current();
+      discardIssueCB.current = null;
     } else {
+      resetAppState();
       handleClose();
     }
+
     setIsBeingDiscarded(false);
     setIsWorkInProgress(false);
-  }, [dispatch, handleClose, mode, tab]);
+  }, [dispatch, handleClose, mode, resetAppState, tab]);
 
   useEffect(() => {
     if (isBeingDiscarded && !isWorkInProgress) {
@@ -115,7 +135,9 @@ export const CreateIssue = ({
           hasAtLeastOneIntegrationSetup ? ' p-6' : ' p-1',
           !isBeingDiscarded ? ' overflow-auto' : ''
         )}
-        style={{ maxHeight: `${maxHeight}px` }}
+        style={{
+          maxHeight: hasAtLeastOneIntegrationSetup ? `${maxHeight}px` : 'reset'
+        }}
       >
         {!isBeingDiscarded && <GlobalAlert className="pb-6" />}
         <ListOfIntegrations
@@ -137,7 +159,7 @@ export const CreateIssue = ({
         />
       </div>
       {hasAtLeastOneIntegrationSetup && !isBeingDiscarded && (
-        <div className="border-base-200 fixed bottom-0 left-0 z-10 flex w-full justify-end border-t bg-white px-5 pt-4 pb-6">
+        <div className="border-base-200 fixed bottom-0 left-0 z-10 flex w-full justify-end border-t bg-white px-5 pb-6 pt-4">
           <Button
             wrapperClassName="mr-4"
             colors="white"
