@@ -183,7 +183,7 @@ const Pagination = (props) => {
   return (
     <div
       className={twClassNames(
-        'border-base-200 flex items-center justify-between border-t px-0 py-3 sm:px-6',
+        'border-base-200 z-10 flex items-center justify-between border-t px-0 py-3 sm:px-6',
         wrapperClassName
       )}
       aria-label="Pagination"

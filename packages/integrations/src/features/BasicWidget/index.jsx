@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from '@browserstack/hooks';
+import { initLogger } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { getSetupStatus } from '../../api/getSetupStatus';
@@ -10,6 +11,9 @@ import {
   GenericError as ErrorWithTryAgain,
   Loader
 } from '../../common/components';
+import { baseURLSelector } from '../../common/slices/configSlice';
+import { getAnalyticsKeys } from '../../utils/analytics';
+import { DEFAULT_CONFIG } from '../CreateIssue/constants';
 import { LOADING_STATUS } from '../slices/constants';
 import {
   activeIntegrationSelector,
@@ -22,7 +26,8 @@ import {
   hasTokenSelector,
   setUATConfig,
   userAuthErrorSelector,
-  userAuthLoadingSelector
+  userAuthLoadingSelector,
+  userIdSelector
 } from '../slices/userAuthSlice';
 
 import DraggableContainer from './components/Draggable';
@@ -132,10 +137,13 @@ const WidgetPortal = ({
 }) => {
   const hasToken = useSelector(hasTokenSelector);
   const prevAuth = usePrevious(auth);
+  const baseURL = useSelector(baseURLSelector);
+  const isProd = baseURL === DEFAULT_CONFIG.baseURL;
   const userAuthLoadingStatus = useSelector(userAuthLoadingSelector);
   const integrationsLoadingStatus = useSelector(integrationsLoadingSelector);
   const integrationsHasError = Boolean(useSelector(integrationsErrorSelector));
   const userAuthHasError = Boolean(useSelector(userAuthErrorSelector));
+  const userIdFromStore = useSelector(userIdSelector);
   const isUserAuthLoading = userAuthLoadingStatus === LOADING_STATUS.PENDING;
   const areIntegrationsLoading =
     integrationsLoadingStatus === LOADING_STATUS.PENDING;
@@ -153,7 +161,13 @@ const WidgetPortal = ({
         dispatch(getIntegrationsThunk({ projectId, componentKey }));
       });
     }
-  }, [auth, componentKey, dispatch, hasToken, prevAuth, projectId]);
+  }, [auth, componentKey, dispatch, hasToken, isProd, prevAuth, projectId]);
+
+  useEffect(() => {
+    if (userIdFromStore && isProd) {
+      initLogger(getAnalyticsKeys(userIdFromStore));
+    }
+  }, [userIdFromStore, isProd]);
 
   const handleTryAgain = () => {
     if (userAuthHasError) {
