@@ -158,7 +158,7 @@ const GetHelp = ({
           onClick={(e) => {
             hyperlinkClickHandler(
               e,
-              footerLeftLink,
+              footerRightLink,
               callbackFunctions?.onHelpDropdownOptionClick,
               '_self',
               'View Support'

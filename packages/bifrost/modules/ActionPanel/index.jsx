@@ -13,7 +13,7 @@ const ActionPanel = ({ title, content, description }) => {
           </h3>
         )}
         {description && (
-          <div className="text-base-500 mt-2 max-w-xl text-sm">
+          <div className="text-base-900 mt-2 max-w-xl text-sm">
             <p>{description}</p>
           </div>
         )}

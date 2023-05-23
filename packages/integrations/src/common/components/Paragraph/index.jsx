@@ -54,7 +54,11 @@ const Paragraph = ({
             variant="minimal"
             wrapperClassName="border-0 shadow-none focus:ring-0 focus:ring-offset-0 px-0 text-base-500 text-sm"
             icon={
-              shouldShowMetaSection ? <ChevronUpIcon /> : <ChevronDownIcon />
+              shouldShowMetaSection ? (
+                <ChevronUpIcon className="h-6 w-6" />
+              ) : (
+                <ChevronDownIcon className="h-6 w-6" />
+              )
             }
             iconPlacement="end"
             onClick={toggleMetaSectionVisibility}

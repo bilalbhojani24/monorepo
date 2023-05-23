@@ -20,7 +20,7 @@ const PageHeadings = (props) => {
     onBreadcrumbClick
   } = props;
   return (
-    <div className={wrapperClassName}>
+    <div className={twClassNames(wrapperClassName, 'z-10')}>
       <div className="lg:flex lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           {/* breadcrumbs */}
@@ -36,7 +36,7 @@ const PageHeadings = (props) => {
           {/* title */}
           <h2
             className={twClassNames(
-              'text-2xl font-bold leading-7 sm:truncate sm:text-3xl sm:tracking-tight',
+              'text-2xl font-bold leading-7 sm:truncate',
               {
                 'text-base-900': theme === PAGE_HEADINGS_THEME[0],
                 'text-white': theme === PAGE_HEADINGS_THEME[1],
@@ -49,7 +49,7 @@ const PageHeadings = (props) => {
 
           {subSection}
         </div>
-        <div className="mt-5 flex lg:mt-0 lg:ml-4">{actions}</div>
+        <div className="mt-5 flex lg:ml-4 lg:mt-0">{actions}</div>
       </div>
     </div>
   );
