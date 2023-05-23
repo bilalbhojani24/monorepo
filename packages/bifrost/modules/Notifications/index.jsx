@@ -16,7 +16,8 @@ const Notifications = forwardRef((props, ref) => {
     isCondensed,
     handleClose,
     headerIcon,
-    title
+    title,
+    wrapperClassName
   } = props;
 
   const toastCtx = useContext(NotificationsContextData);
@@ -28,7 +29,8 @@ const Notifications = forwardRef((props, ref) => {
   return (
     <div
       className={twClassNames(
-        'pointer-events-auto rounded-lg bg-white shadow-lg ring-1 ring-black/5'
+        'z-90 pointer-events-auto rounded-lg bg-white shadow-lg ring-1 ring-black/5',
+        wrapperClassName
       )}
     >
       <div className="flex w-full items-start p-4 ">
@@ -104,7 +106,8 @@ Notifications.propTypes = {
   isCondensed: PropTypes.bool,
   handleClose: PropTypes.func,
   headerIcon: PropTypes.node,
-  title: PropTypes.string
+  title: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 
 Notifications.defaultProps = {
@@ -117,7 +120,8 @@ Notifications.defaultProps = {
   isCondensed: false,
   handleClose: () => {},
   headerIcon: null,
-  title: ''
+  title: '',
+  wrapperClassName: ''
 };
 
 export default Notifications;

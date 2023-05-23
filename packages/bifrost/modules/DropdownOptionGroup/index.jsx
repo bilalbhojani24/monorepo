@@ -24,7 +24,7 @@ const DropdownOptionGroup = ({ children, wrapperClassName }) => {
           <Menu.Items
             static
             className={twClassNames(
-              'border-base-200 my-1 w-56 z-50 rounded-md border bg-white shadow-lg outline-none ring-1 ring-black ring-opacity-5 focus:outline-none py-1',
+              'border-base-200 my-1 w-56 z-40 rounded-md border bg-white shadow-lg outline-none ring-1 ring-black ring-opacity-5 focus:outline-none py-1',
               wrapperClassName
             )}
           >
