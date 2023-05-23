@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { STATUS_OPTIONS } from '../const/immutableConst';
+
 const initialState = {
   fullDetails: null,
   isLoading: {
@@ -8,6 +10,7 @@ const initialState = {
     isTestCasesLoading: true,
     bulkRemoveInProgress: false,
     bulkAssignInProgress: false,
+    bulkAddResultInProgress: false,
     usersArray: false
   },
   isVisible: {
@@ -44,6 +47,10 @@ const initialState = {
     // select_all: false
   },
   assignee: null,
+  resultForm: {
+    status: STATUS_OPTIONS[0].value,
+    jiraIssues: []
+  },
   usersArray: null,
   loadedDataProjectId: null // data fetched for which projectID (to cache data)
 };
@@ -68,6 +75,12 @@ export const testRunDetailsSlice = createSlice({
     },
     setIsLoadingProps: (state, { payload }) => {
       state.isLoading[payload.key] = payload.value;
+    },
+    resetResultForm: (state) => {
+      state.resultForm = initialState.resultForm;
+    },
+    updateResultForm: (state, { payload }) => {
+      state.resultForm[payload.key] = payload.value;
     },
     setIsVisibleProps: (state, { payload }) => {
       state.isVisible[payload.key] = payload.value;
@@ -127,6 +140,8 @@ export const testRunDetailsSlice = createSlice({
 });
 
 export const {
+  resetResultForm,
+  updateResultForm,
   updateAssignee,
   setLoadedDataProjectId,
   setUsers,

@@ -2,20 +2,27 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
-import { assignToTCBulkAPI, removeTCFromTRBulkAPI } from 'api/testruns.api';
+import {
+  addResultTCBulkAPI,
+  assignToTCBulkAPI,
+  removeTCFromTRBulkAPI
+} from 'api/testruns.api';
 import { addNotificaton } from 'globalSlice';
 
 import { BULK_OPERATIONS } from '../const/immutableConst';
 import {
+  resetResultForm,
   resetTestCaseDetails,
   setBulkSelectedtestCaseIDs,
   setIsLoadingProps,
   setLoadedDataProjectId,
   setUsers,
   updateAssignee,
-  updateBulkOperation
+  updateBulkOperation,
+  updateResultForm
 } from '../slices/testRunDetailsSlice';
 
+import useTestRunDetails from './useTestRunDetails';
 import useTRTCFolders from './useTRTCFolders';
 
 const useBulkFunctions = () => {
@@ -24,6 +31,7 @@ const useBulkFunctions = () => {
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
   const dispatch = useDispatch();
   const { fetchTestCases } = useTRTCFolders();
+  const { fetchTestRunDetails } = useTestRunDetails();
 
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
@@ -32,6 +40,7 @@ const useBulkFunctions = () => {
     (state) => state.testRunsDetails.allTestCases
   );
   const assignee = useSelector((state) => state.testRunsDetails.assignee);
+  const resultForm = useSelector((state) => state.testRunsDetails.resultForm);
   const selectedTestCaseIDs = useSelector(
     (state) => state.testRunsDetails.bulkSelection.ids
   );
@@ -44,6 +53,9 @@ const useBulkFunctions = () => {
   );
   const isBulkAssignInProgress = useSelector(
     (state) => state.testRunsDetails.isLoading.bulkAssignInProgress
+  );
+  const isBulkAddResultInProgress = useSelector(
+    (state) => state.testRunsDetails.isLoading.bulkAddResultInProgress
   );
   const isUsersArrayLoading = useSelector(
     (state) => state.testRunsDetails.isLoading.usersArray
@@ -60,8 +72,12 @@ const useBulkFunctions = () => {
     dispatch(updateBulkOperation(null));
     dispatch(updateAssignee(null));
     dispatch(resetTestCaseDetails());
+    dispatch(resetResultForm());
     dispatch(setIsLoadingProps({ key: 'bulkRemoveInProgress', value: false }));
     dispatch(setIsLoadingProps({ key: 'bulkAssignInProgress', value: false }));
+    dispatch(
+      setIsLoadingProps({ key: 'bulkAddResultInProgress', value: false })
+    );
 
     if (clearSelections) {
       setSelectedTestCaseIDs([]);
@@ -145,14 +161,37 @@ const useBulkFunctions = () => {
             variant: 'success'
           })
         );
-        resetBulkOperation(null, true);
+        resetBulkOperation();
       });
     }
   };
 
   const onAddResultHandler = () => {
-    // TODO add result API
-    resetBulkOperation();
+    if (selectedTestCaseIDs.length && testRunDetails?.id) {
+      dispatch(
+        setIsLoadingProps({ key: 'bulkAddResultInProgress', value: true })
+      );
+      addResultTCBulkAPI({
+        projectId,
+        ids: selectedTestCaseIDs,
+        testRunId: testRunDetails.id,
+        status: resultForm?.status
+      }).then(() => {
+        // TODO happy flow edge cases
+        fetchTestCases();
+        fetchTestRunDetails(true, true);
+
+        dispatch(
+          addNotificaton({
+            id: `test_cases_updated_${testRunDetails?.id}`,
+            title: `Test Cases Updated`,
+            description: `${selectedTestCaseIDs.length} Test Cases have been updated.`,
+            variant: 'success'
+          })
+        );
+        resetBulkOperation();
+      });
+    }
   };
 
   const onAssignHandler = () => {
@@ -172,13 +211,17 @@ const useBulkFunctions = () => {
             variant: 'success'
           })
         );
-        resetBulkOperation(null, true);
+        resetBulkOperation();
       });
     }
   };
 
   const setAssignee = (data) => {
     dispatch(updateAssignee(data));
+  };
+
+  const onResultChange = (key, value) => {
+    dispatch(updateResultForm({ key, value }));
   };
 
   useEffect(() => {
@@ -198,6 +241,8 @@ const useBulkFunctions = () => {
   }, [allTestCases, selectedTestCaseIDs]);
 
   return {
+    resultForm,
+    isBulkAddResultInProgress,
     isBulkAssignInProgress,
     assignee,
     isUsersArrayLoading,
@@ -214,7 +259,8 @@ const useBulkFunctions = () => {
     onRemoveHandler,
     onAddResultHandler,
     onAssignHandler,
-    setAssignee
+    setAssignee,
+    onResultChange
   };
 };
 

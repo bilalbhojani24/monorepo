@@ -14,8 +14,13 @@ import { BULK_OPERATIONS, STATUS_OPTIONS } from '../const/immutableConst';
 import useBulkFunctions from './useBulkFunctions';
 
 const AddResultModal = () => {
-  const { onAddResultHandler, bulkOperationSelected, resetBulkOperation } =
-    useBulkFunctions();
+  const {
+    isBulkAddResultInProgress,
+    onAddResultHandler,
+    bulkOperationSelected,
+    resetBulkOperation,
+    onResultChange
+  } = useBulkFunctions();
   const statusFocusRef = useRef();
 
   return (
@@ -34,7 +39,26 @@ const AddResultModal = () => {
       <TMModalBody>
         <div className="w-full">
           <TMSelectMenu
-            placeholder="Not Started"
+            placeholder=""
+            label="Status"
+            defaultValue={{
+              label: (
+                <div>
+                  <div
+                    className={`${STATUS_OPTIONS[0].class} m-auto mx-2 inline-block h-2 w-2 flex-1 rounded-full`}
+                    style={{
+                      backgroundColor: STATUS_OPTIONS[0].color
+                        ? STATUS_OPTIONS[0].color
+                        : 'auto'
+                    }}
+                  />
+                  <span className="inline-block">
+                    {STATUS_OPTIONS[0].label}
+                  </span>
+                </div>
+              ),
+              value: STATUS_OPTIONS[0].value
+            }}
             checkPosition="right"
             triggerWrapperClassName={twClassNames('w-72')}
             options={STATUS_OPTIONS.map((el) => ({
@@ -49,8 +73,7 @@ const AddResultModal = () => {
               ),
               value: el.value
             }))}
-            // value={valueMapped}
-            // onChange={(e) => onResultChange(e, rowData, true, true)}
+            onChange={(val) => onResultChange('status', val.value)}
           />
         </div>
       </TMModalBody>
@@ -59,8 +82,8 @@ const AddResultModal = () => {
           Cancel
         </TMButton>
         <TMButton
-          // loading={isBulkRemoveInProgress}
-          // isIconOnlyButton={isBulkRemoveInProgress}
+          loading={isBulkAddResultInProgress}
+          isIconOnlyButton={isBulkAddResultInProgress}
           variant="primary"
           colors="brand"
           wrapperClassName="ml-3"
