@@ -43,16 +43,9 @@ const ChatWidget = ({ children, direction }) => {
       );
   }, [chatWidget.data, direction]);
 
-  if (
-    !chatWidget.data ||
-    !chatWidget.data.show_fresh_chat_widget ||
-    !chatWidget.data.custom_widget
-  )
-    return <>{children && children({ toggleChatWidget })}</>;
-
   return (
     <>
-      {showWidget && chatWidget.data.custom_widget && (
+      {showWidget && chatWidget?.data?.custom_widget && (
         <Button
           onClick={() => {
             showChatWindow();
