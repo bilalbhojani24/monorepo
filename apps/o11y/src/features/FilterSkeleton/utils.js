@@ -1,5 +1,7 @@
 import { listTreeCheckboxHelper } from '@browserstack/bifrost';
+import { O11Y_DATE_RANGE } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
+import { updateUrlQueryParam } from 'utils/common';
 import { getO11yTimeBounds } from 'utils/dateTime';
 
 import { ADV_FILTER_TYPES, ADV_FILTERS_PREFIX } from './constants';
@@ -73,12 +75,21 @@ export const getFilterQueryParams = (appliedFilters = []) => {
   return searchParams;
 };
 
-export const getFilterFromSearchString = () => {
+const getDefaultDateRange = () => {
   const searchParams = new URLSearchParams(window.location.search);
-  const daterangetype = searchParams.get('daterangetype');
+  searchParams.set('daterangetype', O11Y_DATE_RANGE.days7.key);
+  searchParams.delete(ADV_FILTER_TYPES.dateRange.key);
+  updateUrlQueryParam(searchParams);
+  return getO11yTimeBounds(O11Y_DATE_RANGE.days7.key);
+};
 
-  if (daterangetype && daterangetype !== 'custom') {
-    const { lowerBound, upperBound } = getO11yTimeBounds(daterangetype);
+// eslint-disable-next-line no-unused-vars
+export const getFilterFromSearchString = () => (dispatch) => {
+  const searchParams = new URLSearchParams(window.location.search);
+
+  if (!searchParams.get(ADV_FILTER_TYPES.dateRange.key)) {
+    const { lowerBound, upperBound } = getDefaultDateRange();
+    searchParams.set('daterangetype', O11Y_DATE_RANGE.days7.key);
     searchParams.set(
       ADV_FILTER_TYPES.dateRange.key,
       `${lowerBound},${upperBound}`
