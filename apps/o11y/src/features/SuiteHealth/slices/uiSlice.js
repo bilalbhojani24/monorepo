@@ -629,7 +629,7 @@ export const getSnPTestsFiltersData = createAsyncThunk(
     try {
       const searchString = getFilterFromSearchString();
       if (!searchString.get(ADV_FILTER_TYPES.dateRange.key)) {
-        const timeBounds = getO11yTimeBounds(O11Y_DATE_RANGE.days30.key);
+        const timeBounds = getO11yTimeBounds(O11Y_DATE_RANGE.days7.key);
         searchString.set('daterangetype', O11Y_DATE_RANGE.days30.key);
         searchString.set(
           ADV_FILTER_TYPES.dateRange.key,
@@ -659,7 +659,7 @@ export const getSnPUEFiltersData = createAsyncThunk(
     try {
       const searchString = getFilterFromSearchString();
       if (!searchString.get(ADV_FILTER_TYPES.dateRange.key)) {
-        const timeBounds = getO11yTimeBounds(O11Y_DATE_RANGE.days30.key);
+        const timeBounds = getO11yTimeBounds(O11Y_DATE_RANGE.days7.key);
         searchString.set('daterangetype', O11Y_DATE_RANGE.days30.key);
         searchString.set(
           ADV_FILTER_TYPES.dateRange.key,
