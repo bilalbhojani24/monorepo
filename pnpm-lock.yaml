@@ -176,7 +176,7 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 7.2.0
+      '@browserstack/bifrost': 7.4.0
       '@browserstack/hooks': workspace:*
       '@browserstack/integrations': workspace:*
       '@browserstack/services': workspace:*
@@ -224,7 +224,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 7.2.0_2durtr67xmbfiygk63c6oc672q
+      '@browserstack/bifrost': 7.4.0_2durtr67xmbfiygk63c6oc672q
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/integrations': link:../../packages/integrations
       '@browserstack/services': link:../../packages/services
@@ -3626,7 +3626,7 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/7.2.0_2durtr67xmbfiygk63c6oc672q:
+  /@browserstack/bifrost/7.2.0_hkbbqhhe7yspx6haowtlreoieq:
     resolution: {integrity: sha512-xTJDbZBpqvJjznhWA4tLaXKdUosHRGGsfH9z4iMbjgAqWDUArroYjHt4igUEYvNQnj0b8p8Ihm8h4gh2pta/LA==, tarball: download/@browserstack/bifrost/7.2.0/8241c1d055bd8d8ff64dfc5b676427b802fe8c18}
     peerDependencies:
       prop-types: 15.8.1
@@ -3634,7 +3634,7 @@ packages:
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
+      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
@@ -3674,15 +3674,15 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/7.2.0_hkbbqhhe7yspx6haowtlreoieq:
-    resolution: {integrity: sha512-xTJDbZBpqvJjznhWA4tLaXKdUosHRGGsfH9z4iMbjgAqWDUArroYjHt4igUEYvNQnj0b8p8Ihm8h4gh2pta/LA==, tarball: download/@browserstack/bifrost/7.2.0/8241c1d055bd8d8ff64dfc5b676427b802fe8c18}
+  /@browserstack/bifrost/7.4.0_2durtr67xmbfiygk63c6oc672q:
+    resolution: {integrity: sha512-z/f8IvWb1KRQHdcMJzF1/V/VTxh+91lnLSQ2BT5iOP7s2so02ihL8mjIP0f5Llr1vjM9H3NkBK7X3MXJTsRzFQ==, tarball: download/@browserstack/bifrost/7.4.0/957f79f3ea9c782f4532cf04a74917563d48d9a0}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
+      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
