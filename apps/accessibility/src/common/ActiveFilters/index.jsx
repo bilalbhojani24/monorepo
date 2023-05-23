@@ -49,6 +49,15 @@ export default function ActiveFilters({
     if (key === FILTER_KEYS.IMPACT) {
       text = hasMultipleValues ? 'severities' : 'severity';
     }
+    if (key === FILTER_KEYS.TAGS) {
+      text = hasMultipleValues ? 'tags' : 'tag';
+    }
+    if (key === FILTER_KEYS.TESTS) {
+      text = hasMultipleValues ? 'tests' : 'test';
+    }
+    if (key === FILTER_KEYS.FILES) {
+      text = hasMultipleValues ? 'files' : 'file';
+    }
     text = `${values.length} ${text}`;
     return text;
   };
@@ -191,9 +200,11 @@ export default function ActiveFilters({
 }
 
 ActiveFilters.propTypes = {
-  sectionsDataContext: PropTypes.any
+  sectionsDataContext: PropTypes.objectOf(PropTypes.any),
+  wrapperClassName: PropTypes.string
 };
 
 ActiveFilters.defaultProps = {
-  sectionsDataContext: {}
+  sectionsDataContext: {},
+  wrapperClassName: ''
 };

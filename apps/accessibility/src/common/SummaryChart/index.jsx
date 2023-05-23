@@ -2,7 +2,7 @@ import React from 'react';
 import { DataVisualization } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import Chart from 'common/Chart';
-import { events, severityOptions } from 'constants';
+import { events } from 'constants';
 import PropTypes from 'prop-types';
 import { handleClickByEnterOrSpace } from 'utils/helper';
 
@@ -62,7 +62,9 @@ export default function SummaryChart({
                   role="button"
                 >
                   <div className="text-base-800 flex items-center pb-3 text-sm">
-                    <div className={`mr-1.5 h-2 w-2 rounded-full ${color}`} />
+                    <div
+                      className={`bg-[${color.toLowerCase()}] mr-1.5 h-2 w-2 rounded-full`}
+                    />
                     {impact.charAt(0).toUpperCase()}
                     {impact.slice(1, impact.length)}
                   </div>
@@ -90,7 +92,7 @@ SummaryChart.propTypes = {
     moderate: PropTypes.number,
     minor: PropTypes.number,
     issueCount: PropTypes.number
-  }).isRequired,
+  }),
   onRowClick: PropTypes.func,
   wrapperClassName: PropTypes.string
 };
@@ -100,5 +102,6 @@ SummaryChart.defaultProps = {
   eventName: '',
   wrapperClassName: '',
   onRowClick: () => {},
-  filterKey: ''
+  filterKey: '',
+  summary: {}
 };

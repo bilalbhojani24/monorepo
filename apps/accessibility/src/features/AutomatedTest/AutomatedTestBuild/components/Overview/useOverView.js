@@ -90,14 +90,14 @@ export default function useOverview() {
       label: 'Moderate',
       name: 'Moderate',
       y: moderate,
-      color: '#E3C500',
+      color: '#FBBF24',
       value: 'moderate'
     },
     {
       label: 'Minor',
       name: 'Minor',
       y: minor,
-      color: '#C5D1D8',
+      color: '#9CA3AF',
       value: 'minor'
     }
   ];
@@ -148,9 +148,9 @@ export default function useOverview() {
     const categories = [];
     const colors = {
       minor: '#9CA3AF',
-      moderate: '#EAB308',
-      serious: ' #F97316',
-      critical: '#EF4444'
+      moderate: '#FBBF24',
+      serious: ' #F472B6',
+      critical: '#F95D6A'
     };
     const series = Object.keys(buildMetaData?.trendData[0].issueSummary);
     series.forEach((val) => {
@@ -173,7 +173,7 @@ export default function useOverview() {
     const colors = {
       passed: '#53CA95',
       failed: '#FC5F6C',
-      skipped: '#FBBF24'
+      skipped: '#F59E0B'
     };
     const excludeSeries = ['total'];
 

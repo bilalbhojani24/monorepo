@@ -1,5 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const initState = {
+  buildData: null,
+  customData: null,
+  filters: {},
+  buildMetaData: null,
+  testCasesData: null
+};
+
 const { actions, reducer } = createSlice({
   name: 'buildData',
   initialState: {
@@ -37,6 +45,11 @@ const { actions, reducer } = createSlice({
     setTestCasesData: (state, { payload }) => {
       const { testCases } = payload;
       state.testCasesData = testCases;
+    },
+    resetBuildData: (state) => {
+      Object.keys(initState).forEach((key) => {
+        state[key] = initState[key];
+      });
     }
   }
 });
@@ -46,7 +59,8 @@ export const {
   setCustomData,
   setBuildMetaData,
   setBuildOverview,
-  setTestCasesData
+  setTestCasesData,
+  resetBuildData
 } = actions;
 
 export default reducer;

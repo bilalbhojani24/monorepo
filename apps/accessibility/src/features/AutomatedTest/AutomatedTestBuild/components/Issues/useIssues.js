@@ -33,6 +33,7 @@ import {
   getShowHiddenIssuesState,
   getUniqFilterValues
 } from 'features/AutomatedTest/AutomatedTestBuild/slices/selector';
+import intersection from 'lodash/intersection';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 // import { logEvent } from 'utils/logEvent';
 
@@ -158,12 +159,6 @@ export default function useIssues() {
         nodes: violation.nodes.filter(({ confirmed }) => confirmed === null)
       }));
     }
-    // if (activeBuildFilters.tags.length) {
-    //   filteredViolations = buildData.map((violation) => ({
-    //     ...violation,
-    //     nodes: violation.nodes.filter(({ confirmed }) => confirmed === null)
-    //   }));
-    // }
     if (activeBuildFilters.impact.length) {
       const appliedSeverityFilter = activeBuildFilters.impact.map(
         ({ value }) => value
@@ -173,8 +168,8 @@ export default function useIssues() {
       );
     }
     if (activeBuildFilters.category.length) {
-      filteredViolations = filteredViolations.filter(({ tags }) => {
-        const category = tags
+      filteredViolations = filteredViolations.filter(({ tags: tagItem }) => {
+        const category = tagItem
           .find((tag) => tag.includes('cat.'))
           ?.split('cat.')[1];
         return activeBuildFilters.category
@@ -187,6 +182,15 @@ export default function useIssues() {
         ...violation,
         nodes: violation.nodes.filter(({ page }) =>
           activeBuildFilters.page.map(({ value }) => value).includes(page.url)
+        )
+      }));
+    }
+    if (activeBuildFilters.tests.length) {
+      const filterIds = activeBuildFilters.tests.map(({ id }) => id);
+      filteredViolations = filteredViolations.map((violation) => ({
+        ...violation,
+        nodes: violation.nodes.filter(
+          ({ testCaseIds }) => intersection(testCaseIds, filterIds).length > 0
         )
       }));
     }
