@@ -11,14 +11,16 @@ const ModalHeader = ({
   isBorder,
   icon,
   iconWrapperClassname,
-  subHeading
+  subHeading,
+  wrapperClassName
 }) => (
   <div
     className={twClassNames(
       'w-full rounded-t-lg bg-white px-6 py-4 sm:flex sm:items-start',
       {
         'border-b border-base-300': isBorder
-      }
+      },
+      wrapperClassName
     )}
   >
     {icon ? (
@@ -78,7 +80,8 @@ ModalHeader.propTypes = {
   isBorder: PropTypes.bool,
   icon: PropTypes.node,
   iconWrapperClassname: PropTypes.string,
-  subHeading: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+  subHeading: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  wrapperClassName: PropTypes.string
 };
 ModalHeader.defaultProps = {
   dismissButton: true,
@@ -87,7 +90,8 @@ ModalHeader.defaultProps = {
   isBorder: false,
   icon: null,
   iconWrapperClassname: '',
-  subHeading: ''
+  subHeading: '',
+  wrapperClassName: ''
 };
 
 export default ModalHeader;

@@ -191,7 +191,7 @@ const TestCasesTable = () => {
             ))}
           </TMTableRow>
         </TMTableHead>
-        <TMTableBody>
+        <TMTableBody wrapperClassName="border-b-0">
           {!isTableLoading ? (
             <>
               {allTestCases?.map((row, index) => (

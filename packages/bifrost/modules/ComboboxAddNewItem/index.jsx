@@ -65,7 +65,7 @@ const ComboboxAddNewItem = ({
       }}
       className={({ active }) =>
         twClassNames(
-          'group relative cursor-pointer select-none py-2 pl-3 pr-9 text-brand-600 border-t-2 border-base-200 flex items-center',
+          'group relative cursor-pointer select-none py-2 pl-3 pr-9 text-brand-600 border-t-2 border-base-200 flex items-center text-sm',
           {
             'bg-brand-600 text-white': active
           },
@@ -78,10 +78,9 @@ const ComboboxAddNewItem = ({
         ref={firstRef}
         {...(width.prefixWidth && {
           style: {
-            width: width.prefixWidth + 5
+            width: width.prefixWidth + 4
           }
         })}
-        className="pr-1"
       >
         {prefix}
       </p>

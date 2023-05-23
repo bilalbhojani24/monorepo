@@ -4,6 +4,10 @@ import { Transition } from '@headlessui/react';
 import PropTypes from 'prop-types';
 
 import AccessibleTooltip from '../Header/components/AccessibleTooltip';
+import {
+  CALLBACK_FUNCTIONS_PROP_TYPE,
+  hyperlinkClickHandler
+} from '../Header/utils';
 import HeaderProducts from '../HeaderProducts';
 import Hyperlink from '../Hyperlink';
 
@@ -19,7 +23,19 @@ const ACCOUNT_LINKS_CLASSNAMES =
 const LINKS_TEXT_CLASSNAMES =
   'not-italic font-normal text-sm leading-4 text-black';
 
+const getAccountDropdownHref = (item, supportLink, contactLink) => {
+  switch (item.name) {
+    case 'Support':
+      return supportLink;
+    case 'Contact':
+      return contactLink;
+    default:
+      return item.link;
+  }
+};
+
 const HeaderElements = ({
+  callbackFunctions,
   documentation,
   references,
   others,
@@ -31,7 +47,12 @@ const HeaderElements = ({
   headerElementArray,
   planButtonVisible,
   isFreeUser,
-  onSignoutClick
+  onSignoutClick,
+  planPricingLink,
+  contactLink,
+  buyPlanText,
+  buyPlanLink,
+  buyPlanTarget
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchBarRef = useRef(null);
@@ -78,7 +99,7 @@ const HeaderElements = ({
       >
         <div
           role="presentation"
-          className={twClassNames(`bg-base-500 fixed inset-0 z-10 opacity-75`)}
+          className={twClassNames(`bg-base-500 fixed inset-0 z-60 opacity-75`)}
           onClick={() => setIsSearchOpen(!isSearchOpen)}
         />
       </Transition.Child>
@@ -95,7 +116,7 @@ const HeaderElements = ({
         leaveTo="translate-y-full"
         afterEnter={focusSearchInput}
       >
-        <div className="fixed right-0 top-16 z-10 flex items-start">
+        <div className="z-60 fixed right-0 top-16 flex items-start">
           <SearchField
             isSearchOpen={isSearchOpen}
             setIsSearchOpen={setIsSearchOpen}
@@ -122,25 +143,48 @@ const HeaderElements = ({
             'flex flex-col items-start p-0 gap-0.5 w-[208px]'
           )}
         >
-          {ACCOUNT_ARRAY.map((element) => (
-            <Hyperlink
-              isCSR={false}
-              wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
-              href={
-                element.name === 'Support' ? productSupportLink : element.link
-              }
-              key={element.name}
-            >
-              <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
-                {element.name}
-              </p>
-            </Hyperlink>
-          ))}
+          {ACCOUNT_ARRAY.map((element) => {
+            const redirectionUTL = getAccountDropdownHref(
+              element,
+              productSupportLink,
+              contactLink
+            );
+            return (
+              <Hyperlink
+                key={element.name}
+                isCSR={false}
+                wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
+                href={redirectionUTL}
+                onClick={(e) =>
+                  hyperlinkClickHandler(
+                    e,
+                    redirectionUTL,
+                    callbackFunctions?.onAccountDropdownOptionClick,
+                    '_self',
+                    element.name
+                  )
+                }
+              >
+                <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
+                  {element.name}
+                </p>
+              </Hyperlink>
+            );
+          })}
           {testInsight && (
             <Hyperlink
               isCSR={false}
               wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
               href="https://www.browserstack.com/accounts/usage-reporting"
+              onClick={(e) =>
+                hyperlinkClickHandler(
+                  e,
+                  'https://www.browserstack.com/accounts/usage-reporting',
+                  callbackFunctions?.onAccountDropdownOptionClick,
+                  '_self',
+                  'Test insights'
+                )
+              }
             >
               <p className={twClassNames(LINKS_TEXT_CLASSNAMES)}>
                 Test Insights
@@ -175,6 +219,13 @@ const HeaderElements = ({
             wrapperClassName={twClassNames(ACCOUNT_LINKS_CLASSNAMES)}
             href="https://www.browserstack.com/users/sign_out"
             onClick={(e) => {
+              hyperlinkClickHandler(
+                e,
+                'https://www.browserstack.com/users/sign_out',
+                callbackFunctions?.onAccountDropdownOptionClick,
+                '_self',
+                'Sign out'
+              );
               onSignoutClick?.(e);
             }}
           >
@@ -191,7 +242,7 @@ const HeaderElements = ({
     </div>
   );
 
-  const hyperlinkElements = (elementOptions) => (
+  const hyperlinkElements = (elementOptions, handleClickCb) => (
     <Hyperlink
       isCSR={false}
       wrapperClassName={twClassNames(
@@ -199,6 +250,9 @@ const HeaderElements = ({
       )}
       href={elementOptions.link}
       key={elementOptions.name}
+      onClick={(e) =>
+        hyperlinkClickHandler(e, elementOptions.link, handleClickCb)
+      }
     >
       <div
         className={twClassNames(
@@ -219,12 +273,20 @@ const HeaderElements = ({
 
   const elementRender = (element) => {
     let temp = null;
-    if (['team', 'pricing'].includes(element.name)) {
-      temp = hyperlinkElements(element);
+    if (element.name === 'team') {
+      temp = hyperlinkElements(element, callbackFunctions?.onInviteTeamClick);
+    } else if (element.name === 'pricing') {
+      const newElements = { ...element };
+      newElements.link = planPricingLink;
+      temp = hyperlinkElements(
+        newElements,
+        callbackFunctions?.onPlanAndPricingClick
+      );
     } else if (element.name === 'help') {
       temp = (
         <GetHelp
           elementOptions={element}
+          callbackFunctions={callbackFunctions}
           {...{
             documentation,
             references,
@@ -263,7 +325,10 @@ const HeaderElements = ({
             <button
               type="button"
               aria-label="Notification button"
-              onClick={attachCSSToBeamer}
+              onClick={() => {
+                attachCSSToBeamer();
+                callbackFunctions?.onNotificationClick();
+              }}
             >
               {element.icon}
             </button>
@@ -272,7 +337,10 @@ const HeaderElements = ({
             <button
               type="button"
               aria-label="Search button"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              onClick={() => {
+                setIsSearchOpen(!isSearchOpen);
+                callbackFunctions?.onSearchClick();
+              }}
             >
               {element.icon}
             </button>
@@ -300,15 +368,24 @@ const HeaderElements = ({
       {planButtonVisible && (
         <div
           className={twClassNames(
-            'lg:flex flex-col items-start w-[112px] h-[38px] py-0 pr-0 pl-2 gap-2 hidden'
+            'lg:flex flex-col items-start h-[38px] py-0 pr-0 pl-2 gap-2 hidden'
           )}
         >
           <Hyperlink
             isCSR={false}
             wrapperClassName={twClassNames(
-              'flex flex-row items-start p-0 w-[104px] focus:ring-attention-600'
+              'flex flex-row items-start p-0 focus:ring-attention-600'
             )}
-            href="https://www.browserstack.com/accounts/subscriptions"
+            target={buyPlanTarget}
+            href={buyPlanLink}
+            onClick={(e) => {
+              hyperlinkClickHandler(
+                e,
+                buyPlanLink,
+                callbackFunctions?.buyPlanClick,
+                buyPlanTarget
+              );
+            }}
           >
             <div
               className={twClassNames(
@@ -320,7 +397,7 @@ const HeaderElements = ({
                   'not-italic font-medium text-sm leading-5 text-white py-0 px-0.5 float-left whitespace-nowrap'
                 )}
               >
-                {isFreeUser ? 'Buy a Plan' : 'Upgrade'}
+                {isFreeUser ? buyPlanText : 'Upgrade'}
               </p>
             </div>
           </Hyperlink>
@@ -331,6 +408,7 @@ const HeaderElements = ({
 };
 
 HeaderElements.propTypes = {
+  callbackFunctions: CALLBACK_FUNCTIONS_PROP_TYPE,
   documentation: PropTypes.objectOf(PropTypes.any),
   references: PropTypes.objectOf(PropTypes.any),
   others: PropTypes.objectOf(PropTypes.any),
@@ -342,9 +420,15 @@ HeaderElements.propTypes = {
   headerElementArray: PropTypes.arrayOf(PropTypes.string),
   planButtonVisible: PropTypes.bool,
   isFreeUser: PropTypes.bool,
-  onSignoutClick: PropTypes.func
+  onSignoutClick: PropTypes.func,
+  planPricingLink: PropTypes.string,
+  buyPlanTarget: PropTypes.string,
+  buyPlanLink: PropTypes.string,
+  contactLink: PropTypes.bool,
+  buyPlanText: PropTypes.string
 };
 HeaderElements.defaultProps = {
+  callbackFunctions: null,
   documentation: null,
   references: null,
   others: null,
@@ -356,7 +440,12 @@ HeaderElements.defaultProps = {
   headerElementArray: [],
   planButtonVisible: true,
   isFreeUser: true,
-  onSignoutClick: null
+  onSignoutClick: null,
+  buyPlanTarget: '_self',
+  planPricingLink: 'https://www.browserstack.com/accounts/subscriptions',
+  buyPlanLink: 'https://www.browserstack.com/accounts/subscriptions',
+  contactLink: 'https://www.browserstack.com/contact?ref=header',
+  buyPlanText: 'Buy a Plan'
 };
 
 export default HeaderElements;

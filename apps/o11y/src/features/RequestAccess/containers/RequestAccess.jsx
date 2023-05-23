@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {
@@ -7,12 +7,11 @@ import {
   MdOutlineRunningWithErrors,
   MdOutlineStackedLineChart
 } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import { requestO11yAccess } from 'api/global';
 import heroUnit from 'assets/illustrations/hero-unit-o11y.png';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import O11yFeatureCard from 'common/O11yFeatureCard';
-import { DOC_KEY_MAPPING, WRAPPER_GAP_CLASS } from 'constants/common';
+import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { setHasAcceptedTnC } from 'globalSlice/index';
 import { getInitData } from 'globalSlice/selectors';
@@ -23,6 +22,10 @@ function RequestAccess() {
   const initData = useSelector(getInitData);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    logOllyEvent({ event: 'O11yGetAccessPageVisited' });
+  }, []);
 
   if (!initData.isLoading && initData.data?.hasAcceptedTnC) {
     return <Navigate to={ROUTES.get_started} />;
@@ -46,12 +49,8 @@ function RequestAccess() {
   };
 
   return (
-    <div
-      className={twClassNames(
-        'bg-base-50 flex overflow-auto w-screen flex-col items-center justify-center p-14',
-        WRAPPER_GAP_CLASS
-      )}
-    >
+    // eslint-disable-next-line tailwindcss/no-arbitrary-value
+    <div className="bg-base-50 flex h-[calc(100vh-8rem)] w-screen flex-col items-center justify-center overflow-auto p-14">
       <O11yFeatureCard
         wrapperClassName="p-10"
         childrenWrapperClass="flex items-center justify-between gap-4"
@@ -60,7 +59,7 @@ function RequestAccess() {
           <h1 className="text-3xl font-bold leading-10">
             Welcome to Test Observability!
           </h1>
-          <p className="text-base-500 pt-2 pb-6 text-base">
+          <p className="text-base-500 pb-6 pt-2 text-base">
             Test Observability is a precision debugger, a test suite health
             dashboard, a collaborative tool & more. Works with all automation
             tests, even if they don&apos;t run on the BrowserStack Cloud!

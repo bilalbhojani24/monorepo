@@ -14,6 +14,11 @@ export const DOC_KEY_MAPPING = {
   uploading_logs: 'integrations/application-logs',
   wdio: 'quick-start/webdriverio'
 };
+export const EXTERNAL_LINKS = {
+  getADemo: 'contact?&ref=observability-dashboard-demo-lead',
+  planAndPricing: 'pricing?product=test-observability',
+  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead'
+};
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
   'to_activeProjectNormalizedName';
@@ -43,7 +48,6 @@ export const URL_REGEX =
   /* eslint-disable-next-line */
   /^(https:\/\/www\.|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,15}(:[0-9]{1,20})?(\/.*)?$/;
 
-export const WRAPPER_GAP_CLASS = 'h-[calc(100vh-4rem)]';
 export const SNP_PARAMS_MAPPING = {
   snpTestDetails: 'snp_test_details',
   snpOsName: 'snp_os_name',
@@ -153,7 +157,7 @@ export const TEST_DETAILS_SOURCE = {
   SUITE_HEALTH_ERRORS: 'suite_health_errors'
 };
 
-export const BSTACK_TOPNAV_ELEMENT_ID = 'bstack-header';
+export const BSTACK_TOPNAV_ELEMENT_ID = 'o11y-header';
 export const PUSHER_EVENTS = {
   BUILD_STARTED: 'BUILD_STARTED',
   BUILD_FINISHED: 'BUILD_FINISHED',
@@ -186,4 +190,11 @@ export const TEST_LIST_FILTERS_TAGS = {
 export const o11yHistory = {
   navigate: null,
   location: null
+};
+
+export const roundedTableHeaderHack = {
+  left: 'rounded-tl-lg before:left-[-1px]',
+  right: 'rounded-tr-lg before:right-[-1px]',
+  common:
+    'before:absolute before:block before:w-[1px] before:h-[6px] before:bg-base-50 before:top-[-1px] before:rounded'
 };

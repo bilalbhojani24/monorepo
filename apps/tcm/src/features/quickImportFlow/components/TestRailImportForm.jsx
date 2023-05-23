@@ -123,13 +123,15 @@ const TestRailImportForm = () => {
         <TMAlerts
           accentBorder={false}
           show={!!connectionStatusMap[TEST_RAILS]}
-          modifier={connectionStatusMap[TEST_RAILS]}
+          modifier={
+            connectionStatusMap[TEST_RAILS] === 'success' ? 'success' : 'error'
+          }
           title={
             connectionStatusMap[TEST_RAILS] === 'success'
               ? 'Connection was successful. Proceed to continue.'
-              : 'Connection was not successful. Try again.'
+              : connectionStatusMap[TEST_RAILS]?.error ||
+                'Connection was not successful. Try again.'
           }
-          linkText={null}
         />
       )}
       <TermsAndConditions />
