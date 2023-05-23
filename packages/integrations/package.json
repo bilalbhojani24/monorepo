@@ -10,9 +10,9 @@
     "react-router-dom": "6.6.1"
   },
   "dependencies": {
-    "@browserstack/bifrost": "6.1.0",
+    "@browserstack/bifrost": "7.4.0",
     "@browserstack/hooks": "workspace:*",
-    "@browserstack/utils": "workspace:*",
+    "@browserstack/utils": "2.1.0",
     "@internationalized/date": "^3.1.0",
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "1.2.2",
