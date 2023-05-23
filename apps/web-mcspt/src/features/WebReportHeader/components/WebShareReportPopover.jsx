@@ -19,7 +19,7 @@ const SharedReportPopover = () => {
         Report URL
       </div>
 
-      <div className="mt-1 mb-4">
+      <div className="mb-4 mt-1">
         <InputField
           id="inputShareReportPopover"
           type="text"
@@ -27,6 +27,7 @@ const SharedReportPopover = () => {
           value={shareableLinkForReport}
           addOnAfter={
             <InputGroupButton
+              childWrapperClassName="px-0"
               position="end"
               size="default"
               colors="brand"

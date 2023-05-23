@@ -18,7 +18,6 @@ const ShareReportButton = () => {
       onPointerDownOutside={hideSharedLinkPopover}
     >
       <Button
-        wrapperClassName="mr-2"
         size="default"
         colors="white"
         variant="primary"

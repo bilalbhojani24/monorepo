@@ -109,35 +109,37 @@ const ReportContent = () => {
         </div>
       </div>
 
-      <div className="flex flex-col">
-        <div className="mb-4 text-lg font-medium leading-6">
-          Diagnostic Logs
-        </div>
-        <div className="mb-8 flex flex-col rounded-lg bg-white p-6 shadow">
-          <div className="text-base-700 mb-5 text-base font-normal leading-6">
-            {REPORT_METRIC_LABELS.DIAGNOSTIC_DESCRIPTION[
-              sessionData?.device?.os
-            ] || ''}
+      {IS_ELECTRON && (
+        <div className="flex flex-col">
+          <div className="mb-4 text-lg font-medium leading-6">
+            Diagnostic Logs
           </div>
+          <div className="mb-8 flex flex-col rounded-lg bg-white p-6 shadow">
+            <div className="text-base-700 mb-5 text-base font-normal leading-6">
+              {REPORT_METRIC_LABELS.DIAGNOSTIC_DESCRIPTION[
+                sessionData?.device?.os
+              ] || ''}
+            </div>
 
-          <div>
-            <Button
-              size="large"
-              colors="white"
-              variant="primary"
-              fullWidth={false}
-              icon={
-                <span className="text-base-400 text-xl">
-                  <MdFolderOpen />
-                </span>
-              }
-              onClick={openDiagnosticFolder}
-            >
-              View Diagnostic Logs
-            </Button>
+            <div>
+              <Button
+                size="large"
+                colors="white"
+                variant="primary"
+                fullWidth={false}
+                icon={
+                  <span className="text-base-400 text-xl">
+                    <MdFolderOpen />
+                  </span>
+                }
+                onClick={openDiagnosticFolder}
+              >
+                View Diagnostic Logs
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Banner,
-  Button,
-  MdOutlineAnalytics,
-  MdOutlineFileDownload
-} from '@browserstack/bifrost';
+import { Banner, Button, MdOutlineAnalytics } from '@browserstack/bifrost';
 
 import useReportHeader from './useWebReportHeader';
 import WebShareReportButton from './WebShareReportButton';
@@ -14,8 +9,7 @@ const ReportHeader = () => {
     sessionData,
     showDesktopAppDownloadBanner,
     dismissDesktopAppDownloadBanner,
-    redirectToDesktopApp,
-    openDiagnosticUrlInNewTab
+    redirectToDesktopApp
   } = useReportHeader();
 
   return (
@@ -36,16 +30,6 @@ const ReportHeader = () => {
 
         <div className="text-base-700">
           <WebShareReportButton />
-
-          <Button
-            size="default"
-            colors="white"
-            variant="primary"
-            icon={<MdOutlineFileDownload />}
-            onClick={openDiagnosticUrlInNewTab}
-          >
-            Download Logs
-          </Button>
         </div>
       </div>
 
