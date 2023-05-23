@@ -22,7 +22,8 @@ import ViewReportModal from './features/ImportProgress/components/ViewReportModa
 import { IMPORT_STATUS } from './features/ImportProgress/const/immutables';
 import {
   setIsProgressDismissed,
-  setNotificationDismissed
+  setNotificationDismissed,
+  setTooltipDismissed
 } from './features/ImportProgress/slices/importProgressSlice';
 import {
   parseImportDetails,
@@ -103,6 +104,7 @@ function App() {
         dispatch(setImportId(data?.import_id));
         dispatch(setIsProgressDismissed(data?.progress_banner_dismissed));
         dispatch(setNotificationDismissed(data?.notification_dismissed));
+        dispatch(setTooltipDismissed(data?.quick_import_ftu));
         dispatch(parseImportDetails(data, location));
         // console.log('status from latest', data?.status);
         if (data?.status === IMPORT_STATUS.ONGOING)

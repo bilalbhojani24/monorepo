@@ -16,6 +16,7 @@ import {
 const getImportId = (state) => state.import.importId;
 const getIsNotificationDismissed = (state) =>
   state.importProgress.isNotificationDismissed;
+// const getImportProgress = (state) => state.importProgress.importDetails.percent;
 
 export const setQuickImportResult = () => async (dispatch, getState) => {
   const state = getState();
@@ -50,17 +51,24 @@ const alertArtificialLoader = (dispatch) => {
 export const parseImportDetails = (data, location) => (dispatch, getState) => {
   const state = getState();
   const isNotificationDismissed = getIsNotificationDismissed(state);
+  // const importProgress = getImportProgress(state);
+
+  if (data?.project) dispatch(addProject(data?.project));
+  if (data?.status === IMPORT_STATUS.COMPLETED)
+    dispatch(setImportDetails({ ...data, percent: 100 }));
+  else dispatch(setImportDetails(data));
 
   if (data?.percent === 100) {
-    alertArtificialLoader(dispatch);
-    if (data?.projects_failed > 0)
-      dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
-    if (data?.projects_done === data?.projects)
-      dispatch(setImportStatus(IMPORT_STATUS.SUCCESS));
+    setTimeout(() => {
+      alertArtificialLoader(dispatch);
 
-    if (location.pathname !== AppRoute.ROOT && !isNotificationDismissed)
-      dispatch(setNotificationConfig({ show: true }));
+      if (data?.projects_failed > 0)
+        dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
+      if (data?.projects_done === data?.projects)
+        dispatch(setImportStatus(IMPORT_STATUS.SUCCESS));
+
+      if (location.pathname !== AppRoute.ROOT && !isNotificationDismissed)
+        dispatch(setNotificationConfig({ show: true }));
+    }, 500);
   }
-  if (data?.project) dispatch(addProject(data?.project));
-  dispatch(setImportDetails(data));
 };

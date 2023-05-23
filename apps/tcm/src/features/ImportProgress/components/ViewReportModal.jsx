@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  MdCancel,
   MdCheckCircle,
   MdOutlineWarning,
   Table,
@@ -40,10 +41,18 @@ const ViewReportModal = () => {
     }
   ];
 
+  const getIcon = (status, error) => {
+    if (status === 'failure') {
+      if (error === 'Import was cancelled by the user.')
+        return <MdCancel className="text-danger-600 h-5 w-5" />;
+      return <MdOutlineWarning className="text-attention-600 h-5 w-5" />;
+    }
+    return <MdCheckCircle className="text-success-600 h-5 w-5" />;
+  };
+
   return (
     <TMModal
       size="3xl"
-      // show
       show={isReportModalVisible}
       onOverlayClick={closeReportModal}
     >
@@ -51,7 +60,7 @@ const ViewReportModal = () => {
         heading="View Report"
         handleDismissClick={closeReportModal}
       />
-      <TMModalBody>
+      <TMModalBody className="overflow-y-auto">
         <Table containerWrapperClass="border-base-300 mb-3 rounded-md border">
           <TableHead wrapperClassName="bg-base-50">
             <TableRow>
@@ -70,13 +79,7 @@ const ViewReportModal = () => {
               <TableRow key={row.name} wrapperClassName="w-full">
                 <TableCell wrapperClassName="py-2 w-1/2 max-w-[428px]">
                   <div className="flex">
-                    <span>
-                      {row?.status === 'success' ? (
-                        <MdCheckCircle className="text-success-600 h-5 w-5" />
-                      ) : (
-                        <MdOutlineWarning className="text-attention-600 h-5 w-5" />
-                      )}
-                    </span>
+                    <span>{getIcon(row?.status, row?.error)}</span>
                     <span className="text-base-900 ml-2 text-sm font-medium">
                       <TMTruncateText
                         truncateUsingClamp={false}
@@ -111,35 +114,36 @@ const ViewReportModal = () => {
           modifier="primary"
           accentBorder
           alertLinkPosition="inline"
-          description={
-            <>
-              For any assistance related to import, read{' '}
-              <button
-                type="button"
-                underline
-                className="text-brand-800"
-                onClick={() =>
-                  window.open(
-                    'https://www.browserstack.com/docs/test-management/quick-start/quick-import'
-                  )
-                }
-              >
-                documentation
-              </button>{' '}
-              or contact{' '}
-              <button
-                type="button"
-                underline
-                className="text-brand-800"
-                onClick={() =>
-                  window.open('https://www.browserstack.com/contact')
-                }
-              >
-                Support
-              </button>
-              .
-            </>
-          }
+          description="For any assistance related to import, read documentation or contact support"
+          // description={
+          //   <>
+          //     For any assistance related to import, read{' '}
+          //     <button
+          //       type="button"
+          //       underline
+          //       className="text-brand-800"
+          //       // onClick={() =>
+          //       //   window.open(
+          //       //     'https://www.browserstack.com/docs/test-management/quick-start/quick-import'
+          //       //   )
+          //       // }
+          //     >
+          //       documentation
+          //     </button>{' '}
+          //     or contact{' '}
+          //     <button
+          //       type="button"
+          //       underline
+          //       className="text-brand-800"
+          //       // onClick={() =>
+          //       //   window.open('https://www.browserstack.com/contact')
+          //       // }
+          //     >
+          //       Support
+          //     </button>
+          //     .
+          //   </>
+          // }
         />
       </TMModalBody>
       <TMModalFooter position="right">

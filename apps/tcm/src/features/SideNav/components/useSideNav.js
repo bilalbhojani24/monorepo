@@ -52,7 +52,11 @@ export default function useSideNav() {
   const isTooltipDismissed = useSelector(
     (state) => state.importProgress.isTooltipDismissed
   );
+  const isProgressDismissed = useSelector(
+    (state) => state.importProgress.isProgressDismissed
+  );
 
+  console.log('import progress', importProgress);
   const fetchAllProjects = () => {
     getProjectsMinifiedAPI().then((res) => {
       dispatch(setAllProjects(res.projects));
@@ -71,8 +75,12 @@ export default function useSideNav() {
   };
 
   const onLinkChange = (linkItem) => {
+    console.log('link item', linkItem, importProgress);
     if (linkItem?.id === 'import_in_progress') {
-      dispatch(setDetailsModal(true));
+      console.log('inside', importProgress);
+      if (importProgress === 100) navigate(AppRoute.ROOT);
+      else dispatch(setDetailsModal(true));
+      return;
     }
     if (linkItem?.isExternalLink) {
       window.open(linkItem.path);
@@ -209,7 +217,10 @@ export default function useSideNav() {
         })
       );
     };
-    if (
+
+    if (importProgress === 100 && isProgressDismissed)
+      setSecondaryNavs(secondaryNavs);
+    else if (
       location.pathname !== AppRoute.ROOT &&
       secondaryNavs[0].id !== 'import_in_progress'
     ) {
@@ -223,7 +234,7 @@ export default function useSideNav() {
       addProgress(secondaryNavs);
     } else setSecondaryNavs(secondaryNavLinks);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, importProgress]);
+  }, [location.pathname, importProgress, isProgressDismissed]);
 
   useEffect(() => {
     fetchAllProjects();

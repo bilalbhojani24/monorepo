@@ -15,8 +15,10 @@ const ProgressNotification = () => {
   const {
     notify,
     dispatch,
+    timerRef,
     notificationConfig,
     importDetails,
+    removeNotification,
     handleFirstButtonClick,
     handleSecondButtonClick
   } = useProgressNotification();
@@ -25,7 +27,7 @@ const ProgressNotification = () => {
     if (notificationConfig?.show) {
       notify(
         <TMNotifications
-          title={`${importDetails?.successfullyImportedProject}/${importDetails?.totalProjects} Projects Imported`}
+          title={`${importDetails?.successfullyImportedProjects}/${importDetails?.totalProjects} Projects Imported`}
           description="Your import has been completed. You can  check the overall status of your import."
           actionButtons={() => (
             <>
@@ -61,6 +63,10 @@ const ProgressNotification = () => {
           id: notificationConfig?.id
         }
       );
+
+      timerRef.current = setTimeout(() => {
+        removeNotification(notificationConfig?.id);
+      }, AUTO_CLOSE_TIMER);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationConfig?.show]);

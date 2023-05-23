@@ -4,8 +4,9 @@ import {
   retryImport
 } from 'api/import.api';
 import AppRoute from 'const/routes';
+import { setImportDetails } from '../../ImportProgress/slices/importProgressSlice';
 
-import { SCREEN_2, ZEPHYR } from '../const/importSteps';
+import { SCREEN_2, TESTRAIL, ZEPHYR } from '../const/importSteps';
 
 import {
   quickImportCleanUp,
@@ -91,6 +92,17 @@ export const requestTestConnection =
     }
   };
 
+const getFirstProjectNameAndTotalCount = (projects) => {
+  const obj = { firstName: null, totalCount: 0 };
+  projects.forEach((item, idx) => {
+    if (!obj.firstName && item.checked) {
+      obj.firstName = item?.name;
+      obj.totalCount += 1;
+    } else if (item.checked) obj.totalCount += 1;
+  });
+  return obj;
+};
+
 export const startImport = (navigate) => async (dispatch, getState) => {
   const state = getState();
   const tool = getCurrentUsedTool(state);
@@ -99,6 +111,8 @@ export const startImport = (navigate) => async (dispatch, getState) => {
   const importIdBeforeImport = getImportIdBeforeImport(state);
   const projects = getProjects(state);
 
+  const { firstName, totalCount } = getFirstProjectNameAndTotalCount(projects);
+
   const creds = tool === ZEPHYR ? zephyrCred : testRailsCred;
   dispatch(setImportId(importIdBeforeImport));
   dispatch(setBeginImportLoading(true));
@@ -106,10 +120,13 @@ export const startImport = (navigate) => async (dispatch, getState) => {
     await importProjects(tool, {
       ...creds,
       import_id: importIdBeforeImport,
-      projects: projects
+      [`${tool === TESTRAIL ? 'testrail_p' : 'p'}rojects`]: projects
         .map((project) => (project.checked ? project : null))
         .filter((project) => project !== null)
     });
+    dispatch(
+      setImportDetails({ current_project: firstName, projects: totalCount })
+    );
     dispatch(setImportStarted(true));
     dispatch(setBeginImportLoading(false));
     navigate(AppRoute.ROOT);

@@ -1,15 +1,16 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { notify } from '@browserstack/bifrost';
 import AppRoute from 'const/routes';
 
-import { dismissNotification } from '../../../api/import.api';
+import { dismissNotification } from 'api/import.api';
 import { setReportModal } from '../slices/importProgressSlice';
 
 const useProgressNotification = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const timerRef = useRef();
   const notificationConfig = useSelector(
     (state) => state.importProgress.progressNotification
   );
@@ -22,6 +23,7 @@ const useProgressNotification = () => {
     (toastDataId) => {
       notify.remove(toastDataId);
       dismissNotification(importId);
+      clearTimeout(timerRef.current);
     },
     [importId]
   );
@@ -39,12 +41,12 @@ const useProgressNotification = () => {
   useEffect(() => {
     if (notificationConfig?.show === false)
       removeNotification(notificationConfig?.id);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notificationConfig?.show, notificationConfig?.id]);
 
   return {
     notify,
+    timerRef,
     dispatch,
     notificationConfig,
     removeNotification,

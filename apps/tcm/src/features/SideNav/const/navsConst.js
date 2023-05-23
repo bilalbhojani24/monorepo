@@ -77,6 +77,7 @@ export const IMPORT_IN_PROGRESS = [
     label: 'Import in progress',
     activeIcon: AnimatedClock,
     inActiveIcon: AnimatedClock
+    // path: AppRoute.ROOT
   }
 ];
 

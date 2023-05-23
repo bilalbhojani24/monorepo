@@ -22,7 +22,10 @@ const useImport = () => {
   const isFromOnboarding = location?.state?.isFromOnboarding;
   // global selector
   const getUserEmail = useSelector((state) => state.global.user?.email);
-
+  // import progress
+  const importStatus = useSelector(
+    (state) => state.importProgress.importStatus
+  );
   const hasProjects = useSelector((state) => state.onboarding.hasProjects);
   const testRailsCred = useSelector((state) => state.import.testRailsCred);
   const zephyrCred = useSelector((state) => state.import.zephyrCred);
@@ -36,7 +39,6 @@ const useImport = () => {
   const currentTestManagementTool = useSelector(
     (state) => state.import.currentTestManagementTool
   );
-  const importStatus = useSelector((state) => state.import.importStatus);
 
   const testRailsCredTouched = useSelector(
     (state) => state.import.testRailsCredTouched
@@ -128,8 +130,6 @@ const useImport = () => {
     beginImportLoading,
     configureToolPageLoading,
     configureToolProceed,
-    // configureToolProceedLoading,
-    // configureToolTestConnectionLoading,
     connectionStatusMap,
     currentScreen,
     currentTestManagementTool,

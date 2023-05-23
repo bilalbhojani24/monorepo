@@ -22,15 +22,13 @@ const useReportModal = () => {
   const retryImport = () => {
     dispatch(retryQuickImport(false, navigate));
     dispatch(setReportModal(false));
-    // if (quickImportProjectId)
-    //   navigate(`/projects/${quickImportProjectId}/quick-import`);
-    // else navigate(AppRoute.IMPORT);
   };
 
   useEffect(() => {
-    dispatch(setQuickImportResult());
-  }, [dispatch]);
+    if (isReportModalVisible) dispatch(setQuickImportResult());
+  }, [dispatch, isReportModalVisible]);
 
+  console.log('report modal', reportModalProjects);
   return {
     closeReportModal,
     isReportModalVisible,

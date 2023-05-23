@@ -37,15 +37,22 @@ export const importProgressSlice = createSlice({
       state.isLoading[payload.key] = payload.value;
     },
     setImportDetails: (state, { payload }) => {
+      console.log('payload set import details', payload);
       if (payload) {
-        state.importDetails.percent = payload?.percent;
-        state.importDetails.totalProjects = payload?.projects;
-        state.importDetails.currentProjectName = payload?.current_project;
+        state.importDetails.percent =
+          payload?.percent || initialState.importDetails.percent;
+        state.importDetails.totalProjects =
+          payload?.projects || state.importDetails.totalProjects;
+        state.importDetails.currentProjectName =
+          payload?.current_project || state.importDetails.currentProjectName;
         state.importDetails.currentProjectNumber =
-          payload?.current_project_number;
-        state.importDetails.failedProjects = payload?.projects_failed;
+          payload?.current_project_number ||
+          initialState.importDetails.currentProjectNumber;
+        state.importDetails.failedProjects =
+          payload?.projects_failed || initialState.importDetails.failedProjects;
         state.importDetails.successfullyImportedProjects =
-          payload?.projects_done;
+          payload?.projects_done ||
+          initialState.importDetails.successfullyImportedProjects;
       }
     },
     setImportStatus: (state, { payload }) => {
@@ -67,7 +74,8 @@ export const importProgressSlice = createSlice({
       state.reportModalProjects = payload.projects;
     },
     setNotificationConfig: (state, { payload }) => {
-      state.progressNotification.show = payload?.show;
+      state.progressNotification.show =
+        payload?.show || initialState.progressNotification.show;
       state.progressNotification.id =
         payload?.id || initialState.progressNotification.id;
     },
