@@ -55,7 +55,7 @@ function DocumentStackListItem({
         title={title}
         subTitle={
           isUpcoming ? (
-            <O11yBadge disabled modifier="warn" text="Coming soon" />
+            <O11yBadge disabled modifier="info" text="Coming soon" />
           ) : (
             subTitle
           )
