@@ -67,7 +67,7 @@ const Template = ({ header, description, ...props }) => (
       />
     </CTACardContent>
     <CTACardMedia>
-      <ExampleImage />
+      <ExampleImage className="w-full" />
     </CTACardMedia>
   </CTACard>
 );
