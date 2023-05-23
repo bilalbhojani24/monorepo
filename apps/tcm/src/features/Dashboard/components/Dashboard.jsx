@@ -32,7 +32,7 @@ const Dashboard = () => {
     closedTestRunsDailyLineOptions,
     testCasesTrendOptions,
     fetchAllChartData,
-    logTheEvent
+    onDVFooterClick
   } = useDashboard();
   const dispatch = useDispatch();
 
@@ -99,7 +99,8 @@ const Dashboard = () => {
               footerProps={{
                 linkText: 'View All Active Runs',
                 linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }),
-                onClick: () => logTheEvent('TM_DashboardActiveRunLinkClicked')
+                onClick: (e) =>
+                  onDVFooterClick(e, 'TM_DashboardActiveRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -152,8 +153,8 @@ const Dashboard = () => {
                   `${routeFormatter(AppRoute.TEST_RUNS, {
                     projectId
                   })}?closed=true` || '',
-                onClick: () =>
-                  logTheEvent('TM_DashboardMonthsClosedRunLinkClicked')
+                onClick: (e) =>
+                  onDVFooterClick(e, 'TM_DashboardMonthsClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -199,8 +200,8 @@ const Dashboard = () => {
                 linkTo: `${routeFormatter(AppRoute.TEST_RUNS, {
                   projectId
                 })}?closed=true`,
-                onClick: () =>
-                  logTheEvent('TM_Dashboard15DaysClosedRunLinkClicked')
+                onClick: (e) =>
+                  onDVFooterClick(e, 'TM_Dashboard15DaysClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
