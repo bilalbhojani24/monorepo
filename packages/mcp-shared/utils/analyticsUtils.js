@@ -40,7 +40,7 @@ const logMcpEvent = (name, data, sendToGA) => {
    *
    */
 
-  if (IS_PROD) {
+  if (!IS_PROD) {
     logEvent([], 'web_events', name, data, undefined, sendToGA);
   }
 };
