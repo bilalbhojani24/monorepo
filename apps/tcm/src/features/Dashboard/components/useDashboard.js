@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -29,6 +29,7 @@ export default function useDashboard() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const scrollWrapElement = useRef();
   const [isAllDashboadEmpty, setAllDashboadEmpty] = useState(false);
   const [activeTestRunsOptions, setActiveTestRunsOptions] = useState(null);
   const [testCaseTypesOptions, setTestCaseTypesOptions] = useState(null);
@@ -241,6 +242,7 @@ export default function useDashboard() {
   }, [projectId]);
 
   return {
+    scrollWrapElement,
     isAllDashboadEmpty,
     testCaseTypesOptions,
     closedTestRunsDailyLineOptions,

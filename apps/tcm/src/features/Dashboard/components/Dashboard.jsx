@@ -22,6 +22,7 @@ variablePie(Highcharts);
 
 const Dashboard = () => {
   const {
+    scrollWrapElement,
     isAllDashboadEmpty,
     isLoadingStates,
     projectId,
@@ -56,6 +57,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchAllChartData();
+    if (scrollWrapElement?.current?.scrollTop)
+      scrollWrapElement.current.scrollTop = 0;
     dispatch(
       logEventHelper('TM_DashboardPageLoaded', {
         project_id: projectId,
@@ -68,7 +71,10 @@ const Dashboard = () => {
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <TMPageHeadings heading="Dashboard" />
-      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
+      <div
+        className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4"
+        ref={scrollWrapElement}
+      >
         <TMAlerts
           show={isAllDashboadEmpty}
           title="Currently, there is no data available in this project."
@@ -163,7 +169,7 @@ const Dashboard = () => {
                     options={closedTestRunsMonthlyLineOptions}
                   />
                   {closedTestRunsMonthlyLineOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
                       <div className="text-base-500 text-xs font-semibold">
                         {NO_DATA_TEXT}
                       </div>
@@ -210,7 +216,7 @@ const Dashboard = () => {
                     options={closedTestRunsDailyLineOptions}
                   />
                   {closedTestRunsDailyLineOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
                       <div className="text-base-500 text-xs font-semibold">
                         {NO_DATA_TEXT}
                       </div>
@@ -332,7 +338,7 @@ const Dashboard = () => {
                     options={jiraIssuesOptions}
                   />
                   {jiraIssuesOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
                       <div className="text-base-500 text-xs font-semibold">
                         {NO_DATA_TEXT}
                       </div>
