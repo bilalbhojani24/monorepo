@@ -19,11 +19,23 @@ const TextField = ({
   defaultValue,
   setFieldsData,
   disabled = false,
-  areSomeRequiredFieldsEmpty
+  setValidationErrorForField,
+  areSomeRequiredFieldsEmpty,
+  clearValidationErrorForField
 }) => {
   const [error, setError] = useState(null);
+  const valueToRender = Array.isArray(fieldsData?.[fieldKey])
+    ? (fieldsData?.[fieldKey] ?? (value || defaultValue || [])).join(',')
+    : fieldsData?.[fieldKey] ?? (value || defaultValue) ?? '';
   const handleChange = (e) => {
     const fieldValue = e.target.value;
+    if (schema?.field === 'numeric') {
+      // This works with integers and decimal numbers.
+      const regex = new RegExp('^-?\\d*(\\.\\d+)?$');
+      if (!fieldValue.match(regex)) {
+        return;
+      }
+    }
 
     const val =
       schema?.field === 'multi-text' && fieldValue
@@ -33,11 +45,8 @@ const TextField = ({
         : // single text, simply pass it
           fieldValue;
 
-    setFieldsData({ ...fieldsData, [fieldKey]: val });
+    setFieldsData((prev) => ({ ...prev, [fieldKey]: val }));
   };
-  const valueToRender = Array.isArray(fieldsData?.[fieldKey])
-    ? (fieldsData?.[fieldKey] ?? (value || defaultValue || [])).join(',')
-    : fieldsData?.[fieldKey] ?? (value || defaultValue) ?? '';
 
   const requiredFieldError = useRequiredFieldError(
     required,
@@ -59,7 +68,7 @@ const TextField = ({
       !ALLOWED_TYPES.includes(typeof fieldsData?.[fieldKey]) &&
       typeof setFieldsData === 'function'
     ) {
-      setFieldsData({ ...fieldsData, [fieldKey]: valueToRender });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: valueToRender }));
     }
   }, [value, defaultValue, setFieldsData, fieldKey, fieldsData, valueToRender]);
 
@@ -77,6 +86,9 @@ const TextField = ({
               const isValid = validationRegex.test(input);
               if (!isValid) {
                 errors.push(validationErrorMessage);
+                setValidationErrorForField(fieldKey, validationErrorMessage);
+              } else {
+                clearValidationErrorForField(fieldKey);
               }
             }
           }
@@ -88,6 +100,7 @@ const TextField = ({
         }
       } else {
         clearError();
+        clearValidationErrorForField(fieldKey);
       }
     }
   };
@@ -105,7 +118,7 @@ const TextField = ({
         placeholder={placeholder}
         onBlur={validateInput}
         errorText={error}
-        type={schema?.field === 'numeric' ? 'number' : 'text'}
+        type="text"
         disabled={disabled}
       />
     </div>

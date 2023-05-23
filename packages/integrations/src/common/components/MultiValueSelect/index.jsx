@@ -4,7 +4,9 @@ import {
   ComboBox,
   ComboboxOptionGroup,
   ComboboxOptionItem,
-  ComboboxTrigger
+  ComboboxTrigger,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 import { makeDebounce } from '@browserstack/utils';
 import PropTypes from 'prop-types';
@@ -41,7 +43,7 @@ const MultiSelect = ({
     }));
 
   const handleChange = (val) => {
-    setFieldsData({ ...fieldsData, [fieldKey]: val });
+    setFieldsData((prev) => ({ ...prev, [fieldKey]: val }));
   };
 
   const [optionsToRender, setOptionsToRender] = useState([]);
@@ -63,7 +65,7 @@ const MultiSelect = ({
       typeof setFieldsData === 'function'
     ) {
       const cleanedValue = cleanOptions(value || defaultValue);
-      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: cleanedValue }));
     }
   }, [value, defaultValue, fieldsData, fieldKey, setFieldsData]);
 
@@ -232,13 +234,21 @@ const MultiSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        <ComboboxOptionGroup maxWidth={300}>
+        <ComboboxOptionGroup maxWidth={300} wrapperClassName="flex flex-col">
           {optionsToRender?.map((item) => (
-            <ComboboxOptionItem
-              key={item.value}
-              option={item}
-              wrapperClassName="text-base-500"
-            />
+            <Tooltip
+              theme="dark"
+              placementSide="right"
+              content={
+                <TooltipBody wrapperClassName="mb-0">{item.label}</TooltipBody>
+              }
+            >
+              <ComboboxOptionItem
+                key={item.value}
+                option={item}
+                wrapperClassName="text-base-500"
+              />
+            </Tooltip>
           ))}
         </ComboboxOptionGroup>
       </ComboBox>
