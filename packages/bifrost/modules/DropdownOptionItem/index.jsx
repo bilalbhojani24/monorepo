@@ -15,7 +15,7 @@ const DropdownOptionItem = ({ option, wrapperClassName, ...props }) => {
           type="button"
           className={twClassNames(
             active ? 'bg-base-100 text-base-900' : 'text-base-700',
-            'block px-4 py-2 text-sm w-full text-left disabled:bg-base-50 disabled:cursor-not-allowed',
+            'block px-4 py-2 text-sm w-full text-left disabled:bg-base-50 disabled:cursor-not-allowed disabled:text-base-400',
             wrapperClassName
           )}
           onClick={(e) => {
