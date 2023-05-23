@@ -29,7 +29,6 @@ export default function TestingTrends() {
     TREND_CARDS
   } = useTestingTrends();
   const renderDashboardCard = (key) => {
-    // eslint-disable-next-line sonarjs/no-small-switch
     switch (key) {
       case 'stability':
         return <StabilityTrend />;
@@ -98,7 +97,7 @@ export default function TestingTrends() {
                   interaction: 'new_failure_clicked'
                 })
             }}
-            seriesOptions={{ id: 'newFailures', name: 'Newly Failed Tests' }}
+            seriesOptions={{ id: 'newFailures', name: 'New failures' }}
             insightsSuffix="%"
           />
         );

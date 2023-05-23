@@ -2,12 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yTooltip } from 'common/bifrostProxy';
 import Chart from 'common/Chart';
-import {
-  COMMON_CHART_CONFIGS,
-  COMMON_CHART_STYLES,
-  SNP_PARAMS_MAPPING,
-  TOOLTIP_STYLES
-} from 'constants/common';
+import { COMMON_CHART_CONFIGS, COMMON_CHART_STYLES } from 'constants/common';
 import {
   getAllTTFilters,
   getTTFilterByKey
@@ -16,8 +11,8 @@ import { getTrendPerformanceChartData } from 'features/TestingTrends/slices/test
 import { getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import { getBaseUrl, logOllyEvent } from 'utils/common';
-import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
+import { logOllyEvent } from 'utils/common';
+import { milliSecondsToTime } from 'utils/dateTime';
 
 import useChartActions from '../hooks/useChartActions';
 
@@ -27,59 +22,15 @@ import TrendStatesWrapper from './TrendStatesWrapper';
 function getFormattedYAxisLabel() {
   return milliSecondsToTime(this.value);
 }
-// function getFormattedTooltip(activeProject, filters) {
-//   const url = `${getBaseUrl()}:8081/projects/${
-//     activeProject.normalisedName
-//   }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
-//     filters.buildName.value
-//   }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
-
-//   const str = this.points.reduce((s, data) => {
-//     let returnString = `${s}`;
-//     if (!isEmpty(data.point.pointRange)) {
-//       returnString += `<div><span class="font-sm">${getCustomTimeStamp({
-//         dateString: data.point.pointRange[0],
-//         withoutTime: true
-//       })} </span>`;
-//       returnString += ` - <span class="font-sm">${getCustomTimeStamp({
-//         dateString: data.point.pointRange[1],
-//         withoutTime: true
-//       })}</span></div>`;
-//     }
-
-//     returnString += `<div class="flex-1 mt-0.5">`;
-//     returnString += `<div class="flex justify-between"><div>
-//       <span style="color:${data.series.color}" class="font-sm">\u25CF&nbsp;</span>`;
-//     if (data.series.name === 'Average Duration') {
-//       returnString += `<span>${
-//         data.series.name
-//       }</span></div> <span><b>${milliSecondsToTime(
-//         data.y
-//       )}</b></span></div></div>`;
-//     } else {
-//       returnString += `<span>${data.series.name}</span></div> <span><b>${data.y}</b></span></div></div>`;
-//     }
-//     return returnString;
-//   }, '');
-
-//   return `<div class="px-2 py-1 flex flex-col bg-base-800 rounded-lg text-base-200">${str}
-//     <a class="text-white font-medium mt-0.5" href=${url} target="_blank">View all tests (Pro) </a></div>`;
-// }
 
 const getChartOptions = ({
   afterSetExtremes,
   activeProject,
-  filters,
   handleTooltipData
 }) => ({
   ...COMMON_CHART_CONFIGS,
   tooltip: {
     enabled: false
-    // ...TOOLTIP_STYLES,
-    // formatter() {
-    //   return getFormattedTooltip.call(this, activeProject, filters);
-    // },
-    // shared: true
   },
   chart: {
     zoomType: 'x',
@@ -160,23 +111,19 @@ const getChartOptions = ({
             });
           },
           mouseOver(e) {
-            const { plotX, plotY, pointRange: pointRangeOptions } = e.target;
-
-            const seriesData = this.series.chart.series.map(
-              (res) => ({
-                ...res,
-                index: this.index,
-                y: res.data[this.index]?.y,
-                pointRangeOptions
-              }),
-              this
-            );
+            const { plotX, plotY, index } = e.target;
+            const seriesData = e.target.series.chart.series.map((res) => ({
+              ...res,
+              index,
+              y: res.data[index]?.y,
+              pointRangeOptions: res.data[index]?.pointRange
+            }));
 
             handleTooltipData({
               options: [...seriesData],
               styles: {
-                top: plotY + 45,
-                left: plotX + 45,
+                top: plotY + 55,
+                left: plotX + 55,
                 width: 24,
                 height: 24
               }
@@ -244,7 +191,6 @@ export default function PerformanceGraph({ buildName }) {
       ...getChartOptions({
         afterSetExtremes,
         activeProject: projects.active,
-        filters,
         handleTooltipData
       }),
       series: [
@@ -268,7 +214,6 @@ export default function PerformanceGraph({ buildName }) {
       afterSetExtremes,
       chartData?.barData,
       chartData?.lineData,
-      filters,
       handleTooltipData,
       projects.active
     ]
@@ -288,7 +233,6 @@ export default function PerformanceGraph({ buildName }) {
             key={tooltipData?.options?.id}
             style={{
               ...tooltipData?.styles
-              // cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
             }}
             onClick={() => {}}
             role="presentation"
@@ -308,7 +252,7 @@ export default function PerformanceGraph({ buildName }) {
               }
             >
               <div
-                className="bg-brand-500 h-full w-full"
+                className="h-full w-full"
                 style={{
                   ...tooltipData?.styles
                 }}

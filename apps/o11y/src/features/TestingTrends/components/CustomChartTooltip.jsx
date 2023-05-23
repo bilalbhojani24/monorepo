@@ -1,5 +1,7 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Button, MdLock, MdOpenInNew } from '@browserstack/bifrost';
+import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import PropTypes from 'prop-types';
 import { getBaseUrl } from 'utils/common';
@@ -10,17 +12,20 @@ export default function CustomChartTooltip({
   filters,
   tooltipData
 }) {
+  const dispatch = useDispatch();
   const isLocked = false;
 
   const handleActionClick = () => {
-    if (isLocked) return;
+    if (isLocked) {
+      dispatch(toggleModal({ version: 'drill_down_modal', data: {} }));
+      return;
+    }
 
     const url = `${getBaseUrl()}:8081/projects/${
       activeProject.normalisedName
     }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
       filters.buildName.value
     }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
-    console.log(url);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -31,21 +36,37 @@ export default function CustomChartTooltip({
       return milliSecondsToTime(value);
     }
 
+    if (
+      pointName === 'Always Failing' ||
+      pointName === 'New failures' ||
+      pointName === 'Stability' ||
+      pointName === 'Trendline'
+    ) {
+      return fixedToTwoDigits ? `${value.toFixed(2)}%` : `${value}%`;
+    }
+
     return fixedToTwoDigits ? value.toFixed(2) : value;
   };
 
   const renderMetaData = (data) => (
     <div>
-      {tooltipData[0]?.pointRangeOptions && (
+      {data[0]?.pointRangeOptions && (
         <span className="text-sm font-medium">
           {getCustomTimeStamp({
-            dateString: tooltipData[0]?.pointRangeOptions[0],
+            dateString: data[0]?.pointRangeOptions[0],
             withoutTime: true
           })}{' '}
           -{' '}
           {getCustomTimeStamp({
-            dateString: tooltipData[0]?.pointRangeOptions[1],
+            dateString: data[0]?.pointRangeOptions[1],
             withoutTime: true
+          })}
+        </span>
+      )}
+      {data[0]?.category && (
+        <span className="text-sm font-medium">
+          {getCustomTimeStamp({
+            dateString: data[0]?.category
           })}
         </span>
       )}

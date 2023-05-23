@@ -2,12 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yTooltip } from 'common/bifrostProxy';
 import Chart from 'common/Chart';
-import {
-  COMMON_CHART_CONFIGS,
-  COMMON_CHART_STYLES,
-  SNP_PARAMS_MAPPING,
-  TOOLTIP_STYLES
-} from 'constants/common';
+import { COMMON_CHART_CONFIGS, COMMON_CHART_STYLES } from 'constants/common';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import useChartActions from 'features/TestingTrends/hooks/useChartActions';
 import {
@@ -17,35 +12,9 @@ import {
 import { getTrendFailureCategoriesData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
-import { getBaseUrl, logOllyEvent } from 'utils/common';
-import { getCustomTimeStamp } from 'utils/dateTime';
+import { logOllyEvent } from 'utils/common';
 
 import CustomChartTooltip from '../components/CustomChartTooltip';
-
-function getFormattedTooltip(activeProject, filters) {
-  const url = `${getBaseUrl()}:8081/projects/${
-    activeProject.normalisedName
-  }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
-    filters.buildName.value
-  }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
-
-  const str = `${this.points.reduce((s, data) => {
-    let returnString = `<div class="flex-1 mt-0.5">`;
-    returnString += `<div class="flex justify-between"><div>
-      <span style="color:${data.series.color}" class="font-sm">\u25CF&nbsp;</span>
-      <span class="font-sm">${data.series.name}</span></div>
-      <span>
-        <b>${data.y}</b>
-      </span>
-    </div>
-    </div>`;
-    return returnString;
-  }, '')}`;
-  return `<div class="px-2 py-1 flex flex-col bg-base-800 rounded-lg text-base-200">
-  <span class="font-sm mb-1.5" style="margin-bottom:6px">${getCustomTimeStamp({
-    dateString: this.x
-  })}</span>${str}<a class="text-white font-medium mt-0.5" href=${url} target="_blank">View all tests (Pro) </a></div>`;
-}
 
 function getChartOptions({
   afterSetExtremes,
@@ -56,25 +25,6 @@ function getChartOptions({
     ...COMMON_CHART_CONFIGS,
     tooltip: {
       enabled: false
-      // ...TOOLTIP_STYLES,
-      // useHTML: true,
-      // // outside: true,
-      // shared: true,
-      // formatter() {
-      //   return getFormattedTooltip.call(this, activeProject, filters);
-      // },
-      // style: {
-      //   pointerEvents: 'auto',
-      //   ...TOOLTIP_STYLES.style
-      // },
-      // positioner(labelWidth, labelHeight, point) {
-      //   const tooltipX = point.plotX + 20;
-      //   const tooltipY = point.plotY - 30;
-      //   return {
-      //     x: tooltipX,
-      //     y: tooltipY
-      //   };
-      // }
     },
     chart: {
       type: 'area',
@@ -129,22 +79,18 @@ function getChartOptions({
               });
             },
             mouseOver(e) {
-              const { plotX, plotY, pointRange: pointRangeOptions } = e.target;
-
-              const seriesData = this.series.chart.series.map(
-                (res) => ({
-                  ...res,
-                  index: this.index,
-                  y: res.data[this.index]?.y,
-                  pointRangeOptions
-                }),
-                this
-              );
+              const { category, index, plotX, plotY } = e.target;
+              const seriesData = e.target.series.chart.series.map((res) => ({
+                ...res,
+                index,
+                y: res.data[index]?.y,
+                category
+              }));
 
               handleTooltipData({
                 options: [...seriesData],
                 styles: {
-                  top: plotY + 50,
+                  top: plotY + 90,
                   left: plotX + 40,
                   width: 24,
                   height: 24
@@ -234,11 +180,10 @@ export default function FailureCategoryTrend() {
           )}
           <div className="h-full flex-1">
             <div
-              className="bg-danger-500 absolute z-10 rounded-sm"
+              className="absolute z-10 rounded-sm"
               key={tooltipData?.options?.id}
               style={{
                 ...tooltipData?.styles
-                // cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
               }}
               onClick={() => {}}
               role="presentation"
@@ -258,7 +203,7 @@ export default function FailureCategoryTrend() {
                 }
               >
                 <div
-                  className="bg-brand-500 h-full w-full"
+                  className="h-full w-full"
                   style={{
                     ...tooltipData?.styles
                   }}

@@ -71,19 +71,17 @@ export default function TrendsGenericChart({
                 const {
                   plotX,
                   plotY,
-                  pointRange: pointRangeOptions
+                  pointRange: pointRangeOptions,
+                  index
                 } = e.target;
 
-                const seriesData = this.series.chart.series.map(
-                  (res) => ({
-                    ...res,
-                    index: this.index,
-                    y: res.data[this.index]?.y,
-                    fixedToTwoDigits: config?.fixedToTwoDigits,
-                    pointRangeOptions
-                  }),
-                  this
-                );
+                const seriesData = e.target.series.chart.series.map((res) => ({
+                  ...res,
+                  index,
+                  y: res.data[index]?.y,
+                  fixedToTwoDigits: config?.fixedToTwoDigits,
+                  pointRangeOptions
+                }));
 
                 handleTooltipData({
                   options: [...seriesData],
@@ -139,11 +137,10 @@ export default function TrendsGenericChart({
   return (
     <div className="h-full">
       <div
-        className="bg-danger-500 absolute z-10 rounded-sm"
+        className="absolute z-10 rounded-sm"
         key={tooltipData?.options?.id}
         style={{
           ...tooltipData?.styles
-          // cursor: tooltipData?.options?.drillId ? 'pointer' : 'default'
         }}
         onClick={() => {}}
         role="presentation"
@@ -163,7 +160,7 @@ export default function TrendsGenericChart({
           }
         >
           <div
-            className="bg-brand-500 h-full w-full"
+            className="h-full w-full"
             style={{
               ...tooltipData?.styles
             }}
