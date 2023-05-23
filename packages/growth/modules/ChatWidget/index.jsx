@@ -22,8 +22,10 @@ const ChatWidget = ({ children, direction }) => {
   const toggleChatWidget = () => {
     if (showWidget) {
       setShowWidget(false);
+      window.fcWidget.hide();
     } else {
       setShowWidget(true);
+      window.fcWidget.show();
     }
   };
 
@@ -46,11 +48,11 @@ const ChatWidget = ({ children, direction }) => {
     !chatWidget.data.show_fresh_chat_widget ||
     !chatWidget.data.custom_widget
   )
-    return null;
+    return <>{children && children({ toggleChatWidget })}</>;
 
   return (
     <>
-      {showWidget && (
+      {showWidget && chatWidget.data.custom_widget && (
         <Button
           onClick={() => {
             showChatWindow();

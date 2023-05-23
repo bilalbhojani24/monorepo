@@ -100,9 +100,9 @@ export const handleScriptLoad = async (
 
       if (chatWidgetData.user_info.email) {
         window.fcWidget.user.update({
-          email: chatWidgetData.user_info.email,
           firstName: chatWidgetData.user_info.first_name,
-          lastName: chatWidgetData.user_info.last_name
+          lastName: chatWidgetData.user_info.last_name,
+          email: chatWidgetData.user_info.email
         });
       }
     });

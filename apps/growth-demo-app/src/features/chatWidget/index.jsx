@@ -49,9 +49,9 @@ const GRTRows = [
     title: 'Render Prop',
     value: [
       {
-        name: 'descripton',
-        description: 'The position of the chat widget button',
-        default: 'right',
+        name: 'toggleChatWidget',
+        description: 'This will toggle the chat widget button (hide/show)',
+        default: '-',
         isAction: true
       }
     ]
@@ -139,7 +139,7 @@ const FreshChatWidget = () => (
       }
       language="react/jsx"
       code={`import { ChatWidget } from "@browserstack/growth; 
-<ChatWidgetComponent direction = "right" />`}
+<ChatWidget direction = "right" />`}
     />
 
     <div className="mt-5" />
@@ -155,9 +155,9 @@ const FreshChatWidget = () => (
       }
       language="react/jsx"
       code={`import { ChatWidget } from "@browserstack/growth;
-<ChatWidgetComponent direction="right">
+<ChatWidget direction="right">
   {({ toggleChatWidget }) => ( /**code**// ))}
-</ChatWidgetComponent>`}
+</ChatWidget>`}
     />
   </div>
 );
