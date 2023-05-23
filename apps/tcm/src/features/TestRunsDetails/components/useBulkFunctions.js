@@ -34,8 +34,12 @@ const useBulkFunctions = () => {
   const bulkOperationSelected = useSelector(
     (state) => state.testRunsDetails.bulkOperation
   );
+  const usersArray = useSelector((state) => state.testRunsDetails.usersArray);
   const isBulkRemoveInProgress = useSelector(
     (state) => state.testRunsDetails.isLoading.bulkRemoveInProgress
+  );
+  const isUsersArrayLoading = useSelector(
+    (state) => state.testRunsDetails.isLoading.usersArray
   );
   const loadedDataProjectId = useSelector(
     (state) => state.testRunsDetails.loadedDataProjectId
@@ -53,10 +57,12 @@ const useBulkFunctions = () => {
   const fetchUsers = () => {
     getUsersOfProjectAPI(projectId).then((data) => {
       dispatch(
-        setUsers([
-          { full_name: 'Myself', id: data.myself.id },
-          ...data.users.filter((item) => item.id !== data.myself.id)
-        ])
+        setUsers(
+          [
+            { full_name: 'Myself', id: data.myself.id },
+            ...data.users.filter((item) => item.id !== data.myself.id)
+          ].map((item) => ({ label: item.full_name, value: item.id }))
+        )
       );
 
       dispatch(setLoadedDataProjectId(projectId));
@@ -145,6 +151,8 @@ const useBulkFunctions = () => {
   }, [allTestCases, selectedTestCaseIDs]);
 
   return {
+    isUsersArrayLoading,
+    usersArray,
     isBulkRemoveInProgress,
     bulkOperationSelected,
     isAllChecked,

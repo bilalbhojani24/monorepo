@@ -23,6 +23,7 @@ const RemoveTCModal = () => {
 
   return (
     <TMModal
+      size="md"
       ref={statusFocusRef}
       show={bulkOperationSelected === BULK_OPERATIONS.REMOVE.option}
       withDismissButton

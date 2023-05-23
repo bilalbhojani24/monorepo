@@ -1,23 +1,32 @@
 import React, { useRef } from 'react';
 import {
+  TMAlerts,
   TMButton,
   TMModal,
   TMModalBody,
   TMModalFooter,
-  TMModalHeader
+  TMModalHeader,
+  TMSelectMenu
 } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 
 import { BULK_OPERATIONS } from '../const/immutableConst';
 
 import useBulkFunctions from './useBulkFunctions';
 
 const AssignTestCasesModal = () => {
-  const { onAssignHandler, bulkOperationSelected, resetBulkOperation } =
-    useBulkFunctions();
+  const {
+    isUsersArrayLoading,
+    onAssignHandler,
+    usersArray,
+    bulkOperationSelected,
+    resetBulkOperation
+  } = useBulkFunctions();
   const statusFocusRef = useRef();
 
   return (
     <TMModal
+      size="md"
       ref={statusFocusRef}
       show={bulkOperationSelected === BULK_OPERATIONS.ASSIGN_TO.option}
       withDismissButton
@@ -28,8 +37,26 @@ const AssignTestCasesModal = () => {
         subHeading=""
         handleDismissClick={resetBulkOperation}
       />
-      <TMModalBody>
-        <div className="w-full">WIP</div>
+      <TMModalBody className="h-32">
+        {isUsersArrayLoading ? (
+          <Loader />
+        ) : (
+          <div className="w-full">
+            <TMSelectMenu
+              label="Assign to"
+              placeholder="Choose from options"
+              triggerWrapperClassName="mb-4 w-56"
+              checkPosition="right"
+              options={usersArray || []}
+              // onChange={handleValueMappingMenuChange(actualName, value)}
+            />
+            <TMAlerts
+              show
+              description="The test cases will be assigned to Tim Cook"
+              modifier="primary"
+            />
+          </div>
+        )}
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton variant="primary" colors="white" onClick={resetBulkOperation}>

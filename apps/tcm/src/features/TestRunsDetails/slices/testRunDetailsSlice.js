@@ -6,7 +6,8 @@ const initialState = {
     testRunDetails: true,
     isFoldersLoading: true,
     isTestCasesLoading: true,
-    bulkRemoveInProgress: false
+    bulkRemoveInProgress: false,
+    usersArray: false
   },
   isVisible: {
     addStatus: false,

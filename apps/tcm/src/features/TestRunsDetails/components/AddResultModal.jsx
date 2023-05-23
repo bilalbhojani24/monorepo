@@ -18,6 +18,7 @@ const AddResultModal = () => {
 
   return (
     <TMModal
+      size="md"
       ref={statusFocusRef}
       show={bulkOperationSelected === BULK_OPERATIONS.ADD_RESULT.option}
       withDismissButton
