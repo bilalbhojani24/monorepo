@@ -20,19 +20,16 @@ const AppRoute = {
   SETTINGS_API_KEYS: '/settings/api-keys'
 };
 
-// export const BASE_API_URL = import.meta.env.DEV
-//   ? 'https://api.teststack.bsstag.com'
-//   : 'https://api.teststack.bsstag.com';
+// export const BASE_API_URL = 'https://c956-223-178-83-243.ngrok-free.app';
 
-export const BASE_API_URL = 'https://c956-223-178-83-243.ngrok-free.app';
-// export const BASE_API_URL = import.meta.env.DEV
-//   ? 'https://test-management.bsstag.com'
-//   : window.location.origin;
+export const BASE_API_URL = import.meta.env.DEV
+  ? 'https://test-management.bsstag.com'
+  : window.location.origin;
 
-export const WS_URL = 'ws://c956-223-178-83-243.ngrok-free.app/api/v1/cable';
-// export const WS_URL = import.meta.env.DEV
-//   ? 'wss://test-management.bsstag.com/api/v1/cable'
-//   : `wss://${window.location.host}/api/v1/cable`;
+// export const WS_URL = 'ws://c956-223-178-83-243.ngrok-free.app/api/v1/cable';
+export const WS_URL = import.meta.env.DEV
+  ? 'wss://test-management.bsstag.com/api/v1/cable'
+  : `wss://${window.location.host}/api/v1/cable`;
 
 export const DEV_SIGN_OUT_URL =
   'https://devteststack.bsstag.com/users/sign_out';
