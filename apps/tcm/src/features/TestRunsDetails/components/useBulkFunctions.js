@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { removeTCFromTRBulkAPI } from 'api/testruns.api';
 
 // import { STATUS_OPTIONS } from '../const/immutableConst';
 import {
@@ -12,6 +13,9 @@ const useBulkFunctions = () => {
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
   const dispatch = useDispatch();
 
+  const testRunDetails = useSelector(
+    (state) => state.testRunsDetails.fullDetails
+  );
   const allTestCases = useSelector(
     (state) => state.testRunsDetails.allTestCases
   );
@@ -63,9 +67,16 @@ const useBulkFunctions = () => {
   };
 
   const onRemoveHandler = () => {
-    // TODO remove API
+    if (selectedTestCaseIDs.length && testRunDetails?.id)
+      removeTCFromTRBulkAPI({
+        ids: selectedTestCaseIDs,
+        testRunId: testRunDetails.id
+      }).then((res) => {
+        debugger;
+      });
     resetBulkOperation();
   };
+
   const onAddResultHandler = () => {
     // TODO remove API
     resetBulkOperation();
