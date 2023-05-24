@@ -63,7 +63,8 @@ export default function SummaryChart({
                 >
                   <div className="text-base-800 flex items-center pb-3 text-sm">
                     <div
-                      className={`bg-[${color.toLowerCase()}] mr-1.5 h-2 w-2 rounded-full`}
+                      className="mr-1.5 h-2 w-2 rounded-full"
+                      style={{ backgroundColor: color }}
                     />
                     {impact.charAt(0).toUpperCase()}
                     {impact.slice(1, impact.length)}

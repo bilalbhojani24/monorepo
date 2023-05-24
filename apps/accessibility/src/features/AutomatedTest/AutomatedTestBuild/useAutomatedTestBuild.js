@@ -9,7 +9,7 @@ import {
   fetchTestCasesData
 } from 'api/fetchTestAutomationData';
 import { ISSUES, SUMMARY, TESTS } from 'constants';
-import { updateUrlWithQueryParam } from 'utils/helper';
+import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 
 import {
   resetActiveTab,
@@ -71,6 +71,14 @@ export default function useAutomatedTestBuild() {
       );
     }
     dispatch(setActiveTab(tab));
+    const path = deleteUrlQueryParam([
+      'activeViolationId',
+      'activeComponentId',
+      'activeIssueIndex',
+      'activeSwitch',
+      'isShowingIssue'
+    ]);
+    navigate(`?${path}`);
     const updatedPath = updateUrlWithQueryParam({
       activeTab: tab
     });
@@ -106,7 +114,6 @@ export default function useAutomatedTestBuild() {
       dispatch(setBuildMetaData(metaData));
     });
     return () => {
-      console.log('unmounting...');
       dispatch(resetFilters());
       dispatch(resetReportAppInfo());
       dispatch(resetIssueItem());
@@ -115,9 +122,20 @@ export default function useAutomatedTestBuild() {
     };
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const activeTabFromParam = params.get('activeTab');
+    if (activeTabFromParam === ISSUES) {
+      document.querySelector('button[value="All issues"]')?.click();
+    } else if (activeTabFromParam === TESTS) {
+      document.querySelector('button[value="Tests"]')?.click();
+    }
+  }, [activeTab, buildMetaData]);
+
   const actionType = '';
   const eventName = 'Sample event name...';
   const onRowClick = () => {};
+
   return {
     activeTab,
     actionType,

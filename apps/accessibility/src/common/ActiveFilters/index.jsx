@@ -18,6 +18,7 @@ import useActiveFilters from './useActiveFilters';
 
 export default function ActiveFilters({
   sectionsDataContext,
+  isShowingHiddenIssueButton,
   wrapperClassName
 }) {
   const {
@@ -130,7 +131,7 @@ export default function ActiveFilters({
               isIconOnlyButton
             />
           )}
-          {!showHiddenIssues && !hasFilters && (
+          {!showHiddenIssues && !hasFilters && isShowingHiddenIssueButton && (
             <Button
               colors="white"
               onClick={() => onHiddenIssueClick(true)}
@@ -201,10 +202,12 @@ export default function ActiveFilters({
 
 ActiveFilters.propTypes = {
   sectionsDataContext: PropTypes.objectOf(PropTypes.any),
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  isShowingHiddenIssueButton: PropTypes.bool
 };
 
 ActiveFilters.defaultProps = {
   sectionsDataContext: {},
-  wrapperClassName: ''
+  wrapperClassName: '',
+  isShowingHiddenIssueButton: true
 };

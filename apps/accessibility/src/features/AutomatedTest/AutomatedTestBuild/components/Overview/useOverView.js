@@ -14,7 +14,8 @@ export default function useOverview() {
   const navigate = useNavigate();
   const buildMetaData = useSelector(getBuildMetaData);
   const ISSUE_COUNT = 'Issue Count';
-  const { critical, serious, moderate, minor } = buildMetaData.issueSummary;
+  const { critical, serious, moderate, minor, issueCount } =
+    buildMetaData.issueSummary;
   const { passed, failed, skipped } = buildMetaData.healthSummary;
   const componentColumns = [
     {
@@ -203,6 +204,7 @@ export default function useOverview() {
     urlColumns,
     componentColumns,
     categoryColumns,
+    issueCount,
     onRowClick,
     prepareDataForIssueTrendChart,
     prepareDataForHealthHistoryChart

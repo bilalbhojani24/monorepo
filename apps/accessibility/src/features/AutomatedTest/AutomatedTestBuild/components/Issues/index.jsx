@@ -150,6 +150,7 @@ export default function Issues() {
           <ActiveFilters
             sectionsDataContext={SectionsDataContext}
             wrapperClassName="w-[calc(100vw-256px)]"
+            isShowingHiddenIssueButton={false}
           />
           {isFilterModalVisible && (
             <FilterModal sectionsDataContext={SectionsDataContext} />

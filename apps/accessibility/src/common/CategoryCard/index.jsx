@@ -25,6 +25,7 @@ export default function CategoryCard({
   list,
   columns,
   onRowClick,
+  issueCount,
   wrapperClassName
 }) {
   const { categoryList, maxCategoryIssue, map, onMenuChange } = useCategoryCard(
@@ -73,7 +74,7 @@ export default function CategoryCard({
         <div>
           <p className="text-base-500 mr-1 text-sm">Total</p>
           <p className="text-base-900 mb-4 text-3xl font-semibold">
-            {categoryList.length}
+            {issueCount}
           </p>
           <Table>
             <TableHead>
@@ -176,6 +177,7 @@ export default function CategoryCard({
 
 CategoryCard.propTypes = {
   eventName: PropTypes.string.isRequired,
+  issueCount: PropTypes.number.isRequired,
   columns: PropTypes.arrayOf({
     id: PropTypes.string,
     name: PropTypes.string,

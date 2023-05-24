@@ -17,6 +17,7 @@ export default function Overview() {
     urlColumns,
     componentColumns,
     categoryColumns,
+    issueCount,
     onRowClick,
     prepareDataForIssueTrendChart,
     prepareDataForHealthHistoryChart
@@ -67,7 +68,6 @@ export default function Overview() {
           actionType={actionType}
           eventName={eventName}
           summary={healthSummaryData}
-          onRowClick={onRowClick}
           wrapperClassName="mt-4"
         />
         <TableCard
@@ -102,6 +102,7 @@ export default function Overview() {
           eventName="test-name"
           columns={categoryColumns}
           list={categoryList}
+          issueCount={issueCount}
           wrapperClassName="mt-4"
         />
       </div>

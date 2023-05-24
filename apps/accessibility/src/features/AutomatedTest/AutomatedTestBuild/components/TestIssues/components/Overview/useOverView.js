@@ -2,23 +2,15 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { useNavigate } from 'react-router-dom';
 import {
   resetFilters,
-  resetIssueItem,
   setShowHiddenIssues,
   setTestFiltersKey
 } from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/slices/appSlice';
-import {
-  getTestData,
-  getTestMetaData
-} from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/slices/selector';
-import { getHiddenIssuesCount, updateUrlWithQueryParam } from 'utils/helper';
+import { getTestMetaData } from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/slices/selector';
 
 export default function useOverview() {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
   const testMetaData = useSelector(getTestMetaData);
-  const testData = useSelector(getTestData);
-
-  const { hiddenIssues, needsReviewIssues } = getHiddenIssuesCount(testData);
 
   const { critical, serious, moderate, minor } = testMetaData.issueSummary;
   const ISSUE_COUNT = 'Issue Count';
@@ -118,26 +110,14 @@ export default function useOverview() {
     document.querySelector('#slide-over button[value="All issues"]').click();
   };
 
-  const onHiddenIssueClick = () => {
-    dispatch(setShowHiddenIssues({ hideIssues: true }));
-    dispatch(resetFilters());
-    dispatch(resetIssueItem());
-    // const path = updateUrlWithQueryParam({ hideIssues: true });
-    // navigate(`?${path}`);
-    document.querySelector('#slide-over button[value="All issues"]').click();
-  };
-
   return {
     actionType,
-    issueSummaryData,
-    hiddenIssues,
-    needsReviewIssues,
     testMetaData,
     eventName,
     urlColumns,
+    issueSummaryData,
     componentColumns,
     categoryColumns,
-    onHiddenIssueClick,
     onRowClick
   };
 }

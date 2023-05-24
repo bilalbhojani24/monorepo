@@ -128,6 +128,7 @@ export default function Issues() {
         <ActiveFilters
           sectionsDataContext={SectionsDataContext}
           wrapperClassName="max-w-6xl"
+          isShowingHiddenIssueButton={false}
         />
         {isFilterModalVisible && (
           <FilterModal sectionsDataContext={SectionsDataContext} />
