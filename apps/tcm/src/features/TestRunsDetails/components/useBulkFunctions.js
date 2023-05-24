@@ -36,7 +36,7 @@ const useBulkFunctions = () => {
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
   const dispatch = useDispatch();
   const { fetchTestRunDetails } = useTestRunDetails();
-  const currentPage = searchParams.get('p') || 1;
+  const currentPage = searchParams.get('p') || '1';
 
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
@@ -150,6 +150,14 @@ const useBulkFunctions = () => {
     }
   };
 
+  const onBulkActionComplete = (res) => {
+    if (currentPage !== `${res.info.page}`)
+      setSearchParams({ p: res.info.page });
+
+    dispatch(setAllTestCases(res?.test_cases || []));
+    dispatch(setMetaPage(res?.info));
+  };
+
   const onRemoveHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id) {
       dispatch(setIsLoadingProps({ key: 'bulkRemoveInProgress', value: true }));
@@ -159,11 +167,7 @@ const useBulkFunctions = () => {
         testRunId: testRunDetails.id,
         page: currentPage
       }).then((res) => {
-        if (currentPage !== `${res.info.page}`)
-          setSearchParams({ p: res.info.page });
-
-        dispatch(setAllTestCases(res?.test_cases || []));
-        dispatch(setMetaPage(res?.info));
+        onBulkActionComplete(res);
         fetchTestRunDetails();
         dispatch(
           addNotificaton({
@@ -191,12 +195,7 @@ const useBulkFunctions = () => {
         issues: resultForm?.jiraIssues,
         page: currentPage
       }).then((res) => {
-        // TODO happy flow edge cases
-        if (currentPage !== `${res.info.page}`)
-          setSearchParams({ p: res.info.page });
-
-        dispatch(setAllTestCases(res?.test_cases || []));
-        dispatch(setMetaPage(res?.info));
+        onBulkActionComplete(res);
         fetchTestRunDetails(true, true);
 
         dispatch(
@@ -222,11 +221,7 @@ const useBulkFunctions = () => {
         assigneeId: assignee?.value,
         page: currentPage
       }).then((res) => {
-        if (currentPage !== `${res.info.page}`)
-          setSearchParams({ p: res.info.page });
-
-        dispatch(setAllTestCases(res?.test_cases || []));
-        dispatch(setMetaPage(res?.info));
+        onBulkActionComplete(res);
 
         dispatch(
           addNotificaton({
