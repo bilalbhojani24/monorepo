@@ -6,6 +6,7 @@ import {
   markOnboardingRegionChange,
   markOnboardingStatus
 } from 'api';
+import { GRID_MANAGER_NAMES } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
 import { getUserDetails } from 'globalSlice/selector';
@@ -38,12 +39,6 @@ browserstack-cli hst init`,
         text: 'Execute grid creation command.'
       }
     }
-  };
-
-  const GRID_MANAGER_NAMES = {
-    helm: 'Helm',
-    kubectl: 'Kubectl',
-    cli: 'CLI'
   };
 
   const HEADER_TEXTS_OBJECT = {

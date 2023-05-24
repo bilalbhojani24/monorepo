@@ -1,18 +1,27 @@
 import React from 'react';
 import { Button, PageHeadings, Tabs } from '@browserstack/bifrost';
 
+import CreateGridCLIModal from '../CreateGridCLIModal';
+
 import ClustersListing from './ClustersListing';
 import GridsListing from './GridsListing';
 import useGridConsole from './useGridConsole';
 
 const GridConsole = () => {
-  const { currentListingType, setCurrentListingType } = useGridConsole();
+  const {
+    createGridBtnHandler,
+    currentListingType,
+    setCurrentListingType,
+    showCreateGridCLIModal
+  } = useGridConsole();
 
   return (
     <div className="flex-1">
       <div className="bg-white px-6 pt-9">
         <PageHeadings
-          actions={<Button> Create Grid </Button>}
+          actions={
+            <Button onClick={createGridBtnHandler}> Create Grid </Button>
+          }
           breadcrumbs={null}
           heading="Automation Console"
         />
@@ -33,6 +42,7 @@ const GridConsole = () => {
 
       {currentListingType === 'grids' && <GridsListing />}
       {currentListingType === 'clusters' && <ClustersListing />}
+      {showCreateGridCLIModal && <CreateGridCLIModal />}
     </div>
   );
 };
