@@ -27,7 +27,7 @@ const Breadcrumb = (props) => {
   return (
     <nav
       className={twClassNames(
-        'flex',
+        'flex z-10',
         {
           'border-b border-base-200 bg-slate-50':
             size === BREADCRUMB_SIZE.fullWidth

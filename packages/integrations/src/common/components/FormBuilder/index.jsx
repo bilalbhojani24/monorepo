@@ -19,11 +19,13 @@ const FormBuilder = ({
   scrollWidgetToTop,
   setIsWorkInProgress,
   isFormBeingSubmitted,
-  hideDescription = false
+  hideDescription = false,
+  validationFailureErrorMessage
 }) => {
   const dispatch = useDispatch();
   const [fieldsData, setFieldsData] = useState({});
   const [formFieldErrors, setFormFieldErrors] = useState({});
+  const [validationErrors, setValidationErrors] = useState({});
   const [shouldShowOptionalFields, setShouldShowOptionalFields] =
     useState(false);
   const showAllFieldsButtonText = shouldShowOptionalFields
@@ -44,15 +46,28 @@ const FormBuilder = ({
     setFieldsData({});
   };
 
-  useEffect(() => {
-    const isWIP = Object.values(fieldsData).some((field) => {
-      if (Array.isArray(field) && field.length) return true;
-      return Boolean(field);
+  const setValidationErrorForField = (key, value) => {
+    setValidationErrors({
+      ...validationErrors,
+      [key]: value
     });
-    if (isWIP) {
+  };
+  const clearValidationErrorForField = (key) => {
+    if (
+      // read https://eslint.org/docs/latest/rules/no-prototype-builtins
+      Object.prototype.hasOwnProperty.call(validationErrors, key)
+    ) {
+      const validationErrorsCopy = { ...validationErrors };
+      delete validationErrorsCopy[key];
+      setValidationErrors(validationErrorsCopy);
+    }
+  };
+
+  useEffect(() => {
+    if (fields?.length) {
       setIsWorkInProgress(true);
     }
-  }, [fieldsData, setIsWorkInProgress]);
+  }, [fields, setIsWorkInProgress]);
 
   useEffect(() => {
     if (fieldErrors) {
@@ -100,6 +115,8 @@ const FormBuilder = ({
               descriptionMeta={descriptionMeta}
               hideDescription={hideDescription}
               areSomeRequiredFieldsEmpty={areSomeRequiredFieldsEmpty}
+              setValidationErrorForField={setValidationErrorForField}
+              clearValidationErrorForField={clearValidationErrorForField}
             />
           );
         }
@@ -110,6 +127,17 @@ const FormBuilder = ({
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (!isWorkInProgress || isFormBeingSubmitted) return null;
+    if (Object.keys(validationErrors).length) {
+      dispatch(
+        setGlobalAlert({
+          kind: 'error',
+          message: validationFailureErrorMessage,
+          autoDismiss: true
+        })
+      );
+      scrollWidgetToTop();
+      return null;
+    }
     if (typeof handleSubmit === 'function') {
       const hasSomeEmptyRequiredFields = requiredFields?.some((field) => {
         const stateValue = fieldsData[field.key];
@@ -149,7 +177,11 @@ const FormBuilder = ({
             variant="minimal"
             wrapperClassName="border-0 shadow-none focus:ring-0 px-0 text-sm focus:ring-offset-0 mb-2"
             icon={
-              shouldShowOptionalFields ? <ChevronUpIcon /> : <ChevronDownIcon />
+              shouldShowOptionalFields ? (
+                <ChevronUpIcon className="h-6 w-6" />
+              ) : (
+                <ChevronDownIcon className="h-6 w-6" />
+              )
             }
             iconPlacement="end"
             onClick={toggleOptionalFieldsVisibility}

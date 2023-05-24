@@ -23,9 +23,9 @@ const renderAuth = ({
   } = {}
 }) => (
   <IntegrationAuth
-    integrationKey={integrationKey}
     label={label}
     oAuthMeta={oAuthMeta}
+    integrationKey={integrationKey}
     apiTokenMeta={{ ...apiTokenMeta, fields }}
   />
 );
@@ -35,8 +35,8 @@ const ListOfIntegrations = ({
   mode,
   options,
   attachments,
-  discardIssue,
   changeTabTo,
+  discardIssue,
   continueEditing,
   isBeingDiscarded,
   isWorkInProgress,
@@ -54,7 +54,8 @@ const ListOfIntegrations = ({
     const formattedIntegration = {
       value: integration.key,
       label: `${integration.label} issue`,
-      title: integration.label
+      title: integration.label,
+      category: integration.category
     };
     dispatch(setActiveIntegration(formattedIntegration));
     // user doesn't have the single integration set up
