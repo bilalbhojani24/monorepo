@@ -17,8 +17,7 @@ const Layout = () => {
       label: 'Automation Console',
       activeIcon: HomeIcon,
       inActiveIcon: HomeIcon,
-      path: '/',
-      badge: <Badge text="Active" />
+      path: '/'
     },
     {
       id: 'team',
@@ -44,11 +43,7 @@ const Layout = () => {
           ],
           title: 'Documentation'
         }}
-        headerElementArray={[
-          'team',
-          'help',
-          'account'
-        ]}
+        headerElementArray={['team', 'help', 'account']}
         onSignoutClick={(e) => {
           e.preventDefault();
           window.location.href = window.location.origin + ROUTES.SIGN_OUT;
