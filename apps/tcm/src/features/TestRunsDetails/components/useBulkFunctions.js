@@ -8,6 +8,7 @@ import {
   removeTCFromTRBulkAPI
 } from 'api/testruns.api';
 import { addNotificaton } from 'globalSlice';
+import { selectMenuValueMapper } from 'utils/helperFunctions';
 
 import { BULK_OPERATIONS } from '../const/immutableConst';
 import {
@@ -17,7 +18,8 @@ import {
   setBulkSelectedtestCaseIDs,
   setIsLoadingProps,
   setLoadedDataProjectId,
-  // setResultIssuesArray,
+  setMetaPage,
+  setResultIssuesArray,
   setUsers,
   updateAssignee,
   updateBulkOperation,
@@ -25,16 +27,16 @@ import {
 } from '../slices/testRunDetailsSlice';
 
 import useTestRunDetails from './useTestRunDetails';
-import useTRTCFolders from './useTRTCFolders';
 
 const useBulkFunctions = () => {
   const { projectId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isShowAddIssuesModal, setIsShowAddIssuesModal] = useState(false);
   const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
   const dispatch = useDispatch();
-  const { fetchTestCases } = useTRTCFolders();
   const { fetchTestRunDetails } = useTestRunDetails();
+  const currentPage = searchParams.get('p') || 1;
 
   const testRunDetails = useSelector(
     (state) => state.testRunsDetails.fullDetails
@@ -150,7 +152,6 @@ const useBulkFunctions = () => {
 
   const onRemoveHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id) {
-      const currentPage = searchParams.get('p') || 1;
       dispatch(setIsLoadingProps({ key: 'bulkRemoveInProgress', value: true }));
       removeTCFromTRBulkAPI({
         projectId,
@@ -162,6 +163,8 @@ const useBulkFunctions = () => {
           setSearchParams({ p: res.info.page });
 
         dispatch(setAllTestCases(res?.test_cases || []));
+        dispatch(setMetaPage(res?.info));
+
         dispatch(
           addNotificaton({
             id: `test_cases_removed_${testRunDetails?.id}`,
@@ -184,10 +187,15 @@ const useBulkFunctions = () => {
         projectId,
         ids: selectedTestCaseIDs,
         testRunId: testRunDetails.id,
-        status: resultForm?.status
-      }).then(() => {
+        status: resultForm?.status,
+        page: currentPage
+      }).then((res) => {
         // TODO happy flow edge cases
-        fetchTestCases();
+        if (currentPage !== `${res.info.page}`)
+          setSearchParams({ p: res.info.page });
+
+        dispatch(setAllTestCases(res?.test_cases || []));
+        dispatch(setMetaPage(res?.info));
         fetchTestRunDetails(true, true);
 
         dispatch(
@@ -210,8 +218,15 @@ const useBulkFunctions = () => {
         projectId,
         ids: selectedTestCaseIDs,
         testRunId: testRunDetails.id,
-        assigneeId: assignee?.value
-      }).then(() => {
+        assigneeId: assignee?.value,
+        page: currentPage
+      }).then((res) => {
+        if (currentPage !== `${res.info.page}`)
+          setSearchParams({ p: res.info.page });
+
+        dispatch(setAllTestCases(res?.test_cases || []));
+        dispatch(setMetaPage(res?.info));
+
         dispatch(
           addNotificaton({
             id: `assigness_updates${testRunDetails?.id}`,
@@ -233,6 +248,35 @@ const useBulkFunctions = () => {
     dispatch(updateResultForm({ key, value }));
   };
 
+  const showAddIssuesModal = () => {
+    setIsShowAddIssuesModal(true);
+  };
+  const hideAddIssuesModal = () => {
+    setIsShowAddIssuesModal(false);
+  };
+
+  const saveAddIssesModal = (newIssuesArray) => {
+    let value = [...resultForm.jiraIssues];
+    value = [...value, ...newIssuesArray];
+
+    dispatch(updateResultForm({ key: 'jiraIssues', value }));
+    dispatch(
+      setResultIssuesArray(
+        selectMenuValueMapper([
+          ...new Set([
+            ...resultIssuesArray.map((item) => item.value),
+            ...newIssuesArray
+          ])
+        ])
+      )
+    );
+    hideAddIssuesModal();
+  };
+
+  const handleMenuOpen = (isMenuOpened) => {
+    if (!resultIssuesArray?.length && isMenuOpened) showAddIssuesModal();
+  };
+
   useEffect(() => {
     if (allTestCases?.length) {
       const checkedItems = allTestCases
@@ -250,6 +294,11 @@ const useBulkFunctions = () => {
   }, [allTestCases, selectedTestCaseIDs]);
 
   return {
+    handleMenuOpen,
+    showAddIssuesModal,
+    isShowAddIssuesModal,
+    hideAddIssuesModal,
+    saveAddIssesModal,
     resultIssuesArray,
     resultForm,
     isBulkAddResultInProgress,

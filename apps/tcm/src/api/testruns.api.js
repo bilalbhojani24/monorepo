@@ -94,10 +94,11 @@ export const assignToTCBulkAPI = async ({
   projectId,
   ids,
   assigneeId,
-  testRunId
+  testRunId,
+  page = 1
 }) =>
   fetchPost(
-    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/bulk_assign`,
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/bulk_assign?p=${page}`,
     {
       test_case_ids: ids,
       assignee_id: assigneeId
@@ -108,10 +109,11 @@ export const addResultTCBulkAPI = async ({
   projectId,
   ids,
   status,
-  testRunId
+  testRunId,
+  page = 1
 }) =>
   fetchPost(
-    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/edit`,
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/edit?p=${page}`,
     {
       test_case_ids: ids,
       status

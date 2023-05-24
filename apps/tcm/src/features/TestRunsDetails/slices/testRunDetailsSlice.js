@@ -52,7 +52,7 @@ const initialState = {
     jiraIssues: []
   },
   usersArray: null,
-  resultIssuesArray: null,
+  resultIssuesArray: [],
   loadedDataProjectId: null // data fetched for which projectID (to cache data)
 };
 
