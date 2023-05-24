@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   getSnPTestsFilters,
   getSnPUEFilters,
@@ -11,7 +11,6 @@ import {
   getUEHostNames,
   getUETestTags
 } from 'api/snp';
-import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
   ADV_FILTER_TYPES,
   ADV_FILTERS_PREFIX,
@@ -33,45 +32,6 @@ import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import { getDateInFormat } from 'utils/dateTime';
-
-import { TABS } from '../constants';
-
-const getInitialActiveTab = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const tabVal = searchParams.get(SNP_PARAMS_MAPPING.snpTab);
-  if (!tabVal) {
-    return {
-      idx: 0,
-      value: TABS.tests
-    };
-  }
-  const foundTabIdx = Object.keys(TABS).findIndex((item) => item === tabVal);
-  if (foundTabIdx !== -1) {
-    return {
-      idx: foundTabIdx,
-      value: TABS[tabVal]
-    };
-  }
-  return {
-    idx: 0,
-    value: TABS.tests
-  };
-};
-
-const { reducer, actions } = createSlice({
-  name: 'snp ui',
-  initialState: {
-    activeTab: getInitialActiveTab()
-  },
-  reducers: {
-    setActiveTab: (state, { payload }) => {
-      state.activeTab = payload;
-    }
-  },
-  extraReducers: {}
-});
-
-export const { setActiveTab } = actions;
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const updateTestsFilterFields = (data, dispatch, searchParams) => {
@@ -760,5 +720,3 @@ export const getUEHostNamesData = createAsyncThunk(
     }
   }
 );
-
-export default reducer;

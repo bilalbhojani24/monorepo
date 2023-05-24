@@ -11,4 +11,4 @@ export const getUESingleBreakdownData = (state, errorId) =>
   state.shTests.errors.breakdownData[errorId];
 
 // ui selectors
-export const getSnPActiveTab = (state) => state.suiteHealthUI.activeTab;
+export const getSnPActiveTab = (state) => state.shTests.activeTab;
