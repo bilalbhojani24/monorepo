@@ -47,7 +47,7 @@ const Filter = ({ isMini, onFilterChange }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFilterVisible]);
 
-  const priorityOptions = PRIORITY_OPTIONS.map((item) => {
+  const priorityOptions = PRIORITY_OPTIONS?.map((item) => {
     switch (priorityIntNameAndValueMapTC[item?.value]) {
       case 'critical':
         return {
@@ -227,7 +227,7 @@ const Filter = ({ isMini, onFilterChange }) => {
               <div className="text-brand-800 mb-2 text-base font-medium">
                 Filter By Priority
               </div>
-              {priorityOptions.map((item) => (
+              {priorityOptions?.map((item) => (
                 <TMCheckBox
                   key={item.value}
                   border={false}
