@@ -150,7 +150,7 @@ const useBulkFunctions = () => {
 
   const onRemoveHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id) {
-      const currentPage = searchParams.get('p');
+      const currentPage = searchParams.get('p') || 1;
       dispatch(setIsLoadingProps({ key: 'bulkRemoveInProgress', value: true }));
       removeTCFromTRBulkAPI({
         projectId,
