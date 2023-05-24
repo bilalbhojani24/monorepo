@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "1.9.1",
-    "@browserstack/bifrost": "7.0.0",
+    "@browserstack/bifrost": "7.4.0",
     "@browserstack/utils": "2.1.0",
     "@browserstack/hooks": "workspace:*",
     "highcharts": "10.3.3",

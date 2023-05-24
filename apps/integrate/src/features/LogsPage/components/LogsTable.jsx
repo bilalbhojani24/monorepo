@@ -6,7 +6,8 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  TruncateText
 } from '@browserstack/bifrost';
 import { format, fromUnixTime } from 'date-fns';
 import PropTypes from 'prop-types';
@@ -107,7 +108,14 @@ const LogsTable = ({
               <p className="text-base-900">{item.tool.label}</p>
             </TableCell>
             <TableCell key={`${item.uuid}-endpoint`}>
-              <p>{item.endpoint}</p>
+              <TruncateText
+                containerClassName="w-80"
+                truncateUsingClamp={false}
+                hidetooltipTriggerIcon
+                isFullWidthTooltip
+              >
+                {item.endpoint}
+              </TruncateText>
             </TableCell>
             <TableCell key={`${item.uuid}-date`}>
               <p>{formatDateForTable(item.date)}</p>

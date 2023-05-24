@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const StatusBadge = ({ statusCode }) => {
@@ -22,13 +23,19 @@ const StatusBadge = ({ statusCode }) => {
         break;
       }
       default:
-        mod = 'info';
+        mod = 'base';
     }
     return mod;
+  };
+  const classnameMapForBadge = {
+    503: 'text-pink-800 bg-pink-100'
   };
 
   return (
     <Badge
+      wrapperClassName={twClassNames({
+        [classnameMapForBadge[statusCode]]: [statusCode]
+      })}
       hasDot={false}
       hasRemoveButton={false}
       text={statusCode}

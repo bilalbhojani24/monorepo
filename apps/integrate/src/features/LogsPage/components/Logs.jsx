@@ -10,7 +10,7 @@ import LogsHeader from './LogsHeader';
 import LogsTable from './LogsTable';
 
 const Logs = () => {
-  const logsData = useSelector(logsSelector) || {};
+  const logsData = useSelector(logsSelector);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getConfigurationsThunk());
@@ -18,12 +18,11 @@ const Logs = () => {
   return (
     <div className="h-full">
       <LogsHeader />
-      <div className="px-8 drop-shadow">
-        <div className="rounded-md bg-white p-6">
-          <p className="mb-3 text-lg font-semibold text-black">Logs Details</p>
-          <LogsTable logsData={logsData} />
-        </div>
+      <div className="mx-8 rounded-md bg-white p-6 drop-shadow">
+        <p className="mb-3 text-lg font-semibold text-black">Logs Details</p>
+        <LogsTable logsData={logsData} />
       </div>
+
       <div className="px-8 py-6 text-xs">
         <Pagination
           // onNextClick={onNextClick}

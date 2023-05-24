@@ -8,13 +8,16 @@ import {
 
 import {
   closeLogDetailsSlideover,
-  isLogDetailsSlideoverOpenSelector
+  isLogDetailsSlideoverOpenSelector,
+  logDetailsSelector
 } from '../../../../globalSlice';
 
 import LogDetailsTable from './LogDetailsTable';
+import LogRequestResponseDetailsTable from './LogRequestResponseDetailsTable';
 
 const LogDetails = () => {
   const isOpen = useSelector(isLogDetailsSlideoverOpenSelector);
+  const logDetails = useSelector(logDetailsSelector);
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(closeLogDetailsSlideover());
@@ -37,7 +40,18 @@ const LogDetails = () => {
       />
       <SlideoverBody>
         <div className="p-6">
-          <LogDetailsTable />
+          <div className="mb-6">
+            <p className="text-base-700 mb-4 text-xl font-medium">Details</p>
+            <LogDetailsTable logDetails={logDetails} />
+          </div>
+          <div className="mb-6">
+            <p className="text-base-700 mb-4 text-xl font-medium">Request</p>
+            <LogRequestResponseDetailsTable data={logDetails.request_data} />
+          </div>
+          <div className="mb-6">
+            <p className="text-base-700 mb-4 text-xl font-medium">Response</p>
+            <LogRequestResponseDetailsTable data={logDetails.response_data} />
+          </div>
         </div>
       </SlideoverBody>
     </Slideover>
