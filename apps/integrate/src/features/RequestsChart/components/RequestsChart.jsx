@@ -50,9 +50,8 @@ const RequestsChart = () => {
   useEffect(() => {
     dispatch(
       getRequestCountThunk({
-        to: getUnixTime(to),
         from: getUnixTime(from),
-        frequency: '1Y',
+        frequency: 'DAY',
         configurationIds: activeConfigurationsIds
       })
     );

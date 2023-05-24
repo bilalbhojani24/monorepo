@@ -2,6 +2,9 @@ import React from 'react';
 import { Header } from '@browserstack/bifrost';
 
 import { ROUTES } from '../../../constants/routes';
+import { getEnvConfig } from '../../../utils/getEnvConfig';
+
+const envConfig = getEnvConfig();
 
 const INTGHeader = () => (
   <Header
@@ -10,7 +13,14 @@ const INTGHeader = () => (
     productName="Integrate"
     productLink={ROUTES.root}
     release="Alpha"
+    headerElementArray={['account']}
     showTestInsights={false}
+    onSignoutClick={(e) => {
+      if (envConfig.signOutUrl) {
+        e.preventDefault();
+        window.location.href = envConfig.signOutUrl;
+      }
+    }}
   />
 );
 

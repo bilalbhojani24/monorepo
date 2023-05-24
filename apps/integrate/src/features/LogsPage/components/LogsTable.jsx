@@ -9,7 +9,7 @@ import {
   TableRow,
   TruncateText
 } from '@browserstack/bifrost';
-import { format, fromUnixTime } from 'date-fns';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import { getLogDetailsThunk, getLogsThunk } from '../../../api';
@@ -71,10 +71,8 @@ const LogsTable = ({
     dispatch(getLogDetailsThunk(logUUID));
     dispatch(openLogDetailsSlideover());
   };
-  const formatDateForTable = (unixTime) => {
-    const date = fromUnixTime(unixTime);
-    return format(date, 'dd/MM/yyyy HH:mm:ss');
-  };
+  const formatDateForTable = (date) =>
+    format(new Date(date), 'dd/MM/yyyy HH:mm:ss');
 
   if (areLogsLoading) {
     return <INTGLoader wrapperClassName="h-96" />;

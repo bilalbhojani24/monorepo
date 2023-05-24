@@ -32,7 +32,7 @@ const Overview = () => {
       <div className="m-8 rounded-md bg-white drop-shadow">
         <div className="p-6">
           <p className="mb-3 text-lg font-semibold text-black">Recent Logs</p>
-          <LogsTable logsData={logsData} />
+          <LogsTable logsData={logsData} pageSize={10} />
         </div>
         <div className="text-brand-600 bg-base-50 rounded-b-md px-6 py-3 text-sm ">
           <p className="w-fit">
