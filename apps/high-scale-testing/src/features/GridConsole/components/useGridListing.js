@@ -17,13 +17,12 @@ const useGridListing = () => {
     'first:pr-3 last:pl-3 px-2 text-base-500 font-medium';
 
   useEffect(() => {
-    console.log('Log: Constructor');
-
     const fetchAllGridsDataFromAPI = async () => {
       const res = await fetchAllGridsData(userDetails.id);
 
       setGridList(res.data);
-      console.log('Log: res:', res);
+
+      console.log('Log: gridList:', gridList);
     };
 
     fetchAllGridsDataFromAPI();
