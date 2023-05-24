@@ -314,13 +314,13 @@ const TestCasesTable = () => {
         </>
       )}
 
-      {allTestCases.length && (
+      {allTestCases.length ? (
         <>
           <AddResultModal />
           <AssignTestCasesModal />
           <RemoveTCModal />
         </>
-      )}
+      ) : null}
     </div>
   );
 };
