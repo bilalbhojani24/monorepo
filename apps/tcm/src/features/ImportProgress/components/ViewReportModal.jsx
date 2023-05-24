@@ -60,8 +60,8 @@ const ViewReportModal = () => {
         heading="View Report"
         handleDismissClick={closeReportModal}
       />
-      <TMModalBody className="overflow-y-auto">
-        <Table containerWrapperClass="border-base-300 mb-3 rounded-md border">
+      <TMModalBody>
+        <Table containerWrapperClass="border-base-300 mb-3 rounded-md border min-h-max max-h-[400px] overflow-scroll">
           <TableHead wrapperClassName="bg-base-50">
             <TableRow>
               {tableColumns.map((col) => (
