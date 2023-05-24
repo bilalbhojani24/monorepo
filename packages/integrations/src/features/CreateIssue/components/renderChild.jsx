@@ -14,6 +14,7 @@ const renderChild = ({
   projects,
   fieldsData,
   attachments,
+  discardIssue,
   createFields,
   updateFields,
   setFieldsData,
@@ -23,7 +24,9 @@ const renderChild = ({
   resetCreateMeta,
   resetUpdateMeta,
   projectFieldData,
+  issuesForProject,
   isWorkInProgress,
+  previousProjectId,
   deselectIssueType,
   projectsHaveError,
   scrollWidgetToTop,
@@ -31,13 +34,16 @@ const renderChild = ({
   cleanedIssueTypes,
   areProjectsLoading,
   issueTypeFieldData,
+  setIssuesForProject,
   isCreateMetaLoading,
   isUpdateMetaLoading,
   setIsWorkInProgress,
   isFormBeingSubmitted,
   handleIssueTabChange,
+  areIssueOptionsLoading,
   setIsFormBeingSubmitted,
-  integrationToolFieldData
+  integrationToolFieldData,
+  setAreIssueOptionsLoading
 }) => {
   if (areProjectsLoading) {
     return (
@@ -56,17 +62,30 @@ const renderChild = ({
     );
   }
 
+  const handleProjectChange = (key, project) => {
+    if (isWorkInProgress) {
+      const setProject = setFieldsData.bind(null, {
+        ...fieldsData,
+        [key]: project
+      });
+      discardIssue(setProject);
+    } else {
+      setFieldsData((prev) => ({ ...prev, [key]: project }));
+    }
+  };
+
   return (
     <>
       <div className="pt-3">
         <SingleValueSelect
+          required
+          label="Project"
+          options={projects}
           fieldsData={fieldsData}
+          placeholder="Select project"
           fieldKey={FIELD_KEYS.PROJECT}
           setFieldsData={setFieldsData}
-          label="Project"
-          required
-          placeholder="Select project"
-          options={projects}
+          onChange={handleProjectChange}
         />
       </div>
       <Tabs
@@ -81,6 +100,7 @@ const renderChild = ({
           fields={createFields}
           fieldsData={fieldsData}
           attachments={attachments}
+          discardIssue={discardIssue}
           resetMeta={resetCreateMeta}
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
@@ -103,19 +123,25 @@ const renderChild = ({
           fields={updateFields}
           fieldsData={fieldsData}
           attachments={attachments}
+          discardIssue={discardIssue}
           resetMeta={resetUpdateMeta}
           setFieldsData={setFieldsData}
           setAttachments={setAttachments}
           issueFieldData={issueFieldData}
           projectFieldData={projectFieldData}
           isWorkInProgress={isWorkInProgress}
+          issuesForProject={issuesForProject}
+          previousProjectId={previousProjectId}
           scrollWidgetToTop={scrollWidgetToTop}
           clearErrorMessage={clearErrorMessage}
+          setIssuesForProject={setIssuesForProject}
           isUpdateMetaLoading={isUpdateMetaLoading}
           setIsWorkInProgress={setIsWorkInProgress}
           isFormBeingSubmitted={isFormBeingSubmitted}
+          areIssueOptionsLoading={areIssueOptionsLoading}
           setIsFormBeingSubmitted={setIsFormBeingSubmitted}
           integrationToolFieldData={integrationToolFieldData}
+          setAreIssueOptionsLoading={setAreIssueOptionsLoading}
         />
       )}
     </>
