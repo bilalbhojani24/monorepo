@@ -36,11 +36,6 @@ import { getDateInFormat } from 'utils/dateTime';
 
 import { TABS } from '../constants';
 
-const getInitialDateRange = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  return searchParams.get(SNP_PARAMS_MAPPING.snpDateRange) || 'days7';
-};
-
 const getInitialActiveTab = () => {
   const searchParams = new URLSearchParams(window.location.search);
   const tabVal = searchParams.get(SNP_PARAMS_MAPPING.snpTab);
@@ -63,63 +58,20 @@ const getInitialActiveTab = () => {
   };
 };
 
-const getInitialBuild = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const snpActiveBuild = searchParams.get(SNP_PARAMS_MAPPING.snpActiveBuild);
-  if (snpActiveBuild && snpActiveBuild !== 'all') {
-    return snpActiveBuild.split(',').map((build) => build);
-  }
-  return [];
-};
-const getInitialMuted = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const snpIsMuted = searchParams.get(SNP_PARAMS_MAPPING.snpIsMuted);
-  return snpIsMuted ? snpIsMuted === 'true' : false;
-};
-const getInitialFlaky = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const snpIsFlaky = searchParams.get(SNP_PARAMS_MAPPING.snpIsFlaky);
-  return snpIsFlaky ? snpIsFlaky === 'true' : false;
-};
-
 const { reducer, actions } = createSlice({
   name: 'snp ui',
   initialState: {
-    snpTestFilters: {
-      dateRange: {
-        key: getInitialDateRange()
-      },
-      buildName: getInitialBuild(),
-      isMuted: getInitialMuted(),
-      isFlaky: getInitialFlaky()
-    },
     activeTab: getInitialActiveTab()
   },
   reducers: {
     setActiveTab: (state, { payload }) => {
       state.activeTab = payload;
-    },
-    setSnPTestFilters: (state, { payload }) => {
-      state.snpTestFilters = {
-        ...state.snpTestFilters,
-        ...payload
-      };
-    },
-    clearSnpTestFilter: (state) => {
-      state.snpTestFilters = {
-        dateRange: {
-          key: 'days7'
-        },
-        buildName: [],
-        isMuted: false,
-        isFlaky: false
-      };
     }
   },
   extraReducers: {}
 });
 
-export const { setSnPTestFilters, clearSnpTestFilter, setActiveTab } = actions;
+export const { setActiveTab } = actions;
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const updateTestsFilterFields = (data, dispatch, searchParams) => {
