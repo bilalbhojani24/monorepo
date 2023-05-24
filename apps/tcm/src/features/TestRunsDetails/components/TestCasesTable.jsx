@@ -104,7 +104,7 @@ const TestCasesTable = () => {
       maxWidth: 'max-w-[40%]'
     },
     {
-      name: 'ASSIGNEE',
+      name: 'ASSIGNED TO',
       key: 'assignee',
       class: 'w-[10%]',
       cell: (rowData) => (
@@ -117,7 +117,7 @@ const TestCasesTable = () => {
               delay: 500
             }}
           >
-            {rowData?.assignee?.full_name || '--'}
+            {rowData?.assignee?.full_name || 'Unassigned'}
           </TMTruncateText>
         </div>
       )

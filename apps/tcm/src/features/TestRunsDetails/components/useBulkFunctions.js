@@ -30,7 +30,7 @@ import {
 import useTestRunDetails from './useTestRunDetails';
 
 const useBulkFunctions = () => {
-  const { projectId } = useParams();
+  const { projectId, testRunId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isShowAddIssuesModal, setIsShowAddIssuesModal] = useState(false);
   const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
@@ -120,14 +120,29 @@ const useBulkFunctions = () => {
   const setBulkOperation = (operation) => {
     switch (operation) {
       case BULK_OPERATIONS.ADD_RESULT.option:
-        dispatch(logEventHelper('TM_BulkAddResultBtnClickedTrTc', {}));
+        dispatch(
+          logEventHelper('TM_BulkAddResultBtnClickedTrTc', {
+            project_id: projectId,
+            testrun_id: testRunId
+          })
+        );
         break;
       case BULK_OPERATIONS.ASSIGN_TO.option:
         initSharedDetails();
-        dispatch(logEventHelper('TM_BulkAssignToBtnClickedTrTc', {}));
+        dispatch(
+          logEventHelper('TM_BulkAssignToBtnClickedTrTc', {
+            project_id: projectId,
+            testrun_id: testRunId
+          })
+        );
         break;
       case BULK_OPERATIONS.REMOVE.option:
-        dispatch(logEventHelper('TM_BulkRemoveBtnClickedTrTc', {}));
+        dispatch(
+          logEventHelper('TM_BulkRemoveBtnClickedTrTc', {
+            project_id: projectId,
+            testrun_id: testRunId
+          })
+        );
         break;
       default:
     }
@@ -172,7 +187,13 @@ const useBulkFunctions = () => {
 
   const onRemoveHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id) {
-      dispatch(logEventHelper('TM_BulkRemoveCtaClickedTrTc', {}));
+      dispatch(
+        logEventHelper('TM_BulkRemoveCtaClickedTrTc', {
+          project_id: projectId,
+          testrun_id: testRunId,
+          testcase_id: selectedTestCaseIDs.join(',')
+        })
+      );
       dispatch(setIsLoadingProps({ key: 'bulkRemoveInProgress', value: true }));
       removeTCFromTRBulkAPI({
         projectId,
@@ -197,7 +218,15 @@ const useBulkFunctions = () => {
 
   const onAddResultHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id) {
-      dispatch(logEventHelper('TM_BulkAddResultCtaClickedTrTc', {}));
+      dispatch(
+        logEventHelper('TM_BulkAddResultCtaClickedTrTc', {
+          project_id: projectId,
+          testrun_id: testRunId,
+          testcase_id: selectedTestCaseIDs.join(','),
+          status: resultForm?.status,
+          jira_issues: resultForm?.jiraIssues.join(',')
+        })
+      );
       dispatch(
         setIsLoadingProps({ key: 'bulkAddResultInProgress', value: true })
       );
@@ -227,7 +256,14 @@ const useBulkFunctions = () => {
 
   const onAssignHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id && assignee) {
-      dispatch(logEventHelper('TM_BulkAssignToCtaClickedTrTc', {}));
+      dispatch(
+        logEventHelper('TM_BulkAssignToCtaClickedTrTc', {
+          project_id: projectId,
+          testrun_id: testRunId,
+          testcase_id: selectedTestCaseIDs.join(','),
+          assignee: assignee?.value
+        })
+      );
       dispatch(setIsLoadingProps({ key: 'bulkAssignInProgress', value: true }));
       assignToTCBulkAPI({
         projectId,
@@ -256,6 +292,15 @@ const useBulkFunctions = () => {
   };
 
   const onResultChange = (key, value) => {
+    if (key === 'status') {
+      dispatch(
+        logEventHelper('TM_BulkAddResultStatusDropdownClickedTrTc', {
+          project_id: projectId,
+          testrun_id: testRunId,
+          status: value
+        })
+      );
+    }
     dispatch(updateResultForm({ key, value }));
   };
 
