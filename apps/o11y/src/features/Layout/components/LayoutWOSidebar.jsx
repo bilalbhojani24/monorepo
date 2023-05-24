@@ -42,21 +42,21 @@ export default function LayoutWOSidebar() {
   }
 
   return (
-    <Suspense fallback={<O11yLoader wrapperClassName="h-screen" />}>
-      <AppContext.Provider
-        value={{
-          headerSize
-        }}
-      >
-        <div id="o11y-header" className="sticky top-0 z-10" ref={headerRef}>
-          <O11yHeader />
-          <O11yTopBanner />
-        </div>
-        <main>
+    <AppContext.Provider
+      value={{
+        headerSize
+      }}
+    >
+      <div id="o11y-header" className="sticky top-0 z-10" ref={headerRef}>
+        <O11yHeader />
+        <O11yTopBanner />
+      </div>
+      <Suspense fallback={<O11yLoader wrapperClassName="h-screen" />}>
+        <main className="flex">
           <Outlet />
         </main>
-        <NotificationsContainer />
-      </AppContext.Provider>
-    </Suspense>
+      </Suspense>
+      <NotificationsContainer />
+    </AppContext.Provider>
   );
 }
