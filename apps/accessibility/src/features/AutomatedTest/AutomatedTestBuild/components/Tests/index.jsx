@@ -198,22 +198,22 @@ export default function TestsTable() {
           <p className="text-base-500 border-base-300 w-fit border-r pr-4 text-sm">
             Filters
           </p>
-          {Object.entries(menuFilters).map(([key, value]) => (
-            <>
-              {value?.map((filter) => (
+          {Object.keys(menuFilters).map((key) => {
+            if (menuFilters[key].length) {
+              return (
                 <Badge
-                  key={filter}
+                  key={key}
                   hasDot={false}
                   hasRemoveButton
                   isRounded
                   size="large"
                   wrapperClassName="bg-white"
-                  onClose={() => onFilterBadgeClose(key, filter.label)}
-                  text={filter.label}
+                  onClose={() => onFilterBadgeClose(key)}
+                  text={`${menuFilters[key].length} ${key}`}
                 />
-              ))}
-            </>
-          ))}
+              );
+            }
+          })}
           <Button
             onClick={onFilterClear}
             size="small"

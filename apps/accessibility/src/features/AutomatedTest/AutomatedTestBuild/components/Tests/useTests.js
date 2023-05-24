@@ -75,15 +75,8 @@ export default function useTests() {
     refreshFiterData(updatedFilterData);
   };
 
-  const onFilterBadgeClose = (key, filterLabel) => {
-    const indexToBeRemoved = menuFilters[key].findIndex(
-      (ele) => ele.label === filterLabel
-    );
-
-    const newFilter = menuFilters[key].slice();
-    newFilter.splice(indexToBeRemoved, 1);
-
-    const updatedFilterData = { ...menuFilters, [key]: [...newFilter] };
+  const onFilterBadgeClose = (key) => {
+    const updatedFilterData = { ...menuFilters, [key]: [] };
     setMenuFilters(updatedFilterData);
     refreshFiterData(updatedFilterData);
   };
