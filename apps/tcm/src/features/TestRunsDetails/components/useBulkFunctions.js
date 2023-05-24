@@ -164,7 +164,7 @@ const useBulkFunctions = () => {
 
         dispatch(setAllTestCases(res?.test_cases || []));
         dispatch(setMetaPage(res?.info));
-
+        fetchTestRunDetails();
         dispatch(
           addNotificaton({
             id: `test_cases_removed_${testRunDetails?.id}`,
@@ -207,7 +207,7 @@ const useBulkFunctions = () => {
             variant: 'success'
           })
         );
-        resetBulkOperation();
+        resetBulkOperation(null, true);
       });
     }
   };
@@ -236,7 +236,7 @@ const useBulkFunctions = () => {
             variant: 'success'
           })
         );
-        resetBulkOperation();
+        resetBulkOperation(null, true);
       });
     }
   };

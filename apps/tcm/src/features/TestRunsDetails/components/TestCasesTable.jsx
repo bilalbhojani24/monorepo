@@ -108,7 +108,7 @@ const TestCasesTable = () => {
       key: 'assignee',
       class: 'w-[10%]',
       cell: (rowData) => (
-        <div className={twClassNames('text-base-900')}>
+        <div className={twClassNames('text-base-500')}>
           <TMTruncateText
             truncateUsingClamp={false}
             hidetooltipTriggerIcon
