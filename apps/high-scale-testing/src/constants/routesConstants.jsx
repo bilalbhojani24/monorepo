@@ -1,5 +1,5 @@
 import React from 'react';
-import Dashboard from 'features/GridConsole/components/Dashboard';
+import GridConsole from 'features/GridConsole/components/Dashboard';
 import { Layout } from 'features/Layout';
 import { Onboarding } from 'features/Onboarding';
 
@@ -14,7 +14,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.GRID_CONSOLE,
         isProtected: true,
-        component: <Dashboard />
+        component: <GridConsole />
       },
       {
         path: ROUTES.ONBOARDING,

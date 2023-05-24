@@ -15,7 +15,7 @@ import {
 
 import { useGridListing } from './useGridListing';
 
-const GridListing = () => {
+const GridsListing = () => {
   const { gridList, options, tableCellWrapperClassName } = useGridListing();
 
   return (
@@ -60,6 +60,7 @@ const GridListing = () => {
               >
                 Clusters
               </TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -130,4 +131,4 @@ const GridListing = () => {
   );
 };
 
-export default GridListing;
+export default GridsListing;
