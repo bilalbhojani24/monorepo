@@ -28,7 +28,10 @@ const GRTColumns = [
     name: '',
     key: 'action',
     cell: (_, toggleChatWidget) => (
-      <Button onClick={toggleChatWidget}>Toggle widget</Button>
+      <>
+        <Button onClick={() => toggleChatWidget(true)}>Show widget</Button>
+        <Button onClick={() => toggleChatWidget(false)}>Hide widget</Button>
+      </>
     )
   }
 ];

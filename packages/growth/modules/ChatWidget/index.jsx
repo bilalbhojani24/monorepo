@@ -8,7 +8,7 @@ import { fetchChatWidgetInitialData } from './slices/chatWidgetSlices';
 import { handleScriptLoad } from './utils';
 
 const ChatWidget = ({ children, direction }) => {
-  const chatWidget = useSelector((state) => state.chatWidget);
+  const chatWidget = useSelector((state) => state.chatWidget?.data);
   const dispatch = useDispatch();
   const [showWidget, setShowWidget] = useState(false);
 
@@ -19,13 +19,13 @@ const ChatWidget = ({ children, direction }) => {
     }
   };
 
-  const toggleChatWidget = () => {
-    if (showWidget) {
-      setShowWidget(false);
-      window.fcWidget.hide();
-    } else {
+  const toggleChatWidget = (currentStatus) => {
+    if (currentStatus === true) {
       setShowWidget(true);
       window.fcWidget.show();
+    } else {
+      setShowWidget(false);
+      window.fcWidget.hide();
     }
   };
 
@@ -34,18 +34,13 @@ const ChatWidget = ({ children, direction }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (chatWidget.data)
-      handleScriptLoad(
-        chatWidget.data,
-        setShowWidget,
-        showChatWindow,
-        direction
-      );
-  }, [chatWidget.data, direction]);
+    if (chatWidget)
+      handleScriptLoad(chatWidget, setShowWidget, showChatWindow, direction);
+  }, [chatWidget, direction]);
 
   return (
     <>
-      {showWidget && chatWidget?.data?.custom_widget && (
+      {showWidget && chatWidget?.custom_widget && (
         <Button
           onClick={() => {
             showChatWindow();
