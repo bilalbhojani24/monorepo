@@ -1,34 +1,12 @@
 import React from 'react';
-import {
-  Badge,
-  Button,
-  HomeIcon,
-  PageHeadings,
-  Tabs,
-  UsersIcon
-} from '@browserstack/bifrost';
+import { Button, PageHeadings, Tabs } from '@browserstack/bifrost';
 
-import GridListing from './GridListing';
+import ClustersListing from './ClustersListing';
+import GridsListing from './GridsListing';
+import useGridConsole from './useGridConsole';
 
-const Dashboard = () => {
-  // ToDo: Remove the below Variavble
-  const primaryNavs = [
-    {
-      id: 'dashboard',
-      label: 'Automation Console',
-      activeIcon: HomeIcon,
-      inActiveIcon: HomeIcon,
-      path: '/',
-      badge: <Badge text="Active" />
-    },
-    {
-      id: 'team',
-      label: 'Builds Dashboard',
-      activeIcon: UsersIcon,
-      inActiveIcon: UsersIcon,
-      path: '/team'
-    }
-  ];
+const GridConsole = () => {
+  const { currentListingType, setCurrentListingType } = useGridConsole();
 
   return (
     <div className="flex-1">
@@ -41,19 +19,22 @@ const Dashboard = () => {
         <Tabs
           tabsArray={[
             {
-              name: 'Grids'
+              name: 'Grids',
+              value: 'grids'
             },
             {
-              name: 'Clusters'
+              name: 'Clusters',
+              value: 'clusters'
             }
           ]}
+          onTabChange={(e) => setCurrentListingType(e.value)}
         />
       </div>
 
-      <GridListing />
-      <div>This is Cluster Listing component</div>
+      {currentListingType === 'grids' && <GridsListing />}
+      {currentListingType === 'clusters' && <ClustersListing />}
     </div>
   );
 };
 
-export default Dashboard;
+export default GridConsole;
