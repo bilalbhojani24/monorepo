@@ -6,11 +6,14 @@ import Button from '../Button';
 import { FEATURE_FENCING_SIZES } from '../CTACard/const';
 import { useCTACardContext } from '../CTACard/utils';
 
-import { CTA_BUTTON_SIZES, FEATURE_FENCING_ACTIONS_ALIGNMENT } from './const';
+import {
+  CTA_BUTTON_SIZES
+  // FEATURE_FENCING_ACTIONS_ALIGNMENT
+} from './const';
 
 const CTACardActions = (props) => {
   const {
-    alignment,
+    // alignment,
     primaryBtnText,
     secondaryBtnText,
     primaryBtnProps,
@@ -24,9 +27,9 @@ const CTACardActions = (props) => {
   return (
     <div
       className={twClassNames('flex items-center', {
-        'justify-center':
-          alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.CENTER,
-        'justify-start': alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT,
+        // 'justify-center':
+        //   alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.CENTER,
+        // 'justify-start': alignment === FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT,
 
         'gap-6': size === FEATURE_FENCING_SIZES.BASE
       })}
@@ -51,7 +54,7 @@ const CTACardActions = (props) => {
   );
 };
 CTACardActions.propTypes = {
-  alignment: PropTypes.oneOf(Object.values(FEATURE_FENCING_ACTIONS_ALIGNMENT)),
+  // alignment: PropTypes.oneOf(Object.values(FEATURE_FENCING_ACTIONS_ALIGNMENT)),
   primaryBtnText: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
     .isRequired,
   secondaryBtnText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -65,8 +68,8 @@ CTACardActions.defaultProps = {
   secondaryBtnText: null,
   primaryBtnProps: {},
   secondaryBtnProps: {},
-  onSecondaryBtnClick: () => {},
-  alignment: FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT
+  onSecondaryBtnClick: () => {}
+  // alignment: FEATURE_FENCING_ACTIONS_ALIGNMENT.LEFT
 };
 
 export default CTACardActions;

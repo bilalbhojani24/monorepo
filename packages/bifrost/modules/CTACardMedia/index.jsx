@@ -10,7 +10,7 @@ const CTACardMedia = ({ children }) => {
   if (size === FEATURE_FENCING_SIZES.SM) {
     return null;
   }
-  return <div className="flex-1">{children}</div>;
+  return <div className="hidden flex-1 sm:block">{children}</div>;
 };
 
 CTACardMedia.propTypes = {

@@ -19,6 +19,10 @@ const defaultConfig = {
           importStatement={"import CTACard from 'bifrost/CTACard'"}
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/branch/YLz2oAlscwfB8Y3XsRQMLg/Tailwind-UI-Library?type=design&node-id=10060%3A90391&t=WKMpnrJ0zDd2x82C-1'
     }
   },
   argTypes: {
@@ -36,7 +40,7 @@ const defaultConfig = {
     },
     isDismissable: {
       control: { type: 'boolean' },
-      type: { summary: 'BOOLEAN', required: false },
+      type: { summary: 'BOOLEAN', required: true },
       description: 'Lorem Ipsum'
     },
     wrapperClassName: {
@@ -52,7 +56,6 @@ const Template = ({ header, description, ...props }) => (
     <CTACardContent header={header} description={description}>
       <CTACardActions
         primaryBtnText="Start a 14-day free trial"
-        alignment="left"
         secondaryBtnText="Get a demo"
         onPrimayBtnClick={() => {
           console.log('Primary action clicked');

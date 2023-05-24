@@ -11,7 +11,7 @@ const CTACardContent = ({ children, header, description }) => {
   const { size } = useCTACardContext();
 
   return (
-    <div className={twClassNames('flex-1', CONTENT_PADDING[size], {})}>
+    <div className={twClassNames('flex-1', CONTENT_PADDING[size])}>
       <p
         className={twClassNames(
           'text-base-900 font-semibold',
