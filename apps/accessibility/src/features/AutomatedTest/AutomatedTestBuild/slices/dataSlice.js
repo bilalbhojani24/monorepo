@@ -43,8 +43,9 @@ const { actions, reducer } = createSlice({
       state.customData = payload;
     },
     setTestCasesData: (state, { payload }) => {
-      const { testCases } = payload;
+      const { testCases, filters } = payload;
       state.testCasesData = testCases;
+      state.filters = filters;
     },
     resetBuildData: (state) => {
       Object.keys(initState).forEach((key) => {
