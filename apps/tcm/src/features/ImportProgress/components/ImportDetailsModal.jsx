@@ -74,16 +74,18 @@ const ImportDetailsModal = ({ show, headerText }) => {
               </div>
             </div>
           </div>
-          <div className="text-base-800 my-2 flex items-center justify-center text-xs font-medium">
-            <MdOutlineDoDisturbAlt className="h-4 w-4" />
-            <span className="ml-1">
-              Do not wish to continue?{' '}
-              <button type="button" onClick={cancelClickHandler}>
-                Cancel
-              </button>{' '}
-              this import.
-            </span>
-          </div>
+          {importDetails?.percent === 100 ? null : (
+            <div className="text-base-800 my-2 flex items-center justify-center text-xs font-medium">
+              <MdOutlineDoDisturbAlt className="h-4 w-4" />
+              <span className="ml-1">
+                Do not wish to continue?{' '}
+                <button type="button" onClick={cancelClickHandler}>
+                  Cancel
+                </button>{' '}
+                this import.
+              </span>
+            </div>
+          )}
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
