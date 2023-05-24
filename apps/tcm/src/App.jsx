@@ -23,6 +23,7 @@ import { IMPORT_STATUS } from './features/ImportProgress/const/immutables';
 import {
   setIsProgressDismissed,
   setNotificationDismissed,
+  setReportModal,
   setTooltipDismissed
 } from './features/ImportProgress/slices/importProgressSlice';
 import {

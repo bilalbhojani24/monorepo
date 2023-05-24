@@ -114,36 +114,20 @@ const ViewReportModal = () => {
           modifier="primary"
           accentBorder
           alertLinkPosition="inline"
-          description="For any assistance related to import, read documentation or contact support"
-          // description={
-          //   <>
-          //     For any assistance related to import, read{' '}
-          //     <button
-          //       type="button"
-          //       underline
-          //       className="text-brand-800"
-          //       // onClick={() =>
-          //       //   window.open(
-          //       //     'https://www.browserstack.com/docs/test-management/quick-start/quick-import'
-          //       //   )
-          //       // }
-          //     >
-          //       documentation
-          //     </button>{' '}
-          //     or contact{' '}
-          //     <button
-          //       type="button"
-          //       underline
-          //       className="text-brand-800"
-          //       // onClick={() =>
-          //       //   window.open('https://www.browserstack.com/contact')
-          //       // }
-          //     >
-          //       Support
-          //     </button>
-          //     .
-          //   </>
-          // }
+          description="For any assistance related to quick import, refer to our"
+          detailsNode={
+            <button
+              type="button"
+              className="underline"
+              onClick={() =>
+                window.open(
+                  'https://www.browserstack.com/docs/test-management/overview/what-is-test-management'
+                )
+              }
+            >
+              documentation.
+            </button>
+          }
         />
       </TMModalBody>
       <TMModalFooter position="right">

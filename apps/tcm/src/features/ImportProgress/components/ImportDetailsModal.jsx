@@ -18,6 +18,11 @@ const ImportDetailsModal = ({ show, headerText }) => {
   const { closeDetailsModal, importDetails, cancelClickHandler } =
     useImportDetailsModal();
 
+  const getCurrentlyImportingTitle = () => {
+    if (importDetails?.percent === 100) return 'Currently Importing:';
+    return `Currently Importing (${importDetails?.currentProjectNumber}/${importDetails?.totalProjects}):`;
+  };
+
   return (
     <TMModal show={show} size="3xl" onOverlayClick={closeDetailsModal}>
       <TMModalHeader
@@ -28,8 +33,16 @@ const ImportDetailsModal = ({ show, headerText }) => {
         <div className="border-base-300 rounded-md border">
           <div className="my-10 flex flex-col items-center">
             <img src={ImportImage} alt="" className="h-10 w-40" />
-            <div className="text-lg">Quick Import is in progress...</div>
-            <div>We’ll notify you once the overall import is completed</div>
+            <div className="text-lg">
+              {importDetails?.percent === 100
+                ? 'Quick Import is completed'
+                : 'Quick Import is in progress...'}
+            </div>
+            <div>
+              {importDetails?.percent === 100
+                ? 'You can go to All Projects to view the import progress'
+                : `We’ll notify you once the overall import is completed`}
+            </div>
           </div>
           <div className="border-base-200 bg-base-50 border p-6">
             <div>
@@ -41,8 +54,12 @@ const ImportDetailsModal = ({ show, headerText }) => {
             </div>
             <div className="mt-6 flex">
               <TitleDescriptionNode
-                title={`Currently Importing (${importDetails?.currentProjectNumber}/${importDetails?.totalProjects}):`}
-                description={importDetails?.currentProjectName}
+                title={getCurrentlyImportingTitle()}
+                description={
+                  importDetails?.percent === 100
+                    ? '--'
+                    : importDetails?.currentProjectName
+                }
                 wrapperClassName="basis-2/5"
               />
               <div className="flex basis-3/5 justify-between">

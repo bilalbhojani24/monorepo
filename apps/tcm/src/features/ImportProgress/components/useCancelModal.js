@@ -26,7 +26,6 @@ const useCancelModal = () => {
   const handleCancelQuickImport = () => {
     dispatch(setCancelModal(false));
     cancelImport(importId).then(() => {
-      console.log('inside then of cancel import');
       dispatch(
         parseImportDetails(
           {

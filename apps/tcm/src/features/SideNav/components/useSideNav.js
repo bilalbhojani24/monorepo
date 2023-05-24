@@ -77,7 +77,7 @@ export default function useSideNav() {
     console.log('link item', linkItem, importProgress);
     if (linkItem?.id === 'import_in_progress') {
       console.log('inside', importProgress);
-      if (importProgress === 100) navigate(AppRoute.ROOT);
+      if (importProgress === 100) navigate(linkItem.path);
       else dispatch(setDetailsModal(true));
       return;
     }
