@@ -32,6 +32,7 @@ const CTACard = (props) => {
             icon={<MdClose className="h-full w-full" />}
             colors="white"
             onClick={onClose}
+            ariaLabel="Close"
           />
         )}
       </div>
