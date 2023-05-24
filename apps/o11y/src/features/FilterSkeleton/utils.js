@@ -99,6 +99,15 @@ export const getFilterFromSearchString = () => (dispatch) => {
   return searchParams;
 };
 
+export const getDateRangeFromSearchString = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  if (searchParams.get('daterangetype') === 'custom') {
+    return searchParams.get(ADV_FILTER_TYPES.dateRange.key);
+  }
+  const dateBounds = getO11yTimeBounds(searchParams.get('daterangetype'));
+  return `${dateBounds.lowerBound},${dateBounds.upperBound}`;
+};
+
 const { updateTargetNodes } = listTreeCheckboxHelper;
 
 export function parseSimpleTreeData(treeData, { id, pId, rootPId }) {
