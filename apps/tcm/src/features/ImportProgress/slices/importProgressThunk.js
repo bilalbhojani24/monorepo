@@ -64,10 +64,9 @@ export const parseImportDetails =
       setTimeout(() => {
         if (!onRefresh) alertArtificialLoader(dispatch);
 
-        if (data?.projects_failed > 0)
-          dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
         if (data?.projects_done === data?.projects)
           dispatch(setImportStatus(IMPORT_STATUS.SUCCESS));
+        else dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
 
         if (location.pathname !== AppRoute.ROOT && !isNotificationDismissed)
           dispatch(setNotificationConfig({ show: true }));

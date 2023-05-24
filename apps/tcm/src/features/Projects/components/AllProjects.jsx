@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect, useEffect } from 'react';
 import { CheckCircleRoundedIcon, InfoOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
@@ -18,10 +18,7 @@ import AppRoute from 'const/routes';
 import ImportProgress from 'features/ImportProgress';
 import { logEventHelper } from 'utils/logEvent';
 
-// import ViewReportModal from '../../ImportProgress/components/ViewReportModal';
-// import { COMPLETED } from '../../quickImportFlow/const/importConst';
 import { IMPORT_STATUS } from '../../ImportProgress/const/immutables';
-// import { setShowNotification } from '../../ImportProgress/slices/importProgressSlice';
 import { dropDownOptions } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
@@ -55,7 +52,7 @@ const AllProjects = () => {
     // getStatusOfNewImportedProjects
   } = useProjects();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     closeProgressNotification();
   }, [closeProgressNotification]);
 

@@ -163,7 +163,11 @@ const ConfigureTool = () => {
                 description={`Successfully logged in with '${currentEmail}'`}
                 modifier="primary"
                 accentBorder={false}
-                detailsNode="Edit Connection &rarr;"
+                detailsNode={
+                  <span className="whitespace-nowrap">
+                    Edit Connection &rarr;
+                  </span>
+                }
                 handleLinkClick={handleConnectNewAccount}
               />
             </div>

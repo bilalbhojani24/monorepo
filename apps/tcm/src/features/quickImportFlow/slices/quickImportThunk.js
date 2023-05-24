@@ -125,7 +125,11 @@ export const startImport = (navigate) => async (dispatch, getState) => {
         .filter((project) => project !== null)
     });
     dispatch(
-      setImportDetails({ current_project: firstName, projects: totalCount })
+      setImportDetails({
+        current_project: firstName,
+        projects: totalCount,
+        current_project_number: 1
+      })
     );
     dispatch(setImportStarted(true));
     dispatch(setBeginImportLoading(false));

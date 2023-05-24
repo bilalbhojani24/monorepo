@@ -18,17 +18,6 @@ import { redirectToPrevPage, routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import { setNotificationConfig } from '../../ImportProgress/slices/importProgressSlice';
-// import {
-//   dismissNewProjectNotification,
-//   getLatestQuickImportConfig
-// } from '../../../api/import.api';
-// import { COMPLETED } from '../../quickImportFlow/const/importConst';
-// import {
-//   setCurrentTestManagementTool,
-//   setImportedProjectCount,
-//   // setNewProjectBannerDismiss,
-//   setShowNewProjectBanner
-// } from '../../quickImportFlow/slices/importSlice';
 import { dropDownOptions } from '../const/projectsConst';
 import {
   addProject,
@@ -319,33 +308,6 @@ const useProjects = (prop) => {
   const closeProgressNotification = () => {
     dispatch(setNotificationConfig({ show: false }));
   };
-
-  // const getStatusOfNewImportedProjects = async () => {
-  //   try {
-  //     const response = await getLatestQuickImportConfig();
-  //     dispatch(
-  //       setNewProjectBannerDismiss(response.new_projects_banner_dismissed)
-  //     );
-  //     if (
-  //       !response.new_projects_banner_dismissed &&
-  //       response.status === COMPLETED
-  //     ) {
-  //       dispatch(setShowNewProjectBanner(true));
-  //       dispatch(setImportedProjectCount(response.import_projects_count));
-  //       dispatch(
-  //         setCurrentTestManagementTool(response.import_type.split('_')[0])
-  //       );
-  //     }
-  //   } catch (err) {
-  //     // catch error
-  //   }
-  // };
-
-  // const dismissImportProjectAlert = () => {
-  //   dismissNewProjectNotification(latestImportId).then(() => {
-  //     dispatch(setNewProjectBannerDismiss(true));
-  //   });
-  // };
 
   return {
     modalFocusRef,

@@ -47,7 +47,7 @@ export const importProgressSlice = createSlice({
           payload?.current_project || state.importDetails.currentProjectName;
         state.importDetails.currentProjectNumber =
           payload?.current_project_number ||
-          initialState.importDetails.currentProjectNumber;
+          state.importDetails.currentProjectNumber;
         state.importDetails.failedProjects =
           payload?.projects_failed || initialState.importDetails.failedProjects;
         state.importDetails.successfullyImportedProjects =
