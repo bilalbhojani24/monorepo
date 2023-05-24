@@ -77,9 +77,14 @@ export const getTestResultsAPI = async ({ projectId, testRunId, testCaseId }) =>
 
 // --------- bulk options ------------------------------
 
-export const removeTCFromTRBulkAPI = async ({ projectId, ids, testRunId }) =>
+export const removeTCFromTRBulkAPI = async ({
+  projectId,
+  ids,
+  testRunId,
+  page = 1
+}) =>
   fetchPost(
-    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/unlink`,
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/unlink?p=${page}`,
     {
       test_case_ids: ids
     }

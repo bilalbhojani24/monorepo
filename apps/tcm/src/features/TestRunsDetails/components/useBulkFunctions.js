@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
 import {
   addResultTCBulkAPI,
@@ -13,6 +13,7 @@ import { BULK_OPERATIONS } from '../const/immutableConst';
 import {
   resetResultForm,
   resetTestCaseDetails,
+  setAllTestCases,
   setBulkSelectedtestCaseIDs,
   setIsLoadingProps,
   setLoadedDataProjectId,
@@ -28,6 +29,7 @@ import useTRTCFolders from './useTRTCFolders';
 
 const useBulkFunctions = () => {
   const { projectId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
   const dispatch = useDispatch();
@@ -148,15 +150,18 @@ const useBulkFunctions = () => {
 
   const onRemoveHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id) {
+      const currentPage = searchParams.get('p');
       dispatch(setIsLoadingProps({ key: 'bulkRemoveInProgress', value: true }));
       removeTCFromTRBulkAPI({
         projectId,
         ids: selectedTestCaseIDs,
-        testRunId: testRunDetails.id
-      }).then(() => {
-        // TODO happy flow edge cases
-        fetchTestCases();
+        testRunId: testRunDetails.id,
+        page: currentPage
+      }).then((res) => {
+        if (currentPage !== `${res.info.page}`)
+          setSearchParams({ p: res.info.page });
 
+        dispatch(setAllTestCases(res?.test_cases || []));
         dispatch(
           addNotificaton({
             id: `test_cases_removed_${testRunDetails?.id}`,
