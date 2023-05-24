@@ -118,7 +118,7 @@ const MediaPlayerSeekbar = forwardRef(
       >
         <div
           className={twClassNames(
-            'flex flex-row items-start p-0 h-3.5 gap-4 w-full'
+            'flex flex-row items-center p-0 h-3.5 gap-4 w-full'
           )}
         >
           <p
@@ -132,7 +132,7 @@ const MediaPlayerSeekbar = forwardRef(
             <div
               role="presentation"
               className={twClassNames(
-                'relative rounded-full bg-base-200 h-2 w-full cursor-pointer'
+                'group relative rounded-full bg-base-200 h-1 ease-in-out duration-300 hover:mb-0.5 hover:h-2 w-full cursor-pointer'
               )}
               ref={seekbarRef}
               onMouseDown={handleSeekbarMouseDown}
@@ -140,19 +140,21 @@ const MediaPlayerSeekbar = forwardRef(
               onMouseLeave={handleMouseLeave}
             >
               <div
-                className={twClassNames('h-2 rounded-full bg-base-300')}
+                className={twClassNames(
+                  'h-1 ease-in-out duration-300 group-hover:h-2 rounded-full bg-base-300'
+                )}
                 style={{ width: `calc(${bufferProgress}%)` }}
               />
               <div
                 className={twClassNames(
-                  'absolute top-0 h-2 rounded-l-full bg-brand-600'
+                  'absolute top-0 h-1 ease-in-out duration-300 group-hover:h-2 rounded-l-full bg-brand-600'
                 )}
                 style={{ width: `calc(${progress}% - 2px)` }}
               />
               {showMarkers && (
                 <div
                   className={twClassNames(
-                    'absolute top-0 w-full h-2 overflow-hidden'
+                    'absolute top-1/2 -translate-y-1/2 w-full h-1 ease-in-out duration-300 group-hover:h-2 rounded-lg overflow-hidden'
                   )}
                 >
                   {exceptions?.map(
@@ -178,7 +180,7 @@ const MediaPlayerSeekbar = forwardRef(
               {!draggingSeekbar && (
                 <div
                   className={twClassNames(
-                    'absolute top-0 -mt-1.5 ml-0.5 h-5 w-1 rounded-full bg-brand-600',
+                    'absolute top-1/2 -translate-y-1/2 ml-0.5 h-5 w-1 rounded-full bg-brand-600',
                     {
                       'bg-attention-400': warningProgress,
                       'bg-danger-600': errorProgress
