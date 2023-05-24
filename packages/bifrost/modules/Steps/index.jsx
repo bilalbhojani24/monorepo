@@ -422,8 +422,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             format === STEPS_FORMAT[2],
           'py-12 px-4 sm:px-6 lg:px-8': format === STEPS_FORMAT[4]
         },
-        wrapperClassName,
-        'z-10'
+        wrapperClassName
       )}
     >
       <nav

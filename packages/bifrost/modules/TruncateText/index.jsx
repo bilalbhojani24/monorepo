@@ -1,5 +1,4 @@
 import React, { isValidElement, useEffect, useRef, useState } from 'react';
-import { useResizeObserver } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
@@ -35,7 +34,6 @@ const TruncateText = ({
   const Component = variantsMapping[variant];
   const [truncatedDataTooltip, setTruncatedDataTooltip] = useState(false);
   const headerNameRef = useRef(null);
-  const parentContainerSize = useResizeObserver(headerNameRef);
   const showHeaderTooltip = () => {
     const element = headerNameRef.current;
     if (element !== null) {
@@ -51,10 +49,6 @@ const TruncateText = ({
   useEffect(() => {
     showHeaderTooltip();
   }, [children, wrapperClassName]);
-
-  useEffect(() => {
-    showHeaderTooltip();
-  }, [parentContainerSize]);
 
   return (
     <div

@@ -5,7 +5,6 @@ import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import Button from '../Button';
-import InputField from '../InputField';
 
 import Notifications from './index';
 import { NotificationsContainer, notify } from './notificationsUtils';
@@ -29,7 +28,6 @@ const defaultConfig = {
   argTypes: {
     actionButtons: {
       option: { type: null },
-      description: 'This is the actions buttons of the notification',
       defaultValue: () => (
         <>
           <Button variant="minimal" colors="brand">
@@ -41,58 +39,24 @@ const defaultConfig = {
         </>
       )
     },
-    body: {
-      option: { type: null },
-      description:
-        'This is the body(content) node for the component. Note: This prop is not be used by speedboats and developed for internal(central) usage only',
-      defaultValue: null
-    },
-    bodyClassName: {
-      option: { type: 'string' },
-      description:
-        'This is the body node wrapperClass. Note: This prop is not be used by speedboats and developed for internal(central) usage only',
-      defaultValue: ''
-    },
-    footer: {
-      option: { type: null },
-      description:
-        'This is the footer(content) node for the component. Note: This prop is not be used by speedboats and developed for internal(central) usage only',
-      defaultValue: null
-    },
-    footerClassName: {
-      option: { type: 'string' },
-      description:
-        'This is the footer node wrapperClass. Note: This prop is not be used by speedboats and developed for internal(central) usage only',
-      defaultValue: ''
-    },
     description: {
       option: { type: 'string' },
-      description: 'This is the subheading(description) for the component',
       defaultValue:
         'Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur.'
     },
     isCondensed: {
       option: { type: 'boolean' },
-      description:
-        'This is to enable condensed view where only title and dismiss button is visible',
       defaultValue: false
     },
     handleClose: {
       option: { type: null },
-      description:
-        'Callback function which will be triggered on cross button click',
       defaultValue: () => {}
     },
     headerIcon: {
-      option: { type: null },
-      description: 'The header icon node',
+      options: { type: null },
       defaultValue: <CheckCircleIcon className="text-base-600 h-6 w-6" />
     },
-    title: {
-      option: { type: 'string' },
-      description: 'This is the title(heading) for the component',
-      defaultValue: 'Discussion moved'
-    }
+    title: { option: { type: 'string' }, defaultValue: 'Discussion moved' }
   },
   controls: {}
 };
@@ -100,9 +64,6 @@ const Template = (args) => <Notifications {...args} />;
 const BasicTemplate = (args) => <Notifications {...args} />;
 const CondensedTemplate = (args) => <Notifications {...args} />;
 const FillButtonAndAvatarTemplate = (args) => <Notifications {...args} />;
-const NotificationWithBodyContentTemplate = (args) => (
-  <Notifications {...args} />
-);
 
 const Primary = Template.bind({});
 Primary.play = async ({ canvasElement }) => {
@@ -144,22 +105,12 @@ FillButtonAndAvatar.play = async ({ canvasElement }) => {
   });
 };
 
-const NotificationWithBodyContent = NotificationWithBodyContentTemplate.bind(
-  {}
-);
-
 Primary.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
-export {
-  Basic,
-  Condensed,
-  FillButtonAndAvatar,
-  NotificationWithBodyContent,
-  Primary
-};
+export { Basic, Condensed, FillButtonAndAvatar, Primary };
 
 Basic.args = {
   actionButtons: null,
@@ -200,23 +151,6 @@ FillButtonAndAvatar.args = {
   title: 'Emilia Gates'
 };
 
-NotificationWithBodyContent.args = {
-  actionButtons: null,
-  headerIcon: null,
-  description: 'Sent you an invite to connect.',
-  title: 'Business call',
-  body: (
-    <InputField id="noti" placeholder="your@gmail.com" label="Business email" />
-  ),
-  footer: (
-    <div className="flex justify-end">
-      <Button>Submit</Button>
-    </div>
-  ),
-  bodyClassName: 'pt-0',
-  footerClassName: 'bg-base-100'
-};
-
 /**
  * STEPS TO USE STACKED NOTIFICATION
  * import {notify, NotificationContainer} from "@browserstack/bifrost"
@@ -231,8 +165,7 @@ NotificationWithBodyContent.args = {
         'aria-live': '',
       }
       autoClose : true/false, [default - false],
-      id : string should be unique [To avoid duplicate],
-      size : "sm" | "md" | "lg" [default - sm]
+      id : string should be unique [To avoid duplicate]
  * }
  */
 
@@ -255,10 +188,9 @@ export const StackedNotification = () => (
             />,
             {
               position: 'top-left',
-              duration: 40000,
+              duration: 4000,
               autoClose: true,
-              id: 'one',
-              size: 'lg'
+              id: 'one'
             }
           )
         }
@@ -288,8 +220,7 @@ export const StackedNotification = () => (
             />,
             {
               position: 'top-right',
-              duration: 4000,
-              size: 'md'
+              duration: 4000
             }
           )
         }

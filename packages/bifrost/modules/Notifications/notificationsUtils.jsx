@@ -1,11 +1,10 @@
 import React from 'react';
 import toast, { Toaster } from 'react-hot-toast';
-import { twClassNames } from '@browserstack/utils';
 import { shape } from 'prop-types';
 
 import { NotificationsContextData } from '../../shared/notificationsContext';
 
-export const notify = (Layout, options) => {
+export const notify = (Layout, options) =>
   toast.custom(
     (toastData) => (
       <NotificationsContextData.Provider
@@ -14,29 +13,16 @@ export const notify = (Layout, options) => {
         }}
       >
         <div
-          className={twClassNames(
-            `w-full max-w-sm ${
-              toastData.visible ? 'animate-enter' : 'animate-leave'
-            } `,
-            {
-              'max-w-md': options.size === 'md',
-              'max-w-lg': options.size === 'lg'
-            }
-          )}
+          className={`w-full max-w-sm ${
+            toastData.visible ? 'animate-enter' : 'animate-leave'
+          } `}
         >
           {Layout}
         </div>
       </NotificationsContextData.Provider>
     ),
-    {
-      ...options,
-      duration: !options.autoClose ? 2147483647 : options.duration,
-      style: {
-        display: 'block'
-      }
-    }
+    { ...options, duration: options.autoClose ? 2147483647 : options.duration }
   );
-};
 
 notify.remove = toast.remove;
 notify.dismiss = toast.dismiss;

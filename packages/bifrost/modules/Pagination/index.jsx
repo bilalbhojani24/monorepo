@@ -181,7 +181,7 @@ const Pagination = (props) => {
 
   return (
     <div
-      className="border-base-200 z-10 flex items-center justify-between border-t px-0 py-3 sm:px-6"
+      className="border-base-200 flex items-center justify-between border-t px-0 py-3 sm:px-6"
       aria-label="Pagination"
     >
       <div className="hidden sm:block">
