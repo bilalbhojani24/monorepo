@@ -24,14 +24,14 @@ const TextAreaField = ({
   );
   const handleChange = (e) => {
     const fieldValue = e.target.value;
-    setFieldsData({ ...fieldsData, [fieldKey]: fieldValue });
+    setFieldsData((prev) => ({ ...prev, [fieldKey]: fieldValue }));
   };
 
   useEffect(() => {
     const valueToHydrateWith = value || defaultValue;
     const valueInState = fieldsData[fieldKey];
     if (valueToHydrateWith && typeof valueInState !== 'string') {
-      setFieldsData({ ...fieldsData, [fieldKey]: valueToHydrateWith });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: valueToHydrateWith }));
     }
   }, [value, defaultValue, fieldsData, fieldKey, setFieldsData]);
 

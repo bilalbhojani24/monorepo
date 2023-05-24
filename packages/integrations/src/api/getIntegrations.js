@@ -1,9 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+import { setUserId } from '../features/slices/userAuthSlice';
+
 import axios from './axiosInstance';
 import { URLS } from './constants';
 
-const getIntegrations = ({ projectId, componentKey }) =>
+const getIntegrations = ({ projectId, componentKey }, { dispatch }) =>
   axios
     .get(URLS.LIST_INTEGRATIONS, {
       params: {
@@ -11,7 +13,12 @@ const getIntegrations = ({ projectId, componentKey }) =>
         ui_component_key: componentKey
       }
     })
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .then((payload) => {
+      const { data: { user_id: userId } = {} } = payload || {};
+      dispatch(setUserId(userId));
+      return payload;
+    });
 
 export const getIntegrationsThunk = createAsyncThunk(
   'getListOfIntegrations',
