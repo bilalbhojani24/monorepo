@@ -5,13 +5,6 @@ const bifrostTailwindConfig = {
   content: ['./modules/**/*.{js,jsx}']
 };
 
-bifrostTailwindConfig.theme.extend.zIndex = {
-  60: '60',
-  70: '70',
-  80: '80',
-  90: '90'
-};
-
 bifrostTailwindConfig.theme.configViewer = {
   themeReplacements: {
     'var(--colors-base-50)': '#f9fafb',

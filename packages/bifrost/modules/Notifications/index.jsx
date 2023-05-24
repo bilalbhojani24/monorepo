@@ -8,16 +8,11 @@ import { XMarkIcon } from '../Icon';
 const Notifications = forwardRef((props, ref) => {
   const {
     actionButtons,
-    body,
-    bodyClassName,
     description,
-    footer,
-    footerClassName,
     isCondensed,
     handleClose,
     headerIcon,
-    title,
-    wrapperClassName
+    title
   } = props;
 
   const toastCtx = useContext(NotificationsContextData);
@@ -27,101 +22,67 @@ const Notifications = forwardRef((props, ref) => {
   }, [ref]);
 
   return (
-    <div
-      className={twClassNames(
-        'z-90 pointer-events-auto rounded-lg bg-white shadow-lg ring-1 ring-black/5',
-        wrapperClassName
-      )}
-    >
-      <div className="flex w-full items-start p-4 ">
-        {!isCondensed && headerIcon && (
-          <div className="mr-3 shrink-0">{headerIcon}</div>
+    <div className="pointer-events-auto flex w-full max-w-sm items-start rounded-lg bg-white p-4 shadow-lg ring-1 ring-black/5">
+      <div className="shrink-0 ">
+        {!isCondensed && headerIcon && headerIcon}
+      </div>
+      <div
+        className={twClassNames('w-0 flex-1 pt-0.5', {
+          'ml-3': !isCondensed
+        })}
+      >
+        <p className="text-base-900 line-clamp-2 break-words text-sm font-medium">
+          {title}
+        </p>
+
+        {!isCondensed && (
+          <p className="text-base-500 mt-1 break-keep text-sm">{description}</p>
         )}
 
-        <div className={twClassNames('w-0 flex-1 pt-0.5')}>
-          <p className="text-base-900 line-clamp-2 break-words text-sm font-medium">
-            {title}
-          </p>
-
-          {!isCondensed && description && (
-            <p className="text-base-500 mt-1 break-keep text-sm">
-              {description}
-            </p>
-          )}
-
-          {!isCondensed && actionButtons && (
-            <div className={twClassNames('mt-3 flex space-x-3')}>
-              {actionButtons?.(toastCtx?.toast || null)}
-            </div>
-          )}
-        </div>
-
-        {isCondensed && actionButtons && (
-          <div className="ml-3 flex shrink-0">
+        {!isCondensed && actionButtons && (
+          <div className={twClassNames('mt-3 flex space-x-3')}>
             {actionButtons?.(toastCtx?.toast || null)}
           </div>
         )}
-
-        <button
-          type="button"
-          className="text-base-400 hover:text-base-500 focus:ring-brand-500 ml-4 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
-          onClick={() => {
-            if (handleClose) handleClose(toastCtx?.toast || null);
-          }}
-        >
-          <span className="sr-only">Close</span>
-          <XMarkIcon className="h-5 w-5" aria-hidden="true" />
-        </button>
       </div>
 
-      {body && (
-        <div
-          className={twClassNames(
-            'p-4 ',
-            {
-              'rounded-md': !footer
-            },
-            bodyClassName
-          )}
-        >
-          {body}
+      {isCondensed && actionButtons && (
+        <div className="ml-3 flex shrink-0">
+          {actionButtons?.(toastCtx?.toast || null)}
         </div>
       )}
-      {footer && (
-        <div className={twClassNames('p-4 rounded-b-md', footerClassName)}>
-          {footer}
-        </div>
-      )}
+
+      <button
+        type="button"
+        className="text-base-400 hover:text-base-500 focus:ring-brand-500 ml-4 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        onClick={() => {
+          if (handleClose) handleClose(toastCtx?.toast || null);
+        }}
+      >
+        <span className="sr-only">Close</span>
+        <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+      </button>
     </div>
   );
 });
 
 Notifications.propTypes = {
   actionButtons: PropTypes.func,
-  body: PropTypes.node,
-  bodyClassName: PropTypes.string,
   description: PropTypes.string,
-  footer: PropTypes.node,
-  footerClassName: PropTypes.string,
   isCondensed: PropTypes.bool,
   handleClose: PropTypes.func,
   headerIcon: PropTypes.node,
-  title: PropTypes.string,
-  wrapperClassName: PropTypes.string
+  title: PropTypes.string
 };
 
 Notifications.defaultProps = {
   actionButtons: null,
-  body: null,
-  bodyClassName: '',
-  footer: null,
-  footerClassName: '',
-  description: '',
+  description:
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit oluptatum tenetur.',
   isCondensed: false,
   handleClose: () => {},
   headerIcon: null,
-  title: '',
-  wrapperClassName: ''
+  title: 'Discussion moved'
 };
 
 export default Notifications;

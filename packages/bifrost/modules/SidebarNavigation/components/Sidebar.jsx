@@ -13,7 +13,7 @@ const Sidebar = (props) => {
   return (
     <div
       className={twClassNames(
-        'flex min-h-0 flex-1 flex-col space-y-2 border-r border-base-200 px-2 pt-5 md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col z-30',
+        'flex min-h-0 flex-1 flex-col space-y-2 border-r border-base-200 px-2 pt-5 md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col',
         wrapperClassName
       )}
     >

@@ -32,14 +32,13 @@ const InputField = forwardRef(
       type,
       value,
       wrapperClassName,
-      role,
       ...props
     },
     ref
   ) => (
     <>
       {(label || cornerHintText) && (
-        <div className="mb-1 flex justify-between" role={role}>
+        <div className="mb-1 flex justify-between" role="contentinfo">
           <label
             htmlFor={id}
             id={`${id}label-wrap`}
@@ -53,7 +52,9 @@ const InputField = forwardRef(
           )}
         </div>
       )}
-      <div className={twClassNames('w-full flex shadow-sm', wrapperClassName)}>
+      <div
+        className={twClassNames('w-full flex z-10 shadow-sm', wrapperClassName)}
+      >
         {addOnBefore}
         <div
           className={twClassNames(
@@ -168,8 +169,7 @@ InputField.propTypes = {
   readonly: PropTypes.bool,
   type: PropTypes.string,
   value: PropTypes.string,
-  wrapperClassName: PropTypes.string,
-  role: PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 
 InputField.defaultProps = {
@@ -196,8 +196,7 @@ InputField.defaultProps = {
   readonly: false,
   type: 'text',
   value: undefined,
-  wrapperClassName: '',
-  role: 'contentinfo'
+  wrapperClassName: ''
 };
 
 export default InputField;

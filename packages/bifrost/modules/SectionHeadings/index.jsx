@@ -15,7 +15,7 @@ const SectionHeadings = ({
   title
 }) => (
   <div
-    className={twClassNames('z-10', {
+    className={twClassNames('', {
       'border-b border-base-200 pb-5': !tabsProps
     })}
   >
