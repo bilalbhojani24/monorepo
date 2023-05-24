@@ -255,6 +255,7 @@ function AddNotificationUserModal() {
             colors="white"
             loading={isCheckingMails}
             isIconOnlyButton={isCheckingMails}
+            onClick={handleEmailsSubmit}
           >
             Add
           </O11yButton>

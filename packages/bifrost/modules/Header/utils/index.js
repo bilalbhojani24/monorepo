@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 export const hyperlinkClickHandler = (e, url, cb, target = '_self', data) => {
   cb?.(data);
   e.preventDefault();
-  window.open(url, target);
+  const isCmdPressed = e.metaKey || e.ctrlKey;
+  window.open(url, isCmdPressed ? '_blank' : target);
 };
 
 export const CALLBACK_FUNCTIONS_PROP_TYPE = PropTypes.shape({

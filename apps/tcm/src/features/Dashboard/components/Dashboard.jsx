@@ -72,7 +72,7 @@ const Dashboard = () => {
         <TMAlerts
           show={isAllDashboadEmpty}
           title="Currently, there is no data available in this project."
-          linkText={null}
+          detailsNode={null}
           modifier="primary"
         />
         <div className="mt-4 flex w-full gap-4">
