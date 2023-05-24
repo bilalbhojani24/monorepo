@@ -193,7 +193,7 @@ export const getSnPUEFilters = async ({ normalisedName, searchString }) => {
 
 export const getTestBuildNames = async ({ normalisedName, query, dateRange }) =>
   axios.get(
-    `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/buildNames?q=${query}&dateRange=${dateRange}`
+    `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/buildNames?query=${query}&dateRange=${dateRange}`
   );
 
 export const getTestBuildTags = async ({
@@ -201,12 +201,12 @@ export const getTestBuildTags = async ({
   query,
   dateRange
 }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/buildTags?q=${query}&dateRange=${dateRange}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/buildTags?query=${query}&dateRange=${dateRange}`;
   return axios.get(endpoint);
 };
 
 export const getTestTestTags = async ({ normalisedName, query, dateRange }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/testTags?q=${query}&dateRange=${dateRange}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/testTags?query=${query}&dateRange=${dateRange}`;
   return axios.get(endpoint);
 };
 
@@ -215,26 +215,26 @@ export const getTestHostNames = async ({
   query,
   dateRange
 }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/hostNames?q=${query}&dateRange=${dateRange}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters/hostNames?query=${query}&dateRange=${dateRange}`;
   return axios.get(endpoint);
 };
 
 export const getUEBuildNames = async ({ normalisedName, query, dateRange }) =>
   axios.get(
-    `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/buildNames?q=${query}&dateRange=${dateRange}`
+    `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/buildNames?query=${query}&dateRange=${dateRange}`
   );
 
 export const getUEBuildTags = async ({ normalisedName, query, dateRange }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/buildTags?q=${query}&dateRange=${dateRange}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/buildTags?query=${query}&dateRange=${dateRange}`;
   return axios.get(endpoint);
 };
 
 export const getUETestTags = async ({ normalisedName, query, dateRange }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/testTags?q=${query}&dateRange=${dateRange}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/testTags?query=${query}&dateRange=${dateRange}`;
   return axios.get(endpoint);
 };
 
 export const getUEHostNames = async ({ normalisedName, query, dateRange }) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/hostNames?q=${query}&dateRange=${dateRange}`;
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/errors/filters/hostNames?query=${query}&dateRange=${dateRange}`;
   return axios.get(endpoint);
 };
