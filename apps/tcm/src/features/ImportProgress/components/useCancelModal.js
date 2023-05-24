@@ -30,7 +30,7 @@ const useCancelModal = () => {
       dispatch(
         parseImportDetails(
           {
-            percent: importDetails?.percent,
+            percent: 100,
             projects: importDetails?.totalProjects,
             current_project: importDetails?.currentProjectName,
             current_project_number: importDetails?.currentProjectNumber,

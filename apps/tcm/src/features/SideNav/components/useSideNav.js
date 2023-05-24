@@ -56,7 +56,6 @@ export default function useSideNav() {
     (state) => state.importProgress.isProgressDismissed
   );
 
-  console.log('import progress', importProgress);
   const fetchAllProjects = () => {
     getProjectsMinifiedAPI().then((res) => {
       dispatch(setAllProjects(res.projects));

@@ -48,27 +48,29 @@ const alertArtificialLoader = (dispatch) => {
   }, 500);
 };
 
-export const parseImportDetails = (data, location) => (dispatch, getState) => {
-  const state = getState();
-  const isNotificationDismissed = getIsNotificationDismissed(state);
-  // const importProgress = getImportProgress(state);
+export const parseImportDetails =
+  (data, location, onRefresh = false) =>
+  (dispatch, getState) => {
+    const state = getState();
+    const isNotificationDismissed = getIsNotificationDismissed(state);
+    // const importProgress = getImportProgress(state);
 
-  if (data?.project) dispatch(addProject(data?.project));
-  if (data?.status === IMPORT_STATUS.COMPLETED)
-    dispatch(setImportDetails({ ...data, percent: 100 }));
-  else dispatch(setImportDetails(data));
+    if (data?.project) dispatch(addProject(data?.project));
+    if (data?.status === IMPORT_STATUS.COMPLETED)
+      dispatch(setImportDetails({ ...data, percent: 100 }));
+    else dispatch(setImportDetails(data));
 
-  if (data?.percent === 100) {
-    setTimeout(() => {
-      alertArtificialLoader(dispatch);
+    if (data?.percent === 100) {
+      setTimeout(() => {
+        if (!onRefresh) alertArtificialLoader(dispatch);
 
-      if (data?.projects_failed > 0)
-        dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
-      if (data?.projects_done === data?.projects)
-        dispatch(setImportStatus(IMPORT_STATUS.SUCCESS));
+        if (data?.projects_failed > 0)
+          dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
+        if (data?.projects_done === data?.projects)
+          dispatch(setImportStatus(IMPORT_STATUS.SUCCESS));
 
-      if (location.pathname !== AppRoute.ROOT && !isNotificationDismissed)
-        dispatch(setNotificationConfig({ show: true }));
-    }, 500);
-  }
-};
+        if (location.pathname !== AppRoute.ROOT && !isNotificationDismissed)
+          dispatch(setNotificationConfig({ show: true }));
+      }, 500); // REASON: when progress becomes 100% if we instantly show the alert then we do not get the right projects count.
+    }
+  };

@@ -105,7 +105,7 @@ function App() {
         dispatch(setIsProgressDismissed(data?.progress_banner_dismissed));
         dispatch(setNotificationDismissed(data?.notification_dismissed));
         dispatch(setTooltipDismissed(data?.quick_import_ftu));
-        dispatch(parseImportDetails(data, location));
+        dispatch(parseImportDetails(data, location, true));
         // console.log('status from latest', data?.status);
         if (data?.status === IMPORT_STATUS.ONGOING)
           connectWSQI({ importId: data?.import_id });

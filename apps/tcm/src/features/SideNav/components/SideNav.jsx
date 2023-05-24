@@ -89,14 +89,12 @@ const SideNav = () => {
                   </>
                 }
               >
-                <div className="hover:cursor-pointer">
-                  <SidebarItem
-                    key={item.id}
-                    nav={item}
-                    current={activeRoute?.id === item.id}
-                    handleNavigationClick={onLinkChange}
-                  />
-                </div>
+                <SidebarItem
+                  key={item.id}
+                  nav={item}
+                  current={activeRoute?.id === item.id}
+                  handleNavigationClick={onLinkChange}
+                />
               </TMTooltip>
             );
           }

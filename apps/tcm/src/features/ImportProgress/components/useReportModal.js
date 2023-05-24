@@ -28,7 +28,6 @@ const useReportModal = () => {
     if (isReportModalVisible) dispatch(setQuickImportResult());
   }, [dispatch, isReportModalVisible]);
 
-  console.log('report modal', reportModalProjects);
   return {
     closeReportModal,
     isReportModalVisible,

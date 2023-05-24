@@ -12,7 +12,6 @@ import { IMPORT_STATUS } from '../const/immutables';
 import CancelModal from './CancelModal';
 import ImportDetailsModal from './ImportDetailsModal';
 import useImportProgress from './useImportProgress';
-// import ViewReportModal from './ViewReportModal';
 
 const ImportProgress = () => {
   const {
