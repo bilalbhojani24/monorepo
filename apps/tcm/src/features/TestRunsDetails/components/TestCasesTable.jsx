@@ -104,6 +104,25 @@ const TestCasesTable = () => {
       maxWidth: 'max-w-[40%]'
     },
     {
+      name: 'ASSIGNEE',
+      key: 'assignee',
+      class: 'w-[10%]',
+      cell: (rowData) => (
+        <div className={twClassNames('text-base-900')}>
+          <TMTruncateText
+            truncateUsingClamp={false}
+            hidetooltipTriggerIcon
+            isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
+          >
+            {rowData?.assignee?.full_name || '--'}
+          </TMTruncateText>
+        </div>
+      )
+    },
+    {
       name: 'STATUS',
       class: 'w-[13%]',
       key: 'status',
