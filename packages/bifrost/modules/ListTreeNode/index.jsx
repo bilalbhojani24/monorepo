@@ -15,6 +15,7 @@ const ListTreeNode = forwardRef(
       isFocused,
       hideArrowIcon,
       label,
+      focusUUID,
       description,
       nodeLabelClassName,
       onTrailingIconClick,
@@ -24,92 +25,104 @@ const ListTreeNode = forwardRef(
       isNodeSelected,
       trailingVisualElement,
       isNodeSelectable,
-      showIcon
+      showIcon,
+      ariaLabel,
+      focusIDPrefix,
+      isNodeOpen
     },
     ref
   ) => (
-    <ListTreeNodeWrapper
-      isNodeSelectable={isNodeSelectable}
-      isNodeSelected={isNodeSelected}
-      onNodeClick={onNodeClick}
-      isFocused={isFocused}
-      ref={ref}
-      wrapperClassName={twClassNames(
-        'hover:bg-base-100 focus:bg-base-100 focus:border-info-600  group flex flex-1 items-center justify-between rounded border border-transparent p-1.5',
-        {
-          'bg-info-50': isNodeSelected,
-          'bg-base-100': isFocused
-        }
-      )}
+    <div
+      role="treeitem"
+      tabIndex={focusUUID === '0' && !isNodeSelectable ? 0 : -1}
+      className="group"
+      aria-label={ariaLabel}
+      data-focus-id={focusIDPrefix + focusUUID}
+      data-has-children={!hideArrowIcon}
     >
-      <div className="flex w-full grow items-center">
-        <Disclosure.Button as={Fragment}>
-          {({ open }) => (
-            <div
-              className={twClassNames('mr-1 w-5 select-none', {
-                'invisible ': hideArrowIcon
-              })}
-              role="presentation"
-              onClick={(event) => {
-                onNodeOpen?.();
-                event.stopPropagation();
-              }}
-            >
-              {open ? (
-                <ChevronDownIcon className="w-5" />
-              ) : (
-                <ChevronRightIcon className="w-5" />
-              )}
+      <ListTreeNodeWrapper
+        isNodeSelectable={isNodeSelectable}
+        isNodeSelected={isNodeSelected}
+        onNodeClick={onNodeClick}
+        isFocused={isFocused}
+        ref={ref}
+        wrapperClassName={twClassNames(
+          'hover:bg-base-100 focus:bg-base-100 focus:border-info-600 flex flex-1 items-center justify-between rounded border border-transparent p-1.5',
+          {
+            'bg-info-50': isNodeSelected,
+            'bg-base-100': isFocused
+          }
+        )}
+      >
+        <div className="flex w-full grow items-center">
+          <Disclosure.Button as={Fragment} role="button" aria-hidden>
+            {({ open }) => (
+              <div
+                className={twClassNames('mr-1 w-5 select-none', {
+                  'invisible ': hideArrowIcon
+                })}
+                role="presentation"
+                onClick={(event) => {
+                  onNodeOpen?.();
+                  event.stopPropagation();
+                }}
+              >
+                {isNodeOpen || (isNodeOpen === undefined && open) ? (
+                  <ChevronDownIcon className="w-5" />
+                ) : (
+                  <ChevronRightIcon className="w-5" />
+                )}
+              </div>
+            )}
+          </Disclosure.Button>
+
+          {showIcon && (
+            <div className="text-info-400 mr-2 h-5 w-5 shrink-0 select-none">
+              {leadingIcon || <MdFolder className="h-full w-full" />}
             </div>
           )}
-        </Disclosure.Button>
 
-        {showIcon && (
-          <div className="text-info-400 mr-2 h-5 w-5 shrink-0 select-none">
-            {leadingIcon || <MdFolder className="h-full w-full" />}
+          <div
+            className={twClassNames(
+              'text-base-700 mr-2 text-xs leading-5 relative',
+              nodeLabelClassName,
+              {
+                'font-medium': isNodeSelected
+              }
+            )}
+          >
+            {label}
           </div>
-        )}
+
+          <div
+            role="presentation"
+            className={twClassNames(
+              'invisible group-hover:visible group-focus:visible group-focus-within:invisbile opacity-0 flex group-hover:opacity-100 group-focus:opacity-100 group-focus-within:opacity-100',
+              {
+                visible: isFocused
+              }
+            )}
+            onClick={(e) => {
+              e.stopPropagation();
+              onTrailingIconClick?.();
+            }}
+          >
+            {trailingVisualElement}
+          </div>
+        </div>
 
         <div
           className={twClassNames(
-            'text-base-700 mr-2 text-xs leading-5 relative',
-            nodeLabelClassName,
+            'text-base-600 text-xs leading-5 truncate max-w-[55px] flex-shrink-0',
             {
               'font-medium': isNodeSelected
             }
           )}
         >
-          {label}
+          {description}
         </div>
-
-        <div
-          role="presentation"
-          className={twClassNames(
-            'invisible flex group-hover:visible group-focus:visible',
-            {
-              visible: isFocused
-            }
-          )}
-          onClick={(e) => {
-            e.stopPropagation();
-            onTrailingIconClick?.();
-          }}
-        >
-          {trailingVisualElement}
-        </div>
-      </div>
-
-      <div
-        className={twClassNames(
-          'text-base-600 text-xs leading-5 truncate max-w-[55px] flex-shrink-0',
-          {
-            'font-medium': isNodeSelected
-          }
-        )}
-      >
-        {description}
-      </div>
-    </ListTreeNodeWrapper>
+      </ListTreeNodeWrapper>
+    </div>
   )
 );
 
@@ -126,7 +139,11 @@ ListTreeNode.propTypes = {
   trailingVisualElement: PropTypes.node,
   leadingIcon: PropTypes.node,
   showIcon: PropTypes.bool,
-  isNodeSelectable: PropTypes.bool
+  isNodeSelectable: PropTypes.bool,
+  ariaLabel: PropTypes.string,
+  focusUUID: PropTypes.string,
+  focusIDPrefix: PropTypes.string,
+  isNodeOpen: PropTypes.bool.isRequired
 };
 
 ListTreeNode.defaultProps = {
@@ -141,7 +158,10 @@ ListTreeNode.defaultProps = {
   trailingVisualElement: null,
   leadingIcon: null,
   showIcon: true,
-  isNodeSelectable: true
+  isNodeSelectable: true,
+  ariaLabel: '',
+  focusUUID: undefined,
+  focusIDPrefix: ''
 };
 
 export default ListTreeNode;
