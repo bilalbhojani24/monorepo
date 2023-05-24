@@ -9,6 +9,7 @@ import {
 } from 'api/testruns.api';
 import { addNotificaton } from 'globalSlice';
 import { selectMenuValueMapper } from 'utils/helperFunctions';
+import { logEventHelper } from 'utils/logEvent';
 
 import { BULK_OPERATIONS } from '../const/immutableConst';
 import {
@@ -115,9 +116,20 @@ const useBulkFunctions = () => {
       fetchUsers();
     }
   };
+
   const setBulkOperation = (operation) => {
-    if (operation === BULK_OPERATIONS.ASSIGN_TO.option) {
-      initSharedDetails();
+    switch (operation) {
+      case BULK_OPERATIONS.ADD_RESULT.option:
+        dispatch(logEventHelper('TM_BulkAddResultBtnClickedTrTc', {}));
+        break;
+      case BULK_OPERATIONS.ASSIGN_TO.option:
+        initSharedDetails();
+        dispatch(logEventHelper('TM_BulkAssignToBtnClickedTrTc', {}));
+        break;
+      case BULK_OPERATIONS.REMOVE.option:
+        dispatch(logEventHelper('TM_BulkRemoveBtnClickedTrTc', {}));
+        break;
+      default:
     }
     dispatch(updateBulkOperation(operation));
   };
@@ -160,6 +172,7 @@ const useBulkFunctions = () => {
 
   const onRemoveHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id) {
+      dispatch(logEventHelper('TM_BulkRemoveCtaClickedTrTc', {}));
       dispatch(setIsLoadingProps({ key: 'bulkRemoveInProgress', value: true }));
       removeTCFromTRBulkAPI({
         projectId,
@@ -184,6 +197,7 @@ const useBulkFunctions = () => {
 
   const onAddResultHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id) {
+      dispatch(logEventHelper('TM_BulkAddResultCtaClickedTrTc', {}));
       dispatch(
         setIsLoadingProps({ key: 'bulkAddResultInProgress', value: true })
       );
@@ -213,6 +227,7 @@ const useBulkFunctions = () => {
 
   const onAssignHandler = () => {
     if (selectedTestCaseIDs.length && testRunDetails?.id && assignee) {
+      dispatch(logEventHelper('TM_BulkAssignToCtaClickedTrTc', {}));
       dispatch(setIsLoadingProps({ key: 'bulkAssignInProgress', value: true }));
       assignToTCBulkAPI({
         projectId,
