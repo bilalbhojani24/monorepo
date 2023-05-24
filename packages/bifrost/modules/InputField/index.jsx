@@ -53,7 +53,9 @@ const InputField = forwardRef(
           )}
         </div>
       )}
-      <div className={twClassNames('w-full flex shadow-sm', wrapperClassName)}>
+      <div
+        className={twClassNames('w-full flex z-10 shadow-sm', wrapperClassName)}
+      >
         {addOnBefore}
         <div
           className={twClassNames(

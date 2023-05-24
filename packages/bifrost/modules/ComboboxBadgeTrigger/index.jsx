@@ -91,7 +91,7 @@ const ComboboxBadgeTrigger = ({
           {currentSelected?.map((i) => (
             <Badge
               key={i.value}
-              wrapperClassName="break-all"
+              wrapperClassName="z-10 break-all"
               text={i.label}
               hasRemoveButton
               modifier={i?.isError ? 'error' : 'base'}
@@ -140,6 +140,7 @@ const ComboboxBadgeTrigger = ({
           {currentSelected?.length > 0 && (
             <Button
               variant="minimal"
+              wrapperClassName="z-10"
               onClick={() => {
                 if (onClearAll) onClearAll();
               }}

@@ -40,7 +40,7 @@ const Header = ({
     <nav
       ref={headerRef}
       className={twClassNames(
-        'h-16 w-full flex flex-row items-center p-0 bg-[#1d2736] gap-4 fixed top-0 z-60',
+        'h-16 w-full flex flex-row items-center p-0 bg-[#1d2736] gap-4 fixed top-0 z-10',
         wrapperClassName
       )}
       id={headerID || null}

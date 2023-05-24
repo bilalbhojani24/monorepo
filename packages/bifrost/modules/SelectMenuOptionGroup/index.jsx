@@ -31,7 +31,7 @@ const SelectMenuOptionGroup = forwardRef(
             <Listbox.Options
               static
               className={twClassNames(
-                'border-base-200 z-40 my-1 max-h-60 w-full overflow-scroll rounded-md border bg-white shadow-lg outline-none py-1',
+                'border-base-200 z-50 my-1 max-h-60 w-full overflow-scroll rounded-md border bg-white shadow-lg outline-none py-1',
                 wrapperClassName
               )}
               ref={ref}
