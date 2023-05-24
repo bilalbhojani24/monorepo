@@ -5,13 +5,37 @@ import {
   getSnPTestsBreakdown,
   getSnPUEBreakdown
 } from 'api/snp';
+import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
 import { getFilterQueryParams } from 'features/FilterSkeleton/utils';
 
 import {
+  TABS,
   TESTS_HEADER_LABEL_MAPPING,
   UNIQUE_ERROR_MAIN_HEADER
 } from '../constants';
+
+const getInitialActiveTab = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const tabVal = searchParams.get(SNP_PARAMS_MAPPING.snpTab);
+  if (!tabVal) {
+    return {
+      idx: 0,
+      value: TABS.tests
+    };
+  }
+  const foundTabIdx = Object.keys(TABS).findIndex((item) => item === tabVal);
+  if (foundTabIdx !== -1) {
+    return {
+      idx: foundTabIdx,
+      value: TABS[tabVal]
+    };
+  }
+  return {
+    idx: 0,
+    value: TABS.tests
+  };
+};
 
 const { reducer, actions } = createSlice({
   name: 'suite health',
@@ -34,9 +58,13 @@ const { reducer, actions } = createSlice({
         type: Object.keys(UNIQUE_ERROR_MAIN_HEADER)[2],
         status: 'desc'
       }
-    }
+    },
+    activeTab: getInitialActiveTab()
   },
   reducers: {
+    setActiveTab: (state, { payload }) => {
+      state.activeTab = payload;
+    },
     setTestsLoading: (state, { payload }) => {
       state.tests.isLoading = payload;
     },
@@ -106,6 +134,7 @@ const { reducer, actions } = createSlice({
 });
 
 export const {
+  setActiveTab,
   setTestsLoading,
   setTestData,
   updateTests,

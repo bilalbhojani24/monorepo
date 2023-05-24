@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   getSnPTestsFilters,
   getSnPUEFilters,
@@ -11,7 +11,6 @@ import {
   getUEHostNames,
   getUETestTags
 } from 'api/snp';
-import { SNP_PARAMS_MAPPING } from 'constants/common';
 import {
   ADV_FILTER_TYPES,
   ADV_FILTERS_PREFIX,
@@ -33,93 +32,6 @@ import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 import { getDateInFormat } from 'utils/dateTime';
-
-import { TABS } from '../constants';
-
-const getInitialDateRange = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  return searchParams.get(SNP_PARAMS_MAPPING.snpDateRange) || 'days7';
-};
-
-const getInitialActiveTab = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const tabVal = searchParams.get(SNP_PARAMS_MAPPING.snpTab);
-  if (!tabVal) {
-    return {
-      idx: 0,
-      value: TABS.tests
-    };
-  }
-  const foundTabIdx = Object.keys(TABS).findIndex((item) => item === tabVal);
-  if (foundTabIdx !== -1) {
-    return {
-      idx: foundTabIdx,
-      value: TABS[tabVal]
-    };
-  }
-  return {
-    idx: 0,
-    value: TABS.tests
-  };
-};
-
-const getInitialBuild = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const snpActiveBuild = searchParams.get(SNP_PARAMS_MAPPING.snpActiveBuild);
-  if (snpActiveBuild && snpActiveBuild !== 'all') {
-    return snpActiveBuild.split(',').map((build) => build);
-  }
-  return [];
-};
-const getInitialMuted = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const snpIsMuted = searchParams.get(SNP_PARAMS_MAPPING.snpIsMuted);
-  return snpIsMuted ? snpIsMuted === 'true' : false;
-};
-const getInitialFlaky = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const snpIsFlaky = searchParams.get(SNP_PARAMS_MAPPING.snpIsFlaky);
-  return snpIsFlaky ? snpIsFlaky === 'true' : false;
-};
-
-const { reducer, actions } = createSlice({
-  name: 'snp ui',
-  initialState: {
-    snpTestFilters: {
-      dateRange: {
-        key: getInitialDateRange()
-      },
-      buildName: getInitialBuild(),
-      isMuted: getInitialMuted(),
-      isFlaky: getInitialFlaky()
-    },
-    activeTab: getInitialActiveTab()
-  },
-  reducers: {
-    setActiveTab: (state, { payload }) => {
-      state.activeTab = payload;
-    },
-    setSnPTestFilters: (state, { payload }) => {
-      state.snpTestFilters = {
-        ...state.snpTestFilters,
-        ...payload
-      };
-    },
-    clearSnpTestFilter: (state) => {
-      state.snpTestFilters = {
-        dateRange: {
-          key: 'days7'
-        },
-        buildName: [],
-        isMuted: false,
-        isFlaky: false
-      };
-    }
-  },
-  extraReducers: {}
-});
-
-export const { setSnPTestFilters, clearSnpTestFilter, setActiveTab } = actions;
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 const updateTestsFilterFields = (data, dispatch, searchParams) => {
@@ -808,5 +720,3 @@ export const getUEHostNamesData = createAsyncThunk(
     }
   }
 );
-
-export default reducer;
