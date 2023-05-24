@@ -36,6 +36,7 @@ export default function LayoutWOSidebar() {
   if (
     !initData.isLoading &&
     !matchReqAccessData &&
+    initData.data?.hasAccess &&
     !initData.data?.hasAcceptedTnC
   ) {
     return <Navigate to={ROUTES.request_access} />;
