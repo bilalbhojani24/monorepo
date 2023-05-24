@@ -10,6 +10,7 @@ import {
 } from '@browserstack/utils';
 import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
+import AppRoute from 'const/routes';
 import MainRoute from 'features/MainRoute';
 import Notification from 'features/Notification';
 import SideNav from 'features/SideNav';
@@ -23,7 +24,6 @@ import { IMPORT_STATUS } from './features/ImportProgress/const/immutables';
 import {
   setIsProgressDismissed,
   setNotificationDismissed,
-  setReportModal,
   setTooltipDismissed
 } from './features/ImportProgress/slices/importProgressSlice';
 import {
@@ -134,7 +134,7 @@ function App() {
         </div>
       </div>
       <Notification />
-      <ProgressNotification />
+      {location.pathname !== AppRoute.ROOT && <ProgressNotification />}
       <ViewReportModal />
       <NotificationsContainer />
     </>

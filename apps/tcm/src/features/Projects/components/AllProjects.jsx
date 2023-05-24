@@ -125,32 +125,31 @@ const AllProjects = () => {
                 headerTooltipProps={{
                   delay: 500
                 }}
+                wrapperClassName="mr-1"
               >
                 {rowData.name}
               </TMTruncateText>
             </div>
             {!isProgressDismissed && importId === rowData.import_id && (
-              <div className="ml-2">
-                <TMTooltip
-                  size="xs"
-                  placementSide="top"
-                  theme="dark"
-                  content={
-                    <>
-                      <TMTooltipBody>
-                        <p className="text-sm">
-                          Successfully imported from{' '}
-                          {currentTestManagementTool === 'zephyr'
-                            ? 'Zephyr Scale'
-                            : 'TestRail'}
-                        </p>
-                      </TMTooltipBody>
-                    </>
-                  }
-                >
-                  <CheckCircleRoundedIcon className="text-success-600" />
-                </TMTooltip>
-              </div>
+              <TMTooltip
+                size="xs"
+                placementSide="top"
+                theme="dark"
+                content={
+                  <>
+                    <TMTooltipBody>
+                      <p className="text-sm">
+                        Successfully imported from{' '}
+                        {currentTestManagementTool === 'zephyr'
+                          ? 'Zephyr Scale'
+                          : 'TestRail'}
+                      </p>
+                    </TMTooltipBody>
+                  </>
+                }
+              >
+                <CheckCircleRoundedIcon className="text-success-500 !w-5 !h-5" />
+              </TMTooltip>
             )}
           </div>
           {rowData.description && (
@@ -233,11 +232,6 @@ const AllProjects = () => {
       class: 'w-[5%]'
     }
   ];
-
-  // useEffect(() => {
-  //   getStatusOfNewImportedProjects();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   useEffect(() => {
     fetchProjects();

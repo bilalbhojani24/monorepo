@@ -139,7 +139,7 @@ const ViewReportModal = () => {
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton variant="primary" colors="white" onClick={closeReportModal}>
-          Cancel
+          Close
         </TMButton>
         <TMButton variant="primary" colors="brand" onClick={retryImport}>
           Retry Import

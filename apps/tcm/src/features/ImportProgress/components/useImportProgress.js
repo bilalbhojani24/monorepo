@@ -35,6 +35,9 @@ const useImportProgress = () => {
   const showAlertLoader = useSelector(
     (state) => state.importProgress.loader.alert
   );
+  const currentTool = useSelector(
+    (state) => state.import.currentTestManagementTool
+  );
 
   const showDetailsModal = () => {
     dispatch(setDetailsModal(true));
@@ -62,6 +65,7 @@ const useImportProgress = () => {
     isCancelModalVisible,
     isCancelConfirmView,
     showAlertLoader,
+    currentTool,
     closeProgress,
     setCancelConfirmView,
     showDetailsModal,

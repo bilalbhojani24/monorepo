@@ -7,6 +7,7 @@ import {
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 
+import { ZEPHYR } from '../../quickImportFlow/const/importSteps';
 import { IMPORT_STATUS } from '../const/immutables';
 
 import CancelModal from './CancelModal';
@@ -22,6 +23,7 @@ const ImportProgress = () => {
     showDetailsModal,
     showReportModal,
     closeProgress,
+    currentTool,
     isDetailsModalVisible,
     isCancelModalVisible
   } = useImportProgress();
@@ -46,7 +48,7 @@ const ImportProgress = () => {
           detailsNode="View Report"
           alertLinkPosition="inline"
           handleLinkClick={showReportModal}
-          description={`Congratulations your import is completed. ${importDetails?.successfullyImportedProjects}/${importDetails?.totalProjects} projects were imported successfully.`}
+          description={`${importDetails?.successfullyImportedProjects}/${importDetails?.totalProjects} Projects imported from ${currentTool} successfully.`}
         />
       </div>
     );
@@ -61,7 +63,11 @@ const ImportProgress = () => {
           dismissButton
           alertLinkPosition="inline"
           handleLinkClick={showReportModal}
-          description={`Your import is completed. We could only import ${importDetails?.successfullyImportedProjects}/${importDetails?.totalProjects} projects.`}
+          description={`${importDetails?.successfullyImportedProjects}/${
+            importDetails?.totalProjects
+          } Projects imported from ${
+            currentTool === ZEPHYR ? 'Zephyr Scale' : 'TestRail'
+          }.`}
           detailsNode="View Report"
         />
       </div>
@@ -86,7 +92,11 @@ const ImportProgress = () => {
             View Details
           </TMButton>
         </div>
-        <TMProgressBar title={null} percentage={importDetails?.percent} />
+        <TMProgressBar
+          title={null}
+          percentage={importDetails?.percent}
+          wrapperClassName="mt-3"
+        />
       </div>
       {/* <div className="border-base-300 flex  w-36 flex-col justify-center break-normal border-l pl-5 text-sm">
         <div className="text-base-600">Time Remaining</div>

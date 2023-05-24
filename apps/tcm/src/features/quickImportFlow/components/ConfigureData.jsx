@@ -40,7 +40,7 @@ const ConfigureData = (props) => {
                     loading={beginImportLoading}
                     isIconOnlyButton={beginImportLoading}
                   >
-                    Begin Importing
+                    Begin Import
                   </TMButton>
                 }
               />

@@ -38,7 +38,7 @@ const ImportDetailsModal = ({ show, headerText }) => {
                 ? 'Quick Import is completed'
                 : 'Quick Import is in progress...'}
             </div>
-            <div>
+            <div className="text-xs leading-5 text-base-500">
               {importDetails?.percent === 100
                 ? 'You can go to All Projects to view the import progress'
                 : `We’ll notify you once the overall import is completed`}
@@ -50,7 +50,11 @@ const ImportDetailsModal = ({ show, headerText }) => {
                 title={`Current Progress: ${importDetails?.percent}%`}
                 titleClassName="text-base-900"
               />
-              <TMProgressBar title={null} percentage={importDetails?.percent} />
+              <TMProgressBar
+                title={null}
+                percentage={importDetails?.percent}
+                wrapperClassName="mt-3"
+              />
             </div>
             <div className="mt-6 flex">
               <TitleDescriptionNode

@@ -34,7 +34,7 @@ const useWebSocketQI = () => {
         if (message?.error) {
           // if upload ends in error
           // handleWSErrorMessage(message);
-        } else if (typeof message === 'object')
+        } else if (typeof message === 'object' && !message?.cancelled)
           dispatch(parseImportDetails(message, location));
       }
     },
