@@ -15,17 +15,16 @@ export const getReportData =
       );
 
       dispatch(updateSessionMetrics(response));
+      dispatch(setIsReportLoading(false));
     } catch (error) {
       // handle error when PM defines Scenario
-
-      dispatch(setIsReportErrored(true));
 
       if (error?.response?.status === 401) {
         window.location.href = MCP_CONSTANTS.WEB_SSO_AUTH_URL;
       } else {
+        dispatch(setIsReportErrored(true));
+        dispatch(setIsReportLoading(false));
         throw error;
       }
-    } finally {
-      dispatch(setIsReportLoading(false));
     }
   };

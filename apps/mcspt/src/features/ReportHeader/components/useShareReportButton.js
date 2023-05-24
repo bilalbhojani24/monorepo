@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   formatDeviceAndAppAnalyticsData,
@@ -8,7 +8,8 @@ import {
 
 import {
   getIsSharableLinkGenerating,
-  getShareableLinkForReport
+  getShareableLinkForReport,
+  setShareableLinkForReport
 } from '../slices/reportHeaderSlice';
 import { generateSharableLinkForReport } from '../slices/reportHeaderThunks';
 
@@ -41,6 +42,13 @@ const useShareReportButton = () => {
   const hideSharedLinkPopover = () => {
     setShowSharedLinkPopover(false);
   };
+
+  useEffect(
+    () => () => {
+      dispatch(setShareableLinkForReport(null));
+    },
+    [dispatch]
+  );
 
   return {
     isSharableLinkGenerating,
