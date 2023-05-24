@@ -17,7 +17,7 @@ import O11yLoader from 'common/O11yLoader';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 import { ROUTES } from 'constants/routes';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
-import { HardPaywallWrapper } from 'features/Paywall';
+import { PaywallWrapperEmptyState } from 'features/Paywall';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
 
@@ -148,7 +148,7 @@ function Alerts() {
 }
 
 const PaywallWrappedAlert = () => (
-  <HardPaywallWrapper
+  <PaywallWrapperEmptyState
     featureKey={PAYWALL_FEATURES.ALERTS}
     cardConfig={{
       showBg: false,
@@ -157,7 +157,7 @@ const PaywallWrappedAlert = () => (
     }}
   >
     <Alerts />
-  </HardPaywallWrapper>
+  </PaywallWrapperEmptyState>
 );
 
 export default PaywallWrappedAlert;
