@@ -26,6 +26,7 @@ import {
 } from 'features/FilterSkeleton/slices/filterSlice';
 import {
   getAppliedFilterObj,
+  getDateRangeFromSearchString,
   getFilterFromSearchString
 } from 'features/FilterSkeleton/utils';
 import { getActiveProject } from 'globalSlice/selectors';
@@ -669,9 +670,11 @@ export const getTestsBuildNamesData = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
+      const dateRange = getDateRangeFromSearchString();
       const response = await getTestBuildNames({
         ...data,
-        normalisedName: activeProject.normalisedName
+        normalisedName: activeProject.normalisedName,
+        dateRange
       });
       return response.data;
     } catch (err) {
@@ -685,9 +688,11 @@ export const getTestsBuildTagsData = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
+      const dateRange = getDateRangeFromSearchString();
       const response = await getTestBuildTags({
         ...data,
-        normalisedName: activeProject.normalisedName
+        normalisedName: activeProject.normalisedName,
+        dateRange
       });
       return response.data;
     } catch (err) {
@@ -701,9 +706,11 @@ export const getTestsTestTagsData = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
+      const dateRange = getDateRangeFromSearchString();
       const response = await getTestTestTags({
         ...data,
-        normalisedName: activeProject.normalisedName
+        normalisedName: activeProject.normalisedName,
+        dateRange
       });
       return response.data;
     } catch (err) {
@@ -717,9 +724,11 @@ export const getTestsHostNamesData = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
+      const dateRange = getDateRangeFromSearchString();
       const response = await getTestHostNames({
         ...data,
-        normalisedName: activeProject.normalisedName
+        normalisedName: activeProject.normalisedName,
+        dateRange
       });
       return response.data;
     } catch (err) {
@@ -733,9 +742,11 @@ export const getUEBuildNamesData = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
+      const dateRange = getDateRangeFromSearchString();
       const response = await getUEBuildNames({
         ...data,
-        normalisedName: activeProject.normalisedName
+        normalisedName: activeProject.normalisedName,
+        dateRange
       });
       return response.data;
     } catch (err) {
@@ -749,9 +760,11 @@ export const getUEBuildTagsData = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
+      const dateRange = getDateRangeFromSearchString();
       const response = await getUEBuildTags({
         ...data,
-        normalisedName: activeProject.normalisedName
+        normalisedName: activeProject.normalisedName,
+        dateRange
       });
       return response.data;
     } catch (err) {
@@ -765,9 +778,11 @@ export const getUETestTagsData = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
+      const dateRange = getDateRangeFromSearchString();
       const response = await getUETestTags({
         ...data,
-        normalisedName: activeProject.normalisedName
+        normalisedName: activeProject.normalisedName,
+        dateRange
       });
       return response.data;
     } catch (err) {
@@ -781,9 +796,11 @@ export const getUEHostNamesData = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     try {
       const activeProject = getActiveProject(getState());
+      const dateRange = getDateRangeFromSearchString();
       const response = await getUEHostNames({
         ...data,
-        normalisedName: activeProject.normalisedName
+        normalisedName: activeProject.normalisedName,
+        dateRange
       });
       return response.data;
     } catch (err) {
