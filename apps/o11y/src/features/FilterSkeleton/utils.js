@@ -86,8 +86,18 @@ const getDefaultDateRange = () => {
 // eslint-disable-next-line no-unused-vars
 export const getFilterFromSearchString = () => (dispatch) => {
   const searchParams = new URLSearchParams(window.location.search);
-
-  if (!searchParams.get(ADV_FILTER_TYPES.dateRange.key)) {
+  const dateRangeType = searchParams.get('daterangetype');
+  if (dateRangeType && dateRangeType !== 'custom') {
+    const { lowerBound, upperBound } = getO11yTimeBounds(dateRangeType);
+    searchParams.set(
+      ADV_FILTER_TYPES.dateRange.key,
+      `${lowerBound},${upperBound}`
+    );
+  } else if (
+    !dateRangeType ||
+    (dateRangeType === 'custom' &&
+      !searchParams.get(ADV_FILTER_TYPES.dateRange.key))
+  ) {
     const { lowerBound, upperBound } = getDefaultDateRange();
     searchParams.set('daterangetype', O11Y_DATE_RANGE.days7.key);
     searchParams.set(
