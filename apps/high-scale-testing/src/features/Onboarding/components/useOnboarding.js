@@ -45,21 +45,25 @@ browserstack-cli hst init`,
     kubectl: 'Kubectl',
     cli: 'CLI'
   };
+
   const HEADER_TEXTS_OBJECT = {
     intro: `Hey ${userDetails.fullname}, Welcome to Automation Grid`,
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };
+
   const LIST_FEED_PROPS = {
     feedIconColor: 'grey',
     feedIconContainerSize: 'sm',
     feedIconSize: 'sm',
     feedIconVariant: 'light'
   };
+
   const ONBOARDING_TYPES = {
     scratch: 'scratch',
     existing: 'existing'
   };
+
   const SCRATCH_RADIO_GROUP_OPTIONS = [
     {
       disabled: false,
@@ -80,6 +84,7 @@ browserstack-cli hst init`,
       configName: 'azure'
     }
   ];
+
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
 
   const SHOW_LINE_NUMBERS = false;
