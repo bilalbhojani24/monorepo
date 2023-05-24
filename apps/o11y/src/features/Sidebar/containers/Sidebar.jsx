@@ -23,7 +23,6 @@ import { getDocUrl, getExternalUrl, logOllyEvent } from 'utils/common';
 import {
   getProjectBuildsPath,
   getSettingsPath,
-  getSuitHealthPath,
   getSuitHealthTestsPath,
   getSuitHealthUniqueErrorsPath,
   getTestingTrendPath
@@ -39,14 +38,6 @@ const getPrimaryNav = ({ projectNormalisedName }) => [
     inActiveIcon: MdOutlineBuildCircle,
     path: getProjectBuildsPath(projectNormalisedName),
     pattern: `${ROUTES.builds}/*`
-  },
-  {
-    id: 'suite_health',
-    label: 'Suite Health',
-    activeIcon: MdOutlineDataUsage,
-    inActiveIcon: MdOutlineDataUsage,
-    path: getSuitHealthPath(projectNormalisedName),
-    pattern: ROUTES.suite_health
   },
   {
     id: 'suite_health_tests',
