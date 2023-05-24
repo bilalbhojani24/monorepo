@@ -170,7 +170,7 @@ export default function Issues() {
                   alt="No Issues Found"
                   className="w-80"
                 />
-                <p className="text-base-500 text-sm">No Issues Found..</p>
+                <p className="text-base-500 text-sm">No Issues Found</p>
               </div>
             ) : (
               <div className="flex h-full">

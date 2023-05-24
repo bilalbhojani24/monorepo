@@ -1,15 +1,11 @@
 import React from 'react';
 import {
   Badge,
-  Dropdown,
-  DropdownOptionGroup,
-  DropdownOptionItem,
-  DropdownTrigger,
+  Button,
   InputField,
   InputGroupAddOn,
   MdCancel,
   MdCheckCircle,
-  MdExpandMore,
   MdFolderOpen,
   MdOutlineError,
   MdSearch,
@@ -24,48 +20,24 @@ import { getBrowserIcon, getOSIcon } from 'utils/helper';
 
 import TestIssues from '../TestIssues';
 
+import RenderMenu from './RenderMenu';
 import useTests from './useTests';
-
-const status = [
-  {
-    body: 'Status',
-    id: 'status'
-  }
-];
-
-const tags = [
-  {
-    body: 'Tags',
-    id: 'tags'
-  }
-];
-
-const folders = [
-  {
-    body: 'Folders',
-    id: 'folders'
-  }
-];
-
-const pages = [
-  {
-    body: 'Pages',
-    id: 'pages'
-  }
-];
 
 export default function TestsTable() {
   const {
     searchValue,
-    filteredTestRuns,
     onInputValueChange,
     onFilterSearch,
     onSliderClose,
     isSliderOpen,
     handleRowClick,
-    testId
+    testId,
+    testFilters,
+    menuFilters,
+    onFilterBadgeClose,
+    searchTests,
+    onFilterClear
   } = useTests();
-
   const getTestIcon = (statusValue) => {
     const components = {
       passed: <MdCheckCircle className="text-success-500 mt-0.5 h-4 w-4" />,
@@ -190,63 +162,70 @@ export default function TestsTable() {
         </div>
 
         <div className="flex gap-4">
-          <Dropdown onClick={onFilterSearch} id="scanFilter">
-            <div className="flex">
-              <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-3 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-                Status
-                <MdExpandMore className="h-5 w-5" aria-hidden="true" />
-              </DropdownTrigger>
-            </div>
-            <DropdownOptionGroup>
-              {status.map((opt) => (
-                <DropdownOptionItem key={opt.id} option={opt} />
-              ))}
-            </DropdownOptionGroup>
-          </Dropdown>
-
-          <Dropdown onClick={onFilterSearch} id="scanFilter">
-            <div className="flex">
-              <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-3 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-                Tags
-                <MdExpandMore className="h-5 w-5" aria-hidden="true" />
-              </DropdownTrigger>
-            </div>
-            <DropdownOptionGroup>
-              {tags.map((opt) => (
-                <DropdownOptionItem key={opt.id} option={opt} />
-              ))}
-            </DropdownOptionGroup>
-          </Dropdown>
-
-          <Dropdown onClick={onFilterSearch} id="scanFilter">
-            <div className="flex">
-              <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-3 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-                Folders
-                <MdExpandMore className="h-5 w-5" aria-hidden="true" />
-              </DropdownTrigger>
-            </div>
-            <DropdownOptionGroup>
-              {folders.map((opt) => (
-                <DropdownOptionItem key={opt.id} option={opt} />
-              ))}
-            </DropdownOptionGroup>
-          </Dropdown>
-
-          <Dropdown onClick={onFilterSearch} id="scanFilter">
-            <div className="flex">
-              <DropdownTrigger wrapperClassName="border-base-300 text-base-700 hover:bg-base-50 focus:ring-offset-base-100 focus:ring-brand-500 inline-flex w-full justify-center rounded-md border bg-white px-3 py-2 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2">
-                Pages
-                <MdExpandMore className="h-5 w-5" aria-hidden="true" />
-              </DropdownTrigger>
-            </div>
-            <DropdownOptionGroup>
-              {pages.map((opt) => (
-                <DropdownOptionItem key={opt.id} option={opt} />
-              ))}
-            </DropdownOptionGroup>
-          </Dropdown>
+          <RenderMenu
+            data={testFilters?.status}
+            onFilterSearch={onFilterSearch}
+            filterStatus={menuFilters}
+            placeholder="Status"
+            name="status"
+          />
+          <RenderMenu
+            data={testFilters?.tags}
+            onFilterSearch={onFilterSearch}
+            filterStatus={menuFilters}
+            placeholder="Tags"
+            name="tags"
+          />
+          <RenderMenu
+            data={testFilters?.files}
+            onFilterSearch={onFilterSearch}
+            filterStatus={menuFilters}
+            placeholder="Files"
+            name="file"
+          />
+          <RenderMenu
+            data={testFilters?.pages}
+            onFilterSearch={onFilterSearch}
+            filterStatus={menuFilters}
+            placeholder="Pages"
+            name="pages"
+          />
         </div>
       </div>
+
+      {Object.values(menuFilters).some((item) => item.length > 0) ? (
+        <div className="bg-base-100 flex flex-wrap gap-2 px-6 py-3">
+          <p className="text-base-500 border-base-300 w-fit border-r pr-4 text-sm">
+            Filters
+          </p>
+          {Object.keys(menuFilters).map((key) => {
+            if (menuFilters[key].length) {
+              return (
+                <Badge
+                  key={key}
+                  hasDot={false}
+                  hasRemoveButton
+                  isRounded
+                  size="large"
+                  wrapperClassName="bg-white"
+                  onClose={() => onFilterBadgeClose(key)}
+                  text={`${menuFilters[key].length} ${key}`}
+                />
+              );
+            }
+          })}
+          <Button
+            onClick={onFilterClear}
+            size="small"
+            colors="white"
+            wrapperClassName="ml-4"
+            variant="minimal"
+          >
+            Clear all
+          </Button>
+        </div>
+      ) : null}
+
       <Table containerWrapperClass="md:rounded-none shadow-none">
         <TableHead>
           <TableRow wrapperClassName="text-gray-50">
@@ -262,7 +241,7 @@ export default function TestsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredTestRuns?.map((row) => (
+          {searchTests?.map((row) => (
             <TableRow key={row.id} onRowClick={() => handleRowClick(row.id)}>
               {columns.map((column) => {
                 const value = 'what value';

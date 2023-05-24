@@ -147,38 +147,37 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
   ];
 
   return (
-    <div>
-      <Table containerWrapperClass="md:rounded-none shadow-none">
-        <TableHead>
-          <TableRow>
-            {columns.map((col) => (
-              <TableCell
-                key={col.key}
-                variant="header"
-                textTransform="uppercase"
-                wrapperClassName="text-base-500 font-medium text-xs tracking-wider"
-              >
-                {col.name}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {buildList.map((row) => (
-            <TableRow onRowClick={() => handleRowClick(row)}>
-              {columns.map((column) => {
-                const value = row[column.key];
-                return (
-                  <TableCell key={column.id}>
-                    {column.cell ? <>{column.cell(row)}</> : value}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
+    <Table containerWrapperClass="md:rounded-none shadow-none overflow-visible overflow-x-visible">
+      <TableHead>
+        <TableRow>
+          {columns.map((col) => (
+            <TableCell
+              key={col.key}
+              variant="header"
+              textTransform="uppercase"
+              wrapperClassName="text-base-500 font-medium text-xs tracking-wider top-[218px]"
+              isSticky
+            >
+              {col.name}
+            </TableCell>
           ))}
-        </TableBody>
-      </Table>
-    </div>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {buildList.map((row) => (
+          <TableRow onRowClick={() => handleRowClick(row)}>
+            {columns.map((column) => {
+              const value = row[column.key];
+              return (
+                <TableCell key={column.id}>
+                  {column.cell ? <>{column.cell(row)}</> : value}
+                </TableCell>
+              );
+            })}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }
 
