@@ -170,7 +170,7 @@ const useBulkFunctions = () => {
             variant: 'success'
           })
         );
-        resetBulkOperation();
+        resetBulkOperation(null, true);
       });
     }
   };
