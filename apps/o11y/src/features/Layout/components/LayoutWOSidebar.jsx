@@ -30,7 +30,7 @@ export default function LayoutWOSidebar() {
   return (
     <AppContext.Provider
       value={{
-        headerSize
+        headerSize: headerSize?.blockSize ? headerSize : { blockSize: 64 }
       }}
     >
       <div id="o11y-header" className="sticky top-0 z-10" ref={headerRef}>
