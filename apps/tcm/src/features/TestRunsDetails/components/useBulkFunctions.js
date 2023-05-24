@@ -188,6 +188,7 @@ const useBulkFunctions = () => {
         ids: selectedTestCaseIDs,
         testRunId: testRunDetails.id,
         status: resultForm?.status,
+        issues: resultForm?.jiraIssues,
         page: currentPage
       }).then((res) => {
         // TODO happy flow edge cases

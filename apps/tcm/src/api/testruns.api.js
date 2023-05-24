@@ -110,12 +110,14 @@ export const addResultTCBulkAPI = async ({
   ids,
   status,
   testRunId,
+  issues,
   page = 1
 }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/edit?p=${page}`,
     {
       test_case_ids: ids,
-      status
+      status,
+      issues
     }
   );
