@@ -20,30 +20,25 @@ const link = (
   modifier,
   handleLinkClick,
   linkUrl,
-  detailsNode,
-  wrapperClassName = ''
+  detailsNode
 ) => {
   if (detailsNode)
     return (
       <a
         href="/"
-        className={twClassNames(
-          'h-fit',
-          {
-            'ml-1 underline': alertLinkPosition === ALERT_LINK_POSITION[0],
-            'text-base-700 hover:text-base-600': modifier === ALERT_MODIFIER[0],
-            'text-brand-700 hover:text-brand-600':
-              modifier === ALERT_MODIFIER[1],
-            'text-success-700 hover:text-success-600':
-              modifier === ALERT_MODIFIER[2],
-            'text-danger-700 hover:text-danger-600':
-              modifier === ALERT_MODIFIER[3],
-            'text-attention-700 hover:text-attention-600':
-              modifier === ALERT_MODIFIER[4],
-            'text-info-700 hover:text-info-600': modifier === ALERT_MODIFIER[5]
-          },
-          wrapperClassName
-        )}
+        className={twClassNames('h-fit', {
+          'ml-1 underline shrink-0':
+            alertLinkPosition === ALERT_LINK_POSITION[0],
+          'text-base-700 hover:text-base-600': modifier === ALERT_MODIFIER[0],
+          'text-brand-700 hover:text-brand-600': modifier === ALERT_MODIFIER[1],
+          'text-success-700 hover:text-success-600':
+            modifier === ALERT_MODIFIER[2],
+          'text-danger-700 hover:text-danger-600':
+            modifier === ALERT_MODIFIER[3],
+          'text-attention-700 hover:text-attention-600':
+            modifier === ALERT_MODIFIER[4],
+          'text-info-700 hover:text-info-600': modifier === ALERT_MODIFIER[5]
+        })}
         onClick={(event) => {
           event.preventDefault();
           if (handleLinkClick) handleLinkClick(linkUrl);
@@ -266,8 +261,7 @@ const Alerts = (props) => {
                       modifier,
                       handleLinkClick,
                       linkUrl,
-                      detailsNode,
-                      'shrink-0'
+                      detailsNode
                     )}
                 </span>
               </div>
