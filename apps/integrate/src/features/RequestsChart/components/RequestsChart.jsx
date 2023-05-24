@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Loader,
   SelectMenu,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
@@ -10,6 +9,7 @@ import {
 import { fromUnixTime, getUnixTime, subMonths } from 'date-fns';
 
 import { getRequestCountThunk } from '../../../api';
+import { INTGLoader } from '../../../common/bifrostProxy';
 import { LOADING_STATUS } from '../../../constants/loadingConstants';
 import {
   activeConfigurationsSelector,
@@ -58,10 +58,6 @@ const RequestsChart = () => {
     );
   }, [dispatch, activeConfigurationsIds, activeDateRange, to, from]);
 
-  if (isrequesCountDataLoading) {
-    return <Loader />;
-  }
-
   const getXYCoordsForRequests = () =>
     requests.map(({ timestamp, request_count: count }) => ({
       x: fromUnixTime(timestamp),
@@ -83,7 +79,7 @@ const RequestsChart = () => {
       </div>
       {isrequesCountDataLoading ? (
         <div className="w-full">
-          <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />
+          <INTGLoader wrapperClassName="h-80" />
         </div>
       ) : (
         <>

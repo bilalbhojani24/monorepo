@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   Table,
@@ -13,7 +13,12 @@ import { format, fromUnixTime } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import { getLogDetailsThunk, getLogsThunk } from '../../../api';
-import { openLogDetailsSlideover } from '../../../globalSlice';
+import { INTGLoader } from '../../../common/bifrostProxy';
+import { LOADING_STATUS } from '../../../constants/loadingConstants';
+import {
+  logsLoadingSelector,
+  openLogDetailsSlideover
+} from '../../../globalSlice';
 
 import StatusBadge from './StatusBadge';
 
@@ -31,6 +36,8 @@ const LogsTable = ({
   configurationIds
 }) => {
   const dispatch = useDispatch();
+  const areLogsLoading =
+    useSelector(logsLoadingSelector) === LOADING_STATUS.PENDING;
   useEffect(() => {
     dispatch(
       getLogsThunk({
@@ -68,6 +75,10 @@ const LogsTable = ({
     const date = fromUnixTime(unixTime);
     return format(date, 'dd/MM/yyyy HH:mm:ss');
   };
+
+  if (areLogsLoading) {
+    return <INTGLoader wrapperClassName="h-96" />;
+  }
 
   return (
     <Table>

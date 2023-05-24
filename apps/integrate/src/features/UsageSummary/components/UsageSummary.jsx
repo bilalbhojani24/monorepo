@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Loader,
   SelectMenu,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
@@ -10,6 +9,7 @@ import {
 import { getUnixTime, subMonths } from 'date-fns';
 
 import { getUsageSummaryThunk } from '../../../api';
+import { INTGLoader } from '../../../common/bifrostProxy';
 import { LOADING_STATUS } from '../../../constants/loadingConstants';
 import {
   activeConfigurationsSelector,
@@ -73,7 +73,7 @@ const RequestsChart = () => {
         </SelectMenu>
       </div>
       {isUsageSummaryLoading ? (
-        <Loader height="h-6" width="w-6" wrapperStyle="text-base-400" />
+        <INTGLoader wrapperClassName="h-80" />
       ) : (
         <UsageSummaryTable usageSummaryData={usageSummaryData} />
       )}

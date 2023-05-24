@@ -34,7 +34,7 @@ const LogRequestDetailsTable = ({ data = {} }) => {
                 {itemName === 'body' ? (
                   <div className="max-w-md">
                     <CodeSnippet
-                      code={itemDetails}
+                      code={JSON.stringify(JSON.parse(itemDetails), null, '\t')}
                       language="json"
                       maxHeight="200px"
                     />
