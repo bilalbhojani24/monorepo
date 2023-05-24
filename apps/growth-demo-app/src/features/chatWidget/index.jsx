@@ -38,7 +38,7 @@ const GRTRows = [
     title: 'Prop',
     value: [
       {
-        name: 'descripton',
+        name: 'direction',
         description: 'The position of the chat widget button',
         default: 'right',
         isAction: false
