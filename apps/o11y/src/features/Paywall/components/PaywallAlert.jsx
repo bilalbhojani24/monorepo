@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { O11yAlerts } from 'common/bifrostProxy';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
+import { CTA_TEXTS } from 'constants/paywall';
 import { canStartFreeTrial } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
@@ -44,9 +45,9 @@ function PaywallAlert({ title }) {
     }
 
     if (shouldAllowFreeTrial) {
-      return 'Get a 14 days free trial';
+      return CTA_TEXTS.FREE_TRIAL;
     }
-    return 'Upgrade';
+    return CTA_TEXTS.UPGRADE;
   }, [hasSubmittedUpgradeReq, isSubmitting, shouldAllowFreeTrial]);
 
   return (

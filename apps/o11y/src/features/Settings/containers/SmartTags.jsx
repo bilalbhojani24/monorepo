@@ -5,7 +5,7 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { PAYWALL_FEATURES } from 'constants/paywall';
-import PaywallAlert from 'features/Paywall/components/PaywallAlert';
+import { PaywallAlert } from 'features/Paywall';
 import { getActiveProject, getPlanDetailsKey } from 'globalSlice/selectors';
 import isEqual from 'lodash/isEqual';
 
