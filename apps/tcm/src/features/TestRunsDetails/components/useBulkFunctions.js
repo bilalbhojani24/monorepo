@@ -8,7 +8,7 @@ import {
   removeTCFromTRBulkAPI
 } from 'api/testruns.api';
 import { addNotificaton } from 'globalSlice';
-import { selectMenuValueMapper } from 'utils/helperFunctions';
+import { capitalizeString, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import { BULK_OPERATIONS } from '../const/immutableConst';
@@ -206,8 +206,8 @@ const useBulkFunctions = () => {
         dispatch(
           addNotificaton({
             id: `test_cases_removed_${testRunDetails?.id}`,
-            title: `Test Cases Removed`,
-            description: `${selectedTestCaseIDs.length} Test Cases have been removed from this test run.`,
+            title: `${selectedTestCaseIDs} Test cases removed`,
+            description: null,
             variant: 'success'
           })
         );
@@ -244,8 +244,10 @@ const useBulkFunctions = () => {
         dispatch(
           addNotificaton({
             id: `test_cases_updated_${testRunDetails?.id}`,
-            title: `Test Cases Updated`,
-            description: `${selectedTestCaseIDs.length} Test Cases have been updated.`,
+            title: `${selectedTestCaseIDs} Test cases marked as ${capitalizeString(
+              resultForm?.status || ''
+            )}`,
+            description: null,
             variant: 'success'
           })
         );
@@ -277,8 +279,8 @@ const useBulkFunctions = () => {
         dispatch(
           addNotificaton({
             id: `assigness_updates${testRunDetails?.id}`,
-            title: `Test Cases Assigned`,
-            description: `${selectedTestCaseIDs.length} Test Cases have been assigned to ${assignee?.label}.`,
+            title: `${selectedTestCaseIDs} Test cases assigned to ${assignee?.label}`,
+            description: null,
             variant: 'success'
           })
         );
