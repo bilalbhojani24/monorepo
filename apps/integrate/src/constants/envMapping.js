@@ -1,5 +1,5 @@
 const hostMappings = {
-  local: 'https://integrate.bsstag.com',
+  local: 'https://integrations-local.bsstag.com',
   staging: 'https://integrate.bsstag.com',
   production: 'https://integrate.browserstack.com'
 };
