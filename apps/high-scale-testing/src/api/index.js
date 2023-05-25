@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import {
+  FETCH_CLUSTERS_URL,
   FETCH_GRIDS_URL,
   ONBOARDING_DATA_URL,
   ONBOARDING_EVENT_LOGS_DATA_URL,
@@ -10,6 +11,11 @@ import {
 
 const fetchAllGridsData = (userId) =>
   axios.get(FETCH_GRIDS_URL, {
+    params: { userId }
+  });
+
+const fetchAllClustersData = (userId) =>
+  axios.get(FETCH_CLUSTERS_URL, {
     params: { userId }
   });
 
@@ -42,6 +48,7 @@ const markOnboardingRegionChange = (userId, cloudProvider, newRegionObject) =>
   });
 
 export {
+  fetchAllClustersData,
   fetchAllGridsData,
   getOnboardingData,
   getOnboardingEventsLogsData,
