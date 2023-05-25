@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, PageHeadings, Tabs } from '@browserstack/bifrost';
 
 import ClustersListing from './ClustersListing';
+import GridDetail from './GridDetail';
 import GridsListing from './GridsListing';
 import useGridConsole from './useGridConsole';
 
@@ -33,6 +34,7 @@ const GridConsole = () => {
 
       {currentListingType === 'grids' && <GridsListing />}
       {currentListingType === 'clusters' && <ClustersListing />}
+      <GridDetail />
     </div>
   );
 };

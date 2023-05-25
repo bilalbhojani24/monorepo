@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Badge,
   Dropdown,
@@ -13,10 +14,13 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 
+import { setGridId } from '../slices/index';
+
 import { useGridListing } from './useGridListing';
 
 const GridsListing = () => {
   const { gridList, options, tableCellWrapperClassName } = useGridListing();
+  const dispatch = useDispatch();
 
   return (
     gridList.length > 0 && (
@@ -68,9 +72,18 @@ const GridsListing = () => {
               const gridName = e.name;
               const gridStatus = e.status;
               const statusModifier = e.status === 'Online' ? 'success' : 'base';
+              const gridId = e.gridProfile.id;
 
               return (
-                <TableRow onRowClick={() => {}}>
+                <TableRow
+                  onRowClick={() => {
+                    dispatch(
+                      setGridId({
+                        gridId
+                      })
+                    );
+                  }}
+                >
                   <TableCell wrapperClassName="text-base-900 first:pr-3 last:pl-3 px-2 py-2">
                     <p className="font-normal">{gridName}</p>
                     <p className="text-base-500">b7465tbf76</p>
@@ -102,6 +115,7 @@ const GridsListing = () => {
                   <TableCell>
                     <Dropdown
                       onClick={(value) => {
+                        // eslint-disable-next-line no-console
                         console.log(value);
                       }}
                     >
