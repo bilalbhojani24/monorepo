@@ -27,6 +27,7 @@ const useMcpChart = () => {
 
       mcpAnalyticsEvent('csptReportSeekClick', {
         graph_name: chartname,
+        report_owner_user_id: session?.report_owner_user_id,
         duration: calculateTestDurationForAnalytics(session),
         ...formatDeviceAndAppAnalyticsData(session?.device, session?.package)
       });

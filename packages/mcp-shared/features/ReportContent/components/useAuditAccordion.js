@@ -19,6 +19,7 @@ export const useAuditAccordion = (auditDetails) => {
     setIsAuditAccordionOpen((prev) => !prev);
 
     mcpAnalyticsEvent('csptReportSummaryAccordionClick', {
+      report_owner_user_id: sessionData?.report_owner_user_id,
       issues_detected_title: auditDetails.title,
       duration: calculateTestDurationForAnalytics(sessionData),
       ...formatDeviceAndAppAnalyticsData(
@@ -34,6 +35,7 @@ export const useAuditAccordion = (auditDetails) => {
     }
 
     mcpAnalyticsEvent('csptReportSummaryRecClick', {
+      report_owner_user_id: sessionData?.report_owner_user_id,
       issues_detected_title: auditDetails.title,
       duration: calculateTestDurationForAnalytics(sessionData),
       ...formatDeviceAndAppAnalyticsData(

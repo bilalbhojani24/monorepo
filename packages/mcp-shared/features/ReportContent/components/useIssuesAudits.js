@@ -18,6 +18,7 @@ const useIssuesAudits = () => {
     setShowAllAudits((prev) => !prev);
 
     mcpAnalyticsEvent('csptReportSummaryShowAllClick', {
+      report_owner_user_id: sessionData?.report_owner_user_id,
       duration: calculateTestDurationForAnalytics(sessionData),
       ...formatDeviceAndAppAnalyticsData(
         sessionData?.device,

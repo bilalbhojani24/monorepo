@@ -67,6 +67,7 @@ const ReportTooltip = ({ cardToolTipData }) => {
           setShowReportTooltip((prevVal) => !prevVal);
 
           mcpAnalyticsEvent('csptReportMetricInfoBtnClick', {
+            report_owner_user_id: sessionData?.report_owner_user_id,
             metric_name: cardToolTipData.analyticsTitle,
             duration: calculateTestDurationForAnalytics(sessionData),
             ...formatDeviceAndAppAnalyticsData(

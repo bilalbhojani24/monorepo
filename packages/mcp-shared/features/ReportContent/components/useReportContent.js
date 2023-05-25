@@ -15,10 +15,13 @@ const useReportContent = () => {
   const { handleFolderViaConsumer } = useContext(ReportContext);
 
   const openDiagnosticFolder = () => {
-    mcpAnalyticsEvent(
-      'csptReportDiagnosticLogsBtnClick',
-      formatDeviceAndAppAnalyticsData(sessionData?.device, sessionData?.package)
-    );
+    mcpAnalyticsEvent('csptReportDiagnosticLogsBtnClick', {
+      report_owner_user_id: sessionData?.report_owner_user_id,
+      ...formatDeviceAndAppAnalyticsData(
+        sessionData?.device,
+        sessionData?.package
+      )
+    });
 
     handleFolderViaConsumer(sessionData?.metadata?.video);
   };

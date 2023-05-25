@@ -30,6 +30,7 @@ const useReportSidebar = () => {
 
   const sendPlayAnalyticsEvent = (action) => {
     mcpAnalyticsEvent('csptReportPlayPauseBtnClick', {
+      report_owner_user_id: sessionData?.report_owner_user_id,
       playbtn_action: action,
       ...formatDeviceAndAppAnalyticsData(
         sessionData?.device,
