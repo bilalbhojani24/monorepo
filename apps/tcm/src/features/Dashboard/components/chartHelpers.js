@@ -120,6 +120,7 @@ export const lineOptionsCreator = ({
   },
   plotOptions: {
     series: {
+      cursor: 'pointer',
       color: '#0891B2',
       label: {
         connectorAllowed: false
@@ -227,6 +228,7 @@ export const barOptionsCreator = ({
   // },
   plotOptions: {
     series: {
+      cursor: 'pointer',
       color: '#465FA3'
     },
     column: {
@@ -304,6 +306,7 @@ export const stackedBarOptionsCreator = ({
   },
   plotOptions: {
     column: {
+      cursor: 'pointer',
       stacking: 'normal',
       events: {
         legendItemClick() {

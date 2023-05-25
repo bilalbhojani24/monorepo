@@ -34,7 +34,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
             className="text-base-900 font-medium"
           >{`${rowData.test_run_identifier} | ${rowData.test_run_name}`}</Link>
           <div className="text-base-500">
-            {formatTime(rowData.created_at, 'time')}
+            {formatTime(rowData?.updated_at, 'time')}
           </div>
         </div>
       )
@@ -102,7 +102,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
         <div className="w-full pb-8">
           {resultUpdatable && (
             <>
-              <div className="mt-8 mb-4 text-sm">
+              <div className="mb-4 mt-8 text-sm">
                 You can log results for this test case from the options below:
               </div>
               <div className="flex gap-4">
