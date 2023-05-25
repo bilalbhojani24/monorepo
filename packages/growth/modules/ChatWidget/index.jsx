@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { fetchChatWidgetInitialData } from './slices/chatWidgetSlices';
-import { handleScriptLoad } from './utils';
+import {
+  FRESHCHAT_WIDGET_CUSTOM_BUTTON_ID,
+  handleScriptLoad,
+  hideWidget,
+  showWidget
+} from './utils';
 
-const ChatWidget = ({ children, direction }) => {
+export const toggleChatWidget = (status) => {
+  if (status === true) {
+    showWidget();
+  } else {
+    hideWidget();
+  }
+};
+
+const ChatWidget = ({ direction }) => {
   const chatWidget = useSelector((state) => state.chatWidget?.data);
   const dispatch = useDispatch();
-  const [showWidget, setShowWidget] = useState(false);
 
   const showChatWindow = () => {
     if (window.fcWidget && !window.fcWidget.isOpen()) {
-      setShowWidget(false);
-      window.fcWidget.open();
-    }
-  };
-
-  const toggleChatWidget = (currentStatus) => {
-    if (currentStatus === true) {
-      setShowWidget(true);
-      window.fcWidget.show();
-    } else {
-      setShowWidget(false);
-      window.fcWidget.hide();
+      showWidget();
     }
   };
 
@@ -34,19 +35,20 @@ const ChatWidget = ({ children, direction }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (chatWidget)
-      handleScriptLoad(chatWidget, setShowWidget, showChatWindow, direction);
+    if (chatWidget) handleScriptLoad(chatWidget, showChatWindow, direction);
   }, [chatWidget, direction]);
 
   return (
     <>
-      {showWidget && chatWidget?.custom_widget && (
+      {chatWidget?.custom_widget && (
         <Button
+          id={FRESHCHAT_WIDGET_CUSTOM_BUTTON_ID}
           onClick={() => {
-            showChatWindow();
+            hideWidget();
+            window.fcWidget.open();
           }}
           wrapperClassName={twClassNames(
-            'rounded-none shadow-md absolute p-3 bottom-6',
+            'rounded-none shadow-md absolute p-3 bottom-6 none',
             {
               'left-6': direction === 'left',
               'right-6': direction === 'right'
@@ -72,17 +74,14 @@ const ChatWidget = ({ children, direction }) => {
           </div>
         </Button>
       )}
-      {children && children({ toggleChatWidget })}
     </>
   );
 };
 
 ChatWidget.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   direction: PropTypes.oneOf(['left', 'right'])
 };
 ChatWidget.defaultProps = {
-  children: null,
   direction: 'right'
 };
 
