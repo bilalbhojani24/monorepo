@@ -1,15 +1,31 @@
 import { logEvent } from '@browserstack/utils';
 
-export const setWidgetEvents = (
-  chatWidgetData,
-  setShowWidget,
-  showChatWindow
-) => {
+export const FRESHCHAT_WIDGET_CUSTOM_BUTTON_ID = 'freshchat_custom_button';
+
+export const showWidget = () => {
+  const customButton = document.getElementById(
+    FRESHCHAT_WIDGET_CUSTOM_BUTTON_ID
+  );
+
+  if (customButton) customButton.style.display = 'block';
+  else window.fcWidget.show();
+};
+
+export const hideWidget = () => {
+  const customButton = document.getElementById(
+    FRESHCHAT_WIDGET_CUSTOM_BUTTON_ID
+  );
+
+  if (customButton) customButton.style.display = 'none';
+  else window.fcWidget.hide();
+};
+
+export const setWidgetEvents = (chatWidgetData, showChatWindow) => {
   const channelName = chatWidgetData?.triggers?.[0]?.channel;
   let source = 'user_click';
 
   window.fcWidget.on('widget:loaded', () => {
-    setShowWidget(true);
+    showWidget();
 
     logEvent([], 'online_sales', 'FreshChat', {
       freshchatId: '',
@@ -62,13 +78,12 @@ export const setWidgetEvents = (
       channel: channelName,
       team: 'online_sales'
     });
-    setShowWidget(true);
+    showWidget();
   });
 };
 
 export const handleScriptLoad = async (
   chatWidgetData,
-  setShowWidget,
   showChatWindow,
   direction
 ) => {
@@ -96,7 +111,7 @@ export const handleScriptLoad = async (
         }
       });
 
-      setWidgetEvents(chatWidgetData, setShowWidget, showChatWindow);
+      setWidgetEvents(chatWidgetData, showChatWindow);
 
       if (chatWidgetData.user_info.email) {
         window.fcWidget.user.update({
