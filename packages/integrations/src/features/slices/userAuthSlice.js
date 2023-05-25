@@ -8,7 +8,8 @@ const initialState = {
   uatConfig: null,
   hasToken: false,
   loading: LOADING_STATUS.IDLE,
-  error: null
+  error: null,
+  userId: ''
 };
 
 export const userAuthSlice = createSlice({
@@ -20,6 +21,9 @@ export const userAuthSlice = createSlice({
     },
     setHasToken: (state, action) => {
       state.hasToken = action.payload;
+    },
+    setUserId: (state, action) => {
+      state.userId = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -46,7 +50,7 @@ export const userAuthSlice = createSlice({
   }
 });
 
-export const { setUATConfig, setHasToken } = userAuthSlice.actions;
+export const { setUATConfig, setHasToken, setUserId } = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;
 
@@ -54,3 +58,4 @@ export const uatConfigSelector = (state) => state.userAuth.uatConfig;
 export const hasTokenSelector = (state) => state.userAuth.hasToken;
 export const userAuthLoadingSelector = (state) => state.userAuth.loading;
 export const userAuthErrorSelector = (state) => state.userAuth.error;
+export const userIdSelector = (state) => state.userAuth.userId;

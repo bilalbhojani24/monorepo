@@ -11,7 +11,6 @@ import { ROUTES } from 'constants/routes';
 import { resetFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import { setIsUEDetailsVisible } from 'features/SHErrorDetails/slices/dataSlice';
 import { setIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
-import { clearSnpTestFilter } from 'features/SuiteHealth/slices/uiSlice';
 import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { setActiveProject } from 'globalSlice';
 import { getProjects } from 'globalSlice/selectors';
@@ -51,7 +50,6 @@ export default function ProjectSelector() {
     dispatch(setIsSHTestsDetailsVisible(false));
     dispatch(hideTestDetailsDrawer());
     dispatch(setIsUEDetailsVisible(false));
-    dispatch(clearSnpTestFilter());
     dispatch(resetFilters());
     if (isBuildsPage()) {
       navigate(getProjectBuildsPath(encodeURI(item.normalisedName)), {

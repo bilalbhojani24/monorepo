@@ -32,7 +32,6 @@ import {
   setTestsSortBy
 } from '../slices/dataSlice';
 import {
-  getAllSnPTestFilters,
   getSnpTests,
   getSnpTestsLoading,
   getSnpTestsPaging,
@@ -44,7 +43,6 @@ export default function SHTests() {
 
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const dispatch = useDispatch();
-  const filters = useSelector(getAllSnPTestFilters);
   const tests = useSelector(getSnpTests);
   const isLoadingTests = useSelector(getSnpTestsLoading);
   const pagingParams = useSelector(getSnpTestsPaging);
@@ -73,7 +71,6 @@ export default function SHTests() {
           normalisedName: activeProject?.normalisedName,
           pagingParams,
           sortOptions: sortBy,
-          filters,
           shouldUpdate: true
         })
       ).finally(() => {
