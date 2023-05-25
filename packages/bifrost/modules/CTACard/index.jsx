@@ -15,7 +15,7 @@ const CTACard = (props) => {
     <ctaCardContext.Provider value={{ size: FEATURE_FENCING_SIZES.BASE }}>
       <div
         className={twClassNames(
-          'relative flex shadow overflow-hidden',
+          'relative flex shadow overflow-hidden flex-col sm:flex-row',
           'rounded-lg',
           wrapperClassName
         )}
@@ -32,6 +32,7 @@ const CTACard = (props) => {
             icon={<MdClose className="h-full w-full" />}
             colors="white"
             onClick={onClose}
+            ariaLabel="Close"
           />
         )}
       </div>

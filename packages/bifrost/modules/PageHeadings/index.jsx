@@ -20,7 +20,7 @@ const PageHeadings = (props) => {
     onBreadcrumbClick
   } = props;
   return (
-    <div className={twClassNames(wrapperClassName, 'z-10')}>
+    <div className={wrapperClassName}>
       <div className="lg:flex lg:items-center lg:justify-between">
         <div className="min-w-0 flex-1">
           {/* breadcrumbs */}

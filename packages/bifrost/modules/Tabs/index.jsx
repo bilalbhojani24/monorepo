@@ -56,7 +56,7 @@ const Tabs = ({
   return (
     <>
       {tabsArray?.length ? (
-        <div className={twClassNames('w-full z-10', wrapperClassName)}>
+        <div className={twClassNames('w-full', wrapperClassName)}>
           <div className={twClassNames('sm:hidden', navigationClassName)}>
             {label && (
               <label htmlFor={id} className="sr-only">
