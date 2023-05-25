@@ -157,7 +157,7 @@ export default function Sidebar() {
     >
       <SidebarNavigation
         wrapperClassName={`
-        md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full
+        md:sticky bg-white pt-5 px-2 w-64 flex-none md:inset-y-16 h-full
       `}
         sidebarHeader={<ProjectSelector />}
         sidebarPrimaryNavigation={getPrimaryNav({
