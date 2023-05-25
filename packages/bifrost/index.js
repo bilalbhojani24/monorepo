@@ -2,6 +2,7 @@ import Accordion from './modules/Accordion';
 import AccordionInteractiveHeader from './modules/AccordionInteractiveHeader';
 import AccordionPanel from './modules/AccordionPanel';
 import AccordionSimpleHeader from './modules/AccordionSimpleHeader';
+import ActionPanel from './modules/ActionPanel/index';
 import Alerts from './modules/Alerts/index';
 import Attachments from './modules/Attachments';
 import Badge from './modules/Badge/index';
@@ -59,6 +60,7 @@ import ListFeedsNode from './modules/ListFeedsNode/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
+import ListTreeRootWrapper from './modules/ListTreeRootWrapper';
 import Loader from './modules/Loader/index';
 import MediaPlayer from './modules/MediaPlayer';
 import MediaPlayerLeftControls from './modules/MediaPlayerLeftControls';
@@ -130,6 +132,7 @@ export {
   AccordionInteractiveHeader,
   AccordionPanel,
   AccordionSimpleHeader,
+  ActionPanel,
   Alerts,
   Attachments,
   Badge,
@@ -184,6 +187,7 @@ export {
   listTreeCheckboxHelper,
   ListTreeNode,
   ListTreeNodeContents,
+  ListTreeRootWrapper,
   Loader,
   MediaPlayer,
   MediaPlayerLeftControls,

@@ -71,13 +71,13 @@ const Repository = ({ isSearch }) => {
       <TopSection />
       <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
         <div className="flex flex-1 shrink-0 grow  items-stretch justify-center  overflow-hidden bg-white">
-          <main className="w-full min-w-0 shrink-0 grow overflow-hidden lg:flex">
-            <aside className="lg:order-first lg:block lg:shrink-0">
-              <div className="relative flex h-full flex-col overflow-hidden lg:w-72">
+          <main className="flex w-full min-w-0 shrink-0 grow overflow-hidden">
+            <aside className="order-first block shrink-0">
+              <div className="relative flex h-full w-72 flex-col overflow-hidden">
                 <Folders />
               </div>
             </aside>
-            <section className="flex h-full w-full  min-w-0 lg:order-last">
+            <section className="order-last flex h-full  w-full min-w-0">
               <TestCases />
             </section>
           </main>
