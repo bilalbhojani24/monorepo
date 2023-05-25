@@ -66,7 +66,7 @@ const FreshChatWidget = () => (
     <h1 className="mb-5 text-center text-xl">
       FRESH CHAT WIDGET COMPONENT DOCUMENTATION AND DEMO
     </h1>
-    <ChatWidget direction="left" />
+    <ChatWidget direction="right" />
     <Table>
       <TableHead wrapperClassName="bg-white">
         <TableRow>

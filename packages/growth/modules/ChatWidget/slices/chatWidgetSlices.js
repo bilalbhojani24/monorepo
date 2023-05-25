@@ -11,7 +11,7 @@ export const { reducer, actions } = createSlice({
   name: 'fetchChatWidgetInitialData',
   initialState: {
     data: null,
-    loading: false,
+    loading: true,
     error: null
   },
 
