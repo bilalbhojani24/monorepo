@@ -168,6 +168,7 @@ const Onboarding = () => {
         <li className="text-base-900 py-2">
           <div>
             <p className="text-base-900 mb-2">
+              {/* eslint-disable-next-line sonarjs/no-duplicate-string */}
               {CODE_SNIPPETS_SCRATCH['create-grid'].a.text}
             </p>
             <CodeSnippet
@@ -309,7 +310,7 @@ const Onboarding = () => {
   );
 
   return (
-    <div className=" border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
+    <div className="border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
       <PageHeadings
         actions={
           <>

@@ -6,7 +6,10 @@ import {
   markOnboardingRegionChange,
   markOnboardingStatus
 } from 'api';
-import { GRID_MANAGER_NAMES } from 'constants/index';
+import {
+  GRID_MANAGER_NAMES,
+  SCRATCH_RADIO_GROUP_OPTIONS
+} from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
 import { getUserDetails } from 'globalSlice/selector';
@@ -58,27 +61,6 @@ browserstack-cli hst init`,
     scratch: 'scratch',
     existing: 'existing'
   };
-
-  const SCRATCH_RADIO_GROUP_OPTIONS = [
-    {
-      disabled: false,
-      id: 'radio-1',
-      name: 'Amazon Cloud',
-      configName: 'aws'
-    },
-    {
-      disabled: true,
-      id: 'radio-2',
-      name: 'Google Cloud',
-      configName: 'gcp'
-    },
-    {
-      disabled: true,
-      id: 'radio-3',
-      name: 'Microsoft Azure',
-      configName: 'azure'
-    }
-  ];
 
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
 
