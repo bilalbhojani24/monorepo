@@ -12,7 +12,6 @@ import SelectMenuTrigger from '../SelectMenuTrigger';
 import { SELECT_OPTIONS } from './const/selectMenuConstants';
 import SelectMenu from './index';
 
-const assignedTo = 'Assigned to';
 const defaultConfig = {
   title: 'Application/Components/SelectMenu',
   component: SelectMenu,
@@ -34,7 +33,7 @@ const defaultConfig = {
       option: { type: null },
       defaultValue: (
         <>
-          <SelectMenuLabel>{assignedTo}</SelectMenuLabel>
+          <SelectMenuLabel>Assigned to</SelectMenuLabel>
           <SelectMenuTrigger placeholder="Select.." />
           <SelectMenuOptionGroup>
             {SELECT_OPTIONS.map((item) => (
@@ -86,6 +85,7 @@ const selectMenuOptions = [
   'Tom Cook',
   'Tanya Fox'
 ];
+const assignedTo = 'Assigned to';
 const selectMenuOptionsSelector = '[role="option"]';
 
 const Primary = Template.bind({});
@@ -176,7 +176,7 @@ export const ControlledSelectMenu = () => {
   const ref = useRef();
   return (
     <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
-      <SelectMenuLabel>{assignedTo}</SelectMenuLabel>
+      <SelectMenuLabel>Assigned to</SelectMenuLabel>
       <SelectMenuTrigger placeholder="Select.." ref={ref} />
       <SelectMenuOptionGroup>
         {SELECT_OPTIONS.map((item) => (
@@ -210,7 +210,7 @@ export const CustomSelectMenu = () => {
   ];
   return (
     <SelectMenu isMulti>
-      <SelectMenuLabel>{assignedTo}</SelectMenuLabel>
+      <SelectMenuLabel>Assigned to</SelectMenuLabel>
       <SelectMenuTrigger placeholder="Select.." />
       <SelectMenuOptionGroup>
         {options.map((item) => (
