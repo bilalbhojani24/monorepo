@@ -49,7 +49,7 @@ const SharedReportPopover = () => {
         </div>
 
         <div className="text-base-600 text-sm font-normal leading-5">
-          The report can be accessed by anyone with the link
+          Note : It is a public URL accessible to anyone with the link.
         </div>
       </div>
     </div>
