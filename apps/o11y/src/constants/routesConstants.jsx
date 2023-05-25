@@ -38,6 +38,10 @@ const NotificationsSettings = React.lazy(() =>
   import('features/Settings/containers/NotificationsSettings')
 );
 
+const SmartTags = React.lazy(() =>
+  import('features/Settings/containers/SmartTags')
+);
+
 const SuiteHealth = React.lazy(() => import('features/SuiteHealth'));
 
 export const APP_ROUTES = [
@@ -142,6 +146,11 @@ export const APP_ROUTES = [
             path: ROUTES.settings_notifications,
             isProtected: true,
             component: <NotificationsSettings />
+          },
+          {
+            path: ROUTES.smart_tags,
+            isProtected: true,
+            component: <SmartTags />
           }
         ]
       },
