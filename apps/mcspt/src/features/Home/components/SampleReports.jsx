@@ -16,7 +16,7 @@ const SampleReportsTable = () => {
       </div>
 
       <Table containerWrapperClass="w-full bg-transparent ring-0 shadow-none md:rounded-none border-b border-base-200">
-        <TableBody>
+        <TableBody wrapperClassName="border-0">
           {sampleReports.map((row) => (
             <TableRow key={row.uuid}>
               {sampleReportColumns.map((column) => (
