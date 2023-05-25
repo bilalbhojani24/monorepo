@@ -41,25 +41,27 @@ export default function SnP() {
 
   const onTabChange = useCallback(
     (tabInfo) => {
-      dispatch(hideTestDetailsDrawer());
-      const searchParams = new URLSearchParams(window.location.search);
-      let activeIndex = Object.keys(TABS).findIndex(
-        (item) => item === tabInfo.value
-      );
-      activeIndex = activeIndex === -1 ? 0 : activeIndex;
-      searchParams.set(
-        SNP_PARAMS_MAPPING.snpTab,
-        Object.keys(TABS)[activeIndex]
-      );
-      navigate({ search: searchParams.toString() });
-      dispatch(
-        setActiveTab({
-          idx: activeIndex,
-          value: tabInfo.name
-        })
-      );
+      if (activeTab.value !== tabInfo.name) {
+        dispatch(hideTestDetailsDrawer());
+        const searchParams = new URLSearchParams();
+        let activeIndex = Object.keys(TABS).findIndex(
+          (item) => item === tabInfo.value
+        );
+        activeIndex = activeIndex === -1 ? 0 : activeIndex;
+        searchParams.set(
+          SNP_PARAMS_MAPPING.snpTab,
+          Object.keys(TABS)[activeIndex]
+        );
+        navigate({ search: searchParams.toString() });
+        dispatch(
+          setActiveTab({
+            idx: activeIndex,
+            value: tabInfo.name
+          })
+        );
+      }
     },
-    [dispatch, navigate]
+    [activeTab.value, dispatch, navigate]
   );
   return (
     <>
