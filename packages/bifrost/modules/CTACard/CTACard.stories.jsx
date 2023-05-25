@@ -1,4 +1,6 @@
 import React from 'react';
+import { expect } from '@storybook/jest';
+import { userEvent, within } from '@storybook/testing-library';
 import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
@@ -82,6 +84,17 @@ Template.propTypes = {
 };
 
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(
+    canvas.getByText('Monitor and take action on alerts')
+  ).toBeVisible();
+  const buttons = canvas.queryAllByRole('button');
+  await expect(buttons.length).toBe(3);
+  await userEvent.click(buttons[0]);
+  await userEvent.click(buttons[1]);
+  await userEvent.click(buttons[2]);
+};
 Primary.parameters = {
   controls: {}
 };
