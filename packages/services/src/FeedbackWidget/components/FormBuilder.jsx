@@ -17,7 +17,7 @@ const FormBuilder = () => {
   };
 
   return (
-    <div className="space-y-2">
+    <div>
       {formFields.map((field) => {
         if (field.fieldType === 'textarea')
           return (
@@ -30,6 +30,7 @@ const FormBuilder = () => {
               errorText={formError[field.id]}
               isMandatory={field.isMandatory}
               label={field.label}
+              {...field}
             />
           );
         if (field.fieldType === 'input')
@@ -42,6 +43,7 @@ const FormBuilder = () => {
               placeholder={field.placeholder}
               isMandatory={field.isMandatory}
               label={field.label}
+              {...field}
             />
           );
         return null;

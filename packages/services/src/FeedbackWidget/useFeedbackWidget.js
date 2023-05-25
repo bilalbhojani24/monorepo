@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   emojisConstants,
@@ -10,11 +10,16 @@ import {
 export const useFeedbackWidget = ({
   handleFeedbackClick,
   formFields,
-  flow
+  flow,
+  currentStep
 }) => {
   const [formData, setFormData] = useState({});
   const [formError, setFormError] = useState({});
-  const [feedbacktype, setFeedbacktype] = useState(flow[0]);
+  const [feedbacktype, setFeedbacktype] = useState(flow[currentStep || 0]);
+
+  useEffect(() => {
+    setFeedbacktype(flow[currentStep]);
+  }, [currentStep, flow]);
 
   const finalFeedbackTypeArray = () => {
     if (feedbacktype.type === FEEDBACK_TYPE[0]) return emojisConstants;
@@ -25,10 +30,10 @@ export const useFeedbackWidget = ({
 
   const handleClick = () => {
     const steps = flow.length;
-    const currentStep = flow.findIndex((f) => f.type === feedbacktype.type);
+    const cs = flow.findIndex((f) => f.type === feedbacktype.type);
 
-    if (currentStep >= 0 && currentStep < steps) {
-      setFeedbacktype(flow[currentStep + 1]);
+    if (cs >= 0 && cs < steps) {
+      setFeedbacktype(flow[cs + 1]);
     }
   };
 

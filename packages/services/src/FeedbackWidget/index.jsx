@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import RenderModal from './components/RenderModal';
@@ -13,8 +13,10 @@ const FeedbackWidget = ({
   flow,
   isOpen,
   variation,
-  variationsProps
+  variationsProps,
+  currentStep
 }) => {
+  const [selectedNPS, setSelectedNPS] = useState();
   const {
     formData,
     setFormData,
@@ -29,7 +31,7 @@ const FeedbackWidget = ({
     handleFeedbackClick,
     formFields,
     flow,
-    isOpen
+    currentStep
   });
 
   const renderVariation = () => {
@@ -54,7 +56,10 @@ const FeedbackWidget = ({
         handleClick,
         handleFormSubmit,
         finalFeedbackTypeArray,
-        isOpen
+        isOpen,
+        selectedNPS,
+        setSelectedNPS,
+        variation
       }}
     >
       {renderVariation()}
@@ -63,6 +68,7 @@ const FeedbackWidget = ({
 };
 
 FeedbackWidget.propTypes = {
+  currentStep: PropTypes.number,
   handleFeedbackClick: PropTypes.func,
   formFields: PropTypes.arrayOf(PropTypes.shape({})),
   flow: PropTypes.arrayOf(
@@ -83,6 +89,7 @@ FeedbackWidget.propTypes = {
   }
 };
 FeedbackWidget.defaultProps = {
+  currentStep: 0,
   handleFeedbackClick: null,
   formFields: [],
   isOpen: false,
