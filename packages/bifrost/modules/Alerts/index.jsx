@@ -27,8 +27,7 @@ const link = (
       <a
         href="/"
         className={twClassNames('h-fit', {
-          'ml-1 underline shrink-0':
-            alertLinkPosition === ALERT_LINK_POSITION[0],
+          'ml-1 underline': alertLinkPosition === ALERT_LINK_POSITION[0],
           'text-base-700 hover:text-base-600': modifier === ALERT_MODIFIER[0],
           'text-brand-700 hover:text-brand-600': modifier === ALERT_MODIFIER[1],
           'text-success-700 hover:text-success-600':
