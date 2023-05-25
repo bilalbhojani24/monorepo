@@ -13,9 +13,8 @@ import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 
 import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
-import { clearSnPTests } from '../slices/dataSlice';
+import { clearSnPTests, setActiveTab } from '../slices/dataSlice';
 import { getSnPActiveTab } from '../slices/selectors';
-import { setActiveTab } from '../slices/uiSlice';
 
 import SHTests from './SHTests';
 import SHUniqueErrors from './SHUniqueErrors';
@@ -43,7 +42,7 @@ export default function SnP() {
   const onTabChange = useCallback(
     (tabInfo) => {
       dispatch(hideTestDetailsDrawer());
-      const searchParams = new URLSearchParams();
+      const searchParams = new URLSearchParams(window.location.search);
       let activeIndex = Object.keys(TABS).findIndex(
         (item) => item === tabInfo.value
       );
