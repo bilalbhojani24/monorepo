@@ -13,6 +13,9 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
+import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
+import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 
 import { setGridId } from '../slices/index';
 
@@ -44,13 +47,13 @@ const GridsListing = () => {
                 variant="header"
                 wrapperClassName={tableCellWrapperClassName}
               >
-                Running
+                Running Tests
               </TableCell>
               <TableCell
                 variant="header"
                 wrapperClassName={tableCellWrapperClassName}
               >
-                Queued
+                Queued Tests
               </TableCell>
               <TableCell
                 variant="header"
@@ -62,17 +65,25 @@ const GridsListing = () => {
                 variant="header"
                 wrapperClassName={tableCellWrapperClassName}
               >
-                Clusters
+                Cluster
               </TableCell>
               <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {gridList.map((e) => {
-              const gridName = e.name;
-              const gridStatus = e.status;
-              const statusModifier = e.status === 'Online' ? 'success' : 'base';
-              const gridId = e.gridProfile.id;
+            {gridList.map((gridData) => {
+              const gridName = gridData.name;
+              const gridStatus = gridData.status;
+              const statusModifier =
+                gridData.status === 'Online' ? 'success' : 'base';
+              const gridId = gridData.id;
+
+              const supportedBrowsers = {
+                chrome:
+                  gridData.browserSettings.allowedBrowsers.chrome?.length > 0,
+                firefox:
+                  gridData.browserSettings.allowedBrowsers.firefox?.lenght > 0
+              };
 
               return (
                 <TableRow
@@ -106,7 +117,11 @@ const GridsListing = () => {
                     0/50
                   </TableCell>
                   <TableCell>
-                    <p>Browsers</p>
+                    <div className="flex gap-2">
+                      {supportedBrowsers.chrome && <ChromeIcon />}
+                      <FirefoxIcon width={20} height={20} />
+                      <EdgeIcon width={20} height={20} />
+                    </div>
                   </TableCell>
                   <TableCell>
                     <p>hig-scale-grid-cluster</p>

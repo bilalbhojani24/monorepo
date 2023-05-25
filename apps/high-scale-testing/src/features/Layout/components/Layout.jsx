@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import {
-  Badge,
   Header,
   HomeIcon,
   SidebarItem,
@@ -17,8 +16,7 @@ const Layout = () => {
       label: 'Automation Console',
       activeIcon: HomeIcon,
       inActiveIcon: HomeIcon,
-      path: '/',
-      badge: <Badge text="Active" />
+      path: '/'
     },
     {
       id: 'team',
@@ -34,6 +32,7 @@ const Layout = () => {
         documentation={{
           options: [
             {
+              // eslint-disable-next-line sonarjs/no-duplicate-string
               link: 'https://www.browserstack.com',
               name: 'lorem'
             },
@@ -44,11 +43,7 @@ const Layout = () => {
           ],
           title: 'Documentation'
         }}
-        headerElementArray={[
-          'team',
-          'help',
-          'account'
-        ]}
+        headerElementArray={['team', 'help', 'account']}
         onSignoutClick={(e) => {
           e.preventDefault();
           window.location.href = window.location.origin + ROUTES.SIGN_OUT;
