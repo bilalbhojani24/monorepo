@@ -40,8 +40,9 @@ const defaultConfig = {
     },
     isDismissable: {
       control: { type: 'boolean' },
-      type: { summary: 'BOOLEAN', required: true },
-      description: 'Lorem Ipsum'
+      type: { summary: 'BOOLEAN', required: false },
+      description: 'Lorem Ipsum',
+      defaultValue: true
     },
     wrapperClassName: {
       type: { summary: 'STRING', required: false },
