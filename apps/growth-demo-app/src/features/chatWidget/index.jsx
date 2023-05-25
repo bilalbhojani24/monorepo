@@ -132,7 +132,7 @@ const FreshChatWidget = () => (
         <CodeSnippetToolbar
           leadingNode={
             <div className="flex items-center space-x-2">
-              <div>Feedbackwidget without renderProps</div>
+              Feedbackwidget without renderProps
             </div>
           }
         />
@@ -148,7 +148,7 @@ const FreshChatWidget = () => (
         <CodeSnippetToolbar
           leadingNode={
             <div className="flex items-center space-x-2">
-              <div>Feedbackwidget with renderProps</div>
+              Feedbackwidget Toggle Widget
             </div>
           }
         />
