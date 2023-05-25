@@ -42,29 +42,31 @@ export default function AutomatedTestListing() {
             </div>
 
             <div className="flex gap-4">
-              <ComboBox
-                onChange={(project) => handleSelectChange(project.value)}
-                defaultValue={{
-                  value: 0,
-                  label: 'All projects'
-                }}
-                wrapperClassName="bg-white"
-              >
-                <ComboboxTrigger
-                  onInputValueChange={onComboboxValueChange}
-                  placeholder="Search Project"
-                />
-                <ComboboxOptionGroup>
-                  {comboboxItems
-                    .map((project) => ({
-                      label: project.name,
-                      value: project.normalisedName
-                    }))
-                    .map((item) => (
-                      <ComboboxOptionItem key={item.value} option={item} />
-                    ))}
-                </ComboboxOptionGroup>
-              </ComboBox>
+              <div className="bg-white">
+                <ComboBox
+                  onChange={(project) => handleSelectChange(project.value)}
+                  defaultValue={{
+                    value: 0,
+                    label: 'All projects'
+                  }}
+                  wrapperClassName="bg-white"
+                >
+                  <ComboboxTrigger
+                    onInputValueChange={onComboboxValueChange}
+                    placeholder="Search Project"
+                  />
+                  <ComboboxOptionGroup>
+                    {comboboxItems
+                      .map((project) => ({
+                        label: project.name,
+                        value: project.normalisedName
+                      }))
+                      .map((item) => (
+                        <ComboboxOptionItem key={item.value} option={item} />
+                      ))}
+                  </ComboboxOptionGroup>
+                </ComboBox>
+              </div>
               <InputField
                 id="search-report"
                 addOnBeforeInline={

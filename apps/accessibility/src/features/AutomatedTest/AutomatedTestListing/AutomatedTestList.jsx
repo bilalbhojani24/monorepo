@@ -12,6 +12,7 @@ import {
   Tooltip,
   TooltipBody
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { issueTypes } from 'constants';
 import formatDistance from 'date-fns/formatDistance';
 import PropTypes from 'prop-types';
@@ -26,6 +27,8 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
     }
     return num;
   };
+
+  const severityColumnID = 'severity-breakdown';
 
   const handleRowClick = ({ normalisedName, buildNumber }) => {
     const project = comboboxItems.find((val) => val.id === buildNumber);
@@ -70,7 +73,7 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
       )
     },
     {
-      id: 'severity-breakdown',
+      id: severityColumnID,
       name: 'Severity breakdown',
       wrapperClassName: 'w-72 table-fixed',
       cell: (row) => (
@@ -156,7 +159,13 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
               key={col.key}
               variant="header"
               textTransform="uppercase"
-              wrapperClassName="text-base-500 font-medium text-xs tracking-wider top-[218px]"
+              wrapperClassName={twClassNames(
+                'text-base-500 font-medium text-xs tracking-wider top-[218px]',
+                {
+                  'hidden items-center xl:table-cell':
+                    col.id === severityColumnID
+                }
+              )}
               isSticky
             >
               {col.name}
@@ -172,7 +181,10 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
               return (
                 <TableCell
                   key={column.id}
-                  wrapperClassName={column.wrapperClassName}
+                  wrapperClassName={twClassNames(column.wrapperClassName, {
+                    'hidden items-center xl:table-cell':
+                      column.id === severityColumnID
+                  })}
                 >
                   {column.cell ? <>{column.cell(row)}</> : value}
                 </TableCell>
