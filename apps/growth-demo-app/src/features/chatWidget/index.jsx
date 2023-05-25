@@ -49,11 +49,11 @@ const GRTRows = [
     ]
   },
   {
-    title: 'Render Prop',
+    title: 'Exported Utils',
     value: [
       {
         name: 'toggleChatWidget',
-        description: 'This will toggle the chat widget button (hide/show)',
+        description: 'This will toggle the chat widget button.',
         default: '-',
         isAction: true
       }
@@ -154,10 +154,12 @@ const FreshChatWidget = () => (
         />
       }
       language="react/jsx"
-      code={`import { ChatWidget } from "@browserstack/growth;
-<ChatWidget direction="right">
-  {({ toggleChatWidget }) => ( /**code**// ))}
-</ChatWidget>`}
+      code={`import { ChatWidget, toggleChatWidget } from "@browserstack/growth;
+      
+<ChatWidget direction="right" />
+<button onClick={() => toggleChatWidget(true)}>Show Widget</button>
+<button onClick={() => toggleChatWidget(false)}>Hide Widget</button>
+`}
     />
   </div>
 );
