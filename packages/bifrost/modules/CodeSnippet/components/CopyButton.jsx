@@ -15,7 +15,7 @@ const CopyButton = () => {
       ref={ref}
       onMouseEnter={() => setShowCopy(true)}
       wrapperClassName={twClassNames(
-        'absolute top-2 right-2 rounded-md opacity-0',
+        'z-10 absolute top-2 right-2 rounded-md opacity-0',
         {
           'opacity-100': showCopy
         }

@@ -20,6 +20,10 @@ import ComboboxLabel from './modules/ComboboxLabel/index';
 import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
 import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
+import CTACard from './modules/CTACard';
+import CTACardActions from './modules/CTACardActions';
+import CTACardContent from './modules/CTACardContent';
+import CTACardMedia from './modules/CTACardMedia';
 import DataVisualization from './modules/DataVisualization/index';
 import DateRangepicker from './modules/DateRangepicker';
 import DescriptionList from './modules/DescriptionList/index';
@@ -146,6 +150,10 @@ export {
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
+  CTACard,
+  CTACardActions,
+  CTACardContent,
+  CTACardMedia,
   DataVisualization,
   DateRangepicker,
   DescriptionList,
