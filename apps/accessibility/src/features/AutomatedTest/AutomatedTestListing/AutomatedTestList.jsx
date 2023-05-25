@@ -40,6 +40,7 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
     {
       id: 'build-listing',
       name: 'builds',
+      wrapperClassName: '',
       cell: (row) => (
         <div>
           <p className="text-base-900 mb-1 text-sm">{row.name}</p>
@@ -55,6 +56,7 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
     {
       id: 'summary',
       name: 'Summary',
+      wrapperClassName: 'w-52 table-fixed',
       cell: (row) => (
         <div>
           <p className="text-base-900 mb-1 text-sm">
@@ -70,11 +72,9 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
     {
       id: 'severity-breakdown',
       name: 'Severity breakdown',
+      wrapperClassName: 'w-72 table-fixed',
       cell: (row) => (
-        <div
-          className="hidden items-center xl:flex"
-          style={{ minWidth: '427px' }}
-        >
+        <div className="hidden items-center xl:flex">
           {issueTypes.map(({ modifier, type }) => (
             <Tooltip
               theme="dark"
@@ -112,6 +112,7 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
     {
       id: 'build-health',
       name: 'Build health',
+      wrapperClassName: 'w-40 table-fixed',
       cell: (row) => (
         <div className="flex items-center gap-0.5">
           {row.summary.health.failed ? (
@@ -169,7 +170,10 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
             {columns.map((column) => {
               const value = row[column.key];
               return (
-                <TableCell key={column.id}>
+                <TableCell
+                  key={column.id}
+                  wrapperClassName={column.wrapperClassName}
+                >
                   {column.cell ? <>{column.cell(row)}</> : value}
                 </TableCell>
               );

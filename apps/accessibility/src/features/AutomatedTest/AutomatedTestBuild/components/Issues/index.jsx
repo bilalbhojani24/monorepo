@@ -149,7 +149,7 @@ export default function Issues() {
         <div className="fixed">
           <ActiveFilters
             sectionsDataContext={SectionsDataContext}
-            wrapperClassName="w-[calc(100vw-256px)]"
+            wrapperClassName="w-[calc(100vw-256px)] top-[212px]"
             isShowingHiddenIssueButton={false}
           />
           {isFilterModalVisible && (

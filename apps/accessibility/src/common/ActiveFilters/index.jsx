@@ -126,7 +126,9 @@ export default function ActiveFilters({
               icon={<MdFilterAlt className="text-xl" />}
               colors="white"
               size="small"
-              wrapperClassName="mr-4"
+              wrapperClassName={twClassNames({
+                'mr-4': isShowingHiddenIssueButton
+              })}
               onClick={onFilterButtonClick}
               isIconOnlyButton
             />
