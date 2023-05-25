@@ -1,78 +1,59 @@
 import React from 'react';
+import { CTACard, CTACardContent, CTACardMedia } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import O11yFeatureCard from 'common/O11yFeatureCard';
+import bgIllustration from 'assets/illustrations/bg-illustration.png';
 import PropTypes from 'prop-types';
 
+import PaywallCTACardActions from './PaywallCTACardActions';
+
 function PaywallFeatureCard({
-  callout,
   illustration,
   title,
   desc,
-  actions,
-  cardConfig
+  cardConfig,
+  learnMoreLink
 }) {
   return (
-    <O11yFeatureCard
-      showBg={cardConfig.showBg}
-      wrapperClassName={twClassNames(
-        'shadow pt-10 pl-6 overflow-hidden classic-break-words max-w-4xl',
-        cardConfig?.wrapperClassName
-      )}
-    >
-      <div className="flex items-center justify-between gap-6">
-        <div
-          className={twClassNames(
-            'flex max-w-sm flex-1 shrink-0 flex-col pb-6',
-            {
-              'w-full max-w-none': cardConfig?.hideIllustration
-            }
-          )}
-        >
-          <p className="text-brand-800 text-xs uppercase">{callout}</p>
-          <h3 className="mt-1 text-xl font-semibold leading-7">{title}</h3>
-          <p className="text-base-500 mt-1.5 text-sm leading-5">{desc}</p>
-          {actions && (
-            <div className="mt-6 flex items-center gap-4">{actions}</div>
-          )}
-        </div>
-        {!cardConfig?.hideIllustration && (
-          <div
+    <div className="border-base-200 relative rounded-md border pl-6 pt-10 shadow">
+      <img
+        src={bgIllustration}
+        alt=""
+        className="absolute left-0 top-0 h-full w-full"
+      />
+      <CTACard isDismissable={false} wrapperClassName="shadow-none">
+        <CTACardContent header={title} description={desc}>
+          <PaywallCTACardActions
+            showTextOnSubmit
+            learnMoreLink={learnMoreLink}
+          />
+        </CTACardContent>
+        <CTACardMedia>
+          <img
+            src={illustration}
+            alt="feature illustration"
             className={twClassNames(
-              'flex flex-1 justify-end',
-              cardConfig?.illustrationWrapperClass
+              'self-end',
+              cardConfig.illustrationClassName
             )}
-          >
-            <img
-              src={illustration}
-              alt="feature illustration"
-              className={twClassNames(
-                'self-end',
-                cardConfig.illustrationClassName
-              )}
-            />
-          </div>
-        )}
-      </div>
-    </O11yFeatureCard>
+          />
+        </CTACardMedia>
+      </CTACard>
+    </div>
   );
 }
 
 PaywallFeatureCard.propTypes = {
-  callout: PropTypes.string,
   title: PropTypes.string,
   desc: PropTypes.string,
   illustration: PropTypes.node.isRequired,
-  actions: PropTypes.node,
-  wrapperClassName: PropTypes.string,
-  cardConfig: PropTypes.objectOf(PropTypes.any)
+  cardConfig: PropTypes.objectOf(PropTypes.any),
+  learnMoreLink: PropTypes.string
 };
 
 PaywallFeatureCard.defaultProps = {
-  callout: '',
   title: '',
   desc: '',
-  wrapperClassName: '',
-  actions: null,
-  cardConfig: {}
+  cardConfig: {},
+  learnMoreLink: ''
 };
 export default PaywallFeatureCard;
