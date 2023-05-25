@@ -1,9 +1,8 @@
 import React from 'react';
 import { Button, PageHeadings, Tabs } from '@browserstack/bifrost';
 
-import CreateGridCLIModal from '../CreateGridCLIModal';
-
 import ClustersListing from './ClustersListing';
+import CreateGridCLIModal from './CreateGridCLIModal';
 import GridsListing from './GridsListing';
 import useGridConsole from './useGridConsole';
 

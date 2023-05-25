@@ -309,7 +309,7 @@ const Onboarding = () => {
   );
 
   return (
-    <div className=" border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
+    <div className="border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
       <PageHeadings
         actions={
           <>

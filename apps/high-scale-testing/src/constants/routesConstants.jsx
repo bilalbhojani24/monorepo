@@ -1,4 +1,5 @@
 import React from 'react';
+import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import GridConsole from 'features/GridConsole/components/Dashboard';
 import { Layout } from 'features/Layout';
 import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
@@ -28,6 +29,11 @@ export const APP_ROUTES = [
         path: ROUTES.GRID_CONSOLE,
         isProtected: true,
         component: <GridConsole />
+      },
+      {
+        path: ROUTES.CREATE_GRID,
+        isProtected: true,
+        component: <CreateGrid />
       }
     ]
   }
