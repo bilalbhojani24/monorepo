@@ -56,11 +56,7 @@ const TextArea = ({
     )}
 
     {description && (
-      <p
-        className={twClassNames('text-base-500 mt-2 text-sm', {
-          'text-danger-600': errorText
-        })}
-      >
+      <p className={twClassNames('text-base-500 mt-2 text-sm')}>
         {description}
       </p>
     )}
