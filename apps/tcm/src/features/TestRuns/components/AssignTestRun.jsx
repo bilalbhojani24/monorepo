@@ -63,7 +63,6 @@ const AssignTestRun = () => {
         {selectedAssignee?.label && (
           <TMAlerts
             modifier="primary"
-            linkText={null}
             description={`'${selectedTestRun?.name}' will be assigned to ${selectedAssignee?.label}`}
           />
         )}
