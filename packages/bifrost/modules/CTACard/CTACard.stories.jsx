@@ -65,7 +65,7 @@ const Template = ({ header, description, ...props }) => (
           console.log('Secondary action clicked');
         }}
         primaryBtnProps={{
-          colors: 'success'
+          colors: 'brand'
         }}
         secondaryBtnProps={{}}
       />
