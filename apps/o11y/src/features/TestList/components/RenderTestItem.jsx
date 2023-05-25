@@ -1,12 +1,24 @@
 import React, { useContext } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdOutlineAirplay, MdOutlineTimer } from '@browserstack/bifrost';
+import { useNavigate } from 'react-router-dom';
+import {
+  MdOutlineAirplay,
+  MdOutlineTimer,
+  TooltipBody,
+  TooltipHeader
+} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
+import {
+  O11yBadge,
+  O11yButton,
+  O11yHyperlink,
+  O11yTooltip
+} from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
-import { TEST_STATUS } from 'constants/common';
+import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { ROUTES } from 'constants/routes';
 import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
   HIERARCHY_SPACING,
@@ -19,7 +31,7 @@ import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getAppliedFilters } from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import PropTypes from 'prop-types';
-import { transformUnsupportedTags } from 'utils/common';
+import { getDocUrl, transformUnsupportedTags } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
 
 import TestItemJiraTag from './TestItemJiraTag';
@@ -33,6 +45,7 @@ const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;
   const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { o11yTestListingInteraction } = useContext(TestListContext);
   const addFilterOnClick = (filterCategory, filterValue) => {
     if (filterCategory === 'tags' && !tags.includes(filterValue)) {
@@ -61,9 +74,87 @@ const RenderTestItem = ({ item: data }) => {
     dispatch(showTestDetailsDrawer(details.id));
   };
 
+  const handleClickConfigureSmartTags = () => {
+    navigate(ROUTES.smart_tags);
+  };
+
+  const renderTag = (
+    text,
+    modifier,
+    tooltipHeader = 'Tooltip Header',
+    description = 'testing',
+    onClick
+  ) => {
+    if (!text) return null;
+    let filterCategory = '';
+    let filterValue = '';
+    switch (text) {
+      case 'Flaky':
+        filterCategory = 'flaky';
+        filterValue = true;
+        break;
+      case 'Always Failing':
+        filterCategory = 'history';
+        filterValue = 'isAlwaysFailing';
+        break;
+      case 'New Failures':
+        filterCategory = 'history';
+        filterValue = 'isNewFailure';
+        break;
+      case 'Performance Anomaly':
+        filterCategory = 'history';
+        filterValue = 'isPerformanceAnomaly';
+        break;
+      default:
+    }
+    return (
+      <PropagationBlocker className="ml-1 inline">
+        <O11yTooltip
+          placementSide="top"
+          placementAlign="center"
+          wrapperClassName="px-1"
+          theme="dark"
+          size="sm"
+          onClick={() => onClick(filterCategory, filterValue)}
+          content={
+            <>
+              <TooltipHeader>{tooltipHeader}</TooltipHeader>
+              <TooltipBody>
+                <div className="w-60 break-normal">
+                  {description}
+                  <div className="mt-3 flex gap-3">
+                    <O11yButton onClick={handleClickConfigureSmartTags}>
+                      Configure
+                    </O11yButton>
+                    <O11yButton
+                      wrapperClassName="bg-base-600 hover:bg-base-700 rounded py-1.5 px-3 text-white"
+                      onClick={() =>
+                        window.open(
+                          `${getDocUrl({
+                            path: DOC_KEY_MAPPING.smart_tags
+                          })}#${text.toLowerCase()}`,
+                          '_blank',
+                          'noopener,noreferrer'
+                        )
+                      }
+                    >
+                      Learn More
+                    </O11yButton>
+                  </div>
+                </div>
+              </TooltipBody>
+            </>
+          }
+        >
+          <O11yBadge text={text} modifier={modifier} />
+        </O11yTooltip>
+      </PropagationBlocker>
+    );
+  };
+
   return (
     <div
-      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-1 pr-6"
+      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pr-6 pt-1"
       style={{
         paddingLeft:
           HIERARCHY_SPACING_START +
@@ -103,50 +194,55 @@ const RenderTestItem = ({ item: data }) => {
                       />
                     </PropagationBlocker>
                   ))}
-                  {details?.isFlaky && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Flaky"
-                        modifier="warn"
-                        onClick={() => {
-                          addFilterOnClick('flaky', 'true');
-                        }}
-                      />
-                    </PropagationBlocker>
-                  )}
-                  {details?.isAlwaysFailing && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Always Failing"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick('history', 'isAlwaysFailing');
-                        }}
-                      />
-                    </PropagationBlocker>
-                  )}
-                  {details?.isNewFailure && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="New Failures"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick('history', 'isNewFailure');
-                        }}
-                      />
-                    </PropagationBlocker>
-                  )}
-                  {details?.isPerformanceAnomaly && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Performance Anomaly"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick('history', 'isPerformanceAnomaly');
-                        }}
-                      />
-                    </PropagationBlocker>
-                  )}
+                  {details?.isFlaky &&
+                    renderTag(
+                      'Flaky',
+                      'warn',
+                      // details.flakyReason.status === 2
+                      //   ? `Flake detected in re-run within ${1}`
+                      //   :
+                      'Flake detected',
+                      details.flakyReason.status === 2
+                        ? `Test passing on a retry attempt in the same run 
+                      across last ${details.flakyReason.x} consecutive runs`
+                        : `Test status flipping (pass to fail or vice-versa) 
+                        more than ${details.flakyReason.x} times out of ${details.flakyReason.y} consecutive runs`,
+                      addFilterOnClick
+                    )}
+                  {details?.isAlwaysFailing &&
+                    renderTag(
+                      'Always Failing',
+                      'error',
+                      'Always failing test',
+                      `The test has been failing with the ${
+                        details.alwaysFailingReason.status === 0
+                          ? 'same error'
+                          : 'any error'
+                      } for last ${
+                        details.alwaysFailingReason.x
+                      } consecutive runs`,
+                      addFilterOnClick
+                    )}
+                  {details?.isNewFailure &&
+                    renderTag(
+                      'New Failures',
+                      'error',
+                      'New failure detected',
+                      `This test failed for the first time across last ${
+                        details.newlyFailingReason.x
+                      } consecutive runs with ${
+                        details.newlyFailingReason.status === 0 ? 'new' : 'any'
+                      } error`,
+                      addFilterOnClick
+                    )}
+                  {details?.isPerformanceAnomaly &&
+                    renderTag(
+                      'Performance Anomaly',
+                      'error',
+                      'Performance anomaly detected',
+                      `Duration is more than ${details.performanceAnomalyReason.x}th percentile across last ${details.performanceAnomalyReason.y} consecutive runs.`,
+                      addFilterOnClick
+                    )}
                 </div>
               </div>
             </div>

@@ -65,7 +65,7 @@ function TestlistTimeline({ details }) {
             triggerWrapperClassName="inline-flex items-center"
             content={
               // eslint-disable-next-line tailwindcss/no-arbitrary-value
-              <div className="min-w-[250px] px-4">
+              <div className="border-base-200 w-[350px] border">
                 <TestListHistoryTooltip {...singleHistoryItem} />
               </div>
             }
