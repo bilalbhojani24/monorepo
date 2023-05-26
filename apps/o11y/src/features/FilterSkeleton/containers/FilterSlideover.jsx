@@ -41,6 +41,7 @@ const FilterSlideover = ({ children, show, onClose }) => {
       backgroundOverlay={false}
       size="sm"
       closeButtonOutside={false}
+      onEscPress={handleClose}
     >
       <O11ySlideoverHeader
         heading="Filters"

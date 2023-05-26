@@ -29,7 +29,6 @@ import {
   setErrorsSortBy
 } from '../slices/dataSlice';
 import {
-  getAllSnPTestFilters,
   getSHDataErrors,
   getSnpErrorsLoading,
   getSnpErrorsPaging,
@@ -65,7 +64,6 @@ const SnPUniqueErrors = () => {
 
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const dispatch = useDispatch();
-  const filters = useSelector(getAllSnPTestFilters);
   const errors = useSelector(getSHDataErrors);
   const isLoadingErrors = useSelector(getSnpErrorsLoading);
   const pagingParams = useSelector(getSnpErrorsPaging);
@@ -94,7 +92,6 @@ const SnPUniqueErrors = () => {
           normalisedName: activeProject?.normalisedName,
           pagingParams,
           sortOptions: sortBy,
-          filters,
           shouldUpdate: true
         })
       ).finally(() => {
@@ -122,8 +119,7 @@ const SnPUniqueErrors = () => {
       dispatch(
         getSnPErrorsData({
           normalisedName: activeProject?.normalisedName,
-          sortOptions: sortBy,
-          filters
+          sortOptions: sortBy
         })
       )
         .unwrap()
@@ -136,7 +132,6 @@ const SnPUniqueErrors = () => {
     };
   }, [
     dispatch,
-    filters,
     activeProject?.normalisedName,
     sortBy,
     isFiltersLoading,
