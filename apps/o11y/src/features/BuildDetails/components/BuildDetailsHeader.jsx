@@ -1,6 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 /* eslint-disable tailwindcss/enforces-negative-arbitrary-values */
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -30,9 +30,8 @@ import VCIcon from 'common/VCIcon';
 import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
-import { AppContext } from 'features/Layout/context/AppContext';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
-import { getActiveProject } from 'globalSlice/selectors';
+import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
@@ -62,7 +61,7 @@ function BuildDetailsHeader({
   isNewItemLoading,
   applyTestListFilter
 }) {
-  const { headerSize } = useContext(AppContext);
+  const headerSize = useSelector(getHeaderSize);
   const getActiveTab = useSelector(getBuildDetailsActiveTab);
   const navigate = useNavigate();
   const buildMeta = useSelector(getBuildMeta);
@@ -219,7 +218,7 @@ function BuildDetailsHeader({
     <div
       className="border-base-200 bg-base-50 sticky top-16 z-10 border-b px-6 pt-6"
       style={{
-        top: `${headerSize.blockSize}px`
+        top: `${headerSize}px`
       }}
     >
       <div className="flex justify-between">
