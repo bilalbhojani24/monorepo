@@ -59,6 +59,9 @@ export default function useSideNav() {
   const isProgressDismissed = useSelector(
     (state) => state.importProgress.isProgressDismissed
   );
+  const importStatus = useSelector(
+    (state) => state.importProgress.importStatus
+  );
 
   const fetchAllProjects = () => {
     getProjectsMinifiedAPI().then((res) => {
@@ -243,7 +246,10 @@ export default function useSideNav() {
       );
     };
 
-    if (importProgress === 100 && isProgressDismissed)
+    if (
+      (importProgress === 100 && isProgressDismissed) ||
+      importStatus === null
+    )
       setSecondaryNavs(secondaryNavs);
     else if (
       location.pathname !== AppRoute.ROOT &&
