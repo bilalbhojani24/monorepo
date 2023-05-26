@@ -58,6 +58,12 @@ const defaultConfig = {
       control: { type: 'text' },
       defaultValue: ''
     },
+    headerWrapperClassName: {
+      type: { summary: 'STRING', required: false },
+      description: 'Header component wrapper class name',
+      control: { type: 'text' },
+      defaultValue: ''
+    },
     trailingHeadNode: {
       type: { summary: 'NODE', required: false },
       description: 'ABCDEFGHIJK',
@@ -93,6 +99,13 @@ Primary.play = async ({ canvasElement }) => {
     await userEvent.click(canvas.getByText(tab.name));
   });
 };
+
+export const withHeaderClassName = (args) => (
+  <SectionHeadings
+    {...args}
+    headerWrapperClassName="flex flex-wrap items-center justify-between sm:flex-nowrap"
+  />
+);
 
 Primary.parameters = {
   controls: {}
