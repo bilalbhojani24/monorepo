@@ -131,11 +131,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             <div className="w-3/6">
               <DetailsSnippet
                 title="Priority"
-                // value={testCaseDetails?.priority || '--'}
-                value={getSystemOrCustomValue(
-                  testCaseDetails?.priority,
-                  testCaseDetails?.priority_imported
-                )}
+                value={testCaseDetails?.priority?.name || '--'}
               />
             </div>
             <div className="w-full">

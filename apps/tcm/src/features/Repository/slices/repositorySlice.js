@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  priorityOptions,
   statusOptions,
   templateOptions,
   testCaseTypesOptions
@@ -18,7 +17,7 @@ const initialState = {
     description: '',
     estimate: '',
     case_type: testCaseTypesOptions[7].value,
-    priority: priorityOptions[2].value,
+    priority: null,
     owner: null,
     status: statusOptions[0].value,
     preconditions: '',
@@ -100,7 +99,10 @@ const initialState = {
     projectId: null,
     fields: []
   },
-  searchEmptyText: ''
+  searchEmptyText: '',
+  PRIORITY_OPTIONS: [],
+  priorityIntNameAndValueMapTC: {},
+  priorityNameAndValueMapTC: {}
 };
 
 export const repositorySlice = createSlice({
@@ -109,6 +111,20 @@ export const repositorySlice = createSlice({
   reducers: {
     setAllFolders: (state, { payload }) => {
       state.allFolders = [...payload];
+    },
+    setDefaultFormFieldsData: (state, { payload }) => {
+      state.PRIORITY_OPTIONS = payload?.priority.map((item) => ({
+        label: item?.name,
+        value: item.value
+      }));
+      state.priorityIntNameAndValueMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.internal_name }),
+        {}
+      );
+      state.priorityNameAndValueMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.name }),
+        {}
+      );
     },
     setCustomFieldsData: (state, { payload }) => {
       state.customFieldData = payload;
@@ -323,6 +339,7 @@ export const {
   updateLoader,
   setAddTestCaseFromSearch,
   updateCtaLoading,
+  setDefaultFormFieldsData,
   setCustomFieldsData,
   updateTestCaseFormCFData
 } = repositorySlice.actions;

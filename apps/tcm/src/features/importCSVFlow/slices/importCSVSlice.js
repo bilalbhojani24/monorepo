@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
+  DEFAULT_MODAL_DROPDOWN_OPTIONS,
   FAILED_IMPORT_MODAL_DATA,
   FIRST_SCREEN,
   ONGOING_IMPORT_MODAL_DATA,
@@ -58,7 +59,9 @@ const initialState = {
   showMappings: true,
   currentFieldValueMapping: {},
   selectedFolderLocation: '/',
-  showChangeFolderModal: false
+  showChangeFolderModal: false,
+  priorityIntNameAndValueMapCSV: {},
+  priorityNameAndValueMapCSV: {}
 };
 
 const importCSVSlice = createSlice({
@@ -159,6 +162,22 @@ const importCSVSlice = createSlice({
         value: separator
       }));
       state.selectedFolderLocation = payload.folder;
+      const priorityDropdownOptions = payload?.priority.map((item) => ({
+        label: item.name,
+        value: item.value
+      }));
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.PRIORITY = [
+        ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
+        ...priorityDropdownOptions
+      ];
+      state.priorityIntNameAndValueMapCSV = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.internal_name }),
+        {}
+      );
+      state.priorityNameAndValueMapCSV = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.name }),
+        {}
+      );
     },
     uploadFilePending: (state) => {
       state.uploadFileProceedLoading = true;
