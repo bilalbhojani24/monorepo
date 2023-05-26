@@ -134,6 +134,12 @@ export default function useAddEditTestCase(prop) {
   const PRIORITY_OPTIONS = useSelector(
     (state) => state.repository.PRIORITY_OPTIONS
   );
+  const STATUS_OPTIONS = useSelector(
+    (state) => state.repository.STATUS_OPTIONS
+  );
+  const TEST_CASE_TYPE_OPTIONS = useSelector(
+    (state) => state.repository.TEST_CASE_TYPE_OPTIONS
+  );
 
   const hideTestCaseAddEditPage = (e, isForced, action) => {
     if (action === 'Cancel')
@@ -720,6 +726,8 @@ export default function useAddEditTestCase(prop) {
     isTestCaseEditing,
     showMoreFields,
     PRIORITY_OPTIONS,
+    STATUS_OPTIONS,
+    TEST_CASE_TYPE_OPTIONS,
     handleMenuOpen,
     setShowMoreFieldHelper,
     showAddTagsModal,

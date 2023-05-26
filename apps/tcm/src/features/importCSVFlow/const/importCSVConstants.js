@@ -53,40 +53,6 @@ export const DEFAULT_MODAL_DROPDOWN_OPTIONS = [
   { label: IGNORE_VALUE_LABEL, value: IGNORE_VALUE_VALUE }
 ];
 
-export const VALUE_MAPPING_OPTIONS = {
-  // PRIORITY: [
-  //   ...DEFAULT_MODAL_DROPDOWN_OPTIONS
-  //   // { label: 'Critical', value: 'critical' },
-  //   // { label: 'High', value: 'high' },
-  //   // { label: 'Medium', value: 'medium' },
-  //   // { label: 'Low', value: 'low' }
-  // ],
-  STATE: [
-    ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
-    { label: 'Active', value: 'active_status' },
-    { label: 'Draft', value: 'draft_status' },
-    { label: 'In Review', value: 'in_review_status' },
-    { label: 'Rejected', value: 'rejected_status' },
-    { label: 'Outdated', value: 'outdated_status' }
-  ],
-  TESTCASETYPE: [
-    ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
-    { label: 'Acceptance', value: 'acceptance' },
-    { label: 'Accessibility', value: 'accessibility' },
-    { label: 'Automated', value: 'automated' },
-    { label: 'Compatibility', value: 'compatibility' },
-    { label: 'Destructive', value: 'destructive' },
-    { label: 'Functional', value: 'functional' },
-    { label: 'Other', value: 'other' },
-    { label: 'Performance', value: 'performance' },
-    { label: 'Regression', value: 'regression' },
-    { label: 'Security', value: 'security' },
-    { label: 'Smoke & Sanity', value: 'smoke_sanity' },
-    { label: 'Usability', value: 'usability' },
-    { label: 'Manual', value: 'manual' }
-  ]
-};
-
 export const FIRST_SCREEN = 'uploadFile';
 export const SECOND_SCREEN = 'mapFields';
 export const THIRD_SCREEN = 'previewAndConfirmImport';

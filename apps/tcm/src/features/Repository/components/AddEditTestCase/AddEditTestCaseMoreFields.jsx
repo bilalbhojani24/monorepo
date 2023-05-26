@@ -8,11 +8,7 @@ import {
   TMSelectMenu
 } from 'common/bifrostProxy';
 
-import {
-  statusOptions,
-  testCaseTypesOptions
-} from '../../const/addTestCaseConst';
-
+// import { testCaseTypesOptions } from '../../const/addTestCaseConst';
 import AddEditTestCaseCustomField from './AddEditTestCaseCustomField';
 import useAddEditTestCase from './useAddEditTestCase';
 
@@ -26,6 +22,8 @@ const AddEditTestCaseMoreFields = () => {
     tagsArray,
     issuesArray,
     PRIORITY_OPTIONS,
+    STATUS_OPTIONS,
+    TEST_CASE_TYPE_OPTIONS,
     showAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
@@ -42,12 +40,12 @@ const AddEditTestCaseMoreFields = () => {
             checkPosition="right"
             label="Type of Test Case"
             placeholder="Select type of test case"
-            options={testCaseTypesOptions}
+            options={TEST_CASE_TYPE_OPTIONS}
             onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
             value={
               testCaseFormData.case_type &&
-              testCaseTypesOptions.find(
-                (item) => item.value === testCaseFormData.case_type
+              TEST_CASE_TYPE_OPTIONS.find(
+                (item) => item.value === testCaseFormData.case_type?.id
               )
             }
           />
@@ -74,14 +72,14 @@ const AddEditTestCaseMoreFields = () => {
           <TMSelectMenu
             value={
               testCaseFormData.status &&
-              statusOptions.find(
-                (item) => item.value === testCaseFormData.status
+              STATUS_OPTIONS.find(
+                (item) => item.value === testCaseFormData?.status?.id
               )
             }
             checkPosition="right"
             label="State"
             placeholder="Select state"
-            options={statusOptions}
+            options={STATUS_OPTIONS}
             onChange={(e) => handleTestCaseFieldChange('status', e.value)}
           />
         </div>

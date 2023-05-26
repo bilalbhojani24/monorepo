@@ -1,10 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import {
-  statusOptions,
-  templateOptions,
-  testCaseTypesOptions
-} from '../const/addTestCaseConst';
+import { templateOptions } from '../const/addTestCaseConst';
 
 const initialState = {
   allFolders: [],
@@ -16,10 +12,10 @@ const initialState = {
     name: '',
     description: '',
     estimate: '',
-    case_type: testCaseTypesOptions[7].value,
+    case_type: null,
     priority: null,
     owner: null,
-    status: statusOptions[0].value,
+    status: null,
     preconditions: '',
     template: templateOptions[0].value,
     steps: [''],
@@ -101,6 +97,8 @@ const initialState = {
   },
   searchEmptyText: '',
   PRIORITY_OPTIONS: [],
+  STATUS_OPTIONS: [],
+  TEST_CASE_TYPE_OPTIONS: [],
   priorityIntNameAndValueMapTC: {},
   priorityNameAndValueMapTC: {}
 };
@@ -115,7 +113,15 @@ export const repositorySlice = createSlice({
     setDefaultFormFieldsData: (state, { payload }) => {
       state.PRIORITY_OPTIONS = payload?.priority.map((item) => ({
         label: item?.name,
-        value: item.value
+        value: item?.value
+      }));
+      state.STATUS_OPTIONS = payload?.status.map((item) => ({
+        label: item?.name,
+        value: item?.value
+      }));
+      state.TEST_CASE_TYPE_OPTIONS = payload?.case_type.map((item) => ({
+        label: item?.name,
+        value: item?.value
       }));
       state.priorityIntNameAndValueMapTC = payload?.priority.reduce(
         (obj, item) => ({ ...obj, [item.value]: item.internal_name }),

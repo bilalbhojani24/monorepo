@@ -16,10 +16,7 @@ import {
   // TMTooltipHeader
 } from 'common/bifrostProxy';
 
-import {
-  statusOptions,
-  testCaseTypesOptions
-} from '../../const/addTestCaseConst';
+// import { testCaseTypesOptions } from '../../const/addTestCaseConst';
 import UnsavedChanges from '../UnsavedChanges';
 import useTestCases from '../useTestCases';
 
@@ -38,6 +35,8 @@ const BulkEditTestCase = () => {
     issuesArray,
     projectId,
     PRIORITY_OPTIONS,
+    STATUS_OPTIONS,
+    TEST_CASE_TYPE_OPTIONS,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
@@ -89,7 +88,7 @@ const BulkEditTestCase = () => {
             <TMSelectMenu
               checkPosition="right"
               label="Type of Test Case"
-              options={testCaseTypesOptions}
+              options={TEST_CASE_TYPE_OPTIONS}
               placeholder="Select from options"
               defaultValue={null}
               onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
@@ -108,12 +107,12 @@ const BulkEditTestCase = () => {
               label="Priority"
               placeholder="Select from options"
               options={PRIORITY_OPTIONS}
-              value={
-                testCaseBulkFormData.priority &&
-                PRIORITY_OPTIONS.find(
-                  (item) => item.value === testCaseBulkFormData.priority
-                )
-              }
+              // value={
+              //   testCaseBulkFormData.priority &&
+              //   PRIORITY_OPTIONS.find(
+              //     (item) => item.value === testCaseBulkFormData?.priority
+              //   )
+              // }
               onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
             />
           </div>
@@ -123,14 +122,14 @@ const BulkEditTestCase = () => {
             <TMSelectMenu
               // value={
               //   testCaseBulkFormData.status &&
-              //   statusOptions.find(
-              //     (item) => item.value === testCaseBulkFormData.status
+              //   STATUS_OPTIONS.find(
+              //     (item) => item.value === testCaseBulkFormData?.status?.id
               //   )
               // }
               checkPosition="right"
               label="State"
               placeholder="Select from options"
-              options={statusOptions}
+              options={STATUS_OPTIONS}
               onChange={(e) => handleTestCaseFieldChange('status', e.value)}
             />
           </div>
