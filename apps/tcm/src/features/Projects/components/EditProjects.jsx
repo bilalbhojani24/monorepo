@@ -35,12 +35,16 @@ const EditProjects = ({ show }) => {
         description: selectedProject.description,
         state: selectedProject.state
       });
+    }
+  }, [selectedProject, setFormData]);
 
+  useEffect(() => {
+    if (show) {
       setTimeout(() => {
         modalFocusRef?.current?.focus();
-      }, 100);
+      }, 50);
     }
-  }, [modalFocusRef, selectedProject, setFormData]);
+  }, [show, modalFocusRef]);
 
   return (
     <TMModal
