@@ -48,7 +48,8 @@ const TestCasesTable = () => {
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[7.2%] max-w-[50px]',
+      class: 'w-[10%]',
+      bodyClass: '[&>div]:w-[88px]',
       cell: (rowData) => (
         <div
           role="button"
@@ -74,7 +75,8 @@ const TestCasesTable = () => {
     {
       name: 'TITLE',
       key: 'name',
-      class: 'w-[75%]',
+      class: 'w-[65%]',
+      bodyClass: '[&>div]:w-[calc(100vw-950px)]',
       cell: (rowData) => (
         <div
           role="button"
@@ -94,14 +96,14 @@ const TestCasesTable = () => {
             hidetooltipTriggerIcon
             isFullWidthTooltip
             headerTooltipProps={{
-              delay: 500
+              delay: 500,
+              wrapperClassName: 'break-all'
             }}
           >
             {rowData.name}
           </TMTruncateText>
         </div>
-      ),
-      maxWidth: 'max-w-[40%]'
+      )
     },
     {
       name: 'ASSIGNED TO',
@@ -124,7 +126,8 @@ const TestCasesTable = () => {
     },
     {
       name: 'STATUS',
-      class: 'w-[13%]',
+      class: 'w-[13%] text-center',
+      bodyClass: 'pl-0 [&>div]:w-[120px]',
       key: 'status',
       cell: (rowData) => {
         const value =
@@ -175,16 +178,15 @@ const TestCasesTable = () => {
             onChange={(e) => onResultChange(e, rowData, true, true)}
           />
         );
-      },
+      }
       // <span className="capitalize">{rowData.status}</span>,
-      maxWidth: 'max-w-[80px]'
     }
   ];
 
   return (
     <div className="flex-col overflow-y-auto border-none">
       <TMTable
-        tableWrapperClass="table-fixed w-full"
+        tableWrapperClass="w-full"
         containerWrapperClass={classNames(
           // 'max-w-[calc(100vw-40rem)]'
           'overflow-y-auto md:rounded-none'
@@ -193,7 +195,7 @@ const TestCasesTable = () => {
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
             <td
-              className="border-base-50 text-base-500 w-[3%]  p-2"
+              className="border-base-50 text-base-500 w-[1%] p-2 [&>div]:min-w-[20px]"
               textTransform="uppercase"
             >
               {/* all checkbox */}
@@ -215,8 +217,6 @@ const TestCasesTable = () => {
                   `test-base-500 first:pr-3 last:pl-3 px-2 py-2`,
                   col?.maxWidth,
                   {
-                    'flex-1 w-9/12': index === 1,
-                    'min-w-[50%]': index === 2,
                     'sticky bg-base-50': col.isSticky,
                     'right-0 ': col.isSticky && col.stickyPosition === 'right',
                     'left-10 ': col.isSticky && col.stickyPosition === 'left'
@@ -291,9 +291,9 @@ const TestCasesTable = () => {
                       <TMTableCell
                         key={column.key}
                         wrapperClassName={classNames(
-                          column?.class,
+                          // column?.class,
                           'first:pr-3 last:pl-3 px-2 py-1',
-                          column?.maxWidth,
+                          column?.bodyClass,
                           {
                             'sticky bg-white': column.isSticky,
                             'right-0 ':
