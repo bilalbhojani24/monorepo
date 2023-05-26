@@ -7,6 +7,8 @@ import {
   O11ySlideoverFooter,
   O11ySlideoverHeader
 } from 'common/bifrostProxy';
+import { FLOATING_COMPONENTS_IDS } from 'constants/common';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 import PropTypes from 'prop-types';
 
 import {
@@ -35,12 +37,15 @@ const FilterSlideover = ({ children, show, onClose }) => {
     onClose();
   };
 
+  useFloatingComponentTracking(show, FLOATING_COMPONENTS_IDS.O11Y_FILTERS);
+
   return (
     <O11ySlideover
       show={show}
       backgroundOverlay={false}
       size="sm"
       closeButtonOutside={false}
+      onEscPress={handleClose}
     >
       <O11ySlideoverHeader
         heading="Filters"
