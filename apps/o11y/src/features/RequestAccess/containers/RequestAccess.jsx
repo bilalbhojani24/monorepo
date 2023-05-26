@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {
@@ -13,6 +13,7 @@ import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import O11yFeatureCard from 'common/O11yFeatureCard';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
+import { AppContext } from 'features/Layout/context/AppContext';
 import { setHasAcceptedTnC } from 'globalSlice/index';
 import { getInitData } from 'globalSlice/selectors';
 import { getDocUrl, logOllyEvent } from 'utils/common';
@@ -22,6 +23,7 @@ function RequestAccess() {
   const initData = useSelector(getInitData);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const { headerSize } = useContext(AppContext);
 
   useEffect(() => {
     logOllyEvent({ event: 'O11yGetAccessPageVisited' });
@@ -49,8 +51,12 @@ function RequestAccess() {
   };
 
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="bg-base-50 flex h-[calc(100vh-8rem)] w-screen flex-col items-center justify-center overflow-auto p-14">
+    <div
+      className="bg-base-50 flex w-screen flex-col items-center justify-center p-14"
+      style={{
+        height: `calc(100vh - ${headerSize.blockSize}px)`
+      }}
+    >
       <O11yFeatureCard
         wrapperClassName="p-10"
         childrenWrapperClass="flex items-center justify-between gap-4"
