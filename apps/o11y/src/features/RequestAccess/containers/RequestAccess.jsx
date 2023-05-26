@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {
@@ -13,17 +13,16 @@ import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import O11yFeatureCard from 'common/O11yFeatureCard';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { AppContext } from 'features/Layout/context/AppContext';
 import { setHasAcceptedTnC } from 'globalSlice/index';
-import { getInitData } from 'globalSlice/selectors';
+import { getHeaderSize, getInitData } from 'globalSlice/selectors';
 import { getDocUrl, logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 function RequestAccess() {
+  const headerSize = useSelector(getHeaderSize);
   const initData = useSelector(getInitData);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
-  const { headerSize } = useContext(AppContext);
 
   useEffect(() => {
     logOllyEvent({ event: 'O11yGetAccessPageVisited' });
@@ -54,7 +53,7 @@ function RequestAccess() {
     <div
       className="bg-base-50 flex w-screen flex-col items-center justify-center p-14"
       style={{
-        height: `calc(100vh - ${headerSize.blockSize}px)`
+        height: `calc(100vh - ${headerSize}px)`
       }}
     >
       <O11yFeatureCard

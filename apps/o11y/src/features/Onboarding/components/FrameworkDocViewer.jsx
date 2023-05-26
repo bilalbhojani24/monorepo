@@ -1,10 +1,11 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { MdArrowBack } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { URL_REGEX } from 'constants/common';
-import { AppContext } from 'features/Layout/context/AppContext';
+import { getHeaderSize } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { getDocUrl, logOllyEvent } from 'utils/common';
 
@@ -20,7 +21,7 @@ const allowedOrigin = (origin) => {
 };
 export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
   const [isLoading, setIsLoading] = useState(true);
-  const { headerSize } = useContext(AppContext);
+  const headerSize = useSelector(getHeaderSize);
 
   const onLoad = () => {
     setIsLoading(false);
@@ -59,7 +60,7 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
     <div
       className="m-auto flex w-full max-w-screen-xl flex-col overflow-hidden p-12 pt-0"
       style={{
-        height: `calc(100vh - ${headerSize.blockSize}px)`
+        height: `calc(100vh - ${headerSize}px)`
       }}
     >
       <div className="mb-5 flex w-full items-center justify-between pt-12">
