@@ -49,12 +49,15 @@ const alertArtificialLoader = (dispatch) => {
 };
 
 export const parseImportDetails =
-  (data, location, onRefresh = false) =>
+  (data, location, onRefresh = false, fromCancel = false) =>
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   (dispatch, getState) => {
     const state = getState();
     const isNotificationDismissed = getIsNotificationDismissed(state);
-    // const importProgress = getImportProgress(state);
 
+    if (localStorage.getItem('isCancelled') && !onRefresh) return;
+
+    if (fromCancel) localStorage.setItem('isCancelled', '1');
     if (data?.project) dispatch(addProject(data?.project));
     if (data?.status === IMPORT_STATUS.COMPLETED)
       dispatch(setImportDetails({ ...data, percent: 100 }));

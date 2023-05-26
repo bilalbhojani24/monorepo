@@ -10,7 +10,7 @@ import {
 } from '@browserstack/utils';
 import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
-import AppRoute from 'const/routes';
+// import AppRoute from 'const/routes';
 import MainRoute from 'features/MainRoute';
 import Notification from 'features/Notification';
 import SideNav from 'features/SideNav';
@@ -100,12 +100,12 @@ function App() {
     if (importStarted === null || importStarted) {
       // refresh or import is actually started
       getLatestQuickImportConfig().then((data) => {
-        dispatch(setActualImportStatus(data));
         dispatch(setCurrentTestManagementTool(data?.import_type.split('_')[0]));
         dispatch(setImportId(data?.import_id));
         dispatch(setIsProgressDismissed(data?.progress_banner_dismissed));
         dispatch(setNotificationDismissed(data?.notification_dismissed));
         dispatch(setTooltipDismissed(data?.quick_import_ftu));
+        dispatch(setActualImportStatus(data));
         dispatch(parseImportDetails(data, location, true));
         // console.log('status from latest', data?.status);
         if (data?.status === IMPORT_STATUS.ONGOING)
@@ -134,7 +134,7 @@ function App() {
         </div>
       </div>
       <Notification />
-      {location.pathname !== AppRoute.ROOT && <ProgressNotification />}
+      <ProgressNotification />
       <ViewReportModal />
       <NotificationsContainer />
     </>

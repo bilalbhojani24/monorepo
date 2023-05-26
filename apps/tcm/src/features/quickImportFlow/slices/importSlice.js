@@ -258,6 +258,9 @@ const importSlice = createSlice({
       state.currentScreen = SCREEN_1;
       state.loggedInForTool = testTool;
       state.loader.configureToolPageLoading = false;
+    },
+    retryQuickImportFailed: (state) => {
+      state.loader.configureToolPageLoading = false;
     }
   },
   extraReducers: (builder) => {
@@ -315,6 +318,7 @@ export const {
   setTestConnectionFailed,
   setProceedFailed,
   setProceedFulfilled,
-  retryQuickImportFulfilled
+  retryQuickImportFulfilled,
+  retryQuickImportFailed
 } = importSlice.actions;
 export default importSlice.reducer;

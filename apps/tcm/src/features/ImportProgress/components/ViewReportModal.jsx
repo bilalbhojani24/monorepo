@@ -12,7 +12,6 @@ import {
 import {
   TMAlerts,
   TMButton,
-  // TMDataTable,
   TMModal,
   TMModalBody,
   TMModalFooter,
@@ -21,14 +20,18 @@ import {
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 
+import { IMPORT_STATUS } from '../const/immutables';
+
 import useReportModal from './useReportModal';
 
 const ViewReportModal = () => {
   const {
+    importStatus,
     isReportModalVisible,
     closeReportModal,
     retryImport,
-    reportModalProjects
+    reportModalProjects,
+    handleDocumentationClick
   } = useReportModal();
 
   const tableColumns = [
@@ -113,7 +116,8 @@ const ViewReportModal = () => {
             </TableBody>
           </Table>
         ) : (
-          <div className="border-base-300 mb-3 flex rounded-md border h-[400px] align-center">
+          // eslint-disable-next-line tailwindcss/no-arbitrary-value
+          <div className="border-base-300 align-center mb-3 flex h-[400px] rounded-md border">
             <Loader />
           </div>
         )}
@@ -126,11 +130,7 @@ const ViewReportModal = () => {
             <button
               type="button"
               className="underline"
-              onClick={() =>
-                window.open(
-                  'https://www.browserstack.com/docs/test-management/overview/what-is-test-management'
-                )
-              }
+              onClick={handleDocumentationClick}
             >
               documentation.
             </button>
@@ -141,9 +141,11 @@ const ViewReportModal = () => {
         <TMButton variant="primary" colors="white" onClick={closeReportModal}>
           Close
         </TMButton>
-        <TMButton variant="primary" colors="brand" onClick={retryImport}>
-          Retry Import
-        </TMButton>
+        {importStatus === IMPORT_STATUS.FAILURE && (
+          <TMButton variant="primary" colors="brand" onClick={retryImport}>
+            Retry Import
+          </TMButton>
+        )}
       </TMModalFooter>
     </TMModal>
   );

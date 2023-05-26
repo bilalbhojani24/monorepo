@@ -38,7 +38,7 @@ const ImportDetailsModal = ({ show, headerText }) => {
                 ? 'Quick Import is completed'
                 : 'Quick Import is in progress...'}
             </div>
-            <div className="text-xs leading-5 text-base-500">
+            <div className="text-base-500 text-xs leading-5">
               {importDetails?.percent === 100
                 ? 'You can go to All Projects to view the import progress'
                 : `We’ll notify you once the overall import is completed`}
@@ -83,7 +83,11 @@ const ImportDetailsModal = ({ show, headerText }) => {
               <MdOutlineDoDisturbAlt className="h-4 w-4" />
               <span className="ml-1">
                 Do not wish to continue?{' '}
-                <button type="button" onClick={cancelClickHandler}>
+                <button
+                  type="button"
+                  onClick={cancelClickHandler}
+                  className="text-danger-600"
+                >
                   Cancel
                 </button>{' '}
                 this import.

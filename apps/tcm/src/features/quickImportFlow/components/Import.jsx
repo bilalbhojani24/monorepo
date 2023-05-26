@@ -131,8 +131,10 @@ const Import = () => {
         className={twClassNames(
           'flex max-h-screen flex-col items-center pt-4 overflow-scroll',
           {
-            'min-h-min': !showArtificialLoader,
-            'h-screen': showArtificialLoader
+            'min-h-min': !(
+              showArtificialLoader && testManagementProjects.length
+            ),
+            'h-screen': showArtificialLoader || !testManagementProjects.length
           }
         )}
       >

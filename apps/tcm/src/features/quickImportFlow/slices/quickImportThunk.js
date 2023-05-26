@@ -4,17 +4,24 @@ import {
   retryImport
 } from 'api/import.api';
 import AppRoute from 'const/routes';
-import { setImportDetails } from '../../ImportProgress/slices/importProgressSlice';
 
+import { IMPORT_STATUS } from '../../ImportProgress/const/immutables';
+import {
+  setImportDetails,
+  setImportStatus,
+  setReportModalProjects
+} from '../../ImportProgress/slices/importProgressSlice';
 import { SCREEN_2, TESTRAIL, ZEPHYR } from '../const/importSteps';
 
 import {
   quickImportCleanUp,
+  retryQuickImportFailed,
   retryQuickImportFulfilled,
   setBeginImportLoading,
   setConfigureToolProceedLoading,
   setConfigureToolTestConnectionLoading,
   setCurrentScreen,
+  setErrorForConfigureData,
   setImportId,
   setImportStarted,
   setProceedFailed,
@@ -33,6 +40,41 @@ const getTestRailsCred = (state) => state.import.testRailsCred;
 const getZephyrCred = (state) => state.import.zephyrCred;
 const getImportId = (state) => state.import.importId;
 const getQuickImportProjectId = (state) => state.import.quickImportProjectId;
+
+const getFirstProjectNameAndTotalCount = (projects) => {
+  const obj = { firstName: null, totalCount: 0 };
+  projects.forEach((item) => {
+    if (!obj.firstName && item.checked) {
+      obj.firstName = item?.name;
+      obj.totalCount += 1;
+    } else if (item.checked) obj.totalCount += 1;
+  });
+  return obj;
+};
+
+const noneProjectSelected = (projects) => {
+  for (let i = 0; i < projects.length; i += 1) {
+    if (projects[i].checked) return false;
+  }
+  return true;
+};
+
+const trimSpaces = (tool, creds, dispatch) => {
+  Object.entries(creds).forEach(([key, value]) => {
+    if (tool === 'zephyr')
+      dispatch(setZephyrCred({ key, value: value?.trim() }));
+    else dispatch(setTestRailsCred({ key, value: value?.trim() }));
+  });
+};
+
+const connectionPossible = (creds) => {
+  const valuesArray = Object.values(creds);
+  for (let i = 0; i < valuesArray.length; i += 1) {
+    if (!valuesArray[i].trim()) return false;
+  }
+
+  return true;
+};
 
 export const handleArtificialLoader = (delay) => (dispatch) => {
   dispatch(setShowArtificialLoader(true));
@@ -58,23 +100,6 @@ const apiTestConnection = async (tool, creds, dispatch, isFromProceed) => {
   }
 };
 
-const trimSpaces = (tool, creds, dispatch) => {
-  Object.entries(creds).forEach(([key, value]) => {
-    if (tool === 'zephyr')
-      dispatch(setZephyrCred({ key, value: value?.trim() }));
-    else dispatch(setTestRailsCred({ key, value: value?.trim() }));
-  });
-};
-
-const connectionPossible = (creds) => {
-  const valuesArray = Object.values(creds);
-  for (let i = 0; i < valuesArray.length; i += 1) {
-    if (!valuesArray[i].trim()) return false;
-  }
-
-  return true;
-};
-
 export const requestTestConnection =
   (isFromProceed = false) =>
   (dispatch, getState) => {
@@ -92,17 +117,6 @@ export const requestTestConnection =
     }
   };
 
-const getFirstProjectNameAndTotalCount = (projects) => {
-  const obj = { firstName: null, totalCount: 0 };
-  projects.forEach((item, idx) => {
-    if (!obj.firstName && item.checked) {
-      obj.firstName = item?.name;
-      obj.totalCount += 1;
-    } else if (item.checked) obj.totalCount += 1;
-  });
-  return obj;
-};
-
 export const startImport = (navigate) => async (dispatch, getState) => {
   const state = getState();
   const tool = getCurrentUsedTool(state);
@@ -110,6 +124,11 @@ export const startImport = (navigate) => async (dispatch, getState) => {
   const zephyrCred = getZephyrCred(state);
   const importIdBeforeImport = getImportIdBeforeImport(state);
   const projects = getProjects(state);
+
+  if (noneProjectSelected(projects)) {
+    dispatch(setErrorForConfigureData(true));
+    return;
+  }
 
   const { firstName, totalCount } = getFirstProjectNameAndTotalCount(projects);
 
@@ -124,6 +143,8 @@ export const startImport = (navigate) => async (dispatch, getState) => {
         .map((project) => (project.checked ? project : null))
         .filter((project) => project !== null)
     });
+    localStorage.removeItem('isCancelled');
+    dispatch(setReportModalProjects([]));
     dispatch(
       setImportDetails({
         current_project: firstName,
@@ -134,6 +155,9 @@ export const startImport = (navigate) => async (dispatch, getState) => {
     dispatch(setImportStarted(true));
     dispatch(setBeginImportLoading(false));
     navigate(AppRoute.ROOT);
+    setTimeout(() => {
+      dispatch(setImportStatus(IMPORT_STATUS.ONGOING));
+    }, 5); // adding delay to avoid rendering Import in progress screen while redirecting
   } catch (err) {
     dispatch(setBeginImportLoading(false));
   }
@@ -160,7 +184,7 @@ export const retryQuickImport =
         else navigate(AppRoute.IMPORT);
       }
     } catch (err) {
-      // return err;
+      dispatch(retryQuickImportFailed());
     }
   };
 

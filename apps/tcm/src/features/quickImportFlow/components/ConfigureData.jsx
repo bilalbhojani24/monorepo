@@ -3,7 +3,6 @@ import { TMButton, TMSectionHeadings } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import { bool, number, shape, string } from 'prop-types';
 
-// import { ZEPHYR } from '../const/importSteps';
 import ConfigureDataList from './ConfigureDataList';
 import NoProjects from './NoProjects';
 import useImport from './useImport';
@@ -20,7 +19,7 @@ const ConfigureData = (props) => {
   if (!testManagementProjects.length) return <NoProjects />;
 
   return (
-    <div className="border-base-300 shadow-base-200 mb-4 h-full w-3/4 max-w-7xl rounded-md border bg-white">
+    <div className="border-base-300 mb-4 h-full w-3/4 max-w-7xl rounded-lg border bg-white">
       {showLoader ? (
         <div className="flex h-full flex-col items-center justify-center">
           <Loader />

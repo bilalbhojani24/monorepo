@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dismissProgressBar } from 'api/import.api';
+import { logEventHelper } from 'utils/logEvent';
 
 import { IMPORT_STATUS } from '../const/immutables';
 import {
@@ -41,10 +42,14 @@ const useImportProgress = () => {
 
   const showDetailsModal = () => {
     dispatch(setDetailsModal(true));
+    dispatch(logEventHelper('TM_QiAllProjectsViewDetailsLinkClicked', {}));
   };
 
-  const showReportModal = () => {
+  const showReportModal = (status) => {
     dispatch(setReportModal(true));
+    dispatch(
+      logEventHelper('TM_QiViewReportLinkClicked', { import_status: status })
+    );
   };
 
   const closeProgress = () => {

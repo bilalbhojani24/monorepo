@@ -69,6 +69,7 @@ const ConfigureDataList = (props) => {
           checked={allChecked}
           indeterminate={someChecked && !allChecked}
           description="block"
+          wrapperClassName="border-base-200 border-t-1"
         />
         {projects.map((project) => (
           <TMCheckBox
@@ -80,6 +81,7 @@ const ConfigureDataList = (props) => {
             }}
             onChange={handleCheckBoxChange(project.name)}
             checked={project.checked}
+            wrapperClassName="border-base-200 border-t-1"
           />
         ))}
       </div>

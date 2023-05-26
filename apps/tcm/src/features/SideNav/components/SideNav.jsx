@@ -14,6 +14,7 @@ import {
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import {
+  // TMActionPanel,
   TMButton,
   TMTooltip,
   TMTooltipBody,
@@ -44,8 +45,10 @@ const SideNav = () => {
     activeRoute,
     selectedProjectId,
     isTooltipDismissed,
+    handleHover,
     onProjectChange,
     setAddProjectModal,
+    // onGetADemoCTAClick,
     closeTooltipHandler,
     showImportInProgTooltip
   } = useSideNav();
@@ -64,49 +67,72 @@ const SideNav = () => {
             handleNavigationClick={onLinkChange}
           />
         ))}
-        sidebarSecondaryNavigation={secondaryNavs?.map((item) => {
-          if (item.id === 'import_in_progress' && !isTooltipDismissed) {
-            return (
-              <TMTooltip
-                size="xs"
-                placementSide="top"
-                theme="dark"
-                sideOffset={-10}
-                show={showImportInProgTooltip}
-                content={
-                  <>
-                    <TMTooltipHeader wrapperClassName="flex items-center justify-between">
-                      Import in Progress
-                      <MdClose
-                        className="h-5 w-5 hover:cursor-pointer"
-                        onClick={closeTooltipHandler}
+        sidebarSecondaryNavigation={
+          <>
+            {/* <TMActionPanel
+              title="Have questions?"
+              description="Unlock the full potential of Test Management"
+              content={
+                <TMButton colors="white" onClick={onGetADemoCTAClick}>
+                  Get a demo
+                </TMButton>
+              }
+            /> */}
+            {secondaryNavs?.map((item) => {
+              if (item.id === 'import_in_progress' && !isTooltipDismissed) {
+                return (
+                  <TMTooltip
+                    size="xs"
+                    placementSide="top"
+                    theme="dark"
+                    sideOffset={-10}
+                    show={showImportInProgTooltip}
+                    content={
+                      <>
+                        <TMTooltipHeader wrapperClassName="flex items-center justify-between">
+                          Import in Progress
+                          <MdClose
+                            className="h-5 w-5 hover:cursor-pointer"
+                            onClick={closeTooltipHandler}
+                          />
+                        </TMTooltipHeader>
+                        <TMTooltipBody>
+                          <div>You can track progress of</div>
+                          <div>import by clicking here</div>
+                        </TMTooltipBody>
+                      </>
+                    }
+                  >
+                    <div
+                      onMouseEnter={() => handleHover('enter', item)}
+                      onMouseLeave={() => handleHover('leave', item)}
+                    >
+                      <SidebarItem
+                        key={item.id}
+                        nav={item}
+                        current={activeRoute?.id === item.id}
+                        handleNavigationClick={onLinkChange}
                       />
-                    </TMTooltipHeader>
-                    <TMTooltipBody>
-                      <div>You can track progress of</div>
-                      <div>import by clicking here</div>
-                    </TMTooltipBody>
-                  </>
-                }
-              >
-                <SidebarItem
-                  key={item.id}
-                  nav={item}
-                  current={activeRoute?.id === item.id}
-                  handleNavigationClick={onLinkChange}
-                />
-              </TMTooltip>
-            );
-          }
-          return (
-            <SidebarItem
-              key={item.id}
-              nav={item}
-              current={activeRoute?.id === item.id}
-              handleNavigationClick={onLinkChange}
-            />
-          );
-        })}
+                    </div>
+                  </TMTooltip>
+                );
+              }
+              return (
+                <div
+                  onMouseEnter={() => handleHover('enter', item)}
+                  onMouseLeave={() => handleHover('leave', item)}
+                >
+                  <SidebarItem
+                    key={item.id}
+                    nav={item}
+                    current={activeRoute?.id === item.id}
+                    handleNavigationClick={onLinkChange}
+                  />
+                </div>
+              );
+            })}
+          </>
+        }
         sidebarHeader={
           showProjects && !isAllProjectsLoading ? (
             <>

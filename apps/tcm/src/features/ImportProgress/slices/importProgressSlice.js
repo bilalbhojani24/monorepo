@@ -18,9 +18,10 @@ const initialState = {
   importStatus: IMPORT_STATUS.ONGOING,
   isProgressDismissed: true,
   isNotificationDismissed: true,
-  isTooltipDismissed: false,
+  isTooltipDismissed: true,
   reportModalProjects: [],
-  progressNotification: { show: null, id: 'progress-notification' }
+  progressNotification: { show: null, id: 'progress-notification' },
+  hoverActive: false
 };
 
 export const importProgressSlice = createSlice({
@@ -37,7 +38,6 @@ export const importProgressSlice = createSlice({
       state.isLoading[payload.key] = payload.value;
     },
     setImportDetails: (state, { payload }) => {
-      console.log('payload set import details', payload);
       if (payload) {
         state.importDetails.percent =
           payload?.percent || initialState.importDetails.percent;
@@ -81,6 +81,12 @@ export const importProgressSlice = createSlice({
     },
     showAlertLoader: (state, { payload }) => {
       state.loader.alert = payload;
+    },
+    setHoverActive: (state, { payload }) => {
+      state.hoverActive = payload;
+    },
+    setReportModalProjects: (state, { payload }) => {
+      state.reportModalProjects = payload;
     }
   }
 });
@@ -93,7 +99,9 @@ export const {
   setDetailsModal,
   setCancelModal,
   showAlertLoader,
+  setHoverActive,
   setTooltipDismissed,
+  setReportModalProjects,
   setNotificationDismissed,
   setIsProgressDismissed,
   setNotificationConfig,

@@ -36,7 +36,9 @@ const useCancelModal = () => {
             projects_failed: importDetails?.failedProjects,
             projects_done: importDetails?.successfullyImportedProjects
           },
-          location
+          location,
+          null,
+          true
         )
       );
       navigate(AppRoute.ROOT);

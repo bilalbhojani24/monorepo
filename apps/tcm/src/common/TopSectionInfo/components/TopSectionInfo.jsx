@@ -45,7 +45,7 @@ SingleStep.defaultProps = {
 const TopSectionInfo = ({ steps, wrapperClassName, ctaCb }) => (
   <div
     className={twClassNames(
-      'border-base-200 mb-3 w-4/5 max-w-7xl rounded-lg border bg-white p-4',
+      'border-base-300 mb-3 w-4/5 max-w-7xl rounded-md border bg-white p-4',
       wrapperClassName
     )}
   >

@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { logEventHelper } from 'utils/logEvent';
 
-import { SCREEN_1 } from '../const/importSteps';
 import {
   setCurrentTestManagementTool,
   setJiraConfigurationStatus,
@@ -16,7 +14,6 @@ const useConfigureTool = () => {
   const dispatch = useDispatch();
   const [showConnectNewAccountModal, setShowConnectNewAccountModal] =
     useState(false);
-  const { projectId } = useParams();
 
   const jiraConfiguredForZephyr = useSelector(
     (state) => state.import.isJiraConfiguredForZephyr
@@ -37,7 +34,6 @@ const useConfigureTool = () => {
     (state) => state.import.loader.configureToolProceedLoading
   );
 
-  const currentScreen = useSelector((state) => state.import.currentScreen);
   const loggedInScreen = useSelector((state) => state.import.loggedInScreen);
   const loggedInForTool = useSelector((state) => state.import.loggedInForTool);
   const testRailsCred = useSelector((state) => state.import.testRailsCred);
@@ -65,27 +61,22 @@ const useConfigureTool = () => {
 
   const handleConnectNewAccount = () => {
     setShowConnectNewAccountModal(true);
+    dispatch(logEventHelper('TM_QiConnectAccountPopupLoaded', {}));
   };
   const handleDisconnectAccount = () => {
     dispatch(setShowLoggedInScreen(false));
     setShowConnectNewAccountModal(false);
+    dispatch(logEventHelper('TM_QiConnectAccountConfirmCtaClicked', {}));
   };
 
   // eslint-disable-next-line sonarjs/cognitive-complexity
-  const handleTestConnection = (logEvent = true) => {
+  const handleTestConnection = () => {
     dispatch(requestTestConnection());
-    if (logEvent && currentScreen === SCREEN_1) {
-      dispatch(
-        logEventHelper('TM_QiStep1TestConnectionBtnClicked', {
-          project_id: projectId,
-          tool_selected: currentTestManagementTool
-        })
-      );
-    }
   };
 
   const handleProceed = () => {
     dispatch(requestTestConnection(true));
+    dispatch(logEventHelper('TM_QiConnectionProceedCtaClicked', {}));
   };
 
   return {

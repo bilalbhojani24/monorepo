@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useLayoutEffect, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { CheckCircleRoundedIcon, InfoOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
@@ -41,7 +41,7 @@ const AllProjects = () => {
     countOfProjectsImported,
     currentTestManagementTool,
     isNewProjectBannerDismissed,
-    closeProgressNotification,
+    // closeProgressNotification,
     dispatch,
     handleClickDynamicLink,
     onDropDownChange,
@@ -49,12 +49,11 @@ const AllProjects = () => {
     showAddProjectModal,
     dismissImportProjectAlert,
     isProgressDismissed
-    // getStatusOfNewImportedProjects
   } = useProjects();
 
-  useLayoutEffect(() => {
-    closeProgressNotification();
-  }, [closeProgressNotification]);
+  // useLayoutEffect(() => {
+  //   closeProgressNotification();
+  // }, [closeProgressNotification]);
 
   useEffect(() => {
     dispatch(logEventHelper('TM_AllProjectsPageLoaded', {}));
@@ -148,7 +147,7 @@ const AllProjects = () => {
                   </>
                 }
               >
-                <CheckCircleRoundedIcon className="text-success-500 !w-5 !h-5" />
+                <CheckCircleRoundedIcon className="text-success-500 !h-5 !w-5" />
               </TMTooltip>
             )}
           </div>

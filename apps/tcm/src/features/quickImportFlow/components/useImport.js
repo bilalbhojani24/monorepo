@@ -66,8 +66,10 @@ const useImport = () => {
   const showArtificialLoader = useSelector(
     (state) => state.import.showArtificialLoader
   );
+  const importStarted = useSelector((state) => state.import.importStarted);
 
   const handleBeginImport = () => {
+    dispatch(logEventHelper('TM_QiBeginCtaClicked', {}));
     dispatch(startImport(navigate));
   };
 
@@ -145,6 +147,7 @@ const useImport = () => {
     onCancelClickHandler,
     populateQuickImportCredentials,
     setTestManagementTool,
+    importStarted,
     showErrorForConfigData,
     testManagementProjects,
     testRailsCred,

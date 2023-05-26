@@ -10,7 +10,7 @@ import { setNotificationConfig } from '../slices/importProgressSlice';
 import useProgressNotification from './useProgressNotification';
 
 const ProgressNotification = () => {
-  const AUTO_CLOSE_TIMER = 5000;
+  const AUTO_CLOSE_TIMER = 10000;
 
   const {
     notify,

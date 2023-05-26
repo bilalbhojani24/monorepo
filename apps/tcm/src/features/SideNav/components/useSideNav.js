@@ -9,7 +9,10 @@ import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { setDetailsModal } from '../../ImportProgress/slices/importProgressSlice';
+import {
+  setDetailsModal,
+  setHoverActive
+} from '../../ImportProgress/slices/importProgressSlice';
 import {
   basePrimaryNavLinks,
   IMPORT_IN_PROGRESS,
@@ -74,9 +77,8 @@ export default function useSideNav() {
   };
 
   const onLinkChange = (linkItem) => {
-    console.log('link item', linkItem, importProgress);
     if (linkItem?.id === 'import_in_progress') {
-      console.log('inside', importProgress);
+      dispatch(logEventHelper('TM_QiImportProgressMenuClicked', {}));
       if (importProgress === 100) navigate(linkItem.path);
       else dispatch(setDetailsModal(true));
       return;
@@ -132,6 +134,26 @@ export default function useSideNav() {
     dismissTooltip();
   };
 
+  // const onGetADemoCTAClick = () => {
+  //   window.open(
+  //     'https://www.browserstack.com/contact?ref=test-management-dashboard-demo-lead',
+  //     '_blank'
+  //   );
+  //   dispatch(
+  //     logEventHelper('LoadContactForm', {
+  //       source: `${TEAM_NAME_EVENTS}-dashboard-demo-lead`,
+  //       url: window.location.href
+  //     })
+  //   );
+  // };
+
+  const handleHover = (state, item) => {
+    if (item.id === 'import_in_progress') {
+      if (state === 'enter') dispatch(setHoverActive(true));
+      if (state === 'leave') dispatch(setHoverActive(false));
+    }
+  };
+
   useEffect(() => {
     if (location?.state?.isFromOnboarding && selectedProjectId === 'new') {
       setAddProjectModal(true);
@@ -165,9 +187,11 @@ export default function useSideNav() {
 
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
-    let exactMatchRoute = allNavs.find(
-      (item) => location.pathname === routeFormatter(item.path, {})
-    );
+    let exactMatchRoute = allNavs.find((item) => {
+      console.log(location.pathname, routeFormatter(item.path));
+      return location.pathname === routeFormatter(item.path, {});
+    });
+    console.log('exact match route', exactMatchRoute);
     if (!exactMatchRoute)
       // only if no exact match found then check for partial match
       exactMatchRoute = allNavs
@@ -237,7 +261,7 @@ export default function useSideNav() {
 
   useEffect(() => {
     fetchAllProjects();
-    if (location.pathname !== AppRoute.ROOT)
+    if (location.pathname !== AppRoute.ROOT && !isTooltipDismissed)
       setTimeout(() => {
         closeTooltipHandler();
       }, 5000);
@@ -259,6 +283,8 @@ export default function useSideNav() {
     selectedProjectId,
     showImportInProgTooltip,
     isTooltipDismissed,
+    // onGetADemoCTAClick,
+    handleHover,
     onLinkChange,
     onProjectChange,
     setAddProjectModal
