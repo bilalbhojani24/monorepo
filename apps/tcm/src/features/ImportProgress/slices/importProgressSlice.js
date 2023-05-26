@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { IMPORT_STATUS } from '../const/immutables';
-
 const initialState = {
   isDetailsModalVisible: false,
   isReportModalVisible: false,
@@ -15,7 +13,7 @@ const initialState = {
     currentProjectNumber: 0,
     currentProjectName: '--'
   },
-  importStatus: IMPORT_STATUS.ONGOING,
+  importStatus: null,
   isProgressDismissed: true,
   isNotificationDismissed: true,
   isTooltipDismissed: true,
