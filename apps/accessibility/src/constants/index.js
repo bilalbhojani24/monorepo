@@ -50,6 +50,8 @@ export const FILTER_KEYS = {
   TESTS: 'tests'
 };
 
+export const BSTACK_TOPNAV_ELEMENT_ID = 'a11y-header';
+
 export const columns = [
   {
     title: 'Report name',

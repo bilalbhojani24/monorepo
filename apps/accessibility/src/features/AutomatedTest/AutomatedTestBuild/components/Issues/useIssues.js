@@ -431,10 +431,16 @@ export default function useIssues() {
   const onSliderOpenClick = (id) => {
     setIsSliderOpen(true);
     setTestID(id);
+    const updatedPath = updateUrlWithQueryParam({
+      activeTestId: id
+    });
+    navigate(`?${updatedPath}`);
   };
 
   const onSliderClose = () => {
     setIsSliderOpen(false);
+    const path = deleteUrlQueryParam(['activeSlideOverTab', 'activeTestId']);
+    navigate(`?${path}`);
   };
 
   return {

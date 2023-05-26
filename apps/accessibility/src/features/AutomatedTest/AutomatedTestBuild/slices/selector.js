@@ -39,15 +39,15 @@ export const getUniqFilterValues = createSelector(getFilters, (filters) => {
     label: page.url,
     value: page.url
   }));
-  const ids = componentIds.map((componentId) => ({
+  const ids = componentIds?.map((componentId) => ({
     label: formatComponentIdString(componentId),
     value: componentId
   }));
-  const categories = categoryList.map((category) => ({
+  const categories = categoryList?.map((category) => ({
     label: category.split('cat.')[1],
     value: category.split('cat.')[1]
   }));
-  const testList = tests.map((test) => ({
+  const testList = tests?.map((test) => ({
     label: test.name,
     value: test.id.toString(),
     ...test

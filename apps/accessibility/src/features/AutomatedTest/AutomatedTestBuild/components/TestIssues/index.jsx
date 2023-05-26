@@ -1,6 +1,4 @@
 import React from 'react';
-import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlight';
-import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
   CodeSnippet,
   Loader,
@@ -11,7 +9,7 @@ import {
   SlideoverHeader,
   Tabs
 } from '@browserstack/bifrost';
-import { ISSUES, SUMMARY, TESTS } from 'constants';
+import { BSTACK_TOPNAV_ELEMENT_ID, ISSUES, SUMMARY, TESTS } from 'constants';
 import PropTypes from 'prop-types';
 import { getBrowserIcon, getOSIcon } from 'utils/helper';
 
@@ -66,6 +64,7 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
       backgroundOverlay
       onClose={onClosingSlider}
       size="6xl"
+      topMarginElementId={BSTACK_TOPNAV_ELEMENT_ID}
     >
       <SlideoverHeader
         headingWrapperClassName="flex justify-between w-full"

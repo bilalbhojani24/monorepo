@@ -12,7 +12,7 @@ import {
   SkipToContent
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
-import { getUrlForHeader } from 'constants';
+import { BSTACK_TOPNAV_ELEMENT_ID, getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 import { getBrowserStackBase } from 'utils';
 import { logEvent } from 'utils/logEvent';
@@ -71,86 +71,95 @@ export default function Dashboard({ children }) {
       <SkipToContent target={mainRef} wrapperClassName="z-50 bg-white">
         Skip to main content
       </SkipToContent>
-      <Header
-        wrapperClassName="fixed top-0 z-10 w-full"
-        productName="Accessibility Testing"
-        release="Beta"
-        productArray={[
-          { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
-          {
-            name: 'Automate',
-            link: 'https://automate.browserstack.com/dashboard'
-          },
-          {
-            name: 'Percy',
-            link: 'https://percy.io/api/auth/start-sso'
-          }
-        ]}
-        headerElementArray={['team', 'help', 'account', 'pricing']}
-        documentation={{
-          title: 'Documentation',
-          options: [
+      <div id={BSTACK_TOPNAV_ELEMENT_ID}>
+        <Header
+          wrapperClassName="fixed top-0 z-10 w-full"
+          productName="Accessibility Testing"
+          release="Beta"
+          productArray={[
+            { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
             {
-              name: 'Introduction',
-              link: getUrlForHeader('docs/accessibility/overview/introduction')
+              name: 'Automate',
+              link: 'https://automate.browserstack.com/dashboard'
+            },
+            {
+              name: 'Percy',
+              link: 'https://percy.io/api/auth/start-sso'
             }
-          ]
-        }}
-        references={{
-          title: 'References',
-          options: [
-            { name: 'WCAG 2.0', link: 'https://www.w3.org/TR/WCAG20/' },
-            { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
-          ]
-        }}
-        buyPlanText="Buy a plan"
-        buyPlanLink={`${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-top-header-csf-lead`}
-        buyPlanTarget="_blank"
-        planButtonVisible
-        callbackFunctions={{
-          onPlanAndPricingClick: () => {
-            logEvent('ClickHeaderPlansAndPricing', {
-              url: window.location.href
-            });
-          },
-          buyPlanClick: () => {
-            logEvent('ClickedBuyaPlan', {
-              Product: 'Accessibility Testing',
-              section: 'dashboard-top-header',
-              URL: window.location.href,
-              signed_in: true
-            });
-          }
-        }}
-        planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing`}
-        supportLink={getUrlForHeader('contact#other')}
-        documentationLink={getUrlForHeader(
-          'docs/accessibility/overview/introduction'
-        )}
-      />
-      {isShowingReportListingBanner ? (
-        <div className="fixed inset-x-0 top-[64px] z-[9] flex justify-between">
-          <Banner
-            description="Download the Accessibility Testing extension to scan your websites for accessibility issues."
-            isDismissButton
-            bannerIcon={
-              <img src={Logo} alt="accessibility logo" height={24} width={24} />
+          ]}
+          headerElementArray={['team', 'help', 'account', 'pricing']}
+          documentation={{
+            title: 'Documentation',
+            options: [
+              {
+                name: 'Introduction',
+                link: getUrlForHeader(
+                  'docs/accessibility/overview/introduction'
+                )
+              }
+            ]
+          }}
+          references={{
+            title: 'References',
+            options: [
+              { name: 'WCAG 2.0', link: 'https://www.w3.org/TR/WCAG20/' },
+              { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
+            ]
+          }}
+          buyPlanText="Buy a plan"
+          buyPlanLink={`${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-top-header-csf-lead`}
+          buyPlanTarget="_blank"
+          planButtonVisible
+          callbackFunctions={{
+            onPlanAndPricingClick: () => {
+              logEvent('ClickHeaderPlansAndPricing', {
+                url: window.location.href
+              });
+            },
+            buyPlanClick: () => {
+              logEvent('ClickedBuyaPlan', {
+                Product: 'Accessibility Testing',
+                section: 'dashboard-top-header',
+                URL: window.location.href,
+                signed_in: true
+              });
             }
-            ctaButton={
-              <Button
-                onClick={onDownloadExtensionClick}
-                size="small"
-                colors="white"
-                icon={<MdOpenInNew />}
-                iconPlacement="end"
-              >
-                Download extension
-              </Button>
-            }
-            onDismissClick={onCloseClick}
-          />
-        </div>
-      ) : null}
+          }}
+          planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing`}
+          supportLink={getUrlForHeader('contact#other')}
+          documentationLink={getUrlForHeader(
+            'docs/accessibility/overview/introduction'
+          )}
+        />
+        {isShowingReportListingBanner ? (
+          <div className="fixed inset-x-0 top-[64px] z-[9] flex justify-between">
+            <Banner
+              description="Download the Accessibility Testing extension to scan your websites for accessibility issues."
+              isDismissButton
+              bannerIcon={
+                <img
+                  src={Logo}
+                  alt="accessibility logo"
+                  height={24}
+                  width={24}
+                />
+              }
+              ctaButton={
+                <Button
+                  onClick={onDownloadExtensionClick}
+                  size="small"
+                  colors="white"
+                  icon={<MdOpenInNew />}
+                  iconPlacement="end"
+                >
+                  Download extension
+                </Button>
+              }
+              onDismissClick={onCloseClick}
+            />
+          </div>
+        ) : null}
+      </div>
       <SidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
         sidebarSecondaryNavigation={SWBSidebarSec}

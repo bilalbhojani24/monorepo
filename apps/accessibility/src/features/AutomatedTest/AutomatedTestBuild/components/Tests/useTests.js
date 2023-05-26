@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   getFilters,
   getTestCasesData
 } from 'features/AutomatedTest/AutomatedTestBuild/slices/selector';
+import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 
 export default function useTests() {
+  const navigate = useNavigate();
   const testRuns = useSelector(getTestCasesData);
   const testFilters = useSelector(getFilters);
   const [searchText, setSearchText] = useState('');
@@ -84,10 +87,16 @@ export default function useTests() {
   const handleRowClick = (id) => {
     setIsSliderOpen(true);
     setTestId(id);
+    const updatedPath = updateUrlWithQueryParam({
+      activeTestId: id
+    });
+    navigate(`?${updatedPath}`);
   };
 
   const onSliderClose = () => {
     setIsSliderOpen(false);
+    const path = deleteUrlQueryParam(['activeSlideOverTab', 'activeTestId']);
+    navigate(`?${path}`);
   };
 
   const onFilterClear = () => {

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
 import { fetchTestCaseData } from 'api/fetchTestAutomationData';
-import { updateUrlWithQueryParam } from 'utils/helper';
+import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 
 import {
   resetActiveTab,
@@ -30,13 +30,15 @@ export default function useAutomatedTestBuild({ onSliderClose, testID }) {
     const tab = option.value;
     dispatch(setActiveTab(tab));
     const updatedPath = updateUrlWithQueryParam({
-      activeTab: tab
+      activeSlideOverTab: tab
     });
     navigate(`?${updatedPath}`);
   };
 
   const onClosingSlider = () => {
     onSliderClose();
+    const updatedPath = deleteUrlQueryParam(['activeTestId']);
+    navigate(`?${updatedPath}`);
   };
 
   useEffect(

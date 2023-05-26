@@ -77,8 +77,8 @@ export default function Issues() {
   const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
 
   const issueHeight = hasFilterOrHiddenView
-    ? `calc(100vh - 401px)`
-    : `calc(100vh - 353px)`;
+    ? `calc(100vh - 465px)`
+    : `calc(100vh - 417px)`;
 
   return (
     <SectionsDataContext.Provider
@@ -136,7 +136,7 @@ export default function Issues() {
         <div
           className="fixed"
           style={{
-            top: `${hasFilterOrHiddenView ? '302px' : '254px'}`,
+            top: `${hasFilterOrHiddenView ? '366px' : '318px'}`,
             height: 'calc(100vh - 254px)',
             width: '1152px'
           }}
