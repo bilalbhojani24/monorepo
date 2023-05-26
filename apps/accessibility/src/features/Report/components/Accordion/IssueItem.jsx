@@ -194,6 +194,13 @@ export default function IssueItem() {
     needsReviewStatusinReports.length > 0 &&
     Object.values(reportMetaData?.meta).length > 1;
 
+  const getLearnMoreLink = () => {
+    if (testType === TEST_TYPE.ASSITIVE_TEST) {
+      return `${getEnvUrl()}/more-info/BSAT-1.1/${activeViolation.id}`;
+    }
+    return `${getEnvUrl()}/more-info/4.4/${activeViolation.id}`;
+  };
+
   return (
     <div className="relative">
       <div className="border-base-200 sticky top-0 z-[15] flex w-full items-start justify-between border-b bg-white py-4 pl-6 pr-4">
@@ -265,7 +272,7 @@ export default function IssueItem() {
             <p className="text-base-500 mb-2 text-sm">
               {headerData.description}
               <Hyperlink
-                href={`${getEnvUrl()}/more-info/4.4/${activeViolation.id}`}
+                href={getLearnMoreLink()}
                 target="_blank"
                 onClick={
                   isGuidelineMode

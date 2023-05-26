@@ -45,7 +45,8 @@ const Pagination = (props) => {
     isCentered,
     activeLinkClass,
     inActiveLinkClass,
-    hideDetailsString
+    hideDetailsString,
+    wrapperClassName
   } = props;
   const [currentPage, setCurrentPage] = useState(defaultPageNumber);
 
@@ -181,7 +182,10 @@ const Pagination = (props) => {
 
   return (
     <div
-      className="border-base-200 flex items-center justify-between border-t px-0 py-3 sm:px-6"
+      className={twClassNames(
+        'border-base-200 flex items-center justify-between border-t px-0 py-3 sm:px-6',
+        wrapperClassName
+      )}
       aria-label="Pagination"
     >
       <div className="hidden sm:block">
@@ -248,7 +252,8 @@ Pagination.propTypes = {
   pageNumber: PropTypes.number,
   pageSize: PropTypes.number,
   withNumber: PropTypes.bool,
-  hideDetailsString: PropTypes.bool
+  hideDetailsString: PropTypes.bool,
+  wrapperClassName: PropTypes.string
 };
 
 Pagination.defaultProps = {
@@ -263,7 +268,8 @@ Pagination.defaultProps = {
   pageNumber: undefined,
   pageSize: 25,
   withNumber: true,
-  hideDetailsString: false
+  hideDetailsString: false,
+  wrapperClassName: ''
 };
 
 export default Pagination;
