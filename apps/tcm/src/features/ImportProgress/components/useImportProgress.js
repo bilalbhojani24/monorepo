@@ -60,10 +60,10 @@ const useImportProgress = () => {
   return {
     importStatus,
     isVisible:
-      importStatus === IMPORT_STATUS.ONGOING ||
-      ((importStatus === IMPORT_STATUS.FAILURE ||
+      (importStatus === IMPORT_STATUS.ONGOING ||
+        importStatus === IMPORT_STATUS.FAILURE ||
         importStatus === IMPORT_STATUS.SUCCESS) &&
-        !isProgressDismissed),
+      !isProgressDismissed,
     importDetails,
     isDetailsModalVisible,
     isReportModalVisible,

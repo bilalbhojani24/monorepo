@@ -72,7 +72,11 @@ export const parseImportDetails =
         else dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
 
         setTimeout(() => {
-          if (location.pathname !== AppRoute.ROOT && !isNotificationDismissed)
+          if (
+            location.pathname !== AppRoute.ROOT &&
+            !isNotificationDismissed &&
+            !fromCancel
+          )
             dispatch(setNotificationConfig({ show: true }));
         }, 200);
       }, 500); // REASON: when progress becomes 100% if we instantly show the alert then we do not get the right projects count.

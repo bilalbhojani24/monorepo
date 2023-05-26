@@ -7,7 +7,10 @@ import AppRoute from 'const/routes';
 import { logEventHelper } from 'utils/logEvent';
 
 import { IMPORT_STATUS } from '../const/immutables';
-import { setReportModal } from '../slices/importProgressSlice';
+import {
+  setNotificationDismissed,
+  setReportModal
+} from '../slices/importProgressSlice';
 
 const useProgressNotification = () => {
   const navigate = useNavigate();
@@ -29,9 +32,10 @@ const useProgressNotification = () => {
     (toastDataId) => {
       notify.remove(toastDataId);
       dismissNotification(importId);
+      dispatch(setNotificationDismissed(true));
       clearTimeout(timerRef.current);
     },
-    [importId]
+    [importId, dispatch]
   );
 
   const handleFirstButtonClick = (toastDataId) => {
