@@ -4,7 +4,9 @@ import { expect } from '@storybook/jest';
 import { userEvent, within } from '@storybook/testing-library';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import ActionPanel from '../ActionPanel';
 import Badge from '../Badge';
+import Button from '../Button';
 import {
   CalendarIcon,
   ChartBarIcon,
@@ -150,6 +152,9 @@ const SidebarwithSelectTemplate = (args) => <SidebarNavigation {...args} />;
 const SidebarwithSecondaryNavigation = (args) => (
   <SidebarNavigation {...args} />
 );
+const SidebarwithSecondaryNavAndActionPanelNavigation = (args) => (
+  <SidebarNavigation {...args} />
+);
 
 const Primary = Template.bind({});
 const SidebarwithBrandImage = SidebarwithBrandImageTemplate.bind({});
@@ -270,15 +275,18 @@ SidebarwithSecondary.play = async ({ canvasElement }) => {
   });
 };
 
+const SidebarwithSecondaryNavAndActionPanel =
+  SidebarwithSecondaryNavAndActionPanelNavigation.bind({});
+
 Primary.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
 export {
-  Primary,
   SidebarwithBrandImage,
   SidebarwithSecondary,
+  SidebarwithSecondaryNavAndActionPanel,
   SidebarwithSelect
 };
 
@@ -362,4 +370,48 @@ SidebarwithSecondary.args = {
   sidebarHeader: SSHeader,
   sidebarPrimaryNavigation: SSSidebarPri,
   sidebarSecondaryNavigation: SSSidebarSec
+};
+
+/* ----------------------------
+ * SidebarWithSecondaryAndActionPanel
+ * ----------------------------*/
+const SSAHeader = <SidebarHeader dropdownOptions={selectOptions} />;
+
+const SSASidebarPri = (
+  <>
+    {primaryNavs.map((item, idx) => (
+      <React.Fragment key={Math.random()}>
+        <SidebarItem nav={item} current={idx === 3} />
+      </React.Fragment>
+    ))}
+  </>
+);
+
+const SSASidebarSec = (
+  <>
+    <ActionPanel
+      title="Need help?"
+      description="Unlock the full potential of Accessibility Testing"
+      content={<Button colors="white">Contact sales</Button>}
+    />
+    {[
+      {
+        id: 'document',
+        label: 'View Documentation',
+        activeIcon: InboxIcon,
+        inActiveIcon: InboxIcon,
+        path: '/documents'
+      }
+    ].map((item, idx) => (
+      <React.Fragment key={Math.random()}>
+        <SidebarItem nav={item} current={idx === 3} />
+      </React.Fragment>
+    ))}
+  </>
+);
+
+SidebarwithSecondaryNavAndActionPanel.args = {
+  sidebarHeader: SSAHeader,
+  sidebarPrimaryNavigation: SSASidebarPri,
+  sidebarSecondaryNavigation: SSASidebarSec
 };

@@ -14,7 +14,7 @@ import {
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import {
-  // TMActionPanel,
+  TMActionPanel,
   TMButton,
   TMTooltip,
   TMTooltipBody,
@@ -48,9 +48,9 @@ const SideNav = () => {
     handleHover,
     onProjectChange,
     setAddProjectModal,
-    // onGetADemoCTAClick,
     closeTooltipHandler,
-    showImportInProgTooltip
+    showImportInProgTooltip,
+    onGetADemoCTAClick
   } = useSideNav();
 
   if (noNavRoutes.includes(location.pathname)) return '';
@@ -69,7 +69,7 @@ const SideNav = () => {
         ))}
         sidebarSecondaryNavigation={
           <>
-            {/* <TMActionPanel
+            <TMActionPanel
               title="Have questions?"
               description="Unlock the full potential of Test Management"
               content={
@@ -77,7 +77,7 @@ const SideNav = () => {
                   Get a demo
                 </TMButton>
               }
-            /> */}
+            />
             {secondaryNavs?.map((item) => {
               if (item.id === 'import_in_progress' && !isTooltipDismissed) {
                 return (

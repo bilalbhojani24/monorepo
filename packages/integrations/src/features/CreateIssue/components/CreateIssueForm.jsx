@@ -11,10 +11,22 @@ import {
   SingleValueSelectRawOptionType
 } from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
-import { parseFieldsForCreate } from '../helpers';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
+import {
+  getIssueSuccessAnalyticsPayload,
+  parseFieldsForCreate
+} from '../helpers';
 import { CreateIssueOptionsType } from '../types';
 
-import { FIELD_KEYS } from './constants';
+import {
+  FIELD_KEYS,
+  ISSUE_MODES,
+  VALIDATION_FAILURE_ERROR_MESSAGE
+} from './constants';
 
 const CreateIssueForm = ({
   fields,
@@ -22,6 +34,7 @@ const CreateIssueForm = ({
   resetMeta,
   fieldsData,
   attachments,
+  discardIssue,
   setFieldsData,
   setAttachments,
   isWorkInProgress,
@@ -37,6 +50,7 @@ const CreateIssueForm = ({
   integrationToolFieldData
 }) => {
   const dispatch = useDispatch();
+  const commonMetrics = getCommonMetrics();
   const [fieldErrors, setFieldErrors] = useState({});
   const {
     description: descriptionMeta,
@@ -61,12 +75,29 @@ const CreateIssueForm = ({
       resetFieldErrors();
       return createIssue(integrationToolFieldData?.value, parsed)
         .catch((errorResponse) => {
-          if (errorResponse?.field_errors) {
+          const metricsPayload = {
+            ...commonMetrics,
+            error_mesage: errorResponse
+          };
+          analyticsEvent(ANALYTICS_EVENTS.TICKET_CREATE_ERROR, metricsPayload);
+          if (Object.keys(errorResponse?.field_errors).length) {
             setFieldErrors(errorResponse.field_errors);
           }
-          dispatch(
-            setGlobalAlert({ kind: 'error', message: 'Error creating issue.' })
-          );
+          if (errorResponse?.message?.length) {
+            dispatch(
+              setGlobalAlert({
+                kind: 'error',
+                message: errorResponse?.message[0]
+              })
+            );
+          } else {
+            dispatch(
+              setGlobalAlert({
+                kind: 'error',
+                message: 'Error creating issue.'
+              })
+            );
+          }
           if (typeof errorCallback === 'function') {
             errorCallback({
               event: 'create',
@@ -103,8 +134,20 @@ const CreateIssueForm = ({
         })
         .then((response) => {
           if (response?.success) {
+            const metricPayload = {
+              ...commonMetrics,
+              fields: getIssueSuccessAnalyticsPayload(
+                ISSUE_MODES.CREATION,
+                fields,
+                parsed
+              )
+            };
             resetMeta();
             deselectIssueType();
+            analyticsEvent(
+              ANALYTICS_EVENTS.TICKET_CREATE_SUCCESS,
+              metricPayload
+            );
             dispatch(
               setGlobalAlert({
                 kind: 'success',
@@ -191,18 +234,42 @@ const CreateIssueForm = ({
     ]
   );
 
+  const handleIssueTypeChange = (key, issueType) => {
+    const metricsPayload = {
+      ...commonMetrics,
+      issue_type: (issueType.label ?? '').toLowerCase()
+    };
+    if (isWorkInProgress) {
+      const setIssueType = setFieldsData.bind(null, {
+        ...fieldsData,
+        [key]: issueType
+      });
+      const setIssueTypeWithAnalytics = () => {
+        // if issue discarded, select new issue type for user
+        setIssueType();
+        analyticsEvent(ANALYTICS_EVENTS.ISSUE_TYPE_SELECTION, metricsPayload);
+      };
+      discardIssue(setIssueTypeWithAnalytics);
+    } else {
+      // directly select issue since not WIP
+      analyticsEvent(ANALYTICS_EVENTS.ISSUE_TYPE_SELECTION, metricsPayload);
+      setFieldsData((prev) => ({ ...prev, [key]: issueType }));
+    }
+  };
+
   return (
     <>
       <div className="pt-3">
         <SingleValueSelect
-          fieldsData={fieldsData}
-          fieldKey={FIELD_KEYS.ISSUE_TYPE}
-          setFieldsData={setFieldsData}
-          label="Issue type"
-          placeholder="Select issue"
           required
+          label="Issue type"
+          fieldsData={fieldsData}
+          placeholder="Select issue"
           options={cleanedIssueTypes}
           disabled={!projectFieldData}
+          setFieldsData={setFieldsData}
+          fieldKey={FIELD_KEYS.ISSUE_TYPE}
+          onChange={handleIssueTypeChange}
         />
       </div>
       {isCreateMetaLoading && (
@@ -223,6 +290,9 @@ const CreateIssueForm = ({
           scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
           isFormBeingSubmitted={isFormBeingSubmitted}
+          validationFailureErrorMessage={
+            VALIDATION_FAILURE_ERROR_MESSAGE.CREATE
+          }
         />
       )}
     </>
@@ -230,6 +300,7 @@ const CreateIssueForm = ({
 };
 CreateIssueForm.propTypes = {
   resetMeta: PropTypes.func.isRequired,
+  discardIssue: PropTypes.func.isRequired,
   fields: PropTypes.arrayOf({}).isRequired,
   setFieldsData: PropTypes.func.isRequired,
   setAttachments: PropTypes.func.isRequired,

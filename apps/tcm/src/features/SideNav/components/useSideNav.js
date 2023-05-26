@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { dismissTooltip } from 'api/import.api';
 import { getProjectsMinifiedAPI } from 'api/projects.api';
 import Clock from 'assets/icons/customIcons/Clock';
+import { TEAM_NAME_EVENTS } from 'const/immutables';
 import AppRoute from 'const/routes';
 import { setAllProjects, setIsLoadingProps } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
@@ -134,18 +135,18 @@ export default function useSideNav() {
     dismissTooltip();
   };
 
-  // const onGetADemoCTAClick = () => {
-  //   window.open(
-  //     'https://www.browserstack.com/contact?ref=test-management-dashboard-demo-lead',
-  //     '_blank'
-  //   );
-  //   dispatch(
-  //     logEventHelper('LoadContactForm', {
-  //       source: `${TEAM_NAME_EVENTS}-dashboard-demo-lead`,
-  //       url: window.location.href
-  //     })
-  //   );
-  // };
+  const onGetADemoCTAClick = () => {
+    window.open(
+      'https://www.browserstack.com/contact?ref=test-management-dashboard-demo-lead',
+      '_blank'
+    );
+    dispatch(
+      logEventHelper('LoadContactForm', {
+        source: `${TEAM_NAME_EVENTS}-dashboard-demo-lead`,
+        url: window.location.href
+      })
+    );
+  };
 
   const handleHover = (state, item) => {
     if (item.id === 'import_in_progress') {
@@ -283,10 +284,10 @@ export default function useSideNav() {
     selectedProjectId,
     showImportInProgTooltip,
     isTooltipDismissed,
-    // onGetADemoCTAClick,
     handleHover,
     onLinkChange,
     onProjectChange,
-    setAddProjectModal
+    setAddProjectModal,
+    onGetADemoCTAClick
   };
 }

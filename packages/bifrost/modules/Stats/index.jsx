@@ -1,7 +1,8 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
-import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid';
 import PropTypes, { oneOf } from 'prop-types';
+
+import { ArrowDownIcon, ArrowUpIcon } from '../Icon';
 
 import { STATS_INC, STATS_VARIANTS } from './const/statsConstants';
 
@@ -32,20 +33,28 @@ const Stats = (props) => {
               variant === STATS_VARIANTS.SIMPLE ||
               variant === STATS_VARIANTS.KPI_VARIANT,
             'py-10 sm:py-10': variant === STATS_VARIANTS.WITH_ICON,
+            'py-4': variant === STATS_VARIANTS.GRAPH_VARIANT,
+            'pb-10': variant === STATS_VARIANTS.GRAPH_VARIANT && option.link,
             shadow: !hideBoxShadow
           },
           'relative overflow-hidden bg-white px-4 sm:px-6 rounded-lg',
           cardWrapperClassname
         )}
-        role="button"
-        onClick={(e) => option.onClick?.(e)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') option.onClick?.(e);
-          if (e.key === ' ') option.onClick?.(e);
-        }}
+        {...(typeof option.onClick === 'function' && {
+          role: 'button',
+          onClick: (e) => option.onClick?.(e),
+          onKeyDown: (e) => {
+            if (e.key === 'Enter') option.onClick?.(e);
+            if (e.key === ' ') option.onClick?.(e);
+          }
+        })}
         tabIndex={typeof option.onClick === 'function' ? 0 : -1}
       >
-        <div>
+        <div
+          className={twClassNames({
+            'flex justify-between': variant === STATS_VARIANTS.GRAPH_VARIANT
+          })}
+        >
           {variant === STATS_VARIANTS.WITH_ICON && (
             <div
               className={twClassNames(
@@ -57,18 +66,23 @@ const Stats = (props) => {
             </div>
           )}
           <p
-            className={twClassNames({
-              'truncate ml-16 font-medium text-sm text-base-500':
-                variant === STATS_VARIANTS.WITH_ICON,
-              'font-normal text-base text-base-900':
-                variant === STATS_VARIANTS.WITHOUT_ICON,
-              'truncate text-sm font-medium text-base-500':
-                variant === STATS_VARIANTS.SIMPLE ||
-                variant === STATS_VARIANTS.KPI_VARIANT
-            })}
+            className={twClassNames(
+              {
+                'ml-16 font-medium text-sm text-base-500':
+                  variant === STATS_VARIANTS.WITH_ICON,
+                'font-normal text-base text-base-900':
+                  variant === STATS_VARIANTS.WITHOUT_ICON,
+                'text-sm font-medium text-base-500':
+                  variant === STATS_VARIANTS.SIMPLE ||
+                  variant === STATS_VARIANTS.KPI_VARIANT ||
+                  variant === STATS_VARIANTS.GRAPH_VARIANT
+              },
+              'line-clamp-1'
+            )}
           >
             {option.name}
           </p>
+          {variant === STATS_VARIANTS.GRAPH_VARIANT && option.menuDropdown}
         </div>
         {variant === STATS_VARIANTS.WITH_ICON && (
           <div className="ml-16 flex items-baseline pb-6 sm:pb-7">
@@ -96,8 +110,9 @@ const Stats = (props) => {
               )}
 
               <span className="sr-only">
-                {option.changeType === STATS_INC ? 'Increased' : 'Decreased'}
-                by
+                {`${
+                  option.changeType === STATS_INC ? 'Increased ' : 'Decreased '
+                }by`}
               </span>
               {option.change}
             </p>
@@ -136,11 +151,68 @@ const Stats = (props) => {
               )}
 
               <span className="sr-only">
-                {option.changeType === STATS_INC ? 'Increased' : 'Decreased'}
-                by
+                {`${
+                  option.changeType === STATS_INC ? 'Increased ' : 'Decreased '
+                }by`}
               </span>
               {option.change}
             </div>
+          </div>
+        )}
+        {variant === STATS_VARIANTS.GRAPH_VARIANT && (
+          <div className="flex flex-col">
+            <div className="flex items-baseline pb-4 pt-2">
+              {option.stat && (
+                <p className="text-base-900 text-2xl font-semibold">
+                  {option.stat}
+                </p>
+              )}
+              {option.subText && (
+                <p className="text-base-500 ml-2 text-sm font-medium">
+                  {option.subText}
+                </p>
+              )}
+              {option.change && (
+                <p
+                  className={twClassNames(
+                    option.changeType === STATS_INC
+                      ? 'text-success-700'
+                      : 'text-danger-600',
+                    'ml-2 flex items-baseline text-sm font-semibold'
+                  )}
+                >
+                  {option.changeType === STATS_INC ? (
+                    <ArrowUpIcon
+                      className="text-success-500 h-5 w-5 shrink-0 self-center"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    <ArrowDownIcon
+                      className="text-danger-500 h-5 w-5 shrink-0 self-center"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <span className="sr-only">
+                    {`${
+                      option.changeType === STATS_INC
+                        ? 'Increased '
+                        : 'Decreased '
+                    }by`}
+                  </span>
+                  {option.change}
+                </p>
+              )}
+            </div>
+            {option?.graph && (
+              <div className={twClassNames('min-h-[100px] max-h-[248px]')}>
+                {option.graph}
+              </div>
+            )}
+            {option.link && (
+              <div className="bg-base-50 absolute inset-x-0 bottom-0 p-4 sm:px-6">
+                <p>{option.link}</p>
+              </div>
+            )}
           </div>
         )}
         {variant === STATS_VARIANTS.SIMPLE && (
@@ -165,13 +237,16 @@ Stats.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string,
     stat: oneOf([PropTypes.node, PropTypes.string]),
+    graph: PropTypes.node,
     icon: PropTypes.node,
     iconContainerWrapperClass: PropTypes.string,
     change: PropTypes.string,
     previousStat: PropTypes.string,
     link: PropTypes.node,
     changeType: oneOf([STATS_INC, 'decrease']),
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    subText: PropTypes.string,
+    menuDropdown: PropTypes.node
   }).isRequired,
   variant: PropTypes.string,
   textColor: PropTypes.string,

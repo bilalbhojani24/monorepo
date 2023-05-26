@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
@@ -10,6 +10,7 @@ import {
   O11yDropdownTrigger
 } from 'common/bifrostProxy';
 import DatePickerGroup from 'common/DatePickerGroup';
+import { AppContext } from 'features/Layout/context/AppContext';
 import {
   TT_DATE_RANGE,
   TT_PARAMS_MAPPING
@@ -48,6 +49,8 @@ export default function TestingTrendsHeader() {
   const activeBuild = useSelector((state) =>
     getTTFilterByKey(state, 'buildName')
   );
+
+  const { headerSize } = useContext(AppContext);
 
   const handleClickRange = (key) => {
     dispatch(
@@ -169,6 +172,7 @@ export default function TestingTrendsHeader() {
       className={twClassNames(
         'sticky top-16 z-10 flex flex-col py-6 px-6 bg-base-50 pb-0'
       )}
+      style={{ top: `${headerSize.blockSize}px` }}
     >
       <span className="text-2xl font-bold">Testing Trends</span>
       <div className="mt-4 flex justify-between">
@@ -241,7 +245,7 @@ export default function TestingTrendsHeader() {
           })}
         </div>
 
-        <div>
+        <div className="bg-white">
           <O11yComboBox
             placeholder="Select a build"
             value={selectedBuildListOptions[0]}

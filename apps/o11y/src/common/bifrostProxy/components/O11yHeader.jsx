@@ -1,8 +1,13 @@
 import React from 'react';
 import { Header } from '@browserstack/bifrost';
-import { DOC_KEY_MAPPING } from 'constants/common';
+import { DOC_KEY_MAPPING, EXTERNAL_LINKS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { getDocUrl, getEnvConfig } from 'utils/common';
+import {
+  getDocUrl,
+  getEnvConfig,
+  getExternalUrl,
+  logOllyEvent
+} from 'utils/common';
 
 const envConfig = getEnvConfig();
 
@@ -15,12 +20,12 @@ const O11yHeader = () => (
     release="Beta"
     // beamerProductId="xTSGUhhN11000"
     documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
-    supportLink={`${envConfig.baseUrl}/contact#other`}
+    supportLink={`${envConfig.baseUrl}/support/test-observability`}
     headerElementArray={[
       'team',
       'pricing',
       'help',
-      'search',
+      // 'search',
       // 'notifications',
       'account'
     ]}
@@ -80,6 +85,29 @@ const O11yHeader = () => (
       if (envConfig.signOutUrl) {
         e.preventDefault();
         window.location.href = envConfig.signOutUrl;
+      }
+    }}
+    planPricingLink={getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing })}
+    buyPlanTarget="_blank"
+    buyPlanText="Buy a plan"
+    buyPlanLink={getExternalUrl({ path: EXTERNAL_LINKS.buyAPlan })}
+    callbackFunctions={{
+      onPlanAndPricingClick: () => {
+        logOllyEvent({
+          event: 'ClickHeaderPlansAndPricing',
+          data: {
+            url: window.location.href
+          }
+        });
+      },
+      buyPlanClick: () => {
+        logOllyEvent({
+          event: 'ClickedBuyaPlan',
+          data: {
+            section: 'dashboard-top-header',
+            url: window.location.href
+          }
+        });
       }
     }}
   />
