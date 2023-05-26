@@ -74,8 +74,17 @@ export default function IssueItem() {
     return val;
   };
 
+  // console.log(
+  //   'sectionData, activeSwitch: ',
+  //   sectionData,
+  //   activeSwitch,
+  //   activeViolationId
+  // );
+
   const isGuidelineMode = activeSwitch === GUIDELINES;
+  // console.log('isGuidelineMode1: ', isGuidelineMode);
   if (isGuidelineMode) {
+    // console.log('isGuidelineMode2: ', isGuidelineMode);
     activeViolationItem = sectionData.find(
       ({ violation }) => violation.id === activeViolationId
     ).violation;

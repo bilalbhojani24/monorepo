@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -21,6 +21,15 @@ export default function useTests() {
     file: [],
     status: []
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const activeTestId = params.get('activeTestId');
+    if (activeTestId) {
+      setTestId(activeTestId);
+      setIsSliderOpen(true);
+    }
+  }, []);
 
   const onInputValueChange = (e) => {
     setSearchText(e.target.value);

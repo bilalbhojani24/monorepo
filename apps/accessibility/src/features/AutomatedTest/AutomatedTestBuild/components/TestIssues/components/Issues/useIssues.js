@@ -71,7 +71,7 @@ export default function useIssues() {
   if (isGuidelineMode && sectionData && activeViolationId) {
     activeViolationItem = sectionData.find(
       ({ violation }) => violation.id === activeViolationId
-    ).violation;
+    )?.violation;
     if (showHiddenIssues) {
       activeViolationItem = {
         ...activeViolationItem,
@@ -269,10 +269,6 @@ export default function useIssues() {
     }
   }, [filteredTestData, customData]);
 
-  // useEffect(() => {
-  //   document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-  // }, []);
-
   const generateData = () =>
     filteredTestData.map((violation) => {
       const totalCount = violation.nodes.length;
@@ -302,10 +298,6 @@ export default function useIssues() {
 
   const onCloseClick = () => {
     dispatch(setIsFilterModalVisible(false));
-  };
-
-  const onUpdateSwitch = (value) => {
-    dispatch(setActiveSwitch(value));
   };
 
   const onUpdateImpact = (values) => {
@@ -455,7 +447,6 @@ export default function useIssues() {
     onNextClick,
     onPreviousClick,
     onIssueCloseClick,
-    onUpdateSwitch,
     onApplyFilters,
     onUpdateImpact,
     onFilterButtonClick,

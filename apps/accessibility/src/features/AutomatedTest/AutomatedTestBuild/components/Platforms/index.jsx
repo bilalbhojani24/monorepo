@@ -13,9 +13,21 @@ export default function ViewPlatformPopOver({ data, handleInteraction }) {
       size="md"
       content={
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
-        <div className="divide-base-200 flex max-h-[30rem] w-80 flex-col divide-y overflow-auto px-5">
+        <div className="divide-base-200 text-base-900 flex w-72 flex-col divide-y overflow-auto px-5 font-normal">
           <div className="flex flex-col py-1 first:pt-0 last:pb-0">
-            <div className="flex items-center gap-1 pb-0.5">
+            <div className="border-base-200 flex items-center gap-1 border-b py-3">
+              <img className="h-5 w-5" src={ChromeIcon} alt="chrome icon" />
+              <p className="mr-3 truncate text-sm">{`Chrome ${data.chrome.version}`}</p>
+              <img className="h-5 w-5" src={MacIcon} alt="chrome icon" />
+              <p className="truncate text-sm">{data.mac}</p>
+            </div>
+            <div className="border-base-200 flex items-center gap-1 border-b py-3">
+              <img className="h-5 w-5" src={ChromeIcon} alt="chrome icon" />
+              <p className="mr-3 truncate text-sm">{`Chrome ${data.chrome.version}`}</p>
+              <img className="h-5 w-5" src={MacIcon} alt="chrome icon" />
+              <p className="truncate text-sm">{data.mac}</p>
+            </div>
+            <div className="flex items-center gap-1 py-3">
               <img className="h-5 w-5" src={ChromeIcon} alt="chrome icon" />
               <p className="mr-3 truncate text-sm">{`Chrome ${data.chrome.version}`}</p>
               <img className="h-5 w-5" src={MacIcon} alt="chrome icon" />

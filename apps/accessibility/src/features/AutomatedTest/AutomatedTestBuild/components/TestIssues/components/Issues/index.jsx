@@ -59,7 +59,6 @@ export default function Issues() {
     onApplyFilters,
     onUpdateImpact,
     onFilterButtonClick,
-    onUpdateSwitch,
     generateData,
     onCloseClick
   } = useIssues();
@@ -111,7 +110,6 @@ export default function Issues() {
         onRowClick,
         onTagClose,
         onApplyFilters,
-        onUpdateSwitch,
         onCloseClick,
         onFilterButtonClick,
         onUpdateImpact,

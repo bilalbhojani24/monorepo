@@ -131,7 +131,6 @@ export default function IssueItem({ sectionsDataContext }) {
     needsReviewStatusinReports.length > 0 &&
     Object.values(buildMetaData?.meta).length > 1;
 
-  // sticky top-0
   return (
     <div className="relative overflow-hidden">
       <div className="border-base-200 absolute top-0 z-[15] flex w-full items-start justify-between border-b bg-white py-4 pl-6 pr-4">
@@ -467,7 +466,7 @@ export default function IssueItem({ sectionsDataContext }) {
           )}
         </div>
       </div>
-      <div className="absolute bottom-0 w-full bg-white">
+      <div className="absolute bottom-0 z-10 w-full bg-white">
         <Pagination
           key={`${activeViolationId}_${activeComponentId}`}
           hideDetailsString

@@ -71,7 +71,7 @@ export default function AutomatedTestBuild() {
   }
 
   const loader = (
-    <div className="flex h-[calc(100vh-400px)] w-full items-center justify-center">
+    <div className="flex h-[calc(100vh-214px)] w-full items-center justify-center">
       <Loader wrapperClassName="text-base-300 fill-base-400 w-7 h-7" />
     </div>
   );

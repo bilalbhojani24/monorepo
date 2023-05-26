@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
@@ -22,6 +22,7 @@ import { getActiveTab, getTestData, getTestMetaData } from './slices/selector';
 export default function useAutomatedTestBuild({ onSliderClose, testID }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isCopying, setIsCopying] = useState(false);
   const activeTab = useSelector(getActiveTab);
   const testData = useSelector(getTestData);
   const testMetaData = useSelector(getTestMetaData);
@@ -39,6 +40,13 @@ export default function useAutomatedTestBuild({ onSliderClose, testID }) {
     onSliderClose();
     const updatedPath = deleteUrlQueryParam(['activeTestId']);
     navigate(`?${updatedPath}`);
+  };
+
+  const onShareLinkClick = () => {
+    setIsCopying(true);
+    setTimeout(() => {
+      setIsCopying(false);
+    }, 3000);
   };
 
   useEffect(
@@ -70,8 +78,10 @@ export default function useAutomatedTestBuild({ onSliderClose, testID }) {
     testMetaData,
     testData,
     eventName,
+    isCopying,
     onClosingSlider,
     onRowClick,
-    onTabChange
+    onTabChange,
+    onShareLinkClick
   };
 }

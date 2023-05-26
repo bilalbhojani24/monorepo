@@ -70,7 +70,6 @@ export default function Issues() {
     onApplyFilters,
     onUpdateImpact,
     onFilterButtonClick,
-    onUpdateSwitch,
     generateData,
     onCloseClick,
     testID
@@ -133,7 +132,6 @@ export default function Issues() {
           onRowClick,
           onTagClose,
           onApplyFilters,
-          onUpdateSwitch,
           onCloseClick,
           onFilterButtonClick,
           onUpdateImpact,

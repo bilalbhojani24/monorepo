@@ -71,9 +71,10 @@ export default function useIssues() {
 
   const isGuidelineMode = activeSwitch === GUIDELINES;
   if (isGuidelineMode && sectionData && activeViolationId) {
+    console.log('activeViolationId: ', sectionData, activeViolationId);
     activeViolationItem = sectionData.find(
       ({ violation }) => violation.id === activeViolationId
-    ).violation;
+    )?.violation;
     if (showHiddenIssues) {
       activeViolationItem = {
         ...activeViolationItem,
@@ -280,10 +281,6 @@ export default function useIssues() {
     }
   }, [filteredBuildData, customData]);
 
-  // useEffect(() => {
-  //   document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-  // }, []);
-
   const generateData = () =>
     filteredBuildData.map((violation) => {
       const totalCount = violation.nodes.length;
@@ -313,10 +310,6 @@ export default function useIssues() {
 
   const onCloseClick = () => {
     dispatch(setIsFilterModalVisible(false));
-  };
-
-  const onUpdateSwitch = (value) => {
-    dispatch(setActiveSwitch(value));
   };
 
   const onUpdateImpact = (values) => {
@@ -406,19 +399,26 @@ export default function useIssues() {
   };
 
   const onTabSelect = (tabValue) => {
-    dispatch(setActiveSwitch(tabValue));
     // logEvent('OnADReportView', {
     //   actionType: events.allIssuesTab,
     //   tab: tabValue
     // });
     const path = updateUrlWithQueryParam({
       activeSwitch: tabValue,
-      activeViolationId: '',
-      activeComponentId: '',
-      activeIssueIndex: 0,
       isShowingIssue: false
     });
     navigate(`?${path}`);
+
+    dispatch(setActiveViolationId(''));
+    dispatch(setActiveComponentId(''));
+    dispatch(setActiveIssueIndex(0));
+    const updatedPath = deleteUrlQueryParam([
+      'activeViolationId',
+      'activeComponentId',
+      'activeIssueIndex'
+    ]);
+    navigate(`?${updatedPath}`);
+    dispatch(setActiveSwitch(tabValue));
   };
 
   const onHiddenIssueClick = (val) => {
@@ -480,7 +480,6 @@ export default function useIssues() {
     onNextClick,
     onPreviousClick,
     onIssueCloseClick,
-    onUpdateSwitch,
     onApplyFilters,
     onUpdateImpact,
     onFilterButtonClick,

@@ -1,9 +1,12 @@
 import React from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
+  Button,
   CodeSnippet,
   Loader,
   MdClose,
   MdFolderOpen,
+  MdShare,
   Slideover,
   SlideoverBody,
   SlideoverHeader,
@@ -36,10 +39,12 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
     actionType,
     testMetaData,
     testData,
+    isCopying,
     eventName,
     onRowClick,
     onClosingSlider,
-    onTabChange
+    onTabChange,
+    onShareLinkClick
   } = useTestIssues({ onSliderClose, testID });
 
   let defaultIndex = 0;
@@ -50,12 +55,10 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
     case ISSUES:
       defaultIndex = 1;
       break;
-    case TESTS:
-      defaultIndex = 2;
-      break;
     default:
       break;
   }
+
   return (
     <Slideover
       show={isSliderOpen}
@@ -71,61 +74,72 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
         heading={
           testMetaData.meta && (
             <>
-              <div>
-                <p className="text-base-900 mb-1 w-auto text-lg font-normal">
-                  {Object.values(testMetaData.meta)[0].name}
-                </p>
-
-                <p className="text-base-500 mb-3 text-base font-normal">
-                  {Object.values(testMetaData.meta)[0].scopeList.join(' / ')}
-                </p>
-              </div>
-              <div>
-                <div>
+              <div className="w-full">
+                <div className="flex justify-between">
+                  <p className="text-base-900 mb-1 w-auto text-lg font-medium">
+                    {Object.values(testMetaData.meta)[0].name}
+                  </p>
                   <MdClose
                     className="cursor-pointer text-2xl"
                     onClick={onSliderClose}
                   />
                 </div>
+                <p className="text-base-500 mb-2 text-sm font-normal">
+                  {Object.values(testMetaData.meta)[0].scopeList.join(' / ')}
+                </p>
+                {testMetaData.meta && (
+                  <div className="flex justify-between">
+                    <ul className="text-base-600 flex gap-2 text-sm font-normal">
+                      <li className="flex items-center gap-1">
+                        <img
+                          className="mr-1 h-5 w-5"
+                          src={getBrowserIcon(
+                            Object.values(testMetaData.meta)[0].browser_data
+                              .name
+                          )}
+                          alt="browser icon"
+                        />
+                        <p>{`${
+                          Object.values(testMetaData.meta)[0].browser_data.name
+                        } ${
+                          Object.values(testMetaData.meta)[0].browser_data
+                            .version
+                        }`}</p>
+                      </li>
+                      <li className="flex items-center gap-1">
+                        <img
+                          className="mr-1 h-4 w-4"
+                          src={getOSIcon(
+                            Object.values(testMetaData.meta)[0].os_data.name
+                          )}
+                          alt="windows icon"
+                        />
+                        <p>{`${
+                          Object.values(testMetaData.meta)[0].os_data.name
+                        } ${
+                          Object.values(testMetaData.meta)[0].os_data.version
+                        }`}</p>
+                      </li>
+                      <li className="flex items-center gap-1">
+                        <MdFolderOpen className="text-base-500 mr-1" />
+                        <p>{Object.values(testMetaData.meta)[0].file}</p>
+                      </li>
+                    </ul>
+                    <CopyToClipboard
+                      text={window.location.href}
+                      onCopy={onShareLinkClick}
+                    >
+                      <Button
+                        colors="white"
+                        size="small"
+                        icon={isCopying ? null : <MdShare />}
+                      >
+                        {isCopying ? 'Copied' : 'Share'}
+                      </Button>
+                    </CopyToClipboard>
+                  </div>
+                )}
               </div>
-            </>
-          )
-        }
-        subHeading={
-          testMetaData.meta && (
-            <>
-              <ul className="flex gap-2">
-                <li className="flex items-center gap-1">
-                  <img
-                    className="h-5 w-5"
-                    src={getBrowserIcon(
-                      Object.values(testMetaData.meta)[0].browser_data.name
-                    )}
-                    alt="browser icon"
-                  />
-                  <p className="text-base-500">{`${
-                    Object.values(testMetaData.meta)[0].browser_data.name
-                  } ${
-                    Object.values(testMetaData.meta)[0].browser_data.version
-                  }`}</p>
-                </li>
-                <li className="flex items-center gap-1">
-                  <img
-                    className="h-4 w-4"
-                    src={getOSIcon(
-                      Object.values(testMetaData.meta)[0].os_data.name
-                    )}
-                    alt="windows icon"
-                  />
-                  <p>{`${Object.values(testMetaData.meta)[0].os_data.name} ${
-                    Object.values(testMetaData.meta)[0].os_data.version
-                  }`}</p>
-                </li>
-                <li className="flex items-center gap-1">
-                  <MdFolderOpen className="text-base-500" />
-                  <p>{Object.values(testMetaData.meta)[0].file}</p>
-                </li>
-              </ul>
             </>
           )
         }
