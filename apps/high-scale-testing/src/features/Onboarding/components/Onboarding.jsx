@@ -163,12 +163,10 @@ const Onboarding = () => {
 
   const DescriptionNodeStep4 = (
     <div className="m-4">
-      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
       <ol className="text-base-500 list-[lower-alpha] text-sm">
         <li className="text-base-900 py-2">
           <div>
             <p className="text-base-900 mb-2">
-              {/* eslint-disable-next-line sonarjs/no-duplicate-string */}
               {CODE_SNIPPETS_SCRATCH['create-grid'].a.text}
             </p>
             <CodeSnippet
