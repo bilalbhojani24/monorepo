@@ -34,10 +34,10 @@ export const setActualImportStatus = (data) => (dispatch) => {
   if (data?.status === IMPORT_STATUS.ONGOING)
     dispatch(setImportStatus(IMPORT_STATUS.ONGOING));
   if (data?.status === IMPORT_STATUS.COMPLETED) {
-    if (data?.projects_failed > 0)
-      dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
-    else if (data?.projects_done === data?.projects)
+    if (data?.projects_done === data?.projects)
       dispatch(setImportStatus(IMPORT_STATUS.SUCCESS));
+    else if (data?.projects_failed > 0)
+      dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
   }
 };
 
@@ -71,8 +71,10 @@ export const parseImportDetails =
           dispatch(setImportStatus(IMPORT_STATUS.SUCCESS));
         else dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
 
-        if (location.pathname !== AppRoute.ROOT && !isNotificationDismissed)
-          dispatch(setNotificationConfig({ show: true }));
+        setTimeout(() => {
+          if (location.pathname !== AppRoute.ROOT && !isNotificationDismissed)
+            dispatch(setNotificationConfig({ show: true }));
+        }, 200);
       }, 500); // REASON: when progress becomes 100% if we instantly show the alert then we do not get the right projects count.
     }
   };

@@ -78,7 +78,7 @@ export default function useSideNav() {
   };
 
   const onLinkChange = (linkItem) => {
-    if (linkItem?.id === 'import_in_progress') {
+    if (linkItem?.identifier === 'import_in_progress') {
       dispatch(logEventHelper('TM_QiImportProgressMenuClicked', {}));
       if (importProgress === 100) navigate(linkItem.path);
       else dispatch(setDetailsModal(true));
@@ -149,7 +149,7 @@ export default function useSideNav() {
   };
 
   const handleHover = (state, item) => {
-    if (item.id === 'import_in_progress') {
+    if (item?.identifier === 'import_in_progress') {
       if (state === 'enter') dispatch(setHoverActive(true));
       if (state === 'leave') dispatch(setHoverActive(false));
     }
@@ -188,16 +188,17 @@ export default function useSideNav() {
 
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
-    let exactMatchRoute = allNavs.find((item) => {
-      console.log(location.pathname, routeFormatter(item.path));
-      return location.pathname === routeFormatter(item.path, {});
-    });
-    console.log('exact match route', exactMatchRoute);
-    if (!exactMatchRoute)
-      // only if no exact match found then check for partial match
-      exactMatchRoute = allNavs
-        .reverse()
-        .find((item) => location.pathname.includes(item.path));
+    let exactMatchRoute = allNavs[0];
+    if (location.pathname !== AppRoute.ROOT) {
+      exactMatchRoute = allNavs.find((item) =>
+        location.pathname.split('/').includes(item.keyword)
+      );
+    }
+
+    if (!exactMatchRoute && location.pathname !== AppRoute.ROOT)
+      // eslint-disable-next-line prefer-destructuring
+      exactMatchRoute = allNavs[0];
+
     // set current view
     setActiveRoute(exactMatchRoute);
   }, [location.pathname, primaryNavs, secondaryNavs]);
@@ -223,7 +224,7 @@ export default function useSideNav() {
     const addProgress = (allNavs) => {
       setSecondaryNavs(
         allNavs.map((item) => {
-          if (item.id === 'import_in_progress') {
+          if (item?.identifier === 'import_in_progress') {
             if (importProgress === 100) {
               return {
                 ...item,
@@ -246,14 +247,14 @@ export default function useSideNav() {
       setSecondaryNavs(secondaryNavs);
     else if (
       location.pathname !== AppRoute.ROOT &&
-      secondaryNavs[0].id !== 'import_in_progress'
+      secondaryNavs[0]?.identifier !== 'import_in_progress'
     ) {
       const toBeSecondaryNavs = [...IMPORT_IN_PROGRESS, ...secondaryNavs];
 
       addProgress(toBeSecondaryNavs);
     } else if (
       location.pathname !== AppRoute.ROOT &&
-      secondaryNavs[0].id === 'import_in_progress'
+      secondaryNavs[0]?.identifier === 'import_in_progress'
     ) {
       addProgress(secondaryNavs);
     } else setSecondaryNavs(secondaryNavLinks);

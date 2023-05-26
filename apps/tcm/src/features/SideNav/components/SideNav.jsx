@@ -79,7 +79,10 @@ const SideNav = () => {
               }
             />
             {secondaryNavs?.map((item) => {
-              if (item.id === 'import_in_progress' && !isTooltipDismissed) {
+              if (
+                item?.identifier === 'import_in_progress' &&
+                !isTooltipDismissed
+              ) {
                 return (
                   <TMTooltip
                     size="xs"

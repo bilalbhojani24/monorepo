@@ -63,6 +63,7 @@ const useProgressNotification = () => {
   return {
     notify,
     timerRef,
+    importStatus,
     dispatch,
     notificationConfig,
     removeNotification,

@@ -23,6 +23,7 @@ export const internalPrimaryNavLinks = [
   {
     id: AppRoute.DASHBOARD,
     label: 'Dashboard',
+    // keyword: 'projects',
     activeIcon: BarChartOutlinedIcon,
     inActiveIcon: BarChartOutlinedIcon,
     path: AppRoute.DASHBOARD,
@@ -31,6 +32,7 @@ export const internalPrimaryNavLinks = [
   {
     id: AppRoute.TEST_CASES,
     label: 'Test Cases',
+    keyword: 'folder',
     activeIcon: FolderOpenOutlinedIcon,
     inActiveIcon: FolderOpenOutlinedIcon,
     path: AppRoute.TEST_CASES,
@@ -39,6 +41,7 @@ export const internalPrimaryNavLinks = [
   {
     id: AppRoute.TEST_RUNS,
     label: 'Test Runs',
+    keyword: 'test-runs',
     activeIcon: CodeOutlinedIcon,
     inActiveIcon: CodeOutlinedIcon,
     path: AppRoute.TEST_RUNS,
@@ -57,6 +60,7 @@ export const secondaryNavLinks = [
   {
     id: AppRoute.SETTINGS,
     label: 'Settings',
+    keyword: 'settings',
     activeIcon: SettingsOutlinedIcon,
     inActiveIcon: SettingsOutlinedIcon,
     path: AppRoute.SETTINGS
@@ -64,6 +68,7 @@ export const secondaryNavLinks = [
   {
     id: AppRoute.RESOURCES,
     label: 'Documentation',
+    keyword: 'documentation',
     activeIcon: AssignmentOutlinedIcon,
     inActiveIcon: AssignmentOutlinedIcon,
     isExternalLink: true,
@@ -73,7 +78,8 @@ export const secondaryNavLinks = [
 
 export const IMPORT_IN_PROGRESS = [
   {
-    id: 'import_in_progress',
+    id: AppRoute.ROOT,
+    identifier: 'import_in_progress',
     label: 'Import in progress',
     activeIcon: AnimatedClock,
     inActiveIcon: AnimatedClock,
