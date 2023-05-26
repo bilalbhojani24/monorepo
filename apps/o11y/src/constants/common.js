@@ -197,3 +197,13 @@ export const roundedTableHeaderHack = {
   common:
     'before:absolute before:block before:w-[1px] before:h-[6px] before:bg-base-50 before:top-[-1px] before:rounded'
 };
+
+export const FLOATING_COMPONENTS_IDS = {
+  TEST_DETAILS: 'TEST_DETAILS',
+  BUILD_FILTERS: 'BUILD_FILTERS',
+  TEST_FILTERS: 'TEST_FILTERS',
+  TEST_HEALTH_FILTERS: 'TEST_HEALTH_FILTERS',
+  UNIQUE_ERRORS_FILTERS: 'UNIQUE_ERRORS_FILTERS',
+  TEST_HEALTH_DETAILS: 'TEST_HEALTH_DETAILS',
+  UNIQUE_ERRORS_DETAILS: 'UNIQUE_ERRORS_DETAILS'
+};

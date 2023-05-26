@@ -7,6 +7,8 @@ import {
   O11ySlideoverFooter,
   O11ySlideoverHeader
 } from 'common/bifrostProxy';
+import { FLOATING_COMPONENTS_IDS } from 'constants/common';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 import PropTypes from 'prop-types';
 
 import FilterSlideoverBody from '../components/FilterSlideoverBody';
@@ -59,6 +61,11 @@ const FiltersSlideover = memo(
       });
       onClose();
     };
+
+    useFloatingComponentTracking(
+      isVisible,
+      FLOATING_COMPONENTS_IDS.TEST_HEALTH_FILTERS
+    );
 
     return (
       <O11ySlideover

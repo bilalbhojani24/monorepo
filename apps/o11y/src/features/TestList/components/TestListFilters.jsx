@@ -11,7 +11,7 @@ import {
   O11ySwitch
 } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { API_STATUSES } from 'constants/common';
+import { API_STATUSES, FLOATING_COMPONENTS_IDS } from 'constants/common';
 import {
   getSelectedFilters,
   getStaticFilters
@@ -21,6 +21,7 @@ import {
   setAppliedFilters,
   setSelectedFilters
 } from 'features/TestList/slices/testListSlice';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 
 import { constructTreeData } from '../utils';
 
@@ -82,6 +83,11 @@ const TestListFilters = () => {
       })
     );
   };
+
+  useFloatingComponentTracking(
+    isSlideoverVisible,
+    FLOATING_COMPONENTS_IDS.TEST_FILTERS
+  );
 
   return (
     <>

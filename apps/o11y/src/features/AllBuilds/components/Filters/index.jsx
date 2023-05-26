@@ -8,10 +8,12 @@ import {
   O11ySlideoverFooter,
   O11ySlideoverHeader
 } from 'common/bifrostProxy';
+import { FLOATING_COMPONENTS_IDS } from 'constants/common';
 import {
   discardUnAppliedFilters,
   setSelectedFilterAsApplied
 } from 'features/AllBuilds/slices/buildsSlice';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 
 import BuildFrameworkFilter from './BuildFrameworkFilter';
 import BuildStatusFilter from './BuildStatusFilter';
@@ -43,6 +45,10 @@ const Filters = () => {
   const setValidStatus = useCallback((status) => {
     setIsValid(status);
   }, []);
+  useFloatingComponentTracking(
+    isSlideoverVisible,
+    FLOATING_COMPONENTS_IDS.BUILD_FILTERS
+  );
   return (
     <>
       <O11ySlideover
