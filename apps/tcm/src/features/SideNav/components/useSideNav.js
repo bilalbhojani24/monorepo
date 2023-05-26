@@ -191,7 +191,7 @@ export default function useSideNav() {
     let exactMatchRoute = allNavs[0];
     if (location.pathname !== AppRoute.ROOT) {
       exactMatchRoute = allNavs.find((item) =>
-        location.pathname.split('/').includes(item.keyword)
+        location.pathname?.split('/')?.includes(item.keyword)
       );
     }
 

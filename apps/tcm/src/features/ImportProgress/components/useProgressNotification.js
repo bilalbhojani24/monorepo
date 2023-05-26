@@ -31,7 +31,7 @@ const useProgressNotification = () => {
   const removeNotification = useCallback(
     (toastDataId) => {
       notify.remove(toastDataId);
-      dismissNotification(importId);
+      if (importId) dismissNotification(importId);
       dispatch(setNotificationDismissed(true));
       clearTimeout(timerRef.current);
     },
