@@ -66,7 +66,7 @@ const FreshChatWidget = () => (
     <h1 className="mb-5 text-center text-xl">
       FRESH CHAT WIDGET COMPONENT DOCUMENTATION AND DEMO
     </h1>
-    <ChatWidget direction="left" />
+    <ChatWidget direction="right" />
     <Table>
       <TableHead wrapperClassName="bg-white">
         <TableRow>
@@ -132,7 +132,7 @@ const FreshChatWidget = () => (
         <CodeSnippetToolbar
           leadingNode={
             <div className="flex items-center space-x-2">
-              <div>Feedbackwidget without renderProps</div>
+              Feedbackwidget without renderProps
             </div>
           }
         />
@@ -148,7 +148,7 @@ const FreshChatWidget = () => (
         <CodeSnippetToolbar
           leadingNode={
             <div className="flex items-center space-x-2">
-              <div>Feedbackwidget with renderProps</div>
+              Feedbackwidget Toggle Widget
             </div>
           }
         />

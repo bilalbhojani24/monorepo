@@ -145,7 +145,7 @@ export default function Sidebar() {
     >
       <SidebarNavigation
         wrapperClassName={`
-        md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full
+        md:sticky bg-white pt-5 px-2 w-64 flex-none md:inset-y-16 h-full
       `}
         sidebarHeader={<ProjectSelector />}
         sidebarPrimaryNavigation={getPrimaryNav({
@@ -165,7 +165,11 @@ export default function Sidebar() {
                 title="Have questions?"
                 description="Unlock the full potential of Test Observability"
                 content={
-                  <O11yButton colors="white" onClick={handleClickGetDemo}>
+                  <O11yButton
+                    colors="white"
+                    size="default"
+                    onClick={handleClickGetDemo}
+                  >
                     Get a demo
                   </O11yButton>
                 }
