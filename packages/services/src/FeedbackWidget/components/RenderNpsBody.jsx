@@ -14,11 +14,11 @@ const RenderNpsBody = () => {
     <div className="flex items-center justify-center px-3">
       {npsConstants.map((item, index) => (
         <Button
-          key={item.id}
-          colors={selectedNPS === item.id ? 'brand' : 'white'}
+          key={item}
+          colors={selectedNPS === item ? 'brand' : 'white'}
           iconOnly
           onClick={() => {
-            setSelectedNPS(item.id);
+            setSelectedNPS(item);
             handleClick();
           }}
           wrapperClassName={twClassNames(
@@ -30,7 +30,7 @@ const RenderNpsBody = () => {
           )}
           size="lg"
         >
-          {item.name}
+          {item}
         </Button>
       ))}
     </div>

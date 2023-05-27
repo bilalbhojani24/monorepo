@@ -13,8 +13,7 @@ const FeedbackWidget = ({
   flow,
   isOpen,
   variation,
-  variationsProps,
-  currentStep
+  variationsProps
 }) => {
   const [selectedNPS, setSelectedNPS] = useState();
   const {
@@ -25,13 +24,11 @@ const FeedbackWidget = ({
     feedbacktype,
     setFeedbacktype,
     handleClick,
-    handleFormSubmit,
-    finalFeedbackTypeArray
+    handleFormSubmit
   } = useFeedbackWidget({
     handleFeedbackClick,
     formFields,
-    flow,
-    currentStep
+    flow
   });
 
   const renderVariation = () => {
@@ -55,7 +52,6 @@ const FeedbackWidget = ({
         flow,
         handleClick,
         handleFormSubmit,
-        finalFeedbackTypeArray,
         isOpen,
         selectedNPS,
         setSelectedNPS,
@@ -68,7 +64,6 @@ const FeedbackWidget = ({
 };
 
 FeedbackWidget.propTypes = {
-  currentStep: PropTypes.number,
   handleFeedbackClick: PropTypes.func,
   formFields: PropTypes.arrayOf(PropTypes.shape({})),
   flow: PropTypes.arrayOf(
@@ -89,7 +84,6 @@ FeedbackWidget.propTypes = {
   }
 };
 FeedbackWidget.defaultProps = {
-  currentStep: 0,
   handleFeedbackClick: null,
   formFields: [],
   isOpen: false,

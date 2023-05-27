@@ -61,10 +61,6 @@ const defaultConfig = {
     }
   },
   argTypes: {
-    currentStep: {
-      option: { type: 'number' },
-      defaultValue: 0
-    },
     description: {
       option: { type: 'string' },
       defaultValue: 'Optional description text for added context'
@@ -125,14 +121,13 @@ export const ModalFeedbackWidget = () => {
       </Button>
 
       <FeedbackWidget
-        currentStep={0}
         title="How was your experience with Lorem Ipsum?"
         description="Optional description text for added context"
         formFields={fields}
         handleFeedbackClick={(i) => console.log(i)}
         flow={[
           {
-            type: 'nps',
+            type: 'thumbs',
             title: 'How was your experience with Lorem Ipsum Modal?',
             description:
               'Emoji Optional description text for added context Modal'
@@ -176,7 +171,6 @@ export const ToastFeedbackWidget = () => {
       </Button>
 
       <FeedbackWidget
-        currentStep={0}
         title="How was your experience with Lorem Ipsum?"
         description="Optional description text for added context"
         formFields={[
@@ -201,9 +195,9 @@ export const ToastFeedbackWidget = () => {
         ]}
         flow={[
           {
-            type: 'nps',
+            type: 'thumbs',
             title: 'How was your experience with Lorem Ipsum?',
-            description: 'Emoji Optional description text for added context '
+            description: 'NPS Optional description text for added context '
           },
           {
             type: 'form',

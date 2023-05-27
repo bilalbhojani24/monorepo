@@ -11,8 +11,8 @@ import { FEEDBACK_TYPE } from '../const/feedbackWidgetConst';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
 import FormBuilder from './FormBuilder';
-import RenderEmojiThumb from './RenderEmojiThumb';
 import RenderNpsBody from './RenderNpsBody';
+import RenderThumb from './RenderThumb';
 
 const RenderToast = () => {
   const { handleFormSubmit, isOpen, feedbacktype, variationsProps } =
@@ -32,7 +32,7 @@ const RenderToast = () => {
               {/* render thumb or emoji view */}
               {[FEEDBACK_TYPE[0], FEEDBACK_TYPE[2]].includes(
                 feedbacktype.type
-              ) && <RenderEmojiThumb />}
+              ) && <RenderThumb />}
 
               {/* render nps(number) view */}
               {feedbacktype.type === FEEDBACK_TYPE[3] && <RenderNpsBody />}
@@ -60,7 +60,8 @@ const RenderToast = () => {
         position: 'bottom-right',
         autoClose: false,
         id: 'feedback-widget',
-        size: 'md'
+        size: 'md',
+        duration: 100000
       }
     );
   }, [

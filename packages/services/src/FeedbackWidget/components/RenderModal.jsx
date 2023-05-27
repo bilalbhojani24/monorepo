@@ -12,8 +12,8 @@ import { FEEDBACK_TYPE } from '../const/feedbackWidgetConst';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
 import FormBuilder from './FormBuilder';
-import RenderEmojiThumb from './RenderEmojiThumb';
 import RenderNpsBody from './RenderNpsBody';
+import RenderThumb from './RenderThumb';
 
 const RenderModal = () => {
   const { feedbacktype, variationsProps, handleFormSubmit, isOpen } =
@@ -35,7 +35,7 @@ const RenderModal = () => {
         <ModalBody {...variationsProps.modalBody} className="pb-6 pt-3">
           {/* render thumb or emoji view */}
           {[FEEDBACK_TYPE[0], FEEDBACK_TYPE[2]].includes(feedbacktype.type) && (
-            <RenderEmojiThumb />
+            <RenderThumb />
           )}
 
           {/* render nps(number) view */}
