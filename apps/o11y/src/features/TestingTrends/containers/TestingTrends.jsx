@@ -39,7 +39,7 @@ export default function TestingTrends() {
           <TrendsCard
             cardKey="testGrowthOverTime"
             apiKey="testGrowth"
-            seriesOptions={{ id: 'tests', name: 'Tests' }}
+            seriesOptions={{ id: 'tests', name: 'Unique tests' }}
             config={{
               abbrNumber: true,
               pointClickCb: () =>

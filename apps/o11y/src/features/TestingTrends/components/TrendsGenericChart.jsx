@@ -30,7 +30,6 @@ export default function TrendsGenericChart({
     getTTFilterByKey(state, 'dateRange')
   );
 
-  // const [series, setSeries] = useState({});
   const [tooltipData, setTooltipData] = useState({});
 
   const handleTooltipData = useCallback((tooltipRes) => {
@@ -60,7 +59,8 @@ export default function TrendsGenericChart({
         }
       },
       tooltip: {
-        enabled: false
+        enabled: false,
+        shared: true
       },
       plotOptions: {
         trendline: { ...chartData.plotOptions.trendline },
@@ -85,8 +85,13 @@ export default function TrendsGenericChart({
 
                 handleTooltipData({
                   options: [...seriesData],
+                  id: seriesOptions.id,
                   styles: {
-                    top: plotY + 45,
+                    top:
+                      plotY +
+                      (e.target.series.chart.types.includes('areaspline')
+                        ? 110
+                        : 45),
                     left: plotX + 25,
                     width: 32,
                     height: 32
@@ -153,14 +158,15 @@ export default function TrendsGenericChart({
           triggerAsChild
           content={
             <CustomChartTooltip
-              tooltipData={tooltipData.options || {}}
               activeProject={activeProject}
               filters={filters}
+              id={seriesOptions.id}
+              tooltipData={tooltipData.options || []}
             />
           }
         >
           <div
-            className="h-full w-full"
+            className="bg-danger-600 h-full w-full"
             style={{
               ...tooltipData?.styles
             }}

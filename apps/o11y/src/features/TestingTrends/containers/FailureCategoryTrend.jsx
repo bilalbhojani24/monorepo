@@ -90,7 +90,7 @@ function getChartOptions({
               handleTooltipData({
                 options: [...seriesData],
                 styles: {
-                  top: plotY + 90,
+                  top: plotY + 60,
                   left: plotX + 40,
                   width: 24,
                   height: 24
@@ -196,14 +196,14 @@ export default function FailureCategoryTrend() {
                 triggerAsChild
                 content={
                   <CustomChartTooltip
-                    tooltipData={tooltipData.options || {}}
+                    tooltipData={tooltipData.options || []}
                     activeProject={projects.active}
                     filters={filters}
                   />
                 }
               >
                 <div
-                  className="h-full w-full"
+                  className="bg-brand-600 h-full w-full"
                   style={{
                     ...tooltipData?.styles
                   }}

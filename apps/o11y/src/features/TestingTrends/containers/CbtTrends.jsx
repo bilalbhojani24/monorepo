@@ -46,25 +46,30 @@ const getChartOptions = (handleTooltipData) => ({
       point: {
         events: {
           mouseOver(e) {
-            const { pointRange: pointRangeOptions, tooltipPos } = e.target;
+            const { tooltipPos, shapeArgs, options } = e.target;
 
             const seriesData = this.series.chart.series.map((res) => ({
               ...res,
               index: this.index,
               y: res.data[this.index]?.y,
               fixedToTwoDigits: false,
-              pointRangeOptions
+              options
             }));
 
             handleTooltipData({
               options: [...seriesData],
+              header: options.name,
+              show: true,
               styles: {
                 top: tooltipPos[1],
                 left: tooltipPos[0],
-                width: 64,
+                width: 20,
                 height: 32
               }
             });
+          },
+          mouseout(e) {
+            console.log(e);
           }
         }
       }
@@ -199,12 +204,11 @@ export default function CbtTrends() {
       }
     }),
     [
-      handleTooltipData,
-      chartData.data,
+      activeProject,
       chartData?.drillDownData,
-      setChartTitle,
-      activeProject.name,
-      activeProject.id
+      chartData.data,
+      handleTooltipData,
+      setChartTitle
     ]
   );
 
@@ -245,11 +249,17 @@ export default function CbtTrends() {
                   placementSide="top"
                   placementAlign="center"
                   triggerAsChild
+                  show={tooltipData.show}
+                  onMouseLeave={() => {
+                    console.log('onMouseLeave');
+                    handleTooltipData({ show: false });
+                  }}
                   content={
                     <CustomChartTooltip
-                      tooltipData={tooltipData.options || {}}
+                      tooltipData={tooltipData.options || []}
                       activeProject={activeProject}
                       filters={filters}
+                      header={tooltipData.header}
                     />
                   }
                 >

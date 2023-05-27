@@ -245,7 +245,7 @@ export default function PerformanceGraph({ buildName }) {
               triggerAsChild
               content={
                 <CustomChartTooltip
-                  tooltipData={tooltipData.options || {}}
+                  tooltipData={tooltipData.options || []}
                   activeProject={projects.active}
                   filters={filters}
                 />

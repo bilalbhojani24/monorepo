@@ -10,6 +10,8 @@ import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 export default function CustomChartTooltip({
   activeProject,
   filters,
+  header,
+  id,
   tooltipData
 }) {
   const dispatch = useDispatch();
@@ -20,12 +22,20 @@ export default function CustomChartTooltip({
       dispatch(toggleModal({ version: 'drill_down_modal', data: {} }));
       return;
     }
+    const urlFilters = [];
+    if (id === 'flakiness') {
+      urlFilters.push(`&${SNP_PARAMS_MAPPING.snpFlaky}=${true}`);
+    } else if (filters.buildName.value !== 'all') {
+      urlFilters.push(
+        `&${SNP_PARAMS_MAPPING.snpActiveBuild}=${filters.buildName.value}`
+      );
+    }
 
     const url = `${getBaseUrl()}:8081/projects/${
       activeProject.normalisedName
-    }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
-      filters.buildName.value
-    }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
+    }/suite_health?${SNP_PARAMS_MAPPING.snpDateRange}=${
+      filters.dateRange.key
+    }&${urlFilters.join('&')}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -42,7 +52,7 @@ export default function CustomChartTooltip({
       pointName === 'Stability' ||
       pointName === 'Trendline'
     ) {
-      return fixedToTwoDigits ? `${value.toFixed(2)}%` : `${value}%`;
+      return fixedToTwoDigits ? `(${value.toFixed(2)}%)` : `(${value}%)`;
     }
 
     return fixedToTwoDigits ? value.toFixed(2) : value;
@@ -50,6 +60,7 @@ export default function CustomChartTooltip({
 
   const renderMetaData = (data) => (
     <div>
+      {header && <span className="text-sm font-medium">{header}</span>}
       {data[0]?.pointRangeOptions && (
         <span className="text-sm font-medium">
           {getCustomTimeStamp({
@@ -70,10 +81,10 @@ export default function CustomChartTooltip({
           })}
         </span>
       )}
-      {data.map((point) => {
+      {data?.map((point) => {
         if (point.y === null || point.y === undefined) return null;
         return (
-          <div className="flex justify-between text-sm">
+          <div className="flex justify-between pt-2 text-sm">
             <div>
               <span
                 className="mb-0.5 mr-1 inline-block h-1.5 w-1.5 rounded-full"
@@ -91,7 +102,7 @@ export default function CustomChartTooltip({
   );
 
   return (
-    <div className="bg-base-800 text-base-200 flex flex-col rounded-lg px-3 py-1 text-white">
+    <div className="bg-base-800 text-base-200 flex flex-col rounded-lg px-3 py-1 ">
       <section className="border-brand-900 flex flex-col gap-1 border-b pb-2">
         {renderMetaData(tooltipData)}
       </section>
@@ -104,7 +115,7 @@ export default function CustomChartTooltip({
             isLocked ? (
               <MdLock className="text-base-400 text-lg" />
             ) : (
-              <MdOpenInNew className="text-lg text-white" />
+              <MdOpenInNew className="text-base-400 text-lg " />
             )
           }
           iconPlacement="end"
@@ -119,5 +130,11 @@ export default function CustomChartTooltip({
 CustomChartTooltip.propTypes = {
   activeProject: PropTypes.objectOf(PropTypes.any).isRequired,
   filters: PropTypes.objectOf(PropTypes.any).isRequired,
+  header: PropTypes.string,
+  id: PropTypes.objectOf(PropTypes.any).isRequired,
   tooltipData: PropTypes.objectOf(PropTypes.any).isRequired
+};
+
+CustomChartTooltip.defaultProps = {
+  header: null
 };
