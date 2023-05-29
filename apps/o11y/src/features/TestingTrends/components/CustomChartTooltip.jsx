@@ -1,6 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Button, MdLock, MdOpenInNew } from '@browserstack/bifrost';
+import {
+  Button,
+  MdLock,
+  MdOpenInNew,
+  TooltipBody
+} from '@browserstack/bifrost';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import PropTypes from 'prop-types';
@@ -102,7 +107,7 @@ export default function CustomChartTooltip({
   );
 
   return (
-    <div className="bg-base-800 text-base-200 flex flex-col rounded-lg px-3 py-1 ">
+    <TooltipBody>
       <section className="border-brand-900 flex flex-col gap-1 border-b pb-2">
         {renderMetaData(tooltipData)}
       </section>
@@ -123,7 +128,7 @@ export default function CustomChartTooltip({
           View tests (Pro)
         </Button>
       </section>
-    </div>
+    </TooltipBody>
   );
 }
 

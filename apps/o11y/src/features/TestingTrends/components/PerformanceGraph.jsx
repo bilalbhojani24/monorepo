@@ -125,11 +125,14 @@ const getChartOptions = ({
             handleTooltipData({
               options: [...seriesData],
               styles: {
-                top: plotY + plotBox.y - spacingBox.y,
-                left: plotX + plotBox.x - spacingBox.x,
-                width: 16,
-                height:
-                  e.target?.dlBox?.height || e.target?.graphic?.height || 16
+                top: e.target?.dlBox?.y
+                  ? plotBox.y + e.target?.dlBox?.y
+                  : plotY + plotBox.y - spacingBox.y,
+                left: e.target?.dlBox?.x
+                  ? plotBox.x + e.target?.dlBox?.x
+                  : plotX + plotBox.x - spacingBox.x,
+                width: e.target?.dlBox?.width || 16,
+                height: e.target?.dlBox?.height || 16
               }
             });
           }
@@ -231,7 +234,7 @@ export default function PerformanceGraph({ buildName }) {
       onClickCTA={fetchData}
     >
       {!isLoading && (
-        <div className="h-full">
+        <div className="relative h-full">
           <div
             className="bg-danger-500 absolute z-10 rounded-sm"
             key={tooltipData?.options?.id}
