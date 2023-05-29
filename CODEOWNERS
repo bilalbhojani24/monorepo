@@ -9,7 +9,7 @@ apps/tcm/* @browserstack/tm-frontend
 apps/accessibility/* @browserstack/accessibility-frontend
 
 # Observability
-apps/observability/* @browserstack/o11y-frontend
+apps/o11y/* @browserstack/observability-frontend
 
 # All package.json this needs to be at the end of the file
 **/package.json @browserstack/central-frontend
