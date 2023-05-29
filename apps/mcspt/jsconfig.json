@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": false,
+    "baseUrl": ".",
+    "paths": {
+      "api/*": ["src/api/*"],
+      "features/*": ["src/features/*"],
+      "utils/*": ["src/utils/*"],
+      "constants/*": ["src/constants/*"]
+    }
+  },
+  "exclude": ["node_modules", "out", ".webpack", ".vscode"]
+}
