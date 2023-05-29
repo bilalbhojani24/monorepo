@@ -198,9 +198,12 @@ const RenderTestItem = ({ item: data }) => {
                     renderTag(
                       'Flaky',
                       'warn',
-                      `Flake detected in re-run within ${12}`,
-                      `Test passing on a retry attempt in the same run 
-                      across last ${1} consecutive runs`,
+                      'Flake detected',
+                      details.flakyReason.status === 2
+                        ? `Test passing on a retry attempt in the same run 
+                      across last ${details.flakyReason.x} consecutive runs`
+                        : `Test status flipping (pass to fail or vice-versa) 
+                        more than ${details.flakyReason.x} times out of ${details.flakyReason.y} consecutive runs`,
                       addFilterOnClick
                     )}
                   {details?.isAlwaysFailing &&
@@ -208,7 +211,13 @@ const RenderTestItem = ({ item: data }) => {
                       'Always Failing',
                       'error',
                       'Always failing test',
-                      `The test has been failing with the same error for last ${1} consecutive runs`,
+                      `The test has been failing with the ${
+                        details.alwaysFailingReason.status === 0
+                          ? 'same error'
+                          : 'any error'
+                      } for last ${
+                        details.alwaysFailingReason.x
+                      } consecutive runs`,
                       addFilterOnClick
                     )}
                   {details?.isNewFailure &&
@@ -216,7 +225,11 @@ const RenderTestItem = ({ item: data }) => {
                       'New Failures',
                       'error',
                       'New failure detected',
-                      `This test failed for the first time across last ${1} consecutive runs`,
+                      `This test failed for the first time across last ${
+                        details.newlyFailingReason.x
+                      } consecutive runs with ${
+                        details.newlyFailingReason.status === 0 ? 'new' : 'any'
+                      } error`,
                       addFilterOnClick
                     )}
                   {details?.isPerformanceAnomaly &&
@@ -224,7 +237,7 @@ const RenderTestItem = ({ item: data }) => {
                       'Performance Anomaly',
                       'error',
                       'Performance anomaly detected',
-                      `Duration is more than ${1}th percentile across last ${2} consecutive runs.`,
+                      `Duration is more than ${details.performanceAnomalyReason.x}th percentile across last ${details.performanceAnomalyReason.y} consecutive runs.`,
                       addFilterOnClick
                     )}
                 </div>
