@@ -2,6 +2,9 @@
 
 * @browserstack/central-frontend
 
+# HST
+apps/high-scale-testing/* @browserstack/hst-frontend
+
 # TCM
 apps/tcm/* @browserstack/tm-frontend
 
