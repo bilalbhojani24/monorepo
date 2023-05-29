@@ -108,6 +108,7 @@ export default function Dashboard({ children }) {
           ]
         }}
         isFreeUser={isFreeUser}
+        buyPlanText="Buy a plan"
         buyPlanLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard-top-header-csf-lead`}
         planButtonVisible
         callbackFunctions={{
