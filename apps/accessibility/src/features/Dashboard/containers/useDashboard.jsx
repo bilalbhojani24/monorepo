@@ -102,6 +102,19 @@ export default function useDashboard() {
     );
   };
 
+  const onBuyPlanClick = () => {
+    logEvent('ClickedBuyaPlan', {
+      signed_in: true,
+      Product: 'Accessibility Testing',
+      Section: 'dashboard-left-panel',
+      URL: window.location.href
+    });
+    window.open(
+      `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
+      '_blank'
+    );
+  };
+
   useEffect(() => {
     if (!localStorage.getItem('newSiteScannerBadge')) {
       localStorage.setItem('newSiteScannerBadge', new Date().getTime());
@@ -122,6 +135,7 @@ export default function useDashboard() {
     onGetADemoClick,
     handleNavigationClick,
     onDownloadExtensionClick,
-    onCloseClick
+    onCloseClick,
+    onBuyPlanClick
   };
 }

@@ -3,7 +3,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import {
   ActionPanel,
-  Banner,
   Button,
   Header,
   NotificationsContainer,
@@ -28,9 +27,8 @@ export default function Dashboard({ children }) {
     currentPath,
     secondaryNav,
     handleNavigationClick,
-    onDownloadExtensionClick,
     onGetADemoClick,
-    onCloseClick
+    onBuyPlanClick
   } = useDashboard();
 
   const showBanner = useSelector(getShowBanner);
@@ -44,17 +42,55 @@ export default function Dashboard({ children }) {
     />
   ));
 
+  // const SWBSidebarSec = (
+  //   <div className="flex flex-col items-start justify-center pb-3">
+  //     <div className="px-2 pb-3">
+  //       <ActionPanel
+  //         content={
+  //           <Button colors="white" onClick={onGetADemoClick} size="small">
+  //             Get a demo
+  //           </Button>
+  //         }
+  //         description="Learn how to unlock the full potential of Accessibility Testing"
+  //         title="Need help?"
+  //       />
+  //     </div>
+  //     {secondaryNav.map((item) => (
+  //       <SidebarItem
+  //         key={item.id}
+  //         nav={item}
+  //         current={item.id === currentPath}
+  //         handleNavigationClick={handleNavigationClick}
+  //       />
+  //     ))}
+  //   </div>
+  // );
+
   const SWBSidebarSec = (
     <div className="flex flex-col items-start justify-center pb-3">
       <div className="px-2 pb-3">
         <ActionPanel
           content={
-            <Button colors="white" onClick={onGetADemoClick} size="small">
-              Get a demo
-            </Button>
+            <>
+              <Button colors="success" onClick={onBuyPlanClick} fullWidth>
+                Buy a plan
+              </Button>
+              <Button
+                wrapperClassName="mt-3"
+                colors="white"
+                onClick={onGetADemoClick}
+                fullWidth
+              >
+                Get a demo
+              </Button>
+            </>
           }
-          description="Learn how to unlock the full potential of Accessibility Testing"
-          title="Need help?"
+          description={
+            <span className="bg-attention-100 text-attention-800 rounded-full px-3 py-1 font-semibold">
+              {`${14} days remaining`}
+            </span>
+          }
+          title="Your Team free trial is active "
         />
       </div>
       {secondaryNav.map((item) => (
