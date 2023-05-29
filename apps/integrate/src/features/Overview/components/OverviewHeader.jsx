@@ -3,13 +3,14 @@ import React from 'react';
 import SelectConfigurations from './SelectConfigurations';
 
 const OverviewHeader = () => (
-  <div className="bg-base-50 mb-4 p-8">
-    <p className="text-base-900 text-2xl font-bold">Overview</p>
-    <div className="flex justify-between">
+  <div className="bg-base-50 mb-4 flex items-end justify-between p-8">
+    <div>
+      <p className="text-base-900 text-2xl font-bold">Overview</p>
       <p className="text-base-500">
-        Medium length page description giving brief outline of contents to be
-        added here
+        Gain insights into the integrations being used by your organization.
       </p>
+    </div>
+    <div className="flex justify-between">
       <SelectConfigurations />
     </div>
   </div>

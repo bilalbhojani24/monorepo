@@ -8,12 +8,11 @@ const getLogs = ({
   from,
   page,
   method,
-  sortBy,
+  status,
   pageSize,
   urlSearch,
-  statusCode,
   integrations,
-  configurationIds
+  configurations
 }) =>
   axios
     .get(URLS.LOGS, {
@@ -23,11 +22,10 @@ const getLogs = ({
         page,
         method,
         integrations,
-        sort_by: sortBy,
         page_size: pageSize,
         url_search: urlSearch,
-        status_code: statusCode,
-        configuration_ids: configurationIds
+        status_code: status,
+        configuration_ids: configurations
       }
     })
     .then((response) => response.data.data);

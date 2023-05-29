@@ -4,6 +4,7 @@ import { getLogDetailsThunk } from '../api';
 import { LOADING_STATUS } from '../constants/loadingConstants';
 
 const initialState = {
+  logUUID: null,
   data: {},
   error: null,
   isSlideoverOpen: false,
@@ -23,11 +24,13 @@ export const logDetailsSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(getLogDetailsThunk.pending, (state) => {
+    builder.addCase(getLogDetailsThunk.pending, (state, action) => {
+      state.logUUID = action.meta.arg.logUUID;
       state.loading = LOADING_STATUS.PENDING;
       state.error = null;
     });
     builder.addCase(getLogDetailsThunk.fulfilled, (state, action) => {
+      state.logUUID = action.payload.uuid ?? initialState.logUUID;
       state.loading = LOADING_STATUS.SUCCEEDED;
       state.data = action.payload;
     });
@@ -48,3 +51,4 @@ export const logDetailsErrorSelector = (state) => state.logDetails.error;
 export const logDetailsSelector = (state) => state.logDetails.data;
 export const isLogDetailsSlideoverOpenSelector = (state) =>
   state.logDetails.isSlideoverOpen;
+export const logDetailsLogUUIDSelector = (state) => state.logDetails.logUUID;

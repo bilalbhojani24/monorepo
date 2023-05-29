@@ -20,7 +20,7 @@ export const integrationsSlice = createSlice({
     });
     builder.addCase(getIntegrationsThunk.fulfilled, (state, action) => {
       state.loading = LOADING_STATUS.SUCCEEDED;
-      state.integrations = action.payload;
+      state.integrations = action.payload.integrations;
     });
     builder.addCase(getIntegrationsThunk.rejected, (state, action) => {
       state.loading = LOADING_STATUS.FAILED;

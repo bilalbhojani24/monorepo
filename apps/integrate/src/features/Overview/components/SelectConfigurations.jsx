@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  SelectMenu,
-  SelectMenuOptionGroup,
-  SelectMenuOptionItem,
-  SelectMenuTrigger
+  Dropdown,
+  DropdownOptionGroup,
+  DropdownOptionItem,
+  DropdownTrigger
 } from '@browserstack/bifrost';
 
 import {
-  activeConfigurationsSelector,
   configurationsSelector,
   setActiveConfigurations
 } from '../../../globalSlice';
@@ -16,54 +15,50 @@ import {
 const SelectConfigurations = () => {
   const dispatch = useDispatch();
   const AllConfigurationsOption = {
-    label: 'All Configurations',
-    value: 'All Configurations'
+    id: 'all',
+    body: <p>All</p>
   };
   const configurations = useSelector(configurationsSelector);
-  const activeConfigurations = useSelector(activeConfigurationsSelector);
+  const options = useMemo(
+    () =>
+      configurations?.map((configuration) => ({
+        id: configuration.value,
+        body: <p>{configuration.label}</p>
+      })) ?? [],
+    [configurations]
+  );
 
   const selectConfiguration = (val) => {
-    const hasSelectAllConfigurations = val?.find(
-      (option) => option.value === AllConfigurationsOption.value
-    );
-    if (hasSelectAllConfigurations) {
-      dispatch(
-        setActiveConfigurations([AllConfigurationsOption, ...configurations])
-      );
+    const hasSelectedAllConfigurations = val.id === AllConfigurationsOption.id;
+
+    if (hasSelectedAllConfigurations) {
+      dispatch(setActiveConfigurations([...configurations]));
     } else {
-      const deselectedAllConfigurations = activeConfigurations?.find(
-        (option) => option.value === AllConfigurationsOption.value
+      const selectedConfiguration = configurations.find(
+        (configuration) => val.id === configuration.value
       );
-      if (deselectedAllConfigurations) {
-        dispatch(setActiveConfigurations([]));
-      } else {
-        dispatch(setActiveConfigurations(val));
-      }
+
+      dispatch(setActiveConfigurations([selectedConfiguration]));
     }
   };
 
   return (
-    <SelectMenu
-      onChange={selectConfiguration}
-      value={activeConfigurations}
-      isMulti
-    >
-      <SelectMenuTrigger
-        placeholder="All Configurations"
-        wrapperClassName="w-48 ml-6"
-      />
-      <SelectMenuOptionGroup>
-        {configurations?.length > 1 && (
-          <SelectMenuOptionItem
+    <Dropdown onClick={selectConfiguration}>
+      <div className="flex">
+        <DropdownTrigger>Configurations</DropdownTrigger>
+      </div>
+      <DropdownOptionGroup>
+        {options?.length > 1 && (
+          <DropdownOptionItem
             key={AllConfigurationsOption.value}
             option={AllConfigurationsOption}
           />
         )}
-        {configurations.map((item) => (
-          <SelectMenuOptionItem key={item.value} option={item} />
+        {options.map((item) => (
+          <DropdownOptionItem key={item.value} option={item} />
         ))}
-      </SelectMenuOptionGroup>
-    </SelectMenu>
+      </DropdownOptionGroup>
+    </Dropdown>
   );
 };
 

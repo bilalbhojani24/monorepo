@@ -7,13 +7,6 @@ module.exports = {
     '../../packages/bifrost/modules/**/*.{js,jsx}'
   ],
   theme: {
-    ...globalConfigs.globalTailwindConfig.theme,
-    colors: {
-      ...globalConfigs.globalTailwindConfig.theme.colors,
-      pink: {
-        800: '#9D174D',
-        100: '#FCE7F3'
-      }
-    }
+    ...globalConfigs.globalTailwindConfig.theme
   }
 };

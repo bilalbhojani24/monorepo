@@ -1,14 +1,16 @@
 import React, { useMemo } from 'react';
 import {
   CodeSnippet,
+  CodeSnippetToolbar,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
-const LogRequestDetailsTable = ({ data = {} }) => {
+const LogRequestDetailsTable = ({ data, payloadOf }) => {
   const dataToRender = useMemo(() => Object.entries(data), [data]);
   return (
     <Table>
@@ -32,11 +34,20 @@ const LogRequestDetailsTable = ({ data = {} }) => {
               </TableCell>
               <TableCell key="details">
                 {itemName === 'body' ? (
-                  <div className="max-w-md">
+                  <div className="max-w-xl">
                     <CodeSnippet
+                      toolbar={
+                        <CodeSnippetToolbar
+                          leadingNode={
+                            <div className="bg-base-50 flex items-center space-x-2">
+                              <div>{payloadOf}</div>
+                            </div>
+                          }
+                        />
+                      }
                       code={JSON.stringify(JSON.parse(itemDetails), null, '\t')}
                       language="json"
-                      maxHeight="200px"
+                      maxHeight="400px"
                     />
                   </div>
                 ) : (
@@ -50,4 +61,14 @@ const LogRequestDetailsTable = ({ data = {} }) => {
     </Table>
   );
 };
+
+LogRequestDetailsTable.propTypes = {
+  data: PropTypes.shape({ [PropTypes.string]: PropTypes.string }),
+  payloadOf: PropTypes.string.isRequired
+};
+
+LogRequestDetailsTable.defaultProps = {
+  data: {}
+};
+
 export default LogRequestDetailsTable;

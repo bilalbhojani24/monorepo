@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { URLS } from './constants';
 
-const getLogDetails = (logUUID) =>
+const getLogDetails = ({ logUUID }) =>
   axios
     .get(URLS.LOG_DETAILS, {
       params: {

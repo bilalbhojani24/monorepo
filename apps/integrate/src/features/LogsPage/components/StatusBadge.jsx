@@ -1,41 +1,24 @@
 import React from 'react';
 import { Badge } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const StatusBadge = ({ statusCode }) => {
-  const getBadgeModifierForStatus = (code) => {
-    let mod = null;
-    switch (code) {
-      case '200':
-      case '201': {
-        mod = 'success';
-        break;
-      }
-      case '400':
-      case '401':
-      case '500': {
-        mod = 'error';
-        break;
-      }
-      case '408': {
-        mod = 'warn';
-        break;
-      }
-      default:
-        mod = 'base';
+  function getBadgeModifierForStatus(httpStatusCode) {
+    if (/^2\d{2}$/.test(httpStatusCode)) {
+      return 'success'; // 2xx status code
     }
-    return mod;
-  };
-  const classnameMapForBadge = {
-    503: 'text-pink-800 bg-pink-100'
-  };
+    if (/^4\d{2}$/.test(httpStatusCode)) {
+      return 'warn'; // 4xx status code
+    }
+    if (/^5\d{2}$/.test(httpStatusCode)) {
+      return 'error'; // 5xx status code
+    }
+    return 'base'; // Default modifier
+  }
 
   return (
     <Badge
-      wrapperClassName={twClassNames({
-        [classnameMapForBadge[statusCode]]: [statusCode]
-      })}
+      wrapperClassName="hover:bg-inherit cursor-default"
       hasDot={false}
       hasRemoveButton={false}
       text={statusCode}

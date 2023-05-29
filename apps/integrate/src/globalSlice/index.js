@@ -5,6 +5,16 @@ import configurationsReducers, {
   configurationsSelector,
   setActiveConfigurations
 } from './configurationsSlice';
+import filtersReducers, {
+  clearFilters,
+  closeFiltersSlideover,
+  FILTER_KEY,
+  filtersInitialState,
+  filtersSelector,
+  isFiltersSlideoverOpenSelector,
+  openFiltersSlideover,
+  setFilters
+} from './filtersSlice';
 import integrationsReducers, {
   integrationsErrorSelector,
   integrationsLoadingSelector,
@@ -15,6 +25,7 @@ import logDetailsReducers, {
   isLogDetailsSlideoverOpenSelector,
   logDetailsErrorSelector,
   logDetailsLoadingSelector,
+  logDetailsLogUUIDSelector,
   logDetailsSelector,
   openLogDetailsSlideover
 } from './logDetailsSlice';
@@ -41,26 +52,35 @@ import usageSummaryReducers, {
 
 export {
   activeConfigurationsSelector,
+  clearFilters,
+  closeFiltersSlideover,
   closeLogDetailsSlideover,
   closeUsageSummarySlideover,
   configurationsErrorSelector,
   configurationsLoadingSelector,
   configurationsReducers,
   configurationsSelector,
+  FILTER_KEY,
+  filtersInitialState,
+  filtersReducers,
+  filtersSelector,
   integrationsErrorSelector,
   integrationsLoadingSelector,
   integrationsReducers,
   integrationsSelector,
+  isFiltersSlideoverOpenSelector,
   isLogDetailsSlideoverOpenSelector,
   isUsageSummarySlideoverOpenSelector,
   logDetailsErrorSelector,
   logDetailsLoadingSelector,
+  logDetailsLogUUIDSelector,
   logDetailsReducers,
   logDetailsSelector,
   logsErrorSelector,
   logsLoadingSelector,
   logsReducers,
   logsSelector,
+  openFiltersSlideover,
   openLogDetailsSlideover,
   openUsageSummarySlideover,
   requestCountErrorSelector,
@@ -68,6 +88,7 @@ export {
   requestCountReducers,
   requestCountSelector,
   setActiveConfigurations,
+  setFilters,
   setUsageDetails,
   usageDetailsSelector,
   usageSummaryErrorSelector,

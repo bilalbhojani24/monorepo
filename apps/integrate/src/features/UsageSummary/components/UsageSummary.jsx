@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   SelectMenu,
@@ -6,9 +6,11 @@ import {
   SelectMenuOptionItem,
   SelectMenuTrigger
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { getUnixTime, subMonths } from 'date-fns';
 
 import { getUsageSummaryThunk } from '../../../api';
+import { GenericError } from '../../../common';
 import { INTGLoader } from '../../../common/bifrostProxy';
 import { LOADING_STATUS } from '../../../constants/loadingConstants';
 import {
@@ -16,6 +18,7 @@ import {
   usageSummaryLoadingSelector,
   usageSummarySelector
 } from '../../../globalSlice';
+import { getCleanedConfigurationIds } from '../../../utils/helpers';
 
 import UsageSummaryTable from './UsageSummaryTable';
 
@@ -30,16 +33,18 @@ const RequestsChart = () => {
   const selectConfiguration = (val) => {
     setActiveDateRange(val);
   };
-  const activeConfigurationsIds = useSelector(activeConfigurationsSelector)
-    ?.reduce((activeConfigurationIds, configuration) => {
-      if (configuration.value !== 'All Configurations')
-        activeConfigurationIds.push(configuration.value);
-      return activeConfigurationIds;
-    }, [])
-    .join();
+  const activeConfigurationsIds = getCleanedConfigurationIds(
+    useSelector(activeConfigurationsSelector)
+  );
+
+  const usageSummaryLoadingStatus = useSelector(usageSummaryLoadingSelector);
 
   const isUsageSummaryLoading =
-    useSelector(usageSummaryLoadingSelector) === LOADING_STATUS.PENDING;
+    usageSummaryLoadingStatus === LOADING_STATUS.PENDING;
+  const isUsageSummaryLoaded =
+    usageSummaryLoadingStatus === LOADING_STATUS.SUCCEEDED;
+  const isUsageSummaryFailure =
+    usageSummaryLoadingStatus === LOADING_STATUS.FAILED;
   const usageSummaryData = useSelector(usageSummarySelector);
 
   const to = useMemo(() => new Date(), []);
@@ -58,24 +63,42 @@ const RequestsChart = () => {
     );
   }, [dispatch, activeConfigurationsIds, activeDateRange, to, from]);
 
+  const handleTryAgain = useCallback(() => {
+    dispatch(
+      getUsageSummaryThunk({
+        to: getUnixTime(to),
+        from: getUnixTime(from),
+        configurationIds: activeConfigurationsIds
+      })
+    );
+  }, [activeConfigurationsIds, dispatch, from, to]);
+
   return (
     // eslint-disable-next-line tailwindcss/no-arbitrary-value
     <div className="mb-6 h-[440px] flex-1 rounded-lg bg-white p-6 drop-shadow">
-      <div className="mb-5 flex justify-between">
+      <div
+        className={twClassNames('flex justify-between', {
+          'mb-5': !isUsageSummaryFailure
+        })}
+      >
         <p className="text-lg font-semibold">Usage</p>
-        <SelectMenu onChange={selectConfiguration} value={activeDateRange}>
-          <SelectMenuTrigger wrapperClassName="w-48 ml-6" />
-          <SelectMenuOptionGroup>
-            {range?.map((item) => (
-              <SelectMenuOptionItem key={item.value} option={item} />
-            ))}
-          </SelectMenuOptionGroup>
-        </SelectMenu>
+        {isUsageSummaryLoaded && (
+          <SelectMenu onChange={selectConfiguration} value={activeDateRange}>
+            <SelectMenuTrigger wrapperClassName="w-48 ml-6" />
+            <SelectMenuOptionGroup>
+              {range?.map((item) => (
+                <SelectMenuOptionItem key={item.value} option={item} />
+              ))}
+            </SelectMenuOptionGroup>
+          </SelectMenu>
+        )}
       </div>
-      {isUsageSummaryLoading ? (
-        <INTGLoader wrapperClassName="h-80" />
-      ) : (
+      {isUsageSummaryLoading && <INTGLoader wrapperClassName="h-80" />}
+      {isUsageSummaryLoaded && (
         <UsageSummaryTable usageSummaryData={usageSummaryData} />
+      )}
+      {isUsageSummaryFailure && (
+        <GenericError handleTryAgain={handleTryAgain} />
       )}
     </div>
   );

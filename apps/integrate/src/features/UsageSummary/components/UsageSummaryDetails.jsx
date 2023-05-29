@@ -6,6 +6,7 @@ import {
   SlideoverHeader
 } from '@browserstack/bifrost';
 
+import { Logo } from '../../../common';
 import {
   closeUsageSummarySlideover,
   isUsageSummarySlideoverOpenSelector,
@@ -16,7 +17,7 @@ import UsageSummaryDetailsTable from './UsageSummaryDetailsTable';
 
 const UsageSummaryDetails = () => {
   const isOpen = useSelector(isUsageSummarySlideoverOpenSelector);
-  const { label } = useSelector(usageDetailsSelector);
+  const { label, icon } = useSelector(usageDetailsSelector);
   const dispatch = useDispatch();
   const handleClose = () => {
     dispatch(closeUsageSummarySlideover());
@@ -28,8 +29,6 @@ const UsageSummaryDetails = () => {
       onOverlayClick={handleClose}
       backgroundOverlay
       topMarginElementId="integrate-header-id"
-      //   backgroundOverlay={false}
-      //   onEscPress={handleClose}
       onClose={handleClose}
       size="2xl"
     >
@@ -37,7 +36,8 @@ const UsageSummaryDetails = () => {
         dismissButton
         handleDismissClick={handleClose}
         heading={`${label} Usage Details`}
-        wrapperClassName="bg-base-50"
+        wrapperClassName="bg-base-50 sm:items-center"
+        Icon={<Logo logo={icon} wrapperClassName="h-8 w-8" />}
       />
       <SlideoverBody>
         <div className="p-6">

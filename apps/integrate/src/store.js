@@ -3,6 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import headerReducer from './features/Layout/slices/headerSlice';
 import {
   configurationsReducers,
+  filtersReducers,
   integrationsReducers,
   logDetailsReducers,
   logsReducers,
@@ -18,6 +19,7 @@ export const store = configureStore({
     requestCount: requestCountReducers,
     usageSummary: usageSummaryReducers,
     logs: logsReducers,
-    logDetails: logDetailsReducers
+    logDetails: logDetailsReducers,
+    filters: filtersReducers
   }
 });
