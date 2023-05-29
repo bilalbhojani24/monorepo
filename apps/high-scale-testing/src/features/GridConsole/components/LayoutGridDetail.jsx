@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { PageHeadings, Tabs } from '@browserstack/bifrost';
 
 import ROUTES from '../../../constants/routes';
+import useLayoutGridDetail from './useLayoutGridDetail';
 
-import GridOverview from './GridOverview';
-
-const GridDetail = () => {
-  const [tabName, setTabName] = useState('Overview');
+const LayoutGridDetail = () => {
+  const { setTabName, tabName } = useLayoutGridDetail();
 
   const TabsForGridDetail = (
     <Tabs
@@ -43,9 +43,9 @@ const GridDetail = () => {
         {TabsForGridDetail}
       </div>
 
-      <GridOverview />
+      <Outlet />
     </div>
   );
 };
 
-export default GridDetail;
+export default LayoutGridDetail;

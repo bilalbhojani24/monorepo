@@ -56,15 +56,14 @@ const Layout = () => {
           }}
         >
           <SidebarNavigation
-            sidebarPrimaryNavigation={primaryNavs.map((item, idx) => (
+            sidebarPrimaryNavigation={primaryNavs.map((item) => (
               <SidebarItem
                 nav={item}
-                current={idx === 3}
                 handleNavigationClick={navigationClickHandler}
               />
             ))}
-            sidebarSecondaryNavigation={secondaryNavs.map((item, idx) => (
-              <SidebarItem nav={item} current={idx === 3} />
+            sidebarSecondaryNavigation={secondaryNavs.map((item) => (
+              <SidebarItem nav={item} />
             ))}
             wrapperClassName="md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full"
           />

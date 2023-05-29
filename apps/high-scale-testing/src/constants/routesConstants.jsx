@@ -1,12 +1,14 @@
 import React from 'react';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import GridConsole from 'features/GridConsole/components/Dashboard';
-import GridDetail from 'features/GridConsole/components/GridDetail';
+import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
 import { Layout } from 'features/Layout';
 import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
 import { Onboarding } from 'features/Onboarding';
 
 import ROUTES from './routes';
+import GridOverview from 'features/GridConsole/components/GridOverview';
+import GridSettings from 'features/GridConsole/components/GridSettings';
 
 export const APP_ROUTES = [
   {
@@ -34,7 +36,19 @@ export const APP_ROUTES = [
       {
         path: ROUTES.GRID,
         isProtected: true,
-        component: <GridDetail />
+        component: <LayoutGridDetail />,
+        children: [
+          {
+            path: ROUTES.GRID_OVERVIEW,
+            isProtected: true,
+            component: <GridOverview />
+          },
+          {
+            path: ROUTES.GRID_SETTINGS,
+            isProtected: true,
+            component: <GridSettings />
+          }
+        ]
       },
       {
         path: ROUTES.CREATE_GRID,
