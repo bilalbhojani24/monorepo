@@ -110,3 +110,5 @@ export const waitForSuccessfulServerReplyForWindows = async (
     throw new Error('Too Many Retries');
   }
 };
+
+export const processPathsForWindows = processPaths;

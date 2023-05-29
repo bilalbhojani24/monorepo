@@ -180,3 +180,5 @@ export const performApplicationTerminationForMac = (serverEntities) => {
   serverEntities.nodeServerInstance.kill();
   serverEntities.pyServerInstance.kill();
 };
+
+export const processPathsForMac = processPaths;
