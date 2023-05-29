@@ -15,7 +15,8 @@ import {
   SelectMenuOptionItem,
   SelectMenuTrigger,
   Tooltip,
-  TooltipBody
+  TooltipBody,
+  TooltipHeader
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
@@ -121,16 +122,37 @@ export default function Reports() {
               to consolidate and review reports.
             </h3>
           </div>
-          <Button
-            iconPlacement="start"
-            icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
-            onClick={() => {}}
-            size="small"
-            colors="white"
-            wrapperClassName="py-2"
+          <Tooltip
+            placementAlign="end"
+            placementSide="bottom"
+            arrowPadding={10}
+            content={
+              <>
+                <TooltipHeader>
+                  Start your Accessibility testing!{' '}
+                  <span role="img" aria-label="rocket emoji">
+                    🚀
+                  </span>
+                </TooltipHeader>
+                <TooltipBody>
+                  Use the extension to scan your web pages & workflows for
+                  accessibility issues.
+                </TooltipBody>
+              </>
+            }
+            theme="dark"
           >
-            Download extension
-          </Button>
+            <Button
+              iconPlacement="start"
+              icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
+              onClick={() => {}}
+              size="small"
+              colors="white"
+              wrapperClassName="py-2"
+            >
+              Download extension
+            </Button>
+          </Tooltip>
         </div>
 
         <div>
