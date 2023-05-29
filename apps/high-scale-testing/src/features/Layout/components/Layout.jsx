@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import {
   Header,
   HomeIcon,
+  MdOutlineTextSnippet,
   SidebarItem,
   SidebarNavigation,
   UsersIcon
@@ -26,6 +27,17 @@ const Layout = () => {
       path: '/team'
     }
   ];
+
+  const secondaryNavs = [
+    {
+      id: 'documentation',
+      label: 'Documentation',
+      activeIcon: MdOutlineTextSnippet,
+      inActiveIcon: MdOutlineTextSnippet,
+      path: '/'
+    }
+  ];
+
   return (
     <>
       <Header
@@ -76,6 +88,9 @@ const Layout = () => {
         >
           <SidebarNavigation
             sidebarPrimaryNavigation={primaryNavs.map((item, idx) => (
+              <SidebarItem nav={item} current={idx === 3} />
+            ))}
+            sidebarSecondaryNavigation={secondaryNavs.map((item, idx) => (
               <SidebarItem nav={item} current={idx === 3} />
             ))}
             wrapperClassName="md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full"
