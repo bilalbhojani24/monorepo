@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   Dropdown,
@@ -20,6 +21,11 @@ import { useGridListing } from './useGridListing';
 
 const GridsListing = () => {
   const { gridList, options, tableCellWrapperClassName } = useGridListing();
+  const navigate = useNavigate();
+
+  const gridRowHandler = (gridId) => {
+    navigate(`/grid-console/grid/${gridId}`);
+  };
 
   return (
     gridList.length > 0 && (
@@ -72,6 +78,7 @@ const GridsListing = () => {
               const gridStatus = gridData.status;
               const statusModifier =
                 gridData.status === 'Online' ? 'success' : 'base';
+              const gridId = gridData.gridProfile.id;
 
               const supportedBrowsers = {
                 chrome:
@@ -81,7 +88,7 @@ const GridsListing = () => {
               };
 
               return (
-                <TableRow onRowClick={() => {}}>
+                <TableRow onRowClick={() => gridRowHandler(gridId)}>
                   <TableCell wrapperClassName="text-base-900 first:pr-3 last:pl-3 px-2 py-2">
                     <p className="font-normal">{gridName}</p>
                     <p className="text-base-500">b7465tbf76</p>
@@ -117,6 +124,7 @@ const GridsListing = () => {
                   <TableCell>
                     <Dropdown
                       onClick={(value) => {
+                        // eslint-disable-next-line no-console
                         console.log(value);
                       }}
                     >

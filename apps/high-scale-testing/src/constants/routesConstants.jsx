@@ -1,6 +1,7 @@
 import React from 'react';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import GridConsole from 'features/GridConsole/components/Dashboard';
+import GridDetail from 'features/GridConsole/components/GridDetail';
 import { Layout } from 'features/Layout';
 import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
 import { Onboarding } from 'features/Onboarding';
@@ -29,6 +30,11 @@ export const APP_ROUTES = [
         path: ROUTES.GRID_CONSOLE,
         isProtected: true,
         component: <GridConsole />
+      },
+      {
+        path: ROUTES.GRID,
+        isProtected: true,
+        component: <GridDetail />
       },
       {
         path: ROUTES.CREATE_GRID,

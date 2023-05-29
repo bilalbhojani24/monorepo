@@ -16,7 +16,7 @@ const GridConsole = () => {
 
   return (
     <div className="flex-1">
-      <div className="bg-white px-6 pt-9">
+      <div className="bg-white px-6 pt-6">
         <PageHeadings
           actions={
             <Button onClick={createGridBtnHandler}> Create Grid </Button>

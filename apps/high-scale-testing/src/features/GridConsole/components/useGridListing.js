@@ -21,8 +21,6 @@ const useGridListing = () => {
       const res = await fetchAllGridsData(userDetails.id);
 
       setGridList(res.data);
-
-      console.log('Log: gridList:', gridList);
     };
 
     fetchAllGridsDataFromAPI();

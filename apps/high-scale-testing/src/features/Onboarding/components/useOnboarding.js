@@ -263,7 +263,7 @@ browserstack-cli hst init`,
         setIsSetupComplete(true);
       }, 1000);
     }
-  }, [currentStep, totalSteps]);
+  }, [currentStep, showGridHeartBeats, totalSteps]);
 
   useEffect(() => {
     setShowSetupStatusModal(isSetupComplete);
@@ -324,6 +324,7 @@ browserstack-cli hst init`,
     } else {
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
