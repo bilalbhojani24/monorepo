@@ -69,12 +69,8 @@ const defaultConfig = {
       description: 'ABCDEFGHIJK',
       defaultValue: (
         <div className="flex items-center">
-          <Button aria-label="Increment value" wrapperClassName="mr-3">
-            Really long
-          </Button>
-          <Button aria-label="Increment value" wrapperClassName="ml-3 mr-3">
-            Button name
-          </Button>
+          <Button wrapperClassName="mr-3">Really long</Button>
+          <Button wrapperClassName="ml-3 mr-3">Button name</Button>
         </div>
       )
     },
@@ -103,7 +99,7 @@ Primary.play = async ({ canvasElement }) => {
 const WithHeaderClassName = Template.bind({});
 WithHeaderClassName.args = {
   headerWrapperClassName:
-    'flex flex-wrap items-center justify-between sm:flex-nowrap'
+    'flex flex-wrap items-center justify-between sm:flex-nowrap mb-4 sm:mb-0'
 };
 
 Primary.parameters = {
