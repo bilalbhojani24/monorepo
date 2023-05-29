@@ -3,7 +3,7 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import Button from '../Button';
-import { BsChevronLeft, BsChevronRight } from '../Icon';
+import { FiChevronLeft, FiChevronRight } from '../Icon';
 
 import Modal from './components/Modal';
 
@@ -50,16 +50,18 @@ const GalleryPreview = ({
         >
           <Button
             onClick={handlePrevClick}
-            wrapperClassName="ml-3"
+            variant="minimal"
+            wrapperClassName="ml-3 focus:border-none bg-white"
             colors="white"
-            icon={<BsChevronLeft className="mx-auto h-4 w-4" />}
+            icon={<FiChevronLeft className="mx-auto h-5 w-5" />}
             isIconOnlyButton
           />
           <Button
             onClick={handleNextClick}
-            wrapperClassName="mr-3"
+            variant="minimal"
+            wrapperClassName="mr-3 focus:border-none bg-white"
             colors="white"
-            icon={<BsChevronRight className="mx-auto h-4 w-4" />}
+            icon={<FiChevronRight className="mx-auto h-5 w-5" />}
             isIconOnlyButton
           />
         </div>
@@ -69,7 +71,7 @@ const GalleryPreview = ({
             bottomWrapperClassName
           )}
         >
-          <div>{bottomAction}</div>
+          {bottomAction}
         </div>
       </Modal>
     </div>

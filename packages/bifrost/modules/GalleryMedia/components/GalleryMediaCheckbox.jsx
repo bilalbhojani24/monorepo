@@ -27,7 +27,7 @@ const GalleryMediaCheckbox = ({
       <button
         onClick={handleClick}
         className={twClassNames(
-          'border-base-300 outline-brand-500 relative w-full rounded-md border outline-2 outline-offset-4 hover:opacity-80',
+          'border-base-300 outline-brand-500 relative w-full rounded border outline-2 outline-offset-4 hover:opacity-80',
           {
             'border-brand-600 border-2 rounded -mt-[1px]': selected
           }

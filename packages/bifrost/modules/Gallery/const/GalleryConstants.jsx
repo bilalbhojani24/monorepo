@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { MEDIA_CARD_STATUS } from '../../GalleryMedia/const/GalleryMediaConstants';
-import { TrashIcon } from '../../Icon';
+import { MdOutlineDelete } from '../../Icon';
 
 import file from './test.pdf';
 
@@ -10,8 +10,8 @@ export const DummyData = [
     title: 'lorem some file.jsx',
     subTitle: 'sub-lorem',
     icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
+      <MdOutlineDelete
+        className="text-base-700 h-5 w-5 cursor-pointer"
         aria-hidden="true"
       />
     ),
@@ -25,8 +25,8 @@ export const DummyData = [
     title: 'ipsum lorem some file.jsx',
     subTitle: 'sub-ipsum',
     icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
+      <MdOutlineDelete
+        className="text-base-700 h-5 w-5 cursor-pointer"
         aria-hidden="true"
       />
     ),
@@ -39,8 +39,8 @@ export const DummyData = [
     title: 'dolor sub-dolor.ts',
     subTitle: 'Meta Data',
     icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
+      <MdOutlineDelete
+        className="text-base-700 h-5 w-5 cursor-pointer"
         aria-hidden="true"
       />
     ),
@@ -53,8 +53,8 @@ export const DummyData = [
     title: 'lorem some file.jsx',
     subTitle: 'sub-lorem',
     icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
+      <MdOutlineDelete
+        className="text-base-700 h-5 w-5 cursor-pointer"
         aria-hidden="true"
       />
     ),
@@ -68,8 +68,8 @@ export const DummyData = [
     title: 'ipsum.lorem.some.file.jsx',
     subTitle: 'sub-ipsum',
     icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
+      <MdOutlineDelete
+        className="text-base-700 h-5 w-5 cursor-pointer"
         aria-hidden="true"
       />
     ),
@@ -83,8 +83,8 @@ export const DummyData = [
     title: 'ipsum lorem some really big file.jsx',
     subTitle: 'sub-ipsum',
     icon: (
-      <TrashIcon
-        className="text-base-700 h-4 cursor-pointer"
+      <MdOutlineDelete
+        className="text-base-700 h-5 w-5 cursor-pointer"
         aria-hidden="true"
       />
     ),

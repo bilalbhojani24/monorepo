@@ -5,8 +5,15 @@ import {
   BsExclamationTriangleFill
 } from 'react-icons/bs';
 import { FaApple } from 'react-icons/fa';
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { HiOutlineDownload } from 'react-icons/hi';
-import { MdContentCopy, MdPictureAsPdf } from 'react-icons/md';
+import {
+  MdContentCopy,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdOutlineDelete,
+  MdPictureAsPdf
+} from 'react-icons/md';
 import { SiJira, SiJirasoftware } from 'react-icons/si';
 import {
   ArrowDownIcon,
@@ -87,6 +94,8 @@ export {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
   FaApple,
+  FiChevronLeft,
+  FiChevronRight,
   FolderIcon,
   HiOutlineDownload,
   HomeIcon,
@@ -94,6 +103,9 @@ export {
   InformationCircleIcon,
   MagnifyingGlassIcon,
   MdContentCopy,
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdOutlineDelete,
   MdPictureAsPdf,
   MinusIcon,
   PaperClipIcon,

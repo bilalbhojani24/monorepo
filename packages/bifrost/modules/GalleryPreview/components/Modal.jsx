@@ -17,7 +17,7 @@ const Modal = forwardRef((props, ref) => {
     <Transition.Root show={show}>
       <Dialog
         as="div"
-        className="z-70 relative"
+        className="relative z-10"
         onClose={() => {
           if (onClose) onClose();
           if (onOverlayClick) onOverlayClick();
@@ -41,7 +41,7 @@ const Modal = forwardRef((props, ref) => {
             backdropWrapperClassName
           )}
         >
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"

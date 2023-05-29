@@ -9,11 +9,12 @@ import GalleryMediaActionbar from '../GalleryMediaActionbar';
 import GalleryMediaFooterButton from '../GalleryMediaFooterButton';
 import GalleryPreview from '../GalleryPreview';
 import {
+  ArrowLongLeftIcon,
   HiOutlineDownload,
   MdContentCopy,
+  MdOutlineDelete,
   MinusIcon,
-  PlusIcon,
-  TrashIcon
+  PlusIcon
 } from '../Icon';
 
 import { DummyData } from './const/GalleryConstants';
@@ -22,6 +23,12 @@ import Gallery from './index';
 const defaultConfig = {
   title: 'Application/Components/Gallery',
   component: Gallery,
+  subcomponents: {
+    GalleryMedia,
+    GalleryMediaActionbar,
+    GalleryMediaFooterButton,
+    GalleryPreview
+  },
   parameters: {
     docs: {
       page: () => (
@@ -64,7 +71,7 @@ Primary.args = {
                 className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
               />
-              <TrashIcon
+              <MdOutlineDelete
                 className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
               />
@@ -107,7 +114,10 @@ Primary.args = {
               className="h-5 w-5 cursor-pointer"
               aria-hidden="true"
             />
-            <TrashIcon className="h-5 w-5 cursor-pointer" aria-hidden="true" />
+            <MdOutlineDelete
+              className="h-5 w-5 cursor-pointer"
+              aria-hidden="true"
+            />
           </div>
         }
       />
@@ -200,6 +210,14 @@ export const GalleryExampleWPreview = () => {
         topAction={
           <div className="bg-base-900 absolute left-0 top-0 flex w-full justify-between p-5 text-white">
             <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setPreviewItem(null);
+                }}
+              >
+                <ArrowLongLeftIcon className="h-6 w-6 text-white" />
+              </button>
               <p className="text-sm font-medium leading-5 text-white">
                 {previewItem?.title}
               </p>
@@ -213,7 +231,7 @@ export const GalleryExampleWPreview = () => {
                 className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
               />
-              <TrashIcon
+              <MdOutlineDelete
                 className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
               />
@@ -221,20 +239,22 @@ export const GalleryExampleWPreview = () => {
           </div>
         }
         bottomAction={
-          <div>
+          <>
             <Button
-              wrapperClassName="rounded-r-none"
+              variant="minimal"
+              wrapperClassName="rounded-r-none focus:border-none bg-white focus:z-10"
               colors="white"
               icon={<MinusIcon className="mx-auto h-5 w-5" />}
               isIconOnlyButton
             />
             <Button
-              wrapperClassName="rounded-l-none"
+              variant="minimal"
+              wrapperClassName="rounded-l-none focus:border-none bg-white focus:z-10"
               colors="white"
               icon={<PlusIcon className="mx-auto h-5 w-5" />}
               isIconOnlyButton
             />
-          </div>
+          </>
         }
         content={
           <>
@@ -265,7 +285,7 @@ export const GalleryExampleWPreview = () => {
                 className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
               />
-              <TrashIcon
+              <MdOutlineDelete
                 className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
               />
