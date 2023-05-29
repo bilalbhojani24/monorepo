@@ -206,7 +206,7 @@ const useBulkFunctions = () => {
         dispatch(
           addNotificaton({
             id: `test_cases_removed_${testRunDetails?.id}`,
-            title: `${selectedTestCaseIDs?.length || 0} Test cases removed`,
+            title: `${selectedTestCaseIDs?.length || 0} Test Cases removed`,
             description: null,
             variant: 'success'
           })
@@ -246,7 +246,7 @@ const useBulkFunctions = () => {
             id: `test_cases_updated_${testRunDetails?.id}`,
             title: `${
               selectedTestCaseIDs?.length || 0
-            } Test cases marked as ${capitalizeString(
+            } Test Cases marked as ${capitalizeString(
               resultForm?.status || ''
             )}`,
             description: null,
@@ -283,7 +283,7 @@ const useBulkFunctions = () => {
             id: `assigness_updates${testRunDetails?.id}`,
             title: `${
               selectedTestCaseIDs?.length || 0
-            } Test cases assigned to ${assignee?.label}`,
+            } Test Cases assigned to ${assignee?.label}`,
             description: null,
             variant: 'success'
           })

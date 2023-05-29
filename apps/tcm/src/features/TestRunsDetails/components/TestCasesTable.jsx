@@ -152,7 +152,7 @@ const TestCasesTable = () => {
           : null;
 
         return testRunDetails?.run_state === 'closed' ? (
-          <div className="flex h-9 items-center pl-3 capitalize">
+          <div className="flex h-7 items-center pl-3 capitalize">
             {valueMapped?.label || '--'}
           </div>
         ) : (
@@ -194,20 +194,22 @@ const TestCasesTable = () => {
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
-            <td
-              className="border-base-50 text-base-500 w-[1%] p-2 [&>div]:min-w-[20px]"
-              textTransform="uppercase"
-            >
-              {/* all checkbox */}
-              <TMCheckBox
-                border={false}
-                wrapperClassName="pt-0 pl-2"
-                checked={isAllChecked}
-                indeterminate={isIndeterminate}
-                onChange={selectAll}
-                disabled={!allTestCases?.length}
-              />
-            </td>
+            {testRunDetails?.run_state !== 'closed' && (
+              <td
+                className="border-base-50 text-base-500 w-[1%] p-2 [&>div]:min-w-[20px]"
+                textTransform="uppercase"
+              >
+                {/* all checkbox */}
+                <TMCheckBox
+                  border={false}
+                  wrapperClassName="pt-0 pl-2"
+                  checked={isAllChecked}
+                  indeterminate={isIndeterminate}
+                  onChange={selectAll}
+                  disabled={!allTestCases?.length}
+                />
+              </td>
+            )}
             {datatableColumns?.map((col, index) => (
               <TMTableCell
                 key={col.key}
@@ -266,25 +268,27 @@ const TestCasesTable = () => {
               {allTestCases?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TMTableRow isSelected key={row.id || index}>
-                  <td
-                    className={twClassNames(
-                      'border-base-50 test-base-500 p-2 w-[5%]'
-                      // !deSelectedTestCaseIDs.includes(row.id) &&
-                      //   (isAllSelected || selectedTestCaseIDs.includes(row.id))
-                      //   ? 'border-l-brand-600'
-                      //   : 'border-l-white'
-                    )}
-                    textTransform="uppercase"
-                  >
-                    <TMCheckBox
-                      border={false}
-                      wrapperClassName="pt-0 pl-2"
-                      checked={
-                        isAllChecked || selectedTestCaseIDs.includes(row.id)
-                      }
-                      onChange={(e) => updateSelection(e, row)}
-                    />
-                  </td>
+                  {testRunDetails?.run_state !== 'closed' && (
+                    <td
+                      className={twClassNames(
+                        'border-base-50 test-base-500 p-2 w-[5%]'
+                        // !deSelectedTestCaseIDs.includes(row.id) &&
+                        //   (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                        //   ? 'border-l-brand-600'
+                        //   : 'border-l-white'
+                      )}
+                      textTransform="uppercase"
+                    >
+                      <TMCheckBox
+                        border={false}
+                        wrapperClassName="pt-0 pl-2"
+                        checked={
+                          isAllChecked || selectedTestCaseIDs.includes(row.id)
+                        }
+                        onChange={(e) => updateSelection(e, row)}
+                      />
+                    </td>
+                  )}
                   {datatableColumns?.map((column) => {
                     const value = row[column.key];
                     return (
