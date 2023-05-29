@@ -19,8 +19,8 @@ import {
 } from '../slices/smartTagsSettings';
 
 const NEW_FAILURE_TYPES_DATA = [
-  { name: 'new', value: 'new' },
-  { name: 'any', value: 'any' }
+  { name: 'NEW', value: 'NEW' },
+  { name: 'ANY', value: 'ANY' }
 ];
 
 const STATIC_DROPDOWN_DATA = [
@@ -34,9 +34,9 @@ export const NewFailureTags = ({ data, isActive }) => {
 
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
-  const { newFailureType, consecutiveRuns, enabled: newFailureEnabled } = data;
+  const { failureType, consecutiveRuns, enabled: newFailureEnabled } = data;
   const {
-    newFailureType: newFailureTypeDefault,
+    failureType: failureTypeDefault,
     consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.newFailure;
 
@@ -95,13 +95,13 @@ export const NewFailureTags = ({ data, isActive }) => {
             Any test failing with
             <div className="text-base-900 mx-1 w-20">
               <O11ySelectMenu
-                value={{ label: newFailureType, value: newFailureType }}
+                value={{ label: failureType, value: failureType }}
                 onChange={(item) =>
-                  setNewFailureDropdowns('newFailureType', item.value)
+                  setNewFailureDropdowns('failureType', item.value)
                 }
                 defaultValue={{
-                  label: newFailureTypeDefault,
-                  value: newFailureTypeDefault
+                  label: failureTypeDefault,
+                  value: failureTypeDefault
                 }}
                 disabled={!isActive || !newFailureEnabled}
               >

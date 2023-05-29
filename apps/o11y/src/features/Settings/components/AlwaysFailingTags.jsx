@@ -19,8 +19,8 @@ import {
 } from '../slices/smartTagsSettings';
 
 const ALWAYS_FAILING_TAGS_DATA = [
-  { label: 'same error', value: 'same error' },
-  { label: 'any error', value: 'any error' }
+  { label: 'SAME ERROR', value: 'SAME_ERROR' },
+  { label: 'ANY ERROR', value: 'ANY_ERROR' }
 ];
 
 const STATIC_DROPDOWN_DATA = [
@@ -36,12 +36,12 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
   const activeProject = useSelector(getActiveProject);
 
   const {
-    errorType,
+    failureType,
     consecutiveRuns,
     enabled: alwaysFailingSwitchEnabled
   } = data;
   const {
-    errorType: errorTypeDefault,
+    failureType: errorTypeDefault,
     consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.alwaysFailing;
 
@@ -101,13 +101,13 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
             The test has been failing with
             <div className="text-base-900 mx-1 w-20">
               <O11ySelectMenu
-                value={{ label: errorType, value: errorType }}
+                value={{ label: failureType, value: failureType }}
                 defaultValue={{
                   label: errorTypeDefault,
                   value: errorTypeDefault
                 }}
                 onChange={(item) =>
-                  setAlwaysFailingDropdowns('errorType', item.value)
+                  setAlwaysFailingDropdowns('failureType', item.value)
                 }
                 disabled={isActive ? !alwaysFailingSwitchEnabled : true}
               >

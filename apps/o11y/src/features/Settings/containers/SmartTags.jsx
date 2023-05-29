@@ -25,6 +25,7 @@ export default function SmartTags() {
   );
   const [isLoadingData, setIsLoadingData] = useState(false);
   const dispatch = useDispatch();
+
   const mounted = useRef(false);
 
   useEffect(() => {

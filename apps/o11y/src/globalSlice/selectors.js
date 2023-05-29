@@ -7,6 +7,11 @@ export const getInitData = (state) => state.global.initData;
 export const getUserDetails = (state) =>
   state.global.initData?.data?.userDetails || {};
 export const getBuildInfo = (state) => state.global.buildInfo;
+export const getFeatureFlag = (state, feature) =>
+  state.global.initData?.data?.userDetails?.planDetails?.features[feature] || {
+    isMetered: false,
+    isActive: false
+  };
 export const getHasInitFailed = (state) => state.global.hasProductInitFailed;
 export const getPlanDetails = (state) => state.global.planDetails || {};
 export const isLoadingInitData = (state) => state.global.initData.isLoading;

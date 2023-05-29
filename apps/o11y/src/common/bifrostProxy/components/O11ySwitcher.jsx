@@ -1,6 +1,5 @@
 import React from 'react';
 import { Loader, Switch } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 export default function O11ySwitcher({
@@ -8,7 +7,6 @@ export default function O11ySwitcher({
   onChange,
   defaultValue,
   checked,
-  wrapperClassName,
   disabled,
   toggleIcons,
   loading
@@ -25,16 +23,14 @@ export default function O11ySwitcher({
       />
     </span>
   );
+
   return (
     <Switch
       isShortToggle={isShortToggle}
-      onChange={disabled ? null : onChange}
+      onChange={onChange}
       defaultValue={defaultValue}
       checked={checked}
-      wrapperClassName={twClassNames(wrapperClassName, {
-        'opacity-50 focus:ring-0 focus:ring-offset-0 cursor-not-allowed focus:outline-0':
-          disabled
-      })}
+      disabled={disabled}
       toggleIcons={loading ? loadingToggleIcons : toggleIcons}
     />
   );
@@ -44,7 +40,6 @@ O11ySwitcher.propTypes = {
   checked: PropTypes.bool,
   isShortToggle: PropTypes.bool,
   onChange: PropTypes.func,
-  wrapperClassName: PropTypes.string,
   defaultValue: PropTypes.bool,
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
@@ -54,7 +49,6 @@ O11ySwitcher.defaultProps = {
   checked: undefined,
   isShortToggle: false,
   onChange: null,
-  wrapperClassName: '',
   defaultValue: undefined,
   disabled: false,
   loading: false,

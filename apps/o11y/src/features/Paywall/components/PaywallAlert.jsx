@@ -55,14 +55,14 @@ function PaywallAlert({ title }) {
       detailsNode={
         <>
           {linkText && (
-            <>
-              <p>{linkText}</p>
+            <p className="whitespace-nowrap">
+              <span>{linkText}</span>
               {!isSubmitting && (
                 <span aria-hidden="true" className="ml-1">
                   &rarr;
                 </span>
               )}
-            </>
+            </p>
           )}
         </>
       }

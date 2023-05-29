@@ -19,7 +19,7 @@ import {
 } from '../slices/smartTagsSettings';
 
 const STATIC_DURATION_DROPDOWN_DATA = [
-  ...Array(19)
+  ...Array(20)
     .fill(0)
     .map((_, i) => ({
       name: i + 80,
@@ -28,7 +28,7 @@ const STATIC_DURATION_DROPDOWN_DATA = [
 ];
 
 const STATIC_EXECUTION_DROPDOWN_DATA = [
-  ...Array(471)
+  ...Array(71)
     .fill(0)
     .map((_, i) => ({
       name: i + 30,
@@ -42,12 +42,14 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const {
-    duration,
-    lastExecution,
+    durationPercentile,
+    consecutiveRuns,
     enabled: performanceAnomaliesEnabled
   } = data;
-  const { duration: durationDefault, lastExecution: lastExecutionDefault } =
-    SMART_TAGS_DEFAULT_VALUES.performanceAnomalies;
+  const {
+    durationPercentile: durationPercentileDefault,
+    consecutiveRuns: consecutiveRunsDefault
+  } = SMART_TAGS_DEFAULT_VALUES.performanceAnomalies;
 
   const setPerformanceAnomaliesSwitch = (key, value) => {
     setIsSubmittingData(true);
@@ -104,16 +106,19 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
       <div className="flex flex-col">
         <>
           <div className="text-base-500 flex items-center">
-            Detect as anomaly when duration
+            Detect as anomaly when durationPercentile
             <div className="text-base-900 mx-1 w-20">
               <O11ySelectMenu
-                value={{ label: duration, value: duration }}
+                value={{ label: durationPercentile, value: durationPercentile }}
                 onChange={(item) =>
-                  setPerformanceAnomaliesDropdowns('duration', item.value)
+                  setPerformanceAnomaliesDropdowns(
+                    'durationPercentile',
+                    item.value
+                  )
                 }
                 defaultValue={{
-                  label: durationDefault,
-                  value: durationDefault
+                  label: durationPercentileDefault,
+                  value: durationPercentileDefault
                 }}
                 disabled={!isActive || !performanceAnomaliesEnabled}
               >
@@ -136,14 +141,17 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
             percentile among last
             <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
-                value={{ label: lastExecution, value: lastExecution }}
+                value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
-                  setPerformanceAnomaliesDropdowns('lastExecution', item.value)
+                  setPerformanceAnomaliesDropdowns(
+                    'consecutiveRuns',
+                    item.value
+                  )
                 }
                 disabled={!isActive || !performanceAnomaliesEnabled}
                 defaultValue={{
-                  label: lastExecutionDefault,
-                  value: lastExecutionDefault
+                  label: consecutiveRunsDefault,
+                  value: consecutiveRunsDefault
                 }}
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" />
