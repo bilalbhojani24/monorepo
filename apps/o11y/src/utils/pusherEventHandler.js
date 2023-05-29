@@ -2,10 +2,7 @@ import { Pusher, PusherManager } from '@browserstack/utils';
 import { PUSHER_EVENTS, versionedBaseRoute } from 'constants/common';
 import { findAndUpdateBuilds } from 'features/AllBuilds/slices/buildsSlice';
 import { updateBuildMeta } from 'features/BuildDetails/slices/buildDetailsSlice';
-import {
-  getBuildMeta,
-  getBuildUUID
-} from 'features/BuildDetails/slices/selectors';
+import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import {
   getBuildHistoryData,
   getBuildSummaryData
@@ -70,25 +67,8 @@ class O11yPusherEvents {
       this.log(message);
 
       const state = this.getState();
-      let summaryPromise;
-      let historyPromise;
       if (message.type) {
         switch (message.type) {
-          case PUSHER_EVENTS.NEW_TESTS:
-            {
-              const buildMeta = getBuildMeta(state);
-              if (buildMeta?.data?.isParsingReport) {
-                this.dispatch(
-                  updateBuildMeta({
-                    buildUID: message.buildId,
-                    data: {
-                      isParsingReport: false
-                    }
-                  })
-                );
-              }
-            }
-            break;
           case PUSHER_EVENTS.BUILD_FINISHED:
             {
               this.dispatch(findAndUpdateBuilds(message?.data || []));
@@ -103,9 +83,7 @@ class O11yPusherEvents {
                     buildUID: foundBuild.uuid,
                     data: {
                       status: foundBuild?.status || null,
-                      statusStats: foundBuild?.statusStats || {},
-                      isParsingReport: false,
-                      buildError: foundBuild?.buildError || {}
+                      statusStats: foundBuild?.statusStats || {}
                     }
                   })
                 );
@@ -128,19 +106,13 @@ class O11yPusherEvents {
           case PUSHER_EVENTS.INSIGHTS_UPDATED: {
             const activeBuildId = getBuildUUID(state);
             if (activeBuildId === message.buildId) {
-              if (summaryPromise) {
-                summaryPromise?.abort();
-              }
-              if (historyPromise) {
-                historyPromise?.abort();
-              }
-              summaryPromise = this.dispatch(
+              this.dispatch(
                 getBuildSummaryData({
                   buildId: activeBuildId,
                   fetchUpdate: true
                 })
               );
-              summaryPromise = this.dispatch(
+              this.dispatch(
                 getBuildHistoryData({
                   buildId: activeBuildId,
                   fetchUpdate: true

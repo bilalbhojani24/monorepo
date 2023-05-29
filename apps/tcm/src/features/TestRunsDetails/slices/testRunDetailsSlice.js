@@ -33,8 +33,7 @@ const initialState = {
   },
   issuesArray: [],
   selectedTestCase: null,
-  testResultsArray: [],
-  uniqueIssueTestResults: []
+  testResultsArray: []
 };
 
 export const testRunDetailsSlice = createSlice({
@@ -92,9 +91,6 @@ export const testRunDetailsSlice = createSlice({
     },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
-    },
-    setUniqueIssueTestResults: (state, { payload }) => {
-      state.uniqueIssueTestResults = payload;
     }
   }
 });
@@ -115,8 +111,7 @@ export const {
   setIsLoadingProps,
   setSelectedFolder,
   setAllFolders,
-  setAllTestCases,
-  setUniqueIssueTestResults
+  setAllTestCases
 } = testRunDetailsSlice.actions;
 
 export default testRunDetailsSlice.reducer;

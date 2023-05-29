@@ -92,7 +92,7 @@ const O11yHeader = () => {
         }
       }}
       planPricingLink={getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing })}
-      buyPlanText={isOnFreemium ? 'Buy a plan' : 'Upgrade'}
+      buyPlanText={isOnFreemium ? 'Buy a Plan' : 'Upgrade'}
       buyPlanTarget="_blank"
       buyPlanLink={getExternalUrl({ path: EXTERNAL_LINKS.buyAPlan })}
       callbackFunctions={{

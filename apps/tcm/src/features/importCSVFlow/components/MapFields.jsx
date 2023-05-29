@@ -39,7 +39,6 @@ const MapFields = () => {
   const dispatch = useDispatch();
   const { mapFieldModalConfig } = useImportCSV();
   const {
-    ampEventMapPageLoaded,
     mapFieldsError,
     allowedValueMapper,
     typeMapper,
@@ -177,7 +176,6 @@ const MapFields = () => {
     });
     dispatch(setUsers(projectId));
     dispatch(setTags(projectId));
-    ampEventMapPageLoaded();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

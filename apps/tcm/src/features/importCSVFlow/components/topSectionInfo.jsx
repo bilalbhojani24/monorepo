@@ -1,13 +1,10 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
 import { MdCheckCircle } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-import { logEventHelper } from 'utils/logEvent';
 
-import { FIRST_SCREEN, SECOND_SCREEN } from '../const/importCSVConstants';
 import { setCSVCurrentScreen } from '../slices/importCSVSlice';
 
 import useTextTransformer from './useTextTransformer';
@@ -20,23 +17,7 @@ const SingleStep = ({
   showPreText
 }) => {
   const dispatch = useDispatch();
-  const { projectId } = useParams();
-
   const handleCtaClick = () => {
-    if (redirectTo === FIRST_SCREEN) {
-      dispatch(
-        logEventHelper('TM_CiUpdateFileClicked', {
-          project_id: projectId
-        })
-      );
-    }
-    if (redirectTo === SECOND_SCREEN) {
-      dispatch(
-        logEventHelper('TM_CiUpdateMappingLinkClicked', {
-          project_id: projectId
-        })
-      );
-    }
     dispatch(setCSVCurrentScreen(redirectTo));
   };
   const { textRef } = useTextTransformer({

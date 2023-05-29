@@ -213,11 +213,6 @@ const useMapFields = () => {
 
   const handleUpdateClick = (actualName, value) => () => {
     dispatch(
-      logEventHelper('TM_CiValueUpdateLinkClicked', {
-        project_id: projectId
-      })
-    );
-    dispatch(
       setMapFieldModalConfig({
         field: actualName,
         mapped_field: value,
@@ -364,40 +359,20 @@ const useMapFields = () => {
   };
 
   const handleSaveClick = (key) => {
-    dispatch(
-      logEventHelper('TM_CiValueUpdateSaveCtaClicked', {
-        project_id: projectId
-      })
-    );
     dispatch(setValueMappings({ key, value: currentFieldValueMapping }));
     dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
   };
 
   const editMappingHandler = () => {
-    dispatch(
-      logEventHelper('TM_CiEditFieldValueMapBtnClicked', {
-        project_id: projectId
-      })
-    );
     dispatch(setShowMappings(false));
-  };
-
-  const ampEventMapPageLoaded = () => {
-    dispatch(
-      logEventHelper('TM_CiMapFieldsPageLoaded', {
-        project_id: projectId,
-        field_mapping: myFieldMappings,
-        value_mapping: valueMappings
-      })
-    );
   };
 
   const handleMappingProceedClick = () => {
     dispatch(
-      logEventHelper('TM_CiMapProceedCtaClicked', {
+      logEventHelper('TM_ImportCsvStep2ProceedBtnClicked', {
         project_id: projectId,
-        field_mapping: myFieldMappings,
-        value_mapping: valueMappings
+        'column_name[]': Object.keys(myFieldMappings),
+        'field_name[]': Object.keys(valueMappings)
       })
     );
     const folderId = queryParams.get('folder');
@@ -414,7 +389,6 @@ const useMapFields = () => {
   };
 
   return {
-    ampEventMapPageLoaded,
     mapFieldsError,
     allowedValueMapper,
     displayOptions,

@@ -21,7 +21,7 @@ const TestCaseMutliData = ({
   resultUpdatable,
   onResultClick,
   testRunId,
-  testCaseTestRunIssues,
+  testResultsArray,
   testRunName
 }) => {
   const {
@@ -33,7 +33,7 @@ const TestCaseMutliData = ({
   } = useTestCaseViewDetails();
   const { testCaseIssues } = useTestCaseMultiData({
     isFromTestRun,
-    testCaseTestRunIssues
+    testResultsArray
   });
 
   const trTcIssuesTableColumn = [
@@ -110,9 +110,11 @@ const TestCaseMutliData = ({
     },
     {
       name: 'Linked On',
-      key: 'linked_at',
+      key: 'created_at',
       cell: (rowData) =>
-        rowData?.linked_at ? formatTime(rowData?.linked_at, 'date') : '--'
+        rowData?.test_run_created_at
+          ? formatTime(rowData?.test_run_created_at, 'date')
+          : '--'
     }
   ];
 
@@ -175,7 +177,7 @@ TestCaseMutliData.propTypes = {
   resultUpdatable: PropTypes.bool,
   testRunId: PropTypes.number,
   onResultClick: PropTypes.bool,
-  testCaseTestRunIssues: PropTypes.arrayOf(PropTypes.object),
+  testResultsArray: PropTypes.arrayOf(PropTypes.object),
   testRunName: PropTypes.string
 };
 
@@ -184,7 +186,7 @@ TestCaseMutliData.defaultProps = {
   resultUpdatable: false,
   testRunId: null,
   onResultClick: () => {},
-  testCaseTestRunIssues: [],
+  testResultsArray: [],
   testRunName: ''
 };
 

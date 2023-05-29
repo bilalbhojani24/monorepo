@@ -31,7 +31,6 @@ export default function Report() {
     onCopyClick,
     onTabChange
   } = useReport();
-  console.log({ reportMetaData });
   const reportData = useSelector(getReportData);
 
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
@@ -100,19 +99,16 @@ export default function Report() {
                       </p>
                     </div>
                   ) : null}
-                  {Object.values(reportMetaData.meta)[0].wcagVersion.label ? (
-                    <div className="mr-6">
-                      <Badge
-                        hasDot={false}
-                        hasRemoveButton={false}
-                        text={
-                          Object.values(reportMetaData.meta)[0].wcagVersion
-                            .label
-                        }
-                        modifier="base"
-                      />
-                    </div>
-                  ) : null}
+                  <div className="mr-6">
+                    <Badge
+                      hasDot={false}
+                      hasRemoveButton={false}
+                      text={
+                        Object.values(reportMetaData.meta)[0].wcagVersion.label
+                      }
+                      modifier="base"
+                    />
+                  </div>
                 </div>
               ) : (
                 <div className="flex items-center">

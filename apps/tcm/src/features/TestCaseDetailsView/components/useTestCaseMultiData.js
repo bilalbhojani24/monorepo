@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
 const useTestCaseMultiData = (prop) => {
-  const testResultUniqueIssue = useSelector(
-    (state) => state.testRunsDetails.uniqueIssueTestResults
-  );
   const [testCaseIssues, setTestCaseIssues] = useState([]);
 
   useEffect(() => {
-    setTestCaseIssues(
-      prop?.isFromTestRun ? testResultUniqueIssue : prop?.testCaseTestRunIssues
-    );
-  }, [prop?.isFromTestRun, prop?.testCaseTestRunIssues, testResultUniqueIssue]);
+    let testCaseIssuesTemp = [];
+    if (prop?.isFromTestRun) {
+      prop?.testResultsArray.forEach((item) => {
+        for (let i = item?.issues.length - 1; i >= 0; i -= 1) {
+          testCaseIssuesTemp.push(item?.issues[i]);
+        }
+      });
+    } else testCaseIssuesTemp = prop?.testResultsArray;
+
+    setTestCaseIssues(testCaseIssuesTemp);
+  }, [prop?.isFromTestRun, prop?.testResultsArray]);
 
   return { testCaseIssues };
 };

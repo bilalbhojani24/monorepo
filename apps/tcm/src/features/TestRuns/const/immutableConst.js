@@ -50,7 +50,6 @@ export const CHART_OPTIONS = {
   },
   plotOptions: {
     series: {
-      cursor: 'pointer',
       animation: false,
       borderWidth: 0,
       stacking: 'percent',

@@ -57,7 +57,7 @@ function App() {
         config: {
           server: 'eds.browserstack.com',
           port: '443',
-          apiKey: EDS_KEY
+          api: EDS_KEY
         }
       }
     };

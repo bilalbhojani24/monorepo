@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { ExclamationTriangleIcon } from '@browserstack/bifrost';
 import {
   TMButton,
@@ -9,8 +10,8 @@ import {
   TMProgressBar
 } from 'common/bifrostProxy';
 import { bool, number, shape, string } from 'prop-types';
+import { logEventHelper } from 'utils/logEvent';
 
-// import { logEventHelper } from 'utils/logEvent';
 import { cancelImport, downloadReport } from '../../../api/importCSV.api';
 import { AccessTimeIcon } from '../../../assets/icons';
 import { SECOND_SCREEN } from '../const/importCSVConstants';
@@ -23,6 +24,8 @@ import {
 
 const ImportCSVModal = ({ data, show, status, progress }) => {
   const dispatch = useDispatch();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
   const mapFieldsConfig = useSelector(
     (state) => state.importCSV.mapFieldsConfig
   );
@@ -55,11 +58,11 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
   const firstButtonCb = () => {
     if (data.firstButtonText === 'Cancel Import') {
       dispatch(setFirstButtonLoading(true));
-      // dispatch(
-      //   logEventHelper('TM_ImportCsvCancelBtnClicked', {
-      //     project_id: queryParams.get('project')
-      //   })
-      // );
+      dispatch(
+        logEventHelper('TM_ImportCsvCancelBtnClicked', {
+          project_id: queryParams.get('project')
+        })
+      );
       cancelImport(mapFieldsConfig.importId);
     }
     // download report

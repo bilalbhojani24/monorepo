@@ -10,11 +10,6 @@ export const logEventHelper = (eventName, data) => (_, getState) => {
   //   const { localStorage } = window;
   //   const isFirstSession = localStorage.getItem('isFirstSession');
 
-  if (import.meta.env.DEV) {
-    // eslint-disable-next-line no-console
-    console.log(`Event Tracked Name: ${eventName}`);
-  }
-
   logEvent(
     [],
     WEB_EVENT_NAME,

@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   getActiveTestRunsAPI,
   getClosedTestRunsDailyAPI,
@@ -28,8 +28,6 @@ import {
 export default function useDashboard() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const scrollWrapElement = useRef();
   const [isAllDashboadEmpty, setAllDashboadEmpty] = useState(false);
   const [activeTestRunsOptions, setActiveTestRunsOptions] = useState(null);
   const [testCaseTypesOptions, setTestCaseTypesOptions] = useState(null);
@@ -227,22 +225,12 @@ export default function useDashboard() {
       })
     );
   };
-
-  const onDVFooterClick = (e, eventName) => {
-    e.preventDefault();
-    e.stopPropagation();
-    logTheEvent(eventName);
-    if (e?.currentTarget?.getAttribute?.('href'))
-      navigate(e.currentTarget.getAttribute('href'));
-  };
-
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   return {
-    scrollWrapElement,
     isAllDashboadEmpty,
     testCaseTypesOptions,
     closedTestRunsDailyLineOptions,
@@ -253,6 +241,6 @@ export default function useDashboard() {
     projectId,
     isLoadingStates,
     fetchAllChartData,
-    onDVFooterClick
+    logTheEvent
   };
 }

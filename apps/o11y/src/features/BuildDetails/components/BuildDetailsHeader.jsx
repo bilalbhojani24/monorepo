@@ -16,7 +16,6 @@ import {
   MdRemoveCircle,
   MdSchedule
 } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import {
   O11yBadge,
   O11yButton,
@@ -217,15 +216,7 @@ function BuildDetailsHeader({
 
   return (
     <div
-      className={twClassNames(
-        'border-base-200 bg-base-50 sticky top-16 z-10 px-6 pt-6',
-        {
-          'border-b': !(
-            buildMeta?.data?.buildError?.message ||
-            buildMeta?.data?.isParsingReport
-          )
-        }
-      )}
+      className="border-base-200 bg-base-50 sticky top-16 z-10 border-b px-6 pt-6"
       style={{
         top: `${headerSize}px`
       }}
@@ -378,21 +369,17 @@ function BuildDetailsHeader({
           }
         />
       </div>
-      {!(
-        buildMeta?.data?.buildError?.message || buildMeta?.data?.isParsingReport
-      ) && (
-        <div className="-mb-[1px] flex justify-between">
-          <O11yTabs
-            defaultIndex={getActiveTab.idx}
-            tabsArray={tabsList}
-            onTabChange={onTabChange}
-          />
-          <StatusBadges
-            statusStats={statusStats}
-            onClickHandler={handleClickStatusBadge}
-          />
-        </div>
-      )}
+      <div className="-mb-[1px] flex justify-between">
+        <O11yTabs
+          defaultIndex={getActiveTab.idx}
+          tabsArray={tabsList}
+          onTabChange={onTabChange}
+        />
+        <StatusBadges
+          statusStats={statusStats}
+          onClickHandler={handleClickStatusBadge}
+        />
+      </div>
     </div>
   );
 }

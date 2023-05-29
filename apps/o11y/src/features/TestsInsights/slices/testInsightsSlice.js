@@ -78,9 +78,9 @@ export const getDefectsData = createAsyncThunk(
 
 export const getBuildSummaryData = createAsyncThunk(
   'insights/getBuildSummaryData',
-  async (data, { rejectWithValue, signal }) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const response = await getBuildSummaryStats(data.buildId, signal);
+      const response = await getBuildSummaryStats(data.buildId);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -104,9 +104,9 @@ export const getFailureByModulesData = createAsyncThunk(
 
 export const getBuildHistoryData = createAsyncThunk(
   'insights/getBuildHistoryData',
-  async (data, { rejectWithValue, signal }) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const response = await getBuildHistoryStats(data.buildId, signal);
+      const response = await getBuildHistoryStats(data.buildId);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -345,11 +345,9 @@ const { reducer, actions } = createSlice({
         state.buildSummary.isLoading = !payload.meta.arg?.fetchUpdate;
         state.buildSummary.hasNetworkError = false;
       })
-      .addCase(getBuildSummaryData.rejected, (state, payload) => {
-        if (payload?.error?.name !== 'AbortError') {
-          state.buildSummary.isLoading = false;
-          state.buildSummary.hasNetworkError = true;
-        }
+      .addCase(getBuildSummaryData.rejected, (state) => {
+        state.buildSummary.isLoading = false;
+        state.buildSummary.hasNetworkError = true;
       })
       .addCase(getBuildSummaryData.fulfilled, (state, { payload }) => {
         state.buildSummary = {
@@ -377,11 +375,9 @@ const { reducer, actions } = createSlice({
         state.buildHistory.isLoading = !payload.meta.arg?.fetchUpdate;
         state.buildHistory.hasNetworkError = false;
       })
-      .addCase(getBuildHistoryData.rejected, (state, payload) => {
-        if (payload?.error?.name !== 'AbortError') {
-          state.buildHistory.isLoading = false;
-          state.buildHistory.hasNetworkError = true;
-        }
+      .addCase(getBuildHistoryData.rejected, (state) => {
+        state.buildHistory.isLoading = false;
+        state.buildHistory.hasNetworkError = true;
       })
       .addCase(getBuildHistoryData.fulfilled, (state, { payload }) => {
         state.buildHistory = {
