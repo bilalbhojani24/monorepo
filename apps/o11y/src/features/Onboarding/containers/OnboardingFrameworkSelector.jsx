@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { GridListWHorizontalLink } from '@browserstack/bifrost';
@@ -6,8 +6,7 @@ import { twClassNames } from '@browserstack/utils';
 import { O11yButton } from 'common/bifrostProxy';
 import { EXTERNAL_LINKS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { AppContext } from 'features/Layout/context/AppContext';
-import { getProjects } from 'globalSlice/selectors';
+import { getHeaderSize, getProjects } from 'globalSlice/selectors';
 import { getExternalUrl, logOllyEvent } from 'utils/common';
 
 import FrameworkDocViewer from '../components/FrameworkDocViewer';
@@ -17,7 +16,7 @@ export default function OnboardingFrameworkSelector() {
   const projects = useSelector(getProjects);
   const [selectedFramework, setSelectedFramework] = useState('');
   const navigate = useNavigate();
-  const { headerSize } = useContext(AppContext);
+  const headerSize = useSelector(getHeaderSize);
 
   useLayoutEffect(() => {
     const searchParams = new URLSearchParams(window?.location?.search);
@@ -71,7 +70,7 @@ export default function OnboardingFrameworkSelector() {
     <div
       className="flex w-screen items-center justify-center overflow-auto p-12"
       style={{
-        height: `calc(100vh - ${headerSize.blockSize}px)`
+        height: `calc(100vh - ${headerSize}px)`
       }}
     >
       <div className="border-base-200 flex w-full max-w-4xl flex-col rounded-lg border bg-white p-6 shadow-sm">
