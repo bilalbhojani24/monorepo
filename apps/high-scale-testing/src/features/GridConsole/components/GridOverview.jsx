@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import { Badge, MdContentCopy } from '@browserstack/bifrost';
 import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
@@ -10,24 +8,11 @@ import PlaywrightIcon from 'assets/icons/components/frameworks/PlaywrightIcon';
 import SeleniumIcon from 'assets/icons/components/frameworks/SeleniumIcon';
 import CopyButton from 'common/CopyButton/components/CopyButton';
 
-import { getGridData } from '../slices/selector';
-
 import { useGridOverview } from './useGridOverview';
 
 const GridOverview = () => {
-  const params = useParams();
-  const paramId = params; // grid id
-
-  const {
-    fetchGridDataByIdFromAPI,
-    containerClassName,
-    fontColor900ClassName
-  } = useGridOverview();
-  const gridData = useSelector(getGridData);
-
-  useEffect(() => {
-    if (paramId) fetchGridDataByIdFromAPI(paramId);
-  }, [fetchGridDataByIdFromAPI, paramId]);
+  const { containerClassName, fontColor900ClassName, gridData } =
+    useGridOverview();
 
   if (!Object.keys(gridData).length) {
     return <></>;
@@ -126,7 +111,7 @@ const GridOverview = () => {
     <>
       <div className="px-6 pt-6">
         <div className={containerClassName}>
-          <p className="text-lg font-medium leading-6 text-base-900">
+          <p className="text-base-900 text-lg font-medium leading-6">
             Grid Details
           </p>
 
@@ -135,7 +120,7 @@ const GridOverview = () => {
               const { title, value } = detail;
               return (
                 <div>
-                  <p className="text-sm font-normal text-base-500">{title}</p>
+                  <p className="text-base-500 text-sm font-normal">{title}</p>
                   <p className={fontColor900ClassName}>{value}</p>
                 </div>
               );
@@ -147,13 +132,13 @@ const GridOverview = () => {
       {frameworks.length && (
         <div className="p-6">
           <div className={containerClassName}>
-            <p className="text-lg font-medium leading-6 text-base-900">
+            <p className="text-base-900 text-lg font-medium leading-6">
               Framework URLs
             </p>
             <div className="bg-white pt-4">
               {frameworks.map((framework) => (
                 <div
-                  className="flex flex-row items-center border-b border-base-200 py-3"
+                  className="border-base-200 flex flex-row items-center border-b py-3"
                   key={framework.name}
                 >
                   <div className="flex flex-row items-center">
@@ -166,7 +151,7 @@ const GridOverview = () => {
                   <div className="flex flex-row items-center justify-start">
                     {framework.url.length ? (
                       <>
-                        <p className="mr-4 text-sm font-normal text-base-900">
+                        <p className="text-base-900 mr-4 text-sm font-normal">
                           {framework.url}
                         </p>
 

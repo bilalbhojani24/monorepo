@@ -14,26 +14,19 @@ import GCPIcon from 'assets/icons/components/clouds/GCPIcon';
 import { useClustersListing } from './useClustersListing';
 
 const ClustersListing = () => {
-  const { clustersList } = useClustersListing();
-
-  const tableCellWrapperClassName =
-    'first:pr-3 last:pl-3 px-2 text-base-500 font-medium';
-
-  const statusModifier = {
-    Creating: 'primary',
-    Online: 'success',
-    Deleting: 'error'
-  };
+  const { clustersList, isRounded, statusModifier, tableCellWrapperClassName } =
+    useClustersListing();
 
   const cloudIcons = {
     aws: <AWSIcon width={20} height={20} />,
     gcp: <GCPIcon width={20} height={20} />,
     azure: <AzureIcon width={20} height={20} />
   };
+
   return (
     clustersList.length > 0 && (
       <div className="p-6">
-        <Table containerWrapperClass=" border-base-50  rounded-lg  shadow-none">
+        <Table containerWrapperClass=" border-base-50 rounded-lg shadow-none">
           <TableHead wrapperClassName="uppercase text-base-500">
             <TableRow>
               <TableCell
@@ -94,8 +87,7 @@ const ClustersListing = () => {
                       disabled
                       hasDot={false}
                       hasRemoveButton={false}
-                      // eslint-disable-next-line react/jsx-boolean-value
-                      isRounded={true}
+                      isRounded={isRounded}
                       modifier={statusModifier[clusterStatus]}
                       text={clusterStatus}
                     />

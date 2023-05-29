@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useMountEffect } from '@browserstack/hooks';
 import {
   getOnboardingData,
   getOnboardingEventsLogsData,
@@ -269,7 +270,7 @@ browserstack-cli hst init`,
     setShowSetupStatusModal(isSetupComplete);
   }, [isSetupComplete]);
 
-  useEffect(() => {
+  useMountEffect(() => {
     const fetchOnboardingData = async () => {
       const response = await getOnboardingData(userDetails.id);
       const res = response.data;
@@ -324,8 +325,7 @@ browserstack-cli hst init`,
     } else {
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return {
     CODE_SNIPPETS_SCRATCH,

@@ -4,9 +4,12 @@ import { fetchAllGridsData } from 'api/index';
 import { getUserDetails } from 'globalSlice/selector';
 
 const useGridListing = () => {
+  const isRounded = true;
+
   // All Store variables:
   const userDetails = useSelector(getUserDetails);
 
+  // All State variables:
   const [gridList, setGridList] = useState([]);
 
   const options = [
@@ -24,10 +27,11 @@ const useGridListing = () => {
     };
 
     fetchAllGridsDataFromAPI();
-  }, []);
+  }, [userDetails]);
 
   return {
     gridList,
+    isRounded,
     options,
     tableCellWrapperClassName
   };

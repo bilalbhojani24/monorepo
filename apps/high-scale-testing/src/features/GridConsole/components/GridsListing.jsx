@@ -20,7 +20,8 @@ import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 import { useGridListing } from './useGridListing';
 
 const GridsListing = () => {
-  const { gridList, options, tableCellWrapperClassName } = useGridListing();
+  const { gridList, isRounded, options, tableCellWrapperClassName } =
+    useGridListing();
   const navigate = useNavigate();
 
   const gridRowHandler = (gridId) => {
@@ -74,6 +75,8 @@ const GridsListing = () => {
           </TableHead>
           <TableBody>
             {gridList.map((gridData) => {
+              const clusterIdentifier = gridData.cluster.identifier;
+              const clusterName = gridData.cluster.name;
               const gridName = gridData.name;
               const gridStatus = gridData.status;
               const statusModifier =
@@ -98,17 +101,16 @@ const GridsListing = () => {
                       disabled
                       hasDot={false}
                       hasRemoveButton={false}
-                      // eslint-disable-next-line react/jsx-boolean-value
-                      isRounded={true}
+                      isRounded={isRounded}
                       modifier={statusModifier}
                       text={gridStatus}
                     />
                   </TableCell>
                   <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
-                    0/50
+                    {gridData.runningTests}
                   </TableCell>
                   <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
-                    0/50
+                    {gridData.queuedTests}
                   </TableCell>
                   <TableCell>
                     <div className="flex gap-2">
@@ -118,8 +120,8 @@ const GridsListing = () => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <p>hig-scale-grid-cluster</p>
-                    <p>b364rtbc764</p>
+                    <p>{clusterName}</p>
+                    <p>{clusterIdentifier}</p>
                   </TableCell>
                   <TableCell>
                     <Dropdown
