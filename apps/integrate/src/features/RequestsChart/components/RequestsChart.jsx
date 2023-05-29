@@ -8,6 +8,7 @@ import {
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { fromUnixTime, getUnixTime, subMonths } from 'date-fns';
+import { omit } from 'lodash';
 
 import { getRequestCountThunk } from '../../../api';
 import { GenericError } from '../../../common';
@@ -55,7 +56,9 @@ const RequestsChart = () => {
       getRequestCountThunk({
         from: getUnixTime(from),
         frequency: 'DAY',
-        configurationIds: activeConfigurationsIds
+        ...omit({ configurationIds: activeConfigurationsIds }, [
+          !activeConfigurationsIds.length ? 'configurationIds' : ''
+        ])
       })
     );
   }, [dispatch, activeConfigurationsIds, activeDateRange, from]);
@@ -71,7 +74,9 @@ const RequestsChart = () => {
       getRequestCountThunk({
         from: getUnixTime(from),
         frequency: 'DAY',
-        configurationIds: activeConfigurationsIds
+        ...omit({ configurationIds: activeConfigurationsIds }, [
+          !activeConfigurationsIds.length ? 'configurationIds' : ''
+        ])
       })
     );
   }, [activeConfigurationsIds, dispatch, from]);

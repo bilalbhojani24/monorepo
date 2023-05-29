@@ -6,6 +6,7 @@ import { getConfigurationsThunk, getLogsThunk } from '../../../api';
 import { LOADING_STATUS } from '../../../constants/loadingConstants';
 import {
   activeConfigurationsSelector,
+  FILTER_KEY,
   filtersSelector,
   logsLoadingSelector,
   logsSelector
@@ -34,7 +35,11 @@ const Logs = () => {
   );
 
   const getLogs = useCallback(() => {
-    const cleanedFiltersPayload = getFiltersPayload(filters);
+    const cleanedFiltersPayload = getFiltersPayload({
+      ...filters,
+      [FILTER_KEY.DATE]: getUnixDate(filters[FILTER_KEY.DATE])
+    });
+
     dispatch(
       getLogsThunk({
         ...cleanedFiltersPayload,
@@ -84,7 +89,7 @@ const Logs = () => {
             onPageNumberClick={handlePageChange}
             onPreviousClick={handlePageChange}
             pageNumber={logsData.page_number}
-            pageSize={logsData.page_size}
+            pageSize={LOGS_PAGE_LOGS_TABLE_PAGE_SIZE}
             count={logsData.total_logs}
           />
           <p className="text-base-500">Your data is retained for 6 months</p>

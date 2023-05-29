@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MdArrowForward } from '@browserstack/bifrost';
+import { omit } from 'lodash';
 
 import { getConfigurationsThunk, getLogsThunk } from '../../../api';
 import { LOADING_STATUS } from '../../../constants/loadingConstants';
@@ -30,7 +31,9 @@ const Overview = () => {
 
   const getLogs = useCallback(() => {
     const requestPayload = {
-      configurations: cleanedActiveConfigurationId,
+      ...omit({ configurations: cleanedActiveConfigurationId }, [
+        !cleanedActiveConfigurationId.length ? 'configurations' : ''
+      ]),
       pageSize: OVERVIEW_PAGE_LOGS_TABLE_PAGE_SIZE
     };
     dispatch(getLogsThunk(requestPayload));

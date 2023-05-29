@@ -8,6 +8,7 @@ import {
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { getUnixTime, subMonths } from 'date-fns';
+import { omit } from 'lodash';
 
 import { getUsageSummaryThunk } from '../../../api';
 import { GenericError } from '../../../common';
@@ -58,7 +59,9 @@ const RequestsChart = () => {
       getUsageSummaryThunk({
         to: getUnixTime(to),
         from: getUnixTime(from),
-        configurationIds: activeConfigurationsIds
+        ...omit({ configurationIds: activeConfigurationsIds }, [
+          !activeConfigurationsIds.length ? 'configurationIds' : ''
+        ])
       })
     );
   }, [dispatch, activeConfigurationsIds, activeDateRange, to, from]);
@@ -68,7 +71,9 @@ const RequestsChart = () => {
       getUsageSummaryThunk({
         to: getUnixTime(to),
         from: getUnixTime(from),
-        configurationIds: activeConfigurationsIds
+        ...omit({ configurationIds: activeConfigurationsIds }, [
+          !activeConfigurationsIds.length ? 'configurationIds' : ''
+        ])
       })
     );
   }, [activeConfigurationsIds, dispatch, from, to]);

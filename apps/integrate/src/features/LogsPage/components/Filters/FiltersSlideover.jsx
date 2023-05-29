@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
@@ -48,15 +48,7 @@ const FilterSlideover = () => {
     useSelector(integrationsLoadingSelector) === LOADING_STATUS.PENDING;
   const areConfigurationsLoading =
     useSelector(configurationsLoadingSelector) === LOADING_STATUS.PENDING;
-  const cleanOptions = (arr = []) =>
-    arr.map((item) => ({
-      value: item.key,
-      label: item.name
-    }));
-  const integrationOptions = useMemo(
-    () => cleanOptions(integrations),
-    [integrations]
-  );
+
   const handleApplyFilters = () => {
     setFilters(slideoverFilters);
     handleClose();
@@ -122,7 +114,7 @@ const FilterSlideover = () => {
                 label="Integration"
                 placeholder="Select"
                 triggerClassName="mb-3"
-                options={integrationOptions}
+                options={integrations}
                 filterKey={FILTER_KEY.INTEGRATIONS}
                 filters={slideoverFilters}
                 setFilters={setSlideoverFilters}

@@ -32,9 +32,19 @@ export const getFiltersPayload = (filters) => {
     return accumulatorCopy;
   }, {});
 };
+
 export const getUnixDate = (date) => {
   if (date && !isEmpty(date)) {
-    return { to: getUnixTime(date.to), from: getUnixTime(date.from) };
+    try {
+      const unixTo = getUnixTime(new Date(date.to));
+      const unixFrom = getUnixTime(new Date(date.from));
+      return {
+        to: unixTo,
+        from: unixFrom
+      };
+    } catch (e) {
+      return date;
+    }
   }
   return date;
 };

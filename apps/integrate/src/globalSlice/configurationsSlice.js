@@ -25,11 +25,12 @@ export const configurationsSlice = createSlice({
     });
     builder.addCase(getConfigurationsThunk.fulfilled, (state, action) => {
       state.loading = LOADING_STATUS.SUCCEEDED;
-      const configurations = action.payload?.configurations;
+      const { configurations } = action.payload || {};
       if (Array.isArray(configurations)) {
-        state.configurations = configurations.map(
-          ({ key: value, name: label }) => ({ value, label })
-        );
+        state.configurations = configurations.map(({ key: value, label }) => ({
+          value,
+          label
+        }));
       }
     });
     builder.addCase(getConfigurationsThunk.rejected, (state, action) => {
