@@ -25,8 +25,6 @@ import { CHROME_EXTENSION_URL, reportPerPage, reportType } from 'constants';
 import ReportRow from './components/ReportRow';
 import useReports from './useReports';
 
-import './style.scss';
-
 export default function Reports() {
   const {
     isOpen,

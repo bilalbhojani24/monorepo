@@ -85,7 +85,7 @@ export default function ActiveFilters({
           )}
           {issueTabs.map(({ label, value }, index) => (
             <Button
-              wrapperClassName={twClassNames({
+              wrapperClassName={twClassNames(value, {
                 'rounded-l-none border-l-0': index === 1,
                 'border-r-none border-r-0':
                   index === 0 && activeSwitch !== value,

@@ -17,20 +17,14 @@ export default function Violation({
   activeComponentId,
   onRowClick
 }) {
-  // const activeComponentId = useSelector(getActiveComponentId);
-  // const isShowingIssue = useSelector(getIsShowingIssue);
-  // const isSidebarCollapsed = useSelector(getSidebarCollapsedStatus);
-
   // const isHalfView = activeComponentId && isShowingIssue;
+
+  // console.log('violation: ', violation);
 
   const totalCount = violation.nodes.length;
   const impact =
     violation.impact.charAt(0).toUpperCase() +
     violation.impact.slice(1, violation.impact.length);
-
-  // const maxWidthForFullView = isSidebarCollapsed
-  //   ? 'calc((100vw - 200px) / 2)'
-  //   : 'calc(((100vw - 256px) / 2) - 190px)';
 
   return (
     <Accordion>

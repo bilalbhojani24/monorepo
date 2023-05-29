@@ -61,6 +61,14 @@ export default function useAutomatedTestBuild() {
       fetchOverview(projectName, buildName, buildNumber).then((response) =>
         dispatch(setBuildOverview(response))
       );
+      const path = deleteUrlQueryParam([
+        'activeViolationId',
+        'activeComponentId',
+        'activeIssueIndex',
+        'activeSwitch',
+        'isShowingIssue'
+      ]);
+      navigate(`?${path}`);
     } else if (tab === ISSUES && !buildData) {
       fetchBuildIssues(projectName, buildName, buildNumber).then((response) =>
         dispatch(setBuildData(response))
@@ -69,16 +77,16 @@ export default function useAutomatedTestBuild() {
       fetchTestCasesData(projectName, buildName, buildNumber).then((response) =>
         dispatch(setTestCasesData(response))
       );
+      const path = deleteUrlQueryParam([
+        'activeViolationId',
+        'activeComponentId',
+        'activeIssueIndex',
+        'activeSwitch',
+        'isShowingIssue'
+      ]);
+      navigate(`?${path}`);
     }
     dispatch(setActiveTab(tab));
-    const path = deleteUrlQueryParam([
-      'activeViolationId',
-      'activeComponentId',
-      'activeIssueIndex',
-      'activeSwitch',
-      'isShowingIssue'
-    ]);
-    navigate(`?${path}`);
     const updatedPath = updateUrlWithQueryParam({
       activeTab: tab
     });

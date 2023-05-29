@@ -71,7 +71,6 @@ export default function useIssues() {
 
   const isGuidelineMode = activeSwitch === GUIDELINES;
   if (isGuidelineMode && sectionData && activeViolationId) {
-    console.log('activeViolationId: ', sectionData, activeViolationId);
     activeViolationItem = sectionData.find(
       ({ violation }) => violation.id === activeViolationId
     )?.violation;
@@ -442,6 +441,16 @@ export default function useIssues() {
     const path = deleteUrlQueryParam(['activeSlideOverTab', 'activeTestId']);
     navigate(`?${path}`);
   };
+
+  useEffect(() => {
+    const paramList = new URLSearchParams(window.location.search);
+    const activeSwitchVal = paramList.get('activeSwitch');
+    if (activeSwitchVal === GUIDELINES) {
+      document.getElementsByClassName(GUIDELINES)[0].click();
+    }
+  }, []);
+
+  // console.log('sectionData: ', sectionData);
 
   return {
     urls,
