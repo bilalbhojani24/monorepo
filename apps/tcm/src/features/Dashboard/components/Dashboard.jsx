@@ -22,6 +22,7 @@ variablePie(Highcharts);
 
 const Dashboard = () => {
   const {
+    scrollWrapElement,
     isAllDashboadEmpty,
     isLoadingStates,
     projectId,
@@ -32,7 +33,7 @@ const Dashboard = () => {
     closedTestRunsDailyLineOptions,
     testCasesTrendOptions,
     fetchAllChartData,
-    logTheEvent
+    onDVFooterClick
   } = useDashboard();
   const dispatch = useDispatch();
 
@@ -56,6 +57,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchAllChartData();
+    if (scrollWrapElement?.current?.scrollTop)
+      scrollWrapElement.current.scrollTop = 0;
     dispatch(
       logEventHelper('TM_DashboardPageLoaded', {
         project_id: projectId,
@@ -68,11 +71,14 @@ const Dashboard = () => {
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <TMPageHeadings heading="Dashboard" />
-      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
+      <div
+        className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4"
+        ref={scrollWrapElement}
+      >
         <TMAlerts
           show={isAllDashboadEmpty}
           title="Currently, there is no data available in this project."
-          linkText={null}
+          detailsNode={null}
           modifier="primary"
         />
         <div className="mt-4 flex w-full gap-4">
@@ -99,7 +105,8 @@ const Dashboard = () => {
               footerProps={{
                 linkText: 'View All Active Runs',
                 linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }),
-                onClick: () => logTheEvent('TM_DashboardActiveRunLinkClicked')
+                onClick: (e) =>
+                  onDVFooterClick(e, 'TM_DashboardActiveRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -152,8 +159,8 @@ const Dashboard = () => {
                   `${routeFormatter(AppRoute.TEST_RUNS, {
                     projectId
                   })}?closed=true` || '',
-                onClick: () =>
-                  logTheEvent('TM_DashboardMonthsClosedRunLinkClicked')
+                onClick: (e) =>
+                  onDVFooterClick(e, 'TM_DashboardMonthsClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -162,7 +169,7 @@ const Dashboard = () => {
                     options={closedTestRunsMonthlyLineOptions}
                   />
                   {closedTestRunsMonthlyLineOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
                       <div className="text-base-500 text-xs font-semibold">
                         {NO_DATA_TEXT}
                       </div>
@@ -199,8 +206,8 @@ const Dashboard = () => {
                 linkTo: `${routeFormatter(AppRoute.TEST_RUNS, {
                   projectId
                 })}?closed=true`,
-                onClick: () =>
-                  logTheEvent('TM_Dashboard15DaysClosedRunLinkClicked')
+                onClick: (e) =>
+                  onDVFooterClick(e, 'TM_Dashboard15DaysClosedRunLinkClicked')
               }}
               analytics={
                 <div className="relative">
@@ -209,7 +216,7 @@ const Dashboard = () => {
                     options={closedTestRunsDailyLineOptions}
                   />
                   {closedTestRunsDailyLineOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
                       <div className="text-base-500 text-xs font-semibold">
                         {NO_DATA_TEXT}
                       </div>
@@ -331,7 +338,7 @@ const Dashboard = () => {
                     options={jiraIssuesOptions}
                   />
                   {jiraIssuesOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
                       <div className="text-base-500 text-xs font-semibold">
                         {NO_DATA_TEXT}
                       </div>
