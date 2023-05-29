@@ -25,17 +25,22 @@ export const showWidget = () => {
     FRESHCHAT_WIDGET_CUSTOM_BUTTON_ID
   );
 
-  if (customButton) customButton.style.display = 'block';
-  else window.fcWidget.show();
+  if (customButton) {
+    window.fcWidget?.show();
+    customButton.style.display = 'block';
+  } else window.fcWidget?.show();
 };
 
 export const hideWidget = () => {
   const customButton = document.getElementById(
     FRESHCHAT_WIDGET_CUSTOM_BUTTON_ID
   );
-
-  if (customButton) customButton.style.display = 'none';
-  else window.fcWidget.hide();
+  if (customButton) {
+    if (window.fcWidget?.isOpen()) {
+      window.fcWidget?.hide();
+    }
+    customButton.style.display = 'none';
+  } else window.fcWidget?.hide();
 };
 
 export const setWidgetEvents = (chatWidgetData, showChatWindow) => {

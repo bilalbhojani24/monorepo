@@ -49,7 +49,7 @@ const ChatWidget = ({ direction }) => {
             window.fcWidget.open();
           }}
           wrapperClassName={twClassNames(
-            'rounded-none shadow-md absolute p-3 bottom-6 none',
+            'rounded-none shadow-md fixed p-3 bottom-6 none',
             {
               'left-6': direction === 'left',
               'right-6': direction === 'right'
