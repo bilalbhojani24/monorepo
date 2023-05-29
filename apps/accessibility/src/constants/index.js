@@ -1,3 +1,6 @@
+import Announcement from 'assets/announcement_logo.svg';
+import Star from 'assets/star_logo.svg';
+
 export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
@@ -212,5 +215,35 @@ export const ANALYTICS_KEYS = {
       port: '443',
       apiKey: ''
     }
+  }
+};
+
+export const getBannerDetails = {
+  notStarted: {
+    icon: Star,
+    description:
+      'Try Team plan for free: Unlock premium features like Advanced Assisted Tests, Screen Readers and more',
+    buttonText: 'Get 14-day free trial',
+    color: 'brand'
+  },
+  started: {
+    icon: '',
+    description:
+      'Your free 14-day trial for the Accessibility Team plan has started.',
+    color: 'success'
+  },
+  inProgres: {
+    icon: Announcement,
+    description:
+      'Your Team free trial is ending in 3 days. Upgrade to continue using premium features.',
+    buttonText: 'Buy a plan',
+    color: 'attention'
+  },
+  expired: {
+    icon: Announcement,
+    description:
+      'Free trial for Team is over. Upgrade to continue using premium features.',
+    buttonText: 'Buy a plan',
+    color: 'danger'
   }
 };

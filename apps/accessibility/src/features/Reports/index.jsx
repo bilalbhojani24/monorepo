@@ -31,7 +31,6 @@ export default function Reports() {
   const {
     isOpen,
     isLoading,
-    isShowingBanner,
     isMergeDisabled,
     reportList,
     lastIndex,
@@ -43,7 +42,8 @@ export default function Reports() {
     onInputValueChange,
     updateLastIndex,
     onReportConsolidateButtonClick,
-    handleClose
+    handleClose,
+    showBanner
   } = useReports();
 
   const activeReportsType = selectedReportType.map(({ value }) => value);
@@ -108,7 +108,7 @@ export default function Reports() {
         className="border-base-200 fixed z-10 w-full border-b p-6"
         style={{
           width: 'calc(100vw - 256px)',
-          top: isShowingBanner ? '128px' : '64px'
+          top: showBanner ? '128px' : '64px'
         }}
       >
         <h1 className="mb-2 text-2xl font-bold">Accessibility reports</h1>
@@ -196,10 +196,8 @@ export default function Reports() {
       <div
         className="fixed overflow-auto"
         style={{
-          height: isShowingBanner
-            ? 'calc(100vh - 291px)'
-            : 'calc(100vh - 227px)',
-          top: isShowingBanner ? '291px' : '227px',
+          height: showBanner ? 'calc(100vh - 291px)' : 'calc(100vh - 227px)',
+          top: showBanner ? '291px' : '227px',
           width: 'calc(100vw - 256px)'
         }}
       >

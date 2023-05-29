@@ -1,35 +1,31 @@
 // NOTE: Don't remove sidebar logic, will add once it required
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
-  Banner,
-  Button,
   Header,
-  MdOpenInNew,
   NotificationsContainer,
   SidebarItem,
   SidebarNavigation,
   SkipToContent
 } from '@browserstack/bifrost';
-import Logo from 'assets/accessibility_logo.png';
+import ReverseTrialBanner from 'common/ReverseTrialBanner';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
+
+import { getShowBanner } from '../slices/selectors';
 
 import useDashboard from './useDashboard';
 
 export default function Dashboard({ children }) {
   const {
     mainRef,
-    isShowingBanner,
     primaryNav,
     currentPath,
     secondaryNav,
-    handleNavigationClick,
-    onDownloadExtensionClick,
-    onCloseClick
+    handleNavigationClick
   } = useDashboard();
 
-  const isReportListing = window.location.pathname === '/reports';
-  const isShowingReportListingBanner = isReportListing && isShowingBanner;
+  const showBanner = useSelector(getShowBanner);
 
   const SWBSidebarPri = primaryNav.map((item) => (
     <SidebarItem
@@ -92,37 +88,19 @@ export default function Dashboard({ children }) {
           'docs/accessibility/overview/introduction'
         )}
       />
-      {isShowingReportListingBanner ? (
-        <div className="fixed inset-x-0 top-[64px] z-10 flex justify-between">
-          <Banner
-            description="Download the Accessibility Testing extension to scan your websites for accessibility issues."
-            isDismissButton
-            bannerIcon={
-              <img src={Logo} alt="accessibility logo" height={24} width={24} />
-            }
-            ctaButton={
-              <Button
-                onClick={onDownloadExtensionClick}
-                size="small"
-                colors="white"
-                icon={<MdOpenInNew />}
-                iconPlacement="end"
-              >
-                Download extension
-              </Button>
-            }
-            onDismissClick={onCloseClick}
-          />
-        </div>
-      ) : null}
+      {showBanner ? <ReverseTrialBanner /> : null}
       <SidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
         sidebarSecondaryNavigation={SWBSidebarSec}
-        wrapperClassName={`bg-white mt-5 ${
-          isShowingReportListingBanner ? 'pt-32' : 'pt-16'
-        }`}
+        wrapperClassName={`bg-white mt-5 ${showBanner ? 'pt-32' : 'pt-16'}`}
       />
-      <main ref={mainRef} className="bg-base-50 mt-16 h-full pl-64">
+      <main
+        ref={mainRef}
+        className="bg-base-50 mt-16 h-full pl-64"
+        style={{
+          marginTop: showBanner ? '128px' : '0'
+        }}
+      >
         {children}
       </main>
       <NotificationsContainer />

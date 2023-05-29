@@ -4,7 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
 import fetchReports from 'api/fetchReports';
 import { events, reportPerPage, testTypes } from 'constants';
-import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
+import {
+  getShowBanner,
+  getSidebarCollapsedStatus
+} from 'features/Dashboard/slices/selectors';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
 import { logEvent } from 'utils/logEvent';
@@ -40,7 +43,7 @@ export default function useReports() {
   const isLandingFirstTime = getStorage('is-landing-first-time');
   const [isOpen, setIsOpen] = useState(!isShowingModalByDefault);
   const [searchInput, setSearchInput] = useState('');
-  const isShowingBanner = useSelector(getIsShowingBanner);
+  const showBanner = useSelector(getShowBanner);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClose = ({ action }) => {
@@ -165,7 +168,7 @@ export default function useReports() {
   return {
     isOpen,
     isLoading,
-    isShowingBanner,
+    showBanner,
     activeVersion,
     isSidebarCollapsed,
     lastIndex,
