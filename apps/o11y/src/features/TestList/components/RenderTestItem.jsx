@@ -63,7 +63,7 @@ const RenderTestItem = ({ item: data }) => {
 
   return (
     <div
-      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-1 pr-6"
+      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pr-6 pt-1"
       style={{
         paddingLeft:
           HIERARCHY_SPACING_START +

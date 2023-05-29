@@ -4,7 +4,9 @@ import {
   ComboBox,
   ComboboxOptionGroup,
   ComboboxOptionItem,
-  ComboboxTrigger
+  ComboboxTrigger,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 import { makeDebounce } from '@browserstack/utils';
 import PropTypes from 'prop-types';
@@ -104,7 +106,7 @@ const NestedSingleValueSelect = ({
         const [cleanedChild] = cleanOptions([cleanedValue.options]);
         cleanedValue.child = cleanedChild;
       }
-      setFieldsData({ ...fieldsData, [fieldKey]: cleanedValue });
+      setFieldsData((prev) => ({ ...prev, [fieldKey]: cleanedValue }));
       const currentParentItem = options?.find(
         (parentOption) => parentOption.key === cleanedValue.value
       );
@@ -134,15 +136,15 @@ const NestedSingleValueSelect = ({
       ...valWithoutChild,
       child: cleanedChildOptions[0]
     };
-    setFieldsData({ ...fieldsData, [fieldKey]: valWithOneChild });
+    setFieldsData((prev) => ({ ...prev, [fieldKey]: valWithOneChild }));
     setChildOptions(cleanedChildOptions);
   };
 
   const handleChildChange = (val) => {
-    setFieldsData({
-      ...fieldsData,
+    setFieldsData((prev) => ({
+      ...prev,
       [fieldKey]: { ...fieldsData[fieldKey], child: val }
-    });
+    }));
   };
 
   const fetchQuery = (query) => {
@@ -222,9 +224,17 @@ const NestedSingleValueSelect = ({
           wrapperClassName={wrapperClassName}
           onInputValueChange={handleInputChange}
         />
-        <ComboboxOptionGroup maxWidth={300}>
+        <ComboboxOptionGroup maxWidth={300} wrapperClassName="flex flex-col">
           {optionsToRender?.map((item) => (
-            <ComboboxOptionItem key={item.value} option={item} />
+            <Tooltip
+              theme="dark"
+              placementSide="right"
+              content={
+                <TooltipBody wrapperClassName="mb-0">{item.label}</TooltipBody>
+              }
+            >
+              <ComboboxOptionItem key={item.value} option={item} />
+            </Tooltip>
           ))}
         </ComboboxOptionGroup>
       </ComboBox>
@@ -237,9 +247,19 @@ const NestedSingleValueSelect = ({
           >
             <ComboboxTrigger />
             {Boolean(childOptions?.length) && (
-              <ComboboxOptionGroup>
+              <ComboboxOptionGroup wrapperClassName="flex flex-col">
                 {childOptions?.map((item) => (
-                  <ComboboxOptionItem key={item.value} option={item} />
+                  <Tooltip
+                    theme="dark"
+                    placementSide="right"
+                    content={
+                      <TooltipBody wrapperClassName="mb-0">
+                        {item.label}
+                      </TooltipBody>
+                    }
+                  >
+                    <ComboboxOptionItem key={item.value} option={item} />
+                  </Tooltip>
                 ))}
               </ComboboxOptionGroup>
             )}
