@@ -119,7 +119,7 @@ export default function FailuresByFolders() {
                   category,
                   styles: {
                     top: shapeArgs.y + plotBox.y,
-                    left: shapeArgs.x + 20,
+                    left: shapeArgs.x,
                     width: shapeArgs.width,
                     height: shapeArgs.height
                   }
@@ -246,7 +246,7 @@ export default function FailuresByFolders() {
   }
   if (isEmpty(failureByModules?.data) && !failureByModules?.isLoading) {
     return (
-      <div className="flex h-full flex-col">
+      <div className="flex h-full flex-col justify-center">
         <O11yEmptyState
           title="No data found"
           description={null}

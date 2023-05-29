@@ -1,8 +1,13 @@
 import React from 'react';
 import { Header } from '@browserstack/bifrost';
-import { DOC_KEY_MAPPING } from 'constants/common';
+import { DOC_KEY_MAPPING, EXTERNAL_LINKS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { getDocUrl, getEnvConfig } from 'utils/common';
+import {
+  getDocUrl,
+  getEnvConfig,
+  getExternalUrl,
+  logOllyEvent
+} from 'utils/common';
 
 const envConfig = getEnvConfig();
 
@@ -18,7 +23,7 @@ const O11yHeader = () => (
     supportLink={`${envConfig.baseUrl}/support/test-observability`}
     headerElementArray={[
       'team',
-      // 'pricing',
+      'pricing',
       'help',
       // 'search',
       // 'notifications',
@@ -82,7 +87,29 @@ const O11yHeader = () => (
         window.location.href = envConfig.signOutUrl;
       }
     }}
-    planButtonVisible={false}
+    planPricingLink={getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing })}
+    buyPlanTarget="_blank"
+    buyPlanText="Buy a plan"
+    buyPlanLink={getExternalUrl({ path: EXTERNAL_LINKS.buyAPlan })}
+    callbackFunctions={{
+      onPlanAndPricingClick: () => {
+        logOllyEvent({
+          event: 'ClickHeaderPlansAndPricing',
+          data: {
+            url: window.location.href
+          }
+        });
+      },
+      buyPlanClick: () => {
+        logOllyEvent({
+          event: 'ClickedBuyaPlan',
+          data: {
+            section: 'dashboard-top-header',
+            url: window.location.href
+          }
+        });
+      }
+    }}
   />
 );
 

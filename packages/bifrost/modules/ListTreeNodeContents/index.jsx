@@ -14,7 +14,7 @@ const ListTreeNodeContents = ({ children, isTreeOpen }) => (
     leaveFrom="transform scale-100 opacity-100"
     leaveTo="transform scale-95 opacity-0"
   >
-    <Disclosure.Panel as={Fragment} static={isTreeOpen}>
+    <Disclosure.Panel as={Fragment} static={isTreeOpen} role="group">
       {children}
     </Disclosure.Panel>
   </Transition>

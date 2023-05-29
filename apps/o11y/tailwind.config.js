@@ -4,9 +4,9 @@ module.exports = {
   ...globalConfigs.globalTailwindConfig,
   content: [
     'src/**/*.{js,jsx}',
-    '../../packages/bifrost/modules/**/*.{js,jsx}',
-    '../../packages/integrations/src/**/*.{js,jsx}',
-    '../../packages/services/src/NetworkViewer/**/*.{js,jsx}'
+    './node_modules/@browserstack/bifrost/dist/*.js',
+    './node_modules/@browserstack/integrations/dist/*.js',
+    './node_modules/@browserstack/services/dist/*.js'
   ],
   theme: {
     ...globalConfigs.globalTailwindConfig.theme,

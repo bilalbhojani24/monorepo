@@ -2,6 +2,7 @@ import Accordion from './modules/Accordion';
 import AccordionInteractiveHeader from './modules/AccordionInteractiveHeader';
 import AccordionPanel from './modules/AccordionPanel';
 import AccordionSimpleHeader from './modules/AccordionSimpleHeader';
+import ActionPanel from './modules/ActionPanel/index';
 import Alerts from './modules/Alerts/index';
 import Attachments from './modules/Attachments';
 import Badge from './modules/Badge/index';
@@ -19,6 +20,10 @@ import ComboboxLabel from './modules/ComboboxLabel/index';
 import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
 import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
+import CTACard from './modules/CTACard';
+import CTACardActions from './modules/CTACardActions';
+import CTACardContent from './modules/CTACardContent';
+import CTACardMedia from './modules/CTACardMedia';
 import DataVisualization from './modules/DataVisualization/index';
 import DateRangepicker from './modules/DateRangepicker';
 import DescriptionList from './modules/DescriptionList/index';
@@ -55,6 +60,7 @@ import ListFeedsNode from './modules/ListFeedsNode/index';
 import ListTree from './modules/ListTree';
 import ListTreeNode from './modules/ListTreeNode';
 import ListTreeNodeContents from './modules/ListTreeNodeContents';
+import ListTreeRootWrapper from './modules/ListTreeRootWrapper';
 import Loader from './modules/Loader/index';
 import MediaPlayer from './modules/MediaPlayer';
 import MediaPlayerLeftControls from './modules/MediaPlayerLeftControls';
@@ -126,6 +132,7 @@ export {
   AccordionInteractiveHeader,
   AccordionPanel,
   AccordionSimpleHeader,
+  ActionPanel,
   Alerts,
   Attachments,
   Badge,
@@ -143,6 +150,10 @@ export {
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
+  CTACard,
+  CTACardActions,
+  CTACardContent,
+  CTACardMedia,
   DataVisualization,
   DateRangepicker,
   DescriptionList,
@@ -176,6 +187,7 @@ export {
   listTreeCheckboxHelper,
   ListTreeNode,
   ListTreeNodeContents,
+  ListTreeRootWrapper,
   Loader,
   MediaPlayer,
   MediaPlayerLeftControls,

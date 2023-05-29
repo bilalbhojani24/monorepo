@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+// import { expect } from '@storybook/jest';
+// import { userEvent, within } from '@storybook/testing-library';
 import PropTypes from 'prop-types';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
@@ -9,14 +11,16 @@ import DropdownOptionItem from '../DropdownOptionItem';
 import DropdownTrigger from '../DropdownTrigger';
 import { EllipsisVerticalIcon, MdFolderSpecial } from '../Icon';
 import InputField from '../InputField';
-import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent.stories';
+import ControlledNestedTreeWithCheckbox from '../ListTreeCheckbox/BaseExampleComponent';
 import ListTreeNode from '../ListTreeNode';
 import ListTreeNodeContents from '../ListTreeNodeContents';
+import ListTreeRootWrapper from '../ListTreeRootWrapper';
 import TruncateText from '../TruncateText';
 
 import ListTree from './index';
 
 const {
+  getTargetHierarchyByIndex,
   getSearchResultsCustomBSFTraversal,
   getSelectedListTreeItems,
   updateTargetNodes
@@ -162,6 +166,109 @@ const sampleListTreeCheckboxData = [
     isChecked: false,
     isIndeterminate: false,
     contents: []
+  },
+  {
+    uuid: '3',
+    name: 'file 4',
+    isChecked: false,
+    isIndeterminate: false,
+    contents: [
+      {
+        uuid: '3-0',
+        name: 'file 4a',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: null
+      },
+      {
+        uuid: '3-1',
+        name: 'file 4 john',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: [
+          {
+            uuid: '3-1-0',
+            name: 'file 4b1',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '3-1-0-0',
+                name: 'file 4b1a john',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: [
+                  {
+                    uuid: '3-1-0-0-0',
+                    name: 'file 4b1a1',
+                    isChecked: false,
+                    isIndeterminate: false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            uuid: '3-1-1',
+            name: 'file 4b2',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '3-1-1-0',
+                name: 'file 4b2a',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: [
+                  {
+                    uuid: '3-1-1-0-0',
+                    name: 'file 4b2a1',
+                    isChecked: false,
+                    isIndeterminate: false
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            uuid: '3-1-2',
+            name: 'file 4b3',
+            isChecked: false,
+            isIndeterminate: false,
+            contents: [
+              {
+                uuid: '3-1-2-0',
+                name: 'file 4b3a',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              },
+              {
+                uuid: '3-1-2-1',
+                name: 'file 4b3b',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              },
+              {
+                uuid: '3-1-2-2',
+                name: 'file 4b3c',
+                isChecked: false,
+                isIndeterminate: false,
+                contents: []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        uuid: '3-2',
+        name: 'file 4c',
+        isChecked: false,
+        isIndeterminate: false,
+        contents: null
+      }
+    ]
   }
 ];
 
@@ -218,11 +325,20 @@ const defaultConfig = {
 
 const listTreeDemoDataSet = [
   {
-    name: 'file A',
+    uuid: '0',
+    name: (
+      <TruncateText tooltipAriaLabel="File A" wrapperClassName="line-clamp-1">
+        file A
+      </TruncateText>
+    ),
+    label: 'file A',
     contents: [
       {
         name: (
-          <TruncateText wrapperClassName="line-clamp-1">
+          <TruncateText
+            wrapperClassName="line-clamp-1"
+            tooltipAriaLabel="File A-1 Long Description"
+          >
             file A-1 Really long file name case. Lorem Ipsum is simply dummy
             text of the printing and typesetting industry. Lorem Ipsum has been
             the industrys standard dummy text ever since the 1500s, when an
@@ -232,13 +348,40 @@ const listTreeDemoDataSet = [
             unchanged.
           </TruncateText>
         ),
-        contents: null
+        label:
+          'file A-1 Really long file name case. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been sthe industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but  also the leap into electronic typesetting, remaining essentially unchanged.',
+        uuid: '0-0',
+        contents: []
       },
       {
-        name: 'file A-2',
+        uuid: '0-1',
+        name: (
+          <TruncateText
+            isWidthAdjustable
+            wrapperClassName="line-clamp-1"
+            tooltipAriaLabel="File A-2"
+          >
+            file A-2 Really long file name case. Lorem Ipsum is simply dummy
+            text of the printing
+          </TruncateText>
+        ),
+        label:
+          'file A-2 Really long file name case. Lorem Ipsum is simply dummy text of the printing',
         contents: [
           {
-            name: 'file A-2-a',
+            uuid: '0-1-0',
+            name: (
+              <TruncateText
+                isWidthAdjustable
+                wrapperClassName="line-clamp-1"
+                tooltipAriaLabel="File A-2-a"
+              >
+                file A-2-a Really long file name case. Lorem Ipsum is simply
+                dummy text
+              </TruncateText>
+            ),
+            label:
+              'file A-2 Really long file name case. Lorem Ipsum is simply dummy text',
             contents: null
           }
         ]
@@ -246,17 +389,91 @@ const listTreeDemoDataSet = [
     ]
   },
   {
-    name: 'file 2',
+    uuid: '1',
+    name: (
+      <TruncateText wrapperClassName="line-clamp-1" tooltipAriaLabel="File B">
+        file B
+      </TruncateText>
+    ),
+    label: 'file B',
     contents: [
       {
-        name: 'file 2a',
+        uuid: '1-0',
+        name: (
+          <TruncateText
+            wrapperClassName="line-clamp-1"
+            tooltipAriaLabel="File B-1"
+          >
+            file B-1 Really long file name case. Lorem Ipsum is simply dummy
+            text of the printing and typesetting industry.
+          </TruncateText>
+        ),
+        label:
+          'file B-1 Really long file name case. Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
         contents: null
       },
       {
-        name: 'file 2b',
+        uuid: '1-1',
+        name: (
+          <TruncateText
+            tooltipAriaLabel="File B-2"
+            wrapperClassName="line-clamp-1"
+          >
+            file B-2
+          </TruncateText>
+        ),
+        label: 'file B-2',
         contents: [
           {
-            name: 'file 2b1',
+            uuid: '1-1-0',
+            name: (
+              <TruncateText
+                tooltipAriaLabel="File B-2-a"
+                wrapperClassName="line-clamp-1"
+              >
+                file B-2-a Really short file name case.
+              </TruncateText>
+            ),
+            contents: null
+          }
+        ]
+      },
+      {
+        uuid: '1-2',
+        name: (
+          <TruncateText
+            tooltipAriaLabel="File B-3"
+            wrapperClassName="line-clamp-1"
+          >
+            file B-3
+          </TruncateText>
+        ),
+        label: 'file B-3',
+        contents: [
+          {
+            uuid: '1-2-0',
+            name: (
+              <TruncateText
+                tooltipAriaLabel="File B-3-a"
+                wrapperClassName="line-clamp-1"
+              >
+                file B-3-a
+              </TruncateText>
+            ),
+            label: 'file B-3-a',
+            contents: null
+          },
+          {
+            uuid: '1-2-1',
+            name: (
+              <TruncateText
+                tooltipAriaLabel="File B-3-b"
+                wrapperClassName="line-clamp-1"
+              >
+                file B-3-b
+              </TruncateText>
+            ),
+            label: 'file B-3-b',
             contents: null
           }
         ]
@@ -284,9 +501,92 @@ const listTreeDemoDataSet = [
  * recursively, using our DS components, using the given dummy dataset,
  * it uses DFS by default, feel free to re-use this in your product implementation
  */
-const ConrolledNestedTree = ({ data, indent = 1 }) => {
-  const [selectedNodeMap, setSelectedNodeMap] = useState({});
+const ControlledNestedTreeBase = ({
+  data,
+  openNodeMap,
+  setOpenNodeMap,
+  selectedNodeMap,
+  setSelectedNodeMap,
+  setFocused,
+  indent = 1,
+  focused = '',
+  focusIDPrefix
+}) =>
+  data.map((item, index) => (
+    <ListTree
+      key={item.uuid}
+      indentationLevel={indent}
+      isTreeOpen={openNodeMap[item.uuid]}
+    >
+      <ListTreeNode
+        isFocused={focused ? focused === item.uuid : false}
+        label={item.name}
+        focusUUID={item.uuid}
+        ariaLabel={item.label}
+        description={`(level=${indent})`}
+        isNodeSelected={selectedNodeMap[item.uuid]}
+        focusIDPrefix={focusIDPrefix}
+        onNodeClick={() => {
+          const newSelectedNodeMap = { ...selectedNodeMap };
+          if (newSelectedNodeMap[item.uuid] !== undefined) {
+            newSelectedNodeMap[item.uuid] = !newSelectedNodeMap[item.uuid];
+          } else {
+            newSelectedNodeMap[item.uuid] = true;
+          }
+          setSelectedNodeMap(newSelectedNodeMap);
+        }}
+        onNodeOpen={() => {
+          const newOpenNodeMap = { ...openNodeMap };
+          if (newOpenNodeMap[item.uuid] !== undefined) {
+            newOpenNodeMap[item.uuid] = !newOpenNodeMap[item.uuid];
+          } else {
+            newOpenNodeMap[item.uuid] = true;
+          }
+          setOpenNodeMap(newOpenNodeMap);
+        }}
+        isNodeOpen={openNodeMap[item.uuid]}
+        hideArrowIcon={!item.contents?.length}
+        leadingIcon={
+          index % 2 === 0 && <MdFolderSpecial className="h-full w-full" />
+        }
+        trailingVisualElement={
+          <Dropdown
+            onOpenChange={(isOpen) => {
+              setFocused?.(isOpen ? item.name : null);
+            }}
+          >
+            <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
+              <EllipsisVerticalIcon className="h-5 w-5" />
+            </DropdownTrigger>
+            <DropdownOptionGroup>
+              {options.map((op) => (
+                <DropdownOptionItem key={op.id} option={op} />
+              ))}
+            </DropdownOptionGroup>
+          </Dropdown>
+        }
+      />
+      {!!item?.contents && (
+        <ListTreeNodeContents isTreeOpen={openNodeMap[item.uuid]}>
+          <ControlledNestedTreeBase
+            openNodeMap={openNodeMap}
+            setOpenNodeMap={setOpenNodeMap}
+            selectedNodeMap={selectedNodeMap}
+            setSelectedNodeMap={setSelectedNodeMap}
+            data={item.contents}
+            focused={focused}
+            setFocused={setFocused}
+            indent={1 + indent}
+            focusIDPrefix={focusIDPrefix}
+          />
+        </ListTreeNodeContents>
+      )}
+    </ListTree>
+  ));
 
+const ControlledNestedTree = ({ data }) => {
+  const [selectedNodeMap, setSelectedNodeMap] = useState({});
+  const [listOfItems] = useState(data);
   /**
    * use a map for keeping your treenodes under parent control,
    * Remember: for controlled treenodes or pre-opened treenodes,
@@ -295,64 +595,47 @@ const ConrolledNestedTree = ({ data, indent = 1 }) => {
    * ListTreeNode => onNodeOpen
    * ListTreeContents => isTreeOpen
    */
+  const focusIDPrefix = 'controlled-';
   const [openNodeMap, setOpenNodeMap] = useState({
-    'file 2': true,
-    'file 2b': true,
-    'file A': true
+    0: true,
+    1: true
   });
-
+  const onKeyPressSelect = useCallback(
+    (itemIndexes) => {
+      if (!selectedNodeMap[itemIndexes]) {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = true;
+          return newItems;
+        });
+      } else {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = false;
+          return newItems;
+        });
+      }
+    },
+    [selectedNodeMap]
+  );
   return (
-    <>
-      {data.map((item, index) => (
-        <ListTree
-          key={item.name}
-          indentationLevel={indent}
-          isTreeOpen={openNodeMap[item.name]}
-        >
-          <ListTreeNode
-            label={item.name}
-            description={`(level=${indent})`}
-            isNodeSelected={selectedNodeMap[item.name]}
-            onNodeClick={() => {
-              if (selectedNodeMap[item.name] !== undefined) {
-                selectedNodeMap[item.name] = !selectedNodeMap[item.name];
-              } else {
-                selectedNodeMap[item.name] = true;
-              }
-              setSelectedNodeMap({ ...selectedNodeMap });
-            }}
-            onNodeOpen={() => {
-              if (openNodeMap[item.name] !== undefined) {
-                openNodeMap[item.name] = !openNodeMap[item.name];
-              } else {
-                openNodeMap[item.name] = true;
-              }
-              setOpenNodeMap({ ...openNodeMap });
-            }}
-            leadingIcon={
-              index % 2 === 0 && <MdFolderSpecial className="h-full w-full" />
-            }
-            trailingVisualElement={
-              <Dropdown>
-                <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
-                  <EllipsisVerticalIcon className="h-5 w-5" />
-                </DropdownTrigger>
-                <DropdownOptionGroup>
-                  {options.map((op) => (
-                    <DropdownOptionItem key={op.id} option={op} />
-                  ))}
-                </DropdownOptionGroup>
-              </Dropdown>
-            }
-          />
-          {!!item?.contents && (
-            <ListTreeNodeContents isTreeOpen={openNodeMap[item.name]}>
-              <ConrolledNestedTree data={item.contents} indent={1 + indent} />
-            </ListTreeNodeContents>
-          )}
-        </ListTree>
-      ))}
-    </>
+    <ListTreeRootWrapper
+      listData={listOfItems}
+      openNodeMap={openNodeMap}
+      setOpenNodeMap={setOpenNodeMap}
+      onSelectCallback={onKeyPressSelect}
+      focusIDPrefix={focusIDPrefix}
+    >
+      <ControlledNestedTreeBase
+        indent={1}
+        data={listOfItems}
+        openNodeMap={openNodeMap}
+        setOpenNodeMap={setOpenNodeMap}
+        selectedNodeMap={selectedNodeMap}
+        setSelectedNodeMap={setSelectedNodeMap}
+        focusIDPrefix={focusIDPrefix}
+      />
+    </ListTreeRootWrapper>
   );
 };
 
@@ -365,7 +648,6 @@ const SearchableSelectableListTree = () => {
     filteredUUIDsWithHierarchy: {}
   });
   const [openNodeMap, setOpenNodeMap] = useState({
-    0: true,
     1: true
   });
   const onSearchChange = (e) => {
@@ -395,34 +677,51 @@ const SearchableSelectableListTree = () => {
     setFilteredUUIDs(newFilterUUUIDValue);
     setSearchValue(newSearchValue);
   };
-  const onCheckboxChange = (isChecked, targetIndexes) => {
-    const { newItems, targetItem } = updateTargetNodes(
-      isChecked,
-      targetIndexes,
-      JSON.parse(JSON.stringify(listOfItems)) // pass a deep copy of the object preferably loadsh deep copy
-    );
-    const { selectedValuesAdjusted } = getSelectedListTreeItems(
-      selectedValue,
-      targetItem,
-      isChecked
-    );
-    setSelectedValue(selectedValuesAdjusted);
-    setListOfItems(newItems);
-  };
+  const onCheckboxChange = useCallback(
+    (isChecked, targetIndexes) => {
+      const { newItems, targetItem } = updateTargetNodes(
+        isChecked,
+        targetIndexes,
+        JSON.parse(JSON.stringify(listOfItems)) // pass a deep copy of the object preferably loadsh deep copy
+      );
+      const { selectedValuesAdjusted } = getSelectedListTreeItems(
+        selectedValue,
+        targetItem,
+        isChecked
+      );
+      setSelectedValue(selectedValuesAdjusted);
+      setListOfItems(newItems);
+    },
+    [listOfItems, selectedValue]
+  );
+  const onKeyPressSelect = useCallback(
+    (itemIndexes) => {
+      const targetItemHierarchy = getTargetHierarchyByIndex(
+        listOfItems,
+        itemIndexes
+      );
+      onCheckboxChange(!targetItemHierarchy[0].isChecked, itemIndexes);
+    },
+    [listOfItems, onCheckboxChange]
+  );
+  const focusIDPrefix = 'checkbox-list-';
 
   return (
     <>
       <InputField
+        role="presentation"
+        id="selectedbar"
         label={`${Object.values(selectedValue).length} Items Selected:`}
         wrapperClassName="min-w-[300px] cursor-pointer"
         addOnBeforeInlineWrapperClassName="max-w-[300px]"
         addOnBeforeInline={
           <TruncateText
             tooltipTriggerIcon={
-              <span className="absolute top-0 left-0 text-xs font-medium ">
+              <span className="absolute left-0 top-0 text-xs font-medium ">
                 ({Object.keys(selectedValue)?.length})
               </span>
             }
+            tooltipAriaLabel="Total Selected Items"
           >
             {Object.values(selectedValue)
               ?.map((el) => el.name)
@@ -432,140 +731,193 @@ const SearchableSelectableListTree = () => {
         style={{ width: 0, paddingLeft: 0 }}
         disabled
       />
-      <p className="mt-3 mb-4">
-        <InputField label="Search Items here" onChange={onSearchChange} />
+      <p className="mb-4 mt-3">
+        <InputField
+          id="searchbar"
+          role="presentation"
+          label="Search Items here"
+          onChange={onSearchChange}
+        />
       </p>
       {Object.keys(filteredUUIDs.filteredUUIDsWithHierarchy).length === 0 &&
       searchValue.length ? (
         <p className="text-sm">No items matching search results</p>
       ) : (
-        <ControlledNestedTreeWithCheckbox
+        <ListTreeRootWrapper
+          listData={listOfItems}
           openNodeMap={openNodeMap}
           setOpenNodeMap={setOpenNodeMap}
-          data={listOfItems}
-          searchValue={searchValue}
           filteredUUIDs={filteredUUIDs}
-          isParentSearched={false}
-          allowFilter={searchValue.length}
-          onCheckboxChange={onCheckboxChange}
-        />
+          onSelectCallback={onKeyPressSelect}
+          focusIDPrefix={focusIDPrefix}
+        >
+          <ControlledNestedTreeWithCheckbox
+            openNodeMap={openNodeMap}
+            setOpenNodeMap={setOpenNodeMap}
+            data={listOfItems}
+            searchValue={searchValue}
+            filteredUUIDs={filteredUUIDs}
+            isParentSearched={false}
+            allowFilter={searchValue.length}
+            onCheckboxChange={onCheckboxChange}
+            focusIDPrefix={focusIDPrefix}
+          />
+        </ListTreeRootWrapper>
       )}
     </>
   );
 };
 
-const UnconrolledNestedTree = ({ data, indent = 1 }) => {
-  const [selectedNodeMap, setSelectedNodeMap] = useState({});
-
-  return (
-    <>
-      {data.map((item) => (
-        <ListTree key={item.name} indentationLevel={indent}>
-          <ListTreeNode
-            label={item.name}
-            description={`(level=${indent})`}
-            isNodeSelected={selectedNodeMap[item.name]}
-            onNodeClick={() => {
-              if (selectedNodeMap[item.name] !== undefined) {
-                selectedNodeMap[item.name] = !selectedNodeMap[item.name];
-              } else {
-                selectedNodeMap[item.name] = true;
-              }
-              setSelectedNodeMap({ ...selectedNodeMap });
-            }}
-            trailingVisualElement={
-              <Dropdown>
-                <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
-                  Options
-                </DropdownTrigger>
-                <DropdownOptionGroup>
-                  {options.map((op) => (
-                    <DropdownOptionItem key={op.id} option={op} />
-                  ))}
-                </DropdownOptionGroup>
-              </Dropdown>
-            }
+const UnconrolledNestedTreeBase = ({
+  data,
+  focusIDPrefix,
+  indent = 1,
+  selectedNodeMap,
+  setSelectedNodeMap
+}) =>
+  data.map((item) => (
+    <ListTree key={item.name} indentationLevel={indent}>
+      <ListTreeNode
+        label={item.name}
+        ariaLabel={item.label}
+        description={`(level=${indent})`}
+        focusUUID={item.uuid}
+        isNodeSelected={selectedNodeMap[item.uuid]}
+        focusIDPrefix={focusIDPrefix}
+        onNodeClick={() => {
+          const newSelectedNodeMap = { ...selectedNodeMap };
+          if (selectedNodeMap[item.uuid] !== undefined) {
+            newSelectedNodeMap[item.uuid] = !newSelectedNodeMap[item.uuid];
+          } else {
+            newSelectedNodeMap[item.uuid] = true;
+          }
+          setSelectedNodeMap({ ...newSelectedNodeMap });
+        }}
+        trailingVisualElement={
+          <Dropdown>
+            <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
+              Options
+            </DropdownTrigger>
+            <DropdownOptionGroup>
+              {options.map((op) => (
+                <DropdownOptionItem key={op.id} option={op} />
+              ))}
+            </DropdownOptionGroup>
+          </Dropdown>
+        }
+      />
+      {!!item?.contents && (
+        <ListTreeNodeContents>
+          <UnconrolledNestedTreeBase
+            data={item.contents}
+            indent={1 + indent}
+            focusIDPrefix={focusIDPrefix}
+            selectedNodeMap={selectedNodeMap}
+            setSelectedNodeMap={setSelectedNodeMap}
           />
-          {!!item?.contents && (
-            <ListTreeNodeContents>
-              <UnconrolledNestedTree data={item.contents} indent={1 + indent} />
-            </ListTreeNodeContents>
-          )}
-        </ListTree>
-      ))}
-    </>
+        </ListTreeNodeContents>
+      )}
+    </ListTree>
+  ));
+
+const UnconrolledNestedTree = ({ data }) => {
+  const [selectedNodeMap, setSelectedNodeMap] = useState({});
+  const onKeyPressSelect = useCallback(
+    (itemIndexes) => {
+      if (!selectedNodeMap[itemIndexes]) {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = true;
+          return newItems;
+        });
+      } else {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = false;
+          return newItems;
+        });
+      }
+    },
+    [selectedNodeMap]
+  );
+  return (
+    <ListTreeRootWrapper
+      listData={listTreeDemoDataSet}
+      openNodeMap={{}}
+      setOpenNodeMap={() => {}}
+      onSelectCallback={onKeyPressSelect}
+      focusIDPrefix="controlled-"
+    >
+      <UnconrolledNestedTreeBase
+        data={data}
+        focusIDPrefix="controlled-"
+        selectedNodeMap={selectedNodeMap}
+        setSelectedNodeMap={setSelectedNodeMap}
+      />
+    </ListTreeRootWrapper>
   );
 };
 
-const FocusedNodeNestedTree = ({ data, indent = 1 }) => {
+const FocusedNodeNestedTree = ({ data }) => {
   const [selectedNodeMap, setSelectedNodeMap] = useState({});
+  const [listOfItems] = useState(data);
   const [focused, setFocused] = useState(null);
-
+  /**
+   * use a map for keeping your treenodes under parent control,
+   * Remember: for controlled treenodes or pre-opened treenodes,
+   * following props must be compulsorily provided:
+   * ListTree => isTreeOpen
+   * ListTreeNode => onNodeOpen
+   * ListTreeContents => isTreeOpen
+   */
   const [openNodeMap, setOpenNodeMap] = useState({
-    'file 2': true,
-    'file 2b': true,
-    'file A': true
+    0: true,
+    1: true
   });
-
+  const focusIDPrefix = 'focused-list-';
+  const onKeyPressSelect = useCallback(
+    (itemIndexes) => {
+      if (!selectedNodeMap[itemIndexes]) {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = true;
+          return newItems;
+        });
+      } else {
+        setSelectedNodeMap((prev) => {
+          const newItems = { ...prev };
+          newItems[itemIndexes] = false;
+          return newItems;
+        });
+      }
+    },
+    [selectedNodeMap]
+  );
   return (
-    <>
-      {data.map((item) => (
-        <ListTree
-          key={item.name}
-          indentationLevel={indent}
-          isTreeOpen={openNodeMap[item.name]}
-        >
-          <ListTreeNode
-            isFocused={focused === item.name}
-            label={item.name}
-            description={`(level=${indent})`}
-            isNodeSelected={selectedNodeMap[item.name]}
-            onNodeClick={() => {
-              if (selectedNodeMap[item.name] !== undefined) {
-                selectedNodeMap[item.name] = !selectedNodeMap[item.name];
-              } else {
-                selectedNodeMap[item.name] = true;
-              }
-              setSelectedNodeMap({ ...selectedNodeMap });
-            }}
-            onNodeOpen={() => {
-              if (openNodeMap[item.name] !== undefined) {
-                openNodeMap[item.name] = !openNodeMap[item.name];
-              } else {
-                openNodeMap[item.name] = true;
-              }
-              setOpenNodeMap({ ...openNodeMap });
-            }}
-            trailingVisualElement={
-              <Dropdown
-                onOpenChange={(isOpen) => {
-                  setFocused(isOpen ? item.name : null);
-                }}
-              >
-                <DropdownTrigger wrapperClassName="p-0 border-0 shadow-transparent">
-                  <EllipsisVerticalIcon className="h-5 w-5" />
-                </DropdownTrigger>
-                <DropdownOptionGroup>
-                  {options.map((op) => (
-                    <DropdownOptionItem key={op.id} option={op} />
-                  ))}
-                </DropdownOptionGroup>
-              </Dropdown>
-            }
-          />
-          {!!item?.contents && (
-            <ListTreeNodeContents isTreeOpen={openNodeMap[item.name]}>
-              <FocusedNodeNestedTree data={item.contents} indent={1 + indent} />
-            </ListTreeNodeContents>
-          )}
-        </ListTree>
-      ))}
-    </>
+    <ListTreeRootWrapper
+      listData={listOfItems}
+      openNodeMap={openNodeMap}
+      setOpenNodeMap={setOpenNodeMap}
+      onSelectCallback={onKeyPressSelect}
+      focusIDPrefix={focusIDPrefix}
+    >
+      <ControlledNestedTreeBase
+        indent={1}
+        data={listOfItems}
+        openNodeMap={openNodeMap}
+        setOpenNodeMap={setOpenNodeMap}
+        selectedNodeMap={selectedNodeMap}
+        setSelectedNodeMap={setSelectedNodeMap}
+        focused={focused}
+        setFocused={setFocused}
+        focusIDPrefix={focusIDPrefix}
+      />
+    </ListTreeRootWrapper>
   );
 };
 
 const ControlledTreeTemplate = () => (
-  <ConrolledNestedTree data={listTreeDemoDataSet} />
+  <ControlledNestedTree data={listTreeDemoDataSet} />
 );
 
 const UncontrolledTreeTemplate = () => (
@@ -579,15 +931,72 @@ const FocusedNodeNestedTreeTemplate = () => (
 const SearchableSelectableListTreeTemplate = () => (
   <SearchableSelectableListTree />
 );
+// const menuButton = 'menu-button';
 
 const ControlledTree = ControlledTreeTemplate.bind({});
+// ControlledTree.play = async ({ canvasElement }) => {
+//   const canvas = within(canvasElement);
+//   let treeItems = canvas.queryAllByRole('treeitem');
+//   await expect(treeItems.length).toBe(7);
+//   await userEvent.hover(canvas.queryAllByLabelText(menuButton)[0]);
+//   await userEvent.click(canvas.queryAllByLabelText(menuButton)[0]);
+//   const buttons = canvas.queryAllByRole('button');
+//   await userEvent.click(buttons[1]);
+//   await userEvent.click(buttons[9]);
+//   await userEvent.click(buttons[11]);
+//   treeItems = canvas.queryAllByRole('treeitem');
+//   await expect(treeItems.length).toBe(10);
+// };
 
 const UncontrolledTree = UncontrolledTreeTemplate.bind({});
+// UncontrolledTree.play = async ({ canvasElement }) => {
+//   const canvas = within(canvasElement);
+//   let treeItems = canvas.queryAllByRole('treeitem');
+//   await expect(treeItems.length).toBe(2);
+//   await userEvent.hover(canvas.queryAllByLabelText(menuButton)[0]);
+//   await userEvent.click(canvas.queryAllByLabelText(menuButton)[0]);
+//   const buttons = canvas.queryAllByRole('button');
+//   await userEvent.click(buttons[1]);
+//   await userEvent.click(buttons[3]);
+//   treeItems = canvas.queryAllByRole('treeitem');
+//   await expect(treeItems.length).toBe(7);
+//   const tooltips = canvas.queryAllByRole('tooltip');
+//   await userEvent.hover(tooltips[0]);
+// };
 
 const SearchableSelectableListTreeTemplateExample =
   SearchableSelectableListTreeTemplate.bind({});
+// SearchableSelectableListTreeTemplateExample.play = async ({
+//   canvasElement
+// }) => {
+//   const canvas = within(canvasElement);
+//   let treeItems = canvas.queryAllByRole('treeitem');
+//   await expect(treeItems.length).toBe(7);
+//   const buttons = canvas.queryAllByRole('button');
+//   await userEvent.click(buttons[3]);
+//   treeItems = canvas.queryAllByRole('treeitem');
+//   await expect(treeItems.length).toBe(10);
+//   const checkboxess = canvas.queryAllByRole('checkbox');
+//   await userEvent.click(checkboxess[0]);
+//   await userEvent.click(checkboxess[3]);
+//   await userEvent.click(checkboxess[6]);
+//   await userEvent.type(canvas.getByLabelText('Search Items here'), 'file');
+// };
 
 const FocusedNodeTree = FocusedNodeNestedTreeTemplate.bind({});
+// FocusedNodeTree.play = async ({ canvasElement }) => {
+//   const canvas = within(canvasElement);
+//   let treeItems = canvas.queryAllByRole('treeitem');
+//   await expect(treeItems.length).toBe(7);
+//   await userEvent.hover(canvas.queryAllByLabelText(menuButton)[0]);
+//   await userEvent.click(canvas.queryAllByLabelText(menuButton)[0]);
+//   const buttons = canvas.queryAllByRole('button');
+//   await userEvent.click(buttons[3]);
+//   treeItems = canvas.queryAllByRole('treeitem');
+//   await expect(treeItems.length).toBe(7);
+//   const tooltips = canvas.queryAllByRole('tooltip');
+//   await userEvent.hover(tooltips[0]);
+// };
 
 export default defaultConfig;
 export {
@@ -598,9 +1007,8 @@ export {
 };
 
 const propTypeDefault = {
-  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  indent: PropTypes.number.isRequired
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 };
-ConrolledNestedTree.propTypes = propTypeDefault;
+ControlledNestedTree.propTypes = propTypeDefault;
 UnconrolledNestedTree.propTypes = propTypeDefault;
 FocusedNodeNestedTree.propTypes = propTypeDefault;

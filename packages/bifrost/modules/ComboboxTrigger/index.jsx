@@ -55,11 +55,10 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
       <Combobox.Button
         as="div"
         className={twClassNames(
-          'cursor-pointer border-base-300  relative flex items-center border px-2 py-1.5 rounded-md relative',
+          'appearance-none cursor-pointer border-base-300  relative flex items-center border px-2 py-1.5 rounded-md',
           {
             'focus-within:border-brand-500 focus-within:ring-1 focus-within:outline-none focus-within:ring-brand-500':
               !disabled,
-            'pr-7': isMulti,
             'border-danger-600': errorText,
             'cursor-not-allowed border-base-200 bg-base-50 text-base-500':
               disabled,
@@ -95,7 +94,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           key={open || isLoading}
           placeholder={isLoading ? null : placeholder}
           className={twClassNames(
-            'cursor-pointer flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0 flex-1 p-0 truncate pr-7 text-sm leading-6 text-sm',
+            'cursor-pointer flex-1 focus:ring-0 focus-outline-0 focus-border-none bg-white border-0  p-0 truncate pr-7 text-sm leading-6',
             {
               'bg-base-50 cursor-not-allowed': disabled || isLoading,
               'pr-0': isTruncated
@@ -131,7 +130,10 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
                 />
               </span>
             )}
-            {isMulti && isTruncated && !open ? (
+            {isMulti &&
+            isTruncated &&
+            !open &&
+            currentSelectedValues.length > 0 ? (
               <span className="mr-1 font-bold">{`(${currentSelectedValues.length})`}</span>
             ) : null}
           </div>

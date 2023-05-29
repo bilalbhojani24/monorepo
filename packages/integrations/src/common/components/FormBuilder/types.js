@@ -39,5 +39,12 @@ export const FieldType = {
 export const FormBuilderType = {
   fields: PropTypes.arrayOf(PropTypes.shape(FieldType)),
   handleSubmit: PropTypes.func.isRequired,
-  isFormBeingSubmitted: PropTypes.bool
+  isFormBeingSubmitted: PropTypes.bool,
+  isWorkInProgress: PropTypes.bool,
+  hideDescription: PropTypes.bool,
+  setIsWorkInProgress: PropTypes.func.isRequired,
+  scrollWidgetToTop: PropTypes.func.isRequired,
+  validationFailureErrorMessage: PropTypes.string,
+  attachments: PropTypes.arrayOf(PropTypes.string).isRequired,
+  setAttachments: PropTypes.func.isRequired
 };
