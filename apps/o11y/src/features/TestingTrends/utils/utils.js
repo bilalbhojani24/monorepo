@@ -1,5 +1,3 @@
-import React from 'react';
-import { MdOpenInNew } from '@browserstack/bifrost';
 import {
   COMMON_CHART_CONFIGS,
   SNP_PARAMS_MAPPING,

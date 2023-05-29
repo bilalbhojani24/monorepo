@@ -83,18 +83,17 @@ export default function TrendsGenericChart({
                   pointRangeOptions
                 }));
 
+                const { plotBox } = e.target.series.chart;
+                const { spacingBox } = e.target.series.chart;
+
                 handleTooltipData({
                   options: [...seriesData],
                   id: seriesOptions.id,
                   styles: {
-                    top:
-                      plotY +
-                      (e.target.series.chart.types.includes('areaspline')
-                        ? 110
-                        : 45),
-                    left: plotX + 25,
-                    width: 32,
-                    height: 32
+                    top: plotY + plotBox.y - spacingBox.y,
+                    left: plotX + plotBox.x - spacingBox.x,
+                    width: 16,
+                    height: 16
                   }
                 });
               }
@@ -111,7 +110,8 @@ export default function TrendsGenericChart({
           boostThreshold: 1000,
           stacking: 'normal',
           cropThreshold: 10000,
-          animation: false
+          animation: false,
+          connectNulls: true
         }
       ]
     };
@@ -140,7 +140,7 @@ export default function TrendsGenericChart({
   }, [chartData, chartType, config, data, handleTooltipData, seriesOptions]);
 
   return (
-    <div className="h-full">
+    <div className="relative h-full">
       <div
         className="absolute z-10 rounded-sm"
         key={tooltipData?.options?.id}

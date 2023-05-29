@@ -76,12 +76,16 @@ export default function TestingTrends() {
             apiKey="alwaysFailing"
             config={{
               hideLegends: true,
+              showSubTitle: true,
               pointClickCb: () =>
                 logTrendsInteractionEvent({
                   interaction: 'always_failing_clicked'
                 })
             }}
-            seriesOptions={{ id: 'alwaysFailing', name: 'Always Failing' }}
+            seriesOptions={{
+              id: 'alwaysFailing',
+              name: 'Always Failing'
+            }}
             insightsSuffix="%"
           />
         );
@@ -92,6 +96,7 @@ export default function TestingTrends() {
             apiKey="newFailures"
             config={{
               hideLegends: true,
+              showSubTitle: true,
               pointClickCb: () =>
                 logTrendsInteractionEvent({
                   interaction: 'new_failure_clicked'

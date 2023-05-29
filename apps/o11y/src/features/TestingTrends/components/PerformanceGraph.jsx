@@ -119,13 +119,17 @@ const getChartOptions = ({
               pointRangeOptions: res.data[index]?.pointRange
             }));
 
+            const { plotBox } = e.target.series.chart;
+            const { spacingBox } = e.target.series.chart;
+
             handleTooltipData({
               options: [...seriesData],
               styles: {
-                top: plotY + 55,
-                left: plotX + 55,
-                width: 24,
-                height: 24
+                top: plotY + plotBox.y - spacingBox.y,
+                left: plotX + plotBox.x - spacingBox.x,
+                width: 16,
+                height:
+                  e.target?.dlBox?.height || e.target?.graphic?.height || 16
               }
             });
           }
