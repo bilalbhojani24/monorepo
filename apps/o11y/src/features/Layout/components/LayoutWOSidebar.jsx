@@ -1,20 +1,14 @@
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { matchPath, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
-import { useResizeObserver } from '@browserstack/hooks';
-import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import O11yTopBanner from 'common/O11yTopBanner';
+import O11yTopContent from 'common/O11yTopContent';
 import { ROUTES } from 'constants/routes';
 import { getInitData } from 'globalSlice/selectors';
 
-import { AppContext } from '../context/AppContext';
-
 export default function LayoutWOSidebar() {
   const initData = useSelector(getInitData);
-  const headerRef = useRef(null);
-  const headerSize = useResizeObserver(headerRef);
   const location = useLocation();
   const matchReqAccessData = matchPath(
     {
@@ -43,21 +37,14 @@ export default function LayoutWOSidebar() {
   }
 
   return (
-    <AppContext.Provider
-      value={{
-        headerSize: headerSize?.blockSize ? headerSize : { blockSize: 64 }
-      }}
-    >
-      <div id="o11y-header" className="sticky top-0 z-10" ref={headerRef}>
-        <O11yHeader />
-        <O11yTopBanner />
-      </div>
+    <>
+      <O11yTopContent />
       <Suspense fallback={<O11yLoader wrapperClassName="h-screen" />}>
         <main className="flex">
           <Outlet />
         </main>
       </Suspense>
       <NotificationsContainer />
-    </AppContext.Provider>
+    </>
   );
 }
