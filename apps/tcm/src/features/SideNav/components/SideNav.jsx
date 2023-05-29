@@ -7,7 +7,6 @@ import {
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger,
-  SidebarHeader,
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
@@ -81,7 +80,7 @@ const SideNav = (props) => {
           showProjects && !isAllProjectsLoading ? (
             <>
               {allProjectsDrop?.length > 1 ? (
-                <SidebarHeader>
+                <div>
                   <SelectMenu
                     onChange={onProjectChange}
                     value={
@@ -117,7 +116,7 @@ const SideNav = (props) => {
                       ))}
                     </SelectMenuOptionGroup>
                   </SelectMenu>
-                </SidebarHeader>
+                </div>
               ) : (
                 <div className="w-full p-2">
                   <TMButton
