@@ -111,11 +111,26 @@ export default function Reports() {
           top: showBanner ? '128px' : '64px'
         }}
       >
-        <h1 className="mb-2 text-2xl font-bold">Accessibility reports</h1>
-        <h3 className="text-base-500 mb-4 text-sm font-medium">
-          Select reports to view them. You can select more than one report to
-          consolidate and review reports.
-        </h3>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="mb-2 text-2xl font-bold">Accessibility reports</h1>
+            <h3 className="text-base-500 mb-4 text-sm font-medium">
+              Select reports to view them. You can select more than one report
+              to consolidate and review reports.
+            </h3>
+          </div>
+          <Button
+            iconPlacement="start"
+            icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
+            onClick={() => {}}
+            size="small"
+            colors="white"
+            wrapperClassName="py-2"
+          >
+            Download extension
+          </Button>
+        </div>
+
         <div>
           <div className="flex items-center justify-between">
             <div className="flex">
