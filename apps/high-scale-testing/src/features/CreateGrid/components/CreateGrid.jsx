@@ -59,22 +59,22 @@ const CreateGrid = () => {
           steps={[
             {
               id: '1',
-              name: 'Choose Cloud Provider',
+              name: 'CONFIGURE GRID PROFILE',
               status: 'complete'
             },
             {
               id: '2',
-              name: 'Configure Grid Profile',
-              status: 'current_completed'
+              name: 'CHOOSE CLOUD PROVIDER',
+              status: 'complete'
             },
             {
               id: '3',
-              name: 'Setup IAM Role',
+              name: 'CONFIGURE',
               status: 'current'
             },
             {
               id: '4',
-              name: 'Create Grid',
+              name: 'CREATE GRID',
               status: 'upcoming'
             }
           ]}
@@ -83,7 +83,10 @@ const CreateGrid = () => {
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
           <div className="border-base-300 m-6 h-[calc(100vh-64px-104px-48px)] overflow-auto rounded-lg border bg-white p-6">
             <p className="text-lg font-medium">Choose Grid Profile</p>
-            <p className="text-base-500 text-sm">Lorem Ipsum dolor simit</p>
+            <p className="text-base-500 text-sm">
+              Use previously saved profiles to configure Grid settings with
+              pre-filled values.
+            </p>
 
             <div className="mb-6 mt-3 w-1/2">
               <SelectMenu
@@ -135,6 +138,8 @@ const CreateGrid = () => {
                 <div className="w-1/2">
                   <InputField
                     id="test-id"
+                    // eslint-disable-next-line react/jsx-boolean-value
+                    isMandatory={true}
                     label="Grid Name"
                     onBlur={null}
                     onChange={null}
@@ -147,6 +152,8 @@ const CreateGrid = () => {
                 <div className="w-1/2">
                   <InputField
                     id="test-id"
+                    // eslint-disable-next-line react/jsx-boolean-value
+                    isMandatory={true}
                     label="Concurrency"
                     onBlur={null}
                     onChange={null}
@@ -164,6 +171,8 @@ const CreateGrid = () => {
                     // onChange={(val) => setSelected(val)}
                     // value={selected}
                     isMulti={false}
+                    // eslint-disable-next-line react/jsx-boolean-value
+                    isMandatory={true}
                   >
                     <ComboboxLabel>Cluster</ComboboxLabel>
                     <ComboboxTrigger placeholder="Placeholder" />
@@ -203,7 +212,10 @@ const CreateGrid = () => {
                             onChange={(val) => setSelectedGridProfile(val)}
                             value={selectedGridProfile}
                           >
-                            <SelectMenuLabel>Region</SelectMenuLabel>
+                            <SelectMenuLabel>
+                              Region
+                              <span className="text-danger-600 ml-0.5">*</span>
+                            </SelectMenuLabel>
                             <SelectMenuTrigger ref={ref} />
                             <SelectMenuOptionGroup>
                               {currentProvidersRegions.map((item) => (
@@ -222,7 +234,10 @@ const CreateGrid = () => {
                             // value={selected}
                             isMulti={false}
                           >
-                            <ComboboxLabel>Instance Type</ComboboxLabel>
+                            <ComboboxLabel>
+                              Instance Type
+                              <span className="text-danger-600 ml-0.5">*</span>
+                            </ComboboxLabel>
                             <ComboboxTrigger placeholder="Placeholder" />
                             <ComboboxOptionGroup>
                               {allAvailableInstanceTypes.map((item) => (
