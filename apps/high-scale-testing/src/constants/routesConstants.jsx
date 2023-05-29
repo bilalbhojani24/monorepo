@@ -1,14 +1,15 @@
 import React from 'react';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import GridConsole from 'features/GridConsole/components/Dashboard';
+import GeneralSettings from 'features/GridConsole/components/GeneralSettings';
+import GridOverview from 'features/GridConsole/components/GridOverview';
+import GridSettings from 'features/GridConsole/components/GridSettings';
 import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
 import { Layout } from 'features/Layout';
 import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
 import { Onboarding } from 'features/Onboarding';
 
 import ROUTES from './routes';
-import GridOverview from 'features/GridConsole/components/GridOverview';
-import GridSettings from 'features/GridConsole/components/GridSettings';
 
 export const APP_ROUTES = [
   {
@@ -46,7 +47,14 @@ export const APP_ROUTES = [
           {
             path: ROUTES.GRID_SETTINGS,
             isProtected: true,
-            component: <GridSettings />
+            component: <GridSettings />,
+            children: [
+              {
+                path: ROUTES.GRID_SETTINGS_GENERAL,
+                isProtected: true,
+                component: <GeneralSettings />
+              }
+            ]
           }
         ]
       },

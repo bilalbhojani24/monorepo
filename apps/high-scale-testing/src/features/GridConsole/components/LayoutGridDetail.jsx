@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { PageHeadings, Tabs } from '@browserstack/bifrost';
 
 import ROUTES from '../../../constants/routes';
+
 import useLayoutGridDetail from './useLayoutGridDetail';
 
 const LayoutGridDetail = () => {

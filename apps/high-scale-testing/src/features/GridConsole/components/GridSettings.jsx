@@ -1,12 +1,6 @@
 import React from 'react';
-import { useLocation, useMatch, useNavigate } from 'react-router-dom';
-import {
-  PageHeadings,
-  SidebarItem,
-  SidebarNavigation,
-  Tabs
-} from '@browserstack/bifrost';
-import { useMountEffect } from '@browserstack/hooks';
+import { Outlet, useLocation, useMatch, useNavigate } from 'react-router-dom';
+import { SidebarItem, SidebarNavigation } from '@browserstack/bifrost';
 import ROUTES from 'constants/routes';
 
 const GridSettings = () => {
@@ -48,23 +42,8 @@ const GridSettings = () => {
     navigate(path);
   };
 
-  const isRootSettings = useMatch(ROUTES.GRID_SETTINGS);
-  const isGeneralSettings = useMatch(ROUTES.GRID_SETTINGS_GENERAL);
-
-  useMountEffect(() => {
-    console.log('Log: isRootSettings:', isRootSettings);
-    if (isRootSettings === null) {
-      if (isGeneralSettings) {
-        console.log('Log: Landed on General Settings');
-      }
-    } else {
-      console.log('Log: else');
-      // navigate(ROUTES.GRID_SETTINGS_GENERAL);
-    }
-  });
-
   return (
-    <>
+    <div className="flex">
       <SidebarNavigation
         sidebarPrimaryNavigation={navItems.map((item) => (
           <SidebarItem
@@ -74,7 +53,8 @@ const GridSettings = () => {
         ))}
         wrapperClassName="md:sticky bg-base-50 py-5 px-2 w-64 flex-none md:inset-y-16"
       />
-    </>
+      <Outlet />
+    </div>
   );
 };
 
