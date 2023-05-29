@@ -6,7 +6,8 @@ const baseURL = environment.includes('.browserstack.com')
   : 'https://k8s-devos.bsstag.com/';
 
 const axiosInstance = axios.create({
-  baseURL
+  baseURL,
+  withCredentials: true
 });
 
 export default axiosInstance;

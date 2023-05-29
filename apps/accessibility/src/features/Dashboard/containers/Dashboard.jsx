@@ -45,16 +45,18 @@ export default function Dashboard({ children }) {
   ));
 
   const SWBSidebarSec = (
-    <div className="flex flex-col items-start justify-center">
-      <ActionPanel
-        content={
-          <Button colors="white" onClick={onGetADemoClick}>
-            Get a demo
-          </Button>
-        }
-        description="Learn how to unlock the full potential of Accessibility Testing"
-        title="Need help?"
-      />
+    <div className="flex flex-col items-start justify-center pb-3">
+      <div className="px-2 pb-3">
+        <ActionPanel
+          content={
+            <Button colors="white" onClick={onGetADemoClick} size="small">
+              Get a demo
+            </Button>
+          }
+          description="Learn how to unlock the full potential of Accessibility Testing"
+          title="Need help?"
+        />
+      </div>
       {secondaryNav.map((item) => (
         <SidebarItem
           key={item.id}
