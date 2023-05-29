@@ -27,7 +27,7 @@ const GridOverview = () => {
 
   useEffect(() => {
     if (paramId) fetchGridDataByIdFromAPI(paramId);
-  }, [paramId]);
+  }, [fetchGridDataByIdFromAPI, paramId]);
 
   if (!Object.keys(gridData).length) {
     return <></>;
@@ -126,7 +126,7 @@ const GridOverview = () => {
     <>
       <div className="px-6 pt-6">
         <div className={containerClassName}>
-          <p className="text-base-900 text-lg font-medium leading-6">
+          <p className="text-lg font-medium leading-6 text-base-900">
             Grid Details
           </p>
 
@@ -135,7 +135,7 @@ const GridOverview = () => {
               const { title, value } = detail;
               return (
                 <div>
-                  <p className="text-base-500 text-sm font-normal">{title}</p>
+                  <p className="text-sm font-normal text-base-500">{title}</p>
                   <p className={fontColor900ClassName}>{value}</p>
                 </div>
               );
@@ -147,13 +147,13 @@ const GridOverview = () => {
       {frameworks.length && (
         <div className="p-6">
           <div className={containerClassName}>
-            <p className="text-base-900 text-lg font-medium leading-6">
+            <p className="text-lg font-medium leading-6 text-base-900">
               Framework URLs
             </p>
             <div className="bg-white pt-4">
               {frameworks.map((framework) => (
                 <div
-                  className="border-base-200 flex flex-row items-center border-b py-3"
+                  className="flex flex-row items-center border-b border-base-200 py-3"
                   key={framework.name}
                 >
                   <div className="flex flex-row items-center">
@@ -166,7 +166,7 @@ const GridOverview = () => {
                   <div className="flex flex-row items-center justify-start">
                     {framework.url.length ? (
                       <>
-                        <p className="text-base-900 mr-4 text-sm font-normal">
+                        <p className="mr-4 text-sm font-normal text-base-900">
                           {framework.url}
                         </p>
 

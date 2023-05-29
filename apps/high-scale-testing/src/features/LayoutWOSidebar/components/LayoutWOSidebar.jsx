@@ -13,7 +13,7 @@ const LayoutWOSidebar = () => (
             name: 'lorem'
           },
           {
-            link: 'https://www.browserstack.com',
+            link: 'https://www.browserstack.com/automate',
             name: 'ipsum'
           }
         ],
@@ -30,11 +30,11 @@ const LayoutWOSidebar = () => (
       references={{
         options: [
           {
-            link: 'https://www.browserstack.com',
+            link: 'https://www.browserstack.com/live',
             name: 'lorem'
           },
           {
-            link: 'https://www.browserstack.com',
+            link: 'https://www.browserstack.com/app-live',
             name: 'ipsum'
           }
         ],
@@ -43,7 +43,7 @@ const LayoutWOSidebar = () => (
       release="alpha"
       wrapperClassName="sticky"
     />
-    <main className="bg-base-50 flex">
+    <main className="flex bg-base-50">
       <Outlet />
     </main>
   </>

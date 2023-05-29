@@ -44,11 +44,11 @@ const Layout = () => {
         documentation={{
           options: [
             {
-              link: 'https://www.browserstack.com',
+              link: 'https://www.browserstack.com/',
               name: 'lorem'
             },
             {
-              link: 'https://www.browserstack.com',
+              link: 'https://www.browserstack.com/live',
               name: 'ipsum'
             }
           ],
@@ -65,11 +65,11 @@ const Layout = () => {
         references={{
           options: [
             {
-              link: 'https://www.browserstack.com',
+              link: 'https://www.browserstack.com/app-live',
               name: 'lorem'
             },
             {
-              link: 'https://www.browserstack.com',
+              link: 'https://www.browserstack.com/automate',
               name: 'ipsum'
             }
           ],
@@ -78,7 +78,7 @@ const Layout = () => {
         release="alpha"
         wrapperClassName="sticky"
       />
-      <main className="bg-base-50 flex">
+      <main className="flex bg-base-50">
         <nav
           className="sticky"
           style={{
