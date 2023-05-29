@@ -1,0 +1,9 @@
+# @browserstack/central-frontend is the default owner Unless a later match takes precedence,
+
+* @browserstack/central-frontend
+
+# TCM
+apps/tcm/* @browserstack/tm-frontend
+
+# All package.json this needs to be at the end of the file
+**/package.json @browserstack/central-frontend
