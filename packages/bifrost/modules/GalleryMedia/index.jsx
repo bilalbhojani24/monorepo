@@ -24,7 +24,8 @@ const GalleryMedia = ({
   alwaysVisible,
   onChange,
   onCardClick,
-  ratioConfig
+  ratioConfig,
+  wrapperClassName
 }) => {
   const renderMediaThumbnail = (item) => {
     const { status, file } = item;
@@ -146,46 +147,52 @@ const GalleryMedia = ({
     onChange(e.target.checked, itemId);
   };
 
-  return data.map((mediaItem) => (
-    <div
-      key={mediaItem.id}
-      className={`mx-auto ${ratioConfig[ratio].split(' ')[1]}`}
-      role="region"
-    >
-      <GalleryMediaCheckbox
-        onClick={() => handleOnClick(mediaItem.id)}
-        selected={mediaItem.selected}
-        alwaysVisible={alwaysVisible}
-        onChange={(e) => handleChange(e, mediaItem.id)}
-      >
-        {renderMediaThumbnail(mediaItem)}
-      </GalleryMediaCheckbox>
+  return (
+    <div className={wrapperClassName}>
+      {data.map((mediaItem) => (
+        <div
+          key={mediaItem.id}
+          className={`mx-auto ${ratioConfig[ratio].split(' ')[1]}`}
+          role="region"
+        >
+          <GalleryMediaCheckbox
+            onClick={() => handleOnClick(mediaItem.id)}
+            selected={mediaItem.selected}
+            alwaysVisible={alwaysVisible}
+            onChange={(e) => handleChange(e, mediaItem.id)}
+          >
+            {renderMediaThumbnail(mediaItem)}
+          </GalleryMediaCheckbox>
 
-      <div className="mt-4 flex justify-between">
-        <div>
-          {mediaItem.title && (
-            <p className="text-base-900 text-sm font-normal leading-none">
-              {showExtensions
-                ? renderFileWithExtension(mediaItem.title)
-                : renderFileWithoutExtension(mediaItem.title)}
-            </p>
-          )}
-          {mediaItem.subTitle && (
-            <p className="text-base-500 mt-2 text-xs font-medium leading-4">
-              {mediaItem.subTitle}
-            </p>
-          )}
+          <div className="mt-4 flex justify-between">
+            <div>
+              {mediaItem.title && (
+                <p className="text-base-900 text-sm font-normal leading-none">
+                  {showExtensions
+                    ? renderFileWithExtension(mediaItem.title)
+                    : renderFileWithoutExtension(mediaItem.title)}
+                </p>
+              )}
+              {mediaItem.subTitle && (
+                <p className="text-base-500 mt-2 text-xs font-medium leading-4">
+                  {mediaItem.subTitle}
+                </p>
+              )}
+            </div>
+            {mediaItem.icon}
+          </div>
         </div>
-        {mediaItem.icon}
-      </div>
+      ))}
+      ;
     </div>
-  ));
+  );
 };
 
 GalleryMedia.propTypes = {
   ratio: PropTypes.string,
   showExtensions: PropTypes.bool,
-  multiSelect: PropTypes.bool,
+  alwaysVisible: PropTypes.bool,
+  wrapperClassName: PropTypes.string,
   onChange: PropTypes.func,
   onCardClick: PropTypes.func,
   data: PropTypes.arrayOf(
@@ -213,6 +220,7 @@ GalleryMedia.defaultProps = {
   onChange: () => {},
   onCardClick: () => {},
   alwaysVisible: false,
+  wrapperClassName: '',
   ratioConfig: MEDIA_CARD_THUMBNAIL_RATIO
 };
 

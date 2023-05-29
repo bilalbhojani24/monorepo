@@ -57,12 +57,12 @@ Primary.args = {
       <GalleryPreview
         topAction={
           <div className="bg-base-900 absolute left-0 top-0 flex w-full justify-between p-5 text-white">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <p className="text-sm font-medium leading-5 text-white">
                 sit amet consectetur adipisicisng elit.
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <MdContentCopy
                 className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
@@ -97,7 +97,7 @@ Primary.args = {
       />
       <GalleryMediaActionbar
         primaryActions={
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <Checkbox border={false} />
             <p className="text-base-900 text-sm font-medium leading-5">
               sit amet consectetur adispisicing elit.
@@ -105,7 +105,7 @@ Primary.args = {
           </div>
         }
         secondaryActions={
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <MdContentCopy
               className="h-5 w-5 cursor-pointer"
               aria-hidden="true"
@@ -121,9 +121,10 @@ Primary.args = {
           </div>
         }
       />
-      <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        <GalleryMedia data={DummyData} />
-      </div>
+      <GalleryMedia
+        wrapperClassName="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+        data={DummyData}
+      />
       <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
         See All
       </GalleryMediaFooterButton>
@@ -222,7 +223,7 @@ export const GalleryExampleWPreview = () => {
                 {previewItem?.title}
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <MdContentCopy
                 className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
@@ -268,7 +269,7 @@ export const GalleryExampleWPreview = () => {
       {selectedItems.length > 0 && (
         <GalleryMediaActionbar
           primaryActions={
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <Checkbox border={false} onChange={(e) => handleBulkSelect(e)} />
               <p className="text-base-900 text-sm font-medium leading-5">
                 {selectedItems.length} item(s) selected
@@ -276,7 +277,7 @@ export const GalleryExampleWPreview = () => {
             </div>
           }
           secondaryActions={
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <MdContentCopy
                 className="h-5 w-5 cursor-pointer"
                 aria-hidden="true"
@@ -293,14 +294,13 @@ export const GalleryExampleWPreview = () => {
           }
         />
       )}
-      <div className="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        <GalleryMedia
-          onCardClick={(id) => handleCardClick(id)}
-          data={data}
-          onChange={(status, id) => handleMediaUpdate(status, id)}
-          alwaysVisible={multiSelect}
-        />
-      </div>
+      <GalleryMedia
+        wrapperClassName="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+        onCardClick={(id) => handleCardClick(id)}
+        data={data}
+        onChange={(status, id) => handleMediaUpdate(status, id)}
+        alwaysVisible={multiSelect}
+      />
       <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
         See All
       </GalleryMediaFooterButton>
