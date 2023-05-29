@@ -46,7 +46,9 @@ const getChartOptions = (handleTooltipData) => ({
       point: {
         events: {
           mouseOver(e) {
-            const { tooltipPos, shapeArgs, options } = e.target;
+            const { tooltipPos, options } = e.target;
+            // const { plotBox } = e.target.series.chart;
+            // const { spacingBox } = e.target.series.chart;
 
             const seriesData = this.series.chart.series.map((res) => ({
               ...res,
@@ -63,13 +65,10 @@ const getChartOptions = (handleTooltipData) => ({
               styles: {
                 top: tooltipPos[1],
                 left: tooltipPos[0],
-                width: 20,
-                height: 32
+                width: 4,
+                height: 4
               }
             });
-          },
-          mouseout(e) {
-            console.log(e);
           }
         }
       }
@@ -233,9 +232,13 @@ export default function CbtTrends() {
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
         <div className="grid h-[90%] flex-1 grid-cols-2 gap-1 overflow-hidden">
           {!!chartData.data?.length && (
-            <>
+            <div
+              onMouseLeave={() => {
+                handleTooltipData({ show: false });
+              }}
+            >
               <div
-                className="bg-danger-500 absolute z-10 rounded-sm"
+                className="absolute z-10 rounded-sm"
                 key={tooltipData?.options?.id}
                 style={{
                   ...tooltipData?.styles
@@ -250,10 +253,7 @@ export default function CbtTrends() {
                   placementAlign="center"
                   triggerAsChild
                   show={tooltipData.show}
-                  onMouseLeave={() => {
-                    console.log('onMouseLeave');
-                    handleTooltipData({ show: false });
-                  }}
+                  arrowHeight={0}
                   content={
                     <CustomChartTooltip
                       tooltipData={tooltipData.options || []}
@@ -264,7 +264,7 @@ export default function CbtTrends() {
                   }
                 >
                   <div
-                    className="bg-brand-500 h-full w-full"
+                    className="h-full w-full"
                     style={{
                       ...tooltipData?.styles
                     }}
@@ -272,7 +272,7 @@ export default function CbtTrends() {
                 </O11yTooltip>
               </div>
               <Chart options={getOptions} chartRef={chart} />
-            </>
+            </div>
           )}
           <div className="h-full overflow-y-auto p-3">
             {activeSeriesData.map((item, idx) => (
