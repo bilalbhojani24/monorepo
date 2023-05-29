@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import { Badge, MdContentCopy } from '@browserstack/bifrost';
 import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
@@ -10,24 +8,11 @@ import PlaywrightIcon from 'assets/icons/components/frameworks/PlaywrightIcon';
 import SeleniumIcon from 'assets/icons/components/frameworks/SeleniumIcon';
 import CopyButton from 'common/CopyButton/components/CopyButton';
 
-import { getGridData } from '../slices/selector';
-
 import { useGridOverview } from './useGridOverview';
 
 const GridOverview = () => {
-  const params = useParams();
-  const paramId = params; // grid id
-
-  const {
-    fetchGridDataByIdFromAPI,
-    containerClassName,
-    fontColor900ClassName
-  } = useGridOverview();
-  const gridData = useSelector(getGridData);
-
-  useEffect(() => {
-    if (paramId) fetchGridDataByIdFromAPI(paramId);
-  }, [paramId]);
+  const { containerClassName, fontColor900ClassName, gridData } =
+    useGridOverview();
 
   if (!Object.keys(gridData).length) {
     return <></>;
