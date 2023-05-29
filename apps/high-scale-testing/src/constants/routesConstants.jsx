@@ -6,6 +6,7 @@ import GridOverview from 'features/GridConsole/components/GridOverview';
 import GridSettings from 'features/GridConsole/components/GridSettings';
 import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
 import BrowsersSettings from 'features/GridSettings/components/BrowsersSettings';
+import TimeoutSettings from 'features/GridSettings/components/TimeoutSettings';
 import { Layout } from 'features/Layout';
 import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
 import { Onboarding } from 'features/Onboarding';
@@ -59,6 +60,11 @@ export const APP_ROUTES = [
                 path: ROUTES.GRID_SETTINGS_BROWSER,
                 isProtected: true,
                 component: <BrowsersSettings />
+              },
+              {
+                path: ROUTES.GRID_SETTINGS_TIMEOUT,
+                isProtected: true,
+                component: <TimeoutSettings />
               }
             ]
           }

@@ -26,7 +26,7 @@ const GridSettings = () => {
       label: 'Timeouts',
       activeIcon: () => <></>,
       inActiveIcon: () => <></>,
-      path: '/timeouts'
+      path: ROUTES.GRID_SETTINGS_TIMEOUT
     },
     {
       id: 'test-artifacts',

@@ -7,6 +7,7 @@ const ROUTES = {
   GRID_SETTINGS: '/grid-console/grid/:id/settings',
   GRID_SETTINGS_GENERAL: '/grid-console/grid/:id/settings/general',
   GRID_SETTINGS_BROWSER: '/grid-console/grid/:id/settings/browsers',
+  GRID_SETTINGS_TIMEOUT: '/grid-console/grid/:id/settings/timeout',
   ONBOARDING: '/setup',
   SIGN_OUT: '/sign-out'
 };
