@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
   HomeIcon,
   MdOutlineTextSnippet,
@@ -7,23 +7,25 @@ import {
   SidebarNavigation,
   UsersIcon
 } from '@browserstack/bifrost';
+import ROUTES from 'constants/routes';
 import HSTHeader from 'features/HSTHeader/component';
 
 const Layout = () => {
+  const navigate = useNavigate();
   const primaryNavs = [
     {
       id: 'dashboard',
       label: 'Automation Console',
       activeIcon: HomeIcon,
       inActiveIcon: HomeIcon,
-      path: '/'
+      path: ROUTES.GRID_CONSOLE
     },
     {
       id: 'team',
       label: 'Builds Dashboard',
       activeIcon: UsersIcon,
       inActiveIcon: UsersIcon,
-      path: '/team'
+      path: ROUTES.BUILDS
     }
   ];
 
@@ -36,6 +38,11 @@ const Layout = () => {
       path: '/'
     }
   ];
+
+  const navigationClickHandler = (item) => {
+    const { path } = item;
+    navigate(path);
+  };
 
   return (
     <>
@@ -50,7 +57,11 @@ const Layout = () => {
         >
           <SidebarNavigation
             sidebarPrimaryNavigation={primaryNavs.map((item, idx) => (
-              <SidebarItem nav={item} current={idx === 3} />
+              <SidebarItem
+                nav={item}
+                current={idx === 3}
+                handleNavigationClick={navigationClickHandler}
+              />
             ))}
             sidebarSecondaryNavigation={secondaryNavs.map((item, idx) => (
               <SidebarItem nav={item} current={idx === 3} />
