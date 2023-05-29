@@ -91,7 +91,7 @@ const usePreviewAndConfirm = () => {
 
   const handleImportTestCaseClick = () => {
     dispatch(
-      logEventHelper('TM_ImportCsvStep3ProceedBtnClicked', {
+      logEventHelper('TM_CiConfirmImportCtaClicked', {
         project_id: projectId
       })
     );
