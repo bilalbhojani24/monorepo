@@ -11,8 +11,6 @@ const CreateGridCLIModal = () => {
     setActiveGridManagerCodeSnippet
   } = useCreateGridCLIModal();
 
-  console.log('Log: CreateGridCLIModal');
-
   const TabsForCodeSnippet = (
     <Tabs
       id="tabID"
@@ -69,7 +67,7 @@ const CreateGridCLIModal = () => {
             aria-label="Close"
             colors="white"
             onClick={() => {
-              window.location.href = `${window.location.origin}/${}`;
+              window.location.href = `${window.location.origin}/${'xyz'}`;
             }}
             type="button"
             varaint="primary"
