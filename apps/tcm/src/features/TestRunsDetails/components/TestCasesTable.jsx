@@ -228,7 +228,7 @@ const TestCasesTable = () => {
               >
                 {col.name}
                 {index === 0 && selectedTestCaseIDs.length ? (
-                  <div className="bg-base-50 border-base-300 absolute top-0 flex h-full items-center gap-3 border-b">
+                  <div className="absolute top-0 flex h-full items-center gap-3">
                     <TMButton
                       colors="white"
                       size="extra-small"
