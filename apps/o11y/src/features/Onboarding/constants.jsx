@@ -42,7 +42,7 @@ export const FRAMEWORKS = [
   },
   {
     id: FRAMEWORK_IDS.junit,
-    name: 'JUnit Reports',
+    name: 'Upload JUnit Reports',
     logo: <JUnitIcon width="48" height="48" />
   },
   {

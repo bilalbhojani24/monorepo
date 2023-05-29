@@ -122,11 +122,11 @@ const TESTING_FRAMEWORKS = [
     )
   },
   {
-    name: 'JUnit Reports',
+    name: 'Upload JUnit Reports',
     Component: () => (
       <DocumentStackListItem
         analyticKey="framework_docs_visited"
-        title="Junit Report"
+        title="Upload JUnit Reports"
         subTitle="Documentation"
         link={getDocUrl({
           path: DOC_KEY_MAPPING.junit,
