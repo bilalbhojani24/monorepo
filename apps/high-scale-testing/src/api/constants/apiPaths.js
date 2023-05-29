@@ -1,3 +1,4 @@
+const FETCH_CREATE_GRID_DATA_PATH = '/create-grid';
 const FETCH_GRIDS_PATH = '/grids';
 const FETCH_GRID_PATH = '/grid';
 const INIT_PATH = '/init';
@@ -10,6 +11,7 @@ const SSO_PATH = '/auth/start-sso';
 
 export {
   FETCH_CLUSTERS_PATH,
+  FETCH_CREATE_GRID_DATA_PATH,
   FETCH_GRID_PATH,
   FETCH_GRIDS_PATH,
   INIT_PATH,

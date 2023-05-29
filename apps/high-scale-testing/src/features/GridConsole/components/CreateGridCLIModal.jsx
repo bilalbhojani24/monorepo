@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, CodeSnippet, Modal, Tabs } from '@browserstack/bifrost';
 import { GRID_MANAGER_NAMES } from 'constants/index';
+import ROUTES from 'constants/routes';
 
 import useCreateGridCLIModal from './useCreateGridCLIModal';
 
@@ -67,7 +68,7 @@ const CreateGridCLIModal = () => {
             aria-label="Close"
             colors="white"
             onClick={() => {
-              window.location.href = `${window.location.origin}/${'xyz'}`;
+              window.location.href = `${window.location.origin}${ROUTES.CREATE_GRID}`;
             }}
             type="button"
             varaint="primary"
