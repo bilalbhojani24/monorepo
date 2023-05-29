@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, useLocation, useMatch, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { SidebarItem, SidebarNavigation } from '@browserstack/bifrost';
 import ROUTES from 'constants/routes';
 
@@ -19,7 +19,7 @@ const GridSettings = () => {
       label: 'Browsers',
       activeIcon: () => <></>,
       inActiveIcon: () => <></>,
-      path: '/browsers'
+      path: ROUTES.GRID_SETTINGS_BROWSER
     },
     {
       id: 'timeouts',
