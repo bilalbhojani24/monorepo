@@ -17,6 +17,7 @@ import useTestRunDetails from './useTestRunDetails';
 
 const Issues = () => {
   const {
+    issueType,
     jiraHost,
     testRunDetails,
     isIssuesLoading,
@@ -98,7 +99,7 @@ const Issues = () => {
           { name: 'Issues' }
         ]}
       />
-      <div className="mb-0 -mt-6 w-full px-4">
+      <div className="-mt-6 mb-0 w-full px-4">
         <TMTabs
           defaultIndex={null}
           // key={TABS_ARRAY.findIndex((item) => item.name === currentTab)}
@@ -116,8 +117,7 @@ const Issues = () => {
               {issuesArray.length ? (
                 <>
                   <div className="text-base-900 text-sm">
-                    List of all the links which are created while testing test
-                    cases within this test run:
+                    {issueType?.description}
                   </div>
                   <div className="border-base-200 mt-4 overflow-hidden border bg-white sm:rounded-none">
                     <TMDataTable

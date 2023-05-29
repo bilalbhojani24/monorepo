@@ -16,6 +16,7 @@ import {
   MdRemoveCircle,
   MdSchedule
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import {
   O11yBadge,
   O11yButton,
@@ -29,8 +30,9 @@ import StatusBadges from 'common/StatusBadges';
 import VCIcon from 'common/VCIcon';
 import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
-import { getActiveProject } from 'globalSlice/selectors';
+import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
@@ -60,6 +62,7 @@ function BuildDetailsHeader({
   isNewItemLoading,
   applyTestListFilter
 }) {
+  const headerSize = useSelector(getHeaderSize);
   const getActiveTab = useSelector(getBuildDetailsActiveTab);
   const navigate = useNavigate();
   const buildMeta = useSelector(getBuildMeta);
@@ -105,6 +108,7 @@ function BuildDetailsHeader({
     logMetaInteractionEvent('tab_changed', {
       active: tabInfo.value
     });
+    dispatch(hideIntegrationsWidget());
     navigate({ search: searchParams.toString() });
   };
 
@@ -212,7 +216,20 @@ function BuildDetailsHeader({
   } = buildMeta.data;
 
   return (
-    <div className="border-base-200 bg-base-50 z-10 border-b px-6 pt-6">
+    <div
+      className={twClassNames(
+        'border-base-200 bg-base-50 sticky top-16 z-10 px-6 pt-6',
+        {
+          'border-b': !(
+            buildMeta?.data?.buildError?.message ||
+            buildMeta?.data?.isParsingReport
+          )
+        }
+      )}
+      style={{
+        top: `${headerSize}px`
+      }}
+    >
       <div className="flex justify-between">
         <h1 className="w-full text-2xl font-bold leading-7">
           {isAutoDetectedName ? originalName : name}{' '}
@@ -337,7 +354,7 @@ function BuildDetailsHeader({
             }
           >
             <Hyperlink
-              href={versionControlInfo?.url}
+              href={ciBuildData?.buildUrl}
               target="_blank"
               onClick={() => logMetaInteractionEvent('ci_url_clicked')}
             >
@@ -361,17 +378,21 @@ function BuildDetailsHeader({
           }
         />
       </div>
-      <div className="-mb-[1px] flex justify-between">
-        <O11yTabs
-          defaultIndex={getActiveTab.idx}
-          tabsArray={tabsList}
-          onTabChange={onTabChange}
-        />
-        <StatusBadges
-          statusStats={statusStats}
-          onClickHandler={handleClickStatusBadge}
-        />
-      </div>
+      {!(
+        buildMeta?.data?.buildError?.message || buildMeta?.data?.isParsingReport
+      ) && (
+        <div className="-mb-[1px] flex justify-between">
+          <O11yTabs
+            defaultIndex={getActiveTab.idx}
+            tabsArray={tabsList}
+            onTabChange={onTabChange}
+          />
+          <StatusBadges
+            statusStats={statusStats}
+            onClickHandler={handleClickStatusBadge}
+          />
+        </div>
+      )}
     </div>
   );
 }

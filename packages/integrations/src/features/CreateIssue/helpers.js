@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
 
+import { ISSUE_MODES } from './components/constants';
+
 // function that looks at the data schema of a field
 // and recursively builds out a response according to the required schema
 const parseFieldsForCreateHelper = (
@@ -83,3 +85,56 @@ export const parseFieldsForCreate = (createMeta, fieldData) =>
     }
     return parsedFields;
   }, {});
+
+const getIsNewValueEqualToCurrentValue = (currentValue, newValue) => {
+  if (typeof currentValue === 'string' || typeof currentValue === 'number') {
+    return currentValue === newValue;
+  }
+
+  if (Array.isArray(newValue)) {
+    if (!Array.isArray(currentValue)) return false;
+    return currentValue.every((currentValueItem) =>
+      Boolean(newValue.find((item) => item.value === currentValueItem.key))
+    );
+  }
+
+  if (typeof currentValue === 'object') {
+    return 'options' in currentValue
+      ? currentValue.key === newValue.value &&
+          currentValue.options.key === newValue.child.value
+      : currentValue.key === newValue.value;
+  }
+
+  return false;
+};
+export const removedUnchangedFields = (updateMeta, fieldData) => {
+  updateMeta.forEach((field) => {
+    if (field.key in fieldData && field.current_value) {
+      const isNewValueEqualToCurrentValue = getIsNewValueEqualToCurrentValue(
+        field.current_value,
+        fieldData[field.key]
+      );
+      if (isNewValueEqualToCurrentValue) {
+        delete fieldData[field.key];
+      }
+    }
+  });
+  return fieldData;
+};
+
+export const getIssueSuccessAnalyticsPayload = (mode, meta, fieldData) => {
+  const SINGLE_VALUE_SELECT = 'single-value-select';
+  const createInitialPayload = [
+    { project_id: SINGLE_VALUE_SELECT },
+    { ticket_type_id: SINGLE_VALUE_SELECT }
+  ];
+  const updateInitialPayload = [{ ticket_id: SINGLE_VALUE_SELECT }];
+  const payload =
+    mode === ISSUE_MODES.CREATION ? createInitialPayload : updateInitialPayload;
+  meta.forEach((field) => {
+    if (fieldData[field?.key] || fieldData?.custom?.[field?.key]) {
+      payload.push({ [field?.key]: field?.schema?.field });
+    }
+  });
+  return payload;
+};

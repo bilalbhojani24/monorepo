@@ -1,16 +1,42 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { MdCheckCircle } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
+import { logEventHelper } from 'utils/logEvent';
 
+import { FIRST_SCREEN, SECOND_SCREEN } from '../const/importCSVConstants';
 import { setCSVCurrentScreen } from '../slices/importCSVSlice';
 
 import useTextTransformer from './useTextTransformer';
 
-const SingleStep = ({ title, description, ctaText, redirectTo }) => {
+const SingleStep = ({
+  title,
+  description,
+  ctaText,
+  redirectTo,
+  showPreText
+}) => {
   const dispatch = useDispatch();
+  const { projectId } = useParams();
+
   const handleCtaClick = () => {
+    if (redirectTo === FIRST_SCREEN) {
+      dispatch(
+        logEventHelper('TM_CiUpdateFileClicked', {
+          project_id: projectId
+        })
+      );
+    }
+    if (redirectTo === SECOND_SCREEN) {
+      dispatch(
+        logEventHelper('TM_CiUpdateMappingLinkClicked', {
+          project_id: projectId
+        })
+      );
+    }
     dispatch(setCSVCurrentScreen(redirectTo));
   };
   const { textRef } = useTextTransformer({
@@ -19,7 +45,7 @@ const SingleStep = ({ title, description, ctaText, redirectTo }) => {
 
   return (
     <div className="flex justify-between">
-      <div className="w-full">
+      <div className="w-full max-w-[calc(100%-90px)]">
         <div className="flex">
           <MdCheckCircle className="text-success-600 h-5 w-5" />
           <span className="text-base-800 ml-2 text-sm font-medium">
@@ -27,9 +53,9 @@ const SingleStep = ({ title, description, ctaText, redirectTo }) => {
           </span>
         </div>
         <div className="text-base-500 flex whitespace-nowrap pl-7 text-sm font-normal">
-          <span>Import Location: </span>
+          {showPreText && <span className="mr-1">Import Location: </span>}
           <span
-            className="ml-1 w-full overflow-hidden text-ellipsis whitespace-nowrap"
+            className="w-full overflow-hidden text-ellipsis whitespace-nowrap"
             ref={textRef}
           >
             {description}
@@ -53,6 +79,7 @@ SingleStep.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   ctaText: PropTypes.string,
+  showPreText: PropTypes.bool,
   redirectTo: PropTypes.string
 };
 
@@ -60,7 +87,8 @@ SingleStep.defaultProps = {
   title: '',
   description: '',
   ctaText: '',
-  redirectTo: ''
+  redirectTo: '',
+  showPreText: false
 };
 
 const TopSectionInfo = ({ steps }) => (
@@ -79,6 +107,7 @@ const TopSectionInfo = ({ steps }) => (
             description={step.description}
             ctaText={step.ctaText}
             redirectTo={step.redirectTo}
+            showPreText={step?.showPreText}
           />
         </div>
       ))}

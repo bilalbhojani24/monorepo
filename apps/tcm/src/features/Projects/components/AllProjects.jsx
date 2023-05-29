@@ -271,7 +271,6 @@ const AllProjects = () => {
                     ? 'Zephyr Scale'
                     : 'TestRail'
                 } successfully`}
-                linkText={null}
                 dismissButton
                 dismissButtonFn={dismissImportProjectAlert}
               />
@@ -287,7 +286,7 @@ const AllProjects = () => {
                   <TMDataTable
                     columns={tableColumns}
                     rows={allProjects}
-                    containerWrapperClass="shadow-none border-none "
+                    containerWrapperClass="shadow-none border-none min-w-[1040px]"
                     tableWrapperClass="table-fixed w-full"
                   />
 

@@ -39,6 +39,7 @@ const MapFields = () => {
   const dispatch = useDispatch();
   const { mapFieldModalConfig } = useImportCSV();
   const {
+    ampEventMapPageLoaded,
     mapFieldsError,
     allowedValueMapper,
     typeMapper,
@@ -139,12 +140,18 @@ const MapFields = () => {
             <>
               <TMTooltipHeader>Value Mapping</TMTooltipHeader>
               <TMTooltipBody>
-                <p className="text-sm">
+                <p className="mb-0 text-sm">
                   Select and map values from your CSV to values of Test
                   Management’s system values. This will help you maintain the
                   fields with correct values
-                  <div className="underline">Learn more</div>
                 </p>
+                <a
+                  target="blank"
+                  href="https://www.browserstack.com/docs/test-management/quick-start/import-csv"
+                  className="text-sm underline"
+                >
+                  Learn more
+                </a>
               </TMTooltipBody>
             </>
           }
@@ -170,6 +177,7 @@ const MapFields = () => {
     });
     dispatch(setUsers(projectId));
     dispatch(setTags(projectId));
+    ampEventMapPageLoaded();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -183,7 +191,6 @@ const MapFields = () => {
             dismissButton
             modifier="error"
             title={mapFieldsError}
-            linkText={null}
             dismissButtonFn={() => dispatch(setMapFieldsError(''))}
           />
         </div>

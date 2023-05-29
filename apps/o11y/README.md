@@ -3,12 +3,11 @@
 2. update /etc/hosts with entry `127.0.0.1 observability-local.bsstag.com`
 3. create `.npmrc` file from contents of `.npmrc.sample`
 4. create `.env` file from contents of `.env.sample`
-5. Create certs folder under `apps/o11y` folder
 6. install turbo globally `npm install turbo --global`
 7. install `pnpm` globally `npm install -g pnpm`
 8. run `pnpm run build:dev-package` command on root to build utils, hooks and design system
 9. run `turbo run dev --filter o11y` to start
-10. open url https://observability-local.bsstag.com:9000/
+10. open url http://observability-local.bsstag.com:8081/
 
 ## Using .env
 #### `BSTACK_STAGE`
@@ -48,5 +47,10 @@ apiUrl: 'https://api-observability.browserstack.com'
 3. checkout branch `testops_static_data`
 4. start api-mocker
 
-## receiving pusher updates on local with staging api
+## Receiving pusher updates on local with staging api
 - add `54.160.231.205 pusher-local.bsstag.com` entry to etc/hosts
+
+## Raising jira issue from local and staging
+- Make sure you are connected to AWS VPN
+- open [this URL](https://integrations-preprod.bsstag.com/request/set-railsapp-host?namespace=devtestops) in browser to set rails namespace to `devtestops` for authentication
+- Thats all  🎉

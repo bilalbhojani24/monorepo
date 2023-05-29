@@ -35,7 +35,8 @@ const ComboboxBadge = ({
   onChange,
   onBadgeCrossClick,
   deleteOnBackspace,
-  onClearAll
+  onClearAll,
+  placeholder
 }) => {
   const isControlledElement = !!value;
   const deleteOnBackspaceRef = useLatestRef(deleteOnBackspace);
@@ -80,7 +81,7 @@ const ComboboxBadge = ({
     >
       {label}
       <ComboboxBadgeTrigger
-        placeholder="Placeholder"
+        placeholder={placeholder}
         onInputValueChange={(e) => {
           handleChange(e.target.value);
         }}
@@ -101,7 +102,7 @@ const ComboboxBadge = ({
         ) : (
           <HeadlessCombobox.Option
             className={twClassNames(
-              'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3'
+              'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3 text-sm'
             )}
             disabled
           >
@@ -165,7 +166,8 @@ ComboboxBadge.propTypes = {
       label: string.isRequired,
       image: string
     })
-  ])
+  ]),
+  placeholder: string
 };
 
 ComboboxBadge.defaultProps = {
@@ -183,7 +185,8 @@ ComboboxBadge.defaultProps = {
   onClearAll: null,
   onInputChange: null,
   options: [],
-  value: undefined
+  value: undefined,
+  placeholder: 'Placeholder'
 };
 
 export default ComboboxBadge;

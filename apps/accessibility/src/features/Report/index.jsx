@@ -31,15 +31,8 @@ export default function Report() {
     onCopyClick,
     onTabChange
   } = useReport();
+  console.log({ reportMetaData });
   const reportData = useSelector(getReportData);
-
-  const {
-    location: { search, origin, pathname }
-  } = window;
-  const params = new URLSearchParams(search);
-  const currentPageUrl = `${origin}${pathname}?ids=${params.get(
-    'ids'
-  )}&wcagVersion=${params.get('wcagVersion')}`;
 
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
 
@@ -107,16 +100,19 @@ export default function Report() {
                       </p>
                     </div>
                   ) : null}
-                  <div className="mr-6">
-                    <Badge
-                      hasDot={false}
-                      hasRemoveButton={false}
-                      text={
-                        Object.values(reportMetaData.meta)[0].wcagVersion.label
-                      }
-                      modifier="base"
-                    />
-                  </div>
+                  {Object.values(reportMetaData.meta)[0].wcagVersion.label ? (
+                    <div className="mr-6">
+                      <Badge
+                        hasDot={false}
+                        hasRemoveButton={false}
+                        text={
+                          Object.values(reportMetaData.meta)[0].wcagVersion
+                            .label
+                        }
+                        modifier="base"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               ) : (
                 <div className="flex items-center">
@@ -140,7 +136,10 @@ export default function Report() {
                   Copied
                 </Button>
               ) : (
-                <CopyToClipboard text={currentPageUrl} onCopy={onCopyClick}>
+                <CopyToClipboard
+                  text={window.location.href}
+                  onCopy={onCopyClick}
+                >
                   <Button
                     icon={<MdShare className="text-xl" />}
                     iconPlacement="end"

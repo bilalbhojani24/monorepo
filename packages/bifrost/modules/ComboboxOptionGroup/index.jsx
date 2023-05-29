@@ -39,7 +39,7 @@ const ComboboxOptionGroup = ({
           <Combobox.Options
             static
             className={twClassNames(
-              'border-base-200 z-50 my-1 max-h-60 w-full overflow-scroll rounded-md border bg-white shadow-lg outline-none',
+              'border-base-200 z-50 my-1 max-h-60 w-full overflow-scroll rounded-md border bg-white shadow-lg outline-none py-1',
               wrapperClassName
             )}
           >
@@ -50,7 +50,7 @@ const ComboboxOptionGroup = ({
                   <Combobox.Option
                     disabled
                     className={twClassNames(
-                      'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3'
+                      'text-base-500 group relative cursor-pointer select-none py-2 pr-9 pl-3 text-sm'
                     )}
                   >
                     {query.length > 0 ? noResultFoundText : noOptionsText}

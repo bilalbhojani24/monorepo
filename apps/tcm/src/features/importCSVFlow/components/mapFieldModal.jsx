@@ -121,7 +121,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                     options={row?.displayOptions}
                     defaultValue={row?.defaultSelected}
                     onChange={handleModalSelectMenuChange(row.csvValue)}
-                    dividerIdx={row?.displayOptions.length - 3}
+                    dividerIdx={1}
                   />
                 </TableCell>
               </TableRow>
@@ -131,7 +131,6 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
         <TMAlerts
           show
           title="New values will be created with same name as present in respective CSV fields. "
-          linkText={null}
           modifier="primary"
         />
       </TMModalBody>

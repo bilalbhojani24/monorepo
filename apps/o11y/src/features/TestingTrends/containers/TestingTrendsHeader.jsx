@@ -22,7 +22,7 @@ import {
   getBuildNamesData,
   setTTFilters
 } from 'features/TestingTrends/slices/testingTrendsSlice';
-import { getActiveProject } from 'globalSlice/selectors';
+import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 import {
   getSubtractedUnixTime,
@@ -48,6 +48,8 @@ export default function TestingTrendsHeader() {
   const activeBuild = useSelector((state) =>
     getTTFilterByKey(state, 'buildName')
   );
+
+  const headerSize = useSelector(getHeaderSize);
 
   const handleClickRange = (key) => {
     dispatch(
@@ -169,6 +171,7 @@ export default function TestingTrendsHeader() {
       className={twClassNames(
         'sticky top-16 z-10 flex flex-col py-6 px-6 bg-base-50 pb-0'
       )}
+      style={{ top: `${headerSize}px` }}
     >
       <span className="text-2xl font-bold">Testing Trends</span>
       <div className="mt-4 flex justify-between">
@@ -241,7 +244,7 @@ export default function TestingTrendsHeader() {
           })}
         </div>
 
-        <div>
+        <div className="bg-white">
           <O11yComboBox
             placeholder="Select a build"
             value={selectedBuildListOptions[0]}

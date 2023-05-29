@@ -10,7 +10,7 @@ export const getEmailPreferencesData = createAsyncThunk(
       const response = await getEmailPreferences({ ...data });
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );
@@ -21,7 +21,7 @@ export const submitEmailPreferencesData = createAsyncThunk(
       const response = await submitEmailPreferences({ ...data });
       return response.data;
     } catch (err) {
-      return rejectWithValue({ err, data });
+      return rejectWithValue(err);
     }
   }
 );

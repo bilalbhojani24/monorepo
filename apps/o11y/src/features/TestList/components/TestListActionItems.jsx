@@ -12,11 +12,14 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import { TEST_STATUS } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
+import { toggleWidget } from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
 import { singleItemTestDetails } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
+
+import { getTestReportDetails } from '../slices/testListSlice';
 
 function TestListActionItems({ details }) {
   const dispatch = useDispatch();
@@ -24,6 +27,7 @@ function TestListActionItems({ details }) {
   const { buildUUID } = useContext(TestListContext);
   const activeProject = useSelector(getActiveProject);
   const buildMeta = useSelector(getBuildMeta);
+  const [isLoadingBugDetails, setIsLoadingBugDetails] = useState(false);
 
   const handleMuteUnmuteTestCase = (shouldMute) => {
     const itemID = details?.id;
@@ -76,8 +80,23 @@ function TestListActionItems({ details }) {
     });
   };
 
-  const handleReportBugClick = () => {
+  const handleReportBugClick = async () => {
     OllyTestListingEvent('O11yReportBugClicked');
+    dispatch(toggleWidget(false));
+    setIsLoadingBugDetails(true);
+    dispatch(
+      getTestReportDetails({
+        buildId: buildUUID,
+        testRunId: details.id
+      })
+    )
+      .unwrap()
+      .then(() => {
+        dispatch(toggleWidget(true));
+      })
+      .finally(() => {
+        setIsLoadingBugDetails(false);
+      });
   };
 
   // eslint-disable-next-line no-unused-vars
@@ -115,7 +134,13 @@ function TestListActionItems({ details }) {
           wrapperClassName="py-2"
           content={
             <div className="mx-4">
-              <p className="text-base-300 text-sm">Re-run</p>
+              {buildMeta?.data?.reRun ? (
+                <p className="text-base-300 text-sm">Re-run</p>
+              ) : (
+                <p className="text-base-300 text-sm">
+                  Re-run is not applicable or disabled in the project settings
+                </p>
+              )}
             </div>
           }
         >
@@ -126,6 +151,7 @@ function TestListActionItems({ details }) {
             size="extra-small"
             onClick={handleRerunButtonClick}
             icon={<MdRedo className="h-5 w-5" />}
+            disabled={!buildMeta?.data?.reRun}
           />
         </O11yTooltip>
       )}
@@ -144,6 +170,7 @@ function TestListActionItems({ details }) {
             type="button"
             colors="white"
             isIconOnlyButton
+            loading={isLoadingBugDetails}
             size="extra-small"
             onClick={handleReportBugClick}
             icon={<MdOutlineBugReport className="h-5 w-5" />}

@@ -26,6 +26,12 @@ const defaultConfig = {
       defaultValue: 100,
       description: 'Total number of results in pagination'
     },
+    defaultPageNumber: {
+      option: { type: 'number' },
+      defaultValue: 2,
+      description:
+        'Current page number, default is undefined and it is uncontrolled'
+    },
     isCentered: {
       option: { type: 'boolean' },
       defaultValue: false,
@@ -54,8 +60,9 @@ const defaultConfig = {
     },
     pageNumber: {
       option: { type: 'number' },
-      defaultValue: 1,
-      description: 'Current page number, default is 1'
+      defaultValue: undefined,
+      description:
+        'Current page number, default is undefined and it is controlled from consumer'
     },
     pageSize: {
       option: { type: 'number' },
@@ -73,6 +80,13 @@ const defaultConfig = {
       description: 'Hide string with pagination details',
       type: { summary: 'BOOLEAN', required: false },
       defaultValue: false
+    },
+    wrapperClassName: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description:
+        'Additional styles to be passed to the root of the component',
+      defaultValue: ''
     }
   },
   controls: {}

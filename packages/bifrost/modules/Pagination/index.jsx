@@ -29,9 +29,13 @@ const getPageRange = (page, totalPages) => {
   return totalPages.slice(startIndex, endIndex);
 };
 
+const buttonClass =
+  'text-base-500 pt-4 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent text-sm font-medium';
+
 const Pagination = (props) => {
   const {
     count,
+    defaultPageNumber,
     pageSize,
     pageNumber,
     onNextClick,
@@ -41,9 +45,11 @@ const Pagination = (props) => {
     isCentered,
     activeLinkClass,
     inActiveLinkClass,
-    hideDetailsString
+    hideDetailsString,
+    wrapperClassName
   } = props;
-  const [currentPage, setCurrentPage] = useState(pageNumber);
+  const [currentPage, setCurrentPage] = useState(defaultPageNumber);
+
   const [totalPages, setTotalPages] = useState([]);
 
   const getPageRangeNumbers = useCallback(() => {
@@ -54,6 +60,10 @@ const Pagination = (props) => {
   useEffect(() => {
     setTotalPages(getPageRangeNumbers());
   }, [count, pageSize, getPageRangeNumbers]);
+
+  useEffect(() => {
+    if (pageNumber) setCurrentPage(pageNumber);
+  }, [pageNumber]);
 
   const prevClick = (e) => {
     e.preventDefault();
@@ -83,10 +93,15 @@ const Pagination = (props) => {
     <div
       className={twClassNames('flex flex-1 justify-between sm:justify-end', {
         'sm:hidden': withNumber,
-        block: !withNumber
+        flex: !withNumber
       })}
     >
-      <Button onClick={prevClick} colors="white" disabled={currentPage === 1}>
+      <Button
+        onClick={prevClick}
+        colors="white"
+        disabled={currentPage === 1}
+        aria-label="Go to previous page"
+      >
         Previous
       </Button>
       <Button
@@ -94,6 +109,7 @@ const Pagination = (props) => {
         onClick={nextClick}
         colors="white"
         disabled={currentPage === totalPages[totalPages.length - 1]}
+        aria-label="Go to next page"
       >
         Next
       </Button>
@@ -111,7 +127,7 @@ const Pagination = (props) => {
             [`${activeClass} ${activeLinkClass}`]: currentPage === page
           })}
           onClick={(e) => pageNumberClick(e, page)}
-          aria-current="page"
+          aria-current={currentPage === page ? 'page' : ''}
         >
           {page}
         </a>
@@ -124,9 +140,10 @@ const Pagination = (props) => {
       <div className="-mt-px flex w-0 flex-1">
         <a
           href="/"
-          className="text-base-500 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium"
+          className={`${buttonClass} pr-1`}
           onClick={prevClick}
           disabled={currentPage === 1}
+          aria-label="Go to previous page"
         >
           <ArrowLongLeftIcon
             className="text-base-400 mr-3 h-5 w-5"
@@ -144,9 +161,10 @@ const Pagination = (props) => {
       <div className="-mt-px flex w-0 flex-1 justify-end">
         <a
           href="/"
-          className="text-base-500 hover:border-base-300 hover:text-base-700 inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium"
+          className={`${buttonClass} pl-1`}
           onClick={nextClick}
           disabled={currentPage === totalPages[totalPages.length - 1]}
+          aria-label="Go to next page"
         >
           Next
           <ArrowLongRightIcon
@@ -164,7 +182,10 @@ const Pagination = (props) => {
 
   return (
     <div
-      className="border-base-200 flex items-center justify-between border-t px-0 py-3 sm:px-6"
+      className={twClassNames(
+        'border-base-200 flex items-center justify-between border-t px-0 py-3 sm:px-6',
+        wrapperClassName
+      )}
       aria-label="Pagination"
     >
       <div className="hidden sm:block">
@@ -199,7 +220,7 @@ const Pagination = (props) => {
           className="border-base-300 text-base-500 hover:bg-base-50 relative inline-flex items-center rounded-l-md border  p-2 text-sm font-medium"
           onClick={prevClick}
         >
-          <span className="sr-only">Previous</span>
+          <span className="sr-only">Go to previous page</span>
           <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
         </a>
         {renderPageNumber(
@@ -211,7 +232,7 @@ const Pagination = (props) => {
           className="border-base-300 text-base-500 hover:bg-base-50 relative inline-flex items-center rounded-r-md border  p-2 text-sm font-medium"
           onClick={nextClick}
         >
-          <span className="sr-only">Next</span>
+          <span className="sr-only">Go to next page</span>
           <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
         </a>
       </nav>
@@ -222,6 +243,7 @@ const Pagination = (props) => {
 Pagination.propTypes = {
   activeLinkClass: PropTypes.string,
   count: PropTypes.number,
+  defaultPageNumber: PropTypes.number,
   inActiveLinkClass: PropTypes.string,
   isCentered: PropTypes.bool,
   onNextClick: PropTypes.func,
@@ -230,21 +252,24 @@ Pagination.propTypes = {
   pageNumber: PropTypes.number,
   pageSize: PropTypes.number,
   withNumber: PropTypes.bool,
-  hideDetailsString: PropTypes.bool
+  hideDetailsString: PropTypes.bool,
+  wrapperClassName: PropTypes.string
 };
 
 Pagination.defaultProps = {
   activeLinkClass: '',
   count: 100,
+  defaultPageNumber: 1,
   isCentered: false,
   inActiveLinkClass: '',
   onNextClick: () => {},
   onPageNumberClick: () => {},
   onPreviousClick: () => {},
-  pageNumber: 1,
+  pageNumber: undefined,
   pageSize: 25,
   withNumber: true,
-  hideDetailsString: false
+  hideDetailsString: false,
+  wrapperClassName: ''
 };
 
 export default Pagination;
