@@ -96,6 +96,7 @@ const TestCasesTable = ({
           onKeyDown={handleTestCaseViewClick(rowData, 'ID')}
         >
           <TMTruncateText
+            isWrappedContent
             truncateUsingClamp={false}
             hidetooltipTriggerIcon
             isFullWidthTooltip
@@ -129,6 +130,7 @@ const TestCasesTable = ({
             <>
               <div className="text-base-900 hover:text-brand-600 font-medium ">
                 <TMTruncateText
+                  isWrappedContent
                   truncateUsingClamp={false}
                   hidetooltipTriggerIcon
                   isFullWidthTooltip
@@ -141,6 +143,7 @@ const TestCasesTable = ({
               </div>
               <div className="text-base-400 font-normal">
                 <TMTruncateText
+                  isWrappedContent
                   truncateUsingClamp={false}
                   hidetooltipTriggerIcon
                   isFullWidthTooltip
@@ -160,6 +163,7 @@ const TestCasesTable = ({
               truncateUsingClamp={false}
               hidetooltipTriggerIcon
               isFullWidthTooltip
+              isWrappedContent
               headerTooltipProps={{
                 delay: 500
               }}
