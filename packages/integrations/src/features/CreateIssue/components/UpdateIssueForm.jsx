@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Loader } from '@browserstack/bifrost';
-import { usePrevious } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { getTickets, updateIssue } from '../../../api';
@@ -10,10 +9,23 @@ import { FormBuilder, SingleValueSelect } from '../../../common/components';
 import Attachments from '../../../common/components/Attachments';
 import { SingleValueSelectOptionType } from '../../../common/components/types';
 import { setGlobalAlert } from '../../../common/slices/globalAlertSlice';
-import { parseFieldsForCreate } from '../helpers';
+import {
+  ANALYTICS_EVENTS,
+  analyticsEvent,
+  getCommonMetrics
+} from '../../../utils/analytics';
+import {
+  getIssueSuccessAnalyticsPayload,
+  parseFieldsForCreate,
+  removedUnchangedFields
+} from '../helpers';
 import { CreateIssueOptionsType } from '../types';
 
-import { FIELD_KEYS } from './constants';
+import {
+  FIELD_KEYS,
+  ISSUE_MODES,
+  VALIDATION_FAILURE_ERROR_MESSAGE
+} from './constants';
 
 const UpdateIssueForm = ({
   fields,
@@ -21,22 +33,26 @@ const UpdateIssueForm = ({
   resetMeta,
   fieldsData,
   attachments,
+  discardIssue,
   setFieldsData,
   issueFieldData,
   setAttachments,
+  issuesForProject,
   isWorkInProgress,
   projectFieldData,
   scrollWidgetToTop,
+  previousProjectId,
+  setIssuesForProject,
   isUpdateMetaLoading,
   setIsWorkInProgress,
   isFormBeingSubmitted,
+  areIssueOptionsLoading,
   setIsFormBeingSubmitted,
-  integrationToolFieldData
+  integrationToolFieldData,
+  setAreIssueOptionsLoading
 }) => {
   const dispatch = useDispatch();
-  const prevProject = usePrevious(projectFieldData);
-  const [issuesOptions, setIssueOptions] = useState([]);
-  const [areIssueOptionsLoading, setAreIssueOptionsLoading] = useState(false);
+  const commonMetrics = getCommonMetrics();
   const [fieldErrors, setFieldErrors] = useState({});
   const {
     description: descriptionMeta,
@@ -47,7 +63,7 @@ const UpdateIssueForm = ({
     setFieldErrors({});
   };
   const resetIssueField = () => {
-    setFieldsData({ ...fieldsData, [FIELD_KEYS.TICKET_ID]: {} });
+    setFieldsData((prev) => ({ ...prev, [FIELD_KEYS.TICKET_ID]: {} }));
   };
   const getTicketForProject = () => {
     setAreIssueOptionsLoading(true);
@@ -57,7 +73,7 @@ const UpdateIssueForm = ({
       'single-value-select'
     )
       .then((response) => {
-        setIssueOptions(response);
+        setIssuesForProject(response);
         setAreIssueOptionsLoading(false);
       })
       .catch((err) => {
@@ -67,7 +83,13 @@ const UpdateIssueForm = ({
   };
 
   useEffect(() => {
-    if (projectFieldData?.value !== prevProject?.value) {
+    if (
+      projectFieldData &&
+      // are the projects same?
+      (projectFieldData.value !== previousProjectId ||
+        // if project is same, have we already fetched issues for it?
+        (!areIssueOptionsLoading && !issuesForProject.length))
+    ) {
       getTicketForProject();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -77,12 +99,13 @@ const UpdateIssueForm = ({
     // eslint-disable-next-line sonarjs/cognitive-complexity
     (formData) => {
       setIsFormBeingSubmitted(true);
-      const data = { ...fieldsData, ...formData };
+      const data = { ...formData };
       if (descriptionMeta) {
         data.comment =
           (data.comment ? `${data.comment}\n` : '') + descriptionMeta;
       }
-      const parsed = parseFieldsForCreate(fields, data);
+      const dataOfChangedFields = removedUnchangedFields(fields, data);
+      const parsed = parseFieldsForCreate(fields, dataOfChangedFields);
       resetFieldErrors();
       return updateIssue(
         integrationToolFieldData?.value,
@@ -90,12 +113,29 @@ const UpdateIssueForm = ({
         parsed
       )
         .catch((errorResponse) => {
-          if (errorResponse?.field_errors) {
+          const metricsPayload = {
+            ...commonMetrics,
+            error_mesage: errorResponse
+          };
+          analyticsEvent(ANALYTICS_EVENTS.TICKET_UPDATE_ERROR, metricsPayload);
+          if (Object.keys(errorResponse?.field_errors).length) {
             setFieldErrors(errorResponse.field_errors);
           }
-          dispatch(
-            setGlobalAlert({ kind: 'error', message: 'Error updating issue.' })
-          );
+          if (errorResponse?.message?.length) {
+            dispatch(
+              setGlobalAlert({
+                kind: 'error',
+                message: errorResponse?.message[0]
+              })
+            );
+          } else {
+            dispatch(
+              setGlobalAlert({
+                kind: 'error',
+                message: 'Error updating issue.'
+              })
+            );
+          }
           if (typeof errorCallback === 'function') {
             errorCallback({
               event: 'update',
@@ -115,7 +155,6 @@ const UpdateIssueForm = ({
         .then((response) => {
           if (response?.success) {
             // ticket updation was successful
-            getTicketForProject(); // renew ticket data
             if (attachments?.length) {
               // has attachments to add
               return addAttachment(
@@ -133,7 +172,19 @@ const UpdateIssueForm = ({
         })
         .then((response) => {
           if (response?.success) {
+            const metricPayload = {
+              ...commonMetrics,
+              fields: getIssueSuccessAnalyticsPayload(
+                ISSUE_MODES.UPDATION,
+                fields,
+                parsed
+              )
+            };
             resetMeta();
+            analyticsEvent(
+              ANALYTICS_EVENTS.TICKET_UPDATE_SUCCESS,
+              metricPayload
+            );
             dispatch(
               setGlobalAlert({
                 kind: 'success',
@@ -223,15 +274,28 @@ const UpdateIssueForm = ({
     ? `/api/pm-tools/v1/tickets?integration_key=jira&project_id=${projectFieldData?.value}&format=single-value-select&query=`
     : null;
 
+  const handleIssueChange = (key, issueType) => {
+    if (isWorkInProgress) {
+      const setIssueType = setFieldsData.bind(null, {
+        ...fieldsData,
+        [key]: issueType
+      });
+      discardIssue(setIssueType);
+    } else {
+      setFieldsData((prev) => ({ ...prev, [key]: issueType }));
+    }
+  };
+
   return (
     <>
       <div className="pt-3">
         <SingleValueSelect
           required
           label="Issue"
-          fieldsData={fieldsData}
-          options={issuesOptions}
           searchPath={searchPath}
+          fieldsData={fieldsData}
+          options={issuesForProject}
+          onChange={handleIssueChange}
           setFieldsData={setFieldsData}
           fieldKey={FIELD_KEYS.TICKET_ID}
           disabled={!projectFieldData?.value}
@@ -265,6 +329,9 @@ const UpdateIssueForm = ({
           scrollWidgetToTop={scrollWidgetToTop}
           setIsWorkInProgress={setIsWorkInProgress}
           isFormBeingSubmitted={isFormBeingSubmitted}
+          validationFailureErrorMessage={
+            VALIDATION_FAILURE_ERROR_MESSAGE.UPDATE
+          }
         />
       )}
     </>
@@ -273,6 +340,7 @@ const UpdateIssueForm = ({
 
 UpdateIssueForm.propTypes = {
   resetMeta: PropTypes.func.isRequired,
+  discardIssue: PropTypes.func.isRequired,
   fields: PropTypes.arrayOf({}).isRequired,
   setFieldsData: PropTypes.func.isRequired,
   setAttachments: PropTypes.func.isRequired,
@@ -280,14 +348,19 @@ UpdateIssueForm.propTypes = {
   options: CreateIssueOptionsType.isRequired,
   isWorkInProgress: PropTypes.bool.isRequired,
   scrollWidgetToTop: PropTypes.func.isRequired,
+  setIssuesForProject: PropTypes.func.isRequired,
   setIsWorkInProgress: PropTypes.func.isRequired,
+  previousProjectId: PropTypes.string.isRequired,
   isUpdateMetaLoading: PropTypes.bool.isRequired,
   isFormBeingSubmitted: PropTypes.bool.isRequired,
+  areIssueOptionsLoading: PropTypes.bool.isRequired,
   setIsFormBeingSubmitted: PropTypes.func.isRequired,
+  setAreIssueOptionsLoading: PropTypes.func.isRequired,
   issueFieldData: SingleValueSelectOptionType.isRequired,
   projectFieldData: SingleValueSelectOptionType.isRequired,
   attachments: PropTypes.arrayOf(PropTypes.string).isRequired,
-  integrationToolFieldData: SingleValueSelectOptionType.isRequired
+  integrationToolFieldData: SingleValueSelectOptionType.isRequired,
+  issuesForProject: PropTypes.arrayOf(SingleValueSelectOptionType).isRequired
 };
 
 export default UpdateIssueForm;
