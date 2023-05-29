@@ -72,8 +72,7 @@ export const importProgressSlice = createSlice({
       state.reportModalProjects = payload.projects;
     },
     setNotificationConfig: (state, { payload }) => {
-      state.progressNotification.show =
-        payload?.show || initialState.progressNotification.show;
+      state.progressNotification.show = payload?.show;
       state.progressNotification.id =
         payload?.id || initialState.progressNotification.id;
     },

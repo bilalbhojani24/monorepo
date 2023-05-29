@@ -7,8 +7,10 @@ import AppRoute from 'const/routes';
 
 import { IMPORT_STATUS } from '../../ImportProgress/const/immutables';
 import {
+  setHoverActive,
   setImportDetails,
   setImportStatus,
+  setNotificationConfig,
   setReportModalProjects
 } from '../../ImportProgress/slices/importProgressSlice';
 import { SCREEN_2, TESTRAIL, ZEPHYR } from '../const/importSteps';
@@ -152,6 +154,8 @@ export const startImport = (navigate) => async (dispatch, getState) => {
         current_project_number: 1
       })
     );
+    dispatch(setHoverActive(false));
+    dispatch(setNotificationConfig({ show: null }));
     dispatch(setImportStarted(true));
     dispatch(setBeginImportLoading(false));
     navigate(AppRoute.ROOT);

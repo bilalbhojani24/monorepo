@@ -5,9 +5,6 @@ import {
 } from '@browserstack/bifrost';
 import { TMButton, TMNotifications } from 'common/bifrostProxy';
 
-import { IMPORT_STATUS } from '../const/immutables';
-import { setNotificationConfig } from '../slices/importProgressSlice';
-
 import useProgressNotification from './useProgressNotification';
 
 const ProgressNotification = () => {
@@ -15,9 +12,9 @@ const ProgressNotification = () => {
 
   const {
     notify,
-    dispatch,
+    // dispatch,
     timerRef,
-    importStatus,
+    // importStatus,
     notificationConfig,
     importDetails,
     removeNotification,
@@ -50,13 +47,14 @@ const ProgressNotification = () => {
             </>
           )}
           headerIcon={
-            importStatus === IMPORT_STATUS.SUCCESS ? (
+            importDetails?.successfullyImportedProjects ===
+            importDetails?.totalProjects ? (
               <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
             ) : (
               <MdOutlineWarningAmber className="text-attention-400 h-6 w-6" />
             )
           }
-          handleClose={() => dispatch(setNotificationConfig({ show: false }))}
+          handleClose={() => removeNotification(notificationConfig?.id)}
         />,
         {
           position: 'top-right',

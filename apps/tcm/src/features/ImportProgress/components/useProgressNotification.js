@@ -8,6 +8,7 @@ import { logEventHelper } from 'utils/logEvent';
 
 import { IMPORT_STATUS } from '../const/immutables';
 import {
+  setNotificationConfig,
   setNotificationDismissed,
   setReportModal
 } from '../slices/importProgressSlice';
@@ -27,12 +28,16 @@ const useProgressNotification = () => {
   const importStatus = useSelector(
     (state) => state.importProgress.importStatus
   );
+  const isNotificationDismissed = useSelector(
+    (state) => state.importProgress.isNotificationDismissed
+  );
 
   const removeNotification = useCallback(
     (toastDataId) => {
       notify.remove(toastDataId);
       if (importId) dismissNotification(importId);
       dispatch(setNotificationDismissed(true));
+      dispatch(setNotificationConfig({ show: false }));
       clearTimeout(timerRef.current);
     },
     [importId, dispatch]
@@ -50,10 +55,14 @@ const useProgressNotification = () => {
 
   useEffect(() => {
     if (
-      notificationConfig?.show === false ||
-      location.pathname === AppRoute.ROOT
-    )
+      (notificationConfig?.show === false ||
+        location.pathname === AppRoute.ROOT) &&
+      (importStatus === IMPORT_STATUS.SUCCESS ||
+        importStatus === IMPORT_STATUS.FAILURE) &&
+      !isNotificationDismissed // i.e. an import is completed
+    ) {
       removeNotification(notificationConfig?.id);
+    }
 
     if (notificationConfig?.show) {
       if (importStatus === IMPORT_STATUS.SUCCESS)

@@ -17,7 +17,6 @@ import {
 import { redirectToPrevPage, routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-// import { setNotificationConfig } from '../../ImportProgress/slices/importProgressSlice';
 import { dropDownOptions } from '../const/projectsConst';
 import {
   addProject,
@@ -304,10 +303,6 @@ const useProjects = (prop) => {
         });
     }
   };
-
-  // const closeProgressNotification = () => {
-  //   dispatch(setNotificationConfig({ show: false }));
-  // };
 
   return {
     modalFocusRef,
