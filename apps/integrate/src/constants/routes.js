@@ -1,4 +1,5 @@
 export const ROUTES = {
+  all: '*',
   root: '/',
   logs: '/logs',
   not_found: '/404',

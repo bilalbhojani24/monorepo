@@ -1,14 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Dropdown,
-  DropdownOptionGroup,
-  DropdownOptionItem,
-  DropdownTrigger,
-  MdCheck
-} from '@browserstack/bifrost';
+import { MdCheck } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 
+import {
+  INTGDropdown,
+  INTGDropdownOptionGroup,
+  INTGDropdownOptionItem,
+  INTGDropdownTrigger
+} from '../../../common/bifrostProxy';
 import {
   activeConfigurationsSelector,
   configurationsSelector,
@@ -92,22 +92,22 @@ const SelectConfigurations = () => {
   };
 
   return (
-    <Dropdown onClick={selectConfiguration}>
+    <INTGDropdown onClick={selectConfiguration}>
       <div className="flex">
-        <DropdownTrigger>Configurations</DropdownTrigger>
+        <INTGDropdownTrigger>Configurations</INTGDropdownTrigger>
       </div>
-      <DropdownOptionGroup>
+      <INTGDropdownOptionGroup>
         {options?.length > 1 && (
-          <DropdownOptionItem
+          <INTGDropdownOptionItem
             key={AllConfigurationsOption.value}
             option={AllConfigurationsOption}
           />
         )}
         {options.map((item) => (
-          <DropdownOptionItem key={item.value} option={item} />
+          <INTGDropdownOptionItem key={item.value} option={item} />
         ))}
-      </DropdownOptionGroup>
-    </Dropdown>
+      </INTGDropdownOptionGroup>
+    </INTGDropdown>
   );
 };
 

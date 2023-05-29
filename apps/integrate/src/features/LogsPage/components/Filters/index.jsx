@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, MdFilterAlt } from '@browserstack/bifrost';
+import { MdFilterAlt } from '@browserstack/bifrost';
 
 import { getIntegrationsThunk } from '../../../../api';
+import { INTGButton } from '../../../../common/bifrostProxy';
 import {
   clearFilters as clearFiltersAction,
   filtersSelector,
@@ -39,14 +40,14 @@ const Filters = () => {
           setFilters={setFilters}
           filterKey="urlSearch"
         />
-        <Button
+        <INTGButton
           onClick={handleFilterClick}
           wrapperClassName="h-fit"
           icon={<MdFilterAlt className="h-4 w-4" />}
           variant="secondary"
         >
           Filters
-        </Button>
+        </INTGButton>
       </div>
       <FilterBadges
         filters={filters}

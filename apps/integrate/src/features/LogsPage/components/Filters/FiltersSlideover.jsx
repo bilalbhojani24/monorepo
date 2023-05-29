@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Button,
-  Slideover,
-  SlideoverBody,
-  SlideoverHeader
-} from '@browserstack/bifrost';
 
-import { INTGLoader } from '../../../../common/bifrostProxy';
+import {
+  INTGButton,
+  INTGLoader,
+  INTGSlideover,
+  INTGSlideoverBody,
+  INTGSlideoverHeader
+} from '../../../../common/bifrostProxy';
 import { LOADING_STATUS } from '../../../../constants/loadingConstants';
 import {
   closeFiltersSlideover,
@@ -62,7 +62,7 @@ const FilterSlideover = () => {
     areIntegrationsLoading || areConfigurationsLoading;
 
   return (
-    <Slideover
+    <INTGSlideover
       show={isOpen}
       slideoverWidth="overflow-y"
       onOverlayClick={handleClose}
@@ -71,13 +71,13 @@ const FilterSlideover = () => {
       onClose={handleClose}
       size="md"
     >
-      <SlideoverHeader
+      <INTGSlideoverHeader
         dismissButton
         handleDismissClick={handleClose}
         heading="Filters"
         wrapperClassName="bg-base-50"
       />
-      <SlideoverBody>
+      <INTGSlideoverBody>
         {isSlideoverContentLoading ? (
           <INTGLoader wrapperClassName="h-full" />
         ) : (
@@ -126,21 +126,21 @@ const FilterSlideover = () => {
               />
             </div>
             <div className="border-base-300 flex justify-end gap-5 border-t px-4 pt-5">
-              <Button
+              <INTGButton
                 onClick={handleCancelFilters}
                 wrapperClassName="h-fit"
                 variant="secondary"
               >
                 Cancel
-              </Button>
-              <Button onClick={handleApplyFilters} wrapperClassName="h-fit">
+              </INTGButton>
+              <INTGButton onClick={handleApplyFilters} wrapperClassName="h-fit">
                 Apply
-              </Button>
+              </INTGButton>
             </div>
           </div>
         )}
-      </SlideoverBody>
-    </Slideover>
+      </INTGSlideoverBody>
+    </INTGSlideover>
   );
 };
 

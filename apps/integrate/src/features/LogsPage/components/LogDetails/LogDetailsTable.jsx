@@ -1,41 +1,41 @@
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { Logo } from '../../../../common';
+import {
+  INTGTable,
+  INTGTableBody,
+  INTGTableCell,
+  INTGTableHead,
+  INTGTableRow
+} from '../../../../common/bifrostProxy';
 import StatusBadge from '../StatusBadge';
 
 const LogDetailsTable = ({ logDetails }) => (
-  <Table wrapperClassName="drop-shadow-none">
-    <TableHead>
-      <TableRow>
-        <TableCell key="tool" variant="header" textTransform="uppercase">
+  <INTGTable wrapperClassName="drop-shadow-none">
+    <INTGTableHead>
+      <INTGTableRow>
+        <INTGTableCell key="tool" variant="header" textTransform="uppercase">
           Tool
-        </TableCell>
-        <TableCell key="date" variant="header" textTransform="uppercase">
+        </INTGTableCell>
+        <INTGTableCell key="date" variant="header" textTransform="uppercase">
           Date
-        </TableCell>
-        <TableCell key="status" variant="header" textTransform="uppercase">
+        </INTGTableCell>
+        <INTGTableCell key="status" variant="header" textTransform="uppercase">
           Status
-        </TableCell>
-        <TableCell
+        </INTGTableCell>
+        <INTGTableCell
           key="configuration"
           variant="header"
           textTransform="uppercase"
         >
           Configuration Id
-        </TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      <TableRow>
-        <TableCell key="tool">
+        </INTGTableCell>
+      </INTGTableRow>
+    </INTGTableHead>
+    <INTGTableBody>
+      <INTGTableRow>
+        <INTGTableCell key="tool">
           <div className="flex items-center">
             <Logo
               logo={logDetails.tool?.icon}
@@ -47,19 +47,19 @@ const LogDetailsTable = ({ logDetails }) => (
               <p>{logDetails.category?.label}</p>
             </div>
           </div>
-        </TableCell>
-        <TableCell key="date">
+        </INTGTableCell>
+        <INTGTableCell key="date">
           <p>{logDetails.date}</p>
-        </TableCell>
-        <TableCell key="status">
+        </INTGTableCell>
+        <INTGTableCell key="status">
           <StatusBadge statusCode={logDetails.status} />
-        </TableCell>
-        <TableCell key="configuration">
+        </INTGTableCell>
+        <INTGTableCell key="configuration">
           <p>{logDetails.configuration?.name}</p>
-        </TableCell>
-      </TableRow>
-    </TableBody>
-  </Table>
+        </INTGTableCell>
+      </INTGTableRow>
+    </INTGTableBody>
+  </INTGTable>
 );
 
 LogDetailsTable.propTypes = {

@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Slideover,
-  SlideoverBody,
-  SlideoverHeader
-} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 
 import { getLogDetailsThunk } from '../../../../api';
 import { GenericError, INTGLoader } from '../../../../common';
+import {
+  INTGSlideover,
+  INTGSlideoverBody,
+  INTGSlideoverHeader
+} from '../../../../common/bifrostProxy';
 import { LOADING_STATUS } from '../../../../constants/loadingConstants';
 import {
   closeLogDetailsSlideover,
@@ -41,7 +41,7 @@ const LogDetails = () => {
   };
 
   return (
-    <Slideover
+    <INTGSlideover
       show={isOpen}
       slideoverWidth="overflow-y"
       onOverlayClick={handleClose}
@@ -50,13 +50,13 @@ const LogDetails = () => {
       onClose={handleClose}
       size="3xl"
     >
-      <SlideoverHeader
+      <INTGSlideoverHeader
         dismissButton
         handleDismissClick={handleClose}
         heading="Request Details"
         wrapperClassName="bg-base-50"
       />
-      <SlideoverBody>
+      <INTGSlideoverBody>
         <div
           className={twClassNames('p-6', { 'h-full': areLogDetailsLoading })}
         >
@@ -93,8 +93,8 @@ const LogDetails = () => {
             <GenericError handleTryAgain={handleTryAgain} />
           )}
         </div>
-      </SlideoverBody>
-    </Slideover>
+      </INTGSlideoverBody>
+    </INTGSlideover>
   );
 };
 export default LogDetails;

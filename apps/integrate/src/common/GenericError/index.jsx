@@ -1,7 +1,9 @@
 import React from 'react';
-import { Button, MdWarning } from '@browserstack/bifrost';
+import { MdWarning } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
+
+import { INTGButton } from '../bifrostProxy';
 
 const ErrorWithTryAgain = ({
   wrapperClassName,
@@ -20,14 +22,14 @@ const ErrorWithTryAgain = ({
       <MdWarning className="text-3xl" />
       <p className="mb-4 pt-5">{errorMessage}</p>
       {isTryAgainHandlerProvided && (
-        <Button
+        <INTGButton
           colors="white"
           onClick={handleTryAgain}
           wrapperClassName="text-base-500"
           size="extra-small"
         >
           Try again
-        </Button>
+        </INTGButton>
       )}
     </div>
   );

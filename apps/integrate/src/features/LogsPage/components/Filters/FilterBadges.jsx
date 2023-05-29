@@ -1,14 +1,15 @@
 import React, { useMemo } from 'react';
-import { Badge, Button, MdOutlineClear } from '@browserstack/bifrost';
+import { MdOutlineClear } from '@browserstack/bifrost';
 import { format, parseISO } from 'date-fns';
 import PropTypes from 'prop-types';
 
+import { INTGBadge, INTGButton } from '../../../../common/bifrostProxy';
 import { FILTER_KEY } from '../../../../globalSlice';
 
 import { FiltersType } from './types';
 
 const FilterBadge = ({ text, filterKey, value, removeFilter }) => (
-  <Badge
+  <INTGBadge
     wrapperClassName="py-1 px-2 hover:bg-inherit cursor-default"
     hasRemoveButton
     hasDot={false}
@@ -106,7 +107,7 @@ const FilterBadges = ({ filters, setFilters, clearFilters }) => {
             removeFilter={removeFilter}
           />
         ))}
-        <Button
+        <INTGButton
           onClick={clearFilters}
           wrapperClassName="h-fit"
           icon={<MdOutlineClear className="h-4 w-4" />}
@@ -114,7 +115,7 @@ const FilterBadges = ({ filters, setFilters, clearFilters }) => {
           variant="minimal"
         >
           Clear
-        </Button>
+        </INTGButton>
       </div>
     </div>
   ) : null;

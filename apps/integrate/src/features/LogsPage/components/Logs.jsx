@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Pagination } from '@browserstack/bifrost';
 
 import { getConfigurationsThunk, getLogsThunk } from '../../../api';
+import { INTGPagination } from '../../../common/bifrostProxy';
 import { LOADING_STATUS } from '../../../constants/loadingConstants';
 import {
   activeConfigurationsSelector,
@@ -84,7 +84,7 @@ const Logs = () => {
       </div>
       {!logsDataloadedWithNoLogsToRender && (
         <div className="px-8 py-6 text-xs">
-          <Pagination
+          <INTGPagination
             onNextClick={handlePageChange}
             onPageNumberClick={handlePageChange}
             onPreviousClick={handlePageChange}

@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import { useResizeObserver } from '@browserstack/hooks';
 
 import INTGHeader from '../../../common/bifrostProxy/components/INTGHeader';
+import { BSTACK_TOPNAV_ELEMENT_ID } from '../../../constants/common';
 import { Sidebar } from '../../Sidebar/index';
 import { headerSizeSelector, setHeaderSize } from '../slices/headerSlice';
 
@@ -22,7 +23,7 @@ const Layout = () => {
 
   return (
     <div className="bg-base-50 relative min-h-screen">
-      <div id="integrate-header-id" ref={headerRef}>
+      <div id={BSTACK_TOPNAV_ELEMENT_ID} ref={headerRef}>
         <INTGHeader />
       </div>
       <div

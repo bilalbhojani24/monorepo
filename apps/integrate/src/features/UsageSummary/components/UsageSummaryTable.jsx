@@ -1,16 +1,16 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import { Logo } from '../../../common';
+import {
+  INTGButton,
+  INTGTable,
+  INTGTableBody,
+  INTGTableCell,
+  INTGTableHead,
+  INTGTableRow
+} from '../../../common/bifrostProxy';
 import {
   openUsageSummarySlideover,
   setUsageDetails
@@ -25,31 +25,31 @@ const UsageSummaryTable = ({ usageSummaryData }) => {
   const emptySummaryFillers = new Array(2).fill('--');
 
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell
+    <INTGTable>
+      <INTGTableHead>
+        <INTGTableRow>
+          <INTGTableCell
             key="integrations"
             variant="header"
             textTransform="uppercase"
           >
             INTEGRATIONS
-          </TableCell>
-          <TableCell key="usage" variant="header" textTransform="uppercase">
+          </INTGTableCell>
+          <INTGTableCell key="usage" variant="header" textTransform="uppercase">
             USAGE
-          </TableCell>
-          <TableCell
+          </INTGTableCell>
+          <INTGTableCell
             key="details-link-header"
             variant="header"
             textTransform="uppercase"
           />
-        </TableRow>
-      </TableHead>
-      <TableBody>
+        </INTGTableRow>
+      </INTGTableHead>
+      <INTGTableBody>
         {usageSummaryData?.length ? (
           usageSummaryData?.map((item) => (
-            <TableRow>
-              <TableCell key={`${item.key}-integration`}>
+            <INTGTableRow>
+              <INTGTableCell key={`${item.key}-integration`}>
                 <div className="flex items-center">
                   <Logo
                     logo={item.icon}
@@ -61,15 +61,15 @@ const UsageSummaryTable = ({ usageSummaryData }) => {
                     <p>{item.category}</p>
                   </div>
                 </div>
-              </TableCell>
-              <TableCell key={`${item.key}-usage`}>
+              </INTGTableCell>
+              <INTGTableCell key={`${item.key}-usage`}>
                 <div>
                   <p className="text-base-900">{item.usage.details}</p>
                   <p>{item.usage.metric}</p>
                 </div>
-              </TableCell>
-              <TableCell key={`${item.key}-details-btn`}>
-                <Button
+              </INTGTableCell>
+              <INTGTableCell key={`${item.key}-details-btn`}>
+                <INTGButton
                   wrapperClassName="text-brand-600 hover:bg-inherit border-0 shadow-none bg-inherit focus:ring-0 focus:ring-offset-0 px-0 cursor-pointer"
                   colors="white"
                   onClick={() =>
@@ -82,22 +82,22 @@ const UsageSummaryTable = ({ usageSummaryData }) => {
                   }
                 >
                   Details
-                </Button>
-              </TableCell>
-            </TableRow>
+                </INTGButton>
+              </INTGTableCell>
+            </INTGTableRow>
           ))
         ) : (
-          <TableRow>
+          <INTGTableRow>
             {emptySummaryFillers.map((emptyEntryString, idx) => (
               // eslint-disable-next-line react/no-array-index-key
-              <TableCell key={idx}>
+              <INTGTableCell key={idx}>
                 <p>{emptyEntryString}</p>
-              </TableCell>
+              </INTGTableCell>
             ))}
-          </TableRow>
+          </INTGTableRow>
         )}
-      </TableBody>
-    </Table>
+      </INTGTableBody>
+    </INTGTable>
   );
 };
 UsageSummaryTable.propTypes = {

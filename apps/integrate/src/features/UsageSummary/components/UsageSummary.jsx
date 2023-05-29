@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  SelectMenu,
-  SelectMenuOptionGroup,
-  SelectMenuOptionItem,
-  SelectMenuTrigger
-} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { getUnixTime, subMonths } from 'date-fns';
 import { omit } from 'lodash';
 
 import { getUsageSummaryThunk } from '../../../api';
 import { GenericError } from '../../../common';
-import { INTGLoader } from '../../../common/bifrostProxy';
+import {
+  INTGLoader,
+  INTGSelectMenu,
+  INTGSelectMenuOptionGroup,
+  INTGSelectMenuOptionItem,
+  INTGSelectMenuTrigger
+} from '../../../common/bifrostProxy';
 import { LOADING_STATUS } from '../../../constants/loadingConstants';
 import {
   activeConfigurationsSelector,
@@ -88,14 +88,17 @@ const RequestsChart = () => {
       >
         <p className="text-lg font-semibold">Usage</p>
         {isUsageSummaryLoaded && (
-          <SelectMenu onChange={selectConfiguration} value={activeDateRange}>
-            <SelectMenuTrigger wrapperClassName="w-48 ml-6" />
-            <SelectMenuOptionGroup>
+          <INTGSelectMenu
+            onChange={selectConfiguration}
+            value={activeDateRange}
+          >
+            <INTGSelectMenuTrigger wrapperClassName="w-48 ml-6" />
+            <INTGSelectMenuOptionGroup>
               {range?.map((item) => (
-                <SelectMenuOptionItem key={item.value} option={item} />
+                <INTGSelectMenuOptionItem key={item.value} option={item} />
               ))}
-            </SelectMenuOptionGroup>
-          </SelectMenu>
+            </INTGSelectMenuOptionGroup>
+          </INTGSelectMenu>
         )}
       </div>
       {isUsageSummaryLoading && <INTGLoader wrapperClassName="h-80" />}

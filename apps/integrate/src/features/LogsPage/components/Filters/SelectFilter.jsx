@@ -1,12 +1,13 @@
 import React from 'react';
-import {
-  SelectMenu,
-  SelectMenuLabel,
-  SelectMenuOptionGroup,
-  SelectMenuOptionItem,
-  SelectMenuTrigger
-} from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
+
+import {
+  INTGSelectMenu,
+  INTGSelectMenuLabel,
+  INTGSelectMenuOptionGroup,
+  INTGSelectMenuOptionItem,
+  INTGSelectMenuTrigger
+} from '../../../../common/bifrostProxy';
 
 import { FiltersType } from './types';
 
@@ -25,20 +26,20 @@ const SelectFilter = ({
     }
   };
   return (
-    <SelectMenu onChange={handleChange} value={filters[filterKey]} isMulti>
-      {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
-      <SelectMenuTrigger
+    <INTGSelectMenu onChange={handleChange} value={filters[filterKey]} isMulti>
+      {label && <INTGSelectMenuLabel>{label}</INTGSelectMenuLabel>}
+      <INTGSelectMenuTrigger
         placeholder={placeholder}
         wrapperClassName={triggerClassName}
       />
       {Boolean(options?.length) && (
-        <SelectMenuOptionGroup>
+        <INTGSelectMenuOptionGroup>
           {options.map((item) => (
-            <SelectMenuOptionItem key={item.value} option={item} />
+            <INTGSelectMenuOptionItem key={item.value} option={item} />
           ))}
-        </SelectMenuOptionGroup>
+        </INTGSelectMenuOptionGroup>
       )}
-    </SelectMenu>
+    </INTGSelectMenu>
   );
 };
 

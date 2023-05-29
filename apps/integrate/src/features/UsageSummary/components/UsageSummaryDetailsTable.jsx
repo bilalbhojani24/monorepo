@@ -1,43 +1,43 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from '@browserstack/bifrost';
 
+import {
+  INTGTable,
+  INTGTableBody,
+  INTGTableCell,
+  INTGTableHead,
+  INTGTableRow
+} from '../../../common/bifrostProxy';
 import { usageDetailsSelector } from '../../../globalSlice';
 
 const UsageSummaryDetailsTable = () => {
   const { headers, rows } = useSelector(usageDetailsSelector);
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
+    <INTGTable>
+      <INTGTableHead>
+        <INTGTableRow>
           {headers?.map((header) => (
-            <TableCell
+            <INTGTableCell
               key={header.key}
               variant="header"
               textTransform="uppercase"
             >
               {header.label}
-            </TableCell>
+            </INTGTableCell>
           ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
+        </INTGTableRow>
+      </INTGTableHead>
+      <INTGTableBody>
         {rows?.map((item) => (
-          <TableRow>
-            <TableCell key={item.metric}>{item.metric}</TableCell>
-            <TableCell key={`${item.metric}-details`}>
+          <INTGTableRow>
+            <INTGTableCell key={item.metric}>{item.metric}</INTGTableCell>
+            <INTGTableCell key={`${item.metric}-details`}>
               <p className="text-base-900">{item.details}</p>
-            </TableCell>
-          </TableRow>
+            </INTGTableCell>
+          </INTGTableRow>
         ))}
-      </TableBody>
-    </Table>
+      </INTGTableBody>
+    </INTGTable>
   );
 };
 

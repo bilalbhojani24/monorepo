@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import {
-  InputField,
-  InputGroupAddOn,
-  MdOutlineSearch
-} from '@browserstack/bifrost';
+import { MdOutlineSearch } from '@browserstack/bifrost';
 import { makeDebounce } from '@browserstack/utils';
 import PropTypes from 'prop-types';
+
+import {
+  INTGInputField,
+  INTGInputGroupAddOn
+} from '../../../../common/bifrostProxy';
 
 import { FiltersType } from './types';
 
@@ -25,15 +26,15 @@ const QueryFilter = ({ filters, setFilters, filterKey }) => {
     debouncedQueryChange(query);
   };
   return (
-    <InputField
+    <INTGInputField
       value={inputValue}
       onChange={handleChange}
       wrapperClassName="bg-white w-80 rounded-md"
       placeholder="Search by URL"
       addOnBeforeInline={
-        <InputGroupAddOn inline>
+        <INTGInputGroupAddOn inline>
           <MdOutlineSearch className="h-5 w-5" />
-        </InputGroupAddOn>
+        </INTGInputGroupAddOn>
       }
     />
   );

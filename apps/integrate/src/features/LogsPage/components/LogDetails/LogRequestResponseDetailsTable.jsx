@@ -1,38 +1,42 @@
 import React, { useMemo } from 'react';
-import {
-  CodeSnippet,
-  CodeSnippetToolbar,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from '@browserstack/bifrost';
+import { CodeSnippet, CodeSnippetToolbar } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
+
+import {
+  INTGTable,
+  INTGTableBody,
+  INTGTableCell,
+  INTGTableHead,
+  INTGTableRow
+} from '../../../../common/bifrostProxy';
 
 const LogRequestDetailsTable = ({ data, payloadOf }) => {
   const dataToRender = useMemo(() => Object.entries(data), [data]);
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell key="name" variant="header" textTransform="uppercase">
+    <INTGTable>
+      <INTGTableHead>
+        <INTGTableRow>
+          <INTGTableCell key="name" variant="header" textTransform="uppercase">
             Name
-          </TableCell>
-          <TableCell key="details" variant="header" textTransform="uppercase">
+          </INTGTableCell>
+          <INTGTableCell
+            key="details"
+            variant="header"
+            textTransform="uppercase"
+          >
             Details
-          </TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
+          </INTGTableCell>
+        </INTGTableRow>
+      </INTGTableHead>
+      <INTGTableBody>
         {dataToRender.map((item) => {
           const { 0: itemName, 1: itemDetails } = item;
           return (
-            <TableRow key={itemName}>
-              <TableCell key="name">
+            <INTGTableRow key={itemName}>
+              <INTGTableCell key="name">
                 <p>{itemName}</p>
-              </TableCell>
-              <TableCell key="details">
+              </INTGTableCell>
+              <INTGTableCell key="details">
                 {itemName === 'body' ? (
                   <div className="max-w-xl">
                     <CodeSnippet
@@ -53,12 +57,12 @@ const LogRequestDetailsTable = ({ data, payloadOf }) => {
                 ) : (
                   <p>{itemDetails}</p>
                 )}
-              </TableCell>
-            </TableRow>
+              </INTGTableCell>
+            </INTGTableRow>
           );
         })}
-      </TableBody>
-    </Table>
+      </INTGTableBody>
+    </INTGTable>
   );
 };
 

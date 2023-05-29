@@ -1,6 +1,7 @@
 import React from 'react';
-import { Badge } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
+
+import { INTGBadge } from '../../../common/bifrostProxy';
 
 const StatusBadge = ({ statusCode }) => {
   function getBadgeModifierForStatus(httpStatusCode) {
@@ -17,7 +18,7 @@ const StatusBadge = ({ statusCode }) => {
   }
 
   return (
-    <Badge
+    <INTGBadge
       wrapperClassName="hover:bg-inherit cursor-default"
       hasDot={false}
       hasRemoveButton={false}

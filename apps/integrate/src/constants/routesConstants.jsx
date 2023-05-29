@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
+import NotFound from '../common/NotFound';
 import GettingStarted from '../features/GettingStarted';
 import Layout from '../features/Layout';
 import Logs from '../features/LogsPage';
@@ -13,6 +14,16 @@ export const APP_ROUTES = [
     path: ROUTES.root,
     isProtected: true,
     component: <Navigate to={ROUTES.overview} replace />
+  },
+  {
+    path: ROUTES.all,
+    isProtected: true,
+    component: <Navigate to={ROUTES.not_found} replace />
+  },
+  {
+    path: ROUTES.not_found,
+    isProtected: true,
+    component: <NotFound to={ROUTES.not_found} replace />
   },
   {
     path: ROUTES.root,

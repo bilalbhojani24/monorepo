@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Slideover,
-  SlideoverBody,
-  SlideoverHeader
-} from '@browserstack/bifrost';
 
 import { Logo } from '../../../common';
+import {
+  INTGSlideover,
+  INTGSlideoverBody,
+  INTGSlideoverHeader
+} from '../../../common/bifrostProxy';
 import {
   closeUsageSummarySlideover,
   isUsageSummarySlideoverOpenSelector,
@@ -23,7 +23,7 @@ const UsageSummaryDetails = () => {
     dispatch(closeUsageSummarySlideover());
   };
   return (
-    <Slideover
+    <INTGSlideover
       show={isOpen}
       slideoverWidth="overflow-y"
       onOverlayClick={handleClose}
@@ -32,19 +32,19 @@ const UsageSummaryDetails = () => {
       onClose={handleClose}
       size="2xl"
     >
-      <SlideoverHeader
+      <INTGSlideoverHeader
         dismissButton
         handleDismissClick={handleClose}
         heading={`${label} Usage Details`}
         wrapperClassName="bg-base-50 sm:items-center"
         Icon={<Logo logo={icon} wrapperClassName="h-8 w-8" />}
       />
-      <SlideoverBody>
+      <INTGSlideoverBody>
         <div className="p-6">
           <UsageSummaryDetailsTable />
         </div>
-      </SlideoverBody>
-    </Slideover>
+      </INTGSlideoverBody>
+    </INTGSlideover>
   );
 };
 export default UsageSummaryDetails;

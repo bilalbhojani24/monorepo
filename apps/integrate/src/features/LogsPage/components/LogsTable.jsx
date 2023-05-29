@@ -1,20 +1,20 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TruncateText
-} from '@browserstack/bifrost';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 
 import { getLogDetailsThunk } from '../../../api';
 import { GenericError, Logo } from '../../../common';
-import { INTGLoader } from '../../../common/bifrostProxy';
+import {
+  INTGButton,
+  INTGLoader,
+  INTGTable,
+  INTGTableBody,
+  INTGTableCell,
+  INTGTableHead,
+  INTGTableRow,
+  INTGTruncateText
+} from '../../../common/bifrostProxy';
 import { LOADING_STATUS } from '../../../constants/loadingConstants';
 import {
   logsLoadingSelector,
@@ -56,42 +56,54 @@ const LogsTable = ({ logsData, getLogs }) => {
   const emptyLogsFillers = new Array(6).fill('--');
 
   return (
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell key="category" variant="header" textTransform="uppercase">
+    <INTGTable>
+      <INTGTableHead>
+        <INTGTableRow>
+          <INTGTableCell
+            key="category"
+            variant="header"
+            textTransform="uppercase"
+          >
             category
-          </TableCell>
-          <TableCell key="tool" variant="header" textTransform="uppercase">
+          </INTGTableCell>
+          <INTGTableCell key="tool" variant="header" textTransform="uppercase">
             tool
-          </TableCell>
-          <TableCell key="endpoint" variant="header" textTransform="uppercase">
+          </INTGTableCell>
+          <INTGTableCell
+            key="endpoint"
+            variant="header"
+            textTransform="uppercase"
+          >
             endpoint
-          </TableCell>
-          <TableCell key="date" variant="header" textTransform="uppercase">
+          </INTGTableCell>
+          <INTGTableCell key="date" variant="header" textTransform="uppercase">
             date
-          </TableCell>
-          <TableCell key="status" variant="header" textTransform="uppercase">
+          </INTGTableCell>
+          <INTGTableCell
+            key="status"
+            variant="header"
+            textTransform="uppercase"
+          >
             status
-          </TableCell>
-          <TableCell
+          </INTGTableCell>
+          <INTGTableCell
             key="configuration-id"
             variant="header"
             textTransform="uppercase"
           >
             configuration id
-          </TableCell>
-          <TableCell key="details-link-header" variant="header" />
-        </TableRow>
-      </TableHead>
-      <TableBody>
+          </INTGTableCell>
+          <INTGTableCell key="details-link-header" variant="header" />
+        </INTGTableRow>
+      </INTGTableHead>
+      <INTGTableBody>
         {areLogsLoaded && logsData?.logs?.length ? (
           logsData.logs.map((item) => (
-            <TableRow>
-              <TableCell key={`${item.uuid}-category`}>
+            <INTGTableRow>
+              <INTGTableCell key={`${item.uuid}-category`}>
                 <p className="text-base-900">{item.category.label}</p>
-              </TableCell>
-              <TableCell key={`${item.uuid}-tool`}>
+              </INTGTableCell>
+              <INTGTableCell key={`${item.uuid}-tool`}>
                 <div className="flex items-center">
                   <Logo
                     logo={item.tool.icon}
@@ -100,9 +112,9 @@ const LogsTable = ({ logsData, getLogs }) => {
                   />
                   <p className="text-base-900">{item.tool.label}</p>
                 </div>
-              </TableCell>
-              <TableCell key={`${item.uuid}-endpoint`}>
-                <TruncateText
+              </INTGTableCell>
+              <INTGTableCell key={`${item.uuid}-endpoint`}>
+                <INTGTruncateText
                   containerClassName="w-80"
                   wrapperClassName="break-words"
                   tooltipContent={
@@ -115,40 +127,40 @@ const LogsTable = ({ logsData, getLogs }) => {
                   isFullWidthTooltip
                 >
                   {item.endpoint}
-                </TruncateText>
-              </TableCell>
-              <TableCell key={`${item.uuid}-date`}>
+                </INTGTruncateText>
+              </INTGTableCell>
+              <INTGTableCell key={`${item.uuid}-date`}>
                 <p>{formatDateForTable(item.date)}</p>
-              </TableCell>
-              <TableCell key={`${item.uuid}-status`}>
+              </INTGTableCell>
+              <INTGTableCell key={`${item.uuid}-status`}>
                 <StatusBadge statusCode={item.status} />
-              </TableCell>
-              <TableCell key={`${item.uuid}-configuration`}>
+              </INTGTableCell>
+              <INTGTableCell key={`${item.uuid}-configuration`}>
                 <p>{item.configuration.name}</p>
-              </TableCell>
-              <TableCell key={`${item.uuid}-details-btn`}>
-                <Button
+              </INTGTableCell>
+              <INTGTableCell key={`${item.uuid}-details-btn`}>
+                <INTGButton
                   wrapperClassName="text-brand-600 hover:bg-inherit border-0 shadow-none bg-inherit focus:ring-0 focus:ring-offset-0 px-0 cursor-pointer"
                   colors="white"
                   onClick={() => handleLogDetail(item.uuid)}
                 >
                   Details
-                </Button>
-              </TableCell>
-            </TableRow>
+                </INTGButton>
+              </INTGTableCell>
+            </INTGTableRow>
           ))
         ) : (
-          <TableRow>
+          <INTGTableRow>
             {emptyLogsFillers.map((emptyEntryString, idx) => (
               // eslint-disable-next-line react/no-array-index-key
-              <TableCell key={idx}>
+              <INTGTableCell key={idx}>
                 <p>{emptyEntryString}</p>
-              </TableCell>
+              </INTGTableCell>
             ))}
-          </TableRow>
+          </INTGTableRow>
         )}
-      </TableBody>
-    </Table>
+      </INTGTableBody>
+    </INTGTable>
   );
 };
 LogsTable.propTypes = {
