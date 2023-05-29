@@ -5,5 +5,11 @@
 # TCM
 apps/tcm/* @browserstack/tm-frontend
 
+# Accessibility
+apps/accessibility/* @browserstack/accessibility-frontend
+
+# Observability
+apps/observability/* @browserstack/o11y-frontend
+
 # All package.json this needs to be at the end of the file
 **/package.json @browserstack/central-frontend
