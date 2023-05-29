@@ -110,6 +110,7 @@ Primary.play = async ({ canvasElement }) => {
       expanded: false
     })
   ).toBeInTheDocument();
+  document.querySelectorAll('button')[3].click();
 };
 Primary.parameters = {
   controls: {}
