@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getSettingsByKey, updateSettingsByKey } from 'api/settings';
 import { o11yNotify } from 'utils/notification';
 
+import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
+
 import { getSmartTagsSettings } from './selectors';
 
 const SLICE_NAME = 'smartTagsSettings';
@@ -44,8 +46,8 @@ const { reducer, actions } = createSlice({
     smartTags: {
       isLoading: true,
       project: '',
-      data: {},
-      localState: {}
+      data: { ...SMART_TAGS_DEFAULT_VALUES },
+      localState: { ...SMART_TAGS_DEFAULT_VALUES }
     }
   },
   reducers: {
@@ -72,7 +74,8 @@ const { reducer, actions } = createSlice({
         state.smartTags = {
           isLoading: false,
           project: '',
-          data: {}
+          data: {},
+          localState: { ...state.smartTags.localState }
         };
       })
       .addCase(submitSmartTagsChanges.pending, (state) => {
