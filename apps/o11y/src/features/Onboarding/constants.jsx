@@ -13,8 +13,8 @@ export const FRAMEWORK_IDS = {
   testng: 'testng',
   mocha: 'mocha',
   webdriverio: 'webdriverio',
-  nightwatch: 'nightwatch',
-  junit: 'junit',
+  nightwatch: 'nightwatchjs',
+  junit: 'junit-reports',
   playwright: 'playwright',
   cypress: 'cypress'
 };
@@ -42,7 +42,7 @@ export const FRAMEWORKS = [
   },
   {
     id: FRAMEWORK_IDS.junit,
-    name: 'JUnit Report',
+    name: 'JUnit Reports',
     logo: <JUnitIcon width="48" height="48" />
   },
   {

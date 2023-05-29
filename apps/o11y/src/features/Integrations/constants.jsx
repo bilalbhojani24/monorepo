@@ -122,7 +122,7 @@ const TESTING_FRAMEWORKS = [
     )
   },
   {
-    name: 'JUnit Report',
+    name: 'JUnit Reports',
     Component: () => (
       <DocumentStackListItem
         analyticKey="framework_docs_visited"
