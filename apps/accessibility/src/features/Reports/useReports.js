@@ -21,7 +21,6 @@ import {
 } from './slices/appSlice';
 import {
   getActiveVersion,
-  getIsShowingBanner,
   getLastIndex,
   getReportList,
   getSelectedReportType
@@ -45,6 +44,7 @@ export default function useReports() {
   const [searchInput, setSearchInput] = useState('');
   const showBanner = useSelector(getShowBanner);
   const [isLoading, setIsLoading] = useState(false);
+  const [showColdStart, setShowColdStart] = useState(false);
 
   const handleClose = ({ action }) => {
     setIsOpen(false);
@@ -94,6 +94,7 @@ export default function useReports() {
           }))
         )
       );
+      setShowColdStart(response.length === 0);
     });
   }, [dispatch]);
 
@@ -183,6 +184,7 @@ export default function useReports() {
     updateLastIndex,
     onReportConsolidateButtonClick,
     onVersionSelect,
-    handleClose
+    handleClose,
+    showColdStart
   };
 }

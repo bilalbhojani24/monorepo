@@ -22,6 +22,7 @@ import NotFound from 'assets/not_found.svg';
 import Loader from 'common/Loader';
 import { CHROME_EXTENSION_URL, reportPerPage, reportType } from 'constants';
 
+import ColdStart from './components/ColdStart';
 import ReportRow from './components/ReportRow';
 import useReports from './useReports';
 
@@ -43,7 +44,8 @@ export default function Reports() {
     updateLastIndex,
     onReportConsolidateButtonClick,
     handleClose,
-    showBanner
+    showBanner,
+    showColdStart
   } = useReports();
 
   const activeReportsType = selectedReportType.map(({ value }) => value);
@@ -208,65 +210,71 @@ export default function Reports() {
           </div>
         </div>
       </div>
-      <div
-        className="fixed overflow-auto"
-        style={{
-          height: showBanner ? 'calc(100vh - 291px)' : 'calc(100vh - 227px)',
-          top: showBanner ? '291px' : '227px',
-          width: 'calc(100vw - 256px)'
-        }}
-      >
-        {isLoading && searchFilterList.length === 0 && (
-          <Loader wrapperClassName="mt-28 h-96" />
-        )}
-        {!isLoading && searchFilterList.length === 0 && (
-          <div
-            className="bg-base-50 mt-12 "
-            style={{ height: 'calc(100vh - 228px)' }}
-          >
-            <div className="mb-5 flex w-full flex-col items-center justify-center">
-              <img src={NotFound} alt="No reports found" className="w-80" />
-              <p className="text-base-500 text-sm">No reports to show</p>
+      {showColdStart ? (
+        <div
+          className="fixed overflow-auto"
+          style={{
+            height: showBanner ? 'calc(100vh - 291px)' : 'calc(100vh - 227px)',
+            top: showBanner ? '291px' : '227px',
+            width: 'calc(100vw - 256px)'
+          }}
+        >
+          {isLoading && searchFilterList.length === 0 && (
+            <Loader wrapperClassName="mt-28 h-96" />
+          )}
+          {!isLoading && searchFilterList.length === 0 && (
+            <div
+              className="bg-base-50 mt-12 "
+              style={{ height: 'calc(100vh - 228px)' }}
+            >
+              <div className="mb-5 flex w-full flex-col items-center justify-center">
+                <img src={NotFound} alt="No reports found" className="w-80" />
+                <p className="text-base-500 text-sm">No reports to show</p>
+              </div>
             </div>
+          )}
+          <div className="mb-4 shadow-sm">
+            {searchFilterList.length > 0 &&
+              searchFilterList
+                .slice(lastIndex - reportPerPage, lastIndex)
+                .map(({ uniqueId }) => (
+                  <ReportRow key={uniqueId} id={uniqueId} />
+                ))}
           </div>
-        )}
-        <div className="mb-4 shadow-sm">
-          {searchFilterList.length > 0 &&
-            searchFilterList
-              .slice(lastIndex - reportPerPage, lastIndex)
-              .map(({ uniqueId }) => (
-                <ReportRow key={uniqueId} id={uniqueId} />
-              ))}
+          {!isLoading && searchFilterList.length > 0 && (
+            <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
+              <p className="text-base-700 text-sm font-medium">
+                Showing {lastIndex - reportPerPage + 1} to{' '}
+                {isLastPage ? searchFilterList.length : lastIndex} of{' '}
+                {searchFilterList.length} results
+              </p>
+              <div className="flex">
+                <Button
+                  disabled={isFirstPage}
+                  onClick={() => updateLastIndex(lastIndex - reportPerPage)}
+                  colors="white"
+                  size="small"
+                  wrapperClassName="mr-3"
+                >
+                  Previous
+                </Button>
+                <Button
+                  disabled={isLastPage}
+                  onClick={() => updateLastIndex(lastIndex + reportPerPage)}
+                  colors="white"
+                  size="small"
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
-        {!isLoading && searchFilterList.length > 0 && (
-          <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
-            <p className="text-base-700 text-sm font-medium">
-              Showing {lastIndex - reportPerPage + 1} to{' '}
-              {isLastPage ? searchFilterList.length : lastIndex} of{' '}
-              {searchFilterList.length} results
-            </p>
-            <div className="flex">
-              <Button
-                disabled={isFirstPage}
-                onClick={() => updateLastIndex(lastIndex - reportPerPage)}
-                colors="white"
-                size="small"
-                wrapperClassName="mr-3"
-              >
-                Previous
-              </Button>
-              <Button
-                disabled={isLastPage}
-                onClick={() => updateLastIndex(lastIndex + reportPerPage)}
-                colors="white"
-                size="small"
-              >
-                Next
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
+      ) : (
+        <div className="flex h-screen w-full flex-col items-center justify-center">
+          <ColdStart />
+        </div>
+      )}
     </div>
   );
 }
