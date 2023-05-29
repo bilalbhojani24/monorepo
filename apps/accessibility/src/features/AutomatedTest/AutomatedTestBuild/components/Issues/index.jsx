@@ -122,6 +122,7 @@ export default function Issues() {
           activeBuildFilters,
           wcagVersion,
           tests,
+          showSourceReport: false,
           tabs,
           tags,
           files,

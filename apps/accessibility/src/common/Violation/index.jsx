@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Accordion,
   AccordionInteractiveHeader,
@@ -15,11 +15,14 @@ export default function Violation({
   violation,
   index,
   activeComponentId,
+  activeViolationId,
   onRowClick
 }) {
-  // const isHalfView = activeComponentId && isShowingIssue;
+  const [isOpen, setIsOpen] = useState(violation.id === activeViolationId);
 
-  // console.log('violation: ', violation);
+  const onAccordionClick = () => {
+    setIsOpen(!isOpen);
+  };
 
   const totalCount = violation.nodes.length;
   const impact =
@@ -30,17 +33,20 @@ export default function Violation({
     <Accordion>
       <AccordionInteractiveHeader
         wrapperClassName={twClassNames(
+          violation.id,
           'border-t border-base-200 py-2 bg-white',
           {
             'border-0': index === 0
           }
         )}
+        controller={isOpen}
+        onClick={onAccordionClick}
         title={
           <div className="flex items-center">
             <p
               className="text-base-900 mr-2 truncate text-sm"
               // style={{
-              //   maxWidth: `${isHalfView ? maxWidthForFullView : '100%'}`
+              //   maxWidth: `${isShowingIssue ? maxWidthForFullView : '100%'}`
               // }}
             >
               {violation.help}
@@ -73,11 +79,13 @@ export default function Violation({
           )
         }
       />
-      <AccordionPanel>
+      <AccordionPanel controller={isOpen}>
         <ComponentList
           nodes={violation.nodes}
           violationId={violation.id}
-          activeComponentId={activeComponentId}
+          activeComponentId={
+            activeViolationId === violation.id ? activeComponentId : ''
+          }
           onRowClick={onRowClick}
         />
       </AccordionPanel>
@@ -89,10 +97,12 @@ Violation.propTypes = {
   violation: PropTypes.objectOf(PropTypes.any),
   activeComponentId: PropTypes.string,
   index: PropTypes.number.isRequired,
+  activeViolationId: PropTypes.string,
   onRowClick: PropTypes.func.isRequired
 };
 
 Violation.defaultProps = {
   violation: {},
+  activeViolationId: '',
   activeComponentId: ''
 };

@@ -117,14 +117,17 @@ export default function useIssues() {
     );
   }
 
-  const headerData = {
-    tags: isGuidelineMode
-      ? isShowingIssue &&
-        activeViolation.tags.filter((tag) => tag === activeViolation.id)
-      : isShowingIssue && activeViolation.tags,
-    help: isShowingIssue && activeViolation.help,
-    description: isShowingIssue && activeViolation.description
-  };
+  let headerData = null;
+
+  if (isShowingIssue) {
+    headerData = {
+      tags: isGuidelineMode
+        ? activeViolation.tags.filter((tag) => tag === activeViolation.id)
+        : activeViolation.tags,
+      help: activeViolation.help,
+      description: activeViolation.description
+    };
+  }
 
   const maxLimit = activeComponentNodes && activeComponentNodes.length - 1;
 
@@ -374,10 +377,7 @@ export default function useIssues() {
 
   const onIssueCloseClick = () => {
     dispatch(setIsShowingIssue(false));
-    const path = updateUrlWithQueryParam({
-      activeIssueIndex: 0,
-      isShowingIssue: false
-    });
+    const path = deleteUrlQueryParam(['activeIssueIndex', 'isShowingIssue']);
     navigate(`?${path}`);
   };
 
@@ -445,12 +445,48 @@ export default function useIssues() {
   useEffect(() => {
     const paramList = new URLSearchParams(window.location.search);
     const activeSwitchVal = paramList.get('activeSwitch');
+    const activeViolationIdVal = params.get('activeViolationId');
+    const activeComponentIdVal = params.get('activeComponentId');
+    const activeIssueIndexVal = params.get('activeIssueIndex');
+    const isShowingIssueVal = params.get('isShowingIssue');
+    // console.log('activeViolationIdVal: ', activeViolationIdVal);
+    let pathObject = {};
     if (activeSwitchVal === GUIDELINES) {
-      document.getElementsByClassName(GUIDELINES)[0].click();
+      document.getElementsByClassName(GUIDELINES)[0]?.click();
     }
+    if (activeViolationIdVal) {
+      dispatch(setActiveViolationId(activeViolationIdVal));
+      pathObject = {
+        ...pathObject,
+        activeViolationId: activeViolationIdVal
+      };
+    }
+    if (activeComponentIdVal) {
+      dispatch(setActiveComponentId(activeComponentIdVal));
+      pathObject = {
+        ...pathObject,
+        activeComponentId: activeComponentIdVal
+      };
+    }
+    if (activeIssueIndexVal) {
+      const val = parseInt(activeIssueIndexVal, 10);
+      dispatch(setActiveIssueIndex(val));
+      pathObject = {
+        ...pathObject,
+        activeIssueIndex: activeIssueIndexVal
+      };
+    }
+    if (isShowingIssueVal) {
+      const val = isShowingIssueVal !== 'false';
+      dispatch(setIsShowingIssue(val));
+      pathObject = {
+        ...pathObject,
+        isShowingIssue: isShowingIssueVal
+      };
+    }
+    const path = updateUrlWithQueryParam(pathObject);
+    navigate(`?${path}`);
   }, []);
-
-  // console.log('sectionData: ', sectionData);
 
   return {
     urls,

@@ -1,6 +1,4 @@
 import React from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -10,31 +8,14 @@ import {
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
-import { updateUrlWithQueryParam } from 'utils/helper';
 
 export default function ComponentList({
   nodes,
   violationId,
   activeComponentId,
+  isHalfView,
   onRowClick
 }) {
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // const { isHalfView } = useContext(SectionsDataContext);
-  // const activeComponentId = useSelector(getActiveComponentId);
-  // const onRowClick = (key) => {
-  //   dispatch(setActiveViolationId(violationId));
-  //   dispatch(setActiveComponentId(key));
-  //   dispatch(setIsShowingIssue(true));
-  //   const path = updateUrlWithQueryParam({
-  //     activeViolationId: violationId,
-  //     activeComponentId: key,
-  //     isShowingIssue: true,
-  //     activeIssueIndex: 0
-  //   });
-  //   navigate(`?${path}`);
-  // };
-
   const componentMap = {};
   nodes.forEach((node) => {
     if (!componentMap[node.componentId]) {
@@ -107,7 +88,9 @@ export default function ComponentList({
         <TableBody>
           {tableData.map(({ id, isActive, ...rest }) => (
             <TableRow
-              wrapperClassName="cursor-pointer"
+              wrapperClassName={twClassNames('cursor-pointer', {
+                'bg-brand-50': !!activeComponentId
+              })}
               onRowClick={() => onRowClick(id, violationId)}
             >
               {columns.map((column, index) => (
@@ -119,9 +102,9 @@ export default function ComponentList({
                 >
                   {index === 0 ? (
                     <p
-                    // className={twClassNames('overflow-hidden truncate', {
-                    //   'w-56': isHalfView
-                    // })}
+                      className={twClassNames('overflow-hidden truncate', {
+                        'w-56': isHalfView
+                      })}
                     >
                       <span className="text-brand-600">
                         {rest[column.key].split('#')[0].toLowerCase()}
@@ -149,9 +132,11 @@ ComponentList.propTypes = {
   nodes: PropTypes.arrayOf(PropTypes.object).isRequired,
   violationId: PropTypes.string.isRequired,
   activeComponentId: PropTypes.string,
+  isHalfView: PropTypes.bool,
   onRowClick: PropTypes.func.isRequired
 };
 
 ComponentList.defaultProps = {
-  activeComponentId: ''
+  activeComponentId: '',
+  isHalfView: false
 };

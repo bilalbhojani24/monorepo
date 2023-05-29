@@ -56,6 +56,7 @@ export default function IssueItem({ sectionsDataContext }) {
     tests,
     tabs,
     issueHeight,
+    showSourceReport,
     onSliderOpenClick,
     sanitizeValue,
     onNextClick,
@@ -128,6 +129,7 @@ export default function IssueItem({ sectionsDataContext }) {
   }${activeComponentId.split('#')[1]}`;
 
   const isShowingSourceReport =
+    showSourceReport &&
     needsReviewStatusinReports.length > 0 &&
     Object.values(buildMetaData?.meta).length > 1;
 
@@ -171,8 +173,8 @@ export default function IssueItem({ sectionsDataContext }) {
             </Tooltip>
           </div>
           <p className="text-base-500">
-            Viewing {activeIssueIndex + 1} of {activeComponentNodes.length}{' '}
-            issues
+            Viewing {parseInt(activeIssueIndex, 10) + 1} of{' '}
+            {activeComponentNodes.length} issues
           </p>
         </div>
         <Button

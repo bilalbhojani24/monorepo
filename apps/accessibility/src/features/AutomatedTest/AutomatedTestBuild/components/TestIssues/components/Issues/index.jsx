@@ -104,6 +104,7 @@ export default function Issues() {
         wcagVersion,
         tests,
         issueHeight,
+        showSourceReport: false,
         tabs,
         onHiddenIssueClick,
         onTabSelect,
