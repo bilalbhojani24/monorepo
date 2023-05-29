@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   Dropdown,
@@ -17,13 +17,15 @@ import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
 import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 
-import { setGridId } from '../slices/index';
-
 import { useGridListing } from './useGridListing';
 
 const GridsListing = () => {
   const { gridList, options, tableCellWrapperClassName } = useGridListing();
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const gridRowHandler = (gridId) => {
+    navigate(`/grid-console/grid/${gridId}`);
+  };
 
   return (
     gridList.length > 0 && (
@@ -86,15 +88,7 @@ const GridsListing = () => {
               };
 
               return (
-                <TableRow
-                  onRowClick={() => {
-                    dispatch(
-                      setGridId({
-                        gridId
-                      })
-                    );
-                  }}
-                >
+                <TableRow onRowClick={() => gridRowHandler(gridId)}>
                   <TableCell wrapperClassName="text-base-900 first:pr-3 last:pl-3 px-2 py-2">
                     <p className="font-normal">{gridName}</p>
                     <p className="text-base-500">b7465tbf76</p>

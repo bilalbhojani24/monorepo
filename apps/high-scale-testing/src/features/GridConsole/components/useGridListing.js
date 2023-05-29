@@ -21,13 +21,9 @@ const useGridListing = () => {
       const res = await fetchAllGridsData(userDetails.id);
 
       setGridList(res.data);
-
-      // eslint-disable-next-line no-console
-      console.log('Log: gridList:', gridList);
     };
 
     fetchAllGridsDataFromAPI();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

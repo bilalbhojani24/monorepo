@@ -3,7 +3,6 @@ import { Button, PageHeadings, Tabs } from '@browserstack/bifrost';
 
 import ClustersListing from './ClustersListing';
 import CreateGridCLIModal from './CreateGridCLIModal';
-import GridDetail from './GridDetail';
 import GridsListing from './GridsListing';
 import useGridConsole from './useGridConsole';
 
@@ -17,7 +16,7 @@ const GridConsole = () => {
 
   return (
     <div className="flex-1">
-      <div className="bg-white px-6 pt-9">
+      <div className="bg-white px-6 pt-6">
         <PageHeadings
           actions={
             <Button onClick={createGridBtnHandler}> Create Grid </Button>
@@ -43,8 +42,6 @@ const GridConsole = () => {
       {currentListingType === 'grids' && <GridsListing />}
       {currentListingType === 'clusters' && <ClustersListing />}
       {showCreateGridCLIModal && <CreateGridCLIModal />}
-
-      <GridDetail />
     </div>
   );
 };

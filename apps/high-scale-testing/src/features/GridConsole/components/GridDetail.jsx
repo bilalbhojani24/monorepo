@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { PageHeadings, Tabs } from '@browserstack/bifrost';
 
+import ROUTES from '../../../constants/routes';
+
 import GridOverview from './GridOverview';
 
 const GridDetail = () => {
-  const [data, setData] = useState('Overview');
+  const [tabName, setTabName] = useState('Overview');
 
   const TabsForGridDetail = (
     <Tabs
@@ -19,18 +21,18 @@ const GridDetail = () => {
           name: 'Settings'
         }
       ]}
-      onTabChange={(e) => setData(e.name)}
+      onTabChange={(e) => setTabName(e.name)}
     />
   );
 
   return (
-    <>
+    <div className="flex-1">
       <div className="bg-white px-6 pt-6">
         <PageHeadings
           breadcrumbs={[
-            { name: 'Grids', url: '/grid-console', current: false },
+            { name: 'Grids', url: ROUTES.GRID_CONSOLE, current: false },
             {
-              name: data,
+              name: tabName,
               url: '',
               current: true
             }
@@ -42,7 +44,7 @@ const GridDetail = () => {
       </div>
 
       <GridOverview />
-    </>
+    </div>
   );
 };
 

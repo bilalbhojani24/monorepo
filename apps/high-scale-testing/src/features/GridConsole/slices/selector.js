@@ -1,3 +1,3 @@
-const setGridId = (state) => state.gridConsole.gridId;
+const getGridData = (state) => state.gridConsole.gridData;
 
-export { setGridId };
+export { getGridData };

@@ -9,7 +9,6 @@ const LayoutWOSidebar = () => (
       documentation={{
         options: [
           {
-            // eslint-disable-next-line sonarjs/no-duplicate-string
             link: 'https://www.browserstack.com',
             name: 'lorem'
           },

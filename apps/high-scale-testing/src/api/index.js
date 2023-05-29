@@ -15,9 +15,13 @@ const fetchAllGridsData = (userId) =>
     params: { userId }
   });
 
-const fetchGridDataById = (gridId) => axios.get(`${FETCH_GRID_URL}/${gridId}`);
 const fetchAllClustersData = (userId) =>
   axios.get(FETCH_CLUSTERS_URL, {
+    params: { userId }
+  });
+
+const fetchGridDataById = (gridId, userId) =>
+  axios.get(`${FETCH_GRID_URL}/${gridId}`, {
     params: { userId }
   });
 

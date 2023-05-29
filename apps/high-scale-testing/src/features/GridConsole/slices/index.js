@@ -5,16 +5,16 @@ const SLICE_NAME = 'gridConsole';
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
-    gridId: null
+    gridData: {}
   },
   reducers: {
-    setGridId: (state, { payload }) => {
-      const { gridId } = payload;
+    setGridData: (state, { payload }) => {
+      const { gridData } = payload;
 
-      state.gridId = gridId;
+      state.gridData = gridData;
     }
   }
 });
 
-export const { setGridId } = actions;
+export const { setGridData } = actions;
 export default reducer;
