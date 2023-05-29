@@ -19,7 +19,7 @@ const TMHeader = () => (
       'pricing',
       'help',
       'search',
-      'notifications',
+      // 'notifications',
       'account'
     ]}
     planPricingLink="https://www.browserstack.com/accounts/subscriptions?product=test-management&source=pricing"
