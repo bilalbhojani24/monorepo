@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { MdClose, MdSearch, MdSearchOff } from '@browserstack/bifrost';
 import {
   O11yButton,
@@ -12,7 +13,7 @@ import {
   O11yStackedList,
   O11yStackedListGroup
 } from 'common/bifrostProxy';
-import { AppContext } from 'features/Layout/context/AppContext';
+import { getHeaderSize } from 'globalSlice/selectors';
 
 import ListGroupHeader from '../components/ListGroupHeader';
 import { INTEGRATIONS } from '../constants';
@@ -33,7 +34,7 @@ const getMatchedIntegrationsByText = (list, searchVal) => {
 };
 
 function Integrations() {
-  const { headerSize } = useContext(AppContext);
+  const headerSize = useSelector(getHeaderSize);
 
   const [availableIntegrations, setAvailableIntegrations] =
     useState(INTEGRATIONS);
@@ -120,7 +121,7 @@ function Integrations() {
     <div
       className="flex w-full flex-col"
       style={{
-        height: `calc(100vh - ${headerSize.blockSize}px)`
+        height: `calc(100vh - ${headerSize}px)`
       }}
     >
       <O11yPageHeadings

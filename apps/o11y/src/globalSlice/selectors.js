@@ -1,3 +1,4 @@
+export const getHeaderSize = (state) => state.global.headerSize;
 export const getProjects = (state) => state.global.projects;
 export const getActiveProject = (state) => state.global.projects.active;
 export const getInitData = (state) => state.global.initData;
