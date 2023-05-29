@@ -45,7 +45,7 @@ const AddEditTestCaseMoreFields = () => {
             value={
               testCaseFormData.case_type &&
               TEST_CASE_TYPE_OPTIONS.find(
-                (item) => item.value === testCaseFormData.case_type?.id
+                (item) => item.value === testCaseFormData.case_type
               )
             }
           />
@@ -73,7 +73,7 @@ const AddEditTestCaseMoreFields = () => {
             value={
               testCaseFormData.status &&
               STATUS_OPTIONS.find(
-                (item) => item.value === testCaseFormData?.status?.id
+                (item) => item.value === testCaseFormData?.status
               )
             }
             checkPosition="right"

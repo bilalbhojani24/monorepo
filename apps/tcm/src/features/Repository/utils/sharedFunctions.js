@@ -20,7 +20,15 @@ export const formDataRetriever = (tagsArray, formData) => {
     issues: selectMenuValueMapper(
       formData?.issues?.map((item) => item.jira_id)
     ),
-    custom_fields: customFields
+    custom_fields: customFields,
+    status:
+      typeof formData?.priority === 'object'
+        ? formData?.status?.id
+        : formData?.status,
+    case_type:
+      typeof formData?.priority === 'object'
+        ? formData?.case_type?.id
+        : formData?.case_type
   };
 };
 
