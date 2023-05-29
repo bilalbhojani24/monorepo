@@ -100,16 +100,15 @@ Primary.play = async ({ canvasElement }) => {
   });
 };
 
-export const withHeaderClassName = (args) => (
-  <SectionHeadings
-    {...args}
-    headerWrapperClassName="flex flex-wrap items-center justify-between sm:flex-nowrap"
-  />
-);
+const WithHeaderClassName = Template.bind({});
+WithHeaderClassName.args = {
+  headerWrapperClassName:
+    'flex flex-wrap items-center justify-between sm:flex-nowrap'
+};
 
 Primary.parameters = {
   controls: {}
 };
 
 export default defaultConfig;
-export { Primary };
+export { Primary, WithHeaderClassName };
