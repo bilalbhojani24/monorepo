@@ -4,7 +4,7 @@ import { TruncateText } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 const TMTruncateText = (props) => {
-  const { isWrappedContent } = props;
+  const { ignoreClickAndWrapText } = props;
   const customProp = {};
 
   const ignoreClick = (e) => {
@@ -12,7 +12,7 @@ const TMTruncateText = (props) => {
     e.stopPropagation();
   };
 
-  if (isWrappedContent) {
+  if (ignoreClickAndWrapText) {
     customProp.tooltipContent = (
       <div
         className="text-base-300  mb-0 px-4"
@@ -33,13 +33,13 @@ const TMTruncateText = (props) => {
 };
 
 TMTruncateText.propTypes = {
-  isWrappedContent: PropTypes.bool,
+  ignoreClickAndWrapText: PropTypes.bool,
   children: PropTypes.node,
   headerTooltipProps: PropTypes.shape(PropTypes.object)
 };
 
 TMTruncateText.defaultProps = {
-  isWrappedContent: false,
+  ignoreClickAndWrapText: false,
   children: null,
   headerTooltipProps: {}
 };

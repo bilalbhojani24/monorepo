@@ -112,7 +112,7 @@ const AllProjects = () => {
           <div className="flex items-center">
             <div className="text-base-900 hover:text-brand-600 max-w-full font-medium">
               <TMTruncateText
-                isWrappedContent
+                ignoreClickAndWrapText
                 truncateUsingClamp={false}
                 hidetooltipTriggerIcon
                 isFullWidthTooltip
