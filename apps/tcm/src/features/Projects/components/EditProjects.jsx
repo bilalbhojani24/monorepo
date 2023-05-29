@@ -29,13 +29,13 @@ const EditProjects = ({ show }) => {
   } = useProjects();
 
   useEffect(() => {
-    if (selectedProject)
+    if (selectedProject && show)
       setFormData({
         name: selectedProject.name,
         description: selectedProject.description,
         state: selectedProject.state
       });
-  }, [selectedProject, setFormData]);
+  }, [selectedProject, setFormData, show]);
 
   return (
     <TMModal
