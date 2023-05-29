@@ -80,6 +80,8 @@ function getChartOptions({
             },
             mouseOver(e) {
               const { category, index, plotX, plotY } = e.target;
+              const { plotBox } = e.target.series.chart;
+              const { spacingBox } = e.target.series.chart;
               const seriesData = e.target.series.chart.series.map((res) => ({
                 ...res,
                 index,
@@ -90,10 +92,14 @@ function getChartOptions({
               handleTooltipData({
                 options: [...seriesData],
                 styles: {
-                  top: plotY + 60,
-                  left: plotX + 40,
-                  width: 24,
-                  height: 24
+                  top: e.target?.dlBox?.y
+                    ? plotBox.y + e.target?.dlBox?.y
+                    : plotY + plotBox.y - spacingBox.y,
+                  left: e.target?.dlBox?.x
+                    ? plotBox.x + e.target?.dlBox?.x
+                    : plotX + plotBox.x - spacingBox.x,
+                  width: e.target?.dlBox?.width || 16,
+                  height: e.target?.dlBox?.height || 16
                 }
               });
             }

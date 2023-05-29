@@ -29,10 +29,10 @@ export default function CustomChartTooltip({
     }
     const urlFilters = [];
     if (id === 'flakiness') {
-      urlFilters.push(`&${SNP_PARAMS_MAPPING.snpFlaky}=${true}`);
+      urlFilters.push(`${SNP_PARAMS_MAPPING.snpIsFlaky}=${true}`);
     } else if (filters.buildName.value !== 'all') {
       urlFilters.push(
-        `&${SNP_PARAMS_MAPPING.snpActiveBuild}=${filters.buildName.value}`
+        `${SNP_PARAMS_MAPPING.snpActiveBuild}=${filters.buildName.value}`
       );
     }
 
