@@ -30,7 +30,14 @@ const useLayoutGridDetail = () => {
   });
 
   useEffect(() => {
-    navigate(`/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}`);
+    if (currentTab.name === 'Settings')
+      navigate(
+        `/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}/general`
+      );
+    else
+      navigate(
+        `/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}`
+      );
   }, [paramId, currentTab]);
 
   useEffect(() => {
