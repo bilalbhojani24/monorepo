@@ -33,7 +33,7 @@ const GridSettings = () => {
       label: 'Test Artifacts',
       activeIcon: () => <></>,
       inActiveIcon: () => <></>,
-      path: '/test-artifacts'
+      path: ROUTES.GRID_SETTINGS_TEST_ARTIFACTS
     }
   ];
 

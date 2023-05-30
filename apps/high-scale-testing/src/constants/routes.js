@@ -8,6 +8,8 @@ const ROUTES = {
   GRID_SETTINGS_GENERAL: '/grid-console/grid/:id/settings/general',
   GRID_SETTINGS_BROWSER: '/grid-console/grid/:id/settings/browsers',
   GRID_SETTINGS_TIMEOUT: '/grid-console/grid/:id/settings/timeout',
+  GRID_SETTINGS_TEST_ARTIFACTS:
+    '/grid-console/grid/:id/settings/test-artifacts',
   ONBOARDING: '/setup',
   SIGN_OUT: '/sign-out'
 };
