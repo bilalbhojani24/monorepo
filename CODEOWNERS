@@ -2,8 +2,22 @@
 
 * @browserstack/central-frontend
 
+# HST
+apps/high-scale-testing/** @browserstack/hst-frontend
+
 # TCM
-apps/tcm/* @browserstack/tm-frontend
+apps/tcm/** @browserstack/tm-frontend
+
+# MCSPT
+apps/mcspt/** @browserstack/mcspt-frontend
+apps/web-mcspt/** @browserstack/mcspt-frontend
+packages/mcp-shared/** @browserstack/mcspt-frontend
+
+# Accessibility
+apps/accessibility/** @browserstack/accessibility-frontend
+
+# Observability
+apps/o11y/** @browserstack/observability-frontend
 
 # All package.json this needs to be at the end of the file
 **/package.json @browserstack/central-frontend
