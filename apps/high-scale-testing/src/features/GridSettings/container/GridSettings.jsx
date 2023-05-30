@@ -1,11 +1,22 @@
 import React, { useCallback } from 'react';
-import { matchPath, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import {
+  matchPath,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams
+} from 'react-router-dom';
 import { SidebarItem, SidebarNavigation } from '@browserstack/bifrost';
 import ROUTES from 'constants/routes';
 
 const GridSettings = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const params = useParams();
+
+  const { id: gridID } = params;
+
+  const SETTINGS_BASE_URL = `${ROUTES.GRID_CONSOLE}/grid/${gridID}/settings`;
 
   const navItems = [
     {
@@ -13,28 +24,28 @@ const GridSettings = () => {
       label: 'General',
       activeIcon: () => <></>,
       inActiveIcon: () => <></>,
-      path: ROUTES.GRID_SETTINGS_GENERAL
+      path: `${SETTINGS_BASE_URL}/general`
     },
     {
       id: 'browsers',
       label: 'Browsers',
       activeIcon: () => <></>,
       inActiveIcon: () => <></>,
-      path: ROUTES.GRID_SETTINGS_BROWSER
+      path: `${SETTINGS_BASE_URL}/browsers`
     },
     {
       id: 'timeouts',
       label: 'Timeouts',
       activeIcon: () => <></>,
       inActiveIcon: () => <></>,
-      path: ROUTES.GRID_SETTINGS_TIMEOUT
+      path: `${SETTINGS_BASE_URL}/timeout`
     },
     {
       id: 'test-artifacts',
       label: 'Test Artifacts',
       activeIcon: () => <></>,
       inActiveIcon: () => <></>,
-      path: ROUTES.GRID_SETTINGS_TEST_ARTIFACTS
+      path: `${SETTINGS_BASE_URL}/test-artifacts`
     }
   ];
 
