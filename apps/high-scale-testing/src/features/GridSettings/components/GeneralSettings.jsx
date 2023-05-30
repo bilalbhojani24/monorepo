@@ -11,16 +11,15 @@ const GeneralSettings = () => {
   const gridData = useSelector(getGridData);
   const userDetails = useSelector(getUserDetails);
 
-  // All State variables:
-  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
-  const [isSavingInProgress, setIsSavingInProgress] = useState(false);
-
   const currentConcurrencyValue =
     gridData.concurrency || DEFAULT_GRID_CONCURRENCY;
 
+  // All State variables:
   const [concurrencyValue, setConcurrencyValue] = useState(
     currentConcurrencyValue
   );
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
+  const [isSavingInProgress, setIsSavingInProgress] = useState(false);
 
   const inputChangeHandler = (e) => {
     const newValue = e.target.value;
@@ -31,7 +30,6 @@ const GeneralSettings = () => {
 
   const updateGridGeneralSettings = (settingsObj) => {
     updateSettings(userDetails.id, 'grid', 'general', settingsObj).then((d) => {
-      console.log('d:', d);
       setIsSaveButtonDisabled(true);
       setIsSavingInProgress(false);
     });
