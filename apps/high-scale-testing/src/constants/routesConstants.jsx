@@ -1,13 +1,13 @@
 import React from 'react';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import GridConsole from 'features/GridConsole/components/Dashboard';
-import GeneralSettings from 'features/GridConsole/components/GeneralSettings';
 import GridOverview from 'features/GridConsole/components/GridOverview';
-import GridSettings from 'features/GridConsole/components/GridSettings';
 import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
 import BrowsersSettings from 'features/GridSettings/components/BrowsersSettings';
+import GeneralSettings from 'features/GridSettings/components/GeneralSettings';
 import TestArtifactsSettings from 'features/GridSettings/components/TestArtifactsSettings';
 import TimeoutSettings from 'features/GridSettings/components/TimeoutSettings';
+import GridSettings from 'features/GridSettings/container/GridSettings';
 import { Layout } from 'features/Layout';
 import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
 import { Onboarding } from 'features/Onboarding';
