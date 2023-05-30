@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import DatePickerField from 'common/DatePickerField';
 import {
   ADV_FILTER_TYPES,
@@ -9,8 +10,9 @@ import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 
-const DatePickerFilterField = ({ supportedKeys }) => {
+const DatePickerFilterField = ({ supportedKeys, updateFiltersAPI }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const appliedDateRange = useSelector(
     findAppliedFilterByType(ADV_FILTER_TYPES.dateRange.key)
   );
@@ -35,6 +37,19 @@ const DatePickerFilterField = ({ supportedKeys }) => {
         isApplied: true
       })
     );
+
+    if (updateFiltersAPI) {
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set('daterangetype', key);
+      if (key === 'custom') {
+        searchParams.set(
+          'dateRange',
+          `${timeBounds.lowerBound},${timeBounds.upperBound}`
+        );
+      }
+      navigate({ search: searchParams.toString() });
+      updateFiltersAPI();
+    }
   };
 
   return (
@@ -51,7 +66,12 @@ const DatePickerFilterField = ({ supportedKeys }) => {
 };
 
 DatePickerFilterField.propTypes = {
-  supportedKeys: PropTypes.arrayOf(PropTypes.string).isRequired
+  supportedKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  updateFiltersAPI: PropTypes.func
+};
+
+DatePickerFilterField.defaultProps = {
+  updateFiltersAPI: null
 };
 
 export default DatePickerFilterField;

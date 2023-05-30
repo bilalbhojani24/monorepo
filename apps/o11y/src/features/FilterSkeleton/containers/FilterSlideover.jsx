@@ -17,7 +17,7 @@ import {
   setSelectedFilterAsApplied
 } from '../slices/filterSlice';
 
-const FilterSlideover = ({ children, show, onClose }) => {
+const FilterSlideover = ({ children, show, onClose, onApply }) => {
   const dispatch = useDispatch();
 
   useEffect(
@@ -34,7 +34,7 @@ const FilterSlideover = ({ children, show, onClose }) => {
 
   const handleApply = () => {
     dispatch(setSelectedFilterAsApplied());
-    onClose();
+    onApply();
   };
 
   useFloatingComponentTracking(show, FLOATING_COMPONENTS_IDS.O11Y_FILTERS);
@@ -72,7 +72,8 @@ FilterSlideover.propTypes = {
     PropTypes.node
   ]).isRequired,
   show: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  onApply: PropTypes.func.isRequired
 };
 
 FilterSlideover.defaultProps = {};

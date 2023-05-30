@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11Y_DATE_RANGE } from 'constants/common';
 import {
@@ -34,7 +34,8 @@ const SHTestsFilters = () => {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const [showSlideOver, setShowSlideOver] = useState(false);
-  useEffect(() => {
+
+  const getFilters = useCallback(() => {
     dispatch(
       getSnPTestsFiltersData({
         normalisedName: activeProject?.normalisedName
@@ -42,13 +43,21 @@ const SHTestsFilters = () => {
     );
   }, [activeProject?.normalisedName, dispatch]);
 
+  useEffect(() => {
+    getFilters();
+  }, [getFilters]);
+
   const handleTriggerClick = () => {
     setShowSlideOver(!showSlideOver);
   };
 
-  const handleClose = () => {
+  const handleApply = useCallback(() => {
     setShowSlideOver(false);
-  };
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setShowSlideOver(false);
+  }, []);
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
@@ -58,12 +67,19 @@ const SHTestsFilters = () => {
           placeholder="Search by Test name or File path"
         />
         <div className="flex items-center gap-5">
-          <DatePickerFilterField supportedKeys={SUPPORTED_DATE_RANGE_KEYS} />
+          <DatePickerFilterField
+            supportedKeys={SUPPORTED_DATE_RANGE_KEYS}
+            updateFiltersAPI={getFilters}
+          />
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
       </div>
       <FilterPills />
-      <FilterSlideover show={showSlideOver} onClose={handleClose}>
+      <FilterSlideover
+        show={showSlideOver}
+        onClose={handleClose}
+        onApply={handleApply}
+      >
         <div className="mb-6 flex flex-col gap-6">
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.uniqueBuildNames.key}
