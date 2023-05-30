@@ -1,6 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 /* eslint-disable tailwindcss/enforces-negative-arbitrary-values */
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -16,6 +16,7 @@ import {
   MdRemoveCircle,
   MdSchedule
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import {
   O11yBadge,
   O11yButton,
@@ -36,8 +37,7 @@ import {
 } from 'features/FilterSkeleton/constants';
 import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
-import { AppContext } from 'features/Layout/context/AppContext';
-import { getActiveProject } from 'globalSlice/selectors';
+import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
@@ -67,7 +67,7 @@ function BuildDetailsHeader({
   isNewItemLoading,
   applyTestListFilter
 }) {
-  const { headerSize } = useContext(AppContext);
+  const headerSize = useSelector(getHeaderSize);
   const getActiveTab = useSelector(getBuildDetailsActiveTab);
   const navigate = useNavigate();
   const buildMeta = useSelector(getBuildMeta);
@@ -227,9 +227,17 @@ function BuildDetailsHeader({
 
   return (
     <div
-      className="border-base-200 bg-base-50 sticky top-16 z-10 border-b px-6 pt-6"
+      className={twClassNames(
+        'border-base-200 bg-base-50 sticky top-16 z-10 px-6 pt-6',
+        {
+          'border-b': !(
+            buildMeta?.data?.buildError?.message ||
+            buildMeta?.data?.isParsingReport
+          )
+        }
+      )}
       style={{
-        top: `${headerSize.blockSize}px`
+        top: `${headerSize}px`
       }}
     >
       <div className="flex justify-between">
@@ -380,17 +388,21 @@ function BuildDetailsHeader({
           }
         />
       </div>
-      <div className="-mb-[1px] flex justify-between">
-        <O11yTabs
-          defaultIndex={getActiveTab.idx}
-          tabsArray={tabsList}
-          onTabChange={onTabChange}
-        />
-        <StatusBadges
-          statusStats={statusStats}
-          onClickHandler={handleClickStatusBadge}
-        />
-      </div>
+      {!(
+        buildMeta?.data?.buildError?.message || buildMeta?.data?.isParsingReport
+      ) && (
+        <div className="-mb-[1px] flex justify-between">
+          <O11yTabs
+            defaultIndex={getActiveTab.idx}
+            tabsArray={tabsList}
+            onTabChange={onTabChange}
+          />
+          <StatusBadges
+            statusStats={statusStats}
+            onClickHandler={handleClickStatusBadge}
+          />
+        </div>
+      )}
     </div>
   );
 }

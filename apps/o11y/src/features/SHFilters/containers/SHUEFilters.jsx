@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11Y_DATE_RANGE } from 'constants/common';
 import {
@@ -33,13 +33,18 @@ const SHUEFilters = () => {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const [showSlideOver, setShowSlideOver] = useState(false);
-  useEffect(() => {
+
+  const getFilters = useCallback(() => {
     dispatch(
       getSnPUEFiltersData({
         normalisedName: activeProject?.normalisedName
       })
     );
   }, [activeProject?.normalisedName, dispatch]);
+
+  useEffect(() => {
+    getFilters();
+  }, [getFilters]);
 
   const handleTriggerClick = () => {
     setShowSlideOver(!showSlideOver);
@@ -57,7 +62,10 @@ const SHUEFilters = () => {
           placeholder="Search by error"
         />
         <div className="flex items-center gap-5">
-          <DatePickerFilterField supportedKeys={SUPPORTED_DATE_RANGE_KEYS} />
+          <DatePickerFilterField
+            supportedKeys={SUPPORTED_DATE_RANGE_KEYS}
+            updateFiltersAPI={getFilters}
+          />
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
       </div>
