@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   matchPath,
   useLocation,
@@ -6,13 +7,21 @@ import {
   useParams
 } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
+import { fetchGridDataById } from 'api/index';
 import ROUTES from 'constants/routes';
+import { getUserDetails } from 'globalSlice/selector';
+
+import { setGridData } from '../slices';
 
 const useLayoutGridDetail = () => {
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
   const paramId = params.id; // grid id
+
+  const userDetails = useSelector(getUserDetails);
 
   // All State variables
   const [tabName, setTabName] = useState('Overview');
@@ -20,6 +29,19 @@ const useLayoutGridDetail = () => {
   useEffect(() => {
     navigate(`/grid-console/grid/${paramId}/${tabName.toLowerCase()}`);
   }, [paramId, tabName]);
+
+  useEffect(() => {
+    const fetchGridDataByIdFromAPI = async (gridId) => {
+      const res = await fetchGridDataById(gridId, userDetails.id);
+      dispatch(
+        setGridData({
+          gridData: res.data
+        })
+      );
+    };
+
+    if (paramId) fetchGridDataByIdFromAPI(paramId);
+  }, [dispatch, paramId, userDetails]);
 
   useMountEffect(() => {
     let tabToOpen = 'Overview';
