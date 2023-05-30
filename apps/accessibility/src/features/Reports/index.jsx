@@ -156,8 +156,8 @@ export default function Reports() {
         </div>
 
         <div>
-          <div className="flex items-center justify-between">
-            <div className="flex">
+          <div className="flex items-center">
+            <div className="mr-4 flex">
               <InputField
                 id="search-report"
                 leadingIcon={<MdSearch />}
@@ -188,16 +188,6 @@ export default function Reports() {
               </div>
             </div>
             <div className="flex items-center">
-              {selectedReportsLength > 0 && (
-                <Button
-                  icon={<MdClose className="text-xl" />}
-                  variant="secondary"
-                  onClick={resetSelection}
-                  wrapperClassName="mr-2"
-                >
-                  Clear {selectedReportsLength} selected
-                </Button>
-              )}
               {isMergeDisabled ? (
                 <Tooltip
                   theme="dark"
@@ -214,8 +204,10 @@ export default function Reports() {
                     icon={<MdOutlineArrowForward className="text-xl" />}
                     onClick={onReportConsolidateButtonClick}
                     disabled={isMergeDisabled}
+                    wrapperClassName="px-4"
+                    variant="secondary"
                   >
-                    View consolidated report
+                    Consolidate reports
                   </Button>
                 </Tooltip>
               ) : (
@@ -224,15 +216,28 @@ export default function Reports() {
                   icon={<MdOutlineArrowForward className="text-xl" />}
                   onClick={onReportConsolidateButtonClick}
                   disabled={isMergeDisabled}
+                  wrapperClassName="px-4"
                 >
-                  View consolidated report
+                  Consolidate reports
+                </Button>
+              )}
+              {selectedReportsLength > 0 && (
+                <Button
+                  iconPlacement="end"
+                  icon={<MdClose className="text-xl" />}
+                  onClick={resetSelection}
+                  wrapperClassName="ml-2"
+                  variant="minimal"
+                  colors="white"
+                >
+                  Clear {selectedReportsLength} selected
                 </Button>
               )}
             </div>
           </div>
         </div>
       </div>
-      {showColdStart ? (
+      {!showColdStart ? (
         <div
           className="fixed overflow-auto"
           style={{
