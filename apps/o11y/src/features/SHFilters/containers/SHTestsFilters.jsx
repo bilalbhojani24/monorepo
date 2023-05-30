@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { O11Y_DATE_RANGE } from 'constants/common';
 import {
   DatePickerFilterField,
@@ -22,6 +23,7 @@ import {
   getTestsTestTagsData
 } from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
+import PropTypes from 'prop-types';
 
 const SUPPORTED_DATE_RANGE_KEYS = [
   O11Y_DATE_RANGE.days7.key,
@@ -30,8 +32,9 @@ const SUPPORTED_DATE_RANGE_KEYS = [
   O11Y_DATE_RANGE.custom.key
 ];
 
-const SHTestsFilters = () => {
+const SHTestsFilters = ({ o11ySHTestsInteraction }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const activeProject = useSelector(getActiveProject);
   const [showSlideOver, setShowSlideOver] = useState(false);
 
@@ -52,12 +55,35 @@ const SHTestsFilters = () => {
   };
 
   const handleApply = useCallback(() => {
+    o11ySHTestsInteraction('filter_applied');
     setShowSlideOver(false);
-  }, []);
+  }, [o11ySHTestsInteraction]);
 
   const handleClose = useCallback(() => {
     setShowSlideOver(false);
   }, []);
+
+  const handleSearch = useCallback(() => {
+    o11ySHTestsInteraction('search_applied');
+  }, [o11ySHTestsInteraction]);
+
+  const handleDateRangeChange = useCallback(
+    (type, bounds) => {
+      o11ySHTestsInteraction('datetime_filter_applied');
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set('daterangetype', type);
+      if (type === 'custom') {
+        searchParams.set(
+          'dateRange',
+          `${bounds.lowerBound},${bounds.upperBound}`
+        );
+      }
+      navigate({ search: searchParams.toString() });
+      getFilters();
+    },
+    [getFilters, navigate, o11ySHTestsInteraction]
+  );
+
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
@@ -65,11 +91,12 @@ const SHTestsFilters = () => {
           type={ADV_FILTER_TYPES.search.key}
           id="search-by-test-or-file-path"
           placeholder="Search by Test name or File path"
+          onSearch={handleSearch}
         />
         <div className="flex items-center gap-5">
           <DatePickerFilterField
             supportedKeys={SUPPORTED_DATE_RANGE_KEYS}
-            updateFiltersAPI={getFilters}
+            onDateRangeChange={handleDateRangeChange}
           />
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
@@ -161,6 +188,10 @@ const SHTestsFilters = () => {
       </FilterSlideover>
     </div>
   );
+};
+
+SHTestsFilters.propTypes = {
+  o11ySHTestsInteraction: PropTypes.func.isRequired
 };
 
 export default SHTestsFilters;

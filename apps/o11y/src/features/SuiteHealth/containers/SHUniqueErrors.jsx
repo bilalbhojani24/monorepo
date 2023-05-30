@@ -1,4 +1,10 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
@@ -72,6 +78,20 @@ const SnPUniqueErrors = () => {
   const appliedFilters = useSelector(getAllAppliedFilters);
   const isFiltersLoading = useSelector(getIsFiltersLoading);
   const currentFilterCategory = useSelector(getCurrentFilterCategory);
+
+  const o11ySHUEInteraction = useCallback(
+    (interaction) => {
+      logOllyEvent({
+        event: 'O11ySuiteHealthErrorsInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          interaction
+        }
+      });
+    },
+    [activeProject.id, activeProject.name]
+  );
 
   useEffect(() => {
     logOllyEvent({
@@ -170,7 +190,7 @@ const SnPUniqueErrors = () => {
   return (
     <div className={twClassNames('flex flex-col h-full ')}>
       <div className={twClassNames('mb-4 px-6 pt-5')}>
-        <SHUEFilters />
+        <SHUEFilters o11ySHUEInteraction={o11ySHUEInteraction} />
       </div>
       {isLoadingErrors ? (
         <O11yLoader
