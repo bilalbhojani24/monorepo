@@ -1,3 +1,4 @@
+import { reducers as growthReducers } from '@browserstack/growth';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import dashboardReducer from 'features/Dashboard/slices/dashboardSlice';
 import importCSVReducer from 'features/importCSVFlow/slices/importCSVSlice';
@@ -25,7 +26,8 @@ export const store = configureStore({
     importCSV: importCSVReducer,
     dashboard: dashboardReducer,
     settings: settingsReducer,
-    onboarding: onboardingReducer
+    onboarding: onboardingReducer,
+    ...growthReducers
   },
   middleware
 });
