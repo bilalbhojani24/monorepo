@@ -9,7 +9,7 @@ import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 
-const DatePickerFilterField = ({ supportedKeys }) => {
+const DatePickerFilterField = ({ supportedKeys, onDateRangeChange }) => {
   const dispatch = useDispatch();
   const appliedDateRange = useSelector(
     findAppliedFilterByType(ADV_FILTER_TYPES.dateRange.key)
@@ -35,6 +35,7 @@ const DatePickerFilterField = ({ supportedKeys }) => {
         isApplied: true
       })
     );
+    onDateRangeChange(key, timeBounds);
   };
 
   return (
@@ -51,7 +52,12 @@ const DatePickerFilterField = ({ supportedKeys }) => {
 };
 
 DatePickerFilterField.propTypes = {
-  supportedKeys: PropTypes.arrayOf(PropTypes.string).isRequired
+  supportedKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onDateRangeChange: PropTypes.func
+};
+
+DatePickerFilterField.defaultProps = {
+  onDateRangeChange: () => {}
 };
 
 export default DatePickerFilterField;
