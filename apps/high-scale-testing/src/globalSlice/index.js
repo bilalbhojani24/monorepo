@@ -5,6 +5,7 @@ const SLICE_NAME = 'global';
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
+    fetchedGridData: false,
     isLoading: true,
     userDetails: {
       groupId: null,
@@ -20,9 +21,12 @@ const { actions, reducer } = createSlice({
 
       state.isLoading = false;
       state.userDetails = userDetails;
+    },
+    setFetchedGridData: (state, { payload }) => {
+      state.fetchedGridData = payload;
     }
   }
 });
 
-export const { initialiseApplication } = actions;
+export const { initialiseApplication, setFetchedGridData } = actions;
 export default reducer;

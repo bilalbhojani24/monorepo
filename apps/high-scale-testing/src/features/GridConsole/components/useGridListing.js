@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllGridsData } from 'api/index';
+import { setFetchedGridData } from 'globalSlice/index';
 import { getUserDetails } from 'globalSlice/selector';
 
 const useGridListing = () => {
+  const dispatch = useDispatch();
   const isRounded = true;
 
   // All Store variables:
@@ -24,6 +26,7 @@ const useGridListing = () => {
       const res = await fetchAllGridsData(userDetails.id);
 
       setGridList(res.data);
+      dispatch(setFetchedGridData(true));
     };
 
     fetchAllGridsDataFromAPI();
