@@ -51,9 +51,13 @@ const SHTestsFilters = () => {
     setShowSlideOver(!showSlideOver);
   };
 
-  const handleClose = () => {
+  const handleApply = useCallback(() => {
     setShowSlideOver(false);
-  };
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setShowSlideOver(false);
+  }, []);
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
@@ -71,7 +75,11 @@ const SHTestsFilters = () => {
         </div>
       </div>
       <FilterPills />
-      <FilterSlideover show={showSlideOver} onClose={handleClose}>
+      <FilterSlideover
+        show={showSlideOver}
+        onClose={handleClose}
+        onApply={handleApply}
+      >
         <div className="mb-6 flex flex-col gap-6">
           <MultiSelectSearchFilterField
             type={ADV_FILTER_TYPES.uniqueBuildNames.key}
