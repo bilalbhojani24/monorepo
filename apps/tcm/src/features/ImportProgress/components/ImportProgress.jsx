@@ -86,7 +86,11 @@ const ImportProgress = () => {
               detailsNode="View Report"
               alertLinkPosition="inline"
               handleLinkClick={() => showReportModal(importStatus)}
-              description={`${importDetails?.successfullyImportedProjects}/${importDetails?.totalProjects} Projects imported from ${currentTool} successfully.`}
+              description={`${importDetails?.successfullyImportedProjects}/${
+                importDetails?.totalProjects
+              } Projects imported from ${
+                currentTool === ZEPHYR ? 'Zephyr Scale' : 'TestRail'
+              } successfully.`}
             />
           </div>
         );

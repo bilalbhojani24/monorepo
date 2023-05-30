@@ -66,7 +66,7 @@ const ViewReportModal = () => {
       />
       <TMModalBody>
         {reportModalProjects.length > 0 ? (
-          <Table containerWrapperClass="border-base-300 mb-3 rounded-md border min-h-max max-h-[400px] overflow-scroll">
+          <Table containerWrapperClass="border-base-300 mb-3 rounded-md border h-[400px] max-h-[400px] overflow-scroll">
             <TableHead wrapperClassName="bg-base-50">
               <TableRow>
                 {tableColumns.map((col) => (
