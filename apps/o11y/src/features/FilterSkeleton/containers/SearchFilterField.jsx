@@ -10,7 +10,7 @@ import { ADV_FILTER_TYPES, FILTER_OPERATION_TYPE } from '../constants';
 
 const FILTER_FIELD_TYPE = ADV_FILTER_TYPES.search.key;
 
-const SearchFilterField = ({ id, placeholder }) => {
+const SearchFilterField = ({ id, placeholder, onSearch }) => {
   const dispatch = useDispatch();
   const appliedSearchText = useSelector(
     findAppliedFilterByType(FILTER_FIELD_TYPE)
@@ -38,6 +38,7 @@ const SearchFilterField = ({ id, placeholder }) => {
         isApplied: true
       })
     );
+    onSearch();
   };
 
   const handleRemoveSearch = () => {
@@ -51,6 +52,7 @@ const SearchFilterField = ({ id, placeholder }) => {
         isApplied: false
       })
     );
+    onSearch();
   };
 
   const handleInputKeyPress = (e) => {
@@ -86,7 +88,12 @@ const SearchFilterField = ({ id, placeholder }) => {
 
 SearchFilterField.propTypes = {
   id: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired
+  placeholder: PropTypes.string.isRequired,
+  onSearch: PropTypes.func
+};
+
+SearchFilterField.defaultProps = {
+  onSearch: () => {}
 };
 
 export default SearchFilterField;

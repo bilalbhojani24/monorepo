@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
@@ -23,7 +23,8 @@ const TestListFilters = ({ buildUUID }) => {
   const dispatch = useDispatch();
   const aggregatedStatus = useSelector(getAggregatedStatus);
   const [showSlideOver, setShowSlideOver] = useState(false);
-  const { expandAll, invertExpandAll } = useTestListContext();
+  const { expandAll, invertExpandAll, o11yTestListingInteraction } =
+    useTestListContext();
 
   useEffect(() => {
     dispatch(getTestListingFiltersData({ buildId: buildUUID }));
@@ -33,9 +34,18 @@ const TestListFilters = ({ buildUUID }) => {
     setShowSlideOver(!showSlideOver);
   };
 
-  const handleClose = () => {
+  const handleApply = useCallback(() => {
+    o11yTestListingInteraction('filter_applied');
     setShowSlideOver(false);
-  };
+  }, [o11yTestListingInteraction]);
+
+  const handleClose = useCallback(() => {
+    setShowSlideOver(false);
+  }, []);
+
+  const handleSearch = useCallback(() => {
+    o11yTestListingInteraction('search_applied');
+  }, [o11yTestListingInteraction]);
 
   return (
     <div>
@@ -59,6 +69,7 @@ const TestListFilters = ({ buildUUID }) => {
             type={ADV_FILTER_TYPES.search.key}
             id="search-by-test-or-file-path"
             placeholder="Search by Test name or File path"
+            onSearch={handleSearch}
           />
         </div>
         <div className="flex items-center gap-5">
@@ -75,7 +86,11 @@ const TestListFilters = ({ buildUUID }) => {
         }
         wrapperClassName="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6"
       />
-      <FilterSlideover show={showSlideOver} onClose={handleClose}>
+      <FilterSlideover
+        show={showSlideOver}
+        onClose={handleClose}
+        onApply={handleApply}
+      >
         <div className="mb-6 flex flex-col gap-6">
           <MultiSelectStaticFilterField
             type={ADV_FILTER_TYPES.runs.key}
