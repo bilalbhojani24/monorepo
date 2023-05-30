@@ -53,82 +53,10 @@ Primary.parameters = {
 
 Primary.args = {
   children: (
-    <>
-      <GalleryPreview
-        topAction={
-          <div className="bg-base-900 absolute left-0 top-0 flex w-full justify-between p-5 text-white">
-            <div className="flex items-center gap-4">
-              <p className="text-sm font-medium leading-5 text-white">
-                sit amet consectetur adipisicisng elit.
-              </p>
-            </div>
-            <div className="flex gap-4">
-              <MdContentCopy
-                className="h-5 w-5 cursor-pointer"
-                aria-hidden="true"
-              />
-              <HiOutlineDownload
-                className="h-5 w-5 cursor-pointer"
-                aria-hidden="true"
-              />
-              <MdOutlineDelete
-                className="h-5 w-5 cursor-pointer"
-                aria-hidden="true"
-              />
-            </div>
-          </div>
-        }
-        bottomAction={
-          <div>
-            <Button
-              wrapperClassName="rounded-r-none"
-              colors="white"
-              icon={<MinusIcon className="mx-auto h-5 w-5" />}
-              isIconOnlyButton
-            />
-            <Button
-              wrapperClassName="rounded-l-none"
-              colors="white"
-              icon={<PlusIcon className="mx-auto h-5 w-5" />}
-              isIconOnlyButton
-            />
-          </div>
-        }
-      />
-      <GalleryMediaActionbar
-        primaryActions={
-          <div className="flex items-center gap-4">
-            <Checkbox border={false} />
-            <p className="text-base-900 text-sm font-medium leading-5">
-              sit amet consectetur adispisicing elit.
-            </p>
-          </div>
-        }
-        secondaryActions={
-          <div className="flex gap-4">
-            <MdContentCopy
-              className="h-5 w-5 cursor-pointer"
-              aria-hidden="true"
-            />
-            <HiOutlineDownload
-              className="h-5 w-5 cursor-pointer"
-              aria-hidden="true"
-            />
-            <MdOutlineDelete
-              className="h-5 w-5 cursor-pointer"
-              aria-hidden="true"
-            />
-          </div>
-        }
-      />
-      <GalleryMedia
-        wrapperClassName="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
-        data={DummyData}
-      />
-      <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
-        See All
-      </GalleryMediaFooterButton>
-    </>
+    <GalleryMedia
+      wrapperClassName="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+      data={DummyData}
+    />
   ),
   wrapperClassName: ''
 };
@@ -266,34 +194,33 @@ export const GalleryExampleWPreview = () => {
         }
         visible={!!previewItem}
       />
-      {selectedItems.length > 0 && (
-        <GalleryMediaActionbar
-          primaryActions={
-            <div className="flex items-center gap-4">
-              <Checkbox border={false} onChange={(e) => handleBulkSelect(e)} />
-              <p className="text-base-900 text-sm font-medium leading-5">
-                {selectedItems.length} item(s) selected
-              </p>
-            </div>
-          }
-          secondaryActions={
-            <div className="flex gap-4">
-              <MdContentCopy
-                className="h-5 w-5 cursor-pointer"
-                aria-hidden="true"
-              />
-              <HiOutlineDownload
-                className="h-5 w-5 cursor-pointer"
-                aria-hidden="true"
-              />
-              <MdOutlineDelete
-                className="h-5 w-5 cursor-pointer"
-                aria-hidden="true"
-              />
-            </div>
-          }
-        />
-      )}
+      <GalleryMediaActionbar
+        visible={selectedItems.length > 0}
+        primaryActions={
+          <div className="flex items-center gap-4">
+            <Checkbox border={false} onChange={(e) => handleBulkSelect(e)} />
+            <p className="text-base-900 text-sm font-medium leading-5">
+              {selectedItems.length} item(s) selected
+            </p>
+          </div>
+        }
+        secondaryActions={
+          <div className="flex gap-4">
+            <MdContentCopy
+              className="h-5 w-5 cursor-pointer"
+              aria-hidden="true"
+            />
+            <HiOutlineDownload
+              className="h-5 w-5 cursor-pointer"
+              aria-hidden="true"
+            />
+            <MdOutlineDelete
+              className="h-5 w-5 cursor-pointer"
+              aria-hidden="true"
+            />
+          </div>
+        }
+      />
       <GalleryMedia
         wrapperClassName="grid gap-3 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
         onCardClick={(id) => handleCardClick(id)}

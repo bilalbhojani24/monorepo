@@ -183,7 +183,6 @@ const GalleryMedia = ({
           </div>
         </div>
       ))}
-      ;
     </div>
   );
 };
