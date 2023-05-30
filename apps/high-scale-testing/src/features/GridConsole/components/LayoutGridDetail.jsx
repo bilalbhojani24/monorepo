@@ -7,22 +7,26 @@ import ROUTES from '../../../constants/routes';
 import useLayoutGridDetail from './useLayoutGridDetail';
 
 const LayoutGridDetail = () => {
-  const { setTabName, tabName } = useLayoutGridDetail();
+  const { setCurrentTab, currentTab } = useLayoutGridDetail();
 
   const TabsForGridDetail = (
     <Tabs
       tabsArray={[
         {
+          index: 0,
           name: 'Overview'
         },
         {
+          index: 1,
           name: 'Utilization'
         },
         {
+          index: 2,
           name: 'Settings'
         }
       ]}
-      onTabChange={(e) => setTabName(e.name)}
+      onTabChange={(e) => setCurrentTab(e)}
+      defaultIndex={currentTab.index}
     />
   );
 
@@ -33,7 +37,7 @@ const LayoutGridDetail = () => {
           breadcrumbs={[
             { name: 'Grids', url: ROUTES.GRID_CONSOLE, current: false },
             {
-              name: tabName,
+              name: currentTab.name,
               url: '',
               current: true
             }

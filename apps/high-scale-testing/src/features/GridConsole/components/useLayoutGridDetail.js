@@ -24,11 +24,14 @@ const useLayoutGridDetail = () => {
   const userDetails = useSelector(getUserDetails);
 
   // All State variables
-  const [tabName, setTabName] = useState('Overview');
+  const [currentTab, setCurrentTab] = useState({
+    index: 0,
+    name: 'Overview'
+  });
 
   useEffect(() => {
-    navigate(`/grid-console/grid/${paramId}/${tabName.toLowerCase()}`);
-  }, [paramId, tabName]);
+    navigate(`/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}`);
+  }, [paramId, currentTab]);
 
   useEffect(() => {
     const fetchGridDataByIdFromAPI = async (gridId) => {
@@ -44,7 +47,10 @@ const useLayoutGridDetail = () => {
   }, [dispatch, paramId, userDetails]);
 
   useMountEffect(() => {
-    let tabToOpen = 'Overview';
+    let tabToOpen = {
+      index: 0,
+      name: 'Overview'
+    };
     const isOverviewPath = matchPath(
       { path: ROUTES.GRID_OVERVIEW },
       location.pathname
@@ -56,20 +62,30 @@ const useLayoutGridDetail = () => {
     );
 
     if (isOverviewPath !== null) {
-      tabToOpen = 'Overview';
+      tabToOpen = {
+        index: 0,
+        name: 'Overview'
+      };
     } else if (isUtilizationPath !== null) {
-      tabToOpen = 'Utilization';
+      tabToOpen = {
+        index: 1,
+        name: 'Utilization'
+      };
     } else {
-      tabToOpen = 'Settings';
+      tabToOpen = {
+        index: 2,
+        name: 'Settings'
+      };
     }
 
-    setTabName(tabToOpen);
+    setCurrentTab(tabToOpen);
 
-    if (tabToOpen === 'Settings') navigate(location.pathname);
-    else navigate(`/grid-console/grid/${paramId}/${tabToOpen.toLowerCase()}`);
+    if (tabToOpen.name === 'Settings') navigate(location.pathname);
+    else
+      navigate(`/grid-console/grid/${paramId}/${tabToOpen.name.toLowerCase()}`);
   });
 
-  return { setTabName, tabName };
+  return { setCurrentTab, currentTab };
 };
 
 export default useLayoutGridDetail;
