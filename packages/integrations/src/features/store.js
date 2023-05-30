@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import configReducers from '../common/slices/configSlice';
 import globalAlertReducers from '../common/slices/globalAlertSlice';
+import iconsReducers from '../common/slices/iconSlice';
 import optionsReducers from '../common/slices/optionsSlice';
 
 import integrationsReducers from './slices/integrationsSlice';
@@ -18,7 +19,8 @@ export const reducers = {
   globalAlert: globalAlertReducers,
   config: configReducers,
   options: optionsReducers,
-  widget: widgetReducers
+  widget: widgetReducers,
+  icons: iconsReducers
 };
 export const store = configureStore({
   reducer: reducers

@@ -53,7 +53,8 @@ const initialState = {
   },
   usersArray: null,
   resultIssuesArray: [],
-  loadedDataProjectId: null // data fetched for which projectID (to cache data)
+  loadedDataProjectId: null, // data fetched for which projectID (to cache data)
+  uniqueIssueTestResults: []
 };
 
 export const testRunDetailsSlice = createSlice({
@@ -139,6 +140,9 @@ export const testRunDetailsSlice = createSlice({
     setUsers: (state, { payload }) => {
       // prefill for edit
       state.usersArray = payload || initialState.usersArray;
+    },
+    setUniqueIssueTestResults: (state, { payload }) => {
+      state.uniqueIssueTestResults = payload;
     }
   }
 });
@@ -168,7 +172,8 @@ export const {
   setIsLoadingProps,
   setSelectedFolder,
   setAllFolders,
-  setAllTestCases
+  setAllTestCases,
+  setUniqueIssueTestResults
 } = testRunDetailsSlice.actions;
 
 export default testRunDetailsSlice.reducer;
