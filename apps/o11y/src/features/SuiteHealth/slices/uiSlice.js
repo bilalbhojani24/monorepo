@@ -540,6 +540,7 @@ const updateUEFilterFields = (data, dispatch, searchParams) => {
 export const getSnPTestsFiltersData = createAsyncThunk(
   'suitehealth/getSnPTestsFilters',
   async (data, { rejectWithValue, dispatch }) => {
+    dispatch(setIsLoadingBuildsFilters(true));
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_TESTS));
     try {
       const searchString = dispatch(getFilterFromSearchString());
@@ -560,6 +561,7 @@ export const getSnPTestsFiltersData = createAsyncThunk(
 export const getSnPUEFiltersData = createAsyncThunk(
   'suitehealth/getSnPUEFilters',
   async (data, { rejectWithValue, dispatch }) => {
+    dispatch(setIsLoadingBuildsFilters(true));
     dispatch(
       setCurrentFilterCategory(FILTER_CATEGORIES.SUITE_HEALTH_UNIQUE_ERRORS)
     );
