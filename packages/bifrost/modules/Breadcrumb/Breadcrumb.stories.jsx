@@ -67,7 +67,8 @@ const OnlyIconOrText = (args) => <Breadcrumb {...args} />;
 const OnlyIconOrTextVariant = OnlyIconOrText.bind({});
 
 OnlyIconOrTextVariant.args = {
-  data: onlyIconOrTextBreadcrumbData
+  data: onlyIconOrTextBreadcrumbData,
+  ChevronIconClass: 'mr-4'
 };
 
 Primary.play = async ({ canvasElement }) => {
