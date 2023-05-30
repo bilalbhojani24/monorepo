@@ -39,13 +39,13 @@ const encapsulatedHelpMenu = {
           exec(
             `${
               processPathsForMac.bsPerf
-            } diagnostic -p mac -av ${app.getVersion()}`
+            } diagnostic -p mac -av ${app.getVersion()} -bp 3000 -pi 8000`
           );
         } else if (isWindowsMachine) {
           exec(
             `${
               processPathsForWindows.bsPerf
-            } diagnostic -p win -av ${app.getVersion()}`
+            } diagnostic -p win -av ${app.getVersion()} -bp 3000`
           );
         }
       }
