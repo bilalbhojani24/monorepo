@@ -38,17 +38,13 @@ import {
 import UERow from './UERow';
 
 const List = forwardRef((props, ref) => (
-  <div
-    {...props}
-    ref={ref}
-    className="border-base-300 overflow-hidden rounded-b-md border border-t-0"
-  />
+  <div {...props} ref={ref} className="mb-24 overflow-hidden" />
 ));
 
 const Item = (props) => (
   <div
     {...props}
-    className="border-base-200 border-b last-of-type:border-b-0"
+    className="border-base-200 last-of-type:border-base-300 border-x-base-300 overflow-hidden border-x border-b last-of-type:mb-24 last-of-type:rounded-b-md"
   />
 );
 

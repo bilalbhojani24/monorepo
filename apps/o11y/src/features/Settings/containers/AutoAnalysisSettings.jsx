@@ -212,7 +212,7 @@ export default function AutoAnalysisSettings() {
           widthClass="w-16"
         />
       </section>
-      <div className="bg-base-50 sticky bottom-0 z-20 flex justify-end py-3 px-6">
+      <div className="bg-base-50 sticky bottom-0 flex justify-end px-6 py-3">
         <O11yButton
           loading={data.isLoading}
           isIconOnlyButton={data.isLoading}

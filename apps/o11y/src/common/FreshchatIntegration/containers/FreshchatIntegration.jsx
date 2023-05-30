@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { ChatWidget, toggleChatWidget } from '@browserstack/growth';
+import { twClassNames } from '@browserstack/utils';
 import { getModalVersion } from 'common/ModalToShow/slices/selectors';
 import { getActiveFloatingComponents } from 'globalSlice/selectors';
 
@@ -16,7 +17,15 @@ function FreshchatIntegration() {
     }
   }, [activeFloatingComponent, modalToShow]);
 
-  return <ChatWidget />;
+  return (
+    <div
+      className={twClassNames('relative z-10', {
+        hidden: activeFloatingComponent.length || modalToShow
+      })}
+    >
+      <ChatWidget />
+    </div>
+  );
 }
 
 export default React.memo(FreshchatIntegration);
