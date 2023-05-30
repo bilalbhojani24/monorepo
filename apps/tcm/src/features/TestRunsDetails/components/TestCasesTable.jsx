@@ -269,7 +269,7 @@ const TestCasesTable = () => {
               {allTestCases?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TMTableRow isSelected key={row.id || index}>
-                  {testRunDetails?.project_id &&
+                  {testRunDetails?.project_id && // projectID will only exist if the detail has been fetched and ready, else checkbox will be shown during load as well
                     testRunDetails?.run_state !== 'closed' && (
                       <td
                         className={twClassNames(
