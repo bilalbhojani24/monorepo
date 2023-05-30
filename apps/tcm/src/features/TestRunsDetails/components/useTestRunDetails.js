@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   useLocation,
@@ -9,6 +9,7 @@ import {
 import { getTestRunDetailsAPI } from 'api/testruns.api';
 import AppRoute from 'const/routes';
 import useTestRunsTable from 'features/TestRuns/components/useTestRunsTable';
+import { STATE_OPTIONS_ALL } from 'features/TestRuns/const/addEditConst';
 import { TABS_ARRAY } from 'features/TestRuns/const/immutableConst';
 import {
   setIsVisibleProps,
@@ -35,6 +36,7 @@ export default function useTestRunDetails() {
   const { getProgressOptions } = useTestRunsTable();
   const dispatch = useDispatch();
   const sourceTab = location.state?.sourceTab;
+
   const testRunPageQuery =
     sourceTab === TABS_ARRAY[1].name
       ? `?${new URLSearchParams({ closed: true }).toString()}`
@@ -49,6 +51,14 @@ export default function useTestRunDetails() {
   const testCaseDetails = useSelector(
     (state) => state.testRunsDetails.testCaseDetails
   );
+
+  const StatusMeta = useMemo(() => {
+    const match = STATE_OPTIONS_ALL.find(
+      (item) => item.value === testRunDetails?.run_state
+    );
+
+    return match || null;
+  }, [testRunDetails?.run_state]);
 
   const automationTooltipClicked = () => {
     dispatch(logEventHelper('TM_QiViewReportLinkClicked', {}));
@@ -144,6 +154,7 @@ export default function useTestRunDetails() {
   }, [projectId]);
 
   return {
+    StatusMeta,
     sourceTab,
     testRunPageQuery,
     showIssuesHandler,
