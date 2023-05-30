@@ -8,3 +8,7 @@ export const getShowBanner = (state) =>
   state.accessibility.app.dashboard.banner.showBanner;
 export const getTrialState = (state) =>
   state.accessibility.app.dashboard.banner.trialState;
+export const getModalName = (state) =>
+  state.accessibility.app.dashboard.modal.name;
+export const getModalShow = (state) =>
+  state.accessibility.app.dashboard.modal.show;

@@ -6,7 +6,11 @@ const { actions, reducer } = createSlice({
     user: null,
     banner: {
       showBanner: true,
-      trialState: 'expired'
+      trialState: 'notStarted'
+    },
+    modal: {
+      show: false,
+      name: ''
     }
   },
   reducers: {
@@ -15,10 +19,16 @@ const { actions, reducer } = createSlice({
     },
     setShowBanner: (state, { payload }) => {
       state.banner.showBanner = payload;
+    },
+    setModalShow: (state, { payload }) => {
+      state.modal.show = payload;
+    },
+    setModalName: (state, { payload }) => {
+      state.modal.name = payload;
     }
   }
 });
 
-export const { setUser, setShowBanner } = actions;
+export const { setUser, setShowBanner, setModalShow, setModalName } = actions;
 
 export default reducer;

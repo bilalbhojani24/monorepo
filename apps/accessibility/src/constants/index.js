@@ -1,4 +1,5 @@
 import Announcement from 'assets/announcement_logo.svg';
+import AccessibilityPlaceholderImage from 'assets/free_trial_ui.svg';
 import Star from 'assets/star_logo.svg';
 
 export const BASE_ROUTE = '';
@@ -245,5 +246,34 @@ export const getBannerDetails = {
       'Free trial for Team is over. Upgrade to continue using premium features.',
     buttonText: 'Buy a plan',
     color: 'danger'
+  }
+};
+
+export const getModalDetails = {
+  accessibility: {
+    heading: 'Ready to supercharge your accessibility testing?',
+    subHeading:
+      'Try Team plan for free for 14 days. No cards details required.',
+    placeholderImage: AccessibilityPlaceholderImage,
+    content: [
+      'Find advanced issues using Assisted Tests for interactive elements',
+      'Scan 200 pages in one go using Website Scanner and set up unlimited scans to monitor your pages for issues',
+      'Access desktop and mobile screen readers on real devices.',
+      'Extended storage of test reports for up to 180 days'
+    ],
+    buttonText: 'Activate 14-day free trial'
+  },
+  screenReader: {
+    heading: 'Upgrade to use screen readers',
+    subHeading:
+      'Try Team plan for free for 14 days. No cards details required.',
+    placeholderImage: AccessibilityPlaceholderImage,
+    content: [
+      'Access desktop and mobile screen readers on real devices.',
+      'Find advanced issues using Assisted Tests for interactive elements',
+      'Scan 200 pages in one go using Website Scanner and set up unlimited scans to monitor your pages for issues',
+      'Extended storage of test reports for up to 180 days'
+    ],
+    buttonText: 'Activate 14-day free trial'
   }
 };

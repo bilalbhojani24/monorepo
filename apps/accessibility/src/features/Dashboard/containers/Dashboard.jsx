@@ -10,7 +10,8 @@ import {
   SidebarNavigation,
   SkipToContent
 } from '@browserstack/bifrost';
-import ReverseTrialBanner from 'common/ReverseTrialBanner';
+import ReverseTrialBannerWrapper from 'common/ReverseTrialBannerWrapper';
+import ReverseTrialModalWrapper from 'common/ReverseTrialModalWrapper';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 import { getBrowserStackBase } from 'utils';
@@ -106,6 +107,7 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
+      <ReverseTrialModalWrapper name="accessibility" />
       <SkipToContent target={mainRef} wrapperClassName="z-50 bg-white">
         Skip to main content
       </SkipToContent>
@@ -166,7 +168,7 @@ export default function Dashboard({ children }) {
           'docs/accessibility/overview/introduction'
         )}
       />
-      {showBanner ? <ReverseTrialBanner /> : null}
+      <ReverseTrialBannerWrapper />
       <SidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
         sidebarSecondaryNavigation={SWBSidebarSec}
