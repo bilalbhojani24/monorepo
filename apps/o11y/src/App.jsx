@@ -31,10 +31,7 @@ const App = () => {
       {envConfig?.enableAnalytics && <VWO />}
       {Routes}
       <ModalToShow />
-      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-      <div className="relative z-[2]">
-        <FreshchatIntegration />
-      </div>
+      <FreshchatIntegration />
       {portalize(
         hasInitFailed,
         <div className="absolute">
