@@ -127,7 +127,7 @@ export const ModalFeedbackWidget = () => {
         handleFeedbackClick={(i) => console.log(i)}
         flow={[
           {
-            type: 'thumbs',
+            type: 'nps',
             title: 'How was your experience with Lorem Ipsum Modal?',
             description:
               'Emoji Optional description text for added context Modal'

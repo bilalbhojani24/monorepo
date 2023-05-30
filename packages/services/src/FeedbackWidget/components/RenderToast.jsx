@@ -58,10 +58,10 @@ const RenderToast = () => {
       />,
       {
         position: 'bottom-right',
-        autoClose: false,
         id: 'feedback-widget',
         size: 'md',
-        duration: 100000
+        autoClose: false,
+        duration: 2147483647
       }
     );
   }, [

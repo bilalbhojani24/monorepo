@@ -15,7 +15,7 @@ const RenderEmojiThumb = () => {
     <div className="flex justify-center space-x-6">
       {thumbsConstants.map((item) => (
         <Button
-          key={item.label}
+          key={item.id}
           variant="rounded"
           colors="white"
           isIconOnlyButton

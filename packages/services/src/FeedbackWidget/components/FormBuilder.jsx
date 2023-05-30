@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
-import { InputField } from '@browserstack/bifrost';
+import { InputField, TextArea } from '@browserstack/bifrost';
 
-import TextArea from '../../../../bifrost/modules/TextArea/index';
 import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
 const FormBuilder = () => {
@@ -17,7 +16,7 @@ const FormBuilder = () => {
   };
 
   return (
-    <div>
+    <div className="space-y-4">
       {formFields.map((field) => {
         if (field.fieldType === 'textarea')
           return (
