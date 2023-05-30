@@ -205,7 +205,9 @@ NotificationWithBodyContent.args = {
   headerIcon: null,
   description: 'Sent you an invite to connect.',
   title: 'Business call',
-  body: <InputField placeholder="your@gmail.com" label="Business email" />,
+  body: (
+    <InputField id="noti" placeholder="your@gmail.com" label="Business email" />
+  ),
   footer: (
     <div className="flex justify-end">
       <Button>Submit</Button>

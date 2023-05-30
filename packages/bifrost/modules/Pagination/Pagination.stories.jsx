@@ -80,6 +80,13 @@ const defaultConfig = {
       description: 'Hide string with pagination details',
       type: { summary: 'BOOLEAN', required: false },
       defaultValue: false
+    },
+    wrapperClassName: {
+      control: { type: 'text' },
+      type: { summary: 'TEXT', required: false },
+      description:
+        'Additional styles to be passed to the root of the component',
+      defaultValue: ''
     }
   },
   controls: {}
