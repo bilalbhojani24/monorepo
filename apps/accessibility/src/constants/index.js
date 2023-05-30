@@ -277,3 +277,18 @@ export const getModalDetails = {
     buttonText: 'Activate 14-day free trial'
   }
 };
+
+export const getAlertDetails = {
+  getTrial: {
+    title: 'Upgrade to Team plan to use screen readers',
+    detailsNode: 'Get 14-day free trial'
+  },
+  trialInProcess: {
+    title: 'Your free trial is being processed...',
+    detailsNode: ''
+  },
+  buyPlan: {
+    title: 'Upgrade to Team plan to use screen readers',
+    detailsNode: 'Buy a plan'
+  }
+};

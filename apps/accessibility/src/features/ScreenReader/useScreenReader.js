@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
-import fetchScreenReaderDevices from 'api/fetchScreenReaderDevices';
+import { useSelector } from 'react-redux';
+import fetchScreenReaderDevices, {
+  fetchMockData
+} from 'api/fetchScreenReaderDevices';
 import { getBrowserStackEnvUrl } from 'utils';
 
+import { getAlertShow, getShowBanner } from '../Dashboard/slices/selectors';
+
 export default function useScreenReader() {
+  const showBanner = useSelector(getShowBanner);
+  const showAlert = useSelector(getAlertShow);
   const [deviceCombinations, setDeviceCombinations] = useState({});
 
   const handleCardClick = (startParams) => {
@@ -19,8 +26,9 @@ export default function useScreenReader() {
   };
 
   useEffect(() => {
-    fetchScreenReaderDevices().then(setDeviceCombinations);
+    // fetchScreenReaderDevices().then(setDeviceCombinations);
+    fetchMockData().then(setDeviceCombinations);
   }, []);
 
-  return { deviceCombinations, handleCardClick };
+  return { deviceCombinations, handleCardClick, showBanner, showAlert };
 }

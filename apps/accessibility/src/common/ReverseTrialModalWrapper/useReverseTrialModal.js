@@ -1,9 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { setModalShow } from 'features/Dashboard/slices/appSlice';
-import { getModalShow } from 'features/Dashboard/slices/selectors';
+import {
+  getModalName,
+  getModalShow
+} from 'features/Dashboard/slices/selectors';
 
 export default function useReverseTrialModal() {
   const showModal = useSelector(getModalShow);
+  const modalName = useSelector(getModalName);
   const dispatch = useDispatch();
   const handleModalClose = () => {
     dispatch(setModalShow(false));
@@ -11,6 +15,7 @@ export default function useReverseTrialModal() {
 
   return {
     showModal,
-    handleModalClose
+    handleModalClose,
+    modalName
   };
 }

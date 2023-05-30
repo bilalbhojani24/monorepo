@@ -11,6 +11,10 @@ const { actions, reducer } = createSlice({
     modal: {
       show: false,
       name: ''
+    },
+    alert: {
+      show: true,
+      name: 'buyPlan'
     }
   },
   reducers: {
@@ -25,10 +29,23 @@ const { actions, reducer } = createSlice({
     },
     setModalName: (state, { payload }) => {
       state.modal.name = payload;
+    },
+    setAlertShow: (state, { payload }) => {
+      state.alert.show = payload;
+    },
+    setAlertName: (state, { payload }) => {
+      state.alert.name = payload;
     }
   }
 });
 
-export const { setUser, setShowBanner, setModalShow, setModalName } = actions;
+export const {
+  setUser,
+  setShowBanner,
+  setModalShow,
+  setModalName,
+  setAlertName,
+  setAlertShow
+} = actions;
 
 export default reducer;

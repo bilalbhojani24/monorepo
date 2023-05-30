@@ -1,4 +1,5 @@
 import React from 'react';
+import { twClassNames } from '@browserstack/utils';
 import AndroidImage from 'assets/android_icon.svg';
 import MacImage from 'assets/mac_icon.svg';
 import WindowsImage from 'assets/windows_icon.svg';
@@ -9,6 +10,8 @@ import {
 } from 'constants';
 import PropTypes from 'prop-types';
 import { handleClickByEnterOrSpace } from 'utils/helper';
+
+import ReverseTrialAlertWrapper from '../../common/ReverseTrialAlertWrapper';
 
 import useScreenReader from './useScreenReader';
 
@@ -36,7 +39,7 @@ function ScreenReaderSection({ title, devices }) {
             key={`${item.deviceDisplayName || item.osDisplayName}${
               item.browserDisplayName
             }`}
-            className="border-base-300 focus-within:ring-brand-500 hover:border-base-400 relative mr-4 mb-4 flex w-80 items-center space-x-3 rounded-lg border bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-offset-2"
+            className="border-base-300 focus-within:ring-brand-500 hover:border-base-400 relative mb-4 mr-4 flex w-80 items-center space-x-3 rounded-lg border bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-offset-2"
           >
             <div className="shrink-0">
               <img
@@ -76,7 +79,7 @@ function ScreenReaderSection({ title, devices }) {
 }
 
 function ScreenReader() {
-  const { deviceCombinations } = useScreenReader();
+  const { deviceCombinations, showAlert } = useScreenReader();
 
   const shouldShowData = Object.keys(deviceCombinations).some(
     (key) => deviceCombinations[key].length > 0
@@ -93,6 +96,14 @@ function ScreenReader() {
             <p className="text-base-500 text-sm font-medium">
               {SCREEN_READER_HEADER_TITLES.SUB_TITLE}
             </p>
+          </div>
+          <div
+            className={twClassNames({
+              'px-6 pb-6': showAlert,
+              'w-[720px]': showAlert
+            })}
+          >
+            <ReverseTrialAlertWrapper />
           </div>
           <ScreenReaderSection
             title={SCREEN_READER_DEVICE_TITLES.MAC}

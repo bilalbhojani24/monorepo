@@ -12,3 +12,7 @@ export const getModalName = (state) =>
   state.accessibility.app.dashboard.modal.name;
 export const getModalShow = (state) =>
   state.accessibility.app.dashboard.modal.show;
+export const getAlertName = (state) =>
+  state.accessibility.app.dashboard.alert.name;
+export const getAlertShow = (state) =>
+  state.accessibility.app.dashboard.alert.show;

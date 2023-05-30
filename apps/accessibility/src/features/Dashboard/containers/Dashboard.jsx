@@ -10,6 +10,7 @@ import {
   SidebarNavigation,
   SkipToContent
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import ReverseTrialBannerWrapper from 'common/ReverseTrialBannerWrapper';
 import ReverseTrialModalWrapper from 'common/ReverseTrialModalWrapper';
 import { getUrlForHeader } from 'constants';
@@ -107,7 +108,7 @@ export default function Dashboard({ children }) {
 
   return (
     <div>
-      <ReverseTrialModalWrapper name="accessibility" />
+      <ReverseTrialModalWrapper />
       <SkipToContent target={mainRef} wrapperClassName="z-50 bg-white">
         Skip to main content
       </SkipToContent>
@@ -172,13 +173,16 @@ export default function Dashboard({ children }) {
       <SidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
         sidebarSecondaryNavigation={SWBSidebarSec}
-        wrapperClassName={`bg-white mt-5 ${showBanner ? 'pt-32' : 'pt-16'}`}
+        wrapperClassName={twClassNames('bg-white mt-5', {
+          'pt-32': showBanner,
+          'pt-16': !showBanner
+        })}
       />
       <main
         ref={mainRef}
         className="bg-base-50 mt-16 h-full pl-64"
         style={{
-          marginTop: showBanner ? '128px' : '0'
+          marginTop: showBanner ? '128px' : '64px'
         }}
       >
         {children}
