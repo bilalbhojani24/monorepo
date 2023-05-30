@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import {
@@ -25,10 +25,15 @@ const FilterPills = () => {
     );
   };
 
+  const allAppliedFilters = useMemo(
+    () => appliedFilters.filter((appFilter) => appFilter.type !== 'search'),
+    [appliedFilters]
+  );
+
   const handleRemoveAll = () => {
     dispatch(clearFilters());
   };
-  if (!appliedFilters.length) {
+  if (!allAppliedFilters.length) {
     return null;
   }
 
