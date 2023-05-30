@@ -14,6 +14,7 @@ const useLayoutGridDetail = () => {
   const location = useLocation();
   const paramId = params.id; // grid id
 
+  // All State variables
   const [tabName, setTabName] = useState('Overview');
 
   useEffect(() => {
