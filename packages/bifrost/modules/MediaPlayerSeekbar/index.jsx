@@ -132,7 +132,7 @@ const MediaPlayerSeekbar = forwardRef(
             <div
               role="presentation"
               className={twClassNames(
-                'group relative rounded-full bg-base-200 h-1 ease-in-out duration-300 hover:mb-0.5 hover:h-2 w-full cursor-pointer'
+                'group relative rounded-full bg-base-200 h-1 ease-in-out duration-300 hover:mb-0 hover:h-2 w-full cursor-pointer'
               )}
               ref={seekbarRef}
               onMouseDown={handleSeekbarMouseDown}
@@ -154,7 +154,7 @@ const MediaPlayerSeekbar = forwardRef(
               {showMarkers && (
                 <div
                   className={twClassNames(
-                    'absolute top-1/2 -translate-y-1/2 w-full h-1 ease-in-out duration-300 group-hover:h-2 rounded-lg overflow-hidden'
+                    'absolute mb-0.5 group-hover:mb-0 top-1/2 -translate-y-1/2 w-full h-1 ease-in-out duration-300 group-hover:h-2 rounded-lg overflow-hidden'
                   )}
                 >
                   {exceptions?.map(
