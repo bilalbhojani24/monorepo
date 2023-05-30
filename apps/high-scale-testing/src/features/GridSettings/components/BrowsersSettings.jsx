@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Button,
   ComboBox,
@@ -9,6 +10,7 @@ import {
   InputField,
   InputGroupAddOn
 } from '@browserstack/bifrost';
+import { getGridData } from 'features/GridConsole/slices/selector';
 
 const BrowsersSettings = () => {
   const allAvailableBrowsers = [
@@ -16,6 +18,46 @@ const BrowsersSettings = () => {
     { label: 'Firefox', value: 'Firefox' },
     { label: 'Edge', value: 'Edge' }
   ];
+
+  // All Store variables:
+  const gridData = useSelector(getGridData);
+
+  // All State variables:
+  const [cpuValue, setCpuValue] = useState(
+    gridData.browserSettings.resources.cpu
+  );
+  const [memoryLimitValue, setMemoryLimitValue] = useState(
+    gridData.browserSettings.resources.memory
+  );
+
+  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
+  const [isSavingInProgress, setIsSavingInProgress] = useState(false);
+
+  const onCPUChangeHandler = (e) => {
+    const newValue = e.target.value;
+
+    setIsSaveButtonDisabled(false);
+    setCpuValue(newValue);
+  };
+
+  const onMemoryLimitChangeHandler = (e) => {
+    const newValue = e.target.value;
+
+    setIsSaveButtonDisabled(false);
+    setMemoryLimitValue(newValue);
+  };
+
+  const updateGridBrowserSettings = () => {};
+
+  const saveBtnClickhandler = () => {
+    setIsSavingInProgress(true);
+    const settingsObj = {
+      cpu: cpuValue,
+      memory: memoryLimitValue
+    };
+    updateGridBrowserSettings(settingsObj);
+  };
+
   return (
     <>
       {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
@@ -40,17 +82,15 @@ const BrowsersSettings = () => {
             requirements.
           </p>
 
-          <div className="mt-3 w-1/12">
+          <div className="mt-3 w-2/12">
             <InputField
               addOnAfter={
                 <InputGroupAddOn position="end">Unit</InputGroupAddOn>
               }
+              defaultValue={cpuValue}
+              disabled={isSavingInProgress}
               id="test-id"
-              onBlur={null}
-              onChange={null}
-              onFocus={null}
-              onKeyDown={null}
-              placeholder="0.5"
+              onChange={onCPUChangeHandler}
             />
           </div>
         </div>
@@ -67,15 +107,15 @@ const BrowsersSettings = () => {
             your testing requirements.
           </p>
 
-          <div className="mt-3 w-1/12">
+          <div className="mt-3 w-2/12">
             <InputField
               addOnAfter={<InputGroupAddOn position="end">M</InputGroupAddOn>}
+              defaultValue={memoryLimitValue}
+              disabled={isSavingInProgress}
               id="test-id"
-              onBlur={null}
-              onChange={null}
-              onFocus={null}
+              onChange={onMemoryLimitChangeHandler}
               onKeyDown={null}
-              placeholder="500"
+              type="number"
             />
           </div>
         </div>
@@ -110,7 +150,13 @@ const BrowsersSettings = () => {
         {/* --- X --- Browsers Allowed --- X --- */}
       </div>
       <div className="bg-base-50 flex flex-row-reverse px-6 py-3">
-        <Button> Save Changes </Button>
+        <Button
+          disabled={isSaveButtonDisabled}
+          loading={isSavingInProgress}
+          onClick={saveBtnClickhandler}
+        >
+          Save Changes
+        </Button>
       </div>
     </>
   );
