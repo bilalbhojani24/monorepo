@@ -15,7 +15,7 @@ export const getTestList = async ({ buildId, pagingParams, searchString }) => {
   }
   const searchParamsStr = searchParams.toString();
   return axios.get(
-    `${versionedBaseRoute()}/builds/${buildId}/testRuns?${
+    `${versionedBaseRoute()}/builds/v2/${buildId}/testRuns?${
       searchParamsStr ? `${searchParamsStr}` : ''
     }`
   );
