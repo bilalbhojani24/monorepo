@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, PageHeadings, Tabs } from '@browserstack/bifrost';
 
 import ClustersListing from './ClustersListing';
@@ -27,20 +27,23 @@ const GridConsole = () => {
         <Tabs
           tabsArray={[
             {
+              index: 0,
               name: 'Grids',
               value: 'grids'
             },
             {
+              index: 1,
               name: 'Clusters',
               value: 'clusters'
             }
           ]}
-          onTabChange={(e) => setCurrentListingType(e.value)}
+          onTabChange={(e) => setCurrentListingType(e)}
+          defaultIndex={currentListingType.index}
         />
       </div>
 
-      {currentListingType === 'grids' && <GridsListing />}
-      {currentListingType === 'clusters' && <ClustersListing />}
+      {currentListingType.value === 'grids' && <GridsListing />}
+      {currentListingType.value === 'clusters' && <ClustersListing />}
       {showCreateGridCLIModal && <CreateGridCLIModal />}
     </div>
   );

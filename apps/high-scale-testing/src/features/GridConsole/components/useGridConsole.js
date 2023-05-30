@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 
 const useGridConsole = () => {
-  const [currentListingType, setCurrentListingType] = useState('grids');
+  const [currentListingType, setCurrentListingType] = useState({
+    index: 0,
+    name: 'Grids',
+    value: 'grids'
+  });
   const [showCreateGridCLIModal, setShowCreateGridCLIModal] = useState(false);
 
   const createGridBtnHandler = () => {
@@ -9,7 +13,11 @@ const useGridConsole = () => {
   };
 
   useEffect(() => {
-    setCurrentListingType('grids');
+    setCurrentListingType({
+      index: 0,
+      name: 'Grids',
+      value: 'grids'
+    });
   }, []);
 
   return {
