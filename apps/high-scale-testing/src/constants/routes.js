@@ -10,6 +10,7 @@ const ROUTES = {
   GRID_SETTINGS_TIMEOUT: '/grid-console/grid/:id/settings/timeout',
   GRID_SETTINGS_TEST_ARTIFACTS:
     '/grid-console/grid/:id/settings/test-artifacts',
+  GRID_UTILIZATION: '/grid-console/grid/:id/utilization',
   ONBOARDING: '/setup',
   SIGN_OUT: '/sign-out'
 };

@@ -4,7 +4,7 @@ import { Button, InputField, InputGroupAddOn } from '@browserstack/bifrost';
 const TimeoutSettings = () => (
   <>
     {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-    <div className="h-[calc(100vh-64px-134px-48px-62px)] p-6">
+    <div className="h-[calc(100vh-64px-134px-48px-62px)] overflow-auto p-6">
       <p className="text-base-900 text-lg font-medium">Timeout Settings</p>
       <p className="text-base-500 text-sm">
         Configure different timeouts as per your testing requirement.
