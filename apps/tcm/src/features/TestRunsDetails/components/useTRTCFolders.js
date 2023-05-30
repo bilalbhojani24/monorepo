@@ -24,6 +24,7 @@ import {
   setSelectedTestCase,
   setTestCaseDetails,
   setTestResultsArray,
+  setUniqueIssueTestResults,
   updateAddStatusForm
 } from '../slices/testRunDetailsSlice';
 
@@ -93,6 +94,7 @@ export default function useTRTCFolders() {
   const loadTestResults = (testCaseId) => {
     getTestResultsAPI({ projectId, testRunId, testCaseId }).then((data) => {
       dispatch(setTestResultsArray(data?.['test-results']));
+      dispatch(setUniqueIssueTestResults(data?.unique_issues));
     });
   };
 
@@ -198,6 +200,7 @@ export default function useTRTCFolders() {
       );
       dispatch(setSelectedTestCase(null));
       dispatch(addTestResultItem(data.data['test-result']));
+      dispatch(setUniqueIssueTestResults(data?.data?.unique_issues));
       fetchTestRunDetails(true, true);
       closeAll();
     });

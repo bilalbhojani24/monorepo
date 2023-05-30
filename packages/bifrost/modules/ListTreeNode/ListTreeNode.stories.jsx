@@ -21,6 +21,14 @@ const defaultConfig = {
     nodeLabelClassName: {
       option: { type: 'string' },
       defaultValue: 'max-w-sm'
+    },
+    label: {
+      option: { type: 'string' },
+      defaultValue: 'Sample Name'
+    },
+    ariaLabel: {
+      option: { type: 'string' },
+      defaultValue: 'Sample Name'
     }
   },
   controls: {}
@@ -28,7 +36,11 @@ const defaultConfig = {
 
 const FolderNodeTemplate = (args) => (
   <Disclosure>
-    <ListTreeNode {...args} />
+    <div role="tree">
+      <div role="group">
+        <ListTreeNode {...args} />
+      </div>
+    </div>
   </Disclosure>
 );
 
