@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { getBannerDetails } from 'constants';
+import { getBannerDetails, TRIAL_NOT_STARTED } from 'constants';
 import {
   setModalName,
   setModalShow,
@@ -21,7 +21,7 @@ export default function useReverseTrialBanner() {
   };
 
   const handleBannerButtonClick = () => {
-    if (trialState === 'notStarted') {
+    if (trialState === TRIAL_NOT_STARTED) {
       dispatch(setModalName('accessibility'));
       dispatch(setModalShow(true));
       dispatch(setShowBanner(true));

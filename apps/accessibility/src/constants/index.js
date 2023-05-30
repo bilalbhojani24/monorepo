@@ -219,6 +219,13 @@ export const ANALYTICS_KEYS = {
   }
 };
 
+const BUY_PLAN = 'Buy a plan';
+
+export const TRIAL_NOT_STARTED = 'notStarted';
+export const TRIAL_STARTED = 'started';
+export const TRIAL_IN_PROGRESS = 'inProgress';
+export const TRIAL_EXPIRED = 'expired';
+
 export const getBannerDetails = {
   notStarted: {
     icon: Star,
@@ -237,14 +244,14 @@ export const getBannerDetails = {
     icon: Announcement,
     description:
       'Your Team free trial is ending in 3 days. Upgrade to continue using premium features.',
-    buttonText: 'Buy a plan',
+    buttonText: BUY_PLAN,
     color: 'attention'
   },
   expired: {
     icon: Announcement,
     description:
       'Free trial for Team is over. Upgrade to continue using premium features.',
-    buttonText: 'Buy a plan',
+    buttonText: BUY_PLAN,
     color: 'danger'
   }
 };
@@ -289,6 +296,6 @@ export const getAlertDetails = {
   },
   buyPlan: {
     title: 'Upgrade to Team plan to use screen readers',
-    detailsNode: 'Buy a plan'
+    detailsNode: BUY_PLAN
   }
 };
