@@ -23,11 +23,11 @@ const TestsMetrics = () => {
   const currentFilterCategory = useSelector(getCurrentFilterCategory);
 
   useEffect(() => {
+    setIsLoading(true);
     if (
       !isFiltersLoading &&
       currentFilterCategory === FILTER_CATEGORIES.SUITE_HEALTH_TESTS
     ) {
-      setIsLoading(true);
       dispatch(
         getSnPTestsMetricsData({
           normalisedName: activeProject?.normalisedName

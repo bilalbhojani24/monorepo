@@ -23,11 +23,11 @@ const UEMetrics = () => {
   const currentFilterCategory = useSelector(getCurrentFilterCategory);
 
   useEffect(() => {
+    setIsLoading(true);
     if (
       !isFiltersLoading &&
       currentFilterCategory === FILTER_CATEGORIES.SUITE_HEALTH_UNIQUE_ERRORS
     ) {
-      setIsLoading(true);
       dispatch(
         getSnPUEMetricsData({
           normalisedName: activeProject?.normalisedName
