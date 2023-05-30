@@ -1,9 +1,10 @@
-import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { matchPath, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { SidebarItem, SidebarNavigation } from '@browserstack/bifrost';
 import ROUTES from 'constants/routes';
 
 const GridSettings = () => {
+  const location = useLocation();
   const navigate = useNavigate();
 
   const navItems = [
@@ -37,6 +38,11 @@ const GridSettings = () => {
     }
   ];
 
+  const isCurrent = useCallback(
+    (navItem) => !!matchPath({ path: navItem.path }, location.pathname),
+    [location.pathname]
+  );
+
   const navigationClickHandler = (item) => {
     const { path } = item;
     navigate(path);
@@ -47,13 +53,19 @@ const GridSettings = () => {
       <SidebarNavigation
         sidebarPrimaryNavigation={navItems.map((item) => (
           <SidebarItem
+            current={isCurrent(item)}
             nav={item}
             handleNavigationClick={navigationClickHandler}
           />
         ))}
-        wrapperClassName="md:sticky bg-base-50 py-5 px-2 w-64 flex-none md:inset-y-16"
+        wrapperClassName=" border-0 md:sticky bg-base-50 p-6 w-64 flex-none md:inset-y-16"
       />
-      <Outlet />
+
+      <div className="border-base-200 my-6 mr-6 grow rounded-lg border">
+        <div className="bg-white ">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 };

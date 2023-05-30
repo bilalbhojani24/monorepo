@@ -17,8 +17,9 @@ const BrowsersSettings = () => {
     { label: 'Edge', value: 'Edge' }
   ];
   return (
-    <div className="grow bg-white ">
-      <div className="p-6">
+    <>
+      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+      <div className="h-[calc(100vh-64px-134px-48px-62px)] p-6">
         <p className="text-base-900 text-lg font-medium">
           Browser Related Settings
         </p>
@@ -108,10 +109,10 @@ const BrowsersSettings = () => {
         </div>
         {/* --- X --- Browsers Allowed --- X --- */}
       </div>
-      <div className="bg-base-50 px-6 py-3">
+      <div className="bg-base-50 flex flex-row-reverse px-6 py-3">
         <Button> Save Changes </Button>
       </div>
-    </div>
+    </>
   );
 };
 
