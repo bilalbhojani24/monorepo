@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { O11Y_DATE_RANGE } from 'constants/common';
 import {
   DatePickerFilterField,
@@ -21,6 +22,7 @@ import {
   getUETestTagsData
 } from 'features/SuiteHealth/slices/uiSlice';
 import { getActiveProject } from 'globalSlice/selectors';
+import PropTypes from 'prop-types';
 
 const SUPPORTED_DATE_RANGE_KEYS = [
   O11Y_DATE_RANGE.days7.key,
@@ -29,8 +31,9 @@ const SUPPORTED_DATE_RANGE_KEYS = [
   O11Y_DATE_RANGE.custom.key
 ];
 
-const SHUEFilters = () => {
+const SHUEFilters = ({ o11ySHUEInteraction }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const activeProject = useSelector(getActiveProject);
   const [showSlideOver, setShowSlideOver] = useState(false);
 
@@ -51,12 +54,35 @@ const SHUEFilters = () => {
   };
 
   const handleApply = useCallback(() => {
+    o11ySHUEInteraction('filter_applied');
     setShowSlideOver(false);
-  }, []);
+  }, [o11ySHUEInteraction]);
 
   const handleClose = useCallback(() => {
     setShowSlideOver(false);
   }, []);
+
+  const handleSearch = useCallback(() => {
+    o11ySHUEInteraction('search_applied');
+  }, [o11ySHUEInteraction]);
+
+  const handleDateRangeChange = useCallback(
+    (type, bounds) => {
+      o11ySHUEInteraction('datetime_filter_applied');
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.set('daterangetype', type);
+      if (type === 'custom') {
+        searchParams.set(
+          'dateRange',
+          `${bounds.lowerBound},${bounds.upperBound}`
+        );
+      }
+      navigate({ search: searchParams.toString() });
+      getFilters();
+    },
+    [getFilters, navigate, o11ySHUEInteraction]
+  );
+
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
@@ -64,11 +90,12 @@ const SHUEFilters = () => {
           type={ADV_FILTER_TYPES.search.key}
           id="search-by-test-or-file-path"
           placeholder="Search by error"
+          onSearch={handleSearch}
         />
         <div className="flex items-center gap-5">
           <DatePickerFilterField
             supportedKeys={SUPPORTED_DATE_RANGE_KEYS}
-            updateFiltersAPI={getFilters}
+            onDateRangeChange={handleDateRangeChange}
           />
           <FilterSlideoverTrigger onClick={handleTriggerClick} />
         </div>
@@ -155,6 +182,10 @@ const SHUEFilters = () => {
       </FilterSlideover>
     </div>
   );
+};
+
+SHUEFilters.propTypes = {
+  o11ySHUEInteraction: PropTypes.func.isRequired
 };
 
 export default SHUEFilters;

@@ -14,6 +14,7 @@ import {
   setSelectedFilterAsApplied
 } from 'features/AllBuilds/slices/buildsSlice';
 import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
+import PropTypes from 'prop-types';
 
 import BuildFrameworkFilter from './BuildFrameworkFilter';
 import BuildStatusFilter from './BuildStatusFilter';
@@ -21,7 +22,7 @@ import DateRangeFilter from './DateRangeFilter';
 import TagsFilters from './TagsFilter';
 import UsersFilters from './UsersFilter';
 
-const Filters = () => {
+const Filters = ({ onApplyFilters }) => {
   const dispatch = useDispatch();
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
 
@@ -38,6 +39,7 @@ const Filters = () => {
     hideSlideover();
   };
   const onApplyFilterClick = () => {
+    onApplyFilters();
     dispatch(setSelectedFilterAsApplied());
     hideSlideover();
   };
@@ -97,6 +99,10 @@ const Filters = () => {
       </O11yButton>
     </>
   );
+};
+
+Filters.propTypes = {
+  onApplyFilters: PropTypes.func.isRequired
 };
 
 export default Filters;
