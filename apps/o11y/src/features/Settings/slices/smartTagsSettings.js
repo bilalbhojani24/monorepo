@@ -11,7 +11,7 @@ export const getSmartTags = createAsyncThunk(
   `${SLICE_NAME}/getSmartTags`,
   async (data, { rejectWithValue }) => {
     try {
-      const response = await getSettingsByKey('smart-tags', { ...data });
+      const response = await getSettingsByKey('smartTags', { ...data });
       return {
         data: response.data,
         localState: response.data,
@@ -27,7 +27,7 @@ export const submitSmartTagsChanges = createAsyncThunk(
   async (data, { rejectWithValue, getState }) => {
     const currentState = getSmartTagsSettings(getState());
     try {
-      await updateSettingsByKey('smart-tags', {
+      await updateSettingsByKey('smartTags', {
         ...data,
         payload: currentState.localState
       });

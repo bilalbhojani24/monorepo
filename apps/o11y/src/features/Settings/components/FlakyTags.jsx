@@ -44,10 +44,11 @@ export const FlakyTags = ({ data, isActive }) => {
 
   const { automaticFlaky, flakeInHistory, flakeInRerun } = data;
   const {
-    testStatusFlipping: testStatusFlippingDefault,
-    testStatusFlippingTotal: testStatusFlippingTotalDefault
+    flippingPercentage: flippingPercentageDefault,
+    consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.flaky.flakeInHistory;
-  const { rerun: rerunDefault } = SMART_TAGS_DEFAULT_VALUES.flaky.flakeInRerun;
+  const { consecutiveRuns: rerunDefault } =
+    SMART_TAGS_DEFAULT_VALUES.flaky.flakeInRerun;
 
   const saveAndSubmitData = (payload) => {
     setIsSubmittingData(true);
@@ -85,7 +86,7 @@ export const FlakyTags = ({ data, isActive }) => {
           ...data,
           flakeInHistory: {
             ...flakeInHistory,
-            testStatusFlipping: item.value
+            flippingPercentage: item.value
           }
         }
       })
@@ -123,7 +124,7 @@ export const FlakyTags = ({ data, isActive }) => {
           ...data,
           flakeInRerun: {
             ...flakeInRerun,
-            rerun: item.value
+            flippingPercentage: item.value
           }
         }
       })
@@ -155,7 +156,7 @@ export const FlakyTags = ({ data, isActive }) => {
           <div className="flex justify-between">
             <p className="text-base-900">Flake in history of test execution</p>
             <O11ySwitcher
-              checked={flakeInHistory?.enabled}
+              checked={flakeInHistory.enabled}
               onChange={setTestStatusFlippingSwitch}
               disabled={isActive ? !automaticFlaky : true}
               loading={isSubmittingData}
@@ -166,16 +167,16 @@ export const FlakyTags = ({ data, isActive }) => {
             <span className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{
-                  label: flakeInHistory?.testStatusFlipping,
-                  value: flakeInHistory?.testStatusFlipping
+                  label: flakeInHistory.flippingPercentage,
+                  value: flakeInHistory.flippingPercentage
                 }}
                 onChange={setTestStatusFlipping}
                 defaultValue={{
-                  label: testStatusFlippingDefault,
-                  value: testStatusFlippingDefault
+                  label: flippingPercentageDefault,
+                  value: flippingPercentageDefault
                 }}
                 disabled={
-                  !isActive || !flakeInHistory?.enabled || !automaticFlaky
+                  !isActive || !flakeInHistory.enabled || !automaticFlaky
                 }
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
@@ -198,16 +199,16 @@ export const FlakyTags = ({ data, isActive }) => {
             <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{
-                  label: flakeInHistory?.testStatusFlippingTotal,
-                  value: flakeInHistory?.testStatusFlippingTotal
+                  label: flakeInHistory.consecutiveRuns,
+                  value: flakeInHistory.consecutiveRuns
                 }}
                 onChange={setTestStatusFlippingTotal}
                 defaultValue={{
-                  label: testStatusFlippingTotalDefault,
-                  value: testStatusFlippingTotalDefault
+                  label: consecutiveRunsDefault,
+                  value: consecutiveRunsDefault
                 }}
                 disabled={
-                  !isActive || !flakeInHistory?.enabled || !automaticFlaky
+                  !isActive || !flakeInHistory.enabled || !automaticFlaky
                 }
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
@@ -234,7 +235,7 @@ export const FlakyTags = ({ data, isActive }) => {
           <div className="flex justify-between">
             <p className="text-base-900">Flake in test re-runs</p>
             <O11ySwitcher
-              checked={flakeInRerun?.enabled}
+              checked={flakeInRerun.enabled}
               onChange={setFlakeInRerunSwitch}
               disabled={isActive ? !automaticFlaky : true}
               loading={isSubmittingData}
@@ -245,14 +246,12 @@ export const FlakyTags = ({ data, isActive }) => {
             <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{
-                  label: flakeInRerun?.rerun,
-                  value: flakeInRerun?.rerun
+                  label: flakeInRerun.consecutiveRuns,
+                  value: flakeInRerun.consecutiveRuns
                 }}
                 onChange={setFlakeInRerun}
                 defaultValue={{ label: rerunDefault, value: rerunDefault }}
-                disabled={
-                  !isActive || !flakeInRerun?.enabled || !automaticFlaky
-                }
+                disabled={!isActive || !flakeInRerun.enabled || !automaticFlaky}
               >
                 <O11ySelectMenuTrigger placeholder="Select" />
                 <O11ySelectMenuOptionGroup>

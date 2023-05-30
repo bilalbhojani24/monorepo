@@ -76,21 +76,21 @@ function Copy2Clipboard({
 }
 
 Copy2Clipboard.propTypes = {
-  text: PropTypes.string,
-  showBtnText: PropTypes.bool,
-  onCopyCb: PropTypes.func,
-  wrapperClassName: PropTypes.string,
   btnText: PropTypes.string,
-  icon: PropTypes.node
+  icon: PropTypes.node,
+  onCopyCb: PropTypes.func,
+  showBtnText: PropTypes.bool,
+  text: PropTypes.string,
+  wrapperClassName: PropTypes.string
 };
 
 Copy2Clipboard.defaultProps = {
-  text: '',
-  showBtnText: false,
-  onCopyCb: () => {},
-  wrapperClassName: '',
   btnText: 'Copy to clipboard',
-  icon: null
+  icon: null,
+  onCopyCb: () => {},
+  showBtnText: false,
+  text: '',
+  wrapperClassName: ''
 };
 
 export default Copy2Clipboard;

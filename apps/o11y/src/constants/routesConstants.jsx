@@ -5,7 +5,6 @@ import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
-import SmartTags from 'features/Settings/containers/SmartTags';
 
 import { ROUTES } from './routes';
 
@@ -37,6 +36,10 @@ const ReRunSettings = React.lazy(() =>
 );
 const NotificationsSettings = React.lazy(() =>
   import('features/Settings/containers/NotificationsSettings')
+);
+
+const SmartTags = React.lazy(() =>
+  import('features/Settings/containers/SmartTags')
 );
 
 const SuiteHealth = React.lazy(() => import('features/SuiteHealth'));
@@ -148,6 +151,11 @@ export const APP_ROUTES = [
             path: ROUTES.settings_notifications,
             isProtected: true,
             component: <NotificationsSettings />
+          },
+          {
+            path: ROUTES.smart_tags,
+            isProtected: true,
+            component: <SmartTags />
           }
         ]
       },

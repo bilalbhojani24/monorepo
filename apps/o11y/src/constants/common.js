@@ -7,7 +7,7 @@ export const DOC_KEY_MAPPING = {
   mocha: 'quick-start/mocha',
   mute: 'features/mute-tests',
   re_run: 'features/re-run',
-  smart_tags: 'features/smart-tags',
+  smart_tags: 'features/smartTags',
   source_code: 'integrations/source-code',
   testng: 'quick-start/testng',
   tnc: `references/terms-and-conditions`,
