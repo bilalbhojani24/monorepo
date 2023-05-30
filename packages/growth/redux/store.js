@@ -1,11 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import chatWidgetSlice from '../modules/ChatWidget/slices/chatWidgetSlices';
+import { chatWidgetSlice } from '../modules/ChatWidget/slices/chatWidgetSlices';
 
-export const reducers = {
-  chatWidget: chatWidgetSlice
-};
+const rootReducers = combineReducers({
+  chatWidget: chatWidgetSlice.reducer
+});
 
 export const store = configureStore({
-  reducer: reducers
+  reducer: rootReducers
 });
