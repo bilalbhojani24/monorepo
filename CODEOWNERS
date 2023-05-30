@@ -3,7 +3,7 @@
 * @browserstack/central-frontend
 
 # TCM
-apps/tcm/* @browserstack/tm-frontend
+apps/tcm/** @browserstack/tm-frontend
 
 # All package.json this needs to be at the end of the file
 **/package.json @browserstack/central-frontend
