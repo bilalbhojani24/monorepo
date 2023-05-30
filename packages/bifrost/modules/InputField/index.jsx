@@ -37,7 +37,7 @@ const InputField = forwardRef(
     },
     ref
   ) => (
-    <>
+    <div>
       {(label || cornerHintText) && (
         <div className="mb-1 flex justify-between" role={role}>
           <label
@@ -138,7 +138,7 @@ const InputField = forwardRef(
       {description && (
         <p className="text-base-500 mt-2 text-sm">{description}</p>
       )}
-    </>
+    </div>
   )
 );
 
