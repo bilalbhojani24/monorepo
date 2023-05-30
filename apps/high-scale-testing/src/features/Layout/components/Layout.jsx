@@ -1,5 +1,5 @@
-import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import React, { useCallback } from 'react';
+import { matchPath, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   HomeIcon,
   MdOutlineTextSnippet,
@@ -11,6 +11,7 @@ import ROUTES from 'constants/routes';
 import HSTHeader from 'features/HSTHeader/component';
 
 const Layout = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const primaryNavs = [
     {
@@ -18,14 +19,16 @@ const Layout = () => {
       label: 'Automation Console',
       activeIcon: HomeIcon,
       inActiveIcon: HomeIcon,
-      path: ROUTES.GRID_CONSOLE
+      path: ROUTES.GRID_CONSOLE,
+      pattern: `${ROUTES.GRID_CONSOLE}/*`
     },
     {
       id: 'team',
       label: 'Builds Dashboard',
       activeIcon: UsersIcon,
       inActiveIcon: UsersIcon,
-      path: ROUTES.BUILDS
+      path: ROUTES.BUILDS,
+      pattern: `${ROUTES.BUILDS}/*`
     }
   ];
 
@@ -38,6 +41,11 @@ const Layout = () => {
       path: '/'
     }
   ];
+
+  const isCurrent = useCallback(
+    (navItem) => !!matchPath({ path: navItem.pattern }, location.pathname),
+    [location.pathname]
+  );
 
   const navigationClickHandler = (item) => {
     const { path } = item;
@@ -58,6 +66,7 @@ const Layout = () => {
           <SidebarNavigation
             sidebarPrimaryNavigation={primaryNavs.map((item) => (
               <SidebarItem
+                current={isCurrent(item)}
                 nav={item}
                 handleNavigationClick={navigationClickHandler}
               />
