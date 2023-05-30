@@ -55,14 +55,14 @@ const useFilter = (prop) => {
   const isSearchFilterView = useSelector(
     (state) => state.repository.isSearchFilterView
   );
-  const PRIORITY_OPTIONS = useSelector(
-    (state) => state.repository.PRIORITY_OPTIONS
+  const priorityOptions = useSelector(
+    (state) => state.repository.priorityOptions
   );
-  const priorityIntNameAndValueMapTC = useSelector(
-    (state) => state.repository.priorityIntNameAndValueMapTC
+  const priorityValueAndIntNameMapTC = useSelector(
+    (state) => state.repository.priorityValueAndIntNameMapTC
   );
-  const priorityNameAndValueMapTC = useSelector(
-    (state) => state.repository.priorityNameAndValueMapTC
+  const priorityValueAndNameMapTC = useSelector(
+    (state) => state.repository.priorityValueAndNameMapTC
   );
 
   const updateFilterSearchMeta = (data) => {
@@ -245,9 +245,6 @@ const useFilter = (prop) => {
     }
   };
 
-  // const handleSearchFocus = () => {
-
-  // }
   const searchChangeHandler = (value) => {
     updateFilterSearchMeta({
       ...filterSearchMeta,
@@ -349,9 +346,9 @@ const useFilter = (prop) => {
     tagSearchKey,
     ownerSearchKey,
     isFilterVisible,
-    PRIORITY_OPTIONS,
-    priorityNameAndValueMapTC,
-    priorityIntNameAndValueMapTC,
+    priorityOptions,
+    priorityValueAndNameMapTC,
+    priorityValueAndIntNameMapTC,
     setFilter,
     setOwnerSearchKey,
     setTagSearchKey,

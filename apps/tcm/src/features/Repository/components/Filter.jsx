@@ -30,9 +30,9 @@ const Filter = ({ isMini, onFilterChange }) => {
     filterSearchMeta,
     tagSearchKey,
     ownerSearchKey,
-    PRIORITY_OPTIONS,
-    priorityNameAndValueMapTC,
-    priorityIntNameAndValueMapTC,
+    priorityOptions,
+    priorityValueAndNameMapTC,
+    priorityValueAndIntNameMapTC,
     setOwnerSearchKey,
     setTagSearchKey,
     filterChangeHandler,
@@ -47,8 +47,8 @@ const Filter = ({ isMini, onFilterChange }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFilterVisible]);
 
-  const priorityOptions = PRIORITY_OPTIONS?.map((item) => {
-    switch (priorityIntNameAndValueMapTC[item?.value]) {
+  const priorityOptionsForFilter = priorityOptions?.map((item) => {
+    switch (priorityValueAndIntNameMapTC[item?.value]) {
       case 'critical':
         return {
           value: item?.value,
@@ -91,7 +91,7 @@ const Filter = ({ isMini, onFilterChange }) => {
       default:
         return {
           value: item?.value,
-          label: <>{priorityNameAndValueMapTC[item?.value]}</>
+          label: <>{priorityValueAndNameMapTC[item?.value]}</>
         };
     }
   });
@@ -186,7 +186,7 @@ const Filter = ({ isMini, onFilterChange }) => {
                     key={item.value}
                     border={false}
                     wrapperClassName="pt-0 mb-2"
-                    checked={filterSearchMeta?.owner?.includes(`${item.value}`)}
+                    checked={filterSearchMeta?.owner?.includes(item.value)}
                     data={item}
                     onChange={() => filterChangeHandler('owner', item)}
                   />
@@ -223,20 +223,22 @@ const Filter = ({ isMini, onFilterChange }) => {
                 ))}
               </div>
             </div>
-            <div className="w-1/5">
+            <div className="h-80 w-1/5">
               <div className="text-brand-800 mb-2 text-base font-medium">
                 Filter By Priority
               </div>
-              {priorityOptions?.map((item) => (
-                <TMCheckBox
-                  key={item.value}
-                  border={false}
-                  wrapperClassName="pt-0 mb-2"
-                  checked={filterSearchMeta?.priority?.includes(item.value)}
-                  data={item}
-                  onChange={() => filterChangeHandler('priority', item)}
-                />
-              ))}
+              <div className="h-full w-full overflow-y-auto p-1">
+                {priorityOptionsForFilter?.map((item) => (
+                  <TMCheckBox
+                    key={item.value}
+                    border={false}
+                    wrapperClassName="pt-0 mb-2"
+                    checked={filterSearchMeta?.priority?.includes(item.value)}
+                    data={item}
+                    onChange={() => filterChangeHandler('priority', item)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
           <div className="border-base-300 flex w-full justify-end gap-4 border-t p-4">

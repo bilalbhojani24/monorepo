@@ -3,20 +3,14 @@ import { InfoOutlinedIcon } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import {
   TMButton,
-  // TMInputField,
   TMModal,
   TMModalFooter,
   TMModalHeader,
   TMRichTextEditor,
   TMSectionHeadings,
   TMSelectMenu
-  // TMTextArea
-  // TMTooltip,
-  // TMTooltipBody,
-  // TMTooltipHeader
 } from 'common/bifrostProxy';
 
-// import { testCaseTypesOptions } from '../../const/addTestCaseConst';
 import UnsavedChanges from '../UnsavedChanges';
 import useTestCases from '../useTestCases';
 
@@ -34,9 +28,9 @@ const BulkEditTestCase = () => {
     usersArrayMapped,
     issuesArray,
     projectId,
-    PRIORITY_OPTIONS,
-    STATUS_OPTIONS,
-    TEST_CASE_TYPE_OPTIONS,
+    priorityOptions,
+    statusOptions,
+    testCaseTypeOptions,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
@@ -84,11 +78,11 @@ const BulkEditTestCase = () => {
 
       <>
         <div className="mt-4 flex gap-4">
-          <div className="flex-1">
+          <div className="max-w-[49%] flex-1">
             <TMSelectMenu
               checkPosition="right"
               label="Type of Test Case"
-              options={TEST_CASE_TYPE_OPTIONS}
+              options={testCaseTypeOptions}
               placeholder="Select from options"
               defaultValue={null}
               onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
@@ -101,15 +95,15 @@ const BulkEditTestCase = () => {
               // }
             />
           </div>
-          <div className="flex-1">
+          <div className="max-w-[49%] flex-1">
             <TMSelectMenu
               checkPosition="right"
               label="Priority"
               placeholder="Select from options"
-              options={PRIORITY_OPTIONS}
+              options={priorityOptions}
               // value={
               //   testCaseBulkFormData.priority &&
-              //   PRIORITY_OPTIONS.find(
+              //   priorityOptions.find(
               //     (item) => item.value === testCaseBulkFormData?.priority
               //   )
               // }
@@ -118,22 +112,22 @@ const BulkEditTestCase = () => {
           </div>
         </div>
         <div className="mt-4 flex gap-4">
-          <div className="flex-1">
+          <div className="max-w-[49%] flex-1">
             <TMSelectMenu
               // value={
               //   testCaseBulkFormData.status &&
-              //   STATUS_OPTIONS.find(
+              //   statusOptions.find(
               //     (item) => item.value === testCaseBulkFormData?.status?.id
               //   )
               // }
               checkPosition="right"
               label="State"
               placeholder="Select from options"
-              options={STATUS_OPTIONS}
+              options={statusOptions}
               onChange={(e) => handleTestCaseFieldChange('status', e.value)}
             />
           </div>
-          <div className="flex-1">
+          <div className="max-w-[49%] flex-1">
             <TMSelectMenu
               // value={
               //   testCaseBulkFormData.owner &&

@@ -58,12 +58,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
             value: IGNORE_VALUE_VALUE
           };
           break;
-        } else if (
-          displayOptions[i].value === value[field]
-          // (mappedField === 'Test Case Type' &&
-          //   displayOptions[i].value === 'smoke_sanity' &&
-          //   value[field].toLowerCase() === 'smoke & sanity')
-        ) {
+        } else if (displayOptions[i].value === value[field]) {
           defaultSelected = displayOptions[i];
           break;
         }

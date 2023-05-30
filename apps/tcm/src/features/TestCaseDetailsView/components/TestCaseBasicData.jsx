@@ -7,7 +7,6 @@ import ImageModal from 'common/ImageModal';
 import {
   BDD,
   templateOptions
-  // testCaseTypesOptions
 } from 'features/Repository/const/addTestCaseConst';
 import PropTypes from 'prop-types';
 import { getMappedValue, getSystemOrCustomValue } from 'utils/helperFunctions';
@@ -117,11 +116,6 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
               <DetailsSnippet
                 title="Type of test case"
                 value={testCaseDetails?.case_type?.name || '--'}
-                // value={getSystemOrCustomValue(
-                //   testCaseDetails?.case_type,
-                //   testCaseDetails?.case_type_imported,
-                //   testCaseTypesOptions
-                // )}
               />
             </div>
             <div className="w-3/6">

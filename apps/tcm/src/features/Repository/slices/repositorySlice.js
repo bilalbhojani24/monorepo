@@ -96,11 +96,11 @@ const initialState = {
     fields: []
   },
   searchEmptyText: '',
-  PRIORITY_OPTIONS: [],
-  STATUS_OPTIONS: [],
-  TEST_CASE_TYPE_OPTIONS: [],
-  priorityIntNameAndValueMapTC: {},
-  priorityNameAndValueMapTC: {}
+  priorityOptions: [],
+  statusOptions: [],
+  testCaseTypeOptions: [],
+  priorityValueAndIntNameMapTC: {},
+  priorityValueAndNameMapTC: {}
 };
 
 export const repositorySlice = createSlice({
@@ -111,24 +111,36 @@ export const repositorySlice = createSlice({
       state.allFolders = [...payload];
     },
     setDefaultFormFieldsData: (state, { payload }) => {
-      state.PRIORITY_OPTIONS = payload?.priority.map((item) => ({
+      state.priorityOptions = payload?.priority.map((item) => ({
         label: item?.name,
         value: item?.value
       }));
-      state.STATUS_OPTIONS = payload?.status.map((item) => ({
+      state.statusOptions = payload?.status.map((item) => ({
         label: item?.name,
         value: item?.value
       }));
-      state.TEST_CASE_TYPE_OPTIONS = payload?.case_type.map((item) => ({
+      state.testCaseTypeOptions = payload?.case_type.map((item) => ({
         label: item?.name,
         value: item?.value
       }));
-      state.priorityIntNameAndValueMapTC = payload?.priority.reduce(
+      state.priorityValueAndIntNameMapTC = payload?.priority.reduce(
         (obj, item) => ({ ...obj, [item.value]: item.internal_name }),
         {}
       );
-      state.priorityNameAndValueMapTC = payload?.priority.reduce(
+      state.priorityValueAndNameMapTC = payload?.priority.reduce(
         (obj, item) => ({ ...obj, [item.value]: item.name }),
+        {}
+      );
+      state.priorityIntNameAndValueMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.internal_name]: item.value }),
+        {}
+      );
+      state.statusIntNameAndValueMapTC = payload?.status.reduce(
+        (obj, item) => ({ ...obj, [item.internal_name]: item.value }),
+        {}
+      );
+      state.testCaseTypeIntNameAndValueMapTC = payload?.case_type.reduce(
+        (obj, item) => ({ ...obj, [item.internal_name]: item.value }),
         {}
       );
     },

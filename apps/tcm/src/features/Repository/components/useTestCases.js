@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
@@ -25,15 +24,20 @@ import {
   setUsers,
   updateAllTestCases,
   updateCtaLoading,
+  updateTestCaseFormData,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 import { formDataRetriever } from '../utils/sharedFunctions';
 
-export default function useTestCases() {
+export default function useTestCases(props) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
+
+  const DEFAULT_PRIORITY = 'medium';
+  const DEFAULT_STATUS = 'active';
+  const DEFAULT_TEST_CASE_TYPE = 'other';
 
   const metaPage = useSelector((state) => state.repository.metaPage);
   const isBulkUpdate = useSelector(
@@ -81,6 +85,15 @@ export default function useTestCases() {
   const customFieldData = useSelector(
     (state) => state.repository.customFieldData
   );
+  const priorityIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.priorityIntNameAndValueMapTC
+  );
+  const statusIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.statusIntNameAndValueMapTC
+  );
+  const testCaseTypeIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.testCaseTypeIntNameAndValueMapTC
+  );
 
   const setRepoView = (update) => {
     dispatch(setFilterSearchView(update));
@@ -118,11 +131,33 @@ export default function useTestCases() {
     });
   };
 
+  const getValue = (key, value) => {
+    if (key === 'priority') return priorityIntNameAndValueMapTC[`${value}`];
+    if (key === 'status') return statusIntNameAndValueMapTC[`${value}`];
+    return testCaseTypeIntNameAndValueMapTC[`${value}`];
+  };
+
+  const setDefaultValues = () => {
+    [
+      { key: 'priority', value: DEFAULT_PRIORITY },
+      { key: 'status', value: DEFAULT_STATUS },
+      { key: 'case_type', value: DEFAULT_TEST_CASE_TYPE }
+    ].forEach((item) => {
+      dispatch(
+        updateTestCaseFormData({
+          key: item.key,
+          value: getValue(item.key, item.value)
+        })
+      );
+    });
+  };
+
   const initFormValues = () => {
     if (loadedDataProjectId !== projectId) {
       fetchUsers();
       fetchTags();
     }
+    if (!props?.isTestCaseEditing) setDefaultValues();
   };
 
   const fetchAllTestCases = () => {

@@ -8,7 +8,6 @@ import {
   TMSelectMenu
 } from 'common/bifrostProxy';
 
-// import { testCaseTypesOptions } from '../../const/addTestCaseConst';
 import AddEditTestCaseCustomField from './AddEditTestCaseCustomField';
 import useAddEditTestCase from './useAddEditTestCase';
 
@@ -21,13 +20,12 @@ const AddEditTestCaseMoreFields = () => {
     usersArrayMapped,
     tagsArray,
     issuesArray,
-    PRIORITY_OPTIONS,
-    STATUS_OPTIONS,
-    TEST_CASE_TYPE_OPTIONS,
+    priorityOptions,
+    statusOptions,
+    testCaseTypeOptions,
     showAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
-    // tagVerifierFunction,
     showAddIssueModal,
     handleMenuOpen
   } = useAddEditTestCase({ isAddEditOnly: true });
@@ -35,30 +33,30 @@ const AddEditTestCaseMoreFields = () => {
   return (
     <>
       <div className="mt-4 flex gap-4">
-        <div className="flex-1">
+        <div className="max-w-[49%] flex-1">
           <TMSelectMenu
             checkPosition="right"
             label="Type of Test Case"
             placeholder="Select type of test case"
-            options={TEST_CASE_TYPE_OPTIONS}
+            options={testCaseTypeOptions}
             onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
             value={
               testCaseFormData.case_type &&
-              TEST_CASE_TYPE_OPTIONS.find(
+              testCaseTypeOptions.find(
                 (item) => item.value === testCaseFormData.case_type
               )
             }
           />
         </div>
-        <div className="flex-1">
+        <div className="max-w-[49%] flex-1">
           <TMSelectMenu
             checkPosition="right"
             label="Priority"
             placeholder="Select priority"
-            options={PRIORITY_OPTIONS}
+            options={priorityOptions}
             value={
               testCaseFormData.priority &&
-              PRIORITY_OPTIONS.find(
+              priorityOptions.find(
                 (item) => item.value === testCaseFormData?.priority
               )
             }
@@ -68,22 +66,22 @@ const AddEditTestCaseMoreFields = () => {
       </div>
 
       <div className="mt-4 flex gap-4">
-        <div className="flex-1">
+        <div className="max-w-[49%] flex-1">
           <TMSelectMenu
             value={
               testCaseFormData.status &&
-              STATUS_OPTIONS.find(
+              statusOptions.find(
                 (item) => item.value === testCaseFormData?.status
               )
             }
             checkPosition="right"
             label="State"
             placeholder="Select state"
-            options={STATUS_OPTIONS}
+            options={statusOptions}
             onChange={(e) => handleTestCaseFieldChange('status', e.value)}
           />
         </div>
-        <div className="flex-1">
+        <div className="max-w-[49%] flex-1">
           <TMComboBox
             value={
               testCaseFormData.owner
