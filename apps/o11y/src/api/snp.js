@@ -181,51 +181,13 @@ export const getSnPErrorDetailsPlatforms = async ({
   return axios.get(endpoint);
 };
 
-export const getSnPTestsFailuresMetrics = async ({
-  normalisedName,
-  searchString
-}) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/metrics/failures?${searchString}`;
+export const getSnPTestsMetrics = async ({ normalisedName, searchString }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/metrics/chart?${searchString}`;
   return axios.get(endpoint);
 };
 
-export const getSnPTestsAverageFailureRatesMetrics = async ({
-  normalisedName,
-  searchString
-}) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/metrics/averageFailureRates?${searchString}`;
-  return axios.get(endpoint);
-};
-
-export const getSnPTestsAvergeDurationMetrics = async ({
-  normalisedName,
-  searchString
-}) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/metrics/averageDuration?${searchString}`;
-  return axios.get(endpoint);
-};
-
-export const getSnPUETotalUniqueErrorsMetrics = async ({
-  normalisedName,
-  searchString
-}) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/metrics/totalUniqueErrors?${searchString}`;
-  return axios.get(endpoint);
-};
-
-export const getSnPUEUniqueImpactedTestsMetrics = async ({
-  normalisedName,
-  searchString
-}) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/metrics/uniqueImpactedTests?${searchString}`;
-  return axios.get(endpoint);
-};
-
-export const getSnPTotalImpactedTestsMetrics = async ({
-  normalisedName,
-  searchString
-}) => {
-  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v2/errors/metrics/totalImpactedTests?${searchString}`;
+export const getSnPUEMetrics = async ({ normalisedName, searchString }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/errors/metrics/chart?${searchString}`;
   return axios.get(endpoint);
 };
 

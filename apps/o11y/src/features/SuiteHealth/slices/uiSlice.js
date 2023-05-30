@@ -1,13 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  getSnPTestsAverageFailureRatesMetrics,
-  getSnPTestsAvergeDurationMetrics,
-  getSnPTestsFailuresMetrics,
   getSnPTestsFilters,
-  getSnPTotalImpactedTestsMetrics,
+  getSnPTestsMetrics,
   getSnPUEFilters,
-  getSnPUETotalUniqueErrorsMetrics,
-  getSnPUEUniqueImpactedTestsMetrics,
+  getSnPUEMetrics,
   getTestBuildNames,
   getTestBuildTags,
   getTestHostNames,
@@ -29,12 +25,10 @@ import {
   setIsLoadingBuildsFilters,
   setStaticFilters
 } from 'features/FilterSkeleton/slices/filterSlice';
-import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
 import {
   getAppliedFilterObj,
   getDateRangeFromSearchString,
-  getFilterFromSearchString,
-  getFilterQueryParams
+  getFilterFromSearchString
 } from 'features/FilterSkeleton/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -729,14 +723,14 @@ export const getUEHostNamesData = createAsyncThunk(
   }
 );
 
-export const getSnPTestsFailuresMetricsData = createAsyncThunk(
-  'snptests/FailureMetrics',
-  async (data, { rejectWithValue, getState }) => {
+export const getSnPTestsMetricsData = createAsyncThunk(
+  'snptests/metrics',
+  async (data, { rejectWithValue, dispatch }) => {
     try {
-      const appliedFilters = getAllAppliedFilters(getState());
-      const response = await getSnPTestsFailuresMetrics({
+      const searchString = dispatch(getFilterFromSearchString());
+      const response = await getSnPTestsMetrics({
         ...data,
-        searchString: getFilterQueryParams(appliedFilters).toString()
+        searchString
       });
       return response.data;
     } catch (err) {
@@ -745,78 +739,14 @@ export const getSnPTestsFailuresMetricsData = createAsyncThunk(
   }
 );
 
-export const getSnPTestsAverageFailureRatesMetricsData = createAsyncThunk(
-  'snptests/AverageFailureRates',
-  async (data, { rejectWithValue, getState }) => {
+export const getSnPUEMetricsData = createAsyncThunk(
+  'snptests/metrics',
+  async (data, { rejectWithValue, dispatch }) => {
     try {
-      const appliedFilters = getAllAppliedFilters(getState());
-      const response = await getSnPTestsAverageFailureRatesMetrics({
+      const searchString = dispatch(getFilterFromSearchString());
+      const response = await getSnPUEMetrics({
         ...data,
-        searchString: getFilterQueryParams(appliedFilters).toString()
-      });
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
-
-export const getSnPTestsAvergeDurationMetricsData = createAsyncThunk(
-  'snptests/AverageDurationMetrics',
-  async (data, { rejectWithValue, getState }) => {
-    try {
-      const appliedFilters = getAllAppliedFilters(getState());
-      const response = await getSnPTestsAvergeDurationMetrics({
-        ...data,
-        searchString: getFilterQueryParams(appliedFilters).toString()
-      });
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
-
-export const getSnPUETotalUniqueErrorsMetricsData = createAsyncThunk(
-  'snpue/FailureMetrics',
-  async (data, { rejectWithValue, getState }) => {
-    try {
-      const appliedFilters = getAllAppliedFilters(getState());
-      const response = await getSnPUETotalUniqueErrorsMetrics({
-        ...data,
-        searchString: getFilterQueryParams(appliedFilters).toString()
-      });
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
-
-export const getSnPUEUniqueImpactedTestsMetricsData = createAsyncThunk(
-  'snpue/AverageFailureRates',
-  async (data, { rejectWithValue, getState }) => {
-    try {
-      const appliedFilters = getAllAppliedFilters(getState());
-      const response = await getSnPUEUniqueImpactedTestsMetrics({
-        ...data,
-        searchString: getFilterQueryParams(appliedFilters).toString()
-      });
-      return response.data;
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
-
-export const getSnPTotalImpactedTestsMetricsData = createAsyncThunk(
-  'snpue/AverageDurationMetrics',
-  async (data, { rejectWithValue, getState }) => {
-    try {
-      const appliedFilters = getAllAppliedFilters(getState());
-      const response = await getSnPTotalImpactedTestsMetrics({
-        ...data,
-        searchString: getFilterQueryParams(appliedFilters).toString()
+        searchString
       });
       return response.data;
     } catch (err) {

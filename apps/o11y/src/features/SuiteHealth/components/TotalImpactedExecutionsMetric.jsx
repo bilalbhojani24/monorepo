@@ -1,11 +1,7 @@
-import React, { memo, useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
-import { getActiveProject } from 'globalSlice/selectors';
+import React, { memo, useMemo } from 'react';
 import Highcharts from 'highcharts/highstock';
+import PropTypes from 'prop-types';
 import { getCustomTimeStamp } from 'utils/dateTime';
-
-import { getSnPTotalImpactedTestsMetricsData } from '../slices/uiSlice';
 
 import StatsCard from './StatsCard';
 import StatsCardGraph from './StatsCardGraph';
@@ -27,49 +23,27 @@ function getFormattedTooltip() {
   );
 }
 
-const TotalImpactedExecutionsMetric = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
-  const [chartPoints, setChartPoints] = useState([]);
-  const [metricInfo, setMetricInfo] = useState({});
-  const appliedFilters = useSelector(getAllAppliedFilters);
-
-  useEffect(() => {
-    setIsLoading(true);
-    dispatch(
-      getSnPTotalImpactedTestsMetricsData({
-        normalisedName: activeProject?.normalisedName
-      })
-    )
-      .unwrap()
-      .then((res) => {
-        setChartPoints(res.data.totalImpactedTests);
-        setMetricInfo(res.insights);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, [activeProject?.normalisedName, dispatch, appliedFilters]);
-
-  const seriesData = useMemo(
-    () => [
+const TotalImpactedExecutionsMetric = ({ isLoading, data, metric }) => {
+  const seriesData = useMemo(() => {
+    if (isLoading) {
+      return [];
+    }
+    return [
       {
         name: 'Average Duration',
         lineColor: 'var(--colors-danger-500)',
         borderColor: 'black',
         color: 'transparent',
-        data: chartPoints
+        data: data?.totalImpactedTests
       }
-    ],
-    [chartPoints]
-  );
+    ];
+  }, [data?.totalImpactedTests, isLoading]);
 
   return (
     <StatsCard
       title="Total Impacted Tests"
-      stat={metricInfo.value}
-      subText={metricInfo.subText}
+      stat={metric?.value}
+      subText={metric?.meta}
       isLoading={isLoading}
       graph={
         <StatsCardGraph
@@ -83,6 +57,14 @@ const TotalImpactedExecutionsMetric = () => {
   );
 };
 
-TotalImpactedExecutionsMetric.propTypes = {};
+TotalImpactedExecutionsMetric.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  data: PropTypes.arrayOf(PropTypes.any).isRequired,
+  metric: PropTypes.shape({
+    meta: PropTypes.string,
+    metric: PropTypes.string,
+    value: PropTypes.string
+  }).isRequired
+};
 
 export default memo(TotalImpactedExecutionsMetric);
