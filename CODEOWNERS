@@ -5,5 +5,10 @@
 # TCM
 apps/tcm/** @browserstack/tm-frontend
 
+# MCSPT
+apps/mcspt/* @browserstack/mcspt-frontend
+apps/web-mcspt/* @browserstack/mcspt-frontend
+packages/mcp-shared/* @browserstack/mcspt-frontend
+
 # All package.json this needs to be at the end of the file
 **/package.json @browserstack/central-frontend
