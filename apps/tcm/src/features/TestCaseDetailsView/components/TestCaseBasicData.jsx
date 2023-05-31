@@ -116,7 +116,7 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
               <DetailsSnippet
                 title="Automation Status"
                 value={getSystemOrCustomValue(
-                  testCaseDetails?.automation_status,
+                  testCaseDetails?.automation_status?.name,
                   testCaseDetails?.automation_status,
                   []
                 )}

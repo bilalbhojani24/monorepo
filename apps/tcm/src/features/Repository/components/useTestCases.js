@@ -258,6 +258,7 @@ export default function useTestCases(props) {
             fields: res?.custom_fields || []
           })
         );
+        dispatch(updateCtaLoading({ key: 'formFields', value: false }));
       });
     }
   }, [customFieldData?.projectId, dispatch, projectId]);

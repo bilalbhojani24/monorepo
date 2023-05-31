@@ -49,7 +49,7 @@ const AddEditTestCaseMoreFields = () => {
             }
           />
         </div>
-        <div className="w-1/2 flex-1 pr-4">
+        <div className="w-1/2 flex-1">
           <TMSelectMenu
             checkPosition="right"
             label="Automation Status"
@@ -66,7 +66,10 @@ const AddEditTestCaseMoreFields = () => {
             }
           />
         </div>
-        <div className="w-1/2 flex-1">
+      </div>
+
+      <div className="mt-4 flex">
+        <div className="w-1/2 flex-1 pr-4">
           <TMSelectMenu
             checkPosition="right"
             label="Priority"
@@ -81,10 +84,7 @@ const AddEditTestCaseMoreFields = () => {
             onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
           />
         </div>
-      </div>
-
-      <div className="mt-4 flex">
-        <div className="w-1/2 flex-1 pr-4">
+        <div className="w-1/2 flex-1">
           <TMSelectMenu
             value={
               testCaseFormData.status &&
@@ -99,7 +99,9 @@ const AddEditTestCaseMoreFields = () => {
             onChange={(e) => handleTestCaseFieldChange('status', e.value)}
           />
         </div>
-        <div className="w-1/2 flex-1">
+      </div>
+      <div className="mt-4 flex">
+        <div className="w-1/2 flex-1 pr-4">
           <TMComboBox
             value={
               testCaseFormData.owner
@@ -116,67 +118,6 @@ const AddEditTestCaseMoreFields = () => {
             onChange={(e) => handleTestCaseFieldChange('owner', e.value)}
           />
         </div>
-      </div>
-      <div className="mt-4">
-        <TMRichTextEditor
-          id="preconnditions-rte"
-          placeholder="Enter preconditions needed before executing this test"
-          label="Preconditions"
-          value={testCaseFormData?.preconditions}
-          height={160}
-          onChange={(val) =>
-            handleTestCaseFieldChange('preconditions', val, true)
-          }
-          projectId={projectId}
-        />
-      </div>
-      <div className="mt-4 flex gap-4">
-        {/* <div className="flex-1">
-      <TMInputField
-        id="test-case-estimate"
-        value={testCaseFormData?.estimate}
-        label={
-          <div className="flex items-center">
-            Estimate
-            <TMTooltip
-              size="xs"
-              placementSide="bottom"
-              theme="dark"
-              content={
-                <>
-                  <TMTooltipHeader>Estimate</TMTooltipHeader>
-                  <TMTooltipBody>
-                    <p className="pb-5 text-sm">
-                      You can define an estimate of testing time you
-                      would require for this test case. Below format
-                      types are permitted:
-                    </p>
-                    <ul className="list-disc pl-5 pb-5 text-sm">
-                      <li>Seconds (s)</li>
-                      <li>Minutes (m)</li>
-                      <li>Hours (h)</li>
-                      <li>Minutes:Seconds (m:s)</li>
-                      <li>Hours:Minutes:Seconds (h:m:s)</li>
-                    </ul>
-                    <p className="text-sm">
-                      Combination of above options are permitted. Eg:
-                      &quot;2d 3h&quot;, &quot;5m 30s&quot;,
-                      &quot;10m&quot;.
-                    </p>
-                  </TMTooltipBody>
-                </>
-              }
-            >
-              <InfoOutlinedIcon className="ml-1 !h-3.5 !w-3.5" />
-            </TMTooltip>
-          </div>
-        }
-        placeholder="Eg: 1m, 2.5h, 2d etc"
-        onChange={(e) =>
-          handleTestCaseFieldChange('estimate', e.currentTarget.value)
-        }
-      />
-    </div> */}
         <div className="flex flex-1 items-end justify-between">
           <div className="mr-4 flex-1">
             <TMComboBox
@@ -202,7 +143,8 @@ const AddEditTestCaseMoreFields = () => {
             Add / Modify Tag
           </TMButton>
         </div>
-
+      </div>
+      <div className="mt-4 flex gap-4">
         <div className="flex flex-1 items-end justify-between">
           <div className="mr-4 flex-1">
             <TMComboBox
@@ -226,6 +168,20 @@ const AddEditTestCaseMoreFields = () => {
             Add / Modify Issue
           </TMButton>
         </div>
+        <div className="flex-1" />
+      </div>
+      <div className="mt-4">
+        <TMRichTextEditor
+          id="preconnditions-rte"
+          placeholder="Enter preconditions needed before executing this test"
+          label="Preconditions"
+          value={testCaseFormData?.preconditions}
+          height={160}
+          onChange={(val) =>
+            handleTestCaseFieldChange('preconditions', val, true)
+          }
+          projectId={projectId}
+        />
       </div>
       {/* <div className="mt-4 flex gap-4">
     <div className="flex-1" />
