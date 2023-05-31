@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import {
@@ -25,26 +25,23 @@ const FilterPills = () => {
     );
   };
 
-  const allAppliedFilters = useMemo(
-    () => appliedFilters.filter((appFilter) => appFilter.type !== 'search'),
-    [appliedFilters]
-  );
-
   const handleRemoveAll = () => {
     dispatch(clearFilters());
   };
-  if (!allAppliedFilters.length) {
+  if (
+    !appliedFilters.length ||
+    (appliedFilters.length === 1 &&
+      appliedFilters[0]?.type === BUILD_FILTER_TYPES.search)
+  ) {
     return null;
   }
 
   return (
     <div className="flex items-baseline">
-      {!!appliedFilters.length && (
-        <div className="inline-flex gap-4">
-          <p className="text-base-500 text-sm">Filters</p>
-          <div className="border-base-300 my-auto h-5 border-l" />
-        </div>
-      )}
+      <div className="inline-flex gap-4">
+        <p className="text-base-500 text-sm">Filters</p>
+        <div className="border-base-300 my-auto h-5 border-l" />
+      </div>
       <div className="block">
         {appliedFilters.map((item) => {
           if (item.type === BUILD_FILTER_TYPES.search) {
