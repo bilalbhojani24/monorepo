@@ -53,6 +53,7 @@ const AddEditTestCaseMoreFields = () => {
           <TMSelectMenu
             checkPosition="right"
             label="Automation Status"
+            disabled={testCaseFormData?.is_automation}
             placeholder="Select automation status"
             options={automationOptions}
             onChange={(e) =>
