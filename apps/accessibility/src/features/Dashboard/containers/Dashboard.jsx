@@ -1,6 +1,5 @@
 // NOTE: Don't remove sidebar logic, will add once it required
 import React from 'react';
-import { useSelector } from 'react-redux';
 import {
   ActionPanel,
   Button,
@@ -18,8 +17,6 @@ import { arrayOf, node, oneOfType, string } from 'prop-types';
 import { getBrowserStackBase } from 'utils';
 import { logEvent } from 'utils/logEvent';
 
-import { getShowBanner } from '../slices/selectors';
-
 import useDashboard from './useDashboard';
 
 export default function Dashboard({ children }) {
@@ -30,11 +27,13 @@ export default function Dashboard({ children }) {
     secondaryNav,
     handleNavigationClick,
     onGetADemoClick,
-    onBuyPlanClick
+    onBuyPlanClick,
+    showBanner,
+    getRemainingDays,
+    showTrialTile
   } = useDashboard();
 
-  const showBanner = useSelector(getShowBanner);
-
+  const remainingDays = getRemainingDays();
   const SWBSidebarPri = primaryNav.map((item) => (
     <SidebarItem
       key={item.id}
@@ -44,31 +43,31 @@ export default function Dashboard({ children }) {
     />
   ));
 
-  // const SWBSidebarSec = (
-  //   <div className="flex flex-col items-start justify-center pb-3">
-  //     <div className="px-2 pb-3">
-  //       <ActionPanel
-  //         content={
-  //           <Button colors="white" onClick={onGetADemoClick} size="small">
-  //             Get a demo
-  //           </Button>
-  //         }
-  //         description="Learn how to unlock the full potential of Accessibility Testing"
-  //         title="Need help?"
-  //       />
-  //     </div>
-  //     {secondaryNav.map((item) => (
-  //       <SidebarItem
-  //         key={item.id}
-  //         nav={item}
-  //         current={item.id === currentPath}
-  //         handleNavigationClick={handleNavigationClick}
-  //       />
-  //     ))}
-  //   </div>
-  // );
+  const SWBSidebarSecPri = (
+    <div className="flex flex-col items-start justify-center pb-3">
+      <div className="px-2 pb-3">
+        <ActionPanel
+          content={
+            <Button colors="white" onClick={onGetADemoClick} size="small">
+              Get a demo
+            </Button>
+          }
+          description="Learn how to unlock the full potential of Accessibility Testing"
+          title="Need help?"
+        />
+      </div>
+      {secondaryNav.map((item) => (
+        <SidebarItem
+          key={item.id}
+          nav={item}
+          current={item.id === currentPath}
+          handleNavigationClick={handleNavigationClick}
+        />
+      ))}
+    </div>
+  );
 
-  const SWBSidebarSec = (
+  const SWBSidebarSecSec = (
     <div className="flex flex-col items-start justify-center pb-3">
       <div className="px-2 pb-3">
         <ActionPanel
@@ -88,11 +87,20 @@ export default function Dashboard({ children }) {
             </>
           }
           description={
-            <span className="bg-attention-100 text-attention-800 rounded-full px-3 py-1 font-semibold">
-              {`${14} days remaining`}
+            <span
+              className={twClassNames('rounded-full px-3 py-1 font-semibold', {
+                'bg-attention-100 text-attention-800': remainingDays > 0,
+                'bg-danger-100 text-danger-800': remainingDays === 0
+              })}
+            >
+              {`${remainingDays > 0 ? remainingDays : 0} days remaining`}
             </span>
           }
-          title="Your Team free trial is active "
+          title={
+            remainingDays === 0
+              ? 'Your team freen trial is over'
+              : 'Your Team free trial is active'
+          }
         />
       </div>
       {secondaryNav.map((item) => (
@@ -172,7 +180,9 @@ export default function Dashboard({ children }) {
       <ReverseTrialBannerWrapper />
       <SidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
-        sidebarSecondaryNavigation={SWBSidebarSec}
+        sidebarSecondaryNavigation={
+          showTrialTile() ? SWBSidebarSecSec : SWBSidebarSecPri
+        }
         wrapperClassName={twClassNames('bg-white mt-5', {
           'pt-32': showBanner,
           'pt-16': !showBanner

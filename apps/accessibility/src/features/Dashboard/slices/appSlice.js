@@ -6,7 +6,7 @@ const { actions, reducer } = createSlice({
     user: null,
     banner: {
       showBanner: true,
-      trialState: 'notStarted'
+      trialState: 'started'
     },
     modal: {
       show: false,
@@ -15,6 +15,10 @@ const { actions, reducer } = createSlice({
     alert: {
       show: true,
       name: 'buyPlan'
+    },
+    trial: {
+      eligible: true,
+      endDate: 'June 10 2023 14:30:36 GMT+0530'
     }
   },
   reducers: {

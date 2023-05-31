@@ -16,3 +16,7 @@ export const getAlertName = (state) =>
   state.accessibility.app.dashboard.alert.name;
 export const getAlertShow = (state) =>
   state.accessibility.app.dashboard.alert.show;
+export const getTrialEndDate = (state) =>
+  state.accessibility.app.dashboard.trial.endDate;
+export const getTrialEligibility = (state) =>
+  state.accessibility.app.dashboard.trial.eligible;
