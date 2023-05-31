@@ -66,7 +66,9 @@ export default function FilterModal({ sectionsDataContext }) {
                 data={option}
                 border={false}
                 wrapperClassName="pt-0 w-24 mr-5"
-                checked={selectedImpact.includes(option.value)}
+                checked={selectedImpact
+                  .map(({ value }) => value)
+                  .includes(option.value)}
                 onChange={(e) => onInputBoxChange(option, e)}
               />
             ))}

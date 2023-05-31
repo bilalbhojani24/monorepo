@@ -7,7 +7,7 @@ import {
   SUMMARY,
   TESTS
 } from 'constants';
-import { formatComponentIdString } from 'utils/helper';
+// import { formatComponentIdString } from 'utils/helper';
 
 const initialParamState = {
   activeTab: SUMMARY,
@@ -28,91 +28,91 @@ const initialAppState = {
   isFilterModalVisible: false
 };
 
-const getInitialTab = () => {
-  const params = new URLSearchParams(window.location.search);
-  const activeTab = params.get('activeTab');
-  const activeSwitch = params.get('activeSwitch');
-  const activeViolationId = params.get('activeViolationId');
-  const activeComponentId = params.get('activeComponentId');
-  const activeIssueIndex = params.get('activeIssueIndex');
-  const isShowingIssue = params.get('isShowingIssue');
-  const showHiddenIssues = { hideIssues: params.get('hideIssues') === 'true' };
+// const getInitialTab = () => {
+//   const params = new URLSearchParams(window.location.search);
+//   const activeTab = params.get('activeTab');
+//   const activeSwitch = params.get('activeSwitch');
+//   const activeViolationId = params.get('activeViolationId');
+//   const activeComponentId = params.get('activeComponentId');
+//   const activeIssueIndex = params.get('activeIssueIndex');
+//   const isShowingIssue = params.get('isShowingIssue');
+//   const showHiddenIssues = { hideIssues: params.get('hideIssues') === 'true' };
 
-  // filters
-  const activeFilters = {
-    ...activeInitFilters,
-    showNeedsReviewIssues: params.get('showNeedsReviewIssues') === 'true'
-  };
+//   // filters
+//   const activeFilters = {
+//     ...activeInitFilters,
+//     showNeedsReviewIssues: params.get('showNeedsReviewIssues') === 'true'
+//   };
 
-  if (params.get('impact')) {
-    activeFilters.impact = params
-      .get('impact')
-      .split(',')
-      .map((impact) => severityOptions.find(({ value }) => impact === value));
-  }
+//   if (params.get('impact')) {
+//     activeFilters.impact = params
+//       .get('impact')
+//       .split(',')
+//       .map((impact) => severityOptions.find(({ value }) => impact === value));
+//   }
 
-  if (params.get('page')) {
-    activeFilters.page = params
-      .get('page')
-      .split(',')
-      .map((value) => ({ label: value, value }));
-  }
+//   if (params.get('page')) {
+//     activeFilters.page = params
+//       .get('page')
+//       .split(',')
+//       .map((value) => ({ label: value, value }));
+//   }
 
-  if (params.get('component')) {
-    activeFilters.component = params
-      .get('component')
-      .split(',')
-      .map((value) => ({ label: formatComponentIdString(value), value }));
-  }
+//   if (params.get('component')) {
+//     activeFilters.component = params
+//       .get('component')
+//       .split(',')
+//       .map((value) => ({ label: formatComponentIdString(value), value }));
+//   }
 
-  if (params.get('category')) {
-    activeFilters.category = params
-      .get('category')
-      .split(',')
-      .map((value) => ({ label: value, value }));
-  }
+//   if (params.get('category')) {
+//     activeFilters.category = params
+//       .get('category')
+//       .split(',')
+//       .map((value) => ({ label: value, value }));
+//   }
 
-  const result = { ...initialParamState, showHiddenIssues };
-  if (activeTab) {
-    if (activeTab === ISSUES) {
-      result.activeTab = ISSUES;
-      result.defaultIndex = 1;
-      if (activeSwitch) {
-        result.activeSwitch = activeSwitch;
-      } else {
-        result.activeSwitch = ISSUE_TYPE;
-      }
-      if (activeViolationId) {
-        result.activeViolationId = activeViolationId;
-      }
-      if (activeComponentId) {
-        result.activeComponentId = activeComponentId;
-      }
-      if (activeIssueIndex) {
-        result.activeIssueIndex = parseInt(activeIssueIndex, 10);
-      }
-      if (isShowingIssue) {
-        result.isShowingIssue = isShowingIssue !== 'false';
-      }
-      if (activeFilters) {
-        result.activeFilters = activeFilters;
-      }
-    } else if (activeTab === SUMMARY) {
-      result.activeTab = SUMMARY;
-      result.defaultIndex = 0;
-    } else if (activeTab === TESTS) {
-      result.activeTab = TESTS;
-    }
-  }
+//   const result = { ...initialParamState, showHiddenIssues };
+//   if (activeTab) {
+//     if (activeTab === ISSUES) {
+//       result.activeTab = ISSUES;
+//       result.defaultIndex = 1;
+//       if (activeSwitch) {
+//         result.activeSwitch = activeSwitch;
+//       } else {
+//         result.activeSwitch = ISSUE_TYPE;
+//       }
+//       if (activeViolationId) {
+//         result.activeViolationId = activeViolationId;
+//       }
+//       if (activeComponentId) {
+//         result.activeComponentId = activeComponentId;
+//       }
+//       if (activeIssueIndex) {
+//         result.activeIssueIndex = parseInt(activeIssueIndex, 10);
+//       }
+//       if (isShowingIssue) {
+//         result.isShowingIssue = isShowingIssue !== 'false';
+//       }
+//       if (activeFilters) {
+//         result.activeFilters = activeFilters;
+//       }
+//     } else if (activeTab === SUMMARY) {
+//       result.activeTab = SUMMARY;
+//       result.defaultIndex = 0;
+//     } else if (activeTab === TESTS) {
+//       result.activeTab = TESTS;
+//     }
+//   }
 
-  return result;
-};
+//   return result;
+// };
 
 const { actions, reducer } = createSlice({
   name: 'buildApp',
   initialState: {
-    ...initialAppState,
-    ...getInitialTab()
+    ...initialAppState
+    // ...getInitialTab()
   },
   reducers: {
     setShowHiddenIssues: (state, { payload }) => {

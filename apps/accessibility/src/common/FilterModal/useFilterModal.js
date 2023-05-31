@@ -54,7 +54,10 @@ export default function useFilterModal(sectionsDataContext) {
 
     let finalList;
     if (checked) {
-      finalList = [...selectedImpact, option];
+      const list = selectedImpact.map(({ value }) => value);
+      if (!list.includes(option.value)) {
+        finalList = [...selectedImpact, option];
+      }
     } else {
       finalList = [
         ...selectedImpact.filter(({ value }) => value !== option.value)
@@ -75,7 +78,7 @@ export default function useFilterModal(sectionsDataContext) {
       page: selectedPages,
       component: selectedComponent,
       category: selectedCategory,
-      tag: selectedTags,
+      tags: selectedTags,
       tests: selectedTests,
       files: selectedFiles,
       showNeedsReviewIssues

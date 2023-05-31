@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
-  getFilters,
-  getTestCasesData
+  getTestCasesData,
+  getTestFilters
 } from 'features/AutomatedTest/AutomatedTestBuild/slices/selector';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 
 export default function useTests() {
   const navigate = useNavigate();
   const testRuns = useSelector(getTestCasesData);
-  const testFilters = useSelector(getFilters);
+  const testFilters = useSelector(getTestFilters);
   const [searchText, setSearchText] = useState('');
   const [filteredTestRuns, setFilteredTestRuns] = useState(testRuns);
   const [isSliderOpen, setIsSliderOpen] = useState(false);

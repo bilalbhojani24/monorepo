@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { activeInitFilters, events, GUIDELINES } from 'constants';
+import {
+  activeInitFilters,
+  events,
+  GUIDELINES,
+  severityOptions
+} from 'constants';
 import {
   resetFilters,
   resetIssueItem,
@@ -34,7 +39,12 @@ import {
   getUniqFilterValues
 } from 'features/AutomatedTest/AutomatedTestBuild/slices/selector';
 import intersection from 'lodash/intersection';
-import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
+import {
+  deleteUrlQueryParam,
+  formatComponentIdString,
+  updateUrlWithQueryParam
+} from 'utils/helper';
+
 // import { logEvent } from 'utils/logEvent';
 
 export default function useIssues() {
@@ -315,24 +325,31 @@ export default function useIssues() {
   };
 
   const onUpdateImpact = (values) => {
+    const hasValues = values.length === 0;
     dispatch(
       setBuildFiltersKey({
         key: 'impact',
         values
       })
     );
-    dispatch(resetIssueItem());
-    const path = deleteUrlQueryParam([
+    const removeParamList = [
       'activeViolationId',
       'activeComponentId',
       'activeIssueIndex',
       'isShowingIssue'
-    ]);
+    ];
+    if (hasValues) {
+      removeParamList.push('impact');
+    }
+    dispatch(resetIssueItem(removeParamList));
+    const path = deleteUrlQueryParam();
     navigate(`?${path}`);
-    const updatedPath = updateUrlWithQueryParam({
-      impact: values.map(({ value }) => value)
-    });
-    navigate(`?${updatedPath}`);
+    if (hasValues) {
+      const updatedPath = updateUrlWithQueryParam({
+        impact: values.map(({ value }) => value)
+      });
+      navigate(`?${updatedPath}`);
+    }
   };
 
   const onApplyFilters = (intermediateFilters) => {
@@ -484,6 +501,85 @@ export default function useIssues() {
         isShowingIssue: isShowingIssueVal
       };
     }
+
+    const activeFilters = {};
+    const activeFiltersParams = {};
+
+    if (params.get('impact')) {
+      activeFilters.impact = params
+        .get('impact')
+        .split(',')
+        .map((impact) => severityOptions.find(({ value }) => impact === value));
+      activeFiltersParams.impact = activeFilters.impact.map(
+        ({ value }) => value
+      );
+    }
+
+    if (params.get('page')) {
+      activeFilters.page = params
+        .get('page')
+        .split(',')
+        .map((value) => ({ label: value, value }));
+      activeFiltersParams.page = activeFilters.page.map(({ value }) => value);
+    }
+
+    if (params.get('component')) {
+      activeFilters.component = params
+        .get('component')
+        .split(',')
+        .map((value) => ({ label: formatComponentIdString(value), value }));
+      activeFiltersParams.component = activeFilters.component.map(
+        ({ value }) => value
+      );
+    }
+
+    if (params.get('category')) {
+      activeFilters.category = params
+        .get('category')
+        .split(',')
+        .map((value) => ({ label: value, value }));
+      activeFiltersParams.category = activeFilters.category.map(
+        ({ value }) => value
+      );
+    }
+
+    if (params.get('tags')) {
+      activeFilters.tags = params
+        .get('tags')
+        .split(',')
+        .map((value) => ({ label: value, value }));
+      activeFiltersParams.tags = activeFilters.tags.map(({ value }) => value);
+    }
+
+    if (params.get('tests')) {
+      activeFilters.tests = params
+        .get('tests')
+        .split(',')
+        .map((value) => ({ label: value, value }));
+      activeFiltersParams.tests = activeFilters.tests.map(({ value }) => value);
+    }
+
+    if (params.get('files')) {
+      activeFilters.files = params
+        .get('files')
+        .split(',')
+        .map((value) => ({ label: value, value }));
+      activeFiltersParams.files = activeFilters.files.map(({ value }) => value);
+    }
+
+    if (activeFilters) {
+      pathObject = {
+        ...pathObject,
+        ...activeFiltersParams
+      };
+      dispatch(
+        setBuildFilters({
+          ...activeInitFilters,
+          ...activeFilters
+        })
+      );
+    }
+
     const path = updateUrlWithQueryParam(pathObject);
     navigate(`?${path}`);
   }, []);

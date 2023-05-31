@@ -13,7 +13,9 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 import { issueTypes } from 'constants';
 import { getBrowserIcon, getOSIcon } from 'utils/helper';
@@ -53,7 +55,20 @@ export default function TestsTable() {
       key: 'test',
       cell: (row) => (
         <div className="flex items-start gap-3">
-          {getTestIcon(row.status)}
+          <Tooltip
+            theme="dark"
+            placementSide="bottom"
+            content={
+              <TooltipBody wrapperClassName="mb-0">
+                {row.status
+                  .charAt(0)
+                  .toUpperCase()
+                  .concat(row.status.slice(1, row.status.length))}
+              </TooltipBody>
+            }
+          >
+            {getTestIcon(row.status)}
+          </Tooltip>
           <div>
             <p className="text-base-900 line-clamp-4 inline max-h-[80px] w-[603px] overflow-hidden text-ellipsis">
               {row.name}

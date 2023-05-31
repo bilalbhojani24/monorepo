@@ -25,6 +25,8 @@ export const getActiveTab = (state) =>
   state.accessibility.automatedTestBuild.app.activeTab;
 export const getTestCasesData = (state) =>
   state.accessibility.automatedTestBuild.data.testCasesData;
+export const getTestFilters = (state) =>
+  state.accessibility.automatedTestBuild.data.testFilters;
 
 export const getUniqFilterValues = createSelector(getFilters, (filters) => {
   const {

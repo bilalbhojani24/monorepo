@@ -4,6 +4,7 @@ const initState = {
   buildData: null,
   customData: null,
   filters: {},
+  testFilters: null,
   buildMetaData: null,
   testCasesData: null
 };
@@ -45,7 +46,7 @@ const { actions, reducer } = createSlice({
     setTestCasesData: (state, { payload }) => {
       const { testCases, filters } = payload;
       state.testCasesData = testCases;
-      state.filters = filters;
+      state.testFilters = filters;
     },
     resetBuildData: (state) => {
       Object.keys(initState).forEach((key) => {
