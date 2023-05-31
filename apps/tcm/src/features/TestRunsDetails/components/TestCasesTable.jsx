@@ -107,7 +107,7 @@ const TestCasesTable = () => {
     },
     {
       name: 'ASSIGNED TO',
-      key: 'assignee',
+      key: 'test_assignee',
       class: 'w-[10%]',
       cell: (rowData) => (
         <div className={twClassNames('text-base-500')}>
@@ -119,7 +119,7 @@ const TestCasesTable = () => {
               delay: 500
             }}
           >
-            {rowData?.assignee?.full_name || 'Unassigned'}
+            {rowData?.test_assignee?.full_name || 'Unassigned'}
           </TMTruncateText>
         </div>
       )
