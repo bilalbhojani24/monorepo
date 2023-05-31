@@ -103,7 +103,7 @@ const TestCasesTable = ({
               delay: 500
             }}
           >
-            {`${rowData?.identifier}`}
+            {rowData?.identifier}
           </TMTruncateText>
         </div>
       ),
@@ -175,12 +175,21 @@ const TestCasesTable = ({
       name: 'PRIORITY',
       key: 'priority',
       cell: (rowData) => (
-        <span className="text-base-500 flex items-center">
-          {formatPriority(rowData?.priority?.internal_name?.toLowerCase())}
-          {rowData?.priority?.name}
-        </span>
+        <div className="text-base-500">
+          <TMTruncateText
+            truncateUsingClamp={false}
+            hidetooltipTriggerIcon
+            isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
+          >
+            {formatPriority(rowData?.priority?.internal_name?.toLowerCase())}
+            {rowData?.priority?.name}
+          </TMTruncateText>
+        </div>
       ),
-      class: 'w-[15%]'
+      class: 'w-[15%] max-w-[160px]'
     },
     {
       name: 'OWNER',
@@ -348,7 +357,7 @@ const TestCasesTable = ({
                     <td
                       variant="body"
                       className={twClassNames(
-                        'border-base-50 test-base-500 p-2',
+                        'border-base-50 text-base-500 p-2',
                         !deSelectedTestCaseIDs.includes(row.id) &&
                           (isAllSelected ||
                             selectedTestCaseIDs.includes(row.id))
