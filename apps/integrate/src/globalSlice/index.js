@@ -1,3 +1,9 @@
+import authReducers, {
+  hasAccessSelector,
+  noAccessRedirectPathSelector,
+  setHasAccess,
+  setNoAccessRedirectPath
+} from './authSlice';
 import configurationsReducers, {
   activeConfigurationsSelector,
   configurationsErrorSelector,
@@ -52,6 +58,7 @@ import usageSummaryReducers, {
 
 export {
   activeConfigurationsSelector,
+  authReducers,
   clearFilters,
   closeFiltersSlideover,
   closeLogDetailsSlideover,
@@ -64,6 +71,7 @@ export {
   filtersInitialState,
   filtersReducers,
   filtersSelector,
+  hasAccessSelector,
   integrationsErrorSelector,
   integrationsLoadingSelector,
   integrationsReducers,
@@ -80,6 +88,7 @@ export {
   logsLoadingSelector,
   logsReducers,
   logsSelector,
+  noAccessRedirectPathSelector,
   openFiltersSlideover,
   openLogDetailsSlideover,
   openUsageSummarySlideover,
@@ -89,6 +98,8 @@ export {
   requestCountSelector,
   setActiveConfigurations,
   setFilters,
+  setHasAccess,
+  setNoAccessRedirectPath,
   setUsageDetails,
   usageDetailsSelector,
   usageSummaryErrorSelector,

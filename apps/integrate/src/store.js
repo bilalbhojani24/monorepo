@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import headerReducer from './features/Layout/slices/headerSlice';
 import {
+  authReducers,
   configurationsReducers,
   filtersReducers,
   integrationsReducers,
@@ -20,6 +21,7 @@ export const store = configureStore({
     usageSummary: usageSummaryReducers,
     logs: logsReducers,
     logDetails: logDetailsReducers,
-    filters: filtersReducers
+    filters: filtersReducers,
+    auth: authReducers
   }
 });

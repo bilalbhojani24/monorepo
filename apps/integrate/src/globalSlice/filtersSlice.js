@@ -36,7 +36,10 @@ export const filtersSlice = createSlice({
       state.filters = action.payload;
     },
     clearFilters: (state) => {
-      state.filters = { ...filtersInitialState, query: state.filters.query };
+      state.filters = {
+        ...filtersInitialState,
+        [FILTER_KEY.URL_SEARCH]: state.filters[FILTER_KEY.URL_SEARCH]
+      };
     }
   }
 });

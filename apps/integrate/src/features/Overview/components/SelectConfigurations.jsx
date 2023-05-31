@@ -113,7 +113,7 @@ const SelectConfigurations = () => {
     if (!isEmpty(activeConfigurations)) {
       return activeConfigurations.length === 1
         ? activeConfigurations[0].label
-        : 'All';
+        : 'All Configurations';
     }
     return 'Configurations';
   };
