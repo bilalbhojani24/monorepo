@@ -26,7 +26,7 @@ const TMTruncateText = (props) => {
     );
     customProp.headerTooltipProps = {
       ...props.headerTooltipProps,
-      wrapperClassName: 'break-all'
+      wrapperClassName: 'break-words'
     };
   }
   return <TruncateText {...props} {...customProp} />;
