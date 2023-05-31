@@ -188,7 +188,18 @@ const Alerts = (props) => {
                         </ul>
                       </div>
                     ) : (
-                      <p>{description} </p>
+                      <p>
+                        {description}
+                        {alertLinkPosition === ALERT_LINK_POSITION[0] &&
+                          detailsNode &&
+                          link(
+                            alertLinkPosition,
+                            modifier,
+                            handleLinkClick,
+                            linkUrl,
+                            detailsNode
+                          )}
+                      </p>
                     )}
 
                     {/* alert actions */}
@@ -252,16 +263,6 @@ const Alerts = (props) => {
                       </div>
                     )}
                   </div>
-
-                  {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                    detailsNode &&
-                    link(
-                      alertLinkPosition,
-                      modifier,
-                      handleLinkClick,
-                      linkUrl,
-                      detailsNode
-                    )}
                 </span>
               </div>
 
