@@ -37,7 +37,7 @@ const InputField = forwardRef(
     },
     ref
   ) => (
-    <>
+    <div>
       {(label || cornerHintText) && (
         <div className="mb-1 flex justify-between" role={role}>
           <label
@@ -53,7 +53,9 @@ const InputField = forwardRef(
           )}
         </div>
       )}
-      <div className={twClassNames('w-full flex shadow-sm', wrapperClassName)}>
+      <div
+        className={twClassNames('w-full flex z-10 shadow-sm', wrapperClassName)}
+      >
         {addOnBefore}
         <div
           className={twClassNames(
@@ -136,7 +138,7 @@ const InputField = forwardRef(
       {description && (
         <p className="text-base-500 mt-2 text-sm">{description}</p>
       )}
-    </>
+    </div>
   )
 );
 

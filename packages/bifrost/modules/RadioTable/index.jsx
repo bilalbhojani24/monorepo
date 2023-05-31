@@ -29,7 +29,7 @@ const RadioTable = (props) => {
                   'rounded-tl-md rounded-tr-md': optionIdx === 0,
                   'rounded-bl-md rounded-br-md':
                     optionIdx === options.length - 1,
-                  'bg-brand-50 border-brand-200': checked,
+                  'bg-brand-50 border-brand-200 z-10': checked,
                   'border-base-200': !checked
                 },
                 'relative border p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 md:grid md:grid-cols-3 focus:outline-none'

@@ -14,13 +14,13 @@ import TestObservabilityIcon from '../../Icon/HeaderIcons/TestObservabilityIcon'
 export const WEBSITE_TESTING_PRODUCTS = [
   {
     name: 'Live',
-    description: 'Interactive cross browser testing',
+    description: 'Manual cross-browser testing',
     icon: <LiveIcon />,
     link: 'https://live.browserstack.com/dashboard'
   },
   {
     name: 'Automate',
-    description: 'Selenium testing at scale',
+    description: 'Browser automation grid',
     icon: <AutomateIcon />,
     link: 'https://automate.browserstack.com'
   },
@@ -40,13 +40,13 @@ export const WEBSITE_TESTING_PRODUCTS = [
 export const MOBILE_APP_TESTING_PRODUCTS = [
   {
     name: 'App Live',
-    description: 'Interactive mobile app testing',
+    description: 'Manual real device testing',
     icon: <AppLiveIcon />,
     link: 'https://app-live.browserstack.com/dashboard'
   },
   {
     name: 'App Automate',
-    description: 'Test automation for mobile apps',
+    description: 'Real device automation grid',
     icon: <AppAutomateIcon />,
     link: 'https://app-automate.browserstack.com'
   },

@@ -64,7 +64,7 @@ const Banner = ({
         {description ? renderDescription(false, true) : null}
       </div>
       {isDismissButton ? (
-        <div className="absolute inset-y-0 right-0 flex items-start pr-1 pt-1 sm:items-center sm:pr-2">
+        <div className="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-center sm:pr-2">
           {renderDismissButton()}
         </div>
       ) : null}
@@ -76,11 +76,10 @@ const Banner = ({
       className={twClassNames(
         {
           'relative w-full': placement === BANNER_PLACEMENT[0],
-          'fixed top-0 inset-x-0': placement === BANNER_PLACEMENT[1],
-          'fixed bottom-0 inset-x-0': placement === BANNER_PLACEMENT[2]
+          'fixed top-0 inset-x-0 z-999': placement === BANNER_PLACEMENT[1],
+          'fixed bottom-0 inset-x-0 z-999': placement === BANNER_PLACEMENT[2]
         },
-        classes[modifier].containerColor,
-        'z-40'
+        classes[modifier].containerColor
       )}
       id={headerID || null}
     >
