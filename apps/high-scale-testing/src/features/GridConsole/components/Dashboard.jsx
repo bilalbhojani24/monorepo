@@ -22,12 +22,16 @@ const GridConsole = () => {
   const navigate = useNavigate();
 
   const options = [
-    { id: 'helm/kubectl', body: 'Helm/KubeCTL' },
-    { id: 'cli', body: 'CLI' }
+    {
+      id: 'helm/kubectl',
+      value: 'Helm/KubeCTL',
+      body: 'Spawn a grid via Helm / KubeCTL'
+    },
+    { id: 'cli', value: 'CLI', body: 'Spawn a grid with customizations' }
   ];
 
   const dropdownHandler = (value) => {
-    navigate(`${ROUTES.CREATE_GRID}?type=${value.body}`);
+    navigate(`${ROUTES.CREATE_GRID}?type=${value.value}`);
   };
 
   return (
