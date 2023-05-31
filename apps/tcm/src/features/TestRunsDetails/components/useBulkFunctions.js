@@ -151,7 +151,6 @@ const useBulkFunctions = () => {
 
   const selectAll = (e) => {
     if (e.currentTarget.checked) {
-      // setBulkAll(true);
       setSelectedTestCaseIDs([
         ...new Set([
           ...selectedTestCaseIDs,
@@ -159,7 +158,6 @@ const useBulkFunctions = () => {
         ])
       ]);
     } else {
-      // setBulkAll(false);
       const thisPageTCIDs = allTestCases.map((item) => item.id);
       setSelectedTestCaseIDs(
         selectedTestCaseIDs.filter((item) => !thisPageTCIDs.includes(item))

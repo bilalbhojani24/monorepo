@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import AddIssuesModal from 'common/AddIssuesModal/components/AddIssuesModal';
 import {
-  // TMBadgeComboBox,
   TMButton,
   TMModal,
   TMModalBody,
@@ -123,14 +122,6 @@ const AddResultModal = () => {
               onSave={saveAddIssesModal}
             />
           </div>
-          {/* <TMBadgeComboBox
-            placeholder="Select from options"
-            label={
-              <div className="text-base-700 mb-1 block text-sm font-medium">
-                Jira Issues
-              </div>
-            }
-          /> */}
         </div>
       </TMModalBody>
       <TMModalFooter position="right">
