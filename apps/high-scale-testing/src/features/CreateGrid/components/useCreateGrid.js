@@ -1,15 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { fetchDataForCreateGrid } from 'api/index';
 import { SCRATCH_RADIO_GROUP_OPTIONS } from 'constants/index';
 
 const useCreateGrid = () => {
-  const COMBOBOX_OPTIONS = [
-    { label: 'a', value: 'a' },
-    { label: 'd', value: 'd' },
-    { label: 'c', value: 'c' },
-    { label: 'b', value: 'b' }
-  ];
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
+  const IS_MANDATORY = true;
 
   const breadcrumbsData = [
     {
@@ -39,11 +35,31 @@ const useCreateGrid = () => {
   const [currentSelectedCloudProvider, setCurrentCloudProvider] = useState(
     DEFAULT_CLOUD_PROVIDER
   );
-  const [gridProfiles, setGridProfiles] = useState([]);
+  const [gridProfiles, setGridProfiles] = useState([
+    { label: 'label', value: 'value' },
+    { label: 'label 2', value: 'value2' }
+  ]);
+  const [selectedGridName, setSelectedGridName] =
+    useState('high-scale-testing');
+  const [selectedGridClusters, setSelectedGridclusters] = useState([]);
+  const [selectedGridConcurrency, setSelectedGridConcurrency] = useState(0);
+  const [gridProfilesData, setGridProfilesData] = useState([]);
   const [opened, setOpened] = useState(false);
   const [selectedGridProfile, setSelectedGridProfile] = useState('default');
 
   const ref = useRef({});
+
+  const [searchParams, setSearchparams] = useSearchParams();
+
+  const gridConcurrencyChangeHandler = (e) => {
+    const newValue = e.target.value;
+    setSelectedGridConcurrency(newValue);
+  };
+
+  const gridNameChangeHandler = (e) => {
+    const newValue = e.target.value;
+    setSelectedGridName(newValue);
+  };
 
   useEffect(() => {
     if (Object.keys(allAvailableRegionsByProvider).length > 0) {
@@ -58,18 +74,51 @@ const useCreateGrid = () => {
   }, [gridProfiles]);
 
   useEffect(() => {
+    setSelectedGridName(selectedGridProfile.value);
+    if (selectedGridProfile) {
+      const tmpArray = [];
+      const rawClusters = gridProfilesData.filter(
+        (profileData) => profileData.profile.name === selectedGridProfile.value
+      )[0]?.clusters;
+
+      rawClusters?.forEach((e) => {
+        e = { ...e, label: e.name, value: e.name };
+        tmpArray.push(e);
+      });
+
+      setSelectedGridclusters(tmpArray);
+    }
+  }, [selectedGridProfile]);
+
+  useEffect(() => {
+    if (gridProfilesData.length > 0) {
+      const tmpArray = [];
+      gridProfilesData.forEach((profileData) => {
+        const tmpObj = {
+          label: profileData.profile.name,
+          value: profileData.profile.name
+        };
+
+        tmpArray.push(tmpObj);
+      });
+
+      setGridProfiles(tmpArray);
+    }
+  }, [gridProfilesData]);
+
+  useEffect(() => {
     fetchDataForCreateGrid().then((res) => {
       const response = res.data;
-      setGridProfiles(response['grid-profiles']);
-      setAllAvailableRegionsByProvider(response.regions);
-      setAllAvailableInstanceTypes(response['instance-types']);
-      setAllAvailableVPCIDs(response['vpc-id']);
-      setAllAvailableSubnets(response.subnets);
+      console.log('Log: response:', response);
+      setGridProfilesData(response);
+      // setAllAvailableRegionsByProvider(response.regions);
+      // setAllAvailableInstanceTypes(response['instance-types']);
+      // setAllAvailableVPCIDs(response['vpc-id']);
+      // setAllAvailableSubnets(response.subnets);
     });
   }, []);
 
   return {
-    COMBOBOX_OPTIONS,
     allAvailableInstanceTypes,
     allAvailableRegionsByProvider,
     allAvailableSubnets,
@@ -77,9 +126,15 @@ const useCreateGrid = () => {
     currentProvidersRegions,
     breadcrumbsData,
     currentSelectedCloudProvider,
+    gridConcurrencyChangeHandler,
+    gridNameChangeHandler,
     gridProfiles,
+    IS_MANDATORY,
     opened,
     ref,
+    selectedGridClusters,
+    selectedGridConcurrency,
+    selectedGridName,
     selectedGridProfile,
     setOpened,
     setCurrentCloudProvider,

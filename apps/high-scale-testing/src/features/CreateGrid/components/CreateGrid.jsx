@@ -27,16 +27,21 @@ import useCreateGrid from './useCreateGrid';
 
 const CreateGrid = () => {
   const {
-    COMBOBOX_OPTIONS,
     allAvailableInstanceTypes,
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
     currentProvidersRegions,
     currentSelectedCloudProvider,
+    gridConcurrencyChangeHandler,
+    gridNameChangeHandler,
     gridProfiles,
+    IS_MANDATORY,
     opened,
     ref,
+    selectedGridClusters,
+    selectedGridConcurrency,
+    selectedGridName,
     selectedGridProfile,
     setOpened,
     setCurrentCloudProvider,
@@ -80,167 +85,247 @@ const CreateGrid = () => {
           ]}
         />
         <div className="w-full">
-          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-          <div className="m-6 h-[calc(100vh-64px-104px-48px)] overflow-auto rounded-lg border border-base-300 bg-white p-6">
-            <p className="text-lg font-medium">Choose Grid Profile</p>
-            <p className="text-sm text-base-500">
-              Use previously saved profiles to configure Grid settings with
-              pre-filled values.
-            </p>
+          <div className="border-base-300 m-6 rounded-lg border bg-white ">
+            {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+            <div className="h-[calc(100vh-64px-104px-48px-62px)] overflow-auto p-6">
+              {/* Choose Grid Profile */}
+              <>
+                <p className="text-base-900 text-sm font-medium">
+                  Choose Grid Profile
+                </p>
+                <p className="text-base-500 text-sm">
+                  Use previously saved profiles to configure Grid settings with
+                  pre-filled values.
+                </p>
 
-            <div className="mb-6 mt-3 w-1/2">
-              <SelectMenu
-                onChange={(val) => setSelectedGridProfile(val)}
-                value={selectedGridProfile}
-              >
-                <SelectMenuTrigger ref={ref} />
-                <SelectMenuOptionGroup>
-                  {gridProfiles.map((item) => (
-                    <SelectMenuOptionItem key={item.value} option={item} />
-                  ))}
-                </SelectMenuOptionGroup>
-              </SelectMenu>
-            </div>
-
-            {/* Choose Cloud Provider */}
-            <div>
-              <p className="text-sm font-medium">Choose Cloud Provider</p>
-              <p className="text-sm  font-normal text-base-500">
-                Currently we support only AWS but GCP and Azure will be
-                supported soon.
-              </p>
-
-              <div className="my-3">
-                <RadioGroup
-                  onChange={(e, option) => {
-                    const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
-                      (item) => item.id === option
-                    );
-
-                    setCurrentCloudProvider(newOption);
-                  }}
-                  options={SCRATCH_RADIO_GROUP_OPTIONS}
-                  selectedOption={currentSelectedCloudProvider}
-                />
-              </div>
-            </div>
-            {/* ----- */}
-
-            {/* Configure Grid Profile */}
-            <div className="mt-6">
-              <p className="text-sm font-normal">Configure Grid Profile</p>
-              <p className="text-sm font-normal text-base-500">
-                The current settings are based on the default grid profile. You
-                can make the changes and save it as a new profile.
-              </p>
-
-              <div className="mt-4 flex gap-4">
-                <div className="w-1/2">
-                  <InputField
-                    id="test-id"
-                    // eslint-disable-next-line react/jsx-boolean-value
-                    isMandatory={true}
-                    label="Grid Name"
-                    onBlur={null}
-                    onChange={null}
-                    onFocus={null}
-                    onKeyDown={null}
-                    placeholder="high-scale-grid"
-                  />
-                </div>
-
-                <div className="w-1/2">
-                  <InputField
-                    id="test-id"
-                    // eslint-disable-next-line react/jsx-boolean-value
-                    isMandatory={true}
-                    label="Concurrency"
-                    onBlur={null}
-                    onChange={null}
-                    onFocus={null}
-                    onKeyDown={null}
-                    placeholder="high-scale-grid"
-                    // wrapperClassName="w-1/4"
-                  />
-                </div>
-              </div>
-
-              <div className="mt-4 flex items-end gap-4">
-                <div className="w-1/2">
-                  <ComboBox
-                    // onChange={(val) => setSelected(val)}
-                    // value={selected}
-                    isMulti={false}
-                    // eslint-disable-next-line react/jsx-boolean-value
-                    isMandatory={true}
+                <div className="mb-6 mt-3 w-1/2">
+                  <SelectMenu
+                    onChange={(val) => setSelectedGridProfile(val)}
+                    value={selectedGridProfile}
                   >
-                    <ComboboxLabel>Cluster</ComboboxLabel>
-                    <ComboboxTrigger placeholder="Placeholder" />
-                    <ComboboxOptionGroup>
-                      {COMBOBOX_OPTIONS.map((item) => (
-                        <ComboboxOptionItem key={item.value} option={item} />
+                    <SelectMenuTrigger ref={ref} />
+                    <SelectMenuOptionGroup>
+                      {gridProfiles.map((item) => (
+                        <SelectMenuOptionItem key={item.value} option={item} />
                       ))}
-                    </ComboboxOptionGroup>
-                  </ComboBox>
+                    </SelectMenuOptionGroup>
+                  </SelectMenu>
                 </div>
+              </>
+              {/* --- X --- Choose Grid Profile --- X --- */}
 
+              {/* Choose Cloud Provider */}
+              <>
                 <div>
-                  <Button colors="white" icon={<MdAdd />} iconPlacement="start">
-                    Setup New Cluster
-                  </Button>
+                  <p className="text-base-900 text-sm font-medium">
+                    Choose Cloud Provider
+                  </p>
+                  <p className="text-base-500  text-sm font-normal">
+                    Currently we support only AWS but GCP and Azure will be
+                    supported soon.
+                  </p>
+
+                  <div className="my-3">
+                    <RadioGroup
+                      onChange={(e, option) => {
+                        const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
+                          (item) => item.id === option
+                        );
+
+                        setCurrentCloudProvider(newOption);
+                      }}
+                      options={SCRATCH_RADIO_GROUP_OPTIONS}
+                      selectedOption={currentSelectedCloudProvider}
+                    />
+                  </div>
+                </div>
+              </>
+              {/* --- X --- Choose Cloud Provider --- X --- */}
+
+              {/* Configure Grid Profile */}
+              <div className="mt-6">
+                <p className="text-base-900 text-sm font-medium">
+                  Configure Grid Profile
+                </p>
+                <p className="text-base-500 text-sm font-normal">
+                  The current settings are based on the default grid profile.
+                  You can make the changes and save it as a new profile.
+                </p>
+
+                <div className="mt-4 flex gap-4">
+                  <div className="w-1/2">
+                    <InputField
+                      id="test-id"
+                      isMandatory={IS_MANDATORY}
+                      label="Grid Name"
+                      onBlur={null}
+                      onChange={gridNameChangeHandler}
+                      onFocus={null}
+                      onKeyDown={null}
+                      value={selectedGridName}
+                    />
+                  </div>
+
+                  <div className="w-1/2">
+                    <InputField
+                      id="test-id"
+                      isMandatory={IS_MANDATORY}
+                      label="Concurrency"
+                      onBlur={null}
+                      onChange={gridConcurrencyChangeHandler}
+                      onFocus={null}
+                      onKeyDown={null}
+                      placeholder="high-scale-grid"
+                      value={selectedGridConcurrency}
+                    />
+                  </div>
                 </div>
 
-                <div>
-                  <Button colors="white" icon={<MdAdd />} iconPlacement="start">
-                    Edit
-                  </Button>
-                </div>
-              </div>
+                <div className="mt-4 flex items-end gap-4">
+                  <div className="w-1/2">
+                    <ComboBox
+                      // onChange={(val) => setSelected(val)}
+                      // value={selected}
+                      isMulti={false}
+                      // eslint-disable-next-line react/jsx-boolean-value
+                      isMandatory={true}
+                    >
+                      <ComboboxLabel>Cluster</ComboboxLabel>
+                      <ComboboxTrigger placeholder="Placeholder" />
+                      <ComboboxOptionGroup>
+                        {selectedGridClusters.map((item) => (
+                          <ComboboxOptionItem key={item.value} option={item} />
+                        ))}
+                      </ComboboxOptionGroup>
+                    </ComboBox>
+                  </div>
 
-              <div className="mt-2">
-                <Accordion>
-                  <AccordionSimpleHeader
-                    controller={opened}
-                    onClick={() => setOpened(!opened)}
-                    title="Advanced Settings"
-                  />
-                  <AccordionPanel controller={opened}>
-                    <div className="my-2 h-16 items-center justify-center p-2">
-                      <div className="flex flex-row gap-4">
-                        <div className="w-1/2">
-                          <SelectMenu
-                            onChange={(val) => setSelectedGridProfile(val)}
-                            value={selectedGridProfile}
-                          >
-                            <SelectMenuLabel>
-                              Region
-                              <span className="ml-0.5 text-danger-600">*</span>
-                            </SelectMenuLabel>
-                            <SelectMenuTrigger ref={ref} />
-                            <SelectMenuOptionGroup>
-                              {currentProvidersRegions.map((item) => (
-                                <SelectMenuOptionItem
-                                  key={item.value}
-                                  option={item}
-                                />
-                              ))}
-                            </SelectMenuOptionGroup>
-                          </SelectMenu>
+                  <div>
+                    <Button
+                      colors="white"
+                      icon={<MdAdd />}
+                      iconPlacement="start"
+                    >
+                      Setup New Cluster
+                    </Button>
+                  </div>
+
+                  <div>
+                    <Button
+                      colors="white"
+                      icon={<MdAdd />}
+                      iconPlacement="start"
+                    >
+                      Edit
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Advanced Settings */}
+                <div className="mt-2">
+                  <Accordion>
+                    <AccordionSimpleHeader
+                      controller={opened}
+                      onClick={() => setOpened(!opened)}
+                      title="Advanced Settings"
+                    />
+                    <AccordionPanel controller={opened}>
+                      <div className="my-2 h-16 items-center justify-center p-2">
+                        <div className="flex flex-row gap-4">
+                          <div className="w-1/2">
+                            <SelectMenu
+                              onChange={(val) => setSelectedGridProfile(val)}
+                              value={selectedGridProfile}
+                            >
+                              <SelectMenuLabel>
+                                Region
+                                <span className="text-danger-600 ml-0.5">
+                                  *
+                                </span>
+                              </SelectMenuLabel>
+                              <SelectMenuTrigger ref={ref} />
+                              <SelectMenuOptionGroup>
+                                {currentProvidersRegions.map((item) => (
+                                  <SelectMenuOptionItem
+                                    key={item.value}
+                                    option={item}
+                                  />
+                                ))}
+                              </SelectMenuOptionGroup>
+                            </SelectMenu>
+                          </div>
+
+                          <div className="w-1/2">
+                            <ComboBox
+                              // onChange={(val) => setSelected(val)}
+                              // value={selected}
+                              isMulti={false}
+                            >
+                              <ComboboxLabel>
+                                Instance Type
+                                <span className="text-danger-600 ml-0.5">
+                                  *
+                                </span>
+                              </ComboboxLabel>
+                              <ComboboxTrigger placeholder="Placeholder" />
+                              <ComboboxOptionGroup>
+                                {allAvailableInstanceTypes.map((item) => (
+                                  <ComboboxOptionItem
+                                    key={item.value}
+                                    option={item}
+                                  />
+                                ))}
+                              </ComboboxOptionGroup>
+                            </ComboBox>
+                          </div>
                         </div>
 
-                        <div className="w-1/2">
+                        <div className="mt-4 flex flex-row gap-4">
+                          <div className="w-1/2">
+                            <ComboBox
+                              // onChange={(val) => setSelected(val)}
+                              // value={selected}
+                              isMulti={false}
+                            >
+                              <ComboboxLabel>VPC ID</ComboboxLabel>
+                              <ComboboxTrigger placeholder="Placeholder" />
+                              <ComboboxOptionGroup>
+                                {allAvailableVPCIDs.map((item) => (
+                                  <ComboboxOptionItem
+                                    key={item.value}
+                                    option={item}
+                                  />
+                                ))}
+                              </ComboboxOptionGroup>
+                            </ComboBox>
+                          </div>
+                          <div className="w-1/2">
+                            <InputField
+                              addOnBefore={
+                                <InputGroupAddOn>https://</InputGroupAddOn>
+                              }
+                              id="test-id"
+                              label="Label"
+                              onBlur={null}
+                              onChange={null}
+                              onFocus={null}
+                              onKeyDown={null}
+                              placeholder="www.hst.browserstack.com"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="mt-4 w-1/2">
                           <ComboBox
                             // onChange={(val) => setSelected(val)}
                             // value={selected}
-                            isMulti={false}
+                            // eslint-disable-next-line react/jsx-boolean-value
+                            isMulti={true}
                           >
-                            <ComboboxLabel>
-                              Instance Type
-                              <span className="ml-0.5 text-danger-600">*</span>
-                            </ComboboxLabel>
+                            <ComboboxLabel>Subnets</ComboboxLabel>
                             <ComboboxTrigger placeholder="Placeholder" />
                             <ComboboxOptionGroup>
-                              {allAvailableInstanceTypes.map((item) => (
+                              {allAvailableSubnets.map((item) => (
                                 <ComboboxOptionItem
                                   key={item.value}
                                   option={item}
@@ -250,67 +335,16 @@ const CreateGrid = () => {
                           </ComboBox>
                         </div>
                       </div>
-
-                      <div className="mt-4 flex flex-row gap-4">
-                        <div className="w-1/2">
-                          <ComboBox
-                            // onChange={(val) => setSelected(val)}
-                            // value={selected}
-                            isMulti={false}
-                          >
-                            <ComboboxLabel>VPC ID</ComboboxLabel>
-                            <ComboboxTrigger placeholder="Placeholder" />
-                            <ComboboxOptionGroup>
-                              {allAvailableVPCIDs.map((item) => (
-                                <ComboboxOptionItem
-                                  key={item.value}
-                                  option={item}
-                                />
-                              ))}
-                            </ComboboxOptionGroup>
-                          </ComboBox>
-                        </div>
-                        <div className="w-1/2">
-                          <InputField
-                            addOnBefore={
-                              <InputGroupAddOn>https://</InputGroupAddOn>
-                            }
-                            id="test-id"
-                            label="Label"
-                            onBlur={null}
-                            onChange={null}
-                            onFocus={null}
-                            onKeyDown={null}
-                            placeholder="www.hst.browserstack.com"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="mt-4 w-1/2">
-                        <ComboBox
-                          // onChange={(val) => setSelected(val)}
-                          // value={selected}
-                          // eslint-disable-next-line react/jsx-boolean-value
-                          isMulti={true}
-                        >
-                          <ComboboxLabel>Subnets</ComboboxLabel>
-                          <ComboboxTrigger placeholder="Placeholder" />
-                          <ComboboxOptionGroup>
-                            {allAvailableSubnets.map((item) => (
-                              <ComboboxOptionItem
-                                key={item.value}
-                                option={item}
-                              />
-                            ))}
-                          </ComboboxOptionGroup>
-                        </ComboBox>
-                      </div>
-                    </div>
-                  </AccordionPanel>
-                </Accordion>
+                    </AccordionPanel>
+                  </Accordion>
+                </div>
+                {/* --- X --- Advanced Settings --- X --- */}
               </div>
+              {/* --- X --- Configure Grid Profile --- X --- */}
             </div>
-            {/* ----- */}
+            <div className="border-base-300 flex flex-row-reverse border-t px-6 py-3">
+              <Button> Next </Button>
+            </div>
           </div>
         </div>
       </div>
