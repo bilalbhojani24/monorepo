@@ -6,11 +6,6 @@ const useGridConsole = () => {
     name: 'Grids',
     value: 'grids'
   });
-  const [showCreateGridCLIModal, setShowCreateGridCLIModal] = useState(false);
-
-  const createGridBtnHandler = () => {
-    setShowCreateGridCLIModal(true);
-  };
 
   useEffect(() => {
     setCurrentListingType({
@@ -21,11 +16,8 @@ const useGridConsole = () => {
   }, []);
 
   return {
-    createGridBtnHandler,
     currentListingType,
-    setCurrentListingType,
-    setShowCreateGridCLIModal,
-    showCreateGridCLIModal
+    setCurrentListingType
   };
 };
 
