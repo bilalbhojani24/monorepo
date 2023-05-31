@@ -28,18 +28,20 @@ const FilterPills = () => {
   const handleRemoveAll = () => {
     dispatch(clearFilters());
   };
-  if (!appliedFilters.length) {
+  if (
+    !appliedFilters.length ||
+    (appliedFilters.length === 1 &&
+      appliedFilters[0]?.type === BUILD_FILTER_TYPES.search)
+  ) {
     return null;
   }
 
   return (
     <div className="flex items-baseline">
-      {!!appliedFilters.length && (
-        <div className="inline-flex gap-4">
-          <p className="text-base-500 text-sm">Filters</p>
-          <div className="border-base-300 my-auto h-5 border-l" />
-        </div>
-      )}
+      <div className="inline-flex gap-4">
+        <p className="text-base-500 text-sm">Filters</p>
+        <div className="border-base-300 my-auto h-5 border-l" />
+      </div>
       <div className="block">
         {appliedFilters.map((item) => {
           if (item.type === BUILD_FILTER_TYPES.search) {

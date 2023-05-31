@@ -160,7 +160,7 @@ export default function Sidebar() {
         ))}
         sidebarSecondaryNavigation={
           <>
-            <div className="mb-4">
+            <div className="mb-4 px-3">
               <ActionPanel
                 title="Have questions?"
                 description="Unlock the full potential of Test Observability"
