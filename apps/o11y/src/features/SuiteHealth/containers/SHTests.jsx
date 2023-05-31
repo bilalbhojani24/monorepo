@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { MdSearchOff } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import EmptyPage from 'common/EmptyPage';
+import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import { clearAllAppliedFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import {
   getAllAppliedFilters,
   getCurrentFilterCategory,
@@ -193,12 +195,16 @@ export default function SHTests() {
     }
   };
 
+  const handleViewAll = () => {
+    dispatch(clearAllAppliedFilters());
+  };
+
   return (
     <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
       <div className={twClassNames('mb-4 px-6 pt-5')}>
         <SHTestsFilters o11ySHTestsInteraction={o11ySHTestsInteraction} />
       </div>
-      <TestsMetrics />
+      <TestsMetrics hasNoData={isEmpty(tests)} />
       {isLoadingTests ? (
         <O11yLoader wrapperClassName="flex-1" />
       ) : (
@@ -209,7 +215,18 @@ export default function SHTests() {
                 'flex items-center justify-center flex-1'
               )}
             >
-              <EmptyPage text="No data found" />
+              <O11yEmptyState
+                title="No matching results found"
+                description="We couldn't find the results you were looking for."
+                mainIcon={
+                  <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                }
+                buttonProps={{
+                  children: 'View all tests',
+                  onClick: handleViewAll,
+                  size: 'default'
+                }}
+              />
             </div>
           ) : (
             <div className="flex-1 overflow-auto px-6">

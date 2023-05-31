@@ -8,11 +8,13 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
+import { MdSearchOff } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import EmptyPage from 'common/EmptyPage';
+import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import { clearAllAppliedFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import {
   getAllAppliedFilters,
   getCurrentFilterCategory,
@@ -188,12 +190,16 @@ const SnPUniqueErrors = () => {
     dispatch(setErrorsSortBy(updatedData));
   };
 
+  const handleViewAll = () => {
+    dispatch(clearAllAppliedFilters());
+  };
+
   return (
     <div className={twClassNames('flex flex-col h-full ')}>
       <div className={twClassNames('mb-4 px-6 pt-5')}>
         <SHUEFilters o11ySHUEInteraction={o11ySHUEInteraction} />
       </div>
-      <UEMetrics />
+      <UEMetrics hasNoData={isEmpty(errors)} />
       {isLoadingErrors ? (
         <O11yLoader
           wrapperClassName="flex-1"
@@ -207,7 +213,18 @@ const SnPUniqueErrors = () => {
                 'flex items-center justify-center flex-1'
               )}
             >
-              <EmptyPage text="No data found" />
+              <O11yEmptyState
+                title="No matching results found"
+                description="We couldn't find the results you were looking for."
+                mainIcon={
+                  <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                }
+                buttonProps={{
+                  children: 'View all unique errors',
+                  onClick: handleViewAll,
+                  size: 'default'
+                }}
+              />
             </div>
           ) : (
             <>

@@ -7,13 +7,14 @@ import {
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
+import PropTypes from 'prop-types';
 
 import TotalImpactedExecutionsMetric from '../components/TotalImpactedExecutionsMetric';
 import TotalUniqueErrorMetric from '../components/TotalUniqueErrorMetric';
 import UniqueImpactedTestsMetric from '../components/UniqueImpactedTestsMetric';
 import { getSnPUEMetricsData } from '../slices/uiSlice';
 
-const UEMetrics = () => {
+const UEMetrics = ({ hasNoData }) => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
@@ -49,6 +50,10 @@ const UEMetrics = () => {
     currentFilterCategory
   ]);
 
+  if (hasNoData) {
+    return null;
+  }
+
   return (
     <div className="flex items-center gap-5 px-6 pb-4">
       <TotalUniqueErrorMetric
@@ -70,6 +75,8 @@ const UEMetrics = () => {
   );
 };
 
-UEMetrics.propTypes = {};
+UEMetrics.propTypes = {
+  hasNoData: PropTypes.bool.isRequired
+};
 
 export default UEMetrics;
