@@ -14,10 +14,12 @@ export const getMutedStats = async (buildId) =>
   axios.get(`${versionedBaseRoute()}/builds/${buildId}/mutedStats`);
 export const getDefectStats = async (buildId) =>
   axios.get(`${versionedBaseRoute()}/builds/${buildId}/defectStats`);
-export const getBuildSummaryStats = async (buildId) =>
-  axios.get(`${versionedBaseRoute()}/builds/${buildId}/buildSummary`);
-export const getBuildHistoryStats = async (buildId) =>
-  axios.get(`${versionedBaseRoute()}/builds/${buildId}/buildHistory`);
+export const getBuildSummaryStats = async (buildId, signal) =>
+  axios.get(`${versionedBaseRoute()}/builds/${buildId}/buildSummary`, {
+    signal
+  });
+export const getBuildHistoryStats = async (buildId, signal) =>
+  axios.get(`${versionedBaseRoute()}/builds/${buildId}/buildHistory`, signal);
 export const getBuildStabilityStats = async (buildId) =>
   axios.get(`${versionedBaseRoute()}/builds/${buildId}/buildStabilityStats`);
 export const getBuildAlerts = async (buildId) =>

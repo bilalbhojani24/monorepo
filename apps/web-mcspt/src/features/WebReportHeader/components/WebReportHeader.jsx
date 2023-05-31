@@ -44,7 +44,7 @@ const ReportHeader = () => {
               colors="white"
               onClick={redirectToDesktopApp}
             >
-              Download app
+              Get Started for free
             </Button>
           }
           description="Uncover issues by running performance tests on your mobile apps."

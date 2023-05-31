@@ -16,6 +16,7 @@ import TestInsightsLayout from 'features/TestsInsights/containers/TestInsightsLa
 import { o11yNotify } from 'utils/notification';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
+import BuildDetailsStateHandler from '../components/BuildDetailsStateHandler';
 import { TABS } from '../constants';
 import {
   clearBuildUUID,
@@ -149,6 +150,42 @@ function BuildDetails() {
   }, []);
   // [END]Test list scroll positioning handling
 
+  const onUpdateBtnClick = useCallback(() => {
+    setIsLoading(true);
+    dispatch(
+      setTestList({
+        data: EMPTY_TESTLIST_DATA_STATE,
+        apiState: { status: API_STATUSES.idle, details: {} }
+      })
+    );
+    dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
+      .unwrap()
+      .catch(() => {
+        o11yNotify({
+          title: 'Something went wrong!',
+          description: 'There was an error while updating tests',
+          type: 'error'
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+        setUpdateCount(0);
+      });
+  }, [buildUUID, dispatch]);
+
+  const applyTestListFilter = useCallback(
+    ({ query, clearOnly = false, isFullQuery = false }) => {
+      dispatch(resetTestListSlice());
+      testListScrollPos.current = 0;
+      scrollIndexMapping.current = {};
+      if (!clearOnly) {
+        const searchString = isFullQuery ? query : `?tab=tests&${query}`;
+        navigate({ search: searchString });
+      }
+    },
+    [dispatch, navigate]
+  );
+
   if (!buildUUID) {
     return (
       <div className="bg-base-50 flex h-screen w-full items-center justify-center">
@@ -173,44 +210,6 @@ function BuildDetails() {
       </div>
     );
   }
-
-  const onUpdateBtnClick = () => {
-    setIsLoading(true);
-    dispatch(
-      setTestList({
-        data: EMPTY_TESTLIST_DATA_STATE,
-        apiState: { status: API_STATUSES.idle, details: {} }
-      })
-    );
-    dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
-      .unwrap()
-      .catch(() => {
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating tests',
-          type: 'error'
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setUpdateCount(0);
-      });
-  };
-
-  const applyTestListFilter = ({
-    query,
-    clearOnly = false,
-    isFullQuery = false
-  }) => {
-    dispatch(resetTestListSlice());
-    testListScrollPos.current = 0;
-    scrollIndexMapping.current = {};
-    if (!clearOnly) {
-      const searchString = isFullQuery ? query : `?tab=tests&${query}`;
-      navigate({ search: searchString });
-    }
-  };
-
   return (
     <>
       <BuildDetailsHeader
@@ -219,20 +218,23 @@ function BuildDetails() {
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
         applyTestListFilter={applyTestListFilter}
       />
-      {activeTab.id === TABS.insights.id && (
-        <TestInsightsLayout applyTestListFilter={applyTestListFilter} />
-      )}
-      {activeTab.id === TABS.tests.id && (
-        <TestList
-          buildUUID={buildUUID}
-          testDefectTypeMapping={testDefectTypeMapping}
-          updateTestDefectTypeMapping={updateTestDefectTypeMapping}
-          updateTestScrollPos={updateTestScrollPos}
-          testListScrollPos={testListScrollPos.current}
-          scrollIndexMapping={scrollIndexMapping.current}
-          updateScrollIndexMapping={updateScrollIndexMapping}
-        />
-      )}
+
+      <BuildDetailsStateHandler>
+        {activeTab.id === TABS.insights.id && (
+          <TestInsightsLayout applyTestListFilter={applyTestListFilter} />
+        )}
+        {activeTab.id === TABS.tests.id && (
+          <TestList
+            buildUUID={buildUUID}
+            testDefectTypeMapping={testDefectTypeMapping}
+            updateTestDefectTypeMapping={updateTestDefectTypeMapping}
+            updateTestScrollPos={updateTestScrollPos}
+            testListScrollPos={testListScrollPos.current}
+            scrollIndexMapping={scrollIndexMapping.current}
+            updateScrollIndexMapping={updateScrollIndexMapping}
+          />
+        )}
+      </BuildDetailsStateHandler>
     </>
   );
 }

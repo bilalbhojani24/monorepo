@@ -21,6 +21,7 @@ import useImportCSV from './useImportCSV';
 
 const UploadFile = () => {
   const {
+    ampEventDownloadComp,
     csvUploadError,
     fileConfig,
     projectId,
@@ -54,6 +55,7 @@ const UploadFile = () => {
 
       // Start download
       link.click();
+      ampEventDownloadComp();
     });
   };
 

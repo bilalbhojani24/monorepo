@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { MdClose, MdSearch, MdSearchOff } from '@browserstack/bifrost';
 import {
   O11yButton,
@@ -12,7 +13,8 @@ import {
   O11yStackedList,
   O11yStackedListGroup
 } from 'common/bifrostProxy';
-import { AppContext } from 'features/Layout/context/AppContext';
+import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 
 import ListGroupHeader from '../components/ListGroupHeader';
 import { INTEGRATIONS } from '../constants';
@@ -33,7 +35,8 @@ const getMatchedIntegrationsByText = (list, searchVal) => {
 };
 
 function Integrations() {
-  const { headerSize } = useContext(AppContext);
+  const headerSize = useSelector(getHeaderSize);
+  const activeProject = useSelector(getActiveProject);
 
   const [availableIntegrations, setAvailableIntegrations] =
     useState(INTEGRATIONS);
@@ -42,6 +45,18 @@ function Integrations() {
   const [selectedCategory, setSelectedCategory] = useState(
     ALL_CATEGORIES_OPTION
   );
+
+  useEffect(() => {
+    if (activeProject.id) {
+      logOllyEvent({
+        event: 'O11yIntegrationsVisited',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id
+        }
+      });
+    }
+  }, [activeProject.id, activeProject.name]);
 
   const handleFilterByCategoryAndSearchVal = (searchVal, categoryType) => {
     const matchedCategory = INTEGRATIONS.find(
@@ -120,7 +135,7 @@ function Integrations() {
     <div
       className="flex w-full flex-col"
       style={{
-        height: `calc(100vh - ${headerSize.blockSize}px)`
+        height: `calc(100vh - ${headerSize}px)`
       }}
     >
       <O11yPageHeadings

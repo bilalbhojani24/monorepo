@@ -10,11 +10,12 @@ const ReportError = () => (
       </div>
 
       <div className="mt-5 text-lg font-medium leading-6">
-        There was an error loading the report
+        Oops! There was an error while loading the report
       </div>
 
       <div className="text-base-500 mt-2 text-sm font-normal leading-5">
-        errror description
+        Please try again and if the error persists check troubleshooting docs or
+        reach out to support
       </div>
 
       <div className="mt-6">
