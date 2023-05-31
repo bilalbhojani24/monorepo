@@ -77,8 +77,8 @@ const BulkEditTestCase = () => {
       </p>
 
       <>
-        <div className="mt-4 flex gap-4">
-          <div className="max-w-[49%] flex-1">
+        <div className="mt-4 flex">
+          <div className="w-1/2 flex-1 pr-2">
             <TMSelectMenu
               checkPosition="right"
               label="Type of Test Case"
@@ -95,7 +95,7 @@ const BulkEditTestCase = () => {
               // }
             />
           </div>
-          <div className="max-w-[49%] flex-1">
+          <div className="w-1/2 flex-1 pl-2">
             <TMSelectMenu
               checkPosition="right"
               label="Priority"
@@ -111,8 +111,8 @@ const BulkEditTestCase = () => {
             />
           </div>
         </div>
-        <div className="mt-4 flex gap-4">
-          <div className="max-w-[49%] flex-1">
+        <div className="mt-4 flex">
+          <div className="w-1/2 flex-1 pr-2">
             <TMSelectMenu
               // value={
               //   testCaseBulkFormData.status &&
@@ -127,7 +127,7 @@ const BulkEditTestCase = () => {
               onChange={(e) => handleTestCaseFieldChange('status', e.value)}
             />
           </div>
-          <div className="max-w-[49%] flex-1">
+          <div className="w-1/2 flex-1 pl-2">
             <TMSelectMenu
               // value={
               //   testCaseBulkFormData.owner &&
