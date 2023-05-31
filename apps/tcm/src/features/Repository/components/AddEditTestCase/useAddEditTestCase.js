@@ -62,6 +62,7 @@ export default function useAddEditTestCase(prop) {
     name: false
   });
   const [scheduledFolder, setScheduledFolder] = useState([]);
+  const [isBulkAutomationDisabled, setBulkAutomationDisabled] = useState(false);
   const [usersArrayMapped, setUsersArrayMapped] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
@@ -76,6 +77,7 @@ export default function useAddEditTestCase(prop) {
     (state) => state.repository.isSearchFilterView
   );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
+  const allTestCases = useSelector((state) => state.repository.allTestCases);
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
   );
@@ -663,6 +665,13 @@ export default function useAddEditTestCase(prop) {
       dispatch(setAddIssuesModal(true));
     }
   };
+
+  const decideBulkAutomationStatus = () => {
+    const match = allTestCases?.find(
+      (item) => bulkSelection?.ids?.includes?.(item.id) && item?.is_automation
+    );
+    setBulkAutomationDisabled(!!match);
+  };
   // const handleUpdateAllClicked = () => {
   //   console.log(selectedTestCase);
   //   dispatch(
@@ -712,6 +721,7 @@ export default function useAddEditTestCase(prop) {
   }, [projectId, usersArray]);
 
   return {
+    isBulkAutomationDisabled,
     bulkSelection,
     isTagsLoading,
     scheduledFolder,
@@ -757,6 +767,7 @@ export default function useAddEditTestCase(prop) {
     setBulkEditConfirm,
     showTestCaseAdditionPage,
     goToThisURL,
-    testCaseEditingInit
+    testCaseEditingInit,
+    decideBulkAutomationStatus
   };
 }

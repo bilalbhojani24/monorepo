@@ -32,17 +32,20 @@ const BulkEditTestCase = () => {
     statusOptions,
     testCaseTypeOptions,
     automationOptions,
+    isBulkAutomationDisabled,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
     saveBulkEditHelper,
     setBulkEditConfirm,
-    handleMenuOpen
+    handleMenuOpen,
+    decideBulkAutomationStatus
   } = useAddEditTestCase();
   const { initFormValues } = useTestCases();
 
   useEffect(() => {
     initFormValues();
+    decideBulkAutomationStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -99,6 +102,7 @@ const BulkEditTestCase = () => {
           <div className="w-1/2 flex-1">
             <TMSelectMenu
               checkPosition="right"
+              disabled={isBulkAutomationDisabled}
               label="Automation Status"
               placeholder="Select automation status"
               options={automationOptions}
