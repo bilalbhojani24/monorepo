@@ -1,9 +1,12 @@
 import React, { memo, useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
+import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
 import Highcharts from 'highcharts/highstock';
 import PropTypes from 'prop-types';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
-import { getNumberFormattedYAxisLabel } from '../utils';
+import { getDateRangeSubTitles, getNumberFormattedYAxisLabel } from '../utils';
 
 import StatsCard from './StatsCard';
 import StatsCardGraph from './StatsCardGraph';
@@ -23,6 +26,9 @@ function getFormattedTooltip() {
 }
 
 const UniqueImpactedTestsMetric = ({ isLoading, data, metric }) => {
+  const appliedDateRange = useSelector(
+    findAppliedFilterByType(ADV_FILTER_TYPES.dateRange.key)
+  );
   const seriesData = useMemo(() => {
     if (isLoading) {
       return [];
@@ -42,7 +48,7 @@ const UniqueImpactedTestsMetric = ({ isLoading, data, metric }) => {
     <StatsCard
       title="Unique Impacted Tests"
       stat={metric?.value}
-      subText={metric?.meta}
+      subText={getDateRangeSubTitles(appliedDateRange)}
       isLoading={isLoading}
       graph={
         <StatsCardGraph
