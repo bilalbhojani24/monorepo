@@ -10,6 +10,9 @@ import {
 } from 'api/fetchTestAutomationData';
 import { ISSUES, SUMMARY, TESTS } from 'constants';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
+
+import { getBuildEventTab } from '../../../constants';
 
 import {
   resetActiveTab,
@@ -91,6 +94,10 @@ export default function useAutomatedTestBuild() {
       activeTab: tab
     });
     navigate(`?${updatedPath}`);
+    logEvent('InteractedWithAutomatedTestsBuildView', {
+      actionType: 'Choose tab',
+      Tab: getBuildEventTab[tab]
+    });
   };
 
   useEffect(() => {

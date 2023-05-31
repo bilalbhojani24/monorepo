@@ -10,6 +10,7 @@ import {
 } from '@browserstack/bifrost';
 import { ISSUES, SUMMARY, TESTS } from 'constants';
 import format from 'date-fns/format';
+import { logEvent } from 'utils/logEvent';
 
 import Issues from './components/Issues';
 import Overview from './components/Overview';
@@ -98,16 +99,22 @@ export default function AutomatedTestBuild() {
               <div className="mr-6">
                 <ViewPlatformPopOver
                   data={platforms}
-                  handleInteraction={({ interaction }) =>
-                    console.log(interaction)
+                  handleInteraction={() =>
+                    logEvent('InteractedWithAutomatedTestsBuildView', {
+                      actionType: 'View metadata',
+                      action: 'View platform metadata'
+                    })
                   }
                 />
               </div>
 
               <ViewMetaPopOver
                 data={buildMetaData.meta || {}}
-                handleInteraction={({ interaction }) =>
-                  console.log(interaction)
+                handleInteraction={() =>
+                  logEvent('InteractedWithAutomatedTestsBuildView', {
+                    actionType: 'View metadata',
+                    action: 'View overall metadata'
+                  })
                 }
               />
             </div>
