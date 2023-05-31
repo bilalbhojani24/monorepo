@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { getLogDetailsThunk } from '../api';
-import { LOADING_STATUS } from '../constants/loadingConstants';
+import { getLogDetailsThunk } from 'api/logDetails';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 
 const initialState = {
   logUUID: null,

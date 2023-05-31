@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { getLogsThunk } from '../api';
-import { LOADING_STATUS } from '../constants/loadingConstants';
+import { getLogsThunk } from 'api/logs';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 
 const initialState = {
   data: {},

@@ -1,10 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { format } from 'date-fns';
-import PropTypes from 'prop-types';
-
-import { getLogDetailsThunk } from '../../../api';
-import { GenericError, Logo } from '../../../common';
+import { getLogDetailsThunk } from 'api/logDetails';
 import {
   INTGButton,
   INTGLoader,
@@ -14,12 +10,15 @@ import {
   INTGTableHead,
   INTGTableRow,
   INTGTruncateText
-} from '../../../common/bifrostProxy';
-import { LOADING_STATUS } from '../../../constants/loadingConstants';
+} from 'common/bifrostProxy';
+import { GenericError, Logo } from 'common/index';
+import { LOADING_STATUS } from 'constants/loadingConstants';
+import { format } from 'date-fns';
 import {
   logsLoadingSelector,
   openLogDetailsSlideover
-} from '../../../globalSlice';
+} from 'globalSlice/index';
+import PropTypes from 'prop-types';
 
 import StatusBadge from './StatusBadge';
 
@@ -113,7 +112,10 @@ const LogsTable = ({ logsData, getLogs }) => {
                   <p className="text-base-900">{item.tool.label}</p>
                 </div>
               </INTGTableCell>
-              <INTGTableCell key={`${item.uuid}-endpoint`}>
+              <INTGTableCell
+                key={`${item.uuid}-endpoint`}
+                wrapperClassName="w-80"
+              >
                 <INTGTruncateText
                   containerClassName="w-80"
                   wrapperClassName="break-words"

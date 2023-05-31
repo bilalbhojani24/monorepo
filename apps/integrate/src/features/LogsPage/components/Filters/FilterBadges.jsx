@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
-import { MdOutlineClear } from '@browserstack/bifrost';
+import { INTGBadge, INTGButton } from 'common/bifrostProxy';
 import { format, parseISO } from 'date-fns';
+import { FILTER_KEY } from 'globalSlice/index';
 import PropTypes from 'prop-types';
-
-import { INTGBadge, INTGButton } from '../../../../common/bifrostProxy';
-import { FILTER_KEY } from '../../../../globalSlice';
 
 import { FiltersType } from './types';
 
@@ -34,7 +32,7 @@ const getLabelArrayFromSelectOptions = ({
 }) =>
   options?.reduce((accumulator, option) => {
     const badgeItem = {
-      text: `${prefix}:${option[itemKey]}`,
+      text: `${prefix}: ${option[itemKey]}`,
       filterKey,
       value: option.value
     };
@@ -48,7 +46,7 @@ const getDateBadge = (filters, filterKey) => {
     const from = format(parseISO(filters.date.from), 'dd/MM/yyyy');
     const to = format(parseISO(filters.date.to), 'dd/MM/yyyy');
     const badgeItem = {
-      text: `${from} to ${to}`,
+      text: `Date: ${from} to ${to}`,
       filterKey
     };
     result.push(badgeItem);
@@ -97,7 +95,7 @@ const FilterBadges = ({ filters, setFilters, clearFilters }) => {
 
   return badges.length ? (
     <div className="flex justify-between">
-      <div className="my-3 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap gap-2">
         <p className="text-base-500 text-sm">Filters | </p>
         {badges.map(({ text, filterKey, value }) => (
           <FilterBadge
@@ -110,11 +108,10 @@ const FilterBadges = ({ filters, setFilters, clearFilters }) => {
         <INTGButton
           onClick={clearFilters}
           wrapperClassName="h-fit"
-          icon={<MdOutlineClear className="h-4 w-4" />}
-          iconPlacement="end"
           variant="minimal"
+          colors="white"
         >
-          Clear
+          Clear all
         </INTGButton>
       </div>
     </div>

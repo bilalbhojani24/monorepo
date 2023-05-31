@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
+import { GETTING_STARTED_DOC_LINK } from 'constants/common';
 
 const GettingStarted = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +16,7 @@ const GettingStarted = () => {
         })}
         title="getting-started"
         onLoad={onLoad}
-        src="https://www.browserstack.com/docs/onboarding/test-observability/mocha"
+        src={GETTING_STARTED_DOC_LINK}
       />
     </div>
   );

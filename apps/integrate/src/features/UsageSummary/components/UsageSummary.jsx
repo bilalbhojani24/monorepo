@@ -1,25 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { twClassNames } from '@browserstack/utils';
-import { getUnixTime, subMonths } from 'date-fns';
-import { omit } from 'lodash';
-
-import { getUsageSummaryThunk } from '../../../api';
-import { GenericError } from '../../../common';
+import { getUsageSummaryThunk } from 'api/usageSummary';
 import {
   INTGLoader,
   INTGSelectMenu,
   INTGSelectMenuOptionGroup,
   INTGSelectMenuOptionItem,
   INTGSelectMenuTrigger
-} from '../../../common/bifrostProxy';
-import { LOADING_STATUS } from '../../../constants/loadingConstants';
+} from 'common/bifrostProxy';
+import { GenericError } from 'common/index';
+import { LOADING_STATUS } from 'constants/loadingConstants';
+import { getUnixTime, subMonths } from 'date-fns';
 import {
   activeConfigurationsSelector,
   usageSummaryLoadingSelector,
   usageSummarySelector
-} from '../../../globalSlice';
-import { getCleanedConfigurationIds } from '../../../utils/helpers';
+} from 'globalSlice/index';
+import { omit } from 'lodash';
+import { getCleanedConfigurationIds } from 'utils/helpers';
 
 import UsageSummaryTable from './UsageSummaryTable';
 
@@ -80,12 +78,8 @@ const RequestsChart = () => {
 
   return (
     // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="mb-6 h-[440px] flex-1 rounded-lg bg-white p-6 drop-shadow">
-      <div
-        className={twClassNames('flex justify-between', {
-          'mb-5': !isUsageSummaryFailure
-        })}
-      >
+    <div className="h-[440px] flex-1 rounded-lg bg-white p-6 drop-shadow">
+      <div className="mb-2 flex justify-between">
         <p className="text-lg font-semibold">Usage</p>
         {isUsageSummaryLoaded && (
           <INTGSelectMenu

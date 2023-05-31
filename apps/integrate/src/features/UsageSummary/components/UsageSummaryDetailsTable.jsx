@@ -1,14 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 import {
   INTGTable,
   INTGTableBody,
   INTGTableCell,
   INTGTableHead,
   INTGTableRow
-} from '../../../common/bifrostProxy';
-import { usageDetailsSelector } from '../../../globalSlice';
+} from 'common/bifrostProxy';
+import { usageDetailsSelector } from 'globalSlice/index';
 
 const UsageSummaryDetailsTable = () => {
   const { headers, rows } = useSelector(usageDetailsSelector);

@@ -1,8 +1,5 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-
-import { Logo } from '../../../common';
 import {
   INTGButton,
   INTGTable,
@@ -10,11 +7,10 @@ import {
   INTGTableCell,
   INTGTableHead,
   INTGTableRow
-} from '../../../common/bifrostProxy';
-import {
-  openUsageSummarySlideover,
-  setUsageDetails
-} from '../../../globalSlice';
+} from 'common/bifrostProxy';
+import { Logo } from 'common/index';
+import { openUsageSummarySlideover, setUsageDetails } from 'globalSlice/index';
+import PropTypes from 'prop-types';
 
 const UsageSummaryTable = ({ usageSummaryData }) => {
   const dispatch = useDispatch();

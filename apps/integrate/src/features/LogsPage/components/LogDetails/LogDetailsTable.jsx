@@ -1,14 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import { Logo } from '../../../../common';
 import {
   INTGTable,
   INTGTableBody,
   INTGTableCell,
   INTGTableHead,
   INTGTableRow
-} from '../../../../common/bifrostProxy';
+} from 'common/bifrostProxy';
+import { Logo } from 'common/index';
+import PropTypes from 'prop-types';
+
 import StatusBadge from '../StatusBadge';
 
 const LogDetailsTable = ({ logDetails }) => (

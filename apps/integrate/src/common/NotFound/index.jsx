@@ -1,14 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdNotInterested } from '@browserstack/bifrost';
+import { ROUTES } from 'constants/routes';
 
-import { ROUTES } from '../../constants/routes';
 import { INTGEmptyState } from '../bifrostProxy';
 
 const NotFound = () => {
   const navigate = useNavigate();
 
-  const goToProject = () => {
+  const goToDasboard = () => {
     navigate(ROUTES.overview);
   };
 
@@ -23,7 +23,7 @@ const NotFound = () => {
           }
           buttonProps={{
             children: 'Back to Dashboard',
-            onClick: goToProject,
+            onClick: goToDasboard,
             size: 'default'
           }}
         />

@@ -1,4 +1,4 @@
-import envMapping from '../constants/envMapping';
+import envMapping from 'constants/envMapping';
 
 export const getEnvConfig = (env = import.meta.env.BSTACK_STAGE) => {
   if (!env) {

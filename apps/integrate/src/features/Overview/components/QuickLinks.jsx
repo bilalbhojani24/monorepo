@@ -5,10 +5,9 @@ import {
   MdOutlineInsertDriveFile,
   MdOutlineSearch
 } from '@browserstack/bifrost';
+import { URLS } from 'api/constants';
+import { ROUTES } from 'constants/routes';
 import PropTypes from 'prop-types';
-
-import { URLS } from '../../../api';
-import { ROUTES } from '../../../constants/routes';
 
 const LinkCard = ({
   link,
@@ -18,11 +17,11 @@ const LinkCard = ({
   shouldOpenInNewTab
 }) => (
   // eslint-disable-next-line tailwindcss/no-arbitrary-value
-  <div className="w-[360px] rounded-md bg-white p-6 drop-shadow">
+  <div className="w-[360px] flex-1 rounded-md bg-white p-6 drop-shadow">
     <p>
-      <Icon className="mb-1 h-5 w-5" />
+      <Icon className="mb-3 h-5 w-5" />
     </p>
-    <p className="text-base-700 text-xs">
+    <p className="text-base-700 text-sm">
       {shouldOpenInNewTab ? (
         <a
           className="flex items-center"
@@ -38,7 +37,7 @@ const LinkCard = ({
         </Link>
       )}
     </p>
-    <p className="text-base-500 text-xs">{subtext}</p>
+    <p className="text-base-500 text-sm">{subtext}</p>
   </div>
 );
 
@@ -56,21 +55,21 @@ const QuickLinks = () => {
       icon: MdOutlineInsertDriveFile,
       linkText: 'Get Started Guide',
       link: ROUTES.getting_started,
-      subtext: 'Learng how to use Integrations',
+      subtext: 'Learn how to use Integrations',
       shouldOpenInNewTab: false
     },
     {
       icon: MdOutlineSearch,
       linkText: 'API Explorer',
       link: URLS.DOCUMENTATION,
-      subtext: 'Learn how to use API Explorer',
+      subtext: 'Make your first API call',
       shouldOpenInNewTab: true
     }
   ];
 
   return (
-    <div className="w-full px-8 py-4">
-      <p className="mb-5 text-lg font-medium">Quick Links</p>
+    <div className="w-full px-6 py-4">
+      <p className="mb-5 mt-2 text-lg font-medium">Quick Links</p>
       <div className="flex w-full gap-5">
         {QUICK_LINK_DETAILS.map(
           ({ icon, link, subtext, linkText, shouldOpenInNewTab }) => (

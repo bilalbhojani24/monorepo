@@ -29,8 +29,7 @@ import {
   Tooltip,
   TruncateText
 } from '@browserstack/bifrost';
-
-import { BSTACK_TOPNAV_ELEMENT_ID } from '../../constants/common';
+import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 
 export const INTGBadge = (props) => <Badge {...props} />;
 

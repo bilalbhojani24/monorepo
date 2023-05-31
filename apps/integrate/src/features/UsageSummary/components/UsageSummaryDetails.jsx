@@ -1,17 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Logo } from '../../../common';
 import {
   INTGSlideover,
   INTGSlideoverBody,
   INTGSlideoverHeader
-} from '../../../common/bifrostProxy';
+} from 'common/bifrostProxy';
+import { Logo } from 'common/index';
 import {
   closeUsageSummarySlideover,
   isUsageSummarySlideoverOpenSelector,
   usageDetailsSelector
-} from '../../../globalSlice';
+} from 'globalSlice/index';
 
 import UsageSummaryDetailsTable from './UsageSummaryDetailsTable';
 
@@ -36,7 +35,7 @@ const UsageSummaryDetails = () => {
         dismissButton
         handleDismissClick={handleClose}
         heading={`${label} Usage Details`}
-        wrapperClassName="bg-base-50 sm:items-center"
+        wrapperClassName="border-b border-base-300 sm:items-center"
         Icon={<Logo logo={icon} wrapperClassName="h-8 w-8" />}
       />
       <INTGSlideoverBody>

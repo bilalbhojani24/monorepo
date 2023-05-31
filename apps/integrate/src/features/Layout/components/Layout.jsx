@@ -2,10 +2,10 @@ import React, { Suspense, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { useResizeObserver } from '@browserstack/hooks';
+import { INTGHeader } from 'common/index';
+import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
+import { Sidebar } from 'features/Sidebar';
 
-import INTGHeader from '../../../common/bifrostProxy/components/INTGHeader';
-import { BSTACK_TOPNAV_ELEMENT_ID } from '../../../constants/common';
-import { Sidebar } from '../../Sidebar/index';
 import { headerSizeSelector, setHeaderSize } from '../slices/headerSlice';
 
 const Layout = () => {

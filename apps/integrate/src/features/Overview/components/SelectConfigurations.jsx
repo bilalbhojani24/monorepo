@@ -1,19 +1,22 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdCheck } from '@browserstack/bifrost';
+import { usePrevious } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
-
 import {
   INTGDropdown,
   INTGDropdownOptionGroup,
   INTGDropdownOptionItem,
   INTGDropdownTrigger
-} from '../../../common/bifrostProxy';
+} from 'common/bifrostProxy';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 import {
   activeConfigurationsSelector,
+  configurationsLoadingSelector,
   configurationsSelector,
   setActiveConfigurations
-} from '../../../globalSlice';
+} from 'globalSlice/index';
+import { isEmpty } from 'lodash';
 
 const SelectConfigurations = () => {
   const dispatch = useDispatch();
@@ -52,6 +55,18 @@ const SelectConfigurations = () => {
     )
   };
   const configurations = useSelector(configurationsSelector);
+  const prevConfigurations = usePrevious(configurations);
+  const areConfigurationsLoading =
+    useSelector(configurationsLoadingSelector) === LOADING_STATUS.PENDING;
+  const areConfigurationsLoaded =
+    useSelector(configurationsLoadingSelector) === LOADING_STATUS.SUCCEEDED;
+
+  useEffect(() => {
+    if (areConfigurationsLoaded && prevConfigurations !== configurations) {
+      dispatch(setActiveConfigurations([...configurations]));
+    }
+  }, [areConfigurationsLoaded, configurations, dispatch, prevConfigurations]);
+
   const options = useMemo(
     () =>
       configurations?.map((configuration) => ({
@@ -91,22 +106,43 @@ const SelectConfigurations = () => {
     }
   };
 
+  const getTriggerValue = () => {
+    if (areConfigurationsLoading) {
+      return 'Loading...';
+    }
+    if (!isEmpty(activeConfigurations)) {
+      return activeConfigurations.length === 1
+        ? activeConfigurations[0].label
+        : 'All';
+    }
+    return 'Configurations';
+  };
+
   return (
     <INTGDropdown onClick={selectConfiguration}>
       <div className="flex">
-        <INTGDropdownTrigger>Configurations</INTGDropdownTrigger>
+        <INTGDropdownTrigger
+          wrapperClassName={twClassNames(
+            'w-40 inline text-left overflow-hidden truncate',
+            { 'text-base-500': areConfigurationsLoading }
+          )}
+        >
+          {getTriggerValue()}
+        </INTGDropdownTrigger>
       </div>
-      <INTGDropdownOptionGroup>
-        {options?.length > 1 && (
-          <INTGDropdownOptionItem
-            key={AllConfigurationsOption.value}
-            option={AllConfigurationsOption}
-          />
-        )}
-        {options.map((item) => (
-          <INTGDropdownOptionItem key={item.value} option={item} />
-        ))}
-      </INTGDropdownOptionGroup>
+      {!areConfigurationsLoading && (
+        <INTGDropdownOptionGroup>
+          {options?.length > 1 && (
+            <INTGDropdownOptionItem
+              key={AllConfigurationsOption.value}
+              option={AllConfigurationsOption}
+            />
+          )}
+          {options.map((item) => (
+            <INTGDropdownOptionItem key={item.value} option={item} />
+          ))}
+        </INTGDropdownOptionGroup>
+      )}
     </INTGDropdown>
   );
 };

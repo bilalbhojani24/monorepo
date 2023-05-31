@@ -1,12 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { MdOutlineSearch } from '@browserstack/bifrost';
 import { makeDebounce } from '@browserstack/utils';
+import { INTGInputField, INTGInputGroupAddOn } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
-
-import {
-  INTGInputField,
-  INTGInputGroupAddOn
-} from '../../../../common/bifrostProxy';
 
 import { FiltersType } from './types';
 

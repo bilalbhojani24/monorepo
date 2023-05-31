@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { getIntegrationsThunk } from '../api';
-import { LOADING_STATUS } from '../constants/loadingConstants';
+import { getIntegrationsThunk } from 'api/integrations';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 
 const initialState = {
   integrations: [],

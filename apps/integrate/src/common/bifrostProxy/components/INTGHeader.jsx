@@ -1,8 +1,7 @@
 import React from 'react';
 import { Header } from '@browserstack/bifrost';
-
-import { ROUTES } from '../../../constants/routes';
-import { getEnvConfig } from '../../../utils/getEnvConfig';
+import { ROUTES } from 'constants/routes';
+import { getEnvConfig } from 'utils/getEnvConfig';
 
 const envConfig = getEnvConfig();
 

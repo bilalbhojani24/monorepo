@@ -1,21 +1,21 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { getConfigurationsThunk, getLogsThunk } from '../../../api';
-import { INTGPagination } from '../../../common/bifrostProxy';
-import { LOADING_STATUS } from '../../../constants/loadingConstants';
+import { getConfigurationsThunk, getLogsThunk } from 'api/index';
+import { INTGPagination } from 'common/bifrostProxy';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 import {
   activeConfigurationsSelector,
   FILTER_KEY,
   filtersSelector,
   logsLoadingSelector,
   logsSelector
-} from '../../../globalSlice';
+} from 'globalSlice/index';
 import {
   getCleanedConfigurationIds,
   getFiltersPayload,
   getUnixDate
-} from '../../../utils/helpers';
+} from 'utils/helpers';
+
 import { LOGS_PAGE_LOGS_TABLE_PAGE_SIZE } from '../constants';
 
 import FilterSlideover from './Filters/FiltersSlideover';
@@ -75,7 +75,7 @@ const Logs = () => {
   return (
     <div className="h-full">
       <LogsHeader />
-      <div className="mx-8 rounded-md bg-white p-6 drop-shadow">
+      <div className="mx-6 rounded-md bg-white p-6 drop-shadow">
         <p className="mb-3 text-lg font-semibold text-black">Logs Details</p>
         <LogsTable logsData={logsData} getLogs={getLogs} />
         {logsDataloadedWithNoLogsToRender && (
@@ -83,7 +83,7 @@ const Logs = () => {
         )}
       </div>
       {!logsDataloadedWithNoLogsToRender && (
-        <div className="px-8 py-6 text-xs">
+        <div className="p-6 text-xs">
           <INTGPagination
             onNextClick={handlePageChange}
             onPageNumberClick={handlePageChange}
@@ -92,7 +92,9 @@ const Logs = () => {
             pageSize={LOGS_PAGE_LOGS_TABLE_PAGE_SIZE}
             count={logsData.total_logs}
           />
-          <p className="text-base-500">Your data is retained for 6 months</p>
+          <p className="text-base-500 px-6">
+            Your data is retained for 6 months
+          </p>
         </div>
       )}
       <LogDetails />

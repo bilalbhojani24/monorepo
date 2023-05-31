@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
 import {
   INTGSelectMenu,
   INTGSelectMenuLabel,
   INTGSelectMenuOptionGroup,
   INTGSelectMenuOptionItem,
   INTGSelectMenuTrigger
-} from '../../../../common/bifrostProxy';
+} from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
 import { FiltersType } from './types';
 

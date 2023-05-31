@@ -1,25 +1,23 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { twClassNames } from '@browserstack/utils';
-import { fromUnixTime, getUnixTime, subMonths } from 'date-fns';
-import { omit } from 'lodash';
-
-import { getRequestCountThunk } from '../../../api';
-import { GenericError } from '../../../common';
+import { getRequestCountThunk } from 'api/requestCount';
 import {
   INTGLoader,
   INTGSelectMenu,
   INTGSelectMenuOptionGroup,
   INTGSelectMenuOptionItem,
   INTGSelectMenuTrigger
-} from '../../../common/bifrostProxy';
-import { LOADING_STATUS } from '../../../constants/loadingConstants';
+} from 'common/bifrostProxy';
+import { GenericError } from 'common/index';
+import { LOADING_STATUS } from 'constants/loadingConstants';
+import { fromUnixTime, getUnixTime, subMonths } from 'date-fns';
 import {
   activeConfigurationsSelector,
   requestCountLoadingSelector,
   requestCountSelector
-} from '../../../globalSlice';
-import { getCleanedConfigurationIds } from '../../../utils/helpers';
+} from 'globalSlice/index';
+import { omit } from 'lodash';
+import { getCleanedConfigurationIds } from 'utils/helpers';
 
 import Chart from './Chart';
 
@@ -83,12 +81,8 @@ const RequestsChart = () => {
 
   return (
     // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="mb-6 h-[440px] flex-1 rounded-lg bg-white p-6 drop-shadow lg:mr-5">
-      <div
-        className={twClassNames('flex justify-between', {
-          'mb-5': !isRequestCountDataFailure
-        })}
-      >
+    <div className="h-[440px] flex-1 rounded-lg bg-white p-6 drop-shadow">
+      <div className="flex justify-between">
         <p className="text-lg font-semibold">API Requests</p>
         {isRequestCountDataLoaded && (
           <INTGSelectMenu

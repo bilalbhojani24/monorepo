@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { getConfigurationsThunk } from '../api';
-import { LOADING_STATUS } from '../constants/loadingConstants';
+import { getConfigurationsThunk } from 'api/configurations';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 
 const initialState = {
   configurations: [],

@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { getUsageSummaryThunk } from '../api';
-import { LOADING_STATUS } from '../constants/loadingConstants';
+import { getUsageSummaryThunk } from 'api/usageSummary';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 
 const initialState = {
   isSlideoverOpen: false,

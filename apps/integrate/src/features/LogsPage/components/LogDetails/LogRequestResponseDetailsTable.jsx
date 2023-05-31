@@ -1,16 +1,15 @@
 import React, { useMemo } from 'react';
-import { CodeSnippet, CodeSnippetToolbar } from '@browserstack/bifrost';
-import PropTypes from 'prop-types';
-
+import { CodeSnippet } from '@browserstack/bifrost';
 import {
   INTGTable,
   INTGTableBody,
   INTGTableCell,
   INTGTableHead,
   INTGTableRow
-} from '../../../../common/bifrostProxy';
+} from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
-const LogRequestDetailsTable = ({ data, payloadOf }) => {
+const LogRequestDetailsTable = ({ data }) => {
   const dataToRender = useMemo(() => Object.entries(data), [data]);
   return (
     <INTGTable>
@@ -36,19 +35,10 @@ const LogRequestDetailsTable = ({ data, payloadOf }) => {
               <INTGTableCell key="name">
                 <p>{itemName}</p>
               </INTGTableCell>
-              <INTGTableCell key="details">
+              <INTGTableCell key="details" wrapperClassName="whitespace-normal">
                 {itemName === 'body' ? (
                   <div className="max-w-xl">
                     <CodeSnippet
-                      toolbar={
-                        <CodeSnippetToolbar
-                          leadingNode={
-                            <div className="bg-base-50 flex items-center space-x-2">
-                              <div>{payloadOf}</div>
-                            </div>
-                          }
-                        />
-                      }
                       code={JSON.stringify(JSON.parse(itemDetails), null, '\t')}
                       language="json"
                       maxHeight="400px"
@@ -67,8 +57,7 @@ const LogRequestDetailsTable = ({ data, payloadOf }) => {
 };
 
 LogRequestDetailsTable.propTypes = {
-  data: PropTypes.shape({ [PropTypes.string]: PropTypes.string }),
-  payloadOf: PropTypes.string.isRequired
+  data: PropTypes.shape({ [PropTypes.string]: PropTypes.string })
 };
 
 LogRequestDetailsTable.defaultProps = {

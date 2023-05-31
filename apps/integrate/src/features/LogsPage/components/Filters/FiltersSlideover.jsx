@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import {
   INTGButton,
   INTGLoader,
   INTGSlideover,
   INTGSlideoverBody,
+  INTGSlideoverFooter,
   INTGSlideoverHeader
-} from '../../../../common/bifrostProxy';
-import { LOADING_STATUS } from '../../../../constants/loadingConstants';
+} from 'common/bifrostProxy';
+import { LOADING_STATUS } from 'constants/loadingConstants';
+import { METHOD_OPTIONS, STATUS_OPTIONS } from 'features/LogsPage/constants';
 import {
   closeFiltersSlideover,
   configurationsLoadingSelector,
@@ -19,8 +20,7 @@ import {
   integrationsSelector,
   isFiltersSlideoverOpenSelector,
   setFilters as setFiltersAction
-} from '../../../../globalSlice';
-import { METHOD_OPTIONS, STATUS_OPTIONS } from '../../constants';
+} from 'globalSlice/index';
 
 import DateRangeFilter from './DateRangeFilter';
 import SelectFilter from './SelectFilter';
@@ -75,7 +75,7 @@ const FilterSlideover = () => {
         dismissButton
         handleDismissClick={handleClose}
         heading="Filters"
-        wrapperClassName="bg-base-50"
+        wrapperClassName="border-b border-base-300"
       />
       <INTGSlideoverBody>
         {isSlideoverContentLoading ? (
@@ -86,7 +86,7 @@ const FilterSlideover = () => {
               <SelectFilter
                 label="Configuration"
                 placeholder="Select"
-                triggerClassName="mb-3"
+                triggerClassName="mb-4"
                 options={configurations}
                 filterKey={FILTER_KEY.CONFIGURATIONS}
                 filters={slideoverFilters}
@@ -95,7 +95,7 @@ const FilterSlideover = () => {
               <SelectFilter
                 label="HTTP Method"
                 placeholder="Select"
-                triggerClassName="mb-5"
+                triggerClassName="mb-4"
                 options={METHOD_OPTIONS}
                 filterKey={FILTER_KEY.METHOD}
                 filters={slideoverFilters}
@@ -104,7 +104,7 @@ const FilterSlideover = () => {
               <SelectFilter
                 label="Status Code"
                 placeholder="Select"
-                triggerClassName="mb-3"
+                triggerClassName="mb-4"
                 options={STATUS_OPTIONS}
                 filterKey={FILTER_KEY.STATUS}
                 filters={slideoverFilters}
@@ -113,7 +113,7 @@ const FilterSlideover = () => {
               <SelectFilter
                 label="Integration"
                 placeholder="Select"
-                triggerClassName="mb-3"
+                triggerClassName="mb-4"
                 options={integrations}
                 filterKey={FILTER_KEY.INTEGRATIONS}
                 filters={slideoverFilters}
@@ -125,18 +125,16 @@ const FilterSlideover = () => {
                 setFilters={setSlideoverFilters}
               />
             </div>
-            <div className="border-base-300 flex justify-end gap-5 border-t px-4 pt-5">
+            <INTGSlideoverFooter isBorder="true" position="right">
               <INTGButton
+                variant="primary"
+                colors="white"
                 onClick={handleCancelFilters}
-                wrapperClassName="h-fit"
-                variant="secondary"
               >
                 Cancel
               </INTGButton>
-              <INTGButton onClick={handleApplyFilters} wrapperClassName="h-fit">
-                Apply
-              </INTGButton>
-            </div>
+              <INTGButton onClick={handleApplyFilters}>Apply</INTGButton>
+            </INTGSlideoverFooter>
           </div>
         )}
       </INTGSlideoverBody>

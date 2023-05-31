@@ -1,10 +1,9 @@
 import React from 'react';
 import { DateRangepicker } from '@browserstack/bifrost';
 import { getLocalTimeZone, today } from '@internationalized/date';
+import { FILTER_KEY } from 'globalSlice/index';
 import PropTypes from 'prop-types';
-
-import { FILTER_KEY } from '../../../../globalSlice';
-import { getInternationalizedDate } from '../../../../utils/getInternationalizedDate';
+import { getInternationalizedDate } from 'utils/getInternationalizedDate';
 
 import { FiltersType } from './types';
 

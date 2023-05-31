@@ -8,9 +8,8 @@ import {
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
-
-import { URLS } from '../../../api';
-import { ROUTES } from '../../../constants/routes';
+import { URLS } from 'api/constants';
+import { ROUTES } from 'constants/routes';
 
 const getPrimaryNav = () => [
   {

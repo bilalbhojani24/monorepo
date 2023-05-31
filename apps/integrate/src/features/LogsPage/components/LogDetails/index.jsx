@@ -1,22 +1,21 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
-
-import { getLogDetailsThunk } from '../../../../api';
-import { GenericError, INTGLoader } from '../../../../common';
+import { getLogDetailsThunk } from 'api/index';
 import {
   INTGSlideover,
   INTGSlideoverBody,
   INTGSlideoverHeader
-} from '../../../../common/bifrostProxy';
-import { LOADING_STATUS } from '../../../../constants/loadingConstants';
+} from 'common/bifrostProxy';
+import { GenericError, INTGLoader } from 'common/index';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 import {
   closeLogDetailsSlideover,
   isLogDetailsSlideoverOpenSelector,
   logDetailsLoadingSelector,
   logDetailsLogUUIDSelector,
   logDetailsSelector
-} from '../../../../globalSlice';
+} from 'globalSlice/index';
 
 import LogDetailsTable from './LogDetailsTable';
 import LogRequestResponseDetailsTable from './LogRequestResponseDetailsTable';
@@ -54,7 +53,7 @@ const LogDetails = () => {
         dismissButton
         handleDismissClick={handleClose}
         heading="Request Details"
-        wrapperClassName="bg-base-50"
+        wrapperClassName="border-b border-base-300"
       />
       <INTGSlideoverBody>
         <div
@@ -64,13 +63,13 @@ const LogDetails = () => {
           {areLogDetailsLoaded && (
             <>
               <div className="mb-6">
-                <p className="text-base-700 mb-4 text-xl font-medium">
+                <p className="text-base-700 mb-4 text-lg font-medium">
                   Details
                 </p>
                 <LogDetailsTable logDetails={logDetails} />
               </div>
               <div className="mb-6">
-                <p className="text-base-700 mb-4 text-xl font-medium">
+                <p className="text-base-700 mb-4 text-lg font-medium">
                   Request
                 </p>
                 <LogRequestResponseDetailsTable
@@ -79,7 +78,7 @@ const LogDetails = () => {
                 />
               </div>
               <div className="mb-6">
-                <p className="text-base-700 mb-4 text-xl font-medium">
+                <p className="text-base-700 mb-4 text-lg font-medium">
                   Response
                 </p>
                 <LogRequestResponseDetailsTable

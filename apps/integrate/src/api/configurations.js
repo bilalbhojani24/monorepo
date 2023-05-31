@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { configurationsSelector } from 'globalSlice/index';
 import { isEmpty } from 'lodash';
-
-import { configurationsSelector } from '../globalSlice';
 
 import { URLS } from './constants';
 

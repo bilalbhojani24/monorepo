@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdFilterAlt } from '@browserstack/bifrost';
-
-import { getIntegrationsThunk } from '../../../../api';
-import { INTGButton } from '../../../../common/bifrostProxy';
+import { getIntegrationsThunk } from 'api';
+import { INTGButton } from 'common/bifrostProxy';
 import {
   clearFilters as clearFiltersAction,
   filtersSelector,
   openFiltersSlideover,
   setFilters as setFiltersAction
-} from '../../../../globalSlice';
+} from 'globalSlice/index';
 
 import FilterBadges from './FilterBadges';
 import QueryFilter from './QueryFilter';
@@ -44,7 +43,8 @@ const Filters = () => {
           onClick={handleFilterClick}
           wrapperClassName="h-fit"
           icon={<MdFilterAlt className="h-4 w-4" />}
-          variant="secondary"
+          variant="primary"
+          colors="white"
         >
           Filters
         </INTGButton>

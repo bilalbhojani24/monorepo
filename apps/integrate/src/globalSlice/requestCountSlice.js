@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { getRequestCountThunk } from '../api';
-import { LOADING_STATUS } from '../constants/loadingConstants';
+import { getRequestCountThunk } from 'api/requestCount';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 
 const initialState = {
   total: 0,
