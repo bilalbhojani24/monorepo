@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-// import { Virtuoso } from 'react-virtuoso';
 import {
   MdClose,
   MdOutlineAddBox,
@@ -20,10 +19,10 @@ import {
   TMTooltipBody,
   TMTooltipHeader
 } from 'common/bifrostProxy';
+import CancelModal from 'features/ImportProgress/components/CancelModal';
+import ImportDetailsModal from 'features/ImportProgress/components/ImportDetailsModal';
 import { AddProjects } from 'features/Projects';
 
-import CancelModal from '../../ImportProgress/components/CancelModal';
-import ImportDetailsModal from '../../ImportProgress/components/ImportDetailsModal';
 import { noNavRoutes } from '../const/navsConst';
 
 import useSideNav from './useSideNav';
@@ -31,7 +30,6 @@ import useSideNav from './useSideNav';
 const SideNav = () => {
   const location = useLocation();
   const {
-    // selectMenuRef,
     hasProjects,
     isAllProjectsLoading,
     isDetailsModalVisible,
@@ -154,23 +152,6 @@ const SideNav = () => {
                       wrapperClassName="cursor-pointer"
                     />
                     <SelectMenuOptionGroup wrapperClassName="w-56">
-                      {/* <Virtuoso
-                        customScrollParent={
-                          selectMenuRef.current || document.body
-                        }
-                        data={allProjectsDrop}
-                        // endReached={loadMore}
-                        overscan={100}
-                        itemContent={(index, item) => (
-                          <SelectMenuOptionItem
-                            key={item.value}
-                            option={item}
-                          />
-                        )}
-                        // components={{
-                        //   Footer: isLoadingMore ? LoadingFooter : null
-                        // }}
-                      /> */}
                       {allProjectsDrop.map((item) => (
                         <SelectMenuOptionItem key={item.value} option={item} />
                       ))}

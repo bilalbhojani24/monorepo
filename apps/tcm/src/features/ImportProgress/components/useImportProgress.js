@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { dismissProgressBar } from 'api/import.api';
+import { dismissProgressBarAPI } from 'api/import.api';
 import { logEventHelper } from 'utils/logEvent';
 
 import { IMPORT_STATUS } from '../const/immutables';
@@ -54,7 +54,7 @@ const useImportProgress = () => {
 
   const closeProgress = () => {
     dispatch(setIsProgressDismissed(true));
-    dismissProgressBar(importId);
+    dismissProgressBarAPI(importId);
   };
 
   return {

@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
 import {
-  // dismissNotificationForImport,
-  getJiraConfigStatus,
-  getLatestQuickImportConfig
-} from '../../../api/import.api';
+  getJiraConfigStatusAPI,
+  getLatestQuickImportConfigAPI
+} from 'api/import.api';
+
 import { SCREEN_1, SCREEN_2, TESTRAIL, ZEPHYR } from '../const/importSteps';
 
 const initialState = {
@@ -50,7 +49,7 @@ export const setJiraConfigurationStatus = createAsyncThunk(
   'import/setJiraConfigurationStatus',
   async (payload) => {
     try {
-      return await getJiraConfigStatus(payload);
+      return await getJiraConfigStatusAPI(payload);
     } catch (err) {
       return err;
     }
@@ -61,23 +60,12 @@ export const setImportConfigurations = createAsyncThunk(
   'import/setImportConfigurations',
   async () => {
     try {
-      return await getLatestQuickImportConfig();
+      return await getLatestQuickImportConfigAPI();
     } catch (err) {
       return err;
     }
   }
 );
-
-// export const setNotificationDismissed = createAsyncThunk(
-//   'import/setNotificationDismissed',
-//   async (id) => {
-//     try {
-//       return await dismissNotificationForImport(id);
-//     } catch (err) {
-//       return err;
-//     }
-//   }
-// );
 
 const importSlice = createSlice({
   name: 'import',
@@ -169,13 +157,7 @@ const importSlice = createSlice({
     quickImportCleanUp: (state, { payload }) => {
       const {
         importId,
-        // importStatus,
-        // isDismissed,
         importStarted,
-        // notificationData,
-        // notificationProjectConfig,
-        // showNotificationModal,
-        // checkImportStatusClicked,
         quickImportProjectId,
         currentTestManagementTool,
         successfulImportedProjects,
@@ -184,22 +166,14 @@ const importSlice = createSlice({
 
       return {
         importId: payload?.importId,
-        // importStatus: payload?.importStatus,
         isDismissed: payload?.isDismissed,
         importStarted: payload?.importStarted,
-        // notificationData: payload?.notificationData,
-        // notificationProjectConfig: payload?.notificationProjectConfig,
-        // showNotificationModal: payload?.showNotificationModal,
-        // checkImportStatusClicked: payload?.checkImportStatusClicked,
         quickImportProjectId: payload?.quickImportProjectId,
         currentTestManagementTool: payload?.currentTestManagementTool,
         successfulImportedProjects: payload?.successfulImportedProjects,
         ...restInitialState
       };
     },
-    // setCheckImportStatusClicked: (state, { payload }) => {
-    //   state.checkImportStatusClicked = payload;
-    // },
     setNotificationProjectConfig: (state, { payload }) => {
       Object.keys(payload).forEach((key) => {
         state.notificationProjectConfig[key] = payload[key];
@@ -277,13 +251,7 @@ const importSlice = createSlice({
     });
     builder.addCase(setImportConfigurations.fulfilled, (state, { payload }) => {
       state.importId = payload.import_id;
-      // state.importStatus = payload.status;
-      // state.isDismissed = payload.is_dismissed;
-      // state.isNewProjectBannerDismissed = payload.new_projects_banner_dismissed;
     });
-    // builder.addCase(setNotificationDismissed.fulfilled, (state) => {
-    //   state.isDismissed = true;
-    // });
   }
 });
 

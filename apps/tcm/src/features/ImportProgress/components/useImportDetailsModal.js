@@ -10,6 +10,11 @@ const useImportDetailsModal = () => {
     (state) => state.importProgress.importDetails
   );
 
+  const getCurrentlyImportingTitle = () => {
+    if (importDetails?.percent === 100) return 'Currently Importing:';
+    return `Currently Importing (${importDetails?.currentProjectNumber}/${importDetails?.totalProjects}):`;
+  };
+
   const closeDetailsModal = () => {
     dispatch(setDetailsModal(false));
   };
@@ -24,7 +29,12 @@ const useImportDetailsModal = () => {
     dispatch(logEventHelper('TM_QiProgressPopupLoaded', {}));
   }, [dispatch]);
 
-  return { closeDetailsModal, cancelClickHandler, importDetails };
+  return {
+    closeDetailsModal,
+    cancelClickHandler,
+    importDetails,
+    getCurrentlyImportingTitle
+  };
 };
 
 export default useImportDetailsModal;

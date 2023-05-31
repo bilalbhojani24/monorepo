@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { dismissTooltip } from 'api/import.api';
+import { dismissTooltipAPI } from 'api/import.api';
 import { getProjectsMinifiedAPI } from 'api/projects.api';
 import Clock from 'assets/icons/customIcons/Clock';
 import { TEAM_NAME_EVENTS } from 'const/immutables';
@@ -22,6 +22,7 @@ import {
 } from '../const/navsConst';
 
 export default function useSideNav() {
+  const TOOLTIP_TIMER = 5000;
   const selectMenuRef = useRef();
   const allProjectOptionValue = 'all_projects';
   const navigate = useNavigate();
@@ -135,7 +136,7 @@ export default function useSideNav() {
 
   const closeTooltipHandler = () => {
     setShowInProgTooltip(false);
-    dismissTooltip();
+    dismissTooltipAPI();
   };
 
   const onGetADemoCTAClick = () => {
@@ -268,13 +269,17 @@ export default function useSideNav() {
   }, [location.pathname, importProgress, isProgressDismissed]);
 
   useEffect(() => {
-    fetchAllProjects();
-    if (location.pathname !== AppRoute.ROOT && !isTooltipDismissed)
+    if (location.pathname !== AppRoute.ROOT && !isTooltipDismissed) {
       setTimeout(() => {
         closeTooltipHandler();
-      }, 5000);
+      }, TOOLTIP_TIMER);
+    }
+  }, [location.pathname, isTooltipDismissed]);
+
+  useEffect(() => {
+    fetchAllProjects();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
+  }, []);
 
   return {
     hasProjects,

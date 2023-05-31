@@ -20,7 +20,7 @@ import {
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 
-import { IMPORT_STATUS } from '../const/immutables';
+import { IMPORT_STATUS, REPORT_TABLE_COLUMNS } from '../const/immutables';
 
 import useReportModal from './useReportModal';
 
@@ -33,17 +33,6 @@ const ViewReportModal = () => {
     reportModalProjects,
     handleDocumentationClick
   } = useReportModal();
-
-  const tableColumns = [
-    {
-      name: 'PROJECT NAME',
-      key: 'project_name'
-    },
-    {
-      name: 'STATUS',
-      key: 'status'
-    }
-  ];
 
   const getIcon = (status, error) => {
     if (status === 'failure') {
@@ -69,7 +58,7 @@ const ViewReportModal = () => {
           <Table containerWrapperClass="border-base-300 mb-3 rounded-md border h-[400px] max-h-[400px] overflow-scroll">
             <TableHead wrapperClassName="bg-base-50">
               <TableRow>
-                {tableColumns.map((col) => (
+                {REPORT_TABLE_COLUMNS.map((col) => (
                   <TableCell
                     key={col.key}
                     wrapperClassName="text-xs text-base-500 font-medium"
@@ -93,7 +82,9 @@ const ViewReportModal = () => {
                           headerTooltipProps={{
                             delay: 500
                           }}
-                        >{`${row?.name}`}</TMTruncateText>
+                        >
+                          {row?.name}
+                        </TMTruncateText>
                       </span>
                     </div>
                   </TableCell>

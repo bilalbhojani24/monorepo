@@ -1,7 +1,7 @@
-import { getQuickImportResult } from 'api/import.api';
+import { getQuickImportResultAPI } from 'api/import.api';
 import AppRoute from 'const/routes';
+import { addProject } from 'features/Projects/slices/projectSlice';
 
-import { addProject } from '../../Projects/slices/projectSlice';
 import { IMPORT_STATUS } from '../const/immutables';
 
 import {
@@ -9,21 +9,20 @@ import {
   setImportDetails,
   setImportStatus,
   setNotificationConfig,
-  // setShowNotification,
   showAlertLoader
 } from './importProgressSlice';
 
+const DELAY = 500;
 const getImportId = (state) => state.import.importId;
 const getIsNotificationDismissed = (state) =>
   state.importProgress.isNotificationDismissed;
-// const getImportProgress = (state) => state.importProgress.importDetails.percent;
 
 export const setQuickImportResult = () => async (dispatch, getState) => {
   const state = getState();
   const id = getImportId(state);
 
   try {
-    const response = await getQuickImportResult(id);
+    const response = await getQuickImportResultAPI(id);
     dispatch(getQuickImportResultFulfilled(response));
   } catch (err) {
     // something on error
@@ -78,6 +77,6 @@ export const parseImportDetails =
         ) {
           dispatch(setNotificationConfig({ show: true }));
         }
-      }, 500); // REASON: when progress becomes 100% if we instantly show the alert then we do not get the right projects count.
+      }, DELAY); // REASON: when progress becomes 100% if we instantly show the alert then we do not get the right projects count.
     }
   };

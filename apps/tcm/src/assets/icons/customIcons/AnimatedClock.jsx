@@ -35,4 +35,3 @@ const AnimatedClock = () => {
 };
 
 export default AnimatedClock;
-// #4b5563

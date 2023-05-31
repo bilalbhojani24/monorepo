@@ -12,7 +12,6 @@ const useWebSocketQI = () => {
   const { sendMessage, lastMessage } = useWebSocket(WS_URL);
 
   const connectWSQI = ({ importId }) => {
-    // console.log('inside connect ws QI', importId);
     const identifier = {
       channel: 'ImportChannel',
       import_id: importId
@@ -27,14 +26,9 @@ const useWebSocketQI = () => {
 
   const interpretWSQIMessage = useCallback(
     (thisMessage) => {
-      // console.log('message', thisMessage);
       if (thisMessage?.data) {
         const message = JSON.parse(thisMessage.data)?.message;
-        console.log('message', message);
-        if (message?.error) {
-          // if upload ends in error
-          // handleWSErrorMessage(message);
-        } else if (typeof message === 'object' && !message?.cancelled)
+        if (typeof message === 'object' && !message?.cancelled)
           dispatch(parseImportDetails(message, location));
       }
     },

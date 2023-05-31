@@ -1,18 +1,18 @@
 import {
-  checkTestManagementConnection,
-  importProjects,
-  retryImport
+  checkTestManagementConnectionAPI,
+  importProjectsAPI,
+  retryImportAPI
 } from 'api/import.api';
 import AppRoute from 'const/routes';
-
-import { IMPORT_STATUS } from '../../ImportProgress/const/immutables';
+import { IMPORT_STATUS } from 'features/ImportProgress/const/immutables';
 import {
   setHoverActive,
   setImportDetails,
   setImportStatus,
   setNotificationConfig,
   setReportModalProjects
-} from '../../ImportProgress/slices/importProgressSlice';
+} from 'features/ImportProgress/slices/importProgressSlice';
+
 import { SCREEN_2, TESTRAIL, ZEPHYR } from '../const/importSteps';
 
 import {
@@ -90,7 +90,7 @@ const apiTestConnection = async (tool, creds, dispatch, isFromProceed) => {
   else dispatch(setConfigureToolTestConnectionLoading(true));
 
   try {
-    const response = await checkTestManagementConnection(tool, creds);
+    const response = await checkTestManagementConnectionAPI(tool, creds);
     if (isFromProceed) {
       dispatch(setProceedFulfilled(response));
       dispatch(handleArtificialLoader(2000));
@@ -138,10 +138,10 @@ export const startImport = (navigate) => async (dispatch, getState) => {
   dispatch(setImportId(importIdBeforeImport));
   dispatch(setBeginImportLoading(true));
   try {
-    await importProjects(tool, {
+    await importProjectsAPI(tool, {
       ...creds,
       import_id: importIdBeforeImport,
-      [`${tool === TESTRAIL ? 'testrail_p' : 'p'}rojects`]: projects
+      [`${tool === TESTRAIL ? 'testrail_projects' : 'projects'}`]: projects
         .map((project) => (project.checked ? project : null))
         .filter((project) => project !== null)
     });
@@ -175,7 +175,7 @@ export const retryQuickImport =
     const quickImportProjectId = getQuickImportProjectId(state);
 
     try {
-      const response = await retryImport(id, testTool);
+      const response = await retryImportAPI(id, testTool);
       dispatch(
         retryQuickImportFulfilled({
           justFetchCreds: jusFetchCreds,

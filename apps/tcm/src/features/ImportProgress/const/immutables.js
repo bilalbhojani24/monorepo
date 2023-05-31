@@ -4,3 +4,16 @@ export const IMPORT_STATUS = {
   SUCCESS: 'success',
   FAILURE: 'failure'
 };
+
+export const REPORT_TABLE_COLUMNS = [
+  {
+    name: 'PROJECT NAME',
+    key: 'project_name'
+  },
+  {
+    name: 'STATUS',
+    key: 'status'
+  }
+];
+
+export const PROGRESS_NOTIFICATION = 'progress-notification';

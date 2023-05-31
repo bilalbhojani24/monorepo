@@ -196,7 +196,6 @@ const ConfigureTool = () => {
               <div className="text-base-500 mx-auto mt-2 text-sm">
                 <p>{`You are currently logged with '${currentEmail}'`}</p>
                 <p>
-                  {' '}
                   If you continue your previously fetched projects will be
                   removed
                 </p>

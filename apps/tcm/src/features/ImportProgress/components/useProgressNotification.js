@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { notify } from '@browserstack/bifrost';
-import { dismissNotification } from 'api/import.api';
+import { dismissNotificationAPI } from 'api/import.api';
 import AppRoute from 'const/routes';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -35,7 +35,7 @@ const useProgressNotification = () => {
   const removeNotification = useCallback(
     (toastDataId) => {
       notify.remove(toastDataId);
-      if (importId) dismissNotification(importId);
+      if (importId) dismissNotificationAPI(importId);
       dispatch(setNotificationDismissed(true));
       dispatch(setNotificationConfig({ show: false }));
       clearTimeout(timerRef.current);

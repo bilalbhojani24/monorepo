@@ -12,9 +12,7 @@ const ProgressNotification = () => {
 
   const {
     notify,
-    // dispatch,
     timerRef,
-    // importStatus,
     notificationConfig,
     importDetails,
     removeNotification,

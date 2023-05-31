@@ -23,7 +23,6 @@ export const internalPrimaryNavLinks = [
   {
     id: AppRoute.DASHBOARD,
     label: 'Dashboard',
-    // keyword: 'projects',
     activeIcon: BarChartOutlinedIcon,
     inActiveIcon: BarChartOutlinedIcon,
     path: AppRoute.DASHBOARD,

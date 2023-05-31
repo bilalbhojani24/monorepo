@@ -16,9 +16,9 @@ import {
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 import ImportProgress from 'features/ImportProgress';
+import { IMPORT_STATUS } from 'features/ImportProgress/const/immutables';
 import { logEventHelper } from 'utils/logEvent';
 
-import { IMPORT_STATUS } from '../../ImportProgress/const/immutables';
 import { dropDownOptions } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
@@ -41,7 +41,6 @@ const AllProjects = () => {
     countOfProjectsImported,
     currentTestManagementTool,
     isNewProjectBannerDismissed,
-    // closeProgressNotification,
     dispatch,
     handleClickDynamicLink,
     onDropDownChange,
@@ -50,10 +49,6 @@ const AllProjects = () => {
     dismissImportProjectAlert,
     isProgressDismissed
   } = useProjects();
-
-  // useLayoutEffect(() => {
-  //   closeProgressNotification();
-  // }, [closeProgressNotification]);
 
   useEffect(() => {
     dispatch(logEventHelper('TM_AllProjectsPageLoaded', {}));

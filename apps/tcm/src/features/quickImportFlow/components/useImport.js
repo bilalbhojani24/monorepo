@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getLatestQuickImportConfig } from 'api/import.api';
+import { getLatestQuickImportConfigAPI } from 'api/import.api';
 import AppRoute from 'const/routes';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
@@ -104,7 +104,7 @@ const useImport = () => {
   const populateQuickImportCredentials = () => {
     dispatch(setConfigureToolPageLoading(true));
 
-    getLatestQuickImportConfig()
+    getLatestQuickImportConfigAPI()
       .then((response) => {
         const testTool = response.import_type.split('_')[0];
         dispatch(setCurrentTestManagementTool(testTool));

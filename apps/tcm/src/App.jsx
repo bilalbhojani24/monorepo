@@ -9,32 +9,31 @@ import {
   twClassNames
 } from '@browserstack/utils';
 import setupInterceptors from 'api/_utils/interceptor';
+import { getLatestQuickImportConfigAPI } from 'api/import.api';
 import { TMHeader } from 'common/bifrostProxy';
-// import AppRoute from 'const/routes';
-import MainRoute from 'features/MainRoute';
-import Notification from 'features/Notification';
-import SideNav from 'features/SideNav';
-
-import { getLatestQuickImportConfig } from './api/import.api';
-import { PRODUCTION_HOST } from './const/immutables';
-import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
-import ProgressNotification from './features/ImportProgress/components/ProgressNotification';
-import ViewReportModal from './features/ImportProgress/components/ViewReportModal';
-import { IMPORT_STATUS } from './features/ImportProgress/const/immutables';
+import ProgressNotification from 'features/ImportProgress/components/ProgressNotification';
+import ViewReportModal from 'features/ImportProgress/components/ViewReportModal';
+import { IMPORT_STATUS } from 'features/ImportProgress/const/immutables';
 import {
   setIsProgressDismissed,
   setNotificationDismissed,
   setTooltipDismissed
-} from './features/ImportProgress/slices/importProgressSlice';
+} from 'features/ImportProgress/slices/importProgressSlice';
 import {
   parseImportDetails,
   setActualImportStatus
-} from './features/ImportProgress/slices/importProgressThunk';
+} from 'features/ImportProgress/slices/importProgressThunk';
+import MainRoute from 'features/MainRoute';
+import Notification from 'features/Notification';
 import {
   setCurrentTestManagementTool,
   setImportId,
   setImportStarted
-} from './features/quickImportFlow/slices/importSlice';
+} from 'features/quickImportFlow/slices/importSlice';
+import SideNav from 'features/SideNav';
+
+import { PRODUCTION_HOST } from './const/immutables';
+import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
 import useWebSocketQI from './useWebSocketQI';
 
 if (window.initialized !== true) {
@@ -99,7 +98,7 @@ function App() {
   useEffect(() => {
     if (importStarted === null || importStarted) {
       // refresh or import is actually started
-      getLatestQuickImportConfig().then((data) => {
+      getLatestQuickImportConfigAPI().then((data) => {
         dispatch(setCurrentTestManagementTool(data?.import_type.split('_')[0]));
         dispatch(setImportId(data?.import_id));
         dispatch(setIsProgressDismissed(data?.progress_banner_dismissed));
@@ -107,7 +106,6 @@ function App() {
         dispatch(setTooltipDismissed(data?.quick_import_ftu));
         dispatch(setActualImportStatus(data));
         dispatch(parseImportDetails(data, location, true));
-        // console.log('status from latest', data?.status);
         if (data?.status === IMPORT_STATUS.ONGOING)
           connectWSQI({ importId: data?.import_id });
 

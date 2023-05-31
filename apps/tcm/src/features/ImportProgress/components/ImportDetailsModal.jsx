@@ -15,13 +15,12 @@ import TitleDescriptionNode from './titleDescriptionNode';
 import useImportDetailsModal from './useImportDetailsModal';
 
 const ImportDetailsModal = ({ show, headerText }) => {
-  const { closeDetailsModal, importDetails, cancelClickHandler } =
-    useImportDetailsModal();
-
-  const getCurrentlyImportingTitle = () => {
-    if (importDetails?.percent === 100) return 'Currently Importing:';
-    return `Currently Importing (${importDetails?.currentProjectNumber}/${importDetails?.totalProjects}):`;
-  };
+  const {
+    closeDetailsModal,
+    importDetails,
+    cancelClickHandler,
+    getCurrentlyImportingTitle
+  } = useImportDetailsModal();
 
   return (
     <TMModal show={show} size="3xl" onOverlayClick={closeDetailsModal}>

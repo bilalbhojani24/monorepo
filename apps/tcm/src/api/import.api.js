@@ -1,6 +1,6 @@
 import { fetchGet, fetchPost } from './_utils/fetch';
 
-export const checkTestManagementConnection = async (
+export const checkTestManagementConnectionAPI = async (
   testManagementTool,
   payload
 ) => {
@@ -15,26 +15,26 @@ export const checkTestManagementConnection = async (
   );
 };
 
-export const importProjects = async (testManagementTool, payload) =>
+export const importProjectsAPI = async (testManagementTool, payload) =>
   fetchPost(`/api/v1/import/${testManagementTool}/quick/insert`, payload);
 
-export const getJiraConfigStatus = async () =>
+export const getJiraConfigStatusAPI = async () =>
   fetchGet('/api/v1/integration/jira/configuration');
 
-export const getLatestQuickImportConfig = async () =>
+export const getLatestQuickImportConfigAPI = async () =>
   fetchGet('/api/v1/import/latest');
 
-export const getQuickImportResult = async (id) =>
+export const getQuickImportResultAPI = async (id) =>
   fetchGet(`/api/v1/import/quick/${id}/result`);
 
-export const dismissNotification = async (id) =>
+export const dismissNotificationAPI = async (id) =>
   fetchPost(`/api/v1/import/quick/${id}/dismiss_notification`);
 
-export const retryImport = async (id, tool) =>
+export const retryImportAPI = async (id, tool) =>
   fetchGet(`/api/v1/import/${tool}/quick/${id}/retry`);
 
-export const dismissProgressBar = async (importId) =>
+export const dismissProgressBarAPI = async (importId) =>
   fetchPost(`/api/v1/import/quick/${importId}/dismiss_progress_banner`);
 
-export const dismissTooltip = async () =>
+export const dismissTooltipAPI = async () =>
   fetchPost('/api/v1/user/dismiss-tooltip/quick_import_ftu');

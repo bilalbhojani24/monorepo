@@ -322,7 +322,6 @@ const useProjects = (prop) => {
     countOfProjectsImported,
     isNewProjectBannerDismissed,
     currentTestManagementTool,
-    // dismissImportProjectAlert,
     showAddProjectModal,
     handleClickDynamicLink,
     fetchProjects,
@@ -337,7 +336,6 @@ const useProjects = (prop) => {
     createProjectCtaLoading,
     editProjectCtaLoading,
     deleteProjectCtaLoading,
-    // closeProgressNotification,
     editProjectHandler,
     hideEditProjectModal,
     dispatch
