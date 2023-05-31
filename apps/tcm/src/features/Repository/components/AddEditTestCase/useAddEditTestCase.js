@@ -138,6 +138,9 @@ export default function useAddEditTestCase(prop) {
   const testCaseTypeOptions = useSelector(
     (state) => state.repository.testCaseTypeOptions
   );
+  const automationOptions = useSelector(
+    (state) => state.repository.automationOptions
+  );
   const priorityIntNameAndValueMapTC = useSelector(
     (state) => state.repository.priorityIntNameAndValueMapTC
   );
@@ -740,6 +743,7 @@ export default function useAddEditTestCase(prop) {
     priorityOptions,
     statusOptions,
     testCaseTypeOptions,
+    automationOptions,
     handleMenuOpen,
     setShowMoreFieldHelper,
     showAddTagsModal,

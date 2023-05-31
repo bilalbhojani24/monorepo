@@ -23,6 +23,7 @@ const AddEditTestCaseMoreFields = () => {
     priorityOptions,
     statusOptions,
     testCaseTypeOptions,
+    automationOptions,
     showAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
@@ -44,6 +45,23 @@ const AddEditTestCaseMoreFields = () => {
               testCaseFormData.case_type &&
               testCaseTypeOptions.find(
                 (item) => item.value === testCaseFormData.case_type
+              )
+            }
+          />
+        </div>
+        <div className="w-1/2 flex-1 pr-4">
+          <TMSelectMenu
+            checkPosition="right"
+            label="Automation Status"
+            placeholder="Select automation status"
+            options={automationOptions}
+            onChange={(e) =>
+              handleTestCaseFieldChange('automation_status', e.value)
+            }
+            value={
+              testCaseFormData.automation_status &&
+              automationOptions.find(
+                (item) => item.value === testCaseFormData.automation_status
               )
             }
           />
