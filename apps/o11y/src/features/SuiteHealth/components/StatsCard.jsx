@@ -9,13 +9,17 @@ const StatsCard = ({ title, stat, subText, isLoading, graph }) => (
       <O11yLoader wrapperClassName="absolute top-0 left-0 w-full h-full rounded-lg z-10 bg-base-200 opacity-50" />
     )}
     <Stats
-      cardWrapperClassname=""
+      cardWrapperClassname="cursor-default"
       option={{
         id: `sh-${title}`,
         name: title,
         stat,
         subText,
-        graph: <div className="mb-4 flex h-28 justify-between">{graph}</div>,
+        graph: (
+          <div className="flex h-28 cursor-pointer justify-between">
+            {graph}
+          </div>
+        ),
         icon: null,
         previousStat: null,
         link: null,
