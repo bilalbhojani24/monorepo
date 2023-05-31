@@ -3,11 +3,9 @@ import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { GridListWHorizontalLink } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yButton } from 'common/bifrostProxy';
-import { EXTERNAL_LINKS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { getHeaderSize, getProjects } from 'globalSlice/selectors';
-import { getExternalUrl, logOllyEvent } from 'utils/common';
+import { logOllyEvent } from 'utils/common';
 
 import FrameworkDocViewer from '../components/FrameworkDocViewer';
 import { FRAMEWORK_IDS, FRAMEWORKS } from '../constants';
@@ -58,14 +56,6 @@ export default function OnboardingFrameworkSelector() {
     );
   }
 
-  const handleClickTalkToAutomationFW = () => {
-    window.open(
-      getExternalUrl({ path: EXTERNAL_LINKS.contact }),
-      '_blank',
-      'noopener,noreferrer'
-    );
-  };
-
   return (
     <div
       className="flex w-screen items-center justify-center overflow-auto p-12"
@@ -83,9 +73,6 @@ export default function OnboardingFrameworkSelector() {
               Select a framework to get started
             </h3>
           </div>
-          <O11yButton colors="white" onClick={handleClickTalkToAutomationFW}>
-            Talk to automation expert
-          </O11yButton>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3">
           {FRAMEWORKS.map((item) => (
