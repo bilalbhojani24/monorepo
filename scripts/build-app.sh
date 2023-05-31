@@ -9,7 +9,6 @@ projects=(
   "packages/services"
   "packages/integrations"
   "packages/growth"
-
 )
 
 # Loop through each project and build the React app
