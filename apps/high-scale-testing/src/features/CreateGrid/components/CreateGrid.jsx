@@ -51,6 +51,7 @@ const CreateGrid = () => {
     selectedGridConcurrency,
     selectedGridName,
     selectedGridProfile,
+    selectedRegion,
     setActiveGridManagerCodeSnippet,
     setOpened,
     setCurrentCloudProvider,
@@ -119,6 +120,7 @@ const CreateGrid = () => {
           </div>
         </div>
       )}
+
       {type === CREATE_GRID_TYPES.cli && (
         <div className="flex">
           <Steps
@@ -305,7 +307,7 @@ const CreateGrid = () => {
                             <div className="w-1/2">
                               <SelectMenu
                                 onChange={(val) => setSelectedGridProfile(val)}
-                                value={selectedGridProfile}
+                                value={selectedRegion}
                               >
                                 <SelectMenuLabel>
                                   Region
@@ -357,7 +359,12 @@ const CreateGrid = () => {
                                 // value={selected}
                                 isMulti={false}
                               >
-                                <ComboboxLabel>VPC ID</ComboboxLabel>
+                                <ComboboxLabel>
+                                  VPC ID
+                                  <span className="text-danger-600 ml-0.5">
+                                    *
+                                  </span>
+                                </ComboboxLabel>
                                 <ComboboxTrigger placeholder="Placeholder" />
                                 <ComboboxOptionGroup>
                                   {allAvailableVPCIDs.map((item) => (
@@ -370,39 +377,44 @@ const CreateGrid = () => {
                               </ComboBox>
                             </div>
                             <div className="w-1/2">
-                              <InputField
-                                addOnBefore={
-                                  <InputGroupAddOn>https://</InputGroupAddOn>
-                                }
-                                id="test-id"
-                                label="Label"
-                                onBlur={null}
-                                onChange={null}
-                                onFocus={null}
-                                onKeyDown={null}
-                                placeholder="www.hst.browserstack.com"
-                              />
+                              <ComboBox
+                                // onChange={(val) => setSelected(val)}
+                                // value={selected}
+                                // eslint-disable-next-line react/jsx-boolean-value
+                                isMulti={true}
+                              >
+                                <ComboboxLabel>
+                                  Subnets
+                                  <span className="text-danger-600 ml-0.5">
+                                    *
+                                  </span>
+                                </ComboboxLabel>
+                                <ComboboxTrigger placeholder="Placeholder" />
+                                <ComboboxOptionGroup>
+                                  {allAvailableSubnets.map((item) => (
+                                    <ComboboxOptionItem
+                                      key={item.value}
+                                      option={item}
+                                    />
+                                  ))}
+                                </ComboboxOptionGroup>
+                              </ComboBox>
                             </div>
                           </div>
 
                           <div className="mt-4 w-1/2">
-                            <ComboBox
-                              // onChange={(val) => setSelected(val)}
-                              // value={selected}
-                              // eslint-disable-next-line react/jsx-boolean-value
-                              isMulti={true}
-                            >
-                              <ComboboxLabel>Subnets</ComboboxLabel>
-                              <ComboboxTrigger placeholder="Placeholder" />
-                              <ComboboxOptionGroup>
-                                {allAvailableSubnets.map((item) => (
-                                  <ComboboxOptionItem
-                                    key={item.value}
-                                    option={item}
-                                  />
-                                ))}
-                              </ComboboxOptionGroup>
-                            </ComboBox>
+                            <InputField
+                              addOnBefore={
+                                <InputGroupAddOn>https://</InputGroupAddOn>
+                              }
+                              id="test-id"
+                              label="Domain"
+                              onBlur={null}
+                              onChange={null}
+                              onFocus={null}
+                              onKeyDown={null}
+                              placeholder="www.hst.browserstack.com"
+                            />
                           </div>
                         </div>
                       </AccordionPanel>
