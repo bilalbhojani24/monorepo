@@ -206,11 +206,11 @@ const RenderTestItem = ({ item: data }) => {
                       'Flaky',
                       'warn',
                       'Flake detected',
-                      details.flakyReason === 2
-                        ? `Test passing on a retry attempt in the same run 
-                      across last ${flaky.flakeInRerun.consecutiveRuns} consecutive runs`
-                        : `Test status flipping (pass to fail or vice-versa) 
-                        more than ${flaky.flakeInHistory.flippingPercentage}% times out of ${flaky.flakeInHistory.consecutiveRuns} consecutive runs`,
+                      details.flakyReason === 1
+                        ? `Test status flipping (pass to fail or vice-versa) 
+                        more than ${flaky.flakeInHistory.flippingPercentage}% times out of ${flaky.flakeInHistory.consecutiveRuns} consecutive runs`
+                        : `Test passing on a retry attempt in the same run 
+                      across last ${flaky.flakeInRerun.consecutiveRuns} consecutive runs`,
                       addFilterOnClick
                     )}
                   {details?.isAlwaysFailing &&
