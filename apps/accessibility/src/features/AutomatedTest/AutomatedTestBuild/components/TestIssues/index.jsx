@@ -79,9 +79,12 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
                   <p className="text-base-900 mb-1 w-auto text-lg font-medium">
                     {Object.values(testMetaData.meta)[0].name}
                   </p>
-                  <MdClose
-                    className="cursor-pointer text-2xl"
+                  <Button
+                    colors="white"
+                    size="small"
+                    variant="minimal"
                     onClick={onSliderClose}
+                    icon={<MdClose className="cursor-pointer text-2xl" />}
                   />
                 </div>
                 <p className="text-base-500 mb-2 text-sm font-normal">
