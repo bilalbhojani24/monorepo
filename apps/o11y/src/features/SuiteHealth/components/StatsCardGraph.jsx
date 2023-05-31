@@ -100,6 +100,7 @@ const CHART_OPTIONS = {
         x: -5,
         y: 0
       },
+      relativeTo: 'chart',
       theme: {
         fill: 'white',
         stroke: 'silver',
