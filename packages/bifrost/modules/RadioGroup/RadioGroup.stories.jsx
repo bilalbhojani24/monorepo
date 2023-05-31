@@ -74,21 +74,21 @@ const defaultConfig = {
       defaultValue: ''
     },
     id: {
-      type: { summary: 'STRING', required: true },
+      type: { summary: 'STRING', required: false },
       description:
-        'The ID of the radio group element to uniquely identify every element.',
+        'The ID of the radio group element to uniquely identify every group.',
       control: { type: 'text' },
-      defaultValue: 'test-id'
+      defaultValue: ''
     },
     wrapperClassName: {
       type: { summary: 'STRING', required: false },
-      description: 'Provide additional styles to component',
+      description: 'Provide additional styles to outer component',
       control: { type: 'text' },
       defaultValue: ''
     },
     columnWrapperClassName: {
       type: { summary: 'STRING', required: false },
-      description: 'Custom style for Radio group ',
+      description: 'Custom style for RadioItems wrapper',
       control: { type: 'text' },
       defaultValue: ''
     },

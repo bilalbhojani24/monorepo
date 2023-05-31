@@ -47,6 +47,7 @@ const RadioGroup = ({
         </p>
       )}
       <RadioGroupPrimitive.Root
+        id={id}
         name={id}
         value={value ?? undefined}
         defaultValue={defaultValue ?? undefined}
@@ -100,7 +101,7 @@ RadioGroup.propTypes = {
   error: PropTypes.string,
   label: PropTypes.string,
   description: PropTypes.string,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   columnWrapperClassName: PropTypes.string,
   wrapperClassName: PropTypes.string,
   direction: PropTypes.oneOf(DIRECTIONS),
@@ -114,6 +115,7 @@ RadioGroup.defaultProps = {
   required: false,
   error: '',
   label: '',
+  id: '',
   description: '',
   columnWrapperClassName: '',
   wrapperClassName: '',

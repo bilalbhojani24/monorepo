@@ -38,6 +38,7 @@ const Radio = ({
         )}
         value={value}
         disabled={disabled}
+        id={value}
         {...props}
       >
         <span className="h-1.5 w-1.5 rounded-full bg-white" />
