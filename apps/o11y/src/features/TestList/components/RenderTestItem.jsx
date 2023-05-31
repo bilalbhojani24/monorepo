@@ -28,7 +28,10 @@ import {
   singleItemTestDetails
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
-import { getAppliedFilters } from 'features/TestList/slices/selectors';
+import {
+  getAppliedFilters,
+  getTestList
+} from 'features/TestList/slices/selectors';
 import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import PropTypes from 'prop-types';
 import { getDocUrl, transformUnsupportedTags } from 'utils/common';
@@ -43,9 +46,10 @@ import TestListTimeline from './TestlistTimeline';
 
 const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;
+  const { data: testListData } = useSelector(getTestList);
   const {
     smartTagSettings: { flaky, alwaysFailing, newFailure, performanceAnomalies }
-  } = details;
+  } = testListData;
   const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -201,9 +205,6 @@ const RenderTestItem = ({ item: data }) => {
                     renderTag(
                       'Flaky',
                       'warn',
-                      // details.flakyReason.status === 2
-                      //   ? `Flake detected in re-run within ${1}`
-                      //   :
                       'Flake detected',
                       details.flakyReason === 2
                         ? `Test passing on a retry attempt in the same run 
