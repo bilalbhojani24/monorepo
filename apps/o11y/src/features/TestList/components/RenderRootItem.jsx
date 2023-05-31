@@ -148,7 +148,8 @@ const RenderRootItem = ({ data }) => {
             }
             title={
               <div className="flex flex-col">
-                <p className="text-base-900 break-words text-left text-sm font-normal">
+                {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
+                <p className="text-base-900 classic-break-words text-left text-sm font-normal">
                   {ReactHtmlParser(displayName, {
                     transform: transformUnsupportedTags
                   })}
