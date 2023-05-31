@@ -5,8 +5,8 @@ const { actions, reducer } = createSlice({
   initialState: {
     user: null,
     banner: {
-      showBanner: true,
-      trialState: 'started'
+      showBanner: false,
+      name: ''
     },
     modal: {
       show: false,
@@ -17,8 +17,9 @@ const { actions, reducer } = createSlice({
       name: 'buyPlan'
     },
     trial: {
+      trialState: 'started',
       eligible: true,
-      endDate: 'June 10 2023 14:30:36 GMT+0530'
+      endDate: 'June 2 2023 14:30:36 GMT+0530'
     }
   },
   reducers: {
@@ -27,6 +28,9 @@ const { actions, reducer } = createSlice({
     },
     setShowBanner: (state, { payload }) => {
       state.banner.showBanner = payload;
+    },
+    setBannerName: (state, { payload }) => {
+      state.banner.name = payload;
     },
     setModalShow: (state, { payload }) => {
       state.modal.show = payload;
@@ -49,7 +53,8 @@ export const {
   setModalShow,
   setModalName,
   setAlertName,
-  setAlertShow
+  setAlertShow,
+  setBannerName
 } = actions;
 
 export default reducer;

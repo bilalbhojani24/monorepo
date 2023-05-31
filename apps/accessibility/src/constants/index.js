@@ -240,7 +240,7 @@ export const getBannerDetails = {
       'Your free 14-day trial for the Accessibility Team plan has started.',
     color: 'success'
   },
-  inProgres: {
+  lastFiveDays: {
     icon: Announcement,
     description:
       'Your Team free trial is ending in 3 days. Upgrade to continue using premium features.',

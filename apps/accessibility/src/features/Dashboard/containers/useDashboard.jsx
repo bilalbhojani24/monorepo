@@ -7,6 +7,7 @@ import {
   MdOutlineDynamicFeed,
   MdOutlineHome,
   MdOutlineRecordVoiceOver,
+  MdStar,
   MdTextSnippet
 } from '@browserstack/bifrost';
 import { setStorage } from '@browserstack/utils';
@@ -20,9 +21,10 @@ import {
 import { addDays } from 'date-fns';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { defaultPath, getBrowserStackBase } from 'utils';
-import { getTimeDiffInDays } from 'utils/helper';
+import { countRemainingDays, getTimeDiffInDays } from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
 
+import { setModalName, setModalShow } from '../slices/appSlice';
 import {
   getShowBanner,
   getTrialEligibility,
@@ -39,27 +41,13 @@ export default function useDashboard() {
   const isEligible = useSelector(getTrialEligibility);
   const trialEndDate = useSelector(getTrialEndDate);
   const trialState = useSelector(getTrialState);
-
-  const getRemainingDays = (
-    date1 = new Date(),
-    date2 = new Date(trialEndDate)
-  ) => {
-    const difference = date2 - date1;
-    if (difference < 0) {
-      return 0;
-    }
-    const remainingDays = difference / (1000 * 3600 * 24);
-    if (remainingDays > 0 && remainingDays < 1) {
-      return 1;
-    }
-    return Math.floor(remainingDays);
-  };
+  const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
 
   const showTrialTile = () =>
     isEligible &&
     trialState !== TRIAL_NOT_STARTED &&
     trialState !== TRIAL_IN_PROGRESS &&
-    getRemainingDays(new Date(), addDays(new Date(trialEndDate), 60)) > 0;
+    countRemainingDays(new Date(), addDays(new Date(trialEndDate), 60)) > 0;
 
   const shouldShowNewBadge = () => {
     const lastTimeSaved = new Date(
@@ -71,6 +59,7 @@ export default function useDashboard() {
     }
     return true;
   };
+
   const primaryNav = [
     {
       id: 'report-listing',
@@ -98,12 +87,22 @@ export default function useDashboard() {
 
   const secondaryNav = [
     {
+      id: 'trial',
+      label: 'Get 14-day free trial',
+      activeIcon: MdStar,
+      inActiveIcon: MdStar,
+      path: '/',
+      link: '',
+      show: trialState === TRIAL_NOT_STARTED && !showBanner
+    },
+    {
       id: 'extension',
       label: 'Download extension',
       activeIcon: MdOpenInNew,
       inActiveIcon: MdOpenInNew,
       path: '/',
-      link: CHROME_EXTENSION_URL
+      link: CHROME_EXTENSION_URL,
+      show: true
     },
     {
       id: 'doc',
@@ -111,11 +110,17 @@ export default function useDashboard() {
       activeIcon: MdTextSnippet,
       inActiveIcon: MdTextSnippet,
       path: '/reports',
-      link: 'https://www.browserstack.com/docs/accessibility/overview/introduction'
+      link: 'https://www.browserstack.com/docs/accessibility/overview/introduction',
+      show: true
     }
   ];
 
   const handleNavigationClick = (nav) => {
+    if (nav.id === 'trial') {
+      dispatch(setModalName('accessibility'));
+      dispatch(setModalShow(true));
+      return;
+    }
     if (nav.id === 'doc' || nav.id === 'extension') {
       window.open(nav.link, '_target');
     }
@@ -206,7 +211,7 @@ export default function useDashboard() {
     onBuyPlanClick,
     showBanner,
     trialEndDate,
-    getRemainingDays,
-    showTrialTile
+    showTrialTile,
+    remainingDays
   };
 }

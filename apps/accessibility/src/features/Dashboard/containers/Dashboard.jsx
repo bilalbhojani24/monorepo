@@ -29,11 +29,10 @@ export default function Dashboard({ children }) {
     onGetADemoClick,
     onBuyPlanClick,
     showBanner,
-    getRemainingDays,
+    remainingDays,
     showTrialTile
   } = useDashboard();
 
-  const remainingDays = getRemainingDays();
   const SWBSidebarPri = primaryNav.map((item) => (
     <SidebarItem
       key={item.id}
@@ -56,14 +55,19 @@ export default function Dashboard({ children }) {
           title="Need help?"
         />
       </div>
-      {secondaryNav.map((item) => (
-        <SidebarItem
-          key={item.id}
-          nav={item}
-          current={item.id === currentPath}
-          handleNavigationClick={handleNavigationClick}
-        />
-      ))}
+      {secondaryNav.map((item) => {
+        if (item.show) {
+          return (
+            <SidebarItem
+              key={item.id}
+              nav={item}
+              current={item.id === currentPath}
+              handleNavigationClick={handleNavigationClick}
+            />
+          );
+        }
+        return null;
+      })}
     </div>
   );
 
@@ -93,7 +97,7 @@ export default function Dashboard({ children }) {
                 'bg-danger-100 text-danger-800': remainingDays === 0
               })}
             >
-              {`${remainingDays > 0 ? remainingDays : 0} days remaining`}
+              {`${remainingDays} days remaining`}
             </span>
           }
           title={
@@ -103,14 +107,19 @@ export default function Dashboard({ children }) {
           }
         />
       </div>
-      {secondaryNav.map((item) => (
-        <SidebarItem
-          key={item.id}
-          nav={item}
-          current={item.id === currentPath}
-          handleNavigationClick={handleNavigationClick}
-        />
-      ))}
+      {secondaryNav.map((item) => {
+        if (item.show) {
+          return (
+            <SidebarItem
+              key={item.id}
+              nav={item}
+              current={item.id === currentPath}
+              handleNavigationClick={handleNavigationClick}
+            />
+          );
+        }
+        return null;
+      })}
     </div>
   );
 

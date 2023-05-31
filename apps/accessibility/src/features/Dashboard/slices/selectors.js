@@ -6,8 +6,10 @@ export const getSidebarCollapsedStatus = (state) =>
 export const getUser = (state) => state.accessibility.app.dashboard.user;
 export const getShowBanner = (state) =>
   state.accessibility.app.dashboard.banner.showBanner;
+export const getBannerName = (state) =>
+  state.accessibility.app.dashboard.banner.name;
 export const getTrialState = (state) =>
-  state.accessibility.app.dashboard.banner.trialState;
+  state.accessibility.app.dashboard.trial.trialState;
 export const getModalName = (state) =>
   state.accessibility.app.dashboard.modal.name;
 export const getModalShow = (state) =>

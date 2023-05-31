@@ -1,6 +1,8 @@
 import React from 'react';
 import { Banner, Button } from '@browserstack/bifrost';
 
+import { TRIAL_STARTED } from '../../constants';
+
 import useReverseTrialBanner from './useReverseTrialBanner';
 
 export default function ReverseTrialBannerWrapper() {
@@ -8,7 +10,8 @@ export default function ReverseTrialBannerWrapper() {
     bannerDetails,
     handleBannerDismissClick,
     showBanner,
-    handleBannerButtonClick
+    handleBannerButtonClick,
+    bannerName
   } = useReverseTrialBanner();
   const { description, icon: Icon, color, buttonText } = bannerDetails;
   return (
@@ -41,6 +44,7 @@ export default function ReverseTrialBannerWrapper() {
             }
             onDismissClick={handleBannerDismissClick}
             modifier={color}
+            align={bannerName === TRIAL_STARTED ? 'centered' : false}
           />
         </div>
       )}

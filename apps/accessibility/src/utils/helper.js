@@ -185,3 +185,15 @@ export const getTimeDiffInDays = (d1, d2) => {
   const diff = Math.abs(d1 - d2) / 1000; // divide by 1000 to get seconds
   return Math.floor(diff / 86400); // divide by 86400 to get days
 };
+
+export const countRemainingDays = (date1, date2) => {
+  const difference = date2 - date1;
+  if (difference < 0) {
+    return 0;
+  }
+  const remainingDays = difference / (1000 * 3600 * 24);
+  if (remainingDays > 0 && remainingDays < 1) {
+    return 1;
+  }
+  return Math.floor(remainingDays);
+};
