@@ -47,7 +47,7 @@ const ConfigureDataList = (props) => {
   return (
     <div
       className="overflow-scroll"
-      style={{ maxHeight: 'calc(100vh - 360px)' }}
+      style={{ maxHeight: 'calc(100vh - 368px)' }} // heading info + all paddings + section heading + bottom padding
     >
       <div className="px-6">
         {showError && (
