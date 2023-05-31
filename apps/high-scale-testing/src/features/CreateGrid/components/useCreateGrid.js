@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { fetchDataForCreateGrid } from 'api/index';
-import { SCRATCH_RADIO_GROUP_OPTIONS } from 'constants/index';
+import {
+  GRID_MANAGER_NAMES,
+  SCRATCH_RADIO_GROUP_OPTIONS
+} from 'constants/index';
 
 const useCreateGrid = () => {
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
@@ -22,6 +25,8 @@ const useCreateGrid = () => {
     }
   ];
 
+  const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
+    useState(GRID_MANAGER_NAMES.helm);
   const [allAvailableInstanceTypes, setAllAvailableInstanceTypes] = useState(
     []
   );
@@ -29,6 +34,8 @@ const useCreateGrid = () => {
     useState([]);
   const [allAvailableSubnets, setAllAvailableSubnets] = useState([]);
   const [allAvailableVPCIDs, setAllAvailableVPCIDs] = useState([]);
+  const [codeSnippetsForExistingSetup, setCodeSnippetsForExistingSetup] =
+    useState(null);
   const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
     allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER.configName] || []
   );
@@ -50,6 +57,7 @@ const useCreateGrid = () => {
   const ref = useRef({});
 
   const [searchParams, setSearchparams] = useSearchParams();
+  const type = searchParams.get('type');
 
   const gridConcurrencyChangeHandler = (e) => {
     const newValue = e.target.value;
@@ -110,7 +118,8 @@ const useCreateGrid = () => {
     fetchDataForCreateGrid().then((res) => {
       const response = res.data;
       console.log('Log: response:', response);
-      setGridProfilesData(response);
+      setCodeSnippetsForExistingSetup(response.codeSnippets.existing);
+      setGridProfilesData(response.gridProfiles);
       // setAllAvailableRegionsByProvider(response.regions);
       // setAllAvailableInstanceTypes(response['instance-types']);
       // setAllAvailableVPCIDs(response['vpc-id']);
@@ -119,12 +128,14 @@ const useCreateGrid = () => {
   }, []);
 
   return {
+    activeGridManagerCodeSnippet,
     allAvailableInstanceTypes,
     allAvailableRegionsByProvider,
     allAvailableSubnets,
     allAvailableVPCIDs,
     currentProvidersRegions,
     breadcrumbsData,
+    codeSnippetsForExistingSetup,
     currentSelectedCloudProvider,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
@@ -136,9 +147,11 @@ const useCreateGrid = () => {
     selectedGridConcurrency,
     selectedGridName,
     selectedGridProfile,
+    setActiveGridManagerCodeSnippet,
     setOpened,
     setCurrentCloudProvider,
-    setSelectedGridProfile
+    setSelectedGridProfile,
+    type
   };
 };
 
