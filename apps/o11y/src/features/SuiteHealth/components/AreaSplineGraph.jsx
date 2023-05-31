@@ -53,9 +53,11 @@ const CHART_OPTIONS = {
     }
   },
   plotOptions: {
-    spline: {
+    areaspline: {
       lineWidth: 2,
       lineWidthPlus: 0,
+      fillOpacity: 0.5,
+      stacking: 'normal',
       marker: {
         enabled: false,
         lineColor: 'red',
@@ -71,15 +73,10 @@ const CHART_OPTIONS = {
     },
     series: {
       connectNulls: true
-    },
-    column: {
-      stacking: 'normal',
-      cursor: 'pointer',
-      maxPointWidth: 1
     }
   },
   chart: {
-    type: 'spline',
+    type: 'areaspline',
     zoomType: 'x',
     panning: true,
     panKey: 'shift',
@@ -118,7 +115,7 @@ const CHART_OPTIONS = {
   }
 };
 
-const StatsCardGraph = ({
+const AreaSplineGraph = ({
   series,
   yAxisLabelFormatter,
   markerColor,
@@ -146,10 +143,10 @@ const StatsCardGraph = ({
       },
       plotOptions: {
         ...CHART_OPTIONS.plotOptions,
-        spline: {
-          ...CHART_OPTIONS.plotOptions.spline,
+        areaspline: {
+          ...CHART_OPTIONS.plotOptions.areaspline,
           marker: {
-            ...CHART_OPTIONS.plotOptions.spline.marker,
+            ...CHART_OPTIONS.plotOptions.areaspline.marker,
             lineColor: markerColor,
             fillColor: markerColor
           }
@@ -175,15 +172,15 @@ const StatsCardGraph = ({
   return <Chart options={updatedChartOptions} />;
 };
 
-StatsCardGraph.propTypes = {
+AreaSplineGraph.propTypes = {
   yAxisLabelFormatter: PropTypes.func.isRequired,
   tooltipFormatter: PropTypes.func,
   series: PropTypes.arrayOf(PropTypes.shape(PropTypes.any)).isRequired,
   markerColor: PropTypes.string.isRequired
 };
 
-StatsCardGraph.defaultProps = {
+AreaSplineGraph.defaultProps = {
   tooltipFormatter() {}
 };
 
-export default memo(StatsCardGraph);
+export default memo(AreaSplineGraph);

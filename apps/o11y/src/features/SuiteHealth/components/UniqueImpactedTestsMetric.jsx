@@ -8,8 +8,8 @@ import { getCustomTimeStamp } from 'utils/dateTime';
 
 import { getDateRangeSubTitles, getNumberFormattedYAxisLabel } from '../utils';
 
+import SplineGraph from './SplineGraph';
 import StatsCard from './StatsCard';
-import StatsCardGraph from './StatsCardGraph';
 
 function getFormattedTooltip() {
   return this.points.reduce(
@@ -51,7 +51,7 @@ const UniqueImpactedTestsMetric = ({ isLoading, data, metric }) => {
       subText={getDateRangeSubTitles(appliedDateRange)}
       isLoading={isLoading}
       graph={
-        <StatsCardGraph
+        <SplineGraph
           yAxisLabelFormatter={getNumberFormattedYAxisLabel}
           series={seriesData}
           markerColor="var(--colors-danger-500)"

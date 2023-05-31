@@ -5,8 +5,8 @@ import { getCustomTimeStamp } from 'utils/dateTime';
 
 import { getNumberFormattedYAxisLabel } from '../utils';
 
+import AreaSplineGraph from './AreaSplineGraph';
 import StatsCard from './StatsCard';
-import StatsCardGraph from './StatsCardGraph';
 
 function getFormattedTooltip() {
   return this.points.reduce(
@@ -29,18 +29,20 @@ const TotalFailuresMetric = ({ isLoading, data, metric }) => {
     }
     return [
       {
-        name: 'Total Failures',
-        lineColor: 'var(--colors-danger-500)',
-        borderColor: 'black',
-        color: 'transparent',
-        data: data?.totalFailures
-      },
-      {
         name: 'Total Executions',
         lineColor: 'var(--colors-base-300)',
         borderColor: 'black',
         color: 'transparent',
+        fillColor: 'var(--colors-base-100)',
         data: data?.totalExecutions
+      },
+      {
+        name: 'Total Failures',
+        lineColor: 'var(--colors-danger-500)',
+        borderColor: 'black',
+        color: 'transparent',
+        fillColor: 'var(--colors-danger-200)',
+        data: data?.totalFailures
       }
     ];
   }, [data?.totalExecutions, data?.totalFailures, isLoading]);
@@ -52,7 +54,7 @@ const TotalFailuresMetric = ({ isLoading, data, metric }) => {
       subText={metric?.meta}
       isLoading={isLoading}
       graph={
-        <StatsCardGraph
+        <AreaSplineGraph
           yAxisLabelFormatter={getNumberFormattedYAxisLabel}
           series={seriesData}
           markerColor="var(--colors-danger-500)"

@@ -7,8 +7,8 @@ import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { getDateRangeSubTitles } from '../utils';
 
+import SplineGraph from './SplineGraph';
 import StatsCard from './StatsCard';
-import StatsCardGraph from './StatsCardGraph';
 
 function getFormattedYAxisLabel() {
   return milliSecondsToTime(this.value);
@@ -53,7 +53,7 @@ const AverageDurationMetric = ({ isLoading, data, metric }) => {
       subText={getDateRangeSubTitles(appliedDateRange)}
       isLoading={isLoading}
       graph={
-        <StatsCardGraph
+        <SplineGraph
           yAxisLabelFormatter={getFormattedYAxisLabel}
           series={seriesData}
           markerColor="var(--colors-brand-500)"
