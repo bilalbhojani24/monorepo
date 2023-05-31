@@ -74,12 +74,15 @@ const { reducer, actions } = createSlice({
         state.smartTags = {
           isLoading: false,
           project: '',
-          data: {},
+          data: { ...SMART_TAGS_DEFAULT_VALUES },
           localState: { ...state.smartTags.localState }
         };
       })
       .addCase(submitSmartTagsChanges.pending, (state) => {
-        state.smartTags.isLoading = true;
+        state.smartTags = {
+          ...state.smartTags,
+          isLoading: true
+        };
       })
       .addCase(submitSmartTagsChanges.rejected, (state) => {
         state.smartTags.isLoading = false;
