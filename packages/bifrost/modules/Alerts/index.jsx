@@ -186,12 +186,21 @@ const Alerts = (props) => {
                             <li key={descriptionItem}>{descriptionItem}</li>
                           ))}
                         </ul>
+                        {alertLinkPosition === ALERT_LINK_POSITION[0] &&
+                          !!detailsNode &&
+                          link(
+                            alertLinkPosition,
+                            modifier,
+                            handleLinkClick,
+                            linkUrl,
+                            detailsNode
+                          )}
                       </div>
                     ) : (
                       <p>
                         {description}
                         {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                          detailsNode &&
+                          !!detailsNode &&
                           link(
                             alertLinkPosition,
                             modifier,
