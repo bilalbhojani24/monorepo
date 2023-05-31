@@ -30,6 +30,7 @@ import {
 import useTestRunDetails from './useTestRunDetails';
 
 const useBulkFunctions = () => {
+  const MYSELF_TEXT = ' (Myself)';
   const { projectId, testRunId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isShowAddIssuesModal, setIsShowAddIssuesModal] = useState(false);
@@ -99,7 +100,7 @@ const useBulkFunctions = () => {
         setUsers(
           [
             {
-              full_name: `${data.myself.full_name} (Myself)`,
+              full_name: `${data.myself.full_name}${MYSELF_TEXT}`,
               id: data.myself.id
             },
             ...data.users.filter((item) => item.id !== data.myself.id)
@@ -281,7 +282,10 @@ const useBulkFunctions = () => {
             id: `assigness_updates${testRunDetails?.id}`,
             title: `${
               selectedTestCaseIDs?.length || 0
-            } Test Cases assigned to ${assignee?.label}.`,
+            } Test Cases assigned to ${assignee?.label.replace(
+              MYSELF_TEXT,
+              ''
+            )}.`,
             description: null,
             variant: 'success'
           })
