@@ -3,22 +3,21 @@ import Highcharts from 'highcharts/highstock';
 import PropTypes from 'prop-types';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
+import { getNumberFormattedYAxisLabel } from '../utils';
+
 import StatsCard from './StatsCard';
 import StatsCardGraph from './StatsCardGraph';
-
-function getFormattedYAxisLabel() {
-  return `${Highcharts.numberFormat(this.value * 100, 0)}%`;
-}
 
 function getFormattedTooltip() {
   return this.points.reduce(
     (s, data) =>
       `${s}<br/><span>${data.series.name}: <b>${Highcharts.numberFormat(
-        data.y * 100,
+        data.y,
         0
-      )}%</b></span>`,
+      )}</b></span>`,
     `<span>${getCustomTimeStamp({
-      dateString: this.x
+      dateString: this.x,
+      withoutTime: true
     })}</span>`
   );
 }
@@ -30,7 +29,7 @@ const UniqueImpactedTestsMetric = ({ isLoading, data, metric }) => {
     }
     return [
       {
-        name: 'Average Duration',
+        name: 'Unique Impacted Tests',
         lineColor: 'var(--colors-danger-500)',
         borderColor: 'black',
         color: 'transparent',
@@ -47,7 +46,7 @@ const UniqueImpactedTestsMetric = ({ isLoading, data, metric }) => {
       isLoading={isLoading}
       graph={
         <StatsCardGraph
-          yAxisLabelFormatter={getFormattedYAxisLabel}
+          yAxisLabelFormatter={getNumberFormattedYAxisLabel}
           series={seriesData}
           markerColor="var(--colors-danger-500)"
           tooltipFormatter={getFormattedTooltip}

@@ -16,7 +16,8 @@ function getFormattedTooltip() {
         data.y
       )}</b></span>`,
     `<span>${getCustomTimeStamp({
-      dateString: this.x
+      dateString: this.x,
+      withoutTime: true
     })}</span>`
   );
 }
