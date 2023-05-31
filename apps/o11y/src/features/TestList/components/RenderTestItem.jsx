@@ -43,6 +43,9 @@ import TestListTimeline from './TestlistTimeline';
 
 const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;
+  const {
+    smartTagSettings: { flaky, alwaysFailing, newFailure, performanceAnomalies }
+  } = details;
   const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -202,11 +205,11 @@ const RenderTestItem = ({ item: data }) => {
                       //   ? `Flake detected in re-run within ${1}`
                       //   :
                       'Flake detected',
-                      details.flakyReason.status === 2
+                      details.flakyReason === 2
                         ? `Test passing on a retry attempt in the same run 
-                      across last ${details.flakyReason.x} consecutive runs`
+                      across last ${flaky.flakeInRerun.consecutiveRuns} consecutive runs`
                         : `Test status flipping (pass to fail or vice-versa) 
-                        more than ${details.flakyReason.x} times out of ${details.flakyReason.y} consecutive runs`,
+                        more than ${flaky.flakeInHistory.flippingPercentage}% times out of ${flaky.flakeInHistory.consecutiveRuns} consecutive runs`,
                       addFilterOnClick
                     )}
                   {details?.isAlwaysFailing &&
@@ -215,11 +218,11 @@ const RenderTestItem = ({ item: data }) => {
                       'error',
                       'Always failing test',
                       `The test has been failing with the ${
-                        details.alwaysFailingReason.status === 0
+                        alwaysFailing.failureType === 'SAME_ERROR'
                           ? 'same error'
                           : 'any error'
                       } for last ${
-                        details.alwaysFailingReason.x
+                        alwaysFailing.consecutiveRuns
                       } consecutive runs`,
                       addFilterOnClick
                     )}
@@ -229,9 +232,9 @@ const RenderTestItem = ({ item: data }) => {
                       'error',
                       'New failure detected',
                       `This test failed for the first time across last ${
-                        details.newlyFailingReason.x
+                        newFailure.consecutiveRuns
                       } consecutive runs with ${
-                        details.newlyFailingReason.status === 0 ? 'new' : 'any'
+                        newFailure.failureType === 'NEW' ? 'new' : 'any'
                       } error`,
                       addFilterOnClick
                     )}
@@ -240,7 +243,7 @@ const RenderTestItem = ({ item: data }) => {
                       'Performance Anomaly',
                       'error',
                       'Performance anomaly detected',
-                      `Duration is more than ${details.performanceAnomalyReason.x}th percentile across last ${details.performanceAnomalyReason.y} consecutive runs.`,
+                      `Duration is more than ${performanceAnomalies.durationPercentile}th percentile across last ${performanceAnomalies.consecutiveRuns} consecutive runs.`,
                       addFilterOnClick
                     )}
                 </div>
