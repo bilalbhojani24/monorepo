@@ -94,6 +94,9 @@ export default function useTestCases(props) {
   const testCaseTypeIntNameAndValueMapTC = useSelector(
     (state) => state.repository.testCaseTypeIntNameAndValueMapTC
   );
+  const automationOptions = useSelector(
+    (state) => state.repository.automationOptions
+  );
 
   const setRepoView = (update) => {
     dispatch(setFilterSearchView(update));
@@ -137,8 +140,21 @@ export default function useTestCases(props) {
     return testCaseTypeIntNameAndValueMapTC[`${value}`];
   };
 
-  const setDefaultValues = () => {
+  const setDefaultValues = (defaultFields) => {
     if (props?.isTestCaseEditing) return;
+
+    // NOTE: this is to be optimized for all other props as well once we move to the same structure
+    // if other props are moving to different structire, automation_status should also be aligned with the same.
+    const automation = defaultFields?.automation_status || automationOptions;
+    const automationDefault = automation.find((item) => item.is_default);
+    if (automationDefault?.value) {
+      dispatch(
+        updateTestCaseFormData({
+          key: 'automation_status',
+          value: automationDefault?.value
+        })
+      );
+    }
 
     [
       { key: 'priority', value: DEFAULT_PRIORITY },
@@ -166,7 +182,7 @@ export default function useTestCases(props) {
           })
         );
         dispatch(updateCtaLoading({ key: 'formFields', value: false }));
-        setDefaultValues();
+        setDefaultValues(res?.default_fields);
       });
     } else setDefaultValues();
     // eslint-disable-next-line react-hooks/exhaustive-deps
