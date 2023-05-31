@@ -41,7 +41,7 @@ const CreateGridCLIModal = () => {
       <div className="mx-6 my-4">
         <p className="text-lg font-medium">Automation Grid Incomplete</p>
 
-        <div className="border-base-300 mt-4 rounded-lg border">
+        <div className="mt-4 rounded-lg border border-base-300">
           <p className="mx-4 my-1">
             Use below commands to create a new grid with default parameters in
             your existing Kubernetes setup or click on ‘Configure Grid’ button

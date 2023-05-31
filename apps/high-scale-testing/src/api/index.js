@@ -8,7 +8,8 @@ import {
   ONBOARDING_DATA_URL,
   ONBOARDING_EVENT_LOGS_DATA_URL,
   ONBOARDING_REGION_CHANGE_URL,
-  ONBOARDING_STATUS_URL
+  ONBOARDING_STATUS_URL,
+  UPDATE_GRID_SETTINGS_URL
 } from './constants/apiURLs';
 
 const fetchAllGridsData = (userId) =>
@@ -61,6 +62,16 @@ const markOnboardingRegionChange = (userId, cloudProvider, newRegionObject) =>
     params: { userId, cloudProvider, region: newRegionObject }
   });
 
+const updateSettings = (userId, component, settingType, settingsObj) =>
+  axios.put(UPDATE_GRID_SETTINGS_URL, {
+    params: {
+      userId,
+      component,
+      settingType,
+      settingsObj
+    }
+  });
+
 export {
   fetchAllClustersData,
   fetchAllGridsData,
@@ -69,5 +80,6 @@ export {
   getOnboardingData,
   getOnboardingEventsLogsData,
   markOnboardingRegionChange,
-  markOnboardingStatus
+  markOnboardingStatus,
+  updateSettings
 };

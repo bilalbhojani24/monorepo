@@ -1,27 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { PageHeadings, Tabs } from '@browserstack/bifrost';
 
 import ROUTES from '../../../constants/routes';
 
-import GridOverview from './GridOverview';
+import useLayoutGridDetail from './useLayoutGridDetail';
 
-const GridDetail = () => {
-  const [tabName, setTabName] = useState('Overview');
+const LayoutGridDetail = () => {
+  const { setCurrentTab, currentTab } = useLayoutGridDetail();
 
   const TabsForGridDetail = (
     <Tabs
       tabsArray={[
         {
+          index: 0,
           name: 'Overview'
         },
         {
+          index: 1,
           name: 'Utilization'
         },
         {
+          index: 2,
           name: 'Settings'
         }
       ]}
-      onTabChange={(e) => setTabName(e.name)}
+      onTabChange={(e) => setCurrentTab(e)}
+      defaultIndex={currentTab.index}
     />
   );
 
@@ -32,7 +37,7 @@ const GridDetail = () => {
           breadcrumbs={[
             { name: 'Grids', url: ROUTES.GRID_CONSOLE, current: false },
             {
-              name: tabName,
+              name: currentTab.name,
               url: '',
               current: true
             }
@@ -43,9 +48,9 @@ const GridDetail = () => {
         {TabsForGridDetail}
       </div>
 
-      <GridOverview />
+      <Outlet />
     </div>
   );
 };
 
-export default GridDetail;
+export default LayoutGridDetail;

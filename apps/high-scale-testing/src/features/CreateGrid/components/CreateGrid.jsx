@@ -81,9 +81,9 @@ const CreateGrid = () => {
         />
         <div className="w-full">
           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-          <div className="border-base-300 m-6 h-[calc(100vh-64px-104px-48px)] overflow-auto rounded-lg border bg-white p-6">
+          <div className="m-6 h-[calc(100vh-64px-104px-48px)] overflow-auto rounded-lg border border-base-300 bg-white p-6">
             <p className="text-lg font-medium">Choose Grid Profile</p>
-            <p className="text-base-500 text-sm">
+            <p className="text-sm text-base-500">
               Use previously saved profiles to configure Grid settings with
               pre-filled values.
             </p>
@@ -105,7 +105,7 @@ const CreateGrid = () => {
             {/* Choose Cloud Provider */}
             <div>
               <p className="text-sm font-medium">Choose Cloud Provider</p>
-              <p className="text-base-500  text-sm font-normal">
+              <p className="text-sm  font-normal text-base-500">
                 Currently we support only AWS but GCP and Azure will be
                 supported soon.
               </p>
@@ -129,7 +129,7 @@ const CreateGrid = () => {
             {/* Configure Grid Profile */}
             <div className="mt-6">
               <p className="text-sm font-normal">Configure Grid Profile</p>
-              <p className="text-base-500 text-sm font-normal">
+              <p className="text-sm font-normal text-base-500">
                 The current settings are based on the default grid profile. You
                 can make the changes and save it as a new profile.
               </p>
@@ -214,7 +214,7 @@ const CreateGrid = () => {
                           >
                             <SelectMenuLabel>
                               Region
-                              <span className="text-danger-600 ml-0.5">*</span>
+                              <span className="ml-0.5 text-danger-600">*</span>
                             </SelectMenuLabel>
                             <SelectMenuTrigger ref={ref} />
                             <SelectMenuOptionGroup>
@@ -236,7 +236,7 @@ const CreateGrid = () => {
                           >
                             <ComboboxLabel>
                               Instance Type
-                              <span className="text-danger-600 ml-0.5">*</span>
+                              <span className="ml-0.5 text-danger-600">*</span>
                             </ComboboxLabel>
                             <ComboboxTrigger placeholder="Placeholder" />
                             <ComboboxOptionGroup>

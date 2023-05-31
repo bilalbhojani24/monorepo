@@ -25,7 +25,7 @@ const GridsListing = () => {
   const navigate = useNavigate();
 
   const gridRowHandler = (gridId) => {
-    navigate(`/grid-console/grid/${gridId}`);
+    navigate(`/grid-console/grid/${gridId}/overview`);
   };
 
   return (
@@ -124,12 +124,7 @@ const GridsListing = () => {
                     <p>{clusterIdentifier}</p>
                   </TableCell>
                   <TableCell>
-                    <Dropdown
-                      onClick={(value) => {
-                        // eslint-disable-next-line no-console
-                        console.log(value);
-                      }}
-                    >
+                    <Dropdown>
                       <div className="flex">
                         <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
                           <EllipsisVerticalIcon

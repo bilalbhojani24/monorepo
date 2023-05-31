@@ -1,7 +1,13 @@
 import React from 'react';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import GridConsole from 'features/GridConsole/components/Dashboard';
-import GridDetail from 'features/GridConsole/components/GridDetail';
+import GridOverview from 'features/GridConsole/components/GridOverview';
+import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
+import BrowsersSettings from 'features/GridSettings/components/BrowsersSettings';
+import GeneralSettings from 'features/GridSettings/components/GeneralSettings';
+import TestArtifactsSettings from 'features/GridSettings/components/TestArtifactsSettings';
+import TimeoutSettings from 'features/GridSettings/components/TimeoutSettings';
+import GridSettings from 'features/GridSettings/container/GridSettings';
 import { Layout } from 'features/Layout';
 import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
 import { Onboarding } from 'features/Onboarding';
@@ -34,7 +40,41 @@ export const APP_ROUTES = [
       {
         path: ROUTES.GRID,
         isProtected: true,
-        component: <GridDetail />
+        component: <LayoutGridDetail />,
+        children: [
+          {
+            path: ROUTES.GRID_OVERVIEW,
+            isProtected: true,
+            component: <GridOverview />
+          },
+          {
+            path: ROUTES.GRID_SETTINGS,
+            isProtected: true,
+            component: <GridSettings />,
+            children: [
+              {
+                path: ROUTES.GRID_SETTINGS_GENERAL,
+                isProtected: true,
+                component: <GeneralSettings />
+              },
+              {
+                path: ROUTES.GRID_SETTINGS_BROWSER,
+                isProtected: true,
+                component: <BrowsersSettings />
+              },
+              {
+                path: ROUTES.GRID_SETTINGS_TIMEOUT,
+                isProtected: true,
+                component: <TimeoutSettings />
+              },
+              {
+                path: ROUTES.GRID_SETTINGS_TEST_ARTIFACTS,
+                isProtected: true,
+                component: <TestArtifactsSettings />
+              }
+            ]
+          }
+        ]
       },
       {
         path: ROUTES.CREATE_GRID,
