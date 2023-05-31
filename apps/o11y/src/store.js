@@ -1,4 +1,3 @@
-import { reducers as growthReducers } from '@browserstack/growth';
 import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
 import topBannerSlice from 'common/O11yTopBanner/slices/topBannerSlice';
@@ -47,8 +46,7 @@ export const store = configureStore({
     testingTrend: testingTrendReducer,
     testInsights: testInsightsSlice,
     allFilters: AllFiltersSlice,
-    topBanner: topBannerSlice,
-    ...growthReducers
+    topBanner: topBannerSlice
   },
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware({ serializableCheck: false });
