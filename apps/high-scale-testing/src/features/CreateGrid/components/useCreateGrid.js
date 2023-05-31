@@ -95,6 +95,34 @@ const useCreateGrid = () => {
       });
 
       setSelectedGridclusters(tmpArray);
+
+      const tmpSubnets = gridProfilesData.filter(
+        (profileData) => profileData.profile.name === selectedGridProfile.value
+      )[0]?.subnets;
+
+      const tmpSubnetsArray = [];
+      tmpSubnets?.forEach((e) => {
+        tmpSubnetsArray.push({
+          label: e,
+          value: e
+        });
+      });
+
+      setAllAvailableSubnets(tmpSubnetsArray);
+
+      const tmpVpcs = gridProfilesData.filter(
+        (profileData) => profileData.profile.name === selectedGridProfile.value
+      )[0]?.vpcs;
+
+      const tmpVPCsArray = [];
+      tmpVpcs?.forEach((e) => {
+        tmpVPCsArray.push({
+          label: e,
+          value: e
+        });
+      });
+
+      setAllAvailableVPCIDs(tmpVPCsArray);
     }
   }, [selectedGridProfile]);
 
@@ -120,10 +148,6 @@ const useCreateGrid = () => {
       console.log('Log: response:', response);
       setCodeSnippetsForExistingSetup(response.codeSnippets.existing);
       setGridProfilesData(response.gridProfiles);
-      // setAllAvailableRegionsByProvider(response.regions);
-      // setAllAvailableInstanceTypes(response['instance-types']);
-      // setAllAvailableVPCIDs(response['vpc-id']);
-      // setAllAvailableSubnets(response.subnets);
     });
   }, []);
 
