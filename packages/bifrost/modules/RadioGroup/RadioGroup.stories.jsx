@@ -9,7 +9,7 @@ import {
   dummySmallCardData,
   dummyStackedCardData
 } from './const/radioCardConstants';
-import { DIRECTIONS, dummyData } from './const/radioItemConstants';
+import { DIRECTIONS, dummyData, TYPES } from './const/radioItemConstants';
 import { tableDummyData } from './const/radioTableConstants';
 import RadioGroup from './index';
 
@@ -93,9 +93,9 @@ const defaultConfig = {
       defaultValue: ''
     },
     type: {
-      options: ['default', 'smallCard', 'stackedCard', 'table'],
+      options: TYPES,
       control: { type: 'inline-radio' },
-      defaultValue: 'default'
+      defaultValue: TYPES[0]
     }
   },
   controls: {}
@@ -142,7 +142,7 @@ RadioSmallCards.parameters = {
 };
 
 RadioSmallCards.args = {
-  type: 'smallCard',
+  type: TYPES[1],
   defaultValue: dummySmallCardData[0].value,
   children: (
     <>
@@ -166,14 +166,14 @@ RadioStackedCards.parameters = {
 };
 
 RadioStackedCards.args = {
-  type: 'stackedCard',
+  type: TYPES[2],
   defaultValue: dummyStackedCardData[0].value,
   children: (
     <>
       {dummyStackedCardData.map((option) => (
         <RadioCard
           key={option.value}
-          type="stackedCard"
+          type={TYPES[2]}
           option={option}
           disabled={option.disabled}
         />
@@ -189,17 +189,17 @@ export const ControlledVerticalRadioStackedCards = (args) => {
   return (
     <RadioGroup
       {...args}
-      type="stackedCard"
-      direction="vertical"
+      type={TYPES[2]}
+      direction={DIRECTIONS[1]}
       value={selected}
       onChange={setSelected}
     >
       {dummyStackedCardData.map((option) => (
         <RadioCard
           key={option.value}
-          type="stackedCard"
+          type={TYPES[2]}
           option={option}
-          direction="vertical"
+          direction={DIRECTIONS[1]}
           disabled={option.disabled}
         />
       ))}
@@ -214,14 +214,14 @@ RadioTables.parameters = {
 };
 
 RadioTables.args = {
-  type: 'table',
+  type: TYPES[3],
   defaultValue: tableDummyData[0].value,
   children: (
     <>
       {tableDummyData.map((option, i) => (
         <RadioTable
           key={option.value}
-          type="table"
+          type={TYPES[3]}
           index={i}
           length={tableDummyData.length}
           option={option}
@@ -241,14 +241,14 @@ RadioSingleColumnTable.parameters = {
 };
 
 RadioSingleColumnTable.args = {
-  type: 'table',
+  type: TYPES[3],
   defaultValue: tableDummyData[1].value,
   children: (
     <>
       {tableDummyData.map((option, i) => (
         <RadioTable
           key={option.value}
-          type="table"
+          type={TYPES[3]}
           index={i}
           length={tableDummyData.length}
           option={option}

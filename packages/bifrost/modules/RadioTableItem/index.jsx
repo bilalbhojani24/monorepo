@@ -21,12 +21,11 @@ const RadioTable = ({
   return (
     <RadioGroupPrimitive.Item
       className={twClassNames(
-        'w-full relative border p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none',
+        'w-full relative border border-base-200 p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none',
         {
           'rounded-tl-md rounded-tr-md': index === 0,
           'rounded-bl-md rounded-br-md': index === length - 1,
           'bg-brand-50 border-brand-200 z-10': checked,
-          'border-base-200': !checked,
           'md:grid md:grid-cols-4': !singleColumn,
           'cursor-not-allowed': disabled
         },
@@ -43,11 +42,10 @@ const RadioTable = ({
       >
         <span
           className={twClassNames(
+            'h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
             {
-              'bg-brand-600 border-transparent': checked,
-              'bg-white border-base-300': !checked
-            },
-            'h-4 w-4 shrink-0 rounded-full border flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500'
+              'bg-brand-600 border-transparent': checked
+            }
           )}
           aria-hidden="true"
         >
@@ -61,20 +59,18 @@ const RadioTable = ({
         >
           <span
             className={twClassNames(
+              'ml-3 block text-sm font-medium text-base-900',
               {
-                'text-brand-900': checked,
-                'text-base-900': !checked
-              },
-              'ml-3 block text-sm font-medium'
+                'text-brand-900': checked
+              }
             )}
           >
             {label}
           </span>
           <span
-            className={twClassNames(
-              checked ? 'text-brand-700' : 'text-base-500',
-              'block text-sm ml-3'
-            )}
+            className={twClassNames('block text-sm ml-3 text-base-500', {
+              'text-brand-700': checked
+            })}
           >
             {description}
           </span>
@@ -91,22 +87,17 @@ const RadioTable = ({
           >
             {column.label && (
               <span
-                className={twClassNames(
-                  {
-                    'text-brand-900': checked,
-                    'text-base-900': !checked
-                  },
-                  'font-medium'
-                )}
+                className={twClassNames('font-medium text-base-900', {
+                  'text-brand-900': checked
+                })}
               >
                 {column.label}
               </span>
             )}
             {column.description && (
               <span
-                className={twClassNames({
-                  'text-brand-700': checked,
-                  'text-base-500': !checked
+                className={twClassNames('text-base-500', {
+                  'text-brand-700': checked
                 })}
               >
                 {column.description}

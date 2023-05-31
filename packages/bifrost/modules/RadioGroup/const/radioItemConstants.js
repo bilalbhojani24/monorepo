@@ -1,5 +1,7 @@
 export const DIRECTIONS = ['horizontal', 'vertical'];
 
+export const TYPES = ['default', 'smallCard', 'stackedCard', 'table'];
+
 export const dummyData = [
   {
     value: 'radio-1',

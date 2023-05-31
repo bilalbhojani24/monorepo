@@ -28,12 +28,11 @@ const Radio = ({
     >
       <RadioGroupPrimitive.Item
         className={twClassNames(
-          'h-4 w-4 shrink-0 rounded-full border flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
+          'h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
           {
             'order-last mx-3': rightAligned,
             'cursor-not-allowed': disabled,
-            'bg-brand-600 border-transparent': checked,
-            'bg-white border-base-300': !checked
+            'bg-brand-600 border-transparent': checked
           }
         )}
         value={value}

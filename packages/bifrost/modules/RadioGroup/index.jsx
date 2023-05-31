@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { ExclamationCircleIcon } from '../Icon';
 
-import { DIRECTIONS } from './const/radioItemConstants';
+import { DIRECTIONS, TYPES } from './const/radioItemConstants';
 
 export const ActiveContext = createContext(undefined);
 
@@ -60,14 +60,14 @@ const RadioGroup = ({
         className={twClassNames(
           {
             'space-y-4 md:flex md:items-center md:space-x-10 md:space-y-0':
-              type === 'default' && direction === DIRECTIONS[0],
+              type === TYPES[0] && direction === DIRECTIONS[0],
             'flex space-y-5 flex-col':
-              type === 'default' && direction === DIRECTIONS[1],
-            'grid grid-cols-3 gap-3 sm:grid-cols-6': type === 'smallCard',
+              type === TYPES[0] && direction === DIRECTIONS[1],
+            'grid grid-cols-3 gap-3 sm:grid-cols-6': type === TYPES[1],
             'grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4':
-              type === 'stackedCard' && direction === DIRECTIONS[0],
-            'space-y-4': type === 'stackedCard' && direction === DIRECTIONS[1],
-            'relative -space-y-px rounded-md bg-white': type === 'table'
+              type === TYPES[2] && direction === DIRECTIONS[0],
+            'space-y-4': type === TYPES[2] && direction === DIRECTIONS[1],
+            'relative -space-y-px rounded-md bg-white': type === TYPES[3]
           },
           columnWrapperClassName
         )}
@@ -105,10 +105,10 @@ RadioGroup.propTypes = {
   columnWrapperClassName: PropTypes.string,
   wrapperClassName: PropTypes.string,
   direction: PropTypes.oneOf(DIRECTIONS),
-  type: PropTypes.string
+  type: PropTypes.oneOf(TYPES)
 };
 RadioGroup.defaultProps = {
-  children: <></>,
+  children: null,
   value: '',
   defaultValue: '',
   onChange: null,
@@ -120,7 +120,7 @@ RadioGroup.defaultProps = {
   columnWrapperClassName: '',
   wrapperClassName: '',
   direction: DIRECTIONS[0],
-  type: 'default'
+  type: TYPES[0]
 };
 
 export default RadioGroup;
