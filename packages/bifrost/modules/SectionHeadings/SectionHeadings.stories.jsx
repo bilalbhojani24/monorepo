@@ -15,6 +15,9 @@ const tabs = [
   { name: 'Hired' }
 ];
 
+const jobPostings = 'Job Postings';
+const button1Text = 'Really long';
+const button2Text = 'Button name';
 const defaultConfig = {
   title: 'Application/Components/SectionHeadings',
   component: SectionHeadings,
@@ -38,7 +41,7 @@ const defaultConfig = {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
       control: { type: 'text' },
-      defaultValue: 'Job Postings'
+      defaultValue: jobPostings
     },
     subTitle: {
       type: { summary: 'STRING', required: false },
@@ -69,8 +72,8 @@ const defaultConfig = {
       description: 'ABCDEFGHIJK',
       defaultValue: (
         <div className="flex items-center">
-          <Button wrapperClassName="mr-3">Really long</Button>
-          <Button wrapperClassName="ml-3 mr-3">Button name</Button>
+          <Button wrapperClassName="mr-3">{button1Text}</Button>
+          <Button wrapperClassName="ml-3 mr-3">{button2Text}</Button>
         </div>
       )
     },
@@ -87,9 +90,9 @@ const Template = (args) => <SectionHeadings {...args} />;
 const Primary = Template.bind({});
 Primary.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  await expect(canvas.getByText('Job Postings')).toBeVisible();
-  await userEvent.click(canvas.getByText('Really long'));
-  await userEvent.click(canvas.getByText('Button name'));
+  await expect(canvas.getByText(jobPostings)).toBeVisible();
+  await userEvent.click(canvas.getByText(button1Text));
+  await userEvent.click(canvas.getByText(button2Text));
   tabs.forEach(async (tab) => {
     await expect(canvas.getByText(tab.name)).toBeVisible();
     await userEvent.click(canvas.getByText(tab.name));
@@ -97,6 +100,16 @@ Primary.play = async ({ canvasElement }) => {
 };
 
 const WithHeaderClassName = Template.bind({});
+WithHeaderClassName.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await expect(canvas.getByText(jobPostings)).toBeVisible();
+  await userEvent.click(canvas.getByText(button1Text));
+  await userEvent.click(canvas.getByText(button2Text));
+  tabs.forEach(async (tab) => {
+    await expect(canvas.getByText(tab.name)).toBeVisible();
+    await userEvent.click(canvas.getByText(tab.name));
+  });
+};
 WithHeaderClassName.args = {
   headerWrapperClassName:
     'flex flex-wrap items-center justify-between sm:flex-nowrap mb-4 sm:mb-0'
