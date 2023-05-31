@@ -175,12 +175,9 @@ const TestCasesTable = ({
       name: 'PRIORITY',
       key: 'priority',
       cell: (rowData) => (
-        <span className="text-base-500 flex items-center capitalize">
-          {formatPriority(rowData?.priority)}
-          {getSystemOrCustomValue(
-            rowData?.priority,
-            rowData?.priority_imported
-          )}
+        <span className="text-base-500 flex items-center">
+          {formatPriority(rowData?.priority?.internal_name?.toLowerCase())}
+          {rowData?.priority?.name}
         </span>
       ),
       class: 'w-[15%]'
