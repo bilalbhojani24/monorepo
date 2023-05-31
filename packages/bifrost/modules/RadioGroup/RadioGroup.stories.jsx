@@ -1,10 +1,16 @@
-import React from 'react';
-import { expect } from '@storybook/jest';
-import { userEvent, within } from '@storybook/testing-library';
+import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
+import RadioCard from '../RadioCardItem';
+import Radio from '../RadioItem';
+import RadioTable from '../RadioTableItem';
 
-import { DIRECTIONS } from './const/radioGroupConstants';
+import {
+  dummySmallCardData,
+  dummyStackedCardData
+} from './const/radioCardConstants';
+import { DIRECTIONS, dummyData } from './const/radioItemConstants';
+import { tableDummyData } from './const/radioTableConstants';
 import RadioGroup from './index';
 
 const defaultConfig = {
@@ -29,62 +35,232 @@ const defaultConfig = {
       control: { type: 'inline-radio' },
       defaultValue: DIRECTIONS[0]
     },
-    selectedOption: {
-      option: { type: null },
-      defaultValue: {
-        id: 'radio-2',
-        name: 'Radio 2 and it can grow longer and much more longer',
-        description: 'It is the description of Radio 1',
-        disabled: false
-      }
+    children: {
+      option: { type: 'string' },
+      defaultValue: (
+        <>
+          {dummyData.map((option) => (
+            <Radio
+              key={option.value}
+              option={option}
+              disabled={option.disabled}
+            />
+          ))}
+        </>
+      )
     },
-    inlineDescription: {
-      control: { type: 'boolean' },
+    onChange: {
+      control: { type: 'text' },
+      defaultValue: null
+    },
+    required: {
+      option: { type: 'boolean' },
       defaultValue: false
     },
-    rightAligned: {
-      control: { type: 'boolean' },
-      defaultValue: false
+    error: {
+      option: { type: 'string' },
+      defaultValue: ''
     },
-    options: {
-      option: { type: null },
-      defaultValue: [
-        {
-          id: 'radio-1',
-          name: 'Radio 1 and it can grow longer and much more longer',
-          description: 'It is the description of Radio 1',
-          disabled: false
-        },
-        {
-          id: 'radio-2',
-          name: 'Radio 2 and it can grow longer',
-          description: 'It is the description of Radio 2',
-          disabled: false
-        },
-        {
-          id: 'radio-3',
-          name: 'Radio 3 and it can grow longer',
-          description: 'It is the description of Radio 3',
-          disabled: true
-        }
-      ]
+    value: {
+      option: { type: 'string' },
+      defaultValue: null
+    },
+    defaultValue: {
+      option: { type: 'string' },
+      defaultValue: null
+    },
+    label: {
+      options: { type: 'string' },
+      defaultValue: ''
+    },
+    id: {
+      type: { summary: 'STRING', required: true },
+      description:
+        'The ID of the radio group element to uniquely identify every element.',
+      control: { type: 'text' },
+      defaultValue: 'test-id'
+    },
+    wrapperClassName: {
+      type: { summary: 'STRING', required: false },
+      description: 'Provide additional styles to component',
+      control: { type: 'text' },
+      defaultValue: ''
+    },
+    columnWrapperClassName: {
+      type: { summary: 'STRING', required: false },
+      description: 'Custom style for Radio group ',
+      control: { type: 'text' },
+      defaultValue: ''
+    },
+    type: {
+      options: ['default', 'smallCard', 'stackedCard', 'table'],
+      control: { type: 'inline-radio' },
+      defaultValue: 'default'
     }
   },
   controls: {}
 };
+
 const Template = (args) => <RadioGroup {...args} />;
+
 const Primary = Template.bind({});
-Primary.play = async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-  const radios = canvas.queryAllByRole('radio');
-  await expect(radios.length).toBe(3);
-  await userEvent.click(radios[0]);
-  await expect(radios[1]).toBeChecked();
-};
 
 Primary.parameters = {
   controls: {}
 };
 
-export default defaultConfig;
+Primary.args = {
+  label: 'Radio Groups',
+  description: 'How do you prefer to receive radios?',
+  required: true,
+  defaultValue: dummyData[1].value,
+  error: 'Select one option'
+};
+
 export { Primary };
+
+export const ControlledRightalignedRadioGroup = (args) => {
+  const [selected, setSelected] = useState(dummyData[0].value);
+  return (
+    <RadioGroup {...args} value={selected} onChange={setSelected}>
+      {dummyData.map((option) => (
+        <Radio
+          key={option.value}
+          option={option}
+          disabled={option.disabled}
+          rightAligned
+        />
+      ))}
+    </RadioGroup>
+  );
+};
+
+const RadioSmallCards = Template.bind({});
+
+RadioSmallCards.parameters = {
+  controls: {}
+};
+
+RadioSmallCards.args = {
+  type: 'smallCard',
+  defaultValue: dummySmallCardData[0].value,
+  children: (
+    <>
+      {dummySmallCardData.map((option) => (
+        <RadioCard
+          key={option.value}
+          option={option}
+          disabled={option.disabled}
+        />
+      ))}
+    </>
+  )
+};
+
+export { RadioSmallCards };
+
+const RadioStackedCards = Template.bind({});
+
+RadioStackedCards.parameters = {
+  controls: {}
+};
+
+RadioStackedCards.args = {
+  type: 'stackedCard',
+  defaultValue: dummyStackedCardData[0].value,
+  children: (
+    <>
+      {dummyStackedCardData.map((option) => (
+        <RadioCard
+          key={option.value}
+          type="stackedCard"
+          option={option}
+          disabled={option.disabled}
+        />
+      ))}
+    </>
+  )
+};
+
+export { RadioStackedCards };
+
+export const ControlledVerticalRadioStackedCards = (args) => {
+  const [selected, setSelected] = useState(dummyStackedCardData[0].value);
+  return (
+    <RadioGroup
+      {...args}
+      type="stackedCard"
+      direction="vertical"
+      value={selected}
+      onChange={setSelected}
+    >
+      {dummyStackedCardData.map((option) => (
+        <RadioCard
+          key={option.value}
+          type="stackedCard"
+          option={option}
+          direction="vertical"
+          disabled={option.disabled}
+        />
+      ))}
+    </RadioGroup>
+  );
+};
+
+const RadioTables = Template.bind({});
+
+RadioTables.parameters = {
+  controls: {}
+};
+
+RadioTables.args = {
+  type: 'table',
+  defaultValue: tableDummyData[0].value,
+  children: (
+    <>
+      {tableDummyData.map((option, i) => (
+        <RadioTable
+          key={option.value}
+          type="table"
+          index={i}
+          length={tableDummyData.length}
+          option={option}
+          disabled={option.disabled}
+        />
+      ))}
+    </>
+  )
+};
+
+export { RadioTables };
+
+const RadioSingleColumnTable = Template.bind({});
+
+RadioSingleColumnTable.parameters = {
+  controls: {}
+};
+
+RadioSingleColumnTable.args = {
+  type: 'table',
+  defaultValue: tableDummyData[1].value,
+  children: (
+    <>
+      {tableDummyData.map((option, i) => (
+        <RadioTable
+          key={option.value}
+          type="table"
+          index={i}
+          length={tableDummyData.length}
+          option={option}
+          disabled={option.disabled}
+          singleColumn
+          inlineDescription={false}
+        />
+      ))}
+    </>
+  )
+};
+
+export { RadioSingleColumnTable };
+
+export default defaultConfig;
