@@ -1,4 +1,6 @@
 import React from 'react';
+import ClusterOverview from 'features/ClusterDetail/components/ClusterOverview';
+import LayoutClusterDetail from 'features/ClusterDetail/container/LayoutClusterDetail';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import GridConsole from 'features/GridConsole/components/Dashboard';
 import GridOverview from 'features/GridConsole/components/GridOverview';
@@ -73,6 +75,18 @@ export const APP_ROUTES = [
                 component: <TestArtifactsSettings />
               }
             ]
+          }
+        ]
+      },
+      {
+        path: ROUTES.CLUSTER,
+        isProtected: true,
+        component: <LayoutClusterDetail />,
+        children: [
+          {
+            path: ROUTES.CLUSTER_OVERVIEW,
+            isProtected: true,
+            component: <ClusterOverview />
           }
         ]
       },

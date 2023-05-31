@@ -1,9 +1,10 @@
+const FETCH_CLUSTERS_PATH = '/clusters';
+const FETCH_CLUSTER_PATH = '/cluster';
 const FETCH_CREATE_GRID_DATA_PATH = '/create-grid';
 const FETCH_GRIDS_PATH = '/grids';
 const FETCH_GRID_PATH = '/grid';
 const INIT_PATH = '/init';
 const ONBOARDING_DATA_PATH = '/onboarding';
-const FETCH_CLUSTERS_PATH = '/clusters';
 const ONBOARDING_EVENT_LOGS_DATA_PATH = `${ONBOARDING_DATA_PATH}/event-logs`;
 const ONBOARDING_REGION_PATH = `${ONBOARDING_DATA_PATH}/region-update`;
 const ONBOARDING_STATUS_PATH = `${ONBOARDING_DATA_PATH}/status-update`;
@@ -11,6 +12,7 @@ const SSO_PATH = '/auth/start-sso';
 const UPDATE_GRID_SETTINGS_PATH = '/update-settings';
 
 export {
+  FETCH_CLUSTER_PATH,
   FETCH_CLUSTERS_PATH,
   FETCH_CREATE_GRID_DATA_PATH,
   FETCH_GRID_PATH,

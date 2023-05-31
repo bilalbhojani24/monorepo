@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import {
+  FETCH_CLUSTER_URL,
   FETCH_CLUSTERS_URL,
   FETCH_CREATE_GRID_DATA_URL,
   FETCH_GRID_URL,
@@ -19,6 +20,11 @@ const fetchAllGridsData = (userId) =>
 
 const fetchAllClustersData = (userId) =>
   axios.get(FETCH_CLUSTERS_URL, {
+    params: { userId }
+  });
+
+const fetchClusterDataById = (clusterId, userId) =>
+  axios.get(`${FETCH_CLUSTER_URL}/${clusterId}`, {
     params: { userId }
   });
 
@@ -75,6 +81,7 @@ const updateSettings = (userId, component, settingType, settingsObj) =>
 export {
   fetchAllClustersData,
   fetchAllGridsData,
+  fetchClusterDataById,
   fetchDataForCreateGrid,
   fetchGridDataById,
   getOnboardingData,
