@@ -60,6 +60,7 @@ const useCreateGrid = () => {
   const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
   const [selectedVPCValue, setSelectedVPCValue] = useState('');
   const [setupState, setSetupState] = useState(1);
+  const [showSetupClusterModal, setShowSetupClusterModal] = useState(false);
 
   const ref = useRef({});
 
@@ -68,6 +69,10 @@ const useCreateGrid = () => {
 
   const clusterChangeHandler = (e) => {
     setSelectedClusterValue(e);
+  };
+
+  const editClusterBtnClickHandler = () => {
+    setShowSetupClusterModal(true);
   };
 
   const gridConcurrencyChangeHandler = (e) => {
@@ -80,8 +85,16 @@ const useCreateGrid = () => {
     setSelectedGridName(newValue);
   };
 
+  const modalCrossClickhandler = () => {
+    setShowSetupClusterModal(false);
+  };
+
   const nextBtnClickHandler = () => {
     setSetupState(2);
+  };
+
+  const setupNewClusterBtnClickHandler = () => {
+    setShowSetupClusterModal(true);
   };
 
   const subnetChangeHandler = (e) => {
@@ -215,9 +228,11 @@ const useCreateGrid = () => {
     currentProvidersRegions,
     currentSelectedCloudProvider,
     dataChanged,
+    editClusterBtnClickHandler,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
+    modalCrossClickhandler,
     nextBtnClickHandler,
     opened,
     ref,
@@ -233,7 +248,9 @@ const useCreateGrid = () => {
     setCurrentCloudProvider,
     setOpened,
     setSelectedGridProfile,
+    setupNewClusterBtnClickHandler,
     setupState,
+    showSetupClusterModal,
     subnetChangeHandler,
     type,
     vpcChangeHandler

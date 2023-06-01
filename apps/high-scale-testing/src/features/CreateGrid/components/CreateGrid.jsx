@@ -13,6 +13,8 @@ import {
   InputField,
   InputGroupAddOn,
   MdAdd,
+  Modal,
+  ModalHeader,
   PageHeadings,
   RadioGroup,
   SelectMenu,
@@ -44,9 +46,11 @@ const CreateGrid = () => {
     currentProvidersRegions,
     currentSelectedCloudProvider,
     dataChanged,
+    editClusterBtnClickHandler,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
+    modalCrossClickhandler,
     opened,
     nextBtnClickHandler,
     ref,
@@ -62,11 +66,105 @@ const CreateGrid = () => {
     setCurrentCloudProvider,
     setOpened,
     setSelectedGridProfile,
+    setupNewClusterBtnClickHandler,
     setupState,
+    showSetupClusterModal,
     subnetChangeHandler,
     type,
     vpcChangeHandler
   } = useCreateGrid();
+
+  const ClusterInputComponent = (
+    <ComboBox
+      onChange={clusterChangeHandler}
+      value={selectedClusterValue}
+      isMulti={false}
+      // eslint-disable-next-line react/jsx-boolean-value
+      isMandatory={true}
+    >
+      <ComboboxLabel>Cluster</ComboboxLabel>
+      <ComboboxTrigger placeholder="Placeholder" />
+      <ComboboxOptionGroup>
+        {selectedGridClusters.map((item) => (
+          <ComboboxOptionItem key={item.value} option={item} />
+        ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
+
+  const DomainInputComponent = (
+    <InputField
+      addOnBefore={<InputGroupAddOn>https://</InputGroupAddOn>}
+      id="test-id"
+      label="Domain"
+      onBlur={null}
+      onChange={null}
+      onFocus={null}
+      onKeyDown={null}
+      placeholder="www.hst.browserstack.com"
+      disabled={!showSetupClusterModal}
+    />
+  );
+
+  const InstanceTypeInputComponent = (
+    <ComboBox
+      // onChange={(val) => setSelected(val)}
+      // value={selected}
+      isMulti={false}
+      disabled={!showSetupClusterModal}
+    >
+      <ComboboxLabel>
+        Instance Type
+        <span className="text-danger-600 ml-0.5">*</span>
+      </ComboboxLabel>
+      <ComboboxTrigger placeholder="Placeholder" />
+      <ComboboxOptionGroup>
+        {allAvailableInstanceTypes.map((item) => (
+          <ComboboxOptionItem key={item.value} option={item} />
+        ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
+
+  const RegionInputComponent = (
+    <SelectMenu
+      onChange={(val) => setSelectedGridProfile(val)}
+      value={selectedRegion}
+      disabled={!showSetupClusterModal}
+    >
+      <SelectMenuLabel>
+        Region
+        <span className="text-danger-600 ml-0.5">*</span>
+      </SelectMenuLabel>
+      <SelectMenuTrigger ref={ref} />
+      <SelectMenuOptionGroup>
+        {currentProvidersRegions.map((item) => (
+          <SelectMenuOptionItem key={item.value} option={item} />
+        ))}
+      </SelectMenuOptionGroup>
+    </SelectMenu>
+  );
+
+  const SubnetsInputComponent = (
+    <ComboBox
+      onChange={subnetChangeHandler}
+      value={selectedSubnetValues}
+      // eslint-disable-next-line react/jsx-boolean-value
+      isMulti={true}
+      disabled={!showSetupClusterModal}
+    >
+      <ComboboxLabel>
+        Subnets
+        <span className="text-danger-600 ml-0.5">*</span>
+      </ComboboxLabel>
+      <ComboboxTrigger placeholder="Placeholder" />
+      <ComboboxOptionGroup>
+        {allAvailableSubnets.map((item) => (
+          <ComboboxOptionItem key={item.value} option={item} />
+        ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
 
   const TabsForCodeSnippet = (
     <Tabs
@@ -89,6 +187,26 @@ const CreateGrid = () => {
         }
       ]}
     />
+  );
+
+  const VPCInputComponent = (
+    <ComboBox
+      onChange={vpcChangeHandler}
+      value={selectedVPCValue}
+      isMulti={false}
+      disabled={!showSetupClusterModal}
+    >
+      <ComboboxLabel>
+        VPC ID
+        <span className="text-danger-600 ml-0.5">*</span>
+      </ComboboxLabel>
+      <ComboboxTrigger placeholder="Placeholder" />
+      <ComboboxOptionGroup>
+        {allAvailableVPCIDs.map((item) => (
+          <ComboboxOptionItem key={item.value} option={item} />
+        ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
   );
 
   return (
@@ -164,6 +282,7 @@ const CreateGrid = () => {
             <div className="border-base-300 m-6 rounded-lg border bg-white ">
               {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
               <div className="h-[calc(100vh-64px-104px-48px-62px)] overflow-auto p-6">
+                {/* Setup Grid and Cluster */}
                 {setupState === 1 && (
                   <div>
                     {/* Choose Grid Profile */}
@@ -265,32 +384,14 @@ const CreateGrid = () => {
                       </div>
 
                       <div className="mt-4 flex items-end gap-4">
-                        <div className="w-1/2">
-                          <ComboBox
-                            onChange={clusterChangeHandler}
-                            value={selectedClusterValue}
-                            isMulti={false}
-                            // eslint-disable-next-line react/jsx-boolean-value
-                            isMandatory={true}
-                          >
-                            <ComboboxLabel>Cluster</ComboboxLabel>
-                            <ComboboxTrigger placeholder="Placeholder" />
-                            <ComboboxOptionGroup>
-                              {selectedGridClusters.map((item) => (
-                                <ComboboxOptionItem
-                                  key={item.value}
-                                  option={item}
-                                />
-                              ))}
-                            </ComboboxOptionGroup>
-                          </ComboBox>
-                        </div>
+                        <div className="w-1/2">{ClusterInputComponent}</div>
 
                         <div>
                           <Button
                             colors="white"
                             icon={<MdAdd />}
                             iconPlacement="start"
+                            onClick={setupNewClusterBtnClickHandler}
                           >
                             Setup New Cluster
                           </Button>
@@ -301,6 +402,7 @@ const CreateGrid = () => {
                             colors="white"
                             icon={<MdAdd />}
                             iconPlacement="start"
+                            onClick={editClusterBtnClickHandler}
                           >
                             Edit
                           </Button>
@@ -319,124 +421,23 @@ const CreateGrid = () => {
                             <div className="my-2 h-16 items-center justify-center p-2">
                               <div className="flex flex-row gap-4">
                                 <div className="w-1/2">
-                                  <SelectMenu
-                                    onChange={(val) =>
-                                      setSelectedGridProfile(val)
-                                    }
-                                    value={selectedRegion}
-                                  >
-                                    <SelectMenuLabel>
-                                      Region
-                                      <span className="text-danger-600 ml-0.5">
-                                        *
-                                      </span>
-                                    </SelectMenuLabel>
-                                    <SelectMenuTrigger ref={ref} />
-                                    <SelectMenuOptionGroup>
-                                      {currentProvidersRegions.map((item) => (
-                                        <SelectMenuOptionItem
-                                          key={item.value}
-                                          option={item}
-                                        />
-                                      ))}
-                                    </SelectMenuOptionGroup>
-                                  </SelectMenu>
+                                  {RegionInputComponent}
                                 </div>
 
                                 <div className="w-1/2">
-                                  <ComboBox
-                                    // onChange={(val) => setSelected(val)}
-                                    // value={selected}
-                                    isMulti={false}
-                                  >
-                                    <ComboboxLabel>
-                                      Instance Type
-                                      <span className="text-danger-600 ml-0.5">
-                                        *
-                                      </span>
-                                    </ComboboxLabel>
-                                    <ComboboxTrigger placeholder="Placeholder" />
-                                    <ComboboxOptionGroup>
-                                      {allAvailableInstanceTypes.map((item) => (
-                                        <ComboboxOptionItem
-                                          key={item.value}
-                                          option={item}
-                                        />
-                                      ))}
-                                    </ComboboxOptionGroup>
-                                  </ComboBox>
+                                  {InstanceTypeInputComponent}
                                 </div>
                               </div>
 
                               <div className="mt-4 flex flex-row gap-4">
+                                <div className="w-1/2">{VPCInputComponent}</div>
                                 <div className="w-1/2">
-                                  <ComboBox
-                                    onChange={vpcChangeHandler}
-                                    value={selectedVPCValue}
-                                    isMulti={false}
-                                    // eslint-disable-next-line react/jsx-boolean-value
-                                    disabled={true}
-                                  >
-                                    <ComboboxLabel>
-                                      VPC ID
-                                      <span className="text-danger-600 ml-0.5">
-                                        *
-                                      </span>
-                                    </ComboboxLabel>
-                                    <ComboboxTrigger placeholder="Placeholder" />
-                                    <ComboboxOptionGroup>
-                                      {allAvailableVPCIDs.map((item) => (
-                                        <ComboboxOptionItem
-                                          key={item.value}
-                                          option={item}
-                                        />
-                                      ))}
-                                    </ComboboxOptionGroup>
-                                  </ComboBox>
-                                </div>
-                                <div className="w-1/2">
-                                  <ComboBox
-                                    onChange={subnetChangeHandler}
-                                    value={selectedSubnetValues}
-                                    // eslint-disable-next-line react/jsx-boolean-value
-                                    isMulti={true}
-                                    // eslint-disable-next-line react/jsx-boolean-value
-                                    disabled={true}
-                                  >
-                                    <ComboboxLabel>
-                                      Subnets
-                                      <span className="text-danger-600 ml-0.5">
-                                        *
-                                      </span>
-                                    </ComboboxLabel>
-                                    <ComboboxTrigger placeholder="Placeholder" />
-                                    <ComboboxOptionGroup>
-                                      {allAvailableSubnets.map((item) => (
-                                        <ComboboxOptionItem
-                                          key={item.value}
-                                          option={item}
-                                        />
-                                      ))}
-                                    </ComboboxOptionGroup>
-                                  </ComboBox>
+                                  {SubnetsInputComponent}
                                 </div>
                               </div>
 
                               <div className="mt-4 w-1/2">
-                                <InputField
-                                  addOnBefore={
-                                    <InputGroupAddOn>https://</InputGroupAddOn>
-                                  }
-                                  id="test-id"
-                                  label="Domain"
-                                  onBlur={null}
-                                  onChange={null}
-                                  onFocus={null}
-                                  onKeyDown={null}
-                                  placeholder="www.hst.browserstack.com"
-                                  // eslint-disable-next-line react/jsx-boolean-value
-                                  disabled={true}
-                                />
+                                {DomainInputComponent}
                               </div>
                             </div>
                           </AccordionPanel>
@@ -447,13 +448,15 @@ const CreateGrid = () => {
                     {/* --- X --- Configure Grid Profile --- X --- */}
                   </div>
                 )}
+
+                {/* Setup IAM Role and Download Instructions */}
                 {setupState === 2 && (
                   <div>
                     <div>
-                      <p className="font-medium text-base-900 text-sm">
+                      <p className="text-base-900 text-sm font-medium">
                         Setup IAM Role
                       </p>
-                      <p className="font-normal text-sm text-base-500 mt-1">
+                      <p className="text-base-500 mt-1 text-sm font-normal">
                         Set up a new IAM role via the CloudFormation link and
                         generate the AWS access key and secret to create and
                         manage the Automation Grid. Read more about this here.
@@ -461,10 +464,10 @@ const CreateGrid = () => {
                     </div>
 
                     <div className="mt-9">
-                      <p className="font-medium text-base-900 text-sm">
+                      <p className="text-base-900 text-sm font-medium">
                         Grid Creation Commands
                       </p>
-                      <p className="font-normal text-sm text-base-500 mt-1 mb-3">
+                      <p className="text-base-500 mb-3 mt-1 text-sm font-normal">
                         Execute the below commands to initialize grid creation.
                       </p>
 
@@ -476,6 +479,34 @@ const CreateGrid = () => {
                     </div>
                   </div>
                 )}
+
+                <Modal size="2xl" show={showSetupClusterModal}>
+                  <ModalHeader
+                    handleDismissClick={modalCrossClickhandler}
+                    heading="Setup Cluster"
+                  />
+                  <div className="px-6 pb-3">
+                    <div className="mb-5 flex flex-col">
+                      <div className="flex gap-4">
+                        <div className="w-1/2">{ClusterInputComponent}</div>
+                        <div className="w-1/2">{RegionInputComponent}</div>
+                      </div>
+                      <div className="mt-4 flex gap-4">
+                        <div className="w-1/2">
+                          {InstanceTypeInputComponent}
+                        </div>
+                        <div className="w-1/2">{DomainInputComponent}</div>
+                      </div>
+                      <div className="mt-4 flex gap-4">
+                        <div className="w-1/2">{VPCInputComponent}</div>
+                        <div className="w-1/2">{SubnetsInputComponent}</div>
+                      </div>
+                    </div>
+                    <div className="flex flex-row-reverse">
+                      <Button>Setup</Button>
+                    </div>
+                  </div>
+                </Modal>
               </div>
               <div className="border-base-300 flex flex-row-reverse border-t px-6 py-3">
                 {!dataChanged && setupState !== 2 && (
