@@ -198,3 +198,34 @@ export const roundedTableHeaderHack = {
   common:
     'before:absolute before:block before:w-[1px] before:h-[6px] before:bg-base-50 before:top-[-1px] before:rounded'
 };
+
+export const O11Y_DATE_RANGE = {
+  days7: {
+    key: 'days7',
+    label: '7D'
+  },
+  days15: {
+    key: 'days15',
+    label: '15D'
+  },
+  days30: {
+    key: 'days30',
+    label: '30D'
+  },
+  months6: {
+    key: 'months6',
+    label: '6M'
+  },
+  year1: {
+    key: 'year1',
+    label: '1Y'
+  },
+  year2: {
+    key: 'year2',
+    label: '2Y'
+  },
+  custom: {
+    key: 'custom',
+    label: 'Custom'
+  }
+};
