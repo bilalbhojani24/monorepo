@@ -1,4 +1,4 @@
-const FETCH_GRID_PROFILES_DATA_PATH = '/grid-profiles';
+const FETCH_GRID_PROFILES_DATA_PATH = '/grid/profiles';
 const FETCH_GRIDS_PATH = '/grids';
 const GRID = '/grid';
 const INIT_PATH = '/init';
