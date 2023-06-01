@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   MdArrowForward,
   MdOutlineInsertDriveFile,
@@ -15,31 +15,36 @@ const LinkCard = ({
   linkText,
   icon: Icon,
   shouldOpenInNewTab
-}) => (
-  // eslint-disable-next-line tailwindcss/no-arbitrary-value
-  <div className="w-[360px] flex-1 rounded-md bg-white p-6 drop-shadow">
-    <p>
-      <Icon className="mb-3 h-5 w-5" />
-    </p>
-    <p className="text-base-700 text-sm">
-      {shouldOpenInNewTab ? (
-        <a
-          className="flex items-center"
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {linkText} <MdArrowForward className="ml-1 h-3 w-3" />
-        </a>
-      ) : (
-        <Link className="flex items-center" to={link}>
-          {linkText} <MdArrowForward className="ml-1 h-3 w-3" />
-        </Link>
-      )}
-    </p>
-    <p className="text-base-500 text-sm">{subtext}</p>
-  </div>
-);
+}) => {
+  const navigate = useNavigate();
+  const handleCardClick = (e) => {
+    if (e.type === 'keydown' && e.key !== 'Enter') return;
+    if (shouldOpenInNewTab) {
+      window.open(link);
+    } else {
+      navigate(link);
+    }
+  };
+
+  return (
+    <div
+      role="link"
+      tabIndex={0}
+      // eslint-disable-next-line tailwindcss/no-arbitrary-value
+      className="w-[360px] flex-1 cursor-pointer rounded-md bg-white p-6 drop-shadow"
+      onClick={handleCardClick}
+      onKeyDown={handleCardClick}
+    >
+      <p>
+        <Icon className="mb-3 h-5 w-5" />
+      </p>
+      <p className="text-base-700 flex items-center text-sm">
+        {linkText} <MdArrowForward className="ml-1 h-3 w-3" />
+      </p>
+      <p className="text-base-500 text-sm">{subtext}</p>
+    </div>
+  );
+};
 
 LinkCard.propTypes = {
   icon: PropTypes.node.isRequired,

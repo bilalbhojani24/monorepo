@@ -12,6 +12,7 @@ import configurationsReducers, {
   setActiveConfigurations
 } from './configurationsSlice';
 import filtersReducers, {
+  clearAllFilters,
   clearFilters,
   closeFiltersSlideover,
   FILTER_KEY,
@@ -59,6 +60,7 @@ import usageSummaryReducers, {
 export {
   activeConfigurationsSelector,
   authReducers,
+  clearAllFilters,
   clearFilters,
   closeFiltersSlideover,
   closeLogDetailsSlideover,

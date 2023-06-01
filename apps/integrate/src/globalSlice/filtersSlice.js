@@ -40,6 +40,11 @@ export const filtersSlice = createSlice({
         ...filtersInitialState,
         [FILTER_KEY.URL_SEARCH]: state.filters[FILTER_KEY.URL_SEARCH]
       };
+    },
+    clearAllFilters: (state) => {
+      state.filters = {
+        ...filtersInitialState
+      };
     }
   }
 });
@@ -48,7 +53,8 @@ export const {
   openFiltersSlideover,
   closeFiltersSlideover,
   setFilters,
-  clearFilters
+  clearFilters,
+  clearAllFilters
 } = filtersSlice.actions;
 
 export default filtersSlice.reducer;

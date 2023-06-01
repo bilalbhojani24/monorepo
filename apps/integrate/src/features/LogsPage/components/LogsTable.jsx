@@ -13,7 +13,6 @@ import {
 } from 'common/bifrostProxy';
 import { GenericError, Logo } from 'common/index';
 import { LOADING_STATUS } from 'constants/loadingConstants';
-import { format } from 'date-fns';
 import {
   logsLoadingSelector,
   openLogDetailsSlideover
@@ -33,8 +32,6 @@ const LogsTable = ({ logsData, getLogs }) => {
     dispatch(getLogDetailsThunk({ logUUID }));
     dispatch(openLogDetailsSlideover());
   };
-  const formatDateForTable = (date) =>
-    format(new Date(date), 'dd/MM/yyyy HH:mm:ss');
 
   const handleTryAgain = useCallback(getLogs, [getLogs]);
 
@@ -132,7 +129,7 @@ const LogsTable = ({ logsData, getLogs }) => {
                 </INTGTruncateText>
               </INTGTableCell>
               <INTGTableCell key={`${item.uuid}-date`}>
-                <p>{formatDateForTable(item.date)}</p>
+                <p>{item.date}</p>
               </INTGTableCell>
               <INTGTableCell key={`${item.uuid}-status`}>
                 <StatusBadge statusCode={item.status} />

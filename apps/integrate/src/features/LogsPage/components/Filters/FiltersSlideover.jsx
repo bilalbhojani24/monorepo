@@ -77,7 +77,7 @@ const FilterSlideover = () => {
         heading="Filters"
         wrapperClassName="border-b border-base-300"
       />
-      <INTGSlideoverBody>
+      <INTGSlideoverBody wrapperClassName="pb-0">
         {isSlideoverContentLoading ? (
           <INTGLoader wrapperClassName="h-full" />
         ) : (
@@ -125,7 +125,11 @@ const FilterSlideover = () => {
                 setFilters={setSlideoverFilters}
               />
             </div>
-            <INTGSlideoverFooter isBorder="true" position="right">
+            <INTGSlideoverFooter
+              wrapperClassName="bg-white"
+              isBorder="true"
+              position="right"
+            >
               <INTGButton
                 variant="primary"
                 colors="white"

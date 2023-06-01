@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdFilterAlt } from '@browserstack/bifrost';
 import { getIntegrationsThunk } from 'api';
 import { INTGButton } from 'common/bifrostProxy';
 import {
+  clearAllFilters,
   clearFilters as clearFiltersAction,
   filtersSelector,
   openFiltersSlideover,
@@ -21,15 +22,19 @@ const Filters = () => {
     dispatch(setFiltersAction(val));
   };
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     dispatch(clearFiltersAction());
-  };
+  }, [dispatch]);
+
   const handleFilterClick = () => {
     dispatch(openFiltersSlideover());
   };
   useEffect(() => {
     dispatch(getIntegrationsThunk());
-  }, [dispatch]);
+    return () => {
+      dispatch(clearAllFilters());
+    };
+  }, [clearFilters, dispatch]);
 
   return (
     <div>
