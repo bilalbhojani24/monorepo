@@ -98,3 +98,13 @@ export const redirectToPrevPage = (searchParams, setSearchParams) => {
     setSearchParams(searchParams.toString());
   }
 };
+
+export const updateQueryParamWOEvent = (paramsObject) => {
+  if (!window?.history?.pushState) return;
+
+  const params = new URLSearchParams(paramsObject).toString();
+  const newurl = `${window.location.protocol}//${window.location.host}${
+    window.location.pathname
+  }${params ? '?' : ''}${params || ''}`;
+  window.history.pushState({ path: newurl }, '', newurl);
+};

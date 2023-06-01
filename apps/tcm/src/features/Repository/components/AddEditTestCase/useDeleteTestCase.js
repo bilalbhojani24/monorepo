@@ -9,7 +9,10 @@ import {
   getTestCasesSearchFilterAPI
 } from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
-import { redirectToPrevPage } from 'utils/helperFunctions';
+import {
+  redirectToPrevPage,
+  updateQueryParamWOEvent
+} from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -204,6 +207,10 @@ export default function useDeleteTestCase() {
       .then((data) => {
         dispatch(setMetaPage(data.info));
         dispatch(updateAllTestCases(data.test_cases));
+
+        if (data.info) {
+          debugger;
+        }
         const notificationData = {
           id: 'test_cases_deleted',
           title: `${bulkSelection?.ids?.length} Test cases deleted`,
