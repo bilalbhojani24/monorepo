@@ -418,9 +418,8 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
     <li
       key={step.name}
       className={twClassNames(
-        stepIdx !== steps.length - 1 ? 'mr-8' : '',
-        'relative',
-        'cursor-pointer'
+        stepIdx !== steps.length - 1 ? 'mr-8 md: mb-8' : '',
+        'relative cursor-pointer'
       )}
     >
       {step.status === STEPS_STATUS[3] && (
@@ -555,7 +554,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
               format === STEPS_FORMAT[2],
             'flex items-center justify-center': format === STEPS_FORMAT[3],
             'space-y-6': format === STEPS_FORMAT[4],
-            'flex items-start justify-center': format === STEPS_FORMAT[5]
+            'md:flex items-start justify-center': format === STEPS_FORMAT[5]
           })}
         >
           {steps.map((step, stepIdx) => {

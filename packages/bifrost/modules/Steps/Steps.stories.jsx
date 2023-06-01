@@ -16,7 +16,7 @@ const steps = [
   },
   {
     id: '2',
-    name: 'Profile ( Current Completed )',
+    name: 'Profile',
     description: 'Cursus semper viverra facilisis et et some more.',
     status: STEPS_STATUS[3]
   },
