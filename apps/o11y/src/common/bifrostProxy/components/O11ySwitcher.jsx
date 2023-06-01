@@ -1,5 +1,6 @@
 import React from 'react';
 import { Loader, Switch } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 export default function O11ySwitcher({
@@ -31,6 +32,10 @@ export default function O11ySwitcher({
       defaultValue={defaultValue}
       checked={checked}
       disabled={disabled}
+      wrapperClassName={twClassNames({
+        'opacity-50 focus:ring-0 focus:ring-offset-0 cursor-not-allowed focus:outline-0':
+          disabled
+      })}
       toggleIcons={loading ? loadingToggleIcons : toggleIcons}
     />
   );

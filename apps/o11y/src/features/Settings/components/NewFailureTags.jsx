@@ -26,7 +26,7 @@ const NEW_FAILURE_TYPES_DATA = [
 const STATIC_DROPDOWN_DATA = [
   ...Array(29)
     .fill(0)
-    .map((_, i) => ({ name: i + 1, value: i + 1 }))
+    .map((_, i) => ({ name: i + 2, value: i + 2 }))
 ];
 
 export const NewFailureTags = ({ data, isActive }) => {

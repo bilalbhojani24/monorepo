@@ -9,6 +9,7 @@ export const ROUTES = {
   integrations_base: '/integrations',
   integrations_jenkins: '/integrations/jenkins',
   not_found: '/404',
+  no_access: '/no_access',
   projects: '/projects',
   request_access: '/request_access',
   root: '/',

@@ -27,7 +27,7 @@ import { getBuildAlertsData } from '../slices/testInsightsSlice';
 const ALERT_LEVEL = {
   WARNING: <MdWarning className="text-attention-300 inline-block !h-7 !w-7" />,
   WARN: <MdWarning className="text-attention-300 inline-block !h-7 !w-7" />,
-  CRITICAL: <MdError className="text-attention-500 inline-block !h-7 !w-7" />
+  CRITICAL: <MdError className="text-danger-500 inline-block !h-7 !w-7" />
 };
 
 function Alerts() {

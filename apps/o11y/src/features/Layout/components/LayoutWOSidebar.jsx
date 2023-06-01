@@ -10,14 +10,29 @@ import { getInitData } from 'globalSlice/selectors';
 export default function LayoutWOSidebar() {
   const initData = useSelector(getInitData);
   const location = useLocation();
-  const matchData = matchPath(
+  const matchReqAccessData = matchPath(
     {
       path: ROUTES.request_access
     },
     location.pathname
   );
+  const matchNoAccessData = matchPath(
+    {
+      path: ROUTES.no_access
+    },
+    location.pathname
+  );
 
-  if (!initData.isLoading && !matchData && !initData.data?.hasAcceptedTnC) {
+  if (!initData.isLoading && !matchNoAccessData && !initData.data?.hasAccess) {
+    return <Navigate to={ROUTES.no_access} />;
+  }
+
+  if (
+    !initData.isLoading &&
+    !matchReqAccessData &&
+    initData.data?.hasAccess &&
+    !initData.data?.hasAcceptedTnC
+  ) {
     return <Navigate to={ROUTES.request_access} />;
   }
 
