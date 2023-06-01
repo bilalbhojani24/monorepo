@@ -71,24 +71,24 @@ const ViewReportModal = () => {
             <TableBody>
               {reportModalProjects.map((row) => (
                 <TableRow key={row.name} wrapperClassName="w-full">
-                  <TableCell wrapperClassName="py-2 w-1/2 max-w-[428px]">
-                    <div className="flex">
-                      <span>{getIcon(row?.status, row?.error)}</span>
-                      <span className="text-base-900 ml-2 text-sm font-medium">
-                        <TMTruncateText
-                          truncateUsingClamp={false}
-                          hidetooltipTriggerIcon
-                          isFullWidthTooltip
-                          headerTooltipProps={{
-                            delay: 500
-                          }}
-                        >
-                          {row?.name}
-                        </TMTruncateText>
-                      </span>
-                    </div>
+                  <TableCell wrapperClassName="px-0 pr py-2">
+                    {getIcon(row?.status, row?.error)}
                   </TableCell>
-                  <TableCell wrapperClassName="py-2 w-1/2 max-w-[436px]">
+                  <TableCell wrapperClassName="pl-0 pr-2 w-1/2 max-w-xs py-2">
+                    <span className="text-base-900 ml-2 block text-sm font-medium">
+                      <TMTruncateText
+                        truncateUsingClamp={false}
+                        hidetooltipTriggerIcon
+                        isFullWidthTooltip
+                        headerTooltipProps={{
+                          delay: 500
+                        }}
+                      >
+                        {row?.name}
+                      </TMTruncateText>
+                    </span>
+                  </TableCell>
+                  <TableCell wrapperClassName="py-2 w-1/2 max-w-xs">
                     <TMTruncateText
                       truncateUsingClamp={false}
                       hidetooltipTriggerIcon

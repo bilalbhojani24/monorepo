@@ -7,6 +7,10 @@ export const IMPORT_STATUS = {
 
 export const REPORT_TABLE_COLUMNS = [
   {
+    name: '',
+    key: 'icon'
+  },
+  {
     name: 'PROJECT NAME',
     key: 'project_name'
   },
