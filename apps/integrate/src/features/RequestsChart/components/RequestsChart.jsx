@@ -1,21 +1,23 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { getRequestCountThunk } from 'api/requestCount';
 import {
-  Loader,
-  SelectMenu,
-  SelectMenuOptionGroup,
-  SelectMenuOptionItem,
-  SelectMenuTrigger
-} from '@browserstack/bifrost';
+  INTGLoader,
+  INTGSelectMenu,
+  INTGSelectMenuOptionGroup,
+  INTGSelectMenuOptionItem,
+  INTGSelectMenuTrigger
+} from 'common/bifrostProxy';
+import { GenericError } from 'common/index';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 import { fromUnixTime, getUnixTime, subMonths } from 'date-fns';
-
-import { getRequestCountThunk } from '../../../api';
-import { LOADING_STATUS } from '../../../constants/loadingConstants';
 import {
   activeConfigurationsSelector,
   requestCountLoadingSelector,
   requestCountSelector
-} from '../../../globalSlice';
+} from 'globalSlice/index';
+import { omit } from 'lodash';
+import { getCleanedConfigurationIds } from 'utils/helpers';
 
 import Chart from './Chart';
 
@@ -30,59 +32,89 @@ const RequestsChart = () => {
   const selectConfiguration = (val) => {
     setActiveDateRange(val);
   };
-  const activeConfigurationsIds = useSelector(activeConfigurationsSelector)
-    ?.reduce((activeConfigurationIds, configuration) => {
-      if (configuration.value !== 'All Configurations')
-        activeConfigurationIds.push(configuration.value);
-      return activeConfigurationIds;
-    }, [])
-    .join();
-  const isrequesCountDataLoading =
-    useSelector(requestCountLoadingSelector) === LOADING_STATUS.PENDING;
+  const activeConfigurationsIds = getCleanedConfigurationIds(
+    useSelector(activeConfigurationsSelector)
+  );
+  const requestCountLoadingStatus = useSelector(requestCountLoadingSelector);
+  const isRequesCountDataLoading =
+    requestCountLoadingStatus === LOADING_STATUS.PENDING;
+  const isRequestCountDataLoaded =
+    requestCountLoadingStatus === LOADING_STATUS.SUCCEEDED;
+  const isRequestCountDataFailure =
+    requestCountLoadingStatus === LOADING_STATUS.FAILED;
   const { total, requests } = useSelector(requestCountSelector) ?? {};
 
-  const to = useMemo(() => new Date(), []);
   const from = useMemo(
-    () => subMonths(to, activeDateRange.value),
-    [to, activeDateRange]
+    () => subMonths(new Date(), activeDateRange.value),
+    [activeDateRange]
   );
 
   useEffect(() => {
     dispatch(
       getRequestCountThunk({
-        to: getUnixTime(to),
         from: getUnixTime(from),
-        frequency: '1Y',
-        configurationIds: activeConfigurationsIds
+        frequency: 'DAY',
+        ...omit({ configurationIds: activeConfigurationsIds }, [
+          !activeConfigurationsIds.length ? 'configurationIds' : ''
+        ])
       })
     );
-  }, [dispatch, activeConfigurationsIds, activeDateRange, to, from]);
-
-  if (isrequesCountDataLoading) {
-    return <Loader />;
-  }
+  }, [dispatch, activeConfigurationsIds, activeDateRange, from]);
 
   const getXYCoordsForRequests = () =>
     requests.map(({ timestamp, request_count: count }) => ({
       x: fromUnixTime(timestamp),
       y: count
     }));
+
+  const handleTryAgain = useCallback(() => {
+    dispatch(
+      getRequestCountThunk({
+        from: getUnixTime(from),
+        frequency: 'DAY',
+        ...omit({ configurationIds: activeConfigurationsIds }, [
+          !activeConfigurationsIds.length ? 'configurationIds' : ''
+        ])
+      })
+    );
+  }, [activeConfigurationsIds, dispatch, from]);
+
   return (
     // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="mb-6 h-[440px] rounded-lg bg-white p-6 drop-shadow lg:flex-1">
-      <div className="mb-5 flex justify-between">
+    <div className="h-[440px] flex-1 rounded-lg bg-white p-6 drop-shadow">
+      <div className="flex justify-between">
         <p className="text-lg font-semibold">API Requests</p>
-        <SelectMenu onChange={selectConfiguration} value={activeDateRange}>
-          <SelectMenuTrigger wrapperClassName="w-48 ml-6" />
-          <SelectMenuOptionGroup>
-            {range?.map((item) => (
-              <SelectMenuOptionItem key={item.value} option={item} />
-            ))}
-          </SelectMenuOptionGroup>
-        </SelectMenu>
+        {isRequestCountDataLoaded && (
+          <INTGSelectMenu
+            onChange={selectConfiguration}
+            value={activeDateRange}
+          >
+            <INTGSelectMenuTrigger wrapperClassName="w-48 ml-6" />
+            <INTGSelectMenuOptionGroup>
+              {range?.map((item) => (
+                <INTGSelectMenuOptionItem key={item.value} option={item} />
+              ))}
+            </INTGSelectMenuOptionGroup>
+          </INTGSelectMenu>
+        )}
       </div>
-      <p className="text-base-900 mb-10 text-3xl font-semibold">{total}</p>
-      <Chart pointStart={getUnixTime(from)} data={getXYCoordsForRequests()} />
+      {isRequesCountDataLoading && (
+        <div className="w-full">
+          <INTGLoader wrapperClassName="h-80" />
+        </div>
+      )}
+      {isRequestCountDataLoaded && (
+        <>
+          <p className="text-base-900 mb-10 text-3xl font-semibold">{total}</p>
+          <Chart
+            pointStart={getUnixTime(from)}
+            data={getXYCoordsForRequests()}
+          />
+        </>
+      )}
+      {isRequestCountDataFailure && (
+        <GenericError handleTryAgain={handleTryAgain} />
+      )}
     </div>
   );
 };

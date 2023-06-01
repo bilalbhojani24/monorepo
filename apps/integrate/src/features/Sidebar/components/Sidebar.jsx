@@ -8,8 +8,8 @@ import {
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
-
-import { ROUTES } from '../../../constants/routes';
+import { URLS } from 'api/constants';
+import { ROUTES } from 'constants/routes';
 
 const getPrimaryNav = () => [
   {
@@ -17,24 +17,24 @@ const getPrimaryNav = () => [
     label: 'Getting Started',
     activeIcon: MdOutlineMap,
     inActiveIcon: MdOutlineMap,
-    path: '/',
-    pattern: ROUTES.getting_started
+    path: ROUTES.getting_started,
+    pattern: `${ROUTES.getting_started}/*`
   },
   {
     id: 'overview',
     label: 'Overview',
     activeIcon: MdOutlineTrendingUp,
     inActiveIcon: MdOutlineTrendingUp,
-    path: '/',
-    pattern: ROUTES.overview
+    path: ROUTES.overview,
+    pattern: `${ROUTES.overview}/*`
   },
   {
     id: 'logs',
     label: 'Logs',
     activeIcon: MdOutlineSummarize,
     inActiveIcon: MdOutlineSummarize,
-    path: '/',
-    pattern: ROUTES.logs
+    path: ROUTES.logs,
+    pattern: `${ROUTES.logs}/*`
   },
   {
     id: 'documentation',
@@ -42,7 +42,7 @@ const getPrimaryNav = () => [
     activeIcon: MdOutlineClass,
     inActiveIcon: MdOutlineClass,
     isExternalLink: true,
-    path: '/'
+    path: URLS.DOCUMENTATION
   }
 ];
 

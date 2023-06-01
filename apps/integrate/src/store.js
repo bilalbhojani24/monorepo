@@ -2,9 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import headerReducer from './features/Layout/slices/headerSlice';
 import {
+  authReducers,
   configurationsReducers,
+  filtersReducers,
   integrationsReducers,
-  requestCountReducers
+  logDetailsReducers,
+  logsReducers,
+  requestCountReducers,
+  usageSummaryReducers
 } from './globalSlice';
 
 export const store = configureStore({
@@ -12,6 +17,11 @@ export const store = configureStore({
     header: headerReducer,
     integrations: integrationsReducers,
     configurations: configurationsReducers,
-    requestCount: requestCountReducers
+    requestCount: requestCountReducers,
+    usageSummary: usageSummaryReducers,
+    logs: logsReducers,
+    logDetails: logDetailsReducers,
+    filters: filtersReducers,
+    auth: authReducers
   }
 });

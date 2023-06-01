@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { getRequestCountThunk } from '../api';
-import { LOADING_STATUS } from '../constants/loadingConstants';
+import { getRequestCountThunk } from 'api/requestCount';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 
 const initialState = {
   total: 0,
@@ -34,8 +33,8 @@ export const requestCountSlice = createSlice({
 export default requestCountSlice.reducer;
 
 export const requestCountLoadingSelector = (state) =>
-  state.integrations.loading;
-export const requestCountErrorSelector = (state) => state.integrations.error;
+  state.requestCount.loading;
+export const requestCountErrorSelector = (state) => state.requestCount.error;
 export const requestCountSelector = (state) => ({
   total: state.requestCount.total,
   requests: state.requestCount.requests

@@ -1,3 +1,4 @@
+const path = require('path');
 const tailwindConfig = require('./tailwind.config.js');
 
 module.exports = {
@@ -9,5 +10,12 @@ module.exports = {
         config: tailwindConfig
       }
     ]
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: [path.resolve(__dirname, 'src')]
+      }
+    }
   }
 };

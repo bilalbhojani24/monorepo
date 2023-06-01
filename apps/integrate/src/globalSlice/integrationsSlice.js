@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-import { getIntegrationsThunk } from '../api';
-import { LOADING_STATUS } from '../constants/loadingConstants';
+import { getIntegrationsThunk } from 'api/integrations';
+import { LOADING_STATUS } from 'constants/loadingConstants';
 
 const initialState = {
   integrations: [],
@@ -20,7 +19,13 @@ export const integrationsSlice = createSlice({
     });
     builder.addCase(getIntegrationsThunk.fulfilled, (state, action) => {
       state.loading = LOADING_STATUS.SUCCEEDED;
-      state.integrations = action.payload;
+      const { integrations } = action.payload || {};
+      if (Array.isArray(integrations)) {
+        state.integrations = integrations.map(({ key: value, label }) => ({
+          value,
+          label
+        }));
+      }
     });
     builder.addCase(getIntegrationsThunk.rejected, (state, action) => {
       state.loading = LOADING_STATUS.FAILED;
