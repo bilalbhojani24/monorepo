@@ -40,7 +40,8 @@ export const o11yNotify = ({
     />,
     {
       position: 'top-right',
-      duration: duration || 3000
+      duration: duration || 3000,
+      autoClose: true
     }
   );
 };
