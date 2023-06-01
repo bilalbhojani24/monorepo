@@ -283,7 +283,7 @@ const TestList = ({
   useEffect(() => {
     if (virtuosoRef.current) {
       setTimeout(() => {
-        virtuosoRef.current.scrollTo({
+        virtuosoRef.current?.scrollTo({
           top: testListScrollPos,
           behavior: 'smooth'
         });
