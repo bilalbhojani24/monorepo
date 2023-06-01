@@ -64,8 +64,15 @@ const FeedbackWidget = ({
 };
 
 FeedbackWidget.propTypes = {
+  /**
+   * Whenever next button is clicked on feedback
+   */
   handleFeedbackClick: PropTypes.func,
+  /**
+   * This is an array of object of formfields when in feedback you have form
+   */
   formFields: PropTypes.arrayOf(PropTypes.shape({})),
+  // The sequence of flow
   flow: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.oneOf(FEEDBACK_TYPE),
@@ -74,8 +81,11 @@ FeedbackWidget.propTypes = {
       icon: PropTypes.node
     })
   ).isRequired,
+  // The status of feedback Toast/modal
   isOpen: PropTypes.bool,
+  // Types of variations
   variation: PropTypes.oneOf(VARIATIONS),
+  // The variations props of components
   variationsProps: {
     modal: PropTypes.shape({}),
     modalHeader: PropTypes.shape({}),
@@ -87,7 +97,7 @@ FeedbackWidget.defaultProps = {
   handleFeedbackClick: null,
   formFields: [],
   isOpen: false,
-  variation: VARIATIONS[2],
+  variation: null,
   variationsProps: {
     modal: {},
     modalHeader: {},

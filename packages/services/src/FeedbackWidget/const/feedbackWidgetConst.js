@@ -2,7 +2,7 @@ import { thumbsDown, thumbsUp } from './iconsConstants';
 
 export const FEEDBACK_TYPE = ['emoji', 'form', 'thumbs', 'nps', 'success'];
 
-export const VARIATIONS = ['modal', 'toast', 'plain'];
+export const VARIATIONS = ['modal', 'toast'];
 
 export const thumbsConstants = [
   {

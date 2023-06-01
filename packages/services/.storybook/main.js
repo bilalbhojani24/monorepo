@@ -1,32 +1,16 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const path = require('path');
-
-const IS_DEV = true;
-
-module.exports = {
-  stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+const config = {
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    {
-      name: 'storybook-addon-sass-postcss',
-      options: {
-        loadSassAfterPostCSS: true,
-        postcssLoaderOptions: {
-          implementation: require('postcss')
-        },
-        rule: {
-          test: /\.(scss|sass)$/i
-        }
-      }
-    }
+    '@storybook/addon-interactions'
   ],
-  framework: '@storybook/react',
-  core: {
-    builder: 'webpack5'
+  framework: {
+    name: '@storybook/react-vite',
+    options: {}
   },
-  webpackFinal: (config) => {
-    return config;
+  docs: {
+    autodocs: 'tag'
   }
 };
+export default config;
