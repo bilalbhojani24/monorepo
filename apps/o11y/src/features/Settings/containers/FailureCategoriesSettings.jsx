@@ -121,10 +121,7 @@ function FailureCategoriesSettings() {
 }
 
 const PaywallWrappedFailureCategoriesSettings = () => (
-  <HardPaywallWrapper
-    featureKey={PAYWALL_FEATURES.FAILURE_CATEGORY}
-    cardConfig={{ illustrationClassName: 'max-w-sm' }}
-  >
+  <HardPaywallWrapper featureKey={PAYWALL_FEATURES.FAILURE_CATEGORY}>
     <FailureCategoriesSettings />
   </HardPaywallWrapper>
 );

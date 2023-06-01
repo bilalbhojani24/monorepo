@@ -1,17 +1,17 @@
-import alertIllustration from 'assets/illustrations/alerts_illustration.png';
-import failureCategoryIllustration from 'assets/illustrations/failure_categories.png';
-import heroUnit from 'assets/illustrations/hero-unit-o11y.png';
+import AlertsIllustration from 'assets/illustrations/alerts_illustration';
+import FailureCategoriesIllustration from 'assets/illustrations/failure_categories_illustration';
+import HeroUnitO11y from 'assets/illustrations/hero_unit_o11y';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 
 export const MODAL_CONFIG = {
   common: {
-    img: heroUnit
+    img: HeroUnitO11y
   },
   [PAYWALL_FEATURES.ALERTS]: {
-    img: alertIllustration
+    img: AlertsIllustration
   },
   [PAYWALL_FEATURES.FAILURE_CATEGORY]: {
-    img: failureCategoryIllustration
+    img: FailureCategoriesIllustration
   },
   [PAYWALL_FEATURES.JIRA]: {}
 };

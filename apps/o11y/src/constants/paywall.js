@@ -1,5 +1,5 @@
-import alertIllustration from 'assets/illustrations/alerts_illustration.png';
-import failureCategoryIllustration from 'assets/illustrations/failure_categories.png';
+import AlertsIllustration from 'assets/illustrations/alerts_illustration';
+import FailureCategoriesIllustration from 'assets/illustrations/failure_categories_illustration';
 
 export const BANNER_LAST_SEEN = 'BANNER_LAST_SEEN';
 
@@ -17,13 +17,13 @@ export const FEATURE_CARD_DATA = {
     callout: 'GET NOTIFIED',
     title: 'Set up actionable alerts',
     desc: 'Identify problematic tests before they turn into critical issues. Set up alerts on metrics that you care about.',
-    illustration: alertIllustration
+    illustration: AlertsIllustration
   },
   [PAYWALL_FEATURES.FAILURE_CATEGORY]: {
     callout: 'AUTO-ASSIGN FAILURE REASONS',
     title: 'Customize your failure categories',
     desc: 'Failure categories are a way for you to create and apply custom tags to your test failures, such as API bug, database issue, or any other category relevant to you.',
-    illustration: failureCategoryIllustration
+    illustration: FailureCategoriesIllustration
   }
 };
 

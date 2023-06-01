@@ -67,6 +67,9 @@ function StartFreeTrialModal() {
       });
   };
 
+  const IllustrationComponent =
+    MODAL_CONFIG?.[modalData?.featureKey]?.img || MODAL_CONFIG.common.img;
+
   return (
     <O11yModal
       show
@@ -82,14 +85,7 @@ function StartFreeTrialModal() {
               alt=""
               className="absolute left-0 top-0 h-full w-full"
             />
-            <img
-              src={
-                MODAL_CONFIG?.[modalData?.featureKey]?.img ||
-                MODAL_CONFIG.common.img
-              }
-              alt="showing product features"
-              className="relative max-h-full object-contain"
-            />
+            <IllustrationComponent className="absolute left-0 top-0 z-10 h-full w-full" />
           </section>
           <section className="flex w-full flex-col">
             <p className="text-base-900 pt-5 text-center text-lg font-medium">

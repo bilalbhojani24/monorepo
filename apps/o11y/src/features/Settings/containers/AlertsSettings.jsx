@@ -132,10 +132,7 @@ function AlertsSettings() {
 }
 
 const PaywallWrappedAlertSettings = () => (
-  <HardPaywallWrapper
-    featureKey={PAYWALL_FEATURES.ALERTS}
-    cardConfig={{ illustrationClassName: 'max-w-md' }}
-  >
+  <HardPaywallWrapper featureKey={PAYWALL_FEATURES.ALERTS}>
     <AlertsSettings />
   </HardPaywallWrapper>
 );
