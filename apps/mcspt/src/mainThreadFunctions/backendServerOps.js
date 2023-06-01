@@ -19,6 +19,8 @@ const serverEntities = {
   nodeServerPort: null
 };
 
+export const getCurrentServerEntities = () => serverEntities;
+
 export const initializeBackendServer = (mainThreadGlobals) => {
   if (isMacMachine) {
     return initializeBackendServerForMac(serverEntities, mainThreadGlobals);

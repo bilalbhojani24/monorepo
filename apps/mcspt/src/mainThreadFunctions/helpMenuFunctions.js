@@ -1,5 +1,6 @@
 import { DOC_LINKS_CONSTANTS } from '@browserstack/mcp-shared';
 
+import { getCurrentServerEntities } from './backendServerOps';
 import {
   getProcessPathsForMac,
   getProcessPathsForWindows,
@@ -13,13 +14,17 @@ const { app, shell } = require('electron');
 
 export const generateDiagnosticLog = () => {
   try {
+    const serverEntities = getCurrentServerEntities();
+
     if (isMacMachine) {
       const processPathsForMac = getProcessPathsForMac();
 
       exec(
         `${
           processPathsForMac.bsPerf
-        } diagnostic -p mac -av ${app.getVersion()} -bp 3000 -pi 8000`
+        } diagnostic -p mac -av ${app.getVersion()} -bp ${
+          serverEntities.nodeServerPort
+        } -pi ${serverEntities.pyServerPort}`
       );
     } else if (isWindowsMachine) {
       const processPathsForWindows = getProcessPathsForWindows();
@@ -27,7 +32,9 @@ export const generateDiagnosticLog = () => {
       exec(
         `${
           processPathsForWindows.bsPerf
-        } diagnostic -p win -av ${app.getVersion()} -bp 3000`
+        } diagnostic -p win -av ${app.getVersion()} -bp ${
+          serverEntities.nodeServerPort
+        }`
       );
     }
   } catch (e) {
