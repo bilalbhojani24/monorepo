@@ -320,11 +320,12 @@ const { actions, reducer } = createSlice({
           details: {}
         };
         const prevValue = state.testList?.data?.hierarchy || [];
+        const prevSmartTagValue = state.testList?.data?.smartTagSettings;
         state.testList.data = {
           hierarchy: [...prevValue, ...payload.hierarchy],
           pagingParams: payload.pagingParams,
           buildId: payload.buildId,
-          smartTagSettings: payload.smartTagSettings
+          smartTagSettings: prevSmartTagValue || payload.smartTagSettings
         };
         state.testList.apiState = newAPIStatus;
       })

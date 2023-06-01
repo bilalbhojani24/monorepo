@@ -206,11 +206,11 @@ const RenderTestItem = ({ item: data }) => {
                       'Flaky',
                       'warn',
                       'Flake detected',
-                      details.flakyReason === 1
+                      details?.flakyReason === 1
                         ? `Test status flipping (pass to fail or vice-versa) 
-                        more than ${flaky.flakeInHistory.flippingPercentage}% times out of ${flaky.flakeInHistory.consecutiveRuns} consecutive runs`
+                        more than ${flaky?.flakeInHistory.flippingPercentage}% times out of ${flaky?.flakeInHistory.consecutiveRuns} consecutive runs`
                         : `Test passing on a retry attempt in the same run 
-                      across last ${flaky.flakeInRerun.consecutiveRuns} consecutive runs`,
+                      across last ${flaky?.flakeInRerun.consecutiveRuns} consecutive runs`,
                       addFilterOnClick
                     )}
                   {details?.isAlwaysFailing &&
@@ -219,11 +219,11 @@ const RenderTestItem = ({ item: data }) => {
                       'error',
                       'Always failing test',
                       `The test has been failing with the ${
-                        alwaysFailing.failureType === 'SAME_ERROR'
+                        alwaysFailing?.failureType === 'SAME_ERROR'
                           ? 'same error'
                           : 'any error'
                       } for last ${
-                        alwaysFailing.consecutiveRuns
+                        alwaysFailing?.consecutiveRuns
                       } consecutive runs`,
                       addFilterOnClick
                     )}
@@ -233,9 +233,9 @@ const RenderTestItem = ({ item: data }) => {
                       'error',
                       'New failure detected',
                       `This test failed for the first time across last ${
-                        newFailure.consecutiveRuns
+                        newFailure?.consecutiveRuns
                       } consecutive runs with ${
-                        newFailure.failureType === 'NEW' ? 'new' : 'any'
+                        newFailure?.failureType === 'NEW' ? 'new' : 'any'
                       } error`,
                       addFilterOnClick
                     )}
@@ -244,7 +244,7 @@ const RenderTestItem = ({ item: data }) => {
                       'Performance Anomaly',
                       'error',
                       'Performance anomaly detected',
-                      `Duration is more than ${performanceAnomalies.durationPercentile}th percentile across last ${performanceAnomalies.consecutiveRuns} consecutive runs.`,
+                      `Duration is more than ${performanceAnomalies?.durationPercentile}th percentile across last ${performanceAnomalies?.consecutiveRuns} consecutive runs.`,
                       addFilterOnClick
                     )}
                 </div>
