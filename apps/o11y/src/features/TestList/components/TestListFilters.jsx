@@ -106,7 +106,7 @@ const TestListFilters = () => {
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'os');
                 }}
-                value={os.filter((el) =>
+                value={os?.filter((el) =>
                   selectedFilters?.os?.includes(el.value)
                 )}
                 checkPosition="right"
@@ -121,7 +121,7 @@ const TestListFilters = () => {
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'browser');
                 }}
-                value={browser.filter((el) =>
+                value={browser?.filter((el) =>
                   selectedFilters?.browser?.includes(el.value)
                 )}
                 checkPosition="right"
@@ -162,7 +162,7 @@ const TestListFilters = () => {
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'status');
                 }}
-                value={status.filter((el) =>
+                value={status?.filter((el) =>
                   selectedFilters?.status?.includes(el.value)
                 )}
                 checkPosition="right"
@@ -177,7 +177,7 @@ const TestListFilters = () => {
                   onChangeDDFilter(selectedValues, 'flaky');
                 }}
                 value={
-                  flaky.filter((el) =>
+                  flaky?.filter((el) =>
                     selectedFilters?.flaky?.includes(el.value)
                   )[0]
                 }
@@ -208,7 +208,7 @@ const TestListFilters = () => {
                   onChangeDDFilter(selectedValues, 'history');
                 }}
                 value={
-                  history.filter((el) =>
+                  history?.filter((el) =>
                     selectedFilters?.history?.includes(el.value)
                   )[0]
                 }
