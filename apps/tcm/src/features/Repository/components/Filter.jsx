@@ -91,7 +91,7 @@ const Filter = ({ isMini, onFilterChange }) => {
       default:
         return {
           value: item?.value,
-          label: <>{priorityValueAndNameMapTC[item?.value]}</>
+          label: <>{priorityValueAndNameMapTC?.[item?.value]}</>
         };
     }
   });
