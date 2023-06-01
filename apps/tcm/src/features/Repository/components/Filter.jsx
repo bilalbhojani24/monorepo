@@ -30,6 +30,9 @@ const Filter = ({ isMini, onFilterChange }) => {
     filterSearchMeta,
     tagSearchKey,
     ownerSearchKey,
+    priorityOptions,
+    priorityValueAndNameMapTC,
+    priorityValueAndIntNameMapTC,
     setOwnerSearchKey,
     setTagSearchKey,
     filterChangeHandler,
@@ -44,41 +47,54 @@ const Filter = ({ isMini, onFilterChange }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFilterVisible]);
 
-  const priorityOptions = [
-    {
-      value: 'critical',
-      label: (
-        <>
-          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-1" />{' '}
-          Critical
-        </>
-      )
-    },
-    {
-      value: 'high',
-      label: (
-        <>
-          <ArrowUpwardOutlinedIcon className="text-danger-500 mr-1" /> High
-        </>
-      )
-    },
-    {
-      value: 'medium',
-      label: (
-        <>
-          <RemoveOutlinedIcon className="text-brand-500 mr-1" /> Medium
-        </>
-      )
-    },
-    {
-      value: 'low',
-      label: (
-        <>
-          <ArrowDownwardOutlinedIcon className="text-success-500 mr-1" /> Low
-        </>
-      )
+  const priorityOptionsForFilter = priorityOptions?.map((item) => {
+    switch (priorityValueAndIntNameMapTC[item?.value]) {
+      case 'critical':
+        return {
+          value: item?.value,
+          label: (
+            <>
+              <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-1" />{' '}
+              Critical
+            </>
+          )
+        };
+      case 'high':
+        return {
+          value: item?.value,
+          label: (
+            <>
+              <ArrowUpwardOutlinedIcon className="text-danger-500 mr-1" /> High
+            </>
+          )
+        };
+      case 'medium':
+        return {
+          value: item?.value,
+          label: (
+            <>
+              <RemoveOutlinedIcon className="text-brand-500 mr-1" /> Medium
+            </>
+          )
+        };
+      case 'low':
+        return {
+          value: item?.value,
+          label: (
+            <>
+              <ArrowDownwardOutlinedIcon className="text-success-500 mr-1" />{' '}
+              Low
+            </>
+          )
+        };
+
+      default:
+        return {
+          value: item?.value,
+          label: <>{priorityValueAndNameMapTC[item?.value]}</>
+        };
     }
-  ];
+  });
 
   return (
     <div
@@ -170,7 +186,7 @@ const Filter = ({ isMini, onFilterChange }) => {
                     key={item.value}
                     border={false}
                     wrapperClassName="pt-0 mb-2"
-                    checked={filterSearchMeta?.owner?.includes(`${item.value}`)}
+                    checked={filterSearchMeta?.owner?.includes(item.value)}
                     data={item}
                     onChange={() => filterChangeHandler('owner', item)}
                   />
@@ -207,20 +223,22 @@ const Filter = ({ isMini, onFilterChange }) => {
                 ))}
               </div>
             </div>
-            <div className="w-1/5">
+            <div className="h-80 w-1/5">
               <div className="text-brand-800 mb-2 text-base font-medium">
                 Filter By Priority
               </div>
-              {priorityOptions.map((item) => (
-                <TMCheckBox
-                  key={item.value}
-                  border={false}
-                  wrapperClassName="pt-0 mb-2"
-                  checked={filterSearchMeta?.priority?.includes(item.value)}
-                  data={item}
-                  onChange={() => filterChangeHandler('priority', item)}
-                />
-              ))}
+              <div className="h-full w-full overflow-y-auto p-1">
+                {priorityOptionsForFilter?.map((item) => (
+                  <TMCheckBox
+                    key={item.value}
+                    border={false}
+                    wrapperClassName="pt-0 mb-2"
+                    checked={filterSearchMeta?.priority?.includes(item.value)}
+                    data={item}
+                    onChange={() => filterChangeHandler('priority', item)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
           <div className="border-base-300 flex w-full justify-end gap-4 border-t p-4">
