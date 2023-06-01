@@ -34,10 +34,10 @@ const AddEditTestCaseMoreFields = () => {
   return (
     <>
       <div className="mt-4 flex">
-        <div className="w-1/2 flex-1 pr-4">
+        <div className="w-1/2 flex-1 pr-2">
           <TMSelectMenu
             checkPosition="right"
-            label="Type of Test Case"
+            label="Type of Test Case*"
             placeholder="Select type of test case"
             options={testCaseTypeOptions}
             onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
@@ -49,10 +49,10 @@ const AddEditTestCaseMoreFields = () => {
             }
           />
         </div>
-        <div className="w-1/2 flex-1">
+        <div className="w-1/2 flex-1 pl-2">
           <TMSelectMenu
             checkPosition="right"
-            label="Automation Status"
+            label="Automation Status*"
             disabled={testCaseFormData?.is_automation}
             placeholder="Select automation status"
             options={automationOptions}
@@ -70,7 +70,7 @@ const AddEditTestCaseMoreFields = () => {
       </div>
 
       <div className="mt-4 flex">
-        <div className="w-1/2 flex-1 pr-4">
+        <div className="w-1/2 flex-1 pr-2">
           <TMSelectMenu
             checkPosition="right"
             label="Priority"
@@ -85,7 +85,7 @@ const AddEditTestCaseMoreFields = () => {
             onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
           />
         </div>
-        <div className="w-1/2 flex-1">
+        <div className="w-1/2 flex-1 pl-2">
           <TMSelectMenu
             value={
               testCaseFormData.status &&
@@ -102,7 +102,7 @@ const AddEditTestCaseMoreFields = () => {
         </div>
       </div>
       <div className="mt-4 flex">
-        <div className="w-1/2 flex-1 pr-4">
+        <div className="w-1/2 flex-1 pr-2">
           <TMComboBox
             value={
               testCaseFormData.owner
@@ -119,7 +119,7 @@ const AddEditTestCaseMoreFields = () => {
             onChange={(e) => handleTestCaseFieldChange('owner', e.value)}
           />
         </div>
-        <div className="flex flex-1 items-end justify-between">
+        <div className="flex flex-1 items-end justify-between pl-2">
           <div className="mr-4 flex-1">
             <TMComboBox
               checkPosition="right"
@@ -145,8 +145,8 @@ const AddEditTestCaseMoreFields = () => {
           </TMButton>
         </div>
       </div>
-      <div className="mt-4 flex gap-4">
-        <div className="flex flex-1 items-end justify-between">
+      <div className="mt-4 flex">
+        <div className="flex flex-1 items-end justify-between pr-2">
           <div className="mr-4 flex-1">
             <TMComboBox
               checkPosition="right"
@@ -169,7 +169,7 @@ const AddEditTestCaseMoreFields = () => {
             Add / Modify Issue
           </TMButton>
         </div>
-        <div className="flex-1" />
+        <div className="flex-1  pl-2" />
       </div>
       <div className="mt-4">
         <TMRichTextEditor
@@ -184,9 +184,6 @@ const AddEditTestCaseMoreFields = () => {
           projectId={projectId}
         />
       </div>
-      {/* <div className="mt-4 flex gap-4">
-    <div className="flex-1" />
-  </div> */}
       <AddEditTestCaseCustomField />
       <div className="mt-4 w-full">
         <div className="flex flex-col">
