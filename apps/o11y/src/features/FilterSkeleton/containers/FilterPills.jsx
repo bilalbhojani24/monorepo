@@ -45,7 +45,7 @@ const FilterPills = () => {
     return null;
   }
   return (
-    <div className="flex items-center gap-2">
+    <div className="mt-4 flex items-center gap-2">
       <div className="border-base-300 flex items-center self-stretch border-r pr-2">
         <span className="text-base-500  text-sm leading-5">Filters</span>
       </div>
