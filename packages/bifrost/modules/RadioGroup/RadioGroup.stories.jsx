@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
-import RadioCard from '../RadioCardItem';
-import Radio from '../RadioItem';
-import RadioTable from '../RadioTableItem';
+import RadioCardItem from '../RadioCardItem';
+import RadioItem from '../RadioItem';
+import RadioTableItem from '../RadioTableItem';
 
 import {
   dummySmallCardData,
@@ -40,7 +40,7 @@ const defaultConfig = {
       defaultValue: (
         <>
           {dummyData.map((option) => (
-            <Radio
+            <RadioItem
               key={option.value}
               option={option}
               disabled={option.disabled}
@@ -53,41 +53,41 @@ const defaultConfig = {
       control: { type: 'text' },
       defaultValue: null
     },
-    required: {
+    isMandatory: {
       option: { type: 'boolean' },
       defaultValue: false
     },
-    error: {
+    errorText: {
       option: { type: 'string' },
       defaultValue: ''
     },
     value: {
       option: { type: 'string' },
-      defaultValue: null
+      defaultValue: undefined
     },
     defaultValue: {
       option: { type: 'string' },
-      defaultValue: null
+      defaultValue: undefined
     },
     label: {
       options: { type: 'string' },
       defaultValue: ''
     },
     id: {
-      type: { summary: 'STRING', required: false },
+      type: { summary: 'STRING', isMandatory: true },
       description:
         'The ID of the radio group element to uniquely identify every group.',
       control: { type: 'text' },
-      defaultValue: ''
+      defaultValue: 'r1'
     },
     wrapperClassName: {
-      type: { summary: 'STRING', required: false },
+      type: { summary: 'STRING', isMandatory: false },
       description: 'Provide additional styles to outer component',
       control: { type: 'text' },
       defaultValue: ''
     },
     columnWrapperClassName: {
-      type: { summary: 'STRING', required: false },
+      type: { summary: 'STRING', isMandatory: false },
       description: 'Custom style for RadioItems wrapper',
       control: { type: 'text' },
       defaultValue: ''
@@ -112,19 +112,17 @@ Primary.parameters = {
 Primary.args = {
   label: 'Radio Groups',
   description: 'How do you prefer to receive radios?',
-  required: true,
+  isMandatory: true,
   defaultValue: dummyData[1].value,
-  error: 'Select one option'
+  errorText: 'Select one option'
 };
 
-export { Primary };
-
-export const ControlledRightalignedRadioGroup = (args) => {
+const ControlledRightalignedRadioGroup = (args) => {
   const [selected, setSelected] = useState(dummyData[0].value);
   return (
     <RadioGroup {...args} value={selected} onChange={setSelected}>
       {dummyData.map((option) => (
-        <Radio
+        <RadioItem
           key={option.value}
           option={option}
           disabled={option.disabled}
@@ -147,7 +145,7 @@ RadioSmallCards.args = {
   children: (
     <>
       {dummySmallCardData.map((option) => (
-        <RadioCard
+        <RadioCardItem
           key={option.value}
           option={option}
           disabled={option.disabled}
@@ -156,8 +154,6 @@ RadioSmallCards.args = {
     </>
   )
 };
-
-export { RadioSmallCards };
 
 const RadioStackedCards = Template.bind({});
 
@@ -171,9 +167,8 @@ RadioStackedCards.args = {
   children: (
     <>
       {dummyStackedCardData.map((option) => (
-        <RadioCard
+        <RadioCardItem
           key={option.value}
-          type={TYPES[2]}
           option={option}
           disabled={option.disabled}
         />
@@ -182,9 +177,7 @@ RadioStackedCards.args = {
   )
 };
 
-export { RadioStackedCards };
-
-export const ControlledVerticalRadioStackedCards = (args) => {
+const ControlledVerticalRadioStackedCards = (args) => {
   const [selected, setSelected] = useState(dummyStackedCardData[0].value);
   return (
     <RadioGroup
@@ -195,11 +188,9 @@ export const ControlledVerticalRadioStackedCards = (args) => {
       onChange={setSelected}
     >
       {dummyStackedCardData.map((option) => (
-        <RadioCard
+        <RadioCardItem
           key={option.value}
-          type={TYPES[2]}
           option={option}
-          direction={DIRECTIONS[1]}
           disabled={option.disabled}
         />
       ))}
@@ -218,21 +209,22 @@ RadioTables.args = {
   defaultValue: tableDummyData[0].value,
   children: (
     <>
-      {tableDummyData.map((option, i) => (
-        <RadioTable
-          key={option.value}
-          type={TYPES[3]}
-          index={i}
-          length={tableDummyData.length}
-          option={option}
-          disabled={option.disabled}
-        />
-      ))}
+      {tableDummyData.map((option, i) => {
+        let borderType = 'none';
+        if (i === 0) borderType = 'topRounded';
+        else if (i === tableDummyData.length - 1) borderType = 'bottomRounded';
+        return (
+          <RadioTableItem
+            key={option.value}
+            borderType={borderType}
+            option={option}
+            disabled={option.disabled}
+          />
+        );
+      })}
     </>
   )
 };
-
-export { RadioTables };
 
 const RadioSingleColumnTable = Template.bind({});
 
@@ -245,22 +237,33 @@ RadioSingleColumnTable.args = {
   defaultValue: tableDummyData[1].value,
   children: (
     <>
-      {tableDummyData.map((option, i) => (
-        <RadioTable
-          key={option.value}
-          type={TYPES[3]}
-          index={i}
-          length={tableDummyData.length}
-          option={option}
-          disabled={option.disabled}
-          singleColumn
-          inlineDescription={false}
-        />
-      ))}
+      {tableDummyData.map((option, i) => {
+        let borderType = 'none';
+        if (i === 0) borderType = 'topRounded';
+        else if (i === tableDummyData.length - 1) borderType = 'bottomRounded';
+        return (
+          <RadioTableItem
+            key={option.value}
+            borderType={borderType}
+            option={option}
+            disabled={option.disabled}
+            singleColumn
+            inlineDescription={false}
+          />
+        );
+      })}
     </>
   )
 };
 
-export { RadioSingleColumnTable };
+export {
+  ControlledRightalignedRadioGroup,
+  ControlledVerticalRadioStackedCards,
+  Primary,
+  RadioSingleColumnTable,
+  RadioSmallCards,
+  RadioStackedCards,
+  RadioTables
+};
 
 export default defaultConfig;

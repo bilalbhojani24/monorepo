@@ -1,0 +1,42 @@
+export const RadioWrapperStyles = {
+  default: {
+    horizontal: 'space-y-4 md:flex md:items-center md:space-x-10 md:space-y-0',
+    vertical: 'flex space-y-5 flex-col'
+  },
+
+  stackedCard: {
+    horizontal: 'grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4',
+    vertical: 'space-y-4'
+  },
+
+  smallCard: {
+    horizontal: 'grid grid-cols-3 gap-3 sm:grid-cols-6',
+    vertical: 'grid grid-cols-3 gap-3 sm:grid-cols-6'
+  },
+
+  table: {
+    horizontal: 'relative -space-y-px rounded-md bg-white',
+    vertical: 'relative -space-y-px rounded-md bg-white'
+  }
+};
+
+export const RadioCardStyles = {
+  smallCard: {
+    horizontal:
+      'border-base-200 text-base-900 rounded-md p-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1 hover:bg-base-50 focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
+    vertical:
+      'border-base-200 text-base-900 rounded-md p-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1 hover:bg-base-50 focus:ring-2 focus:ring-offset-2 focus:ring-brand-500'
+  },
+
+  stackedCard: {
+    horizontal:
+      'w-full border-base-300 relative rounded-lg  p-4 shadow-sm  text-left flex p-4',
+    vertical:
+      'w-full border-base-300 relative rounded-lg  p-4 shadow-sm  text-left block px-6 py-4 sm:flex sm:justify-between'
+  }
+};
+
+export const RadioTableBorderStyles = {
+  topRounded: 'rounded-tl-md rounded-tr-md',
+  bottomRounded: 'rounded-bl-md rounded-br-md'
+};

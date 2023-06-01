@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import PropTypes from 'prop-types';
 
-import { ActiveContext } from '../RadioGroup';
+import { RadioGroupContextData } from '../../shared/radioGroupContext';
 
-const Radio = ({
+const RadioItem = ({
   option,
   disabled,
   wrapperClassName,
@@ -14,8 +14,8 @@ const Radio = ({
   ...props
 }) => {
   const { value, label, description } = option;
-  const active = useContext(ActiveContext);
-  const checked = active === value;
+  const { activeOption } = useContext(RadioGroupContextData);
+  const checked = useMemo(() => activeOption === value, [activeOption, value]);
   return (
     <div
       className={twClassNames(
@@ -74,9 +74,9 @@ const Radio = ({
   );
 };
 
-Radio.propTypes = {
+RadioItem.propTypes = {
   option: PropTypes.shape({
-    value: PropTypes.oneOfType(['string', 'number']).isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.string.isRequired,
     description: PropTypes.string
   }).isRequired,
@@ -85,11 +85,11 @@ Radio.propTypes = {
   rightAligned: PropTypes.bool,
   inlineDescription: PropTypes.bool
 };
-Radio.defaultProps = {
+RadioItem.defaultProps = {
   disabled: false,
   wrapperClassName: '',
   rightAligned: false,
   inlineDescription: false
 };
 
-export default Radio;
+export default RadioItem;
