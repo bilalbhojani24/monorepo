@@ -1,5 +1,5 @@
 import { parseDate } from '@internationalized/date';
-import { ISO_DATE_FORMAT, SNP_DATE_RANGE } from 'constants/common';
+import { ISO_DATE_FORMAT, O11Y_DATE_RANGE } from 'constants/common';
 import {
   differenceInDays,
   endOfDay,
@@ -125,23 +125,6 @@ export function millisToMinutesAndSeconds(ms) {
   return `${returnText}${minStr}:${secStr}`;
 }
 
-export function getTimeBounds(activeKey) {
-  const timebounds = {
-    upperBound: Date.now(),
-    lowerBound: 0
-  };
-  if (SNP_DATE_RANGE.days7.key === activeKey) {
-    timebounds.lowerBound = getSubtractedUnixTime(7) * 1000;
-  }
-  if (SNP_DATE_RANGE.days15.key === activeKey) {
-    timebounds.lowerBound = getSubtractedUnixTime(15) * 1000;
-  }
-  if (SNP_DATE_RANGE.days30.key === activeKey) {
-    timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
-  }
-  return timebounds;
-}
-
 export function getTTTimeBounds(activeKey) {
   const timebounds = {
     upperBound: Date.now(),
@@ -168,3 +151,32 @@ export const getISOParsedDate = (date) =>
 
 export const getDifferenceInDays = (date1, date2) =>
   differenceInDays(date1, date2);
+export const getO11yTimeBounds = (activeKey) => {
+  const timebounds = {
+    upperBound: Date.now(),
+    lowerBound: 0
+  };
+  switch (activeKey) {
+    case O11Y_DATE_RANGE.days7.key:
+      timebounds.lowerBound = getSubtractedUnixTime(7) * 1000;
+      break;
+    case O11Y_DATE_RANGE.days15.key:
+      timebounds.lowerBound = getSubtractedUnixTime(15) * 1000;
+      break;
+    case O11Y_DATE_RANGE.days30.key:
+      timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
+      break;
+    case O11Y_DATE_RANGE.months6.key:
+      timebounds.lowerBound = getSubtractedUnixTime(6, 'months') * 1000;
+      break;
+    case O11Y_DATE_RANGE.year1.key:
+      timebounds.lowerBound = getSubtractedUnixTime(1, 'years') * 1000;
+      break;
+    case O11Y_DATE_RANGE.year2.key:
+      timebounds.lowerBound = getSubtractedUnixTime(2, 'years') * 1000;
+      break;
+    default:
+      break;
+  }
+  return timebounds;
+};

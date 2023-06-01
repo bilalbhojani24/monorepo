@@ -107,18 +107,23 @@ export default function TestInsightsLayout({ applyTestListFilter }) {
   }, [dispatch]);
 
   useEffect(() => {
-    if (buildMeta?.uuid) {
+    if (buildMeta?.data?.uuid) {
       logOllyEvent({
         event: 'O11yBuildInsightsVisited',
         data: {
           project_name: activeProject.name,
           project_id: activeProject.id,
-          build_name: buildMeta?.name,
-          build_uuid: buildMeta?.uuid
+          build_name: buildMeta?.data?.name,
+          build_uuid: buildMeta?.data?.uuid
         }
       });
     }
-  }, [activeProject.id, activeProject.name, buildMeta?.name, buildMeta?.uuid]);
+  }, [
+    activeProject.id,
+    activeProject.name,
+    buildMeta?.data?.name,
+    buildMeta?.data?.uuid
+  ]);
 
   return (
     <>
