@@ -46,13 +46,17 @@ const useCreateGrid = () => {
     { label: 'label', value: 'value' },
     { label: 'label 2', value: 'value2' }
   ]);
-  const [selectedGridName, setSelectedGridName] =
-    useState('high-scale-testing');
-  const [selectedGridClusters, setSelectedGridclusters] = useState([]);
-  const [selectedGridConcurrency, setSelectedGridConcurrency] = useState(0);
   const [gridProfilesData, setGridProfilesData] = useState([]);
   const [opened, setOpened] = useState(false);
+  const [selectedGridClusters, setSelectedGridclusters] = useState([]);
+  const [selectedGridConcurrency, setSelectedGridConcurrency] = useState(0);
+  const [selectedGridName, setSelectedGridName] =
+    useState('high-scale-testing');
+
   const [selectedGridProfile, setSelectedGridProfile] = useState('default');
+  const [selectedRegion, setSelectedRegioon] = useState();
+  const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
+  const [selectedVPCValue, setSelectedVPCValue] = useState('');
 
   const ref = useRef({});
 
@@ -69,13 +73,21 @@ const useCreateGrid = () => {
     setSelectedGridName(newValue);
   };
 
+  const subnetChangeHandler = (e) => {
+    setSelectedSubnetValues(e);
+  };
+
+  const vpcChangeHandler = (e) => {
+    setSelectedVPCValue(e);
+  };
+
   useEffect(() => {
     if (Object.keys(allAvailableRegionsByProvider).length > 0) {
       setCurrentProvidersRegions(
         allAvailableRegionsByProvider[currentSelectedCloudProvider.configName]
       );
     }
-  }, [allAvailableRegionsByProvider]);
+  }, [allAvailableRegionsByProvider, currentSelectedCloudProvider]);
 
   useEffect(() => {
     setSelectedGridProfile(gridProfiles[0]);
@@ -83,11 +95,15 @@ const useCreateGrid = () => {
 
   useEffect(() => {
     setSelectedGridName(selectedGridProfile.value);
+
     if (selectedGridProfile) {
-      const tmpArray = [];
-      const rawClusters = gridProfilesData.filter(
+      const selectedGridProfileData = gridProfilesData.filter(
         (profileData) => profileData.profile.name === selectedGridProfile.value
-      )[0]?.clusters;
+      )[0];
+
+      // --- Build Clusters ---
+      const tmpArray = [];
+      const rawClusters = selectedGridProfileData?.clusters;
 
       rawClusters?.forEach((e) => {
         e = { ...e, label: e.name, value: e.name };
@@ -95,10 +111,10 @@ const useCreateGrid = () => {
       });
 
       setSelectedGridclusters(tmpArray);
+      // --- X --- Build Clusters --- X ---
 
-      const tmpSubnets = gridProfilesData.filter(
-        (profileData) => profileData.profile.name === selectedGridProfile.value
-      )[0]?.subnets;
+      // --- Build Subnets ---
+      const tmpSubnets = selectedGridProfileData?.subnets;
 
       const tmpSubnetsArray = [];
       tmpSubnets?.forEach((e) => {
@@ -109,10 +125,10 @@ const useCreateGrid = () => {
       });
 
       setAllAvailableSubnets(tmpSubnetsArray);
+      // --- X --- Build Subnets --- X ---
 
-      const tmpVpcs = gridProfilesData.filter(
-        (profileData) => profileData.profile.name === selectedGridProfile.value
-      )[0]?.vpcs;
+      // --- Build VPCs ---
+      const tmpVpcs = selectedGridProfileData?.vpcs;
 
       const tmpVPCsArray = [];
       tmpVpcs?.forEach((e) => {
@@ -123,6 +139,20 @@ const useCreateGrid = () => {
       });
 
       setAllAvailableVPCIDs(tmpVPCsArray);
+      // --- X --- Build VPCs --- X ---
+
+      const currentVPC = selectedGridProfileData?.profile.vpc;
+      setSelectedVPCValue({
+        label: currentVPC,
+        value: currentVPC
+      });
+
+      const currentSubnets = selectedGridProfileData?.profile.subnets;
+      const tmpCurrentSubnetsArray = [];
+      currentSubnets?.forEach((e) =>
+        tmpCurrentSubnetsArray.push({ label: e, value: e })
+      );
+      setSelectedSubnetValues(tmpCurrentSubnetsArray);
     }
   }, [selectedGridProfile]);
 
@@ -152,30 +182,34 @@ const useCreateGrid = () => {
   }, []);
 
   return {
+    IS_MANDATORY,
     activeGridManagerCodeSnippet,
     allAvailableInstanceTypes,
-    allAvailableRegionsByProvider,
     allAvailableSubnets,
     allAvailableVPCIDs,
-    currentProvidersRegions,
     breadcrumbsData,
     codeSnippetsForExistingSetup,
+    currentProvidersRegions,
     currentSelectedCloudProvider,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
-    IS_MANDATORY,
     opened,
     ref,
     selectedGridClusters,
     selectedGridConcurrency,
     selectedGridName,
     selectedGridProfile,
+    selectedRegion,
+    selectedSubnetValues,
+    selectedVPCValue,
     setActiveGridManagerCodeSnippet,
-    setOpened,
     setCurrentCloudProvider,
+    setOpened,
     setSelectedGridProfile,
-    type
+    subnetChangeHandler,
+    type,
+    vpcChangeHandler
   };
 };
 

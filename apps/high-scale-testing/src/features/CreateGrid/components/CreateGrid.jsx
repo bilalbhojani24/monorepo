@@ -33,6 +33,7 @@ import useCreateGrid from './useCreateGrid';
 
 const CreateGrid = () => {
   const {
+    IS_MANDATORY,
     activeGridManagerCodeSnippet,
     allAvailableInstanceTypes,
     allAvailableSubnets,
@@ -44,7 +45,6 @@ const CreateGrid = () => {
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
-    IS_MANDATORY,
     opened,
     ref,
     selectedGridClusters,
@@ -52,11 +52,15 @@ const CreateGrid = () => {
     selectedGridName,
     selectedGridProfile,
     selectedRegion,
+    selectedSubnetValues,
+    selectedVPCValue,
     setActiveGridManagerCodeSnippet,
-    setOpened,
     setCurrentCloudProvider,
+    setOpened,
     setSelectedGridProfile,
-    type
+    subnetChangeHandler,
+    type,
+    vpcChangeHandler
   } = useCreateGrid();
 
   const TabsForCodeSnippet = (
@@ -355,9 +359,11 @@ const CreateGrid = () => {
                           <div className="mt-4 flex flex-row gap-4">
                             <div className="w-1/2">
                               <ComboBox
-                                // onChange={(val) => setSelected(val)}
-                                // value={selected}
+                                onChange={vpcChangeHandler}
+                                value={selectedVPCValue}
                                 isMulti={false}
+                                // eslint-disable-next-line react/jsx-boolean-value
+                                disabled={true}
                               >
                                 <ComboboxLabel>
                                   VPC ID
@@ -378,10 +384,12 @@ const CreateGrid = () => {
                             </div>
                             <div className="w-1/2">
                               <ComboBox
-                                // onChange={(val) => setSelected(val)}
-                                // value={selected}
+                                onChange={subnetChangeHandler}
+                                value={selectedSubnetValues}
                                 // eslint-disable-next-line react/jsx-boolean-value
                                 isMulti={true}
+                                // eslint-disable-next-line react/jsx-boolean-value
+                                disabled={true}
                               >
                                 <ComboboxLabel>
                                   Subnets
@@ -414,6 +422,8 @@ const CreateGrid = () => {
                               onFocus={null}
                               onKeyDown={null}
                               placeholder="www.hst.browserstack.com"
+                              // eslint-disable-next-line react/jsx-boolean-value
+                              disabled={true}
                             />
                           </div>
                         </div>
