@@ -13,6 +13,7 @@ export default function ReverseTrialBannerWrapper() {
     handleBannerButtonClick,
     bannerName
   } = useReverseTrialBanner();
+
   const { description, icon: Icon, color, buttonText } = bannerDetails;
   return (
     <>

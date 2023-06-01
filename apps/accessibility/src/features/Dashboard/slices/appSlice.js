@@ -3,7 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const { actions, reducer } = createSlice({
   name: 'dashboardAppSlice',
   initialState: {
-    user: null,
+    user: {
+      eligible: false,
+      trial_end_date_time: 'May 10 2023 14:30:36 GMT+0530',
+      trial_status: 'not_started'
+    },
     banner: {
       showBanner: false,
       name: ''
@@ -13,18 +17,14 @@ const { actions, reducer } = createSlice({
       name: ''
     },
     alert: {
-      show: true,
-      name: 'buyPlan'
-    },
-    trial: {
-      trialState: 'started',
-      eligible: true,
-      endDate: 'June 2 2023 14:30:36 GMT+0530'
+      show: false,
+      name: ''
     }
   },
   reducers: {
     setUser: (state, { payload }) => {
-      state.user = payload;
+      const user = { ...state.user, ...payload };
+      state.user = user;
     },
     setShowBanner: (state, { payload }) => {
       state.banner.showBanner = payload;

@@ -221,13 +221,13 @@ export const ANALYTICS_KEYS = {
 
 const BUY_PLAN = 'Buy a plan';
 
-export const TRIAL_NOT_STARTED = 'notStarted';
+export const TRIAL_NOT_STARTED = 'not_started';
 export const TRIAL_STARTED = 'started';
-export const TRIAL_IN_PROGRESS = 'inProgress';
+export const TRIAL_IN_PROGRESS = 'in_progress';
 export const TRIAL_EXPIRED = 'expired';
 
 export const getBannerDetails = {
-  notStarted: {
+  not_started: {
     icon: Star,
     description:
       'Try Team plan for free: Unlock premium features like Advanced Assisted Tests, Screen Readers and more',
@@ -240,7 +240,7 @@ export const getBannerDetails = {
       'Your free 14-day trial for the Accessibility Team plan has started.',
     color: 'success'
   },
-  lastFiveDays: {
+  last_five_days: {
     icon: Announcement,
     description:
       'Your Team free trial is ending in 3 days. Upgrade to continue using premium features.',

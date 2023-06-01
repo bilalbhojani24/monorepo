@@ -6,7 +6,7 @@ import { getAlertDetails } from 'constants';
 import useReverseTrialAlert from './useReverseTrialAlert';
 
 export default function ReverseTrialAlertWrapper() {
-  const { alertName, showAlert } = useReverseTrialAlert();
+  const { alertName, showAlert, handleAlertLinkClick } = useReverseTrialAlert();
 
   if (!alertName) return null;
 
@@ -16,10 +16,7 @@ export default function ReverseTrialAlertWrapper() {
       show={showAlert}
       accentBorder
       alertIcon={<img src={Warning} alt="alert icon" />}
-      alphaActionFn={() => {}}
       alphaActionTitle="View Status"
-      // betaActionFn={function noRefCheck() {}}
-      betaActionTitle="Dismiss"
       detailsNode={
         detailsNode ? (
           <>
@@ -35,9 +32,8 @@ export default function ReverseTrialAlertWrapper() {
         )
       }
       modifier="warn"
-      // dismissButtonFn={function noRefCheck() {}}
-      // handleLinkClick={function noRefCheck() {}}
       title={title}
+      handleLinkClick={handleAlertLinkClick}
     />
   );
 }

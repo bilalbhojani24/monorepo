@@ -204,7 +204,7 @@ export default function Reports() {
                     icon={<MdOutlineArrowForward className="text-xl" />}
                     onClick={onReportConsolidateButtonClick}
                     disabled={isMergeDisabled}
-                    wrapperClassName="px-4"
+                    size="default"
                     variant="secondary"
                   >
                     Consolidate reports
@@ -216,7 +216,8 @@ export default function Reports() {
                   icon={<MdOutlineArrowForward className="text-xl" />}
                   onClick={onReportConsolidateButtonClick}
                   disabled={isMergeDisabled}
-                  wrapperClassName="px-4"
+                  size="default"
+                  variant="secondary"
                 >
                   Consolidate reports
                 </Button>
@@ -226,7 +227,7 @@ export default function Reports() {
                   iconPlacement="end"
                   icon={<MdClose className="text-xl" />}
                   onClick={resetSelection}
-                  wrapperClassName="ml-2"
+                  wrapperClassName="ml-4"
                   variant="minimal"
                   colors="white"
                 >
