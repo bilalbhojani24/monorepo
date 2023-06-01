@@ -36,7 +36,7 @@ const LogRequestDetailsTable = ({ data }) => {
                 <p>{itemName}</p>
               </INTGTableCell>
               <INTGTableCell key="details" wrapperClassName="whitespace-normal">
-                {itemName === 'body' ? (
+                {itemName === 'Body' ? (
                   <div className="max-w-xl">
                     <CodeSnippet
                       code={JSON.stringify(JSON.parse(itemDetails), null, '\t')}

@@ -12,6 +12,6 @@ export const getEnvConfig = (env = import.meta.env.BSTACK_STAGE) => {
     }
     return envMapping[guessedEnv];
   }
-  // TODO: Keeping  default  stage to staging for now, until production env is ready
+
   return envMapping[env] || envMapping.staging;
 };

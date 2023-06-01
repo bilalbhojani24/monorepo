@@ -20,9 +20,7 @@ const SelectFilter = ({
   triggerClassName
 }) => {
   const handleChange = (value) => {
-    if (typeof setFilters === 'function') {
-      setFilters((prev) => ({ ...prev, [filterKey]: value }));
-    }
+    setFilters((prev) => ({ ...prev, [filterKey]: value }));
   };
   return (
     <INTGSelectMenu onChange={handleChange} value={filters[filterKey]} isMulti>

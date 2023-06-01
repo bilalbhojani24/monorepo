@@ -25,7 +25,7 @@ const QueryFilter = ({ filters, setFilters, filterKey }) => {
     <INTGInputField
       value={inputValue}
       onChange={handleChange}
-      wrapperClassName="bg-white w-80 rounded-md"
+      wrapperClassName="bg-white w-80 rounded-md z-0"
       placeholder="Search by URL"
       addOnBeforeInline={
         <INTGInputGroupAddOn inline>
