@@ -55,7 +55,7 @@ export const getFormattedBEFilter = (filterOptions) => {
       : filterOptions[key];
 
     if (value) {
-      queryParams[`q[${key}]`] = value;
+      queryParams[`q[${key === 'q' ? 'query' : key}]`] = value;
     }
   });
 
