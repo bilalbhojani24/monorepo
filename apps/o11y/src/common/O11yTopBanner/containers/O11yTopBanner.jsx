@@ -1,12 +1,19 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ReqDemoBanner from 'common/Banners/ReqDemoBanner';
 import { BANNER_TYPES } from 'constants/bannerTypes';
+import { showBannerPerPriority } from 'utils/showBannerPerPriority';
 
 import { getTopBannerVersion } from '../slices/selectors';
 
 function O11yTopBanner() {
   const bannerToShow = useSelector(getTopBannerVersion);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(showBannerPerPriority());
+  }, [dispatch]);
+
   switch (bannerToShow) {
     case BANNER_TYPES.plan_expire:
       return <></>;
