@@ -43,7 +43,7 @@ const AddEditTestCaseMoreFields = () => {
             onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
             value={
               testCaseFormData.case_type &&
-              testCaseTypeOptions.find(
+              testCaseTypeOptions?.find(
                 (item) => item.value === testCaseFormData.case_type
               )
             }
@@ -78,7 +78,7 @@ const AddEditTestCaseMoreFields = () => {
             options={priorityOptions}
             value={
               testCaseFormData.priority &&
-              priorityOptions.find(
+              priorityOptions?.find(
                 (item) => item.value === testCaseFormData?.priority
               )
             }
@@ -89,7 +89,7 @@ const AddEditTestCaseMoreFields = () => {
           <TMSelectMenu
             value={
               testCaseFormData.status &&
-              statusOptions.find(
+              statusOptions?.find(
                 (item) => item.value === testCaseFormData?.status
               )
             }

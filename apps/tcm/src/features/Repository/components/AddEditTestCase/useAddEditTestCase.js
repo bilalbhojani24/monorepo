@@ -243,10 +243,10 @@ export default function useAddEditTestCase(prop) {
     };
 
     if (!formData.priority)
-      testCase.priority = priorityIntNameAndValueMapTC.medium;
-    if (!formData.status) testCase.status = statusIntNameAndValueMapTC.active;
+      testCase.priority = priorityIntNameAndValueMapTC?.medium;
+    if (!formData.status) testCase.status = statusIntNameAndValueMapTC?.active;
     if (!formData.case_type)
-      testCase.case_type = testCaseTypeIntNameAndValueMapTC.other;
+      testCase.case_type = testCaseTypeIntNameAndValueMapTC?.other;
     if (formData.steps) testCase.steps = JSON.stringify(formData.steps);
     if (formData.tags)
       testCase.tags = formData?.tags?.map((item) => item.value);
