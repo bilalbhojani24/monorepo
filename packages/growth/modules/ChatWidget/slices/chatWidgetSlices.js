@@ -7,7 +7,7 @@ export const fetchChatWidgetInitialData = createAsyncThunk(
   async () => chatWidgetService.getChatWidgetInitialisation()
 );
 
-export const { reducer, actions } = createSlice({
+export const chatWidgetSlice = createSlice({
   name: 'fetchChatWidgetInitialData',
   initialState: {
     data: null,
@@ -31,5 +31,3 @@ export const { reducer, actions } = createSlice({
       });
   }
 });
-
-export default reducer;
