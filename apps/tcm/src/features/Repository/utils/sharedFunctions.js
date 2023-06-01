@@ -74,3 +74,20 @@ export const getFilterOptions = (thisParams) => {
     q: q || ''
   };
 };
+
+export const getCalcQueryParams = (thisFilterSearchMeta) => {
+  const queryParams = {};
+  const searchParamsTemp = {};
+  Object.keys(thisFilterSearchMeta).forEach((key) => {
+    const value = Array.isArray(thisFilterSearchMeta[key])
+      ? thisFilterSearchMeta[key].join(',')
+      : thisFilterSearchMeta[key];
+
+    if (value) {
+      searchParamsTemp[key] = value;
+      queryParams[`q[${key}]`] = value;
+    }
+  });
+
+  return { queryParams, searchParamsTemp };
+};

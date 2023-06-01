@@ -25,6 +25,7 @@ import {
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 import {
+  getCalcQueryParams,
   getFilterOptions,
   getFormattedBEFilter
 } from '../utils/sharedFunctions';
@@ -72,23 +73,6 @@ const useFilter = (prop) => {
       searchParamsTemp.priority
     ];
     setAppliedFiltersCount(count.filter((item) => item).length);
-  };
-
-  const getCalcQueryParams = (thisFilterSearchMeta) => {
-    const queryParams = {};
-    const searchParamsTemp = {};
-    Object.keys(thisFilterSearchMeta).forEach((key) => {
-      const value = Array.isArray(thisFilterSearchMeta[key])
-        ? thisFilterSearchMeta[key].join(',')
-        : thisFilterSearchMeta[key];
-
-      if (value) {
-        searchParamsTemp[key] = value;
-        queryParams[`q[${key}]`] = value;
-      }
-    });
-
-    return { queryParams, searchParamsTemp };
   };
 
   const resetFilterAndSearch = (forceClearAll) => {

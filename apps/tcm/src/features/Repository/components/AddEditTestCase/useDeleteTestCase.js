@@ -26,6 +26,7 @@ import {
   updateTestCasesListLoading
 } from '../../slices/repositorySlice';
 import {
+  getCalcQueryParams,
   getFilterOptions,
   getFormattedBEFilter
 } from '../../utils/sharedFunctions';
@@ -197,19 +198,33 @@ export default function useDeleteTestCase() {
   const bulkSearchDeleteHandler = () => {
     updateLoadingState('bulkDeleteTestCaseCta', true);
 
-    const filters = getFormattedBEFilter(getFilterOptions(searchParams));
+    const currentPage = searchParams.get('p');
+    const normalFilters = getFilterOptions(searchParams);
+    const { queryParams, searchParamsTemp } = getCalcQueryParams(normalFilters);
+    if (currentPage) {
+      queryParams.p = currentPage;
+      searchParamsTemp.p = currentPage;
+    }
 
     deleteTestCasesBulkOnSearchAPI({
       projectId,
       bulkSelection,
-      qp: filters
+      qp: queryParams
     })
       .then((data) => {
         dispatch(setMetaPage(data.info));
         dispatch(updateAllTestCases(data.test_cases));
 
-        if (data.info) {
+        if (data.info && `${data.info.page}` !== currentPage) {
+          console.log(searchParamsTemp, queryParams, getCalcQueryParams);
+
           debugger;
+          if (currentPage === null && data.info.page === 1) {
+            // currently on first page and be on first page
+          } else {
+            searchParamsTemp.p = data.info.page;
+            updateQueryParamWOEvent(searchParamsTemp);
+          }
         }
         const notificationData = {
           id: 'test_cases_deleted',
