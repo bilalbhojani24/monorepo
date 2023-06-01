@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { fetchDataForCreateGrid } from 'api/index';
+import { createNewGridProfile, fetchDataForCreateGrid } from 'api/index';
 import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
+import { getUserDetails } from 'globalSlice/selector';
 
 const useCreateGrid = () => {
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
@@ -25,6 +27,10 @@ const useCreateGrid = () => {
     }
   ];
 
+  // All Store variables:
+  const userDetails = useSelector(getUserDetails);
+
+  // All State variables
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
     useState(GRID_MANAGER_NAMES.helm);
   const [allAvailableInstanceTypes, setAllAvailableInstanceTypes] = useState(
@@ -41,6 +47,13 @@ const useCreateGrid = () => {
   );
   const [currentSelectedCloudProvider, setCurrentCloudProvider] = useState(
     DEFAULT_CLOUD_PROVIDER
+  );
+  const [
+    collapsibleBtntextForAdvSettings,
+    setCollapsibleBtnTextForAdvSettings
+  ] = useState('Show Cluster Details');
+  const [collapsibleBtntextForCode, setCollapsibleBtnTextForCode] = useState(
+    'View steps to download CLI'
   );
   const [dataChanged, setDataChanged] = useState(false);
   const [gridProfiles, setGridProfiles] = useState([
@@ -60,6 +73,7 @@ const useCreateGrid = () => {
   const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
   const [selectedVPCValue, setSelectedVPCValue] = useState('');
   const [setupState, setSetupState] = useState(1);
+  const [showSaveProfileModal, setShowSaveProfileModal] = useState(false);
   const [showSetupClusterModal, setShowSetupClusterModal] = useState(false);
 
   const ref = useRef({});
@@ -67,8 +81,13 @@ const useCreateGrid = () => {
   const [searchParams, setSearchparams] = useSearchParams();
   const type = searchParams.get('type');
 
+  const commonHandler = () => {
+    setDataChanged(true);
+  };
+
   const clusterChangeHandler = (e) => {
     setSelectedClusterValue(e);
+    commonHandler();
   };
 
   const editClusterBtnClickHandler = () => {
@@ -89,8 +108,44 @@ const useCreateGrid = () => {
     setShowSetupClusterModal(false);
   };
 
+  const updateGridProfileData = async (profileData) => {
+    const res = await createNewGridProfile(userDetails.id, profileData);
+
+    console.log('Log: res:', res);
+  };
+
   const nextBtnClickHandler = () => {
+    console.log('Log: selectedGridProfile:', selectedGridProfile);
+
+    const profileData = {
+      profile: {
+        name: selectedGridProfile.value,
+        region: 'us-east-2',
+        cloudProvider: currentSelectedCloudProvider.configName,
+        instanceType: 't3.2xlarge',
+        domain: 'bsstag.com',
+        vpc: selectedVPCValue.value,
+        subnets: selectedSubnetValues.map((e) => e.value),
+        securityGroups: []
+      },
+      user: {
+        id: userDetails.id,
+        groupId: userDetails.groupId
+      },
+      cluster: {
+        name: selectedClusterValue.value
+      },
+      name: selectedGridName,
+      concurrency: selectedGridConcurrency
+    };
+    updateGridProfileData(profileData);
     setSetupState(2);
+  };
+
+  const saveChangesClickHander = () => {};
+
+  const setupBtnClickHandler = () => {
+    setShowSetupClusterModal(false);
   };
 
   const setupNewClusterBtnClickHandler = () => {
@@ -118,14 +173,22 @@ const useCreateGrid = () => {
   }, [gridProfiles]);
 
   useEffect(() => {
+    if (opened) {
+      setCollapsibleBtnTextForCode('hide steps to download CLI');
+      setCollapsibleBtnTextForAdvSettings('Hide Cluster Details');
+    } else {
+      setCollapsibleBtnTextForCode('View steps to download CLI');
+      setCollapsibleBtnTextForAdvSettings('Show Cluster Details');
+    }
+  }, [opened]);
+
+  useEffect(() => {
     setSelectedGridName(selectedGridProfile.value);
 
     if (selectedGridProfile) {
       const selectedGridProfileData = gridProfilesData.filter(
         (profileData) => profileData.profile.name === selectedGridProfile.value
       )[0];
-
-      console.log('Log: selectedGridProfileData:', selectedGridProfileData);
 
       // --- Build Clusters ---
       const tmpArray = [];
@@ -172,8 +235,6 @@ const useCreateGrid = () => {
         label: selectedGridProfileData?.clusters[0].name,
         value: selectedGridProfileData?.clusters[0].name
       };
-
-      console.log('Log: tmpCluster:', tmpCluster);
       setSelectedClusterValue(tmpCluster);
 
       const currentVPC = selectedGridProfileData?.profile.vpc;
@@ -210,7 +271,7 @@ const useCreateGrid = () => {
   useEffect(() => {
     fetchDataForCreateGrid().then((res) => {
       const response = res.data;
-      console.log('Log: response:', response);
+
       setCodeSnippetsForExistingSetup(response.codeSnippets.existing);
       setGridProfilesData(response.gridProfiles);
     });
@@ -225,6 +286,8 @@ const useCreateGrid = () => {
     breadcrumbsData,
     clusterChangeHandler,
     codeSnippetsForExistingSetup,
+    collapsibleBtntextForAdvSettings,
+    collapsibleBtntextForCode,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     dataChanged,
@@ -236,6 +299,7 @@ const useCreateGrid = () => {
     nextBtnClickHandler,
     opened,
     ref,
+    saveChangesClickHander,
     selectedClusterValue,
     selectedGridClusters,
     selectedGridConcurrency,
@@ -245,6 +309,7 @@ const useCreateGrid = () => {
     selectedSubnetValues,
     selectedVPCValue,
     setActiveGridManagerCodeSnippet,
+    setupBtnClickHandler,
     setCurrentCloudProvider,
     setOpened,
     setSelectedGridProfile,

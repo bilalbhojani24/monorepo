@@ -25,6 +25,7 @@ import {
   Steps,
   Tabs
 } from '@browserstack/bifrost';
+import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
 import {
   CREATE_GRID_TYPES,
   GRID_MANAGER_NAMES,
@@ -43,6 +44,8 @@ const CreateGrid = () => {
     breadcrumbsData,
     clusterChangeHandler,
     codeSnippetsForExistingSetup,
+    collapsibleBtntextForAdvSettings,
+    collapsibleBtntextForCode,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     dataChanged,
@@ -54,6 +57,7 @@ const CreateGrid = () => {
     opened,
     nextBtnClickHandler,
     ref,
+    saveChangesClickHander,
     selectedClusterValue,
     selectedGridClusters,
     selectedGridConcurrency,
@@ -63,6 +67,7 @@ const CreateGrid = () => {
     selectedSubnetValues,
     selectedVPCValue,
     setActiveGridManagerCodeSnippet,
+    setupBtnClickHandler,
     setCurrentCloudProvider,
     setOpened,
     setSelectedGridProfile,
@@ -82,8 +87,8 @@ const CreateGrid = () => {
       // eslint-disable-next-line react/jsx-boolean-value
       isMandatory={true}
     >
-      <ComboboxLabel>Cluster</ComboboxLabel>
-      <ComboboxTrigger placeholder="Placeholder" />
+      <ComboboxLabel>Choose Cluster</ComboboxLabel>
+      <ComboboxTrigger />
       <ComboboxOptionGroup>
         {selectedGridClusters.map((item) => (
           <ComboboxOptionItem key={item.value} option={item} />
@@ -383,43 +388,59 @@ const CreateGrid = () => {
                         </div>
                       </div>
 
-                      <div className="mt-4 flex items-end gap-4">
-                        <div className="w-1/2">{ClusterInputComponent}</div>
-
-                        <div>
-                          <Button
-                            colors="white"
-                            icon={<MdAdd />}
-                            iconPlacement="start"
-                            onClick={setupNewClusterBtnClickHandler}
-                          >
-                            Setup New Cluster
-                          </Button>
-                        </div>
-
-                        <div>
-                          <Button
-                            colors="white"
-                            icon={<MdAdd />}
-                            iconPlacement="start"
-                            onClick={editClusterBtnClickHandler}
-                          >
-                            Edit
-                          </Button>
-                        </div>
-                      </div>
-
                       {/* Advanced Settings */}
-                      <div className="mt-2">
+                      <div className="mt-6">
                         <Accordion>
+                          <Button
+                            colors="white"
+                            icon={
+                              collapsibleBtntextForAdvSettings ===
+                              'Show Cluster Details' ? (
+                                <span>+</span>
+                              ) : (
+                                <span>-</span>
+                              )
+                            }
+                            onClick={() => setOpened(!opened)}
+                            modifier="primary"
+                            variant="rounded"
+                          >
+                            {collapsibleBtntextForAdvSettings}
+                          </Button>
                           <AccordionSimpleHeader
                             controller={opened}
                             onClick={() => setOpened(!opened)}
                             title="Advanced Settings"
+                            wrapperClassName="hidden"
                           />
                           <AccordionPanel controller={opened}>
                             <div className="my-2 h-16 items-center justify-center p-2">
-                              <div className="flex flex-row gap-4">
+                              <div className="mt-4 flex items-end gap-4">
+                                <div className="w-1/2">
+                                  {ClusterInputComponent}
+                                </div>
+                                <div>
+                                  <Button
+                                    colors="white"
+                                    icon={<MdAdd />}
+                                    iconPlacement="start"
+                                    onClick={editClusterBtnClickHandler}
+                                  >
+                                    Edit Cluster Details
+                                  </Button>
+                                </div>
+                                <div>
+                                  <Button
+                                    colors="white"
+                                    icon={<MdAdd />}
+                                    iconPlacement="start"
+                                    onClick={setupNewClusterBtnClickHandler}
+                                  >
+                                    Setup New Cluster
+                                  </Button>
+                                </div>
+                              </div>
+                              <div className=" mt-4 flex flex-row gap-4">
                                 <div className="w-1/2">
                                   {RegionInputComponent}
                                 </div>
@@ -462,7 +483,6 @@ const CreateGrid = () => {
                         manage the Automation Grid. Read more about this here.
                       </p>
                     </div>
-
                     <div className="mt-9">
                       <p className="text-base-900 text-sm font-medium">
                         Grid Creation Commands
@@ -472,10 +492,77 @@ const CreateGrid = () => {
                       </p>
 
                       <CodeSnippet
-                        code="browserstack-cli hst create grid --grid-profile my-sample-profile"
+                        code={`browserstack-cli hst create grid --grid-profile ${selectedGridName}`}
                         language="node"
                         singleLine
                       />
+                    </div>
+
+                    <div className="m-4">
+                      <Accordion>
+                        <Button
+                          colors="white"
+                          icon={
+                            collapsibleBtntextForCode ===
+                            'View steps to download CLI' ? (
+                              <span>+</span>
+                            ) : (
+                              <span>-</span>
+                            )
+                          }
+                          onClick={() => setOpened(!opened)}
+                          modifier="primary"
+                          variant="rounded"
+                        >
+                          {collapsibleBtntextForCode}
+                        </Button>
+                        <AccordionSimpleHeader
+                          controller={opened}
+                          onClick={() => setOpened(!opened)}
+                          title="Steps to download CLI"
+                          wrapperClassName="hidden"
+                        />
+                        <AccordionPanel controller={opened}>
+                          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+                          <ol className="list-[lower-alpha] text-sm text-base-500">
+                            <li className="py-2 text-base-900">
+                              <div>
+                                <p className="mb-2 text-base-900">
+                                  Download CLI.
+                                </p>
+                                <CodeSnippet
+                                  code="npm install @browserstack/browserstack-cli"
+                                  language="node"
+                                  showLineNumbers={false}
+                                  singleLine={false}
+                                  view="neutral"
+                                />
+                              </div>
+                            </li>
+                            <li className="py-2 text-base-900">
+                              <div>
+                                <p className="mb-2 text-base-900">
+                                  Setup CLI with AWS credentials.
+                                </p>
+                                <CodeSnippet
+                                  code="/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
+                              export BROWSERSTACK_USERNAME=<username>
+                              export BROWSERSTACK_ACCESS_KEY=<accesskey>
+                              
+                              /* Create HST configuration profile with AWS credentials */
+                              browserstack-cli hst init
+                              "
+                                  language="node"
+                                  showLineNumbers={false}
+                                  singleLine={false}
+                                  view="neutral"
+                                />
+                              </div>
+                            </li>
+                          </ol>
+                        </AccordionPanel>
+                      </Accordion>
+                      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
                     </div>
                   </div>
                 )}
@@ -503,17 +590,29 @@ const CreateGrid = () => {
                       </div>
                     </div>
                     <div className="flex flex-row-reverse">
-                      <Button>Setup</Button>
+                      <Button onClick={setupBtnClickHandler}>Setup</Button>
                     </div>
                   </div>
                 </Modal>
               </div>
-              <div className="border-base-300 flex flex-row-reverse border-t px-6 py-3">
-                {!dataChanged && setupState !== 2 && (
-                  <Button onClick={nextBtnClickHandler}> Next </Button>
-                )}
-                {dataChanged && <Button> Save Changes</Button>}
-              </div>
+              {setupState !== 2 && (
+                <div className="border-base-300 flex flex-row-reverse border-t px-6 py-3">
+                  {!dataChanged && setupState !== 2 && (
+                    <Button onClick={nextBtnClickHandler}> Next </Button>
+                  )}
+                  {dataChanged && (
+                    <Button onClick={saveChangesClickHander}>
+                      Save Changes
+                    </Button>
+                  )}
+                </div>
+              )}
+              {setupState === 2 && (
+                <div className="border-base-300 text-base-700 flex gap-2 border-t px-6 py-3">
+                  <HourglassBottomOutlinedIcon /> Waiting for you to complete
+                  the above steps to connect the grid...
+                </div>
+              )}
             </div>
           </div>
         </div>
