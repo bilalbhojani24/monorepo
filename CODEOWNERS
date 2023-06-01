@@ -8,6 +8,10 @@ apps/high-scale-testing/** @browserstack/hst-frontend
 # TCM
 apps/tcm/** @browserstack/tm-frontend
 
+# LCNC
+apps/lcnc-webapp/** @browserstack/lcnc-frontend
+apps/lcnc-desktop-app/** @browserstack/lcnc-frontend
+
 # MCSPT
 apps/mcspt/** @browserstack/mcspt-frontend
 apps/web-mcspt/** @browserstack/mcspt-frontend
