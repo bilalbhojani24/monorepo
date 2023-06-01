@@ -39,6 +39,7 @@ const CreateGrid = () => {
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
+    clusterChangeHandler,
     codeSnippetsForExistingSetup,
     currentProvidersRegions,
     currentSelectedCloudProvider,
@@ -49,6 +50,7 @@ const CreateGrid = () => {
     opened,
     nextBtnClickHandler,
     ref,
+    selectedClusterValue,
     selectedGridClusters,
     selectedGridConcurrency,
     selectedGridName,
@@ -265,8 +267,8 @@ const CreateGrid = () => {
                       <div className="mt-4 flex items-end gap-4">
                         <div className="w-1/2">
                           <ComboBox
-                            // onChange={(val) => setSelected(val)}
-                            // value={selected}
+                            onChange={clusterChangeHandler}
+                            value={selectedClusterValue}
                             isMulti={false}
                             // eslint-disable-next-line react/jsx-boolean-value
                             isMandatory={true}
@@ -476,7 +478,9 @@ const CreateGrid = () => {
                 )}
               </div>
               <div className="border-base-300 flex flex-row-reverse border-t px-6 py-3">
-                {!dataChanged && setupState !== 2 && <Button onClick={nextBtnClickHandler}> Next </Button>}
+                {!dataChanged && setupState !== 2 && (
+                  <Button onClick={nextBtnClickHandler}> Next </Button>
+                )}
                 {dataChanged && <Button> Save Changes</Button>}
               </div>
             </div>

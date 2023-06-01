@@ -49,6 +49,7 @@ const useCreateGrid = () => {
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
   const [opened, setOpened] = useState(false);
+  const [selectedClusterValue, setSelectedClusterValue] = useState('');
   const [selectedGridClusters, setSelectedGridclusters] = useState([]);
   const [selectedGridConcurrency, setSelectedGridConcurrency] = useState(0);
   const [selectedGridName, setSelectedGridName] =
@@ -64,6 +65,10 @@ const useCreateGrid = () => {
 
   const [searchParams, setSearchparams] = useSearchParams();
   const type = searchParams.get('type');
+
+  const clusterChangeHandler = (e) => {
+    setSelectedClusterValue(e);
+  };
 
   const gridConcurrencyChangeHandler = (e) => {
     const newValue = e.target.value;
@@ -107,6 +112,8 @@ const useCreateGrid = () => {
         (profileData) => profileData.profile.name === selectedGridProfile.value
       )[0];
 
+      console.log('Log: selectedGridProfileData:', selectedGridProfileData);
+
       // --- Build Clusters ---
       const tmpArray = [];
       const rawClusters = selectedGridProfileData?.clusters;
@@ -146,6 +153,15 @@ const useCreateGrid = () => {
 
       setAllAvailableVPCIDs(tmpVPCsArray);
       // --- X --- Build VPCs --- X ---
+
+      const tmpCluster = {
+        ...selectedGridProfileData?.clusters[0],
+        label: selectedGridProfileData?.clusters[0].name,
+        value: selectedGridProfileData?.clusters[0].name
+      };
+
+      console.log('Log: tmpCluster:', tmpCluster);
+      setSelectedClusterValue(tmpCluster);
 
       const currentVPC = selectedGridProfileData?.profile.vpc;
       setSelectedVPCValue({
@@ -194,6 +210,7 @@ const useCreateGrid = () => {
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
+    clusterChangeHandler,
     codeSnippetsForExistingSetup,
     currentProvidersRegions,
     currentSelectedCloudProvider,
@@ -204,6 +221,7 @@ const useCreateGrid = () => {
     nextBtnClickHandler,
     opened,
     ref,
+    selectedClusterValue,
     selectedGridClusters,
     selectedGridConcurrency,
     selectedGridName,
