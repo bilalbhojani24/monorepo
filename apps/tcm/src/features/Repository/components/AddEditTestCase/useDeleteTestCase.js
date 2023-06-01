@@ -200,7 +200,8 @@ export default function useDeleteTestCase() {
 
     const currentPage = searchParams.get('p');
     const normalFilters = getFilterOptions(searchParams);
-    const { queryParams, searchParamsTemp } = getCalcQueryParams(normalFilters);
+    const { searchParamsTemp } = getCalcQueryParams(normalFilters);
+    const queryParams = getFormattedBEFilter(normalFilters);
     if (currentPage) {
       queryParams.p = currentPage;
       searchParamsTemp.p = currentPage;
@@ -212,13 +213,14 @@ export default function useDeleteTestCase() {
       qp: queryParams
     })
       .then((data) => {
+        const testCases = data.test_cases.map((item) => ({
+          ...item,
+          folders: data?.folders?.[item.test_case_folder_id] || null
+        }));
         dispatch(setMetaPage(data.info));
-        dispatch(updateAllTestCases(data.test_cases));
+        dispatch(updateAllTestCases(testCases));
 
         if (data.info && `${data.info.page}` !== currentPage) {
-          console.log(searchParamsTemp, queryParams, getCalcQueryParams);
-
-          debugger;
           if (currentPage === null && data.info.page === 1) {
             // currently on first page and be on first page
           } else {
