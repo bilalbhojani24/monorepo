@@ -1,4 +1,4 @@
-const FETCH_CREATE_GRID_DATA_PATH = '/create-grid';
+const FETCH_GRID_PROFILES_DATA_PATH = '/grid-profiles';
 const FETCH_GRIDS_PATH = '/grids';
 const GRID = '/grid';
 const INIT_PATH = '/init';
@@ -12,7 +12,7 @@ const UPDATE_GRID_SETTINGS_PATH = '/update-settings';
 
 export {
   FETCH_CLUSTERS_PATH,
-  FETCH_CREATE_GRID_DATA_PATH,
+  FETCH_GRID_PROFILES_DATA_PATH,
   FETCH_GRIDS_PATH,
   GRID,
   INIT_PATH,

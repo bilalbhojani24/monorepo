@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
   CREATE_GRID,
   FETCH_CLUSTERS_URL,
-  FETCH_CREATE_GRID_DATA_URL,
+  FETCH_GRID_PROFILES_DATA_URL,
   FETCH_GRID_URL,
   FETCH_GRIDS_URL,
   ONBOARDING_DATA_URL,
@@ -32,7 +32,7 @@ const fetchGridDataById = (gridId, userId) =>
   });
 
 const fetchDataForCreateGrid = (userId) =>
-  axios.get(FETCH_CREATE_GRID_DATA_URL, {
+  axios.get(FETCH_GRID_PROFILES_DATA_URL, {
     params: {
       userId
     }
