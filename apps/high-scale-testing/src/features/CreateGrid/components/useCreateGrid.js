@@ -6,7 +6,11 @@ import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
-import { getUserDetails } from 'globalSlice/selector';
+import {
+  getInstanceTypes,
+  getRegions,
+  getUserDetails
+} from 'globalSlice/selector';
 
 const useCreateGrid = () => {
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
@@ -33,15 +37,16 @@ const useCreateGrid = () => {
   // All State variables
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
     useState(GRID_MANAGER_NAMES.helm);
-  const [allAvailableInstanceTypes, setAllAvailableInstanceTypes] = useState(
-    []
-  );
-  const [allAvailableRegionsByProvider, setAllAvailableRegionsByProvider] =
-    useState([]);
+  const allAvailableInstanceTypes = useSelector(getInstanceTypes);
+  const allAvailableRegionsByProvider = useSelector(getRegions);
   const [allAvailableSubnets, setAllAvailableSubnets] = useState([]);
   const [allAvailableVPCIDs, setAllAvailableVPCIDs] = useState([]);
   const [codeSnippetsForExistingSetup, setCodeSnippetsForExistingSetup] =
     useState(null);
+  const [currentProvidersInstanceTypes, setCurrentProvidersInstanceTypes] =
+    useState(
+      allAvailableInstanceTypes?.[DEFAULT_CLOUD_PROVIDER.configName] || []
+    );
   const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
     allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER.configName] || []
   );
@@ -57,11 +62,15 @@ const useCreateGrid = () => {
   );
   const [creatingGridProfile, setCreatingGridProfile] = useState(false);
   const [dataChanged, setDataChanged] = useState(false);
+  const [editClusterNameInputValue, setEditClusterNameInputValue] =
+    useState('');
   const [gridProfiles, setGridProfiles] = useState([
     { label: 'label', value: 'value' },
     { label: 'label 2', value: 'value2' }
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
+  const [newProfileErrorText, setNewProfileErrorText] = useState('');
+  const [newProfileNameValue, setNewProfileNameValue] = useState('');
   const [opened, setOpened] = useState(false);
   const [selectedClusterValue, setSelectedClusterValue] = useState('');
   const [selectedGridClusters, setSelectedGridclusters] = useState([]);
@@ -70,7 +79,8 @@ const useCreateGrid = () => {
     useState('high-scale-testing');
 
   const [selectedGridProfile, setSelectedGridProfile] = useState('default');
-  const [selectedRegion, setSelectedRegioon] = useState();
+  const [selectedInstanceType, setSelectedInstanceType] = useState();
+  const [selectedRegion, setSelectedRegion] = useState();
   const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
   const [selectedVPCValue, setSelectedVPCValue] = useState('');
   const [setupState, setSetupState] = useState(1);
@@ -85,7 +95,19 @@ const useCreateGrid = () => {
   const updateGridProfileData = async (profileData) => {
     const res = await createNewGridProfile(userDetails.id, profileData);
 
-    console.log('Log: res:', res);
+    const { data } = res;
+
+    if (data === 'OK') {
+      setCreatingGridProfile(false);
+      setShowSaveProfileModal(false);
+      setShowSetupClusterModal(false);
+      setDataChanged(false);
+
+      setSelectedGridProfile({
+        label: newProfileNameValue,
+        value: newProfileNameValue
+      });
+    }
   };
 
   // All Click/Change Handlers:
@@ -99,6 +121,7 @@ const useCreateGrid = () => {
   };
 
   const editClusterBtnClickHandler = () => {
+    setEditClusterNameInputValue(selectedClusterValue.value);
     setShowSetupClusterModal(true);
   };
 
@@ -112,46 +135,62 @@ const useCreateGrid = () => {
     setSelectedGridName(newValue);
   };
 
+  const instanceChangeHandler = (e) => {
+    setSelectedInstanceType(e);
+  };
+
   const modalCrossClickhandler = () => {
     setShowSetupClusterModal(false);
+    setShowSaveProfileModal(false);
   };
 
   const nextBtnClickHandler = () => {
-    console.log('Log: selectedGridProfile:', selectedGridProfile);
-
     setSetupState(2);
+  };
+
+  const regionChangeHandler = (e) => {
+    setSelectedRegion(e);
   };
 
   const saveAndProceedClickHandler = () => {
     setCreatingGridProfile(true);
 
-    const profileData = {
-      profile: {
-        name: selectedGridProfile.value,
-        region: 'us-east-2',
-        cloudProvider: currentSelectedCloudProvider.configName,
-        instanceType: 't3.2xlarge',
-        domain: 'bsstag.com',
-        vpc: selectedVPCValue.value,
-        subnets: selectedSubnetValues.map((e) => e.value),
-        securityGroups: []
-      },
-      user: {
-        id: userDetails.id,
-        groupId: userDetails.groupId
-      },
-      cluster: {
-        name: selectedClusterValue.value
-      },
-      name: selectedGridName,
-      concurrency: selectedGridConcurrency
-    };
+    if (newProfileNameValue.length > 0) {
+      const profileData = {
+        profile: {
+          name: selectedGridProfile.value,
+          region: 'us-east-2',
+          cloudProvider: currentSelectedCloudProvider.configName,
+          instanceType: 't3.2xlarge',
+          domain: 'bsstag.com',
+          vpc: selectedVPCValue.value,
+          subnets: selectedSubnetValues.map((e) => e.value),
+          securityGroups: []
+        },
+        user: {
+          id: userDetails.id,
+          groupId: userDetails.groupId
+        },
+        cluster: {
+          name: selectedClusterValue.value
+        },
+        name: selectedGridName,
+        concurrency: selectedGridConcurrency
+      };
 
-    updateGridProfileData(profileData);
+      updateGridProfileData(profileData);
+    } else {
+      setNewProfileErrorText('Please enter a valid Grid Profile name');
+      setCreatingGridProfile(false);
+    }
   };
 
   const saveChangesClickHander = () => {
     setShowSaveProfileModal(true);
+  };
+
+  const saveProfileChangeHandler = (e) => {
+    setNewProfileNameValue(e.target.value);
   };
 
   const setupBtnClickHandler = () => {
@@ -261,6 +300,18 @@ const useCreateGrid = () => {
         tmpCurrentSubnetsArray.push({ label: e, value: e })
       );
       setSelectedSubnetValues(tmpCurrentSubnetsArray);
+
+      setSelectedRegion(
+        allAvailableRegionsByProvider[
+          currentSelectedCloudProvider.configName
+        ].find((e) => e.label === selectedGridProfileData?.profile.region)
+      );
+
+      setSelectedInstanceType(
+        allAvailableInstanceTypes[currentSelectedCloudProvider.configName].find(
+          (e) => e.label === selectedGridProfileData?.profile.instanceType
+        )
+      );
     }
   }, [gridProfilesData, selectedGridProfile]);
 
@@ -276,6 +327,9 @@ const useCreateGrid = () => {
       if (
         selectedGridProfileData?.profile.concurrency !==
           selectedGridConcurrency ||
+        selectedInstanceType.label !==
+          selectedGridProfileData.profile.instanceType ||
+        selectedRegion.label !== selectedGridProfileData.profile.region ||
         JSON.stringify(selectedGridProfileData.profile.subnets) !==
           JSON.stringify(subnetsPlainArray) ||
         selectedVPCValue.value !== selectedGridProfileData.profile.vpc
@@ -286,9 +340,17 @@ const useCreateGrid = () => {
   }, [
     selectedClusterValue,
     selectedGridConcurrency,
+    selectedInstanceType,
+    selectedRegion,
     selectedSubnetValues,
     selectedVPCValue
   ]);
+
+  useEffect(() => {
+    if (!showSetupClusterModal) {
+      setEditClusterNameInputValue('');
+    }
+  }, [showSetupClusterModal]);
 
   useEffect(() => {
     if (gridProfilesData.length > 0) {
@@ -318,7 +380,6 @@ const useCreateGrid = () => {
   return {
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
-    allAvailableInstanceTypes,
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
@@ -327,24 +388,32 @@ const useCreateGrid = () => {
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
     creatingGridProfile,
+    currentProvidersInstanceTypes,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     dataChanged,
     editClusterBtnClickHandler,
+    editClusterNameInputValue,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
+    instanceChangeHandler,
     modalCrossClickhandler,
     nextBtnClickHandler,
+    newProfileErrorText,
+    newProfileNameValue,
     opened,
     ref,
+    regionChangeHandler,
     saveAndProceedClickHandler,
     saveChangesClickHander,
+    saveProfileChangeHandler,
     selectedClusterValue,
     selectedGridClusters,
     selectedGridConcurrency,
     selectedGridName,
     selectedGridProfile,
+    selectedInstanceType,
     selectedRegion,
     selectedSubnetValues,
     selectedVPCValue,

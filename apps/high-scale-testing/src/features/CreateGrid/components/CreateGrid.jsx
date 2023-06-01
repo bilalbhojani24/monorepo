@@ -13,6 +13,7 @@ import {
   InputField,
   InputGroupAddOn,
   MdAdd,
+  MdOutlineModeEditOutline,
   Modal,
   ModalHeader,
   PageHeadings,
@@ -38,7 +39,6 @@ const CreateGrid = () => {
   const {
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
-    allAvailableInstanceTypes,
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
@@ -47,24 +47,32 @@ const CreateGrid = () => {
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
     creatingGridProfile,
+    currentProvidersInstanceTypes,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     dataChanged,
     editClusterBtnClickHandler,
+    editClusterNameInputValue,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
+    instanceChangeHandler,
     modalCrossClickhandler,
+    newProfileNameValue,
     opened,
+    newProfileErrorText,
     nextBtnClickHandler,
     ref,
+    regionChangeHandler,
     saveAndProceedClickHandler,
     saveChangesClickHander,
+    saveProfileChangeHandler,
     selectedClusterValue,
     selectedGridClusters,
     selectedGridConcurrency,
     selectedGridName,
     selectedGridProfile,
+    selectedInstanceType,
     selectedRegion,
     selectedSubnetValues,
     selectedVPCValue,
@@ -110,6 +118,7 @@ const CreateGrid = () => {
       placeholder="my-sample-cluster"
       disabled={!showSetupClusterModal}
       isMandatory={IS_MANDATORY}
+      value={editClusterNameInputValue}
     />
   );
 
@@ -129,8 +138,8 @@ const CreateGrid = () => {
 
   const InstanceTypeInputComponent = (
     <ComboBox
-      // onChange={(val) => setSelected(val)}
-      // value={selected}
+      onChange={instanceChangeHandler}
+      value={selectedInstanceType}
       isMulti={false}
       disabled={!showSetupClusterModal}
     >
@@ -140,7 +149,7 @@ const CreateGrid = () => {
       </ComboboxLabel>
       <ComboboxTrigger placeholder="Placeholder" />
       <ComboboxOptionGroup>
-        {allAvailableInstanceTypes.map((item) => (
+        {currentProvidersInstanceTypes.map((item) => (
           <ComboboxOptionItem key={item.value} option={item} />
         ))}
       </ComboboxOptionGroup>
@@ -149,7 +158,7 @@ const CreateGrid = () => {
 
   const RegionInputComponent = (
     <SelectMenu
-      onChange={(val) => setSelectedGridProfile(val)}
+      onChange={regionChangeHandler}
       value={selectedRegion}
       disabled={!showSetupClusterModal}
     >
@@ -438,7 +447,7 @@ const CreateGrid = () => {
                                 <div>
                                   <Button
                                     colors="white"
-                                    icon={<MdAdd />}
+                                    icon={<MdOutlineModeEditOutline />}
                                     iconPlacement="start"
                                     onClick={editClusterBtnClickHandler}
                                   >
@@ -540,10 +549,10 @@ const CreateGrid = () => {
                         />
                         <AccordionPanel controller={opened}>
                           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-                          <ol className="list-[lower-alpha] text-sm text-base-500">
-                            <li className="py-2 text-base-900">
+                          <ol className="text-base-500 list-[lower-alpha] text-sm">
+                            <li className="text-base-900 py-2">
                               <div>
-                                <p className="mb-2 text-base-900">
+                                <p className="text-base-900 mb-2">
                                   Download CLI.
                                 </p>
                                 <CodeSnippet
@@ -555,9 +564,9 @@ const CreateGrid = () => {
                                 />
                               </div>
                             </li>
-                            <li className="py-2 text-base-900">
+                            <li className="text-base-900 py-2">
                               <div>
-                                <p className="mb-2 text-base-900">
+                                <p className="text-base-900 mb-2">
                                   Setup CLI with AWS credentials.
                                 </p>
                                 <CodeSnippet
@@ -619,12 +628,15 @@ const CreateGrid = () => {
                   />
                   <div className="px-6 pb-3">
                     <InputField
+                      errorText={newProfileErrorText}
                       label="Profile Name"
+                      onChange={saveProfileChangeHandler}
                       isMandatory={IS_MANDATORY}
                       placeholder="my-profile-1"
+                      value={newProfileNameValue}
                     />
 
-                    <div className="flex flex-row-reverse mt-5">
+                    <div className="mt-5 flex flex-row-reverse">
                       <Button
                         onClick={saveAndProceedClickHandler}
                         loading={creatingGridProfile}
