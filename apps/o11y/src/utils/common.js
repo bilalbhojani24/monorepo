@@ -245,3 +245,10 @@ export const getMergedLayoutValue = (obj1, obj2) => {
   });
   return mergedObj;
 };
+
+export const updateUrlQueryParam = (searchParams) => {
+  const newurl = `${window.location.protocol}//${window.location.host}${
+    window.location.pathname
+  }?${searchParams.toString()}`;
+  window.history.pushState({ path: newurl }, '', newurl);
+};

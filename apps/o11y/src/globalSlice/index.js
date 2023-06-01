@@ -50,6 +50,7 @@ export const getBuildInfoFromUuid = createAsyncThunk(
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
+    headerSize: 64,
     hasProductInitFailed: false,
     projects: {
       isLoading: true,
@@ -91,6 +92,9 @@ const { actions, reducer } = createSlice({
     },
     setHasProductInitFailed: (state, { payload }) => {
       state.hasProductInitFailed = payload;
+    },
+    setHeaderSize: (state, { payload }) => {
+      state.headerSize = payload;
     }
   },
   extraReducers: (builder) => {
@@ -159,7 +163,8 @@ export const {
   setActiveProject,
   setHasAcceptedTnC,
   updateProjectList,
-  setHasProductInitFailed
+  setHasProductInitFailed,
+  setHeaderSize
 } = actions;
 
 export const initO11yProduct =
