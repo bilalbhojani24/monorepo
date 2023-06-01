@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import dashboardReducer from 'features/Dashboard/slices/dashboardSlice';
 import importCSVReducer from 'features/importCSVFlow/slices/importCSVSlice';
 import onboardingReducer from 'features/Onboarding/slices/onboardingSlice';
@@ -10,6 +10,8 @@ import testCaseDetailsReducer from 'features/TestCaseDetailsView/slices/testCase
 import testRunsReducer from 'features/TestRuns/slices/testRunsSlice';
 import testRunDetailsReducer from 'features/TestRunsDetails/slices/testRunDetailsSlice';
 import globalReducer from 'globalSlice';
+
+const middleware = getDefaultMiddleware({ serializableCheck: false });
 
 export const store = configureStore({
   reducer: {
@@ -24,5 +26,6 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     settings: settingsReducer,
     onboarding: onboardingReducer
-  }
+  },
+  middleware
 });
