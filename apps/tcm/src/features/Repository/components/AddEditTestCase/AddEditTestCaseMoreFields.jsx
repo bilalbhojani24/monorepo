@@ -33,7 +33,7 @@ const AddEditTestCaseMoreFields = () => {
   return (
     <>
       <div className="mt-4 flex">
-        <div className="w-1/2 flex-1 pr-4">
+        <div className="w-1/2 flex-1 pr-2">
           <TMSelectMenu
             checkPosition="right"
             label="Type of Test Case"
@@ -48,7 +48,7 @@ const AddEditTestCaseMoreFields = () => {
             }
           />
         </div>
-        <div className="w-1/2 flex-1">
+        <div className="w-1/2 flex-1 pl-2">
           <TMSelectMenu
             checkPosition="right"
             label="Priority"
@@ -66,7 +66,7 @@ const AddEditTestCaseMoreFields = () => {
       </div>
 
       <div className="mt-4 flex">
-        <div className="w-1/2 flex-1 pr-4">
+        <div className="w-1/2 flex-1 pr-2">
           <TMSelectMenu
             value={
               testCaseFormData.status &&
@@ -81,7 +81,7 @@ const AddEditTestCaseMoreFields = () => {
             onChange={(e) => handleTestCaseFieldChange('status', e.value)}
           />
         </div>
-        <div className="w-1/2 flex-1">
+        <div className="w-1/2 flex-1 pl-2">
           <TMComboBox
             value={
               testCaseFormData.owner
