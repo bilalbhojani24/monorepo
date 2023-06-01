@@ -46,6 +46,7 @@ const CreateGrid = () => {
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
+    creatingGridProfile,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     dataChanged,
@@ -57,6 +58,7 @@ const CreateGrid = () => {
     opened,
     nextBtnClickHandler,
     ref,
+    saveAndProceedClickHandler,
     saveChangesClickHander,
     selectedClusterValue,
     selectedGridClusters,
@@ -73,19 +75,19 @@ const CreateGrid = () => {
     setSelectedGridProfile,
     setupNewClusterBtnClickHandler,
     setupState,
+    showSaveProfileModal,
     showSetupClusterModal,
     subnetChangeHandler,
     type,
     vpcChangeHandler
   } = useCreateGrid();
 
-  const ClusterInputComponent = (
+  const ClusterInputComboBoxComponent = (
     <ComboBox
       onChange={clusterChangeHandler}
       value={selectedClusterValue}
       isMulti={false}
-      // eslint-disable-next-line react/jsx-boolean-value
-      isMandatory={true}
+      isMandatory={IS_MANDATORY}
     >
       <ComboboxLabel>Choose Cluster</ComboboxLabel>
       <ComboboxTrigger />
@@ -95,6 +97,20 @@ const CreateGrid = () => {
         ))}
       </ComboboxOptionGroup>
     </ComboBox>
+  );
+
+  const ClusterInputTextComponent = (
+    <InputField
+      id="test-id"
+      label="Cluster Name"
+      onBlur={null}
+      onChange={null}
+      onFocus={null}
+      onKeyDown={null}
+      placeholder="my-sample-cluster"
+      disabled={!showSetupClusterModal}
+      isMandatory={IS_MANDATORY}
+    />
   );
 
   const DomainInputComponent = (
@@ -417,7 +433,7 @@ const CreateGrid = () => {
                             <div className="my-2 h-16 items-center justify-center p-2">
                               <div className="mt-4 flex items-end gap-4">
                                 <div className="w-1/2">
-                                  {ClusterInputComponent}
+                                  {ClusterInputComboBoxComponent}
                                 </div>
                                 <div>
                                   <Button
@@ -575,7 +591,7 @@ const CreateGrid = () => {
                   <div className="px-6 pb-3">
                     <div className="mb-5 flex flex-col">
                       <div className="flex gap-4">
-                        <div className="w-1/2">{ClusterInputComponent}</div>
+                        <div className="w-1/2">{ClusterInputTextComponent}</div>
                         <div className="w-1/2">{RegionInputComponent}</div>
                       </div>
                       <div className="mt-4 flex gap-4">
@@ -594,7 +610,32 @@ const CreateGrid = () => {
                     </div>
                   </div>
                 </Modal>
+
+                <Modal size="2xl" show={showSaveProfileModal}>
+                  <ModalHeader
+                    handleDismissClick={modalCrossClickhandler}
+                    heading="Save Grid Profile"
+                    subHeading="Save the changes as a unique profile to create grid with similar configurations in future."
+                  />
+                  <div className="px-6 pb-3">
+                    <InputField
+                      label="Profile Name"
+                      isMandatory={IS_MANDATORY}
+                      placeholder="my-profile-1"
+                    />
+
+                    <div className="flex flex-row-reverse mt-5">
+                      <Button
+                        onClick={saveAndProceedClickHandler}
+                        loading={creatingGridProfile}
+                      >
+                        Save and Proceed
+                      </Button>
+                    </div>
+                  </div>
+                </Modal>
               </div>
+
               {setupState !== 2 && (
                 <div className="border-base-300 flex flex-row-reverse border-t px-6 py-3">
                   {!dataChanged && setupState !== 2 && (
@@ -607,6 +648,7 @@ const CreateGrid = () => {
                   )}
                 </div>
               )}
+
               {setupState === 2 && (
                 <div className="border-base-300 text-base-700 flex gap-2 border-t px-6 py-3">
                   <HourglassBottomOutlinedIcon /> Waiting for you to complete

@@ -55,6 +55,7 @@ const useCreateGrid = () => {
   const [collapsibleBtntextForCode, setCollapsibleBtnTextForCode] = useState(
     'View steps to download CLI'
   );
+  const [creatingGridProfile, setCreatingGridProfile] = useState(false);
   const [dataChanged, setDataChanged] = useState(false);
   const [gridProfiles, setGridProfiles] = useState([
     { label: 'label', value: 'value' },
@@ -81,6 +82,13 @@ const useCreateGrid = () => {
   const [searchParams, setSearchparams] = useSearchParams();
   const type = searchParams.get('type');
 
+  const updateGridProfileData = async (profileData) => {
+    const res = await createNewGridProfile(userDetails.id, profileData);
+
+    console.log('Log: res:', res);
+  };
+
+  // All Click/Change Handlers:
   const commonHandler = () => {
     setDataChanged(true);
   };
@@ -108,14 +116,14 @@ const useCreateGrid = () => {
     setShowSetupClusterModal(false);
   };
 
-  const updateGridProfileData = async (profileData) => {
-    const res = await createNewGridProfile(userDetails.id, profileData);
-
-    console.log('Log: res:', res);
-  };
-
   const nextBtnClickHandler = () => {
     console.log('Log: selectedGridProfile:', selectedGridProfile);
+
+    setSetupState(2);
+  };
+
+  const saveAndProceedClickHandler = () => {
+    setCreatingGridProfile(true);
 
     const profileData = {
       profile: {
@@ -138,11 +146,13 @@ const useCreateGrid = () => {
       name: selectedGridName,
       concurrency: selectedGridConcurrency
     };
+
     updateGridProfileData(profileData);
-    setSetupState(2);
   };
 
-  const saveChangesClickHander = () => {};
+  const saveChangesClickHander = () => {
+    setShowSaveProfileModal(true);
+  };
 
   const setupBtnClickHandler = () => {
     setShowSetupClusterModal(false);
@@ -230,6 +240,8 @@ const useCreateGrid = () => {
       setAllAvailableVPCIDs(tmpVPCsArray);
       // --- X --- Build VPCs --- X ---
 
+      setSelectedGridConcurrency(selectedGridProfileData?.profile.concurrency);
+
       const tmpCluster = {
         ...selectedGridProfileData?.clusters[0],
         label: selectedGridProfileData?.clusters[0].name,
@@ -250,7 +262,33 @@ const useCreateGrid = () => {
       );
       setSelectedSubnetValues(tmpCurrentSubnetsArray);
     }
-  }, [selectedGridProfile]);
+  }, [gridProfilesData, selectedGridProfile]);
+
+  useEffect(() => {
+    const selectedGridProfileData = gridProfilesData.filter(
+      (profileData) => profileData.profile.name === selectedGridProfile.value
+    )[0];
+
+    // eslint-disable-next-line sonarjs/no-collapsible-if
+    if (selectedGridProfileData) {
+      const subnetsPlainArray = selectedSubnetValues.map((e) => e.value);
+
+      if (
+        selectedGridProfileData?.profile.concurrency !==
+          selectedGridConcurrency ||
+        JSON.stringify(selectedGridProfileData.profile.subnets) !==
+          JSON.stringify(subnetsPlainArray) ||
+        selectedVPCValue.value !== selectedGridProfileData.profile.vpc
+      ) {
+        setDataChanged(true);
+      }
+    }
+  }, [
+    selectedClusterValue,
+    selectedGridConcurrency,
+    selectedSubnetValues,
+    selectedVPCValue
+  ]);
 
   useEffect(() => {
     if (gridProfilesData.length > 0) {
@@ -288,6 +326,7 @@ const useCreateGrid = () => {
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
+    creatingGridProfile,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     dataChanged,
@@ -299,6 +338,7 @@ const useCreateGrid = () => {
     nextBtnClickHandler,
     opened,
     ref,
+    saveAndProceedClickHandler,
     saveChangesClickHander,
     selectedClusterValue,
     selectedGridClusters,
@@ -315,6 +355,7 @@ const useCreateGrid = () => {
     setSelectedGridProfile,
     setupNewClusterBtnClickHandler,
     setupState,
+    showSaveProfileModal,
     showSetupClusterModal,
     subnetChangeHandler,
     type,
