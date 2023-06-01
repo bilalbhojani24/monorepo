@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -20,8 +21,7 @@ import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 import { useGridListing } from './useGridListing';
 
 const GridsListing = () => {
-  const { gridList, isRounded, options, tableCellWrapperClassName } =
-    useGridListing();
+  const { gridList, isRounded, tableCellWrapperClassName } = useGridListing();
   const navigate = useNavigate();
 
   const gridRowHandler = (gridId) => {
@@ -90,13 +90,25 @@ const GridsListing = () => {
                   gridData.browserSettings.allowedBrowsers.firefox?.lenght > 0
               };
 
+              const options = [
+                { id: 'delete', body: 'Delete', url: '' },
+                {
+                  id: 'settings',
+                  body: 'Settings',
+                  url: `/grid-console/grid/${gridId}/settings/general`
+                }
+              ];
+
               return (
-                <TableRow onRowClick={() => gridRowHandler(gridId)}>
-                  <TableCell wrapperClassName="text-base-900 first:pr-3 last:pl-3 px-2 py-2">
+                <tr
+                  className="cursor-pointer"
+                  onClick={() => gridRowHandler(gridId)}
+                >
+                  <td className="text-base-900 whitespace-nowrap p-2 px-3 py-4 text-sm first:pr-3 last:pl-3">
                     <p className="font-normal">{gridName}</p>
                     <p className="text-base-500">b7465tbf76</p>
-                  </TableCell>
-                  <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
+                  </td>
+                  <td className="text-base-900 whitespace-nowrap p-2 px-3 py-4 text-sm first:pr-3 last:pl-3">
                     <Badge
                       disabled
                       hasDot={false}
@@ -105,26 +117,36 @@ const GridsListing = () => {
                       modifier={statusModifier}
                       text={gridStatus}
                     />
-                  </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                  </td>
+                  <td className="text-base-900 whitespace-nowrap p-2 px-3 py-4 text-sm first:pr-3 last:pl-3">
                     {gridData.runningTests}
-                  </TableCell>
-                  <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
+                  </td>
+                  <td className="text-base-900 whitespace-nowrap p-2 px-3 py-4 text-sm first:pr-3 last:pl-3">
                     {gridData.queuedTests}
-                  </TableCell>
-                  <TableCell>
+                  </td>
+                  <td className="text-base-500 whitespace-nowrap px-3 py-4 text-sm">
                     <div className="flex gap-2">
                       {supportedBrowsers.chrome && <ChromeIcon />}
                       <FirefoxIcon width={20} height={20} />
                       <EdgeIcon width={20} height={20} />
                     </div>
-                  </TableCell>
-                  <TableCell>
+                  </td>
+                  <td className="text-base-500 whitespace-nowrap px-3 py-4 text-sm">
                     <p>{clusterName}</p>
                     <p>{clusterIdentifier}</p>
-                  </TableCell>
-                  <TableCell>
-                    <Dropdown>
+                  </td>
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+                  <td
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    className="text-base-500 whitespace-nowrap px-3 py-4 text-sm"
+                  >
+                    <Dropdown
+                      onClick={(e) => {
+                        navigate(e.url);
+                      }}
+                    >
                       <div className="flex">
                         <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
                           <EllipsisVerticalIcon
@@ -140,8 +162,8 @@ const GridsListing = () => {
                         ))}
                       </DropdownOptionGroup>
                     </Dropdown>
-                  </TableCell>
-                </TableRow>
+                  </td>
+                </tr>
               );
             })}
           </TableBody>
