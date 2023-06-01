@@ -14,7 +14,10 @@ export default defineConfig(() => ({
     },
     rollupOptions: {
       external: [
-        ...packageViteConfig.build.rollupOptions.external,
+        'prop-types',
+        'react',
+        'react-dom',
+        'react-router-dom',
         '@browserstack/utils'
       ]
     }
