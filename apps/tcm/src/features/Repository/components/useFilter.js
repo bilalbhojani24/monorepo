@@ -10,7 +10,7 @@ import {
 import { useOnClickOutside } from '@browserstack/hooks';
 import { getTestCasesSearchFilterAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { getFilterOptions, routeFormatter } from 'utils/helperFunctions';
+import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -24,6 +24,10 @@ import {
   updateFoldersLoading,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
+import {
+  getFilterOptions,
+  getFormattedBEFilter
+} from '../utils/sharedFunctions';
 
 const useFilter = (prop) => {
   const location = useLocation();
@@ -173,24 +177,16 @@ const useFilter = (prop) => {
   };
 
   const fetchFilteredCases = (filterOptions, page) => {
-    const queryParams = {};
-    Object.keys(filterOptions).forEach((key) => {
-      const value = Array.isArray(filterOptions[key])
-        ? filterOptions[key].join(',')
-        : filterOptions[key];
+    const queryParams = getFormattedBEFilter(filterOptions);
 
-      if (value) {
-        if (key === 'q') {
-          queryParams[`q[query]`] = value;
-          dispatch(
-            logEventHelper('TM_TcSearchPageLoaded', {
-              project_id: projectId,
-              keyword: value
-            })
-          );
-        } else queryParams[`q[${key}]`] = value;
-      }
-    });
+    if (queryParams['q[query]']) {
+      dispatch(
+        logEventHelper('TM_TcSearchPageLoaded', {
+          project_id: projectId,
+          keyword: queryParams['q[query]']
+        })
+      );
+    }
 
     if (page) queryParams.p = page;
 

@@ -46,3 +46,31 @@ export const mapFolderAncestorHelper = (ancestorsArray, folderId) => {
   });
   return newContentObject;
 };
+
+export const getFormattedBEFilter = (filterOptions) => {
+  const queryParams = {};
+  Object.keys(filterOptions).forEach((key) => {
+    const value = Array.isArray(filterOptions[key])
+      ? filterOptions[key].join(',')
+      : filterOptions[key];
+
+    if (value) {
+      queryParams[`q[${key}]`] = value;
+    }
+  });
+
+  return queryParams;
+};
+
+export const getFilterOptions = (thisParams) => {
+  const tags = thisParams.get('tags');
+  const owner = thisParams.get('owner');
+  const priority = thisParams.get('priority');
+  const q = thisParams.get('q');
+  return {
+    tags: tags?.split(',') || [],
+    owner: owner?.split(',') || [],
+    priority: priority?.split(',') || [],
+    q: q || ''
+  };
+};

@@ -119,3 +119,18 @@ export const verifyTagAPI = async ({ projectId, tags }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-case/tags/verify_tag`, {
     tags
   });
+
+export const deleteTestCasesBulkOnSearchAPI = async ({
+  projectId,
+  bulkSelection,
+  qp
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-cases/bulk-delete`,
+    {
+      test_case: bulkSelection
+    },
+    {
+      params: qp
+    }
+  );

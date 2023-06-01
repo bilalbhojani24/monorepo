@@ -89,19 +89,6 @@ export const getSystemOrCustomValue = (
   return '--';
 };
 
-export const getFilterOptions = (thisParams) => {
-  const tags = thisParams.get('tags');
-  const owner = thisParams.get('owner');
-  const priority = thisParams.get('priority');
-  const q = thisParams.get('q');
-  return {
-    tags: tags?.split(',') || [],
-    owner: owner?.split(',') || [],
-    priority: priority?.split(',') || [],
-    q: q || ''
-  };
-};
-
 export const redirectToPrevPage = (searchParams, setSearchParams) => {
   if (searchParams.get('p') - 1 === 1) {
     searchParams.delete('p');

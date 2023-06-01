@@ -4,11 +4,12 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import {
   deleteTestCaseAPI,
   deleteTestCasesBulkAPI,
+  deleteTestCasesBulkOnSearchAPI,
   getTestCasesAPI,
   getTestCasesSearchFilterAPI
 } from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
-import { getFilterOptions, redirectToPrevPage } from 'utils/helperFunctions';
+import { redirectToPrevPage } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -21,6 +22,10 @@ import {
   updateCtaLoading,
   updateTestCasesListLoading
 } from '../../slices/repositorySlice';
+import {
+  getFilterOptions,
+  getFormattedBEFilter
+} from '../../utils/sharedFunctions';
 
 import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
 
@@ -58,7 +63,7 @@ export default function useDeleteTestCase() {
     totalCount - 1 === (searchParams.get('p') - 1) * 30;
 
   const updateLoadingState = (key, value) => {
-    dispatch(updateCtaLoading({ key: value }));
+    dispatch(updateCtaLoading({ key, value }));
   };
 
   const getQueryParams = (filterOptions) => {
@@ -186,6 +191,35 @@ export default function useDeleteTestCase() {
     hideDeleteTestCaseModal();
   };
 
+  const bulkSearchDeleteHandler = () => {
+    updateLoadingState('bulkDeleteTestCaseCta', true);
+
+    const filters = getFormattedBEFilter(getFilterOptions(searchParams));
+
+    deleteTestCasesBulkOnSearchAPI({
+      projectId,
+      bulkSelection,
+      qp: filters
+    })
+      .then((data) => {
+        dispatch(setMetaPage(data.info));
+        dispatch(updateAllTestCases(data.test_cases));
+        const notificationData = {
+          id: 'test_cases_deleted',
+          title: `${bulkSelection?.ids?.length} Test cases deleted`,
+          variant: 'success'
+        };
+        dispatch(addNotificaton(notificationData));
+        updateLoadingState('bulkDeleteTestCaseCta', false);
+
+        dispatch(resetBulkSelection());
+        hideDeleteTestCaseModal();
+      })
+      .catch(() => {
+        updateLoadingState('bulkDeleteTestCaseCta', false);
+      });
+  };
+
   const bulkDeleteHandler = () => {
     dispatch(
       logEventHelper('TM_DeleteAllBtnClicked', {
@@ -194,7 +228,7 @@ export default function useDeleteTestCase() {
         testcase_id: bulkSelection?.ids
       })
     );
-    updateLoadingState(('bulkDeleteTestCaseCta', true));
+    updateLoadingState('bulkDeleteTestCaseCta', true);
 
     deleteTestCasesBulkAPI({
       projectId,
@@ -204,16 +238,16 @@ export default function useDeleteTestCase() {
     })
       .then(onBulkDeleteSuccess)
       .catch(() => {
-        updateLoadingState(('bulkDeleteTestCaseCta', false));
+        updateLoadingState('bulkDeleteTestCaseCta', false);
       });
   };
 
-  const onSingleItemDeleteSuccee = (data) => {
+  const onSingleItemDeleteSucceess = (data) => {
     const folderData = data.data.folder;
     updateTCCount({
       casesObj: { [folderData.id]: folderData.cases_count }
     });
-    updateLoadingState(('deleteTestCaseCta', false));
+    updateLoadingState('deleteTestCaseCta', false);
 
     dispatch(
       logEventHelper('TM_TcDeletedNotification', {
@@ -239,15 +273,15 @@ export default function useDeleteTestCase() {
       })
     );
 
-    updateLoadingState(('deleteTestCaseCta', true));
+    updateLoadingState('deleteTestCaseCta', true);
     deleteTestCaseAPI({
       projectId: selectedTestCase?.project_id,
       folderId: selectedTestCase?.test_case_folder_id,
       testCaseId: selectedTestCase.id
     })
-      .then(onSingleItemDeleteSuccee)
+      .then(onSingleItemDeleteSucceess)
       .catch(() => {
-        updateLoadingState(('deleteTestCaseCta', false));
+        updateLoadingState('deleteTestCaseCta', false);
       });
   };
 
@@ -260,7 +294,8 @@ export default function useDeleteTestCase() {
           folder_id_src: folderId
         })
       );
-      bulkDeleteHandler();
+      if (isSearchFilterView) bulkSearchDeleteHandler();
+      else bulkDeleteHandler();
     } else if (selectedTestCase) {
       singleItemDeleteHelper();
     }
