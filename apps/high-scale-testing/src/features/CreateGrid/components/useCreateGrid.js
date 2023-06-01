@@ -42,6 +42,7 @@ const useCreateGrid = () => {
   const [currentSelectedCloudProvider, setCurrentCloudProvider] = useState(
     DEFAULT_CLOUD_PROVIDER
   );
+  const [dataChanged, setDataChanged] = useState(false);
   const [gridProfiles, setGridProfiles] = useState([
     { label: 'label', value: 'value' },
     { label: 'label 2', value: 'value2' }
@@ -57,6 +58,7 @@ const useCreateGrid = () => {
   const [selectedRegion, setSelectedRegioon] = useState();
   const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
   const [selectedVPCValue, setSelectedVPCValue] = useState('');
+  const [setupState, setSetupState] = useState(1);
 
   const ref = useRef({});
 
@@ -71,6 +73,10 @@ const useCreateGrid = () => {
   const gridNameChangeHandler = (e) => {
     const newValue = e.target.value;
     setSelectedGridName(newValue);
+  };
+
+  const nextBtnClickHandler = () => {
+    setSetupState(2);
   };
 
   const subnetChangeHandler = (e) => {
@@ -191,9 +197,11 @@ const useCreateGrid = () => {
     codeSnippetsForExistingSetup,
     currentProvidersRegions,
     currentSelectedCloudProvider,
+    dataChanged,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
+    nextBtnClickHandler,
     opened,
     ref,
     selectedGridClusters,
@@ -207,6 +215,7 @@ const useCreateGrid = () => {
     setCurrentCloudProvider,
     setOpened,
     setSelectedGridProfile,
+    setupState,
     subnetChangeHandler,
     type,
     vpcChangeHandler
