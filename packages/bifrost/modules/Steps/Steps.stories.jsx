@@ -163,6 +163,25 @@ BulletsAndTextList.args = {
   format: STEPS_FORMAT[4]
 };
 
+const CircleWithText = (args) => <Steps {...args} />;
+const CircleWithTextList = CircleWithText.bind({});
+
+CircleWithTextList.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const liItems = await canvas.queryAllByRole('listitem');
+  await expect(liItems.length).toBe(5);
+  liItems.forEach(async (liItem) => {
+    await userEvent.click(liItem);
+  });
+};
+CircleWithText.parameters = {
+  controls: {}
+};
+
+CircleWithText.args = {
+  format: STEPS_FORMAT[5]
+};
+
 const Simple = (args) => <Steps {...args} />;
 const SimpleList = Simple.bind({});
 SimpleList.play = async ({ canvasElement }) => {
@@ -178,4 +197,11 @@ Simple.parameters = {
 };
 
 export default defaultConfig;
-export { BulletList, BulletsAndTextList, CircleList, PanelsList, SimpleList };
+export {
+  BulletList,
+  BulletsAndTextList,
+  CircleList,
+  CircleWithText,
+  PanelsList,
+  SimpleList
+};

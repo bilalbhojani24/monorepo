@@ -122,7 +122,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             </span>
           </a>
         )}
-        {step.status === 'complete' && (
+        {step.status === STEPS_STATUS[0] && (
           <a href={step.href} className="group">
             <span
               className="group-hover:bg-base-200 absolute left-0 top-0 h-full w-1 bg-transparent lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
@@ -151,7 +151,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             </span>
           </a>
         )}
-        {step.status === 'current' && (
+        {step.status === STEPS_STATUS[1] && (
           <a href={step.href} aria-current="step">
             <span
               className="bg-brand-600 absolute left-0 top-0 h-full w-1 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
@@ -179,7 +179,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             </span>
           </a>
         )}
-        {step.status === 'upcoming' && (
+        {step.status === STEPS_STATUS[2] && (
           <a href={step.href} className="group">
             <span
               className="group-hover:bg-base-200 absolute left-0 top-0 h-full w-1 bg-transparent lg:bottom-0 lg:top-auto lg:h-1 lg:w-full"
@@ -262,7 +262,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
           </a>
         </>
       )}
-      {step.status === 'complete' && (
+      {step.status === STEPS_STATUS[0] && (
         <>
           <div
             className="absolute inset-0 flex items-center"
@@ -281,7 +281,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
           </a>
         </>
       )}
-      {step.status === 'current' && (
+      {step.status === STEPS_STATUS[1] && (
         <>
           <div
             className="absolute inset-0 flex items-center"
@@ -304,7 +304,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
           </a>
         </>
       )}
-      {step.status === 'upcoming' && (
+      {step.status === STEPS_STATUS[2] && (
         <>
           <div
             className="absolute inset-0 flex items-center"
@@ -351,7 +351,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
           </span>
         </a>
       )}
-      {step.status === 'complete' && (
+      {step.status === STEPS_STATUS[0] && (
         <a
           href={step.href}
           className="group"
@@ -371,7 +371,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
           </span>
         </a>
       )}
-      {step.status === 'current' && (
+      {step.status === STEPS_STATUS[1] && (
         <a
           href={step.href}
           className="flex items-start"
@@ -391,7 +391,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
           </span>
         </a>
       )}
-      {step.status === 'upcoming' && (
+      {step.status === STEPS_STATUS[2] && (
         <a
           href={step.href}
           className="group"
@@ -407,6 +407,111 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             </div>
             <p className="text-base-500 group-hover:text-base-900 ml-3 text-sm font-medium">
               {step.name}
+            </p>
+          </div>
+        </a>
+      )}
+    </li>
+  );
+
+  const renderCircleWithTextStep = (step, stepIdx) => (
+    <li
+      key={step.name}
+      className={twClassNames(
+        stepIdx !== steps.length - 1 ? 'mr-8' : '',
+        'relative',
+        'cursor-pointer'
+      )}
+    >
+      {step.status === STEPS_STATUS[3] && (
+        <a
+          className="flex"
+          onClick={(e) => onClickHandler(e, step)}
+          onKeyDown={(e) => onClickHandler(e, step)}
+          href={step.href}
+        >
+          <span className="bg-brand-600 hover:bg-brand-900 relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
+            <CheckIcon className="h-5 w-5 text-white" aria-hidden="true" />
+            <span className="sr-only">{step.name}</span>
+          </span>
+          <div className="ml-4">
+            <p className="text-brand-600 text-xs font-semibold uppercase leading-4 tracking-wide">
+              {step.name}
+            </p>
+            <p className="text-base-500 text-sm font-normal leading-5">
+              {step.description}
+            </p>
+          </div>
+        </a>
+      )}
+      {step.status === STEPS_STATUS[0] && (
+        <a
+          className="flex"
+          onClick={(e) => onClickHandler(e, step)}
+          onKeyDown={(e) => onClickHandler(e, step)}
+          href={step.href}
+        >
+          <span className="bg-brand-600 hover:bg-brand-900 relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
+            <CheckIcon className="h-5 w-5 text-white" aria-hidden="true" />
+            <span className="sr-only">{step.name}</span>
+          </span>
+          <div className="ml-4">
+            <p className="text-base-900 text-xs font-semibold uppercase leading-4 tracking-wide">
+              {step.name}
+            </p>
+            <p className="text-base-500 text-sm font-normal leading-5">
+              {step.description}
+            </p>
+          </div>
+        </a>
+      )}
+      {step.status === STEPS_STATUS[1] && (
+        <a
+          className="flex"
+          onClick={(e) => onClickHandler(e, step)}
+          onKeyDown={(e) => onClickHandler(e, step)}
+          href={step.href}
+        >
+          <span
+            className="border-brand-600  relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 bg-white"
+            aria-current="step"
+          >
+            <span
+              className="bg-brand-600 h-2.5 w-2.5 rounded-full"
+              aria-hidden="true"
+            />
+            <span className="sr-only">{step.name}</span>
+          </span>
+          <div className="ml-4">
+            <p className="text-brand-600 text-xs font-semibold uppercase leading-4 tracking-wide">
+              {step.name}
+            </p>
+            <p className="text-base-500 text-sm font-normal leading-5">
+              {step.description}
+            </p>
+          </div>
+        </a>
+      )}
+      {step.status === STEPS_STATUS[2] && (
+        <a
+          className="flex"
+          onClick={(e) => onClickHandler(e, step)}
+          onKeyDown={(e) => onClickHandler(e, step)}
+          href={step.href}
+        >
+          <span className="border-base-300 hover:border-base-400 group relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 bg-white">
+            <span
+              className="group-hover:bg-base-300 h-2.5 w-2.5 rounded-full bg-transparent"
+              aria-hidden="true"
+            />
+            <span className="sr-only">{step.name}</span>
+          </span>
+          <div className="ml-4">
+            <p className="text-base-500 text-xs font-semibold uppercase leading-4 tracking-wide">
+              {step.name}
+            </p>
+            <p className="text-base-500 text-sm font-normal leading-5">
+              {step.description}
             </p>
           </div>
         </a>
@@ -436,7 +541,8 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
       >
         {format === STEPS_FORMAT[1] && (
           <p className="text-sm font-medium">
-            Step {steps.findIndex((step) => step.status === 'current') + 1} of{' '}
+            Step{' '}
+            {steps.findIndex((step) => step.status === STEPS_STATUS[1]) + 1} of{' '}
             {steps.length}
           </p>
         )}
@@ -448,7 +554,8 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
             'overflow-hidden rounded-md lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-base-200 w-full':
               format === STEPS_FORMAT[2],
             'flex items-center justify-center': format === STEPS_FORMAT[3],
-            'space-y-6': format === STEPS_FORMAT[4]
+            'space-y-6': format === STEPS_FORMAT[4],
+            'flex items-start justify-center': format === STEPS_FORMAT[5]
           })}
         >
           {steps.map((step, stepIdx) => {
@@ -463,6 +570,8 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => {
                 return renderCircleListStep(step, stepIdx);
               case STEPS_FORMAT[4]:
                 return renderBulletAndTextListStep(step);
+              case STEPS_FORMAT[5]:
+                return renderCircleWithTextStep(step, stepIdx);
               default:
                 return <p>No steps variant selected</p>;
             }
