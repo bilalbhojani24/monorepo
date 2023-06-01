@@ -14,11 +14,12 @@ import O11yFeatureCard from 'common/O11yFeatureCard';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { setHasAcceptedTnC } from 'globalSlice/index';
-import { getInitData } from 'globalSlice/selectors';
+import { getHeaderSize, getInitData } from 'globalSlice/selectors';
 import { getDocUrl, logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 function RequestAccess() {
+  const headerSize = useSelector(getHeaderSize);
   const initData = useSelector(getInitData);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -49,8 +50,12 @@ function RequestAccess() {
   };
 
   return (
-    // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <div className="bg-base-50 flex h-[calc(100vh-8rem)] w-screen flex-col items-center justify-center overflow-auto p-14">
+    <div
+      className="bg-base-50 flex w-screen flex-col items-center justify-center p-14"
+      style={{
+        height: `calc(100vh - ${headerSize}px)`
+      }}
+    >
       <O11yFeatureCard
         wrapperClassName="p-10"
         childrenWrapperClass="flex items-center justify-between gap-4"
