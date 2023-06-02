@@ -49,7 +49,7 @@ const SelectConfigurations = () => {
             'font-bold': getIsConfigurationSelected({ value: 'all' })
           })}
         >
-          All
+          All Configurations
         </span>
       </p>
     )
