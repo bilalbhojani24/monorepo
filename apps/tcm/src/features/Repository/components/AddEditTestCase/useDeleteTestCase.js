@@ -23,7 +23,8 @@ import {
   setMetaPage,
   updateAllTestCases,
   updateCtaLoading,
-  updateTestCasesListLoading
+  updateTestCasesListLoading,
+  updateTestCasesOnSF
 } from '../../slices/repositorySlice';
 import {
   getCalcQueryParams,
@@ -213,12 +214,7 @@ export default function useDeleteTestCase() {
       qp: queryParams
     })
       .then((data) => {
-        const testCases = data.test_cases.map((item) => ({
-          ...item,
-          folders: data?.folders?.[item.test_case_folder_id] || null
-        }));
-        dispatch(setMetaPage(data.info));
-        dispatch(updateAllTestCases(testCases));
+        dispatch(updateTestCasesOnSF(data));
 
         if (data.info && `${data.info.page}` !== currentPage) {
           if (currentPage === null && data.info.page === 1) {

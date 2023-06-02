@@ -128,6 +128,15 @@ export const repositorySlice = createSlice({
     updateFoldersLoading: (state, { payload }) => {
       state.isLoading.folder = payload;
     },
+    updateTestCasesOnSF: (state, { payload }) => {
+      const testCases = payload.test_cases.map((item) => ({
+        ...item,
+        folders: payload?.folders?.[item.test_case_folder_id] || null
+      }));
+
+      state.metaPage = !payload?.info ? initialState.metaPage : payload.info;
+      state.allTestCases = testCases;
+    },
     updateAllTestCases: (state, { payload }) => {
       state.allTestCases = payload;
     },
@@ -297,6 +306,7 @@ export const {
   setAllFolders,
   setSelectedFolder,
   updateAllTestCases,
+  updateTestCasesOnSF,
   setAddTestCaseVisibility,
   updateTestCaseFormData,
   setDeleteTestCaseModalVisibility,
