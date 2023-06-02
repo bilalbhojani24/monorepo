@@ -2,6 +2,7 @@ import React from 'react';
 import ClusterOverview from 'features/ClusterDetail/components/ClusterOverview';
 import LayoutClusterDetail from 'features/ClusterDetail/container/LayoutClusterDetail';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
+import ErrorPage from 'features/ErrorPage/components';
 import GridConsole from 'features/GridConsole/components/Dashboard';
 import GridOverview from 'features/GridConsole/components/GridOverview';
 import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
@@ -17,6 +18,7 @@ import { Onboarding } from 'features/Onboarding';
 import ROUTES from './routes';
 
 export const APP_ROUTES = [
+  { path: ROUTES.ALL, component: <ErrorPage /> },
   {
     path: '/',
     isProtected: true,
