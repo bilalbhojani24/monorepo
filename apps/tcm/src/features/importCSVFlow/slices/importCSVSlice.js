@@ -219,7 +219,8 @@ const importCSVSlice = createSlice({
       state.valueMappings = calcValueMappings(
         payload.value_mappings,
         payload.import_fields,
-        payload?.field_mappings
+        payload?.field_mappings,
+        payload.fields_available?.default
       );
       state.fieldsMapping = { ...state.valueMappings };
       // eslint-disable-next-line no-restricted-syntax
