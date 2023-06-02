@@ -1,8 +1,14 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@browserstack/bifrost';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import {
+  Button,
+  useErrorBoundary,
+  withErrorBoundary
+} from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
+
+import { store } from '../../redux/store';
 
 import { fetchChatWidgetInitialData } from './slices/chatWidgetSlices';
 import {
@@ -21,7 +27,7 @@ export const toggleChatWidget = (status) => {
   }
 };
 
-const ChatWidget = ({ direction }) => {
+const ChatWidgetComponent = ({ direction }) => {
   const chatWidget = useSelector((state) => state.chatWidget?.data);
   const dispatch = useDispatch();
 
@@ -66,11 +72,28 @@ const ChatWidget = ({ direction }) => {
   );
 };
 
+const ChatWidget = (props) => {
+  const [error] = useErrorBoundary();
+
+  if (error) return null;
+
+  return (
+    <Provider store={store}>
+      <ChatWidgetComponent {...props} />
+    </Provider>
+  );
+};
+
 ChatWidget.propTypes = {
   direction: PropTypes.oneOf(['left', 'right'])
 };
+
 ChatWidget.defaultProps = {
   direction: 'right'
 };
 
-export default ChatWidget;
+ChatWidgetComponent.propTypes = ChatWidget.propTypes;
+
+ChatWidgetComponent.defaultProps = ChatWidget.defaultProps;
+
+export default withErrorBoundary(ChatWidget);
