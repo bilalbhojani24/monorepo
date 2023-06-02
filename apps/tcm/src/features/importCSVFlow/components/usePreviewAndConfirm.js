@@ -42,6 +42,12 @@ const usePreviewAndConfirm = () => {
     (state) => state.importCSV.totalImportedProjectsInPreview
   );
   const hasProjects = useSelector((state) => state.onboarding.hasProjects);
+  const priorityIntNameAndValueMapCSV = useSelector(
+    (state) => state.importCSV.priorityIntNameAndValueMapCSV
+  );
+  const priorityNameAndValueMapCSV = useSelector(
+    (state) => state.importCSV.priorityNameAndValueMapCSV
+  );
 
   const refreshMinifiedProjects = () => {
     if (!hasProjects) {
@@ -180,6 +186,8 @@ const usePreviewAndConfirm = () => {
     showFolderExplorerModal,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
+    priorityIntNameAndValueMapCSV,
+    priorityNameAndValueMapCSV,
     handleImportTestCaseClick
   };
 };

@@ -10,13 +10,25 @@ export const formDataRetriever = (tagsArray, formData) => {
 
   return {
     ...formData,
+    priority:
+      typeof formData?.priority === 'object'
+        ? formData?.priority?.id
+        : formData?.priority,
     tags: hasTagsButNoMeta
       ? formData?.tags
       : tagsArray.filter((item) => formData?.tags.includes(item.value)),
     issues: selectMenuValueMapper(
       formData?.issues?.map((item) => item.jira_id)
     ),
-    custom_fields: customFields
+    custom_fields: customFields,
+    status:
+      typeof formData?.priority === 'object'
+        ? formData?.status?.id
+        : formData?.status,
+    case_type:
+      typeof formData?.priority === 'object'
+        ? formData?.case_type?.id
+        : formData?.case_type
   };
 };
 

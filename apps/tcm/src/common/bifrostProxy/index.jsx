@@ -48,6 +48,7 @@ import {
 } from '@browserstack/bifrost';
 
 import TMAttachments from './components/TMAttachments';
+import TMBadgeComboBox from './components/TMBadgeComboBox';
 import TMComboBox from './components/TMComboBox';
 import TMDataTable from './components/TMDataTable';
 import TMDataVisualization from './components/TMDataVisualization';
@@ -132,6 +133,7 @@ export const TMPopoverBody = (props) => <PopoverBody {...props} />;
 
 export {
   TMAttachments,
+  TMBadgeComboBox,
   TMComboBox,
   TMDataTable,
   TMDataVisualization,

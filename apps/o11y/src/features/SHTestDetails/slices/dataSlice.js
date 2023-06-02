@@ -5,7 +5,8 @@ import {
   getSnPDetailsTrend,
   getSnPTestsDetailsInfo
 } from 'api/snp';
-import { getAllSnPTestFilters } from 'features/SuiteHealth/slices/selectors';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
+import { getFilterQueryParams } from 'features/FilterSkeleton/utils';
 
 import { TABS } from '../constants';
 
@@ -13,8 +14,11 @@ export const getSnPTestsDetailsInfoData = createAsyncThunk(
   'testlist/getSnPTestsDetailsInfoData',
   async (data, { rejectWithValue, getState }) => {
     try {
-      const filters = getAllSnPTestFilters(getState());
-      const response = await getSnPTestsDetailsInfo({ ...data, filters });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPTestsDetailsInfo({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -106,8 +110,11 @@ export const getSnPDetailsStatsData = createAsyncThunk(
   'testlist/getSnPDetailsStatsData',
   async (data, { rejectWithValue, getState }) => {
     try {
-      const filters = getAllSnPTestFilters(getState());
-      const response = await getSnPDetailsStats({ ...data, filters });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPDetailsStats({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -119,8 +126,11 @@ export const getSnPDetailsTrendData = createAsyncThunk(
   'testlist/getSnPDetailsTrendData',
   async (data, { rejectWithValue, getState }) => {
     try {
-      const filters = getAllSnPTestFilters(getState());
-      const response = await getSnPDetailsTrend({ ...data, filters });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPDetailsTrend({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -132,8 +142,11 @@ export const getSnPDetailsBuildsData = createAsyncThunk(
   'testlist/getSnPDetailsBuildsData',
   async (data, { rejectWithValue, getState }) => {
     try {
-      const filters = getAllSnPTestFilters(getState());
-      const response = await getSnPDetailsBuilds({ ...data, filters });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPDetailsBuilds({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);

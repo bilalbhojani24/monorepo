@@ -16,9 +16,10 @@
     "prettier:fix": "npm run prettier:check -- --write"
   },
   "dependencies": {
-    "@browserstack/bifrost": "7.4.0",
+    "@browserstack/bifrost": "7.4.1",
     "@browserstack/hooks": "workspace:*",
     "@browserstack/utils": "workspace:*",
+    "@browserstack/growth": "workspace:*",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
     "@mui/icons-material": "5.11.0",
