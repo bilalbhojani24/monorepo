@@ -56,7 +56,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
-              defaultValue={idleTimeOutValue}
+              value={idleTimeOutValue}
               disabled={isSavingInProgress}
               id="test-id"
               onChange={idleTimeoutInputChangeHandler}
@@ -80,7 +80,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
-              defaultValue={queueTimeoutValue}
+              value={queueTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"
               onChange={queueTimeoutChangeHandler}
@@ -105,7 +105,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
-              defaultValue={queueRetryIntervalValue}
+              value={queueRetryIntervalValue}
               disabled={isSavingInProgress}
               id="test-id"
               onChange={queueRetryIntervalChangeHandler}
@@ -129,7 +129,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">hours</InputGroupAddOn>
               }
-              defaultValue={testTimeoutValue}
+              value={testTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"
               onChange={testTimeoutChangeHandler}

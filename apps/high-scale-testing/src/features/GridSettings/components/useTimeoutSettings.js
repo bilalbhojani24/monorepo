@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
 import { updateSettings } from 'api/index';
@@ -11,18 +11,10 @@ const useTimeoutSettings = (notifactionComponent) => {
   const userDetails = useSelector(getUserDetails);
 
   // All State variables:
-  const [idleTimeOutValue, setIdleTimeOutValue] = useState(
-    gridData.testSettings.idleTimeout
-  );
-  const [queueRetryIntervalValue, setQueueRetryIntervalValue] = useState(
-    gridData.testSettings.queueRetryInterval
-  );
-  const [queueTimeoutValue, setQueueTimeoutValue] = useState(
-    gridData.testSettings.queueTimeout
-  );
-  const [testTimeoutValue, setTestTimeoutValue] = useState(
-    gridData.testSettings.testTimeout
-  );
+  const [idleTimeOutValue, setIdleTimeOutValue] = useState(0);
+  const [queueRetryIntervalValue, setQueueRetryIntervalValue] = useState(0);
+  const [queueTimeoutValue, setQueueTimeoutValue] = useState(0);
+  const [testTimeoutValue, setTestTimeoutValue] = useState(0);
 
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
@@ -81,6 +73,15 @@ const useTimeoutSettings = (notifactionComponent) => {
     };
     updateGridTimeoutSettings(settingsObj);
   };
+
+  useEffect(() => {
+    if (Object.keys(gridData).length > 0) {
+      setIdleTimeOutValue(gridData.testSettings.idleTimeout);
+      setQueueRetryIntervalValue(gridData.testSettings.queueRetryInterval);
+      setQueueTimeoutValue(gridData.testSettings.queueTimeout);
+      setTestTimeoutValue(gridData.testSettings.testTimeout);
+    }
+  }, [gridData]);
 
   return {
     idleTimeoutInputChangeHandler,

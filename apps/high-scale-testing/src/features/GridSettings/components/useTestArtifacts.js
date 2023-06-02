@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
 import { updateSettings } from 'api/index';
@@ -11,17 +11,11 @@ const useTestArtifacts = (notifactionComponent) => {
   const userDetails = useSelector(getUserDetails);
 
   // All State variables:
-  const [frameworkLogsValue, setFrameworkLogsValue] = useState(
-    gridData.testArtifacts.frameworkLogs
-  );
+  const [frameworkLogsValue, setFrameworkLogsValue] = useState(false);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
-  const [logsRetentionValue, setLogsRetentionValue] = useState(
-    gridData.testArtifacts.logsRetention
-  );
-  const [videoLogValue, setVideoLogsValue] = useState(
-    gridData.testArtifacts.videoLogs
-  );
+  const [logsRetentionValue, setLogsRetentionValue] = useState(false);
+  const [videoLogValue, setVideoLogsValue] = useState(false);
 
   const updateGridGeneralSettings = (settingsObj) => {
     updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
@@ -65,6 +59,14 @@ const useTestArtifacts = (notifactionComponent) => {
     setVideoLogsValue(e);
     setIsSaveButtonDisabled(false);
   };
+
+  useEffect(() => {
+    if (Object.keys(gridData).length > 0) {
+      setFrameworkLogsValue(gridData.testArtifacts.frameworkLogs);
+      setLogsRetentionValue(gridData.testArtifacts.logsRetention);
+      setVideoLogsValue(gridData.testArtifacts.videoLogs);
+    }
+  }, [gridData]);
 
   return {
     frameworkLogsChangeHandler,
