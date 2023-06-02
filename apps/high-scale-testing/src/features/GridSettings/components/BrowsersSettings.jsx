@@ -7,7 +7,9 @@ import {
   ComboboxOptionItem,
   ComboboxTrigger,
   InputField,
-  InputGroupAddOn
+  InputGroupAddOn,
+  Notifications,
+  notify
 } from '@browserstack/bifrost';
 import { updateSettings } from 'api/index';
 import { getGridData } from 'features/GridConsole/slices/selector';
@@ -65,7 +67,24 @@ const BrowsersSettings = () => {
 
   const updateGridBrowserSettings = (settingsObj) => {
     updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
-      console.log('Log: d:', d);
+      setIsSaveButtonDisabled(true);
+      setIsSavingInProgress(false);
+
+      if (d.data === 'OK') {
+        notify(
+          <Notifications
+            title="Settings updated!"
+            isCondensed
+            handleClose={(toastData) => {
+              notify.remove(toastData.id);
+            }}
+          />,
+          {
+            position: 'top-right',
+            duration: 4000
+          }
+        );
+      }
     });
   };
 
@@ -85,6 +104,7 @@ const BrowsersSettings = () => {
 
   const allowedBrowsersChangeHandler = (e) => {
     setAllowedBrowsersValue(e);
+    setIsSaveButtonDisabled(false);
   };
 
   return (
@@ -161,6 +181,7 @@ const BrowsersSettings = () => {
 
           <div className="mt-3 max-w-xs">
             <ComboBox
+              disabled={isSavingInProgress}
               onChange={allowedBrowsersChangeHandler}
               value={allowedBrowsersValue}
               isMulti
