@@ -18,8 +18,8 @@ import {
   SelectMenuTrigger,
   Tabs
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
-import classnames from 'classnames';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 
 import EventLogs from './EventLogs';
@@ -147,7 +147,7 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep3 = (
-    <p className="mb-4 mt-1 text-sm text-base-700">
+    <p className="text-base-700 mb-4 mt-1 text-sm">
       Set up a{' '}
       <a href="/#" className="text-brand-600 underline" target="_blank">
         new IAM role
@@ -164,10 +164,10 @@ const Onboarding = () => {
   const DescriptionNodeStep4 = (
     <div className="m-4">
       {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-      <ol className="list-[lower-alpha] text-sm text-base-500">
-        <li className="py-2 text-base-900">
+      <ol className="text-base-500 list-[lower-alpha] text-sm">
+        <li className="text-base-900 py-2">
           <div>
-            <p className="mb-2 text-base-900">
+            <p className="text-base-900 mb-2">
               {CODE_SNIPPETS_SCRATCH['create-grid'].a.text}
             </p>
             <CodeSnippet
@@ -179,9 +179,9 @@ const Onboarding = () => {
             />
           </div>
         </li>
-        <li className="py-2 text-base-900">
+        <li className="text-base-900 py-2">
           <div>
-            <p className="mb-2 text-base-900">
+            <p className="text-base-900 mb-2">
               {CODE_SNIPPETS_SCRATCH['create-grid'].b.text}
             </p>
             <CodeSnippet
@@ -193,7 +193,7 @@ const Onboarding = () => {
             />
           </div>
         </li>
-        <li className="mb-2 text-base-900">
+        <li className="text-base-900 mb-2">
           {CODE_SNIPPETS_SCRATCH['create-grid'].c.text}
         </li>
         <div className="mb-2">
@@ -219,7 +219,7 @@ const Onboarding = () => {
 
   const HeaderNodeStep1 = (
     <div className="flex">
-      <p className="text-base font-semibold text-base-900">
+      <p className="text-base-900 text-base font-semibold">
         Choose Cloud Provider
       </p>
     </div>
@@ -228,12 +228,12 @@ const Onboarding = () => {
   const HeaderNodeStep2 = (
     <>
       <div className="flex gap-2">
-        <p className="text-base font-semibold text-base-900">
+        <p className="text-base-900 text-base font-semibold">
           Grid Profile Details
         </p>
         <Badge hasRemoveButton={false} modifier="warn" text="Default" />
       </div>
-      <p className="mt-1 text-sm text-base-900">
+      <p className="text-base-900 mt-1 text-sm">
         The selected region is based on the default grid profile. Select an AWS
         region nearest to your staging components.
       </p>
@@ -242,16 +242,16 @@ const Onboarding = () => {
 
   const HeaderNodeStep3 = (
     <div className="flex">
-      <p className="text-base font-semibold text-base-900">Setup IAM Role</p>
+      <p className="text-base-900 text-base font-semibold">Setup IAM Role</p>
     </div>
   );
 
   const HeaderNodeStep4 = (
     <>
       <div className="flex">
-        <p className="text-base font-semibold text-base-900">Create Grid</p>
+        <p className="text-base-900 text-base font-semibold">Create Grid</p>
       </div>
-      <p className="mt-1 text-sm text-base-700">
+      <p className="text-base-700 mt-1 text-sm">
         Execute the below commands to setup the BrowserStack CLI and create an
         Automation Grid.
       </p>
@@ -275,7 +275,7 @@ const Onboarding = () => {
   };
 
   const listFeedStepValue = (number) => (
-    <span className="text-xs text-base-900">{number}</span>
+    <span className="text-base-900 text-xs">{number}</span>
   );
 
   const listFeedDescriptionNode = (step) => {
@@ -309,7 +309,7 @@ const Onboarding = () => {
   );
 
   return (
-    <div className="m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border border-base-300">
+    <div className="border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
       <PageHeadings
         actions={
           <>
@@ -322,7 +322,7 @@ const Onboarding = () => {
         heading={headerText}
         onBreadcrumbClick={breadcrumbStepClickHandler}
         subSection={
-          <p className="mt-2 text-sm text-base-500">{subHeaderText} </p>
+          <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
         }
         wrapperClassName="p-6"
       />
@@ -330,19 +330,23 @@ const Onboarding = () => {
       {/* Body of Onboarding */}
       <div
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
-        className={classnames('overflow-auto border-y border-base-300 px-7 ', {
-          'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
-          'py-6':
-            onboardingStep === 0 ||
-            (onboardingStep === 1 &&
-              onboardingType !== ONBOARDING_TYPES.scratch),
-          'pt-6':
-            onboardingStep === 1 && onboardingType === ONBOARDING_TYPES.scratch
-        })}
+        className={twClassNames(
+          'overflow-auto border-y border-base-300 px-7 ',
+          {
+            'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
+            'py-6':
+              onboardingStep === 0 ||
+              (onboardingStep === 1 &&
+                onboardingType !== ONBOARDING_TYPES.scratch),
+            'pt-6':
+              onboardingStep === 1 &&
+              onboardingType === ONBOARDING_TYPES.scratch
+          }
+        )}
       >
         {onboardingStep === 0 && (
           <>
-            <h3 className="mb-4 flex gap-x-2 text-base font-medium leading-6 text-base-900">
+            <h3 className="text-base-900 mb-4 flex gap-x-2 text-base font-medium leading-6">
               Do you have an existing Kubernetes setup?
             </h3>
             <RadioStackedCard
@@ -364,8 +368,8 @@ const Onboarding = () => {
         {onboardingStep === 1 &&
           onboardingType === ONBOARDING_TYPES.existing && (
             <>
-              <p className="font-semibold text-base-900">Grid Setup</p>
-              <p className="mt-1 text-sm text-base-900">
+              <p className="text-base-900 font-semibold">Grid Setup</p>
+              <p className="text-base-900 mt-1 text-sm">
                 Execute the below commands to initialise grid creation.
               </p>
 
@@ -394,13 +398,13 @@ const Onboarding = () => {
         (onboardingType === ONBOARDING_TYPES.scratch ||
           onboardingType === ONBOARDING_TYPES.existing) &&
         (((!eventLogsCode || eventLogsCode?.length === 0) && (
-          <div className="flex gap-2 px-6 py-3 text-base-700">
+          <div className="text-base-700 flex gap-2 px-6 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
             above steps to connect the grid...
           </div>
         )) ||
           (eventLogsCode && eventLogsCode.length > 0 && showGridHeartBeats && (
-            <div className="flex gap-2 px-6 py-3 text-base-700">
+            <div className="text-base-700 flex gap-2 px-6 py-3">
               <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
               Initialising events log...
             </div>
@@ -413,7 +417,7 @@ const Onboarding = () => {
         eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
         !showGridHeartBeats && (
           <div className="flex justify-between px-6 py-3">
-            <div className="flex gap-2 text-base-700">
+            <div className="text-base-700 flex gap-2">
               <MdCached />
               ‘high-scale-grid’ grid creation is in progress...
             </div>

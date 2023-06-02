@@ -99,47 +99,85 @@ const GridsListing = () => {
               ];
 
               return (
-                <tr
-                  className="cursor-pointer"
-                  onClick={() => gridRowHandler(gridId)}
-                >
-                  <td className="text-base-900 whitespace-nowrap p-2 px-3 py-4 text-sm first:pr-3 last:pl-3">
-                    <p className="font-normal">{gridName}</p>
-                    <p className="text-base-500">b7465tbf76</p>
-                  </td>
-                  <td className="text-base-900 whitespace-nowrap p-2 px-3 py-4 text-sm first:pr-3 last:pl-3">
-                    <Badge
-                      disabled
-                      hasDot={false}
-                      hasRemoveButton={false}
-                      isRounded={isRounded}
-                      modifier={statusModifier}
-                      text={gridStatus}
-                    />
-                  </td>
-                  <td className="text-base-900 whitespace-nowrap p-2 px-3 py-4 text-sm first:pr-3 last:pl-3">
-                    {gridData.runningTests}
-                  </td>
-                  <td className="text-base-900 whitespace-nowrap p-2 px-3 py-4 text-sm first:pr-3 last:pl-3">
-                    {gridData.queuedTests}
-                  </td>
-                  <td className="text-base-500 whitespace-nowrap px-3 py-4 text-sm">
-                    <div className="flex gap-2">
-                      {supportedBrowsers.chrome && <ChromeIcon />}
-                      <FirefoxIcon width={20} height={20} />
-                      <EdgeIcon width={20} height={20} />
+                <TableRow className="cursor-pointer">
+                  <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      <p className="font-normal">{gridName}</p>
+                      <p className="text-base-500">b7465tbf76</p>
                     </div>
-                  </td>
-                  <td className="text-base-500 whitespace-nowrap px-3 py-4 text-sm">
-                    <p>{clusterName}</p>
-                    <p>{clusterIdentifier}</p>
-                  </td>
-                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
-                  <td
+                  </TableCell>
+                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      <Badge
+                        disabled
+                        hasDot={false}
+                        hasRemoveButton={false}
+                        isRounded={isRounded}
+                        modifier={statusModifier}
+                        text={gridStatus}
+                      />
+                    </div>
+                  </TableCell>
+                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      {gridData.runningTests}
+                    </div>
+                  </TableCell>
+                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      {gridData.queuedTests}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      <div className="flex gap-2">
+                        {supportedBrowsers.chrome && <ChromeIcon />}
+                        <FirefoxIcon width={20} height={20} />
+                        <EdgeIcon width={20} height={20} />
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      <p>{clusterName}</p>
+                      <p>{clusterIdentifier}</p>
+                    </div>
+                  </TableCell>
+                  <TableCell
                     onClick={(e) => {
                       e.stopPropagation();
                     }}
-                    className="text-base-500 whitespace-nowrap px-3 py-4 text-sm"
+                    role="button"
                   >
                     <Dropdown
                       onClick={(e) => {
@@ -161,8 +199,8 @@ const GridsListing = () => {
                         ))}
                       </DropdownOptionGroup>
                     </Dropdown>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               );
             })}
           </TableBody>
