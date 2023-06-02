@@ -27,7 +27,8 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => (
         'flex items-center justify-center': format === STEPS_FORMAT[1],
         'overflow-hidden rounded-md lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-base-200':
           format === STEPS_FORMAT[2],
-        'flex justify-center': format === STEPS_FORMAT[4]
+        'flex justify-center':
+          format === STEPS_FORMAT[4] || format === STEPS_FORMAT[5]
       })}
     >
       {format === STEPS_FORMAT[1] && (
@@ -45,7 +46,7 @@ const Steps = ({ label, onClick, steps, format, wrapperClassName }) => (
             format === STEPS_FORMAT[2],
           'flex items-center justify-center': format === STEPS_FORMAT[3],
           'space-y-6': format === STEPS_FORMAT[4],
-          'md:flex items-start justify-center': format === STEPS_FORMAT[5]
+          'flex items-start justify-center flex-col': format === STEPS_FORMAT[5]
         })}
       >
         {steps.map((step, stepIdx) => {
