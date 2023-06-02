@@ -20,6 +20,29 @@ import {
 
 const useCreateGrid = () => {
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
+  const DEFAULT_STEPPER_STATE = [
+    {
+      id: '1',
+      name: 'CONFIGURE GRID PROFILE',
+      status: 'complete'
+    },
+    {
+      id: '2',
+      name: 'CHOOSE CLOUD PROVIDER',
+      status: 'complete'
+    },
+    {
+      id: '3',
+      name: 'CONFIGURE GRID SETTINGS',
+      status: 'current'
+    },
+    { id: '4', name: 'SETUP IAM ROLE', status: 'upcoming' },
+    {
+      id: '5',
+      name: 'CREATE GRID',
+      status: 'upcoming'
+    }
+  ];
   const IS_MANDATORY = true;
 
   const breadcrumbsData = [
@@ -105,6 +128,9 @@ const useCreateGrid = () => {
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
   const [showSaveProfileModal, setShowSaveProfileModal] = useState(false);
   const [showSetupClusterModal, setShowSetupClusterModal] = useState(false);
+  const [stepperStepsState, setStepperStepsState] = useState(
+    DEFAULT_STEPPER_STATE
+  );
   const [totalSteps, setTotalSteps] = useState(0);
 
   const ref = useRef({});
@@ -223,6 +249,14 @@ const useCreateGrid = () => {
 
   const setupNewClusterBtnClickHandler = () => {
     setShowSetupClusterModal(true);
+  };
+
+  const stepperClickHandler = (_, step) => {
+    if (step.id > 3) {
+      setSetupState(2);
+    } else {
+      setSetupState(1);
+    }
   };
 
   const subnetChangeHandler = (e) => {
@@ -419,6 +453,19 @@ const useCreateGrid = () => {
     }
   }, [gridProfilesData]);
 
+  useEffect(() => {
+    if (setupState === 1) {
+      setStepperStepsState(DEFAULT_STEPPER_STATE);
+    } else if (setupState === 2) {
+      const updatedStepperState = DEFAULT_STEPPER_STATE;
+      updatedStepperState[2].status = 'complete';
+      updatedStepperState[3].status = 'complete';
+      updatedStepperState[4].status = 'current';
+
+      setStepperStepsState(updatedStepperState);
+    }
+  }, [setupState]);
+
   useMountEffect(() => {
     const fetchEventsLogsData = async () => {
       const response = await getCreateGridEventsLogsData(userDetails.id);
@@ -447,11 +494,11 @@ const useCreateGrid = () => {
 
     if (pollForEventLogs) {
       setInterval(() => {
-        fetchEventsLogsData();
+        // fetchEventsLogsData();
       }, 10000);
     }
 
-    fetchEventsLogsData();
+    // fetchEventsLogsData();
   });
 
   return {
@@ -511,6 +558,8 @@ const useCreateGrid = () => {
     showGridHeartBeats,
     showSaveProfileModal,
     showSetupClusterModal,
+    stepperClickHandler,
+    stepperStepsState,
     subnetChangeHandler,
     totalSteps,
     type,
