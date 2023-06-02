@@ -1,11 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import {
-  priorityOptions,
-  statusOptions,
-  templateOptions,
-  testCaseTypesOptions
-} from '../const/addTestCaseConst';
+import { templateOptions } from '../const/addTestCaseConst';
 
 const initialState = {
   allFolders: [],
@@ -17,10 +12,10 @@ const initialState = {
     name: '',
     description: '',
     estimate: '',
-    case_type: testCaseTypesOptions[7].value,
-    priority: priorityOptions[2].value,
+    case_type: null,
+    priority: null,
     owner: null,
-    status: statusOptions[0].value,
+    status: null,
     preconditions: '',
     template: templateOptions[0].value,
     steps: [''],
@@ -100,7 +95,12 @@ const initialState = {
     projectId: null,
     fields: []
   },
-  searchEmptyText: ''
+  searchEmptyText: '',
+  priorityOptions: [],
+  statusOptions: [],
+  testCaseTypeOptions: [],
+  priorityValueAndIntNameMapTC: {},
+  priorityValueAndNameMapTC: {}
 };
 
 export const repositorySlice = createSlice({
@@ -109,6 +109,40 @@ export const repositorySlice = createSlice({
   reducers: {
     setAllFolders: (state, { payload }) => {
       state.allFolders = [...payload];
+    },
+    setDefaultFormFieldsData: (state, { payload }) => {
+      state.priorityOptions = payload?.priority.map((item) => ({
+        label: item?.name,
+        value: item?.value
+      }));
+      state.statusOptions = payload?.status.map((item) => ({
+        label: item?.name,
+        value: item?.value
+      }));
+      state.testCaseTypeOptions = payload?.case_type.map((item) => ({
+        label: item?.name,
+        value: item?.value
+      }));
+      state.priorityValueAndIntNameMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.internal_name }),
+        {}
+      );
+      state.priorityValueAndNameMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.name }),
+        {}
+      );
+      state.priorityIntNameAndValueMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.internal_name]: item.value }),
+        {}
+      );
+      state.statusIntNameAndValueMapTC = payload?.status.reduce(
+        (obj, item) => ({ ...obj, [item.internal_name]: item.value }),
+        {}
+      );
+      state.testCaseTypeIntNameAndValueMapTC = payload?.case_type.reduce(
+        (obj, item) => ({ ...obj, [item.internal_name]: item.value }),
+        {}
+      );
     },
     setCustomFieldsData: (state, { payload }) => {
       state.customFieldData = payload;
@@ -333,6 +367,7 @@ export const {
   updateLoader,
   setAddTestCaseFromSearch,
   updateCtaLoading,
+  setDefaultFormFieldsData,
   setCustomFieldsData,
   updateTestCaseFormCFData
 } = repositorySlice.actions;

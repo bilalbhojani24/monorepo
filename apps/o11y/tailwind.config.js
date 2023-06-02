@@ -6,7 +6,8 @@ module.exports = {
     'src/**/*.{js,jsx}',
     './node_modules/@browserstack/bifrost/dist/*.js',
     './node_modules/@browserstack/integrations/dist/*.js',
-    './node_modules/@browserstack/services/dist/*.js'
+    './node_modules/@browserstack/services/dist/*.js',
+    './node_modules/@browserstack/growth/dist/*.js'
   ],
   theme: {
     ...globalConfigs.globalTailwindConfig.theme,

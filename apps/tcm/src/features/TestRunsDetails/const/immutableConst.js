@@ -62,3 +62,15 @@ export const ISSUES_TABS_ARRAY = [
     description: 'List of all the issues linked with this test run'
   }
 ];
+
+export const BULK_OPERATIONS = {
+  ADD_RESULT: {
+    option: 'add_result'
+  },
+  ASSIGN_TO: {
+    option: 'assign_to'
+  },
+  REMOVE: {
+    option: 'remove_from_run'
+  }
+};

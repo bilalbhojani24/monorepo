@@ -11,7 +11,7 @@ import {
   O11ySwitch
 } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { API_STATUSES } from 'constants/common';
+import { API_STATUSES, FLOATING_COMPONENTS_IDS } from 'constants/common';
 import {
   getSelectedFilters,
   getStaticFilters
@@ -21,6 +21,7 @@ import {
   setAppliedFilters,
   setSelectedFilters
 } from 'features/TestList/slices/testListSlice';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 
 import { constructTreeData } from '../utils';
 
@@ -83,6 +84,11 @@ const TestListFilters = () => {
     );
   };
 
+  useFloatingComponentTracking(
+    isSlideoverVisible,
+    FLOATING_COMPONENTS_IDS.TEST_FILTERS
+  );
+
   return (
     <>
       <O11ySlideover
@@ -106,7 +112,7 @@ const TestListFilters = () => {
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'os');
                 }}
-                value={os.filter((el) =>
+                value={os?.filter((el) =>
                   selectedFilters?.os?.includes(el.value)
                 )}
                 checkPosition="right"
@@ -121,7 +127,7 @@ const TestListFilters = () => {
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'browser');
                 }}
-                value={browser.filter((el) =>
+                value={browser?.filter((el) =>
                   selectedFilters?.browser?.includes(el.value)
                 )}
                 checkPosition="right"
@@ -162,7 +168,7 @@ const TestListFilters = () => {
                 onChange={(selectedValues) => {
                   onChangeArrayFilter(selectedValues, 'status');
                 }}
-                value={status.filter((el) =>
+                value={status?.filter((el) =>
                   selectedFilters?.status?.includes(el.value)
                 )}
                 checkPosition="right"
@@ -177,7 +183,7 @@ const TestListFilters = () => {
                   onChangeDDFilter(selectedValues, 'flaky');
                 }}
                 value={
-                  flaky.filter((el) =>
+                  flaky?.filter((el) =>
                     selectedFilters?.flaky?.includes(el.value)
                   )[0]
                 }
@@ -208,7 +214,7 @@ const TestListFilters = () => {
                   onChangeDDFilter(selectedValues, 'history');
                 }}
                 value={
-                  history.filter((el) =>
+                  history?.filter((el) =>
                     selectedFilters?.history?.includes(el.value)
                   )[0]
                 }
