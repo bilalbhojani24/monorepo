@@ -1,4 +1,11 @@
-import FeedbackWidget from './index';
+import React from 'react';
+import {
+  Button,
+  CheckCircleIcon,
+  NotificationsContainer
+} from '@browserstack/bifrost';
+
+import FeedbackWidget, { showFeedbackWidget } from './index';
 
 const fields = [
   {
@@ -28,71 +35,78 @@ export default {
   argTypes: {}
 };
 
-export const ModalFeedback = {
-  args: {
-    title: 'How was your experience with Lorem Ipsum?',
-    description: 'Optional description text for added context',
-    formFields: fields,
-    handleFeedbackClick: (i) => console.log(i),
-    flow: [
-      {
-        type: 'nps',
-        title: 'How was your experience with Lorem Ipsum Modal?',
-        description: 'Emoji Optional description text for added context Modal'
-      },
-      {
-        type: 'form',
-        title: 'How was your experience with Lorem Ipsum Modal form?',
-        description:
-          'Form Optional description text for added context Modal form'
-      },
-      {
-        type: 'success',
-        title: 'How was your experience with Lorem ?',
-        description: 'Success Optional description text for added context'
-      }
-    ],
-    variationsProps: {
-      modalHeader: {
-        // handleDismissClick: () => setShow(false)
-      }
+export const ModalWidget = (args) => (
+  <>
+    <Button
+      onClick={() => {
+        showFeedbackWidget(() => console.log('opened'));
+      }}
+    >
+      Show Modal Widget
+    </Button>
+    <FeedbackWidget {...args} />
+    <NotificationsContainer />
+  </>
+);
+
+ModalWidget.args = {
+  formFields: fields,
+  handleFeedbackClick: (i) => console.log(i),
+  flow: [
+    {
+      type: 'nps',
+      title: 'How was your experience with Lorem Ipsum Modal?',
+      description: 'Emoji Optional description text for added context Modal'
     },
-    isOpen: false,
-    variation: 'modal'
-  }
+    {
+      type: 'form',
+      title: 'How was your experience with Lorem Ipsum Modal form?',
+      description: 'Form Optional description text for added context Modal form'
+    },
+    {
+      type: 'success',
+      title: 'How was your experience with Lorem ?',
+      description: 'Success Optional description text for added context',
+      icon: <CheckCircleIcon className="text-success-400 h-10 w-10" />
+    }
+  ],
+  variation: 'modal'
 };
 
-export const ToastFeedback = {
-  args: {
-    title: 'How was your experience with Lorem Ipsum?',
-    description: 'Optional description text for added context',
-    formFields: fields,
-    handleFeedbackClick: (i) => console.log(i),
-    flow: [
-      {
-        type: 'nps',
-        title: 'How was your experience with Lorem Ipsum Modal?',
-        description: 'Emoji Optional description text for added context Modal'
-      },
-      {
-        type: 'form',
-        title: 'How was your experience with Lorem Ipsum Modal form?',
-        description:
-          'Form Optional description text for added context Modal form'
-      },
-      {
-        type: 'success',
-        title: 'How was your experience with Lorem ?',
-        description: 'Success Optional description text for added context'
-      }
-    ],
-    variationsProps: {
-      modalHeader: {
-        // handleDismissClick: () => setShow(false)
-      }
+export const ToastWidget = (args) => (
+  <>
+    <Button
+      onClick={() => {
+        showFeedbackWidget();
+      }}
+    >
+      Show Toast Widget
+    </Button>
+    <FeedbackWidget {...args} />
+    <NotificationsContainer />
+  </>
+);
+
+ToastWidget.args = {
+  formFields: fields,
+  handleFeedbackClick: (i) => console.log(i),
+  flow: [
+    {
+      type: 'thumbs',
+      title: 'How was your experience with Lorem Ipsum Modal?',
+      description: 'Emoji Optional description text for added context Modal'
     },
-    isOpen: false,
-    variation: 'toast',
-    label: 'Button'
-  }
+    {
+      type: 'form',
+      title: 'How was your experience with Lorem Ipsum Modal form?',
+      description: 'Form Optional description text for added context Modal form'
+    },
+    {
+      type: 'success',
+      title: 'How was your experience with Lorem ?',
+      description: 'Success Optional description text for added context',
+      icon: <CheckCircleIcon className="text-success-400 h-6 w-6" />
+    }
+  ],
+  variation: 'toast'
 };
