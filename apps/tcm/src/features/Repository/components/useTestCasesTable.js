@@ -162,9 +162,10 @@ const useTestCasesTable = (prop) => {
     setshowMoveModal(false);
   };
 
-  const moveTestCasesSFHandler = () => {
+  const moveTestCasesSFHandler = (selectedFolder) => {
     moveTestCasesBulkOnSFAPI({
       projectId,
+      newParentFolderId: selectedFolder.id,
       bulkSelection,
       qp: getExistingQueryParams(searchParams)
     })
@@ -212,7 +213,7 @@ const useTestCasesTable = (prop) => {
       );
 
       if (isSearchFilterView) {
-        moveTestCasesSFHandler();
+        moveTestCasesSFHandler(selectedFolder);
         return;
       }
       moveTestCasesBulkAPI({
