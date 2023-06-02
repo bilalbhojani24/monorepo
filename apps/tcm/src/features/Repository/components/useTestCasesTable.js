@@ -128,17 +128,31 @@ const useTestCasesTable = (prop) => {
 
   const initBulkMove = () => {
     closeTCDetailsSlide();
+    if (isSearchFilterView) {
+      dispatch(
+        logEventHelper('TM_TcBulkMoveBtnClickedSearchFilter', {
+          project_id: projectId,
+          testcase_id: bulkSelection?.ids
+        })
+      );
+    }
     setshowMoveModal(true);
   };
 
   const initBulkEdit = () => {
     closeTCDetailsSlide();
+    const eventProps = {
+      project_id: projectId,
+      testcase_id: bulkSelection?.ids
+    };
+    if (isSearchFilterView) eventProps.folder_id_src = folderId;
     dispatch(
-      logEventHelper('TM_BulkEditBtnClicked', {
-        project_id: projectId,
-        folder_id_src: folderId,
-        testcase_id: bulkSelection?.ids
-      })
+      logEventHelper(
+        isSearchFilterView
+          ? 'TM_BulkEditBtnClickedSearchFilter'
+          : 'TM_BulkEditBtnClicked',
+        isSearchFilterView
+      )
     );
     dispatch(setAddTestCaseVisibility(true));
     dispatch(resetBulkFormData()); // resetting bulk form before edit, so that it we start afresh
@@ -149,10 +163,15 @@ const useTestCasesTable = (prop) => {
   const initBulkDelete = () => {
     closeTCDetailsSlide();
     dispatch(
-      logEventHelper('TM_BulkDeleteBtnClicked', {
-        project_id: projectId,
-        testcase_id: bulkSelection?.ids
-      })
+      logEventHelper(
+        isSearchFilterView
+          ? 'TM_BulkDeleteBtnClickedSearchFilter'
+          : 'TM_BulkDeleteBtnClicked',
+        {
+          project_id: projectId,
+          testcase_id: bulkSelection?.ids
+        }
+      )
     );
     dispatch(setDeleteTestCaseModalVisibility(true));
     setBulkStatus(true);
@@ -204,12 +223,17 @@ const useTestCasesTable = (prop) => {
       dispatch(updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: true }));
 
       dispatch(
-        logEventHelper('TM_TcMoveAllCtaClicked', {
-          project_id: projectId,
-          folder_id_src: folderId,
-          folder_id_dest: selectedFolder.id,
-          testcase_id: bulkSelection?.ids
-        })
+        logEventHelper(
+          isSearchFilterView
+            ? 'TM_TcMoveAllCtaClickedSearchFilter'
+            : 'TM_TcMoveAllCtaClicked',
+          {
+            project_id: projectId,
+            folder_id_src: folderId,
+            folder_id_dest: selectedFolder.id,
+            testcase_id: bulkSelection?.ids
+          }
+        )
       );
 
       if (isSearchFilterView) {

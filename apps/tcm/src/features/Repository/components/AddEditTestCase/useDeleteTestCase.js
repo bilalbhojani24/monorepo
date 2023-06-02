@@ -289,11 +289,16 @@ export default function useDeleteTestCase() {
   const deleteTestCaseHandler = () => {
     if (isBulkUpdate) {
       dispatch(
-        logEventHelper('TM_DeleteAllCtaClicked', {
-          project_id: projectId,
-          testcase_id: bulkSelection?.ids,
-          folder_id_src: folderId
-        })
+        logEventHelper(
+          isSearchFilterView
+            ? 'TM_DeleteAllCtaClickedSearchFilter'
+            : 'TM_DeleteAllCtaClicked',
+          {
+            project_id: projectId,
+            testcase_id: bulkSelection?.ids,
+            folder_id_src: folderId
+          }
+        )
       );
       if (isSearchFilterView) bulkSearchDeleteHandler();
       else bulkDeleteHandler();

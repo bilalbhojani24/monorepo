@@ -436,10 +436,15 @@ export default function useAddEditTestCase(prop) {
 
   const saveBulkEditHelper = () => {
     dispatch(
-      logEventHelper('TM_UpdateAllCtaClicked', {
-        project_id: projectId,
-        testcase_id: bulkSelection?.ids
-      })
+      logEventHelper(
+        isSearchFilterView
+          ? 'TM_UpdateAllCtaClickedSearchFilter'
+          : 'TM_UpdateAllCtaClicked',
+        {
+          project_id: projectId,
+          testcase_id: bulkSelection?.ids
+        }
+      )
     );
     setBulkEditConfirm(false);
     dispatch(updateCtaLoading({ key: 'bulkEditTestCaseCta', value: true }));
