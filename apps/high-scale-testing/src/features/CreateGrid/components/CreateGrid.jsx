@@ -4,6 +4,7 @@ import {
   AccordionPanel,
   AccordionSimpleHeader,
   Button,
+  CodeSnippet,
   ComboBox,
   ComboboxLabel,
   ComboboxOptionGroup,
@@ -12,6 +13,10 @@ import {
   InputField,
   InputGroupAddOn,
   MdAdd,
+  MdCached,
+  MdOutlineModeEditOutline,
+  Modal,
+  ModalHeader,
   PageHeadings,
   RadioGroup,
   SelectMenu,
@@ -19,29 +24,233 @@ import {
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger,
-  Steps
+  Steps,
+  Tabs
 } from '@browserstack/bifrost';
-import { SCRATCH_RADIO_GROUP_OPTIONS } from 'constants/index';
+import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
+import {
+  CREATE_GRID_TYPES,
+  GRID_MANAGER_NAMES,
+  SCRATCH_RADIO_GROUP_OPTIONS
+} from 'constants/index';
+import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import EventLogs from 'features/Onboarding/components/EventLogs';
 
 import useCreateGrid from './useCreateGrid';
 
 const CreateGrid = () => {
   const {
-    COMBOBOX_OPTIONS,
-    allAvailableInstanceTypes,
+    IS_MANDATORY,
+    activeGridManagerCodeSnippet,
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
+    closeEventLogsModal,
+    clusterChangeHandler,
+    codeSnippetsForExistingSetup,
+    collapsibleBtntextForAdvSettings,
+    collapsibleBtntextForCode,
+    creatingGridProfile,
+    currentProvidersInstanceTypes,
     currentProvidersRegions,
     currentSelectedCloudProvider,
+    currentStep,
+    dataChanged,
+    editClusterBtnClickHandler,
+    editClusterNameInputValue,
+    eventLogsCode,
+    eventLogsStatus,
+    frameworkURLs,
+    gridConcurrencyChangeHandler,
+    gridNameChangeHandler,
     gridProfiles,
+    instanceChangeHandler,
+    isSetupComplete,
+    modalCrossClickhandler,
+    newProfileNameValue,
     opened,
+    newProfileErrorText,
+    nextBtnClickHandler,
     ref,
+    regionChangeHandler,
+    saveAndProceedClickHandler,
+    saveChangesClickHander,
+    saveProfileChangeHandler,
+    selectedClusterValue,
+    selectedGridClusters,
+    selectedGridConcurrency,
+    selectedGridName,
     selectedGridProfile,
-    setOpened,
+    selectedInstanceType,
+    selectedRegion,
+    selectedSubnetValues,
+    selectedVPCValue,
+    setActiveGridManagerCodeSnippet,
+    setupBtnClickHandler,
     setCurrentCloudProvider,
-    setSelectedGridProfile
+    setOpened,
+    setSelectedGridProfile,
+    setupNewClusterBtnClickHandler,
+    setupState,
+    showEventLogsModal,
+    showGridHeartBeats,
+    showSaveProfileModal,
+    showSetupClusterModal,
+    subnetChangeHandler,
+    totalSteps,
+    type,
+    viewEventLogsClickHandler,
+    vpcChangeHandler
   } = useCreateGrid();
+
+  const ClusterInputComboBoxComponent = (
+    <ComboBox
+      onChange={clusterChangeHandler}
+      value={selectedClusterValue}
+      isMulti={false}
+      isMandatory={IS_MANDATORY}
+    >
+      <ComboboxLabel>Choose Cluster</ComboboxLabel>
+      <ComboboxTrigger />
+      <ComboboxOptionGroup>
+        {selectedGridClusters.map((item) => (
+          <ComboboxOptionItem key={item.value} option={item} />
+        ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
+
+  const ClusterInputTextComponent = (
+    <InputField
+      id="test-id"
+      label="Cluster Name"
+      onBlur={null}
+      onChange={null}
+      onFocus={null}
+      onKeyDown={null}
+      placeholder="my-sample-cluster"
+      disabled={!showSetupClusterModal}
+      isMandatory={IS_MANDATORY}
+      value={editClusterNameInputValue}
+    />
+  );
+
+  const DomainInputComponent = (
+    <InputField
+      addOnBefore={<InputGroupAddOn>https://</InputGroupAddOn>}
+      id="test-id"
+      label="Domain"
+      onBlur={null}
+      onChange={null}
+      onFocus={null}
+      onKeyDown={null}
+      placeholder="www.hst.browserstack.com"
+      disabled={!showSetupClusterModal}
+    />
+  );
+
+  const InstanceTypeInputComponent = (
+    <ComboBox
+      onChange={instanceChangeHandler}
+      value={selectedInstanceType}
+      isMulti={false}
+      disabled={!showSetupClusterModal}
+    >
+      <ComboboxLabel>
+        Instance Type
+        <span className="text-danger-600 ml-0.5">*</span>
+      </ComboboxLabel>
+      <ComboboxTrigger placeholder="Placeholder" />
+      <ComboboxOptionGroup>
+        {currentProvidersInstanceTypes.map((item) => (
+          <ComboboxOptionItem key={item.value} option={item} />
+        ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
+
+  const RegionInputComponent = (
+    <SelectMenu
+      onChange={regionChangeHandler}
+      value={selectedRegion}
+      disabled={!showSetupClusterModal}
+    >
+      <SelectMenuLabel>
+        Region
+        <span className="text-danger-600 ml-0.5">*</span>
+      </SelectMenuLabel>
+      <SelectMenuTrigger ref={ref} />
+      <SelectMenuOptionGroup>
+        {currentProvidersRegions.map((item) => (
+          <SelectMenuOptionItem key={item.value} option={item} />
+        ))}
+      </SelectMenuOptionGroup>
+    </SelectMenu>
+  );
+
+  const SubnetsInputComponent = (
+    <ComboBox
+      onChange={subnetChangeHandler}
+      value={selectedSubnetValues}
+      // eslint-disable-next-line react/jsx-boolean-value
+      isMulti={true}
+      disabled={!showSetupClusterModal}
+    >
+      <ComboboxLabel>
+        Subnets
+        <span className="text-danger-600 ml-0.5">*</span>
+      </ComboboxLabel>
+      <ComboboxTrigger placeholder="Placeholder" />
+      <ComboboxOptionGroup>
+        {allAvailableSubnets.map((item) => (
+          <ComboboxOptionItem key={item.value} option={item} />
+        ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
+
+  const TabsForCodeSnippet = (
+    <Tabs
+      id="tabID"
+      label="Tabs"
+      onTabChange={(e) => {
+        setActiveGridManagerCodeSnippet(e.name);
+      }}
+      isContained={false}
+      navigationClassName="first:ml-4"
+      tabsArray={[
+        {
+          name: GRID_MANAGER_NAMES.helm
+        },
+        {
+          name: GRID_MANAGER_NAMES.kubectl
+        },
+        {
+          name: GRID_MANAGER_NAMES.cli
+        }
+      ]}
+    />
+  );
+
+  const VPCInputComponent = (
+    <ComboBox
+      onChange={vpcChangeHandler}
+      value={selectedVPCValue}
+      isMulti={false}
+      disabled={!showSetupClusterModal}
+    >
+      <ComboboxLabel>
+        VPC ID
+        <span className="text-danger-600 ml-0.5">*</span>
+      </ComboboxLabel>
+      <ComboboxTrigger placeholder="Placeholder" />
+      <ComboboxOptionGroup>
+        {allAvailableVPCIDs.map((item) => (
+          <ComboboxOptionItem key={item.value} option={item} />
+        ))}
+      </ComboboxOptionGroup>
+    </ComboBox>
+  );
 
   return (
     <div className="w-full">
@@ -51,269 +260,465 @@ const CreateGrid = () => {
         onBreadcrumbClick={() => {}}
         wrapperClassName="bg-white p-6"
       />
-      <div className="flex">
-        <Steps
-          format="bullets-and-text"
-          label="label"
-          onClick={() => {}}
-          steps={[
-            {
-              id: '1',
-              name: 'CONFIGURE GRID PROFILE',
-              status: 'complete'
-            },
-            {
-              id: '2',
-              name: 'CHOOSE CLOUD PROVIDER',
-              status: 'complete'
-            },
-            {
-              id: '3',
-              name: 'CONFIGURE',
-              status: 'current'
-            },
-            {
-              id: '4',
-              name: 'CREATE GRID',
-              status: 'upcoming'
-            }
-          ]}
-        />
-        <div className="w-full">
-          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-          <div className="m-6 h-[calc(100vh-64px-104px-48px)] overflow-auto rounded-lg border border-base-300 bg-white p-6">
-            <p className="text-lg font-medium">Choose Grid Profile</p>
-            <p className="text-sm text-base-500">
-              Use previously saved profiles to configure Grid settings with
-              pre-filled values.
-            </p>
 
-            <div className="mb-6 mt-3 w-1/2">
-              <SelectMenu
-                onChange={(val) => setSelectedGridProfile(val)}
-                value={selectedGridProfile}
-              >
-                <SelectMenuTrigger ref={ref} />
-                <SelectMenuOptionGroup>
-                  {gridProfiles.map((item) => (
-                    <SelectMenuOptionItem key={item.value} option={item} />
-                  ))}
-                </SelectMenuOptionGroup>
-              </SelectMenu>
-            </div>
+      {type === CREATE_GRID_TYPES.helmKubeCTL && (
+        // eslint-disable-next-line tailwindcss/no-arbitrary-value
+        <div className="border-base-300 m-6 h-[calc(100vh-64px-104px-48px-62px)] overflow-auto rounded-lg border bg-white p-6">
+          <p className="text-base-900 font-semibold">Grid Setup</p>
+          <p className="text-base-900 mt-1 text-sm">
+            Execute the below commands to initialise grid creation.
+          </p>
 
-            {/* Choose Cloud Provider */}
-            <div>
-              <p className="text-sm font-medium">Choose Cloud Provider</p>
-              <p className="text-sm  font-normal text-base-500">
-                Currently we support only AWS but GCP and Azure will be
-                supported soon.
-              </p>
+          <div className="mt-4">
+            <CodeSnippet
+              code={
+                codeSnippetsForExistingSetup?.[
+                  activeGridManagerCodeSnippet.toLowerCase()
+                ]
+              }
+              language={
+                activeGridManagerCodeSnippet.toLowerCase() ===
+                GRID_MANAGER_NAMES.cli
+                  ? 'node'
+                  : activeGridManagerCodeSnippet.toLowerCase()
+              }
+              singleLine={false}
+              showLineNumbers={false}
+              view="neutral"
+              toolbar={TabsForCodeSnippet}
+            />
+          </div>
+        </div>
+      )}
 
-              <div className="my-3">
-                <RadioGroup
-                  onChange={(e, option) => {
-                    const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
-                      (item) => item.id === option
-                    );
+      {type === CREATE_GRID_TYPES.cli && (
+        <div className="flex">
+          <Steps
+            format="bullets-and-text"
+            label="label"
+            onClick={() => {}}
+            steps={[
+              {
+                id: '1',
+                name: 'CONFIGURE GRID PROFILE',
+                status: 'complete'
+              },
+              {
+                id: '2',
+                name: 'CHOOSE CLOUD PROVIDER',
+                status: 'complete'
+              },
+              {
+                id: '3',
+                name: 'CONFIGURE GRID SETTINGS',
+                status: 'current'
+              },
+              { id: '4', name: 'SETUP IAM ROLE', status: 'upcoming' },
+              {
+                id: '5',
+                name: 'CREATE GRID',
+                status: 'upcoming'
+              }
+            ]}
+          />
+          <div className="w-full">
+            <div className="border-base-300 m-6 rounded-lg border bg-white ">
+              {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+              <div className="h-[calc(100vh-64px-104px-48px-62px)] overflow-auto p-6">
+                {/* Setup Grid and Cluster */}
+                {setupState === 1 && (
+                  <div>
+                    {/* Choose Grid Profile */}
+                    <>
+                      <p className="text-base-900 text-sm font-medium">
+                        Choose Grid Profile
+                      </p>
+                      <p className="text-base-500 text-sm">
+                        Use previously saved profiles to configure Grid settings
+                        with pre-filled values.
+                      </p>
 
-                    setCurrentCloudProvider(newOption);
-                  }}
-                  options={SCRATCH_RADIO_GROUP_OPTIONS}
-                  selectedOption={currentSelectedCloudProvider}
-                />
-              </div>
-            </div>
-            {/* ----- */}
-
-            {/* Configure Grid Profile */}
-            <div className="mt-6">
-              <p className="text-sm font-normal">Configure Grid Profile</p>
-              <p className="text-sm font-normal text-base-500">
-                The current settings are based on the default grid profile. You
-                can make the changes and save it as a new profile.
-              </p>
-
-              <div className="mt-4 flex gap-4">
-                <div className="w-1/2">
-                  <InputField
-                    id="test-id"
-                    // eslint-disable-next-line react/jsx-boolean-value
-                    isMandatory={true}
-                    label="Grid Name"
-                    onBlur={null}
-                    onChange={null}
-                    onFocus={null}
-                    onKeyDown={null}
-                    placeholder="high-scale-grid"
-                  />
-                </div>
-
-                <div className="w-1/2">
-                  <InputField
-                    id="test-id"
-                    // eslint-disable-next-line react/jsx-boolean-value
-                    isMandatory={true}
-                    label="Concurrency"
-                    onBlur={null}
-                    onChange={null}
-                    onFocus={null}
-                    onKeyDown={null}
-                    placeholder="high-scale-grid"
-                    // wrapperClassName="w-1/4"
-                  />
-                </div>
-              </div>
-
-              <div className="mt-4 flex items-end gap-4">
-                <div className="w-1/2">
-                  <ComboBox
-                    // onChange={(val) => setSelected(val)}
-                    // value={selected}
-                    isMulti={false}
-                    // eslint-disable-next-line react/jsx-boolean-value
-                    isMandatory={true}
-                  >
-                    <ComboboxLabel>Cluster</ComboboxLabel>
-                    <ComboboxTrigger placeholder="Placeholder" />
-                    <ComboboxOptionGroup>
-                      {COMBOBOX_OPTIONS.map((item) => (
-                        <ComboboxOptionItem key={item.value} option={item} />
-                      ))}
-                    </ComboboxOptionGroup>
-                  </ComboBox>
-                </div>
-
-                <div>
-                  <Button colors="white" icon={<MdAdd />} iconPlacement="start">
-                    Setup New Cluster
-                  </Button>
-                </div>
-
-                <div>
-                  <Button colors="white" icon={<MdAdd />} iconPlacement="start">
-                    Edit
-                  </Button>
-                </div>
-              </div>
-
-              <div className="mt-2">
-                <Accordion>
-                  <AccordionSimpleHeader
-                    controller={opened}
-                    onClick={() => setOpened(!opened)}
-                    title="Advanced Settings"
-                  />
-                  <AccordionPanel controller={opened}>
-                    <div className="my-2 h-16 items-center justify-center p-2">
-                      <div className="flex flex-row gap-4">
-                        <div className="w-1/2">
-                          <SelectMenu
-                            onChange={(val) => setSelectedGridProfile(val)}
-                            value={selectedGridProfile}
-                          >
-                            <SelectMenuLabel>
-                              Region
-                              <span className="ml-0.5 text-danger-600">*</span>
-                            </SelectMenuLabel>
-                            <SelectMenuTrigger ref={ref} />
-                            <SelectMenuOptionGroup>
-                              {currentProvidersRegions.map((item) => (
-                                <SelectMenuOptionItem
-                                  key={item.value}
-                                  option={item}
-                                />
-                              ))}
-                            </SelectMenuOptionGroup>
-                          </SelectMenu>
-                        </div>
-
-                        <div className="w-1/2">
-                          <ComboBox
-                            // onChange={(val) => setSelected(val)}
-                            // value={selected}
-                            isMulti={false}
-                          >
-                            <ComboboxLabel>
-                              Instance Type
-                              <span className="ml-0.5 text-danger-600">*</span>
-                            </ComboboxLabel>
-                            <ComboboxTrigger placeholder="Placeholder" />
-                            <ComboboxOptionGroup>
-                              {allAvailableInstanceTypes.map((item) => (
-                                <ComboboxOptionItem
-                                  key={item.value}
-                                  option={item}
-                                />
-                              ))}
-                            </ComboboxOptionGroup>
-                          </ComboBox>
-                        </div>
-                      </div>
-
-                      <div className="mt-4 flex flex-row gap-4">
-                        <div className="w-1/2">
-                          <ComboBox
-                            // onChange={(val) => setSelected(val)}
-                            // value={selected}
-                            isMulti={false}
-                          >
-                            <ComboboxLabel>VPC ID</ComboboxLabel>
-                            <ComboboxTrigger placeholder="Placeholder" />
-                            <ComboboxOptionGroup>
-                              {allAvailableVPCIDs.map((item) => (
-                                <ComboboxOptionItem
-                                  key={item.value}
-                                  option={item}
-                                />
-                              ))}
-                            </ComboboxOptionGroup>
-                          </ComboBox>
-                        </div>
-                        <div className="w-1/2">
-                          <InputField
-                            addOnBefore={
-                              <InputGroupAddOn>https://</InputGroupAddOn>
-                            }
-                            id="test-id"
-                            label="Label"
-                            onBlur={null}
-                            onChange={null}
-                            onFocus={null}
-                            onKeyDown={null}
-                            placeholder="www.hst.browserstack.com"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="mt-4 w-1/2">
-                        <ComboBox
-                          // onChange={(val) => setSelected(val)}
-                          // value={selected}
-                          // eslint-disable-next-line react/jsx-boolean-value
-                          isMulti={true}
+                      <div className="mb-6 mt-3 w-1/2">
+                        <SelectMenu
+                          onChange={(val) => setSelectedGridProfile(val)}
+                          value={selectedGridProfile}
                         >
-                          <ComboboxLabel>Subnets</ComboboxLabel>
-                          <ComboboxTrigger placeholder="Placeholder" />
-                          <ComboboxOptionGroup>
-                            {allAvailableSubnets.map((item) => (
-                              <ComboboxOptionItem
+                          <SelectMenuTrigger ref={ref} />
+                          <SelectMenuOptionGroup>
+                            {gridProfiles.map((item) => (
+                              <SelectMenuOptionItem
                                 key={item.value}
                                 option={item}
                               />
                             ))}
-                          </ComboboxOptionGroup>
-                        </ComboBox>
+                          </SelectMenuOptionGroup>
+                        </SelectMenu>
+                      </div>
+                    </>
+                    {/* --- X --- Choose Grid Profile --- X --- */}
+
+                    {/* Choose Cloud Provider */}
+                    <>
+                      <div>
+                        <p className="text-base-900 text-sm font-medium">
+                          Choose Cloud Provider
+                        </p>
+                        <p className="text-base-500  text-sm font-normal">
+                          Currently we support only AWS but GCP and Azure will
+                          be supported soon.
+                        </p>
+
+                        <div className="my-3">
+                          <RadioGroup
+                            onChange={(e, option) => {
+                              const newOption =
+                                SCRATCH_RADIO_GROUP_OPTIONS.find(
+                                  (item) => item.id === option
+                                );
+
+                              setCurrentCloudProvider(newOption);
+                            }}
+                            options={SCRATCH_RADIO_GROUP_OPTIONS}
+                            selectedOption={currentSelectedCloudProvider}
+                          />
+                        </div>
+                      </div>
+                    </>
+                    {/* --- X --- Choose Cloud Provider --- X --- */}
+
+                    {/* Configure Grid Profile */}
+                    <div className="mt-6">
+                      <p className="text-base-900 text-sm font-medium">
+                        Configure Grid Profile
+                      </p>
+                      <p className="text-base-500 text-sm font-normal">
+                        The current settings are based on the default grid
+                        profile. You can make the changes and save it as a new
+                        profile.
+                      </p>
+
+                      <div className="mt-4 flex gap-4">
+                        <div className="w-1/2">
+                          <InputField
+                            id="test-id"
+                            isMandatory={IS_MANDATORY}
+                            label="Grid Name"
+                            onBlur={null}
+                            onChange={gridNameChangeHandler}
+                            onFocus={null}
+                            onKeyDown={null}
+                            value={selectedGridName}
+                          />
+                        </div>
+
+                        <div className="w-1/2">
+                          <InputField
+                            id="test-id"
+                            isMandatory={IS_MANDATORY}
+                            label="Concurrency"
+                            onBlur={null}
+                            onChange={gridConcurrencyChangeHandler}
+                            onFocus={null}
+                            onKeyDown={null}
+                            placeholder="high-scale-grid"
+                            value={selectedGridConcurrency}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Advanced Settings */}
+                      <div className="mt-6">
+                        <Accordion>
+                          <Button
+                            colors="white"
+                            icon={
+                              collapsibleBtntextForAdvSettings ===
+                              'Show Cluster Details' ? (
+                                <span>+</span>
+                              ) : (
+                                <span>-</span>
+                              )
+                            }
+                            onClick={() => setOpened(!opened)}
+                            modifier="primary"
+                            variant="rounded"
+                          >
+                            {collapsibleBtntextForAdvSettings}
+                          </Button>
+                          <AccordionSimpleHeader
+                            controller={opened}
+                            onClick={() => setOpened(!opened)}
+                            title="Advanced Settings"
+                            wrapperClassName="hidden"
+                          />
+                          <AccordionPanel controller={opened}>
+                            <div className="my-2 h-16 items-center justify-center p-2">
+                              <div className="mt-4 flex items-end gap-4">
+                                <div className="w-1/2">
+                                  {ClusterInputComboBoxComponent}
+                                </div>
+                                <div>
+                                  <Button
+                                    colors="white"
+                                    icon={<MdOutlineModeEditOutline />}
+                                    iconPlacement="start"
+                                    onClick={editClusterBtnClickHandler}
+                                  >
+                                    Edit Cluster Details
+                                  </Button>
+                                </div>
+                                <div>
+                                  <Button
+                                    colors="white"
+                                    icon={<MdAdd />}
+                                    iconPlacement="start"
+                                    onClick={setupNewClusterBtnClickHandler}
+                                  >
+                                    Setup New Cluster
+                                  </Button>
+                                </div>
+                              </div>
+                              <div className=" mt-4 flex flex-row gap-4">
+                                <div className="w-1/2">
+                                  {RegionInputComponent}
+                                </div>
+
+                                <div className="w-1/2">
+                                  {InstanceTypeInputComponent}
+                                </div>
+                              </div>
+
+                              <div className="mt-4 flex flex-row gap-4">
+                                <div className="w-1/2">{VPCInputComponent}</div>
+                                <div className="w-1/2">
+                                  {SubnetsInputComponent}
+                                </div>
+                              </div>
+
+                              <div className="mt-4 w-1/2">
+                                {DomainInputComponent}
+                              </div>
+                            </div>
+                          </AccordionPanel>
+                        </Accordion>
+                      </div>
+                      {/* --- X --- Advanced Settings --- X --- */}
+                    </div>
+                    {/* --- X --- Configure Grid Profile --- X --- */}
+                  </div>
+                )}
+
+                {/* Setup IAM Role and Download Instructions */}
+                {setupState === 2 && (
+                  <div>
+                    <div>
+                      <p className="text-base-900 text-sm font-medium">
+                        Setup IAM Role
+                      </p>
+                      <p className="text-base-500 mt-1 text-sm font-normal">
+                        Set up a new IAM role via the CloudFormation link and
+                        generate the AWS access key and secret to create and
+                        manage the Automation Grid. Read more about this here.
+                      </p>
+                    </div>
+                    <div className="mt-9">
+                      <p className="text-base-900 text-sm font-medium">
+                        Grid Creation Commands
+                      </p>
+                      <p className="text-base-500 mb-3 mt-1 text-sm font-normal">
+                        Execute the below commands to initialize grid creation.
+                      </p>
+
+                      <CodeSnippet
+                        code={`browserstack-cli hst create grid --grid-profile ${selectedGridName}`}
+                        language="node"
+                        singleLine
+                      />
+                    </div>
+
+                    <div className="m-4">
+                      <Accordion>
+                        <Button
+                          colors="white"
+                          icon={
+                            collapsibleBtntextForCode ===
+                            'View steps to download CLI' ? (
+                              <span>+</span>
+                            ) : (
+                              <span>-</span>
+                            )
+                          }
+                          onClick={() => setOpened(!opened)}
+                          modifier="primary"
+                          variant="rounded"
+                        >
+                          {collapsibleBtntextForCode}
+                        </Button>
+                        <AccordionSimpleHeader
+                          controller={opened}
+                          onClick={() => setOpened(!opened)}
+                          title="Steps to download CLI"
+                          wrapperClassName="hidden"
+                        />
+                        <AccordionPanel controller={opened}>
+                          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+                          <ol className="text-base-500 list-[lower-alpha] text-sm">
+                            <li className="text-base-900 py-2">
+                              <div>
+                                <p className="text-base-900 mb-2">
+                                  Download CLI.
+                                </p>
+                                <CodeSnippet
+                                  code="npm install @browserstack/browserstack-cli"
+                                  language="node"
+                                  showLineNumbers={false}
+                                  singleLine={false}
+                                  view="neutral"
+                                />
+                              </div>
+                            </li>
+                            <li className="text-base-900 py-2">
+                              <div>
+                                <p className="text-base-900 mb-2">
+                                  Setup CLI with AWS credentials.
+                                </p>
+                                <CodeSnippet
+                                  code="/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
+                              export BROWSERSTACK_USERNAME=<username>
+                              export BROWSERSTACK_ACCESS_KEY=<accesskey>
+                              
+                              /* Create HST configuration profile with AWS credentials */
+                              browserstack-cli hst init
+                              "
+                                  language="node"
+                                  showLineNumbers={false}
+                                  singleLine={false}
+                                  view="neutral"
+                                />
+                              </div>
+                            </li>
+                          </ol>
+                        </AccordionPanel>
+                      </Accordion>
+                      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+                    </div>
+                  </div>
+                )}
+
+                <Modal size="2xl" show={showSetupClusterModal}>
+                  <ModalHeader
+                    handleDismissClick={modalCrossClickhandler}
+                    heading="Setup Cluster"
+                  />
+                  <div className="px-6 pb-3">
+                    <div className="mb-5 flex flex-col">
+                      <div className="flex gap-4">
+                        <div className="w-1/2">{ClusterInputTextComponent}</div>
+                        <div className="w-1/2">{RegionInputComponent}</div>
+                      </div>
+                      <div className="mt-4 flex gap-4">
+                        <div className="w-1/2">
+                          {InstanceTypeInputComponent}
+                        </div>
+                        <div className="w-1/2">{DomainInputComponent}</div>
+                      </div>
+                      <div className="mt-4 flex gap-4">
+                        <div className="w-1/2">{VPCInputComponent}</div>
+                        <div className="w-1/2">{SubnetsInputComponent}</div>
                       </div>
                     </div>
-                  </AccordionPanel>
-                </Accordion>
+                    <div className="flex flex-row-reverse">
+                      <Button onClick={setupBtnClickHandler}>Setup</Button>
+                    </div>
+                  </div>
+                </Modal>
+
+                <Modal size="2xl" show={showSaveProfileModal}>
+                  <ModalHeader
+                    handleDismissClick={modalCrossClickhandler}
+                    heading="Save Grid Profile"
+                    subHeading="Save the changes as a unique profile to create grid with similar configurations in future."
+                  />
+                  <div className="px-6 pb-3">
+                    <InputField
+                      errorText={newProfileErrorText}
+                      label="Profile Name"
+                      onChange={saveProfileChangeHandler}
+                      isMandatory={IS_MANDATORY}
+                      placeholder="my-profile-1"
+                      value={newProfileNameValue}
+                    />
+
+                    <div className="mt-5 flex flex-row-reverse">
+                      <Button
+                        onClick={saveAndProceedClickHandler}
+                        loading={creatingGridProfile}
+                      >
+                        Save and Proceed
+                      </Button>
+                    </div>
+                  </div>
+                </Modal>
               </div>
+
+              {setupState !== 2 && (
+                <div className="border-base-300 flex flex-row-reverse border-t px-6 py-3">
+                  {!dataChanged && setupState !== 2 && (
+                    <Button onClick={nextBtnClickHandler}> Next </Button>
+                  )}
+                  {dataChanged && (
+                    <Button onClick={saveChangesClickHander}>
+                      Save Changes
+                    </Button>
+                  )}
+                </div>
+              )}
+
+              {setupState === 2 &&
+                !showGridHeartBeats &&
+                eventLogsStatus !== EVENT_LOGS_STATUS.IN_PROGRESS && (
+                  <div className="border-base-300 text-base-700 flex gap-2 border-t px-6 py-3">
+                    <HourglassBottomOutlinedIcon /> Waiting for you to complete
+                    the above steps to connect the grid...
+                  </div>
+                )}
+
+              {eventLogsCode &&
+                eventLogsCode.length > 0 &&
+                showGridHeartBeats && (
+                  <div className="flex gap-2 px-6 py-3 text-base-700">
+                    <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
+                    Initialising events log...
+                  </div>
+                )}
+
+              {eventLogsCode &&
+                eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
+                !showGridHeartBeats && (
+                  <div className="flex justify-between px-6 py-3">
+                    <div className="text-base-700 flex gap-2">
+                      <MdCached />
+                      ‘high-scale-grid’ grid creation is in progress...
+                    </div>
+                    <Button colors="white" onClick={viewEventLogsClickHandler}>
+                      View Event Logs
+                    </Button>
+                  </div>
+                )}
+
+              {showEventLogsModal && (
+                <EventLogs
+                  closeEventLogsModal={closeEventLogsModal}
+                  currentStep={currentStep}
+                  eventLogsCode={eventLogsCode}
+                  totalSteps={totalSteps}
+                  isSetupComplete={isSetupComplete}
+                />
+              )}
             </div>
-            {/* ----- */}
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

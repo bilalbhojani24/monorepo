@@ -18,7 +18,7 @@ import TrendStatesWrapper from './TrendStatesWrapper';
 
 const TABLE_CLASSES = {
   ROW_CLASSES:
-    'overflow-hidden border-b border-base-300 whitespace-normal classic-break-words',
+    'overflow-hidden border-b border-base-300 whitespace-normal break-words',
   HEADER_CLASSES: 'py-3 border-t border-base-300 text-xs font-medium z-[2]'
 };
 

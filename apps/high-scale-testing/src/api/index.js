@@ -1,9 +1,11 @@
 import axios from 'axios';
 
 import {
+  CREATE_GRID,
+  CREATE_GRID_EVENT_LOGS_DATA_URL,
   FETCH_CLUSTER_URL,
   FETCH_CLUSTERS_URL,
-  FETCH_CREATE_GRID_DATA_URL,
+  FETCH_GRID_PROFILES_DATA_URL,
   FETCH_GRID_URL,
   FETCH_GRIDS_URL,
   ONBOARDING_DATA_URL,
@@ -12,6 +14,9 @@ import {
   ONBOARDING_STATUS_URL,
   UPDATE_GRID_SETTINGS_URL
 } from './constants/apiURLs';
+
+const createNewGridProfile = (userId, profileData) =>
+  axios.post(CREATE_GRID, { ...profileData, userId });
 
 const fetchAllGridsData = (userId) =>
   axios.get(FETCH_GRIDS_URL, {
@@ -34,9 +39,17 @@ const fetchGridDataById = (gridId, userId) =>
   });
 
 const fetchDataForCreateGrid = (userId) =>
-  axios.get(FETCH_CREATE_GRID_DATA_URL, {
+  axios.get(FETCH_GRID_PROFILES_DATA_URL, {
     params: {
       userId
+    }
+  });
+
+const getCreateGridEventsLogsData = (userId, onboardingType) =>
+  axios.get(CREATE_GRID_EVENT_LOGS_DATA_URL, {
+    params: {
+      userId,
+      onboardingType
     }
   });
 
@@ -68,22 +81,20 @@ const markOnboardingRegionChange = (userId, cloudProvider, newRegionObject) =>
     params: { userId, cloudProvider, region: newRegionObject }
   });
 
-const updateSettings = (userId, component, settingType, settingsObj) =>
-  axios.put(UPDATE_GRID_SETTINGS_URL, {
-    params: {
-      userId,
-      component,
-      settingType,
-      settingsObj
-    }
+const updateSettings = (userId, gridId, settingsObj) =>
+  axios.put(`${UPDATE_GRID_SETTINGS_URL}/${gridId}`, {
+    userId,
+    ...settingsObj
   });
 
 export {
+  createNewGridProfile,
   fetchAllClustersData,
   fetchAllGridsData,
   fetchClusterDataById,
   fetchDataForCreateGrid,
   fetchGridDataById,
+  getCreateGridEventsLogsData,
   getOnboardingData,
   getOnboardingEventsLogsData,
   markOnboardingRegionChange,

@@ -20,8 +20,7 @@ import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 import { useGridListing } from './useGridListing';
 
 const GridsListing = () => {
-  const { gridList, isRounded, options, tableCellWrapperClassName } =
-    useGridListing();
+  const { gridList, isRounded, tableCellWrapperClassName } = useGridListing();
   const navigate = useNavigate();
 
   const gridRowHandler = (gridId) => {
@@ -90,41 +89,101 @@ const GridsListing = () => {
                   gridData.browserSettings.allowedBrowsers.firefox?.lenght > 0
               };
 
+              const options = [
+                { id: 'delete', body: 'Delete', url: '' },
+                {
+                  id: 'settings',
+                  body: 'Settings',
+                  url: `/grid-console/grid/${gridId}/settings/general`
+                }
+              ];
+
               return (
-                <TableRow onRowClick={() => gridRowHandler(gridId)}>
-                  <TableCell wrapperClassName="text-base-900 first:pr-3 last:pl-3 px-2 py-2">
-                    <p className="font-normal">{gridName}</p>
-                    <p className="text-base-500">b7465tbf76</p>
-                  </TableCell>
+                <TableRow className="cursor-pointer">
                   <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
-                    <Badge
-                      disabled
-                      hasDot={false}
-                      hasRemoveButton={false}
-                      isRounded={isRounded}
-                      modifier={statusModifier}
-                      text={gridStatus}
-                    />
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      <p className="font-normal">{gridName}</p>
+                      <p className="text-base-500">b7465tbf76</p>
+                    </div>
                   </TableCell>
                   <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
-                    {gridData.runningTests}
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      <Badge
+                        disabled
+                        hasDot={false}
+                        hasRemoveButton={false}
+                        isRounded={isRounded}
+                        modifier={statusModifier}
+                        text={gridStatus}
+                      />
+                    </div>
                   </TableCell>
-                  <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
-                    {gridData.queuedTests}
+                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      {gridData.runningTests}
+                    </div>
                   </TableCell>
-                  <TableCell>
-                    <div className="flex gap-2">
-                      {supportedBrowsers.chrome && <ChromeIcon />}
-                      <FirefoxIcon width={20} height={20} />
-                      <EdgeIcon width={20} height={20} />
+                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      {gridData.queuedTests}
                     </div>
                   </TableCell>
                   <TableCell>
-                    <p>{clusterName}</p>
-                    <p>{clusterIdentifier}</p>
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      <div className="flex gap-2">
+                        {supportedBrowsers.chrome && <ChromeIcon />}
+                        <FirefoxIcon width={20} height={20} />
+                        <EdgeIcon width={20} height={20} />
+                      </div>
+                    </div>
                   </TableCell>
                   <TableCell>
-                    <Dropdown>
+                    <div
+                      role="button"
+                      onClick={() => gridRowHandler(gridId)}
+                      onKeyDown={() => gridRowHandler(gridId)}
+                      tabIndex={0}
+                    >
+                      <p>{clusterName}</p>
+                      <p>{clusterIdentifier}</p>
+                    </div>
+                  </TableCell>
+                  <TableCell
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    role="button"
+                  >
+                    <Dropdown
+                      onClick={(e) => {
+                        navigate(e.url);
+                      }}
+                    >
                       <div className="flex">
                         <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
                           <EllipsisVerticalIcon

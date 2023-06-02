@@ -3,6 +3,7 @@ import { matchPath, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   HomeIcon,
   MdOutlineTextSnippet,
+  NotificationsContainer,
   SidebarItem,
   SidebarNavigation,
   UsersIcon
@@ -78,6 +79,8 @@ const Layout = () => {
           />
         </nav>
         <Outlet />
+
+        <NotificationsContainer />
       </main>
     </>
   );

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Button, InputField } from '@browserstack/bifrost';
+import {
+  Button,
+  InputField,
+  Notifications,
+  notify
+} from '@browserstack/bifrost';
 import { updateSettings } from 'api/index';
 import { DEFAULT_GRID_CONCURRENCY } from 'constants/index';
 import { getGridData } from 'features/GridConsole/slices/selector';
@@ -29,9 +34,25 @@ const GeneralSettings = () => {
   };
 
   const updateGridGeneralSettings = (settingsObj) => {
-    updateSettings(userDetails.id, 'grid', 'general', settingsObj).then((d) => {
+    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
       setIsSaveButtonDisabled(true);
       setIsSavingInProgress(false);
+
+      if (d.data === 'OK') {
+        notify(
+          <Notifications
+            title="Settings updated!"
+            isCondensed
+            handleClose={(toastData) => {
+              notify.remove(toastData.id);
+            }}
+          />,
+          {
+            position: 'top-right',
+            duration: 4000
+          }
+        );
+      }
     });
   };
 
@@ -40,6 +61,7 @@ const GeneralSettings = () => {
     const settingsObj = {
       concurrency: concurrencyValue
     };
+
     updateGridGeneralSettings(settingsObj);
   };
 

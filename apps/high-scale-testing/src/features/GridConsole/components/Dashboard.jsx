@@ -1,25 +1,59 @@
 import React, { useEffect } from 'react';
-import { Button, PageHeadings, Tabs } from '@browserstack/bifrost';
+import { useNavigate } from 'react-router-dom';
+import {
+  Button,
+  Dropdown,
+  DropdownOptionGroup,
+  DropdownOptionItem,
+  DropdownTrigger,
+  MdKeyboardArrowDown,
+  PageHeadings,
+  Tabs
+} from '@browserstack/bifrost';
+import ROUTES from 'constants/routes';
 
 import ClustersListing from './ClustersListing';
-import CreateGridCLIModal from './CreateGridCLIModal';
 import GridsListing from './GridsListing';
 import useGridConsole from './useGridConsole';
 
 const GridConsole = () => {
-  const {
-    createGridBtnHandler,
-    currentListingType,
-    setCurrentListingType,
-    showCreateGridCLIModal
-  } = useGridConsole();
+  const { currentListingType, setCurrentListingType } = useGridConsole();
+
+  const navigate = useNavigate();
+
+  const options = [
+    {
+      id: 'helm/kubectl',
+      value: 'Helm/KubeCTL',
+      body: 'Spawn a grid via Helm / KubeCTL'
+    },
+    { id: 'cli', value: 'CLI', body: 'Spawn a grid with customizations' }
+  ];
+
+  const dropdownHandler = (value) => {
+    navigate(`${ROUTES.CREATE_GRID}?type=${value.value}`);
+  };
 
   return (
     <div className="flex-1">
       <div className="bg-white px-6 pt-6">
         <PageHeadings
           actions={
-            <Button onClick={createGridBtnHandler}> Create Grid </Button>
+            <Dropdown onClick={dropdownHandler}>
+              <div className="flex">
+                <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+                  <Button icon={<MdKeyboardArrowDown />} iconPlacement="end">
+                    Create Grid
+                  </Button>
+                </DropdownTrigger>
+              </div>
+
+              <DropdownOptionGroup>
+                {options.map((opt) => (
+                  <DropdownOptionItem key={opt.value} option={opt} />
+                ))}
+              </DropdownOptionGroup>
+            </Dropdown>
           }
           breadcrumbs={null}
           heading="Automation Console"
@@ -44,7 +78,6 @@ const GridConsole = () => {
 
       {currentListingType.value === 'grids' && <GridsListing />}
       {currentListingType.value === 'clusters' && <ClustersListing />}
-      {showCreateGridCLIModal && <CreateGridCLIModal />}
     </div>
   );
 };

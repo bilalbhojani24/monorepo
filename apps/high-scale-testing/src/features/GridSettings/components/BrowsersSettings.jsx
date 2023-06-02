@@ -3,14 +3,15 @@ import { useSelector } from 'react-redux';
 import {
   Button,
   ComboBox,
-  ComboboxLabel,
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
   InputField,
   InputGroupAddOn
 } from '@browserstack/bifrost';
+import { updateSettings } from 'api/index';
 import { getGridData } from 'features/GridConsole/slices/selector';
+import { getUserDetails } from 'globalSlice/selector';
 
 const BrowsersSettings = () => {
   const allAvailableBrowsers = [
@@ -21,6 +22,18 @@ const BrowsersSettings = () => {
 
   // All Store variables:
   const gridData = useSelector(getGridData);
+  const userDetails = useSelector(getUserDetails);
+
+  const usersAllowedBrowsersVal = gridData.browserSettings.allowedBrowsers.map(
+    (e) => {
+      let val = Object.keys(e)[0];
+      val = val.charAt(0).toUpperCase() + val.slice(1);
+      return {
+        label: val,
+        value: val
+      };
+    }
+  );
 
   // All State variables:
   const [cpuValue, setCpuValue] = useState(
@@ -30,6 +43,9 @@ const BrowsersSettings = () => {
     gridData.browserSettings.resources.memory
   );
 
+  const [allowedBrowsersValue, setAllowedBrowsersValue] = useState(
+    usersAllowedBrowsersVal
+  );
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
 
@@ -47,15 +63,28 @@ const BrowsersSettings = () => {
     setMemoryLimitValue(newValue);
   };
 
-  const updateGridBrowserSettings = () => {};
+  const updateGridBrowserSettings = (settingsObj) => {
+    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
+      console.log('Log: d:', d);
+    });
+  };
 
   const saveBtnClickhandler = () => {
     setIsSavingInProgress(true);
     const settingsObj = {
-      cpu: cpuValue,
-      memory: memoryLimitValue
+      browserSettings: {
+        allowedBrowsers: allowedBrowsersValue.map((e) => e.value.toLowerCase()),
+        resources: {
+          cpu: cpuValue,
+          memory: memoryLimitValue
+        }
+      }
     };
     updateGridBrowserSettings(settingsObj);
+  };
+
+  const allowedBrowsersChangeHandler = (e) => {
+    setAllowedBrowsersValue(e);
   };
 
   return (
@@ -132,12 +161,10 @@ const BrowsersSettings = () => {
 
           <div className="mt-3 max-w-xs">
             <ComboBox
-              // onChange={(val) => setSelected(val)}
-              // value={selected}
-              // eslint-disable-next-line react/jsx-boolean-value
-              isMulti={true}
+              onChange={allowedBrowsersChangeHandler}
+              value={allowedBrowsersValue}
+              isMulti
             >
-              <ComboboxLabel>Subnets</ComboboxLabel>
               <ComboboxTrigger placeholder="Placeholder" />
               <ComboboxOptionGroup>
                 {allAvailableBrowsers.map((item) => (

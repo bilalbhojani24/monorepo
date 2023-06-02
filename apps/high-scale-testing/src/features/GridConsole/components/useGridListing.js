@@ -14,10 +14,6 @@ const useGridListing = () => {
   // All State variables:
   const [gridList, setGridList] = useState([]);
 
-  const options = [
-    { id: 'delete', body: 'Delete' },
-    { id: 'settings', body: 'Settings' }
-  ];
   const tableCellWrapperClassName =
     'first:pr-3 last:pl-3 px-2 text-base-500 font-medium';
 
@@ -35,7 +31,6 @@ const useGridListing = () => {
   return {
     gridList,
     isRounded,
-    options,
     tableCellWrapperClassName
   };
 };

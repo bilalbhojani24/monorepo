@@ -1,5 +1,10 @@
 const DEFAULT_GRID_CONCURRENCY = 50;
 
+const CREATE_GRID_TYPES = {
+  helmKubeCTL: 'Helm/KubeCTL',
+  cli: 'CLI'
+};
+
 const GRID_MANAGER_NAMES = {
   helm: 'Helm',
   kubectl: 'Kubectl',
@@ -28,6 +33,7 @@ const SCRATCH_RADIO_GROUP_OPTIONS = [
 ];
 
 export {
+  CREATE_GRID_TYPES,
   DEFAULT_GRID_CONCURRENCY,
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
