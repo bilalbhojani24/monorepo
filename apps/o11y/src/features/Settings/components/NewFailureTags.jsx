@@ -17,10 +17,13 @@ import {
 } from '../slices/smartTagsSettings';
 
 const NEW_FAILURE_TYPES_DATA = [
-  { name: 'NEW', value: 'NEW' },
-  { name: 'ANY', value: 'ANY' }
+  { name: 'new', value: 'NEW' },
+  { name: 'any', value: 'ANY' }
 ];
-
+const NEW_FAILURE_TYPES_ENUM = {
+  NEW: 'new',
+  ANY: 'any'
+};
 const STATIC_DROPDOWN_DATA = [
   ...Array(29)
     .fill(0)
@@ -84,10 +87,13 @@ export const NewFailureTags = ({ data, isActive }) => {
       <div className="flex flex-col">
         <>
           <div className="text-base-500 flex items-center">
-            Any test failing with
-            <div className="text-base-900 mx-1 w-20">
+            The test has failed with a
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
-                value={{ label: failureType, value: failureType }}
+                value={{
+                  label: NEW_FAILURE_TYPES_ENUM[failureType],
+                  value: failureType
+                }}
                 onChange={(item) =>
                   setNewFailureDropdowns('failureType', item.value)
                 }
@@ -113,8 +119,8 @@ export const NewFailureTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>
-            for the first time among last
-            <div className="text-base-900 mx-1 w-16">
+            for the first time among the last
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
@@ -142,7 +148,7 @@ export const NewFailureTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>{' '}
-            consecutive runs
+            runs
           </div>
         </>
       </div>

@@ -17,9 +17,14 @@ import {
 } from '../slices/smartTagsSettings';
 
 const ALWAYS_FAILING_TAGS_DATA = [
-  { label: 'SAME ERROR', value: 'SAME_ERROR' },
-  { label: 'ANY ERROR', value: 'ANY_ERROR' }
+  { label: 'same', value: 'SAME' },
+  { label: 'any', value: 'ANY' }
 ];
+
+const ALWAYS_FAILING_TAGS_ENUM = {
+  SAME: 'same',
+  ANY: 'any'
+};
 
 const STATIC_DROPDOWN_DATA = [
   ...Array(29)
@@ -90,10 +95,13 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
       <div className="flex flex-col">
         <>
           <div className="text-base-500 flex items-center">
-            The test has been failing with
-            <div className="text-base-900 mx-1 w-20">
+            The test has been failing with the
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
-                value={{ label: failureType, value: failureType }}
+                value={{
+                  label: ALWAYS_FAILING_TAGS_ENUM[failureType],
+                  value: failureType
+                }}
                 defaultValue={{
                   label: errorTypeDefault,
                   value: errorTypeDefault
@@ -119,8 +127,8 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>
-            for last
-            <div className="text-base-900 mx-1 w-16">
+            error for the last
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
