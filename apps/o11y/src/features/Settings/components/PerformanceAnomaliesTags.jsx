@@ -95,9 +95,9 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
       <div className="border-b-base-300 my-3 h-1 border-b" />
       <div className="flex flex-col">
         <>
-          <div className="text-base-500 flex items-center">
-            Detect as anomaly when durationPercentile
-            <div className="text-base-900 mx-1 w-20">
+          <div className="text-base-500 flex flex-wrap items-center">
+            Test execution duration exceeding the
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: durationPercentile, value: durationPercentile }}
                 onChange={(item) =>
@@ -128,8 +128,8 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>
-            percentile among last
-            <div className="text-base-900 mx-1 w-16">
+            percentile duration among the last
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
@@ -160,7 +160,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>{' '}
-            executions
+            runs of the same test
           </div>
         </>
       </div>

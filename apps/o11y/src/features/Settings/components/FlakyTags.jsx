@@ -17,19 +17,19 @@ import {
 } from '../slices/smartTagsSettings';
 
 const STATIC_RE_RUN_DROPDOWN_DATA = [
-  ...Array(30)
+  ...Array(31)
     .fill(0)
-    .map((_, i) => ({ name: i + 1, value: i + 1 }))
+    .map((_, i) => ({ name: i, value: i }))
 ];
-const STATIC_TEST_STATUS_FLIPPING = [
+const FLIPPING_COUNT = [
   ...Array(10)
     .fill(0)
     .map((_, i) => ({
-      name: `${(i + 1) * 10}%`,
+      name: `${(i + 1) * 10}`,
       value: (i + 1) * 10
     }))
 ];
-const STATIC_TEST_STATUS_FLIPPING_TOTAL = [
+const FLIPPING_COUNT_CONSECUTIVE_RUNS = [
   ...Array(10)
     .fill(0)
     .map((_, i) => ({ name: i + 1, value: i + 1 }))
@@ -42,7 +42,7 @@ export const FlakyTags = ({ data, isActive }) => {
 
   const { automaticFlaky, flakeInHistory, flakeInRerun } = data;
   const {
-    flippingPercentage: flippingPercentageDefault,
+    flippingCount: flippingCountDefault,
     consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.flaky.flakeInHistory;
   const { consecutiveRuns: rerunDefault } =
@@ -84,7 +84,7 @@ export const FlakyTags = ({ data, isActive }) => {
           ...data,
           flakeInHistory: {
             ...flakeInHistory,
-            flippingPercentage: item.value
+            flippingCount: item.value
           }
         }
       })
@@ -122,7 +122,7 @@ export const FlakyTags = ({ data, isActive }) => {
           ...data,
           flakeInRerun: {
             ...flakeInRerun,
-            flippingPercentage: item.value
+            flippingCount: item.value
           }
         }
       })
@@ -153,17 +153,17 @@ export const FlakyTags = ({ data, isActive }) => {
             />
           </div>
           <div className="text-base-500 flex flex-wrap items-center">
-            Test status flipping (pass to fail or vice-versa) more than{' '}
+            Test status has flipped more than
             <span className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{
-                  label: flakeInHistory.flippingPercentage,
-                  value: flakeInHistory.flippingPercentage
+                  label: flakeInHistory.flippingCount,
+                  value: flakeInHistory.flippingCount
                 }}
                 onChange={setTestStatusFlipping}
                 defaultValue={{
-                  label: flippingPercentageDefault,
-                  value: flippingPercentageDefault
+                  label: flippingCountDefault,
+                  value: flippingCountDefault
                 }}
                 disabled={
                   !isActive || !flakeInHistory.enabled || !automaticFlaky
@@ -171,7 +171,7 @@ export const FlakyTags = ({ data, isActive }) => {
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>
-                  {STATIC_TEST_STATUS_FLIPPING.map((item) => (
+                  {FLIPPING_COUNT.map((item) => (
                     <O11ySelectMenuOptionItem
                       key={item.value}
                       checkPosition="right"
@@ -185,7 +185,7 @@ export const FlakyTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </span>
-            times out of{' '}
+            times in the last
             <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{
@@ -203,7 +203,7 @@ export const FlakyTags = ({ data, isActive }) => {
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>
-                  {STATIC_TEST_STATUS_FLIPPING_TOTAL.map((item) => (
+                  {FLIPPING_COUNT_CONSECUTIVE_RUNS.map((item) => (
                     <O11ySelectMenuOptionItem
                       key={item.value}
                       checkPosition="right"
@@ -217,7 +217,7 @@ export const FlakyTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>{' '}
-            across consecutive runs
+            consecutive runs
           </div>
         </>
         <p className="text-base-600 py-4">OR</p>
@@ -232,7 +232,7 @@ export const FlakyTags = ({ data, isActive }) => {
             />
           </div>
           <div className="text-base-500 flex items-center">
-            Test passing on a retry attempt in the same run across last
+            Test passes on a retry within the last
             <div className="text-base-900 mx-1 w-16">
               <O11ySelectMenu
                 value={{
@@ -259,7 +259,7 @@ export const FlakyTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>
-            consecutive runs
+            runs
           </div>
         </>
       </div>
