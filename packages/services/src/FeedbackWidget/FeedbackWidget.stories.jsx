@@ -30,6 +30,8 @@ export default {
 
 export const ModalFeedback = {
   args: {
+    title: 'How was your experience with Lorem Ipsum?',
+    description: 'Optional description text for added context',
     formFields: fields,
     handleFeedbackClick: (i) => console.log(i),
     flow: [

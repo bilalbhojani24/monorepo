@@ -64,15 +64,8 @@ const FeedbackWidget = ({
 };
 
 FeedbackWidget.propTypes = {
-  /**
-   * Whenever next button is clicked on feedback
+  /** An array of objects representing the sequence in which the feedback form will be incremented.
    */
-  handleFeedbackClick: PropTypes.func,
-  /**
-   * This is an array of object of formfields when in feedback you have form
-   */
-  formFields: PropTypes.arrayOf(PropTypes.shape({})),
-  // The sequence of flow
   flow: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.oneOf(FEEDBACK_TYPE),
@@ -81,16 +74,25 @@ FeedbackWidget.propTypes = {
       icon: PropTypes.node
     })
   ).isRequired,
-  // The status of feedback Toast/modal
+  /**
+   * An array of objects that describes the types of form fields to be used in a form builder.
+   */
+  formFields: PropTypes.arrayOf(PropTypes.shape({})),
+  /**
+   * A callback function invoked when the user clicks on the button to proceed to the next step of feedback.
+   */
+  handleFeedbackClick: PropTypes.func,
+  // A flag indicating whether the modal or toast for feedback is currently open or closed.
   isOpen: PropTypes.bool,
-  // Types of variations
+  // A prop that determines the display option for the component, allowing it to be shown as either a modal or a toast.
   variation: PropTypes.oneOf(VARIATIONS),
-  // The variations props of components
+  // A prop used to pass component-specific properties to the internally used Modal and Notifications components from the Bifrost component library, based on the chosen variation.
   variationsProps: {
     modal: PropTypes.shape({}),
     modalHeader: PropTypes.shape({}),
     modalBody: PropTypes.shape({}),
-    modalFooter: PropTypes.shape({})
+    modalFooter: PropTypes.shape({}),
+    notifications: PropTypes.shape({})
   }
 };
 FeedbackWidget.defaultProps = {

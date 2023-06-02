@@ -52,7 +52,8 @@
   "scripts": {
     "storybook": "storybook dev -p 6007",
     "build-storybook": "storybook build",
-    "build": "vite build"
+    "build": "vite build",
+    "chromatic": "npx chromatic --project-token=chpt_049ab8d2fb84a45"
   },
   "files": [
     "dist/*"
