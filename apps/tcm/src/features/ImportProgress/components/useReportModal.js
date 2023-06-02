@@ -5,7 +5,7 @@ import { logEventHelper } from 'utils/logEvent';
 
 import { retryQuickImport } from '../../quickImportFlow/slices/quickImportThunk';
 import { setReportModal } from '../slices/importProgressSlice';
-import { setQuickImportResult } from '../slices/importProgressThunk';
+// import { setQuickImportResult } from '../slices/importProgressThunk';
 
 const useReportModal = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,9 @@ const useReportModal = () => {
   );
   const importStatus = useSelector(
     (state) => state.importProgress.importStatus
+  );
+  const viewReportLoading = useSelector(
+    (state) => state.importProgress.loader.report
   );
 
   const closeReportModal = () => {
@@ -38,7 +41,7 @@ const useReportModal = () => {
 
   useEffect(() => {
     if (isReportModalVisible) {
-      dispatch(setQuickImportResult());
+      // dispatch(setQuickImportResult());
       dispatch(logEventHelper('TM_QiReportPopupLoaded', {}));
     }
   }, [dispatch, isReportModalVisible]);
@@ -49,6 +52,7 @@ const useReportModal = () => {
     isReportModalVisible,
     retryImport,
     reportModalProjects,
+    viewReportLoading,
     handleDocumentationClick
   };
 };

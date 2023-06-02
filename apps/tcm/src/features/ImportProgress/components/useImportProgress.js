@@ -6,9 +6,10 @@ import { logEventHelper } from 'utils/logEvent';
 import { IMPORT_STATUS } from '../const/immutables';
 import {
   setDetailsModal,
-  setIsProgressDismissed,
-  setReportModal
+  setIsProgressDismissed
+  // setReportModal
 } from '../slices/importProgressSlice';
+import { setQuickImportResult } from '../slices/importProgressThunk';
 
 const useImportProgress = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,9 @@ const useImportProgress = () => {
   const currentTool = useSelector(
     (state) => state.import.currentTestManagementTool
   );
+  const viewReportLoading = useSelector(
+    (state) => state.importProgress.loader.report
+  );
 
   const showDetailsModal = () => {
     dispatch(setDetailsModal(true));
@@ -46,7 +50,8 @@ const useImportProgress = () => {
   };
 
   const showReportModal = (status) => {
-    dispatch(setReportModal(true));
+    dispatch(setQuickImportResult());
+    // dispatch(setReportModal(true));
     dispatch(
       logEventHelper('TM_QiViewReportLinkClicked', { import_status: status })
     );
@@ -71,6 +76,7 @@ const useImportProgress = () => {
     isCancelConfirmView,
     showAlertLoader,
     currentTool,
+    viewReportLoading,
     closeProgress,
     setCancelConfirmView,
     showDetailsModal,

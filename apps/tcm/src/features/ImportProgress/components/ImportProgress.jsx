@@ -14,6 +14,7 @@ import CancelModal from './CancelModal';
 import ImportDetailsModal from './ImportDetailsModal';
 import useImportProgress from './useImportProgress';
 
+const VIEW_REPORT = 'View Report';
 const ImportProgress = () => {
   const {
     isVisible,
@@ -24,6 +25,7 @@ const ImportProgress = () => {
     showReportModal,
     closeProgress,
     currentTool,
+    viewReportLoading,
     isDetailsModalVisible,
     isCancelModalVisible
   } = useImportProgress();
@@ -83,7 +85,16 @@ const ImportProgress = () => {
               modifier="success"
               accentBorder
               dismissButton
-              detailsNode="View Report"
+              detailsNode={
+                viewReportLoading ? (
+                  <span className="flex items-center">
+                    {VIEW_REPORT}
+                    <Loader wrapperClassName="ml-1 h-4 w-4" />
+                  </span>
+                ) : (
+                  VIEW_REPORT
+                )
+              }
               alertLinkPosition="inline"
               handleLinkClick={() => showReportModal(importStatus)}
               description={`${importDetails?.successfullyImportedProjects}/${
@@ -109,7 +120,16 @@ const ImportProgress = () => {
               } Projects imported from ${
                 currentTool === ZEPHYR ? 'Zephyr Scale' : 'TestRail'
               }.`}
-              detailsNode="View Report"
+              detailsNode={
+                viewReportLoading ? (
+                  <span className="flex items-center">
+                    {VIEW_REPORT}
+                    <Loader wrapperClassName="ml-1 h-4 w-4" />
+                  </span>
+                ) : (
+                  VIEW_REPORT
+                )
+              }
             />
           </div>
         );

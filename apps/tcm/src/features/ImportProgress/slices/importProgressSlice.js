@@ -6,7 +6,7 @@ const initialState = {
   isDetailsModalVisible: false,
   isReportModalVisible: false,
   isCancelModalVisible: false,
-  loader: { alert: false },
+  loader: { alert: false, report: false },
   importDetails: {
     percent: 0,
     totalProjects: 'N',
@@ -86,6 +86,9 @@ export const importProgressSlice = createSlice({
     },
     setReportModalProjects: (state, { payload }) => {
       state.reportModalProjects = payload;
+    },
+    setViewReportLoading: (state, { payload }) => {
+      state.loader.report = payload;
     }
   }
 });
@@ -99,6 +102,7 @@ export const {
   setCancelModal,
   showAlertLoader,
   setHoverActive,
+  setViewReportLoading,
   setTooltipDismissed,
   setReportModalProjects,
   setNotificationDismissed,
