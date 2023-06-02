@@ -125,6 +125,14 @@ export default function Dashboard({ children }) {
               URL: window.location.href,
               signed_in: true
             });
+            if (!isFreeUser) {
+              logEvent('UpgradeCTAClicked_ProductDashboard', {
+                Product: 'Accessibility Testing',
+                section: 'dashboard-top-header',
+                URL: window.location.href,
+                signed_in: true
+              });
+            }
           }
         }}
         planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing`}
