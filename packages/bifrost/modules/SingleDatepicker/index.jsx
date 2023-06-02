@@ -18,8 +18,11 @@ import { PickerLevelContext } from './context/PickerLevelContext';
 const SingleDatepicker = (props) => {
   const state = useDatePickerState(props);
   const ref = useRef();
-  const { groupProps, labelProps, fieldProps, dialogProps, calendarProps } =
-    useDatePicker(props, state, ref);
+  const { labelProps, fieldProps, dialogProps, calendarProps } = useDatePicker(
+    props,
+    state,
+    ref
+  );
 
   const {
     label,
@@ -27,7 +30,8 @@ const SingleDatepicker = (props) => {
     disabled,
     offset,
     crossOffset,
-    placement,
+    align,
+    side,
     wrapperClassName,
     isLoading
   } = props;
@@ -70,7 +74,6 @@ const SingleDatepicker = (props) => {
           })}
         >
           <div
-            {...groupProps}
             ref={ref}
             className={twClassNames(
               'border-base-300 cursor-pointer flex w-full rounded-md border justify-between',
@@ -98,9 +101,11 @@ const SingleDatepicker = (props) => {
             <RPopover
               sideOffset={crossOffset}
               alignOffset={offset}
-              placement={placement}
+              align={align}
+              side={side}
               trigger={
                 <button
+                  aria-label="calendar dropdown trigger"
                   type="button"
                   disabled={disabled}
                   className={twClassNames(
@@ -146,7 +151,8 @@ SingleDatepicker.propTypes = {
   isDateUnavailable: Proptypes.func,
   offset: Proptypes.number,
   crossOffset: Proptypes.number,
-  placement: Proptypes.string,
+  align: Proptypes.string,
+  side: Proptypes.string,
   label: Proptypes.string,
   isLoading: Proptypes.bool
 };
@@ -158,7 +164,8 @@ SingleDatepicker.defaultProps = {
   isDateUnavailable: () => {},
   offset: 0,
   crossOffset: 0,
-  placement: 'bottom end',
+  align: 'end',
+  side: 'bottom',
   label: '',
   isLoading: false
 };
