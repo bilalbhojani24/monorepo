@@ -8,12 +8,12 @@ import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
 import { CTA_TEXTS } from 'constants/paywall';
-import { o11yPlanUpgrade } from 'globalSlice/index';
 import { canStartFreeTrial } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import { MODAL_CONFIG } from '../constants';
+import { handleUpgrade } from '../utils';
 
 function StartFreeTrialModal() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,34 +37,31 @@ function StartFreeTrialModal() {
   }, []);
 
   const handleSubmitFreeTrial = () => {
-    logOllyEvent({
-      event: 'O11yUpgradeModalInteracted',
-      data: {
-        interaction: 'cta_clicked'
-      }
-    });
     setIsSubmitting(true);
-    dispatch(o11yPlanUpgrade())
-      .unwrap()
-      .then(() => {
-        handleCloseModal();
-        dispatch(
-          toggleBanner({
-            version: BANNER_TYPES.plan_started,
-            data: {}
-          })
-        );
+    dispatch(
+      handleUpgrade({
+        successCb: () => {
+          if (shouldAllowFreeTrial) {
+            handleCloseModal();
+            dispatch(
+              toggleBanner({
+                version: BANNER_TYPES.plan_started,
+                data: {}
+              })
+            );
+          } else {
+            handleCloseModal();
+            o11yNotify({
+              title: 'Request for upgrade received',
+              description:
+                "We'll reach out to you soon with upgrade related details",
+              type: 'success'
+            });
+          }
+        },
+        finalCb: () => setIsSubmitting(false)
       })
-      .catch(() => {
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'Please try again later.',
-          type: 'error'
-        });
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
+    );
   };
 
   const IllustrationComponent =
