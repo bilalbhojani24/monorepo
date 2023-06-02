@@ -45,7 +45,7 @@ const ViewReportModal = () => {
 
   return (
     <TMModal
-      size="3xl"
+      size="4xl"
       show={isReportModalVisible && !viewReportLoading}
       onOverlayClick={closeReportModal}
     >
@@ -54,7 +54,7 @@ const ViewReportModal = () => {
         handleDismissClick={closeReportModal}
       />
       <TMModalBody>
-        <Table containerWrapperClass="border-base-300 mb-3 rounded-md border min-h-max max-h-[344px] overflow-scroll">
+        <Table containerWrapperClass="border-base-300 mb-3 rounded-md border min-h-max max-h-96 overflow-scroll">
           <TableHead wrapperClassName="bg-base-50">
             <TableRow>
               {REPORT_TABLE_COLUMNS.map((col) => (
