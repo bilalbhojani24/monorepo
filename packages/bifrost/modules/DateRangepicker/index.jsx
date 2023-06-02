@@ -7,11 +7,10 @@ import Proptypes from 'prop-types';
 
 import { CalendarIcon } from '../Icon';
 
-import { FieldButton } from './components/Button';
 import { DateField } from './components/DateField';
 import { Dialog } from './components/Dialog';
-import { Popover } from './components/Popover';
 import { RangeCalendar } from './components/RangeCalendar';
+import RPopover from './components/RPopover';
 import { PICKER_LEVELS, YEARS_DATA } from './const/DateRangepickerconst';
 import { PickerLevelContext } from './context/PickerLevelContext';
 
@@ -19,11 +18,9 @@ const DateRangepicker = (props) => {
   const state = useDateRangePickerState(props);
   const ref = useRef();
   const {
-    groupProps,
     labelProps,
     startFieldProps,
     endFieldProps,
-    buttonProps,
     dialogProps,
     calendarProps
   } = useDateRangePicker(props, state, ref);
@@ -34,7 +31,8 @@ const DateRangepicker = (props) => {
     disabled,
     offset,
     crossOffset,
-    placement,
+    align,
+    side,
     wrapperClassName,
     isLoading
   } = props;
@@ -77,7 +75,6 @@ const DateRangepicker = (props) => {
           })}
         >
           <div
-            {...groupProps}
             ref={ref}
             className={twClassNames(
               'border-base-300 flex w-full rounded-md border justify-between focus:outline-brand-500 focus:outline-1',
@@ -116,7 +113,41 @@ const DateRangepicker = (props) => {
                 errorMessage={errorMessage}
               />
             </div>
-            <FieldButton
+
+            <RPopover
+              sideOffset={crossOffset}
+              alignOffset={offset}
+              align={align}
+              side={side}
+              trigger={
+                <button
+                  aria-label="calendar dropdown trigger"
+                  type="button"
+                  disabled={disabled}
+                  className={twClassNames(
+                    'border-base-300 -ml-px rounded-r-md border-l px-3.5 bg-white hover:bg-base-50 focus:outline-brand-500 focus:border-2',
+                    {
+                      'cursor-not-allowed bg-base-50': disabled
+                    }
+                  )}
+                >
+                  <CalendarIcon
+                    aria-hidden="true"
+                    className={twClassNames('text-base-400 h-5 w-5', {
+                      'text-base-300': disabled
+                    })}
+                  />
+                </button>
+              }
+              content={
+                <div className="border-base-300 z-10 mt-2 rounded-md border bg-white p-3 shadow-lg">
+                  <Dialog {...dialogProps} isLoading={isLoading}>
+                    <RangeCalendar isLoading={isLoading} {...calendarProps} />
+                  </Dialog>
+                </div>
+              }
+            />
+            {/* <FieldButton
               disabled={disabled}
               {...buttonProps}
               isPressed={state.isOpen}
@@ -127,7 +158,7 @@ const DateRangepicker = (props) => {
                   'text-base-300': disabled
                 })}
               />
-            </FieldButton>
+            </FieldButton> */}
           </div>
         </div>
         {errorMessage && (
@@ -136,11 +167,11 @@ const DateRangepicker = (props) => {
           </p>
         )}
 
-        {state.isOpen && (
+        {/* {state.isOpen && (
           <Popover
             triggerRef={ref}
             state={state}
-            placement={placement}
+            align={align}
             offset={offset}
             crossOffset={crossOffset}
           >
@@ -148,7 +179,7 @@ const DateRangepicker = (props) => {
               <RangeCalendar isLoading={isLoading} {...calendarProps} />
             </Dialog>
           </Popover>
-        )}
+        )} */}
       </div>
     </PickerLevelContext.Provider>
   );
@@ -162,7 +193,8 @@ DateRangepicker.propTypes = {
   isDateUnavailable: Proptypes.func,
   offset: Proptypes.number,
   crossOffset: Proptypes.number,
-  placement: Proptypes.string,
+  align: Proptypes.string,
+  side: Proptypes.string,
   label: Proptypes.string,
   isLoading: Proptypes.bool
 };
@@ -174,7 +206,8 @@ DateRangepicker.defaultProps = {
   isDateUnavailable: () => {},
   offset: 0,
   crossOffset: 0,
-  placement: 'bottom end',
+  align: 'end',
+  side: 'bottom',
   label: '',
   isLoading: false
 };
