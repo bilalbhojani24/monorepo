@@ -153,3 +153,22 @@ export const editTestCasesBulkOnSFAPI = async ({
       params: qp
     }
   );
+
+export const moveTestCasesBulkOnSFAPI = async ({
+  projectId,
+  qp,
+  newParentFolderId,
+  bulkSelection
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-cases/bulk-move`,
+    {
+      test_case: {
+        ...bulkSelection,
+        folder_id: newParentFolderId
+      }
+    },
+    {
+      params: qp
+    }
+  );

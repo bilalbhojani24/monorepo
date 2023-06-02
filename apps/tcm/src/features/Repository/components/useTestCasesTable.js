@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { moveTestCasesBulkAPI } from 'api/testcases.api';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import {
+  moveTestCasesBulkAPI,
+  moveTestCasesBulkOnSFAPI
+} from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { addNotificaton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
@@ -23,9 +26,14 @@ import {
   setTestCaseDetails,
   setTestCaseFormData,
   updateAllTestCases,
-  updateCtaLoading
+  updateCtaLoading,
+  updateTestCasesOnSF
 } from '../slices/repositorySlice';
-import { formDataRetriever } from '../utils/sharedFunctions';
+import {
+  formDataRetriever,
+  getExistingQueryParams,
+  updatePageQueryParamsWORefresh
+} from '../utils/sharedFunctions';
 
 // import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
 import useUpdateTCCountInFolders from './AddEditTestCase/useUpdateTCCountInFolders';
@@ -33,6 +41,7 @@ import useUpdateTCCountInFolders from './AddEditTestCase/useUpdateTCCountInFolde
 const useTestCasesTable = (prop) => {
   const navigate = useNavigate();
   const { projectId, folderId, testCaseId } = useParams();
+  const [searchParams] = useSearchParams();
   const [showMoveModal, setshowMoveModal] = useState(false);
   const [isAllChecked, setAllChecked] = useState(false); // for the current page alone
   const [isIndeterminate, setIndeterminate] = useState(false); // for the current page alone
@@ -153,6 +162,42 @@ const useTestCasesTable = (prop) => {
     setshowMoveModal(false);
   };
 
+  const moveTestCasesSFHandler = () => {
+    moveTestCasesBulkOnSFAPI({
+      projectId,
+      bulkSelection,
+      qp: getExistingQueryParams(searchParams)
+    })
+      .then((data) => {
+        dispatch(updateTestCasesOnSF(data));
+        updatePageQueryParamsWORefresh(searchParams, data?.info?.page);
+
+        dispatch(resetBulkSelection());
+        dispatch(
+          logEventHelper('TM_TcMovedNotification', {
+            project_id: projectId,
+            testcase_id: bulkSelection?.ids
+          })
+        );
+        dispatch(
+          addNotificaton({
+            id: `test_cases_moved`,
+            title: `${bulkSelection?.ids?.length} Test cases moved to new location`,
+            variant: 'success'
+          })
+        );
+        hideFolderModal();
+        dispatch(
+          updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: false })
+        );
+      })
+      .catch(() => {
+        dispatch(
+          updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: false })
+        );
+      });
+  };
+
   const moveTestCasesHandler = (selectedFolder) => {
     if (selectedFolder?.id) {
       dispatch(updateCtaLoading({ key: 'bulkMoveTestCaseCta', value: true }));
@@ -165,6 +210,11 @@ const useTestCasesTable = (prop) => {
           testcase_id: bulkSelection?.ids
         })
       );
+
+      if (isSearchFilterView) {
+        moveTestCasesSFHandler();
+        return;
+      }
       moveTestCasesBulkAPI({
         projectId,
         folderId,

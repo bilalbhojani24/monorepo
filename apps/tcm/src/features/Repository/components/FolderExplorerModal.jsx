@@ -79,7 +79,7 @@ const FolderExplorerModal = ({
           <div className="border-base-300 mb-4 max-h-64 overflow-auto border">
             <FolderExplorer
               projectId={projectId}
-              allFolders={allFolders}
+              allFolders={allFolders.length ? allFolders : null} // in case no folder, confirm the same within the component by refetching
               onFolderClick={(folder) => setSelectedFolder(folder)}
               onFoldersUpdate={(data) => setInternalAllFolders(data)}
               disabledFolders={disabledFolders}
