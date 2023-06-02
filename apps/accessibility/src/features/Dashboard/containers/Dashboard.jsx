@@ -121,6 +121,7 @@ export default function Dashboard({ children }) {
             logEvent('ClickedBuyaPlan', {
               Product: 'Accessibility Testing',
               section: 'dashboard-top-header',
+              ProductPlanType: `${isFreeUser ? 'free' : 'paid'}`,
               URL: window.location.href,
               signed_in: true
             });
