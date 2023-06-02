@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
 // import { verifyTagAPI } from 'api/common.api';
 import {
@@ -9,6 +9,7 @@ import {
   addTestCaseWithoutProjectAPI,
   editTestCaseAPI,
   editTestCasesBulkAPI,
+  editTestCasesBulkOnSFAPI,
   getTestCaseDetailsAPI
   // verifyTagAPI
 } from 'api/testcases.api';
@@ -44,9 +45,14 @@ import {
   updateTestCase,
   updateTestCaseFormCFData,
   updateTestCaseFormData,
-  updateTestCasesListLoading
+  updateTestCasesListLoading,
+  updateTestCasesOnSF
 } from '../../slices/repositorySlice';
-import { formDataRetriever } from '../../utils/sharedFunctions';
+import {
+  formDataRetriever,
+  getExistingQueryParams,
+  updatePageQueryParamsWORefresh
+} from '../../utils/sharedFunctions';
 import useTestCases from '../useTestCases';
 import useUnsavedChanges from '../useUnsavedChanges';
 
@@ -56,6 +62,7 @@ export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
   const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { unsavedFormConfirmation, isOkToExitForm } = useUnsavedChanges();
   const { updateTCCount } = useUpdateTCCountInFolders();
   const [inputError, setInputError] = useState({
@@ -394,6 +401,39 @@ export default function useAddEditTestCase(prop) {
     }
   };
 
+  const saveBulkEditOnSF = () => {
+    editTestCasesBulkOnSFAPI({
+      projectId,
+      bulkSelection,
+      data: formatBulkFormData(
+        formDataFormatter(testCaseBulkFormData).test_case
+      ),
+      qp: getExistingQueryParams(searchParams)
+    })
+      .then((data) => {
+        dispatch(updateTestCasesOnSF(data));
+        updatePageQueryParamsWORefresh(searchParams, data?.info?.page);
+
+        dispatch(
+          addNotificaton({
+            id: `bulk_updated${projectId}${folderId}`,
+            title: `${bulkSelection?.ids?.length} Test cases updated`,
+            variant: 'success'
+          })
+        );
+        dispatch(
+          updateCtaLoading({ key: 'bulkEditTestCaseCta', value: false })
+        );
+        hideTestCaseAddEditPage(null, true);
+        dispatch(resetBulkSelection());
+      })
+      .catch(() => {
+        dispatch(
+          updateCtaLoading({ key: 'bulkEditTestCaseCta', value: false })
+        );
+      });
+  };
+
   const saveBulkEditHelper = () => {
     dispatch(
       logEventHelper('TM_UpdateAllCtaClicked', {
@@ -403,6 +443,11 @@ export default function useAddEditTestCase(prop) {
     );
     setBulkEditConfirm(false);
     dispatch(updateCtaLoading({ key: 'bulkEditTestCaseCta', value: true }));
+
+    if (isSearchFilterView) {
+      saveBulkEditOnSF();
+      return;
+    }
 
     editTestCasesBulkAPI({
       projectId,
@@ -423,13 +468,6 @@ export default function useAddEditTestCase(prop) {
             testcase_id: bulkSelection?.ids
           })
         );
-        // dispatch(
-        //   updateAllTestCases(
-        //     allTestCases.map(
-        //       (item) => res.test_cases.find((inc) => inc.id === item.id) || item
-        //     )
-        //   )
-        // );
         fetchAllTestCases();
         dispatch(
           addNotificaton({
@@ -440,7 +478,6 @@ export default function useAddEditTestCase(prop) {
         );
         hideTestCaseAddEditPage(null, true);
         dispatch(resetBulkSelection());
-        // dispatch(resetBulkFormData());
       })
       .catch(() => {
         dispatch(

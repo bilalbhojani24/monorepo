@@ -120,7 +120,7 @@ export const verifyTagAPI = async ({ projectId, tags }) =>
     tags
   });
 
-export const deleteTestCasesBulkOnSearchAPI = async ({
+export const deleteTestCasesBulkOnSFAPI = async ({
   projectId,
   bulkSelection,
   qp
@@ -129,6 +129,25 @@ export const deleteTestCasesBulkOnSearchAPI = async ({
     `/api/v1/projects/${projectId}/test-cases/bulk-delete`,
     {
       test_case: bulkSelection
+    },
+    {
+      params: qp
+    }
+  );
+
+export const editTestCasesBulkOnSFAPI = async ({
+  projectId,
+  qp,
+  bulkSelection,
+  data
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-cases/bulk-edit`,
+    {
+      test_case: {
+        ...data,
+        ...bulkSelection
+      }
     },
     {
       params: qp

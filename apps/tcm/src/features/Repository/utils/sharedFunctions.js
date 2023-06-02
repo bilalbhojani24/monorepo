@@ -62,6 +62,19 @@ export const mapFolderAncestorHelper = (ancestorsArray, folderId) => {
   return newContentObject;
 };
 
+export const getFilterOptions = (thisParams) => {
+  const tags = thisParams.get('tags');
+  const owner = thisParams.get('owner');
+  const priority = thisParams.get('priority');
+  const q = thisParams.get('q');
+  return {
+    tags: tags?.split(',') || [],
+    owner: owner?.split(',') || [],
+    priority: priority?.split(',') || [],
+    q: q || ''
+  };
+};
+
 export const getFormattedBEFilter = (filterOptions) => {
   const queryParams = {};
   Object.keys(filterOptions).forEach((key) => {
@@ -77,17 +90,13 @@ export const getFormattedBEFilter = (filterOptions) => {
   return queryParams;
 };
 
-export const getFilterOptions = (thisParams) => {
-  const tags = thisParams.get('tags');
-  const owner = thisParams.get('owner');
-  const priority = thisParams.get('priority');
-  const q = thisParams.get('q');
-  return {
-    tags: tags?.split(',') || [],
-    owner: owner?.split(',') || [],
-    priority: priority?.split(',') || [],
-    q: q || ''
-  };
+export const getExistingQueryParams = (searchParams) => {
+  const currentPage = searchParams.get('p');
+  const queryParams = getFormattedBEFilter(getFilterOptions(searchParams));
+  if (currentPage) {
+    queryParams.p = currentPage;
+  }
+  return queryParams;
 };
 
 export const getCalcQueryParams = (thisFilterSearchMeta) => {
@@ -107,17 +116,22 @@ export const getCalcQueryParams = (thisFilterSearchMeta) => {
   return { queryParams, searchParamsTemp };
 };
 
-export const updatePageQueryParams = (
-  existingParams,
-  currentPage,
-  fetchedPage
-) => {
+export const updatePageQueryParamsWORefresh = (searchParams, fetchedPage) => {
   // to update the query parms with page without triggering a refresh
+
+  const currentPage = searchParams.get('p');
+  const { searchParamsTemp } = getCalcQueryParams(
+    getFilterOptions(searchParams)
+  );
+  if (currentPage) {
+    searchParamsTemp.p = currentPage;
+  }
+
   if (`${fetchedPage}` !== currentPage) {
     if (currentPage === null && fetchedPage === 1) {
       // currently on first page and be on first page
     } else {
-      updateQueryParamWOEvent({ ...existingParams, p: fetchedPage });
+      updateQueryParamWOEvent({ ...searchParamsTemp, p: fetchedPage });
     }
   }
 };

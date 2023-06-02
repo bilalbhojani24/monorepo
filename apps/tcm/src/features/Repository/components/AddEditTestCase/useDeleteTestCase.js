@@ -4,7 +4,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import {
   deleteTestCaseAPI,
   deleteTestCasesBulkAPI,
-  deleteTestCasesBulkOnSearchAPI,
+  deleteTestCasesBulkOnSFAPI,
   getTestCasesAPI,
   getTestCasesSearchFilterAPI
 } from 'api/testcases.api';
@@ -24,10 +24,9 @@ import {
   updateTestCasesOnSF
 } from '../../slices/repositorySlice';
 import {
-  getCalcQueryParams,
+  getExistingQueryParams,
   getFilterOptions,
-  getFormattedBEFilter,
-  updatePageQueryParams
+  updatePageQueryParamsWORefresh
 } from '../../utils/sharedFunctions';
 
 import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
@@ -197,23 +196,14 @@ export default function useDeleteTestCase() {
   const bulkSearchDeleteHandler = () => {
     updateLoadingState('bulkDeleteTestCaseCta', true);
 
-    const currentPage = searchParams.get('p');
-    const normalFilters = getFilterOptions(searchParams);
-    const { searchParamsTemp } = getCalcQueryParams(normalFilters);
-    const queryParams = getFormattedBEFilter(normalFilters);
-    if (currentPage) {
-      queryParams.p = currentPage;
-      searchParamsTemp.p = currentPage;
-    }
-
-    deleteTestCasesBulkOnSearchAPI({
+    deleteTestCasesBulkOnSFAPI({
       projectId,
       bulkSelection,
-      qp: queryParams
+      qp: getExistingQueryParams(searchParams)
     })
       .then((data) => {
         dispatch(updateTestCasesOnSF(data));
-        updatePageQueryParams(searchParamsTemp, currentPage, data?.info?.page);
+        updatePageQueryParamsWORefresh(searchParams, data?.info?.page);
 
         const notificationData = {
           id: 'test_cases_deleted',
