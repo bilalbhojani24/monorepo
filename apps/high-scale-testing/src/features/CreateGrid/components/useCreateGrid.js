@@ -12,6 +12,7 @@ import {
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import ROUTES from 'constants/routes';
 import {
   getInstanceTypes,
   getRegions,
@@ -19,6 +20,33 @@ import {
 } from 'globalSlice/selector';
 
 const useCreateGrid = () => {
+  // All Store variables:
+  const userDetails = useSelector(getUserDetails);
+
+  const CODE_SNIPPETS_SCRATCH = {
+    'create-grid': {
+      a: {
+        code: 'npm install @browserstack/browserstack-cli',
+        language: 'node',
+        text: 'Download CLI.'
+      },
+      b: {
+        code: `# Set these values in your ~/.zprofile (zsh) or ~/.profile (bash)
+export BROWSERSTACK_USERNAME=${userDetails.username}
+export BROWSERSTACK_ACCESS_KEY=${userDetails.accessKey}
+
+# Create HST configuration profile with AWS credentials
+browserstack-cli hst init`,
+        language: 'node',
+        text: 'Setup CLI with AWS credentials.'
+      },
+      c: {
+        code: 'browserstack-cli hst create grid',
+        language: 'node',
+        text: 'Execute grid creation command.'
+      }
+    }
+  };
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
   const DEFAULT_STEPPER_STATE = [
     {
@@ -59,9 +87,6 @@ const useCreateGrid = () => {
       goToStep: 1
     }
   ];
-
-  // All Store variables:
-  const userDetails = useSelector(getUserDetails);
 
   // All State variables
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
@@ -128,6 +153,7 @@ const useCreateGrid = () => {
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
   const [showSaveProfileModal, setShowSaveProfileModal] = useState(false);
   const [showSetupClusterModal, setShowSetupClusterModal] = useState(false);
+  const [showSetupStatusModal, setShowSetupStatusModal] = useState(false);
   const [stepperStepsState, setStepperStepsState] = useState(
     DEFAULT_STEPPER_STATE
   );
@@ -165,6 +191,10 @@ const useCreateGrid = () => {
     setShowEventLogsModal(false);
   };
 
+  const closeSetupStatusModal = () => {
+    setShowSetupStatusModal(false);
+  };
+
   const clusterChangeHandler = (e) => {
     setSelectedClusterValue(e);
     commonHandler();
@@ -173,6 +203,11 @@ const useCreateGrid = () => {
   const editClusterBtnClickHandler = () => {
     setEditClusterNameInputValue(selectedClusterValue.value);
     setShowSetupClusterModal(true);
+  };
+
+  const exploreAutomationClickHandler = () => {
+    closeSetupStatusModal();
+    window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
   };
 
   const gridConcurrencyChangeHandler = (e) => {
@@ -261,6 +296,11 @@ const useCreateGrid = () => {
 
   const subnetChangeHandler = (e) => {
     setSelectedSubnetValues(e);
+  };
+
+  const viewAllBuildsClickHandler = () => {
+    closeSetupStatusModal();
+    window.location = `${window.location.origin}${ROUTES.BUILDS}`;
   };
 
   const viewEventLogsClickHandler = () => {
@@ -432,6 +472,10 @@ const useCreateGrid = () => {
   ]);
 
   useEffect(() => {
+    setShowSetupStatusModal(isSetupComplete);
+  }, [isSetupComplete]);
+
+  useEffect(() => {
     if (!showSetupClusterModal) {
       setEditClusterNameInputValue('');
     }
@@ -494,20 +538,22 @@ const useCreateGrid = () => {
 
     if (pollForEventLogs) {
       setInterval(() => {
-        // fetchEventsLogsData();
+        fetchEventsLogsData();
       }, 10000);
     }
 
-    // fetchEventsLogsData();
+    fetchEventsLogsData();
   });
 
   return {
+    CODE_SNIPPETS_SCRATCH,
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
     closeEventLogsModal,
+    closeSetupStatusModal,
     clusterChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
@@ -522,6 +568,7 @@ const useCreateGrid = () => {
     editClusterNameInputValue,
     eventLogsCode,
     eventLogsStatus,
+    exploreAutomationClickHandler,
     frameworkURLs,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
@@ -558,11 +605,13 @@ const useCreateGrid = () => {
     showGridHeartBeats,
     showSaveProfileModal,
     showSetupClusterModal,
+    showSetupStatusModal,
     stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
     totalSteps,
     type,
+    viewAllBuildsClickHandler,
     viewEventLogsClickHandler,
     vpcChangeHandler
   };

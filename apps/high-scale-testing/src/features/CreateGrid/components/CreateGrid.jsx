@@ -34,18 +34,21 @@ import {
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import EventLogs from 'features/Onboarding/components/EventLogs';
+import SetupStatus from 'features/Onboarding/components/SetupStatus';
 import SideStepperCircleWithText from 'features/SideStepper/components';
 
 import useCreateGrid from './useCreateGrid';
 
 const CreateGrid = () => {
   const {
+    CODE_SNIPPETS_SCRATCH,
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
     closeEventLogsModal,
+    closeSetupStatusModal,
     clusterChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
@@ -60,6 +63,7 @@ const CreateGrid = () => {
     editClusterNameInputValue,
     eventLogsCode,
     eventLogsStatus,
+    exploreAutomationClickHandler,
     frameworkURLs,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
@@ -96,11 +100,13 @@ const CreateGrid = () => {
     showGridHeartBeats,
     showSaveProfileModal,
     showSetupClusterModal,
+    showSetupStatusModal,
     stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
     totalSteps,
     type,
+    viewAllBuildsClickHandler,
     viewEventLogsClickHandler,
     vpcChangeHandler
   } = useCreateGrid();
@@ -655,7 +661,7 @@ const CreateGrid = () => {
               )}
 
               {setupState === 2 &&
-                !showGridHeartBeats &&
+                (!eventLogsCode || eventLogsCode?.length === 0) &&
                 eventLogsStatus !== EVENT_LOGS_STATUS.IN_PROGRESS && (
                   <div className="border-base-300 text-base-700 flex gap-2 border-t px-6 py-3">
                     <HourglassBottomOutlinedIcon /> Waiting for you to complete
@@ -666,7 +672,7 @@ const CreateGrid = () => {
               {eventLogsCode &&
                 eventLogsCode.length > 0 &&
                 showGridHeartBeats && (
-                  <div className="flex gap-2 px-6 py-3 text-base-700">
+                  <div className="text-base-700 flex gap-2 px-6 py-3">
                     <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
                     Initialising events log...
                   </div>
@@ -693,6 +699,18 @@ const CreateGrid = () => {
                   eventLogsCode={eventLogsCode}
                   totalSteps={totalSteps}
                   isSetupComplete={isSetupComplete}
+                />
+              )}
+
+              {isSetupComplete && showSetupStatusModal && (
+                <SetupStatus
+                  closeSetupStatusModal={closeSetupStatusModal}
+                  codeSnippets={CODE_SNIPPETS_SCRATCH}
+                  exploreAutomationClickHandler={exploreAutomationClickHandler}
+                  eventLogsStatus={eventLogsStatus}
+                  frameworkURLs={frameworkURLs}
+                  isSetupComplete={isSetupComplete}
+                  viewAllBuildsClickHandler={viewAllBuildsClickHandler}
                 />
               )}
             </div>
