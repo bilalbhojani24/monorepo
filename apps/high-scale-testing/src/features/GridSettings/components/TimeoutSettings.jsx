@@ -1,79 +1,38 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Button, InputField, InputGroupAddOn } from '@browserstack/bifrost';
-import { updateSettings } from 'api/index';
-import { getGridData } from 'features/GridConsole/slices/selector';
-import { getUserDetails } from 'globalSlice/selector';
+import React from 'react';
+import {
+  Button,
+  InputField,
+  InputGroupAddOn,
+  Notifications,
+  notify
+} from '@browserstack/bifrost';
+
+import useTimeoutSettings from './useTimeoutSettings';
 
 const TimeoutSettings = () => {
-  // All Store variables:
-  const gridData = useSelector(getGridData);
-  const userDetails = useSelector(getUserDetails);
-
-  // All State variables:
-  const [idleTimeOutValue, setIdleTimeOutValue] = useState(
-    gridData.testSettings.idleTimeout
-  );
-  const [queueRetryIntervalValue, setQueueRetryIntervalValue] = useState(
-    gridData.testSettings.queueRetryInterval
-  );
-  const [queueTimeoutValue, setQueueTimeoutValue] = useState(
-    gridData.testSettings.queueTimeout
-  );
-  const [testTimeoutValue, setTestTimeoutValue] = useState(
-    gridData.testSettings.testTimeout
+  const notifactionComponent = (
+    <Notifications
+      title="Settings updated!"
+      isCondensed
+      handleClose={(toastData) => {
+        notify.remove(toastData.id);
+      }}
+    />
   );
 
-  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
-  const [isSavingInProgress, setIsSavingInProgress] = useState(false);
-
-  const idleTimeoutInputChangeHandler = (e) => {
-    const newValue = e.target.value;
-
-    setIsSaveButtonDisabled(false);
-    setIdleTimeOutValue(newValue);
-  };
-
-  const queueRetryIntervalChangeHandler = (e) => {
-    const newValue = e.target.value;
-
-    setIsSaveButtonDisabled(false);
-    setQueueRetryIntervalValue(newValue);
-  };
-
-  const queueTimeoutChangeHandler = (e) => {
-    const newValue = e.target.value;
-
-    setIsSaveButtonDisabled(false);
-    setQueueTimeoutValue(newValue);
-  };
-
-  const testTimeoutChangeHandler = (e) => {
-    const newValue = e.target.value;
-
-    setIsSaveButtonDisabled(false);
-    setTestTimeoutValue(newValue);
-  };
-
-  const updateGridTimeoutSettings = (settingsObj) => {
-    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
-      setIsSaveButtonDisabled(true);
-      setIsSavingInProgress(false);
-    });
-  };
-
-  const saveBtnClickhandler = () => {
-    setIsSavingInProgress(true);
-    const settingsObj = {
-      testSettings: {
-        idleTimeout: idleTimeOutValue,
-        queueTimeout: queueTimeoutValue,
-        queueRetryInterval: queueRetryIntervalValue,
-        testTimeout: testTimeoutValue
-      }
-    };
-    updateGridTimeoutSettings(settingsObj);
-  };
+  const {
+    idleTimeoutInputChangeHandler,
+    idleTimeOutValue,
+    isSaveButtonDisabled,
+    isSavingInProgress,
+    saveBtnClickhandler,
+    testTimeoutChangeHandler,
+    testTimeoutValue,
+    queueRetryIntervalChangeHandler,
+    queueRetryIntervalValue,
+    queueTimeoutChangeHandler,
+    queueTimeoutValue
+  } = useTimeoutSettings(notifactionComponent);
 
   return (
     <>
