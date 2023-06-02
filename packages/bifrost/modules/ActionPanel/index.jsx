@@ -7,7 +7,7 @@ const ActionPanel = ({ title, content, description, hasBorder }) => {
 
   return (
     <div
-      className={twClassNames('bg-base-50 sm:rounded-lg', {
+      className={twClassNames('bg-base-50 rounded', {
         'border border-base-100': hasBorder
       })}
     >
