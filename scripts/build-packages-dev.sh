@@ -8,11 +8,18 @@ projects=(
   "packages/bifrost"
   "packages/services"
   "packages/integrations"
+  "packages/growth"
 )
 
-echo "Taking current master pull..."
-git pull origin master
-echo "Taking pull completed..."
+# Set default value for master_pull to true
+master_pull=${1:-true}
+
+# Check if master_pull is true
+if [ "$master_pull" == "true" ]; then
+  echo "Taking current master pull..."
+  # git pull origin master
+  echo "Pull completed..."
+fi
 
 echo "Installing packages started..."
 pnpm install

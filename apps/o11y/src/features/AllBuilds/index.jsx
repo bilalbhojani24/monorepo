@@ -157,6 +157,28 @@ const AllBuildsPage = () => {
     dispatch(clearFilters());
   };
 
+  const handleApplyFilters = () => {
+    logOllyEvent({
+      event: 'O11yBuildListingInteracted',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        interaction: 'filter_applied'
+      }
+    });
+  };
+
+  const handleSearchChange = () => {
+    logOllyEvent({
+      event: 'O11yBuildListingInteracted',
+      data: {
+        project_name: activeProject.name,
+        project_id: activeProject.id,
+        interaction: 'search_applied'
+      }
+    });
+  };
+
   return (
     <div className="flex h-full flex-col">
       <div className="border-base-300 flex items-center justify-between border-b px-6 py-5">
@@ -176,10 +198,10 @@ const AllBuildsPage = () => {
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-6 pt-5">
+      <div className="flex flex-1 flex-col p-6 pb-0 pt-5">
         <div className="mb-2 flex justify-between">
-          <SearchBuilds />
-          <Filters />
+          <SearchBuilds onSearchChange={handleSearchChange} />
+          <Filters onApplyFilters={handleApplyFilters} />
         </div>
 
         <div className="mb-4">
@@ -208,8 +230,8 @@ const AllBuildsPage = () => {
                 )}
                 fixedHeaderContent={BuildTableHeader}
                 handleRowClick={handleClickBuildItem}
-                tableWrapperClassName="border-l border-r border-base-300 bg-white shadow ring-1 ring-black/5 border-separate border-spacing-0 table-fixed"
-                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
+                tableWrapperClassName="bg-white border-separate border-spacing-0 table-fixed"
+                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-24"
               />
             )}
           </>

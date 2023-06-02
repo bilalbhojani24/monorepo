@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { MdClose, MdSearch, MdSearchOff } from '@browserstack/bifrost';
-import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
   O11yEmptyState,
@@ -13,7 +13,8 @@ import {
   O11yStackedList,
   O11yStackedListGroup
 } from 'common/bifrostProxy';
-import { WRAPPER_GAP_CLASS } from 'constants/common';
+import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 
 import ListGroupHeader from '../components/ListGroupHeader';
 import { INTEGRATIONS } from '../constants';
@@ -34,6 +35,9 @@ const getMatchedIntegrationsByText = (list, searchVal) => {
 };
 
 function Integrations() {
+  const headerSize = useSelector(getHeaderSize);
+  const activeProject = useSelector(getActiveProject);
+
   const [availableIntegrations, setAvailableIntegrations] =
     useState(INTEGRATIONS);
 
@@ -41,6 +45,18 @@ function Integrations() {
   const [selectedCategory, setSelectedCategory] = useState(
     ALL_CATEGORIES_OPTION
   );
+
+  useEffect(() => {
+    if (activeProject.id) {
+      logOllyEvent({
+        event: 'O11yIntegrationsVisited',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id
+        }
+      });
+    }
+  }, [activeProject.id, activeProject.name]);
 
   const handleFilterByCategoryAndSearchVal = (searchVal, categoryType) => {
     const matchedCategory = INTEGRATIONS.find(
@@ -116,12 +132,17 @@ function Integrations() {
   };
 
   return (
-    <div className={twClassNames('w-full flex flex-col', WRAPPER_GAP_CLASS)}>
+    <div
+      className="flex w-full flex-col"
+      style={{
+        height: `calc(100vh - ${headerSize}px)`
+      }}
+    >
       <O11yPageHeadings
         heading="Integrations"
         wrapperClassName="p-6 border-b border-b-base-200"
       />
-      <main className="flex flex-1 flex-col overflow-auto p-6 pt-0">
+      <main className="flex flex-1 flex-col overflow-auto px-6">
         <section className="bg-base-50 flex max-w-7xl justify-between gap-6 py-6">
           <div className="w-full max-w-xs">
             <O11yInputField
@@ -174,20 +195,22 @@ function Integrations() {
           </div>
         </section>
         {availableIntegrations.length ? (
-          <section className="border-l-base-200 overflow-auto border-l pt-0">
-            <div className="border-r-base-200 border-b-base-200 max-w-7xl border-b border-r">
-              <O11yStackedList>
-                {availableIntegrations.map((integration) => (
-                  <O11yStackedListGroup
-                    key={integration.name}
-                    heading={<ListGroupHeader title={integration.name} />}
-                  >
-                    {integration.list.map((integrationItem) => (
-                      <integrationItem.Component />
-                    ))}
-                  </O11yStackedListGroup>
-                ))}
-              </O11yStackedList>
+          <section className="flex-1 overflow-auto">
+            <div className="border-l-base-200 mb-24 border-l pt-0">
+              <div className="border-r-base-200 border-b-base-200 max-w-7xl border-b border-r">
+                <O11yStackedList>
+                  {availableIntegrations.map((integration) => (
+                    <O11yStackedListGroup
+                      key={integration.name}
+                      heading={<ListGroupHeader title={integration.name} />}
+                    >
+                      {integration.list.map((integrationItem) => (
+                        <integrationItem.Component />
+                      ))}
+                    </O11yStackedListGroup>
+                  ))}
+                </O11yStackedList>
+              </div>
             </div>
           </section>
         ) : (

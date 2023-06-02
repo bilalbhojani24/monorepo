@@ -8,9 +8,25 @@
 body {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
   color: var(--colors-base-900);
   background-color: var(--colors-base-50);
+}
+@layer utilities {
+  .break-words {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+}
+// [Do not use] Kept as fallback. Will be removed in future
+.classic-break-words {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+tbody tr:last-child {
+  td:first-child {
+    border-bottom-left-radius: 0.5rem;
+  }
+  td:last-child {
+    border-bottom-right-radius: 0.5rem;
+  }
 }

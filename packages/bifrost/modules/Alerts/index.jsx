@@ -20,9 +20,9 @@ const link = (
   modifier,
   handleLinkClick,
   linkUrl,
-  linkText
+  detailsNode
 ) => {
-  if (linkText?.length > 0)
+  if (detailsNode)
     return (
       <a
         href="/"
@@ -43,8 +43,7 @@ const link = (
           if (handleLinkClick) handleLinkClick(linkUrl);
         }}
       >
-        {linkText}
-        <span aria-hidden="true"> &rarr;</span>
+        <div className="inline-flex items-center text-sm">{detailsNode}</div>
       </a>
     );
   return null;
@@ -56,7 +55,7 @@ const Alerts = (props) => {
     accentBorder,
     alertLinkPosition,
     handleLinkClick,
-    linkText,
+    detailsNode,
     linkUrl,
     show,
     description,
@@ -148,7 +147,7 @@ const Alerts = (props) => {
               {alertIcon || renderAlertIcon(modifier)}
             </div>
             <div className="ml-3 flex-1 items-end md:flex md:justify-between">
-              <div>
+              <div className="w-full">
                 {/* alert title */}
 
                 {title?.length > 0 && (
@@ -255,25 +254,25 @@ const Alerts = (props) => {
                   </div>
 
                   {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                    linkText &&
+                    detailsNode &&
                     link(
                       alertLinkPosition,
                       modifier,
                       handleLinkClick,
                       linkUrl,
-                      linkText
+                      detailsNode
                     )}
                 </span>
               </div>
 
-              {alertLinkPosition === ALERT_LINK_POSITION[1] && linkText && (
-                <p className="mt-3 h-fit text-sm md:mt-0 md:ml-6">
+              {alertLinkPosition === ALERT_LINK_POSITION[1] && detailsNode && (
+                <p className="mt-3 h-fit shrink-0 text-sm md:ml-6 md:mt-0">
                   {link(
                     alertLinkPosition,
                     modifier,
                     handleLinkClick,
                     linkUrl,
-                    linkText
+                    detailsNode
                   )}
                 </p>
               )}
@@ -325,7 +324,7 @@ Alerts.propTypes = {
   accentBorder: PropTypes.bool,
   alertLinkPosition: PropTypes.oneOf(Object.values(ALERT_LINK_POSITION)),
   handleLinkClick: PropTypes.func,
-  linkText: PropTypes.string,
+  detailsNode: PropTypes.node,
   linkUrl: PropTypes.string,
   show: PropTypes.bool,
   modifier: PropTypes.string,
@@ -362,7 +361,7 @@ Alerts.defaultProps = {
   accentBorder: false,
   alertLinkPosition: 'end',
   handleLinkClick: () => {},
-  linkText: 'Details',
+  detailsNode: null,
   linkUrl: '/',
   show: true,
   description: '',

@@ -28,8 +28,8 @@ const MiniDetails = () => {
 
   return (
     <div className="border-base-300 border-b border-r-0 bg-white">
-      <TMTable containerWrapperClass="md:rounded-none max-w-6xl border-r-0 ring-0 shadow-none">
-        <TMTableBody>
+      <TMTable containerWrapperClass="md:rounded-none max-w-6xl border-r-0 ring-0 shadow-none border-none">
+        <TMTableBody wrapperClassName="border-none">
           <TMTableRow wrapperClassName="border-none flex">
             <TMTableCell wrapperClassName="py-2 border-none flex w-1/3">
               <div className="text-base-500 flex items-center text-sm">
@@ -50,9 +50,7 @@ const MiniDetails = () => {
                         modifier={isPassed ? 'success' : 'error'}
                         size="large"
                       />
-                    ) : (
-                      <span className="ml-1">--</span>
-                    )}
+                    ) : null}
                   </>
                 )}
               </div>

@@ -22,7 +22,7 @@ const defaultConfig = {
     },
     design: {
       type: 'figma',
-      url: ''
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?type=design&node-id=132%3A36265&t=pc3m5hoYcSs5d9xX-1'
     }
   },
   argTypes: {
@@ -45,7 +45,17 @@ const defaultConfig = {
         console.log(url);
       }
     },
-    linkText: { option: { type: 'string' }, defaultValue: 'Details' },
+    detailsNode: {
+      option: { type: 'object' },
+      defaultValue: (
+        <>
+          <p>Details</p>
+          <span aria-hidden="true" className="ml-1">
+            &rarr;
+          </span>
+        </>
+      )
+    },
     linkUrl: { option: { type: 'string' }, defaultValue: '/' },
     show: {
       control: { type: 'boolean' },

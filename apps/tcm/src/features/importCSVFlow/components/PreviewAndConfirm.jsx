@@ -25,42 +25,43 @@ const PreviewAndConfirm = () => {
     previewData,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
+    priorityIntNameAndValueMapCSV,
+    priorityNameAndValueMapCSV,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
 
-  const formatPriority = (priority) => {
+  const formatPriority = (priorityValue) => {
+    if (typeof priorityValue === 'string') return <span>{priorityValue}</span>;
+
+    const priority = priorityIntNameAndValueMapCSV[priorityValue];
+    let icon = '';
+
     switch (priority) {
       case 'high':
-        return (
-          <>
-            <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />
-            <span>High</span>
-          </>
-        );
+        icon = <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />;
+        break;
       case 'low':
-        return (
-          <>
-            <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />
-            <span>Low</span>
-          </>
-        );
+        icon = <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />;
+        break;
       case 'critical':
-        return (
-          <>
-            <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
-            <span>Critical</span>
-          </>
+        icon = (
+          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
         );
+        break;
       case 'medium':
-        return (
-          <>
-            <RemoveOutlinedIcon className="text-brand-500 mr-2" />
-            <span>Medium</span>
-          </>
-        );
+        icon = <RemoveOutlinedIcon className="text-brand-500 mr-2" />;
+        break;
+
       default:
-        return priority;
+        icon = '';
+        break;
     }
+    return (
+      <>
+        {icon}
+        <span>{priorityNameAndValueMapCSV[priorityValue]}</span>
+      </>
+    );
   };
 
   const formatTemplate = (template) => {
@@ -88,13 +89,20 @@ const PreviewAndConfirm = () => {
         Showing a preview of few test cases before importing:
       </div>
       {previewData.map((data, idx) => (
-        <div className="border-base-100 border-y">
+        <div
+          className={twClassNames(
+            'border-base-100',
+            idx < previewData.length - 1 ? 'border-y' : 'border-t'
+          )}
+        >
           <TMAccordion defaultOpen={idx === 0}>
             <TMAccordionInteractiveHeader
               title={data?.name}
-              wrapperClassName={twClassNames('pr-0 pl-0')}
+              wrapperClassName={twClassNames(
+                'pr-0 pl-0 [&_button]:text-left text-sm'
+              )}
             />
-            <TMAccordionPanel wrapperClassName={twClassNames('pl-0')}>
+            <TMAccordionPanel wrapperClassName={twClassNames('pl-8 pb-4')}>
               <div className="border-base-300 mt-2 flex flex-col rounded-md border bg-white p-4">
                 <div className="flex w-full justify-between gap-4">
                   <PreviewAndConfirmSingleNode

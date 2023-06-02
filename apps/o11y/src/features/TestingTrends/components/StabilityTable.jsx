@@ -4,6 +4,7 @@ import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell, O11yTableRow } from 'common/bifrostProxy';
 import MiniChart from 'common/MiniChart';
 import VirtualisedTable from 'common/VirtualisedTable';
+import { roundedTableHeaderHack } from 'constants/common';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import { getAllTTFilters } from 'features/TestingTrends/slices/selectors';
 import { getTrendStabilityData } from 'features/TestingTrends/slices/testingTrendsSlice';
@@ -12,11 +13,18 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
+const TABLE_CLASSES = {
+  ROW_CLASSES:
+    'overflow-hidden border-b border-base-300 whitespace-normal break-words',
+  HEADER_CLASSES: 'py-3 border-t border-base-300 text-xs font-medium z-[2]'
+};
+
 const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
   <>
     <O11yTableCell
       wrapperClassName={twClassNames(
-        'text-base-900 whitespace-normal break-normal',
+        TABLE_CLASSES.ROW_CLASSES,
+        'text-base-900 border-l border-l-base-300',
         {
           'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
         }
@@ -25,11 +33,11 @@ const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
       {item?.buildName}
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames('text-base-500', {
+      wrapperClassName={twClassNames(TABLE_CLASSES.ROW_CLASSES, 'pr-0', {
         'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
       })}
     >
-      <div className="h-5 w-12 shrink-0">
+      <div className="ml-auto h-5 w-12 shrink-0">
         <MiniChart
           data={item?.chartData || []}
           lineColor="#376D98"
@@ -39,9 +47,13 @@ const StabilityTableItem = React.memo(({ item, selectedBuild }) => (
       </div>
     </O11yTableCell>
     <O11yTableCell
-      wrapperClassName={twClassNames('text-base-500', {
-        'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
-      })}
+      wrapperClassName={twClassNames(
+        TABLE_CLASSES.ROW_CLASSES,
+        'border-r border-r-base-300',
+        {
+          'bg-base-100 bg-opacity-5': selectedBuild === item?.buildName
+        }
+      )}
     >
       <p className="pl-2">{item?.percentage}%</p>
     </O11yTableCell>
@@ -152,7 +164,8 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
             data={stabilityData?.data}
             endReached={loadMoreRows}
             showFixedFooter={isLoadingMore}
-            tableContainerWrapperClassName="overflow-visible overflow-x-visible md:rounded-none"
+            tableWrapperClassName="bg-white border-separate border-spacing-0 table-fixed"
+            tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-6"
             itemContent={(index, singleBuildData) => (
               <StabilityTableItem
                 item={singleBuildData}
@@ -160,15 +173,34 @@ export default function StabilityTable({ handleBuildSelect, selectedBuild }) {
               />
             )}
             fixedHeaderContent={() => (
-              <O11yTableRow wrapperClassName="font-semibold">
-                <O11yTableCell wrapperClassName="font-medium text-xs" isSticky>
+              <O11yTableRow>
+                <O11yTableCell
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.HEADER_CLASSES,
+                    'border-l border-l-base-300',
+                    roundedTableHeaderHack.common,
+                    roundedTableHeaderHack.left
+                  )}
+                  isSticky
+                >
                   BUILD NAME
                 </O11yTableCell>
                 <O11yTableCell
-                  wrapperClassName="font-medium text-xs"
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.HEADER_CLASSES,
+                    'w-16 text-right pr-0'
+                  )}
                   isSticky
                 />
-                <O11yTableCell wrapperClassName="font-medium text-xs" isSticky>
+                <O11yTableCell
+                  wrapperClassName={twClassNames(
+                    TABLE_CLASSES.HEADER_CLASSES,
+                    'border-r border-r-base-300 w-24',
+                    roundedTableHeaderHack.common,
+                    roundedTableHeaderHack.right
+                  )}
+                  isSticky
+                >
                   STABILITY
                 </O11yTableCell>
               </O11yTableRow>

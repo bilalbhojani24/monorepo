@@ -6,6 +6,7 @@ import {
   Accordion,
   AccordionInteractiveHeader,
   AccordionPanel,
+  ActionPanel,
   Alerts,
   Badge,
   Banner,
@@ -45,6 +46,7 @@ import {
 } from '@browserstack/bifrost';
 
 import TMAttachments from './components/TMAttachments';
+import TMBadgeComboBox from './components/TMBadgeComboBox';
 import TMComboBox from './components/TMComboBox';
 import TMDataTable from './components/TMDataTable';
 import TMDataVisualization from './components/TMDataVisualization';
@@ -103,6 +105,7 @@ export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
 export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
 export const TMProgressBar = (props) => <ProgressBar {...props} />;
+export const TMActionPanel = (props) => <ActionPanel {...props} />;
 
 export const TMAccordion = (props) => <Accordion {...props} />;
 export const TMAccordionInteractiveHeader = (props) => (
@@ -125,6 +128,7 @@ export const TMSlideoverHeader = (props) => (
 
 export {
   TMAttachments,
+  TMBadgeComboBox,
   TMComboBox,
   TMDataTable,
   TMDataVisualization,

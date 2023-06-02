@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "api/*": ["src/api/*"],
+      "common/*": ["src/common/*"],
+      "constants/*": ["src/constants/*"],
+      "features/*": ["src/features/*"],
+      "globalSlice/*": ["src/globalSlice/*"],
+      "hooks/*": ["src/hooks/*"],
+      "utils/*": ["src/utils/*"]
+    }
+  }
+}

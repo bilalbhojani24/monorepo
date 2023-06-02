@@ -49,6 +49,8 @@ export const getDocUrl = ({ path, prependO11y = true }) =>
     prependO11y ? 'test-observability/' : ''
   }${path}`;
 
+export const getExternalUrl = ({ path }) => `${getEnvConfig().baseUrl}/${path}`;
+
 export const getNumericValue = (value) => +value.replace(/\D/g, '') || '';
 
 export const logOllyEvent = ({ event, data = {} }) => {
@@ -242,4 +244,11 @@ export const getMergedLayoutValue = (obj1, obj2) => {
     }
   });
   return mergedObj;
+};
+
+export const updateUrlQueryParam = (searchParams) => {
+  const newurl = `${window.location.protocol}//${window.location.host}${
+    window.location.pathname
+  }?${searchParams.toString()}`;
+  window.history.pushState({ path: newurl }, '', newurl);
 };

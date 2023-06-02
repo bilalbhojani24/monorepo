@@ -40,7 +40,7 @@ const TMDataTable = ({
         ))}
       </TableRow>
     </TableHead>
-    <TableBody>
+    <TableBody wrapperClassName="border-b-0">
       {isLoading ? (
         'Loading..'
       ) : (

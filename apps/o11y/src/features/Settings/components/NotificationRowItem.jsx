@@ -14,6 +14,10 @@ import {
   updateUsersToNotificationList
 } from '../slices/notificationsSettings';
 
+const TABLE_CLASSES = {
+  ROW_CLASSES:
+    'overflow-hidden border-b border-base-300 whitespace-normal break-words'
+};
 function NotificationRowItem({ user, areActionsDisabled }) {
   const activeProject = useSelector(getActiveProject);
 
@@ -93,11 +97,21 @@ function NotificationRowItem({ user, areActionsDisabled }) {
         'bg-base-100 opacity-50': isSubmittingUpdates
       })}
     >
-      <O11yTableCell wrapperClassName="font-medium text-base-900 break-words whitespace-normal">
+      <O11yTableCell
+        wrapperClassName={twClassNames(
+          'font-medium text-base-900 border-l border-l-base-300',
+          TABLE_CLASSES.ROW_CLASSES
+        )}
+      >
         <p className="text-sm font-medium">{user.fullName}</p>
         <p className="text-base-500 text-sm">{user.email}</p>
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="text-center relative">
+      <O11yTableCell
+        wrapperClassName={twClassNames(
+          'text-center relative',
+          TABLE_CLASSES.ROW_CLASSES
+        )}
+      >
         <O11yCheckbox
           checked={user?.notificationType?.[NOTIFICATION_TYPES.dailySummary]}
           disabled={areActionsDisabled || isSubmittingUpdates}
@@ -108,7 +122,7 @@ function NotificationRowItem({ user, areActionsDisabled }) {
           wrapperClassName="flex justify-center"
         />
         {isSubmittingUpdates && (
-          <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
             <O11yLoader
               wrapperClassName="flex-1"
               loaderClass="text-base-200 fill-base-400 w-6 h-6"
@@ -116,7 +130,12 @@ function NotificationRowItem({ user, areActionsDisabled }) {
           </div>
         )}
       </O11yTableCell>
-      <O11yTableCell wrapperClassName="text-center">
+      <O11yTableCell
+        wrapperClassName={twClassNames(
+          'text-center border-r border-r-base-300',
+          TABLE_CLASSES.ROW_CLASSES
+        )}
+      >
         <O11yCheckbox
           checked={user?.notificationType?.[NOTIFICATION_TYPES.buildInsights]}
           disabled={areActionsDisabled || isSubmittingUpdates}

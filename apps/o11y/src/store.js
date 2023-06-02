@@ -1,7 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import modalToShow from 'common/ModalToShow/slices/modalToShowSlice';
+import topBannerSlice from 'common/O11yTopBanner/slices/topBannerSlice';
 import buildsReducer from 'features/AllBuilds/slices/buildsSlice';
 import buildDetailsReducer from 'features/BuildDetails/slices/buildDetailsSlice';
+import AllFiltersSlice from 'features/FilterSkeleton/slices/filterSlice';
 import integrationsReducer from 'features/Integrations/slices/integrationsSlice';
 import integrationsWidgetReducer from 'features/IntegrationsWidget/slices/integrationsWidgetSlice';
 import alertsSettingsReducer from 'features/Settings/slices/alertsSettings';
@@ -13,7 +15,6 @@ import reRunSettingsReducer from 'features/Settings/slices/reRunSettings';
 import shErrorDetailsReducer from 'features/SHErrorDetails/slices/dataSlice';
 import shTestDetailsReducer from 'features/SHTestDetails/slices/dataSlice';
 import shTestsReducer from 'features/SuiteHealth/slices/dataSlice';
-import suiteHealthUIReducer from 'features/SuiteHealth/slices/uiSlice';
 import testDetailsDataReducer from 'features/TestDetails/slices/dataSlice';
 import testDetailsUIReducer from 'features/TestDetails/slices/uiSlice';
 import testingTrendReducer from 'features/TestingTrends/slices/testingTrendsSlice';
@@ -39,12 +40,13 @@ export const store = configureStore({
     shErrordetails: shErrorDetailsReducer,
     shTestdetails: shTestDetailsReducer,
     shTests: shTestsReducer,
-    suiteHealthUI: suiteHealthUIReducer,
     testList: testListReducer,
     testdetails: testDetailsDataReducer,
     testdetailsui: testDetailsUIReducer,
     testingTrend: testingTrendReducer,
-    testInsights: testInsightsSlice
+    testInsights: testInsightsSlice,
+    allFilters: AllFiltersSlice,
+    topBanner: topBannerSlice
   },
   middleware: (getDefaultMiddleware) => {
     const middleware = getDefaultMiddleware({ serializableCheck: false });

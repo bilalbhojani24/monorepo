@@ -2,8 +2,8 @@ import React, { Suspense, useCallback, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 import { NotificationsContainer } from '@browserstack/bifrost';
-import { O11yHeader } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import O11yTopContent from 'common/O11yTopContent';
 import { ROUTES } from 'constants/routes';
 import IntegrationsWidget from 'features/IntegrationsWidget';
 import Sidebar from 'features/Sidebar';
@@ -19,6 +19,10 @@ const LayoutWSidebar = () => {
   const setWidgetPositionRef = useCallback((ref) => {
     widgetPositionRef.current = ref;
   }, []);
+
+  if (!initData.isLoading && !initData.data?.hasAccess) {
+    return <Navigate to={ROUTES.no_access} />;
+  }
 
   if (!initData.isLoading && !initData.data?.hasAcceptedTnC) {
     return <Navigate to={ROUTES.request_access} />;
@@ -40,7 +44,7 @@ const LayoutWSidebar = () => {
       }}
     >
       <>
-        <O11yHeader />
+        <O11yTopContent />
         <main className="flex">
           <Sidebar />
           <Suspense fallback={<O11yLoader wrapperClassName="h-screen" />}>

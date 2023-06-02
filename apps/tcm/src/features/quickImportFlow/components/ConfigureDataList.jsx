@@ -51,7 +51,6 @@ const ConfigureDataList = (props) => {
           <TMAlerts
             modifier="error"
             title="Select at least 1 project to proceed."
-            linkText={null}
           />
         </div>
       )}

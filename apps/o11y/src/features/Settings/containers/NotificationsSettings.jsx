@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineAdd } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import {
   O11yButton,
   O11ySwitcher,
@@ -12,6 +13,7 @@ import {
 } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
+import { roundedTableHeaderHack } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
@@ -27,6 +29,13 @@ import {
   getNotificationsStatus,
   getNotifiedUsersState
 } from '../slices/selectors';
+
+const TABLE_CLASSES = {
+  ROW_CLASSES:
+    'overflow-hidden border-b border-base-300 whitespace-normal break-words',
+  HEADER_CLASSES:
+    'py-3 border-t border-base-300 text-xs font-medium z-[2] border-b border-base-300'
+};
 
 function NotificationsSettings() {
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
@@ -164,23 +173,42 @@ function NotificationsSettings() {
         </div>
         {!!notifiedUsers.length && (
           <div className="mt-6">
-            <O11yTable containerWrapperClass="overflow-visible overflow-x-visible">
-              <O11yTableHead wrapperClassName="bg-white sticky top-0">
-                <O11yTableRow>
+            <O11yTable
+              tableWrapperClass="bg-white border-separate border-spacing-0 table-fixed"
+              containerWrapperClass="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-6"
+            >
+              <O11yTableHead wrapperClassName="sticky top-0 z-10">
+                <O11yTableRow className="relative">
                   <O11yTableCell
-                    wrapperClassName="md:rounded-lg w-2/5 text-xs leading-4 uppercase text-base-500 font-medium py-3"
+                    wrapperClassName={twClassNames(
+                      'w-2/5 text-xs leading-4 uppercase text-base-500 border-l border-l-base-300',
+                      TABLE_CLASSES.HEADER_CLASSES,
+                      roundedTableHeaderHack.common,
+                      roundedTableHeaderHack.left,
+                      'before:left-0'
+                    )}
                     variant="header"
                   >
                     Username
                   </O11yTableCell>
                   <O11yTableCell
-                    wrapperClassName="md:rounded-lg text-xs leading-4 font-medium tracking-wider uppercase text-base-500 text-center py-3"
+                    wrapperClassName={twClassNames(
+                      'text-xs leading-4 font-medium tracking-wider uppercase text-base-500 text-center',
+                      TABLE_CLASSES.HEADER_CLASSES
+                    )}
                     variant="header"
                   >
                     Daily Summary
                   </O11yTableCell>
                   <O11yTableCell
-                    wrapperClassName="md:rounded-lg text-xs leading-4 font-medium tracking-wider uppercase text-base-500 text-center py-3"
+                    wrapperClassName={twClassNames(
+                      'text-xs leading-4 font-medium tracking-wider uppercase text-base-500 text-center',
+                      TABLE_CLASSES.HEADER_CLASSES,
+                      'border-r border-r-base-300 text-center',
+                      roundedTableHeaderHack.common,
+                      roundedTableHeaderHack.right,
+                      'before:right-0'
+                    )}
                     variant="header"
                   >
                     Build Insights

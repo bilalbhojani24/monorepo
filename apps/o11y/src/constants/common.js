@@ -4,6 +4,10 @@ export const DOC_KEY_MAPPING = {
   wdio: 'quick-start/webdriverio',
   testng: 'quick-start/testng',
   mocha: 'quick-start/mocha',
+  junit: 'quick-start/junit-reports',
+  cypress: 'quick-start/cypress',
+  playwright: 'quick-start/playwright',
+  nightwatch: 'quick-start/nightwatchjs',
   uploading_logs: 'integrations/application-logs',
   auto_analyser: 'features/auto-failure-analysis',
   re_run: 'features/re-run',
@@ -12,6 +16,14 @@ export const DOC_KEY_MAPPING = {
   automation_build: 'how-to-guides/organize-test-runs',
   application_logs: 'integrations/application-logs',
   tnc: `references/terms-and-conditions`
+};
+export const EXTERNAL_LINKS = {
+  contact: 'contact?ref=header',
+  supportLink: 'support/test-observability',
+  getADemo: 'contact?&ref=observability-dashboard-demo-lead',
+  planAndPricing: 'pricing?product=test-observability',
+  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead',
+  manageUsers: 'accounts/manage-users'
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
@@ -42,7 +54,6 @@ export const URL_REGEX =
   /* eslint-disable-next-line */
   /^(https:\/\/www\.|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,15}(:[0-9]{1,20})?(\/.*)?$/;
 
-export const WRAPPER_GAP_CLASS = 'h-[calc(100vh-4rem)]';
 export const SNP_PARAMS_MAPPING = {
   snpTestDetails: 'snp_test_details',
   snpOsName: 'snp_os_name',
@@ -152,7 +163,7 @@ export const TEST_DETAILS_SOURCE = {
   SUITE_HEALTH_ERRORS: 'suite_health_errors'
 };
 
-export const BSTACK_TOPNAV_ELEMENT_ID = 'bstack-header';
+export const BSTACK_TOPNAV_ELEMENT_ID = 'o11y-header';
 export const PUSHER_EVENTS = {
   BUILD_STARTED: 'BUILD_STARTED',
   BUILD_FINISHED: 'BUILD_FINISHED',
@@ -185,4 +196,53 @@ export const TEST_LIST_FILTERS_TAGS = {
 export const o11yHistory = {
   navigate: null,
   location: null
+};
+
+export const roundedTableHeaderHack = {
+  left: 'rounded-tl-lg before:left-[-1px]',
+  right: 'rounded-tr-lg before:right-[-1px]',
+  common:
+    'before:absolute before:block before:w-[1px] before:h-[6px] before:bg-base-50 before:top-[-1px] before:rounded'
+};
+
+export const O11Y_DATE_RANGE = {
+  days7: {
+    key: 'days7',
+    label: '7D'
+  },
+  days15: {
+    key: 'days15',
+    label: '15D'
+  },
+  days30: {
+    key: 'days30',
+    label: '30D'
+  },
+  months6: {
+    key: 'months6',
+    label: '6M'
+  },
+  year1: {
+    key: 'year1',
+    label: '1Y'
+  },
+  year2: {
+    key: 'year2',
+    label: '2Y'
+  },
+  custom: {
+    key: 'custom',
+    label: 'Custom'
+  }
+};
+export const FLOATING_COMPONENTS_IDS = {
+  O11Y_FILTERS: 'O11Y_FILTERS',
+  TEST_DETAILS: 'TEST_DETAILS',
+  BUILD_FILTERS: 'BUILD_FILTERS',
+  TEST_FILTERS: 'TEST_FILTERS',
+  TEST_HEALTH_FILTERS: 'TEST_HEALTH_FILTERS',
+  UNIQUE_ERRORS_FILTERS: 'UNIQUE_ERRORS_FILTERS',
+  TEST_HEALTH_DETAILS: 'TEST_HEALTH_DETAILS',
+  UNIQUE_ERRORS_DETAILS: 'UNIQUE_ERRORS_DETAILS',
+  O11Y_SETTINGS: 'O11Y_SETTINGS'
 };
