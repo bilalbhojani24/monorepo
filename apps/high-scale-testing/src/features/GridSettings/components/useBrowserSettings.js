@@ -23,10 +23,7 @@ const useBrowserSettings = (notifactionComponent) => {
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
   const [memoryLimitValue, setMemoryLimitValue] = useState(0);
-  const [usersAllowedBrowsersVal, setUsersAllowedBrowsersVal] = useState([]);
-  const [allowedBrowsersValue, setAllowedBrowsersValue] = useState(
-    usersAllowedBrowsersVal
-  );
+  const [allowedBrowsersValue, setAllowedBrowsersValue] = useState([]);
 
   const onCPUChangeHandler = (e) => {
     const newValue = e.target.value;
@@ -76,25 +73,24 @@ const useBrowserSettings = (notifactionComponent) => {
   };
 
   useEffect(() => {
-    if (gridData.length > 0) {
+    if (Object.keys(gridData).length > 0) {
       setCpuValue(gridData.browserSettings.resources.cpu);
       setMemoryLimitValue(gridData.browserSettings.resources.memory);
-      setUsersAllowedBrowsersVal(
-        gridData.browserSettings.allowedBrowsers.map((e) => {
-          let val = Object.keys(e)[0];
-          val = val.charAt(0).toUpperCase() + val.slice(1);
-          return {
-            label: val,
-            value: val
-          };
-        })
-      );
+      const temp = gridData.browserSettings.allowedBrowsers.map((e) => {
+        let val = Object.keys(e)[0];
+        val = val.charAt(0).toUpperCase() + val.slice(1);
+        return {
+          label: val,
+          value: val
+        };
+      });
+      setAllowedBrowsersValue(temp);
     }
   }, [gridData]);
 
   useEffect(() => {
     console.log('Log: fetchedGridData:', fetchedGridData);
-  }, [fetchedGridData]);
+  }, [allowedBrowsersValue, cpuValue, fetchedGridData]);
 
   return {
     allAvailableBrowsers,

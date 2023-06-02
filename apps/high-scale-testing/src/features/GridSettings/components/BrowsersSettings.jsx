@@ -71,7 +71,7 @@ const BrowsersSettings = () => {
                   addOnAfter={
                     <InputGroupAddOn position="end">Unit</InputGroupAddOn>
                   }
-                  defaultValue={cpuValue}
+                  value={cpuValue}
                   disabled={isSavingInProgress}
                   id="test-id"
                   onChange={onCPUChangeHandler}
@@ -96,7 +96,7 @@ const BrowsersSettings = () => {
                   addOnAfter={
                     <InputGroupAddOn position="end">M</InputGroupAddOn>
                   }
-                  defaultValue={memoryLimitValue}
+                  value={memoryLimitValue}
                   disabled={isSavingInProgress}
                   id="test-id"
                   onChange={onMemoryLimitChangeHandler}
