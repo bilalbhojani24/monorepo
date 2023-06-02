@@ -198,7 +198,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
                       />
                     </PropagationBlocker>
                   )}
-                  {historyData?.isNewFailure && (
+                  {historyData?.isNewlyFailed && (
                     <PropagationBlocker className="mr-1 inline">
                       <O11yBadge
                         text="New Failures"
@@ -220,7 +220,10 @@ function TestListHistoryTooltip({ testRunId, status }) {
                 {historyData?.isFlaky && (
                   <p className="text-base-500 mt-3 text-xs font-medium">
                     <span className="text-base-800">Flaky reason:</span>{' '}
-                    {historyData?.flaky?.flakyReason}
+                    {historyData?.flakyReason === 1
+                      ? `Test status has flipped more than ${historyData.flakySetting?.flakeInHistory.flippingPercentage}
+                       times in the last ${historyData.flakySetting?.flakeInHistory.consecutiveRuns} consecutive runs.`
+                      : `Test passes on a retry within the last ${historyData.flakySetting?.flakeInRerun.consecutiveRuns} runs`}
                   </p>
                 )}
               </>
