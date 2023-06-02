@@ -246,7 +246,7 @@ export default function SHTests() {
                 showFixedFooter={isLoadingMore}
                 handleRowClick={handleClickTestItem}
                 tableWrapperClassName="border border-t-0 border-base-300 bg-white border-separate border-spacing-0 rounded-lg"
-                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
+                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-24"
               />
             </div>
           )}

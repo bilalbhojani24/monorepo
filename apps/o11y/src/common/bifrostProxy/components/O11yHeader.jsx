@@ -20,7 +20,7 @@ const O11yHeader = () => (
     release="Beta"
     // beamerProductId="xTSGUhhN11000"
     documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
-    supportLink={`${envConfig.baseUrl}/support/test-observability`}
+    supportLink={getExternalUrl({ path: EXTERNAL_LINKS.supportLink })}
     headerElementArray={[
       'team',
       'pricing',

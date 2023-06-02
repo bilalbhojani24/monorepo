@@ -231,7 +231,7 @@ const AllBuildsPage = () => {
                 fixedHeaderContent={BuildTableHeader}
                 handleRowClick={handleClickBuildItem}
                 tableWrapperClassName="bg-white border-separate border-spacing-0 table-fixed"
-                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-6"
+                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-24"
               />
             )}
           </>
