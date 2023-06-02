@@ -56,7 +56,7 @@ const TimeoutSettings = () => {
   };
 
   const updateGridTimeoutSettings = (settingsObj) => {
-    updateSettings(userDetails.id, settingsObj).then((d) => {
+    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
       setIsSaveButtonDisabled(true);
       setIsSavingInProgress(false);
     });
