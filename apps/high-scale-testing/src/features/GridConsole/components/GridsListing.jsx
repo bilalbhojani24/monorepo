@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -135,7 +134,7 @@ const GridsListing = () => {
                     <p>{clusterName}</p>
                     <p>{clusterIdentifier}</p>
                   </td>
-                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
                   <td
                     onClick={(e) => {
                       e.stopPropagation();

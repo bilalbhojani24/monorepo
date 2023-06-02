@@ -1,11 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { createNewGridProfile, fetchDataForCreateGrid } from 'api/index';
+import { useMountEffect } from '@browserstack/hooks';
+import {
+  createNewGridProfile,
+  fetchDataForCreateGrid,
+  getCreateGridEventsLogsData
+} from 'api/index';
 import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
+import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import {
   getInstanceTypes,
   getRegions,
@@ -53,6 +59,7 @@ const useCreateGrid = () => {
   const [currentSelectedCloudProvider, setCurrentCloudProvider] = useState(
     DEFAULT_CLOUD_PROVIDER
   );
+  const [currentStep, setCurrentStep] = useState(0);
   const [
     collapsibleBtntextForAdvSettings,
     setCollapsibleBtnTextForAdvSettings
@@ -64,14 +71,24 @@ const useCreateGrid = () => {
   const [dataChanged, setDataChanged] = useState(false);
   const [editClusterNameInputValue, setEditClusterNameInputValue] =
     useState('');
+  const [eventLogsCode, setEventLogsCode] = useState();
+  const [eventLogsStatus, setEventLogsStatus] = useState(
+    EVENT_LOGS_STATUS.NOT_STARTED
+  );
+  const [frameworkURLs, setFrameworkURLs] = useState({
+    selenium: null,
+    playwright: null
+  });
   const [gridProfiles, setGridProfiles] = useState([
     { label: 'label', value: 'value' },
     { label: 'label 2', value: 'value2' }
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
+  const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [newProfileErrorText, setNewProfileErrorText] = useState('');
   const [newProfileNameValue, setNewProfileNameValue] = useState('');
   const [opened, setOpened] = useState(false);
+  const [pollForEventLogs, setPollForEventLogs] = useState(true);
   const [selectedClusterValue, setSelectedClusterValue] = useState('');
   const [selectedGridClusters, setSelectedGridclusters] = useState([]);
   const [selectedGridConcurrency, setSelectedGridConcurrency] = useState(0);
@@ -84,8 +101,11 @@ const useCreateGrid = () => {
   const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
   const [selectedVPCValue, setSelectedVPCValue] = useState('');
   const [setupState, setSetupState] = useState(1);
+  const [showEventLogsModal, setShowEventLogsModal] = useState(false);
+  const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
   const [showSaveProfileModal, setShowSaveProfileModal] = useState(false);
   const [showSetupClusterModal, setShowSetupClusterModal] = useState(false);
+  const [totalSteps, setTotalSteps] = useState(0);
 
   const ref = useRef({});
 
@@ -113,6 +133,10 @@ const useCreateGrid = () => {
   // All Click/Change Handlers:
   const commonHandler = () => {
     setDataChanged(true);
+  };
+
+  const closeEventLogsModal = () => {
+    setShowEventLogsModal(false);
   };
 
   const clusterChangeHandler = (e) => {
@@ -205,9 +229,37 @@ const useCreateGrid = () => {
     setSelectedSubnetValues(e);
   };
 
+  const viewEventLogsClickHandler = () => {
+    setShowEventLogsModal(true);
+  };
+
   const vpcChangeHandler = (e) => {
     setSelectedVPCValue(e);
   };
+
+  useEffect(() => {
+    if (currentStep === -1) {
+      setTimeout(() => {
+        setEventLogsStatus(EVENT_LOGS_STATUS.FAILED);
+        setIsSetupComplete(true);
+      }, 1000);
+    } else if (currentStep === 0) {
+      setEventLogsStatus(EVENT_LOGS_STATUS.NOT_STARTED);
+    } else if (currentStep > 0 && currentStep !== totalSteps) {
+      setEventLogsStatus(EVENT_LOGS_STATUS.IN_PROGRESS);
+      if (showGridHeartBeats) {
+        setTimeout(() => {
+          setShowGridHeartbeats(false);
+        }, 1000);
+      }
+    } else if (currentStep === totalSteps) {
+      setEventLogsStatus(EVENT_LOGS_STATUS.FINISHED);
+
+      setTimeout(() => {
+        setIsSetupComplete(true);
+      }, 1000);
+    }
+  }, [currentStep, showGridHeartBeats, totalSteps]);
 
   useEffect(() => {
     if (Object.keys(allAvailableRegionsByProvider).length > 0) {
@@ -320,7 +372,6 @@ const useCreateGrid = () => {
       (profileData) => profileData.profile.name === selectedGridProfile.value
     )[0];
 
-    // eslint-disable-next-line sonarjs/no-collapsible-if
     if (selectedGridProfileData) {
       const subnetsPlainArray = selectedSubnetValues.map((e) => e.value);
 
@@ -368,14 +419,40 @@ const useCreateGrid = () => {
     }
   }, [gridProfilesData]);
 
-  useEffect(() => {
+  useMountEffect(() => {
+    const fetchEventsLogsData = async () => {
+      const response = await getCreateGridEventsLogsData(userDetails.id);
+
+      const res = response.data;
+
+      setEventLogsCode(res.currentLogs);
+      setCurrentStep(res.currentStep);
+      setTotalSteps(res.totalSteps);
+
+      if (res.currentStep === res.totalSteps) {
+        setPollForEventLogs(false);
+        setFrameworkURLs(res.framework);
+        setTimeout(() => {
+          setIsSetupComplete(true);
+        }, 1000);
+      }
+    };
+
     fetchDataForCreateGrid().then((res) => {
       const response = res.data;
 
       setCodeSnippetsForExistingSetup(response.codeSnippets.existing);
       setGridProfilesData(response.gridProfiles);
     });
-  }, []);
+
+    if (pollForEventLogs) {
+      setInterval(() => {
+        fetchEventsLogsData();
+      }, 10000);
+    }
+
+    fetchEventsLogsData();
+  });
 
   return {
     IS_MANDATORY,
@@ -383,6 +460,7 @@ const useCreateGrid = () => {
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
+    closeEventLogsModal,
     clusterChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
@@ -391,18 +469,23 @@ const useCreateGrid = () => {
     currentProvidersInstanceTypes,
     currentProvidersRegions,
     currentSelectedCloudProvider,
+    currentStep,
     dataChanged,
     editClusterBtnClickHandler,
     editClusterNameInputValue,
+    eventLogsCode,
+    eventLogsStatus,
+    frameworkURLs,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
     instanceChangeHandler,
+    isSetupComplete,
     modalCrossClickhandler,
-    nextBtnClickHandler,
-    newProfileErrorText,
     newProfileNameValue,
     opened,
+    newProfileErrorText,
+    nextBtnClickHandler,
     ref,
     regionChangeHandler,
     saveAndProceedClickHandler,
@@ -424,10 +507,14 @@ const useCreateGrid = () => {
     setSelectedGridProfile,
     setupNewClusterBtnClickHandler,
     setupState,
+    showEventLogsModal,
+    showGridHeartBeats,
     showSaveProfileModal,
     showSetupClusterModal,
     subnetChangeHandler,
+    totalSteps,
     type,
+    viewEventLogsClickHandler,
     vpcChangeHandler
   };
 };

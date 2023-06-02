@@ -1,16 +1,20 @@
+const EVENT_LOGS = '/event-logs';
+const GRID = '/grid';
+
+const CREATE_GRID_EVENT_LOGS_DATA_PATH = `${GRID}${EVENT_LOGS}`;
 const FETCH_GRID_PROFILES_DATA_PATH = '/grid/profiles';
 const FETCH_GRIDS_PATH = '/grids';
-const GRID = '/grid';
 const INIT_PATH = '/init';
 const ONBOARDING_DATA_PATH = '/onboarding';
 const FETCH_CLUSTERS_PATH = '/clusters';
-const ONBOARDING_EVENT_LOGS_DATA_PATH = `${ONBOARDING_DATA_PATH}/event-logs`;
+const ONBOARDING_EVENT_LOGS_DATA_PATH = `${ONBOARDING_DATA_PATH}${EVENT_LOGS}`;
 const ONBOARDING_REGION_PATH = `${ONBOARDING_DATA_PATH}/region-update`;
 const ONBOARDING_STATUS_PATH = `${ONBOARDING_DATA_PATH}/status-update`;
 const SSO_PATH = '/auth/start-sso';
 const UPDATE_GRID_SETTINGS_PATH = '/update-settings';
 
 export {
+  CREATE_GRID_EVENT_LOGS_DATA_PATH,
   FETCH_CLUSTERS_PATH,
   FETCH_GRID_PROFILES_DATA_PATH,
   FETCH_GRIDS_PATH,

@@ -13,6 +13,7 @@ import {
   InputField,
   InputGroupAddOn,
   MdAdd,
+  MdCached,
   MdOutlineModeEditOutline,
   Modal,
   ModalHeader,
@@ -32,6 +33,8 @@ import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
+import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import EventLogs from 'features/Onboarding/components/EventLogs';
 
 import useCreateGrid from './useCreateGrid';
 
@@ -42,6 +45,7 @@ const CreateGrid = () => {
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
+    closeEventLogsModal,
     clusterChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
@@ -50,13 +54,18 @@ const CreateGrid = () => {
     currentProvidersInstanceTypes,
     currentProvidersRegions,
     currentSelectedCloudProvider,
+    currentStep,
     dataChanged,
     editClusterBtnClickHandler,
     editClusterNameInputValue,
+    eventLogsCode,
+    eventLogsStatus,
+    frameworkURLs,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
     instanceChangeHandler,
+    isSetupComplete,
     modalCrossClickhandler,
     newProfileNameValue,
     opened,
@@ -83,10 +92,14 @@ const CreateGrid = () => {
     setSelectedGridProfile,
     setupNewClusterBtnClickHandler,
     setupState,
+    showEventLogsModal,
+    showGridHeartBeats,
     showSaveProfileModal,
     showSetupClusterModal,
     subnetChangeHandler,
+    totalSteps,
     type,
+    viewEventLogsClickHandler,
     vpcChangeHandler
   } = useCreateGrid();
 
@@ -661,11 +674,46 @@ const CreateGrid = () => {
                 </div>
               )}
 
-              {setupState === 2 && (
-                <div className="border-base-300 text-base-700 flex gap-2 border-t px-6 py-3">
-                  <HourglassBottomOutlinedIcon /> Waiting for you to complete
-                  the above steps to connect the grid...
-                </div>
+              {setupState === 2 &&
+                !showGridHeartBeats &&
+                eventLogsStatus !== EVENT_LOGS_STATUS.IN_PROGRESS && (
+                  <div className="border-base-300 text-base-700 flex gap-2 border-t px-6 py-3">
+                    <HourglassBottomOutlinedIcon /> Waiting for you to complete
+                    the above steps to connect the grid...
+                  </div>
+                )}
+
+              {eventLogsCode &&
+                eventLogsCode.length > 0 &&
+                showGridHeartBeats && (
+                  <div className="flex gap-2 px-6 py-3 text-base-700">
+                    <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
+                    Initialising events log...
+                  </div>
+                )}
+
+              {eventLogsCode &&
+                eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
+                !showGridHeartBeats && (
+                  <div className="flex justify-between px-6 py-3">
+                    <div className="text-base-700 flex gap-2">
+                      <MdCached />
+                      ‘high-scale-grid’ grid creation is in progress...
+                    </div>
+                    <Button colors="white" onClick={viewEventLogsClickHandler}>
+                      View Event Logs
+                    </Button>
+                  </div>
+                )}
+
+              {showEventLogsModal && (
+                <EventLogs
+                  closeEventLogsModal={closeEventLogsModal}
+                  currentStep={currentStep}
+                  eventLogsCode={eventLogsCode}
+                  totalSteps={totalSteps}
+                  isSetupComplete={isSetupComplete}
+                />
               )}
             </div>
           </div>
