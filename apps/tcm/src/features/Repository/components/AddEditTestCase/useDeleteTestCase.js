@@ -9,10 +9,7 @@ import {
   getTestCasesSearchFilterAPI
 } from 'api/testcases.api';
 import { addNotificaton } from 'globalSlice';
-import {
-  redirectToPrevPage,
-  updateQueryParamWOEvent
-} from 'utils/helperFunctions';
+import { redirectToPrevPage } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
@@ -29,7 +26,8 @@ import {
 import {
   getCalcQueryParams,
   getFilterOptions,
-  getFormattedBEFilter
+  getFormattedBEFilter,
+  updatePageQueryParams
 } from '../../utils/sharedFunctions';
 
 import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
@@ -215,25 +213,18 @@ export default function useDeleteTestCase() {
     })
       .then((data) => {
         dispatch(updateTestCasesOnSF(data));
+        updatePageQueryParams(searchParamsTemp, currentPage, data?.info?.page);
 
-        if (data.info && `${data.info.page}` !== currentPage) {
-          if (currentPage === null && data.info.page === 1) {
-            // currently on first page and be on first page
-          } else {
-            searchParamsTemp.p = data.info.page;
-            updateQueryParamWOEvent(searchParamsTemp);
-          }
-        }
         const notificationData = {
           id: 'test_cases_deleted',
           title: `${bulkSelection?.ids?.length} Test cases deleted`,
           variant: 'success'
         };
         dispatch(addNotificaton(notificationData));
-        updateLoadingState('bulkDeleteTestCaseCta', false);
 
         dispatch(resetBulkSelection());
         hideDeleteTestCaseModal();
+        updateLoadingState('bulkDeleteTestCaseCta', false);
       })
       .catch(() => {
         updateLoadingState('bulkDeleteTestCaseCta', false);

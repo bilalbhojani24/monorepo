@@ -1,4 +1,7 @@
-import { selectMenuValueMapper } from 'utils/helperFunctions';
+import {
+  selectMenuValueMapper,
+  updateQueryParamWOEvent
+} from 'utils/helperFunctions';
 
 export const formDataRetriever = (tagsArray, formData) => {
   const hasTagsButNoMeta = tagsArray.length === 0 && formData?.tags;
@@ -90,4 +93,19 @@ export const getCalcQueryParams = (thisFilterSearchMeta) => {
   });
 
   return { queryParams, searchParamsTemp };
+};
+
+export const updatePageQueryParams = (
+  existingParams,
+  currentPage,
+  fetchedPage
+) => {
+  // to update the query parms with page without triggering a refresh
+  if (`${fetchedPage}` !== currentPage) {
+    if (currentPage === null && fetchedPage === 1) {
+      // currently on first page and be on first page
+    } else {
+      updateQueryParamWOEvent({ ...existingParams, p: fetchedPage });
+    }
+  }
 };
