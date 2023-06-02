@@ -147,18 +147,6 @@ const DateRangepicker = (props) => {
                 </div>
               }
             />
-            {/* <FieldButton
-              disabled={disabled}
-              {...buttonProps}
-              isPressed={state.isOpen}
-            >
-              <CalendarIcon
-                aria-hidden="true"
-                className={twClassNames('text-base-400 h-5 w-5', {
-                  'text-base-300': disabled
-                })}
-              />
-            </FieldButton> */}
           </div>
         </div>
         {errorMessage && (
@@ -166,20 +154,6 @@ const DateRangepicker = (props) => {
             {errorMessage}
           </p>
         )}
-
-        {/* {state.isOpen && (
-          <Popover
-            triggerRef={ref}
-            state={state}
-            align={align}
-            offset={offset}
-            crossOffset={crossOffset}
-          >
-            <Dialog {...dialogProps} isLoading={isLoading}>
-              <RangeCalendar isLoading={isLoading} {...calendarProps} />
-            </Dialog>
-          </Popover>
-        )} */}
       </div>
     </PickerLevelContext.Provider>
   );
