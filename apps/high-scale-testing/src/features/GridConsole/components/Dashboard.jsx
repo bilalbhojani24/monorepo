@@ -1,43 +1,85 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  Badge,
-  HomeIcon,
-  SidebarItem,
-  SidebarNavigation,
-  UsersIcon
+  Button,
+  Dropdown,
+  DropdownOptionGroup,
+  DropdownOptionItem,
+  DropdownTrigger,
+  MdKeyboardArrowDown,
+  PageHeadings,
+  Tabs
 } from '@browserstack/bifrost';
+import ROUTES from 'constants/routes';
 
-const Dashboard = () => {
-  const primaryNavs = [
+import ClustersListing from './ClustersListing';
+import GridsListing from './GridsListing';
+import useGridConsole from './useGridConsole';
+
+const GridConsole = () => {
+  const { currentListingType, setCurrentListingType } = useGridConsole();
+
+  const navigate = useNavigate();
+
+  const options = [
     {
-      id: 'dashboard',
-      label: 'Automation Console',
-      activeIcon: HomeIcon,
-      inActiveIcon: HomeIcon,
-      path: '/',
-      badge: <Badge text="Active" />
+      id: 'helm/kubectl',
+      value: 'Helm/KubeCTL',
+      body: 'Spawn a grid via Helm / KubeCTL'
     },
-    {
-      id: 'team',
-      label: 'Builds Dashboard',
-      activeIcon: UsersIcon,
-      inActiveIcon: UsersIcon,
-      path: '/team'
-    }
+    { id: 'cli', value: 'CLI', body: 'Spawn a grid with customizations' }
   ];
 
+  const dropdownHandler = (value) => {
+    navigate(`${ROUTES.CREATE_GRID}?type=${value.value}`);
+  };
+
   return (
-    <>
-      <main>
-        <SidebarNavigation
-          sidebarPrimaryNavigation={primaryNavs.map((item, idx) => (
-            <SidebarItem nav={item} current={idx === 3} />
-          ))}
-          wrapperClassName="md:inset-y-16"
+    <div className="flex-1">
+      <div className="bg-white px-6 pt-6">
+        <PageHeadings
+          actions={
+            <Dropdown onClick={dropdownHandler}>
+              <div className="flex">
+                <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+                  <Button icon={<MdKeyboardArrowDown />} iconPlacement="end">
+                    Create Grid
+                  </Button>
+                </DropdownTrigger>
+              </div>
+
+              <DropdownOptionGroup>
+                {options.map((opt) => (
+                  <DropdownOptionItem key={opt.value} option={opt} />
+                ))}
+              </DropdownOptionGroup>
+            </Dropdown>
+          }
+          breadcrumbs={null}
+          heading="Automation Console"
         />
-      </main>
-    </>
+        <Tabs
+          tabsArray={[
+            {
+              index: 0,
+              name: 'Grids',
+              value: 'grids'
+            },
+            {
+              index: 1,
+              name: 'Clusters',
+              value: 'clusters'
+            }
+          ]}
+          onTabChange={(e) => setCurrentListingType(e)}
+          defaultIndex={currentListingType.index}
+        />
+      </div>
+
+      {currentListingType.value === 'grids' && <GridsListing />}
+      {currentListingType.value === 'clusters' && <ClustersListing />}
+    </div>
   );
 };
 
-export default Dashboard;
+export default GridConsole;
