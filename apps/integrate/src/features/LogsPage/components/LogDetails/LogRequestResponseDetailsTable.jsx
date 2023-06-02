@@ -15,7 +15,12 @@ const LogRequestDetailsTable = ({ data }) => {
     <INTGTable>
       <INTGTableHead>
         <INTGTableRow>
-          <INTGTableCell key="name" variant="header" textTransform="uppercase">
+          <INTGTableCell
+            key="name"
+            variant="header"
+            textTransform="uppercase"
+            wrapperClassName="w-40"
+          >
             Name
           </INTGTableCell>
           <INTGTableCell
@@ -32,12 +37,18 @@ const LogRequestDetailsTable = ({ data }) => {
           const { 0: itemName, 1: itemDetails } = item;
           return (
             <INTGTableRow key={itemName}>
-              <INTGTableCell key="name">
-                <p>{itemName}</p>
+              <INTGTableCell
+                key="name"
+                wrapperClassName="whitespace-normal w-40 max-w-[160px]"
+              >
+                <p className="break-words">{itemName}</p>
               </INTGTableCell>
-              <INTGTableCell key="details" wrapperClassName="whitespace-normal">
+              <INTGTableCell
+                key="details"
+                wrapperClassName="whitespace-normal max-w-lg"
+              >
                 {itemName === 'Body' ? (
-                  <div className="max-w-xl">
+                  <div className="w-full">
                     <CodeSnippet
                       code={JSON.stringify(JSON.parse(itemDetails), null, '\t')}
                       language="json"
@@ -45,7 +56,7 @@ const LogRequestDetailsTable = ({ data }) => {
                     />
                   </div>
                 ) : (
-                  <p>{itemDetails}</p>
+                  <p className="w-full break-words">{itemDetails}</p>
                 )}
               </INTGTableCell>
             </INTGTableRow>
