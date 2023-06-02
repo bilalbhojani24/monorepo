@@ -50,9 +50,7 @@ const MiniDetails = () => {
                         modifier={isPassed ? 'success' : 'error'}
                         size="large"
                       />
-                    ) : (
-                      <span className="ml-1">--</span>
-                    )}
+                    ) : null}
                   </>
                 )}
               </div>
