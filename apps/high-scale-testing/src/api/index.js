@@ -75,14 +75,10 @@ const markOnboardingRegionChange = (userId, cloudProvider, newRegionObject) =>
     params: { userId, cloudProvider, region: newRegionObject }
   });
 
-const updateSettings = (userId, component, settingType, settingsObj) =>
+const updateSettings = (userId, settingsObj) =>
   axios.put(UPDATE_GRID_SETTINGS_URL, {
-    params: {
-      userId,
-      component,
-      settingType,
-      settingsObj
-    }
+    userId,
+    ...settingsObj
   });
 
 export {

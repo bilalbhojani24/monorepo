@@ -29,7 +29,7 @@ const GeneralSettings = () => {
   };
 
   const updateGridGeneralSettings = (settingsObj) => {
-    updateSettings(userDetails.id, 'grid', 'general', settingsObj).then((d) => {
+    updateSettings(userDetails.id, settingsObj).then((d) => {
       setIsSaveButtonDisabled(true);
       setIsSavingInProgress(false);
     });
@@ -40,6 +40,7 @@ const GeneralSettings = () => {
     const settingsObj = {
       concurrency: concurrencyValue
     };
+
     updateGridGeneralSettings(settingsObj);
   };
 

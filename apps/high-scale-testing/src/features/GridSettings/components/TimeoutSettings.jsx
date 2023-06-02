@@ -56,7 +56,7 @@ const TimeoutSettings = () => {
   };
 
   const updateGridTimeoutSettings = (settingsObj) => {
-    updateSettings(userDetails.id, 'grid', 'general', settingsObj).then((d) => {
+    updateSettings(userDetails.id, settingsObj).then((d) => {
       setIsSaveButtonDisabled(true);
       setIsSavingInProgress(false);
     });
@@ -65,10 +65,12 @@ const TimeoutSettings = () => {
   const saveBtnClickhandler = () => {
     setIsSavingInProgress(true);
     const settingsObj = {
-      idleTimeOut: idleTimeOutValue,
-      queueRetryInterval: queueRetryIntervalValue,
-      queueTimeout: queueTimeoutValue,
-      testTimeout: testTimeoutValue
+      testSettings: {
+        idleTimeout: idleTimeOutValue,
+        queueTimeout: queueTimeoutValue,
+        queueRetryInterval: queueRetryIntervalValue,
+        testTimeout: testTimeoutValue
+      }
     };
     updateGridTimeoutSettings(settingsObj);
   };
