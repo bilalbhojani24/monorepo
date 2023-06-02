@@ -7,7 +7,6 @@ import { IMPORT_STATUS } from '../const/immutables';
 import {
   setDetailsModal,
   setIsProgressDismissed
-  // setReportModal
 } from '../slices/importProgressSlice';
 import { setQuickImportResult } from '../slices/importProgressThunk';
 
@@ -51,7 +50,6 @@ const useImportProgress = () => {
 
   const showReportModal = (status) => {
     dispatch(setQuickImportResult());
-    // dispatch(setReportModal(true));
     dispatch(
       logEventHelper('TM_QiViewReportLinkClicked', { import_status: status })
     );

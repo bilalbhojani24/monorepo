@@ -49,24 +49,23 @@ const TopSectionInfo = ({ steps, wrapperClassName, ctaCb }) => (
       wrapperClassName
     )}
   >
-    {steps.length &&
-      steps.map((step, idx) => (
-        <div key={step.title}>
-          <div
-            className={twClassNames({
-              'border-t border-base-300 my-3': idx > 0
-            })}
-          />
-          <SingleStep
-            title={step.title}
-            icon={step.icon}
-            description={step.description}
-            ctaText={step.ctaText}
-            redirectTo={step.redirectTo}
-            ctaCb={ctaCb}
-          />
-        </div>
-      ))}
+    {steps?.map((step, idx) => (
+      <div key={step.title}>
+        <div
+          className={twClassNames({
+            'border-t border-base-300 my-3': idx > 0
+          })}
+        />
+        <SingleStep
+          title={step.title}
+          icon={step.icon}
+          description={step.description}
+          ctaText={step.ctaText}
+          redirectTo={step.redirectTo}
+          ctaCb={ctaCb}
+        />
+      </div>
+    ))}
   </div>
 );
 

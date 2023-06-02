@@ -9,7 +9,6 @@ import {
   setImportDetails,
   setImportStatus,
   setNotificationConfig,
-  setReportModal,
   setViewReportLoading,
   showAlertLoader
 } from './importProgressSlice';
@@ -27,13 +26,8 @@ export const setQuickImportResult = () => async (dispatch, getState) => {
   try {
     const response = await getQuickImportResultAPI(id);
     dispatch(getQuickImportResultFulfilled(response));
-    dispatch(setReportModal(true));
-    setTimeout(() => {
-      dispatch(setViewReportLoading(false));
-    }, 500);
   } catch (err) {
     dispatch(setViewReportLoading(false));
-    // something on error
   }
 };
 

@@ -19,7 +19,6 @@ import {
   TMTruncateText
 } from 'common/bifrostProxy';
 
-// import Loader from 'common/Loader';
 import { IMPORT_STATUS, REPORT_TABLE_COLUMNS } from '../const/immutables';
 
 import useReportModal from './useReportModal';
@@ -106,12 +105,6 @@ const ViewReportModal = () => {
             ))}
           </TableBody>
         </Table>
-        {/* )}  ( // eslint-disable-next-line tailwindcss/no-arbitrary-value //{' '} */}
-        {/* <div className="border-base-300 align-center mb-3 flex h-[400px] rounded-md border">
-          // <Loader />
-          //{' '}
-        </div>
-        // )} */}
         <TMAlerts
           modifier="primary"
           accentBorder
