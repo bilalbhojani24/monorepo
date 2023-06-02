@@ -19,17 +19,18 @@ import {
   getTrialState,
   getUser
 } from 'features/Dashboard/slices/selectors';
-import { getBrowserStackBase } from 'utils';
-import { countRemainingDays } from 'utils/helper';
-import { logEvent } from 'utils/logEvent';
+import { buyAcceesibilityPlan, countRemainingDays } from 'utils/helper';
 
 export default function useReverseTrialBanner() {
   const dispatch = useDispatch();
   const showBanner = useSelector(getShowBanner);
   const trialState = useSelector(getTrialState);
   const bannerName = useSelector(getBannerName);
-  const bannerDetails = bannerName ? getBannerDetails[bannerName] : {};
   const trialEndDate = useSelector(getTrialEndDate);
+  const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
+  const bannerDetails = bannerName
+    ? getBannerDetails(remainingDays)[bannerName]
+    : {};
   const { enterprise_plan: enterprisePlan } = useSelector(getUser);
 
   const handleBannerDismissClick = () => {
@@ -42,18 +43,7 @@ export default function useReverseTrialBanner() {
       dispatch(setModalShow(true));
       return;
     }
-
-    logEvent('ClickedBuyaPlan', {
-      signed_in: true,
-      Product: 'Accessibility Testing',
-      Section: 'dashboard-left-panel',
-      URL: window.location.href
-    });
-
-    window.open(
-      `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
-      '_blank'
-    );
+    buyAcceesibilityPlan();
   };
 
   const displayBannerOnceADay = (storageKey, nameOfBanner) => {
@@ -77,7 +67,8 @@ export default function useReverseTrialBanner() {
       break;
     }
     case TRIAL_STARTED: {
-      if (countRemainingDays(new Date(), new Date(trialEndDate)) <= 5) {
+      console.log('days remaining', remainingDays);
+      if (remainingDays <= 5 && remainingDays > 0) {
         displayBannerOnceADay('daysLeftBannerDate', 'last_five_days');
       }
       break;

@@ -226,7 +226,7 @@ export const TRIAL_STARTED = 'started';
 export const TRIAL_IN_PROGRESS = 'in_progress';
 export const TRIAL_EXPIRED = 'expired';
 
-export const getBannerDetails = {
+export const getBannerDetails = (days) => ({
   not_started: {
     icon: Star,
     description:
@@ -242,8 +242,7 @@ export const getBannerDetails = {
   },
   last_five_days: {
     icon: Announcement,
-    description:
-      'Your Team free trial is ending in 3 days. Upgrade to continue using premium features.',
+    description: `Your Team free trial is ending in ${days} days. Upgrade to continue using premium features.`,
     buttonText: BUY_PLAN,
     color: 'attention'
   },
@@ -254,34 +253,46 @@ export const getBannerDetails = {
     buttonText: BUY_PLAN,
     color: 'danger'
   }
-};
+});
+
+const modalSubheading =
+  'Try Team plan for free for 14 days. No cards details required.';
+
+const accessibilityModalContent = [
+  'Find advanced issues using Assisted Tests for interactive elements',
+  'Scan 200 pages in one go using Website Scanner and set up unlimited scans to monitor your pages for issues',
+  'Access desktop and mobile screen readers on real devices.',
+  'Extended storage of test reports for up to 180 days'
+];
+
+const screenReaderModalContent = [
+  'Access desktop and mobile screen readers on real devices.',
+  'Find advanced issues using Assisted Tests for interactive elements',
+  'Scan 200 pages in one go using Website Scanner and set up unlimited scans to monitor your pages for issues',
+  'Extended storage of test reports for up to 180 days'
+];
 
 export const getModalDetails = {
   accessibility: {
     heading: 'Ready to supercharge your accessibility testing?',
-    subHeading:
-      'Try Team plan for free for 14 days. No cards details required.',
+    subHeading: modalSubheading,
     placeholderImage: AccessibilityPlaceholderImage,
-    content: [
-      'Find advanced issues using Assisted Tests for interactive elements',
-      'Scan 200 pages in one go using Website Scanner and set up unlimited scans to monitor your pages for issues',
-      'Access desktop and mobile screen readers on real devices.',
-      'Extended storage of test reports for up to 180 days'
-    ],
+    content: [...accessibilityModalContent],
     buttonText: 'Activate 14-day free trial'
   },
   screenReader: {
     heading: 'Upgrade to use screen readers',
-    subHeading:
-      'Try Team plan for free for 14 days. No cards details required.',
+    subHeading: modalSubheading,
     placeholderImage: AccessibilityPlaceholderImage,
-    content: [
-      'Access desktop and mobile screen readers on real devices.',
-      'Find advanced issues using Assisted Tests for interactive elements',
-      'Scan 200 pages in one go using Website Scanner and set up unlimited scans to monitor your pages for issues',
-      'Extended storage of test reports for up to 180 days'
-    ],
+    content: [...screenReaderModalContent],
     buttonText: 'Activate 14-day free trial'
+  },
+  buyPlan: {
+    heading: 'Upgrade to use screen readers',
+    subHeading: modalSubheading,
+    placeholderImage: AccessibilityPlaceholderImage,
+    content: [...screenReaderModalContent],
+    buttonText: 'Buy a plan'
   }
 };
 

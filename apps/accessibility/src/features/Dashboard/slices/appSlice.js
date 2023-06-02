@@ -4,9 +4,10 @@ const { actions, reducer } = createSlice({
   name: 'dashboardAppSlice',
   initialState: {
     user: {
-      eligible: false,
-      trial_end_date_time: 'May 10 2023 14:30:36 GMT+0530',
-      trial_status: 'not_started'
+      eligible: true,
+      trial_end_date_time:
+        'Jun 02 2023 16:22:57 GMT+0530 (India Standard Time)',
+      trial_status: 'expired'
     },
     banner: {
       showBanner: false,
@@ -43,6 +44,9 @@ const { actions, reducer } = createSlice({
     },
     setAlertName: (state, { payload }) => {
       state.alert.name = payload;
+    },
+    setTrialState: (state, { payload }) => {
+      state.user.trial_status = payload;
     }
   }
 });
@@ -54,7 +58,8 @@ export const {
   setModalName,
   setAlertName,
   setAlertShow,
-  setBannerName
+  setBannerName,
+  setTrialState
 } = actions;
 
 export default reducer;

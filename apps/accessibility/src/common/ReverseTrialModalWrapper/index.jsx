@@ -1,12 +1,18 @@
 import React from 'react';
 import { Button, Modal, ModalFooter, ModalHeader } from '@browserstack/bifrost';
 import Add from 'assets/add_icon.svg';
-import { getModalDetails } from 'constants';
+import { getModalDetails, TRIAL_IN_PROGRESS } from 'constants';
 
 import useReverseTrialModal from './useReverseTrialModal';
 
 export default function ReverseTrialModalWrapper() {
-  const { showModal, handleModalClose, modalName } = useReverseTrialModal();
+  const {
+    showModal,
+    handleModalClose,
+    modalName,
+    trialState,
+    handleButtonClick
+  } = useReverseTrialModal();
 
   if (!modalName) return null;
 
@@ -33,8 +39,15 @@ export default function ReverseTrialModalWrapper() {
         </ul>
       </div>
       <ModalFooter>
-        <Button colors="success" wrapperClassName="py-2" fullWidth>
-          {buttonText}
+        <Button
+          colors="success"
+          wrapperClassName="py-2"
+          fullWidth
+          loading={trialState === TRIAL_IN_PROGRESS}
+          isIconOnlyButton={trialState === TRIAL_IN_PROGRESS}
+          onClick={() => handleButtonClick(modalName)}
+        >
+          {trialState !== TRIAL_IN_PROGRESS ? buttonText : ''}
         </Button>
       </ModalFooter>
     </Modal>

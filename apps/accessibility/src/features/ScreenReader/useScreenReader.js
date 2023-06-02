@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import fetchScreenReaderDevices, {
   fetchMockData
 } from 'api/fetchScreenReaderDevices';
+import { TRIAL_EXPIRED, TRIAL_NOT_STARTED, TRIAL_STARTED } from 'constants';
 import {
   getAlertShow,
   getShowBanner,
@@ -11,7 +12,6 @@ import {
 } from 'features/Dashboard/slices/selectors';
 import { getBrowserStackEnvUrl } from 'utils';
 
-import { TRIAL_NOT_STARTED } from '../../constants';
 import { setModalName, setModalShow } from '../Dashboard/slices/appSlice';
 
 export default function useScreenReader() {
@@ -21,9 +21,8 @@ export default function useScreenReader() {
   const dispatch = useDispatch();
   const [deviceCombinations, setDeviceCombinations] = useState({});
   const { enterprise_plan: enterprisePlan } = useSelector(getUser);
-
   const handleCardClick = (startParams) => {
-    if (enterprisePlan) {
+    if (trialState === TRIAL_STARTED || enterprisePlan) {
       const url = getBrowserStackEnvUrl();
       const startLiveSessionUrl = new URL(`${url}/screen-reader/start`);
       startLiveSessionUrl.searchParams.set(
@@ -37,6 +36,9 @@ export default function useScreenReader() {
     } else if (trialState === TRIAL_NOT_STARTED) {
       dispatch(setModalName('screenReader'));
       dispatch(setModalShow(true));
+    } else if (trialState === TRIAL_EXPIRED) {
+      dispatch(setModalName('buyPlan'));
+      dispatch(setModalShow(true));
     }
   };
 
@@ -45,5 +47,11 @@ export default function useScreenReader() {
     fetchMockData().then(setDeviceCombinations);
   }, []);
 
-  return { deviceCombinations, handleCardClick, showBanner, showAlert };
+  return {
+    deviceCombinations,
+    handleCardClick,
+    showBanner,
+    showAlert,
+    trialState
+  };
 }

@@ -11,7 +11,6 @@ import {
   MdTextSnippet
 } from '@browserstack/bifrost';
 import { setStorage } from '@browserstack/utils';
-import confetti from 'canvas-confetti';
 import {
   CHROME_EXTENSION_URL,
   events,
@@ -21,13 +20,16 @@ import {
 import { addDays } from 'date-fns';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { defaultPath, getBrowserStackBase } from 'utils';
-import { countRemainingDays, getTimeDiffInDays } from 'utils/helper';
+import {
+  buyAcceesibilityPlan,
+  countRemainingDays,
+  getTimeDiffInDays
+} from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
 
 import { setModalName, setModalShow } from '../slices/appSlice';
 import {
   getShowBanner,
-  getTrialEligibility,
   getTrialEndDate,
   getTrialState
 } from '../slices/selectors';
@@ -38,13 +40,11 @@ export default function useDashboard() {
   const showBanner = useSelector(getShowBanner);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
-  const isEligible = useSelector(getTrialEligibility);
   const trialEndDate = useSelector(getTrialEndDate);
   const trialState = useSelector(getTrialState);
   const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
 
   const showTrialTile = () =>
-    isEligible &&
     trialState !== TRIAL_NOT_STARTED &&
     trialState !== TRIAL_IN_PROGRESS &&
     countRemainingDays(new Date(), addDays(new Date(trialEndDate), 60)) > 0;
@@ -155,16 +155,7 @@ export default function useDashboard() {
   };
 
   const onBuyPlanClick = () => {
-    logEvent('ClickedBuyaPlan', {
-      signed_in: true,
-      Product: 'Accessibility Testing',
-      Section: 'dashboard-left-panel',
-      URL: window.location.href
-    });
-    window.open(
-      `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
-      '_blank'
-    );
+    buyAcceesibilityPlan();
   };
 
   useEffect(() => {
@@ -176,27 +167,6 @@ export default function useDashboard() {
     } catch (e) {
       console.log('EDS already initialize...');
     }
-  }, []);
-
-  useEffect(() => {
-    confetti({
-      particleCount: 400,
-      spread: 120,
-      startVelocity: 40,
-      origin: {
-        x: 0,
-        y: 0.5
-      }
-    });
-    confetti({
-      particleCount: 400,
-      spread: 120,
-      startVelocity: 40,
-      origin: {
-        x: 1,
-        y: 0.5
-      }
-    });
   }, []);
 
   return {

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { TRIAL_IN_PROGRESS, TRIAL_NOT_STARTED } from 'constants';
+import { TRIAL_EXPIRED, TRIAL_IN_PROGRESS, TRIAL_NOT_STARTED } from 'constants';
 import {
   setAlertName,
   setAlertShow,
@@ -12,10 +12,7 @@ import {
   getTrialState,
   getUser
 } from 'features/Dashboard/slices/selectors';
-import { getBrowserStackBase } from 'utils';
-import { logEvent } from 'utils/logEvent';
-
-import { TRIAL_EXPIRED } from '../../constants';
+import { buyAcceesibilityPlan } from 'utils/helper';
 
 export default function useReverseTrialAlert() {
   const trialState = useSelector(getTrialState);
@@ -32,16 +29,7 @@ export default function useReverseTrialAlert() {
     }
 
     if (trialState === TRIAL_EXPIRED) {
-      logEvent('ClickedBuyaPlan', {
-        signed_in: true,
-        Product: 'Accessibility Testing',
-        Section: 'dashboard-left-panel',
-        URL: window.location.href
-      });
-      window.open(
-        `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
-        '_blank'
-      );
+      buyAcceesibilityPlan();
     }
   };
 
