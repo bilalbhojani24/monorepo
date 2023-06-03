@@ -7,7 +7,6 @@ import {
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
-import PropTypes from 'prop-types';
 
 import TotalImpactedExecutionsMetric from '../components/TotalImpactedExecutionsMetric';
 import TotalUniqueErrorMetric from '../components/TotalUniqueErrorMetric';
@@ -15,7 +14,7 @@ import UniqueImpactedTestsMetric from '../components/UniqueImpactedTestsMetric';
 import { getSnPUEMetricsData } from '../slices/uiSlice';
 
 // #TODO: add click and zoom interaction log events
-const UEMetrics = ({ hasNoData }) => {
+const UEMetrics = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
@@ -51,10 +50,6 @@ const UEMetrics = ({ hasNoData }) => {
     currentFilterCategory
   ]);
 
-  if (hasNoData) {
-    return null;
-  }
-
   return (
     <div className="flex items-center gap-5 px-6 pb-4">
       <TotalUniqueErrorMetric
@@ -74,10 +69,6 @@ const UEMetrics = ({ hasNoData }) => {
       />
     </div>
   );
-};
-
-UEMetrics.propTypes = {
-  hasNoData: PropTypes.bool.isRequired
 };
 
 export default UEMetrics;

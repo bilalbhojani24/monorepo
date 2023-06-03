@@ -7,7 +7,6 @@ import {
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
-import PropTypes from 'prop-types';
 
 import AverageDurationMetric from '../components/AverageDurationMetric';
 import AverageFailureRatesMetric from '../components/AverageFailureRatesMetric';
@@ -15,7 +14,7 @@ import TotalFailuresMetric from '../components/TotalFailuresMetric';
 import { getSnPTestsMetricsData } from '../slices/uiSlice';
 
 // #TODO: add click and zoom interaction log events
-const TestsMetrics = ({ hasNoData }) => {
+const TestsMetrics = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
@@ -51,10 +50,6 @@ const TestsMetrics = ({ hasNoData }) => {
     currentFilterCategory
   ]);
 
-  if (hasNoData) {
-    return null;
-  }
-
   return (
     <div className="flex items-center gap-5 px-6 pb-4">
       <TotalFailuresMetric
@@ -75,7 +70,5 @@ const TestsMetrics = ({ hasNoData }) => {
     </div>
   );
 };
-
-TestsMetrics.propTypes = { hasNoData: PropTypes.bool.isRequired };
 
 export default TestsMetrics;
