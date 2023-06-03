@@ -204,54 +204,56 @@ export default function SHTests() {
       <div className={twClassNames('mb-4 px-6 pt-5')}>
         <SHTestsFilters o11ySHTestsInteraction={o11ySHTestsInteraction} />
       </div>
-      <TestsMetrics hasNoData={isEmpty(tests)} />
-      {isLoadingTests ? (
-        <O11yLoader wrapperClassName="flex-1" />
-      ) : (
-        <>
-          {isEmpty(tests) ? (
-            <div
-              className={twClassNames(
-                'flex items-center justify-center flex-1'
-              )}
-            >
-              <O11yEmptyState
-                title="No matching results found"
-                description="We couldn't find the results you were looking for."
-                mainIcon={
-                  <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
-                }
-                buttonProps={{
-                  children: 'View all tests',
-                  onClick: handleViewAll,
-                  size: 'default'
-                }}
-              />
-            </div>
-          ) : (
-            <div className="flex-1 overflow-auto px-6">
-              <VirtualisedTable
-                style={{ height: '100%' }}
-                data={tests}
-                endReached={loadMoreRows}
-                fixedHeaderContent={() => (
-                  <TestsTableHeader
-                    isLoadingMore={isLoadingMore}
-                    handleClickSortBy={handleClickSortBy}
-                  />
+      <div className="flex-1 overflow-auto">
+        {!isEmpty(tests) && <TestsMetrics />}
+        {isLoadingTests ? (
+          <O11yLoader wrapperClassName="h-60" />
+        ) : (
+          <>
+            {isEmpty(tests) ? (
+              <div
+                className={twClassNames(
+                  'flex items-center justify-center h-full'
                 )}
-                itemContent={(index, testData) => (
-                  <SHTestItem key={testData.id} testDetails={testData} />
-                )}
-                showFixedFooter={isLoadingMore}
-                handleRowClick={handleClickTestItem}
-                tableWrapperClassName="border border-t-0 border-base-300 bg-white border-separate border-spacing-0 rounded-lg"
-                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-24"
-              />
-            </div>
-          )}
-        </>
-      )}
+              >
+                <O11yEmptyState
+                  title="No matching results found"
+                  description="We couldn't find the results you were looking for."
+                  mainIcon={
+                    <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                  }
+                  buttonProps={{
+                    children: 'View all tests',
+                    onClick: handleViewAll,
+                    size: 'default'
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="h-full w-full px-6">
+                <VirtualisedTable
+                  style={{ height: '100%' }}
+                  data={tests}
+                  endReached={loadMoreRows}
+                  fixedHeaderContent={() => (
+                    <TestsTableHeader
+                      isLoadingMore={isLoadingMore}
+                      handleClickSortBy={handleClickSortBy}
+                    />
+                  )}
+                  itemContent={(index, testData) => (
+                    <SHTestItem key={testData.id} testDetails={testData} />
+                  )}
+                  showFixedFooter={isLoadingMore}
+                  handleRowClick={handleClickTestItem}
+                  tableWrapperClassName="border border-t-0 border-base-300 bg-white border-separate border-spacing-0 rounded-lg"
+                  tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
+                />
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

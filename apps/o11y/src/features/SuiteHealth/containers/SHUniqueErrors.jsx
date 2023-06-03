@@ -47,13 +47,13 @@ import UEMetrics from './UEMetrics';
 import UERow from './UERow';
 
 const List = forwardRef((props, ref) => (
-  <div {...props} ref={ref} className="mb-24 overflow-hidden" />
+  <div {...props} ref={ref} className="overflow-hidden" />
 ));
 
 const Item = (props) => (
   <div
     {...props}
-    className="border-base-200 last-of-type:border-base-300 border-x-base-300 overflow-hidden border-x border-b last-of-type:mb-24 last-of-type:rounded-b-md"
+    className="border-base-200 last-of-type:border-base-300 border-x-base-300 overflow-hidden border-x border-b  last-of-type:rounded-b-md"
   />
 );
 
@@ -195,58 +195,60 @@ const SnPUniqueErrors = () => {
       <div className={twClassNames('mb-4 px-6 pt-5')}>
         <SHUEFilters o11ySHUEInteraction={o11ySHUEInteraction} />
       </div>
-      <UEMetrics hasNoData={isEmpty(errors)} />
-      {isLoadingErrors ? (
-        <O11yLoader
-          wrapperClassName="flex-1"
-          loaderClass="text-base-200 fill-base-400 w-8 h-8"
-        />
-      ) : (
-        <>
-          {isEmpty(errors) ? (
-            <div
-              className={twClassNames(
-                'flex items-center justify-center flex-1'
-              )}
-            >
-              <O11yEmptyState
-                title="No matching results found"
-                description="We couldn't find the results you were looking for."
-                mainIcon={
-                  <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
-                }
-                buttonProps={{
-                  children: 'View all unique errors',
-                  onClick: handleViewAll,
-                  size: 'default'
-                }}
-              />
-            </div>
-          ) : (
-            <>
-              <div className="px-6">
-                <UETableHeader
-                  handleClickSortBy={handleClickSortBy}
-                  isLoadingMore={isLoadingMore}
-                />
-              </div>
-              <div className="flex-1 overflow-auto px-6">
-                <Virtuoso
-                  data={errors}
-                  overscan={200}
-                  endReached={loadMoreRows}
-                  itemContent={(index, data) => <UERow data={data} />}
-                  components={{
-                    Footer: isLoadingMore ? LoadingFooter : null,
-                    List,
-                    Item
+      <div className="flex-1 overflow-auto">
+        {!isEmpty(errors) && <UEMetrics />}
+        {isLoadingErrors ? (
+          <O11yLoader
+            wrapperClassName="h-60"
+            loaderClass="text-base-200 fill-base-400 w-8 h-8"
+          />
+        ) : (
+          <>
+            {isEmpty(errors) ? (
+              <div
+                className={twClassNames(
+                  'flex items-center justify-center h-full'
+                )}
+              >
+                <O11yEmptyState
+                  title="No matching results found"
+                  description="We couldn't find the results you were looking for."
+                  mainIcon={
+                    <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                  }
+                  buttonProps={{
+                    children: 'View all unique errors',
+                    onClick: handleViewAll,
+                    size: 'default'
                   }}
                 />
               </div>
-            </>
-          )}
-        </>
-      )}
+            ) : (
+              <div className="flex h-full w-full flex-col px-6">
+                <div className="">
+                  <UETableHeader
+                    handleClickSortBy={handleClickSortBy}
+                    isLoadingMore={isLoadingMore}
+                  />
+                </div>
+                <div className="flex-1 overflow-auto">
+                  <Virtuoso
+                    data={errors}
+                    overscan={200}
+                    endReached={loadMoreRows}
+                    itemContent={(index, data) => <UERow data={data} />}
+                    components={{
+                      Footer: isLoadingMore ? LoadingFooter : null,
+                      List,
+                      Item
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };
