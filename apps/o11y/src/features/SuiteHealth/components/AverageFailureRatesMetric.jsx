@@ -36,7 +36,7 @@ const AverageFailureRatesMetric = ({ isLoading, data, metric }) => {
     return [
       {
         name: 'Average Failure Rates',
-        lineColor: 'var(--colors-danger-500)',
+        lineColor: 'var(--colors-brand-500)',
         borderColor: 'black',
         color: 'transparent',
         data: data?.averageFailureRates

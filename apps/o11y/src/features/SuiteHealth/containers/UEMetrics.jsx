@@ -14,6 +14,7 @@ import TotalUniqueErrorMetric from '../components/TotalUniqueErrorMetric';
 import UniqueImpactedTestsMetric from '../components/UniqueImpactedTestsMetric';
 import { getSnPUEMetricsData } from '../slices/uiSlice';
 
+// #TODO: add click and zoom interaction log events
 const UEMetrics = ({ hasNoData }) => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();

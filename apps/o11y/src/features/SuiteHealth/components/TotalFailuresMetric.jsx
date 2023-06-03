@@ -30,14 +30,14 @@ const TotalFailuresMetric = ({ isLoading, data, metric }) => {
     return [
       {
         name: 'Total Executions',
-        lineColor: 'var(--colors-base-300)',
+        lineColor: 'var(--colors-brand-300)',
         borderColor: 'black',
         color: 'transparent',
-        fillColor: 'var(--colors-base-100)',
+        fillColor: 'var(--colors-brand-100)',
         data: data?.totalExecutions
       },
       {
-        name: 'Total Failures',
+        name: 'Failed Executions',
         lineColor: 'var(--colors-danger-500)',
         borderColor: 'black',
         color: 'transparent',
@@ -47,9 +47,10 @@ const TotalFailuresMetric = ({ isLoading, data, metric }) => {
     ];
   }, [data?.totalExecutions, data?.totalFailures, isLoading]);
 
+  // #TODO => check with Dinesh, if metric meta text also changed or not
   return (
     <StatsCard
-      title="Failures"
+      title="Failed Execution Count"
       stat={metric?.value}
       subText={metric?.meta}
       isLoading={isLoading}
