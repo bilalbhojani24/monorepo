@@ -101,6 +101,9 @@ const CHART_OPTIONS = {
       theme: {
         fill: 'white',
         stroke: 'silver',
+        style: {
+          display: 'none'
+        },
         r: 3,
         states: {
           hover: {
