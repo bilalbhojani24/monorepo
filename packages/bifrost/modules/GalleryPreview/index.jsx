@@ -55,6 +55,7 @@ const GalleryPreview = ({
             colors="white"
             icon={<FiChevronLeft className="mx-auto h-5 w-5" />}
             isIconOnlyButton
+            aria-label="prev-slider-item-btn"
           />
           <Button
             onClick={handleNextClick}
@@ -63,6 +64,7 @@ const GalleryPreview = ({
             colors="white"
             icon={<FiChevronRight className="mx-auto h-5 w-5" />}
             isIconOnlyButton
+            aria-label="next-slider-item-btn"
           />
         </div>
         <div

@@ -156,6 +156,11 @@ const GalleryMedia = ({
           role="region"
         >
           <GalleryMediaCheckbox
+            data={{
+              label: mediaItem.id,
+              value: mediaItem.file
+              // description: mediaItem.title
+            }}
             onClick={() => handleOnClick(mediaItem.id)}
             selected={mediaItem.selected}
             alwaysVisible={alwaysVisible}

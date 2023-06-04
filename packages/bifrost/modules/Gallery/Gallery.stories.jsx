@@ -144,8 +144,12 @@ export const GalleryExampleWPreview = () => {
                 onClick={() => {
                   setPreviewItem(null);
                 }}
+                aria-label="exit-preview-btn"
               >
-                <ArrowLongLeftIcon className="h-6 w-6 text-white" />
+                <ArrowLongLeftIcon
+                  className="h-6 w-6 text-white"
+                  aria-label="go-back-btn"
+                />
               </button>
               <p className="text-sm font-medium leading-5 text-white">
                 {previewItem?.title}
@@ -175,6 +179,7 @@ export const GalleryExampleWPreview = () => {
               colors="white"
               icon={<MinusIcon className="mx-auto h-5 w-5" />}
               isIconOnlyButton
+              aria-label="item-decrease-zoom-btn"
             />
             <Button
               variant="minimal"
@@ -182,6 +187,7 @@ export const GalleryExampleWPreview = () => {
               colors="white"
               icon={<PlusIcon className="mx-auto h-5 w-5" />}
               isIconOnlyButton
+              aria-label="item-increase-zoom-btn"
             />
           </>
         }
@@ -198,7 +204,12 @@ export const GalleryExampleWPreview = () => {
         visible={selectedItems.length > 0}
         primaryActions={
           <div className="flex items-center gap-4">
-            <Checkbox border={false} onChange={(e) => handleBulkSelect(e)} />
+            <Checkbox
+              aria-label={`check-${data.label}`}
+              name="media-action-bar-chck"
+              border={false}
+              onChange={(e) => handleBulkSelect(e)}
+            />
             <p className="text-base-900 text-sm font-medium leading-5">
               {selectedItems.length} item(s) selected
             </p>
