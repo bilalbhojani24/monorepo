@@ -20,6 +20,7 @@ import { logEventHelper } from 'utils/logEvent';
 
 import { TR_DROP_OPTIONS } from '../const/immutableConst';
 import {
+  resetBulkSelection,
   resetTestCaseDetails,
   setAllTestCases,
   setIsLoadingProps,
@@ -122,6 +123,7 @@ export default function useTestRunDetails() {
 
   const resetTestCaseDetailsMeta = () => {
     dispatch(resetTestCaseDetails());
+    dispatch(resetBulkSelection());
   };
 
   const setTestRunDetailsLoading = () => {

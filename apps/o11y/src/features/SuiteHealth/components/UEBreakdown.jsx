@@ -10,7 +10,6 @@ import PropTypes from 'prop-types';
 import { UNIQUE_ERROR_BREAKDOWN_HEADER } from '../constants';
 import { getSnPUEBreakdownData, updateSingleBDData } from '../slices/dataSlice';
 import {
-  getAllSnPTestFilters,
   getSnpErrorsSortBy,
   getUESingleBreakdownData
 } from '../slices/selectors';
@@ -23,7 +22,6 @@ export default function UEBreakdown({ errorId }) {
 
   const [breakDownData, setBreakDownData] = useState([]);
   const [isLoadingBD, setIsLoadingBD] = useState(true);
-  const filters = useSelector(getAllSnPTestFilters);
   const sortBy = useSelector(getSnpErrorsSortBy);
   const singleBDData = useSelector((state) =>
     getUESingleBreakdownData(state, errorId)
@@ -39,7 +37,6 @@ export default function UEBreakdown({ errorId }) {
         getSnPUEBreakdownData({
           normalisedName: activeProject?.normalisedName,
           errorId,
-          filters,
           sortOptions: sortBy
         })
       )
@@ -60,7 +57,6 @@ export default function UEBreakdown({ errorId }) {
   }, [
     activeProject?.normalisedName,
     dispatch,
-    filters,
     sortBy,
     errorId,
     singleBDData?.defaultOpen,

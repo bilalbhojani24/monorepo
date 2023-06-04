@@ -5,14 +5,40 @@ import {
   getSnPTestsBreakdown,
   getSnPUEBreakdown
 } from 'api/snp';
+import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
+import { getFilterQueryParams } from 'features/FilterSkeleton/utils';
 
 import {
+  TABS,
   TESTS_HEADER_LABEL_MAPPING,
   UNIQUE_ERROR_MAIN_HEADER
 } from '../constants';
 
+const getInitialActiveTab = () => {
+  const searchParams = new URLSearchParams(window.location.search);
+  const tabVal = searchParams.get(SNP_PARAMS_MAPPING.snpTab);
+  if (!tabVal) {
+    return {
+      idx: 0,
+      value: TABS.tests
+    };
+  }
+  const foundTabIdx = Object.keys(TABS).findIndex((item) => item === tabVal);
+  if (foundTabIdx !== -1) {
+    return {
+      idx: foundTabIdx,
+      value: TABS[tabVal]
+    };
+  }
+  return {
+    idx: 0,
+    value: TABS.tests
+  };
+};
+
 const { reducer, actions } = createSlice({
-  name: 'snp data',
+  name: 'suite health',
   initialState: {
     tests: {
       data: [],
@@ -32,9 +58,13 @@ const { reducer, actions } = createSlice({
         type: Object.keys(UNIQUE_ERROR_MAIN_HEADER)[2],
         status: 'desc'
       }
-    }
+    },
+    activeTab: getInitialActiveTab()
   },
   reducers: {
+    setActiveTab: (state, { payload }) => {
+      state.activeTab = payload;
+    },
     setTestsLoading: (state, { payload }) => {
       state.tests.isLoading = payload;
     },
@@ -104,6 +134,7 @@ const { reducer, actions } = createSlice({
 });
 
 export const {
+  setActiveTab,
   setTestsLoading,
   setTestData,
   updateTests,
@@ -123,10 +154,14 @@ export const {
 } = actions;
 
 export const getSnPTestsData = createAsyncThunk(
-  'testlist/getSnPTestsData',
-  async (data, { rejectWithValue, dispatch }) => {
+  'suitehealth/getSnPTestsData',
+  async (data, { rejectWithValue, dispatch, getState }) => {
     try {
-      const response = await getSnPTests({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPTests({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       if (data?.shouldUpdate) {
         dispatch(updateTests(response.data.tests));
       } else {
@@ -142,10 +177,14 @@ export const getSnPTestsData = createAsyncThunk(
 );
 
 export const getSnPTestsBreakdownData = createAsyncThunk(
-  'testlist/getSnPTestsBreakdownData',
-  async (data, { rejectWithValue }) => {
+  'suitehealth/getSnPTestsBreakdownData',
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getSnPTestsBreakdown({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPTestsBreakdown({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -153,10 +192,14 @@ export const getSnPTestsBreakdownData = createAsyncThunk(
   }
 );
 export const getSnPErrorsData = createAsyncThunk(
-  'testlist/getSnPErrorsData',
-  async (data, { rejectWithValue, dispatch }) => {
+  'suitehealth/getSnPErrorsData',
+  async (data, { rejectWithValue, dispatch, getState }) => {
     try {
-      const response = await getSnPErrors({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPErrors({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       const allBreakdownData = {};
       response.data.errors?.forEach((error) => {
         allBreakdownData[error.id] = {
@@ -180,10 +223,14 @@ export const getSnPErrorsData = createAsyncThunk(
   }
 );
 export const getSnPUEBreakdownData = createAsyncThunk(
-  'testlist/getSnPUEBreakdownData',
-  async (data, { rejectWithValue }) => {
+  'suitehealth/getSnPUEBreakdownData',
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const response = await getSnPUEBreakdown({ ...data });
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPUEBreakdown({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
