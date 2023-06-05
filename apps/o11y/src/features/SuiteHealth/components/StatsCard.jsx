@@ -9,7 +9,7 @@ const StatsCard = ({ title, stat, subText, isLoading, graph }) => (
       <O11yLoader wrapperClassName="absolute top-0 left-0 w-full h-full rounded-lg z-10 bg-base-200 opacity-50" />
     )}
     <Stats
-      cardWrapperClassname="cursor-default"
+      cardWrapperClassname="cursor-default h-full"
       option={{
         id: `sh-${title}`,
         name: title,
@@ -26,7 +26,7 @@ const StatsCard = ({ title, stat, subText, isLoading, graph }) => (
         onClick: () => {}
       }}
       variant="graph_variant"
-      wrapperClassName="w-full"
+      wrapperClassName="w-full h-full"
     />
   </div>
 );

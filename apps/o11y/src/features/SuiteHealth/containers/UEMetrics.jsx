@@ -50,7 +50,7 @@ const UEMetrics = () => {
   ]);
 
   return (
-    <div className="flex items-center gap-5 px-6 pb-4">
+    <div className="flex gap-5 px-6 pb-4">
       <TotalUniqueErrorMetric
         isLoading={isLoading}
         data={chartData.uniqueErrorChart?.data}

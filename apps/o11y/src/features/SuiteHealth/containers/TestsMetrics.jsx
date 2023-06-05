@@ -50,7 +50,7 @@ const TestsMetrics = () => {
   ]);
 
   return (
-    <div className="flex items-center gap-5 px-6 pb-4">
+    <div className="flex gap-5 px-6 pb-4">
       <TotalFailuresMetric
         isLoading={isLoading}
         data={chartData.failureChart?.data}
