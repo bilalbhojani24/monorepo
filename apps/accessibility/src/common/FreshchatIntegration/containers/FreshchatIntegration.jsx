@@ -8,7 +8,7 @@ function FreshchatIntegration() {
 
   return (
     <div className="relative z-10">
-      <ChatWidget />
+      <ChatWidget direction="right" />
     </div>
   );
 }
