@@ -32,6 +32,7 @@ export const breadcrumbData = [
 export const onlyIconOrTextBreadcrumbData = [
   {
     url: '/',
+    label: 'Home',
     current: false,
     icon: <HomeIcon className="h-5 w-5 shrink-0" aria-hidden="true" />
   },
