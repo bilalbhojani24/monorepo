@@ -67,6 +67,12 @@ const defaultConfig = {
       control: { type: 'text' },
       defaultValue: ''
     },
+    disabled: {
+      type: { summary: 'Disabled Prop', required: false },
+      description: 'Disabled State',
+      control: { type: 'boolean' },
+      defaultValue: false
+    },
     wrapperClassName: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
