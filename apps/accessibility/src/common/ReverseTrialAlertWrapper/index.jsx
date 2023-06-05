@@ -19,14 +19,12 @@ export default function ReverseTrialAlertWrapper() {
       alphaActionTitle="View Status"
       detailsNode={
         detailsNode ? (
-          <>
-            <p className="w-40">
-              {detailsNode}{' '}
-              <span aria-hidden="true" className="ml-1">
-                →
-              </span>
-            </p>
-          </>
+          <p className="w-40">
+            {detailsNode}{' '}
+            <span aria-hidden="true" className="ml-1">
+              →
+            </span>
+          </p>
         ) : (
           false
         )

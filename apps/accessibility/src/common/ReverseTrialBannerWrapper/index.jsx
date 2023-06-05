@@ -30,7 +30,7 @@ export default function ReverseTrialBannerWrapper() {
               )
             }
             ctaButton={
-              buttonText ? (
+              buttonText && (
                 <Button
                   onClick={handleBannerButtonClick}
                   size="small"
@@ -39,8 +39,6 @@ export default function ReverseTrialBannerWrapper() {
                 >
                   {buttonText}
                 </Button>
-              ) : (
-                false
               )
             }
             onDismissClick={handleBannerDismissClick}

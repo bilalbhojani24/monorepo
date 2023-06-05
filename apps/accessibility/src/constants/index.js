@@ -277,21 +277,21 @@ export const getModalDetails = {
     heading: 'Ready to supercharge your accessibility testing?',
     subHeading: modalSubheading,
     placeholderImage: AccessibilityPlaceholderImage,
-    content: [...accessibilityModalContent],
+    content: accessibilityModalContent,
     buttonText: 'Activate 14-day free trial'
   },
   screenReader: {
     heading: 'Upgrade to use screen readers',
     subHeading: modalSubheading,
     placeholderImage: AccessibilityPlaceholderImage,
-    content: [...screenReaderModalContent],
+    content: screenReaderModalContent,
     buttonText: 'Activate 14-day free trial'
   },
   buyPlan: {
     heading: 'Upgrade to use screen readers',
     subHeading: modalSubheading,
     placeholderImage: AccessibilityPlaceholderImage,
-    content: [...screenReaderModalContent],
+    content: screenReaderModalContent,
     buttonText: 'Buy a plan'
   }
 };

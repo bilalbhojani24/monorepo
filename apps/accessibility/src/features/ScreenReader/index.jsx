@@ -8,12 +8,11 @@ import ReverseTrialAlertWrapper from 'common/ReverseTrialAlertWrapper';
 import {
   SCREEN_READER_DEVICE_TITLES,
   SCREEN_READER_DEVICE_TYPE,
-  SCREEN_READER_HEADER_TITLES
+  SCREEN_READER_HEADER_TITLES,
+  TRIAL_IN_PROGRESS
 } from 'constants';
 import PropTypes from 'prop-types';
 import { handleClickByEnterOrSpace } from 'utils/helper';
-
-import { TRIAL_IN_PROGRESS } from '../../constants';
 
 import useScreenReader from './useScreenReader';
 
@@ -43,11 +42,9 @@ function ScreenReaderSection({ title, devices }) {
             placementSide="bottom"
             arrowPadding={-10}
             content={
-              <>
-                <TooltipBody>
-                  Please wait. Your free trial is being processed..
-                </TooltipBody>
-              </>
+              <TooltipBody>
+                Please wait. Your free trial is being processed..
+              </TooltipBody>
             }
             theme="dark"
           >
