@@ -23,8 +23,8 @@ const useOnboarding = () => {
   const CODE_SNIPPETS_SCRATCH = {
     'create-grid': {
       a: {
-        code: 'npm install @browserstack/browserstack-cli',
-        language: 'node',
+        code: 'npm install browserstack-node-sdk',
+        language: 'npm',
         text: 'Download CLI.'
       },
       b: {
@@ -70,7 +70,7 @@ browserstack-cli hst init`,
   const SUB_TEXTS_OBJECT = {
     intro:
       'Create and manage your own Automation Grid that supports frameworks like Selenium, Playwright, and Cypress to support browser testing at scale',
-    scratch: '',
+    scratch: 'Quickly create a grid in below 4 steps.',
     existing: ''
   };
   const STEP_1_RADIO_GROUP_OPTIONS = [
