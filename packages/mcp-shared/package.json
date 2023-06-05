@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "peerDependencies": {
-    "@browserstack/bifrost": "4.2.0",
+    "@browserstack/bifrost": "8.2.0",
     "@browserstack/utils": "1.2.0",
     "@browserstack/tailwind-config": "workspace:*",
     "@tailwindcss/forms": "0.5.3",

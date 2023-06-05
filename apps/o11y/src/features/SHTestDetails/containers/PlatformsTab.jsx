@@ -3,10 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import PlatformsTable from 'common/PlatformsTable';
 import { getSnPTestsBreakdownData } from 'features/SuiteHealth/slices/dataSlice';
-import {
-  getAllSnPTestFilters,
-  getSnPTestFilterByKey
-} from 'features/SuiteHealth/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
@@ -21,10 +17,6 @@ const PlatformsTab = () => {
 
   const mounted = useRef();
   const testId = useSelector(getShowSHTestsDetailsFor);
-  const filters = useSelector(getAllSnPTestFilters);
-  const activeBuild = useSelector((state) =>
-    getSnPTestFilterByKey(state, 'buildName')
-  );
   const activeProject = useSelector(getActiveProject);
   const [platforms, setPlatforms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,8 +28,7 @@ const PlatformsTab = () => {
       dispatch(
         getSnPTestsBreakdownData({
           normalisedName: activeProject?.normalisedName,
-          testId,
-          filters
+          testId
         })
       )
         .unwrap()
@@ -52,13 +43,7 @@ const PlatformsTab = () => {
     return () => {
       mounted.current = false;
     };
-  }, [
-    activeBuild.value,
-    dispatch,
-    filters,
-    activeProject?.normalisedName,
-    testId
-  ]);
+  }, [dispatch, activeProject?.normalisedName, testId]);
 
   const handleClickItem = (currentIndex) => {
     const activeRow = platforms?.[currentIndex];

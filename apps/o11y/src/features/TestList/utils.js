@@ -8,7 +8,7 @@ export function parseSimpleTreeData(treeData, { id, pId, rootPId }) {
   const rootNodeList = [];
 
   // Fill in the map
-  const nodeList = treeData.map((node) => {
+  const nodeList = treeData?.map((node) => {
     const clone = { ...node };
     const key = clone[id];
     keyNodes[key] = clone;
@@ -17,7 +17,7 @@ export function parseSimpleTreeData(treeData, { id, pId, rootPId }) {
   });
 
   // Connect tree
-  nodeList.forEach((node) => {
+  nodeList?.forEach((node) => {
     const parentKey = node[pId];
     const parent = keyNodes[parentKey];
 

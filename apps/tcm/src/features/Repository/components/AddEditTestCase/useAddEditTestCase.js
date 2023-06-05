@@ -131,6 +131,22 @@ export default function useAddEditTestCase(prop) {
   const isUploadInProgress = useSelector(
     (state) => state.repository.isLoading.uploadingAttachments
   );
+  const priorityOptions = useSelector(
+    (state) => state.repository.priorityOptions
+  );
+  const statusOptions = useSelector((state) => state.repository.statusOptions);
+  const testCaseTypeOptions = useSelector(
+    (state) => state.repository.testCaseTypeOptions
+  );
+  const priorityIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.priorityIntNameAndValueMapTC
+  );
+  const statusIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.statusIntNameAndValueMapTC
+  );
+  const testCaseTypeIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.testCaseTypeIntNameAndValueMapTC
+  );
 
   const hideTestCaseAddEditPage = (e, isForced, action) => {
     if (action === 'Cancel')
@@ -216,11 +232,20 @@ export default function useAddEditTestCase(prop) {
       return { ...obj, [key]: value };
     }, {});
 
-  const formDataFormatter = (formData, isNoFolderTCCreation) => {
+  const formDataFormatter = (formData, isNoFolderTCCreation, flow) => {
     const testCase = {
       ...formData
     };
 
+    if (!formData.priority)
+      testCase.priority =
+        flow === 'add' ? priorityIntNameAndValueMapTC?.medium : null;
+    if (!formData.status)
+      testCase.status =
+        flow === 'add' ? statusIntNameAndValueMapTC?.active : null;
+    if (!formData.case_type)
+      testCase.case_type =
+        flow === 'add' ? testCaseTypeIntNameAndValueMapTC?.other : null;
     if (formData.steps) testCase.steps = JSON.stringify(formData.steps);
     if (formData.tags)
       testCase.tags = formData?.tags?.map((item) => item.value);
@@ -362,7 +387,7 @@ export default function useAddEditTestCase(prop) {
       apiSaveFunction({
         projectId,
         folderId: formData.test_case_folder_id,
-        payload: formDataFormatter(formData, !allFolders.length)
+        payload: formDataFormatter(formData, !allFolders.length, 'add')
       })
         .then(onSaveTCSuccessHelper)
         .catch(() => {
@@ -388,7 +413,7 @@ export default function useAddEditTestCase(prop) {
       folderId,
       bulkSelection,
       data: formatBulkFormData(
-        formDataFormatter(testCaseBulkFormData).test_case
+        formDataFormatter(testCaseBulkFormData, null, 'bulk-edit').test_case
       )
     })
       .then(() => {
@@ -442,7 +467,7 @@ export default function useAddEditTestCase(prop) {
         projectId,
         folderId: selectedTestCase?.test_case_folder_id || folderId,
         testCaseId: selectedTestCase.id,
-        payload: formDataFormatter(formData)
+        payload: formDataFormatter(formData, null, 'edit')
       })
         .then((data) => {
           dispatch(updateCtaLoading({ key: 'editTestCaseCta', value: false }));
@@ -716,13 +741,15 @@ export default function useAddEditTestCase(prop) {
     selectedTestCase,
     isTestCaseEditing,
     showMoreFields,
+    priorityOptions,
+    statusOptions,
+    testCaseTypeOptions,
     handleMenuOpen,
     setShowMoreFieldHelper,
     showAddTagsModal,
     hideAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
-    // tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,

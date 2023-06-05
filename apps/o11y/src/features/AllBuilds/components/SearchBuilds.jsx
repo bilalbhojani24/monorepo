@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdClose, MdSearch } from '@browserstack/bifrost';
 import { O11yButton, O11yInputField } from 'common/bifrostProxy';
+import PropTypes from 'prop-types';
 
 import { BUILD_FILTER_OPERATIONS, BUILD_FILTER_TYPES } from '../constants';
 import { findAppliedFilterByType } from '../slices/buildsSelectors';
 import { setAppliedFilter } from '../slices/buildsSlice';
 
-const SearchBuilds = () => {
+const SearchBuilds = ({ onSearchChange }) => {
   const dispatch = useDispatch();
   const appliedSearchText = useSelector(
     findAppliedFilterByType(BUILD_FILTER_TYPES.search)
@@ -25,6 +26,7 @@ const SearchBuilds = () => {
   };
 
   const handleSearch = () => {
+    onSearchChange();
     dispatch(
       setAppliedFilter({
         type: BUILD_FILTER_TYPES.search,
@@ -37,6 +39,7 @@ const SearchBuilds = () => {
   };
 
   const handleRemoveSearch = () => {
+    onSearchChange();
     setSearchText('');
     dispatch(
       setAppliedFilter({
@@ -77,6 +80,10 @@ const SearchBuilds = () => {
       />
     </>
   );
+};
+
+SearchBuilds.propTypes = {
+  onSearchChange: PropTypes.func.isRequired
 };
 
 export default SearchBuilds;
