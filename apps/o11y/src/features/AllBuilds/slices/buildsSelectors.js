@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-// data selectors
 export const getBuilds = (state) => state.buildsData.builds;
+export const getBuildsLength = (state) => state.buildsData.builds.length;
 export const getSelectedFilters = (state) => state.buildsData.selectedFilters;
 export const getIsLoadingFilters = (state) => state.buildsData.isLoadingFilters;
 export const getStaticFiltersByType = (type) => (state) =>
@@ -41,3 +41,7 @@ export const getSelectedFiltersIdsByType = (type) =>
   );
 export const getBuildsPagingParams = (state) =>
   state.buildsData.buildsPagingParams;
+export const getBuildCheckStatusMapping = (state) =>
+  state.buildsData.buildCheckStatusMapping;
+export const getSelectAllCheckedStatus = (state) =>
+  state.buildsData.selectAllCheckedStatus;

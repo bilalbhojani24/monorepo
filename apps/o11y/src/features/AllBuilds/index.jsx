@@ -25,7 +25,8 @@ import {
 import {
   clearFilters,
   getBuildsData,
-  getBuildsFiltersData
+  getBuildsFiltersData,
+  resetBuildSelection
 } from './slices/buildsSlice';
 import { getFilterQueryParams } from './utils/common';
 
@@ -45,6 +46,7 @@ const AllBuildsPage = () => {
 
   const fetchBuilds = useCallback(() => {
     if (activeProject?.normalisedName && !isLoadingFilters) {
+      dispatch(resetBuildSelection());
       setShowErrorToast(false);
       setIsLoadingBuilds(true);
       dispatch(

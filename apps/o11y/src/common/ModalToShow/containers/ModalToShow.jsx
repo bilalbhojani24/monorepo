@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { MODAL_TYPES } from 'constants/modalTypes';
+import ArchiveBuildsModal from 'features/AllBuilds/components/ArchiveBuildsModal';
 import BulkTaggingModal from 'features/BulkTagging';
 import AzureIntegrationModal from 'features/Integrations/components/AzureIntegrationModal';
 import EmailPreferenceModal from 'features/Integrations/components/EmailPreferenceModal';
@@ -40,6 +41,8 @@ export default function ModalToShow() {
       return <JenkinsIntegrationModal />;
     case MODAL_TYPES.azure_connect_modal:
       return <AzureIntegrationModal />;
+    case MODAL_TYPES.archive_builds_modal:
+      return <ArchiveBuildsModal />;
     default:
       return null;
   }

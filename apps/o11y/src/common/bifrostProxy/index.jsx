@@ -2,6 +2,7 @@
 import React, { forwardRef } from 'react';
 import {
   Accordion,
+  Alerts,
   Badge,
   Banner,
   Button,
@@ -55,6 +56,7 @@ import O11yHeader from './components/O11yHeader';
 import O11ySwitcher from './components/O11ySwitcher';
 
 export const O11yAccordion = (props) => <Accordion {...props} />;
+export const O11yAlerts = (props) => <Alerts {...props} />;
 export const O11yBadge = (props) => <Badge {...props} />;
 export const O11yCheckbox = (props) => <Checkbox {...props} />;
 export const O11yTable = (props) => <Table {...props} />;

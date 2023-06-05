@@ -7,6 +7,7 @@ import {
   Notifications,
   notify
 } from '@browserstack/bifrost';
+import O11yLoader from 'common/O11yLoader';
 
 const getIcon = (type) => {
   switch (type) {
@@ -16,6 +17,8 @@ const getIcon = (type) => {
       return <MdCheckCircleOutline className="text-success-600 h-6 w-6 " />;
     case 'warning':
       return <MdWarningAmber className="text-attention-600 h-6 w-6 " />;
+    case 'loading':
+      return <O11yLoader loaderClass="h-6 w-6 " />;
     default:
       return <MdInfoOutline className="text-brand-600 h-6 w-6 leading-5" />;
   }

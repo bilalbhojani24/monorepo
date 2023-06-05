@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
+  archiveBuildsApi,
   getBuildFilterDetails,
   getBuildsAPI,
   getBuildTags,
   getUserNames
 } from 'api/builds';
 import { getBuildNames } from 'api/settings';
+import { CheckboxState, TEST_STATUS } from 'constants/common';
 import { isEmpty } from 'lodash';
 import { getDateInFormat } from 'utils/dateTime';
 
@@ -46,6 +48,18 @@ export const getBuildsData = createAsyncThunk(
   }
 );
 
+export const archiveBuilds = createAsyncThunk(
+  `${SLICE_NAME}/archiveBuilds`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await archiveBuildsApi({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
 const { reducer, actions } = createSlice({
   name: SLICE_NAME,
   initialState: {
@@ -56,6 +70,8 @@ const { reducer, actions } = createSlice({
     selectedFilters: [],
     appliedFilters: [],
     staticFilters: {},
+    buildCheckStatusMapping: {},
+    selectAllCheckedStatus: CheckboxState.UNCHECKED,
     initialSearchString: window.location.search
   },
   reducers: {
@@ -189,10 +205,32 @@ const { reducer, actions } = createSlice({
         if (idxToUpdate !== -1) {
           state.builds[idxToUpdate] = build;
         }
+        // update build status in check status mapping to keep in sync
+        if (state.buildCheckStatusMapping[build.uuid]) {
+          state.buildCheckStatusMapping[build.uuid] = {
+            ...state.buildCheckStatusMapping[build.uuid],
+            buildStatus: build.status,
+            status:
+              state.selectAllCheckedStatus === CheckboxState.CHECKED &&
+              !(!build?.status || build?.status === TEST_STATUS.PENDING)
+                ? CheckboxState.CHECKED
+                : CheckboxState.UNCHECKED
+          };
+        }
       });
     },
     setInitialSearchString: (state, { payload }) => {
       state.initialSearchString = payload;
+    },
+    setBuildCheckStatusMapping: (state, { payload }) => {
+      state.buildCheckStatusMapping = payload;
+    },
+    setSelectAllCheckedStatus: (state, { payload }) => {
+      state.selectAllCheckedStatus = payload;
+    },
+    resetBuildSelection: (state) => {
+      state.selectAllCheckedStatus = CheckboxState.UNCHECKED;
+      state.buildCheckStatusMapping = {};
     }
   },
   extraReducers: (builder) => {
@@ -212,6 +250,21 @@ const { reducer, actions } = createSlice({
         if (state.initialSearchString) {
           state.initialSearchString = '';
         }
+
+        // update build check status mapping
+        const updatedMapping = { ...state.buildCheckStatusMapping };
+        state.builds.forEach((build) => {
+          updatedMapping[build.uuid] = {
+            uuid: build.uuid,
+            buildStatus: build.status,
+            status:
+              state.selectAllCheckedStatus === CheckboxState.CHECKED &&
+              !(!build?.status || build?.status === TEST_STATUS.PENDING)
+                ? CheckboxState.CHECKED
+                : updatedMapping[build.uuid]?.status || CheckboxState.UNCHECKED
+          };
+        });
+        state.buildCheckStatusMapping = updatedMapping;
       });
   }
 });
@@ -227,7 +280,10 @@ export const {
   setStaticFilters,
   findAndUpdateBuilds,
   setBuilds,
-  discardUnAppliedFilters
+  discardUnAppliedFilters,
+  setBuildCheckStatusMapping,
+  setSelectAllCheckedStatus,
+  resetBuildSelection
 } = actions;
 
 export const getBuildsFiltersData = createAsyncThunk(

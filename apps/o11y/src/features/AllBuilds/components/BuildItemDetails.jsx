@@ -29,6 +29,8 @@ import { BUILD_FILTER_OPERATIONS, BUILD_FILTER_TYPES } from '../constants';
 import { getSelectedFiltersIdsByType } from '../slices/buildsSelectors';
 import { setAppliedFilter } from '../slices/buildsSlice';
 
+import BuildSelectCheckbox from './BuildSelectCheckbox';
+
 function BuildItemDetails({
   data,
   logBuildListingInteracted,
@@ -104,7 +106,8 @@ function BuildItemDetails({
   };
 
   return (
-    <div className="flex">
+    <div className="flex items-center">
+      <BuildSelectCheckbox data={data} />
       {renderStatusIcon()}
       <div className="ml-4">
         <div
