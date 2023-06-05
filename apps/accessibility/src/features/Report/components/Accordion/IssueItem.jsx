@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlight';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
@@ -44,6 +44,7 @@ import {
   tagToView
 } from 'utils/helper';
 
+import { setShowFreshChatButton } from '../../../Dashboard/slices/uiSlice';
 import useIssueItem from '../../useIssueItem';
 
 import NeedsReviewBanner from './NeedsReviewBanner';
@@ -66,6 +67,13 @@ export default function IssueItem() {
   const activeComponentId = useSelector(getActiveComponentId);
   const activeReportFilters = useSelector(getReportFilters);
   const showHiddenIssues = useSelector(getShowHiddenIssuesState);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setShowFreshChatButton(false));
+
+    return () => dispatch(setShowFreshChatButton(true));
+  }, []);
 
   const sanitizeValue = (val) => {
     if (typeof val !== 'string' && Array.isArray(val)) {
