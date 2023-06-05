@@ -13,7 +13,6 @@ import AverageFailureRatesMetric from '../components/AverageFailureRatesMetric';
 import TotalFailuresMetric from '../components/TotalFailuresMetric';
 import { getSnPTestsMetricsData } from '../slices/uiSlice';
 
-// #TODO: add click and zoom interaction log events
 const TestsMetrics = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();

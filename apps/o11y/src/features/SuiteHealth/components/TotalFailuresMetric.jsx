@@ -47,7 +47,6 @@ const TotalFailuresMetric = ({ isLoading, data, metric }) => {
     ];
   }, [data?.totalExecutions, data?.totalFailures, isLoading]);
 
-  // #TODO => check with Dinesh, if metric meta text also changed or not
   return (
     <StatsCard
       title="Failed Execution Count"
