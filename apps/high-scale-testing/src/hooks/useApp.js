@@ -31,7 +31,7 @@ const useApp = () => {
         dsn: SENTRY_DSN,
         debug: false,
         release: 'v1.0.0-hst',
-        environments: env,
+        environment: env,
         tracesSampleRate: 1.0,
         denyUrls: [
           // Ignoring errors getting generated from Chrome extensions as these are not to be logged under our sentry env.
