@@ -40,8 +40,8 @@ export const STATE_OPTIONS_ALL = [
     label: 'Done',
     value: 'done',
     Icon: MdOutlineDoneAll,
-    textClass: 'text-green-700',
-    iconClass: 'bg-green-600'
+    textClass: 'text-success-700',
+    iconClass: 'bg-success-600'
   },
   {
     label: 'Closed',
