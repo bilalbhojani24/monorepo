@@ -24,7 +24,6 @@ import {
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger,
-  Steps,
   Tabs
 } from '@browserstack/bifrost';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
@@ -35,6 +34,7 @@ import {
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import EventLogs from 'features/Onboarding/components/EventLogs';
+import SideStepperCircleWithText from 'features/SideStepper/components';
 
 import useCreateGrid from './useCreateGrid';
 
@@ -96,6 +96,8 @@ const CreateGrid = () => {
     showGridHeartBeats,
     showSaveProfileModal,
     showSetupClusterModal,
+    stepperClickHandler,
+    stepperStepsState,
     subnetChangeHandler,
     totalSteps,
     type,
@@ -293,33 +295,11 @@ const CreateGrid = () => {
 
       {type === CREATE_GRID_TYPES.cli && (
         <div className="flex">
-          <Steps
+          <SideStepperCircleWithText
             format="bullets-and-text"
             label="label"
-            onClick={() => {}}
-            steps={[
-              {
-                id: '1',
-                name: 'CONFIGURE GRID PROFILE',
-                status: 'complete'
-              },
-              {
-                id: '2',
-                name: 'CHOOSE CLOUD PROVIDER',
-                status: 'complete'
-              },
-              {
-                id: '3',
-                name: 'CONFIGURE GRID SETTINGS',
-                status: 'current'
-              },
-              { id: '4', name: 'SETUP IAM ROLE', status: 'upcoming' },
-              {
-                id: '5',
-                name: 'CREATE GRID',
-                status: 'upcoming'
-              }
-            ]}
+            onClick={stepperClickHandler}
+            steps={stepperStepsState}
           />
           <div className="w-full">
             <div className="border-base-300 m-6 rounded-lg border bg-white ">
