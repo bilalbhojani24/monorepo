@@ -3,7 +3,7 @@ import { ChatWidget, toggleChatWidget } from '@browserstack/growth';
 
 function FreshchatIntegration() {
   useEffect(() => {
-    toggleChatWidget(true);
+    toggleChatWidget(false);
   }, []);
 
   return (
