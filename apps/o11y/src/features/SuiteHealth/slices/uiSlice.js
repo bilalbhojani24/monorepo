@@ -25,10 +25,12 @@ import {
   setIsLoadingBuildsFilters,
   setStaticFilters
 } from 'features/FilterSkeleton/slices/filterSlice';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
 import {
   getAppliedFilterObj,
   getDateRangeFromSearchString,
-  getFilterFromSearchString
+  getFilterFromSearchString,
+  getFilterQueryParams
 } from 'features/FilterSkeleton/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -727,12 +729,12 @@ export const getUEHostNamesData = createAsyncThunk(
 
 export const getSnPTestsMetricsData = createAsyncThunk(
   'snptests/metrics',
-  async (data, { rejectWithValue, dispatch }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const searchString = dispatch(getFilterFromSearchString());
+      const appliedFilters = getAllAppliedFilters(getState());
       const response = await getSnPTestsMetrics({
         ...data,
-        searchString
+        searchString: getFilterQueryParams(appliedFilters).toString()
       });
       return response.data;
     } catch (err) {
@@ -743,12 +745,12 @@ export const getSnPTestsMetricsData = createAsyncThunk(
 
 export const getSnPUEMetricsData = createAsyncThunk(
   'snptests/metrics',
-  async (data, { rejectWithValue, dispatch }) => {
+  async (data, { rejectWithValue, getState }) => {
     try {
-      const searchString = dispatch(getFilterFromSearchString());
+      const appliedFilters = getAllAppliedFilters(getState());
       const response = await getSnPUEMetrics({
         ...data,
-        searchString
+        searchString: getFilterQueryParams(appliedFilters).toString()
       });
       return response.data;
     } catch (err) {
