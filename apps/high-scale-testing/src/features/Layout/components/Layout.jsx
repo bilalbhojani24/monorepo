@@ -16,7 +16,7 @@ const Layout = () => {
   const navigate = useNavigate();
   const primaryNavs = [
     {
-      id: 'dashboard',
+      id: 'grid-console',
       label: 'Automation Console',
       activeIcon: HomeIcon,
       inActiveIcon: HomeIcon,
@@ -24,7 +24,7 @@ const Layout = () => {
       pattern: `${ROUTES.GRID_CONSOLE}/*`
     },
     {
-      id: 'team',
+      id: 'builds-dashboard',
       label: 'Builds Dashboard',
       activeIcon: UsersIcon,
       inActiveIcon: UsersIcon,
@@ -49,8 +49,13 @@ const Layout = () => {
   );
 
   const navigationClickHandler = (item) => {
-    const { path } = item;
-    navigate(path);
+    console.log('Log: item:', item);
+    if (item.id === 'builds-dashboard') {
+      window.location.href = item.path;
+    } else {
+      const { path } = item;
+      navigate(path);
+    }
   };
 
   return (
