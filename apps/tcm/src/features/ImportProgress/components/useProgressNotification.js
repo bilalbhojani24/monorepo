@@ -9,9 +9,9 @@ import { logEventHelper } from 'utils/logEvent';
 import { IMPORT_STATUS } from '../const/immutables';
 import {
   setNotificationConfig,
-  setNotificationDismissed,
-  setReportModal
+  setNotificationDismissed
 } from '../slices/importProgressSlice';
+import { setQuickImportResult } from '../slices/importProgressThunk';
 
 const useProgressNotification = () => {
   const navigate = useNavigate();
@@ -45,7 +45,7 @@ const useProgressNotification = () => {
 
   const handleFirstButtonClick = (toastDataId) => {
     removeNotification(toastDataId);
-    dispatch(setReportModal(true));
+    dispatch(setQuickImportResult());
   };
 
   const handleSecondButtonClick = (toastDataId) => {
