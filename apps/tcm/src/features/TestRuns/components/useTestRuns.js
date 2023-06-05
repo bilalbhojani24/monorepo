@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import { getUsersOfProjectAPI } from 'api/projects.api';
@@ -22,10 +23,12 @@ const useTestRuns = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const isClosedTab = searchParams.get('closed') === 'true';
+  const [currentTab, setCurrentTab] = useState(TABS_ARRAY[1].name);
+
   const { projectId } = useParams();
   const page = searchParams.get('p');
-  const isClosedTab = searchParams.get('closed') === 'true';
-  const currentTab = isClosedTab ? TABS_ARRAY[1].name : TABS_ARRAY[0].name;
+  // const currentTab = isClosedTab ? TABS_ARRAY[1].name : TABS_ARRAY[0].name;
 
   const loadedDataProjectId = useSelector(
     (state) => state.testRuns.loadedDataProjectId
@@ -76,7 +79,6 @@ const useTestRuns = () => {
   };
 
   const handleTabChange = (tabName) => {
-    // dispatch(setCurrentTab(tabName.name));
     const params = {};
     if (tabName?.id === TABS_ARRAY[1].id) params.closed = true;
     setSearchParams(params);
@@ -101,6 +103,8 @@ const useTestRuns = () => {
   };
 
   const fetchTags = () => {
+    if (projectId === 'new') return; // if project doesnt exist, dont query for tags
+
     getTagsAPI({ projectId }).then((data) => {
       dispatch(setTagsArray(selectMenuValueMapper(data?.tags || [])));
     });
@@ -125,6 +129,10 @@ const useTestRuns = () => {
       fetchTags();
     }
   };
+
+  useEffect(() => {
+    setCurrentTab(isClosedTab ? TABS_ARRAY[1].name : TABS_ARRAY[0].name);
+  }, [isClosedTab]);
 
   return {
     page,
