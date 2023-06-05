@@ -1,6 +1,7 @@
 import { getQuickImportResultAPI } from 'api/import.api';
 import AppRoute from 'const/routes';
 import { addProject } from 'features/Projects/slices/projectSlice';
+import { addGlobalProject } from 'globalSlice';
 
 import { IMPORT_STATUS } from '../const/immutables';
 
@@ -59,7 +60,17 @@ export const parseImportDetails =
     if (localStorage.getItem('isCancelled') && !onRefresh) return;
 
     if (fromCancel) localStorage.setItem('isCancelled', '1');
-    if (data?.project) dispatch(addProject(data?.project));
+    if (data?.project) {
+      dispatch(addProject(data?.project));
+      dispatch(
+        addGlobalProject({
+          id: data?.project.id,
+          identifier: data?.project.identifier,
+          import_id: data?.project.import_id,
+          name: data?.project.name
+        })
+      );
+    }
     if (data?.status === IMPORT_STATUS.COMPLETED)
       dispatch(setImportDetails({ ...data, percent: 100 }));
     else dispatch(setImportDetails(data));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { twClassNames } from '@browserstack/utils';
 import { TMAlerts, TMCheckBox } from 'common/bifrostProxy';
 import { bool, number, shape, string } from 'prop-types';
 
@@ -71,7 +72,7 @@ const ConfigureDataList = (props) => {
           description="block"
           wrapperClassName="border-base-200 border-t-1"
         />
-        {projects.map((project) => (
+        {projects.map((project, idx) => (
           <TMCheckBox
             position="left"
             data={{
@@ -81,7 +82,10 @@ const ConfigureDataList = (props) => {
             }}
             onChange={handleCheckBoxChange(project.name)}
             checked={project.checked}
-            wrapperClassName="border-base-200 border-t-1"
+            wrapperClassName={twClassNames('border-base-200', {
+              'border-b-0 border-t-1': idx === projects.length - 1,
+              'border-t-1': idx !== projects.length - 1
+            })}
           />
         ))}
       </div>
