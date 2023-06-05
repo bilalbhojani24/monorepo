@@ -18,6 +18,8 @@ import convertSecondsToTimeFormat from './utils/convertSecondsToTimeFormat';
 import { getElementOffsetXRatio } from './utils/getElementOffsetXRatio';
 import useMediaPlayerSeekbar from './useMediaPlayerSeekbar';
 
+const hoverAnimationClasses = 'transition-height ease-in-out duration-300';
+
 const MediaPlayerSeekbar = forwardRef(
   (
     { exceptions, showMarkers, onMarkerClick, onSeekTime, wrapperClassName },
@@ -118,7 +120,7 @@ const MediaPlayerSeekbar = forwardRef(
       >
         <div
           className={twClassNames(
-            'flex flex-row items-start p-0 h-3.5 gap-4 w-full'
+            'group flex flex-row p-0 h-3.5 gap-4 w-full items-center'
           )}
         >
           <p
@@ -132,7 +134,8 @@ const MediaPlayerSeekbar = forwardRef(
             <div
               role="presentation"
               className={twClassNames(
-                'relative rounded-full bg-base-200 h-2 w-full cursor-pointer'
+                'group-hover:h-2 relative rounded-full bg-base-200 h-1 w-full cursor-pointer',
+                hoverAnimationClasses
               )}
               ref={seekbarRef}
               onMouseDown={handleSeekbarMouseDown}
@@ -140,19 +143,24 @@ const MediaPlayerSeekbar = forwardRef(
               onMouseLeave={handleMouseLeave}
             >
               <div
-                className={twClassNames('h-2 rounded-full bg-base-300')}
+                className={twClassNames(
+                  'group-hover:h-2 h-1 rounded-full bg-base-300',
+                  hoverAnimationClasses
+                )}
                 style={{ width: `calc(${bufferProgress}%)` }}
               />
               <div
                 className={twClassNames(
-                  'absolute top-0 h-2 rounded-l-full bg-brand-600'
+                  'absolute top-0 group-hover:h-2 h-1 rounded-l-full bg-brand-600',
+                  hoverAnimationClasses
                 )}
                 style={{ width: `calc(${progress}% - 2px)` }}
               />
               {showMarkers && (
                 <div
                   className={twClassNames(
-                    'absolute top-0 w-full h-2 overflow-hidden'
+                    'group-hover:h-2 absolute top-0 w-full h-1 overflow-hidden',
+                    hoverAnimationClasses
                   )}
                 >
                   {exceptions?.map(
@@ -178,7 +186,8 @@ const MediaPlayerSeekbar = forwardRef(
               {!draggingSeekbar && (
                 <div
                   className={twClassNames(
-                    'absolute top-0 -mt-1.5 ml-0.5 h-5 w-1 rounded-full bg-brand-600',
+                    'absolute top-0 -mt-2 group-hover:-mt-1.5 ml-0.5 h-5 w-1 rounded-full bg-brand-600',
+                    hoverAnimationClasses,
                     {
                       'bg-attention-400': warningProgress,
                       'bg-danger-600': errorProgress
@@ -192,7 +201,8 @@ const MediaPlayerSeekbar = forwardRef(
               {draggingSeekbar && (
                 <div
                   className={twClassNames(
-                    '-mt-3.5 ml-0.5 h-5 w-2.5 rounded-full bg-brand-600 flex flex-row flex-wrap justify-center items-center'
+                    '-mt-3 group-hover:-mt-3.5 ml-0.5 h-5 w-2.5 rounded-full bg-brand-600 flex flex-row flex-wrap justify-center items-center',
+                    hoverAnimationClasses
                   )}
                   style={{ marginLeft: `calc(${hoverSeekPosition}% - 4px` }}
                 >
@@ -206,7 +216,8 @@ const MediaPlayerSeekbar = forwardRef(
               {hoverState && !draggingSeekbar ? (
                 <div
                   className={twClassNames(
-                    'absolute -mt-3.5 h-5 w-2.5 rounded-full bg-base-400 flex flex-row flex-wrap justify-center items-center',
+                    'absolute -mt-3 group-hover:-mt-3.5 h-5 w-2.5 rounded-full bg-base-400 flex flex-row flex-wrap justify-center items-center',
+                    hoverAnimationClasses,
                     {
                       'bg-attention-400': hoverOnWarningMarker,
                       'bg-danger-600': hoverOnErrorMarker
