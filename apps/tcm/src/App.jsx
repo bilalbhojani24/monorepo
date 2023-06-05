@@ -10,6 +10,7 @@ import {
 } from '@browserstack/utils';
 import setupInterceptors from 'api/_utils/interceptor';
 import { TMHeader } from 'common/bifrostProxy';
+import FreshChatWidget from 'common/TMChatWidget';
 import MainRoute from 'features/MainRoute';
 import Notification from 'features/Notification';
 import ImportStatusGlobal from 'features/quickImportFlow/components/ImportStatusGlobal';
@@ -57,7 +58,7 @@ function App() {
         config: {
           server: 'eds.browserstack.com',
           port: '443',
-          api: EDS_KEY
+          apiKey: EDS_KEY
         }
       }
     };
@@ -95,6 +96,7 @@ function App() {
         </div>
       </div>
       <Notification />
+      <FreshChatWidget />
       <NotificationsContainer />
     </>
   );

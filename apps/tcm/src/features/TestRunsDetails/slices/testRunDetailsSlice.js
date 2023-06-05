@@ -1,11 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { STATUS_OPTIONS } from '../const/immutableConst';
+
 const initialState = {
   fullDetails: null,
   isLoading: {
     testRunDetails: true,
     isFoldersLoading: true,
-    isTestCasesLoading: true
+    isTestCasesLoading: true,
+    bulkRemoveInProgress: false,
+    bulkAssignInProgress: false,
+    bulkAddResultInProgress: false,
+    usersArray: false
   },
   isVisible: {
     addStatus: false,
@@ -33,7 +39,22 @@ const initialState = {
   },
   issuesArray: [],
   selectedTestCase: null,
-  testResultsArray: []
+  testResultsArray: [],
+  bulkOperation: null,
+  bulkSelection: {
+    ids: []
+    // de_selected_ids: [],
+    // select_all: false
+  },
+  assignee: null,
+  resultForm: {
+    status: STATUS_OPTIONS[0].value,
+    jiraIssues: []
+  },
+  usersArray: null,
+  resultIssuesArray: [],
+  loadedDataProjectId: null, // data fetched for which projectID (to cache data)
+  uniqueIssueTestResults: []
 };
 
 export const testRunDetailsSlice = createSlice({
@@ -56,6 +77,12 @@ export const testRunDetailsSlice = createSlice({
     },
     setIsLoadingProps: (state, { payload }) => {
       state.isLoading[payload.key] = payload.value;
+    },
+    resetResultForm: (state) => {
+      state.resultForm = initialState.resultForm;
+    },
+    updateResultForm: (state, { payload }) => {
+      state.resultForm[payload.key] = payload.value;
     },
     setIsVisibleProps: (state, { payload }) => {
       state.isVisible[payload.key] = payload.value;
@@ -91,15 +118,49 @@ export const testRunDetailsSlice = createSlice({
     },
     setIssuesArray: (state, { payload }) => {
       state.issuesArray = payload;
+    },
+    setResultIssuesArray: (state, { payload }) => {
+      state.resultIssuesArray = payload;
+    },
+    updateBulkOperation: (state, { payload }) => {
+      state.bulkOperation = payload;
+    },
+    setBulkSelectedtestCaseIDs: (state, { payload }) => {
+      state.bulkSelection.ids = payload;
+    },
+    resetBulkSelection: (state) => {
+      state.bulkSelection = initialState.bulkSelection;
+    },
+    setLoadedDataProjectId: (state, { payload }) => {
+      state.loadedDataProjectId = payload;
+    },
+    updateAssignee: (state, { payload }) => {
+      state.assignee = payload;
+    },
+    setUsers: (state, { payload }) => {
+      // prefill for edit
+      state.usersArray = payload || initialState.usersArray;
+    },
+    setUniqueIssueTestResults: (state, { payload }) => {
+      state.uniqueIssueTestResults = payload;
     }
   }
 });
 
 export const {
+  resetResultForm,
+  updateResultForm,
+  updateAssignee,
+  setLoadedDataProjectId,
+  setUsers,
+  resetBulkSelection,
+  setBulkSelectedtestCaseIDs,
+  updateBulkOperation,
   addTestResultItem,
   setTestResultsArray,
   setSelectedTestCase,
   setIssuesArray,
+  setResultIssuesArray,
   initAddStatusForm,
   updateAddStatusForm,
   closeAllVisibleForms,
@@ -111,7 +172,8 @@ export const {
   setIsLoadingProps,
   setSelectedFolder,
   setAllFolders,
-  setAllTestCases
+  setAllTestCases,
+  setUniqueIssueTestResults
 } = testRunDetailsSlice.actions;
 
 export default testRunDetailsSlice.reducer;
