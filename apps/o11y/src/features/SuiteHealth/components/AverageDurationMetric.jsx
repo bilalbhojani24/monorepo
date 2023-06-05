@@ -58,6 +58,8 @@ const AverageDurationMetric = ({ isLoading, data, metric }) => {
           series={seriesData}
           markerColor="var(--colors-brand-500)"
           tooltipFormatter={getFormattedTooltip}
+          eventName="O11ySuiteHealthTestsChartInteracted"
+          chart="avg_duration"
         />
       }
     />

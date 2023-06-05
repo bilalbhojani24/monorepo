@@ -56,6 +56,8 @@ const AverageFailureRatesMetric = ({ isLoading, data, metric }) => {
           series={seriesData}
           markerColor="var(--colors-danger-500)"
           tooltipFormatter={getFormattedTooltip}
+          eventName="O11ySuiteHealthTestsChartInteracted"
+          chart="failure_rate"
         />
       }
     />

@@ -56,6 +56,8 @@ const TotalUniqueErrorMetric = ({ isLoading, data, metric }) => {
           series={seriesData}
           markerColor="var(--colors-danger-500)"
           tooltipFormatter={getFormattedTooltip}
+          eventName="O11ySuiteHealthErrorsChartInteracted"
+          chart="unique_errors"
         />
       }
     />

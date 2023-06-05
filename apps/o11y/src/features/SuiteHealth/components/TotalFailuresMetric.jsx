@@ -60,6 +60,8 @@ const TotalFailuresMetric = ({ isLoading, data, metric }) => {
           series={seriesData}
           markerColor="var(--colors-danger-500)"
           tooltipFormatter={getFormattedTooltip}
+          eventName="O11ySuiteHealthTestsChartInteracted"
+          chart="total_failures"
         />
       }
     />

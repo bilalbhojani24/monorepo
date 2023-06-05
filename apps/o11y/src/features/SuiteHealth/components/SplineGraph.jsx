@@ -125,9 +125,11 @@ const SplineGraph = ({
   series,
   yAxisLabelFormatter,
   markerColor,
-  tooltipFormatter
+  tooltipFormatter,
+  chart,
+  eventName
 }) => {
-  const { afterSetExtremes } = useStatsChart();
+  const { afterSetExtremes } = useStatsChart({ eventName, chart });
   const updatedChartOptions = useMemo(
     () => ({
       ...CHART_OPTIONS,
@@ -182,7 +184,9 @@ SplineGraph.propTypes = {
   yAxisLabelFormatter: PropTypes.func.isRequired,
   tooltipFormatter: PropTypes.func,
   series: PropTypes.arrayOf(PropTypes.shape(PropTypes.any)).isRequired,
-  markerColor: PropTypes.string.isRequired
+  markerColor: PropTypes.string.isRequired,
+  eventName: PropTypes.string.isRequired,
+  chart: PropTypes.string.isRequired
 };
 
 SplineGraph.defaultProps = {
