@@ -47,8 +47,6 @@ const getChartOptions = (handleTooltipData) => ({
         events: {
           mouseOver(e) {
             const { tooltipPos, options } = e.target;
-            // const { plotBox } = e.target.series.chart;
-            // const { spacingBox } = e.target.series.chart;
 
             const seriesData = this.series.chart.series.map((res) => ({
               ...res,
@@ -256,10 +254,11 @@ export default function CbtTrends() {
                   arrowHeight={0}
                   content={
                     <CustomChartTooltip
-                      tooltipData={tooltipData.options || []}
                       activeProject={activeProject}
                       filters={filters}
+                      id="cbt"
                       header={tooltipData.header}
+                      tooltipData={tooltipData.options || []}
                     />
                   }
                 >

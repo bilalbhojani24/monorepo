@@ -209,7 +209,7 @@ export default function FailureCategoryTrend() {
                 }
               >
                 <div
-                  className="bg-brand-600 h-full w-full"
+                  className="h-full w-full"
                   style={{
                     ...tooltipData?.styles
                   }}

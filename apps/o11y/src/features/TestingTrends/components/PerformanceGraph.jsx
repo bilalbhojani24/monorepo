@@ -236,7 +236,7 @@ export default function PerformanceGraph({ buildName }) {
       {!isLoading && (
         <div className="relative h-full">
           <div
-            className="bg-danger-500 absolute z-10 rounded-sm"
+            className="absolute z-10 rounded-sm"
             key={tooltipData?.options?.id}
             style={{
               ...tooltipData?.styles

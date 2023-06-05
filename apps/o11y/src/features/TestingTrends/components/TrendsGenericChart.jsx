@@ -77,10 +77,11 @@ export default function TrendsGenericChart({
 
                 const seriesData = e.target.series.chart.series.map((res) => ({
                   ...res,
-                  index,
-                  y: res.data[index]?.y,
                   fixedToTwoDigits: config?.fixedToTwoDigits,
-                  pointRangeOptions
+                  index,
+                  pointRangeOptions,
+                  totalTest: res.data[index]?.t,
+                  y: res.data[index]?.y
                 }));
 
                 const { plotBox } = e.target.series.chart;
@@ -166,7 +167,7 @@ export default function TrendsGenericChart({
           }
         >
           <div
-            className="bg-danger-600 h-full w-full"
+            className="h-full w-full"
             style={{
               ...tooltipData?.styles
             }}

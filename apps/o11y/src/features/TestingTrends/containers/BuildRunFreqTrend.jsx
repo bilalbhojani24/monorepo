@@ -9,13 +9,14 @@ import {
   O11yTooltip
 } from 'common/bifrostProxy';
 import VirtualisedTable from 'common/VirtualisedTable';
-import { roundedTableHeaderHack, SNP_PARAMS_MAPPING } from 'constants/common';
+import { roundedTableHeaderHack } from 'constants/common';
 import { getTrendBuildFrequencyData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getActiveProject, getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import max from 'lodash/max';
 import PropTypes from 'prop-types';
 import { abbrNumber, getBaseUrl } from 'utils/common';
+import { getSuitHealthPath } from 'utils/routeUtils';
 
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
 import { getAllTTFilters } from '../slices/selectors';
@@ -53,7 +54,7 @@ const BuildRunsList = React.memo(
             <section className="pointer-events-auto flex flex-col pt-1">
               <O11yButton
                 wrapperClassName="font-medium flex items-center gap-1 text-white hover:text-white hover:bg-brand-900 -mx-3 px-4 py-1 rounded-none"
-                onClick={onViewBuild}
+                onClick={() => onViewBuild(item.buildName)}
                 variant="minimal"
                 icon={
                   viewBuildRunLocked ? (
@@ -64,7 +65,7 @@ const BuildRunsList = React.memo(
                 }
                 iconPlacement="end"
               >
-                View build runs (Pro)
+                View build runs
               </O11yButton>
             </section>
           }
@@ -96,14 +97,15 @@ export default function BuildRunFreqTrend() {
   const [isAtBottom, setIsAtBottom] = useState(false);
   const viewBuildRunLocked = false;
 
-  const onViewBuildClick = () => {
+  const onViewBuildClick = (buildName) => {
     if (viewBuildRunLocked) return;
 
-    const url = `${getBaseUrl()}:8081/projects/${
+    const searchParams = new URLSearchParams();
+
+    searchParams.set('uniqueBuildNames', buildName);
+    const url = `${getBaseUrl()}${getSuitHealthPath(
       activeProject.normalisedName
-    }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
-      filters.buildName.value
-    }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
+    )}?${searchParams.toString()}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -160,7 +162,7 @@ export default function BuildRunFreqTrend() {
               <BuildRunsList
                 item={singleBuildData}
                 maxRunCount={maxRunCount}
-                onViewBuild={onViewBuildClick}
+                onViewBuild={(buildName) => onViewBuildClick(buildName)}
                 viewBuildRunLocked={viewBuildRunLocked}
               />
             )}

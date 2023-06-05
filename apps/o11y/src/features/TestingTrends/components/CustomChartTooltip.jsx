@@ -7,10 +7,11 @@ import {
   TooltipBody
 } from '@browserstack/bifrost';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
-import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import PropTypes from 'prop-types';
 import { getBaseUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
+import { getSuitHealthPath } from 'utils/routeUtils';
 
 export default function CustomChartTooltip({
   activeProject,
@@ -27,20 +28,49 @@ export default function CustomChartTooltip({
       dispatch(toggleModal({ version: 'drill_down_modal', data: {} }));
       return;
     }
-    const urlFilters = [];
-    if (id === 'flakiness') {
-      urlFilters.push(`${SNP_PARAMS_MAPPING.snpIsFlaky}=${true}`);
-    } else if (filters.buildName.value !== 'all') {
-      urlFilters.push(
-        `${SNP_PARAMS_MAPPING.snpActiveBuild}=${filters.buildName.value}`
+
+    const searchParams = new URLSearchParams();
+    switch (id) {
+      case 'cbt':
+        searchParams.set(
+          ADV_FILTER_TYPES.browserList.key,
+          header.split(',')[0]
+        );
+        searchParams.set(ADV_FILTER_TYPES.osList.key, header.split(',')[1]);
+        break;
+      case 'flakiness':
+        searchParams.set(ADV_FILTER_TYPES.isFlaky.key, true);
+        break;
+
+      case 'alwaysFailing':
+        searchParams.set(ADV_FILTER_TYPES.isAlwaysFailing.key, true);
+
+        break;
+      case 'newFailures':
+        searchParams.set(ADV_FILTER_TYPES.isNewFailure.key, true);
+        break;
+      default:
+        break;
+    }
+
+    if (filters.buildName.value !== 'all') {
+      searchParams.set(
+        ADV_FILTER_TYPES.uniqueBuildNames.key,
+        filters.buildName.value
       );
     }
 
-    const url = `${getBaseUrl()}:8081/projects/${
+    searchParams.append('daterangetype', filters.dateRange.key);
+    if (filters.dateRange.key === 'custom') {
+      searchParams.set(
+        'dateRange',
+        `${filters.dateRange.lowerBound},${filters.dateRange.upperBound}`
+      );
+    }
+
+    const url = `${getBaseUrl()}${getSuitHealthPath(
       activeProject.normalisedName
-    }/suite_health?${SNP_PARAMS_MAPPING.snpDateRange}=${
-      filters.dateRange.key
-    }&${urlFilters.join('&')}`;
+    )}?${searchParams.toString()}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
@@ -89,20 +119,28 @@ export default function CustomChartTooltip({
       {data?.map((point) => {
         if (point.y === null || point.y === undefined) return null;
         return (
-          <div className="flex justify-between pt-2 text-sm">
-            <div>
-              <span
-                className="mb-0.5 mr-1 inline-block h-1.5 w-1.5 rounded-full"
-                style={{ backgroundColor: point?.color }}
-              />
-              <span className="text-sm">{point.name}</span>
+          <>
+            <div className="flex justify-between pt-2 text-sm">
+              <div>
+                <span
+                  className="mb-0.5 mr-1 inline-block h-1.5 w-1.5 rounded-full"
+                  style={{ backgroundColor: point?.color, color: point?.color }}
+                />
+                <span className="text-sm">{point.name}</span>
+              </div>
+              <span>
+                {renderPointValue(point.y, point.fixedToTwoDigits, point.name)}
+              </span>
             </div>
-            <span>
-              {renderPointValue(point.y, point.fixedToTwoDigits, point.name)}
-            </span>
-          </div>
+          </>
         );
       })}
+      {!!data[0]?.totalTest && (
+        <div className="flex justify-between pt-2 text-sm">
+          <span className="text-sm">Total Test</span>
+          <span>{data[0]?.totalTest}</span>
+        </div>
+      )}
     </div>
   );
 
@@ -125,7 +163,7 @@ export default function CustomChartTooltip({
           }
           iconPlacement="end"
         >
-          View tests (Pro)
+          View tests
         </Button>
       </section>
     </TooltipBody>
