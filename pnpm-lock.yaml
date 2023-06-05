@@ -403,7 +403,7 @@ importers:
 
   apps/o11y:
     specifiers:
-      '@browserstack/bifrost': 8.2.0
+      '@browserstack/bifrost': 8.3.0
       '@browserstack/hooks': workspace:*
       '@browserstack/integrations': workspace:*
       '@browserstack/services': workspace:*
@@ -451,7 +451,7 @@ importers:
       vite: 3.2.5
       vite-plugin-mkcert: 1.13.0
     dependencies:
-      '@browserstack/bifrost': 8.2.0_2durtr67xmbfiygk63c6oc672q
+      '@browserstack/bifrost': 8.3.0_2durtr67xmbfiygk63c6oc672q
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/integrations': link:../../packages/integrations
       '@browserstack/services': link:../../packages/services
@@ -4047,7 +4047,7 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/8.2.0_2durtr67xmbfiygk63c6oc672q:
+  /@browserstack/bifrost/8.2.0_hkbbqhhe7yspx6haowtlreoieq:
     resolution: {integrity: sha512-RdNlmTf/Ie4kb/Z4f9hMPMwDqFzDwkzu7SASAOhvReacy2xN8IOVKzQXQL7C+/HvxHrWkmAu6KkW3MlyR8EXTg==, tarball: download/@browserstack/bifrost/8.2.0/eb5534372ff0843b3680d5f2e39135a24d3b401b}
     peerDependencies:
       prop-types: 15.8.1
@@ -4055,7 +4055,7 @@ packages:
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
+      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
@@ -4095,15 +4095,15 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/8.2.0_hkbbqhhe7yspx6haowtlreoieq:
-    resolution: {integrity: sha512-RdNlmTf/Ie4kb/Z4f9hMPMwDqFzDwkzu7SASAOhvReacy2xN8IOVKzQXQL7C+/HvxHrWkmAu6KkW3MlyR8EXTg==, tarball: download/@browserstack/bifrost/8.2.0/eb5534372ff0843b3680d5f2e39135a24d3b401b}
+  /@browserstack/bifrost/8.3.0_2durtr67xmbfiygk63c6oc672q:
+    resolution: {integrity: sha512-HJCS8Y4M37VPEjGqc8CUyXzxY5Xj1ufpG2PbD0bY9x7mUNC7gb46P8tg+Ji27JGZtkJqw0TXRIAUfU19MPUmPA==, tarball: download/@browserstack/bifrost/8.3.0/e4340c1f1721bbe5f221c348446dd175c380c6b4}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
+      '@browserstack/hooks': 0.3.1_4tbbjhwrmje7tp3uaa6fxrcxue
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
@@ -6188,43 +6188,9 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.21.0
-      '@mui/material': 5.11.3_ib3m5ricvtkl2cll7qpr2f6lvq
+      '@mui/material': 5.11.3_lskpmcsdi7ipu6qpuapyu56ihm
       '@types/react': 18.0.26
       react: 18.2.0
-    dev: false
-
-  /@mui/material/5.11.3_ib3m5ricvtkl2cll7qpr2f6lvq:
-    resolution: {integrity: sha512-Oz+rMFiMtxzzDLUxKyyj4mSxF9ShmsBoJ9qvglXCYqklgSrEl1R/Z4hfPZ+2pWd5CriO8U/0CFHr4DksrlTiCw==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      '@emotion/react': ^11.5.0
-      '@emotion/styled': ^11.3.0
-      '@types/react': ^17.0.0 || ^18.0.0
-      react: ^17.0.0 || ^18.0.0
-      react-dom: ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      '@emotion/react':
-        optional: true
-      '@emotion/styled':
-        optional: true
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.21.0
-      '@mui/base': 5.0.0-alpha.112_ib3m5ricvtkl2cll7qpr2f6lvq
-      '@mui/core-downloads-tracker': 5.12.1
-      '@mui/system': 5.12.1_kzbn2opkn2327fwg5yzwzya5o4
-      '@mui/types': 7.2.4_@types+react@18.0.26
-      '@mui/utils': 5.12.0_react@18.2.0
-      '@types/react': 18.0.26
-      '@types/react-transition-group': 4.4.5
-      clsx: 1.2.1
-      csstype: 3.1.2
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-is: 18.2.0
-      react-transition-group: 4.4.5_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /@mui/material/5.11.3_lskpmcsdi7ipu6qpuapyu56ihm:
@@ -6297,54 +6263,6 @@ packages:
       '@emotion/cache': 11.10.7
       '@emotion/react': 11.10.5_jp5qgyg6plq757v5hojp7ls2oe
       '@emotion/styled': 11.10.5_jp5djshq6aqfasno3mth3hguci
-      csstype: 3.1.2
-      prop-types: 15.8.1
-      react: 18.2.0
-    dev: false
-
-  /@mui/styled-engine/5.12.0_react@18.2.0:
-    resolution: {integrity: sha512-frh8L7CRnvD0RDmIqEv6jFeKQUIXqW90BaZ6OrxJ2j4kIsiVLu29Gss4SbBvvrWwwatR72sBmC3w1aG4fjp9mQ==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      '@emotion/react': ^11.4.1
-      '@emotion/styled': ^11.3.0
-      react: ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      '@emotion/react':
-        optional: true
-      '@emotion/styled':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.21.0
-      '@emotion/cache': 11.10.7
-      csstype: 3.1.2
-      prop-types: 15.8.1
-      react: 18.2.0
-    dev: false
-
-  /@mui/system/5.12.1_kzbn2opkn2327fwg5yzwzya5o4:
-    resolution: {integrity: sha512-Po+sicdV3bbRYXdU29XZaHPZrW7HUYUqU1qCu77GCCEMbahC756YpeyefdIYuPMUg0OdO3gKIUfDISBrkjJL+w==}
-    engines: {node: '>=12.0.0'}
-    peerDependencies:
-      '@emotion/react': ^11.5.0
-      '@emotion/styled': ^11.3.0
-      '@types/react': ^17.0.0 || ^18.0.0
-      react: ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      '@emotion/react':
-        optional: true
-      '@emotion/styled':
-        optional: true
-      '@types/react':
-        optional: true
-    dependencies:
-      '@babel/runtime': 7.21.0
-      '@mui/private-theming': 5.12.0_kzbn2opkn2327fwg5yzwzya5o4
-      '@mui/styled-engine': 5.12.0_react@18.2.0
-      '@mui/types': 7.2.4_@types+react@18.0.26
-      '@mui/utils': 5.12.0_react@18.2.0
-      '@types/react': 18.0.26
-      clsx: 1.2.1
       csstype: 3.1.2
       prop-types: 15.8.1
       react: 18.2.0
@@ -11519,7 +11437,7 @@ packages:
       tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.1.4_postcss@8.4.21
+      tailwindcss: 3.1.4_postcss@8.4.20
 
   /@tailwindcss/line-clamp/0.4.2_tailwindcss@3.1.4:
     resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==}
@@ -24053,7 +23971,6 @@ packages:
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.2
-    dev: true
 
   /postcss-import/14.1.0_postcss@8.4.21:
     resolution: {integrity: sha512-flwI+Vgm4SElObFVPpTIT7SU7R3qk2L7PyduMcokiaVKuWv9d/U+Gm/QAd8NDLuykTWTkcrjOeD2Pp1rMeBTGw==}
@@ -24089,7 +24006,6 @@ packages:
     dependencies:
       camelcase-css: 2.0.1
       postcss: 8.4.20
-    dev: true
 
   /postcss-js/4.0.1_postcss@8.4.21:
     resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
@@ -24136,7 +24052,6 @@ packages:
       lilconfig: 2.1.0
       postcss: 8.4.20
       yaml: 1.10.2
-    dev: true
 
   /postcss-load-config/3.1.4_postcss@8.4.21:
     resolution: {integrity: sha512-6DiM4E7v4coTE4uzA8U//WhtPwyhiim3eyjEMFCnUpzbrkK9wJHgKDT2mR+HbtSrd/NubVaYTOpSpjUl8NQeRg==}
@@ -24399,7 +24314,6 @@ packages:
     dependencies:
       postcss: 8.4.20
       postcss-selector-parser: 6.0.11
-    dev: true
 
   /postcss-nested/5.0.6_postcss@8.4.21:
     resolution: {integrity: sha512-rKqm2Fk0KbA8Vt3AdGN0FB9OBOMDVajMG6ZCf/GoHgdxUJ4sBFp0A/uMIRm+MJUdo33YXEtjqIz8u7DAp8B7DA==}
@@ -24898,7 +24812,6 @@ packages:
       nanoid: 3.3.6
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: true
 
   /postcss/8.4.21:
     resolution: {integrity: sha512-tP7u/Sn/dVxK2NnruI4H9BG+x+Wxz6oeZ1cJ8P6G/PZY0IKk4k/63TDsQf2kQq3+qoJeLm2kIBUNlZe3zgb4Zg==}
@@ -28424,7 +28337,6 @@ packages:
       resolve: 1.22.2
     transitivePeerDependencies:
       - ts-node
-    dev: true
 
   /tailwindcss/3.1.4_postcss@8.4.21:
     resolution: {integrity: sha512-NrxbFV4tYsga/hpWbRyUfIaBrNMXDxx5BsHgBS4v5tlyjf+sDsgBg5m9OxjrXIqAS/uR9kicxLKP+bEHI7BSeQ==}
