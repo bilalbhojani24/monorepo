@@ -10,11 +10,13 @@ const CircleWithTextListElement = ({ step, stepIdx, onClick, stepsLength }) => {
     onClick(event, activeStep);
   };
 
-  const connectorStyles = 'absolute left-[15px] top-4 h-full w-0.5';
+  const connectorStyles = `absolute left-[15px] h-full w-0.5 ${
+    stepIdx !== stepsLength ? 'top-2/4' : '-top-2/4'
+  }`;
 
   return (
     <li
-      key={step.name}
+      // key={step.name}
       className={twClassNames(
         {
           'pr-8 md: pb-8': stepIdx !== stepsLength
@@ -32,7 +34,6 @@ const CircleWithTextListElement = ({ step, stepIdx, onClick, stepsLength }) => {
           <div className={twClassNames('bg-brand-600', connectorStyles)} />
           <span className="bg-brand-600 hover:bg-brand-900 relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
             <CheckIcon className="h-5 w-5 text-white" aria-hidden="true" />
-            <span className="sr-only">{step.name}</span>
           </span>
           <div className="ml-4">
             {step.name && (
@@ -59,7 +60,6 @@ const CircleWithTextListElement = ({ step, stepIdx, onClick, stepsLength }) => {
 
           <span className="bg-brand-600 hover:bg-brand-900 relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
             <CheckIcon className="h-5 w-5 text-white" aria-hidden="true" />
-            <span className="sr-only">{step.name}</span>
           </span>
           <div className="ml-4">
             <p className="text-base-900 text-xs font-semibold uppercase leading-4 tracking-wide">
@@ -87,7 +87,6 @@ const CircleWithTextListElement = ({ step, stepIdx, onClick, stepsLength }) => {
               className="bg-brand-600 h-2.5 w-2.5 rounded-full"
               aria-hidden="true"
             />
-            <span className="sr-only">{step.name}</span>
           </span>
           <div className="ml-4">
             <p className="text-brand-600 text-xs font-semibold uppercase leading-4 tracking-wide">
@@ -106,15 +105,12 @@ const CircleWithTextListElement = ({ step, stepIdx, onClick, stepsLength }) => {
           onKeyDown={(e) => onClickHandler(e, step)}
           href={step.href}
         >
-          <div
-            className={twClassNames('bg-base-200', connectorStyles, '-top-2')}
-          />
+          <div className={twClassNames('bg-base-200', connectorStyles, '')} />
           <span className="border-base-300 hover:border-base-400 group relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 bg-white">
             <span
               className="group-hover:bg-base-300 h-2.5 w-2.5 rounded-full bg-transparent"
               aria-hidden="true"
             />
-            <span className="sr-only">{step.name}</span>
           </span>
           <div className="ml-4">
             <p className="text-base-500 text-xs font-semibold uppercase leading-4 tracking-wide">
