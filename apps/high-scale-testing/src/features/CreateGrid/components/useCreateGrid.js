@@ -494,11 +494,11 @@ const useCreateGrid = () => {
 
     if (pollForEventLogs) {
       setInterval(() => {
-        // fetchEventsLogsData();
+        fetchEventsLogsData();
       }, 10000);
     }
 
-    // fetchEventsLogsData();
+    fetchEventsLogsData();
   });
 
   return {
