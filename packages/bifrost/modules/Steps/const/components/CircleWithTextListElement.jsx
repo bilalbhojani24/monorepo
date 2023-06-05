@@ -71,9 +71,11 @@ const CircleWithTextListElement = ({ step, stepIdx, onClick, stepsLength }) => {
               <p className="text-base-900 text-xs font-semibold uppercase leading-4 tracking-wide">
                 {step.name}
               </p>
-              <p className="text-base-500 text-sm font-normal leading-5">
-                {step.description}
-              </p>
+              {step.description && (
+                <p className="text-base-500 text-sm font-normal leading-5">
+                  {step.description}
+                </p>
+              )}
             </div>
           </a>
         </>
@@ -101,9 +103,11 @@ const CircleWithTextListElement = ({ step, stepIdx, onClick, stepsLength }) => {
               <p className="text-brand-600 text-xs font-semibold uppercase leading-4 tracking-wide">
                 {step.name}
               </p>
-              <p className="text-base-500 text-sm font-normal leading-5">
-                {step.description}
-              </p>
+              {step.description && (
+                <p className="text-base-500 text-sm font-normal leading-5">
+                  {step.description}
+                </p>
+              )}
             </div>
           </a>
         </>
@@ -128,9 +132,11 @@ const CircleWithTextListElement = ({ step, stepIdx, onClick, stepsLength }) => {
               <p className="text-base-500 text-xs font-semibold uppercase leading-4 tracking-wide">
                 {step.name}
               </p>
-              <p className="text-base-500 text-sm font-normal leading-5">
-                {step.description}
-              </p>
+              {step.description && (
+                <p className="text-base-500 text-sm font-normal leading-5">
+                  {step.description}
+                </p>
+              )}
             </div>
           </a>
         </>
@@ -147,10 +153,14 @@ CircleWithTextListElement.propTypes = {
       description: PropTypes.string,
       status: PropTypes.oneOf(STEPS_STATUS)
     })
-  ).isRequired,
+  ),
   stepIdx: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
   stepsLength: PropTypes.number.isRequired
+};
+
+CircleWithTextListElement.defaultProps = {
+  step: []
 };
 
 export default CircleWithTextListElement;
