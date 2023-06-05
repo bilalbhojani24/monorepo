@@ -8,6 +8,10 @@ apps/high-scale-testing/** @browserstack/hst-frontend
 # TCM
 apps/tcm/** @browserstack/tm-frontend
 
+# LCNC
+apps/lcnc-webapp/** @browserstack/lcnc-frontend
+apps/lcnc-desktop-app/** @browserstack/lcnc-frontend
+
 # MCSPT
 apps/mcspt/** @browserstack/mcspt-frontend
 apps/web-mcspt/** @browserstack/mcspt-frontend
@@ -19,5 +23,8 @@ apps/accessibility/** @browserstack/accessibility-frontend
 # Observability
 apps/o11y/** @browserstack/observability-frontend
 
+# Integrations
+apps/integrate/** @browserstack/integrations-frontend
+packages/integrations/** @browserstack/integrations-frontend
 # All package.json this needs to be at the end of the file
 **/package.json @browserstack/central-frontend

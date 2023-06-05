@@ -40,7 +40,7 @@ const closeSplashAndLoadMainWindow = () => {
 };
 
 const createWindow = async () => {
-  menuBuildingOps.encapsulateMenuElementsInProd();
+  menuBuildingOps.encapsulateMenuElements();
 
   mainThreadGlobals.mainWindow = new BrowserWindow({
     width: 1280,

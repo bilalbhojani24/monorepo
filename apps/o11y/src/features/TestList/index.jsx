@@ -219,7 +219,7 @@ const TestList = ({
   useEffect(() => {
     if (virtuosoRef.current) {
       setTimeout(() => {
-        virtuosoRef.current.scrollTo({
+        virtuosoRef.current?.scrollTo({
           top: testListScrollPos,
           behavior: 'smooth'
         });
@@ -239,7 +239,12 @@ const TestList = ({
               data={testListData?.hierarchy}
               endReached={loadMoreData}
               overscan={20}
-              itemContent={(index, data) => <RenderRootItem data={data} />}
+              itemContent={(index, data) => (
+                <RenderRootItem
+                  data={data}
+                  isLast={index === testListData?.hierarchy?.length - 1}
+                />
+              )}
               onScroll={(e) => {
                 updateTestScrollPos(e.target.scrollTop);
               }}

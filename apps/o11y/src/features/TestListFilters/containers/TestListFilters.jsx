@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
 import StatusBadges from 'common/StatusBadges';
+import { FLOATING_COMPONENTS_IDS } from 'constants/common';
 import {
   FilterPills,
   FilterSlideover,
@@ -17,6 +18,7 @@ import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { useTestListContext } from 'features/TestList/context/TestListContext';
 import { getTestListingFiltersData } from 'features/TestList/slices/filterSlice';
 import { getAggregatedStatus } from 'features/TestList/slices/selectors';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 import PropTypes from 'prop-types';
 
 const TestListFilters = ({ buildUUID }) => {
@@ -46,6 +48,11 @@ const TestListFilters = ({ buildUUID }) => {
   const handleSearch = useCallback(() => {
     o11yTestListingInteraction('search_applied');
   }, [o11yTestListingInteraction]);
+
+  useFloatingComponentTracking(
+    showSlideOver,
+    FLOATING_COMPONENTS_IDS.TEST_FILTERS
+  );
 
   return (
     <div>

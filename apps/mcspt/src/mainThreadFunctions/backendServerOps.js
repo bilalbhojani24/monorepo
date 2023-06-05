@@ -3,6 +3,7 @@ import {
   performApplicationTerminationForMac,
   waitForSuccessfulServerReplyForMac
 } from './macServerOps';
+import { isMacMachine, isWindowsMachine } from './mainThreadUtils';
 import {
   initializeBackendServerForWindows,
   killServersForWindows,
@@ -11,15 +12,14 @@ import {
 
 const { app, globalShortcut } = require('electron');
 
-const isMacMachine = process.platform === 'darwin';
-const isWindowsMachine = process.platform?.slice(0, 3) === 'win';
-
 const serverEntities = {
   pyServerInstance: null,
   nodeServerInstance: null,
   pyServerPort: null,
   nodeServerPort: null
 };
+
+export const getCurrentServerEntities = () => serverEntities;
 
 export const initializeBackendServer = (mainThreadGlobals) => {
   if (isMacMachine) {
