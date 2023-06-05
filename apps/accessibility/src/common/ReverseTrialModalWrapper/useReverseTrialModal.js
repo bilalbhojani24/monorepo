@@ -64,7 +64,6 @@ export default function useReverseTrialModal() {
         }
         console.log(response);
       } catch (e) {
-        console.log(e);
         clearInterval(timerId.current);
         console.error(e);
       }
@@ -76,6 +75,7 @@ export default function useReverseTrialModal() {
       try {
         const response = await activateFreeTrial();
         if (response.message === 'success') {
+          // TO-DO: remove dispatch and make a call to get_user_profile api with actual api integration
           dispatch(setTrialState('in_progress'));
           pollReverseTrialStatus();
         }

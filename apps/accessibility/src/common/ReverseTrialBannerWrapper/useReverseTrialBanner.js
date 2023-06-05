@@ -28,6 +28,7 @@ export default function useReverseTrialBanner() {
   const bannerName = useSelector(getBannerName);
   const trialEndDate = useSelector(getTrialEndDate);
   const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
+
   const bannerDetails = bannerName
     ? getBannerDetails(remainingDays)[bannerName]
     : {};
@@ -47,8 +48,12 @@ export default function useReverseTrialBanner() {
   };
 
   const displayBannerOnceADay = (storageKey, nameOfBanner) => {
-    const value = new Date(localStorage.getItem(storageKey));
-    const bannerLastDate = isValid(value) ? value : subDays(new Date(), 1);
+    if (enterprisePlan) return;
+
+    const dateValue = new Date(localStorage.getItem(storageKey));
+    const bannerLastDate = isValid(dateValue)
+      ? dateValue
+      : subDays(new Date(), 1);
     const currentDate = new Date();
 
     if (
@@ -67,27 +72,22 @@ export default function useReverseTrialBanner() {
       break;
     }
     case TRIAL_STARTED: {
-      console.log('days remaining', remainingDays);
       if (remainingDays <= 5 && remainingDays > 0) {
         displayBannerOnceADay('daysLeftBannerDate', 'last_five_days');
       }
       break;
     }
     case TRIAL_EXPIRED: {
-      if (!enterprisePlan) {
-        const shownTrialEndBannerToday = localStorage.getItem('trialEndBanner');
-        if (!shownTrialEndBannerToday) {
-          dispatch(setBannerName('expired'));
-          dispatch(setShowBanner(true));
-          localStorage.setItem('trialEndBanner', true);
-        }
-      } else {
-        dispatch(setShowBanner(false));
+      const shownTrialEndBanner = localStorage.getItem('trialEndBanner');
+      if (!enterprisePlan && !shownTrialEndBanner) {
+        dispatch(setBannerName('expired'));
+        dispatch(setShowBanner(true));
+        localStorage.setItem('trialEndBanner', true);
       }
       break;
     }
     default:
-      break;
+      setShowBanner(false);
   }
 
   return {
