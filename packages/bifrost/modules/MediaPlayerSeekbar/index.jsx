@@ -201,8 +201,7 @@ const MediaPlayerSeekbar = forwardRef(
               {draggingSeekbar && (
                 <div
                   className={twClassNames(
-                    '-mt-3 group-hover:-mt-3.5 ml-0.5 h-5 w-2.5 rounded-full bg-brand-600 flex flex-row flex-wrap justify-center items-center',
-                    hoverAnimationClasses
+                    '-mt-3 group-hover:-mt-3.5 ml-0.5 h-5 w-2.5 rounded-full bg-brand-600 flex flex-row flex-wrap justify-center items-center'
                   )}
                   style={{ marginLeft: `calc(${hoverSeekPosition}% - 4px` }}
                 >
@@ -217,7 +216,6 @@ const MediaPlayerSeekbar = forwardRef(
                 <div
                   className={twClassNames(
                     'absolute -mt-3 group-hover:-mt-3.5 h-5 w-2.5 rounded-full bg-base-400 flex flex-row flex-wrap justify-center items-center',
-                    hoverAnimationClasses,
                     {
                       'bg-attention-400': hoverOnWarningMarker,
                       'bg-danger-600': hoverOnErrorMarker
