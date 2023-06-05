@@ -34,7 +34,7 @@ const useReportModal = () => {
   const handleDocumentationClick = () => {
     dispatch(logEventHelper('TM_QiReportDocPageLinkClicked', {}));
     window.open(
-      'https://www.browserstack.com/docs/test-management/overview/what-is-test-management'
+      'https://www.browserstack.com/docs/test-management/quick-start/quick-import'
     );
   };
 

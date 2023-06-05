@@ -48,6 +48,12 @@ const useImportProgress = () => {
     dispatch(logEventHelper('TM_QiAllProjectsViewDetailsLinkClicked', {}));
   };
 
+  const isDetailBannerVisible =
+    (importStatus === IMPORT_STATUS.ONGOING ||
+      importStatus === IMPORT_STATUS.FAILURE ||
+      importStatus === IMPORT_STATUS.SUCCESS) &&
+    !isProgressDismissed;
+
   const showReportModal = (status) => {
     dispatch(setQuickImportResult());
     dispatch(
@@ -62,11 +68,7 @@ const useImportProgress = () => {
 
   return {
     importStatus,
-    isVisible:
-      (importStatus === IMPORT_STATUS.ONGOING ||
-        importStatus === IMPORT_STATUS.FAILURE ||
-        importStatus === IMPORT_STATUS.SUCCESS) &&
-      !isProgressDismissed,
+    isVisible: isDetailBannerVisible,
     importDetails,
     isDetailsModalVisible,
     isReportModalVisible,

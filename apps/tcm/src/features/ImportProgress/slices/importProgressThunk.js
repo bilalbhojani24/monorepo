@@ -3,7 +3,7 @@ import AppRoute from 'const/routes';
 import { addProject } from 'features/Projects/slices/projectSlice';
 import { addGlobalProject } from 'globalSlice';
 
-import { IMPORT_STATUS } from '../const/immutables';
+import { IMPORT_STATUS, IS_CANCELLED } from '../const/immutables';
 
 import {
   getQuickImportResultFulfilled,
@@ -47,7 +47,7 @@ const alertArtificialLoader = (dispatch) => {
   dispatch(showAlertLoader(true));
   setTimeout(() => {
     dispatch(showAlertLoader(false));
-  }, 500);
+  }, DELAY);
 };
 
 export const parseImportDetails =
@@ -57,9 +57,9 @@ export const parseImportDetails =
     const state = getState();
     const isNotificationDismissed = getIsNotificationDismissed(state);
 
-    if (localStorage.getItem('isCancelled') && !onRefresh) return;
+    if (localStorage.getItem(IS_CANCELLED) && !onRefresh) return;
 
-    if (fromCancel) localStorage.setItem('isCancelled', '1');
+    if (fromCancel) localStorage.setItem(IS_CANCELLED, '1');
     if (data?.project) {
       dispatch(addProject(data?.project));
       dispatch(

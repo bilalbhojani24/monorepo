@@ -11,7 +11,8 @@ const initialState = {
     configureToolTestConnectionLoading: false,
     configureToolProceedLoading: false,
     beginImportLoading: false,
-    configureToolPageLoading: true
+    configureToolPageLoading: true,
+    artificialLoader: false
   },
   configureToolProceed: false,
   showErrorForConfigData: false,
@@ -41,8 +42,7 @@ const initialState = {
   quickImportProjectId: null,
   topImportInfoSteps: [],
   loggedInScreen: false,
-  loggedInForTool: '',
-  showArtificialLoader: false
+  loggedInForTool: ''
 };
 
 export const setJiraConfigurationStatus = createAsyncThunk(
@@ -207,7 +207,7 @@ const importSlice = createSlice({
       state.loggedInForTool = state.currentTestManagementTool;
     },
     setShowArtificialLoader: (state, { payload }) => {
-      state.showArtificialLoader = payload;
+      state.loader.artificialLoader = payload;
     },
     setImportId: (state, { payload }) => {
       state.importId = payload;

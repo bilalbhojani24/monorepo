@@ -64,7 +64,7 @@ const useImport = () => {
   const loggedInScreen = useSelector((state) => state.import.loggedInScreen);
   const loggedInForTool = useSelector((state) => state.import.loggedInForTool);
   const showArtificialLoader = useSelector(
-    (state) => state.import.showArtificialLoader
+    (state) => state.import.loader.artificialLoader
   );
   const importStarted = useSelector((state) => state.import.importStarted);
 

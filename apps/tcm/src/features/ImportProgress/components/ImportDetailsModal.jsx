@@ -31,7 +31,11 @@ const ImportDetailsModal = ({ show, headerText }) => {
       <TMModalBody>
         <div className="border-base-300 rounded-md border">
           <div className="my-10 flex flex-col items-center">
-            <img src={ImportImage} alt="" className="h-10 w-40" />
+            <img
+              src={ImportImage}
+              alt="An arrow going from Cloud to BrowserStack icon, depicting projects are getting transferred"
+              className="h-10 w-40"
+            />
             <div className="text-lg">
               {importDetails?.percent === 100
                 ? 'Quick Import is completed'

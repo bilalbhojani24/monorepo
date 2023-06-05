@@ -192,7 +192,7 @@ export default function useSideNav() {
 
   useEffect(() => {
     const allNavs = [...primaryNavs, ...secondaryNavs];
-    let exactMatchRoute = allNavs[0];
+    let exactMatchRoute = allNavs[0]; // For All Projects
     if (location.pathname !== AppRoute.ROOT) {
       exactMatchRoute = allNavs.find((item) =>
         location.pathname?.split('/')?.includes(item.keyword)
@@ -200,6 +200,7 @@ export default function useSideNav() {
     }
 
     if (!exactMatchRoute && location.pathname !== AppRoute.ROOT)
+      // For Dashboard
       // eslint-disable-next-line prefer-destructuring
       exactMatchRoute = allNavs[0];
 

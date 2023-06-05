@@ -20,4 +20,5 @@ export const REPORT_TABLE_COLUMNS = [
   }
 ];
 
-export const PROGRESS_NOTIFICATION = 'progress-notification';
+export const PROGRESS_NOTIFICATION_ID = 'progress-notification';
+export const IS_CANCELLED = 'isCancelled';

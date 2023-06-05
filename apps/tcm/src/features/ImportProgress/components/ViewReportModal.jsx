@@ -70,7 +70,7 @@ const ViewReportModal = () => {
           <TableBody>
             {reportModalProjects.map((row) => (
               <TableRow key={row.name} wrapperClassName="w-full">
-                <TableCell wrapperClassName="px-0 pr py-2">
+                <TableCell wrapperClassName="pl-4 pr-0 py-2 sm:first:pl-4">
                   {getIcon(row?.status, row?.error)}
                 </TableCell>
                 <TableCell wrapperClassName="pl-0 pr-2 w-1/2 max-w-xs py-2">

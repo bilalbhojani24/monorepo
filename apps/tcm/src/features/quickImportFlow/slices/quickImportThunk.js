@@ -4,7 +4,10 @@ import {
   retryImportAPI
 } from 'api/import.api';
 import AppRoute from 'const/routes';
-import { IMPORT_STATUS } from 'features/ImportProgress/const/immutables';
+import {
+  IMPORT_STATUS,
+  IS_CANCELLED
+} from 'features/ImportProgress/const/immutables';
 import {
   setHoverActive,
   setImportDetails,
@@ -145,7 +148,7 @@ export const startImport = (navigate) => async (dispatch, getState) => {
         .map((project) => (project.checked ? project : null))
         .filter((project) => project !== null)
     });
-    localStorage.removeItem('isCancelled');
+    localStorage.removeItem(IS_CANCELLED);
     dispatch(setReportModalProjects([]));
     dispatch(
       setImportDetails({

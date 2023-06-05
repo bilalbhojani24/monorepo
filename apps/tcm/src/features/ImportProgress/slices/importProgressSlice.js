@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { PROGRESS_NOTIFICATION } from '../const/immutables';
+import { PROGRESS_NOTIFICATION_ID } from '../const/immutables';
 
 const initialState = {
   isDetailsModalVisible: false,
@@ -20,7 +20,7 @@ const initialState = {
   isNotificationDismissed: true,
   isTooltipDismissed: true,
   reportModalProjects: [],
-  progressNotification: { show: null, id: PROGRESS_NOTIFICATION },
+  progressNotification: { show: null, id: PROGRESS_NOTIFICATION_ID },
   hoverActive: false
 };
 

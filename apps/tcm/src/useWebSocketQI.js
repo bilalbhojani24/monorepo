@@ -3,8 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import useWebSocket from 'react-use-websocket';
 import { WS_URL } from 'const/routes';
-
-import { parseImportDetails } from './features/ImportProgress/slices/importProgressThunk';
+import { parseImportDetails } from 'features/ImportProgress/slices/importProgressThunk';
 
 const useWebSocketQI = () => {
   const dispatch = useDispatch();
