@@ -23,8 +23,8 @@ const useTestRuns = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const isClosedTab = searchParams.get('closed') === 'true';
   const [currentTab, setCurrentTab] = useState(TABS_ARRAY[1].name);
+  const isClosedTab = searchParams.get('closed') === 'true';
 
   const { projectId } = useParams();
   const page = searchParams.get('p');
