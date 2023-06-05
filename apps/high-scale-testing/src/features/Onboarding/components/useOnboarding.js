@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useMountEffect } from '@browserstack/hooks';
 import {
   getOnboardingData,
   getOnboardingEventsLogsData,
   markOnboardingRegionChange,
   markOnboardingStatus
 } from 'api';
+import {
+  GRID_MANAGER_NAMES,
+  SCRATCH_RADIO_GROUP_OPTIONS
+} from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
 import { getUserDetails } from 'globalSlice/selector';
@@ -40,46 +45,24 @@ browserstack-cli hst init`,
     }
   };
 
-  const GRID_MANAGER_NAMES = {
-    helm: 'Helm',
-    kubectl: 'Kubectl',
-    cli: 'CLI'
-  };
   const HEADER_TEXTS_OBJECT = {
     intro: `Hey ${userDetails.fullname}, Welcome to Automation Grid`,
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };
+
   const LIST_FEED_PROPS = {
     feedIconColor: 'grey',
     feedIconContainerSize: 'sm',
     feedIconSize: 'sm',
     feedIconVariant: 'light'
   };
+
   const ONBOARDING_TYPES = {
     scratch: 'scratch',
     existing: 'existing'
   };
-  const SCRATCH_RADIO_GROUP_OPTIONS = [
-    {
-      disabled: false,
-      id: 'radio-1',
-      name: 'Amazon Cloud',
-      configName: 'aws'
-    },
-    {
-      disabled: true,
-      id: 'radio-2',
-      name: 'Google Cloud',
-      configName: 'gcp'
-    },
-    {
-      disabled: true,
-      id: 'radio-3',
-      name: 'Microsoft Azure',
-      configName: 'azure'
-    }
-  ];
+
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
 
   const SHOW_LINE_NUMBERS = false;
@@ -281,13 +264,13 @@ browserstack-cli hst init`,
         setIsSetupComplete(true);
       }, 1000);
     }
-  }, [currentStep, totalSteps]);
+  }, [currentStep, showGridHeartBeats, totalSteps]);
 
   useEffect(() => {
     setShowSetupStatusModal(isSetupComplete);
   }, [isSetupComplete]);
 
-  useEffect(() => {
+  useMountEffect(() => {
     const fetchOnboardingData = async () => {
       const response = await getOnboardingData(userDetails.id);
       const res = response.data;
@@ -342,7 +325,7 @@ browserstack-cli hst init`,
     } else {
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
     }
-  }, []);
+  });
 
   return {
     CODE_SNIPPETS_SCRATCH,

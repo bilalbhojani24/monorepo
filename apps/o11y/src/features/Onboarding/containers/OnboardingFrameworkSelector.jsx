@@ -1,10 +1,10 @@
-import React, { useContext, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { GridListWHorizontalLink } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { ROUTES } from 'constants/routes';
-import { AppContext } from 'features/Layout/context/AppContext';
-import { getProjects } from 'globalSlice/selectors';
+import { getHeaderSize, getProjects } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
 import FrameworkDocViewer from '../components/FrameworkDocViewer';
@@ -14,7 +14,7 @@ export default function OnboardingFrameworkSelector() {
   const projects = useSelector(getProjects);
   const [selectedFramework, setSelectedFramework] = useState('');
   const navigate = useNavigate();
-  const { headerSize } = useContext(AppContext);
+  const headerSize = useSelector(getHeaderSize);
 
   useLayoutEffect(() => {
     const searchParams = new URLSearchParams(window?.location?.search);
@@ -34,10 +34,13 @@ export default function OnboardingFrameworkSelector() {
   }, []);
 
   const handleSelectFramework = (id) => {
-    setSelectedFramework(FRAMEWORKS.find((item) => item.id === id));
-    navigate({
-      search: `?framework=${id}`
-    });
+    const foundFramework = FRAMEWORKS.find((item) => item.id === id);
+    if (!foundFramework?.isUpComing) {
+      setSelectedFramework(foundFramework);
+      navigate({
+        search: `?framework=${id}`
+      });
+    }
   };
 
   if (projects?.list?.length) {
@@ -52,30 +55,38 @@ export default function OnboardingFrameworkSelector() {
       />
     );
   }
+
   return (
     <div
-      className="flex w-screen items-center justify-center p-12"
+      className="flex w-screen items-center justify-center overflow-auto p-12"
       style={{
-        height: `calc(100vh - ${headerSize.blockSize}px)`
+        height: `calc(100vh - ${headerSize}px)`
       }}
     >
-      <div className="border-base-200 flex w-full max-w-2xl flex-col rounded-lg border bg-white p-6 shadow-sm">
-        <div className="border-b-base-200 mb-6 border-b pb-6">
-          <h1 className="text-lg font-medium leading-6">
-            Welcome to Test Observability
-          </h1>
-          <h3 className="text-base-500 mt-1 text-sm font-normal leading-5">
-            Select a framework to get started
-          </h3>
+      <div className="border-base-200 flex w-full max-w-4xl flex-col rounded-lg border bg-white p-6 shadow-sm">
+        <div className="border-b-base-200 mb-6 flex justify-between border-b pb-6">
+          <div>
+            <h1 className="text-lg font-medium leading-6">
+              Welcome to Test Observability
+            </h1>
+            <h3 className="text-base-500 mt-1 text-sm font-normal leading-5">
+              Select a framework to get started
+            </h3>
+          </div>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3">
           {FRAMEWORKS.map((item) => (
             <GridListWHorizontalLink
               key={item.id}
               title={item.name}
               image={item.logo}
               // subTitle="another random desc"
-              wrapperClassName="border-0 shadow-none px-2 hover:bg-base-100"
+              wrapperClassName={twClassNames(
+                'border-0 shadow-none px-2 hover:bg-base-100',
+                {
+                  'pointer-events-none opacity-75': item.isUpComing
+                }
+              )}
               onClick={() => handleSelectFramework(item.id)}
             />
           ))}
