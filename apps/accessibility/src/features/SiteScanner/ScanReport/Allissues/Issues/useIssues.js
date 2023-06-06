@@ -60,7 +60,7 @@ export default function useIssues() {
   const onCloseClick = () => {
     setIsOpen(false);
     dispatch(resetIntermediateFiltersToActiveFilters());
-    dispatch(setShowFreshChatButton(false));
+    dispatch(setShowFreshChatButton(true));
   };
 
   const onApplyFilters = () => {
