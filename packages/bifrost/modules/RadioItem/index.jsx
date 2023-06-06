@@ -28,11 +28,12 @@ const RadioItem = ({
     >
       <RadioGroupPrimitive.Item
         className={twClassNames(
-          'h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
+          'mt-0.5 h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
           {
             'order-last mx-3': rightAligned,
-            'cursor-not-allowed': disabled,
-            'bg-brand-600 border-transparent': checked
+            'bg-base-50 cursor-not-allowed': disabled,
+            'bg-brand-600 border-transparent': checked,
+            'bg-brand-200': checked && disabled
           }
         )}
         value={value}
@@ -40,7 +41,11 @@ const RadioItem = ({
         id={value}
         {...props}
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-white" />
+        <span
+          className={twClassNames('h-1.5 w-1.5 rounded-full bg-white', {
+            'bg-base-50': !checked && disabled
+          })}
+        />
       </RadioGroupPrimitive.Item>
 
       <div

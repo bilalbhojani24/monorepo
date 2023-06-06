@@ -35,26 +35,29 @@ const RadioTableItem = ({
       disabled={disabled}
       {...props}
     >
-      <span
-        className={twClassNames('flex items-center text-sm', {
-          'opacity-25': disabled
-        })}
-      >
+      <span className={twClassNames('flex text-sm')}>
         <span
           className={twClassNames(
-            'h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
+            'mt-0.5 h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
             {
-              'bg-brand-600 border-transparent': checked
+              'bg-brand-600 border-transparent': checked,
+              'bg-base-50': disabled,
+              'bg-brand-200': checked && disabled
             }
           )}
           aria-hidden="true"
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-white" />
+          <span
+            className={twClassNames('h-1.5 w-1.5 rounded-full bg-white', {
+              'bg-base-50': !checked && disabled
+            })}
+          />
         </span>
 
         <div
           className={twClassNames('flex text-left', {
-            'flex-col items-baseline': !inlineDescription
+            'flex-col items-baseline': !inlineDescription,
+            'opacity-25': disabled
           })}
         >
           <span

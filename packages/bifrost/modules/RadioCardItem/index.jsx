@@ -40,7 +40,7 @@ const RadioCardItem = ({ option, disabled, wrapperClassName, ...props }) => {
               <span className="text-base-900 block text-sm font-medium">
                 {primaryLabel}
               </span>
-              <span className="text-base-500 mt-1 flex items-center text-sm">
+              <span className="text-base-500 flex items-center text-sm">
                 {description}
               </span>
               <span
