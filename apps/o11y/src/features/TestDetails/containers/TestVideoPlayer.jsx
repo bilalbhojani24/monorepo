@@ -30,9 +30,9 @@ const TestVideoPlayer = () => {
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const details = useSelector(getTestDetails);
   const exceptions = useSelector(getExceptions);
-  const { sessionTestToggle } = useLogsContext();
+  const { sessionTestToggle, videoSeekTime, handleSetCurrentTime } =
+    useLogsContext();
 
-  const [videoSeekTime, setVideoSeekTime] = useState(-1);
   const [showFloatingWindow, setShowFloatingWindow] = useState(false);
   const [isMainVideoPaused, setIsMainVideoPaused] = useState(true);
   const [isFloatingVideoPaused, setIsFloatingVideoPaused] = useState(true);
@@ -48,7 +48,7 @@ const TestVideoPlayer = () => {
 
   useEffect(() => {
     if (currentTestRunId) {
-      setVideoSeekTime(-1);
+      handleSetCurrentTime(-1);
       dispatch(clearExceptions());
       dispatch(
         getTestDetailsData({
@@ -59,7 +59,7 @@ const TestVideoPlayer = () => {
     return () => {
       dispatch(clearTestDetails());
     };
-  }, [dispatch, currentTestRunId]);
+  }, [dispatch, currentTestRunId, handleSetCurrentTime]);
 
   useEffect(() => {
     const slideOverElement = document.getElementById(
