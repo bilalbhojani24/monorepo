@@ -16,13 +16,10 @@ import { defaultPath, getBrowserStackBase } from 'utils';
 import { getTimeDiffInDays } from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
 
-import { getIsFreeUser } from '../slices/selectors';
-
 export default function useDashboard() {
   const mainRef = useRef(null);
   const dispatch = useDispatch();
   const isShowingBanner = useSelector(getIsShowingBanner);
-  const isFreeUser = useSelector(getIsFreeUser);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
   const shouldShowNewBadge = () => {
@@ -112,7 +109,6 @@ export default function useDashboard() {
     try {
       startLogging();
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.log('EDS already initialize...');
     }
   }, []);
@@ -120,7 +116,6 @@ export default function useDashboard() {
   return {
     mainRef,
     isShowingBanner,
-    isFreeUser,
     primaryNav,
     currentPath,
     secondaryNav,
