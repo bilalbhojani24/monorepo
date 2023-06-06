@@ -4,7 +4,7 @@ module.exports = {
   ...globalConfigs.globalTailwindConfig,
   content: [
     'src/**/*.{js,jsx}',
-    './node_modules/@browserstack/bifrost/dist/*.js'
+    './node_modules/@browserstack/bifrost/dist/*.{js,jsx}'
   ],
   theme: {
     ...globalConfigs.globalTailwindConfig.theme,
