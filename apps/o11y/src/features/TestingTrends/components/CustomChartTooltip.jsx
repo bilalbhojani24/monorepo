@@ -9,7 +9,7 @@ import {
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import PropTypes from 'prop-types';
-import { getBaseUrl } from 'utils/common';
+import { getCurrentUrl } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 import { getSuitHealthPath } from 'utils/routeUtils';
 
@@ -68,7 +68,7 @@ export default function CustomChartTooltip({
       );
     }
 
-    const url = `${getBaseUrl()}${getSuitHealthPath(
+    const url = `${getCurrentUrl()}${getSuitHealthPath(
       activeProject.normalisedName
     )}?${searchParams.toString()}`;
     window.open(url, '_blank', 'noopener,noreferrer');

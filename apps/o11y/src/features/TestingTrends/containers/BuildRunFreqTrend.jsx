@@ -16,7 +16,7 @@ import { getActiveProject, getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import max from 'lodash/max';
 import PropTypes from 'prop-types';
-import { abbrNumber, getBaseUrl } from 'utils/common';
+import { abbrNumber, getCurrentUrl } from 'utils/common';
 import { getSuitHealthPath } from 'utils/routeUtils';
 
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
@@ -103,7 +103,7 @@ export default function BuildRunFreqTrend() {
 
     const searchParams = new URLSearchParams();
     searchParams.set(ADV_FILTER_TYPES.uniqueBuildNames.key, buildName);
-    const url = `${getBaseUrl()}${getSuitHealthPath(
+    const url = `${getCurrentUrl()}${getSuitHealthPath(
       activeProject.normalisedName
     )}?${searchParams.toString()}`;
     window.open(url, '_blank', 'noopener,noreferrer');
