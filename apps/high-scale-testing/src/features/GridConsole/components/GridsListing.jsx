@@ -80,7 +80,7 @@ const GridsListing = () => {
               const gridStatus = gridData.status;
               const statusModifier =
                 gridData.status === 'Online' ? 'success' : 'base';
-              const gridId = gridData.gridProfile.id;
+              const gridId = gridData.id;
 
               const supportedBrowsers = {
                 chrome:

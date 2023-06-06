@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Button,
@@ -48,7 +48,7 @@ const GridConsole = () => {
                 </DropdownTrigger>
               </div>
 
-              <DropdownOptionGroup>
+              <DropdownOptionGroup wrapperClassName="w-full">
                 {options.map((opt) => (
                   <DropdownOptionItem key={opt.value} option={opt} />
                 ))}

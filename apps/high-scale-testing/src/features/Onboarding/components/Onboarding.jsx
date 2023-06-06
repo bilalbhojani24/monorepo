@@ -135,7 +135,6 @@ const Onboarding = () => {
         }}
         value={selectedRegion}
       >
-        <SelectMenuLabel>Select Region:</SelectMenuLabel>
         <SelectMenuTrigger placeholder="Select Region" />
         <SelectMenuOptionGroup>
           {currentProvidersRegions?.map((item) => (
@@ -148,15 +147,12 @@ const Onboarding = () => {
 
   const DescriptionNodeStep3 = (
     <p className="text-base-700 mb-4 mt-1 text-sm">
-      Set up a{' '}
-      <a href="/#" className="text-brand-600 underline" target="_blank">
-        new IAM role
-      </a>{' '}
-      via the CloudFormation link and generate the AWS access key and secret to
-      create and manage the Automation Grid. Read more about this{' '}
-      <a href="/" className=" text-brand-600 underline" target="_blank">
+      Set up a new IAM role via the CloudFormation link and generate the AWS
+      access key and secret to create and manage the Automation Grid. Read more
+      about this{' '}
+      <Hyperlink target="_blank" href="/" className="inline">
         here
-      </a>
+      </Hyperlink>
       .
     </p>
   );
@@ -309,11 +305,15 @@ const Onboarding = () => {
   );
 
   return (
-    <div className="border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
+    <div className="border-base-300 m-auto my-10 w-4/6 max-w-5xl rounded-lg border">
       <PageHeadings
         actions={
           <>
-            <Hyperlink wrapperClassName=" gap-x-2 text-sm font-medium">
+            <Hyperlink
+              href="https://www.browserstack.com/docs/automation-grid"
+              target="_blank"
+              wrapperClassName=" gap-x-2 text-sm font-medium"
+            >
               View Documentation <MdOutlineOpenInNew />
             </Hyperlink>
           </>
@@ -324,14 +324,14 @@ const Onboarding = () => {
         subSection={
           <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
         }
-        wrapperClassName="p-6"
+        wrapperClassName="p-6 bg-white"
       />
 
       {/* Body of Onboarding */}
       <div
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
         className={twClassNames(
-          'overflow-auto border-y border-base-300 px-7 ',
+          'overflow-auto bg-white border-base-300 px-7 ',
           {
             'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
             'py-6':
@@ -381,7 +381,19 @@ const Onboarding = () => {
 
       {/* Footer component */}
       {onboardingStep === 0 && (
-        <div className="flex justify-end px-6 py-3">
+        <div className="flex justify-between px-6 py-3">
+          <div className="flex">
+            <p className="text-base-500 self-center text-xs">
+              By continuing, you agree to have read and understood the{' '}
+              <Hyperlink
+                wrapperClassName="inline text-xs text-base-900 cursor-pointer"
+                href="https://www.browserstack.com/docs/automation-grid/references/terms-and-conditions"
+                target="_blank"
+              >
+                terms & conditions
+              </Hyperlink>
+            </p>
+          </div>
           <Button
             colors="brand"
             onClick={continueClickHandler}
@@ -398,9 +410,9 @@ const Onboarding = () => {
         (onboardingType === ONBOARDING_TYPES.scratch ||
           onboardingType === ONBOARDING_TYPES.existing) &&
         (((!eventLogsCode || eventLogsCode?.length === 0) && (
-          <div className="text-base-700 flex gap-2 px-6 py-3">
+          <div className="bg-base-50 text-base-700 flex gap-2 px-6 py-3">
             <HourglassBottomOutlinedIcon /> Waiting for you to complete the
-            above steps to connect the grid...
+            above steps to connect the grid.
           </div>
         )) ||
           (eventLogsCode && eventLogsCode.length > 0 && showGridHeartBeats && (
