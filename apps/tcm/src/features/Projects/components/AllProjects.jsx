@@ -253,9 +253,9 @@ const AllProjects = () => {
       />
       <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
         {(importStatus === IMPORT_STATUS.ONGOING ||
-          ((importStatus === IMPORT_STATUS.FAILURE ||
-            importStatus === IMPORT_STATUS.SUCCESS) &&
-            !isProgressDismissed)) && <ImportProgress />}
+          importStatus === IMPORT_STATUS.FAILURE ||
+          importStatus === IMPORT_STATUS.SUCCESS) &&
+          !isProgressDismissed && <ImportProgress />}
         {countOfProjectsImported > 0 &&
           showNewProjectBanner &&
           importStatus === IMPORT_STATUS.COMPLETED &&

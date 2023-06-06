@@ -175,12 +175,15 @@ const ConfigureTool = () => {
       </div>
       {currentTestManagementTool &&
         selectedRadioIdMap[currentTestManagementTool] === IMPORT_FROM_TOOL && (
-          <div className="bg-base-50 flex justify-end px-4 py-3">
+          <div className="bg-base-50 flex justify-end rounded-b-md px-4 py-3">
             <ImportFooter />
           </div>
         )}
 
-      <TMModal show={showConnectNewAccountModal}>
+      <TMModal
+        show={showConnectNewAccountModal}
+        onOverlayClick={() => setShowConnectNewAccountModal(false)}
+      >
         <TMModalBody className="py-5">
           <div>
             <div className="bg-brand-500 mx-auto flex h-12 w-12 items-center justify-center rounded-full">

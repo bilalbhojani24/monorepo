@@ -53,7 +53,7 @@ const ImportProgress = () => {
                       text={`${importDetails?.successfullyImportedProjects} Project Imported`}
                       isRounded
                       modifier="success"
-                      wrapperClassName="ml-1"
+                      wrapperClassName="ml-1 hover:bg-success-100"
                     />
                   )}
                 </div>

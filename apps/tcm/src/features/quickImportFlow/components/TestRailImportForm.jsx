@@ -44,7 +44,7 @@ const TestRailImportForm = () => {
             placeholder="Enter Email Address"
             value={testRailsCred.email}
             id="email"
-            readonly={alreadyLoggedIn}
+            disabled={alreadyLoggedIn}
             onChange={handleInputFieldChange('email')}
             label="TestRail Email Address"
             errorText={

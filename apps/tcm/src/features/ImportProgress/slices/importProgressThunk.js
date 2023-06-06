@@ -86,7 +86,8 @@ export const parseImportDetails =
         if (
           location.pathname !== AppRoute.ROOT &&
           !isNotificationDismissed &&
-          !fromCancel
+          !fromCancel &&
+          !onRefresh
         ) {
           dispatch(setNotificationConfig({ show: true }));
         }

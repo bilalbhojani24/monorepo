@@ -91,15 +91,19 @@ const SideNav = () => {
                     content={
                       <>
                         <TMTooltipHeader wrapperClassName="flex items-center justify-between">
-                          Import in Progress
+                          <span className="text-sm font-medium">
+                            Import in Progress
+                          </span>
                           <MdClose
                             className="h-5 w-5 hover:cursor-pointer"
                             onClick={closeTooltipHandler}
                           />
                         </TMTooltipHeader>
                         <TMTooltipBody>
-                          <div>You can track progress of</div>
-                          <div>import by clicking here</div>
+                          <div className="text-sm font-normal">
+                            <div>You can track progress of</div>
+                            <div>import by clicking here</div>
+                          </div>
                         </TMTooltipBody>
                       </>
                     }

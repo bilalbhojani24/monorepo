@@ -56,7 +56,7 @@ const ZephyrImportForm = (props) => {
               id="jira-host-name"
               onChange={handleInputFieldChange('host')}
               value={zephyrCred.host}
-              readonly={alreadyLoggedIn}
+              disabled={alreadyLoggedIn}
               label={
                 <span className="flex items-center">
                   JIRA Host Name
