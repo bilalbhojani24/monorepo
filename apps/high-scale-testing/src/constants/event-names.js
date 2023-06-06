@@ -1,4 +1,11 @@
+const AGHaveSetupPresented = 'AGHaveSetupPresented';
+const AGNoSetupPresented = 'AGNoSetupPresented';
 const AGSetupGuideInteracted = 'AGSetupGuideInteracted';
 const AGSetupGuideVisited = 'AGSetupGuideVisited';
 
-export { AGSetupGuideInteracted, AGSetupGuideVisited };
+export {
+  AGHaveSetupPresented,
+  AGNoSetupPresented,
+  AGSetupGuideInteracted,
+  AGSetupGuideVisited
+};

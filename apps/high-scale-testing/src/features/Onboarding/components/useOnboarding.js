@@ -9,6 +9,8 @@ import {
   markOnboardingStatus
 } from 'api';
 import {
+  AGHaveSetupPresented,
+  AGNoSetupPresented,
   AGSetupGuideInteracted,
   AGSetupGuideVisited
 } from 'constants/event-names';
@@ -199,6 +201,16 @@ browserstack-cli hst init`,
       setSubHeaderText(SUB_TEXTS_OBJECT.intro);
       setPollForEventLogs(false);
     }
+
+    if (onboardingStep > 0) {
+      if (onboardingType === ONBOARDING_TYPES.scratch) {
+        logEvent([], 'web_events', AGNoSetupPresented);
+      }
+
+      if (onboardingType === ONBOARDING_TYPES.existing) {
+        logEvent([], 'web_events', AGHaveSetupPresented);
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingStep]);
 
@@ -327,7 +339,7 @@ browserstack-cli hst init`,
           res.onboardingType === ONBOARDING_TYPES.existing)
       ) {
         setOnboardingType(res.onboardingType);
-        setOnboardingStep(1);
+        // setOnboardingStep(1);
       }
 
       if (res.currentStep === res.totalSteps) {
