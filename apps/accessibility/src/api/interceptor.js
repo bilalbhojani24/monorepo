@@ -10,17 +10,11 @@ axios.defaults.baseURL =
     : getConfigByKey('VITE_APP_BACKEND_URL') || `${window.location.origin}/api`;
 
 axios.interceptors.request.use((config) => {
-  const newConfig = { ...config };
-
-  if ([ENVS.LOCAL, ENVS.DEVELOPMENT].includes(env)) {
-    newConfig.headers['X-Auth-Override'] = 6;
-  }
-
-  if (newConfig.url.includes('eds.browserstack.com') || env === ENVS.LOCAL) {
-    return newConfig;
+  if (config.url.includes('eds.browserstack.com') || env === ENVS.LOCAL) {
+    return config;
   }
   return {
-    ...newConfig,
+    ...config,
     withCredentials: true
   };
 });
