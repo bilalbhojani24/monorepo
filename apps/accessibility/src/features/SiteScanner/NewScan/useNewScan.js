@@ -8,7 +8,6 @@ import cronstrue from 'cronstrue';
 import { addZero } from 'utils/helper';
 import { logEvent } from 'utils/logEvent';
 
-import { setShowFreshChatButton } from '../../Dashboard/slices/uiSlice';
 import { getScanConfigs } from '../slices/dataSlice';
 
 import { dayMap, days, urlPattern, wcagVersions } from './constants';
@@ -52,12 +51,6 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
 
   const getWcagVersionFromVal = (val) =>
     wcagVersions.filter((version) => version.id === val)[0];
-
-  useEffect(() => {
-    dispatch(setShowFreshChatButton(false));
-
-    return () => dispatch(setShowFreshChatButton(true));
-  }, []);
 
   useEffect(() => {
     const formDataCpy = { ...formData };

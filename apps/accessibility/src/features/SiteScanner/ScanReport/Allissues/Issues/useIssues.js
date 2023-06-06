@@ -5,6 +5,7 @@ import { activeInitFilters } from 'constants';
 import { getScanReportMetaData } from 'features/SiteScanner/slices/selector';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 
+import { setShowFreshChatButton } from '../../../../Dashboard/slices/uiSlice';
 import {
   resetFilters,
   resetIntermediateFilters,
@@ -59,6 +60,7 @@ export default function useIssues() {
   const onCloseClick = () => {
     setIsOpen(false);
     dispatch(resetIntermediateFiltersToActiveFilters());
+    dispatch(setShowFreshChatButton(false));
   };
 
   const onApplyFilters = () => {
