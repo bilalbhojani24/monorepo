@@ -13,6 +13,7 @@ import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
+import { clearAllAppliedFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import {
   getAllAppliedFilters,
   getIsFiltersLoading
@@ -135,9 +136,7 @@ const TestList = ({
   );
 
   const viewAllTests = () => {
-    navigate({
-      search: 'tab=tests'
-    });
+    dispatch(clearAllAppliedFilters());
     resetReduxStore(['selected', 'applied', 'testList']);
   };
 
