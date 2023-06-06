@@ -7,7 +7,7 @@ const { actions, reducer } = createSlice({
       eligible: true,
       trial_end_date_time:
         'Jun 02 2023 16:22:57 GMT+0530 (India Standard Time)',
-      trial_status: 'expired'
+      trial_status: 'not_started'
     },
     banner: {
       showBanner: false,

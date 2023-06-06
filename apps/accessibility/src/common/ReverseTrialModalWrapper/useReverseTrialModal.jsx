@@ -1,7 +1,13 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  MdOutlineWatchLater,
+  Notifications,
+  notify
+} from '@browserstack/bifrost';
 import { activateFreeTrial, checkProgress } from 'api/reverseTrial';
 import confetti from 'canvas-confetti';
+import { TRIAL_IN_PROGRESS } from 'constants';
 import {
   setBannerName,
   setModalShow,
@@ -26,6 +32,25 @@ export default function useReverseTrialModal() {
 
   const handleModalClose = () => {
     dispatch(setModalShow(false));
+    if (trialState === TRIAL_IN_PROGRESS) {
+      notify(
+        <Notifications
+          title="Your free trial is being processed"
+          actionButtons={null}
+          headerIcon={
+            <MdOutlineWatchLater className="text-attention-500 h-6 w-6" />
+          }
+          handleClose={(toastData) => {
+            notify.remove(toastData.id);
+          }}
+        />,
+        {
+          position: 'top-right',
+          autoClose: true,
+          id: 'one'
+        }
+      );
+    }
   };
 
   const showConfetti = () => {
