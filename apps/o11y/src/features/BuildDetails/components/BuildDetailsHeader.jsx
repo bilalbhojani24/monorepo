@@ -10,7 +10,6 @@ import {
   MdCheckCircle,
   MdHelp,
   MdOutlineAutoFixHigh,
-  MdOutlineRefresh,
   MdOutlineTimer,
   MdPerson,
   MdRemoveCircle,
@@ -19,7 +18,6 @@ import {
 import { twClassNames } from '@browserstack/utils';
 import {
   O11yBadge,
-  O11yButton,
   O11yMetaData,
   O11yTabs,
   O11yTooltip
@@ -49,6 +47,8 @@ import {
   getBuildMeta,
   getBuildUUID
 } from '../slices/selectors';
+
+import BuildMetaActions from './BuildMetaActions';
 
 const tabsList = Object.keys(TABS).map((key) => ({
   name: TABS[key].name,
@@ -217,182 +217,174 @@ function BuildDetailsHeader({
 
   return (
     <div
-      className={twClassNames(
-        'border-base-200 bg-base-50 sticky top-16 z-10 px-6 pt-6',
-        {
-          'border-b': !(
-            buildMeta?.data?.buildError?.message ||
-            buildMeta?.data?.isParsingReport
-          )
-        }
-      )}
+      className={twClassNames('border-base-200 bg-base-50 sticky top-16 z-10', {
+        'border-b': !(
+          buildMeta?.data?.buildError?.message ||
+          buildMeta?.data?.isParsingReport
+        )
+      })}
       style={{
         top: `${headerSize}px`
       }}
     >
-      <div className="flex justify-between">
-        <h1 className="w-full text-2xl font-bold leading-7">
-          {isAutoDetectedName ? originalName : name}{' '}
-          <div className="inline-block">
-            {!!buildNumber && `#${buildNumber}`}
-            {isAutoDetectedName && (
-              <O11yTooltip
-                theme="dark"
-                placementSide="right"
-                content={
-                  <div className="mx-4">
-                    <p className="text-base-300 text-sm leading-5">
-                      Static build name automatically detected: {name}
-                    </p>
-                    <Hyperlink
-                      target="_blank"
-                      href={getDocUrl({
-                        path: DOC_KEY_MAPPING.automation_build
-                      })}
-                      className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
-                    >
-                      Learn More
-                    </Hyperlink>
-                  </div>
-                }
-              >
-                <MdOutlineAutoFixHigh
-                  className="text-base-500 mx-2 inline-block text-xl"
-                  onMouseEnter={() => {
-                    logMetaInteractionEvent('auto_detect_hovered');
-                  }}
-                />
-              </O11yTooltip>
-            )}
-          </div>
-          {tags?.map((tag) => (
-            <O11yBadge
-              key={tag}
-              wrapperClassName="mx-2 text-sm leading-5 font-medium bg-base-200"
-              hasRemoveButton={false}
-              modifier="base"
-              hasDot={false}
-              text={tag}
-            />
-          ))}
-        </h1>
-        {updateCount > 0 && (
-          <O11yButton
-            variant="rounded"
-            icon={<MdOutlineRefresh className="text-sm" />}
-            iconPlacement="end"
-            size="extra-small"
-            isIconOnlyButton={isNewItemLoading}
-            loading={isNewItemLoading}
-            onClick={onUpdateBtnClick}
-            wrapperClassName="flex-shrink-0"
-          >
-            {updateCount} new test{updateCount > 1 ? 's' : ''}
-          </O11yButton>
-        )}
-      </div>
-      <div className="mt-2 flex flex-wrap items-center gap-4">
-        {renderStatusIcon()}
-        <O11yMetaData
-          icon={<MdPerson className="h-5 w-5" />}
-          metaDescription={user}
-          textColorClass="text-base-500"
-          metaTitle="Run by"
-        />
-        {startedAt && (
-          <O11yMetaData
-            icon={<MdSchedule className="h-5 w-5" />}
-            metaDescription={getCustomTimeStamp({
-              dateString: new Date(startedAt)
-            })}
-            textColorClass="text-base-500"
-            metaTitle="Started at"
+      <div className="px-6 pt-6">
+        <section className="flex items-start justify-between gap-4">
+          <h1 className="w-full text-2xl font-bold leading-7">
+            {isAutoDetectedName ? originalName : name}{' '}
+            <div className="inline-block">
+              {!!buildNumber && `#${buildNumber}`}
+              {isAutoDetectedName && (
+                <O11yTooltip
+                  theme="dark"
+                  placementSide="right"
+                  content={
+                    <div className="mx-4">
+                      <p className="text-base-300 text-sm leading-5">
+                        Static build name automatically detected: {name}
+                      </p>
+                      <Hyperlink
+                        target="_blank"
+                        href={getDocUrl({
+                          path: DOC_KEY_MAPPING.automation_build
+                        })}
+                        className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
+                      >
+                        Learn More
+                      </Hyperlink>
+                    </div>
+                  }
+                >
+                  <MdOutlineAutoFixHigh
+                    className="text-base-500 mx-2 inline-block text-xl"
+                    onMouseEnter={() => {
+                      logMetaInteractionEvent('auto_detect_hovered');
+                    }}
+                  />
+                </O11yTooltip>
+              )}
+            </div>
+            {tags?.map((tag) => (
+              <O11yBadge
+                key={tag}
+                wrapperClassName="mx-2 text-sm leading-5 font-medium bg-base-200"
+                hasRemoveButton={false}
+                modifier="base"
+                hasDot={false}
+                text={tag}
+              />
+            ))}
+          </h1>
+          <BuildMetaActions
+            isNewItemLoading={isNewItemLoading}
+            onUpdateBtnClick={onUpdateBtnClick}
+            updateCount={updateCount}
+            buildData={buildMeta.data}
           />
-        )}
-        {duration && (
+        </section>
+        <div className="mt-2 flex flex-wrap items-center gap-4">
+          {renderStatusIcon()}
           <O11yMetaData
-            icon={<MdOutlineTimer className="h-5 w-5" />}
-            metaDescription={milliSecondsToTime(duration)}
+            icon={<MdPerson className="h-5 w-5" />}
+            metaDescription={user}
             textColorClass="text-base-500"
-            metaTitle="Duration"
+            metaTitle="Run by"
           />
-        )}
-        {versionControlInfo?.commitId && (
-          <Hyperlink
-            href={versionControlInfo?.url}
-            target="_blank"
-            onClick={() => logMetaInteractionEvent('commit_sha_clicked')}
-          >
+          {startedAt && (
             <O11yMetaData
-              icon={
-                <VCIcon
-                  url={versionControlInfo?.url}
-                  iconProps={{ className: 'h-5 w-5' }}
-                />
-              }
-              metaDescription={versionControlInfo.commitId.slice(0, 8)}
-              textColorClass="text-base-500 hover:text-brand-700"
-              metaTitle="Commit Id"
+              icon={<MdSchedule className="h-5 w-5" />}
+              metaDescription={getCustomTimeStamp({
+                dateString: new Date(startedAt)
+              })}
+              textColorClass="text-base-500"
+              metaTitle="Started at"
             />
-          </Hyperlink>
-        )}
-        {ciBuildData?.buildNumber && (
-          <O11yTooltip
-            theme="dark"
-            placementSide="bottom"
-            wrapperClassName="py-2"
-            content={
-              <>
-                {ciBuildData?.jobName ? (
-                  <div className="mx-4">
-                    <p className="text-base-300 text-sm">
-                      Job name: {ciBuildData.jobName}
-                    </p>
-                  </div>
-                ) : null}
-              </>
-            }
-          >
+          )}
+          {duration && (
+            <O11yMetaData
+              icon={<MdOutlineTimer className="h-5 w-5" />}
+              metaDescription={milliSecondsToTime(duration)}
+              textColorClass="text-base-500"
+              metaTitle="Duration"
+            />
+          )}
+          {versionControlInfo?.commitId && (
             <Hyperlink
-              href={ciBuildData?.buildUrl}
+              href={versionControlInfo?.url}
               target="_blank"
-              onClick={() => logMetaInteractionEvent('ci_url_clicked')}
+              onClick={() => logMetaInteractionEvent('commit_sha_clicked')}
             >
               <O11yMetaData
                 icon={
-                  <CiIcon
-                    name={ciBuildData?.name}
+                  <VCIcon
+                    url={versionControlInfo?.url}
                     iconProps={{ className: 'h-5 w-5' }}
                   />
                 }
-                metaDescription={`${ciBuildData.name} ${ciBuildData?.buildNumber}`}
+                metaDescription={versionControlInfo.commitId.slice(0, 8)}
                 textColorClass="text-base-500 hover:text-brand-700"
+                metaTitle="Commit Id"
               />
             </Hyperlink>
-          </O11yTooltip>
-        )}
-        <ViewMetaPopOver
-          data={buildMeta.data || {}}
-          handleInteraction={({ interaction }) =>
-            logMetaInteractionEvent(interaction)
-          }
-        />
-      </div>
-      {!(
-        buildMeta?.data?.buildError?.message || buildMeta?.data?.isParsingReport
-      ) && (
-        <div className="-mb-[1px] flex justify-between">
-          <O11yTabs
-            defaultIndex={getActiveTab.idx}
-            tabsArray={tabsList}
-            onTabChange={onTabChange}
-          />
-          <StatusBadges
-            statusStats={statusStats}
-            onClickHandler={handleClickStatusBadge}
+          )}
+          {ciBuildData?.buildNumber && (
+            <O11yTooltip
+              theme="dark"
+              placementSide="bottom"
+              wrapperClassName="py-2"
+              content={
+                <>
+                  {ciBuildData?.jobName ? (
+                    <div className="mx-4">
+                      <p className="text-base-300 text-sm">
+                        Job name: {ciBuildData.jobName}
+                      </p>
+                    </div>
+                  ) : null}
+                </>
+              }
+            >
+              <Hyperlink
+                href={ciBuildData?.buildUrl}
+                target="_blank"
+                onClick={() => logMetaInteractionEvent('ci_url_clicked')}
+              >
+                <O11yMetaData
+                  icon={
+                    <CiIcon
+                      name={ciBuildData?.name}
+                      iconProps={{ className: 'h-5 w-5' }}
+                    />
+                  }
+                  metaDescription={`${ciBuildData.name} ${ciBuildData?.buildNumber}`}
+                  textColorClass="text-base-500 hover:text-brand-700"
+                />
+              </Hyperlink>
+            </O11yTooltip>
+          )}
+          <ViewMetaPopOver
+            data={buildMeta.data || {}}
+            handleInteraction={({ interaction }) =>
+              logMetaInteractionEvent(interaction)
+            }
           />
         </div>
-      )}
+        {!(
+          buildMeta?.data?.buildError?.message ||
+          buildMeta?.data?.isParsingReport
+        ) && (
+          <div className="-mb-[1px] flex justify-between">
+            <O11yTabs
+              defaultIndex={getActiveTab.idx}
+              tabsArray={tabsList}
+              onTabChange={onTabChange}
+            />
+            <StatusBadges
+              statusStats={statusStats}
+              onClickHandler={handleClickStatusBadge}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

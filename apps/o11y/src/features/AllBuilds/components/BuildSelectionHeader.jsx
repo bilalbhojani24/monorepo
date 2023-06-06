@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdArchive } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yButton, O11yCheckbox, O11yTableCell } from 'common/bifrostProxy';
+import { O11yButton, O11yTableCell } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { CheckboxState, roundedTableHeaderHack } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
@@ -19,7 +19,7 @@ function BuildSelectionHeader() {
   const selectAllCheckedStatus = useSelector(getSelectAllCheckedStatus);
   const buildCheckStatusMapping = useSelector(getBuildCheckStatusMapping);
 
-  const { handleSelectAll, totalCheckedBuilds } = useBuildSelection();
+  const { totalCheckedBuilds } = useBuildSelection();
 
   const selectedBuildsLength = totalCheckedBuilds(buildCheckStatusMapping);
 
@@ -49,7 +49,8 @@ function BuildSelectionHeader() {
       isSticky
     >
       <div className="flex items-center">
-        <O11yCheckbox
+        {/* <O11yCheckbox
+          id="build-selection-checkbox"
           border={false}
           wrapperClassName="mr-4"
           checked={selectAllCheckedStatus === CheckboxState.CHECKED}
@@ -57,7 +58,7 @@ function BuildSelectionHeader() {
           onChange={({ target: { checked } }) => {
             handleSelectAll(checked);
           }}
-        />
+        /> */}
         {selectedBuildsLength ? (
           <div className="flex items-center gap-4">
             <O11yButton

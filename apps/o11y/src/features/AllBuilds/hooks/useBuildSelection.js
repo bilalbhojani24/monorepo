@@ -60,7 +60,8 @@ function useBuildSelection() {
           ...buildCheckStatusMapping[key],
           status:
             !buildCheckStatusMapping[key]?.buildStatus ||
-            buildCheckStatusMapping[key]?.buildStatus === TEST_STATUS.PENDING
+            buildCheckStatusMapping[key]?.buildStatus === TEST_STATUS.PENDING ||
+            buildCheckStatusMapping[key]?.buildStatus === TEST_STATUS.ARCHIVED
               ? CheckboxState.UNCHECKED
               : CheckboxState.CHECKED
         };

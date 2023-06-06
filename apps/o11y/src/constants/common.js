@@ -47,7 +47,8 @@ export const TEST_STATUS = {
   TIMEOUT: 'timeout',
   FINISHED: 'finished',
   STARTED: 'started',
-  UNKNOWN: 'unknown'
+  UNKNOWN: 'unknown',
+  ARCHIVED: 'archived'
 };
 
 export const URL_REGEX =

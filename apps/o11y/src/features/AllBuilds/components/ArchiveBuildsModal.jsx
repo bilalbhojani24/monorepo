@@ -77,20 +77,20 @@ function ArchiveBuildsModal() {
         <O11yAlerts
           accentBorder={false}
           modifier="warn"
-          title="The builds will become read only and can not be reverted"
+          title="Archiving is a permanent action and cannot be undone. Archived build runs become read-only and cannot be modified"
         />
         <ul className="mt-8 flex flex-col gap-6">
           <li className="flex gap-3">
             <MdMobiledataOff className="text-base-500 mt-1 shrink-0 text-xl" />
             <span className="text-sm leading-5">
               The smart tags calculations (flaky, always failing etc.) of
-              subsequent runs will ignore data from this build
+              subsequent runs will ignore data from the archived runs.
             </span>
           </li>
           <li className="flex gap-3">
             <MdDisabledVisible className="text-base-500 mt-1 shrink-0 text-xl" />
             <span className="text-sm leading-5">
-              Test data of this build runs will be ignored from all Testing
+              Test data from archived runs will be ignored from all Testing
               Trends and Suite Health dashboards.
             </span>
           </li>
@@ -120,7 +120,8 @@ function ArchiveBuildsModal() {
           colors="danger"
           type="submit"
         >
-          Archive
+          Archive {data?.builds?.length} build run
+          {data?.builds?.length > 1 ? 's' : ''}
         </O11yButton>
       </O11yModalFooter>
     </O11yModal>

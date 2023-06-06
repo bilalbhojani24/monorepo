@@ -259,7 +259,11 @@ const { reducer, actions } = createSlice({
             buildStatus: build.status,
             status:
               state.selectAllCheckedStatus === CheckboxState.CHECKED &&
-              !(!build?.status || build?.status === TEST_STATUS.PENDING)
+              !(
+                !build?.status ||
+                build?.status === TEST_STATUS.PENDING ||
+                build?.status === TEST_STATUS.ARCHIVED
+              )
                 ? CheckboxState.CHECKED
                 : updatedMapping[build.uuid]?.status || CheckboxState.UNCHECKED
           };
