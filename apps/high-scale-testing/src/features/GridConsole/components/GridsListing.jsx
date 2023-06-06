@@ -100,18 +100,18 @@ const GridsListing = () => {
 
               return (
                 <TableRow className="cursor-pointer">
-                  <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName="px-6 py-4">
                     <div
                       role="button"
                       onClick={() => gridRowHandler(gridId)}
                       onKeyDown={() => gridRowHandler(gridId)}
                       tabIndex={0}
                     >
-                      <p className="font-normal">{gridName}</p>
+                      <p className="text-base-900 font-normal">{gridName}</p>
                       <p className="text-base-500">b7465tbf76</p>
                     </div>
                   </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
                       onClick={() => gridRowHandler(gridId)}
@@ -128,48 +128,50 @@ const GridsListing = () => {
                       />
                     </div>
                   </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName="px-6 py-4">
                     <div
                       role="button"
                       onClick={() => gridRowHandler(gridId)}
                       onKeyDown={() => gridRowHandler(gridId)}
                       tabIndex={0}
+                      className="text-base-900"
                     >
                       {gridData.runningTests}
                     </div>
                   </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
                       onClick={() => gridRowHandler(gridId)}
                       onKeyDown={() => gridRowHandler(gridId)}
                       tabIndex={0}
+                      className="text-base-900"
                     >
                       {gridData.queuedTests}
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
                       onClick={() => gridRowHandler(gridId)}
                       onKeyDown={() => gridRowHandler(gridId)}
                       tabIndex={0}
                     >
-                      <div className="flex gap-2">
+                      <div className="flex items-center gap-2">
                         {supportedBrowsers.chrome && <ChromeIcon />}
                         <FirefoxIcon width={20} height={20} />
                         <EdgeIcon width={20} height={20} />
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
                       onClick={() => gridRowHandler(gridId)}
                       onKeyDown={() => gridRowHandler(gridId)}
                       tabIndex={0}
                     >
-                      <p>{clusterName}</p>
+                      <p className="text-base-900">{clusterName}</p>
                       <p>{clusterIdentifier}</p>
                     </div>
                   </TableCell>
@@ -193,7 +195,7 @@ const GridsListing = () => {
                         </DropdownTrigger>
                       </div>
 
-                      <DropdownOptionGroup>
+                      <DropdownOptionGroup wrapperClassName="w-full">
                         {options.map((opt) => (
                           <DropdownOptionItem key={opt.value} option={opt} />
                         ))}
