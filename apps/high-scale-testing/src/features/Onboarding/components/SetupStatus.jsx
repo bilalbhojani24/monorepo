@@ -47,8 +47,8 @@ const SetupStatus = ({
         <p className="text-lg font-medium">{HEADER_TEXT}</p>
 
         {/* Main Body */}
-        <div className="border-base-300 mt-4 rounded-lg border">
-          <div className="border-base-300 border-y p-4">
+        <div className="mt-4 rounded-lg border border-base-300">
+          <div className="border-y border-base-300 p-4">
             <Alerts
               accentBorder
               description={ALERT_DESC}
@@ -166,7 +166,7 @@ const SetupStatus = ({
             )}
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FAILED && (
-              <div className="text-base-900 mt-4">
+              <div className="mt-4 text-base-900">
                 <p className=" mb-2 text-sm font-semibold">Next Steps</p>
                 <p className="mb-2">
                   Copy and run the below command in your CLI, to retry Grid
@@ -182,7 +182,7 @@ const SetupStatus = ({
           </div>
 
           {eventLogsStatus === EVENT_LOGS_STATUS.FINISHED && (
-            <div className="text-base-600 flex gap-2 p-4 text-sm">
+            <div className="flex gap-2 p-4 text-sm text-base-600">
               <MdInfoOutline className="text-xl" />
               <p>
                 Copy the above framework URLs to seamlessly integrate your test

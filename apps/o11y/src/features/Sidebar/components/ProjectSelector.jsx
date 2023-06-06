@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import { O11yComboBox } from 'common/bifrostProxy';
 import { ROUTES } from 'constants/routes';
-import { resetFilters } from 'features/FilterSkeleton/slices/filterSlice';
+import { resetAllAppliedFilters } from 'features/FilterSkeleton/utils';
 import { setIsUEDetailsVisible } from 'features/SHErrorDetails/slices/dataSlice';
 import { setIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/dataSlice';
 import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
@@ -50,7 +50,7 @@ export default function ProjectSelector() {
     dispatch(setIsSHTestsDetailsVisible(false));
     dispatch(hideTestDetailsDrawer());
     dispatch(setIsUEDetailsVisible(false));
-    dispatch(resetFilters());
+    dispatch(resetAllAppliedFilters());
     if (isBuildsPage()) {
       navigate(getProjectBuildsPath(encodeURI(item.normalisedName)), {
         replace: true
@@ -61,7 +61,7 @@ export default function ProjectSelector() {
       });
       navigate({
         pathname: generatedPath,
-        search: location.search
+        search: window.location.search
       });
     }
   };
