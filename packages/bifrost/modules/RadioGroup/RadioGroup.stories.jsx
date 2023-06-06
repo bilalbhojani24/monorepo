@@ -94,28 +94,34 @@ const defaultConfig = {
     },
     type: {
       options: TYPES,
-      control: { type: 'inline-radio' },
+      control: { type: 'disable' },
       defaultValue: TYPES[0]
     }
   },
   controls: {}
 };
 
-const SimpleListArgs = {
+const Template = (args) => <RadioGroup {...args} />;
+
+export const SimpleList = Template.bind({});
+
+SimpleList.parameters = {
+  controls: {}
+};
+
+SimpleList.args = {
   label: 'Simple List',
   description: 'How do you prefer to receive list?',
   isMandatory: true,
-  defaultValue: dummyData[1].value,
   errorText: 'Select any one option',
+  defaultValue: dummyData[1].value,
   type: 'default',
   columnWrapperClassName: 'space-y-5 mb-3'
 };
 
-export const SimpleList = (args) => (
-  <RadioGroup {...args} {...SimpleListArgs} />
-);
+export const SimpleInlineList = Template.bind({});
 
-const SimpleInlineListArgs = {
+SimpleInlineList.args = {
   label: 'Simple Inline List',
   isMandatory: true,
   defaultValue: dummyData[1].value,
@@ -123,11 +129,9 @@ const SimpleInlineListArgs = {
   type: 'default'
 };
 
-export const SimpleInlineList = (args) => (
-  <RadioGroup {...args} {...SimpleInlineListArgs} />
-);
+export const ListWithDescription = Template.bind({});
 
-const ListWithDescriptionArgs = {
+ListWithDescription.args = {
   defaultValue: dummyData[1].value,
   children: (
     <>
@@ -145,11 +149,9 @@ const ListWithDescriptionArgs = {
   type: 'default'
 };
 
-export const ListWithDescription = (args) => (
-  <RadioGroup {...args} {...ListWithDescriptionArgs} />
-);
+export const ListWithInlineDescription = Template.bind({});
 
-const ListWithInlineDescriptionArgs = {
+ListWithInlineDescription.args = {
   defaultValue: dummyData[1].value,
   children: (
     <>
@@ -167,9 +169,6 @@ const ListWithInlineDescriptionArgs = {
   type: 'default',
   columnWrapperClassName: 'space-y-5'
 };
-export const ListWithInlineDescription = (args) => (
-  <RadioGroup {...args} {...ListWithInlineDescriptionArgs} />
-);
 
 export const ControlledSimpleListWithRadioOnRight = (args) => {
   const [selected, setSelected] = useState(dummyData[0].value);
@@ -194,7 +193,8 @@ export const ControlledSimpleListWithRadioOnRight = (args) => {
   );
 };
 
-const ListWithRadioOnRightArgs = {
+export const ListWithRadioOnRight = Template.bind({});
+ListWithRadioOnRight.args = {
   defaultValue: dummyData[1].value,
   columnWrapperClassName:
     'border-t border-b border-base-200 divide-y divide-base-200',
@@ -216,11 +216,8 @@ const ListWithRadioOnRightArgs = {
   type: 'default'
 };
 
-export const ListWithRadioOnRight = (args) => (
-  <RadioGroup {...args} {...ListWithRadioOnRightArgs} />
-);
-
-const SmallCardsArgs = {
+export const SmallCards = Template.bind({});
+SmallCards.args = {
   type: TYPES[1],
   defaultValue: dummySmallCardData[0].value,
   children: (
@@ -236,11 +233,8 @@ const SmallCardsArgs = {
   )
 };
 
-export const SmallCards = (args) => (
-  <RadioGroup {...args} {...SmallCardsArgs} />
-);
-
-const StackedCardsArgs = {
+export const StackedCards = Template.bind({});
+StackedCards.args = {
   type: TYPES[2],
   defaultValue: dummyStackedCardData[0].value,
   children: (
@@ -256,20 +250,10 @@ const StackedCardsArgs = {
   )
 };
 
-export const StackedCards = (args) => (
-  <RadioGroup {...args} {...StackedCardsArgs} />
-);
-
 export const InlineCards = (args) => {
   const [selected, setSelected] = useState(dummyStackedCardData[0].value);
   return (
-    <RadioGroup
-      {...args}
-      type={TYPES[2]}
-      direction={DIRECTIONS[0]}
-      value={selected}
-      onChange={setSelected}
-    >
+    <RadioGroup {...args} value={selected} onChange={setSelected}>
       {dummyStackedCardData.map((option) => (
         <RadioCardItem
           key={option.value}
@@ -280,8 +264,13 @@ export const InlineCards = (args) => {
     </RadioGroup>
   );
 };
+InlineCards.args = {
+  type: TYPES[2],
+  direction: DIRECTIONS[0]
+};
 
-const SimpleTableArgs = {
+export const SimpleTable = Template.bind({});
+SimpleTable.args = {
   type: TYPES[3],
   defaultValue: tableDummyData[0].value,
   children: (
@@ -303,11 +292,8 @@ const SimpleTableArgs = {
   )
 };
 
-export const SimpleTable = (args) => (
-  <RadioGroup {...args} {...SimpleTableArgs} />
-);
-
-const ListWithDescriptionInPanelArgs = {
+export const ListWithDescriptionInPanel = Template.bind({});
+ListWithDescriptionInPanel.args = {
   type: TYPES[3],
   defaultValue: tableDummyData[1].value,
   children: (
@@ -330,9 +316,5 @@ const ListWithDescriptionInPanelArgs = {
     </>
   )
 };
-
-export const ListWithDescriptionInPanel = (args) => (
-  <RadioGroup {...args} {...ListWithDescriptionInPanelArgs} />
-);
 
 export default defaultConfig;
