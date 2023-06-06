@@ -32,11 +32,15 @@ export default function CustomChartTooltip({
     const searchParams = new URLSearchParams();
     switch (id) {
       case 'cbt':
-        searchParams.set(
-          ADV_FILTER_TYPES.browserList.key,
-          header.split(',')[0]
-        );
-        searchParams.set(ADV_FILTER_TYPES.osList.key, header.split(',')[1]);
+        if (header.split(',')[1]) {
+          searchParams.set(
+            ADV_FILTER_TYPES.browserList.key,
+            header.split(',')[0]
+          );
+          searchParams.set(ADV_FILTER_TYPES.osList.key, header.split(',')[1]);
+          break;
+        }
+        searchParams.set(ADV_FILTER_TYPES.deviceList.key, header.split(',')[0]);
         break;
       case 'flakiness':
         searchParams.set(ADV_FILTER_TYPES.isFlaky.key, true);
@@ -136,7 +140,9 @@ export default function CustomChartTooltip({
             <div>
               <span
                 className="mb-0.5 mr-1 inline-block h-1.5 w-1.5 rounded-full"
-                style={{ backgroundColor: point?.color, color: point?.color }}
+                style={{
+                  backgroundColor: point?.options?.color || point?.color
+                }}
               />
               <span className="text-sm">{point.name}</span>
             </div>
