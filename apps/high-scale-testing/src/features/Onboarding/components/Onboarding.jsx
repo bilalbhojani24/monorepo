@@ -49,6 +49,8 @@ const Onboarding = () => {
     frameworkURLs,
     headerText,
     isSetupComplete,
+    logTermsConditionsEvents,
+    logViewDocumentationEvents,
     onboardingStep,
     onboardingType,
     selectedRegion,
@@ -334,6 +336,7 @@ const Onboarding = () => {
         actions={
           <>
             <Hyperlink
+              onClick={logViewDocumentationEvents}
               href="https://www.browserstack.com/docs/automation-grid"
               target="_blank"
               wrapperClassName=" gap-x-2 text-sm font-medium"
@@ -407,6 +410,7 @@ const Onboarding = () => {
             <p className="text-base-500 self-center text-xs">
               By continuing, you agree to have read and understood the{' '}
               <Hyperlink
+                onClick={logTermsConditionsEvents}
                 wrapperClassName="inline text-xs text-base-900 cursor-pointer"
                 href="https://www.browserstack.com/docs/automation-grid/references/terms-and-conditions"
                 target="_blank"

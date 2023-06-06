@@ -1,12 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMountEffect } from '@browserstack/hooks';
+import { logEvent } from '@browserstack/utils';
 import {
   getOnboardingData,
   getOnboardingEventsLogsData,
   markOnboardingRegionChange,
   markOnboardingStatus
 } from 'api';
+import {
+  AGSetupGuideInteracted,
+  AGSetupGuideVisited
+} from 'constants/event-names';
 import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
@@ -147,12 +152,31 @@ browserstack-cli hst init`,
   };
 
   const continueClickHandler = () => {
+    logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+      action: 'continue_clicked',
+      option:
+        selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label
+          ? 'no_setup'
+          : 'have_setup'
+    });
     setOnboardingStep(1);
   };
 
   const exploreAutomationClickHandler = () => {
     closeSetupStatusModal();
     window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
+  };
+
+  const logTermsConditionsEvents = () => {
+    logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+      action: 'termsdoc_clicked'
+    });
+  };
+
+  const logViewDocumentationEvents = () => {
+    logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+      action: 'viewdoc_clicked'
+    });
   };
 
   const viewAllBuildsClickHandler = () => {
@@ -195,6 +219,9 @@ browserstack-cli hst init`,
           goToStep: 1
         }
       ]);
+      logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+        action: 'nosetup_clicked'
+      });
     } else {
       setOnboardingType('existing');
       setBreadcrumbDataTrace([
@@ -212,9 +239,11 @@ browserstack-cli hst init`,
           goToStep: 1
         }
       ]);
+      logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+        action: 'havesetup_clicked'
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOption]);
+  }, [STEP_1_RADIO_GROUP_OPTIONS, selectedOption]);
 
   useEffect(() => {
     if (Object.keys(allAvailableRegionsByProvider).length > 0) {
@@ -325,6 +354,8 @@ browserstack-cli hst init`,
     } else {
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
     }
+
+    logEvent([], 'web_events', AGSetupGuideVisited);
   });
 
   return {
@@ -353,6 +384,8 @@ browserstack-cli hst init`,
     frameworkURLs,
     headerText,
     isSetupComplete,
+    logTermsConditionsEvents,
+    logViewDocumentationEvents,
     onboardingStep,
     onboardingType,
     selectedOption,
