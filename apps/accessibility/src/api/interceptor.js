@@ -12,7 +12,7 @@ axios.defaults.baseURL =
 axios.interceptors.request.use((config) => {
   const newConfig = { ...config };
 
-  if ([ENVS.LOCAL, ENVS.DEVELOPMENT, ENVS.STAGING].includes(env)) {
+  if ([ENVS.LOCAL, ENVS.DEVELOPMENT].includes(env)) {
     newConfig.headers['X-Auth-Override'] = 6;
   }
 
