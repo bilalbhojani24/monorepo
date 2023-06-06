@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge, MdContentCopy } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
 import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
 import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
@@ -7,6 +8,7 @@ import CypressIcon from 'assets/icons/components/frameworks/CypressIcon';
 import PlaywrightIcon from 'assets/icons/components/frameworks/PlaywrightIcon';
 import SeleniumIcon from 'assets/icons/components/frameworks/SeleniumIcon';
 import CopyButton from 'common/CopyButton/components/CopyButton';
+import { AGGridDetailsInteracted } from 'constants/event-names';
 
 import { useGridOverview } from './useGridOverview';
 
@@ -107,6 +109,13 @@ const GridOverview = () => {
     }
   ];
 
+  const copyBtnCbFn = (framework) => {
+    logEvent(['amplitude'], 'web_events', AGGridDetailsInteracted, {
+      action: 'url_copied',
+      framework
+    });
+  };
+
   return (
     <>
       <div className="px-6 pt-6">
@@ -158,6 +167,7 @@ const GridOverview = () => {
                         </p>
 
                         <CopyButton
+                          cb={() => copyBtnCbFn(framework.name.toLowerCase())}
                           copyValue={framework.url}
                           textColor=""
                           wrapperClassName="text-xl"
