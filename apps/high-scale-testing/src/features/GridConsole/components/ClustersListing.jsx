@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   Table,
@@ -16,6 +17,11 @@ import { useClustersListing } from './useClustersListing';
 const ClustersListing = () => {
   const { clustersList, isRounded, statusModifier, tableCellWrapperClassName } =
     useClustersListing();
+  const navigate = useNavigate();
+
+  const ClusterRowHandler = (clusterId) => {
+    navigate(`/grid-console/cluster/${clusterId}/overview`);
+  };
 
   const cloudIcons = {
     aws: <AWSIcon width={20} height={20} />,
@@ -77,7 +83,11 @@ const ClustersListing = () => {
               const { cloudProvider, region } = clusterData.profile;
 
               return (
-                <TableRow onRowClick={() => {}}>
+                <TableRow
+                  onRowClick={() => {
+                    ClusterRowHandler(clusterId);
+                  }}
+                >
                   <TableCell wrapperClassName="text-base-900 first:pr-3 last:pl-3 px-2 py-2">
                     <p className="font-normal">{clusterName}</p>
                     <p className="text-base-500">{clusterId}</p>

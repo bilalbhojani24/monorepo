@@ -1,9 +1,10 @@
 import { listTreeCheckboxHelper } from '@browserstack/bifrost';
-import { O11Y_DATE_RANGE } from 'constants/common';
+import { O11Y_DATE_RANGE, o11yHistory } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
 import { updateUrlQueryParam } from 'utils/common';
 import { getO11yTimeBounds } from 'utils/dateTime';
 
+import { resetFilters } from './slices/filterSlice';
 import { ADV_FILTER_TYPES, ADV_FILTERS_PREFIX } from './constants';
 
 export const getAppliedFilterObj = ({ id, text, type, value }) => ({
@@ -190,4 +191,22 @@ export const constructTreeData = (folders, selectedValues) => {
     parsedTreeNodes = newItems;
   });
   return { treeData: parsedTreeNodes, selectedNodes };
+};
+
+const removeAllFilterFieldsFromParams = () => {
+  const searchParams = new URLSearchParams(window?.location?.search);
+  Object.values(ADV_FILTER_TYPES).forEach(({ key }) => {
+    if (searchParams.get(key)) {
+      searchParams.delete(key);
+    }
+  });
+  if (searchParams.get('daterangetype')) {
+    searchParams.delete('daterangetype');
+  }
+  o11yHistory.navigate({ search: searchParams.toString() });
+};
+
+export const resetAllAppliedFilters = () => (dispatch) => {
+  dispatch(resetFilters());
+  removeAllFilterFieldsFromParams();
 };
