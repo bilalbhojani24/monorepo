@@ -29,7 +29,8 @@ export const o11yNotify = ({
   title = '',
   description = '',
   actionButtons = null,
-  duration = 0
+  duration = 0,
+  autoClose = true
 }) => {
   notify(
     <Notifications
@@ -43,7 +44,8 @@ export const o11yNotify = ({
     />,
     {
       position: 'top-right',
-      duration: duration || 3000
+      duration: duration || 3000,
+      autoClose
     }
   );
 };
