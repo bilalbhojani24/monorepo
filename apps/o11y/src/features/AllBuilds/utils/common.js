@@ -11,6 +11,8 @@ export const getFilterQueryParams = (appliedFilters = []) => {
       .map((i) => i?.id);
     if (!isEmpty(filters)) {
       searchParams.set(type, filters);
+    } else {
+      searchParams.delete(type);
     }
   });
   return searchParams;

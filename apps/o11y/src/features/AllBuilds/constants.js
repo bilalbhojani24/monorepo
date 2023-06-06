@@ -40,13 +40,6 @@ export const TABLE_CLASSES = {
   }
 };
 
-export const FILTER_LABEL_MAPPING = {
-  statuses: 'Status',
-  frameworks: 'Framework',
-  users: 'User',
-  tags: 'Tag'
-};
-
 export const BUILD_FILTER_TYPES = {
   buildName: 'buildNames',
   users: 'users',
@@ -54,7 +47,16 @@ export const BUILD_FILTER_TYPES = {
   tags: 'tags',
   status: 'statuses',
   framework: 'frameworks',
-  search: 'search'
+  search: 'search',
+  isArchived: 'isArchived'
+};
+
+export const FILTER_LABEL_MAPPING = {
+  [BUILD_FILTER_TYPES.status]: 'Status',
+  [BUILD_FILTER_TYPES.framework]: 'Framework',
+  [BUILD_FILTER_TYPES.users]: 'User',
+  [BUILD_FILTER_TYPES.tags]: 'Tag',
+  [BUILD_FILTER_TYPES.isArchived]: 'Show archived builds only'
 };
 export const BUILD_FILTER_OPERATIONS = {
   ADD: 'ADD',
@@ -70,5 +72,6 @@ export const BUILD_FILTERS_PREFIX = {
   [BUILD_FILTER_TYPES.tags]: 'Tag',
   [BUILD_FILTER_TYPES.status]: 'Status',
   [BUILD_FILTER_TYPES.framework]: 'Framework',
-  [BUILD_FILTER_TYPES.search]: 'Search'
+  [BUILD_FILTER_TYPES.search]: 'Search',
+  [BUILD_FILTER_TYPES.isArchived]: 'Show Archived'
 };

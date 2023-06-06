@@ -19,11 +19,7 @@ import {
 } from '../constants';
 import { getAppliedFilterObj, getFilterQueryParams } from '../utils/common';
 
-import {
-  getAllAppliedFilters,
-  getInitialSearchString,
-  getIsLoadingFilters
-} from './buildsSelectors';
+import { getAllAppliedFilters, getIsLoadingFilters } from './buildsSelectors';
 
 const SLICE_NAME = 'buildList';
 
@@ -36,8 +32,7 @@ export const getBuildsData = createAsyncThunk(
         return { builds: [] };
       }
       const appliedFilters = getAllAppliedFilters(getState());
-      const initialSearchString = getInitialSearchString(getState());
-      let searchString = initialSearchString ? `${initialSearchString}&` : '';
+      let searchString = '';
       if (appliedFilters.length) {
         searchString = getFilterQueryParams(appliedFilters).toString();
       }
@@ -377,6 +372,15 @@ export const getBuildsFiltersData = createAsyncThunk(
               id: applied[BUILD_FILTER_TYPES.search],
               text: applied[BUILD_FILTER_TYPES.search],
               type: BUILD_FILTER_TYPES.search
+            })
+          );
+        }
+        if (applied[BUILD_FILTER_TYPES.isArchived]) {
+          updatedSelectedFilters.push(
+            getAppliedFilterObj({
+              id: applied[BUILD_FILTER_TYPES.isArchived],
+              text: applied[BUILD_FILTER_TYPES.isArchived],
+              type: BUILD_FILTER_TYPES.isArchived
             })
           );
         }
