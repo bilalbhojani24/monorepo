@@ -1,20 +1,24 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { initErrorLogger } from '@browserstack/utils';
 import { INIT_URL } from 'api/constants/apiURLs';
 import axios from 'axios';
 import { SENTRY_DSN } from 'constants/keys';
+import ROUTES from 'constants/routes';
 import { initialiseApplication } from 'globalSlice';
-import { getUserDetails } from 'globalSlice/selector';
+import { getIsApploading, getUserDetails } from 'globalSlice/selector';
 import { getEnv, getEnvConfig } from 'utils/common';
 
 const useApp = () => {
   const dispatch = useDispatch();
   const env = getEnv();
   const envConfig = getEnvConfig();
+  const navigate = useNavigate();
 
   const { enableSentry } = envConfig;
 
+  const isAppLoading = useSelector(getIsApploading);
   const userDetails = useSelector(getUserDetails);
 
   const initAPI = async () => {
@@ -47,6 +51,17 @@ const useApp = () => {
       });
     }
   }, [enableSentry, env, userDetails]);
+
+  useEffect(() => {
+    if (
+      !isAppLoading &&
+      Object.keys(userDetails).length > 0 &&
+      !userDetails.onboardingCompleted
+    ) {
+      navigate(ROUTES.ONBOARDING);
+    }
+  }, [isAppLoading, navigate, userDetails]);
+
   return {
     initAPI
   };
