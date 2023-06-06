@@ -60,12 +60,25 @@ export default function CustomChartTooltip({
       );
     }
 
-    searchParams.append('daterangetype', filters.dateRange.key);
-    if (filters.dateRange.key === 'custom') {
+    if (
+      tooltipData[0] &&
+      tooltipData[0]?.pointRangeOptions &&
+      tooltipData[0]?.pointRangeOptions[0] &&
+      tooltipData[0]?.pointRangeOptions[1]
+    ) {
+      searchParams.append('daterangetype', 'custom');
       searchParams.set(
         'dateRange',
-        `${filters.dateRange.lowerBound},${filters.dateRange.upperBound}`
+        `${tooltipData[0]?.pointRangeOptions[0]},${tooltipData[0]?.pointRangeOptions[1]}`
       );
+    } else {
+      searchParams.append('daterangetype', filters.dateRange.key);
+      if (filters.dateRange.key === 'custom') {
+        searchParams.set(
+          'dateRange',
+          `${filters.dateRange.lowerBound},${filters.dateRange.upperBound}`
+        );
+      }
     }
 
     const url = `${getCurrentUrl()}${getSuitHealthPath(
@@ -119,20 +132,18 @@ export default function CustomChartTooltip({
       {data?.map((point) => {
         if (point.y === null || point.y === undefined) return null;
         return (
-          <>
-            <div className="flex justify-between pt-2 text-sm">
-              <div>
-                <span
-                  className="mb-0.5 mr-1 inline-block h-1.5 w-1.5 rounded-full"
-                  style={{ backgroundColor: point?.color, color: point?.color }}
-                />
-                <span className="text-sm">{point.name}</span>
-              </div>
-              <span>
-                {renderPointValue(point.y, point.fixedToTwoDigits, point.name)}
-              </span>
+          <div className="flex justify-between pt-2 text-sm" key={point.name}>
+            <div>
+              <span
+                className="mb-0.5 mr-1 inline-block h-1.5 w-1.5 rounded-full"
+                style={{ backgroundColor: point?.color, color: point?.color }}
+              />
+              <span className="text-sm">{point.name}</span>
             </div>
-          </>
+            <span>
+              {renderPointValue(point.y, point.fixedToTwoDigits, point.name)}
+            </span>
+          </div>
         );
       })}
       {!!data[0]?.totalTest && (
