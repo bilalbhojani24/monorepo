@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
@@ -52,6 +52,20 @@ export default function SHTests() {
   const navigate = useNavigate();
   const appliedFilters = useSelector(getAllAppliedFilters);
   const currentFilterCategory = useSelector(getCurrentFilterCategory);
+
+  const o11ySHTestsInteraction = useCallback(
+    (interaction) => {
+      logOllyEvent({
+        event: 'O11ySuiteHealthTestsInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          interaction
+        }
+      });
+    },
+    [activeProject.id, activeProject.name]
+  );
 
   useEffect(() => {
     logOllyEvent({
@@ -180,7 +194,7 @@ export default function SHTests() {
   return (
     <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
       <div className={twClassNames('mb-4 px-6 pt-5')}>
-        <SHTestsFilters />
+        <SHTestsFilters o11ySHTestsInteraction={o11ySHTestsInteraction} />
       </div>
       {isLoadingTests ? (
         <O11yLoader wrapperClassName="flex-1" />
@@ -212,7 +226,7 @@ export default function SHTests() {
                 showFixedFooter={isLoadingMore}
                 handleRowClick={handleClickTestItem}
                 tableWrapperClassName="border border-t-0 border-base-300 bg-white border-separate border-spacing-0 rounded-lg"
-                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
+                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-24"
               />
             </div>
           )}

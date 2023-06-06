@@ -24,7 +24,9 @@ import {
   setSelectedTestCase,
   setTestCaseDetails,
   setTestResultsArray,
-  updateAddStatusForm
+  setUniqueIssueTestResults,
+  updateAddStatusForm,
+  updateBulkOperation
 } from '../slices/testRunDetailsSlice';
 
 import useTestRunDetails from './useTestRunDetails';
@@ -81,6 +83,9 @@ export default function useTRTCFolders() {
   const closeAll = () => {
     dispatch(closeAllVisibleForms());
   };
+  const setBulkOperation = (operation) => {
+    dispatch(updateBulkOperation(operation));
+  };
 
   const showAddIssueModal = () => {
     dispatch(setIsVisibleProps({ key: 'addIssues', value: true }));
@@ -93,6 +98,7 @@ export default function useTRTCFolders() {
   const loadTestResults = (testCaseId) => {
     getTestResultsAPI({ projectId, testRunId, testCaseId }).then((data) => {
       dispatch(setTestResultsArray(data?.['test-results']));
+      dispatch(setUniqueIssueTestResults(data?.unique_issues));
     });
   };
 
@@ -198,6 +204,7 @@ export default function useTRTCFolders() {
       );
       dispatch(setSelectedTestCase(null));
       dispatch(addTestResultItem(data.data['test-result']));
+      dispatch(setUniqueIssueTestResults(data?.data?.unique_issues));
       fetchTestRunDetails(true, true);
       closeAll();
     });
@@ -287,6 +294,7 @@ export default function useTRTCFolders() {
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
-    setStatusError
+    setStatusError,
+    setBulkOperation
   };
 }

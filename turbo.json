@@ -4,6 +4,9 @@
     "build": {
       "cache": false
     },
+    "preview": {
+      "cache": false
+    },
     "lint": {
       "outputs": []
     },

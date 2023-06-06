@@ -4,6 +4,10 @@ export const DOC_KEY_MAPPING = {
   wdio: 'quick-start/webdriverio',
   testng: 'quick-start/testng',
   mocha: 'quick-start/mocha',
+  junit: 'quick-start/junit-reports',
+  cypress: 'quick-start/cypress',
+  playwright: 'quick-start/playwright',
+  nightwatch: 'quick-start/nightwatchjs',
   uploading_logs: 'integrations/application-logs',
   auto_analyser: 'features/auto-failure-analysis',
   re_run: 'features/re-run',
@@ -14,9 +18,12 @@ export const DOC_KEY_MAPPING = {
   tnc: `references/terms-and-conditions`
 };
 export const EXTERNAL_LINKS = {
+  contact: 'contact?ref=header',
+  supportLink: 'support/test-observability',
   getADemo: 'contact?&ref=observability-dashboard-demo-lead',
   planAndPricing: 'pricing?product=test-observability',
-  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead'
+  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead',
+  manageUsers: 'accounts/manage-users'
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
@@ -227,4 +234,15 @@ export const O11Y_DATE_RANGE = {
     key: 'custom',
     label: 'Custom'
   }
+};
+export const FLOATING_COMPONENTS_IDS = {
+  O11Y_FILTERS: 'O11Y_FILTERS',
+  TEST_DETAILS: 'TEST_DETAILS',
+  BUILD_FILTERS: 'BUILD_FILTERS',
+  TEST_FILTERS: 'TEST_FILTERS',
+  TEST_HEALTH_FILTERS: 'TEST_HEALTH_FILTERS',
+  UNIQUE_ERRORS_FILTERS: 'UNIQUE_ERRORS_FILTERS',
+  TEST_HEALTH_DETAILS: 'TEST_HEALTH_DETAILS',
+  UNIQUE_ERRORS_DETAILS: 'UNIQUE_ERRORS_DETAILS',
+  O11Y_SETTINGS: 'O11Y_SETTINGS'
 };

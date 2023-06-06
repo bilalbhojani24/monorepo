@@ -1,4 +1,10 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
@@ -38,17 +44,13 @@ import {
 import UERow from './UERow';
 
 const List = forwardRef((props, ref) => (
-  <div
-    {...props}
-    ref={ref}
-    className="border-base-300 overflow-hidden rounded-b-md border border-t-0"
-  />
+  <div {...props} ref={ref} className="mb-24 overflow-hidden" />
 ));
 
 const Item = (props) => (
   <div
     {...props}
-    className="border-base-200 border-b last-of-type:border-b-0"
+    className="border-base-200 last-of-type:border-base-300 border-x-base-300 overflow-hidden border-x border-b last-of-type:mb-24 last-of-type:rounded-b-md"
   />
 );
 
@@ -72,6 +74,20 @@ const SnPUniqueErrors = () => {
   const appliedFilters = useSelector(getAllAppliedFilters);
   const isFiltersLoading = useSelector(getIsFiltersLoading);
   const currentFilterCategory = useSelector(getCurrentFilterCategory);
+
+  const o11ySHUEInteraction = useCallback(
+    (interaction) => {
+      logOllyEvent({
+        event: 'O11ySuiteHealthErrorsInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          interaction
+        }
+      });
+    },
+    [activeProject.id, activeProject.name]
+  );
 
   useEffect(() => {
     logOllyEvent({
@@ -170,7 +186,7 @@ const SnPUniqueErrors = () => {
   return (
     <div className={twClassNames('flex flex-col h-full ')}>
       <div className={twClassNames('mb-4 px-6 pt-5')}>
-        <SHUEFilters />
+        <SHUEFilters o11ySHUEInteraction={o11ySHUEInteraction} />
       </div>
       {isLoadingErrors ? (
         <O11yLoader

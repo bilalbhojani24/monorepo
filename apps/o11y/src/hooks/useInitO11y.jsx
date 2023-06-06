@@ -27,7 +27,6 @@ import { getEnvConfig } from 'utils/common';
 import { delightedInit } from 'utils/delighted';
 import { subscribeO11yPusher } from 'utils/pusherEventHandler';
 import { isIntegrationsPage } from 'utils/routeUtils';
-import { showBannerPerPriority } from 'utils/showBannerPerPriority';
 
 const envConfig = getEnvConfig();
 const PUSHER_CONNECTION_NAME = 'o11y-pusher';
@@ -80,11 +79,10 @@ function useInitO11y() {
 
       if (!window.initialized) {
         initLogger(keys);
-        dispatch(showBannerPerPriority());
         window.initialized = true;
       }
     }
-  }, [dispatch, userDetails]);
+  }, [userDetails]);
 
   useEffect(() => {
     // Note: Disabling for onboarding, Get access and project selection pages

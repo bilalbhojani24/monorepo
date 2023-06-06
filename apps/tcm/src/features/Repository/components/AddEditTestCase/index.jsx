@@ -55,7 +55,7 @@ const AddEditTestCase = () => {
     testCaseEditingInit
   } = useAddEditTestCase({ isAddEditOnly: true });
 
-  const { initFormValues } = useTestCases();
+  const { initFormValues } = useTestCases({ isTestCaseEditing });
   const focusRef = useRef(null);
 
   useEffect(() => {

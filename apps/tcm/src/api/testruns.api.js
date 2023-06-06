@@ -74,3 +74,50 @@ export const getTestResultsAPI = async ({ projectId, testRunId, testCaseId }) =>
   fetchGet(
     `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/${testCaseId}/test-results`
   );
+
+// --------- bulk options ------------------------------
+
+export const removeTCFromTRBulkAPI = async ({
+  projectId,
+  ids,
+  testRunId,
+  page = 1
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/unlink?p=${page}`,
+    {
+      test_case_ids: ids
+    }
+  );
+
+export const assignToTCBulkAPI = async ({
+  projectId,
+  ids,
+  assigneeId,
+  testRunId,
+  page = 1
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/bulk_assign?p=${page}`,
+    {
+      test_case_ids: ids,
+      assignee_id: assigneeId
+    }
+  );
+
+export const addResultTCBulkAPI = async ({
+  projectId,
+  ids,
+  status,
+  testRunId,
+  issues,
+  page = 1
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-runs/${testRunId}/test-cases/edit?p=${page}`,
+    {
+      test_case_ids: ids,
+      status,
+      issues
+    }
+  );

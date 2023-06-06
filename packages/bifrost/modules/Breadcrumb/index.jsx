@@ -65,6 +65,7 @@ const Breadcrumb = (props) => {
               </div>
               <a
                 href={page.url}
+                {...(page?.label ? { 'aria-label': page.label } : null)}
                 className="text-base-500 hover:text-base-700 flex text-sm font-medium"
                 aria-current={page.current ? 'page' : undefined}
                 onClick={(e) => handleClick(e, page)}
@@ -91,7 +92,8 @@ Breadcrumb.propTypes = {
       name: PropTypes.string,
       url: PropTypes.string,
       current: PropTypes.bool,
-      icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType])
+      icon: PropTypes.oneOfType([PropTypes.string, PropTypes.elementType]),
+      label: PropTypes.string
     })
   ),
   onClick: PropTypes.func,
