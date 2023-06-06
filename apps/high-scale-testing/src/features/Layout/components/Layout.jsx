@@ -8,6 +8,8 @@ import {
   SidebarNavigation,
   UsersIcon
 } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
+import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import HSTHeader from 'features/HSTHeader/component';
 
@@ -49,8 +51,10 @@ const Layout = () => {
   );
 
   const navigationClickHandler = (item) => {
-    console.log('Log: item:', item);
     if (item.id === 'builds-dashboard') {
+      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+        action: 'builddashboard_clicked'
+      });
       window.location.href = item.path;
     } else {
       const { path } = item;

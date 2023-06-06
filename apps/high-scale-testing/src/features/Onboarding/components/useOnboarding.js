@@ -9,13 +9,18 @@ import {
   markOnboardingStatus
 } from 'api';
 import {
+  AGErrorGridModalInteracted,
+  AGErrorGridModalPresented,
+  AGEventsLogModalInteracted,
   AGHaveSetupInteracted,
   AGHaveSetupPresented,
   AGNoSetupInteracted,
   AGNoSetupPresented,
   AGNoSetupStepsExecuted,
   AGSetupGuideInteracted,
-  AGSetupGuideVisited
+  AGSetupGuideVisited,
+  AGSuccessGridModalInteracted,
+  AGSuccessGridModalPresented
 } from 'constants/event-names';
 import {
   GRID_MANAGER_NAMES,
@@ -160,10 +165,19 @@ browserstack-cli hst init`,
   };
 
   const closeEventLogsModal = () => {
+    logEvent(['amplitude'], 'web_events', AGEventsLogModalInteracted, {
+      action: 'actionbutton_clicked'
+    });
     setShowEventLogsModal(false);
   };
 
   const closeSetupStatusModal = () => {
+    logEvent([
+      'amplitude',
+      'web_events',
+      AGErrorGridModalInteracted,
+      { action: 'close_clicked' }
+    ]);
     setShowSetupStatusModal(false);
   };
 
@@ -217,6 +231,9 @@ browserstack-cli hst init`,
   };
 
   const exploreAutomationClickHandler = () => {
+    logEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
+      action: 'console_clicked'
+    });
     closeSetupStatusModal();
     window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
   };
@@ -234,6 +251,9 @@ browserstack-cli hst init`,
   };
 
   const viewAllBuildsClickHandler = () => {
+    logEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
+      action: 'viewbuilds_clicked'
+    });
     closeSetupStatusModal();
     window.location = `${window.location.origin}${ROUTES.BUILDS}`;
   };
@@ -347,6 +367,7 @@ browserstack-cli hst init`,
   useEffect(() => {
     if (currentStep === -1) {
       setTimeout(() => {
+        logEvent([], 'web_events', AGErrorGridModalPresented);
         setEventLogsStatus(EVENT_LOGS_STATUS.FAILED);
         setIsSetupComplete(true);
       }, 1000);
@@ -360,6 +381,7 @@ browserstack-cli hst init`,
         }, 1000);
       }
     } else if (currentStep === totalSteps) {
+      logEvent([''], 'web_events', AGSuccessGridModalPresented);
       setEventLogsStatus(EVENT_LOGS_STATUS.FINISHED);
 
       setTimeout(() => {
