@@ -34,14 +34,22 @@ const TotalFailuresMetric = ({ isLoading, data, metric }) => {
         borderColor: 'black',
         color: 'transparent',
         fillColor: 'var(--colors-brand-100)',
+        marker: {
+          fillColor: 'var(--colors-brand-500)',
+          lineColor: 'var(--colors-brand-500)'
+        },
         data: data?.totalExecutions
       },
       {
         name: 'Failed Executions',
-        lineColor: 'var(--colors-danger-500)',
+        lineColor: 'var(--colors-danger-400)',
         borderColor: 'black',
         color: 'transparent',
         fillColor: 'var(--colors-danger-200)',
+        marker: {
+          fillColor: 'var(--colors-danger-500)',
+          lineColor: 'var(--colors-danger-500)'
+        },
         data: data?.totalFailures
       }
     ];
