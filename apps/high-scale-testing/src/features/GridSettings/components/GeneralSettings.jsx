@@ -1,69 +1,31 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import {
   Button,
   InputField,
   Notifications,
   notify
 } from '@browserstack/bifrost';
-import { updateSettings } from 'api/index';
-import { DEFAULT_GRID_CONCURRENCY } from 'constants/index';
-import { getGridData } from 'features/GridConsole/slices/selector';
-import { getUserDetails } from 'globalSlice/selector';
+
+import useGeneralSettings from './useGeneralSettings';
 
 const GeneralSettings = () => {
-  // All Store variables:
-  const gridData = useSelector(getGridData);
-  const userDetails = useSelector(getUserDetails);
-
-  const currentConcurrencyValue =
-    gridData.concurrency || DEFAULT_GRID_CONCURRENCY;
-
-  // All State variables:
-  const [concurrencyValue, setConcurrencyValue] = useState(
-    currentConcurrencyValue
+  const notifactionComponent = (
+    <Notifications
+      title="Settings updated!"
+      isCondensed
+      handleClose={(toastData) => {
+        notify.remove(toastData.id);
+      }}
+    />
   );
-  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
-  const [isSavingInProgress, setIsSavingInProgress] = useState(false);
 
-  const inputChangeHandler = (e) => {
-    const newValue = e.target.value;
-
-    setIsSaveButtonDisabled(false);
-    setConcurrencyValue(newValue);
-  };
-
-  const updateGridGeneralSettings = (settingsObj) => {
-    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
-      setIsSaveButtonDisabled(true);
-      setIsSavingInProgress(false);
-
-      if (d.data === 'OK') {
-        notify(
-          <Notifications
-            title="Settings updated!"
-            isCondensed
-            handleClose={(toastData) => {
-              notify.remove(toastData.id);
-            }}
-          />,
-          {
-            position: 'top-right',
-            duration: 4000
-          }
-        );
-      }
-    });
-  };
-
-  const saveBtnClickhandler = () => {
-    setIsSavingInProgress(true);
-    const settingsObj = {
-      concurrency: concurrencyValue
-    };
-
-    updateGridGeneralSettings(settingsObj);
-  };
+  const {
+    currentConcurrencyValue,
+    inputChangeHandler,
+    isSaveButtonDisabled,
+    isSavingInProgress,
+    saveBtnClickhandler
+  } = useGeneralSettings(notifactionComponent);
 
   return (
     <>
