@@ -6,3 +6,5 @@ export const getUserDetails = (state) =>
   state.global.initData?.data?.userDetails || {};
 export const getBuildInfo = (state) => state.global.buildInfo;
 export const getHasInitFailed = (state) => state.global.hasProductInitFailed;
+export const getActiveFloatingComponents = (state) =>
+  state.global.activeFloatingComponents;

@@ -16,7 +16,7 @@ import {
 
 const TABLE_CLASSES = {
   ROW_CLASSES:
-    'overflow-hidden border-b border-base-300 whitespace-normal classic-break-words'
+    'overflow-hidden border-b border-base-300 whitespace-normal break-words'
 };
 function NotificationRowItem({ user, areActionsDisabled }) {
   const activeProject = useSelector(getActiveProject);

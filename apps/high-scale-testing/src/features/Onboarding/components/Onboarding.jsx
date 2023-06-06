@@ -18,8 +18,8 @@ import {
   SelectMenuTrigger,
   Tabs
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
-import classnames from 'classnames';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 
 import EventLogs from './EventLogs';
@@ -309,7 +309,7 @@ const Onboarding = () => {
   );
 
   return (
-    <div className=" border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
+    <div className="border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
       <PageHeadings
         actions={
           <>
@@ -330,15 +330,19 @@ const Onboarding = () => {
       {/* Body of Onboarding */}
       <div
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
-        className={classnames('border-base-300 overflow-auto border-y px-7 ', {
-          'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
-          'py-6':
-            onboardingStep === 0 ||
-            (onboardingStep === 1 &&
-              onboardingType !== ONBOARDING_TYPES.scratch),
-          'pt-6':
-            onboardingStep === 1 && onboardingType === ONBOARDING_TYPES.scratch
-        })}
+        className={twClassNames(
+          'overflow-auto border-y border-base-300 px-7 ',
+          {
+            'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
+            'py-6':
+              onboardingStep === 0 ||
+              (onboardingStep === 1 &&
+                onboardingType !== ONBOARDING_TYPES.scratch),
+            'pt-6':
+              onboardingStep === 1 &&
+              onboardingType === ONBOARDING_TYPES.scratch
+          }
+        )}
       >
         {onboardingStep === 0 && (
           <>

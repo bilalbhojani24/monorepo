@@ -15,6 +15,7 @@ export const fetchGet = async (url, config) => {
   const response = await axios.get(BASE_API_URL + url, config);
   return response?.data;
 };
+
 export const fetchDel = async (url, config) => {
   const response = await axios.delete(BASE_API_URL + url, config);
   return response?.data;

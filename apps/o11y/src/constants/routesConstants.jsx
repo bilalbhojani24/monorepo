@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import NotFound from 'common/NotFound';
 import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
+import NoAccessPage from 'features/NoAccessPage';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
@@ -80,6 +81,11 @@ export const APP_ROUTES = [
         path: ROUTES.request_access,
         isProtected: true,
         component: <RequestAccess />
+      },
+      {
+        path: ROUTES.no_access,
+        isProtected: true,
+        component: <NoAccessPage />
       }
     ]
   },

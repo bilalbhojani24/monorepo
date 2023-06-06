@@ -16,10 +16,11 @@
     "prettier:fix": "npm run prettier:check -- --write"
   },
   "dependencies": {
-    "@browserstack/bifrost": "7.2.1",
+    "@browserstack/bifrost": "8.3.0",
     "@browserstack/hooks": "workspace:*",
     "@browserstack/integrations": "workspace:*",
     "@browserstack/services": "workspace:*",
+    "@browserstack/growth": "workspace:*",
     "@browserstack/utils": "2.1.0",
     "@internationalized/date": "3.1.0",
     "@reduxjs/toolkit": "1.9.1",
