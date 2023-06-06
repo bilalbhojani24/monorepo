@@ -8,13 +8,14 @@ import { keyBy, merge, values } from 'lodash';
 import { store } from '../store';
 
 export const getBaseUrl = () => {
-  const { hostname, protocol } = window.location;
+  const { hostname, protocol, port } = window.location;
   const hostnameParts = hostname.split('.');
   let env = hostnameParts[0].split('-').slice(1).join('-');
   hostnameParts.shift();
   const domain = hostnameParts.join('.');
   env = env && domain === 'bsstag.com' ? `${env}.` : '';
-  return `${protocol}//${env}${domain}`;
+  const portString = port ? `:${port}` : '';
+  return `${protocol}//${env}${domain}${portString}`;
 };
 
 export const docsLink = () => ({
