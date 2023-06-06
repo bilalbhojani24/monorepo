@@ -9,8 +9,11 @@ import {
   markOnboardingStatus
 } from 'api';
 import {
+  AGHaveSetupInteracted,
   AGHaveSetupPresented,
+  AGNoSetupInteracted,
   AGNoSetupPresented,
+  AGNoSetupStepsExecuted,
   AGSetupGuideInteracted,
   AGSetupGuideVisited
 } from 'constants/event-names';
@@ -139,6 +142,17 @@ browserstack-cli hst init`,
 
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
+    if (stepData.name === 'Setup Guide') {
+      if (onboardingType === ONBOARDING_TYPES.existing) {
+        logEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
+          action: 'setupguide_clicked'
+        });
+      } else if (onboardingType === ONBOARDING_TYPES.scratch) {
+        logEvent(['amplitude'], 'web_events', AGNoSetupPresented, {
+          action: 'setupguide_clicked'
+        });
+      }
+    }
     const { goToStep } = stepData;
     if (Number.isInteger(goToStep)) {
       setOnboardingStep(goToStep);
@@ -151,6 +165,44 @@ browserstack-cli hst init`,
 
   const closeSetupStatusModal = () => {
     setShowSetupStatusModal(false);
+  };
+
+  const cloudProviderChangeHandler = (e, option) => {
+    const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
+      (item) => item.id === option
+    );
+
+    logEvent([], 'web_events', AGNoSetupStepsExecuted, {
+      action: 'cloudprovider_selected',
+      value: option.configName
+    });
+    setCurrentCloudProvider(newOption);
+  };
+
+  const cloudRegionChangeHandler = (e) => {
+    logEvent([], 'web_events', AGNoSetupStepsExecuted, {
+      action: 'cloudregion_selected',
+      option: e.value
+    });
+    setSelectedRegion(e);
+  };
+
+  const codeSnippetTabChangeHandler = (e) => {
+    const eventData = {
+      action: ''
+    };
+
+    if (e.name === 'Helm') {
+      eventData.action = 'hrlmoption_clicked';
+    } else if (e.name === 'Kubectl') {
+      eventData.action = 'kubectloption_clicked';
+    } else if (e.name === 'CLI') {
+      eventData.action = 'clioption_clicked';
+    }
+
+    logEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, eventData);
+
+    setActiveGridManagerCodeSnippet(e);
   };
 
   const continueClickHandler = () => {
@@ -187,6 +239,15 @@ browserstack-cli hst init`,
   };
 
   const viewEventLogsClickHandler = () => {
+    if (onboardingType === ONBOARDING_TYPES.scratch) {
+      logEvent([''], 'web_events', AGNoSetupInteracted, {
+        action: 'vieweventlogs_clicked'
+      });
+    } else if (onboardingType === ONBOARDING_TYPES.existing) {
+      logEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
+        action: 'vieweventlogs_clicked'
+      });
+    }
     setShowEventLogsModal(true);
   };
 
@@ -385,7 +446,10 @@ browserstack-cli hst init`,
     breadcrumbStepClickHandler,
     closeEventLogsModal,
     closeSetupStatusModal,
+    cloudProviderChangeHandler,
+    cloudRegionChangeHandler,
     codeSnippetsForExistingSetup,
+    codeSnippetTabChangeHandler,
     continueClickHandler,
     currentStep,
     currentProvidersRegions,
@@ -402,7 +466,6 @@ browserstack-cli hst init`,
     onboardingType,
     selectedOption,
     selectedRegion,
-    setActiveGridManagerCodeSnippet,
     setCurrentCloudProvider,
     setSelectedOption,
     setSelectedRegion,

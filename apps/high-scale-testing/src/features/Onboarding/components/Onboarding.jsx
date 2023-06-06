@@ -40,6 +40,9 @@ const Onboarding = () => {
     codeSnippetsForExistingSetup,
     closeEventLogsModal,
     closeSetupStatusModal,
+    cloudProviderChangeHandler,
+    cloudRegionChangeHandler,
+    codeSnippetTabChangeHandler,
     continueClickHandler,
     currentStep,
     currentSelectedCloudProvider,
@@ -54,7 +57,6 @@ const Onboarding = () => {
     onboardingStep,
     onboardingType,
     selectedRegion,
-    setActiveGridManagerCodeSnippet,
     setCurrentCloudProvider,
     setSelectedOption,
     setSelectedRegion,
@@ -72,9 +74,7 @@ const Onboarding = () => {
       defaultIndex={activeGridManagerCodeSnippet.index}
       id="tabID"
       label="Tabs"
-      onTabChange={(e) => {
-        setActiveGridManagerCodeSnippet(e);
-      }}
+      onTabChange={codeSnippetTabChangeHandler}
       isContained={false}
       navigationClassName="first:ml-4"
       tabsArray={[
@@ -119,13 +119,7 @@ const Onboarding = () => {
   const DescriptionNodeStep1 = (
     <div className="mb-4 mt-2">
       <RadioGroup
-        onChange={(e, option) => {
-          const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
-            (item) => item.id === option
-          );
-
-          setCurrentCloudProvider(newOption);
-        }}
+        onChange={cloudProviderChangeHandler}
         options={SCRATCH_RADIO_GROUP_OPTIONS}
         selectedOption={currentSelectedCloudProvider}
       />
@@ -136,9 +130,7 @@ const Onboarding = () => {
     <div className="mb-4 mt-2 w-2/5">
       <SelectMenu
         disabled={eventLogsCode && eventLogsCode.length > 0}
-        onChange={(e) => {
-          setSelectedRegion(e);
-        }}
+        onChange={cloudRegionChangeHandler}
         value={selectedRegion}
       >
         <SelectMenuTrigger placeholder="Select Region" />
