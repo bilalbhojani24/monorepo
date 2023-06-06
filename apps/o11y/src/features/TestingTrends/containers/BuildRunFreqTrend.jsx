@@ -10,6 +10,7 @@ import {
 } from 'common/bifrostProxy';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { roundedTableHeaderHack } from 'constants/common';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { getTrendBuildFrequencyData } from 'features/TestingTrends/slices/testingTrendsSlice';
 import { getActiveProject, getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -101,8 +102,7 @@ export default function BuildRunFreqTrend() {
     if (viewBuildRunLocked) return;
 
     const searchParams = new URLSearchParams();
-
-    searchParams.set('uniqueBuildNames', buildName);
+    searchParams.set(ADV_FILTER_TYPES.uniqueBuildNames.key, buildName);
     const url = `${getBaseUrl()}${getSuitHealthPath(
       activeProject.normalisedName
     )}?${searchParams.toString()}`;
