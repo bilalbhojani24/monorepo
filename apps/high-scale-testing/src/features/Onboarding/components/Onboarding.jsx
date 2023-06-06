@@ -12,7 +12,6 @@ import {
   RadioGroup,
   RadioStackedCard,
   SelectMenu,
-  SelectMenuLabel,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger,
@@ -68,21 +67,25 @@ const Onboarding = () => {
 
   const TabsForCodeSnippet = (
     <Tabs
+      defaultIndex={activeGridManagerCodeSnippet.index}
       id="tabID"
       label="Tabs"
       onTabChange={(e) => {
-        setActiveGridManagerCodeSnippet(e.name);
+        setActiveGridManagerCodeSnippet(e);
       }}
       isContained={false}
       navigationClassName="first:ml-4"
       tabsArray={[
         {
+          index: 0,
           name: GRID_MANAGER_NAMES.helm
         },
         {
+          index: 1,
           name: GRID_MANAGER_NAMES.kubectl
         },
         {
+          index: 2,
           name: GRID_MANAGER_NAMES.cli
         }
       ]}
@@ -94,13 +97,14 @@ const Onboarding = () => {
       <CodeSnippet
         code={
           codeSnippetsForExistingSetup?.[
-            activeGridManagerCodeSnippet.toLowerCase()
+            activeGridManagerCodeSnippet.name.toLowerCase()
           ]
         }
         language={
-          activeGridManagerCodeSnippet.toLowerCase() === GRID_MANAGER_NAMES.cli
+          activeGridManagerCodeSnippet.name.toLowerCase() ===
+          GRID_MANAGER_NAMES.cli
             ? 'node'
-            : activeGridManagerCodeSnippet.toLowerCase()
+            : activeGridManagerCodeSnippet.name.toLowerCase()
         }
         singleLine={false}
         showLineNumbers={false}

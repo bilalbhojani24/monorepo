@@ -95,7 +95,7 @@ browserstack-cli hst init`,
     useState({});
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
-    useState(GRID_MANAGER_NAMES.helm);
+    useState({ index: 0, name: GRID_MANAGER_NAMES.helm });
   const [codeSnippetsForExistingSetup, setCodeSnippetsForExistingSetup] =
     useState(null);
   const [currentStep, setCurrentStep] = useState(0);
