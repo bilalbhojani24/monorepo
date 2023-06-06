@@ -56,11 +56,6 @@ export default function ReRunSettings() {
             state: prev.state,
             loading: false
           }));
-          o11yNotify({
-            title: 'Something went wrong!',
-            description: 'There was an error while loading settings',
-            type: 'error'
-          });
         })
         .finally(() => {
           setLoadingSettings(false);
@@ -110,11 +105,6 @@ export default function ReRunSettings() {
         setReRunViaDashboard({
           state: data.data.reRunViaDashboard,
           loading: false
-        });
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating settings',
-          type: 'error'
         });
       });
   };
