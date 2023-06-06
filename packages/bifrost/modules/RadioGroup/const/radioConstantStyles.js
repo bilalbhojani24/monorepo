@@ -1,37 +1,37 @@
 export const RadioWrapperStyles = {
   default: {
-    horizontal: 'space-y-4 md:flex md:items-center md:space-x-10 md:space-y-0',
-    vertical: 'flex space-y-5 flex-col'
+    inline: 'space-y-4 md:flex md:items-center md:space-x-10 md:space-y-0',
+    block: 'flex flex-col'
   },
 
   stackedCard: {
-    horizontal: 'grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4',
-    vertical: 'space-y-4'
+    inline: 'grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4',
+    block: 'space-y-4'
   },
 
   smallCard: {
-    horizontal: 'grid grid-cols-3 gap-3 sm:grid-cols-6',
-    vertical: 'grid grid-cols-3 gap-3 sm:grid-cols-6'
+    inline: 'grid grid-cols-3 gap-3 sm:grid-cols-6',
+    block: 'grid grid-cols-3 gap-3 sm:grid-cols-6'
   },
 
   table: {
-    horizontal: 'relative -space-y-px rounded-md bg-white',
-    vertical: 'relative -space-y-px rounded-md bg-white'
+    inline: 'relative -space-y-px rounded-md bg-white',
+    block: 'relative -space-y-px rounded-md bg-white'
   }
 };
 
 export const RadioCardStyles = {
   smallCard: {
-    horizontal:
+    inline:
       'border-base-200 text-base-900 rounded-md p-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1 hover:bg-base-50 focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
-    vertical:
+    block:
       'border-base-200 text-base-900 rounded-md p-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1 hover:bg-base-50 focus:ring-2 focus:ring-offset-2 focus:ring-brand-500'
   },
 
   stackedCard: {
-    horizontal:
+    inline:
       'w-full border-base-300 relative rounded-lg  p-4 shadow-sm  text-left flex p-4',
-    vertical:
+    block:
       'w-full border-base-300 relative rounded-lg  p-4 shadow-sm  text-left block px-6 py-4 sm:flex sm:justify-between'
   }
 };

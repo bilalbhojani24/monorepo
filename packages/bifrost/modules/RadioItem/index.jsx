@@ -10,6 +10,7 @@ const RadioItem = ({
   disabled,
   wrapperClassName,
   rightAligned,
+  withDescription,
   inlineDescription,
   ...props
 }) => {
@@ -49,7 +50,7 @@ const RadioItem = ({
       </RadioGroupPrimitive.Item>
 
       <div
-        className={twClassNames('flex ml-3 text-sm', {
+        className={twClassNames('flex ml-3 text-sm gap-1', {
           'flex-col': !inlineDescription,
           'flex-1': rightAligned
         })}
@@ -64,7 +65,7 @@ const RadioItem = ({
             {label}
           </label>
         )}
-        {description && (
+        {withDescription && description && (
           <p
             id={`${value}-description`}
             className={twClassNames('text-base-500', {
@@ -88,12 +89,14 @@ RadioItem.propTypes = {
   disabled: PropTypes.bool,
   wrapperClassName: PropTypes.string,
   rightAligned: PropTypes.bool,
+  withDescription: PropTypes.bool,
   inlineDescription: PropTypes.bool
 };
 RadioItem.defaultProps = {
   disabled: false,
   wrapperClassName: '',
   rightAligned: false,
+  withDescription: false,
   inlineDescription: false
 };
 

@@ -64,7 +64,7 @@ const RadioGroup = ({
           {children}
         </RadioGroupPrimitive.Root>
         {errorText && (
-          <div className="mt-2 flex items-center gap-1 pr-3">
+          <div className="flex items-center gap-1 pr-3">
             <ExclamationCircleIcon
               className="text-danger-500 h-5 w-5"
               aria-hidden="true"
@@ -106,7 +106,7 @@ RadioGroup.defaultProps = {
   description: '',
   columnWrapperClassName: '',
   wrapperClassName: '',
-  direction: DIRECTIONS[0],
+  direction: DIRECTIONS[1],
   type: TYPES[0]
 };
 
