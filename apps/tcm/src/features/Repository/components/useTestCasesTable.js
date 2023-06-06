@@ -35,7 +35,6 @@ import {
   updatePageQueryParamsWORefresh
 } from '../utils/sharedFunctions';
 
-// import { setTestCaseViewVisibility } from '../../TestCaseDetailsView/slices/testCaseDetailsSlice';
 import useUpdateTCCountInFolders from './AddEditTestCase/useUpdateTCCountInFolders';
 
 const useTestCasesTable = (prop) => {

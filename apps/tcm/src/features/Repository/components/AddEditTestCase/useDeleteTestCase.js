@@ -32,6 +32,7 @@ import {
 import useUpdateTCCountInFolders from './useUpdateTCCountInFolders';
 
 export default function useDeleteTestCase() {
+  const ANIMATION_DELAY = 500;
   const modalFocusRef = useRef();
   // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
@@ -154,7 +155,7 @@ export default function useDeleteTestCase() {
     setTimeout(() => {
       // animation wait
       dispatch(setBulkUpdateProgress(false));
-    }, 500);
+    }, ANIMATION_DELAY);
   };
 
   const onBulkDeleteSuccess = (data) => {

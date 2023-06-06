@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
-// import { verifyTagAPI } from 'api/common.api';
 import {
   addTestCaseAPI,
   addTestCaseWithoutFolderAPI,
@@ -11,7 +10,6 @@ import {
   editTestCasesBulkAPI,
   editTestCasesBulkOnSFAPI,
   getTestCaseDetailsAPI
-  // verifyTagAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
@@ -277,8 +275,6 @@ export default function useAddEditTestCase(prop) {
     }
   };
 
-  // const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
-
   const isFormValidated = (formData) => {
     const inputErrorsFound = {};
     // name validation
@@ -287,7 +283,7 @@ export default function useAddEditTestCase(prop) {
       inputErrorsFound.name = true;
     }
 
-    // steps validation
+    // steps validation - might be required later
     // if (
     //   formData.template === templateOptions[1].value &&
     //   formData.steps.find(
