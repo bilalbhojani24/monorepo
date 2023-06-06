@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  MdErrorOutline,
   MdOutlineWatchLater,
   Notifications,
   notify
@@ -30,26 +31,49 @@ export default function useReverseTrialModal() {
   const dispatch = useDispatch();
   const isEligible = useSelector(getTrialEligibility);
 
+  const freeTrialRequestFailureNotification = () => {
+    notify(
+      <Notifications
+        title="Oops! Something went wrong."
+        description="We were unable to process your free trial. Please try again later."
+        actionButtons={null}
+        headerIcon={<MdErrorOutline className="text-danger-400 h-6 w-6" />}
+        handleClose={(toastData) => {
+          notify.remove(toastData.id);
+        }}
+      />,
+      {
+        position: 'top-right',
+        autoClose: true,
+        id: 'one'
+      }
+    );
+  };
+
+  const trailInProcessNotification = () => {
+    notify(
+      <Notifications
+        title="Your free trial is being processed"
+        actionButtons={null}
+        headerIcon={
+          <MdOutlineWatchLater className="text-attention-500 h-6 w-6" />
+        }
+        handleClose={(toastData) => {
+          notify.remove(toastData.id);
+        }}
+      />,
+      {
+        position: 'top-right',
+        autoClose: true,
+        id: 'one'
+      }
+    );
+  };
+
   const handleModalClose = () => {
     dispatch(setModalShow(false));
     if (trialState === TRIAL_IN_PROGRESS) {
-      notify(
-        <Notifications
-          title="Your free trial is being processed"
-          actionButtons={null}
-          headerIcon={
-            <MdOutlineWatchLater className="text-attention-500 h-6 w-6" />
-          }
-          handleClose={(toastData) => {
-            notify.remove(toastData.id);
-          }}
-        />,
-        {
-          position: 'top-right',
-          autoClose: true,
-          id: 'one'
-        }
-      );
+      trailInProcessNotification();
     }
   };
 
@@ -90,6 +114,7 @@ export default function useReverseTrialModal() {
         console.log(response);
       } catch (e) {
         clearInterval(timerId.current);
+        freeTrialRequestFailureNotification();
         console.error(e);
       }
     }, 2000);
@@ -105,6 +130,7 @@ export default function useReverseTrialModal() {
           pollReverseTrialStatus();
         }
       } catch (e) {
+        freeTrialRequestFailureNotification();
         console.error(e);
       }
     } else {
