@@ -33,7 +33,7 @@ const FolderExplorerModal = ({
   const [primaryMoveLocation, setPrimaryMoveLocation] = useState(
     moveFolderOptions[0].id
   );
-  const { allFolders, projectId } = useFolders();
+  const { allFolders, projectId, bulkSelectionIds } = useFolders();
   const [internalAllFolders, setInternalAllFolders] = useState(null);
 
   const moveFolderOnOkHandler = () => {
@@ -79,7 +79,11 @@ const FolderExplorerModal = ({
           <div className="border-base-300 mb-4 max-h-64 overflow-auto border">
             <FolderExplorer
               projectId={projectId}
-              allFolders={allFolders.length ? allFolders : null} // in case no folder, confirm the same within the component by refetching
+              allFolders={
+                allFolders.length && !bulkSelectionIds.length
+                  ? allFolders
+                  : null
+              } // in case no folder and no bulkselection, confirm the same within the component by refetching
               onFolderClick={(folder) => setSelectedFolder(folder)}
               onFoldersUpdate={(data) => setInternalAllFolders(data)}
               disabledFolders={disabledFolders}
