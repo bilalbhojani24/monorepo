@@ -54,7 +54,7 @@ const AverageFailureRatesMetric = ({ isLoading, data, metric }) => {
         <SplineGraph
           yAxisLabelFormatter={getNumberFormattedYAxisLabel}
           series={seriesData}
-          markerColor="var(--colors-danger-500)"
+          markerColor="var(--colors-brand-500)"
           tooltipFormatter={getFormattedTooltip}
           eventName="O11ySuiteHealthTestsChartInteracted"
           chart="failure_rate"
