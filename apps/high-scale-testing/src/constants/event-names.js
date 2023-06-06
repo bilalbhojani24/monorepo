@@ -1,4 +1,6 @@
 const AGAutomationConsoleInteracted = 'AGAutomationConsoleInteracted';
+const AGClusterDetailsInteracted = 'AGClusterDetailsInteracted';
+const AGClusterDetailsVisited = 'AGClusterDetailsVisited';
 const AGErrorGridModalInteracted = 'AGErrorGridModalInteracted';
 const AGErrorGridModalPresented = 'AGErrorGridModalPresented';
 const AGEventsLogModalInteracted = 'AGEventsLogModalInteracted';
@@ -19,6 +21,8 @@ const AGSuccessGridModalPresented = 'AGSuccessGridModalPresented';
 
 export {
   AGAutomationConsoleInteracted,
+  AGClusterDetailsInteracted,
+  AGClusterDetailsVisited,
   AGErrorGridModalInteracted,
   AGErrorGridModalPresented,
   AGEventsLogModalInteracted,

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { logEvent } from '@browserstack/utils';
 import { fetchClusterDataById } from 'api/index';
+import { AGClusterDetailsInteracted } from 'constants/event-names';
 import { setClusterData } from 'features/GridConsole/slices';
 import { getUserDetails } from 'globalSlice/selector';
 
@@ -19,6 +21,14 @@ const useLayoutClusterDetail = () => {
     name: 'Overview'
   });
 
+  const onTabChangeHandler = (e) => {
+    logEvent(['amplitude'], AGClusterDetailsInteracted, {
+      action: 'tab_switched',
+      option: e.name.toLowerCase()
+    });
+    setCurrentTab(e);
+  };
+
   useEffect(() => {
     const fetchClusterDataByIdFromAPI = async (id) => {
       const res = await fetchClusterDataById(id, userDetails.id);
@@ -28,7 +38,7 @@ const useLayoutClusterDetail = () => {
     if (clusterId) fetchClusterDataByIdFromAPI(clusterId);
   }, [dispatch, clusterId, userDetails]);
 
-  return { setCurrentTab, currentTab };
+  return { currentTab, onTabChangeHandler };
 };
 
 export default useLayoutClusterDetail;
