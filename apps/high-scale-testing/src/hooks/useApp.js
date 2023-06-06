@@ -62,7 +62,7 @@ const useApp = () => {
         amplitudeConfig: {
           key: AMPLITUDE_KEY,
           userData: {
-            user_id: userDetails.userId
+            user_id: userDetails.id
           },
           groupData: {
             group_id: userDetails.groupId
