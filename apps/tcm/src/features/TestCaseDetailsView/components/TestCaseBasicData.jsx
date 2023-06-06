@@ -26,7 +26,8 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
     isShowAddIssuesModal,
     hideAddIssuesModal,
     saveAddIssesModal,
-    onJiraButtonClick
+    onJiraButtonClick,
+    testRunsTestCaseDetails
   } = useTestCaseViewDetails();
 
   return (
@@ -81,9 +82,19 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           )}
           <div className="border-base-200 mb-4 w-full border-b" />
           <div className="flex w-full flex-wrap">
+            {isFromTestRun && (
+              <div className="w-3/6">
+                <DetailsSnippet
+                  title="Assigned To"
+                  value={
+                    testRunsTestCaseDetails?.test_assignee?.full_name || '--'
+                  }
+                />
+              </div>
+            )}
             <div className="w-3/6">
               <DetailsSnippet
-                title={isFromTestRun ? 'Assign To' : 'Owner'}
+                title="Owner"
                 value={getSystemOrCustomValue(
                   testCaseDetails?.assignee?.full_name,
                   testCaseDetails?.owner_imported
