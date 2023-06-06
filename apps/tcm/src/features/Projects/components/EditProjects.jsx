@@ -16,6 +16,7 @@ import { onSubmitKeyHandler } from 'utils/helperFunctions';
 import useProjects from './useProjects';
 
 const EditProjects = ({ show }) => {
+  const FOCUS_DELAY = 50;
   const {
     modalFocusRef,
     selectedProject,
@@ -42,7 +43,7 @@ const EditProjects = ({ show }) => {
     if (show) {
       setTimeout(() => {
         modalFocusRef?.current?.focus();
-      }, 50);
+      }, FOCUS_DELAY);
     }
   }, [show, modalFocusRef]);
 

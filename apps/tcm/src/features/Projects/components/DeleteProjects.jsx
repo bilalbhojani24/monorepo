@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import useProjects from './useProjects';
 
 const DeleteProjects = ({ show }) => {
+  const FOCUS_DELAY = 50;
   const {
     modalFocusRef,
     deleteProjectCtaLoading,
@@ -22,7 +23,7 @@ const DeleteProjects = ({ show }) => {
     if (show) {
       setTimeout(() => {
         modalFocusRef?.current?.focus();
-      }, 50);
+      }, FOCUS_DELAY);
     }
   }, [show, modalFocusRef]);
 
