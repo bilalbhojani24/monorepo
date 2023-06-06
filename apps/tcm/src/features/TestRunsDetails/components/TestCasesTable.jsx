@@ -109,6 +109,7 @@ const TestCasesTable = () => {
       name: 'ASSIGNED TO',
       key: 'test_assignee',
       class: 'w-[10%]',
+      bodyClass: '[&>div]:w-[90px]',
       cell: (rowData) => (
         <div className={twClassNames('text-base-500')}>
           <TMTruncateText
