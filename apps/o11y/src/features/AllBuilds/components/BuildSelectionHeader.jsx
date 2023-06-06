@@ -1,11 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdArchive } from '@browserstack/bifrost';
+import { MdArchive, TooltipBody } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yButton, O11yTableCell } from 'common/bifrostProxy';
+import { O11yButton, O11yTableCell, O11yTooltip } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { CheckboxState, roundedTableHeaderHack } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
+import { getActiveProjectData } from 'globalSlice/selectors';
 
 import { TABLE_CLASSES } from '../constants';
 import useBuildSelection from '../hooks/useBuildSelection';
@@ -18,6 +19,7 @@ function BuildSelectionHeader() {
   const dispatch = useDispatch();
   const selectAllCheckedStatus = useSelector(getSelectAllCheckedStatus);
   const buildCheckStatusMapping = useSelector(getBuildCheckStatusMapping);
+  const activeProjectData = useSelector(getActiveProjectData);
 
   const { totalCheckedBuilds } = useBuildSelection();
 
@@ -61,15 +63,31 @@ function BuildSelectionHeader() {
         /> */}
         {selectedBuildsLength ? (
           <div className="flex items-center gap-4">
-            <O11yButton
-              variant="primary"
-              colors="white"
-              size="extra-small"
-              icon={<MdArchive className="text-base-500 text-base" />}
-              onClick={handleClickArchive}
+            <O11yTooltip
+              placementSide="top"
+              theme="dark"
+              content={
+                activeProjectData?.isSmartTagReCalculating ? (
+                  <TooltipBody>
+                    <span className="text-sm">
+                      Archiving is disabled since the smart tags re-calculation
+                      is in progress after a previous build archive.
+                    </span>
+                  </TooltipBody>
+                ) : null
+              }
             >
-              Archive
-            </O11yButton>
+              <O11yButton
+                variant="primary"
+                colors="white"
+                size="extra-small"
+                icon={<MdArchive className="text-base-500 text-base" />}
+                onClick={handleClickArchive}
+                disabled={activeProjectData?.isSmartTagReCalculating}
+              >
+                Archive
+              </O11yButton>
+            </O11yTooltip>
             <span className="text-sm font-normal">
               {selectAllCheckedStatus === CheckboxState.CHECKED
                 ? 'All'

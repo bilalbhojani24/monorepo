@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { CheckboxState, TEST_STATUS } from 'constants/common';
+import { CheckboxState } from 'constants/common';
+import { isBuildArchiveable } from 'utils/common';
 
 import {
   getBuildCheckStatusMapping,
@@ -58,12 +59,9 @@ function useBuildSelection() {
       Object.keys(buildCheckStatusMapping).forEach((key) => {
         updatedMapping[key] = {
           ...buildCheckStatusMapping[key],
-          status:
-            !buildCheckStatusMapping[key]?.buildStatus ||
-            buildCheckStatusMapping[key]?.buildStatus === TEST_STATUS.PENDING ||
-            buildCheckStatusMapping[key]?.buildStatus === TEST_STATUS.ARCHIVED
-              ? CheckboxState.UNCHECKED
-              : CheckboxState.CHECKED
+          status: isBuildArchiveable(buildCheckStatusMapping[key]?.buildStatus)
+            ? CheckboxState.CHECKED
+            : CheckboxState.UNCHECKED
         };
       });
       dispatch(setBuildCheckStatusMapping(updatedMapping));

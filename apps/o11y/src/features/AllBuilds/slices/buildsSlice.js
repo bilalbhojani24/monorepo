@@ -9,6 +9,7 @@ import {
 import { getBuildNames } from 'api/settings';
 import { CheckboxState, TEST_STATUS } from 'constants/common';
 import { isEmpty } from 'lodash';
+import { isBuildArchiveable } from 'utils/common';
 import { getDateInFormat } from 'utils/dateTime';
 
 import {
@@ -259,11 +260,7 @@ const { reducer, actions } = createSlice({
             buildStatus: build.status,
             status:
               state.selectAllCheckedStatus === CheckboxState.CHECKED &&
-              !(
-                !build?.status ||
-                build?.status === TEST_STATUS.PENDING ||
-                build?.status === TEST_STATUS.ARCHIVED
-              )
+              isBuildArchiveable(build?.status)
                 ? CheckboxState.CHECKED
                 : updatedMapping[build.uuid]?.status || CheckboxState.UNCHECKED
           };

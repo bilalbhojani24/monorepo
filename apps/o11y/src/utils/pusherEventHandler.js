@@ -1,5 +1,9 @@
 import { Pusher, PusherManager } from '@browserstack/utils';
-import { PUSHER_EVENTS, versionedBaseRoute } from 'constants/common';
+import {
+  PUSHER_EVENTS,
+  TEST_STATUS,
+  versionedBaseRoute
+} from 'constants/common';
 import { findAndUpdateBuilds } from 'features/AllBuilds/slices/buildsSlice';
 import { updateBuildMeta } from 'features/BuildDetails/slices/buildDetailsSlice';
 import {
@@ -10,7 +14,7 @@ import {
   getBuildHistoryData,
   getBuildSummaryData
 } from 'features/TestsInsights/slices/testInsightsSlice';
-import { updateProjectList } from 'globalSlice/index';
+import { updateProjectData, updateProjectList } from 'globalSlice/index';
 
 import { getEnvConfig } from './common';
 
@@ -122,6 +126,16 @@ class O11yPusherEvents {
               })
             );
             break;
+          case PUSHER_EVENTS.BUILD_ARCHIVED:
+            this.dispatch(
+              updateBuildMeta({
+                buildUID: message?.uuid || '',
+                data: {
+                  status: TEST_STATUS.ARCHIVED
+                }
+              })
+            );
+            break;
           case PUSHER_EVENTS.NEW_PROJECT:
             this.dispatch(updateProjectList(message?.data || {}));
             break;
@@ -149,6 +163,22 @@ class O11yPusherEvents {
             }
             break;
           }
+          case PUSHER_EVENTS.SMART_TAG_RECALCULATION_STARTED:
+            this.dispatch(
+              updateProjectData({
+                id: message?.data?.projectId || message?.data?.id || '',
+                isSmartTagReCalculating: true
+              })
+            );
+            break;
+          case PUSHER_EVENTS.SMART_TAG_RECALCULATION_COMPLETED:
+            this.dispatch(
+              updateProjectData({
+                id: message?.data?.projectId || message?.data?.id || '',
+                isSmartTagReCalculating: false
+              })
+            );
+            break;
           default:
             break;
         }

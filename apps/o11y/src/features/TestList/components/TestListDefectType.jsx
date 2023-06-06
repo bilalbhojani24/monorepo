@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdExpandMore } from '@browserstack/bifrost';
+import { MdExpandMore, TooltipBody } from '@browserstack/bifrost';
 import { changeIssueType } from 'api/testlist';
 import {
   O11yButton,
@@ -125,26 +125,43 @@ function TestListDefectType({ data }) {
     }
   }, [data?.details?.id, issueType.id, testDefectTypeMapping]);
 
+  const tooltipData = useMemo(() => {
+    if (buildMeta?.status === TEST_STATUS.ARCHIVED) {
+      return {
+        title: 'Options not applicable',
+        desc: 'Failure category options not applicable for archived build run.'
+      };
+    }
+    if (buildMeta?.isAutoAnalyzerRunning) {
+      return {
+        title: 'Analyser is running!',
+        desc: 'Failure category options will be available after build finish and analysis completion.'
+      };
+    }
+    return {
+      title: '',
+      desc: ''
+    };
+  }, [buildMeta?.isAutoAnalyzerRunning, buildMeta?.status]);
+
   if (!issueType?.name || data?.details?.status !== TEST_STATUS.FAIL) {
     return null;
   }
 
   return (
     <PropagationBlocker className="mb-2 flex ">
-      {buildMeta?.isAutoAnalyzerRunning ? (
+      {buildMeta?.isAutoAnalyzerRunning ||
+      buildMeta?.status === TEST_STATUS.ARCHIVED ? (
         <O11yTooltip
           placement="top"
           trigger={['hover']}
           content={
-            <div className="px-4">
+            <TooltipBody>
               <p className="mb-2 text-sm font-medium text-white">
-                Analyser is running!
+                {tooltipData.title}
               </p>
-              <p className="text-base-300 text-sm">
-                Failure category options will be available after build finish
-                and analysis completion.
-              </p>
-            </div>
+              <p className="text-base-300 text-sm">{tooltipData.desc}</p>
+            </TooltipBody>
           }
           theme="dark"
         >

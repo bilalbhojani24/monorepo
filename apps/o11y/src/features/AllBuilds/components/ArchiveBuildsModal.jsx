@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdDisabledVisible, MdMobiledataOff } from '@browserstack/bifrost';
 import {
@@ -13,6 +13,7 @@ import {
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { getActiveProject } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import { archiveBuilds } from '../slices/buildsSlice';
@@ -23,6 +24,17 @@ function ArchiveBuildsModal() {
   const data = useSelector(getModalData);
   const [inputVal, setInputVal] = useState('');
   const [isSubmittingData, setIsSubmittingData] = useState(false);
+
+  useEffect(() => {
+    if (data?.builds?.length) {
+      logOllyEvent({
+        event: 'O11yBuildArchiveClicked',
+        data: {
+          builds_archived: data.builds.length
+        }
+      });
+    }
+  }, [data?.builds?.length]);
 
   const handleCloseModal = () => {
     dispatch(toggleModal({ version: '', data: {} }));
@@ -49,14 +61,14 @@ function ArchiveBuildsModal() {
         .unwrap()
         .then(() => {
           o11yNotify({
-            title: `Build archiving successful`,
-            type: 'loading'
+            title: `Build archive successful. The smart tags of subsequent runs are being re-calculated and will be updated shortly.`,
+            type: 'success'
           });
-        })
-        .catch(() => {
-          o11yNotify({
-            title: `Something went wrong. Please try again`,
-            type: 'error'
+          logOllyEvent({
+            event: 'O11yBuildArchiveExecuted',
+            data: {
+              builds_archived: data.builds.length
+            }
           });
         })
         .finally(() => {
@@ -77,21 +89,22 @@ function ArchiveBuildsModal() {
         <O11yAlerts
           accentBorder={false}
           modifier="warn"
-          title="Archiving is a permanent action and cannot be undone. Archived build runs become read-only and cannot be modified"
+          title="Archiving is a permanent action and cannot be undone. Archived build runs become read-only and cannot be modified."
         />
         <ul className="mt-8 flex flex-col gap-6">
           <li className="flex gap-3">
             <MdMobiledataOff className="text-base-500 mt-1 shrink-0 text-xl" />
             <span className="text-sm leading-5">
-              The smart tags calculations (flaky, always failing etc.) of
-              subsequent runs will ignore data from the archived runs.
+              The smart tag calculations(flaky, always failing etc.) for
+              subsequent build runs will not consider data from archived build
+              runs.
             </span>
           </li>
           <li className="flex gap-3">
             <MdDisabledVisible className="text-base-500 mt-1 shrink-0 text-xl" />
             <span className="text-sm leading-5">
-              Test data from archived runs will be ignored from all Testing
-              Trends and Suite Health dashboards.
+              Test data from archived build runs is excluded from Testing Trends
+              and Suite Health dashboards.
             </span>
           </li>
         </ul>

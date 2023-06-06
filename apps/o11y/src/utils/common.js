@@ -252,3 +252,7 @@ export const updateUrlQueryParam = (searchParams) => {
   }?${searchParams.toString()}`;
   window.history.pushState({ path: newurl }, '', newurl);
 };
+
+export const isBuildArchiveable = (buildStatus) =>
+  (buildStatus && buildStatus !== TEST_STATUS.PENDING) ||
+  buildStatus === TEST_STATUS.ARCHIVED;
