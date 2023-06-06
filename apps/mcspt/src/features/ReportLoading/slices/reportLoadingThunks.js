@@ -77,7 +77,8 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
 };
 
 export const stopRecordingSession =
-  (navigationCallback) => async (dispatch, getState) => {
+  (navigationCallback, mode = 'btnClick') =>
+  async (dispatch, getState) => {
     const currentSessionId =
       getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
@@ -89,7 +90,11 @@ export const stopRecordingSession =
 
       dispatch(updateSessionStatus({ status: REPORT_LOADING_STATES.STOPPING })); // this needs to come from api later
 
-      const response = await stopSession(currentSessionId);
+      const bodyParams =
+        mode === 'btnClick'
+          ? { isTimeoutLimitExceeded: false }
+          : { isTimeoutLimitExceeded: true };
+      const response = await stopSession(currentSessionId, bodyParams);
 
       mcpAnalyticsEvent(
         'csptTestGenerateReportSuccess',

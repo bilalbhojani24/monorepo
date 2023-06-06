@@ -9,6 +9,7 @@ import { getSessionDetails } from 'features/Home';
 
 import {
   getRecordingDurationElapsed,
+  setElapsedRecordingDuration,
   setRecordingTimerIntervalId
 } from '../slices/reportLoadingSlice';
 import {
@@ -54,7 +55,7 @@ const useReportLoading = () => {
     setShowGenerateReportPrompt(false);
 
     dispatch(stopRecordingSession(navigateToPath));
-
+    dispatch(setElapsedRecordingDuration(0));
     mcpAnalyticsEvent('csptTestGenerateReportClicked', {
       test_duration: secondsElapsed,
       ...formatDeviceAndAppAnalyticsData(
