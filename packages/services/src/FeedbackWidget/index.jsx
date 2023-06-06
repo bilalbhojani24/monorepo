@@ -52,7 +52,7 @@ const FeedbackWidget = ({
       'feedbackWidgetOpen',
       (cb) => {
         setOpen(true);
-        cb?.();
+        if (cb) cb();
       }
     );
 
@@ -60,7 +60,11 @@ const FeedbackWidget = ({
       'feedbackWidgetClose',
       (cb) => {
         setOpen(false);
-        cb?.();
+        if (cb) cb();
+        onFeedbackWidgetClose?.({
+          type: variation,
+          status: feedbacktype?.type
+        });
         if (variation === VARIATIONS[1]) {
           hideNotification();
         }
@@ -71,7 +75,13 @@ const FeedbackWidget = ({
       opnSubs();
       closeSubs();
     };
-  }, [hideNotification, showNotification, variation]);
+  }, [
+    feedbacktype?.type,
+    hideNotification,
+    onFeedbackWidgetClose,
+    showNotification,
+    variation
+  ]);
 
   const renderVariation = () => {
     if (variation === VARIATIONS[0]) return <RenderModal />;

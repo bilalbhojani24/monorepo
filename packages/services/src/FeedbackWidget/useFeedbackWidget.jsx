@@ -10,8 +10,7 @@ export const useFeedbackWidget = ({
   formFields,
   flow,
   open,
-  variation,
-  onFeedbackWidgetClose
+  variation
 }) => {
   const [formData, setFormData] = useState({});
   const [formError, setFormError] = useState({});
@@ -116,10 +115,6 @@ export const useFeedbackWidget = ({
 
   const hideNotification = () => {
     notify.remove('feedback-widget');
-    onFeedbackWidgetClose?.({
-      type: 'toast',
-      status: feedbacktype?.type
-    });
   };
 
   return {

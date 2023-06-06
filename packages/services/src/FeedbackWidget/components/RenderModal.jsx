@@ -17,8 +17,9 @@ import RenderNpsBody from './RenderNpsBody';
 import RenderThumb from './RenderThumb';
 
 const RenderModal = () => {
-  const { feedbacktype, handleFormSubmit, isOpen, onFeedbackWidgetClose } =
-    useContext(FeedbackWidgetContextData);
+  const { feedbacktype, handleFormSubmit, isOpen } = useContext(
+    FeedbackWidgetContextData
+  );
 
   return (
     <Modal show={isOpen}>
@@ -31,10 +32,6 @@ const RenderModal = () => {
         })}
         handleDismissClick={() => {
           closeFeedbackWidget(false);
-          onFeedbackWidgetClose?.({
-            type: 'modal',
-            status: feedbacktype?.type
-          });
         }}
         iconWrapperClassname="bg-transparent"
       />
