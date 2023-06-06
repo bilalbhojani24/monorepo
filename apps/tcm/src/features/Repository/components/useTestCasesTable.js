@@ -186,7 +186,7 @@ const useTestCasesTable = (prop) => {
       projectId,
       newParentFolderId: selectedFolder.id,
       bulkSelection,
-      qp: getExistingQueryParams(searchParams)
+      queryParams: getExistingQueryParams(searchParams)
     })
       .then((data) => {
         dispatch(updateTestCasesOnSF(data));

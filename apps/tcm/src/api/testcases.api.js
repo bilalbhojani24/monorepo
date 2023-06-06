@@ -123,7 +123,7 @@ export const verifyTagAPI = async ({ projectId, tags }) =>
 export const deleteTestCasesBulkOnSFAPI = async ({
   projectId,
   bulkSelection,
-  qp
+  queryParams
 }) =>
   fetchPost(
     `/api/v1/projects/${projectId}/test-cases/bulk-delete`,
@@ -131,13 +131,13 @@ export const deleteTestCasesBulkOnSFAPI = async ({
       test_case: bulkSelection
     },
     {
-      params: qp
+      params: queryParams
     }
   );
 
 export const editTestCasesBulkOnSFAPI = async ({
   projectId,
-  qp,
+  queryParams,
   bulkSelection,
   data
 }) =>
@@ -150,13 +150,13 @@ export const editTestCasesBulkOnSFAPI = async ({
       }
     },
     {
-      params: qp
+      params: queryParams
     }
   );
 
 export const moveTestCasesBulkOnSFAPI = async ({
   projectId,
-  qp,
+  queryParams,
   newParentFolderId,
   bulkSelection
 }) =>
@@ -169,6 +169,6 @@ export const moveTestCasesBulkOnSFAPI = async ({
       }
     },
     {
-      params: qp
+      params: queryParams
     }
   );

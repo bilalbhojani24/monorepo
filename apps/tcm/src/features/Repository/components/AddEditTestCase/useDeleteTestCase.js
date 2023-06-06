@@ -199,7 +199,7 @@ export default function useDeleteTestCase() {
     deleteTestCasesBulkOnSFAPI({
       projectId,
       bulkSelection,
-      qp: getExistingQueryParams(searchParams)
+      queryParams: getExistingQueryParams(searchParams)
     })
       .then((data) => {
         dispatch(updateTestCasesOnSF(data));

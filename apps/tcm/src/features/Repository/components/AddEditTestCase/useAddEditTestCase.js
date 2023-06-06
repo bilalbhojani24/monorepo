@@ -408,7 +408,7 @@ export default function useAddEditTestCase(prop) {
       data: formatBulkFormData(
         formDataFormatter(testCaseBulkFormData).test_case
       ),
-      qp: getExistingQueryParams(searchParams)
+      queryParams: getExistingQueryParams(searchParams)
     })
       .then((data) => {
         dispatch(updateTestCasesOnSF(data));
