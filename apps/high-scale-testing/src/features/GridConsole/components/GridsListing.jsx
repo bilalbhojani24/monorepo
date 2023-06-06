@@ -13,9 +13,11 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
 import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
 import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
+import { AGAutomationConsoleInteracted } from 'constants/event-names';
 
 import { useGridListing } from './useGridListing';
 
@@ -98,13 +100,22 @@ const GridsListing = () => {
                 }
               ];
 
+              const cellClickhandler = () => {
+                logEvent(['amplitude'], AGAutomationConsoleInteracted, {
+                  action: 'grid_selected',
+                  grid_name: gridName,
+                  grid_id: gridId
+                });
+                gridRowHandler(gridId);
+              };
+
               return (
                 <TableRow className="cursor-pointer">
                   <TableCell wrapperClassName="px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                     >
                       <p className="text-base-900 font-normal">{gridName}</p>
@@ -114,8 +125,8 @@ const GridsListing = () => {
                   <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                     >
                       <Badge
@@ -131,8 +142,8 @@ const GridsListing = () => {
                   <TableCell wrapperClassName="px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                       className="text-base-900"
                     >
@@ -142,8 +153,8 @@ const GridsListing = () => {
                   <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                       className="text-base-900"
                     >
@@ -153,8 +164,8 @@ const GridsListing = () => {
                   <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                     >
                       <div className="flex items-center gap-2">
@@ -167,8 +178,8 @@ const GridsListing = () => {
                   <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                     >
                       <p className="text-base-900">{clusterName}</p>
@@ -187,7 +198,21 @@ const GridsListing = () => {
                       }}
                     >
                       <div className="flex">
-                        <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+                        <DropdownTrigger
+                          onClick={() =>
+                            logEvent(
+                              ['ampltidue'],
+                              'web_events',
+                              AGAutomationConsoleInteracted,
+                              {
+                                action: 'gridmenu_selected',
+                                grid_name: gridName,
+                                grid_id: gridId
+                              }
+                            )
+                          }
+                          wrapperClassName="p-0 border-0 shadow-none"
+                        >
                           <EllipsisVerticalIcon
                             className="h-5 w-5"
                             aria-hidden="true"

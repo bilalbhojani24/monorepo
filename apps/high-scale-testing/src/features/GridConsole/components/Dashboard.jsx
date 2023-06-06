@@ -10,6 +10,8 @@ import {
   PageHeadings,
   Tabs
 } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
+import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 
 import ClustersListing from './ClustersListing';
@@ -34,6 +36,19 @@ const GridConsole = () => {
     navigate(`${ROUTES.CREATE_GRID}?type=${value.value}`);
   };
 
+  const tabChangeHandler = (e) => {
+    if (e.value === 'grids') {
+      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+        action: 'grids_clicked'
+      });
+    } else if (e.value === 'clusters') {
+      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+        action: 'clusters_clicked'
+      });
+    }
+    setCurrentListingType(e);
+  };
+
   return (
     <div className="flex-1">
       <div className="bg-white px-6 pt-6">
@@ -43,6 +58,14 @@ const GridConsole = () => {
               <div className="flex">
                 <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
                   <Button
+                    onClick={() => {
+                      logEvent(
+                        ['amplitude'],
+                        'web_events',
+                        AGAutomationConsoleInteracted,
+                        { action: 'creategrid_clicked' }
+                      );
+                    }}
                     size="default"
                     icon={<MdKeyboardArrowDown />}
                     iconPlacement="end"
@@ -75,7 +98,7 @@ const GridConsole = () => {
               value: 'clusters'
             }
           ]}
-          onTabChange={(e) => setCurrentListingType(e)}
+          onTabChange={tabChangeHandler}
           defaultIndex={currentListingType.index}
         />
       </div>
