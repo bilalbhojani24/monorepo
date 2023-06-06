@@ -1,13 +1,17 @@
 import { useSelector } from 'react-redux';
 import { getSessionDetails } from 'features/Home';
 
-import { getLatestSessionStatus } from '../slices/reportLoadingSlice';
+import {
+  getIsSessionStopInProgress,
+  getLatestSessionStatus
+} from '../slices/reportLoadingSlice';
 
 const useReportLoadingHeader = () => {
   const sessionState = useSelector(getLatestSessionStatus);
+  const isSessionStopInProgress = useSelector(getIsSessionStopInProgress);
   const sessionDetails = useSelector(getSessionDetails);
 
-  return { sessionState, sessionDetails };
+  return { sessionState, sessionDetails, isSessionStopInProgress };
 };
 
 export default useReportLoadingHeader;

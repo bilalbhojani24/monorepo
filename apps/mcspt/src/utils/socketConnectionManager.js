@@ -1,0 +1,96 @@
+import { Pusher, PusherManager } from '@browserstack/utils';
+
+import { handleSocketMessage } from './socketEventManager';
+
+export const getWebSocketUrl = () =>
+  `ws://localhost:${window.BS_PERF_API_PORT || 3000}/`;
+
+class McpPusherEvents {
+  constructor(dispatch, getState, channelData, pusherManager) {
+    this.dispatch = dispatch;
+    this.getState = getState;
+    window.pusher = pusherManager;
+
+    // connecting to pusher
+    pusherManager.connect();
+
+    // If reconnection has happened 25 times, disconnect and fail the action
+    pusherManager.socket.on('reconnect_attempt', () => {
+      if (pusherManager.reconnectionAttempts === 25) {
+        pusherManager.socket.disconnect();
+        window.isPusherConnectionCreated = false;
+        this.log('Pusher seems to be unavailable');
+      }
+    });
+
+    // If connected, create a pusher instance from this manager
+    pusherManager.socket.on('connect', () => {
+      this.createInstance(channelData, pusherManager);
+    });
+  }
+
+  log = (msg) => {
+    if (IS_DEV) {
+      // eslint-disable-next-line no-console
+      console.log('\n\n-------MCP Pusher Log-------\n\n', msg);
+    }
+  };
+
+  attachEvents() {
+    if (this.pusher) {
+      this.pusher.on('message', this.onMessage);
+      this.pusher.on('invalid', () => this.onInvalid);
+    }
+  }
+
+  detach(pusherManager, connectionName) {
+    if (this.pusher) {
+      this.pusher.unsubscribe();
+      pusherManager.remove(connectionName);
+    }
+  }
+
+  onMessage = (message) => {
+    try {
+      if (!message) {
+        this.log('data from pusher not received on message event');
+      }
+
+      handleSocketMessage(this.dispatch, this.getState, message);
+    } catch (error) {
+      this.log('Socket Error Occurred');
+      this.log(error.message);
+    }
+  };
+
+  createInstance(channelData, pusherManager) {
+    this.channelData = channelData;
+    this.pusher = new Pusher(
+      pusherManager,
+      '',
+      {
+        channel: channelData?.channel,
+        token: channelData?.token,
+        type: channelData?.type,
+        group_id: channelData?.groupId
+      },
+      `${getWebSocketUrl()}${channelData.sessionId}`
+    );
+    this.attachEvents();
+    pusherManager.add(channelData.connectionName, this.pusher);
+  }
+}
+
+export const subscribeMcpPusher = (channelData) => (dispatch, getState) => {
+  // disconnect previous pusher connection [HMR]
+  if (window.pusher) {
+    window.pusher.socket.disconnect();
+  }
+
+  const pusherManager = new PusherManager(
+    `${getWebSocketUrl()}${channelData.sessionId}`,
+    true
+  );
+
+  return new McpPusherEvents(dispatch, getState, channelData, pusherManager);
+};
