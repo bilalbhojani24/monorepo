@@ -17,9 +17,8 @@ import RenderNpsBody from './RenderNpsBody';
 import RenderThumb from './RenderThumb';
 
 const RenderModal = () => {
-  const { feedbacktype, handleFormSubmit, isOpen } = useContext(
-    FeedbackWidgetContextData
-  );
+  const { feedbacktype, handleFormSubmit, isOpen, onFeedbackWidgetClose } =
+    useContext(FeedbackWidgetContextData);
 
   return (
     <Modal show={isOpen}>
@@ -30,7 +29,13 @@ const RenderModal = () => {
         wrapperClassName={twClassNames({
           'rounded-b-lg': feedbacktype.type === FEEDBACK_TYPE[4]
         })}
-        handleDismissClick={() => closeFeedbackWidget(false)}
+        handleDismissClick={() => {
+          closeFeedbackWidget(false);
+          onFeedbackWidgetClose?.({
+            type: 'modal',
+            status: feedbacktype?.type
+          });
+        }}
         iconWrapperClassname="bg-transparent"
       />
 

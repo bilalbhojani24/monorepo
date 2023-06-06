@@ -51,7 +51,7 @@ export const ModalWidget = (args) => (
 
 ModalWidget.args = {
   formFields: fields,
-  handleFeedbackClick: (i) => console.log(i),
+  handleFeedbackClick: (data) => console.log(data),
   flow: [
     {
       type: 'nps',
@@ -70,7 +70,10 @@ ModalWidget.args = {
       icon: <CheckCircleIcon className="text-success-400 h-10 w-10" />
     }
   ],
-  variation: 'modal'
+  variation: 'modal',
+  onFeedbackWidgetClose: (data) => {
+    console.log(data);
+  }
 };
 
 export const ToastWidget = (args) => (
@@ -89,7 +92,7 @@ export const ToastWidget = (args) => (
 
 ToastWidget.args = {
   formFields: fields,
-  handleFeedbackClick: (i) => console.log(i),
+  handleFeedbackClick: (data) => console.log(data),
   flow: [
     {
       type: 'thumbs',
@@ -108,5 +111,8 @@ ToastWidget.args = {
       icon: <CheckCircleIcon className="text-success-400 h-6 w-6" />
     }
   ],
-  variation: 'toast'
+  variation: 'toast',
+  onFeedbackWidgetClose: (data) => {
+    console.log(data);
+  }
 };

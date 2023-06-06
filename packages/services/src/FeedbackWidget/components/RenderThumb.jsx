@@ -7,9 +7,7 @@ import { FeedbackWidgetContextData } from '../context/feedbackWidgetContext';
 
 const RenderEmojiThumb = () => {
   const [active, setActive] = useState('');
-  const { handleFeedbackClick, handleClick } = useContext(
-    FeedbackWidgetContextData
-  );
+  const { handleClick } = useContext(FeedbackWidgetContextData);
 
   return (
     <div className="flex justify-center space-x-6">
@@ -21,8 +19,9 @@ const RenderEmojiThumb = () => {
           isIconOnlyButton
           onClick={() => {
             setActive(item.id);
-            handleClick();
-            handleFeedbackClick?.(item);
+            handleClick({
+              state: item.id === 'thup-1' ? 'positive' : 'negative'
+            });
           }}
           wrapperClassName={twClassNames('w-[60px] h-[60px]', {
             'focus:ring-success-600': active === 'thup-1',

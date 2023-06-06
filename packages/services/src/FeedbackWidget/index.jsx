@@ -21,6 +21,7 @@ const FeedbackWidget = ({
   handleFeedbackClick,
   formFields,
   flow,
+  onFeedbackWidgetClose,
   variation
 }) => {
   const [open, setOpen] = useState(false);
@@ -42,7 +43,8 @@ const FeedbackWidget = ({
     formFields,
     flow,
     variation,
-    open
+    open,
+    onFeedbackWidgetClose
   });
 
   useEffect(() => {
@@ -79,7 +81,6 @@ const FeedbackWidget = ({
   return (
     <FeedbackWidgetContextData.Provider
       value={{
-        handleFeedbackClick,
         feedbacktype,
         formData,
         setFormData,
@@ -93,7 +94,8 @@ const FeedbackWidget = ({
         isOpen: open,
         selectedNPS,
         setSelectedNPS,
-        variation
+        variation,
+        onFeedbackWidgetClose
       }}
     >
       {renderVariation()}
@@ -117,7 +119,11 @@ FeedbackWidget.propTypes = {
    */
   formFields: PropTypes.arrayOf(PropTypes.shape({})),
   /**
-   * A callback function invoked when the user clicks on the button to proceed to the next step of feedback.
+   * An array of objects that describes the types of form fields to be used in a form builder.
+   */
+  onFeedbackWidgetClose: PropTypes.func,
+  /**
+   * A callback function invoked when feedback widget gets closed
    */
   handleFeedbackClick: PropTypes.func,
   // A flag indicating whether the modal or toast for feedback is currently open or closed.
@@ -128,6 +134,7 @@ FeedbackWidget.propTypes = {
 FeedbackWidget.defaultProps = {
   handleFeedbackClick: null,
   formFields: [],
+  onFeedbackWidgetClose: null,
   variation: null
 };
 

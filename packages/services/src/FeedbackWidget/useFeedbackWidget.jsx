@@ -10,23 +10,32 @@ export const useFeedbackWidget = ({
   formFields,
   flow,
   open,
-  variation
+  variation,
+  onFeedbackWidgetClose
 }) => {
   const [formData, setFormData] = useState({});
   const [formError, setFormError] = useState({});
   const [feedbacktype, setFeedbacktype] = useState(flow[0]);
   const [selectedNPS, setSelectedNPS] = useState();
 
-  const handleClick = useCallback(() => {
-    setTimeout(() => {
-      const steps = flow.length;
-      const cs = flow.findIndex((f) => f.type === feedbacktype.type);
+  const handleClick = useCallback(
+    (data) => {
+      setTimeout(() => {
+        const currentFeedbackType = feedbacktype;
+        const steps = flow.length;
+        const cs = flow.findIndex((f) => f.type === feedbacktype.type);
 
-      if (cs >= 0 && cs < steps) {
-        setFeedbacktype(flow[cs + 1]);
-      }
-    }, 500);
-  }, [feedbacktype.type, flow]);
+        if (cs >= 0 && cs < steps) {
+          setFeedbacktype(flow[cs + 1]);
+          handleFeedbackClick?.({
+            type: currentFeedbackType?.type,
+            data
+          });
+        }
+      }, 500);
+    },
+    [feedbacktype, flow, handleFeedbackClick]
+  );
 
   const handleFormSubmit = useCallback(() => {
     setFormError({});
@@ -54,16 +63,14 @@ export const useFeedbackWidget = ({
     });
 
     if (error <= 0) {
-      handleFeedbackClick?.(formData);
-      handleClick();
+      handleClick(formData);
     }
-  }, [formData, formFields, handleClick, handleFeedbackClick]);
+  }, [formData, formFields, handleClick]);
 
   const showNotification = useCallback(() => {
     notify(
       <FeedbackWidgetContextData.Provider
         value={{
-          handleFeedbackClick,
           feedbacktype,
           formData,
           setFormData,
@@ -97,7 +104,6 @@ export const useFeedbackWidget = ({
     formError,
     formFields,
     handleClick,
-    handleFeedbackClick,
     handleFormSubmit,
     open,
     selectedNPS,
@@ -110,6 +116,10 @@ export const useFeedbackWidget = ({
 
   const hideNotification = () => {
     notify.remove('feedback-widget');
+    onFeedbackWidgetClose?.({
+      type: 'toast',
+      status: feedbacktype?.type
+    });
   };
 
   return {
