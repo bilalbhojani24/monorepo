@@ -286,7 +286,6 @@ export default function SiteScanner() {
         fetchScanConfigsById(rowData.id)
           .then((config) => {
             setShowNewScan(true);
-            dispatch(setShowFreshChatButton(false));
             setPreConfigData(config.data);
           })
           .catch((err) => console.log(err));
