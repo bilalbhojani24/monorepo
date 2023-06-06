@@ -32,12 +32,13 @@ const ProgressNotification = () => {
                 onClick={() => handleFirstButtonClick(notificationConfig?.id)}
                 variant="minimal"
                 colors="white"
+                wrapperClassName="text-base-700 hover:text-brand-500"
               >
                 View Report
               </TMButton>
               <TMButton
                 variant="minimal"
-                wrapperClassName="text-base-600"
+                wrapperClassName="text-base-700 hover:text-brand-500"
                 onClick={() => handleSecondButtonClick(notificationConfig?.id)}
               >
                 Go to All Projects

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { MdClose } from '@browserstack/bifrost';
 import {
   TMButton,
@@ -11,8 +11,18 @@ import PropTypes from 'prop-types';
 import useCancelModal from './useCancelModal';
 
 const CancelModal = ({ show }) => {
+  const cancelRef = useRef();
+  const REFOCUS_TIMER = 300;
+
   const { closeCancelModal, handleCancelQuickImport, testTool } =
     useCancelModal();
+
+  useEffect(() => {
+    setTimeout(() => {
+      cancelRef.current?.focus();
+    }, REFOCUS_TIMER);
+  }, [show]);
+
   return (
     <TMModal show={show} size="xl" onOverlayClick={closeCancelModal}>
       <TMModalBody className="py-5">
@@ -37,7 +47,12 @@ const CancelModal = ({ show }) => {
         </div>
       </TMModalBody>
       <TMModalFooter position="center">
-        <TMButton colors="white" fullWidth onClick={closeCancelModal}>
+        <TMButton
+          ref={cancelRef}
+          colors="white"
+          fullWidth
+          onClick={closeCancelModal}
+        >
           Back
         </TMButton>
         <TMButton fullWidth colors="danger" onClick={handleCancelQuickImport}>

@@ -76,21 +76,19 @@ export const parseImportDetails =
     else dispatch(setImportDetails(data));
 
     if (data?.percent === 100) {
-      setTimeout(() => {
-        if (!onRefresh) alertArtificialLoader(dispatch);
+      if (!onRefresh) alertArtificialLoader(dispatch);
 
-        if (data?.projects_done === data?.projects)
-          dispatch(setImportStatus(IMPORT_STATUS.SUCCESS));
-        else dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
+      if (data?.projects_done === data?.projects)
+        dispatch(setImportStatus(IMPORT_STATUS.SUCCESS));
+      else dispatch(setImportStatus(IMPORT_STATUS.FAILURE));
 
-        if (
-          location.pathname !== AppRoute.ROOT &&
-          !isNotificationDismissed &&
-          !fromCancel &&
-          !onRefresh
-        ) {
-          dispatch(setNotificationConfig({ show: true }));
-        }
-      }, DELAY); // REASON: when progress becomes 100% if we instantly show the alert then we do not get the right projects count.
+      if (
+        location.pathname !== AppRoute.ROOT &&
+        !isNotificationDismissed &&
+        !fromCancel &&
+        !onRefresh
+      ) {
+        dispatch(setNotificationConfig({ show: true }));
+      }
     }
   };

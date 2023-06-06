@@ -15,6 +15,7 @@ const useWebSocketQI = () => {
       channel: 'ImportChannel',
       import_id: importId
     };
+    console.log('send message');
     sendMessage(
       JSON.stringify({
         command: 'subscribe',
