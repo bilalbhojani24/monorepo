@@ -68,7 +68,7 @@ const ViewReportModal = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {reportModalProjects.map((row) => (
+            {reportModalProjects?.map((row) => (
               <TableRow key={row.name} wrapperClassName="w-full">
                 <TableCell wrapperClassName="pl-4 pr-0 py-2 sm:first:pl-4">
                   {getIcon(row?.status, row?.error)}

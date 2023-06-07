@@ -90,7 +90,7 @@ const usePreviewAndConfirm = () => {
     sendMessage(
       JSON.stringify({
         command: 'subscribe',
-        identifier
+        identifier: JSON.stringify(identifier)
       })
     );
   };

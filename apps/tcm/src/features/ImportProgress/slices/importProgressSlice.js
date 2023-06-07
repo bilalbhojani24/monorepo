@@ -71,9 +71,10 @@ export const importProgressSlice = createSlice({
       state.isCancelModalVisible = payload;
     },
     getQuickImportResultFulfilled: (state, { payload }) => {
+      if (!payload?.fromEmail) state.loader.report = false;
+
       state.reportModalProjects = payload.projects;
       state.isReportModalVisible = true;
-      state.loader.report = false;
     },
     setNotificationConfig: (state, { payload }) => {
       state.progressNotification.show = payload?.show;

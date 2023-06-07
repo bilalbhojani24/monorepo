@@ -19,17 +19,25 @@ const getImportId = (state) => state.import.importId;
 const getIsNotificationDismissed = (state) =>
   state.importProgress.isNotificationDismissed;
 
-export const setQuickImportResult = () => async (dispatch, getState) => {
+const resultApiCall = async (id, dispatch, fromEmail = false) => {
+  try {
+    const response = await getQuickImportResultAPI(id);
+    dispatch(getQuickImportResultFulfilled({ ...response, fromEmail }));
+  } catch (err) {
+    dispatch(setViewReportLoading(false));
+  }
+};
+
+export const setQuickImportResult = () => (dispatch, getState) => {
   const state = getState();
   const id = getImportId(state);
 
   dispatch(setViewReportLoading(true));
-  try {
-    const response = await getQuickImportResultAPI(id);
-    dispatch(getQuickImportResultFulfilled(response));
-  } catch (err) {
-    dispatch(setViewReportLoading(false));
-  }
+  resultApiCall(id, dispatch);
+};
+
+export const displayReportModal = (importId) => async (dispatch) => {
+  resultApiCall(importId, dispatch, true);
 };
 
 export const setActualImportStatus = (data) => (dispatch) => {

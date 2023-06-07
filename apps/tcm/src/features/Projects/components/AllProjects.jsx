@@ -17,6 +17,7 @@ import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 import ImportProgress from 'features/ImportProgress';
 import { IMPORT_STATUS } from 'features/ImportProgress/const/immutables';
+import { displayReportModal } from 'features/ImportProgress/slices/importProgressThunk';
 import { logEventHelper } from 'utils/logEvent';
 
 import { dropDownOptions } from '../const/projectsConst';
@@ -42,6 +43,7 @@ const AllProjects = () => {
     currentTestManagementTool,
     isNewProjectBannerDismissed,
     dispatch,
+    searchParams,
     handleClickDynamicLink,
     onDropDownChange,
     fetchProjects,
@@ -53,6 +55,12 @@ const AllProjects = () => {
   useEffect(() => {
     dispatch(logEventHelper('TM_AllProjectsPageLoaded', {}));
   }, [dispatch, isLoading]);
+
+  useEffect(() => {
+    if (searchParams.get('import_id')) {
+      dispatch(displayReportModal(searchParams.get('import_id')));
+    }
+  }, [dispatch, searchParams]);
 
   const tableColumns = [
     {

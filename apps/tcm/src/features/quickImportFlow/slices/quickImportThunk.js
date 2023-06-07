@@ -171,7 +171,8 @@ export const startImport = (navigate) => async (dispatch, getState) => {
 };
 
 export const retryQuickImport =
-  (jusFetchCreds, navigate) => async (dispatch, getState) => {
+  (jusFetchCreds, navigate, redirectedFromEmail) =>
+  async (dispatch, getState) => {
     const state = getState();
     const id = getImportId(state);
     const testTool = getCurrentUsedTool(state);
@@ -188,6 +189,8 @@ export const retryQuickImport =
       if (!jusFetchCreds) {
         if (quickImportProjectId)
           navigate(`/projects/${quickImportProjectId}/quick-import`);
+        else if (redirectedFromEmail)
+          navigate(AppRoute.IMPORT, { replace: true });
         else navigate(AppRoute.IMPORT);
       }
     } catch (err) {

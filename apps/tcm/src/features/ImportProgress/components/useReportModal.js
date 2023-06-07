@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import AppRoute from 'const/routes';
 import { retryQuickImport } from 'features/quickImportFlow/slices/quickImportThunk';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -9,6 +10,7 @@ import { setReportModal } from '../slices/importProgressSlice';
 const useReportModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const isReportModalVisible = useSelector(
     (state) => state.importProgress.isReportModalVisible
   );
@@ -24,9 +26,17 @@ const useReportModal = () => {
 
   const closeReportModal = () => {
     dispatch(setReportModal(false));
+    if (
+      location.pathname === AppRoute.ROOT &&
+      location.search?.split('=')[0] === '?import_id'
+    )
+      navigate(AppRoute.ROOT, { replace: true });
   };
   const retryImport = () => {
-    dispatch(retryQuickImport(false, navigate));
+    const fromEmail =
+      location.pathname === AppRoute.ROOT &&
+      location.search?.split('=')[0] === '?import_id';
+    dispatch(retryQuickImport(false, navigate, fromEmail));
     dispatch(setReportModal(false));
     dispatch(logEventHelper('TM_QiReportRetryCtaClicked', {}));
   };

@@ -338,7 +338,8 @@ const useProjects = (prop) => {
     deleteProjectCtaLoading,
     editProjectHandler,
     hideEditProjectModal,
-    dispatch
+    dispatch,
+    searchParams
   };
 };
 
