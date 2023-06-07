@@ -50,8 +50,8 @@ export const DummyData = [
   },
 
   {
-    title: 'lorem some file.jsx',
-    subTitle: 'sub-lorem',
+    title: 'lorem some other file.jsx',
+    subTitle: 'sub-lorem other',
     icon: (
       <MdOutlineDelete
         className="text-base-700 h-5 w-5 cursor-pointer"

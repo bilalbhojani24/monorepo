@@ -153,13 +153,12 @@ const GalleryMedia = ({
         <div
           key={mediaItem.id}
           className={`mx-auto ${ratioConfig[ratio].split(' ')[1]}`}
-          role="region"
         >
           <GalleryMediaCheckbox
             data={{
               label: mediaItem.id,
-              value: mediaItem.file
-              // description: mediaItem.title
+              value: mediaItem.file,
+              title: mediaItem.title
             }}
             onClick={() => handleOnClick(mediaItem.id)}
             selected={mediaItem.selected}

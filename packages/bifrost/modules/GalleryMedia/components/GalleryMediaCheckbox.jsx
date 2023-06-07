@@ -46,7 +46,7 @@ const GalleryMediaCheckbox = ({
           if (e.shiftKey && e.key === 'Tab') setCheckBoxVisible(false);
         }}
         type="button"
-        aria-label="particular button"
+        aria-label={`Gallery-item-file-${data.title}`}
       >
         {children}
       </button>
@@ -85,10 +85,7 @@ GalleryMediaCheckbox.propTypes = {
       PropTypes.node.isRequired
     ]),
     value: PropTypes.string.isRequired,
-    description: PropTypes.oneOf([
-      PropTypes.string.isRequired,
-      PropTypes.node.isRequired
-    ])
+    title: PropTypes.string.isRequired
   })
 };
 
