@@ -1,32 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllGridsData } from 'api/index';
-import { setFetchedGridData } from 'globalSlice/index';
-import { getUserDetails } from 'globalSlice/selector';
+import { useSelector } from 'react-redux';
+
+import { getGridData } from '../slices/selector';
 
 const useGridListing = () => {
-  const dispatch = useDispatch();
   const isRounded = true;
 
   // All Store variables:
-  const userDetails = useSelector(getUserDetails);
-
-  // All State variables:
-  const [gridList, setGridList] = useState([]);
+  const gridList = useSelector(getGridData);
 
   const tableCellWrapperClassName =
     'text-xs px-6 py-3 text-base-500 font-medium';
-
-  useEffect(() => {
-    const fetchAllGridsDataFromAPI = async () => {
-      const res = await fetchAllGridsData(userDetails.id);
-
-      setGridList(res.data);
-      dispatch(setFetchedGridData(true));
-    };
-
-    fetchAllGridsDataFromAPI();
-  }, [userDetails]);
 
   return {
     gridList,

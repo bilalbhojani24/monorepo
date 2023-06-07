@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
 import { logEvent } from '@browserstack/utils';
-import { fetchAllClustersData } from 'api/index';
+import { fetchAllClustersData, fetchAllGridsData } from 'api/index';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import { getClusterData } from 'features/ClusterDetail/slices/selector';
+import { setFetchedGridData } from 'globalSlice/index';
 import { getUserDetails } from 'globalSlice/selector';
 
-import { setClusterData } from '../slices';
+import { setClusterData, setGridData } from '../slices';
+import { getGridData } from '../slices/selector';
 
 const useGridConsole = () => {
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ const useGridConsole = () => {
 
   // All Store variables
   const clusterData = useSelector(getClusterData);
+  const gridData = useSelector(getGridData);
   const userDetails = useSelector(getUserDetails);
 
   // All State variables
@@ -61,9 +64,9 @@ const useGridConsole = () => {
   };
 
   useEffect(() => {
-    const lengthOfClusterData = clusterData.length;
+    const lengthOfGridData = gridData.length;
 
-    if (lengthOfClusterData > 1) {
+    if (lengthOfGridData > 1) {
       setTabsArray([
         {
           index: 0,
@@ -77,7 +80,7 @@ const useGridConsole = () => {
         }
       ]);
     }
-  }, [clusterData]);
+  }, [gridData]);
 
   useEffect(() => {
     const fetchAllClustersDataFromAPI = async () => {
@@ -89,6 +92,14 @@ const useGridConsole = () => {
       );
     };
 
+    const fetchAllGridsDataFromAPI = async () => {
+      const res = await fetchAllGridsData(userDetails.id);
+
+      dispatch(setGridData({ gridData: res.data }));
+      dispatch(setFetchedGridData(true));
+    };
+
+    fetchAllGridsDataFromAPI();
     fetchAllClustersDataFromAPI();
   }, [dispatch, userDetails]);
 
@@ -103,6 +114,7 @@ const useGridConsole = () => {
   return {
     currentListingType,
     dropdownHandler,
+    gridData,
     navigate,
     options,
     tabChangeHandler,
