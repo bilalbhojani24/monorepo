@@ -102,7 +102,7 @@ const MediaPlayer = forwardRef(
 
     useImperativeHandle(ref, () => ({
       seekTo(timeStamp) {
-        if (timeStamp <= duration) {
+        if (timeStamp >= startTime && timeStamp <= endTime) {
           videoRef.current.seekTo(timeStamp);
         }
       },
