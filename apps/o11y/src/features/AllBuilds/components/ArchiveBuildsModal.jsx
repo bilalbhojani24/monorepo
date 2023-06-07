@@ -61,7 +61,9 @@ function ArchiveBuildsModal() {
         .unwrap()
         .then(() => {
           o11yNotify({
-            title: `Build archive successful. The smart tags of subsequent runs are being re-calculated and will be updated shortly.`,
+            title: `Build archive successful.`,
+            description:
+              'The smart tags of subsequent runs are being re-calculated and will be updated shortly.',
             type: 'success'
           });
           logOllyEvent({
@@ -70,6 +72,8 @@ function ArchiveBuildsModal() {
               builds_archived: data.builds.length
             }
           });
+          // dispatch(fetchFreshBuilds());
+          handleCloseModal();
         })
         .finally(() => {
           setIsSubmittingData(false);

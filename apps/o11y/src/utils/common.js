@@ -163,7 +163,10 @@ export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
     }
     return TEST_STATUS.UNKNOWN;
   }
-  if (buildStatus === TEST_STATUS.FINISHED) {
+  if (
+    buildStatus === TEST_STATUS.FINISHED ||
+    buildStatus === TEST_STATUS.ARCHIVED
+  ) {
     if (statusAgg.failed) {
       return TEST_STATUS.FAIL;
     }

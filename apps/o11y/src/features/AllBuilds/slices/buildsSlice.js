@@ -60,6 +60,7 @@ const { reducer, actions } = createSlice({
   name: SLICE_NAME,
   initialState: {
     builds: [],
+    isLoadingInitialBuilds: true,
     buildsPagingParams: {},
     activeBuild: {},
     isLoadingFilters: true,
@@ -71,6 +72,9 @@ const { reducer, actions } = createSlice({
     initialSearchString: window.location.search
   },
   reducers: {
+    setIsLoadingInitialBuilds: (state, { payload }) => {
+      state.isLoadingInitialBuilds = payload;
+    },
     setIsLoadingBuildsFilters: (state, { payload }) => {
       state.isLoadingFilters = payload;
     },
@@ -266,6 +270,7 @@ const { reducer, actions } = createSlice({
 });
 
 export const {
+  setIsLoadingInitialBuilds,
   setSelectedFilters,
   setAppliedFilter,
   setSelectedFilterAsApplied,

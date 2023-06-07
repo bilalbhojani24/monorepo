@@ -1,7 +1,13 @@
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import xor from 'lodash/xor';
 
 import { BUILD_FILTER_TYPES, BUILD_FILTERS_PREFIX } from '../constants';
+import {
+  getBuildsData,
+  resetBuildSelection,
+  setIsLoadingInitialBuilds
+} from '../slices/buildsSlice';
 
 export const getFilterQueryParams = (appliedFilters = []) => {
   const searchParams = new URLSearchParams();
@@ -35,3 +41,32 @@ export const getComboBoxDiffStatus = (prevState, newState) => {
     item
   };
 };
+
+export const fetchFreshBuilds =
+  ({ failureCb, successCb, finallyCb } = {}) =>
+  (dispatch, getState) => {
+    const state = getState();
+    const activeProject = getActiveProject(state);
+    dispatch(resetBuildSelection());
+    dispatch(setIsLoadingInitialBuilds(true));
+    dispatch(
+      getBuildsData({ projectNormalisedName: activeProject?.normalisedName })
+    )
+      .unwrap()
+      .then(() => {
+        if (successCb && typeof successCb === 'function') {
+          successCb();
+        }
+      })
+      .catch(() => {
+        if (failureCb && typeof failureCb === 'function') {
+          failureCb();
+        }
+      })
+      .finally(() => {
+        if (finallyCb && typeof finallyCb === 'function') {
+          finallyCb();
+        }
+        dispatch(setIsLoadingInitialBuilds(false));
+      });
+  };

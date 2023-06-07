@@ -20,15 +20,15 @@ import {
   getAllAppliedFilters,
   getBuilds,
   getBuildsPagingParams,
-  getIsLoadingFilters
+  getIsLoadingFilters,
+  getIsLoadingInitialBuilds
 } from './slices/buildsSelectors';
 import {
   clearFilters,
   getBuildsData,
-  getBuildsFiltersData,
-  resetBuildSelection
+  getBuildsFiltersData
 } from './slices/buildsSlice';
-import { getFilterQueryParams } from './utils/common';
+import { fetchFreshBuilds, getFilterQueryParams } from './utils/common';
 
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const AllBuildsPage = () => {
   const [updates, setUpdates] = useState();
   const builds = useSelector(getBuilds);
   const appliedFilters = useSelector(getAllAppliedFilters);
-  const [isLoadingBuilds, setIsLoadingBuilds] = useState(false);
+  const isLoadingInitialBuilds = useSelector(getIsLoadingInitialBuilds);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const isLoadingFilters = useSelector(getIsLoadingFilters);
@@ -46,21 +46,18 @@ const AllBuildsPage = () => {
 
   const fetchBuilds = useCallback(() => {
     if (activeProject?.normalisedName && !isLoadingFilters) {
-      dispatch(resetBuildSelection());
       setShowErrorToast(false);
-      setIsLoadingBuilds(true);
       dispatch(
-        getBuildsData({ projectNormalisedName: activeProject?.normalisedName })
-      )
-        .unwrap()
-        .catch(() => {
-          setShowErrorToast(true);
+        fetchFreshBuilds({
+          failureCb: () => {
+            setShowErrorToast(true);
+          },
+          finallyCb: () => {
+            setUpdates(0);
+            window.scrollTo(0, 0);
+          }
         })
-        .finally(() => {
-          setUpdates(0);
-          window.scrollTo(0, 0);
-          setIsLoadingBuilds(false);
-        });
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -130,18 +127,14 @@ const AllBuildsPage = () => {
     }
   };
 
-  const isBuildsEmpty = useMemo(
-    () =>
-      !builds?.length &&
-      !showErrorToast &&
-      !isLoadingBuilds &&
-      !isLoadingFilters,
-    [builds?.length, isLoadingBuilds, isLoadingFilters, showErrorToast]
+  const isBuildLoading = useMemo(
+    () => isLoadingInitialBuilds || isLoadingFilters,
+    [isLoadingInitialBuilds, isLoadingFilters]
   );
 
-  const isBuildLoading = useMemo(
-    () => isLoadingBuilds || isLoadingFilters,
-    [isLoadingBuilds, isLoadingFilters]
+  const isBuildsEmpty = useMemo(
+    () => !builds?.length && !showErrorToast && !isBuildLoading,
+    [builds?.length, isBuildLoading, showErrorToast]
   );
 
   const handleClickBuildItem = (currentIdx) => {
@@ -191,8 +184,8 @@ const AllBuildsPage = () => {
             icon={<MdOutlineRefresh className="text-sm" />}
             iconPlacement="end"
             size="extra-small"
-            isIconOnlyButton={isLoadingBuilds}
-            loading={isLoadingBuilds}
+            isIconOnlyButton={isLoadingInitialBuilds}
+            loading={isLoadingInitialBuilds}
             onClick={fetchBuilds}
           >
             {updates} new build{updates > 1 ? 's' : ''}
