@@ -88,16 +88,21 @@ export default function ProjectList() {
       }}
     >
       <div className="border-base-200 flex h-full w-full max-w-xl flex-col rounded-lg border bg-white shadow-sm">
-        <div className="p-6 pb-2">
+        <section className="p-6 pb-2">
           <h1 className="border-b-base-200 mb-5 border-b pb-5 text-2xl font-medium leading-8">
             Welcome to Test Observability
           </h1>
-          <h2 className="text-lg font-medium leading-6">
-            Select a project to get started
-          </h2>
-          <h3 className="text-base-500 mt-1 text-sm leading-5">
-            You can change your project at anytime
-          </h3>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-medium leading-6">
+                Select a project to get started
+              </h2>
+              <h3 className="text-base-500 mt-1 text-sm leading-5">
+                You can change your project at anytime
+              </h3>
+            </div>
+            <O11yButton>New Project</O11yButton>
+          </div>
           <div className="mt-5">
             <O11yInputField
               id="onboarding-project-search"
@@ -121,7 +126,7 @@ export default function ProjectList() {
               }
             />
           </div>
-        </div>
+        </section>
         {!!projectsList?.length && (
           <div className="flex-1 overflow-auto px-6">
             <TableVirtuoso

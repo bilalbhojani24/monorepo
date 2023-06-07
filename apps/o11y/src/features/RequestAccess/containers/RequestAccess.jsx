@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {
   MdOutlineAutoAwesome,
   MdOutlineDashboard,
   MdOutlineRunningWithErrors,
-  MdOutlineStackedLineChart
+  MdOutlineStackedLineChart,
+  MdPlayCircle
 } from '@browserstack/bifrost';
 import { requestO11yAccess } from 'api/global';
-import heroUnit from 'assets/illustrations/hero-unit-o11y.png';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import O11yFeatureCard from 'common/O11yFeatureCard';
 import { DOC_KEY_MAPPING } from 'constants/common';
@@ -17,9 +17,14 @@ import { setHasAcceptedTnC } from 'globalSlice/index';
 import { getHeaderSize, getInitData } from 'globalSlice/selectors';
 import { getDocUrl, logOllyEvent } from 'utils/common';
 
+const DEMO_VIDEO =
+  'https://www.browserstack.com/docs/static/img/test-observability/what-is-test-observability/test-observability-demo.mp4';
+
 function RequestAccess() {
   const headerSize = useSelector(getHeaderSize);
   const initData = useSelector(getInitData);
+  const videRef = useRef(null);
+  const [hasClickedPlay, setHasClickedPlay] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -43,6 +48,13 @@ function RequestAccess() {
     }
   };
 
+  const handleClickPlay = () => {
+    if (videRef.current) {
+      videRef.current?.play();
+      setHasClickedPlay(true);
+    }
+  };
+
   return (
     <div
       className="bg-base-50 flex w-screen flex-col items-center justify-center p-14"
@@ -52,7 +64,7 @@ function RequestAccess() {
     >
       <O11yFeatureCard
         wrapperClassName="p-10"
-        childrenWrapperClass="flex items-center justify-between gap-4"
+        childrenWrapperClass="flex items-center justify-between gap-8"
       >
         <div className="flex flex-col">
           <h1 className="text-3xl font-bold leading-10">
@@ -116,7 +128,34 @@ function RequestAccess() {
             </p>
           </div>
         </div>
-        <img src={heroUnit} alt="showing product features" className="w-2/4" />
+        <div className="relative w-2/4 shrink-0">
+          {/*  eslint-disable-next-line jsx-a11y/media-has-caption */}
+          <video
+            // key={hasClickedPlay}
+            ref={videRef}
+            width="100%"
+            controls={hasClickedPlay ? 'controls' : ''}
+            poster="/o11y-illustration.jpeg"
+            className="rounded shadow-lg"
+            autoPlay
+            muted={!hasClickedPlay}
+            playsinline
+            loop
+          >
+            <source src={DEMO_VIDEO} type="video/mp4" />
+          </video>
+          {!hasClickedPlay && (
+            <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
+              <button
+                type="button"
+                className="rounded-full bg-white hover:shadow-lg"
+                onClick={handleClickPlay}
+              >
+                <MdPlayCircle className="text-base-900 h-12 w-12" />
+              </button>
+            </div>
+          )}
+        </div>
       </O11yFeatureCard>
     </div>
   );
