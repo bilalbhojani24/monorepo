@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Dropdown,
@@ -12,43 +11,19 @@ import {
 } from '@browserstack/bifrost';
 import { logEvent } from '@browserstack/utils';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
-import ROUTES from 'constants/routes';
 
 import ClustersListing from './ClustersListing';
 import GridsListing from './GridsListing';
 import useGridConsole from './useGridConsole';
 
 const GridConsole = () => {
-  const { currentListingType, setCurrentListingType, tabsArray } =
-    useGridConsole();
-
-  const navigate = useNavigate();
-
-  const options = [
-    {
-      id: 'helm/kubectl',
-      value: 'Helm/KubeCTL',
-      body: 'Spawn a grid via Helm / KubeCTL'
-    },
-    { id: 'cli', value: 'CLI', body: 'Spawn a grid with customizations' }
-  ];
-
-  const dropdownHandler = (value) => {
-    navigate(`${ROUTES.CREATE_GRID}?type=${value.value}`);
-  };
-
-  const tabChangeHandler = (e) => {
-    if (e.value === 'grids') {
-      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'grids_clicked'
-      });
-    } else if (e.value === 'clusters') {
-      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'clusters_clicked'
-      });
-    }
-    setCurrentListingType(e);
-  };
+  const {
+    currentListingType,
+    dropdownHandler,
+    options,
+    tabChangeHandler,
+    tabsArray
+  } = useGridConsole();
 
   return (
     <div className="flex-1">
