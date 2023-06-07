@@ -43,13 +43,6 @@ function DeleteSubCatModal() {
         });
         handleCloseModal();
       })
-      .catch(() => {
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while deleting category',
-          type: 'error'
-        });
-      })
       .finally(() => {
         setIsDeletingCategory(false);
       });

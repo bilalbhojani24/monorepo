@@ -49,3 +49,5 @@ export const getIsOnFreeTrial = createSelector(
   getPlanDetails,
   (planDetails) => planDetails?.isOnFreeTrial || false
 );
+export const getActiveFloatingComponents = (state) =>
+  state.global.activeFloatingComponents;

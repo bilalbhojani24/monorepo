@@ -63,6 +63,7 @@ const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
     headerSize: 64,
+    activeFloatingComponents: [],
     hasProductInitFailed: false,
     projects: {
       isLoading: true,
@@ -111,6 +112,17 @@ const { actions, reducer } = createSlice({
     },
     setHeaderSize: (state, { payload }) => {
       state.headerSize = payload;
+    },
+    addActiveFloatingComponent: (state, { payload }) => {
+      state.activeFloatingComponents = [
+        ...state.activeFloatingComponents,
+        payload
+      ];
+    },
+    removeActiveFloatingComponent: (state, { payload }) => {
+      state.activeFloatingComponents = state.activeFloatingComponents.filter(
+        (id) => id !== payload
+      );
     }
   },
   extraReducers: (builder) => {
@@ -187,7 +199,9 @@ export const {
   updateProjectList,
   setHasProductInitFailed,
   updatePlanDetails,
-  setHeaderSize
+  setHeaderSize,
+  addActiveFloatingComponent,
+  removeActiveFloatingComponent
 } = actions;
 
 export const initO11yProduct =

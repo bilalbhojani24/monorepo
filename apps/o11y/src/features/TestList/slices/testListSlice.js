@@ -32,11 +32,6 @@ import {
 } from './utils';
 
 const sliceName = 'testList';
-const reRunError = {
-  title: 'Re-run trigger failed!',
-  description: 'There was some glitch during re-run.',
-  type: 'error'
-};
 const reRunSuccess = {
   title: `Re-run triggered!`,
   description: '',
@@ -91,7 +86,6 @@ const triggerJenkinsBuild = createAsyncThunk(
       o11yNotify(reRunSuccess);
       return response.data;
     } catch (err) {
-      o11yNotify();
       return rejectWithValue(err);
     }
   }
@@ -113,7 +107,6 @@ const getJenkinsBuildParameters = createAsyncThunk(
         })
       );
     } catch (err) {
-      o11yNotify(reRunError);
       return rejectWithValue(err);
     }
   }
@@ -137,10 +130,8 @@ export const triggerReRunBE = createAsyncThunk(
       ) {
         return dispatch(getJenkinsBuildParameters(responseData));
       }
-      o11yNotify(reRunError);
       return rejectWithValue(new Error('Failure to re-run trigger'));
     } catch (err) {
-      o11yNotify(reRunError);
       return rejectWithValue(err);
     }
   }

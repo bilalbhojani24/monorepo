@@ -49,11 +49,6 @@ export default function AutoAnalysisSettings() {
             state: prev.state,
             loading: false
           }));
-          o11yNotify({
-            title: 'Something went wrong!',
-            description: 'There was an error while loading settings',
-            type: 'error'
-          });
         });
     }
     return () => {
@@ -94,11 +89,6 @@ export default function AutoAnalysisSettings() {
           loading: false
         });
         setThresholdPercentage(data.data.thresholdPercentage);
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating settings',
-          type: 'error'
-        });
       });
   };
   const handleChangeFailureCatSwitch = (checked) => {

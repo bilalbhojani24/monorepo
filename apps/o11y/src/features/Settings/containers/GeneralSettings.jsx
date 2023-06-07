@@ -35,13 +35,6 @@ export default function GeneralSettings() {
           if (res?.data?.buildTimeout && mounted.current) {
             setBuildTimeout(res.data.buildTimeout);
           }
-        })
-        .catch(() => {
-          o11yNotify({
-            title: 'Something went wrong!',
-            description: 'There was an error while loading settings',
-            type: 'error'
-          });
         });
     }
     return () => {
@@ -86,11 +79,6 @@ export default function GeneralSettings() {
       })
       .catch(() => {
         setBuildTimeout(data?.data?.buildTimeout);
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating settings',
-          type: 'error'
-        });
       });
   };
 

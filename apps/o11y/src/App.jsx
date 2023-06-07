@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import ErrorBoundary from 'common/ErrorBoundary';
+import FreshchatIntegration from 'common/FreshchatIntegration';
 import GenericErrorPage from 'common/GenericErrorPage';
 import ModalToShow from 'common/ModalToShow';
 import VWO from 'common/scripts/VWO';
@@ -31,6 +32,7 @@ const App = () => {
       {envConfig?.enableAnalytics && <VWO />}
       {Routes}
       <ModalToShow />
+      <FreshchatIntegration />
       {portalize(
         hasInitFailed,
         <div className="absolute">
