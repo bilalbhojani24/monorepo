@@ -6,6 +6,7 @@ import O11yLoader from 'common/O11yLoader';
 import { BSTACK_TOPNAV_ELEMENT_ID } from 'constants/common';
 import { differenceInDays } from 'date-fns';
 import isEmpty from 'lodash/isEmpty';
+import PropTypes from 'prop-types';
 
 import DraggableComponent from '../components/DraggableComponent';
 import VideoPlayer from '../components/VideoPlayer';
@@ -22,10 +23,11 @@ import {
   getTestDetails
 } from '../slices/selectors';
 import { clearExceptions } from '../slices/uiSlice';
+import { getVideoSeekTime } from '../utils';
 
 const MAX_EXPIRY_DATE = 30;
 
-const TestVideoPlayer = () => {
+const TestVideoPlayer = ({ videoRef, floatingVideoRef }) => {
   const dispatch = useDispatch();
   const currentTestRunId = useSelector(getCurrentTestRunId);
   const details = useSelector(getTestDetails);
@@ -42,9 +44,7 @@ const TestVideoPlayer = () => {
   const [floatingVideoTopOffset, setFloatingVideoTopOffset] = useState(0);
   const [isVideoPlayed, setIsVideoPlayed] = useState(false);
 
-  const videoRef = useRef(null);
   const containerRef = useRef(null);
-  const floatingVideoComponentRef = useRef(null);
 
   useEffect(() => {
     if (currentTestRunId) {
@@ -119,9 +119,14 @@ const TestVideoPlayer = () => {
 
   const handleNormalVideoToPiPSync = () => {
     const videoComponent = videoRef.current;
-    const floatingVideoComponent = floatingVideoComponentRef.current;
+    const floatingVideoComponent = floatingVideoRef.current;
     if (videoComponent && floatingVideoComponent) {
-      floatingVideoComponent.seekTo(videoComponent.getCurrentTime());
+      floatingVideoComponent.seekTo(
+        getVideoSeekTime(
+          videoComponent.getCurrentTime(),
+          details.data.videoLogs?.finishOffset
+        )
+      );
       if (isMainVideoPaused) {
         setIsFloatingVideoPaused(true);
       } else {
@@ -133,9 +138,14 @@ const TestVideoPlayer = () => {
 
   const handlePiPtoNormalVideoSync = () => {
     const videoComponent = videoRef.current;
-    const floatingVideoComponent = floatingVideoComponentRef.current;
+    const floatingVideoComponent = floatingVideoRef.current;
     if (videoComponent && floatingVideoComponent) {
-      videoComponent.seekTo(floatingVideoComponent.getCurrentTime());
+      videoComponent.seekTo(
+        getVideoSeekTime(
+          floatingVideoComponent.getCurrentTime(),
+          details.data.videoLogs?.finishOffset
+        )
+      );
       if (isFloatingVideoPaused) {
         setIsMainVideoPaused(true);
       } else {
@@ -249,7 +259,7 @@ const TestVideoPlayer = () => {
         }}
       >
         <VideoPlayer
-          ref={floatingVideoComponentRef}
+          ref={floatingVideoRef}
           videoUrl={videoUrl}
           videoSeekTime={videoSeekTime}
           onMetadataLoaded={() => {}}
@@ -268,6 +278,16 @@ const TestVideoPlayer = () => {
       </DraggableComponent>
     </div>
   );
+};
+
+TestVideoPlayer.propTypes = {
+  videoRef: PropTypes.objectOf(PropTypes.any),
+  floatingVideoRef: PropTypes.objectOf(PropTypes.any)
+};
+
+TestVideoPlayer.defaultProps = {
+  videoRef: null,
+  floatingVideoRef: null
 };
 
 export default TestVideoPlayer;

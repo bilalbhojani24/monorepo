@@ -26,6 +26,14 @@ const FORMAT_EXCLUDE_KEYWORDS = [
   'fullscreen'
 ];
 
+export const getVideoSeekTime = (currentTime, endOffset) => {
+  const endTime = Math.ceil(endOffset / 1000);
+  if (currentTime >= endTime) {
+    return endTime;
+  }
+  return currentTime;
+};
+
 export const formatPath = (method, path) => {
   if (!path) {
     return '';
