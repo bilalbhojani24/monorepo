@@ -79,38 +79,40 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
   (res) => Promise.resolve(res),
   (res) => {
-    // if server error, show toast
-    o11yNotify({
-      title: 'Something went wrong!',
-      description:
-        res?.response?.data?.message && !res?.response?.status >= 500
-          ? capitalize(res?.response?.data?.message)
-          : `Some technical error occurred. Please try again. ${
-              res?.response?.status >= 500 || !res?.response?.status
-                ? 'If this issue persists'
-                : ''
-            }`,
-      type: 'error',
-      actionButtons: () =>
-        res?.response?.status >= 500 || !res?.response?.status ? (
-          <O11yHyperlink
-            href={`${envConfig.baseUrl}/support/test-observability`}
-            target="_blank"
-          >
-            <O11yButton
-              variant="minimal"
-              colors="brand"
-              wrapperClassName="flex items-center"
-              icon={<MdOpenInNew className="text-lg" />}
-              iconPlacement="end"
-              size="small"
+    if (!axios.isCancel(res) && res?.response?.status) {
+      // if server error, show toast
+      o11yNotify({
+        title: 'Something went wrong!',
+        description:
+          res?.response?.data?.message && res?.response?.status < 500
+            ? capitalize(res?.response?.data?.message)
+            : `Some technical error occurred. Please try again. ${
+                res?.response?.status >= 500 || !res?.response?.status
+                  ? 'If this issue persists'
+                  : ''
+              }`,
+        type: 'error',
+        actionButtons: () =>
+          res?.response?.status >= 500 ? (
+            <O11yHyperlink
+              href={`${envConfig.baseUrl}/support/test-observability`}
+              target="_blank"
             >
-              Contact Support
-            </O11yButton>
-          </O11yHyperlink>
-        ) : null,
-      duration: 5000
-    });
+              <O11yButton
+                variant="minimal"
+                colors="brand"
+                wrapperClassName="flex items-center"
+                icon={<MdOpenInNew className="text-lg" />}
+                iconPlacement="end"
+                size="small"
+              >
+                Contact Support
+              </O11yButton>
+            </O11yHyperlink>
+          ) : null,
+        duration: 5000
+      });
+    }
 
     return Promise.reject(res);
   }

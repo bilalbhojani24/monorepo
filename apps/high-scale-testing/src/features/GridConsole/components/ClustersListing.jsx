@@ -8,9 +8,11 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
 import AWSIcon from 'assets/icons/components/clouds/AWSIcon';
 import AzureIcon from 'assets/icons/components/clouds/AzureIcon';
 import GCPIcon from 'assets/icons/components/clouds/GCPIcon';
+import { AGAutomationConsoleInteracted } from 'constants/event-names';
 
 import { useClustersListing } from './useClustersListing';
 
@@ -24,9 +26,9 @@ const ClustersListing = () => {
   };
 
   const cloudIcons = {
-    aws: <AWSIcon width={20} height={20} />,
-    gcp: <GCPIcon width={20} height={20} />,
-    azure: <AzureIcon width={20} height={20} />
+    aws: <AWSIcon width={28} height={28} />,
+    gcp: <GCPIcon width={28} height={28} />,
+    azure: <AzureIcon width={28} height={28} />
   };
 
   return (
@@ -85,14 +87,24 @@ const ClustersListing = () => {
               return (
                 <TableRow
                   onRowClick={() => {
+                    logEvent(
+                      ['amplitude'],
+                      'web_events',
+                      AGAutomationConsoleInteracted,
+                      {
+                        action: 'cluster_selected',
+                        cluster_name: clusterName,
+                        cluster_id: clusterId
+                      }
+                    );
                     ClusterRowHandler(clusterId);
                   }}
                 >
-                  <TableCell wrapperClassName="text-base-900 first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName="text-base-900 px-6 py-4">
                     <p className="font-normal">{clusterName}</p>
                     <p className="text-base-500">{clusterId}</p>
                   </TableCell>
-                  <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName="px-6 py-4">
                     <Badge
                       disabled
                       hasDot={false}
@@ -102,17 +114,17 @@ const ClustersListing = () => {
                       text={clusterStatus}
                     />
                   </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName=" px-6 py-4">
                     {cloudIcons[cloudProvider]}
                   </TableCell>
-                  <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
-                    <p className="font-normal">{region}</p>
+                  <TableCell wrapperClassName="px-6 py-4">
+                    <p className="font-norma text-base-900">{region}</p>
                   </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
-                    <p className="font-normal">12/50</p>
+                  <TableCell wrapperClassName=" px-6 py-4">
+                    <p className="font-normal text-base-900">12/50</p>
                   </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
-                    <p className="font-normal">{grids.length}</p>
+                  <TableCell wrapperClassName=" px-6 py-4">
+                    <p className="font-normal text-base-900">{grids.length}</p>
                   </TableCell>
                 </TableRow>
               );
