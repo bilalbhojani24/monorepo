@@ -28,14 +28,14 @@ const useBrowserSettings = (notifactionComponent) => {
   const [allowedBrowsersValue, setAllowedBrowsersValue] = useState([]);
 
   const onCPUChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setCpuValue(newValue);
   };
 
   const onMemoryLimitChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setMemoryLimitValue(newValue);

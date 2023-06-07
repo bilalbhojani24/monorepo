@@ -40,7 +40,7 @@ const useTestArtifacts = (notifactionComponent) => {
   };
 
   const logsRetentionChangeHandler = (e) => {
-    setLogsRetentionValue(e.target.value);
+    setLogsRetentionValue(parseInt(e.target.value));
     setIsSaveButtonDisabled(false);
   };
 
