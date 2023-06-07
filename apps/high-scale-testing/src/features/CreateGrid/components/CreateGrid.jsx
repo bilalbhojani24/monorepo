@@ -447,29 +447,31 @@ const CreateGrid = () => {
                                 <div className="w-1/2">
                                   {ClusterInputComboBoxComponent}
                                 </div>
-                                <div>
-                                  <Button
-                                    colors="white"
-                                    fullWidth
-                                    icon={<MdOutlineModeEditOutline />}
-                                    iconPlacement="start"
-                                    onClick={editClusterBtnClickHandler}
-                                    size="default"
-                                  >
-                                    Edit Cluster Details
-                                  </Button>
-                                </div>
-                                <div>
-                                  <Button
-                                    colors="white"
-                                    fullWidth
-                                    icon={<MdAdd />}
-                                    iconPlacement="start"
-                                    onClick={setupNewClusterBtnClickHandler}
-                                    size="default"
-                                  >
-                                    Setup New Cluster
-                                  </Button>
+                                <div className="flex gap-8 w-1/2">
+                                  <div className="w-1/2">
+                                    <Button
+                                      colors="white"
+                                      fullWidth
+                                      icon={<MdOutlineModeEditOutline />}
+                                      iconPlacement="start"
+                                      onClick={editClusterBtnClickHandler}
+                                      size="default"
+                                    >
+                                      Edit Cluster Details
+                                    </Button>
+                                  </div>
+                                  <div className="w-1/2">
+                                    <Button
+                                      colors="white"
+                                      fullWidth
+                                      icon={<MdAdd />}
+                                      iconPlacement="start"
+                                      onClick={setupNewClusterBtnClickHandler}
+                                      size="default"
+                                    >
+                                      Setup New Cluster
+                                    </Button>
+                                  </div>
                                 </div>
                               </div>
                               <div className=" mt-4 flex flex-row gap-4">
