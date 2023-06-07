@@ -88,13 +88,15 @@ const useFilter = (prop) => {
     if (forceClearAll) {
       // clear search and filter
       dispatch(resetFilterSearchMeta());
-      navigate({
-        pathname:
-          searchInitiatedFromURL ||
-          routeFormatter(AppRoute.TEST_CASES, {
-            projectId
-          })
-      });
+      if (isSearchFilterView) {
+        navigate({
+          pathname:
+            searchInitiatedFromURL ||
+            routeFormatter(AppRoute.TEST_CASES, {
+              projectId
+            })
+        });
+      }
     } else {
       // clear only filter
       dispatch(resetFilterMeta());
@@ -230,8 +232,6 @@ const useFilter = (prop) => {
       ...filterSearchMeta,
       q: value
     });
-    if (!filterSearchMeta?.q)
-      dispatch(setSearchInitiatedURL(location.pathname));
   };
 
   const setSearchErrorText = () => {
