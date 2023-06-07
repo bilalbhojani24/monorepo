@@ -15,15 +15,16 @@ const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
     secondsElapsed
   } = useReportLoadingHeader();
 
-  const getBannerDescription = useCallback(
-    () =>
-      `Your session will be terminated automatically in ${secondsToMinutes(
-        sessionDetails.timeoutDurationInMinutes * 60 - secondsElapsed
+  const getBannerDescription = useCallback(() => {
+    if (sessionDetails?.timeoutDurationInMinutes) {
+      return `Your session will be terminated automatically in ${secondsToMinutes(
+        sessionDetails?.timeoutDurationInMinutes * 60 - secondsElapsed
       )} minutes. Sessions can run for a maximum of ${secondsToMinutes(
-        sessionDetails.timeoutDurationInMinutes * 60
-      )} minutes.`,
-    [sessionDetails.timeoutDurationInMinutes, secondsElapsed]
-  );
+        sessionDetails?.timeoutDurationInMinutes * 60
+      )} minutes.`;
+    }
+    return '';
+  }, [sessionDetails.timeoutDurationInMinutes, secondsElapsed]);
 
   return (
     <div className="flex flex-col">
