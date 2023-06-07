@@ -3,9 +3,13 @@ export const DOC_KEY_MAPPING = {
   application_logs: 'integrations/application-logs',
   auto_analyser: 'features/auto-failure-analysis',
   automation_build: 'how-to-guides/organize-test-runs',
+  cypress: 'quick-start/cypress',
   introduction: 'overview/what-is-test-observability',
+  junit: 'quick-start/junit-reports',
   mocha: 'quick-start/mocha',
   mute: 'features/mute-tests',
+  nightwatch: 'quick-start/nightwatchjs',
+  playwright: 'quick-start/playwright',
   re_run: 'features/re-run',
   smart_tags: 'features/smartTags',
   source_code: 'integrations/source-code',
@@ -15,6 +19,8 @@ export const DOC_KEY_MAPPING = {
   wdio: 'quick-start/webdriverio'
 };
 export const EXTERNAL_LINKS = {
+  contact: 'contact?ref=header',
+  supportLink: 'support/test-observability',
   getADemo: 'contact?&ref=observability-dashboard-demo-lead',
   planAndPricing: 'pricing?product=test-observability',
   buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead',
@@ -229,4 +235,15 @@ export const O11Y_DATE_RANGE = {
     key: 'custom',
     label: 'Custom'
   }
+};
+export const FLOATING_COMPONENTS_IDS = {
+  O11Y_FILTERS: 'O11Y_FILTERS',
+  TEST_DETAILS: 'TEST_DETAILS',
+  BUILD_FILTERS: 'BUILD_FILTERS',
+  TEST_FILTERS: 'TEST_FILTERS',
+  TEST_HEALTH_FILTERS: 'TEST_HEALTH_FILTERS',
+  UNIQUE_ERRORS_FILTERS: 'UNIQUE_ERRORS_FILTERS',
+  TEST_HEALTH_DETAILS: 'TEST_HEALTH_DETAILS',
+  UNIQUE_ERRORS_DETAILS: 'UNIQUE_ERRORS_DETAILS',
+  O11Y_SETTINGS: 'O11Y_SETTINGS'
 };

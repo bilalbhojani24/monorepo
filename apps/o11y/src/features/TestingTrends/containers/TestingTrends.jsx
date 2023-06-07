@@ -173,7 +173,7 @@ export default function TestingTrends() {
   return (
     <>
       <TestingTrendsHeader />
-      <div className="p-2">
+      <div className="p-2 pb-24">
         <ResponsiveReactGridLayout
           className="relative"
           draggableHandle=".to-test-trend__dragHandler"

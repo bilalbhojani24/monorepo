@@ -13,7 +13,6 @@ import {
   setTestList
 } from 'features/TestList/slices/testListSlice';
 import TestInsightsLayout from 'features/TestsInsights/containers/TestInsightsLayout';
-import { o11yNotify } from 'utils/notification';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
 import BuildDetailsStateHandler from '../components/BuildDetailsStateHandler';
@@ -33,8 +32,8 @@ function BuildDetails() {
   const buildUUID = useSelector(getBuildUUID);
   const params = useParams();
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const activeTab = useSelector(getBuildDetailsActiveTab);
   const fetchBuildId = useCallback(() => {
     setLoadError(false);
@@ -160,13 +159,6 @@ function BuildDetails() {
     );
     dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
       .unwrap()
-      .catch(() => {
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating tests',
-          type: 'error'
-        });
-      })
       .finally(() => {
         setIsLoading(false);
         setUpdateCount(0);

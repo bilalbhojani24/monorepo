@@ -11,3 +11,5 @@ export const getFeatureFlag = (state, feature) =>
     isActive: true
   };
 export const getHasInitFailed = (state) => state.global.hasProductInitFailed;
+export const getActiveFloatingComponents = (state) =>
+  state.global.activeFloatingComponents;

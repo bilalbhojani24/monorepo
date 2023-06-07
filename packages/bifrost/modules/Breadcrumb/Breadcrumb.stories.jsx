@@ -5,7 +5,11 @@ import { within } from '@storybook/testing-library';
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 import { ChevronRightIcon } from '../Icon';
 
-import { BREADCRUMB_SIZE, breadcrumbData } from './const/breadcrumbConstants';
+import {
+  BREADCRUMB_SIZE,
+  breadcrumbData,
+  onlyIconOrTextBreadcrumbData
+} from './const/breadcrumbConstants';
 import Breadcrumb from './index';
 
 const defaultConfig = {
@@ -58,6 +62,15 @@ const defaultConfig = {
 };
 const Template = (args) => <Breadcrumb {...args} />;
 const Primary = Template.bind({});
+
+const OnlyIconOrText = (args) => <Breadcrumb {...args} />;
+const OnlyIconOrTextVariant = OnlyIconOrText.bind({});
+
+OnlyIconOrTextVariant.args = {
+  data: onlyIconOrTextBreadcrumbData,
+  ChevronIconClass: 'mr-4'
+};
+
 Primary.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await expect(canvas.getByText('Home')).toBeVisible();
@@ -71,4 +84,4 @@ Primary.parameters = {
 };
 
 export default defaultConfig;
-export { Primary };
+export { OnlyIconOrTextVariant, Primary };

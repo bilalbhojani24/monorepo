@@ -2,7 +2,7 @@ import React from 'react';
 import { MdOpenInNew } from '@browserstack/bifrost';
 import axios from 'axios';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
-import { getEnvConfig } from 'utils/common';
+import { capitalize, getEnvConfig } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 export const ALLOWED_COOKIE_DOMAINS = ['bsstag.com', 'browserstack.com'];
@@ -79,33 +79,41 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
   (res) => Promise.resolve(res),
   (res) => {
-    if (res?.response?.status === 500) {
+    if (!axios.isCancel(res) && res?.response?.status) {
       // if server error, show toast
       o11yNotify({
-        title: 'Error occurred',
+        title: 'Something went wrong!',
         description:
-          'Some technical error occurred. Please try again. If this issue persists',
+          res?.response?.data?.message && res?.response?.status < 500
+            ? capitalize(res?.response?.data?.message)
+            : `Some technical error occurred. Please try again. ${
+                res?.response?.status >= 500 || !res?.response?.status
+                  ? 'If this issue persists'
+                  : ''
+              }`,
         type: 'error',
-        actionButtons: () => (
-          <O11yHyperlink
-            href={`${envConfig.baseUrl}/support/test-observability`}
-            target="_blank"
-          >
-            <O11yButton
-              variant="minimal"
-              colors="brand"
-              wrapperClassName="flex items-center"
-              icon={<MdOpenInNew className="text-lg" />}
-              iconPlacement="end"
-              size="small"
+        actionButtons: () =>
+          res?.response?.status >= 500 ? (
+            <O11yHyperlink
+              href={`${envConfig.baseUrl}/support/test-observability`}
+              target="_blank"
             >
-              Contact Support
-            </O11yButton>
-          </O11yHyperlink>
-        ),
+              <O11yButton
+                variant="minimal"
+                colors="brand"
+                wrapperClassName="flex items-center"
+                icon={<MdOpenInNew className="text-lg" />}
+                iconPlacement="end"
+                size="small"
+              >
+                Contact Support
+              </O11yButton>
+            </O11yHyperlink>
+          ) : null,
         duration: 5000
       });
     }
+
     return Promise.reject(res);
   }
 );
