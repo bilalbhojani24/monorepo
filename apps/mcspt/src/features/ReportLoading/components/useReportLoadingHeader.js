@@ -28,7 +28,7 @@ const useReportLoadingHeader = () => {
   };
 
   useEffect(() => {
-    if (sessionDetails.timeoutDurationInMinutes * 60 - secondsElapsed === 30) {
+    if (sessionDetails.timeoutDurationInMinutes * 60 - secondsElapsed === 120) {
       dispatch(setShowTimeoutBanner(true));
     }
 
