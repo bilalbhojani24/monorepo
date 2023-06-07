@@ -96,7 +96,7 @@ const ClusterOverview = () => {
             Cluster Details
           </p>
 
-          <div className="grid grid-cols-4 grid-rows-3 gap-x-8 gap-y-4 pt-4">
+          <div className="grid grid-cols-4 grid-rows-3 gap-x-8 gap-y-4 pt-6">
             {clusterDetailData.map((detail) => {
               const { title, value } = detail;
               return (
@@ -111,21 +111,21 @@ const ClusterOverview = () => {
       </div>
 
       <div className="flex flex-row gap-x-6 p-6">
-        <div className="border-base-200 w-1/3 rounded-lg border bg-white p-6 shadow">
+        <div className="border-base-200 w-2/5 rounded-lg border bg-white p-6 shadow">
           <p className="text-base-900 text-lg font-medium leading-6">
             Advanced Details
           </p>
-          <div className="mt-4">
+          <div className="mt-6">
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center">
                 <MdAddLink />
-                <div className="ml-2 mr-6">
+                <div className="ml-2 mr-6 text-base text-base-500">
                   <p>VPC ID</p>
                 </div>
               </div>
 
               <div className="flex w-2/3 justify-between">
-                <div className="mr-4">
+                <div className="mr-4 text-base-900">
                   <p>{profile.vpcs}</p>
                 </div>
                 <CopyButton
@@ -138,13 +138,13 @@ const ClusterOverview = () => {
               </div>
             </div>
             <div className={commonClassName}>
-              <div className="flex w-1/3 items-center">
+              <div className="flex w-1/3 items-center text-base-500">
                 <MdAddLink />
-                <div className="ml-2 mr-6">
+                <div className="ml-2 text-base  mr-6">
                   <p>Domain</p>
                 </div>
               </div>
-              <div className="flex w-2/3 justify-between">
+              <div className="flex w-2/3 justify-between text-base-900">
                 <div className="mr-4">
                   <p>{profile.domain}</p>
                 </div>
@@ -158,14 +158,14 @@ const ClusterOverview = () => {
               </div>
             </div>
             <div className={commonClassName}>
-              <div className="flex w-1/3 items-center">
+              <div className="flex w-1/3 items-center text-base-500">
                 <MdAddLink />
-                <div className="ml-2 mr-6">
+                <div className="ml-2 text-base mr-6">
                   <p>Subnets</p>
                 </div>
               </div>
 
-              <div className="flex w-2/3 justify-between">
+              <div className="flex w-2/3 justify-between text-base-900">
                 <div className="mr-4">
                   <p>{profile.subnets.join(',')}</p>
                 </div>
@@ -181,17 +181,25 @@ const ClusterOverview = () => {
           </div>
         </div>
 
-        <div className="border-base-200 w-2/3 rounded-lg border bg-white p-6 shadow">
+        <div className="border-base-200 w-3/5 rounded-lg border bg-white p-6 shadow">
           <p className="text-base-900 text-lg font-medium leading-6">
             Grid Resources
           </p>
-          <Table containerWrapperClass="mt-4">
+          <Table containerWrapperClass="mt-6">
             <TableHead>
               <TableRow>
-                <TableCell>GRID NAME</TableCell>
-                <TableCell>CONCURRENCY</TableCell>
-                <TableCell>RUNNING TEST</TableCell>
-                <TableCell>QUEUED TEST</TableCell>
+                <TableCell wrapperClassName="text-xs px-6 py-3 text-base-500 font-medium">
+                  GRID NAME
+                </TableCell>
+                <TableCell wrapperClassName="text-xs px-6 py-3 text-base-500 font-medium">
+                  CONCURRENCY
+                </TableCell>
+                <TableCell wrapperClassName="text-xs px-6 py-3 text-base-500 font-medium">
+                  RUNNING TEST
+                </TableCell>
+                <TableCell wrapperClassName="text-xs px-6 py-3 text-base-500 font-medium">
+                  QUEUED TEST
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -204,10 +212,18 @@ const ClusterOverview = () => {
                 } = grid;
                 return (
                   <TableRow wrapperClassName="text-base-900">
-                    <TableCell>{gridName}</TableCell>
-                    <TableCell>{concurrency}</TableCell>
-                    <TableCell>{runningTests}</TableCell>
-                    <TableCell>{queuedTests}</TableCell>
+                    <TableCell wrapperClassName="px-6 py-4">
+                      {gridName}
+                    </TableCell>
+                    <TableCell wrapperClassName="px-6 py-4">
+                      {concurrency}
+                    </TableCell>
+                    <TableCell wrapperClassName="px-6 py-4">
+                      {runningTests}
+                    </TableCell>
+                    <TableCell wrapperClassName="px-6 py-4">
+                      {queuedTests}
+                    </TableCell>
                   </TableRow>
                 );
               })}

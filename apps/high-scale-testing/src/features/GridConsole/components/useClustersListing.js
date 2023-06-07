@@ -8,10 +8,10 @@ const useClustersListing = () => {
   const statusModifier = {
     Creating: 'primary',
     Online: 'success',
-    Deleting: 'error'
+    Deleting: 'base'
   };
   const tableCellWrapperClassName =
-    'first:pr-3 last:pl-3 px-2 text-base-500 font-medium';
+    'text-xs px-6 py-3 text-base-500 font-medium';
 
   // All Store variables:
   const userDetails = useSelector(getUserDetails);

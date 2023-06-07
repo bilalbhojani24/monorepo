@@ -153,7 +153,7 @@ const GridOverview = () => {
                   <div className="flex flex-row items-center">
                     {frameWorkIcons[framework.name]}
                     <div className="ml-2 w-52">
-                      <p className="text-base-900 text-base font-normal">
+                      <p className="text-base-500 text-base font-normal">
                         {framework.name}
                       </p>
                     </div>
@@ -162,7 +162,7 @@ const GridOverview = () => {
                   <div className="flex flex-row items-center justify-start">
                     {framework.url.length ? (
                       <>
-                        <p className="text-base-900 mr-4 text-sm font-normal">
+                        <p className="text-base-900 mr-4 text-base font-normal">
                           {framework.url}
                         </p>
 
