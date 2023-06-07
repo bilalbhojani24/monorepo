@@ -66,7 +66,7 @@ const RadioGroup = ({
         {errorText && (
           <div className="mt-4 flex items-center gap-1 pr-3">
             <ExclamationCircleIcon
-              className="text-danger-500 h-5 w-5"
+              className="text-danger-500 -ml-0.5 h-5 w-5"
               aria-hidden="true"
             />
 
