@@ -7,7 +7,8 @@ import ROUTES from '../../../constants/routes';
 import useLayoutClusterDetail from './useLayoutClusterDetail';
 
 const LayoutClusterDetail = () => {
-  const { currentTab, onTabChangeHandler } = useLayoutClusterDetail();
+  const { clusterData, currentTab, onTabChangeHandler } =
+    useLayoutClusterDetail();
 
   const TabsForClusterDetail = (
     <Tabs
@@ -38,7 +39,7 @@ const LayoutClusterDetail = () => {
               current: true
             }
           ]}
-          heading="high-scale-grid"
+          heading={clusterData.name}
         />
 
         {TabsForClusterDetail}

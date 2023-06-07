@@ -7,7 +7,7 @@ import ROUTES from '../../../constants/routes';
 import useLayoutGridDetail from './useLayoutGridDetail';
 
 const LayoutGridDetail = () => {
-  const { onTabChangeHandler, setCurrentTab, currentTab } = useLayoutGridDetail();
+  const { gridData, onTabChangeHandler, currentTab } = useLayoutGridDetail();
 
   const TabsForGridDetail = (
     <Tabs
@@ -18,12 +18,12 @@ const LayoutGridDetail = () => {
         },
         {
           index: 1,
-          count: 'Coming Soon',
-          name: 'Utilization'
+          name: 'Settings'
         },
         {
           index: 2,
-          name: 'Settings'
+          count: 'Coming Soon',
+          name: 'Utilization'
         }
       ]}
       onTabChange={onTabChangeHandler}
@@ -43,7 +43,7 @@ const LayoutGridDetail = () => {
               current: true
             }
           ]}
-          heading="high-scale-grid"
+          heading={gridData.name}
         />
 
         {TabsForGridDetail}

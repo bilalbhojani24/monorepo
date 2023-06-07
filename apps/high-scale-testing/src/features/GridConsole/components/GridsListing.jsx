@@ -145,7 +145,7 @@ const GridsListing = () => {
                       onClick={cellClickhandler}
                       onKeyDown={cellClickhandler}
                       tabIndex={0}
-                      className="text-base-900"
+                      className="text-base-900 items-center"
                     >
                       {gridData.runningTests}
                     </div>
