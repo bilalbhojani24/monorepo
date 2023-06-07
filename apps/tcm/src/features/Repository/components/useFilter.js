@@ -14,6 +14,7 @@ import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
+  resetBulkSelection,
   resetFilterMeta,
   resetFilterSearchMeta,
   setFilterSearchMeta,
@@ -126,6 +127,8 @@ const useFilter = (prop) => {
       }
       return;
     }
+
+    dispatch(resetBulkSelection());
 
     if (isFilterInvoke) {
       // Filter apply clicked
