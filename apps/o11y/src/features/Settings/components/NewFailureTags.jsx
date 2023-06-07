@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -7,14 +7,10 @@ import {
   O11ySelectMenuTrigger,
   O11ySwitcher
 } from 'common/bifrostProxy';
-import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
-import {
-  saveSmartTagsChanges,
-  submitSmartTagsChanges
-} from '../slices/smartTagsSettings';
+import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const NEW_FAILURE_TYPES_DATA = [
   { name: 'new', value: 'NEW' },
@@ -31,38 +27,14 @@ const STATIC_DROPDOWN_DATA = [
 ];
 
 export const NewFailureTags = ({ data, isActive }) => {
-  const [isSubmittingData, setIsSubmittingData] = useState(false);
-
   const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
   const { failureType, consecutiveRuns, enabled: newFailureEnabled } = data;
   const {
     failureType: failureTypeDefault,
     consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.newFailure;
 
-  const setNewFailureSwitch = (key, value) => {
-    setIsSubmittingData(true);
-    dispatch(
-      saveSmartTagsChanges({
-        newFailure: {
-          ...data,
-          [key]: value
-        }
-      })
-    );
-    dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName
-      })
-    )
-      .unwrap()
-      .finally(() => {
-        setIsSubmittingData(false);
-      });
-  };
-
-  const setNewFailureDropdowns = (key, value) => {
+  const setNewFailure = (key, value) => {
     dispatch(
       saveSmartTagsChanges({
         newFailure: {
@@ -78,9 +50,8 @@ export const NewFailureTags = ({ data, isActive }) => {
         <span className="text-lg font-medium">New failures</span>
         <O11ySwitcher
           checked={newFailureEnabled}
-          onChange={(value) => setNewFailureSwitch('enabled', value)}
+          onChange={(value) => setNewFailure('enabled', value)}
           disabled={!isActive}
-          loading={isSubmittingData}
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
@@ -94,9 +65,7 @@ export const NewFailureTags = ({ data, isActive }) => {
                   label: NEW_FAILURE_TYPES_ENUM[failureType],
                   value: failureType
                 }}
-                onChange={(item) =>
-                  setNewFailureDropdowns('failureType', item.value)
-                }
+                onChange={(item) => setNewFailure('failureType', item.value)}
                 defaultValue={{
                   label: failureTypeDefault,
                   value: failureTypeDefault
@@ -124,7 +93,7 @@ export const NewFailureTags = ({ data, isActive }) => {
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
-                  setNewFailureDropdowns('consecutiveRuns', item.value)
+                  setNewFailure('consecutiveRuns', item.value)
                 }
                 defaultValue={{
                   label: consecutiveRunsDefault,

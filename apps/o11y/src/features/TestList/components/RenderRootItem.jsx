@@ -7,6 +7,7 @@ import {
   AccordionPanel,
   MdFolderOpen
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { O11yHyperlink } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
 import PropagationBlocker from 'common/PropagationBlocker';
@@ -29,7 +30,7 @@ import {
 
 import RenderTestListItems from './RenderTestListItems';
 
-const RenderRootItem = ({ data }) => {
+const RenderRootItem = ({ data, isLast }) => {
   const { details, displayName, status, rank } = data;
   const {
     expandAll,
@@ -92,7 +93,11 @@ const RenderRootItem = ({ data }) => {
   }, [data.children]);
 
   return (
-    <>
+    <div
+      className={twClassNames({
+        'pb-24': isLast
+      })}
+    >
       <Accordion>
         <div
           className="bg-base-50 border-base-100 border-y px-6"
@@ -148,8 +153,7 @@ const RenderRootItem = ({ data }) => {
             }
             title={
               <div className="flex flex-col">
-                {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
-                <p className="text-base-900 classic-break-words text-left text-sm font-normal">
+                <p className="text-base-900 break-words text-left text-sm font-normal">
                   {ReactHtmlParser(displayName, {
                     transform: transformUnsupportedTags
                   })}
@@ -197,12 +201,13 @@ const RenderRootItem = ({ data }) => {
           ))}
         </AccordionPanel>
       </Accordion>
-    </>
+    </div>
   );
 };
 
 RenderRootItem.propTypes = {
-  data: PropTypes.shape(singleItemPropType).isRequired
+  data: PropTypes.shape(singleItemPropType).isRequired,
+  isLast: PropTypes.bool.isRequired
 };
 
 export default React.memo(RenderRootItem);

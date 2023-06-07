@@ -22,6 +22,12 @@ const { reducer, actions } = createSlice({
       selectedFilters: [],
       appliedFilters: [],
       staticFilters: {}
+    },
+    [FILTER_CATEGORIES.TEST_LISTING]: {
+      isLoadingFilters: true,
+      selectedFilters: [],
+      appliedFilters: [],
+      staticFilters: {}
     }
   },
   reducers: {

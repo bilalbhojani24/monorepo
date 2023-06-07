@@ -143,12 +143,12 @@ export const SMART_TAGS_DEFAULT_VALUES = {
   },
   alwaysFailing: {
     enabled: true,
-    failureType: 'same',
+    failureType: 'SAME',
     consecutiveRuns: 5
   },
   newFailure: {
     enabled: true,
-    failureType: 'new',
+    failureType: 'NEW',
     consecutiveRuns: 5
   },
   performanceAnomalies: {

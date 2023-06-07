@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -7,14 +7,10 @@ import {
   O11ySelectMenuTrigger,
   O11ySwitcher
 } from 'common/bifrostProxy';
-import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
-import {
-  saveSmartTagsChanges,
-  submitSmartTagsChanges
-} from '../slices/smartTagsSettings';
+import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const ALWAYS_FAILING_TAGS_DATA = [
   { label: 'same', value: 'SAME' },
@@ -33,10 +29,7 @@ const STATIC_DROPDOWN_DATA = [
 ];
 
 export const AlwaysFailingTags = ({ data, isActive }) => {
-  const [isSubmittingData, setIsSubmittingData] = useState(false);
-
   const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
 
   const {
     failureType,
@@ -48,28 +41,7 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
     consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.alwaysFailing;
 
-  const setAlwaysFailingSwitch = (key, value) => {
-    setIsSubmittingData(true);
-    dispatch(
-      saveSmartTagsChanges({
-        alwaysFailing: {
-          ...data,
-          [key]: value
-        }
-      })
-    );
-    dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName
-      })
-    )
-      .unwrap()
-      .finally(() => {
-        setIsSubmittingData(false);
-      });
-  };
-
-  const setAlwaysFailingDropdowns = (key, value) => {
+  const setAlwaysFailing = (key, value) => {
     dispatch(
       saveSmartTagsChanges({
         alwaysFailing: {
@@ -86,9 +58,8 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
         <span className="text-lg font-medium">Always Failing</span>
         <O11ySwitcher
           checked={alwaysFailingSwitchEnabled}
-          onChange={(value) => setAlwaysFailingSwitch('enabled', value)}
+          onChange={(value) => setAlwaysFailing('enabled', value)}
           disabled={!isActive}
-          loading={isSubmittingData}
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
@@ -106,9 +77,7 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
                   label: errorTypeDefault,
                   value: errorTypeDefault
                 }}
-                onChange={(item) =>
-                  setAlwaysFailingDropdowns('failureType', item.value)
-                }
+                onChange={(item) => setAlwaysFailing('failureType', item.value)}
                 disabled={isActive ? !alwaysFailingSwitchEnabled : true}
               >
                 <O11ySelectMenuTrigger />
@@ -132,7 +101,7 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
-                  setAlwaysFailingDropdowns('consecutiveRuns', item.value)
+                  setAlwaysFailing('consecutiveRuns', item.value)
                 }
                 disabled={isActive ? !alwaysFailingSwitchEnabled : true}
                 defaultValue={{
