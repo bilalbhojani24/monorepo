@@ -1,5 +1,6 @@
 import React from 'react';
 import { Badge, MdContentCopy } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
 import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
 import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
@@ -7,6 +8,7 @@ import CypressIcon from 'assets/icons/components/frameworks/CypressIcon';
 import PlaywrightIcon from 'assets/icons/components/frameworks/PlaywrightIcon';
 import SeleniumIcon from 'assets/icons/components/frameworks/SeleniumIcon';
 import CopyButton from 'common/CopyButton/components/CopyButton';
+import { AGGridDetailsInteracted } from 'constants/event-names';
 
 import { useGridOverview } from './useGridOverview';
 
@@ -107,20 +109,27 @@ const GridOverview = () => {
     }
   ];
 
+  const copyBtnCbFn = (framework) => {
+    logEvent(['amplitude'], 'web_events', AGGridDetailsInteracted, {
+      action: 'url_copied',
+      framework
+    });
+  };
+
   return (
     <>
       <div className="px-6 pt-6">
         <div className={containerClassName}>
-          <p className="text-lg font-medium leading-6 text-base-900">
+          <p className="text-base-900 text-lg font-medium leading-6">
             Grid Details
           </p>
 
-          <div className="grid grid-cols-4 grid-rows-3 gap-x-8 gap-y-4 pt-4">
+          <div className="grid grid-cols-4 grid-rows-3 gap-x-8 gap-y-4 pt-6">
             {gridDetailData.map((detail) => {
               const { title, value } = detail;
               return (
                 <div>
-                  <p className="text-sm font-normal text-base-500">{title}</p>
+                  <p className="text-base-500 text-sm font-normal">{title}</p>
                   <p className={fontColor900ClassName}>{value}</p>
                 </div>
               );
@@ -132,30 +141,33 @@ const GridOverview = () => {
       {frameworks.length && (
         <div className="p-6">
           <div className={containerClassName}>
-            <p className="text-lg font-medium leading-6 text-base-900">
+            <p className="text-base-900 text-lg font-medium leading-6">
               Framework URLs
             </p>
             <div className="bg-white pt-4">
               {frameworks.map((framework) => (
                 <div
-                  className="flex flex-row items-center border-b border-base-200 py-3"
+                  className="border-base-200 flex flex-row items-center border-b py-3"
                   key={framework.name}
                 >
                   <div className="flex flex-row items-center">
                     {frameWorkIcons[framework.name]}
                     <div className="ml-2 w-52">
-                      <p className={fontColor900ClassName}>{framework.name}</p>
+                      <p className="text-base-900 text-base font-normal">
+                        {framework.name}
+                      </p>
                     </div>
                   </div>
 
                   <div className="flex flex-row items-center justify-start">
                     {framework.url.length ? (
                       <>
-                        <p className="mr-4 text-sm font-normal text-base-900">
+                        <p className="text-base-900 mr-4 text-sm font-normal">
                           {framework.url}
                         </p>
 
                         <CopyButton
+                          cb={() => copyBtnCbFn(framework.name.toLowerCase())}
                           copyValue={framework.url}
                           textColor=""
                           wrapperClassName="text-xl"
