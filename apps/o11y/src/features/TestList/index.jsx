@@ -32,7 +32,7 @@ import {
 } from 'features/TestList/slices/testListSlice';
 import TestListFilters from 'features/TestListFilters';
 import { getActiveProject } from 'globalSlice/selectors';
-import useIsUnmounted from 'hooks/useIsMounted';
+import useIsMounted from 'hooks/useIsMounted';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
@@ -48,7 +48,7 @@ const TestList = ({
   updateScrollIndexMapping
 }) => {
   const dispatch = useDispatch();
-  const { isMounted } = useIsUnmounted();
+  const { isMounted } = useIsMounted();
   const [expandAll, setExpandAll] = useState(true);
   const [closedAccordionIds, setClosedAccordionIds] = useState({});
   const buildMeta = useSelector(getBuildMeta);
@@ -109,7 +109,8 @@ const TestList = ({
       dispatch(
         getTestListData({
           buildId: buildUUID,
-          pagingParams: testListData.pagingParams
+          pagingParams: testListData.pagingParams,
+          loadNextPage: true
         })
       );
     }
@@ -184,19 +185,12 @@ const TestList = ({
   );
 
   useEffect(() => {
-    if (isMounted) {
+    if (!isFiltersLoading) {
+      // TODO: only trigger following if no tests or  filters actually changed
       resetReduxStore(['testList']);
-      if (!isFiltersLoading) {
-        loadFreshData();
-      }
+      loadFreshData();
     }
-  }, [
-    appliedFilters,
-    isFiltersLoading,
-    isMounted,
-    loadFreshData,
-    resetReduxStore
-  ]);
+  }, [appliedFilters, isFiltersLoading, loadFreshData, resetReduxStore]);
 
   useEffect(() => {
     setClosedAccordionIds((data) => {
@@ -250,7 +244,8 @@ const TestList = ({
             />
           )}
         </TestListContext.Provider>
-        {testListDataApiState.status === API_STATUSES.PENDING && (
+        {(testListDataApiState.status === API_STATUSES.PENDING ||
+          isFiltersLoading) && (
           <O11yLoader loaderClass="self-center p-1 my-5" />
         )}
         {testListDataApiState.status === API_STATUSES.FULFILLED &&
