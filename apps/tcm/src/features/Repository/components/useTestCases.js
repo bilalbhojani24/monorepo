@@ -117,6 +117,8 @@ export default function useTestCases(props) {
     });
   };
   const fetchTags = () => {
+    if (projectId === 'new') return; // if project doesnt exist, dont query for tags
+
     dispatch(updateCtaLoading({ key: 'tags', value: true }));
     getTagsAPI({ projectId }).then((data) => {
       const mappedTags = selectMenuValueMapper(data?.tags);

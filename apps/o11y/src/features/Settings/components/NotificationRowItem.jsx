@@ -76,13 +76,6 @@ function NotificationRowItem({ user, areActionsDisabled }) {
           });
         })
         .catch(() => {
-          o11yNotify({
-            title: 'Something went wrong',
-            description: `There was a failure while updating notification settings for{' '}
-            ${user.fullName || user.email}`,
-            type: 'success'
-          });
-
           dispatch(findAndUpdateUserNotificationTypePref(currentSettings));
         })
         .finally(() => {
