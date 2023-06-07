@@ -12,9 +12,10 @@ import SlideoverHeader from '../SlideoverHeader';
 
 import { MODAL_SIZE } from './const/modalConstants';
 import Slideover from './index';
+import ResizeableWrapperForSlider from './ResizeableWrapperForSlider';
 
 const SlideoverBodyDummyData = () => (
-  <>
+  <div className="m-auto w-80">
     <div className="bg-success-100 mx-auto flex h-12 w-12 items-center justify-center rounded-full">
       <CheckIcon className="text-success-600 h-6 w-6" aria-hidden="true" />
     </div>
@@ -24,7 +25,7 @@ const SlideoverBodyDummyData = () => (
       </h3>
       <div className="mt-2" />
     </div>
-  </>
+  </div>
 );
 
 const defaultConfig = {
@@ -66,6 +67,10 @@ const defaultConfig = {
       option: { type: 'boolean' },
       defaultValue: true
     },
+    isResizeable: {
+      option: { type: 'boolean' },
+      defaultValue: false
+    },
     size: {
       option: { type: 'string' },
       control: { type: 'select', options: MODAL_SIZE },
@@ -98,8 +103,11 @@ const defaultConfig = {
 };
 
 const predefinedComponentsTemplate = (args) => <Slideover {...args} />;
+const ResizeableExampleTemplate = (args) => <Slideover {...args} />;
 
 const predefinedComponents = predefinedComponentsTemplate.bind({});
+const resizeableExample = ResizeableExampleTemplate.bind({});
+
 predefinedComponents.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await expect(canvas.getByText('Go to Dashboard')).toBeVisible();
@@ -111,7 +119,7 @@ predefinedComponents.play = async ({ canvasElement }) => {
 };
 
 export default defaultConfig;
-export { predefinedComponents };
+export { predefinedComponents, resizeableExample };
 
 predefinedComponents.args = {
   children: (
@@ -135,6 +143,36 @@ predefinedComponents.args = {
       <SlideoverFooter wrapperClassName="bg-brand-100">
         <Button fullWidth colors="brand">
           Go to Dashboard
+        </Button>
+      </SlideoverFooter>
+    </>
+  )
+};
+
+resizeableExample.args = {
+  isResizeable: true,
+  resizeableWrapper: ResizeableWrapperForSlider,
+  children: (
+    <>
+      <SlideoverHeader
+        dismissButton
+        heading="Deactive account"
+        subHeading="Are you sure you want to deactivate your account? All of your data will be permanently removed from our servers forever. This action cannot be undone."
+        Icon={<ExclamationTriangleIcon className="text-white" />}
+        isBorder
+        wrapperClassName="bg-danger-700"
+        lightText
+      />
+
+      <SlideoverBody wrapperClassName="flex flex-wrap w-full justify-center gap-6">
+        {[...Array(10)].map((itemIndex) => (
+          <SlideoverBodyDummyData key={itemIndex} />
+        ))}
+      </SlideoverBody>
+
+      <SlideoverFooter wrapperClassName="bg-brand-100">
+        <Button fullWidth colors="brand">
+          Move to Dashboard
         </Button>
       </SlideoverFooter>
     </>

@@ -19,9 +19,14 @@ const Slideover = (props) => {
     backgroundOverlay,
     size,
     closeButtonOutside,
-    topMarginElementId
+    topMarginElementId,
+    isResizeable,
+    resizeableWrapper
   } = props;
 
+  const ResizeableWraperProp = resizeableWrapper;
+  const childrenWrapperClassNames =
+    'relative flex h-full flex-col overflow-auto bg-white shadow-xl w-screen inset-0';
   const { marginTopAdjustment } = useSlideover(topMarginElementId);
 
   const handleIfEscapeClicked = useCallback(
@@ -83,7 +88,7 @@ const Slideover = (props) => {
           style={{ marginTop: marginTopAdjustment }}
         >
           {closeButtonOutside && (
-            <div className="flex pt-4 pr-1">
+            <div className="flex pr-1 pt-4">
               <Button
                 colors="white"
                 size="large"
@@ -101,10 +106,19 @@ const Slideover = (props) => {
             </div>
           )}
 
-          <div
-            className={twClassNames(
-              `relative flex h-full flex-col overflow-auto bg-white shadow-xl w-screen inset-0`,
-              {
+          {isResizeable ? (
+            <ResizeableWraperProp>
+              <div
+                className={twClassNames(childrenWrapperClassNames, {
+                  'w-full': isResizeable
+                })}
+              >
+                {children}
+              </div>
+            </ResizeableWraperProp>
+          ) : (
+            <div
+              className={twClassNames(childrenWrapperClassNames, {
                 'sm:max-w-sm': MODAL_SIZE[0] === size,
                 'sm:max-w-md': MODAL_SIZE[1] === size,
                 'sm:max-w-lg': MODAL_SIZE[2] === size,
@@ -115,15 +129,20 @@ const Slideover = (props) => {
                 'sm:max-w-5xl': MODAL_SIZE[7] === size,
                 'sm:max-w-6xl': MODAL_SIZE[8] === size,
                 'sm:max-w-full': MODAL_SIZE[9] === size
-              }
-            )}
-          >
-            {children}
-          </div>
+              })}
+            >
+              {children}
+            </div>
+          )}
         </div>
       </Transition.Child>
     </Transition>
   );
+};
+
+const DefaultResizeableComponent = ({ children }) => <>{children}</>;
+DefaultResizeableComponent.propTypes = {
+  children: PropTypes.node.isRequired
 };
 
 Slideover.propTypes = {
@@ -135,7 +154,9 @@ Slideover.propTypes = {
   backgroundOverlay: PropTypes.bool,
   size: PropTypes.string,
   closeButtonOutside: PropTypes.bool,
-  topMarginElementId: PropTypes.string
+  topMarginElementId: PropTypes.string,
+  isResizeable: PropTypes.bool,
+  resizeableWrapper: PropTypes.func
 };
 
 Slideover.defaultProps = {
@@ -147,7 +168,9 @@ Slideover.defaultProps = {
   backgroundOverlay: true,
   size: MODAL_SIZE[2],
   closeButtonOutside: false,
-  topMarginElementId: ''
+  topMarginElementId: '',
+  isResizeable: false,
+  resizeableWrapper: DefaultResizeableComponent
 };
 
 export default Slideover;
