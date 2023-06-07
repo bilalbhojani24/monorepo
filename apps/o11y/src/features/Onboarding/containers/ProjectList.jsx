@@ -1,9 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { TableVirtuoso } from 'react-virtuoso';
-import { MdClose, MdOutlineOpenInNew, MdSearch } from '@browserstack/bifrost';
+import {
+  MdAdd,
+  MdClose,
+  MdOutlineOpenInNew,
+  MdSearch
+} from '@browserstack/bifrost';
 import {
   O11yButton,
   O11yHyperlink,
@@ -32,6 +37,7 @@ export default function ProjectList() {
   const projects = useSelector(getProjects);
   const [searchText, setSearchText] = useState('');
   const [projectsList, setProjectsList] = useState([]);
+  const navigate = useNavigate();
 
   const headerSize = useSelector(getHeaderSize);
 
@@ -80,6 +86,10 @@ export default function ProjectList() {
     return <Navigate to={ROUTES.get_started} />;
   }
 
+  const handleClickNewProject = () => {
+    navigate(ROUTES.get_started);
+  };
+
   return (
     <div
       className="flex w-screen justify-center p-12"
@@ -101,7 +111,13 @@ export default function ProjectList() {
                 You can change your project at anytime
               </h3>
             </div>
-            <O11yButton>New Project</O11yButton>
+            <O11yButton
+              icon={<MdAdd className="text-xl text-white" />}
+              iconPlacement="end"
+              onClick={handleClickNewProject}
+            >
+              New Project
+            </O11yButton>
           </div>
           <div className="mt-5">
             <O11yInputField

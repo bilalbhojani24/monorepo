@@ -4,6 +4,7 @@ import { MdArrowBack } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
+import ReqDemoButton from 'common/ReqDemoButton';
 import { URL_REGEX } from 'constants/common';
 import { getHeaderSize } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
@@ -58,12 +59,12 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
 
   return (
     <div
-      className="m-auto flex w-full max-w-screen-xl flex-col overflow-hidden p-12 pt-0"
+      className="m-auto flex w-full max-w-screen-xl flex-col overflow-hidden px-12 pb-6 pt-0"
       style={{
         height: `calc(100vh - ${headerSize}px)`
       }}
     >
-      <div className="mb-5 flex w-full items-center justify-between pt-12">
+      <div className="mb-5 w-full items-center justify-between pt-6">
         <O11yButton
           variant="minimal"
           icon={<MdArrowBack className="text-xl" />}
@@ -71,7 +72,12 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
         >
           Back
         </O11yButton>
-        <p className="text-sm font-medium">{selectedFramework.name}</p>
+        <div className="mt-1 flex justify-between">
+          <h1 className="text-2xl font-bold leading-7">
+            {selectedFramework.name}
+          </h1>
+          <ReqDemoButton />
+        </div>
       </div>
       {isLoading && <O11yLoader wrapperClassName="flex-1" />}
       <iframe
