@@ -26,7 +26,7 @@ const link = (
     return (
       <a
         href="/"
-        className={twClassNames('h-fit', {
+        className={twClassNames('h-fit inline-flex items-center text-sm', {
           underline: alertLinkPosition === ALERT_LINK_POSITION[0],
           'text-base-700 hover:text-base-600': modifier === ALERT_MODIFIER[0],
           'text-brand-700 hover:text-brand-600': modifier === ALERT_MODIFIER[1],
@@ -43,7 +43,7 @@ const link = (
           if (handleLinkClick) handleLinkClick(linkUrl);
         }}
       >
-        <div className="inline-flex items-center text-sm">{detailsNode}</div>
+        {detailsNode}
       </a>
     );
   return null;
@@ -164,115 +164,117 @@ const Alerts = (props) => {
                     {title}
                   </h3>
                 )}
-                <span
-                  className={twClassNames(
-                    `flex items-end text-sm ${textColorClass}`,
-                    {
-                      'text-base-700': modifier === ALERT_MODIFIER[0],
-                      'text-brand-700': modifier === ALERT_MODIFIER[1],
-                      'text-success-700': modifier === ALERT_MODIFIER[2],
-                      'text-danger-700': modifier === ALERT_MODIFIER[3],
-                      'text-attention-700': modifier === ALERT_MODIFIER[4],
-                      'text-info-700': modifier === ALERT_MODIFIER[5]
-                    }
-                  )}
-                >
-                  <div>
-                    {/* alert description */}
-                    {typeof description === 'object' ? (
-                      <div className="mt-2 text-sm">
-                        <ul className="list-disc space-y-1 pl-5 pr-1">
-                          {description?.map((descriptionItem) => (
-                            <li key={descriptionItem}>{descriptionItem}</li>
-                          ))}
-                        </ul>
-                        {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                          !!detailsNode &&
-                          link(
-                            alertLinkPosition,
-                            modifier,
-                            handleLinkClick,
-                            linkUrl,
-                            detailsNode
-                          )}
-                      </div>
-                    ) : (
-                      <p>
-                        <span className="pr-1">{description}</span>
-                        {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                          !!detailsNode &&
-                          link(
-                            alertLinkPosition,
-                            modifier,
-                            handleLinkClick,
-                            linkUrl,
-                            detailsNode
-                          )}
-                      </p>
+                {description && (
+                  <span
+                    className={twClassNames(
+                      `flex items-end text-sm ${textColorClass}`,
+                      {
+                        'text-base-700': modifier === ALERT_MODIFIER[0],
+                        'text-brand-700': modifier === ALERT_MODIFIER[1],
+                        'text-success-700': modifier === ALERT_MODIFIER[2],
+                        'text-danger-700': modifier === ALERT_MODIFIER[3],
+                        'text-attention-700': modifier === ALERT_MODIFIER[4],
+                        'text-info-700': modifier === ALERT_MODIFIER[5]
+                      }
                     )}
-
-                    {/* alert actions */}
-
-                    {enableActions === true && (
-                      <div className="mt-4">
-                        <div className="-mx-2 -my-1.5 flex">
-                          <button
-                            onClick={(event) => {
-                              event.preventDefault();
-                              if (alphaActionFn) alphaActionFn();
-                            }}
-                            type="button"
-                            className={twClassNames(
-                              'rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2',
-                              {
-                                'bg-base-50 text-base-800 hover:bg-base-100 focus:ring-base-600 focus:ring-offset-base-50':
-                                  modifier === ALERT_MODIFIER[0],
-                                'bg-brand-50 text-brand-800 hover:bg-brand-100 focus:ring-brand-600 focus:ring-offset-brand-50':
-                                  modifier === ALERT_MODIFIER[1],
-                                'bg-success-50 text-success-800 hover:bg-success-100 focus:ring-success-600 focus:ring-offset-success-50':
-                                  modifier === ALERT_MODIFIER[2],
-                                'bg-danger-50 text-danger-800 hover:bg-danger-100 focus:ring-danger-600 focus:ring-offset-danger-50':
-                                  modifier === ALERT_MODIFIER[3],
-                                'bg-attention-50 text-attention-800 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
-                                  modifier === ALERT_MODIFIER[4],
-                                'bg-info-50 text-info-800 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
-                                  modifier === ALERT_MODIFIER[5]
-                              }
+                  >
+                    <div>
+                      {/* alert description */}
+                      {typeof description === 'object' ? (
+                        <div className="mt-2 text-sm">
+                          <ul className="list-disc space-y-1 pl-5 pr-1">
+                            {description?.map((descriptionItem) => (
+                              <li key={descriptionItem}>{descriptionItem}</li>
+                            ))}
+                          </ul>
+                          {alertLinkPosition === ALERT_LINK_POSITION[0] &&
+                            !!detailsNode &&
+                            link(
+                              alertLinkPosition,
+                              modifier,
+                              handleLinkClick,
+                              linkUrl,
+                              detailsNode
                             )}
-                          >
-                            {alphaActionTitle}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={(event) => {
-                              event.preventDefault();
-                              if (betaActionFn) betaActionFn();
-                            }}
-                            className={twClassNames(
-                              'ml-3 rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2',
-                              {
-                                'bg-base-50 text-base-800 hover:bg-base-100 focus:ring-base-600 focus:ring-offset-base-50':
-                                  modifier === ALERT_MODIFIER[0],
-                                'bg-brand-50 text-brand-800 hover:bg-brand-100 focus:ring-brand-600 focus:ring-offset-brand-50':
-                                  modifier === ALERT_MODIFIER[1],
-                                'bg-success-50 text-success-800 hover:bg-success-100 focus:ring-success-600 focus:ring-offset-success-50':
-                                  modifier === ALERT_MODIFIER[2],
-                                'bg-danger-50 text-danger-800 hover:bg-danger-100 focus:ring-danger-600 focus:ring-offset-danger-50':
-                                  modifier === ALERT_MODIFIER[3],
-                                'bg-attention-50 text-attention-800 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
-                                  modifier === ALERT_MODIFIER[4],
-                                'bg-info-50 text-info-800 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
-                                  modifier === ALERT_MODIFIER[5]
-                              }
-                            )}
-                          >
-                            {betaActionTitle}
-                          </button>
                         </div>
-                      </div>
-                    )}
-                  </div>
-                </span>
+                      ) : (
+                        <p>
+                          <span className="pr-1">{description}</span>
+                          {alertLinkPosition === ALERT_LINK_POSITION[0] &&
+                            !!detailsNode &&
+                            link(
+                              alertLinkPosition,
+                              modifier,
+                              handleLinkClick,
+                              linkUrl,
+                              detailsNode
+                            )}
+                        </p>
+                      )}
+
+                      {/* alert actions */}
+
+                      {enableActions === true && (
+                        <div className="mt-4">
+                          <div className="-mx-2 -my-1.5 flex">
+                            <button
+                              onClick={(event) => {
+                                event.preventDefault();
+                                if (alphaActionFn) alphaActionFn();
+                              }}
+                              type="button"
+                              className={twClassNames(
+                                'rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2',
+                                {
+                                  'bg-base-50 text-base-800 hover:bg-base-100 focus:ring-base-600 focus:ring-offset-base-50':
+                                    modifier === ALERT_MODIFIER[0],
+                                  'bg-brand-50 text-brand-800 hover:bg-brand-100 focus:ring-brand-600 focus:ring-offset-brand-50':
+                                    modifier === ALERT_MODIFIER[1],
+                                  'bg-success-50 text-success-800 hover:bg-success-100 focus:ring-success-600 focus:ring-offset-success-50':
+                                    modifier === ALERT_MODIFIER[2],
+                                  'bg-danger-50 text-danger-800 hover:bg-danger-100 focus:ring-danger-600 focus:ring-offset-danger-50':
+                                    modifier === ALERT_MODIFIER[3],
+                                  'bg-attention-50 text-attention-800 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
+                                    modifier === ALERT_MODIFIER[4],
+                                  'bg-info-50 text-info-800 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
+                                    modifier === ALERT_MODIFIER[5]
+                                }
+                              )}
+                            >
+                              {alphaActionTitle}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(event) => {
+                                event.preventDefault();
+                                if (betaActionFn) betaActionFn();
+                              }}
+                              className={twClassNames(
+                                'ml-3 rounded-md px-2 py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2',
+                                {
+                                  'bg-base-50 text-base-800 hover:bg-base-100 focus:ring-base-600 focus:ring-offset-base-50':
+                                    modifier === ALERT_MODIFIER[0],
+                                  'bg-brand-50 text-brand-800 hover:bg-brand-100 focus:ring-brand-600 focus:ring-offset-brand-50':
+                                    modifier === ALERT_MODIFIER[1],
+                                  'bg-success-50 text-success-800 hover:bg-success-100 focus:ring-success-600 focus:ring-offset-success-50':
+                                    modifier === ALERT_MODIFIER[2],
+                                  'bg-danger-50 text-danger-800 hover:bg-danger-100 focus:ring-danger-600 focus:ring-offset-danger-50':
+                                    modifier === ALERT_MODIFIER[3],
+                                  'bg-attention-50 text-attention-800 hover:bg-attention-100 focus:ring-attention-600 focus:ring-offset-attention-50':
+                                    modifier === ALERT_MODIFIER[4],
+                                  'bg-info-50 text-info-800 hover:bg-info-100 focus:ring-info-600 focus:ring-offset-info-50':
+                                    modifier === ALERT_MODIFIER[5]
+                                }
+                              )}
+                            >
+                              {betaActionTitle}
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </span>
+                )}
               </div>
 
               {alertLinkPosition === ALERT_LINK_POSITION[1] && detailsNode && (

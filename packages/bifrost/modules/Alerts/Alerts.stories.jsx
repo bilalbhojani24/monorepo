@@ -22,7 +22,7 @@ const defaultConfig = {
     },
     design: {
       type: 'figma',
-      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?type=design&node-id=132%3A36265&t=pc3m5hoYcSs5d9xX-1'
+      url: 'https://www.figma.com/file/GCu9Z0GTnebRUa5nioN6Yr/Tailwind-UI-Library?type=design&node-id=132-36127&t=7Tabx9VSfFvXRKWt-0'
     }
   },
   argTypes: {
