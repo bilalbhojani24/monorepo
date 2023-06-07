@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getSessionDetails } from 'features/Home';
 
 import {
+  getIsSessionStopInProgress,
   getLatestSessionStatus,
   getRecordingDurationElapsed,
   getShowTimeoutBanner,
@@ -20,6 +21,7 @@ const useReportLoadingHeader = () => {
   const sessionDetails = useSelector(getSessionDetails);
   const showTimeoutBanner = useSelector(getShowTimeoutBanner);
   const secondsElapsed = useSelector(getRecordingDurationElapsed);
+  const isStopSessionInProgress = useSelector(getIsSessionStopInProgress);
 
   const hideBanner = () => {
     dispatch(setShowTimeoutBanner(false));
@@ -30,7 +32,10 @@ const useReportLoadingHeader = () => {
       dispatch(setShowTimeoutBanner(true));
     }
 
-    if (secondsElapsed === sessionDetails.timeoutDurationInMinutes * 60) {
+    if (
+      secondsElapsed === sessionDetails.timeoutDurationInMinutes * 60 &&
+      !isStopSessionInProgress
+    ) {
       dispatch(setShowTimeoutBanner(false));
       dispatch(setRecordingTimerIntervalId(null));
       dispatch(setElapsedRecordingDuration(0));
@@ -40,7 +45,8 @@ const useReportLoadingHeader = () => {
     secondsElapsed,
     sessionDetails.timeoutDurationInMinutes,
     dispatch,
-    navigateToPath
+    navigateToPath,
+    isStopSessionInProgress
   ]);
 
   return {
