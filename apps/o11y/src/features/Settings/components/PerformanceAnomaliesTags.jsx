@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -7,14 +7,10 @@ import {
   O11ySelectMenuTrigger,
   O11ySwitcher
 } from 'common/bifrostProxy';
-import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
-import {
-  saveSmartTagsChanges,
-  submitSmartTagsChanges
-} from '../slices/smartTagsSettings';
+import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const STATIC_DURATION_DROPDOWN_DATA = [
   ...Array(20)
@@ -35,10 +31,7 @@ const STATIC_EXECUTION_DROPDOWN_DATA = [
 ];
 
 export const PerformanceAnomaliesTags = ({ data, isActive }) => {
-  const [isSubmittingData, setIsSubmittingData] = useState(false);
-
   const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
   const {
     durationPercentile,
     consecutiveRuns,
@@ -49,28 +42,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
     consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.performanceAnomalies;
 
-  const setPerformanceAnomaliesSwitch = (key, value) => {
-    setIsSubmittingData(true);
-    dispatch(
-      saveSmartTagsChanges({
-        performanceAnomalies: {
-          ...data,
-          [key]: value
-        }
-      })
-    );
-    dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName
-      })
-    )
-      .unwrap()
-      .finally(() => {
-        setIsSubmittingData(false);
-      });
-  };
-
-  const setPerformanceAnomaliesDropdowns = (key, value) => {
+  const setPerformanceAnomalies = (key, value) => {
     dispatch(
       saveSmartTagsChanges({
         performanceAnomalies: {
@@ -87,9 +59,8 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
         <span className="text-lg font-medium">Performance anomalies</span>
         <O11ySwitcher
           checked={performanceAnomaliesEnabled}
-          onChange={(value) => setPerformanceAnomaliesSwitch('enabled', value)}
+          onChange={(value) => setPerformanceAnomalies('enabled', value)}
           disabled={!isActive}
-          loading={isSubmittingData}
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
@@ -101,10 +72,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
               <O11ySelectMenu
                 value={{ label: durationPercentile, value: durationPercentile }}
                 onChange={(item) =>
-                  setPerformanceAnomaliesDropdowns(
-                    'durationPercentile',
-                    item.value
-                  )
+                  setPerformanceAnomalies('durationPercentile', item.value)
                 }
                 defaultValue={{
                   label: durationPercentileDefault,
@@ -133,10 +101,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
-                  setPerformanceAnomaliesDropdowns(
-                    'consecutiveRuns',
-                    item.value
-                  )
+                  setPerformanceAnomalies('consecutiveRuns', item.value)
                 }
                 disabled={!isActive || !performanceAnomaliesEnabled}
                 defaultValue={{

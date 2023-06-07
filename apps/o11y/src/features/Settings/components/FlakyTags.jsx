@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -7,14 +7,10 @@ import {
   O11ySelectMenuTrigger,
   O11ySwitcher
 } from 'common/bifrostProxy';
-import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
-import {
-  saveSmartTagsChanges,
-  submitSmartTagsChanges
-} from '../slices/smartTagsSettings';
+import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const STATIC_RE_RUN_DROPDOWN_DATA = [
   ...Array(31)
@@ -22,23 +18,25 @@ const STATIC_RE_RUN_DROPDOWN_DATA = [
     .map((_, i) => ({ name: i, value: i }))
 ];
 const FLIPPING_COUNT = [
-  ...Array(10)
+  ...Array(29)
     .fill(0)
     .map((_, i) => ({
-      name: `${(i + 1) * 10}`,
-      value: (i + 1) * 10
+      name: i + 1,
+      value: i + 1
     }))
 ];
 const FLIPPING_COUNT_CONSECUTIVE_RUNS = [
-  ...Array(10)
+  ...Array(26)
     .fill(0)
-    .map((_, i) => ({ name: i + 1, value: i + 1 }))
+    .map((_, i) => ({ name: i + 5, value: i + 5 }))
 ];
 
 export const FlakyTags = ({ data, isActive }) => {
-  const [isSubmittingData, setIsSubmittingData] = useState(false);
   const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
+  const [flippingCountArray, setFlippingCountArray] = useState(FLIPPING_COUNT);
+  const [consecutiveRunsArray, setConsecutiveRunsArray] = useState(
+    FLIPPING_COUNT_CONSECUTIVE_RUNS
+  );
 
   const { automaticFlaky, flakeInHistory, flakeInRerun } = data;
   const {
@@ -48,86 +46,74 @@ export const FlakyTags = ({ data, isActive }) => {
   const { consecutiveRuns: rerunDefault } =
     SMART_TAGS_DEFAULT_VALUES.flaky.flakeInRerun;
 
-  const saveAndSubmitData = (payload) => {
-    setIsSubmittingData(true);
-    dispatch(saveSmartTagsChanges(payload));
+  const updateFlakyTagsSwitch = (key, value) => {
     dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName
-      })
-    )
-      .unwrap()
-      .finally(() => {
-        setIsSubmittingData(false);
-      });
-  };
-
-  const updateAutomaticFlakyTags = (key, value) => {
-    saveAndSubmitData({ flaky: { ...data, [key]: value } });
-  };
-
-  const setTestStatusFlippingSwitch = (value) => {
-    saveAndSubmitData({
-      flaky: {
-        ...data,
-        flakeInHistory: {
-          ...flakeInHistory,
-          enabled: value
+      saveSmartTagsChanges({
+        flaky: {
+          ...data,
+          [key]: value,
+          flakeInHistory: {
+            ...flakeInHistory,
+            enabled: value
+          },
+          flakeInRerun: {
+            ...flakeInRerun,
+            enabled: value
+          }
         }
-      }
-    });
+      })
+    );
   };
-  const setTestStatusFlipping = (item) => {
+
+  const setTestStatusFlipping = (type, value) => {
     dispatch(
       saveSmartTagsChanges({
         flaky: {
           ...data,
           flakeInHistory: {
             ...flakeInHistory,
-            flippingCount: item.value
+            [type]: value
           }
         }
       })
     );
-  };
-  const setTestStatusFlippingTotal = (item) => {
-    dispatch(
-      saveSmartTagsChanges({
-        flaky: {
-          ...data,
-          flakeInHistory: {
-            ...flakeInHistory,
-            testStatusFlippingTotal: item.value
-          }
-        }
-      })
-    );
-  };
-  const setFlakeInRerunSwitch = (value) => {
-    saveAndSubmitData({
-      flaky: {
-        ...data,
-        flakeInRerun: {
-          ...flakeInRerun,
-          enabled: value
-        }
-      }
-    });
   };
 
-  const setFlakeInRerun = (item) => {
+  const setFlakeInRerun = (type, value) => {
     dispatch(
       saveSmartTagsChanges({
         flaky: {
           ...data,
           flakeInRerun: {
             ...flakeInRerun,
-            flippingCount: item.value
+            [type]: value
           }
         }
       })
     );
   };
+
+  useEffect(() => {
+    setConsecutiveRunsArray([
+      ...Array(30 - flakeInHistory.flippingCount)
+        .fill(0)
+        .map((_, i) => ({
+          name: i + flakeInHistory.flippingCount + 1,
+          value: i + flakeInHistory.flippingCount + 1
+        }))
+    ]);
+  }, [flakeInHistory.flippingCount]);
+
+  useEffect(() => {
+    setFlippingCountArray([
+      ...Array(flakeInHistory.consecutiveRuns - 1)
+        .fill(0)
+        .map((_, i) => ({
+          name: i + 1,
+          value: i + 1
+        }))
+    ]);
+  }, [flakeInHistory.consecutiveRuns]);
 
   return (
     <section className="p-6 pb-9">
@@ -135,9 +121,8 @@ export const FlakyTags = ({ data, isActive }) => {
         <span className="text-lg font-medium">Flaky</span>
         <O11ySwitcher
           checked={automaticFlaky}
-          onChange={(item) => updateAutomaticFlakyTags('automaticFlaky', item)}
+          onChange={(item) => updateFlakyTagsSwitch('automaticFlaky', item)}
           disabled={!isActive}
-          loading={isSubmittingData}
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
@@ -147,9 +132,8 @@ export const FlakyTags = ({ data, isActive }) => {
             <p className="text-base-900">Flake in history of test execution</p>
             <O11ySwitcher
               checked={flakeInHistory.enabled}
-              onChange={setTestStatusFlippingSwitch}
+              onChange={(value) => setTestStatusFlipping('enabled', value)}
               disabled={isActive ? !automaticFlaky : true}
-              loading={isSubmittingData}
             />
           </div>
           <div className="text-base-500 flex flex-wrap items-center">
@@ -160,7 +144,9 @@ export const FlakyTags = ({ data, isActive }) => {
                   label: flakeInHistory.flippingCount,
                   value: flakeInHistory.flippingCount
                 }}
-                onChange={setTestStatusFlipping}
+                onChange={(item) =>
+                  setTestStatusFlipping('flippingCount', item.value)
+                }
                 defaultValue={{
                   label: flippingCountDefault,
                   value: flippingCountDefault
@@ -171,7 +157,7 @@ export const FlakyTags = ({ data, isActive }) => {
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>
-                  {FLIPPING_COUNT.map((item) => (
+                  {flippingCountArray.map((item) => (
                     <O11ySelectMenuOptionItem
                       key={item.value}
                       checkPosition="right"
@@ -192,7 +178,9 @@ export const FlakyTags = ({ data, isActive }) => {
                   label: flakeInHistory.consecutiveRuns,
                   value: flakeInHistory.consecutiveRuns
                 }}
-                onChange={setTestStatusFlippingTotal}
+                onChange={(item) =>
+                  setTestStatusFlipping('consecutiveRuns', item.value)
+                }
                 defaultValue={{
                   label: consecutiveRunsDefault,
                   value: consecutiveRunsDefault
@@ -203,7 +191,7 @@ export const FlakyTags = ({ data, isActive }) => {
               >
                 <O11ySelectMenuTrigger placeholder="All Categories" value="" />
                 <O11ySelectMenuOptionGroup>
-                  {FLIPPING_COUNT_CONSECUTIVE_RUNS.map((item) => (
+                  {consecutiveRunsArray.map((item) => (
                     <O11ySelectMenuOptionItem
                       key={item.value}
                       checkPosition="right"
@@ -226,9 +214,8 @@ export const FlakyTags = ({ data, isActive }) => {
             <p className="text-base-900">Flake in test re-runs</p>
             <O11ySwitcher
               checked={flakeInRerun.enabled}
-              onChange={setFlakeInRerunSwitch}
+              onChange={(item) => setFlakeInRerun('enabled', item)}
               disabled={isActive ? !automaticFlaky : true}
-              loading={isSubmittingData}
             />
           </div>
           <div className="text-base-500 flex items-center">
@@ -239,7 +226,9 @@ export const FlakyTags = ({ data, isActive }) => {
                   label: flakeInRerun.consecutiveRuns,
                   value: flakeInRerun.consecutiveRuns
                 }}
-                onChange={setFlakeInRerun}
+                onChange={(item) =>
+                  setFlakeInRerun('consecutiveRuns', item.value)
+                }
                 defaultValue={{ label: rerunDefault, value: rerunDefault }}
                 disabled={!isActive || !flakeInRerun.enabled || !automaticFlaky}
               >
