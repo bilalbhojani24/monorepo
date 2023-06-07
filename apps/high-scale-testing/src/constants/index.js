@@ -11,6 +11,12 @@ const GRID_MANAGER_NAMES = {
   cli: 'CLI'
 };
 
+// Note: Below values are in seconds
+const MAX_IDLE_TIMEOUT = 3600;
+const MAX_QUEUE_TIMEOUT = 3600;
+const MAX_TEST_TIMEOUT = 28800;
+// -----X-----X-----
+
 const SCRATCH_RADIO_GROUP_OPTIONS = [
   {
     disabled: false,
@@ -36,5 +42,8 @@ export {
   CREATE_GRID_TYPES,
   DEFAULT_GRID_CONCURRENCY,
   GRID_MANAGER_NAMES,
+  MAX_IDLE_TIMEOUT,
+  MAX_QUEUE_TIMEOUT,
+  MAX_TEST_TIMEOUT,
   SCRATCH_RADIO_GROUP_OPTIONS
 };

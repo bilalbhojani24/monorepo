@@ -22,15 +22,18 @@ const TimeoutSettings = () => {
 
   const {
     idleTimeoutInputChangeHandler,
+    idleTimeOutError,
     idleTimeOutValue,
     isSaveButtonDisabled,
     isSavingInProgress,
     saveBtnClickhandler,
     testTimeoutChangeHandler,
+    testTimeoutError,
     testTimeoutValue,
     queueRetryIntervalChangeHandler,
     queueRetryIntervalValue,
     queueTimeoutChangeHandler,
+    queueTimeoutError,
     queueTimeoutValue
   } = useTimeoutSettings(notifactionComponent);
 
@@ -57,6 +60,7 @@ const TimeoutSettings = () => {
               }
               value={idleTimeOutValue}
               disabled={isSavingInProgress}
+              errorText={idleTimeOutError}
               id="test-id"
               onChange={idleTimeoutInputChangeHandler}
               onKeyDown={null}
@@ -79,6 +83,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
+              errorText={queueTimeoutError}
               value={queueTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"
@@ -128,6 +133,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">hours</InputGroupAddOn>
               }
+              errorText={testTimeoutError}
               value={testTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"
