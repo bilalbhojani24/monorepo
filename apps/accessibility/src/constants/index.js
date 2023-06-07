@@ -1,6 +1,6 @@
-import Announcement from 'assets/announcement_logo.svg';
+import Announcement from 'assets/announcement.svg';
 import AccessibilityPlaceholderImage from 'assets/free_trial_ui.svg';
-import Star from 'assets/star_logo.svg';
+import Star from 'assets/star.svg';
 
 export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
