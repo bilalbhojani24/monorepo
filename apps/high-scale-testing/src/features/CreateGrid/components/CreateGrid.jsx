@@ -231,9 +231,6 @@ const CreateGrid = () => {
           name: GRID_MANAGER_NAMES.helm
         },
         {
-          name: GRID_MANAGER_NAMES.kubectl
-        },
-        {
           name: GRID_MANAGER_NAMES.cli
         }
       ]}
