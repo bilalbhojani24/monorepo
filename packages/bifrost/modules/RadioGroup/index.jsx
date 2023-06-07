@@ -33,7 +33,7 @@ const RadioGroup = ({
             htmlFor={id}
             id={`${id}label-wrap`}
             className={twClassNames('text-base-700 block text-sm font-medium', {
-              'mb-2': !description.length
+              'mb-4': !description.length
             })}
           >
             {label}
@@ -41,7 +41,7 @@ const RadioGroup = ({
           </label>
         )}
         {description && (
-          <p className={twClassNames('text-sm text-base-500 mb-2')}>
+          <p className={twClassNames('text-sm text-base-500 mb-4')}>
             {description}
           </p>
         )}
@@ -64,7 +64,7 @@ const RadioGroup = ({
           {children}
         </RadioGroupPrimitive.Root>
         {errorText && (
-          <div className="flex items-center gap-1 pr-3">
+          <div className="mt-4 flex items-center gap-1 pr-3">
             <ExclamationCircleIcon
               className="text-danger-500 h-5 w-5"
               aria-hidden="true"

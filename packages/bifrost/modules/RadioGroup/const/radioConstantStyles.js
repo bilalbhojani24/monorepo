@@ -1,7 +1,7 @@
 export const RadioWrapperStyles = {
   default: {
     inline: 'space-y-4 md:flex md:items-center md:space-x-10 md:space-y-0',
-    block: 'flex flex-col'
+    block: 'flex space-y-4 flex-col'
   },
 
   stackedCard: {

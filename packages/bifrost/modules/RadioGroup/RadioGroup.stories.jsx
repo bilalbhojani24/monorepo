@@ -115,8 +115,7 @@ SimpleList.args = {
   isMandatory: true,
   errorText: 'Select any one option',
   defaultValue: dummyData[1].value,
-  type: 'default',
-  columnWrapperClassName: 'space-y-5 mb-3'
+  type: 'default'
 };
 
 export const SimpleInlineList = Template.bind({});
@@ -145,7 +144,6 @@ ListWithDescription.args = {
       ))}
     </>
   ),
-  columnWrapperClassName: 'space-y-5',
   type: 'default'
 };
 
@@ -166,8 +164,7 @@ ListWithInlineDescription.args = {
       ))}
     </>
   ),
-  type: 'default',
-  columnWrapperClassName: 'space-y-5'
+  type: 'default'
 };
 
 export const ControlledSimpleListWithRadioOnRight = (args) => {
@@ -178,7 +175,7 @@ export const ControlledSimpleListWithRadioOnRight = (args) => {
       type="default"
       value={selected}
       onChange={setSelected}
-      columnWrapperClassName="border-t border-b border-base-200 divide-y divide-base-200"
+      columnWrapperClassName="space-y-0 border-t border-b border-base-200 divide-y divide-base-200"
     >
       {dummyData.map((option) => (
         <RadioItem
@@ -197,7 +194,7 @@ export const ListWithRadioOnRight = Template.bind({});
 ListWithRadioOnRight.args = {
   defaultValue: dummyData[1].value,
   columnWrapperClassName:
-    'border-t border-b border-base-200 divide-y divide-base-200',
+    'space-y-0 border-t border-b border-base-200 divide-y divide-base-200',
   children: (
     <>
       {dummyData.map((option) => (
