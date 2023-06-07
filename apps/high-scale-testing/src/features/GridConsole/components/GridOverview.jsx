@@ -34,6 +34,7 @@ const GridOverview = () => {
     queuedTests
   } = gridData;
 
+  const allowedBrowsers = Object.keys(browserSettings.allowedBrowsers);
   const browserIcons = {
     chrome: <ChromeIcon width={20} height={20} />,
     edge: <EdgeIcon width={20} height={20} />,
@@ -88,8 +89,8 @@ const GridOverview = () => {
       title: 'Browsers Used',
       value: (
         <div className="flex gap-1">
-          {browserSettings.allowedBrowsers.map((allowedBrowser) => {
-            const browser = Object.keys(allowedBrowser)[0];
+          {allowedBrowsers.map((allowedBrowser) => {
+            const browser = allowedBrowser;
             return browserIcons[browser];
           })}
         </div>
