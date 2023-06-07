@@ -127,7 +127,6 @@ const ClusterOverview = () => {
           <div className="mt-6">
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center">
-                <MdAddLink />
                 <div className="ml-2 mr-6 text-base text-base-500">
                   <p>VPC ID</p>
                 </div>
@@ -148,7 +147,6 @@ const ClusterOverview = () => {
             </div>
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
                 <div className="ml-2 text-base  mr-6">
                   <p>Domain</p>
                 </div>
@@ -168,7 +166,6 @@ const ClusterOverview = () => {
             </div>
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
                 <div className="ml-2 text-base mr-6">
                   <p>Subnets</p>
                 </div>
