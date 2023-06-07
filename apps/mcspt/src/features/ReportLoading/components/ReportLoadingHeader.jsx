@@ -24,7 +24,7 @@ const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
       )} minutes.`;
     }
     return '';
-  }, [sessionDetails.timeoutDurationInMinutes, secondsElapsed]);
+  }, [sessionDetails?.timeoutDurationInMinutes, secondsElapsed]);
 
   return (
     <div className="flex flex-col">
