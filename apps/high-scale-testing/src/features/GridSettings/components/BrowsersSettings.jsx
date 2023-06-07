@@ -57,7 +57,7 @@ const BrowsersSettings = () => {
 
             {/* --- --- CPU Limit --- --- */}
             <div className="pt-6">
-              <p className="font-medium">CPU Limit</p>
+              <p className="font-medium text-sm">CPU Limit</p>
               <p className="text-base-500 text-sm">
                 Set the upper limit on CPU units that browsers can consume
                 whenever the test runs. It is set at 0.5 (500 milli) CPU by
@@ -66,7 +66,7 @@ const BrowsersSettings = () => {
                 per your testing requirements.
               </p>
 
-              <div className="mt-3 w-2/12">
+              <div className="mt-3 w-32">
                 <InputField
                   addOnAfter={
                     <InputGroupAddOn position="end">Unit</InputGroupAddOn>
@@ -82,7 +82,7 @@ const BrowsersSettings = () => {
 
             {/* --- --- Memory Limit --- --- */}
             <div className="pt-6">
-              <p className="font-medium">Memory Limit</p>
+              <p className="font-medium text-sm">Memory Limit</p>
               <p className="text-base-500 text-sm">
                 Set the upper limit on memory units that browsers can consume
                 whenever the test runs. It is set at 500M (500 megabytes) memory
@@ -91,7 +91,7 @@ const BrowsersSettings = () => {
                 per your testing requirements.
               </p>
 
-              <div className="mt-3 w-2/12">
+              <div className="mt-3 w-32">
                 <InputField
                   addOnAfter={
                     <InputGroupAddOn position="end">M</InputGroupAddOn>
@@ -109,14 +109,14 @@ const BrowsersSettings = () => {
 
             {/* --- --- Browsers Allowed --- --- */}
             <div className="pt-6">
-              <p className="font-medium">Browsers Allowed</p>
+              <p className="font-medium text-sm">Browsers Allowed</p>
               <p className="text-base-500 text-sm">
                 Set the browsers allowed on the Grid. By default, all the
                 browsers will be allowed. Use this option to restrict test
                 sessions on a particular browser(s).
               </p>
 
-              <div className="mt-3 max-w-xs">
+              <div className="mt-3 w-64">
                 <ComboBox
                   disabled={isSavingInProgress}
                   onChange={allowedBrowsersChangeHandler}

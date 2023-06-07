@@ -15,6 +15,7 @@ import {
   getBuildMeta,
   getBuildUUID
 } from 'features/BuildDetails/slices/selectors';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { getRerunStats } from 'features/TestsInsights/slices/selectors';
 import { getRerunData } from 'features/TestsInsights/slices/testInsightsSlice';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
@@ -44,7 +45,7 @@ export default function ReRunSummary() {
     logInsightsInteractionEvent({
       interaction: 'rerun_summary_filter_applied'
     });
-    applyTestListFilter({ query: `run=${runId}` });
+    applyTestListFilter({ query: `${ADV_FILTER_TYPES.runs.key}=${runId}` });
   };
 
   const hasNoData = useMemo(

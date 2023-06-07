@@ -12,6 +12,7 @@ import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker/PropagationBlocker';
 import StatusBadges from 'common/StatusBadges';
 import { TEST_STATUS } from 'constants/common';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
@@ -77,7 +78,10 @@ export default function UniqueBuildItem({ data }) {
             <StatusBadges
               statusStats={data.statusStats}
               onClickHandler={(clickData) =>
-                handleTagClick('status', clickData.itemClicked)
+                handleTagClick(
+                  ADV_FILTER_TYPES.status.key,
+                  clickData.itemClicked
+                )
               }
             />
           </PropagationBlocker>
@@ -93,7 +97,9 @@ export default function UniqueBuildItem({ data }) {
             {!!data?.historyAggregate?.isFlaky && (
               <O11yBadge
                 modifier="warn"
-                onClick={() => handleTagClick('flaky', true)}
+                onClick={() =>
+                  handleTagClick(ADV_FILTER_TYPES.isFlaky.key, true)
+                }
                 text={`Flaky (${data?.historyAggregate?.isFlaky})`}
                 wrapperClassName="mr-2"
               />
@@ -101,7 +107,9 @@ export default function UniqueBuildItem({ data }) {
             {!!data?.historyAggregate?.isAlwaysFailing && (
               <O11yBadge
                 modifier="error"
-                onClick={() => handleTagClick('history', 'isAlwaysFailing')}
+                onClick={() =>
+                  handleTagClick(ADV_FILTER_TYPES.isAlwaysFailing.key, true)
+                }
                 text={`Always Failing (${data?.historyAggregate?.isAlwaysFailing})`}
                 wrapperClassName="mr-2"
               />
@@ -109,7 +117,9 @@ export default function UniqueBuildItem({ data }) {
             {!!data?.historyAggregate?.isNewFailure && (
               <O11yBadge
                 modifier="error"
-                onClick={() => handleTagClick('history', 'isNewFailure')}
+                onClick={() =>
+                  handleTagClick(ADV_FILTER_TYPES.isNewFailure.key, true)
+                }
                 text={`New Failures (${data?.historyAggregate?.isNewFailure})`}
                 wrapperClassName="mr-2"
               />
@@ -118,7 +128,10 @@ export default function UniqueBuildItem({ data }) {
               <O11yBadge
                 modifier="error"
                 onClick={() =>
-                  handleTagClick('history', 'isPerformanceAnomaly')
+                  handleTagClick(
+                    ADV_FILTER_TYPES.hasPerformanceAnomaly.key,
+                    true
+                  )
                 }
                 text={`Performance Anomaly (${data?.historyAggregate?.isPerformanceAnomaly})`}
                 wrapperClassName="mr-2"

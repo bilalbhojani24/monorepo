@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
 import { updateSettings } from 'api/index';
+import { AGGridSettingsSaved } from 'constants/event-names';
 import { DEFAULT_GRID_CONCURRENCY } from 'constants/index';
 import { getGridData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
@@ -22,7 +24,7 @@ const useGeneralSettings = (notifactionComponent) => {
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
 
   const inputChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setConcurrencyValue(newValue);
@@ -43,6 +45,9 @@ const useGeneralSettings = (notifactionComponent) => {
   };
 
   const saveBtnClickhandler = () => {
+    logEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
+      tab_selected: 'general'
+    });
     setIsSavingInProgress(true);
     const settingsObj = {
       concurrency: concurrencyValue

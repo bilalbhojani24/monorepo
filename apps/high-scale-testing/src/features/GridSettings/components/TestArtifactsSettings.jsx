@@ -87,7 +87,7 @@ const TestArtifactsSettings = () => {
             logs stored for this grid. It is set to 7 days by default.
           </p>
 
-          <div className="mt-3 max-w-xs">
+          <div className="mt-3 w-32">
             <InputField
               addOnAfter={
                 <InputGroupAddOn position="end">days</InputGroupAddOn>
