@@ -150,11 +150,12 @@ export default function useDeleteTestCase() {
     );
   };
 
-  const hideDeleteTestCaseModal = () => {
+  const hideDeleteTestCaseModal = (callback) => {
     dispatch(setDeleteTestCaseModalVisibility(false));
     setTimeout(() => {
       // animation wait
       dispatch(setBulkUpdateProgress(false));
+      callback?.();
     }, ANIMATION_DELAY);
   };
 
@@ -190,8 +191,9 @@ export default function useDeleteTestCase() {
     };
     dispatch(addNotificaton(notificationData));
 
-    dispatch(resetBulkSelection());
-    hideDeleteTestCaseModal();
+    hideDeleteTestCaseModal(() => {
+      dispatch(resetBulkSelection());
+    });
   };
 
   const bulkSearchDeleteHandler = () => {
@@ -213,8 +215,9 @@ export default function useDeleteTestCase() {
         };
         dispatch(addNotificaton(notificationData));
 
-        dispatch(resetBulkSelection());
-        hideDeleteTestCaseModal();
+        hideDeleteTestCaseModal(() => {
+          dispatch(resetBulkSelection());
+        });
         updateLoadingState('bulkDeleteTestCaseCta', false);
       })
       .catch(() => {
