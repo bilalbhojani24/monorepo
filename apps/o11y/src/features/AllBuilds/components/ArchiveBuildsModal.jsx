@@ -17,6 +17,7 @@ import { logOllyEvent } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 import { archiveBuilds } from '../slices/buildsSlice';
+import { fetchFreshBuilds } from '../utils/common';
 
 function ArchiveBuildsModal() {
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ function ArchiveBuildsModal() {
               builds_archived: data.builds.length
             }
           });
-          // dispatch(fetchFreshBuilds());
+          dispatch(fetchFreshBuilds());
           handleCloseModal();
         })
         .finally(() => {
