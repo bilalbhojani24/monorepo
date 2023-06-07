@@ -44,36 +44,39 @@ const TestArtifactsSettings = () => {
         </p>
 
         {/* --- --- Video Logs --- --- */}
-        <div className="flex justify-between pt-6">
-          <div>
-            <p className="font-medium">Video Logs</p>
+        <div className="flex flex-col pt-6">
+          <p className="font-medium">Video Logs</p>
+          <div className="flex justify-between">
             <p className="text-base-500 text-sm">
               Enable or Disable the toggle to configure if video logs should be
               generated or not. It is enabled by default.
             </p>
-          </div>
-
-          <div className="mt-3 w-1/12">
-            <Switch checked={videoLogValue} onChange={videoLogsChangeHandler} />
+            <div className="w-1/12">
+              <Switch
+                checked={videoLogValue}
+                onChange={videoLogsChangeHandler}
+              />
+            </div>
           </div>
         </div>
         {/* --- X --- Video Logs --- X --- */}
 
         {/* --- --- Framework Logs --- --- */}
-        <div className="flex justify-between pt-6">
-          <div>
-            <p className="font-medium">Framework Logs</p>
+
+        <div className="flex flex-col">
+          <p className="font-medium">Framework Logs</p>
+          <div className="flex justify-between">
             <p className="text-base-500 text-sm">
               Enable or Disable the toggle to configure if framework
               (Selenium/Playwright) logs should be generated or not. It is
               enabled by default.
             </p>
-          </div>
-          <div className="mt-3 w-1/12">
-            <Switch
-              checked={frameworkLogsValue}
-              onChange={frameworkLogsChangeHandler}
-            />
+            <div className="w-1/12">
+              <Switch
+                checked={frameworkLogsValue}
+                onChange={frameworkLogsChangeHandler}
+              />
+            </div>
           </div>
         </div>
         {/* --- X --- Framework Logs --- X --- */}
