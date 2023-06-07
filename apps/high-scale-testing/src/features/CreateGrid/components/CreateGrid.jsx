@@ -530,7 +530,7 @@ const CreateGrid = () => {
                       />
                     </div>
 
-                    <div className="m-4">
+                    <div className="mt-4">
                       <Accordion>
                         <Button
                           colors="white"
