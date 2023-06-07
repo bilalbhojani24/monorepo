@@ -19,7 +19,8 @@ import GridsListing from './GridsListing';
 import useGridConsole from './useGridConsole';
 
 const GridConsole = () => {
-  const { currentListingType, setCurrentListingType } = useGridConsole();
+  const { currentListingType, setCurrentListingType, tabsArray } =
+    useGridConsole();
 
   const navigate = useNavigate();
 
@@ -86,18 +87,7 @@ const GridConsole = () => {
           heading="Automation Console"
         />
         <Tabs
-          tabsArray={[
-            {
-              index: 0,
-              name: 'Grids',
-              value: 'grids'
-            },
-            {
-              index: 1,
-              name: 'Clusters',
-              value: 'clusters'
-            }
-          ]}
+          tabsArray={tabsArray}
           onTabChange={tabChangeHandler}
           defaultIndex={currentListingType.index}
         />
