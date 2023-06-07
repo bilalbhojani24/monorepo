@@ -22,28 +22,28 @@ const useTimeoutSettings = (notifactionComponent) => {
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
 
   const idleTimeoutInputChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setIdleTimeOutValue(newValue);
   };
 
   const queueRetryIntervalChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setQueueRetryIntervalValue(newValue);
   };
 
   const queueTimeoutChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setQueueTimeoutValue(newValue);
   };
 
   const testTimeoutChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setTestTimeoutValue(newValue);
