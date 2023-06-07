@@ -15,7 +15,7 @@ const useGridListing = () => {
   const [gridList, setGridList] = useState([]);
 
   const tableCellWrapperClassName =
-    'first:pr-3 last:pl-3 px-2 text-base-500 font-medium';
+    'text-xs px-6 py-3 text-base-500 font-medium';
 
   useEffect(() => {
     const fetchAllGridsDataFromAPI = async () => {

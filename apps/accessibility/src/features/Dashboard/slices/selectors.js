@@ -6,3 +6,7 @@ export const getSidebarCollapsedStatus = (state) =>
 export const getShowFreshChatButton = (state) =>
   state.accessibility.ui.dashboard.showFreshChatButton;
 export const getUser = (state) => state.accessibility.app.dashboard.user;
+
+export const getIsFreeUser = (state) =>
+  !state.accessibility.app.dashboard.user?.plan_type ||
+  state.accessibility.app.dashboard.user?.plan_type === 'free';

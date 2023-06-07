@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
 import { updateSettings } from 'api/index';
+import { AGGridSettingsSaved } from 'constants/event-names';
 import { getGridData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
 
@@ -20,28 +22,28 @@ const useTimeoutSettings = (notifactionComponent) => {
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
 
   const idleTimeoutInputChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setIdleTimeOutValue(newValue);
   };
 
   const queueRetryIntervalChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setQueueRetryIntervalValue(newValue);
   };
 
   const queueTimeoutChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setQueueTimeoutValue(newValue);
   };
 
   const testTimeoutChangeHandler = (e) => {
-    const newValue = e.target.value;
+    const newValue = parseInt(e.target.value);
 
     setIsSaveButtonDisabled(false);
     setTestTimeoutValue(newValue);
@@ -62,6 +64,9 @@ const useTimeoutSettings = (notifactionComponent) => {
   };
 
   const saveBtnClickhandler = () => {
+    logEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
+      tab_selected: 'general'
+    });
     setIsSavingInProgress(true);
     const settingsObj = {
       testSettings: {
