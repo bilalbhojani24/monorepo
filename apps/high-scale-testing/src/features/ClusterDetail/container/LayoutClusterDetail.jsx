@@ -7,7 +7,7 @@ import ROUTES from '../../../constants/routes';
 import useLayoutClusterDetail from './useLayoutClusterDetail';
 
 const LayoutClusterDetail = () => {
-  const { setCurrentTab, currentTab } = useLayoutClusterDetail();
+  const { currentTab, onTabChangeHandler } = useLayoutClusterDetail();
 
   const TabsForClusterDetail = (
     <Tabs
@@ -21,7 +21,7 @@ const LayoutClusterDetail = () => {
           name: 'Utilization'
         }
       ]}
-      onTabChange={(e) => setCurrentTab(e)}
+      onTabChange={onTabChangeHandler}
       defaultIndex={currentTab.index}
     />
   );
