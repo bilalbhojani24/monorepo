@@ -3,13 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getSessionDetails } from 'features/Home';
 
+import REPORT_GENERATION_MODES from '../../../constants/reportGenerationModes';
 import {
   getIsSessionStopInProgress,
   getLatestSessionStatus,
   getRecordingDurationElapsed,
   getShowTimeoutBanner,
-  setElapsedRecordingDuration,
-  setRecordingTimerIntervalId,
   setShowTimeoutBanner
 } from '../slices/reportLoadingSlice';
 import { stopRecordingSession } from '../slices/reportLoadingThunks';
@@ -37,9 +36,12 @@ const useReportLoadingHeader = () => {
       !isStopSessionInProgress
     ) {
       dispatch(setShowTimeoutBanner(false));
-      dispatch(setRecordingTimerIntervalId(null));
-      dispatch(setElapsedRecordingDuration(0));
-      dispatch(stopRecordingSession(navigateToPath, 'timeout'));
+      dispatch(
+        stopRecordingSession(
+          navigateToPath,
+          REPORT_GENERATION_MODES.TIMEOUT_OCCURRED
+        )
+      );
     }
   }, [
     secondsElapsed,

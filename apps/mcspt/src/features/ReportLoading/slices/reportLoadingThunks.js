@@ -13,9 +13,13 @@ import {
   resetSessionSetupData
 } from 'features/Home';
 
+import REPORT_GENERATION_MODES from '../../../constants/reportGenerationModes';
+
 import {
   getLatestSessionStatus,
+  setElapsedRecordingDuration,
   setIsSessionStopInProgress,
+  setRecordingTimerIntervalId,
   updateSessionStatus
 } from './reportLoadingSlice';
 
@@ -77,7 +81,7 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
 };
 
 export const stopRecordingSession =
-  (navigationCallback, mode = 'btnClick') =>
+  (navigationCallback, mode = REPORT_GENERATION_MODES.USER_REPORT_GENERATION) =>
   async (dispatch, getState) => {
     const currentSessionId =
       getState()?.newPerformanceSession?.sessionDetails?.sessionID;
@@ -86,12 +90,16 @@ export const stopRecordingSession =
     const currentapp = getSelectedApplication(getState());
 
     try {
+      dispatch(setRecordingTimerIntervalId(null));
+
+      dispatch(setElapsedRecordingDuration(0));
+
       dispatch(setIsSessionStopInProgress(true));
 
       dispatch(updateSessionStatus({ status: REPORT_LOADING_STATES.STOPPING })); // this needs to come from api later
 
       const bodyParams =
-        mode === 'btnClick'
+        mode === REPORT_GENERATION_MODES.USER_REPORT_GENERATION
           ? { isTimeoutLimitExceeded: false }
           : { isTimeoutLimitExceeded: true };
       const response = await stopSession(currentSessionId, bodyParams);

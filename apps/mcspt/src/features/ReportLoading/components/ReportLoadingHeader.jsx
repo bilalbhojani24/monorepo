@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Banner, MdChevronLeft, MdOutlineTimer } from '@browserstack/bifrost';
 import { secondsToMinutes } from '@browserstack/mcp-shared';
 import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
@@ -14,6 +14,16 @@ const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
     showTimeoutBanner,
     secondsElapsed
   } = useReportLoadingHeader();
+
+  const getBannerDescription = useCallback(
+    () =>
+      `Your session will be terminated automatically in ${secondsToMinutes(
+        sessionDetails.timeoutDurationInMinutes * 60 - secondsElapsed
+      )} minutes. Sessions can run for a maximum of ${secondsToMinutes(
+        sessionDetails.timeoutDurationInMinutes * 60
+      )} minutes.`,
+    [sessionDetails.timeoutDurationInMinutes, secondsElapsed]
+  );
 
   return (
     <div className="flex flex-col">
@@ -32,16 +42,13 @@ const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
           {sessionDetails.sessionName}
         </div>
       </div>
+
       {showTimeoutBanner && (
         <Banner
           bannerIcon={
             <MdOutlineTimer aria-hidden="true" className="h-6 w-6 text-white" />
           }
-          description={`Your session will be terminated automatically in ${secondsToMinutes(
-            sessionDetails.timeoutDurationInMinutes * 60 - secondsElapsed
-          )} minutes. Sessions can run for a maximum of ${secondsToMinutes(
-            sessionDetails.timeoutDurationInMinutes * 60
-          )} minutes.`}
+          description={getBannerDescription()}
           modifier="attention"
           onDismissClick={hideBanner}
         />
