@@ -1,5 +1,8 @@
 const ROUTES = {
+  ALL: '*',
   BUILDS: '/dashboard',
+  CLUSTER: '/grid-console/cluster/:id',
+  CLUSTER_OVERVIEW: '/grid-console/cluster/:id/overview',
   CREATE_GRID: '/create-grid',
   GRID_CONSOLE: '/grid-console',
   GRID: '/grid-console/grid/:id',
@@ -12,6 +15,7 @@ const ROUTES = {
     '/grid-console/grid/:id/settings/test-artifacts',
   GRID_UTILIZATION: '/grid-console/grid/:id/utilization',
   ONBOARDING: '/setup',
+  ROOT: '/',
   SIGN_OUT: '/sign-out'
 };
 

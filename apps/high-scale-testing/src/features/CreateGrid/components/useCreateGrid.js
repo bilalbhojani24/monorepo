@@ -12,6 +12,7 @@ import {
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import ROUTES from 'constants/routes';
 import {
   getInstanceTypes,
   getRegions,
@@ -19,7 +20,57 @@ import {
 } from 'globalSlice/selector';
 
 const useCreateGrid = () => {
+  // All Store variables:
+  const userDetails = useSelector(getUserDetails);
+
+  const CODE_SNIPPETS_SCRATCH = {
+    'create-grid': {
+      a: {
+        code: 'npm install @browserstack/browserstack-cli',
+        language: 'node',
+        text: 'Download CLI.'
+      },
+      b: {
+        code: `# Set these values in your ~/.zprofile (zsh) or ~/.profile (bash)
+export BROWSERSTACK_USERNAME=${userDetails.username}
+export BROWSERSTACK_ACCESS_KEY=${userDetails.accessKey}
+
+# Create HST configuration profile with AWS credentials
+browserstack-cli hst init`,
+        language: 'node',
+        text: 'Setup CLI with AWS credentials.'
+      },
+      c: {
+        code: 'browserstack-cli hst create grid',
+        language: 'node',
+        text: 'Execute grid creation command.'
+      }
+    }
+  };
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
+  const DEFAULT_STEPPER_STATE = [
+    {
+      id: '1',
+      name: 'CONFIGURE GRID PROFILE',
+      status: 'complete'
+    },
+    {
+      id: '2',
+      name: 'CHOOSE CLOUD PROVIDER',
+      status: 'complete'
+    },
+    {
+      id: '3',
+      name: 'CONFIGURE GRID SETTINGS',
+      status: 'current'
+    },
+    { id: '4', name: 'SETUP IAM ROLE', status: 'upcoming' },
+    {
+      id: '5',
+      name: 'CREATE GRID',
+      status: 'upcoming'
+    }
+  ];
   const IS_MANDATORY = true;
 
   const breadcrumbsData = [
@@ -36,9 +87,6 @@ const useCreateGrid = () => {
       goToStep: 1
     }
   ];
-
-  // All Store variables:
-  const userDetails = useSelector(getUserDetails);
 
   // All State variables
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
@@ -105,6 +153,10 @@ const useCreateGrid = () => {
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
   const [showSaveProfileModal, setShowSaveProfileModal] = useState(false);
   const [showSetupClusterModal, setShowSetupClusterModal] = useState(false);
+  const [showSetupStatusModal, setShowSetupStatusModal] = useState(false);
+  const [stepperStepsState, setStepperStepsState] = useState(
+    DEFAULT_STEPPER_STATE
+  );
   const [totalSteps, setTotalSteps] = useState(0);
 
   const ref = useRef({});
@@ -139,6 +191,10 @@ const useCreateGrid = () => {
     setShowEventLogsModal(false);
   };
 
+  const closeSetupStatusModal = () => {
+    setShowSetupStatusModal(false);
+  };
+
   const clusterChangeHandler = (e) => {
     setSelectedClusterValue(e);
     commonHandler();
@@ -147,6 +203,11 @@ const useCreateGrid = () => {
   const editClusterBtnClickHandler = () => {
     setEditClusterNameInputValue(selectedClusterValue.value);
     setShowSetupClusterModal(true);
+  };
+
+  const exploreAutomationClickHandler = () => {
+    closeSetupStatusModal();
+    window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
   };
 
   const gridConcurrencyChangeHandler = (e) => {
@@ -225,8 +286,21 @@ const useCreateGrid = () => {
     setShowSetupClusterModal(true);
   };
 
+  const stepperClickHandler = (_, step) => {
+    if (step.id > 3) {
+      setSetupState(2);
+    } else {
+      setSetupState(1);
+    }
+  };
+
   const subnetChangeHandler = (e) => {
     setSelectedSubnetValues(e);
+  };
+
+  const viewAllBuildsClickHandler = () => {
+    closeSetupStatusModal();
+    window.location = `${window.location.origin}${ROUTES.BUILDS}`;
   };
 
   const viewEventLogsClickHandler = () => {
@@ -398,6 +472,10 @@ const useCreateGrid = () => {
   ]);
 
   useEffect(() => {
+    setShowSetupStatusModal(isSetupComplete);
+  }, [isSetupComplete]);
+
+  useEffect(() => {
     if (!showSetupClusterModal) {
       setEditClusterNameInputValue('');
     }
@@ -418,6 +496,19 @@ const useCreateGrid = () => {
       setGridProfiles(tmpArray);
     }
   }, [gridProfilesData]);
+
+  useEffect(() => {
+    if (setupState === 1) {
+      setStepperStepsState(DEFAULT_STEPPER_STATE);
+    } else if (setupState === 2) {
+      const updatedStepperState = DEFAULT_STEPPER_STATE;
+      updatedStepperState[2].status = 'complete';
+      updatedStepperState[3].status = 'complete';
+      updatedStepperState[4].status = 'current';
+
+      setStepperStepsState(updatedStepperState);
+    }
+  }, [setupState]);
 
   useMountEffect(() => {
     const fetchEventsLogsData = async () => {
@@ -455,12 +546,14 @@ const useCreateGrid = () => {
   });
 
   return {
+    CODE_SNIPPETS_SCRATCH,
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
     closeEventLogsModal,
+    closeSetupStatusModal,
     clusterChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
@@ -475,6 +568,7 @@ const useCreateGrid = () => {
     editClusterNameInputValue,
     eventLogsCode,
     eventLogsStatus,
+    exploreAutomationClickHandler,
     frameworkURLs,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
@@ -511,9 +605,13 @@ const useCreateGrid = () => {
     showGridHeartBeats,
     showSaveProfileModal,
     showSetupClusterModal,
+    showSetupStatusModal,
+    stepperClickHandler,
+    stepperStepsState,
     subnetChangeHandler,
     totalSteps,
     type,
+    viewAllBuildsClickHandler,
     viewEventLogsClickHandler,
     vpcChangeHandler
   };

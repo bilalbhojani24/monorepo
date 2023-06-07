@@ -19,6 +19,7 @@ import {
 } from 'constants';
 import { addDays } from 'date-fns';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
+import { getIsShowingBanner } from 'features/Reports/slices/selector';
 import { defaultPath, getBrowserStackBase } from 'utils';
 import {
   buyAcceesibilityPlan,
@@ -29,6 +30,7 @@ import { logEvent, startLogging } from 'utils/logEvent';
 
 import { setModalName, setModalShow } from '../slices/appSlice';
 import {
+  getIsFreeUser,
   getShowBanner,
   getTrialEndDate,
   getTrialState
@@ -38,6 +40,8 @@ export default function useDashboard() {
   const mainRef = useRef(null);
   const dispatch = useDispatch();
   const showBanner = useSelector(getShowBanner);
+  const isShowingBanner = useSelector(getIsShowingBanner);
+  const isFreeUser = useSelector(getIsFreeUser);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
   const trialEndDate = useSelector(getTrialEndDate);
@@ -165,12 +169,15 @@ export default function useDashboard() {
     try {
       startLogging();
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.log('EDS already initialize...');
     }
   }, []);
 
   return {
     mainRef,
+    isShowingBanner,
+    isFreeUser,
     primaryNav,
     currentPath,
     secondaryNav,
