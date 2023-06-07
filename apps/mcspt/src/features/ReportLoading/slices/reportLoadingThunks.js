@@ -5,6 +5,7 @@ import {
   updateSessionMetrics
 } from '@browserstack/mcp-shared';
 import { fetchSessionStatus, stopSession } from 'api/reportLoading';
+import REPORT_GENERATION_MODES from 'constants/reportGenerationModes';
 import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
 import { MCP_ROUTES } from 'constants/routeConstants';
 import {
@@ -12,8 +13,6 @@ import {
   getSelectedApplication,
   resetSessionSetupData
 } from 'features/Home';
-
-import REPORT_GENERATION_MODES from '../../../constants/reportGenerationModes';
 
 import {
   getLatestSessionStatus,

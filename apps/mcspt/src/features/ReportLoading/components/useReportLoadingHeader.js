@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import REPORT_GENERATION_MODES from 'constants/reportGenerationModes';
 import { getSessionDetails } from 'features/Home';
 
-import REPORT_GENERATION_MODES from '../../../constants/reportGenerationModes';
 import {
   getIsSessionStopInProgress,
   getLatestSessionStatus,
