@@ -8,9 +8,11 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
 import AWSIcon from 'assets/icons/components/clouds/AWSIcon';
 import AzureIcon from 'assets/icons/components/clouds/AzureIcon';
 import GCPIcon from 'assets/icons/components/clouds/GCPIcon';
+import { AGAutomationConsoleInteracted } from 'constants/event-names';
 
 import { useClustersListing } from './useClustersListing';
 
@@ -85,6 +87,16 @@ const ClustersListing = () => {
               return (
                 <TableRow
                   onRowClick={() => {
+                    logEvent(
+                      ['amplitude'],
+                      'web_events',
+                      AGAutomationConsoleInteracted,
+                      {
+                        action: 'cluster_selected',
+                        cluster_name: clusterName,
+                        cluster_id: clusterId
+                      }
+                    );
                     ClusterRowHandler(clusterId);
                   }}
                 >

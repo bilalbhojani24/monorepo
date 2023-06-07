@@ -529,7 +529,7 @@ browserstack-cli hst init`,
       }
     };
 
-    fetchDataForCreateGrid().then((res) => {
+    fetchDataForCreateGrid(userDetails.id).then((res) => {
       const response = res.data;
 
       setCodeSnippetsForExistingSetup(response.codeSnippets.existing);

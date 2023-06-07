@@ -38,7 +38,7 @@ const HSTHeader = () => (
       ],
       title: 'References'
     }}
-    release="alpha"
+    release="Alpha"
     wrapperClassName="sticky"
   />
 );
