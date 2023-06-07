@@ -1,11 +1,6 @@
 import React, { memo, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
-import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
 import PropTypes from 'prop-types';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
-
-import { getDateRangeSubTitles } from '../utils';
 
 import SplineGraph from './SplineGraph';
 import StatsCard from './StatsCard';
@@ -28,9 +23,6 @@ function getFormattedTooltip() {
 }
 
 const AverageDurationMetric = ({ isLoading, data, metric }) => {
-  const appliedDateRange = useSelector(
-    findAppliedFilterByType(ADV_FILTER_TYPES.dateRange.key)
-  );
   const seriesData = useMemo(() => {
     if (isLoading) {
       return [];
@@ -50,7 +42,7 @@ const AverageDurationMetric = ({ isLoading, data, metric }) => {
     <StatsCard
       title="Average Duration"
       stat={metric?.value}
-      subText={getDateRangeSubTitles(appliedDateRange)}
+      subText=""
       isLoading={isLoading}
       graph={
         <SplineGraph

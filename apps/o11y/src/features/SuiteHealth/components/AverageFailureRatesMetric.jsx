@@ -1,12 +1,9 @@
 import React, { memo, useMemo } from 'react';
-import { useSelector } from 'react-redux';
-import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
-import { findAppliedFilterByType } from 'features/FilterSkeleton/slices/selectors';
 import Highcharts from 'highcharts/highstock';
 import PropTypes from 'prop-types';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
-import { getDateRangeSubTitles, getNumberFormattedYAxisLabel } from '../utils';
+import { getNumberFormattedYAxisLabel } from '../utils';
 
 import SplineGraph from './SplineGraph';
 import StatsCard from './StatsCard';
@@ -26,9 +23,6 @@ function getFormattedTooltip() {
 }
 
 const AverageFailureRatesMetric = ({ isLoading, data, metric }) => {
-  const appliedDateRange = useSelector(
-    findAppliedFilterByType(ADV_FILTER_TYPES.dateRange.key)
-  );
   const seriesData = useMemo(() => {
     if (isLoading) {
       return [];
@@ -48,7 +42,7 @@ const AverageFailureRatesMetric = ({ isLoading, data, metric }) => {
     <StatsCard
       title="Avg. Failure Rate"
       stat={metric?.value}
-      subText={getDateRangeSubTitles(appliedDateRange)}
+      subText=""
       isLoading={isLoading}
       graph={
         <SplineGraph
