@@ -166,7 +166,7 @@ class O11yPusherEvents {
           case PUSHER_EVENTS.SMART_TAG_RECALCULATION_STARTED:
             this.dispatch(
               updateProjectData({
-                id: message?.data?.projectId || message?.data?.id || '',
+                id: message?.projectId || '',
                 isSmartTagReCalculating: true
               })
             );
@@ -174,7 +174,7 @@ class O11yPusherEvents {
           case PUSHER_EVENTS.SMART_TAG_RECALCULATION_COMPLETED:
             this.dispatch(
               updateProjectData({
-                id: message?.data?.projectId || message?.data?.id || '',
+                id: message?.projectId || '',
                 isSmartTagReCalculating: false
               })
             );
