@@ -43,13 +43,6 @@ function DeleteAlertModal() {
         });
         handleCloseModal();
       })
-      .catch(() => {
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while deleting alert',
-          type: 'error'
-        });
-      })
       .finally(() => {
         setIsDeletingAlert(false);
       });

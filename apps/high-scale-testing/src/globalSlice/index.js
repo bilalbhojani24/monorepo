@@ -5,7 +5,10 @@ const SLICE_NAME = 'global';
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
+    fetchedGridData: false,
+    instanceTypes: {},
     isLoading: true,
+    regions: {},
     userDetails: {
       groupId: null,
       id: null,
@@ -16,13 +19,18 @@ const { actions, reducer } = createSlice({
   },
   reducers: {
     initialiseApplication: (state, { payload }) => {
-      const { userDetails } = payload;
+      const { instanceTypes, regions, userDetails } = payload;
 
+      state.instanceTypes = instanceTypes;
       state.isLoading = false;
+      state.regions = regions;
       state.userDetails = userDetails;
+    },
+    setFetchedGridData: (state, { payload }) => {
+      state.fetchedGridData = payload;
     }
   }
 });
 
-export const { initialiseApplication } = actions;
+export const { initialiseApplication, setFetchedGridData } = actions;
 export default reducer;

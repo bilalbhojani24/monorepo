@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import { getStackedColumnChartData } from 'features/TestsInsights/utils';
 import cloneDeep from 'lodash/cloneDeep';
@@ -85,7 +86,7 @@ export default function BuildHistory() {
             buildNormalizedData.projectNormalisedName,
             buildNormalizedData.buildNormalisedName,
             data.category
-          )}?tab=tests&status=${data.series.name}`
+          )}?tab=tests&${ADV_FILTER_TYPES.status.key}=${data.series.name}`
         );
       }
     },
