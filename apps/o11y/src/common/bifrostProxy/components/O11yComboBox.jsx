@@ -11,7 +11,7 @@ import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
 import PropTypes from 'prop-types';
 
-const VIRTUALIZE_AFTER = 100;
+const VIRTUALIZE_AFTER = 200;
 
 const O11yComboBox = ({
   disabled,
@@ -31,6 +31,7 @@ const O11yComboBox = ({
 }) => {
   const [query, setQuery] = useState('');
   const stickyRef = useRef(null);
+  const virtuosoRef = useRef(null);
 
   const handleSearch = (val) => {
     if (!isAsyncSearch) {
@@ -51,13 +52,27 @@ const O11yComboBox = ({
     virtuosoStyles.width = virtuosoWidth;
   }
 
+  const handleOnOpenChange = (isOpen) => {
+    setTimeout(() => {
+      if (isOpen && virtuosoRef.current) {
+        const foundIdx = filteredOptions.findIndex(
+          (item) => item.value === value.value
+        );
+        virtuosoRef.current.scrollToIndex({
+          index: foundIdx,
+          align: 'center'
+        });
+      }
+    }, 50);
+  };
+
   return (
     <ComboBox
       onChange={onChange}
       value={value}
       isMulti={!!filteredOptions.length && isMulti}
       disabled={disabled}
-      // isLoadingRight={isLoading}
+      onOpenChange={handleOnOpenChange}
     >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
@@ -96,6 +111,7 @@ const O11yComboBox = ({
           <>
             {filteredOptions.length > VIRTUALIZE_AFTER ? (
               <Virtuoso
+                ref={virtuosoRef}
                 style={virtuosoStyles}
                 data={filteredOptions || []}
                 overscan={10}
