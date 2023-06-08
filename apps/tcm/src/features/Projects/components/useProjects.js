@@ -217,7 +217,9 @@ const useProjects = (prop) => {
         dispatch(
           setButtonLoaders({ key: 'createProjectCtaLoading', value: true })
         );
-        addProjectsAPI(formData)
+        addProjectsAPI({
+          project: formData
+        })
           .then((res) => {
             dispatch(addProject(res.data.project));
             dispatch(addGlobalProject(res.data.project));
