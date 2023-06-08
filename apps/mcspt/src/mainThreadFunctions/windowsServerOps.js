@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 
+import { getProcessPathsForWindows } from './mainThreadUtils';
 import {
   getServerLaunchAnalyticsEntities,
   sendAppStartAnalyticsEvent,
@@ -11,16 +12,7 @@ const axios = require('axios');
 
 const { execSync, exec } = require('child_process');
 
-const binIndex = process.execPath.lastIndexOf('\\');
-const binPath = process.execPath.substring(0, binIndex);
-
-const processPaths = IS_DEV
-  ? {
-      bsPerf: `${process.cwd()}/nodeBE/mobile-performance/bs-perf-tool`
-    }
-  : {
-      bsPerf: `${binPath}/resources/nodeBE/mobile-performance/bs-perf-tool`
-    };
+const processPaths = getProcessPathsForWindows();
 
 const analyticsEntities = getServerLaunchAnalyticsEntities();
 

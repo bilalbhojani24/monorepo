@@ -16,7 +16,6 @@ import { ROUTES } from 'constants/routes';
 import { setHasAcceptedTnC } from 'globalSlice/index';
 import { getHeaderSize, getInitData } from 'globalSlice/selectors';
 import { getDocUrl, logOllyEvent } from 'utils/common';
-import { o11yNotify } from 'utils/notification';
 
 function RequestAccess() {
   const headerSize = useSelector(getHeaderSize);
@@ -41,11 +40,6 @@ function RequestAccess() {
       setIsLoading(false);
     } catch (err) {
       setIsLoading(false);
-      o11yNotify({
-        title: 'Something went wrong!',
-        description: `Please retry in some time.`,
-        type: 'error'
-      });
     }
   };
 
