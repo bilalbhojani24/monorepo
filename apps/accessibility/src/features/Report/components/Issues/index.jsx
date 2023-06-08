@@ -105,7 +105,7 @@ export default function Issues() {
     ({ value }) => value
   );
 
-  if (!isHalfView || !sectionData) {
+  if (!(isHalfView && sectionData)) {
     dispatch(setShowFreshChatButton(true));
   }
 

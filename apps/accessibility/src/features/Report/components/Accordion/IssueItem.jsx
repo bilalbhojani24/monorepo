@@ -188,8 +188,6 @@ export default function IssueItem() {
     handleFocusElement('firstPageIcon');
   }, []);
 
-  // useEffect(() => () => dispatch(setShowFreshChatButton(true)), [dispatch]);
-
   const title = `${activeComponentId.split('#')[0].toLowerCase()}${
     activeComponentId.split('#')[1] ? '.' : ''
   }${activeComponentId.split('#')[1]}`;

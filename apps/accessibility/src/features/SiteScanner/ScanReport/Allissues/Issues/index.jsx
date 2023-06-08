@@ -122,11 +122,6 @@ export default function Issues() {
       </div>
     );
   }
-
-  if (!(isHalfView && sectionData)) {
-    dispatch(setShowFreshChatButton(true));
-  }
-
   return (
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}

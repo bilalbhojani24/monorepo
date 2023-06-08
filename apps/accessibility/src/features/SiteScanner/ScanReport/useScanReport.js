@@ -96,10 +96,12 @@ export default function useScanReport() {
       search: `?id=${reportId}&tab=${tab.id}`
     });
     setActiveTabIndex(tab.index);
-    console.log(tab, showingIssues);
-    if (tab.id === 'ALLISSUES' && showingIssues) {
-      dispatch(setShowFreshChatButton(false));
-      console.log('closing..');
+    if (tab.name === 'All issues') {
+      if (showingIssues) {
+        dispatch(setShowFreshChatButton(false));
+      } else {
+        dispatch(setShowFreshChatButton(true));
+      }
     } else {
       dispatch(setShowFreshChatButton(true));
     }
