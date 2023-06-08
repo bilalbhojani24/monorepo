@@ -30,7 +30,7 @@ export const aggregateColors = {
 export const TABLE_CLASSES = {
   HEADER_COMMON: 'py-3 border-t border-base-300 text-xs font-medium z-[1]',
   ROW_CLASSES:
-    'overflow-hidden border-b border-base-300 whitespace-normal classic-break-words',
+    'overflow-hidden border-b border-base-300 whitespace-normal break-words',
   COL: {
     BUILD: 'border-l border-base-300',
     TEST: 'w-56 text-right',

@@ -128,12 +128,6 @@ function EmailPreferenceModal() {
         });
         handleCloseModal();
       })
-      .catch(() => {
-        o11yNotify({
-          title: `Failed to update email preferences`,
-          type: 'error'
-        });
-      })
       .finally(() => {
         setIsSubmittingData(false);
       });

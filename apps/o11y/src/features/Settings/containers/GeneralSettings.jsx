@@ -35,13 +35,6 @@ export default function GeneralSettings() {
           if (res?.data?.buildTimeout && mounted.current) {
             setBuildTimeout(res.data.buildTimeout);
           }
-        })
-        .catch(() => {
-          o11yNotify({
-            title: 'Something went wrong!',
-            description: 'There was an error while loading settings',
-            type: 'error'
-          });
         });
     }
     return () => {
@@ -86,11 +79,6 @@ export default function GeneralSettings() {
       })
       .catch(() => {
         setBuildTimeout(data?.data?.buildTimeout);
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating settings',
-          type: 'error'
-        });
       });
   };
 
@@ -107,7 +95,7 @@ export default function GeneralSettings() {
         <p className="mt-6 text-sm font-medium leading-5">
           Timeout for build (in seconds)
         </p>
-        <p className="text-base-500 mt-1 mb-3 text-sm font-normal leading-5">
+        <p className="text-base-500 mb-3 mt-1 text-sm font-normal leading-5">
           Set a larger build timeout if you have non-test related activities
           consuming a considerable amount of time as part of your build.
         </p>
@@ -120,7 +108,7 @@ export default function GeneralSettings() {
           type="number"
         />
       </div>
-      <div className="bg-base-50 sticky bottom-0 flex justify-end py-3 px-6">
+      <div className="bg-base-50 sticky bottom-0 flex justify-end px-6 py-3">
         <O11yButton
           loading={data.isLoading}
           isIconOnlyButton={data.isLoading}

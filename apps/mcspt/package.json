@@ -1,7 +1,7 @@
 {
   "name": "mcspt",
   "productName": "BrowserStack-AppPerformance",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "BrowserStack AppPerformance",
   "repository": "https://github.com/browserstack/app-performance-releases",
   "main": ".webpack/main",
@@ -46,7 +46,7 @@
     "tailwindcss": "^3.1.4"
   },
   "dependencies": {
-    "@browserstack/bifrost": "4.2.0",
+    "@browserstack/bifrost": "8.2.0",
     "@browserstack/stylelint-config": "workspace:*",
     "@browserstack/tailwind-config": "workspace:*",
     "@browserstack/utils": "1.2.0",

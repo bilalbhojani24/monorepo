@@ -35,6 +35,7 @@ import AzurePipelinesIcon from './AzurePipelinesIcon';
 import BitBucketIcon from './BitBucketIcon';
 import BuildKiteIcon from './BuildKiteIcon';
 import CircleCIIcon from './CircleCIIcon';
+import CypressIcon from './CypressIcon';
 import DeviceIcon from './DeviceIcon';
 import DoubleArrowDownIcon from './DoubleArrowDownIcon';
 import DoubleArrowUpIcon from './DoubleArrowUpIcon';
@@ -48,9 +49,12 @@ import GitLabIcon from './GitLabIcon';
 import JenkinsIcon from './JenkinsIcon';
 import JiraIcon from './JiraIcon';
 import JSIcon from './JSIcon';
+import JUnitIcon from './JUnitIcon';
 import LoadingIcon from './LoadingIcon';
 import LogStashIcon from './LogStashIcon';
 import MochaIcon from './MochaIcon';
+import NightwatchIcon from './NightwatchIcon';
+import PlaywrightIcon from './PlaywrightIcon';
 import ScreenshotFailureIcon from './ScreenshotFailureIcon';
 import ScreenshotLoadingIcon from './ScreenshotLoadingIcon';
 import SeleniumIcon from './SeleniumIcon';
@@ -70,6 +74,7 @@ export {
   BuildKiteIcon,
   ChromeIcon,
   CircleCIIcon,
+  CypressIcon,
   DefaultBrowserIcon,
   DefaultOSIcon,
   DeviceIcon,
@@ -92,6 +97,7 @@ export {
   JenkinsIcon,
   JiraIcon,
   JSIcon,
+  JUnitIcon,
   LgIcon,
   LinuxIcon,
   LoadingIcon,
@@ -99,11 +105,13 @@ export {
   MacOSIcon,
   MochaIcon,
   MotorolaIcon,
+  NightwatchIcon,
   NokiaIcon,
   OneplusIcon,
   OperaIcon,
   OppoIcon,
   OSXIcon,
+  PlaywrightIcon,
   RealmeIcon,
   SafariIcon,
   SamsungIcon,

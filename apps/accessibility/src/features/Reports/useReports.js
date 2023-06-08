@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
@@ -8,6 +8,8 @@ import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
 import { logEvent } from 'utils/logEvent';
+
+import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
 
 import {
   resetReportSelection,
@@ -42,6 +44,16 @@ export default function useReports() {
   const [searchInput, setSearchInput] = useState('');
   const isShowingBanner = useSelector(getIsShowingBanner);
   const [isLoading, setIsLoading] = useState(false);
+  const scrollRef = useRef(null);
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight } = scrollRef.current;
+    if (scrollTop + clientHeight >= 1204) {
+      dispatch(setShowFreshChatButton(false));
+    } else {
+      dispatch(setShowFreshChatButton(true));
+    }
+  };
 
   const handleClose = ({ action }) => {
     setIsOpen(false);
@@ -180,6 +192,8 @@ export default function useReports() {
     updateLastIndex,
     onReportConsolidateButtonClick,
     onVersionSelect,
-    handleClose
+    handleClose,
+    scrollRef,
+    handleScroll
   };
 }
