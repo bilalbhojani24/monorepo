@@ -62,11 +62,6 @@ export default function AutoAnalysisSettings() {
             state: prev.state,
             loading: false
           }));
-          o11yNotify({
-            title: 'Something went wrong!',
-            description: 'There was an error while loading settings',
-            type: 'error'
-          });
         });
     }
     return () => {
@@ -115,11 +110,6 @@ export default function AutoAnalysisSettings() {
           loading: false
         });
         setThresholdPercentage(data.data.thresholdPercentage);
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating settings',
-          type: 'error'
-        });
       });
   };
   const handleChangeFailureCatSwitch = (checked) => {
@@ -212,7 +202,7 @@ export default function AutoAnalysisSettings() {
           widthClass="w-16"
         />
       </section>
-      <div className="bg-base-50 sticky bottom-0 z-20 flex justify-end py-3 px-6">
+      <div className="bg-base-50 sticky bottom-0 z-20 flex justify-end px-6 py-3">
         <O11yButton
           loading={data.isLoading}
           isIconOnlyButton={data.isLoading}

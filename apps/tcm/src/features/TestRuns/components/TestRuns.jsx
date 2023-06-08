@@ -36,7 +36,7 @@ const TestRuns = ({ isEditView }) => {
   const queryString = window.location.search;
   const closed = new URLSearchParams(queryString).get('closed');
   useEffect(() => {
-    fetchAllTestRuns();
+    if (currentTab) fetchAllTestRuns();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, currentTab, page]);
 

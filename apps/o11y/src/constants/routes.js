@@ -23,6 +23,7 @@ export const ROUTES = {
   test_details: '/test/details/:testRunId',
   projects: '/projects',
   request_access: '/request_access',
+  no_access: '/no_access',
   get_started: '/get-started',
   root: '/',
   all: '*',
