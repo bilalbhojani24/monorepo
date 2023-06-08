@@ -284,6 +284,7 @@ export const getTestListingFiltersData = createAsyncThunk(
   'testlist/getFilters',
   async (data, { rejectWithValue, dispatch, getState }) => {
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.TEST_LISTING));
+    dispatch(setIsLoadingBuildsFilters(true));
     try {
       let searchParams = dispatch(getFilterFromSearchString(true));
       if (searchParams.size === 0) {
