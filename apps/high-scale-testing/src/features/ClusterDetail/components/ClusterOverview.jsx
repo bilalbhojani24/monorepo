@@ -56,7 +56,7 @@ const ClusterOverview = () => {
     },
     {
       title: 'Cloud Provider',
-      value: profile.cloudProvider
+      value: profile?.cloudProvider
     },
     {
       title: 'Connected',
@@ -64,11 +64,11 @@ const ClusterOverview = () => {
     },
     {
       title: 'Created by',
-      value: user.fullname
+      value: user?.fullname
     },
     {
       title: 'No. of Grids',
-      value: grids.length
+      value: grids?.length
     },
     {
       title: 'Region',
@@ -84,7 +84,7 @@ const ClusterOverview = () => {
     },
     {
       title: 'Instance Type',
-      value: profile.instanceType
+      value: profile?.instanceType
     }
   ];
 
@@ -126,10 +126,10 @@ const ClusterOverview = () => {
 
               <div className="flex w-2/3 justify-between">
                 <div className="mr-4 text-base-900">
-                  <p>{profile.vpcs}</p>
+                  <p>{profile?.vpcs}</p>
                 </div>
                 <CopyButton
-                  copyValue={profile.vpcs}
+                  copyValue={profile?.vpcs}
                   textColor=""
                   wrapperClassName="text-xl"
                 >
@@ -146,10 +146,10 @@ const ClusterOverview = () => {
               </div>
               <div className="flex w-2/3 justify-between text-base-900">
                 <div className="mr-4">
-                  <p>{profile.domain}</p>
+                  <p>{profile?.domain}</p>
                 </div>
                 <CopyButton
-                  copyValue={profile.domain}
+                  copyValue={profile?.domain}
                   textColor=""
                   wrapperClassName="text-xl"
                 >
@@ -167,10 +167,10 @@ const ClusterOverview = () => {
 
               <div className="flex w-2/3 justify-between text-base-900">
                 <div className="mr-4">
-                  <p>{profile.subnets.join(',')}</p>
+                  <p>{profile?.subnets.join(',')}</p>
                 </div>
                 <CopyButton
-                  copyValue={profile.subnets.join(',')}
+                  copyValue={profile?.subnets.join(',')}
                   textColor=""
                   wrapperClassName="text-xl"
                 >
@@ -203,7 +203,7 @@ const ClusterOverview = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {grids.map((grid) => {
+              {grids?.map((grid) => {
                 const {
                   concurrency,
                   name: gridName,

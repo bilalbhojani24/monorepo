@@ -24,6 +24,7 @@ import {
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger,
+  Steps,
   Tabs
 } from '@browserstack/bifrost';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
@@ -35,7 +36,6 @@ import {
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import EventLogs from 'features/Onboarding/components/EventLogs';
 import SetupStatus from 'features/Onboarding/components/SetupStatus';
-import SideStepperCircleWithText from 'features/SideStepper/components';
 
 import useCreateGrid from './useCreateGrid';
 
@@ -301,12 +301,15 @@ const CreateGrid = () => {
 
       {type === CREATE_GRID_TYPES.cli && (
         <div className="flex">
-          <SideStepperCircleWithText
-            format="bullets-and-text"
-            label="label"
-            onClick={stepperClickHandler}
-            steps={stepperStepsState}
-          />
+          <div className="p-6">
+            <Steps
+              format="circles-with-text"
+              label="label"
+              onClick={stepperClickHandler}
+              steps={stepperStepsState}
+            />
+          </div>
+
           <div className="w-full">
             <div className="border-base-300 m-6 rounded-lg border bg-white ">
               {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
