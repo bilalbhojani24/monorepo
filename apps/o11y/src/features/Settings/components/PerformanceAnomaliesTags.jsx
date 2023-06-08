@@ -56,7 +56,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
   return (
     <section className="p-6 pb-9">
       <div className="flex justify-between">
-        <span className="text-lg font-medium">Performance anomalies</span>
+        <span className="font-medium">Performance anomalies</span>
         <O11ySwitcher
           checked={performanceAnomaliesEnabled}
           onChange={(value) => setPerformanceAnomalies('enabled', value)}
@@ -64,7 +64,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm">
         <>
           <div className="text-base-500 flex flex-wrap items-center">
             Test execution duration exceeding the
