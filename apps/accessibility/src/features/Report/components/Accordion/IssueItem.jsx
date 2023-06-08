@@ -67,7 +67,6 @@ export default function IssueItem() {
   const activeComponentId = useSelector(getActiveComponentId);
   const activeReportFilters = useSelector(getReportFilters);
   const showHiddenIssues = useSelector(getShowHiddenIssuesState);
-  const dispatch = useDispatch();
 
   const sanitizeValue = (val) => {
     if (typeof val !== 'string' && Array.isArray(val)) {

@@ -65,7 +65,6 @@ export default function Issues() {
     onHiddenIssueClick,
     onUpdateFilters
   } = useIssues();
-  const dispatch = useDispatch();
   const violations = generateData();
   const showEmptyScreen = violations.every(
     ({ violation }) => violation.nodes.length === 0
