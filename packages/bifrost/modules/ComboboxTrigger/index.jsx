@@ -114,7 +114,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           ref={comboInputRef}
           readOnly={isLoading}
           autoComplete="off"
-          aria-multiselectable="false"
+          // aria-multiselectable="false"
         />
         {(isLoadingRight || errorText || isTruncated) && (
           <div className="mr-5 flex items-center space-x-2 pr-1">
