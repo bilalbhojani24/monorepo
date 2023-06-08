@@ -182,6 +182,19 @@ const updateTestsFilterFields = (data, dispatch) => {
             );
           break;
         }
+        case ADV_FILTER_TYPES.isNewFailure.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.isNewFailure.key
+              })
+            );
+          break;
+        }
         case ADV_FILTER_TYPES.failureCategories.key: {
           if (applied[appliedKey]?.length) {
             applied[appliedKey].forEach((item) => {
