@@ -185,7 +185,7 @@ const TestCasesTable = ({
             }}
           >
             {formatPriority(rowData?.priority?.internal_name?.toLowerCase())}
-            {rowData?.priority?.name}
+            {rowData?.priority?.name || '--'}
           </TMTruncateText>
         </div>
       ),
