@@ -68,6 +68,7 @@ export default function TestCases() {
     initCustomFormFields();
   }, [initCustomFormFields]);
 
+  // TODO when going top modal based form, make sure after Bulk edit in searchfilter view the search API is not fetched again after the edit
   if (isAddTestCasePageVisible)
     return isBulkUpdate ? <BulkEditTestCase /> : <AddEditTestCase />;
 
