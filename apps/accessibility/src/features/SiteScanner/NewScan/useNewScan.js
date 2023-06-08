@@ -144,7 +144,7 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
     scanUrlRef.current.value = null;
     setRecurringStatus(true);
     const ele = document.querySelector('#recurring');
-    if(ele) {
+    if (ele) {
       ele.checked = false;
     }
     closeSlideover();

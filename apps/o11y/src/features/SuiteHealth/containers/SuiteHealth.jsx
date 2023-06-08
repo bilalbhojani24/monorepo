@@ -13,9 +13,8 @@ import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 
 import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
-import { clearSnPTests } from '../slices/dataSlice';
+import { clearSnPTests, setActiveTab } from '../slices/dataSlice';
 import { getSnPActiveTab } from '../slices/selectors';
-import { setActiveTab } from '../slices/uiSlice';
 
 import SHTests from './SHTests';
 import SHUniqueErrors from './SHUniqueErrors';
@@ -40,39 +39,29 @@ export default function SnP() {
     window.scrollTo(0, 0);
   }, [activeTab.value]);
 
-  const removeCommonParams = useCallback(() => {
-    const searchParams = new URLSearchParams(window?.location?.search);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpTestDetails);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpOsName);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpBrowserName);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpOsVersion);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpBrowserVersion);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpErrorId);
-    searchParams.delete(SNP_PARAMS_MAPPING.snpErrorTestId);
-    return searchParams;
-  }, []);
-
   const onTabChange = useCallback(
     (tabInfo) => {
-      dispatch(hideTestDetailsDrawer());
-      const searchParams = removeCommonParams();
-      let activeIndex = Object.keys(TABS).findIndex(
-        (item) => item === tabInfo.value
-      );
-      activeIndex = activeIndex === -1 ? 0 : activeIndex;
-      searchParams.set(
-        SNP_PARAMS_MAPPING.snpTab,
-        Object.keys(TABS)[activeIndex]
-      );
-      navigate({ search: searchParams.toString() });
-      dispatch(
-        setActiveTab({
-          idx: activeIndex,
-          value: tabInfo.name
-        })
-      );
+      if (activeTab.value !== tabInfo.name) {
+        dispatch(hideTestDetailsDrawer());
+        const searchParams = new URLSearchParams();
+        let activeIndex = Object.keys(TABS).findIndex(
+          (item) => item === tabInfo.value
+        );
+        activeIndex = activeIndex === -1 ? 0 : activeIndex;
+        searchParams.set(
+          SNP_PARAMS_MAPPING.snpTab,
+          Object.keys(TABS)[activeIndex]
+        );
+        navigate({ search: searchParams.toString() });
+        dispatch(
+          setActiveTab({
+            idx: activeIndex,
+            value: tabInfo.name
+          })
+        );
+      }
     },
-    [dispatch, navigate, removeCommonParams]
+    [activeTab.value, dispatch, navigate]
   );
   return (
     <>

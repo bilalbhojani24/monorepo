@@ -31,7 +31,7 @@ const TestHistory = () => {
       </div>
 
       <Table containerWrapperClass="w-full bg-transparent ring-0 shadow-none md:rounded-none border-b border-base-200">
-        <TableBody>
+        <TableBody wrapperClassName="border-0">
           {recentTestRows.map((row) => (
             <TableRow
               key={row?.uuid}
