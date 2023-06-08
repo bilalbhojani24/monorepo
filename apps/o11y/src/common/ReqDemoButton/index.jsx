@@ -4,7 +4,7 @@ import { EXTERNAL_LINKS } from 'constants/common';
 import PropTypes from 'prop-types';
 import { getExternalUrl, logOllyEvent } from 'utils/common';
 
-function ReqDemoButton({ buttonProps, source }) {
+function ReqDemoButton({ buttonProps, source, clickCb }) {
   const handleClickGetDemo = () => {
     logOllyEvent({
       event: 'O11yDemoCTAClicked',
@@ -13,6 +13,9 @@ function ReqDemoButton({ buttonProps, source }) {
         url: window.location.href
       }
     });
+    if (clickCb && typeof clickCb === 'function') {
+      clickCb();
+    }
     window.open(
       getExternalUrl({ path: EXTERNAL_LINKS.getADemo }),
       '_blank',
@@ -33,7 +36,10 @@ function ReqDemoButton({ buttonProps, source }) {
 
 ReqDemoButton.propTypes = {
   buttonProps: PropTypes.objectOf(PropTypes.any).isRequired,
-  source: PropTypes.string.isRequired
+  source: PropTypes.string.isRequired,
+  clickCb: PropTypes.func
 };
-
+ReqDemoButton.defaultProps = {
+  clickCb: () => {}
+};
 export default ReqDemoButton;

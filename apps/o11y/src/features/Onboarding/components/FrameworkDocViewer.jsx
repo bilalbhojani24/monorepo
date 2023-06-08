@@ -61,7 +61,18 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
     return () => window.removeEventListener('message', handleFrameTasks);
   }, [handleFrameTasks]);
 
+  const handleInteraction = (interaction) => {
+    logOllyEvent({
+      event: 'O11yFrameworkSelectionInteracted',
+      data: {
+        language_framework: selectedFramework.name,
+        interaction
+      }
+    });
+  };
+
   const handleClickSkipToDashboard = () => {
+    handleInteraction('Skip to Dashboard Clicked');
     navigate(ROUTES.projects);
   };
 
@@ -93,7 +104,11 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
               Skip to dashboard
             </O11yButton>
           ) : (
-            <ReqDemoButton />
+            <ReqDemoButton
+              clickCb={() => {
+                handleInteraction('Get Demo Clicked');
+              }}
+            />
           )}
         </div>
       </div>

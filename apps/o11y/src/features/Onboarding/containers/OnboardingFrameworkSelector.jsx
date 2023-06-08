@@ -62,6 +62,9 @@ export default function OnboardingFrameworkSelector() {
   }
 
   const handleClickReqFramework = () => {
+    logOllyEvent({
+      event: 'O11yFrameworkRequestClicked'
+    });
     dispatch(
       toggleModal({
         version: MODAL_TYPES.onboarding_framework_selection_modal,

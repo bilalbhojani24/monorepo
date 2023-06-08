@@ -31,11 +31,7 @@ const ProjectSelectorStickyFooter = () => (
       <span>New project</span>
       <MdAdd className="text-xl" />
     </Link>
-    <Link
-      to={ROUTES.projects}
-      className={STICKY_CLASSES.parentClass}
-      target="_blank"
-    >
+    <Link to={ROUTES.projects} className={STICKY_CLASSES.parentClass}>
       <span>View all projects</span>
       <MdOpenInNew className="text-xl" />
     </Link>
