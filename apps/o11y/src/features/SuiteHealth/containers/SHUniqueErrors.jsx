@@ -13,6 +13,7 @@ import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import { resetFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import {
   getAllAppliedFilters,
   getCurrentFilterCategory,
@@ -87,6 +88,13 @@ const SnPUniqueErrors = () => {
       });
     },
     [activeProject.id, activeProject.name]
+  );
+
+  useEffect(
+    () => () => {
+      dispatch(resetFilters());
+    },
+    [dispatch]
   );
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
+import { resetFilters } from 'features/FilterSkeleton/slices/filterSlice';
 import TestList from 'features/TestList';
 import { EMPTY_TESTLIST_DATA_STATE } from 'features/TestList/constants';
 import {
@@ -32,8 +33,8 @@ function BuildDetails() {
   const buildUUID = useSelector(getBuildUUID);
   const params = useParams();
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const activeTab = useSelector(getBuildDetailsActiveTab);
   const fetchBuildId = useCallback(() => {
     setLoadError(false);
@@ -63,6 +64,7 @@ function BuildDetails() {
   useEffect(
     () => () => {
       dispatch(resetTestListSlice());
+      dispatch(resetFilters());
       dispatch(clearBuildUUID());
       setTestDefectTypeMapping({});
       dispatch(

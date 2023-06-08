@@ -13,9 +13,11 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
+import { logEvent } from '@browserstack/utils';
 import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
 import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
+import { AGAutomationConsoleInteracted } from 'constants/event-names';
 
 import { useGridListing } from './useGridListing';
 
@@ -76,11 +78,12 @@ const GridsListing = () => {
             {gridList.map((gridData) => {
               const clusterIdentifier = gridData.cluster.identifier;
               const clusterName = gridData.cluster.name;
+              const gridIdentfier = gridData.identifier.split('-')[0];
               const gridName = gridData.name;
               const gridStatus = gridData.status;
               const statusModifier =
                 gridData.status === 'Online' ? 'success' : 'base';
-              const gridId = gridData.gridProfile.id;
+              const gridId = gridData.id;
 
               const supportedBrowsers = {
                 chrome:
@@ -98,24 +101,33 @@ const GridsListing = () => {
                 }
               ];
 
+              const cellClickhandler = () => {
+                logEvent(['amplitude'], AGAutomationConsoleInteracted, {
+                  action: 'grid_selected',
+                  grid_name: gridName,
+                  grid_id: gridId
+                });
+                gridRowHandler(gridId);
+              };
+
               return (
                 <TableRow className="cursor-pointer">
-                  <TableCell wrapperClassName="first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName="px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                     >
-                      <p className="font-normal">{gridName}</p>
-                      <p className="text-base-500">b7465tbf76</p>
+                      <p className="text-base-900 font-normal">{gridName}</p>
+                      <p className="text-base-500">{gridIdentfier}</p>
                     </div>
                   </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                     >
                       <Badge
@@ -128,48 +140,50 @@ const GridsListing = () => {
                       />
                     </div>
                   </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName="px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
+                      className="text-base-900 items-center"
                     >
                       {gridData.runningTests}
                     </div>
                   </TableCell>
-                  <TableCell wrapperClassName=" first:pr-3 last:pl-3 px-2 py-2">
+                  <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
+                      className="text-base-900"
                     >
                       {gridData.queuedTests}
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                     >
-                      <div className="flex gap-2">
+                      <div className="flex items-center gap-2">
                         {supportedBrowsers.chrome && <ChromeIcon />}
                         <FirefoxIcon width={20} height={20} />
                         <EdgeIcon width={20} height={20} />
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell wrapperClassName=" px-6 py-4">
                     <div
                       role="button"
-                      onClick={() => gridRowHandler(gridId)}
-                      onKeyDown={() => gridRowHandler(gridId)}
+                      onClick={cellClickhandler}
+                      onKeyDown={cellClickhandler}
                       tabIndex={0}
                     >
-                      <p>{clusterName}</p>
+                      <p className="text-base-900">{clusterName}</p>
                       <p>{clusterIdentifier}</p>
                     </div>
                   </TableCell>
@@ -185,7 +199,21 @@ const GridsListing = () => {
                       }}
                     >
                       <div className="flex">
-                        <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+                        <DropdownTrigger
+                          onClick={() =>
+                            logEvent(
+                              ['ampltidue'],
+                              'web_events',
+                              AGAutomationConsoleInteracted,
+                              {
+                                action: 'gridmenu_selected',
+                                grid_name: gridName,
+                                grid_id: gridId
+                              }
+                            )
+                          }
+                          wrapperClassName="p-0 border-0 shadow-none"
+                        >
                           <EllipsisVerticalIcon
                             className="h-5 w-5"
                             aria-hidden="true"
@@ -193,7 +221,7 @@ const GridsListing = () => {
                         </DropdownTrigger>
                       </div>
 
-                      <DropdownOptionGroup>
+                      <DropdownOptionGroup wrapperClassName="w-full">
                         {options.map((opt) => (
                           <DropdownOptionItem key={opt.value} option={opt} />
                         ))}

@@ -1,12 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useMountEffect } from '@browserstack/hooks';
+import { logEvent } from '@browserstack/utils';
 import {
   getOnboardingData,
   getOnboardingEventsLogsData,
   markOnboardingRegionChange,
   markOnboardingStatus
 } from 'api';
+import {
+  AGErrorGridModalInteracted,
+  AGErrorGridModalPresented,
+  AGEventsLogModalInteracted,
+  AGHaveSetupInteracted,
+  AGHaveSetupPresented,
+  AGNoSetupInteracted,
+  AGNoSetupPresented,
+  AGNoSetupStepsExecuted,
+  AGSetupGuideInteracted,
+  AGSetupGuideVisited,
+  AGSuccessGridModalInteracted,
+  AGSuccessGridModalPresented
+} from 'constants/event-names';
 import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
@@ -23,8 +38,8 @@ const useOnboarding = () => {
   const CODE_SNIPPETS_SCRATCH = {
     'create-grid': {
       a: {
-        code: 'npm install @browserstack/browserstack-cli',
-        language: 'node',
+        code: 'npm install browserstack-node-sdk',
+        language: 'npm',
         text: 'Download CLI.'
       },
       b: {
@@ -70,7 +85,7 @@ browserstack-cli hst init`,
   const SUB_TEXTS_OBJECT = {
     intro:
       'Create and manage your own Automation Grid that supports frameworks like Selenium, Playwright, and Cypress to support browser testing at scale',
-    scratch: '',
+    scratch: 'Quickly create a grid in below 4 steps.',
     existing: ''
   };
   const STEP_1_RADIO_GROUP_OPTIONS = [
@@ -95,7 +110,7 @@ browserstack-cli hst init`,
     useState({});
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
-    useState(GRID_MANAGER_NAMES.helm);
+    useState({ index: 0, name: GRID_MANAGER_NAMES.helm });
   const [codeSnippetsForExistingSetup, setCodeSnippetsForExistingSetup] =
     useState(null);
   const [currentStep, setCurrentStep] = useState(0);
@@ -132,6 +147,17 @@ browserstack-cli hst init`,
 
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
+    if (stepData.name === 'Setup Guide') {
+      if (onboardingType === ONBOARDING_TYPES.existing) {
+        logEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
+          action: 'setupguide_clicked'
+        });
+      } else if (onboardingType === ONBOARDING_TYPES.scratch) {
+        logEvent(['amplitude'], 'web_events', AGNoSetupPresented, {
+          action: 'setupguide_clicked'
+        });
+      }
+    }
     const { goToStep } = stepData;
     if (Number.isInteger(goToStep)) {
       setOnboardingStep(goToStep);
@@ -139,28 +165,109 @@ browserstack-cli hst init`,
   };
 
   const closeEventLogsModal = () => {
+    logEvent(['amplitude'], 'web_events', AGEventsLogModalInteracted, {
+      action: 'actionbutton_clicked'
+    });
     setShowEventLogsModal(false);
   };
 
   const closeSetupStatusModal = () => {
+    logEvent([
+      'amplitude',
+      'web_events',
+      AGErrorGridModalInteracted,
+      { action: 'close_clicked' }
+    ]);
     setShowSetupStatusModal(false);
   };
 
+  const cloudProviderChangeHandler = (e, option) => {
+    const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
+      (item) => item.id === option
+    );
+
+    logEvent([], 'web_events', AGNoSetupStepsExecuted, {
+      action: 'cloudprovider_selected',
+      value: option.configName
+    });
+    setCurrentCloudProvider(newOption);
+  };
+
+  const cloudRegionChangeHandler = (e) => {
+    logEvent([], 'web_events', AGNoSetupStepsExecuted, {
+      action: 'cloudregion_selected',
+      option: e.value
+    });
+    setSelectedRegion(e);
+  };
+
+  const codeSnippetTabChangeHandler = (e) => {
+    const eventData = {
+      action: ''
+    };
+
+    if (e.name === 'Helm') {
+      eventData.action = 'hrlmoption_clicked';
+    } else if (e.name === 'Kubectl') {
+      eventData.action = 'kubectloption_clicked';
+    } else if (e.name === 'CLI') {
+      eventData.action = 'clioption_clicked';
+    }
+
+    logEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, eventData);
+
+    setActiveGridManagerCodeSnippet(e);
+  };
+
   const continueClickHandler = () => {
+    logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+      action: 'continue_clicked',
+      option:
+        selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label
+          ? 'no_setup'
+          : 'have_setup'
+    });
     setOnboardingStep(1);
   };
 
   const exploreAutomationClickHandler = () => {
+    logEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
+      action: 'console_clicked'
+    });
     closeSetupStatusModal();
     window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
   };
 
+  const logTermsConditionsEvents = () => {
+    logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+      action: 'termsdoc_clicked'
+    });
+  };
+
+  const logViewDocumentationEvents = () => {
+    logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+      action: 'viewdoc_clicked'
+    });
+  };
+
   const viewAllBuildsClickHandler = () => {
+    logEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
+      action: 'viewbuilds_clicked'
+    });
     closeSetupStatusModal();
     window.location = `${window.location.origin}${ROUTES.BUILDS}`;
   };
 
   const viewEventLogsClickHandler = () => {
+    if (onboardingType === ONBOARDING_TYPES.scratch) {
+      logEvent([''], 'web_events', AGNoSetupInteracted, {
+        action: 'vieweventlogs_clicked'
+      });
+    } else if (onboardingType === ONBOARDING_TYPES.existing) {
+      logEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
+        action: 'vieweventlogs_clicked'
+      });
+    }
     setShowEventLogsModal(true);
   };
 
@@ -174,6 +281,16 @@ browserstack-cli hst init`,
       setHeaderText(HEADER_TEXTS_OBJECT.intro);
       setSubHeaderText(SUB_TEXTS_OBJECT.intro);
       setPollForEventLogs(false);
+    }
+
+    if (onboardingStep > 0) {
+      if (onboardingType === ONBOARDING_TYPES.scratch) {
+        logEvent([], 'web_events', AGNoSetupPresented);
+      }
+
+      if (onboardingType === ONBOARDING_TYPES.existing) {
+        logEvent([], 'web_events', AGHaveSetupPresented);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingStep]);
@@ -195,6 +312,9 @@ browserstack-cli hst init`,
           goToStep: 1
         }
       ]);
+      logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+        action: 'nosetup_clicked'
+      });
     } else {
       setOnboardingType('existing');
       setBreadcrumbDataTrace([
@@ -212,6 +332,9 @@ browserstack-cli hst init`,
           goToStep: 1
         }
       ]);
+      logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+        action: 'havesetup_clicked'
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption]);
@@ -245,6 +368,7 @@ browserstack-cli hst init`,
   useEffect(() => {
     if (currentStep === -1) {
       setTimeout(() => {
+        logEvent([], 'web_events', AGErrorGridModalPresented);
         setEventLogsStatus(EVENT_LOGS_STATUS.FAILED);
         setIsSetupComplete(true);
       }, 1000);
@@ -258,6 +382,7 @@ browserstack-cli hst init`,
         }, 1000);
       }
     } else if (currentStep === totalSteps) {
+      logEvent([''], 'web_events', AGSuccessGridModalPresented);
       setEventLogsStatus(EVENT_LOGS_STATUS.FINISHED);
 
       setTimeout(() => {
@@ -298,7 +423,7 @@ browserstack-cli hst init`,
           res.onboardingType === ONBOARDING_TYPES.existing)
       ) {
         setOnboardingType(res.onboardingType);
-        setOnboardingStep(1);
+        // setOnboardingStep(1);
       }
 
       if (res.currentStep === res.totalSteps) {
@@ -325,6 +450,8 @@ browserstack-cli hst init`,
     } else {
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
     }
+
+    logEvent([], 'web_events', AGSetupGuideVisited);
   });
 
   return {
@@ -342,7 +469,10 @@ browserstack-cli hst init`,
     breadcrumbStepClickHandler,
     closeEventLogsModal,
     closeSetupStatusModal,
+    cloudProviderChangeHandler,
+    cloudRegionChangeHandler,
     codeSnippetsForExistingSetup,
+    codeSnippetTabChangeHandler,
     continueClickHandler,
     currentStep,
     currentProvidersRegions,
@@ -353,11 +483,12 @@ browserstack-cli hst init`,
     frameworkURLs,
     headerText,
     isSetupComplete,
+    logTermsConditionsEvents,
+    logViewDocumentationEvents,
     onboardingStep,
     onboardingType,
     selectedOption,
     selectedRegion,
-    setActiveGridManagerCodeSnippet,
     setCurrentCloudProvider,
     setSelectedOption,
     setSelectedRegion,
