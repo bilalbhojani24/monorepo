@@ -18,9 +18,11 @@ const CancelModal = ({ show }) => {
     useCancelModal();
 
   useEffect(() => {
-    setTimeout(() => {
-      cancelRef.current?.focus();
-    }, REFOCUS_TIMER);
+    if (show) {
+      setTimeout(() => {
+        cancelRef.current?.focus();
+      }, REFOCUS_TIMER);
+    }
   }, [show]);
 
   return (
