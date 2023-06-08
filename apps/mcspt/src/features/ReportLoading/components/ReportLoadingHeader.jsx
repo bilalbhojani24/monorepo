@@ -47,6 +47,7 @@ const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
           isDismissButton={false}
           description={getBannerDescription()}
           modifier="attention"
+          align="centered"
         />
       )}
     </div>

@@ -19,6 +19,7 @@ import {
   setElapsedRecordingDuration,
   setIsSessionStopInProgress,
   setRecordingTimerIntervalId,
+  setShowTimeoutBanner,
   updateSessionStatus
 } from './reportLoadingSlice';
 
@@ -89,6 +90,8 @@ export const stopRecordingSession =
     const currentapp = getSelectedApplication(getState());
 
     try {
+      dispatch(setShowTimeoutBanner(false));
+
       dispatch(setRecordingTimerIntervalId(null));
 
       dispatch(setElapsedRecordingDuration(0));
@@ -138,7 +141,9 @@ export const cancelRecordingSession =
 
     try {
       dispatch(setIsSessionStopInProgress(true));
-
+      dispatch(setShowTimeoutBanner(false));
+      dispatch(setRecordingTimerIntervalId(null));
+      dispatch(setElapsedRecordingDuration(0));
       dispatch(
         updateSessionStatus({ status: REPORT_LOADING_STATES.NOT_STARTED })
       );
