@@ -92,7 +92,7 @@ const sanitizeSearchParams = (searchParams) => {
   const searchParamKeys = [...searchParams.keys()];
 
   searchParamKeys.forEach((key) => {
-    if (!ALL_FILTER_FIELD_KEYS.includes(key)) {
+    if (!ALL_FILTER_FIELD_KEYS.includes(key) && key !== 'daterangetype') {
       searchParams.delete(key);
     }
   });
