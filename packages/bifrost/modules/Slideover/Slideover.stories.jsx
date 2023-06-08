@@ -67,7 +67,7 @@ const defaultConfig = {
       option: { type: 'boolean' },
       defaultValue: true
     },
-    isResizeable: {
+    isFluid: {
       option: { type: 'boolean' },
       defaultValue: false
     },
@@ -150,7 +150,7 @@ predefinedComponents.args = {
 };
 
 resizeableExample.args = {
-  isResizeable: true,
+  isFluid: true,
   resizeableWrapper: ResizeableWrapperForSlider,
   children: (
     <>

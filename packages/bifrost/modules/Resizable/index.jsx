@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { ResizableBox } from 'react-resizable';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const ResizableWrapper = ({
@@ -28,13 +29,13 @@ const ResizableWrapper = ({
 
   const defaultHandleProps = (__resizeHandleAxis, ref) => (
     <span
-      className={
-        ('group absolute left-0 top-0 h-full px-1 hover:cursor-col-resize',
+      className={twClassNames(
+        'group absolute top-0 h-full px-1 hover:cursor-col-resize',
         {
-          '-translate-x-1.5': resizeHandles.includes('w'),
-          'translate-x-1.5': resizeHandles.includes('e')
-        })
-      }
+          'left-0 -translate-x-1.5': resizeHandles.includes('w'),
+          'right-0 translate-x-1.5': resizeHandles.includes('e')
+        }
+      )}
       ref={ref}
     >
       <span

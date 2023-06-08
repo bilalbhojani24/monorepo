@@ -20,7 +20,7 @@ const Slideover = (props) => {
     size,
     closeButtonOutside,
     topMarginElementId,
-    isResizeable,
+    isFluid,
     resizeableWrapper
   } = props;
 
@@ -106,11 +106,11 @@ const Slideover = (props) => {
             </div>
           )}
 
-          {isResizeable ? (
+          {isFluid ? (
             <ResizeableWraperProp>
               <div
                 className={twClassNames(childrenWrapperClassNames, {
-                  'w-full': isResizeable
+                  'w-full': isFluid
                 })}
               >
                 {children}
@@ -155,7 +155,7 @@ Slideover.propTypes = {
   size: PropTypes.string,
   closeButtonOutside: PropTypes.bool,
   topMarginElementId: PropTypes.string,
-  isResizeable: PropTypes.bool,
+  isFluid: PropTypes.bool,
   resizeableWrapper: PropTypes.func
 };
 
@@ -169,7 +169,7 @@ Slideover.defaultProps = {
   size: MODAL_SIZE[2],
   closeButtonOutside: false,
   topMarginElementId: '',
-  isResizeable: false,
+  isFluid: false,
   resizeableWrapper: DefaultResizeableComponent
 };
 
