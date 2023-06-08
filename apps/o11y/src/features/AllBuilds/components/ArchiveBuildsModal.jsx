@@ -94,7 +94,8 @@ function ArchiveBuildsModal() {
         <O11yAlerts
           accentBorder={false}
           modifier="warn"
-          title="Archiving is a permanent action and cannot be undone. Archived build runs become read-only and cannot be modified."
+          title="Archiving is a permanent action and cannot be undone. "
+          description="Archived build runs become read-only and cannot be modified."
         />
         <ul className="mt-8 flex flex-col gap-6">
           <li className="flex gap-3">

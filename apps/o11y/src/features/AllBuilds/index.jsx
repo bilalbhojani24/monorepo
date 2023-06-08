@@ -81,6 +81,13 @@ const AllBuildsPage = () => {
     fetchBuilds();
   }, [fetchBuilds]);
 
+  useEffect(
+    () => () => {
+      dispatch(clearFilters());
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     logOllyEvent({
       event: 'O11yBuildListingVisited',
