@@ -72,10 +72,6 @@ function JenkinsIntegrationModal() {
           handleCloseModal();
         })
         .catch(() => {
-          o11yNotify({
-            title: `Something went wrong! Please try again`,
-            type: 'error'
-          });
           setIsSubmittingData(false);
         });
     }

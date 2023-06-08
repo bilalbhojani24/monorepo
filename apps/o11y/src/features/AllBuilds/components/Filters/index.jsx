@@ -8,10 +8,13 @@ import {
   O11ySlideoverFooter,
   O11ySlideoverHeader
 } from 'common/bifrostProxy';
+import { FLOATING_COMPONENTS_IDS } from 'constants/common';
 import {
   discardUnAppliedFilters,
   setSelectedFilterAsApplied
 } from 'features/AllBuilds/slices/buildsSlice';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
+import PropTypes from 'prop-types';
 
 import BuildFrameworkFilter from './BuildFrameworkFilter';
 import BuildStatusFilter from './BuildStatusFilter';
@@ -19,7 +22,7 @@ import DateRangeFilter from './DateRangeFilter';
 import TagsFilters from './TagsFilter';
 import UsersFilters from './UsersFilter';
 
-const Filters = () => {
+const Filters = ({ onApplyFilters }) => {
   const dispatch = useDispatch();
   const [isSlideoverVisible, setIsSlideoverVisible] = useState(false);
 
@@ -36,6 +39,7 @@ const Filters = () => {
     hideSlideover();
   };
   const onApplyFilterClick = () => {
+    onApplyFilters();
     dispatch(setSelectedFilterAsApplied());
     hideSlideover();
   };
@@ -43,6 +47,10 @@ const Filters = () => {
   const setValidStatus = useCallback((status) => {
     setIsValid(status);
   }, []);
+  useFloatingComponentTracking(
+    isSlideoverVisible,
+    FLOATING_COMPONENTS_IDS.BUILD_FILTERS
+  );
   return (
     <>
       <O11ySlideover
@@ -91,6 +99,10 @@ const Filters = () => {
       </O11yButton>
     </>
   );
+};
+
+Filters.propTypes = {
+  onApplyFilters: PropTypes.func.isRequired
 };
 
 export default Filters;

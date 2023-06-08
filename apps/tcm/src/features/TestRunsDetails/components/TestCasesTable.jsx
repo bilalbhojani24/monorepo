@@ -1,7 +1,10 @@
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import classNames from 'classnames';
 import {
+  TMButton,
+  TMCheckBox,
   TMPagination,
   TMSelectMenu,
   TMTable,
@@ -13,8 +16,12 @@ import {
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 
-import { STATUS_OPTIONS } from '../const/immutableConst';
+import { BULK_OPERATIONS, STATUS_OPTIONS } from '../const/immutableConst';
 
+import AddResultModal from './AddResultModal';
+import AssignTestCasesModal from './AssignTestCasesModal';
+import RemoveTCModal from './RemoveTCModal';
+import useBulkFunctions from './useBulkFunctions';
 import useTRTCFolders from './useTRTCFolders';
 
 const TestCasesTable = () => {
@@ -24,16 +31,25 @@ const TestCasesTable = () => {
     metaPage,
     isTableLoading,
     allTestCases,
-    onPaginationClick,
     handleTestCaseViewClick,
     onResultChange
   } = useTRTCFolders();
+
+  const {
+    isAllChecked,
+    isIndeterminate,
+    selectedTestCaseIDs,
+    selectAll,
+    updateSelection,
+    setBulkOperation
+  } = useBulkFunctions();
 
   const datatableColumns = [
     {
       name: 'ID',
       key: 'identifier',
-      class: 'w-[9%]',
+      class: 'w-[10%]',
+      bodyClass: '[&>div]:w-[88px]',
       cell: (rowData) => (
         <div
           role="button"
@@ -59,7 +75,8 @@ const TestCasesTable = () => {
     {
       name: 'TITLE',
       key: 'name',
-      class: 'w-[80%]',
+      class: 'w-[65%]',
+      bodyClass: '[&>div]:w-[calc(100vw-970px)]',
       cell: (rowData) => (
         <div
           role="button"
@@ -79,18 +96,38 @@ const TestCasesTable = () => {
             hidetooltipTriggerIcon
             isFullWidthTooltip
             headerTooltipProps={{
-              delay: 500
+              delay: 500,
+              wrapperClassName: 'break-all'
             }}
           >
             {rowData.name}
           </TMTruncateText>
         </div>
-      ),
-      maxWidth: 'max-w-[40%]'
+      )
+    },
+    {
+      name: 'ASSIGNED TO',
+      key: 'test_assignee',
+      class: 'w-[10%]',
+      cell: (rowData) => (
+        <div className={twClassNames('text-base-500')}>
+          <TMTruncateText
+            truncateUsingClamp={false}
+            hidetooltipTriggerIcon
+            isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
+          >
+            {rowData?.test_assignee?.full_name || 'Unassigned'}
+          </TMTruncateText>
+        </div>
+      )
     },
     {
       name: 'STATUS',
-      class: 'w-[13%]',
+      class: 'w-[13%] text-center',
+      bodyClass: 'pl-0 [&>div]:w-[120px]',
       key: 'status',
       cell: (rowData) => {
         const value =
@@ -115,7 +152,7 @@ const TestCasesTable = () => {
           : null;
 
         return testRunDetails?.run_state === 'closed' ? (
-          <div className="flex h-9 items-center pl-3 capitalize">
+          <div className="flex h-7 items-center pl-3 capitalize">
             {valueMapped?.label || '--'}
           </div>
         ) : (
@@ -141,16 +178,15 @@ const TestCasesTable = () => {
             onChange={(e) => onResultChange(e, rowData, true, true)}
           />
         );
-      },
+      }
       // <span className="capitalize">{rowData.status}</span>,
-      maxWidth: 'max-w-[80px]'
     }
   ];
 
   return (
     <div className="flex-col overflow-y-auto border-none">
       <TMTable
-        tableWrapperClass="table-fixed w-full"
+        tableWrapperClass="w-full"
         containerWrapperClass={classNames(
           // 'max-w-[calc(100vw-40rem)]'
           'overflow-y-auto md:rounded-none'
@@ -158,16 +194,23 @@ const TestCasesTable = () => {
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
-            {/* <TMTableCell
-            variant="body"
-            wrapperClassName=" border-l-2 border-base-50 w-12 test-base-500 flex items-center px-0 py-2.5 sm:first:pl-0"
-            textTransform="uppercase"
-          >
-            <TMCheckBox
-              border={false}
-              wrapperClassName="pt-0"
-            />
-          </TMTableCell> */}
+            {testRunDetails?.project_id &&
+              testRunDetails?.run_state !== 'closed' && (
+                <td
+                  className="border-base-50 text-base-500 w-[1%] p-2 [&>div]:min-w-[20px]"
+                  textTransform="uppercase"
+                >
+                  {/* all checkbox */}
+                  <TMCheckBox
+                    border={false}
+                    wrapperClassName="pt-0 pl-2"
+                    checked={isAllChecked}
+                    indeterminate={isIndeterminate}
+                    onChange={selectAll}
+                    disabled={!allTestCases?.length}
+                  />
+                </td>
+              )}
             {datatableColumns?.map((col, index) => (
               <TMTableCell
                 key={col.key}
@@ -177,8 +220,6 @@ const TestCasesTable = () => {
                   `test-base-500 first:pr-3 last:pl-3 px-2 py-2`,
                   col?.maxWidth,
                   {
-                    'flex-1 w-9/12': index === 1,
-                    'min-w-[50%]': index === 2,
                     'sticky bg-base-50': col.isSticky,
                     'right-0 ': col.isSticky && col.stickyPosition === 'right',
                     'left-10 ': col.isSticky && col.stickyPosition === 'left'
@@ -187,6 +228,37 @@ const TestCasesTable = () => {
                 textTransform="uppercase"
               >
                 {col.name}
+                {index === 0 && selectedTestCaseIDs.length ? (
+                  <div className="absolute top-0 flex h-full items-center gap-3">
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={() =>
+                        setBulkOperation(BULK_OPERATIONS.ADD_RESULT.option)
+                      }
+                    >
+                      Add Result
+                    </TMButton>
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={() =>
+                        setBulkOperation(BULK_OPERATIONS.ASSIGN_TO.option)
+                      }
+                    >
+                      Assign to
+                    </TMButton>
+                    <TMButton
+                      colors="white"
+                      size="extra-small"
+                      onClick={() =>
+                        setBulkOperation(BULK_OPERATIONS.REMOVE.option)
+                      }
+                    >
+                      Remove from Run
+                    </TMButton>
+                  </div>
+                ) : null}
               </TMTableCell>
             ))}
           </TMTableRow>
@@ -197,15 +269,37 @@ const TestCasesTable = () => {
               {allTestCases?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TMTableRow isSelected key={row.id || index}>
+                  {testRunDetails?.project_id && // projectID will only exist if the detail has been fetched and ready, else checkbox will be shown during load as well
+                    testRunDetails?.run_state !== 'closed' && (
+                      <td
+                        className={twClassNames(
+                          'border-base-50 test-base-500 p-2 w-[5%]'
+                          // !deSelectedTestCaseIDs.includes(row.id) &&
+                          //   (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                          //   ? 'border-l-brand-600'
+                          //   : 'border-l-white'
+                        )}
+                        textTransform="uppercase"
+                      >
+                        <TMCheckBox
+                          border={false}
+                          wrapperClassName="pt-0 pl-2"
+                          checked={
+                            isAllChecked || selectedTestCaseIDs.includes(row.id)
+                          }
+                          onChange={(e) => updateSelection(e, row)}
+                        />
+                      </td>
+                    )}
                   {datatableColumns?.map((column) => {
                     const value = row[column.key];
                     return (
                       <TMTableCell
                         key={column.key}
                         wrapperClassName={classNames(
-                          column?.class,
+                          // column?.class,
                           'first:pr-3 last:pl-3 px-2 py-1',
-                          column?.maxWidth,
+                          column?.bodyClass,
                           {
                             'sticky bg-white': column.isSticky,
                             'right-0 ':
@@ -238,13 +332,20 @@ const TestCasesTable = () => {
               pageNumber={metaPage?.page || 1}
               count={metaPage?.count || 0}
               pageSize={metaPage?.page_size}
-              onActionClick={onPaginationClick}
             />
           ) : (
             <div className="border-base-300 border-t" />
           )}
         </>
       )}
+
+      {allTestCases.length ? (
+        <>
+          <AddResultModal />
+          <AssignTestCasesModal />
+          <RemoveTCModal />
+        </>
+      ) : null}
     </div>
   );
 };

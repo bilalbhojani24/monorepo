@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import className from 'classnames';
+import { TMTruncateText } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
 const DetailsSnippet = ({
@@ -24,7 +25,16 @@ const DetailsSnippet = ({
         'capitalize ': !parseContent && !dontCapitalize
       })}
     >
-      {parseContent ? ReactHtmlParser(value) : value}
+      <TMTruncateText
+        truncateUsingClamp={false}
+        hidetooltipTriggerIcon
+        isFullWidthTooltip
+        headerTooltipProps={{
+          delay: 500
+        }}
+      >
+        {parseContent ? ReactHtmlParser(value) : value}
+      </TMTruncateText>
     </div>
   </div>
 );

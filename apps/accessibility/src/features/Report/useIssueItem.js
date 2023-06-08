@@ -14,6 +14,8 @@ import {
 } from 'features/Report/slice/selector';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
+import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
+
 export default function useIssueItem(activeComponentNodes) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -61,6 +63,7 @@ export default function useIssueItem(activeComponentNodes) {
 
   const onCloseClick = () => {
     dispatch(setIsShowingIssue(false));
+    dispatch(setShowFreshChatButton(true));
     const path = updateUrlWithQueryParam({
       activeIssueIndex: 0,
       isShowingIssue: false

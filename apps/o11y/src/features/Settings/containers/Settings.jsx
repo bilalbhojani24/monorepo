@@ -2,7 +2,9 @@ import React, { Suspense, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom';
 import O11yLoader from 'common/O11yLoader';
+import { FLOATING_COMPONENTS_IDS } from 'constants/common';
 import { getHeaderSize } from 'globalSlice/selectors';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 import { logOllyEvent } from 'utils/common';
 
 import SettingsSidebar from '../components/SettingsSidebar';
@@ -14,6 +16,8 @@ export default function Settings() {
   useEffect(() => {
     logOllyEvent({ event: 'O11ySettingsPageVisited' });
   }, [pathname]);
+
+  useFloatingComponentTracking(true, FLOATING_COMPONENTS_IDS.O11Y_SETTINGS);
 
   return (
     <div
