@@ -9,9 +9,7 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 import { logEvent } from '@browserstack/utils';
-import AWSIcon from 'assets/icons/components/clouds/AWSIcon';
-import AzureIcon from 'assets/icons/components/clouds/AzureIcon';
-import GCPIcon from 'assets/icons/components/clouds/GCPIcon';
+import cloudIcons from 'constants/cloudIcons';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 
 import { useClustersListing } from './useClustersListing';
@@ -23,12 +21,6 @@ const ClustersListing = () => {
 
   const ClusterRowHandler = (clusterId) => {
     navigate(`/grid-console/cluster/${clusterId}/overview`);
-  };
-
-  const cloudIcons = {
-    aws: <AWSIcon width={28} height={28} />,
-    gcp: <GCPIcon width={28} height={28} />,
-    azure: <AzureIcon width={28} height={28} />
   };
 
   return (
@@ -121,10 +113,10 @@ const ClustersListing = () => {
                     <p className="font-norma text-base-900">{region}</p>
                   </TableCell>
                   <TableCell wrapperClassName=" px-6 py-4">
-                    <p className="font-normal text-base-900">12/50</p>
+                    <p className="text-base-900 font-normal">12/50</p>
                   </TableCell>
                   <TableCell wrapperClassName=" px-6 py-4">
-                    <p className="font-normal text-base-900">{grids.length}</p>
+                    <p className="text-base-900 font-normal">{grids.length}</p>
                   </TableCell>
                 </TableRow>
               );

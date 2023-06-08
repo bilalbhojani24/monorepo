@@ -43,8 +43,7 @@ const BrowsersSettings = () => {
         <Loader />
       ) : (
         <>
-          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-          <div className="h-[calc(100vh-64px-134px-48px-62px)] overflow-auto p-6">
+          <div className="overflow-auto p-6">
             <p className="text-base-900 text-lg font-medium">
               Browser Related Settings
             </p>

@@ -20,9 +20,9 @@ const useGridConsole = () => {
 
   const options = [
     {
-      id: 'helm/kubectl',
-      value: 'Helm/KubeCTL',
-      body: 'Spawn a grid via Helm / KubeCTL'
+      id: 'helm',
+      value: 'Helm',
+      body: 'Spawn a grid via Helm'
     },
     { id: 'cli', value: 'CLI', body: 'Spawn a grid with customizations' }
   ];
