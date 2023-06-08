@@ -2,11 +2,13 @@ import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   generatePath,
+  Link,
   matchRoutes,
   useLocation,
   useNavigate
 } from 'react-router-dom';
-import { O11yButton, O11yComboBox } from 'common/bifrostProxy';
+import { MdAdd, MdOpenInNew } from '@browserstack/bifrost';
+import { O11yComboBox } from 'common/bifrostProxy';
 import { ROUTES } from 'constants/routes';
 import { resetAllAppliedFilters } from 'features/FilterSkeleton/utils';
 import { setIsUEDetailsVisible } from 'features/SHErrorDetails/slices/dataSlice';
@@ -18,11 +20,25 @@ import { getProjectBuildsPath, isBuildsPage } from 'utils/routeUtils';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
 
+const STICKY_CLASSES = {
+  parentClass:
+    'text-brand-600 hover:text-brand-500 hover:bg-base-50 flex w-full justify-between py-2 pl-3 pr-4 text-sm'
+};
+
 const ProjectSelectorStickyFooter = () => (
   <>
-    <O11yButton variant="minimal" wrapperClassName="py-2">
-      New project
-    </O11yButton>
+    <Link to={ROUTES.get_started} className={STICKY_CLASSES.parentClass}>
+      <span>New project</span>
+      <MdAdd className="text-xl" />
+    </Link>
+    <Link
+      to={ROUTES.projects}
+      className={STICKY_CLASSES.parentClass}
+      target="_blank"
+    >
+      <span>View all projects</span>
+      <MdOpenInNew className="text-xl" />
+    </Link>
   </>
 );
 

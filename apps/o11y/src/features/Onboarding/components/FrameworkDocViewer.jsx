@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { MdArrowBack } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import ReqDemoButton from 'common/ReqDemoButton';
 import { URL_REGEX } from 'constants/common';
-import { getHeaderSize } from 'globalSlice/selectors';
+import { ROUTES } from 'constants/routes';
+import { getHeaderSize, getProjects } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { getDocUrl, logOllyEvent } from 'utils/common';
 
@@ -23,6 +25,8 @@ const allowedOrigin = (origin) => {
 export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
   const [isLoading, setIsLoading] = useState(true);
   const headerSize = useSelector(getHeaderSize);
+  const projects = useSelector(getProjects);
+  const navigate = useNavigate();
 
   const onLoad = () => {
     setIsLoading(false);
@@ -57,6 +61,10 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
     return () => window.removeEventListener('message', handleFrameTasks);
   }, [handleFrameTasks]);
 
+  const handleClickSkipToDashboard = () => {
+    navigate(ROUTES.projects);
+  };
+
   return (
     <div
       className="m-auto flex w-full max-w-screen-xl flex-col overflow-hidden px-12 pb-6 pt-0"
@@ -72,11 +80,21 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
         >
           Back
         </O11yButton>
-        <div className="mt-1 flex justify-between">
-          <h1 className="text-2xl font-bold leading-7">
+        <div className="flex items-center justify-between">
+          <h1 className="ml-1 text-2xl font-bold leading-7">
             {selectedFramework.name}
           </h1>
-          <ReqDemoButton />
+          {projects?.list?.length ? (
+            <O11yButton
+              size="default"
+              colors="white"
+              onClick={handleClickSkipToDashboard}
+            >
+              Skip to dashboard
+            </O11yButton>
+          ) : (
+            <ReqDemoButton />
+          )}
         </div>
       </div>
       {isLoading && <O11yLoader wrapperClassName="flex-1" />}

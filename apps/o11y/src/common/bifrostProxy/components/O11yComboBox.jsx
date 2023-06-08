@@ -143,7 +143,7 @@ const O11yComboBox = ({
             {!!filteredOptions?.length && stickyFooter && (
               <div
                 className={twClassNames(
-                  'sticky -bottom-1 flex bg-white pb-3 pl-3',
+                  'sticky -bottom-1 flex flex-col bg-white pb-3',
                   {
                     'absolute w-full bottom-0':
                       filteredOptions?.length > VIRTUALIZE_AFTER
