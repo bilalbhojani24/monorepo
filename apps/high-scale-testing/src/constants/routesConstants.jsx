@@ -3,7 +3,7 @@ import ClusterOverview from 'features/ClusterDetail/components/ClusterOverview';
 import LayoutClusterDetail from 'features/ClusterDetail/container/LayoutClusterDetail';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import ErrorPage from 'features/ErrorPage/components';
-import GridConsole from 'features/GridConsole/components/Dashboard';
+import GridConsole from 'features/GridConsole/components/GridConsole';
 import GridOverview from 'features/GridConsole/components/GridOverview';
 import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
 import BrowsersSettings from 'features/GridSettings/components/BrowsersSettings';

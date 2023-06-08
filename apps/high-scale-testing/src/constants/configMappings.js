@@ -1,7 +1,7 @@
 const configMappings = {
   local: {
     enableAnalytics: false,
-    enableSentry: false
+    enableSentry: true
   },
   production: {
     enableAnalytics: true,
