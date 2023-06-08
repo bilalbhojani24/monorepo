@@ -53,7 +53,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
   return (
     <Popover.Trigger ref={buttonRef} asChild>
       <Combobox.Button
-        as="div"
+        as="section"
         className={twClassNames(
           'appearance-none cursor-pointer border-base-300  relative flex items-center border px-2 py-1.5 rounded-md',
           {
@@ -114,6 +114,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
           ref={comboInputRef}
           readOnly={isLoading}
           autoComplete="off"
+          aria-multiselectable="false"
         />
         {(isLoadingRight || errorText || isTruncated) && (
           <div className="mr-5 flex items-center space-x-2 pr-1">
