@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
 import {
-  getCPUTimeSeriesData,
+  getFPSTimeSeriesData,
   getRealtimeThresholds
 } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
+const generateRealtimeFPSChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
@@ -29,19 +29,9 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
     }
   };
 
-  chartOptions.yAxis.plotLines = [
-    {
-      id: 'cpuMetricThreshold',
-      color: '#ef4444',
-      width: 2,
-      value: thresholdValue,
-      dashStyle: 'LongDash'
-    }
-  ];
-
   chartOptions.series = [
     {
-      name: 'CPU Usage Percentage',
+      name: 'FPS',
       color: '#4285F4',
       marker: {
         enabled: false
@@ -53,30 +43,25 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
   return chartOptions;
 };
 
-const useCPURealtimeGraph = () => {
-  const cpuTimeSeriesData = useSelector(getCPUTimeSeriesData);
+const useFPSRealtimeGraph = () => {
+  const fpsTimeSeriesData = useSelector(getFPSTimeSeriesData);
   const realtimeThresholds = useSelector(getRealtimeThresholds);
 
-  const [realtimeCpuChartOptions, setRealtimeCpuChartOptions] = useState(null);
+  const [realtimeFpsChartOptions, setRealtimeFpsChartOptions] = useState(null);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions(
-      generateRealtimeCPUChartOptions(
-        realtimeThresholds?.cpuUsagePercentageAvg?.value,
-        () => {}
-      )
-    );
+    setRealtimeFpsChartOptions(generateRealtimeFPSChartOptions(() => {}));
   }, [realtimeThresholds]);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions((prevChartData) => {
+    setRealtimeFpsChartOptions((prevChartData) => {
       const oldData = { ...prevChartData };
-      oldData.series[0].data = [...cpuTimeSeriesData];
+      oldData.series[0].data = [...fpsTimeSeriesData];
       return oldData;
     });
-  }, [cpuTimeSeriesData]);
+  }, [fpsTimeSeriesData]);
 
-  return { cpuTimeSeriesData, realtimeThresholds, realtimeCpuChartOptions };
+  return { fpsTimeSeriesData, realtimeFpsChartOptions };
 };
 
-export default useCPURealtimeGraph;
+export default useFPSRealtimeGraph;

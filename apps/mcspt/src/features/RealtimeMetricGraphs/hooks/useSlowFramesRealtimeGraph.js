@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
 import {
-  getCPUTimeSeriesData,
-  getRealtimeThresholds
+  getRealtimeThresholds,
+  getSlowFramesRealtimeData
 } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
+const generateRealtimeSlowFramesChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
@@ -29,19 +29,9 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
     }
   };
 
-  chartOptions.yAxis.plotLines = [
-    {
-      id: 'cpuMetricThreshold',
-      color: '#ef4444',
-      width: 2,
-      value: thresholdValue,
-      dashStyle: 'LongDash'
-    }
-  ];
-
   chartOptions.series = [
     {
-      name: 'CPU Usage Percentage',
+      name: 'SlowFrames Usage Percentage',
       color: '#4285F4',
       marker: {
         enabled: false
@@ -53,30 +43,32 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
   return chartOptions;
 };
 
-const useCPURealtimeGraph = () => {
-  const cpuTimeSeriesData = useSelector(getCPUTimeSeriesData);
+const useSlowFramesRealtimeGraph = () => {
+  const slowFramesTimeSeriesData = useSelector(getSlowFramesRealtimeData);
   const realtimeThresholds = useSelector(getRealtimeThresholds);
 
-  const [realtimeCpuChartOptions, setRealtimeCpuChartOptions] = useState(null);
+  const [realtimeSlowFramesChartOptions, setRealtimeSlowFramesChartOptions] =
+    useState(null);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions(
-      generateRealtimeCPUChartOptions(
-        realtimeThresholds?.cpuUsagePercentageAvg?.value,
-        () => {}
-      )
+    setRealtimeSlowFramesChartOptions(
+      generateRealtimeSlowFramesChartOptions(() => {})
     );
   }, [realtimeThresholds]);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions((prevChartData) => {
+    setRealtimeSlowFramesChartOptions((prevChartData) => {
       const oldData = { ...prevChartData };
-      oldData.series[0].data = [...cpuTimeSeriesData];
+      oldData.series[0].data = [...slowFramesTimeSeriesData];
       return oldData;
     });
-  }, [cpuTimeSeriesData]);
+  }, [slowFramesTimeSeriesData]);
 
-  return { cpuTimeSeriesData, realtimeThresholds, realtimeCpuChartOptions };
+  return {
+    slowFramesTimeSeriesData,
+    realtimeThresholds,
+    realtimeSlowFramesChartOptions
+  };
 };
 
-export default useCPURealtimeGraph;
+export default useSlowFramesRealtimeGraph;

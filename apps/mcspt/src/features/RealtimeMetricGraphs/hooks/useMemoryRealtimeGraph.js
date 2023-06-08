@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
+
 import {
-  getDefaultChartOptions,
-  getSessionMetrics
-} from '@browserstack/mcp-shared';
+  getMemoryTimeSeriesData,
+  getRealtimeThresholds
+} from '../slices/realtimeMetricSlice';
 
-import { getMemoryRealtimeData } from '../slices/realtimeMetricSlice';
-
-const generateRealtimeMemoryChartOptions = (chartGridClicked) => {
-  const chartOptions = getDefaultChartOptions();
+const generateRealtimeMemoryChartOptions = (
+  thresholdValue,
+  chartGridClicked
+) => {
+  const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
     type: 'spline',
@@ -28,18 +31,16 @@ const generateRealtimeMemoryChartOptions = (chartGridClicked) => {
       }
     }
   };
-  chartOptions.tooltip = {
-    headerFormat: '<b>{series.name}</b><br/>',
-    pointFormat: '<b>Time:</b> {point.x}s</br><b>Value:</b> {point.y:.2f}'
-  };
 
-  chartOptions.legend = {
-    enabled: true,
-    marginTop: 16,
-    marginBottom: 0
-  };
-
-  chartOptions.xAxis.plotLines = [];
+  chartOptions.yAxis.plotLines = [
+    {
+      id: 'memoryUsageThreshold',
+      color: '#ef4444',
+      width: 2,
+      value: thresholdValue,
+      dashStyle: 'LongDash'
+    }
+  ];
 
   chartOptions.series = [
     {
@@ -56,15 +57,20 @@ const generateRealtimeMemoryChartOptions = (chartGridClicked) => {
 };
 
 const useMemoryRealtimeGraph = () => {
-  const sessionData = useSelector(getSessionMetrics);
-  const memoryTimeSeriesData = useSelector(getMemoryRealtimeData);
+  const realtimeThresholds = useSelector(getRealtimeThresholds);
+  const memoryTimeSeriesData = useSelector(getMemoryTimeSeriesData);
 
   const [realtimeMemoryChartOptions, setRealtimeMemoryChartOptions] =
     useState(null);
 
   useEffect(() => {
-    setRealtimeMemoryChartOptions(generateRealtimeMemoryChartOptions(() => {}));
-  }, []);
+    setRealtimeMemoryChartOptions(
+      generateRealtimeMemoryChartOptions(
+        realtimeThresholds?.memoryUsageMbAvg?.value,
+        () => {}
+      )
+    );
+  }, [realtimeThresholds]);
 
   useEffect(() => {
     setRealtimeMemoryChartOptions((prevChartData) => {
@@ -76,7 +82,11 @@ const useMemoryRealtimeGraph = () => {
     });
   }, [memoryTimeSeriesData]);
 
-  return { sessionData, realtimeMemoryChartOptions };
+  return {
+    memoryTimeSeriesData,
+    realtimeThresholds,
+    realtimeMemoryChartOptions
+  };
 };
 
 export default useMemoryRealtimeGraph;

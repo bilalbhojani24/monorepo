@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSessionDetails } from 'features/Home';
-import { subscribeMcpPusher } from 'utils/socketConnectionManager';
+import { getRealtimeMetricThresholdsAndSubscribe } from 'features/RealtimeMetricGraphs';
 
 import {
   getIsSessionStopInProgress,
@@ -18,10 +18,7 @@ const useReportLoadingContent = () => {
   useEffect(() => {
     if (sessionDetails?.sessionID) {
       dispatch(
-        subscribeMcpPusher({
-          connectionName: 'MCSPT',
-          sessionId: sessionDetails?.sessionID
-        })
+        getRealtimeMetricThresholdsAndSubscribe(sessionDetails?.sessionID)
       );
     }
   }, [dispatch, sessionDetails?.sessionID]);

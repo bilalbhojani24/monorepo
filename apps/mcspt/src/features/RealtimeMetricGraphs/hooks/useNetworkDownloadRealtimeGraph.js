@@ -3,16 +3,19 @@ import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
 import {
-  getCPUTimeSeriesData,
+  getNetworkDownloadTimeSeriesData,
   getRealtimeThresholds
 } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
+const generateRealtimeNetworkDownloadChartOptions = (
+  thresholdValue,
+  chartGridClicked
+) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
     type: 'spline',
-    height: 182,
+    height: 160,
     spacingBottom: 0,
     events: {
       click: chartGridClicked
@@ -31,7 +34,7 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
 
   chartOptions.yAxis.plotLines = [
     {
-      id: 'cpuMetricThreshold',
+      id: 'networkDownloadMetricThreshold',
       color: '#ef4444',
       width: 2,
       value: thresholdValue,
@@ -41,7 +44,7 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
 
   chartOptions.series = [
     {
-      name: 'CPU Usage Percentage',
+      name: 'Network Download',
       color: '#4285F4',
       marker: {
         enabled: false
@@ -53,30 +56,39 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
   return chartOptions;
 };
 
-const useCPURealtimeGraph = () => {
-  const cpuTimeSeriesData = useSelector(getCPUTimeSeriesData);
+const useNetworkDownloadRealtimeGraph = () => {
+  const networkDownloadTimeSeriesData = useSelector(
+    getNetworkDownloadTimeSeriesData
+  );
   const realtimeThresholds = useSelector(getRealtimeThresholds);
 
-  const [realtimeCpuChartOptions, setRealtimeCpuChartOptions] = useState(null);
+  const [
+    realtimeNetworkDownloadChartOptions,
+    setRealtimeNetworkDownloadChartOptions
+  ] = useState(null);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions(
-      generateRealtimeCPUChartOptions(
-        realtimeThresholds?.cpuUsagePercentageAvg?.value,
+    setRealtimeNetworkDownloadChartOptions(
+      generateRealtimeNetworkDownloadChartOptions(
+        realtimeThresholds?.networkWriteKbTotal?.value,
         () => {}
       )
     );
   }, [realtimeThresholds]);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions((prevChartData) => {
+    setRealtimeNetworkDownloadChartOptions((prevChartData) => {
       const oldData = { ...prevChartData };
-      oldData.series[0].data = [...cpuTimeSeriesData];
+      oldData.series[0].data = [...networkDownloadTimeSeriesData];
       return oldData;
     });
-  }, [cpuTimeSeriesData]);
+  }, [networkDownloadTimeSeriesData]);
 
-  return { cpuTimeSeriesData, realtimeThresholds, realtimeCpuChartOptions };
+  return {
+    networkDownloadTimeSeriesData,
+    realtimeThresholds,
+    realtimeNetworkDownloadChartOptions
+  };
 };
 
-export default useCPURealtimeGraph;
+export default useNetworkDownloadRealtimeGraph;

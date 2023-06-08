@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
 import {
-  getCPUTimeSeriesData,
+  getNetworkUploadTimeSeriesData,
   getRealtimeThresholds
 } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
+const generateRealtimeNetworkUploadChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
@@ -29,19 +29,9 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
     }
   };
 
-  chartOptions.yAxis.plotLines = [
-    {
-      id: 'cpuMetricThreshold',
-      color: '#ef4444',
-      width: 2,
-      value: thresholdValue,
-      dashStyle: 'LongDash'
-    }
-  ];
-
   chartOptions.series = [
     {
-      name: 'CPU Usage Percentage',
+      name: 'NetworkUpload Usage Percentage',
       color: '#4285F4',
       marker: {
         enabled: false
@@ -53,30 +43,36 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
   return chartOptions;
 };
 
-const useCPURealtimeGraph = () => {
-  const cpuTimeSeriesData = useSelector(getCPUTimeSeriesData);
+const useNetworkUploadRealtimeGraph = () => {
+  const networkUploadTimeSeriesData = useSelector(
+    getNetworkUploadTimeSeriesData
+  );
   const realtimeThresholds = useSelector(getRealtimeThresholds);
 
-  const [realtimeCpuChartOptions, setRealtimeCpuChartOptions] = useState(null);
+  const [
+    realtimeNetworkUploadChartOptions,
+    setRealtimeNetworkUploadChartOptions
+  ] = useState(null);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions(
-      generateRealtimeCPUChartOptions(
-        realtimeThresholds?.cpuUsagePercentageAvg?.value,
-        () => {}
-      )
+    setRealtimeNetworkUploadChartOptions(
+      generateRealtimeNetworkUploadChartOptions(() => {})
     );
   }, [realtimeThresholds]);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions((prevChartData) => {
+    setRealtimeNetworkUploadChartOptions((prevChartData) => {
       const oldData = { ...prevChartData };
-      oldData.series[0].data = [...cpuTimeSeriesData];
+      oldData.series[0].data = [...networkUploadTimeSeriesData];
       return oldData;
     });
-  }, [cpuTimeSeriesData]);
+  }, [networkUploadTimeSeriesData]);
 
-  return { cpuTimeSeriesData, realtimeThresholds, realtimeCpuChartOptions };
+  return {
+    networkUploadTimeSeriesData,
+    realtimeThresholds,
+    realtimeNetworkUploadChartOptions
+  };
 };
 
-export default useCPURealtimeGraph;
+export default useNetworkUploadRealtimeGraph;

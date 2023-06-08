@@ -3,11 +3,14 @@ import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
 import {
-  getCPUTimeSeriesData,
+  getDiskWriteTimeSeriesData,
   getRealtimeThresholds
 } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
+const generateRealtimeDiskWriteChartOptions = (
+  thresholdValue,
+  chartGridClicked
+) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
@@ -31,7 +34,7 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
 
   chartOptions.yAxis.plotLines = [
     {
-      id: 'cpuMetricThreshold',
+      id: 'diskWriteThreshold',
       color: '#ef4444',
       width: 2,
       value: thresholdValue,
@@ -41,7 +44,7 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
 
   chartOptions.series = [
     {
-      name: 'CPU Usage Percentage',
+      name: 'Disk Write',
       color: '#4285F4',
       marker: {
         enabled: false
@@ -53,30 +56,35 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
   return chartOptions;
 };
 
-const useCPURealtimeGraph = () => {
-  const cpuTimeSeriesData = useSelector(getCPUTimeSeriesData);
+const useDiskWriteRealtimeGraph = () => {
+  const diskWriteTimeSeriesData = useSelector(getDiskWriteTimeSeriesData);
   const realtimeThresholds = useSelector(getRealtimeThresholds);
 
-  const [realtimeCpuChartOptions, setRealtimeCpuChartOptions] = useState(null);
+  const [realtimeDiskWriteChartOptions, setRealtimeDiskWriteChartOptions] =
+    useState(null);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions(
-      generateRealtimeCPUChartOptions(
-        realtimeThresholds?.cpuUsagePercentageAvg?.value,
+    setRealtimeDiskWriteChartOptions(
+      generateRealtimeDiskWriteChartOptions(
+        realtimeThresholds?.diskWriteMbTotal?.value,
         () => {}
       )
     );
   }, [realtimeThresholds]);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions((prevChartData) => {
+    setRealtimeDiskWriteChartOptions((prevChartData) => {
       const oldData = { ...prevChartData };
-      oldData.series[0].data = [...cpuTimeSeriesData];
+      oldData.series[0].data = [...diskWriteTimeSeriesData];
       return oldData;
     });
-  }, [cpuTimeSeriesData]);
+  }, [diskWriteTimeSeriesData]);
 
-  return { cpuTimeSeriesData, realtimeThresholds, realtimeCpuChartOptions };
+  return {
+    diskWriteTimeSeriesData,
+    realtimeThresholds,
+    realtimeDiskWriteChartOptions
+  };
 };
 
-export default useCPURealtimeGraph;
+export default useDiskWriteRealtimeGraph;
