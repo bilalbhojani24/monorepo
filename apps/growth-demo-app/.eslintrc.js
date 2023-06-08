@@ -6,8 +6,8 @@ module.exports = {
     'tailwindcss/no-custom-classname': [
       2,
       {
-        config: tailwindConfig,
-      },
-    ],
-  },
+        config: tailwindConfig
+      }
+    ]
+  }
 };
