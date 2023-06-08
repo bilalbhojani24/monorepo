@@ -21,13 +21,14 @@ import { TABS } from '../constants';
 import {
   clearBuildUUID,
   getBuildIdFromBuildInfo,
+  resetBuildMeta,
   setActiveTab
 } from '../slices/buildDetailsSlice';
 import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingNewTests, setIsLoadingNewTests] = useState(false);
   const [testDefectTypeMapping, setTestDefectTypeMapping] = useState({});
   const [updateCount, setUpdateCount] = useState(0);
   const buildUUID = useSelector(getBuildUUID);
@@ -67,6 +68,7 @@ function BuildDetails() {
       dispatch(resetFilters());
       dispatch(clearBuildUUID());
       setTestDefectTypeMapping({});
+      dispatch(resetBuildMeta());
       dispatch(
         setActiveTab({
           id: TABS.insights.id,
@@ -152,7 +154,7 @@ function BuildDetails() {
   // [END]Test list scroll positioning handling
 
   const onUpdateBtnClick = useCallback(() => {
-    setIsLoading(true);
+    setIsLoadingNewTests(true);
     dispatch(
       setTestList({
         data: EMPTY_TESTLIST_DATA_STATE,
@@ -162,18 +164,20 @@ function BuildDetails() {
     dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
       .unwrap()
       .finally(() => {
-        setIsLoading(false);
+        setIsLoadingNewTests(false);
         setUpdateCount(0);
       });
   }, [buildUUID, dispatch]);
 
   const applyTestListFilter = useCallback(
-    ({ query, clearOnly = false, isFullQuery = false }) => {
-      dispatch(resetTestListSlice());
-      testListScrollPos.current = 0;
-      scrollIndexMapping.current = {};
+    ({ query, clearOnly = false }) => {
+      if (query || clearOnly) {
+        dispatch(resetTestListSlice());
+        testListScrollPos.current = 0;
+        scrollIndexMapping.current = {};
+      }
       if (!clearOnly) {
-        const searchString = isFullQuery ? query : `?tab=tests&${query}`;
+        const searchString = `?tab=tests&${query}`;
         navigate({ search: searchString });
       }
     },
@@ -207,7 +211,7 @@ function BuildDetails() {
   return (
     <>
       <BuildDetailsHeader
-        isNewItemLoading={isLoading}
+        isNewItemLoading={isLoadingNewTests}
         onUpdateBtnClick={onUpdateBtnClick}
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
         applyTestListFilter={applyTestListFilter}
