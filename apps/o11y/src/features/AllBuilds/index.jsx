@@ -234,16 +234,28 @@ const AllBuildsPage = () => {
         {isBuildsEmpty && !isBuildLoading && (
           <div className="m-auto">
             <O11yEmptyState
-              title="No matching results found"
-              description="We couldn't find the results you were looking for."
+              title={
+                appliedFilters.length
+                  ? 'No matching results found'
+                  : 'No build runs found in this project'
+              }
+              description={
+                appliedFilters.length
+                  ? "We couldn't find the results you were looking for."
+                  : "We couldn't find any builds in this project. Please apply filter to see archived runs."
+              }
               mainIcon={
                 <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
               }
-              buttonProps={{
-                children: 'View all builds',
-                onClick: handleViewAll,
-                size: 'default'
-              }}
+              buttonProps={
+                appliedFilters?.length
+                  ? {
+                      children: 'View all builds',
+                      onClick: handleViewAll,
+                      size: 'default'
+                    }
+                  : null
+              }
             />
           </div>
         )}
