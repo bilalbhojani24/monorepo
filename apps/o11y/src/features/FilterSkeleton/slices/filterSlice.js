@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import isEqual from 'lodash/isEqual';
 
 import {
   ADV_FILTER_OPERATIONS,
@@ -46,6 +47,9 @@ const { reducer, actions } = createSlice({
       ];
     },
     setBulkAppliedFilters: (state, { payload }) => {
+      if (!isEqual(state[state.currentCategory].appliedFilters, payload)) {
+        state[state.currentCategory].isDirty = true;
+      }
       state[state.currentCategory].appliedFilters = payload;
     },
     setBulkSelectedFilters: (state, { payload }) => {
