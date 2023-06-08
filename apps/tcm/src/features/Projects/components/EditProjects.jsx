@@ -62,7 +62,7 @@ const EditProjects = ({ show }) => {
           <TMInputField
             label="Project Name"
             ref={modalFocusRef}
-            placeholder="Project Name 01"
+            placeholder="Enter project name"
             onKeyDown={(e) => onSubmitKeyHandler(e, editProjectHandler)}
             value={formData.name}
             errorText={formError.nameError}
@@ -77,7 +77,7 @@ const EditProjects = ({ show }) => {
         <div className="mb-4">
           <TMTextArea
             label="Description"
-            placeholder="Explaining in brief about the project description"
+            placeholder="Write in brief about the project"
             defaultValue={formData.description}
             onChange={(e) =>
               setFormData({ ...formData, description: e.currentTarget.value })
