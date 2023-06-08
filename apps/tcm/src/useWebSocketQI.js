@@ -27,7 +27,6 @@ const useWebSocketQI = () => {
     (thisMessage) => {
       if (thisMessage?.data) {
         const message = JSON.parse(thisMessage.data)?.message;
-        console.log('qi ws message -------', message);
         if (typeof message === 'object' && !message?.cancelled)
           dispatch(parseImportDetails(message, location));
       }
