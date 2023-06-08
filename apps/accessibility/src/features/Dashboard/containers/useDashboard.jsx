@@ -8,20 +8,28 @@ import {
   MdOutlineRecordVoiceOver,
   MdTextSnippet
 } from '@browserstack/bifrost';
-import { setStorage } from '@browserstack/utils';
-import { CHROME_EXTENSION_URL, events } from 'constants';
+import {
+  initErrorLogger,
+  setErrorLoggerUserContext,
+  setStorage
+} from '@browserstack/utils';
+import { CHROME_EXTENSION_URL, events, SENTRY_DSN } from 'constants';
+import { stagingEnvs } from 'constants/config';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
-import { defaultPath, getBrowserStackBase } from 'utils';
+import { defaultPath, getBrowserStackBase, getCurrentEnv } from 'utils';
 import { getTimeDiffInDays } from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
 
-import { getIsFreeUser } from '../slices/selectors';
+import { getIsFreeUser, getUser } from '../slices/selectors';
+
+const envConfig = stagingEnvs[getCurrentEnv()];
 
 export default function useDashboard() {
   const mainRef = useRef(null);
   const dispatch = useDispatch();
   const isShowingBanner = useSelector(getIsShowingBanner);
+  const user = useSelector(getUser);
   const isFreeUser = useSelector(getIsFreeUser);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
@@ -116,6 +124,35 @@ export default function useDashboard() {
       console.log('EDS already initialize...');
     }
   }, []);
+
+  // init sentry
+  useEffect(() => {
+    const { enableSentry } = envConfig;
+    if (enableSentry && !window.isSentryInitialized) {
+      window.isSentryInitialized = true;
+      initErrorLogger({
+        dsn: SENTRY_DSN,
+        debug: false,
+        release: 'v0.1-o11y',
+        environment: 'production',
+        tracesSampleRate: 1.0,
+        denyUrls: [
+          // Ignoring errors getting generated from Chrome extensions as these are not to be logged under our sentry env.
+          /extensions\//i,
+          /^chrome:\/\//i,
+          /extension:\//i,
+          // Ignoring VWO related errors as there is no specific library upgrade which can resolve the errors.
+          // Also the errors we are getting are more or less specfic to some of the users.
+          /https:\/\/dev.visualwebsiteoptimizer.com\/.*/gi,
+          // Ignore errors getting raised from freshchat widget related code.
+          /https:\/\/wchat.freshchat.com\/.*/gi
+        ]
+      });
+    }
+    if (user.user_id && window.isSentryInitialized) {
+      setErrorLoggerUserContext(user.user_id);
+    }
+  }, [user.user_id]);
 
   return {
     mainRef,

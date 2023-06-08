@@ -1,5 +1,8 @@
 export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
+export const SENTRY_DSN =
+  'https://4f687a1c14084f6c801e395a74336125@o70254.ingest.sentry.io/4505080435900416';
+export const PROD_API_URL = 'https://www.browserstack.com/accessibility/api';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const CHROME_EXTENSION_URL =
   'https://chrome.google.com/webstore/detail/accessibility-toolkit/fmkhjeeeojocenbconhndpiohohajokn';
@@ -23,7 +26,6 @@ export const EDSKey = 'accessibility_dashboard_web_events';
 export const ENVS = {
   STAGING: 'STAGING',
   PRODUCTION: 'PRODUCTION',
-  DEVELOPMENT: 'DEVELOPMENT',
   LOCAL: 'LOCAL'
 };
 
