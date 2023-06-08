@@ -1,0 +1,1 @@
+export const OVERVIEW_PAGE_LOGS_TABLE_PAGE_SIZE = 10;

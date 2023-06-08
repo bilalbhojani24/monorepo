@@ -266,17 +266,6 @@ function AddEditAlertModal() {
           });
           handleCloseModal({ skipCheck: true });
         })
-        .catch(() => {
-          o11yNotify({
-            title: 'Something went wrong!',
-            description: `There was an error while ${
-              modalData.action === 'edit'
-                ? 'updating alert'
-                : 'creating new alert'
-            }`,
-            type: 'error'
-          });
-        })
         .finally(() => {
           setIsSubmittingData(false);
         });
