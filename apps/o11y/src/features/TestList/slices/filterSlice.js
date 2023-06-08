@@ -270,7 +270,9 @@ export const getTestListingFiltersData = createAsyncThunk(
   async (data, { rejectWithValue, dispatch }) => {
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.TEST_LISTING));
     try {
-      const searchString = dispatch(getFilterFromSearchString());
+      const searchString = dispatch(
+        getFilterFromSearchString({ excludeDateRange: true })
+      );
       const response = await getTestListFilters({
         ...data,
         searchString
