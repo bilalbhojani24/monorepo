@@ -73,5 +73,5 @@ export const BUILD_FILTERS_PREFIX = {
   [BUILD_FILTER_TYPES.status]: 'Status',
   [BUILD_FILTER_TYPES.framework]: 'Framework',
   [BUILD_FILTER_TYPES.search]: 'Search',
-  [BUILD_FILTER_TYPES.isArchived]: 'Show Archived'
+  [BUILD_FILTER_TYPES.isArchived]: 'Show Archived Only'
 };
