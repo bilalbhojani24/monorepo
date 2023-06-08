@@ -4,6 +4,11 @@ import { notify } from '@browserstack/bifrost';
 import { logEvent } from '@browserstack/utils';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
+import {
+  MAX_IDLE_TIMEOUT,
+  MAX_QUEUE_TIMEOUT,
+  MAX_TEST_TIMEOUT
+} from 'constants/index';
 import { getGridData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
 
@@ -12,10 +17,17 @@ const useTimeoutSettings = (notifactionComponent) => {
   const gridData = useSelector(getGridData);
   const userDetails = useSelector(getUserDetails);
 
+  const ERROR_MESSAGE_IDLE_TIMEOUT = `Idle timeout must be less than ${MAX_IDLE_TIMEOUT} seconds`;
+  const ERROR_MESSAGE_QUEUE_TIMEOUT = `Queue timeout must be less than ${MAX_QUEUE_TIMEOUT} seconds`;
+  const ERROR_MESSAGE_TEST_TIMEOUT = `Test timeout must be less than ${MAX_TEST_TIMEOUT} seconds`;
+
   // All State variables:
+  const [idleTimeOutError, setIdleTimeOutError] = useState(null);
   const [idleTimeOutValue, setIdleTimeOutValue] = useState(0);
   const [queueRetryIntervalValue, setQueueRetryIntervalValue] = useState(0);
+  const [queueTimeoutError, setQueueTimeoutError] = useState(null);
   const [queueTimeoutValue, setQueueTimeoutValue] = useState(0);
+  const [testTimeoutError, setTestTimeoutError] = useState(null);
   const [testTimeoutValue, setTestTimeoutValue] = useState(0);
 
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
@@ -24,8 +36,15 @@ const useTimeoutSettings = (notifactionComponent) => {
   const idleTimeoutInputChangeHandler = (e) => {
     const newValue = parseInt(e.target.value);
 
-    setIsSaveButtonDisabled(false);
     setIdleTimeOutValue(newValue);
+
+    if (newValue > MAX_IDLE_TIMEOUT) {
+      setIdleTimeOutError(ERROR_MESSAGE_IDLE_TIMEOUT);
+      setIsSaveButtonDisabled(true);
+    } else {
+      setIdleTimeOutError(null);
+      setIsSaveButtonDisabled(false);
+    }
   };
 
   const queueRetryIntervalChangeHandler = (e) => {
@@ -38,15 +57,26 @@ const useTimeoutSettings = (notifactionComponent) => {
   const queueTimeoutChangeHandler = (e) => {
     const newValue = parseInt(e.target.value);
 
-    setIsSaveButtonDisabled(false);
     setQueueTimeoutValue(newValue);
+    if (newValue > MAX_QUEUE_TIMEOUT) {
+      setQueueTimeoutError(ERROR_MESSAGE_QUEUE_TIMEOUT);
+      setIsSaveButtonDisabled(true);
+    } else {
+      setIsSaveButtonDisabled(false);
+    }
   };
 
   const testTimeoutChangeHandler = (e) => {
     const newValue = parseInt(e.target.value);
 
-    setIsSaveButtonDisabled(false);
     setTestTimeoutValue(newValue);
+
+    if (newValue > MAX_TEST_TIMEOUT) {
+      setTestTimeoutError(ERROR_MESSAGE_TEST_TIMEOUT);
+      setIsSaveButtonDisabled(true);
+    } else {
+      setIsSaveButtonDisabled(false);
+    }
   };
 
   const updateGridTimeoutSettings = (settingsObj) => {
@@ -90,15 +120,18 @@ const useTimeoutSettings = (notifactionComponent) => {
 
   return {
     idleTimeoutInputChangeHandler,
+    idleTimeOutError,
     idleTimeOutValue,
     isSaveButtonDisabled,
     isSavingInProgress,
     saveBtnClickhandler,
     testTimeoutChangeHandler,
+    testTimeoutError,
     testTimeoutValue,
     queueRetryIntervalChangeHandler,
     queueRetryIntervalValue,
     queueTimeoutChangeHandler,
+    queueTimeoutError,
     queueTimeoutValue
   };
 };

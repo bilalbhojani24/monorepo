@@ -19,7 +19,7 @@ const HSTHeader = () => {
             link: `${DOC_HOME_URL}/features/visualise-grids-on-console`
           },
           {
-            name: 'Automate setup via CLI',
+            name: 'On-Demand Grids using CLI',
             link: `${DOC_HOME_URL}/features/automate-setup-via-cli`
           },
           {
@@ -36,15 +36,15 @@ const HSTHeader = () => {
         title: 'Getting Started',
         options: [
           {
-            name: 'Create Grid',
+            name: 'Create a new Grid',
             link: `${DOC_HOME_URL}/getting-started/create-grid`
           },
           {
-            name: 'Setup on AWS',
+            name: 'Set up AWS Integration',
             link: `${DOC_HOME_URL}/getting-started/setup-on-aws`
           },
           {
-            name: 'Browsers & Versions',
+            name: 'Supported Browsers & Versions',
             link: `${DOC_HOME_URL}/getting-started/browsers-and-versions`
           }
         ]

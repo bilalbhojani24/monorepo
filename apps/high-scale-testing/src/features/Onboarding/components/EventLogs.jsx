@@ -6,6 +6,9 @@ import {
   MdOutlineLocalCafe,
   MdOutlineOpenInNew,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   ProgressBar
 } from '@browserstack/bifrost';
 import { useMountEffect } from '@browserstack/hooks';
@@ -34,15 +37,21 @@ const EventLogs = ({
 
   return (
     <Modal size="3xl" show={eventLogsCode && eventLogsCode.length > 0}>
-      <div className="mx-6 my-4">
-        <p className="text-lg font-medium">Event Logs</p>
-        <div className="border-base-300 mt-4 rounded-lg border">
+      <ModalHeader dismissButton={false} heading="Event Logs" />
+      <ModalBody className="overflow-auto">
+        <div>
+          <p className="text-base-900 flex gap-2 pb-4 text-sm">
+            Hang tight! We are completing the setup of your grid. It could take
+            as long as 15-20m. You will also receive an email notification once
+            the grid is ready.
+          </p>
+
           <CodeSnippet
             code={eventLogsCode}
             maxHeight="260px"
             singleLine={false}
           />
-          <div className="border-base-300 border-y p-4">
+          <div className="pt-4">
             <ProgressBar
               currentStep="0"
               label="label"
@@ -51,37 +60,24 @@ const EventLogs = ({
               title={
                 <span className="flex justify-between">
                   Current Progress: {`${currentStep}/${totalSteps}`}
-                  <Hyperlink
-                    onClick={viewDocOnClickHandler}
-                    wrapperClassName=" gap-x-2 text-sm font-medium"
-                  >
-                    View Documentation <MdOutlineOpenInNew />
-                  </Hyperlink>
                 </span>
               }
+              wrapperClassName="mt-3"
             />
           </div>
-          <div className="text-base-600 flex gap-2 p-4 text-sm">
-            <MdOutlineLocalCafe className="text-2xl" />
-            <p>
-              Hang tight! We are completing the setup of your grid. It could
-              take as long as 15-20m. You will also receive an email
-              notification once the grid is ready.
-            </p>
-          </div>
         </div>
-        <div className="mt-3 justify-end">
-          <Button
-            aria-label="Close"
-            colors="white"
-            onClick={closeEventLogsModal}
-            type="button"
-            varaint="primary"
-          >
-            Close
-          </Button>
-        </div>
-      </div>
+      </ModalBody>
+      <ModalFooter position="right">
+        <Button
+          aria-label="Close"
+          colors="white"
+          onClick={closeEventLogsModal}
+          type="button"
+          varaint="primary"
+        >
+          Close
+        </Button>
+      </ModalFooter>
     </Modal>
   );
 };

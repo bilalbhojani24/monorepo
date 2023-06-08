@@ -12,6 +12,7 @@ import {
 import CopyButton from 'common/CopyButton';
 
 import useClusterOverview from './useClusterOverview';
+import cloudIcons from 'constants/cloudIcons';
 
 const ClusterOverview = () => {
   const { containerClassName, fontColor900ClassName, clusterData } =
@@ -102,7 +103,15 @@ const ClusterOverview = () => {
               return (
                 <div>
                   <p className="text-base-500 text-sm font-normal">{title}</p>
-                  <p className={fontColor900ClassName}>{value}</p>
+
+                  {title === 'Cloud Provider' ? (
+                    <div className="flex gap-x-2">
+                      <span>{cloudIcons[value]}</span>{' '}
+                      <p className={fontColor900ClassName}>{value}</p>
+                    </div>
+                  ) : (
+                    <p className={fontColor900ClassName}>{value}</p>
+                  )}
                 </div>
               );
             })}
@@ -118,7 +127,6 @@ const ClusterOverview = () => {
           <div className="mt-6">
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center">
-                <MdAddLink />
                 <div className="ml-2 mr-6 text-base text-base-500">
                   <p>VPC ID</p>
                 </div>
@@ -139,7 +147,6 @@ const ClusterOverview = () => {
             </div>
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
                 <div className="ml-2 text-base  mr-6">
                   <p>Domain</p>
                 </div>
@@ -159,7 +166,6 @@ const ClusterOverview = () => {
             </div>
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
                 <div className="ml-2 text-base mr-6">
                   <p>Subnets</p>
                 </div>

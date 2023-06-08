@@ -78,6 +78,7 @@ const GridsListing = () => {
             {gridList.map((gridData) => {
               const clusterIdentifier = gridData.cluster.identifier;
               const clusterName = gridData.cluster.name;
+              const gridIdentfier = gridData.identifier.split('-')[0];
               const gridName = gridData.name;
               const gridStatus = gridData.status;
               const statusModifier =
@@ -119,7 +120,7 @@ const GridsListing = () => {
                       tabIndex={0}
                     >
                       <p className="text-base-900 font-normal">{gridName}</p>
-                      <p className="text-base-500">b7465tbf76</p>
+                      <p className="text-base-500">{gridIdentfier}</p>
                     </div>
                   </TableCell>
                   <TableCell wrapperClassName=" px-6 py-4">
