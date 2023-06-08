@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import fetchCustomData from 'api/fetchCustomData';
 import { fetchConsolidatedData } from 'api/siteScannerScanReports';
 
+import { setShowFreshChatButton } from '../../Dashboard/slices/uiSlice';
 import { resetReportAppInfo } from '../slices/appSlice';
 import {
   getScanLogs,
@@ -17,6 +18,8 @@ import {
   getScanReportMetaData,
   getScanReportOverviewData
 } from '../slices/selector';
+
+import { getIsShowingIssue } from './slice/selector';
 
 const tabsOptions = {
   SUMMARY: { name: 'Summary', id: 'SUMMARY', index: 0 },
@@ -32,7 +35,7 @@ export default function useScanReport() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isCopied, setIsCopied] = useState(false);
   const [selected, setSelected] = useState([]);
-
+  const showingIssues = useSelector(getIsShowingIssue);
   // Redux
   const dispatch = useDispatch();
   const scanLogsData = useSelector(getScanLogsData);
@@ -93,6 +96,13 @@ export default function useScanReport() {
       search: `?id=${reportId}&tab=${tab.id}`
     });
     setActiveTabIndex(tab.index);
+    console.log(tab, showingIssues);
+    if (tab.id === 'ALLISSUES' && showingIssues) {
+      dispatch(setShowFreshChatButton(false));
+      console.log('closing..');
+    } else {
+      dispatch(setShowFreshChatButton(true));
+    }
   }
 
   /*

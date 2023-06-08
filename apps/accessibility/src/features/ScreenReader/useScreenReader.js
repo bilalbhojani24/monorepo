@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import fetchScreenReaderDevices from 'api/fetchScreenReaderDevices';
 import { getBrowserStackEnvUrl } from 'utils';
 
+import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
+
 export default function useScreenReader() {
   const [deviceCombinations, setDeviceCombinations] = useState({});
-
+  const dispatch = useDispatch();
   const handleCardClick = (startParams) => {
     const url = getBrowserStackEnvUrl();
     const startLiveSessionUrl = new URL(`${url}/screen-reader/start`);
@@ -20,6 +23,10 @@ export default function useScreenReader() {
 
   useEffect(() => {
     fetchScreenReaderDevices().then(setDeviceCombinations);
+  }, []);
+
+  useEffect(() => {
+    dispatch(setShowFreshChatButton(true));
   }, []);
 
   return { deviceCombinations, handleCardClick };
