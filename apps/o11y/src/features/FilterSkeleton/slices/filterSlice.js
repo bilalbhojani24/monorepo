@@ -13,18 +13,21 @@ const { reducer, actions } = createSlice({
     currentCategory: FILTER_CATEGORIES.SUITE_HEALTH_TESTS,
     [FILTER_CATEGORIES.SUITE_HEALTH_TESTS]: {
       isLoadingFilters: true,
+      isDirty: true,
       selectedFilters: [],
       appliedFilters: [],
       staticFilters: {}
     },
     [FILTER_CATEGORIES.SUITE_HEALTH_UNIQUE_ERRORS]: {
       isLoadingFilters: true,
+      isDirty: true,
       selectedFilters: [],
       appliedFilters: [],
       staticFilters: {}
     },
     [FILTER_CATEGORIES.TEST_LISTING]: {
       isLoadingFilters: true,
+      isDirty: true,
       selectedFilters: [],
       appliedFilters: [],
       staticFilters: {}
@@ -97,6 +100,7 @@ const { reducer, actions } = createSlice({
       state[state.currentCategory].selectedFilters = [
         ...state[state.currentCategory].appliedFilters
       ];
+      state[state.currentCategory].isDirty = true;
     },
     setSelectedFilters: (state, { payload }) => {
       const { type, operationType, id, text, value } = payload;
@@ -150,6 +154,10 @@ const { reducer, actions } = createSlice({
       state[state.currentCategory].appliedFilters = [
         ...state[state.currentCategory].selectedFilters
       ];
+      state[state.currentCategory].isDirty = true;
+    },
+    setIsDirtyByCategory: (state, { payload }) => {
+      state[payload.category].isDirty = payload.status;
     },
     clearAllAppliedFilters: (state) => {
       state[state.currentCategory].selectedFilters = state[
@@ -166,9 +174,11 @@ const { reducer, actions } = createSlice({
           aFilter.type
         )
       );
+      state[state.currentCategory].isDirty = true;
     },
     resetFilters: (state) => {
       state[state.currentCategory].isLoadingFilters = true;
+      state[state.currentCategory].isDirty = true;
       state[state.currentCategory].appliedFilters = [];
       state[state.currentCategory].selectedFilters = [];
       state[state.currentCategory].staticFilters = [];
@@ -194,6 +204,8 @@ export const {
   setStaticFilters,
   discardUnAppliedFilters,
   setInitialSearchString,
+  setIsDirtyByCategory,
+  setIsDirty,
   resetFilters
 } = actions;
 

@@ -13,9 +13,14 @@ import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
-import { clearAllAppliedFilters } from 'features/FilterSkeleton/slices/filterSlice';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import {
+  clearAllAppliedFilters,
+  setIsDirtyByCategory
+} from 'features/FilterSkeleton/slices/filterSlice';
 import {
   getAllAppliedFilters,
+  getIsDirtyByCategory,
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
 import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
@@ -57,6 +62,9 @@ const TestList = ({
   const navigate = useNavigate();
   const appliedFilters = useSelector(getAllAppliedFilters);
   const isFiltersLoading = useSelector(getIsFiltersLoading);
+  const isDirty = useSelector(
+    getIsDirtyByCategory(FILTER_CATEGORIES.TEST_LISTING)
+  );
 
   const OllyTestListingEvent = useCallback(
     (eventName, data = {}) => {
@@ -100,7 +108,17 @@ const TestList = ({
   const { data: testListData, apiState: testListDataApiState } =
     useSelector(getTestList);
   const loadFreshData = useCallback(
-    () => dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} })),
+    () =>
+      dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
+        .unwrap()
+        .finally(() => {
+          dispatch(
+            setIsDirtyByCategory({
+              category: FILTER_CATEGORIES.TEST_LISTING,
+              status: false
+            })
+          );
+        }),
     [buildUUID, dispatch]
   );
 
@@ -185,12 +203,11 @@ const TestList = ({
   );
 
   useEffect(() => {
-    if (!isFiltersLoading) {
-      // TODO: only trigger following if no tests or  filters actually changed
+    if (!isFiltersLoading && isDirty) {
       resetReduxStore(['testList']);
       loadFreshData();
     }
-  }, [appliedFilters, isFiltersLoading, loadFreshData, resetReduxStore]);
+  }, [isDirty, isFiltersLoading, loadFreshData, resetReduxStore]);
 
   useEffect(() => {
     setClosedAccordionIds((data) => {
@@ -218,7 +235,8 @@ const TestList = ({
         });
       }, 100);
     }
-  }, [testListScrollPos]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
