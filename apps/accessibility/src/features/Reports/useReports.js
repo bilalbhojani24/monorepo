@@ -106,6 +106,10 @@ export default function useReports() {
     });
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(setShowFreshChatButton(true));
+  }, []);
+
   const onVersionSelect = (id) => {
     if (id !== activeVersion) {
       dispatch(setActiveVersion(id));
