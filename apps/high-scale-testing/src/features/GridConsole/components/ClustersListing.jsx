@@ -71,7 +71,8 @@ const ClustersListing = () => {
           <TableBody>
             {clustersList.map((clusterData) => {
               const clusterName = clusterData.name;
-              const clusterId = clusterData.uniqueId;
+              const clusterId = clusterData.id;
+              const clusterUniqueId = clusterData.identifier;
               const clusterStatus = clusterData.status;
               const { grids } = clusterData;
               const { cloudProvider, region } = clusterData.profile;
@@ -94,7 +95,7 @@ const ClustersListing = () => {
                 >
                   <TableCell wrapperClassName="text-base-900 px-6 py-4">
                     <p className="font-normal">{clusterName}</p>
-                    <p className="text-base-500">{clusterId}</p>
+                    <p className="text-base-500">{clusterUniqueId}</p>
                   </TableCell>
                   <TableCell wrapperClassName="px-6 py-4">
                     <Badge
