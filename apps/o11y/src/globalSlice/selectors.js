@@ -40,10 +40,12 @@ export const getHasExperiencedPaidPlan = createSelector(
   (planDetails) => planDetails?.hasExperiencedPaidPlan
 );
 
-export const getPlanExpires = createSelector(
-  getPlanDetails,
-  (planDetails) => planDetails?.expires || null
-);
+export const getPlanExpires = createSelector(getPlanDetails, (planDetails) => {
+  if (planDetails?.expires) {
+    return planDetails.expires * 1000;
+  }
+  return null;
+});
 
 export const getIsOnFreeTrial = createSelector(
   getPlanDetails,
