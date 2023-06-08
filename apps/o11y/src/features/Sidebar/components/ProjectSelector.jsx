@@ -6,7 +6,7 @@ import {
   useLocation,
   useNavigate
 } from 'react-router-dom';
-import { O11yComboBox } from 'common/bifrostProxy';
+import { O11yButton, O11yComboBox } from 'common/bifrostProxy';
 import { ROUTES } from 'constants/routes';
 import { resetAllAppliedFilters } from 'features/FilterSkeleton/utils';
 import { setIsUEDetailsVisible } from 'features/SHErrorDetails/slices/dataSlice';
@@ -17,6 +17,14 @@ import { getProjects } from 'globalSlice/selectors';
 import { getProjectBuildsPath, isBuildsPage } from 'utils/routeUtils';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
+
+const ProjectSelectorStickyFooter = () => (
+  <>
+    <O11yButton variant="minimal" wrapperClassName="py-2">
+      New project
+    </O11yButton>
+  </>
+);
 
 export default function ProjectSelector() {
   const projects = useSelector(getProjects);
@@ -77,6 +85,7 @@ export default function ProjectSelector() {
       }}
       options={menuOptions}
       onChange={handleProjectChange}
+      stickyFooter={<ProjectSelectorStickyFooter />}
     />
   );
 }
