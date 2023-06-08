@@ -177,8 +177,6 @@ function BuildDetails() {
         dispatch(resetTestListSlice());
         testListScrollPos.current = 0;
         scrollIndexMapping.current = {};
-      }
-      if (clearOnly) {
         dispatch(
           setIsDirtyByCategory({
             category: FILTER_CATEGORIES.TEST_LISTING,
