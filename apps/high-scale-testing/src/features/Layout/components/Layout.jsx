@@ -41,7 +41,7 @@ const Layout = () => {
       label: 'Documentation',
       activeIcon: MdOutlineTextSnippet,
       inActiveIcon: MdOutlineTextSnippet,
-      path: '/'
+      path: 'https://www.browserstack.com/docs/automation-grid'
     }
   ];
 

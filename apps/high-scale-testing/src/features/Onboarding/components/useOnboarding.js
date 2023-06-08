@@ -336,7 +336,8 @@ browserstack-cli hst init`,
         action: 'havesetup_clicked'
       });
     }
-  }, [STEP_1_RADIO_GROUP_OPTIONS, selectedOption]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOption]);
 
   useEffect(() => {
     if (Object.keys(allAvailableRegionsByProvider).length > 0) {

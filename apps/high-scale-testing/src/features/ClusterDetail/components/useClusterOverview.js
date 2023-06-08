@@ -11,7 +11,7 @@ const useClusterOverview = () => {
 
   const containerClassName =
     'border-base-200 rounded-lg border bg-white p-6 shadow';
-  const fontColor900ClassName = 'text-base-900 text-sm font-normal';
+  const fontColor900ClassName = 'text-base-900 text-base font-normal mt-0.5';
 
   useMountEffect(() => {
     logEvent([], 'web_events', AGClusterDetailsVisited, {

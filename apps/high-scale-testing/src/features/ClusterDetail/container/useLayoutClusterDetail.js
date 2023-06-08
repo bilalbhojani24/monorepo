@@ -6,6 +6,7 @@ import { fetchClusterDataById } from 'api/index';
 import { AGClusterDetailsInteracted } from 'constants/event-names';
 import { setClusterData } from 'features/GridConsole/slices';
 import { getUserDetails } from 'globalSlice/selector';
+import { getClusterData } from '../slices/selector';
 
 const useLayoutClusterDetail = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,9 @@ const useLayoutClusterDetail = () => {
   const { id: clusterId } = params;
 
   const userDetails = useSelector(getUserDetails);
+
+  // All Store variables
+  const clusterData = useSelector(getClusterData);
 
   // All State variables
   const [currentTab, setCurrentTab] = useState({
@@ -38,7 +42,7 @@ const useLayoutClusterDetail = () => {
     if (clusterId) fetchClusterDataByIdFromAPI(clusterId);
   }, [dispatch, clusterId, userDetails]);
 
-  return { currentTab, onTabChangeHandler };
+  return { clusterData, currentTab, onTabChangeHandler };
 };
 
 export default useLayoutClusterDetail;

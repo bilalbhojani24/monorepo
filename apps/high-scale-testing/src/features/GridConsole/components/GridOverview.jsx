@@ -34,6 +34,8 @@ const GridOverview = () => {
     queuedTests
   } = gridData;
 
+  const allowedBrowsers =
+    (browserSettings && Object.keys(browserSettings?.allowedBrowsers)) || [];
   const browserIcons = {
     chrome: <ChromeIcon width={20} height={20} />,
     edge: <EdgeIcon width={20} height={20} />,
@@ -74,7 +76,7 @@ const GridOverview = () => {
     },
     {
       title: 'Created by',
-      value: user.fullName
+      value: user?.fullName
     },
     {
       title: 'Running Tests',
@@ -82,14 +84,14 @@ const GridOverview = () => {
     },
     {
       title: 'Cluster ID',
-      value: cluster.id
+      value: cluster?.id
     },
     {
       title: 'Browsers Used',
       value: (
         <div className="flex gap-1">
-          {browserSettings.allowedBrowsers.map((allowedBrowser) => {
-            const browser = Object.keys(allowedBrowser)[0];
+          {allowedBrowsers.map((allowedBrowser) => {
+            const browser = allowedBrowser;
             return browserIcons[browser];
           })}
         </div>
@@ -97,7 +99,7 @@ const GridOverview = () => {
     },
     {
       title: 'Cluster Name',
-      value: cluster.name
+      value: cluster?.name
     },
     {
       title: 'Queued Tests',
@@ -138,7 +140,7 @@ const GridOverview = () => {
         </div>
       </div>
 
-      {frameworks.length && (
+      {frameworks?.length && (
         <div className="p-6">
           <div className={containerClassName}>
             <p className="text-base-900 text-lg font-medium leading-6">
@@ -148,27 +150,27 @@ const GridOverview = () => {
               {frameworks.map((framework) => (
                 <div
                   className="border-base-200 flex flex-row items-center border-b py-3"
-                  key={framework.name}
+                  key={framework?.name}
                 >
                   <div className="flex flex-row items-center">
-                    {frameWorkIcons[framework.name]}
+                    {frameWorkIcons[framework?.name]}
                     <div className="ml-2 w-52">
-                      <p className="text-base-900 text-base font-normal">
-                        {framework.name}
+                      <p className="text-base-500 text-base font-normal">
+                        {framework?.name}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex flex-row items-center justify-start">
-                    {framework.url.length ? (
+                    {framework?.url.length ? (
                       <>
-                        <p className="text-base-900 mr-4 text-sm font-normal">
-                          {framework.url}
+                        <p className="text-base-900 mr-4 text-base font-normal">
+                          {framework?.url}
                         </p>
 
                         <CopyButton
-                          cb={() => copyBtnCbFn(framework.name.toLowerCase())}
-                          copyValue={framework.url}
+                          cb={() => copyBtnCbFn(framework?.name.toLowerCase())}
+                          copyValue={framework?.url}
                           textColor=""
                           wrapperClassName="text-xl"
                         >

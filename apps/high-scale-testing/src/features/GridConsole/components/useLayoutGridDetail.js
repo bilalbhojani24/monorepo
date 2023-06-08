@@ -17,6 +17,7 @@ import ROUTES from 'constants/routes';
 import { getUserDetails } from 'globalSlice/selector';
 
 import { setGridData } from '../slices';
+import { getGridData } from '../slices/selector';
 
 const useLayoutGridDetail = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,9 @@ const useLayoutGridDetail = () => {
   const paramId = params.id; // grid id
 
   const userDetails = useSelector(getUserDetails);
+
+  // All Store variables
+  const gridData = useSelector(getGridData);
 
   // All State variables
   const [currentTab, setCurrentTab] = useState({
@@ -108,7 +112,7 @@ const useLayoutGridDetail = () => {
       navigate(`/grid-console/grid/${paramId}/${tabToOpen.name.toLowerCase()}`);
   });
 
-  return { onTabChangeHandler, setCurrentTab, currentTab };
+  return { gridData, onTabChangeHandler, currentTab };
 };
 
 export default useLayoutGridDetail;
