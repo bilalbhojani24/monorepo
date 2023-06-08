@@ -7,13 +7,8 @@ import PropTypes from 'prop-types';
 import useReportLoadingHeader from './useReportLoadingHeader';
 
 const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
-  const {
-    sessionState,
-    sessionDetails,
-    hideBanner,
-    showTimeoutBanner,
-    secondsElapsed
-  } = useReportLoadingHeader();
+  const { sessionState, sessionDetails, showTimeoutBanner, secondsElapsed } =
+    useReportLoadingHeader();
 
   const getBannerDescription = useCallback(() => {
     if (sessionDetails?.timeoutDurationInMinutes) {
@@ -49,9 +44,9 @@ const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
           bannerIcon={
             <MdOutlineTimer aria-hidden="true" className="h-6 w-6 text-white" />
           }
+          isDismissButton={false}
           description={getBannerDescription()}
           modifier="attention"
-          onDismissClick={hideBanner}
         />
       )}
     </div>

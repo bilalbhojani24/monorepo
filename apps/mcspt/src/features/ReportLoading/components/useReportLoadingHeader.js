@@ -22,10 +22,6 @@ const useReportLoadingHeader = () => {
   const secondsElapsed = useSelector(getRecordingDurationElapsed);
   const isStopSessionInProgress = useSelector(getIsSessionStopInProgress);
 
-  const hideBanner = () => {
-    dispatch(setShowTimeoutBanner(false));
-  };
-
   useEffect(() => {
     if (sessionDetails.timeoutDurationInMinutes * 60 - secondsElapsed === 120) {
       dispatch(setShowTimeoutBanner(true));
@@ -55,8 +51,7 @@ const useReportLoadingHeader = () => {
     sessionState,
     sessionDetails,
     showTimeoutBanner,
-    secondsElapsed,
-    hideBanner
+    secondsElapsed
   };
 };
 
