@@ -5,7 +5,11 @@ import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
-import { resetFilters } from 'features/FilterSkeleton/slices/filterSlice';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import {
+  resetFilters,
+  setIsDirtyByCategory
+} from 'features/FilterSkeleton/slices/filterSlice';
 import TestList from 'features/TestList';
 import { EMPTY_TESTLIST_DATA_STATE } from 'features/TestList/constants';
 import {
@@ -21,7 +25,6 @@ import { TABS } from '../constants';
 import {
   clearBuildUUID,
   getBuildIdFromBuildInfo,
-  resetBuildMeta,
   setActiveTab
 } from '../slices/buildDetailsSlice';
 import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
@@ -68,7 +71,6 @@ function BuildDetails() {
       dispatch(resetFilters());
       dispatch(clearBuildUUID());
       setTestDefectTypeMapping({});
-      dispatch(resetBuildMeta());
       dispatch(
         setActiveTab({
           id: TABS.insights.id,
@@ -175,6 +177,14 @@ function BuildDetails() {
         dispatch(resetTestListSlice());
         testListScrollPos.current = 0;
         scrollIndexMapping.current = {};
+      }
+      if (clearOnly) {
+        dispatch(
+          setIsDirtyByCategory({
+            category: FILTER_CATEGORIES.TEST_LISTING,
+            status: true
+          })
+        );
       }
       if (!clearOnly) {
         const searchString = `?tab=tests&${query}`;

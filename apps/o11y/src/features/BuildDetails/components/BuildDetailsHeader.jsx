@@ -44,7 +44,11 @@ import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
 import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { TABS } from '../constants';
-import { getBuildMetaData, setActiveTab } from '../slices/buildDetailsSlice';
+import {
+  getBuildMetaData,
+  resetBuildMeta,
+  setActiveTab
+} from '../slices/buildDetailsSlice';
 import {
   getBuildDetailsActiveTab,
   getBuildMeta,
@@ -89,6 +93,9 @@ function BuildDetailsHeader({
     if (buildUUID) {
       dispatch(getBuildMetaData({ buildUUID }));
     }
+    return () => {
+      dispatch(resetBuildMeta());
+    };
   }, [buildUUID, dispatch]);
 
   const onTabChange = (tabInfo) => {
