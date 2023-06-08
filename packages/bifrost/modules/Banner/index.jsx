@@ -66,7 +66,7 @@ const Banner = ({
       {isDismissButton ? (
         <div
           className={twClassNames(
-            'absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-center sm:pr-2'
+            'absolute inset-y-0 right-0 flex items-start pr-1 sm:items-center sm:pr-2'
           )}
         >
           {renderDismissButton()}
@@ -87,7 +87,7 @@ const Banner = ({
       )}
       id={headerID || null}
     >
-      <div className="mx-auto max-w-7xl p-3 sm:px-6 lg:px-8">
+      <div className="p-3 lg:pl-8 lg:pr-6">
         {BANNER_ALIGN[1] === align ? (
           renderCenteredBanner()
         ) : (
