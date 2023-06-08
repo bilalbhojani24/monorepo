@@ -170,12 +170,14 @@ function BuildDetails() {
   }, [buildUUID, dispatch]);
 
   const applyTestListFilter = useCallback(
-    ({ query, clearOnly = false, isFullQuery = false }) => {
-      dispatch(resetTestListSlice());
-      testListScrollPos.current = 0;
-      scrollIndexMapping.current = {};
+    ({ query, clearOnly = false }) => {
+      if (query || clearOnly) {
+        dispatch(resetTestListSlice());
+        testListScrollPos.current = 0;
+        scrollIndexMapping.current = {};
+      }
       if (!clearOnly) {
-        const searchString = isFullQuery ? query : `?tab=tests&${query}`;
+        const searchString = `?tab=tests&${query}`;
         navigate({ search: searchString });
       }
     },
