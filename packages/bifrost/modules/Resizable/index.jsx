@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ResizableBox } from 'react-resizable';
 import PropTypes from 'prop-types';
 
@@ -15,23 +15,53 @@ const ResizableWrapper = ({
   onResize,
   onResizeStart,
   onResizeStop
-}) => (
-  <ResizableBox
-    className={className}
-    width={width}
-    height={height}
-    handle={handle}
-    handleSize={handleSize}
-    resizeHandles={resizeHandles}
-    minConstraints={minConstraints}
-    maxConstraints={maxConstraints}
-    onResize={onResize}
-    onResizeStart={onResizeStart}
-    onResizeStop={onResizeStop}
-  >
-    {children}
-  </ResizableBox>
-);
+}) => {
+  const resizeRef = useRef(null);
+  const onResizeStartCallback = (...props) => {
+    if (!handle && resizeRef.current) resizeRef.current.style.opacity = 1;
+    onResizeStart?.(...props);
+  };
+  const onResizeStopCallback = (...props) => {
+    if (!handle) resizeRef?.current?.removeAttribute('style');
+    onResizeStop?.(...props);
+  };
+
+  const defaultHandleProps = (__resizeHandleAxis, ref) => (
+    <span
+      className={
+        ('group absolute left-0 top-0 h-full px-1 hover:cursor-col-resize',
+        {
+          '-translate-x-1.5': resizeHandles.includes('w'),
+          'translate-x-1.5': resizeHandles.includes('e')
+        })
+      }
+      ref={ref}
+    >
+      <span
+        className="bg-brand-600 block h-full w-0.5 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        ref={resizeRef}
+      />
+    </span>
+  );
+
+  return (
+    <ResizableBox
+      className={className}
+      width={width}
+      height={height}
+      handle={handle || defaultHandleProps}
+      handleSize={handleSize}
+      resizeHandles={resizeHandles}
+      minConstraints={minConstraints}
+      maxConstraints={maxConstraints}
+      onResize={onResize}
+      onResizeStart={onResizeStartCallback}
+      onResizeStop={onResizeStopCallback}
+    >
+      {children}
+    </ResizableBox>
+  );
+};
 
 ResizableWrapper.propTypes = {
   children: PropTypes.node,
