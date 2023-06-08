@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { secondsToMinutes } from '@browserstack/mcp-shared';
 import REPORT_GENERATION_MODES from 'constants/reportGenerationModes';
 import { getSessionDetails } from 'features/Home';
 
@@ -13,6 +14,8 @@ import {
 } from '../slices/reportLoadingSlice';
 import { stopRecordingSession } from '../slices/reportLoadingThunks';
 
+const getNumberOfSecondsFromTimeoutDuration = (timeout) => timeout * 60;
+
 const useReportLoadingHeader = () => {
   const dispatch = useDispatch();
   const navigateToPath = useNavigate();
@@ -24,7 +27,9 @@ const useReportLoadingHeader = () => {
 
   useEffect(() => {
     if (sessionDetails?.timeoutDurationInMinutes) {
-      const timeoutDuration = sessionDetails.timeoutDurationInMinutes * 60;
+      const timeoutDuration = getNumberOfSecondsFromTimeoutDuration(
+        sessionDetails.timeoutDurationInMinutes
+      );
       if (timeoutDuration - secondsElapsed === 120) {
         dispatch(setShowTimeoutBanner(true));
       }
@@ -40,17 +45,33 @@ const useReportLoadingHeader = () => {
     }
   }, [
     secondsElapsed,
-    sessionDetails.timeoutDurationInMinutes,
+    sessionDetails?.timeoutDurationInMinutes,
     dispatch,
     navigateToPath,
     isStopSessionInProgress
   ]);
 
+  const getBannerDescription = useCallback(() => {
+    if (sessionDetails?.timeoutDurationInMinutes) {
+      return `Your session will be terminated automatically in ${secondsToMinutes(
+        getNumberOfSecondsFromTimeoutDuration(
+          sessionDetails.timeoutDurationInMinutes
+        ) - secondsElapsed
+      )} minutes. Sessions can run for a maximum of ${secondsToMinutes(
+        getNumberOfSecondsFromTimeoutDuration(
+          sessionDetails.timeoutDurationInMinutes
+        )
+      )} minutes.`;
+    }
+    return '';
+  }, [sessionDetails?.timeoutDurationInMinutes, secondsElapsed]);
+
   return {
     sessionState,
     sessionDetails,
     showTimeoutBanner,
-    secondsElapsed
+    secondsElapsed,
+    getBannerDescription
   };
 };
 

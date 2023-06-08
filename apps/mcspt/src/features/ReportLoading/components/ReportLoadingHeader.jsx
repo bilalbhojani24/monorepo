@@ -1,25 +1,17 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Banner, MdChevronLeft, MdOutlineTimer } from '@browserstack/bifrost';
-import { secondsToMinutes } from '@browserstack/mcp-shared';
 import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
 import PropTypes from 'prop-types';
 
 import useReportLoadingHeader from './useReportLoadingHeader';
 
 const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
-  const { sessionState, sessionDetails, showTimeoutBanner, secondsElapsed } =
-    useReportLoadingHeader();
-
-  const getBannerDescription = useCallback(() => {
-    if (sessionDetails?.timeoutDurationInMinutes) {
-      return `Your session will be terminated automatically in ${secondsToMinutes(
-        sessionDetails?.timeoutDurationInMinutes * 60 - secondsElapsed
-      )} minutes. Sessions can run for a maximum of ${secondsToMinutes(
-        sessionDetails?.timeoutDurationInMinutes * 60
-      )} minutes.`;
-    }
-    return '';
-  }, [sessionDetails?.timeoutDurationInMinutes, secondsElapsed]);
+  const {
+    sessionState,
+    sessionDetails,
+    showTimeoutBanner,
+    getBannerDescription
+  } = useReportLoadingHeader();
 
   return (
     <div className="flex flex-col">
