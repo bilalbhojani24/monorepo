@@ -7,6 +7,10 @@ import { getO11yTimeBounds } from 'utils/dateTime';
 import { resetFilters } from './slices/filterSlice';
 import { ADV_FILTER_TYPES, ADV_FILTERS_PREFIX } from './constants';
 
+const ALL_FILTER_FIELD_KEYS = Object.values(ADV_FILTER_TYPES).map(
+  (filterField) => filterField.key
+);
+
 export const getAppliedFilterObj = ({ id, text, type, value }) => ({
   id,
   text,
@@ -84,12 +88,26 @@ const getDefaultDateRange = () => {
   return getO11yTimeBounds(O11Y_DATE_RANGE.days7.key);
 };
 
+const sanitizeSearchParams = (searchParams) => {
+  const searchParamKeys = [...searchParams.keys()];
+
+  searchParamKeys.forEach((key) => {
+    if (!ALL_FILTER_FIELD_KEYS.includes(key)) {
+      searchParams.delete(key);
+    }
+  });
+  return searchParams;
+};
+
 export const getFilterFromSearchString =
   ({ excludeDateRange = false }) =>
   // eslint-disable-next-line no-unused-vars
   (dispatch) => {
-    const searchParams = new URLSearchParams(window.location.search);
+    let searchParams = new URLSearchParams(window.location.search);
+    searchParams = sanitizeSearchParams(searchParams);
     if (excludeDateRange) {
+      searchParams.delete('daterangetype');
+      searchParams.delete(ADV_FILTER_TYPES.dateRange.key);
       return searchParams;
     }
     const dateRangeType = searchParams.get('daterangetype');

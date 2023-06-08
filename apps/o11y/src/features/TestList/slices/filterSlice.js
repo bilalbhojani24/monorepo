@@ -11,9 +11,11 @@ import {
   setIsLoadingBuildsFilters,
   setStaticFilters
 } from 'features/FilterSkeleton/slices/filterSlice';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
 import {
   getAppliedFilterObj,
-  getFilterFromSearchString
+  getFilterFromSearchString,
+  getFilterQueryParams
 } from 'features/FilterSkeleton/utils';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
@@ -267,15 +269,19 @@ const updateTestsFilterFields = (data, dispatch) => {
 
 export const getTestListingFiltersData = createAsyncThunk(
   'testlist/getFilters',
-  async (data, { rejectWithValue, dispatch }) => {
+  async (data, { rejectWithValue, dispatch, getState }) => {
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.TEST_LISTING));
     try {
-      const searchString = dispatch(
+      let searchParams = dispatch(
         getFilterFromSearchString({ excludeDateRange: true })
       );
+      if (searchParams.size === 0) {
+        const appliedFilters = getAllAppliedFilters(getState());
+        searchParams = getFilterQueryParams(appliedFilters);
+      }
       const response = await getTestListFilters({
         ...data,
-        searchString
+        searchString: searchParams.toString()
       });
       updateTestsFilterFields(response.data, dispatch);
       return response.data;
