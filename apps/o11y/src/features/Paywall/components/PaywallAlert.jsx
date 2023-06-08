@@ -69,7 +69,7 @@ function PaywallAlert({ title }) {
       accentBorder
       handleLinkClick={handleClickUpgrade}
       modifier={hasSubmittedUpgradeReq ? 'success' : 'warn'}
-      title={
+      description={
         hasSubmittedUpgradeReq
           ? 'Thanks for showing an interest in Observability Pro! Someone from our team would reach out to you soon with upgrade related details.'
           : title
