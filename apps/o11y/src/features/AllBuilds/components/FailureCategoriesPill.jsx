@@ -1,14 +1,13 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { O11yHyperlink, O11yTooltip } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import { DOC_KEY_MAPPING } from 'constants/common';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { getDocUrl } from 'utils/common';
-import { getBuildPath } from 'utils/routeUtils';
 
-import { aggregateColors } from '../constants';
+import { aggregateColors, TEST_LIST_FILTERS_INTERACTIONS } from '../constants';
 
 import DividedPill from './DividedPill';
 
@@ -23,22 +22,26 @@ const areAllTbi = (data) => {
 
 const areAllZero = (data) => Object.values(data)?.every((item) => item === 0);
 
-function FailureCategoriesPill({ data, logBuildListingInteracted }) {
-  const navigate = useNavigate();
-  const { projectNormalisedName } = useParams();
-  const investigationRequiredClicked = () => {
-    logBuildListingInteracted('to_be_investigated_clicked');
-    const endpoint = `${getBuildPath(
-      projectNormalisedName,
-      data.normalisedName,
-      data?.buildNumber
-    )}/?tab=tests&issueTypeGroup=To+be+Investigated`;
-    navigate(endpoint);
+function FailureCategoriesPill({
+  data,
+  logBuildListingInteracted,
+  navigateToTestPage
+}) {
+  const handleIssueTypeClicked = (type) => {
+    navigateToTestPage(
+      ADV_FILTER_TYPES.failureCategories.key,
+      type,
+      TEST_LIST_FILTERS_INTERACTIONS[type]
+    );
   };
-  const noDefectClicked = () => logBuildListingInteracted('no_defect_clicked');
+
+  const noDefectClicked = () =>
+    logBuildListingInteracted(TEST_LIST_FILTERS_INTERACTIONS['No Defect']);
+
   if (isEmpty(data?.issueTypeAggregate)) {
     return null;
   }
+
   if (areAllZero(data.issueTypeAggregate)) {
     return (
       <p
@@ -79,7 +82,10 @@ function FailureCategoriesPill({ data, logBuildListingInteracted }) {
         }
       >
         <PropagationBlocker>
-          <p role="presentation" onClick={investigationRequiredClicked}>
+          <p
+            role="presentation"
+            onClick={() => handleIssueTypeClicked('To be Investigated')}
+          >
             To be investigated
           </p>
         </PropagationBlocker>
@@ -97,7 +103,7 @@ function FailureCategoriesPill({ data, logBuildListingInteracted }) {
           <div className="mb-2 flex overflow-hidden rounded-xl">
             <DividedPill
               data={data}
-              logBuildListingInteracted={logBuildListingInteracted}
+              onIssueTypeClicked={handleIssueTypeClicked}
             />
           </div>
           <ul>
@@ -127,17 +133,15 @@ function FailureCategoriesPill({ data, logBuildListingInteracted }) {
         </div>
       }
     >
-      <DividedPill
-        data={data}
-        logBuildListingInteracted={logBuildListingInteracted}
-      />
+      <DividedPill data={data} onIssueTypeClicked={handleIssueTypeClicked} />
     </O11yTooltip>
   );
 }
 
 FailureCategoriesPill.propTypes = {
   data: PropTypes.objectOf(PropTypes.any).isRequired,
-  logBuildListingInteracted: PropTypes.func.isRequired
+  logBuildListingInteracted: PropTypes.func.isRequired,
+  navigateToTestPage: PropTypes.func.isRequired
 };
 
 export default FailureCategoriesPill;
