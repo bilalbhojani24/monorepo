@@ -23,20 +23,20 @@ const useReportLoadingHeader = () => {
   const isStopSessionInProgress = useSelector(getIsSessionStopInProgress);
 
   useEffect(() => {
-    if (sessionDetails.timeoutDurationInMinutes * 60 - secondsElapsed === 120) {
-      dispatch(setShowTimeoutBanner(true));
-    }
+    if (sessionDetails?.timeoutDurationInMinutes) {
+      const timeoutDuration = sessionDetails.timeoutDurationInMinutes * 60;
+      if (timeoutDuration - secondsElapsed === 120) {
+        dispatch(setShowTimeoutBanner(true));
+      }
 
-    if (
-      secondsElapsed === sessionDetails.timeoutDurationInMinutes * 60 &&
-      !isStopSessionInProgress
-    ) {
-      dispatch(
-        stopRecordingSession(
-          navigateToPath,
-          REPORT_GENERATION_MODES.TIMEOUT_OCCURRED
-        )
-      );
+      if (secondsElapsed === timeoutDuration && !isStopSessionInProgress) {
+        dispatch(
+          stopRecordingSession(
+            navigateToPath,
+            REPORT_GENERATION_MODES.TIMEOUT_OCCURRED
+          )
+        );
+      }
     }
   }, [
     secondsElapsed,
