@@ -54,12 +54,6 @@ function CIStackItem({ icon, title, analyticKey, cta, apiSlug, modalKey }) {
           })
         );
       })
-      .catch(() => {
-        o11yNotify({
-          title: `Something went wrong! Please try again`,
-          type: 'error'
-        });
-      })
       .finally(() => {
         setIsDisconnecting(false);
       });
