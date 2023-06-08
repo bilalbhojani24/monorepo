@@ -1,6 +1,7 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import dashboardReducer from 'features/Dashboard/slices/dashboardSlice';
 import importCSVReducer from 'features/importCSVFlow/slices/importCSVSlice';
+import importProgressReducer from 'features/ImportProgress/slices/importProgressSlice';
 import onboardingReducer from 'features/Onboarding/slices/onboardingSlice';
 import projectReducer from 'features/Projects/slices/projectSlice';
 import importReducer from 'features/quickImportFlow/slices/importSlice';
@@ -25,6 +26,7 @@ export const store = configureStore({
     importCSV: importCSVReducer,
     dashboard: dashboardReducer,
     settings: settingsReducer,
+    importProgress: importProgressReducer,
     onboarding: onboardingReducer
   },
   middleware
