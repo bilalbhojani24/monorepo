@@ -76,13 +76,6 @@ function UnmuteTestModal() {
         onSuccess?.();
         handleCloseModal();
       })
-      .catch(() => {
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating test',
-          type: 'error'
-        });
-      })
       .finally(() => {
         setIsUpdating(false);
       });

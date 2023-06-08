@@ -39,6 +39,7 @@ export default function TestCases() {
     isBulkUpdate,
     isTestCasesLoading,
     isFoldersLoading,
+    initCustomFormFields,
     handleFilterPagination
   } = useTestCases();
 
@@ -62,6 +63,10 @@ export default function TestCases() {
     isFoldersLoading,
     openedFolderModal
   ]);
+
+  useEffect(() => {
+    initCustomFormFields();
+  }, [initCustomFormFields]);
 
   if (isAddTestCasePageVisible)
     return isBulkUpdate ? <BulkEditTestCase /> : <AddEditTestCase />;

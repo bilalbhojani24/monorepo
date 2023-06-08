@@ -4,7 +4,8 @@ const { actions, reducer } = createSlice({
   name: 'dashboard',
   initialState: {
     activeNav: 'reports',
-    sidebarCollapsed: false
+    sidebarCollapsed: false,
+    showFreshChatButton: true
   },
   reducers: {
     setActiveNav: (state, { payload }) => {
@@ -12,10 +13,14 @@ const { actions, reducer } = createSlice({
     },
     setSidebarCollapsed: (state, { payload }) => {
       state.sidebarCollapsed = payload;
+    },
+    setShowFreshChatButton: (state, { payload }) => {
+      state.showFreshChatButton = payload;
     }
   }
 });
 
-export const { setActiveNav, setSidebarCollapsed } = actions;
+export const { setActiveNav, setSidebarCollapsed, setShowFreshChatButton } =
+  actions;
 
 export default reducer;
