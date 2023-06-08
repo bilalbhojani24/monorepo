@@ -13,6 +13,7 @@ import {
   SkipToContent
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
+import FreshchatIntegration from 'common/FreshchatIntegration';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 import { getBrowserStackBase } from 'utils';
@@ -175,6 +176,7 @@ export default function Dashboard({ children }) {
         {children}
       </main>
       <NotificationsContainer />
+      <FreshchatIntegration />
     </div>
   );
 }
