@@ -129,7 +129,7 @@ const listTreeDemoDataSet = [
 
 const ResizeableTreeExample = () => (
   <Resizable
-    resizeHandles={['e']}
+    resizeHandles={['n']}
     handleSize={[6, 1]}
     width={300}
     minConstraints={[300]}
