@@ -72,7 +72,7 @@ const ClustersListing = () => {
             {clustersList.map((clusterData) => {
               const clusterName = clusterData.name;
               const clusterId = clusterData.id;
-              const clusterUniqueId = clusterData.identifier;
+              const clusterUniqueId = clusterData.identifier.split('-')[0];
               const clusterStatus = clusterData.status;
               const { grids } = clusterData;
               const { cloudProvider, region } = clusterData.profile;
