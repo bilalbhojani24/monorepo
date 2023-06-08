@@ -1,7 +1,7 @@
 const DEFAULT_GRID_CONCURRENCY = 50;
 
 const CREATE_GRID_TYPES = {
-  helmKubeCTL: 'Helm/KubeCTL',
+  helmKubeCTL: 'Helm',
   cli: 'CLI'
 };
 
