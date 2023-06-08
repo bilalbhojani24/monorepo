@@ -16,7 +16,7 @@ const ROUTES = {
   GRID_UTILIZATION: '/grid-console/grid/:id/utilization',
   ONBOARDING: '/setup',
   ROOT: '/',
-  SIGN_OUT: 'users/sign_out'
+  SIGN_OUT: '/users/sign_out'
 };
 
 export default ROUTES;

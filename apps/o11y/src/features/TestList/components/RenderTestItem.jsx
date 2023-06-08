@@ -19,6 +19,10 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StatusIcon from 'common/StatusIcon';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
+import {
+  ADV_FILTER_OPERATIONS,
+  ADV_FILTER_TYPES
+} from 'features/FilterSkeleton/constants';
 import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
   HIERARCHY_SPACING,
@@ -28,14 +32,12 @@ import {
   singleItemTestDetails
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
-import {
-  getAppliedFilters,
-  getTestList
-} from 'features/TestList/slices/selectors';
-import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
+import { getTestList } from 'features/TestList/slices/selectors';
 import PropTypes from 'prop-types';
 import { getDocUrl, transformUnsupportedTags } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
+
+import { dispatchAppliedFilter } from '../utils';
 
 import TestItemJiraTag from './TestItemJiraTag';
 import TestListActionItems from './TestListActionItems';
@@ -50,29 +52,34 @@ const RenderTestItem = ({ item: data }) => {
   const {
     smartTagSettings: { flaky, alwaysFailing, newFailure, performanceAnomalies }
   } = testListData;
-  const { tags, history } = useSelector(getAppliedFilters);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { o11yTestListingInteraction } = useContext(TestListContext);
+
   const addFilterOnClick = (filterCategory, filterValue) => {
-    if (filterCategory === 'tags' && !tags.includes(filterValue)) {
-      dispatch(
-        setAppliedFilters({
-          tags: [...tags, filterValue]
-        })
-      );
-    } else if (filterCategory === 'history' && !history.includes(filterValue)) {
-      dispatch(
-        setAppliedFilters({
-          history: [...history, filterValue]
-        })
-      );
-    } else if (filterCategory === 'flaky' && !history.includes(filterValue)) {
-      dispatch(
-        setAppliedFilters({
-          flaky: [filterValue]
-        })
-      );
+    switch (filterCategory) {
+      case ADV_FILTER_TYPES.testTags.key: {
+        dispatchAppliedFilter({
+          type: filterCategory,
+          dispatch,
+          value: filterValue,
+          customOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE
+        });
+        break;
+      }
+      case ADV_FILTER_TYPES.isFlaky.key:
+      case ADV_FILTER_TYPES.isAlwaysFailing.key:
+      case ADV_FILTER_TYPES.isNewFailure.key:
+      case ADV_FILTER_TYPES.hasPerformanceAnomaly.key:
+        dispatchAppliedFilter({
+          type: filterCategory,
+          dispatch,
+          value: true,
+          customOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE
+        });
+        break;
+      default:
+        break;
     }
     o11yTestListingInteraction('filter_applied');
   };
@@ -97,20 +104,20 @@ const RenderTestItem = ({ item: data }) => {
     let filterValue = '';
     switch (text) {
       case 'Flaky':
-        filterCategory = 'flaky';
+        filterCategory = ADV_FILTER_TYPES.isFlaky.key;
         filterValue = true;
         break;
       case 'Always Failing':
-        filterCategory = 'history';
-        filterValue = 'isAlwaysFailing';
+        filterCategory = ADV_FILTER_TYPES.isAlwaysFailing.key;
+        filterValue = true;
         break;
       case 'New Failures':
-        filterCategory = 'history';
-        filterValue = 'isNewFailure';
+        filterCategory = ADV_FILTER_TYPES.isNewFailure.key;
+        filterValue = true;
         break;
       case 'Performance Anomaly':
-        filterCategory = 'history';
-        filterValue = 'isPerformanceAnomaly';
+        filterCategory = ADV_FILTER_TYPES.hasPerformanceAnomaly.key;
+        filterValue = true;
         break;
       default:
     }
@@ -122,7 +129,6 @@ const RenderTestItem = ({ item: data }) => {
           wrapperClassName="px-1"
           theme="dark"
           size="sm"
-          onClick={() => onClick(filterCategory, filterValue)}
           content={
             <>
               <TooltipHeader>{tooltipHeader}</TooltipHeader>
@@ -153,7 +159,13 @@ const RenderTestItem = ({ item: data }) => {
             </>
           }
         >
-          <O11yBadge text={text} modifier={modifier} />
+          <O11yBadge
+            text={text}
+            modifier={modifier}
+            onClick={() => {
+              onClick(filterCategory, filterValue);
+            }}
+          />
         </O11yTooltip>
       </PropagationBlocker>
     );
@@ -194,7 +206,10 @@ const RenderTestItem = ({ item: data }) => {
                         wrapperClassName="mx-1"
                         hasRemoveButton={false}
                         onClick={() => {
-                          addFilterOnClick('tags', singleTag);
+                          addFilterOnClick(
+                            ADV_FILTER_TYPES.testTags.key,
+                            singleTag
+                          );
                         }}
                         modifier="base"
                         hasDot={false}
@@ -207,10 +222,9 @@ const RenderTestItem = ({ item: data }) => {
                       'warn',
                       'Flake detected',
                       details?.flakyReason === 1
-                        ? `Test status flipping (pass to fail or vice-versa) 
-                        more than ${flaky?.flakeInHistory.flippingPercentage}% times out of ${flaky?.flakeInHistory.consecutiveRuns} consecutive runs`
-                        : `Test passing on a retry attempt in the same run 
-                      across last ${flaky?.flakeInRerun.consecutiveRuns} consecutive runs`,
+                        ? `Test status has flipped more than ${flaky?.flakeInHistory.flippingPercentage}
+                      times in the last ${flaky?.flakeInHistory.consecutiveRuns} consecutive runs.`
+                        : `Test passes on a retry within the last ${flaky?.flakeInRerun.consecutiveRuns} runs.`,
                       addFilterOnClick
                     )}
                   {details?.isAlwaysFailing &&
@@ -219,12 +233,12 @@ const RenderTestItem = ({ item: data }) => {
                       'error',
                       'Always failing test',
                       `The test has been failing with the ${
-                        alwaysFailing?.failureType === 'SAME_ERROR'
+                        alwaysFailing?.failureType === 'SAME'
                           ? 'same error'
                           : 'any error'
-                      } for last ${
+                      } for the last ${
                         alwaysFailing?.consecutiveRuns
-                      } consecutive runs`,
+                      } consecutive runs.`,
                       addFilterOnClick
                     )}
                   {details?.isNewFailure &&
@@ -232,11 +246,11 @@ const RenderTestItem = ({ item: data }) => {
                       'New Failures',
                       'error',
                       'New failure detected',
-                      `This test failed for the first time across last ${
-                        newFailure?.consecutiveRuns
-                      } consecutive runs with ${
+                      `The test has failed with a ${
                         newFailure?.failureType === 'NEW' ? 'new' : 'any'
-                      } error`,
+                      } error for the first time among the last ${
+                        newFailure?.consecutiveRuns
+                      } runs.`,
                       addFilterOnClick
                     )}
                   {details?.isPerformanceAnomaly &&
@@ -244,7 +258,9 @@ const RenderTestItem = ({ item: data }) => {
                       'Performance Anomaly',
                       'error',
                       'Performance anomaly detected',
-                      `Duration is more than ${performanceAnomalies?.durationPercentile}th percentile across last ${performanceAnomalies?.consecutiveRuns} consecutive runs.`,
+                      `Test execution duration exceeding the 
+                      ${performanceAnomalies?.durationPercentile}
+                      percentile duration among the last ${performanceAnomalies?.consecutiveRuns} runs of the same test.`,
                       addFilterOnClick
                     )}
                 </div>
