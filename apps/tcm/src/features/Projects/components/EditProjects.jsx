@@ -16,6 +16,7 @@ import { onSubmitKeyHandler } from 'utils/helperFunctions';
 import useProjects from './useProjects';
 
 const EditProjects = ({ show }) => {
+  const FOCUS_DELAY = 50;
   const {
     modalFocusRef,
     selectedProject,
@@ -36,6 +37,14 @@ const EditProjects = ({ show }) => {
         state: selectedProject.state
       });
   }, [selectedProject, setFormData, show]);
+
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => {
+        modalFocusRef?.current?.focus();
+      }, FOCUS_DELAY);
+    }
+  }, [show, modalFocusRef]);
 
   return (
     <TMModal
