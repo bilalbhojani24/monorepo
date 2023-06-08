@@ -68,13 +68,15 @@ export default function ProjectList() {
     []
   );
 
-  const handleSearchTextChange = (e) => {
-    const val = e.target?.value?.toLowerCase();
-    setSearchText(val);
+  const handleSearchTextChange = ({ target: { value } }) => {
+    const lCaseVal = value?.toLowerCase();
+    setSearchText(value);
     setProjectsList(
-      projects.list.filter((item) => item?.name?.toLowerCase().includes(val))
+      projects.list.filter((item) =>
+        item?.name?.toLowerCase().includes(lCaseVal)
+      )
     );
-    debouncedSearchLogEvent(val);
+    debouncedSearchLogEvent(lCaseVal);
   };
 
   const handleClearSearch = () => {

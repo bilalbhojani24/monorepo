@@ -38,6 +38,15 @@ export default function OnboardingFrameworkSelector() {
     }
   }, []);
 
+  const handleInteraction = (ctaText) => {
+    logOllyEvent({
+      event: 'O11yOnboardingInteracted',
+      data: {
+        cta_clicked: ctaText
+      }
+    });
+  };
+
   const handleSelectFramework = (id) => {
     const foundFramework = FRAMEWORKS.find((item) => item.id === id);
     if (!foundFramework?.isUpComing) {
@@ -49,6 +58,7 @@ export default function OnboardingFrameworkSelector() {
   };
 
   const handleClickSkipToDashboard = () => {
+    handleInteraction('Skip to Dashboard Clicked');
     navigate(ROUTES.projects);
   };
 
@@ -88,7 +98,11 @@ export default function OnboardingFrameworkSelector() {
             </h1>
 
             <div className="flex items-center gap-3">
-              <ReqDemoButton />
+              <ReqDemoButton
+                clickCb={() => {
+                  handleInteraction('Get Demo Clicked');
+                }}
+              />
               {!!projects?.list?.length && (
                 <O11yButton size="default" onClick={handleClickSkipToDashboard}>
                   Skip to dashboard
