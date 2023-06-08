@@ -100,7 +100,7 @@ const sanitizeSearchParams = (searchParams) => {
 };
 
 export const getFilterFromSearchString =
-  ({ excludeDateRange = false }) =>
+  (excludeDateRange = false) =>
   // eslint-disable-next-line no-unused-vars
   (dispatch) => {
     let searchParams = new URLSearchParams(window.location.search);
