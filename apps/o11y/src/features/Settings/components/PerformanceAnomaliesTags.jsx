@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -9,14 +9,10 @@ import {
 } from 'common/bifrostProxy';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 import { PaywallTooltip } from 'features/Paywall';
-import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
-import {
-  saveSmartTagsChanges,
-  submitSmartTagsChanges
-} from '../slices/smartTagsSettings';
+import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const STATIC_DURATION_DROPDOWN_DATA = [
   ...Array(20)
@@ -37,10 +33,7 @@ const STATIC_EXECUTION_DROPDOWN_DATA = [
 ];
 
 export const PerformanceAnomaliesTags = ({ data, isActive }) => {
-  const [isSubmittingData, setIsSubmittingData] = useState(false);
-
   const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
   const {
     durationPercentile,
     consecutiveRuns,
@@ -51,28 +44,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
     consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.performanceAnomalies;
 
-  const setPerformanceAnomaliesSwitch = (key, value) => {
-    setIsSubmittingData(true);
-    dispatch(
-      saveSmartTagsChanges({
-        performanceAnomalies: {
-          ...data,
-          [key]: value
-        }
-      })
-    );
-    dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName
-      })
-    )
-      .unwrap()
-      .finally(() => {
-        setIsSubmittingData(false);
-      });
-  };
-
-  const setPerformanceAnomaliesDropdowns = (key, value) => {
+  const setPerformanceAnomalies = (key, value) => {
     dispatch(
       saveSmartTagsChanges({
         performanceAnomalies: {
@@ -94,27 +66,21 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
         >
           <O11ySwitcher
             checked={performanceAnomaliesEnabled}
-            onChange={(value) =>
-              setPerformanceAnomaliesSwitch('enabled', value)
-            }
+            onChange={(value) => setPerformanceAnomalies('enabled', value)}
             disabled={!isActive}
-            loading={isSubmittingData}
           />
         </PaywallTooltip>
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
       <div className="flex flex-col">
         <>
-          <div className="text-base-500 flex items-center">
-            Detect as anomaly when durationPercentile
-            <div className="text-base-900 mx-1 w-20">
+          <div className="text-base-500 flex flex-wrap items-center">
+            Test execution duration exceeding the
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: durationPercentile, value: durationPercentile }}
                 onChange={(item) =>
-                  setPerformanceAnomaliesDropdowns(
-                    'durationPercentile',
-                    item.value
-                  )
+                  setPerformanceAnomalies('durationPercentile', item.value)
                 }
                 defaultValue={{
                   label: durationPercentileDefault,
@@ -138,15 +104,12 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>
-            percentile among last
-            <div className="text-base-900 mx-1 w-16">
+            percentile duration among the last
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
-                  setPerformanceAnomaliesDropdowns(
-                    'consecutiveRuns',
-                    item.value
-                  )
+                  setPerformanceAnomalies('consecutiveRuns', item.value)
                 }
                 disabled={!isActive || !performanceAnomaliesEnabled}
                 defaultValue={{
@@ -170,7 +133,7 @@ export const PerformanceAnomaliesTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>{' '}
-            executions
+            runs of the same test
           </div>
         </>
       </div>

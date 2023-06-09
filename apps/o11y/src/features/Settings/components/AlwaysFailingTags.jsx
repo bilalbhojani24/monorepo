@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -9,19 +9,20 @@ import {
 } from 'common/bifrostProxy';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 import { PaywallTooltip } from 'features/Paywall';
-import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
-import {
-  saveSmartTagsChanges,
-  submitSmartTagsChanges
-} from '../slices/smartTagsSettings';
+import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const ALWAYS_FAILING_TAGS_DATA = [
-  { label: 'SAME ERROR', value: 'SAME_ERROR' },
-  { label: 'ANY ERROR', value: 'ANY_ERROR' }
+  { label: 'same', value: 'SAME' },
+  { label: 'any', value: 'ANY' }
 ];
+
+const ALWAYS_FAILING_TAGS_ENUM = {
+  SAME: 'same',
+  ANY: 'any'
+};
 
 const STATIC_DROPDOWN_DATA = [
   ...Array(29)
@@ -30,10 +31,7 @@ const STATIC_DROPDOWN_DATA = [
 ];
 
 export const AlwaysFailingTags = ({ data, isActive }) => {
-  const [isSubmittingData, setIsSubmittingData] = useState(false);
-
   const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
 
   const {
     failureType,
@@ -45,28 +43,7 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
     consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.alwaysFailing;
 
-  const setAlwaysFailingSwitch = (key, value) => {
-    setIsSubmittingData(true);
-    dispatch(
-      saveSmartTagsChanges({
-        alwaysFailing: {
-          ...data,
-          [key]: value
-        }
-      })
-    );
-    dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName
-      })
-    )
-      .unwrap()
-      .finally(() => {
-        setIsSubmittingData(false);
-      });
-  };
-
-  const setAlwaysFailingDropdowns = (key, value) => {
+  const setAlwaysFailing = (key, value) => {
     dispatch(
       saveSmartTagsChanges({
         alwaysFailing: {
@@ -88,9 +65,8 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
         >
           <O11ySwitcher
             checked={alwaysFailingSwitchEnabled}
-            onChange={(value) => setAlwaysFailingSwitch('enabled', value)}
+            onChange={(value) => setAlwaysFailing('enabled', value)}
             disabled={!isActive}
-            loading={isSubmittingData}
           />
         </PaywallTooltip>
       </div>
@@ -98,17 +74,18 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
       <div className="flex flex-col">
         <>
           <div className="text-base-500 flex items-center">
-            The test has been failing with
-            <div className="text-base-900 mx-1 w-20">
+            The test has been failing with the
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
-                value={{ label: failureType, value: failureType }}
+                value={{
+                  label: ALWAYS_FAILING_TAGS_ENUM[failureType],
+                  value: failureType
+                }}
                 defaultValue={{
                   label: errorTypeDefault,
                   value: errorTypeDefault
                 }}
-                onChange={(item) =>
-                  setAlwaysFailingDropdowns('failureType', item.value)
-                }
+                onChange={(item) => setAlwaysFailing('failureType', item.value)}
                 disabled={isActive ? !alwaysFailingSwitchEnabled : true}
               >
                 <O11ySelectMenuTrigger />
@@ -127,12 +104,12 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>
-            for last
-            <div className="text-base-900 mx-1 w-16">
+            error for the last
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
-                  setAlwaysFailingDropdowns('consecutiveRuns', item.value)
+                  setAlwaysFailing('consecutiveRuns', item.value)
                 }
                 disabled={isActive ? !alwaysFailingSwitchEnabled : true}
                 defaultValue={{

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdInfoOutline } from '@browserstack/bifrost';
+import { Alerts, MdInfoOutline, MdWarning } from '@browserstack/bifrost';
 import {
   O11yButton,
   O11yModal,
@@ -37,14 +37,29 @@ function SmartTagConfirmationModal() {
     <>
       <O11yModal
         show
-        size="md"
+        size="lg"
         onClose={handleCloseModal}
         onOverlayClick={handleCloseModal}
       >
         <O11yModalHeader
           handleDismissClick={handleCloseModal}
           heading="Confirm changes"
-          subHeading="Are you sure you want to update smart tags rules? All changes will be applicable for henceforth builds and will not impact builds ran before."
+          subHeading={
+            <div>
+              <Alerts
+                alertIcon={<MdWarning className="text-attention-500 h-4 w-4" />}
+                betaActionTitle="Dismiss"
+                description="Disabling smart tags will stop calculations of it henceforth."
+                detailsNode={null}
+                modifier="warn"
+              />
+              <span className="justify-start pt-3">
+                Are you sure you want to update smart tag rules? Changes will
+                only apply to future build runs and won&apos;t affect previous
+                ones.
+              </span>
+            </div>
+          }
           icon={
             <MdInfoOutline
               className="text-brand-600 h-6 w-6"

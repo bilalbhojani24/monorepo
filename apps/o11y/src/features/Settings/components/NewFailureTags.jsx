@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
   O11ySelectMenuOptionGroup,
@@ -9,20 +9,19 @@ import {
 } from 'common/bifrostProxy';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 import { PaywallTooltip } from 'features/Paywall';
-import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
-import {
-  saveSmartTagsChanges,
-  submitSmartTagsChanges
-} from '../slices/smartTagsSettings';
+import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const NEW_FAILURE_TYPES_DATA = [
-  { name: 'NEW', value: 'NEW' },
-  { name: 'ANY', value: 'ANY' }
+  { name: 'new', value: 'NEW' },
+  { name: 'any', value: 'ANY' }
 ];
-
+const NEW_FAILURE_TYPES_ENUM = {
+  NEW: 'new',
+  ANY: 'any'
+};
 const STATIC_DROPDOWN_DATA = [
   ...Array(29)
     .fill(0)
@@ -30,38 +29,14 @@ const STATIC_DROPDOWN_DATA = [
 ];
 
 export const NewFailureTags = ({ data, isActive }) => {
-  const [isSubmittingData, setIsSubmittingData] = useState(false);
-
   const dispatch = useDispatch();
-  const activeProject = useSelector(getActiveProject);
   const { failureType, consecutiveRuns, enabled: newFailureEnabled } = data;
   const {
     failureType: failureTypeDefault,
     consecutiveRuns: consecutiveRunsDefault
   } = SMART_TAGS_DEFAULT_VALUES.newFailure;
 
-  const setNewFailureSwitch = (key, value) => {
-    setIsSubmittingData(true);
-    dispatch(
-      saveSmartTagsChanges({
-        newFailure: {
-          ...data,
-          [key]: value
-        }
-      })
-    );
-    dispatch(
-      submitSmartTagsChanges({
-        projectNormalisedName: activeProject.normalisedName
-      })
-    )
-      .unwrap()
-      .finally(() => {
-        setIsSubmittingData(false);
-      });
-  };
-
-  const setNewFailureDropdowns = (key, value) => {
+  const setNewFailure = (key, value) => {
     dispatch(
       saveSmartTagsChanges({
         newFailure: {
@@ -82,9 +57,8 @@ export const NewFailureTags = ({ data, isActive }) => {
         >
           <O11ySwitcher
             checked={newFailureEnabled}
-            onChange={(value) => setNewFailureSwitch('enabled', value)}
+            onChange={(value) => setNewFailure('enabled', value)}
             disabled={!isActive}
-            loading={isSubmittingData}
           />
         </PaywallTooltip>
       </div>
@@ -92,13 +66,14 @@ export const NewFailureTags = ({ data, isActive }) => {
       <div className="flex flex-col">
         <>
           <div className="text-base-500 flex items-center">
-            Any test failing with
-            <div className="text-base-900 mx-1 w-20">
+            The test has failed with a
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
-                value={{ label: failureType, value: failureType }}
-                onChange={(item) =>
-                  setNewFailureDropdowns('failureType', item.value)
-                }
+                value={{
+                  label: NEW_FAILURE_TYPES_ENUM[failureType],
+                  value: failureType
+                }}
+                onChange={(item) => setNewFailure('failureType', item.value)}
                 defaultValue={{
                   label: failureTypeDefault,
                   value: failureTypeDefault
@@ -121,12 +96,12 @@ export const NewFailureTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>
-            for the first time among last
-            <div className="text-base-900 mx-1 w-16">
+            for the first time among the last
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
                 onChange={(item) =>
-                  setNewFailureDropdowns('consecutiveRuns', item.value)
+                  setNewFailure('consecutiveRuns', item.value)
                 }
                 defaultValue={{
                   label: consecutiveRunsDefault,
@@ -150,7 +125,7 @@ export const NewFailureTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>{' '}
-            consecutive runs
+            runs
           </div>
         </>
       </div>

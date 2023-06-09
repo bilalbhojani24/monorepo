@@ -133,7 +133,7 @@ export const SMART_TAGS_DEFAULT_VALUES = {
     automaticFlaky: true,
     flakeInHistory: {
       enabled: true,
-      flippingPercentage: 10,
+      flippingCount: 5,
       consecutiveRuns: 10
     },
     flakeInRerun: {
@@ -143,17 +143,17 @@ export const SMART_TAGS_DEFAULT_VALUES = {
   },
   alwaysFailing: {
     enabled: true,
-    failureType: 'same error',
+    failureType: 'SAME',
     consecutiveRuns: 5
   },
   newFailure: {
     enabled: true,
-    failureType: 'new',
+    failureType: 'NEW',
     consecutiveRuns: 5
   },
   performanceAnomalies: {
     enabled: true,
-    durationPercentile: 80,
+    durationPercentile: 95,
     consecutiveRuns: 30
   }
 };
