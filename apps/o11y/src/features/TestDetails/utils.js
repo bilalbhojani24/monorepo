@@ -26,9 +26,9 @@ const FORMAT_EXCLUDE_KEYWORDS = [
   'fullscreen'
 ];
 
-export const getVideoSeekTime = (currentTime, endOffset) => {
+export const getVideoSeekTime = (currentTime, isSessionEnabled, endOffset) => {
   const endTime = Math.ceil(endOffset / 1000);
-  if (currentTime >= endTime) {
+  if (currentTime >= endTime && !isSessionEnabled) {
     return endTime;
   }
   return currentTime;

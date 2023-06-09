@@ -124,6 +124,7 @@ const TestVideoPlayer = ({ videoRef, floatingVideoRef }) => {
       floatingVideoComponent.seekTo(
         getVideoSeekTime(
           videoComponent.getCurrentTime(),
+          sessionTestToggle,
           details.data.videoLogs?.finishOffset
         )
       );
@@ -143,6 +144,7 @@ const TestVideoPlayer = ({ videoRef, floatingVideoRef }) => {
       videoComponent.seekTo(
         getVideoSeekTime(
           floatingVideoComponent.getCurrentTime(),
+          sessionTestToggle,
           details.data.videoLogs?.finishOffset
         )
       );

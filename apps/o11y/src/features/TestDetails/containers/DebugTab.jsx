@@ -106,14 +106,22 @@ const DebugTab = () => {
       const floatingVideoComponent = floatingVideoComponentRef.current;
       if (videoComponent && floatingVideoComponent) {
         videoComponent.seekTo(
-          getVideoSeekTime(duration, details.data.videoLogs?.finishOffset)
+          getVideoSeekTime(
+            duration,
+            sessionTestToggle,
+            details.data.videoLogs?.finishOffset
+          )
         );
         floatingVideoComponent.seekTo(
-          getVideoSeekTime(duration, details.data.videoLogs?.finishOffset)
+          getVideoSeekTime(
+            duration,
+            sessionTestToggle,
+            details.data.videoLogs?.finishOffset
+          )
         );
       }
     },
-    [details.data.videoLogs?.finishOffset]
+    [details.data.videoLogs?.finishOffset, sessionTestToggle]
   );
 
   const handleScrollIntoView = useCallback((distance) => {
