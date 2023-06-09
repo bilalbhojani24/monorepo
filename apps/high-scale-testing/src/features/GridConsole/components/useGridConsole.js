@@ -47,6 +47,17 @@ const useGridConsole = () => {
   ]);
 
   const dropdownHandler = (value) => {
+    let actionValue = '';
+    if (value.value === 'CLI') {
+      actionValue = 'gridcustomizations_selected';
+    } else if (value.value === 'Helm') {
+      actionValue = 'helmkubectl_selected';
+    }
+
+    logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+      action: actionValue
+    });
+
     navigate(`${ROUTES.CREATE_GRID}?type=${value.value}`);
   };
 
