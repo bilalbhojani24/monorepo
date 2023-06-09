@@ -10,12 +10,17 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 import CopyButton from 'common/CopyButton';
+import cloudIcons from 'constants/cloudIcons';
 
 import useClusterOverview from './useClusterOverview';
 
 const ClusterOverview = () => {
-  const { containerClassName, fontColor900ClassName, clusterData } =
-    useClusterOverview();
+  const {
+    containerClassName,
+    fontColor900ClassName,
+    clusterData,
+    vpcCopiedCallbackFn
+  } = useClusterOverview();
 
   const commonClassName =
     'border-base-200 flex flex-row items-center border-b py-3 text-sm justify-between';
@@ -102,7 +107,15 @@ const ClusterOverview = () => {
               return (
                 <div>
                   <p className="text-base-500 text-sm font-normal">{title}</p>
-                  <p className={fontColor900ClassName}>{value}</p>
+
+                  {title === 'Cloud Provider' ? (
+                    <div className="flex gap-x-2">
+                      <span>{cloudIcons[value]}</span>{' '}
+                      <p className={fontColor900ClassName}>{value}</p>
+                    </div>
+                  ) : (
+                    <p className={fontColor900ClassName}>{value}</p>
+                  )}
                 </div>
               );
             })}
@@ -118,17 +131,17 @@ const ClusterOverview = () => {
           <div className="mt-6">
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center">
-                <MdAddLink />
-                <div className="ml-2 mr-6 text-base text-base-500">
+                <div className="text-base-500 ml-2 mr-6 text-base">
                   <p>VPC ID</p>
                 </div>
               </div>
 
               <div className="flex w-2/3 justify-between">
-                <div className="mr-4 text-base-900">
+                <div className="text-base-900 mr-4">
                   <p>{profile?.vpcs}</p>
                 </div>
                 <CopyButton
+                  cb={vpcCopiedCallbackFn}
                   copyValue={profile?.vpcs}
                   textColor=""
                   wrapperClassName="text-xl"
@@ -138,13 +151,12 @@ const ClusterOverview = () => {
               </div>
             </div>
             <div className={commonClassName}>
-              <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
-                <div className="ml-2 text-base  mr-6">
+              <div className="text-base-500 flex w-1/3 items-center">
+                <div className="ml-2 mr-6  text-base">
                   <p>Domain</p>
                 </div>
               </div>
-              <div className="flex w-2/3 justify-between text-base-900">
+              <div className="text-base-900 flex w-2/3 justify-between">
                 <div className="mr-4">
                   <p>{profile?.domain}</p>
                 </div>
@@ -158,14 +170,13 @@ const ClusterOverview = () => {
               </div>
             </div>
             <div className={commonClassName}>
-              <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
-                <div className="ml-2 text-base mr-6">
+              <div className="text-base-500 flex w-1/3 items-center">
+                <div className="ml-2 mr-6 text-base">
                   <p>Subnets</p>
                 </div>
               </div>
 
-              <div className="flex w-2/3 justify-between text-base-900">
+              <div className="text-base-900 flex w-2/3 justify-between">
                 <div className="mr-4">
                   <p>{profile?.subnets.join(',')}</p>
                 </div>
