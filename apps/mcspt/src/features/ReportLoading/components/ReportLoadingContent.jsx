@@ -10,7 +10,7 @@ const ReportLoadingContent = () => {
   const { sessionState } = useReportLoadingContent();
 
   return (
-    <div className="flex-1 overflow-scroll px-4 py-2">
+    <div className="flex flex-1 flex-col overflow-scroll px-4 py-2">
       {sessionState !== REPORT_LOADING_STATES.RECORDING && (
         <div className="mt-6">
           <DeviceDescriptionList />
@@ -18,9 +18,7 @@ const ReportLoadingContent = () => {
       )}
 
       {sessionState === REPORT_LOADING_STATES.RECORDING && (
-        <div className="mt-6">
-          <RealtimeMetricGraphs />
-        </div>
+        <RealtimeMetricGraphs />
       )}
 
       {(sessionState === REPORT_LOADING_STATES.STOPPING ||
