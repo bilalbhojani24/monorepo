@@ -56,7 +56,7 @@ const FilterPills = ({
   return (
     <div
       className={twClassNames(
-        'flex items-center justify-between',
+        'flex items-center justify-between mt-4',
         wrapperClassName
       )}
     >
