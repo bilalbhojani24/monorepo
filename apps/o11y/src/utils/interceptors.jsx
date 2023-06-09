@@ -103,9 +103,6 @@ const getErrorDescription = (err) => {
   } else {
     description += 'Some technical error occurred. Please try again.';
   }
-  if (err?.response?.status >= 500) {
-    description += 'If this issue persists';
-  }
   return description;
 };
 

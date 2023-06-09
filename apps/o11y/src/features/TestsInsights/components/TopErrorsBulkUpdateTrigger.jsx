@@ -35,7 +35,7 @@ export default function TopErrorsBulkUpdateTrigger({ clusterId, buildId }) {
         content={
           <TooltipBody>
             <p className="text-base-300 text-sm">
-              Bulk tagging is not available for archived build.
+              Bulk tagging is not available for archived build run.
             </p>
           </TooltipBody>
         }
