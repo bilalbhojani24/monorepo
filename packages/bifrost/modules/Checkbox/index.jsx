@@ -44,7 +44,7 @@ const Checkbox = ({
         {
           'border-t border-b border-base-200 divide-y divide-base-200 py-4':
             border && !isCard,
-          'opacity-25 cursor-not-allowed': disabled
+          'cursor-not-allowed': disabled
         },
         wrapperClassName
       )}
@@ -64,7 +64,8 @@ const Checkbox = ({
             className={twClassNames(
               'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded',
               {
-                'cursor-not-allowed': disabled
+                'bg-base-50 cursor-not-allowed': disabled,
+                'text-brand-200': (checked || defaultChecked) && disabled
               }
             )}
             defaultChecked={defaultChecked}
@@ -77,6 +78,7 @@ const Checkbox = ({
         {data ? (
           <div
             className={twClassNames('min-w-0 flex-1 text-sm', {
+              'opacity-25': disabled,
               'ml-3':
                 position === CHECKBOX_POSITION_VARIANT.left &&
                 (data.label ||
@@ -88,7 +90,6 @@ const Checkbox = ({
               htmlFor={`${name}${data.value}`}
               className={twClassNames('text-base-700 select-none font-medium', {
                 'flex flex-row items-center gap-1.5': icon,
-                'cursor-not-allowed': disabled,
                 block: isFullWidthLabel
               })}
             >
