@@ -8,14 +8,13 @@ import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import { getClusterData } from 'features/ClusterDetail/slices/selector';
 import { setFetchedGridData } from 'globalSlice/index';
-import { getUserDetails } from 'globalSlice/selector';
+import { getFetchedGridData, getUserDetails } from 'globalSlice/selector';
 
 import { setClusterData, setGridData } from '../slices';
 import { getGridData } from '../slices/selector';
 
 const useGridConsole = () => {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
   const options = [
@@ -29,6 +28,7 @@ const useGridConsole = () => {
 
   // All Store variables
   const clusterData = useSelector(getClusterData);
+  const fetchedGridData = useSelector(getFetchedGridData);
   const gridData = useSelector(getGridData);
   const userDetails = useSelector(getUserDetails);
 
@@ -47,17 +47,33 @@ const useGridConsole = () => {
   ]);
 
   const dropdownHandler = (value) => {
+    if (value.value === 'CLI') {
+      actionValue = 'gridcustomizations_selected';
+    } else if (value.value === 'Helm') {
+      actionValue = 'helmkubectl_selected';
+    }
+
+    logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteractedm {
+      action: actionValue
+    });
+
     navigate(`${ROUTES.CREATE_GRID}?type=${value.value}`);
   };
 
   const tabChangeHandler = (e) => {
     if (e.value === 'grids') {
       logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'grids_clicked'
+        action: 'grids_clicked',
+        cluster_count: clusterData.length,
+        fetched_grid_data: fetchedGridData,
+        grid_count: gridData.length
       });
     } else if (e.value === 'clusters') {
       logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'clusters_clicked'
+        action: 'clusters_clicked',
+        cluster_count: clusterData.length,
+        fetched_grid_data: fetchedGridData,
+        grid_count: gridData.length
       });
     }
     setCurrentListingType(e);

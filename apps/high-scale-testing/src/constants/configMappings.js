@@ -1,6 +1,7 @@
 const configMappings = {
   local: {
-    baseUrl: '',
+    baseUrl: 'https://localhost:5173',
+    docHomeURL: 'https://browserstack.com/docs',
     enableAnalytics: false,
     enableSentry: false
   },

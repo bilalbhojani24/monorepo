@@ -245,7 +245,23 @@ browserstack-cli hst init`,
   };
 
   const logViewDocumentationEvents = () => {
-    logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+    let eventName = '';
+
+    if (onboardingStep === 0) {
+      eventName = AGSetupGuideInteracted;
+    } else if (
+      onboardingStep === 1 &&
+      onboardingType === ONBOARDING_TYPES.scratch
+    ) {
+      eventName = AGNoSetupInteracted;
+    } else if (
+      onboardingStep === 1 &&
+      onboardingType === ONBOARDING_TYPES.existing
+    ) {
+      eventName = AGHaveSetupInteracted;
+    }
+
+    logEvent(['amplitude'], 'web_events', eventName, {
       action: 'viewdoc_clicked'
     });
   };
