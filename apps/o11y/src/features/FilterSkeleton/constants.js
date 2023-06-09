@@ -92,6 +92,11 @@ export const ADV_FILTER_TYPES = {
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
+  issueTypeGroup: {
+    key: 'issueTypeGroup',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
+  },
   deviceList: {
     key: 'deviceList',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
@@ -131,6 +136,7 @@ export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.hasJiraDefects.key]: 'Has JIRA Defects',
   [ADV_FILTER_TYPES.isMuted.key]: 'Is Muted',
   [ADV_FILTER_TYPES.failureCategories.key]: 'Failure Categories',
+  [ADV_FILTER_TYPES.issueTypeGroup.key]: 'Failure Category Group',
   [ADV_FILTER_TYPES.deviceList.key]: 'Device',
   [ADV_FILTER_TYPES.osList.key]: 'OS',
   [ADV_FILTER_TYPES.browserList.key]: 'Browser',
