@@ -30,8 +30,10 @@ export const getQuickImportResultAPI = async (id) =>
 export const dismissNotificationAPI = async (id) =>
   fetchPost(`/api/v1/import/quick/${id}/dismiss_notification`);
 
-export const retryImportAPI = async (id, tool) =>
-  fetchGet(`/api/v1/import/${tool}/quick/${id}/retry`);
+export const retryImportAPI = async (id, tool) => {
+  if (id && tool) fetchGet(`/api/v1/import/${tool}/quick/${id}/retry`);
+  else throw new Error('importId and tool not found!');
+};
 
 export const dismissProgressBarAPI = async (importId) =>
   fetchPost(`/api/v1/import/quick/${importId}/dismiss_progress_banner`);
