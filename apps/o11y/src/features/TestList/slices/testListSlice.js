@@ -248,7 +248,9 @@ const { actions, reducer } = createSlice({
         };
         const prevValue = state.testList?.data?.hierarchy || [];
         state.testList.data = {
-          hierarchy: [...prevValue, ...payload.hierarchy],
+          hierarchy: payload?.sentData?.loadNextPage
+            ? [...prevValue, ...payload.hierarchy]
+            : payload.hierarchy,
           pagingParams: payload.pagingParams,
           buildId: payload.buildId,
           status: payload.status

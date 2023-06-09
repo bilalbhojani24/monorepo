@@ -85,7 +85,8 @@ export default function Folders() {
             <TMButton
               variant="primary"
               colors="white"
-              wrapperClassName="ml-2 p-2"
+              wrapperClassName="ml-2 my-1"
+              isIconOnlyButton
               size="extra-small"
               onClick={() => showAddFolderModal()}
             >

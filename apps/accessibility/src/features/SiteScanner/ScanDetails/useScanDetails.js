@@ -8,10 +8,10 @@ import {
 } from '../../../api/siteScannerScanConfigs';
 import { getUser } from '../../Dashboard/slices/selectors';
 import {
+  clearCommonData,
   clearScanOverviewData,
   getScanOverview,
-  getScanRuns,
-  clearCommonData
+  getScanRuns
 } from '../slices/dataSlice';
 import {
   getScanOverviewData,

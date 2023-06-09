@@ -45,7 +45,7 @@ const BrowsersSettings = () => {
         <>
           <div className="overflow-auto p-6">
             <p className="text-base-900 text-lg font-medium">
-              Browser Related Settings
+              Browser Settings
             </p>
             <p className="text-base-500 text-sm">
               Configure the settings related to browsers set up on this Grid.
