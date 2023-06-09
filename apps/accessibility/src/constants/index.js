@@ -216,3 +216,22 @@ export const ANALYTICS_KEYS = {
     }
   }
 };
+
+export const sentryConfig = {
+  dsn: SENTRY_DSN,
+  debug: false,
+  release: 'v0.1-a11y',
+  environment: 'production',
+  tracesSampleRate: 1.0,
+  denyUrls: [
+    // Ignoring errors getting generated from Chrome extensions as these are not to be logged under our sentry env.
+    /extensions\//i,
+    /^chrome:\/\//i,
+    /extension:\//i,
+    // Ignoring VWO related errors as there is no specific library upgrade which can resolve the errors.
+    // Also the errors we are getting are more or less specfic to some of the users.
+    /https:\/\/dev.visualwebsiteoptimizer.com\/.*/gi,
+    // Ignore errors getting raised from freshchat widget related code.
+    /https:\/\/wchat.freshchat.com\/.*/gi
+  ]
+};

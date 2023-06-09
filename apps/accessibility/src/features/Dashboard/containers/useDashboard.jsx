@@ -13,7 +13,7 @@ import {
   setErrorLoggerUserContext,
   setStorage
 } from '@browserstack/utils';
-import { CHROME_EXTENSION_URL, events, SENTRY_DSN } from 'constants';
+import { CHROME_EXTENSION_URL, events, sentryConfig } from 'constants';
 import { stagingEnvs } from 'constants/config';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
@@ -130,24 +130,7 @@ export default function useDashboard() {
     const { enableSentry } = envConfig;
     if (enableSentry && !window.isSentryInitialized) {
       window.isSentryInitialized = true;
-      initErrorLogger({
-        dsn: SENTRY_DSN,
-        debug: false,
-        release: 'v0.1-o11y',
-        environment: 'production',
-        tracesSampleRate: 1.0,
-        denyUrls: [
-          // Ignoring errors getting generated from Chrome extensions as these are not to be logged under our sentry env.
-          /extensions\//i,
-          /^chrome:\/\//i,
-          /extension:\//i,
-          // Ignoring VWO related errors as there is no specific library upgrade which can resolve the errors.
-          // Also the errors we are getting are more or less specfic to some of the users.
-          /https:\/\/dev.visualwebsiteoptimizer.com\/.*/gi,
-          // Ignore errors getting raised from freshchat widget related code.
-          /https:\/\/wchat.freshchat.com\/.*/gi
-        ]
-      });
+      initErrorLogger(sentryConfig);
     }
     if (user.user_id && window.isSentryInitialized) {
       setErrorLoggerUserContext(user.user_id);
