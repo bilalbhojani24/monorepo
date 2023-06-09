@@ -157,7 +157,7 @@ function ReqFrameworkModal() {
                 ))}
               </O11yStackedList>
             ) : (
-              <div className="flex h-72 flex-col items-center justify-center p-12">
+              <div className="flex h-3/4 flex-col items-center justify-center p-12">
                 <O11yEmptyState
                   title="No Results Found"
                   description="No matching results found. Try searching with another combination"

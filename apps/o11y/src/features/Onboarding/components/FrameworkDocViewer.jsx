@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdArrowBack } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import ReqDemoButton from 'common/ReqDemoButton';
-import { URL_REGEX } from 'constants/common';
-import { ROUTES } from 'constants/routes';
-import { getHeaderSize, getProjects } from 'globalSlice/selectors';
+import { PUSHER_EVENTS, URL_REGEX } from 'constants/common';
+import { findAndSetProjectActive } from 'globalSlice/index';
+import { getHeaderSize, getProjects, getUserId } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { getDocUrl, logOllyEvent } from 'utils/common';
+
+import { skipToDashboard } from '../utils';
 
 const getDomainName = (hostName) =>
   hostName.substring(
@@ -26,11 +27,31 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
   const [isLoading, setIsLoading] = useState(true);
   const headerSize = useSelector(getHeaderSize);
   const projects = useSelector(getProjects);
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userId = useSelector(getUserId);
 
   const onLoad = () => {
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    const unSubscribe = window.pubSub.subscribe(
+      PUSHER_EVENTS.BUILD_STARTED,
+      (payload) => {
+        if (payload?.user_id === userId) {
+          dispatch(
+            findAndSetProjectActive({
+              projectNormalisedName: payload?.projectNormalisedName || ''
+            })
+          );
+          dispatch(skipToDashboard(payload?.projectNormalisedName));
+        }
+      }
+    );
+    return () => {
+      unSubscribe();
+    };
+  }, [dispatch, userId]);
 
   useEffect(() => {
     if (selectedFramework.name) {
@@ -73,7 +94,7 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
 
   const handleClickSkipToDashboard = () => {
     handleInteraction('Skip to Dashboard Clicked');
-    navigate(ROUTES.projects);
+    dispatch(skipToDashboard());
   };
 
   return (

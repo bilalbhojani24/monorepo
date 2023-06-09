@@ -7,12 +7,12 @@ import { O11yButton } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import ReqDemoButton from 'common/ReqDemoButton';
 import { MODAL_TYPES } from 'constants/modalTypes';
-import { ROUTES } from 'constants/routes';
 import { getHeaderSize, getProjects } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 
 import FrameworkDocViewer from '../components/FrameworkDocViewer';
 import { FRAMEWORK_IDS, FRAMEWORKS } from '../constants';
+import { skipToDashboard } from '../utils';
 
 export default function OnboardingFrameworkSelector() {
   const dispatch = useDispatch();
@@ -59,7 +59,7 @@ export default function OnboardingFrameworkSelector() {
 
   const handleClickSkipToDashboard = () => {
     handleInteraction('Skip to Dashboard Clicked');
-    navigate(ROUTES.projects);
+    dispatch(skipToDashboard());
   };
 
   if (selectedFramework) {

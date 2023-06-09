@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import {
@@ -6,7 +6,7 @@ import {
   MdOutlineDashboard,
   MdOutlineRunningWithErrors,
   MdOutlineStackedLineChart,
-  MdPlayCircle
+  MdPlayArrow
 } from '@browserstack/bifrost';
 import { requestO11yAccess } from 'api/global';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
@@ -15,7 +15,11 @@ import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { setHasAcceptedTnC } from 'globalSlice/index';
 import { getHeaderSize, getInitData } from 'globalSlice/selectors';
-import { getDocUrl, logOllyEvent } from 'utils/common';
+import {
+  getDocUrl,
+  getFullScreenChangeEventName,
+  logOllyEvent
+} from 'utils/common';
 
 const DEMO_VIDEO =
   'https://www.browserstack.com/docs/static/img/test-observability/what-is-test-observability/test-observability-demo.mp4';
@@ -31,6 +35,36 @@ function RequestAccess() {
   useEffect(() => {
     logOllyEvent({ event: 'O11yGetAccessPageVisited' });
   }, []);
+
+  const logInteractionEvent = useCallback((interaction) => {
+    logOllyEvent({
+      event: 'O11yGetAccessPageInteracted',
+      data: {
+        interaction
+      }
+    });
+  }, []);
+
+  const onFullScreen = useCallback(() => {
+    const fullscreenElement =
+      document.fullscreenElement /* Standard syntax */ ||
+      document.webkitFullscreenElement /* Chrome, Safari and Opera syntax */ ||
+      document.mozFullScreenElement /* Firefox syntax */ ||
+      document.msFullscreenElement;
+    if (fullscreenElement) {
+      logInteractionEvent('full_screen_clicked');
+    } else {
+      logInteractionEvent('exit_full_screen_clicked');
+    }
+  }, [logInteractionEvent]);
+
+  useEffect(() => {
+    const fullscreenChangeEvent = getFullScreenChangeEventName();
+    window.addEventListener(fullscreenChangeEvent, onFullScreen, false);
+    return () => {
+      window.removeEventListener(fullscreenChangeEvent, onFullScreen, false);
+    };
+  }, [onFullScreen]);
 
   if (!initData.isLoading && initData.data?.hasAcceptedTnC) {
     return <Navigate to={ROUTES.get_started} />;
@@ -51,6 +85,7 @@ function RequestAccess() {
   const handleClickPlay = () => {
     if (videRef.current) {
       videRef.current?.play();
+      logInteractionEvent('first_unmute');
       setHasClickedPlay(true);
     }
   };
@@ -122,6 +157,7 @@ function RequestAccess() {
                 target="_blank"
                 wrapperClassName="inline font-normal text-xs underline text-base-800 hover:text-brand-600"
                 href={getDocUrl({ path: DOC_KEY_MAPPING.tnc })}
+                onClick={() => logInteractionEvent('t&c_viewed')}
               >
                 terms & conditions
               </O11yHyperlink>
@@ -141,18 +177,23 @@ function RequestAccess() {
             muted={!hasClickedPlay}
             playsinline
             loop
+            onRateChange={() => logInteractionEvent('speed_changed')}
+            onPause={() => logInteractionEvent('stopped')}
+            onSeeked={() => logInteractionEvent('seeked')}
           >
             <source src={DEMO_VIDEO} type="video/mp4" />
           </video>
           {!hasClickedPlay && (
             <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
-              <button
-                type="button"
-                className="rounded-full bg-white hover:shadow-lg"
+              <O11yButton
+                variant="rounded"
+                size="large"
+                icon={<MdPlayArrow className="" />}
+                wrapperClassName="hover:shadow-lg"
                 onClick={handleClickPlay}
               >
-                <MdPlayCircle className="text-base-900 h-12 w-12" />
-              </button>
+                Watch demo (5 min)
+              </O11yButton>
             </div>
           )}
         </div>

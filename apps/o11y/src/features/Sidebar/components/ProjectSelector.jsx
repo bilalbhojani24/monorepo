@@ -7,7 +7,7 @@ import {
   useLocation,
   useNavigate
 } from 'react-router-dom';
-import { MdAdd, MdOpenInNew } from '@browserstack/bifrost';
+import { MdAdd, MdOutlineFolderOpen } from '@browserstack/bifrost';
 import { O11yComboBox } from 'common/bifrostProxy';
 import { ROUTES } from 'constants/routes';
 import { resetAllAppliedFilters } from 'features/FilterSkeleton/utils';
@@ -16,6 +16,7 @@ import { setIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/dataSl
 import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { setActiveProject } from 'globalSlice';
 import { getProjects } from 'globalSlice/selectors';
+import { logOllyEvent } from 'utils/common';
 import { getProjectBuildsPath, isBuildsPage } from 'utils/routeUtils';
 
 const ROUTES_ARRAY = Object.values(ROUTES).map((route) => ({ path: route }));
@@ -25,18 +26,32 @@ const STICKY_CLASSES = {
     'text-brand-600 hover:text-brand-500 hover:bg-base-50 flex w-full justify-between py-2 pl-3 pr-4 text-sm'
 };
 
-const ProjectSelectorStickyFooter = () => (
-  <>
-    <Link to={ROUTES.get_started} className={STICKY_CLASSES.parentClass}>
-      <span>New project</span>
-      <MdAdd className="text-xl" />
-    </Link>
-    <Link to={ROUTES.projects} className={STICKY_CLASSES.parentClass}>
-      <span>View all projects</span>
-      <MdOpenInNew className="text-xl" />
-    </Link>
-  </>
-);
+const ProjectSelectorStickyFooter = () => {
+  const handleClickNewProject = () => {
+    logOllyEvent({
+      event: 'O11yProjectListingNewProjectClicked',
+      data: {
+        source: 'sidebar'
+      }
+    });
+  };
+  return (
+    <>
+      <Link
+        to={ROUTES.get_started}
+        className={STICKY_CLASSES.parentClass}
+        onClick={handleClickNewProject}
+      >
+        <span>New project</span>
+        <MdAdd className="text-xl" />
+      </Link>
+      <Link to={ROUTES.projects} className={STICKY_CLASSES.parentClass}>
+        <span>View all projects</span>
+        <MdOutlineFolderOpen className="text-xl" />
+      </Link>
+    </>
+  );
+};
 
 export default function ProjectSelector() {
   const projects = useSelector(getProjects);

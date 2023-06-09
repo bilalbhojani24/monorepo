@@ -89,7 +89,23 @@ export default function ProjectList() {
   }
 
   const handleClickNewProject = () => {
+    logOllyEvent({
+      event: 'O11yProjectListingNewProjectClicked',
+      data: {
+        num_projects: projects.list.length,
+        source: 'project listing'
+      }
+    });
     navigate(ROUTES.get_started);
+  };
+
+  const handleClickViewDocumentation = () => {
+    logOllyEvent({
+      event: 'O11yProjectListingViewDocumentationClicked',
+      data: {
+        num_projects: projects.list.length
+      }
+    });
   };
 
   return (
@@ -163,6 +179,7 @@ export default function ProjectList() {
         )}
         <div className="flex justify-center bg-white px-6 pb-6 pt-4">
           <O11yHyperlink
+            onClick={handleClickViewDocumentation}
             target="_blank"
             href={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
             wrapperClassName="text-sm leading-5 font-medium text-base-700 hover:text-brand-700"
