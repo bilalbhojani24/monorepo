@@ -106,7 +106,7 @@ const useImport = () => {
 
     getLatestQuickImportConfigAPI()
       .then((response) => {
-        const testTool = response.import_type.split('_')[0];
+        const testTool = response?.import_type?.split('_')[0];
         dispatch(setCurrentTestManagementTool(testTool));
         dispatch(retryQuickImport(true));
       })
