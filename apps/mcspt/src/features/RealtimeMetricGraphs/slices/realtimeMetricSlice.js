@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { GRAPH_EVENT_MAP } from '../utils/realtimeGraphUtils';
 
 const initialState = {
-  socketConnectionLoading: false,
+  socketConnectionLoading: true,
   socketConnectionFailed: false,
   realtimeThresholds: {},
   CPU_REALTIME_GRAPH: [],
@@ -13,7 +13,8 @@ const initialState = {
   NETWROK_UPLOAD_GRAPH: [],
   NETWORK_DOWNLOAD_GRAPH: [],
   DISK_READ_GRAPH: [],
-  DISK_WRITE_GRAPH: []
+  DISK_WRITE_GRAPH: [],
+  BATTERY_REALTIME_GRAPH: []
 };
 
 export const realtimeMetricSlice = createSlice({
@@ -65,6 +66,9 @@ export const getSlowFramesRealtimeData = (state) =>
 export const getMemoryTimeSeriesData = (state) =>
   state.realtimeMetrics.MEMORY_REALTIME_GRAPH;
 
+export const getBatteryTimeSeriesData = (state) =>
+  state.realtimeMetrics.BATTERY_REALTIME_GRAPH;
+
 export const getDiskReadTimeSeriesData = (state) =>
   state.realtimeMetrics.DISK_READ_GRAPH;
 
@@ -87,7 +91,9 @@ export const getIsSocketConnectionFailed = (state) =>
 export const {
   updateRealTimeGraph,
   setRealtimeThresholds,
-  resetRealtimeMetrics
+  resetRealtimeMetrics,
+  setIsSocketConnectionLoading,
+  setIsSocketConnectionFailed
 } = realtimeMetricSlice.actions;
 
 export default realtimeMetricSlice.reducer;

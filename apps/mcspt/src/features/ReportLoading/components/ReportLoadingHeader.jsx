@@ -17,7 +17,7 @@ const ReportLoadingHeader = ({
     useReportLoadingHeader();
 
   return (
-    <div className="flex items-center justify-between border-b border-base-300 p-4 text-base-500">
+    <div className="border-base-300 text-base-500 flex items-center justify-between border-b px-4 py-2">
       <div className="flex items-center">
         <div className="cursor-pointer text-xl">
           <MdChevronLeft

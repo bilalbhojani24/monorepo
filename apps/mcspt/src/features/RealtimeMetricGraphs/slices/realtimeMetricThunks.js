@@ -1,11 +1,17 @@
 import { fetchDefaultThresholds } from 'api/thresholds';
 import { subscribeMcpPusher } from 'utils/socketConnectionManager';
 
-import { setRealtimeThresholds } from './realtimeMetricSlice';
+import {
+  setIsSocketConnectionFailed,
+  setIsSocketConnectionLoading,
+  setRealtimeThresholds
+} from './realtimeMetricSlice';
 
 export const getRealtimeMetricThresholdsAndSubscribe =
   (sessionId) => async (dispatch) => {
     try {
+      dispatch(setIsSocketConnectionLoading(true));
+
       const response = await fetchDefaultThresholds();
 
       dispatch(setRealtimeThresholds(response?.threshold));
@@ -17,6 +23,7 @@ export const getRealtimeMetricThresholdsAndSubscribe =
         })
       );
     } catch (error) {
-      // handle when defined by pm
+      dispatch(setIsSocketConnectionLoading(false));
+      dispatch(setIsSocketConnectionFailed(true));
     }
   };

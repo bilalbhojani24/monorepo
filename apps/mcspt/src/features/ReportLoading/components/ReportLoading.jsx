@@ -24,7 +24,7 @@ const ReportLoading = () => {
         setShowGenerateReportPrompt={setShowGenerateReportPrompt}
       />
 
-      <div className="bg-base-50 flex flex-1">
+      <div className="bg-base-50 flex flex-1 overflow-hidden">
         <ReportLoadingSidebar />
 
         <ReportLoadingContent

@@ -1,5 +1,8 @@
 import React from 'react';
 
+import useRealtimeMetricGraphs from '../hooks/useRealtimeMetricGraphs';
+
+import BatteryRealtimeGraph from './BatteryRealtimeGraph';
 import CPURealtimeGraph from './CPURealtimeGraph';
 import DiskReadRealtimeGraph from './DiskReadRealtimeGraph';
 import DiskWriteRealtimeGraph from './DiskWriteRealtimeGraph';
@@ -9,24 +12,35 @@ import NetworkDownloadRealtimeGraph from './NetworkDownloadRealtimeGraph';
 import NetworkUploadRealtimeGraph from './NetworkUploadRealtimeGraph';
 import SlowFramesRealtimeGraph from './SlowFramesRealtimeGraph';
 
-const RealtimeMetricGraphs = () => (
-  <div>
-    <CPURealtimeGraph />
+const RealtimeMetricGraphs = () => {
+  const { isSocketConnectionLoading, isSocketConnectionFailed } =
+    useRealtimeMetricGraphs();
 
-    <MemoryRealtimeGraph />
+  return (
+    <div id="realtimeMetricsContainer">
+      {isSocketConnectionLoading && (
+        <div className="">realtime Metrics Loading</div>
+      )}
 
-    <FPSRealtimeGraph />
+      {isSocketConnectionFailed && (
+        <div className="">realtime Metrics Failed</div>
+      )}
 
-    <SlowFramesRealtimeGraph />
-
-    <DiskReadRealtimeGraph />
-
-    <DiskWriteRealtimeGraph />
-
-    <NetworkUploadRealtimeGraph />
-
-    <NetworkDownloadRealtimeGraph />
-  </div>
-);
+      {!isSocketConnectionLoading && !isSocketConnectionFailed && (
+        <>
+          <CPURealtimeGraph />
+          <MemoryRealtimeGraph />
+          <FPSRealtimeGraph />
+          <SlowFramesRealtimeGraph />
+          <BatteryRealtimeGraph />
+          <DiskReadRealtimeGraph />
+          <DiskWriteRealtimeGraph />
+          <NetworkUploadRealtimeGraph />
+          <NetworkDownloadRealtimeGraph />
+        </>
+      )}
+    </div>
+  );
+};
 
 export default RealtimeMetricGraphs;

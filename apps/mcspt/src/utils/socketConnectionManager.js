@@ -1,4 +1,8 @@
 import { Pusher, PusherManager } from '@browserstack/utils';
+import {
+  setIsSocketConnectionFailed,
+  setIsSocketConnectionLoading
+} from 'features/RealtimeMetricGraphs';
 
 import { handleSocketMessage } from './socketEventManager';
 
@@ -9,7 +13,6 @@ class McpPusherEvents {
   constructor(dispatch, getState, channelData, pusherManager) {
     this.dispatch = dispatch;
     this.getState = getState;
-    window.pusher = pusherManager;
 
     // connecting to pusher
     pusherManager.connect();
@@ -18,7 +21,8 @@ class McpPusherEvents {
     pusherManager.socket.on('reconnect_attempt', () => {
       if (pusherManager.reconnectionAttempts === 25) {
         pusherManager.socket.disconnect();
-        window.isPusherConnectionCreated = false;
+        this.dispatch(setIsSocketConnectionLoading(false));
+        this.dispatch(setIsSocketConnectionFailed(true));
         this.log('Pusher seems to be unavailable');
       }
     });
@@ -26,6 +30,15 @@ class McpPusherEvents {
     // If connected, create a pusher instance from this manager
     pusherManager.socket.on('connect', () => {
       this.createInstance(channelData, pusherManager);
+    });
+
+    pusherManager.socket.on('handshake', () => {
+      this.dispatch(setIsSocketConnectionLoading(false));
+    });
+
+    pusherManager.socket.on('error', () => {
+      this.dispatch(setIsSocketConnectionLoading(false));
+      this.dispatch(setIsSocketConnectionFailed(true));
     });
   }
 
@@ -74,7 +87,8 @@ class McpPusherEvents {
         type: channelData?.type,
         group_id: channelData?.groupId
       },
-      `${getWebSocketUrl()}${channelData.sessionId}`
+      `${getWebSocketUrl()}${channelData.sessionId}`,
+      !IS_PROD
     );
     this.attachEvents();
     pusherManager.add(channelData.connectionName, this.pusher);
@@ -89,7 +103,7 @@ export const subscribeMcpPusher = (channelData) => (dispatch, getState) => {
 
   const pusherManager = new PusherManager(
     `${getWebSocketUrl()}${channelData.sessionId}`,
-    true
+    !IS_PROD
   );
 
   return new McpPusherEvents(dispatch, getState, channelData, pusherManager);
