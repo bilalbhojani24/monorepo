@@ -19,6 +19,7 @@ const getNumberOfSecondsFromTimeoutDuration = (timeout) => timeout * 60;
 const useReportLoadingHeader = () => {
   const dispatch = useDispatch();
   const navigateToPath = useNavigate();
+
   const sessionState = useSelector(getLatestSessionStatus);
   const sessionDetails = useSelector(getSessionDetails);
   const showTimeoutBanner = useSelector(getShowTimeoutBanner);
@@ -30,6 +31,7 @@ const useReportLoadingHeader = () => {
       const timeoutDuration = getNumberOfSecondsFromTimeoutDuration(
         sessionDetails.timeoutDurationInMinutes
       );
+
       if (timeoutDuration - secondsElapsed === 120) {
         dispatch(setShowTimeoutBanner(true));
       }
@@ -51,20 +53,24 @@ const useReportLoadingHeader = () => {
     isStopSessionInProgress
   ]);
 
-  const getBannerDescription = useCallback(() => {
-    if (sessionDetails?.timeoutDurationInMinutes) {
-      return `Your session will be terminated automatically in ${secondsToMinutes(
-        getNumberOfSecondsFromTimeoutDuration(
+  const getBannerDescription = useCallback(
+    (elapsed) => {
+      if (sessionDetails?.timeoutDurationInMinutes) {
+        const timeoutDuration = getNumberOfSecondsFromTimeoutDuration(
           sessionDetails.timeoutDurationInMinutes
-        ) - secondsElapsed
-      )} minutes. Sessions can run for a maximum of ${secondsToMinutes(
-        getNumberOfSecondsFromTimeoutDuration(
-          sessionDetails.timeoutDurationInMinutes
-        )
-      )} minutes.`;
-    }
-    return '';
-  }, [sessionDetails?.timeoutDurationInMinutes, secondsElapsed]);
+        );
+
+        return `Your session will be terminated automatically in ${secondsToMinutes(
+          timeoutDuration - elapsed
+        )} minutes. Sessions can run for a maximum of ${secondsToMinutes(
+          timeoutDuration
+        )} minutes.`;
+      }
+
+      return '';
+    },
+    [sessionDetails?.timeoutDurationInMinutes]
+  );
 
   return {
     sessionState,

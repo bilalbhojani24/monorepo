@@ -10,6 +10,7 @@ const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
     sessionState,
     sessionDetails,
     showTimeoutBanner,
+    secondsElapsed,
     getBannerDescription
   } = useReportLoadingHeader();
 
@@ -37,7 +38,7 @@ const ReportLoadingHeader = ({ setShowQuitTestingPrompt }) => {
             <MdOutlineTimer aria-hidden="true" className="h-6 w-6 text-white" />
           }
           isDismissButton={false}
-          description={getBannerDescription()}
+          description={getBannerDescription(secondsElapsed)}
           modifier="attention"
           align="centered"
         />
