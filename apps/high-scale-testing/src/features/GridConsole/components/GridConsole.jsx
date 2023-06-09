@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import {
   Button,
   Dropdown,
@@ -10,29 +9,21 @@ import {
   PageHeadings,
   Tabs
 } from '@browserstack/bifrost';
-import ROUTES from 'constants/routes';
+import { logEvent } from '@browserstack/utils';
+import { AGAutomationConsoleInteracted } from 'constants/event-names';
 
 import ClustersListing from './ClustersListing';
 import GridsListing from './GridsListing';
 import useGridConsole from './useGridConsole';
 
 const GridConsole = () => {
-  const { currentListingType, setCurrentListingType } = useGridConsole();
-
-  const navigate = useNavigate();
-
-  const options = [
-    {
-      id: 'helm/kubectl',
-      value: 'Helm/KubeCTL',
-      body: 'Spawn a grid via Helm / KubeCTL'
-    },
-    { id: 'cli', value: 'CLI', body: 'Spawn a grid with customizations' }
-  ];
-
-  const dropdownHandler = (value) => {
-    navigate(`${ROUTES.CREATE_GRID}?type=${value.value}`);
-  };
+  const {
+    currentListingType,
+    dropdownHandler,
+    options,
+    tabChangeHandler,
+    tabsArray
+  } = useGridConsole();
 
   return (
     <div className="flex-1">
@@ -42,13 +33,25 @@ const GridConsole = () => {
             <Dropdown onClick={dropdownHandler}>
               <div className="flex">
                 <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
-                  <Button icon={<MdKeyboardArrowDown />} iconPlacement="end">
+                  <Button
+                    onClick={() => {
+                      logEvent(
+                        ['amplitude'],
+                        'web_events',
+                        AGAutomationConsoleInteracted,
+                        { action: 'creategrid_clicked' }
+                      );
+                    }}
+                    size="default"
+                    icon={<MdKeyboardArrowDown />}
+                    iconPlacement="end"
+                  >
                     Create Grid
                   </Button>
                 </DropdownTrigger>
               </div>
 
-              <DropdownOptionGroup>
+              <DropdownOptionGroup wrapperClassName="w-full">
                 {options.map((opt) => (
                   <DropdownOptionItem key={opt.value} option={opt} />
                 ))}
@@ -59,19 +62,8 @@ const GridConsole = () => {
           heading="Automation Console"
         />
         <Tabs
-          tabsArray={[
-            {
-              index: 0,
-              name: 'Grids',
-              value: 'grids'
-            },
-            {
-              index: 1,
-              name: 'Clusters',
-              value: 'clusters'
-            }
-          ]}
-          onTabChange={(e) => setCurrentListingType(e)}
+          tabsArray={tabsArray}
+          onTabChange={tabChangeHandler}
           defaultIndex={currentListingType.index}
         />
       </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Button,
+  CheckCircleIcon,
   InputField,
   Notifications,
   notify
@@ -12,10 +13,10 @@ const GeneralSettings = () => {
   const notifactionComponent = (
     <Notifications
       title="Settings updated!"
-      isCondensed
       handleClose={(toastData) => {
         notify.remove(toastData.id);
       }}
+      headerIcon={<CheckCircleIcon className="text-success-400 h-6 w-6" />}
     />
   );
 
@@ -29,8 +30,7 @@ const GeneralSettings = () => {
 
   return (
     <>
-      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-      <div className="h-[calc(100vh-64px-134px-48px-62px)] overflow-auto p-6">
+      <div className="overflow-auto p-6">
         <p className="text-base-900 text-lg font-medium">General Settings</p>
         <p className="text-base-500 text-sm">
           Configure the general settings for this Grid.
@@ -38,13 +38,13 @@ const GeneralSettings = () => {
 
         {/* --- --- Concurrency --- --- */}
         <div className="pt-6">
-          <p className="font-medium">Concurrency</p>
+          <p className="text-sm font-medium">Concurrency</p>
           <p className="text-base-500 text-sm">
             Set the number of browsers that would spawn concurrently. It is set
             at 50 by default. You can adjust the concurrency as per your needs.
           </p>
 
-          <div className="mt-3 max-w-xs">
+          <div className="mt-3 w-32">
             <InputField
               disabled={isSavingInProgress}
               id="test-id"

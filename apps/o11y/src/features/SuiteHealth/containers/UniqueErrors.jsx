@@ -6,6 +6,9 @@ import { getIsUEDetailsVisible } from 'features/SHErrorDetails/slices/selectors'
 import TestDetails from 'features/TestDetails';
 import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 
+import { SUITE_HEALTH_CONTEXT } from '../context';
+import { getSnPUEFiltersData } from '../slices/uiSlice';
+
 import SHUniqueErrors from './SHUniqueErrors';
 
 function UniqueErrors() {
@@ -20,12 +23,12 @@ function UniqueErrors() {
   }, [dispatch]);
 
   return (
-    <>
+    <SUITE_HEALTH_CONTEXT.Provider value={{ getSnPUEFiltersData }}>
       <h1 className="p-6 pb-0 text-2xl font-bold">Unique Errors</h1>
       <SHUniqueErrors />
       {isSnPErrorDetailsVisible && <SHErrorDetailsSlideOver />}
       <TestDetails source={TEST_DETAILS_SOURCE.SUITE_HEALTH_ERRORS} />
-    </>
+    </SUITE_HEALTH_CONTEXT.Provider>
   );
 }
 

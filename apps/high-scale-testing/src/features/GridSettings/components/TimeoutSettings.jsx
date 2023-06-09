@@ -22,22 +22,24 @@ const TimeoutSettings = () => {
 
   const {
     idleTimeoutInputChangeHandler,
+    idleTimeOutError,
     idleTimeOutValue,
     isSaveButtonDisabled,
     isSavingInProgress,
     saveBtnClickhandler,
     testTimeoutChangeHandler,
+    testTimeoutError,
     testTimeoutValue,
     queueRetryIntervalChangeHandler,
     queueRetryIntervalValue,
     queueTimeoutChangeHandler,
+    queueTimeoutError,
     queueTimeoutValue
   } = useTimeoutSettings(notifactionComponent);
 
   return (
     <>
-      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-      <div className="h-[calc(100vh-64px-134px-48px-62px)] overflow-auto p-6">
+      <div className="overflow-auto p-6">
         <p className="text-base-900 text-lg font-medium">Timeout Settings</p>
         <p className="text-base-500 text-sm">
           Configure different timeouts as per your testing requirement.
@@ -45,7 +47,7 @@ const TimeoutSettings = () => {
 
         {/* --- --- Idle Timeout --- --- */}
         <div className="pt-6">
-          <p className="font-medium">Idle Timeout</p>
+          <p className="font-medium text-sm">Idle Timeout</p>
           <p className="text-base-500 text-sm">
             Set the timeout in seconds to detect the inactivity between the
             commands during the session. It is set at 90 seconds by default.
@@ -58,6 +60,7 @@ const TimeoutSettings = () => {
               }
               value={idleTimeOutValue}
               disabled={isSavingInProgress}
+              errorText={idleTimeOutError}
               id="test-id"
               onChange={idleTimeoutInputChangeHandler}
               onKeyDown={null}
@@ -69,7 +72,7 @@ const TimeoutSettings = () => {
 
         {/* --- --- Queue Timeout --- --- */}
         <div className="pt-6">
-          <p className="font-medium">Queue Timeout</p>
+          <p className="font-medium text-sm">Queue Timeout</p>
           <p className="text-base-500 text-sm">
             Set the timeout in seconds to detect the drop the requests waiting
             in queue. It is set at 900 seconds by default.
@@ -80,6 +83,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
+              errorText={queueTimeoutError}
               value={queueTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"
@@ -93,7 +97,7 @@ const TimeoutSettings = () => {
 
         {/* --- --- Queue Retry Interval --- --- */}
         <div className="pt-6">
-          <p className="font-medium">Queue Retry Interval</p>
+          <p className="font-medium text-sm">Queue Retry Interval</p>
           <p className="text-base-500 text-sm">
             Set the interval in seconds to configure the amount of time after
             which Hub will retry the requests waiting in queue for. It is set at
@@ -118,7 +122,7 @@ const TimeoutSettings = () => {
 
         {/* --- --- Test Timeout --- --- */}
         <div className="pt-6">
-          <p className="font-medium">Test Timeout</p>
+          <p className="font-medium text-sm">Test Timeout</p>
           <p className="text-base-500 text-sm">
             Set the timeout in hours to stop the test and drop the subsequent
             commands sent for the test. It is set at 2 hours by default.
@@ -129,6 +133,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">hours</InputGroupAddOn>
               }
+              errorText={testTimeoutError}
               value={testTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"

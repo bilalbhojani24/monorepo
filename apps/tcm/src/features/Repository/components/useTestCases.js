@@ -43,6 +43,9 @@ export default function useTestCases(props) {
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
   );
+  const openedFolderModal = useSelector(
+    (state) => state.repository.openedFolderModal
+  );
   const noResultsText = useSelector(
     (state) => state.repository.searchEmptyText
   );
@@ -117,6 +120,8 @@ export default function useTestCases(props) {
     });
   };
   const fetchTags = () => {
+    if (projectId === 'new') return; // if project doesnt exist, dont query for tags
+
     dispatch(updateCtaLoading({ key: 'tags', value: true }));
     getTagsAPI({ projectId }).then((data) => {
       const mappedTags = selectMenuValueMapper(data?.tags);
@@ -268,6 +273,7 @@ export default function useTestCases(props) {
   }, [projectId]);
 
   return {
+    openedFolderModal,
     noResultsText,
     testCaseDetailsIDs,
     testCaseId,

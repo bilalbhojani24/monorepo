@@ -7,11 +7,17 @@ import {
   useParams
 } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
+import { logEvent } from '@browserstack/utils';
 import { fetchGridDataById } from 'api/index';
+import {
+  AGGridDetailsInteracted,
+  AGGridSettingsVisited
+} from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import { getUserDetails } from 'globalSlice/selector';
 
 import { setGridData } from '../slices';
+import { getGridData } from '../slices/selector';
 
 const useLayoutGridDetail = () => {
   const dispatch = useDispatch();
@@ -23,18 +29,32 @@ const useLayoutGridDetail = () => {
 
   const userDetails = useSelector(getUserDetails);
 
+  // All Store variables
+  const gridData = useSelector(getGridData);
+
   // All State variables
   const [currentTab, setCurrentTab] = useState({
     index: 0,
     name: 'Overview'
   });
 
+  const onTabChangeHandler = (e) => {
+    logEvent(['amplitude'], 'web_events', AGGridDetailsInteracted, {
+      action: 'tab_switched',
+      option: e.name.toLowerCase()
+    });
+    setCurrentTab(e);
+  };
+
   useEffect(() => {
-    if (currentTab.name === 'Settings')
+    if (currentTab.name === 'Settings') {
+      logEvent([], 'web_events', AGGridSettingsVisited, {
+        action: 'general'
+      });
       navigate(
         `/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}/general`
       );
-    else
+    } else
       navigate(
         `/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}`
       );
@@ -92,7 +112,7 @@ const useLayoutGridDetail = () => {
       navigate(`/grid-console/grid/${paramId}/${tabToOpen.name.toLowerCase()}`);
   });
 
-  return { setCurrentTab, currentTab };
+  return { gridData, onTabChangeHandler, currentTab };
 };
 
 export default useLayoutGridDetail;

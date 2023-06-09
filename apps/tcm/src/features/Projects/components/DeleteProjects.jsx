@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { WarningAmberOutlinedIcon } from 'assets/icons';
 import {
   TMButton,
@@ -11,12 +11,21 @@ import PropTypes from 'prop-types';
 import useProjects from './useProjects';
 
 const DeleteProjects = ({ show }) => {
+  const FOCUS_DELAY = 50;
   const {
     modalFocusRef,
     deleteProjectCtaLoading,
     hideDeleteProjectModal,
     deleteProjectHandler
   } = useProjects();
+
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => {
+        modalFocusRef?.current?.focus();
+      }, FOCUS_DELAY);
+    }
+  }, [show, modalFocusRef]);
 
   return (
     <TMModal
