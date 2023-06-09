@@ -221,7 +221,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
                   <p className="text-base-500 mt-3 text-xs font-medium">
                     <span className="text-base-800">Flaky reason:</span>{' '}
                     {historyData?.flakyReason === 1
-                      ? `Test status has flipped more than ${historyData.flakySetting?.flakeInHistory.flippingPercentage}
+                      ? `Test status has flipped more than ${historyData.flakySetting?.flakeInHistory.flippingCount}
                        times in the last ${historyData.flakySetting?.flakeInHistory.consecutiveRuns} consecutive runs.`
                       : `Test passes on a retry within the last ${historyData.flakySetting?.flakeInRerun.consecutiveRuns} runs`}
                   </p>
