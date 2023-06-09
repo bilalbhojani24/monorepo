@@ -12,7 +12,12 @@ import {
 } from '../slices/filterSlice';
 import { getAllAppliedFilters, getIsFiltersLoading } from '../slices/selectors';
 
-const FilterPills = ({ rightNode, wrapperClassName }) => {
+const FilterPills = ({
+  rightNode,
+  wrapperClassName,
+  onRemoveSingleFilter,
+  onRemoveAll
+}) => {
   const dispatch = useDispatch();
 
   const isFilterLoading = useSelector(getIsFiltersLoading);
@@ -25,10 +30,12 @@ const FilterPills = ({ rightNode, wrapperClassName }) => {
         ...item
       })
     );
+    onRemoveSingleFilter(item.type);
   };
 
   const handleRemoveAll = () => {
     dispatch(clearAllAppliedFilters());
+    onRemoveAll();
   };
 
   const allAppliedFilters = useMemo(
@@ -86,12 +93,16 @@ const FilterPills = ({ rightNode, wrapperClassName }) => {
 
 FilterPills.propTypes = {
   rightNode: PropTypes.node,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  onRemoveSingleFilter: PropTypes.func,
+  onRemoveAll: PropTypes.func
 };
 
 FilterPills.defaultProps = {
   rightNode: null,
-  wrapperClassName: ''
+  wrapperClassName: '',
+  onRemoveSingleFilter: () => {},
+  onRemoveAll: () => {}
 };
 
 export default FilterPills;

@@ -29,7 +29,7 @@ function FailureCategoriesPill({
 }) {
   const handleIssueTypeClicked = (type) => {
     navigateToTestPage(
-      ADV_FILTER_TYPES.failureCategories.key,
+      ADV_FILTER_TYPES.issueTypeGroup.key,
       type,
       TEST_LIST_FILTERS_INTERACTIONS[type]
     );

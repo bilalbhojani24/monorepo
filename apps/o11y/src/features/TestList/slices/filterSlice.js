@@ -21,7 +21,7 @@ import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const updateTestsFilterFields = (data, dispatch) => {
+const updateTestsFilterFields = (data, dispatch, additionalData) => {
   if (!isEmpty(data?.applied)) {
     const { applied } = data;
     const updatedSelectedFilters = [];
@@ -272,6 +272,17 @@ const updateTestsFilterFields = (data, dispatch) => {
           break;
       }
     });
+    if (additionalData?.[ADV_FILTER_TYPES.issueTypeGroup.key]) {
+      const value = additionalData[ADV_FILTER_TYPES.issueTypeGroup.key];
+      updatedSelectedFilters.push(
+        getAppliedFilterObj({
+          id: 'issueTypeGroup',
+          text: value,
+          value,
+          type: ADV_FILTER_TYPES.issueTypeGroup.key
+        })
+      );
+    }
     dispatch(setBulkSelectedFilters(updatedSelectedFilters));
     dispatch(setBulkAppliedFilters(updatedSelectedFilters));
   }
@@ -287,6 +298,9 @@ export const getTestListingFiltersData = createAsyncThunk(
     dispatch(setIsLoadingBuildsFilters(true));
     try {
       let searchParams = dispatch(getFilterFromSearchString(true));
+      const issueTypeGroup = searchParams.get(
+        ADV_FILTER_TYPES.issueTypeGroup.key
+      );
       if (searchParams.size === 0) {
         const appliedFilters = getAllAppliedFilters(getState());
         searchParams = getFilterQueryParams(appliedFilters);
@@ -295,7 +309,7 @@ export const getTestListingFiltersData = createAsyncThunk(
         ...data,
         searchString: searchParams.toString()
       });
-      updateTestsFilterFields(response.data, dispatch);
+      updateTestsFilterFields(response.data, dispatch, { issueTypeGroup });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
