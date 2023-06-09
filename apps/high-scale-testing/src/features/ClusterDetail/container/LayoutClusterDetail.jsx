@@ -7,7 +7,8 @@ import ROUTES from '../../../constants/routes';
 import useLayoutClusterDetail from './useLayoutClusterDetail';
 
 const LayoutClusterDetail = () => {
-  const { setCurrentTab, currentTab } = useLayoutClusterDetail();
+  const { clusterData, currentTab, onTabChangeHandler } =
+    useLayoutClusterDetail();
 
   const TabsForClusterDetail = (
     <Tabs
@@ -21,7 +22,7 @@ const LayoutClusterDetail = () => {
           name: 'Utilization'
         }
       ]}
-      onTabChange={(e) => setCurrentTab(e)}
+      onTabChange={onTabChangeHandler}
       defaultIndex={currentTab.index}
     />
   );
@@ -38,7 +39,7 @@ const LayoutClusterDetail = () => {
               current: true
             }
           ]}
-          heading="high-scale-grid"
+          heading={clusterData.name}
         />
 
         {TabsForClusterDetail}

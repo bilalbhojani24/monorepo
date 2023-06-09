@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import {
   O11yButton,
@@ -13,19 +13,11 @@ import PropTypes from 'prop-types';
 
 import {
   discardUnAppliedFilters,
-  resetFilters,
   setSelectedFilterAsApplied
 } from '../slices/filterSlice';
 
 const FilterSlideover = ({ children, show, onClose, onApply }) => {
   const dispatch = useDispatch();
-
-  useEffect(
-    () => () => {
-      dispatch(resetFilters());
-    },
-    [dispatch]
-  );
 
   const handleClose = () => {
     dispatch(discardUnAppliedFilters());

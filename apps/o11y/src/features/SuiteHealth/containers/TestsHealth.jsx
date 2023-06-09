@@ -7,7 +7,9 @@ import { getIsSHTestsDetailsVisible } from 'features/SHTestDetails/slices/select
 import TestDetails from 'features/TestDetails';
 import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 
+import { SUITE_HEALTH_CONTEXT } from '../context';
 import { clearSnPTests } from '../slices/dataSlice';
+import { getSnPTestsFiltersData } from '../slices/uiSlice';
 
 import SHTests from './SHTests';
 
@@ -25,12 +27,12 @@ function TestsHealth() {
   }, [dispatch]);
 
   return (
-    <>
+    <SUITE_HEALTH_CONTEXT.Provider value={{ getSnPTestsFiltersData }}>
       <h1 className="p-6 pb-0 text-2xl font-bold">Tests Health</h1>
       <SHTests />
       {isSnPDetailsVisible && <SHTestDetailsSlideOver />}
       <TestDetails source={TEST_DETAILS_SOURCE.SUITE_HEALTH_TESTS} />
-    </>
+    </SUITE_HEALTH_CONTEXT.Provider>
   );
 }
 
