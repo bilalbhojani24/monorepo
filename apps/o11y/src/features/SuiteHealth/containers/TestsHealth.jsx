@@ -27,7 +27,9 @@ function TestsHealth() {
   }, [dispatch]);
 
   return (
-    <SUITE_HEALTH_CONTEXT.Provider value={{ getSnPTestsFiltersData }}>
+    <SUITE_HEALTH_CONTEXT.Provider
+      value={{ filterSliceFunction: getSnPTestsFiltersData }}
+    >
       <h1 className="p-6 pb-0 text-2xl font-bold">Tests Health</h1>
       <SHTests />
       {isSnPDetailsVisible && <SHTestDetailsSlideOver />}

@@ -23,7 +23,9 @@ function UniqueErrors() {
   }, [dispatch]);
 
   return (
-    <SUITE_HEALTH_CONTEXT.Provider value={{ getSnPUEFiltersData }}>
+    <SUITE_HEALTH_CONTEXT.Provider
+      value={{ filterSliceFunction: getSnPUEFiltersData }}
+    >
       <h1 className="p-6 pb-0 text-2xl font-bold">Unique Errors</h1>
       <SHUniqueErrors />
       {isSnPErrorDetailsVisible && <SHErrorDetailsSlideOver />}
