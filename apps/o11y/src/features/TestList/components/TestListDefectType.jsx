@@ -109,11 +109,6 @@ function TestListDefectType({ data }) {
         });
         o11yTestListingInteraction('analyzer_issue_updated');
       } catch (err) {
-        o11yNotify({
-          type: 'error',
-          title: 'Failed to update issue type',
-          description: ''
-        });
         setIssueType(currentIssueType);
         setIsAutoAnalyzed(isCurrentlyAutoAnalyzed);
         setIsUpdating(false);
