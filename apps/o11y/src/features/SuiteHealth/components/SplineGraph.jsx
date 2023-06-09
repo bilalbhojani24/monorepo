@@ -1,20 +1,16 @@
 import React, { memo, useMemo } from 'react';
 import Chart from 'common/Chart';
-import { TOOLTIP_STYLES } from 'constants/common';
+import {
+  COMMON_CHART_CONFIGS,
+  COMMON_CHART_STYLES,
+  TOOLTIP_STYLES
+} from 'constants/common';
 import PropTypes from 'prop-types';
 
 import useStatsChart from '../hooks/useStatsChart';
 
 const CHART_OPTIONS = {
-  title: {
-    text: null
-  },
-  exporting: {
-    enabled: false
-  },
-  credits: {
-    enabled: false
-  },
+  ...COMMON_CHART_CONFIGS,
   legend: {
     enabled: false
   },
@@ -79,13 +75,9 @@ const CHART_OPTIONS = {
     }
   },
   chart: {
+    ...COMMON_CHART_STYLES,
     type: 'spline',
     zoomType: 'x',
-    panning: true,
-    panKey: 'shift',
-    style: {
-      fontFamily: '"Inter", sans-serif'
-    },
     backgroundColor: 'transparent',
     plotBorderWidth: null,
     marginTop: 5,
@@ -96,25 +88,16 @@ const CHART_OPTIONS = {
     borderWidth: 0,
     marginRight: 0,
     resetZoomButton: {
+      ...COMMON_CHART_STYLES.resetZoomButton,
       position: {
         x: -5,
         y: 0
       },
       relativeTo: 'chart',
       theme: {
-        fill: 'white',
-        stroke: 'silver',
+        ...COMMON_CHART_STYLES.resetZoomButton.theme,
         style: {
           display: 'none'
-        },
-        r: 3,
-        states: {
-          hover: {
-            fill: '#0067dd',
-            style: {
-              color: 'white'
-            }
-          }
         }
       }
     }
