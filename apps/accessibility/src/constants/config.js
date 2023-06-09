@@ -3,7 +3,7 @@ const LOCAL = {
 };
 
 const STAGING = {
-  enableSentry: false
+  enableSentry: true
 };
 
 const PRODUCTION = {
