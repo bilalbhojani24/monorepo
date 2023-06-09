@@ -222,7 +222,7 @@ const RenderTestItem = ({ item: data }) => {
                       'warn',
                       'Flake detected',
                       details?.flakyReason === 1
-                        ? `Test status has flipped more than ${flaky?.flakeInHistory.flippingPercentage}
+                        ? `Test status has flipped more than ${flaky?.flakeInHistory.flippingCount}
                       times in the last ${flaky?.flakeInHistory.consecutiveRuns} consecutive runs.`
                         : `Test passes on a retry within the last ${flaky?.flakeInRerun.consecutiveRuns} runs.`,
                       addFilterOnClick
