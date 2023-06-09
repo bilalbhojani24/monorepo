@@ -1,9 +1,9 @@
 const LOCAL = {
-  enableSentry: true
+  enableSentry: false
 };
 
 const STAGING = {
-  enableSentry: true
+  enableSentry: false
 };
 
 const PRODUCTION = {

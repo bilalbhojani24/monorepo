@@ -103,7 +103,6 @@ export default function useReports() {
           }))
         )
       );
-      throw ReferenceError('This is the error...');
     });
   }, [dispatch]);
 
