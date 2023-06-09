@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
@@ -13,8 +13,10 @@ import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 
 import SHHeader from '../components/SHHeader';
 import { TABS } from '../constants';
+import { SUITE_HEALTH_CONTEXT } from '../context';
 import { clearSnPTests, setActiveTab } from '../slices/dataSlice';
 import { getSnPActiveTab } from '../slices/selectors';
+import { getSnPTestsFiltersData, getSnPUEFiltersData } from '../slices/uiSlice';
 
 import SHTests from './SHTests';
 import SHUniqueErrors from './SHUniqueErrors';
@@ -63,8 +65,17 @@ export default function SnP() {
     },
     [activeTab.value, dispatch, navigate]
   );
+
+  const filterSliceFunction = useMemo(
+    () =>
+      activeTab.value === TABS.tests
+        ? getSnPTestsFiltersData
+        : getSnPUEFiltersData,
+    [activeTab.value]
+  );
+
   return (
-    <>
+    <SUITE_HEALTH_CONTEXT.Provider value={{ filterSliceFunction }}>
       <SHHeader activeTab={activeTab} onTabChange={onTabChange} />
       <div className={twClassNames('flex-1')}>
         {activeTab.value === TABS.tests && <SHTests />}
@@ -79,6 +90,6 @@ export default function SnP() {
           }
         />
       </div>
-    </>
+    </SUITE_HEALTH_CONTEXT.Provider>
   );
 }

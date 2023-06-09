@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { ISSUE_DETAILS_TAB } from 'constants';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
+import { setShowFreshChatButton } from '../../Dashboard/slices/uiSlice';
 import { getActiveVersion } from '../../Reports/slices/selector';
 
 import { setActiveIssueIndex, setIsShowingIssue } from './slice/appSlice';
@@ -63,6 +64,7 @@ export default function useIssueItem(activeComponentNodes) {
 
   const onCloseClick = () => {
     dispatch(setIsShowingIssue(false));
+    dispatch(setShowFreshChatButton(true));
     const path = updateUrlWithQueryParam({
       activeIssueIndex: 0,
       isShowingIssue: false

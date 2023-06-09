@@ -5,9 +5,15 @@ const SLICE_NAME = 'gridConsole';
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
+    clusterData: {},
     gridData: {}
   },
   reducers: {
+    setClusterData: (state, { payload }) => {
+      const { clusterData } = payload;
+
+      state.clusterData = clusterData;
+    },
     setGridData: (state, { payload }) => {
       const { gridData } = payload;
 
@@ -16,5 +22,5 @@ const { actions, reducer } = createSlice({
   }
 });
 
-export const { setGridData } = actions;
+export const { setClusterData, setGridData } = actions;
 export default reducer;

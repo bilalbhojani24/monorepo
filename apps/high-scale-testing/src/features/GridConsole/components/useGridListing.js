@@ -1,36 +1,52 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllGridsData } from 'api/index';
-import { setFetchedGridData } from 'globalSlice/index';
-import { getUserDetails } from 'globalSlice/selector';
+import { useSelector } from 'react-redux';
+
+import { getGridData } from '../slices/selector';
 
 const useGridListing = () => {
-  const dispatch = useDispatch();
   const isRounded = true;
+  const CLI_COMMAND = 'browserstack-cli ag delete grid --grid-id ';
 
   // All Store variables:
-  const userDetails = useSelector(getUserDetails);
+  const gridList = useSelector(getGridData);
 
-  // All State variables:
-  const [gridList, setGridList] = useState([]);
+  // All State Variables:
+  const [activeGridName, setActiveGridName] = useState(null);
+  const [activeGridIdentifier, setActiveGridIdentifier] = useState(null);
+  const [deletionCommand, setDeletionCommand] = useState(null);
+  const [showDeleteGridModal, setShowDeleteGridModal] = useState(false);
 
   const tableCellWrapperClassName =
-    'first:pr-3 last:pl-3 px-2 text-base-500 font-medium';
+    'text-xs px-6 py-3 text-base-500 font-medium';
+
+  const closeDeleteGridModal = () => {
+    setShowDeleteGridModal(false);
+  };
+
+  const deleteDropDownClickHandler = (gridIdentifer, gridName) => {
+    setActiveGridName(gridName);
+    setActiveGridIdentifier(gridIdentifer);
+
+    setDeletionCommand(`${CLI_COMMAND} ${gridIdentifer}`);
+    setShowDeleteGridModal(true);
+  };
 
   useEffect(() => {
-    const fetchAllGridsDataFromAPI = async () => {
-      const res = await fetchAllGridsData(userDetails.id);
-
-      setGridList(res.data);
-      dispatch(setFetchedGridData(true));
-    };
-
-    fetchAllGridsDataFromAPI();
-  }, [userDetails]);
+    if (!showDeleteGridModal) {
+      setActiveGridName(null);
+      setActiveGridIdentifier(null);
+    }
+  }, [showDeleteGridModal]);
 
   return {
+    activeGridName,
+    activeGridIdentifier,
+    closeDeleteGridModal,
+    deleteDropDownClickHandler,
+    deletionCommand,
     gridList,
     isRounded,
+    showDeleteGridModal,
     tableCellWrapperClassName
   };
 };

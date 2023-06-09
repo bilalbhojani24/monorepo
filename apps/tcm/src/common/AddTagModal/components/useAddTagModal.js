@@ -68,7 +68,12 @@ const useAddTagModal = ({
       setNewTags([]);
       setAllTags(existingTags.map((item) => item.value));
       setSelectedTags(selectedTags);
+
+      setTimeout(() => {
+        modalFocusRef?.current?.focus();
+      }, 10);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible]);
 
