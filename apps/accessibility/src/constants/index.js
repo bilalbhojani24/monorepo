@@ -1,7 +1,7 @@
 export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
 export const SENTRY_DSN =
-  'https://4f687a1c14084f6c801e395a74336125@o70254.ingest.sentry.io/4505080435900416';
+  'https://7e1fb28d5ba94c13aace08eefcf2605c@o70254.ingest.sentry.io/4505328609525760';
 export const PROD_API_URL = 'https://www.browserstack.com/accessibility/api';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const CHROME_EXTENSION_URL =

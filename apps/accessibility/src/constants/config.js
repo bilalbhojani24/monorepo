@@ -1,5 +1,5 @@
 const LOCAL = {
-  enableSentry: false
+  enableSentry: true
 };
 
 const STAGING = {
