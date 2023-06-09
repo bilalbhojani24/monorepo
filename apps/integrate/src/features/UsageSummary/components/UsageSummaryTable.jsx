@@ -68,6 +68,7 @@ const UsageSummaryTable = ({ usageSummaryData }) => {
                 <INTGButton
                   wrapperClassName="text-brand-600 hover:bg-inherit border-0 shadow-none bg-inherit focus:ring-0 focus:ring-offset-0 px-0 cursor-pointer"
                   colors="white"
+                  data-test-id={`${item.key}-usage-details-btn`}
                   onClick={() =>
                     handleUsageDetail(
                       item.key,

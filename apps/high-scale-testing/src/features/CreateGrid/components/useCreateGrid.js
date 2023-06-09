@@ -128,8 +128,7 @@ browserstack-cli hst init`,
     playwright: null
   });
   const [gridProfiles, setGridProfiles] = useState([
-    { label: 'label', value: 'value' },
-    { label: 'label 2', value: 'value2' }
+    { label: 'label', value: 'value' }
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
@@ -430,7 +429,7 @@ browserstack-cli hst init`,
       setSelectedRegion(
         allAvailableRegionsByProvider[
           currentSelectedCloudProvider.configName
-        ].find((e) => e.label === selectedGridProfileData?.profile.region)
+        ].find((e) => e.value === selectedGridProfileData?.profile.region)
       );
 
       setSelectedInstanceType(
