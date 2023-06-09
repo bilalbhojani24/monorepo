@@ -26,32 +26,35 @@ const STICKY_CLASSES = {
     'text-brand-600 hover:text-brand-500 hover:bg-base-50 flex w-full justify-between py-2 pl-3 pr-4 text-sm'
 };
 
-const ProjectSelectorStickyFooter = () => {
-  const handleClickNewProject = () => {
-    logOllyEvent({
-      event: 'O11yProjectListingNewProjectClicked',
-      data: {
-        source: 'sidebar'
-      }
-    });
-  };
-  return (
-    <>
-      <Link
-        to={ROUTES.get_started}
-        className={STICKY_CLASSES.parentClass}
-        onClick={handleClickNewProject}
-      >
-        <span>New project</span>
-        <MdAdd className="text-xl" />
-      </Link>
-      <Link to={ROUTES.projects} className={STICKY_CLASSES.parentClass}>
-        <span>View all projects</span>
-        <MdOutlineFolderOpen className="text-xl" />
-      </Link>
-    </>
-  );
+const handleProjectSelectorInteraction = (interaction) => {
+  logOllyEvent({
+    event: 'O11yProjectSelectorInteracted',
+    data: {
+      interaction
+    }
+  });
 };
+
+const ProjectSelectorStickyFooter = () => (
+  <>
+    <Link
+      to={ROUTES.get_started}
+      className={STICKY_CLASSES.parentClass}
+      onClick={() => handleProjectSelectorInteraction('new_project_clicked')}
+    >
+      <span>New project</span>
+      <MdAdd className="text-xl" />
+    </Link>
+    <Link
+      to={ROUTES.projects}
+      className={STICKY_CLASSES.parentClass}
+      onClick={() => handleProjectSelectorInteraction('all_projects_clicked')}
+    >
+      <span>View all projects</span>
+      <MdOutlineFolderOpen className="text-xl" />
+    </Link>
+  </>
+);
 
 export default function ProjectSelector() {
   const projects = useSelector(getProjects);
@@ -75,6 +78,7 @@ export default function ProjectSelector() {
   );
 
   const handleProjectChange = (item) => {
+    handleProjectSelectorInteraction('project_clicked');
     dispatch(
       setActiveProject({
         id: item.value,
@@ -113,6 +117,7 @@ export default function ProjectSelector() {
       options={menuOptions}
       onChange={handleProjectChange}
       stickyFooter={<ProjectSelectorStickyFooter />}
+      onSearch={() => handleProjectSelectorInteraction('searched')}
     />
   );
 }

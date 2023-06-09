@@ -171,7 +171,7 @@ function RequestAccess() {
             ref={videRef}
             width="100%"
             controls={hasClickedPlay ? 'controls' : ''}
-            poster="/o11y-illustration.jpeg"
+            poster="/o11y-illustration.png"
             className="rounded shadow-lg"
             autoPlay
             muted={!hasClickedPlay}

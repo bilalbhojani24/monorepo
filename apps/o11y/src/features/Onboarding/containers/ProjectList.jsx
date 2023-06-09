@@ -92,8 +92,7 @@ export default function ProjectList() {
     logOllyEvent({
       event: 'O11yProjectListingNewProjectClicked',
       data: {
-        num_projects: projects.list.length,
-        source: 'project listing'
+        num_projects: projects.list.length
       }
     });
     navigate(ROUTES.get_started);
