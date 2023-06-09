@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useMountEffect } from '@browserstack/hooks';
+import { useInterval, useMountEffect } from '@browserstack/hooks';
 import { logEvent } from '@browserstack/utils';
 import {
   getOnboardingData,
@@ -23,6 +23,7 @@ import {
   AGSuccessGridModalPresented
 } from 'constants/event-names';
 import {
+  EVENT_LOGS_POLLING_IN_MS,
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
@@ -134,6 +135,7 @@ browserstack-cli hst init`,
     selenium: null,
     playwright: null
   });
+
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
   const [showEventLogsModal, setShowEventLogsModal] = useState(true);
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
@@ -144,6 +146,8 @@ browserstack-cli hst init`,
   );
   const [selectedRegion, setSelectedRegion] = useState();
   const [totalSteps, setTotalSteps] = useState(0);
+
+  const intervalIdForEventLogs = useRef();
 
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
@@ -395,6 +399,42 @@ browserstack-cli hst init`,
     setShowSetupStatusModal(isSetupComplete);
   }, [isSetupComplete]);
 
+  const fetchEventsLogsData = async (type, step) => {
+    const response = await getOnboardingEventsLogsData(userDetails.id, type);
+    const res = response.data;
+
+    setEventLogsCode(res.currentLogs);
+    setCurrentStep(res.currentStep);
+    setTotalSteps(res.totalSteps);
+
+    if (
+      step === 0 &&
+      res.currentStep > 0 &&
+      (res.onboardingType === ONBOARDING_TYPES.scratch ||
+        res.onboardingType === ONBOARDING_TYPES.existing)
+    ) {
+      setOnboardingType(res.onboardingType);
+      setOnboardingStep(1);
+    }
+
+    if (res.currentStep === res.totalSteps) {
+      setPollForEventLogs(false);
+      setFrameworkURLs(res.framework);
+      setTimeout(() => {
+        setIsSetupComplete(true);
+      }, 1000);
+
+      markOnboardingStatus(userDetails.id, 'success');
+    }
+  };
+
+  useInterval(
+    () => {
+      fetchEventsLogsData(onboardingType, onboardingStep);
+    },
+    intervalIdForEventLogs.current === null ? null : EVENT_LOGS_POLLING_IN_MS
+  );
+
   useMountEffect(() => {
     const fetchOnboardingData = async () => {
       const response = await getOnboardingData(userDetails.id);
@@ -405,48 +445,12 @@ browserstack-cli hst init`,
       return response.data;
     };
 
-    const fetchEventsLogsData = async () => {
-      const response = await getOnboardingEventsLogsData(
-        userDetails.id,
-        onboardingType
-      );
-      const res = response.data;
-
-      setEventLogsCode(res.currentLogs);
-      setCurrentStep(res.currentStep);
-      setTotalSteps(res.totalSteps);
-
-      if (
-        onboardingStep === 0 &&
-        res.currentStep > 0 &&
-        (res.onboardingType === ONBOARDING_TYPES.scratch ||
-          res.onboardingType === ONBOARDING_TYPES.existing)
-      ) {
-        setOnboardingType(res.onboardingType);
-        // setOnboardingStep(1);
-      }
-
-      if (res.currentStep === res.totalSteps) {
-        setPollForEventLogs(false);
-        setFrameworkURLs(res.framework);
-        setTimeout(() => {
-          setIsSetupComplete(true);
-        }, 1000);
-
-        markOnboardingStatus(userDetails.id, 'success');
-      }
-    };
-
     if (!userDetails.onboardingCompleted) {
       fetchOnboardingData();
 
       if (pollForEventLogs) {
-        setInterval(() => {
-          fetchEventsLogsData();
-        }, 10000);
+        intervalIdForEventLogs.current = EVENT_LOGS_POLLING_IN_MS;
       }
-
-      fetchEventsLogsData();
     } else {
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
     }
