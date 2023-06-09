@@ -13,8 +13,8 @@ export const routeFormatter = (
       tempLink = tempLink.replace(`:${keyValue}`, replaceConf[keyValue]);
     });
 
-  tempLink = tempLink.split(':')[0].replace(/[?]/g, '');
-  tempLink = tempLink.slice(-1) === '/' ? tempLink.slice(0, -1) : tempLink;
+  tempLink = tempLink?.split(':')[0]?.replace(/[?]/g, '');
+  tempLink = tempLink?.slice(-1) === '/' ? tempLink?.slice(0, -1) : tempLink;
   return maintainSearchParams ? tempLink + window.location.search : tempLink;
 };
 
@@ -89,19 +89,6 @@ export const getSystemOrCustomValue = (
   return '--';
 };
 
-export const getFilterOptions = (thisParams) => {
-  const tags = thisParams.get('tags');
-  const owner = thisParams.get('owner');
-  const priority = thisParams.get('priority');
-  const q = thisParams.get('q');
-  return {
-    tags: tags?.split(',') || [],
-    owner: owner?.split(',') || [],
-    priority: priority?.split(',') || [],
-    q: q || ''
-  };
-};
-
 export const redirectToPrevPage = (searchParams, setSearchParams) => {
   if (searchParams.get('p') - 1 === 1) {
     searchParams.delete('p');
@@ -110,4 +97,14 @@ export const redirectToPrevPage = (searchParams, setSearchParams) => {
     searchParams.set('p', `${searchParams.get('p') - 1}`);
     setSearchParams(searchParams.toString());
   }
+};
+
+export const updateQueryParamWOEvent = (paramsObject) => {
+  if (!window?.history?.pushState) return;
+
+  const params = new URLSearchParams(paramsObject).toString();
+  const newurl = `${window.location.protocol}//${window.location.host}${
+    window.location.pathname
+  }${params ? '?' : ''}${params || ''}`;
+  window.history.pushState({ path: newurl }, '', newurl);
 };

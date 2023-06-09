@@ -12,6 +12,7 @@ import {
 import CopyButton from 'common/CopyButton';
 
 import useClusterOverview from './useClusterOverview';
+import cloudIcons from 'constants/cloudIcons';
 
 const ClusterOverview = () => {
   const { containerClassName, fontColor900ClassName, clusterData } =
@@ -56,7 +57,7 @@ const ClusterOverview = () => {
     },
     {
       title: 'Cloud Provider',
-      value: profile.cloudProvider
+      value: profile?.cloudProvider
     },
     {
       title: 'Connected',
@@ -64,11 +65,11 @@ const ClusterOverview = () => {
     },
     {
       title: 'Created by',
-      value: user.fullname
+      value: user?.fullname
     },
     {
       title: 'No. of Grids',
-      value: grids.length
+      value: grids?.length
     },
     {
       title: 'Region',
@@ -84,7 +85,7 @@ const ClusterOverview = () => {
     },
     {
       title: 'Instance Type',
-      value: profile.instanceType
+      value: profile?.instanceType
     }
   ];
 
@@ -102,7 +103,15 @@ const ClusterOverview = () => {
               return (
                 <div>
                   <p className="text-base-500 text-sm font-normal">{title}</p>
-                  <p className={fontColor900ClassName}>{value}</p>
+
+                  {title === 'Cloud Provider' ? (
+                    <div className="flex gap-x-2">
+                      <span>{cloudIcons[value]}</span>{' '}
+                      <p className={fontColor900ClassName}>{value}</p>
+                    </div>
+                  ) : (
+                    <p className={fontColor900ClassName}>{value}</p>
+                  )}
                 </div>
               );
             })}
@@ -118,7 +127,6 @@ const ClusterOverview = () => {
           <div className="mt-6">
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center">
-                <MdAddLink />
                 <div className="ml-2 mr-6 text-base text-base-500">
                   <p>VPC ID</p>
                 </div>
@@ -126,10 +134,10 @@ const ClusterOverview = () => {
 
               <div className="flex w-2/3 justify-between">
                 <div className="mr-4 text-base-900">
-                  <p>{profile.vpcs}</p>
+                  <p>{profile?.vpcs}</p>
                 </div>
                 <CopyButton
-                  copyValue={profile.vpcs}
+                  copyValue={profile?.vpcs}
                   textColor=""
                   wrapperClassName="text-xl"
                 >
@@ -139,17 +147,16 @@ const ClusterOverview = () => {
             </div>
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
                 <div className="ml-2 text-base  mr-6">
                   <p>Domain</p>
                 </div>
               </div>
               <div className="flex w-2/3 justify-between text-base-900">
                 <div className="mr-4">
-                  <p>{profile.domain}</p>
+                  <p>{profile?.domain}</p>
                 </div>
                 <CopyButton
-                  copyValue={profile.domain}
+                  copyValue={profile?.domain}
                   textColor=""
                   wrapperClassName="text-xl"
                 >
@@ -159,7 +166,6 @@ const ClusterOverview = () => {
             </div>
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
                 <div className="ml-2 text-base mr-6">
                   <p>Subnets</p>
                 </div>
@@ -167,10 +173,10 @@ const ClusterOverview = () => {
 
               <div className="flex w-2/3 justify-between text-base-900">
                 <div className="mr-4">
-                  <p>{profile.subnets.join(',')}</p>
+                  <p>{profile?.subnets.join(',')}</p>
                 </div>
                 <CopyButton
-                  copyValue={profile.subnets.join(',')}
+                  copyValue={profile?.subnets.join(',')}
                   textColor=""
                   wrapperClassName="text-xl"
                 >
@@ -203,7 +209,7 @@ const ClusterOverview = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {grids.map((grid) => {
+              {grids?.map((grid) => {
                 const {
                   concurrency,
                   name: gridName,

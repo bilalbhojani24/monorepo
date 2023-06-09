@@ -14,7 +14,10 @@ import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
 import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
-import { clearAllAppliedFilters } from 'features/FilterSkeleton/slices/filterSlice';
+import {
+  clearAllAppliedFilters,
+  resetFilters
+} from 'features/FilterSkeleton/slices/filterSlice';
 import {
   getAllAppliedFilters,
   getCurrentFilterCategory,
@@ -90,6 +93,13 @@ const SnPUniqueErrors = () => {
       });
     },
     [activeProject.id, activeProject.name]
+  );
+
+  useEffect(
+    () => () => {
+      dispatch(resetFilters());
+    },
+    [dispatch]
   );
 
   useEffect(() => {

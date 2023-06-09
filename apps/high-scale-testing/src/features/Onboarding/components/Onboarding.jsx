@@ -84,10 +84,6 @@ const Onboarding = () => {
         },
         {
           index: 1,
-          name: GRID_MANAGER_NAMES.kubectl
-        },
-        {
-          index: 2,
           name: GRID_MANAGER_NAMES.cli
         }
       ]}

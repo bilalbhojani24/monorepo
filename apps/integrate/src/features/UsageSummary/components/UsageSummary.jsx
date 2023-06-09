@@ -82,17 +82,19 @@ const RequestsChart = () => {
       <div className="mb-2 flex justify-between">
         <p className="text-lg font-semibold">Usage</p>
         {isUsageSummaryLoaded && (
-          <INTGSelectMenu
-            onChange={selectConfiguration}
-            value={activeDateRange}
-          >
-            <INTGSelectMenuTrigger wrapperClassName="w-48 ml-6" />
-            <INTGSelectMenuOptionGroup>
-              {range?.map((item) => (
-                <INTGSelectMenuOptionItem key={item.value} option={item} />
-              ))}
-            </INTGSelectMenuOptionGroup>
-          </INTGSelectMenu>
+          <div data-test-id="select-usage-summary-date-range">
+            <INTGSelectMenu
+              onChange={selectConfiguration}
+              value={activeDateRange}
+            >
+              <INTGSelectMenuTrigger wrapperClassName="w-48 ml-6" />
+              <INTGSelectMenuOptionGroup>
+                {range?.map((item) => (
+                  <INTGSelectMenuOptionItem key={item.value} option={item} />
+                ))}
+              </INTGSelectMenuOptionGroup>
+            </INTGSelectMenu>
+          </div>
         )}
       </div>
       {isUsageSummaryLoading && <INTGLoader wrapperClassName="h-80" />}

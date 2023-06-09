@@ -43,7 +43,9 @@ export default function Reports() {
     onInputValueChange,
     updateLastIndex,
     onReportConsolidateButtonClick,
-    handleClose
+    handleClose,
+    handleScroll,
+    scrollRef
   } = useReports();
 
   const activeReportsType = selectedReportType.map(({ value }) => value);
@@ -194,6 +196,7 @@ export default function Reports() {
         </div>
       </div>
       <div
+        ref={scrollRef}
         className="fixed overflow-auto"
         style={{
           height: isShowingBanner
@@ -202,6 +205,7 @@ export default function Reports() {
           top: isShowingBanner ? '291px' : '227px',
           width: 'calc(100vw - 256px)'
         }}
+        onScroll={handleScroll}
       >
         {isLoading && searchFilterList.length === 0 && (
           <Loader wrapperClassName="mt-28 h-96" />
