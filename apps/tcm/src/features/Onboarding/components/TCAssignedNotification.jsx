@@ -1,8 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  MdCheckCircleOutline,
-  MdOutlineWarningAmber
-} from '@browserstack/bifrost';
+import { MdHowToReg } from '@browserstack/bifrost';
 import { TMButton, TMNotifications } from 'common/bifrostProxy';
 
 import useTCAssignedNotification from './useTCAssignedNotification';
@@ -10,57 +7,56 @@ import useTCAssignedNotification from './useTCAssignedNotification';
 const TCAssignedNotification = () => {
   const {
     notify,
-    notificationConfig,
-    importDetails,
+    tcAssignedNotificationConfig,
+    timerFinished,
     removeNotification,
     handleFirstButtonClick,
     handleSecondButtonClick
   } = useTCAssignedNotification();
 
   useEffect(() => {
-    if (notificationConfig?.show) {
+    if (tcAssignedNotificationConfig?.show && timerFinished) {
       notify(
         <TMNotifications
-          title={`${importDetails?.successfullyImportedProjects}/${importDetails?.totalProjects} Projects Imported`}
-          description="Your import has been completed. You can  check the overall status of your import."
+          title="Welcome User"
+          description="You have been marked as an Owner for few test cases."
           actionButtons={() => (
             <>
               <TMButton
-                onClick={() => handleFirstButtonClick(notificationConfig?.id)}
+                onClick={() =>
+                  handleFirstButtonClick(tcAssignedNotificationConfig?.id)
+                }
                 variant="minimal"
                 colors="white"
                 wrapperClassName="text-base-700 hover:text-brand-500"
               >
-                View Report
+                View Test Cases
               </TMButton>
               <TMButton
                 variant="minimal"
                 wrapperClassName="text-base-700 hover:text-brand-500"
-                onClick={() => handleSecondButtonClick(notificationConfig?.id)}
+                onClick={() =>
+                  handleSecondButtonClick(tcAssignedNotificationConfig?.id)
+                }
               >
-                Go to All Projects
+                Dismiss
               </TMButton>
             </>
           )}
-          headerIcon={
-            importDetails?.successfullyImportedProjects ===
-            importDetails?.totalProjects ? (
-              <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
-            ) : (
-              <MdOutlineWarningAmber className="text-attention-400 h-6 w-6" />
-            )
+          headerIcon={<MdHowToReg className="text-base-600 h-6 w-6" />}
+          handleClose={() =>
+            removeNotification(tcAssignedNotificationConfig?.id)
           }
-          handleClose={() => removeNotification(notificationConfig?.id)}
         />,
         {
           position: 'top-right',
           autoClose: false,
-          id: notificationConfig?.id
+          id: tcAssignedNotificationConfig?.id
         }
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notificationConfig?.show]);
+  }, [tcAssignedNotificationConfig?.show, timerFinished]);
 
   return '';
 };

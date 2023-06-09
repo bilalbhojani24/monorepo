@@ -18,6 +18,7 @@ import SideNav from 'features/SideNav';
 
 import { PRODUCTION_HOST } from './const/immutables';
 import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
+import TCAssignedNotification from './features/Onboarding/components/TCAssignedNotification';
 
 if (window.initialized !== true) {
   window.initialized = false;
@@ -96,6 +97,7 @@ function App() {
         </div>
       </div>
       <Notification />
+      <TCAssignedNotification />
       <FreshChatWidget />
       <NotificationsContainer />
     </>
