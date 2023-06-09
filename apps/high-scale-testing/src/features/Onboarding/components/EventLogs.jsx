@@ -2,9 +2,6 @@ import React from 'react';
 import {
   Button,
   CodeSnippet,
-  Hyperlink,
-  MdOutlineLocalCafe,
-  MdOutlineOpenInNew,
   Modal,
   ModalBody,
   ModalFooter,
@@ -12,12 +9,12 @@ import {
   ProgressBar
 } from '@browserstack/bifrost';
 import { useMountEffect } from '@browserstack/hooks';
-import { logEvent } from '@browserstack/utils';
 import {
   AGEventsLogModalInteracted,
   AGEventsLogModalPresented
 } from 'constants/event-names';
 import PropTypes from 'prop-types';
+import { logHSTEvent } from 'utils/logger';
 
 const EventLogs = ({
   closeEventLogsModal,
@@ -26,13 +23,13 @@ const EventLogs = ({
   totalSteps
 }) => {
   const viewDocOnClickHandler = () => {
-    logEvent(['amplitude'], 'web_events', AGEventsLogModalInteracted, {
+    logHSTEvent(['amplitude'], 'web_events', AGEventsLogModalInteracted, {
       action: 'viewdoc_clicked'
     });
   };
 
   useMountEffect(() => {
-    logEvent([], 'web_events', AGEventsLogModalPresented);
+    logHSTEvent([], 'web_events', AGEventsLogModalPresented);
   });
 
   return (
