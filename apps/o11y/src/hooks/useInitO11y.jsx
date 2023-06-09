@@ -86,7 +86,7 @@ function useInitO11y() {
 
   useEffect(() => {
     // Note: Disabling for onboarding, Get access and project selection pages
-    if (activeProject.id && !isProjectListing) {
+    if (activeProject.id && !isProjectListing && envConfig.enableNps) {
       // Initialize delighted survey
       const delightedConfig = {
         group_id: userDetails.groupId,
