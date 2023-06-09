@@ -21,6 +21,7 @@ export const SETUP_FORMATS = [
 ];
 
 export const TC_ASSIGNED_NOTIFICATION_ID = 'tc_assigned_notification_id';
+export const INFINITY = 2147483647;
 
 // export const JOB_ROLES = [
 //   'Manual Tester',

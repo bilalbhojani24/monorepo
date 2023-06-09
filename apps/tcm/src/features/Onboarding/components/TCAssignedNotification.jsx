@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { MdHowToReg } from '@browserstack/bifrost';
 import { TMButton, TMNotifications } from 'common/bifrostProxy';
 
+import { INFINITY } from '../const/immutableConst';
+
 import useTCAssignedNotification from './useTCAssignedNotification';
 
 const TCAssignedNotification = () => {
@@ -52,7 +54,7 @@ const TCAssignedNotification = () => {
         {
           position: 'top-right',
           autoClose: false,
-          duration: 2147483647,
+          duration: INFINITY,
           id: tcAssignedNotificationConfig?.id
         }
       );
