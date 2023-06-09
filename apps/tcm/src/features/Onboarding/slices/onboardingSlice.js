@@ -17,6 +17,7 @@ const initialState = {
   },
   timerFinished: false,
   isOnboardingCompleted: false,
+  autoAssignedProjectId: null,
   tcAssignedNotificationConfig: { show: null, id: TC_ASSIGNED_NOTIFICATION_ID }
 };
 
@@ -50,6 +51,7 @@ export const onboardingSlice = createSlice({
     },
     autoAssignmentStatusFulfilled: (state, { payload }) => {
       state.tcAssignedNotificationConfig.show = payload.show_notification;
+      state.autoAssignedProjectId = payload.project_id;
     }
   }
 });

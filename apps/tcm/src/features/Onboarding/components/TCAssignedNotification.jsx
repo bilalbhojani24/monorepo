@@ -7,6 +7,7 @@ import useTCAssignedNotification from './useTCAssignedNotification';
 const TCAssignedNotification = () => {
   const {
     notify,
+    user,
     tcAssignedNotificationConfig,
     timerFinished,
     removeNotification,
@@ -18,7 +19,7 @@ const TCAssignedNotification = () => {
     if (tcAssignedNotificationConfig?.show && timerFinished) {
       notify(
         <TMNotifications
-          title="Welcome User"
+          title={`Welcome ${user?.full_name}`}
           description="You have been marked as an Owner for few test cases."
           actionButtons={() => (
             <>
@@ -51,6 +52,7 @@ const TCAssignedNotification = () => {
         {
           position: 'top-right',
           autoClose: false,
+          duration: 2147483647,
           id: tcAssignedNotificationConfig?.id
         }
       );
