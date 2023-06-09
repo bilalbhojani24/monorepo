@@ -31,7 +31,7 @@ export const useFeedbackWidget = ({
             data
           });
         }
-      }, 500);
+      }, 300);
     },
     [feedbacktype, flow, handleFeedbackClick]
   );

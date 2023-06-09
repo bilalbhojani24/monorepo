@@ -52,7 +52,10 @@ const RenderModal = () => {
       )}
 
       {feedbacktype.type === FEEDBACK_TYPE[1] && (
-        <ModalFooter position="right" backgroundColorClass="bg-base-50 py-3">
+        <ModalFooter
+          position="right"
+          backgroundColorClass="border-t border-base-300"
+        >
           <Button type="submit" onClick={handleFormSubmit}>
             Submit Feedback
           </Button>

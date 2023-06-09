@@ -15,7 +15,6 @@ const RenderNpsBody = () => {
       {npsConstants.map((item, index) => (
         <Button
           key={item}
-          colors={selectedNPS === item ? 'brand' : 'white'}
           iconOnly
           onClick={() => {
             setSelectedNPS(item);
@@ -24,7 +23,7 @@ const RenderNpsBody = () => {
             });
           }}
           wrapperClassName={twClassNames(
-            'flex-1 rounded-none border-base-300 border-r-0 flex items-center justify-center p-3 focus:ring-2 focus:ring-brand-500',
+            'flex-1 rounded-none border-base-300 border-r-0 flex items-center justify-center p-3 focus:ring-2 focus:ring-brand-500 hover:bg-base-50',
             {
               'rounded-l-md': index === 0,
               'rounded-r-md border-r-1': index === 9,
@@ -32,6 +31,7 @@ const RenderNpsBody = () => {
             }
           )}
           size="lg"
+          variant="white"
         >
           {item}
         </Button>
