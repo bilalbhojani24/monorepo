@@ -101,7 +101,7 @@ function App() {
       // refresh or import is actually started
       getLatestQuickImportConfigAPI().then((data) => {
         dispatch(
-          setCurrentTestManagementTool(data?.import_type?.split('_')[0])
+          setCurrentTestManagementTool(data?.import_type?.split('_')[0] || null)
         );
         dispatch(setImportId(data?.import_id));
         dispatch(setIsProgressDismissed(data?.progress_banner_dismissed));
