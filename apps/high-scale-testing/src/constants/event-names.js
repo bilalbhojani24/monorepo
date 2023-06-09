@@ -7,6 +7,7 @@ const AGEventsLogModalInteracted = 'AGEventsLogModalInteracted';
 const AGEventsLogModalPresented = 'AGEventsLogModalPresented';
 const AGGridDetailsInteracted = 'AGGridDetailsInteracted';
 const AGGridDetailsVisited = 'AGGridDetailsVisited';
+const AGGridSettingsInteracted = 'AGGridSettingsInteracted';
 const AGGridSettingsSaved = 'AGGridSettingsSaved';
 const AGGridSettingsVisited = 'AGGridSettingsVisited';
 const AGHaveSetupInteracted = 'AGHaveSetupInteracted';
@@ -29,6 +30,7 @@ export {
   AGEventsLogModalPresented,
   AGGridDetailsInteracted,
   AGGridDetailsVisited,
+  AGGridSettingsInteracted,
   AGGridSettingsSaved,
   AGGridSettingsVisited,
   AGHaveSetupInteracted,

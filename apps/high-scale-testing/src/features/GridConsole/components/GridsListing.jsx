@@ -267,32 +267,40 @@ const GridsListing = () => {
             </TableBody>
           </Table>
         </div>
-        <Modal show={showDeleteGridModal}>
-          <ModalHeader
-            dismissButton={false}
-            heading="Delete grid"
-            icon={
-              <ExclamationTriangleIcon
-                className="text-danger-600 h-6 w-6"
-                aria-hidden="true"
-              />
-            }
-          />
-          <ModalBody className="overflow-auto">
-            <div>
-              <p>Run the below command to delete the grid {activeGridName}</p>
+        <Modal show={showDeleteGridModal} size="xl">
+          <ModalBody className="overflow-auto py-5">
+            <div className="flex flex-col">
+              <div className="bg-danger-100 m-auto flex h-12 w-12 items-center justify-center rounded-full">
+                <ExclamationTriangleIcon
+                  className="text-danger-600 h-6 w-6"
+                  aria-hidden="true"
+                />
+              </div>
 
-              <CodeSnippet
-                code={deletionCommand}
-                maxHeight="260px"
-                singleLine
-              />
+              <div className="mt-3 flex flex-col text-center">
+                <h3 className="text-base-900 text-lg font-medium">
+                  Delete Grid
+                </h3>
+                <p className="text-base-500 mt-2 text-sm">
+                  Run the below command to delete the grid '{activeGridName}'
+                </p>
+              </div>
+
+              <div className="mt-2">
+                <CodeSnippet
+                  code={deletionCommand}
+                  maxHeight="260px"
+                  singleLine
+                  language="bash"
+                />
+              </div>
             </div>
           </ModalBody>
           <ModalFooter position="right">
             <Button
               aria-label="Close"
               colors="white"
+              fullWidth
               onClick={closeDeleteGridModal}
               type="button"
               varaint="primary"
