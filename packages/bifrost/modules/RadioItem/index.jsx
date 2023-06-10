@@ -40,6 +40,7 @@ const RadioItem = ({
         value={value}
         disabled={disabled}
         id={value}
+        aria-label={`radio with value ${value}`}
         {...props}
       >
         <span
@@ -52,15 +53,15 @@ const RadioItem = ({
       <div
         className={twClassNames('flex ml-3 text-sm gap-1', {
           'flex-col': !inlineDescription,
-          'flex-1': rightAligned
+          'flex-1': rightAligned,
+          'opacity-25 cursor-not-allowed': disabled
         })}
+        aria-disabled={disabled}
       >
         {label && (
           <label
             htmlFor={value}
-            className={twClassNames('font-medium text-base-700', {
-              'text-base-400 cursor-not-allowed': disabled
-            })}
+            className={twClassNames('font-medium text-base-900')}
           >
             {label}
           </label>
@@ -68,9 +69,7 @@ const RadioItem = ({
         {withDescription && description && (
           <p
             id={`${value}-description`}
-            className={twClassNames('text-base-500', {
-              'text-base-300 cursor-not-allowed': disabled
-            })}
+            className={twClassNames('text-base-500')}
           >
             {description}
           </p>
