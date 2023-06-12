@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 import { notify } from '@browserstack/bifrost';
+import { dismissTCAssignNotificationAPI } from 'api/onboarding.api';
 import AppRoute from 'const/routes';
 import { setFilterSearchMeta } from 'features/Repository/slices/repositorySlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
-import { dismissTCAssignNotificationAPI } from '../../../api/onboarding.api';
 import { setTCAssignedNotificationConfig } from '../slices/onboardingSlice';
 import { notificationDecider } from '../slices/onboardingThunk';
 
@@ -40,11 +40,14 @@ const useTCAssignedNotification = () => {
   const handleFirstButtonClick = (toastDataId) => {
     removeNotification(toastDataId);
     dispatch(setFilterSearchMeta({ ...filterSearchMeta, owner: [user?.id] }));
-    navigate(
-      `${routeFormatter(AppRoute.TEST_CASES_SEARCH, {
+    navigate({
+      pathname: routeFormatter(AppRoute.TEST_CASES_SEARCH, {
         projectId: autoAssignedProjectId
-      })}?owner=${user?.id}`
-    );
+      }),
+      search: createSearchParams({
+        owner: user?.id
+      }).toString()
+    });
   };
 
   const handleSecondButtonClick = (toastDataId) => {
