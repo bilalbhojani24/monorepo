@@ -14,8 +14,11 @@ import NetworkUploadRealtimeGraph from './NetworkUploadRealtimeGraph';
 import SlowFramesRealtimeGraph from './SlowFramesRealtimeGraph';
 
 const RealtimeMetricGraphs = () => {
-  const { isSocketConnectionLoading, isSocketConnectionFailed } =
-    useRealtimeMetricGraphs();
+  const {
+    isSocketConnectionLoading,
+    isSocketConnectionFailed,
+    sessionDetails
+  } = useRealtimeMetricGraphs();
 
   return (
     <div id="realtimeMetricsContainer" className="flex flex-1 flex-col">
@@ -54,7 +57,9 @@ const RealtimeMetricGraphs = () => {
           <MemoryRealtimeGraph />
           <FPSRealtimeGraph />
           <SlowFramesRealtimeGraph />
-          <BatteryRealtimeGraph />
+
+          {sessionDetails?.device?.os === 'android' && <BatteryRealtimeGraph />}
+
           <DiskReadRealtimeGraph />
           <DiskWriteRealtimeGraph />
           <NetworkUploadRealtimeGraph />
