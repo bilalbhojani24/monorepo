@@ -12,6 +12,7 @@ const Switch = React.forwardRef(
       checked,
       wrapperClassName,
       toggleIcons,
+      // disabled,
       ...props
     },
     ref
@@ -36,6 +37,10 @@ const Switch = React.forwardRef(
                   headlessChecked ? 'bg-brand-600' : 'bg-base-200'
                 ],
             'disabled:cursor-not-allowed',
+            {
+              'bg-brand-300': headlessChecked && props.disabled,
+              'bg-base-100': !headlessChecked && props.disabled
+            },
             wrapperClassName
           )
         }
@@ -55,7 +60,11 @@ const Switch = React.forwardRef(
                   aria-hidden="true"
                   className={twClassNames(
                     'pointer-events-none absolute mx-auto h-4 w-9 rounded-full transition-colors duration-200 ease-in-out',
-                    headlessChecked ? 'bg-brand-600' : 'bg-base-200'
+                    headlessChecked ? 'bg-brand-600' : 'bg-base-200',
+                    {
+                      'bg-brand-300': headlessChecked && props.disabled,
+                      'bg-base-100': !headlessChecked && props.disabled
+                    }
                   )}
                 />
               </>
@@ -85,7 +94,8 @@ Switch.propTypes = {
   toggleIcons: PropTypes.func,
   onChange: PropTypes.func,
   wrapperClassName: PropTypes.string,
-  defaultValue: PropTypes.bool
+  defaultValue: PropTypes.bool,
+  disabled: PropTypes.bool
 };
 Switch.defaultProps = {
   checked: undefined,
@@ -93,7 +103,8 @@ Switch.defaultProps = {
   toggleIcons: null,
   onChange: null,
   wrapperClassName: '',
-  defaultValue: undefined
+  defaultValue: undefined,
+  disabled: false
 };
 
 export default Switch;

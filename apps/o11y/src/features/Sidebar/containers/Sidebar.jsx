@@ -6,6 +6,7 @@ import {
   MdOutlineBuildCircle,
   MdOutlineDataUsage,
   MdOutlineExtension,
+  MdOutlineRunningWithErrors,
   MdOutlineSettings,
   MdOutlineStackedLineChart,
   MdOutlineTopic,
@@ -21,7 +22,8 @@ import { getDocUrl, getExternalUrl, logOllyEvent } from 'utils/common';
 import {
   getProjectBuildsPath,
   getSettingsPath,
-  getSuitHealthPath,
+  getSuitHealthTestsPath,
+  getSuitHealthUniqueErrorsPath,
   getTestingTrendPath
 } from 'utils/routeUtils';
 
@@ -37,12 +39,20 @@ const getPrimaryNav = ({ projectNormalisedName }) => [
     pattern: `${ROUTES.builds}/*`
   },
   {
-    id: 'suite_health',
-    label: 'Suite Health',
+    id: 'suite_health_tests',
+    label: 'Tests Health',
     activeIcon: MdOutlineDataUsage,
     inActiveIcon: MdOutlineDataUsage,
-    path: getSuitHealthPath(projectNormalisedName),
-    pattern: ROUTES.suite_health
+    path: getSuitHealthTestsPath(projectNormalisedName),
+    pattern: ROUTES.suite_health_tests
+  },
+  {
+    id: 'suite_health_unique_errors',
+    label: 'Unique Errors',
+    activeIcon: MdOutlineRunningWithErrors,
+    inActiveIcon: MdOutlineRunningWithErrors,
+    path: getSuitHealthUniqueErrorsPath(projectNormalisedName),
+    pattern: ROUTES.suite_health_unique_errors
   },
   {
     id: 'testing_trends',

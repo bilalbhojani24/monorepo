@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { O11yButton } from 'common/bifrostProxy';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import PropTypes from 'prop-types';
 
@@ -11,7 +12,9 @@ export default function FailureByFoldersTooltip({ data }) {
     logInsightsInteractionEvent({
       interaction: 'failure_by_folder_view_tests_clicked'
     });
-    applyTestListFilter({ query: `folder=${data.id}` });
+    applyTestListFilter({
+      query: `${ADV_FILTER_TYPES.folders.key}=${data.id}`
+    });
   };
   return (
     <div className="pointer-events-none flex flex-col p-3 pb-0 text-white">

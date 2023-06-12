@@ -90,12 +90,6 @@ function AddNotificationUserModal() {
         });
         handleCloseModal();
       })
-      .catch(() => {
-        o11yNotify({
-          type: 'error',
-          title: 'Failed to add to notification list'
-        });
-      })
       .finally(() => {
         setIsSubmittingData(false);
       });

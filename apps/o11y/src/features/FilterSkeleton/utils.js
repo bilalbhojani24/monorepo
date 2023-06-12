@@ -1,10 +1,15 @@
 import { listTreeCheckboxHelper } from '@browserstack/bifrost';
-import { O11Y_DATE_RANGE } from 'constants/common';
+import { O11Y_DATE_RANGE, o11yHistory } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
 import { updateUrlQueryParam } from 'utils/common';
 import { getO11yTimeBounds } from 'utils/dateTime';
 
+import { resetFilters } from './slices/filterSlice';
 import { ADV_FILTER_TYPES, ADV_FILTERS_PREFIX } from './constants';
+
+const ALL_FILTER_FIELD_KEYS = Object.values(ADV_FILTER_TYPES).map(
+  (filterField) => filterField.key
+);
 
 export const getAppliedFilterObj = ({ id, text, type, value }) => ({
   id,
@@ -83,31 +88,50 @@ const getDefaultDateRange = () => {
   return getO11yTimeBounds(O11Y_DATE_RANGE.days7.key);
 };
 
-// eslint-disable-next-line no-unused-vars
-export const getFilterFromSearchString = () => (dispatch) => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const dateRangeType = searchParams.get('daterangetype');
-  if (dateRangeType && dateRangeType !== 'custom') {
-    const { lowerBound, upperBound } = getO11yTimeBounds(dateRangeType);
-    searchParams.set(
-      ADV_FILTER_TYPES.dateRange.key,
-      `${lowerBound},${upperBound}`
-    );
-  } else if (
-    !dateRangeType ||
-    (dateRangeType === 'custom' &&
-      !searchParams.get(ADV_FILTER_TYPES.dateRange.key))
-  ) {
-    const { lowerBound, upperBound } = getDefaultDateRange();
-    searchParams.set('daterangetype', O11Y_DATE_RANGE.days7.key);
-    searchParams.set(
-      ADV_FILTER_TYPES.dateRange.key,
-      `${lowerBound},${upperBound}`
-    );
-  }
+const sanitizeSearchParams = (searchParams) => {
+  const searchParamKeys = [...searchParams.keys()];
 
+  searchParamKeys.forEach((key) => {
+    if (!ALL_FILTER_FIELD_KEYS.includes(key) && key !== 'daterangetype') {
+      searchParams.delete(key);
+    }
+  });
   return searchParams;
 };
+
+export const getFilterFromSearchString =
+  (excludeDateRange = false) =>
+  // eslint-disable-next-line no-unused-vars
+  (dispatch) => {
+    let searchParams = new URLSearchParams(window.location.search);
+    searchParams = sanitizeSearchParams(searchParams);
+    if (excludeDateRange) {
+      searchParams.delete('daterangetype');
+      searchParams.delete(ADV_FILTER_TYPES.dateRange.key);
+      return searchParams;
+    }
+    const dateRangeType = searchParams.get('daterangetype');
+    if (dateRangeType && dateRangeType !== 'custom') {
+      const { lowerBound, upperBound } = getO11yTimeBounds(dateRangeType);
+      searchParams.set(
+        ADV_FILTER_TYPES.dateRange.key,
+        `${lowerBound},${upperBound}`
+      );
+    } else if (
+      !dateRangeType ||
+      (dateRangeType === 'custom' &&
+        !searchParams.get(ADV_FILTER_TYPES.dateRange.key))
+    ) {
+      const { lowerBound, upperBound } = getDefaultDateRange();
+      searchParams.set('daterangetype', O11Y_DATE_RANGE.days7.key);
+      searchParams.set(
+        ADV_FILTER_TYPES.dateRange.key,
+        `${lowerBound},${upperBound}`
+      );
+    }
+
+    return searchParams;
+  };
 
 export const getDateRangeFromSearchString = () => {
   const searchParams = new URLSearchParams(window.location.search);
@@ -190,4 +214,22 @@ export const constructTreeData = (folders, selectedValues) => {
     parsedTreeNodes = newItems;
   });
   return { treeData: parsedTreeNodes, selectedNodes };
+};
+
+const removeAllFilterFieldsFromParams = () => {
+  const searchParams = new URLSearchParams(window?.location?.search);
+  Object.values(ADV_FILTER_TYPES).forEach(({ key }) => {
+    if (searchParams.get(key)) {
+      searchParams.delete(key);
+    }
+  });
+  if (searchParams.get('daterangetype')) {
+    searchParams.delete('daterangetype');
+  }
+  o11yHistory.navigate({ search: searchParams.toString() });
+};
+
+export const resetAllAppliedFilters = () => (dispatch) => {
+  dispatch(resetFilters());
+  removeAllFilterFieldsFromParams();
 };

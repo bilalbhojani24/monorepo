@@ -10,5 +10,6 @@ export const STEPS_FORMAT = [
   'bullets',
   'panels-with-borders',
   'circles',
-  'bullets-and-text'
+  'bullets-and-text',
+  'circles-with-text'
 ];

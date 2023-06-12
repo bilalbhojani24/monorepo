@@ -31,6 +31,8 @@ import {
 } from '../slices/failureCategoriesSettings';
 import { getAllFailureSubCategory } from '../slices/selectors';
 
+const MAX_CHAR_ALLOWED = 64;
+
 function AddEditSubCategoryModal() {
   const subcategories = useSelector(getAllFailureSubCategory);
 
@@ -70,7 +72,7 @@ function AddEditSubCategoryModal() {
   };
 
   const handleChangeSubCategoryName = ({ target: { value } }) => {
-    if (value.length > 32) {
+    if (value.length > MAX_CHAR_ALLOWED) {
       return;
     }
     setSubCategoryName(value);
@@ -119,17 +121,6 @@ function AddEditSubCategoryModal() {
             type: 'success'
           });
           handleCloseModal();
-        })
-        .catch(() => {
-          o11yNotify({
-            title: 'Something went wrong!',
-            description: `There was an error while ${
-              modalData.action === 'edit'
-                ? 'updating category'
-                : 'creating new category'
-            }`,
-            type: 'error'
-          });
         })
         .finally(() => {
           setIsSubmittingData(false);
@@ -186,7 +177,7 @@ function AddEditSubCategoryModal() {
             errorText={errorText}
           />
           <p className="text-base-500 mt-2 text-sm font-normal leading-5">
-            Max-characters - 32
+            Max-characters: {MAX_CHAR_ALLOWED}
           </p>
         </div>
       </O11yModalBody>

@@ -50,9 +50,7 @@ const defaultConfig = {
       defaultValue: (
         <>
           <p>Details</p>
-          <span aria-hidden="true" className="ml-1">
-            &rarr;
-          </span>
+          <span aria-hidden="true">&nbsp;&rarr;</span>
         </>
       )
     },

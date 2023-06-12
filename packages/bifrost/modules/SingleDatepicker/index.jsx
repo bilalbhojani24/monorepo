@@ -34,7 +34,8 @@ const SingleDatepicker = (props) => {
     align,
     side,
     wrapperClassName,
-    isLoading
+    isLoading,
+    isMandatory
   } = props;
 
   const years = useYearpicker(YEARS_DATA, 12);
@@ -67,6 +68,7 @@ const SingleDatepicker = (props) => {
             className="text-base-700 mb-1 block break-all text-sm font-medium leading-5"
           >
             {label}
+            {isMandatory && <span className="text-danger-600 ml-0.5">*</span>}
           </span>
         )}
         <div
@@ -160,7 +162,8 @@ SingleDatepicker.propTypes = {
   align: Proptypes.string,
   side: Proptypes.string,
   label: Proptypes.string,
-  isLoading: Proptypes.bool
+  isLoading: Proptypes.bool,
+  isMandatory: Proptypes.bool
 };
 SingleDatepicker.defaultProps = {
   wrapperClassName: '',
@@ -173,7 +176,8 @@ SingleDatepicker.defaultProps = {
   align: 'end',
   side: 'bottom',
   label: '',
-  isLoading: false
+  isLoading: false,
+  isMandatory: false
 };
 
 export default SingleDatepicker;
