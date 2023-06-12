@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { twClassNames } from '@browserstack/utils';
-import { arrayOf, bool, node, oneOf, shape, string } from 'prop-types';
+import { arrayOf, bool, func, node, oneOf, shape, string } from 'prop-types';
 
 import { CodeSnippetContextData } from '../../shared/codeSnippetContext';
 
@@ -23,7 +23,8 @@ const CodeSnippet = ({
   showLineNumbers,
   singleLine,
   toolbar,
-  view
+  view,
+  copyCallback
   // wordWrap
 }) => {
   const [showCopy, setShowCopy] = useState(false);
@@ -36,6 +37,7 @@ const CodeSnippet = ({
   return (
     <CodeSnippetContextData.Provider
       value={{
+        copyCallback,
         view,
         code,
         setShowCopy,
@@ -190,7 +192,8 @@ CodeSnippet.propTypes = {
   showLineNumbers: bool,
   singleLine: bool,
   toolbar: node,
-  view: oneOf(CODE_VIEW)
+  view: oneOf(CODE_VIEW),
+  copyCallback: func
   // wordWrap: bool
 };
 
@@ -202,6 +205,7 @@ CodeSnippet.defaultProps = {
   showLineNumbers: false,
   singleLine: false,
   toolbar: null,
-  view: CODE_VIEW[0]
+  view: CODE_VIEW[0],
+  copyCallback: null
   // wordWrap: false
 };

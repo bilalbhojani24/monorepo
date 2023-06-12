@@ -119,3 +119,56 @@ export const verifyTagAPI = async ({ projectId, tags }) =>
   fetchPost(`/api/v1/projects/${projectId}/test-case/tags/verify_tag`, {
     tags
   });
+
+export const deleteTestCasesBulkOnSFAPI = async ({
+  projectId,
+  bulkSelection,
+  queryParams
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-cases/bulk-delete`,
+    {
+      test_case: bulkSelection
+    },
+    {
+      params: queryParams
+    }
+  );
+
+export const editTestCasesBulkOnSFAPI = async ({
+  projectId,
+  queryParams,
+  bulkSelection,
+  data
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-cases/bulk-edit`,
+    {
+      test_case: {
+        ...data,
+        ...bulkSelection
+      }
+    },
+    {
+      params: queryParams
+    }
+  );
+
+export const moveTestCasesBulkOnSFAPI = async ({
+  projectId,
+  queryParams,
+  newParentFolderId,
+  bulkSelection
+}) =>
+  fetchPost(
+    `/api/v1/projects/${projectId}/test-cases/bulk-move`,
+    {
+      test_case: {
+        ...bulkSelection,
+        folder_id: newParentFolderId
+      }
+    },
+    {
+      params: queryParams
+    }
+  );

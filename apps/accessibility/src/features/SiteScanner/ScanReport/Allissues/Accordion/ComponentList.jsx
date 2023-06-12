@@ -18,6 +18,7 @@ import { getActiveComponentId } from 'features/SiteScanner/ScanReport/slice/sele
 import PropTypes from 'prop-types';
 import { updateUrlWithQueryParam } from 'utils/helper';
 
+import { setShowFreshChatButton } from '../../../../Dashboard/slices/uiSlice';
 import { SectionsDataContext } from '../../context/SectionsDataContext';
 
 export default function ComponentList({ nodes, violationId }) {
@@ -29,6 +30,7 @@ export default function ComponentList({ nodes, violationId }) {
     dispatch(setActiveViolationId(violationId));
     dispatch(setActiveComponentId(key));
     dispatch(setIsShowingIssue(true));
+    dispatch(setShowFreshChatButton(false));
     const path = updateUrlWithQueryParam({
       activeViolationId: violationId,
       activeComponentId: key,
@@ -86,7 +88,7 @@ export default function ComponentList({ nodes, violationId }) {
   ];
 
   return (
-    <div className="bg-white px-6 pt-2 pb-4">
+    <div className="bg-white px-6 pb-4 pt-2">
       <Table>
         <TableHead>
           <TableRow>
