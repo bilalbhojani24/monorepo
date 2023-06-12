@@ -1,7 +1,7 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTooltip } from 'common/bifrostProxy';
-import { capitalize } from 'lodash';
+import capitalize from 'lodash/capitalize';
 import PropTypes from 'prop-types';
 
 import { BROWSERS_ICON_LIST } from '../constants';
