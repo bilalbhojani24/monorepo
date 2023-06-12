@@ -17,7 +17,9 @@ import { handleClickByEnterOrSpace } from 'utils/helper';
 import useScreenReader from './useScreenReader';
 
 function ScreenReaderSection({ title, devices }) {
-  const { handleCardClick, trialState } = useScreenReader();
+  const { handleCardClick, showTooltip, trialState } = useScreenReader(
+    devices.length
+  );
 
   const getImage = (os) => {
     if (os === SCREEN_READER_DEVICE_TYPE.ANDROID) return AndroidImage;
@@ -35,9 +37,9 @@ function ScreenReaderSection({ title, devices }) {
         />
       </div>
       <div className="flex">
-        {devices.map((item) => (
+        {devices.map((item, index) => (
           <Tooltip
-            show={trialState === TRIAL_IN_PROGRESS}
+            show={showTooltip[index] && trialState === TRIAL_IN_PROGRESS}
             placementAlign="end"
             placementSide="bottom"
             arrowPadding={-10}
@@ -65,13 +67,13 @@ function ScreenReaderSection({ title, devices }) {
                 <div
                   role="button"
                   tabIndex={0}
-                  onClick={() => handleCardClick(item.startParams)}
+                  onClick={() => handleCardClick(item.startParams, index)}
                   aria-label={`Open screen reader in ${
                     item.deviceDisplayName || item.osDisplayName
                   }${item.browserDisplayName}`}
                   onKeyDown={(e) =>
                     handleClickByEnterOrSpace(e, () =>
-                      handleCardClick(item.startParams)
+                      handleCardClick(item.startParams, index)
                     )
                   }
                 >

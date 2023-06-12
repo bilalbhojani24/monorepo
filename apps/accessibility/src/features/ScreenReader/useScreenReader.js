@@ -3,7 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import fetchScreenReaderDevices, {
   fetchMockData
 } from 'api/fetchScreenReaderDevices';
-import { TRIAL_EXPIRED, TRIAL_NOT_STARTED, TRIAL_STARTED } from 'constants';
+import {
+  TRIAL_EXPIRED,
+  TRIAL_NOT_STARTED,
+  TRIAL_STARTED,
+  TRIAL_IN_PROGRESS
+} from 'constants';
 import {
   getAlertShow,
   getShowBanner,
@@ -14,14 +19,18 @@ import { getBrowserStackEnvUrl } from 'utils';
 
 import { setModalName, setModalShow } from '../Dashboard/slices/appSlice';
 
-export default function useScreenReader() {
+export default function useScreenReader(noOfDevices) {
   const showBanner = useSelector(getShowBanner);
   const showAlert = useSelector(getAlertShow);
   const trialState = useSelector(getTrialState);
   const dispatch = useDispatch();
   const [deviceCombinations, setDeviceCombinations] = useState({});
   const { enterprise_plan: enterprisePlan } = useSelector(getUser);
-  const handleCardClick = (startParams) => {
+  const [showTooltip, setShowTooltip] = useState(() =>
+    Array.from({ length: noOfDevices }, () => false)
+  );
+
+  const handleCardClick = (startParams, tooltipIndex) => {
     if (trialState === TRIAL_STARTED || enterprisePlan) {
       const url = getBrowserStackEnvUrl();
       const startLiveSessionUrl = new URL(`${url}/screen-reader/start`);
@@ -39,6 +48,12 @@ export default function useScreenReader() {
     } else if (trialState === TRIAL_EXPIRED) {
       dispatch(setModalName('buyPlan'));
       dispatch(setModalShow(true));
+    } else if (trialState === TRIAL_IN_PROGRESS) {
+      setShowTooltip([
+        ...showTooltip.slice(0, tooltipIndex),
+        true,
+        ...showTooltip.slice(tooltipIndex + 1, showTooltip.length)
+      ]);
     }
   };
 
@@ -52,6 +67,7 @@ export default function useScreenReader() {
     handleCardClick,
     showBanner,
     showAlert,
-    trialState
+    trialState,
+    showTooltip
   };
 }
