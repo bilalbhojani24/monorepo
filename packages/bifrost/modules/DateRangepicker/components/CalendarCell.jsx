@@ -34,7 +34,10 @@ export function CalendarCell({ state, date, currentDate }) {
   return (
     <td
       {...cellProps}
-      className={`relative ${isFocusVisible ? 'z-10' : 'z-0'}`}
+      className={twClassNames('relative', {
+        'z-10': isFocusVisible,
+        'z-0': !isFocusVisible
+      })}
     >
       <div
         {...mergeProps(buttonProps, focusProps)}
@@ -44,10 +47,19 @@ export function CalendarCell({ state, date, currentDate }) {
           {
             disabled: isDisabled,
             'bg-base-200 border-y-4 border-white font-semibold': isSelected,
+
+            // gradient when in selected state
             'rounded-l-full bg-gradient-to-r from-white to-base-200':
-              isSelectionStart && !isOutsideVisibleRange,
+              isSelectionStart && !isOutsideVisibleRange && !isInvalid,
             'rounded-r-full bg-gradient-to-r from-base-200 to-white':
-              isSelectionEnd && !isOutsideVisibleRange,
+              isSelectionEnd && !isOutsideVisibleRange && !isInvalid,
+
+            // gradient when in error state
+            'rounded-l-full bg-gradient-to-r from-white to-danger-300':
+              isSelectionStart && !isOutsideVisibleRange && isInvalid,
+            'rounded-r-full bg-gradient-to-r from-danger-300 to-white':
+              isSelectionEnd && !isOutsideVisibleRange && isInvalid,
+
             'bg-gradient-to-r from-white to-white': singleDateRange,
             'bg-danger-300': isSelected && isInvalid
           }
