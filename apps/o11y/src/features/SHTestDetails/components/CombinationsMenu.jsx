@@ -46,7 +46,7 @@ const TestDetailsCombinationsMenu = () => {
           item?.browser?.version
         }`;
         menuOptions.push({
-          label: combination,
+          label: combination?.split('-').join(' '),
           value: combination,
           data: item
         });
