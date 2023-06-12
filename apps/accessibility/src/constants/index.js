@@ -98,6 +98,7 @@ export const versions = [
 export const ISSUES = 'issues';
 export const SUMMARY = 'summary';
 export const TESTS = 'tests';
+export const OVERVIEW = 'overview';
 
 export const ISSUE_DETAILS_TAB = 'ISSUE_DETAILS_TAB';
 export const HOW_TO_FIX_TAB = 'HOW_TO_FIX_TAB';
