@@ -17,10 +17,12 @@ import { PickerLevelContext } from './context/PickerLevelContext';
 const SingleDatepicker = (props) => {
   const state = useDatePickerState(props);
   const ref = useRef();
+  const triggerRef = useRef();
   const { labelProps, fieldProps, dialogProps, calendarProps } = useDatePicker(
     props,
     state,
-    ref
+    ref,
+    triggerRef
   );
 
   const {
@@ -104,6 +106,7 @@ const SingleDatepicker = (props) => {
               side={side}
               trigger={
                 <button
+                  ref={triggerRef}
                   aria-label="calendar dropdown trigger"
                   type="button"
                   disabled={disabled}
@@ -125,7 +128,11 @@ const SingleDatepicker = (props) => {
               content={
                 <div className="border-base-300 z-10 mt-2 rounded-md border bg-white p-3 shadow-lg">
                   <Dialog {...dialogProps} isLoading={isLoading}>
-                    <Calendar isLoading={isLoading} {...calendarProps} />
+                    <Calendar
+                      isLoading={isLoading}
+                      {...calendarProps}
+                      triggerRef={triggerRef}
+                    />
                   </Dialog>
                 </div>
               }

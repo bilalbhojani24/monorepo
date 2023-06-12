@@ -25,15 +25,25 @@ export function CalendarCell({ state, date, currentDate }) {
   }
 
   const { focusProps, isFocusVisible } = useFocusRing();
-
   return (
     <td
       {...cellProps}
       className={`relative ${isFocusVisible ? 'z-10' : 'z-0'}`}
     >
       <div
+        tabIndex={-1}
+        role="button"
         {...mergeProps(buttonProps, focusProps)}
         ref={ref}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            state.triggerRef.current.click();
+          }
+        }}
+        onClick={() => {
+          if (isInvalid || isDisabled) return;
+          state.triggerRef.current.click();
+        }}
         className={twClassNames(
           'group h-12 w-12 outline-none mx-auto w-full font-normal',
           {
@@ -89,6 +99,9 @@ CalendarCell.propTypes = {
     highlightedRange: Proptypes.shape({
       start: Proptypes.oneOfType([Proptypes.shape({}), Proptypes.string]),
       end: Proptypes.oneOfType([Proptypes.shape({}), Proptypes.string])
+    }),
+    triggerRef: Proptypes.shape({
+      current: {}
     })
   }),
   date: Proptypes.shape({
