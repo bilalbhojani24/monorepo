@@ -28,7 +28,7 @@ const RadioGroup = ({
   return (
     <RadioGroupContextData.Provider value={{ activeOption, type, direction }}>
       <div className={wrapperClassName}>
-        {label && (
+        {label ? (
           <label
             htmlFor={id}
             id={`${id}label-wrap`}
@@ -39,6 +39,8 @@ const RadioGroup = ({
             {label}
             {isMandatory && <span className="text-danger-600 ml-0.5">*</span>}
           </label>
+        ) : (
+          <span className="sr-only">Radio group label</span>
         )}
         {description && (
           <p className={twClassNames('text-sm text-base-500 mb-4')}>
@@ -55,7 +57,6 @@ const RadioGroup = ({
             onChange?.(option);
           }}
           isMandatory={isMandatory}
-          aria-label="radio-group"
           className={twClassNames(
             RadioWrapperStyles[type][direction],
             columnWrapperClassName

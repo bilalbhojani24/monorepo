@@ -22,7 +22,7 @@ const RadioTableItem = ({
   return (
     <RadioGroupPrimitive.Item
       className={twClassNames(
-        'w-full relative border border-base-200 p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none',
+        'w-full relative border border-base-200 p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none group',
         RadioTableBorderStyles[borderType],
         {
           'bg-brand-50 border-brand-200 z-10': checked,
@@ -38,7 +38,7 @@ const RadioTableItem = ({
       <span className={twClassNames('flex text-sm')}>
         <span
           className={twClassNames(
-            'mt-0.5 h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
+            'mt-0.5 h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center group-focus:ring-2 group-focus:ring-offset-2 group-focus:ring-brand-500',
             {
               'bg-brand-600 border-transparent': checked,
               'bg-base-50': disabled,

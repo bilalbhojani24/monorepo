@@ -20,7 +20,7 @@ const RadioItem = ({
   return (
     <div
       className={twClassNames(
-        'inline-flex item-center mr-3',
+        'inline-flex item-center',
         {
           'cursor-not-allowed': disabled
         },

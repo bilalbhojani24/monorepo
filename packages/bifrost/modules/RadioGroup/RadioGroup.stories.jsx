@@ -292,13 +292,13 @@ SimpleTable.args = {
 export const ListWithDescriptionInPanel = Template.bind({});
 ListWithDescriptionInPanel.args = {
   type: TYPES[3],
-  defaultValue: tableDummyData[1].value,
+  defaultValue: dummyData[1].value,
   children: (
     <>
-      {tableDummyData.map((option, i) => {
+      {dummyData.map((option, i) => {
         let borderType = 'none';
         if (i === 0) borderType = 'topRounded';
-        else if (i === tableDummyData.length - 1) borderType = 'bottomRounded';
+        else if (i === dummyData.length - 1) borderType = 'bottomRounded';
         return (
           <RadioTableItem
             key={option.value}
