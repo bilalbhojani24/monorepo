@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { notify } from '@browserstack/bifrost';
 import AppRoute from 'const/routes';
 import { setFilterSearchMeta } from 'features/Repository/slices/repositorySlice';
@@ -13,7 +13,6 @@ import { notificationDecider } from '../slices/onboardingThunk';
 const useTCAssignedNotification = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
 
   // global slice
   const user = useSelector((state) => state.global.user);
@@ -54,11 +53,11 @@ const useTCAssignedNotification = () => {
 
   useEffect(() => {
     if (
-      (checkForNotification || checkForNotification === null) &&
-      location.pathname !== AppRoute.ONBOARDING // it will execute in case of refresh and when the user will complete the onboarding
+      checkForNotification ||
+      checkForNotification === null // it will execute in case of refresh and when the user will complete the onboarding
     )
       dispatch(notificationDecider());
-  }, [checkForNotification, dispatch, location.pathname]);
+  }, [checkForNotification, dispatch]);
 
   return {
     notify,
