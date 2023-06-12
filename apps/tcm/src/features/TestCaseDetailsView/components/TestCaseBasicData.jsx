@@ -6,9 +6,7 @@ import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import ImageModal from 'common/ImageModal';
 import {
   BDD,
-  statusOptions,
-  templateOptions,
-  testCaseTypesOptions
+  templateOptions
 } from 'features/Repository/const/addTestCaseConst';
 import PropTypes from 'prop-types';
 import { getMappedValue, getSystemOrCustomValue } from 'utils/helperFunctions';
@@ -111,31 +109,19 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             <div className="w-3/6">
               <DetailsSnippet
                 title="State"
-                value={getSystemOrCustomValue(
-                  testCaseDetails?.status,
-                  testCaseDetails?.status_imported,
-                  statusOptions
-                )}
+                value={testCaseDetails?.status?.name || '--'}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Type of test case"
-                value={getSystemOrCustomValue(
-                  testCaseDetails?.case_type,
-                  testCaseDetails?.case_type_imported,
-                  testCaseTypesOptions
-                )}
+                value={testCaseDetails?.case_type?.name || '--'}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Priority"
-                // value={testCaseDetails?.priority || '--'}
-                value={getSystemOrCustomValue(
-                  testCaseDetails?.priority,
-                  testCaseDetails?.priority_imported
-                )}
+                value={testCaseDetails?.priority?.name || '--'}
               />
             </div>
             <div className="w-full">

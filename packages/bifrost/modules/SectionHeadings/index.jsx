@@ -9,6 +9,7 @@ import './styles.scss';
 const SectionHeadings = ({
   trailingHeadNode,
   tabsWrapperClassName,
+  headerWrapperClassName,
   description,
   subTitle,
   tabsProps,
@@ -19,7 +20,12 @@ const SectionHeadings = ({
       'border-b border-base-200 pb-5': !tabsProps
     })}
   >
-    <div className="border-base-200 sm:flex sm:items-center sm:justify-between">
+    <div
+      className={twClassNames(
+        'border-base-200 sm:flex sm:items-center sm:justify-between',
+        headerWrapperClassName
+      )}
+    >
       <div className="w-auto" role="contentinfo">
         {(subTitle || title) && (
           <div className="flex flex-wrap items-baseline">
@@ -69,6 +75,7 @@ SectionHeadings.propTypes = {
   description: PropTypes.string,
   subTitle: PropTypes.string,
   tabsWrapperClassName: PropTypes.string,
+  headerWrapperClassName: PropTypes.string,
   trailingHeadNode: PropTypes.node,
   tabsProps: PropTypes.shape(Tabs.propTypes),
   title: PropTypes.string.isRequired
@@ -78,6 +85,7 @@ SectionHeadings.defaultProps = {
   description: '',
   subTitle: '',
   tabsWrapperClassName: '',
+  headerWrapperClassName: '',
   trailingHeadNode: <></>,
   tabsProps: null
 };
