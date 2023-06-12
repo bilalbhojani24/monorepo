@@ -49,9 +49,7 @@ import TestListTimeline from './TestlistTimeline';
 const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;
   const { data: testListData } = useSelector(getTestList);
-  const {
-    smartTagSettings: { flaky, alwaysFailing, newFailure, performanceAnomalies }
-  } = testListData;
+  const { smartTagSettings } = testListData;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { o11yTestListingInteraction } = useContext(TestListContext);
@@ -92,32 +90,58 @@ const RenderTestItem = ({ item: data }) => {
     navigate(ROUTES.smart_tags);
   };
 
-  const renderTag = (
-    text,
-    modifier,
-    tooltipHeader = 'Tooltip Header',
-    description = 'testing',
-    onClick
-  ) => {
+  const renderTag = (text, modifier, tooltipHeader, onClick) => {
     if (!text) return null;
     let filterCategory = '';
     let filterValue = '';
+    let description = '';
+    if (smartTagSettings === null) {
+      return (
+        <O11yBadge
+          text={text}
+          modifier={modifier}
+          onClick={() => {
+            onClick(filterCategory, filterValue);
+          }}
+        />
+      );
+    }
     switch (text) {
       case 'Flaky':
         filterCategory = ADV_FILTER_TYPES.isFlaky.key;
         filterValue = true;
+        description =
+          details?.flakyReason === 1
+            ? `Test status has flipped more than ${smartTagSettings.flaky?.flakeInHistory.flippingCount}
+                      times in the last ${smartTagSettings.flaky?.flakeInHistory.consecutiveRuns} consecutive runs.`
+            : `Test passes on a retry within the last ${smartTagSettings.flaky?.flakeInRerun.consecutiveRuns} runs.`;
         break;
       case 'Always Failing':
         filterCategory = ADV_FILTER_TYPES.isAlwaysFailing.key;
         filterValue = true;
+        description = `The test has been failing with the ${
+          smartTagSettings.alwaysFailing?.failureType === 'SAME'
+            ? 'same error'
+            : 'any error'
+        } for the last ${
+          smartTagSettings.alwaysFailing?.consecutiveRuns
+        } consecutive runs.`;
         break;
       case 'New Failures':
         filterCategory = ADV_FILTER_TYPES.isNewFailure.key;
         filterValue = true;
+        description = `The test has failed with a ${
+          smartTagSettings.newFailure?.failureType === 'NEW' ? 'new' : 'any'
+        } error for the first time among the last ${
+          smartTagSettings.newFailure?.consecutiveRuns
+        } runs.`;
         break;
       case 'Performance Anomaly':
         filterCategory = ADV_FILTER_TYPES.hasPerformanceAnomaly.key;
         filterValue = true;
+        description = `Test execution duration exceeding the 
+                      ${smartTagSettings.performanceAnomalies?.durationPercentile}
+                      percentile duration among the last ${smartTagSettings.performanceAnomalies?.consecutiveRuns} runs of the same test.`;
         break;
       default:
     }
@@ -221,10 +245,6 @@ const RenderTestItem = ({ item: data }) => {
                       'Flaky',
                       'warn',
                       'Flake detected',
-                      details?.flakyReason === 1
-                        ? `Test status has flipped more than ${flaky?.flakeInHistory.flippingCount}
-                      times in the last ${flaky?.flakeInHistory.consecutiveRuns} consecutive runs.`
-                        : `Test passes on a retry within the last ${flaky?.flakeInRerun.consecutiveRuns} runs.`,
                       addFilterOnClick
                     )}
                   {details?.isAlwaysFailing &&
@@ -232,13 +252,6 @@ const RenderTestItem = ({ item: data }) => {
                       'Always Failing',
                       'error',
                       'Always failing test',
-                      `The test has been failing with the ${
-                        alwaysFailing?.failureType === 'SAME'
-                          ? 'same error'
-                          : 'any error'
-                      } for the last ${
-                        alwaysFailing?.consecutiveRuns
-                      } consecutive runs.`,
                       addFilterOnClick
                     )}
                   {details?.isNewFailure &&
@@ -246,11 +259,6 @@ const RenderTestItem = ({ item: data }) => {
                       'New Failures',
                       'error',
                       'New failure detected',
-                      `The test has failed with a ${
-                        newFailure?.failureType === 'NEW' ? 'new' : 'any'
-                      } error for the first time among the last ${
-                        newFailure?.consecutiveRuns
-                      } runs.`,
                       addFilterOnClick
                     )}
                   {details?.isPerformanceAnomaly &&
@@ -258,9 +266,6 @@ const RenderTestItem = ({ item: data }) => {
                       'Performance Anomaly',
                       'error',
                       'Performance anomaly detected',
-                      `Test execution duration exceeding the 
-                      ${performanceAnomalies?.durationPercentile}
-                      percentile duration among the last ${performanceAnomalies?.consecutiveRuns} runs of the same test.`,
                       addFilterOnClick
                     )}
                 </div>
