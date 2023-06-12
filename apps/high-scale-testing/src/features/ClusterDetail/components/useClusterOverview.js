@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useMountEffect } from '@browserstack/hooks';
-import { logEvent } from '@browserstack/utils';
 import {
   AGClusterDetailsInteracted,
   AGClusterDetailsVisited
 } from 'constants/event-names';
+import { logHSTEvent } from 'utils/logger';
 
 import { getClusterData } from '../slices/selector';
 
@@ -17,13 +17,13 @@ const useClusterOverview = () => {
   const fontColor900ClassName = 'text-base-900 text-base font-normal mt-0.5';
 
   const vpcCopiedCallbackFn = () => {
-    logEvent(['amplitude'], 'web_events', AGClusterDetailsInteracted, {
+    logHSTEvent(['amplitude'], 'web_events', AGClusterDetailsInteracted, {
       action: 'vpc_copied'
     });
   };
 
   useMountEffect(() => {
-    logEvent([], 'web_events', AGClusterDetailsVisited, {
+    logHSTEvent([], 'web_events', AGClusterDetailsVisited, {
       cluster_name: clusterData.name
     });
   });

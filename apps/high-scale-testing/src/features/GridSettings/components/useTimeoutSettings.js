@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
 import {
@@ -11,6 +10,7 @@ import {
 } from 'constants/index';
 import { getGridData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
+import { logHSTEvent } from 'utils/logger';
 
 const useTimeoutSettings = (notifactionComponent) => {
   // All Store variables:
@@ -94,7 +94,7 @@ const useTimeoutSettings = (notifactionComponent) => {
   };
 
   const saveBtnClickhandler = () => {
-    logEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
+    logHSTEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
       tab_selected: 'general'
     });
     setIsSavingInProgress(true);

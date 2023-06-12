@@ -20,6 +20,7 @@ import { twClassNames } from '@browserstack/utils';
 import { OpenInNew } from '@mui/icons-material';
 import LoaderGif from 'assets/icons/loader.gif';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import { CLOUD_FORMATION_LINK } from 'constants/urls';
 
 import EventLogs from './EventLogs';
 import SetupStatus from './SetupStatus';
@@ -154,7 +155,7 @@ const Onboarding = () => {
         colors="white"
         icon={<OpenInNew />}
         onClick={() => {
-          window.location.href = 'www.browserstack.com';
+          window.location.href = CLOUD_FORMATION_LINK;
           return null;
         }}
         modifier="primary"
