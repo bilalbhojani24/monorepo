@@ -3,6 +3,7 @@ import { useDateRangePicker } from 'react-aria';
 import { useDateRangePickerState } from 'react-stately';
 import { useYearpicker } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
+import * as Popover from '@radix-ui/react-popover';
 import Proptypes from 'prop-types';
 
 import { CalendarIcon } from '../Icon';
@@ -10,13 +11,13 @@ import { CalendarIcon } from '../Icon';
 import { DateField } from './components/DateField';
 import { Dialog } from './components/Dialog';
 import { RangeCalendar } from './components/RangeCalendar';
-import RPopover from './components/RPopover';
 import { PICKER_LEVELS, YEARS_DATA } from './const/DateRangepickerconst';
 import { PickerLevelContext } from './context/PickerLevelContext';
 
 const DateRangepicker = (props) => {
   const state = useDateRangePickerState(props);
   const ref = useRef();
+  const triggerRef = useRef();
   const {
     labelProps,
     startFieldProps,
@@ -41,6 +42,10 @@ const DateRangepicker = (props) => {
   useEffect(() => {
     years.jump(new Date().getFullYear() / 12 + 1);
   }, [years]);
+
+  useEffect(() => {
+    if (state.start !== null && state.end !== null) triggerRef.current?.click();
+  }, [state.value, state.start, state.end]);
 
   const [currentPicker, setCurrentPicker] = useState(PICKER_LEVELS[2]);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
@@ -114,12 +119,8 @@ const DateRangepicker = (props) => {
               />
             </div>
 
-            <RPopover
-              sideOffset={crossOffset}
-              alignOffset={offset}
-              align={align}
-              side={side}
-              trigger={
+            <Popover.Root defaultOpen={false}>
+              <Popover.Trigger asChild>
                 <button
                   aria-label="calendar dropdown trigger"
                   type="button"
@@ -138,15 +139,23 @@ const DateRangepicker = (props) => {
                     })}
                   />
                 </button>
-              }
-              content={
-                <div className="border-base-300 z-10 mt-2 rounded-md border bg-white p-3 shadow-lg">
-                  <Dialog {...dialogProps} isLoading={isLoading}>
-                    <RangeCalendar isLoading={isLoading} {...calendarProps} />
-                  </Dialog>
-                </div>
-              }
-            />
+              </Popover.Trigger>
+              <Popover.Portal>
+                <Popover.Content
+                  align={align}
+                  side={side}
+                  sideOffset={crossOffset}
+                  alignOffset={offset}
+                >
+                  <div className="border-base-300 z-10 mt-2 rounded-md border bg-white p-3 shadow-lg">
+                    <Dialog {...dialogProps} isLoading={isLoading}>
+                      <RangeCalendar isLoading={isLoading} {...calendarProps} />
+                    </Dialog>
+                  </div>
+                  <Popover.Close ref={triggerRef} aria-hidden="true" />
+                </Popover.Content>
+              </Popover.Portal>
+            </Popover.Root>
           </div>
         </div>
         {errorMessage && (
