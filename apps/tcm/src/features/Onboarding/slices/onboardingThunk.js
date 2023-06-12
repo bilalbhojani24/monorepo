@@ -9,13 +9,8 @@ import {
 
 const NOTIFICATION_DELAY = 2000;
 
-const getCheckForNotification = (state) =>
-  state.onboarding.checkForNotification;
-
-export const notificationDecider = () => async (dispatch, getState) => {
-  const state = getState();
-  const checkForNotification = getCheckForNotification(state);
-  if (checkForNotification) await delay(NOTIFICATION_DELAY);
+export const notificationDecider = () => async (dispatch) => {
+  await delay(NOTIFICATION_DELAY);
   if (window.location.pathname !== AppRoute.ONBOARDING) {
     // using window location and not react-router-dom location api as it was giving the previous route on refresh
     dispatch(setTimerFinished(true));

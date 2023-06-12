@@ -61,6 +61,11 @@ const useOnboarding = () => {
   };
 
   const continueClickHandler = () => {
+    dispatch(
+      logEventHelper('TM_OnboardingProceedBtnClicked', {
+        setup: formData?.start_method
+      })
+    );
     if (!formData?.role || !formData?.organisation_strength) {
       setInvalidFields({
         role: !formData?.role,
