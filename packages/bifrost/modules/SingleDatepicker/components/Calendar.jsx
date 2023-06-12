@@ -14,13 +14,12 @@ import { CalendarGrid } from './CalendarGrid';
 
 export function Calendar(props) {
   const { locale } = useLocale();
-  let state = useCalendarState({
+  const state = useCalendarState({
     ...props,
     locale,
     createCalendar
   });
   const { isLoading } = props;
-  state = { ...props, ...state };
   const ref = useRef();
   const { calendarProps, prevButtonProps, nextButtonProps, title } =
     useCalendar(props, state, ref);
