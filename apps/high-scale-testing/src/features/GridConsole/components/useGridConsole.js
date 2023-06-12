@@ -96,8 +96,10 @@ const useGridConsole = () => {
           value: 'clusters'
         }
       ]);
+    } else if (!userDetails.onboardingCompleted) {
+      navigate(ROUTES.ONBOARDING);
     }
-  }, [gridData]);
+  }, [gridData, navigate, userDetails]);
 
   useEffect(() => {
     const fetchAllClustersDataFromAPI = async () => {
@@ -126,6 +128,10 @@ const useGridConsole = () => {
       name: 'Grids',
       value: 'grids'
     });
+
+    if (!userDetails.onboardingCompleted) {
+      navigate(ROUTES.ONBOARDING);
+    }
   });
 
   return {
