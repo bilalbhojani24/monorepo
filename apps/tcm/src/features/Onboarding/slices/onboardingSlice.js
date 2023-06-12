@@ -16,7 +16,7 @@ const initialState = {
     start_method: SETUP_FORMATS[0].title
   },
   timerFinished: false,
-  isOnboardingCompleted: false,
+  checkForNotification: null,
   autoAssignedProjectId: null,
   tcAssignedNotificationConfig: { show: null, id: TC_ASSIGNED_NOTIFICATION_ID }
 };
@@ -43,8 +43,8 @@ export const onboardingSlice = createSlice({
     setTCAssignedNotificationConfig: (state, { payload }) => {
       state.tcAssignedNotificationConfig.show = payload.show;
     },
-    setIsOnboardingCompleted: (state, { payload }) => {
-      state.isOnboardingCompleted = payload;
+    setNotificationDeciderValue: (state, { payload }) => {
+      state.checkForNotification = payload;
     },
     setTimerFinished: (state, { payload }) => {
       state.timerFinished = payload;
@@ -52,6 +52,7 @@ export const onboardingSlice = createSlice({
     autoAssignmentStatusFulfilled: (state, { payload }) => {
       state.tcAssignedNotificationConfig.show = payload.show_notification;
       state.autoAssignedProjectId = payload.project_id;
+      state.checkForNotification = false;
     }
   }
 });
@@ -63,7 +64,7 @@ export const {
   updateFormData,
   setIsProcessing,
   setTimerFinished,
-  setIsOnboardingCompleted,
+  setNotificationDeciderValue,
   autoAssignmentStatusFulfilled,
   setTCAssignedNotificationConfig
 } = onboardingSlice.actions;

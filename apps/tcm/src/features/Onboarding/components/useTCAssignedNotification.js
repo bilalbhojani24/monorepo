@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { notify } from '@browserstack/bifrost';
 import AppRoute from 'const/routes';
 import { setFilterSearchMeta } from 'features/Repository/slices/repositorySlice';
@@ -13,6 +13,7 @@ import { notificationDecider } from '../slices/onboardingThunk';
 const useTCAssignedNotification = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   // global slice
   const user = useSelector((state) => state.global.user);
@@ -23,8 +24,8 @@ const useTCAssignedNotification = () => {
   const tcAssignedNotificationConfig = useSelector(
     (state) => state.onboarding.tcAssignedNotificationConfig
   );
-  const isOnboardingCompleted = useSelector(
-    (state) => state.onboarding.isOnboardingCompleted
+  const checkForNotification = useSelector(
+    (state) => state.onboarding.checkForNotification
   );
   const autoAssignedProjectId = useSelector(
     (state) => state.onboarding.autoAssignedProjectId
@@ -52,8 +53,12 @@ const useTCAssignedNotification = () => {
   };
 
   useEffect(() => {
-    if (isOnboardingCompleted) dispatch(notificationDecider());
-  }, [isOnboardingCompleted, dispatch]);
+    if (
+      (checkForNotification || checkForNotification === null) &&
+      location.pathname !== AppRoute.ONBOARDING // it will execute in case of refresh and when the user will complete the onboarding
+    )
+      dispatch(notificationDecider());
+  }, [checkForNotification, dispatch, location.pathname]);
 
   return {
     notify,

@@ -13,9 +13,9 @@ import { logEventHelper } from 'utils/logEvent';
 import { SETUP_FORMATS } from '../const/immutableConst';
 import {
   setHasProjects,
-  setIsOnboardingCompleted,
   setIsProcessing,
   setJobRolesArray,
+  setNotificationDeciderValue,
   setOrgStrengthArray,
   updateFormData
 } from '../slices/onboardingSlice';
@@ -73,7 +73,7 @@ const useOnboarding = () => {
     dispatch(setIsProcessing(true));
     setOnboardingDataAPI({ payload: formData }).then(() => {
       updateUserValue();
-      dispatch(setIsOnboardingCompleted(true));
+      dispatch(setNotificationDeciderValue(true));
       dispatch(setIsProcessing(false));
       switch (formData.start_method) {
         case SETUP_FORMATS[0].title: // quick_import
