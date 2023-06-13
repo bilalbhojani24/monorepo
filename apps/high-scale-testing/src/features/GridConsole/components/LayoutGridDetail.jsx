@@ -22,7 +22,6 @@ const LayoutGridDetail = () => {
         },
         {
           index: 2,
-          count: 'Coming Soon',
           name: 'Utilization'
         }
       ]}
