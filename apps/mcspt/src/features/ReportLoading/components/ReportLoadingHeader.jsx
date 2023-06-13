@@ -26,38 +26,40 @@ const ReportLoadingHeader = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center border-b border-base-300 p-4 text-base-500">
-        <div className="cursor-pointer text-xl">
-          <MdChevronLeft
-            onClick={() => {
-              if (sessionState === REPORT_LOADING_STATES.RECORDING) {
-                setShowQuitTestingPrompt(true);
-              }
-            }}
-          />
+      <div className="border-base-300 text-base-500 flex items-center justify-between border-b p-4">
+        <div className="flex">
+          <div className="cursor-pointer text-xl">
+            <MdChevronLeft
+              onClick={() => {
+                if (sessionState === REPORT_LOADING_STATES.RECORDING) {
+                  setShowQuitTestingPrompt(true);
+                }
+              }}
+            />
+          </div>
+
+          <div className="mx-2 text-sm font-medium leading-5">
+            {sessionDetails.sessionName}
+          </div>
         </div>
 
-        <div className="mx-2 text-sm font-medium leading-5">
-          {sessionDetails.sessionName}
-        </div>
+        {sessionState !== REPORT_LOADING_STATES.STOPPING &&
+          sessionState !== REPORT_LOADING_STATES.COMPLETE && (
+            <Button
+              loading={isStopSessionInProgress}
+              icon={<MdOutlineAnalytics />}
+              variant="primary"
+              colors="brand"
+              size="default"
+              onClick={() => {
+                setShowGenerateReportPrompt(true);
+              }}
+              disabled={sessionState !== REPORT_LOADING_STATES.RECORDING}
+            >
+              Generate Performance Report
+            </Button>
+          )}
       </div>
-
-      {sessionState !== REPORT_LOADING_STATES.STOPPING &&
-        sessionState !== REPORT_LOADING_STATES.COMPLETE && (
-          <Button
-            loading={isStopSessionInProgress}
-            icon={<MdOutlineAnalytics />}
-            variant="primary"
-            colors="brand"
-            size="default"
-            onClick={() => {
-              setShowGenerateReportPrompt(true);
-            }}
-            disabled={sessionState !== REPORT_LOADING_STATES.RECORDING}
-          >
-            Generate Performance Report
-          </Button>
-        )}
 
       {showTimeoutBanner && (
         <Banner
