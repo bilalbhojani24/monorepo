@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
-import {
-  getFPSTimeSeriesData,
-  getRealtimeThresholds
-} from '../slices/realtimeMetricSlice';
+import { getFPSTimeSeriesData } from '../slices/realtimeMetricSlice';
 
 const generateRealtimeFPSChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
@@ -45,13 +42,12 @@ const generateRealtimeFPSChartOptions = (chartGridClicked) => {
 
 const useFPSRealtimeGraph = () => {
   const fpsTimeSeriesData = useSelector(getFPSTimeSeriesData);
-  const realtimeThresholds = useSelector(getRealtimeThresholds);
 
   const [realtimeFpsChartOptions, setRealtimeFpsChartOptions] = useState(null);
 
   useEffect(() => {
     setRealtimeFpsChartOptions(generateRealtimeFPSChartOptions(() => {}));
-  }, [realtimeThresholds]);
+  }, []);
 
   useEffect(() => {
     setRealtimeFpsChartOptions((prevChartData) => {

@@ -2,12 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
-import {
-  getCPUTimeSeriesData,
-  getRealtimeThresholds
-} from '../slices/realtimeMetricSlice';
+import { getCPUTimeSeriesData } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
+const generateRealtimeCPUChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
@@ -29,16 +26,6 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
     }
   };
 
-  chartOptions.yAxis.plotLines = [
-    {
-      id: 'cpuMetricThreshold',
-      color: '#ef4444',
-      width: 2,
-      value: thresholdValue,
-      dashStyle: 'LongDash'
-    }
-  ];
-
   chartOptions.series = [
     {
       name: 'CPU Usage Percentage',
@@ -55,18 +42,11 @@ const generateRealtimeCPUChartOptions = (thresholdValue, chartGridClicked) => {
 
 const useCPURealtimeGraph = () => {
   const cpuTimeSeriesData = useSelector(getCPUTimeSeriesData);
-  const realtimeThresholds = useSelector(getRealtimeThresholds);
-
   const [realtimeCpuChartOptions, setRealtimeCpuChartOptions] = useState(null);
 
   useEffect(() => {
-    setRealtimeCpuChartOptions(
-      generateRealtimeCPUChartOptions(
-        realtimeThresholds?.cpuUsagePercentageAvg?.value,
-        () => {}
-      )
-    );
-  }, [realtimeThresholds]);
+    setRealtimeCpuChartOptions(generateRealtimeCPUChartOptions(() => {}));
+  }, []);
 
   useEffect(() => {
     setRealtimeCpuChartOptions((prevChartData) => {
@@ -76,7 +56,7 @@ const useCPURealtimeGraph = () => {
     });
   }, [cpuTimeSeriesData]);
 
-  return { cpuTimeSeriesData, realtimeThresholds, realtimeCpuChartOptions };
+  return { cpuTimeSeriesData, realtimeCpuChartOptions };
 };
 
 export default useCPURealtimeGraph;

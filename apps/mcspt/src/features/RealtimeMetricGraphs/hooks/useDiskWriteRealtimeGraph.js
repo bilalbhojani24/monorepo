@@ -2,15 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
-import {
-  getDiskWriteTimeSeriesData,
-  getRealtimeThresholds
-} from '../slices/realtimeMetricSlice';
+import { getDiskWriteTimeSeriesData } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeDiskWriteChartOptions = (
-  thresholdValue,
-  chartGridClicked
-) => {
+const generateRealtimeDiskWriteChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
@@ -32,16 +26,6 @@ const generateRealtimeDiskWriteChartOptions = (
     }
   };
 
-  chartOptions.yAxis.plotLines = [
-    {
-      id: 'diskWriteThreshold',
-      color: '#ef4444',
-      width: 2,
-      value: thresholdValue,
-      dashStyle: 'LongDash'
-    }
-  ];
-
   chartOptions.series = [
     {
       name: 'Disk Write',
@@ -58,19 +42,15 @@ const generateRealtimeDiskWriteChartOptions = (
 
 const useDiskWriteRealtimeGraph = () => {
   const diskWriteTimeSeriesData = useSelector(getDiskWriteTimeSeriesData);
-  const realtimeThresholds = useSelector(getRealtimeThresholds);
 
   const [realtimeDiskWriteChartOptions, setRealtimeDiskWriteChartOptions] =
     useState(null);
 
   useEffect(() => {
     setRealtimeDiskWriteChartOptions(
-      generateRealtimeDiskWriteChartOptions(
-        realtimeThresholds?.diskWriteMbTotal?.value,
-        () => {}
-      )
+      generateRealtimeDiskWriteChartOptions(() => {})
     );
-  }, [realtimeThresholds]);
+  }, []);
 
   useEffect(() => {
     setRealtimeDiskWriteChartOptions((prevChartData) => {
@@ -82,7 +62,6 @@ const useDiskWriteRealtimeGraph = () => {
 
   return {
     diskWriteTimeSeriesData,
-    realtimeThresholds,
     realtimeDiskWriteChartOptions
   };
 };

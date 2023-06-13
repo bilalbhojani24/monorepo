@@ -21,10 +21,6 @@ export const realtimeMetricSlice = createSlice({
   name: 'realtimeMetrics',
   initialState,
   reducers: {
-    setRealtimeThresholds: (state, action) => {
-      state.realtimeThresholds = action.payload;
-    },
-
     updateRealTimeGraph: (state, action) => {
       const graphToBeUpdated = GRAPH_EVENT_MAP[action.payload?.graphName];
 
@@ -51,9 +47,6 @@ export const realtimeMetricSlice = createSlice({
     resetRealtimeMetrics: () => initialState
   }
 });
-
-export const getRealtimeThresholds = (state) =>
-  state.realtimeMetrics.realtimeThresholds?.data;
 
 export const getCPUTimeSeriesData = (state) =>
   state.realtimeMetrics.CPU_REALTIME_GRAPH;

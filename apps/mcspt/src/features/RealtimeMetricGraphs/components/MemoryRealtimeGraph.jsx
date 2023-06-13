@@ -6,11 +6,8 @@ import useMemoryRealtimeGraph from '../hooks/useMemoryRealtimeGraph';
 import { formatCurrentRealtimeValue } from '../utils/realtimeGraphUtils';
 
 const MemoryRealtimeGraph = () => {
-  const {
-    memoryTimeSeriesData,
-    realtimeThresholds,
-    realtimeMemoryChartOptions
-  } = useMemoryRealtimeGraph();
+  const { memoryTimeSeriesData, realtimeMemoryChartOptions } =
+    useMemoryRealtimeGraph();
 
   return (
     <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow ">
@@ -22,10 +19,7 @@ const MemoryRealtimeGraph = () => {
 
       {memoryTimeSeriesData?.length > 0 && (
         <div className="text-base-900 flex text-3xl font-semibold">
-          {formatCurrentRealtimeValue(
-            memoryTimeSeriesData,
-            realtimeThresholds?.memoryUsageMbAvg
-          )}
+          {formatCurrentRealtimeValue(memoryTimeSeriesData, { unit: 'MB' })}
         </div>
       )}
 

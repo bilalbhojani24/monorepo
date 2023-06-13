@@ -6,11 +6,8 @@ import useDiskWriteRealtimeGraph from '../hooks/useDiskWriteRealtimeGraph';
 import { formatCurrentRealtimeValue } from '../utils/realtimeGraphUtils';
 
 const DiskWriteRealtimeGraph = () => {
-  const {
-    diskWriteTimeSeriesData,
-    realtimeDiskWriteChartOptions,
-    realtimeThresholds
-  } = useDiskWriteRealtimeGraph();
+  const { diskWriteTimeSeriesData, realtimeDiskWriteChartOptions } =
+    useDiskWriteRealtimeGraph();
 
   return (
     <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow ">
@@ -22,10 +19,9 @@ const DiskWriteRealtimeGraph = () => {
 
       {diskWriteTimeSeriesData?.length > 0 && (
         <div className="text-base-900 flex text-3xl font-semibold">
-          {formatCurrentRealtimeValue(
-            diskWriteTimeSeriesData,
-            realtimeThresholds?.diskWriteMbTotal
-          )}
+          {formatCurrentRealtimeValue(diskWriteTimeSeriesData, {
+            unit: 'Kbps'
+          })}
         </div>
       )}
 

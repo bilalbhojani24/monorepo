@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
-import {
-  getRealtimeThresholds,
-  getSlowFramesRealtimeData
-} from '../slices/realtimeMetricSlice';
+import { getSlowFramesRealtimeData } from '../slices/realtimeMetricSlice';
 
 const generateRealtimeSlowFramesChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
@@ -45,7 +42,6 @@ const generateRealtimeSlowFramesChartOptions = (chartGridClicked) => {
 
 const useSlowFramesRealtimeGraph = () => {
   const slowFramesTimeSeriesData = useSelector(getSlowFramesRealtimeData);
-  const realtimeThresholds = useSelector(getRealtimeThresholds);
 
   const [realtimeSlowFramesChartOptions, setRealtimeSlowFramesChartOptions] =
     useState(null);
@@ -54,7 +50,7 @@ const useSlowFramesRealtimeGraph = () => {
     setRealtimeSlowFramesChartOptions(
       generateRealtimeSlowFramesChartOptions(() => {})
     );
-  }, [realtimeThresholds]);
+  }, []);
 
   useEffect(() => {
     setRealtimeSlowFramesChartOptions((prevChartData) => {
@@ -66,7 +62,6 @@ const useSlowFramesRealtimeGraph = () => {
 
   return {
     slowFramesTimeSeriesData,
-    realtimeThresholds,
     realtimeSlowFramesChartOptions
   };
 };

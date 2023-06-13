@@ -6,8 +6,7 @@ import useCPURealtimeGraph from '../hooks/useCPURealtimeGraph';
 import { formatCurrentRealtimeValue } from '../utils/realtimeGraphUtils';
 
 const CPURealtimeGraph = () => {
-  const { cpuTimeSeriesData, realtimeCpuChartOptions, realtimeThresholds } =
-    useCPURealtimeGraph();
+  const { cpuTimeSeriesData, realtimeCpuChartOptions } = useCPURealtimeGraph();
 
   return (
     <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow ">
@@ -17,10 +16,7 @@ const CPURealtimeGraph = () => {
 
       {cpuTimeSeriesData?.length > 0 && (
         <div className="text-base-900 flex text-3xl font-semibold">
-          {formatCurrentRealtimeValue(
-            cpuTimeSeriesData,
-            realtimeThresholds?.cpuUsagePercentageAvg
-          )}
+          {formatCurrentRealtimeValue(cpuTimeSeriesData, { unit: '%' })}
         </div>
       )}
 

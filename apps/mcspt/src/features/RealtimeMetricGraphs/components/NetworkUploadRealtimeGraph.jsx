@@ -6,11 +6,8 @@ import useNetworkUploadRealtimeGraph from '../hooks/useNetworkUploadRealtimeGrap
 import { formatCurrentRealtimeValue } from '../utils/realtimeGraphUtils';
 
 const NetworkUploadRealtimeGraph = () => {
-  const {
-    networkUploadTimeSeriesData,
-    realtimeNetworkUploadChartOptions,
-    realtimeThresholds
-  } = useNetworkUploadRealtimeGraph();
+  const { networkUploadTimeSeriesData, realtimeNetworkUploadChartOptions } =
+    useNetworkUploadRealtimeGraph();
 
   return (
     <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow ">
@@ -22,10 +19,9 @@ const NetworkUploadRealtimeGraph = () => {
 
       {networkUploadTimeSeriesData?.length > 0 && (
         <div className="text-base-900 flex text-3xl font-semibold">
-          {formatCurrentRealtimeValue(
-            networkUploadTimeSeriesData,
-            realtimeThresholds?.networkWriteKbTotal
-          )}
+          {formatCurrentRealtimeValue(networkUploadTimeSeriesData, {
+            unit: 'Kbps'
+          })}
         </div>
       )}
 

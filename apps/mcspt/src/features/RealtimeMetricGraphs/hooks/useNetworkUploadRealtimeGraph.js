@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
-import {
-  getNetworkUploadTimeSeriesData,
-  getRealtimeThresholds
-} from '../slices/realtimeMetricSlice';
+import { getNetworkUploadTimeSeriesData } from '../slices/realtimeMetricSlice';
 
 const generateRealtimeNetworkUploadChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
@@ -47,7 +44,6 @@ const useNetworkUploadRealtimeGraph = () => {
   const networkUploadTimeSeriesData = useSelector(
     getNetworkUploadTimeSeriesData
   );
-  const realtimeThresholds = useSelector(getRealtimeThresholds);
 
   const [
     realtimeNetworkUploadChartOptions,
@@ -58,7 +54,7 @@ const useNetworkUploadRealtimeGraph = () => {
     setRealtimeNetworkUploadChartOptions(
       generateRealtimeNetworkUploadChartOptions(() => {})
     );
-  }, [realtimeThresholds]);
+  }, []);
 
   useEffect(() => {
     setRealtimeNetworkUploadChartOptions((prevChartData) => {
@@ -70,7 +66,6 @@ const useNetworkUploadRealtimeGraph = () => {
 
   return {
     networkUploadTimeSeriesData,
-    realtimeThresholds,
     realtimeNetworkUploadChartOptions
   };
 };

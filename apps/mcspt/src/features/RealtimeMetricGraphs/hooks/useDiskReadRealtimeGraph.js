@@ -2,15 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
-import {
-  getDiskReadTimeSeriesData,
-  getRealtimeThresholds
-} from '../slices/realtimeMetricSlice';
+import { getDiskReadTimeSeriesData } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeDiskReadChartOptions = (
-  thresholdValue,
-  chartGridClicked
-) => {
+const generateRealtimeDiskReadChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
@@ -32,16 +26,6 @@ const generateRealtimeDiskReadChartOptions = (
     }
   };
 
-  chartOptions.yAxis.plotLines = [
-    {
-      id: 'diskReadThreshold',
-      color: '#ef4444',
-      width: 2,
-      value: thresholdValue,
-      dashStyle: 'LongDash'
-    }
-  ];
-
   chartOptions.series = [
     {
       name: 'Disk Read',
@@ -58,19 +42,15 @@ const generateRealtimeDiskReadChartOptions = (
 
 const useDiskReadRealtimeGraph = () => {
   const diskReadTimeSeriesData = useSelector(getDiskReadTimeSeriesData);
-  const realtimeThresholds = useSelector(getRealtimeThresholds);
 
   const [realtimeDiskReadChartOptions, setRealtimeDiskReadChartOptions] =
     useState(null);
 
   useEffect(() => {
     setRealtimeDiskReadChartOptions(
-      generateRealtimeDiskReadChartOptions(
-        realtimeThresholds?.diskReadMbTotal?.value,
-        () => {}
-      )
+      generateRealtimeDiskReadChartOptions(() => {})
     );
-  }, [realtimeThresholds]);
+  }, []);
 
   useEffect(() => {
     setRealtimeDiskReadChartOptions((prevChartData) => {
@@ -82,7 +62,6 @@ const useDiskReadRealtimeGraph = () => {
 
   return {
     diskReadTimeSeriesData,
-    realtimeThresholds,
     realtimeDiskReadChartOptions
   };
 };

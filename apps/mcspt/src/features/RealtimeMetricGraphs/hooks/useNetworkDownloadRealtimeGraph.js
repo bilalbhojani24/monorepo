@@ -2,15 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
-import {
-  getNetworkDownloadTimeSeriesData,
-  getRealtimeThresholds
-} from '../slices/realtimeMetricSlice';
+import { getNetworkDownloadTimeSeriesData } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeNetworkDownloadChartOptions = (
-  thresholdValue,
-  chartGridClicked
-) => {
+const generateRealtimeNetworkDownloadChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
@@ -32,16 +26,6 @@ const generateRealtimeNetworkDownloadChartOptions = (
     }
   };
 
-  chartOptions.yAxis.plotLines = [
-    {
-      id: 'networkDownloadMetricThreshold',
-      color: '#ef4444',
-      width: 2,
-      value: thresholdValue,
-      dashStyle: 'LongDash'
-    }
-  ];
-
   chartOptions.series = [
     {
       name: 'Network Download',
@@ -60,7 +44,6 @@ const useNetworkDownloadRealtimeGraph = () => {
   const networkDownloadTimeSeriesData = useSelector(
     getNetworkDownloadTimeSeriesData
   );
-  const realtimeThresholds = useSelector(getRealtimeThresholds);
 
   const [
     realtimeNetworkDownloadChartOptions,
@@ -69,12 +52,9 @@ const useNetworkDownloadRealtimeGraph = () => {
 
   useEffect(() => {
     setRealtimeNetworkDownloadChartOptions(
-      generateRealtimeNetworkDownloadChartOptions(
-        realtimeThresholds?.networkWriteKbTotal?.value,
-        () => {}
-      )
+      generateRealtimeNetworkDownloadChartOptions(() => {})
     );
-  }, [realtimeThresholds]);
+  }, []);
 
   useEffect(() => {
     setRealtimeNetworkDownloadChartOptions((prevChartData) => {
@@ -86,7 +66,6 @@ const useNetworkDownloadRealtimeGraph = () => {
 
   return {
     networkDownloadTimeSeriesData,
-    realtimeThresholds,
     realtimeNetworkDownloadChartOptions
   };
 };

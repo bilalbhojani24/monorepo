@@ -6,11 +6,8 @@ import useDiskReadRealtimeGraph from '../hooks/useDiskReadRealtimeGraph';
 import { formatCurrentRealtimeValue } from '../utils/realtimeGraphUtils';
 
 const DiskReadRealtimeGraph = () => {
-  const {
-    diskReadTimeSeriesData,
-    realtimeDiskReadChartOptions,
-    realtimeThresholds
-  } = useDiskReadRealtimeGraph();
+  const { diskReadTimeSeriesData, realtimeDiskReadChartOptions } =
+    useDiskReadRealtimeGraph();
 
   return (
     <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow ">
@@ -22,10 +19,7 @@ const DiskReadRealtimeGraph = () => {
 
       {diskReadTimeSeriesData?.length > 0 && (
         <div className="text-base-900 flex text-3xl font-semibold">
-          {formatCurrentRealtimeValue(
-            diskReadTimeSeriesData,
-            realtimeThresholds?.diskReadMbTotal
-          )}
+          {formatCurrentRealtimeValue(diskReadTimeSeriesData, { unit: 'Kbps' })}
         </div>
       )}
 

@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
-import {
-  getBatteryTimeSeriesData,
-  getRealtimeThresholds
-} from '../slices/realtimeMetricSlice';
+import { getBatteryTimeSeriesData } from '../slices/realtimeMetricSlice';
 
 const generateRealtimeBatteryChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
@@ -45,7 +42,6 @@ const generateRealtimeBatteryChartOptions = (chartGridClicked) => {
 
 const useBatteryRealtimeGraph = () => {
   const batteryTimeSeriesData = useSelector(getBatteryTimeSeriesData);
-  const realtimeThresholds = useSelector(getRealtimeThresholds);
 
   const [realtimeBatteryChartOptions, setRealtimeBatteryChartOptions] =
     useState(null);
@@ -54,7 +50,7 @@ const useBatteryRealtimeGraph = () => {
     setRealtimeBatteryChartOptions(
       generateRealtimeBatteryChartOptions(() => {})
     );
-  }, [realtimeThresholds]);
+  }, []);
 
   useEffect(() => {
     setRealtimeBatteryChartOptions((prevChartData) => {
