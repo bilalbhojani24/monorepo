@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
 import {
@@ -19,7 +19,12 @@ import {
   getUserDetails
 } from 'globalSlice/selector';
 
+import { setResourceMap } from '../slices';
+import { getResourceMap } from '../slices/selectors';
+
 const useCreateGrid = () => {
+  const dispatch = useDispatch();
+
   // All Store variables:
   const userDetails = useSelector(getUserDetails);
 
@@ -158,6 +163,8 @@ browserstack-cli hst init`,
   );
   const [totalSteps, setTotalSteps] = useState(0);
 
+  const resourceMap = useSelector(getResourceMap);
+
   const ref = useRef({});
 
   const [searchParams, setSearchparams] = useSearchParams();
@@ -199,10 +206,10 @@ browserstack-cli hst init`,
     commonHandler();
   };
 
-  const editClusterBtnClickHandler = () => {
-    setEditClusterNameInputValue(selectedClusterValue.value);
-    setShowSetupClusterModal(true);
-  };
+  // const editClusterBtnClickHandler = () => {
+  //   setEditClusterNameInputValue(selectedClusterValue.value);
+  //   setShowSetupClusterModal(true);
+  // };
 
   const exploreAutomationClickHandler = () => {
     closeSetupStatusModal();
@@ -357,6 +364,33 @@ browserstack-cli hst init`,
   }, [opened]);
 
   useEffect(() => {
+    console.group('Log: resourceMap useEffect');
+    if (Object.keys(resourceMap).length > 0) {
+      const availableRegionsFromResourceMap = Object.keys(
+        resourceMap[currentSelectedCloudProvider.configName]
+      );
+
+      const tempArray = [];
+
+      availableRegionsFromResourceMap.forEach((region) => {
+        const matchingEle = allAvailableRegionsByProvider[
+          currentSelectedCloudProvider.configName
+        ].find((ele) => ele.value === region);
+
+        tempArray.push(matchingEle);
+      });
+
+      setCurrentProvidersRegions(tempArray);
+    }
+
+    console.groupEnd('Log: resourceMap useEffect');
+  }, [
+    allAvailableRegionsByProvider,
+    currentSelectedCloudProvider,
+    resourceMap
+  ]);
+
+  useEffect(() => {
     setSelectedGridName(selectedGridProfile.value);
 
     if (selectedGridProfile) {
@@ -471,6 +505,67 @@ browserstack-cli hst init`,
   ]);
 
   useEffect(() => {
+    console.group('Log: selectedRegion useEffect');
+    if (
+      Object.keys(resourceMap).length > 0 &&
+      selectedRegion !== null &&
+      selectedRegion !== undefined
+    ) {
+      const VPCInThisRegionArray = Object.keys(
+        resourceMap[currentSelectedCloudProvider.configName][
+          selectedRegion.value
+        ]
+      );
+
+      const tmpVPCsArray = [];
+      VPCInThisRegionArray?.forEach((e) => {
+        tmpVPCsArray.push({
+          label: e,
+          value: e
+        });
+      });
+
+      setAllAvailableVPCIDs(tmpVPCsArray);
+    }
+
+    console.groupEnd('Log: selectedRegion useEffect');
+  }, [currentSelectedCloudProvider, resourceMap, selectedRegion]);
+
+  useEffect(() => {
+    console.group('Log: allAvailableVPCIDs useEffect');
+    if (
+      Object.keys(resourceMap).length > 0 &&
+      selectedRegion !== null &&
+      selectedRegion !== undefined &&
+      allAvailableVPCIDs !== null &&
+      allAvailableVPCIDs !== undefined &&
+      selectedVPCValue.value.length > 0
+    ) {
+      const tmpSubnets =
+        resourceMap[currentSelectedCloudProvider.configName][
+          selectedRegion.value
+        ][selectedVPCValue.value].subnets;
+      const tmpSubnetsArray = [];
+
+      tmpSubnets?.forEach((e) => {
+        tmpSubnetsArray.push({
+          label: e,
+          value: e
+        });
+      });
+
+      setAllAvailableSubnets(tmpSubnetsArray);
+    }
+    console.groupEnd('Log: allAvailableVPCIDs useEffect');
+  }, [
+    allAvailableVPCIDs,
+    currentSelectedCloudProvider,
+    resourceMap,
+    selectedRegion,
+    selectedVPCValue
+  ]);
+
+  useEffect(() => {
     setShowSetupStatusModal(isSetupComplete);
   }, [isSetupComplete]);
 
@@ -531,6 +626,7 @@ browserstack-cli hst init`,
     fetchDataForCreateGrid(userDetails.id).then((res) => {
       const response = res.data;
 
+      dispatch(setResourceMap(response.resourceMap));
       setCodeSnippetsForExistingSetup(response.codeSnippets.existing);
       setGridProfilesData(response.gridProfiles);
     });
@@ -563,7 +659,7 @@ browserstack-cli hst init`,
     currentSelectedCloudProvider,
     currentStep,
     dataChanged,
-    editClusterBtnClickHandler,
+    // editClusterBtnClickHandler,
     editClusterNameInputValue,
     eventLogsCode,
     eventLogsStatus,
