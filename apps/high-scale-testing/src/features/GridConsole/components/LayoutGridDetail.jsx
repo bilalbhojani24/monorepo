@@ -43,7 +43,7 @@ const LayoutGridDetail = () => {
               current: true
             }
           ]}
-          heading={gridData.name}
+          heading={gridData.name || ''}
         />
 
         {TabsForGridDetail}
