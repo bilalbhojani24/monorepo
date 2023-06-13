@@ -6,8 +6,6 @@ export const getJIRAConfigAPI = async () =>
 export const requestAccessAPI = async () =>
   fetchPost(`/api/v1/request_group_access`);
 
-// export const addTestCaseAPI = async ({ projectId, folderId, payload }) =>
-//   fetchPost(
-//     `/api/v1/projects/${projectId}/folder/${folderId}/test-cases`,
-//     payload,
-//   );
+// this api is used to notify that access has raised for user (freemium a group has more than 5 users)
+export const requestTCMAccessAPI = async () =>
+  fetchPost('/api/v1/request_tcm_access');

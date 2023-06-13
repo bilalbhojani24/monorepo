@@ -9,8 +9,13 @@ import {
 import useRequestAccessModal from './useRequestAccessModal';
 
 const RequestAccessModal = () => {
-  const { isAdmin, userHasAccess, accessRequested, handleRequestClick } =
-    useRequestAccessModal();
+  const {
+    isAdmin,
+    userHasAccess,
+    accessRequested,
+    handleRequestClick,
+    requestLoader
+  } = useRequestAccessModal();
 
   return (
     <TMModal show={!userHasAccess}>
@@ -19,7 +24,12 @@ const RequestAccessModal = () => {
         <div>{isAdmin ? 'Admin' : 'User'}</div>
       </TMModalBody>
       <TMModalFooter>
-        <TMButton onClick={handleRequestClick}>
+        <TMButton
+          onClick={handleRequestClick}
+          loading={requestLoader}
+          isIconOnlyButton={requestLoader}
+          disabled={accessRequested}
+        >
           {accessRequested ? 'Requested' : 'Request'}
         </TMButton>
       </TMModalFooter>
