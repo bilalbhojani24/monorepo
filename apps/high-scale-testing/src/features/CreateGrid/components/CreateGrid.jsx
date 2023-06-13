@@ -59,7 +59,7 @@ const CreateGrid = () => {
     currentSelectedCloudProvider,
     currentStep,
     dataChanged,
-    editClusterBtnClickHandler,
+    // editClusterBtnClickHandler,
     editClusterNameInputValue,
     eventLogsCode,
     eventLogsStatus,
@@ -445,7 +445,7 @@ const CreateGrid = () => {
                                   {ClusterInputComboBoxComponent}
                                 </div>
                                 <div className="flex gap-8 w-1/2">
-                                  <div className="w-1/2">
+                                  {/* <div className="w-1/2">
                                     <Button
                                       colors="white"
                                       fullWidth
@@ -456,7 +456,7 @@ const CreateGrid = () => {
                                     >
                                       Edit Cluster Details
                                     </Button>
-                                  </div>
+                                  </div> */}
                                   <div className="w-1/2">
                                     <Button
                                       colors="white"
