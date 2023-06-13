@@ -260,7 +260,7 @@ const AllProjects = () => {
           </>
         }
       />
-      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
+      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-6">
         {(importStatus === IMPORT_STATUS.ONGOING ||
           importStatus === IMPORT_STATUS.FAILURE ||
           importStatus === IMPORT_STATUS.SUCCESS) &&
