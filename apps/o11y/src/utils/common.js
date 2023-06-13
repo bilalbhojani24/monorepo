@@ -162,10 +162,7 @@ export const getBuildMarkedStatus = (buildStatus, statusAgg = {}) => {
     }
     return TEST_STATUS.UNKNOWN;
   }
-  if (
-    buildStatus === TEST_STATUS.FINISHED ||
-    buildStatus === TEST_STATUS.ARCHIVED
-  ) {
+  if (buildStatus === TEST_STATUS.FINISHED) {
     if (statusAgg.failed) {
       return TEST_STATUS.FAIL;
     }
@@ -255,6 +252,5 @@ export const updateUrlQueryParam = (searchParams) => {
   window.history.pushState({ path: newurl }, '', newurl);
 };
 
-export const isBuildArchiveable = (buildStatus) =>
-  (buildStatus && buildStatus !== TEST_STATUS.PENDING) ||
-  buildStatus === TEST_STATUS.ARCHIVED;
+export const isBuildArchiveable = (buildStatus, isArchived) =>
+  (buildStatus && buildStatus !== TEST_STATUS.PENDING) || isArchived;

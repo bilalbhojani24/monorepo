@@ -47,7 +47,7 @@ function BuildMetaActions({
         </TooltipBody>
       );
     }
-    if (buildStatus === TEST_STATUS.ARCHIVED) {
+    if (buildData?.isArchived) {
       return (
         <TooltipBody>
           <span className="text-sm">{ARCHIVE_TOOLTIP_MESSAGES.ARCHIVED}</span>
@@ -108,7 +108,7 @@ function BuildMetaActions({
               key={DROPDOWN_OPTIONS[DROPDOWN_OPTIONS_MAPPING.ARCHIVE].id}
               disabled={
                 !buildStatus ||
-                buildStatus === TEST_STATUS.ARCHIVED ||
+                buildData?.isArchived ||
                 buildStatus === TEST_STATUS.PENDING
               }
               wrapperClassName="w-full"

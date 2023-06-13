@@ -4,7 +4,6 @@ import { TooltipBody } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton, O11yTooltip } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
-import { TEST_STATUS } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import PropTypes from 'prop-types';
@@ -24,7 +23,7 @@ export default function TopErrorsBulkUpdateTrigger({ clusterId, buildId }) {
       })
     );
   };
-  const isReadOnly = buildMeta?.data?.status === TEST_STATUS.ARCHIVED;
+  const isReadOnly = buildMeta?.data?.isArchived;
   return (
     <div className="bg-base-50 border-base-300 flex justify-between border-b px-4 py-2 text-sm">
       <div>Failed tests</div>

@@ -210,6 +210,7 @@ const { reducer, actions } = createSlice({
           state.buildCheckStatusMapping[build.uuid] = {
             ...state.buildCheckStatusMapping[build.uuid],
             buildStatus: build.status,
+            isArchived: build.isArchived,
             status:
               state.selectAllCheckedStatus === CheckboxState.CHECKED &&
               !(!build?.status || build?.status === TEST_STATUS.PENDING)
@@ -257,9 +258,10 @@ const { reducer, actions } = createSlice({
           updatedMapping[build.uuid] = {
             uuid: build.uuid,
             buildStatus: build.status,
+            isArchived: build.isArchived,
             status:
               state.selectAllCheckedStatus === CheckboxState.CHECKED &&
-              isBuildArchiveable(build?.status)
+              isBuildArchiveable(build?.status, build?.isArchived)
                 ? CheckboxState.CHECKED
                 : updatedMapping[build.uuid]?.status || CheckboxState.UNCHECKED
           };

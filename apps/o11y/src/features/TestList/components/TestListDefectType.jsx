@@ -126,7 +126,7 @@ function TestListDefectType({ data }) {
   }, [data?.details?.id, issueType.id, testDefectTypeMapping]);
 
   const tooltipData = useMemo(() => {
-    if (buildMeta?.status === TEST_STATUS.ARCHIVED) {
+    if (buildMeta?.isArchived) {
       return {
         title: 'Options not applicable',
         desc: 'Failure category options not applicable for archived build run.'
@@ -142,7 +142,7 @@ function TestListDefectType({ data }) {
       title: '',
       desc: ''
     };
-  }, [buildMeta?.isAutoAnalyzerRunning, buildMeta?.status]);
+  }, [buildMeta?.isArchived, buildMeta?.isAutoAnalyzerRunning]);
 
   if (!issueType?.name || data?.details?.status !== TEST_STATUS.FAIL) {
     return null;
@@ -150,8 +150,7 @@ function TestListDefectType({ data }) {
 
   return (
     <PropagationBlocker className="mb-2 flex ">
-      {buildMeta?.isAutoAnalyzerRunning ||
-      buildMeta?.status === TEST_STATUS.ARCHIVED ? (
+      {buildMeta?.isAutoAnalyzerRunning || buildMeta?.isArchived ? (
         <O11yTooltip
           placement="top"
           trigger={['hover']}

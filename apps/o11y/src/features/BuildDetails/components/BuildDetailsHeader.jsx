@@ -223,7 +223,7 @@ function BuildDetailsHeader({
     versionControlInfo,
     ciBuildData,
     duration,
-    status
+    isArchived
   } = buildMeta.data;
 
   return (
@@ -241,7 +241,7 @@ function BuildDetailsHeader({
       <div className="px-6 pt-6">
         <section className="flex items-start justify-between gap-4">
           <h1 className="w-full text-2xl font-bold leading-7">
-            {status === TEST_STATUS.ARCHIVED ? '(Archived) ' : ''}
+            {isArchived ? '(Archived) ' : ''}
             {isAutoDetectedName ? originalName : name}{' '}
             <div className="inline-block">
               {!!buildNumber && `#${buildNumber}`}

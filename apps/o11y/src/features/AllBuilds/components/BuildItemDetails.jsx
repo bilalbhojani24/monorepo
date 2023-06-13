@@ -121,7 +121,7 @@ function BuildItemDetails({
             }
           }}
         >
-          {data?.status === TEST_STATUS.ARCHIVED ? '(Archived) ' : ' '}
+          {data?.isArchived ? '(Archived) ' : ' '}
           {data?.isAutoDetectedName ? data?.originalName : data?.name}
           &nbsp;
           <O11yMetaData

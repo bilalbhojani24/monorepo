@@ -22,7 +22,7 @@ function BuildSelectCheckbox({ data }) {
         </TooltipBody>
       );
     }
-    if (buildStatus === TEST_STATUS.ARCHIVED) {
+    if (data?.isArchived) {
       return (
         <TooltipBody>
           <span className="text-sm">{ARCHIVE_TOOLTIP_MESSAGES.ARCHIVED}</span>
@@ -46,7 +46,7 @@ function BuildSelectCheckbox({ data }) {
           disabled={
             !buildStatus ||
             buildStatus === TEST_STATUS.PENDING ||
-            buildStatus === TEST_STATUS.ARCHIVED
+            data?.isArchived
           }
           checked={
             getBuildCheckedStatus({ uuid: data.uuid, buildStatus }) ===

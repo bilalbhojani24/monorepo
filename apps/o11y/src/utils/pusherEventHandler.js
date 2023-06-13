@@ -1,9 +1,5 @@
 import { Pusher, PusherManager } from '@browserstack/utils';
-import {
-  PUSHER_EVENTS,
-  TEST_STATUS,
-  versionedBaseRoute
-} from 'constants/common';
+import { PUSHER_EVENTS, versionedBaseRoute } from 'constants/common';
 import { findAndUpdateBuilds } from 'features/AllBuilds/slices/buildsSlice';
 import { updateBuildMeta } from 'features/BuildDetails/slices/buildDetailsSlice';
 import {
@@ -131,7 +127,7 @@ class O11yPusherEvents {
               updateBuildMeta({
                 buildUID: message?.uuid || '',
                 data: {
-                  status: TEST_STATUS.ARCHIVED
+                  isArchived: true
                 }
               })
             );

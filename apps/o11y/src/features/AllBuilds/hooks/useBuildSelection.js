@@ -59,7 +59,10 @@ function useBuildSelection() {
       Object.keys(buildCheckStatusMapping).forEach((key) => {
         updatedMapping[key] = {
           ...buildCheckStatusMapping[key],
-          status: isBuildArchiveable(buildCheckStatusMapping[key]?.buildStatus)
+          status: isBuildArchiveable(
+            buildCheckStatusMapping[key]?.buildStatus,
+            buildCheckStatusMapping[key]?.isArchived
+          )
             ? CheckboxState.CHECKED
             : CheckboxState.UNCHECKED
         };

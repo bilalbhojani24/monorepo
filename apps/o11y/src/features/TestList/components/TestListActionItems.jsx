@@ -122,21 +122,21 @@ function TestListActionItems({ details }) {
   }, [details?.isMuted, updatedMutedStatus]);
 
   const reRunTooltipText = useMemo(() => {
-    if (buildMeta?.data?.status === TEST_STATUS.ARCHIVED) {
+    if (buildMeta?.data?.isArchived) {
       return 'Re-run is not applicable for archived build run';
     }
     if (!buildMeta?.data?.reRun) {
       return 'Re-run is not applicable or disabled in the project settings';
     }
     return 'Re-run';
-  }, [buildMeta?.data?.reRun, buildMeta?.data?.status]);
+  }, [buildMeta?.data?.isArchived, buildMeta?.data?.reRun]);
 
   const muteTooltipText = useMemo(() => {
-    if (buildMeta?.data?.status === TEST_STATUS.ARCHIVED) {
+    if (buildMeta?.data?.isArchived) {
       return 'Muting is not applicable for archived build run';
     }
     return `${getMutedStatus ? 'Un-Mute' : 'Mute'} Test`;
-  }, [buildMeta?.data?.status, getMutedStatus]);
+  }, [buildMeta?.data?.isArchived, getMutedStatus]);
 
   return (
     <PropagationBlocker className="hidden items-center justify-end gap-1 group-hover:flex">
@@ -158,10 +158,7 @@ function TestListActionItems({ details }) {
             size="extra-small"
             onClick={handleRerunButtonClick}
             icon={<MdRedo className="h-5 w-5" />}
-            disabled={
-              !buildMeta?.data?.reRun ||
-              buildMeta?.data?.status === TEST_STATUS.ARCHIVED
-            }
+            disabled={!buildMeta?.data?.reRun || buildMeta?.data?.isArchived}
           />
         </O11yTooltip>
       )}
@@ -211,7 +208,7 @@ function TestListActionItems({ details }) {
               <MdOutlineVolumeUp className="h-5 w-5" />
             )
           }
-          disabled={buildMeta?.data?.status === TEST_STATUS.ARCHIVED}
+          disabled={buildMeta?.data?.isArchived}
         />
       </O11yTooltip>
     </PropagationBlocker>
