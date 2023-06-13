@@ -1,5 +1,6 @@
 import React from 'react';
 import ClusterOverview from 'features/ClusterDetail/components/ClusterOverview';
+import ClusterUtilization from 'features/ClusterDetail/components/ClusterUtilization';
 import LayoutClusterDetail from 'features/ClusterDetail/container/LayoutClusterDetail';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import ErrorPage from 'features/ErrorPage/components';
@@ -95,6 +96,11 @@ export const APP_ROUTES = [
             path: ROUTES.CLUSTER_OVERVIEW,
             isProtected: true,
             component: <ClusterOverview />
+          },
+          {
+            path: ROUTES.CLUSTER_UTILIZATION,
+            isProtected: true,
+            component: <ClusterUtilization />
           }
         ]
       },
