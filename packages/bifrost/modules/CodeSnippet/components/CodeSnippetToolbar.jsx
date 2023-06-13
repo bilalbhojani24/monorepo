@@ -13,7 +13,7 @@ const CodeSnippetToolbar = ({ leadingNode, trailingNode }) => {
       className={twClassNames(
         'border-base-300 flex items-center justify-between rounded-t-md border-b bg-white',
         {
-          'bg-danger-50 border-danger-700': view === CODE_VIEW[1],
+          'bg-danger-50 border-danger-300': view === CODE_VIEW[1],
           'bg-attention-50 border-attention-400': view === CODE_VIEW[2]
         }
       )}
