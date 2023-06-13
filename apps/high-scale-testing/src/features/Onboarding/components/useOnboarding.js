@@ -13,6 +13,8 @@ import {
   AGEventsLogModalInteracted,
   AGHaveSetupInteracted,
   AGHaveSetupPresented,
+  AGHaveSetupStepsExecuted,
+  AGNoRetrySetupStepsExecuted,
   AGNoSetupInteracted,
   AGNoSetupPresented,
   AGNoSetupStepsExecuted,
@@ -232,6 +234,27 @@ browserstack-cli hst init`,
           : 'have_setup'
     });
     setOnboardingStep(1);
+  };
+
+  const copyCallbackFnForExistingSetup = (codeType) => {
+    const eventData = {
+      action: 'command copied',
+      option: codeType.toLowerCase()
+    };
+    logHSTEvent([], 'web_events', AGHaveSetupStepsExecuted, eventData);
+  };
+
+  const copyCallbackFnForNewSetup = (type) => {
+    const eventData = {
+      action: 'command copied',
+      option: type.toLowerCase()
+    };
+    logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, eventData);
+  };
+
+  const copySetupFailureCode = () => {
+    const eventData = { action: 'command_copied', option: 'create' };
+    logHSTEvent([], 'web_events', AGNoRetrySetupStepsExecuted, eventData);
   };
 
   const exploreAutomationClickHandler = () => {
@@ -494,6 +517,9 @@ browserstack-cli hst init`,
     codeSnippetsForExistingSetup,
     codeSnippetTabChangeHandler,
     continueClickHandler,
+    copyCallbackFnForExistingSetup,
+    copyCallbackFnForNewSetup,
+    copySetupFailureCode,
     currentStep,
     currentProvidersRegions,
     currentSelectedCloudProvider,
