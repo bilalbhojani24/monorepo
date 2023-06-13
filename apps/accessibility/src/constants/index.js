@@ -98,6 +98,7 @@ export const versions = [
 export const ISSUES = 'issues';
 export const SUMMARY = 'summary';
 export const TESTS = 'tests';
+export const OVERVIEW = 'overview';
 
 export const getBuildEventTab = {
   summary: 'Overview',

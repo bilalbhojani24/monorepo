@@ -5,6 +5,8 @@ import {
   fetchProjectById
 } from 'api/fetchTestAutomationData';
 
+import { logEvent } from 'utils/logEvent';
+
 export default function useAutomatedTestListing() {
   const [buildListing, setBuildListing] = useState([]);
   const [comboboxItems, setComboboxItems] = useState([]);
@@ -44,12 +46,18 @@ export default function useAutomatedTestListing() {
     fetchProjectById(id).then((response) => {
       setBuildListing(response);
     });
+    logEvent('InteractedWithAutomatedTestsHomepageView', {
+      action: 'Select project'
+    });
   };
 
   useEffect(() => {
     fetchAllTestRuns().then((response) => {
       setBuildListing(response);
       allBuilds.current = response;
+      logEvent('OnAutomatedTestsHomepageView', {
+        buildsAvailable: response.length > 0
+      });
     });
   }, []);
 

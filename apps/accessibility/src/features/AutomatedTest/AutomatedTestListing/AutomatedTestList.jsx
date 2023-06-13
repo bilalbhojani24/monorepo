@@ -16,7 +16,7 @@ import { twClassNames } from '@browserstack/utils';
 import { issueTypes } from 'constants';
 import formatDistance from 'date-fns/formatDistance';
 import PropTypes from 'prop-types';
-
+import { logEvent } from 'utils/logEvent';
 export default function AutomatedTestList({ buildList, comboboxItems }) {
   const navigate = useNavigate();
   const now = new Date();
@@ -37,6 +37,9 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
         normalisedName.split('%')[0]
       }/${buildNumber}`
     );
+    logEvent('InteractedWithAutomatedTestsHomepageView', {
+      action: 'View documentation'
+    });
   };
 
   const columns = [

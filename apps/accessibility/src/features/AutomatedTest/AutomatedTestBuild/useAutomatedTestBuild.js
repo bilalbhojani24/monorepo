@@ -35,6 +35,7 @@ import {
   getBuildMetaData,
   getTestCasesData
 } from './slices/selector';
+import { logEvent } from 'utils/logEvent';
 
 export default function useAutomatedTestBuild() {
   const dispatch = useDispatch();
@@ -150,6 +151,8 @@ export default function useAutomatedTestBuild() {
   const actionType = '';
   const eventName = 'Sample event name...';
   const onRowClick = () => {};
+
+  useEffect(() => logEvent('OnAutomatedTestsBuildView'), []);
 
   return {
     activeTab,
