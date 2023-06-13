@@ -19,7 +19,7 @@ const useComboboxBadge = ({
 }) => {
   const [visibleItems, setVisibleItems] = useState(options);
   const [currentSelected, setCurrentSelected] = useState(
-    (defaultValue || value || []).filter((selectedValue) => selectedValue)
+    defaultValue || value || []
   );
   const [query, setQuery] = useState('');
 
