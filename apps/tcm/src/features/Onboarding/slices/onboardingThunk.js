@@ -1,6 +1,7 @@
 import { delay } from '@browserstack/utils';
 import { getAutoAssignmentStatusAPI } from 'api/onboarding.api';
-import AppRoute from 'const/routes';
+
+import { NO_AUTO_ASSIGN_PAGES } from '../const/immutableConst';
 
 import {
   autoAssignmentStatusFulfilled,
@@ -11,7 +12,7 @@ const NOTIFICATION_DELAY = 2000;
 
 export const notificationDecider = () => async (dispatch) => {
   await delay(NOTIFICATION_DELAY);
-  if (window.location.pathname !== AppRoute.ONBOARDING) {
+  if (!NO_AUTO_ASSIGN_PAGES.includes(window.location.pathname)) {
     // using window location and not react-router-dom location api as it was giving the previous route on refresh
     dispatch(setTimerFinished(true));
     try {

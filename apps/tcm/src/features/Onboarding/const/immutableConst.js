@@ -1,3 +1,5 @@
+import AppRoute from 'const/routes';
+
 export const SETUP_FORMATS = [
   {
     id: 'quick_import',
@@ -6,12 +8,6 @@ export const SETUP_FORMATS = [
     description:
       'Select if you want to migrate project data from TestRail or Zephyr Scale'
   },
-  // {
-  //   id: 'example_project',
-  //   title: 'Setup an example project',
-  //   description:
-  //     "We'll create a functional example project with demo data(test cases, test runs etc)"
-  // },
   {
     id: 'scratch',
     title: 'Start from scratch',
@@ -21,4 +17,10 @@ export const SETUP_FORMATS = [
 ];
 
 export const TC_ASSIGNED_NOTIFICATION_ID = 'tc_assigned_notification_id';
-export const INFINITY = 2147483647;
+export const INFINITY = 2147483647; // this is largest number that settimeout can take https://developer.mozilla.org/en-US/docs/Web/API/setTimeout reference
+
+export const NO_AUTO_ASSIGN_PAGES = [
+  AppRoute.ONBOARDING,
+  AppRoute.NO_ACCESS,
+  AppRoute.NOT_FOUND
+];

@@ -54,7 +54,7 @@ const TCAssignedNotification = () => {
         {
           position: 'top-right',
           autoClose: false,
-          duration: INFINITY,
+          duration: INFINITY, // TODO: clear this off in next bifrost upgrade
           id: tcAssignedNotificationConfig?.id
         }
       );
