@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import {
   Button,
