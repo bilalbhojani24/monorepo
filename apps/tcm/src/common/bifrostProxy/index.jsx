@@ -13,6 +13,7 @@ import {
   Breadcrumb,
   Button,
   Checkbox,
+  CTACard,
   EmptyState,
   FileUpload,
   Hyperlink,
@@ -62,7 +63,7 @@ import TMSelectMenu from './components/TMSelectMenu';
 import TMTruncateText from './components/TMTruncateText';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
-
+export const TMCTACard = (props) => <CTACard {...props} />;
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMListTree = (props) => <ListTree {...props} />;
 export const TMListTreeNode = (props) => <ListTreeNode {...props} />;

@@ -18,7 +18,7 @@ const InlineAddTestCase = forwardRef(({ noBorder }, ref) => {
 
   return (
     <div
-      className={classNames('relative w-full p-2 ', {
+      className={classNames('relative w-full p-2 flex', {
         'border-base-200 border-t': !noBorder
       })}
     >
