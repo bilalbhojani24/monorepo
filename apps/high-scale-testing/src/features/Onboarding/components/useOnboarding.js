@@ -26,6 +26,7 @@ import {
 import {
   EVENT_LOGS_POLLING_IN_MS,
   GRID_MANAGER_NAMES,
+  PRODUCT_NAME_ACTUAL,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
@@ -64,7 +65,7 @@ browserstack-cli hst init`,
   };
 
   const HEADER_TEXTS_OBJECT = {
-    intro: `Hey ${userDetails.fullname}, Welcome to Automation Grid`,
+    intro: `Hey ${userDetails.fullname}, Welcome to ${PRODUCT_NAME_ACTUAL}`,
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };

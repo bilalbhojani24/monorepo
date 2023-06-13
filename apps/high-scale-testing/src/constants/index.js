@@ -19,8 +19,8 @@ const MAX_TEST_TIMEOUT = 28800;
 
 const EVENT_LOGS_POLLING_IN_MS = 10000;
 
-const PRODUCT_NAME_ACTUAL = 'Automation Grid';
-const PRODUCT_NAME_CODE = 'automation-grid';
+const PRODUCT_NAME_ACTUAL = 'Automate {TurboScale}';
+const PRODUCT_NAME_CODE = 'automate-turboscale';
 
 const SCRATCH_RADIO_GROUP_OPTIONS = [
   {
