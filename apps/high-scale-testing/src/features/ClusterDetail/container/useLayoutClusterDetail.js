@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchClusterDataById } from 'api/index';
 import { AGClusterDetailsInteracted } from 'constants/event-names';
 import { setClusterData } from 'features/GridConsole/slices';
@@ -11,6 +11,7 @@ import { getClusterData } from '../slices/selector';
 
 const useLayoutClusterDetail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const params = useParams();
   const { id: clusterId } = params;
@@ -42,6 +43,12 @@ const useLayoutClusterDetail = () => {
 
     if (clusterId) fetchClusterDataByIdFromAPI(clusterId);
   }, [dispatch, clusterId, userDetails]);
+
+  useEffect(() => {
+    navigate(
+      `/grid-console/cluster/${clusterId}/${currentTab.name.toLowerCase()}`
+    );
+  }, [clusterId, currentTab]);
 
   return { clusterData, currentTab, onTabChangeHandler };
 };
