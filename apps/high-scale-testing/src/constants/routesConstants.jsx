@@ -5,6 +5,7 @@ import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import ErrorPage from 'features/ErrorPage/components';
 import GridConsole from 'features/GridConsole/components/GridConsole';
 import GridOverview from 'features/GridConsole/components/GridOverview';
+import GridUtilization from 'features/GridConsole/components/GridUtilisation';
 import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
 import BrowsersSettings from 'features/GridSettings/components/BrowsersSettings';
 import GeneralSettings from 'features/GridSettings/components/GeneralSettings';
@@ -77,6 +78,11 @@ export const APP_ROUTES = [
                 component: <TestArtifactsSettings />
               }
             ]
+          },
+          {
+            path: ROUTES.GRID_UTILIZATION,
+            isProtected: true,
+            component: <GridUtilization />
           }
         ]
       },
