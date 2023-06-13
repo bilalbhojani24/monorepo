@@ -68,7 +68,7 @@ const ComboboxBadgeTrigger = ({
   return (
     <Popover.Trigger ref={buttonRef} asChild>
       <Combobox.Button
-        as="div"
+        as="section"
         className={twClassNames(
           'appearance-none cursor-pointer border-base-300 relative flex items-center border px-2 py-1.5 rounded-md text-sm leading-6',
           {
