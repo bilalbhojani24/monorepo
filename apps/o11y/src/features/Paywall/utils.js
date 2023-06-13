@@ -28,12 +28,6 @@ export const handleUpgrade =
       .catch(() => {
         if (errorCb && typeof errorCb === 'function') {
           errorCb();
-        } else {
-          o11yNotify({
-            title: 'Something went wrong!',
-            description: 'Please try again later.',
-            type: 'error'
-          });
         }
       })
       .finally(() => {
