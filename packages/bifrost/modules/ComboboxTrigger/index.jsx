@@ -53,7 +53,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
   return (
     <Popover.Trigger ref={buttonRef} asChild>
       <Combobox.Button
-        as="section"
+        as="div"
         className={twClassNames(
           'appearance-none cursor-pointer border-base-300  relative flex items-center border px-2 py-1.5 rounded-md',
           {
