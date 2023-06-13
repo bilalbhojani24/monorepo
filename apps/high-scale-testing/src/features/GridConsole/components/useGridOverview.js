@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useMountEffect } from '@browserstack/hooks';
-import { logEvent } from '@browserstack/utils';
 import { AGGridDetailsVisited } from 'constants/event-names';
+import { logHSTEvent } from 'utils/logger';
 
 import { getGridData } from '../slices/selector';
 
@@ -16,7 +16,7 @@ const useGridOverview = () => {
   const fontColor900ClassName = 'text-base-900 text-base font-normal mt-0.5';
 
   useMountEffect(() => {
-    logEvent([], 'web_events', AGGridDetailsVisited, {
+    logHSTEvent([], 'web_events', AGGridDetailsVisited, {
       grid_name: gridData.name
     });
   });

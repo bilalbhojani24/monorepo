@@ -576,13 +576,9 @@ const CreateGrid = () => {
                                   Setup CLI with AWS credentials.
                                 </p>
                                 <CodeSnippet
-                                  code="/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
-                              export BROWSERSTACK_USERNAME=<username>
-                              export BROWSERSTACK_ACCESS_KEY=<accesskey>
-                              
-                              /* Create HST configuration profile with AWS credentials */
-                              browserstack-cli hst init
-                              "
+                                  code={
+                                    CODE_SNIPPETS_SCRATCH['create-grid'].b.code
+                                  }
                                   language="node"
                                   showLineNumbers={false}
                                   singleLine={false}

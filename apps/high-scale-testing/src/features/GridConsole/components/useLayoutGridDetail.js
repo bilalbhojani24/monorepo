@@ -7,7 +7,6 @@ import {
   useParams
 } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
-import { logEvent } from '@browserstack/utils';
 import { fetchGridDataById } from 'api/index';
 import {
   AGGridDetailsInteracted,
@@ -15,6 +14,7 @@ import {
 } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import { getUserDetails } from 'globalSlice/selector';
+import { logHSTEvent } from 'utils/logger';
 
 import { setGridData } from '../slices';
 import { getGridData } from '../slices/selector';
@@ -39,7 +39,7 @@ const useLayoutGridDetail = () => {
   });
 
   const onTabChangeHandler = (e) => {
-    logEvent(['amplitude'], 'web_events', AGGridDetailsInteracted, {
+    logHSTEvent(['amplitude'], 'web_events', AGGridDetailsInteracted, {
       action: 'tab_switched',
       option: e.name.toLowerCase()
     });
@@ -48,7 +48,7 @@ const useLayoutGridDetail = () => {
 
   useEffect(() => {
     if (currentTab.name === 'Settings') {
-      logEvent([], 'web_events', AGGridSettingsVisited, {
+      logHSTEvent([], 'web_events', AGGridSettingsVisited, {
         action: 'general'
       });
       navigate(

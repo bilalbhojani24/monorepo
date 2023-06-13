@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { logEvent } from '@browserstack/utils';
 import { fetchClusterDataById } from 'api/index';
 import { AGClusterDetailsInteracted } from 'constants/event-names';
 import { setClusterData } from 'features/GridConsole/slices';
 import { getUserDetails } from 'globalSlice/selector';
+import { logHSTEvent } from 'utils/logger';
+
 import { getClusterData } from '../slices/selector';
 
 const useLayoutClusterDetail = () => {
@@ -26,7 +27,7 @@ const useLayoutClusterDetail = () => {
   });
 
   const onTabChangeHandler = (e) => {
-    logEvent(['amplitude'], AGClusterDetailsInteracted, {
+    logHSTEvent(['amplitude'], AGClusterDetailsInteracted, {
       action: 'tab_switched',
       option: e.name.toLowerCase()
     });

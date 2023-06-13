@@ -16,16 +16,17 @@ import {
 import CiIcon from 'common/CiIcon';
 import O11yLoader from 'common/O11yLoader';
 import PropagationBlocker from 'common/PropagationBlocker';
-import {
-  DOC_KEY_MAPPING,
-  TEST_LIST_FILTERS_TAGS,
-  TEST_STATUS
-} from 'constants/common';
+import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import PropTypes from 'prop-types';
 import { getBuildMarkedStatus, getDocUrl } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
-import { BUILD_FILTER_OPERATIONS, BUILD_FILTER_TYPES } from '../constants';
+import {
+  BUILD_FILTER_OPERATIONS,
+  BUILD_FILTER_TYPES,
+  TEST_LIST_FILTERS_INTERACTIONS
+} from '../constants';
 import { getSelectedFiltersIdsByType } from '../slices/buildsSelectors';
 import { setAppliedFilter } from '../slices/buildsSlice';
 
@@ -227,12 +228,12 @@ function BuildItemDetails({
           {data?.historyAggregate?.isFlaky > 0 && (
             <PropagationBlocker className="mr-2 inline">
               <O11yBadge
-                onClick={(e) =>
-                  navigateToTestPage('flaky', {
-                    eventData: e,
-                    itemClicked: true,
-                    redirectViaCategory: true
-                  })
+                onClick={() =>
+                  navigateToTestPage(
+                    ADV_FILTER_TYPES.isFlaky.key,
+                    true,
+                    TEST_LIST_FILTERS_INTERACTIONS.flaky
+                  )
                 }
                 hasRemoveButton={false}
                 modifier="warn"
@@ -244,11 +245,12 @@ function BuildItemDetails({
           {data?.historyAggregate?.isNewFailure > 0 && (
             <PropagationBlocker className="mr-2 inline">
               <O11yBadge
-                onClick={(e) => {
-                  navigateToTestPage('history', {
-                    eventData: e,
-                    itemClicked: TEST_LIST_FILTERS_TAGS.isNewFailure
-                  });
+                onClick={() => {
+                  navigateToTestPage(
+                    ADV_FILTER_TYPES.isNewFailure.key,
+                    true,
+                    TEST_LIST_FILTERS_INTERACTIONS.isNewFailure
+                  );
                 }}
                 hasRemoveButton={false}
                 modifier="error"
@@ -260,11 +262,12 @@ function BuildItemDetails({
           {data?.historyAggregate?.isAlwaysFailing > 0 && (
             <PropagationBlocker className="mr-2 inline">
               <O11yBadge
-                onClick={(e) =>
-                  navigateToTestPage('history', {
-                    eventData: e,
-                    itemClicked: TEST_LIST_FILTERS_TAGS.isAlwaysFailing
-                  })
+                onClick={() =>
+                  navigateToTestPage(
+                    ADV_FILTER_TYPES.isAlwaysFailing.key,
+                    true,
+                    TEST_LIST_FILTERS_INTERACTIONS.isAlwaysFailing
+                  )
                 }
                 hasRemoveButton={false}
                 modifier="error"
@@ -277,11 +280,12 @@ function BuildItemDetails({
             <PropagationBlocker className="mr-2 inline">
               <O11yBadge
                 wrapperClassName="text-xs py-0 font-medium"
-                onClick={(e) =>
-                  navigateToTestPage('history', {
-                    eventData: e,
-                    itemClicked: TEST_LIST_FILTERS_TAGS.isPerformanceAnomaly
-                  })
+                onClick={() =>
+                  navigateToTestPage(
+                    ADV_FILTER_TYPES.hasPerformanceAnomaly.key,
+                    true,
+                    TEST_LIST_FILTERS_INTERACTIONS.isPerformanceAnomaly
+                  )
                 }
                 hasRemoveButton={false}
                 modifier="error"
