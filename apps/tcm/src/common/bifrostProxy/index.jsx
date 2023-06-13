@@ -13,7 +13,6 @@ import {
   Breadcrumb,
   Button,
   Checkbox,
-  CTACard,
   EmptyState,
   FileUpload,
   Hyperlink,
@@ -51,6 +50,7 @@ import {
 import TMAttachments from './components/TMAttachments';
 import TMBadgeComboBox from './components/TMBadgeComboBox';
 import TMComboBox from './components/TMComboBox';
+import TMCTACard from './components/TMCTACard';
 import TMDataTable from './components/TMDataTable';
 import TMDataVisualization from './components/TMDataVisualization';
 import TMDropdown from './components/TMDropdown';
@@ -63,7 +63,6 @@ import TMSelectMenu from './components/TMSelectMenu';
 import TMTruncateText from './components/TMTruncateText';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
-export const TMCTACard = (props) => <CTACard {...props} />;
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMListTree = (props) => <ListTree {...props} />;
 export const TMListTreeNode = (props) => <ListTreeNode {...props} />;
@@ -136,6 +135,7 @@ export {
   TMAttachments,
   TMBadgeComboBox,
   TMComboBox,
+  TMCTACard,
   TMDataTable,
   TMDataVisualization,
   TMDropdown,
