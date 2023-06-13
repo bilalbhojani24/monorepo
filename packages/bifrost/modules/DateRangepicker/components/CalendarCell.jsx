@@ -41,7 +41,6 @@ export function CalendarCell({ state, date, currentDate }) {
     >
       <div
         {...mergeProps(buttonProps, focusProps)}
-        ref={ref}
         className={twClassNames(
           'group h-12 w-12 outline-none mx-auto w-full font-normal',
           {
@@ -66,6 +65,7 @@ export function CalendarCell({ state, date, currentDate }) {
         )}
       >
         <div
+          ref={ref}
           className={twClassNames(
             'flex h-full w-full items-center justify-center cursor-default text-base-900 text-sm leading-5',
             {
