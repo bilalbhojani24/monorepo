@@ -505,7 +505,6 @@ browserstack-cli hst init`,
   ]);
 
   useEffect(() => {
-    console.group('Log: selectedRegion useEffect');
     if (
       Object.keys(resourceMap).length > 0 &&
       selectedRegion !== null &&
@@ -526,37 +525,28 @@ browserstack-cli hst init`,
       });
 
       setAllAvailableVPCIDs(tmpVPCsArray);
-    }
 
-    console.groupEnd('Log: selectedRegion useEffect');
-  }, [currentSelectedCloudProvider, resourceMap, selectedRegion]);
+      if (
+        allAvailableVPCIDs !== null &&
+        allAvailableVPCIDs !== undefined &&
+        selectedVPCValue.value.length > 0
+      ) {
+        const tmpSubnets =
+          resourceMap[currentSelectedCloudProvider.configName][
+            selectedRegion.value
+          ][selectedVPCValue.value].subnets;
+        const tmpSubnetsArray = [];
 
-  useEffect(() => {
-    console.group('Log: allAvailableVPCIDs useEffect');
-    if (
-      Object.keys(resourceMap).length > 0 &&
-      selectedRegion !== null &&
-      selectedRegion !== undefined &&
-      allAvailableVPCIDs !== null &&
-      allAvailableVPCIDs !== undefined &&
-      selectedVPCValue.value.length > 0
-    ) {
-      const tmpSubnets =
-        resourceMap[currentSelectedCloudProvider.configName][
-          selectedRegion.value
-        ][selectedVPCValue.value].subnets;
-      const tmpSubnetsArray = [];
-
-      tmpSubnets?.forEach((e) => {
-        tmpSubnetsArray.push({
-          label: e,
-          value: e
+        tmpSubnets?.forEach((e) => {
+          tmpSubnetsArray.push({
+            label: e,
+            value: e
+          });
         });
-      });
 
-      setAllAvailableSubnets(tmpSubnetsArray);
+        setAllAvailableSubnets(tmpSubnetsArray);
+      }
     }
-    console.groupEnd('Log: allAvailableVPCIDs useEffect');
   }, [
     allAvailableVPCIDs,
     currentSelectedCloudProvider,
