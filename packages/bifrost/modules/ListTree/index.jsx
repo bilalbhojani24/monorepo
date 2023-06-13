@@ -10,7 +10,7 @@ const ListTree = ({ children, indentationLevel, isTreeOpen }) => (
     as="div"
     defaultOpen={isTreeOpen}
     className={twClassNames('', {
-      'ml-4 pl-2': indentationLevel > 1
+      'ml-2 pl-1': indentationLevel > 1
     })}
   >
     {children}
