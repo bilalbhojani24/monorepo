@@ -3,6 +3,13 @@ import { wcagVersions } from 'features/SiteScanner/NewScan/constants';
 import { json2csv } from 'json-2-csv';
 import { getBrowserStackBase } from 'utils';
 
+import {
+  TRIAL_EXPIRED,
+  TRIAL_IN_PROGRESS,
+  TRIAL_NOT_STARTED,
+  TRIAL_STARTED
+} from '../constants';
+
 import { logEvent } from './logEvent';
 
 const BEST_PRACTICE_TAG = 'best-practice';
@@ -195,10 +202,7 @@ export const countRemainingDays = (date1, date2) => {
     return 0;
   }
   const remainingDays = difference / (1000 * 3600 * 24);
-  if (remainingDays > 0 && remainingDays < 1) {
-    return 1;
-  }
-  return Math.floor(remainingDays);
+  return Math.ceil(remainingDays);
 };
 
 export const buyAcceesibilityPlan = () => {
@@ -212,4 +216,21 @@ export const buyAcceesibilityPlan = () => {
     `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
     '_blank'
   );
+};
+
+export const getReverseTrialStatus = (endDate, eligible) => {
+  let status = '';
+  const today = new Date();
+  const remainingDays = countRemainingDays(today, new Date(endDate));
+  if (eligible && !endDate) {
+    status = TRIAL_NOT_STARTED;
+  } else if (!eligible && !endDate) {
+    status = TRIAL_IN_PROGRESS;
+  } else if (remainingDays <= 0) {
+    status = TRIAL_EXPIRED;
+  } else if (remainingDays > 0) {
+    status = TRIAL_STARTED;
+  }
+
+  return status;
 };

@@ -18,15 +18,11 @@ export default function ReverseTrialAlertWrapper() {
       alertIcon={<img src={Warning} alt="alert icon" />}
       alphaActionTitle="View Status"
       detailsNode={
-        detailsNode ? (
-          <p className="w-40">
-            {detailsNode}{' '}
-            <span aria-hidden="true" className="ml-1">
-              →
-            </span>
-          </p>
-        ) : (
-          false
+        detailsNode && (
+          <>
+            <p>Details</p>
+            <span aria-hidden="true"> →</span>
+          </>
         )
       }
       modifier="warn"

@@ -6,6 +6,7 @@ import {
   Notifications,
   notify
 } from '@browserstack/bifrost';
+import initAPI from 'api/initAPI';
 import { activateFreeTrial, checkProgress } from 'api/reverseTrial';
 import confetti from 'canvas-confetti';
 import { TRIAL_IN_PROGRESS } from 'constants';
@@ -98,24 +99,36 @@ export default function useReverseTrialModal() {
     });
   };
 
+  const handleError = () => {
+    freeTrialRequestFailureNotification();
+    dispatch(setModalShow(false));
+  };
+
+  const refreshUserData = async () => {
+    clearInterval(timerId.current);
+    await initAPI();
+  };
+
   const pollReverseTrialStatus = () => {
-    const poll = checkProgress();
+    let attempts = 0;
     timerId.current = setInterval(async () => {
       try {
-        const response = await poll();
+        const response = await checkProgress();
         if (response.success) {
-          clearInterval(timerId.current);
-          dispatch(setTrialState('started'));
+          await refreshUserData();
           dispatch(setBannerName('started'));
           dispatch(setShowBanner(true));
           dispatch(setModalShow(false));
           showConfetti();
         }
-        console.log(response);
+        attempts += 1;
+        if (attempts === 5) {
+          await refreshUserData();
+          handleError();
+        }
       } catch (e) {
-        clearInterval(timerId.current);
-        freeTrialRequestFailureNotification();
-        console.error(e);
+        await refreshUserData();
+        handleError();
       }
     }, 2000);
   };
@@ -124,14 +137,14 @@ export default function useReverseTrialModal() {
     if (modalName !== 'buyPlan' && isEligible) {
       try {
         const response = await activateFreeTrial();
-        if (response.message === 'success') {
-          // TO-DO: remove dispatch and make a call to get_user_profile api with actual api integration
+        if (response.success) {
           dispatch(setTrialState('in_progress'));
           pollReverseTrialStatus();
+        } else {
+          handleError();
         }
       } catch (e) {
-        freeTrialRequestFailureNotification();
-        console.error(e);
+        handleError();
       }
     } else {
       buyAcceesibilityPlan();

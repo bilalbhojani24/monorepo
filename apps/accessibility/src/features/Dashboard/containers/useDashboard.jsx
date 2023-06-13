@@ -24,16 +24,19 @@ import { defaultPath, getBrowserStackBase } from 'utils';
 import {
   buyAcceesibilityPlan,
   countRemainingDays,
+  getReverseTrialStatus,
   getTimeDiffInDays
 } from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
 
-import { setModalName, setModalShow } from '../slices/appSlice';
+import { setModalName, setModalShow, setTrialState } from '../slices/appSlice';
 import {
   getIsFreeUser,
   getShowBanner,
+  getTrialEligibility,
   getTrialEndDate,
-  getTrialState
+  getTrialState,
+  getUser
 } from '../slices/selectors';
 
 export default function useDashboard() {
@@ -47,6 +50,8 @@ export default function useDashboard() {
   const trialEndDate = useSelector(getTrialEndDate);
   const trialState = useSelector(getTrialState);
   const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
+  const eligible = useSelector(getTrialEligibility);
+  const { plan_type: planType } = useSelector(getUser);
 
   const showTrialTile = () =>
     trialState !== TRIAL_NOT_STARTED &&
@@ -77,7 +82,11 @@ export default function useDashboard() {
       label: 'Screen reader',
       activeIcon: MdOutlineRecordVoiceOver,
       inActiveIcon: MdOutlineRecordVoiceOver,
-      path: '/screen-reader'
+      path: '/screen-reader',
+      badge:
+        planType !== 'paid' ? (
+          <Badge text="Premium" modifier="success" disabled />
+        ) : null
     },
     {
       id: 'site-scanner',
@@ -173,6 +182,11 @@ export default function useDashboard() {
       console.log('EDS already initialize...');
     }
   }, []);
+
+  useEffect(() => {
+    const status = getReverseTrialStatus(trialEndDate, eligible);
+    dispatch(setTrialState(status));
+  }, [trialEndDate, eligible]);
 
   return {
     mainRef,
