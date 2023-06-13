@@ -1,8 +1,10 @@
 import React from 'react';
 import {
+  Banner,
   Button,
   MdChevronLeft,
-  MdOutlineAnalytics
+  MdOutlineAnalytics,
+  MdOutlineTimer
 } from '@browserstack/bifrost';
 import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
 import PropTypes from 'prop-types';
@@ -13,12 +15,18 @@ const ReportLoadingHeader = ({
   setShowQuitTestingPrompt,
   setShowGenerateReportPrompt
 }) => {
-  const { sessionState, sessionDetails, isSessionStopInProgress } =
-    useReportLoadingHeader();
+  const {
+    sessionState,
+    sessionDetails,
+    showTimeoutBanner,
+    secondsElapsed,
+    getBannerDescription,
+    isStopSessionInProgress
+  } = useReportLoadingHeader();
 
   return (
-    <div className="border-base-300 text-base-500 flex items-center justify-between border-b px-4 py-2">
-      <div className="flex items-center">
+    <div className="flex flex-col">
+      <div className="flex items-center border-b border-base-300 p-4 text-base-500">
         <div className="cursor-pointer text-xl">
           <MdChevronLeft
             onClick={() => {
@@ -37,7 +45,7 @@ const ReportLoadingHeader = ({
       {sessionState !== REPORT_LOADING_STATES.STOPPING &&
         sessionState !== REPORT_LOADING_STATES.COMPLETE && (
           <Button
-            loading={isSessionStopInProgress}
+            loading={isStopSessionInProgress}
             icon={<MdOutlineAnalytics />}
             variant="primary"
             colors="brand"
@@ -50,6 +58,18 @@ const ReportLoadingHeader = ({
             Generate Performance Report
           </Button>
         )}
+
+      {showTimeoutBanner && (
+        <Banner
+          bannerIcon={
+            <MdOutlineTimer aria-hidden="true" className="h-6 w-6 text-white" />
+          }
+          isDismissButton={false}
+          description={getBannerDescription(secondsElapsed)}
+          modifier="attention"
+          align="centered"
+        />
+      )}
     </div>
   );
 };

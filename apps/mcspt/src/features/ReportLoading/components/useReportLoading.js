@@ -49,12 +49,9 @@ const useReportLoading = () => {
   };
 
   const stopSessionClicked = () => {
-    dispatch(setRecordingTimerIntervalId(null));
-
     setShowGenerateReportPrompt(false);
 
     dispatch(stopRecordingSession(navigateToPath));
-
     mcpAnalyticsEvent('csptTestGenerateReportClicked', {
       test_duration: secondsElapsed,
       ...formatDeviceAndAppAnalyticsData(

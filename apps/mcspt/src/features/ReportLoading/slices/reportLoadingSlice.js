@@ -5,7 +5,8 @@ const initialState = {
   latestPollingTimeoutId: undefined,
   isSessionStopInProgress: false,
   recordingTimerIntervalId: null,
-  recordingDurationElapsed: 0
+  recordingDurationElapsed: 0,
+  showBanner: false
 };
 
 export const reportLoadingSlice = createSlice({
@@ -31,6 +32,14 @@ export const reportLoadingSlice = createSlice({
 
     addElapsedRecordingDuration: (state, action) => {
       state.recordingDurationElapsed += action.payload;
+    },
+
+    setElapsedRecordingDuration: (state, action) => {
+      state.recordingDurationElapsed = action.payload;
+    },
+
+    setShowTimeoutBanner: (state, action) => {
+      state.showTimeoutBanner = action.payload;
     }
   }
 });
@@ -47,12 +56,17 @@ export const getRecordingTimerIntervalId = (state) =>
 export const getRecordingDurationElapsed = (state) =>
   state.reportLoading.recordingDurationElapsed;
 
+export const getShowTimeoutBanner = (state) =>
+  state.reportLoading.showTimeoutBanner;
+
 // Action creators are generated for each case reducer function
 export const {
   updateSessionStatus,
   setIsSessionStopInProgress,
   setRecordingTimerIntervalId,
-  addElapsedRecordingDuration
+  addElapsedRecordingDuration,
+  setShowTimeoutBanner,
+  setElapsedRecordingDuration
 } = reportLoadingSlice.actions;
 
 export default reportLoadingSlice.reducer;

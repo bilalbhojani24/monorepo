@@ -13,18 +13,17 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
 import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
+import { logHSTEvent } from 'utils/logger';
 
 import { useGridListing } from './useGridListing';
 
@@ -124,7 +123,7 @@ const GridsListing = () => {
                 ];
 
                 const cellClickhandler = () => {
-                  logEvent(['amplitude'], AGAutomationConsoleInteracted, {
+                  logHSTEvent(['amplitude'], AGAutomationConsoleInteracted, {
                     action: 'grid_selected',
                     grid_name: gridName,
                     grid_id: gridId
@@ -234,7 +233,7 @@ const GridsListing = () => {
                         <div className="flex">
                           <DropdownTrigger
                             onClick={() =>
-                              logEvent(
+                              logHSTEvent(
                                 ['ampltidue'],
                                 'web_events',
                                 AGAutomationConsoleInteracted,

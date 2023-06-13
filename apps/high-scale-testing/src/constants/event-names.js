@@ -12,6 +12,8 @@ const AGGridSettingsSaved = 'AGGridSettingsSaved';
 const AGGridSettingsVisited = 'AGGridSettingsVisited';
 const AGHaveSetupInteracted = 'AGHaveSetupInteracted';
 const AGHaveSetupPresented = 'AGHaveSetupPresented';
+const AGHaveSetupStepsExecuted = 'AGHaveSetupStepsExecuted';
+const AGNoRetrySetupStepsExecuted = 'AGNoRetrySetupStepsExecuted';
 const AGNoSetupInteracted = 'AGNoSetupInteracted';
 const AGNoSetupPresented = 'AGNoSetupPresented';
 const AGNoSetupStepsExecuted = 'AGNoSetupStepsExecuted';
@@ -35,6 +37,8 @@ export {
   AGGridSettingsVisited,
   AGHaveSetupInteracted,
   AGHaveSetupPresented,
+  AGHaveSetupStepsExecuted,
+  AGNoRetrySetupStepsExecuted,
   AGNoSetupInteracted,
   AGNoSetupPresented,
   AGNoSetupStepsExecuted,
