@@ -11,7 +11,8 @@ export default function ReverseTrialModalWrapper() {
     handleModalClose,
     modalName,
     trialState,
-    handleButtonClick
+    handleButtonClick,
+    showLoader
   } = useReverseTrialModal();
 
   if (!modalName) return null;
@@ -43,8 +44,8 @@ export default function ReverseTrialModalWrapper() {
           colors="success"
           wrapperClassName="py-2"
           fullWidth
-          loading={trialState === TRIAL_IN_PROGRESS}
-          isIconOnlyButton={trialState === TRIAL_IN_PROGRESS}
+          loading={modalName !== 'buyPlan' && showLoader}
+          isIconOnlyButton={modalName !== 'buyPlan' && showLoader}
           onClick={() => handleButtonClick(modalName)}
         >
           {trialState !== TRIAL_IN_PROGRESS ? buttonText : ''}

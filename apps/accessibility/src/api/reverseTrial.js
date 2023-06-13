@@ -6,6 +6,6 @@ export const checkProgress = async () => {
 };
 
 export const activateFreeTrial = async () => {
-  const response = await axios.get('/v1/group/free-trial');
+  const response = await axios.post('/v1/group/free-trial');
   return response.data;
 };

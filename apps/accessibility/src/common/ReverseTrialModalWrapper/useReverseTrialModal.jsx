@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   MdErrorOutline,
@@ -14,13 +14,13 @@ import {
   setBannerName,
   setModalShow,
   setShowBanner,
-  setTrialState
+  setUser
 } from 'features/Dashboard/slices/appSlice';
 import {
   getModalName,
   getModalShow,
-  getTrialEligibility,
-  getTrialState
+  getTrialState,
+  getUser
 } from 'features/Dashboard/slices/selectors';
 import { buyAcceesibilityPlan } from 'utils/helper';
 
@@ -30,7 +30,8 @@ export default function useReverseTrialModal() {
   const trialState = useSelector(getTrialState);
   const timerId = useRef(null);
   const dispatch = useDispatch();
-  const isEligible = useSelector(getTrialEligibility);
+  const isEligible = useSelector(getUser);
+  const [showLoader, setShowLoader] = useState(false);
 
   const freeTrialRequestFailureNotification = () => {
     notify(
@@ -106,7 +107,8 @@ export default function useReverseTrialModal() {
 
   const refreshUserData = async () => {
     clearInterval(timerId.current);
-    await initAPI();
+    const response = await initAPI();
+    dispatch(setUser(response.data));
   };
 
   const pollReverseTrialStatus = () => {
@@ -116,35 +118,40 @@ export default function useReverseTrialModal() {
         const response = await checkProgress();
         if (response.success) {
           await refreshUserData();
-          dispatch(setBannerName('started'));
+          dispatch(setBannerName('enabled'));
           dispatch(setShowBanner(true));
           dispatch(setModalShow(false));
           showConfetti();
+          setShowLoader(false);
         }
         attempts += 1;
         if (attempts === 5) {
           await refreshUserData();
           handleError();
+          setShowLoader(false);
         }
       } catch (e) {
         await refreshUserData();
         handleError();
+        setShowLoader(false);
       }
     }, 2000);
   };
 
   const handleButtonClick = async () => {
     if (modalName !== 'buyPlan' && isEligible) {
+      setShowLoader(true);
       try {
         const response = await activateFreeTrial();
         if (response.success) {
-          dispatch(setTrialState('in_progress'));
           pollReverseTrialStatus();
         } else {
           handleError();
+          setShowLoader(false);
         }
       } catch (e) {
         handleError();
+        setShowLoader(false);
       }
     } else {
       buyAcceesibilityPlan();
@@ -158,6 +165,7 @@ export default function useReverseTrialModal() {
     handleModalClose,
     modalName,
     trialState,
-    handleButtonClick
+    handleButtonClick,
+    showLoader
   };
 }

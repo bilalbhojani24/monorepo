@@ -217,20 +217,3 @@ export const buyAcceesibilityPlan = () => {
     '_blank'
   );
 };
-
-export const getReverseTrialStatus = (endDate, eligible) => {
-  let status = '';
-  const today = new Date();
-  const remainingDays = countRemainingDays(today, new Date(endDate));
-  if (eligible && !endDate) {
-    status = TRIAL_NOT_STARTED;
-  } else if (!eligible && !endDate) {
-    status = TRIAL_IN_PROGRESS;
-  } else if (remainingDays <= 0) {
-    status = TRIAL_EXPIRED;
-  } else if (remainingDays > 0) {
-    status = TRIAL_STARTED;
-  }
-
-  return status;
-};

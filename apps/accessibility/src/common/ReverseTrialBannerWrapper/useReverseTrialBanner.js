@@ -32,8 +32,7 @@ export default function useReverseTrialBanner() {
   const bannerDetails = bannerName
     ? getBannerDetails(remainingDays)[bannerName]
     : {};
-  const { plan_type: planType, enterprice_plan: enterprisePlan } =
-    useSelector(getUser);
+  const { plan_type: planType } = useSelector(getUser);
 
   const handleBannerDismissClick = () => {
     dispatch(setShowBanner(false));
@@ -50,7 +49,7 @@ export default function useReverseTrialBanner() {
 
   const displayBannerOnceADay = (storageKey, nameOfBanner) => {
     // TO-DO confirm the plan type from BE
-    if (planType !== 'free') return;
+    if (planType) return;
 
     const dateValue = new Date(localStorage.getItem(storageKey));
     const bannerLastDate = isValid(dateValue)
@@ -81,7 +80,7 @@ export default function useReverseTrialBanner() {
     }
     case TRIAL_EXPIRED: {
       const shownTrialEndBanner = localStorage.getItem('trialEndBanner');
-      if (!enterprisePlan && !shownTrialEndBanner) {
+      if (!planType && !shownTrialEndBanner) {
         dispatch(setBannerName('expired'));
         dispatch(setShowBanner(true));
         localStorage.setItem('trialEndBanner', true);

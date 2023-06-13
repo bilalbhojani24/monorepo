@@ -20,7 +20,7 @@ export default function ReverseTrialAlertWrapper() {
       detailsNode={
         detailsNode && (
           <>
-            <p>Details</p>
+            <p className="w-40">{detailsNode}</p>
             <span aria-hidden="true"> →</span>
           </>
         )

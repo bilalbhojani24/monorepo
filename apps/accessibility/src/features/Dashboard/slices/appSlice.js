@@ -40,9 +40,6 @@ const { actions, reducer } = createSlice({
     },
     setAlertName: (state, { payload }) => {
       state.alert.name = payload;
-    },
-    setTrialState: (state, { payload }) => {
-      state.trialStatus = payload;
     }
   }
 });
@@ -54,8 +51,7 @@ export const {
   setModalName,
   setAlertName,
   setAlertShow,
-  setBannerName,
-  setTrialState
+  setBannerName
 } = actions;
 
 export default reducer;

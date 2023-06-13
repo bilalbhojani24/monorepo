@@ -24,16 +24,14 @@ import { defaultPath, getBrowserStackBase } from 'utils';
 import {
   buyAcceesibilityPlan,
   countRemainingDays,
-  getReverseTrialStatus,
   getTimeDiffInDays
 } from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
 
-import { setModalName, setModalShow, setTrialState } from '../slices/appSlice';
+import { setModalName, setModalShow } from '../slices/appSlice';
 import {
   getIsFreeUser,
   getShowBanner,
-  getTrialEligibility,
   getTrialEndDate,
   getTrialState,
   getUser
@@ -50,7 +48,6 @@ export default function useDashboard() {
   const trialEndDate = useSelector(getTrialEndDate);
   const trialState = useSelector(getTrialState);
   const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
-  const eligible = useSelector(getTrialEligibility);
   const { plan_type: planType } = useSelector(getUser);
 
   const showTrialTile = () =>
@@ -182,11 +179,6 @@ export default function useDashboard() {
       console.log('EDS already initialize...');
     }
   }, []);
-
-  useEffect(() => {
-    const status = getReverseTrialStatus(trialEndDate, eligible);
-    dispatch(setTrialState(status));
-  }, [trialEndDate, eligible]);
 
   return {
     mainRef,

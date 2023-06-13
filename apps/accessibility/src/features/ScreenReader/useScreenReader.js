@@ -5,9 +5,9 @@ import fetchScreenReaderDevices, {
 } from 'api/fetchScreenReaderDevices';
 import {
   TRIAL_EXPIRED,
+  TRIAL_IN_PROGRESS,
   TRIAL_NOT_STARTED,
-  TRIAL_STARTED,
-  TRIAL_IN_PROGRESS
+  TRIAL_STARTED
 } from 'constants';
 import {
   getAlertShow,
@@ -25,13 +25,13 @@ export default function useScreenReader(noOfDevices) {
   const trialState = useSelector(getTrialState);
   const dispatch = useDispatch();
   const [deviceCombinations, setDeviceCombinations] = useState({});
-  const { enterprise_plan: enterprisePlan } = useSelector(getUser);
+  const { plan_type: planType } = useSelector(getUser);
   const [showTooltip, setShowTooltip] = useState(() =>
     Array.from({ length: noOfDevices }, () => false)
   );
 
   const handleCardClick = (startParams, tooltipIndex) => {
-    if (trialState === TRIAL_STARTED || enterprisePlan) {
+    if (trialState === TRIAL_STARTED || planType) {
       const url = getBrowserStackEnvUrl();
       const startLiveSessionUrl = new URL(`${url}/screen-reader/start`);
       startLiveSessionUrl.searchParams.set(

@@ -9,7 +9,7 @@ export const getShowBanner = (state) =>
 export const getBannerName = (state) =>
   state.accessibility.app.dashboard.banner.name;
 export const getTrialState = (state) =>
-  state.accessibility.app.dashboard.trialStatus;
+  state.accessibility.app.dashboard.user.trial_status;
 export const getModalName = (state) =>
   state.accessibility.app.dashboard.modal.name;
 export const getModalShow = (state) =>
@@ -21,7 +21,7 @@ export const getAlertShow = (state) =>
 export const getTrialEndDate = (state) =>
   state.accessibility.app.dashboard.user.trial_end_date;
 export const getTrialEligibility = (state) =>
-  state.accessibility.app.dashboard.user.eligible;
+  state.accessibility.app.dashboard.user.rft_eligible;
 
 export const getIsFreeUser = (state) =>
   !state.accessibility.app.dashboard.user?.plan_type ||

@@ -12,24 +12,23 @@ import {
   getTrialState,
   getUser
 } from 'features/Dashboard/slices/selectors';
-import { buyAcceesibilityPlan } from 'utils/helper';
 
 export default function useReverseTrialAlert() {
   const trialState = useSelector(getTrialState);
   const alertName = useSelector(getAlertName);
   const showAlert = useSelector(getAlertShow);
-  const { enterprise_plan: enterprisePlan } = useSelector(getUser);
+  const { plan_type: planType } = useSelector(getUser);
   const dispatch = useDispatch();
 
   const handleAlertLinkClick = () => {
     if (trialState === TRIAL_NOT_STARTED) {
       dispatch(setModalName('screenReader'));
       dispatch(setModalShow(true));
-      return;
     }
 
     if (trialState === TRIAL_EXPIRED) {
-      buyAcceesibilityPlan();
+      dispatch(setModalName('buyPlan'));
+      dispatch(setModalShow(true));
     }
   };
 
@@ -48,7 +47,7 @@ export default function useReverseTrialAlert() {
       break;
     }
     case TRIAL_EXPIRED: {
-      if (!enterprisePlan) {
+      if (!planType) {
         displayAlert('buyPlan');
       }
       break;

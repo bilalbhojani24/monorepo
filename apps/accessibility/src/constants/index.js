@@ -222,8 +222,8 @@ export const ANALYTICS_KEYS = {
 const BUY_PLAN = 'Buy a plan';
 
 export const TRIAL_NOT_STARTED = 'not_started';
-export const TRIAL_STARTED = 'started';
-export const TRIAL_IN_PROGRESS = 'in_progress';
+export const TRIAL_STARTED = 'enabled';
+export const TRIAL_IN_PROGRESS = 'processing';
 export const TRIAL_EXPIRED = 'expired';
 
 export const getBannerDetails = (days) => ({
@@ -234,7 +234,7 @@ export const getBannerDetails = (days) => ({
     buttonText: 'Get 14-day free trial',
     color: 'brand'
   },
-  started: {
+  enabled: {
     icon: '',
     description:
       'Your free 14-day trial for the Accessibility Team plan has started.',
