@@ -2,7 +2,11 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authUser } from 'api/auth.api';
 import AppRoute from 'const/routes';
-import { setUser, setUserAndGroupConfig } from 'globalSlice';
+import {
+  setRequestAccessConfig,
+  setUser,
+  setUserAndGroupConfig
+} from 'globalSlice';
 
 const useAuthentication = () => {
   const dispatch = useDispatch();
@@ -52,6 +56,11 @@ const useAuthentication = () => {
     if (res?.response?.status === 412) {
       // alpha no access error
       navigate(AppRoute.NO_ACCESS);
+      return true;
+    }
+    if (res?.response?.status === 403) {
+      dispatch(setRequestAccessConfig(res.response.data.data));
+      navigate(AppRoute.REQUEST_ACCESS);
       return true;
     }
 
