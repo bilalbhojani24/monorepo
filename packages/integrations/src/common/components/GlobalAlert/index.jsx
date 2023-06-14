@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alerts } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import {
@@ -15,14 +16,17 @@ const GlobalAlert = ({ className }) => {
     linkUrl,
     message,
     linkText,
+    showAlert,
     autoDismiss,
     linkPosition,
     hasMessageBody,
     autoDismissDelay
   } = useSelector(globalAlertStateSelector);
+  const [shouldShow, setShouldShow] = useState(false);
   const dispatch = useDispatch();
 
   const handleDismissButton = () => {
+    setShouldShow(false);
     dispatch(clearGlobalAlert());
   };
 
@@ -33,26 +37,36 @@ const GlobalAlert = ({ className }) => {
   useEffect(() => {
     if (message && autoDismiss && autoDismissDelay) {
       setTimeout(() => {
+        setShouldShow(false);
         dispatch(clearGlobalAlert());
       }, autoDismissDelay * 1000);
     }
   }, [message, dispatch, autoDismiss, autoDismissDelay]);
 
-  return message || !hasMessageBody ? (
-    <div className={className}>
+  useEffect(() => {
+    if ((showAlert && message) || !hasMessageBody) {
+      setShouldShow(true);
+    } else {
+      setShouldShow(false);
+    }
+  }, [message, showAlert, hasMessageBody]);
+
+  return (
+    <div className={twClassNames({ [`${className}`]: shouldShow })}>
       <Alerts
+        show={shouldShow}
         title={title}
         dismissButton={!autoDismiss}
         modifier={kind}
         linkUrl={linkUrl}
-        linkText={linkText}
-        description={message}
+        detailsNode={<p className="underline">{linkText}</p>}
         alertLinkPosition={linkPosition}
         handleLinkClick={handleLinkClick}
+        description={message}
         dismissButtonFn={handleDismissButton}
       />
     </div>
-  ) : null;
+  );
 };
 
 GlobalAlert.propTypes = {

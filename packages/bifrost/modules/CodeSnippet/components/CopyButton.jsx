@@ -9,7 +9,9 @@ import { copyToClipboard } from '../utils';
 const CopyButton = () => {
   const ref = useRef(null);
   const [isCopied, setIsCopied] = useState(false);
-  const { code, setShowCopy, showCopy } = useContext(CodeSnippetContextData);
+  const { code, setShowCopy, showCopy, copyCallback } = useContext(
+    CodeSnippetContextData
+  );
   return (
     <Button
       ref={ref}
@@ -24,6 +26,7 @@ const CopyButton = () => {
       colors="white"
       onClick={() => {
         copyToClipboard(code);
+        copyCallback();
         setIsCopied(true);
         setShowCopy(true);
         setTimeout(() => {

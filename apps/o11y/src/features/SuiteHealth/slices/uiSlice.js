@@ -1,7 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   getSnPTestsFilters,
+  getSnPTestsMetrics,
   getSnPUEFilters,
+  getSnPUEMetrics,
   getTestBuildNames,
   getTestBuildTags,
   getTestHostNames,
@@ -23,10 +25,12 @@ import {
   setIsLoadingBuildsFilters,
   setStaticFilters
 } from 'features/FilterSkeleton/slices/filterSlice';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
 import {
   getAppliedFilterObj,
   getDateRangeFromSearchString,
-  getFilterFromSearchString
+  getFilterFromSearchString,
+  getFilterQueryParams
 } from 'features/FilterSkeleton/utils';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
@@ -715,6 +719,38 @@ export const getUEHostNamesData = createAsyncThunk(
         ...data,
         normalisedName: activeProject.normalisedName,
         dateRange
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getSnPTestsMetricsData = createAsyncThunk(
+  'snptests/metrics',
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPTestsMetrics({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const getSnPUEMetricsData = createAsyncThunk(
+  'snptests/metrics',
+  async (data, { rejectWithValue, getState }) => {
+    try {
+      const appliedFilters = getAllAppliedFilters(getState());
+      const response = await getSnPUEMetrics({
+        ...data,
+        searchString: getFilterQueryParams(appliedFilters).toString()
       });
       return response.data;
     } catch (err) {
