@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
 import { getGridData } from 'features/GridConsole/slices/selector';
 import { getIsApploading, getUserDetails } from 'globalSlice/selector';
+import { logHSTEvent } from 'utils/logger';
 
 const useBrowserSettings = (notifactionComponent) => {
   const allAvailableBrowsers = [
@@ -56,7 +56,7 @@ const useBrowserSettings = (notifactionComponent) => {
   };
 
   const saveBtnClickhandler = () => {
-    logEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
+    logHSTEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
       tab_selected: 'general'
     });
     setIsSavingInProgress(true);
@@ -97,7 +97,6 @@ const useBrowserSettings = (notifactionComponent) => {
   }, [gridData]);
 
   useEffect(() => {
-    console.log('Log: fetchedGridData:', fetchedGridData);
   }, [allowedBrowsersValue, cpuValue, fetchedGridData]);
 
   return {

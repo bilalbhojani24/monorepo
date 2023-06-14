@@ -45,6 +45,7 @@ const Filters = () => {
           filterKey="urlSearch"
         />
         <INTGButton
+          data-test-id="filters-open-slideover-btn"
           onClick={handleFilterClick}
           wrapperClassName="h-fit"
           icon={<MdFilterAlt className="h-4 w-4" />}

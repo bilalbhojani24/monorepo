@@ -3,7 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   latestSessionStatus: 'not_started',
   latestPollingTimeoutId: undefined,
-  isSessionStopInProgress: false
+  isSessionStopInProgress: false,
+  recordingTimerIntervalId: null,
+  recordingDurationElapsed: 0,
+  showBanner: false
 };
 
 export const reportLoadingSlice = createSlice({
@@ -17,6 +20,26 @@ export const reportLoadingSlice = createSlice({
 
     setIsSessionStopInProgress: (state, action) => {
       state.isSessionStopInProgress = action.payload;
+    },
+
+    setRecordingTimerIntervalId: (state, action) => {
+      if (action.payload === null && state.recordingTimerIntervalId !== null) {
+        clearInterval(state.recordingTimerIntervalId);
+      }
+
+      state.recordingTimerIntervalId = action.payload;
+    },
+
+    addElapsedRecordingDuration: (state, action) => {
+      state.recordingDurationElapsed += action.payload;
+    },
+
+    setElapsedRecordingDuration: (state, action) => {
+      state.recordingDurationElapsed = action.payload;
+    },
+
+    setShowTimeoutBanner: (state, action) => {
+      state.showTimeoutBanner = action.payload;
     }
   }
 });
@@ -27,8 +50,23 @@ export const getLatestSessionStatus = (state) =>
 export const getIsSessionStopInProgress = (state) =>
   state.reportLoading.isSessionStopInProgress;
 
+export const getRecordingTimerIntervalId = (state) =>
+  state.reportLoading.recordingTimerIntervalId;
+
+export const getRecordingDurationElapsed = (state) =>
+  state.reportLoading.recordingDurationElapsed;
+
+export const getShowTimeoutBanner = (state) =>
+  state.reportLoading.showTimeoutBanner;
+
 // Action creators are generated for each case reducer function
-export const { updateSessionStatus, setIsSessionStopInProgress } =
-  reportLoadingSlice.actions;
+export const {
+  updateSessionStatus,
+  setIsSessionStopInProgress,
+  setRecordingTimerIntervalId,
+  addElapsedRecordingDuration,
+  setShowTimeoutBanner,
+  setElapsedRecordingDuration
+} = reportLoadingSlice.actions;
 
 export default reportLoadingSlice.reducer;

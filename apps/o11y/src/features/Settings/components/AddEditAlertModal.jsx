@@ -160,6 +160,8 @@ function AddEditAlertModal() {
             ALERT_TYPES_INFO[selectedTypeOfAlert?.value].criticalWarnRelation
         })
       );
+    } else {
+      setWarningErrorText('');
     }
     setDirtyState();
     setWarningValue(val);
@@ -220,10 +222,6 @@ function AddEditAlertModal() {
         name: alertName,
         alertType: selectedTypeOfAlert.value,
         alertRules: {
-          [ALERT_LEVELS.WARNING]: {
-            value: warningValue,
-            condition: ALERT_TYPES_INFO[selectedTypeOfAlert?.value].condition
-          },
           [ALERT_LEVELS.CRITICAL]: {
             value: criticalValue,
             condition: ALERT_TYPES_INFO[selectedTypeOfAlert?.value].condition
@@ -234,6 +232,13 @@ function AddEditAlertModal() {
             ? []
             : selectedBuilds.map((item) => item.value)
       };
+
+      if (warningValue) {
+        payload.alertRules[ALERT_LEVELS.WARNING] = {
+          value: warningValue,
+          condition: ALERT_TYPES_INFO[selectedTypeOfAlert?.value].condition
+        };
+      }
 
       setIsSubmittingData(true);
       dispatch(

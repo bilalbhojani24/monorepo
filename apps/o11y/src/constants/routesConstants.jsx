@@ -40,6 +40,12 @@ const NotificationsSettings = React.lazy(() =>
 );
 
 const SuiteHealth = React.lazy(() => import('features/SuiteHealth'));
+const TestsHealth = React.lazy(() =>
+  import('features/SuiteHealth/containers/TestsHealth')
+);
+const UniqueErrors = React.lazy(() =>
+  import('features/SuiteHealth/containers/UniqueErrors')
+);
 
 export const APP_ROUTES = [
   {
@@ -113,6 +119,16 @@ export const APP_ROUTES = [
         path: ROUTES.suite_health,
         isProtected: true,
         component: <SuiteHealth />
+      },
+      {
+        path: ROUTES.suite_health_tests,
+        isProtected: true,
+        component: <TestsHealth />
+      },
+      {
+        path: ROUTES.suite_health_unique_errors,
+        isProtected: true,
+        component: <UniqueErrors />
       },
       {
         path: ROUTES.settings,
