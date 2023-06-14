@@ -72,11 +72,17 @@ export default function useReverseTrialModal() {
     );
   };
 
-  const handleModalClose = () => {
-    dispatch(setModalShow(false));
-    if (trialState === TRIAL_IN_PROGRESS) {
-      trailInProcessNotification();
+  const handleModalClose = async () => {
+    try {
+      const response = await initAPI();
+      dispatch(setUser(response.data));
+      if (response.data.trial_status === TRIAL_IN_PROGRESS) {
+        trailInProcessNotification();
+      }
+    } catch (e) {
+      console.error(e);
     }
+    dispatch(setModalShow(false));
   };
 
   const showConfetti = () => {
@@ -107,8 +113,12 @@ export default function useReverseTrialModal() {
 
   const refreshUserData = async () => {
     clearInterval(timerId.current);
-    const response = await initAPI();
-    dispatch(setUser(response.data));
+    try {
+      const response = await initAPI();
+      dispatch(setUser(response.data));
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const pollReverseTrialStatus = () => {

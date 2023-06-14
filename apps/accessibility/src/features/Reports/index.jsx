@@ -110,10 +110,11 @@ export default function Reports() {
         </ModalFooter>
       </Modal>
       <div
-        className="border-base-200 fixed z-10 w-full border-b p-6"
+        className="border-base-200 fixed z-10 w-full p-6"
         style={{
           width: 'calc(100vw - 256px)',
-          top: showBanner ? '128px' : '64px'
+          top: showBanner ? '128px' : '64px',
+          borderBottomWidth: searchFilterList.length ? '1px' : 0
         }}
       >
         <div className="flex items-center justify-between">
@@ -124,83 +125,100 @@ export default function Reports() {
               to consolidate and review reports.
             </h3>
           </div>
-          <Tooltip
-            placementAlign="end"
-            placementSide="bottom"
-            arrowPadding={10}
-            content={
-              <>
-                <TooltipHeader>
-                  Start your Accessibility testing!{' '}
-                  <span role="img" aria-label="rocket emoji">
-                    🚀
-                  </span>
-                </TooltipHeader>
-                <TooltipBody>
-                  Use the extension to scan your web pages & workflows for
-                  accessibility issues.
-                </TooltipBody>
-              </>
-            }
-            theme="dark"
-          >
-            <Button
-              iconPlacement="start"
-              icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
-              onClick={() => {}}
-              size="small"
-              colors="white"
-              wrapperClassName="py-2"
+          {searchFilterList.length ? (
+            <Tooltip
+              placementAlign="end"
+              placementSide="bottom"
+              arrowPadding={10}
+              content={
+                <>
+                  <TooltipHeader>
+                    Start your Accessibility testing!{' '}
+                    <span role="img" aria-label="rocket emoji">
+                      🚀
+                    </span>
+                  </TooltipHeader>
+                  <TooltipBody>
+                    Use the extension to scan your web pages & workflows for
+                    accessibility issues.
+                  </TooltipBody>
+                </>
+              }
+              theme="dark"
             >
-              Download extension
-            </Button>
-          </Tooltip>
+              <Button
+                iconPlacement="start"
+                icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
+                onClick={() => {
+                  window.open(CHROME_EXTENSION_URL, '_target');
+                }}
+                size="small"
+                colors="white"
+                wrapperClassName="py-2"
+              >
+                Download extension
+              </Button>
+            </Tooltip>
+          ) : null}
         </div>
 
-        <div>
-          <div className="flex items-center">
-            <div className="mr-4 flex">
-              <InputField
-                id="search-report"
-                leadingIcon={<MdSearch />}
-                placeholder="Search for report name or user..."
-                onChange={onInputValueChange}
-                wrapperClassName="mr-4 w-80"
-              />
-              <div className="w-40">
-                <SelectMenu
-                  onChange={onUpdateSelectedReportType}
-                  value={selectedReportType}
-                  isMulti
-                >
-                  <SelectMenuTrigger
-                    placeholder="Type"
-                    triggerIcon={<MdKeyboardArrowDown className="text-xl" />}
-                  />
-                  <SelectMenuOptionGroup>
-                    {reportType.map((item) => (
-                      <SelectMenuOptionItem
-                        key={item.value}
-                        option={item}
-                        wrapperClassName="text-sm font-semibold text-base-900"
-                      />
-                    ))}
-                  </SelectMenuOptionGroup>
-                </SelectMenu>
-              </div>
-            </div>
+        {searchFilterList.length ? (
+          <div>
             <div className="flex items-center">
-              {isMergeDisabled ? (
-                <Tooltip
-                  theme="dark"
-                  placementAlign="center"
-                  placementSide="bottom"
-                  content={
-                    <TooltipBody wrapperClassName="text-center w-56 text-sm text-base-300">
-                      Select at least two reports to consolidate them
-                    </TooltipBody>
-                  }
-                >
+              <div className="mr-4 flex">
+                <InputField
+                  id="search-report"
+                  leadingIcon={<MdSearch />}
+                  placeholder="Search for report name or user..."
+                  onChange={onInputValueChange}
+                  wrapperClassName="mr-4 w-80"
+                />
+                <div className="w-40">
+                  <SelectMenu
+                    onChange={onUpdateSelectedReportType}
+                    value={selectedReportType}
+                    isMulti
+                  >
+                    <SelectMenuTrigger
+                      placeholder="Type"
+                      triggerIcon={<MdKeyboardArrowDown className="text-xl" />}
+                    />
+                    <SelectMenuOptionGroup>
+                      {reportType.map((item) => (
+                        <SelectMenuOptionItem
+                          key={item.value}
+                          option={item}
+                          wrapperClassName="text-sm font-semibold text-base-900"
+                        />
+                      ))}
+                    </SelectMenuOptionGroup>
+                  </SelectMenu>
+                </div>
+              </div>
+              <div className="flex items-center">
+                {isMergeDisabled ? (
+                  <Tooltip
+                    theme="dark"
+                    placementAlign="center"
+                    placementSide="bottom"
+                    content={
+                      <TooltipBody wrapperClassName="text-center w-56 text-sm text-base-300">
+                        Select at least two reports to consolidate them
+                      </TooltipBody>
+                    }
+                  >
+                    <Button
+                      iconPlacement="end"
+                      icon={<MdOutlineArrowForward className="text-xl" />}
+                      onClick={onReportConsolidateButtonClick}
+                      disabled={isMergeDisabled}
+                      size="default"
+                      variant="secondary"
+                    >
+                      Consolidate reports
+                    </Button>
+                  </Tooltip>
+                ) : (
                   <Button
                     iconPlacement="end"
                     icon={<MdOutlineArrowForward className="text-xl" />}
@@ -211,34 +229,23 @@ export default function Reports() {
                   >
                     Consolidate reports
                   </Button>
-                </Tooltip>
-              ) : (
-                <Button
-                  iconPlacement="end"
-                  icon={<MdOutlineArrowForward className="text-xl" />}
-                  onClick={onReportConsolidateButtonClick}
-                  disabled={isMergeDisabled}
-                  size="default"
-                  variant="secondary"
-                >
-                  Consolidate reports
-                </Button>
-              )}
-              {selectedReportsLength > 0 && (
-                <Button
-                  iconPlacement="end"
-                  icon={<MdClose className="text-xl" />}
-                  onClick={resetSelection}
-                  wrapperClassName="ml-4"
-                  variant="minimal"
-                  colors="white"
-                >
-                  Clear {selectedReportsLength} selected
-                </Button>
-              )}
+                )}
+                {selectedReportsLength > 0 && (
+                  <Button
+                    iconPlacement="end"
+                    icon={<MdClose className="text-xl" />}
+                    onClick={resetSelection}
+                    wrapperClassName="ml-4"
+                    variant="minimal"
+                    colors="white"
+                  >
+                    Clear {selectedReportsLength} selected
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        ) : null}
       </div>
       {!showColdStart ? (
         <div
@@ -249,6 +256,7 @@ export default function Reports() {
             top: showBanner ? '291px' : '227px',
             width: 'calc(100vw - 256px)'
           }}
+          onScroll={handleScroll}
         >
           {isLoading && searchFilterList.length === 0 && (
             <Loader wrapperClassName="mt-28 h-96" />
