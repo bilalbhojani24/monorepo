@@ -12,6 +12,7 @@ import useGeneralSettings from './useGeneralSettings';
 const GeneralSettings = () => {
   const notifactionComponent = (
     <Notifications
+      description="Settings were updated successfully"
       title="Settings updated!"
       handleClose={(toastData) => {
         notify.remove(toastData.id);

@@ -12,6 +12,7 @@ import useTimeoutSettings from './useTimeoutSettings';
 const TimeoutSettings = () => {
   const notifactionComponent = (
     <Notifications
+      description="Settings were updated successfully"
       title="Settings updated!"
       isCondensed
       handleClose={(toastData) => {
