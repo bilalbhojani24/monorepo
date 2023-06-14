@@ -11,8 +11,13 @@ const useRequestAccessModal = () => {
   const requestAccessConfig = useSelector(
     (state) => state.global.requestAccessConfig
   );
+  const { isAdmin, userHasAccess, accessRequested } = requestAccessConfig;
 
   const handleRequestClick = () => {
+    if (isAdmin) {
+      window.open('https://www.browserstack.com/accounts/manage-users');
+      return;
+    }
     setRequestLoader(true);
     requestTCMAccessAPI()
       .then(() => {
@@ -29,13 +34,18 @@ const useRequestAccessModal = () => {
       .catch(() => setRequestLoader(false));
   };
 
-  const { isAdmin, userHasAccess, accessRequested } = requestAccessConfig;
+  const getButtonText = () => {
+    if (isAdmin) return 'Manage Access';
+    return accessRequested ? 'Request Sent' : 'Request Access';
+  };
+
   return {
     isAdmin,
     userHasAccess,
     accessRequested,
     handleRequestClick,
-    requestLoader
+    requestLoader,
+    getButtonText
   };
 };
 

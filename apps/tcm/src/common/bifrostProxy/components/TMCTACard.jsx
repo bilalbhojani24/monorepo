@@ -15,7 +15,7 @@ const TMCTACard = ({
   imageNode,
   isDismissable,
   onClose,
-  onPrimayBtnClick,
+  onPrimaryBtnClick,
   onSecondaryBtnClick,
   primaryBtnProps,
   primaryBtnText,
@@ -33,7 +33,7 @@ const TMCTACard = ({
         secondaryBtnText={secondaryBtnText}
         primaryBtnProps={primaryBtnProps}
         secondaryBtnProps={secondaryBtnProps}
-        onPrimayBtnClick={onPrimayBtnClick}
+        onPrimayBtnClick={onPrimaryBtnClick}
         onSecondaryBtnClick={onSecondaryBtnClick}
       />
     </CTACardContent>
@@ -48,7 +48,7 @@ TMCTACard.propTypes = {
   imageNode: PropTypes.node,
   isDismissable: PropTypes.bool,
   onClose: PropTypes.func,
-  onPrimayBtnClick: PropTypes.func.isRequired,
+  onPrimaryBtnClick: PropTypes.func.isRequired,
   onSecondaryBtnClick: PropTypes.func,
   primaryBtnProps: PropTypes.shape(Button.propTypes),
   primaryBtnText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),

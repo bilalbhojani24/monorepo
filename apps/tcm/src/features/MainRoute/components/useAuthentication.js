@@ -59,7 +59,7 @@ const useAuthentication = () => {
       return true;
     }
     if (res?.response?.status === 403) {
-      dispatch(setRequestAccessConfig(res.response.data));
+      dispatch(setRequestAccessConfig(res.response.data.data));
       navigate(AppRoute.REQUEST_ACCESS);
       return true;
     }
