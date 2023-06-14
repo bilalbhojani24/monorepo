@@ -98,14 +98,10 @@ const GridsListing = () => {
                 const gridId = gridData.id;
 
                 const supportedBrowsers = {
-                  chrome:
-                    gridData.browserSettings.allowedBrowsers.chrome?.length > 0,
-                  firefox:
-                    gridData.browserSettings.allowedBrowsers.firefox?.length >
-                    0,
+                  chrome: gridData.stats.browsersUsed.indexOf('chrome') > -1,
+                  firefox: gridData.stats.browsersUsed.indexOf('firefox') > -1,
                   edge:
-                    gridData.browserSettings.allowedBrowsers.MicrosoftEdge
-                      ?.length > 0
+                    gridData.stats.browsersUsed.indexOf('MicrosoftEdge') > -1
                 };
 
                 const options = [
@@ -164,7 +160,7 @@ const GridsListing = () => {
                         tabIndex={0}
                         className="text-base-900 items-center"
                       >
-                        {gridData.runningTests}
+                        {gridData.stats.runningTests}
                       </div>
                     </TableCell>
                     <TableCell wrapperClassName=" px-6 py-4">
@@ -175,7 +171,7 @@ const GridsListing = () => {
                         tabIndex={0}
                         className="text-base-900"
                       >
-                        {gridData.queuedTests}
+                        {gridData.stats.queuedTests}
                       </div>
                     </TableCell>
                     <TableCell wrapperClassName=" px-6 py-4">
