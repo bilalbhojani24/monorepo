@@ -8,18 +8,29 @@ import {
   MdOutlineRecordVoiceOver,
   MdTextSnippet
 } from '@browserstack/bifrost';
-import { setStorage } from '@browserstack/utils';
-import { CHROME_EXTENSION_URL, events } from 'constants';
+import {
+  initErrorLogger,
+  setErrorLoggerUserContext,
+  setStorage
+} from '@browserstack/utils';
+import { CHROME_EXTENSION_URL, events, sentryConfig } from 'constants';
+import { stagingEnvs } from 'constants/config';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
-import { defaultPath, getBrowserStackBase } from 'utils';
+import { defaultPath, getBrowserStackBase, getCurrentEnv } from 'utils';
 import { getTimeDiffInDays } from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
+
+import { getIsFreeUser, getUser } from '../slices/selectors';
+
+const envConfig = stagingEnvs[getCurrentEnv()];
 
 export default function useDashboard() {
   const mainRef = useRef(null);
   const dispatch = useDispatch();
   const isShowingBanner = useSelector(getIsShowingBanner);
+  const user = useSelector(getUser);
+  const isFreeUser = useSelector(getIsFreeUser);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
   const shouldShowNewBadge = () => {
@@ -109,13 +120,27 @@ export default function useDashboard() {
     try {
       startLogging();
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.log('EDS already initialize...');
     }
   }, []);
 
+  // init sentry
+  useEffect(() => {
+    const { enableSentry } = envConfig;
+    if (enableSentry && !window.isSentryInitialized) {
+      window.isSentryInitialized = true;
+      initErrorLogger(sentryConfig);
+    }
+    if (user.user_id && window.isSentryInitialized) {
+      setErrorLoggerUserContext(user.user_id);
+    }
+  }, [user.user_id]);
+
   return {
     mainRef,
     isShowingBanner,
+    isFreeUser,
     primaryNav,
     currentPath,
     secondaryNav,

@@ -27,6 +27,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    openedFolderModal,
     noResultsText,
     metaPage,
     allFolders,
@@ -53,12 +54,13 @@ export default function TestCases() {
   //   [dispatch]
   // );
   useEffect(() => {
-    focusRef?.current?.focus();
+    if (!openedFolderModal) focusRef?.current?.focus();
   }, [
     allTestCases.length,
     isSearchFilterView,
     isTestCasesLoading,
-    isFoldersLoading
+    isFoldersLoading,
+    openedFolderModal
   ]);
 
   if (isAddTestCasePageVisible)

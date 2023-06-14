@@ -1,11 +1,38 @@
 import React from 'react';
-import Dashboard from 'features/GridConsole/components/Dashboard';
+import ClusterOverview from 'features/ClusterDetail/components/ClusterOverview';
+import ClusterUtilization from 'features/ClusterDetail/components/ClusterUtilization';
+import LayoutClusterDetail from 'features/ClusterDetail/container/LayoutClusterDetail';
+import CreateGrid from 'features/CreateGrid/components/CreateGrid';
+import ErrorPage from 'features/ErrorPage/components';
+import GridConsole from 'features/GridConsole/components/GridConsole';
+import GridOverview from 'features/GridConsole/components/GridOverview';
+import GridUtilization from 'features/GridConsole/components/GridUtilisation';
+import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
+import BrowsersSettings from 'features/GridSettings/components/BrowsersSettings';
+import GeneralSettings from 'features/GridSettings/components/GeneralSettings';
+import TestArtifactsSettings from 'features/GridSettings/components/TestArtifactsSettings';
+import TimeoutSettings from 'features/GridSettings/components/TimeoutSettings';
+import GridSettings from 'features/GridSettings/container/GridSettings';
 import { Layout } from 'features/Layout';
+import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
 import { Onboarding } from 'features/Onboarding';
 
 import ROUTES from './routes';
 
 export const APP_ROUTES = [
+  { path: ROUTES.ALL, component: <ErrorPage /> },
+  {
+    path: '/',
+    isProtected: true,
+    component: <LayoutWOSidebar />,
+    children: [
+      {
+        path: ROUTES.ONBOARDING,
+        isProtected: true,
+        component: <Onboarding />
+      }
+    ]
+  },
   {
     path: '/',
     isProtected: true,
@@ -14,12 +41,73 @@ export const APP_ROUTES = [
       {
         path: ROUTES.GRID_CONSOLE,
         isProtected: true,
-        component: <Dashboard />
+        component: <GridConsole />
       },
       {
-        path: ROUTES.ONBOARDING,
+        path: ROUTES.GRID,
         isProtected: true,
-        component: <Onboarding />
+        component: <LayoutGridDetail />,
+        children: [
+          {
+            path: ROUTES.GRID_OVERVIEW,
+            isProtected: true,
+            component: <GridOverview />
+          },
+          {
+            path: ROUTES.GRID_SETTINGS,
+            isProtected: true,
+            component: <GridSettings />,
+            children: [
+              {
+                path: ROUTES.GRID_SETTINGS_GENERAL,
+                isProtected: true,
+                component: <GeneralSettings />
+              },
+              {
+                path: ROUTES.GRID_SETTINGS_BROWSER,
+                isProtected: true,
+                component: <BrowsersSettings />
+              },
+              {
+                path: ROUTES.GRID_SETTINGS_TIMEOUT,
+                isProtected: true,
+                component: <TimeoutSettings />
+              },
+              {
+                path: ROUTES.GRID_SETTINGS_TEST_ARTIFACTS,
+                isProtected: true,
+                component: <TestArtifactsSettings />
+              }
+            ]
+          },
+          {
+            path: ROUTES.GRID_UTILIZATION,
+            isProtected: true,
+            component: <GridUtilization />
+          }
+        ]
+      },
+      {
+        path: ROUTES.CLUSTER,
+        isProtected: true,
+        component: <LayoutClusterDetail />,
+        children: [
+          {
+            path: ROUTES.CLUSTER_OVERVIEW,
+            isProtected: true,
+            component: <ClusterOverview />
+          },
+          {
+            path: ROUTES.CLUSTER_UTILIZATION,
+            isProtected: true,
+            component: <ClusterUtilization />
+          }
+        ]
+      },
+      {
+        path: ROUTES.CREATE_GRID,
+        isProtected: true,
+        component: <CreateGrid />
       }
     ]
   }
