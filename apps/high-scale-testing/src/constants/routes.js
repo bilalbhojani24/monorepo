@@ -3,6 +3,7 @@ const ROUTES = {
   BUILDS: '/dashboard',
   CLUSTER: '/grid-console/cluster/:id',
   CLUSTER_OVERVIEW: '/grid-console/cluster/:id/overview',
+  CLUSTER_UTILIZATION: '/grid-console/cluster/:id/utilization',
   CREATE_GRID: '/create-grid',
   GRID_CONSOLE: '/grid-console',
   GRID: '/grid-console/grid/:id',

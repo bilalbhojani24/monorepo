@@ -13,6 +13,8 @@ import {
   AGEventsLogModalInteracted,
   AGHaveSetupInteracted,
   AGHaveSetupPresented,
+  AGHaveSetupStepsExecuted,
+  AGNoRetrySetupStepsExecuted,
   AGNoSetupInteracted,
   AGNoSetupPresented,
   AGNoSetupStepsExecuted,
@@ -24,6 +26,7 @@ import {
 import {
   EVENT_LOGS_POLLING_IN_MS,
   GRID_MANAGER_NAMES,
+  PRODUCT_NAME_ACTUAL,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
@@ -62,7 +65,7 @@ browserstack-cli hst init`,
   };
 
   const HEADER_TEXTS_OBJECT = {
-    intro: `Hey ${userDetails.fullname}, Welcome to Automation Grid`,
+    intro: `Hey ${userDetails.fullname}, Welcome to ${PRODUCT_NAME_ACTUAL}`,
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };
@@ -232,6 +235,27 @@ browserstack-cli hst init`,
           : 'have_setup'
     });
     setOnboardingStep(1);
+  };
+
+  const copyCallbackFnForExistingSetup = (codeType) => {
+    const eventData = {
+      action: 'command copied',
+      option: codeType.toLowerCase()
+    };
+    logHSTEvent([], 'web_events', AGHaveSetupStepsExecuted, eventData);
+  };
+
+  const copyCallbackFnForNewSetup = (type) => {
+    const eventData = {
+      action: 'command copied',
+      option: type.toLowerCase()
+    };
+    logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, eventData);
+  };
+
+  const copySetupFailureCode = () => {
+    const eventData = { action: 'command_copied', option: 'create' };
+    logHSTEvent([], 'web_events', AGNoRetrySetupStepsExecuted, eventData);
   };
 
   const exploreAutomationClickHandler = () => {
@@ -494,6 +518,9 @@ browserstack-cli hst init`,
     codeSnippetsForExistingSetup,
     codeSnippetTabChangeHandler,
     continueClickHandler,
+    copyCallbackFnForExistingSetup,
+    copyCallbackFnForNewSetup,
+    copySetupFailureCode,
     currentStep,
     currentProvidersRegions,
     currentSelectedCloudProvider,
