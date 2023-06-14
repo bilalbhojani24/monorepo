@@ -176,7 +176,7 @@ const Onboarding = () => {
           logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, {
             action: 'iamrolecf_clicked'
           });
-          window.location.href = CLOUD_FORMATION_LINK;
+          window.open(CLOUD_FORMATION_LINK, '_blank');
           return null;
         }}
         modifier="primary"
