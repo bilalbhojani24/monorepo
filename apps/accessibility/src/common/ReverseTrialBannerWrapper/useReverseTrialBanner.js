@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getBannerDetails,
   TRIAL_EXPIRED,
+  TRIAL_FAILED,
   TRIAL_NOT_STARTED,
   TRIAL_STARTED
 } from 'constants';
@@ -39,7 +40,7 @@ export default function useReverseTrialBanner() {
   };
 
   const handleBannerButtonClick = () => {
-    if (trialState === TRIAL_NOT_STARTED) {
+    if ([TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState)) {
       dispatch(setModalName('accessibility'));
       dispatch(setModalShow(true));
       return;
@@ -68,7 +69,8 @@ export default function useReverseTrialBanner() {
   };
 
   switch (trialState) {
-    case TRIAL_NOT_STARTED: {
+    case TRIAL_NOT_STARTED:
+    case TRIAL_FAILED: {
       displayBannerOnceADay('teamPlanBannerDate', 'not_started');
       break;
     }

@@ -227,6 +227,7 @@ export const TRIAL_NOT_STARTED = 'not_started';
 export const TRIAL_STARTED = 'enabled';
 export const TRIAL_IN_PROGRESS = 'processing';
 export const TRIAL_EXPIRED = 'expired';
+export const TRIAL_FAILED = 'failed';
 
 export const getBannerDetails = (days) => ({
   not_started: {

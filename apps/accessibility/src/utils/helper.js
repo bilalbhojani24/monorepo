@@ -3,13 +3,6 @@ import { wcagVersions } from 'features/SiteScanner/NewScan/constants';
 import { json2csv } from 'json-2-csv';
 import { getBrowserStackBase } from 'utils';
 
-import {
-  TRIAL_EXPIRED,
-  TRIAL_IN_PROGRESS,
-  TRIAL_NOT_STARTED,
-  TRIAL_STARTED
-} from '../constants';
-
 import { logEvent } from './logEvent';
 
 const BEST_PRACTICE_TAG = 'best-practice';

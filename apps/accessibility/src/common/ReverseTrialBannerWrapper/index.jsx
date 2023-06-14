@@ -14,8 +14,6 @@ export default function ReverseTrialBannerWrapper() {
     bannerName
   } = useReverseTrialBanner();
 
-  console.log({ bannerName, TRIAL_STARTED });
-
   const { description, icon: Icon, color, buttonText } = bannerDetails;
   return (
     <>

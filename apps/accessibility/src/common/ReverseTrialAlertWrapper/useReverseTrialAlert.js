@@ -1,5 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { TRIAL_EXPIRED, TRIAL_IN_PROGRESS, TRIAL_NOT_STARTED } from 'constants';
+import {
+  TRIAL_EXPIRED,
+  TRIAL_FAILED,
+  TRIAL_IN_PROGRESS,
+  TRIAL_NOT_STARTED
+} from 'constants';
 import {
   setAlertName,
   setAlertShow,
@@ -21,7 +26,7 @@ export default function useReverseTrialAlert() {
   const dispatch = useDispatch();
 
   const handleAlertLinkClick = () => {
-    if (trialState === TRIAL_NOT_STARTED) {
+    if ([TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState)) {
       dispatch(setModalName('screenReader'));
       dispatch(setModalShow(true));
     }
@@ -38,7 +43,8 @@ export default function useReverseTrialAlert() {
   };
 
   switch (trialState) {
-    case TRIAL_NOT_STARTED: {
+    case TRIAL_NOT_STARTED:
+    case TRIAL_FAILED: {
       displayAlert('getTrial');
       break;
     }

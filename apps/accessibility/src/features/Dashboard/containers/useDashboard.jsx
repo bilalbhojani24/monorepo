@@ -19,6 +19,7 @@ import {
   CHROME_EXTENSION_URL,
   events,
   sentryConfig,
+  TRIAL_FAILED,
   TRIAL_IN_PROGRESS,
   TRIAL_NOT_STARTED
 } from 'constants';
@@ -112,7 +113,8 @@ export default function useDashboard() {
       inActiveIcon: MdStar,
       path: '/',
       link: '',
-      show: trialState === TRIAL_NOT_STARTED && !showBanner
+      show:
+        [TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState) && !showBanner
     },
     {
       id: 'extension',

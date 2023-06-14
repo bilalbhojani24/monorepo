@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import fetchScreenReaderDevices from 'api/fetchScreenReaderDevices';
+import fetchScreenReaderDevices, {
+  fetchMockData
+} from 'api/fetchScreenReaderDevices';
 import {
   TRIAL_EXPIRED,
+  TRIAL_FAILED,
   TRIAL_IN_PROGRESS,
   TRIAL_NOT_STARTED,
   TRIAL_STARTED
@@ -41,7 +44,7 @@ export default function useScreenReader(noOfDevices) {
         startLiveSessionUrl.searchParams.set(key, startParams[key]);
       });
       window.open(startLiveSessionUrl, '_self');
-    } else if (trialState === TRIAL_NOT_STARTED) {
+    } else if ([TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState)) {
       dispatch(setModalName('screenReader'));
       dispatch(setModalShow(true));
     } else if (trialState === TRIAL_EXPIRED) {
@@ -57,7 +60,8 @@ export default function useScreenReader(noOfDevices) {
   };
 
   useEffect(() => {
-    fetchScreenReaderDevices().then(setDeviceCombinations);
+    fetchMockData().then(setDeviceCombinations);
+    // fetchScreenReaderDevices().then(setDeviceCombinations);
   }, []);
 
   useEffect(() => {
