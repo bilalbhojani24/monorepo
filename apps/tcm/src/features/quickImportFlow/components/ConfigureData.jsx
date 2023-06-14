@@ -23,7 +23,7 @@ const ConfigureData = (props) => {
       {showLoader ? (
         <div className="flex h-full flex-col items-center justify-center">
           <Loader />
-          <div className="text-base-600 mt-4 text-sm font-medium">
+          <div className="text-base-500 mt-4 text-sm font-medium">
             We are fetching your projects, this may take a few seconds
           </div>
         </div>

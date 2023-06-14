@@ -81,7 +81,7 @@ const Onboarding = () => {
 
         <div className="bg-base-50 mt-5 flex w-full justify-between p-5 font-normal">
           <div>
-            <p className="text-base-700 text-xs">
+            <p className="text-base-900 text-xs">
               By continuing you agree to our&nbsp;
               <a
                 className="hover:text-brand-600 font-medium"
@@ -92,7 +92,7 @@ const Onboarding = () => {
               </a>
               ,
             </p>
-            <p className="text-base-700 text-xs font-medium">
+            <p className="text-base-900 text-xs font-medium">
               <a
                 href="https://www.browserstack.com/docs/test-management/references/terms-and-conditions"
                 target="new"
