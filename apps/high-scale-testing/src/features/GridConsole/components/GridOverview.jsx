@@ -85,7 +85,7 @@ const GridOverview = () => {
     },
     {
       title: 'Created by',
-      value: gridData.createdBy.fullName
+      value: gridData?.createdBy?.fullName
     },
     {
       title: 'Running Tests',
