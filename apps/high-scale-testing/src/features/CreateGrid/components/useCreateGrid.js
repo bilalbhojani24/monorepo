@@ -368,7 +368,6 @@ browserstack-cli hst init`,
   }, [opened]);
 
   useEffect(() => {
-    console.group('Log: resourceMap useEffect');
     if (Object.keys(resourceMap).length > 0) {
       const availableRegionsFromResourceMap = Object.keys(
         resourceMap[currentSelectedCloudProvider.configName]
@@ -386,8 +385,6 @@ browserstack-cli hst init`,
 
       setCurrentProvidersRegions(tempArray);
     }
-
-    console.groupEnd('Log: resourceMap useEffect');
   }, [
     allAvailableRegionsByProvider,
     currentSelectedCloudProvider,
