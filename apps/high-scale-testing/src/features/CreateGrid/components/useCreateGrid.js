@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
 import {
@@ -12,14 +12,70 @@ import {
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import ROUTES from 'constants/routes';
 import {
   getInstanceTypes,
   getRegions,
   getUserDetails
 } from 'globalSlice/selector';
 
+import { setResourceMap } from '../slices';
+import { getResourceMap } from '../slices/selectors';
+
 const useCreateGrid = () => {
+  const dispatch = useDispatch();
+
+  // All Store variables:
+  const userDetails = useSelector(getUserDetails);
+
+  const CODE_SNIPPETS_SCRATCH = {
+    'create-grid': {
+      a: {
+        code: 'npm install @browserstack/browserstack-cli',
+        language: 'node',
+        text: 'Download CLI.'
+      },
+      b: {
+        code: `# Set these values in your ~/.zprofile (zsh) or ~/.profile (bash)
+export BROWSERSTACK_USERNAME=${userDetails.username}
+export BROWSERSTACK_ACCESS_KEY=${userDetails.accessKey}
+
+# Create HST configuration profile with AWS credentials
+browserstack-cli hst init`,
+        language: 'node',
+        text: 'Setup CLI with AWS credentials.'
+      },
+      c: {
+        code: 'browserstack-cli hst create grid',
+        language: 'node',
+        text: 'Execute grid creation command.'
+      }
+    }
+  };
   const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
+  const DEFAULT_STEPPER_STATE = [
+    {
+      id: '1',
+      name: 'CONFIGURE GRID PROFILE',
+      status: 'complete'
+    },
+    {
+      id: '2',
+      name: 'CHOOSE CLOUD PROVIDER',
+      status: 'complete'
+    },
+    {
+      id: '3',
+      name: 'CONFIGURE GRID SETTINGS',
+      status: 'current'
+    },
+    { id: '4', name: 'SETUP IAM ROLE', status: 'upcoming' },
+    {
+      id: '5',
+      name: 'CREATE GRID',
+      status: 'upcoming'
+    }
+  ];
   const IS_MANDATORY = true;
 
   const breadcrumbsData = [
@@ -36,9 +92,6 @@ const useCreateGrid = () => {
       goToStep: 1
     }
   ];
-
-  // All Store variables:
-  const userDetails = useSelector(getUserDetails);
 
   // All State variables
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
@@ -80,8 +133,7 @@ const useCreateGrid = () => {
     playwright: null
   });
   const [gridProfiles, setGridProfiles] = useState([
-    { label: 'label', value: 'value' },
-    { label: 'label 2', value: 'value2' }
+    { label: 'label', value: 'value' }
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
@@ -105,7 +157,13 @@ const useCreateGrid = () => {
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
   const [showSaveProfileModal, setShowSaveProfileModal] = useState(false);
   const [showSetupClusterModal, setShowSetupClusterModal] = useState(false);
+  const [showSetupStatusModal, setShowSetupStatusModal] = useState(false);
+  const [stepperStepsState, setStepperStepsState] = useState(
+    DEFAULT_STEPPER_STATE
+  );
   const [totalSteps, setTotalSteps] = useState(0);
+
+  const resourceMap = useSelector(getResourceMap);
 
   const ref = useRef({});
 
@@ -139,14 +197,27 @@ const useCreateGrid = () => {
     setShowEventLogsModal(false);
   };
 
+  const closeSetupStatusModal = () => {
+    setShowSetupStatusModal(false);
+  };
+
   const clusterChangeHandler = (e) => {
     setSelectedClusterValue(e);
     commonHandler();
   };
 
-  const editClusterBtnClickHandler = () => {
-    setEditClusterNameInputValue(selectedClusterValue.value);
-    setShowSetupClusterModal(true);
+  const clusterNameInputChangeHandler = (e) => {
+    setEditClusterNameInputValue(e.target.value);
+  };
+
+  // const editClusterBtnClickHandler = () => {
+  //   setEditClusterNameInputValue(selectedClusterValue.value);
+  //   setShowSetupClusterModal(true);
+  // };
+
+  const exploreAutomationClickHandler = () => {
+    closeSetupStatusModal();
+    window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
   };
 
   const gridConcurrencyChangeHandler = (e) => {
@@ -182,7 +253,7 @@ const useCreateGrid = () => {
     if (newProfileNameValue.length > 0) {
       const profileData = {
         profile: {
-          name: selectedGridProfile.value,
+          name: newProfileNameValue,
           region: 'us-east-2',
           cloudProvider: currentSelectedCloudProvider.configName,
           instanceType: 't3.2xlarge',
@@ -225,8 +296,21 @@ const useCreateGrid = () => {
     setShowSetupClusterModal(true);
   };
 
+  const stepperClickHandler = (_, step) => {
+    if (step.id > 3) {
+      setSetupState(2);
+    } else {
+      setSetupState(1);
+    }
+  };
+
   const subnetChangeHandler = (e) => {
     setSelectedSubnetValues(e);
+  };
+
+  const viewAllBuildsClickHandler = () => {
+    closeSetupStatusModal();
+    window.location = `${window.location.origin}${ROUTES.BUILDS}`;
   };
 
   const viewEventLogsClickHandler = () => {
@@ -282,6 +366,30 @@ const useCreateGrid = () => {
       setCollapsibleBtnTextForAdvSettings('Show Cluster Details');
     }
   }, [opened]);
+
+  useEffect(() => {
+    if (Object.keys(resourceMap).length > 0) {
+      const availableRegionsFromResourceMap = Object.keys(
+        resourceMap[currentSelectedCloudProvider.configName]
+      );
+
+      const tempArray = [];
+
+      availableRegionsFromResourceMap.forEach((region) => {
+        const matchingEle = allAvailableRegionsByProvider[
+          currentSelectedCloudProvider.configName
+        ].find((ele) => ele.value === region);
+
+        tempArray.push(matchingEle);
+      });
+
+      setCurrentProvidersRegions(tempArray);
+    }
+  }, [
+    allAvailableRegionsByProvider,
+    currentSelectedCloudProvider,
+    resourceMap
+  ]);
 
   useEffect(() => {
     setSelectedGridName(selectedGridProfile.value);
@@ -356,7 +464,7 @@ const useCreateGrid = () => {
       setSelectedRegion(
         allAvailableRegionsByProvider[
           currentSelectedCloudProvider.configName
-        ].find((e) => e.label === selectedGridProfileData?.profile.region)
+        ].find((e) => e.value === selectedGridProfileData?.profile.region)
       );
 
       setSelectedInstanceType(
@@ -398,6 +506,61 @@ const useCreateGrid = () => {
   ]);
 
   useEffect(() => {
+    if (
+      Object.keys(resourceMap).length > 0 &&
+      selectedRegion !== null &&
+      selectedRegion !== undefined
+    ) {
+      const VPCInThisRegionArray = Object.keys(
+        resourceMap[currentSelectedCloudProvider.configName][
+          selectedRegion.value
+        ]
+      );
+
+      const tmpVPCsArray = [];
+      VPCInThisRegionArray?.forEach((e) => {
+        tmpVPCsArray.push({
+          label: e,
+          value: e
+        });
+      });
+
+      setAllAvailableVPCIDs(tmpVPCsArray);
+
+      if (
+        allAvailableVPCIDs !== null &&
+        allAvailableVPCIDs !== undefined &&
+        selectedVPCValue.value.length > 0
+      ) {
+        const tmpSubnets =
+          resourceMap[currentSelectedCloudProvider.configName][
+            selectedRegion.value
+          ][selectedVPCValue.value].subnets;
+        const tmpSubnetsArray = [];
+
+        tmpSubnets?.forEach((e) => {
+          tmpSubnetsArray.push({
+            label: e,
+            value: e
+          });
+        });
+
+        setAllAvailableSubnets(tmpSubnetsArray);
+      }
+    }
+  }, [
+    allAvailableVPCIDs,
+    currentSelectedCloudProvider,
+    resourceMap,
+    selectedRegion,
+    selectedVPCValue
+  ]);
+
+  useEffect(() => {
+    setShowSetupStatusModal(isSetupComplete);
+  }, [isSetupComplete]);
+
+  useEffect(() => {
     if (!showSetupClusterModal) {
       setEditClusterNameInputValue('');
     }
@@ -419,6 +582,19 @@ const useCreateGrid = () => {
     }
   }, [gridProfilesData]);
 
+  useEffect(() => {
+    if (setupState === 1) {
+      setStepperStepsState(DEFAULT_STEPPER_STATE);
+    } else if (setupState === 2) {
+      const updatedStepperState = DEFAULT_STEPPER_STATE;
+      updatedStepperState[2].status = 'complete';
+      updatedStepperState[3].status = 'complete';
+      updatedStepperState[4].status = 'current';
+
+      setStepperStepsState(updatedStepperState);
+    }
+  }, [setupState]);
+
   useMountEffect(() => {
     const fetchEventsLogsData = async () => {
       const response = await getCreateGridEventsLogsData(userDetails.id);
@@ -438,9 +614,10 @@ const useCreateGrid = () => {
       }
     };
 
-    fetchDataForCreateGrid().then((res) => {
+    fetchDataForCreateGrid(userDetails.id).then((res) => {
       const response = res.data;
 
+      dispatch(setResourceMap(response.resourceMap));
       setCodeSnippetsForExistingSetup(response.codeSnippets.existing);
       setGridProfilesData(response.gridProfiles);
     });
@@ -455,13 +632,16 @@ const useCreateGrid = () => {
   });
 
   return {
+    CODE_SNIPPETS_SCRATCH,
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
     allAvailableSubnets,
     allAvailableVPCIDs,
     breadcrumbsData,
     closeEventLogsModal,
+    closeSetupStatusModal,
     clusterChangeHandler,
+    clusterNameInputChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
@@ -471,10 +651,11 @@ const useCreateGrid = () => {
     currentSelectedCloudProvider,
     currentStep,
     dataChanged,
-    editClusterBtnClickHandler,
+    // editClusterBtnClickHandler,
     editClusterNameInputValue,
     eventLogsCode,
     eventLogsStatus,
+    exploreAutomationClickHandler,
     frameworkURLs,
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
@@ -511,9 +692,13 @@ const useCreateGrid = () => {
     showGridHeartBeats,
     showSaveProfileModal,
     showSetupClusterModal,
+    showSetupStatusModal,
+    stepperClickHandler,
+    stepperStepsState,
     subnetChangeHandler,
     totalSteps,
     type,
+    viewAllBuildsClickHandler,
     viewEventLogsClickHandler,
     vpcChangeHandler
   };

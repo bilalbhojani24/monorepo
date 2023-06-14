@@ -47,6 +47,7 @@ import {
 import Loader from '../../common/Loader/index';
 import SpinningLoader from '../../common/SpinningLoader';
 import { getWcagVersionFromVal } from '../../utils/helper';
+import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
 
 import { getScanConfigs } from './slices/dataSlice';
 import NewScan from './NewScan';
@@ -176,6 +177,7 @@ export default function SiteScanner() {
   */
   const closeSlideover = () => {
     setShowNewScan(false);
+    dispatch(setShowFreshChatButton(true));
   };
 
   const getRunTypeBadge = (recurring, active, onDemandCount = 0) => {
@@ -403,6 +405,7 @@ export default function SiteScanner() {
                 action: 'Open new website scan slide over'
               });
               setShowNewScan(true);
+              dispatch(setShowFreshChatButton(false));
             }}
             size="small"
             type="subtle"
@@ -438,6 +441,7 @@ export default function SiteScanner() {
                 action: 'Open new website scan slide over'
               });
               setShowNewScan(true);
+              dispatch(setShowFreshChatButton(false));
             }}
             size="small"
             type="subtle"
@@ -653,6 +657,7 @@ export default function SiteScanner() {
                           onClick={(val, e) => {
                             e.stopPropagation();
                             handleRowMenuClick(val, row);
+                            dispatch(setShowFreshChatButton(false));
                           }}
                           id="scanFilter"
                         >

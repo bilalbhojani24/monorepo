@@ -1,84 +1,45 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Button, InputField, InputGroupAddOn } from '@browserstack/bifrost';
-import { updateSettings } from 'api/index';
-import { getGridData } from 'features/GridConsole/slices/selector';
-import { getUserDetails } from 'globalSlice/selector';
+import React from 'react';
+import {
+  Button,
+  InputField,
+  InputGroupAddOn,
+  Notifications,
+  notify
+} from '@browserstack/bifrost';
+
+import useTimeoutSettings from './useTimeoutSettings';
 
 const TimeoutSettings = () => {
-  // All Store variables:
-  const gridData = useSelector(getGridData);
-  const userDetails = useSelector(getUserDetails);
-
-  // All State variables:
-  const [idleTimeOutValue, setIdleTimeOutValue] = useState(
-    gridData.testSettings.idleTimeout
-  );
-  const [queueRetryIntervalValue, setQueueRetryIntervalValue] = useState(
-    gridData.testSettings.queueRetryInterval
-  );
-  const [queueTimeoutValue, setQueueTimeoutValue] = useState(
-    gridData.testSettings.queueTimeout
-  );
-  const [testTimeoutValue, setTestTimeoutValue] = useState(
-    gridData.testSettings.testTimeout
+  const notifactionComponent = (
+    <Notifications
+      title="Settings updated!"
+      isCondensed
+      handleClose={(toastData) => {
+        notify.remove(toastData.id);
+      }}
+    />
   );
 
-  const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
-  const [isSavingInProgress, setIsSavingInProgress] = useState(false);
-
-  const idleTimeoutInputChangeHandler = (e) => {
-    const newValue = e.target.value;
-
-    setIsSaveButtonDisabled(false);
-    setIdleTimeOutValue(newValue);
-  };
-
-  const queueRetryIntervalChangeHandler = (e) => {
-    const newValue = e.target.value;
-
-    setIsSaveButtonDisabled(false);
-    setQueueRetryIntervalValue(newValue);
-  };
-
-  const queueTimeoutChangeHandler = (e) => {
-    const newValue = e.target.value;
-
-    setIsSaveButtonDisabled(false);
-    setQueueTimeoutValue(newValue);
-  };
-
-  const testTimeoutChangeHandler = (e) => {
-    const newValue = e.target.value;
-
-    setIsSaveButtonDisabled(false);
-    setTestTimeoutValue(newValue);
-  };
-
-  const updateGridTimeoutSettings = (settingsObj) => {
-    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
-      setIsSaveButtonDisabled(true);
-      setIsSavingInProgress(false);
-    });
-  };
-
-  const saveBtnClickhandler = () => {
-    setIsSavingInProgress(true);
-    const settingsObj = {
-      testSettings: {
-        idleTimeout: idleTimeOutValue,
-        queueTimeout: queueTimeoutValue,
-        queueRetryInterval: queueRetryIntervalValue,
-        testTimeout: testTimeoutValue
-      }
-    };
-    updateGridTimeoutSettings(settingsObj);
-  };
+  const {
+    idleTimeoutInputChangeHandler,
+    idleTimeOutError,
+    idleTimeOutValue,
+    isSaveButtonDisabled,
+    isSavingInProgress,
+    saveBtnClickhandler,
+    testTimeoutChangeHandler,
+    testTimeoutError,
+    testTimeoutValue,
+    queueRetryIntervalChangeHandler,
+    queueRetryIntervalValue,
+    queueTimeoutChangeHandler,
+    queueTimeoutError,
+    queueTimeoutValue
+  } = useTimeoutSettings(notifactionComponent);
 
   return (
     <>
-      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-      <div className="h-[calc(100vh-64px-134px-48px-62px)] overflow-auto p-6">
+      <div className="overflow-auto p-6">
         <p className="text-base-900 text-lg font-medium">Timeout Settings</p>
         <p className="text-base-500 text-sm">
           Configure different timeouts as per your testing requirement.
@@ -86,7 +47,7 @@ const TimeoutSettings = () => {
 
         {/* --- --- Idle Timeout --- --- */}
         <div className="pt-6">
-          <p className="font-medium">Idle Timeout</p>
+          <p className="font-medium text-sm">Idle Timeout</p>
           <p className="text-base-500 text-sm">
             Set the timeout in seconds to detect the inactivity between the
             commands during the session. It is set at 90 seconds by default.
@@ -97,8 +58,9 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
-              defaultValue={idleTimeOutValue}
+              value={idleTimeOutValue}
               disabled={isSavingInProgress}
+              errorText={idleTimeOutError}
               id="test-id"
               onChange={idleTimeoutInputChangeHandler}
               onKeyDown={null}
@@ -110,7 +72,7 @@ const TimeoutSettings = () => {
 
         {/* --- --- Queue Timeout --- --- */}
         <div className="pt-6">
-          <p className="font-medium">Queue Timeout</p>
+          <p className="font-medium text-sm">Queue Timeout</p>
           <p className="text-base-500 text-sm">
             Set the timeout in seconds to detect the drop the requests waiting
             in queue. It is set at 900 seconds by default.
@@ -121,7 +83,8 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
-              defaultValue={queueTimeoutValue}
+              errorText={queueTimeoutError}
+              value={queueTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"
               onChange={queueTimeoutChangeHandler}
@@ -134,7 +97,7 @@ const TimeoutSettings = () => {
 
         {/* --- --- Queue Retry Interval --- --- */}
         <div className="pt-6">
-          <p className="font-medium">Queue Retry Interval</p>
+          <p className="font-medium text-sm">Queue Retry Interval</p>
           <p className="text-base-500 text-sm">
             Set the interval in seconds to configure the amount of time after
             which Hub will retry the requests waiting in queue for. It is set at
@@ -146,7 +109,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
-              defaultValue={queueRetryIntervalValue}
+              value={queueRetryIntervalValue}
               disabled={isSavingInProgress}
               id="test-id"
               onChange={queueRetryIntervalChangeHandler}
@@ -159,7 +122,7 @@ const TimeoutSettings = () => {
 
         {/* --- --- Test Timeout --- --- */}
         <div className="pt-6">
-          <p className="font-medium">Test Timeout</p>
+          <p className="font-medium text-sm">Test Timeout</p>
           <p className="text-base-500 text-sm">
             Set the timeout in hours to stop the test and drop the subsequent
             commands sent for the test. It is set at 2 hours by default.
@@ -170,7 +133,8 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">hours</InputGroupAddOn>
               }
-              defaultValue={testTimeoutValue}
+              errorText={testTimeoutError}
+              value={testTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"
               onChange={testTimeoutChangeHandler}

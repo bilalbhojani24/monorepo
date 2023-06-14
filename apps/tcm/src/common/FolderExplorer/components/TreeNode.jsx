@@ -47,6 +47,7 @@ const TreeNode = ({
         isFocused={focused === item.name}
         label={
           <TMTruncateText
+            ignoreClickAndWrapText
             hidetooltipTriggerIcon
             isFullWidthTooltip
             headerTooltipProps={{
