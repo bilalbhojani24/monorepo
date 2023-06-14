@@ -81,7 +81,7 @@ const Layout = () => {
   return (
     <>
       <HSTHeader />
-      <main className="bg-base-50 flex">
+      <main className="flex bg-base-50">
         <nav
           className="sticky"
           style={{

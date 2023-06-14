@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Badge,
-  MdAddLink,
   MdContentCopy,
   Table,
   TableBody,
@@ -30,16 +29,8 @@ const ClusterOverview = () => {
   }
 
   //   ToDo: Check if we need all these Keys
-  const {
-    connected,
-    grids,
-    name,
-    profile,
-    runningNodes,
-    status,
-    uniqueId,
-    user
-  } = clusterData;
+  const { connected, grids, name, profile, runningNodes, status, uniqueId } =
+    clusterData;
 
   const clusterDetailData = [
     {
@@ -97,7 +88,7 @@ const ClusterOverview = () => {
     <>
       <div className="px-6 pt-6">
         <div className={containerClassName}>
-          <p className="text-base-900 text-lg font-medium leading-6">
+          <p className="text-lg font-medium leading-6 text-base-900">
             Cluster Details
           </p>
 
@@ -106,7 +97,7 @@ const ClusterOverview = () => {
               const { title, value } = detail;
               return (
                 <div>
-                  <p className="text-base-500 text-sm font-normal">{title}</p>
+                  <p className="text-sm font-normal text-base-500">{title}</p>
 
                   {title === 'Cloud Provider' ? (
                     <div className="flex gap-x-2">
@@ -124,20 +115,20 @@ const ClusterOverview = () => {
       </div>
 
       <div className="flex flex-row gap-x-6 p-6">
-        <div className="border-base-200 w-2/5 rounded-lg border bg-white p-6 shadow">
-          <p className="text-base-900 text-lg font-medium leading-6">
+        <div className="w-2/5 rounded-lg border border-base-200 bg-white p-6 shadow">
+          <p className="text-lg font-medium leading-6 text-base-900">
             Advanced Details
           </p>
           <div className="mt-6">
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center">
-                <div className="text-base-500 ml-2 mr-6 text-base">
+                <div className="ml-2 mr-6 text-base text-base-500">
                   <p>VPC ID</p>
                 </div>
               </div>
 
               <div className="flex w-2/3 justify-between">
-                <div className="text-base-900 mr-4">
+                <div className="mr-4 text-base-900">
                   <p>{profile?.vpcs}</p>
                 </div>
                 <CopyButton
@@ -151,12 +142,12 @@ const ClusterOverview = () => {
               </div>
             </div>
             <div className={commonClassName}>
-              <div className="text-base-500 flex w-1/3 items-center">
+              <div className="flex w-1/3 items-center text-base-500">
                 <div className="ml-2 mr-6  text-base">
                   <p>Domain</p>
                 </div>
               </div>
-              <div className="text-base-900 flex w-2/3 justify-between">
+              <div className="flex w-2/3 justify-between text-base-900">
                 <div className="mr-4">
                   <p>{profile?.domain}</p>
                 </div>
@@ -170,13 +161,13 @@ const ClusterOverview = () => {
               </div>
             </div>
             <div className={commonClassName}>
-              <div className="text-base-500 flex w-1/3 items-center">
+              <div className="flex w-1/3 items-center text-base-500">
                 <div className="ml-2 mr-6 text-base">
                   <p>Subnets</p>
                 </div>
               </div>
 
-              <div className="text-base-900 flex w-2/3 justify-between">
+              <div className="flex w-2/3 justify-between text-base-900">
                 <div className="mr-4">
                   <p>{profile?.subnets.join(',')}</p>
                 </div>
@@ -192,8 +183,8 @@ const ClusterOverview = () => {
           </div>
         </div>
 
-        <div className="border-base-200 w-3/5 rounded-lg border bg-white p-6 shadow">
-          <p className="text-base-900 text-lg font-medium leading-6">
+        <div className="w-3/5 rounded-lg border border-base-200 bg-white p-6 shadow">
+          <p className="text-lg font-medium leading-6 text-base-900">
             Grid Resources
           </p>
           <Table containerWrapperClass="mt-6">

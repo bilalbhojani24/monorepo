@@ -26,11 +26,11 @@ import {
 import {
   EVENT_LOGS_POLLING_IN_MS,
   GRID_MANAGER_NAMES,
-  PRODUCT_NAME_ACTUAL,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
+import { SETUP_GUIDE } from 'constants/strings';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
@@ -149,7 +149,7 @@ const useOnboarding = () => {
 
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
-    if (stepData.name === 'Setup Guide') {
+    if (stepData.name === SETUP_GUIDE) {
       if (onboardingType === ONBOARDING_TYPES.existing) {
         logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
           action: 'setupguide_clicked'
@@ -340,7 +340,7 @@ const useOnboarding = () => {
       setBreadcrumbDataTrace([
         {
           current: false,
-          name: 'Setup Guide',
+          name: SETUP_GUIDE,
           url: '#',
           goToStep: 0
         },
@@ -360,7 +360,7 @@ const useOnboarding = () => {
         {
           current: false,
 
-          name: 'Setup Guide',
+          name: SETUP_GUIDE,
           url: '#',
           goToStep: 0
         },

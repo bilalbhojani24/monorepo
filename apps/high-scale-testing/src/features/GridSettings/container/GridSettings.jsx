@@ -77,7 +77,7 @@ const GridSettings = () => {
         wrapperClassName=" border-0 md:sticky bg-base-50 p-6 w-64 flex-none md:inset-y-16"
       />
 
-      <div className="border-base-200 my-6 mr-6 grow rounded-lg border">
+      <div className="my-6 mr-6 grow rounded-lg border border-base-200">
         <div className="bg-white ">
           <Outlet />
         </div>

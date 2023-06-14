@@ -11,10 +11,8 @@ import {
   ComboboxOptionItem,
   ComboboxTrigger,
   InputField,
-  InputGroupAddOn,
   MdAdd,
   MdCached,
-  MdOutlineModeEditOutline,
   Modal,
   ModalHeader,
   PageHeadings,
@@ -167,7 +165,7 @@ const CreateGrid = () => {
     >
       <ComboboxLabel>
         Instance Type
-        <span className="text-danger-600 ml-0.5">*</span>
+        <span className="ml-0.5 text-danger-600">*</span>
       </ComboboxLabel>
       <ComboboxTrigger placeholder="Placeholder" />
       <ComboboxOptionGroup>
@@ -186,7 +184,7 @@ const CreateGrid = () => {
     >
       <SelectMenuLabel>
         Region
-        <span className="text-danger-600 ml-0.5">*</span>
+        <span className="ml-0.5 text-danger-600">*</span>
       </SelectMenuLabel>
       <SelectMenuTrigger ref={ref} />
       <SelectMenuOptionGroup>
@@ -207,7 +205,7 @@ const CreateGrid = () => {
     >
       <ComboboxLabel>
         Subnets
-        <span className="text-danger-600 ml-0.5">*</span>
+        <span className="ml-0.5 text-danger-600">*</span>
       </ComboboxLabel>
       <ComboboxTrigger placeholder="Placeholder" />
       <ComboboxOptionGroup>
@@ -247,7 +245,7 @@ const CreateGrid = () => {
     >
       <ComboboxLabel>
         VPC ID
-        <span className="text-danger-600 ml-0.5">*</span>
+        <span className="ml-0.5 text-danger-600">*</span>
       </ComboboxLabel>
       <ComboboxTrigger placeholder="Placeholder" />
       <ComboboxOptionGroup>
@@ -269,9 +267,9 @@ const CreateGrid = () => {
 
       {type === CREATE_GRID_TYPES.helmKubeCTL && (
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
-        <div className="border-base-300 m-6 h-[calc(100vh-64px-104px-48px-62px)] overflow-auto rounded-lg border bg-white p-6">
-          <p className="text-base-900 text-sm font-semibold">Grid Setup</p>
-          <p className="text-base-900 mt-1 text-sm">
+        <div className="m-6 h-[calc(100vh-64px-104px-48px-62px)] overflow-auto rounded-lg border border-base-300 bg-white p-6">
+          <p className="text-sm font-semibold text-base-900">Grid Setup</p>
+          <p className="mt-1 text-sm text-base-900">
             Execute the below commands to initialise grid creation.
           </p>
 
@@ -310,7 +308,7 @@ const CreateGrid = () => {
           </div>
 
           <div className="w-full">
-            <div className="border-base-300 my-6 mr-6 rounded-lg border bg-white ">
+            <div className="my-6 mr-6 rounded-lg border border-base-300 bg-white ">
               {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
               <div className="h-[calc(100vh-64px-104px-48px-62px)] overflow-auto p-6">
                 {/* Setup Grid and Cluster */}
@@ -318,10 +316,10 @@ const CreateGrid = () => {
                   <div>
                     {/* Choose Grid Profile */}
                     <>
-                      <p className="text-base-900 text-sm font-semibold">
+                      <p className="text-sm font-semibold text-base-900">
                         Choose Grid Profile
                       </p>
-                      <p className="text-base-500 mt-1 text-sm">
+                      <p className="mt-1 text-sm text-base-500">
                         Use previously saved profiles to configure Grid settings
                         with pre-filled values.
                       </p>
@@ -348,10 +346,10 @@ const CreateGrid = () => {
                     {/* Choose Cloud Provider */}
                     <>
                       <div>
-                        <p className="text-base-900 text-sm font-medium">
+                        <p className="text-sm font-medium text-base-900">
                           Choose Cloud Provider
                         </p>
-                        <p className="text-base-500  mt-1 text-sm font-normal">
+                        <p className="mt-1  text-sm font-normal text-base-500">
                           Currently we support only AWS but GCP and Azure will
                           be supported soon.
                         </p>
@@ -376,10 +374,10 @@ const CreateGrid = () => {
 
                     {/* Configure Grid Profile */}
                     <div className="">
-                      <p className="text-base-900 text-sm font-medium">
+                      <p className="text-sm font-medium text-base-900">
                         Configure Grid Profile
                       </p>
-                      <p className="text-base-500 mt-1 text-sm font-normal">
+                      <p className="mt-1 text-sm font-normal text-base-500">
                         The current settings are based on the default grid
                         profile. You can make the changes and save it as a new
                         profile.
@@ -445,7 +443,7 @@ const CreateGrid = () => {
                                 <div className="w-1/2">
                                   {ClusterInputComboBoxComponent}
                                 </div>
-                                <div className="flex gap-8 w-1/2">
+                                <div className="flex w-1/2 gap-8">
                                   {/* <div className="w-1/2">
                                     <Button
                                       colors="white"
@@ -506,20 +504,20 @@ const CreateGrid = () => {
                 {setupState === 2 && (
                   <div>
                     <div>
-                      <p className="text-base-900 text-sm font-medium">
+                      <p className="text-sm font-medium text-base-900">
                         Setup IAM Role
                       </p>
-                      <p className="text-base-500 mt-1 text-sm font-normal">
+                      <p className="mt-1 text-sm font-normal text-base-500">
                         Set up a new IAM role via the CloudFormation link and
                         generate the AWS access key and secret to create and
                         manage the Automation Grid. Read more about this here.
                       </p>
                     </div>
                     <div className="mt-9">
-                      <p className="text-base-900 text-sm font-medium">
+                      <p className="text-sm font-medium text-base-900">
                         Grid Creation Commands
                       </p>
-                      <p className="text-base-500 mb-3 mt-1 text-sm font-normal">
+                      <p className="mb-3 mt-1 text-sm font-normal text-base-500">
                         Execute the below commands to initialize grid creation.
                       </p>
 
@@ -556,10 +554,10 @@ const CreateGrid = () => {
                         />
                         <AccordionPanel controller={opened}>
                           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-                          <ol className="text-base-500 list-[lower-alpha] text-sm">
-                            <li className="text-base-900 py-2">
+                          <ol className="list-[lower-alpha] text-sm text-base-500">
+                            <li className="py-2 text-base-900">
                               <div>
-                                <p className="text-base-900 mb-2">
+                                <p className="mb-2 text-base-900">
                                   Download CLI.
                                 </p>
                                 <CodeSnippet
@@ -571,9 +569,9 @@ const CreateGrid = () => {
                                 />
                               </div>
                             </li>
-                            <li className="text-base-900 py-2">
+                            <li className="py-2 text-base-900">
                               <div>
-                                <p className="text-base-900 mb-2">
+                                <p className="mb-2 text-base-900">
                                   Setup CLI with AWS credentials.
                                 </p>
                                 <CodeSnippet
@@ -652,7 +650,7 @@ const CreateGrid = () => {
               </div>
 
               {setupState !== 2 && (
-                <div className="border-base-300 flex flex-row-reverse border-t px-6 py-3">
+                <div className="flex flex-row-reverse border-t border-base-300 px-6 py-3">
                   {!dataChanged && setupState !== 2 && (
                     <Button onClick={nextBtnClickHandler}> Next </Button>
                   )}
@@ -667,7 +665,7 @@ const CreateGrid = () => {
               {setupState === 2 &&
                 (!eventLogsCode || eventLogsCode?.length === 0) &&
                 eventLogsStatus !== EVENT_LOGS_STATUS.IN_PROGRESS && (
-                  <div className="border-base-300 text-base-700 flex gap-2 border-t px-6 py-3">
+                  <div className="flex gap-2 border-t border-base-300 px-6 py-3 text-base-700">
                     <HourglassBottomOutlinedIcon /> Waiting for you to complete
                     the above steps to connect the grid...
                   </div>
@@ -676,7 +674,7 @@ const CreateGrid = () => {
               {eventLogsCode &&
                 eventLogsCode.length > 0 &&
                 showGridHeartBeats && (
-                  <div className="text-base-700 flex gap-2 px-6 py-3">
+                  <div className="flex gap-2 px-6 py-3 text-base-700">
                     <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
                     Initialising events log...
                   </div>
@@ -686,7 +684,7 @@ const CreateGrid = () => {
                 eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
                 !showGridHeartBeats && (
                   <div className="flex justify-between px-6 py-3">
-                    <div className="text-base-700 flex gap-2">
+                    <div className="flex gap-2 text-base-700">
                       <MdCached />
                       ‘high-scale-grid’ grid creation is in progress...
                     </div>

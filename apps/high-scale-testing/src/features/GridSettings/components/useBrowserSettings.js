@@ -96,9 +96,6 @@ const useBrowserSettings = (notifactionComponent) => {
     }
   }, [gridData]);
 
-  useEffect(() => {
-  }, [allowedBrowsersValue, cpuValue, fetchedGridData]);
-
   return {
     allAvailableBrowsers,
     allowedBrowsersChangeHandler,

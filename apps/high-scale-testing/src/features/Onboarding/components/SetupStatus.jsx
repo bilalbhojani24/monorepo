@@ -57,7 +57,7 @@ const SetupStatus = ({
             />
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FINISHED && (
-              <div className="text-base-900 flex gap-2 pt-4 text-sm">
+              <div className="flex gap-2 pt-4 text-sm text-base-900">
                 <p>
                   Copy the above framework URLs to seamlessly integrate your
                   test suite with the grid.
@@ -144,7 +144,7 @@ const SetupStatus = ({
             )}
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FAILED && (
-              <div className="text-base-900 mt-4">
+              <div className="mt-4 text-base-900">
                 <p className="mb-2 text-sm">
                   Try creating grid again with the below CLI command.
                 </p>
