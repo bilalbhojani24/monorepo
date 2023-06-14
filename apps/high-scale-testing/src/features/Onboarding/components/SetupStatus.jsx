@@ -94,7 +94,7 @@ const SetupStatus = ({
                         Selenium
                       </TableCell>
                       <TableCell wrapperClassName="text-sm text-base-900 font-normal px-6 py-4 text-ellipsis">
-                        <div className="overflow-hidden text-ellipsis">
+                        <div className="max-w-md overflow-hidden text-ellipsis">
                           {frameworkURLs.selenium}
                         </div>
                       </TableCell>
