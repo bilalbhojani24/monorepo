@@ -3,9 +3,10 @@ import React from 'react';
 import { MdOutlineFolderOpen } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yHyperlink } from 'common/bifrostProxy';
-import JiraTag from 'common/JiraTag';
+import { JiraTagList } from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
 import ScopeLine from 'common/ScopeLine';
+import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 export default function TestInfo({ testDetails }) {
@@ -15,9 +16,12 @@ export default function TestInfo({ testDetails }) {
         <span className="text-base-900 break-words text-sm">
           {testDetails?.title}
         </span>
-        {testDetails?.jiraUrl && (
+        {!isEmpty(testDetails?.jiraUrl) && (
           <PropagationBlocker className="inline">
-            <JiraTag jiraUrl={testDetails.jiraUrl} wrapperClassName="text-sm" />
+            <JiraTagList
+              list={testDetails.jiraUrl}
+              wrapperClassName="text-sm"
+            />
           </PropagationBlocker>
         )}
       </div>

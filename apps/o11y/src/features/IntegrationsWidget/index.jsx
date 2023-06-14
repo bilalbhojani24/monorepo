@@ -21,6 +21,11 @@ import {
 } from './constants';
 import { hideIntegrationsWidget } from './utils';
 
+const INTEGRATION_EVENTS = {
+  create: 'create',
+  update: 'update'
+};
+
 const IntegrationsWidget = () => {
   const isOpen = useSelector(getIsWidgetOpen);
   const configuration = useSelector(getWidgetConfiguration);
@@ -57,19 +62,22 @@ const IntegrationsWidget = () => {
     attachments: [],
     successCallback: ({ event, data: cbData }) => {
       const { integration, issueUrl } = cbData;
-      window.pubSub.publish('onCreateJiraIssue', {
-        testRunId: data?.testRunId,
-        url: issueUrl
-      });
-      sendIssueCreatedCallback('_', data?.testRunId, {
-        name: issueUrl.split('/').pop(),
-        type: integration?.label,
-        url: issueUrl,
-        status: ''
-      });
+      if (event === INTEGRATION_EVENTS.create) {
+        window.pubSub.publish('onCreateJiraIssue', {
+          testRunId: data?.testRunId,
+          url: issueUrl,
+          status: 'New Item'
+        });
+        sendIssueCreatedCallback('_', data?.testRunId, {
+          name: issueUrl.split('/').pop(),
+          type: integration?.label,
+          url: issueUrl,
+          status: 'New Item'
+        });
+      }
       o11yNotify({
         title: `Issue ${issueUrl.split('/').pop()} ${
-          event === 'create' ? 'created' : 'updated'
+          event === INTEGRATION_EVENTS.create ? 'created' : 'updated'
         } successfully!`,
         type: 'success',
         actionButtons: () => (

@@ -167,7 +167,6 @@ const TestListFilters = ({ buildUUID }) => {
             noLabel="Tests with no associated defects"
             type={ADV_FILTER_TYPES.hasJiraDefects.key}
           />
-
           <MultiSelectCheckboxFilterField
             label="Muted Tests"
             yesLabel="Muted"
@@ -198,6 +197,11 @@ const TestListFilters = ({ buildUUID }) => {
             type={ADV_FILTER_TYPES.failureCategories.key}
             placeholder="Select"
             label="Failure categories"
+          />
+          <MultiSelectStaticFilterField
+            type={ADV_FILTER_TYPES.jiraStatus.key}
+            placeholder="Select"
+            label="Jira Status"
           />
         </div>
       </FilterSlideover>

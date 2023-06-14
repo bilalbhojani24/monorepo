@@ -2,7 +2,7 @@ import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { twClassNames } from '@browserstack/utils';
 import { O11yBadge, O11yTableCell } from 'common/bifrostProxy';
-import JiraTag from 'common/JiraTag';
+import { JiraTagList } from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusChip from 'common/StatusChip';
 import PropTypes from 'prop-types';
@@ -45,10 +45,10 @@ const BuildRow = ({ buildData }) => (
       {!buildData.jiraUrl && !buildData?.historyAggregate?.isFlaky ? (
         <span>-</span>
       ) : (
-        <div className="flex flex-wrap gap-1">
-          {buildData?.jiraUrl && (
+        <div className="flex flex-wrap items-center gap-1">
+          {Array.isArray(buildData?.jiraUrl) && (
             <PropagationBlocker className="inline">
-              <JiraTag jiraUrl={buildData.jiraUrl || ''} />
+              <JiraTagList list={buildData.jiraUrl || []} showInToolTip />
             </PropagationBlocker>
           )}
           {buildData?.historyAggregate?.isFlaky && (

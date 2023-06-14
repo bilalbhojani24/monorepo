@@ -24,7 +24,8 @@ const O11yComboBox = ({
   optionsListWrapperClassName,
   isLoading,
   isAsyncSearch,
-  onSearch
+  onSearch,
+  onOpenChange
 }) => {
   const [query, setQuery] = useState('');
 
@@ -53,7 +54,7 @@ const O11yComboBox = ({
       value={value}
       isMulti={!!filteredOptions.length && isMulti}
       disabled={disabled}
-      // isLoadingRight={isLoading}
+      onOpenChange={onOpenChange}
     >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
@@ -151,7 +152,8 @@ O11yComboBox.propTypes = {
   optionsListWrapperClassName: PropTypes.string,
   isLoading: PropTypes.bool,
   isAsyncSearch: PropTypes.bool,
-  onSearch: PropTypes.func
+  onSearch: PropTypes.func,
+  onOpenChange: PropTypes.func
 };
 
 O11yComboBox.defaultProps = {
@@ -167,6 +169,7 @@ O11yComboBox.defaultProps = {
   optionsListWrapperClassName: '',
   isLoading: false,
   isAsyncSearch: false,
-  onSearch: () => {}
+  onSearch: () => {},
+  onOpenChange: () => {}
 };
 export default O11yComboBox;
