@@ -106,7 +106,7 @@ export default function useReverseTrialModal() {
     });
   };
 
-  const handleError = async () => {
+  const handleError = () => {
     freeTrialRequestFailureNotification();
     dispatch(setModalShow(false));
   };
