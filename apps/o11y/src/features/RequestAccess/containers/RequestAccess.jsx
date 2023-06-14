@@ -21,9 +21,6 @@ import {
   logOllyEvent
 } from 'utils/common';
 
-const DEMO_VIDEO =
-  'https://www.browserstack.com/docs/static/img/test-observability/what-is-test-observability/test-observability-demo.mp4';
-
 function RequestAccess() {
   const headerSize = useSelector(getHeaderSize);
   const initData = useSelector(getInitData);
@@ -181,7 +178,7 @@ function RequestAccess() {
             onPause={() => logInteractionEvent('stopped')}
             onSeeked={() => logInteractionEvent('seeked')}
           >
-            <source src={DEMO_VIDEO} type="video/mp4" />
+            <source src="/o11y-demo.mov" type="video/mp4" />
           </video>
           {!hasClickedPlay && (
             <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
