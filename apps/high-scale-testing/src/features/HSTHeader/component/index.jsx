@@ -1,9 +1,13 @@
 import React from 'react';
 import { Header } from '@browserstack/bifrost';
+import { PRODUCT_NAME_ACTUAL } from 'constants/index';
 import ROUTES from 'constants/routes';
+import { getEnvConfig } from 'utils/common';
 
 const HSTHeader = () => {
-  const DOC_HOME_URL = 'https://browserstack.com/docs';
+  const ENV_CONFIG = getEnvConfig();
+
+  const { baseUrl, docHomeURL } = ENV_CONFIG;
 
   return (
     <Header
@@ -12,23 +16,23 @@ const HSTHeader = () => {
         options: [
           {
             name: 'Customize your Grid',
-            link: `${DOC_HOME_URL}/features/customize-your-grid`
+            link: `${docHomeURL}/features/customize-your-grid`
           },
           {
             name: 'Visualise Grids on Console',
-            link: `${DOC_HOME_URL}/features/visualise-grids-on-console`
+            link: `${docHomeURL}/features/visualise-grids-on-console`
           },
           {
             name: 'On-Demand Grids using CLI',
-            link: `${DOC_HOME_URL}/features/automate-setup-via-cli`
+            link: `${docHomeURL}/features/automate-setup-via-cli`
           },
           {
             name: 'Configure Test Queueing',
-            link: `${DOC_HOME_URL}/parallelization/queue-tests`
+            link: `${docHomeURL}/parallelization/queue-tests`
           },
           {
             name: 'Organize your Tests',
-            link: `${DOC_HOME_URL}/features/organize-your-tests`
+            link: `${docHomeURL}/features/organize-your-tests`
           }
         ]
       }}
@@ -37,32 +41,32 @@ const HSTHeader = () => {
         options: [
           {
             name: 'Create a new Grid',
-            link: `${DOC_HOME_URL}/getting-started/create-grid`
+            link: `${docHomeURL}/getting-started/create-grid`
           },
           {
             name: 'Set up AWS Integration',
-            link: `${DOC_HOME_URL}/getting-started/setup-on-aws`
+            link: `${docHomeURL}/getting-started/setup-on-aws`
           },
           {
             name: 'Supported Browsers & Versions',
-            link: `${DOC_HOME_URL}/getting-started/browsers-and-versions`
+            link: `${docHomeURL}/getting-started/browsers-and-versions`
           }
         ]
       }}
       headerElementArray={['team', 'help', 'account']}
       onSignoutClick={(e) => {
         e.preventDefault();
-        window.location.href = window.location.origin + ROUTES.SIGN_OUT;
+        window.location.href = baseUrl + ROUTES.SIGN_OUT;
       }}
-      productName="Automation Grid"
+      productName={PRODUCT_NAME_ACTUAL}
       productLink={ROUTES.GRID_CONSOLE}
       planButtonVisible={false}
       references={{
         title: 'Overview',
         options: [
           {
-            name: 'What is Automation Grid?',
-            link: `${DOC_HOME_URL}`
+            name: `What is ${PRODUCT_NAME_ACTUAL} ?`,
+            link: `${docHomeURL}`
           }
         ]
       }}

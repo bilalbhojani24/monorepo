@@ -10,10 +10,11 @@ import {
 import { useOnClickOutside } from '@browserstack/hooks';
 import { getTestCasesSearchFilterAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { getFilterOptions, routeFormatter } from 'utils/helperFunctions';
+import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
 import {
+  resetBulkSelection,
   resetFilterMeta,
   resetFilterSearchMeta,
   setFilterSearchMeta,
@@ -24,6 +25,11 @@ import {
   updateFoldersLoading,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
+import {
+  getCalcQueryParams,
+  getFilterOptions,
+  getFormattedBEFilter
+} from '../utils/sharedFunctions';
 
 const useFilter = (prop) => {
   const location = useLocation();
@@ -79,34 +85,19 @@ const useFilter = (prop) => {
     setAppliedFiltersCount(count.filter((item) => item).length);
   };
 
-  const getCalcQueryParams = (thisFilterSearchMeta) => {
-    const queryParams = {};
-    const searchParamsTemp = {};
-    Object.keys(thisFilterSearchMeta).forEach((key) => {
-      const value = Array.isArray(thisFilterSearchMeta[key])
-        ? thisFilterSearchMeta[key].join(',')
-        : thisFilterSearchMeta[key];
-
-      if (value) {
-        searchParamsTemp[key] = value;
-        queryParams[`q[${key}]`] = value;
-      }
-    });
-
-    return { queryParams, searchParamsTemp };
-  };
-
   const resetFilterAndSearch = (forceClearAll) => {
     if (forceClearAll) {
       // clear search and filter
       dispatch(resetFilterSearchMeta());
-      navigate({
-        pathname:
-          searchInitiatedFromURL ||
-          routeFormatter(AppRoute.TEST_CASES, {
-            projectId
-          })
-      });
+      if (isSearchFilterView) {
+        navigate({
+          pathname:
+            searchInitiatedFromURL ||
+            routeFormatter(AppRoute.TEST_CASES, {
+              projectId
+            })
+        });
+      }
     } else {
       // clear only filter
       dispatch(resetFilterMeta());
@@ -136,6 +127,8 @@ const useFilter = (prop) => {
       }
       return;
     }
+
+    dispatch(resetBulkSelection());
 
     if (isFilterInvoke) {
       // Filter apply clicked
@@ -182,24 +175,16 @@ const useFilter = (prop) => {
   };
 
   const fetchFilteredCases = (filterOptions, page) => {
-    const queryParams = {};
-    Object.keys(filterOptions).forEach((key) => {
-      const value = Array.isArray(filterOptions[key])
-        ? filterOptions[key].join(',')
-        : filterOptions[key];
+    const queryParams = getFormattedBEFilter(filterOptions);
 
-      if (value) {
-        if (key === 'q') {
-          queryParams[`q[query]`] = value;
-          dispatch(
-            logEventHelper('TM_TcSearchPageLoaded', {
-              project_id: projectId,
-              keyword: value
-            })
-          );
-        } else queryParams[`q[${key}]`] = value;
-      }
-    });
+    if (queryParams['q[query]']) {
+      dispatch(
+        logEventHelper('TM_TcSearchPageLoaded', {
+          project_id: projectId,
+          keyword: queryParams['q[query]']
+        })
+      );
+    }
 
     if (page) queryParams.p = page;
 
@@ -250,8 +235,6 @@ const useFilter = (prop) => {
       ...filterSearchMeta,
       q: value
     });
-    if (!filterSearchMeta?.q)
-      dispatch(setSearchInitiatedURL(location.pathname));
   };
 
   const setSearchErrorText = () => {

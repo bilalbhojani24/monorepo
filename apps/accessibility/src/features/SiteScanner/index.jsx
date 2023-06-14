@@ -657,6 +657,7 @@ export default function SiteScanner() {
                           onClick={(val, e) => {
                             e.stopPropagation();
                             handleRowMenuClick(val, row);
+                            dispatch(setShowFreshChatButton(false));
                           }}
                           id="scanFilter"
                         >
