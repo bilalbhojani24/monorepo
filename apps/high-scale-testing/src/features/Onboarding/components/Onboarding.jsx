@@ -24,7 +24,7 @@ import {
   AGNoSetupStepsExecuted
 } from 'constants/event-names';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
-import { CLOUD_FORMATION_LINK } from 'constants/urls';
+import { AWS_IAM_DOC, CLOUD_FORMATION_LINK } from 'constants/urls';
 import { logHSTEvent } from 'utils/logger';
 
 import EventLogs from './EventLogs';
@@ -162,7 +162,7 @@ const Onboarding = () => {
             });
           }}
           target="_blank"
-          href="/"
+          href={AWS_IAM_DOC}
           className="inline"
         >
           here
