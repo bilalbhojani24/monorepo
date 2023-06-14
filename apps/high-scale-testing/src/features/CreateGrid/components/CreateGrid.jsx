@@ -524,7 +524,7 @@ const CreateGrid = () => {
                       </p>
 
                       <CodeSnippet
-                        code={`browserstack-cli hst create grid --grid-profile ${selectedGridName}`}
+                        code={`browserstack-cli ats create grid --grid-profile ${selectedGridName}`}
                         language="node"
                         singleLine
                       />

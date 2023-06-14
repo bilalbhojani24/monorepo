@@ -19,10 +19,8 @@ const GridOverview = () => {
     gridVersion,
     identifier,
     name,
-    runningTests,
     status,
-    queuedTests,
-    user
+    stats
   } = useGridOverview();
 
   if (!Object.keys(gridData).length) {
@@ -91,7 +89,7 @@ const GridOverview = () => {
     },
     {
       title: 'Running Tests',
-      value: runningTests
+      value: stats?.runningTests
     },
     {
       title: 'Cluster ID',
@@ -101,8 +99,8 @@ const GridOverview = () => {
       title: 'Browsers Used',
       value: (
         <div className="flex gap-1">
-          {gridData?.stats?.browsersUsed.map((usedBrowser) => {
-            const browser = usedBrowser;
+          {stats?.browsersUsed.map((browserUsed) => {
+            const browser = browserUsed;
             return browserIcons[browser];
           })}
         </div>
@@ -114,7 +112,7 @@ const GridOverview = () => {
     },
     {
       title: 'Queued Tests',
-      value: queuedTests
+      value: stats?.queuedTests
     },
     {
       title: 'Grid version',

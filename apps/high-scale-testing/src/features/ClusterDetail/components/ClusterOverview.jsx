@@ -77,7 +77,7 @@ const ClusterOverview = () => {
     },
     {
       title: 'Region',
-      value: uniqueId
+      value: profile?.region
     },
     {
       title: 'Cluster ID',
