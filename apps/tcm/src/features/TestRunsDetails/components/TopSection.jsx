@@ -25,6 +25,7 @@ import useTestRunDetails from './useTestRunDetails';
 
 const TopSection = () => {
   const {
+    StatusMeta,
     sourceTab,
     testRunPageQuery,
     projectId,
@@ -141,6 +142,11 @@ const TopSection = () => {
         }
         subSection={
           <div className="flex gap-4">
+            <TMMetadata
+              metaDescription={StatusMeta?.label || '--'}
+              textColorClass={`mt-1 ${StatusMeta?.textClass}`}
+              icon={StatusMeta && <StatusMeta.Icon className="h-5 w-5" />}
+            />
             <TMMetadata
               metaDescription={
                 testRunDetails?.assignee?.full_name || 'Unassigned'

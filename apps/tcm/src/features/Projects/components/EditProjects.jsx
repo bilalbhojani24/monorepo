@@ -16,6 +16,7 @@ import { onSubmitKeyHandler } from 'utils/helperFunctions';
 import useProjects from './useProjects';
 
 const EditProjects = ({ show }) => {
+  const FOCUS_DELAY = 50;
   const {
     modalFocusRef,
     selectedProject,
@@ -29,13 +30,21 @@ const EditProjects = ({ show }) => {
   } = useProjects();
 
   useEffect(() => {
-    if (selectedProject)
+    if (selectedProject && show)
       setFormData({
         name: selectedProject.name,
         description: selectedProject.description,
         state: selectedProject.state
       });
-  }, [selectedProject, setFormData]);
+  }, [selectedProject, setFormData, show]);
+
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => {
+        modalFocusRef?.current?.focus();
+      }, FOCUS_DELAY);
+    }
+  }, [show, modalFocusRef]);
 
   return (
     <TMModal
@@ -53,7 +62,7 @@ const EditProjects = ({ show }) => {
           <TMInputField
             label="Project Name"
             ref={modalFocusRef}
-            placeholder="Project Name 01"
+            placeholder="Enter project name"
             onKeyDown={(e) => onSubmitKeyHandler(e, editProjectHandler)}
             value={formData.name}
             errorText={formError.nameError}
@@ -68,7 +77,7 @@ const EditProjects = ({ show }) => {
         <div className="mb-4">
           <TMTextArea
             label="Description"
-            placeholder="Explaining in brief about the project description"
+            placeholder="Write in brief about the project"
             defaultValue={formData.description}
             onChange={(e) =>
               setFormData({ ...formData, description: e.currentTarget.value })
