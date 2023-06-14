@@ -127,20 +127,18 @@ const useTestCasesTable = (prop) => {
 
   const initBulkMove = () => {
     dispatch(
-      logEventHelper('TM_TcBulkMoveBtnClicked', {
-        project_id: projectId,
-        testcase_id: bulkSelection?.ids
-      })
-    );
-    closeTCDetailsSlide();
-    if (isSearchFilterView) {
-      dispatch(
-        logEventHelper('TM_TcBulkMoveBtnClickedSearchFilter', {
+      logEventHelper(
+        isSearchFilterView
+          ? 'TM_TcBulkMoveBtnClickedSearchFilter'
+          : 'TM_TcBulkMoveBtnClicked',
+        {
           project_id: projectId,
           testcase_id: bulkSelection?.ids
-        })
-      );
-    }
+        }
+      )
+    );
+    closeTCDetailsSlide();
+
     setshowMoveModal(true);
   };
 
