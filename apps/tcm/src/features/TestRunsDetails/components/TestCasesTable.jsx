@@ -59,6 +59,7 @@ const TestCasesTable = () => {
           onKeyDown={handleTestCaseViewClick(rowData, 'ID')}
         >
           <TMTruncateText
+            ignoreClickAndWrapText
             truncateUsingClamp={false}
             hidetooltipTriggerIcon
             isFullWidthTooltip
@@ -92,6 +93,7 @@ const TestCasesTable = () => {
           onKeyDown={handleTestCaseViewClick(rowData, 'Title')}
         >
           <TMTruncateText
+            ignoreClickAndWrapText
             truncateUsingClamp={false}
             hidetooltipTriggerIcon
             isFullWidthTooltip

@@ -8,6 +8,10 @@ export const getBuildPath = (
   `/projects/${projectNormalisedName}/builds/${normalisedName}/${buildNumber}`;
 export const getSuitHealthPath = (projectNormalisedName) =>
   `/projects/${projectNormalisedName}/suite_health`;
+export const getSuitHealthTestsPath = (projectNormalisedName) =>
+  `/projects/${projectNormalisedName}/suite_health/tests`;
+export const getSuitHealthUniqueErrorsPath = (projectNormalisedName) =>
+  `/projects/${projectNormalisedName}/suite_health/unique_errors`;
 export const getTestingTrendPath = (projectNormalisedName) =>
   `/projects/${projectNormalisedName}/testing_trends`;
 

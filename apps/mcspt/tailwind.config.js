@@ -9,8 +9,8 @@ const mcsptTailwindConfig = {
 
 mcsptTailwindConfig.content = [
   'src/**/*.{js,jsx}',
-  '../../packages/bifrost/modules/**/*.{js,jsx}',
-  '../../packages/mcp-shared/features/**/*.{js,jsx}'
+  '../../packages/mcp-shared/features/**/*.{js,jsx}',
+  'node_modules/@browserstack/bifrost/dist/**/*.{js,jsx}'
 ];
 
 if (IS_DEV) {

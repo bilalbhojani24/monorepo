@@ -86,7 +86,7 @@ const SHTestsFilters = ({ o11ySHTestsInteraction }) => {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <SearchFilterField
           type={ADV_FILTER_TYPES.search.key}
           id="search-by-test-or-file-path"

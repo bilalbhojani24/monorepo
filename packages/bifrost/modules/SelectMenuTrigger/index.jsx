@@ -28,7 +28,7 @@ const SelectMenuTrigger = forwardRef(
           className={twClassNames(
             'border-base-300 focus:ring-brand-500 focus:border-brand-500 relative w-full rounded-md border bg-white py-2 pl-3 pr-7 text-left shadow-sm focus:ring-1 sm:text-sm cursor-pointer text-sm leading-6',
             {
-              'border-danger-600': errorText,
+              'border-danger-300': errorText,
               'pr-14': isMulti && showCount,
               'cursor-not-allowed border-base-200 bg-base-50 text-base-500':
                 disabled

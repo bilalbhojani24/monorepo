@@ -25,6 +25,7 @@ const TestCaseMutliData = ({
   testRunName
 }) => {
   const {
+    testResultsArray,
     testRunsCount,
     selectedTab,
     projectId,
@@ -125,7 +126,11 @@ const TestCaseMutliData = ({
           ...item,
           count:
             item.name === 'Results'
-              ? `${isFromTestRun ? '' : testRunsCount || ''}`
+              ? `${
+                  isFromTestRun
+                    ? testResultsArray?.length || ''
+                    : testRunsCount || ''
+                }`
               : `${testCaseIssues?.length || ''}`
         }))}
         onTabChange={(data) => handleTabChange(data, isFromTestRun, testRunId)}

@@ -185,13 +185,6 @@ export const NOTIFICATION_TYPES = {
 
 export const ISO_DATE_FORMAT = 'yyyy-MM-dd';
 
-export const TEST_LIST_FILTERS_TAGS = {
-  isAlwaysFailing: 'isAlwaysFailing',
-  isPerformanceAnomaly: 'isPerformanceAnomaly',
-  flaky: 'flaky',
-  isNewFailure: 'isNewFailure'
-};
-
 // custom history object to allow navigation outside react components
 export const o11yHistory = {
   navigate: null,

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
 
@@ -22,7 +23,7 @@ export default function NewFailures() {
 
   const handleFilterRedirect = () => {
     logInsightsInteractionEvent({ interaction: 'new_failures_clicked' });
-    applyTestListFilter({ query: `history=isNewFailure` });
+    applyTestListFilter({ query: `${ADV_FILTER_TYPES.isNewFailure.key}=true` });
   };
   return (
     <WidgetLayoutCard

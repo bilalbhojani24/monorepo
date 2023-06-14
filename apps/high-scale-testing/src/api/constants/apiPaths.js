@@ -1,3 +1,5 @@
+const FETCH_CLUSTER_PATH = '/cluster';
+
 const EVENT_LOGS = '/event-logs';
 const GRID = '/grid';
 
@@ -14,6 +16,7 @@ const SSO_PATH = '/auth/start-sso';
 
 export {
   CREATE_GRID_EVENT_LOGS_DATA_PATH,
+  FETCH_CLUSTER_PATH,
   FETCH_CLUSTERS_PATH,
   FETCH_GRID_PROFILES_DATA_PATH,
   FETCH_GRIDS_PATH,
