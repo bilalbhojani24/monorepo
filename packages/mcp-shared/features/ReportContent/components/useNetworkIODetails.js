@@ -51,7 +51,7 @@ const generateNetworkIOChartOptions = (sessionData, chartGridClicked) => {
 
   chartOptions.series = [
     {
-      name: 'Network Read',
+      name: 'Data Upload',
       color: '#65A30D',
       marker: {
         enabled: false
@@ -59,7 +59,7 @@ const generateNetworkIOChartOptions = (sessionData, chartGridClicked) => {
       data: networkReadTimeSeries
     },
     {
-      name: 'Network Write',
+      name: 'Data Download',
       color: '#E11D48',
       marker: {
         enabled: false

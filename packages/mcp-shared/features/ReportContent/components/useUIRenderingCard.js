@@ -54,7 +54,7 @@ const generateFrameChartOptions = (sessionData, chartGridClicked) => {
 
   chartOptions.series = [
     {
-      name: 'FPS',
+      name: 'Frames Per Second',
       color: '#0284C7',
       marker: {
         enabled: false

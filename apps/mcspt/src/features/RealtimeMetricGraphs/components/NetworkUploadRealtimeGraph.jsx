@@ -13,7 +13,7 @@ const NetworkUploadRealtimeGraph = () => {
     <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow ">
       <div className="flex">
         <div className="text-base-500 text-sm font-medium leading-5">
-          Network Upload
+          Data Upload
         </div>
       </div>
 
