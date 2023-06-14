@@ -126,6 +126,12 @@ const useTestCasesTable = (prop) => {
   };
 
   const initBulkMove = () => {
+    dispatch(
+      logEventHelper('TM_TcBulkMoveBtnClicked', {
+        project_id: projectId,
+        testcase_id: bulkSelection?.ids
+      })
+    );
     closeTCDetailsSlide();
     if (isSearchFilterView) {
       dispatch(
@@ -278,6 +284,17 @@ const useTestCasesTable = (prop) => {
   const onDropDownChange = (selectedOption, selectedItem, isFromTable) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
       // edit
+      dispatch(
+        logEventHelper(
+          isFromTable
+            ? 'TM_EditTcLinkClickedTcList'
+            : 'TM_EditTcLinkClickedTcDetails',
+          {
+            project_id: projectId,
+            testcase_id: selectedItem?.id
+          }
+        )
+      );
       const formattedData = formDataRetriever(tagsArray, selectedItem);
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
