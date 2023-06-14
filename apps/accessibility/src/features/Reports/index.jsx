@@ -46,7 +46,9 @@ export default function Reports() {
     onReportConsolidateButtonClick,
     handleClose,
     showBanner,
-    showColdStart
+    showColdStart,
+    handleScroll,
+    scrollRef
   } = useReports();
 
   const activeReportsType = selectedReportType.map(({ value }) => value);
@@ -240,6 +242,7 @@ export default function Reports() {
       </div>
       {!showColdStart ? (
         <div
+          ref={scrollRef}
           className="fixed overflow-auto"
           style={{
             height: showBanner ? 'calc(100vh - 291px)' : 'calc(100vh - 227px)',

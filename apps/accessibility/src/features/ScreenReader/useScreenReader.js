@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import fetchScreenReaderDevices, {
-  fetchMockData
-} from 'api/fetchScreenReaderDevices';
+import fetchScreenReaderDevices from 'api/fetchScreenReaderDevices';
 import {
   TRIAL_EXPIRED,
   TRIAL_IN_PROGRESS,
@@ -18,6 +16,7 @@ import {
 import { getBrowserStackEnvUrl } from 'utils';
 
 import { setModalName, setModalShow } from '../Dashboard/slices/appSlice';
+import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
 
 export default function useScreenReader(noOfDevices) {
   const showBanner = useSelector(getShowBanner);
@@ -58,8 +57,11 @@ export default function useScreenReader(noOfDevices) {
   };
 
   useEffect(() => {
-    // fetchScreenReaderDevices().then(setDeviceCombinations);
-    fetchMockData().then(setDeviceCombinations);
+    fetchScreenReaderDevices().then(setDeviceCombinations);
+  }, []);
+
+  useEffect(() => {
+    dispatch(setShowFreshChatButton(true));
   }, []);
 
   return {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
@@ -11,6 +11,8 @@ import {
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
 import { logEvent } from 'utils/logEvent';
+
+import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
 
 import {
   resetReportSelection,
@@ -45,6 +47,16 @@ export default function useReports() {
   const showBanner = useSelector(getShowBanner);
   const [isLoading, setIsLoading] = useState(false);
   const [showColdStart, setShowColdStart] = useState(false);
+  const scrollRef = useRef(null);
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight } = scrollRef.current;
+    if (scrollTop + clientHeight >= 1204) {
+      dispatch(setShowFreshChatButton(false));
+    } else {
+      dispatch(setShowFreshChatButton(true));
+    }
+  };
 
   const handleClose = ({ action }) => {
     setIsOpen(false);
@@ -97,6 +109,10 @@ export default function useReports() {
       setShowColdStart(response.length === 0);
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setShowFreshChatButton(true));
+  }, []);
 
   const onVersionSelect = (id) => {
     if (id !== activeVersion) {
@@ -185,6 +201,8 @@ export default function useReports() {
     onReportConsolidateButtonClick,
     onVersionSelect,
     handleClose,
-    showColdStart
+    showColdStart,
+    scrollRef,
+    handleScroll
   };
 }

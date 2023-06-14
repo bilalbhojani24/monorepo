@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
 import { updateSettings } from 'api/index';
+import { AGGridSettingsSaved } from 'constants/event-names';
 import { getGridData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
+import { logHSTEvent } from 'utils/logger';
 
 const useTestArtifacts = (notifactionComponent) => {
   // All Store variables:
@@ -38,11 +40,14 @@ const useTestArtifacts = (notifactionComponent) => {
   };
 
   const logsRetentionChangeHandler = (e) => {
-    setLogsRetentionValue(e.target.value);
+    setLogsRetentionValue(parseInt(e.target.value));
     setIsSaveButtonDisabled(false);
   };
 
   const saveBtnClickhandler = () => {
+    logHSTEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
+      tab_selected: 'general'
+    });
     setIsSavingInProgress(true);
     const settingsObj = {
       testArtifacts: {

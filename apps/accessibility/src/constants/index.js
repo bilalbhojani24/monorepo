@@ -4,6 +4,9 @@ import Star from 'assets/star.svg';
 
 export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
+export const SENTRY_DSN =
+  'https://7e1fb28d5ba94c13aace08eefcf2605c@o70254.ingest.sentry.io/4505328609525760';
+export const PROD_API_URL = 'https://www.browserstack.com/accessibility/api';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const CHROME_EXTENSION_URL =
   'https://chrome.google.com/webstore/detail/accessibility-toolkit/fmkhjeeeojocenbconhndpiohohajokn';
@@ -27,7 +30,6 @@ export const EDSKey = 'accessibility_dashboard_web_events';
 export const ENVS = {
   STAGING: 'STAGING',
   PRODUCTION: 'PRODUCTION',
-  DEVELOPMENT: 'DEVELOPMENT',
   LOCAL: 'LOCAL'
 };
 
@@ -309,4 +311,21 @@ export const getAlertDetails = {
     title: 'Upgrade to Team plan to use screen readers',
     detailsNode: BUY_PLAN
   }
+export const sentryConfig = {
+  dsn: SENTRY_DSN,
+  debug: false,
+  release: 'v0.1-a11y',
+  environment: 'production',
+  tracesSampleRate: 1.0,
+  denyUrls: [
+    // Ignoring errors getting generated from Chrome extensions as these are not to be logged under our sentry env.
+    /extensions\//i,
+    /^chrome:\/\//i,
+    /extension:\//i,
+    // Ignoring VWO related errors as there is no specific library upgrade which can resolve the errors.
+    // Also the errors we are getting are more or less specfic to some of the users.
+    /https:\/\/dev.visualwebsiteoptimizer.com\/.*/gi,
+    // Ignore errors getting raised from freshchat widget related code.
+    /https:\/\/wchat.freshchat.com\/.*/gi
+  ]
 };

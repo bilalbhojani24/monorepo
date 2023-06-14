@@ -11,6 +11,8 @@ import {
   SkipToContent
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import Logo from 'assets/accessibility_logo.png';
+import FreshchatIntegration from 'common/FreshchatIntegration';
 import ReverseTrialBannerWrapper from 'common/ReverseTrialBannerWrapper';
 import ReverseTrialModalWrapper from 'common/ReverseTrialModalWrapper';
 import { getUrlForHeader } from 'constants';
@@ -218,6 +220,7 @@ export default function Dashboard({ children }) {
         {children}
       </main>
       <NotificationsContainer />
+      <FreshchatIntegration />
     </div>
   );
 }

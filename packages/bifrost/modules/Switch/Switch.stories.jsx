@@ -167,7 +167,7 @@ const ToggleWithIcons = (args) => {
             )}
             aria-hidden="true"
           >
-            <MdCheck className="h-3 w-3" />
+            <MdCheck className="text-brand-600 h-3 w-3" />
           </span>
         </>
       )}

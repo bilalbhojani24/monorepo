@@ -10,17 +10,23 @@ import {
   MdStar,
   MdTextSnippet
 } from '@browserstack/bifrost';
-import { setStorage } from '@browserstack/utils';
+import {
+  initErrorLogger,
+  setErrorLoggerUserContext,
+  setStorage
+} from '@browserstack/utils';
 import {
   CHROME_EXTENSION_URL,
   events,
+  sentryConfig,
   TRIAL_IN_PROGRESS,
   TRIAL_NOT_STARTED
 } from 'constants';
+import { stagingEnvs } from 'constants/config';
 import { addDays } from 'date-fns';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
-import { defaultPath, getBrowserStackBase } from 'utils';
+import { defaultPath, getBrowserStackBase, getCurrentEnv } from 'utils';
 import {
   buyAcceesibilityPlan,
   countRemainingDays,
@@ -37,11 +43,14 @@ import {
   getUser
 } from '../slices/selectors';
 
+const envConfig = stagingEnvs[getCurrentEnv()];
+
 export default function useDashboard() {
   const mainRef = useRef(null);
   const dispatch = useDispatch();
   const showBanner = useSelector(getShowBanner);
   const isShowingBanner = useSelector(getIsShowingBanner);
+  const user = useSelector(getUser);
   const isFreeUser = useSelector(getIsFreeUser);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
@@ -179,6 +188,18 @@ export default function useDashboard() {
       console.log('EDS already initialize...');
     }
   }, []);
+
+  // init sentry
+  useEffect(() => {
+    const { enableSentry } = envConfig;
+    if (enableSentry && !window.isSentryInitialized) {
+      window.isSentryInitialized = true;
+      initErrorLogger(sentryConfig);
+    }
+    if (user.user_id && window.isSentryInitialized) {
+      setErrorLoggerUserContext(user.user_id);
+    }
+  }, [user.user_id]);
 
   return {
     mainRef,

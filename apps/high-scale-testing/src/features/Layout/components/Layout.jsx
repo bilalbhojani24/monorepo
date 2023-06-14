@@ -8,15 +8,21 @@ import {
   SidebarNavigation,
   UsersIcon
 } from '@browserstack/bifrost';
+import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import HSTHeader from 'features/HSTHeader/component';
+import { getEnvConfig } from 'utils/common';
+import { logHSTEvent } from 'utils/logger';
 
 const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { docHomeURL } = getEnvConfig();
+
   const primaryNavs = [
     {
-      id: 'dashboard',
+      id: 'grid-console',
       label: 'Automation Console',
       activeIcon: HomeIcon,
       inActiveIcon: HomeIcon,
@@ -24,7 +30,7 @@ const Layout = () => {
       pattern: `${ROUTES.GRID_CONSOLE}/*`
     },
     {
-      id: 'team',
+      id: 'builds-dashboard',
       label: 'Builds Dashboard',
       activeIcon: UsersIcon,
       inActiveIcon: UsersIcon,
@@ -39,7 +45,7 @@ const Layout = () => {
       label: 'Documentation',
       activeIcon: MdOutlineTextSnippet,
       inActiveIcon: MdOutlineTextSnippet,
-      path: '/'
+      path: 'https://www.browserstack.com/docs/automation-grid'
     }
   ];
 
@@ -49,8 +55,26 @@ const Layout = () => {
   );
 
   const navigationClickHandler = (item) => {
-    const { path } = item;
-    navigate(path);
+    if (item.id === 'builds-dashboard') {
+      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+        action: 'builddashboard_clicked',
+        currentPath: location.pathname
+      });
+      window.location.href = item.path;
+    } else if (item.id === 'grid-console') {
+      const { path } = item;
+      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+        action: 'gridconsole_clicked',
+        currentPath: location.pathname
+      });
+      navigate(path);
+    } else if (item.id === 'documentation') {
+      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+        action: 'viewdoc_clicked',
+        currentPath: location.pathname
+      });
+      window.location.href = docHomeURL;
+    }
   };
 
   return (
@@ -73,7 +97,10 @@ const Layout = () => {
               />
             ))}
             sidebarSecondaryNavigation={secondaryNavs.map((item) => (
-              <SidebarItem nav={item} />
+              <SidebarItem
+                nav={item}
+                handleNavigationClick={navigationClickHandler}
+              />
             ))}
             wrapperClassName="md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full"
           />

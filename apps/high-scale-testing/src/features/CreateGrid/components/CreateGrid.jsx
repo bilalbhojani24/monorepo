@@ -24,6 +24,7 @@ import {
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger,
+  Steps,
   Tabs
 } from '@browserstack/bifrost';
 import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
@@ -35,7 +36,6 @@ import {
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import EventLogs from 'features/Onboarding/components/EventLogs';
 import SetupStatus from 'features/Onboarding/components/SetupStatus';
-import SideStepperCircleWithText from 'features/SideStepper/components';
 
 import useCreateGrid from './useCreateGrid';
 
@@ -143,19 +143,19 @@ const CreateGrid = () => {
     />
   );
 
-  const DomainInputComponent = (
-    <InputField
-      addOnBefore={<InputGroupAddOn>https://</InputGroupAddOn>}
-      id="test-id"
-      label="Domain"
-      onBlur={null}
-      onChange={null}
-      onFocus={null}
-      onKeyDown={null}
-      placeholder="www.hst.browserstack.com"
-      disabled={!showSetupClusterModal}
-    />
-  );
+  // const DomainInputComponent = (
+  //   <InputField
+  //     addOnBefore={<InputGroupAddOn>https://</InputGroupAddOn>}
+  //     id="test-id"
+  //     label="Domain"
+  //     onBlur={null}
+  //     onChange={null}
+  //     onFocus={null}
+  //     onKeyDown={null}
+  //     placeholder="www.hst.browserstack.com"
+  //     disabled={!showSetupClusterModal}
+  //   />
+  // );
 
   const InstanceTypeInputComponent = (
     <ComboBox
@@ -231,9 +231,6 @@ const CreateGrid = () => {
           name: GRID_MANAGER_NAMES.helm
         },
         {
-          name: GRID_MANAGER_NAMES.kubectl
-        },
-        {
           name: GRID_MANAGER_NAMES.cli
         }
       ]}
@@ -272,7 +269,7 @@ const CreateGrid = () => {
       {type === CREATE_GRID_TYPES.helmKubeCTL && (
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
         <div className="border-base-300 m-6 h-[calc(100vh-64px-104px-48px-62px)] overflow-auto rounded-lg border bg-white p-6">
-          <p className="text-base-900 font-semibold">Grid Setup</p>
+          <p className="text-base-900 text-sm font-semibold">Grid Setup</p>
           <p className="text-base-900 mt-1 text-sm">
             Execute the below commands to initialise grid creation.
           </p>
@@ -301,14 +298,18 @@ const CreateGrid = () => {
 
       {type === CREATE_GRID_TYPES.cli && (
         <div className="flex">
-          <SideStepperCircleWithText
-            format="bullets-and-text"
-            label="label"
-            onClick={stepperClickHandler}
-            steps={stepperStepsState}
-          />
+          <div className="">
+            <Steps
+              format="circles-with-text"
+              label="label"
+              onClick={stepperClickHandler}
+              steps={stepperStepsState}
+              wrapperClassName="m-6 w-64"
+            />
+          </div>
+
           <div className="w-full">
-            <div className="border-base-300 m-6 rounded-lg border bg-white ">
+            <div className="border-base-300 my-6 mr-6 rounded-lg border bg-white ">
               {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
               <div className="h-[calc(100vh-64px-104px-48px-62px)] overflow-auto p-6">
                 {/* Setup Grid and Cluster */}
@@ -316,15 +317,15 @@ const CreateGrid = () => {
                   <div>
                     {/* Choose Grid Profile */}
                     <>
-                      <p className="text-base-900 text-sm font-medium">
+                      <p className="text-base-900 text-sm font-semibold">
                         Choose Grid Profile
                       </p>
-                      <p className="text-base-500 text-sm">
+                      <p className="text-base-500 mt-1 text-sm">
                         Use previously saved profiles to configure Grid settings
                         with pre-filled values.
                       </p>
 
-                      <div className="mb-6 mt-3 w-1/2">
+                      <div className="mb-8 mt-3 w-1/2">
                         <SelectMenu
                           onChange={(val) => setSelectedGridProfile(val)}
                           value={selectedGridProfile}
@@ -349,12 +350,12 @@ const CreateGrid = () => {
                         <p className="text-base-900 text-sm font-medium">
                           Choose Cloud Provider
                         </p>
-                        <p className="text-base-500  text-sm font-normal">
+                        <p className="text-base-500  mt-1 text-sm font-normal">
                           Currently we support only AWS but GCP and Azure will
                           be supported soon.
                         </p>
 
-                        <div className="my-3">
+                        <div className="mb-8 mt-3">
                           <RadioGroup
                             onChange={(e, option) => {
                               const newOption =
@@ -373,17 +374,17 @@ const CreateGrid = () => {
                     {/* --- X --- Choose Cloud Provider --- X --- */}
 
                     {/* Configure Grid Profile */}
-                    <div className="mt-6">
+                    <div className="">
                       <p className="text-base-900 text-sm font-medium">
                         Configure Grid Profile
                       </p>
-                      <p className="text-base-500 text-sm font-normal">
+                      <p className="text-base-500 mt-1 text-sm font-normal">
                         The current settings are based on the default grid
                         profile. You can make the changes and save it as a new
                         profile.
                       </p>
 
-                      <div className="mt-4 flex gap-4">
+                      <div className="mt-3 flex gap-4">
                         <div className="w-1/2">
                           <InputField
                             id="test-id"
@@ -413,7 +414,7 @@ const CreateGrid = () => {
                       </div>
 
                       {/* Advanced Settings */}
-                      <div className="mt-6">
+                      <div className="mt-5">
                         <Accordion>
                           <Button
                             colors="white"
@@ -439,29 +440,35 @@ const CreateGrid = () => {
                           />
                           <AccordionPanel controller={opened}>
                             <div className="my-2 h-16 items-center justify-center p-2">
-                              <div className="mt-4 flex items-end gap-4">
+                              <div className="mt-1 flex items-end gap-4">
                                 <div className="w-1/2">
                                   {ClusterInputComboBoxComponent}
                                 </div>
-                                <div>
-                                  <Button
-                                    colors="white"
-                                    icon={<MdOutlineModeEditOutline />}
-                                    iconPlacement="start"
-                                    onClick={editClusterBtnClickHandler}
-                                  >
-                                    Edit Cluster Details
-                                  </Button>
-                                </div>
-                                <div>
-                                  <Button
-                                    colors="white"
-                                    icon={<MdAdd />}
-                                    iconPlacement="start"
-                                    onClick={setupNewClusterBtnClickHandler}
-                                  >
-                                    Setup New Cluster
-                                  </Button>
+                                <div className="flex gap-8 w-1/2">
+                                  <div className="w-1/2">
+                                    <Button
+                                      colors="white"
+                                      fullWidth
+                                      icon={<MdOutlineModeEditOutline />}
+                                      iconPlacement="start"
+                                      onClick={editClusterBtnClickHandler}
+                                      size="default"
+                                    >
+                                      Edit Cluster Details
+                                    </Button>
+                                  </div>
+                                  <div className="w-1/2">
+                                    <Button
+                                      colors="white"
+                                      fullWidth
+                                      icon={<MdAdd />}
+                                      iconPlacement="start"
+                                      onClick={setupNewClusterBtnClickHandler}
+                                      size="default"
+                                    >
+                                      Setup New Cluster
+                                    </Button>
+                                  </div>
                                 </div>
                               </div>
                               <div className=" mt-4 flex flex-row gap-4">
@@ -481,9 +488,9 @@ const CreateGrid = () => {
                                 </div>
                               </div>
 
-                              <div className="mt-4 w-1/2">
+                              {/* <div className="mt-4 w-1/2">
                                 {DomainInputComponent}
-                              </div>
+                              </div> */}
                             </div>
                           </AccordionPanel>
                         </Accordion>
@@ -522,7 +529,7 @@ const CreateGrid = () => {
                       />
                     </div>
 
-                    <div className="m-4">
+                    <div className="mt-4">
                       <Accordion>
                         <Button
                           colors="white"
@@ -569,13 +576,9 @@ const CreateGrid = () => {
                                   Setup CLI with AWS credentials.
                                 </p>
                                 <CodeSnippet
-                                  code="/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
-                              export BROWSERSTACK_USERNAME=<username>
-                              export BROWSERSTACK_ACCESS_KEY=<accesskey>
-                              
-                              /* Create HST configuration profile with AWS credentials */
-                              browserstack-cli hst init
-                              "
+                                  code={
+                                    CODE_SNIPPETS_SCRATCH['create-grid'].b.code
+                                  }
                                   language="node"
                                   showLineNumbers={false}
                                   singleLine={false}
@@ -606,11 +609,11 @@ const CreateGrid = () => {
                         <div className="w-1/2">
                           {InstanceTypeInputComponent}
                         </div>
-                        <div className="w-1/2">{DomainInputComponent}</div>
+                        {/* <div className="w-1/2">{DomainInputComponent}</div> */}
+                        <div className="w-1/2">{VPCInputComponent}</div>
                       </div>
                       <div className="mt-4 flex gap-4">
-                        <div className="w-1/2">{VPCInputComponent}</div>
-                        <div className="w-1/2">{SubnetsInputComponent}</div>
+                        <div className="w-full">{SubnetsInputComponent}</div>
                       </div>
                     </div>
                     <div className="flex flex-row-reverse">

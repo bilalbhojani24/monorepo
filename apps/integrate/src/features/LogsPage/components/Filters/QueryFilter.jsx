@@ -24,6 +24,7 @@ const QueryFilter = ({ filters, setFilters, filterKey }) => {
   return (
     <INTGInputField
       value={inputValue}
+      id="search-by-url-input"
       onChange={handleChange}
       wrapperClassName="bg-white w-80 rounded-md z-0"
       placeholder="Search by URL"

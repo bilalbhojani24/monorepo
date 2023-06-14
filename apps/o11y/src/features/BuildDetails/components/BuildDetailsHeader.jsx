@@ -30,8 +30,13 @@ import StatusBadges from 'common/StatusBadges';
 import VCIcon from 'common/VCIcon';
 import ViewMetaPopOver from 'common/ViewMetaPopOver';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import {
+  ADV_FILTER_OPERATIONS,
+  ADV_FILTER_TYPES,
+  FILTER_OPERATION_TYPE
+} from 'features/FilterSkeleton/constants';
+import { setAppliedFilter } from 'features/FilterSkeleton/slices/filterSlice';
 import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
-import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
 import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
@@ -40,8 +45,8 @@ import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { TABS } from '../constants';
 import {
-  clearBuildMeta,
   getBuildMetaData,
+  resetBuildMeta,
   setActiveTab
 } from '../slices/buildDetailsSlice';
 import {
@@ -89,7 +94,7 @@ function BuildDetailsHeader({
       dispatch(getBuildMetaData({ buildUUID }));
     }
     return () => {
-      dispatch(clearBuildMeta());
+      dispatch(resetBuildMeta());
     };
   }, [buildUUID, dispatch]);
 
@@ -119,8 +124,13 @@ function BuildDetailsHeader({
     if (searchParams.get('tab') === 'tests') {
       // apply directly
       dispatch(
-        setAppliedFilters({
-          status: [itemClicked]
+        setAppliedFilter({
+          type: ADV_FILTER_TYPES.status.key,
+          id: `${ADV_FILTER_TYPES.status.key}:${itemClicked}`,
+          text: itemClicked,
+          value: itemClicked,
+          operationType: FILTER_OPERATION_TYPE.ADD_OPERATION,
+          customOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE
         })
       );
     } else {

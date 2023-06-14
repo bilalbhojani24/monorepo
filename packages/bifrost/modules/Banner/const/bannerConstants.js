@@ -9,7 +9,7 @@ export const classes = {
     iconBackgroundColor: 'bg-brand-800'
   },
   success: {
-    containerColor: 'bg-success-600',
+    containerColor: 'bg-success-700',
     iconBackgroundColor: 'bg-success-800'
   },
   attention: {
