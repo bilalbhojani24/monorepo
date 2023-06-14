@@ -11,7 +11,6 @@ import {
   SkipToContent
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import Logo from 'assets/accessibility_logo.png';
 import FreshchatIntegration from 'common/FreshchatIntegration';
 import ReverseTrialBannerWrapper from 'common/ReverseTrialBannerWrapper';
 import ReverseTrialModalWrapper from 'common/ReverseTrialModalWrapper';
@@ -106,7 +105,7 @@ export default function Dashboard({ children }) {
           }
           title={
             remainingDays === 0
-              ? 'Your team freen trial is over'
+              ? 'Your team free trial is over'
               : 'Your Team free trial is active'
           }
         />

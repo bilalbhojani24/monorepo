@@ -21,7 +21,7 @@ export default function ReverseTrialModalWrapper() {
     getModalDetails[modalName];
 
   return (
-    <Modal wrapperClassName="py-3" show={showModal} size="lg">
+    <Modal wrapperClassName="py-3 min-h-[568px]" show={showModal} size="lg">
       <ModalHeader
         dismissButton
         heading={heading}
