@@ -60,7 +60,7 @@ const useOnboarding = () => {
   };
 
   const HEADER_TEXTS_OBJECT = {
-    intro: `Hey ${userDetails.fullname}, Welcome to ${PRODUCT_NAME_ACTUAL}`,
+    intro: `Hey ${userDetails.fullname}, Welcome to Automate TurboScale`,
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };
@@ -133,7 +133,7 @@ const useOnboarding = () => {
     selenium: null,
     playwright: null
   });
-
+  const [newGridName, setNewGridName] = useState(null);
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
   const [showEventLogsModal, setShowEventLogsModal] = useState(true);
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
@@ -441,6 +441,7 @@ const useOnboarding = () => {
     setEventLogsCode(res.currentLogs);
     setCurrentStep(res.currentStep);
     setTotalSteps(res.totalSteps);
+    setNewGridName(res.gridName);
 
     if (
       step === 0 &&
@@ -527,6 +528,7 @@ const useOnboarding = () => {
     isSetupComplete,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
+    newGridName,
     onboardingStep,
     onboardingType,
     selectedOption,

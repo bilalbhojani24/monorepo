@@ -63,6 +63,7 @@ const Onboarding = () => {
     isSetupComplete,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
+    newGridName,
     onboardingStep,
     onboardingType,
     selectedRegion,
@@ -481,7 +482,7 @@ const Onboarding = () => {
               <div>
                 <img src={LoaderGif} alt="" width={20} height={20} />
               </div>
-              ‘high-scale-grid’ grid creation is in progress...
+              ‘{newGridName}’ grid creation is in progress...
             </div>
             <Button colors="white" onClick={viewEventLogsClickHandler}>
               View Event Logs
