@@ -69,7 +69,7 @@ const BuildRow = ({ buildData }) => (
           )}
           {buildData?.historyAggregate?.isFlaky && (
             <PropagationBlocker className="inline">
-              <O11yBadge text="Flaky" isRounded={false} modifier="warn" />
+              <O11yBadge text="Flaky" modifier="warn" />
             </PropagationBlocker>
           )}
         </div>
