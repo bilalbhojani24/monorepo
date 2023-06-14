@@ -311,6 +311,8 @@ export const getAlertDetails = {
     title: 'Upgrade to Team plan to use screen readers',
     detailsNode: BUY_PLAN
   }
+};
+
 export const sentryConfig = {
   dsn: SENTRY_DSN,
   debug: false,
