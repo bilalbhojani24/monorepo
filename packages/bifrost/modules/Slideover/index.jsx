@@ -47,7 +47,7 @@ const Slideover = React.forwardRef((props) => {
     if (show) {
       if (initialFocusRef && initialFocusRef.current) {
         setTimeout(() => {
-          initialFocusRef.current.focus();
+          initialFocusRef.current?.focus();
         }, 0);
       } else {
         const containerNode = containerRef.current;
