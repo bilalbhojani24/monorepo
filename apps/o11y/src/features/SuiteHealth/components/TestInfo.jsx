@@ -6,7 +6,6 @@ import { O11yHyperlink } from 'common/bifrostProxy';
 import { JiraTagList } from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
 import ScopeLine from 'common/ScopeLine';
-import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
 export default function TestInfo({ testDetails }) {
@@ -16,10 +15,10 @@ export default function TestInfo({ testDetails }) {
         <span className="text-base-900 break-words text-sm">
           {testDetails?.title}
         </span>
-        {!isEmpty(testDetails?.jiraUrl) && (
+        {Array.isArray(testDetails?.jiraDetails) && (
           <PropagationBlocker className="inline">
             <JiraTagList
-              list={testDetails.jiraUrl}
+              list={testDetails.jiraDetails}
               wrapperClassName="text-sm"
             />
           </PropagationBlocker>

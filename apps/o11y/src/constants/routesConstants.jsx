@@ -136,6 +136,13 @@ export const APP_ROUTES = [
         component: <Settings />,
         children: [
           {
+            path: ROUTES.settings,
+            isProtected: true,
+            component: (
+              <Navigate to={ROUTES.settings_general} replace relative="path" />
+            )
+          },
+          {
             path: ROUTES.settings_general,
             isProtected: true,
             component: <GeneralSettings />

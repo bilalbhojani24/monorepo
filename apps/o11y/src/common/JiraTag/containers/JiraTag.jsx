@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 
 const generatedIssueName = (url) => url?.split('/')?.pop();
 
-function JiraTag({ jiraUrl, status, tagClickCb, wrapperClassName }) {
+function JiraTag({ url, status, tagClickCb, wrapperClassName }) {
   const handleJiraLinkClick = () => {
-    if (!jiraUrl) return;
-    window.open(jiraUrl, '_blank', 'noopener,noreferrer');
+    if (!url) return;
+    window.open(url, '_blank', 'noopener,noreferrer');
     tagClickCb();
   };
   return (
@@ -22,7 +22,7 @@ function JiraTag({ jiraUrl, status, tagClickCb, wrapperClassName }) {
       >
         <span className="flex items-center gap-1">
           <JiraIcon className="h-4 w-4" />
-          {generatedIssueName(jiraUrl)}
+          {generatedIssueName(url)}
           {status && (
             <O11yBadge
               hasRemoveButton={false}
@@ -39,7 +39,7 @@ function JiraTag({ jiraUrl, status, tagClickCb, wrapperClassName }) {
 }
 
 JiraTag.propTypes = {
-  jiraUrl: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
   wrapperClassName: PropTypes.string,
   tagClickCb: PropTypes.func,
   status: PropTypes.string

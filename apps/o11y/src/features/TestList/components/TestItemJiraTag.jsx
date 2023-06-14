@@ -3,19 +3,18 @@ import { JiraTagList } from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
 import { singleItemTestDetails } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
-import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 
 export default function TestItemJiraTag({ details }) {
-  const { id, jiraUrl } = details;
+  const { id, jiraDetails } = details;
   const [jiraUrlList, setJiraUrlList] = useState([]);
   const { o11yTestListingInteraction } = useContext(TestListContext);
 
   useEffect(() => {
-    if (!isEmpty(jiraUrl)) {
-      setJiraUrlList(jiraUrl);
+    if (Array.isArray(jiraDetails)) {
+      setJiraUrlList(jiraDetails);
     }
-  }, [jiraUrl]);
+  }, [jiraDetails]);
 
   useEffect(() => {
     const unSubscribe = window.pubSub.subscribe(
@@ -37,7 +36,7 @@ export default function TestItemJiraTag({ details }) {
     };
   }, [id]);
 
-  if (isEmpty(jiraUrlList)) {
+  if (!jiraUrlList?.length) {
     return null;
   }
 

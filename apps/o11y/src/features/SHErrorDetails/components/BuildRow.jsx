@@ -58,13 +58,14 @@ const BuildRow = ({ buildData }) => (
         BUILDS_HEADER_COLUMN_STYLE_MAPPING.tags.defaultClass
       )}
     >
-      {!buildData.jiraUrl && !buildData?.historyAggregate?.isFlaky ? (
+      {!Array.isArray(buildData?.jiraDetails) &&
+      !buildData?.historyAggregate?.isFlaky ? (
         <span>-</span>
       ) : (
         <div className="flex flex-wrap gap-1">
-          {Array.isArray(buildData?.jiraUrl) && (
+          {Array.isArray(buildData?.jiraDetails) && (
             <PropagationBlocker className="inline">
-              <JiraTagList list={buildData.jiraUrl || []} showInToolTip />
+              <JiraTagList list={buildData.jiraDetails || []} showInToolTip />
             </PropagationBlocker>
           )}
           {buildData?.historyAggregate?.isFlaky && (

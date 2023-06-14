@@ -21,7 +21,7 @@ function JiraTagList({
   if (list?.length === 1 && !showInToolTip) {
     return (
       <JiraTag
-        jiraUrl={list[0]?.url}
+        url={list[0]?.url}
         iconOnly={iconOnly}
         tagClickCb={tagClickCb}
         status={list[0]?.status}
@@ -36,7 +36,7 @@ function JiraTagList({
           {list.map((jira) => (
             <JiraTag
               key={jira.url}
-              jiraUrl={jira.url}
+              url={jira.url}
               tagClickCb={tagClickCb}
               status={jira.status}
             />
