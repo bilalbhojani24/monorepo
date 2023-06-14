@@ -46,7 +46,7 @@ const getChartOptions = (handleTooltipData) => ({
       point: {
         events: {
           mouseOver(e) {
-            const { tooltipPos, options } = e.target;
+            const { drillDownData, tooltipPos, options } = e.target;
 
             const seriesData = this.series.chart.series.map((res) => ({
               ...res,
@@ -60,6 +60,7 @@ const getChartOptions = (handleTooltipData) => ({
               options: [...seriesData],
               header: options.name,
               show: true,
+              drillDownData,
               styles: {
                 top: tooltipPos[1],
                 left: tooltipPos[0],
@@ -74,13 +75,14 @@ const getChartOptions = (handleTooltipData) => ({
   }
 });
 
-const getPreparedChartData = (data = []) => {
+const getPreparedChartData = (data = [], drillDownData) => {
   const chartData = [];
   data?.forEach((item) => {
     chartData.push({
       ...item,
       y: item.value,
-      sliced: true
+      sliced: true,
+      drillDownData
     });
   });
   return chartData;
@@ -184,7 +186,11 @@ export default function CbtTrends() {
           slicedOffset: 0,
           innerSize: '98%',
           ignoreHiddenPoint: false,
-          data: getPreparedChartData(chartData?.data || [])
+          data: getPreparedChartData(
+            chartData?.data || [],
+            chartData?.drillDownData
+          ),
+          drillDownData: chartData.drillDownData
         }
       ],
       drilldown: {
@@ -196,7 +202,8 @@ export default function CbtTrends() {
           slicedOffset: 0,
           innerSize: '98%',
           ignoreHiddenPoint: false,
-          data: getPreparedChartData(item?.data || [])
+          data: getPreparedChartData(item?.data || []),
+          drillDownData: item.drillDownData
         }))
       }
     }),

@@ -255,6 +255,7 @@ export default function PerformanceGraph({ buildName }) {
                   tooltipData={tooltipData.options || []}
                   activeProject={projects.active}
                   filters={filters}
+                  buildName={buildName}
                 />
               }
             >

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-this-in-sfc */
 import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { O11yTooltip } from 'common/bifrostProxy';
@@ -21,7 +20,8 @@ export default function TrendsGenericChart({
   data,
   config,
   chartType,
-  seriesOptions
+  seriesOptions,
+  buildName
 }) {
   const { afterSetExtremes } = useChartActions(config?.analyticsKey || '');
   const filters = useSelector(getAllTTFilters);
@@ -95,7 +95,8 @@ export default function TrendsGenericChart({
                     left: plotX + plotBox.x - spacingBox.x,
                     width: 16,
                     height: 16
-                  }
+                  },
+                  buildName
                 });
               }
             }
@@ -138,7 +139,18 @@ export default function TrendsGenericChart({
       });
     }
     return chartOptions;
-  }, [chartData, chartType, config, data, handleTooltipData, seriesOptions]);
+  }, [
+    buildName,
+    chartData,
+    chartType,
+    config?.fixedToTwoDigits,
+    config?.hideLegends,
+    config.median,
+    config.showTrendLine,
+    data,
+    handleTooltipData,
+    seriesOptions
+  ]);
 
   return (
     <div className="relative h-full">
@@ -163,6 +175,7 @@ export default function TrendsGenericChart({
               filters={filters}
               id={seriesOptions.id}
               tooltipData={tooltipData.options || []}
+              buildName={buildName}
             />
           }
         >
@@ -197,7 +210,8 @@ TrendsGenericChart.propTypes = {
     id: PropTypes.string,
     name: PropTypes.string
   }).isRequired,
-  chartType: PropTypes.string
+  chartType: PropTypes.string,
+  buildName: PropTypes.string
 };
 
 TrendsGenericChart.defaultProps = {
@@ -210,5 +224,6 @@ TrendsGenericChart.defaultProps = {
     hideLegends: false,
     analyticsKey: '',
     pointClickCb: () => {}
-  }
+  },
+  buildName: ''
 };
