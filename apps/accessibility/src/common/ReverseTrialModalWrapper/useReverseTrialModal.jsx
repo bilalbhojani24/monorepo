@@ -24,6 +24,8 @@ import {
 } from 'features/Dashboard/slices/selectors';
 import { buyAcceesibilityPlan } from 'utils/helper';
 
+import { TRIAL_FAILED, TRIAL_NOT_STARTED } from '../../constants';
+
 export default function useReverseTrialModal() {
   const showModal = useSelector(getModalShow);
   const modalName = useSelector(getModalName);
@@ -74,10 +76,12 @@ export default function useReverseTrialModal() {
 
   const handleModalClose = async () => {
     try {
-      const response = await initAPI();
-      dispatch(setUser(response.data));
-      if (response.data.trial_status === TRIAL_IN_PROGRESS) {
-        trailInProcessNotification();
+      if ([TRIAL_FAILED, TRIAL_NOT_STARTED].includes(trialState)) {
+        const response = await initAPI();
+        dispatch(setUser(response.data));
+        if (response.data.trial_status === TRIAL_IN_PROGRESS) {
+          trailInProcessNotification();
+        }
       }
     } catch (e) {
       console.error(e);

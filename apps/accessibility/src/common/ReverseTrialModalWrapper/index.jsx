@@ -21,7 +21,7 @@ export default function ReverseTrialModalWrapper() {
     getModalDetails[modalName];
 
   return (
-    <Modal wrapperClassName="py-3 min-h-[568px]" show={showModal} size="lg">
+    <Modal wrapperClassName="py-3 min-h-[512px]" show={showModal} size="lg">
       <ModalHeader
         dismissButton
         heading={heading}
@@ -32,9 +32,12 @@ export default function ReverseTrialModalWrapper() {
         <img src={placeholderImage} alt="modal placeholder" />
         <ul className="mt-4">
           {content?.map((item) => (
-            <li className="mb-3 flex items-start gap-3" key={item}>
+            <li className="mb-3 flex items-start gap-3" key={item.key}>
               <img className="mt-[6px]" src={Add} alt="add icon" />
-              <p className="w-[392px] text-sm">{item}</p>
+              <div className="flex gap-1">
+                <p className="text-sm font-bold">{item.key}</p>
+                <p className="text-sm">{item.value}</p>
+              </div>
             </li>
           ))}
         </ul>

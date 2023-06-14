@@ -1,5 +1,6 @@
+import AccessibilityPlaceholderImage from 'assets/accessibility_modal.svg';
 import Announcement from 'assets/announcement.svg';
-import AccessibilityPlaceholderImage from 'assets/free_trial_ui.svg';
+import ScreenReaderPlaceholderImage from 'assets/screen_reader_modal.svg';
 import Star from 'assets/star.svg';
 
 export const BASE_ROUTE = '';
@@ -245,39 +246,63 @@ export const getBannerDetails = (days) => ({
   },
   last_five_days: {
     icon: Announcement,
-    description: `Your Team free trial is ending in ${days} days. Upgrade to continue using premium features.`,
+    description: `Your Team free trial is ending in ${days} days. Purchase the Team plan to continue using premium features.`,
     buttonText: BUY_PLAN,
     color: 'attention'
   },
   expired: {
     icon: Announcement,
     description:
-      'Free trial for Team is over. Upgrade to continue using premium features.',
+      'Free trial for Team plan has expired. Purchase the Team plan to continue using premium features.',
     buttonText: BUY_PLAN,
     color: 'danger'
   }
 });
 
 const modalSubheading =
-  'Try Team plan for free for 14 days. No cards details required.';
+  'Try the Team plan for free and unlock premium features';
 
 const accessibilityModalContent = [
-  'Find advanced issues using Assisted Tests for interactive elements',
-  'Scan 200 pages in one go using Website Scanner and set up unlimited scans to monitor your pages for issues',
-  'Access desktop and mobile screen readers on real devices.',
-  'Extended storage of test reports for up to 180 days'
+  {
+    key: 'Assisted Tests:',
+    value: 'Find advanced issues for interactive elements'
+  },
+  {
+    key: 'Screen Readers:',
+    value: 'Desktop & mobile screen readers on real devices'
+  },
+  {
+    key: 'Website Scanner:',
+    value: 'Upto 200 pages/scan & unlimited monitoring'
+  },
+  {
+    key: 'Data Retention:',
+    value: 'Access reports for up to 180 days'
+  }
 ];
 
 const screenReaderModalContent = [
-  'Access desktop and mobile screen readers on real devices.',
-  'Find advanced issues using Assisted Tests for interactive elements',
-  'Scan 200 pages in one go using Website Scanner and set up unlimited scans to monitor your pages for issues',
-  'Extended storage of test reports for up to 180 days'
+  {
+    key: 'Screen Readers:',
+    value: 'Desktop & mobile screen readers on real devices'
+  },
+  {
+    key: 'Assisted Tests:',
+    value: 'Find advanced issues for interactive elements'
+  },
+  {
+    key: 'Website Scanner:',
+    value: 'Upto 200 pages/scan & unlimited monitoring'
+  },
+  {
+    key: 'Data Retention:',
+    value: 'Access reports for up to 180 days'
+  }
 ];
 
 export const getModalDetails = {
   accessibility: {
-    heading: 'Ready to supercharge your accessibility testing?',
+    heading: 'Let’s supercharge your accessibility testing!',
     subHeading: modalSubheading,
     placeholderImage: AccessibilityPlaceholderImage,
     content: accessibilityModalContent,
@@ -286,14 +311,14 @@ export const getModalDetails = {
   screenReader: {
     heading: 'Upgrade to use screen readers',
     subHeading: modalSubheading,
-    placeholderImage: AccessibilityPlaceholderImage,
+    placeholderImage: ScreenReaderPlaceholderImage,
     content: screenReaderModalContent,
     buttonText: 'Activate 14-day free trial'
   },
   buyPlan: {
     heading: 'Upgrade to use screen readers',
     subHeading: modalSubheading,
-    placeholderImage: AccessibilityPlaceholderImage,
+    placeholderImage: ScreenReaderPlaceholderImage,
     content: screenReaderModalContent,
     buttonText: 'Buy a plan'
   }
@@ -301,7 +326,7 @@ export const getModalDetails = {
 
 export const getAlertDetails = {
   getTrial: {
-    title: 'Upgrade to Team plan to use screen readers',
+    title: 'Screen readers are available with the Team plan',
     detailsNode: 'Get 14-day free trial'
   },
   trialInProcess: {
@@ -309,7 +334,7 @@ export const getAlertDetails = {
     detailsNode: ''
   },
   buyPlan: {
-    title: 'Upgrade to Team plan to use screen readers',
+    title: 'Screen readers are available with the Team plan',
     detailsNode: BUY_PLAN
   }
 };
