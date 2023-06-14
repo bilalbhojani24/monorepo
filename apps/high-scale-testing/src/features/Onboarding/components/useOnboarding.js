@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useInterval, useMountEffect } from '@browserstack/hooks';
-import { logEvent } from '@browserstack/utils';
 import {
   getOnboardingData,
   getOnboardingEventsLogsData,
@@ -14,6 +13,8 @@ import {
   AGEventsLogModalInteracted,
   AGHaveSetupInteracted,
   AGHaveSetupPresented,
+  AGHaveSetupStepsExecuted,
+  AGNoRetrySetupStepsExecuted,
   AGNoSetupInteracted,
   AGNoSetupPresented,
   AGNoSetupStepsExecuted,
@@ -25,11 +26,13 @@ import {
 import {
   EVENT_LOGS_POLLING_IN_MS,
   GRID_MANAGER_NAMES,
+  PRODUCT_NAME_ACTUAL,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
 import { getUserDetails } from 'globalSlice/selector';
+import { logHSTEvent } from 'utils/logger';
 
 const useOnboarding = () => {
   // All Store variables:
@@ -62,7 +65,7 @@ browserstack-cli hst init`,
   };
 
   const HEADER_TEXTS_OBJECT = {
-    intro: `Hey ${userDetails.fullname}, Welcome to Automation Grid`,
+    intro: `Hey ${userDetails.fullname}, Welcome to ${PRODUCT_NAME_ACTUAL}`,
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };
@@ -153,11 +156,11 @@ browserstack-cli hst init`,
   const breadcrumbStepClickHandler = (event, stepData) => {
     if (stepData.name === 'Setup Guide') {
       if (onboardingType === ONBOARDING_TYPES.existing) {
-        logEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
+        logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
           action: 'setupguide_clicked'
         });
       } else if (onboardingType === ONBOARDING_TYPES.scratch) {
-        logEvent(['amplitude'], 'web_events', AGNoSetupPresented, {
+        logHSTEvent(['amplitude'], 'web_events', AGNoSetupPresented, {
           action: 'setupguide_clicked'
         });
       }
@@ -169,14 +172,14 @@ browserstack-cli hst init`,
   };
 
   const closeEventLogsModal = () => {
-    logEvent(['amplitude'], 'web_events', AGEventsLogModalInteracted, {
+    logHSTEvent(['amplitude'], 'web_events', AGEventsLogModalInteracted, {
       action: 'actionbutton_clicked'
     });
     setShowEventLogsModal(false);
   };
 
   const closeSetupStatusModal = () => {
-    logEvent([
+    logHSTEvent([
       'amplitude',
       'web_events',
       AGErrorGridModalInteracted,
@@ -190,7 +193,7 @@ browserstack-cli hst init`,
       (item) => item.id === option
     );
 
-    logEvent([], 'web_events', AGNoSetupStepsExecuted, {
+    logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, {
       action: 'cloudprovider_selected',
       value: option.configName
     });
@@ -198,7 +201,7 @@ browserstack-cli hst init`,
   };
 
   const cloudRegionChangeHandler = (e) => {
-    logEvent([], 'web_events', AGNoSetupStepsExecuted, {
+    logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, {
       action: 'cloudregion_selected',
       option: e.value
     });
@@ -218,13 +221,13 @@ browserstack-cli hst init`,
       eventData.action = 'clioption_clicked';
     }
 
-    logEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, eventData);
+    logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, eventData);
 
     setActiveGridManagerCodeSnippet(e);
   };
 
   const continueClickHandler = () => {
-    logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+    logHSTEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
       action: 'continue_clicked',
       option:
         selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label
@@ -234,8 +237,29 @@ browserstack-cli hst init`,
     setOnboardingStep(1);
   };
 
+  const copyCallbackFnForExistingSetup = (codeType) => {
+    const eventData = {
+      action: 'command copied',
+      option: codeType.toLowerCase()
+    };
+    logHSTEvent([], 'web_events', AGHaveSetupStepsExecuted, eventData);
+  };
+
+  const copyCallbackFnForNewSetup = (type) => {
+    const eventData = {
+      action: 'command copied',
+      option: type.toLowerCase()
+    };
+    logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, eventData);
+  };
+
+  const copySetupFailureCode = () => {
+    const eventData = { action: 'command_copied', option: 'create' };
+    logHSTEvent([], 'web_events', AGNoRetrySetupStepsExecuted, eventData);
+  };
+
   const exploreAutomationClickHandler = () => {
-    logEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
+    logHSTEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
       action: 'console_clicked'
     });
     closeSetupStatusModal();
@@ -243,7 +267,7 @@ browserstack-cli hst init`,
   };
 
   const logTermsConditionsEvents = () => {
-    logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+    logHSTEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
       action: 'termsdoc_clicked'
     });
   };
@@ -265,13 +289,13 @@ browserstack-cli hst init`,
       eventName = AGHaveSetupInteracted;
     }
 
-    logEvent(['amplitude'], 'web_events', eventName, {
+    logHSTEvent(['amplitude'], 'web_events', eventName, {
       action: 'viewdoc_clicked'
     });
   };
 
   const viewAllBuildsClickHandler = () => {
-    logEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
+    logHSTEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
       action: 'viewbuilds_clicked'
     });
     closeSetupStatusModal();
@@ -280,11 +304,11 @@ browserstack-cli hst init`,
 
   const viewEventLogsClickHandler = () => {
     if (onboardingType === ONBOARDING_TYPES.scratch) {
-      logEvent([''], 'web_events', AGNoSetupInteracted, {
+      logHSTEvent([''], 'web_events', AGNoSetupInteracted, {
         action: 'vieweventlogs_clicked'
       });
     } else if (onboardingType === ONBOARDING_TYPES.existing) {
-      logEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
+      logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
         action: 'vieweventlogs_clicked'
       });
     }
@@ -305,11 +329,11 @@ browserstack-cli hst init`,
 
     if (onboardingStep > 0) {
       if (onboardingType === ONBOARDING_TYPES.scratch) {
-        logEvent([], 'web_events', AGNoSetupPresented);
+        logHSTEvent([], 'web_events', AGNoSetupPresented);
       }
 
       if (onboardingType === ONBOARDING_TYPES.existing) {
-        logEvent([], 'web_events', AGHaveSetupPresented);
+        logHSTEvent([], 'web_events', AGHaveSetupPresented);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -332,7 +356,7 @@ browserstack-cli hst init`,
           goToStep: 1
         }
       ]);
-      logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+      logHSTEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
         action: 'nosetup_clicked'
       });
     } else {
@@ -352,7 +376,7 @@ browserstack-cli hst init`,
           goToStep: 1
         }
       ]);
-      logEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
+      logHSTEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
         action: 'havesetup_clicked'
       });
     }
@@ -388,7 +412,7 @@ browserstack-cli hst init`,
   useEffect(() => {
     if (currentStep === -1) {
       setTimeout(() => {
-        logEvent([], 'web_events', AGErrorGridModalPresented);
+        logHSTEvent([], 'web_events', AGErrorGridModalPresented);
         setEventLogsStatus(EVENT_LOGS_STATUS.FAILED);
         setIsSetupComplete(true);
       }, 1000);
@@ -402,7 +426,7 @@ browserstack-cli hst init`,
         }, 1000);
       }
     } else if (currentStep === totalSteps) {
-      logEvent([''], 'web_events', AGSuccessGridModalPresented);
+      logHSTEvent([''], 'web_events', AGSuccessGridModalPresented);
       setEventLogsStatus(EVENT_LOGS_STATUS.FINISHED);
 
       setTimeout(() => {
@@ -471,7 +495,7 @@ browserstack-cli hst init`,
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
     }
 
-    logEvent([], 'web_events', AGSetupGuideVisited);
+    logHSTEvent([], 'web_events', AGSetupGuideVisited);
   });
 
   return {
@@ -494,6 +518,9 @@ browserstack-cli hst init`,
     codeSnippetsForExistingSetup,
     codeSnippetTabChangeHandler,
     continueClickHandler,
+    copyCallbackFnForExistingSetup,
+    copyCallbackFnForNewSetup,
+    copySetupFailureCode,
     currentStep,
     currentProvidersRegions,
     currentSelectedCloudProvider,

@@ -29,6 +29,7 @@ const TreeNode = ({
         //     ? 'opacity-25 pointer-events-none'
         //     : ''
         // }
+        isNodeOpen={item.isOpened}
         leadingIcon={
           isLoading && !item.contents ? (
             <div className="flex h-5 w-5 items-center justify-center">

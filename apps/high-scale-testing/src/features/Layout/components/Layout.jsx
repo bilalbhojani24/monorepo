@@ -8,11 +8,11 @@ import {
   SidebarNavigation,
   UsersIcon
 } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import HSTHeader from 'features/HSTHeader/component';
 import { getEnvConfig } from 'utils/common';
+import { logHSTEvent } from 'utils/logger';
 
 const Layout = () => {
   const location = useLocation();
@@ -56,20 +56,20 @@ const Layout = () => {
 
   const navigationClickHandler = (item) => {
     if (item.id === 'builds-dashboard') {
-      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
         action: 'builddashboard_clicked',
         currentPath: location.pathname
       });
       window.location.href = item.path;
     } else if (item.id === 'grid-console') {
       const { path } = item;
-      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
         action: 'gridconsole_clicked',
         currentPath: location.pathname
       });
       navigate(path);
     } else if (item.id === 'documentation') {
-      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
         action: 'viewdoc_clicked',
         currentPath: location.pathname
       });

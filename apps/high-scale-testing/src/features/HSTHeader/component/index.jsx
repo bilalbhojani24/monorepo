@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header } from '@browserstack/bifrost';
+import { PRODUCT_NAME_ACTUAL } from 'constants/index';
 import ROUTES from 'constants/routes';
 import { getEnvConfig } from 'utils/common';
 
@@ -57,14 +58,14 @@ const HSTHeader = () => {
         e.preventDefault();
         window.location.href = baseUrl + ROUTES.SIGN_OUT;
       }}
-      productName="Automation Grid"
+      productName={PRODUCT_NAME_ACTUAL}
       productLink={ROUTES.GRID_CONSOLE}
       planButtonVisible={false}
       references={{
         title: 'Overview',
         options: [
           {
-            name: 'What is Automation Grid?',
+            name: `What is ${PRODUCT_NAME_ACTUAL} ?`,
             link: `${docHomeURL}`
           }
         ]

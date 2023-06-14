@@ -5,7 +5,6 @@ import {
   Button,
   CodeSnippet,
   MdContentCopy,
-  MdInfoOutline,
   Modal,
   ModalBody,
   ModalFooter,
@@ -23,6 +22,7 @@ import PropTypes from 'prop-types';
 const SetupStatus = ({
   closeSetupStatusModal,
   codeSnippets,
+  copySetupFailureCode,
   exploreAutomationClickHandler,
   eventLogsStatus,
   frameworkURLs,
@@ -150,6 +150,7 @@ const SetupStatus = ({
                 </p>
                 <CodeSnippet
                   code={codeSnippets['create-grid'].c.code}
+                  copyCallback={copySetupFailureCode}
                   language={codeSnippets['create-grid'].c.language}
                   singleLine={false}
                 />
@@ -203,6 +204,7 @@ const SetupStatus = ({
 SetupStatus.propTypes = {
   closeSetupStatusModal: PropTypes.func.isRequired,
   codeSnippets: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  copySetupFailureCode: PropTypes.func.isRequired,
   exploreAutomationClickHandler: PropTypes.func.isRequired,
   eventLogsStatus: PropTypes.string.isRequired,
   frameworkURLs: PropTypes.oneOfType([PropTypes.object]).isRequired,
