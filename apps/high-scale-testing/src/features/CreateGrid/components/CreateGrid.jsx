@@ -50,6 +50,7 @@ const CreateGrid = () => {
     closeEventLogsModal,
     closeSetupStatusModal,
     clusterChangeHandler,
+    clusterNameInputChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
@@ -133,7 +134,7 @@ const CreateGrid = () => {
       id="test-id"
       label="Cluster Name"
       onBlur={null}
-      onChange={null}
+      onChange={clusterNameInputChangeHandler}
       onFocus={null}
       onKeyDown={null}
       placeholder="my-sample-cluster"

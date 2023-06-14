@@ -206,6 +206,10 @@ browserstack-cli hst init`,
     commonHandler();
   };
 
+  const clusterNameInputChangeHandler = (e) => {
+    setEditClusterNameInputValue(e.target.value);
+  };
+
   // const editClusterBtnClickHandler = () => {
   //   setEditClusterNameInputValue(selectedClusterValue.value);
   //   setShowSetupClusterModal(true);
@@ -249,7 +253,7 @@ browserstack-cli hst init`,
     if (newProfileNameValue.length > 0) {
       const profileData = {
         profile: {
-          name: selectedGridProfile.value,
+          name: newProfileNameValue,
           region: 'us-east-2',
           cloudProvider: currentSelectedCloudProvider.configName,
           instanceType: 't3.2xlarge',
@@ -640,6 +644,7 @@ browserstack-cli hst init`,
     closeEventLogsModal,
     closeSetupStatusModal,
     clusterChangeHandler,
+    clusterNameInputChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
