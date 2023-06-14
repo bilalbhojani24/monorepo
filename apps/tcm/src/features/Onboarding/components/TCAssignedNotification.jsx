@@ -27,7 +27,7 @@ const TCAssignedNotification = () => {
             <>
               <TMButton
                 onClick={() =>
-                  handleFirstButtonClick(tcAssignedNotificationConfig?.id)
+                  handleFirstButtonClick(tcAssignedNotificationConfig.id)
                 }
                 variant="minimal"
                 colors="white"
@@ -39,7 +39,7 @@ const TCAssignedNotification = () => {
                 variant="minimal"
                 wrapperClassName="text-base-700 hover:text-brand-500"
                 onClick={() =>
-                  handleSecondButtonClick(tcAssignedNotificationConfig?.id)
+                  handleSecondButtonClick(tcAssignedNotificationConfig.id)
                 }
               >
                 Dismiss
@@ -48,7 +48,7 @@ const TCAssignedNotification = () => {
           )}
           headerIcon={<MdHowToReg className="text-base-600 h-6 w-6" />}
           handleClose={() =>
-            removeNotification(tcAssignedNotificationConfig?.id)
+            removeNotification(tcAssignedNotificationConfig.id)
           }
         />,
         {

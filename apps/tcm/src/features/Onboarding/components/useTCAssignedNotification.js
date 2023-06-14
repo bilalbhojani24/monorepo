@@ -1,18 +1,20 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { createSearchParams, useLocation, useNavigate } from 'react-router-dom';
 import { notify } from '@browserstack/bifrost';
 import { dismissTCAssignNotificationAPI } from 'api/onboarding.api';
 import AppRoute from 'const/routes';
 import { setFilterSearchMeta } from 'features/Repository/slices/repositorySlice';
 import { routeFormatter } from 'utils/helperFunctions';
 
+import { NO_AUTO_ASSIGN_PAGES } from '../const/immutableConst';
 import { setTCAssignedNotificationConfig } from '../slices/onboardingSlice';
 import { notificationDecider } from '../slices/onboardingThunk';
 
 const useTCAssignedNotification = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   // global slice
   const user = useSelector((state) => state.global.user);
@@ -31,11 +33,14 @@ const useTCAssignedNotification = () => {
   );
   const timerFinished = useSelector((state) => state.onboarding.timerFinished);
 
-  const removeNotification = (toastDataId) => {
-    notify.remove(toastDataId);
-    dismissTCAssignNotificationAPI();
-    dispatch(setTCAssignedNotificationConfig({ show: false }));
-  };
+  const removeNotification = useCallback(
+    (toastDataId, apiCall = true) => {
+      notify.remove(toastDataId);
+      if (apiCall) dismissTCAssignNotificationAPI();
+      dispatch(setTCAssignedNotificationConfig({ show: false }));
+    },
+    [dispatch]
+  );
 
   const handleFirstButtonClick = (toastDataId) => {
     removeNotification(toastDataId);
@@ -61,6 +66,12 @@ const useTCAssignedNotification = () => {
     )
       dispatch(notificationDecider());
   }, [checkForNotification, dispatch]);
+
+  useEffect(() => {
+    if (NO_AUTO_ASSIGN_PAGES.includes(location.pathname)) {
+      removeNotification(tcAssignedNotificationConfig.id, false);
+    }
+  }, [removeNotification, location.pathname, tcAssignedNotificationConfig.id]);
 
   return {
     notify,
