@@ -3,6 +3,7 @@ const ROUTES = {
   BUILDS: '/dashboard',
   CLUSTER: '/grid-console/cluster/:id',
   CLUSTER_OVERVIEW: '/grid-console/cluster/:id/overview',
+  CLUSTER_UTILIZATION: '/grid-console/cluster/:id/utilization',
   CREATE_GRID: '/create-grid',
   GRID_CONSOLE: '/grid-console',
   GRID: '/grid-console/grid/:id',
@@ -16,7 +17,7 @@ const ROUTES = {
   GRID_UTILIZATION: '/grid-console/grid/:id/utilization',
   ONBOARDING: '/setup',
   ROOT: '/',
-  SIGN_OUT: 'users/sign_out'
+  SIGN_OUT: '/users/sign_out'
 };
 
 export default ROUTES;

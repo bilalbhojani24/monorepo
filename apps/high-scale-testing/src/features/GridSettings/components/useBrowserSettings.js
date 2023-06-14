@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
 import { getGridData } from 'features/GridConsole/slices/selector';
 import { getIsApploading, getUserDetails } from 'globalSlice/selector';
+import { logHSTEvent } from 'utils/logger';
 
 const useBrowserSettings = (notifactionComponent) => {
   const allAvailableBrowsers = [
     { label: 'Chrome', value: 'Chrome' },
     { label: 'Firefox', value: 'Firefox' },
-    { label: 'Edge', value: 'Edge' }
+    { label: 'Edge', value: 'MicrosoftEdge' }
   ];
 
   // All Store variables:
@@ -56,7 +56,7 @@ const useBrowserSettings = (notifactionComponent) => {
   };
 
   const saveBtnClickhandler = () => {
-    logEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
+    logHSTEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
       tab_selected: 'general'
     });
     setIsSavingInProgress(true);
@@ -81,8 +81,11 @@ const useBrowserSettings = (notifactionComponent) => {
     if (Object.keys(gridData).length > 0) {
       setCpuValue(gridData.browserSettings.resources.cpu);
       setMemoryLimitValue(gridData.browserSettings.resources.memory);
-      const temp = gridData.browserSettings.allowedBrowsers.map((e) => {
-        let val = Object.keys(e)[0];
+      const allowedBrowsers = Object.keys(
+        gridData.browserSettings.allowedBrowsers
+      );
+      const temp = allowedBrowsers.map((e) => {
+        let val = e;
         val = val.charAt(0).toUpperCase() + val.slice(1);
         return {
           label: val,
@@ -94,7 +97,6 @@ const useBrowserSettings = (notifactionComponent) => {
   }, [gridData]);
 
   useEffect(() => {
-    console.log('Log: fetchedGridData:', fetchedGridData);
   }, [allowedBrowsersValue, cpuValue, fetchedGridData]);
 
   return {

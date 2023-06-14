@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Dropdown,
@@ -10,44 +9,21 @@ import {
   PageHeadings,
   Tabs
 } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
-import ROUTES from 'constants/routes';
+import { logHSTEvent } from 'utils/logger';
 
 import ClustersListing from './ClustersListing';
 import GridsListing from './GridsListing';
 import useGridConsole from './useGridConsole';
 
 const GridConsole = () => {
-  const { currentListingType, setCurrentListingType } = useGridConsole();
-
-  const navigate = useNavigate();
-
-  const options = [
-    {
-      id: 'helm/kubectl',
-      value: 'Helm/KubeCTL',
-      body: 'Spawn a grid via Helm / KubeCTL'
-    },
-    { id: 'cli', value: 'CLI', body: 'Spawn a grid with customizations' }
-  ];
-
-  const dropdownHandler = (value) => {
-    navigate(`${ROUTES.CREATE_GRID}?type=${value.value}`);
-  };
-
-  const tabChangeHandler = (e) => {
-    if (e.value === 'grids') {
-      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'grids_clicked'
-      });
-    } else if (e.value === 'clusters') {
-      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'clusters_clicked'
-      });
-    }
-    setCurrentListingType(e);
-  };
+  const {
+    currentListingType,
+    dropdownHandler,
+    options,
+    tabChangeHandler,
+    tabsArray
+  } = useGridConsole();
 
   return (
     <div className="flex-1">
@@ -59,7 +35,7 @@ const GridConsole = () => {
                 <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
                   <Button
                     onClick={() => {
-                      logEvent(
+                      logHSTEvent(
                         ['amplitude'],
                         'web_events',
                         AGAutomationConsoleInteracted,
@@ -86,18 +62,7 @@ const GridConsole = () => {
           heading="Automation Console"
         />
         <Tabs
-          tabsArray={[
-            {
-              index: 0,
-              name: 'Grids',
-              value: 'grids'
-            },
-            {
-              index: 1,
-              name: 'Clusters',
-              value: 'clusters'
-            }
-          ]}
+          tabsArray={tabsArray}
           onTabChange={tabChangeHandler}
           defaultIndex={currentListingType.index}
         />

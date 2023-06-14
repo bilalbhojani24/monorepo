@@ -33,10 +33,8 @@ export const CreateIssue = ({
   useEffect(() => {
     const configWithParams = addConfigParams(config);
     dispatch(setConfig(configWithParams));
-    return () => {
-      dispatch(clearGlobalAlert());
-    };
   }, [config, dispatch]);
+
   const integrations = useSelector(integrationsSelector);
   const hasAtLeastOneIntegrationSetup = integrations?.some(
     ({ setup_completed: integrated }) => integrated

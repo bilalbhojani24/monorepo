@@ -22,22 +22,24 @@ const TimeoutSettings = () => {
 
   const {
     idleTimeoutInputChangeHandler,
+    idleTimeOutError,
     idleTimeOutValue,
     isSaveButtonDisabled,
     isSavingInProgress,
     saveBtnClickhandler,
     testTimeoutChangeHandler,
+    testTimeoutError,
     testTimeoutValue,
     queueRetryIntervalChangeHandler,
     queueRetryIntervalValue,
     queueTimeoutChangeHandler,
+    queueTimeoutError,
     queueTimeoutValue
   } = useTimeoutSettings(notifactionComponent);
 
   return (
     <>
-      {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-      <div className="h-[calc(100vh-64px-134px-48px-62px)] overflow-auto p-6">
+      <div className="overflow-auto p-6">
         <p className="text-base-900 text-lg font-medium">Timeout Settings</p>
         <p className="text-base-500 text-sm">
           Configure different timeouts as per your testing requirement.
@@ -58,6 +60,7 @@ const TimeoutSettings = () => {
               }
               value={idleTimeOutValue}
               disabled={isSavingInProgress}
+              errorText={idleTimeOutError}
               id="test-id"
               onChange={idleTimeoutInputChangeHandler}
               onKeyDown={null}
@@ -80,6 +83,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
+              errorText={queueTimeoutError}
               value={queueTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"
@@ -129,6 +133,7 @@ const TimeoutSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">hours</InputGroupAddOn>
               }
+              errorText={testTimeoutError}
               value={testTimeoutValue}
               disabled={isSavingInProgress}
               id="test-id"

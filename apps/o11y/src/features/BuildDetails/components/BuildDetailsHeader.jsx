@@ -45,8 +45,8 @@ import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
 
 import { TABS } from '../constants';
 import {
-  clearBuildMeta,
   getBuildMetaData,
+  resetBuildMeta,
   setActiveTab
 } from '../slices/buildDetailsSlice';
 import {
@@ -94,7 +94,7 @@ function BuildDetailsHeader({
       dispatch(getBuildMetaData({ buildUUID }));
     }
     return () => {
-      dispatch(clearBuildMeta());
+      dispatch(resetBuildMeta());
     };
   }, [buildUUID, dispatch]);
 

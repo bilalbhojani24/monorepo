@@ -26,14 +26,16 @@ const DateRange = ({ filters, setFilters, label }) => {
   };
 
   return (
-    <DateRangepicker
-      label={label}
-      value={dateRangeToRender}
-      wrapperClassName="bg-white"
-      onChange={handleDateChange}
-      minValue={today(getLocalTimeZone()).subtract({ months: 6 })}
-      maxValue={today(getLocalTimeZone())}
-    />
+    <div data-test-id="select-date-range-filter">
+      <DateRangepicker
+        label={label}
+        value={dateRangeToRender}
+        wrapperClassName="bg-white"
+        onChange={handleDateChange}
+        minValue={today(getLocalTimeZone()).subtract({ months: 6 })}
+        maxValue={today(getLocalTimeZone())}
+      />
+    </div>
   );
 };
 
