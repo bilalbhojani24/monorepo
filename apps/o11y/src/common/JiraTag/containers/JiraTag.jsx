@@ -4,7 +4,7 @@ import { JiraIcon } from 'assets/icons/components';
 import { O11yBadge, O11yButton } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-const generatedIssueName = (url) => url.split('/').pop();
+const generatedIssueName = (url) => url?.split('/')?.pop();
 
 function JiraTag({ jiraUrl, status, tagClickCb, wrapperClassName }) {
   const handleJiraLinkClick = () => {
