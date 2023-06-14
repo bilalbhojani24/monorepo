@@ -101,7 +101,7 @@ const GridOverview = () => {
       title: 'Browsers Used',
       value: (
         <div className="flex gap-1">
-          {gridData.stats.browsersUsed.map((usedBrowser) => {
+          {gridData?.stats?.browsersUsed.map((usedBrowser) => {
             const browser = usedBrowser;
             return browserIcons[browser];
           })}
