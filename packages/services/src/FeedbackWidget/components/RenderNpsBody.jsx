@@ -27,7 +27,8 @@ const RenderNpsBody = () => {
             {
               'rounded-l-md': index === 0,
               'rounded-r-md border-r-1': index === 9,
-              'bg-brand-600 focus:ring-0 text-white': index + 1 === selectedNPS
+              'bg-brand-600 focus:ring-0 text-white hover:bg-brand-600':
+                index + 1 === selectedNPS
             }
           )}
           size="lg"
