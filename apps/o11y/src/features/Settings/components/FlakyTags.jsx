@@ -95,11 +95,11 @@ export const FlakyTags = ({ data, isActive }) => {
 
   useEffect(() => {
     setConsecutiveRunsArray([
-      ...Array(30 - flakeInHistory.flippingCount)
+      ...Array(30 - Math.max(5, flakeInHistory.flippingCount))
         .fill(0)
         .map((_, i) => ({
-          name: i + flakeInHistory.flippingCount + 1,
-          value: i + flakeInHistory.flippingCount + 1
+          name: i + Math.max(5, flakeInHistory.flippingCount) + 1,
+          value: i + Math.max(5, flakeInHistory.flippingCount) + 1
         }))
     ]);
   }, [flakeInHistory.flippingCount]);
@@ -222,7 +222,7 @@ export const FlakyTags = ({ data, isActive }) => {
           </div>
           <div className="text-base-500 flex items-center">
             Test passes on a retry within the last
-            <div className="text-base-900 mx-1 w-16">
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{
                   label: flakeInRerun.consecutiveRuns,
