@@ -21,7 +21,6 @@ const AppRoute = {
   SETTINGS_API_KEYS: '/settings/api-keys'
 };
 
-// export const BASE_API_URL = 'http://10.8.2.96:3000';
 export const BASE_API_URL = import.meta.env.DEV
   ? 'https://test-management.bsstag.com'
   : window.location.origin;

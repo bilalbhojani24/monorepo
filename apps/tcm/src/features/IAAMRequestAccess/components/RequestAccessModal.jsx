@@ -17,7 +17,7 @@ const RequestAccessModal = () => {
 
   return (
     <TMModal show={!userHasAccess} size="3xl">
-      <TMModalBody>
+      <TMModalBody className="px-0">
         <TMCTACard
           header={
             isAdmin
@@ -32,8 +32,13 @@ const RequestAccessModal = () => {
             loading: requestLoader,
             isIconOnlyButton: requestLoader
           }}
-          imageNode={<img src={RequestAccessImage} alt="none" />}
-          containerWrapperClassName="shadow-transparent py-4"
+          imageNode={
+            <img
+              src={RequestAccessImage}
+              alt="Test Management test cases view"
+            />
+          }
+          containerWrapperClassName="shadow-transparent md:py-4 lg:py-4 xl:py-4 2xl:py-4"
           onPrimaryBtnClick={handleRequestClick}
         />
       </TMModalBody>

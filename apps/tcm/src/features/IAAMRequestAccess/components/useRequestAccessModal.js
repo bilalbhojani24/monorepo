@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { requestTCMAccessAPI } from 'api/common.api';
+import { requestTMAccessAPI } from 'api/common.api';
 import { addNotificaton, setRequestAccessConfig } from 'globalSlice';
 
 import { REQUEST_ACCESS_NOTIFICATION_CONFIG } from '../const/immutables';
@@ -19,7 +19,7 @@ const useRequestAccessModal = () => {
       return;
     }
     setRequestLoader(true);
-    requestTCMAccessAPI()
+    requestTMAccessAPI()
       .then(() => {
         setRequestLoader(false);
         dispatch(addNotificaton(REQUEST_ACCESS_NOTIFICATION_CONFIG));
