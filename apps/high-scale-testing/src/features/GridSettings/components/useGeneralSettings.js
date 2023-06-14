@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
 import { DEFAULT_GRID_CONCURRENCY } from 'constants/index';
 import { getGridData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
+import { logHSTEvent } from 'utils/logger';
 
 const useGeneralSettings = (notifactionComponent) => {
   // All Store variables:
@@ -45,7 +45,7 @@ const useGeneralSettings = (notifactionComponent) => {
   };
 
   const saveBtnClickhandler = () => {
-    logEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
+    logHSTEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
       tab_selected: 'general'
     });
     setIsSavingInProgress(true);

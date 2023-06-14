@@ -8,7 +8,8 @@ import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
 import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
 import {
   resetFilters,
-  setIsDirtyByCategory
+  setIsDirtyByCategory,
+  setIsLoadingBuildsFilters
 } from 'features/FilterSkeleton/slices/filterSlice';
 import TestList from 'features/TestList';
 import { EMPTY_TESTLIST_DATA_STATE } from 'features/TestList/constants';
@@ -177,8 +178,7 @@ function BuildDetails() {
         dispatch(resetTestListSlice());
         testListScrollPos.current = 0;
         scrollIndexMapping.current = {};
-      }
-      if (clearOnly) {
+        dispatch(setIsLoadingBuildsFilters(true));
         dispatch(
           setIsDirtyByCategory({
             category: FILTER_CATEGORIES.TEST_LISTING,

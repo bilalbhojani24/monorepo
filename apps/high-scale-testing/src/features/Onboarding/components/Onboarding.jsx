@@ -19,7 +19,13 @@ import {
 import { twClassNames } from '@browserstack/utils';
 import { OpenInNew } from '@mui/icons-material';
 import LoaderGif from 'assets/icons/loader.gif';
+import {
+  AGNoSetupInteracted,
+  AGNoSetupStepsExecuted
+} from 'constants/event-names';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import { CLOUD_FORMATION_LINK } from 'constants/urls';
+import { logHSTEvent } from 'utils/logger';
 
 import EventLogs from './EventLogs';
 import SetupStatus from './SetupStatus';
@@ -44,6 +50,9 @@ const Onboarding = () => {
     cloudRegionChangeHandler,
     codeSnippetTabChangeHandler,
     continueClickHandler,
+    copyCallbackFnForExistingSetup,
+    copyCallbackFnForNewSetup,
+    copySetupFailureCode,
     currentStep,
     currentSelectedCloudProvider,
     eventLogsCode,
@@ -57,9 +66,7 @@ const Onboarding = () => {
     onboardingStep,
     onboardingType,
     selectedRegion,
-    setCurrentCloudProvider,
     setSelectedOption,
-    setSelectedRegion,
     showEventLogsModal,
     showGridHeartBeats,
     showSetupStatusModal,
@@ -97,6 +104,9 @@ const Onboarding = () => {
           codeSnippetsForExistingSetup?.[
             activeGridManagerCodeSnippet.name.toLowerCase()
           ]
+        }
+        copyCallback={() =>
+          copyCallbackFnForExistingSetup(activeGridManagerCodeSnippet.name)
         }
         language={
           activeGridManagerCodeSnippet.name.toLowerCase() ===
@@ -145,7 +155,16 @@ const Onboarding = () => {
         Set up a new IAM role via the CloudFormation link and generate the AWS
         access key and secret to create and manage the Automation Grid. Read
         more about this{' '}
-        <Hyperlink target="_blank" href="/" className="inline">
+        <Hyperlink
+          onClick={() => {
+            logHSTEvent([], 'web_events', AGNoSetupInteracted, {
+              action: 'viewiamdoc_clicked'
+            });
+          }}
+          target="_blank"
+          href="/"
+          className="inline"
+        >
           here
         </Hyperlink>
         .
@@ -154,7 +173,10 @@ const Onboarding = () => {
         colors="white"
         icon={<OpenInNew />}
         onClick={() => {
-          window.location.href = 'www.browserstack.com';
+          logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, {
+            action: 'iamrolecf_clicked'
+          });
+          window.location.href = CLOUD_FORMATION_LINK;
           return null;
         }}
         modifier="primary"
@@ -176,6 +198,9 @@ const Onboarding = () => {
             </p>
             <CodeSnippet
               code={CODE_SNIPPETS_SCRATCH['create-grid'].a.code}
+              copyCallback={() => {
+                copyCallbackFnForNewSetup('download');
+              }}
               language={CODE_SNIPPETS_SCRATCH['create-grid'].a.language}
               showLineNumbers={false}
               singleLine={false}
@@ -190,6 +215,9 @@ const Onboarding = () => {
             </p>
             <CodeSnippet
               code={CODE_SNIPPETS_SCRATCH['create-grid'].b.code}
+              copyCallback={() => {
+                copyCallbackFnForNewSetup('init');
+              }}
               language={CODE_SNIPPETS_SCRATCH['create-grid'].b.language}
               showLineNumbers={false}
               singleLine={false}
@@ -220,6 +248,9 @@ const Onboarding = () => {
         </div>
         <CodeSnippet
           code={CODE_SNIPPETS_SCRATCH['create-grid'].c.code}
+          copyCallback={() => {
+            copyCallbackFnForNewSetup('create');
+          }}
           language={CODE_SNIPPETS_SCRATCH['create-grid'].c.language}
           singleLine
         />
@@ -479,6 +510,7 @@ const Onboarding = () => {
         <SetupStatus
           closeSetupStatusModal={closeSetupStatusModal}
           codeSnippets={CODE_SNIPPETS_SCRATCH}
+          copySetupFailureCode={copySetupFailureCode}
           exploreAutomationClickHandler={exploreAutomationClickHandler}
           eventLogsStatus={eventLogsStatus}
           frameworkURLs={frameworkURLs}

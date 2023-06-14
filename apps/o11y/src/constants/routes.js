@@ -4,6 +4,9 @@ export const ROUTES = {
     '/projects/:projectNormalisedName/builds/:buildNormalisedName/:buildSerialId',
   buildShort: '/builds/:buildUuid',
   suite_health: '/projects/:projectNormalisedName/suite_health',
+  suite_health_tests: '/projects/:projectNormalisedName/suite_health/tests',
+  suite_health_unique_errors:
+    '/projects/:projectNormalisedName/suite_health/unique_errors',
   testing_trends: '/projects/:projectNormalisedName/testing_trends',
   integrations_base: '/integrations',
   integrations_jenkins: '/integrations/jenkins',

@@ -5,33 +5,21 @@ import {
   formatDeviceAndAppAnalyticsData,
   mcpAnalyticsEvent
 } from '@browserstack/mcp-shared';
-import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
 import { getSessionDetails } from 'features/Home';
 
 import {
-  getIsSessionStopInProgress,
-  getLatestSessionStatus
+  getRecordingDurationElapsed,
+  setRecordingTimerIntervalId
 } from '../slices/reportLoadingSlice';
 import {
   cancelRecordingSession,
   checkSessionStatus,
   stopRecordingSession
 } from '../slices/reportLoadingThunks';
-import {
-  cycledTipMessages,
-  generateTestDataDescriptionList
-} from '../utils/reportLoadingUtils';
 
 const useReportLoading = () => {
-  const sessionState = useSelector(getLatestSessionStatus);
   const sessionDetails = useSelector(getSessionDetails);
-  const isSessionStopInProgress = useSelector(getIsSessionStopInProgress);
-
-  const [timerIntervalId, setTimerIntervalId] = useState(null);
-  const [secondsElapsed, setSecondsElapsed] = useState(0);
-  const [testDataDescriptionList, setTestDataDescriptionList] = useState(null);
-
-  const [currentTipIndex, setCurrentTipIndex] = useState(0);
+  const secondsElapsed = useSelector(getRecordingDurationElapsed);
 
   const [showGenerateReportPrompt, setShowGenerateReportPrompt] =
     useState(false);
@@ -43,7 +31,7 @@ const useReportLoading = () => {
   const navigateToPath = useNavigate();
 
   const quitTestConfirmed = () => {
-    clearInterval(timerIntervalId);
+    dispatch(setRecordingTimerIntervalId(null));
 
     dispatch(
       cancelRecordingSession(navigateToPath, () => {
@@ -61,11 +49,9 @@ const useReportLoading = () => {
   };
 
   const stopSessionClicked = () => {
-    clearInterval(timerIntervalId);
     setShowGenerateReportPrompt(false);
 
     dispatch(stopRecordingSession(navigateToPath));
-
     mcpAnalyticsEvent('csptTestGenerateReportClicked', {
       test_duration: secondsElapsed,
       ...formatDeviceAndAppAnalyticsData(
@@ -76,72 +62,16 @@ const useReportLoading = () => {
   };
 
   useEffect(() => {
-    setTestDataDescriptionList(
-      generateTestDataDescriptionList(sessionDetails?.device)
-    );
-  }, [sessionDetails?.device]);
-
-  useEffect(() => {
-    if (sessionDetails?.cellular) {
-      setTestDataDescriptionList((existingList) => {
-        if (existingList?.length > 0) {
-          const updatedVal = [...existingList];
-
-          updatedVal[updatedVal.length - 1].value = sessionDetails?.cellular;
-
-          return updatedVal;
-        }
-        return existingList;
-      });
-    }
-  }, [sessionDetails]);
-
-  useEffect(() => {
-    if (sessionState === REPORT_LOADING_STATES.RECORDING) {
-      setTimerIntervalId(
-        setInterval(() => {
-          setSecondsElapsed((prev) => prev + 1);
-        }, 1000)
-      );
-    }
-
-    return undefined;
-  }, [sessionState]);
-
-  useEffect(() => {
     dispatch(checkSessionStatus());
   }, [dispatch]);
 
-  useEffect(() => {
-    const localTimeoutId = setInterval(() => {
-      setCurrentTipIndex((prevIndex) => (prevIndex === 2 ? 0 : prevIndex + 1));
-    }, 5000);
-
-    return () => {
-      clearTimeout(localTimeoutId);
-    };
-  }, []);
-
-  useEffect(
-    () => () => {
-      clearInterval(timerIntervalId);
-    },
-    [timerIntervalId]
-  );
-
   return {
-    sessionState,
-    sessionDetails,
     quitTestConfirmed,
     stopSessionClicked,
-    secondsElapsed,
-    isSessionStopInProgress,
     showGenerateReportPrompt,
     setShowGenerateReportPrompt,
     showQuitTestingPrompt,
-    setShowQuitTestingPrompt,
-    testDataDescriptionList,
-    selectedTipMsg: cycledTipMessages[currentTipIndex]
+    setShowQuitTestingPrompt
   };
 };
 

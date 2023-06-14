@@ -40,9 +40,9 @@ export const o11yNotify = ({
       actionButtons={actionButtons}
     />,
     {
+      autoClose,
       position: 'top-right',
-      duration: duration || 3000,
-      autoClose
+      duration: duration || 3000
     }
   );
 };
