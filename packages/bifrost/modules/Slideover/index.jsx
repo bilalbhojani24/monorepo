@@ -109,9 +109,7 @@ const Slideover = (props) => {
           {isFluid ? (
             <ResizeableWraperProp>
               <div
-                className={twClassNames(childrenWrapperClassNames, {
-                  'w-full': isFluid
-                })}
+                className={twClassNames(childrenWrapperClassNames, 'w-full')}
               >
                 {children}
               </div>
