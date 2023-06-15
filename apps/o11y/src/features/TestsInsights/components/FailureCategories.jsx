@@ -47,7 +47,7 @@ export default function FailureCategories() {
   const handleChartClick = useCallback(
     (data) => {
       applyTestListFilter({
-        query: `${ADV_FILTER_TYPES.failureCategories.key}=${data.id}`
+        query: `${ADV_FILTER_TYPES.issueTypeGroup.key}=${data.id}`
       });
     },
     [applyTestListFilter]

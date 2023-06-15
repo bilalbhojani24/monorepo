@@ -11,7 +11,7 @@ import {
 import setupInterceptors from 'api/_utils/interceptor';
 import { getLatestQuickImportConfigAPI } from 'api/import.api';
 import { TMHeader } from 'common/bifrostProxy';
-import FreshChatWidget from 'common/TMChatWidget';
+// import FreshChatWidget from 'common/TMChatWidget';
 import ProgressNotification from 'features/ImportProgress/components/ProgressNotification';
 import ViewReportModal from 'features/ImportProgress/components/ViewReportModal';
 import { IMPORT_STATUS } from 'features/ImportProgress/const/immutables';
@@ -100,7 +100,9 @@ function App() {
     if (importStarted === null || importStarted) {
       // refresh or import is actually started
       getLatestQuickImportConfigAPI().then((data) => {
-        dispatch(setCurrentTestManagementTool(data?.import_type.split('_')[0]));
+        dispatch(
+          setCurrentTestManagementTool(data?.import_type?.split('_')[0] || null)
+        );
         dispatch(setImportId(data?.import_id));
         dispatch(setIsProgressDismissed(data?.progress_banner_dismissed));
         dispatch(setNotificationDismissed(data?.notification_dismissed));
@@ -135,7 +137,7 @@ function App() {
       <Notification />
       <ProgressNotification />
       <ViewReportModal />
-      <FreshChatWidget />
+      {/* <FreshChatWidget /> commented this intentionally, we will enable this again. */}
       <NotificationsContainer />
     </>
   );

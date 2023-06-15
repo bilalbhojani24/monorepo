@@ -68,15 +68,15 @@ const ComboboxBadgeTrigger = ({
   return (
     <Popover.Trigger ref={buttonRef} asChild>
       <Combobox.Button
-        as="div"
+        as="section"
         className={twClassNames(
           'appearance-none cursor-pointer border-base-300 relative flex items-center border px-2 py-1.5 rounded-md text-sm leading-6',
           {
             'focus-within:border-brand-500 focus-within:ring-1 focus-within:outline-none focus-within:ring-brand-500':
               !disabled,
-            'pr-2 focus-within:border-danger-600 focus-within:ring-danger-600':
+            'pr-2 focus-within:border-danger-300 focus-within:ring-danger-300':
               errorText,
-            'border-danger-600': errorText,
+            'border-danger-300': errorText,
             'cursor-not-allowed border-base-200 bg-base-50 text-base-500':
               disabled
           }

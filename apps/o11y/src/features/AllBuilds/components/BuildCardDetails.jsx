@@ -5,13 +5,14 @@ import { twClassNames } from '@browserstack/utils';
 import { O11yMetaData, O11yTableCell } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import StatusBadges from 'common/StatusBadges';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
 import { getBuildPath } from 'utils/routeUtils';
 
-import { TABLE_CLASSES } from '../constants';
+import { TABLE_CLASSES, TEST_LIST_FILTERS_INTERACTIONS } from '../constants';
 
 import BuildItemDetails from './BuildItemDetails';
 import FailureCategoriesPill from './FailureCategoriesPill';
@@ -32,19 +33,14 @@ const BuildCardDetails = ({ data }) => {
     });
   };
 
-  const navigateToTestPage = (itemCategory, clickData) => {
-    const interactionName = `${
-      clickData?.redirectViaCategory
-        ? itemCategory
-        : clickData.itemClicked.replace(' ', '_').toLowerCase()
-    }_clicked`;
-    logBuildListingInteracted(interactionName);
+  const navigateToTestPage = (itemCategory, value, interaction) => {
+    logBuildListingInteracted(interaction);
     let endpoint = `${getBuildPath(
       activeProject.normalisedName,
       data.normalisedName,
       data?.buildNumber
     )}?tab=tests`;
-    endpoint += `&${itemCategory}=${clickData.itemClicked}`;
+    endpoint += `&${itemCategory}=${value}`;
     navigate(endpoint);
   };
 
@@ -74,7 +70,11 @@ const BuildCardDetails = ({ data }) => {
               size="large"
               statusStats={data.statusStats}
               onClickHandler={(clickData) =>
-                navigateToTestPage('status', clickData)
+                navigateToTestPage(
+                  ADV_FILTER_TYPES.status.key,
+                  clickData.itemClicked,
+                  TEST_LIST_FILTERS_INTERACTIONS[clickData.itemClicked]
+                )
               }
             />
           )}
@@ -103,6 +103,7 @@ const BuildCardDetails = ({ data }) => {
         <FailureCategoriesPill
           data={data}
           logBuildListingInteracted={logBuildListingInteracted}
+          navigateToTestPage={navigateToTestPage}
         />
       </O11yTableCell>
     </>

@@ -181,6 +181,16 @@ export const getSnPErrorDetailsPlatforms = async ({
   return axios.get(endpoint);
 };
 
+export const getSnPTestsMetrics = async ({ normalisedName, searchString }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/tests/metrics/chart?${searchString}`;
+  return axios.get(endpoint);
+};
+
+export const getSnPUEMetrics = async ({ normalisedName, searchString }) => {
+  const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/errors/metrics/chart?${searchString}`;
+  return axios.get(endpoint);
+};
+
 export const getSnPTestsFilters = async ({ normalisedName, searchString }) => {
   const endpoint = `${versionedBaseRoute()}/projects/${normalisedName}/snp/v3/tests/filters?${searchString}`;
   return axios.get(endpoint);

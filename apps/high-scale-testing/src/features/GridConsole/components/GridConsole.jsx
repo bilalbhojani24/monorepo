@@ -9,8 +9,8 @@ import {
   PageHeadings,
   Tabs
 } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
+import { logHSTEvent } from 'utils/logger';
 
 import ClustersListing from './ClustersListing';
 import GridsListing from './GridsListing';
@@ -35,7 +35,7 @@ const GridConsole = () => {
                 <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
                   <Button
                     onClick={() => {
-                      logEvent(
+                      logHSTEvent(
                         ['amplitude'],
                         'web_events',
                         AGAutomationConsoleInteracted,

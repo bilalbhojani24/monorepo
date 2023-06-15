@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
 import StatusBadges from 'common/StatusBadges';
@@ -23,6 +24,7 @@ import PropTypes from 'prop-types';
 
 const TestListFilters = ({ buildUUID }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const aggregatedStatus = useSelector(getAggregatedStatus);
   const [showSlideOver, setShowSlideOver] = useState(false);
   const { expandAll, invertExpandAll, o11yTestListingInteraction } =
@@ -54,6 +56,20 @@ const TestListFilters = ({ buildUUID }) => {
     FLOATING_COMPONENTS_IDS.TEST_FILTERS
   );
 
+  const handleRemoveSingleFilter = (filterKey) => {
+    if (filterKey === ADV_FILTER_TYPES.issueTypeGroup.key) {
+      const searchParams = new URLSearchParams(window.location.search);
+      searchParams.delete(ADV_FILTER_TYPES.issueTypeGroup.key);
+      navigate({ search: searchParams.toString() });
+    }
+  };
+
+  const handleRemoveAll = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.delete(ADV_FILTER_TYPES.issueTypeGroup.key);
+    navigate({ search: searchParams.toString() });
+  };
+
   return (
     <div>
       <div className="border-base-200 flex justify-between border-b bg-white px-6 py-4">
@@ -84,6 +100,8 @@ const TestListFilters = ({ buildUUID }) => {
         </div>
       </div>
       <FilterPills
+        onRemoveSingleFilter={handleRemoveSingleFilter}
+        onRemoveAll={handleRemoveAll}
         rightNode={
           <>
             {aggregatedStatus && (
@@ -91,7 +109,7 @@ const TestListFilters = ({ buildUUID }) => {
             )}
           </>
         }
-        wrapperClassName="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6"
+        wrapperClassName="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6 mt-0"
       />
       <FilterSlideover
         show={showSlideOver}
