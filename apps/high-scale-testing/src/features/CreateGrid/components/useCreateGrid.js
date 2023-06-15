@@ -240,6 +240,11 @@ const useCreateGrid = () => {
 
   const regionChangeHandler = (e) => {
     setSelectedRegion(e);
+    setSelectedVPCValue({
+      label: '',
+      value: ''
+    });
+    setSelectedSubnetValues([]);
   };
 
   const saveAndProceedClickHandler = () => {
@@ -483,7 +488,7 @@ const useCreateGrid = () => {
           selectedGridConcurrency ||
         selectedInstanceType.label !==
           selectedGridProfileData.profile.instanceType ||
-        selectedRegion.label !== selectedGridProfileData.profile.region ||
+        selectedRegion.value !== selectedGridProfileData.profile.region ||
         JSON.stringify(selectedGridProfileData.profile.subnets) !==
           JSON.stringify(subnetsPlainArray) ||
         selectedVPCValue.value !== selectedGridProfileData.profile.vpc
@@ -591,8 +596,11 @@ const useCreateGrid = () => {
   }, [setupState]);
 
   useMountEffect(() => {
-    const fetchEventsLogsData = async () => {
-      const response = await getCreateGridEventsLogsData(userDetails.id);
+    const fetchEventsLogsData = async (createGridType) => {
+      const response = await getCreateGridEventsLogsData(
+        userDetails.id,
+        createGridType
+      );
 
       const res = response.data;
 
@@ -619,11 +627,10 @@ const useCreateGrid = () => {
 
     if (pollForEventLogs) {
       setInterval(() => {
-        fetchEventsLogsData();
+        fetchEventsLogsData(type === 'Helm' ? 'existing' : 'scratch');
       }, 10000);
     }
-
-    fetchEventsLogsData();
+    fetchEventsLogsData(type === 'Helm' ? 'existing' : 'scratch');
   });
 
   return {

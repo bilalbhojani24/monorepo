@@ -167,6 +167,7 @@ const GridOverview = () => {
                       <>
                         <p className="mr-4 text-base font-normal text-base-900">
                           {framework?.url}
+                          {framework?.name === 'Selenium' && '/wd/hub'}
                         </p>
 
                         <CopyButton
