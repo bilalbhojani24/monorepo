@@ -341,7 +341,16 @@ const useCreateGrid = () => {
   };
 
   const setupBtnClickHandler = () => {
-    if (validateClusterDetails()) setShowSetupClusterModal(false);
+    if (validateClusterDetails()) {
+      const entry = {
+        label: editClusterNameInputValue,
+        value: editClusterNameInputValue
+      };
+      setSelectedClusterValue(entry);
+      setSelectedGridclusters([...selectedGridClusters, entry]);
+
+      setShowSetupClusterModal(false);
+    }
   };
 
   const setupNewClusterBtnClickHandler = () => {
