@@ -11,6 +11,7 @@ import {
   setBannerName,
   setModalName,
   setModalShow,
+  setModalTrigger,
   setShowBanner
 } from 'features/Dashboard/slices/appSlice';
 import {
@@ -21,6 +22,7 @@ import {
   getUser
 } from 'features/Dashboard/slices/selectors';
 import { buyAcceesibilityPlan, countRemainingDays } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
 
 export default function useReverseTrialBanner() {
   const dispatch = useDispatch();
@@ -37,15 +39,31 @@ export default function useReverseTrialBanner() {
 
   const handleBannerDismissClick = () => {
     dispatch(setShowBanner(false));
+    if ([TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState)) {
+      logEvent('InteractedWithRTPendingBanner', {
+        platform: 'Dashboard',
+        action: 'Cancel'
+      });
+    }
   };
 
   const handleBannerButtonClick = () => {
     if ([TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState)) {
       dispatch(setModalName('accessibility'));
       dispatch(setModalShow(true));
+      logEvent('InteractedWithRTPendingBanner', {
+        platform: 'Dashboard',
+        action: 'Get 14-day free trial'
+      });
+      logEvent('OnRTFeaturesUI', {
+        platform: 'Dashboard',
+        type: 'General',
+        state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending'
+      });
       return;
     }
     buyAcceesibilityPlan();
+    dispatch(setModalTrigger('General'));
   };
 
   const displayBannerOnceADay = (storageKey, nameOfBanner) => {
@@ -72,11 +90,17 @@ export default function useReverseTrialBanner() {
     case TRIAL_NOT_STARTED:
     case TRIAL_FAILED: {
       displayBannerOnceADay('teamPlanBannerDate', 'not_started');
+      logEvent('OnRTPendingBanner', {
+        platform: 'Dashboard'
+      });
       break;
     }
     case TRIAL_STARTED: {
       if (remainingDays <= 5 && remainingDays > 0) {
         displayBannerOnceADay('daysLeftBannerDate', 'last_five_days');
+        logEvent('OnRTExpiryWarningBanner', {
+          platform: 'Dashboard'
+        });
       }
       break;
     }
@@ -86,6 +110,9 @@ export default function useReverseTrialBanner() {
         dispatch(setBannerName('expired'));
         dispatch(setShowBanner(true));
         localStorage.setItem('trialEndBanner', true);
+        logEvent('OnRTExpiredBanner', {
+          platform: 'Dashboard'
+        });
       }
       break;
     }

@@ -49,7 +49,7 @@ export default function ReverseTrialModalWrapper() {
           fullWidth
           loading={modalName !== 'buyPlan' && showLoader}
           isIconOnlyButton={modalName !== 'buyPlan' && showLoader}
-          onClick={() => handleButtonClick(modalName)}
+          onClick={handleButtonClick}
         >
           {trialState !== TRIAL_IN_PROGRESS ? buttonText : ''}
         </Button>

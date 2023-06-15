@@ -19,6 +19,7 @@ import {
   CHROME_EXTENSION_URL,
   events,
   sentryConfig,
+  TRIAL_EXPIRED,
   TRIAL_FAILED,
   TRIAL_IN_PROGRESS,
   TRIAL_NOT_STARTED
@@ -61,11 +62,19 @@ export default function useDashboard() {
   const { plan_type: planType, show_expiry_sidebar_component: showTile } =
     useSelector(getUser);
 
-  const showTrialTile = () =>
-    showTile &&
-    trialState !== TRIAL_NOT_STARTED &&
-    trialState !== TRIAL_IN_PROGRESS &&
-    countRemainingDays(new Date(), addDays(new Date(trialEndDate), 60)) > 0;
+  const showTrialTile = () => {
+    const show =
+      showTile &&
+      trialState !== TRIAL_NOT_STARTED &&
+      trialState !== TRIAL_IN_PROGRESS &&
+      countRemainingDays(new Date(), addDays(new Date(trialEndDate), 60)) > 0;
+
+    if (show) {
+      logEvent('OnRTTrackingTile');
+    }
+
+    return show;
+  };
 
   const shouldShowNewBadge = () => {
     const lastTimeSaved = new Date(
@@ -142,6 +151,11 @@ export default function useDashboard() {
     if (nav.id === 'trial') {
       dispatch(setModalName('accessibility'));
       dispatch(setModalShow(true));
+      logEvent('OnRTFeaturesUI', {
+        platform: 'Dashboard',
+        type: 'General',
+        state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending'
+      });
       return;
     }
     if (nav.id === 'doc' || nav.id === 'extension') {
@@ -149,6 +163,11 @@ export default function useDashboard() {
     }
     navigate(nav.path);
     setCurrentPath(nav.id);
+    if (nav.id === 'extension') {
+      logEvent('ClickedOnDownloadExtensionCTA', {
+        source: 'Left navbar'
+      });
+    }
   };
 
   const onCloseClick = () => {
@@ -175,10 +194,22 @@ export default function useDashboard() {
       `${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-demo-lead`,
       '_blank'
     );
+    const data = {
+      type: remainingDays > 0 ? 'Days left' : 'No days left',
+      action: 'Get a demo'
+    };
+    if (remainingDays > 0) data.daysLeft = remainingDays;
+    logEvent('InteractedWithRTTrackingTile', data);
   };
 
   const onBuyPlanClick = () => {
     buyAcceesibilityPlan();
+    const data = {
+      type: remainingDays > 0 ? 'Days left' : 'No days left',
+      action: 'Buy a plan'
+    };
+    if (remainingDays > 0) data.daysLeft = remainingDays;
+    logEvent('InteractedWithRTTrackingTile', data);
   };
 
   useEffect(() => {

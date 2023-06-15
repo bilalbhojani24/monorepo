@@ -15,6 +15,7 @@ import {
   getUser
 } from 'features/Dashboard/slices/selectors';
 import { getBrowserStackEnvUrl } from 'utils';
+import { logEvent } from 'utils/logEvent';
 
 import { setModalName, setModalShow } from '../Dashboard/slices/appSlice';
 import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
@@ -54,6 +55,14 @@ export default function useScreenReader(noOfDevices) {
         true,
         ...showTooltip.slice(tooltipIndex + 1, showTooltip.length)
       ]);
+    }
+
+    if ([TRIAL_NOT_STARTED, TRIAL_FAILED, TRIAL_EXPIRED].includes(trialState)) {
+      logEvent('OnRTFeaturesUI', {
+        platform: 'Dashboard',
+        type: 'Screen reader',
+        state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending'
+      });
     }
   };
 

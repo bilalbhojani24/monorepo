@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, MdOpenInNew } from '@browserstack/bifrost';
 import FindInPage from 'assets/find_in_page.svg';
 import { CHROME_EXTENSION_URL } from 'constants';
+import { logEvent } from 'utils/logEvent';
 
 export default function ColdStart() {
+  useEffect(() => {
+    logEvent('OnManualTestReportsNoReports');
+  }, []);
+
   return (
     <>
       <img

@@ -22,6 +22,7 @@ import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
 import Loader from 'common/Loader';
 import { CHROME_EXTENSION_URL, reportPerPage, reportType } from 'constants';
+import { logEvent } from 'utils/logEvent';
 
 import ColdStart from './components/ColdStart';
 import ReportRow from './components/ReportRow';
@@ -145,12 +146,19 @@ export default function Reports() {
                 </>
               }
               theme="dark"
+              onMouseLeave={() => {
+                logEvent('OnManualTestReportsDownloadExtensionTooltip');
+              }}
             >
               <Button
                 iconPlacement="start"
                 icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
                 onClick={() => {
                   window.open(CHROME_EXTENSION_URL, '_target');
+                  logEvent('ClickedOnDownloadExtensionCTA', {
+                    source: 'Manual test reports',
+                    noReports: searchFilterList.length === 0
+                  });
                 }}
                 size="small"
                 colors="white"

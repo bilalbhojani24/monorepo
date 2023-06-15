@@ -24,7 +24,8 @@ export const getTrialEndDate = (state) =>
   state.accessibility.app.dashboard.user.trial_end_date;
 export const getTrialEligibility = (state) =>
   state.accessibility.app.dashboard.user.rft_eligible;
-
 export const getIsFreeUser = (state) =>
   !state.accessibility.app.dashboard.user?.plan_type ||
   state.accessibility.app.dashboard.user?.plan_type === 'free';
+export const getModalTrigger = (state) =>
+  state.accessibility.app.dashboard.modalTrigger;

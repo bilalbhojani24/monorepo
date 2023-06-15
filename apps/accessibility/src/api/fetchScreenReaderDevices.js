@@ -1,8 +1,6 @@
 import axios from 'axios';
 import { getBrowserStackEnvUrl } from 'utils';
 
-import { screenReaderMockData } from './screenReaderMock';
-
 export default async function fetchScreenReaderDevices() {
   const baseURL = getBrowserStackEnvUrl();
   const getDevices = axios.create({

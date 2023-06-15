@@ -16,7 +16,8 @@ const { actions, reducer } = createSlice({
     alert: {
       show: false,
       name: ''
-    }
+    },
+    modalTrigger: 'General'
   },
   reducers: {
     setUser: (state, { payload }) => {
@@ -40,6 +41,9 @@ const { actions, reducer } = createSlice({
     },
     setAlertName: (state, { payload }) => {
       state.alert.name = payload;
+    },
+    setModalTrigger: (state, { payload }) => {
+      state.modalTrigger = payload;
     }
   }
 });
@@ -51,7 +55,8 @@ export const {
   setModalName,
   setAlertName,
   setAlertShow,
-  setBannerName
+  setBannerName,
+  setModalTrigger
 } = actions;
 
 export default reducer;

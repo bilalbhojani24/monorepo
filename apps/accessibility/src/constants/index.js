@@ -230,6 +230,8 @@ export const TRIAL_IN_PROGRESS = 'processing';
 export const TRIAL_EXPIRED = 'expired';
 export const TRIAL_FAILED = 'failed';
 
+export const SCREEN_READER = 'Screen reader';
+
 export const getBannerDetails = (days) => ({
   not_started: {
     icon: Star,

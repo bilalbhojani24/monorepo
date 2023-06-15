@@ -9,7 +9,7 @@ import {
 import initAPI from 'api/initAPI';
 import { activateFreeTrial, checkProgress } from 'api/reverseTrial';
 import confetti from 'canvas-confetti';
-import { TRIAL_IN_PROGRESS } from 'constants';
+import { TRIAL_EXPIRED, TRIAL_IN_PROGRESS } from 'constants';
 import {
   setBannerName,
   setModalShow,
@@ -19,15 +19,18 @@ import {
 import {
   getModalName,
   getModalShow,
+  getModalTrigger,
   getTrialState,
   getUser
 } from 'features/Dashboard/slices/selectors';
 import { buyAcceesibilityPlan } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
 
 export default function useReverseTrialModal() {
   const showModal = useSelector(getModalShow);
   const modalName = useSelector(getModalName);
   const trialState = useSelector(getTrialState);
+  const modalTrigger = useSelector(getModalTrigger);
   const timerId = useRef(null);
   const dispatch = useDispatch();
   const isEligible = useSelector(getUser);
@@ -85,6 +88,12 @@ export default function useReverseTrialModal() {
       console.error(e);
     }
     dispatch(setModalShow(false));
+    logEvent('InteractedWithRTFeaturesUI', {
+      platform: 'Dashboard',
+      type: modalTrigger,
+      state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending',
+      action: 'Cross'
+    });
   };
 
   const showConfetti = () => {
@@ -124,7 +133,6 @@ export default function useReverseTrialModal() {
   };
 
   const pollReverseTrialStatus = () => {
-    let attempts = 0;
     timerId.current = setInterval(async () => {
       try {
         const response = await checkProgress();
@@ -135,12 +143,7 @@ export default function useReverseTrialModal() {
           dispatch(setModalShow(false));
           showConfetti();
           setShowLoader(false);
-        }
-        attempts += 1;
-        if (attempts === 5) {
-          await refreshUserData();
-          handleError();
-          setShowLoader(false);
+          logEvent('OnRTActivationSuccessState');
         }
       } catch (e) {
         await refreshUserData();
@@ -151,6 +154,7 @@ export default function useReverseTrialModal() {
   };
 
   const handleButtonClick = async () => {
+    let action = 'Buy plan';
     if (modalName !== 'buyPlan' && isEligible) {
       setShowLoader(true);
       try {
@@ -165,12 +169,25 @@ export default function useReverseTrialModal() {
         handleError();
         setShowLoader(false);
       }
+      action = 'Activate 14-day free trial';
     } else {
       buyAcceesibilityPlan();
     }
+
+    logEvent('InteractedWithRTFeaturesUI', {
+      platform: 'Dashboard',
+      type: modalTrigger,
+      state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending',
+      action
+    });
   };
 
-  useEffect(() => () => clearInterval(timerId.current), []);
+  useEffect(
+    () => () => {
+      clearInterval(timerId.current);
+    },
+    []
+  );
 
   return {
     showModal,
