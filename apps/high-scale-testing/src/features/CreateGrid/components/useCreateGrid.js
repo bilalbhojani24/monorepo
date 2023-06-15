@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
@@ -132,6 +132,7 @@ const useCreateGrid = () => {
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
+  const [isVPCLoading, setIsVPCLoading] = useState(false);
   const [newProfileErrorText, setNewProfileErrorText] = useState('');
   const [newProfileNameValue, setNewProfileNameValue] = useState('');
   const [opened, setOpened] = useState(false);
@@ -157,6 +158,9 @@ const useCreateGrid = () => {
     DEFAULT_STEPPER_STATE
   );
   const [totalSteps, setTotalSteps] = useState(0);
+  const [VPCFilteredOptions, setVPCFilteredOptions] =
+    useState(allAvailableVPCIDs);
+  const [VPCQuery, setVPCQuery] = useState('');
 
   const resourceMap = useSelector(getResourceMap);
 
@@ -164,6 +168,15 @@ const useCreateGrid = () => {
 
   const [searchParams, setSearchparams] = useSearchParams();
   const type = searchParams.get('type');
+
+  const displayVPCItemsArray = VPCQuery
+    ? VPCFilteredOptions
+    : allAvailableVPCIDs;
+
+  const isExactVPCMatch = useMemo(
+    () => displayVPCItemsArray.find((item) => item.label === VPCQuery),
+    [VPCQuery, displayVPCItemsArray]
+  );
 
   const updateGridProfileData = async (profileData) => {
     const res = await createNewGridProfile(userDetails.id, profileData);
@@ -317,9 +330,37 @@ const useCreateGrid = () => {
     setShowEventLogsModal(true);
   };
 
-  const vpcChangeHandler = (e) => {
-    setSelectedVPCValue(e);
+  const vpcChangeHandler = (currentItem) => {
+    const foundObject = allAvailableVPCIDs.find(
+      (obj) => obj.value === currentItem.value
+    );
+
+    if (!foundObject) {
+      setAllAvailableVPCIDs([...allAvailableVPCIDs, currentItem]);
+    }
+
+    setSelectedVPCValue(currentItem);
+    setVPCQuery('');
   };
+
+  const VPCInputChangeHandler = useCallback(
+    (val) => {
+      setIsVPCLoading(true);
+      setTimeout(() => {
+        setVPCQuery(val);
+
+        const filtered = allAvailableVPCIDs.filter((fv) =>
+          fv.label
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(val.toLowerCase().replace(/\s+/g, ''))
+        );
+        setVPCFilteredOptions(filtered);
+        setIsVPCLoading(false);
+      }, 0);
+    },
+    [allAvailableVPCIDs]
+  );
 
   useEffect(() => {
     if (currentStep === -1) {
@@ -535,7 +576,7 @@ const useCreateGrid = () => {
         const tmpSubnets =
           resourceMap[currentSelectedCloudProvider.configName][
             selectedRegion.value
-          ][selectedVPCValue.value].subnets;
+          ][selectedVPCValue.value]?.subnets;
         const tmpSubnetsArray = [];
 
         tmpSubnets?.forEach((e) => {
@@ -638,7 +679,6 @@ const useCreateGrid = () => {
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
     allAvailableSubnets,
-    allAvailableVPCIDs,
     breadcrumbsData,
     closeEventLogsModal,
     closeSetupStatusModal,
@@ -653,6 +693,7 @@ const useCreateGrid = () => {
     currentSelectedCloudProvider,
     currentStep,
     dataChanged,
+    displayVPCItemsArray,
     // editClusterBtnClickHandler,
     editClusterNameInputValue,
     eventLogsCode,
@@ -663,7 +704,9 @@ const useCreateGrid = () => {
     gridNameChangeHandler,
     gridProfiles,
     instanceChangeHandler,
+    isExactVPCMatch,
     isSetupComplete,
+    isVPCLoading,
     modalCrossClickhandler,
     newProfileNameValue,
     opened,
@@ -690,6 +733,7 @@ const useCreateGrid = () => {
     setSelectedGridProfile,
     setupNewClusterBtnClickHandler,
     setupState,
+    setVPCQuery,
     showEventLogsModal,
     showGridHeartBeats,
     showSaveProfileModal,
@@ -702,7 +746,9 @@ const useCreateGrid = () => {
     type,
     viewAllBuildsClickHandler,
     viewEventLogsClickHandler,
-    vpcChangeHandler
+    vpcChangeHandler,
+    VPCInputChangeHandler,
+    VPCQuery
   };
 };
 
