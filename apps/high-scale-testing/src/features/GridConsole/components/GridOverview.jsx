@@ -88,7 +88,7 @@ const GridOverview = () => {
     },
     {
       title: 'Running Tests',
-      value: stats?.runningTests
+      value: stats?.runningTests || '--/--'
     },
     {
       title: 'Cluster ID',
@@ -111,7 +111,7 @@ const GridOverview = () => {
     },
     {
       title: 'Queued Tests',
-      value: stats?.queuedTests
+      value: stats?.queuedTests || '--/--'
     },
     {
       title: 'Grid version',
