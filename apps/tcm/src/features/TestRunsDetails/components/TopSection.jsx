@@ -141,7 +141,7 @@ const TopSection = () => {
           </>
         }
         subSection={
-          <div className="flex gap-4">
+          <div className="mt-2 flex gap-4">
             <TMMetadata
               metaDescription={StatusMeta?.label || '--'}
               textColorClass={`mt-1 ${StatusMeta?.textClass}`}
