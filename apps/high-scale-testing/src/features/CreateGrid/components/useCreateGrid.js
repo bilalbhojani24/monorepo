@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
@@ -115,8 +115,10 @@ const useCreateGrid = () => {
   const [collapsibleBtntextForCode, setCollapsibleBtnTextForCode] = useState(
     'View steps to download CLI'
   );
+  const [concurrencyErrorText, setConcurrencyErrorText] = useState('');
   const [creatingGridProfile, setCreatingGridProfile] = useState(false);
   const [dataChanged, setDataChanged] = useState(false);
+  const [editClusterNameErrorText, setEditClusterNameErrorText] = useState('');
   const [editClusterNameInputValue, setEditClusterNameInputValue] =
     useState('');
   const [eventLogsCode, setEventLogsCode] = useState();
@@ -132,6 +134,8 @@ const useCreateGrid = () => {
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
+  const [isSubnetLoading, setIsSubnetLoading] = useState(false);
+  const [isVPCLoading, setIsVPCLoading] = useState(false);
   const [newProfileErrorText, setNewProfileErrorText] = useState('');
   const [newProfileNameValue, setNewProfileNameValue] = useState('');
   const [opened, setOpened] = useState(false);
@@ -147,6 +151,7 @@ const useCreateGrid = () => {
   const [selectedRegion, setSelectedRegion] = useState();
   const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
   const [selectedVPCValue, setSelectedVPCValue] = useState('');
+  const [subnetQuery, setSubnetQuery] = useState('');
   const [setupState, setSetupState] = useState(1);
   const [showEventLogsModal, setShowEventLogsModal] = useState(false);
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
@@ -156,7 +161,12 @@ const useCreateGrid = () => {
   const [stepperStepsState, setStepperStepsState] = useState(
     DEFAULT_STEPPER_STATE
   );
+  const [subnetFilteredOptions, setSubnetFilteredOptions] =
+    useState(allAvailableSubnets);
   const [totalSteps, setTotalSteps] = useState(0);
+  const [VPCFilteredOptions, setVPCFilteredOptions] =
+    useState(allAvailableVPCIDs);
+  const [VPCQuery, setVPCQuery] = useState('');
 
   const resourceMap = useSelector(getResourceMap);
 
@@ -164,6 +174,24 @@ const useCreateGrid = () => {
 
   const [searchParams, setSearchparams] = useSearchParams();
   const type = searchParams.get('type');
+
+  const displaySubnetsItemsArray = subnetQuery
+    ? subnetFilteredOptions
+    : allAvailableSubnets;
+
+  const displayVPCItemsArray = VPCQuery
+    ? VPCFilteredOptions
+    : allAvailableVPCIDs;
+
+  const isExactSubnetMatch = useMemo(
+    () => displaySubnetsItemsArray.find((item) => item.label === subnetQuery),
+    [subnetQuery, displaySubnetsItemsArray]
+  );
+
+  const isExactVPCMatch = useMemo(
+    () => displayVPCItemsArray.find((item) => item.label === VPCQuery),
+    [VPCQuery, displayVPCItemsArray]
+  );
 
   const updateGridProfileData = async (profileData) => {
     const res = await createNewGridProfile(userDetails.id, profileData);
@@ -203,6 +231,7 @@ const useCreateGrid = () => {
 
   const clusterNameInputChangeHandler = (e) => {
     setEditClusterNameInputValue(e.target.value);
+    commonHandler();
   };
 
   // const editClusterBtnClickHandler = () => {
@@ -218,6 +247,13 @@ const useCreateGrid = () => {
   const gridConcurrencyChangeHandler = (e) => {
     const newValue = e.target.value;
     setSelectedGridConcurrency(newValue);
+
+    setConcurrencyErrorText('');
+    if (newValue < 0 || newValue > 1000) {
+      setConcurrencyErrorText('Concurrency value must be between 0 and 1000');
+    }
+
+    commonHandler();
   };
 
   const gridNameChangeHandler = (e) => {
@@ -281,15 +317,40 @@ const useCreateGrid = () => {
   };
 
   const saveChangesClickHander = () => {
-    setShowSaveProfileModal(true);
+    if (concurrencyErrorText.length === 0 && selectedGridConcurrency.length > 0)
+      setShowSaveProfileModal(true);
+    else if (selectedGridConcurrency.length === 0) {
+      setConcurrencyErrorText('Concurrency value must be between 0 and 1000');
+    }
   };
 
   const saveProfileChangeHandler = (e) => {
     setNewProfileNameValue(e.target.value);
   };
 
+  const validateClusterDetails = () => {
+    const clusterNameLength = editClusterNameInputValue.length;
+
+    if (clusterNameLength === 0) {
+      setEditClusterNameErrorText('Enter a valid Cluster name');
+      return false;
+    }
+
+    setEditClusterNameErrorText('');
+    return true;
+  };
+
   const setupBtnClickHandler = () => {
-    setShowSetupClusterModal(false);
+    if (validateClusterDetails()) {
+      const entry = {
+        label: editClusterNameInputValue,
+        value: editClusterNameInputValue
+      };
+      setSelectedClusterValue(entry);
+      setSelectedGridclusters([...selectedGridClusters, entry]);
+
+      setShowSetupClusterModal(false);
+    }
   };
 
   const setupNewClusterBtnClickHandler = () => {
@@ -304,9 +365,37 @@ const useCreateGrid = () => {
     }
   };
 
-  const subnetChangeHandler = (e) => {
-    setSelectedSubnetValues(e);
+  const subnetChangeHandler = (currentItem) => {
+    const foundObject = allAvailableSubnets.find(
+      (obj) => obj.value === currentItem.value
+    );
+
+    if (!foundObject) {
+      setAllAvailableSubnets([...allAvailableSubnets, ...currentItem]);
+    }
+
+    setSelectedSubnetValues(currentItem);
+    setSubnetQuery('');
   };
+
+  const subnetInputChangeHandler = useCallback(
+    (val) => {
+      setIsSubnetLoading(false);
+      setTimeout(() => {
+        setSubnetQuery(val);
+
+        const filtered = allAvailableSubnets.filter((fv) =>
+          fv.label
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(val.toLowerCase().replace(/\s+/g, ''))
+        );
+        setSubnetFilteredOptions(filtered);
+        setIsSubnetLoading(false);
+      }, 0);
+    },
+    [allAvailableSubnets]
+  );
 
   const viewAllBuildsClickHandler = () => {
     closeSetupStatusModal();
@@ -317,9 +406,37 @@ const useCreateGrid = () => {
     setShowEventLogsModal(true);
   };
 
-  const vpcChangeHandler = (e) => {
-    setSelectedVPCValue(e);
+  const vpcChangeHandler = (currentItem) => {
+    const foundObject = allAvailableVPCIDs.find(
+      (obj) => obj.value === currentItem.value
+    );
+
+    if (!foundObject) {
+      setAllAvailableVPCIDs([...allAvailableVPCIDs, currentItem]);
+    }
+
+    setSelectedVPCValue(currentItem);
+    setVPCQuery('');
   };
+
+  const VPCInputChangeHandler = useCallback(
+    (val) => {
+      setIsVPCLoading(true);
+      setTimeout(() => {
+        setVPCQuery(val);
+
+        const filtered = allAvailableVPCIDs.filter((fv) =>
+          fv.label
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(val.toLowerCase().replace(/\s+/g, ''))
+        );
+        setVPCFilteredOptions(filtered);
+        setIsVPCLoading(false);
+      }, 0);
+    },
+    [allAvailableVPCIDs]
+  );
 
   useEffect(() => {
     if (currentStep === -1) {
@@ -535,7 +652,7 @@ const useCreateGrid = () => {
         const tmpSubnets =
           resourceMap[currentSelectedCloudProvider.configName][
             selectedRegion.value
-          ][selectedVPCValue.value].subnets;
+          ][selectedVPCValue.value]?.subnets;
         const tmpSubnetsArray = [];
 
         tmpSubnets?.forEach((e) => {
@@ -638,7 +755,6 @@ const useCreateGrid = () => {
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
     allAvailableSubnets,
-    allAvailableVPCIDs,
     breadcrumbsData,
     closeEventLogsModal,
     closeSetupStatusModal,
@@ -647,14 +763,18 @@ const useCreateGrid = () => {
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
+    concurrencyErrorText,
     creatingGridProfile,
     currentProvidersInstanceTypes,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     currentStep,
     dataChanged,
+    displaySubnetsItemsArray,
+    displayVPCItemsArray,
     // editClusterBtnClickHandler,
     editClusterNameInputValue,
+    editClusterNameErrorText,
     eventLogsCode,
     eventLogsStatus,
     exploreAutomationClickHandler,
@@ -663,7 +783,11 @@ const useCreateGrid = () => {
     gridNameChangeHandler,
     gridProfiles,
     instanceChangeHandler,
+    isExactSubnetMatch,
+    isExactVPCMatch,
     isSetupComplete,
+    isSubnetLoading,
+    isVPCLoading,
     modalCrossClickhandler,
     newProfileNameValue,
     opened,
@@ -688,8 +812,10 @@ const useCreateGrid = () => {
     setCurrentCloudProvider,
     setOpened,
     setSelectedGridProfile,
+    setSubnetQuery,
     setupNewClusterBtnClickHandler,
     setupState,
+    setVPCQuery,
     showEventLogsModal,
     showGridHeartBeats,
     showSaveProfileModal,
@@ -698,11 +824,15 @@ const useCreateGrid = () => {
     stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
+    subnetInputChangeHandler,
+    subnetQuery,
     totalSteps,
     type,
     viewAllBuildsClickHandler,
     viewEventLogsClickHandler,
-    vpcChangeHandler
+    vpcChangeHandler,
+    VPCInputChangeHandler,
+    VPCQuery
   };
 };
 
