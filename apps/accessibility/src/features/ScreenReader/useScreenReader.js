@@ -33,7 +33,7 @@ export default function useScreenReader(noOfDevices) {
   );
 
   const handleCardClick = (startParams, tooltipIndex) => {
-    if (trialState === TRIAL_STARTED || planType) {
+    if (trialState === TRIAL_STARTED || planType === 'paid') {
       const url = getBrowserStackEnvUrl();
       const startLiveSessionUrl = new URL(`${url}/screen-reader/start`);
       startLiveSessionUrl.searchParams.set(
@@ -59,6 +59,10 @@ export default function useScreenReader(noOfDevices) {
     }
   };
 
+  const handlePointerDownOutside = () => {
+    setShowTooltip(Array.from({ length: noOfDevices }, () => false));
+  };
+
   useEffect(() => {
     // fetchScreenReaderDevices().then(setDeviceCombinations);
     fetchMockData().then(setDeviceCombinations);
@@ -74,6 +78,7 @@ export default function useScreenReader(noOfDevices) {
     showBanner,
     showAlert,
     trialState,
-    showTooltip
+    showTooltip,
+    handlePointerDownOutside
   };
 }

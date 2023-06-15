@@ -17,9 +17,8 @@ import { handleClickByEnterOrSpace } from 'utils/helper';
 import useScreenReader from './useScreenReader';
 
 function ScreenReaderSection({ title, devices }) {
-  const { handleCardClick, showTooltip, trialState } = useScreenReader(
-    devices.length
-  );
+  const { handleCardClick, showTooltip, trialState, handlePointerDownOutside } =
+    useScreenReader(devices.length);
 
   const getImage = (os) => {
     if (os === SCREEN_READER_DEVICE_TYPE.ANDROID) return AndroidImage;
@@ -27,8 +26,10 @@ function ScreenReaderSection({ title, devices }) {
     return MacImage;
   };
 
+  console.log({ showTooltip, trialState });
+
   return (
-    <div className="pl-6">
+    <div className="mb-4 pl-6">
       <div className="mb-4 flex items-center">
         <p className="text-base-900 text-xs font-medium">{title}</p>
         <div
@@ -49,12 +50,13 @@ function ScreenReaderSection({ title, devices }) {
               </TooltipBody>
             }
             theme="dark"
+            onPointerDownOutside={handlePointerDownOutside}
           >
             <div
               key={`${item.deviceDisplayName || item.osDisplayName}${
                 item.browserDisplayName
               }`}
-              className="border-base-300 focus-within:ring-brand-500 hover:border-base-400 relative mb-4 mr-4 flex w-80 items-center space-x-3 rounded-lg border bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-offset-2"
+              className="border-base-300 focus-within:ring-brand-500 hover:border-base-400 relative mr-4 flex w-80 items-center space-x-3 rounded-lg border bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-offset-2"
             >
               <div className="shrink-0">
                 <img

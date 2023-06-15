@@ -309,14 +309,14 @@ export const getModalDetails = {
     buttonText: 'Activate 14-day free trial'
   },
   screenReader: {
-    heading: 'Upgrade to use screen readers',
+    heading: 'Get the Team plan to access Screen readers',
     subHeading: modalSubheading,
     placeholderImage: ScreenReaderPlaceholderImage,
     content: screenReaderModalContent,
     buttonText: 'Activate 14-day free trial'
   },
   buyPlan: {
-    heading: 'Upgrade to use screen readers',
+    heading: 'Get the Team plan to access Screen readers',
     subHeading: modalSubheading,
     placeholderImage: ScreenReaderPlaceholderImage,
     content: screenReaderModalContent,
