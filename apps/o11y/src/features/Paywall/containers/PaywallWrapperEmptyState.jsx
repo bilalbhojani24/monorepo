@@ -44,8 +44,7 @@ function PaywallWrapperEmptyState({ children, featureKey }) {
   };
   if (!planDetails?.isActive) {
     return (
-      // eslint-disable-next-line tailwindcss/no-custom-classname
-      <div className="classic-break-words">
+      <div className="break-words">
         <O11yEmptyState
           title={FEATURE_CARD_DATA[featureKey]?.title}
           description={FEATURE_CARD_DATA[featureKey]?.desc}

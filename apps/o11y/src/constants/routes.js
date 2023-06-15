@@ -27,6 +27,9 @@ export const ROUTES = {
   settings: '/projects/:projectNormalisedName/settings',
   smart_tags: '/projects/:projectNormalisedName/settings/smart_tags',
   suite_health: '/projects/:projectNormalisedName/suite_health',
+  suite_health_tests: '/projects/:projectNormalisedName/suite_health/tests',
+  suite_health_unique_errors:
+    '/projects/:projectNormalisedName/suite_health/unique_errors',
   test_details: '/test/details/:testRunId',
   testing_trends: '/projects/:projectNormalisedName/testing_trends'
 };
