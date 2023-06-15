@@ -1,4 +1,4 @@
-export const DIRECTIONS = ['horizontal', 'vertical'];
+export const DIRECTIONS = ['inline', 'block'];
 
 export const TYPES = ['default', 'smallCard', 'stackedCard', 'table'];
 

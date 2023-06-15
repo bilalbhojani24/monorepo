@@ -1,58 +1,46 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { CheckCircleIcon } from '@heroicons/react/20/solid';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import PropTypes from 'prop-types';
 
-import { ActiveContext } from '../RadioGroup';
+import { RadioGroupContextData } from '../../shared/radioGroupContext';
+import { RadioCardStyles } from '../RadioGroup/const/radioConstantStyles';
 import { DIRECTIONS, TYPES } from '../RadioGroup/const/radioItemConstants';
 
-const RadioCard = ({
-  option,
-  disabled,
-  wrapperClassName,
-  type,
-  direction,
-  ...props
-}) => {
-  const { value, label, text, description } = option;
-  const active = useContext(ActiveContext);
-  const checked = active === value;
-  const cardStyles =
-    type === TYPES[1]
-      ? [
-          'border-base-200 text-base-900 rounded-md p-3 flex items-center justify-center text-sm font-medium uppercase sm:flex-1 hover:bg-base-50 focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
-          checked &&
-            'bg-brand-600 border-transparent text-white hover:bg-brand-700'
-        ]
-      : [
-          'w-full border-base-300 relative rounded-lg  p-4 shadow-sm  text-left',
-          direction === DIRECTIONS[0]
-            ? 'flex p-4'
-            : 'block px-6 py-4 sm:flex sm:justify-between'
-        ];
+const RadioCardItem = ({ option, disabled, wrapperClassName, ...props }) => {
+  const { value, primaryLabel, secondaryLabel, description } = option;
+  const { activeOption, type, direction } = useContext(RadioGroupContextData);
+  const checked = useMemo(() => activeOption === value, [activeOption, value]);
+
   return (
     <RadioGroupPrimitive.Item
       className={twClassNames(
         'cursor-pointer focus:outline-none bg-white border',
-        [...cardStyles],
-        { 'opacity-25 cursor-not-allowed': disabled },
+        RadioCardStyles[type][direction],
+        {
+          'opacity-25 cursor-not-allowed': disabled,
+          'bg-brand-600 border-transparent text-white hover:bg-brand-700':
+            type === TYPES[1] && checked
+        },
         wrapperClassName
       )}
       value={value}
       disabled={disabled}
       {...props}
     >
-      {type === TYPES[1] && label && <label htmlFor={value}>{label}</label>}
+      {type === TYPES[1] && primaryLabel && (
+        <label htmlFor={value}>{primaryLabel}</label>
+      )}
 
       {type === TYPES[2] && (
         <>
           <span className={twClassNames('flex flex-1')}>
             <span className="flex flex-col items-baseline">
               <span className="text-base-900 block text-sm font-medium">
-                {label}
+                {primaryLabel}
               </span>
-              <span className="text-base-500 mt-1 flex items-center text-sm">
+              <span className="text-base-500 flex items-center text-sm">
                 {description}
               </span>
               <span
@@ -63,7 +51,7 @@ const RadioCard = ({
                   }
                 )}
               >
-                {text}
+                {secondaryLabel}
               </span>
             </span>
           </span>
@@ -72,7 +60,7 @@ const RadioCard = ({
               hidden: direction === DIRECTIONS[0]
             })}
           >
-            {text}
+            {secondaryLabel}
           </span>
           {direction === DIRECTIONS[0] ? (
             <CheckCircleIcon
@@ -96,23 +84,19 @@ const RadioCard = ({
   );
 };
 
-RadioCard.propTypes = {
+RadioCardItem.propTypes = {
   option: PropTypes.shape({
-    value: PropTypes.oneOfType(['string', 'number']).isRequired,
-    label: PropTypes.string.isRequired,
-    text: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    primaryLabel: PropTypes.string.isRequired,
+    secondaryLabel: PropTypes.string,
     description: PropTypes.string
   }).isRequired,
-  direction: PropTypes.oneOf(DIRECTIONS),
-  type: PropTypes.oneOf(TYPES),
   disabled: PropTypes.bool,
   wrapperClassName: PropTypes.string
 };
-RadioCard.defaultProps = {
+RadioCardItem.defaultProps = {
   disabled: false,
-  direction: DIRECTIONS[0],
-  type: TYPES[1],
   wrapperClassName: ''
 };
 
-export default RadioCard;
+export default RadioCardItem;

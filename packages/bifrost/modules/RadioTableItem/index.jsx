@@ -1,30 +1,30 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import PropTypes from 'prop-types';
 
-import { ActiveContext } from '../RadioGroup';
+import { RadioGroupContextData } from '../../shared/radioGroupContext';
+import { RadioTableBorderStyles } from '../RadioGroup/const/radioConstantStyles';
 
-const RadioTable = ({
+const RadioTableItem = ({
   option,
   disabled,
-  index,
-  length,
+  borderType,
   singleColumn,
   inlineDescription,
   wrapperClassName,
   ...props
 }) => {
   const { value, label, description, columns } = option;
-  const active = useContext(ActiveContext);
-  const checked = active === value;
+  const { activeOption } = useContext(RadioGroupContextData);
+  const checked = useMemo(() => activeOption === value, [activeOption, value]);
+
   return (
     <RadioGroupPrimitive.Item
       className={twClassNames(
-        'w-full relative border border-base-200 p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none',
+        'w-full relative border border-base-200 p-4 flex flex-col cursor-pointer md:pl-4 md:pr-6 focus:outline-none group',
+        RadioTableBorderStyles[borderType],
         {
-          'rounded-tl-md rounded-tr-md': index === 0,
-          'rounded-bl-md rounded-br-md': index === length - 1,
           'bg-brand-50 border-brand-200 z-10': checked,
           'md:grid md:grid-cols-4': !singleColumn,
           'cursor-not-allowed': disabled
@@ -35,26 +35,29 @@ const RadioTable = ({
       disabled={disabled}
       {...props}
     >
-      <span
-        className={twClassNames('flex items-center text-sm', {
-          'opacity-25': disabled
-        })}
-      >
+      <span className={twClassNames('flex text-sm')}>
         <span
           className={twClassNames(
-            'h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center focus:ring-2 focus:ring-offset-2 focus:ring-brand-500',
+            'mt-0.5 h-4 w-4 shrink-0 rounded-full border bg-white border-base-300 flex items-center justify-center group-focus:ring-2 group-focus:ring-offset-2 group-focus:ring-brand-500',
             {
-              'bg-brand-600 border-transparent': checked
+              'bg-brand-600 border-transparent': checked,
+              'bg-base-50': disabled,
+              'bg-brand-200': checked && disabled
             }
           )}
           aria-hidden="true"
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-white" />
+          <span
+            className={twClassNames('h-1.5 w-1.5 rounded-full bg-white', {
+              'bg-base-50': !checked && disabled
+            })}
+          />
         </span>
 
         <div
           className={twClassNames('flex text-left', {
-            'flex-col items-baseline': !inlineDescription
+            'flex-col items-baseline': !inlineDescription,
+            'opacity-25': disabled
           })}
         >
           <span
@@ -109,9 +112,9 @@ const RadioTable = ({
   );
 };
 
-RadioTable.propTypes = {
+RadioTableItem.propTypes = {
   option: PropTypes.shape({
-    value: PropTypes.oneOfType(['string', 'number']).isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.string.isRequired,
     description: PropTypes.string,
     columns: PropTypes.arrayOf(
@@ -123,18 +126,16 @@ RadioTable.propTypes = {
   }).isRequired,
   disabled: PropTypes.bool,
   singleColumn: PropTypes.bool,
-  index: PropTypes.number,
-  length: PropTypes.number,
+  borderType: PropTypes.string,
   inlineDescription: PropTypes.bool,
   wrapperClassName: PropTypes.string
 };
-RadioTable.defaultProps = {
+RadioTableItem.defaultProps = {
   disabled: false,
   singleColumn: false,
-  index: 0,
-  length: 0,
+  borderType: '',
   inlineDescription: true,
   wrapperClassName: ''
 };
 
-export default RadioTable;
+export default RadioTableItem;
