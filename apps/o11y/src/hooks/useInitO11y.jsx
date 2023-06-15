@@ -78,11 +78,7 @@ function useInitO11y() {
       };
 
       if (!window.initialized) {
-        try {
-          initLogger(keys);
-        } catch (err) {
-          // fail silently
-        }
+        initLogger(keys);
         window.initialized = true;
       }
     }
