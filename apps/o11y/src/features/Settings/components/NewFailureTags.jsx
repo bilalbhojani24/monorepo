@@ -47,7 +47,7 @@ export const NewFailureTags = ({ data, isActive }) => {
   return (
     <section className="p-6 pb-9">
       <div className="flex justify-between">
-        <span className="text-lg font-medium">New failures</span>
+        <span className="font-medium">New failures</span>
         <O11ySwitcher
           checked={newFailureEnabled}
           onChange={(value) => setNewFailure('enabled', value)}
@@ -55,7 +55,7 @@ export const NewFailureTags = ({ data, isActive }) => {
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm">
         <>
           <div className="text-base-500 flex items-center">
             The test has failed with a

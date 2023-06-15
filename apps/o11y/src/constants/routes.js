@@ -5,6 +5,9 @@ export const ROUTES = {
   builds: '/projects/:projectNormalisedName/builds',
   buildShort: '/builds/:buildUuid',
   get_started: '/get-started',
+  suite_health_tests: '/projects/:projectNormalisedName/suite_health/tests',
+  suite_health_unique_errors:
+    '/projects/:projectNormalisedName/suite_health/unique_errors',
   integrations_azurePipelines: '/integrations/azure-pipelines',
   integrations_base: '/integrations',
   integrations_jenkins: '/integrations/jenkins',

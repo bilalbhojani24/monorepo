@@ -26,6 +26,8 @@ import {
   ModalFooter,
   ModalHeader,
   Notifications,
+  Popover,
+  PopoverBody,
   ProgressBar,
   RadioGroup,
   SectionHeadings,
@@ -57,6 +59,7 @@ import TMPageHeadings from './components/TMPageHeadings';
 import TMPagination from './components/TMPagination';
 import TMRichTextEditor from './components/TMRichTextEditor';
 import TMSelectMenu from './components/TMSelectMenu';
+import TMTruncateText from './components/TMTruncateText';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
 
@@ -102,7 +105,6 @@ export const TMBanner = (props) => <Banner {...props} />;
 
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
-export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
 export const TMProgressBar = (props) => <ProgressBar {...props} />;
 export const TMActionPanel = (props) => <ActionPanel {...props} />;
@@ -126,6 +128,9 @@ export const TMSlideoverHeader = (props) => (
   />
 );
 
+export const TMPopover = (props) => <Popover {...props} />;
+export const TMPopoverBody = (props) => <PopoverBody {...props} />;
+
 export {
   TMAttachments,
   TMBadgeComboBox,
@@ -138,5 +143,6 @@ export {
   TMPageHeadings,
   TMPagination,
   TMRichTextEditor,
-  TMSelectMenu
+  TMSelectMenu,
+  TMTruncateText
 };

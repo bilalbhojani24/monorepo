@@ -55,7 +55,7 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
   return (
     <section className="p-6 pb-9">
       <div className="flex justify-between">
-        <span className="text-lg font-medium">Always Failing</span>
+        <span className="font-medium">Always Failing</span>
         <O11ySwitcher
           checked={alwaysFailingSwitchEnabled}
           onChange={(value) => setAlwaysFailing('enabled', value)}
@@ -63,7 +63,7 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm">
         <>
           <div className="text-base-500 flex items-center">
             The test has been failing with the

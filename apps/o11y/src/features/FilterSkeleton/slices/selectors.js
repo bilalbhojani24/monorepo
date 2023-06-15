@@ -28,6 +28,9 @@ export const getStaticFiltersByType = (type) => (state) => {
   return state.allFilters[currentCategory].staticFilters[type] || [];
 };
 
+export const getIsDirtyByCategory = (category) => (state) =>
+  state.allFilters[category].isDirty;
+
 // custom selectors
 
 export const getAppliedFiltersByType = (type) =>

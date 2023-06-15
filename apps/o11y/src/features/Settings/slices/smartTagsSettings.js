@@ -93,11 +93,6 @@ const { reducer, actions } = createSlice({
           },
           isLoading: false
         };
-        o11yNotify({
-          type: 'error',
-          title: 'Something went wrong',
-          description: 'We were unable to update settings. Please try again'
-        });
       })
       .addCase(submitSmartTagsChanges.fulfilled, (state, { payload }) => {
         state.smartTags = {

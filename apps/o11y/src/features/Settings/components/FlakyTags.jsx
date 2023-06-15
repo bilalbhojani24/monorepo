@@ -95,11 +95,11 @@ export const FlakyTags = ({ data, isActive }) => {
 
   useEffect(() => {
     setConsecutiveRunsArray([
-      ...Array(30 - flakeInHistory.flippingCount)
+      ...Array(30 - Math.max(5, flakeInHistory.flippingCount))
         .fill(0)
         .map((_, i) => ({
-          name: i + flakeInHistory.flippingCount + 1,
-          value: i + flakeInHistory.flippingCount + 1
+          name: i + Math.max(5, flakeInHistory.flippingCount) + 1,
+          value: i + Math.max(5, flakeInHistory.flippingCount) + 1
         }))
     ]);
   }, [flakeInHistory.flippingCount]);
@@ -118,7 +118,7 @@ export const FlakyTags = ({ data, isActive }) => {
   return (
     <section className="p-6 pb-9">
       <div className="flex justify-between">
-        <span className="text-lg font-medium">Flaky</span>
+        <span className="font-medium">Flaky</span>
         <O11ySwitcher
           checked={automaticFlaky}
           onChange={(item) => updateFlakyTagsSwitch('automaticFlaky', item)}
@@ -126,10 +126,12 @@ export const FlakyTags = ({ data, isActive }) => {
         />
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
-      <div className="flex flex-col">
+      <div className="flex flex-col text-sm">
         <>
           <div className="flex justify-between">
-            <p className="text-base-900">Flake in history of test execution</p>
+            <p className="text-base-900 font-medium">
+              Flake in history of test execution
+            </p>
             <O11ySwitcher
               checked={flakeInHistory.enabled}
               onChange={(value) => setTestStatusFlipping('enabled', value)}
@@ -210,8 +212,8 @@ export const FlakyTags = ({ data, isActive }) => {
         </>
         <p className="text-base-600 py-4">OR</p>
         <>
-          <div className="flex justify-between">
-            <p className="text-base-900">Flake in test re-runs</p>
+          <div className="flex justify-between text-sm">
+            <p className="text-base-900 font-medium">Flake in test re-runs</p>
             <O11ySwitcher
               checked={flakeInRerun.enabled}
               onChange={(item) => setFlakeInRerun('enabled', item)}
@@ -220,7 +222,7 @@ export const FlakyTags = ({ data, isActive }) => {
           </div>
           <div className="text-base-500 flex items-center">
             Test passes on a retry within the last
-            <div className="text-base-900 mx-1 w-16">
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{
                   label: flakeInRerun.consecutiveRuns,
