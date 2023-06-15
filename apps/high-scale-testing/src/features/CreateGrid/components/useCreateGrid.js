@@ -117,6 +117,7 @@ const useCreateGrid = () => {
   );
   const [creatingGridProfile, setCreatingGridProfile] = useState(false);
   const [dataChanged, setDataChanged] = useState(false);
+  const [editClusterNameErrorText, setEditClusterNameErrorText] = useState('');
   const [editClusterNameInputValue, setEditClusterNameInputValue] =
     useState('');
   const [eventLogsCode, setEventLogsCode] = useState();
@@ -314,8 +315,20 @@ const useCreateGrid = () => {
     setNewProfileNameValue(e.target.value);
   };
 
+  const validateClusterDetails = () => {
+    const clusterNameLength = editClusterNameInputValue.length;
+
+    if (clusterNameLength === 0) {
+      setEditClusterNameErrorText('Enter a valid Cluster name');
+      return false;
+    }
+
+    setEditClusterNameErrorText('');
+    return true;
+  };
+
   const setupBtnClickHandler = () => {
-    setShowSetupClusterModal(false);
+    if (validateClusterDetails()) setShowSetupClusterModal(false);
   };
 
   const setupNewClusterBtnClickHandler = () => {
@@ -738,6 +751,7 @@ const useCreateGrid = () => {
     displayVPCItemsArray,
     // editClusterBtnClickHandler,
     editClusterNameInputValue,
+    editClusterNameErrorText,
     eventLogsCode,
     eventLogsStatus,
     exploreAutomationClickHandler,

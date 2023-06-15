@@ -62,6 +62,7 @@ const CreateGrid = () => {
     displayVPCItemsArray,
     // editClusterBtnClickHandler,
     editClusterNameInputValue,
+    editClusterNameErrorText,
     eventLogsCode,
     eventLogsStatus,
     exploreAutomationClickHandler,
@@ -141,6 +142,7 @@ const CreateGrid = () => {
 
   const ClusterInputTextComponent = (
     <InputField
+      errorText={editClusterNameErrorText}
       id="test-id"
       label="Cluster Name"
       onBlur={null}
