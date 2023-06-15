@@ -240,6 +240,11 @@ const useCreateGrid = () => {
 
   const regionChangeHandler = (e) => {
     setSelectedRegion(e);
+    setSelectedVPCValue({
+      label: '',
+      value: ''
+    });
+    setSelectedSubnetValues([]);
   };
 
   const saveAndProceedClickHandler = () => {
