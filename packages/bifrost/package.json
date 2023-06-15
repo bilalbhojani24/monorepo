@@ -1,12 +1,14 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "8.3.0",
+  "version": "8.8.0",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "STORYBOOK_INTERACTION=false build-storybook",
+    "build-storybook:interaction": "STORYBOOK_INTERACTION=true build-storybook",
     "chromatic": "npx chromatic --project-token=e55097a5c9b3",
+    "chromatic:interaction": "npx chromatic --project-token=e55097a5c9b3 -b build-storybook:interaction",
     "build": "vite build",
     "lint:check": "eslint --format=table --ignore-pattern dist --max-warnings 0 \"**/*.{js,jsx}\"",
     "lint:fix": "npm run lint:check -- --fix",

@@ -36,7 +36,8 @@ const DateRangepicker = (props) => {
     crossOffset,
     placement,
     wrapperClassName,
-    isLoading
+    isLoading,
+    isMandatory
   } = props;
 
   const years = useYearpicker(YEARS_DATA, 12);
@@ -69,6 +70,7 @@ const DateRangepicker = (props) => {
             className="text-base-700 break-all text-sm font-medium leading-5"
           >
             {label}
+            {isMandatory && <span className="text-danger-600 ml-0.5">*</span>}
           </span>
         )}
         <div
@@ -164,7 +166,8 @@ DateRangepicker.propTypes = {
   crossOffset: Proptypes.number,
   placement: Proptypes.string,
   label: Proptypes.string,
-  isLoading: Proptypes.bool
+  isLoading: Proptypes.bool,
+  isMandatory: Proptypes.bool
 };
 DateRangepicker.defaultProps = {
   wrapperClassName: '',
@@ -176,7 +179,8 @@ DateRangepicker.defaultProps = {
   crossOffset: 0,
   placement: 'bottom end',
   label: '',
-  isLoading: false
+  isLoading: false,
+  isMandatory: false
 };
 
 export default DateRangepicker;

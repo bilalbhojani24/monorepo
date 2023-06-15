@@ -89,17 +89,17 @@ const BuildInfo = ({ buildDetails }) => (
               )}
             </>
           )}
+          {!!buildDetails?.startedAt && (
+            <O11yMetaData
+              metaDescription={`${getCustomTimeStamp({
+                dateString: buildDetails.startedAt
+              })}`}
+              icon={<MdOutlineAccessTime className="text-base-400 h-4 w-4" />}
+              metaTitle="Started at"
+              textColorClass="text-base-500"
+            />
+          )}
         </div>
-      )}
-      {!!buildDetails?.startedAt && (
-        <O11yMetaData
-          metaDescription={`${getCustomTimeStamp({
-            dateString: buildDetails.startedAt
-          })}`}
-          icon={<MdOutlineAccessTime className="text-base-400 h-4 w-4" />}
-          metaTitle="Started at"
-          textColorClass="text-base-500"
-        />
       )}
     </div>
   </div>
