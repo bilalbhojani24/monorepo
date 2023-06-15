@@ -58,9 +58,11 @@ export default function useDashboard() {
   const trialEndDate = useSelector(getTrialEndDate);
   const trialState = useSelector(getTrialState);
   const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
-  const { plan_type: planType } = useSelector(getUser);
+  const { plan_type: planType, show_expiry_sidebar_component: showTile } =
+    useSelector(getUser);
 
   const showTrialTile = () =>
+    showTile &&
     trialState !== TRIAL_NOT_STARTED &&
     trialState !== TRIAL_IN_PROGRESS &&
     countRemainingDays(new Date(), addDays(new Date(trialEndDate), 60)) > 0;
