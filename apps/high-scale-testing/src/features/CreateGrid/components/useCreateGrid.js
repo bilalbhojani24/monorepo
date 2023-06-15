@@ -336,10 +336,9 @@ const useCreateGrid = () => {
     );
 
     if (!foundObject) {
-      setAllAvailableSubnets([...allAvailableSubnets, currentItem]);
+      setAllAvailableSubnets([...allAvailableSubnets, ...currentItem]);
     }
 
-    console.log('Log: currentItem:', currentItem);
     setSelectedSubnetValues(currentItem);
     setSubnetQuery('');
   };
@@ -356,7 +355,6 @@ const useCreateGrid = () => {
             .replace(/\s+/g, '')
             .includes(val.toLowerCase().replace(/\s+/g, ''))
         );
-        
         setSubnetFilteredOptions(filtered);
         setIsSubnetLoading(false);
       }, 0);
