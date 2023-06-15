@@ -225,7 +225,7 @@ const CreateGrid = () => {
       <ComboboxLabel>Subnets</ComboboxLabel>
       <ComboboxTrigger
         onInputValueChange={subnetInputChangeHandler}
-        placeholder="Placeholder"
+        placeholder="Select Subnets"
       />
       <ComboboxOptionGroup
         addNewItemComponent={
@@ -279,7 +279,7 @@ const CreateGrid = () => {
       <ComboboxLabel>VPC ID</ComboboxLabel>
       <ComboboxTrigger
         onInputValueChange={VPCInputChangeHandler}
-        placeholder="Placeholder"
+        placeholder="Select VPC ID"
       />
       <ComboboxOptionGroup
         addNewItemComponent={
