@@ -60,7 +60,7 @@ const ClusterOverview = () => {
     },
     {
       title: 'Created by',
-      value: clusterData?.createdBy.fullName
+      value: clusterData?.createdBy?.fullName
     },
     {
       title: 'No. of Grids',
