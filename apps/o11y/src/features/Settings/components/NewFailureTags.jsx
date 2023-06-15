@@ -9,7 +9,7 @@ import {
 } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
-import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
+import { SMART_TAGS_CONSTANTS, SMART_TAGS_DEFAULT_VALUES } from '../constants';
 import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const NEW_FAILURE_TYPES_DATA = [
@@ -58,7 +58,8 @@ export const NewFailureTags = ({ data, isActive }) => {
       <div className="flex flex-col text-sm">
         <>
           <div className="text-base-500 flex items-center">
-            The test has failed with {failureType === 'NEW' ? 'a' : ''}
+            The test has failed with{' '}
+            {failureType === SMART_TAGS_CONSTANTS.NEW ? 'a' : ''}
             <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{
