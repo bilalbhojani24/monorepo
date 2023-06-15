@@ -13,7 +13,7 @@ const envConfig = getEnvConfig();
 
 const O11yHeader = () => (
   <Header
-    wrapperClassName="sticky top-0"
+    wrapperClassName="sticky top-0 -ml-[56px] w-screen"
     headerID="bstack-header"
     productName="Test Observability"
     productLink={ROUTES.root}
