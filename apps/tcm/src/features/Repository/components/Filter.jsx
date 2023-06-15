@@ -164,7 +164,7 @@ const Filter = ({ isMini, onFilterChange }) => {
         >
           <div className="flex h-96 w-full gap-4 p-4 pb-1 pl-3">
             <div className="flex h-full w-5/12 flex-col">
-              <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
+              <div className="text-base-900 mb-2 pl-1 text-base font-medium">
                 Filter By Owner
               </div>
               <div className="pl-1">
@@ -194,7 +194,7 @@ const Filter = ({ isMini, onFilterChange }) => {
               </div>
             </div>
             <div className="flex h-full w-5/12 flex-col">
-              <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
+              <div className="text-base-900 mb-2 pl-1 text-base font-medium">
                 Filter By Tags
               </div>
               <div className="pl-1">
@@ -224,7 +224,7 @@ const Filter = ({ isMini, onFilterChange }) => {
               </div>
             </div>
             <div className="h-80 w-1/5">
-              <div className="text-brand-800 mb-2 text-base font-medium">
+              <div className="text-base-900 mb-2 text-base font-medium">
                 Filter By Priority
               </div>
               <div className="h-full w-full overflow-y-auto p-1">

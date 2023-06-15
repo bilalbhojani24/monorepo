@@ -88,7 +88,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
         handleDismissClick={onModalCloseHandler}
       />
       <TMModalBody>
-        <div>
+        <div className="text-base-500">
           Values for {csvFileField} are mapped by default. You can update the
           mapping if needed:
         </div>
@@ -105,7 +105,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           <TableBody>
             {modalRowRef?.current?.map((row) => (
               <TableRow key={row.csvValue}>
-                <TableCell wrapperClassName="py-1 w-1/3">
+                <TableCell wrapperClassName="py-1 w-1/3 text-base-900">
                   {row.csvValue}
                 </TableCell>
                 <TableCell wrapperClassName="py-2 mr-4 w-2/3">
