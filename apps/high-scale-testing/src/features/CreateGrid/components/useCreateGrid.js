@@ -132,6 +132,7 @@ const useCreateGrid = () => {
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
+  const [isSubnetLoading, setIsSubnetLoading] = useState(false);
   const [isVPCLoading, setIsVPCLoading] = useState(false);
   const [newProfileErrorText, setNewProfileErrorText] = useState('');
   const [newProfileNameValue, setNewProfileNameValue] = useState('');
@@ -148,6 +149,7 @@ const useCreateGrid = () => {
   const [selectedRegion, setSelectedRegion] = useState();
   const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
   const [selectedVPCValue, setSelectedVPCValue] = useState('');
+  const [subnetQuery, setSubnetQuery] = useState('');
   const [setupState, setSetupState] = useState(1);
   const [showEventLogsModal, setShowEventLogsModal] = useState(false);
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
@@ -157,6 +159,8 @@ const useCreateGrid = () => {
   const [stepperStepsState, setStepperStepsState] = useState(
     DEFAULT_STEPPER_STATE
   );
+  const [subnetFilteredOptions, setSubnetFilteredOptions] =
+    useState(allAvailableSubnets);
   const [totalSteps, setTotalSteps] = useState(0);
   const [VPCFilteredOptions, setVPCFilteredOptions] =
     useState(allAvailableVPCIDs);
@@ -169,9 +173,18 @@ const useCreateGrid = () => {
   const [searchParams, setSearchparams] = useSearchParams();
   const type = searchParams.get('type');
 
+  const displaySubnetsItemsArray = subnetQuery
+    ? subnetFilteredOptions
+    : allAvailableSubnets;
+
   const displayVPCItemsArray = VPCQuery
     ? VPCFilteredOptions
     : allAvailableVPCIDs;
+
+  const isExactSubnetMatch = useMemo(
+    () => displaySubnetsItemsArray.find((item) => item.label === subnetQuery),
+    [subnetQuery, displaySubnetsItemsArray]
+  );
 
   const isExactVPCMatch = useMemo(
     () => displayVPCItemsArray.find((item) => item.label === VPCQuery),
@@ -317,9 +330,39 @@ const useCreateGrid = () => {
     }
   };
 
-  const subnetChangeHandler = (e) => {
-    setSelectedSubnetValues(e);
+  const subnetChangeHandler = (currentItem) => {
+    const foundObject = allAvailableSubnets.find(
+      (obj) => obj.value === currentItem.value
+    );
+
+    if (!foundObject) {
+      setAllAvailableSubnets([...allAvailableSubnets, currentItem]);
+    }
+
+    console.log('Log: currentItem:', currentItem);
+    setSelectedSubnetValues(currentItem);
+    setSubnetQuery('');
   };
+
+  const subnetInputChangeHandler = useCallback(
+    (val) => {
+      setIsSubnetLoading(false);
+      setTimeout(() => {
+        setSubnetQuery(val);
+
+        const filtered = allAvailableSubnets.filter((fv) =>
+          fv.label
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(val.toLowerCase().replace(/\s+/g, ''))
+        );
+        
+        setSubnetFilteredOptions(filtered);
+        setIsSubnetLoading(false);
+      }, 0);
+    },
+    [allAvailableSubnets]
+  );
 
   const viewAllBuildsClickHandler = () => {
     closeSetupStatusModal();
@@ -693,6 +736,7 @@ const useCreateGrid = () => {
     currentSelectedCloudProvider,
     currentStep,
     dataChanged,
+    displaySubnetsItemsArray,
     displayVPCItemsArray,
     // editClusterBtnClickHandler,
     editClusterNameInputValue,
@@ -704,8 +748,10 @@ const useCreateGrid = () => {
     gridNameChangeHandler,
     gridProfiles,
     instanceChangeHandler,
+    isExactSubnetMatch,
     isExactVPCMatch,
     isSetupComplete,
+    isSubnetLoading,
     isVPCLoading,
     modalCrossClickhandler,
     newProfileNameValue,
@@ -731,6 +777,7 @@ const useCreateGrid = () => {
     setCurrentCloudProvider,
     setOpened,
     setSelectedGridProfile,
+    setSubnetQuery,
     setupNewClusterBtnClickHandler,
     setupState,
     setVPCQuery,
@@ -742,6 +789,8 @@ const useCreateGrid = () => {
     stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
+    subnetInputChangeHandler,
+    subnetQuery,
     totalSteps,
     type,
     viewAllBuildsClickHandler,

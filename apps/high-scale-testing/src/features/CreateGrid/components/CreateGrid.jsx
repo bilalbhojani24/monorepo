@@ -58,6 +58,7 @@ const CreateGrid = () => {
     currentSelectedCloudProvider,
     currentStep,
     dataChanged,
+    displaySubnetsItemsArray,
     displayVPCItemsArray,
     // editClusterBtnClickHandler,
     editClusterNameInputValue,
@@ -69,8 +70,10 @@ const CreateGrid = () => {
     gridNameChangeHandler,
     gridProfiles,
     instanceChangeHandler,
+    isExactSubnetMatch,
     isExactVPCMatch,
     isSetupComplete,
+    isSubnetLoading,
     isVPCLoading,
     modalCrossClickhandler,
     newProfileNameValue,
@@ -96,6 +99,7 @@ const CreateGrid = () => {
     setCurrentCloudProvider,
     setOpened,
     setSelectedGridProfile,
+    setSubnetQuery,
     setupNewClusterBtnClickHandler,
     setupState,
     setVPCQuery,
@@ -107,6 +111,8 @@ const CreateGrid = () => {
     stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
+    subnetInputChangeHandler,
+    subnetQuery,
     totalSteps,
     type,
     viewAllBuildsClickHandler,
@@ -203,16 +209,32 @@ const CreateGrid = () => {
 
   const SubnetsInputComponent = (
     <ComboBox
-      onChange={subnetChangeHandler}
-      value={selectedSubnetValues}
-      // eslint-disable-next-line react/jsx-boolean-value
-      isMulti={true}
       disabled={!showSetupClusterModal}
+      isMulti
+      isRightLoading={isSubnetLoading}
+      onChange={subnetChangeHandler}
+      onOpenChange={(status) => {
+        if (!status) setSubnetQuery('');
+      }}
+      value={selectedSubnetValues}
     >
       <ComboboxLabel>Subnets</ComboboxLabel>
-      <ComboboxTrigger placeholder="Placeholder" />
-      <ComboboxOptionGroup>
-        {allAvailableSubnets.map((item) => (
+      <ComboboxTrigger
+        onInputValueChange={subnetInputChangeHandler}
+        placeholder="Placeholder"
+      />
+      <ComboboxOptionGroup
+        addNewItemComponent={
+          !isExactSubnetMatch && subnetQuery.length > 0 ? (
+            <ComboboxAddNewItem
+              suffix="as a new option (↵)"
+              prefix="Add"
+              showQuery
+            />
+          ) : null
+        }
+      >
+        {displaySubnetsItemsArray.map((item) => (
           <ComboboxOptionItem key={item.value} option={item} />
         ))}
       </ComboboxOptionGroup>
