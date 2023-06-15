@@ -56,6 +56,7 @@ export default function useReverseTrialAlert() {
   };
 
   const displayAlert = (name) => {
+    if (planType === 'paid') return;
     dispatch(setAlertName(name));
     dispatch(setAlertShow(true));
     logEvent('OnRTFeatureSpecificBanner', {

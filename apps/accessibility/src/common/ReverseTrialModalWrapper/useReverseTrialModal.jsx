@@ -92,7 +92,7 @@ export default function useReverseTrialModal() {
       platform: 'Dashboard',
       type: modalTrigger,
       state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending',
-      action: 'Cross'
+      action: 'Cancel'
     });
   };
 

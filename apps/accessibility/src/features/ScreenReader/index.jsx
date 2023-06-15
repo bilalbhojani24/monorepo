@@ -26,8 +26,6 @@ function ScreenReaderSection({ title, devices }) {
     return MacImage;
   };
 
-  console.log({ showTooltip, trialState });
-
   return (
     <div className="mb-4 pl-6">
       <div className="mb-4 flex items-center">

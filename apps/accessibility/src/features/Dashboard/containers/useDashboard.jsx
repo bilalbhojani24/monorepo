@@ -125,7 +125,9 @@ export default function useDashboard() {
       path: '/',
       link: '',
       show:
-        [TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState) && !showBanner
+        [TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState) &&
+        !showBanner &&
+        planType !== 'paid'
     },
     {
       id: 'extension',

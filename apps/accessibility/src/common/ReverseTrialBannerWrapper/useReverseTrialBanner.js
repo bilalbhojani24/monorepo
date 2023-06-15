@@ -67,7 +67,6 @@ export default function useReverseTrialBanner() {
   };
 
   const displayBannerOnceADay = (storageKey, nameOfBanner) => {
-    // TO-DO confirm the plan type from BE
     if (planType === 'paid') return;
 
     const dateValue = new Date(localStorage.getItem(storageKey));
