@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import {
   ComboBox,
@@ -10,6 +10,8 @@ import {
 import { twClassNames } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
 import PropTypes from 'prop-types';
+
+const VIRTUALIZE_AFTER = 200;
 
 const O11yComboBox = ({
   disabled,
@@ -25,9 +27,12 @@ const O11yComboBox = ({
   isLoading,
   isAsyncSearch,
   onSearch,
-  onOpenChange
+  onOpenChange,
+  stickyFooter
 }) => {
   const [query, setQuery] = useState('');
+  const stickyRef = useRef(null);
+  const virtuosoRef = useRef(null);
 
   const handleSearch = (val) => {
     if (!isAsyncSearch) {
@@ -48,13 +53,28 @@ const O11yComboBox = ({
     virtuosoStyles.width = virtuosoWidth;
   }
 
+  const handleOnOpenChange = (isOpen) => {
+    setTimeout(() => {
+      if (isOpen && virtuosoRef.current) {
+        const foundIdx = filteredOptions.findIndex(
+          (item) => item.value === value.value
+        );
+        virtuosoRef.current.scrollToIndex({
+          index: foundIdx,
+          align: 'center'
+        });
+      }
+    }, 50);
+    onOpenChange(isOpen);
+  };
+
   return (
     <ComboBox
       onChange={onChange}
       value={value}
       isMulti={!!filteredOptions.length && isMulti}
       disabled={disabled}
-      onOpenChange={onOpenChange}
+      onOpenChange={handleOnOpenChange}
     >
       {label && <ComboboxLabel>{label}</ComboboxLabel>}
       <ComboboxTrigger
@@ -62,9 +82,13 @@ const O11yComboBox = ({
         onInputValueChange={handleSearch}
       />
       <ComboboxOptionGroup
-        wrapperClassName={twClassNames('w-80', optionsListWrapperClassName, {
-          'h-60': filteredOptions.length > 10
-        })}
+        wrapperClassName={twClassNames(
+          'w-80 max-h-72 relative',
+          optionsListWrapperClassName,
+          {
+            'h-72': filteredOptions.length > VIRTUALIZE_AFTER
+          }
+        )}
       >
         {!filteredOptions.length && !isLoading && (
           <ComboboxOptionItem
@@ -87,17 +111,25 @@ const O11yComboBox = ({
           </div>
         ) : (
           <>
-            {filteredOptions.length > 10 ? (
+            {filteredOptions.length > VIRTUALIZE_AFTER ? (
               <Virtuoso
+                ref={virtuosoRef}
                 style={virtuosoStyles}
                 data={filteredOptions || []}
                 overscan={10}
-                itemContent={(_, item) => (
-                  <ComboboxOptionItem
-                    option={item}
-                    checkPosition={checkPosition}
-                    wrapperClassName="text-sm"
-                  />
+                itemContent={(idx, item) => (
+                  <>
+                    <ComboboxOptionItem
+                      option={item}
+                      checkPosition={checkPosition}
+                      wrapperClassName="text-sm"
+                    />
+                    {idx === filteredOptions.length - 1 && stickyFooter && (
+                      <div
+                        style={{ height: stickyRef.current?.clientHeight }}
+                      />
+                    )}
+                  </>
                 )}
               />
             ) : (
@@ -109,6 +141,20 @@ const O11yComboBox = ({
                   wrapperClassName="text-sm"
                 />
               ))
+            )}
+            {!!filteredOptions?.length && stickyFooter && (
+              <div
+                className={twClassNames(
+                  'sticky -bottom-1 flex flex-col bg-white pb-3',
+                  {
+                    'absolute w-full bottom-0':
+                      filteredOptions?.length > VIRTUALIZE_AFTER
+                  }
+                )}
+                ref={stickyRef}
+              >
+                {stickyFooter}
+              </div>
             )}
           </>
         )}
@@ -153,7 +199,8 @@ O11yComboBox.propTypes = {
   isLoading: PropTypes.bool,
   isAsyncSearch: PropTypes.bool,
   onSearch: PropTypes.func,
-  onOpenChange: PropTypes.func
+  onOpenChange: PropTypes.func,
+  stickyFooter: PropTypes.node
 };
 
 O11yComboBox.defaultProps = {
@@ -170,6 +217,7 @@ O11yComboBox.defaultProps = {
   isLoading: false,
   isAsyncSearch: false,
   onSearch: () => {},
-  onOpenChange: () => {}
+  onOpenChange: () => {},
+  stickyFooter: null
 };
 export default O11yComboBox;
