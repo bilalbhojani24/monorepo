@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import fetchScreenReaderDevices, {
-  fetchMockData
-} from 'api/fetchScreenReaderDevices';
+import fetchScreenReaderDevices from 'api/fetchScreenReaderDevices';
 import {
   TRIAL_EXPIRED,
   TRIAL_FAILED,
@@ -64,8 +62,7 @@ export default function useScreenReader(noOfDevices) {
   };
 
   useEffect(() => {
-    // fetchScreenReaderDevices().then(setDeviceCombinations);
-    fetchMockData().then(setDeviceCombinations);
+    fetchScreenReaderDevices().then(setDeviceCombinations);
   }, []);
 
   useEffect(() => {

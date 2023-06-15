@@ -53,7 +53,7 @@ export default function useReverseTrialAlert() {
       break;
     }
     case TRIAL_EXPIRED: {
-      if (!planType) {
+      if (planType !== 'paid') {
         displayAlert('buyPlan');
       }
       break;
