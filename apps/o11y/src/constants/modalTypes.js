@@ -9,6 +9,5 @@ export const MODAL_TYPES = {
   bulk_assign_issuetype: 'bulk_assign_issuetype',
   email_preference: 'email_preference',
   jenkins_connect_modal: 'jenkins_connect_modal',
-  azure_connect_modal: 'azure_connect_modal',
-  onboarding_framework_selection_modal: 'onboarding_framework_selection_modal'
+  azure_connect_modal: 'azure_connect_modal'
 };

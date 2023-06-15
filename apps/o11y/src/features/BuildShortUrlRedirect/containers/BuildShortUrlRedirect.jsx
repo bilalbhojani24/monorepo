@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
+import { setStorage } from '@browserstack/utils';
 import O11yLoader from 'common/O11yLoader';
+import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import {
-  findAndSetProjectActive,
-  getBuildInfoFromUuid
-} from 'globalSlice/index';
+import { getBuildInfoFromUuid, setActiveProject } from 'globalSlice/index';
 import { getBuildInfo, getProjects } from 'globalSlice/selectors';
 import { getBuildPath } from 'utils/routeUtils';
 
@@ -27,11 +26,25 @@ function BuildShortUrlRedirect() {
     dispatch(getBuildInfoFromUuid(data))
       .unwrap()
       .then((info) => {
-        dispatch(
-          findAndSetProjectActive({
-            projectNormalisedName: info.projectNormalisedName || ''
-          })
-        );
+        const projectList = projects.list || [];
+        if (projectList.length && info.projectNormalisedName) {
+          const foundProject = projectList.find(
+            (item) => item.normalisedName === info.projectNormalisedName
+          );
+          if (foundProject) {
+            dispatch(
+              setActiveProject({
+                id: foundProject.id,
+                name: foundProject.name,
+                normalisedName: foundProject.normalisedName
+              })
+            );
+            setStorage(
+              PROJECT_NORMALISED_NAME_IDENTIFIER,
+              info.projectNormalisedName
+            );
+          }
+        }
       })
       .catch(() => {
         setNotFound(true);
