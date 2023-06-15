@@ -596,8 +596,11 @@ const useCreateGrid = () => {
   }, [setupState]);
 
   useMountEffect(() => {
-    const fetchEventsLogsData = async () => {
-      const response = await getCreateGridEventsLogsData(userDetails.id);
+    const fetchEventsLogsData = async (createGridType) => {
+      const response = await getCreateGridEventsLogsData(
+        userDetails.id,
+        createGridType
+      );
 
       const res = response.data;
 
@@ -624,11 +627,10 @@ const useCreateGrid = () => {
 
     if (pollForEventLogs) {
       setInterval(() => {
-        fetchEventsLogsData();
+        fetchEventsLogsData(type === 'Helm' ? 'existing' : 'scratch');
       }, 10000);
     }
-
-    fetchEventsLogsData();
+    fetchEventsLogsData(type === 'Helm' ? 'existing' : 'scratch');
   });
 
   return {
