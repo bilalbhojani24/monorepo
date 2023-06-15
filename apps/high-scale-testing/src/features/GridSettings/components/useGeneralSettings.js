@@ -25,7 +25,7 @@ const useGeneralSettings = (notifactionComponent) => {
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
 
   const inputChangeHandler = (e) => {
-    const newValue = parseInt(e.target.value);
+    const newValue = parseInt(e.target.value, 10);
     setConcurrencyValue(newValue);
 
     if (newValue < 0 || newValue > 1000) {

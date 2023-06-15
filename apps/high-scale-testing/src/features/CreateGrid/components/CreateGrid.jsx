@@ -43,7 +43,6 @@ const CreateGrid = () => {
     CODE_SNIPPETS_SCRATCH,
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
-    allAvailableSubnets,
     breadcrumbsData,
     closeEventLogsModal,
     closeSetupStatusModal,
@@ -52,6 +51,7 @@ const CreateGrid = () => {
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
+    concurrencyErrorText,
     creatingGridProfile,
     currentProvidersInstanceTypes,
     currentProvidersRegions,
@@ -440,6 +440,7 @@ const CreateGrid = () => {
 
                         <div className="w-1/2">
                           <InputField
+                            errorText={concurrencyErrorText}
                             id="test-id"
                             isMandatory={IS_MANDATORY}
                             label="Concurrency"
@@ -447,8 +448,9 @@ const CreateGrid = () => {
                             onChange={gridConcurrencyChangeHandler}
                             onFocus={null}
                             onKeyDown={null}
-                            placeholder="high-scale-grid"
+                            placeholder={0}
                             value={selectedGridConcurrency}
+                            type="number"
                           />
                         </div>
                       </div>

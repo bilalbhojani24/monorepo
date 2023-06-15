@@ -115,6 +115,7 @@ const useCreateGrid = () => {
   const [collapsibleBtntextForCode, setCollapsibleBtnTextForCode] = useState(
     'View steps to download CLI'
   );
+  const [concurrencyErrorText, setConcurrencyErrorText] = useState('');
   const [creatingGridProfile, setCreatingGridProfile] = useState(false);
   const [dataChanged, setDataChanged] = useState(false);
   const [editClusterNameErrorText, setEditClusterNameErrorText] = useState('');
@@ -230,6 +231,7 @@ const useCreateGrid = () => {
 
   const clusterNameInputChangeHandler = (e) => {
     setEditClusterNameInputValue(e.target.value);
+    commonHandler();
   };
 
   // const editClusterBtnClickHandler = () => {
@@ -245,6 +247,13 @@ const useCreateGrid = () => {
   const gridConcurrencyChangeHandler = (e) => {
     const newValue = e.target.value;
     setSelectedGridConcurrency(newValue);
+
+    setConcurrencyErrorText('');
+    if (newValue < 0 || newValue > 1000) {
+      setConcurrencyErrorText('Concurrency value must be between 0 and 1000');
+    }
+
+    commonHandler();
   };
 
   const gridNameChangeHandler = (e) => {
@@ -308,7 +317,11 @@ const useCreateGrid = () => {
   };
 
   const saveChangesClickHander = () => {
-    setShowSaveProfileModal(true);
+    if (concurrencyErrorText.length === 0 && selectedGridConcurrency.length > 0)
+      setShowSaveProfileModal(true);
+    else if (selectedGridConcurrency.length === 0) {
+      setConcurrencyErrorText('Concurrency value must be between 0 and 1000');
+    }
   };
 
   const saveProfileChangeHandler = (e) => {
@@ -741,6 +754,7 @@ const useCreateGrid = () => {
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
+    concurrencyErrorText,
     creatingGridProfile,
     currentProvidersInstanceTypes,
     currentProvidersRegions,
