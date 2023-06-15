@@ -488,7 +488,7 @@ const useCreateGrid = () => {
           selectedGridConcurrency ||
         selectedInstanceType.label !==
           selectedGridProfileData.profile.instanceType ||
-        selectedRegion.label !== selectedGridProfileData.profile.region ||
+        selectedRegion.value !== selectedGridProfileData.profile.region ||
         JSON.stringify(selectedGridProfileData.profile.subnets) !==
           JSON.stringify(subnetsPlainArray) ||
         selectedVPCValue.value !== selectedGridProfileData.profile.vpc
