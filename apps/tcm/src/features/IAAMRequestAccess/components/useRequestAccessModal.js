@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestTMAccessAPI } from 'api/common.api';
 import { addNotificaton, setRequestAccessConfig } from 'globalSlice';
+import { logEventHelper } from 'utils/logEvent';
 
 import { REQUEST_ACCESS_NOTIFICATION_CONFIG } from '../const/immutables';
 
@@ -14,6 +15,11 @@ const useRequestAccessModal = () => {
   const { isAdmin, userHasAccess, accessRequested } = requestAccessConfig;
 
   const handleRequestClick = () => {
+    dispatch(
+      logEventHelper('TM_AccessPopUpBtnClicked', {
+        user_type: isAdmin ? 'admin' : 'user'
+      })
+    );
     if (isAdmin) {
       window.open('https://www.browserstack.com/accounts/manage-users');
       return;
@@ -38,6 +44,16 @@ const useRequestAccessModal = () => {
     if (isAdmin) return 'Manage Access';
     return accessRequested ? 'Request Sent' : 'Request Access';
   };
+
+  useEffect(() => {
+    if (!userHasAccess)
+      dispatch(
+        logEventHelper('TM_AccessPopUpBtnClicked', {
+          user_type: isAdmin ? 'admin' : 'user',
+          access_btn_state: accessRequested ? 'disabled' : 'enabled'
+        })
+      );
+  }, [userHasAccess, dispatch, isAdmin, accessRequested]);
 
   return {
     isAdmin,
