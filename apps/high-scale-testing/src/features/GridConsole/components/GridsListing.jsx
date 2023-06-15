@@ -2,17 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Badge,
-  Button,
-  CodeSnippet,
   Dropdown,
   DropdownOptionGroup,
   DropdownOptionItem,
   DropdownTrigger,
   EllipsisVerticalIcon,
-  ExclamationTriangleIcon,
-  Modal,
-  ModalBody,
-  ModalFooter,
   Table,
   TableBody,
   TableCell,
@@ -25,6 +19,7 @@ import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import { logHSTEvent } from 'utils/logger';
 
+import DeleteGrid from './DeleteGrid';
 import { useGridListing } from './useGridListing';
 
 const GridsListing = () => {
@@ -103,14 +98,10 @@ const GridsListing = () => {
                 const gridId = gridData.id;
 
                 const supportedBrowsers = {
-                  chrome:
-                    gridData.browserSettings.allowedBrowsers.chrome?.length > 0,
-                  firefox:
-                    gridData.browserSettings.allowedBrowsers.firefox?.length >
-                    0,
+                  chrome: gridData.stats.browsersUsed.indexOf('chrome') > -1,
+                  firefox: gridData.stats.browsersUsed.indexOf('firefox') > -1,
                   edge:
-                    gridData.browserSettings.allowedBrowsers.MicrosoftEdge
-                      ?.length > 0
+                    gridData.stats.browsersUsed.indexOf('MicrosoftEdge') > -1
                 };
 
                 const options = [
@@ -169,7 +160,7 @@ const GridsListing = () => {
                         tabIndex={0}
                         className="text-base-900 items-center"
                       >
-                        {gridData.runningTests}
+                        {gridData.stats.runningTests}
                       </div>
                     </TableCell>
                     <TableCell wrapperClassName=" px-6 py-4">
@@ -180,7 +171,7 @@ const GridsListing = () => {
                         tabIndex={0}
                         className="text-base-900"
                       >
-                        {gridData.queuedTests}
+                        {gridData.stats.queuedTests}
                       </div>
                     </TableCell>
                     <TableCell wrapperClassName=" px-6 py-4">
@@ -266,48 +257,13 @@ const GridsListing = () => {
             </TableBody>
           </Table>
         </div>
-        <Modal show={showDeleteGridModal} size="xl">
-          <ModalBody className="overflow-auto py-5">
-            <div className="flex flex-col">
-              <div className="bg-danger-100 m-auto flex h-12 w-12 items-center justify-center rounded-full">
-                <ExclamationTriangleIcon
-                  className="text-danger-600 h-6 w-6"
-                  aria-hidden="true"
-                />
-              </div>
 
-              <div className="mt-3 flex flex-col text-center">
-                <h3 className="text-base-900 text-lg font-medium">
-                  Delete Grid
-                </h3>
-                <p className="text-base-500 mt-2 text-sm">
-                  Run the below command to delete the grid '{activeGridName}'
-                </p>
-              </div>
-
-              <div className="mt-2">
-                <CodeSnippet
-                  code={deletionCommand}
-                  maxHeight="260px"
-                  singleLine
-                  language="bash"
-                />
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter position="right">
-            <Button
-              aria-label="Close"
-              colors="white"
-              fullWidth
-              onClick={closeDeleteGridModal}
-              type="button"
-              varaint="primary"
-            >
-              Close
-            </Button>
-          </ModalFooter>
-        </Modal>
+        <DeleteGrid
+          activeGridName={activeGridName}
+          closeDeleteGridModal={closeDeleteGridModal}
+          deletionCommand={deletionCommand}
+          showDeleteGridModal={showDeleteGridModal}
+        />
       </>
     )
   );
