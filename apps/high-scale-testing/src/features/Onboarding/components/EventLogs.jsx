@@ -9,10 +9,7 @@ import {
   ProgressBar
 } from '@browserstack/bifrost';
 import { useMountEffect } from '@browserstack/hooks';
-import {
-  AGEventsLogModalInteracted,
-  AGEventsLogModalPresented
-} from 'constants/event-names';
+import { AGEventsLogModalPresented } from 'constants/event-names';
 import PropTypes from 'prop-types';
 import { logHSTEvent } from 'utils/logger';
 
@@ -22,12 +19,6 @@ const EventLogs = ({
   currentStep,
   totalSteps
 }) => {
-  const viewDocOnClickHandler = () => {
-    logHSTEvent(['amplitude'], 'web_events', AGEventsLogModalInteracted, {
-      action: 'viewdoc_clicked'
-    });
-  };
-
   useMountEffect(() => {
     logHSTEvent([], 'web_events', AGEventsLogModalPresented);
   });
@@ -37,7 +28,7 @@ const EventLogs = ({
       <ModalHeader dismissButton={false} heading="Event Logs" />
       <ModalBody className="overflow-auto">
         <div>
-          <p className="text-base-900 flex gap-2 pb-4 text-sm">
+          <p className="flex gap-2 pb-4 text-sm text-base-900">
             Hang tight! We are completing the setup of your grid. It could take
             as long as 15-20m. You will also receive an email notification once
             the grid is ready.
