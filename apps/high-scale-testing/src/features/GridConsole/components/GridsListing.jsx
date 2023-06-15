@@ -189,6 +189,10 @@ const GridsListing = () => {
                           {supportedBrowsers.edge && (
                             <EdgeIcon width={20} height={20} />
                           )}
+                          {!supportedBrowsers.chrome &&
+                            !supportedBrowsers.firefox &&
+                            !supportedBrowsers.edge &&
+                            '-'}
                         </div>
                       </div>
                     </TableCell>
