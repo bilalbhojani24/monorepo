@@ -6,6 +6,7 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
 import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
+import { SMART_TAGS_CONSTANTS } from 'features/Settings/constants';
 import PropTypes from 'prop-types';
 import { getDocUrl } from 'utils/common';
 
@@ -21,7 +22,15 @@ const SmartTagsToolTip = ({
   const navigate = useNavigate();
 
   const handleClickConfigureSmartTags = () => {
-    navigate(ROUTES.smart_tags);
+    const searchParams = new URLSearchParams();
+
+    if (text === 'New Failures') {
+      searchParams.set('scrollTo', 'newFailure');
+    } else if (text === 'Performance Anomaly') {
+      searchParams.set('scrollTo', 'performanceAnomalies');
+    }
+    searchParams.toString();
+    navigate(`${ROUTES.smart_tags}?${searchParams.toString()}`);
   };
   if (!text) return null;
   let filterCategory = '';
@@ -52,27 +61,25 @@ const SmartTagsToolTip = ({
     case 'Always Failing':
       filterCategory = ADV_FILTER_TYPES.isAlwaysFailing.key;
       filterValue = true;
-      description = `The test has been failing with the ${
-        smartTagSettings.alwaysFailing?.failureType === 'SAME'
-          ? 'same error'
+      description = `The test has consistently failed with ${
+        smartTagSettings.alwaysFailing?.failureType ===
+        SMART_TAGS_CONSTANTS.SAME
+          ? 'the same error'
           : 'any error'
-      } for the last ${
-        smartTagSettings.alwaysFailing?.consecutiveRuns
-      } consecutive runs.`;
+      } in the past ${smartTagSettings.alwaysFailing?.consecutiveRuns} runs`;
       break;
     case 'New Failures':
       filterCategory = ADV_FILTER_TYPES.isNewFailure.key;
       filterValue = true;
-      description = `The test has failed with a ${
-        smartTagSettings.newFailure?.failureType === 'NEW' ? 'new' : 'any'
-      } error for the first time among the last ${
-        smartTagSettings.newFailure?.consecutiveRuns
-      } runs.`;
+      description =
+        smartTagSettings.newFailure?.failureType === SMART_TAGS_CONSTANTS.NEW
+          ? `The test has encountered a new error for the first time in the last ${smartTagSettings.newFailure?.consecutiveRuns} runs`
+          : `The test has failed for the first time in the last ${smartTagSettings.newFailure?.consecutiveRuns} runs`;
       break;
     case 'Performance Anomaly':
       filterCategory = ADV_FILTER_TYPES.hasPerformanceAnomaly.key;
       filterValue = true;
-      description = `Test execution duration exceeding the 
+      description = `Duration is longer than the 
                       ${smartTagSettings.performanceAnomalies?.durationPercentile}
                       percentile duration among the last ${smartTagSettings.performanceAnomalies?.consecutiveRuns} runs of the same test.`;
       break;

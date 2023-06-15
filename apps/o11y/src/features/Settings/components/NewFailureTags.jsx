@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
@@ -26,7 +26,7 @@ const STATIC_DROPDOWN_DATA = [
     .map((_, i) => ({ name: i + 2, value: i + 2 }))
 ];
 
-export const NewFailureTags = ({ data, isActive }) => {
+export const NewFailureTags = forwardRef(({ data, isActive }, ref) => {
   const dispatch = useDispatch();
   const { failureType, consecutiveRuns, enabled: newFailureEnabled } = data;
   const {
@@ -45,7 +45,7 @@ export const NewFailureTags = ({ data, isActive }) => {
     );
   };
   return (
-    <section className="p-6 pb-9">
+    <section className="p-6 pb-9" ref={ref}>
       <div className="flex justify-between">
         <span className="font-medium">New failures</span>
         <O11ySwitcher
@@ -124,7 +124,7 @@ export const NewFailureTags = ({ data, isActive }) => {
       </div>
     </section>
   );
-};
+});
 
 NewFailureTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
