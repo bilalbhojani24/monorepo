@@ -95,11 +95,11 @@ export const FlakyTags = ({ data, isActive }) => {
 
   useEffect(() => {
     setConsecutiveRunsArray([
-      ...Array(30 - Math.max(5, flakeInHistory.flippingCount))
+      ...Array(30 - Math.max(4, flakeInHistory.flippingCount))
         .fill(0)
         .map((_, i) => ({
-          name: i + Math.max(5, flakeInHistory.flippingCount) + 1,
-          value: i + Math.max(5, flakeInHistory.flippingCount) + 1
+          name: i + Math.max(4, flakeInHistory.flippingCount) + 1,
+          value: i + Math.max(4, flakeInHistory.flippingCount) + 1
         }))
     ]);
   }, [flakeInHistory.flippingCount]);
@@ -225,13 +225,15 @@ export const FlakyTags = ({ data, isActive }) => {
             <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{
-                  label: flakeInRerun.consecutiveRuns,
-                  value: flakeInRerun.consecutiveRuns
+                  label: `${flakeInRerun.consecutiveRuns ?? rerunDefault}`,
+                  value: `${flakeInRerun.consecutiveRuns ?? rerunDefault}`
                 }}
                 onChange={(item) =>
-                  setFlakeInRerun('consecutiveRuns', item.value)
+                  setFlakeInRerun(
+                    'consecutiveRuns',
+                    item.value === 'zero' ? 0 : item.value
+                  )
                 }
-                defaultValue={{ label: rerunDefault, value: rerunDefault }}
                 disabled={!isActive || !flakeInRerun.enabled || !automaticFlaky}
               >
                 <O11ySelectMenuTrigger placeholder="Select" />
@@ -242,8 +244,8 @@ export const FlakyTags = ({ data, isActive }) => {
                       checkPosition="right"
                       wrapperClassName="text-sm"
                       option={{
-                        label: item.name,
-                        value: item.value
+                        label: `${item.name}`,
+                        value: `${item.value}`
                       }}
                     />
                   ))}
