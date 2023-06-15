@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
 import {
@@ -19,29 +19,29 @@ import {
   getUserDetails
 } from 'globalSlice/selector';
 
+import { setResourceMap } from '../slices';
+import { getResourceMap } from '../slices/selectors';
+
 const useCreateGrid = () => {
+  const dispatch = useDispatch();
+
   // All Store variables:
   const userDetails = useSelector(getUserDetails);
 
   const CODE_SNIPPETS_SCRATCH = {
     'create-grid': {
       a: {
-        code: 'npm install @browserstack/browserstack-cli',
+        code: 'npm install browserstack-node-sdk',
         language: 'node',
         text: 'Download CLI.'
       },
       b: {
-        code: `# Set these values in your ~/.zprofile (zsh) or ~/.profile (bash)
-export BROWSERSTACK_USERNAME=${userDetails.username}
-export BROWSERSTACK_ACCESS_KEY=${userDetails.accessKey}
-
-# Create HST configuration profile with AWS credentials
-browserstack-cli hst init`,
+        code: `browserstack-cli ats init --bstack-username ${userDetails.username} --bstack-accesskey ${userDetails.accessKey}`,
         language: 'node',
-        text: 'Setup CLI with AWS credentials.'
+        text: 'Setup CLI with BrowserStack credentials.'
       },
       c: {
-        code: 'browserstack-cli hst create grid',
+        code: 'browserstack-cli ats create grid',
         language: 'node',
         text: 'Execute grid creation command.'
       }
@@ -158,6 +158,8 @@ browserstack-cli hst init`,
   );
   const [totalSteps, setTotalSteps] = useState(0);
 
+  const resourceMap = useSelector(getResourceMap);
+
   const ref = useRef({});
 
   const [searchParams, setSearchparams] = useSearchParams();
@@ -199,10 +201,14 @@ browserstack-cli hst init`,
     commonHandler();
   };
 
-  const editClusterBtnClickHandler = () => {
-    setEditClusterNameInputValue(selectedClusterValue.value);
-    setShowSetupClusterModal(true);
+  const clusterNameInputChangeHandler = (e) => {
+    setEditClusterNameInputValue(e.target.value);
   };
+
+  // const editClusterBtnClickHandler = () => {
+  //   setEditClusterNameInputValue(selectedClusterValue.value);
+  //   setShowSetupClusterModal(true);
+  // };
 
   const exploreAutomationClickHandler = () => {
     closeSetupStatusModal();
@@ -242,7 +248,7 @@ browserstack-cli hst init`,
     if (newProfileNameValue.length > 0) {
       const profileData = {
         profile: {
-          name: selectedGridProfile.value,
+          name: newProfileNameValue,
           region: 'us-east-2',
           cloudProvider: currentSelectedCloudProvider.configName,
           instanceType: 't3.2xlarge',
@@ -355,6 +361,30 @@ browserstack-cli hst init`,
       setCollapsibleBtnTextForAdvSettings('Show Cluster Details');
     }
   }, [opened]);
+
+  useEffect(() => {
+    if (Object.keys(resourceMap).length > 0) {
+      const availableRegionsFromResourceMap = Object.keys(
+        resourceMap[currentSelectedCloudProvider.configName]
+      );
+
+      const tempArray = [];
+
+      availableRegionsFromResourceMap.forEach((region) => {
+        const matchingEle = allAvailableRegionsByProvider[
+          currentSelectedCloudProvider.configName
+        ].find((ele) => ele.value === region);
+
+        tempArray.push(matchingEle);
+      });
+
+      setCurrentProvidersRegions(tempArray);
+    }
+  }, [
+    allAvailableRegionsByProvider,
+    currentSelectedCloudProvider,
+    resourceMap
+  ]);
 
   useEffect(() => {
     setSelectedGridName(selectedGridProfile.value);
@@ -471,6 +501,57 @@ browserstack-cli hst init`,
   ]);
 
   useEffect(() => {
+    if (
+      Object.keys(resourceMap).length > 0 &&
+      selectedRegion !== null &&
+      selectedRegion !== undefined
+    ) {
+      const VPCInThisRegionArray = Object.keys(
+        resourceMap[currentSelectedCloudProvider.configName][
+          selectedRegion.value
+        ]
+      );
+
+      const tmpVPCsArray = [];
+      VPCInThisRegionArray?.forEach((e) => {
+        tmpVPCsArray.push({
+          label: e,
+          value: e
+        });
+      });
+
+      setAllAvailableVPCIDs(tmpVPCsArray);
+
+      if (
+        allAvailableVPCIDs !== null &&
+        allAvailableVPCIDs !== undefined &&
+        selectedVPCValue.value.length > 0
+      ) {
+        const tmpSubnets =
+          resourceMap[currentSelectedCloudProvider.configName][
+            selectedRegion.value
+          ][selectedVPCValue.value].subnets;
+        const tmpSubnetsArray = [];
+
+        tmpSubnets?.forEach((e) => {
+          tmpSubnetsArray.push({
+            label: e,
+            value: e
+          });
+        });
+
+        setAllAvailableSubnets(tmpSubnetsArray);
+      }
+    }
+  }, [
+    allAvailableVPCIDs,
+    currentSelectedCloudProvider,
+    resourceMap,
+    selectedRegion,
+    selectedVPCValue
+  ]);
+
+  useEffect(() => {
     setShowSetupStatusModal(isSetupComplete);
   }, [isSetupComplete]);
 
@@ -531,6 +612,7 @@ browserstack-cli hst init`,
     fetchDataForCreateGrid(userDetails.id).then((res) => {
       const response = res.data;
 
+      dispatch(setResourceMap(response.resourceMap));
       setCodeSnippetsForExistingSetup(response.codeSnippets.existing);
       setGridProfilesData(response.gridProfiles);
     });
@@ -554,6 +636,7 @@ browserstack-cli hst init`,
     closeEventLogsModal,
     closeSetupStatusModal,
     clusterChangeHandler,
+    clusterNameInputChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
@@ -563,7 +646,7 @@ browserstack-cli hst init`,
     currentSelectedCloudProvider,
     currentStep,
     dataChanged,
-    editClusterBtnClickHandler,
+    // editClusterBtnClickHandler,
     editClusterNameInputValue,
     eventLogsCode,
     eventLogsStatus,
