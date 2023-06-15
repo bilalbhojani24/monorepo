@@ -81,11 +81,10 @@ import PageHeadings from './modules/PageHeadings/index';
 import Pagination from './modules/Pagination/index';
 import Popover from './modules/Popover/index';
 import ProgressBar from './modules/ProgressBar/index';
-import Radio from './modules/Radio/index';
+import RadioCardItem from './modules/RadioCardItem/index';
 import RadioGroup from './modules/RadioGroup/index';
-import RadioSmallCards from './modules/RadioSmallCards/index';
-import RadioStackedCard from './modules/RadioStackedCard/index';
-import RadioTable from './modules/RadioTable/index';
+import RadioItem from './modules/RadioItem/index';
+import RadioTableItem from './modules/RadioTableItem/index';
 import Resizable from './modules/Resizable/index';
 import RichTextEditor from './modules/RichTextEditor/index';
 import SectionHeadings from './modules/SectionHeadings/index';
@@ -209,11 +208,10 @@ export {
   TooltipFooter as PopoverFooter,
   TooltipHeader as PopoverHeader,
   ProgressBar,
-  Radio,
+  RadioCardItem,
   RadioGroup,
-  RadioSmallCards,
-  RadioStackedCard,
-  RadioTable,
+  RadioItem,
+  RadioTableItem,
   Resizable,
   RichTextEditor,
   SectionHeadings,

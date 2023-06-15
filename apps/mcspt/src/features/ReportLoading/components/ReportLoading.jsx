@@ -21,9 +21,10 @@ const ReportLoading = () => {
     <div className="flex w-full flex-col">
       <ReportLoadingHeader
         setShowQuitTestingPrompt={setShowQuitTestingPrompt}
+        setShowGenerateReportPrompt={setShowGenerateReportPrompt}
       />
 
-      <div className="bg-base-50 flex flex-1">
+      <div className="bg-base-50 flex flex-1 overflow-hidden">
         <ReportLoadingSidebar />
 
         <ReportLoadingContent
