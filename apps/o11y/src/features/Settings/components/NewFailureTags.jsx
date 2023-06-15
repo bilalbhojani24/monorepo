@@ -58,7 +58,7 @@ export const NewFailureTags = ({ data, isActive }) => {
       <div className="flex flex-col text-sm">
         <>
           <div className="text-base-500 flex items-center">
-            The test has failed with a
+            The test has failed with {failureType === 'NEW' ? 'a' : ''}
             <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{
@@ -88,7 +88,7 @@ export const NewFailureTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>
-            for the first time among the last
+            error for the first time among the last
             <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}

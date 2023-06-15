@@ -66,7 +66,7 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
       <div className="flex flex-col text-sm">
         <>
           <div className="text-base-500 flex items-center">
-            The test has been failing with the
+            The test has been failing with {failureType === 'SAME' ? 'the' : ''}
             <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{
