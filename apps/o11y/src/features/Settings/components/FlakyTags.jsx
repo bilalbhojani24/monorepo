@@ -95,11 +95,11 @@ export const FlakyTags = ({ data, isActive }) => {
 
   useEffect(() => {
     setConsecutiveRunsArray([
-      ...Array(30 - Math.max(5, flakeInHistory.flippingCount))
+      ...Array(30 - Math.max(4, flakeInHistory.flippingCount))
         .fill(0)
         .map((_, i) => ({
-          name: i + Math.max(5, flakeInHistory.flippingCount) + 1,
-          value: i + Math.max(5, flakeInHistory.flippingCount) + 1
+          name: i + Math.max(4, flakeInHistory.flippingCount) + 1,
+          value: i + Math.max(4, flakeInHistory.flippingCount) + 1
         }))
     ]);
   }, [flakeInHistory.flippingCount]);
