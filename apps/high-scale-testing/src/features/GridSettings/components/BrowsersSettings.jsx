@@ -29,10 +29,12 @@ const BrowsersSettings = () => {
     allAvailableBrowsers,
     allowedBrowsersChangeHandler,
     allowedBrowsersValue,
+    cpuErrorText,
     cpuValue,
     fetchedGridData,
     isSaveButtonDisabled,
     isSavingInProgress,
+    memoryErrorText,
     memoryLimitValue,
     onCPUChangeHandler,
     onMemoryLimitChangeHandler,
@@ -71,6 +73,7 @@ const BrowsersSettings = () => {
                   addOnAfter={
                     <InputGroupAddOn position="end">Unit</InputGroupAddOn>
                   }
+                  errorText={cpuErrorText}
                   value={cpuValue}
                   disabled={isSavingInProgress}
                   id="test-id"
@@ -96,6 +99,7 @@ const BrowsersSettings = () => {
                   addOnAfter={
                     <InputGroupAddOn position="end">M</InputGroupAddOn>
                   }
+                  errorText={memoryErrorText}
                   value={memoryLimitValue}
                   disabled={isSavingInProgress}
                   id="test-id"
