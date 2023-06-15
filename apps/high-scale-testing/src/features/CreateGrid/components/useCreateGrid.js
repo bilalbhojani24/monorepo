@@ -136,6 +136,7 @@ const useCreateGrid = () => {
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [isSubnetLoading, setIsSubnetLoading] = useState(false);
   const [isVPCLoading, setIsVPCLoading] = useState(false);
+  const [newGridName, setNewGridName] = useState(null);
   const [newProfileErrorText, setNewProfileErrorText] = useState('');
   const [newProfileNameValue, setNewProfileNameValue] = useState('');
   const [opened, setOpened] = useState(false);
@@ -724,6 +725,7 @@ const useCreateGrid = () => {
       setEventLogsCode(res.currentLogs);
       setCurrentStep(res.currentStep);
       setTotalSteps(res.totalSteps);
+      setNewGridName(res.gridName);
 
       if (res.currentStep === res.totalSteps) {
         setPollForEventLogs(false);
@@ -791,6 +793,7 @@ const useCreateGrid = () => {
     modalCrossClickhandler,
     newProfileNameValue,
     opened,
+    newGridName,
     newProfileErrorText,
     nextBtnClickHandler,
     ref,
