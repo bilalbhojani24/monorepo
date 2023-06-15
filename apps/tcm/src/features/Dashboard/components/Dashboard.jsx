@@ -72,7 +72,7 @@ const Dashboard = () => {
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <TMPageHeadings heading="Dashboard" />
       <div
-        className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4"
+        className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-6"
         ref={scrollWrapElement}
       >
         <TMAlerts
@@ -81,7 +81,7 @@ const Dashboard = () => {
           detailsNode={null}
           modifier="primary"
         />
-        <div className="mt-4 flex w-full gap-4">
+        <div className="flex w-full gap-4">
           <div className="relative w-1/2 flex-1">
             <TMDataVisualization
               isLoading={isLoadingStates?.activeTR || false}
