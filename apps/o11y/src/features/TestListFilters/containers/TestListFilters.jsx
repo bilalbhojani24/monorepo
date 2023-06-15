@@ -109,7 +109,7 @@ const TestListFilters = ({ buildUUID }) => {
             )}
           </>
         }
-        wrapperClassName="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6"
+        wrapperClassName="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6 mt-0"
       />
       <FilterSlideover
         show={showSlideOver}

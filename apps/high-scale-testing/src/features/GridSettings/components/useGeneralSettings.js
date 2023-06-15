@@ -20,14 +20,21 @@ const useGeneralSettings = (notifactionComponent) => {
   const [concurrencyValue, setConcurrencyValue] = useState(
     currentConcurrencyValue
   );
+  const [concurrencyErrorText, setConcurrencyErrorText] = useState('');
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
 
   const inputChangeHandler = (e) => {
     const newValue = parseInt(e.target.value);
-
-    setIsSaveButtonDisabled(false);
     setConcurrencyValue(newValue);
+
+    if (newValue < 0 || newValue > 1000) {
+      setConcurrencyErrorText('Concurrency value must be between 0 and 1000');
+      setIsSaveButtonDisabled(true);
+    } else {
+      setConcurrencyErrorText('');
+      setIsSaveButtonDisabled(false);
+    }
   };
 
   const updateGridGeneralSettings = (settingsObj) => {
@@ -57,6 +64,7 @@ const useGeneralSettings = (notifactionComponent) => {
   };
 
   return {
+    concurrencyErrorText,
     currentConcurrencyValue,
     inputChangeHandler,
     isSaveButtonDisabled,
