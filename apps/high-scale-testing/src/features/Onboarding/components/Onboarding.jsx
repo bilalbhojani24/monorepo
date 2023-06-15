@@ -60,6 +60,7 @@ const Onboarding = () => {
     eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
+    handleDismissClick,
     headerText,
     isSetupComplete,
     logTermsConditionsEvents,
@@ -516,6 +517,7 @@ const Onboarding = () => {
           exploreAutomationClickHandler={exploreAutomationClickHandler}
           eventLogsStatus={eventLogsStatus}
           frameworkURLs={frameworkURLs}
+          handleDismissClick={handleDismissClick}
           isSetupComplete={isSetupComplete}
           viewAllBuildsClickHandler={viewAllBuildsClickHandler}
         />

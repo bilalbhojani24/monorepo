@@ -70,6 +70,7 @@ const CreateGrid = () => {
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
+    handleDismissClick,
     instanceChangeHandler,
     isExactSubnetMatch,
     isExactVPCMatch,
@@ -382,6 +383,7 @@ const CreateGrid = () => {
               exploreAutomationClickHandler={exploreAutomationClickHandler}
               eventLogsStatus={eventLogsStatus}
               frameworkURLs={frameworkURLs}
+              handleDismissClick={handleDismissClick}
               isSetupComplete={isSetupComplete}
               viewAllBuildsClickHandler={viewAllBuildsClickHandler}
             />

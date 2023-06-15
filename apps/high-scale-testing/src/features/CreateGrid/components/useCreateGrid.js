@@ -262,6 +262,10 @@ const useCreateGrid = () => {
     setSelectedGridName(newValue);
   };
 
+  const handleDismissClick = () => {
+    setShowSetupStatusModal(false);
+  };
+
   const instanceChangeHandler = (e) => {
     setSelectedInstanceType(e);
   };
@@ -784,6 +788,7 @@ const useCreateGrid = () => {
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
+    handleDismissClick,
     instanceChangeHandler,
     isExactSubnetMatch,
     isExactVPCMatch,
