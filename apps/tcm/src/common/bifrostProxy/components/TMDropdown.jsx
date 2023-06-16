@@ -42,7 +42,9 @@ const TMDropdown = ({
         <DropdownOptionItem
           key={opt.value}
           option={opt}
-          wrapperClassName="border-b last:border-b-0 border-base-200"
+          wrapperClassName={twClassNames(
+            opt.divider ? 'border-b border-base-200' : ''
+          )}
         />
       ))}
     </DropdownOptionGroup>
