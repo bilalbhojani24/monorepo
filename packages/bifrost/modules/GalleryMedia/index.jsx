@@ -9,7 +9,8 @@ import {
   MdPictureAsPdf
 } from '../Icon';
 import Loader from '../Loader';
-import Tooltip from '../Tooltip';
+// import Tooltip from '../Tooltip';
+import TruncateText from '../TruncateText';
 
 import GalleryMediaCheckbox from './components/GalleryMediaCheckbox';
 import {
@@ -21,7 +22,7 @@ const GalleryMedia = ({
   data,
   ratio,
   showExtensions,
-  alwaysVisible,
+  checkboxAlwaysVisible,
   onChange,
   onCardClick,
   ratioConfig,
@@ -112,12 +113,9 @@ const GalleryMedia = ({
     return effectiveTitle.length < 18 ? (
       `${effectiveTitle}.${extension}`
     ) : (
-      <Tooltip
-        theme="dark"
-        content={
-          <p className="text-base-300 px-4 text-sm font-normal leading-5">{`${effectiveTitle}.${extension}`}</p>
-        }
-      >{`${effectiveTitle.slice(0, 18)}...${extension}`}</Tooltip>
+      <TruncateText isFullWidthTooltip>
+        {`${effectiveTitle.slice(0, 18)}...${extension}`}
+      </TruncateText>
     );
   };
 
@@ -126,16 +124,9 @@ const GalleryMedia = ({
     return effectiveTitle.length < 20 ? (
       effectiveTitle
     ) : (
-      <Tooltip
-        theme="dark"
-        content={
-          <p className="text-base-300 px-4 text-sm font-normal leading-5">
-            {effectiveTitle}
-          </p>
-        }
-      >
+      <TruncateText isFullWidthTooltip>
         {`${effectiveTitle.slice(0, 20)}...`}
-      </Tooltip>
+      </TruncateText>
     );
   };
 
@@ -162,7 +153,7 @@ const GalleryMedia = ({
             }}
             onClick={() => handleOnClick(mediaItem.id)}
             selected={mediaItem.selected}
-            alwaysVisible={alwaysVisible}
+            checkboxAlwaysVisible={checkboxAlwaysVisible}
             onChange={(e) => handleChange(e, mediaItem.id)}
           >
             {renderMediaThumbnail(mediaItem)}
@@ -194,7 +185,7 @@ const GalleryMedia = ({
 GalleryMedia.propTypes = {
   ratio: PropTypes.string,
   showExtensions: PropTypes.bool,
-  alwaysVisible: PropTypes.bool,
+  checkboxAlwaysVisible: PropTypes.bool,
   wrapperClassName: PropTypes.string,
   onChange: PropTypes.func,
   onCardClick: PropTypes.func,
@@ -222,7 +213,7 @@ GalleryMedia.defaultProps = {
   showExtensions: false,
   onChange: () => {},
   onCardClick: () => {},
-  alwaysVisible: false,
+  checkboxAlwaysVisible: false,
   wrapperClassName: '',
   ratioConfig: MEDIA_CARD_THUMBNAIL_RATIO
 };

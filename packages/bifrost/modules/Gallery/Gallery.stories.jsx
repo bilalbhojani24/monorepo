@@ -237,7 +237,7 @@ export const GalleryExampleWPreview = () => {
         onCardClick={(id) => handleCardClick(id)}
         data={data}
         onChange={(status, id) => handleMediaUpdate(status, id)}
-        alwaysVisible={multiSelect}
+        checkboxAlwaysVisible={multiSelect}
       />
       <GalleryMediaFooterButton wrapperClassName="mt-7 py-2 block mx-auto px-32">
         See All

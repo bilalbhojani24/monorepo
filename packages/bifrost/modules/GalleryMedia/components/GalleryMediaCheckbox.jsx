@@ -9,7 +9,7 @@ const GalleryMediaCheckbox = ({
   selected,
   onChange,
   onClick,
-  alwaysVisible,
+  checkboxAlwaysVisible,
   data
 }) => {
   const [checkBoxVisible, setCheckBoxVisible] = useState(false);
@@ -50,7 +50,7 @@ const GalleryMediaCheckbox = ({
       >
         {children}
       </button>
-      {(checkBoxVisible || selected || alwaysVisible) && (
+      {(checkBoxVisible || selected || checkboxAlwaysVisible) && (
         <Checkbox
           aria-label={`check-${data.label}`}
           name={data.label}
@@ -77,7 +77,7 @@ GalleryMediaCheckbox.propTypes = {
   children: PropTypes.node.isRequired,
   selected: PropTypes.bool,
   onChange: PropTypes.func,
-  alwaysVisible: PropTypes.bool,
+  checkboxAlwaysVisible: PropTypes.bool,
   onClick: PropTypes.func,
   data: PropTypes.shape({
     label: PropTypes.oneOf([
@@ -94,7 +94,7 @@ GalleryMediaCheckbox.defaultProps = {
   onChange: () => {},
   onClick: () => {},
   data: null,
-  alwaysVisible: false
+  checkboxAlwaysVisible: false
 };
 
 export default GalleryMediaCheckbox;
