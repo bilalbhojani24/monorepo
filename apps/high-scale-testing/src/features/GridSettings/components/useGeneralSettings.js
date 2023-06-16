@@ -42,7 +42,7 @@ const useGeneralSettings = (notifactionComponent) => {
       setIsSaveButtonDisabled(true);
       setIsSavingInProgress(false);
 
-      if (d.data === 'OK') {
+      if (d.status === 200) {
         notify(notifactionComponent, {
           position: 'top-right',
           duration: 4000
