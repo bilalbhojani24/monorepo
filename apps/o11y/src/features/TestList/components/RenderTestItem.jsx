@@ -184,7 +184,7 @@ const RenderTestItem = ({ item: data }) => {
       onClick={handleClickTestItem}
     >
       <div className="flex justify-between gap-4">
-        <div className="flex w-full flex-col items-start pt-1">
+        <div className="flex w-full flex-col items-start break-words pt-1">
           <div className="flex items-start">
             <div className="flex items-start">
               <div className="flex h-5 items-center ">

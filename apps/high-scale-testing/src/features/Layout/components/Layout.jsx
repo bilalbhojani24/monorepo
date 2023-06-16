@@ -8,6 +8,7 @@ import {
   SidebarNavigation,
   UsersIcon
 } from '@browserstack/bifrost';
+import AutomatioConsole from 'assets/icons/components/AutomationConsole';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import HSTHeader from 'features/HSTHeader/component';
@@ -24,7 +25,7 @@ const Layout = () => {
     {
       id: 'grid-console',
       label: 'Automation Console',
-      activeIcon: HomeIcon,
+      activeIcon: AutomatioConsole,
       inActiveIcon: HomeIcon,
       path: ROUTES.GRID_CONSOLE,
       pattern: `${ROUTES.GRID_CONSOLE}/*`
@@ -80,7 +81,7 @@ const Layout = () => {
   return (
     <>
       <HSTHeader />
-      <main className="bg-base-50 flex">
+      <main className="flex bg-base-50">
         <nav
           className="sticky"
           style={{

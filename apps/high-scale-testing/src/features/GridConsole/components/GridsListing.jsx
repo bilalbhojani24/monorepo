@@ -131,7 +131,7 @@ const GridsListing = () => {
                         onKeyDown={cellClickhandler}
                         tabIndex={0}
                       >
-                        <p className="text-base-900 font-normal">{gridName}</p>
+                        <p className="font-normal text-base-900">{gridName}</p>
                         <p className="text-base-500">{gridIdentfier}</p>
                       </div>
                     </TableCell>
@@ -158,7 +158,7 @@ const GridsListing = () => {
                         onClick={cellClickhandler}
                         onKeyDown={cellClickhandler}
                         tabIndex={0}
-                        className="text-base-900 items-center"
+                        className="items-center text-base-900"
                       >
                         {gridData.stats.runningTests}
                       </div>

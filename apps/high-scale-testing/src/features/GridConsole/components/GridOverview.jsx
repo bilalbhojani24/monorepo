@@ -8,7 +8,6 @@ import { useGridOverview } from './useGridOverview';
 
 const GridOverview = () => {
   const {
-    allowedBrowsers,
     cluster,
     connected,
     containerClassName,
@@ -19,15 +18,15 @@ const GridOverview = () => {
     gridVersion,
     identifier,
     name,
-    runningTests,
     status,
-    queuedTests,
-    user
+    stats
   } = useGridOverview();
 
   if (!Object.keys(gridData).length) {
     return <></>;
   }
+
+  const hasBrowsersUsed = stats?.browserUsed.length > 0;
 
   const oldTimestamp = new Date(connected).getTime();
   const oldSeconds = Math.floor(oldTimestamp / 1000);
@@ -87,11 +86,11 @@ const GridOverview = () => {
     },
     {
       title: 'Created by',
-      value: gridData.createdBy.fullName
+      value: gridData?.createdBy?.fullName
     },
     {
       title: 'Running Tests',
-      value: runningTests
+      value: stats?.runningTests || '--/--'
     },
     {
       title: 'Cluster ID',
@@ -101,10 +100,12 @@ const GridOverview = () => {
       title: 'Browsers Used',
       value: (
         <div className="flex gap-1">
-          {gridData?.stats?.browsersUsed.map((usedBrowser) => {
-            const browser = usedBrowser;
-            return browserIcons[browser];
-          })}
+          {hasBrowsersUsed &&
+            stats?.browsersUsed.map((browserUsed) => {
+              const browser = browserUsed;
+              return browserIcons[browser];
+            })}
+          {!hasBrowsersUsed && '-'}
         </div>
       )
     },
@@ -114,7 +115,7 @@ const GridOverview = () => {
     },
     {
       title: 'Queued Tests',
-      value: queuedTests
+      value: stats?.queuedTests || '--/--'
     },
     {
       title: 'Grid version',
@@ -126,7 +127,7 @@ const GridOverview = () => {
     <>
       <div className="px-6 pt-6">
         <div className={containerClassName}>
-          <p className="text-base-900 text-lg font-medium leading-6">
+          <p className="text-lg font-medium leading-6 text-base-900">
             Grid Details
           </p>
 
@@ -135,7 +136,7 @@ const GridOverview = () => {
               const { title, value } = detail;
               return (
                 <div>
-                  <p className="text-base-500 text-sm font-normal">{title}</p>
+                  <p className="text-sm font-normal text-base-500">{title}</p>
                   <p className={fontColor900ClassName}>{value}</p>
                 </div>
               );
@@ -147,19 +148,19 @@ const GridOverview = () => {
       {frameworks?.length && (
         <div className="p-6">
           <div className={containerClassName}>
-            <p className="text-base-900 text-lg font-medium leading-6">
+            <p className="text-lg font-medium leading-6 text-base-900">
               Framework URLs
             </p>
             <div className="bg-white pt-4">
               {frameworks.map((framework) => (
                 <div
-                  className="border-base-200 flex flex-row items-center border-b py-3"
+                  className="flex flex-row items-center border-b border-base-200 py-3"
                   key={framework?.name}
                 >
                   <div className="flex flex-row items-center">
                     {frameWorkIcons[framework?.name]}
                     <div className="ml-2 w-52">
-                      <p className="text-base-500 text-base font-normal">
+                      <p className="text-base font-normal text-base-500">
                         {framework?.name}
                       </p>
                     </div>
@@ -168,8 +169,9 @@ const GridOverview = () => {
                   <div className="flex flex-row items-center justify-start">
                     {framework?.url.length ? (
                       <>
-                        <p className="text-base-900 mr-4 text-base font-normal">
+                        <p className="mr-4 text-base font-normal text-base-900">
                           {framework?.url}
+                          {framework?.name === 'Selenium' && '/wd/hub'}
                         </p>
 
                         <CopyButton
