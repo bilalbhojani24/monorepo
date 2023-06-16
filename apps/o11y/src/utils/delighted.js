@@ -13,12 +13,19 @@ const logOllyDelightedEvent = (event, delightedConfig) => {
 export const handleShowSurvey = (delightedConfig) => {
   window[o11yKeys[envConfig.name].DELIGHTED_CONFIG_FILE_NAME].survey({
     properties: delightedConfig,
-    onShow: () => logOllyDelightedEvent('O11yNPSSurveyShown', delightedConfig),
+    onShow: () => {
+      console.log('onSHow', delightedConfig);
+      logOllyDelightedEvent('O11yNPSSurveyShown', delightedConfig);
+    },
     onHide: () => logOllyDelightedEvent('O11yNPSSurveyClosed', delightedConfig),
-    onRespond: () =>
-      logOllyDelightedEvent('O11yNPSSurveyScoreClicked', delightedConfig),
-    onComment: () =>
-      logOllyDelightedEvent('O11yNPSSurveyTextSubmitted', delightedConfig)
+    onRespond: () => {
+      console.log('onRespond', delightedConfig);
+      logOllyDelightedEvent('O11yNPSSurveyScoreClicked', delightedConfig);
+    },
+    onComment: () => {
+      console.log('onComment', delightedConfig);
+      logOllyDelightedEvent('O11yNPSSurveyTextSubmitted', delightedConfig);
+    }
   });
 };
 
@@ -63,5 +70,6 @@ export const delightedInit = (delightedConfig) => {
     firstScript.parentNode.insertBefore(script, firstScript);
   }
 
+  console.log('delightedConfig', delightedConfig);
   handleShowSurvey(delightedConfig);
 };
