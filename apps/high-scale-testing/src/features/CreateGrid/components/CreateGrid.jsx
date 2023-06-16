@@ -401,7 +401,6 @@ const CreateGrid = () => {
             <Steps
               format="circles-with-text"
               label="label"
-              onClick={stepperClickHandler}
               steps={stepperStepsState}
               wrapperClassName="m-6 w-64"
             />

@@ -202,9 +202,9 @@ const useCreateGrid = () => {
   const updateGridProfileData = async (profileData) => {
     const res = await createNewGridProfile(userDetails.id, profileData);
 
-    const { data } = res;
+    const { status } = res;
 
-    if (data === 'OK') {
+    if (status === 200) {
       setCreatingGridProfile(false);
       setShowSaveProfileModal(false);
       setShowSetupClusterModal(false);
@@ -366,14 +366,6 @@ const useCreateGrid = () => {
 
   const setupNewClusterBtnClickHandler = () => {
     setShowSetupClusterModal(true);
-  };
-
-  const stepperClickHandler = (_, step) => {
-    if (step.id > 3) {
-      setSetupState(2);
-    } else {
-      setSetupState(1);
-    }
   };
 
   const subnetChangeHandler = (currentItem) => {
@@ -836,7 +828,6 @@ const useCreateGrid = () => {
     showSaveProfileModal,
     showSetupClusterModal,
     showSetupStatusModal,
-    stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
     subnetInputChangeHandler,
