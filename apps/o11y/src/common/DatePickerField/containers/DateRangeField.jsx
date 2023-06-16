@@ -11,6 +11,8 @@ import {
   getUnixStartOfDay
 } from 'utils/dateTime';
 
+import { getCustomDateRangeSubTitles } from '../utils';
+
 const DatePickerField = ({
   onChange,
   activeKey,
@@ -83,7 +85,12 @@ const DatePickerField = ({
                   }
                 )}
               >
-                {O11Y_DATE_RANGE[key].label}
+                {activeKey === key
+                  ? getCustomDateRangeSubTitles(
+                      customKeyLowerBound,
+                      customKeyUpperBound
+                    )
+                  : O11Y_DATE_RANGE[key].label}
               </O11yButton>
             </O11yPopover>
           );

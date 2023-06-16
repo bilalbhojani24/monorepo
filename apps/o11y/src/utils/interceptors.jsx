@@ -6,6 +6,25 @@ import { capitalize, getEnvConfig } from 'utils/common';
 import { o11yNotify } from 'utils/notification';
 
 export const ALLOWED_COOKIE_DOMAINS = ['bsstag.com', 'browserstack.com'];
+const envConfig = getEnvConfig();
+
+const ContactSupportButton = () => (
+  <O11yHyperlink
+    href={`${envConfig.baseUrl}/support/test-observability`}
+    target="_blank"
+  >
+    <O11yButton
+      variant="minimal"
+      colors="brand"
+      wrapperClassName="flex items-center"
+      icon={<MdOpenInNew className="text-lg" />}
+      iconPlacement="end"
+      size="small"
+    >
+      Contact Support
+    </O11yButton>
+  </O11yHyperlink>
+);
 
 const getMockerConfig = (config) => {
   const updatedConfig = {};
@@ -28,8 +47,6 @@ const getMockerConfig = (config) => {
 };
 
 export const excludeConfig = (url) => !!url.includes('https://eds');
-
-const envConfig = getEnvConfig();
 
 export const isBsCrossDomain = (url) => {
   if (typeof url === 'undefined') {
@@ -76,42 +93,46 @@ axios.interceptors.request.use((config) => {
   return updatedConfig;
 });
 
+const getErrorDescription = (err) => {
+  let description = '';
+
+  if (err?.response?.status === 404) {
+    description += 'Requested resource not found on server.';
+  } else if (err?.response?.data?.message) {
+    description += capitalize(err?.response?.data?.message);
+  } else {
+    description += 'Some technical error occurred. Please try again.';
+  }
+  if (err?.response?.status >= 500) {
+    description += 'If this issue persists';
+  }
+  return description;
+};
+
 axios.interceptors.response.use(
   (res) => Promise.resolve(res),
-  (res) => {
-    // if server error, show toast
-    o11yNotify({
-      title: 'Something went wrong!',
-      description:
-        res?.response?.data?.message && !res?.response?.status >= 500
-          ? capitalize(res?.response?.data?.message)
-          : `Some technical error occurred. Please try again. ${
-              res?.response?.status >= 500 || !res?.response?.status
-                ? 'If this issue persists'
-                : ''
-            }`,
-      type: 'error',
-      actionButtons: () =>
-        res?.response?.status >= 500 || !res?.response?.status ? (
-          <O11yHyperlink
-            href={`${envConfig.baseUrl}/support/test-observability`}
-            target="_blank"
-          >
-            <O11yButton
-              variant="minimal"
-              colors="brand"
-              wrapperClassName="flex items-center"
-              icon={<MdOpenInNew className="text-lg" />}
-              iconPlacement="end"
-              size="small"
-            >
-              Contact Support
-            </O11yButton>
-          </O11yHyperlink>
-        ) : null,
-      duration: 5000
-    });
-
-    return Promise.reject(res);
+  (err) => {
+    if (!axios.isCancel(err)) {
+      if (err?.response?.status) {
+        // if server error, show toast
+        o11yNotify({
+          title: 'Something went wrong!',
+          description: getErrorDescription(err),
+          type: 'error',
+          actionButtons: () =>
+            err?.response?.status >= 500 || err?.response?.status === 404 ? (
+              <ContactSupportButton />
+            ) : null
+        });
+      } else if (err.request) {
+        o11yNotify({
+          title: 'Network error!',
+          description: `No response from server. Please try again. If this issue persists`,
+          type: 'error',
+          actionButtons: () => <ContactSupportButton />
+        });
+      }
+    }
+    return Promise.reject(err);
   }
 );

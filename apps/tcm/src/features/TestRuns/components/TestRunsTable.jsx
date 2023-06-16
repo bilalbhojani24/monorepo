@@ -80,6 +80,7 @@ const TestRunsTable = () => {
             }}
           >
             <TMTruncateText
+              ignoreClickAndWrapText
               truncateUsingClamp={false}
               hidetooltipTriggerIcon
               isFullWidthTooltip

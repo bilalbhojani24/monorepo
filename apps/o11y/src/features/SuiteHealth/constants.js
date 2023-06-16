@@ -1,7 +1,10 @@
+export const TABS_KEY_MAPPING = {
+  tests: 'tests',
+  unique_errors: 'unique_errors'
+};
 export const TABS = {
-  tests: 'Tests',
-  unique_errors: 'Unique Errors'
-  // build_performance: 'Build Performance'
+  [TABS_KEY_MAPPING.tests]: 'Tests',
+  [TABS_KEY_MAPPING.unique_errors]: 'Unique Errors'
 };
 
 export const TESTS_HEADER_LABEL_MAPPING = {

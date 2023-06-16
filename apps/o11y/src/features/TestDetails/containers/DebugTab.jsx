@@ -21,6 +21,7 @@ import {
   getTestMeta
 } from '../slices/selectors';
 import { setExceptions } from '../slices/uiSlice';
+import { getVideoSeekTime } from '../utils';
 
 import TestsLogsInfoTabs from './TestsLogsInfoTabs';
 import TestVideoPlayer from './TestVideoPlayer';
@@ -99,14 +100,29 @@ const DebugTab = () => {
     };
   }, [activeTab.value, showScrollToBottom, showStepNavigation]);
 
-  const handleLogDurationClick = useCallback((duration) => {
-    const videoComponent = videoRef.current;
-    const floatingVideoComponent = floatingVideoComponentRef.current;
-    if (videoComponent && floatingVideoComponent) {
-      videoComponent.currentTime = duration;
-      floatingVideoComponent.currentTime = duration;
-    }
-  }, []);
+  const handleLogDurationClick = useCallback(
+    (duration) => {
+      const videoComponent = videoRef.current;
+      const floatingVideoComponent = floatingVideoComponentRef.current;
+      if (videoComponent && floatingVideoComponent) {
+        videoComponent.seekTo(
+          getVideoSeekTime(
+            duration,
+            sessionTestToggle,
+            details.data.videoLogs?.finishOffset
+          )
+        );
+        floatingVideoComponent.seekTo(
+          getVideoSeekTime(
+            duration,
+            sessionTestToggle,
+            details.data.videoLogs?.finishOffset
+          )
+        );
+      }
+    },
+    [details.data.videoLogs?.finishOffset, sessionTestToggle]
+  );
 
   const handleScrollIntoView = useCallback((distance) => {
     if (scrollRef.current) {
