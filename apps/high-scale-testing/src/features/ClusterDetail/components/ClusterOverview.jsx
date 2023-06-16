@@ -129,11 +129,11 @@ const ClusterOverview = () => {
 
               <div className="flex w-2/3 justify-between">
                 <div className="mr-4 text-base-900">
-                  <p>{profile?.vpcs}</p>
+                  <p>{profile?.vpc}</p>
                 </div>
                 <CopyButton
                   cb={vpcCopiedCallbackFn}
-                  copyValue={profile?.vpcs}
+                  copyValue={profile?.vpc}
                   textColor=""
                   wrapperClassName="text-xl"
                 >
