@@ -15,6 +15,7 @@ import { getSuitHealthPath } from 'utils/routeUtils';
 
 export default function CustomChartTooltip({
   activeProject,
+  buildName,
   filters,
   header,
   id,
@@ -108,6 +109,10 @@ export default function CustomChartTooltip({
         break;
     }
 
+    if (buildName) {
+      searchParams.set(ADV_FILTER_TYPES.uniqueBuildNames.key, buildName);
+    }
+
     if (filters.buildName.value !== 'all') {
       searchParams.set(
         ADV_FILTER_TYPES.uniqueBuildNames.key,
@@ -142,7 +147,7 @@ export default function CustomChartTooltip({
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
-  const renderPointValue = (value, fixedToTwoDigits, pointName) => {
+  const renderPointValue = (data, value, fixedToTwoDigits, pointName) => {
     if (value === null || value === undefined) return null;
 
     if (pointName === 'Average Duration') {
@@ -150,11 +155,17 @@ export default function CustomChartTooltip({
     }
 
     if (
+      pointName === 'Flakiness' ||
       pointName === 'Always Failing' ||
-      pointName === 'New failures' ||
-      pointName === 'Stability' ||
-      pointName === 'Trendline'
+      pointName === 'New failures'
     ) {
+      return `${fixedToTwoDigits ? value.toFixed(2) : value} (${(
+        (value / data[0]?.totalTest) *
+        100
+      ).toFixed(2)}%)`;
+    }
+
+    if (pointName === 'Stability' || pointName === 'Trendline') {
       return fixedToTwoDigits ? `(${value.toFixed(2)}%)` : `(${value}%)`;
     }
 
@@ -198,7 +209,12 @@ export default function CustomChartTooltip({
               <span className="text-sm">{point.name}</span>
             </div>
             <span>
-              {renderPointValue(point.y, point.fixedToTwoDigits, point.name)}
+              {renderPointValue(
+                data,
+                point.y,
+                point.fixedToTwoDigits,
+                point.name
+              )}
             </span>
           </div>
         );
@@ -240,6 +256,7 @@ export default function CustomChartTooltip({
 
 CustomChartTooltip.propTypes = {
   activeProject: PropTypes.objectOf(PropTypes.any).isRequired,
+  buildName: PropTypes.string,
   filters: PropTypes.objectOf(PropTypes.any).isRequired,
   header: PropTypes.string,
   id: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -247,5 +264,6 @@ CustomChartTooltip.propTypes = {
 };
 
 CustomChartTooltip.defaultProps = {
+  buildName: null,
   header: null
 };
