@@ -82,7 +82,8 @@ const initialState = {
     bulkDeleteTestCaseCta: false,
     bulkMoveTestCaseCta: false,
     tags: true,
-    uploadingAttachments: false
+    uploadingAttachments: false,
+    formFields: true
   },
   isUnsavedDataExists: false,
   isUnsavedDataModalVisible: false,
@@ -98,10 +99,18 @@ const initialState = {
   searchEmptyText: '',
   priorityOptions: [],
   statusOptions: [],
+  automationOptions: [],
   testCaseTypeOptions: [],
   priorityValueAndIntNameMapTC: {},
   priorityValueAndNameMapTC: {}
 };
+
+const defaultFieldFormatter = (options) =>
+  options.map((item) => ({
+    ...item,
+    label: item?.name,
+    value: item?.value
+  }));
 
 export const repositorySlice = createSlice({
   name: 'repository',
@@ -111,18 +120,13 @@ export const repositorySlice = createSlice({
       state.allFolders = [...payload];
     },
     setDefaultFormFieldsData: (state, { payload }) => {
-      state.priorityOptions = payload?.priority.map((item) => ({
-        label: item?.name,
-        value: item?.value
-      }));
-      state.statusOptions = payload?.status.map((item) => ({
-        label: item?.name,
-        value: item?.value
-      }));
-      state.testCaseTypeOptions = payload?.case_type.map((item) => ({
-        label: item?.name,
-        value: item?.value
-      }));
+      state.priorityOptions = defaultFieldFormatter(payload?.priority);
+      state.automationOptions = defaultFieldFormatter(
+        payload?.automation_status
+      );
+      state.statusOptions = defaultFieldFormatter(payload?.status);
+      state.testCaseTypeOptions = defaultFieldFormatter(payload?.case_type);
+
       state.priorityValueAndIntNameMapTC = payload?.priority.reduce(
         (obj, item) => ({ ...obj, [item.value]: item.internal_name }),
         {}
