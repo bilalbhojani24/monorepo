@@ -23,8 +23,7 @@ const TMSelectMenu = forwardRef(
       defaultValue,
       triggerWrapperClassName,
       checkPosition,
-      onOpenChange,
-      disabled
+      onOpenChange
     },
     ref
   ) => (
@@ -34,7 +33,6 @@ const TMSelectMenu = forwardRef(
       isMulti={isMulti}
       defaultValue={defaultValue}
       onOpenChange={onOpenChange}
-      disabled={disabled}
     >
       {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
       <SelectMenuTrigger
@@ -90,8 +88,7 @@ TMSelectMenu.propTypes = {
     label: PropTypes.string.isRequired,
     image: PropTypes.string
   }),
-  onOpenChange: PropTypes.func,
-  disabled: PropTypes.bool
+  onOpenChange: PropTypes.func
 };
 
 TMSelectMenu.defaultProps = {
@@ -105,7 +102,6 @@ TMSelectMenu.defaultProps = {
   onChange: () => {},
   value: null,
   defaultValue: null,
-  onOpenChange: () => {},
-  disabled: false
+  onOpenChange: () => {}
 };
 export default TMSelectMenu;

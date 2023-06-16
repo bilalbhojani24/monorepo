@@ -31,21 +31,17 @@ const BulkEditTestCase = () => {
     priorityOptions,
     statusOptions,
     testCaseTypeOptions,
-    automationOptions,
-    isBulkAutomationDisabled,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
     saveBulkEditHelper,
     setBulkEditConfirm,
-    handleMenuOpen,
-    decideBulkAutomationStatus
+    handleMenuOpen
   } = useAddEditTestCase();
   const { initFormValues } = useTestCases();
 
   useEffect(() => {
     initFormValues();
-    decideBulkAutomationStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -82,7 +78,7 @@ const BulkEditTestCase = () => {
 
       <>
         <div className="mt-4 flex">
-          <div className="w-1/2 flex-1 pr-4">
+          <div className="w-1/2 flex-1 pr-2">
             <TMSelectMenu
               checkPosition="right"
               label="Type of Test Case"
@@ -99,27 +95,7 @@ const BulkEditTestCase = () => {
               // }
             />
           </div>
-          <div className="w-1/2 flex-1">
-            <TMSelectMenu
-              checkPosition="right"
-              disabled={isBulkAutomationDisabled}
-              label="Automation Status"
-              placeholder="Select automation status"
-              options={automationOptions}
-              onChange={(e) =>
-                handleTestCaseFieldChange('automation_status', e.value)
-              }
-              // value={
-              //   testCaseFormData.automation_status &&
-              //   automationOptions.find(
-              //     (item) => item.value === testCaseFormData.automation_status
-              //   )
-              // }
-            />
-          </div>
-        </div>
-        <div className="mt-4 flex">
-          <div className="w-1/2 flex-1 pr-4">
+          <div className="w-1/2 flex-1 pl-2">
             <TMSelectMenu
               checkPosition="right"
               label="Priority"
@@ -134,7 +110,9 @@ const BulkEditTestCase = () => {
               onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
             />
           </div>
-          <div className="w-1/2 flex-1">
+        </div>
+        <div className="mt-4 flex">
+          <div className="w-1/2 flex-1 pr-2">
             <TMSelectMenu
               // value={
               //   testCaseBulkFormData.status &&
@@ -149,8 +127,23 @@ const BulkEditTestCase = () => {
               onChange={(e) => handleTestCaseFieldChange('status', e.value)}
             />
           </div>
+          <div className="w-1/2 flex-1 pl-2">
+            <TMSelectMenu
+              // value={
+              //   testCaseBulkFormData.owner &&
+              //   usersArrayMapped?.find(
+              //     (item) => item.value === testCaseBulkFormData.owner
+              //   )
+              // }
+              placeholder="Select owner"
+              checkPosition="right"
+              label="Owner"
+              options={usersArrayMapped}
+              onChange={(e) => handleTestCaseFieldChange('owner', e.value)}
+            />
+          </div>
         </div>
-        <div className="mt-4 flex">
+        <div className="mt-4 w-1/2 gap-4">
           {/* <div className="flex-1">
             <TMInputField
               id="test-case-estimate"
@@ -192,21 +185,6 @@ const BulkEditTestCase = () => {
               }
             />
           </div> */}
-          <div className="w-1/2 flex-1 pr-4">
-            <TMSelectMenu
-              // value={
-              //   testCaseBulkFormData.owner &&
-              //   usersArrayMapped?.find(
-              //     (item) => item.value === testCaseBulkFormData.owner
-              //   )
-              // }
-              placeholder="Select owner"
-              checkPosition="right"
-              label="Owner"
-              options={usersArrayMapped}
-              onChange={(e) => handleTestCaseFieldChange('owner', e.value)}
-            />
-          </div>
           <div className="flex flex-1 items-end justify-between">
             <div className="mr-4 flex-1">
               <TMSelectMenu

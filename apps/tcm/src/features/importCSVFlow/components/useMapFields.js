@@ -221,10 +221,7 @@ const useMapFields = () => {
       setMapFieldModalConfig({
         field: actualName,
         mapped_field: value,
-        show: true,
-        fieldMeta: mapFieldsConfig?.defaultFields?.find(
-          (item) => item?.name === value
-        )
+        show: true
       })
     );
     dispatch(setSingleFieldValueMapping(valueMappings[actualName]));
