@@ -113,7 +113,10 @@ const GalleryMedia = ({
     return effectiveTitle.length < 18 ? (
       `${effectiveTitle}.${extension}`
     ) : (
-      <TruncateText isFullWidthTooltip>
+      <TruncateText
+        isFullWidthTooltip
+        wrapperClassName="text-base-900 text-sm font-normal leading-none"
+      >
         {`${effectiveTitle.slice(0, 18)}...${extension}`}
       </TruncateText>
     );
@@ -124,7 +127,10 @@ const GalleryMedia = ({
     return effectiveTitle.length < 20 ? (
       effectiveTitle
     ) : (
-      <TruncateText isFullWidthTooltip>
+      <TruncateText
+        isFullWidthTooltip
+        wrapperClassName="text-base-900 text-sm font-normal leading-none"
+      >
         {`${effectiveTitle.slice(0, 20)}...`}
       </TruncateText>
     );
