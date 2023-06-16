@@ -368,14 +368,6 @@ const useCreateGrid = () => {
     setShowSetupClusterModal(true);
   };
 
-  const stepperClickHandler = (_, step) => {
-    if (step.id > 3) {
-      setSetupState(2);
-    } else {
-      setSetupState(1);
-    }
-  };
-
   const subnetChangeHandler = (currentItem) => {
     const foundObject = allAvailableSubnets.find(
       (obj) => obj.value === currentItem.value
@@ -836,7 +828,6 @@ const useCreateGrid = () => {
     showSaveProfileModal,
     showSetupClusterModal,
     showSetupStatusModal,
-    stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
     subnetInputChangeHandler,
