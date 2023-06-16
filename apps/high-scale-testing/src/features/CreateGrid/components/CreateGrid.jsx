@@ -653,14 +653,14 @@ const CreateGrid = () => {
                         />
                         <AccordionPanel controller={opened}>
                           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-                          <ol className="text-base-500 list-[lower-alpha] text-sm">
+                          <ol className="text-base-500 list-[lower-alpha] p-3 text-sm">
                             <li className="text-base-900 py-2">
                               <div>
                                 <p className="text-base-900 mb-2">
                                   Download CLI.
                                 </p>
                                 <CodeSnippet
-                                  code="npm install @browserstack/browserstack-cli"
+                                  code="npm install browserstack-node-sdk"
                                   language="node"
                                   showLineNumbers={false}
                                   singleLine={false}
