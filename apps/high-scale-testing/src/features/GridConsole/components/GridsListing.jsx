@@ -92,6 +92,7 @@ const GridsListing = () => {
                 const gridIdentfierRaw = gridData.identifier;
                 const gridIdentfier = gridIdentfierRaw.split('-')[0];
                 const gridName = gridData.name;
+                const gridSpawnedVia = gridData.spawnedVia;
                 const gridStatus = gridData.status;
                 const statusModifier =
                   gridData.status === 'Online' ? 'success' : 'base';
@@ -189,6 +190,10 @@ const GridsListing = () => {
                           {supportedBrowsers.edge && (
                             <EdgeIcon width={20} height={20} />
                           )}
+                          {!supportedBrowsers.chrome &&
+                            !supportedBrowsers.firefox &&
+                            !supportedBrowsers.edge &&
+                            '-'}
                         </div>
                       </div>
                     </TableCell>
@@ -214,7 +219,8 @@ const GridsListing = () => {
                           if (e.id === 'delete') {
                             deleteDropDownClickHandler(
                               gridIdentfierRaw,
-                              gridName
+                              gridName,
+                              gridSpawnedVia
                             );
                           } else {
                             navigate(e.url);

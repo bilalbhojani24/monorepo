@@ -70,13 +70,16 @@ const CreateGrid = () => {
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
+    handleDismissClick,
     instanceChangeHandler,
     isExactSubnetMatch,
     isExactVPCMatch,
+    isSaveProfileBtnDisabled,
     isSetupComplete,
     isSubnetLoading,
     isVPCLoading,
     modalCrossClickhandler,
+    newGridName,
     newProfileNameValue,
     opened,
     newProfileErrorText,
@@ -223,7 +226,7 @@ const CreateGrid = () => {
       <ComboboxLabel>Subnets</ComboboxLabel>
       <ComboboxTrigger
         onInputValueChange={subnetInputChangeHandler}
-        placeholder="Placeholder"
+        placeholder="Select Subnets"
       />
       <ComboboxOptionGroup
         addNewItemComponent={
@@ -245,18 +248,21 @@ const CreateGrid = () => {
 
   const TabsForCodeSnippet = (
     <Tabs
+      defaultIndex={activeGridManagerCodeSnippet.index}
       id="tabID"
       label="Tabs"
       onTabChange={(e) => {
-        setActiveGridManagerCodeSnippet(e.name);
+        setActiveGridManagerCodeSnippet(e);
       }}
       isContained={false}
       navigationClassName="first:ml-4"
       tabsArray={[
         {
+          index: 0,
           name: GRID_MANAGER_NAMES.helm
         },
         {
+          index: 1,
           name: GRID_MANAGER_NAMES.cli
         }
       ]}
@@ -277,7 +283,7 @@ const CreateGrid = () => {
       <ComboboxLabel>VPC ID</ComboboxLabel>
       <ComboboxTrigger
         onInputValueChange={VPCInputChangeHandler}
-        placeholder="Placeholder"
+        placeholder="Select VPC ID"
       />
       <ComboboxOptionGroup
         addNewItemComponent={
@@ -307,32 +313,85 @@ const CreateGrid = () => {
       />
 
       {type === CREATE_GRID_TYPES.helmKubeCTL && (
-        // eslint-disable-next-line tailwindcss/no-arbitrary-value
-        <div className="border-base-300 m-6 h-[calc(100vh-64px-104px-48px-62px)] overflow-auto rounded-lg border bg-white p-6">
-          <p className="text-base-900 text-sm font-semibold">Grid Setup</p>
-          <p className="text-base-900 mt-1 text-sm">
-            Execute the below commands to initialise grid creation.
-          </p>
+        <div className="border-base-300 m-6 overflow-auto rounded-lg border bg-white">
+          {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+          <div className="h-[calc(100vh-64px-104px-48px-62px)] p-6">
+            <p className="text-base-900 text-sm font-semibold">Grid Setup</p>
+            <p className="text-base-900 mt-1 text-sm">
+              Execute the below commands to initialise grid creation.
+            </p>
 
-          <div className="mt-4">
-            <CodeSnippet
-              code={
-                codeSnippetsForExistingSetup?.[
-                  activeGridManagerCodeSnippet.toLowerCase()
-                ]
-              }
-              language={
-                activeGridManagerCodeSnippet.toLowerCase() ===
-                GRID_MANAGER_NAMES.cli
-                  ? 'node'
-                  : activeGridManagerCodeSnippet.toLowerCase()
-              }
-              singleLine={false}
-              showLineNumbers={false}
-              view="neutral"
-              toolbar={TabsForCodeSnippet}
-            />
+            <div className="mt-4">
+              <CodeSnippet
+                code={
+                  codeSnippetsForExistingSetup?.[
+                    activeGridManagerCodeSnippet.name.toLowerCase()
+                  ]
+                }
+                language={
+                  activeGridManagerCodeSnippet.name.toLowerCase() ===
+                  GRID_MANAGER_NAMES.cli
+                    ? 'node'
+                    : activeGridManagerCodeSnippet.name.toLowerCase()
+                }
+                singleLine={false}
+                showLineNumbers={false}
+                view="neutral"
+                toolbar={TabsForCodeSnippet}
+              />
+            </div>
           </div>
+
+          {(!eventLogsCode || eventLogsCode?.length === 0) &&
+            eventLogsStatus !== EVENT_LOGS_STATUS.IN_PROGRESS && (
+              <div className="border-base-300 text-base-700 flex gap-2 border-t px-6 py-3">
+                <HourglassBottomOutlinedIcon /> Waiting for you to complete the
+                above steps to connect the grid...
+              </div>
+            )}
+
+          {eventLogsCode && eventLogsCode.length > 0 && showGridHeartBeats && (
+            <div className="text-base-700 flex gap-2 px-6 py-3">
+              <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
+              Initialising events log...
+            </div>
+          )}
+
+          {eventLogsCode &&
+            eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
+            !showGridHeartBeats && (
+              <div className="flex justify-between px-6 py-3">
+                <div className="text-base-700 flex gap-2">
+                  <MdCached />‘{newGridName}’ grid creation is in progress...
+                </div>
+                <Button colors="white" onClick={viewEventLogsClickHandler}>
+                  View Event Logs
+                </Button>
+              </div>
+            )}
+
+          {showEventLogsModal && (
+            <EventLogs
+              closeEventLogsModal={closeEventLogsModal}
+              currentStep={currentStep}
+              eventLogsCode={eventLogsCode}
+              totalSteps={totalSteps}
+              isSetupComplete={isSetupComplete}
+            />
+          )}
+
+          {isSetupComplete && showSetupStatusModal && (
+            <SetupStatus
+              closeSetupStatusModal={closeSetupStatusModal}
+              codeSnippets={CODE_SNIPPETS_SCRATCH}
+              exploreAutomationClickHandler={exploreAutomationClickHandler}
+              eventLogsStatus={eventLogsStatus}
+              frameworkURLs={frameworkURLs}
+              handleDismissClick={handleDismissClick}
+              isSetupComplete={isSetupComplete}
+              viewAllBuildsClickHandler={viewAllBuildsClickHandler}
+            />
+          )}
         </div>
       )}
 
@@ -597,14 +656,14 @@ const CreateGrid = () => {
                         />
                         <AccordionPanel controller={opened}>
                           {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-                          <ol className="text-base-500 list-[lower-alpha] text-sm">
+                          <ol className="text-base-500 list-[lower-alpha] p-3 text-sm">
                             <li className="text-base-900 py-2">
                               <div>
                                 <p className="text-base-900 mb-2">
                                   Download CLI.
                                 </p>
                                 <CodeSnippet
-                                  code="npm install @browserstack/browserstack-cli"
+                                  code="npm install browserstack-node-sdk"
                                   language="node"
                                   showLineNumbers={false}
                                   singleLine={false}
@@ -682,6 +741,7 @@ const CreateGrid = () => {
 
                     <div className="mt-5 flex flex-row-reverse">
                       <Button
+                        disabled={isSaveProfileBtnDisabled}
                         onClick={saveAndProceedClickHandler}
                         loading={creatingGridProfile}
                       >
