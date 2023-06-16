@@ -26,6 +26,8 @@ const GridOverview = () => {
     return <></>;
   }
 
+  const hasBrowsersUsed = stats?.browserUsed.length > 0;
+
   const oldTimestamp = new Date(connected).getTime();
   const oldSeconds = Math.floor(oldTimestamp / 1000);
 
@@ -88,7 +90,7 @@ const GridOverview = () => {
     },
     {
       title: 'Running Tests',
-      value: stats?.runningTests
+      value: stats?.runningTests || '--/--'
     },
     {
       title: 'Cluster ID',
@@ -98,10 +100,12 @@ const GridOverview = () => {
       title: 'Browsers Used',
       value: (
         <div className="flex gap-1">
-          {stats?.browsersUsed.map((browserUsed) => {
-            const browser = browserUsed;
-            return browserIcons[browser];
-          })}
+          {hasBrowsersUsed &&
+            stats?.browsersUsed.map((browserUsed) => {
+              const browser = browserUsed;
+              return browserIcons[browser];
+            })}
+          {!hasBrowsersUsed && '-'}
         </div>
       )
     },
@@ -111,7 +115,7 @@ const GridOverview = () => {
     },
     {
       title: 'Queued Tests',
-      value: stats?.queuedTests
+      value: stats?.queuedTests || '--/--'
     },
     {
       title: 'Grid version',

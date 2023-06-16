@@ -60,7 +60,7 @@ const ClusterOverview = () => {
     },
     {
       title: 'Created by',
-      value: clusterData?.createdBy.fullName
+      value: clusterData?.createdBy?.fullName
     },
     {
       title: 'No. of Grids',
@@ -115,7 +115,7 @@ const ClusterOverview = () => {
       </div>
 
       <div className="flex flex-row gap-x-6 p-6">
-        <div className="w-2/5 rounded-lg border border-base-200 bg-white p-6 shadow">
+        {/* <div className="w-2/5 rounded-lg border border-base-200 bg-white p-6 shadow">
           <p className="text-lg font-medium leading-6 text-base-900">
             Advanced Details
           </p>
@@ -129,11 +129,11 @@ const ClusterOverview = () => {
 
               <div className="flex w-2/3 justify-between">
                 <div className="mr-4 text-base-900">
-                  <p>{profile?.vpcs}</p>
+                  <p>{profile?.vpc}</p>
                 </div>
                 <CopyButton
                   cb={vpcCopiedCallbackFn}
-                  copyValue={profile?.vpcs}
+                  copyValue={profile?.vpc}
                   textColor=""
                   wrapperClassName="text-xl"
                 >
@@ -181,9 +181,9 @@ const ClusterOverview = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className="w-3/5 rounded-lg border border-base-200 bg-white p-6 shadow">
+        <div className="w-full rounded-lg border border-base-200 bg-white p-6 shadow">
           <p className="text-lg font-medium leading-6 text-base-900">
             Grid Resources
           </p>

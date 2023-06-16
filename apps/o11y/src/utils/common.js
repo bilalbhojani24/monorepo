@@ -250,5 +250,27 @@ export const updateUrlQueryParam = (searchParams) => {
   const newurl = `${window.location.protocol}//${window.location.host}${
     window.location.pathname
   }?${searchParams.toString()}`;
-  window.history.pushState({ path: newurl }, '', newurl);
+  window.history.replaceState({ path: newurl }, '', newurl);
+};
+
+/** Cross-browser support for fullscreen change event
+ * Validating function to identify browser type and get related change event */
+export const getFullScreenChangeEventName = () => {
+  if (document.exitFullscreen) {
+    return 'fullscreenchange';
+  }
+
+  if (document.webkitExitFullscreen) {
+    return 'webkitfullscreenchange';
+  }
+
+  if (document.mozCancelFullScreen) {
+    return 'mozfullscreenchange';
+  }
+
+  if (document.msExitFullscreen) {
+    return 'MSFullscreenChange';
+  }
+
+  return 'fullscreenchange';
 };
