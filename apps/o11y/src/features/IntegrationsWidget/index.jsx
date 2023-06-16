@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { MdOpenInNew } from '@browserstack/bifrost';
+import { MdOpenInNew, withErrorBoundary } from '@browserstack/bifrost';
 import { CreateIssue } from '@browserstack/integrations';
 import { sendIssueCreatedCallback } from 'api/testlist';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
@@ -131,4 +131,4 @@ const IntegrationsWidget = () => {
   );
 };
 
-export default IntegrationsWidget;
+export default withErrorBoundary(IntegrationsWidget);

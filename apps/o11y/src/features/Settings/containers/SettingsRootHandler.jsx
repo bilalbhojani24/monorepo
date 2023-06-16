@@ -8,7 +8,10 @@ function SettingsRootHandler() {
   const activeProject = useSelector(getActiveProject);
 
   return (
-    <Navigate to={getSettingsPath(activeProject?.normalisedName)} replace />
+    <Navigate
+      to={getSettingsPath(activeProject?.normalisedName, 'general')}
+      replace
+    />
   );
 }
 

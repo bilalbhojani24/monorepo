@@ -1,11 +1,12 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import NotFound from 'common/NotFound';
-import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
+import { AppContainer, LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import NoAccessPage from 'features/NoAccessPage';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
+import SettingsRootHandler from 'features/Settings/containers/SettingsRootHandler';
 
 import { ROUTES } from './routes';
 
@@ -71,113 +72,118 @@ export const APP_ROUTES = [
   {
     path: ROUTES.root,
     isProtected: true,
-    component: <LayoutWOSidebar />,
+    component: <AppContainer />,
     children: [
       {
-        path: ROUTES.projects,
+        path: ROUTES.root,
         isProtected: true,
-        component: <ProjectList />
-      },
-      {
-        path: ROUTES.get_started,
-        isProtected: true,
-        component: <OnboardingFrameworkSelector />
-      },
-      {
-        path: ROUTES.request_access,
-        isProtected: true,
-        component: <RequestAccess />
-      },
-      {
-        path: ROUTES.no_access,
-        isProtected: true,
-        component: <NoAccessPage />
-      }
-    ]
-  },
-  {
-    path: ROUTES.root,
-    isProtected: true,
-    component: <LayoutWSidebar />,
-    children: [
-      {
-        path: ROUTES.testing_trends,
-        isProtected: true,
-        component: <TestingTrends />
-      },
-      {
-        path: ROUTES.build,
-        isProtected: true,
-        component: <BuildDetails />
-      },
-      {
-        path: ROUTES.builds,
-        isProtected: true,
-        component: <AllBuilds />
-      },
-      {
-        path: ROUTES.suite_health,
-        isProtected: true,
-        component: <SuiteHealth />
-      },
-      {
-        path: ROUTES.suite_health_tests,
-        isProtected: true,
-        component: <TestsHealth />
-      },
-      {
-        path: ROUTES.suite_health_unique_errors,
-        isProtected: true,
-        component: <UniqueErrors />
-      },
-      {
-        path: ROUTES.settings,
-        isProtected: true,
-        component: <Settings />,
+        component: <LayoutWOSidebar />,
         children: [
           {
-            path: ROUTES.settings,
+            path: ROUTES.projects,
             isProtected: true,
-            component: (
-              <Navigate to={ROUTES.settings_general} replace relative="path" />
-            )
+            component: <ProjectList />
           },
           {
-            path: ROUTES.settings_general,
+            path: ROUTES.get_started,
             isProtected: true,
-            component: <GeneralSettings />
+            component: <OnboardingFrameworkSelector />
           },
           {
-            path: ROUTES.settings_alerts,
+            path: ROUTES.request_access,
             isProtected: true,
-            component: <AlertsSettings />
+            component: <RequestAccess />
           },
           {
-            path: ROUTES.settings_auto_analyser,
+            path: ROUTES.no_access,
             isProtected: true,
-            component: <AutoAnalysisSettings />
-          },
-          {
-            path: ROUTES.settings_failure_categories,
-            isProtected: true,
-            component: <FailureCategoriesSettings />
-          },
-          {
-            path: ROUTES.settings_re_run,
-            isProtected: true,
-            component: <ReRunSettings />
-          },
-          {
-            path: ROUTES.settings_notifications,
-            isProtected: true,
-            component: <NotificationsSettings />
+            component: <NoAccessPage />
           }
         ]
       },
       {
-        path: ROUTES.integrations_base,
+        path: ROUTES.root,
         isProtected: true,
-        component: <Integrations />
+        component: <LayoutWSidebar />,
+        children: [
+          {
+            path: ROUTES.testing_trends,
+            isProtected: true,
+            component: <TestingTrends />
+          },
+          {
+            path: ROUTES.build,
+            isProtected: true,
+            component: <BuildDetails />
+          },
+          {
+            path: ROUTES.builds,
+            isProtected: true,
+            component: <AllBuilds />
+          },
+          {
+            path: ROUTES.suite_health,
+            isProtected: true,
+            component: <SuiteHealth />
+          },
+          {
+            path: ROUTES.suite_health_tests,
+            isProtected: true,
+            component: <TestsHealth />
+          },
+          {
+            path: ROUTES.suite_health_unique_errors,
+            isProtected: true,
+            component: <UniqueErrors />
+          },
+          {
+            path: ROUTES.settings,
+            isProtected: true,
+            component: <Settings />,
+            children: [
+              {
+                path: ROUTES.settings,
+                isProtected: true,
+                component: <SettingsRootHandler />
+              },
+              {
+                path: ROUTES.settings_general,
+                isProtected: true,
+                component: <GeneralSettings />
+              },
+              {
+                path: ROUTES.settings_alerts,
+                isProtected: true,
+                component: <AlertsSettings />
+              },
+              {
+                path: ROUTES.settings_auto_analyser,
+                isProtected: true,
+                component: <AutoAnalysisSettings />
+              },
+              {
+                path: ROUTES.settings_failure_categories,
+                isProtected: true,
+                component: <FailureCategoriesSettings />
+              },
+              {
+                path: ROUTES.settings_re_run,
+                isProtected: true,
+                component: <ReRunSettings />
+              },
+              {
+                path: ROUTES.settings_notifications,
+                isProtected: true,
+                component: <NotificationsSettings />
+              }
+            ]
+          },
+          {
+            path: ROUTES.integrations_base,
+            isProtected: true,
+            component: <Integrations />
+          }
+        ]
       }
     ]
   }
