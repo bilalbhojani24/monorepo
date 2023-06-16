@@ -39,7 +39,11 @@ const TMDropdown = ({
 
     <DropdownOptionGroup wrapperClassName={optionGroupWrapperClassName}>
       {options.map((opt) => (
-        <DropdownOptionItem key={opt.value} option={opt} />
+        <DropdownOptionItem
+          key={opt.value}
+          option={opt}
+          wrapperClassName="border-b last:border-b-0 border-base-200"
+        />
       ))}
     </DropdownOptionGroup>
   </Dropdown>
