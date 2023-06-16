@@ -74,6 +74,7 @@ const CreateGrid = () => {
     instanceChangeHandler,
     isExactSubnetMatch,
     isExactVPCMatch,
+    isSaveProfileBtnDisabled,
     isSetupComplete,
     isSubnetLoading,
     isVPCLoading,
@@ -737,6 +738,7 @@ const CreateGrid = () => {
 
                     <div className="mt-5 flex flex-row-reverse">
                       <Button
+                        disabled={isSaveProfileBtnDisabled}
                         onClick={saveAndProceedClickHandler}
                         loading={creatingGridProfile}
                       >

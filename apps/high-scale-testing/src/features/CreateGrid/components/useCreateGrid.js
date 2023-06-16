@@ -8,6 +8,7 @@ import {
   getCreateGridEventsLogsData
 } from 'api/index';
 import {
+  DEFAULT_GRID_CONCURRENCY,
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
@@ -133,6 +134,8 @@ const useCreateGrid = () => {
     { label: 'label', value: 'value' }
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
+  const [isSaveProfileBtnDisabled, setIsSaveProfileBtnDisabled] =
+    useState(true);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [isSubnetLoading, setIsSubnetLoading] = useState(false);
   const [isVPCLoading, setIsVPCLoading] = useState(false);
@@ -143,7 +146,9 @@ const useCreateGrid = () => {
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
   const [selectedClusterValue, setSelectedClusterValue] = useState('');
   const [selectedGridClusters, setSelectedGridclusters] = useState([]);
-  const [selectedGridConcurrency, setSelectedGridConcurrency] = useState(0);
+  const [selectedGridConcurrency, setSelectedGridConcurrency] = useState(
+    DEFAULT_GRID_CONCURRENCY
+  );
   const [selectedGridName, setSelectedGridName] =
     useState('high-scale-testing');
 
@@ -331,6 +336,7 @@ const useCreateGrid = () => {
 
   const saveProfileChangeHandler = (e) => {
     setNewProfileNameValue(e.target.value);
+    setIsSaveProfileBtnDisabled(false);
   };
 
   const validateClusterDetails = () => {
@@ -715,7 +721,7 @@ const useCreateGrid = () => {
 
       setStepperStepsState(updatedStepperState);
     }
-  }, [setupState]);
+  }, [DEFAULT_STEPPER_STATE, setupState]);
 
   useMountEffect(() => {
     const fetchEventsLogsData = async (createGridType) => {
@@ -792,6 +798,7 @@ const useCreateGrid = () => {
     instanceChangeHandler,
     isExactSubnetMatch,
     isExactVPCMatch,
+    isSaveProfileBtnDisabled,
     isSetupComplete,
     isSubnetLoading,
     isVPCLoading,
