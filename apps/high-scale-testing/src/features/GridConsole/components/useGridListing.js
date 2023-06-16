@@ -5,7 +5,7 @@ import { getGridData } from '../slices/selector';
 
 const useGridListing = () => {
   const isRounded = true;
-  const CLI_COMMAND = 'browserstack-cli ag delete grid --grid-id ';
+  const CLI_COMMAND = 'browserstack-cli ats delete grid --grid-id ';
 
   // All Store variables:
   const gridList = useSelector(getGridData);

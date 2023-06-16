@@ -81,6 +81,7 @@ const useGridConsole = () => {
   };
 
   useEffect(() => {
+    const lengthOfClusterData = clusterData.length;
     const lengthOfGridData = gridData.length;
 
     if (lengthOfGridData > 1) {
@@ -96,8 +97,17 @@ const useGridConsole = () => {
           value: 'clusters'
         }
       ]);
+    } else if (!userDetails.onboardingCompleted) {
+      navigate(ROUTES.ONBOARDING);
     }
-  }, [gridData]);
+
+    logHSTEvent([], 'web_events', 'AGAutomationConsoleVisited', {
+      loading: false,
+      grid_count: lengthOfGridData,
+      cluster_count: lengthOfClusterData,
+      tab_selected: 'Grid'
+    });
+  }, [clusterData, gridData, navigate, userDetails]);
 
   useEffect(() => {
     const fetchAllClustersDataFromAPI = async () => {
@@ -125,6 +135,14 @@ const useGridConsole = () => {
       index: 0,
       name: 'Grids',
       value: 'grids'
+    });
+
+    if (!userDetails.onboardingCompleted) {
+      navigate(ROUTES.ONBOARDING);
+    }
+
+    logHSTEvent([], 'web_events', 'AGAutomationConsoleVisited', {
+      loading: true
     });
   });
 

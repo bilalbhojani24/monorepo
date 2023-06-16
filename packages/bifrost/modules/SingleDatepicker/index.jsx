@@ -3,29 +3,26 @@ import { useDatePicker } from 'react-aria';
 import { useDatePickerState } from 'react-stately';
 import { useYearpicker } from '@browserstack/hooks';
 import { twClassNames } from '@browserstack/utils';
+import * as Popover from '@radix-ui/react-popover';
 import Proptypes from 'prop-types';
 
 import { CalendarIcon } from '../Icon';
 
-import { FieldButton } from './components/Button';
 import { Calendar } from './components/Calendar';
 import { DateField } from './components/DateField';
 import { Dialog } from './components/Dialog';
-import { Popover } from './components/Popover';
 import { PICKER_LEVELS, YEARS_DATA } from './const/singleDatepicker';
 import { PickerLevelContext } from './context/PickerLevelContext';
 
 const SingleDatepicker = (props) => {
   const state = useDatePickerState(props);
   const ref = useRef();
-  const {
-    groupProps,
-    labelProps,
-    fieldProps,
-    buttonProps,
-    dialogProps,
-    calendarProps
-  } = useDatePicker(props, state, ref);
+  const triggerRef = useRef();
+  const { labelProps, fieldProps, dialogProps, calendarProps } = useDatePicker(
+    props,
+    state,
+    ref
+  );
 
   const {
     label,
@@ -33,13 +30,19 @@ const SingleDatepicker = (props) => {
     disabled,
     offset,
     crossOffset,
-    placement,
+    align,
+    side,
     wrapperClassName,
     isLoading,
     isMandatory
   } = props;
 
   const years = useYearpicker(YEARS_DATA, 12);
+
+  useEffect(() => {
+    triggerRef.current?.click();
+  }, [state.value]);
+
   useEffect(() => {
     years.jump(new Date().getFullYear() / 12 + 1);
   }, [years]);
@@ -78,7 +81,6 @@ const SingleDatepicker = (props) => {
           })}
         >
           <div
-            {...groupProps}
             ref={ref}
             className={twClassNames(
               'border-base-300 cursor-pointer flex w-full rounded-md border justify-between',
@@ -103,38 +105,49 @@ const SingleDatepicker = (props) => {
                 errorMessage={errorMessage}
               />
             </div>
-            <FieldButton
-              disabled={disabled}
-              {...buttonProps}
-              isPressed={state.isOpen}
-            >
-              <CalendarIcon
-                aria-hidden="true"
-                className={twClassNames('text-base-400 h-5 w-5', {
-                  'text-base-300': disabled
-                })}
-              />
-            </FieldButton>
+            <Popover.Root defaultOpen={false}>
+              <Popover.Trigger asChild>
+                <button
+                  aria-label="calendar dropdown trigger"
+                  type="button"
+                  disabled={disabled}
+                  className={twClassNames(
+                    'border-base-300 -ml-px rounded-r-md border-l px-3.5 bg-white hover:bg-base-50 focus:outline-brand-500 focus:border-2',
+                    {
+                      'cursor-not-allowed bg-base-50': disabled
+                    }
+                  )}
+                >
+                  <CalendarIcon
+                    aria-hidden="true"
+                    className={twClassNames('text-base-400 h-5 w-5', {
+                      'text-base-300': disabled
+                    })}
+                  />
+                </button>
+              </Popover.Trigger>
+              <Popover.Portal>
+                <Popover.Content
+                  align={align}
+                  side={side}
+                  sideOffset={crossOffset}
+                  alignOffset={offset}
+                >
+                  <div className="border-base-300 z-10 mt-2 rounded-md border bg-white p-3 shadow-lg">
+                    <Dialog {...dialogProps} isLoading={isLoading}>
+                      <Calendar isLoading={isLoading} {...calendarProps} />
+                    </Dialog>
+                  </div>
+                  <Popover.Close ref={triggerRef} aria-hidden="true" />
+                </Popover.Content>
+              </Popover.Portal>
+            </Popover.Root>
           </div>
         </div>
         {errorMessage && (
           <p className="text-danger-600 mt-2 break-all text-sm font-normal leading-5">
             {errorMessage}
           </p>
-        )}
-
-        {state.isOpen && (
-          <Popover
-            triggerRef={ref}
-            state={state}
-            placement={placement}
-            offset={offset}
-            crossOffset={crossOffset}
-          >
-            <Dialog {...dialogProps} isLoading={isLoading}>
-              <Calendar isLoading={isLoading} {...calendarProps} />
-            </Dialog>
-          </Popover>
         )}
       </div>
     </PickerLevelContext.Provider>
@@ -149,7 +162,8 @@ SingleDatepicker.propTypes = {
   isDateUnavailable: Proptypes.func,
   offset: Proptypes.number,
   crossOffset: Proptypes.number,
-  placement: Proptypes.string,
+  align: Proptypes.string,
+  side: Proptypes.string,
   label: Proptypes.string,
   isLoading: Proptypes.bool,
   isMandatory: Proptypes.bool
@@ -162,7 +176,8 @@ SingleDatepicker.defaultProps = {
   isDateUnavailable: () => {},
   offset: 0,
   crossOffset: 0,
-  placement: 'bottom end',
+  align: 'end',
+  side: 'bottom',
   label: '',
   isLoading: false,
   isMandatory: false

@@ -64,7 +64,7 @@ const Checkbox = ({
             className={twClassNames(
               'border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4 rounded',
               {
-                'bg-base-50 cursor-not-allowed': disabled,
+                'border-base-200 bg-base-50 cursor-not-allowed': disabled,
                 'text-brand-200': (checked || defaultChecked) && disabled
               }
             )}
