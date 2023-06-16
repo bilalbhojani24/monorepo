@@ -78,7 +78,7 @@ const SHTestsFilters = ({ o11ySHTestsInteraction }) => {
           `${bounds.lowerBound},${bounds.upperBound}`
         );
       }
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
       getFilters();
     },
     [getFilters, navigate, o11ySHTestsInteraction]

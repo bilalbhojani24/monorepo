@@ -190,7 +190,7 @@ export const showTestDetailsDrawer = (testId) => (dispatch) => {
   dispatch(setShowTestDetailsFor(testId));
   const searchParams = new URLSearchParams(window?.location?.search);
   searchParams.set('details', testId);
-  o11yHistory.navigate({ search: searchParams.toString() });
+  o11yHistory.navigate({ search: searchParams.toString() }, { replace: true });
 };
 
 export const hideTestDetailsDrawer = () => (dispatch) => {
@@ -199,5 +199,5 @@ export const hideTestDetailsDrawer = () => (dispatch) => {
   dispatch(setShowTestDetailsFor(''));
   const searchParams = new URLSearchParams(window?.location?.search);
   searchParams.delete('details');
-  o11yHistory.navigate({ search: searchParams.toString() });
+  o11yHistory.navigate({ search: searchParams.toString() }, { replace: true });
 };

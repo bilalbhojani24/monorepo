@@ -51,9 +51,12 @@ export default function OnboardingFrameworkSelector() {
     const foundFramework = FRAMEWORKS.find((item) => item.id === id);
     if (!foundFramework?.isUpComing) {
       setSelectedFramework(foundFramework);
-      navigate({
-        search: `?framework=${id}`
-      });
+      navigate(
+        {
+          search: `?framework=${id}`
+        },
+        { replace: true }
+      );
     }
   };
 
