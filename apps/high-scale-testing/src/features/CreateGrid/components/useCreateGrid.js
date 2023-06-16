@@ -91,7 +91,7 @@ const useCreateGrid = () => {
 
   // All State variables
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
-    useState(GRID_MANAGER_NAMES.helm);
+    useState({ index: 0, name: GRID_MANAGER_NAMES.helm });
   const allAvailableInstanceTypes = useSelector(getInstanceTypes);
   const allAvailableRegionsByProvider = useSelector(getRegions);
   const [allAvailableSubnets, setAllAvailableSubnets] = useState([]);

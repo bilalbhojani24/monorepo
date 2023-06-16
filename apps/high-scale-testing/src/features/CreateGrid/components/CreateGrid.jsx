@@ -248,18 +248,21 @@ const CreateGrid = () => {
 
   const TabsForCodeSnippet = (
     <Tabs
+      defaultIndex={activeGridManagerCodeSnippet.index}
       id="tabID"
       label="Tabs"
       onTabChange={(e) => {
-        setActiveGridManagerCodeSnippet(e.name);
+        setActiveGridManagerCodeSnippet(e);
       }}
       isContained={false}
       navigationClassName="first:ml-4"
       tabsArray={[
         {
+          index: 0,
           name: GRID_MANAGER_NAMES.helm
         },
         {
+          index: 1,
           name: GRID_MANAGER_NAMES.cli
         }
       ]}
@@ -322,14 +325,14 @@ const CreateGrid = () => {
               <CodeSnippet
                 code={
                   codeSnippetsForExistingSetup?.[
-                    activeGridManagerCodeSnippet.toLowerCase()
+                    activeGridManagerCodeSnippet.name.toLowerCase()
                   ]
                 }
                 language={
-                  activeGridManagerCodeSnippet.toLowerCase() ===
+                  activeGridManagerCodeSnippet.name.toLowerCase() ===
                   GRID_MANAGER_NAMES.cli
                     ? 'node'
-                    : activeGridManagerCodeSnippet.toLowerCase()
+                    : activeGridManagerCodeSnippet.name.toLowerCase()
                 }
                 singleLine={false}
                 showLineNumbers={false}
