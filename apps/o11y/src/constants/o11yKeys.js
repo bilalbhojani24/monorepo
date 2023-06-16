@@ -1,0 +1,52 @@
+import { ENV_MAPPING } from './envConfigMapping';
+
+const EDS_STAGING_SERVER = 'edsstaging.bsstag.com';
+
+export default {
+  [ENV_MAPPING.LOCAL]: {
+    AMPLITUDE_KEY: 'xyz',
+    ANALYTICS_KEY: 'xyz',
+    DELIGHTED_CONFIG_FILE_NAME: 'xyz',
+    DELIGHTED_CONFIG_TOKEN: 'xyz',
+    EDS_API_KEY: 'xyz',
+    SENTRY_DSN: 'xyz',
+    EDS_SERVER: EDS_STAGING_SERVER
+  },
+  [ENV_MAPPING.LOCAL_STAGING]: {
+    AMPLITUDE_KEY: 'xyz',
+    ANALYTICS_KEY: 'xyz',
+    DELIGHTED_CONFIG_FILE_NAME: 'xyz',
+    DELIGHTED_CONFIG_TOKEN: 'xyz',
+    EDS_API_KEY: 'xyz',
+    SENTRY_DSN: 'xyz',
+    EDS_SERVER: EDS_STAGING_SERVER
+  },
+  [ENV_MAPPING.STAGING]: {
+    AMPLITUDE_KEY: 'xyz',
+    ANALYTICS_KEY: 'xyz',
+    DELIGHTED_CONFIG_FILE_NAME: 'xyz',
+    DELIGHTED_CONFIG_TOKEN: 'xyz',
+    EDS_API_KEY: 'xyz',
+    SENTRY_DSN: 'xyz',
+    EDS_SERVER: EDS_STAGING_SERVER
+  },
+  [ENV_MAPPING.PREPROD]: {
+    AMPLITUDE_KEY: 'xyz',
+    ANALYTICS_KEY: 'xyz',
+    DELIGHTED_CONFIG_FILE_NAME: 'xyz',
+    DELIGHTED_CONFIG_TOKEN: 'xyz',
+    EDS_API_KEY: 'xyz',
+    SENTRY_DSN: 'xyz',
+    EDS_SERVER: EDS_STAGING_SERVER
+  },
+  [ENV_MAPPING.PRODUCTION]: {
+    AMPLITUDE_KEY: '985eaa9c45d824a94344e64a2a3ca724',
+    ANALYTICS_KEY: 'UA-418548-19',
+    DELIGHTED_CONFIG_FILE_NAME: 'delightedNps6',
+    DELIGHTED_CONFIG_TOKEN: 'OSs0HGuHljsxJ5t7',
+    EDS_API_KEY: '5PJymLNdWrOwzQNC7J6SXBuUFQGWq4Vuw',
+    SENTRY_DSN:
+      'https://4f687a1c14084f6c801e395a74336125@o70254.ingest.sentry.io/4505080435900416',
+    EDS_SERVER: 'eds.browserstack.com'
+  }
+};

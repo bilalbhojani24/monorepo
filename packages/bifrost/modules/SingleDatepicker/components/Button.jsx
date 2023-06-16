@@ -48,39 +48,3 @@ YearPickerButton.propTypes = {
   disableChevron: Proptypes.bool.isRequired,
   onClick: Proptypes.func.isRequired
 };
-
-export function FieldButton(props) {
-  const { children, disabled } = props;
-  const ref = useRef();
-  const { buttonProps } = useButton(props, ref);
-
-  return (
-    <button
-      type="button"
-      {...(disabled
-        ? null
-        : {
-            ...buttonProps
-          })}
-      disabled={disabled}
-      ref={ref}
-      className={twClassNames(
-        'border-base-300 -ml-px rounded-r-md border-l px-3.5 bg-white hover:bg-base-50 focus:outline-brand-500 focus:border-2',
-        {
-          'cursor-not-allowed bg-base-50': disabled
-        }
-      )}
-    >
-      {children}
-    </button>
-  );
-}
-
-FieldButton.propTypes = {
-  children: Proptypes.node.isRequired,
-  disabled: Proptypes.bool
-};
-
-FieldButton.defaultProps = {
-  disabled: false
-};

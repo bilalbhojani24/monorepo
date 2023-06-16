@@ -26,7 +26,7 @@ const DeleteGrid = ({
         <div>
           <Alerts description={ALERT_DESC} linkText="" modifier="error" />
 
-          <div className="text-base-900 mb-6 mt-4">
+          <div className="mb-6 mt-4 text-base-900">
             <p className="mb-2 text-sm">
               Run the below command to delete the ‘high-scale-grid’.
             </p>

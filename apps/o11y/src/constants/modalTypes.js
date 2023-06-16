@@ -10,5 +10,6 @@ export const MODAL_TYPES = {
   email_preference: 'email_preference',
   jenkins_connect_modal: 'jenkins_connect_modal',
   azure_connect_modal: 'azure_connect_modal',
-  archive_builds_modal: 'archive_builds_modal'
+  archive_builds_modal: 'archive_builds_modal',
+  onboarding_framework_selection_modal: 'onboarding_framework_selection_modal'
 };
