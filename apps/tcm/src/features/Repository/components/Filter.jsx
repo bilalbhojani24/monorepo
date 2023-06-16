@@ -181,16 +181,23 @@ const Filter = ({ isMini, onFilterChange }) => {
                     RECENTLY ADDED USERS
                   </p>
                 ) : null}
-                {ownersFilteredArray.map((item) => (
-                  <TMCheckBox
-                    key={item.value}
-                    border={false}
-                    wrapperClassName="pt-0 mb-2"
-                    checked={filterSearchMeta?.owner?.includes(item.value)}
-                    data={item}
-                    onChange={() => filterChangeHandler('owner', item)}
-                  />
-                ))}
+                {ownersFilteredArray.map((item) => {
+                  const modifiedItem = {
+                    ...item,
+                    label: <span className="text-base-900">{item.label}</span>
+                  };
+
+                  return (
+                    <TMCheckBox
+                      key={item.value}
+                      border={false}
+                      wrapperClassName="pt-0 mb-2"
+                      checked={filterSearchMeta?.owner?.includes(item.value)}
+                      data={modifiedItem}
+                      onChange={() => filterChangeHandler('owner', item)}
+                    />
+                  );
+                })}
               </div>
             </div>
             <div className="flex h-full w-5/12 flex-col">
