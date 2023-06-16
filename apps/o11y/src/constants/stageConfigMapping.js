@@ -1,53 +1,54 @@
-const STAGING_CONFIG = (envName) => ({
+const STAGING_CONFIG = {
   signInUrl: `https://devtestops-api.bsstag.com/api/v1/auth/start-sso`,
-  signOutUrl: `https://${envName}.bsstag.com/users/sign_out`,
+  signOutUrl: `https://devtestops.bsstag.com/users/sign_out`,
   apiUrl: 'https://devtestops-api.bsstag.com',
   baseUrl: 'https://devtestops.bsstag.com',
   withCredentials: true,
   integrationsBaseUrl: 'https://integrations-preprod.bsstag.com',
   useIntegrationsPreProdAuth: true
-});
+};
+
+export const ENV_MAPPING = {
+  LOCAL: 'local',
+  LOCAL_STAGING: 'local-staging',
+  STAGING: 'staging',
+  PREPROD: 'preprod',
+  PRODUCTION: 'production'
+};
 
 export default {
-  local: {
-    signInUrl: `${STAGING_CONFIG('').apiUrl}/api/v1/auth/start-sso`,
-    signOutUrl: STAGING_CONFIG('devtestops').signOutUrl,
+  [ENV_MAPPING.LOCAL]: {
+    ...STAGING_CONFIG,
+    name: ENV_MAPPING.LOCAL,
     apiUrl: 'https://localhost:8082/testops',
-    baseUrl: STAGING_CONFIG('').baseUrl,
     withCredentials: false,
-    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
-    useIntegrationsPreProdAuth: true,
     isMocker: true
   },
-  'local-staging': {
-    signInUrl: `${STAGING_CONFIG('').apiUrl}/api/v1/auth/start-sso`,
-    signOutUrl: STAGING_CONFIG('devtestops').signOutUrl,
-    baseUrl: STAGING_CONFIG('').baseUrl,
-    apiUrl: 'http://devtestops-api.bsstag.com',
-    withCredentials: true,
-    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
-    useIntegrationsPreProdAuth: true
+  [ENV_MAPPING.LOCAL_STAGING]: {
+    ...STAGING_CONFIG,
+    name: ENV_MAPPING.LOCAL_STAGING,
+    apiUrl: 'http://devtestops-api.bsstag.com'
   },
-  staging: {
-    ...STAGING_CONFIG('devtestops')
+  [ENV_MAPPING.STAGING]: {
+    name: ENV_MAPPING.STAGING,
+    ...STAGING_CONFIG,
+    enableAnalytics: true
   },
-  devtestops: {
-    ...STAGING_CONFIG('devtestops')
-  },
-  'dev-staging': {
-    ...STAGING_CONFIG('devtestops')
-  },
-  preprod: {
+  [ENV_MAPPING.PREPROD]: {
+    name: ENV_MAPPING.PREPROD,
     signInUrl:
       'https://api-observability-preprod.bsstag.com/api/v1/auth/start-sso',
     signOutUrl: 'https://preprod.bsstag.com/users/sign_out',
     apiUrl: 'https://api-observability-preprod.bsstag.com',
     baseUrl: 'https://preprod.bsstag.com',
     withCredentials: true,
-    integrationsBaseUrl: STAGING_CONFIG('').integrationsBaseUrl,
-    useIntegrationsPreProdAuth: false
+    integrationsBaseUrl: STAGING_CONFIG.integrationsBaseUrl,
+    useIntegrationsPreProdAuth: false,
+    enableAnalytics: true
+    // TODO: add support to enable sentry on preprod
   },
   production: {
+    name: ENV_MAPPING.PRODUCTION,
     signInUrl:
       'https://api-observability.browserstack.com/api/v1/auth/start-sso',
     signOutUrl: '',

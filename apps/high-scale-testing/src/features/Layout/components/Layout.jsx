@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 import { matchPath, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
-  HomeIcon,
   MdOutlineTextSnippet,
+  MdWeb,
   NotificationsContainer,
   SidebarItem,
-  SidebarNavigation,
-  UsersIcon
+  SidebarNavigation
 } from '@browserstack/bifrost';
+import AutomatioConsole from 'assets/icons/components/AutomationConsole';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import HSTHeader from 'features/HSTHeader/component';
@@ -24,16 +24,16 @@ const Layout = () => {
     {
       id: 'grid-console',
       label: 'Automation Console',
-      activeIcon: HomeIcon,
-      inActiveIcon: HomeIcon,
+      activeIcon: AutomatioConsole,
+      inActiveIcon: AutomatioConsole,
       path: ROUTES.GRID_CONSOLE,
       pattern: `${ROUTES.GRID_CONSOLE}/*`
     },
     {
       id: 'builds-dashboard',
       label: 'Builds Dashboard',
-      activeIcon: UsersIcon,
-      inActiveIcon: UsersIcon,
+      activeIcon: MdWeb,
+      inActiveIcon: MdWeb,
       path: ROUTES.BUILDS,
       pattern: `${ROUTES.BUILDS}/*`
     }
@@ -80,7 +80,7 @@ const Layout = () => {
   return (
     <>
       <HSTHeader />
-      <main className="bg-base-50 flex">
+      <main className="flex bg-base-50">
         <nav
           className="sticky"
           style={{
