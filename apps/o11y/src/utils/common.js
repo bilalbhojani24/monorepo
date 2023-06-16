@@ -252,3 +252,25 @@ export const updateUrlQueryParam = (searchParams) => {
   }?${searchParams.toString()}`;
   window.history.replaceState({ path: newurl }, '', newurl);
 };
+
+/** Cross-browser support for fullscreen change event
+ * Validating function to identify browser type and get related change event */
+export const getFullScreenChangeEventName = () => {
+  if (document.exitFullscreen) {
+    return 'fullscreenchange';
+  }
+
+  if (document.webkitExitFullscreen) {
+    return 'webkitfullscreenchange';
+  }
+
+  if (document.mozCancelFullScreen) {
+    return 'mozfullscreenchange';
+  }
+
+  if (document.msExitFullscreen) {
+    return 'MSFullscreenChange';
+  }
+
+  return 'fullscreenchange';
+};
