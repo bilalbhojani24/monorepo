@@ -115,7 +115,7 @@ const ClusterOverview = () => {
       </div>
 
       <div className="flex flex-row gap-x-6 p-6">
-        <div className="w-2/5 rounded-lg border border-base-200 bg-white p-6 shadow">
+        {/* <div className="w-2/5 rounded-lg border border-base-200 bg-white p-6 shadow">
           <p className="text-lg font-medium leading-6 text-base-900">
             Advanced Details
           </p>
@@ -181,9 +181,9 @@ const ClusterOverview = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div className="w-3/5 rounded-lg border border-base-200 bg-white p-6 shadow">
+        <div className="w-full rounded-lg border border-base-200 bg-white p-6 shadow">
           <p className="text-lg font-medium leading-6 text-base-900">
             Grid Resources
           </p>
