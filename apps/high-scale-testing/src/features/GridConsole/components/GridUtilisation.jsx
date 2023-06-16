@@ -7,7 +7,7 @@ const GridUtilization = () => (
     <EmptyState
       buttonProps={null}
       description="The utilization data is coming soon."
-      mainIcon={<MdQueryStats className="text-base-400 mx-auto h-12 w-12" />}
+      mainIcon={<MdQueryStats className="mx-auto h-12 w-12 text-base-400" />}
     />
   </div>
 );

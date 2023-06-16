@@ -5,7 +5,7 @@ import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 
 const browserIcons = {
   chrome: <ChromeIcon width={20} height={20} />,
-  edge: <EdgeIcon width={20} height={20} />,
+  MicrosoftEdge: <EdgeIcon width={20} height={20} />,
   firefox: <FirefoxIcon width={20} height={20} />
 };
 
