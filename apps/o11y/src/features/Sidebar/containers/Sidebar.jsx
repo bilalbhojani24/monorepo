@@ -24,7 +24,8 @@ import {
   getSettingsPath,
   getSuitHealthTestsPath,
   getSuitHealthUniqueErrorsPath,
-  getTestingTrendPath
+  getTestingTrendPath,
+  isBuildsPage
 } from 'utils/routeUtils';
 
 import ProjectSelector from '../components/ProjectSelector';
@@ -105,7 +106,7 @@ export default function Sidebar() {
       return;
     }
 
-    if (!matchPath(linkItem?.pattern, location.pathname)) {
+    if (!matchPath(linkItem?.pattern, location.pathname) || isBuildsPage()) {
       dispatch(hideIntegrationsWidget());
       navigate(linkItem.path);
       window.scrollTo(0, 0);
