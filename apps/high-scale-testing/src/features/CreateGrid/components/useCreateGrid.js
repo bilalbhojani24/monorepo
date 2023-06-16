@@ -576,7 +576,7 @@ const useCreateGrid = () => {
       };
       setSelectedClusterValue(tmpCluster);
 
-      const currentVPC = selectedGridProfileData?.profile.vpc;
+      const currentVPC = selectedGridProfileData?.profile.vpc || '';
       setSelectedVPCValue({
         label: currentVPC,
         value: currentVPC
