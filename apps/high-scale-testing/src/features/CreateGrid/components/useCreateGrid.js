@@ -312,6 +312,7 @@ const useCreateGrid = () => {
           groupId: userDetails.groupId
         },
         cluster: {
+          id: selectedClusterValue.id,
           name: selectedClusterValue.value
         },
         name: selectedGridName,
