@@ -300,10 +300,9 @@ const useCreateGrid = () => {
       const profileData = {
         profile: {
           name: newProfileNameValue,
-          region: 'us-east-2',
+          region: selectedRegion.value,
           cloudProvider: currentSelectedCloudProvider.configName,
-          instanceType: 't3.2xlarge',
-          domain: 'bsstag.com',
+          instanceType: selectedInstanceType.value,
           vpc: selectedVPCValue.value,
           subnets: selectedSubnetValues.map((e) => e.value),
           securityGroups: []
