@@ -29,7 +29,8 @@ const SelectMenu = (props) => {
     defaultValue,
     value,
     onOpenChange,
-    disabled
+    disabled,
+    isMandatory
   } = props;
 
   return (
@@ -43,7 +44,8 @@ const SelectMenu = (props) => {
         errorText,
         open,
         setOpen,
-        disabled
+        disabled,
+        isMandatory
       }}
     >
       <Popover.Root open={open}>
@@ -108,7 +110,8 @@ SelectMenu.propTypes = {
     })
   ]),
   onOpenChange: func,
-  disabled: bool
+  disabled: bool,
+  isMandatory: bool
 };
 
 SelectMenu.defaultProps = {
@@ -118,7 +121,8 @@ SelectMenu.defaultProps = {
   onChange: () => {},
   value: null,
   onOpenChange: null,
-  disabled: false
+  disabled: false,
+  isMandatory: false
 };
 
 export default SelectMenu;

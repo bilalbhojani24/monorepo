@@ -5,6 +5,7 @@ import {
   updateSessionMetrics
 } from '@browserstack/mcp-shared';
 import { fetchSessionStatus, stopSession } from 'api/reportLoading';
+import REPORT_GENERATION_MODES from 'constants/reportGenerationModes';
 import REPORT_LOADING_STATES from 'constants/reportLoadingStates';
 import { MCP_ROUTES } from 'constants/routeConstants';
 import {
@@ -12,10 +13,14 @@ import {
   getSelectedApplication,
   resetSessionSetupData
 } from 'features/Home';
+import { resetRealtimeMetrics } from 'features/RealtimeMetricGraphs';
 
 import {
   getLatestSessionStatus,
+  setElapsedRecordingDuration,
   setIsSessionStopInProgress,
+  setRecordingTimerIntervalId,
+  setShowTimeoutBanner,
   updateSessionStatus
 } from './reportLoadingSlice';
 
@@ -77,7 +82,8 @@ export const checkSessionStatus = () => async (dispatch, getState) => {
 };
 
 export const stopRecordingSession =
-  (navigationCallback) => async (dispatch, getState) => {
+  (navigationCallback, mode = REPORT_GENERATION_MODES.USER_REPORT_GENERATION) =>
+  async (dispatch, getState) => {
     const currentSessionId =
       getState()?.newPerformanceSession?.sessionDetails?.sessionID;
 
@@ -85,11 +91,21 @@ export const stopRecordingSession =
     const currentapp = getSelectedApplication(getState());
 
     try {
+      dispatch(setShowTimeoutBanner(false));
+
+      dispatch(setRecordingTimerIntervalId(null));
+
+      dispatch(setElapsedRecordingDuration(0));
+
       dispatch(setIsSessionStopInProgress(true));
 
       dispatch(updateSessionStatus({ status: REPORT_LOADING_STATES.STOPPING })); // this needs to come from api later
 
-      const response = await stopSession(currentSessionId);
+      const bodyParams =
+        mode === REPORT_GENERATION_MODES.USER_REPORT_GENERATION
+          ? { isTimeoutLimitExceeded: false }
+          : { isTimeoutLimitExceeded: true };
+      const response = await stopSession(currentSessionId, bodyParams);
 
       mcpAnalyticsEvent(
         'csptTestGenerateReportSuccess',
@@ -115,6 +131,7 @@ export const stopRecordingSession =
         throw error;
       }
     } finally {
+      dispatch(resetRealtimeMetrics());
       dispatch(setIsSessionStopInProgress(false));
     }
   };
@@ -126,7 +143,9 @@ export const cancelRecordingSession =
 
     try {
       dispatch(setIsSessionStopInProgress(true));
-
+      dispatch(setShowTimeoutBanner(false));
+      dispatch(setRecordingTimerIntervalId(null));
+      dispatch(setElapsedRecordingDuration(0));
       dispatch(
         updateSessionStatus({ status: REPORT_LOADING_STATES.NOT_STARTED })
       );
@@ -141,5 +160,6 @@ export const cancelRecordingSession =
       navigationCallback(MCP_ROUTES.HOME);
       dispatch(setIsSessionStopInProgress(false));
       dispatch(resetSessionSetupData());
+      dispatch(resetRealtimeMetrics());
     }
   };

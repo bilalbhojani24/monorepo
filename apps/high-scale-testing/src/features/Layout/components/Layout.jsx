@@ -8,19 +8,24 @@ import {
   SidebarNavigation,
   UsersIcon
 } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
+import AutomatioConsole from 'assets/icons/components/AutomationConsole';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import HSTHeader from 'features/HSTHeader/component';
+import { getEnvConfig } from 'utils/common';
+import { logHSTEvent } from 'utils/logger';
 
 const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
+  const { docHomeURL } = getEnvConfig();
+
   const primaryNavs = [
     {
       id: 'grid-console',
       label: 'Automation Console',
-      activeIcon: HomeIcon,
+      activeIcon: AutomatioConsole,
       inActiveIcon: HomeIcon,
       path: ROUTES.GRID_CONSOLE,
       pattern: `${ROUTES.GRID_CONSOLE}/*`
@@ -52,20 +57,31 @@ const Layout = () => {
 
   const navigationClickHandler = (item) => {
     if (item.id === 'builds-dashboard') {
-      logEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'builddashboard_clicked'
+      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+        action: 'builddashboard_clicked',
+        currentPath: location.pathname
       });
       window.location.href = item.path;
-    } else {
+    } else if (item.id === 'grid-console') {
       const { path } = item;
+      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+        action: 'gridconsole_clicked',
+        currentPath: location.pathname
+      });
       navigate(path);
+    } else if (item.id === 'documentation') {
+      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
+        action: 'viewdoc_clicked',
+        currentPath: location.pathname
+      });
+      window.location.href = docHomeURL;
     }
   };
 
   return (
     <>
       <HSTHeader />
-      <main className="bg-base-50 flex">
+      <main className="flex bg-base-50">
         <nav
           className="sticky"
           style={{
@@ -82,7 +98,10 @@ const Layout = () => {
               />
             ))}
             sidebarSecondaryNavigation={secondaryNavs.map((item) => (
-              <SidebarItem nav={item} />
+              <SidebarItem
+                nav={item}
+                handleNavigationClick={navigationClickHandler}
+              />
             ))}
             wrapperClassName="md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full"
           />

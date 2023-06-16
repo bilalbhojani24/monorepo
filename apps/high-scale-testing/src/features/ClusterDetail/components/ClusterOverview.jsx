@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Badge,
-  MdAddLink,
   MdContentCopy,
   Table,
   TableBody,
@@ -10,12 +9,17 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 import CopyButton from 'common/CopyButton';
+import cloudIcons from 'constants/cloudIcons';
 
 import useClusterOverview from './useClusterOverview';
 
 const ClusterOverview = () => {
-  const { containerClassName, fontColor900ClassName, clusterData } =
-    useClusterOverview();
+  const {
+    containerClassName,
+    fontColor900ClassName,
+    clusterData,
+    vpcCopiedCallbackFn
+  } = useClusterOverview();
 
   const commonClassName =
     'border-base-200 flex flex-row items-center border-b py-3 text-sm justify-between';
@@ -25,16 +29,8 @@ const ClusterOverview = () => {
   }
 
   //   ToDo: Check if we need all these Keys
-  const {
-    connected,
-    grids,
-    name,
-    profile,
-    runningNodes,
-    status,
-    uniqueId,
-    user
-  } = clusterData;
+  const { connected, grids, name, profile, runningNodes, status, uniqueId } =
+    clusterData;
 
   const clusterDetailData = [
     {
@@ -64,7 +60,7 @@ const ClusterOverview = () => {
     },
     {
       title: 'Created by',
-      value: user?.fullname
+      value: clusterData?.createdBy?.fullName
     },
     {
       title: 'No. of Grids',
@@ -72,7 +68,7 @@ const ClusterOverview = () => {
     },
     {
       title: 'Region',
-      value: uniqueId
+      value: profile?.region
     },
     {
       title: 'Cluster ID',
@@ -92,7 +88,7 @@ const ClusterOverview = () => {
     <>
       <div className="px-6 pt-6">
         <div className={containerClassName}>
-          <p className="text-base-900 text-lg font-medium leading-6">
+          <p className="text-lg font-medium leading-6 text-base-900">
             Cluster Details
           </p>
 
@@ -101,8 +97,16 @@ const ClusterOverview = () => {
               const { title, value } = detail;
               return (
                 <div>
-                  <p className="text-base-500 text-sm font-normal">{title}</p>
-                  <p className={fontColor900ClassName}>{value}</p>
+                  <p className="text-sm font-normal text-base-500">{title}</p>
+
+                  {title === 'Cloud Provider' ? (
+                    <div className="flex gap-x-2">
+                      <span>{cloudIcons[value]}</span>{' '}
+                      <p className={fontColor900ClassName}>{value}</p>
+                    </div>
+                  ) : (
+                    <p className={fontColor900ClassName}>{value}</p>
+                  )}
                 </div>
               );
             })}
@@ -111,14 +115,13 @@ const ClusterOverview = () => {
       </div>
 
       <div className="flex flex-row gap-x-6 p-6">
-        <div className="border-base-200 w-2/5 rounded-lg border bg-white p-6 shadow">
-          <p className="text-base-900 text-lg font-medium leading-6">
+        <div className="w-2/5 rounded-lg border border-base-200 bg-white p-6 shadow">
+          <p className="text-lg font-medium leading-6 text-base-900">
             Advanced Details
           </p>
           <div className="mt-6">
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center">
-                <MdAddLink />
                 <div className="ml-2 mr-6 text-base text-base-500">
                   <p>VPC ID</p>
                 </div>
@@ -129,6 +132,7 @@ const ClusterOverview = () => {
                   <p>{profile?.vpcs}</p>
                 </div>
                 <CopyButton
+                  cb={vpcCopiedCallbackFn}
                   copyValue={profile?.vpcs}
                   textColor=""
                   wrapperClassName="text-xl"
@@ -139,8 +143,7 @@ const ClusterOverview = () => {
             </div>
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
-                <div className="ml-2 text-base  mr-6">
+                <div className="ml-2 mr-6  text-base">
                   <p>Domain</p>
                 </div>
               </div>
@@ -159,8 +162,7 @@ const ClusterOverview = () => {
             </div>
             <div className={commonClassName}>
               <div className="flex w-1/3 items-center text-base-500">
-                <MdAddLink />
-                <div className="ml-2 text-base mr-6">
+                <div className="ml-2 mr-6 text-base">
                   <p>Subnets</p>
                 </div>
               </div>
@@ -181,8 +183,8 @@ const ClusterOverview = () => {
           </div>
         </div>
 
-        <div className="border-base-200 w-3/5 rounded-lg border bg-white p-6 shadow">
-          <p className="text-base-900 text-lg font-medium leading-6">
+        <div className="w-3/5 rounded-lg border border-base-200 bg-white p-6 shadow">
+          <p className="text-lg font-medium leading-6 text-base-900">
             Grid Resources
           </p>
           <Table containerWrapperClass="mt-6">

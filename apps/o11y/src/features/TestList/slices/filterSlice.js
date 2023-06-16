@@ -11,15 +11,17 @@ import {
   setIsLoadingBuildsFilters,
   setStaticFilters
 } from 'features/FilterSkeleton/slices/filterSlice';
+import { getAllAppliedFilters } from 'features/FilterSkeleton/slices/selectors';
 import {
   getAppliedFilterObj,
-  getFilterFromSearchString
+  getFilterFromSearchString,
+  getFilterQueryParams
 } from 'features/FilterSkeleton/utils';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
-const updateTestsFilterFields = (data, dispatch) => {
+const updateTestsFilterFields = (data, dispatch, additionalData) => {
   if (!isEmpty(data?.applied)) {
     const { applied } = data;
     const updatedSelectedFilters = [];
@@ -180,6 +182,19 @@ const updateTestsFilterFields = (data, dispatch) => {
             );
           break;
         }
+        case ADV_FILTER_TYPES.isNewFailure.key: {
+          const item = applied[appliedKey];
+          if (!isNil(item))
+            updatedSelectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}`,
+                text: item,
+                value: item,
+                type: ADV_FILTER_TYPES.isNewFailure.key
+              })
+            );
+          break;
+        }
         case ADV_FILTER_TYPES.failureCategories.key: {
           if (applied[appliedKey]?.length) {
             applied[appliedKey].forEach((item) => {
@@ -257,6 +272,17 @@ const updateTestsFilterFields = (data, dispatch) => {
           break;
       }
     });
+    if (additionalData?.[ADV_FILTER_TYPES.issueTypeGroup.key]) {
+      const value = additionalData[ADV_FILTER_TYPES.issueTypeGroup.key];
+      updatedSelectedFilters.push(
+        getAppliedFilterObj({
+          id: 'issueTypeGroup',
+          text: value,
+          value,
+          type: ADV_FILTER_TYPES.issueTypeGroup.key
+        })
+      );
+    }
     dispatch(setBulkSelectedFilters(updatedSelectedFilters));
     dispatch(setBulkAppliedFilters(updatedSelectedFilters));
   }
@@ -267,15 +293,23 @@ const updateTestsFilterFields = (data, dispatch) => {
 
 export const getTestListingFiltersData = createAsyncThunk(
   'testlist/getFilters',
-  async (data, { rejectWithValue, dispatch }) => {
+  async (data, { rejectWithValue, dispatch, getState }) => {
     dispatch(setCurrentFilterCategory(FILTER_CATEGORIES.TEST_LISTING));
+    dispatch(setIsLoadingBuildsFilters(true));
     try {
-      const searchString = dispatch(getFilterFromSearchString());
+      let searchParams = dispatch(getFilterFromSearchString(true));
+      const issueTypeGroup = searchParams.get(
+        ADV_FILTER_TYPES.issueTypeGroup.key
+      );
+      if (searchParams.size === 0) {
+        const appliedFilters = getAllAppliedFilters(getState());
+        searchParams = getFilterQueryParams(appliedFilters);
+      }
       const response = await getTestListFilters({
         ...data,
-        searchString
+        searchString: searchParams.toString()
       });
-      updateTestsFilterFields(response.data, dispatch);
+      updateTestsFilterFields(response.data, dispatch, { issueTypeGroup });
       return response.data;
     } catch (err) {
       return rejectWithValue(err);

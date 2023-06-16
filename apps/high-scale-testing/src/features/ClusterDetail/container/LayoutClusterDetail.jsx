@@ -39,7 +39,7 @@ const LayoutClusterDetail = () => {
               current: true
             }
           ]}
-          heading={clusterData.name}
+          heading={clusterData.name || ''}
         />
 
         {TabsForClusterDetail}

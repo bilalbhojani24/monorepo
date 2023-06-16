@@ -120,7 +120,7 @@ const SelectConfigurations = () => {
 
   return (
     <INTGDropdown onClick={selectConfiguration}>
-      <div className="flex">
+      <div className="flex" data-test-id="select-configurations">
         <INTGDropdownTrigger
           wrapperClassName={twClassNames(
             'w-40 inline text-left overflow-hidden truncate',

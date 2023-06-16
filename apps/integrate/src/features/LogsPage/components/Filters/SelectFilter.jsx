@@ -25,10 +25,12 @@ const SelectFilter = ({
   return (
     <INTGSelectMenu onChange={handleChange} value={filters[filterKey]} isMulti>
       {label && <INTGSelectMenuLabel>{label}</INTGSelectMenuLabel>}
-      <INTGSelectMenuTrigger
-        placeholder={placeholder}
-        wrapperClassName={triggerClassName}
-      />
+      <div data-test-id={`select-${filterKey}-filter`}>
+        <INTGSelectMenuTrigger
+          placeholder={placeholder}
+          wrapperClassName={triggerClassName}
+        />
+      </div>
       {Boolean(options?.length) && (
         <INTGSelectMenuOptionGroup>
           {options.map((item) => (
