@@ -11,7 +11,7 @@ export const DOC_KEY_MAPPING = {
   nightwatch: 'quick-start/nightwatchjs',
   playwright: 'quick-start/playwright',
   re_run: 'features/re-run',
-  smart_tags: 'features/smartTags',
+  smart_tags: 'features/smart-tags',
   source_code: 'integrations/source-code',
   testng: 'quick-start/testng',
   tnc: `references/terms-and-conditions`,
