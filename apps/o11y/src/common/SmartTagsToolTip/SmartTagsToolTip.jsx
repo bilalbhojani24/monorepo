@@ -5,7 +5,6 @@ import { O11yBadge, O11yButton, O11yTooltip } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import { SMART_TAGS_CONSTANTS } from 'features/Settings/constants';
 import PropTypes from 'prop-types';
 import { getDocUrl } from 'utils/common';
@@ -33,25 +32,21 @@ const SmartTagsToolTip = ({
     navigate(`${ROUTES.smart_tags}?${searchParams.toString()}`);
   };
   if (!text) return null;
-  let filterCategory = '';
-  let filterValue = '';
   let description = '';
   if (!smartTagSettings) {
     return (
-      <O11yBadge
-        isRounded={isRounded}
-        text={text}
-        modifier={modifier}
-        onClick={() => {
-          onClick(filterCategory, filterValue);
-        }}
-      />
+      <PropagationBlocker className="ml-1 inline">
+        <O11yBadge
+          isRounded={isRounded}
+          text={text}
+          modifier={modifier}
+          onClick={onClick}
+        />
+      </PropagationBlocker>
     );
   }
   switch (text) {
     case 'Flaky':
-      filterCategory = ADV_FILTER_TYPES.isFlaky.key;
-      filterValue = true;
       description =
         flakyReason === 1
           ? `Test status has flipped more than ${smartTagSettings?.flaky?.flakeInHistory.flippingCount}
@@ -59,8 +54,6 @@ const SmartTagsToolTip = ({
           : `Test passes on a retry within the last ${smartTagSettings?.flaky?.flakeInRerun.consecutiveRuns} runs.`;
       break;
     case 'Always Failing':
-      filterCategory = ADV_FILTER_TYPES.isAlwaysFailing.key;
-      filterValue = true;
       description = `The test has consistently failed with ${
         smartTagSettings.alwaysFailing?.failureType ===
         SMART_TAGS_CONSTANTS.SAME
@@ -69,16 +62,12 @@ const SmartTagsToolTip = ({
       } in the past ${smartTagSettings.alwaysFailing?.consecutiveRuns} runs`;
       break;
     case 'New Failures':
-      filterCategory = ADV_FILTER_TYPES.isNewFailure.key;
-      filterValue = true;
       description =
         smartTagSettings.newFailure?.failureType === SMART_TAGS_CONSTANTS.NEW
           ? `The test has encountered a new error for the first time in the last ${smartTagSettings.newFailure?.consecutiveRuns} runs`
           : `The test has failed for the first time in the last ${smartTagSettings.newFailure?.consecutiveRuns} runs`;
       break;
     case 'Performance Anomaly':
-      filterCategory = ADV_FILTER_TYPES.hasPerformanceAnomaly.key;
-      filterValue = true;
       description = `Duration is longer than the 
                       ${smartTagSettings.performanceAnomalies?.durationPercentile}
                       percentile duration among the last ${smartTagSettings.performanceAnomalies?.consecutiveRuns} runs of the same test.`;
@@ -124,7 +113,12 @@ const SmartTagsToolTip = ({
           </>
         }
       >
-        <O11yBadge text={text} modifier={modifier} isRounded={isRounded} />
+        <O11yBadge
+          text={text}
+          modifier={modifier}
+          isRounded={isRounded}
+          onClick={onClick}
+        />
       </O11yTooltip>
     </PropagationBlocker>
   );

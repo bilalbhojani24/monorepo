@@ -123,7 +123,9 @@ const RenderTestItem = ({ item: data }) => {
                     <SmartTagsToolTip
                       flakyReason={details?.flakyReason}
                       modifier="warn"
-                      onClick={addFilterOnClick}
+                      onClick={() =>
+                        addFilterOnClick(ADV_FILTER_TYPES.isFlaky.key, true)
+                      }
                       smartTagSettings={smartTagSettings}
                       text="Flaky"
                       tooltipHeader="Flake detected"
@@ -132,7 +134,12 @@ const RenderTestItem = ({ item: data }) => {
                   {details?.isAlwaysFailing && (
                     <SmartTagsToolTip
                       modifier="error"
-                      onClick={addFilterOnClick}
+                      onClick={() =>
+                        addFilterOnClick(
+                          ADV_FILTER_TYPES.isAlwaysFailing.key,
+                          true
+                        )
+                      }
                       smartTagSettings={smartTagSettings}
                       text="Always Failing"
                       tooltipHeader="Always failing test"
@@ -141,7 +148,12 @@ const RenderTestItem = ({ item: data }) => {
                   {details?.isNewFailure && (
                     <SmartTagsToolTip
                       modifier="error"
-                      onClick={addFilterOnClick}
+                      onClick={() =>
+                        addFilterOnClick(
+                          ADV_FILTER_TYPES.isNewFailure.key,
+                          true
+                        )
+                      }
                       smartTagSettings={smartTagSettings}
                       text="New Failures"
                       tooltipHeader="New failure detected"
@@ -150,7 +162,12 @@ const RenderTestItem = ({ item: data }) => {
                   {details?.isPerformanceAnomaly && (
                     <SmartTagsToolTip
                       modifier="error"
-                      onClick={addFilterOnClick}
+                      onClick={() =>
+                        addFilterOnClick(
+                          ADV_FILTER_TYPES.hasPerformanceAnomaly.key,
+                          true
+                        )
+                      }
                       smartTagSettings={smartTagSettings}
                       text="Performance Anomaly"
                       tooltipHeader="Performance anomaly detected"
