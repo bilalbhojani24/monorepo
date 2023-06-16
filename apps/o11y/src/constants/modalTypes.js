@@ -10,5 +10,6 @@ export const MODAL_TYPES = {
   jenkins_connect_modal: 'jenkins_connect_modal',
   mute_unmute_test: 'mute_unmute_test',
   rerun_test_modal: 'rerun_test_modal',
-  smart_tags_confirmation_modal: 'smart_tags_confirmation_modal'
+  smart_tags_confirmation_modal: 'smart_tags_confirmation_modal',
+  onboarding_framework_selection_modal: 'onboarding_framework_selection_modal'
 };
