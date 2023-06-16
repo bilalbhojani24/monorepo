@@ -8,7 +8,8 @@ const initialState = {
   lisOfApplications: [],
   startTestError: null,
   sessionDetails: {
-    sessionName: ''
+    sessionName: '',
+    sessionID: ''
   }
 };
 

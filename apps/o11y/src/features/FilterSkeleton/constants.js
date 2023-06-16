@@ -1,6 +1,7 @@
 export const FILTER_CATEGORIES = {
   SUITE_HEALTH_TESTS: 'suite_health_tests',
-  SUITE_HEALTH_UNIQUE_ERRORS: 'suite_health_unique_errors'
+  SUITE_HEALTH_UNIQUE_ERRORS: 'suite_health_unique_errors',
+  TEST_LISTING: 'test_listing'
 };
 
 export const ADV_FILTER_OPERATIONS = {
@@ -18,6 +19,21 @@ export const FILTER_OPERATION_TYPE = {
 export const ADV_FILTER_TYPES = {
   buildTags: {
     key: 'buildTags',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
+  },
+  runs: {
+    key: 'runs',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
+  },
+  ciBuildNumbers: {
+    key: 'ciBuildNumbers',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
+  },
+  status: {
+    key: 'status',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
@@ -46,6 +62,11 @@ export const ADV_FILTER_TYPES = {
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_TYPE
   },
+  hasPerformanceAnomaly: {
+    key: 'hasPerformanceAnomaly',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_TYPE
+  },
   isNewFailure: {
     key: 'isNewFailure',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
@@ -68,6 +89,11 @@ export const ADV_FILTER_TYPES = {
   },
   failureCategories: {
     key: 'failureCategories',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
+  },
+  issueTypeGroup: {
+    key: 'issueTypeGroup',
     addOperation: ADV_FILTER_OPERATIONS.ADD,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   },
@@ -110,9 +136,14 @@ export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.hasJiraDefects.key]: 'Has JIRA Defects',
   [ADV_FILTER_TYPES.isMuted.key]: 'Is Muted',
   [ADV_FILTER_TYPES.failureCategories.key]: 'Failure Categories',
+  [ADV_FILTER_TYPES.issueTypeGroup.key]: 'Failure Category Group',
   [ADV_FILTER_TYPES.deviceList.key]: 'Device',
   [ADV_FILTER_TYPES.osList.key]: 'OS',
   [ADV_FILTER_TYPES.browserList.key]: 'Browser',
   [ADV_FILTER_TYPES.search.key]: 'Search',
-  [ADV_FILTER_TYPES.dateRange.key]: 'Date Range'
+  [ADV_FILTER_TYPES.dateRange.key]: 'Date Range',
+  [ADV_FILTER_TYPES.runs.key]: 'Re run',
+  [ADV_FILTER_TYPES.ciBuildNumbers.key]: 'CI Build Number',
+  [ADV_FILTER_TYPES.status.key]: 'Status',
+  [ADV_FILTER_TYPES.hasPerformanceAnomaly.key]: 'Has Performance Anomaly'
 };

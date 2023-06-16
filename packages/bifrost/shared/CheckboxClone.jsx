@@ -7,8 +7,7 @@ const CheckboxClone = ({ checked, active }) => (
     <div
       className={twClassNames(`border-base-400 h-4 w-4 rounded border `, {
         'bg-brand-600 border-none': checked,
-        'ring-2 ring-offset-2 ring-brand-500 group-hover:ring-0 group-hover:ring-offset-0':
-          active
+        'ring-2 ring-offset-2 ring-brand-500': active
       })}
     >
       {checked ? (

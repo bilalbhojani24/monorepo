@@ -7,7 +7,9 @@ import {
   useParams
 } from 'react-router-dom';
 import { SidebarItem, SidebarNavigation } from '@browserstack/bifrost';
+import { AGGridSettingsInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
+import { logHSTEvent } from 'utils/logger';
 
 const GridSettings = () => {
   const location = useLocation();
@@ -56,6 +58,9 @@ const GridSettings = () => {
 
   const navigationClickHandler = (item) => {
     const { path } = item;
+    logHSTEvent(['amplitude'], 'web_events', AGGridSettingsInteracted, {
+      tab_selected: path
+    });
     navigate(path);
   };
 
@@ -72,7 +77,7 @@ const GridSettings = () => {
         wrapperClassName=" border-0 md:sticky bg-base-50 p-6 w-64 flex-none md:inset-y-16"
       />
 
-      <div className="border-base-200 my-6 mr-6 grow rounded-lg border">
+      <div className="my-6 mr-6 grow rounded-lg border border-base-200">
         <div className="bg-white ">
           <Outlet />
         </div>

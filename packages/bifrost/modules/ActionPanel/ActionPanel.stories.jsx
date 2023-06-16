@@ -30,6 +30,10 @@ const defaultConfig = {
     content: {
       option: { type: null },
       defaultValue: <Button colors="white">Contact sales</Button>
+    },
+    hasBorder: {
+      option: { type: 'boolean' },
+      defaultValue: false
     }
   },
   controls: {}

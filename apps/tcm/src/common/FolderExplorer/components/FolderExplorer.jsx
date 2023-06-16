@@ -75,7 +75,9 @@ const FolderExplorer = ({
               }
             />
           ) : (
-            <div className="flex h-3/4 items-center justify-center">
+            // min height is required to avoid glitching hence used arbitrary value
+            // eslint-disable-next-line tailwindcss/no-arbitrary-value
+            <div className="flex h-3/4 min-h-[80px] items-center justify-center">
               <Loader />
             </div>
           )}

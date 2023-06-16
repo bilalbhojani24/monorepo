@@ -85,17 +85,19 @@ const RequestsChart = () => {
       <div className="flex justify-between">
         <p className="text-lg font-semibold">API Requests</p>
         {isRequestCountDataLoaded && (
-          <INTGSelectMenu
-            onChange={selectConfiguration}
-            value={activeDateRange}
-          >
-            <INTGSelectMenuTrigger wrapperClassName="w-48 ml-6" />
-            <INTGSelectMenuOptionGroup>
-              {range?.map((item) => (
-                <INTGSelectMenuOptionItem key={item.value} option={item} />
-              ))}
-            </INTGSelectMenuOptionGroup>
-          </INTGSelectMenu>
+          <div data-test-id="select-request-chart-date-range">
+            <INTGSelectMenu
+              onChange={selectConfiguration}
+              value={activeDateRange}
+            >
+              <INTGSelectMenuTrigger wrapperClassName="w-48 ml-6" />
+              <INTGSelectMenuOptionGroup>
+                {range?.map((item) => (
+                  <INTGSelectMenuOptionItem key={item.value} option={item} />
+                ))}
+              </INTGSelectMenuOptionGroup>
+            </INTGSelectMenu>
+          </div>
         )}
       </div>
       {isRequesCountDataLoading && (
