@@ -6,15 +6,14 @@ import {
   Button,
   CodeSnippet,
   ComboBox,
+  ComboboxAddNewItem,
   ComboboxLabel,
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
   InputField,
-  InputGroupAddOn,
   MdAdd,
   MdCached,
-  MdOutlineModeEditOutline,
   Modal,
   ModalHeader,
   PageHeadings,
@@ -44,23 +43,26 @@ const CreateGrid = () => {
     CODE_SNIPPETS_SCRATCH,
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
-    allAvailableSubnets,
-    allAvailableVPCIDs,
     breadcrumbsData,
     closeEventLogsModal,
     closeSetupStatusModal,
     clusterChangeHandler,
+    clusterNameInputChangeHandler,
     codeSnippetsForExistingSetup,
     collapsibleBtntextForAdvSettings,
     collapsibleBtntextForCode,
+    concurrencyErrorText,
     creatingGridProfile,
     currentProvidersInstanceTypes,
     currentProvidersRegions,
     currentSelectedCloudProvider,
     currentStep,
     dataChanged,
-    editClusterBtnClickHandler,
+    displaySubnetsItemsArray,
+    displayVPCItemsArray,
+    // editClusterBtnClickHandler,
     editClusterNameInputValue,
+    editClusterNameErrorText,
     eventLogsCode,
     eventLogsStatus,
     exploreAutomationClickHandler,
@@ -69,7 +71,11 @@ const CreateGrid = () => {
     gridNameChangeHandler,
     gridProfiles,
     instanceChangeHandler,
+    isExactSubnetMatch,
+    isExactVPCMatch,
     isSetupComplete,
+    isSubnetLoading,
+    isVPCLoading,
     modalCrossClickhandler,
     newProfileNameValue,
     opened,
@@ -94,8 +100,10 @@ const CreateGrid = () => {
     setCurrentCloudProvider,
     setOpened,
     setSelectedGridProfile,
+    setSubnetQuery,
     setupNewClusterBtnClickHandler,
     setupState,
+    setVPCQuery,
     showEventLogsModal,
     showGridHeartBeats,
     showSaveProfileModal,
@@ -104,11 +112,15 @@ const CreateGrid = () => {
     stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
+    subnetInputChangeHandler,
+    subnetQuery,
     totalSteps,
     type,
     viewAllBuildsClickHandler,
     viewEventLogsClickHandler,
-    vpcChangeHandler
+    vpcChangeHandler,
+    VPCInputChangeHandler,
+    VPCQuery
   } = useCreateGrid();
 
   const ClusterInputComboBoxComponent = (
@@ -130,10 +142,11 @@ const CreateGrid = () => {
 
   const ClusterInputTextComponent = (
     <InputField
+      errorText={editClusterNameErrorText}
       id="test-id"
       label="Cluster Name"
       onBlur={null}
-      onChange={null}
+      onChange={clusterNameInputChangeHandler}
       onFocus={null}
       onKeyDown={null}
       placeholder="my-sample-cluster"
@@ -198,19 +211,32 @@ const CreateGrid = () => {
 
   const SubnetsInputComponent = (
     <ComboBox
-      onChange={subnetChangeHandler}
-      value={selectedSubnetValues}
-      // eslint-disable-next-line react/jsx-boolean-value
-      isMulti={true}
       disabled={!showSetupClusterModal}
+      isMulti
+      isRightLoading={isSubnetLoading}
+      onChange={subnetChangeHandler}
+      onOpenChange={(status) => {
+        if (!status) setSubnetQuery('');
+      }}
+      value={selectedSubnetValues}
     >
-      <ComboboxLabel>
-        Subnets
-        <span className="text-danger-600 ml-0.5">*</span>
-      </ComboboxLabel>
-      <ComboboxTrigger placeholder="Placeholder" />
-      <ComboboxOptionGroup>
-        {allAvailableSubnets.map((item) => (
+      <ComboboxLabel>Subnets</ComboboxLabel>
+      <ComboboxTrigger
+        onInputValueChange={subnetInputChangeHandler}
+        placeholder="Placeholder"
+      />
+      <ComboboxOptionGroup
+        addNewItemComponent={
+          !isExactSubnetMatch && subnetQuery.length > 0 ? (
+            <ComboboxAddNewItem
+              suffix="as a new option (↵)"
+              prefix="Add"
+              showQuery
+            />
+          ) : null
+        }
+      >
+        {displaySubnetsItemsArray.map((item) => (
           <ComboboxOptionItem key={item.value} option={item} />
         ))}
       </ComboboxOptionGroup>
@@ -239,18 +265,32 @@ const CreateGrid = () => {
 
   const VPCInputComponent = (
     <ComboBox
-      onChange={vpcChangeHandler}
-      value={selectedVPCValue}
-      isMulti={false}
       disabled={!showSetupClusterModal}
+      isMulti={false}
+      isRightLoading={isVPCLoading}
+      onChange={vpcChangeHandler}
+      onOpenChange={(status) => {
+        if (!status) setVPCQuery('');
+      }}
+      value={selectedVPCValue}
     >
-      <ComboboxLabel>
-        VPC ID
-        <span className="text-danger-600 ml-0.5">*</span>
-      </ComboboxLabel>
-      <ComboboxTrigger placeholder="Placeholder" />
-      <ComboboxOptionGroup>
-        {allAvailableVPCIDs.map((item) => (
+      <ComboboxLabel>VPC ID</ComboboxLabel>
+      <ComboboxTrigger
+        onInputValueChange={VPCInputChangeHandler}
+        placeholder="Placeholder"
+      />
+      <ComboboxOptionGroup
+        addNewItemComponent={
+          !isExactVPCMatch && VPCQuery.length > 0 ? (
+            <ComboboxAddNewItem
+              suffix="as a new option (↵)"
+              prefix="Add"
+              showQuery
+            />
+          ) : null
+        }
+      >
+        {displayVPCItemsArray.map((item) => (
           <ComboboxOptionItem key={item.value} option={item} />
         ))}
       </ComboboxOptionGroup>
@@ -400,6 +440,7 @@ const CreateGrid = () => {
 
                         <div className="w-1/2">
                           <InputField
+                            errorText={concurrencyErrorText}
                             id="test-id"
                             isMandatory={IS_MANDATORY}
                             label="Concurrency"
@@ -407,8 +448,9 @@ const CreateGrid = () => {
                             onChange={gridConcurrencyChangeHandler}
                             onFocus={null}
                             onKeyDown={null}
-                            placeholder="high-scale-grid"
+                            placeholder={0}
                             value={selectedGridConcurrency}
+                            type="number"
                           />
                         </div>
                       </div>
@@ -444,8 +486,8 @@ const CreateGrid = () => {
                                 <div className="w-1/2">
                                   {ClusterInputComboBoxComponent}
                                 </div>
-                                <div className="flex gap-8 w-1/2">
-                                  <div className="w-1/2">
+                                <div className="flex w-1/2 gap-8">
+                                  {/* <div className="w-1/2">
                                     <Button
                                       colors="white"
                                       fullWidth
@@ -456,7 +498,7 @@ const CreateGrid = () => {
                                     >
                                       Edit Cluster Details
                                     </Button>
-                                  </div>
+                                  </div> */}
                                   <div className="w-1/2">
                                     <Button
                                       colors="white"
@@ -523,7 +565,7 @@ const CreateGrid = () => {
                       </p>
 
                       <CodeSnippet
-                        code={`browserstack-cli hst create grid --grid-profile ${selectedGridName}`}
+                        code={`browserstack-cli ats create grid --grid-profile ${selectedGridName}`}
                         language="node"
                         singleLine
                       />
@@ -576,13 +618,9 @@ const CreateGrid = () => {
                                   Setup CLI with AWS credentials.
                                 </p>
                                 <CodeSnippet
-                                  code="/* Set these values in your ~/.zprofile (zsh) or ~/.profile (bash) */
-                              export BROWSERSTACK_USERNAME=<username>
-                              export BROWSERSTACK_ACCESS_KEY=<accesskey>
-                              
-                              /* Create HST configuration profile with AWS credentials */
-                              browserstack-cli hst init
-                              "
+                                  code={
+                                    CODE_SNIPPETS_SCRATCH['create-grid'].b.code
+                                  }
                                   language="node"
                                   showLineNumbers={false}
                                   singleLine={false}

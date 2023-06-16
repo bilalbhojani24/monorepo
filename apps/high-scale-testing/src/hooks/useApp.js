@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { initErrorLogger, initLogger } from '@browserstack/utils';
+import {
+  initErrorLogger,
+  initLogger,
+  setErrorLoggerUserContext
+} from '@browserstack/utils';
 import { INIT_URL } from 'api/constants/apiURLs';
 import axios from 'axios';
 import {
@@ -83,6 +87,10 @@ const useApp = () => {
       };
 
       initLogger(analyticsConfig);
+    }
+
+    if (userDetails.id && enableSentry) {
+      setErrorLoggerUserContext(userDetails.id);
     }
   }, [enableAnalytics, enableSentry, env, isAppLoading, userDetails]);
 

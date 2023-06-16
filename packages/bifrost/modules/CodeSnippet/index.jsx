@@ -48,7 +48,7 @@ const CodeSnippet = ({
         className={twClassNames(
           'border-base-300 relative flex flex-col rounded-md border',
           {
-            'border-danger-700 bg-white': view === CODE_VIEW[1],
+            'border-danger-300 bg-white': view === CODE_VIEW[1],
             'border-attention-400 bg-white': view === CODE_VIEW[2]
           }
         )}
