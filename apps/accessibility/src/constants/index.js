@@ -235,8 +235,9 @@ export const SCREEN_READER = 'Screen reader';
 export const getBannerDetails = (days) => ({
   not_started: {
     icon: Star,
-    description:
-      'Try Team plan for free: Unlock premium features like Advanced Assisted Tests, Screen Readers and more',
+    description: 'Try Team plan for free: ',
+    subDescription:
+      'Unlock premium features like Advanced Assisted Tests, Screen Readers and more',
     buttonText: 'Get 14-day free trial',
     color: 'brand'
   },
@@ -244,11 +245,13 @@ export const getBannerDetails = (days) => ({
     icon: '',
     description:
       'Your free 14-day trial for the Accessibility Team plan has started.',
+    subDescription: '',
     color: 'success'
   },
   last_five_days: {
     icon: Announcement,
     description: `Your Team free trial is ending in ${days} days. Purchase the Team plan to continue using premium features.`,
+    subDescription: '',
     buttonText: BUY_PLAN,
     color: 'attention'
   },
@@ -256,6 +259,7 @@ export const getBannerDetails = (days) => ({
     icon: Announcement,
     description:
       'Free trial for Team plan has expired. Purchase the Team plan to continue using premium features.',
+    subDescription: '',
     buttonText: BUY_PLAN,
     color: 'danger'
   }
@@ -319,7 +323,7 @@ export const getModalDetails = {
   },
   buyPlan: {
     heading: 'Get the Team plan to access Screen readers',
-    subHeading: modalSubheading,
+    subHeading: 'Buy the Team plan and unlock premium features',
     placeholderImage: ScreenReaderPlaceholderImage,
     content: screenReaderModalContent,
     buttonText: 'Buy a plan'

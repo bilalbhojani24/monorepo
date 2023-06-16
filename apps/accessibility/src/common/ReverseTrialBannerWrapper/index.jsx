@@ -14,13 +14,26 @@ export default function ReverseTrialBannerWrapper() {
     bannerName
   } = useReverseTrialBanner();
 
-  const { description, icon: Icon, color, buttonText } = bannerDetails;
+  const {
+    description,
+    icon: Icon,
+    color,
+    buttonText,
+    subDescription
+  } = bannerDetails;
   return (
     <>
       {showBanner && (
         <div className="fixed inset-x-0 top-[64px] z-10 flex justify-between">
           <Banner
-            description={description}
+            description={
+              <div className="flex gap-1">
+                <p>{description}</p>{' '}
+                {subDescription && (
+                  <p className="font-normal">{subDescription}</p>
+                )}
+              </div>
+            }
             isDismissButton
             bannerIcon={
               Icon ? (

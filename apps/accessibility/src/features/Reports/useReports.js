@@ -48,6 +48,7 @@ export default function useReports() {
   const [isLoading, setIsLoading] = useState(false);
   const [showColdStart, setShowColdStart] = useState(false);
   const scrollRef = useRef(null);
+  const [showExtButtonTooltip, setShowExtButtonTooltip] = useState(false);
 
   const handleScroll = () => {
     const { scrollTop, clientHeight } = scrollRef.current;
@@ -70,6 +71,7 @@ export default function useReports() {
       logEvent('InteractedWithADExtensionDownloadModal', {
         actionType: events.CLOSE_MODAL
       });
+      setShowExtButtonTooltip(true);
     } else if (action === 'download-extension') {
       logEvent('InteractedWithADExtensionDownloadModal', {
         actionType: events.DOWNLOAD_EXTENSION
@@ -203,6 +205,8 @@ export default function useReports() {
     handleClose,
     showColdStart,
     scrollRef,
-    handleScroll
+    handleScroll,
+    showExtButtonTooltip,
+    setShowExtButtonTooltip
   };
 }

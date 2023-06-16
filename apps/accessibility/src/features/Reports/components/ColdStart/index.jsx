@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button, MdOpenInNew } from '@browserstack/bifrost';
-import FindInPage from 'assets/find_in_page.svg';
+import FindInPage from 'assets/accessibility_scan.svg';
 import { CHROME_EXTENSION_URL } from 'constants';
 import { logEvent } from 'utils/logEvent';
 
@@ -11,11 +11,7 @@ export default function ColdStart() {
 
   return (
     <>
-      <img
-        src={FindInPage}
-        alt="search in page icon"
-        className="mb-5 h-7 w-9"
-      />
+      <img src={FindInPage} alt="search in page icon" className="mb-5" />
       <p className="mb-1 font-semibold">Start your Accessibility testing!</p>
       <p className="text-base-500 mb-6">
         Use the extension to scan your web pages & workflows for accessibility

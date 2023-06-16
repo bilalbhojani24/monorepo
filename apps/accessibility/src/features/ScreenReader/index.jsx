@@ -116,7 +116,7 @@ function ScreenReader() {
           <div
             className={twClassNames({
               'px-6 pb-6': showAlert,
-              'w-[720px]': showAlert
+              'w-[768px]': showAlert
             })}
           >
             <ReverseTrialAlertWrapper />

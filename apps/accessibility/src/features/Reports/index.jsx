@@ -49,7 +49,9 @@ export default function Reports() {
     showBanner,
     showColdStart,
     handleScroll,
-    scrollRef
+    scrollRef,
+    showExtButtonTooltip,
+    setShowExtButtonTooltip
   } = useReports();
 
   const activeReportsType = selectedReportType.map(({ value }) => value);
@@ -120,7 +122,7 @@ export default function Reports() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="mb-2 text-2xl font-bold">Accessibility reports</h1>
+            <h1 className="mb-2 text-2xl font-bold">Manual test reports</h1>
             <h3 className="text-base-500 mb-4 text-sm font-medium">
               Select reports to view them. You can select more than one report
               to consolidate and review reports.
@@ -128,6 +130,7 @@ export default function Reports() {
           </div>
           {searchFilterList.length ? (
             <Tooltip
+              show={showExtButtonTooltip}
               placementAlign="end"
               placementSide="bottom"
               arrowPadding={10}
@@ -149,6 +152,8 @@ export default function Reports() {
               onMouseLeave={() => {
                 logEvent('OnManualTestReportsDownloadExtensionTooltip');
               }}
+              onOpenChange={() => setShowExtButtonTooltip((state) => !state)}
+              delay={1000}
             >
               <Button
                 iconPlacement="start"

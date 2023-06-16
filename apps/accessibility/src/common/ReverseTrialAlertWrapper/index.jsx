@@ -1,5 +1,6 @@
 import React from 'react';
 import { Alerts } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import Warning from 'assets/warning.svg';
 import { getAlertDetails } from 'constants';
 
@@ -20,7 +21,14 @@ export default function ReverseTrialAlertWrapper() {
       detailsNode={
         detailsNode && (
           <>
-            <p className="w-40">{detailsNode}</p>
+            <p
+              className={twClassNames({
+                'w-[130px]': alertName === 'getTrial',
+                'w-[68px]': alertName === 'buyPlan'
+              })}
+            >
+              {detailsNode}
+            </p>
             <span aria-hidden="true"> →</span>
           </>
         )
