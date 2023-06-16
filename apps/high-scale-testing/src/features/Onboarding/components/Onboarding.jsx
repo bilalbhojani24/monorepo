@@ -244,7 +244,7 @@ const Onboarding = () => {
             description={[
               'Grid name: ‘high-scale-grid’',
               'Concurrent browser sessions: ‘50’',
-              'Worker nodes instance type: ‘m7g.medium (vCPU-1, memory-8GB)’',
+              'Worker nodes instance type: ‘t3.large (vCPU-2, memory-8GB)’',
               'Cluster name: ‘high-scale-grid-cluster’'
             ]}
           />
