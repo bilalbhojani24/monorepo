@@ -48,7 +48,9 @@ function TestlistTimeline({ details, isHook }) {
   }
 
   const handleClickItem = (id) => {
-    dispatch(showTestDetailsDrawer(id));
+    if (!isHook) {
+      dispatch(showTestDetailsDrawer(id));
+    }
   };
 
   return (

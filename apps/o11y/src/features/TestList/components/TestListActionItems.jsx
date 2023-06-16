@@ -109,6 +109,11 @@ function TestListActionItems({ details, isMutedHidden }) {
     return `${getMutedStatus} ? 'Un-Mute' : 'Mute'} Test`;
   };
 
+  const getReRunButtonText = () => {
+    if (isMutedHidden) return 'Re-run is not applicable for test hooks';
+    return 'Re-run';
+  };
+
   useEffect(() => {
     const unSubscribe = window.pubSub.subscribe(
       'onToggleMuteStatus',
@@ -140,7 +145,7 @@ function TestListActionItems({ details, isMutedHidden }) {
           content={
             <div className="mx-4">
               {buildMeta?.data?.reRun ? (
-                <p className="text-base-300 text-sm">Re-run</p>
+                <p className="text-base-300 text-sm">{getReRunButtonText()}</p>
               ) : (
                 <p className="text-base-300 text-sm">
                   Re-run is not applicable or disabled in the project settings
@@ -156,7 +161,7 @@ function TestListActionItems({ details, isMutedHidden }) {
             size="extra-small"
             onClick={handleRerunButtonClick}
             icon={<MdRedo className="h-5 w-5" />}
-            disabled={!buildMeta?.data?.reRun}
+            disabled={!buildMeta?.data?.reRun || isMutedHidden}
           />
         </O11yTooltip>
       )}
