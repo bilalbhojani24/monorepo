@@ -13,6 +13,7 @@ const logOllyDelightedEvent = (event, delightedConfig) => {
 
 export const handleShowSurvey = (delightedConfig) => {
   window[DELIGHTED_CONFIG_FILE_NAME].survey({
+    forceDisplay: true,
     properties: delightedConfig,
     onShow: () => {
       console.log('onSHow', delightedConfig);
@@ -62,5 +63,6 @@ export const delightedInit = (delightedConfig) => {
     firstScript.parentNode.insertBefore(script, firstScript);
   }
 
+  console.log('delightedConfig', delightedConfig);
   handleShowSurvey(delightedConfig);
 };
