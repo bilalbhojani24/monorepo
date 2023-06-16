@@ -169,7 +169,7 @@ const GalleryMedia = ({
           </GalleryMediaCheckbox>
 
           <div className="mt-4 flex justify-between">
-            <div>
+            <div className="grow-0">
               {mediaItem.title && (
                 <p className="text-base-900 text-sm font-normal leading-none">
                   {showExtensions
