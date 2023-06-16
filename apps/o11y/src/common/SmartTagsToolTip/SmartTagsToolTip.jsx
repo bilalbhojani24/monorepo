@@ -99,7 +99,7 @@ const SmartTagsToolTip = ({
                       window.open(
                         `${getDocUrl({
                           path: DOC_KEY_MAPPING.smart_tags
-                        })}#${text.toLowerCase()}`,
+                        })}#${text.split(' ').join('-').toLowerCase()}`,
                         '_blank',
                         'noopener,noreferrer'
                       )
