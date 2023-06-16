@@ -163,12 +163,6 @@ const importCSVSlice = createSlice({
         label: item.name,
         value: item.value
       }));
-      const automationStatusOptions = payload?.automation_status.map(
-        (item) => ({
-          label: item.name,
-          value: item.value
-        })
-      );
       const statusDropdownOptions = payload?.status.map((item) => ({
         label: item.name,
         value: item.value
@@ -180,10 +174,6 @@ const importCSVSlice = createSlice({
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.PRIORITY = [
         ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
         ...priorityDropdownOptions
-      ];
-      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.AUTOMATIONSTATUS = [
-        ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
-        ...automationStatusOptions
       ];
       state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.STATE = [
         ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
@@ -219,8 +209,7 @@ const importCSVSlice = createSlice({
       state.valueMappings = calcValueMappings(
         payload.value_mappings,
         payload.import_fields,
-        payload?.field_mappings,
-        payload.fields_available?.default
+        payload?.field_mappings
       );
       state.fieldsMapping = { ...state.valueMappings };
       // eslint-disable-next-line no-restricted-syntax

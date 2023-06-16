@@ -97,9 +97,6 @@ export default function useTestCases(props) {
   const testCaseTypeIntNameAndValueMapTC = useSelector(
     (state) => state.repository.testCaseTypeIntNameAndValueMapTC
   );
-  const automationOptions = useSelector(
-    (state) => state.repository.automationOptions
-  );
 
   const setRepoView = (update) => {
     dispatch(setFilterSearchView(update));
@@ -145,22 +142,7 @@ export default function useTestCases(props) {
     return testCaseTypeIntNameAndValueMapTC[`${value}`];
   };
 
-  const setDefaultValues = (defaultFields) => {
-    if (props?.isTestCaseEditing) return;
-
-    // NOTE: this is to be optimized for all other props as well once we move to the same structure
-    // if other props are moving to different structire, automation_status should also be aligned with the same.
-    const automation = defaultFields?.automation_status || automationOptions;
-    const automationDefault = automation.find((item) => item.is_default);
-    if (automationDefault?.value) {
-      dispatch(
-        updateTestCaseFormData({
-          key: 'automation_status',
-          value: automationDefault?.value
-        })
-      );
-    }
-
+  const setDefaultValues = () => {
     [
       { key: 'priority', value: DEFAULT_PRIORITY },
       { key: 'status', value: DEFAULT_STATUS },
@@ -175,30 +157,12 @@ export default function useTestCases(props) {
     });
   };
 
-  const initCustomFormFields = useCallback(() => {
-    if (customFieldData?.projectId !== projectId) {
-      dispatch(updateCtaLoading({ key: 'formFields', value: true }));
-      getCustomFieldsAPI(projectId).then((res) => {
-        dispatch(setDefaultFormFieldsData(res?.default_fields));
-        dispatch(
-          setCustomFieldsData({
-            projectId,
-            fields: res?.custom_fields || []
-          })
-        );
-        dispatch(updateCtaLoading({ key: 'formFields', value: false }));
-        setDefaultValues(res?.default_fields);
-      });
-    } else setDefaultValues();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customFieldData?.projectId, dispatch, projectId]);
-
   const initFormValues = () => {
     if (loadedDataProjectId !== projectId) {
       fetchUsers();
       fetchTags();
     }
-    initCustomFormFields();
+    if (!props?.isTestCaseEditing) setDefaultValues();
   };
 
   const fetchAllTestCases = () => {
@@ -289,6 +253,20 @@ export default function useTestCases(props) {
     dispatch(cleanUpValues());
   };
 
+  const initCustomFormFields = useCallback(() => {
+    if (customFieldData?.projectId !== projectId) {
+      getCustomFieldsAPI(projectId).then((res) => {
+        dispatch(setDefaultFormFieldsData(res?.default_fields));
+        dispatch(
+          setCustomFieldsData({
+            projectId,
+            fields: res?.custom_fields || []
+          })
+        );
+      });
+    }
+  }, [customFieldData?.projectId, dispatch, projectId]);
+
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -316,6 +294,7 @@ export default function useTestCases(props) {
     selectedTestCase,
     isTestCasesLoading,
     isFoldersLoading,
+    initCustomFormFields,
     fetchAllTestCases,
     fetchUsers,
     initFormValues,
