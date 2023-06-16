@@ -22,6 +22,7 @@ const GeneralSettings = () => {
   );
 
   const {
+    concurrencyErrorText,
     currentConcurrencyValue,
     inputChangeHandler,
     isSaveButtonDisabled,
@@ -48,6 +49,7 @@ const GeneralSettings = () => {
           <div className="mt-3 w-32">
             <InputField
               disabled={isSavingInProgress}
+              errorText={concurrencyErrorText}
               id="test-id"
               onChange={inputChangeHandler}
               onKeyDown={null}

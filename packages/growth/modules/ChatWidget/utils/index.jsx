@@ -43,11 +43,16 @@ export const hideWidget = () => {
   } else window.fcWidget?.hide();
 };
 
-export const setWidgetEvents = (chatWidgetData, showChatWindow) => {
+export const setWidgetEvents = (
+  chatWidgetData,
+  showChatWindow,
+  setFreshChatLoad
+) => {
   const channelName = chatWidgetData?.triggers?.[0]?.channel;
   let source = 'user_click';
 
   window.fcWidget.on('widget:loaded', () => {
+    setFreshChatLoad(true);
     showWidget();
 
     logEvent([], 'online_sales', 'FreshChat', {
@@ -108,7 +113,8 @@ export const setWidgetEvents = (chatWidgetData, showChatWindow) => {
 export const handleScriptLoad = async (
   chatWidgetData,
   showChatWindow,
-  direction
+  direction,
+  setFreshChatLoad
 ) => {
   if (chatWidgetData.show_fresh_chat_widget) {
     const script = document.createElement('script');
@@ -134,7 +140,7 @@ export const handleScriptLoad = async (
         }
       });
 
-      setWidgetEvents(chatWidgetData, showChatWindow);
+      setWidgetEvents(chatWidgetData, showChatWindow, setFreshChatLoad);
 
       if (chatWidgetData.user_info.email) {
         window.fcWidget.user.update({
