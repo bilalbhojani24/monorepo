@@ -44,7 +44,7 @@ const ReportLoadingSidebar = () => {
 
         <div
           className={twClassNames(
-            'mx-auto flex aspect-[9/16]',
+            'mx-auto flex aspect-[9/16] sm:w-11/12 xl:w-auto',
             'items-center justify-center',
             'rounded-lg border-8 border-base-900',
             {

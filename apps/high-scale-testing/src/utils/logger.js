@@ -10,8 +10,8 @@ const { enableAnalytics } = getEnvConfig();
 
 const logHSTEvent = (
   skipLoggingKeys,
-  event,
-  key,
+  eventType,
+  eventName,
   data,
   cb = () => {},
   sendToGA = false
@@ -41,7 +41,7 @@ const logHSTEvent = (
   };
   const eventData = { ...commonData, ...data };
 
-  logEvent(skipLoggingKeys, event, key, eventData, cb, sendToGA);
+  logEvent(skipLoggingKeys, eventType, eventName, eventData, cb, sendToGA);
 };
 
 export { logHSTEvent };
