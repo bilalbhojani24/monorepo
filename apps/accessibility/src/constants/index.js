@@ -232,6 +232,8 @@ export const TRIAL_FAILED = 'failed';
 
 export const SCREEN_READER = 'Screen reader';
 
+export const PAID_PLAN = 'paid';
+
 export const getBannerDetails = (days) => ({
   not_started: {
     icon: Star,

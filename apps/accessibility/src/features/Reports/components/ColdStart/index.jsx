@@ -22,6 +22,10 @@ export default function ColdStart() {
         icon={<MdOpenInNew className="h-5 w-5" />}
         onClick={() => {
           window.open(CHROME_EXTENSION_URL, '_target');
+          logEvent('ClickedOnDownloadExtensionCTA', {
+            source: 'Manual test reports',
+            noReports: true
+          });
         }}
         wrapperClassName="py-2"
       >

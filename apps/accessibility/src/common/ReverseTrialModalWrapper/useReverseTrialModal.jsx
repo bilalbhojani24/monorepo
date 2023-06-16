@@ -98,21 +98,12 @@ export default function useReverseTrialModal() {
 
   const showConfetti = () => {
     confetti({
-      particleCount: 400,
-      spread: 120,
-      startVelocity: 40,
+      particleCount: 1080,
+      spread: 900,
+      startVelocity: 70,
       origin: {
-        x: 0,
-        y: 0.5
-      }
-    });
-    confetti({
-      particleCount: 400,
-      spread: 120,
-      startVelocity: 40,
-      origin: {
-        x: 1,
-        y: 0.5
+        x: 0.5,
+        y: -0.5
       }
     });
   };

@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  PAID_PLAN,
   SCREEN_READER,
   TRIAL_EXPIRED,
   TRIAL_FAILED,
@@ -42,11 +44,6 @@ export default function useReverseTrialAlert() {
       action = 'Buy a plan';
     }
 
-    logEvent('OnRTFeaturesUI', {
-      platform: 'Dashboard',
-      type: SCREEN_READER,
-      state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending'
-    });
     logEvent('InteractedWithRTFeatureSpecificBanner', {
       platform: 'Dashboard',
       feature: SCREEN_READER,
@@ -56,7 +53,7 @@ export default function useReverseTrialAlert() {
   };
 
   const displayAlert = (name) => {
-    if (planType === 'paid') return;
+    if (planType === PAID_PLAN) return;
     dispatch(setAlertName(name));
     dispatch(setAlertShow(true));
     logEvent('OnRTFeatureSpecificBanner', {
@@ -77,7 +74,7 @@ export default function useReverseTrialAlert() {
       break;
     }
     case TRIAL_EXPIRED: {
-      if (planType !== 'paid') {
+      if (planType !== PAID_PLAN) {
         displayAlert('buyPlan');
       }
       break;

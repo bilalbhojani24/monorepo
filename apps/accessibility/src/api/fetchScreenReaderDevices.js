@@ -17,9 +17,3 @@ export default async function fetchScreenReaderDevices() {
   );
   return response.data.data.combinations;
 }
-
-export async function fetchMockData() {
-  return new Promise((res) => {
-    setTimeout(() => res(screenReaderMockData.data.combinations), 1000);
-  });
-}

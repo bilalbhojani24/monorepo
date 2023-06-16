@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { getStorage, setStorage } from '@browserstack/utils';
 import {
   getBannerDetails,
+  PAID_PLAN,
   TRIAL_EXPIRED,
   TRIAL_FAILED,
   TRIAL_NOT_STARTED,
@@ -39,12 +41,18 @@ export default function useReverseTrialBanner() {
 
   const handleBannerDismissClick = () => {
     dispatch(setShowBanner(false));
-    if ([TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState)) {
-      logEvent('InteractedWithRTPendingBanner', {
-        platform: 'Dashboard',
-        action: 'Cancel'
-      });
-    }
+
+    const getEventName = {
+      not_started: 'InteractedWithRTPendingBanner',
+      failed: 'InteractedWithRTPendingBanner',
+      enabled: 'InteractedWithRTExpiryWarningBanner',
+      expired: 'InteractedWithRTExpiredBanner'
+    };
+
+    logEvent(getEventName[trialState], {
+      platform: 'Dashboard',
+      action: 'Cancel'
+    });
   };
 
   const handleBannerButtonClick = () => {
@@ -55,21 +63,30 @@ export default function useReverseTrialBanner() {
         platform: 'Dashboard',
         action: 'Get 14-day free trial'
       });
-      logEvent('OnRTFeaturesUI', {
-        platform: 'Dashboard',
-        type: 'General',
-        state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending'
-      });
       return;
+    }
+
+    if (trialState === TRIAL_EXPIRED) {
+      logEvent('InteractedWithRTExpiredBanner', {
+        platform: 'Dashboard',
+        action: 'Cancel'
+      });
+    }
+
+    if (trialState === TRIAL_STARTED) {
+      logEvent('InteractedWithRTExpiryWarningBanner', {
+        platform: 'Dashboard',
+        action: 'Buy a plan'
+      });
     }
     buyAcceesibilityPlan();
     dispatch(setModalTrigger('General'));
   };
 
   const displayBannerOnceADay = (storageKey, nameOfBanner) => {
-    if (planType === 'paid') return;
+    if (planType === PAID_PLAN) return;
 
-    const dateValue = new Date(localStorage.getItem(storageKey));
+    const dateValue = new Date(getStorage(storageKey));
     const bannerLastDate = isValid(dateValue)
       ? dateValue
       : subDays(new Date(), 1);
@@ -81,7 +98,25 @@ export default function useReverseTrialBanner() {
     ) {
       dispatch(setBannerName(nameOfBanner));
       dispatch(setShowBanner(true));
-      localStorage.setItem(storageKey, currentDate);
+      setStorage(storageKey, currentDate);
+    }
+
+    switch (trialState) {
+      case TRIAL_NOT_STARTED:
+      case TRIAL_FAILED: {
+        logEvent('OnRTPendingBanner', {
+          platform: 'Dashboard'
+        });
+        break;
+      }
+      case TRIAL_STARTED: {
+        logEvent('OnRTExpiryWarningBanner', {
+          platform: 'Dashboard'
+        });
+        break;
+      }
+      default:
+        break;
     }
   };
 
@@ -89,26 +124,21 @@ export default function useReverseTrialBanner() {
     case TRIAL_NOT_STARTED:
     case TRIAL_FAILED: {
       displayBannerOnceADay('teamPlanBannerDate', 'not_started');
-      logEvent('OnRTPendingBanner', {
-        platform: 'Dashboard'
-      });
+
       break;
     }
     case TRIAL_STARTED: {
       if (remainingDays <= 5 && remainingDays > 0) {
         displayBannerOnceADay('daysLeftBannerDate', 'last_five_days');
-        logEvent('OnRTExpiryWarningBanner', {
-          platform: 'Dashboard'
-        });
       }
       break;
     }
     case TRIAL_EXPIRED: {
-      const shownTrialEndBanner = localStorage.getItem('trialEndBanner');
-      if (planType !== 'paid' && !shownTrialEndBanner) {
+      const shownTrialEndBanner = getStorage('trialEndBanner');
+      if (planType !== PAID_PLAN && !shownTrialEndBanner) {
         dispatch(setBannerName('expired'));
         dispatch(setShowBanner(true));
-        localStorage.setItem('trialEndBanner', true);
+        setStorage('trialEndBanner', true);
         logEvent('OnRTExpiredBanner', {
           platform: 'Dashboard'
         });

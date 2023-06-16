@@ -18,6 +18,7 @@ import {
 import {
   CHROME_EXTENSION_URL,
   events,
+  PAID_PLAN,
   sentryConfig,
   TRIAL_EXPIRED,
   TRIAL_FAILED,
@@ -102,7 +103,7 @@ export default function useDashboard() {
       inActiveIcon: MdOutlineRecordVoiceOver,
       path: '/screen-reader',
       badge:
-        planType !== 'paid' ? (
+        planType !== PAID_PLAN ? (
           <Badge text="Premium" modifier="success" disabled />
         ) : null
     },
@@ -127,7 +128,7 @@ export default function useDashboard() {
       show:
         [TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState) &&
         !showBanner &&
-        planType !== 'paid'
+        planType !== PAID_PLAN
     },
     {
       id: 'extension',
