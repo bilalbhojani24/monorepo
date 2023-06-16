@@ -1,8 +1,7 @@
-import {
-  DELIGHTED_CONFIG_FILE_NAME,
-  DELIGHTED_CONFIG_TOKEN
-} from 'constants/keys';
-import { logOllyEvent } from 'utils/common';
+import o11yKeys from 'constants/o11yKeys';
+import { getEnvConfig, logOllyEvent } from 'utils/common';
+
+const envConfig = getEnvConfig();
 
 const logOllyDelightedEvent = (event, delightedConfig) => {
   logOllyEvent({
@@ -12,8 +11,7 @@ const logOllyDelightedEvent = (event, delightedConfig) => {
 };
 
 export const handleShowSurvey = (delightedConfig) => {
-  window[DELIGHTED_CONFIG_FILE_NAME].survey({
-    forceDisplay: true,
+  window[o11yKeys[envConfig.name].DELIGHTED_CONFIG_FILE_NAME].survey({
     properties: delightedConfig,
     onShow: () => {
       console.log('onSHow', delightedConfig);
@@ -32,8 +30,8 @@ export const handleShowSurvey = (delightedConfig) => {
 };
 
 export const delightedInit = (delightedConfig) => {
-  if (!window[DELIGHTED_CONFIG_FILE_NAME]) {
-    window[DELIGHTED_CONFIG_FILE_NAME] = [];
+  if (!window[o11yKeys[envConfig.name].DELIGHTED_CONFIG_FILE_NAME]) {
+    window[o11yKeys[envConfig.name].DELIGHTED_CONFIG_FILE_NAME] = [];
     const methods = [
       'survey',
       'reset',
@@ -50,15 +48,24 @@ export const delightedInit = (delightedConfig) => {
       'alias'
     ];
     methods.forEach((method) => {
-      window[DELIGHTED_CONFIG_FILE_NAME][method] = (...args) => {
-        window[DELIGHTED_CONFIG_FILE_NAME].push([method, args]);
+      window[o11yKeys[envConfig.name].DELIGHTED_CONFIG_FILE_NAME][method] = (
+        ...args
+      ) => {
+        window[o11yKeys[envConfig.name].DELIGHTED_CONFIG_FILE_NAME].push([
+          method,
+          args
+        ]);
       };
     });
-    window[DELIGHTED_CONFIG_FILE_NAME].SNIPPET_VERSION = '1.0.1';
+    window[
+      o11yKeys[envConfig.name].DELIGHTED_CONFIG_FILE_NAME
+    ].SNIPPET_VERSION = '1.0.1';
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
-    script.src = `https://d2yyd1h5u9mauk.cloudfront.net/integrations/web/v1/library/${DELIGHTED_CONFIG_TOKEN}/${DELIGHTED_CONFIG_FILE_NAME}.js`;
+    script.src = `https://d2yyd1h5u9mauk.cloudfront.net/integrations/web/v1/library/${
+      o11yKeys[envConfig.name].DELIGHTED_CONFIG_TOKEN
+    }/${o11yKeys[envConfig.name].DELIGHTED_CONFIG_FILE_NAME}.js`;
     const firstScript = document.getElementsByTagName('script')[0];
     firstScript.parentNode.insertBefore(script, firstScript);
   }

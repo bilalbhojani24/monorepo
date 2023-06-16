@@ -5,6 +5,7 @@ import BulkTaggingModal from 'features/BulkTagging';
 import AzureIntegrationModal from 'features/Integrations/components/AzureIntegrationModal';
 import EmailPreferenceModal from 'features/Integrations/components/EmailPreferenceModal';
 import JenkinsIntegrationModal from 'features/Integrations/components/JenkinsIntegrationModal';
+import ReqFrameworkModal from 'features/Onboarding/components/ReqFrameworkModal';
 import AddEditAlertModal from 'features/Settings/components/AddEditAlertModal';
 import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCategoryModal';
 import AddNotificationUserModal from 'features/Settings/components/AddNotificationUserModal';
@@ -40,6 +41,8 @@ export default function ModalToShow() {
       return <JenkinsIntegrationModal />;
     case MODAL_TYPES.azure_connect_modal:
       return <AzureIntegrationModal />;
+    case MODAL_TYPES.onboarding_framework_selection_modal:
+      return <ReqFrameworkModal />;
     default:
       return null;
   }
