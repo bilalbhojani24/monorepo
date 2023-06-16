@@ -64,7 +64,8 @@ export const CHART_OPTIONS = {
       }
     },
     bar: {
-      pointWidth: 20
+      pointWidth: 20,
+      borderRadius: 10
     }
     // bar: {
     //   grouping: true,
