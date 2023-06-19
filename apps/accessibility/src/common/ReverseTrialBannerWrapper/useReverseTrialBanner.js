@@ -129,7 +129,6 @@ export default function useReverseTrialBanner() {
     case TRIAL_NOT_STARTED:
     case TRIAL_FAILED: {
       displayBannerOnceADay('teamPlanBannerDate', 'not_started');
-
       break;
     }
     case TRIAL_STARTED: {

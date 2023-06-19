@@ -1,7 +1,7 @@
 import React from 'react';
 import { Banner, Button } from '@browserstack/bifrost';
-
-import { TRIAL_STARTED } from '../../constants';
+import { twClassNames } from '@browserstack/utils';
+import { TRIAL_FAILED, TRIAL_NOT_STARTED, TRIAL_STARTED } from 'constants';
 
 import useReverseTrialBanner from './useReverseTrialBanner';
 
@@ -11,7 +11,8 @@ export default function ReverseTrialBannerWrapper() {
     handleBannerDismissClick,
     showBanner,
     handleBannerButtonClick,
-    bannerName
+    bannerName,
+    trialState
   } = useReverseTrialBanner();
 
   const {
@@ -27,7 +28,13 @@ export default function ReverseTrialBannerWrapper() {
         <div className="fixed inset-x-0 top-[64px] z-10 flex justify-between">
           <Banner
             description={
-              <div className="flex gap-1">
+              <div
+                className={twClassNames({
+                  'flex gap-1': [TRIAL_NOT_STARTED, TRIAL_FAILED].includes(
+                    trialState
+                  )
+                })}
+              >
                 <p>{description}</p>{' '}
                 {subDescription && (
                   <p className="font-normal">{subDescription}</p>
