@@ -11,7 +11,7 @@ import { PAYWALL_FEATURES } from 'constants/paywall';
 import { PaywallTooltip } from 'features/Paywall';
 import PropTypes from 'prop-types';
 
-import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
+import { SMART_TAGS_CONSTANTS, SMART_TAGS_DEFAULT_VALUES } from '../constants';
 import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const ALWAYS_FAILING_TAGS_DATA = [
@@ -59,7 +59,7 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
       <div className="flex justify-between">
         <span className="font-medium">Always Failing</span>
         <PaywallTooltip
-          title="Configuring Smart tags is a pro feature."
+          title="Configuring smart tags is a pro feature."
           content="Configure your personalized definition of always failing tests."
           featureKey={PAYWALL_FEATURES.SMART_TAGS}
         >
@@ -74,7 +74,8 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
       <div className="flex flex-col text-sm">
         <>
           <div className="text-base-500 flex items-center">
-            The test has been failing with the
+            The test has been failing with{' '}
+            {failureType === SMART_TAGS_CONSTANTS.SAME ? 'the' : ''}
             <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{

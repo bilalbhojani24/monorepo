@@ -157,3 +157,8 @@ export const SMART_TAGS_DEFAULT_VALUES = {
     consecutiveRuns: 30
   }
 };
+
+export const SMART_TAGS_CONSTANTS = {
+  NEW: 'NEW',
+  SAME: 'SAME'
+};

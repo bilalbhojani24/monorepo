@@ -42,6 +42,22 @@ function TestListHistoryTooltip({ testRunId, status }) {
     navigate(getSettingsPath(activeProject?.normalisedName, 'smart_tags'));
   };
 
+  const showFlakyReason = () => {
+    if (historyData?.flakyReason === 0) {
+      return null;
+    }
+
+    return (
+      <>
+        <span className="text-base-800">Flaky reason:</span>
+        {historyData?.flakyReason === 1
+          ? `Test status has flipped more than ${historyData.flakySetting?.flakeInHistory.flippingCount}
+        times in the last ${historyData.flakySetting?.flakeInHistory.consecutiveRuns} consecutive runs.`
+          : `Test passes on a retry within the last ${historyData.flakySetting?.flakeInRerun.consecutiveRuns} runs`}
+      </>
+    );
+  };
+
   useEffect(() => {
     mounted.current = true;
     if (mounted.current && isEmpty(historyData)) {
@@ -219,11 +235,7 @@ function TestListHistoryTooltip({ testRunId, status }) {
                 </div>
                 {historyData?.isFlaky && (
                   <p className="text-base-500 mt-3 text-xs font-medium">
-                    <span className="text-base-800">Flaky reason:</span>{' '}
-                    {historyData?.flakyReason === 1
-                      ? `Test status has flipped more than ${historyData.flakySetting?.flakeInHistory.flippingCount}
-                       times in the last ${historyData.flakySetting?.flakeInHistory.consecutiveRuns} consecutive runs.`
-                      : `Test passes on a retry within the last ${historyData.flakySetting?.flakeInRerun.consecutiveRuns} runs`}
+                    {showFlakyReason()}
                   </p>
                 )}
               </>

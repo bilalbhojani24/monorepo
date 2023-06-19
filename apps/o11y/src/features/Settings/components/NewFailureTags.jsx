@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   O11ySelectMenu,
@@ -11,7 +11,7 @@ import { PAYWALL_FEATURES } from 'constants/paywall';
 import { PaywallTooltip } from 'features/Paywall';
 import PropTypes from 'prop-types';
 
-import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
+import { SMART_TAGS_CONSTANTS, SMART_TAGS_DEFAULT_VALUES } from '../constants';
 import { saveSmartTagsChanges } from '../slices/smartTagsSettings';
 
 const NEW_FAILURE_TYPES_DATA = [
@@ -28,7 +28,7 @@ const STATIC_DROPDOWN_DATA = [
     .map((_, i) => ({ name: i + 2, value: i + 2 }))
 ];
 
-export const NewFailureTags = ({ data, isActive }) => {
+export const NewFailureTags = forwardRef(({ data, isActive }, ref) => {
   const dispatch = useDispatch();
   const { failureType, consecutiveRuns, enabled: newFailureEnabled } = data;
   const {
@@ -47,11 +47,11 @@ export const NewFailureTags = ({ data, isActive }) => {
     );
   };
   return (
-    <section className="p-6 pb-9">
+    <section className="p-6 pb-9" ref={ref}>
       <div className="flex justify-between">
         <span className="font-medium">New failures</span>
         <PaywallTooltip
-          title="Configuring Smart tags is a pro feature."
+          title="Configuring smart tags is a pro feature."
           content="Configure your personalized definition of tests to be marked as newly failed."
           featureKey={PAYWALL_FEATURES.SMART_TAGS}
         >
@@ -66,7 +66,8 @@ export const NewFailureTags = ({ data, isActive }) => {
       <div className="flex flex-col text-sm">
         <>
           <div className="text-base-500 flex items-center">
-            The test has failed with a
+            The test has failed with{' '}
+            {failureType === SMART_TAGS_CONSTANTS.NEW ? 'a' : ''}
             <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{
@@ -96,7 +97,7 @@ export const NewFailureTags = ({ data, isActive }) => {
                 </O11ySelectMenuOptionGroup>
               </O11ySelectMenu>{' '}
             </div>
-            for the first time among the last
+            error for the first time among the last
             <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{ label: consecutiveRuns, value: consecutiveRuns }}
@@ -131,7 +132,7 @@ export const NewFailureTags = ({ data, isActive }) => {
       </div>
     </section>
   );
-};
+});
 
 NewFailureTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),

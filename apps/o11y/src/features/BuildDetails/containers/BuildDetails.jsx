@@ -188,7 +188,7 @@ function BuildDetails() {
       }
       if (!clearOnly) {
         const searchString = `?tab=tests&${query}`;
-        navigate({ search: searchString });
+        navigate({ search: searchString }, { replace: true });
       }
     },
     [dispatch, navigate]

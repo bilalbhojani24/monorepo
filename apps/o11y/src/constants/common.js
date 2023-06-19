@@ -14,7 +14,7 @@ export const DOC_KEY_MAPPING = {
   source_code: 'integrations/source-code',
   automation_build: 'how-to-guides/organize-test-runs',
   application_logs: 'integrations/application-logs',
-  smart_tags: 'features/smartTags',
+  smart_tags: 'features/smart-tags',
   tnc: `references/terms-and-conditions`,
   uploading_logs: 'integrations/application-logs'
 };
