@@ -102,7 +102,7 @@ const Filter = ({ isMini, onFilterChange }) => {
         'border-base-300 relative z-10 flex w-full items-start border-b',
         {
           'h-12 flex items-center pr-1': isMini,
-          'py-3  pr-3': !isMini
+          'py-3 pr-3 pl-1': !isMini
         }
       )}
     >
