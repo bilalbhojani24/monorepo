@@ -178,7 +178,7 @@ function RequestAccess() {
             onPause={() => logInteractionEvent('stopped')}
             onSeeked={() => logInteractionEvent('seeked')}
           >
-            <source src="/o11y-demo.mov" type="video/mp4" />
+            <source src="/o11y-demo.mp4" type="video/mp4" />
           </video>
           {!hasClickedPlay && (
             <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
