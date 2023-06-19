@@ -63,13 +63,18 @@ export default function useReverseTrialBanner() {
         platform: 'Dashboard',
         action: 'Get 14-day free trial'
       });
+      logEvent('OnRTFeaturesUI', {
+        platform: 'Dashboard',
+        type: 'General',
+        state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending'
+      });
       return;
     }
 
     if (trialState === TRIAL_EXPIRED) {
       logEvent('InteractedWithRTExpiredBanner', {
         platform: 'Dashboard',
-        action: 'Cancel'
+        action: 'Buy a plan'
       });
     }
 

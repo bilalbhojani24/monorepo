@@ -246,7 +246,7 @@ export const getBannerDetails = (days) => ({
   enabled: {
     icon: '',
     description:
-      'Your free 14-day trial for the Accessibility Team plan has started.',
+      'Your free 14-day trial for the Accessibility Team plan has been successfully activated.',
     subDescription: '',
     color: 'success'
   },

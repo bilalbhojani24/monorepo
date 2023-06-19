@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import fetchScreenReaderDevices from 'api/fetchScreenReaderDevices';
 import {
+  PAID_PLAN,
   TRIAL_EXPIRED,
   TRIAL_FAILED,
   TRIAL_IN_PROGRESS,
@@ -32,7 +33,7 @@ export default function useScreenReader(noOfDevices) {
   );
 
   const handleCardClick = (startParams, tooltipIndex) => {
-    if (trialState === TRIAL_STARTED || planType === 'paid') {
+    if (trialState === TRIAL_STARTED || planType === PAID_PLAN) {
       const url = getBrowserStackEnvUrl();
       const startLiveSessionUrl = new URL(`${url}/screen-reader/start`);
       startLiveSessionUrl.searchParams.set(

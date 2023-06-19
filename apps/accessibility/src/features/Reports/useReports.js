@@ -72,7 +72,9 @@ export default function useReports() {
         actionType: events.CLOSE_MODAL
       });
       // on showing tooltip
-      logEvent('OnManualTestReportsDownloadExtensionTooltip');
+      if (reportList.length > 0) {
+        logEvent('OnManualTestReportsDownloadExtensionTooltip');
+      }
       setShowExtButtonTooltip(true);
     } else if (action === 'download-extension') {
       logEvent('InteractedWithADExtensionDownloadModal', {

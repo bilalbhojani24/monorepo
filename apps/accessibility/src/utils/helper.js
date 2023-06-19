@@ -199,12 +199,6 @@ export const countRemainingDays = (date1, date2) => {
 };
 
 export const buyAcceesibilityPlan = () => {
-  logEvent('ClickedBuyaPlan', {
-    signed_in: true,
-    Product: 'Accessibility Testing',
-    Section: 'dashboard-left-panel',
-    URL: window.location.href
-  });
   window.open(
     `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
     '_blank'
