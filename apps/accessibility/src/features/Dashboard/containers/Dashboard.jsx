@@ -218,7 +218,7 @@ export default function Dashboard({ children }) {
       >
         {children}
       </main>
-      <NotificationsContainer />
+      <NotificationsContainer containerStyle={{ top: '84px', right: '40px' }} />
       <FreshchatIntegration />
     </div>
   );
