@@ -26,7 +26,9 @@ const ProductSidenav = ({ activeProduct }) => {
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
         onFocus={() => setExpanded(true)}
-        onBlur={() => setExpanded(false)}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget)) setExpanded(false);
+        }}
       >
         {expanded ? (
           <SidenavExpanded

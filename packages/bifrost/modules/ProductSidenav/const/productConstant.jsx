@@ -13,9 +13,9 @@ export const WEB_MANUAL_TESTING = {
   title: 'MANUAL TESTING',
   products: [
     {
-      name: 'Live Testing',
+      name: 'Live',
       icon: (props) => <LiveIcon {...props} />,
-      isPlanPurchased: true,
+      isPlanPurchased: false,
       link: 'https://live.browserstack.com/dashboard',
       identifier: 'Live'
     },
@@ -39,7 +39,7 @@ export const APP_MANUAL_TESTING = {
   title: 'MANUAL TESTING',
   products: [
     {
-      name: 'Live Testing',
+      name: 'App Live',
       icon: (props) => <AppLiveIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://app-live.browserstack.com/dashboard',
@@ -77,7 +77,7 @@ export const WEB_TEST_AUTOMATION = {
       identifier: 'Automate'
     },
     {
-      name: 'Visual Automation (Percy)',
+      name: 'Percy',
       icon: (props) => <PercyIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://percy.io/api/auth/start-sso',
@@ -114,14 +114,14 @@ export const APP_TEST_AUTOMATION = {
   title: 'TEST AUTOMATION',
   products: [
     {
-      name: 'Automate',
+      name: 'App Automate',
       icon: (props) => <AppAutomateIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://app-automate.browserstack.com',
       identifier: 'App Automate'
     },
     {
-      name: 'Visual Automation (App Percy)',
+      name: 'App Percy',
       icon: (props) => <PercyIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://www.browserstack.com/app-percy',

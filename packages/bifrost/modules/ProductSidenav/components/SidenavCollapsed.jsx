@@ -63,6 +63,7 @@ const SidenavCollapsed = ({ activeProduct, activeTab }) => {
             className={twClassNames(
               'flex justify-center items-center bg-[#15803D] rounded py-[9px] px-[7x] shadow-sm w-full'
             )}
+            aria-label={activeTab === 'web' ? 'web products' : 'app products'}
           >
             {activeTab === 'web' ? (
               <WebIcon iconColor="white" />

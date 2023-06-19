@@ -34,7 +34,7 @@ const SidenavExpanded = ({ activeProduct, activeTab, onTabClick }) => {
         </span>
         <p
           className={twClassNames(
-            'not-italic font-medium text-xs leading-4 text-base-900 group-hover:text-[#0070F0]',
+            'not-italic font-medium text-xs leading-4 text-base-900 grow group-hover:text-[#0070F0]',
             {
               'text-[#0D5FD4]': isActiveProduct
             }
@@ -42,6 +42,9 @@ const SidenavExpanded = ({ activeProduct, activeTab, onTabClick }) => {
         >
           {product.name}
         </p>
+        {product.isPlanPurchased && (
+          <span className="bg-success-500 h-1.5 w-1.5 rounded-full" />
+        )}
       </a>
     );
   };
