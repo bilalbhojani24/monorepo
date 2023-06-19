@@ -18,7 +18,7 @@ const DiskRealtimeGraph = () => {
         <div className="flex-1">
           <div className="flex">
             <div className="text-base-500 text-sm font-medium leading-5">
-              Disk Read
+              App Disk Read
             </div>
           </div>
 
@@ -33,7 +33,7 @@ const DiskRealtimeGraph = () => {
         <div className="flex-1">
           <div className="flex">
             <div className="text-base-500 text-sm font-medium leading-5">
-              Disk Write
+              App Disk Write
             </div>
           </div>
 

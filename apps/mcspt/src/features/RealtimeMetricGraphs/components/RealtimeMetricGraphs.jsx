@@ -50,9 +50,9 @@ const RealtimeMetricGraphs = () => {
 
       {!isSocketConnectionLoading && !isSocketConnectionFailed && (
         <>
+          <FPSRealtimeGraph />
           <CPURealtimeGraph />
           <MemoryRealtimeGraph />
-          <FPSRealtimeGraph />
 
           {sessionDetails?.device?.os === 'android' && <BatteryRealtimeGraph />}
 

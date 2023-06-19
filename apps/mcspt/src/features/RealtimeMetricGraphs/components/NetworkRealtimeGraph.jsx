@@ -18,7 +18,7 @@ const NetworkRealtimeGraph = () => {
         <div className="flex-1">
           <div className="flex">
             <div className="text-base-500 text-sm font-medium leading-5">
-              Data Upload
+              App Data Upload
             </div>
           </div>
 
@@ -33,7 +33,7 @@ const NetworkRealtimeGraph = () => {
         <div className="flex-1">
           <div className="flex">
             <div className="text-base-500 text-sm font-medium leading-5">
-              Data Download
+              App Data Download
             </div>
           </div>
 
