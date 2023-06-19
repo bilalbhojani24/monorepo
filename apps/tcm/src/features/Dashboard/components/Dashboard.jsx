@@ -82,7 +82,7 @@ const Dashboard = () => {
           modifier="primary"
         />
         {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-        <div className="flex flex-col gap-y-[46px]">
+        <div className="flex flex-col gap-y-6">
           <div className="flex w-full gap-6">
             <div className="relative w-1/2 flex-1">
               <TMDataVisualization
