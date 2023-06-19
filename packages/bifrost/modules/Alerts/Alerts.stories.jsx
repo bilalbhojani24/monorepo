@@ -47,7 +47,11 @@ const defaultConfig = {
     },
     detailsNode: {
       option: { type: 'object' },
-      defaultValue: <p data-testid="details-arrow">Details &nbsp;&rarr;</p>
+      defaultValue: (
+        <p className="whitespace-nowrap" data-testid="details-arrow">
+          Details &nbsp;&rarr;
+        </p>
+      )
     },
     linkUrl: { option: { type: 'string' }, defaultValue: '/' },
     show: {
