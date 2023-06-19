@@ -250,7 +250,7 @@ export const updateUrlQueryParam = (searchParams) => {
   const newurl = `${window.location.protocol}//${window.location.host}${
     window.location.pathname
   }?${searchParams.toString()}`;
-  window.history.pushState({ path: newurl }, '', newurl);
+  window.history.replaceState({ path: newurl }, '', newurl);
 };
 
 /** Cross-browser support for fullscreen change event

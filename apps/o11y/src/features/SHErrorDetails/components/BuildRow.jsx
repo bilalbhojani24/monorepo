@@ -2,9 +2,10 @@ import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { MdOutlineAutoAwesome } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import { O11yBadge, O11yTableCell } from 'common/bifrostProxy';
+import { O11yTableCell } from 'common/bifrostProxy';
 import { JiraTagList } from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
+import SmartTagsToolTip from 'common/SmartTagsToolTip/SmartTagsToolTip';
 import StatusChip from 'common/StatusChip';
 import PropTypes from 'prop-types';
 import { milliSecondsToTime } from 'utils/dateTime';
@@ -59,7 +60,10 @@ const BuildRow = ({ buildData }) => (
       )}
     >
       {!Array.isArray(buildData?.jiraDetails) &&
-      !buildData?.historyAggregate?.isFlaky ? (
+      !buildData?.historyAggregate?.isFlaky &&
+      !buildData?.historyAggregate?.isAlwaysFailing &&
+      !buildData?.historyAggregate?.isNewFailure &&
+      !buildData?.historyAggregate?.isPerformanceAnomaly ? (
         <span>-</span>
       ) : (
         <div className="flex flex-wrap gap-1">
@@ -68,11 +72,46 @@ const BuildRow = ({ buildData }) => (
               <JiraTagList list={buildData.jiraDetails || []} showInToolTip />
             </PropagationBlocker>
           )}
-          {buildData?.historyAggregate?.isFlaky && (
-            <PropagationBlocker className="inline">
-              <O11yBadge text="Flaky" modifier="warn" />
-            </PropagationBlocker>
-          )}
+          <PropagationBlocker className="flex flex-col gap-1">
+            {buildData?.historyAggregate?.isFlaky && (
+              <SmartTagsToolTip
+                flakyReason={buildData.flakyReason}
+                modifier="warn"
+                onClick={() => {}}
+                smartTagSettings={buildData?.smartTagSettings}
+                text="Flaky"
+                tooltipHeader="Flake detected"
+              />
+            )}
+            {buildData?.historyAggregate?.isAlwaysFailing && (
+              <SmartTagsToolTip
+                modifier="error"
+                onClick={() => {}}
+                smartTagSettings={buildData?.smartTagSettings}
+                text="Always Failing"
+                tooltipHeader="Always failing test"
+              />
+            )}
+            {buildData?.historyAggregate?.isNewFailure && (
+              <SmartTagsToolTip
+                modifier="error"
+                onClick={() => {}}
+                smartTagSettings={buildData?.smartTagSettings}
+                text="New Failures"
+                tooltipHeader="New failure detected"
+              />
+            )}
+
+            {buildData?.historyAggregate?.isPerformanceAnomaly && (
+              <SmartTagsToolTip
+                modifier="error"
+                onClick={() => {}}
+                smartTagSettings={buildData?.smartTagSettings}
+                text="Performance Anomaly"
+                tooltipHeader="Performance anomaly detected"
+              />
+            )}
+          </PropagationBlocker>
         </div>
       )}
     </O11yTableCell>

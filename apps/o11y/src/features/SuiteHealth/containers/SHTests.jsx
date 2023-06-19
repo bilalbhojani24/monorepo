@@ -166,9 +166,12 @@ export default function SHTests() {
   }, [dispatch]);
 
   useEffect(() => {
-    navigate({
-      search: getSearchStringFromFilters(appliedFilters).toString()
-    });
+    navigate(
+      {
+        search: getSearchStringFromFilters(appliedFilters).toString()
+      },
+      { replace: true }
+    );
   }, [appliedFilters, navigate]);
 
   const handleClickSortBy = (val) => {
@@ -201,7 +204,7 @@ export default function SHTests() {
       dispatch(setIsSHTestsDetailsVisible(true));
       const searchParams = new URLSearchParams(window?.location?.search);
       searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, activeRow.id);
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
     }
   };
 
