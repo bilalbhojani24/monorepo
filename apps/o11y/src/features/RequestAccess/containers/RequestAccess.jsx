@@ -9,6 +9,8 @@ import {
   MdPlayArrow
 } from '@browserstack/bifrost';
 import { requestO11yAccess } from 'api/global';
+import o11yIllustration from 'assets/illustrations/o11y-illustration.png';
+import o11yDemoVideo from 'assets/videos/o11y-demo.mp4';
 import { O11yButton, O11yHyperlink } from 'common/bifrostProxy';
 import O11yFeatureCard from 'common/O11yFeatureCard';
 import { DOC_KEY_MAPPING } from 'constants/common';
@@ -168,7 +170,7 @@ function RequestAccess() {
             ref={videRef}
             width="100%"
             controls={hasClickedPlay ? 'controls' : ''}
-            poster="/o11y-illustration.png"
+            poster={o11yIllustration}
             className="rounded shadow-lg"
             autoPlay
             muted={!hasClickedPlay}
@@ -178,7 +180,7 @@ function RequestAccess() {
             onPause={() => logInteractionEvent('stopped')}
             onSeeked={() => logInteractionEvent('seeked')}
           >
-            <source src="/o11y-demo.mp4" type="video/mp4" />
+            <source src={o11yDemoVideo} type="video/mp4" />
           </video>
           {!hasClickedPlay && (
             <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center">
