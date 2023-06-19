@@ -47,12 +47,7 @@ const defaultConfig = {
     },
     detailsNode: {
       option: { type: 'object' },
-      defaultValue: (
-        <>
-          <p>Details</p>
-          <span aria-hidden="true">&nbsp;&rarr;</span>
-        </>
-      )
+      defaultValue: <p data-testid="details-arrow">Details &nbsp;&rarr;</p>
     },
     linkUrl: { option: { type: 'string' }, defaultValue: '/' },
     show: {
@@ -124,14 +119,14 @@ const Primary = Template.bind({});
 Primary.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await expect(canvas.getByText(attentionNeeded)).toBeVisible();
-  await userEvent.click(canvas.getByText('Details'));
+  await userEvent.click(canvas.getByTestId('details-arrow'));
 };
 
 const CustomIcon = CustomIconTemplate.bind({});
 CustomIcon.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   await expect(canvas.getByText(attentionNeeded)).toBeVisible();
-  await userEvent.click(canvas.getByText('Details'));
+  await userEvent.click(canvas.getByTestId('details-arrow'));
 };
 
 Primary.parameters = {
