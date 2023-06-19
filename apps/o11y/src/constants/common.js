@@ -212,6 +212,10 @@ export const O11Y_DATE_RANGE = {
     key: 'days30',
     label: '30D'
   },
+  months2: {
+    key: 'months2',
+    label: '2M'
+  },
   months6: {
     key: 'months6',
     label: '6M'
