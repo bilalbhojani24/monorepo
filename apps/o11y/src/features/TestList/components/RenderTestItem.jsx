@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import ReactHtmlParser from 'react-html-parser';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineAirplay, MdOutlineTimer } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
+import SmartTagsToolTip from 'common/SmartTagsToolTip/SmartTagsToolTip';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
 import {
@@ -21,6 +22,7 @@ import {
   TESTLIST_TYPES
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
+import { getTestList } from 'features/TestList/slices/selectors';
 import PropTypes from 'prop-types';
 import { transformUnsupportedTags } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
@@ -38,6 +40,8 @@ const RenderTestItem = ({ item: data }) => {
   const { details, displayName, isAfterAllHook, isBeforeAllHook, rank, type } =
     data;
 
+  const { data: testListData } = useSelector(getTestList);
+  const { smartTagSettings } = testListData;
   const dispatch = useDispatch();
   const { o11yTestListingInteraction } = useContext(TestListContext);
 
@@ -92,7 +96,7 @@ const RenderTestItem = ({ item: data }) => {
       onClick={handleClickTestItem}
     >
       <div className="flex justify-between gap-4">
-        <div className="flex w-full flex-col items-start pt-1">
+        <div className="flex w-full flex-col items-start break-words pt-1">
           <div className="flex items-start">
             <div className="flex items-start">
               <div className="flex h-5 items-center ">
@@ -131,60 +135,58 @@ const RenderTestItem = ({ item: data }) => {
                     </PropagationBlocker>
                   ))}
                   {details?.isFlaky && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Flaky"
-                        modifier="warn"
-                        onClick={() => {
-                          addFilterOnClick(
-                            ADV_FILTER_TYPES.isFlaky.key,
-                            'true'
-                          );
-                        }}
-                      />
-                    </PropagationBlocker>
+                    <SmartTagsToolTip
+                      flakyReason={details?.flakyReason}
+                      modifier="warn"
+                      onClick={() =>
+                        addFilterOnClick(ADV_FILTER_TYPES.isFlaky.key, true)
+                      }
+                      smartTagSettings={smartTagSettings}
+                      text="Flaky"
+                      tooltipHeader="Flake detected"
+                    />
                   )}
                   {details?.isAlwaysFailing && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Always Failing"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick(
-                            ADV_FILTER_TYPES.isAlwaysFailing.key,
-                            'isAlwaysFailing'
-                          );
-                        }}
-                      />
-                    </PropagationBlocker>
+                    <SmartTagsToolTip
+                      modifier="error"
+                      onClick={() =>
+                        addFilterOnClick(
+                          ADV_FILTER_TYPES.isAlwaysFailing.key,
+                          true
+                        )
+                      }
+                      smartTagSettings={smartTagSettings}
+                      text="Always Failing"
+                      tooltipHeader="Always failing test"
+                    />
                   )}
                   {details?.isNewFailure && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="New Failures"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick(
-                            ADV_FILTER_TYPES.isNewFailure.key,
-                            'isNewFailure'
-                          );
-                        }}
-                      />
-                    </PropagationBlocker>
+                    <SmartTagsToolTip
+                      modifier="error"
+                      onClick={() =>
+                        addFilterOnClick(
+                          ADV_FILTER_TYPES.isNewFailure.key,
+                          true
+                        )
+                      }
+                      smartTagSettings={smartTagSettings}
+                      text="New Failures"
+                      tooltipHeader="New failure detected"
+                    />
                   )}
                   {details?.isPerformanceAnomaly && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Performance Anomaly"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick(
-                            ADV_FILTER_TYPES.hasPerformanceAnomaly.key,
-                            'isPerformanceAnomaly'
-                          );
-                        }}
-                      />
-                    </PropagationBlocker>
+                    <SmartTagsToolTip
+                      modifier="error"
+                      onClick={() =>
+                        addFilterOnClick(
+                          ADV_FILTER_TYPES.hasPerformanceAnomaly.key,
+                          true
+                        )
+                      }
+                      smartTagSettings={smartTagSettings}
+                      text="Performance Anomaly"
+                      tooltipHeader="Performance anomaly detected"
+                    />
                   )}
                 </div>
               </div>

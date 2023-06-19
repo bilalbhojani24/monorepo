@@ -65,9 +65,10 @@ function TestlistTimeline({ details, isHook }) {
             placementSide="bottom"
             key={singleHistoryItem.testRunId}
             triggerWrapperClassName="inline-flex items-center"
+            wrapperClassName="py-0 rounded-md"
             content={
               // eslint-disable-next-line tailwindcss/no-arbitrary-value
-              <div className="min-w-[250px] px-4">
+              <div className="border-base-200 w-[350px] border">
                 <TestListHistoryTooltip {...singleHistoryItem} />
               </div>
             }
