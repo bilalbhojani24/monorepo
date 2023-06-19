@@ -26,6 +26,14 @@ const FORMAT_EXCLUDE_KEYWORDS = [
   'fullscreen'
 ];
 
+export const getVideoSeekTime = (currentTime, isSessionEnabled, endOffset) => {
+  const endTime = Math.ceil(endOffset / 1000);
+  if (currentTime >= endTime && !isSessionEnabled) {
+    return endTime;
+  }
+  return currentTime;
+};
+
 export const formatPath = (method, path) => {
   if (!path) {
     return '';
@@ -182,7 +190,7 @@ export const showTestDetailsDrawer = (testId) => (dispatch) => {
   dispatch(setShowTestDetailsFor(testId));
   const searchParams = new URLSearchParams(window?.location?.search);
   searchParams.set('details', testId);
-  o11yHistory.navigate({ search: searchParams.toString() });
+  o11yHistory.navigate({ search: searchParams.toString() }, { replace: true });
 };
 
 export const hideTestDetailsDrawer = () => (dispatch) => {
@@ -191,5 +199,5 @@ export const hideTestDetailsDrawer = () => (dispatch) => {
   dispatch(setShowTestDetailsFor(''));
   const searchParams = new URLSearchParams(window?.location?.search);
   searchParams.delete('details');
-  o11yHistory.navigate({ search: searchParams.toString() });
+  o11yHistory.navigate({ search: searchParams.toString() }, { replace: true });
 };

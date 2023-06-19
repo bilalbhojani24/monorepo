@@ -92,20 +92,17 @@ const GridsListing = () => {
                 const gridIdentfierRaw = gridData.identifier;
                 const gridIdentfier = gridIdentfierRaw.split('-')[0];
                 const gridName = gridData.name;
+                const gridSpawnedVia = gridData.spawnedVia;
                 const gridStatus = gridData.status;
                 const statusModifier =
                   gridData.status === 'Online' ? 'success' : 'base';
                 const gridId = gridData.id;
 
                 const supportedBrowsers = {
-                  chrome:
-                    gridData.browserSettings.allowedBrowsers.chrome?.length > 0,
-                  firefox:
-                    gridData.browserSettings.allowedBrowsers.firefox?.length >
-                    0,
+                  chrome: gridData.stats.browsersUsed.indexOf('chrome') > -1,
+                  firefox: gridData.stats.browsersUsed.indexOf('firefox') > -1,
                   edge:
-                    gridData.browserSettings.allowedBrowsers.MicrosoftEdge
-                      ?.length > 0
+                    gridData.stats.browsersUsed.indexOf('MicrosoftEdge') > -1
                 };
 
                 const options = [
@@ -135,7 +132,7 @@ const GridsListing = () => {
                         onKeyDown={cellClickhandler}
                         tabIndex={0}
                       >
-                        <p className="text-base-900 font-normal">{gridName}</p>
+                        <p className="font-normal text-base-900">{gridName}</p>
                         <p className="text-base-500">{gridIdentfier}</p>
                       </div>
                     </TableCell>
@@ -162,9 +159,9 @@ const GridsListing = () => {
                         onClick={cellClickhandler}
                         onKeyDown={cellClickhandler}
                         tabIndex={0}
-                        className="text-base-900 items-center"
+                        className="items-center text-base-900"
                       >
-                        {gridData.runningTests}
+                        {gridData.stats.runningTests}
                       </div>
                     </TableCell>
                     <TableCell wrapperClassName=" px-6 py-4">
@@ -175,7 +172,7 @@ const GridsListing = () => {
                         tabIndex={0}
                         className="text-base-900"
                       >
-                        {gridData.queuedTests}
+                        {gridData.stats.queuedTests}
                       </div>
                     </TableCell>
                     <TableCell wrapperClassName=" px-6 py-4">
@@ -193,6 +190,10 @@ const GridsListing = () => {
                           {supportedBrowsers.edge && (
                             <EdgeIcon width={20} height={20} />
                           )}
+                          {!supportedBrowsers.chrome &&
+                            !supportedBrowsers.firefox &&
+                            !supportedBrowsers.edge &&
+                            '-'}
                         </div>
                       </div>
                     </TableCell>
@@ -218,7 +219,8 @@ const GridsListing = () => {
                           if (e.id === 'delete') {
                             deleteDropDownClickHandler(
                               gridIdentfierRaw,
-                              gridName
+                              gridName,
+                              gridSpawnedVia
                             );
                           } else {
                             navigate(e.url);
