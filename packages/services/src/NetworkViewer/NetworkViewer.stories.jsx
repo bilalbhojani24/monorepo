@@ -1,17 +1,35 @@
-import NetworkViewer from './index';
+import React from 'react';
+import { delay } from '@browserstack/utils';
 
-export default {
+import NetworkViewer from '.';
+
+const defaultConfig = {
   title: 'Services/NetworkViewer',
   component: NetworkViewer,
-  tags: ['autodocs'],
-  argTypes: {},
+  argTypes: {
+    logsURL: {
+      defaultValue: 'https://apimocha.com/o11y/logs-staging'
+    }
+  },
   parameters: {
-    layout: 'fullscreen'
-  }
+    design: {
+      type: 'figma',
+      url: ''
+    }
+  },
+  controls: {}
 };
-
-export const Primary = {
-  args: {
-    logsURL: 'https://apimocha.com/o11y/logs-staging'
-  }
+const Template = (args) => (
+  <div style={{ maxWidth: '720px' }}>
+    <NetworkViewer {...args} logsURL="https://apimocha.com/o11y/logs-staging" />
+  </div>
+);
+const Primary = Template.bind({});
+Primary.play = async () => {
+  await delay(10000);
 };
+Primary.parameters = {
+  controls: {}
+};
+export default defaultConfig;
+export { Primary };
