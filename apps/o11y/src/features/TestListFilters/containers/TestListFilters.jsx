@@ -60,14 +60,14 @@ const TestListFilters = ({ buildUUID }) => {
     if (filterKey === ADV_FILTER_TYPES.issueTypeGroup.key) {
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.delete(ADV_FILTER_TYPES.issueTypeGroup.key);
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
     }
   };
 
   const handleRemoveAll = () => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.delete(ADV_FILTER_TYPES.issueTypeGroup.key);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
 
   return (
