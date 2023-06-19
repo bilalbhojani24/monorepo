@@ -11,6 +11,7 @@ import {
 } from '@browserstack/bifrost';
 import { setStorage } from '@browserstack/utils';
 import { CHROME_EXTENSION_URL, events } from 'constants';
+import { getUser } from 'features/Dashboard/slices/selectors';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
 import { defaultPath, getBrowserStackBase } from 'utils';
@@ -20,6 +21,7 @@ import { logEvent, startLogging } from 'utils/logEvent';
 export default function useDashboard() {
   const mainRef = useRef(null);
   const dispatch = useDispatch();
+  const user = useSelector(getUser);
   const isShowingBanner = useSelector(getIsShowingBanner);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
@@ -33,6 +35,7 @@ export default function useDashboard() {
     }
     return true;
   };
+  const isBrowserStackUser = user.group_id === 2;
   const primaryNav = [
     {
       id: 'report-listing',
@@ -55,16 +58,19 @@ export default function useDashboard() {
       inActiveIcon: MdOutlineDynamicFeed,
       path: '/site-scanner',
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
-    },
-    {
+    }
+  ];
+
+  if (isBrowserStackUser) {
+    primaryNav.push({
       id: 'automated-tests',
       label: 'Automated tests',
       activeIcon: MdOutlineMotionPhotosAuto,
       inActiveIcon: MdOutlineMotionPhotosAuto,
       path: '/automated-tests/projects',
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
-    }
-  ];
+    });
+  }
 
   const secondaryNav = [
     {
