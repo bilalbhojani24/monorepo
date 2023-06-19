@@ -95,6 +95,7 @@ export default function useAutomatedTestBuild() {
 
   useEffect(() => {
     const fetchData = (() => {
+      console.log('activeTab: ', activeTab);
       switch (activeTab) {
         case SUMMARY:
           return fetchOverview;
@@ -118,6 +119,8 @@ export default function useAutomatedTestBuild() {
         dispatch(setBuildData(tabData));
       } else if (activeTab === TESTS) {
         dispatch(setTestCasesData(tabData));
+      } else {
+        dispatch(setBuildOverview(tabData));
       }
       dispatch(setBuildMetaData(metaData));
     });

@@ -73,7 +73,7 @@ export default function useTests() {
       )
     : filteredTestRuns;
 
-  const refreshFiterData = (updatedFilterData) => {
+  const refreshFilterData = (updatedFilterData) => {
     const filterTests = Object.values(applyFilters(updatedFilterData));
     setFilteredTestRuns(filterTests);
   };
@@ -84,13 +84,13 @@ export default function useTests() {
       [name]: [...value]
     };
     setMenuFilters(updatedFilterData);
-    refreshFiterData(updatedFilterData);
+    refreshFilterData(updatedFilterData);
   };
 
   const onFilterBadgeClose = (key) => {
     const updatedFilterData = { ...menuFilters, [key]: [] };
     setMenuFilters(updatedFilterData);
-    refreshFiterData(updatedFilterData);
+    refreshFilterData(updatedFilterData);
   };
 
   const handleRowClick = (id) => {
@@ -114,7 +114,7 @@ export default function useTests() {
       clearedObject[key] = [];
     });
     setMenuFilters(clearedObject);
-    refreshFiterData(clearedObject);
+    refreshFilterData(clearedObject);
   };
 
   return {

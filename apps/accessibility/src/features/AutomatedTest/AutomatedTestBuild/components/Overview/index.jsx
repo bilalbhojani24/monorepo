@@ -23,15 +23,16 @@ export default function Overview() {
     prepareDataForHealthHistoryChart
   } = useOverview();
 
-  const componentCountList = buildMetaData.chartData.issueCountByComponent.map(
-    ({ componentId, count }) => ({
-      label: formatComponentIdString(componentId),
-      value: componentId,
-      count
-    })
-  );
+  const componentCountList =
+    buildMetaData.chartData?.issueCountByComponent?.map(
+      ({ componentId, count }) => ({
+        label: formatComponentIdString(componentId),
+        value: componentId,
+        count
+      })
+    );
 
-  const urlCountList = buildMetaData.chartData.issueCountByUrl.map(
+  const urlCountList = buildMetaData.chartData?.issueCountByUrl?.map(
     ({ url, count }) => ({
       label: url,
       value: url,
@@ -39,7 +40,7 @@ export default function Overview() {
     })
   );
 
-  const categoryList = buildMetaData.chartData.issueCountByCategory.map(
+  const categoryList = buildMetaData.chartData?.issueCountByCategory?.map(
     ({ category, count }) => ({
       label: category,
       value: category,
@@ -70,22 +71,26 @@ export default function Overview() {
           summary={healthSummaryData}
           wrapperClassName="mt-4"
         />
-        <TableCard
-          title="Affected Components"
-          list={componentCountList}
-          columns={componentColumns}
-          onRowClick={onRowClick}
-          wrapperClassName="mt-4"
-          filterKey="component"
-        />
-        <TableCard
-          title="Affected Pages"
-          list={urlCountList}
-          columns={urlColumns}
-          filterKey="page"
-          onRowClick={onRowClick}
-          wrapperClassName="mt-4"
-        />
+        {componentCountList && (
+          <TableCard
+            title="Affected Components"
+            list={componentCountList}
+            columns={componentColumns}
+            onRowClick={onRowClick}
+            wrapperClassName="mt-4"
+            filterKey="component"
+          />
+        )}
+        {urlCountList && (
+          <TableCard
+            title="Affected Pages"
+            list={urlCountList}
+            columns={urlColumns}
+            filterKey="page"
+            onRowClick={onRowClick}
+            wrapperClassName="mt-4"
+          />
+        )}
       </div>
       <div>
         <DataVisualizationWrapper
