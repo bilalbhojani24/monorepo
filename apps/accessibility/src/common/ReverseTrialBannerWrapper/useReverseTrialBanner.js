@@ -158,6 +158,7 @@ export default function useReverseTrialBanner() {
     showBanner,
     handleBannerDismissClick,
     handleBannerButtonClick,
-    trialState
+    trialState,
+    bannerName
   };
 }
