@@ -63,27 +63,29 @@ export default function useReverseTrialAlert() {
     });
   };
 
-  switch (trialState) {
-    case TRIAL_NOT_STARTED:
-    case TRIAL_FAILED: {
-      displayAlert('getTrial');
-      break;
-    }
-    case TRIAL_IN_PROGRESS: {
-      displayAlert('trialInProcess');
-      break;
-    }
-    case TRIAL_EXPIRED: {
-      if (planType !== PAID_PLAN) {
-        displayAlert('buyPlan');
+  useEffect(() => {
+    switch (trialState) {
+      case TRIAL_NOT_STARTED:
+      case TRIAL_FAILED: {
+        displayAlert('getTrial');
+        break;
       }
-      break;
+      case TRIAL_IN_PROGRESS: {
+        displayAlert('trialInProcess');
+        break;
+      }
+      case TRIAL_EXPIRED: {
+        if (planType !== PAID_PLAN) {
+          displayAlert('buyPlan');
+        }
+        break;
+      }
+      default: {
+        dispatch(setAlertShow(false));
+        break;
+      }
     }
-    default: {
-      dispatch(setAlertShow(false));
-      break;
-    }
-  }
+  }, [trialState, planType]);
 
   return {
     alertName,
