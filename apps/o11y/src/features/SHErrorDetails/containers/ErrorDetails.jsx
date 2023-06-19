@@ -49,7 +49,7 @@ const ErrorDetails = () => {
     const searchParams = new URLSearchParams(window?.location.search);
     searchParams.delete(SNP_PARAMS_MAPPING.snpErrorId);
     searchParams.delete(SNP_PARAMS_MAPPING.snpErrorTestId);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
 
   useFloatingComponentTracking(

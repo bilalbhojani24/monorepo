@@ -10,6 +10,11 @@ export const getUserDetails = (state) =>
 export const getUserId = (state) =>
   state.global.initData?.data?.userDetails?.userId || 0;
 export const getBuildInfo = (state) => state.global.buildInfo;
+export const getFeatureFlag = (state, feature) =>
+  state.global.initData?.data?.userDetails?.planDetails?.features[feature] || {
+    isMetered: false,
+    isActive: true
+  };
 export const getHasInitFailed = (state) => state.global.hasProductInitFailed;
 export const getActiveFloatingComponents = (state) =>
   state.global.activeFloatingComponents;

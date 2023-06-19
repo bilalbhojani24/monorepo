@@ -12,6 +12,7 @@ import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCate
 import AddNotificationUserModal from 'features/Settings/components/AddNotificationUserModal';
 import DeleteAlertModal from 'features/Settings/components/DeleteAlertModal';
 import DeleteSubCatModal from 'features/Settings/components/DeleteSubCatModal';
+import SmartTagConfirmationModal from 'features/Settings/components/SmartTagConfirmationModal';
 import MuteUnmuteTestModal from 'features/TestList/components/MuteUnmuteTestModal';
 import RerunTestsModal from 'features/TestList/components/RerunTestModal';
 
@@ -46,6 +47,8 @@ export default function ModalToShow() {
       return <ArchiveBuildsModal />;
     case MODAL_TYPES.onboarding_framework_selection_modal:
       return <ReqFrameworkModal />;
+    case MODAL_TYPES.smart_tags_confirmation_modal:
+      return <SmartTagConfirmationModal />;
     default:
       return null;
   }
