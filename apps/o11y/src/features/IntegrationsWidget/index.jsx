@@ -62,19 +62,17 @@ const IntegrationsWidget = () => {
     attachments: [],
     successCallback: ({ event, data: cbData }) => {
       const { integration, issueUrl } = cbData;
-      if (event === INTEGRATION_EVENTS.create) {
-        window.pubSub.publish('onCreateJiraIssue', {
-          testRunId: data?.testRunId,
-          url: issueUrl,
-          status: 'New Item'
-        });
-        sendIssueCreatedCallback('_', data?.testRunId, {
-          name: issueUrl.split('/').pop(),
-          type: integration?.label,
-          url: issueUrl,
-          status: 'New Item'
-        });
-      }
+      window.pubSub.publish('onCreateJiraIssue', {
+        testRunId: data?.testRunId,
+        url: issueUrl,
+        status: ''
+      });
+      sendIssueCreatedCallback('_', data?.testRunId, {
+        name: issueUrl.split('/').pop(),
+        type: integration?.label,
+        url: issueUrl,
+        status: ''
+      });
       o11yNotify({
         title: `Issue ${issueUrl.split('/').pop()} ${
           event === INTEGRATION_EVENTS.create ? 'created' : 'updated'
