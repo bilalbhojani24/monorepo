@@ -228,6 +228,7 @@ const TestCasesTable = ({
           onClick={(selectedOption) =>
             onDropDownChange(selectedOption, data, true)
           }
+          optionGroupWrapperClassName="w-40"
         />
       )
     }

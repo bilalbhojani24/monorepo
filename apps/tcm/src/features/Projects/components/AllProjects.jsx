@@ -230,6 +230,7 @@ const AllProjects = () => {
           dividerRequired
           onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
           options={dropDownOptions}
+          optionGroupWrapperClassName="w-40"
         />
       ),
       class: 'w-[5%]'
@@ -330,8 +331,6 @@ const AllProjects = () => {
     </div>
   );
 };
-
-AllProjects.propTypes = {};
 
 AllProjects.defaultProps = {};
 
