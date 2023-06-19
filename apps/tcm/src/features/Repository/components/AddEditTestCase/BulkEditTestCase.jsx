@@ -8,7 +8,9 @@ import {
   TMModalHeader,
   TMRichTextEditor,
   TMSectionHeadings,
-  TMSelectMenu
+  TMSelectMenu,
+  TMTooltip,
+  TMTooltipBody
 } from 'common/bifrostProxy';
 
 import UnsavedChanges from '../UnsavedChanges';
@@ -93,16 +95,31 @@ const BulkEditTestCase = () => {
             />
           </div>
           <div className="w-1/2 flex-1">
-            <TMSelectMenu
-              checkPosition="right"
-              disabled={isBulkAutomationDisabled}
-              label="Automation Status"
-              placeholder="Select automation status"
-              options={automationOptions}
-              onChange={(e) =>
-                handleTestCaseFieldChange('automation_status', e.value)
+            <TMTooltip
+              size="xs"
+              triggerWrapperClassName="w-full"
+              placementSide="top"
+              theme="dark"
+              isForcedHidden={!isBulkAutomationDisabled}
+              wrapperClassName="w-full translate-y-7"
+              content={
+                <TMTooltipBody wrapperClassName="w-64">
+                  You are not allowed to change automation status for test cases
+                  that are generated from automation pipeline
+                </TMTooltipBody>
               }
-            />
+            >
+              <TMSelectMenu
+                checkPosition="right"
+                disabled={isBulkAutomationDisabled}
+                label="Automation Status"
+                placeholder="Select automation status"
+                options={automationOptions}
+                onChange={(e) =>
+                  handleTestCaseFieldChange('automation_status', e.value)
+                }
+              />
+            </TMTooltip>
           </div>
         </div>
         <div className="mt-4 flex">

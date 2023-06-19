@@ -5,7 +5,9 @@ import {
   TMComboBox,
   TMFileUpload,
   TMRichTextEditor,
-  TMSelectMenu
+  TMSelectMenu,
+  TMTooltip,
+  TMTooltipBody
 } from 'common/bifrostProxy';
 
 import AddEditTestCaseCustomField from './AddEditTestCaseCustomField';
@@ -50,22 +52,37 @@ const AddEditTestCaseMoreFields = () => {
           />
         </div>
         <div className="w-1/2 flex-1 pl-2">
-          <TMSelectMenu
-            checkPosition="right"
-            label="Automation Status*"
-            disabled={testCaseFormData?.is_automation}
-            placeholder="Select automation status"
-            options={automationOptions}
-            onChange={(e) =>
-              handleTestCaseFieldChange('automation_status', e.value)
+          <TMTooltip
+            size="xs"
+            triggerWrapperClassName="w-full"
+            placementSide="top"
+            theme="dark"
+            isForcedHidden={!testCaseFormData?.is_automation}
+            wrapperClassName="w-full translate-y-7"
+            content={
+              <TMTooltipBody wrapperClassName="w-64">
+                You are not allowed to change automation status for test cases
+                that are generated from automation pipeline
+              </TMTooltipBody>
             }
-            value={
-              testCaseFormData.automation_status &&
-              automationOptions.find(
-                (item) => item.value === testCaseFormData.automation_status
-              )
-            }
-          />
+          >
+            <TMSelectMenu
+              checkPosition="right"
+              label="Automation Status*"
+              disabled={testCaseFormData?.is_automation}
+              placeholder="Select automation status"
+              options={automationOptions}
+              onChange={(e) =>
+                handleTestCaseFieldChange('automation_status', e.value)
+              }
+              value={
+                testCaseFormData.automation_status &&
+                automationOptions.find(
+                  (item) => item.value === testCaseFormData.automation_status
+                )
+              }
+            />
+          </TMTooltip>
         </div>
       </div>
 
