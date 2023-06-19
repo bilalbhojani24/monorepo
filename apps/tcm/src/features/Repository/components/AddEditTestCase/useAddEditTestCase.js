@@ -714,15 +714,6 @@ export default function useAddEditTestCase(prop) {
     );
     setBulkAutomationDisabled(!!match);
   };
-  // const handleUpdateAllClicked = () => {
-  //   console.log(selectedTestCase);
-  //   dispatch(
-  //     logEventHelper('TM_UpdateAllCtaClicked', {
-  //       project_id: projectId
-  //     })
-  //   );
-  //   setBulkEditConfirm(true);
-  // };
 
   useEffect(() => {
     if (

@@ -90,13 +90,6 @@ const BulkEditTestCase = () => {
               placeholder="Select from options"
               defaultValue={null}
               onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
-              // value={
-              //   testCaseBulkFormData?.case_type
-              //     ? testCaseTypesOptions.find(
-              //         (item) => item.value === testCaseBulkFormData?.case_type
-              //       )
-              //     : null
-              // }
             />
           </div>
           <div className="w-1/2 flex-1">
@@ -109,12 +102,6 @@ const BulkEditTestCase = () => {
               onChange={(e) =>
                 handleTestCaseFieldChange('automation_status', e.value)
               }
-              // value={
-              //   testCaseFormData.automation_status &&
-              //   automationOptions.find(
-              //     (item) => item.value === testCaseFormData.automation_status
-              //   )
-              // }
             />
           </div>
         </div>
@@ -125,23 +112,11 @@ const BulkEditTestCase = () => {
               label="Priority"
               placeholder="Select from options"
               options={priorityOptions}
-              // value={
-              //   testCaseBulkFormData.priority &&
-              //   priorityOptions.find(
-              //     (item) => item.value === testCaseBulkFormData?.priority
-              //   )
-              // }
               onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
             />
           </div>
           <div className="w-1/2 flex-1">
             <TMSelectMenu
-              // value={
-              //   testCaseBulkFormData.status &&
-              //   statusOptions.find(
-              //     (item) => item.value === testCaseBulkFormData?.status?.id
-              //   )
-              // }
               checkPosition="right"
               label="State"
               placeholder="Select from options"
@@ -194,12 +169,6 @@ const BulkEditTestCase = () => {
           </div> */}
           <div className="w-1/2 flex-1 pr-4">
             <TMSelectMenu
-              // value={
-              //   testCaseBulkFormData.owner &&
-              //   usersArrayMapped?.find(
-              //     (item) => item.value === testCaseBulkFormData.owner
-              //   )
-              // }
               placeholder="Select owner"
               checkPosition="right"
               label="Owner"
