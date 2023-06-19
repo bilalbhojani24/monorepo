@@ -29,7 +29,7 @@ export default function ReverseTrialBannerWrapper() {
           <Banner
             description={
               <div
-                className={twClassNames({
+                className={twClassNames('', {
                   'flex gap-1': [TRIAL_NOT_STARTED, TRIAL_FAILED].includes(
                     trialState
                   )
