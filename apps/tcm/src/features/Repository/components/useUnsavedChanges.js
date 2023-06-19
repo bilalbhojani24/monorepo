@@ -42,7 +42,7 @@ const useUnsavedChanges = () => {
 
   const clearUnsavedChangesHandler = () => {
     exitAndClearForm();
-    recentRequestedStep.callBack?.();
+    recentRequestedStep?.callBack?.();
     setRecentRequestedStep('');
     hideUnsavedModal();
   };

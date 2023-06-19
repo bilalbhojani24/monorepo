@@ -140,9 +140,9 @@ export default function useTestCases(props) {
   };
 
   const getValue = (key, value) => {
-    if (key === 'priority') return priorityIntNameAndValueMapTC[`${value}`];
-    if (key === 'status') return statusIntNameAndValueMapTC[`${value}`];
-    return testCaseTypeIntNameAndValueMapTC[`${value}`];
+    if (key === 'priority') return priorityIntNameAndValueMapTC?.[`${value}`];
+    if (key === 'status') return statusIntNameAndValueMapTC?.[`${value}`];
+    return testCaseTypeIntNameAndValueMapTC?.[`${value}`];
   };
 
   const setDefaultValues = (defaultFields) => {
@@ -151,7 +151,7 @@ export default function useTestCases(props) {
     // NOTE: this is to be optimized for all other props as well once we move to the same structure
     // if other props are moving to different structire, automation_status should also be aligned with the same.
     const automation = defaultFields?.automation_status || automationOptions;
-    const automationDefault = automation.find((item) => item.is_default);
+    const automationDefault = automation?.find((item) => item.is_default);
     if (automationDefault?.value) {
       dispatch(
         updateTestCaseFormData({

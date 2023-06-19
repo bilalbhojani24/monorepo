@@ -106,7 +106,7 @@ const initialState = {
 };
 
 const defaultFieldFormatter = (options) =>
-  options.map((item) => ({
+  options?.map((item) => ({
     ...item,
     label: item?.name,
     value: item?.value
