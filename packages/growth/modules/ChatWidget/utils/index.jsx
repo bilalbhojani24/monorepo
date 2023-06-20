@@ -97,6 +97,16 @@ export const setWidgetEvents = (
     });
   });
 
+  window.fcWidget.on('user:created', () => {
+    if (chatWidgetData.user_info.email) {
+      window.fcWidget.user.update({
+        firstName: chatWidgetData.user_info.first_name,
+        lastName: chatWidgetData.user_info.last_name,
+        email: chatWidgetData.user_info.email
+      });
+    }
+  });
+
   window.fcWidget.on('widget:closed', () => {
     logEvent([], 'online_sales', 'FreshChat', {
       widgetClosed: true,
