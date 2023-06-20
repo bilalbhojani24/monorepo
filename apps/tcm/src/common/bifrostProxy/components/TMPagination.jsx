@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Pagination } from '@browserstack/bifrost';
+import { setShowFreshChatButton } from 'globalSlice';
 import PropTypes from 'prop-types';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -30,6 +31,15 @@ const TMPagination = (props) => {
     if (props.onActionClick) props.onActionClick(navValue);
     else setSearchParams(navValue);
   };
+
+  useEffect(() => {
+    // hide chat button on mount
+    dispatch(setShowFreshChatButton(false));
+    // show chat button on unmount
+    return () => {
+      dispatch(setShowFreshChatButton(true));
+    };
+  }, [dispatch]);
 
   return (
     <Pagination

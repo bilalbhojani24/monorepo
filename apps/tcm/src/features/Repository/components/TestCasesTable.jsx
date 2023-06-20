@@ -1,5 +1,6 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import {
   ArrowDownwardOutlinedIcon,
@@ -21,6 +22,7 @@ import {
 } from 'common/bifrostProxy';
 import ClampedTags from 'common/ClampedTags';
 import Loader from 'common/Loader';
+import { setShowFreshChatButton } from 'globalSlice';
 import PropTypes from 'prop-types';
 import { getSystemOrCustomValue } from 'utils/helperFunctions';
 
@@ -65,6 +67,8 @@ const TestCasesTable = ({
     selectedTestCases,
     isMini
   });
+
+  const dispatch = useDispatch();
 
   const formatPriority = (priority) => {
     switch (priority) {
@@ -236,6 +240,16 @@ const TestCasesTable = ({
   const datatableColumns = isMini
     ? datatableColumnsFull.filter((item, index) => index < 3)
     : datatableColumnsFull;
+
+  useEffect(() => {
+    // hide chat button on mount
+    dispatch(setShowFreshChatButton(false));
+
+    // show chat button on unmount
+    return () => {
+      dispatch(setShowFreshChatButton(true));
+    };
+  }, [dispatch, isSearchFilterView]);
 
   return (
     <>

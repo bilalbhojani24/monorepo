@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { TMSlideover, TMSlideoverHeader } from 'common/bifrostProxy';
+import { setShowFreshChatButton } from 'globalSlice';
 import PropTypes from 'prop-types';
 
 import TestCaseView from './components/TestCaseView';
@@ -32,6 +34,8 @@ const TestCaseDetailsView = ({
     testResultsArray
   });
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (testCaseId) initTestCaseDetails();
     else hideTestCaseViewDrawer();
@@ -46,6 +50,19 @@ const TestCaseDetailsView = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  useEffect(() => {
+    // hide chat button if slideover visible
+    if (isTestCaseViewVisible && testCaseId) {
+      dispatch(setShowFreshChatButton(false));
+    }
+    // show chat button on unmount
+    return () => {
+      if (isFromTestRun) {
+        dispatch(setShowFreshChatButton(true));
+      }
+    };
+  }, [dispatch, isTestCaseViewVisible, testCaseId, isFromTestRun]);
 
   return (
     <TMSlideover
