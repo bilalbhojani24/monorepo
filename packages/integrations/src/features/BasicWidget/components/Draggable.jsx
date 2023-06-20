@@ -9,17 +9,34 @@ import { getWidgetRenderPosition } from './helpers';
 
 const DraggableContainer = ({ children, position, positionRef }) => {
   const widgetRef = useRef(null);
-  const bodyRef = useRef(document.body);
-  const bodyResizeObserver = useResizeObserver(bodyRef);
+  const [windowDimensions, setWindowDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth
+  });
+
+  useEffect(() => {
+    const onWindowResize = () => {
+      setWindowDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth
+      });
+    };
+
+    window.addEventListener('resize', onWindowResize, true);
+    return () => {
+      window.removeEventListener('resize', onWindowResize);
+    };
+  }, []);
+
   const widgetResizeObserver = useResizeObserver(widgetRef);
-  const windowHeight = document.body.getBoundingClientRect().height - 8;
+  const windowHeight = windowDimensions.height - 8;
   // max widget height should be 90% of the window height
   // multiply by 0.9 to get 90% of the windowHeight
   const widgetMaxHeight =
     windowHeight * 0.9 < DEFAULT_WIDGET_DIMENSIONS.MAX[1]
       ? DEFAULT_WIDGET_DIMENSIONS.MAX[1]
       : windowHeight * 0.9;
-  const windowWidth = document.body.getBoundingClientRect().width - 8;
+  const windowWidth = windowDimensions.width - 8;
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
   const [widgetDimensions, setWidgetDimensions] = useState({
@@ -66,9 +83,13 @@ const DraggableContainer = ({ children, position, positionRef }) => {
       setWidgetPosition((prev) => {
         const xVal = prev && prev.x < pos.x ? prev.x : pos.x;
         const yVal = prev && prev.y < y ? prev.y : y;
+        // console.log('about to return', {
+        //   x: xVal < 8 ? 8 : xVal,
+        //   y: yVal < 8 ? 8 : yVal
+        // });
         return {
           x: xVal < 8 ? 8 : xVal,
-          y: yVal < 8 ? 8 : yVal
+          y: yVal
         };
       });
     }
@@ -78,7 +99,7 @@ const DraggableContainer = ({ children, position, positionRef }) => {
     refAquired,
     windowWidth,
     windowHeight,
-    bodyResizeObserver,
+    windowDimensions,
     widgetDimensions
   ]);
 
