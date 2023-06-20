@@ -5,7 +5,8 @@ import { getGridData } from '../slices/selector';
 
 const useGridListing = () => {
   const isRounded = true;
-  const CLI_COMMAND = 'browserstack-cli ag delete grid --grid-id ';
+  const CLI_COMMAND = 'browserstack-cli ats delete grid --grid-id ';
+  const HELM_COMMAND = 'helm uninstall ';
 
   // All Store variables:
   const gridList = useSelector(getGridData);
@@ -23,11 +24,19 @@ const useGridListing = () => {
     setShowDeleteGridModal(false);
   };
 
-  const deleteDropDownClickHandler = (gridIdentifer, gridName) => {
+  const deleteDropDownClickHandler = (
+    gridIdentifer,
+    gridName,
+    gridSpawnedVia
+  ) => {
     setActiveGridName(gridName);
     setActiveGridIdentifier(gridIdentifer);
 
-    setDeletionCommand(`${CLI_COMMAND} ${gridIdentifer}`);
+    if (gridSpawnedVia.toLowerCase() === 'helm') {
+      setDeletionCommand(`${HELM_COMMAND} ${gridName}`);
+    } else if (gridSpawnedVia.toLowerCase() === 'cli') {
+      setDeletionCommand(`${CLI_COMMAND} ${gridIdentifer}`);
+    }
     setShowDeleteGridModal(true);
   };
 
