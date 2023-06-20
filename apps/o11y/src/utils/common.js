@@ -17,6 +17,12 @@ export const getBaseUrl = () => {
   return `${protocol}//${env}${domain}`;
 };
 
+export const getCurrentUrl = () => {
+  const { hostname, protocol, port } = window.location;
+  const portString = port ? `:${port}` : '';
+  return `${protocol}//${hostname}${portString}`;
+};
+
 export const docsLink = () => ({
   quickStart: `${getBaseUrl}/docs/test-observability/quick-start`,
   mainDoc: `${getBaseUrl}/docs/test-observability/`,

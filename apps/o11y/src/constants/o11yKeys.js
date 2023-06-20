@@ -8,7 +8,7 @@ export default {
     ANALYTICS_KEY: 'xyz',
     DELIGHTED_CONFIG_FILE_NAME: 'xyz',
     DELIGHTED_CONFIG_TOKEN: 'xyz',
-    EDS_API_KEY: 'xyz',
+    EDS_API_KEY: 'abcdef',
     SENTRY_DSN: 'xyz',
     EDS_SERVER: EDS_STAGING_SERVER
   },
@@ -17,7 +17,7 @@ export default {
     ANALYTICS_KEY: 'xyz',
     DELIGHTED_CONFIG_FILE_NAME: 'xyz',
     DELIGHTED_CONFIG_TOKEN: 'xyz',
-    EDS_API_KEY: 'xyz',
+    EDS_API_KEY: 'abcdef',
     SENTRY_DSN: 'xyz',
     EDS_SERVER: EDS_STAGING_SERVER
   },
@@ -26,7 +26,7 @@ export default {
     ANALYTICS_KEY: 'xyz',
     DELIGHTED_CONFIG_FILE_NAME: 'xyz',
     DELIGHTED_CONFIG_TOKEN: 'xyz',
-    EDS_API_KEY: 'xyz',
+    EDS_API_KEY: 'abcdef',
     SENTRY_DSN: 'xyz',
     EDS_SERVER: EDS_STAGING_SERVER
   },
@@ -35,7 +35,7 @@ export default {
     ANALYTICS_KEY: 'xyz',
     DELIGHTED_CONFIG_FILE_NAME: 'xyz',
     DELIGHTED_CONFIG_TOKEN: 'xyz',
-    EDS_API_KEY: 'xyz',
+    EDS_API_KEY: 'abcdef',
     SENTRY_DSN: 'xyz',
     EDS_SERVER: EDS_STAGING_SERVER
   },
