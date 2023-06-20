@@ -114,10 +114,10 @@ const ClustersListing = () => {
                     <p className="font-normal text-base-900">{region}</p>
                   </TableCell>
                   <TableCell wrapperClassName=" px-6 py-4">
-                    <p className="text-base-900 font-normal">12/50</p>
+                    <p className="font-normal text-base-900">12/50</p>
                   </TableCell>
                   <TableCell wrapperClassName=" px-6 py-4">
-                    <p className="text-base-900 font-normal">{grids.length}</p>
+                    <p className="font-normal text-base-900">{grids.length}</p>
                   </TableCell>
                 </TableRow>
               );
