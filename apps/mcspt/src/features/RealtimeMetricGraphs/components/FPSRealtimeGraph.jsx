@@ -11,9 +11,7 @@ const FPSRealtimeGraph = () => {
   return (
     <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow ">
       <div className="flex">
-        <div className="text-base-500 text-sm font-medium leading-5">
-          Frames Per Second
-        </div>
+        <div className="text-base-500 text-sm font-medium leading-5">FPS</div>
       </div>
 
       {fpsTimeSeriesData?.length > 0 && (
