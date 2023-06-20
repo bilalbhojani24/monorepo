@@ -20,6 +20,7 @@ import {
 import {
   getBannerName,
   getShowBanner,
+  getTrialEligibility,
   getTrialEndDate,
   getTrialState,
   getUser
@@ -34,7 +35,7 @@ export default function useReverseTrialBanner() {
   const bannerName = useSelector(getBannerName);
   const trialEndDate = useSelector(getTrialEndDate);
   const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
-
+  const isEligible = useSelector(getTrialEligibility);
   const bannerDetails = bannerName
     ? getBannerDetails(remainingDays)[bannerName]
     : {};
@@ -130,7 +131,9 @@ export default function useReverseTrialBanner() {
     switch (trialState) {
       case TRIAL_NOT_STARTED:
       case TRIAL_FAILED: {
-        displayBannerOnceADay('teamPlanBannerDate', 'not_started');
+        if (isEligible) {
+          displayBannerOnceADay('teamPlanBannerDate', 'not_started');
+        }
         break;
       }
       case TRIAL_STARTED: {

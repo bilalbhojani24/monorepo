@@ -27,7 +27,8 @@ export default function useReverseTrialAlert() {
   const trialState = useSelector(getTrialState);
   const alertName = useSelector(getAlertName);
   const showAlert = useSelector(getAlertShow);
-  const { plan_type: planType } = useSelector(getUser);
+  const { plan_type: planType, rft_eligible: isEligible } =
+    useSelector(getUser);
   const dispatch = useDispatch();
 
   const handleAlertLinkClick = () => {
@@ -67,7 +68,9 @@ export default function useReverseTrialAlert() {
     switch (trialState) {
       case TRIAL_NOT_STARTED:
       case TRIAL_FAILED: {
-        displayAlert('getTrial');
+        if (isEligible) {
+          displayAlert('getTrial');
+        }
         break;
       }
       case TRIAL_IN_PROGRESS: {

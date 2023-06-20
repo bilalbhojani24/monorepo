@@ -60,8 +60,11 @@ export default function useDashboard() {
   const trialEndDate = useSelector(getTrialEndDate);
   const trialState = useSelector(getTrialState);
   const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
-  const { plan_type: planType, show_expiry_sidebar_component: showTile } =
-    useSelector(getUser);
+  const {
+    plan_type: planType,
+    show_expiry_sidebar_component: showTile,
+    rft_eligible: isEligible
+  } = useSelector(getUser);
 
   const showTrialTile = () => {
     const show =
@@ -128,7 +131,8 @@ export default function useDashboard() {
       show:
         [TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState) &&
         !showBanner &&
-        planType !== PAID_PLAN
+        planType !== PAID_PLAN &&
+        isEligible
     },
     {
       id: 'extension',
