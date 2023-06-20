@@ -15,6 +15,7 @@ import {
   setHasProjects,
   setIsProcessing,
   setJobRolesArray,
+  setNotificationDeciderValue,
   setOrgStrengthArray,
   updateFormData
 } from '../slices/onboardingSlice';
@@ -60,6 +61,11 @@ const useOnboarding = () => {
   };
 
   const continueClickHandler = () => {
+    dispatch(
+      logEventHelper('TM_OnboardingProceedBtnClicked', {
+        setup: formData?.start_method
+      })
+    );
     if (!formData?.role || !formData?.organisation_strength) {
       setInvalidFields({
         role: !formData?.role,
@@ -72,6 +78,7 @@ const useOnboarding = () => {
     dispatch(setIsProcessing(true));
     setOnboardingDataAPI({ payload: formData }).then(() => {
       updateUserValue();
+      dispatch(setNotificationDeciderValue(true));
       dispatch(setIsProcessing(false));
       switch (formData.start_method) {
         case SETUP_FORMATS[0].title: // quick_import

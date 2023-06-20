@@ -1,21 +1,22 @@
 export const PORTAL_ID = 'root-portal';
 export const DOC_KEY_MAPPING = {
-  introduction: 'overview/what-is-test-observability',
-  wdio: 'quick-start/webdriverio',
-  testng: 'quick-start/testng',
-  mocha: 'quick-start/mocha',
-  junit: 'quick-start/junit-reports',
-  cypress: 'quick-start/cypress',
-  playwright: 'quick-start/playwright',
-  nightwatch: 'quick-start/nightwatchjs',
-  uploading_logs: 'integrations/application-logs',
-  auto_analyser: 'features/auto-failure-analysis',
-  re_run: 'features/re-run',
-  mute: 'features/mute-tests',
-  source_code: 'integrations/source-code',
-  automation_build: 'how-to-guides/organize-test-runs',
   application_logs: 'integrations/application-logs',
-  tnc: `references/terms-and-conditions`
+  auto_analyser: 'features/auto-failure-analysis',
+  automation_build: 'how-to-guides/organize-test-runs',
+  cypress: 'quick-start/cypress',
+  introduction: 'overview/what-is-test-observability',
+  junit: 'quick-start/junit-reports',
+  mocha: 'quick-start/mocha',
+  mute: 'features/mute-tests',
+  nightwatch: 'quick-start/nightwatchjs',
+  playwright: 'quick-start/playwright',
+  re_run: 'features/re-run',
+  smart_tags: 'features/smart-tags',
+  source_code: 'integrations/source-code',
+  testng: 'quick-start/testng',
+  tnc: `references/terms-and-conditions`,
+  uploading_logs: 'integrations/application-logs',
+  wdio: 'quick-start/webdriverio'
 };
 export const EXTERNAL_LINKS = {
   contact: 'contact?ref=header',
@@ -210,6 +211,10 @@ export const O11Y_DATE_RANGE = {
   days30: {
     key: 'days30',
     label: '30D'
+  },
+  months2: {
+    key: 'months2',
+    label: '2M'
   },
   months6: {
     key: 'months6',

@@ -127,3 +127,38 @@ export const FAILURE_CATEGORIES_INFO = {
 };
 
 export const MAX_SUB_CATEGORIES_ALLOWED = 5;
+
+export const SMART_TAGS_DEFAULT_VALUES = {
+  flaky: {
+    automaticFlaky: true,
+    flakeInHistory: {
+      enabled: true,
+      flippingCount: 5,
+      consecutiveRuns: 10
+    },
+    flakeInRerun: {
+      enabled: true,
+      consecutiveRuns: 10
+    }
+  },
+  alwaysFailing: {
+    enabled: true,
+    failureType: 'SAME',
+    consecutiveRuns: 5
+  },
+  newFailure: {
+    enabled: true,
+    failureType: 'NEW',
+    consecutiveRuns: 5
+  },
+  performanceAnomalies: {
+    enabled: true,
+    durationPercentile: 95,
+    consecutiveRuns: 30
+  }
+};
+
+export const SMART_TAGS_CONSTANTS = {
+  NEW: 'NEW',
+  SAME: 'SAME'
+};
