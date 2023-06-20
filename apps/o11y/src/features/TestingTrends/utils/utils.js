@@ -1,38 +1,71 @@
-import { COMMON_CHART_CONFIGS, TOOLTIP_STYLES } from 'constants/common';
+import {
+  COMMON_CHART_CONFIGS,
+  SNP_PARAMS_MAPPING,
+  TOOLTIP_STYLES
+} from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
+import { getBaseUrl } from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
-function getFormattedTooltip(fixedToTwoDigits) {
-  return this.points.reduce((s, data) => {
+function getFormattedTooltip(
+  fixedToTwoDigits,
+  activeProject,
+  filters,
+  seriesOptions
+) {
+  const url = `${getBaseUrl()}:8081/projects/${
+    activeProject.normalisedName
+  }/suite_health?${SNP_PARAMS_MAPPING.snpActiveBuild}=${
+    filters.buildName.value
+  }&${SNP_PARAMS_MAPPING.snpDateRange}=${filters.dateRange.key}`;
+
+  const str = this.points.reduce((s, data) => {
     let returnString = `${s}`;
+    let seriesValue = '';
+    // eslint-disable-next-line sonarjs/no-small-switch
+    switch (seriesOptions.id) {
+      case 'stabilityChart':
+        seriesValue = `${fixedToTwoDigits ? data.y?.toFixed(2) : data.y}%`;
+        break;
+      default:
+        seriesValue = fixedToTwoDigits ? data.y?.toFixed(2) : data.y;
+    }
+
     if (!isEmpty(data.point.pointRange)) {
-      returnString += `<span class="tt-small-text">${getCustomTimeStamp({
+      returnString += `<div><span class="font-sm">${getCustomTimeStamp({
         dateString: data.point.pointRange[0],
         withoutTime: true
       })} </span>`;
-      returnString += ` - <span class="tt-small-text">${getCustomTimeStamp({
+      returnString += ` - <span class="font-sm">${getCustomTimeStamp({
         dateString: data.point.pointRange[1],
         withoutTime: true
-      })}</span>`;
+      })}</span></div>`;
     }
-    if (returnString) {
-      returnString += `<br/>`;
-    }
-    returnString += `<span style="color:${data.series.color}">\u25CF&nbsp;</span>`;
-    returnString += `<span>${data.series.name}: <b>${
-      fixedToTwoDigits ? data.y?.toFixed(2) : data.y
-    }</b></span>`;
+    returnString += `<div class="flex-1 mt-0.5">`;
+    returnString += `<div class="flex justify-between"><div>
+      <span style="color:${data.series.color}" class="font-sm">\u25CF&nbsp;</span>
+      <span class="font-sm">${data.series.name}</span></div>
+      <span>
+        <b>${seriesValue}</b>
+      </span>
+    </div>
+    </div>`;
     return returnString;
   }, ``);
+  return `<div class="px-2 py-1 flex flex-col bg-base-800 rounded-lg text-base-200">${str}
+  <a class="text-white font-medium mt-0.5" href=${url} target="_blank">View all tests (Pro) <MdOpenInNew /> </a></div>`;
 }
 
 export const getCommonChartOptions = (data = {}) => {
   const {
-    median,
-    showTrendLine,
-    tooltipFormatter,
+    activeProject,
+    afterSetExtremes,
+    filters,
     fixedToTwoDigits,
-    afterSetExtremes
+    median,
+    seriesOptions,
+    showTrendLine,
+    tooltipFormatter
   } = data;
   const chartData = {
     ...COMMON_CHART_CONFIGS,
@@ -40,8 +73,27 @@ export const getCommonChartOptions = (data = {}) => {
       ...TOOLTIP_STYLES,
       shared: true,
       useHTML: true,
+      outside: true,
       formatter() {
-        return getFormattedTooltip.call(this, fixedToTwoDigits);
+        return getFormattedTooltip.call(
+          this,
+          fixedToTwoDigits,
+          activeProject,
+          filters,
+          seriesOptions
+        );
+      },
+      style: {
+        pointerEvents: 'auto',
+        ...TOOLTIP_STYLES.style
+      },
+      positioner(labelWidth, labelHeight, point) {
+        const tooltipX = point.plotX + 20;
+        const tooltipY = point.plotY - 30;
+        return {
+          x: tooltipX,
+          y: tooltipY
+        };
       }
     },
     xAxis: {

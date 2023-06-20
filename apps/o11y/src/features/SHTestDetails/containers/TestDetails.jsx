@@ -48,7 +48,7 @@ const TestDetails = () => {
     dispatch(resetActiveTab());
     const searchParams = new URLSearchParams(window?.location.search);
     searchParams.delete(SNP_PARAMS_MAPPING.snpTestDetails);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
 
   useFloatingComponentTracking(

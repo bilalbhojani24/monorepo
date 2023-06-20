@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
 import { getGridData } from 'features/GridConsole/slices/selector';
 import { getIsApploading, getUserDetails } from 'globalSlice/selector';
+import { logHSTEvent } from 'utils/logger';
 
 const useBrowserSettings = (notifactionComponent) => {
   const allAvailableBrowsers = [
@@ -21,24 +21,39 @@ const useBrowserSettings = (notifactionComponent) => {
 
   // All State variables:
 
+  const [cpuErrorText, setCPUErrorText] = useState('');
   const [cpuValue, setCpuValue] = useState(0);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
+  const [memoryErrorText, setMemoryErrorText] = useState('');
   const [memoryLimitValue, setMemoryLimitValue] = useState(0);
   const [allowedBrowsersValue, setAllowedBrowsersValue] = useState([]);
 
   const onCPUChangeHandler = (e) => {
     const newValue = parseInt(e.target.value);
-
-    setIsSaveButtonDisabled(false);
     setCpuValue(newValue);
+
+    if (newValue < 250 || newValue > 2500) {
+      setCPUErrorText('CPU limit should be between 250 and 2500');
+      setIsSaveButtonDisabled(true);
+    } else {
+      setCPUErrorText('');
+      setIsSaveButtonDisabled(false);
+    }
   };
 
   const onMemoryLimitChangeHandler = (e) => {
     const newValue = parseInt(e.target.value);
 
-    setIsSaveButtonDisabled(false);
     setMemoryLimitValue(newValue);
+
+    if (newValue < 250 || newValue > 2500) {
+      setMemoryErrorText('Memory limit should be between 250 and 2500');
+      setIsSaveButtonDisabled(true);
+    } else {
+      setMemoryErrorText('');
+      setIsSaveButtonDisabled(false);
+    }
   };
 
   const updateGridBrowserSettings = (settingsObj) => {
@@ -46,7 +61,7 @@ const useBrowserSettings = (notifactionComponent) => {
       setIsSaveButtonDisabled(true);
       setIsSavingInProgress(false);
 
-      if (d.data === 'OK') {
+      if (d.status === 200) {
         notify(notifactionComponent, {
           position: 'top-right',
           duration: 4000
@@ -56,7 +71,7 @@ const useBrowserSettings = (notifactionComponent) => {
   };
 
   const saveBtnClickhandler = () => {
-    logEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
+    logHSTEvent(['amplitude'], 'web_events', AGGridSettingsSaved, {
       tab_selected: 'general'
     });
     setIsSavingInProgress(true);
@@ -96,18 +111,16 @@ const useBrowserSettings = (notifactionComponent) => {
     }
   }, [gridData]);
 
-  useEffect(() => {
-    console.log('Log: fetchedGridData:', fetchedGridData);
-  }, [allowedBrowsersValue, cpuValue, fetchedGridData]);
-
   return {
     allAvailableBrowsers,
     allowedBrowsersChangeHandler,
     allowedBrowsersValue,
+    cpuErrorText,
     cpuValue,
     fetchedGridData,
     isSaveButtonDisabled,
     isSavingInProgress,
+    memoryErrorText,
     memoryLimitValue,
     onCPUChangeHandler,
     onMemoryLimitChangeHandler,

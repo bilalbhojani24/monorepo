@@ -163,6 +163,9 @@ export const getO11yTimeBounds = (activeKey) => {
     case O11Y_DATE_RANGE.days30.key:
       timebounds.lowerBound = getSubtractedUnixTime(30) * 1000;
       break;
+    case O11Y_DATE_RANGE.months2.key:
+      timebounds.lowerBound = getSubtractedUnixTime(2, 'months') * 1000;
+      break;
     case O11Y_DATE_RANGE.months6.key:
       timebounds.lowerBound = getSubtractedUnixTime(6, 'months') * 1000;
       break;
