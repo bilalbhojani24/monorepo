@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import { getDefaultRealtimeChartOptions } from '@browserstack/mcp-shared';
 
 import {
-  getFPSTimeSeriesData,
-  getSlowFramesRealtimeData
+  getDiskReadTimeSeriesData,
+  getDiskWriteTimeSeriesData
 } from '../slices/realtimeMetricSlice';
 
-const generateRealtimeFPSChartOptions = (chartGridClicked) => {
+const generateRealtimeDiskChartOptions = (chartGridClicked) => {
   const chartOptions = getDefaultRealtimeChartOptions();
 
   chartOptions.chart = {
@@ -37,16 +37,16 @@ const generateRealtimeFPSChartOptions = (chartGridClicked) => {
 
   chartOptions.series = [
     {
-      name: 'Frames Per Second',
-      color: '#4285F4',
+      name: 'Disk Read',
+      color: '#65A30D',
       marker: {
         enabled: false
       },
       data: []
     },
     {
-      name: 'Slow Frames/Second',
-      color: '#C026D3',
+      name: 'Disk Write',
+      color: '#E11D48',
       marker: {
         enabled: false
       },
@@ -57,33 +57,38 @@ const generateRealtimeFPSChartOptions = (chartGridClicked) => {
   return chartOptions;
 };
 
-const useFPSRealtimeGraph = () => {
-  const fpsTimeSeriesData = useSelector(getFPSTimeSeriesData);
-  const slowFramesTimeSeriesData = useSelector(getSlowFramesRealtimeData);
+const useDiskRealtimeGraph = () => {
+  const diskReadTimeSeriesData = useSelector(getDiskReadTimeSeriesData);
+  const diskWriteTimeSeriesData = useSelector(getDiskWriteTimeSeriesData);
 
-  const [realtimeFpsChartOptions, setRealtimeFpsChartOptions] = useState(null);
+  const [realtimeDiskChartOptions, setRealtimeDiskChartOptions] =
+    useState(null);
 
   useEffect(() => {
-    setRealtimeFpsChartOptions(generateRealtimeFPSChartOptions(() => {}));
+    setRealtimeDiskChartOptions(generateRealtimeDiskChartOptions(() => {}));
   }, []);
 
   useEffect(() => {
-    setRealtimeFpsChartOptions((prevChartData) => {
+    setRealtimeDiskChartOptions((prevChartData) => {
       const oldData = { ...prevChartData };
-      oldData.series[0].data = [...fpsTimeSeriesData];
+      oldData.series[0].data = [...diskReadTimeSeriesData];
       return oldData;
     });
-  }, [fpsTimeSeriesData]);
+  }, [diskReadTimeSeriesData]);
 
   useEffect(() => {
-    setRealtimeFpsChartOptions((prevChartData) => {
+    setRealtimeDiskChartOptions((prevChartData) => {
       const oldData = { ...prevChartData };
-      oldData.series[1].data = [...slowFramesTimeSeriesData];
+      oldData.series[1].data = [...diskWriteTimeSeriesData];
       return oldData;
     });
-  }, [slowFramesTimeSeriesData]);
+  }, [diskWriteTimeSeriesData]);
 
-  return { fpsTimeSeriesData, realtimeFpsChartOptions };
+  return {
+    diskReadTimeSeriesData,
+    diskWriteTimeSeriesData,
+    realtimeDiskChartOptions
+  };
 };
 
-export default useFPSRealtimeGraph;
+export default useDiskRealtimeGraph;
