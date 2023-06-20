@@ -383,10 +383,15 @@ const useAddEditTestRun = () => {
           if (item.full_name === 'Myself') {
             return {
               label: updatedMySelfLabelName,
-              value: item.id
+              value: item.id,
+              full_name: userData?.full_name
             };
           }
-          return { label: item.full_name, value: item.id };
+          return {
+            label: item.full_name,
+            value: item.id,
+            full_name: item.full_name
+          };
         })
       );
     } else {
