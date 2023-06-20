@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 
 export const TESTLIST_TYPES = {
+  DESCRIBE: 'DESCRIBE',
+  HOOK: 'HOOK',
   ROOT: 'ROOT',
-  TEST: 'TEST',
-  DESCRIBE: 'DESCRIBE'
+  TEST: 'TEST'
 };
 
 export const EMPTY_TESTLIST_DATA_STATE = {
