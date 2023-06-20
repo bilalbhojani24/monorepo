@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { twClassNames } from '@browserstack/utils';
@@ -10,7 +10,6 @@ import {
   O11yDropdownTrigger
 } from 'common/bifrostProxy';
 import DatePickerGroup from 'common/DatePickerGroup';
-import { AppContext } from 'features/Layout/context/AppContext';
 import {
   TT_DATE_RANGE,
   TT_PARAMS_MAPPING
@@ -23,7 +22,7 @@ import {
   getBuildNamesData,
   setTTFilters
 } from 'features/TestingTrends/slices/testingTrendsSlice';
-import { getActiveProject } from 'globalSlice/selectors';
+import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
 import {
   getSubtractedUnixTime,
@@ -50,7 +49,7 @@ export default function TestingTrendsHeader() {
     getTTFilterByKey(state, 'buildName')
   );
 
-  const { headerSize } = useContext(AppContext);
+  const headerSize = useSelector(getHeaderSize);
 
   const handleClickRange = (key) => {
     dispatch(
@@ -64,7 +63,7 @@ export default function TestingTrendsHeader() {
     searchParams.set(TT_PARAMS_MAPPING.ttDateRange, key);
     searchParams.delete(TT_PARAMS_MAPPING.ttToDate);
     searchParams.delete(TT_PARAMS_MAPPING.ttFromDate);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
     logOllyEvent({
       event: 'O11yTestingTrendsInteracted',
       data: {
@@ -83,7 +82,7 @@ export default function TestingTrendsHeader() {
       searchParams.set(TT_PARAMS_MAPPING.ttDateRange, 'custom');
       searchParams.set(TT_PARAMS_MAPPING.ttToDate, toTime);
       searchParams.set(TT_PARAMS_MAPPING.ttFromDate, fromTime);
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
       dispatch(
         setTTFilters({
           dateRange: {
@@ -107,7 +106,7 @@ export default function TestingTrendsHeader() {
   const handleBuildChange = (selectedItem) => {
     const searchParams = new URLSearchParams(window?.location?.search);
     searchParams.set(TT_PARAMS_MAPPING.ttActiveBuild, selectedItem.value);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
     dispatch(
       setTTFilters({
         buildName: selectedItem
@@ -172,7 +171,7 @@ export default function TestingTrendsHeader() {
       className={twClassNames(
         'sticky top-16 z-10 flex flex-col py-6 px-6 bg-base-50 pb-0'
       )}
-      style={{ top: `${headerSize.blockSize}px` }}
+      style={{ top: `${headerSize}px` }}
     >
       <span className="text-2xl font-bold">Testing Trends</span>
       <div className="mt-4 flex justify-between">

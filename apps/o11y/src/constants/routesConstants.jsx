@@ -1,7 +1,8 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import NotFound from 'common/NotFound';
-import { LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
+import { AppContainer, LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
+import NoAccessPage from 'features/NoAccessPage';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
@@ -38,7 +39,17 @@ const NotificationsSettings = React.lazy(() =>
   import('features/Settings/containers/NotificationsSettings')
 );
 
+const SmartTags = React.lazy(() =>
+  import('features/Settings/containers/SmartTags')
+);
+
 const SuiteHealth = React.lazy(() => import('features/SuiteHealth'));
+const TestsHealth = React.lazy(() =>
+  import('features/SuiteHealth/containers/TestsHealth')
+);
+const UniqueErrors = React.lazy(() =>
+  import('features/SuiteHealth/containers/UniqueErrors')
+);
 
 export const APP_ROUTES = [
   {
@@ -64,91 +75,118 @@ export const APP_ROUTES = [
   {
     path: ROUTES.root,
     isProtected: true,
-    component: <LayoutWOSidebar />,
+    component: <AppContainer />,
     children: [
       {
-        path: ROUTES.projects,
+        path: ROUTES.root,
         isProtected: true,
-        component: <ProjectList />
-      },
-      {
-        path: ROUTES.get_started,
-        isProtected: true,
-        component: <OnboardingFrameworkSelector />
-      },
-      {
-        path: ROUTES.request_access,
-        isProtected: true,
-        component: <RequestAccess />
-      }
-    ]
-  },
-  {
-    path: ROUTES.root,
-    isProtected: true,
-    component: <LayoutWSidebar />,
-    children: [
-      {
-        path: ROUTES.testing_trends,
-        isProtected: true,
-        component: <TestingTrends />
-      },
-      {
-        path: ROUTES.build,
-        isProtected: true,
-        component: <BuildDetails />
-      },
-      {
-        path: ROUTES.builds,
-        isProtected: true,
-        component: <AllBuilds />
-      },
-      {
-        path: ROUTES.suite_health,
-        isProtected: true,
-        component: <SuiteHealth />
-      },
-      {
-        path: ROUTES.settings,
-        isProtected: true,
-        component: <Settings />,
+        component: <LayoutWOSidebar />,
         children: [
           {
-            path: ROUTES.settings_general,
+            path: ROUTES.projects,
             isProtected: true,
-            component: <GeneralSettings />
+            component: <ProjectList />
           },
           {
-            path: ROUTES.settings_alerts,
+            path: ROUTES.get_started,
             isProtected: true,
-            component: <AlertsSettings />
+            component: <OnboardingFrameworkSelector />
           },
           {
-            path: ROUTES.settings_auto_analyser,
+            path: ROUTES.request_access,
             isProtected: true,
-            component: <AutoAnalysisSettings />
+            component: <RequestAccess />
           },
           {
-            path: ROUTES.settings_failure_categories,
+            path: ROUTES.no_access,
             isProtected: true,
-            component: <FailureCategoriesSettings />
-          },
-          {
-            path: ROUTES.settings_re_run,
-            isProtected: true,
-            component: <ReRunSettings />
-          },
-          {
-            path: ROUTES.settings_notifications,
-            isProtected: true,
-            component: <NotificationsSettings />
+            component: <NoAccessPage />
           }
         ]
       },
       {
-        path: ROUTES.integrations_base,
+        path: ROUTES.root,
         isProtected: true,
-        component: <Integrations />
+        component: <LayoutWSidebar />,
+        children: [
+          {
+            path: ROUTES.testing_trends,
+            isProtected: true,
+            component: <TestingTrends />
+          },
+          {
+            path: ROUTES.build,
+            isProtected: true,
+            component: <BuildDetails />
+          },
+          {
+            path: ROUTES.builds,
+            isProtected: true,
+            component: <AllBuilds />
+          },
+          {
+            path: ROUTES.suite_health,
+            isProtected: true,
+            component: <SuiteHealth />
+          },
+          {
+            path: ROUTES.suite_health_tests,
+            isProtected: true,
+            component: <TestsHealth />
+          },
+          {
+            path: ROUTES.suite_health_unique_errors,
+            isProtected: true,
+            component: <UniqueErrors />
+          },
+          {
+            path: ROUTES.settings,
+            isProtected: true,
+            component: <Settings />,
+            children: [
+              {
+                path: ROUTES.settings_general,
+                isProtected: true,
+                component: <GeneralSettings />
+              },
+              {
+                path: ROUTES.settings_alerts,
+                isProtected: true,
+                component: <AlertsSettings />
+              },
+              {
+                path: ROUTES.settings_auto_analyser,
+                isProtected: true,
+                component: <AutoAnalysisSettings />
+              },
+              {
+                path: ROUTES.settings_failure_categories,
+                isProtected: true,
+                component: <FailureCategoriesSettings />
+              },
+              {
+                path: ROUTES.settings_re_run,
+                isProtected: true,
+                component: <ReRunSettings />
+              },
+              {
+                path: ROUTES.settings_notifications,
+                isProtected: true,
+                component: <NotificationsSettings />
+              },
+              {
+                path: ROUTES.smart_tags,
+                isProtected: true,
+                component: <SmartTags />
+              }
+            ]
+          },
+          {
+            path: ROUTES.integrations_base,
+            isProtected: true,
+            component: <Integrations />
+          }
+        ]
       }
     ]
   }

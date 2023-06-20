@@ -1,4 +1,5 @@
 // NOTE: Don't remove sidebar logic, will add once it required
+/* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import {
   ActionPanel,
@@ -12,6 +13,7 @@ import {
   SkipToContent
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
+import FreshchatIntegration from 'common/FreshchatIntegration';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 import { getBrowserStackBase } from 'utils';
@@ -23,6 +25,7 @@ export default function Dashboard({ children }) {
   const {
     mainRef,
     isShowingBanner,
+    isFreeUser,
     primaryNav,
     currentPath,
     secondaryNav,
@@ -45,16 +48,18 @@ export default function Dashboard({ children }) {
   ));
 
   const SWBSidebarSec = (
-    <div className="flex flex-col items-start justify-center">
-      <ActionPanel
-        content={
-          <Button colors="white" onClick={onGetADemoClick}>
-            Get a demo
-          </Button>
-        }
-        description="Learn how to unlock the full potential of Accessibility Testing"
-        title="Need help?"
-      />
+    <div className="flex flex-col items-start justify-center pb-3">
+      <div className="px-2 pb-3">
+        <ActionPanel
+          content={
+            <Button colors="white" onClick={onGetADemoClick} size="small">
+              Get a demo
+            </Button>
+          }
+          description="Learn how to unlock the full potential of Accessibility Testing"
+          title="Need help?"
+        />
+      </div>
       {secondaryNav.map((item) => (
         <SidebarItem
           key={item.id}
@@ -103,9 +108,9 @@ export default function Dashboard({ children }) {
             { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
           ]
         }}
+        isFreeUser={isFreeUser}
         buyPlanText="Buy a plan"
-        buyPlanLink={`${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-top-header-csf-lead`}
-        buyPlanTarget="_blank"
+        buyPlanLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard-top-header-csf-lead`}
         planButtonVisible
         callbackFunctions={{
           onPlanAndPricingClick: () => {
@@ -117,9 +122,18 @@ export default function Dashboard({ children }) {
             logEvent('ClickedBuyaPlan', {
               Product: 'Accessibility Testing',
               section: 'dashboard-top-header',
+              ProductPlanType: `${isFreeUser ? 'free' : 'paid'}`,
               URL: window.location.href,
               signed_in: true
             });
+            if (!isFreeUser) {
+              logEvent('UpgradeCTAClicked_ProductDashboard', {
+                Product: 'Accessibility Testing',
+                section: 'dashboard-top-header',
+                URL: window.location.href,
+                signed_in: true
+              });
+            }
           }
         }}
         planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing`}
@@ -162,6 +176,7 @@ export default function Dashboard({ children }) {
         {children}
       </main>
       <NotificationsContainer />
+      <FreshchatIntegration />
     </div>
   );
 }

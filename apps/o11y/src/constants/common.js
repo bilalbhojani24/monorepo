@@ -1,22 +1,30 @@
 export const PORTAL_ID = 'root-portal';
 export const DOC_KEY_MAPPING = {
-  introduction: 'overview/what-is-test-observability',
-  wdio: 'quick-start/webdriverio',
-  testng: 'quick-start/testng',
-  mocha: 'quick-start/mocha',
-  uploading_logs: 'integrations/application-logs',
-  auto_analyser: 'features/auto-failure-analysis',
-  re_run: 'features/re-run',
-  mute: 'features/mute-tests',
-  source_code: 'integrations/source-code',
-  automation_build: 'how-to-guides/organize-test-runs',
   application_logs: 'integrations/application-logs',
-  tnc: `references/terms-and-conditions`
+  auto_analyser: 'features/auto-failure-analysis',
+  automation_build: 'how-to-guides/organize-test-runs',
+  cypress: 'quick-start/cypress',
+  introduction: 'overview/what-is-test-observability',
+  junit: 'quick-start/junit-reports',
+  mocha: 'quick-start/mocha',
+  mute: 'features/mute-tests',
+  nightwatch: 'quick-start/nightwatchjs',
+  playwright: 'quick-start/playwright',
+  re_run: 'features/re-run',
+  smart_tags: 'features/smart-tags',
+  source_code: 'integrations/source-code',
+  testng: 'quick-start/testng',
+  tnc: `references/terms-and-conditions`,
+  uploading_logs: 'integrations/application-logs',
+  wdio: 'quick-start/webdriverio'
 };
 export const EXTERNAL_LINKS = {
+  contact: 'contact?ref=header',
+  supportLink: 'support/test-observability',
   getADemo: 'contact?&ref=observability-dashboard-demo-lead',
   planAndPricing: 'pricing?product=test-observability',
-  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead'
+  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead',
+  manageUsers: 'accounts/manage-users'
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
 export const PROJECT_NORMALISED_NAME_IDENTIFIER =
@@ -178,13 +186,6 @@ export const NOTIFICATION_TYPES = {
 
 export const ISO_DATE_FORMAT = 'yyyy-MM-dd';
 
-export const TEST_LIST_FILTERS_TAGS = {
-  isAlwaysFailing: 'isAlwaysFailing',
-  isPerformanceAnomaly: 'isPerformanceAnomaly',
-  flaky: 'flaky',
-  isNewFailure: 'isNewFailure'
-};
-
 // custom history object to allow navigation outside react components
 export const o11yHistory = {
   navigate: null,
@@ -196,4 +197,50 @@ export const roundedTableHeaderHack = {
   right: 'rounded-tr-lg before:right-[-1px]',
   common:
     'before:absolute before:block before:w-[1px] before:h-[6px] before:bg-base-50 before:top-[-1px] before:rounded'
+};
+
+export const O11Y_DATE_RANGE = {
+  days7: {
+    key: 'days7',
+    label: '7D'
+  },
+  days15: {
+    key: 'days15',
+    label: '15D'
+  },
+  days30: {
+    key: 'days30',
+    label: '30D'
+  },
+  months2: {
+    key: 'months2',
+    label: '2M'
+  },
+  months6: {
+    key: 'months6',
+    label: '6M'
+  },
+  year1: {
+    key: 'year1',
+    label: '1Y'
+  },
+  year2: {
+    key: 'year2',
+    label: '2Y'
+  },
+  custom: {
+    key: 'custom',
+    label: 'Custom'
+  }
+};
+export const FLOATING_COMPONENTS_IDS = {
+  O11Y_FILTERS: 'O11Y_FILTERS',
+  TEST_DETAILS: 'TEST_DETAILS',
+  BUILD_FILTERS: 'BUILD_FILTERS',
+  TEST_FILTERS: 'TEST_FILTERS',
+  TEST_HEALTH_FILTERS: 'TEST_HEALTH_FILTERS',
+  UNIQUE_ERRORS_FILTERS: 'UNIQUE_ERRORS_FILTERS',
+  TEST_HEALTH_DETAILS: 'TEST_HEALTH_DETAILS',
+  UNIQUE_ERRORS_DETAILS: 'UNIQUE_ERRORS_DETAILS',
+  O11Y_SETTINGS: 'O11Y_SETTINGS'
 };

@@ -1,11 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { MdSearchOff } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import EmptyPage from 'common/EmptyPage';
+import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import {
+  clearAllAppliedFilters,
+  resetFilters
+} from 'features/FilterSkeleton/slices/filterSlice';
+import {
+  getAllAppliedFilters,
+  getCurrentFilterCategory,
+  getIsFiltersLoading
+} from 'features/FilterSkeleton/slices/selectors';
+import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
+import { SHTestsFilters } from 'features/SHFilters';
 import {
   setIsSHTestsDetailsVisible,
   setShowSHTestsDetailsFor,
@@ -17,7 +30,6 @@ import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 
 import SHTestItem from '../components/TestItem';
-import SHTestsHeader from '../components/TestsHeader';
 import TestsTableHeader from '../components/TestsTableHeader';
 import {
   getSnPTestsData,
@@ -25,25 +37,49 @@ import {
   setTestsSortBy
 } from '../slices/dataSlice';
 import {
-  getAllSnPTestFilters,
   getSnpTests,
   getSnpTestsLoading,
   getSnpTestsPaging,
   getSnpTestsSortBy
 } from '../slices/selectors';
 
+import TestsMetrics from './TestsMetrics';
+
 export default function SHTests() {
   const mounted = useRef(null);
 
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const dispatch = useDispatch();
-  const filters = useSelector(getAllSnPTestFilters);
   const tests = useSelector(getSnpTests);
   const isLoadingTests = useSelector(getSnpTestsLoading);
   const pagingParams = useSelector(getSnpTestsPaging);
   const sortBy = useSelector(getSnpTestsSortBy);
   const activeProject = useSelector(getActiveProject);
+  const isFiltersLoading = useSelector(getIsFiltersLoading);
   const navigate = useNavigate();
+  const appliedFilters = useSelector(getAllAppliedFilters);
+  const currentFilterCategory = useSelector(getCurrentFilterCategory);
+
+  const o11ySHTestsInteraction = useCallback(
+    (interaction) => {
+      logOllyEvent({
+        event: 'O11ySuiteHealthTestsInteracted',
+        data: {
+          project_name: activeProject.name,
+          project_id: activeProject.id,
+          interaction
+        }
+      });
+    },
+    [activeProject.id, activeProject.name]
+  );
+
+  useEffect(
+    () => () => {
+      dispatch(resetFilters());
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     logOllyEvent({
@@ -63,7 +99,6 @@ export default function SHTests() {
           normalisedName: activeProject?.normalisedName,
           pagingParams,
           sortOptions: sortBy,
-          filters,
           shouldUpdate: true
         })
       ).finally(() => {
@@ -76,13 +111,16 @@ export default function SHTests() {
 
   useEffect(() => {
     mounted.current = true;
-    if (activeProject?.normalisedName) {
-      dispatch(setTestsLoading(true));
+    dispatch(setTestsLoading(true));
+    if (
+      activeProject?.normalisedName &&
+      !isFiltersLoading &&
+      currentFilterCategory === FILTER_CATEGORIES.SUITE_HEALTH_TESTS
+    ) {
       dispatch(
         getSnPTestsData({
           normalisedName: activeProject?.normalisedName,
-          sortOptions: sortBy,
-          filters
+          sortOptions: sortBy
         })
       )
         .unwrap()
@@ -93,7 +131,14 @@ export default function SHTests() {
     return () => {
       mounted.current = false;
     };
-  }, [dispatch, filters, activeProject?.normalisedName, sortBy]);
+  }, [
+    dispatch,
+    appliedFilters,
+    activeProject?.normalisedName,
+    sortBy,
+    isFiltersLoading,
+    currentFilterCategory
+  ]);
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -119,6 +164,15 @@ export default function SHTests() {
       dispatch(setIsSHTestsDetailsVisible(false));
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    navigate(
+      {
+        search: getSearchStringFromFilters(appliedFilters).toString()
+      },
+      { replace: true }
+    );
+  }, [appliedFilters, navigate]);
 
   const handleClickSortBy = (val) => {
     const updatedData = { type: val };
@@ -150,49 +204,69 @@ export default function SHTests() {
       dispatch(setIsSHTestsDetailsVisible(true));
       const searchParams = new URLSearchParams(window?.location?.search);
       searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, activeRow.id);
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
     }
+  };
+
+  const handleViewAll = () => {
+    dispatch(clearAllAppliedFilters());
   };
 
   return (
     <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
-      <SHTestsHeader />
-      {isLoadingTests ? (
-        <O11yLoader wrapperClassName="flex-1" />
-      ) : (
-        <>
-          {isEmpty(tests) ? (
-            <div
-              className={twClassNames(
-                'flex items-center justify-center flex-1'
-              )}
-            >
-              <EmptyPage text="No data found" />
-            </div>
-          ) : (
-            <div className="flex-1 overflow-auto px-6">
-              <VirtualisedTable
-                style={{ height: '100%' }}
-                data={tests}
-                endReached={loadMoreRows}
-                fixedHeaderContent={() => (
-                  <TestsTableHeader
-                    isLoadingMore={isLoadingMore}
-                    handleClickSortBy={handleClickSortBy}
-                  />
+      <div className={twClassNames('mb-4 px-6 pt-5')}>
+        <SHTestsFilters o11ySHTestsInteraction={o11ySHTestsInteraction} />
+      </div>
+      <div className="flex-1 overflow-auto">
+        {!isEmpty(tests) && <TestsMetrics />}
+        {isLoadingTests ? (
+          <O11yLoader wrapperClassName="h-60" />
+        ) : (
+          <>
+            {isEmpty(tests) ? (
+              <div
+                className={twClassNames(
+                  'flex items-center justify-center h-full'
                 )}
-                itemContent={(index, testData) => (
-                  <SHTestItem key={testData.id} testDetails={testData} />
-                )}
-                showFixedFooter={isLoadingMore}
-                handleRowClick={handleClickTestItem}
-                tableWrapperClassName="border border-t-0 border-base-300 bg-white border-separate border-spacing-0 rounded-lg"
-                tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none"
-              />
-            </div>
-          )}
-        </>
-      )}
+              >
+                <O11yEmptyState
+                  title="No matching results found"
+                  description="We couldn't find the results you were looking for."
+                  mainIcon={
+                    <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                  }
+                  buttonProps={{
+                    children: 'View all tests',
+                    onClick: handleViewAll,
+                    size: 'default'
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="h-full w-full px-6">
+                <VirtualisedTable
+                  style={{ height: '100%' }}
+                  data={tests}
+                  endReached={loadMoreRows}
+                  fixedHeaderContent={() => (
+                    <TestsTableHeader
+                      isLoadingMore={isLoadingMore}
+                      handleClickSortBy={handleClickSortBy}
+                    />
+                  )}
+                  itemContent={(index, testData) => (
+                    <SHTestItem key={testData.id} testDetails={testData} />
+                  )}
+                  showFixedFooter={isLoadingMore}
+                  handleRowClick={handleClickTestItem}
+                  tableWrapperClassName="border border-t-0 border-base-300 bg-white border-separate border-spacing-0 rounded-lg"
+                  tableContainerWrapperClassName="border-none overflow-visible overflow-x-visible bg-transparent ring-0 shadow-none rounded-none pb-24"
+                />
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

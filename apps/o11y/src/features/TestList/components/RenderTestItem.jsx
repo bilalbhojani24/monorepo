@@ -5,8 +5,13 @@ import { MdOutlineAirplay, MdOutlineTimer } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yBadge, O11yHyperlink } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
+import SmartTagsToolTip from 'common/SmartTagsToolTip/SmartTagsToolTip';
 import StatusIcon from 'common/StatusIcon';
 import { TEST_STATUS } from 'constants/common';
+import {
+  ADV_FILTER_OPERATIONS,
+  ADV_FILTER_TYPES
+} from 'features/FilterSkeleton/constants';
 import { showTestDetailsDrawer } from 'features/TestDetails/utils';
 import {
   HIERARCHY_SPACING,
@@ -16,11 +21,12 @@ import {
   singleItemTestDetails
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
-import { getAppliedFilters } from 'features/TestList/slices/selectors';
-import { setAppliedFilters } from 'features/TestList/slices/testListSlice';
+import { getTestList } from 'features/TestList/slices/selectors';
 import PropTypes from 'prop-types';
 import { transformUnsupportedTags } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
+
+import { dispatchAppliedFilter } from '../utils';
 
 import TestItemJiraTag from './TestItemJiraTag';
 import TestListActionItems from './TestListActionItems';
@@ -31,28 +37,35 @@ import TestListTimeline from './TestlistTimeline';
 
 const RenderTestItem = ({ item: data }) => {
   const { displayName, details, rank } = data;
-  const { tags, history } = useSelector(getAppliedFilters);
+  const { data: testListData } = useSelector(getTestList);
+  const { smartTagSettings } = testListData;
   const dispatch = useDispatch();
   const { o11yTestListingInteraction } = useContext(TestListContext);
+
   const addFilterOnClick = (filterCategory, filterValue) => {
-    if (filterCategory === 'tags' && !tags.includes(filterValue)) {
-      dispatch(
-        setAppliedFilters({
-          tags: [...tags, filterValue]
-        })
-      );
-    } else if (filterCategory === 'history' && !history.includes(filterValue)) {
-      dispatch(
-        setAppliedFilters({
-          history: [...history, filterValue]
-        })
-      );
-    } else if (filterCategory === 'flaky' && !history.includes(filterValue)) {
-      dispatch(
-        setAppliedFilters({
-          flaky: [filterValue]
-        })
-      );
+    switch (filterCategory) {
+      case ADV_FILTER_TYPES.testTags.key: {
+        dispatchAppliedFilter({
+          type: filterCategory,
+          dispatch,
+          value: filterValue,
+          customOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE
+        });
+        break;
+      }
+      case ADV_FILTER_TYPES.isFlaky.key:
+      case ADV_FILTER_TYPES.isAlwaysFailing.key:
+      case ADV_FILTER_TYPES.isNewFailure.key:
+      case ADV_FILTER_TYPES.hasPerformanceAnomaly.key:
+        dispatchAppliedFilter({
+          type: filterCategory,
+          dispatch,
+          value: true,
+          customOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE
+        });
+        break;
+      default:
+        break;
     }
     o11yTestListingInteraction('filter_applied');
   };
@@ -63,7 +76,7 @@ const RenderTestItem = ({ item: data }) => {
 
   return (
     <div
-      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pt-1 pr-6"
+      className="border-base-100 hover:bg-base-50 group cursor-pointer border-b pr-6 pt-1"
       style={{
         paddingLeft:
           HIERARCHY_SPACING_START +
@@ -74,7 +87,7 @@ const RenderTestItem = ({ item: data }) => {
       onClick={handleClickTestItem}
     >
       <div className="flex justify-between gap-4">
-        <div className="flex w-full flex-col items-start pt-1">
+        <div className="flex w-full flex-col items-start break-words pt-1">
           <div className="flex items-start">
             <div className="flex items-start">
               <div className="flex h-5 items-center ">
@@ -96,7 +109,10 @@ const RenderTestItem = ({ item: data }) => {
                         wrapperClassName="mx-1"
                         hasRemoveButton={false}
                         onClick={() => {
-                          addFilterOnClick('tags', singleTag);
+                          addFilterOnClick(
+                            ADV_FILTER_TYPES.testTags.key,
+                            singleTag
+                          );
                         }}
                         modifier="base"
                         hasDot={false}
@@ -104,48 +120,58 @@ const RenderTestItem = ({ item: data }) => {
                     </PropagationBlocker>
                   ))}
                   {details?.isFlaky && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Flaky"
-                        modifier="warn"
-                        onClick={() => {
-                          addFilterOnClick('flaky', 'true');
-                        }}
-                      />
-                    </PropagationBlocker>
+                    <SmartTagsToolTip
+                      flakyReason={details?.flakyReason}
+                      modifier="warn"
+                      onClick={() =>
+                        addFilterOnClick(ADV_FILTER_TYPES.isFlaky.key, true)
+                      }
+                      smartTagSettings={smartTagSettings}
+                      text="Flaky"
+                      tooltipHeader="Flake detected"
+                    />
                   )}
                   {details?.isAlwaysFailing && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Always Failing"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick('history', 'isAlwaysFailing');
-                        }}
-                      />
-                    </PropagationBlocker>
+                    <SmartTagsToolTip
+                      modifier="error"
+                      onClick={() =>
+                        addFilterOnClick(
+                          ADV_FILTER_TYPES.isAlwaysFailing.key,
+                          true
+                        )
+                      }
+                      smartTagSettings={smartTagSettings}
+                      text="Always Failing"
+                      tooltipHeader="Always failing test"
+                    />
                   )}
                   {details?.isNewFailure && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="New Failures"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick('history', 'isNewFailure');
-                        }}
-                      />
-                    </PropagationBlocker>
+                    <SmartTagsToolTip
+                      modifier="error"
+                      onClick={() =>
+                        addFilterOnClick(
+                          ADV_FILTER_TYPES.isNewFailure.key,
+                          true
+                        )
+                      }
+                      smartTagSettings={smartTagSettings}
+                      text="New Failures"
+                      tooltipHeader="New failure detected"
+                    />
                   )}
                   {details?.isPerformanceAnomaly && (
-                    <PropagationBlocker className="ml-1 inline">
-                      <O11yBadge
-                        text="Performance Anomaly"
-                        modifier="error"
-                        onClick={() => {
-                          addFilterOnClick('history', 'isPerformanceAnomaly');
-                        }}
-                      />
-                    </PropagationBlocker>
+                    <SmartTagsToolTip
+                      modifier="error"
+                      onClick={() =>
+                        addFilterOnClick(
+                          ADV_FILTER_TYPES.hasPerformanceAnomaly.key,
+                          true
+                        )
+                      }
+                      smartTagSettings={smartTagSettings}
+                      text="Performance Anomaly"
+                      tooltipHeader="Performance anomaly detected"
+                    />
                   )}
                 </div>
               </div>

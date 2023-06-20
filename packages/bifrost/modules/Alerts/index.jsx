@@ -27,7 +27,7 @@ const link = (
       <a
         href="/"
         className={twClassNames('h-fit', {
-          'ml-1 underline': alertLinkPosition === ALERT_LINK_POSITION[0],
+          underline: alertLinkPosition === ALERT_LINK_POSITION[0],
           'text-base-700 hover:text-base-600': modifier === ALERT_MODIFIER[0],
           'text-brand-700 hover:text-brand-600': modifier === ALERT_MODIFIER[1],
           'text-success-700 hover:text-success-600':
@@ -181,14 +181,34 @@ const Alerts = (props) => {
                     {/* alert description */}
                     {typeof description === 'object' ? (
                       <div className="mt-2 text-sm">
-                        <ul className="list-disc space-y-1 pl-5">
+                        <ul className="list-disc space-y-1 pl-5 pr-1">
                           {description?.map((descriptionItem) => (
                             <li key={descriptionItem}>{descriptionItem}</li>
                           ))}
                         </ul>
+                        {alertLinkPosition === ALERT_LINK_POSITION[0] &&
+                          !!detailsNode &&
+                          link(
+                            alertLinkPosition,
+                            modifier,
+                            handleLinkClick,
+                            linkUrl,
+                            detailsNode
+                          )}
                       </div>
                     ) : (
-                      <p>{description} </p>
+                      <p>
+                        <span className="pr-1">{description}</span>
+                        {alertLinkPosition === ALERT_LINK_POSITION[0] &&
+                          !!detailsNode &&
+                          link(
+                            alertLinkPosition,
+                            modifier,
+                            handleLinkClick,
+                            linkUrl,
+                            detailsNode
+                          )}
+                      </p>
                     )}
 
                     {/* alert actions */}
@@ -252,21 +272,11 @@ const Alerts = (props) => {
                       </div>
                     )}
                   </div>
-
-                  {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                    detailsNode &&
-                    link(
-                      alertLinkPosition,
-                      modifier,
-                      handleLinkClick,
-                      linkUrl,
-                      detailsNode
-                    )}
                 </span>
               </div>
 
               {alertLinkPosition === ALERT_LINK_POSITION[1] && detailsNode && (
-                <p className="mt-3 h-fit text-sm md:ml-6 md:mt-0">
+                <p className="mt-3 h-fit shrink-0 text-sm md:ml-6 md:mt-0">
                   {link(
                     alertLinkPosition,
                     modifier,

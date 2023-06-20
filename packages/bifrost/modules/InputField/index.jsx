@@ -37,7 +37,7 @@ const InputField = forwardRef(
     },
     ref
   ) => (
-    <>
+    <div>
       {(label || cornerHintText) && (
         <div className="mb-1 flex justify-between" role={role}>
           <label
@@ -61,7 +61,7 @@ const InputField = forwardRef(
           className={twClassNames(
             'w-full flex items-center border-1 border border-base-300 rounded-md',
             {
-              'border-danger-500 focus-within:border-danger-500 focus-within:outline-danger-500':
+              'border-danger-300 focus-within:border-danger-300 focus-within:outline-danger-300':
                 errorText,
               'focus-within:ring-1 focus-within:ring-brand-500 focus-within:border-brand-500':
                 !errorText,
@@ -138,7 +138,7 @@ const InputField = forwardRef(
       {description && (
         <p className="text-base-500 mt-2 text-sm">{description}</p>
       )}
-    </>
+    </div>
   )
 );
 

@@ -72,7 +72,7 @@ const PlatformsTab = () => {
       );
       const searchParams = new URLSearchParams(window?.location?.search);
       dispatch(resetUEDetailsActiveTab());
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
       logOllyEvent({
         event: 'O11ySuiteHealthErrorsTimelineInteracted',
         data: {

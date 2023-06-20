@@ -20,7 +20,7 @@ const O11yHeader = () => (
     release="Beta"
     // beamerProductId="xTSGUhhN11000"
     documentationLink={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
-    supportLink={`${envConfig.baseUrl}/support/test-observability`}
+    supportLink={getExternalUrl({ path: EXTERNAL_LINKS.supportLink })}
     headerElementArray={[
       'team',
       'pricing',
@@ -89,6 +89,7 @@ const O11yHeader = () => (
     }}
     planPricingLink={getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing })}
     buyPlanTarget="_blank"
+    buyPlanText="Buy a plan"
     buyPlanLink={getExternalUrl({ path: EXTERNAL_LINKS.buyAPlan })}
     callbackFunctions={{
       onPlanAndPricingClick: () => {

@@ -2,7 +2,9 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { O11ySlideover } from 'common/bifrostProxy';
+import { FLOATING_COMPONENTS_IDS } from 'constants/common';
 import { getActiveProject } from 'globalSlice/selectors';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
@@ -77,8 +79,10 @@ const TestDetails = ({ source }) => {
     dispatch(hideTestDetailsDrawer());
     const searchParams = new URLSearchParams(window?.location.search);
     searchParams.delete('details');
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
+
+  useFloatingComponentTracking(isVisible, FLOATING_COMPONENTS_IDS.TEST_DETAILS);
 
   return (
     <O11ySlideover

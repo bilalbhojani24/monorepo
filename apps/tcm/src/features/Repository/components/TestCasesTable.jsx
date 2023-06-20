@@ -96,6 +96,7 @@ const TestCasesTable = ({
           onKeyDown={handleTestCaseViewClick(rowData, 'ID')}
         >
           <TMTruncateText
+            ignoreClickAndWrapText
             truncateUsingClamp={false}
             hidetooltipTriggerIcon
             isFullWidthTooltip
@@ -103,7 +104,7 @@ const TestCasesTable = ({
               delay: 500
             }}
           >
-            {`${rowData?.identifier}`}
+            {rowData?.identifier}
           </TMTruncateText>
         </div>
       ),
@@ -129,6 +130,7 @@ const TestCasesTable = ({
             <>
               <div className="text-base-900 hover:text-brand-600 font-medium ">
                 <TMTruncateText
+                  ignoreClickAndWrapText
                   truncateUsingClamp={false}
                   hidetooltipTriggerIcon
                   isFullWidthTooltip
@@ -141,6 +143,7 @@ const TestCasesTable = ({
               </div>
               <div className="text-base-400 font-normal">
                 <TMTruncateText
+                  ignoreClickAndWrapText
                   truncateUsingClamp={false}
                   hidetooltipTriggerIcon
                   isFullWidthTooltip
@@ -160,6 +163,7 @@ const TestCasesTable = ({
               truncateUsingClamp={false}
               hidetooltipTriggerIcon
               isFullWidthTooltip
+              ignoreClickAndWrapText
               headerTooltipProps={{
                 delay: 500
               }}
@@ -175,15 +179,21 @@ const TestCasesTable = ({
       name: 'PRIORITY',
       key: 'priority',
       cell: (rowData) => (
-        <span className="text-base-500 flex items-center capitalize">
-          {formatPriority(rowData?.priority)}
-          {getSystemOrCustomValue(
-            rowData?.priority,
-            rowData?.priority_imported
-          )}
-        </span>
+        <div className="text-base-500">
+          <TMTruncateText
+            truncateUsingClamp={false}
+            hidetooltipTriggerIcon
+            isFullWidthTooltip
+            headerTooltipProps={{
+              delay: 500
+            }}
+          >
+            {formatPriority(rowData?.priority?.internal_name?.toLowerCase())}
+            {rowData?.priority?.name || '--'}
+          </TMTruncateText>
+        </div>
       ),
-      class: 'w-[15%]'
+      class: 'w-[15%] max-w-[160px]'
     },
     {
       name: 'OWNER',
@@ -203,27 +213,6 @@ const TestCasesTable = ({
       key: 'tags',
       cell: (rowData) => (
         <ClampedTags tagsArray={rowData.tags} badgeModifier="base" />
-        // <span>
-        //   {rowData.tags.length > 0 ? (
-        //     <div className="mt-1 flex gap-1">
-        //       <TMBadge
-        //         text={rowData.tags[0]}
-        //         size="large"
-        //         key={rowData.tags[0]}
-        //       />
-        //       {rowData.tags.length > 1 ? (
-        //         <TMBadge
-        //           text={`+${rowData.tags.length - 1}`}
-        //           size="large"
-        //           key={`+${rowData.tags.length - 1}`}
-        //           onClick={handleTestCaseViewClick(rowData)}
-        //         />
-        //       ) : null}
-        //     </div>
-        //   ) : (
-        //     '--'
-        //   )}
-        // </span>
       ),
       class: 'w-[10%]'
     },
@@ -254,49 +243,32 @@ const TestCasesTable = ({
         tableWrapperClass="table-fixed"
         containerWrapperClass={twClassNames(
           containerWrapperClass,
-          // 'max-w-[calc(100vw-40rem)]'
           'overflow-y-auto',
           'overflow-x-auto'
         )}
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
-            {!isSearchFilterView && (
-              <td
-                variant="body"
-                className="border-base-50 text-base-500 w-[1%] p-2"
-                textTransform="uppercase"
-              >
-                {/* all checkbox */}
-                <TMCheckBox
-                  border={false}
-                  wrapperClassName="pt-0 pl-2"
-                  checked={
-                    isAllChecked
-                    // (isAllSelected && !deSelectedTestCaseIDs.length) ||
-                    // (rows.length !== 0 &&
-                    //   selectedTestCaseIDs.length === rows.length)
-                  }
-                  indeterminate={
-                    isIndeterminate
-                    // !!(
-                    //   (isAllSelected && deSelectedTestCaseIDs.length) ||
-                    //   (selectedTestCaseIDs.length &&
-                    //     selectedTestCaseIDs.length !== rows.length)
-                    // )
-                  }
-                  onChange={selectAll}
-                />
-              </td>
-            )}
+            <td
+              variant="body"
+              className="border-base-50 text-base-500 w-[1%] p-2"
+              textTransform="uppercase"
+            >
+              {/* all checkbox */}
+              <TMCheckBox
+                border={false}
+                wrapperClassName="pt-0 pl-2"
+                checked={isAllChecked}
+                indeterminate={isIndeterminate}
+                onChange={selectAll}
+              />
+            </td>
             {datatableColumns?.map((col, index) => (
               <TMTableCell
                 key={col.key || index}
                 variant="body"
                 wrapperClassName={twClassNames(`test-base-500`, col?.class, {
                   'first:pr-3 last:pl-3 px-4 py-2': isCondensed,
-                  // 'flex-1 w-9/12': index === 1,
-                  // 'min-w-[50%]': index === 2,
                   'sticky bg-base-50': col.isSticky,
                   'right-0 ': col.isSticky && col.stickyPosition === 'right',
                   'left-10 ': col.isSticky && col.stickyPosition === 'left'
@@ -347,31 +319,27 @@ const TestCasesTable = ({
               {rows?.map((row, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <TMTableRow isSelected key={row.id || index}>
-                  {!isSearchFilterView && (
-                    <td
-                      variant="body"
-                      className={twClassNames(
-                        'border-base-50 test-base-500 p-2',
+                  <td
+                    variant="body"
+                    className={twClassNames(
+                      'border-base-50 test-base-500 p-2',
+                      !deSelectedTestCaseIDs.includes(row.id) &&
+                        (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                        ? 'border-l-brand-600'
+                        : 'border-l-white'
+                    )}
+                    textTransform="uppercase"
+                  >
+                    <TMCheckBox
+                      border={false}
+                      wrapperClassName="pt-0 pl-2"
+                      checked={
                         !deSelectedTestCaseIDs.includes(row.id) &&
-                          (isAllSelected ||
-                            selectedTestCaseIDs.includes(row.id))
-                          ? 'border-l-brand-600'
-                          : 'border-l-white'
-                      )}
-                      textTransform="uppercase"
-                    >
-                      <TMCheckBox
-                        border={false}
-                        wrapperClassName="pt-0 pl-2"
-                        checked={
-                          !deSelectedTestCaseIDs.includes(row.id) &&
-                          (isAllSelected ||
-                            selectedTestCaseIDs.includes(row.id))
-                        }
-                        onChange={(e) => updateSelection(e, row)}
-                      />
-                    </td>
-                  )}
+                        (isAllSelected || selectedTestCaseIDs.includes(row.id))
+                      }
+                      onChange={(e) => updateSelection(e, row)}
+                    />
+                  </td>
                   {datatableColumns?.map((column) => {
                     const value = row[column.key];
                     return (
@@ -379,7 +347,6 @@ const TestCasesTable = ({
                         key={column.key}
                         wrapperClassName={twClassNames(column?.class, {
                           'first:pr-3 last:pl-3 px-4 py-2': isCondensed,
-                          // 'pb-[3px]': column.key === 'identifier',
                           'sticky bg-white': column.isSticky,
                           'right-0 ':
                             column.isSticky &&
