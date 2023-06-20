@@ -76,7 +76,7 @@ export default function Report() {
           />
           <div className="flex items-center justify-between">
             <div className="mt-2">
-              <p className="mb-2 text-2xl" title={reportName}>
+              <p className="mb-2 text-2xl font-bold" title={reportName}>
                 {reportName}
               </p>
               {isSingleReport ? (
