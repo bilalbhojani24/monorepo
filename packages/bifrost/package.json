@@ -20,7 +20,7 @@
     "prettier:fix": "npm run prettier:check -- --write",
     "tailwind-preview": "tailwind-config-viewer -o",
     "test-storybook": "test-storybook",
-    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"pnpm run storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && pnpm test-storybook --junit\""
+    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"STORYBOOK_INTERACTION=true pnpm run storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && pnpm test-storybook --junit\""
   },
   "dependencies": {
     "@browserstack/hooks": "workspace:*",

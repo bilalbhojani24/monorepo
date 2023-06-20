@@ -46,9 +46,6 @@ export default function TrendsCard({
       });
   }, [dispatch, activeProject?.normalisedName, filters, apiKey]);
 
-  const showSubTitle = () =>
-    !(apiKey === 'newFailures' || apiKey === 'alwaysFailing');
-
   useEffect(() => {
     if (activeProject?.normalisedName) {
       fetchData();
@@ -67,11 +64,11 @@ export default function TrendsCard({
             <div className="flex flex-col">
               {chartData?.insights?.count !== undefined && (
                 <>
-                  {showSubTitle() && (
+                  {config?.showSubTitle && (
                     <p className="text-base-500 text-sm font-medium">Total</p>
                   )}
                   <div className="flex">
-                    <p className="pr-2 pb-0 text-3xl font-semibold">
+                    <p className="pb-0 pr-2 text-3xl font-semibold">
                       {config?.abbrNumber
                         ? abbrNumber(chartData?.insights?.count)
                         : chartData?.insights?.count}
@@ -112,7 +109,8 @@ TrendsCard.propTypes = {
     tooltipFormatter: PropTypes.func,
     fixedToTwoDigits: PropTypes.bool,
     abbrNumber: PropTypes.bool,
-    metaText: PropTypes.string
+    metaText: PropTypes.string,
+    showSubTitle: PropTypes.bool
   }),
   seriesOptions: PropTypes.shape({
     id: PropTypes.string,
@@ -130,6 +128,7 @@ TrendsCard.defaultProps = {
     tooltipFormatter: null,
     fixedToTwoDigits: false,
     abbrNumber: false,
-    metaText: ''
+    metaText: '',
+    showSubTitle: false
   }
 };

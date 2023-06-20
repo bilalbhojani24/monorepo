@@ -27,8 +27,8 @@ import PropTypes from 'prop-types';
 
 const SUPPORTED_DATE_RANGE_KEYS = [
   O11Y_DATE_RANGE.days7.key,
-  O11Y_DATE_RANGE.days15.key,
   O11Y_DATE_RANGE.days30.key,
+  O11Y_DATE_RANGE.months2.key,
   O11Y_DATE_RANGE.custom.key
 ];
 
