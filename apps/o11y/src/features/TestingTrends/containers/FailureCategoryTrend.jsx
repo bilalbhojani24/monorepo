@@ -1,11 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { O11yTooltip } from 'common/bifrostProxy';
 import Chart from 'common/Chart';
-import {
-  COMMON_CHART_CONFIGS,
-  COMMON_CHART_STYLES,
-  TOOLTIP_STYLES
-} from 'constants/common';
+import { COMMON_CHART_CONFIGS, COMMON_CHART_STYLES } from 'constants/common';
 import TrendStatesWrapper from 'features/TestingTrends/components/TrendStatesWrapper';
 import useChartActions from 'features/TestingTrends/hooks/useChartActions';
 import {
@@ -16,25 +13,18 @@ import { getTrendFailureCategoriesData } from 'features/TestingTrends/slices/tes
 import { getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
-import { getCustomTimeStamp } from 'utils/dateTime';
 
-function getFormattedTooltip() {
-  return this.points.reduce((s, data) => {
-    let returnString = `${s}<br/><span style="color:${data.series.color}">\u25CF&nbsp;</span>`;
-    returnString += `<span>${data.series.name}: <b>${data.y}</b></span>`;
-    return returnString;
-  }, `<span class="tt-small-text" style="margin-bottom:6px">${getCustomTimeStamp({ dateString: this.x })}</span>`);
-}
+import CustomChartTooltip from '../components/CustomChartTooltip';
 
-function getChartOptions({ afterSetExtremes, activeProject }) {
+function getChartOptions({
+  afterSetExtremes,
+  activeProject,
+  handleTooltipData
+}) {
   return {
     ...COMMON_CHART_CONFIGS,
     tooltip: {
-      ...TOOLTIP_STYLES,
-      shared: true,
-      formatter() {
-        return getFormattedTooltip.call(this);
-      }
+      enabled: false
     },
     chart: {
       type: 'area',
@@ -87,6 +77,31 @@ function getChartOptions({ afterSetExtremes, activeProject }) {
                   interaction: 'failure_category_clicked'
                 }
               });
+            },
+            mouseOver(e) {
+              const { category, index, plotX, plotY } = e.target;
+              const { plotBox } = e.target.series.chart;
+              const { spacingBox } = e.target.series.chart;
+              const seriesData = e.target.series.chart.series.map((res) => ({
+                ...res,
+                index,
+                y: res.data[index]?.y,
+                category
+              }));
+
+              handleTooltipData({
+                options: [...seriesData],
+                styles: {
+                  top: e.target?.dlBox?.y
+                    ? plotBox.y + e.target?.dlBox?.y
+                    : plotY + plotBox.y - spacingBox.y,
+                  left: e.target?.dlBox?.x
+                    ? plotBox.x + e.target?.dlBox?.x
+                    : plotX + plotBox.x - spacingBox.x,
+                  width: e.target?.dlBox?.width || 16,
+                  height: e.target?.dlBox?.height || 16
+                }
+              });
             }
           }
         }
@@ -111,7 +126,12 @@ export default function FailureCategoryTrend() {
   const projects = useSelector(getProjects);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [tooltipData, setTooltipData] = useState({});
   const { afterSetExtremes } = useChartActions();
+
+  const handleTooltipData = useCallback((tooltipRes) => {
+    setTooltipData(tooltipRes);
+  }, []);
 
   const fetchData = useCallback(() => {
     setIsLoading(true);
@@ -142,10 +162,14 @@ export default function FailureCategoryTrend() {
 
   const options = useMemo(
     () => ({
-      ...getChartOptions({ afterSetExtremes, activeProject: projects.active }),
+      ...getChartOptions({
+        afterSetExtremes,
+        activeProject: projects.active,
+        handleTooltipData
+      }),
       series: chartData?.data || []
     }),
-    [afterSetExtremes, chartData?.data, projects.active]
+    [afterSetExtremes, chartData?.data, handleTooltipData, projects.active]
   );
 
   return (
@@ -161,6 +185,37 @@ export default function FailureCategoryTrend() {
             <p className="">{chartData?.percentage}%</p>
           )}
           <div className="h-full flex-1">
+            <div
+              className="absolute z-10 rounded-sm"
+              key={tooltipData?.options?.id}
+              style={{
+                ...tooltipData?.styles
+              }}
+              onClick={() => {}}
+              role="presentation"
+            >
+              <O11yTooltip
+                theme="dark"
+                wrapperClassName="py-2"
+                placementSide="top"
+                placementAlign="center"
+                triggerAsChild
+                content={
+                  <CustomChartTooltip
+                    tooltipData={tooltipData.options || []}
+                    activeProject={projects.active}
+                    filters={filters}
+                  />
+                }
+              >
+                <div
+                  className="h-full w-full"
+                  style={{
+                    ...tooltipData?.styles
+                  }}
+                />
+              </O11yTooltip>
+            </div>
             <Chart
               options={options}
               key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}

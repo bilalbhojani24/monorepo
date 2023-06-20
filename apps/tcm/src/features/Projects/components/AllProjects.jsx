@@ -230,6 +230,7 @@ const AllProjects = () => {
           dividerRequired
           onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
           options={dropDownOptions}
+          optionGroupWrapperClassName="w-40"
         />
       ),
       class: 'w-[5%]'
@@ -260,7 +261,7 @@ const AllProjects = () => {
           </>
         }
       />
-      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
+      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-6">
         {(importStatus === IMPORT_STATUS.ONGOING ||
           importStatus === IMPORT_STATUS.FAILURE ||
           importStatus === IMPORT_STATUS.SUCCESS) &&
@@ -330,8 +331,6 @@ const AllProjects = () => {
     </div>
   );
 };
-
-AllProjects.propTypes = {};
 
 AllProjects.defaultProps = {};
 

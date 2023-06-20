@@ -8,6 +8,7 @@ import {
   getCreateGridEventsLogsData
 } from 'api/index';
 import {
+  DEFAULT_GRID_CONCURRENCY,
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
@@ -90,7 +91,7 @@ const useCreateGrid = () => {
 
   // All State variables
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
-    useState(GRID_MANAGER_NAMES.helm);
+    useState({ index: 0, name: GRID_MANAGER_NAMES.helm });
   const allAvailableInstanceTypes = useSelector(getInstanceTypes);
   const allAvailableRegionsByProvider = useSelector(getRegions);
   const [allAvailableSubnets, setAllAvailableSubnets] = useState([]);
@@ -133,16 +134,21 @@ const useCreateGrid = () => {
     { label: 'label', value: 'value' }
   ]);
   const [gridProfilesData, setGridProfilesData] = useState([]);
+  const [isSaveProfileBtnDisabled, setIsSaveProfileBtnDisabled] =
+    useState(true);
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [isSubnetLoading, setIsSubnetLoading] = useState(false);
   const [isVPCLoading, setIsVPCLoading] = useState(false);
+  const [newGridName, setNewGridName] = useState(null);
   const [newProfileErrorText, setNewProfileErrorText] = useState('');
   const [newProfileNameValue, setNewProfileNameValue] = useState('');
   const [opened, setOpened] = useState(false);
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
   const [selectedClusterValue, setSelectedClusterValue] = useState('');
   const [selectedGridClusters, setSelectedGridclusters] = useState([]);
-  const [selectedGridConcurrency, setSelectedGridConcurrency] = useState(0);
+  const [selectedGridConcurrency, setSelectedGridConcurrency] = useState(
+    DEFAULT_GRID_CONCURRENCY
+  );
   const [selectedGridName, setSelectedGridName] =
     useState('high-scale-testing');
 
@@ -196,9 +202,9 @@ const useCreateGrid = () => {
   const updateGridProfileData = async (profileData) => {
     const res = await createNewGridProfile(userDetails.id, profileData);
 
-    const { data } = res;
+    const { status } = res;
 
-    if (data === 'OK') {
+    if (status === 200) {
       setCreatingGridProfile(false);
       setShowSaveProfileModal(false);
       setShowSetupClusterModal(false);
@@ -261,6 +267,10 @@ const useCreateGrid = () => {
     setSelectedGridName(newValue);
   };
 
+  const handleDismissClick = () => {
+    setShowSetupStatusModal(false);
+  };
+
   const instanceChangeHandler = (e) => {
     setSelectedInstanceType(e);
   };
@@ -290,10 +300,9 @@ const useCreateGrid = () => {
       const profileData = {
         profile: {
           name: newProfileNameValue,
-          region: 'us-east-2',
+          region: selectedRegion.value,
           cloudProvider: currentSelectedCloudProvider.configName,
-          instanceType: 't3.2xlarge',
-          domain: 'bsstag.com',
+          instanceType: selectedInstanceType.value,
           vpc: selectedVPCValue.value,
           subnets: selectedSubnetValues.map((e) => e.value),
           securityGroups: []
@@ -303,6 +312,7 @@ const useCreateGrid = () => {
           groupId: userDetails.groupId
         },
         cluster: {
+          id: selectedClusterValue.id,
           name: selectedClusterValue.value
         },
         name: selectedGridName,
@@ -326,6 +336,7 @@ const useCreateGrid = () => {
 
   const saveProfileChangeHandler = (e) => {
     setNewProfileNameValue(e.target.value);
+    setIsSaveProfileBtnDisabled(false);
   };
 
   const validateClusterDetails = () => {
@@ -355,14 +366,6 @@ const useCreateGrid = () => {
 
   const setupNewClusterBtnClickHandler = () => {
     setShowSetupClusterModal(true);
-  };
-
-  const stepperClickHandler = (_, step) => {
-    if (step.id > 3) {
-      setSetupState(2);
-    } else {
-      setSetupState(1);
-    }
   };
 
   const subnetChangeHandler = (currentItem) => {
@@ -565,7 +568,7 @@ const useCreateGrid = () => {
       };
       setSelectedClusterValue(tmpCluster);
 
-      const currentVPC = selectedGridProfileData?.profile.vpc;
+      const currentVPC = selectedGridProfileData?.profile.vpc || '';
       setSelectedVPCValue({
         label: currentVPC,
         value: currentVPC
@@ -710,7 +713,7 @@ const useCreateGrid = () => {
 
       setStepperStepsState(updatedStepperState);
     }
-  }, [setupState]);
+  }, [DEFAULT_STEPPER_STATE, setupState]);
 
   useMountEffect(() => {
     const fetchEventsLogsData = async (createGridType) => {
@@ -724,6 +727,7 @@ const useCreateGrid = () => {
       setEventLogsCode(res.currentLogs);
       setCurrentStep(res.currentStep);
       setTotalSteps(res.totalSteps);
+      setNewGridName(res.gridName);
 
       if (res.currentStep === res.totalSteps) {
         setPollForEventLogs(false);
@@ -782,15 +786,18 @@ const useCreateGrid = () => {
     gridConcurrencyChangeHandler,
     gridNameChangeHandler,
     gridProfiles,
+    handleDismissClick,
     instanceChangeHandler,
     isExactSubnetMatch,
     isExactVPCMatch,
+    isSaveProfileBtnDisabled,
     isSetupComplete,
     isSubnetLoading,
     isVPCLoading,
     modalCrossClickhandler,
     newProfileNameValue,
     opened,
+    newGridName,
     newProfileErrorText,
     nextBtnClickHandler,
     ref,
@@ -821,7 +828,6 @@ const useCreateGrid = () => {
     showSaveProfileModal,
     showSetupClusterModal,
     showSetupStatusModal,
-    stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
     subnetInputChangeHandler,
