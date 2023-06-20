@@ -229,7 +229,8 @@ const TestCasesTable = ({
             onDropDownChange(selectedOption, data, true)
           }
         />
-      )
+      ),
+      class: 'w-[1%]'
     }
   ];
 
