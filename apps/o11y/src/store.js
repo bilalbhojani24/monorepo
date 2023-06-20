@@ -12,6 +12,7 @@ import failureCategoriesSettingsReducer from 'features/Settings/slices/failureCa
 import generalSettingsReducer from 'features/Settings/slices/generalSettings';
 import notificationsSettingsReducer from 'features/Settings/slices/notificationsSettings';
 import reRunSettingsReducer from 'features/Settings/slices/reRunSettings';
+import smartTagsSettingsReducer from 'features/Settings/slices/smartTagsSettings';
 import shErrorDetailsReducer from 'features/SHErrorDetails/slices/dataSlice';
 import shTestDetailsReducer from 'features/SHTestDetails/slices/dataSlice';
 import shTestsReducer from 'features/SuiteHealth/slices/dataSlice';
@@ -40,6 +41,7 @@ export const store = configureStore({
     shErrordetails: shErrorDetailsReducer,
     shTestdetails: shTestDetailsReducer,
     shTests: shTestsReducer,
+    smartTagsSettings: smartTagsSettingsReducer,
     testList: testListReducer,
     testdetails: testDetailsDataReducer,
     testdetailsui: testDetailsUIReducer,

@@ -71,7 +71,7 @@ const HistorySlider = () => {
       dispatch(setShowTestDetailsFor(tabInfo.value));
       const searchParams = new URLSearchParams(window?.location?.search);
       searchParams.set('details', tabInfo.value);
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
     },
     [dispatch, navigate, tabs]
   );

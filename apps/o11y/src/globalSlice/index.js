@@ -78,7 +78,7 @@ const { actions, reducer } = createSlice({
         name: payload.name,
         normalisedName: payload.normalisedName
       };
-      localStorage.setItem(
+      setStorage(
         PROJECT_NORMALISED_NAME_IDENTIFIER,
         state.projects.active.normalisedName
       );
@@ -107,6 +107,25 @@ const { actions, reducer } = createSlice({
       state.activeFloatingComponents = state.activeFloatingComponents.filter(
         (id) => id !== payload
       );
+    },
+    findAndSetProjectActive: (state, { payload }) => {
+      const projectList = state.projects.list || [];
+      if (projectList.length && payload.projectNormalisedName) {
+        const foundProject = projectList.find(
+          (item) => item.normalisedName === payload.projectNormalisedName
+        );
+        if (foundProject) {
+          state.projects.active = {
+            id: foundProject.id,
+            name: foundProject.name,
+            normalisedName: foundProject.normalisedName
+          };
+          setStorage(
+            PROJECT_NORMALISED_NAME_IDENTIFIER,
+            foundProject.normalisedName
+          );
+        }
+      }
     }
   },
   extraReducers: (builder) => {
@@ -178,7 +197,8 @@ export const {
   setHasProductInitFailed,
   setHeaderSize,
   addActiveFloatingComponent,
-  removeActiveFloatingComponent
+  removeActiveFloatingComponent,
+  findAndSetProjectActive
 } = actions;
 
 export const initO11yProduct =

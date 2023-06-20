@@ -261,6 +261,10 @@ const useOnboarding = () => {
     window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
   };
 
+  const handleDismissClick = () => {
+    setShowSetupStatusModal(false);
+  };
+
   const logTermsConditionsEvents = () => {
     logHSTEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
       action: 'termsdoc_clicked'
@@ -524,6 +528,7 @@ const useOnboarding = () => {
     eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
+    handleDismissClick,
     headerText,
     isSetupComplete,
     logTermsConditionsEvents,
