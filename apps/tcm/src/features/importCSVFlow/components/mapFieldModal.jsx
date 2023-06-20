@@ -43,7 +43,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
   // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
     const noAddOption = modalConfig?.fieldMeta.restrict_add;
-    modalRowRef.current = Object.keys(value)?.map((field) => {
+    modalRowRef.current = Object.keys(value)?.map((field, index) => {
       let displayOptions =
         VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN[
           mappedField.split(' ').join('').toUpperCase()
@@ -79,7 +79,8 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
       return {
         displayOptions,
         csvValue: field,
-        defaultSelected
+        defaultSelected,
+        divider: index === 1
       };
     });
   }

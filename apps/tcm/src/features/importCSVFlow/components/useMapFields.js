@@ -183,7 +183,7 @@ const useMapFields = () => {
     {}
   );
 
-  rowRef.current = mapFieldsConfig.importFields.map((item) => ({
+  rowRef.current = mapFieldsConfig.importFields.map((item, index) => ({
     field: item,
     mappedField: {
       displayOptions,
@@ -196,6 +196,7 @@ const useMapFields = () => {
           mapNameToDisplay[myFieldMappings?.[item]?.action]
       }
     },
+    divider: true,
     mappedValue:
       myFieldMappings[item]?.action ||
       myFieldMappings?.[item] ||
