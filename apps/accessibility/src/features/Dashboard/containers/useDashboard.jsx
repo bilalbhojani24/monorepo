@@ -201,12 +201,14 @@ export default function useDashboard() {
       `${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-demo-lead`,
       '_blank'
     );
-    const data = {
-      type: remainingDays > 0 ? 'Days left' : 'No days left',
-      action: 'Get a demo'
-    };
-    if (remainingDays > 0) data.daysLeft = remainingDays;
-    logEvent('InteractedWithRTTrackingTile', data);
+    if (showTrialTile()) {
+      const data = {
+        type: remainingDays > 0 ? 'Days left' : 'No days left',
+        action: 'Get a demo'
+      };
+      if (remainingDays > 0) data.daysLeft = remainingDays;
+      logEvent('InteractedWithRTTrackingTile', data);
+    }
   };
 
   const onBuyPlanClick = () => {
