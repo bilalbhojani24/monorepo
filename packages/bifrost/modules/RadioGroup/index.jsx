@@ -1,119 +1,114 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import PropTypes from 'prop-types';
 
-import { DIRECTIONS } from './const/radioGroupConstants';
+import { RadioGroupContextData } from '../../shared/radioGroupContext';
+import { ExclamationCircleIcon } from '../Icon';
 
-const RadioGroup = (props) => {
-  const {
-    direction,
-    selectedOption,
-    options,
-    onChange,
-    inlineDescription,
-    rightAligned
-  } = props;
+import { RadioWrapperStyles } from './const/radioConstantStyles';
+import { DIRECTIONS, TYPES } from './const/radioItemConstants';
 
-  const handleChange = (id) => (e) => {
-    onChange(e, id);
-  };
-
+const RadioGroup = ({
+  children,
+  value,
+  defaultValue,
+  onChange,
+  isMandatory,
+  errorText,
+  label,
+  description,
+  id,
+  columnWrapperClassName,
+  wrapperClassName,
+  direction,
+  type
+}) => {
+  const [activeOption, setActiveOption] = useState(value || defaultValue);
   return (
-    <div
-      className={twClassNames('flex', {
-        'space-x-5': direction === DIRECTIONS[0],
-        'space-y-5 flex-col': direction === DIRECTIONS[1]
-      })}
-    >
-      {options.map((option) => (
-        <div
-          key={option.id}
-          className={twClassNames('flex items-start', {
-            'cursor-not-allowed': option.disabled
-          })}
-        >
-          <div
-            className={twClassNames('flex h-5 items-center', {
-              'order-last mx-3': rightAligned,
-              'cursor-not-allowed': option.disabled
+    <RadioGroupContextData.Provider value={{ activeOption, type, direction }}>
+      <div className={wrapperClassName}>
+        {label ? (
+          <label
+            htmlFor={id}
+            id={`${id}label-wrap`}
+            className={twClassNames('text-base-700 block text-sm font-medium', {
+              'mb-4': !description.length
             })}
           >
-            <input
-              id={option.id}
-              aria-describedby={`${option.id}-description`}
-              name="plan"
-              type="radio"
-              disabled={option.disabled}
-              checked={option.id === selectedOption?.id}
-              className="border-base-300 text-brand-600 focus:ring-brand-500 h-4 w-4"
-              onChange={handleChange(option.id)}
+            {label}
+            {isMandatory && <span className="text-danger-600 ml-0.5">*</span>}
+          </label>
+        ) : (
+          <span className="sr-only">Radio group label</span>
+        )}
+        {description && (
+          <p className={twClassNames('text-sm text-base-500 mb-4')}>
+            {description}
+          </p>
+        )}
+        <RadioGroupPrimitive.Root
+          id={id}
+          name={id}
+          value={value ?? undefined}
+          defaultValue={defaultValue ?? undefined}
+          onValueChange={(option) => {
+            setActiveOption(option);
+            onChange?.(option);
+          }}
+          isMandatory={isMandatory}
+          className={twClassNames(
+            RadioWrapperStyles[type][direction],
+            columnWrapperClassName
+          )}
+        >
+          {children}
+        </RadioGroupPrimitive.Root>
+        {errorText && (
+          <div className="mt-4 flex items-center gap-1 pr-3">
+            <ExclamationCircleIcon
+              className="text-danger-500 -ml-0.5 h-5 w-5"
+              aria-hidden="true"
             />
+
+            <p className="text-danger-600 text-sm" id={`${id}errorText-wrap`}>
+              {errorText}
+            </p>
           </div>
-          <div
-            className={twClassNames(
-              { 'flex-col': !inlineDescription, 'flex-1': rightAligned },
-              'flex ml-3 text-sm'
-            )}
-          >
-            {option.name && (
-              <label
-                htmlFor={option.id}
-                className={twClassNames('text-base-700 font-medium', {
-                  'text-base-600': option.disabled,
-                  'cursor-not-allowed': option.disabled
-                })}
-              >
-                {option.name}
-              </label>
-            )}
-            {option.description && (
-              <div
-                id={`${option.id}-description`}
-                className={twClassNames(
-                  { 'ml-2': inlineDescription },
-                  'text-base-500',
-                  {
-                    'text-base-500': option.disabled
-                  }
-                )}
-              >
-                {option.description}
-              </div>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
+        )}
+      </div>
+    </RadioGroupContextData.Provider>
   );
 };
 
 RadioGroup.propTypes = {
-  direction: PropTypes.oneOf(DIRECTIONS),
-  selectedOption: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string,
-    description: PropTypes.string,
-    disabled: PropTypes.bool
-  }),
-  inlineDescription: PropTypes.bool,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string,
-      description: PropTypes.string,
-      disabled: PropTypes.bool
-    })
-  ),
+  children: PropTypes.node,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
-  rightAligned: PropTypes.bool
+  isMandatory: PropTypes.bool,
+  errorText: PropTypes.string,
+  label: PropTypes.string,
+  description: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  columnWrapperClassName: PropTypes.string,
+  wrapperClassName: PropTypes.string,
+  direction: PropTypes.oneOf(DIRECTIONS),
+  type: PropTypes.oneOf(TYPES)
 };
 RadioGroup.defaultProps = {
-  direction: DIRECTIONS[0],
-  selectedOption: null,
-  inlineDescription: false,
-  options: [],
-  onChange: () => {},
-  rightAligned: false
+  children: null,
+  value: undefined,
+  defaultValue: undefined,
+  onChange: null,
+  isMandatory: false,
+  errorText: '',
+  label: '',
+  description: '',
+  columnWrapperClassName: '',
+  wrapperClassName: '',
+  direction: DIRECTIONS[1],
+  type: TYPES[0]
 };
 
 export default RadioGroup;

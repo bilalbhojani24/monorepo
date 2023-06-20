@@ -5,6 +5,7 @@ import BulkTaggingModal from 'features/BulkTagging';
 import AzureIntegrationModal from 'features/Integrations/components/AzureIntegrationModal';
 import EmailPreferenceModal from 'features/Integrations/components/EmailPreferenceModal';
 import JenkinsIntegrationModal from 'features/Integrations/components/JenkinsIntegrationModal';
+import ReqFrameworkModal from 'features/Onboarding/components/ReqFrameworkModal';
 import StartFreeTrialModal from 'features/Paywall/components/StartFreeTrialModal';
 import AddEditAlertModal from 'features/Settings/components/AddEditAlertModal';
 import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCategoryModal';
@@ -12,6 +13,7 @@ import AddNotificationUserModal from 'features/Settings/components/AddNotificati
 import DeleteAlertModal from 'features/Settings/components/DeleteAlertModal';
 import DeleteSubCatModal from 'features/Settings/components/DeleteSubCatModal';
 import SmartTagConfirmationModal from 'features/Settings/components/SmartTagConfirmationModal';
+import DrillDownModal from 'features/TestingTrends/components/DrillDownModal';
 import MuteUnmuteTestModal from 'features/TestList/components/MuteUnmuteTestModal';
 import RerunTestsModal from 'features/TestList/components/RerunTestModal';
 
@@ -28,6 +30,8 @@ export default function ModalToShow() {
       return <AddEditSubCategoryModal />;
     case MODAL_TYPES.delete_sub_cat:
       return <DeleteSubCatModal />;
+    case MODAL_TYPES.drill_down_modal:
+      return <DrillDownModal />;
     case MODAL_TYPES.add_notifications_users:
       return <AddNotificationUserModal />;
     case MODAL_TYPES.mute_unmute_test:
@@ -46,6 +50,8 @@ export default function ModalToShow() {
       return <SmartTagConfirmationModal />;
     case MODAL_TYPES.upgrade_modal:
       return <StartFreeTrialModal />;
+    case MODAL_TYPES.onboarding_framework_selection_modal:
+      return <ReqFrameworkModal />;
     default:
       return null;
   }

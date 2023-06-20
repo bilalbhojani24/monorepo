@@ -97,11 +97,11 @@ export const FlakyTags = ({ data, isActive }) => {
 
   useEffect(() => {
     setConsecutiveRunsArray([
-      ...Array(30 - flakeInHistory.flippingCount)
+      ...Array(30 - Math.max(4, flakeInHistory.flippingCount))
         .fill(0)
         .map((_, i) => ({
-          name: i + flakeInHistory.flippingCount + 1,
-          value: i + flakeInHistory.flippingCount + 1
+          name: i + Math.max(4, flakeInHistory.flippingCount) + 1,
+          value: i + Math.max(4, flakeInHistory.flippingCount) + 1
         }))
     ]);
   }, [flakeInHistory.flippingCount]);
@@ -122,7 +122,7 @@ export const FlakyTags = ({ data, isActive }) => {
       <div className="flex justify-between">
         <span className="font-medium">Flaky</span>
         <PaywallTooltip
-          title="Configuring Smart tags is a pro feature."
+          title="Configuring smart tags is a pro feature."
           content="Configure your personalized definition of flakiness."
           featureKey={PAYWALL_FEATURES.SMART_TAGS}
         >
@@ -230,16 +230,18 @@ export const FlakyTags = ({ data, isActive }) => {
           </div>
           <div className="text-base-500 flex items-center">
             Test passes on a retry within the last
-            <div className="text-base-900 mx-1 w-16">
+            <div className="text-base-900 mx-1">
               <O11ySelectMenu
                 value={{
-                  label: flakeInRerun.consecutiveRuns,
-                  value: flakeInRerun.consecutiveRuns
+                  label: `${flakeInRerun.consecutiveRuns ?? rerunDefault}`,
+                  value: `${flakeInRerun.consecutiveRuns ?? rerunDefault}`
                 }}
                 onChange={(item) =>
-                  setFlakeInRerun('consecutiveRuns', item.value)
+                  setFlakeInRerun(
+                    'consecutiveRuns',
+                    item.value === 'zero' ? 0 : item.value
+                  )
                 }
-                defaultValue={{ label: rerunDefault, value: rerunDefault }}
                 disabled={!isActive || !flakeInRerun.enabled || !automaticFlaky}
               >
                 <O11ySelectMenuTrigger placeholder="Select" />
@@ -250,8 +252,8 @@ export const FlakyTags = ({ data, isActive }) => {
                       checkPosition="right"
                       wrapperClassName="text-sm"
                       option={{
-                        label: item.name,
-                        value: item.value
+                        label: `${item.name}`,
+                        value: `${item.value}`
                       }}
                     />
                   ))}

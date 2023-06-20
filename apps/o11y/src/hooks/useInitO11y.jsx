@@ -13,12 +13,7 @@ import {
 } from '@browserstack/utils';
 import { getPusherConfig } from 'api/global';
 import { o11yHistory } from 'constants/common';
-import {
-  AMPLITUDE_KEY,
-  ANALYTICS_KEY,
-  EDS_API_KEY,
-  SENTRY_DSN
-} from 'constants/keys';
+import o11yKeys from 'constants/o11yKeys';
 import { ROUTES } from 'constants/routes';
 import { initO11yProduct } from 'globalSlice/index';
 import { getActiveProject, getUserDetails } from 'globalSlice/selectors';
@@ -53,10 +48,10 @@ function useInitO11y() {
   useMemo(() => {
     if (!isEmpty(userDetails)) {
       const keys = {
-        amplitudeKey: AMPLITUDE_KEY,
-        analyticsKey: ANALYTICS_KEY,
+        amplitudeKey: o11yKeys[envConfig.name].AMPLITUDE_KEY,
+        analyticsKey: o11yKeys[envConfig.name].ANALYTICS_KEY,
         amplitudeConfig: {
-          key: AMPLITUDE_KEY,
+          key: o11yKeys[envConfig.name].AMPLITUDE_KEY,
           userData: {
             user_id: userDetails.userId
           },
@@ -70,9 +65,9 @@ function useInitO11y() {
             group_id: userDetails.groupId
           },
           config: {
-            server: 'eds.browserstack.com',
+            server: o11yKeys[envConfig.name].EDS_SERVER,
             port: '443',
-            apiKey: EDS_API_KEY
+            apiKey: o11yKeys[envConfig.name].EDS_API_KEY
           }
         }
       };
@@ -128,7 +123,7 @@ function useInitO11y() {
     if (enableSentry && !window.isSentryInitialized) {
       window.isSentryInitialized = true;
       initErrorLogger({
-        dsn: SENTRY_DSN,
+        dsn: o11yKeys[envConfig.name].SENTRY_DSN,
         debug: false,
         release: 'v0.1-o11y',
         environment: 'production',

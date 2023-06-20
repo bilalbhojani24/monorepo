@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { O11yButton } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
@@ -25,8 +26,11 @@ export default function SmartTags() {
   );
   const [isLoadingData, setIsLoadingData] = useState(false);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const mounted = useRef(false);
+  const performanceAnomaliesRef = useRef(null);
+  const newFailureRef = useRef(null);
 
   useEffect(() => {
     mounted.current = true;
@@ -46,6 +50,28 @@ export default function SmartTags() {
       mounted.current = false;
     };
   }, [activeProject.normalisedName, dispatch]);
+
+  useEffect(() => {
+    if (
+      location.search.includes('scrollTo=performanceAnomalies') &&
+      performanceAnomaliesRef.current
+    ) {
+      performanceAnomaliesRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    if (
+      location.search.includes('scrollTo=newFailure') &&
+      newFailureRef.current
+    ) {
+      newFailureRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }, [location.search]);
 
   const handleClickSaveChanges = () => {
     if (!smartTags.isLoading) {
@@ -75,7 +101,7 @@ export default function SmartTags() {
   return (
     <div className="flex max-h-full flex-col gap-4">
       {!planDetails?.isActive && (
-        <PaywallAlert title="Configuring Smart tags is a pro feature" />
+        <PaywallAlert title="Configuring smart tags is a pro feature" />
       )}
       <SettingsCard>
         <FlakyTags
@@ -89,11 +115,13 @@ export default function SmartTags() {
           isLoading={smartTags.isLoading}
         />
         <NewFailureTags
+          ref={newFailureRef}
           data={smartTags.localState.newFailure}
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
         />
         <PerformanceAnomaliesTags
+          ref={performanceAnomaliesRef}
           data={smartTags.localState.performanceAnomalies}
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}

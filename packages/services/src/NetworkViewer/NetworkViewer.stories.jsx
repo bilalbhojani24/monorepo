@@ -1,4 +1,6 @@
 import React from 'react';
+import { delay } from '@browserstack/utils';
+import { within } from '@storybook/testing-library';
 
 import NetworkViewer from '.';
 
@@ -18,6 +20,10 @@ const Template = (args) => (
   </div>
 );
 const Primary = Template.bind({});
+Primary.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await delay(10000);
+};
 Primary.parameters = {
   controls: {}
 };

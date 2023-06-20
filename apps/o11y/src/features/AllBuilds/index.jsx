@@ -108,7 +108,10 @@ const AllBuildsPage = () => {
   }, [activeProject?.normalisedName]);
 
   useEffect(() => {
-    navigate({ search: getFilterQueryParams(appliedFilters).toString() });
+    navigate(
+      { search: getFilterQueryParams(appliedFilters).toString() },
+      { replace: true }
+    );
   }, [appliedFilters, navigate]);
 
   const loadMoreRows = () => {
