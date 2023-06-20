@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getDefaultChartOptions } from '../../../utils/chartUtils';
+import { getDefaultReportChartOptions } from '../../../utils/chartUtils';
 import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
@@ -9,7 +9,7 @@ import {
 } from '../../Report';
 
 const generateNetworkIOChartOptions = (sessionData, chartGridClicked) => {
-  const chartOptions = getDefaultChartOptions();
+  const chartOptions = getDefaultReportChartOptions();
 
   const networkReadTimeSeries = sessionData?.report?.Network?.metrics?.map(
     (x) => [x.ts / 1000, x.networkReadKb]
@@ -51,7 +51,7 @@ const generateNetworkIOChartOptions = (sessionData, chartGridClicked) => {
 
   chartOptions.series = [
     {
-      name: 'Network Read',
+      name: 'Data Upload',
       color: '#65A30D',
       marker: {
         enabled: false
@@ -59,7 +59,7 @@ const generateNetworkIOChartOptions = (sessionData, chartGridClicked) => {
       data: networkReadTimeSeries
     },
     {
-      name: 'Network Write',
+      name: 'Data Download',
       color: '#E11D48',
       marker: {
         enabled: false

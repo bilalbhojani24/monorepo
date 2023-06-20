@@ -16,7 +16,7 @@ export const ANALYTICS_KEYS = {
     config: {
       server: 'eds.browserstack.com',
       port: '443',
-      apiKey: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
+      apiKey: '5PJymLNdWrOwzQNC7J6SXBuUFQGWq4Vuw'
     }
   }
 };

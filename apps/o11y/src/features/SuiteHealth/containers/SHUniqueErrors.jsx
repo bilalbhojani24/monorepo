@@ -131,9 +131,12 @@ const SnPUniqueErrors = () => {
   };
 
   useEffect(() => {
-    navigate({
-      search: getSearchStringFromFilters(appliedFilters).toString()
-    });
+    navigate(
+      {
+        search: getSearchStringFromFilters(appliedFilters).toString()
+      },
+      { replace: true }
+    );
   }, [appliedFilters, navigate]);
 
   useEffect(() => {

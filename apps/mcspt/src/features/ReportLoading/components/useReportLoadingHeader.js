@@ -77,7 +77,8 @@ const useReportLoadingHeader = () => {
     sessionDetails,
     showTimeoutBanner,
     secondsElapsed,
-    getBannerDescription
+    getBannerDescription,
+    isStopSessionInProgress
   };
 };
 
