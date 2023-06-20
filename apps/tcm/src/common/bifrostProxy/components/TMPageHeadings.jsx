@@ -19,7 +19,7 @@ const TMPageHeadings = (props) => {
 
   return (
     <PageHeadings
-      wrapperClassName="px-4 py-6 border-b border-base-300 bg-transparent"
+      wrapperClassName="px-6 py-6 border-b border-base-300 bg-transparent"
       {...props}
       onBreadcrumbClick={onBreadcrumbClickHandler}
     />
