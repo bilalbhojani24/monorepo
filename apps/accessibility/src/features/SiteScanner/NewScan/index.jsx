@@ -396,12 +396,18 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                         invalidUrls.push(url);
                       }
                     });
+                    const totalValidUrls = validUrls.length;
+                    const maxValidUrls = validUrls.slice(0, 500);
                     if (validUrls.length) {
                       notify(
                         <div id="file-uploaded">
                           <Notifications
-                            title={`${validUrls.length} pages added from CSV file`}
-                            description={`${invalidUrls.length} invalid URLs were ignored.`}
+                            title={`${maxValidUrls.length} pages added from CSV file`}
+                            description={`${
+                              invalidUrls.length +
+                              totalValidUrls -
+                              maxValidUrls.length
+                            } invalid URLs were ignored.`}
                             actionButtons={null}
                             headerIcon={
                               <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
@@ -445,7 +451,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                         }
                       );
                     }
-                    handleFormData(validUrls, 'csvUpload');
+                    handleFormData(maxValidUrls, 'csvUpload');
                     // Continue processing...
                   };
                   reader.readAsText(e.target.files[0]);
