@@ -43,15 +43,16 @@ export const getTestListingFiltersData = createAsyncThunk(
         searchParams.toString()
       );
 
-      selectedFilters.push(
-        getAppliedFilterObj({
-          id: 'issueTypeGroup',
-          text: issueTypeGroup,
-          value: issueTypeGroup,
-          type: ADV_FILTER_TYPES.issueTypeGroup.key
-        })
-      );
-
+      if (issueTypeGroup) {
+        selectedFilters.push(
+          getAppliedFilterObj({
+            id: 'issueTypeGroup',
+            text: issueTypeGroup,
+            value: issueTypeGroup,
+            type: ADV_FILTER_TYPES.issueTypeGroup.key
+          })
+        );
+      }
       dispatch(setBulkSelectedFilters(selectedFilters));
       dispatch(setBulkAppliedFilters(selectedFilters));
       dispatch(setStaticFilters(staticFilters));
