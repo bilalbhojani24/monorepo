@@ -122,7 +122,7 @@ export default function Reports() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="mb-2 text-2xl font-bold">Manual test reports</h1>
+            <h1 className="mb-2 text-2xl font-bold">Accessibility reports</h1>
             <h3 className="text-base-500 mb-4 text-sm font-medium">
               Select reports to view them. You can select more than one report
               to consolidate and review reports.
