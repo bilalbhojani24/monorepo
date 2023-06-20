@@ -8,13 +8,14 @@ import {
   Header,
   MdOpenInNew,
   NotificationsContainer,
+  ProductSidenav,
   SidebarItem,
   SidebarNavigation,
   SkipToContent
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
 import FreshchatIntegration from 'common/FreshchatIntegration';
-import { getUrlForHeader } from 'constants';
+import { getUrlForHeader, PRODUCT_NAV_IDENTIFIER } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 import { getBrowserStackBase } from 'utils';
 import { logEvent } from 'utils/logEvent';
@@ -143,7 +144,7 @@ export default function Dashboard({ children }) {
         )}
       />
       {isShowingReportListingBanner ? (
-        <div className="fixed inset-x-0 top-[64px] z-10 flex justify-between">
+        <div className="fixed right-0 top-[64px] z-10 flex w-[calc(100%-57px)] justify-between">
           <Banner
             description="Download the Accessibility Testing extension to scan your websites for accessibility issues."
             isDismissButton
@@ -165,16 +166,25 @@ export default function Dashboard({ children }) {
           />
         </div>
       ) : null}
-      <SidebarNavigation
-        sidebarPrimaryNavigation={SWBSidebarPri}
-        sidebarSecondaryNavigation={SWBSidebarSec}
-        wrapperClassName={`bg-white mt-5 ${
-          isShowingReportListingBanner ? 'pt-32' : 'pt-16'
-        }`}
-      />
-      <main ref={mainRef} className="bg-base-50 mt-16 h-full pl-64">
-        {children}
-      </main>
+
+      <div className="fixed top-[64px] z-10 h-full">
+        <ProductSidenav activeProduct={PRODUCT_NAV_IDENTIFIER} />
+      </div>
+
+      <div className="ml-auto w-[calc(100%-57px)]">
+        <SidebarNavigation
+          sidebarPrimaryNavigation={SWBSidebarPri}
+          sidebarSecondaryNavigation={SWBSidebarSec}
+          wrapperClassName={`bg-white mt-5 ${
+            isShowingReportListingBanner ? 'pt-32' : 'pt-16'
+          }`}
+        />
+
+        <main ref={mainRef} className="bg-base-50 mt-16 h-full pl-64">
+          {children}
+        </main>
+      </div>
+
       <NotificationsContainer />
       <FreshchatIntegration />
     </div>

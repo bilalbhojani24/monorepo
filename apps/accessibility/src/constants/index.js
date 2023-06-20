@@ -235,3 +235,5 @@ export const sentryConfig = {
     /https:\/\/wchat.freshchat.com\/.*/gi
   ]
 };
+
+export const PRODUCT_NAV_IDENTIFIER = 'Accessibility Testing';

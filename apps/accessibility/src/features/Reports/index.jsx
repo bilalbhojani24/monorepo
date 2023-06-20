@@ -109,7 +109,7 @@ export default function Reports() {
       <div
         className="border-base-200 fixed z-10 w-full border-b p-6"
         style={{
-          width: 'calc(100vw - 256px)',
+          width: 'calc(100vw - 256px - 57px)',
           top: isShowingBanner ? '128px' : '64px'
         }}
       >
@@ -126,7 +126,7 @@ export default function Reports() {
                 leadingIcon={<MdSearch />}
                 placeholder="Search for report name or user..."
                 onChange={onInputValueChange}
-                wrapperClassName="mr-4 w-80"
+                wrapperClassName="mr-4 w-72"
               />
               <div className="w-40">
                 <SelectMenu
@@ -203,7 +203,7 @@ export default function Reports() {
             ? 'calc(100vh - 291px)'
             : 'calc(100vh - 227px)',
           top: isShowingBanner ? '291px' : '227px',
-          width: 'calc(100vw - 256px)'
+          width: 'calc(100vw - 256px - 57px)'
         }}
         onScroll={handleScroll}
       >

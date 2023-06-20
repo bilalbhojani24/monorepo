@@ -495,7 +495,7 @@ export default function SiteScanner() {
               className="fixed overflow-y-auto"
               style={{
                 height: 'calc(100vh - 228px)',
-                width: 'calc(100vw - 256px)'
+                width: 'calc(100vw - 256px - 57px)'
               }}
             >
               <Table>

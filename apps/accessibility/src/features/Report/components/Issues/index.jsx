@@ -232,7 +232,7 @@ export default function Issues() {
         </Modal>
         <div
           className="bg-base-50 border-base-200 fixed z-10 border-b"
-          style={{ width: 'calc(100% - 256px)', top: '230px' }}
+          style={{ width: 'calc(100% - 256px - 57px)', top: '230px' }}
         >
           <div className="flex w-full items-center justify-between px-6 py-4">
             <div className="flex items-center">
@@ -365,7 +365,7 @@ export default function Issues() {
           style={{
             top: `${hasFilterOrHiddenView ? '348px' : '300px'}`,
             height: 'calc(100vh - 228px)',
-            width: 'calc(100vw - 256px)'
+            width: 'calc(100vw - 256px - 57px)'
           }}
         >
           {showEmptyScreen ? (
@@ -398,7 +398,7 @@ export default function Issues() {
                     width: `${
                       isSidebarCollapsed
                         ? 'calc((100vw - 20px) / 2)'
-                        : 'calc((100vw - 256px) / 2)'
+                        : 'calc((100vw - 256px - 57px) / 2)'
                     }`
                   }}
                 >

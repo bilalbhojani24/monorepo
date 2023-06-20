@@ -476,7 +476,7 @@ export default function IssueItem() {
           width: `${
             isSidebarCollapsed
               ? 'calc((100vw - 20px) / 2)'
-              : 'calc((100vw - 256px) / 2)'
+              : 'calc((100vw - 256px - 57px) / 2)'
           }`
         }}
       >

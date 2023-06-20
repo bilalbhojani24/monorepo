@@ -26,8 +26,8 @@ importers:
   apps/accessibility:
     dependencies:
       '@browserstack/bifrost':
-        specifier: 8.2.0
-        version: 8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
+        specifier: workspace:*
+        version: link:../../packages/bifrost
       '@browserstack/growth':
         specifier: workspace:*
         version: link:../../packages/growth
@@ -542,7 +542,7 @@ importers:
     dependencies:
       '@browserstack/bifrost':
         specifier: 8.2.0
-        version: 8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
+        version: 8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.11.2)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
       '@browserstack/mcp-shared':
         specifier: workspace:*
         version: link:../../packages/mcp-shared
@@ -968,7 +968,7 @@ importers:
     dependencies:
       '@browserstack/bifrost':
         specifier: 8.2.0
-        version: 8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
+        version: 8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.11.2)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
       '@browserstack/hooks':
         specifier: workspace:*
         version: link:../../packages/hooks
@@ -1510,7 +1510,7 @@ importers:
     dependencies:
       '@browserstack/bifrost':
         specifier: 8.2.0
-        version: 8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
+        version: 8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.11.2)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
       '@browserstack/tailwind-config':
         specifier: workspace:*
         version: link:../tailwind-config
@@ -3690,7 +3690,7 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost@8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
+  /@browserstack/bifrost@8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.11.2)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
     resolution: {integrity: sha512-RdNlmTf/Ie4kb/Z4f9hMPMwDqFzDwkzu7SASAOhvReacy2xN8IOVKzQXQL7C+/HvxHrWkmAu6KkW3MlyR8EXTg==, tarball: https://npm.pkg.github.com/download/@browserstack/bifrost/8.2.0/eb5534372ff0843b3680d5f2e39135a24d3b401b}
     peerDependencies:
       prop-types: 15.8.1
@@ -3698,7 +3698,7 @@ packages:
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
+      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.11.2)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
       '@browserstack/utils': 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
       '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
       '@heroicons/react': 2.0.13(react@18.2.0)
@@ -3716,7 +3716,7 @@ packages:
       react-icons: 4.8.0(react@18.2.0)
       react-player: 2.12.0(react@18.2.0)
       react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
-      react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom: 6.11.2(react-dom@18.2.0)(react@18.2.0)
       react-stately: 3.21.0(react@18.2.0)
       react-syntax-highlighter: 15.5.0(react@18.2.0)
     transitivePeerDependencies:
@@ -3908,6 +3908,36 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-redux: 7.2.1(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
       react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
+      redux-mock-store: 1.5.4
+      uuid: 8.3.1
+    dev: false
+
+  /@browserstack/hooks@0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.11.2)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1):
+    resolution: {integrity: sha512-QByx60ZjITSFicBV8PVLU4GCLiY1ujv+vUSPC94GP366B5UqM6J2jBbUww1ZISbPCE6/ZsWUhwHatTrB4/0aWw==, tarball: https://npm.pkg.github.com/download/@browserstack/hooks/0.3.1/4bebca235f78f5332a9f859115b7cc50e7cb8b7c}
+    peerDependencies:
+      '@juggle/resize-observer': 3.3.1
+      '@reduxjs/toolkit': 1.7.1
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      prop-types: 15.7.2
+      react: 16.13.1
+      react-dom: 16.13.1
+      react-redux: 7.2.1
+      react-router-dom: 5.2.0
+      redux-mock-store: 1.5.4
+      uuid: 8.3.1
+    dependencies:
+      '@juggle/resize-observer': 3.3.1
+      '@reduxjs/toolkit': 1.9.1(react-redux@8.0.5)(react@18.2.0)
+      dexie: 3.2.2
+      enzyme: 3.11.0
+      lodash: 4.17.21
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-redux: 8.0.5(@types/react-dom@18.0.9)(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)(redux@4.2.1)
+      react-router-dom: 6.11.2(react-dom@18.2.0)(react@18.2.0)
       redux-mock-store: 1.5.4
       uuid: 8.3.1
     dev: false

@@ -37,7 +37,7 @@ export default function Violation({ violation, index }) {
 
   const maxWidthForFullView = isSidebarCollapsed
     ? 'calc((100vw - 200px) / 2)'
-    : 'calc(((100vw - 256px) / 2) - 190px)';
+    : 'calc(((100vw - 256px - 57px) / 2) - 190px)';
 
   return (
     <Accordion>

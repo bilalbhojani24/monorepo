@@ -56,7 +56,7 @@ export default function Report() {
     <div className="bg-base-50 h-full">
       <div
         className="bg-base-50 border-base-200 fixed top-16 z-10 border-b"
-        style={{ width: 'calc(100vw - 256px)' }}
+        style={{ width: 'calc(100vw - 256px - 57px)' }}
       >
         <div className="px-6 pt-6">
           <Breadcrumb
