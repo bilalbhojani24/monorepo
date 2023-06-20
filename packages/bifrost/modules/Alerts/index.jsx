@@ -116,11 +116,8 @@ const Alerts = (props) => {
   const inlineDetailNode =
     alertLinkPosition === ALERT_LINK_POSITION[0] && renderDetailNode();
 
-  const endDetailNode = alertLinkPosition === ALERT_LINK_POSITION[1] && (
-    <p className="mt-3 h-fit shrink-0 text-sm md:ml-6 md:mt-0">
-      {renderDetailNode()}
-    </p>
-  );
+  const endDetailNode =
+    alertLinkPosition === ALERT_LINK_POSITION[1] && renderDetailNode();
 
   return (
     <>
