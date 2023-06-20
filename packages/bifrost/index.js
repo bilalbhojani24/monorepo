@@ -80,6 +80,7 @@ import {
 import PageHeadings from './modules/PageHeadings/index';
 import Pagination from './modules/Pagination/index';
 import Popover from './modules/Popover/index';
+import ProductSidenav from './modules/ProductSidenav';
 import ProgressBar from './modules/ProgressBar/index';
 import Radio from './modules/Radio/index';
 import RadioGroup from './modules/RadioGroup/index';
@@ -208,6 +209,7 @@ export {
   TooltipBody as PopoverBody,
   TooltipFooter as PopoverFooter,
   TooltipHeader as PopoverHeader,
+  ProductSidenav,
   ProgressBar,
   Radio,
   RadioGroup,
