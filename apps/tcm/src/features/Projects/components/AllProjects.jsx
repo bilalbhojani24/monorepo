@@ -15,9 +15,11 @@ import {
 } from 'common/bifrostProxy';
 import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
+import ImportProgress from 'features/ImportProgress';
+import { IMPORT_STATUS } from 'features/ImportProgress/const/immutables';
+import { displayReportModal } from 'features/ImportProgress/slices/importProgressThunk';
 import { logEventHelper } from 'utils/logEvent';
 
-import { COMPLETED } from '../../quickImportFlow/const/importConst';
 import { dropDownOptions } from '../const/projectsConst';
 
 import AddProjects from './AddProjects';
@@ -34,24 +36,31 @@ const AllProjects = () => {
     showAddModal,
     showEditModal,
     showDeleteModal,
-    latestImportId,
+    importId,
     importStatus,
     showNewProjectBanner,
     countOfProjectsImported,
     currentTestManagementTool,
     isNewProjectBannerDismissed,
     dispatch,
+    searchParams,
     handleClickDynamicLink,
     onDropDownChange,
     fetchProjects,
     showAddProjectModal,
     dismissImportProjectAlert,
-    getStatusOfNewImportedProjects
+    isProgressDismissed
   } = useProjects();
 
   useEffect(() => {
     dispatch(logEventHelper('TM_AllProjectsPageLoaded', {}));
   }, [dispatch, isLoading]);
+
+  useEffect(() => {
+    if (searchParams.get('import_id')) {
+      dispatch(displayReportModal(searchParams.get('import_id')));
+    }
+  }, [dispatch, searchParams]);
 
   const tableColumns = [
     {
@@ -112,41 +121,39 @@ const AllProjects = () => {
           <div className="flex items-center">
             <div className="text-base-900 hover:text-brand-600 max-w-full font-medium">
               <TMTruncateText
+                ignoreClickAndWrapText
                 truncateUsingClamp={false}
                 hidetooltipTriggerIcon
                 isFullWidthTooltip
                 headerTooltipProps={{
                   delay: 500
                 }}
+                wrapperClassName="mr-1"
               >
                 {rowData.name}
               </TMTruncateText>
             </div>
-            {importStatus === COMPLETED &&
-              !isNewProjectBannerDismissed &&
-              latestImportId === rowData.import_id && (
-                <div className="ml-2">
-                  <TMTooltip
-                    size="xs"
-                    placementSide="bottom"
-                    theme="dark"
-                    content={
-                      <>
-                        <TMTooltipBody>
-                          <p className="text-sm">
-                            Successfully imported from{' '}
-                            {currentTestManagementTool === 'zephyr'
-                              ? 'Zephyr Scale'
-                              : 'TestRail'}
-                          </p>
-                        </TMTooltipBody>
-                      </>
-                    }
-                  >
-                    <CheckCircleRoundedIcon className="text-success-600" />
-                  </TMTooltip>
-                </div>
-              )}
+            {!isProgressDismissed && importId === rowData.import_id && (
+              <TMTooltip
+                size="xs"
+                placementSide="top"
+                theme="dark"
+                content={
+                  <>
+                    <TMTooltipBody>
+                      <p className="text-sm">
+                        Successfully imported from{' '}
+                        {currentTestManagementTool === 'zephyr'
+                          ? 'Zephyr Scale'
+                          : 'TestRail'}
+                      </p>
+                    </TMTooltipBody>
+                  </>
+                }
+              >
+                <CheckCircleRoundedIcon className="text-success-500 !h-5 !w-5" />
+              </TMTooltip>
+            )}
           </div>
           {rowData.description && (
             <div className="text-base-500 inline">
@@ -223,16 +230,12 @@ const AllProjects = () => {
           dividerRequired
           onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
           options={dropDownOptions}
+          optionGroupWrapperClassName="w-40"
         />
       ),
       class: 'w-[5%]'
     }
   ];
-
-  useEffect(() => {
-    getStatusOfNewImportedProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     fetchProjects();
@@ -258,10 +261,14 @@ const AllProjects = () => {
           </>
         }
       />
-      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
+      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-6">
+        {(importStatus === IMPORT_STATUS.ONGOING ||
+          importStatus === IMPORT_STATUS.FAILURE ||
+          importStatus === IMPORT_STATUS.SUCCESS) &&
+          !isProgressDismissed && <ImportProgress />}
         {countOfProjectsImported > 0 &&
           showNewProjectBanner &&
-          importStatus === COMPLETED &&
+          importStatus === IMPORT_STATUS.COMPLETED &&
           !isNewProjectBannerDismissed && (
             <div className="mb-4">
               <TMAlerts
@@ -324,8 +331,6 @@ const AllProjects = () => {
     </div>
   );
 };
-
-AllProjects.propTypes = {};
 
 AllProjects.defaultProps = {};
 

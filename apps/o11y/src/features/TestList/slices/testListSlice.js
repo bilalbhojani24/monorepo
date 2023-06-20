@@ -247,11 +247,15 @@ const { actions, reducer } = createSlice({
           details: {}
         };
         const prevValue = state.testList?.data?.hierarchy || [];
+        const prevSmartTagValue = state.testList?.data?.smartTagSettings;
         state.testList.data = {
-          hierarchy: [...prevValue, ...payload.hierarchy],
+          hierarchy: payload?.sentData?.loadNextPage
+            ? [...prevValue, ...payload.hierarchy]
+            : payload.hierarchy,
           pagingParams: payload.pagingParams,
           buildId: payload.buildId,
-          status: payload.status
+          status: payload.status,
+          smartTagSettings: prevSmartTagValue || payload.smartTagSettings
         };
         state.testList.apiState = newAPIStatus;
       })

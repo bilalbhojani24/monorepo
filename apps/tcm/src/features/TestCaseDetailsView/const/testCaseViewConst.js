@@ -12,15 +12,18 @@ export const TABS_ARRAY = [
 export const RESULTS_DROP_OPTIONS = [
   {
     id: 'failed',
-    body: 'Add Fail Result'
+    body: 'Add Fail Result',
+    divider: true
   },
   {
     id: 'retest',
-    body: 'Add Retest Result'
+    body: 'Add Retest Result',
+    divider: true
   },
   {
     id: 'blocked',
-    body: 'Add Blocked Result'
+    body: 'Add Blocked Result',
+    divider: true
   },
   {
     id: 'skipped',

@@ -22,7 +22,6 @@ const LayoutGridDetail = () => {
         },
         {
           index: 2,
-          count: 'Coming Soon',
           name: 'Utilization'
         }
       ]}
@@ -43,7 +42,7 @@ const LayoutGridDetail = () => {
               current: true
             }
           ]}
-          heading={gridData.name}
+          heading={gridData.name || ''}
         />
 
         {TabsForGridDetail}

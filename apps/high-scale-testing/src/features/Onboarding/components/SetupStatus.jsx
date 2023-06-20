@@ -5,7 +5,6 @@ import {
   Button,
   CodeSnippet,
   MdContentCopy,
-  MdInfoOutline,
   Modal,
   ModalBody,
   ModalFooter,
@@ -23,9 +22,11 @@ import PropTypes from 'prop-types';
 const SetupStatus = ({
   closeSetupStatusModal,
   codeSnippets,
+  copySetupFailureCode,
   exploreAutomationClickHandler,
   eventLogsStatus,
   frameworkURLs,
+  handleDismissClick,
   isSetupComplete,
   viewAllBuildsClickHandler
 }) => {
@@ -45,7 +46,10 @@ const SetupStatus = ({
 
   return (
     <Modal size="3xl" show={isSetupComplete}>
-      <ModalHeader heading={HEADER_TEXT} />
+      <ModalHeader
+        handleDismissClick={handleDismissClick}
+        heading={HEADER_TEXT}
+      />
 
       <ModalBody className="overflow-auto">
         <>
@@ -57,7 +61,7 @@ const SetupStatus = ({
             />
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FINISHED && (
-              <div className="text-base-900 flex gap-2 pt-4 text-sm">
+              <div className="flex gap-2 pt-4 text-sm text-base-900">
                 <p>
                   Copy the above framework URLs to seamlessly integrate your
                   test suite with the grid.
@@ -94,13 +98,13 @@ const SetupStatus = ({
                         Selenium
                       </TableCell>
                       <TableCell wrapperClassName="text-sm text-base-900 font-normal px-6 py-4 text-ellipsis">
-                        <div className="overflow-hidden text-ellipsis">
-                          {frameworkURLs.selenium}
+                        <div className="max-w-md overflow-hidden text-ellipsis">
+                          {`${frameworkURLs.selenium}/wd/hub`}
                         </div>
                       </TableCell>
                       <TableCell wrapperClassName="w-5">
                         <CopyButton
-                          copyValue={frameworkURLs.selenium}
+                          copyValue={`${frameworkURLs.selenium}/wd/hub`}
                           textColor=""
                           wrapperClassName="text-xl"
                         >
@@ -144,12 +148,13 @@ const SetupStatus = ({
             )}
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FAILED && (
-              <div className="text-base-900 mt-4">
+              <div className="mt-4 text-base-900">
                 <p className="mb-2 text-sm">
                   Try creating grid again with the below CLI command.
                 </p>
                 <CodeSnippet
                   code={codeSnippets['create-grid'].c.code}
+                  copyCallback={copySetupFailureCode}
                   language={codeSnippets['create-grid'].c.language}
                   singleLine={false}
                 />
@@ -203,9 +208,11 @@ const SetupStatus = ({
 SetupStatus.propTypes = {
   closeSetupStatusModal: PropTypes.func.isRequired,
   codeSnippets: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  copySetupFailureCode: PropTypes.func.isRequired,
   exploreAutomationClickHandler: PropTypes.func.isRequired,
   eventLogsStatus: PropTypes.string.isRequired,
   frameworkURLs: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  handleDismissClick: PropTypes.func.isRequired,
   isSetupComplete: PropTypes.bool.isRequired,
   viewAllBuildsClickHandler: PropTypes.func.isRequired
 };

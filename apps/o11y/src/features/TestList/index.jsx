@@ -13,9 +13,14 @@ import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
-import { clearAllAppliedFilters } from 'features/FilterSkeleton/slices/filterSlice';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import {
+  clearAllAppliedFilters,
+  setIsDirtyByCategory
+} from 'features/FilterSkeleton/slices/filterSlice';
 import {
   getAllAppliedFilters,
+  getIsDirtyByCategory,
   getIsFiltersLoading
 } from 'features/FilterSkeleton/slices/selectors';
 import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
@@ -32,7 +37,7 @@ import {
 } from 'features/TestList/slices/testListSlice';
 import TestListFilters from 'features/TestListFilters';
 import { getActiveProject } from 'globalSlice/selectors';
-import useIsUnmounted from 'hooks/useIsMounted';
+import useIsMounted from 'hooks/useIsMounted';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
@@ -48,7 +53,7 @@ const TestList = ({
   updateScrollIndexMapping
 }) => {
   const dispatch = useDispatch();
-  const { isMounted } = useIsUnmounted();
+  const { isMounted } = useIsMounted();
   const [expandAll, setExpandAll] = useState(true);
   const [closedAccordionIds, setClosedAccordionIds] = useState({});
   const buildMeta = useSelector(getBuildMeta);
@@ -57,6 +62,9 @@ const TestList = ({
   const navigate = useNavigate();
   const appliedFilters = useSelector(getAllAppliedFilters);
   const isFiltersLoading = useSelector(getIsFiltersLoading);
+  const isDirty = useSelector(
+    getIsDirtyByCategory(FILTER_CATEGORIES.TEST_LISTING)
+  );
 
   const OllyTestListingEvent = useCallback(
     (eventName, data = {}) => {
@@ -100,7 +108,17 @@ const TestList = ({
   const { data: testListData, apiState: testListDataApiState } =
     useSelector(getTestList);
   const loadFreshData = useCallback(
-    () => dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} })),
+    () =>
+      dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
+        .unwrap()
+        .finally(() => {
+          dispatch(
+            setIsDirtyByCategory({
+              category: FILTER_CATEGORIES.TEST_LISTING,
+              status: false
+            })
+          );
+        }),
     [buildUUID, dispatch]
   );
 
@@ -109,16 +127,20 @@ const TestList = ({
       dispatch(
         getTestListData({
           buildId: buildUUID,
-          pagingParams: testListData.pagingParams
+          pagingParams: testListData.pagingParams,
+          loadNextPage: true
         })
       );
     }
   }, [buildUUID, dispatch, testListData]);
 
   useEffect(() => {
-    navigate({
-      search: getSearchStringFromFilters(appliedFilters).toString()
-    });
+    navigate(
+      {
+        search: getSearchStringFromFilters(appliedFilters).toString()
+      },
+      { replace: true }
+    );
   }, [appliedFilters, navigate]);
 
   const resetReduxStore = useCallback(
@@ -184,19 +206,11 @@ const TestList = ({
   );
 
   useEffect(() => {
-    if (isMounted) {
+    if (!isFiltersLoading && isDirty) {
       resetReduxStore(['testList']);
-      if (!isFiltersLoading) {
-        loadFreshData();
-      }
+      loadFreshData();
     }
-  }, [
-    appliedFilters,
-    isFiltersLoading,
-    isMounted,
-    loadFreshData,
-    resetReduxStore
-  ]);
+  }, [isDirty, isFiltersLoading, loadFreshData, resetReduxStore]);
 
   useEffect(() => {
     setClosedAccordionIds((data) => {
@@ -224,7 +238,8 @@ const TestList = ({
         });
       }, 100);
     }
-  }, [testListScrollPos]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -250,7 +265,8 @@ const TestList = ({
             />
           )}
         </TestListContext.Provider>
-        {testListDataApiState.status === API_STATUSES.PENDING && (
+        {(testListDataApiState.status === API_STATUSES.PENDING ||
+          isFiltersLoading) && (
           <O11yLoader loaderClass="self-center p-1 my-5" />
         )}
         {testListDataApiState.status === API_STATUSES.FULFILLED &&

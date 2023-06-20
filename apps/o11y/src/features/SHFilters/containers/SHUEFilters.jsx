@@ -26,8 +26,8 @@ import PropTypes from 'prop-types';
 
 const SUPPORTED_DATE_RANGE_KEYS = [
   O11Y_DATE_RANGE.days7.key,
-  O11Y_DATE_RANGE.days15.key,
   O11Y_DATE_RANGE.days30.key,
+  O11Y_DATE_RANGE.months2.key,
   O11Y_DATE_RANGE.custom.key
 ];
 
@@ -77,7 +77,7 @@ const SHUEFilters = ({ o11ySHUEInteraction }) => {
           `${bounds.lowerBound},${bounds.upperBound}`
         );
       }
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
       getFilters();
     },
     [getFilters, navigate, o11ySHUEInteraction]
@@ -85,7 +85,7 @@ const SHUEFilters = ({ o11ySHUEInteraction }) => {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <SearchFilterField
           type={ADV_FILTER_TYPES.search.key}
           id="search-by-test-or-file-path"

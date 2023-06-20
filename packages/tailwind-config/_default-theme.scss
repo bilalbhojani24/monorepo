@@ -7,6 +7,10 @@
     margin: 0;
   }
 
+  body {
+    @apply text-base-900 antialiased bg-base-50;
+  }
+
   :root {
     /* tailwind: gray */
     --colors-base-50: #f9fafb;

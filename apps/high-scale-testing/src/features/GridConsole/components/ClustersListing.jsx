@@ -8,9 +8,9 @@ import {
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import cloudIcons from 'constants/cloudIcons';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
+import { logHSTEvent } from 'utils/logger';
 
 import { useClustersListing } from './useClustersListing';
 
@@ -71,7 +71,8 @@ const ClustersListing = () => {
           <TableBody>
             {clustersList.map((clusterData) => {
               const clusterName = clusterData.name;
-              const clusterId = clusterData.uniqueId;
+              const clusterId = clusterData.id;
+              const clusterUniqueId = clusterData.identifier.split('-')[0];
               const clusterStatus = clusterData.status;
               const { grids } = clusterData;
               const { cloudProvider, region } = clusterData.profile;
@@ -79,7 +80,7 @@ const ClustersListing = () => {
               return (
                 <TableRow
                   onRowClick={() => {
-                    logEvent(
+                    logHSTEvent(
                       ['amplitude'],
                       'web_events',
                       AGAutomationConsoleInteracted,
@@ -94,7 +95,7 @@ const ClustersListing = () => {
                 >
                   <TableCell wrapperClassName="text-base-900 px-6 py-4">
                     <p className="font-normal">{clusterName}</p>
-                    <p className="text-base-500">{clusterId}</p>
+                    <p className="text-base-500">{clusterUniqueId}</p>
                   </TableCell>
                   <TableCell wrapperClassName="px-6 py-4">
                     <Badge
@@ -110,13 +111,13 @@ const ClustersListing = () => {
                     {cloudIcons[cloudProvider]}
                   </TableCell>
                   <TableCell wrapperClassName="px-6 py-4">
-                    <p className="font-norma text-base-900">{region}</p>
+                    <p className="font-normal text-base-900">{region}</p>
                   </TableCell>
                   <TableCell wrapperClassName=" px-6 py-4">
-                    <p className="text-base-900 font-normal">12/50</p>
+                    <p className="font-normal text-base-900">12/50</p>
                   </TableCell>
                   <TableCell wrapperClassName=" px-6 py-4">
-                    <p className="text-base-900 font-normal">{grids.length}</p>
+                    <p className="font-normal text-base-900">{grids.length}</p>
                   </TableCell>
                 </TableRow>
               );

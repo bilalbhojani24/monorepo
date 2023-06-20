@@ -75,6 +75,7 @@ export default function StabilityLineGraph({ buildName }) {
                 id: 'stabilityChart',
                 name: 'Stability'
               }}
+              buildName={buildName}
             />
           )}
         </div>
