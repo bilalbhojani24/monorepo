@@ -173,6 +173,7 @@ export default function Reports() {
                   }
                 >
                   <Button
+                    size="default"
                     iconPlacement="end"
                     icon={<MdOutlineArrowForward className="text-xl" />}
                     onClick={onReportConsolidateButtonClick}
@@ -229,7 +230,7 @@ export default function Reports() {
                 <ReportRow key={uniqueId} id={uniqueId} />
               ))}
         </div>
-        {!isLoading && searchFilterList.length > 0 && (
+        {!isLoading && searchFilterList.length > 15 && (
           <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
             <p className="text-base-700 text-sm font-medium">
               Showing {lastIndex - reportPerPage + 1} to{' '}
