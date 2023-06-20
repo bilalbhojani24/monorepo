@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStorage, setStorage } from '@browserstack/utils';
 import {
+  EFT_PLAN,
   getBannerDetails,
   PAID_PLAN,
   TRIAL_EXPIRED,
@@ -39,7 +40,7 @@ export default function useReverseTrialBanner() {
   const bannerDetails = bannerName
     ? getBannerDetails(remainingDays)[bannerName]
     : {};
-  const { plan_type: planType } = useSelector(getUser);
+  const { plan_type: planType, eft_type: eftType } = useSelector(getUser);
 
   const handleBannerDismissClick = () => {
     dispatch(setShowBanner(false));
@@ -91,7 +92,7 @@ export default function useReverseTrialBanner() {
   };
 
   const displayBannerOnceADay = (storageKey, nameOfBanner) => {
-    if (planType === PAID_PLAN) return;
+    if (planType === PAID_PLAN || eftType === EFT_PLAN) return;
 
     const dateValue = new Date(getStorage(storageKey));
     const bannerLastDate = isValid(dateValue)
@@ -144,7 +145,11 @@ export default function useReverseTrialBanner() {
       }
       case TRIAL_EXPIRED: {
         const shownTrialEndBanner = getStorage('trialEndBanner');
-        if (planType !== PAID_PLAN && !shownTrialEndBanner) {
+        if (
+          planType !== PAID_PLAN &&
+          !shownTrialEndBanner &&
+          eftType !== EFT_PLAN
+        ) {
           dispatch(setBannerName('expired'));
           dispatch(setShowBanner(true));
           setStorage('trialEndBanner', true);
@@ -157,7 +162,7 @@ export default function useReverseTrialBanner() {
       default:
         setShowBanner(false);
     }
-  }, [trialState, remainingDays, planType]);
+  }, [trialState, remainingDays, planType, eftType]);
 
   return {
     bannerDetails,

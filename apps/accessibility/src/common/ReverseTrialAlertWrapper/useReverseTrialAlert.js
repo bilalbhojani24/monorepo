@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  EFT_PLAN,
   PAID_PLAN,
   SCREEN_READER,
   TRIAL_EXPIRED,
@@ -27,8 +28,11 @@ export default function useReverseTrialAlert() {
   const trialState = useSelector(getTrialState);
   const alertName = useSelector(getAlertName);
   const showAlert = useSelector(getAlertShow);
-  const { plan_type: planType, rft_eligible: isEligible } =
-    useSelector(getUser);
+  const {
+    plan_type: planType,
+    rft_eligible: isEligible,
+    eft_type: eftType
+  } = useSelector(getUser);
   const dispatch = useDispatch();
 
   const handleAlertLinkClick = () => {
@@ -54,7 +58,7 @@ export default function useReverseTrialAlert() {
   };
 
   const displayAlert = (name) => {
-    if (planType === PAID_PLAN) return;
+    if (planType === PAID_PLAN || eftType === EFT_PLAN) return;
     dispatch(setAlertName(name));
     dispatch(setAlertShow(true));
     logEvent('OnRTFeatureSpecificBanner', {
@@ -78,7 +82,7 @@ export default function useReverseTrialAlert() {
         break;
       }
       case TRIAL_EXPIRED: {
-        if (planType !== PAID_PLAN) {
+        if (planType !== PAID_PLAN || eftType === EFT_PLAN) {
           displayAlert('buyPlan');
         }
         break;
@@ -88,7 +92,7 @@ export default function useReverseTrialAlert() {
         break;
       }
     }
-  }, [trialState, planType]);
+  }, [trialState, planType, eftType]);
 
   return {
     alertName,

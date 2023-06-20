@@ -234,6 +234,8 @@ export const SCREEN_READER = 'Screen reader';
 
 export const PAID_PLAN = 'paid';
 
+export const EFT_PLAN = 'eft';
+
 export const getBannerDetails = (days) => ({
   not_started: {
     icon: Star,

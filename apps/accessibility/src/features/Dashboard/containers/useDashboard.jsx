@@ -17,6 +17,7 @@ import {
 } from '@browserstack/utils';
 import {
   CHROME_EXTENSION_URL,
+  EFT_PLAN,
   events,
   PAID_PLAN,
   sentryConfig,
@@ -63,7 +64,8 @@ export default function useDashboard() {
   const {
     plan_type: planType,
     show_expiry_sidebar_component: showTile,
-    rft_eligible: isEligible
+    rft_eligible: isEligible,
+    eft_type: eftType
   } = useSelector(getUser);
 
   const showTrialTile = () => {
@@ -132,6 +134,7 @@ export default function useDashboard() {
         [TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState) &&
         !showBanner &&
         planType !== PAID_PLAN &&
+        eftType !== EFT_PLAN &&
         isEligible
     },
     {
