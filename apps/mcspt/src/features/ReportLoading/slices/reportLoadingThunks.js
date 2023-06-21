@@ -131,7 +131,6 @@ export const stopRecordingSession =
         throw error;
       }
     } finally {
-      dispatch(resetRealtimeMetrics());
       dispatch(setIsSessionStopInProgress(false));
     }
   };
@@ -160,6 +159,5 @@ export const cancelRecordingSession =
       navigationCallback(MCP_ROUTES.HOME);
       dispatch(setIsSessionStopInProgress(false));
       dispatch(resetSessionSetupData());
-      dispatch(resetRealtimeMetrics());
     }
   };

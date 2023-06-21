@@ -119,15 +119,16 @@ export const subscribeMcpPusher = (channelData) => (dispatch, getState) => {
     !IS_PROD
   );
 
-  dispatch(
-    setSocketConnectionInstance(
-      new McpPusherEvents(dispatch, getState, channelData, pusherManager)
-    )
+  window.realtimeMetricSocketConnectionInstance = new McpPusherEvents(
+    dispatch,
+    getState,
+    channelData,
+    pusherManager
   );
 };
 
-export const disconnectMcpPusher = () => (dispatch, getState) => {
-  const existingConnection = getIsSocketConnectionInstance(getState());
+export const disconnectMcpPusher = () => (dispatch) => {
+  const existingConnection = window.realtimeMetricSocketConnectionInstance;
 
   try {
     if (

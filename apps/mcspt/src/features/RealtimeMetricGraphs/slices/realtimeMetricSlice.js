@@ -5,7 +5,6 @@ import { GRAPH_EVENT_MAP } from '../utils/realtimeGraphUtils';
 const initialState = {
   socketConnectionLoading: true,
   socketConnectionFailed: false,
-  socketConnectionInstance: null,
   realtimeThresholds: {},
   CPU_REALTIME_GRAPH: [],
   MEMORY_REALTIME_GRAPH: [],
@@ -45,10 +44,6 @@ export const realtimeMetricSlice = createSlice({
       state.socketConnectionFailed = action.payload;
     },
 
-    setSocketConnectionInstance: (state, action) => {
-      state.socketConnectionInstance = action.payload;
-    },
-
     resetRealtimeMetrics: () => initialState
   }
 });
@@ -85,17 +80,13 @@ export const getIsSocketConnectionLoading = (state) =>
 export const getIsSocketConnectionFailed = (state) =>
   state.realtimeMetrics.socketConnectionFailed;
 
-export const getIsSocketConnectionInstance = (state) =>
-  state.realtimeMetrics.socketConnectionInstance;
-
 // Action creators are generated for each case reducer function
 export const {
   updateRealTimeGraph,
   setRealtimeThresholds,
   resetRealtimeMetrics,
   setIsSocketConnectionLoading,
-  setIsSocketConnectionFailed,
-  setSocketConnectionInstance
+  setIsSocketConnectionFailed
 } = realtimeMetricSlice.actions;
 
 export default realtimeMetricSlice.reducer;
