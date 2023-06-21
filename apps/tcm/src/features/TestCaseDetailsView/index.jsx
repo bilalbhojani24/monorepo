@@ -55,7 +55,11 @@ const TestCaseDetailsView = ({
       dispatch(setShowFreshChatButton(false));
     }
     return () => {
-      if (isTestCaseViewVisible && testCaseId && isFromTestRun) {
+      if (
+        isTestCaseViewVisible &&
+        testCaseId &&
+        (isFromTestRun || isSearchFilterView)
+      ) {
         setTimeout(() => {
           dispatch(setShowFreshChatButton(true));
         }, 400);

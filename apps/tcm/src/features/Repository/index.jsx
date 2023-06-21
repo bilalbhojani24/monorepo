@@ -13,7 +13,8 @@ import useTestCases from './components/useTestCases';
 
 const Repository = ({ isSearch }) => {
   const dispatch = useDispatch();
-  const { fetchAllFolders, setShowFreshChatButton } = useFolders();
+  const { fetchAllFolders, setShowFreshChatButton, isSearchFilterView } =
+    useFolders();
 
   const {
     searchKey,
@@ -25,8 +26,7 @@ const Repository = ({ isSearch }) => {
     initTestCaseDetails,
     fetchAllTestCases,
     setRepoView,
-    cleanUpRepository,
-    isSearchFilterView
+    cleanUpRepository
   } = useTestCases();
 
   useEffect(() => {
@@ -74,6 +74,11 @@ const Repository = ({ isSearch }) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (isSearchFilterView) dispatch(setShowFreshChatButton(true));
+    else dispatch(setShowFreshChatButton(false));
+  }, [isSearchFilterView, dispatch, setShowFreshChatButton]);
 
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
