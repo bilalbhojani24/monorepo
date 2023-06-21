@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import {
   ArrowDownwardOutlinedIcon,
@@ -59,8 +59,6 @@ const TestCasesTable = ({
     moveTestCasesHandler,
     onDropDownChange,
     handleTestCaseViewClick
-    // setShowFreshChatButton,
-    // dispatch
   } = useTestCasesTable({
     rows,
     onItemSelectionCb,
@@ -236,14 +234,6 @@ const TestCasesTable = ({
       class: 'w-[1%]'
     }
   ];
-
-  // useEffect(() => {
-  //   if (isSearchFilterView) {
-  //     dispatch(setShowFreshChatButton(true));
-  //   } else {
-  //     dispatch(setShowFreshChatButton(false));
-  //   }
-  // }, [dispatch, isSearchFilterView, setShowFreshChatButton]);
 
   const datatableColumns = isMini
     ? datatableColumnsFull.filter((item, index) => index < 3)

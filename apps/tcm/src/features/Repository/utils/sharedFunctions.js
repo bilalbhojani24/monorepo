@@ -135,13 +135,3 @@ export const updatePageQueryParamsWORefresh = (searchParams, fetchedPage) => {
     }
   }
 };
-
-// export const handleScroll = (scrollRef, dispatch, setShowFreshChatButton) => {
-//   const { scrollTop, clientHeight } = scrollRef.current;
-
-//   if (scrollTop + clientHeight >= 1204) {
-//     dispatch(setShowFreshChatButton(false));
-//   } else {
-//     dispatch(setShowFreshChatButton(true));
-//   }
-// };
