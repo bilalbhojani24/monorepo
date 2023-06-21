@@ -11,7 +11,9 @@ const CPURealtimeGraph = () => {
   return (
     <div className="mb-8 flex flex-col rounded-lg bg-white p-4 shadow ">
       <div className="flex">
-        <div className="text-base-500 text-sm font-medium leading-5">CPU</div>
+        <div className="text-base-500 text-sm font-medium leading-5">
+          App CPU Usage
+        </div>
       </div>
 
       {cpuTimeSeriesData?.length > 0 && (
