@@ -1,13 +1,15 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { TooltipBody, TooltipHeader } from '@browserstack/bifrost';
 import { O11yBadge, O11yButton, O11yTooltip } from 'common/bifrostProxy';
 import PropagationBlocker from 'common/PropagationBlocker';
 import { DOC_KEY_MAPPING } from 'constants/common';
-import { ROUTES } from 'constants/routes';
 import { SMART_TAGS_CONSTANTS } from 'features/Settings/constants';
+import { getActiveProject } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { getDocUrl } from 'utils/common';
+import { getSettingsPath } from 'utils/routeUtils';
 
 const SmartTagsToolTip = ({
   flakyReason,
@@ -19,6 +21,7 @@ const SmartTagsToolTip = ({
   tooltipHeader
 }) => {
   const navigate = useNavigate();
+  const activeProject = useSelector(getActiveProject);
 
   const handleClickConfigureSmartTags = () => {
     const searchParams = new URLSearchParams();
@@ -28,8 +31,13 @@ const SmartTagsToolTip = ({
     } else if (text === 'Performance Anomaly') {
       searchParams.set('scrollTo', 'performanceAnomalies');
     }
-    searchParams.toString();
-    navigate(`${ROUTES.smart_tags}?${searchParams.toString()}`);
+
+    navigate(
+      `${getSettingsPath(
+        activeProject?.normalisedName,
+        'smart_tags'
+      )}?${searchParams.toString()}`
+    );
   };
   if (!text) return null;
   let description = '';
