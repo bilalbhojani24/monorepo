@@ -49,11 +49,10 @@ const MediaPlayer = forwardRef(
         const customDurationTaken =
           customStartAndEndInSeconds &&
           customStartAndEndInSeconds[1] - customStartAndEndInSeconds[0];
-        setDuration(
-          customStartAndEndInSeconds
-            ? customDurationTaken
-            : videoRef.current.getDuration()
-        );
+        const calculatedDuration = customStartAndEndInSeconds
+          ? customDurationTaken
+          : videoRef.current.getDuration();
+        setDuration(calculatedDuration);
         setStartTime(
           customStartAndEndInSeconds
             ? parseInt(customStartAndEndInSeconds[0], 10)
@@ -62,7 +61,7 @@ const MediaPlayer = forwardRef(
         setEndTime(
           customStartAndEndInSeconds
             ? parseInt(customStartAndEndInSeconds[1], 10)
-            : duration
+            : calculatedDuration
         );
         setIsReady(true);
         onFirstReady?.(videoRef.current.getInternalPlayer());
@@ -102,7 +101,7 @@ const MediaPlayer = forwardRef(
 
     useImperativeHandle(ref, () => ({
       seekTo(timeStamp) {
-        if (timeStamp <= duration) {
+        if (timeStamp >= startTime && timeStamp <= endTime) {
           videoRef.current.seekTo(timeStamp);
         }
       },

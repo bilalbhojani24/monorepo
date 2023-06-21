@@ -90,11 +90,6 @@ function NotificationsSettings() {
           });
         })
         .catch(() => {
-          o11yNotify({
-            title: 'Something went wrong!',
-            description: 'Failed to toggle notification status',
-            type: 'error'
-          });
           setNotificationsEnabled(currentStatus);
         })
         .finally(() => {

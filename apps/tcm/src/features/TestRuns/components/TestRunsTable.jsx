@@ -80,6 +80,7 @@ const TestRunsTable = () => {
             }}
           >
             <TMTruncateText
+              ignoreClickAndWrapText
               truncateUsingClamp={false}
               hidetooltipTriggerIcon
               isFullWidthTooltip
@@ -198,15 +199,17 @@ const TestRunsTable = () => {
           100 - (rowData.overall_progress.untested / totalValue) * 100;
         return (
           <div className="flex w-full items-center">
-            <div className="relative flex h-10 w-full max-w-[calc(100%-30px)] items-center">
+            <div className="relative flex max-w-[calc(100%-30px)] items-center">
               {Number.isNaN(untestedPerc) ? (
                 '--'
               ) : (
-                <HighchartsReact
-                  id={rowData.id}
-                  highcharts={Highcharts}
-                  options={getProgressOptions(rowData)}
-                />
+                <div className="w-full overflow-hidden rounded-lg">
+                  <HighchartsReact
+                    id={rowData.id}
+                    highcharts={Highcharts}
+                    options={getProgressOptions(rowData)}
+                  />
+                </div>
               )}
             </div>
             <span className="text-base-500 ml-2 w-7">

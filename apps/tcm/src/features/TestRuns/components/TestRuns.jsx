@@ -36,7 +36,7 @@ const TestRuns = ({ isEditView }) => {
   const queryString = window.location.search;
   const closed = new URLSearchParams(queryString).get('closed');
   useEffect(() => {
-    fetchAllTestRuns();
+    if (currentTab) fetchAllTestRuns();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId, currentTab, page]);
 
@@ -67,7 +67,7 @@ const TestRuns = ({ isEditView }) => {
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <div className="border-base-300 border-b">
         <TMPageHeadings
-          wrapperClassName="px-4 pt-6 bg-transparent"
+          wrapperClassName="px-6 pt-6 bg-transparent"
           heading="Test Runs"
           actions={
             <>
@@ -77,7 +77,7 @@ const TestRuns = ({ isEditView }) => {
             </>
           }
         />
-        <div className="mb-0 w-full px-4">
+        <div className="mb-0 w-full px-6">
           <TMTabs
             defaultIndex={TABS_ARRAY.findIndex(
               (item) => item.name === currentTab
@@ -90,7 +90,7 @@ const TestRuns = ({ isEditView }) => {
         </div>
       </div>
 
-      <div className="flex flex-1  shrink-0 grow flex-col overflow-y-auto p-4">
+      <div className="flex flex-1  shrink-0 grow flex-col overflow-y-auto p-6">
         <div className="border-base-200 flex min-w-[1040px] grow flex-col  justify-start rounded-md border bg-white">
           {isTestRunsLoading ? (
             <div className="flex w-full shrink-0 grow flex-col  justify-center ">

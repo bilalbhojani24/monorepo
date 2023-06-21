@@ -131,13 +131,19 @@ const FilterSlideover = () => {
               position="right"
             >
               <INTGButton
+                data-test-id="cancel-filters-slideover"
                 variant="primary"
                 colors="white"
                 onClick={handleCancelFilters}
               >
                 Cancel
               </INTGButton>
-              <INTGButton onClick={handleApplyFilters}>Apply</INTGButton>
+              <INTGButton
+                onClick={handleApplyFilters}
+                data-test-id="apply-filters-slideover"
+              >
+                Apply
+              </INTGButton>
             </INTGSlideoverFooter>
           </div>
         )}

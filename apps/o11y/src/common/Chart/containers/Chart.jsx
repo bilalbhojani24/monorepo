@@ -28,7 +28,7 @@ const HIGHCHARTS_DATA_ATTRIBUTE_OVERRIDE_STYLE =
 const Chart = ({ options, chartRef }) => (
   <div
     className={twClassNames(
-      'relative h-full overflow-hidden',
+      'relative h-full overflow-hidden w-full',
       HIGHCHARTS_DATA_ATTRIBUTE_OVERRIDE_STYLE
     )}
   >

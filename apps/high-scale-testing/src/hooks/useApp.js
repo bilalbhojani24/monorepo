@@ -1,10 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { initErrorLogger } from '@browserstack/utils';
+import {
+  initErrorLogger,
+  initLogger,
+  setErrorLoggerUserContext
+} from '@browserstack/utils';
 import { INIT_URL } from 'api/constants/apiURLs';
 import axios from 'axios';
-import { SENTRY_DSN } from 'constants/keys';
+import {
+  AMPLITUDE_KEY,
+  ANALYTICS_KEY,
+  EDS_API_KEY,
+  SENTRY_DSN
+} from 'constants/keys';
 import ROUTES from 'constants/routes';
 import { initialiseApplication } from 'globalSlice';
 import { getIsApploading, getUserDetails } from 'globalSlice/selector';
@@ -16,7 +25,7 @@ const useApp = () => {
   const envConfig = getEnvConfig();
   const navigate = useNavigate();
 
-  const { enableSentry } = envConfig;
+  const { enableAnalytics, enableSentry } = envConfig;
 
   const isAppLoading = useSelector(getIsApploading);
   const userDetails = useSelector(getUserDetails);
@@ -50,7 +59,40 @@ const useApp = () => {
         ]
       });
     }
-  }, [enableSentry, env, userDetails]);
+
+    if (!isAppLoading && enableAnalytics) {
+      const analyticsConfig = {
+        amplitudeKey: AMPLITUDE_KEY,
+        amplitudeConfig: {
+          key: AMPLITUDE_KEY,
+          userData: {
+            user_id: userDetails.id
+          },
+          groupData: {
+            group_id: userDetails.groupId
+          }
+        },
+        analyticsKey: ANALYTICS_KEY,
+        EDSDetails: {
+          userDetails: {
+            user_id: userDetails.id,
+            group_id: userDetails.groupId
+          },
+          config: {
+            server: 'eds.browserstack.com',
+            port: '443',
+            apiKey: EDS_API_KEY
+          }
+        }
+      };
+
+      initLogger(analyticsConfig);
+    }
+
+    if (userDetails.id && enableSentry) {
+      setErrorLoggerUserContext(userDetails.id);
+    }
+  }, [enableAnalytics, enableSentry, env, isAppLoading, userDetails]);
 
   useEffect(() => {
     if (

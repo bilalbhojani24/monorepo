@@ -10,6 +10,7 @@ import {
 } from './features/Home';
 import { reportLoadingReducer } from './features/ReportLoading';
 import { testHistoryReducer } from './features/TestHistory';
+import { realtimeMetricsReducer } from './features/RealtimeMetricGraphs';
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +22,8 @@ export const store = configureStore({
     testHistory: testHistoryReducer,
     reportLoading: reportLoadingReducer,
     reportHeader: reportHeaderReducer,
-    report: reportReducer
+    report: reportReducer,
+    realtimeMetrics: realtimeMetricsReducer
   }
 });
 
@@ -30,7 +32,9 @@ if (IS_DEV || !IS_PROD) {
   window.mcpDevRefs = {
     store,
     redirectToPath: (path) => {
-      window.location.href = `http://localhost:2099/main_window/#${path || ''}`;
+      window.location.href = `${window.location?.href?.split('#')[0]}${
+        path ? `#${path}` : ''
+      }`;
     }
   };
 }

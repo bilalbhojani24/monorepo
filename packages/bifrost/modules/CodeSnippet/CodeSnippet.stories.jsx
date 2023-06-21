@@ -97,7 +97,16 @@ const defaultConfig = {
       options: CODE_VIEW,
       description: 'The code view (default, error, warning)',
       defaultValue: CODE_VIEW[0]
+    },
+
+    copyCallback: {
+      option: { type: null },
+      description: 'Callback function when Copy button is clicked',
+      defaultValue: () => {
+        console.log('copy clicked');
+      }
     }
+
     // wordWrap: {
     //   option: { type: 'boolean' },
     //   description: 'wrap the line or not',

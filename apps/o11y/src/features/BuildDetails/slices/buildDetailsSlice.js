@@ -33,7 +33,7 @@ const { reducer, actions } = createSlice({
   name: SLICE_NAME,
   initialState: {
     buildMeta: {
-      isLoading: false,
+      isLoading: true,
       data: {}
     },
     buildUUID: '',
@@ -45,10 +45,6 @@ const { reducer, actions } = createSlice({
   reducers: {
     clearBuildUUID: (state) => {
       state.buildUUID = '';
-    },
-    clearBuildMeta: (state) => {
-      state.buildMeta.isLoading = false;
-      state.buildMeta.data = {};
     },
     setActiveTab: (state, { payload }) => {
       state.activeTab = payload;
@@ -63,6 +59,12 @@ const { reducer, actions } = createSlice({
           }
         };
       }
+    },
+    resetBuildMeta: (state) => {
+      state.buildMeta = {
+        isLoading: true,
+        data: {}
+      };
     }
   },
   extraReducers: (builder) => {
@@ -80,11 +82,19 @@ const { reducer, actions } = createSlice({
       .addCase(getBuildMetaData.fulfilled, (state, { payload }) => {
         state.buildMeta.isLoading = false;
         state.buildMeta.data = payload;
+      })
+      .addCase(getBuildMetaData.rejected, (state) => {
+        state.buildMeta.isLoading = false;
       });
   }
 });
 
-export const { clearBuildMeta, clearBuildUUID, setActiveTab, updateBuildMeta } =
-  actions;
+export const {
+  clearBuildMeta,
+  clearBuildUUID,
+  setActiveTab,
+  updateBuildMeta,
+  resetBuildMeta
+} = actions;
 
 export default reducer;

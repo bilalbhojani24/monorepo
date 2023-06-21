@@ -1,7 +1,7 @@
 export const colorShades = {
   danger: {
     textColor: '#7F1D1D',
-    darkColor: '#EF4444',
+    darkColor: '#FCA5A5',
     lightColor: '#FEE2E2'
   },
   attention: {
@@ -19,7 +19,7 @@ export const colorShades = {
 export const viewShades = {
   danger: {
     textColor: '#B91C1C',
-    backgroundBorderColor: '#B91C1C'
+    backgroundBorderColor: '#FCA5A5'
   },
   attention: {
     textColor: '#B45309',

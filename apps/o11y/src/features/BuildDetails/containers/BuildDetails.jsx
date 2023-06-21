@@ -5,6 +5,12 @@ import { MdErrorOutline } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, PUSHER_EVENTS } from 'constants/common';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import {
+  resetFilters,
+  setIsDirtyByCategory,
+  setIsLoadingBuildsFilters
+} from 'features/FilterSkeleton/slices/filterSlice';
 import TestList from 'features/TestList';
 import { EMPTY_TESTLIST_DATA_STATE } from 'features/TestList/constants';
 import {
@@ -13,7 +19,6 @@ import {
   setTestList
 } from 'features/TestList/slices/testListSlice';
 import TestInsightsLayout from 'features/TestsInsights/containers/TestInsightsLayout';
-import { o11yNotify } from 'utils/notification';
 
 import BuildDetailsHeader from '../components/BuildDetailsHeader';
 import BuildDetailsStateHandler from '../components/BuildDetailsStateHandler';
@@ -27,14 +32,14 @@ import { getBuildDetailsActiveTab, getBuildUUID } from '../slices/selectors';
 
 function BuildDetails() {
   const [loadError, setLoadError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingNewTests, setIsLoadingNewTests] = useState(false);
   const [testDefectTypeMapping, setTestDefectTypeMapping] = useState({});
   const [updateCount, setUpdateCount] = useState(0);
   const buildUUID = useSelector(getBuildUUID);
   const params = useParams();
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const activeTab = useSelector(getBuildDetailsActiveTab);
   const fetchBuildId = useCallback(() => {
     setLoadError(false);
@@ -64,6 +69,7 @@ function BuildDetails() {
   useEffect(
     () => () => {
       dispatch(resetTestListSlice());
+      dispatch(resetFilters());
       dispatch(clearBuildUUID());
       setTestDefectTypeMapping({});
       dispatch(
@@ -151,7 +157,7 @@ function BuildDetails() {
   // [END]Test list scroll positioning handling
 
   const onUpdateBtnClick = useCallback(() => {
-    setIsLoading(true);
+    setIsLoadingNewTests(true);
     dispatch(
       setTestList({
         data: EMPTY_TESTLIST_DATA_STATE,
@@ -160,27 +166,29 @@ function BuildDetails() {
     );
     dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
       .unwrap()
-      .catch(() => {
-        o11yNotify({
-          title: 'Something went wrong!',
-          description: 'There was an error while updating tests',
-          type: 'error'
-        });
-      })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoadingNewTests(false);
         setUpdateCount(0);
       });
   }, [buildUUID, dispatch]);
 
   const applyTestListFilter = useCallback(
-    ({ query, clearOnly = false, isFullQuery = false }) => {
-      dispatch(resetTestListSlice());
-      testListScrollPos.current = 0;
-      scrollIndexMapping.current = {};
+    ({ query, clearOnly = false }) => {
+      if (query || clearOnly) {
+        dispatch(resetTestListSlice());
+        testListScrollPos.current = 0;
+        scrollIndexMapping.current = {};
+        dispatch(setIsLoadingBuildsFilters(true));
+        dispatch(
+          setIsDirtyByCategory({
+            category: FILTER_CATEGORIES.TEST_LISTING,
+            status: true
+          })
+        );
+      }
       if (!clearOnly) {
-        const searchString = isFullQuery ? query : `?tab=tests&${query}`;
-        navigate({ search: searchString });
+        const searchString = `?tab=tests&${query}`;
+        navigate({ search: searchString }, { replace: true });
       }
     },
     [dispatch, navigate]
@@ -213,7 +221,7 @@ function BuildDetails() {
   return (
     <>
       <BuildDetailsHeader
-        isNewItemLoading={isLoading}
+        isNewItemLoading={isLoadingNewTests}
         onUpdateBtnClick={onUpdateBtnClick}
         updateCount={(activeTab.id === TABS.tests.id && updateCount) || 0}
         applyTestListFilter={applyTestListFilter}

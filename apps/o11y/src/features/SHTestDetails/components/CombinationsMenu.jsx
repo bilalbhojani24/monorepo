@@ -97,7 +97,7 @@ const TestDetailsCombinationsMenu = () => {
       })
     );
     searchParams.set(SNP_PARAMS_MAPPING.snpTestDetails, testId);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
     logOllyEvent({
       event: 'O11ySuiteHealthTestsTimelineInteracted',
       data: {

@@ -6,6 +6,7 @@ import {
   MdOutlineBuildCircle,
   MdOutlineDataUsage,
   MdOutlineExtension,
+  MdOutlineRunningWithErrors,
   MdOutlineSettings,
   MdOutlineStackedLineChart,
   MdOutlineTopic,
@@ -21,8 +22,10 @@ import { getDocUrl, getExternalUrl, logOllyEvent } from 'utils/common';
 import {
   getProjectBuildsPath,
   getSettingsPath,
-  getSuitHealthPath,
-  getTestingTrendPath
+  getSuitHealthTestsPath,
+  getSuitHealthUniqueErrorsPath,
+  getTestingTrendPath,
+  isBuildsPage
 } from 'utils/routeUtils';
 
 import ProjectSelector from '../components/ProjectSelector';
@@ -37,12 +40,20 @@ const getPrimaryNav = ({ projectNormalisedName }) => [
     pattern: `${ROUTES.builds}/*`
   },
   {
-    id: 'suite_health',
-    label: 'Suite Health',
+    id: 'suite_health_tests',
+    label: 'Tests Health',
     activeIcon: MdOutlineDataUsage,
     inActiveIcon: MdOutlineDataUsage,
-    path: getSuitHealthPath(projectNormalisedName),
-    pattern: ROUTES.suite_health
+    path: getSuitHealthTestsPath(projectNormalisedName),
+    pattern: ROUTES.suite_health_tests
+  },
+  {
+    id: 'suite_health_unique_errors',
+    label: 'Unique Errors',
+    activeIcon: MdOutlineRunningWithErrors,
+    inActiveIcon: MdOutlineRunningWithErrors,
+    path: getSuitHealthUniqueErrorsPath(projectNormalisedName),
+    pattern: ROUTES.suite_health_unique_errors
   },
   {
     id: 'testing_trends',
@@ -86,16 +97,21 @@ export default function Sidebar() {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const navigate = useNavigate();
+
+  const location = useLocation();
+
   const onLinkChange = (linkItem) => {
     if (linkItem?.isExternalLink) {
       window.open(linkItem.path);
       return;
     }
-    dispatch(hideIntegrationsWidget());
-    navigate(linkItem.path);
-    window.scrollTo(0, 0);
+
+    if (!matchPath(linkItem?.pattern, location.pathname) || isBuildsPage()) {
+      dispatch(hideIntegrationsWidget());
+      navigate(linkItem.path);
+      window.scrollTo(0, 0);
+    }
   };
-  const location = useLocation();
 
   const isCurrent = useCallback(
     (item) => {

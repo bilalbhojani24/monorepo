@@ -1,13 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getStorage, setStorage } from '@browserstack/utils';
 import fetchReports from 'api/fetchReports';
 import { events, reportPerPage, testTypes } from 'constants';
-import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
+import {
+  getShowBanner,
+  getSidebarCollapsedStatus
+} from 'features/Dashboard/slices/selectors';
 import debounce from 'lodash/debounce';
 import { updateUrlWithQueryParam } from 'utils/helper';
 import { logEvent } from 'utils/logEvent';
+
+import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
 
 import {
   resetReportSelection,
@@ -18,7 +23,6 @@ import {
 } from './slices/appSlice';
 import {
   getActiveVersion,
-  getIsShowingBanner,
   getLastIndex,
   getReportList,
   getSelectedReportType
@@ -40,8 +44,20 @@ export default function useReports() {
   const isLandingFirstTime = getStorage('is-landing-first-time');
   const [isOpen, setIsOpen] = useState(!isShowingModalByDefault);
   const [searchInput, setSearchInput] = useState('');
-  const isShowingBanner = useSelector(getIsShowingBanner);
+  const showBanner = useSelector(getShowBanner);
   const [isLoading, setIsLoading] = useState(false);
+  const [showColdStart, setShowColdStart] = useState(false);
+  const scrollRef = useRef(null);
+  const [showExtButtonTooltip, setShowExtButtonTooltip] = useState(false);
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight } = scrollRef.current;
+    if (scrollTop + clientHeight >= 1204) {
+      dispatch(setShowFreshChatButton(false));
+    } else {
+      dispatch(setShowFreshChatButton(true));
+    }
+  };
 
   const handleClose = ({ action }) => {
     setIsOpen(false);
@@ -55,6 +71,11 @@ export default function useReports() {
       logEvent('InteractedWithADExtensionDownloadModal', {
         actionType: events.CLOSE_MODAL
       });
+      // on showing tooltip
+      if (reportList.length > 0) {
+        logEvent('OnManualTestReportsDownloadExtensionTooltip');
+      }
+      setShowExtButtonTooltip(true);
     } else if (action === 'download-extension') {
       logEvent('InteractedWithADExtensionDownloadModal', {
         actionType: events.DOWNLOAD_EXTENSION
@@ -91,8 +112,13 @@ export default function useReports() {
           }))
         )
       );
+      setShowColdStart(response.length === 0);
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setShowFreshChatButton(true));
+  }, []);
 
   const onVersionSelect = (id) => {
     if (id !== activeVersion) {
@@ -165,7 +191,7 @@ export default function useReports() {
   return {
     isOpen,
     isLoading,
-    isShowingBanner,
+    showBanner,
     activeVersion,
     isSidebarCollapsed,
     lastIndex,
@@ -180,6 +206,11 @@ export default function useReports() {
     updateLastIndex,
     onReportConsolidateButtonClick,
     onVersionSelect,
-    handleClose
+    handleClose,
+    showColdStart,
+    scrollRef,
+    handleScroll,
+    showExtButtonTooltip,
+    setShowExtButtonTooltip
   };
 }

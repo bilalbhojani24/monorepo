@@ -2,10 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
-const CopyButton = ({ children, copyValue, wrapperClassName, textColor }) => {
+const CopyButton = ({
+  cb,
+  children,
+  copyValue,
+  wrapperClassName,
+  textColor
+}) => {
   const [isCopied, setIsCopied] = useState(false);
   const [timeoutID, setTimeoutID] = useState(null);
   const copyHelper = () => {
+    cb();
     setIsCopied(true);
     const id = setTimeout(() => {
       setIsCopied(false);
@@ -46,6 +53,7 @@ const CopyButton = ({ children, copyValue, wrapperClassName, textColor }) => {
 };
 
 CopyButton.propTypes = {
+  cb: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   copyValue: PropTypes.string,
   textColor: PropTypes.string,
@@ -53,6 +61,7 @@ CopyButton.propTypes = {
 };
 
 CopyButton.defaultProps = {
+  cb: () => {},
   children: '',
   copyValue: '',
   textColor: 'text-white',
