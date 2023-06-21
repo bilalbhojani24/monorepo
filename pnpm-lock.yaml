@@ -31900,7 +31900,6 @@ packages:
 
   /uuid-browser/3.1.0:
     resolution: {integrity: sha512-dsNgbLaTrd6l3MMxTtouOCFw4CBFc/3a+GgYA2YyrJvyQ1u6q4pcu3ktLoUZ/VN/Aw9WsauazbgsgdfVWgAKQg==}
-    deprecated: Package no longer supported and required. Use the uuid package or crypto.randomUUID instead
     dev: true
 
   /uuid/3.4.0:
