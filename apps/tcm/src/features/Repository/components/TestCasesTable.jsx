@@ -243,7 +243,9 @@ const TestCasesTable = ({
 
   useEffect(() => {
     // hide chat button on mount
-    dispatch(setShowFreshChatButton(false));
+    if (!isSearchFilterView) {
+      dispatch(setShowFreshChatButton(false));
+    }
 
     // show chat button on unmount
     return () => {
