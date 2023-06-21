@@ -184,7 +184,7 @@ export default function Reports() {
                   leadingIcon={<MdSearch />}
                   placeholder="Search for report name or user..."
                   onChange={onInputValueChange}
-                  wrapperClassName="mr-4 w-80"
+                  wrapperClassName="mr-4 w-80 bg-white"
                 />
                 <div className="w-40">
                   <SelectMenu
