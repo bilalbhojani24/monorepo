@@ -357,7 +357,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
             >
               <div className="w-9/12">
                 <InputField
-                  label="Add pages (max pages: 500)"
+                  label="Add pages (Max: 500)"
                   onChange={(e) => handleFormData(e, 'url')}
                   id="scan-url"
                   placeholder="https://www.website.com/home"
