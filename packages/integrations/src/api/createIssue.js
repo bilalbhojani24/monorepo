@@ -1,7 +1,7 @@
 import axios from './axiosInstance';
 import { URLS } from './constants';
 
-export const createIssue = (integrationKey, fields) =>
+export const createIssue = (integrationKey, fields, stateHash) =>
   axios
     .post(
       URLS.TICKET,
@@ -10,7 +10,8 @@ export const createIssue = (integrationKey, fields) =>
       },
       {
         params: {
-          integration_key: integrationKey
+          integration_key: integrationKey,
+          ...(stateHash ? { state: stateHash } : {})
         }
       }
     )
