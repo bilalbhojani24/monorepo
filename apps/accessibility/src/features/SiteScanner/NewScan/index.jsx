@@ -41,7 +41,8 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
     scanUrlRef,
     fileUploadRef,
     showToast,
-    setShowToast
+    setShowToast,
+    disableUrlButton
   } = useNewScan(closeSlideover, preConfigData);
   /*
     Download Csv
@@ -370,6 +371,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 size="small"
                 type="subtle"
                 wrapperClassName="ml-4 px-3 py-2"
+                disabled={disableUrlButton}
               >
                 Add
               </Button>
@@ -389,7 +391,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                     const invalidUrls = [];
                     const validUrls = [];
                     const uniqArr = Array.from(new Set(arr));
-                    uniqArr.map((url) => {
+                    uniqArr.forEach((url) => {
                       if (urlPattern.test(url)) {
                         validUrls.push(url);
                       } else {
@@ -407,7 +409,11 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                               invalidUrls.length +
                               totalValidUrls -
                               maxValidUrls.length
-                            } invalid URLs were ignored.`}
+                            } ${
+                              maxValidUrls.length < 500
+                                ? 'invalid URLs were ignored.'
+                                : 'pages were ignored.'
+                            }`}
                             actionButtons={null}
                             headerIcon={
                               <MdCheckCircleOutline className="text-success-400 h-6 w-6" />
@@ -463,6 +469,7 @@ const NewScan = ({ show, closeSlideover, preConfigData }) => {
                 size="small"
                 type="subtle"
                 wrapperClassName="ml-4 w-36 px-3 py-2"
+                disabled={disableUrlButton}
               >
                 Upload CSV
               </Button>
