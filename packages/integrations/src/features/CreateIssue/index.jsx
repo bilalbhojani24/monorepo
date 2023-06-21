@@ -86,7 +86,7 @@ export const CreateIssue = ({
       };
       discardIssueCTA.current = null;
       resetAppState();
-      analyticsEvent(ANALYTICS_EVENTS.TICKET_CREATE_SUCCESS, metricPayload);
+      analyticsEvent(ANALYTICS_EVENTS.WIDGET_CLOSED, metricPayload);
       handleClose();
     }
 
