@@ -105,7 +105,7 @@ export default function Dashboard({ children }) {
           }
           title={
             remainingDays === 0
-              ? 'Your team free trial is over'
+              ? 'Your Team free trial has expired'
               : 'Your Team free trial is active'
           }
         />
