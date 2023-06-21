@@ -15,7 +15,7 @@ export default function LogItemIcon({ logLevel, wrapperClassName }) {
       return (
         <MdOutlineErrorOutline
           className={twClassNames(
-            'text-danger-500 mr-2 h-4 w-4 mt-0.5',
+            'text-danger-500 mr-2 h-4 w-4 mt-0.5 flex-shrink-0',
             wrapperClassName
           )}
         />
@@ -24,7 +24,7 @@ export default function LogItemIcon({ logLevel, wrapperClassName }) {
       return (
         <MdOutlineReportProblem
           className={twClassNames(
-            'text-attention-500 mr-2 h-4 w-4 mt-0.5',
+            'text-attention-500 mr-2 h-4 w-4 mt-0.5 flex-shrink-0',
             wrapperClassName
           )}
         />

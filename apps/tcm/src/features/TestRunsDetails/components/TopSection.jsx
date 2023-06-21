@@ -40,7 +40,7 @@ const TopSection = () => {
   return (
     <div className="border-base-300 w-full border-b pb-4">
       <TMPageHeadings
-        wrapperClassName="px-4 pt-6 bg-transparent"
+        wrapperClassName="px-6 pt-6 bg-transparent"
         breadcrumbs={[
           {
             name: 'Test Runs',

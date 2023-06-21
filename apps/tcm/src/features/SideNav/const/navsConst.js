@@ -66,7 +66,7 @@ export const secondaryNavLinks = [
   },
   {
     id: AppRoute.RESOURCES,
-    label: 'Documentation',
+    label: 'View Documentation',
     keyword: 'documentation',
     activeIcon: AssignmentOutlinedIcon,
     inActiveIcon: AssignmentOutlinedIcon,

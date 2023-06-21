@@ -22,7 +22,7 @@ const useChartActions = () => {
         searchParams.set(TT_PARAMS_MAPPING.ttDateRange, 'custom');
         searchParams.set(TT_PARAMS_MAPPING.ttToDate, toTime);
         searchParams.set(TT_PARAMS_MAPPING.ttFromDate, fromTime);
-        navigate({ search: searchParams.toString() });
+        navigate({ search: searchParams.toString() }, { replace: true });
         dispatch(
           setTTFilters({
             dateRange: {

@@ -14,20 +14,6 @@ export const getDefaultChartOptions = () => ({
     labels: {
       enabled: false
     },
-    crosshair: {
-      enabled: true,
-      snap: false,
-      color: '#9CA3AF',
-      dashStyle: 'LongDash'
-    },
-    plotLines: [
-      {
-        id: 'videoSeekHandle',
-        color: '#9CA3AF',
-        width: 2,
-        value: 0
-      }
-    ],
     gridLineWidth: 1,
     showLastLabel: true,
     endOnTick: true,
@@ -62,3 +48,44 @@ export const getDefaultChartOptions = () => ({
     enabled: false
   }
 });
+
+export const getDefaultReportChartOptions = () => {
+  const defOps = getDefaultChartOptions();
+
+  defOps.xAxis.crosshair = {
+    enabled: true,
+    snap: false,
+    color: '#9CA3AF',
+    dashStyle: 'LongDash'
+  };
+
+  defOps.xAxis.plotLines = [
+    {
+      id: 'videoSeekHandle',
+      color: '#9CA3AF',
+      width: 2,
+      value: 0
+    }
+  ];
+
+  return defOps;
+};
+
+export const getDefaultRealtimeChartOptions = () => {
+  const defOps = getDefaultChartOptions();
+
+  defOps.xAxis.labels.enabled = true;
+
+  defOps.tooltip = {
+    headerFormat: '<b>{series.name}</b><br/>',
+    pointFormat: '<b>Time:</b> {point.x}s</br><b>Value:</b> {point.y:.2f}'
+  };
+
+  defOps.legend = {
+    enabled: false,
+    marginTop: 16,
+    marginBottom: 0
+  };
+
+  return defOps;
+};

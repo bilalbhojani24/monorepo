@@ -1,13 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MdArrowBack } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yButton } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { URL_REGEX } from 'constants/common';
-import { getHeaderSize } from 'globalSlice/selectors';
+import ReqDemoButton from 'common/ReqDemoButton';
+import { PUSHER_EVENTS, URL_REGEX } from 'constants/common';
+import { findAndSetProjectActive } from 'globalSlice/index';
+import { getHeaderSize, getProjects, getUserId } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
 import { getDocUrl, logOllyEvent } from 'utils/common';
+
+import { skipToDashboard } from '../utils';
 
 const getDomainName = (hostName) =>
   hostName.substring(
@@ -22,10 +26,32 @@ const allowedOrigin = (origin) => {
 export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
   const [isLoading, setIsLoading] = useState(true);
   const headerSize = useSelector(getHeaderSize);
+  const projects = useSelector(getProjects);
+  const dispatch = useDispatch();
+  const userId = useSelector(getUserId);
 
   const onLoad = () => {
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    const unSubscribe = window.pubSub.subscribe(
+      PUSHER_EVENTS.BUILD_STARTED,
+      (payload) => {
+        if (payload?.user_id === userId) {
+          dispatch(
+            findAndSetProjectActive({
+              projectNormalisedName: payload?.projectNormalisedName || ''
+            })
+          );
+          dispatch(skipToDashboard(payload?.projectNormalisedName));
+        }
+      }
+    );
+    return () => {
+      unSubscribe();
+    };
+  }, [dispatch, userId]);
 
   useEffect(() => {
     if (selectedFramework.name) {
@@ -56,14 +82,29 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
     return () => window.removeEventListener('message', handleFrameTasks);
   }, [handleFrameTasks]);
 
+  const handleInteraction = (interaction) => {
+    logOllyEvent({
+      event: 'O11yFrameworkSelectionInteracted',
+      data: {
+        language_framework: selectedFramework.name,
+        interaction
+      }
+    });
+  };
+
+  const handleClickSkipToDashboard = () => {
+    handleInteraction('Skip to Dashboard Clicked');
+    dispatch(skipToDashboard());
+  };
+
   return (
     <div
-      className="m-auto flex w-full max-w-screen-xl flex-col overflow-hidden p-12 pt-0"
+      className="m-auto flex w-full max-w-screen-xl flex-col overflow-hidden px-12 pb-6 pt-0"
       style={{
         height: `calc(100vh - ${headerSize}px)`
       }}
     >
-      <div className="mb-5 flex w-full items-center justify-between pt-12">
+      <div className="mb-5 w-full items-center justify-between pt-6">
         <O11yButton
           variant="minimal"
           icon={<MdArrowBack className="text-xl" />}
@@ -71,7 +112,26 @@ export default function FrameworkDocViewer({ onClickBack, selectedFramework }) {
         >
           Back
         </O11yButton>
-        <p className="text-sm font-medium">{selectedFramework.name}</p>
+        <div className="flex items-center justify-between">
+          <h1 className="ml-1 text-2xl font-bold leading-7">
+            {selectedFramework.name}
+          </h1>
+          {projects?.list?.length ? (
+            <O11yButton
+              size="default"
+              colors="white"
+              onClick={handleClickSkipToDashboard}
+            >
+              Skip to dashboard
+            </O11yButton>
+          ) : (
+            <ReqDemoButton
+              clickCb={() => {
+                handleInteraction('Get Demo Clicked');
+              }}
+            />
+          )}
+        </div>
       </div>
       {isLoading && <O11yLoader wrapperClassName="flex-1" />}
       <iframe

@@ -25,7 +25,6 @@ export function CalendarCell({ state, date, currentDate }) {
   }
 
   const { focusProps, isFocusVisible } = useFocusRing();
-
   return (
     <td
       {...cellProps}
@@ -89,6 +88,9 @@ CalendarCell.propTypes = {
     highlightedRange: Proptypes.shape({
       start: Proptypes.oneOfType([Proptypes.shape({}), Proptypes.string]),
       end: Proptypes.oneOfType([Proptypes.shape({}), Proptypes.string])
+    }),
+    triggerRef: Proptypes.shape({
+      current: {}
     })
   }),
   date: Proptypes.shape({

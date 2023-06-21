@@ -20,7 +20,6 @@ export function Calendar(props) {
     createCalendar
   });
   const { isLoading } = props;
-
   const ref = useRef();
   const { calendarProps, prevButtonProps, nextButtonProps, title } =
     useCalendar(props, state, ref);

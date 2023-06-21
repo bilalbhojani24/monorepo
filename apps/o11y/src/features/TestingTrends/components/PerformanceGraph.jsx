@@ -1,11 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { O11yTooltip } from 'common/bifrostProxy';
 import Chart from 'common/Chart';
-import {
-  COMMON_CHART_CONFIGS,
-  COMMON_CHART_STYLES,
-  TOOLTIP_STYLES
-} from 'constants/common';
+import { COMMON_CHART_CONFIGS, COMMON_CHART_STYLES } from 'constants/common';
 import {
   getAllTTFilters,
   getTTFilterByKey
@@ -15,51 +12,25 @@ import { getProjects } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
-import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
+import { milliSecondsToTime } from 'utils/dateTime';
 
 import useChartActions from '../hooks/useChartActions';
 
+import CustomChartTooltip from './CustomChartTooltip';
 import TrendStatesWrapper from './TrendStatesWrapper';
 
 function getFormattedYAxisLabel() {
   return milliSecondsToTime(this.value);
 }
-function getFormattedTooltip() {
-  return this.points.reduce((s, data) => {
-    let returnString = `${s}`;
-    if (!isEmpty(data.point.pointRange)) {
-      returnString += `<span class="tt-small-text">${getCustomTimeStamp({
-        dateString: data.point.pointRange[0],
-        withoutTime: true
-      })} </span>`;
-      returnString += ` - <span class="tt-small-text">${getCustomTimeStamp({
-        dateString: data.point.pointRange[1],
-        withoutTime: true
-      })}</span>`;
-    }
-    if (returnString) {
-      returnString += `<br/>`;
-    }
-    returnString += `<span style="color:${data.series.color}">\u25CF&nbsp;</span>`;
-    if (data.series.name === 'Duration') {
-      returnString += `<span>${data.series.name}: <b>${milliSecondsToTime(
-        data.y
-      )}</b></span>`;
-    } else {
-      returnString += `<span>${data.series.name}: <b>${data.y}</b></span>`;
-    }
-    return returnString;
-  }, ``);
-}
 
-const getChartOptions = ({ afterSetExtremes, activeProject }) => ({
+const getChartOptions = ({
+  afterSetExtremes,
+  activeProject,
+  handleTooltipData
+}) => ({
   ...COMMON_CHART_CONFIGS,
   tooltip: {
-    ...TOOLTIP_STYLES,
-    formatter() {
-      return getFormattedTooltip.call(this);
-    },
-    shared: true
+    enabled: false
   },
   chart: {
     zoomType: 'x',
@@ -103,7 +74,7 @@ const getChartOptions = ({ afterSetExtremes, activeProject }) => ({
       gridZIndex: 0,
       gridLineDashStyle: 'Dash',
       title: {
-        text: 'Duration',
+        text: 'Average Duration',
         style: {
           color: '#49837C'
         }
@@ -138,6 +109,32 @@ const getChartOptions = ({ afterSetExtremes, activeProject }) => ({
                 interaction: 'performance_clicked'
               }
             });
+          },
+          mouseOver(e) {
+            const { plotX, plotY, index } = e.target;
+            const seriesData = e.target.series.chart.series.map((res) => ({
+              ...res,
+              index,
+              y: res.data[index]?.y,
+              pointRangeOptions: res.data[index]?.pointRange
+            }));
+
+            const { plotBox } = e.target.series.chart;
+            const { spacingBox } = e.target.series.chart;
+
+            handleTooltipData({
+              options: [...seriesData],
+              styles: {
+                top: e.target?.dlBox?.y
+                  ? plotBox.y + e.target?.dlBox?.y
+                  : plotY + plotBox.y - spacingBox.y,
+                left: e.target?.dlBox?.x
+                  ? plotBox.x + e.target?.dlBox?.x
+                  : plotX + plotBox.x - spacingBox.x,
+                width: e.target?.dlBox?.width || 16,
+                height: e.target?.dlBox?.height || 16
+              }
+            });
           }
         }
       }
@@ -159,8 +156,14 @@ export default function PerformanceGraph({ buildName }) {
   const projects = useSelector(getProjects);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [tooltipData, setTooltipData] = useState({});
+
   const filters = useSelector(getAllTTFilters);
   const { afterSetExtremes } = useChartActions();
+
+  const handleTooltipData = useCallback((tooltipRes) => {
+    setTooltipData(tooltipRes);
+  }, []);
 
   const fetchData = useCallback(() => {
     setIsLoading(true);
@@ -192,12 +195,16 @@ export default function PerformanceGraph({ buildName }) {
 
   const options = useMemo(
     () => ({
-      ...getChartOptions({ afterSetExtremes, activeProject: projects.active }),
+      ...getChartOptions({
+        afterSetExtremes,
+        activeProject: projects.active,
+        handleTooltipData
+      }),
       series: [
         {
           type: 'column',
           data: chartData?.barData,
-          name: 'Duration',
+          name: 'Average Duration',
           yAxis: 1,
           color: '#9DD0CA',
           borderRadiusTopLeft: 3,
@@ -210,7 +217,13 @@ export default function PerformanceGraph({ buildName }) {
         }
       ]
     }),
-    [afterSetExtremes, chartData?.barData, chartData?.lineData, projects.active]
+    [
+      afterSetExtremes,
+      chartData?.barData,
+      chartData?.lineData,
+      handleTooltipData,
+      projects.active
+    ]
   );
 
   return (
@@ -221,7 +234,39 @@ export default function PerformanceGraph({ buildName }) {
       onClickCTA={fetchData}
     >
       {!isLoading && (
-        <div className="h-full">
+        <div className="relative h-full">
+          <div
+            className="absolute z-10 rounded-sm"
+            key={tooltipData?.options?.id}
+            style={{
+              ...tooltipData?.styles
+            }}
+            onClick={() => {}}
+            role="presentation"
+          >
+            <O11yTooltip
+              theme="dark"
+              wrapperClassName="py-2"
+              placementSide="top"
+              placementAlign="center"
+              triggerAsChild
+              content={
+                <CustomChartTooltip
+                  tooltipData={tooltipData.options || []}
+                  activeProject={projects.active}
+                  filters={filters}
+                  buildName={buildName}
+                />
+              }
+            >
+              <div
+                className="h-full w-full"
+                style={{
+                  ...tooltipData?.styles
+                }}
+              />
+            </O11yTooltip>
+          </div>
           <Chart
             options={options}
             key={`${activeDateRange?.key}-${activeDateRange?.upperBound}-${activeDateRange?.lowerBound}`}
