@@ -135,9 +135,12 @@ const TestList = ({
   }, [buildUUID, dispatch, testListData]);
 
   useEffect(() => {
-    navigate({
-      search: getSearchStringFromFilters(appliedFilters).toString()
-    });
+    navigate(
+      {
+        search: getSearchStringFromFilters(appliedFilters).toString()
+      },
+      { replace: true }
+    );
   }, [appliedFilters, navigate]);
 
   const resetReduxStore = useCallback(

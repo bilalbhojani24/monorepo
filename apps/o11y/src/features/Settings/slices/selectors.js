@@ -21,3 +21,6 @@ export const getNotificationsStatus = (state) =>
 
 export const getNotifiedUsersState = (state) =>
   state.notificationsSettings.notifiedUsers;
+
+export const getSmartTagsSettings = (state) =>
+  state.smartTagsSettings.smartTags;

@@ -226,7 +226,7 @@ const removeAllFilterFieldsFromParams = () => {
   if (searchParams.get('daterangetype')) {
     searchParams.delete('daterangetype');
   }
-  o11yHistory.navigate({ search: searchParams.toString() });
+  o11yHistory.navigate({ search: searchParams.toString() }, { replace: true });
 };
 
 export const resetAllAppliedFilters = () => (dispatch) => {

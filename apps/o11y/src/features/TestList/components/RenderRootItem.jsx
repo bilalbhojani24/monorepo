@@ -76,17 +76,21 @@ const RenderRootItem = ({ data, isLast }) => {
   const childrenElements = useMemo(() => {
     const testRuns = [];
     const testListItems = [];
+    const afterAllHook = [];
     data?.children.forEach((item) => {
       if (
         item.type === TESTLIST_TYPES.DESCRIBE ||
         item.type === TESTLIST_TYPES.ROOT
       ) {
         testRuns.push(item);
+      } else if (item.type === TESTLIST_TYPES.HOOK && item.isAfterAllHook) {
+        afterAllHook.push(item);
       } else {
         testListItems.push(item);
       }
     });
     return {
+      afterAllHook,
       testListItems,
       testRuns
     };
@@ -199,6 +203,13 @@ const RenderRootItem = ({ data, isLast }) => {
           {childrenElements?.testRuns?.map((item) => (
             <RenderRootItem data={item} key={item.id} />
           ))}
+
+          {!!childrenElements?.afterAllHook.length && (
+            <RenderTestListItems
+              data={childrenElements.afterAllHook}
+              parentId={data.id}
+            />
+          )}
         </AccordionPanel>
       </Accordion>
     </div>
