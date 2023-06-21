@@ -55,13 +55,9 @@ const TestCaseDetailsView = ({
       dispatch(setShowFreshChatButton(false));
     }
     return () => {
-      if (
-        (isTestCaseViewVisible && testCaseId && isFromTestRun) ||
-        isSearchFilterView
-      ) {
+      if (isTestCaseViewVisible && testCaseId && isFromTestRun) {
         setTimeout(() => {
           dispatch(setShowFreshChatButton(true));
-          // time it takes for slideover to close is 4000ms
         }, 400);
       }
     };

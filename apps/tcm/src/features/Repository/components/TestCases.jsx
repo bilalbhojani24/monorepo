@@ -70,14 +70,6 @@ export default function TestCases() {
     initCustomFormFields();
   }, [initCustomFormFields]);
 
-  useEffect(() => {
-    dispatch(setShowFreshChatButton(false));
-    return () => {
-      dispatch(setShowFreshChatButton(true));
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // TODO when going top modal based form, make sure after Bulk edit in searchfilter view the search API is not fetched again after the edit
   if (isAddTestCasePageVisible)
     return isBulkUpdate ? <BulkEditTestCase /> : <AddEditTestCase />;

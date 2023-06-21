@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getFolders, getSubFolders, moveFolder } from 'api/folders.api';
 import AppRoute from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addNotificaton, setShowFreshChatButton } from 'globalSlice';
 import {
   deleteFolderFromArray,
   findFolder,
@@ -359,6 +359,7 @@ export default function useFolders() {
     folderActionsHandler,
     moveFolderHelper,
     moveFolderOnOkHandler,
-    hideFolderModal
+    hideFolderModal,
+    setShowFreshChatButton
   };
 }
