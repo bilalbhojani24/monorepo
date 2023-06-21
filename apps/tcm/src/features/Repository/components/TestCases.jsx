@@ -40,9 +40,7 @@ export default function TestCases() {
     isTestCasesLoading,
     isFoldersLoading,
     initCustomFormFields,
-    handleFilterPagination,
-    dispatch,
-    setShowFreshChatButton
+    handleFilterPagination
   } = useTestCases();
 
   const focusRef = useRef(null);
