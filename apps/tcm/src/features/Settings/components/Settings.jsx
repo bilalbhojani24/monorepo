@@ -31,7 +31,7 @@ const Settings = () => {
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <div className="border-base-300 border-b pb-6">
         <TMPageHeadings
-          wrapperClassName="px-4 pt-6 bg-transparent"
+          wrapperClassName="px-6 pt-6 bg-transparent"
           heading="Settings"
         />
         {/* <div className="mb-0 w-full px-4">

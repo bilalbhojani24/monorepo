@@ -114,7 +114,7 @@ const AddEditTestRun = ({ isEdit }) => {
           </div>
         ) : (
           <div className="flex-1 overflow-y-auto">
-            <div className="border-base-200 flex flex-1 flex-col justify-start overflow-hidden border-b bg-white p-4 sm:rounded-lg">
+            <div className="border-base-200 flex flex-1 flex-col justify-start overflow-hidden border-b bg-white p-6 sm:rounded-lg">
               <div className="w-2/4">
                 <TMInputField
                   value={testRunFormData?.test_run?.name}

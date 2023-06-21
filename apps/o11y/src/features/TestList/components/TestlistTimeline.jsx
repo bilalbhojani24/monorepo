@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 
 import TestListHistoryTooltip from './TestListHistoryTooltip';
 
-function TestlistTimeline({ details }) {
+function TestlistTimeline({ details, isHook }) {
   const { history } = details;
   const dispatch = useDispatch();
 
@@ -33,9 +33,9 @@ function TestlistTimeline({ details }) {
   const loadHistory = useCallback(() => {
     const testRunIds = history.map((item) => item.testRunId);
     if (testRunIds.length) {
-      dispatch(getHistoryDetails({ testRunIds }));
+      dispatch(getHistoryDetails({ testRunIds, isHook }));
     }
-  }, [dispatch, history]);
+  }, [dispatch, history, isHook]);
 
   if (!history.length) {
     return (
@@ -48,7 +48,9 @@ function TestlistTimeline({ details }) {
   }
 
   const handleClickItem = (id) => {
-    dispatch(showTestDetailsDrawer(id));
+    if (!isHook) {
+      dispatch(showTestDetailsDrawer(id));
+    }
   };
 
   return (
@@ -63,9 +65,10 @@ function TestlistTimeline({ details }) {
             placementSide="bottom"
             key={singleHistoryItem.testRunId}
             triggerWrapperClassName="inline-flex items-center"
+            wrapperClassName="py-0 rounded-md"
             content={
               // eslint-disable-next-line tailwindcss/no-arbitrary-value
-              <div className="min-w-[250px] px-4">
+              <div className="border-base-200 w-[350px] border">
                 <TestListHistoryTooltip {...singleHistoryItem} />
               </div>
             }
@@ -96,6 +99,9 @@ function TestlistTimeline({ details }) {
 
 export default TestlistTimeline;
 TestlistTimeline.propTypes = {
-  details: PropTypes.shape(singleItemTestDetails).isRequired
+  details: PropTypes.shape(singleItemTestDetails).isRequired,
+  isHook: PropTypes.bool
 };
-TestlistTimeline.defaultProps = {};
+TestlistTimeline.defaultProps = {
+  isHook: false
+};

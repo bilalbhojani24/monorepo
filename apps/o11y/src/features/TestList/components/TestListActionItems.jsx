@@ -21,7 +21,7 @@ import { logOllyEvent } from 'utils/common';
 
 import { getTestReportDetails } from '../slices/testListSlice';
 
-function TestListActionItems({ details }) {
+function TestListActionItems({ details, isMutedHidden }) {
   const dispatch = useDispatch();
   const [updatedMutedStatus, setUpdatedMutedStatus] = useState(null);
   const { buildUUID } = useContext(TestListContext);
@@ -104,6 +104,16 @@ function TestListActionItems({ details }) {
     OllyTestListingEvent('O11yReportBugExecuted');
   };
 
+  const getMuteButtonText = (getMutedStatus) => {
+    if (isMutedHidden) return 'Muting is not applicable for test hooks';
+    return `${getMutedStatus} ? 'Un-Mute' : 'Mute'} Test`;
+  };
+
+  const getReRunButtonText = () => {
+    if (isMutedHidden) return 'Re-run is not applicable for test hooks';
+    return 'Re-run';
+  };
+
   useEffect(() => {
     const unSubscribe = window.pubSub.subscribe(
       'onToggleMuteStatus',
@@ -135,7 +145,7 @@ function TestListActionItems({ details }) {
           content={
             <div className="mx-4">
               {buildMeta?.data?.reRun ? (
-                <p className="text-base-300 text-sm">Re-run</p>
+                <p className="text-base-300 text-sm">{getReRunButtonText()}</p>
               ) : (
                 <p className="text-base-300 text-sm">
                   Re-run is not applicable or disabled in the project settings
@@ -151,7 +161,7 @@ function TestListActionItems({ details }) {
             size="extra-small"
             onClick={handleRerunButtonClick}
             icon={<MdRedo className="h-5 w-5" />}
-            disabled={!buildMeta?.data?.reRun}
+            disabled={!buildMeta?.data?.reRun || isMutedHidden}
           />
         </O11yTooltip>
       )}
@@ -185,7 +195,7 @@ function TestListActionItems({ details }) {
         content={
           <div className="mx-4">
             <p className="text-base-300 text-sm">
-              {getMutedStatus ? 'Un-Mute' : 'Mute'} Test
+              {getMuteButtonText(getMutedStatus)}
             </p>
           </div>
         }
@@ -196,6 +206,7 @@ function TestListActionItems({ details }) {
           isIconOnlyButton
           size="extra-small"
           onClick={() => handleMuteUnmuteTestCase(!getMutedStatus)}
+          disabled={isMutedHidden}
           icon={
             getMutedStatus ? (
               <MdOutlineVolumeOff className="h-5 w-5" />
@@ -212,6 +223,9 @@ function TestListActionItems({ details }) {
 export default TestListActionItems;
 
 TestListActionItems.propTypes = {
-  details: PropTypes.shape(singleItemTestDetails).isRequired
+  details: PropTypes.shape(singleItemTestDetails).isRequired,
+  isMutedHidden: PropTypes.bool
 };
-TestListActionItems.defaultProps = {};
+TestListActionItems.defaultProps = {
+  isMutedHidden: false
+};

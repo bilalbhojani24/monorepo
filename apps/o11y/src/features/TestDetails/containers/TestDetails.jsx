@@ -79,7 +79,7 @@ const TestDetails = ({ source }) => {
     dispatch(hideTestDetailsDrawer());
     const searchParams = new URLSearchParams(window?.location.search);
     searchParams.delete('details');
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
 
   useFloatingComponentTracking(isVisible, FLOATING_COMPONENTS_IDS.TEST_DETAILS);
