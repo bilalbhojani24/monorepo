@@ -134,7 +134,9 @@ export default function useReverseTrialModal() {
           dispatch(setModalShow(false));
           showConfetti();
           setShowLoader(false);
-          logEvent('OnRTActivationSuccessState');
+          logEvent('OnRTActivationSuccessState', {
+            platform: 'Dashboard'
+          });
         }
       } catch (e) {
         await refreshUserData();
