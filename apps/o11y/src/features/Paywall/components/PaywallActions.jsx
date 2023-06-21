@@ -11,7 +11,12 @@ import { o11yNotify } from 'utils/notification';
 
 import { handleUpgrade } from '../utils';
 
-function PaywallActions({ showTextOnSubmit, isOnDarkBg, showToastOnUpgrade }) {
+function PaywallActions({
+  showTextOnSubmit,
+  isOnDarkBg,
+  showToastOnUpgrade,
+  docLink
+}) {
   const [hasSubmittedUpgradeReq, setHasSubmittedUpgradeReq] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -76,7 +81,9 @@ function PaywallActions({ showTextOnSubmit, isOnDarkBg, showToastOnUpgrade }) {
         <O11yButton
           colors="white"
           wrapperClassName="bg-base-600 text-white hover:text-base-900 shrink-0"
-          // onClick={}
+          onClick={() => {
+            window.open(docLink, '_blank', 'noopener,noreferrer');
+          }}
         >
           Learn more
         </O11yButton>
@@ -92,7 +99,8 @@ function PaywallActions({ showTextOnSubmit, isOnDarkBg, showToastOnUpgrade }) {
 PaywallActions.propTypes = {
   showTextOnSubmit: PropTypes.bool,
   isOnDarkBg: PropTypes.bool,
-  showToastOnUpgrade: PropTypes.bool
+  showToastOnUpgrade: PropTypes.bool,
+  docLink: PropTypes.string.isRequired
 };
 
 PaywallActions.defaultProps = {

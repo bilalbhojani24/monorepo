@@ -30,7 +30,7 @@ const STATIC_DROPDOWN_DATA = [
     .map((_, i) => ({ name: i + 2, value: i + 2 }))
 ];
 
-export const AlwaysFailingTags = ({ data, isActive }) => {
+export const AlwaysFailingTags = ({ data, isActive, docLink }) => {
   const dispatch = useDispatch();
 
   const {
@@ -62,6 +62,7 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
           title="Configuring smart tags is a pro feature."
           content="Configure your personalized definition of always failing tests."
           featureKey={PAYWALL_FEATURES.SMART_TAGS}
+          docLink={docLink}
         >
           <O11ySwitcher
             checked={alwaysFailingSwitchEnabled}
@@ -144,7 +145,8 @@ export const AlwaysFailingTags = ({ data, isActive }) => {
 
 AlwaysFailingTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
-  isActive: PropTypes.bool.isRequired
+  isActive: PropTypes.bool.isRequired,
+  docLink: PropTypes.string.isRequired
 };
 
 AlwaysFailingTags.defaultProps = {

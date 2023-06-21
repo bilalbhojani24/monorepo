@@ -4,11 +4,13 @@ import { useLocation } from 'react-router-dom';
 import { O11yButton } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
+import { DOC_KEY_MAPPING } from 'constants/common';
 import { MODAL_TYPES } from 'constants/modalTypes';
 import { PAYWALL_FEATURES } from 'constants/paywall';
 import { PaywallAlert } from 'features/Paywall';
 import { getActiveProject, getPlanDetailsKey } from 'globalSlice/selectors';
 import isEqual from 'lodash/isEqual';
+import { getDocUrl } from 'utils/common';
 
 import { AlwaysFailingTags } from '../components/AlwaysFailingTags';
 import { FlakyTags } from '../components/FlakyTags';
@@ -17,6 +19,11 @@ import { PerformanceAnomaliesTags } from '../components/PerformanceAnomaliesTags
 import SettingsCard from '../components/SettingsCard';
 import { getSmartTagsSettings } from '../slices/selectors';
 import { getSmartTags } from '../slices/smartTagsSettings';
+
+const getSmartTagsDocURL = (text) =>
+  `${getDocUrl({
+    path: DOC_KEY_MAPPING.smart_tags
+  })}#${text.split(' ').join('-').toLowerCase()}`;
 
 export default function SmartTags() {
   const smartTags = useSelector(getSmartTagsSettings);
@@ -108,23 +115,27 @@ export default function SmartTags() {
           data={smartTags.localState.flaky}
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
+          docLink={getSmartTagsDocURL('Flaky')}
         />
         <AlwaysFailingTags
           data={smartTags.localState.alwaysFailing}
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
+          docLink={getSmartTagsDocURL('Always Failing')}
         />
         <NewFailureTags
           ref={newFailureRef}
           data={smartTags.localState.newFailure}
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
+          docLink={getSmartTagsDocURL('New failure')}
         />
         <PerformanceAnomaliesTags
           ref={performanceAnomaliesRef}
           data={smartTags.localState.performanceAnomalies}
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
+          docLink={getSmartTagsDocURL('Performance anomaly')}
         />
         <div className="bg-base-50 sticky bottom-0 flex justify-end px-6 py-3">
           <O11yButton

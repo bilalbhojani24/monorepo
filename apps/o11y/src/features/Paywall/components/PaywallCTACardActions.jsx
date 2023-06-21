@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   CTACardActions,
-  MdCheckCircle,
-  MdOpenInNew
+  MdCheckCircle
+  // MdOpenInNew
 } from '@browserstack/bifrost';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
@@ -13,7 +13,10 @@ import PropTypes from 'prop-types';
 
 import { handleUpgrade } from '../utils';
 
-function PaywallCTACardActions({ showTextOnSubmit, learnMoreLink }) {
+function PaywallCTACardActions({
+  showTextOnSubmit
+  // learnMoreLink
+}) {
   const [hasSubmittedUpgradeReq, setHasSubmittedUpgradeReq] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -72,34 +75,34 @@ function PaywallCTACardActions({ showTextOnSubmit, learnMoreLink }) {
       primaryBtnText={
         shouldAllowFreeTrial ? CTA_TEXTS.FREE_TRIAL : CTA_TEXTS.UPGRADE
       }
-      secondaryBtnText={
-        <span className="flex flex-row items-center gap-1">
-          Learn more <MdOpenInNew />
-        </span>
-      }
+      // secondaryBtnText={
+      //   <span className="flex flex-row items-center gap-1">
+      //     Learn more <MdOpenInNew />
+      //   </span>
+      // }
       onPrimayBtnClick={() => {
         handleClickUpgrade(shouldAllowFreeTrial);
       }}
-      onSecondaryBtnClick={() => {
-        if (learnMoreLink) {
-          window.open(learnMoreLink, '_blank');
-        }
-      }}
+      // onSecondaryBtnClick={() => {
+      //   if (learnMoreLink) {
+      //     window.open(learnMoreLink, '_blank');
+      //   }
+      // }}
       primaryBtnProps={{
         colors: 'success',
         loading: isSubmitting,
         isIconOnlyButton: isSubmitting
       }}
-      secondaryBtnProps={{
-        colors: 'white'
-      }}
+      // secondaryBtnProps={{
+      //   colors: 'white'
+      // }}
     />
   );
 }
 
 PaywallCTACardActions.propTypes = {
-  showTextOnSubmit: PropTypes.bool,
-  learnMoreLink: PropTypes.string.isRequired
+  showTextOnSubmit: PropTypes.bool
+  // learnMoreLink: PropTypes.string.isRequired
 };
 
 PaywallCTACardActions.defaultProps = {

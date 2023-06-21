@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 
 import PaywallActions from './PaywallActions';
 
-function PaywallTooltip({ children, title, content, featureKey }) {
+function PaywallTooltip({ children, title, content, featureKey, docLink }) {
   const planDetails = useSelector(getPlanDetailsKey(featureKey));
   return (
     <O11yTooltip
@@ -26,7 +26,7 @@ function PaywallTooltip({ children, title, content, featureKey }) {
               <p className="text-sm">{content}</p>
             </TooltipBody>
             <TooltipFooter>
-              <PaywallActions isOnDarkBg showToastOnUpgrade />
+              <PaywallActions isOnDarkBg showToastOnUpgrade docLink={docLink} />
             </TooltipFooter>
           </>
         ) : null
@@ -43,7 +43,8 @@ PaywallTooltip.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  featureKey: PropTypes.string.isRequired
+  featureKey: PropTypes.string.isRequired,
+  docLink: PropTypes.string.isRequired
 };
 
 export default PaywallTooltip;

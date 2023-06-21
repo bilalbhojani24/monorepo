@@ -33,7 +33,7 @@ const FLIPPING_COUNT_CONSECUTIVE_RUNS = [
     .map((_, i) => ({ name: i + 5, value: i + 5 }))
 ];
 
-export const FlakyTags = ({ data, isActive }) => {
+export const FlakyTags = ({ data, isActive, docLink }) => {
   const dispatch = useDispatch();
   const [flippingCountArray, setFlippingCountArray] = useState(FLIPPING_COUNT);
   const [consecutiveRunsArray, setConsecutiveRunsArray] = useState(
@@ -125,6 +125,7 @@ export const FlakyTags = ({ data, isActive }) => {
           title="Configuring smart tags is a pro feature."
           content="Configure your personalized definition of flakiness."
           featureKey={PAYWALL_FEATURES.SMART_TAGS}
+          docLink={docLink}
         >
           <O11ySwitcher
             checked={automaticFlaky}
@@ -270,7 +271,8 @@ export const FlakyTags = ({ data, isActive }) => {
 
 FlakyTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
-  isActive: PropTypes.bool.isRequired
+  isActive: PropTypes.bool.isRequired,
+  docLink: PropTypes.string.isRequired
 };
 
 FlakyTags.defaultProps = {

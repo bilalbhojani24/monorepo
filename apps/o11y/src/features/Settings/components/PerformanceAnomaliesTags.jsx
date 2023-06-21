@@ -33,7 +33,7 @@ const STATIC_EXECUTION_DROPDOWN_DATA = [
 ];
 
 export const PerformanceAnomaliesTags = forwardRef(
-  ({ data, isActive }, ref) => {
+  ({ data, isActive, docLink }, ref) => {
     const dispatch = useDispatch();
     const {
       durationPercentile,
@@ -64,6 +64,7 @@ export const PerformanceAnomaliesTags = forwardRef(
             title="Configuring smart tags is a pro feature."
             content="Configure your personalized definition of tests to be considered under performance anomaly."
             featureKey={PAYWALL_FEATURES.SMART_TAGS}
+            docLink={docLink}
           >
             <O11ySwitcher
               checked={performanceAnomaliesEnabled}
@@ -148,7 +149,8 @@ export const PerformanceAnomaliesTags = forwardRef(
 
 PerformanceAnomaliesTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
-  isActive: PropTypes.bool.isRequired
+  isActive: PropTypes.bool.isRequired,
+  docLink: PropTypes.string.isRequired
 };
 
 PerformanceAnomaliesTags.defaultProps = {

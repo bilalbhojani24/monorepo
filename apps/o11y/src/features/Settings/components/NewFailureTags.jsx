@@ -28,7 +28,7 @@ const STATIC_DROPDOWN_DATA = [
     .map((_, i) => ({ name: i + 2, value: i + 2 }))
 ];
 
-export const NewFailureTags = forwardRef(({ data, isActive }, ref) => {
+export const NewFailureTags = forwardRef(({ data, isActive, docLink }, ref) => {
   const dispatch = useDispatch();
   const { failureType, consecutiveRuns, enabled: newFailureEnabled } = data;
   const {
@@ -54,6 +54,7 @@ export const NewFailureTags = forwardRef(({ data, isActive }, ref) => {
           title="Configuring smart tags is a pro feature."
           content="Configure your personalized definition of tests to be marked as newly failed."
           featureKey={PAYWALL_FEATURES.SMART_TAGS}
+          docLink={docLink}
         >
           <O11ySwitcher
             checked={newFailureEnabled}
@@ -136,7 +137,8 @@ export const NewFailureTags = forwardRef(({ data, isActive }, ref) => {
 
 NewFailureTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
-  isActive: PropTypes.bool.isRequired
+  isActive: PropTypes.bool.isRequired,
+  docLink: PropTypes.string.isRequired
 };
 
 NewFailureTags.defaultProps = {
