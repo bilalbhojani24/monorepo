@@ -60,14 +60,14 @@ const TestListFilters = ({ buildUUID }) => {
     if (filterKey === ADV_FILTER_TYPES.issueTypeGroup.key) {
       const searchParams = new URLSearchParams(window.location.search);
       searchParams.delete(ADV_FILTER_TYPES.issueTypeGroup.key);
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
     }
   };
 
   const handleRemoveAll = () => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.delete(ADV_FILTER_TYPES.issueTypeGroup.key);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
 
   return (
@@ -109,7 +109,7 @@ const TestListFilters = ({ buildUUID }) => {
             )}
           </>
         }
-        wrapperClassName="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6"
+        wrapperClassName="bg-base-100 flex items-center justify-between gap-2 py-4 pl-8 pr-6 mt-0"
       />
       <FilterSlideover
         show={showSlideOver}

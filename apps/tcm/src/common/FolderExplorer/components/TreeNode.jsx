@@ -78,6 +78,7 @@ const TreeNode = ({
                 onOpenChange={(isOpen) =>
                   setFocused(isOpen ? item.name : undefined)
                 }
+                optionGroupWrapperClassName="w-40"
               />
             )}
           </>

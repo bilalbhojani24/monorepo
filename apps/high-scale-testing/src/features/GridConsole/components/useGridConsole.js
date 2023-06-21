@@ -81,6 +81,7 @@ const useGridConsole = () => {
   };
 
   useEffect(() => {
+    const lengthOfClusterData = clusterData.length;
     const lengthOfGridData = gridData.length;
 
     if (lengthOfGridData > 1) {
@@ -99,7 +100,14 @@ const useGridConsole = () => {
     } else if (!userDetails.onboardingCompleted) {
       navigate(ROUTES.ONBOARDING);
     }
-  }, [gridData, navigate, userDetails]);
+
+    logHSTEvent([], 'web_events', 'AGAutomationConsoleVisited', {
+      loading: false,
+      grid_count: lengthOfGridData,
+      cluster_count: lengthOfClusterData,
+      tab_selected: 'Grid'
+    });
+  }, [clusterData, gridData, navigate, userDetails]);
 
   useEffect(() => {
     const fetchAllClustersDataFromAPI = async () => {
@@ -132,6 +140,10 @@ const useGridConsole = () => {
     if (!userDetails.onboardingCompleted) {
       navigate(ROUTES.ONBOARDING);
     }
+
+    logHSTEvent([], 'web_events', 'AGAutomationConsoleVisited', {
+      loading: true
+    });
   });
 
   return {

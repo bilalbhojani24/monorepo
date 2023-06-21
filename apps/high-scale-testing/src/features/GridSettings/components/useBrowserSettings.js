@@ -21,24 +21,39 @@ const useBrowserSettings = (notifactionComponent) => {
 
   // All State variables:
 
+  const [cpuErrorText, setCPUErrorText] = useState('');
   const [cpuValue, setCpuValue] = useState(0);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(true);
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
+  const [memoryErrorText, setMemoryErrorText] = useState('');
   const [memoryLimitValue, setMemoryLimitValue] = useState(0);
   const [allowedBrowsersValue, setAllowedBrowsersValue] = useState([]);
 
   const onCPUChangeHandler = (e) => {
     const newValue = parseInt(e.target.value);
-
-    setIsSaveButtonDisabled(false);
     setCpuValue(newValue);
+
+    if (newValue < 250 || newValue > 2500) {
+      setCPUErrorText('CPU limit should be between 250 and 2500');
+      setIsSaveButtonDisabled(true);
+    } else {
+      setCPUErrorText('');
+      setIsSaveButtonDisabled(false);
+    }
   };
 
   const onMemoryLimitChangeHandler = (e) => {
     const newValue = parseInt(e.target.value);
 
-    setIsSaveButtonDisabled(false);
     setMemoryLimitValue(newValue);
+
+    if (newValue < 250 || newValue > 2500) {
+      setMemoryErrorText('Memory limit should be between 250 and 2500');
+      setIsSaveButtonDisabled(true);
+    } else {
+      setMemoryErrorText('');
+      setIsSaveButtonDisabled(false);
+    }
   };
 
   const updateGridBrowserSettings = (settingsObj) => {
@@ -46,7 +61,7 @@ const useBrowserSettings = (notifactionComponent) => {
       setIsSaveButtonDisabled(true);
       setIsSavingInProgress(false);
 
-      if (d.data === 'OK') {
+      if (d.status === 200) {
         notify(notifactionComponent, {
           position: 'top-right',
           duration: 4000
@@ -96,17 +111,16 @@ const useBrowserSettings = (notifactionComponent) => {
     }
   }, [gridData]);
 
-  useEffect(() => {
-  }, [allowedBrowsersValue, cpuValue, fetchedGridData]);
-
   return {
     allAvailableBrowsers,
     allowedBrowsersChangeHandler,
     allowedBrowsersValue,
+    cpuErrorText,
     cpuValue,
     fetchedGridData,
     isSaveButtonDisabled,
     isSavingInProgress,
+    memoryErrorText,
     memoryLimitValue,
     onCPUChangeHandler,
     onMemoryLimitChangeHandler,

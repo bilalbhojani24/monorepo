@@ -189,7 +189,7 @@ const TestCasesTable = ({
             }}
           >
             {formatPriority(rowData?.priority?.internal_name?.toLowerCase())}
-            {rowData?.priority?.name}
+            {rowData?.priority?.name || '--'}
           </TMTruncateText>
         </div>
       ),
@@ -228,8 +228,10 @@ const TestCasesTable = ({
           onClick={(selectedOption) =>
             onDropDownChange(selectedOption, data, true)
           }
+          optionGroupWrapperClassName="w-40"
         />
-      )
+      ),
+      class: 'w-[1%]'
     }
   ];
 

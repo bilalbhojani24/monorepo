@@ -114,7 +114,7 @@ function BuildDetailsHeader({
       active: tabInfo.value
     });
     dispatch(hideIntegrationsWidget());
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
 
   const handleClickStatusBadge = ({ itemClicked }) => {
