@@ -65,7 +65,7 @@ const useStatsChart = ({ eventName, chart }) => {
 
         searchParams.set('dateRange', `${fromTime},${toTime}`);
 
-        navigate({ search: searchParams.toString() });
+        navigate({ search: searchParams.toString() }, { replace: true });
         dispatch(
           filterSliceFunction({
             normalisedName: activeProject?.normalisedName

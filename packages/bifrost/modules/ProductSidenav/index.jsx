@@ -17,7 +17,7 @@ const ProductSidenav = ({ activeProduct }) => {
     <>
       <div
         className={twClassNames(
-          'flex flex-col items-start absolute left-0 h-full border-r border-solid border-base-300 bg-white z-10',
+          'flex flex-col items-start fixed left-0 h-full border-r border-solid border-base-300 bg-white z-100',
           {
             'w-[57px]': !expanded,
             'w-[261px] overflow-y-auto': expanded
@@ -26,7 +26,9 @@ const ProductSidenav = ({ activeProduct }) => {
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
         onFocus={() => setExpanded(true)}
-        onBlur={() => setExpanded(false)}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget)) setExpanded(false);
+        }}
       >
         {expanded ? (
           <SidenavExpanded

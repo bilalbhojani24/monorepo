@@ -2,30 +2,24 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Badge,
-  Button,
-  CodeSnippet,
   Dropdown,
   DropdownOptionGroup,
   DropdownOptionItem,
   DropdownTrigger,
   EllipsisVerticalIcon,
-  ExclamationTriangleIcon,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow
 } from '@browserstack/bifrost';
-import { logEvent } from '@browserstack/utils';
 import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
 import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
+import { logHSTEvent } from 'utils/logger';
 
+import DeleteGrid from './DeleteGrid';
 import { useGridListing } from './useGridListing';
 
 const GridsListing = () => {
@@ -98,20 +92,17 @@ const GridsListing = () => {
                 const gridIdentfierRaw = gridData.identifier;
                 const gridIdentfier = gridIdentfierRaw.split('-')[0];
                 const gridName = gridData.name;
+                const gridSpawnedVia = gridData.spawnedVia;
                 const gridStatus = gridData.status;
                 const statusModifier =
                   gridData.status === 'Online' ? 'success' : 'base';
                 const gridId = gridData.id;
 
                 const supportedBrowsers = {
-                  chrome:
-                    gridData.browserSettings.allowedBrowsers.chrome?.length > 0,
-                  firefox:
-                    gridData.browserSettings.allowedBrowsers.firefox?.length >
-                    0,
+                  chrome: gridData.stats.browsersUsed.indexOf('chrome') > -1,
+                  firefox: gridData.stats.browsersUsed.indexOf('firefox') > -1,
                   edge:
-                    gridData.browserSettings.allowedBrowsers.MicrosoftEdge
-                      ?.length > 0
+                    gridData.stats.browsersUsed.indexOf('MicrosoftEdge') > -1
                 };
 
                 const options = [
@@ -124,7 +115,7 @@ const GridsListing = () => {
                 ];
 
                 const cellClickhandler = () => {
-                  logEvent(['amplitude'], AGAutomationConsoleInteracted, {
+                  logHSTEvent(['amplitude'], AGAutomationConsoleInteracted, {
                     action: 'grid_selected',
                     grid_name: gridName,
                     grid_id: gridId
@@ -141,7 +132,7 @@ const GridsListing = () => {
                         onKeyDown={cellClickhandler}
                         tabIndex={0}
                       >
-                        <p className="text-base-900 font-normal">{gridName}</p>
+                        <p className="font-normal text-base-900">{gridName}</p>
                         <p className="text-base-500">{gridIdentfier}</p>
                       </div>
                     </TableCell>
@@ -168,9 +159,9 @@ const GridsListing = () => {
                         onClick={cellClickhandler}
                         onKeyDown={cellClickhandler}
                         tabIndex={0}
-                        className="text-base-900 items-center"
+                        className="items-center text-base-900"
                       >
-                        {gridData.runningTests}
+                        {gridData.stats.runningTests}
                       </div>
                     </TableCell>
                     <TableCell wrapperClassName=" px-6 py-4">
@@ -181,7 +172,7 @@ const GridsListing = () => {
                         tabIndex={0}
                         className="text-base-900"
                       >
-                        {gridData.queuedTests}
+                        {gridData.stats.queuedTests}
                       </div>
                     </TableCell>
                     <TableCell wrapperClassName=" px-6 py-4">
@@ -199,6 +190,10 @@ const GridsListing = () => {
                           {supportedBrowsers.edge && (
                             <EdgeIcon width={20} height={20} />
                           )}
+                          {!supportedBrowsers.chrome &&
+                            !supportedBrowsers.firefox &&
+                            !supportedBrowsers.edge &&
+                            '-'}
                         </div>
                       </div>
                     </TableCell>
@@ -224,7 +219,8 @@ const GridsListing = () => {
                           if (e.id === 'delete') {
                             deleteDropDownClickHandler(
                               gridIdentfierRaw,
-                              gridName
+                              gridName,
+                              gridSpawnedVia
                             );
                           } else {
                             navigate(e.url);
@@ -234,7 +230,7 @@ const GridsListing = () => {
                         <div className="flex">
                           <DropdownTrigger
                             onClick={() =>
-                              logEvent(
+                              logHSTEvent(
                                 ['ampltidue'],
                                 'web_events',
                                 AGAutomationConsoleInteracted,
@@ -267,48 +263,13 @@ const GridsListing = () => {
             </TableBody>
           </Table>
         </div>
-        <Modal show={showDeleteGridModal} size="xl">
-          <ModalBody className="overflow-auto py-5">
-            <div className="flex flex-col">
-              <div className="bg-danger-100 m-auto flex h-12 w-12 items-center justify-center rounded-full">
-                <ExclamationTriangleIcon
-                  className="text-danger-600 h-6 w-6"
-                  aria-hidden="true"
-                />
-              </div>
 
-              <div className="mt-3 flex flex-col text-center">
-                <h3 className="text-base-900 text-lg font-medium">
-                  Delete Grid
-                </h3>
-                <p className="text-base-500 mt-2 text-sm">
-                  Run the below command to delete the grid '{activeGridName}'
-                </p>
-              </div>
-
-              <div className="mt-2">
-                <CodeSnippet
-                  code={deletionCommand}
-                  maxHeight="260px"
-                  singleLine
-                  language="bash"
-                />
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter position="right">
-            <Button
-              aria-label="Close"
-              colors="white"
-              fullWidth
-              onClick={closeDeleteGridModal}
-              type="button"
-              varaint="primary"
-            >
-              Close
-            </Button>
-          </ModalFooter>
-        </Modal>
+        <DeleteGrid
+          activeGridName={activeGridName}
+          closeDeleteGridModal={closeDeleteGridModal}
+          deletionCommand={deletionCommand}
+          showDeleteGridModal={showDeleteGridModal}
+        />
       </>
     )
   );

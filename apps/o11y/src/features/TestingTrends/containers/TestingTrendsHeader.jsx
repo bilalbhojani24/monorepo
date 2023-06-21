@@ -63,7 +63,7 @@ export default function TestingTrendsHeader() {
     searchParams.set(TT_PARAMS_MAPPING.ttDateRange, key);
     searchParams.delete(TT_PARAMS_MAPPING.ttToDate);
     searchParams.delete(TT_PARAMS_MAPPING.ttFromDate);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
     logOllyEvent({
       event: 'O11yTestingTrendsInteracted',
       data: {
@@ -82,7 +82,7 @@ export default function TestingTrendsHeader() {
       searchParams.set(TT_PARAMS_MAPPING.ttDateRange, 'custom');
       searchParams.set(TT_PARAMS_MAPPING.ttToDate, toTime);
       searchParams.set(TT_PARAMS_MAPPING.ttFromDate, fromTime);
-      navigate({ search: searchParams.toString() });
+      navigate({ search: searchParams.toString() }, { replace: true });
       dispatch(
         setTTFilters({
           dateRange: {
@@ -106,7 +106,7 @@ export default function TestingTrendsHeader() {
   const handleBuildChange = (selectedItem) => {
     const searchParams = new URLSearchParams(window?.location?.search);
     searchParams.set(TT_PARAMS_MAPPING.ttActiveBuild, selectedItem.value);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
     dispatch(
       setTTFilters({
         buildName: selectedItem

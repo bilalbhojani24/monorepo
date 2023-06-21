@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header } from '@browserstack/bifrost';
+import { PRODUCT_NAME_ACTUAL } from 'constants/index';
 import ROUTES from 'constants/routes';
 import { getEnvConfig } from 'utils/common';
 
@@ -23,7 +24,7 @@ const HSTHeader = () => {
           },
           {
             name: 'On-Demand Grids using CLI',
-            link: `${docHomeURL}/features/automate-setup-via-cli`
+            link: `${docHomeURL}/features/automate-grids-using-cli`
           },
           {
             name: 'Configure Test Queueing',
@@ -39,8 +40,8 @@ const HSTHeader = () => {
         title: 'Getting Started',
         options: [
           {
-            name: 'Create a new Grid',
-            link: `${docHomeURL}/getting-started/create-grid`
+            name: 'Create and Integrate new Grid',
+            link: `${docHomeURL}/getting-started/create-and-integrate-new-grid`
           },
           {
             name: 'Set up AWS Integration',
@@ -57,14 +58,14 @@ const HSTHeader = () => {
         e.preventDefault();
         window.location.href = baseUrl + ROUTES.SIGN_OUT;
       }}
-      productName="Automation Grid"
+      productName={PRODUCT_NAME_ACTUAL}
       productLink={ROUTES.GRID_CONSOLE}
       planButtonVisible={false}
       references={{
         title: 'Overview',
         options: [
           {
-            name: 'What is Automation Grid?',
+            name: `What is ${PRODUCT_NAME_ACTUAL} ?`,
             link: `${docHomeURL}`
           }
         ]
