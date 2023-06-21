@@ -77,7 +77,7 @@ const Repository = ({ isSearch }) => {
   }, []);
 
   useEffect(() => {
-    showOrHideChat(!isSearchFilterView);
+    showOrHideChat(isSearchFilterView);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSearchFilterView]);
 

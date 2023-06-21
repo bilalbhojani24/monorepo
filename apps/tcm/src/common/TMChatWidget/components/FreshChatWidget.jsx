@@ -14,7 +14,6 @@ const FreshChatWidget = () => {
         hidden: !isFreshChatButtonVisible
       })}
     >
-      <p className="bg-brand-500 absolute bottom-2 right-4 px-6 py-4">Chat</p>
       <ChatWidget />
     </div>
   );

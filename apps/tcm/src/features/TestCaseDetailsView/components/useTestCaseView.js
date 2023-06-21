@@ -5,13 +5,14 @@ import {
   getTestCaseDetailsAPI,
   getTestRunDetailsOfTestCaseAPI
 } from 'api/testcases.api';
+import { SLIDEOVER_TIMER } from 'const/immutables';
 import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
 import { setShowFreshChatButton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { SLIDEOVER_TIMER, TR_DROP_OPTIONS } from '../const/testCaseViewConst';
+import { TR_DROP_OPTIONS } from '../const/testCaseViewConst';
 import {
   setMetaIds,
   setTestCaseDetails,
