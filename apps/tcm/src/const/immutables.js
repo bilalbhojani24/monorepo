@@ -14,3 +14,5 @@ export const moveFolderOptions = [
     name: 'Root Folder'
   }
 ];
+
+export const SLIDEOVER_TIMER = 400;
