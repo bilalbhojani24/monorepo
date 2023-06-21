@@ -18,7 +18,9 @@ const useComboboxBadge = ({
   onBadgeCrossClick
 }) => {
   const [visibleItems, setVisibleItems] = useState(options);
-  const [currentSelected, setCurrentSelected] = useState(defaultValue || value);
+  const [currentSelected, setCurrentSelected] = useState(
+    defaultValue || value || []
+  );
   const [query, setQuery] = useState('');
 
   useEffect(() => {
