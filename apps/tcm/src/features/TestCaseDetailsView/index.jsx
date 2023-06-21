@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { TMSlideover, TMSlideoverHeader } from 'common/bifrostProxy';
 import { setShowFreshChatButton } from 'globalSlice';
 import PropTypes from 'prop-types';
@@ -20,6 +19,8 @@ const TestCaseDetailsView = ({
   testRunName
 }) => {
   const {
+    dispatch,
+    isSearchFilterView,
     initTestCaseDetails,
     hideTestCaseViewDrawer,
     actionHandler,
@@ -33,11 +34,6 @@ const TestCaseDetailsView = ({
     onDetailsClose,
     testResultsArray
   });
-
-  const dispatch = useDispatch();
-  const isSearchFilterView = useSelector(
-    (state) => state.repository.isSearchFilterView
-  );
 
   useEffect(() => {
     if (testCaseId) initTestCaseDetails();
@@ -55,11 +51,9 @@ const TestCaseDetailsView = ({
   );
 
   useEffect(() => {
-    // hide chat button if slideover visible
     if (isTestCaseViewVisible && testCaseId) {
       dispatch(setShowFreshChatButton(false));
     }
-    // show chat button on unmount
     return () => {
       if (isFromTestRun || isSearchFilterView) {
         dispatch(setShowFreshChatButton(true));

@@ -1,6 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import {
   ArrowDownwardOutlinedIcon,
@@ -22,7 +21,6 @@ import {
 } from 'common/bifrostProxy';
 import ClampedTags from 'common/ClampedTags';
 import Loader from 'common/Loader';
-import { setShowFreshChatButton } from 'globalSlice';
 import PropTypes from 'prop-types';
 import { getSystemOrCustomValue } from 'utils/helperFunctions';
 
@@ -60,15 +58,15 @@ const TestCasesTable = ({
     hideFolderModal,
     moveTestCasesHandler,
     onDropDownChange,
-    handleTestCaseViewClick
+    handleTestCaseViewClick,
+    setShowFreshChatButton,
+    dispatch
   } = useTestCasesTable({
     rows,
     onItemSelectionCb,
     selectedTestCases,
     isMini
   });
-
-  const dispatch = useDispatch();
 
   const formatPriority = (priority) => {
     switch (priority) {
@@ -242,15 +240,15 @@ const TestCasesTable = ({
     : datatableColumnsFull;
 
   useEffect(() => {
-    // hide chat button on mount
     if (!isSearchFilterView) {
       dispatch(setShowFreshChatButton(false));
     }
-
-    // show chat button on unmount
     return () => {
       dispatch(setShowFreshChatButton(true));
     };
+
+    // adding setShowFreshChatButton to dependency array results in unnecessary calls to the reducer
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, isSearchFilterView]);
 
   return (

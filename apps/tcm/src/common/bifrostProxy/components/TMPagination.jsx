@@ -33,9 +33,7 @@ const TMPagination = (props) => {
   };
 
   useEffect(() => {
-    // hide chat button on mount
     dispatch(setShowFreshChatButton(false));
-    // show chat button on unmount
     return () => {
       dispatch(setShowFreshChatButton(true));
     };

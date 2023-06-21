@@ -39,6 +39,9 @@ export default function useTestCaseView({
   const testCaseDetails = useSelector(
     (state) => state.testCaseDetails.allData || null
   );
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
 
   const initTestCaseDetails = () => {
     dispatch(setTestCaseViewVisibility(true));
@@ -116,6 +119,8 @@ export default function useTestCaseView({
     isTestCaseViewVisible,
     hideTestCaseViewDrawer,
     initTestCaseDetails,
-    actionHandler
+    actionHandler,
+    isSearchFilterView,
+    dispatch
   };
 }
