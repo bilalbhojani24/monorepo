@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { MdOutlineDescription, MdSaveAlt } from '@browserstack/bifrost';
@@ -13,15 +13,10 @@ import InlineAddTestCase from './AddEditTestCase/InlineAddTestCase';
 import useTestCases from './useTestCases';
 
 const BlankPage = forwardRef((props, ref) => {
-  const { projectId, folderId, setShowFreshChatButton } = useTestCases();
+  const { projectId, folderId } = useTestCases();
   const dispatch = useDispatch();
   const urlQueryParam = {};
   if (folderId) urlQueryParam.folder = folderId;
-
-  useEffect(() => {
-    dispatch(setShowFreshChatButton(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className="flex w-full flex-col flex-wrap justify-center">

@@ -267,6 +267,9 @@ export default function useTestCases(props) {
     }
   }, [customFieldData?.projectId, dispatch, projectId]);
 
+  const showOrHideChat = (value) => {
+    dispatch(setShowFreshChatButton(value));
+  };
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -305,7 +308,6 @@ export default function useTestCases(props) {
     quickImportButtonClicked,
     importCSVButtonClicked,
     cleanUpRepository,
-    dispatch,
-    setShowFreshChatButton
+    showOrHideChat
   };
 }

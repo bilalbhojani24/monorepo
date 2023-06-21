@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -7,10 +7,11 @@ import {
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
+import { setShowFreshChatButton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { TR_DROP_OPTIONS } from '../const/testCaseViewConst';
+import { SLIDEOVER_TIMER, TR_DROP_OPTIONS } from '../const/testCaseViewConst';
 import {
   setMetaIds,
   setTestCaseDetails,
@@ -108,6 +109,30 @@ export default function useTestCaseView({
     } else onDropDownChange(selectedOption, testCaseDetails);
   };
 
+  const hideChat = useCallback(() => {
+    if (isTestCaseViewVisible && testCaseId) {
+      dispatch(setShowFreshChatButton(false));
+    }
+  }, [dispatch, isTestCaseViewVisible, testCaseId]);
+
+  const showChat = useCallback(() => {
+    if (
+      isTestCaseViewVisible &&
+      testCaseId &&
+      (isFromTestRun || isSearchFilterView)
+    ) {
+      setTimeout(() => {
+        dispatch(setShowFreshChatButton(true));
+      }, SLIDEOVER_TIMER);
+    }
+  }, [
+    isFromTestRun,
+    isSearchFilterView,
+    isTestCaseViewVisible,
+    testCaseId,
+    dispatch
+  ]);
+
   useEffect(() => {
     // getting this from parent component as there are updates happening inside the parent component
     dispatch(setTestResultsArray(testResultsArray));
@@ -120,7 +145,7 @@ export default function useTestCaseView({
     hideTestCaseViewDrawer,
     initTestCaseDetails,
     actionHandler,
-    isSearchFilterView,
-    dispatch
+    hideChat,
+    showChat
   };
 }

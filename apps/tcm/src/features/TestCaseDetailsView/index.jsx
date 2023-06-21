@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { TMSlideover, TMSlideoverHeader } from 'common/bifrostProxy';
-import { setShowFreshChatButton } from 'globalSlice';
 import PropTypes from 'prop-types';
 
 import TestCaseView from './components/TestCaseView';
@@ -19,8 +18,8 @@ const TestCaseDetailsView = ({
   testRunName
 }) => {
   const {
-    dispatch,
-    isSearchFilterView,
+    hideChat,
+    showChat,
     initTestCaseDetails,
     hideTestCaseViewDrawer,
     actionHandler,
@@ -51,27 +50,11 @@ const TestCaseDetailsView = ({
   );
 
   useEffect(() => {
-    if (isTestCaseViewVisible && testCaseId) {
-      dispatch(setShowFreshChatButton(false));
-    }
+    hideChat();
     return () => {
-      if (
-        isTestCaseViewVisible &&
-        testCaseId &&
-        (isFromTestRun || isSearchFilterView)
-      ) {
-        setTimeout(() => {
-          dispatch(setShowFreshChatButton(true));
-        }, 400);
-      }
+      showChat();
     };
-  }, [
-    dispatch,
-    isTestCaseViewVisible,
-    testCaseId,
-    isFromTestRun,
-    isSearchFilterView
-  ]);
+  }, [showChat, hideChat]);
 
   return (
     <TMSlideover

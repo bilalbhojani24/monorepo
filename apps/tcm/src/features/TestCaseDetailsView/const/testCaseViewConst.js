@@ -37,3 +37,5 @@ export const TR_DROP_OPTIONS = [
     body: 'View Test Case'
   }
 ];
+
+export const SLIDEOVER_TIMER = 400;

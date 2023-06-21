@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getFolders, getSubFolders, moveFolder } from 'api/folders.api';
 import AppRoute from 'const/routes';
-import { addNotificaton, setShowFreshChatButton } from 'globalSlice';
+import { addNotificaton } from 'globalSlice';
 import {
   deleteFolderFromArray,
   findFolder,
@@ -41,9 +41,7 @@ export default function useFolders() {
   const openedFolderModal = useSelector(
     (state) => state.repository.openedFolderModal
   );
-  const isSearchFilterView = useSelector(
-    (state) => state.repository.isSearchFilterView
-  );
+
   const bulkSelectionIds = useSelector(
     (state) => state.repository.bulkSelection?.ids
   );
@@ -346,7 +344,6 @@ export default function useFolders() {
     searchKey: searchParams.get('q'),
     isFoldersLoading,
     testCasesCount,
-    isSearchFilterView,
     openedFolderModal,
     projectId,
     folderId,
@@ -359,7 +356,6 @@ export default function useFolders() {
     folderActionsHandler,
     moveFolderHelper,
     moveFolderOnOkHandler,
-    hideFolderModal,
-    setShowFreshChatButton
+    hideFolderModal
   };
 }
