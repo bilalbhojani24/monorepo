@@ -5,13 +5,10 @@ import useRealtimeMetricGraphs from '../hooks/useRealtimeMetricGraphs';
 
 import BatteryRealtimeGraph from './BatteryRealtimeGraph';
 import CPURealtimeGraph from './CPURealtimeGraph';
-import DiskReadRealtimeGraph from './DiskReadRealtimeGraph';
-import DiskWriteRealtimeGraph from './DiskWriteRealtimeGraph';
+import DiskRealtimeGraph from './DiskRealtimeGraph';
 import FPSRealtimeGraph from './FPSRealtimeGraph';
 import MemoryRealtimeGraph from './MemoryRealtimeGraph';
-import NetworkDownloadRealtimeGraph from './NetworkDownloadRealtimeGraph';
-import NetworkUploadRealtimeGraph from './NetworkUploadRealtimeGraph';
-import SlowFramesRealtimeGraph from './SlowFramesRealtimeGraph';
+import NetworkRealtimeGraph from './NetworkRealtimeGraph';
 
 const RealtimeMetricGraphs = () => {
   const {
@@ -53,17 +50,14 @@ const RealtimeMetricGraphs = () => {
 
       {!isSocketConnectionLoading && !isSocketConnectionFailed && (
         <>
+          <FPSRealtimeGraph />
           <CPURealtimeGraph />
           <MemoryRealtimeGraph />
-          <FPSRealtimeGraph />
-          <SlowFramesRealtimeGraph />
 
           {sessionDetails?.device?.os === 'android' && <BatteryRealtimeGraph />}
 
-          <DiskReadRealtimeGraph />
-          <DiskWriteRealtimeGraph />
-          <NetworkUploadRealtimeGraph />
-          <NetworkDownloadRealtimeGraph />
+          <DiskRealtimeGraph />
+          <NetworkRealtimeGraph />
         </>
       )}
     </div>

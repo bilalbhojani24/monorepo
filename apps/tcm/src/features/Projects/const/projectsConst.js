@@ -1,5 +1,5 @@
 export const dropDownOptions = [
-  { id: '1', body: 'Edit Project' },
+  { id: '1', body: 'Edit Project', divider: true },
   { id: '2', body: 'Delete' }
 ];
 
