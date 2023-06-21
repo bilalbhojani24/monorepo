@@ -4,7 +4,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getCustomFieldsAPI, getUsersOfProjectAPI } from 'api/projects.api';
 import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { setSelectedProject } from 'globalSlice';
+import { setSelectedProject, setShowFreshChatButton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -304,6 +304,8 @@ export default function useTestCases(props) {
     handleFilterPagination,
     quickImportButtonClicked,
     importCSVButtonClicked,
-    cleanUpRepository
+    cleanUpRepository,
+    dispatch,
+    setShowFreshChatButton
   };
 }

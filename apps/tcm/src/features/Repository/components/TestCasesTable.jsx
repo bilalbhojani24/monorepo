@@ -1,5 +1,5 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
-import React, { useEffect } from 'react';
+import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import {
   ArrowDownwardOutlinedIcon,
@@ -58,9 +58,7 @@ const TestCasesTable = ({
     hideFolderModal,
     moveTestCasesHandler,
     onDropDownChange,
-    handleTestCaseViewClick,
-    setShowFreshChatButton,
-    dispatch
+    handleTestCaseViewClick
   } = useTestCasesTable({
     rows,
     onItemSelectionCb,
@@ -240,18 +238,6 @@ const TestCasesTable = ({
   const datatableColumns = isMini
     ? datatableColumnsFull.filter((item, index) => index < 3)
     : datatableColumnsFull;
-
-  useEffect(() => {
-    if (!isSearchFilterView) {
-      dispatch(setShowFreshChatButton(false));
-    }
-    return () => {
-      dispatch(setShowFreshChatButton(true));
-    };
-
-    // adding setShowFreshChatButton to dependency array results in unnecessary calls to the reducer
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, isSearchFilterView]);
 
   return (
     <>
