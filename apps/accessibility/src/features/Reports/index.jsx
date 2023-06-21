@@ -184,7 +184,7 @@ export default function Reports() {
                   leadingIcon={<MdSearch />}
                   placeholder="Search for report name or user..."
                   onChange={onInputValueChange}
-                  wrapperClassName="mr-4 w-80"
+                  wrapperClassName="mr-4 w-80 bg-white"
                 />
                 <div className="w-40">
                   <SelectMenu
@@ -233,6 +233,7 @@ export default function Reports() {
                   </Tooltip>
                 ) : (
                   <Button
+                    size="default"
                     iconPlacement="end"
                     icon={<MdOutlineArrowForward className="text-xl" />}
                     onClick={onReportConsolidateButtonClick}
@@ -293,7 +294,7 @@ export default function Reports() {
                   <ReportRow key={uniqueId} id={uniqueId} />
                 ))}
           </div>
-          {!isLoading && searchFilterList.length > 0 && (
+          {!isLoading && searchFilterList.length > 15 && (
             <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
               <p className="text-base-700 text-sm font-medium">
                 Showing {lastIndex - reportPerPage + 1} to{' '}
