@@ -161,17 +161,20 @@ const ScanDetails = () => {
             </div>
           </div>
           <div className="flex items-center">
-            <Button
-              colors="white"
-              onClick={handleNewScanRun}
-              size="small"
-              type="subtle"
-              icon={<MdAdd className="text-xl" />}
-              iconPlacement="start"
-              wrapperClassName="h-10 mr-2"
-            >
-              New scan run
-            </Button>
+            {scanRunDataCommon?.nextScanDate && (
+              <Button
+                colors="white"
+                onClick={handleNewScanRun}
+                size="small"
+                type="subtle"
+                icon={<MdAdd className="text-xl" />}
+                iconPlacement="start"
+                wrapperClassName="h-10 mr-2"
+              >
+                New scan run
+              </Button>
+            )}
+
             {scanRunDataCommon?.active &&
               scanRunDataCommon?.recurring &&
               userInfo?.user_id === scanRunDataCommon?.createdBy?.id && (
