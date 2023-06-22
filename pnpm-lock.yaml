@@ -9349,7 +9349,7 @@ packages:
       - webpack-command
     dev: true
 
-  /@storybook/addon-docs/6.5.16_zdw3nld4sisaskptfbjdwdcuvu:
+  /@storybook/addon-docs/6.5.16_thfuifv3ctzgeuqmcac3upnjqa:
     resolution: {integrity: sha512-QM9WDZG9P02UvbzLu947a8ZngOrQeAKAT8jCibQFM/+RJ39xBlfm8rm+cQy3dm94wgtjmVkA3mKGOV/yrrsddg==}
     peerDependencies:
       '@storybook/mdx2-csf': ^0.0.3
