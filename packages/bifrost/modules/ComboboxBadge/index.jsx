@@ -24,6 +24,8 @@ const ComboboxBadge = ({
   addNewItemComponent,
   comboboxProps,
   comboboxItemProps,
+  comparator,
+  debounceThreeshold,
   label,
   defaultValue,
   MenuContainer,
@@ -45,7 +47,7 @@ const ComboboxBadge = ({
     visibleItems,
     currentSelected,
     query,
-    handleChange,
+    debouncedQueryChange,
     onChangeCombobox,
     onClearAllRef,
     onBadgeCloseRef,
@@ -60,7 +62,9 @@ const ComboboxBadge = ({
     onChange,
     onClearAll,
     onBadgeCrossClick,
-    comboboxProps
+    comparator,
+    comboboxProps,
+    debounceThreeshold
   });
 
   const isExactMatch = useMemo(
@@ -76,14 +80,14 @@ const ComboboxBadge = ({
       {...comboboxProps}
       onOpenChange={(status) => {
         if (!status) setQuery('');
-        handleChange('');
+        debouncedQueryChange('');
       }}
     >
       {label}
       <ComboboxBadgeTrigger
         placeholder={placeholder}
         onInputValueChange={(e) => {
-          handleChange(e.target.value);
+          debouncedQueryChange(e.target.value);
         }}
         onBadgeClose={onBadgeCloseRef}
         currentSelected={currentSelected}
@@ -134,6 +138,8 @@ ComboboxBadge.propTypes = {
       image: string
     })
   ]),
+  debounceThreeshold: number,
+  comparator: func,
   deleteOnBackspace: func,
   label: node,
   MenuContainer: func,
@@ -173,8 +179,10 @@ ComboboxBadge.propTypes = {
 ComboboxBadge.defaultProps = {
   comboboxItemProps: {},
   comboboxProps: {},
+  comparator: null,
   label: '',
   defaultValue: undefined,
+  debounceThreeshold: 0,
   deleteOnBackspace: null,
   MenuContainer: ComboboxOptionGroup,
   noResultText: 'No results found',
