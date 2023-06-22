@@ -34,7 +34,8 @@ export const ANALYTICS_EVENTS = {
   TICKET_CREATE_SUCCESS: 'IntegrationsTicketCreateSuccess',
   TICKET_CREATE_ERROR: 'IntegrationsTicketCreateError',
   TICKET_UPDATE_SUCCESS: 'IntegrationsTicketUpdateSuccess',
-  TICKET_UPDATE_ERROR: 'IntegrationsTicketUpdateError'
+  TICKET_UPDATE_ERROR: 'IntegrationsTicketUpdateError',
+  WIDGET_CLOSED: 'IntegrationsWidgetClosed'
 };
 
 const analyticsEntities = {
