@@ -24,7 +24,8 @@ import {
   getSettingsPath,
   getSuitHealthTestsPath,
   getSuitHealthUniqueErrorsPath,
-  getTestingTrendPath
+  getTestingTrendPath,
+  isBuildsPage
 } from 'utils/routeUtils';
 
 import ProjectSelector from '../components/ProjectSelector';
@@ -96,16 +97,21 @@ export default function Sidebar() {
   const dispatch = useDispatch();
   const activeProject = useSelector(getActiveProject);
   const navigate = useNavigate();
+
+  const location = useLocation();
+
   const onLinkChange = (linkItem) => {
     if (linkItem?.isExternalLink) {
       window.open(linkItem.path);
       return;
     }
-    dispatch(hideIntegrationsWidget());
-    navigate(linkItem.path);
-    window.scrollTo(0, 0);
+
+    if (!matchPath(linkItem?.pattern, location.pathname) || isBuildsPage()) {
+      dispatch(hideIntegrationsWidget());
+      navigate(linkItem.path);
+      window.scrollTo(0, 0);
+    }
   };
-  const location = useLocation();
 
   const isCurrent = useCallback(
     (item) => {

@@ -130,6 +130,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
                   <TMDropdown
                     triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-white border-l-0"
                     triggerVariant="menu-button"
+                    optionGroupWrapperClassName="w-44"
                     options={RESULTS_DROP_OPTIONS}
                     onClick={(selectedOption) =>
                       onResultClick(

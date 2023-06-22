@@ -85,9 +85,9 @@ export default function useReport() {
       logEvent('OnADReportView', dataObject);
       setIsLoading(false);
     });
-    return () => {
-      dispatch(resetActiveTab());
-    };
+    // return () => {
+    //   dispatch(resetActiveTab());
+    // };
   }, [dispatch]);
 
   return {
