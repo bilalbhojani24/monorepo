@@ -37,14 +37,14 @@ const FeedbackWidget = ({
     showNotification,
     hideNotification,
     selectedNPS,
-    setSelectedNPS
+    setSelectedNPS,
+    cleanupFunction
   } = useFeedbackWidget({
     handleFeedbackClick,
     formFields,
     flow,
     variation,
-    open,
-    onFeedbackWidgetClose
+    open
   });
 
   useEffect(() => {
@@ -74,11 +74,18 @@ const FeedbackWidget = ({
     return () => {
       opnSubs();
       closeSubs();
+      if (!open) {
+        cleanupFunction();
+      }
     };
   }, [
+    cleanupFunction,
     feedbacktype?.type,
+    flow,
     hideNotification,
     onFeedbackWidgetClose,
+    open,
+    setFeedbacktype,
     showNotification,
     variation
   ]);

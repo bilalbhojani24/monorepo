@@ -27,6 +27,7 @@ const RenderEmojiThumb = () => {
             'focus:ring-success-600': active === 'thup-1',
             'focus:ring-danger-600': active === 'thdn-2'
           })}
+          aria-label={item.label}
         >
           {item.icon}
         </Button>

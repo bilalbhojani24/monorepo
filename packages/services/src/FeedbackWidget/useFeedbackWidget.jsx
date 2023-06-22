@@ -113,8 +113,15 @@ export const useFeedbackWidget = ({
     if (open && variation === VARIATIONS[1]) showNotification();
   }, [open, showNotification, variation]);
 
+  const cleanupFunction = () => {
+    setFeedbacktype(flow[0]);
+    setSelectedNPS();
+    setFormData({});
+  };
+
   const hideNotification = () => {
     notify.remove('feedback-widget');
+    cleanupFunction();
   };
 
   return {
@@ -129,6 +136,7 @@ export const useFeedbackWidget = ({
     showNotification,
     hideNotification,
     selectedNPS,
-    setSelectedNPS
+    setSelectedNPS,
+    cleanupFunction
   };
 };
