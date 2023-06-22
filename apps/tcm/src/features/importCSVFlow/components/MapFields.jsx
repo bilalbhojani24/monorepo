@@ -182,7 +182,7 @@ const MapFields = () => {
   }, []);
 
   return (
-    <div className="mb-5 w-4/5 max-w-7xl">
+    <div className="mb-5 w-4/5 max-w-4xl">
       {mapFieldsError && (
         <div className="mb-3">
           <TMAlerts

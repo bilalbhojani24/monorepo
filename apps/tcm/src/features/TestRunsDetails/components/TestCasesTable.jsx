@@ -189,7 +189,7 @@ const TestCasesTable = () => {
   return (
     <div className="flex-col overflow-y-auto border-none">
       <TMTable
-        tableWrapperClass="w-full"
+        tableWrapperClass="w-full mb-20"
         containerWrapperClass={classNames(
           // 'max-w-[calc(100vw-40rem)]'
           'overflow-y-auto md:rounded-none'
