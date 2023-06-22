@@ -16,6 +16,12 @@ const assignedTo = 'Assigned to';
 const defaultConfig = {
   title: 'Application/Components/SelectMenu',
   component: SelectMenu,
+  subcomponents: {
+    SelectMenuLabel,
+    SelectMenuOptionGroup,
+    SelectMenuOptionItem,
+    SelectMenuTrigger
+  },
   parameters: {
     docs: {
       page: () => (
@@ -231,9 +237,19 @@ MultiSelect.args = {
 };
 
 SelectWithPlaceholder.args = {
-  placeholder: 'Placeholder text...',
   value: null,
-  defaultValue: null
+  defaultValue: null,
+  children: (
+    <>
+      <SelectMenuLabel>{assignedTo}</SelectMenuLabel>
+      <SelectMenuTrigger placeholder="Placeholder text..." />
+      <SelectMenuOptionGroup>
+        {SELECT_OPTIONS.map((item) => (
+          <SelectMenuOptionItem key={item.value} option={item} />
+        ))}
+      </SelectMenuOptionGroup>
+    </>
+  )
 };
 
 DisabledSelectMenu.args = {
