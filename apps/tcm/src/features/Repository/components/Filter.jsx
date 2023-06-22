@@ -111,6 +111,7 @@ const Filter = ({ isMini, onFilterChange }) => {
           placeholder="Search by Test Case ID or Title"
           value={filterSearchMeta?.q}
           // onFocus={handleSearchFocus}
+          wrapperClassName="[&_input]:shadow-none"
           onChange={(e) => searchChangeHandler(e.currentTarget.value)}
           onKeyDown={(e) => onSubmitKeyHandler(e, () => applyFilterHandler())}
           addOnBeforeInline={<SearchIcon className="text-base-400" />}
