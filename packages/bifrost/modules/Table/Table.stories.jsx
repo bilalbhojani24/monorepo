@@ -134,6 +134,10 @@ const defaultConfig = {
     tableWrapperClass: {
       option: { type: 'string' },
       defaultValue: ''
+    },
+    bottomShadow: {
+      option: { type: 'bool' },
+      defaultValue: true
     }
   },
   controls: {}
@@ -424,7 +428,8 @@ export {
 
 // Condensed Table start
 CondensedTable.args = {
-  containerWrapperClass: 'md:rounded-none shadow-none',
+  containerWrapperClass: 'md:rounded-none',
+  bottomShadow: false,
   children: (
     <>
       <TableHead>
@@ -471,7 +476,8 @@ CondensedTable.args = {
 
 // Fullwidth Table start
 FullWidthTable.args = {
-  containerWrapperClass: 'md:rounded-none shadow-none',
+  containerWrapperClass: 'md:rounded-none',
+  bottomShadow: false,
   children: (
     <>
       <TableHead>
@@ -960,7 +966,8 @@ UppercaseHeadingTable.args = {
 
 // WhiteBackgroundTable Table start
 WhiteBackgroundTable.args = {
-  containerWrapperClass: 'bg-white ring-0 shadow-none',
+  containerWrapperClass: 'bg-white ring-0',
+  bottomShadow: false,
   children: (
     <>
       <TableHead wrapperClassName="bg-white">

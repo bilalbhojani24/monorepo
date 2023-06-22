@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getDefaultChartOptions } from '../../../utils/chartUtils';
+import { getDefaultReportChartOptions } from '../../../utils/chartUtils';
 import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
@@ -9,7 +9,7 @@ import {
 } from '../../Report';
 
 const generateBatteryChartOptions = (sessionData, chartGridClicked) => {
-  const chartOptions = getDefaultChartOptions();
+  const chartOptions = getDefaultReportChartOptions();
 
   const batteryTimeSeriesData = sessionData?.report?.[
     'Application Battery'

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Badge,
   Button,
@@ -33,6 +33,7 @@ import {
   getUniqFilterValues
 } from 'features/Report/slice/selector';
 
+import { setShowFreshChatButton } from '../../../Dashboard/slices/uiSlice';
 // import { handleClickByEnterOrSpace } from 'utils/helper';
 import Accordion from '../Accordion';
 import IssueItem from '../Accordion/IssueItem';
@@ -70,6 +71,7 @@ export default function Issues() {
     setCategoryValue
   } = useIssues();
   const violations = generateData();
+  const dispatch = useDispatch();
   const showEmptyScreen = violations.every(
     ({ violation }) => violation.nodes.length === 0
   );
@@ -102,6 +104,10 @@ export default function Issues() {
   const intermediateFiltersImpactValues = intermediateFilters.impact.map(
     ({ value }) => value
   );
+
+  if (!(isHalfView && sectionData)) {
+    dispatch(setShowFreshChatButton(true));
+  }
 
   const hasFilterOrHiddenView = showHiddenIssues || hasFilters;
 

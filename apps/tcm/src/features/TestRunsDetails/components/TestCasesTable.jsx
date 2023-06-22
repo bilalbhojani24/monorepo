@@ -59,6 +59,7 @@ const TestCasesTable = () => {
           onKeyDown={handleTestCaseViewClick(rowData, 'ID')}
         >
           <TMTruncateText
+            ignoreClickAndWrapText
             truncateUsingClamp={false}
             hidetooltipTriggerIcon
             isFullWidthTooltip
@@ -92,6 +93,7 @@ const TestCasesTable = () => {
           onKeyDown={handleTestCaseViewClick(rowData, 'Title')}
         >
           <TMTruncateText
+            ignoreClickAndWrapText
             truncateUsingClamp={false}
             hidetooltipTriggerIcon
             isFullWidthTooltip
@@ -109,6 +111,7 @@ const TestCasesTable = () => {
       name: 'ASSIGNED TO',
       key: 'test_assignee',
       class: 'w-[10%]',
+      bodyClass: '[&>div]:w-[90px]',
       cell: (rowData) => (
         <div className={twClassNames('text-base-500')}>
           <TMTruncateText

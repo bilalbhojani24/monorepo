@@ -12,6 +12,7 @@ import { twClassNames } from '@browserstack/utils';
 import { O11yButton, O11yPopover } from 'common/bifrostProxy';
 import PropTypes from 'prop-types';
 
+import { useLogsContext } from '../contexts/LogsContext';
 import { useTestDetailsContentContext } from '../contexts/TestDetailsContext';
 
 import SessionTestToggle from './SessionTestToggle';
@@ -37,6 +38,7 @@ const VideoPlayer = forwardRef(
     ref
   ) => {
     const { handleLogTDInteractionEvent } = useTestDetailsContentContext();
+    const { handleSetCurrentTime } = useLogsContext();
 
     useEffect(() => {
       if (ref.current) {
@@ -91,6 +93,7 @@ const VideoPlayer = forwardRef(
     };
 
     const handleSeekChange = () => {
+      handleSetCurrentTime(ref.current.getCurrentTime());
       handleLogTDInteractionEvent({
         event: 'O11yTestDetailsVideoInteracted',
         interaction: 'seeked'

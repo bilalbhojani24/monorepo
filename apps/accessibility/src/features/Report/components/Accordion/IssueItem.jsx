@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlight';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
@@ -44,11 +44,23 @@ import {
   tagToView
 } from 'utils/helper';
 
+import { setShowFreshChatButton } from '../../../Dashboard/slices/uiSlice';
 import useIssueItem from '../../useIssueItem';
 
 import NeedsReviewBanner from './NeedsReviewBanner';
 
 import './customStyle.scss';
+
+const tabList = [
+  {
+    name: 'Issue details',
+    value: ISSUE_DETAILS_TAB
+  },
+  {
+    name: 'How to fix',
+    value: HOW_TO_FIX_TAB
+  }
+];
 
 export default function IssueItem() {
   const { sectionData } = useContext(SectionsDataContext);
@@ -352,16 +364,7 @@ export default function IssueItem() {
         </div>
         <div className="px-6">
           <Tabs
-            tabsArray={[
-              {
-                name: 'Issue details',
-                value: ISSUE_DETAILS_TAB
-              },
-              {
-                name: 'How to fix',
-                value: HOW_TO_FIX_TAB
-              }
-            ]}
+            tabsArray={tabList}
             onTabChange={({ value }) => onTabChange(value)}
           />
           {activeTab === ISSUE_DETAILS_TAB && (

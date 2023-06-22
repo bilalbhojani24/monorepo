@@ -4,12 +4,12 @@
   "main": "dist/index.js",
   "description": "Frontend reusable services",
   "peerDependencies": {
+    "axios": "1.2.2",
     "immutable": "4.3.0",
     "prop-types": "15.8.1",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "axios": "1.2.2",
     "react-copy-to-clipboard": "5.1.0",
+    "react-dom": "18.2.0",
     "react-router-dom": "6.6.1"
   },
   "dependencies": {
@@ -22,6 +22,9 @@
     "@browserstack/stylelint-config": "workspace:*",
     "@browserstack/tailwind-config": "workspace:*",
     "@browserstack/vite-config": "workspace:*",
+    "@percy/cli": "1.12.0",
+    "@percy/storybook": "4.3.5",
+    "@storybook/addon-a11y": "6.5.16",
     "@storybook/addon-actions": "6.5.16",
     "@storybook/addon-essentials": "6.5.16",
     "@storybook/addon-interactions": "6.5.16",
@@ -29,28 +32,39 @@
     "@storybook/builder-webpack4": "6.5.16",
     "@storybook/manager-webpack4": "6.5.16",
     "@storybook/react": "6.5.16",
+    "@storybook/test-runner": "0.9.4",
     "@storybook/testing-library": "0.0.13",
     "@tailwindcss/forms": "0.5.3",
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
     "@vitejs/plugin-react": "2.2.0",
+    "addon-screen-reader": "1.8.6",
+    "axe-playwright": "1.2.3",
     "babel-loader": "8.3.0",
+    "concurrently": "7.6.0",
+    "http-server": "14.1.1",
+    "jest@0.0.10": "link:@@storybook/jest@0.0.10",
     "postcss": "8.4.21",
     "postcss-preset-env": "7.8.3",
     "sass": "1.57.1",
+    "storybook-addon-designs": "6.3.1",
     "stylelint": "14.16.0",
     "stylelint-config-prettier": "9.0.4",
     "stylelint-config-standard-scss": "7.0.1",
     "stylelint-prettier": "2.0.0",
     "stylelint-scss": "4.3.0",
     "tailwindcss": "3.1.4",
-    "vite": "3.2.5"
+    "vite": "3.2.5",
+    "wait-on": "7.0.1"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "build": "vite build"
+    "build-storybook": "STORYBOOK_INTERACTION=false build-storybook",
+    "build-storybook:interaction": "STORYBOOK_INTERACTION=true build-storybook",
+    "build": "vite build",
+    "test-storybook": "test-storybook",
+    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"STORYBOOK_INTERACTION=true pnpm run storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && pnpm test-storybook --junit\""
   },
   "files": [
     "dist/*"

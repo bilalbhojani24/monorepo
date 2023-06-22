@@ -14,6 +14,22 @@ export const EMPTY_APPLIED_FILTERS = {
   searchText: ''
 };
 
+export const TEST_LIST_FILTERS_INTERACTIONS = {
+  isAlwaysFailing: 'always_failing_clicked',
+  isPerformanceAnomaly: 'performance_anomaly_clicked',
+  flaky: 'flaky_clicked',
+  isNewFailure: 'new_failure_clicked',
+  failed: 'failed_clicked',
+  passed: 'passed_clicked',
+  skipped: 'skipped_clicked',
+  unknown: 'unknown_clicked',
+  'To be Investigated': 'to_be_investigated_clicked',
+  'Automation Bug': 'automation_bug_clicked',
+  'Product Bug': 'product_bug_clicked',
+  'No Defect': 'no_defect_clicked',
+  'Environment Issue': 'environment_issue_clicked'
+};
+
 export const EMPTY_METADATA_FILTERS = {
   allUsers: [],
   staticFilters: []

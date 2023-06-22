@@ -47,6 +47,7 @@ const TreeNode = ({
         isFocused={focused === item.name}
         label={
           <TMTruncateText
+            ignoreClickAndWrapText
             hidetooltipTriggerIcon
             isFullWidthTooltip
             headerTooltipProps={{
@@ -76,6 +77,7 @@ const TreeNode = ({
                 onOpenChange={(isOpen) =>
                   setFocused(isOpen ? item.name : undefined)
                 }
+                optionGroupWrapperClassName="w-40"
               />
             )}
           </>

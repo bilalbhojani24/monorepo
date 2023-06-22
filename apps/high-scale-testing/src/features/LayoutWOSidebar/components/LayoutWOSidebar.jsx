@@ -12,12 +12,15 @@ const LayoutWOSidebar = () => {
     if (location.pathname === ROUTES.ROOT) {
       navigate(ROUTES.GRID_CONSOLE);
     }
+
+    document.getElementById('root').classList.add('bg-base-50');
+    document.getElementById('root').classList.add('h-screen');
   });
 
   return (
     <>
       <HSTHeader />
-      <main className="bg-base-50 flex">
+      <main className="flex bg-base-50">
         <Outlet />
       </main>
     </>

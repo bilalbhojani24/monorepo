@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 
 const LinkCard = ({
   link,
+  testId,
   subtext,
   linkText,
   icon: Icon,
@@ -30,6 +31,7 @@ const LinkCard = ({
     <div
       role="link"
       tabIndex={0}
+      data-test-id={testId}
       // eslint-disable-next-line tailwindcss/no-arbitrary-value
       className="w-[360px] flex-1 cursor-pointer rounded-md bg-white p-6 drop-shadow"
       onClick={handleCardClick}
@@ -49,6 +51,7 @@ const LinkCard = ({
 LinkCard.propTypes = {
   icon: PropTypes.node.isRequired,
   link: PropTypes.string.isRequired,
+  testId: PropTypes.string.isRequired,
   subtext: PropTypes.string.isRequired,
   linkText: PropTypes.string.isRequired,
   shouldOpenInNewTab: PropTypes.bool.isRequired
@@ -61,14 +64,16 @@ const QuickLinks = () => {
       linkText: 'Get Started Guide',
       link: ROUTES.getting_started,
       subtext: 'Learn how to use Integrations',
-      shouldOpenInNewTab: false
+      shouldOpenInNewTab: false,
+      testId: 'getting-started-quick-link'
     },
     {
       icon: MdOutlineSearch,
       linkText: 'API Explorer',
       link: URLS.DOCUMENTATION,
       subtext: 'Make your first API call',
-      shouldOpenInNewTab: true
+      shouldOpenInNewTab: true,
+      testId: 'api-explorer-quick-link'
     }
   ];
 
@@ -77,10 +82,11 @@ const QuickLinks = () => {
       <p className="mb-5 mt-2 text-lg font-medium">Quick Links</p>
       <div className="flex w-full gap-5">
         {QUICK_LINK_DETAILS.map(
-          ({ icon, link, subtext, linkText, shouldOpenInNewTab }) => (
+          ({ icon, link, subtext, linkText, shouldOpenInNewTab, testId }) => (
             <LinkCard
               icon={icon}
               link={link}
+              testId={testId}
               subtext={subtext}
               linkText={linkText}
               shouldOpenInNewTab={shouldOpenInNewTab}

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import {
   Button,
@@ -28,6 +28,7 @@ export const toggleChatWidget = (status) => {
 };
 
 const ChatWidgetComponent = ({ direction }) => {
+  const [freshchatLoad, setFreshChatLoad] = useState(false);
   const chatWidget = useSelector((state) => state.chatWidget?.data);
   const dispatch = useDispatch();
 
@@ -42,12 +43,13 @@ const ChatWidgetComponent = ({ direction }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (chatWidget) handleScriptLoad(chatWidget, showChatWindow, direction);
+    if (chatWidget)
+      handleScriptLoad(chatWidget, showChatWindow, direction, setFreshChatLoad);
   }, [chatWidget, direction]);
 
   return (
     <>
-      {chatWidget?.custom_widget && (
+      {chatWidget?.custom_widget && freshchatLoad && (
         <Button
           id={FRESHCHAT_WIDGET_CUSTOM_BUTTON_ID}
           onClick={() => {

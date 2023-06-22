@@ -1,12 +1,14 @@
 {
   "name": "@browserstack/bifrost",
-  "version": "8.3.0",
+  "version": "9.1.0",
   "main": "dist/index.js",
   "description": "UI Packages for Browserstack Frontend",
   "scripts": {
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "STORYBOOK_INTERACTION=false build-storybook",
+    "build-storybook:interaction": "STORYBOOK_INTERACTION=true build-storybook",
     "chromatic": "npx chromatic --project-token=e55097a5c9b3",
+    "chromatic:interaction": "npx chromatic --project-token=e55097a5c9b3 -b build-storybook:interaction",
     "build": "vite build",
     "lint:check": "eslint --format=table --ignore-pattern dist --max-warnings 0 \"**/*.{js,jsx}\"",
     "lint:fix": "npm run lint:check -- --fix",
@@ -18,7 +20,7 @@
     "prettier:fix": "npm run prettier:check -- --write",
     "tailwind-preview": "tailwind-config-viewer -o",
     "test-storybook": "test-storybook",
-    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"pnpm run storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && pnpm test-storybook --junit\""
+    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"STORYBOOK_INTERACTION=true pnpm run storybook --quiet && npx http-server storybook-static --port 6006 --silent\" \"wait-on tcp:6006 && pnpm test-storybook --junit\""
   },
   "dependencies": {
     "@browserstack/hooks": "workspace:*",
@@ -27,17 +29,19 @@
     "@heroicons/react": "2.0.13",
     "@internationalized/date": "3.1.0",
     "@radix-ui/react-popover": "1.0.2",
+    "@radix-ui/react-radio-group": "1.1.2",
     "@radix-ui/react-tooltip": "1.0.2",
     "@react-aria/overlays": "3.13.0",
     "@tinymce/tinymce-react": "4.3.0",
     "react-aria": "3.23.1",
     "react-draggable": "4.4.5",
     "react-hot-toast": "2.4.0",
+    "react-pdf": "6.2.2",
     "react-icons": "4.8.0",
     "react-player": "2.12.0",
     "react-resizable": "3.0.4",
-    "react-syntax-highlighter": "15.5.0",
-    "react-stately": "3.21.0"
+    "react-stately": "3.21.0",
+    "react-syntax-highlighter": "15.5.0"
   },
   "peerDependencies": {
     "prop-types": "15.8.1",

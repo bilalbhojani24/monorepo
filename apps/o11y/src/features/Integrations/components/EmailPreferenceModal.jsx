@@ -58,9 +58,12 @@ function EmailPreferenceModal() {
   const handleCloseModal = () => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.delete(INTEGRATIONS_PARAMS.MANAGE_EMAIL_PREFERENCE);
-    navigate({
-      search: searchParams.toString()
-    });
+    navigate(
+      {
+        search: searchParams.toString()
+      },
+      { replace: true }
+    );
     dispatch(toggleModal({ version: '', data: {} }));
   };
 
@@ -127,12 +130,6 @@ function EmailPreferenceModal() {
           type: 'success'
         });
         handleCloseModal();
-      })
-      .catch(() => {
-        o11yNotify({
-          title: `Failed to update email preferences`,
-          type: 'error'
-        });
       })
       .finally(() => {
         setIsSubmittingData(false);

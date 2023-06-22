@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getDefaultChartOptions } from '../../../utils/chartUtils';
+import { getDefaultReportChartOptions } from '../../../utils/chartUtils';
 import {
   getDevicePlatform,
   getLatestVideoCurrentTimeInSeconds,
@@ -10,7 +10,7 @@ import {
 } from '../../Report';
 
 const generateFrameChartOptions = (sessionData, chartGridClicked) => {
-  const chartOptions = getDefaultChartOptions();
+  const chartOptions = getDefaultReportChartOptions();
 
   const fpsSeries = sessionData?.report?.Frames?.metrics?.map((x) => [
     x.ts / 1000,
@@ -54,7 +54,7 @@ const generateFrameChartOptions = (sessionData, chartGridClicked) => {
 
   chartOptions.series = [
     {
-      name: 'FPS',
+      name: 'Frames Per Second',
       color: '#0284C7',
       marker: {
         enabled: false

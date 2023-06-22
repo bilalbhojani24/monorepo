@@ -43,7 +43,7 @@ const UEBreakdownItem = ({ item, errorId, isLast }) => {
     const searchParams = new URLSearchParams(window?.location?.search);
     searchParams.set(SNP_PARAMS_MAPPING.snpErrorId, errorId);
     searchParams.set(SNP_PARAMS_MAPPING.snpErrorTestId, item.id);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
 
   const handleViewMorePlatforms = () => {

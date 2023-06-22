@@ -37,7 +37,7 @@ const TextArea = ({
           'resize-none': !isResizable,
           'cursor-not-allowed border-base-200 bg-base-50 text-base-500':
             disabled,
-          'border border-danger-500 focus:border-danger-500 focus:ring-danger-500 text-danger-900 placeholder:text-danger-300':
+          'border border-danger-300 focus:border-danger-300 focus:ring-danger-300 text-danger-900 placeholder:text-danger-300':
             errorText
         }
       )}

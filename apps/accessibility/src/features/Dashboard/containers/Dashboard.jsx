@@ -3,16 +3,17 @@
 import React from 'react';
 import {
   ActionPanel,
-  Banner,
   Button,
   Header,
-  MdOpenInNew,
   NotificationsContainer,
   SidebarItem,
   SidebarNavigation,
   SkipToContent
 } from '@browserstack/bifrost';
-import Logo from 'assets/accessibility_logo.png';
+import { twClassNames } from '@browserstack/utils';
+import FreshchatIntegration from 'common/FreshchatIntegration';
+import ReverseTrialBannerWrapper from 'common/ReverseTrialBannerWrapper';
+import ReverseTrialModalWrapper from 'common/ReverseTrialModalWrapper';
 import { getUrlForHeader } from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 import { getBrowserStackBase } from 'utils';
@@ -23,19 +24,17 @@ import useDashboard from './useDashboard';
 export default function Dashboard({ children }) {
   const {
     mainRef,
-    isShowingBanner,
     isFreeUser,
     primaryNav,
     currentPath,
     secondaryNav,
     handleNavigationClick,
-    onDownloadExtensionClick,
     onGetADemoClick,
-    onCloseClick
+    onBuyPlanClick,
+    showBanner,
+    remainingDays,
+    showTrialTile
   } = useDashboard();
-
-  const isReportListing = window.location.pathname === '/reports';
-  const isShowingReportListingBanner = isReportListing && isShowingBanner;
 
   const SWBSidebarPri = primaryNav.map((item) => (
     <SidebarItem
@@ -46,7 +45,7 @@ export default function Dashboard({ children }) {
     />
   ));
 
-  const SWBSidebarSec = (
+  const SWBSidebarSecPri = (
     <div className="flex flex-col items-start justify-center pb-3">
       <div className="px-2 pb-3">
         <ActionPanel
@@ -59,19 +58,77 @@ export default function Dashboard({ children }) {
           title="Need help?"
         />
       </div>
-      {secondaryNav.map((item) => (
-        <SidebarItem
-          key={item.id}
-          nav={item}
-          current={item.id === currentPath}
-          handleNavigationClick={handleNavigationClick}
+      {secondaryNav.map((item) => {
+        if (item.show) {
+          return (
+            <SidebarItem
+              key={item.id}
+              nav={item}
+              current={item.id === currentPath}
+              handleNavigationClick={handleNavigationClick}
+            />
+          );
+        }
+        return null;
+      })}
+    </div>
+  );
+
+  const SWBSidebarSecSec = (
+    <div className="flex flex-col items-start justify-center pb-3">
+      <div className="px-2 pb-3">
+        <ActionPanel
+          content={
+            <>
+              <Button colors="success" onClick={onBuyPlanClick} fullWidth>
+                Buy a plan
+              </Button>
+              <Button
+                wrapperClassName="mt-3"
+                colors="white"
+                onClick={onGetADemoClick}
+                fullWidth
+              >
+                Get a demo
+              </Button>
+            </>
+          }
+          description={
+            <span
+              className={twClassNames('rounded-full px-3 py-1 font-semibold', {
+                'bg-attention-100 text-attention-800': remainingDays > 0,
+                'bg-danger-100 text-danger-800': remainingDays === 0
+              })}
+            >
+              {`${remainingDays} days remaining`}
+            </span>
+          }
+          title={
+            remainingDays === 0
+              ? 'Your Team free trial has expired'
+              : 'Your Team free trial is active'
+          }
         />
-      ))}
+      </div>
+      {secondaryNav.map((item) => {
+        if (item.show) {
+          return (
+            <SidebarItem
+              key={item.id}
+              nav={item}
+              current={item.id === currentPath}
+              handleNavigationClick={handleNavigationClick}
+            />
+          );
+        }
+        return null;
+      })}
     </div>
   );
 
   return (
     <div>
+      <ReverseTrialModalWrapper />
       <SkipToContent target={mainRef} wrapperClassName="z-50 bg-white">
         Skip to main content
       </SkipToContent>
@@ -141,40 +198,28 @@ export default function Dashboard({ children }) {
           'docs/accessibility/overview/introduction'
         )}
       />
-      {isShowingReportListingBanner ? (
-        <div className="fixed inset-x-0 top-[64px] z-10 flex justify-between">
-          <Banner
-            description="Download the Accessibility Testing extension to scan your websites for accessibility issues."
-            isDismissButton
-            bannerIcon={
-              <img src={Logo} alt="accessibility logo" height={24} width={24} />
-            }
-            ctaButton={
-              <Button
-                onClick={onDownloadExtensionClick}
-                size="small"
-                colors="white"
-                icon={<MdOpenInNew />}
-                iconPlacement="end"
-              >
-                Download extension
-              </Button>
-            }
-            onDismissClick={onCloseClick}
-          />
-        </div>
-      ) : null}
+      <ReverseTrialBannerWrapper />
       <SidebarNavigation
         sidebarPrimaryNavigation={SWBSidebarPri}
-        sidebarSecondaryNavigation={SWBSidebarSec}
-        wrapperClassName={`bg-white mt-5 ${
-          isShowingReportListingBanner ? 'pt-32' : 'pt-16'
-        }`}
+        sidebarSecondaryNavigation={
+          showTrialTile() ? SWBSidebarSecSec : SWBSidebarSecPri
+        }
+        wrapperClassName={twClassNames('bg-white mt-5', {
+          'pt-32': showBanner,
+          'pt-16': !showBanner
+        })}
       />
-      <main ref={mainRef} className="bg-base-50 mt-16 h-full pl-64">
+      <main
+        ref={mainRef}
+        className="bg-base-50 mt-16 h-full pl-64"
+        style={{
+          marginTop: showBanner ? '128px' : '64px'
+        }}
+      >
         {children}
       </main>
-      <NotificationsContainer />
+      <NotificationsContainer containerStyle={{ top: '84px', right: '40px' }} />
+      <FreshchatIntegration />
     </div>
   );
 }

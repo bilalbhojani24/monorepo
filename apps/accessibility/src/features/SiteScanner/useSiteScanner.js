@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { logEvent } from 'utils/logEvent';
 
 import { getUser } from '../Dashboard/slices/selectors';
+import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
 
 import { getScanConfigs } from './slices/dataSlice';
 import { getScanConfigData } from './slices/selector';
@@ -18,6 +19,11 @@ export default function useSiteScanner() {
   const dispatch = useDispatch();
   const scanConfigsData = useSelector(getScanConfigData);
   const userInfo = useSelector(getUser);
+
+  useEffect(() => {
+    dispatch(setShowFreshChatButton(true));
+  }, []);
+
   useEffect(() => {
     setIsLoading(true);
     dispatch(getScanConfigs());

@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { versionedBaseRoute } from 'constants/common';
 
-export const getTestList = async ({ buildId, pagingParams }) => {
-  const searchParams = new URLSearchParams(window.location.search);
+export const getTestList = async ({ buildId, pagingParams, searchString }) => {
+  const searchParams = new URLSearchParams(
+    window.location.search,
+    searchString
+  );
   if (pagingParams?.searchAfter) {
     searchParams.append('nextRoot', JSON.stringify(pagingParams?.nextRoot));
     searchParams.append(
@@ -12,8 +15,8 @@ export const getTestList = async ({ buildId, pagingParams }) => {
   }
   const searchParamsStr = searchParams.toString();
   return axios.get(
-    `${versionedBaseRoute()}/builds/${buildId}/testRuns${
-      searchParamsStr ? `?${searchParamsStr}` : ''
+    `${versionedBaseRoute()}/builds/v2/${buildId}/testRuns?${
+      searchParamsStr ? `${searchParamsStr}` : ''
     }`
   );
 };
@@ -21,12 +24,11 @@ export const getTestRetryLogs = async (buildId, retryId) =>
   axios.get(
     `${versionedBaseRoute()}/builds/${buildId}/testRuns/${retryId}/retryLogs`
   );
-export const getTestHistoryData = async (testRunIds) =>
+export const getTestHistoryData = async (testRunIds, isHook) =>
   axios.post(`${versionedBaseRoute()}/builds/testRuns/historyDetails`, {
-    testRunIds
+    testRunIds,
+    isHook
   });
-export const getTestlistFilters = async ({ buildId }) =>
-  axios.get(`${versionedBaseRoute()}/builds/${buildId}/getFilters`);
 
 export const toggleMuteTest = async ({ buildId, testRunId, shouldMute }) =>
   axios.put(
@@ -152,3 +154,8 @@ export const submitBulkDefectType = async ({ buildId, testId, payload }) =>
     `${versionedBaseRoute()}/builds/${buildId}/testRuns/${testId}/analyzer-apply`,
     payload
   );
+
+export const getTestListFilters = async ({ searchString, buildId }) => {
+  const endpoint = `${versionedBaseRoute()}/builds/${buildId}/filters?${searchString}`;
+  return axios.get(endpoint);
+};

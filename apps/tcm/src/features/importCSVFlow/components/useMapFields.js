@@ -386,8 +386,8 @@ const useMapFields = () => {
     dispatch(
       logEventHelper('TM_CiMapFieldsPageLoaded', {
         project_id: projectId,
-        field_mapping: myFieldMappings,
-        value_mapping: valueMappings
+        field_mapping: JSON.stringify(myFieldMappings),
+        value_mapping: JSON.stringify(valueMappings)
       })
     );
   };
@@ -396,8 +396,8 @@ const useMapFields = () => {
     dispatch(
       logEventHelper('TM_CiMapProceedCtaClicked', {
         project_id: projectId,
-        field_mapping: myFieldMappings,
-        value_mapping: valueMappings
+        field_mapping: JSON.stringify(myFieldMappings),
+        value_mapping: JSON.stringify(valueMappings)
       })
     );
     const folderId = queryParams.get('folder');
