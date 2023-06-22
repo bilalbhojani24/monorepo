@@ -5,7 +5,6 @@ import {
   getTestCaseDetailsAPI,
   getTestRunDetailsOfTestCaseAPI
 } from 'api/testcases.api';
-import { SLIDEOVER_TIMER } from 'const/immutables';
 import AppRoute from 'const/routes';
 import useTestCasesTable from 'features/Repository/components/useTestCasesTable';
 import { setShowFreshChatButton } from 'globalSlice';
@@ -122,9 +121,7 @@ export default function useTestCaseView({
       testCaseId &&
       (isFromTestRun || isSearchFilterView)
     ) {
-      setTimeout(() => {
-        dispatch(setShowFreshChatButton(true));
-      }, SLIDEOVER_TIMER);
+      dispatch(setShowFreshChatButton(true));
     }
   }, [
     isFromTestRun,
