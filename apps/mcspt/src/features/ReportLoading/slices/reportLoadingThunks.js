@@ -13,7 +13,6 @@ import {
   getSelectedApplication,
   resetSessionSetupData
 } from 'features/Home';
-import { resetRealtimeMetrics } from 'features/RealtimeMetricGraphs';
 
 import {
   getLatestSessionStatus,
@@ -131,7 +130,6 @@ export const stopRecordingSession =
         throw error;
       }
     } finally {
-      dispatch(resetRealtimeMetrics());
       dispatch(setIsSessionStopInProgress(false));
     }
   };
@@ -160,6 +158,5 @@ export const cancelRecordingSession =
       navigationCallback(MCP_ROUTES.HOME);
       dispatch(setIsSessionStopInProgress(false));
       dispatch(resetSessionSetupData());
-      dispatch(resetRealtimeMetrics());
     }
   };
