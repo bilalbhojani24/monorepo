@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   CheckCircleIcon,
@@ -35,19 +35,25 @@ export default {
   argTypes: {}
 };
 
-export const ModalWidget = (args) => (
-  <>
-    <Button
-      onClick={() => {
-        showFeedbackWidget(() => console.log('opened'));
-      }}
-    >
-      Show Modal Widget
-    </Button>
-    <FeedbackWidget {...args} />
-    <NotificationsContainer />
-  </>
-);
+export const ModalWidget = (args) => {
+  useEffect(() => {
+    showFeedbackWidget(() => console.log('opened'));
+  }, []);
+
+  return (
+    <>
+      <Button
+        onClick={() => {
+          showFeedbackWidget(() => console.log('opened'));
+        }}
+      >
+        Show Modal Widget
+      </Button>
+      <FeedbackWidget {...args} />
+      <NotificationsContainer />
+    </>
+  );
+};
 
 ModalWidget.args = {
   formFields: fields,
@@ -76,19 +82,24 @@ ModalWidget.args = {
   }
 };
 
-export const ToastWidget = (args) => (
-  <>
-    <Button
-      onClick={() => {
-        showFeedbackWidget();
-      }}
-    >
-      Show Toast Widget
-    </Button>
-    <FeedbackWidget {...args} />
-    <NotificationsContainer />
-  </>
-);
+export const ToastWidget = (args) => {
+  useEffect(() => {
+    showFeedbackWidget(() => console.log('opened'));
+  }, []);
+  return (
+    <>
+      <Button
+        onClick={() => {
+          showFeedbackWidget();
+        }}
+      >
+        Show Toast Widget
+      </Button>
+      <FeedbackWidget {...args} />
+      <NotificationsContainer />
+    </>
+  );
+};
 
 ToastWidget.args = {
   formFields: fields,
