@@ -13,7 +13,6 @@ import {
   getSelectedApplication,
   resetSessionSetupData
 } from 'features/Home';
-import { resetRealtimeMetrics } from 'features/RealtimeMetricGraphs';
 
 import {
   getLatestSessionStatus,

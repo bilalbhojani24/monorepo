@@ -1,13 +1,9 @@
 import { Pusher, PusherManager } from '@browserstack/utils';
 import {
+  resetRealtimeMetrics,
   setIsSocketConnectionFailed,
   setIsSocketConnectionLoading
 } from 'features/RealtimeMetricGraphs';
-import {
-  getIsSocketConnectionInstance,
-  resetRealtimeMetrics,
-  setSocketConnectionInstance
-} from 'features/RealtimeMetricGraphs/slices/realtimeMetricSlice';
 
 import { handleSocketMessage } from './socketEventManager';
 
@@ -144,6 +140,6 @@ export const disconnectMcpPusher = () => (dispatch) => {
 
     dispatch(resetRealtimeMetrics());
   } catch (e) {
-    console.log(e);
+    // Handle/log error when PM defines Scenario
   }
 };
