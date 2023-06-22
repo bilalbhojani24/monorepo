@@ -68,6 +68,9 @@ export default function useTestCases(props) {
   const isTestCasesLoading = useSelector(
     (state) => state.repository.isLoading.testCases
   );
+  const isFormFieldsLoaded = useSelector(
+    (state) => state.repository.isLoading.formFields
+  );
   const isFoldersLoading = useSelector(
     (state) => state.repository.isLoading.folder
   );
@@ -88,19 +91,6 @@ export default function useTestCases(props) {
   const customFieldData = useSelector(
     (state) => state.repository.customFieldData
   );
-  const priorityIntNameAndValueMapTC = useSelector(
-    (state) => state.repository.priorityIntNameAndValueMapTC
-  );
-  const statusIntNameAndValueMapTC = useSelector(
-    (state) => state.repository.statusIntNameAndValueMapTC
-  );
-  const testCaseTypeIntNameAndValueMapTC = useSelector(
-    (state) => state.repository.testCaseTypeIntNameAndValueMapTC
-  );
-  const automationOptions = useSelector(
-    (state) => state.repository.automationOptions
-  );
-
   const setRepoView = (update) => {
     dispatch(setFilterSearchView(update));
   };
@@ -139,18 +129,12 @@ export default function useTestCases(props) {
     });
   };
 
-  const getValue = (key, value) => {
-    if (key === 'priority') return priorityIntNameAndValueMapTC?.[`${value}`];
-    if (key === 'status') return statusIntNameAndValueMapTC?.[`${value}`];
-    return testCaseTypeIntNameAndValueMapTC?.[`${value}`];
-  };
-
   const setDefaultValues = (defaultFields) => {
     if (props?.isTestCaseEditing) return;
 
     // NOTE: this is to be optimized for all other props as well once we move to the same structure
     // if other props are moving to different structire, automation_status should also be aligned with the same.
-    const automation = defaultFields?.automation_status || automationOptions;
+    const automation = defaultFields?.automation_status;
     const automationDefault = automation?.find((item) => item.is_default);
     if (automationDefault?.value) {
       dispatch(
@@ -169,7 +153,10 @@ export default function useTestCases(props) {
       dispatch(
         updateTestCaseFormData({
           key: item.key,
-          value: getValue(item.key, item.value)
+          value:
+            defaultFields?.[item.key]?.find(
+              (inItem) => inItem.internal_name === item.value
+            )?.value || null
         })
       );
     });
@@ -183,15 +170,18 @@ export default function useTestCases(props) {
         dispatch(
           setCustomFieldsData({
             projectId,
-            fields: res?.custom_fields || []
+            fields: res?.custom_fields || [],
+            defaultFields: res?.default_fields || []
           })
         );
         dispatch(updateCtaLoading({ key: 'formFields', value: false }));
         setDefaultValues(res?.default_fields);
       });
-    } else setDefaultValues();
+    } else setDefaultValues(customFieldData?.defaultFields);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customFieldData?.projectId, dispatch, projectId]);
+
+  useEffect(() => {}, [isFormFieldsLoaded]);
 
   const initFormValues = () => {
     if (loadedDataProjectId !== projectId) {
