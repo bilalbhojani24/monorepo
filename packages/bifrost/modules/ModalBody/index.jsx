@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 const ModalBody = ({ children, className }) => (
   <div
     className={twClassNames('px-6 flex-1 overflow-y-scroll', className)}
-    role="scrollbar"
-    aria-valuenow={0}
-    aria-controls=""
+    role="dialog"
   >
     {children}
   </div>

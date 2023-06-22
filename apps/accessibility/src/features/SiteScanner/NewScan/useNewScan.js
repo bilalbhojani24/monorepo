@@ -45,7 +45,7 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
   const timeRef = useRef();
   const scanUrlRef = useRef();
   const fileUploadRef = useRef();
-
+  const disableUrlButton = formData.scanData.urlSet?.length >= 500;
   const getWcagVersionFromBody = (val) =>
     wcagVersions.filter((version) => version.body === val)[0];
 
@@ -231,7 +231,6 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
           new Set(formDataObj.scanData.urlSet)
         );
         fileUploadRef.current.value = null;
-
         break;
       case 'deleteUrl':
         formDataObj.scanData.urlSet.splice(
@@ -351,6 +350,7 @@ export default function useNewScan(closeSlideover, preConfigData, show) {
     scanUrlRef,
     fileUploadRef,
     setShowToast,
-    showToast
+    showToast,
+    disableUrlButton
   };
 }
