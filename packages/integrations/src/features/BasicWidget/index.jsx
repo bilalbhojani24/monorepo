@@ -164,8 +164,9 @@ const WidgetPortal = ({
   }, [auth, componentKey, dispatch, hasToken, isProd, prevAuth, projectId]);
 
   useEffect(() => {
-    if (userIdFromStore && isProd) {
+    if (userIdFromStore && isProd && !window.integrationWidgetInitialized) {
       initLogger(getAnalyticsKeys(userIdFromStore));
+      window.integrationWidgetInitialized = true;
     }
   }, [userIdFromStore, isProd]);
 

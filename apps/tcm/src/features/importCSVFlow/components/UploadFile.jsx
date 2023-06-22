@@ -121,15 +121,15 @@ const UploadFile = () => {
         {!fileConfig?.fileName && (
           <div className="text-base-600 mt-4 text-sm">
             You can also download a{' '}
-            <span
-              tabIndex={0}
-              role="button"
-              className="text-base-800 cursor-pointer font-semibold"
+            <TMButton
+              wrapperClassName="text-black"
+              colors="white"
+              iconPlacement="end"
+              variant="minimal"
               onClick={handleDownloadSampleCSV}
-              onKeyDown={handleDownloadSampleCSV}
             >
               sample.csv
-            </span>{' '}
+            </TMButton>{' '}
             with instructions.
           </div>
         )}
