@@ -25,7 +25,7 @@ importers:
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
-      '@browserstack/utils': 1.2.0
+      '@browserstack/utils': 2.1.0
       '@browserstack/vite-config': workspace:*
       '@emotion/react': 11.10.5
       '@emotion/styled': 11.10.5
@@ -72,7 +72,7 @@ importers:
       '@browserstack/bifrost': 8.2.0_hkbbqhhe7yspx6haowtlreoieq
       '@browserstack/growth': link:../../packages/growth
       '@browserstack/hooks': link:../../packages/hooks
-      '@browserstack/utils': 1.2.0_qpomuq36ktgf7ncg7bhbvyidmy
+      '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@emotion/react': 11.10.5_idayr2oxcsxtldkhf4tt4nnf6q
       '@emotion/styled': 11.10.5_ndjzcbtdnptlgfk66yazydp4vu
       '@mui/icons-material': 5.11.0_oiuuhmk4wjjpe4qb2sby7usney
