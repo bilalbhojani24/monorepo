@@ -76,7 +76,7 @@ const CreateIssueForm = ({
       return createIssue(
         integrationToolFieldData?.value,
         parsed,
-        options.stateHash
+        options.webHookStateHash
       )
         .catch((errorResponse) => {
           const metricsPayload = {
@@ -303,7 +303,6 @@ const CreateIssueForm = ({
   );
 };
 CreateIssueForm.propTypes = {
-  stateHash: PropTypes.string,
   resetMeta: PropTypes.func.isRequired,
   discardIssue: PropTypes.func.isRequired,
   fields: PropTypes.arrayOf({}).isRequired,
@@ -324,10 +323,6 @@ CreateIssueForm.propTypes = {
   integrationToolFieldData: SingleValueSelectOptionType.isRequired,
   cleanedIssueTypes: PropTypes.arrayOf(SingleValueSelectRawOptionType)
     .isRequired
-};
-
-CreateIssueForm.defaultProps = {
-  stateHash: ''
 };
 
 export default CreateIssueForm;

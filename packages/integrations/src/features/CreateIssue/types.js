@@ -8,5 +8,5 @@ export const CreateIssueOptionsType = PropTypes.shape({
   successCallback: PropTypes.func,
   errorCallback: PropTypes.func,
   metaData: CreateIssueOptionsMetaDataType,
-  stateHash: PropTypes.string
+  webHookStateHash: PropTypes.string
 });

@@ -111,7 +111,7 @@ const UpdateIssueForm = ({
         integrationToolFieldData?.value,
         issueFieldData.value,
         parsed,
-        options.stateHash
+        options.webHookStateHash
       )
         .catch((errorResponse) => {
           const metricsPayload = {
@@ -340,7 +340,6 @@ const UpdateIssueForm = ({
 };
 
 UpdateIssueForm.propTypes = {
-  stateHash: PropTypes.string,
   resetMeta: PropTypes.func.isRequired,
   discardIssue: PropTypes.func.isRequired,
   fields: PropTypes.arrayOf({}).isRequired,
@@ -363,9 +362,6 @@ UpdateIssueForm.propTypes = {
   attachments: PropTypes.arrayOf(PropTypes.string).isRequired,
   integrationToolFieldData: SingleValueSelectOptionType.isRequired,
   issuesForProject: PropTypes.arrayOf(SingleValueSelectOptionType).isRequired
-};
-UpdateIssueForm.defaultProps = {
-  stateHash: ''
 };
 
 export default UpdateIssueForm;
