@@ -144,7 +144,7 @@ MultiSelect.play = async ({ canvasElement }) => {
 const SelectWithPlaceholder = SelectWithPlaceholderTemplate.bind({});
 SelectWithPlaceholder.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const placeholder = 'Select..';
+  const placeholder = 'Placeholder text...';
   await expect(canvas.getByText(assignedTo)).toBeVisible();
   await expect(canvas.getByText(placeholder)).toBeVisible();
   await userEvent.click(canvas.getByText(placeholder));
