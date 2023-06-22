@@ -97,7 +97,7 @@ const UploadFile = () => {
         />
         <div
           className={twClassNames('mt-5 mb-2', {
-            'text-sm font-medium text-base-500': fileConfig?.fileName
+            'text-sm font-medium text-base-900': fileConfig?.fileName
           })}
         >
           {fileConfig?.fileName ? 'Uploaded CSV:' : 'Upload File:'}

@@ -110,6 +110,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
                 </TableCell>
                 <TableCell wrapperClassName="py-2 mr-4 w-2/3">
                   <TMSelectMenu
+                    triggerWrapperClassName="text-base-900"
                     checkPosition="right"
                     options={row?.displayOptions}
                     defaultValue={row?.defaultSelected}

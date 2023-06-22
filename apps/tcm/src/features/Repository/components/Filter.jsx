@@ -218,16 +218,23 @@ const Filter = ({ isMini, onFilterChange }) => {
                     RECENTLY ADDED TAGS
                   </p>
                 ) : null}
-                {tagsFilteredArray.map((item) => (
-                  <TMCheckBox
-                    key={item.value}
-                    border={false}
-                    wrapperClassName="pt-0 mb-2"
-                    checked={filterSearchMeta?.tags?.includes(item.value)}
-                    data={item}
-                    onChange={() => filterChangeHandler('tags', item)}
-                  />
-                ))}
+                {tagsFilteredArray.map((item) => {
+                  const modifiedItem = {
+                    ...item,
+                    label: <span className="text-base-900">{item.label}</span>
+                  };
+
+                  return (
+                    <TMCheckBox
+                      key={item.value}
+                      border={false}
+                      wrapperClassName="pt-0 mb-2"
+                      checked={filterSearchMeta?.tags?.includes(item.value)}
+                      data={modifiedItem}
+                      onChange={() => filterChangeHandler('tags', item)}
+                    />
+                  );
+                })}
               </div>
             </div>
             <div className="h-80 w-1/5">
@@ -235,16 +242,23 @@ const Filter = ({ isMini, onFilterChange }) => {
                 Filter By Priority
               </div>
               <div className="h-full w-full overflow-y-auto p-1">
-                {priorityOptionsForFilter?.map((item) => (
-                  <TMCheckBox
-                    key={item.value}
-                    border={false}
-                    wrapperClassName="pt-0 mb-2"
-                    checked={filterSearchMeta?.priority?.includes(item.value)}
-                    data={item}
-                    onChange={() => filterChangeHandler('priority', item)}
-                  />
-                ))}
+                {priorityOptionsForFilter?.map((item) => {
+                  const modifiedItem = {
+                    ...item,
+                    label: <span className="text-base-900">{item.label}</span>
+                  };
+
+                  return (
+                    <TMCheckBox
+                      key={item.value}
+                      border={false}
+                      wrapperClassName="pt-0 mb-2"
+                      checked={filterSearchMeta?.priority?.includes(item.value)}
+                      data={modifiedItem}
+                      onChange={() => filterChangeHandler('priority', item)}
+                    />
+                  );
+                })}
               </div>
             </div>
           </div>
