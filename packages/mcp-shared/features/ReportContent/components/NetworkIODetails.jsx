@@ -25,15 +25,15 @@ const NetworkIODetails = () => {
           wrapperClassName="p-4"
           metricTitle="Total Data Uploaded"
           metricText={`${sanitizeValue(
-            sessionData?.aggregated?.networkReadKbTotal?.value
+            sessionData?.aggregated?.networkWriteKbTotal?.value
           )} Kb`}
           MetricIcon={<ReportTooltip cardToolTipData={NETWORK_UPLOAD_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
-            sessionData?.aggregated?.networkReadKbTotal?.value,
-            sessionData?.threshold?.networkReadKbTotal
+            sessionData?.aggregated?.networkWriteKbTotal?.value,
+            sessionData?.threshold?.networkWriteKbTotal
           )}
           triangleDirection={
-            sessionData?.threshold?.networkReadKbTotal?.operator
+            sessionData?.threshold?.networkWriteKbTotal?.operator
           }
         />
 
@@ -41,15 +41,15 @@ const NetworkIODetails = () => {
           wrapperClassName="p-4"
           metricTitle="Total Data Downloaded"
           metricText={`${sanitizeValue(
-            sessionData?.aggregated?.networkWriteKbTotal?.value
+            sessionData?.aggregated?.networkReadKbTotal?.value
           )} Kb`}
           MetricIcon={<ReportTooltip cardToolTipData={NETWORK_DOWNLOAD_TT} />}
           criteriaForBreach={decideIfCriteriaBreached(
-            sessionData?.aggregated?.networkWriteKbTotal?.value,
-            sessionData?.threshold?.networkWriteKbTotal
+            sessionData?.aggregated?.networkReadKbTotal?.value,
+            sessionData?.threshold?.networkReadKbTotal
           )}
           triangleDirection={
-            sessionData?.threshold?.networkWriteKbTotal?.operator
+            sessionData?.threshold?.networkReadKbTotal?.operator
           }
         />
       </div>
