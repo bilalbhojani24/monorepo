@@ -17,7 +17,7 @@ export const createIssue = (integrationKey, fields, webHookStateHash) => {
   if (webHookStateHash) {
     queryParams.state = webHookStateHash;
   }
-  axios
+  return axios
     .post(
       URLS.TICKET,
       {
