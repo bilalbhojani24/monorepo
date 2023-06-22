@@ -372,17 +372,15 @@ const TestCasesTable = ({
           <Loader wrapperClassName="h-96 w-full" />
         </div>
       ) : null}
-      {metaPage?.count > metaPage?.page_size &&
-        !metaPage.count &&
-        !metaPage?.page_size && (
-          <TMPagination
-            amplitudeEvent="TM_TcSearchPageLoaded"
-            pageNumber={metaPage?.page || 1}
-            count={metaPage?.count || 0}
-            pageSize={metaPage?.page_size}
-            onActionClick={onPaginationClick}
-          />
-        )}
+      {metaPage?.count > metaPage?.page_size && (
+        <TMPagination
+          amplitudeEvent="TM_TcSearchPageLoaded"
+          pageNumber={metaPage?.page || 1}
+          count={metaPage?.count || 0}
+          pageSize={metaPage?.page_size}
+          onActionClick={onPaginationClick}
+        />
+      )}
       <FolderExplorerModal
         show={showMoveModal}
         heading="Move Test Cases"
