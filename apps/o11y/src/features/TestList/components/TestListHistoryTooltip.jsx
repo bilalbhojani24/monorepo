@@ -25,7 +25,7 @@ import { capitalize, getDocUrl } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
 import { getBuildPath, getSettingsPath } from 'utils/routeUtils';
 
-function TestListHistoryTooltip({ testRunId, status }) {
+function TestListHistoryTooltip({ testRunId, status, isHook }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { o11yTestListingInteraction } = useContext(TestListContext);
@@ -91,17 +91,19 @@ function TestListHistoryTooltip({ testRunId, status }) {
             <div className="flex justify-between">
               <p className="text-sm font-semibold">#{historyData?.serialId}</p>
               <span className="text-brand-600 text-xs font-medium">
-                <Copy2Clipboard
-                  text={`${window.location.origin}${getBuildPath(
-                    activeProject?.normalisedName,
-                    buildMeta.data?.name,
-                    historyData?.serialId
-                  )}?tab=tests&details=${testRunId}`}
-                  showBtnText
-                  wrapperClassName="text-brand-600 font-medium p-0 hover:bg-transparent hover:text-brand-500"
-                  btnText="Copy Link"
-                  icon={<MdLink className="text-base" />}
-                />
+                {!isHook && (
+                  <Copy2Clipboard
+                    text={`${window.location.origin}${getBuildPath(
+                      activeProject?.normalisedName,
+                      buildMeta.data?.name,
+                      historyData?.serialId
+                    )}?tab=tests&details=${testRunId}`}
+                    showBtnText
+                    wrapperClassName="text-brand-600 font-medium p-0 hover:bg-transparent hover:text-brand-500"
+                    btnText="Copy Link"
+                    icon={<MdLink className="text-base" />}
+                  />
+                )}
               </span>
             </div>
             <span className="border-b-base-300 my-3 border-b" />
@@ -268,6 +270,9 @@ export default TestListHistoryTooltip;
 
 TestListHistoryTooltip.propTypes = {
   testRunId: PropTypes.number.isRequired,
-  status: PropTypes.string.isRequired
+  status: PropTypes.string.isRequired,
+  isHook: PropTypes.bool
 };
-TestListHistoryTooltip.defaultProps = {};
+TestListHistoryTooltip.defaultProps = {
+  isHook: false
+};
