@@ -25,7 +25,6 @@ function PaywallCTACardActions({
   const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
   const handleClickUpgrade = (clickedFromFreeTrial) => {
     setIsSubmitting(true);
-    setHasSubmittedUpgradeReq(true);
     dispatch(
       handleUpgrade({
         successCb: () => {
