@@ -18,6 +18,8 @@ const TestCaseDetailsView = ({
   testRunName
 }) => {
   const {
+    hideChat,
+    showChat,
     initTestCaseDetails,
     hideTestCaseViewDrawer,
     actionHandler,
@@ -46,6 +48,13 @@ const TestCaseDetailsView = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
+
+  useEffect(() => {
+    hideChat();
+    return () => {
+      showChat();
+    };
+  }, [showChat, hideChat]);
 
   return (
     <TMSlideover

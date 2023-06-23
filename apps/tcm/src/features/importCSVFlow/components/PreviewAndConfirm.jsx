@@ -70,7 +70,7 @@ const PreviewAndConfirm = () => {
   };
 
   return (
-    <div className="border-base-300 mx-4 mb-4 flex h-max w-4/5 max-w-7xl flex-col rounded-md border border-solid bg-white p-6">
+    <div className="border-base-300 mx-4 mb-20 flex h-max w-4/5 max-w-4xl flex-col rounded-md border border-solid bg-white p-6">
       <TMSectionHeadings
         title="Preview & Confirm"
         variant="buttons"

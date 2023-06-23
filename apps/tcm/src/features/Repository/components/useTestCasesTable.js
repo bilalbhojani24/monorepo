@@ -6,7 +6,7 @@ import {
   moveTestCasesBulkOnSFAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addNotificaton, setShowFreshChatButton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -403,7 +403,9 @@ const useTestCasesTable = (prop) => {
     hideFolderModal,
     moveTestCasesHandler,
     onDropDownChange,
-    handleTestCaseViewClick
+    handleTestCaseViewClick,
+    dispatch,
+    setShowFreshChatButton
   };
 };
 export default useTestCasesTable;

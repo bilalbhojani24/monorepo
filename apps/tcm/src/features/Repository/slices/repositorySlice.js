@@ -318,6 +318,7 @@ export const repositorySlice = createSlice({
       state.testCaseDetails = initialState.testCaseDetails;
       state.allFolders = initialState.allFolders;
       state.customFieldData = initialState.customFieldData;
+      state.metaPage = initialState.metaPage;
     },
     setSearchEmptyText: (state, { payload }) => {
       state.searchEmptyText = payload;

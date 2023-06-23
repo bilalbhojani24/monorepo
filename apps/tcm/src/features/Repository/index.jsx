@@ -25,7 +25,9 @@ const Repository = ({ isSearch }) => {
     initTestCaseDetails,
     fetchAllTestCases,
     setRepoView,
-    cleanUpRepository
+    cleanUpRepository,
+    isSearchFilterView,
+    showOrHideChat
   } = useTestCases();
 
   useEffect(() => {
@@ -65,6 +67,19 @@ const Repository = ({ isSearch }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSearch]);
+
+  useEffect(() => {
+    showOrHideChat(false);
+    return () => {
+      showOrHideChat(true);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    showOrHideChat(isSearchFilterView);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSearchFilterView]);
 
   return (
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
