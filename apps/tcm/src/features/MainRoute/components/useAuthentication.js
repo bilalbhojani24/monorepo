@@ -24,7 +24,10 @@ const useAuthentication = () => {
     if (res.data.user?.onboarded === 0) {
       // to be onboarded user
       redirectURL = AppRoute.ONBOARDING;
-    } else if (location.pathname === AppRoute.ONBOARDING) {
+    } else if (
+      location.pathname === AppRoute.ONBOARDING ||
+      location.pathname === AppRoute.REQUEST_ACCESS
+    ) {
       // if already onboarded user
       // check if trying to accesss onboard page, if so redirect to ROOT
       redirectURL = AppRoute.ROOT;
@@ -58,7 +61,7 @@ const useAuthentication = () => {
       navigate(AppRoute.NO_ACCESS);
       return true;
     }
-    if (res?.response?.status === 403) {
+    if (res?.response?.status === 402) {
       dispatch(setRequestAccessConfig(res.response.data));
       navigate(AppRoute.REQUEST_ACCESS);
       return true;
