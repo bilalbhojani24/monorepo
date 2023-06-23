@@ -72,7 +72,7 @@ const Dashboard = () => {
     <div className="flex flex-1 shrink-0 grow flex-col overflow-hidden">
       <TMPageHeadings heading="Dashboard" />
       <div
-        className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4"
+        className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-6"
         ref={scrollWrapElement}
       >
         <TMAlerts
@@ -81,272 +81,275 @@ const Dashboard = () => {
           detailsNode={null}
           modifier="primary"
         />
-        <div className="mt-4 flex w-full gap-4">
-          <div className="relative w-1/2 flex-1">
-            <TMDataVisualization
-              isLoading={isLoadingStates?.activeTR || false}
-              headerInfo
-              headerInfoTooltipProps={{
-                content: (
-                  <div className="text-base-300 w-60 px-4 text-sm">
-                    This pie chart shows status of test cases in active test
-                    runs.
-                  </div>
-                ),
-                theme: 'dark',
-                placementAlign: 'center',
-                placementSide: 'bottom',
-                size: 'xs',
-                children: <MdInfoOutline className="h-5 w-5" />
-              }}
-              title="Active Test Runs"
-              wrapperClassName="bg-white relative"
-              size="fit-content"
-              footerProps={{
-                linkText: 'View All Active Runs',
-                linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }),
-                onClick: (e) =>
-                  onDVFooterClick(e, 'TM_DashboardActiveRunLinkClicked')
-              }}
-              analytics={
-                <div className="relative">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={activeTestRunsOptions}
-                  />
-                  <div
-                    className={classNames(
-                      'pointer-events-none absolute top-0 left-0 flex h-full flex-col items-center justify-center',
-                      activeTestRunsOptions?.isEmpty ? 'w-full' : 'w-3/5'
-                    )}
-                  >
-                    <div className="text-base-800 text-xl font-bold">
-                      {activeTestRunsOptions?.total || ''}
+        {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+        <div className="flex flex-col gap-y-6">
+          <div className="flex w-full gap-6">
+            <div className="relative w-1/2 flex-1">
+              <TMDataVisualization
+                isLoading={isLoadingStates?.activeTR || false}
+                headerInfo
+                headerInfoTooltipProps={{
+                  content: (
+                    <div className="text-base-300 w-60 px-4 text-sm">
+                      This pie chart shows status of test cases in active test
+                      runs.
                     </div>
-                    <div className="text-base-500 text-xs font-semibold">
-                      {activeTestRunsOptions?.isEmpty
-                        ? NO_DATA_TEXT
-                        : 'Total Test Cases'}
+                  ),
+                  theme: 'dark',
+                  placementAlign: 'center',
+                  placementSide: 'bottom',
+                  size: 'xs',
+                  children: <MdInfoOutline className="h-5 w-5" />
+                }}
+                title="Active Test Runs"
+                wrapperClassName="bg-white relative"
+                size="fit-content"
+                footerProps={{
+                  linkText: 'View All Active Runs',
+                  linkTo: routeFormatter(AppRoute.TEST_RUNS, { projectId }),
+                  onClick: (e) =>
+                    onDVFooterClick(e, 'TM_DashboardActiveRunLinkClicked')
+                }}
+                analytics={
+                  <div className="relative">
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={activeTestRunsOptions}
+                    />
+                    <div
+                      className={classNames(
+                        'pointer-events-none absolute top-0 left-0 flex h-full flex-col items-center justify-center',
+                        activeTestRunsOptions?.isEmpty ? 'w-full' : 'w-3/5'
+                      )}
+                    >
+                      <div className="text-base-800 text-xl font-bold">
+                        {activeTestRunsOptions?.total || ''}
+                      </div>
+                      <div className="text-base-500 text-xs font-semibold">
+                        {activeTestRunsOptions?.isEmpty
+                          ? NO_DATA_TEXT
+                          : 'Total Test Cases'}
+                      </div>
                     </div>
                   </div>
-                </div>
-              }
-            />
+                }
+              />
+            </div>
+            <div className="w-1/2 flex-1">
+              <TMDataVisualization
+                isLoading={isLoadingStates?.closedTRMonthly || false}
+                headerInfo
+                headerInfoTooltipProps={{
+                  content: (
+                    <div className="text-base-300 w-60 px-4 text-sm">
+                      This trendline shows count of test runs closed in last 12
+                      months.
+                    </div>
+                  ),
+                  theme: 'dark',
+                  placementAlign: 'center',
+                  placementSide: 'bottom',
+                  size: 'xs',
+                  children: <MdInfoOutline className="h-5 w-5" />
+                }}
+                title="Closed Test Runs (Last 12 Months)"
+                wrapperClassName="bg-white relative"
+                size="fit-content"
+                footerProps={{
+                  linkText: 'View All Closed Runs',
+                  linkTo:
+                    `${routeFormatter(AppRoute.TEST_RUNS, {
+                      projectId
+                    })}?closed=true` || '',
+                  onClick: (e) =>
+                    onDVFooterClick(e, 'TM_DashboardMonthsClosedRunLinkClicked')
+                }}
+                analytics={
+                  <div className="relative">
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={closedTestRunsMonthlyLineOptions}
+                    />
+                    {closedTestRunsMonthlyLineOptions?.isEmpty ? (
+                      <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
+                        <div className="text-base-500 text-xs font-semibold">
+                          {NO_DATA_TEXT}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                }
+              />
+            </div>
           </div>
-          <div className="w-1/2 flex-1">
-            <TMDataVisualization
-              isLoading={isLoadingStates?.closedTRMonthly || false}
-              headerInfo
-              headerInfoTooltipProps={{
-                content: (
-                  <div className="text-base-300 w-60 px-4 text-sm">
-                    This trendline shows count of test runs closed in last 12
-                    months.
-                  </div>
-                ),
-                theme: 'dark',
-                placementAlign: 'center',
-                placementSide: 'bottom',
-                size: 'xs',
-                children: <MdInfoOutline className="h-5 w-5" />
-              }}
-              title="Closed Test Runs (Last 12 Months)"
-              wrapperClassName="bg-white relative"
-              size="fit-content"
-              footerProps={{
-                linkText: 'View All Closed Runs',
-                linkTo:
-                  `${routeFormatter(AppRoute.TEST_RUNS, {
+          <div className="flex w-full">
+            <div className="flex-1">
+              <TMDataVisualization
+                isLoading={isLoadingStates?.closedTRDaily || false}
+                headerInfo
+                headerInfoTooltipProps={{
+                  content: (
+                    <div className="text-base-300 w-60 px-4 text-sm">
+                      This bar chart shows distribution of test case results
+                      across closed test runs.
+                    </div>
+                  ),
+                  theme: 'dark',
+                  placementAlign: 'center',
+                  placementSide: 'bottom',
+                  size: 'xs',
+                  children: <MdInfoOutline className="h-5 w-5" />
+                }}
+                title="Results from Closed Test Runs (Last 15 days)"
+                wrapperClassName="bg-white relative"
+                size="fit-content"
+                footerProps={{
+                  linkText: 'View All Closed Runs',
+                  linkTo: `${routeFormatter(AppRoute.TEST_RUNS, {
                     projectId
-                  })}?closed=true` || '',
-                onClick: (e) =>
-                  onDVFooterClick(e, 'TM_DashboardMonthsClosedRunLinkClicked')
-              }}
-              analytics={
-                <div className="relative">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={closedTestRunsMonthlyLineOptions}
-                  />
-                  {closedTestRunsMonthlyLineOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
+                  })}?closed=true`,
+                  onClick: (e) =>
+                    onDVFooterClick(e, 'TM_Dashboard15DaysClosedRunLinkClicked')
+                }}
+                analytics={
+                  <div className="relative">
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={closedTestRunsDailyLineOptions}
+                    />
+                    {closedTestRunsDailyLineOptions?.isEmpty ? (
+                      <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
+                        <div className="text-base-500 text-xs font-semibold">
+                          {NO_DATA_TEXT}
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                }
+              />
+            </div>
+          </div>
+          <div className="flex w-full gap-6">
+            <div className="w-1/2 flex-1">
+              <TMDataVisualization
+                isLoading={isLoadingStates?.typeOfTC || false}
+                title="Type of Test Cases"
+                headerInfo
+                headerInfoTooltipProps={{
+                  content: (
+                    <div className="text-base-300 w-60 px-4 text-sm">
+                      This pie chart shows type of test cases in the project.
+                    </div>
+                  ),
+                  theme: 'dark',
+                  placementAlign: 'center',
+                  placementSide: 'bottom',
+                  size: 'xs',
+                  children: <MdInfoOutline className="h-5 w-5" />
+                }}
+                wrapperClassName="bg-white relative"
+                size="fit-content"
+                analytics={
+                  <div className="relative">
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={testCaseTypesOptions}
+                    />
+                    <div
+                      className={classNames(
+                        'pointer-events-none absolute top-0 left-0 flex h-full flex-col items-center justify-center',
+                        testCaseTypesOptions?.isEmpty ? 'w-full' : 'w-3/5'
+                      )}
+                    >
+                      <div className="text-base-800 text-xl font-bold">
+                        {testCaseTypesOptions?.total || ''}
+                      </div>
                       <div className="text-base-500 text-xs font-semibold">
-                        {NO_DATA_TEXT}
+                        {testCaseTypesOptions?.isEmpty
+                          ? NO_DATA_TEXT
+                          : 'Total Test Cases'}
                       </div>
                     </div>
-                  ) : null}
-                </div>
-              }
-            />
-          </div>
-        </div>
-        <div className="mt-4 flex w-full">
-          <div className="flex-1">
-            <TMDataVisualization
-              isLoading={isLoadingStates?.closedTRDaily || false}
-              headerInfo
-              headerInfoTooltipProps={{
-                content: (
-                  <div className="text-base-300 w-60 px-4 text-sm">
-                    This bar chart shows distribution of test case results
-                    across closed test runs.
                   </div>
-                ),
-                theme: 'dark',
-                placementAlign: 'center',
-                placementSide: 'bottom',
-                size: 'xs',
-                children: <MdInfoOutline className="h-5 w-5" />
-              }}
-              title="Results from Closed Test Runs (Last 15 days)"
-              wrapperClassName="bg-white relative"
-              size="fit-content"
-              footerProps={{
-                linkText: 'View All Closed Runs',
-                linkTo: `${routeFormatter(AppRoute.TEST_RUNS, {
-                  projectId
-                })}?closed=true`,
-                onClick: (e) =>
-                  onDVFooterClick(e, 'TM_Dashboard15DaysClosedRunLinkClicked')
-              }}
-              analytics={
-                <div className="relative">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={closedTestRunsDailyLineOptions}
-                  />
-                  {closedTestRunsDailyLineOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
-                      <div className="text-base-500 text-xs font-semibold">
-                        {NO_DATA_TEXT}
+                }
+              />
+            </div>
+            <div className="w-1/2 flex-1">
+              <TMDataVisualization
+                isLoading={isLoadingStates?.trendOfTC || false}
+                title="Trend of Test Cases"
+                headerInfo
+                headerInfoTooltipProps={{
+                  content: (
+                    <div className="text-base-300 w-60 px-4 text-sm">
+                      This trendline shows type of test cases in the project
+                      over last 12 months.
+                    </div>
+                  ),
+                  theme: 'dark',
+                  placementAlign: 'center',
+                  placementSide: 'bottom',
+                  size: 'xs',
+                  children: <MdInfoOutline className="h-5 w-5" />
+                }}
+                wrapperClassName="bg-white relative"
+                size="fit-content"
+                analytics={
+                  <div className="relative">
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={testCasesTrendOptions}
+                    />
+                    {testCasesTrendOptions?.isEmpty ? (
+                      <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
+                        <div className="text-base-500 text-xs font-semibold">
+                          {NO_DATA_TEXT}
+                        </div>
                       </div>
-                    </div>
-                  ) : null}
-                </div>
-              }
-            />
+                    ) : null}
+                  </div>
+                }
+              />
+            </div>
           </div>
-        </div>
-        <div className="mt-4 flex w-full gap-4">
-          <div className="w-1/2 flex-1">
-            <TMDataVisualization
-              isLoading={isLoadingStates?.typeOfTC || false}
-              title="Type of Test Cases"
-              headerInfo
-              headerInfoTooltipProps={{
-                content: (
-                  <div className="text-base-300 w-60 px-4 text-sm">
-                    This pie chart shows type of test cases in the project.
-                  </div>
-                ),
-                theme: 'dark',
-                placementAlign: 'center',
-                placementSide: 'bottom',
-                size: 'xs',
-                children: <MdInfoOutline className="h-5 w-5" />
-              }}
-              wrapperClassName="bg-white relative"
-              size="fit-content"
-              analytics={
-                <div className="relative">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={testCaseTypesOptions}
-                  />
-                  <div
-                    className={classNames(
-                      'pointer-events-none absolute top-0 left-0 flex h-full flex-col items-center justify-center',
-                      testCaseTypesOptions?.isEmpty ? 'w-full' : 'w-3/5'
-                    )}
-                  >
-                    <div className="text-base-800 text-xl font-bold">
-                      {testCaseTypesOptions?.total || ''}
+          <div className="flex w-full">
+            <div className="flex-1">
+              <TMDataVisualization
+                isLoading={isLoadingStates?.jiraIssues || false}
+                headerInfo
+                headerInfoTooltipProps={{
+                  content: (
+                    <div className="text-base-300 w-60 px-4 text-sm">
+                      This bar chart shows distribution of JIRA issues linked
+                      with test runs/results over last 12 months.
                     </div>
-                    <div className="text-base-500 text-xs font-semibold">
-                      {testCaseTypesOptions?.isEmpty
-                        ? NO_DATA_TEXT
-                        : 'Total Test Cases'}
-                    </div>
-                  </div>
-                </div>
-              }
-            />
-          </div>
-          <div className="w-1/2 flex-1">
-            <TMDataVisualization
-              isLoading={isLoadingStates?.trendOfTC || false}
-              title="Trend of Test Cases"
-              headerInfo
-              headerInfoTooltipProps={{
-                content: (
-                  <div className="text-base-300 w-60 px-4 text-sm">
-                    This trendline shows type of test cases in the project over
-                    last 12 months.
-                  </div>
-                ),
-                theme: 'dark',
-                placementAlign: 'center',
-                placementSide: 'bottom',
-                size: 'xs',
-                children: <MdInfoOutline className="h-5 w-5" />
-              }}
-              wrapperClassName="bg-white relative"
-              size="fit-content"
-              analytics={
-                <div className="relative">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={testCasesTrendOptions}
-                  />
-                  {testCasesTrendOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center">
-                      <div className="text-base-500 text-xs font-semibold">
-                        {NO_DATA_TEXT}
+                  ),
+                  theme: 'dark',
+                  placementAlign: 'center',
+                  placementSide: 'bottom',
+                  size: 'xs',
+                  children: <MdInfoOutline className="h-5 w-5" />
+                }}
+                title="JIRA Issues (Last 12 Months)"
+                wrapperClassName="bg-white relative"
+                size="fit-content"
+                analytics={
+                  <div className="relative">
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={jiraIssuesOptions}
+                    />
+                    {jiraIssuesOptions?.isEmpty ? (
+                      <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
+                        <div className="text-base-500 text-xs font-semibold">
+                          {NO_DATA_TEXT}
+                        </div>
                       </div>
-                    </div>
-                  ) : null}
-                </div>
-              }
-            />
-          </div>
-        </div>
-        <div className="mt-4 flex w-full">
-          <div className="flex-1">
-            <TMDataVisualization
-              isLoading={isLoadingStates?.jiraIssues || false}
-              headerInfo
-              headerInfoTooltipProps={{
-                content: (
-                  <div className="text-base-300 w-60 px-4 text-sm">
-                    This bar chart shows distribution of JIRA issues linked with
-                    test runs/results over last 12 months.
+                    ) : null}
                   </div>
-                ),
-                theme: 'dark',
-                placementAlign: 'center',
-                placementSide: 'bottom',
-                size: 'xs',
-                children: <MdInfoOutline className="h-5 w-5" />
-              }}
-              title="JIRA Issues (Last 12 Months)"
-              wrapperClassName="bg-white relative"
-              size="fit-content"
-              analytics={
-                <div className="relative">
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={jiraIssuesOptions}
-                  />
-                  {jiraIssuesOptions?.isEmpty ? (
-                    <div className="absolute left-0 top-0 flex h-full w-full flex-col items-center justify-center bg-white">
-                      <div className="text-base-500 text-xs font-semibold">
-                        {NO_DATA_TEXT}
-                      </div>
-                    </div>
-                  ) : null}
-                </div>
-              }
-            />
+                }
+              />
+            </div>
           </div>
         </div>
       </div>

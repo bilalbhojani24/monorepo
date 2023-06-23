@@ -6,12 +6,11 @@ export const folderDropOptions = [
   {
     id: 'add_sub',
     body: 'Add Sub Folder',
-    divider: false
+    divider: true
   },
   {
     id: 'move_sub',
-    body: 'Move Folder',
-    divider: true
+    body: 'Move Folder'
   },
   {
     id: 'edit_folder',
@@ -20,8 +19,7 @@ export const folderDropOptions = [
   },
   {
     id: 'delete',
-    body: 'Delete',
-    divider: false
+    body: 'Delete'
   }
 ];
 

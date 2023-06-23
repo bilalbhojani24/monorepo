@@ -51,6 +51,17 @@ import NeedsReviewBanner from './NeedsReviewBanner';
 
 import './customStyle.scss';
 
+const tabList = [
+  {
+    name: 'Issue details',
+    value: ISSUE_DETAILS_TAB
+  },
+  {
+    name: 'How to fix',
+    value: HOW_TO_FIX_TAB
+  }
+];
+
 export default function IssueItem() {
   const { sectionData } = useContext(SectionsDataContext);
   let activeIssueItem = null;
@@ -353,16 +364,7 @@ export default function IssueItem() {
         </div>
         <div className="px-6">
           <Tabs
-            tabsArray={[
-              {
-                name: 'Issue details',
-                value: ISSUE_DETAILS_TAB
-              },
-              {
-                name: 'How to fix',
-                value: HOW_TO_FIX_TAB
-              }
-            ]}
+            tabsArray={tabList}
             onTabChange={({ value }) => onTabChange(value)}
           />
           {activeTab === ISSUE_DETAILS_TAB && (

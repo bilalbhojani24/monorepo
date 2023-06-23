@@ -43,6 +43,11 @@ import {
   withErrorBoundary
 } from './modules/ErrorBoundary/index';
 import FileUpload from './modules/FileUpload/index';
+import Gallery from './modules/Gallery';
+import GalleryMedia from './modules/GalleryMedia';
+import GalleryMediaActionbar from './modules/GalleryMediaActionbar';
+import GalleryMediaFooterButton from './modules/GalleryMediaFooterButton';
+import GalleryPreview from './modules/GalleryPreview';
 import GridListWHorizontalLink from './modules/GridListWHorizontalLink/index';
 import GridListWImage from './modules/GridListWImage/index';
 import Header from './modules/Header/index';
@@ -169,6 +174,11 @@ export {
   EmptyStateWStartingPoints,
   ErrorBoundary,
   FileUpload,
+  Gallery,
+  GalleryMedia,
+  GalleryMediaActionbar,
+  GalleryMediaFooterButton,
+  GalleryPreview,
   GridListWHorizontalLink,
   GridListWImage,
   Header,
