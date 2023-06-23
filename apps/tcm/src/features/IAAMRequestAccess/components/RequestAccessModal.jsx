@@ -1,5 +1,5 @@
 import React from 'react';
-import RequestAccessImage from 'assets/images/RequestAccessImage.png';
+import RequestAccessImage from 'assets/images/RequestAccessImage.webp';
 import { TMModal, TMModalBody } from 'common/bifrostProxy';
 import TMCTACard from 'common/bifrostProxy/components/TMCTACard';
 
