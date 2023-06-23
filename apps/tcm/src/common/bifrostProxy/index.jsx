@@ -41,7 +41,6 @@ import {
   TableRow,
   Tabs,
   TextArea,
-  Tooltip,
   TooltipBody,
   TooltipHeader,
   TruncateText
@@ -60,6 +59,7 @@ import TMPageHeadings from './components/TMPageHeadings';
 import TMPagination from './components/TMPagination';
 import TMRichTextEditor from './components/TMRichTextEditor';
 import TMSelectMenu from './components/TMSelectMenu';
+import TMTooltip from './components/TMTooltip';
 import TMTruncateText from './components/TMTruncateText';
 
 export const TMAlerts = (props) => <Alerts description={null} {...props} />;
@@ -94,7 +94,6 @@ export const TMTableRow = (props) => <TableRow {...props} />;
 
 export const TMBadge = (props) => <Badge {...props} />;
 export const TMFileUpload = (props) => <FileUpload {...props} />;
-export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMTooltipBody = (props) => <TooltipBody {...props} />;
 export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
 
@@ -145,5 +144,6 @@ export {
   TMPagination,
   TMRichTextEditor,
   TMSelectMenu,
+  TMTooltip,
   TMTruncateText
 };

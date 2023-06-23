@@ -48,7 +48,7 @@ const SingleStep = ({
       <div className="w-full max-w-[calc(100%-90px)]">
         <div className="flex">
           <MdCheckCircle className="text-success-600 h-5 w-5" />
-          <span className="text-base-800 ml-2 text-sm font-medium">
+          <span className="text-base-900 ml-2 text-sm font-medium">
             {title}
           </span>
         </div>
@@ -92,7 +92,7 @@ SingleStep.defaultProps = {
 };
 
 const TopSectionInfo = ({ steps }) => (
-  <div className="border-base-300 mb-4 w-4/5 max-w-7xl rounded-lg border bg-white p-4">
+  <div className="border-base-300 mb-4 w-4/5 max-w-4xl rounded-lg border bg-white p-4">
     {steps.length &&
       steps.map((step, idx) => (
         <div key={step.title}>
