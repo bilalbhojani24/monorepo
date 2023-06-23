@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getDefaultChartOptions } from '../../../utils/chartUtils';
+import { getDefaultReportChartOptions } from '../../../utils/chartUtils';
 import {
   getLatestVideoCurrentTimeInSeconds,
   getSessionMetrics,
@@ -9,7 +9,7 @@ import {
 } from '../../Report';
 
 const generateMemoryChartOptions = (sessionData, chartGridClicked) => {
-  const chartOptions = getDefaultChartOptions();
+  const chartOptions = getDefaultReportChartOptions();
 
   const memoryTimeSeriesData = sessionData?.report?.Memory?.metrics?.map(
     (x) => [x.ts / 1000, x.memoryMB]

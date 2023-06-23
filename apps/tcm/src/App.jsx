@@ -26,6 +26,7 @@ import {
 } from 'features/ImportProgress/slices/importProgressThunk';
 import MainRoute from 'features/MainRoute';
 import Notification from 'features/Notification';
+import TCAssignedNotification from 'features/Onboarding/components/TCAssignedNotification';
 import {
   setCurrentTestManagementTool,
   setImportId,
@@ -135,6 +136,7 @@ function App() {
         </div>
       </div>
       <Notification />
+      <TCAssignedNotification />
       <ProgressNotification />
       <ViewReportModal />
       <FreshChatWidget />

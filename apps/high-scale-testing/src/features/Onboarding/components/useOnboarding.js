@@ -26,11 +26,11 @@ import {
 import {
   EVENT_LOGS_POLLING_IN_MS,
   GRID_MANAGER_NAMES,
-  PRODUCT_NAME_ACTUAL,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
+import { SETUP_GUIDE } from 'constants/strings';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
@@ -47,17 +47,12 @@ const useOnboarding = () => {
         text: 'Download CLI.'
       },
       b: {
-        code: `# Set these values in your ~/.zprofile (zsh) or ~/.profile (bash)
-export BROWSERSTACK_USERNAME=${userDetails.username}
-export BROWSERSTACK_ACCESS_KEY=${userDetails.accessKey}
-
-# Create HST configuration profile with AWS credentials
-browserstack-cli hst init`,
+        code: `browserstack-cli ats init --bstack-username ${userDetails.username} --bstack-accesskey ${userDetails.accessKey}`,
         language: 'node',
-        text: 'Setup CLI with AWS credentials.'
+        text: 'Setup CLI with BrowserStack credentials.'
       },
       c: {
-        code: 'browserstack-cli hst create grid',
+        code: 'browserstack-cli ats create grid',
         language: 'node',
         text: 'Execute grid creation command.'
       }
@@ -65,7 +60,7 @@ browserstack-cli hst init`,
   };
 
   const HEADER_TEXTS_OBJECT = {
-    intro: `Hey ${userDetails.fullname}, Welcome to ${PRODUCT_NAME_ACTUAL}`,
+    intro: `Hey ${userDetails.fullname}, Welcome to Automate TurboScale`,
     scratch: 'Create Automation Grid',
     existing: 'Create Automation Grid'
   };
@@ -138,7 +133,7 @@ browserstack-cli hst init`,
     selenium: null,
     playwright: null
   });
-
+  const [newGridName, setNewGridName] = useState(null);
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
   const [showEventLogsModal, setShowEventLogsModal] = useState(true);
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
@@ -154,7 +149,7 @@ browserstack-cli hst init`,
 
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
-    if (stepData.name === 'Setup Guide') {
+    if (stepData.name === SETUP_GUIDE) {
       if (onboardingType === ONBOARDING_TYPES.existing) {
         logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
           action: 'setupguide_clicked'
@@ -266,6 +261,10 @@ browserstack-cli hst init`,
     window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
   };
 
+  const handleDismissClick = () => {
+    setShowSetupStatusModal(false);
+  };
+
   const logTermsConditionsEvents = () => {
     logHSTEvent(['amplitude'], 'web_events', AGSetupGuideInteracted, {
       action: 'termsdoc_clicked'
@@ -345,7 +344,7 @@ browserstack-cli hst init`,
       setBreadcrumbDataTrace([
         {
           current: false,
-          name: 'Setup Guide',
+          name: SETUP_GUIDE,
           url: '#',
           goToStep: 0
         },
@@ -365,7 +364,7 @@ browserstack-cli hst init`,
         {
           current: false,
 
-          name: 'Setup Guide',
+          name: SETUP_GUIDE,
           url: '#',
           goToStep: 0
         },
@@ -446,6 +445,7 @@ browserstack-cli hst init`,
     setEventLogsCode(res.currentLogs);
     setCurrentStep(res.currentStep);
     setTotalSteps(res.totalSteps);
+    setNewGridName(res.gridName);
 
     if (
       step === 0 &&
@@ -528,10 +528,12 @@ browserstack-cli hst init`,
     eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
+    handleDismissClick,
     headerText,
     isSetupComplete,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
+    newGridName,
     onboardingStep,
     onboardingType,
     selectedOption,
