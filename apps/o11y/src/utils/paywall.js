@@ -4,7 +4,11 @@ import { BANNER_TYPES } from 'constants/bannerTypes';
 import { BANNER_LAST_SEEN } from 'constants/paywall';
 import { getPlanExpires } from 'globalSlice/selectors';
 
-import { getDateInFormat, getDifferenceInDays } from './dateTime';
+import {
+  getDateInFormat,
+  getDifferenceInDays,
+  getDifferenceInSeconds
+} from './dateTime';
 
 export const checkUserPlanState = () => (dispatch, getState) => {
   const state = getState();
@@ -14,14 +18,19 @@ export const checkUserPlanState = () => (dispatch, getState) => {
     const lastSeenDiff = lastSeenOn
       ? getDifferenceInDays(new Date(), new Date(lastSeenOn))
       : 2;
-    const diff = getDifferenceInDays(new Date(planExpires), new Date());
+    const currentDate = new Date();
+    const diff = getDifferenceInDays(new Date(planExpires), currentDate);
+    const diffInSeconds = getDifferenceInSeconds(
+      new Date(planExpires),
+      currentDate
+    );
     // if plan has expired more than 14 days ago, don't show banner
     if (diff < -14) {
       return;
     }
     const payload = {};
     if (lastSeenDiff >= 2) {
-      if (diff <= 0) {
+      if (diffInSeconds <= 0) {
         payload.expired = true;
         payload.expiredAt = getDateInFormat(new Date(planExpires));
         dispatch(

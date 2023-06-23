@@ -4,10 +4,10 @@ import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { SidebarItem } from '@browserstack/bifrost';
 import { ROUTES } from 'constants/routes';
 import { PlanTypeBadge } from 'features/Paywall';
-import { getActiveProject } from 'globalSlice/selectors';
+import { getActiveProject, getIsOnFreemium } from 'globalSlice/selectors';
 import { getSettingsPath } from 'utils/routeUtils';
 
-const getNav = ({ projectNormalisedName }) => [
+const getNav = ({ projectNormalisedName, isOnFreemium }) => [
   {
     id: 'general',
     label: 'General',
@@ -23,7 +23,7 @@ const getNav = ({ projectNormalisedName }) => [
     inActiveIcon: () => <></>,
     path: getSettingsPath(projectNormalisedName, 'alerts'),
     pattern: ROUTES.settings_alerts,
-    badge: <PlanTypeBadge />
+    badge: isOnFreemium ? <PlanTypeBadge /> : null
   },
   {
     id: 'smart_tags',
@@ -32,7 +32,7 @@ const getNav = ({ projectNormalisedName }) => [
     inActiveIcon: () => <></>,
     path: getSettingsPath(projectNormalisedName, 'smart_tags'),
     pattern: ROUTES.smart_tags,
-    badge: <PlanTypeBadge />
+    badge: isOnFreemium ? <PlanTypeBadge /> : null
   },
   {
     id: 'auto_analyser',
@@ -49,7 +49,7 @@ const getNav = ({ projectNormalisedName }) => [
     inActiveIcon: () => <></>,
     path: getSettingsPath(projectNormalisedName, 'failure_categories'),
     pattern: ROUTES.settings_failure_categories,
-    badge: <PlanTypeBadge />
+    badge: isOnFreemium ? <PlanTypeBadge /> : null
   },
   {
     id: 're_run',
@@ -70,6 +70,7 @@ const getNav = ({ projectNormalisedName }) => [
 ];
 
 export default function SettingsSidebar() {
+  const isOnFreemium = useSelector(getIsOnFreemium);
   const activeProject = useSelector(getActiveProject);
   const location = useLocation();
   const navigate = useNavigate();
@@ -81,7 +82,8 @@ export default function SettingsSidebar() {
     // eslint-disable-next-line tailwindcss/no-arbitrary-value
     <aside className="sticky top-0 min-w-[250px] max-w-[250px] flex-1 shrink-0 pr-8">
       {getNav({
-        projectNormalisedName: activeProject.normalisedName
+        projectNormalisedName: activeProject.normalisedName,
+        isOnFreemium
       }).map((item) => (
         <SidebarItem
           key={item.id}

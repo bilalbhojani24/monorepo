@@ -20,9 +20,17 @@ function PlanTimingBanner() {
       return `Your Observability Pro plan has expired on ${bannerData.expiredAt}. Please complete the upgrade process to retain test logs.`;
     }
     if (isOnFreeTrial) {
-      return `Your free trial for Observability Pro expires in ${bannerData.expiringInDays} days`;
+      return `Your free trial for Observability Pro expires ${
+        bannerData.expiringInDays === 0
+          ? 'today'
+          : `in ${bannerData.expiringInDays} day(s)`
+      }`;
     }
-    return `Your Observability Pro expires in ${bannerData.expiringInDays} days`;
+    return `Your Observability Pro expires ${
+      bannerData.expiringInDays === 0
+        ? 'today'
+        : `in ${bannerData.expiringInDays} day(s)`
+    }`;
   }, [
     bannerData?.expired,
     bannerData.expiredAt,
