@@ -1,9 +1,10 @@
 import React, { useCallback, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
-import { NotificationsContainer } from '@browserstack/bifrost';
+import { NotificationsContainer, ProductSidenav } from '@browserstack/bifrost';
 import FreshchatIntegration from 'common/FreshchatIntegration';
 import ModalToShow from 'common/ModalToShow';
 import O11yTopContent from 'common/O11yTopContent';
+import { PRODUCT_NAV_IDENTIFIER } from 'constants/common';
 import IntegrationsWidget from 'features/IntegrationsWidget';
 
 import { AppContext } from '../context/AppContext';
@@ -22,7 +23,12 @@ function AppContainer() {
       }}
     >
       <O11yTopContent />
-      <Outlet />
+      <div className="fixed top-16 z-10">
+        <ProductSidenav activeProduct={PRODUCT_NAV_IDENTIFIER} />
+      </div>
+      <div className="ml-14">
+        <Outlet />
+      </div>
       <IntegrationsWidget />
       <NotificationsContainer />
       <ModalToShow />

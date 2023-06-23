@@ -83,6 +83,7 @@ export default function AlertsSettings() {
           <O11yButton
             icon={<MdOutlineAdd className="text-lg" />}
             onClick={handleClickAddAlert}
+            wrapperClassName="shrink-0"
           >
             Add alert
           </O11yButton>
