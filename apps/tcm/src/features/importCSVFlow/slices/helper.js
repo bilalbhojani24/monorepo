@@ -1,20 +1,33 @@
-import { ADD_FIELD_VALUE } from '../const/importCSVConstants';
+import {
+  ADD_FIELD_VALUE,
+  IGNORE_FIELD_VALUE
+} from '../const/importCSVConstants';
 
-const valueInternalMapHelper = (value) =>
+const valueInternalMapHelper = (value, isIgnore) =>
   Object.keys(value).reduce((obj, nestedKey) => {
     if (value[nestedKey] === null)
-      return { ...obj, [nestedKey]: { action: 'add' } };
+      return {
+        ...obj,
+        [nestedKey]: { action: isIgnore ? IGNORE_FIELD_VALUE : ADD_FIELD_VALUE }
+      };
     return { ...obj, [nestedKey]: value[nestedKey] };
   }, {});
 
 export const calcValueMappings = (
   valueMappingsRes,
   allFields,
-  fieldMappings
+  fieldMappings,
+  defaultFields
 ) => {
   const valueMappings = {};
   Object.keys(valueMappingsRes).forEach((key) => {
-    valueMappings[key] = valueInternalMapHelper(valueMappingsRes[key]);
+    const fieldDetail = defaultFields?.find(
+      (item) => item.name === fieldMappings[key]
+    );
+    valueMappings[key] = valueInternalMapHelper(
+      valueMappingsRes[key],
+      fieldDetail?.restrict_add
+    );
   });
 
   const existingMappings = Object.keys(fieldMappings);

@@ -22,7 +22,7 @@ import { logOllyEvent } from 'utils/common';
 
 import { getTestReportDetails } from '../slices/testListSlice';
 
-function TestListActionItems({ details }) {
+function TestListActionItems({ details, isAHook }) {
   const dispatch = useDispatch();
   const [updatedMutedStatus, setUpdatedMutedStatus] = useState(null);
   const { buildUUID } = useContext(TestListContext);
@@ -122,6 +122,7 @@ function TestListActionItems({ details }) {
   }, [details?.isMuted, updatedMutedStatus]);
 
   const reRunTooltipText = useMemo(() => {
+    if (isAHook) return 'Re-run is not applicable for test hooks';
     if (buildMeta?.data?.isArchived) {
       return 'Re-run is not applicable for archived build run';
     }
@@ -129,14 +130,18 @@ function TestListActionItems({ details }) {
       return 'Re-run is not applicable or disabled in the project settings';
     }
     return 'Re-run';
-  }, [buildMeta?.data?.isArchived, buildMeta?.data?.reRun]);
+  }, [buildMeta?.data?.isArchived, buildMeta?.data?.reRun, isAHook]);
 
   const muteTooltipText = useMemo(() => {
+    if (isAHook) {
+      return 'Muting is not applicable for test hooks';
+    }
+
     if (buildMeta?.data?.isArchived) {
       return 'Muting is not applicable for archived build run';
     }
     return `${getMutedStatus ? 'Un-Mute' : 'Mute'} Test`;
-  }, [buildMeta?.data?.isArchived, getMutedStatus]);
+  }, [buildMeta?.data?.isArchived, getMutedStatus, isAHook]);
 
   return (
     <PropagationBlocker className="hidden items-center justify-end gap-1 group-hover:flex">
@@ -158,7 +163,9 @@ function TestListActionItems({ details }) {
             size="extra-small"
             onClick={handleRerunButtonClick}
             icon={<MdRedo className="h-5 w-5" />}
-            disabled={!buildMeta?.data?.reRun || buildMeta?.data?.isArchived}
+            disabled={
+              isAHook || !buildMeta?.data?.reRun || buildMeta?.data?.isArchived
+            }
           />
         </O11yTooltip>
       )}
@@ -208,7 +215,7 @@ function TestListActionItems({ details }) {
               <MdOutlineVolumeUp className="h-5 w-5" />
             )
           }
-          disabled={buildMeta?.data?.isArchived}
+          disabled={isAHook || buildMeta?.data?.isArchived}
         />
       </O11yTooltip>
     </PropagationBlocker>
@@ -218,6 +225,9 @@ function TestListActionItems({ details }) {
 export default TestListActionItems;
 
 TestListActionItems.propTypes = {
-  details: PropTypes.shape(singleItemTestDetails).isRequired
+  details: PropTypes.shape(singleItemTestDetails).isRequired,
+  isAHook: PropTypes.bool
 };
-TestListActionItems.defaultProps = {};
+TestListActionItems.defaultProps = {
+  isAHook: false
+};

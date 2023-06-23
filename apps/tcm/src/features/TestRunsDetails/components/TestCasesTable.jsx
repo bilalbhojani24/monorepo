@@ -111,6 +111,7 @@ const TestCasesTable = () => {
       name: 'ASSIGNED TO',
       key: 'test_assignee',
       class: 'w-[10%]',
+      bodyClass: '[&>div]:w-[90px]',
       cell: (rowData) => (
         <div className={twClassNames('text-base-500')}>
           <TMTruncateText
@@ -188,7 +189,9 @@ const TestCasesTable = () => {
   return (
     <div className="flex-col overflow-y-auto border-none">
       <TMTable
-        tableWrapperClass="w-full"
+        tableWrapperClass={twClassNames('w-full', {
+          'mb-20': !(metaPage?.count > metaPage?.page_size)
+        })}
         containerWrapperClass={classNames(
           // 'max-w-[calc(100vw-40rem)]'
           'overflow-y-auto md:rounded-none'

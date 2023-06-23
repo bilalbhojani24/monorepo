@@ -342,19 +342,19 @@ const useBulkFunctions = () => {
   };
 
   useEffect(() => {
-    if (allTestCases?.length) {
-      const checkedItems = allTestCases
-        .map((item) => item.id)
-        .filter((item) => selectedTestCaseIDs.includes(item));
+    const checkedItems = allTestCases
+      ?.map((item) => item.id)
+      .filter((item) => selectedTestCaseIDs.includes(item));
 
-      setAllChecked(checkedItems.length === allTestCases.length);
+    setAllChecked(
+      checkedItems.length === allTestCases.length && allTestCases.length !== 0
+    );
 
-      setIndeterminate(
-        checkedItems.length === allTestCases.length || !checkedItems.length
-          ? false
-          : checkedItems.length !== allTestCases.length
-      );
-    }
+    setIndeterminate(
+      checkedItems.length === allTestCases.length || !checkedItems.length
+        ? false
+        : checkedItems.length !== allTestCases.length
+    );
   }, [allTestCases, selectedTestCaseIDs]);
 
   return {
