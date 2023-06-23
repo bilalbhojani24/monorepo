@@ -32,7 +32,8 @@ export function getCustomTimeStamp({
   dateString,
   withoutTZ = false,
   withoutTime,
-  dateFormat
+  dateFormat,
+  hideSeconds = false
 }) {
   const dateObject = new Date(dateString);
   const timeZone = extractTimezoneAbbr(dateObject);
@@ -50,7 +51,10 @@ export function getCustomTimeStamp({
       : formattedDate;
     return withoutTZ ? formattedDate : returnDate;
   }
-  const formattedDate = format(dateObject, 'MMM dd, yyyy | h:mm:ss a');
+  const formattedDate = format(
+    dateObject,
+    hideSeconds ? 'MMM dd, yyyy | h:mm a' : 'MMM dd, yyyy | h:mm:ss a'
+  );
   const returnDate = timeZone
     ? `${formattedDate} (${timeZone})`
     : formattedDate;
