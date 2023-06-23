@@ -42,14 +42,27 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
 
   // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
+    const noAddOption = modalConfig?.fieldMeta.restrict_add;
     modalRowRef.current = Object.keys(value)?.map((field) => {
-      const displayOptions =
-        VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN[
+      let displayOptions = [
+        ...VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN[
           mappedField.split(' ').join('').toUpperCase()
-        ];
+        ]
+      ];
+      if (noAddOption) {
+        // remove add option
+        displayOptions = displayOptions.filter(
+          (item) => item.value !== ADD_VALUE_VALUE
+        );
+      }
+      // set divider for ignore option
+      displayOptions = displayOptions.map((item) =>
+        item.value === IGNORE_VALUE_VALUE ? { ...item, divider: true } : item
+      );
+
       let defaultSelected = null;
       for (let i = 0; i < displayOptions?.length; i += 1) {
-        if (value[field]?.action === ADD_VALUE_VALUE) {
+        if (value[field]?.action === ADD_VALUE_VALUE && !noAddOption) {
           defaultSelected = { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE };
           break;
         } else if (value[field]?.action === IGNORE_VALUE_VALUE) {

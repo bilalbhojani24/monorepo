@@ -120,6 +120,16 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             </div>
             <div className="w-3/6">
               <DetailsSnippet
+                title="Automation Status"
+                value={getSystemOrCustomValue(
+                  testCaseDetails?.automation_status?.name,
+                  testCaseDetails?.automation_status,
+                  []
+                )}
+              />
+            </div>
+            <div className="w-3/6">
+              <DetailsSnippet
                 title="Priority"
                 value={testCaseDetails?.priority?.name || '--'}
               />
