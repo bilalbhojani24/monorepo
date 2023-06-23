@@ -161,7 +161,7 @@ const ScanDetails = () => {
             </div>
           </div>
           <div className="flex items-center">
-            {scanRunDataCommon?.nextScanDate && (
+            {!scanRunDataCommon?.isProcessing && (
               <Button
                 colors="white"
                 onClick={handleNewScanRun}
