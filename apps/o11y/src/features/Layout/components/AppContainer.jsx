@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import { Outlet } from 'react-router-dom';
-import { NotificationsContainer, ProductSidenav } from '@browserstack/bifrost';
+import { NotificationsContainer } from '@browserstack/bifrost';
+import { ProductSidenav } from '@browserstack/webex';
 import FreshchatIntegration from 'common/FreshchatIntegration';
 import ModalToShow from 'common/ModalToShow';
 import O11yTopContent from 'common/O11yTopContent';
