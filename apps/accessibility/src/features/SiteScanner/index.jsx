@@ -15,6 +15,7 @@ import {
   MdCheckCircle,
   MdExpandMore,
   MdOutlineContentCopy,
+  MdOutlineFindInPage,
   MdOutlineHistory,
   MdOutlineSync,
   MdPerson,
@@ -280,7 +281,7 @@ export default function SiteScanner() {
             <span className="ml-2">View latest scan run</span>
           </div>
         ),
-        show: true
+        show: Object.keys(row.lastScanDetails).length
       },
       {
         id: 'newScanRun',
@@ -310,6 +311,17 @@ export default function SiteScanner() {
           <div className="flex items-center">
             <MdOutlineContentCopy />
             <span className="ml-2">Clone scan configuration</span>
+          </div>
+        ),
+        show: true
+      },
+      {
+        id: 'scanDetails',
+        value: 'scanDetails',
+        body: (
+          <div className="flex items-center">
+            <MdOutlineFindInPage />
+            <span className="ml-2">View scan details</span>
           </div>
         ),
         show: true
