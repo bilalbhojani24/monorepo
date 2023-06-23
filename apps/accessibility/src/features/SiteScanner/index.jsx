@@ -403,7 +403,7 @@ export default function SiteScanner() {
       </div>
       {scanConfigStateData?.data?.scanConfigs?.length || isUserSearch ? (
         <>
-          <div className="z-50 block p-6 pt-0">
+          <div className="block p-6 pt-0">
             <div className="flex justify-between">
               <div className="flex items-center">
                 <InputField
