@@ -126,15 +126,19 @@ const useTestCasesTable = (prop) => {
   };
 
   const initBulkMove = () => {
-    closeTCDetailsSlide();
-    if (isSearchFilterView) {
-      dispatch(
-        logEventHelper('TM_TcBulkMoveBtnClickedSearchFilter', {
+    dispatch(
+      logEventHelper(
+        isSearchFilterView
+          ? 'TM_TcBulkMoveBtnClickedSearchFilter'
+          : 'TM_TcBulkMoveBtnClicked',
+        {
           project_id: projectId,
           testcase_id: bulkSelection?.ids
-        })
-      );
-    }
+        }
+      )
+    );
+    closeTCDetailsSlide();
+
     setshowMoveModal(true);
   };
 
@@ -278,6 +282,17 @@ const useTestCasesTable = (prop) => {
   const onDropDownChange = (selectedOption, selectedItem, isFromTable) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
       // edit
+      dispatch(
+        logEventHelper(
+          isFromTable
+            ? 'TM_EditTcLinkClickedTcList'
+            : 'TM_EditTcLinkClickedTcDetails',
+          {
+            project_id: projectId,
+            testcase_id: selectedItem?.id
+          }
+        )
+      );
       const formattedData = formDataRetriever(tagsArray, selectedItem);
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
