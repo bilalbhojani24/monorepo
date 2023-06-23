@@ -71,7 +71,7 @@ const BulkEditTestCase = () => {
           </div>
         }
       />
-      <p className="text-base-800 my-3 font-normal">
+      <p className="text-base-900 my-3 font-normal">
         Update the fields below which you want to update for all the selected
         test cases.
       </p>
