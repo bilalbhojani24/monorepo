@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSessionDetails } from 'features/Home';
 import { getRealtimeMetricThresholdsAndSubscribe } from 'features/RealtimeMetricGraphs';
+import { disconnectMcpPusher } from 'utils/socketConnectionManager';
 
 import {
   getIsSessionStopInProgress,
@@ -21,6 +22,10 @@ const useReportLoadingContent = () => {
         getRealtimeMetricThresholdsAndSubscribe(sessionDetails?.sessionID)
       );
     }
+
+    return () => {
+      dispatch(disconnectMcpPusher());
+    };
   }, [dispatch, sessionDetails?.sessionID]);
 
   return {

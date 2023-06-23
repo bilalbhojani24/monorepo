@@ -70,7 +70,7 @@ const TestCaseDetailsView = ({
     >
       <TMSlideoverHeader
         isEllipsisHeader={false}
-        headingWrapperClassName="text-sm text-base-700 flex justify-center items-center"
+        headingWrapperClassName="text-sm text-base-900 flex justify-center items-center"
         heading="TEST CASE DETAILS"
         isBorder
         wrapperClassName="bg-white"

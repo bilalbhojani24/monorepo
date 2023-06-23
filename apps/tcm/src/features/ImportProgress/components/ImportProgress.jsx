@@ -46,7 +46,7 @@ const ImportProgress = () => {
           <div className="border-base-300 mb-4 flex justify-between rounded-md border bg-white p-4">
             <div className="w-full pr-4">
               <div className="flex w-full items-center justify-between">
-                <div className="text-base-800 text-sm font-medium">
+                <div className="text-base-900 text-sm font-medium">
                   Quick Import in progress: {importDetails?.percent}%{' '}
                   {importDetails?.successfullyImportedProjects > 0 && (
                     <TMBadge

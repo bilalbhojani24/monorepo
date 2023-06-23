@@ -281,7 +281,7 @@ const TestCasesTable = ({
                 {index === 0 &&
                 (selectedTestCaseIDs.length || isAllSelected) &&
                 !isMini ? (
-                  <div className="bg-base-50 border-base-300 absolute top-0 flex h-full items-center gap-3 border-b">
+                  <div className="bg-base-50 border-base-300 absolute top-0 mt-px flex h-full items-center gap-3 border-b">
                     <TMButton
                       colors="white"
                       size="extra-small"
