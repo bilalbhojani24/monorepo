@@ -155,7 +155,7 @@ export const formatLog = (log) => {
     };
   }
 
-  return data;
+  return data?.response?.value?.isSnapShot ? null : data;
 };
 
 export const isError = (logLevel) => {

@@ -105,7 +105,8 @@ export default function TextLogItem({ data, searchText }) {
   }
 
   if (
-    (isEmpty(data) && isEmpty(logData)) ||
+    isEmpty(data) ||
+    isEmpty(logData) ||
     !activeLogLevels.includes(data?.logLevel)
   ) {
     return null;
