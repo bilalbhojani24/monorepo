@@ -36,7 +36,7 @@ import {
   getReportMetaData,
   getShowHiddenIssuesState
 } from 'features/Report/slice/selector';
-import { getEnvUrl } from 'utils';
+import { getDashboardWidth, getEnvUrl } from 'utils';
 import {
   generateReportUrl,
   handleClickByEnterOrSpace,
@@ -473,12 +473,12 @@ export default function IssueItem() {
         </div>
       </div>
       <div
-        className="fixed bottom-0 right-0 z-[15] bg-white"
+        className="fixed bottom-0 right-0 z-10 bg-white"
         style={{
           width: `${
             isSidebarCollapsed
               ? 'calc((100vw - 20px) / 2)'
-              : 'calc((100vw - 256px - 57px) / 2)'
+              : `calc((${getDashboardWidth()}) / 2)`
           }`
         }}
       >

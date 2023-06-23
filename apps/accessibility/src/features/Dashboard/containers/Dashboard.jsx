@@ -6,12 +6,12 @@ import {
   Button,
   Header,
   NotificationsContainer,
-  ProductSidenav,
   SidebarItem,
   SidebarNavigation,
   SkipToContent
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import { ProductSidenav } from '@browserstack/webex';
 import FreshchatIntegration from 'common/FreshchatIntegration';
 import ReverseTrialBannerWrapper from 'common/ReverseTrialBannerWrapper';
 import ReverseTrialModalWrapper from 'common/ReverseTrialModalWrapper';
@@ -200,25 +200,30 @@ export default function Dashboard({ children }) {
         )}
       />
       <ReverseTrialBannerWrapper />
-      <SidebarNavigation
-        sidebarPrimaryNavigation={SWBSidebarPri}
-        sidebarSecondaryNavigation={
-          showTrialTile() ? SWBSidebarSecSec : SWBSidebarSecPri
-        }
-        wrapperClassName={twClassNames('bg-white mt-5', {
-          'pt-32': showBanner,
-          'pt-16': !showBanner
-        })}
-      />
-      <main
-        ref={mainRef}
-        className="bg-base-50 mt-16 h-full pl-64"
-        style={{
-          marginTop: showBanner ? '128px' : '64px'
-        }}
-      >
-        {children}
-      </main>
+
+      <ProductSidenav activeProduct={PRODUCT_NAV_IDENTIFIER} />
+      <div id="app-main-content" className="ml-14">
+        <SidebarNavigation
+          sidebarPrimaryNavigation={SWBSidebarPri}
+          sidebarSecondaryNavigation={
+            showTrialTile() ? SWBSidebarSecSec : SWBSidebarSecPri
+          }
+          wrapperClassName={twClassNames('bg-white mt-5', {
+            'pt-32': showBanner,
+            'pt-16': !showBanner
+          })}
+        />
+        <main
+          ref={mainRef}
+          className="bg-base-50 mt-16 h-full pl-64"
+          style={{
+            marginTop: showBanner ? '128px' : '64px'
+          }}
+        >
+          {children}
+        </main>
+      </div>
+
       <NotificationsContainer containerStyle={{ top: '84px', right: '40px' }} />
       <FreshchatIntegration />
     </div>

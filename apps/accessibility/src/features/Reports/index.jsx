@@ -22,6 +22,7 @@ import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
 import Loader from 'common/Loader';
 import { CHROME_EXTENSION_URL, reportPerPage, reportType } from 'constants';
+import { getDashboardWidth } from 'utils';
 import { logEvent } from 'utils/logEvent';
 
 import ColdStart from './components/ColdStart';
@@ -115,7 +116,7 @@ export default function Reports() {
       <div
         className="border-base-200 fixed z-10 w-full p-6"
         style={{
-          width: 'calc(100vw - 256px - 57px)',
+          width: `calc(${getDashboardWidth()})`,
           top: showBanner ? '128px' : '64px',
           borderBottomWidth: searchFilterList.length ? '1px' : 0
         }}
