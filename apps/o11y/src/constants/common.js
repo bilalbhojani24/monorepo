@@ -16,7 +16,10 @@ export const DOC_KEY_MAPPING = {
   application_logs: 'integrations/application-logs',
   smart_tags: 'features/smart-tags',
   tnc: `references/terms-and-conditions`,
-  uploading_logs: 'integrations/application-logs'
+  uploading_logs: 'integrations/application-logs',
+  settings_alerts: 'how-to-guides/custom-alerts',
+  settings_failure_category:
+    'features/auto-failure-analysis#how-to-create-custom-failure-categories'
 };
 export const EXTERNAL_LINKS = {
   contact: 'contact?ref=header',

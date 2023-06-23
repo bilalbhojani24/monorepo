@@ -1,5 +1,8 @@
 import AlertsIllustration from 'assets/illustrations/alerts_illustration';
 import FailureCategoriesIllustration from 'assets/illustrations/failure_categories_illustration';
+import { getDocUrl } from 'utils/common';
+
+import { DOC_KEY_MAPPING } from './common';
 
 export const BANNER_LAST_SEEN = 'BANNER_LAST_SEEN';
 
@@ -17,13 +20,17 @@ export const FEATURE_CARD_DATA = {
     callout: 'GET NOTIFIED',
     title: 'Set up actionable alerts',
     desc: 'Identify problematic tests before they turn into critical issues. Set up alerts on metrics that you care about.',
-    illustration: AlertsIllustration
+    illustration: AlertsIllustration,
+    learnMoreLink: getDocUrl({ path: DOC_KEY_MAPPING.settings_alerts })
   },
   [PAYWALL_FEATURES.FAILURE_CATEGORY]: {
     callout: 'AUTO-ASSIGN FAILURE REASONS',
     title: 'Customize your failure categories',
     desc: 'Failure categories are a way for you to create and apply custom tags to your test failures, such as API bug, database issue, or any other category relevant to you.',
-    illustration: FailureCategoriesIllustration
+    illustration: FailureCategoriesIllustration,
+    learnMoreLink: getDocUrl({
+      path: DOC_KEY_MAPPING.settings_failure_category
+    })
   }
 };
 
