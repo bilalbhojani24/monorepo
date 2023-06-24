@@ -38,9 +38,9 @@ export default function CustomChartTooltip({
     let os = [];
     let deviceList = [];
     drillDownItem.forEach((el) => {
-      if (el.browser !== 'NA') browsers.push(el.browser);
-      if (el.os !== 'NA') os.push(el.os);
-      if (el.device !== 'NA') deviceList.push(el.device);
+      browsers.push(el.browser);
+      os.push(el.os);
+      deviceList.push(el.device);
     });
 
     browsers = [...new Set(browsers)];
