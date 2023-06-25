@@ -29,3 +29,8 @@ export const getIssuesCountAPI = async (projectId) =>
   fetchGet(
     `/api/v1/projects/${projectId}/dashboard-analytics/issues-count-info`
   );
+
+export const getAutomationStatsAPI = async (projectId) =>
+  fetchGet(
+    `/api/v1/projects/${projectId}/dashboard-analytics/automation-stats`
+  );
