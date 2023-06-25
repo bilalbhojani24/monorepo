@@ -138,14 +138,6 @@ const SHUEFilters = ({ o11ySHUEInteraction }) => {
             noLabel="Not Always Failing"
             type={ADV_FILTER_TYPES.isAlwaysFailing.key}
           />
-          {/* #TODO: to be added after the backend change is moved
-          <MultiSelectCheckboxFilterField
-            label="Defects (JIRA Issues)"
-            yesLabel="Tests with associated defects"
-            noLabel="Tests with no associated defects"
-            type={ADV_FILTER_TYPES.hasJiraDefects.key}
-          />
-           */}
           <MultiSelectCheckboxFilterField
             label="Muted Tests"
             yesLabel="Muted"
@@ -177,6 +169,11 @@ const SHUEFilters = ({ o11ySHUEInteraction }) => {
             type={ADV_FILTER_TYPES.failureCategories.key}
             placeholder="Select"
             label="Failure Categories"
+          />
+          <MultiSelectStaticFilterField
+            type={ADV_FILTER_TYPES.jiraStatus.key}
+            placeholder="Select"
+            label="Defect Status (Jira Issues)"
           />
         </div>
       </FilterSlideover>

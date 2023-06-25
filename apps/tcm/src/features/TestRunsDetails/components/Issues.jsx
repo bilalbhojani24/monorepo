@@ -79,7 +79,7 @@ const Issues = () => {
   return (
     <div className="flex w-full flex-1 shrink-0 grow flex-col overflow-hidden">
       <TMPageHeadings
-        wrapperClassName="px-4 py-6 bg-transparent"
+        wrapperClassName="px-6 py-6 bg-transparent"
         heading="Issues"
         breadcrumbs={[
           {

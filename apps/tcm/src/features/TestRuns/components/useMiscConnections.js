@@ -138,8 +138,7 @@ const useMiscConnections = (prop) => {
             updateTestRun({
               ...selectedTestRun,
               assignee: {
-                ...selectedAssignee,
-                full_name: selectedAssignee.label
+                ...selectedAssignee
               }
             })
           );

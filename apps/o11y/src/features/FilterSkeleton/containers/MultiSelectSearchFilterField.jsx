@@ -22,12 +22,17 @@ const MultiSelectSearchFilterField = ({
   label,
   searchAPI
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const selectedFilters = useSelector(getSelectedFiltersByType(type));
   const activeProject = useSelector(getActiveProject);
   const isMounted = useRef(false);
   const [availableOptions, setAvailableOptions] = useState([]);
+
+  const handleChangeOpenState = (status) => {
+    setIsOpen(status);
+  };
 
   const fetchData = useCallback(
     (query = '') => {
@@ -105,9 +110,11 @@ const MultiSelectSearchFilterField = ({
 
   const handleSearchChange = useCallback(
     (searchText) => {
-      fetchData(searchText);
+      if (isOpen) {
+        fetchData(searchText);
+      }
     },
-    [fetchData]
+    [fetchData, isOpen]
   );
 
   const debouncedSearch = useMemo(
@@ -137,6 +144,7 @@ const MultiSelectSearchFilterField = ({
       isLoading={isLoading}
       onSearch={debouncedSearch}
       isAsyncSearch
+      onOpenChange={handleChangeOpenState}
     />
   );
 };

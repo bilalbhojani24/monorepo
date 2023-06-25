@@ -121,6 +121,11 @@ export const ADV_FILTER_TYPES = {
     key: 'dateRange',
     addOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_TYPE
+  },
+  jiraStatus: {
+    key: 'jiraStatus',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   }
 };
 
@@ -145,7 +150,8 @@ export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.runs.key]: 'Re run',
   [ADV_FILTER_TYPES.ciBuildNumbers.key]: 'CI Build Number',
   [ADV_FILTER_TYPES.status.key]: 'Status',
-  [ADV_FILTER_TYPES.hasPerformanceAnomaly.key]: 'Has Performance Anomaly'
+  [ADV_FILTER_TYPES.hasPerformanceAnomaly.key]: 'Has Performance Anomaly',
+  [ADV_FILTER_TYPES.jiraStatus.key]: 'Jira status'
 };
 
 export const ADV_FILTER_FIELD_TYPES = {
@@ -168,7 +174,8 @@ export const ADV_FILTERS_FIELD_GROUPS = {
     ADV_FILTER_TYPES.browserList.key,
     ADV_FILTER_TYPES.runs.key,
     ADV_FILTER_TYPES.ciBuildNumbers.key,
-    ADV_FILTER_TYPES.status.key
+    ADV_FILTER_TYPES.status.key,
+    ADV_FILTER_TYPES.jiraStatus.key
   ],
   [ADV_FILTER_FIELD_TYPES.BOOLEAN]: [
     ADV_FILTER_TYPES.isFlaky.key,
