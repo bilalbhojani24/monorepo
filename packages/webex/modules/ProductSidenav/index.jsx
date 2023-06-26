@@ -40,7 +40,6 @@ const ProductSidenav = ({ activeProduct }) => {
     const mainContentDOM = document.getElementById('app-main-content');
     if (headerScalability !== 'true' && mainContentDOM) {
       mainContentDOM.classList.remove('ml-14');
-      mainContentDOM.classList.remove('ml-[57px]');
     }
     fetchPurchasedProducts();
   });
