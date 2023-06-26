@@ -36,7 +36,7 @@ const ProductSidenav = ({ activeProduct }) => {
     <>
       <div
         className={twClassNames(
-          'top-16 flex flex-col items-start fixed left-0 h-full border-r border-solid border-base-300 bg-white z-50',
+          'top-16 flex flex-col items-start fixed left-0 h-full border-r border-solid border-base-300 bg-white z-10',
           {
             'w-[56px]': !expanded,
             'w-[260px] overflow-y-auto': expanded
