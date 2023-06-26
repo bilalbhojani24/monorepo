@@ -99,7 +99,7 @@ const MapFields = () => {
       case 'field_dropdown': // modal
         return (
           <span className="pl-3 text-sm font-medium">
-            <span className="text-base-700 mr-1">
+            <span className="text-base-900 mr-1">
               {`${
                 valueMappings && valueMappings?.[actualName]
                   ? getValueMappingsCount(valueMappings?.[actualName])
@@ -182,7 +182,7 @@ const MapFields = () => {
   }, []);
 
   return (
-    <div className="mb-5 w-4/5 max-w-7xl">
+    <div className="mb-20 w-4/5 max-w-4xl">
       {mapFieldsError && (
         <div className="mb-3">
           <TMAlerts
@@ -228,7 +228,7 @@ const MapFields = () => {
         </div>
         {!showMappings && (
           <>
-            <div className="text-base-800 my-4 px-6 text-sm">
+            <div className="text-base-900 my-4 px-6 text-sm">
               Fields and values are mapped by default. You can update the
               mapping if needed:
             </div>
@@ -302,7 +302,7 @@ const MapFields = () => {
                     </TableCell>
                     <TableCell
                       wrapperClassName={twClassNames(
-                        'py-1 w-1/5 px-5 max-w-[250px]'
+                        'py-1 w-1/5 px-5 max-w-[250px] text-base-900'
                       )}
                     >
                       {getMappingForLastCol(

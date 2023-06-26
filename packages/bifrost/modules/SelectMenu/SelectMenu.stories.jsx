@@ -16,6 +16,12 @@ const assignedTo = 'Assigned to';
 const defaultConfig = {
   title: 'Application/Components/SelectMenu',
   component: SelectMenu,
+  subcomponents: {
+    SelectMenuLabel,
+    SelectMenuOptionGroup,
+    SelectMenuOptionItem,
+    SelectMenuTrigger
+  },
   parameters: {
     docs: {
       page: () => (
@@ -138,7 +144,7 @@ MultiSelect.play = async ({ canvasElement }) => {
 const SelectWithPlaceholder = SelectWithPlaceholderTemplate.bind({});
 SelectWithPlaceholder.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const placeholder = 'Select..';
+  const placeholder = 'Placeholder text...';
   await expect(canvas.getByText(assignedTo)).toBeVisible();
   await expect(canvas.getByText(placeholder)).toBeVisible();
   await userEvent.click(canvas.getByText(placeholder));
@@ -231,9 +237,19 @@ MultiSelect.args = {
 };
 
 SelectWithPlaceholder.args = {
-  placeholder: 'Placeholder text...',
   value: null,
-  defaultValue: null
+  defaultValue: null,
+  children: (
+    <>
+      <SelectMenuLabel>{assignedTo}</SelectMenuLabel>
+      <SelectMenuTrigger placeholder="Placeholder text..." />
+      <SelectMenuOptionGroup>
+        {SELECT_OPTIONS.map((item) => (
+          <SelectMenuOptionItem key={item.value} option={item} />
+        ))}
+      </SelectMenuOptionGroup>
+    </>
+  )
 };
 
 DisabledSelectMenu.args = {

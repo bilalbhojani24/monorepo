@@ -3,18 +3,38 @@ import { useMountEffect } from '@browserstack/hooks';
 import { cookieUtils as CookieUtils, twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
+import { getPurchasedProducts } from './api/userData';
 import SidenavCollapsed from './components/SidenavCollapsed';
 import SidenavExpanded from './components/SidenavExpanded';
-import { WEB_PRODUCTS } from './const/productConstant';
 
 const cookieUtils = new CookieUtils();
 
+const initialState = {
+  expanded: false,
+  activeTab: 'web',
+  purchasedProducts: []
+};
 const ProductSidenav = ({ activeProduct }) => {
-  const [expanded, setExpanded] = useState(false);
-  const [activeTab, setActiveTab] = useState(
-    WEB_PRODUCTS.includes(activeProduct) ? 'web' : 'app'
-  );
+  const [state, setState] = useState(initialState);
+  const { expanded, activeTab, purchasedProducts } = state;
+
+  const setExpanded = (value) =>
+    setState((prev) => ({ ...prev, expanded: value }));
+
+  const setActiveTab = (tab) =>
+    setState((prev) => ({ ...prev, activeTab: tab }));
+
+  const setPurchasedProducts = (products) =>
+    setState((prev) => ({ ...prev, purchasedProducts: [...products] }));
+
   const headerScalability = cookieUtils.read('header_scalability');
+
+  const fetchPurchasedProducts = async () => {
+    const products = await getPurchasedProducts();
+    if (products) {
+      setPurchasedProducts(products);
+    }
+  };
 
   useMountEffect(() => {
     const mainContentDOM = document.getElementById('app-main-content');
@@ -22,6 +42,7 @@ const ProductSidenav = ({ activeProduct }) => {
       mainContentDOM.classList.remove('ml-14');
       mainContentDOM.classList.remove('ml-[57px]');
     }
+    fetchPurchasedProducts();
   });
 
   const handleTabClick = (selectedTab) => {
@@ -54,6 +75,7 @@ const ProductSidenav = ({ activeProduct }) => {
             activeProduct={activeProduct}
             activeTab={activeTab}
             onTabClick={handleTabClick}
+            purchasedProducts={purchasedProducts}
           />
         ) : (
           <SidenavCollapsed
