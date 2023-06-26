@@ -36,6 +36,7 @@ const TextAreaField = ({
 
   return (
     <TextArea
+      id={fieldKey}
       onChange={handleChange}
       value={(fieldsData[fieldKey] || value || defaultValue) ?? ''}
       placeholder={placeholder}
