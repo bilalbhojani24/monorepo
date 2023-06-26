@@ -1,11 +1,13 @@
 import { convertNodeToElement } from 'react-html-parser';
-import { logEvent } from '@browserstack/utils';
+import { cookieUtils as CookieUtils, logEvent } from '@browserstack/utils';
 import { SUPPORTED_HTML_TAGS, TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
 import { getUserDetails } from 'globalSlice/selectors';
 import { keyBy, merge, values } from 'lodash';
 
 import { store } from '../store';
+
+const cookieUtils = new CookieUtils();
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
@@ -61,6 +63,7 @@ export const getNumericValue = (value) => +value.replace(/\D/g, '') || '';
 
 export const logOllyEvent = ({ event, data = {} }) => {
   const isSuperUser = getUserDetails(store.getState())?.isSuperUser;
+  const headerScalability = cookieUtils.read('header_scalability');
   const commonData = {
     url: window.location.href,
     screenResolution: {
@@ -82,7 +85,8 @@ export const logOllyEvent = ({ event, data = {} }) => {
         : window.location.hostname,
     is_dark_mode:
       window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
+      window.matchMedia('(prefers-color-scheme: dark)').matches,
+    headerScalability
   };
   if (
     !isSuperUser &&

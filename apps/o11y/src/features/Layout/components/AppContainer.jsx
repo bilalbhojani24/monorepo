@@ -27,7 +27,7 @@ function AppContainer() {
       <div className="fixed top-16 z-10">
         <ProductSidenav activeProduct={PRODUCT_NAV_IDENTIFIER} />
       </div>
-      <div className="ml-14">
+      <div id="app-main-content" className="ml-14">
         <Outlet />
       </div>
       <IntegrationsWidget />
