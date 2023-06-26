@@ -1,7 +1,7 @@
 import React from 'react';
+import { useIsMobile } from '@browserstack/hooks';
 import RequestAccessBg from 'assets/images/RequestAccessBg.webp';
 import RequestAccessBgMobile from 'assets/images/RequestAccessBgMobile.webp';
-import useIsMobile from 'utils/useIsMobile';
 
 import RequestAccessModal from './components/RequestAccessModal';
 
