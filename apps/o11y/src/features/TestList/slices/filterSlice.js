@@ -18,6 +18,7 @@ import {
   getFilterQueryParams,
   updatedFilterFields
 } from 'features/FilterSkeleton/utils';
+import isEmpty from 'lodash/isEmpty';
 
 export const getTestListingFiltersData = createAsyncThunk(
   'testlist/getFilters',
@@ -55,7 +56,9 @@ export const getTestListingFiltersData = createAsyncThunk(
       }
       dispatch(setBulkSelectedFilters(selectedFilters));
       dispatch(setBulkAppliedFilters(selectedFilters));
-      dispatch(setStaticFilters(staticFilters));
+      if (!isEmpty(staticFilters)) {
+        dispatch(setStaticFilters(staticFilters));
+      }
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
