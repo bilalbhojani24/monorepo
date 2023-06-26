@@ -140,6 +140,9 @@ export const getOsIconName = (os) => {
 };
 
 export const getIconName = (name = '', device = '') => {
+  if (name?.toLowerCase()?.includes('playwright')) {
+    return `icon-playwright`;
+  }
   if (name) {
     return `icon-${name.toLowerCase()}`;
   }
