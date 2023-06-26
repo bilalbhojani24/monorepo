@@ -3,24 +3,16 @@ import { InfoOutlinedIcon } from 'assets/icons';
 import AddIssuesModal from 'common/AddIssuesModal';
 import {
   TMButton,
-  // TMInputField,
   TMModal,
   TMModalFooter,
   TMModalHeader,
   TMRichTextEditor,
   TMSectionHeadings,
-  TMSelectMenu
-  // TMTextArea
-  // TMTooltip,
-  // TMTooltipBody,
-  // TMTooltipHeader
+  TMSelectMenu,
+  TMTooltip,
+  TMTooltipBody
 } from 'common/bifrostProxy';
 
-import {
-  priorityOptions,
-  statusOptions,
-  testCaseTypesOptions
-} from '../../const/addTestCaseConst';
 import UnsavedChanges from '../UnsavedChanges';
 import useTestCases from '../useTestCases';
 
@@ -38,17 +30,24 @@ const BulkEditTestCase = () => {
     usersArrayMapped,
     issuesArray,
     projectId,
+    priorityOptions,
+    statusOptions,
+    testCaseTypeOptions,
+    automationOptions,
+    isBulkAutomationDisabled,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
     saveBulkEditHelper,
     setBulkEditConfirm,
-    handleMenuOpen
+    handleMenuOpen,
+    decideBulkAutomationStatus
   } = useAddEditTestCase();
   const { initFormValues } = useTestCases();
 
   useEffect(() => {
     initFormValues();
+    decideBulkAutomationStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -78,55 +77,63 @@ const BulkEditTestCase = () => {
           </div>
         }
       />
-      <p className="text-base-800 my-3 font-normal">
+      <p className="text-base-900 my-3 font-normal">
         Update the fields below which you want to update for all the selected
         test cases.
       </p>
 
       <>
-        <div className="mt-4 flex gap-4">
-          <div className="flex-1">
+        <div className="mt-4 flex">
+          <div className="w-1/2 flex-1 pr-4">
             <TMSelectMenu
               checkPosition="right"
               label="Type of Test Case"
-              options={testCaseTypesOptions}
+              options={testCaseTypeOptions}
               placeholder="Select from options"
               defaultValue={null}
               onChange={(e) => handleTestCaseFieldChange('case_type', e.value)}
-              // value={
-              //   testCaseBulkFormData?.case_type
-              //     ? testCaseTypesOptions.find(
-              //         (item) => item.value === testCaseBulkFormData?.case_type
-              //       )
-              //     : null
-              // }
             />
           </div>
-          <div className="flex-1">
+          <div className="w-1/2 flex-1">
+            <TMTooltip
+              size="xs"
+              triggerWrapperClassName="w-full"
+              placementSide="top"
+              theme="dark"
+              isForcedHidden={!isBulkAutomationDisabled}
+              wrapperClassName="w-full translate-y-7"
+              content={
+                <TMTooltipBody wrapperClassName="w-64">
+                  You are not allowed to change automation status for test cases
+                  that are generated from automation pipeline
+                </TMTooltipBody>
+              }
+            >
+              <TMSelectMenu
+                checkPosition="right"
+                disabled={isBulkAutomationDisabled}
+                label="Automation Status"
+                placeholder="Select automation status"
+                options={automationOptions}
+                onChange={(e) =>
+                  handleTestCaseFieldChange('automation_status', e.value)
+                }
+              />
+            </TMTooltip>
+          </div>
+        </div>
+        <div className="mt-4 flex">
+          <div className="w-1/2 flex-1 pr-4">
             <TMSelectMenu
               checkPosition="right"
               label="Priority"
               placeholder="Select from options"
               options={priorityOptions}
-              // value={
-              //   testCaseBulkFormData.priority &&
-              //   priorityOptions.find(
-              //     (item) => item.value === testCaseBulkFormData.priority
-              //   )
-              // }
               onChange={(e) => handleTestCaseFieldChange('priority', e.value)}
             />
           </div>
-        </div>
-        <div className="mt-4 flex gap-4">
-          <div className="flex-1">
+          <div className="w-1/2 flex-1">
             <TMSelectMenu
-              // value={
-              //   testCaseBulkFormData.status &&
-              //   statusOptions.find(
-              //     (item) => item.value === testCaseBulkFormData.status
-              //   )
-              // }
               checkPosition="right"
               label="State"
               placeholder="Select from options"
@@ -134,23 +141,8 @@ const BulkEditTestCase = () => {
               onChange={(e) => handleTestCaseFieldChange('status', e.value)}
             />
           </div>
-          <div className="flex-1">
-            <TMSelectMenu
-              // value={
-              //   testCaseBulkFormData.owner &&
-              //   usersArrayMapped?.find(
-              //     (item) => item.value === testCaseBulkFormData.owner
-              //   )
-              // }
-              placeholder="Select owner"
-              checkPosition="right"
-              label="Owner"
-              options={usersArrayMapped}
-              onChange={(e) => handleTestCaseFieldChange('owner', e.value)}
-            />
-          </div>
         </div>
-        <div className="mt-4 w-1/2 gap-4">
+        <div className="mt-4 flex">
           {/* <div className="flex-1">
             <TMInputField
               id="test-case-estimate"
@@ -192,6 +184,15 @@ const BulkEditTestCase = () => {
               }
             />
           </div> */}
+          <div className="w-1/2 flex-1 pr-4">
+            <TMSelectMenu
+              placeholder="Select owner"
+              checkPosition="right"
+              label="Owner"
+              options={usersArrayMapped}
+              onChange={(e) => handleTestCaseFieldChange('owner', e.value)}
+            />
+          </div>
           <div className="flex flex-1 items-end justify-between">
             <div className="mr-4 flex-1">
               <TMSelectMenu

@@ -20,6 +20,10 @@ import ComboboxLabel from './modules/ComboboxLabel/index';
 import ComboboxOptionGroup from './modules/ComboboxOptionGroup/index';
 import ComboboxOptionItem from './modules/ComboboxOptionItem/index';
 import ComboboxTrigger from './modules/ComboboxTrigger/index';
+import CTACard from './modules/CTACard';
+import CTACardActions from './modules/CTACardActions';
+import CTACardContent from './modules/CTACardContent';
+import CTACardMedia from './modules/CTACardMedia';
 import DataVisualization from './modules/DataVisualization/index';
 import DateRangepicker from './modules/DateRangepicker';
 import DescriptionList from './modules/DescriptionList/index';
@@ -39,6 +43,11 @@ import {
   withErrorBoundary
 } from './modules/ErrorBoundary/index';
 import FileUpload from './modules/FileUpload/index';
+import Gallery from './modules/Gallery';
+import GalleryMedia from './modules/GalleryMedia';
+import GalleryMediaActionbar from './modules/GalleryMediaActionbar';
+import GalleryMediaFooterButton from './modules/GalleryMediaFooterButton';
+import GalleryPreview from './modules/GalleryPreview';
 import GridListWHorizontalLink from './modules/GridListWHorizontalLink/index';
 import GridListWImage from './modules/GridListWImage/index';
 import Header from './modules/Header/index';
@@ -77,11 +86,10 @@ import PageHeadings from './modules/PageHeadings/index';
 import Pagination from './modules/Pagination/index';
 import Popover from './modules/Popover/index';
 import ProgressBar from './modules/ProgressBar/index';
-import Radio from './modules/Radio/index';
+import RadioCardItem from './modules/RadioCardItem/index';
 import RadioGroup from './modules/RadioGroup/index';
-import RadioSmallCards from './modules/RadioSmallCards/index';
-import RadioStackedCard from './modules/RadioStackedCard/index';
-import RadioTable from './modules/RadioTable/index';
+import RadioItem from './modules/RadioItem/index';
+import RadioTableItem from './modules/RadioTableItem/index';
 import Resizable from './modules/Resizable/index';
 import RichTextEditor from './modules/RichTextEditor/index';
 import SectionHeadings from './modules/SectionHeadings/index';
@@ -146,6 +154,10 @@ export {
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
+  CTACard,
+  CTACardActions,
+  CTACardContent,
+  CTACardMedia,
   DataVisualization,
   DateRangepicker,
   DescriptionList,
@@ -161,6 +173,11 @@ export {
   EmptyStateWStartingPoints,
   ErrorBoundary,
   FileUpload,
+  Gallery,
+  GalleryMedia,
+  GalleryMediaActionbar,
+  GalleryMediaFooterButton,
+  GalleryPreview,
   GridListWHorizontalLink,
   GridListWImage,
   Header,
@@ -201,11 +218,10 @@ export {
   TooltipFooter as PopoverFooter,
   TooltipHeader as PopoverHeader,
   ProgressBar,
-  Radio,
+  RadioCardItem,
   RadioGroup,
-  RadioSmallCards,
-  RadioStackedCard,
-  RadioTable,
+  RadioItem,
+  RadioTableItem,
   Resizable,
   RichTextEditor,
   SectionHeadings,

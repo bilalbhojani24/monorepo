@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { O11ySlideover } from 'common/bifrostProxy';
-import { SNP_PARAMS_MAPPING } from 'constants/common';
+import { FLOATING_COMPONENTS_IDS, SNP_PARAMS_MAPPING } from 'constants/common';
+import { getIsFiltersLoading } from 'features/FilterSkeleton/slices/selectors';
 import { hideTestDetailsDrawer } from 'features/TestDetails/utils';
 import { getActiveProject } from 'globalSlice/selectors';
+import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 import { logOllyEvent } from 'utils/common';
 
 import {
@@ -24,6 +26,7 @@ const TestDetails = () => {
   const isVisible = useSelector(getIsSHTestsDetailsVisible);
   const activeProject = useSelector(getActiveProject);
   const testId = useSelector(getShowSHTestsDetailsFor);
+  const isFiltersLoading = useSelector(getIsFiltersLoading);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -45,8 +48,13 @@ const TestDetails = () => {
     dispatch(resetActiveTab());
     const searchParams = new URLSearchParams(window?.location.search);
     searchParams.delete(SNP_PARAMS_MAPPING.snpTestDetails);
-    navigate({ search: searchParams.toString() });
+    navigate({ search: searchParams.toString() }, { replace: true });
   };
+
+  useFloatingComponentTracking(
+    isVisible,
+    FLOATING_COMPONENTS_IDS.TEST_HEALTH_DETAILS
+  );
 
   return (
     <O11ySlideover
@@ -55,8 +63,12 @@ const TestDetails = () => {
       size="5xl"
       onEscPress={handleCloseDetails}
     >
-      <SlideOverHeader handleCloseDetails={handleCloseDetails} />
-      <SlideOverBody />
+      {!isFiltersLoading && (
+        <>
+          <SlideOverHeader handleCloseDetails={handleCloseDetails} />
+          <SlideOverBody />
+        </>
+      )}
     </O11ySlideover>
   );
 };

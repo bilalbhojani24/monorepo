@@ -50,9 +50,7 @@ const MiniDetails = () => {
                         modifier={isPassed ? 'success' : 'error'}
                         size="large"
                       />
-                    ) : (
-                      <span className="ml-1">--</span>
-                    )}
+                    ) : null}
                   </>
                 )}
               </div>
@@ -74,10 +72,12 @@ const MiniDetails = () => {
             <td className="flex w-1/3 border-none py-2">
               <div className="flex w-full items-center px-6">
                 {testRunDetails?.overall_progress && (
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={getProgressOptions(testRunDetails)}
-                  />
+                  <div className="overflow-hidden rounded-lg">
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={getProgressOptions(testRunDetails)}
+                    />
+                  </div>
                 )}
               </div>
             </td>

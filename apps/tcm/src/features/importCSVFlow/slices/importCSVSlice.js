@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
+  DEFAULT_MODAL_DROPDOWN_OPTIONS,
   FAILED_IMPORT_MODAL_DATA,
   FIRST_SCREEN,
   ONGOING_IMPORT_MODAL_DATA,
   SECOND_SCREEN,
-  THIRD_SCREEN,
-  VALUE_MAPPING_OPTIONS
+  THIRD_SCREEN
 } from '../const/importCSVConstants';
 
 import { calcValueMappings } from './helper';
@@ -37,9 +37,7 @@ const initialState = {
     defaultFields: [],
     importFields: []
   },
-  VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN: {
-    ...VALUE_MAPPING_OPTIONS
-  },
+  VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN: {},
   previewData: [],
   retryCSVImport: false,
   uploadFileProceedLoading: false,
@@ -58,7 +56,9 @@ const initialState = {
   showMappings: true,
   currentFieldValueMapping: {},
   selectedFolderLocation: '/',
-  showChangeFolderModal: false
+  showChangeFolderModal: false,
+  priorityIntNameAndValueMapCSV: {},
+  priorityNameAndValueMapCSV: {}
 };
 
 const importCSVSlice = createSlice({
@@ -159,6 +159,48 @@ const importCSVSlice = createSlice({
         value: separator
       }));
       state.selectedFolderLocation = payload.folder;
+      const priorityDropdownOptions = payload?.priority.map((item) => ({
+        label: item.name,
+        value: item.value
+      }));
+      const automationStatusOptions = payload?.automation_status.map(
+        (item) => ({
+          label: item.name,
+          value: item.value
+        })
+      );
+      const statusDropdownOptions = payload?.status.map((item) => ({
+        label: item.name,
+        value: item.value
+      }));
+      const testCaseTypeDropdownOptions = payload?.case_type.map((item) => ({
+        label: item.name,
+        value: item.value
+      }));
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.PRIORITY = [
+        ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
+        ...priorityDropdownOptions
+      ];
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.AUTOMATIONSTATUS = [
+        ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
+        ...automationStatusOptions
+      ];
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.STATE = [
+        ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
+        ...statusDropdownOptions
+      ];
+      state.VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN.TESTCASETYPE = [
+        ...DEFAULT_MODAL_DROPDOWN_OPTIONS,
+        ...testCaseTypeDropdownOptions
+      ];
+      state.priorityIntNameAndValueMapCSV = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.internal_name }),
+        {}
+      );
+      state.priorityNameAndValueMapCSV = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.name }),
+        {}
+      );
     },
     uploadFilePending: (state) => {
       state.uploadFileProceedLoading = true;
@@ -177,7 +219,8 @@ const importCSVSlice = createSlice({
       state.valueMappings = calcValueMappings(
         payload.value_mappings,
         payload.import_fields,
-        payload?.field_mappings
+        payload?.field_mappings,
+        payload.fields_available?.default
       );
       state.fieldsMapping = { ...state.valueMappings };
       // eslint-disable-next-line no-restricted-syntax

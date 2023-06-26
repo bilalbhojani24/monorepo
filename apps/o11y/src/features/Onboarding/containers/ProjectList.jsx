@@ -1,9 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { TableVirtuoso } from 'react-virtuoso';
-import { MdClose, MdOutlineOpenInNew, MdSearch } from '@browserstack/bifrost';
+import {
+  MdAdd,
+  MdClose,
+  MdOutlineOpenInNew,
+  MdSearch
+} from '@browserstack/bifrost';
 import {
   O11yButton,
   O11yHyperlink,
@@ -14,8 +19,7 @@ import {
 } from 'common/bifrostProxy';
 import { DOC_KEY_MAPPING } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { AppContext } from 'features/Layout/context/AppContext';
-import { getProjects } from 'globalSlice/selectors';
+import { getHeaderSize, getProjects } from 'globalSlice/selectors';
 import debounce from 'lodash/debounce';
 import { getDocUrl, logOllyEvent } from 'utils/common';
 
@@ -33,8 +37,9 @@ export default function ProjectList() {
   const projects = useSelector(getProjects);
   const [searchText, setSearchText] = useState('');
   const [projectsList, setProjectsList] = useState([]);
+  const navigate = useNavigate();
 
-  const { headerSize } = useContext(AppContext);
+  const headerSize = useSelector(getHeaderSize);
 
   useEffect(() => {
     setProjectsList(projects.list);
@@ -63,13 +68,15 @@ export default function ProjectList() {
     []
   );
 
-  const handleSearchTextChange = (e) => {
-    const val = e.target?.value?.toLowerCase();
-    setSearchText(val);
+  const handleSearchTextChange = ({ target: { value } }) => {
+    const lCaseVal = value?.toLowerCase();
+    setSearchText(value);
     setProjectsList(
-      projects.list.filter((item) => item?.name?.toLowerCase().includes(val))
+      projects.list.filter((item) =>
+        item?.name?.toLowerCase().includes(lCaseVal)
+      )
     );
-    debouncedSearchLogEvent(val);
+    debouncedSearchLogEvent(lCaseVal);
   };
 
   const handleClearSearch = () => {
@@ -81,24 +88,54 @@ export default function ProjectList() {
     return <Navigate to={ROUTES.get_started} />;
   }
 
+  const handleClickNewProject = () => {
+    logOllyEvent({
+      event: 'O11yProjectListingNewProjectClicked',
+      data: {
+        num_projects: projects.list.length
+      }
+    });
+    navigate(ROUTES.get_started);
+  };
+
+  const handleClickViewDocumentation = () => {
+    logOllyEvent({
+      event: 'O11yProjectListingViewDocumentationClicked',
+      data: {
+        num_projects: projects.list.length
+      }
+    });
+  };
+
   return (
     <div
       className="flex w-screen justify-center p-12"
       style={{
-        height: `calc(100vh - ${headerSize.blockSize}px)`
+        height: `calc(100vh - ${headerSize}px)`
       }}
     >
       <div className="border-base-200 flex h-full w-full max-w-xl flex-col rounded-lg border bg-white shadow-sm">
-        <div className="p-6 pb-2">
+        <section className="p-6 pb-2">
           <h1 className="border-b-base-200 mb-5 border-b pb-5 text-2xl font-medium leading-8">
             Welcome to Test Observability
           </h1>
-          <h2 className="text-lg font-medium leading-6">
-            Select a project to get started
-          </h2>
-          <h3 className="text-base-500 mt-1 text-sm leading-5">
-            You can change your project at anytime
-          </h3>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-medium leading-6">
+                Select a project to get started
+              </h2>
+              <h3 className="text-base-500 mt-1 text-sm leading-5">
+                You can change your project at anytime
+              </h3>
+            </div>
+            <O11yButton
+              icon={<MdAdd className="text-xl text-white" />}
+              iconPlacement="end"
+              onClick={handleClickNewProject}
+            >
+              New Project
+            </O11yButton>
+          </div>
           <div className="mt-5">
             <O11yInputField
               id="onboarding-project-search"
@@ -122,7 +159,7 @@ export default function ProjectList() {
               }
             />
           </div>
-        </div>
+        </section>
         {!!projectsList?.length && (
           <div className="flex-1 overflow-auto px-6">
             <TableVirtuoso
@@ -141,6 +178,7 @@ export default function ProjectList() {
         )}
         <div className="flex justify-center bg-white px-6 pb-6 pt-4">
           <O11yHyperlink
+            onClick={handleClickViewDocumentation}
             target="_blank"
             href={getDocUrl({ path: DOC_KEY_MAPPING.introduction })}
             wrapperClassName="text-sm leading-5 font-medium text-base-700 hover:text-brand-700"

@@ -85,7 +85,8 @@ export default function Folders() {
             <TMButton
               variant="primary"
               colors="white"
-              wrapperClassName="ml-2 p-2"
+              wrapperClassName="ml-2 my-1"
+              isIconOnlyButton
               size="extra-small"
               onClick={() => showAddFolderModal()}
             >
@@ -143,7 +144,7 @@ export default function Folders() {
         <div className="flex h-full w-full flex-col items-center justify-center">
           <div className="w-64">
             <TMEmptyState
-              title={<p className="text-base-800">Create New Folder</p>}
+              title={<p className="text-base-900">Create New Folder</p>}
               description="You can organize test cases in folders. Get started now."
               mainIcon={
                 <MdOutlineCreateNewFolder className="text-base-400 m-auto h-12 w-12" />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   TMButton,
   TMInputField,
@@ -25,6 +25,14 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
     setFormError,
     createProjectCtaLoading
   } = useProjects({ isFirstProject, onClose });
+
+  useEffect(() => {
+    if (show)
+      setFormData({
+        name: '',
+        description: ''
+      });
+  }, [setFormData, show]);
 
   return (
     <TMModal
@@ -57,14 +65,16 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
             }}
           />
         </div>
-        <TMTextArea
-          label="Description"
-          placeholder="Write in brief about the project"
-          value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.currentTarget.value })
-          }
-        />
+        <div className="pb-1">
+          <TMTextArea
+            label="Description"
+            placeholder="Write in brief about the project"
+            value={formData.description}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.currentTarget.value })
+            }
+          />
+        </div>
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton

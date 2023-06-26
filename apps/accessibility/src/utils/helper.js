@@ -4,6 +4,9 @@ import WindowsIcon from 'assets/windows_icon.svg';
 import { testTypes } from 'constants';
 import { wcagVersions } from 'features/SiteScanner/NewScan/constants';
 import { json2csv } from 'json-2-csv';
+import { getBrowserStackBase } from 'utils';
+
+import { logEvent } from './logEvent';
 
 const BEST_PRACTICE_TAG = 'best-practice';
 
@@ -230,4 +233,20 @@ export const getBrowserIcon = (name) => {
   };
 
   return icons[name];
+};
+
+export const countRemainingDays = (date1, date2) => {
+  const difference = date2 - date1;
+  if (difference < 0) {
+    return 0;
+  }
+  const remainingDays = difference / (1000 * 3600 * 24);
+  return Math.ceil(remainingDays);
+};
+
+export const buyAcceesibilityPlan = () => {
+  window.open(
+    `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
+    '_blank'
+  );
 };

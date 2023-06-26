@@ -7,6 +7,7 @@ import { GlobalAlert } from '../../common/components';
 import { setConfig } from '../../common/slices/configSlice';
 import { clearGlobalAlert } from '../../common/slices/globalAlertSlice';
 import { addConfigParams } from '../../utils/addConfigParams';
+import { ANALYTICS_EVENTS, analyticsEvent } from '../../utils/analytics';
 import BasicWidget from '../BasicWidget';
 import { integrationsSelector } from '../slices/integrationsSlice';
 import { widgetHeightSelector } from '../slices/widgetSlice';
@@ -33,10 +34,8 @@ export const CreateIssue = ({
   useEffect(() => {
     const configWithParams = addConfigParams(config);
     dispatch(setConfig(configWithParams));
-    return () => {
-      dispatch(clearGlobalAlert());
-    };
   }, [config, dispatch]);
+
   const integrations = useSelector(integrationsSelector);
   const hasAtLeastOneIntegrationSetup = integrations?.some(
     ({ setup_completed: integrated }) => integrated
@@ -48,6 +47,7 @@ export const CreateIssue = ({
   const [mode, setMode] = useState(ISSUE_MODES.CREATION);
   const [tab, setTab] = useState(ISSUE_MODES.CREATION);
   const discardIssueCB = useRef(null);
+  const discardIssueCTA = useRef(null);
 
   const resetAppState = useCallback(() => {
     setIsBeingDiscarded(false);
@@ -65,10 +65,11 @@ export const CreateIssue = ({
     setIsBeingDiscarded(false);
   }, [mode, tab]);
 
-  const discardIssue = useCallback((callback) => {
+  const discardIssue = useCallback((callback, cta) => {
     if (typeof callback === 'function') {
       discardIssueCB.current = callback;
     }
+    discardIssueCTA.current = cta;
     setIsBeingDiscarded(true);
   }, []);
 
@@ -80,13 +81,18 @@ export const CreateIssue = ({
       discardIssueCB.current();
       discardIssueCB.current = null;
     } else {
+      const metricPayload = {
+        cta: discardIssueCTA.current
+      };
+      discardIssueCTA.current = null;
       resetAppState();
+      analyticsEvent(ANALYTICS_EVENTS.WIDGET_CLOSED, metricPayload);
       handleClose();
     }
 
     setIsBeingDiscarded(false);
     setIsWorkInProgress(false);
-  }, [dispatch, handleClose, mode, resetAppState, tab]);
+  }, [discardIssueCTA, dispatch, handleClose, mode, resetAppState, tab]);
 
   useEffect(() => {
     if (isBeingDiscarded && !isWorkInProgress) {
@@ -118,6 +124,13 @@ export const CreateIssue = ({
     }
   };
 
+  const cancelBtnDiscardIssue = (cb) => {
+    discardIssue(cb, 'cancel');
+  };
+  const crossBtnDiscardIssue = (cb) => {
+    discardIssue(cb, 'cross');
+  };
+
   return (
     <BasicWidget
       isOpen={isOpen}
@@ -126,7 +139,7 @@ export const CreateIssue = ({
       position={position}
       projectId={projectId}
       positionRef={positionRef}
-      handleClose={discardIssue}
+      handleClose={crossBtnDiscardIssue}
       componentKey="create-issue"
     >
       <div
@@ -164,7 +177,7 @@ export const CreateIssue = ({
             wrapperClassName="mr-4"
             colors="white"
             data-test-id="cancel-issue-btn"
-            onClick={discardIssue}
+            onClick={cancelBtnDiscardIssue}
           >
             Cancel
           </Button>

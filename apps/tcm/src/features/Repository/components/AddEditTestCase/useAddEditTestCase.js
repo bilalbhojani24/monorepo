@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { uploadFilesAPI } from 'api/attachments.api';
-// import { verifyTagAPI } from 'api/common.api';
 import {
   addTestCaseAPI,
   addTestCaseWithoutFolderAPI,
   addTestCaseWithoutProjectAPI,
   editTestCaseAPI,
   editTestCasesBulkAPI,
+  editTestCasesBulkOnSFAPI,
   getTestCaseDetailsAPI
-  // verifyTagAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
 import { addGlobalProject, addNotificaton } from 'globalSlice';
@@ -44,9 +43,14 @@ import {
   updateTestCase,
   updateTestCaseFormCFData,
   updateTestCaseFormData,
-  updateTestCasesListLoading
+  updateTestCasesListLoading,
+  updateTestCasesOnSF
 } from '../../slices/repositorySlice';
-import { formDataRetriever } from '../../utils/sharedFunctions';
+import {
+  formDataRetriever,
+  getExistingQueryParams,
+  updatePageQueryParamsWORefresh
+} from '../../utils/sharedFunctions';
 import useTestCases from '../useTestCases';
 import useUnsavedChanges from '../useUnsavedChanges';
 
@@ -56,12 +60,14 @@ export default function useAddEditTestCase(prop) {
   const { projectId, folderId } = useParams();
   const { fetchAllTestCases } = useTestCases();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { unsavedFormConfirmation, isOkToExitForm } = useUnsavedChanges();
   const { updateTCCount } = useUpdateTCCountInFolders();
   const [inputError, setInputError] = useState({
     name: false
   });
   const [scheduledFolder, setScheduledFolder] = useState([]);
+  const [isBulkAutomationDisabled, setBulkAutomationDisabled] = useState(false);
   const [usersArrayMapped, setUsersArrayMapped] = useState([]);
   const [showMoreFields, setShowMoreFields] = useState(false);
   const [showBulkEditConfirmModal, setBulkEditConfirm] = useState(false);
@@ -76,6 +82,7 @@ export default function useAddEditTestCase(prop) {
     (state) => state.repository.isSearchFilterView
   );
   const bulkSelection = useSelector((state) => state.repository.bulkSelection);
+  const allTestCases = useSelector((state) => state.repository.allTestCases);
   const selectedFolder = useSelector(
     (state) => state.repository.selectedFolder
   );
@@ -130,6 +137,25 @@ export default function useAddEditTestCase(prop) {
   );
   const isUploadInProgress = useSelector(
     (state) => state.repository.isLoading.uploadingAttachments
+  );
+  const priorityOptions = useSelector(
+    (state) => state.repository.priorityOptions
+  );
+  const statusOptions = useSelector((state) => state.repository.statusOptions);
+  const testCaseTypeOptions = useSelector(
+    (state) => state.repository.testCaseTypeOptions
+  );
+  const automationOptions = useSelector(
+    (state) => state.repository.automationOptions
+  );
+  const priorityIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.priorityIntNameAndValueMapTC
+  );
+  const statusIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.statusIntNameAndValueMapTC
+  );
+  const testCaseTypeIntNameAndValueMapTC = useSelector(
+    (state) => state.repository.testCaseTypeIntNameAndValueMapTC
   );
 
   const hideTestCaseAddEditPage = (e, isForced, action) => {
@@ -216,11 +242,20 @@ export default function useAddEditTestCase(prop) {
       return { ...obj, [key]: value };
     }, {});
 
-  const formDataFormatter = (formData, isNoFolderTCCreation) => {
+  const formDataFormatter = (formData, isNoFolderTCCreation, flow) => {
     const testCase = {
       ...formData
     };
 
+    if (!formData.priority)
+      testCase.priority =
+        flow === 'add' ? priorityIntNameAndValueMapTC?.medium : null;
+    if (!formData.status)
+      testCase.status =
+        flow === 'add' ? statusIntNameAndValueMapTC?.active : null;
+    if (!formData.case_type)
+      testCase.case_type =
+        flow === 'add' ? testCaseTypeIntNameAndValueMapTC?.other : null;
     if (formData.steps) testCase.steps = JSON.stringify(formData.steps);
     if (formData.tags)
       testCase.tags = formData?.tags?.map((item) => item.value);
@@ -249,8 +284,6 @@ export default function useAddEditTestCase(prop) {
     }
   };
 
-  // const tagVerifierFunction = async (tags) => verifyTagAPI({ projectId, tags });
-
   const isFormValidated = (formData) => {
     const inputErrorsFound = {};
     // name validation
@@ -259,7 +292,7 @@ export default function useAddEditTestCase(prop) {
       inputErrorsFound.name = true;
     }
 
-    // steps validation
+    // steps validation - might be required later
     // if (
     //   formData.template === templateOptions[1].value &&
     //   formData.steps.find(
@@ -362,7 +395,7 @@ export default function useAddEditTestCase(prop) {
       apiSaveFunction({
         projectId,
         folderId: formData.test_case_folder_id,
-        payload: formDataFormatter(formData, !allFolders.length)
+        payload: formDataFormatter(formData, !allFolders.length, 'add')
       })
         .then(onSaveTCSuccessHelper)
         .catch(() => {
@@ -373,22 +406,65 @@ export default function useAddEditTestCase(prop) {
     }
   };
 
+  const saveBulkEditOnSF = () => {
+    editTestCasesBulkOnSFAPI({
+      projectId,
+      bulkSelection,
+      data: formatBulkFormData(
+        formDataFormatter(testCaseBulkFormData).test_case
+      ),
+      queryParams: getExistingQueryParams(searchParams)
+    })
+      .then((data) => {
+        dispatch(updateTestCasesOnSF(data));
+        updatePageQueryParamsWORefresh(searchParams, data?.info?.page);
+
+        dispatch(
+          addNotificaton({
+            id: `bulk_updated${projectId}${folderId}`,
+            title: `${bulkSelection?.ids?.length} Test cases updated`,
+            variant: 'success'
+          })
+        );
+        dispatch(
+          updateCtaLoading({ key: 'bulkEditTestCaseCta', value: false })
+        );
+        hideTestCaseAddEditPage(null, true);
+        dispatch(resetBulkSelection());
+      })
+      .catch(() => {
+        dispatch(
+          updateCtaLoading({ key: 'bulkEditTestCaseCta', value: false })
+        );
+      });
+  };
+
   const saveBulkEditHelper = () => {
     dispatch(
-      logEventHelper('TM_UpdateAllCtaClicked', {
-        project_id: projectId,
-        testcase_id: bulkSelection?.ids
-      })
+      logEventHelper(
+        isSearchFilterView
+          ? 'TM_UpdateAllCtaClickedSearchFilter'
+          : 'TM_UpdateAllCtaClicked',
+        {
+          project_id: projectId,
+          testcase_id: bulkSelection?.ids
+        }
+      )
     );
     setBulkEditConfirm(false);
     dispatch(updateCtaLoading({ key: 'bulkEditTestCaseCta', value: true }));
+
+    if (isSearchFilterView) {
+      saveBulkEditOnSF();
+      return;
+    }
 
     editTestCasesBulkAPI({
       projectId,
       folderId,
       bulkSelection,
       data: formatBulkFormData(
-        formDataFormatter(testCaseBulkFormData).test_case
+        formDataFormatter(testCaseBulkFormData, null, 'bulk-edit').test_case
       )
     })
       .then(() => {
@@ -402,13 +478,6 @@ export default function useAddEditTestCase(prop) {
             testcase_id: bulkSelection?.ids
           })
         );
-        // dispatch(
-        //   updateAllTestCases(
-        //     allTestCases.map(
-        //       (item) => res.test_cases.find((inc) => inc.id === item.id) || item
-        //     )
-        //   )
-        // );
         fetchAllTestCases();
         dispatch(
           addNotificaton({
@@ -419,7 +488,6 @@ export default function useAddEditTestCase(prop) {
         );
         hideTestCaseAddEditPage(null, true);
         dispatch(resetBulkSelection());
-        // dispatch(resetBulkFormData());
       })
       .catch(() => {
         dispatch(
@@ -442,7 +510,7 @@ export default function useAddEditTestCase(prop) {
         projectId,
         folderId: selectedTestCase?.test_case_folder_id || folderId,
         testCaseId: selectedTestCase.id,
-        payload: formDataFormatter(formData)
+        payload: formDataFormatter(formData, null, 'edit')
       })
         .then((data) => {
           dispatch(updateCtaLoading({ key: 'editTestCaseCta', value: false }));
@@ -639,15 +707,13 @@ export default function useAddEditTestCase(prop) {
       dispatch(setAddIssuesModal(true));
     }
   };
-  // const handleUpdateAllClicked = () => {
-  //   console.log(selectedTestCase);
-  //   dispatch(
-  //     logEventHelper('TM_UpdateAllCtaClicked', {
-  //       project_id: projectId
-  //     })
-  //   );
-  //   setBulkEditConfirm(true);
-  // };
+
+  const decideBulkAutomationStatus = () => {
+    const match = allTestCases?.find(
+      (item) => bulkSelection?.ids?.includes?.(item.id) && item?.is_automation
+    );
+    setBulkAutomationDisabled(!!match);
+  };
 
   useEffect(() => {
     if (
@@ -688,6 +754,7 @@ export default function useAddEditTestCase(prop) {
   }, [projectId, usersArray]);
 
   return {
+    isBulkAutomationDisabled,
     bulkSelection,
     isTagsLoading,
     scheduledFolder,
@@ -716,13 +783,16 @@ export default function useAddEditTestCase(prop) {
     selectedTestCase,
     isTestCaseEditing,
     showMoreFields,
+    priorityOptions,
+    statusOptions,
+    testCaseTypeOptions,
+    automationOptions,
     handleMenuOpen,
     setShowMoreFieldHelper,
     showAddTagsModal,
     hideAddTagsModal,
     fileUploaderHelper,
     fileRemoveHandler,
-    // tagVerifierFunction,
     showAddIssueModal,
     hideAddIssueModal,
     addIssuesSaveHelper,
@@ -730,6 +800,7 @@ export default function useAddEditTestCase(prop) {
     setBulkEditConfirm,
     showTestCaseAdditionPage,
     goToThisURL,
-    testCaseEditingInit
+    testCaseEditingInit,
+    decideBulkAutomationStatus
   };
 }

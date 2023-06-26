@@ -1,11 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import {
-  priorityOptions,
-  statusOptions,
-  templateOptions,
-  testCaseTypesOptions
-} from '../const/addTestCaseConst';
+import { templateOptions } from '../const/addTestCaseConst';
 
 const initialState = {
   allFolders: [],
@@ -17,10 +12,10 @@ const initialState = {
     name: '',
     description: '',
     estimate: '',
-    case_type: testCaseTypesOptions[7].value,
-    priority: priorityOptions[2].value,
+    case_type: null,
+    priority: null,
     owner: null,
-    status: statusOptions[0].value,
+    status: null,
     preconditions: '',
     template: templateOptions[0].value,
     steps: [''],
@@ -87,7 +82,8 @@ const initialState = {
     bulkDeleteTestCaseCta: false,
     bulkMoveTestCaseCta: false,
     tags: true,
-    uploadingAttachments: false
+    uploadingAttachments: false,
+    formFields: true
   },
   isUnsavedDataExists: false,
   isUnsavedDataModalVisible: false,
@@ -100,8 +96,21 @@ const initialState = {
     projectId: null,
     fields: []
   },
-  searchEmptyText: ''
+  searchEmptyText: '',
+  priorityOptions: [],
+  statusOptions: [],
+  automationOptions: [],
+  testCaseTypeOptions: [],
+  priorityValueAndIntNameMapTC: {},
+  priorityValueAndNameMapTC: {}
 };
+
+const defaultFieldFormatter = (options) =>
+  options?.map((item) => ({
+    ...item,
+    label: item?.name,
+    value: item?.value
+  }));
 
 export const repositorySlice = createSlice({
   name: 'repository',
@@ -109,6 +118,35 @@ export const repositorySlice = createSlice({
   reducers: {
     setAllFolders: (state, { payload }) => {
       state.allFolders = [...payload];
+    },
+    setDefaultFormFieldsData: (state, { payload }) => {
+      state.priorityOptions = defaultFieldFormatter(payload?.priority);
+      state.automationOptions = defaultFieldFormatter(
+        payload?.automation_status
+      );
+      state.statusOptions = defaultFieldFormatter(payload?.status);
+      state.testCaseTypeOptions = defaultFieldFormatter(payload?.case_type);
+
+      state.priorityValueAndIntNameMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.internal_name }),
+        {}
+      );
+      state.priorityValueAndNameMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.value]: item.name }),
+        {}
+      );
+      state.priorityIntNameAndValueMapTC = payload?.priority.reduce(
+        (obj, item) => ({ ...obj, [item.internal_name]: item.value }),
+        {}
+      );
+      state.statusIntNameAndValueMapTC = payload?.status.reduce(
+        (obj, item) => ({ ...obj, [item.internal_name]: item.value }),
+        {}
+      );
+      state.testCaseTypeIntNameAndValueMapTC = payload?.case_type.reduce(
+        (obj, item) => ({ ...obj, [item.internal_name]: item.value }),
+        {}
+      );
     },
     setCustomFieldsData: (state, { payload }) => {
       state.customFieldData = payload;
@@ -127,6 +165,15 @@ export const repositorySlice = createSlice({
     },
     updateFoldersLoading: (state, { payload }) => {
       state.isLoading.folder = payload;
+    },
+    updateTestCasesOnSF: (state, { payload }) => {
+      const testCases = payload.test_cases.map((item) => ({
+        ...item,
+        folders: payload?.folders?.[item.test_case_folder_id] || null
+      }));
+
+      state.metaPage = !payload?.info ? initialState.metaPage : payload.info;
+      state.allTestCases = testCases;
     },
     updateAllTestCases: (state, { payload }) => {
       state.allTestCases = payload;
@@ -271,6 +318,7 @@ export const repositorySlice = createSlice({
       state.testCaseDetails = initialState.testCaseDetails;
       state.allFolders = initialState.allFolders;
       state.customFieldData = initialState.customFieldData;
+      state.metaPage = initialState.metaPage;
     },
     setSearchEmptyText: (state, { payload }) => {
       state.searchEmptyText = payload;
@@ -297,6 +345,7 @@ export const {
   setAllFolders,
   setSelectedFolder,
   updateAllTestCases,
+  updateTestCasesOnSF,
   setAddTestCaseVisibility,
   updateTestCaseFormData,
   setDeleteTestCaseModalVisibility,
@@ -323,6 +372,7 @@ export const {
   updateLoader,
   setAddTestCaseFromSearch,
   updateCtaLoading,
+  setDefaultFormFieldsData,
   setCustomFieldsData,
   updateTestCaseFormCFData
 } = repositorySlice.actions;

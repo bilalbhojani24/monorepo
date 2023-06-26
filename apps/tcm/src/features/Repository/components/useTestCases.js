@@ -1,11 +1,10 @@
-// import { useState } from 'react';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { getUsersOfProjectAPI } from 'api/projects.api';
+import { getCustomFieldsAPI, getUsersOfProjectAPI } from 'api/projects.api';
 import { getTagsAPI, getTestCasesAPI } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { setSelectedProject } from 'globalSlice';
+import { setSelectedProject, setShowFreshChatButton } from 'globalSlice';
 import { routeFormatter, selectMenuValueMapper } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -14,6 +13,8 @@ import {
   cleanUpValues,
   resetTestCaseDetails,
   setAddTestCaseVisibility,
+  setCustomFieldsData,
+  setDefaultFormFieldsData,
   setFilterSearchView,
   setLoadedDataProjectId,
   setMetaPage,
@@ -23,19 +24,27 @@ import {
   setUsers,
   updateAllTestCases,
   updateCtaLoading,
+  updateTestCaseFormData,
   updateTestCasesListLoading
 } from '../slices/repositorySlice';
 import { formDataRetriever } from '../utils/sharedFunctions';
 
-export default function useTestCases() {
+export default function useTestCases(props) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { projectId, folderId, testCaseId } = useParams();
   const dispatch = useDispatch();
 
+  const DEFAULT_PRIORITY = 'medium';
+  const DEFAULT_STATUS = 'active';
+  const DEFAULT_TEST_CASE_TYPE = 'other';
+
   const metaPage = useSelector((state) => state.repository.metaPage);
   const isBulkUpdate = useSelector(
     (state) => state.repository.isBulkUpdateInit
+  );
+  const openedFolderModal = useSelector(
+    (state) => state.repository.openedFolderModal
   );
   const noResultsText = useSelector(
     (state) => state.repository.searchEmptyText
@@ -59,6 +68,9 @@ export default function useTestCases() {
   const isTestCasesLoading = useSelector(
     (state) => state.repository.isLoading.testCases
   );
+  const isFormFieldsLoaded = useSelector(
+    (state) => state.repository.isLoading.formFields
+  );
   const isFoldersLoading = useSelector(
     (state) => state.repository.isLoading.folder
   );
@@ -76,7 +88,9 @@ export default function useTestCases() {
   const selectedTestCase = useSelector(
     (state) => state.repository.selectedTestCase
   );
-
+  const customFieldData = useSelector(
+    (state) => state.repository.customFieldData
+  );
   const setRepoView = (update) => {
     dispatch(setFilterSearchView(update));
   };
@@ -99,6 +113,8 @@ export default function useTestCases() {
     });
   };
   const fetchTags = () => {
+    if (projectId === 'new') return; // if project doesnt exist, dont query for tags
+
     dispatch(updateCtaLoading({ key: 'tags', value: true }));
     getTagsAPI({ projectId }).then((data) => {
       const mappedTags = selectMenuValueMapper(data?.tags);
@@ -113,11 +129,66 @@ export default function useTestCases() {
     });
   };
 
+  const setDefaultValues = (defaultFields) => {
+    if (props?.isTestCaseEditing) return;
+
+    // NOTE: this is to be optimized for all other props as well once we move to the same structure
+    // if other props are moving to different structire, automation_status should also be aligned with the same.
+    const automation = defaultFields?.automation_status;
+    const automationDefault = automation?.find((item) => item.is_default);
+    if (automationDefault?.value) {
+      dispatch(
+        updateTestCaseFormData({
+          key: 'automation_status',
+          value: automationDefault?.value
+        })
+      );
+    }
+
+    [
+      { key: 'priority', value: DEFAULT_PRIORITY },
+      { key: 'status', value: DEFAULT_STATUS },
+      { key: 'case_type', value: DEFAULT_TEST_CASE_TYPE }
+    ].forEach((item) => {
+      dispatch(
+        updateTestCaseFormData({
+          key: item.key,
+          value:
+            defaultFields?.[item.key]?.find(
+              (inItem) => inItem.internal_name === item.value
+            )?.value || null
+        })
+      );
+    });
+  };
+
+  const initCustomFormFields = useCallback(() => {
+    if (customFieldData?.projectId !== projectId) {
+      dispatch(updateCtaLoading({ key: 'formFields', value: true }));
+      getCustomFieldsAPI(projectId).then((res) => {
+        dispatch(setDefaultFormFieldsData(res?.default_fields));
+        dispatch(
+          setCustomFieldsData({
+            projectId,
+            fields: res?.custom_fields || [],
+            defaultFields: res?.default_fields || []
+          })
+        );
+        dispatch(updateCtaLoading({ key: 'formFields', value: false }));
+        setDefaultValues(res?.default_fields);
+      });
+    } else setDefaultValues(customFieldData?.defaultFields);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customFieldData?.projectId, dispatch, projectId]);
+
+  useEffect(() => {}, [isFormFieldsLoaded]);
+
   const initFormValues = () => {
     if (loadedDataProjectId !== projectId) {
       fetchUsers();
       fetchTags();
     }
+    initCustomFormFields();
   };
 
   const fetchAllTestCases = () => {
@@ -208,12 +279,16 @@ export default function useTestCases() {
     dispatch(cleanUpValues());
   };
 
+  const showOrHideChat = (value) => {
+    dispatch(setShowFreshChatButton(value));
+  };
   useEffect(() => {
     dispatch(setSelectedProject(projectId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   return {
+    openedFolderModal,
     noResultsText,
     testCaseDetailsIDs,
     testCaseId,
@@ -243,6 +318,7 @@ export default function useTestCases() {
     handleFilterPagination,
     quickImportButtonClicked,
     importCSVButtonClicked,
-    cleanUpRepository
+    cleanUpRepository,
+    showOrHideChat
   };
 }

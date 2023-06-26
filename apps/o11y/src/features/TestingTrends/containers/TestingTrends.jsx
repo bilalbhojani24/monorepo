@@ -39,7 +39,7 @@ export default function TestingTrends() {
           <TrendsCard
             cardKey="testGrowthOverTime"
             apiKey="testGrowth"
-            seriesOptions={{ id: 'tests', name: 'Tests' }}
+            seriesOptions={{ id: 'tests', name: 'Unique tests' }}
             config={{
               abbrNumber: true,
               pointClickCb: () =>
@@ -76,12 +76,16 @@ export default function TestingTrends() {
             apiKey="alwaysFailing"
             config={{
               hideLegends: true,
+              showSubTitle: true,
               pointClickCb: () =>
                 logTrendsInteractionEvent({
                   interaction: 'always_failing_clicked'
                 })
             }}
-            seriesOptions={{ id: 'alwaysFailing', name: 'Always Failing' }}
+            seriesOptions={{
+              id: 'alwaysFailing',
+              name: 'Always Failing'
+            }}
             insightsSuffix="%"
           />
         );
@@ -92,12 +96,13 @@ export default function TestingTrends() {
             apiKey="newFailures"
             config={{
               hideLegends: true,
+              showSubTitle: true,
               pointClickCb: () =>
                 logTrendsInteractionEvent({
                   interaction: 'new_failure_clicked'
                 })
             }}
-            seriesOptions={{ id: 'newFailures', name: 'Newly Failed Tests' }}
+            seriesOptions={{ id: 'newFailures', name: 'New failures' }}
             insightsSuffix="%"
           />
         );
@@ -173,7 +178,7 @@ export default function TestingTrends() {
   return (
     <>
       <TestingTrendsHeader />
-      <div className="p-2">
+      <div className="p-2 pb-24">
         <ResponsiveReactGridLayout
           className="relative"
           draggableHandle=".to-test-trend__dragHandler"

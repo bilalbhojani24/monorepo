@@ -7,6 +7,7 @@ import {
   AccordionPanel,
   MdFolderOpen
 } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { O11yHyperlink } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon';
 import PropagationBlocker from 'common/PropagationBlocker';
@@ -29,7 +30,7 @@ import {
 
 import RenderTestListItems from './RenderTestListItems';
 
-const RenderRootItem = ({ data }) => {
+const RenderRootItem = ({ data, isLast }) => {
   const { details, displayName, status, rank } = data;
   const {
     expandAll,
@@ -75,24 +76,32 @@ const RenderRootItem = ({ data }) => {
   const childrenElements = useMemo(() => {
     const testRuns = [];
     const testListItems = [];
+    const afterAllHook = [];
     data?.children.forEach((item) => {
       if (
         item.type === TESTLIST_TYPES.DESCRIBE ||
         item.type === TESTLIST_TYPES.ROOT
       ) {
         testRuns.push(item);
+      } else if (item.type === TESTLIST_TYPES.HOOK && item.isAfterAllHook) {
+        afterAllHook.push(item);
       } else {
         testListItems.push(item);
       }
     });
     return {
+      afterAllHook,
       testListItems,
       testRuns
     };
   }, [data.children]);
 
   return (
-    <>
+    <div
+      className={twClassNames({
+        'pb-24': isLast
+      })}
+    >
       <Accordion>
         <div
           className="bg-base-50 border-base-100 border-y px-6"
@@ -194,14 +203,22 @@ const RenderRootItem = ({ data }) => {
           {childrenElements?.testRuns?.map((item) => (
             <RenderRootItem data={item} key={item.id} />
           ))}
+
+          {!!childrenElements?.afterAllHook.length && (
+            <RenderTestListItems
+              data={childrenElements.afterAllHook}
+              parentId={data.id}
+            />
+          )}
         </AccordionPanel>
       </Accordion>
-    </>
+    </div>
   );
 };
 
 RenderRootItem.propTypes = {
-  data: PropTypes.shape(singleItemPropType).isRequired
+  data: PropTypes.shape(singleItemPropType).isRequired,
+  isLast: PropTypes.bool.isRequired
 };
 
 export default React.memo(RenderRootItem);

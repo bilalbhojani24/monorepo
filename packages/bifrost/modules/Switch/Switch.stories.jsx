@@ -67,6 +67,12 @@ const defaultConfig = {
       control: { type: 'text' },
       defaultValue: ''
     },
+    disabled: {
+      type: { summary: 'Disabled Prop', required: false },
+      description: 'Disabled State',
+      control: { type: 'boolean' },
+      defaultValue: false
+    },
     wrapperClassName: {
       type: { summary: 'STRING', required: false },
       description: 'ABCDEFGHIJK',
@@ -161,7 +167,7 @@ const ToggleWithIcons = (args) => {
             )}
             aria-hidden="true"
           >
-            <MdCheck className="h-3 w-3" />
+            <MdCheck className="text-brand-600 h-3 w-3" />
           </span>
         </>
       )}

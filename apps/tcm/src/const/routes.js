@@ -3,7 +3,7 @@ const AppRoute = {
   NO_ACCESS: '/access',
   NOT_FOUND: '/404',
   LANDING: '/landing',
-  TEST_CASES: '/projects/:projectId/folder/:folderId?/test-cases?/:testCaseId?',
+  TEST_CASES: '/projects/:projectId/folder/:folderId?/test-cases?/:testCaseId?', // [NOTE: Please visit FreshChat module once if you add anything in this route]
   TEST_CASES_SEARCH: '/projects/:projectId/folder/search',
   DASHBOARD: '/projects/:projectId',
   TEST_RUNS: '/projects/:projectId/test-runs',
@@ -19,10 +19,6 @@ const AppRoute = {
   IMPORT_CSV: '/projects/:projectId/import/csv',
   SETTINGS_API_KEYS: '/settings/api-keys'
 };
-
-// export const BASE_API_URL = import.meta.env.DEV
-//   ? 'https://api.teststack.bsstag.com'
-//   : 'https://api.teststack.bsstag.com';
 
 export const BASE_API_URL = import.meta.env.DEV
   ? 'https://test-management.bsstag.com'

@@ -14,6 +14,22 @@ export const EMPTY_APPLIED_FILTERS = {
   searchText: ''
 };
 
+export const TEST_LIST_FILTERS_INTERACTIONS = {
+  isAlwaysFailing: 'always_failing_clicked',
+  isPerformanceAnomaly: 'performance_anomaly_clicked',
+  flaky: 'flaky_clicked',
+  isNewFailure: 'new_failure_clicked',
+  failed: 'failed_clicked',
+  passed: 'passed_clicked',
+  skipped: 'skipped_clicked',
+  unknown: 'unknown_clicked',
+  'To be Investigated': 'to_be_investigated_clicked',
+  'Automation Bug': 'automation_bug_clicked',
+  'Product Bug': 'product_bug_clicked',
+  'No Defect': 'no_defect_clicked',
+  'Environment Issue': 'environment_issue_clicked'
+};
+
 export const EMPTY_METADATA_FILTERS = {
   allUsers: [],
   staticFilters: []
@@ -30,7 +46,7 @@ export const aggregateColors = {
 export const TABLE_CLASSES = {
   HEADER_COMMON: 'py-3 border-t border-base-300 text-xs font-medium z-[1]',
   ROW_CLASSES:
-    'overflow-hidden border-b border-base-300 whitespace-normal classic-break-words',
+    'overflow-hidden border-b border-base-300 whitespace-normal break-words',
   COL: {
     BUILD: 'border-l border-base-300',
     TEST: 'w-56 text-right',

@@ -12,9 +12,16 @@ import SelectMenuTrigger from '../SelectMenuTrigger';
 import { SELECT_OPTIONS } from './const/selectMenuConstants';
 import SelectMenu from './index';
 
+const assignedTo = 'Assigned to';
 const defaultConfig = {
   title: 'Application/Components/SelectMenu',
   component: SelectMenu,
+  subcomponents: {
+    SelectMenuLabel,
+    SelectMenuOptionGroup,
+    SelectMenuOptionItem,
+    SelectMenuTrigger
+  },
   parameters: {
     docs: {
       page: () => (
@@ -33,7 +40,7 @@ const defaultConfig = {
       option: { type: null },
       defaultValue: (
         <>
-          <SelectMenuLabel>Assigned to</SelectMenuLabel>
+          <SelectMenuLabel>{assignedTo}</SelectMenuLabel>
           <SelectMenuTrigger placeholder="Select.." />
           <SelectMenuOptionGroup>
             {SELECT_OPTIONS.map((item) => (
@@ -85,7 +92,6 @@ const selectMenuOptions = [
   'Tom Cook',
   'Tanya Fox'
 ];
-const assignedTo = 'Assigned to';
 const selectMenuOptionsSelector = '[role="option"]';
 
 const Primary = Template.bind({});
@@ -138,7 +144,7 @@ MultiSelect.play = async ({ canvasElement }) => {
 const SelectWithPlaceholder = SelectWithPlaceholderTemplate.bind({});
 SelectWithPlaceholder.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const placeholder = 'Select..';
+  const placeholder = 'Placeholder text...';
   await expect(canvas.getByText(assignedTo)).toBeVisible();
   await expect(canvas.getByText(placeholder)).toBeVisible();
   await userEvent.click(canvas.getByText(placeholder));
@@ -176,7 +182,7 @@ export const ControlledSelectMenu = () => {
   const ref = useRef();
   return (
     <SelectMenu onChange={(val) => setSelected(val)} value={selected}>
-      <SelectMenuLabel>Assigned to</SelectMenuLabel>
+      <SelectMenuLabel>{assignedTo}</SelectMenuLabel>
       <SelectMenuTrigger placeholder="Select.." ref={ref} />
       <SelectMenuOptionGroup>
         {SELECT_OPTIONS.map((item) => (
@@ -210,7 +216,7 @@ export const CustomSelectMenu = () => {
   ];
   return (
     <SelectMenu isMulti>
-      <SelectMenuLabel>Assigned to</SelectMenuLabel>
+      <SelectMenuLabel>{assignedTo}</SelectMenuLabel>
       <SelectMenuTrigger placeholder="Select.." />
       <SelectMenuOptionGroup>
         {options.map((item) => (
@@ -231,9 +237,19 @@ MultiSelect.args = {
 };
 
 SelectWithPlaceholder.args = {
-  placeholder: 'Placeholder text...',
   value: null,
-  defaultValue: null
+  defaultValue: null,
+  children: (
+    <>
+      <SelectMenuLabel>{assignedTo}</SelectMenuLabel>
+      <SelectMenuTrigger placeholder="Placeholder text..." />
+      <SelectMenuOptionGroup>
+        {SELECT_OPTIONS.map((item) => (
+          <SelectMenuOptionItem key={item.value} option={item} />
+        ))}
+      </SelectMenuOptionGroup>
+    </>
+  )
 };
 
 DisabledSelectMenu.args = {

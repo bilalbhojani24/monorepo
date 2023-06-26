@@ -15,13 +15,13 @@ import Loader from 'common/Loader';
 import { ISSUES, SUMMARY } from 'constants';
 import format from 'date-fns/format';
 import { getReportData } from 'features/Report/slice/selector';
-import { downloadCsv, generateReportUrl } from 'utils/helper';
+import { downloadCsv } from 'utils/helper';
 
 import Issues from './components/Issues';
 import Summary from './components/Summary';
 import useReport from './useReport';
 
-const tabs = [
+const tabList = [
   {
     name: 'Summary',
     value: SUMMARY
@@ -86,7 +86,7 @@ export default function Report() {
           />
           <div className="flex items-center justify-between">
             <div className="mt-2">
-              <p className="mb-2 text-2xl" title={reportName}>
+              <p className="mb-2 text-2xl font-bold" title={reportName}>
                 {reportName}
               </p>
               {isSingleReport ? (
@@ -110,16 +110,19 @@ export default function Report() {
                       </p>
                     </div>
                   ) : null}
-                  <div className="mr-6">
-                    <Badge
-                      hasDot={false}
-                      hasRemoveButton={false}
-                      text={
-                        Object.values(reportMetaData.meta)[0].wcagVersion.label
-                      }
-                      modifier="base"
-                    />
-                  </div>
+                  {Object.values(reportMetaData.meta)[0].wcagVersion.label ? (
+                    <div className="mr-6">
+                      <Badge
+                        hasDot={false}
+                        hasRemoveButton={false}
+                        text={
+                          Object.values(reportMetaData.meta)[0].wcagVersion
+                            .label
+                        }
+                        modifier="base"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               ) : (
                 <div className="flex items-center">
@@ -171,7 +174,7 @@ export default function Report() {
         </div>
         <div className="pl-6">
           <Tabs
-            tabsArray={tabs}
+            tabsArray={tabList}
             onTabChange={onTabChange}
             defaultIndex={defaultIndex}
             disableFullWidthBorder

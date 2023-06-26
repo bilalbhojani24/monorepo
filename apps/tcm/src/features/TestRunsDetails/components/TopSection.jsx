@@ -25,6 +25,7 @@ import useTestRunDetails from './useTestRunDetails';
 
 const TopSection = () => {
   const {
+    StatusMeta,
     sourceTab,
     testRunPageQuery,
     projectId,
@@ -39,7 +40,7 @@ const TopSection = () => {
   return (
     <div className="border-base-300 w-full border-b pb-4">
       <TMPageHeadings
-        wrapperClassName="px-4 pt-6 bg-transparent"
+        wrapperClassName="px-6 pt-6 bg-transparent"
         breadcrumbs={[
           {
             name: 'Test Runs',
@@ -140,7 +141,12 @@ const TopSection = () => {
           </>
         }
         subSection={
-          <div className="flex gap-4">
+          <div className="mt-2 flex gap-4">
+            <TMMetadata
+              metaDescription={StatusMeta?.label || '--'}
+              textColorClass={`mt-1 ${StatusMeta?.textClass}`}
+              icon={StatusMeta && <StatusMeta.Icon className="h-5 w-5" />}
+            />
             <TMMetadata
               metaDescription={
                 testRunDetails?.assignee?.full_name || 'Unassigned'

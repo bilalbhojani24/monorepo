@@ -4,7 +4,6 @@ export const IMPORT_OPTIONS = [
   {
     body: 'Quick Import',
     id: 'quick',
-    divider: true,
     route: AppRoute.IMPORT_WITH_PROJECTS
   }
   // { body: 'Import from TestRail (XML)', id: 'TestRail', divider: false },

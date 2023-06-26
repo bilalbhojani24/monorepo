@@ -80,6 +80,11 @@ const useImportCSV = () => {
 
   const handleFileUpload = (e) => {
     dispatch(
+      logEventHelper('TM_CiUploadFileLinkClicked', {
+        project_id: projectId
+      })
+    );
+    dispatch(
       setFileConfig({
         file: e.currentTarget.files[0],
         fileName: e.currentTarget.files[0].name
@@ -87,18 +92,34 @@ const useImportCSV = () => {
     );
   };
 
-  const handleShowMoreFields = () =>
+  const handleShowMoreFields = () => {
+    dispatch(
+      logEventHelper('TM_CiShowMoreBtnClicked', {
+        project_id: projectId
+      })
+    );
     dispatch(setShowMoreFields(!showMoreFields));
+  };
 
   const handleFileRemove = () => {
     dispatch(setFileConfig({ file: '', fileName: '' }));
   };
 
   const handleChangeFolderClick = () => {
+    dispatch(
+      logEventHelper('TM_CiChangeFolderBtnClicked', {
+        project_id: projectId
+      })
+    );
     dispatch(setShowChangeFolderModal(true));
   };
 
   const handleUploadToRootClick = () => {
+    dispatch(
+      logEventHelper('TM_CiRootFolderBtnClicked', {
+        project_id: projectId
+      })
+    );
     if (projectId) {
       navigate(
         routeFormatter(AppRoute.IMPORT_CSV, {
@@ -131,18 +152,14 @@ const useImportCSV = () => {
       );
     }
     dispatch(setShowChangeFolderModal(false));
+    dispatch(
+      logEventHelper('TM_CiUpdateLocationCtaClicked', {
+        project_id: projectId
+      })
+    );
   };
 
   const handleProceedClick = () => {
-    dispatch(
-      logEventHelper('TM_ImportCsvStep1ProceedBtnClicked', {
-        project_id: projectId,
-        csv_separator: csvFormData.separators.value,
-        first_row: csvFormData.row,
-        file_encoding: csvFormData.encodings.value,
-        first_column: csvFormData.firstRowIsHeader
-      })
-    );
     // now create the payload and make the api call
     if (!fileConfig.file) {
       dispatch(setCSVUploadError('Please select a CSV file.'));
@@ -168,6 +185,14 @@ const useImportCSV = () => {
 
     // make the api call
     dispatch(uploadFile(filesData));
+  };
+
+  const ampEventDownloadComp = () => {
+    dispatch(
+      logEventHelper('TM_CiSampleDownloaded', {
+        project_id: projectId
+      })
+    );
   };
 
   useEffect(() => {
@@ -200,6 +225,7 @@ const useImportCSV = () => {
     handleShowMoreFields,
     fetchCSVConfigurations,
     topInfoSteps,
+    ampEventDownloadComp,
     handleChangeFolderClick,
     handleUploadToRootClick,
     hideFolderExplorerModal,

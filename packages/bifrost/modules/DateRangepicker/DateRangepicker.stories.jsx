@@ -1,5 +1,5 @@
 import React from 'react';
-import { getLocalTimeZone, today } from '@internationalized/date';
+import { getLocalTimeZone, parseDate, today } from '@internationalized/date';
 
 import DocPageTemplate from '../../.storybook/DocPageTemplate';
 
@@ -52,6 +52,16 @@ const Template = (args) => (
     minValue={today(getLocalTimeZone()).subtract({ years: 2 })}
     maxValue={today(getLocalTimeZone()).add({ years: 2 })}
     {...args}
+  />
+);
+
+export const DateRangeWDefaultValue = () => (
+  <DateRangepicker
+    label="Date range"
+    defaultValue={{
+      start: parseDate('2022-02-03'),
+      end: parseDate('2022-05-03')
+    }}
   />
 );
 const Primary = Template.bind({});

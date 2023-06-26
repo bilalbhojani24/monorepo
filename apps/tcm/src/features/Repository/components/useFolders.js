@@ -41,8 +41,9 @@ export default function useFolders() {
   const openedFolderModal = useSelector(
     (state) => state.repository.openedFolderModal
   );
-  const isSearchFilterView = useSelector(
-    (state) => state.repository.isSearchFilterView
+
+  const bulkSelectionIds = useSelector(
+    (state) => state.repository.bulkSelection?.ids
   );
   const isFoldersLoading = useSelector(
     (state) => state.repository.isLoading.folder
@@ -336,13 +337,13 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    bulkSelectionIds,
     noResultsText,
     isMoveToRootAvailable,
     isTestCasesLoading,
     searchKey: searchParams.get('q'),
     isFoldersLoading,
     testCasesCount,
-    isSearchFilterView,
     openedFolderModal,
     projectId,
     folderId,
