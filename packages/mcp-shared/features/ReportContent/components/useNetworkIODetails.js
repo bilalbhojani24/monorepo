@@ -56,7 +56,7 @@ const generateNetworkIOChartOptions = (sessionData, chartGridClicked) => {
       marker: {
         enabled: false
       },
-      data: networkReadTimeSeries
+      data: networkWriteTimeSeries
     },
     {
       name: 'Data Download',
@@ -64,7 +64,7 @@ const generateNetworkIOChartOptions = (sessionData, chartGridClicked) => {
       marker: {
         enabled: false
       },
-      data: networkWriteTimeSeries
+      data: networkReadTimeSeries
     }
   ];
 

@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
 import { matchPath, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
-  HomeIcon,
   MdOutlineTextSnippet,
+  MdWeb,
   NotificationsContainer,
   SidebarItem,
-  SidebarNavigation,
-  UsersIcon
+  SidebarNavigation
 } from '@browserstack/bifrost';
 import AutomatioConsole from 'assets/icons/components/AutomationConsole';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
@@ -26,15 +25,15 @@ const Layout = () => {
       id: 'grid-console',
       label: 'Automation Console',
       activeIcon: AutomatioConsole,
-      inActiveIcon: HomeIcon,
+      inActiveIcon: AutomatioConsole,
       path: ROUTES.GRID_CONSOLE,
       pattern: `${ROUTES.GRID_CONSOLE}/*`
     },
     {
       id: 'builds-dashboard',
       label: 'Builds Dashboard',
-      activeIcon: UsersIcon,
-      inActiveIcon: UsersIcon,
+      activeIcon: MdWeb,
+      inActiveIcon: MdWeb,
       path: ROUTES.BUILDS,
       pattern: `${ROUTES.BUILDS}/*`
     }

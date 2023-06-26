@@ -6,7 +6,7 @@ import {
   moveTestCasesBulkOnSFAPI
 } from 'api/testcases.api';
 import AppRoute from 'const/routes';
-import { addNotificaton } from 'globalSlice';
+import { addNotificaton, setShowFreshChatButton } from 'globalSlice';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
@@ -126,15 +126,19 @@ const useTestCasesTable = (prop) => {
   };
 
   const initBulkMove = () => {
-    closeTCDetailsSlide();
-    if (isSearchFilterView) {
-      dispatch(
-        logEventHelper('TM_TcBulkMoveBtnClickedSearchFilter', {
+    dispatch(
+      logEventHelper(
+        isSearchFilterView
+          ? 'TM_TcBulkMoveBtnClickedSearchFilter'
+          : 'TM_TcBulkMoveBtnClicked',
+        {
           project_id: projectId,
           testcase_id: bulkSelection?.ids
-        })
-      );
-    }
+        }
+      )
+    );
+    closeTCDetailsSlide();
+
     setshowMoveModal(true);
   };
 
@@ -278,6 +282,17 @@ const useTestCasesTable = (prop) => {
   const onDropDownChange = (selectedOption, selectedItem, isFromTable) => {
     if (selectedOption?.id === dropDownOptions[0].id) {
       // edit
+      dispatch(
+        logEventHelper(
+          isFromTable
+            ? 'TM_EditTcLinkClickedTcList'
+            : 'TM_EditTcLinkClickedTcDetails',
+          {
+            project_id: projectId,
+            testcase_id: selectedItem?.id
+          }
+        )
+      );
       const formattedData = formDataRetriever(tagsArray, selectedItem);
       dispatch(setEditTestCasePageVisibility(true));
       dispatch(setAddTestCaseVisibility(true));
@@ -388,7 +403,9 @@ const useTestCasesTable = (prop) => {
     hideFolderModal,
     moveTestCasesHandler,
     onDropDownChange,
-    handleTestCaseViewClick
+    handleTestCaseViewClick,
+    dispatch,
+    setShowFreshChatButton
   };
 };
 export default useTestCasesTable;

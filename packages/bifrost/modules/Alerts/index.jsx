@@ -26,24 +26,28 @@ const link = (
     return (
       <a
         href="/"
-        className={twClassNames('h-fit', {
-          underline: alertLinkPosition === ALERT_LINK_POSITION[0],
-          'text-base-700 hover:text-base-600': modifier === ALERT_MODIFIER[0],
-          'text-brand-700 hover:text-brand-600': modifier === ALERT_MODIFIER[1],
-          'text-success-700 hover:text-success-600':
-            modifier === ALERT_MODIFIER[2],
-          'text-danger-700 hover:text-danger-600':
-            modifier === ALERT_MODIFIER[3],
-          'text-attention-700 hover:text-attention-600':
-            modifier === ALERT_MODIFIER[4],
-          'text-info-700 hover:text-info-600': modifier === ALERT_MODIFIER[5]
-        })}
+        className={twClassNames(
+          'h-fit inline-flex items-center text-sm font-normal',
+          {
+            underline: alertLinkPosition === ALERT_LINK_POSITION[0],
+            'text-base-700 hover:text-base-600': modifier === ALERT_MODIFIER[0],
+            'text-brand-700 hover:text-brand-600':
+              modifier === ALERT_MODIFIER[1],
+            'text-success-700 hover:text-success-600':
+              modifier === ALERT_MODIFIER[2],
+            'text-danger-700 hover:text-danger-600':
+              modifier === ALERT_MODIFIER[3],
+            'text-attention-700 hover:text-attention-600':
+              modifier === ALERT_MODIFIER[4],
+            'text-info-700 hover:text-info-600': modifier === ALERT_MODIFIER[5]
+          }
+        )}
         onClick={(event) => {
           event.preventDefault();
           if (handleLinkClick) handleLinkClick(linkUrl);
         }}
       >
-        <div className="inline-flex items-center text-sm">{detailsNode}</div>
+        {detailsNode}
       </a>
     );
   return null;
@@ -105,6 +109,16 @@ const Alerts = (props) => {
     }
   };
 
+  const renderDetailNode = () =>
+    !!detailsNode &&
+    link(alertLinkPosition, modifier, handleLinkClick, linkUrl, detailsNode);
+
+  const inlineDetailNode =
+    alertLinkPosition === ALERT_LINK_POSITION[0] && renderDetailNode();
+
+  const endDetailNode =
+    alertLinkPosition === ALERT_LINK_POSITION[1] && renderDetailNode();
+
   return (
     <>
       <Transition
@@ -161,9 +175,10 @@ const Alerts = (props) => {
                       'text-info-800': modifier === ALERT_MODIFIER[5]
                     })}
                   >
-                    {title}
+                    {title} {!description && inlineDetailNode}
                   </h3>
                 )}
+
                 <span
                   className={twClassNames(
                     `flex items-end text-sm ${textColorClass}`,
@@ -179,37 +194,22 @@ const Alerts = (props) => {
                 >
                   <div>
                     {/* alert description */}
-                    {typeof description === 'object' ? (
-                      <div className="mt-2 text-sm">
-                        <ul className="list-disc space-y-1 pl-5 pr-1">
-                          {description?.map((descriptionItem) => (
-                            <li key={descriptionItem}>{descriptionItem}</li>
-                          ))}
-                        </ul>
-                        {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                          !!detailsNode &&
-                          link(
-                            alertLinkPosition,
-                            modifier,
-                            handleLinkClick,
-                            linkUrl,
-                            detailsNode
-                          )}
-                      </div>
-                    ) : (
-                      <p>
-                        <span className="pr-1">{description}</span>
-                        {alertLinkPosition === ALERT_LINK_POSITION[0] &&
-                          !!detailsNode &&
-                          link(
-                            alertLinkPosition,
-                            modifier,
-                            handleLinkClick,
-                            linkUrl,
-                            detailsNode
-                          )}
-                      </p>
-                    )}
+                    {description &&
+                      (typeof description === 'object' ? (
+                        <div className="mt-2 text-sm">
+                          <ul className="list-disc space-y-1 pl-5 pr-1">
+                            {description?.map((descriptionItem) => (
+                              <li key={descriptionItem}>{descriptionItem}</li>
+                            ))}
+                          </ul>
+                          {inlineDetailNode}
+                        </div>
+                      ) : (
+                        <p>
+                          <span className="pr-1">{description}</span>
+                          {inlineDetailNode}
+                        </p>
+                      ))}
 
                     {/* alert actions */}
 
@@ -275,17 +275,7 @@ const Alerts = (props) => {
                 </span>
               </div>
 
-              {alertLinkPosition === ALERT_LINK_POSITION[1] && detailsNode && (
-                <p className="mt-3 h-fit shrink-0 text-sm md:ml-6 md:mt-0">
-                  {link(
-                    alertLinkPosition,
-                    modifier,
-                    handleLinkClick,
-                    linkUrl,
-                    detailsNode
-                  )}
-                </p>
-              )}
+              {endDetailNode}
             </div>
 
             {/* Dismiss alert */}

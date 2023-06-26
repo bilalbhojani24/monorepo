@@ -75,4 +75,13 @@ bifrostTailwindConfig.theme.configViewer = {
   }
 };
 
+bifrostTailwindConfig.theme.extend.zIndex = {
+  1: '1',
+  5: '5',
+  60: '60',
+  70: '70',
+  80: '80',
+  90: '90'
+};
+
 module.exports = bifrostTailwindConfig;

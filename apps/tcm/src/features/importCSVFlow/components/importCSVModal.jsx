@@ -97,18 +97,20 @@ const ImportCSVModal = ({ data, show, status, progress }) => {
           )
         }
         subHeading={
-          status === 'ongoing' ? (
-            <>
-              <TMProgressBar
-                title={null}
-                percentage={progress}
-                wrapperClassName="mt-3 mb-4"
-              />
-              {data?.text}
-            </>
-          ) : (
-            data?.text
-          )
+          <div className="text-base-900">
+            {status === 'ongoing' ? (
+              <>
+                <TMProgressBar
+                  title={null}
+                  percentage={progress}
+                  wrapperClassName="mt-3 mb-4"
+                />
+                {data?.text}
+              </>
+            ) : (
+              data?.text
+            )}
+          </div>
         }
         iconWrapperClassname={
           status === 'ongoing' ? 'bg-brand-100' : 'bg-danger-100'

@@ -24,6 +24,14 @@ const getNav = ({ projectNormalisedName }) => [
     pattern: ROUTES.settings_alerts
   },
   {
+    id: 'smart_tags',
+    label: 'Smart Tags',
+    activeIcon: () => <></>,
+    inActiveIcon: () => <></>,
+    path: getSettingsPath(projectNormalisedName, 'smart_tags'),
+    pattern: ROUTES.smart_tags
+  },
+  {
     id: 'auto_analyser',
     label: 'Auto Failure Analysis',
     activeIcon: () => <></>,
