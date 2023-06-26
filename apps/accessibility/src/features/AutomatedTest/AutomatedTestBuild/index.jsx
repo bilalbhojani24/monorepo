@@ -76,7 +76,7 @@ export default function AutomatedTestBuild() {
     </div>
   );
 
-  const { name, createdBy, createdAt } = buildMetaData.meta;
+  const { name, createdBy, createdAt, sessionData } = buildMetaData.meta;
 
   return (
     <div>
@@ -97,7 +97,7 @@ export default function AutomatedTestBuild() {
               </div>
               <div className="mr-6">
                 <ViewPlatformPopOver
-                  data={platforms}
+                  data={sessionData}
                   handleInteraction={({ interaction }) =>
                     console.log(interaction)
                   }

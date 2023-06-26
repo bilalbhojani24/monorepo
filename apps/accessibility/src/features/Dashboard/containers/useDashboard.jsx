@@ -124,7 +124,7 @@ export default function useDashboard() {
     }
   ];
 
-  if (!isBrowserStackUser) {
+  if (isBrowserStackUser) {
     primaryNav.push({
       id: 'automated-tests',
       label: 'Automated tests',

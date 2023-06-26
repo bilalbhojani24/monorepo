@@ -1,41 +1,39 @@
 import React from 'react';
 import { Button, MdOutlineExpandMore, Popover } from '@browserstack/bifrost';
-import ChromeIcon from 'assets/chrome_icon.svg';
-import MacIcon from 'assets/mac_icon.svg';
 import PropTypes from 'prop-types';
+import { getBrowserIcon, getOSIcon } from 'utils/helper';
 
 export default function ViewPlatformPopOver({ data, handleInteraction }) {
+  const { browser, os } = data;
   return (
     <Popover
       theme="light"
       placementSide="bottom"
       arrowWidth={0}
-      size="md"
-      content={
-        // eslint-disable-next-line tailwindcss/no-arbitrary-value
-        <div className="divide-base-200 text-base-900 flex w-72 flex-col divide-y overflow-auto px-5 font-normal">
+      size="lg"
+      content={browser?.map((val, index) => (
+        <div
+          key={val.name + val.version}
+          className="divide-base-200 text-base-900 flex flex-col divide-y overflow-auto px-5 font-normal"
+        >
           <div className="flex flex-col py-1 first:pt-0 last:pb-0">
             <div className="border-base-200 flex items-center gap-1 border-b py-3">
-              <img className="h-5 w-5" src={ChromeIcon} alt="chrome icon" />
-              <p className="mr-3 truncate text-sm">{`Chrome ${data.chrome.version}`}</p>
-              <img className="h-5 w-5" src={MacIcon} alt="chrome icon" />
-              <p className="truncate text-sm">{data.mac}</p>
-            </div>
-            <div className="border-base-200 flex items-center gap-1 border-b py-3">
-              <img className="h-5 w-5" src={ChromeIcon} alt="chrome icon" />
-              <p className="mr-3 truncate text-sm">{`Chrome ${data.chrome.version}`}</p>
-              <img className="h-5 w-5" src={MacIcon} alt="chrome icon" />
-              <p className="truncate text-sm">{data.mac}</p>
-            </div>
-            <div className="flex items-center gap-1 py-3">
-              <img className="h-5 w-5" src={ChromeIcon} alt="chrome icon" />
-              <p className="mr-3 truncate text-sm">{`Chrome ${data.chrome.version}`}</p>
-              <img className="h-5 w-5" src={MacIcon} alt="chrome icon" />
-              <p className="truncate text-sm">{data.mac}</p>
+              <img
+                className="h-5 w-5"
+                src={getBrowserIcon(val.logo)}
+                alt="browser icon"
+              />
+              <p className="mr-3 truncate text-sm">{`${val.name} ${val.version}`}</p>
+              <img
+                className="h-5 w-5"
+                src={getOSIcon(os[index].logo)}
+                alt="chrome icon"
+              />
+              <p className="text-sm">{os[index].name}</p>
             </div>
           </div>
         </div>
-      }
+      ))}
     >
       <div>
         <Button

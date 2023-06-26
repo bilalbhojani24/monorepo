@@ -220,8 +220,8 @@ export const getHiddenIssuesCount = (reportData) => {
 
 export const getOSIcon = (name) => {
   const icons = {
-    Windows: WindowsIcon,
-    Mac: MacIcon
+    windows: WindowsIcon,
+    mac: MacIcon
   };
 
   return icons[name];
@@ -229,7 +229,7 @@ export const getOSIcon = (name) => {
 
 export const getBrowserIcon = (name) => {
   const icons = {
-    Chrome: ChromeIcon
+    chrome: ChromeIcon
   };
 
   return icons[name];
@@ -249,4 +249,9 @@ export const buyAcceesibilityPlan = () => {
     `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
     '_blank'
   );
+};
+
+export const getTruncatedFileName = (name) => {
+  const arr = name.split('/');
+  return arr.length >= 2 ? `...${arr.slice(-2).join('/')}` : name;
 };

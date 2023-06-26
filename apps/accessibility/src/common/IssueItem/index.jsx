@@ -434,7 +434,7 @@ export default function IssueItem({ sectionsDataContext }) {
                                     <img
                                       className="h-5 w-5"
                                       src={getBrowserIcon(
-                                        test.browserData.name
+                                        test.browserData.logo
                                       )}
                                       alt="browser icon"
                                     />
@@ -443,7 +443,7 @@ export default function IssueItem({ sectionsDataContext }) {
                                   <div className="flex items-center gap-1">
                                     <img
                                       className="h-4 w-3"
-                                      src={getOSIcon(test.osData.name)}
+                                      src={getOSIcon(test.osData.logo)}
                                       alt="os icon"
                                     />
                                     <p className="text-base-500">{`${test.osData.name} ${test.osData.version}`}</p>

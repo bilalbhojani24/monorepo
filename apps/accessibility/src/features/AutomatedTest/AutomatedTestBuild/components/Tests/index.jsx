@@ -18,7 +18,7 @@ import {
   TooltipBody
 } from '@browserstack/bifrost';
 import { issueTypes } from 'constants';
-import { getBrowserIcon, getOSIcon } from 'utils/helper';
+import { getBrowserIcon, getOSIcon, getTruncatedFileName } from 'utils/helper';
 
 import TestIssues from '../TestIssues';
 
@@ -77,16 +77,16 @@ export default function TestsTable() {
               <li className="flex items-center gap-1">
                 <img
                   className="h-5 w-5"
-                  src={getBrowserIcon(row.browserData.name)}
-                  alt="android icon"
+                  src={getBrowserIcon(row.browserData.logo)}
+                  alt="browser icon"
                 />
                 <p className="text-base-500">{`${row.browserData.name} ${row.browserData.version}`}</p>
               </li>
               <li className="flex items-center gap-1">
                 <img
                   className="h-4 w-3"
-                  src={getOSIcon(row.osData.name)}
-                  alt="android icon"
+                  src={getOSIcon(row.osData.logo)}
+                  alt="os icon"
                 />
                 <p className="text-base-500">{`${row.osData.name} ${row.browserData.version}`}</p>
               </li>
@@ -95,7 +95,9 @@ export default function TestsTable() {
               </li>
               <li className="flex items-center gap-1">
                 <MdFolderOpen />
-                <p className="text-base-500">{row.file}</p>
+                <p className="text-base-500">
+                  {getTruncatedFileName(row.file)}
+                </p>
               </li>
             </ul>
           </div>
@@ -111,7 +113,7 @@ export default function TestsTable() {
             <p className="text-attention-700">Not available</p>
           ) : (
             <>
-              {row.status === 'failed' ? (
+              {row.summary.issueCount > 0 ? (
                 <div>
                   <p className="text-base-900">{`${row.summary.issueCount} issues`}</p>
                   <div>
