@@ -390,3 +390,5 @@ export const sentryConfig = {
     /https:\/\/wchat.freshchat.com\/.*/gi
   ]
 };
+
+export const ALL_PROJECTS = 'All projects';
