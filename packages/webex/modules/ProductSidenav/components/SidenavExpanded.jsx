@@ -12,7 +12,12 @@ import {
 import AppIcon from '../icons/AppIcon';
 import WebIcon from '../icons/WebIcon';
 
-const SidenavExpanded = ({ activeProduct, activeTab, onTabClick }) => {
+const SidenavExpanded = ({
+  activeProduct,
+  activeTab,
+  onTabClick,
+  purchasedProducts
+}) => {
   const productElementContainer = (product) => {
     const isActiveProduct = product.identifier === activeProduct;
     return (
@@ -42,7 +47,7 @@ const SidenavExpanded = ({ activeProduct, activeTab, onTabClick }) => {
         >
           {product.name}
         </p>
-        {product.isPlanPurchased && (
+        {purchasedProducts.includes(product.productId) && (
           <span className="bg-success-500 h-1.5 w-1.5 rounded-full" />
         )}
       </a>
@@ -156,12 +161,14 @@ const SidenavExpanded = ({ activeProduct, activeTab, onTabClick }) => {
 SidenavExpanded.propTypes = {
   activeProduct: PropTypes.string,
   activeTab: PropTypes.string,
-  onTabClick: PropTypes.func
+  onTabClick: PropTypes.func,
+  purchasedProducts: PropTypes.arrayOf(PropTypes.string)
 };
 SidenavExpanded.defaultProps = {
   activeProduct: '',
   activeTab: '',
-  onTabClick: () => {}
+  onTabClick: () => {},
+  purchasedProducts: []
 };
 
 export default SidenavExpanded;
