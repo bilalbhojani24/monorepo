@@ -14,10 +14,11 @@ import {
 } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { ROUTES } from 'constants/routes';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
+import { getSettingsPath } from 'utils/routeUtils';
 
 import { getBuildAlerts } from '../slices/selectors';
 import { getBuildAlertsData } from '../slices/testInsightsSlice';
@@ -36,6 +37,7 @@ export default function Alerts() {
   const dispatch = useDispatch();
   const alerts = useSelector(getBuildAlerts);
   const buildId = useSelector(getBuildUUID);
+  const activeProject = useSelector(getActiveProject);
 
   useEffect(() => {
     dispatch(getBuildAlertsData({ buildId }));
@@ -48,7 +50,7 @@ export default function Alerts() {
 
   const handleClickConfigureAlerts = () => {
     logInsightsInteractionEvent({ interaction: 'alerts_configure_clicked' });
-    navigate(ROUTES.settings_alerts);
+    navigate(`${getSettingsPath(activeProject?.normalisedName, 'alerts')}`);
   };
 
   const hasNoData = useMemo(
