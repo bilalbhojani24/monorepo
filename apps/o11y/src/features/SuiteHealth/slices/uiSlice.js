@@ -29,6 +29,7 @@ import {
   updatedFilterFields
 } from 'features/FilterSkeleton/utils';
 import { getActiveProject } from 'globalSlice/selectors';
+import isEmpty from 'lodash/isEmpty';
 
 export const getSnPTestsFiltersData = createAsyncThunk(
   'suitehealth/getSnPTestsFilters',
@@ -47,7 +48,9 @@ export const getSnPTestsFiltersData = createAsyncThunk(
       );
       dispatch(setBulkSelectedFilters(selectedFilters));
       dispatch(setBulkAppliedFilters(selectedFilters));
-      dispatch(setStaticFilters(staticFilters));
+      if (!isEmpty(staticFilters)) {
+        dispatch(setStaticFilters(staticFilters));
+      }
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -76,7 +79,9 @@ export const getSnPUEFiltersData = createAsyncThunk(
       );
       dispatch(setBulkSelectedFilters(selectedFilters));
       dispatch(setBulkAppliedFilters(selectedFilters));
-      dispatch(setStaticFilters(staticFilters));
+      if (!isEmpty(staticFilters)) {
+        dispatch(setStaticFilters(staticFilters));
+      }
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
