@@ -92,7 +92,7 @@ export function StepLogItem({ data }) {
         </O11yTruncateText>
       </div>
       {!!data?.duration && (
-        <div className="flex items-center">
+        <div className="flex shrink-0 items-center">
           <LogItemDuration duration={data.duration} />
         </div>
       )}

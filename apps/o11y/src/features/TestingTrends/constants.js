@@ -1,3 +1,6 @@
+import { DOC_KEY_MAPPING } from 'constants/common';
+import { ROUTE_PATH_KEYS } from 'constants/routes';
+
 export const TT_PARAMS_MAPPING = {
   ttDateRange: 'tt_date_range',
   ttFromDate: 'tt_from',
@@ -27,40 +30,106 @@ export const TT_DATE_RANGE = {
 
 export const TREND_CARDS = {
   latestUniqueBuildRuns: {
-    title: 'Latest Unique Build Runs'
+    title: 'Latest Unique Build Runs',
+    tooltipText:
+      'Summary of the latest run of all different unique build names in this project (always shows latest runs ignoring the time range filter above).',
+    cta: 'View all runs',
+    ctaUrl: ROUTE_PATH_KEYS.builds,
+    isInternalLink: true,
+    trackingData: 'UniqueRunTooltipCTAClicked'
   },
   alwaysFailing: {
-    title: 'Always Failing'
+    title: 'Always Failing',
+    tooltipText:
+      'Unique number of tests that have consistently failed for configured duration across the time range. A high value represents poor effectiveness of automation.',
+    cta: 'Configure',
+    ctaUrl: ROUTE_PATH_KEYS.settings_smart_tags,
+    isInternalLink: true,
+    trackingData: 'AlwaysFailingTooltipCTAClicked'
   },
   newFailures: {
-    title: 'New Failures'
+    title: 'New Failures',
+    tooltipText:
+      'Unique number of tests that have failed at least once across the time range. A high value represents suboptimal dev quality impacting a huge proportion of tests.',
+    cta: 'Configure',
+    ctaUrl: ROUTE_PATH_KEYS.settings_smart_tags,
+    isInternalLink: true,
+    trackingData: 'NewFailuresTooltipCTAClicked'
   },
   flakiness: {
-    title: 'Flakiness'
+    title: 'Flakiness',
+    tooltipText:
+      'Trends of flaky test executions across the project in the given time range. A high value represents poor automation quality.',
+    cta: 'Configure',
+    ctaUrl: ROUTE_PATH_KEYS.settings_smart_tags,
+    isInternalLink: true,
+    trackingData: 'FlakinessTooltipCTAClicked'
   },
   failureCategories: {
-    title: 'Failure Categories'
+    title: 'Failure Categories',
+    tooltipText:
+      'Trends of different buckets of test failure categories as analyzed by the ML engine',
+    cta: 'Lean how to use',
+    ctaUrl: DOC_KEY_MAPPING.auto_analyser,
+    isDocUrl: true,
+    trackingData: 'FailureCategoryTooltipCTAClicked'
   },
   stability: {
-    title: 'Stability'
+    title: 'Stability',
+    tooltipText:
+      'Stability is defined as total passing test executions as a percentage of overall test executions in the project.',
+    cta: 'Configure',
+    ctaUrl: ROUTE_PATH_KEYS.settings_alerts,
+    isInternalLink: true,
+    trackingData: 'StabilityTooltipCTAClicked'
   },
   performance: {
-    title: 'Performance'
+    title: 'Performance',
+    tooltipText:
+      'Columns represents the average duration of each build run for a particular build and the line shows the average number of tests executed on that build.',
+    cta: 'Configure',
+    ctaUrl: ROUTE_PATH_KEYS.settings_alerts,
+    isInternalLink: true,
+    trackingData: 'PerformanceTooltipCTAClicked'
   },
   buildRunFrequency: {
-    title: 'Build Run Frequency'
+    title: 'Build Run Frequency',
+    tooltipText:
+      'A quick snapshot of how frequently different build jobs are run in the given time range. A higher frequency represents better CI/CD maturity.',
+    cta: 'View all runs',
+    ctaUrl: ROUTE_PATH_KEYS.builds,
+    isInternalLink: true,
+    trackingData: 'BuildRunFrequencyTooltipCTAClicked'
   },
   testGrowthOverTime: {
-    title: 'Unique Test Cases'
+    title: 'Unique Test Cases',
+    tooltipText:
+      'Trend represents the rate of growth of the unique number of test cases/scenarios. An upward trending graph represents more automation scenarios being added.',
+    cta: 'View all unique tests',
+    ctaUrl: ROUTE_PATH_KEYS.suite_health_tests,
+    isInternalLink: true,
+    trackingData: 'UniqueTestsTooltipCTAClicked'
   },
   testExecutions: {
-    title: 'Test executions'
+    title: 'Test executions',
+    tooltipText:
+      'Represents the scale of automation testing. Trend can be used to forecast future scale of testing and progress made.',
+    cta: 'View all tests',
+    ctaUrl: ROUTE_PATH_KEYS.suite_health_tests,
+    isInternalLink: true,
+    trackingData: 'TestExecutionsTooltipCTAClicked'
   },
   // parallelExecutions: {
   //   title: 'Parallel Executions'
   // },
   cbt: {
-    title: 'Cross Browser Testing'
+    title: 'Cross Browser Testing',
+    tooltipText:
+      'Represents the cross-browser/device testing coverage in the project.',
+    cta: 'View all tests',
+    ctaUrl: ROUTE_PATH_KEYS.suite_health_tests,
+    isInternalLink: true,
+    trackingData: 'CrossBrowserTestingTooltipCTAClicked'
   }
 };
 
