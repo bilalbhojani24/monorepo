@@ -1,5 +1,6 @@
 import { Pusher, PusherManager } from '@browserstack/utils';
 import {
+  resetRealtimeMetrics,
   setIsSocketConnectionFailed,
   setIsSocketConnectionLoading
 } from 'features/RealtimeMetricGraphs';
@@ -13,6 +14,8 @@ class McpPusherEvents {
   constructor(dispatch, getState, channelData, pusherManager) {
     this.dispatch = dispatch;
     this.getState = getState;
+    this.channelData = channelData;
+    this.pusherManager = pusherManager;
 
     // connecting to pusher
     pusherManager.connect();
@@ -59,7 +62,13 @@ class McpPusherEvents {
   detach(pusherManager, connectionName) {
     if (this.pusher) {
       this.pusher.unsubscribe();
+
       pusherManager.remove(connectionName);
+
+      pusherManager.socket.removeAllListeners(`connect`);
+      pusherManager.socket.removeAllListeners(`handshake`);
+      pusherManager.socket.removeAllListeners(`error`);
+      pusherManager.socket.removeAllListeners(`reconnect_attempt`);
     }
   }
 
@@ -106,5 +115,31 @@ export const subscribeMcpPusher = (channelData) => (dispatch, getState) => {
     !IS_PROD
   );
 
-  return new McpPusherEvents(dispatch, getState, channelData, pusherManager);
+  window.realtimeMetricSocketConnectionInstance = new McpPusherEvents(
+    dispatch,
+    getState,
+    channelData,
+    pusherManager
+  );
+};
+
+export const disconnectMcpPusher = () => (dispatch) => {
+  const existingConnection = window.realtimeMetricSocketConnectionInstance;
+
+  try {
+    if (
+      existingConnection?.detach &&
+      existingConnection?.pusherManager &&
+      existingConnection?.channelData?.connectionName
+    ) {
+      existingConnection.detach(
+        existingConnection.pusherManager,
+        existingConnection.channelData.connectionName
+      );
+    }
+
+    dispatch(resetRealtimeMetrics());
+  } catch (e) {
+    // Handle/log error when PM defines Scenario
+  }
 };

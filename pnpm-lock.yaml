@@ -2310,7 +2310,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.12.9
-      '@babel/helper-plugin-utils': 7.10.4
+      '@babel/helper-plugin-utils': 7.21.5
       '@babel/plugin-syntax-object-rest-spread': 7.8.3(@babel/core@7.12.9)
       '@babel/plugin-transform-parameters': 7.22.3(@babel/core@7.12.9)
     dev: true
@@ -25423,7 +25423,7 @@ packages:
       '@react-aria/menu': 3.9.1(react-dom@18.2.0)(react@18.2.0)
       '@react-aria/meter': 3.4.2(react@18.2.0)
       '@react-aria/numberfield': 3.5.1(react-dom@18.2.0)(react@18.2.0)
-      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/overlays': 3.14.1(react-dom@18.2.0)(react@18.2.0)
       '@react-aria/progress': 3.4.2(react@18.2.0)
       '@react-aria/radio': 3.6.1(react@18.2.0)
       '@react-aria/searchfield': 3.5.2(react@18.2.0)
