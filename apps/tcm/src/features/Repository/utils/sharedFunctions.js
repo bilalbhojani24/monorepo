@@ -24,6 +24,7 @@ export const formDataRetriever = (tagsArray, formData) => {
       formData?.issues?.map((item) => item.jira_id)
     ),
     custom_fields: customFields,
+    automation_status: formData?.automation_status?.value,
     status:
       typeof formData?.priority === 'object'
         ? formData?.status?.id

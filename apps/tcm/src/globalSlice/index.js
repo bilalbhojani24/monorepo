@@ -11,7 +11,8 @@ const initialState = {
   isLoading: {
     allProjects: true
   },
-  notification: null
+  notification: null,
+  showFreshChatButton: true
 };
 
 export const globalSlice = createSlice({
@@ -56,6 +57,9 @@ export const globalSlice = createSlice({
     setUserAndGroupConfig: (state, { payload }) => {
       // for amplitude
       state.userAndGroupConfig = payload;
+    },
+    setShowFreshChatButton: (state, { payload }) => {
+      state.showFreshChatButton = payload;
     }
   }
 });
@@ -71,7 +75,8 @@ export const {
   addGlobalProject,
   updateGlobalProject,
   deleteGlobalProject,
-  setUserAndGroupConfig
+  setUserAndGroupConfig,
+  setShowFreshChatButton
 } = globalSlice.actions;
 
 export default globalSlice.reducer;
