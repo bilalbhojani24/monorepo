@@ -27,14 +27,16 @@ export const WEB_MANUAL_TESTING = {
       icon: (props) => <LiveIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://live.browserstack.com/dashboard',
-      identifier: LIVE_PRODUCT
+      identifier: LIVE_PRODUCT,
+      productId: 'live_testing'
     },
     {
       name: ACCESSIBILITY_TESTING,
       icon: (props) => <AccessibilityIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://accessibility.browserstack.com/',
-      identifier: ACCESSIBILITY_TESTING
+      identifier: ACCESSIBILITY_TESTING,
+      productId: 'accessibility_testing'
       // },
       // {
       //   name: 'API Testing',
@@ -53,7 +55,8 @@ export const APP_MANUAL_TESTING = {
       icon: (props) => <AppLiveIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://app-live.browserstack.com/dashboard',
-      identifier: APP_LIVE_PRODUCT
+      identifier: APP_LIVE_PRODUCT,
+      productId: 'app_live_testing'
       // },
       // {
       //   name: ACCESSIBILITY_TESTING,
@@ -84,14 +87,16 @@ export const WEB_TEST_AUTOMATION = {
       icon: (props) => <AutomateIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://automate.browserstack.com',
-      identifier: AUTOMATE_PRODUCT
+      identifier: AUTOMATE_PRODUCT,
+      productId: 'automate'
     },
     {
       name: PERCY_PRODUCT,
       icon: (props) => <PercyIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://percy.io/api/auth/start-sso',
-      identifier: PERCY_PRODUCT
+      identifier: PERCY_PRODUCT,
+      productId: 'percy'
       // },
       // {
       //   name: 'Automation Grid',
@@ -128,14 +133,16 @@ export const APP_TEST_AUTOMATION = {
       icon: (props) => <AppAutomateIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://app-automate.browserstack.com',
-      identifier: APP_AUTOMATE_PRODUCT
+      identifier: APP_AUTOMATE_PRODUCT,
+      productId: 'app_automate'
     },
     {
       name: APP_PERCY_PRODUCT,
       icon: (props) => <PercyIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://www.browserstack.com/app-percy',
-      identifier: APP_PERCY_PRODUCT
+      identifier: APP_PERCY_PRODUCT,
+      productId: 'app_automate'
       // },
       // {
       //   name: 'Accessibility Automation',
@@ -172,14 +179,16 @@ export const TEST_MANAGEMENT_AND_OPTIMIZATION = {
       icon: (props) => <TestManagementIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://test-management.browserstack.com',
-      identifier: TEST_MANAGEMENT
+      identifier: TEST_MANAGEMENT,
+      productId: 'test_management'
     },
     {
       name: TEST_OBSERVABILITY,
       icon: (props) => <TestObservabilityIcon {...props} />,
       isPlanPurchased: false,
       link: 'https://observability.browserstack.com',
-      identifier: TEST_OBSERVABILITY
+      identifier: TEST_OBSERVABILITY,
+      productId: 'test_observability'
     }
   ]
 };
