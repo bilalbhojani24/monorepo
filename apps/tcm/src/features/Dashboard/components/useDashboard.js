@@ -214,7 +214,7 @@ export default function useDashboard() {
 
   const fetchAutomationStats = () => {
     projectIdCheck('automationStats', getAutomationStatsAPI, (res) => {
-      const automationStatsData = res.data;
+      const automationStatsData = res;
 
       if (automationStatsData.empty_data) {
         Object.entries(automationStatsData).forEach(([key]) => {
@@ -222,7 +222,14 @@ export default function useDashboard() {
         });
       }
 
-      setAutomationStats(automationStatsData);
+      setAutomationStats({
+        ...automationStatsData,
+        automated_coverage: `${
+          typeof automationStatsData.automated_coverage === 'number'
+            ? `${automationStatsData.automated_coverage.toFixed(1)}%`
+            : '-'
+        }`
+      });
     });
   };
 

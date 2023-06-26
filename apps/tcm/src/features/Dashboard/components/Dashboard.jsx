@@ -7,6 +7,7 @@ import {
   TMDataVisualization,
   TMPageHeadings
 } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 import Highcharts from 'highcharts';
 import variablePie from 'highcharts/modules/variable-pie';
@@ -33,7 +34,8 @@ const Dashboard = () => {
     closedTestRunsDailyLineOptions,
     testCasesTrendOptions,
     fetchAllChartData,
-    onDVFooterClick
+    onDVFooterClick,
+    automationStats
   } = useDashboard();
   const dispatch = useDispatch();
 
@@ -81,7 +83,6 @@ const Dashboard = () => {
           detailsNode={null}
           modifier="primary"
         />
-        {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
         <div className="flex flex-col gap-y-6">
           <div className="flex w-full gap-6">
             <div className="relative w-1/2 flex-1">
@@ -228,6 +229,92 @@ const Dashboard = () => {
                 }
               />
             </div>
+          </div>
+          <div className="grid grid-cols-4 gap-6">
+            <TMDataVisualization
+              title="Automation Coverage"
+              wrapperClassName="bg-white relative"
+              size="fit-content"
+              headerInfo={false}
+              desc={
+                isLoadingStates?.automationStats ? (
+                  <Loader wrapperClassName="h-5 w-5" />
+                ) : (
+                  <p className="text-base-900 -mt-2 text-3xl font-semibold leading-9">
+                    {automationStats?.automated_coverage}
+                  </p>
+                )
+              }
+            />
+
+            <TMDataVisualization
+              title={<p>Automated Test Cases</p>}
+              wrapperClassName="bg-white relative"
+              size="fit-content"
+              headerInfo
+              contentWrapperClassName="pl-6 pr-3.5"
+              desc={
+                isLoadingStates?.automationStats ? (
+                  <Loader wrapperClassName="h-5 w-5" />
+                ) : (
+                  <p className="text-base-900 -mt-2 text-3xl font-semibold leading-9">
+                    {automationStats?.automated_test_cases}
+                  </p>
+                )
+              }
+              headerInfoTooltipProps={{
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    Tests marked as Automation Status: Automation are marked as
+                    automated test cases.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'extra-small',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
+            />
+
+            <TMDataVisualization
+              title="Manual Test Cases"
+              wrapperClassName="bg-white relative"
+              size="fit-content"
+              headerInfo
+              desc={
+                isLoadingStates?.automationStats ? (
+                  <Loader wrapperClassName="h-5 w-5" />
+                ) : (
+                  <p className="text-base-900 -mt-2 text-3xl font-semibold leading-9">
+                    {automationStats?.manual_test_cases}
+                  </p>
+                )
+              }
+              headerInfoTooltipProps={{
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
+            />
+
+            <TMDataVisualization
+              title="Total Test Cases"
+              wrapperClassName="bg-white relative"
+              size="fit-content"
+              headerInfo={false}
+              desc={
+                isLoadingStates?.automationStats ? (
+                  <Loader wrapperClassName="h-5 w-5" />
+                ) : (
+                  <p className="text-base-900 -mt-2 text-3xl font-semibold leading-9">
+                    {automationStats?.total_test_cases}
+                  </p>
+                )
+              }
+            />
           </div>
           <div className="flex w-full gap-6">
             <div className="w-1/2 flex-1">
