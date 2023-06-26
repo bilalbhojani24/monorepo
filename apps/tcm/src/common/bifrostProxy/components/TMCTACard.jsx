@@ -20,14 +20,19 @@ const TMCTACard = ({
   primaryBtnProps,
   primaryBtnText,
   secondaryBtnProps,
-  secondaryBtnText
+  secondaryBtnText,
+  contentWrapperClass
 }) => (
   <CTACard
     isDismissable={isDismissable}
     onClose={onClose}
     wrapperClassName={containerWrapperClassName}
   >
-    <CTACardContent header={header} description={description}>
+    <CTACardContent
+      header={header}
+      description={description}
+      wrapperClassName={contentWrapperClass}
+    >
       <CTACardActions
         primaryBtnText={primaryBtnText}
         secondaryBtnText={secondaryBtnText}
@@ -53,7 +58,8 @@ TMCTACard.propTypes = {
   primaryBtnProps: PropTypes.shape(Button.propTypes),
   primaryBtnText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   secondaryBtnProps: PropTypes.shape(Button.propTypes),
-  secondaryBtnText: PropTypes.oneOfType([PropTypes.string, PropTypes.node])
+  secondaryBtnText: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  contentWrapperClass: PropTypes.string
 };
 
 TMCTACard.defaultProps = {
@@ -65,7 +71,8 @@ TMCTACard.defaultProps = {
   primaryBtnProps: {},
   primaryBtnText: '',
   secondaryBtnProps: {},
-  secondaryBtnText: ''
+  secondaryBtnText: '',
+  contentWrapperClass: ''
 };
 
 export default TMCTACard;
