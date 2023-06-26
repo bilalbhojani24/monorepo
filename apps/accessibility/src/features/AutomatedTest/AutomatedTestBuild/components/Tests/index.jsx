@@ -77,7 +77,7 @@ export default function TestsTable() {
               <li className="flex items-center gap-1">
                 <img
                   className="h-5 w-5"
-                  src={getBrowserIcon(row.browserData.name)}
+                  src={getBrowserIcon(row.browserData.logo)}
                   alt="browser icon"
                 />
                 <p className="text-base-500">{`${row.browserData.name} ${row.browserData.version}`}</p>
@@ -85,7 +85,7 @@ export default function TestsTable() {
               <li className="flex items-center gap-1">
                 <img
                   className="h-4 w-3"
-                  src={getOSIcon(row.osData.name)}
+                  src={getOSIcon(row.osData.logo)}
                   alt="os icon"
                 />
                 <p className="text-base-500">{`${row.osData.name} ${row.browserData.version}`}</p>

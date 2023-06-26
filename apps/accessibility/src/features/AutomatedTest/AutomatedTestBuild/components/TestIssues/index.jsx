@@ -95,7 +95,7 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
                           className="mr-1 h-5 w-5"
                           src={getBrowserIcon(
                             Object.values(testMetaData.meta)[0].browser_data
-                              .name
+                              .logo
                           )}
                           alt="browser icon"
                         />
@@ -110,7 +110,7 @@ export default function TestIssues({ isSliderOpen, onSliderClose, testID }) {
                         <img
                           className="mr-1 h-4 w-4"
                           src={getOSIcon(
-                            Object.values(testMetaData.meta)[0].os_data.name
+                            Object.values(testMetaData.meta)[0].os_data.logo
                           )}
                           alt="windows icon"
                         />
