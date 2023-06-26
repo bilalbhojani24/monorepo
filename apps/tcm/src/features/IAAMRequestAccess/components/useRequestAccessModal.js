@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestTMAccessAPI } from 'api/common.api';
 import { addNotificaton, setRequestAccessConfig } from 'globalSlice';
@@ -36,6 +36,12 @@ const useRequestAccessModal = () => {
             is_access_requested: true
           })
         );
+        dispatch(
+          logEventHelper('TM_AccessPopUpShown', {
+            user_type: isAdmin ? 'admin' : 'user',
+            access_btn_state: accessRequested ? 'disabled' : 'enabled'
+          })
+        );
       })
       .catch(() => setRequestLoader(false));
   };
@@ -44,16 +50,6 @@ const useRequestAccessModal = () => {
     if (isAdmin) return 'Manage Access';
     return accessRequested ? 'Request Sent' : 'Request Access';
   };
-
-  useEffect(() => {
-    if (!userHasAccess)
-      dispatch(
-        logEventHelper('TM_AccessPopUpBtnClicked', {
-          user_type: isAdmin ? 'admin' : 'user',
-          access_btn_state: accessRequested ? 'disabled' : 'enabled'
-        })
-      );
-  }, [userHasAccess, dispatch, isAdmin, accessRequested]);
 
   return {
     isAdmin,
