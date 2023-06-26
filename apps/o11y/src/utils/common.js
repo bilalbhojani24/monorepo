@@ -86,7 +86,7 @@ export const logOllyEvent = ({ event, data = {} }) => {
     is_dark_mode:
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches,
-    headerScalability
+    headerScalability: headerScalability === 'true'
   };
   if (
     !isSuperUser &&
