@@ -239,7 +239,6 @@ export default function Reports() {
                     icon={<MdOutlineArrowForward className="text-xl" />}
                     onClick={onReportConsolidateButtonClick}
                     disabled={isMergeDisabled}
-                    size="default"
                     variant="secondary"
                   >
                     Consolidate reports
