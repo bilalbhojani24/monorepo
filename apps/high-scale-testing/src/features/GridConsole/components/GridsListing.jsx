@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Badge,
   Dropdown,
@@ -29,15 +28,12 @@ const GridsListing = () => {
     deletionCommand,
     deleteDropDownClickHandler,
     gridList,
+    gridRowHandler,
     isRounded,
+    navigate,
     showDeleteGridModal,
     tableCellWrapperClassName
   } = useGridListing();
-  const navigate = useNavigate();
-
-  const gridRowHandler = (gridId) => {
-    navigate(`/grid-console/grid/${gridId}/overview`);
-  };
 
   return (
     gridList.length > 0 && (
@@ -132,7 +128,7 @@ const GridsListing = () => {
                         onKeyDown={cellClickhandler}
                         tabIndex={0}
                       >
-                        <p className="font-normal text-base-900">{gridName}</p>
+                        <p className="text-base-900 font-normal">{gridName}</p>
                         <p className="text-base-500">{gridIdentfier}</p>
                       </div>
                     </TableCell>
@@ -159,7 +155,7 @@ const GridsListing = () => {
                         onClick={cellClickhandler}
                         onKeyDown={cellClickhandler}
                         tabIndex={0}
-                        className="items-center text-base-900"
+                        className="text-base-900 items-center"
                       >
                         {gridData.stats.runningTests}
                       </div>
