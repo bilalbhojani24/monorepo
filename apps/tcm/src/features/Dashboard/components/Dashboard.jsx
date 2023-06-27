@@ -264,8 +264,8 @@ const Dashboard = () => {
               headerInfoTooltipProps={{
                 content: (
                   <div className="text-base-300 w-60 px-4 text-sm">
-                    Tests marked as Automation Status: Automation are marked as
-                    automated test cases.
+                    Automated Test Cases card shows the sum of Test Cases with
+                    Automation Status set to &apos;Automated&apos;.
                   </div>
                 ),
                 theme: 'dark',
@@ -290,6 +290,14 @@ const Dashboard = () => {
                 )
               }
               headerInfoTooltipProps={{
+                content: (
+                  <p className="text-base-300 w-60 px-4 text-sm">
+                    Manual Test Cases card shows the sum of Test Cases with
+                    Automation Status set to &apos;Not Automated&apos;,
+                    &apos;Automation Not Required&apos;, &apos;Cannot be
+                    Automated&apos; or &apos;Obsolete&apos;.
+                  </p>
+                ),
                 theme: 'dark',
                 placementAlign: 'center',
                 placementSide: 'bottom',
