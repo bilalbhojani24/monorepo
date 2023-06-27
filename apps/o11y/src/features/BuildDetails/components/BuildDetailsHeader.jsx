@@ -163,7 +163,7 @@ function BuildDetailsHeader({
     >
       <div className="flex justify-between">
         <h1 className="w-full text-2xl font-bold leading-7">
-          <span> {isAutoDetectedName ? originalName : name} </span>
+          {isAutoDetectedName ? originalName : name}{' '}
           <div className="inline-block">
             {!!buildNumber && `#${buildNumber}`}
             {isAutoDetectedName && (
