@@ -451,7 +451,6 @@ const useSetup = () => {
   return {
     CODE_SNIPPETS_FOR_SCRATCH,
     DEFAULT_CLOUD_PROVIDER,
-    GRID_MANAGER_NAMES,
     SCRATCH_RADIO_GROUP_OPTIONS,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,

@@ -26,6 +26,7 @@ import {
   AGNoSetupInteracted,
   AGNoSetupStepsExecuted
 } from 'constants/event-names';
+import { GRID_MANAGER_NAMES } from 'constants/index';
 import {
   EVENT_LOGS_STATUS,
   ONBOARDING_TYPES,
@@ -38,13 +39,13 @@ import { logHSTEvent } from 'utils/logger';
 
 import { LIST_FEED_PROPS } from '../constants';
 
+import CodeSnippetForExistingSetup from './CodeSnippetForExistingSetup';
 import SetupStatus from './SetupStatus';
 import useSetup from './useSetup';
 
 const Setup = () => {
   const {
     CODE_SNIPPETS_FOR_SCRATCH,
-    GRID_MANAGER_NAMES,
     SCRATCH_RADIO_GROUP_OPTIONS,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
@@ -105,31 +106,6 @@ const Setup = () => {
         }
       ]}
     />
-  );
-
-  const CodeSnippetForExistingSetup = (
-    <div className="mt-4">
-      <CodeSnippet
-        code={
-          codeSnippetsForExistingSetup?.[
-            activeGridManagerCodeSnippet.name.toLowerCase()
-          ]
-        }
-        copyCallback={() =>
-          copyCallbackFnForExistingSetup(activeGridManagerCodeSnippet.name)
-        }
-        language={
-          activeGridManagerCodeSnippet.name.toLowerCase() ===
-          GRID_MANAGER_NAMES.cli
-            ? 'node'
-            : activeGridManagerCodeSnippet.name.toLowerCase()
-        }
-        singleLine={false}
-        showLineNumbers={false}
-        view="neutral"
-        toolbar={TabsForCodeSnippet}
-      />
-    </div>
   );
 
   const DescriptionNodeStep1 = (
@@ -440,7 +416,14 @@ const Setup = () => {
                   Execute the below commands to initialise grid creation.
                 </p>
 
-                {CodeSnippetForExistingSetup}
+                <CodeSnippetForExistingSetup
+                  activeGridManagerCodeSnippet={activeGridManagerCodeSnippet}
+                  codeSnippetsForExistingSetup={codeSnippetsForExistingSetup}
+                  copyCallbackFnForExistingSetup={
+                    copyCallbackFnForExistingSetup
+                  }
+                  TabsForCodeSnippet={TabsForCodeSnippet}
+                />
               </>
             )}
         </div>
