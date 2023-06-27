@@ -12,8 +12,8 @@ import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
-import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
+import { EVENT_LOGS_STATUS } from 'constants/setup';
 import {
   getInstanceTypes,
   getRegions,

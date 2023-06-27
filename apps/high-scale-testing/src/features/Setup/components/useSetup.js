@@ -28,81 +28,26 @@ import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
-import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
+import {
+  CODE_SNIPPETS_SCRATCH,
+  EVENT_LOGS_STATUS,
+  HEADER_TEXTS_OBJECT,
+  ONBOARDING_TYPES,
+  STEP_1_RADIO_GROUP_OPTIONS
+} from 'constants/setup';
 import { SETUP_GUIDE } from 'constants/strings';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
+
+import { DEFAULT_CLOUD_PROVIDER, SUB_TEXTS_OBJECT } from '../constants';
 
 const useSetup = () => {
   // All Store variables:
   const userDetails = useSelector(getUserDetails);
 
   // All Constants:
-  const CODE_SNIPPETS_SCRATCH = {
-    'create-grid': {
-      a: {
-        code: 'npm install browserstack-node-sdk',
-        language: 'npm',
-        text: 'Download CLI.'
-      },
-      b: {
-        code: `browserstack-cli ats init --bstack-username ${userDetails.username} --bstack-accesskey ${userDetails.accessKey}`,
-        language: 'node',
-        text: 'Setup CLI with BrowserStack credentials.'
-      },
-      c: {
-        code: 'browserstack-cli ats create grid',
-        language: 'node',
-        text: 'Execute grid creation command.'
-      }
-    }
-  };
-
-  const HEADER_TEXTS_OBJECT = {
-    intro: `Hey ${userDetails.fullname}, Welcome to Automate TurboScale`,
-    scratch: 'Create Automation Grid',
-    existing: 'Create Automation Grid'
-  };
-
-  const LIST_FEED_PROPS = {
-    feedIconColor: 'grey',
-    feedIconContainerSize: 'sm',
-    feedIconSize: 'sm',
-    feedIconVariant: 'light'
-  };
-
-  const ONBOARDING_TYPES = {
-    scratch: 'scratch',
-    existing: 'existing'
-  };
-
-  const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
-
-  const SHOW_LINE_NUMBERS = false;
-  const SHOW_SINGLE_LINE = true;
-  const SUB_TEXTS_OBJECT = {
-    intro:
-      'Create and manage your own Automation Grid that supports frameworks like Selenium, Playwright, and Cypress to support browser testing at scale',
-    scratch: 'Quickly create a grid in below 4 steps.',
-    existing: ''
-  };
-  const STEP_1_RADIO_GROUP_OPTIONS = [
-    {
-      description:
-        'Create Automation Grid from scratch. Choose this option to create a new grid with a new Kubernetes Cluster.',
-      disabled: false,
-      id: 'radio-1',
-      label: "No, I don't have a setup."
-    },
-    {
-      description:
-        'Create Automation Grid in the existing setup. Choose this option to create a grid in your existing Kubernetes Cluster.',
-      disabled: false,
-      id: 'radio-2',
-      label: 'Yes, I have a setup.'
-    }
-  ];
+  const CODE_SNIPPETS_FOR_SCRATCH = CODE_SNIPPETS_SCRATCH(userDetails);
 
   // All State variables:
   const [allAvailableRegionsByProvider, setAllAvailableRegionsByProvider] =
@@ -120,7 +65,9 @@ const useSetup = () => {
   const [eventLogsStatus, setEventLogsStatus] = useState(
     EVENT_LOGS_STATUS.NOT_STARTED
   );
-  const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
+  const [headerText, setHeaderText] = useState(
+    HEADER_TEXTS_OBJECT(userDetails).intro
+  );
   const [isSetupComplete, setIsSetupComplete] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
   const [onboardingType, setOnboardingType] = useState(
@@ -138,6 +85,7 @@ const useSetup = () => {
   const [showEventLogsModal, setShowEventLogsModal] = useState(true);
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
   const [showSetupStatusModal, setShowSetupStatusModal] = useState(false);
+  const [showTrialGridBanner, setShowTrialGridBanner] = useState(false);
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
@@ -317,13 +265,15 @@ const useSetup = () => {
   // All useEffects:
   useEffect(() => {
     if (onboardingStep > 0) {
-      setHeaderText(HEADER_TEXTS_OBJECT[onboardingType]);
+      setHeaderText(HEADER_TEXTS_OBJECT(userDetails)[onboardingType]);
       setSubHeaderText(SUB_TEXTS_OBJECT[onboardingType]);
       setPollForEventLogs(true);
+      setShowTrialGridBanner(true);
     } else {
-      setHeaderText(HEADER_TEXTS_OBJECT.intro);
+      setHeaderText(HEADER_TEXTS_OBJECT(userDetails).intro);
       setSubHeaderText(SUB_TEXTS_OBJECT.intro);
       setPollForEventLogs(false);
+      setShowTrialGridBanner(false);
     }
 
     if (onboardingStep > 0) {
@@ -499,15 +449,10 @@ const useSetup = () => {
   });
 
   return {
-    CODE_SNIPPETS_SCRATCH,
+    CODE_SNIPPETS_FOR_SCRATCH,
     DEFAULT_CLOUD_PROVIDER,
     GRID_MANAGER_NAMES,
-    LIST_FEED_PROPS,
-    ONBOARDING_TYPES,
     SCRATCH_RADIO_GROUP_OPTIONS,
-    SHOW_LINE_NUMBERS,
-    SHOW_SINGLE_LINE,
-    STEP_1_RADIO_GROUP_OPTIONS,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
@@ -544,6 +489,7 @@ const useSetup = () => {
     showEventLogsModal,
     showGridHeartBeats,
     showSetupStatusModal,
+    showTrialGridBanner,
     subHeaderText,
     totalSteps,
     viewAllBuildsClickHandler,

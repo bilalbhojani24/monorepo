@@ -32,7 +32,7 @@ import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
-import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import { EVENT_LOGS_STATUS } from 'constants/setup';
 import EventLogs from 'features/Setup/components/EventLogs';
 import SetupStatus from 'features/Setup/components/SetupStatus';
 

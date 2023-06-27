@@ -20,7 +20,7 @@ const LayoutWOSidebar = () => {
   return (
     <>
       <HSTHeader />
-      <main className="flex bg-base-50">
+      <main className="bg-base-50 flex flex-col">
         <Outlet />
       </main>
     </>
