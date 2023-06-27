@@ -46,7 +46,7 @@ const useGridListing = () => {
   };
 
   const gridRowHandler = (gridId) => {
-    const gridData = gridList.filter((item) => item.id === gridId);
+    const gridData = gridList.filter((item) => item.id === gridId)[0];
     dispatch(setSelectedGridData(gridData));
 
     navigate(`/grid-console/grid/${gridId}/overview`);

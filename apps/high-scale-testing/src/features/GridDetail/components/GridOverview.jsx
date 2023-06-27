@@ -8,26 +8,27 @@ import { useGridOverview } from '../../GridConsole/components/useGridOverview';
 
 const GridOverview = () => {
   const {
-    cluster,
     containerClassName,
     copyBtnCbFn,
     fontColor900ClassName,
-    frameworks,
     selectedGridData,
-    gridVersion,
     hasBrowsersUsed,
-    identifier,
-    name,
-    relativeTime,
-    stats,
-    status
+    relativeTime
   } = useGridOverview();
 
-  if (!Object.keys(selectedGridData).length) {
+  let cluster;
+  let frameworks;
+  let gridVersion;
+  let identifier;
+  let name;
+  let stats;
+  let status;
+
+  if (selectedGridData && !Object.keys(selectedGridData).length) {
     return <></>;
   }
 
-  const gridDetailData = [
+  let gridDetailData = [
     {
       title: 'Grid Name',
       value: name
@@ -91,6 +92,76 @@ const GridOverview = () => {
       value: gridVersion
     }
   ];
+
+  if (selectedGridData) {
+    ({ cluster, frameworks, gridVersion, identifier, name, stats, status } =
+      selectedGridData);
+
+    gridDetailData = [
+      {
+        title: 'Grid Name',
+        value: name
+      },
+      {
+        title: 'Status',
+        value: (
+          <Badge
+            disabled
+            hasDot={false}
+            hasRemoveButton={false}
+            isRounded
+            text={status}
+            modifier="success"
+          />
+        )
+      },
+      {
+        title: 'Grid ID',
+        value: identifier
+      },
+      {
+        title: 'Connected',
+        value: relativeTime
+      },
+      {
+        title: 'Created by',
+        value: selectedGridData?.createdBy?.fullName
+      },
+      {
+        title: 'Running Tests',
+        value: stats?.runningTests || '--/--'
+      },
+      {
+        title: 'Cluster ID',
+        value: cluster?.identifier
+      },
+      {
+        title: 'Browsers Used',
+        value: (
+          <div className="flex gap-1">
+            {hasBrowsersUsed &&
+              stats?.browsersUsed.map((browserUsed) => {
+                const browser = browserUsed;
+                return browserIcons[browser];
+              })}
+            {!hasBrowsersUsed && '-'}
+          </div>
+        )
+      },
+      {
+        title: 'Cluster Name',
+        value: cluster?.name
+      },
+      {
+        title: 'Queued Tests',
+        value: stats?.queuedTests || '--/--'
+      },
+      {
+        title: 'Grid version',
+        value: gridVersion
+      }
+    ];
+  }
 
   return (
     <>
@@ -178,7 +249,69 @@ const GridOverview = () => {
             <p className="text-base-900 text-lg font-medium leading-6">
               User Details
             </p>
-            <div className="bg-white pt-4">Lorem impsum</div>
+            <div className="bg-white pt-4">
+              <div
+                className="border-base-200 flex flex-row items-center border-b py-3"
+                key="user-name"
+              >
+                <div className="flex flex-row items-center">
+                  {frameWorkIcons.Selenium}
+                  <div className="ml-2 w-52">
+                    <p className="text-base-500 text-base font-normal">
+                      User Name
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-row items-center justify-start">
+                  <>
+                    <p className="text-base-900 mr-4 text-base font-normal">
+                      Enter USERNAME HERE
+                    </p>
+
+                    <CopyButton
+                      cb={() => copyBtnCbFn('Enter USERNAME HERE')}
+                      copyValue="Enter USERNAME HERE"
+                      textColor=""
+                      wrapperClassName="text-xl"
+                    >
+                      <MdContentCopy className="text-base-500" />
+                    </CopyButton>
+                  </>
+                </div>
+              </div>
+
+              <div
+                className="border-base-200 flex flex-row items-center border-b py-3"
+                key="user-name"
+              >
+                <div className="flex flex-row items-center">
+                  {frameWorkIcons.Selenium}
+                  <div className="ml-2 w-52">
+                    <p className="text-base-500 text-base font-normal">
+                      Access Key
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-row items-center justify-start">
+                  <>
+                    <p className="text-base-900 mr-4 text-base font-normal">
+                      ENTER ACCESS KEY HERE
+                    </p>
+
+                    <CopyButton
+                      cb={() => copyBtnCbFn('Enter USERNAME HERE')}
+                      copyValue="Enter USERNAME HERE"
+                      textColor=""
+                      wrapperClassName="text-xl"
+                    >
+                      <MdContentCopy className="text-base-500" />
+                    </CopyButton>
+                  </>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

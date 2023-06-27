@@ -12,11 +12,11 @@ const { actions, reducer } = createSlice({
   },
   reducers: {
     setSelectedClusterData: (state, { payload }) => {
-      const clusterData = payload[0];
+      const clusterData = payload;
       state.selectedCluserData = clusterData;
     },
     setSelectedGridData: (state, { payload }) => {
-      const gridData = payload[0];
+      const gridData = payload;
       state.selectedGridData = gridData;
     },
     setClusterData: (state, { payload }) => {
