@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { twClassNames } from '@browserstack/utils';
 import { TMAlerts, TMCheckBox } from 'common/bifrostProxy';
 import { bool, number, shape, string } from 'prop-types';
 
@@ -45,39 +46,50 @@ const ConfigureDataList = (props) => {
   };
 
   return (
-    <>
-      {showError && (
-        <div className="my-4">
-          <TMAlerts
-            modifier="error"
-            title="Select at least 1 project to proceed."
-          />
-        </div>
-      )}
-      <TMCheckBox
-        position="left"
-        data={{
-          description: `All Projects (${projects.length})`,
-          value: 'allProjects'
-        }}
-        onChange={handleCheckBoxChange('allProjects')}
-        checked={allChecked}
-        indeterminate={someChecked && !allChecked}
-        description="block"
-      />
-      {projects.map((project) => (
+    <div
+      className="overflow-scroll"
+      style={{ maxHeight: 'calc(100vh - 368px)' }} // heading info + all paddings + section heading + bottom padding
+    >
+      <div className="px-6">
+        {showError && (
+          <div className="my-4">
+            <TMAlerts
+              modifier="error"
+              title="Select at least 1 project to proceed."
+              linkText={null}
+            />
+          </div>
+        )}
         <TMCheckBox
           position="left"
           data={{
-            label: project.name,
-            value: project.name,
-            description: project.description
+            description: `All Projects (${projects.length})`,
+            value: 'allProjects'
           }}
-          onChange={handleCheckBoxChange(project.name)}
-          checked={project.checked}
+          onChange={handleCheckBoxChange('allProjects')}
+          checked={allChecked}
+          indeterminate={someChecked && !allChecked}
+          description="block"
+          wrapperClassName="border-base-200 border-t-1"
         />
-      ))}
-    </>
+        {projects.map((project, idx) => (
+          <TMCheckBox
+            position="left"
+            data={{
+              label: project.name,
+              value: project.name,
+              description: project.description
+            }}
+            onChange={handleCheckBoxChange(project.name)}
+            checked={project.checked}
+            wrapperClassName={twClassNames('border-base-200', {
+              'border-b-0 border-t-1': idx === projects.length - 1,
+              'border-t-1': idx !== projects.length - 1
+            })}
+          />
+        ))}
+      </div>
+    </div>
   );
 };
 ConfigureDataList.propTypes = {

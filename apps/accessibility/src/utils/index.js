@@ -1,4 +1,4 @@
-import { ENVS } from 'constants';
+import { ENVS, PROD_API_URL } from 'constants';
 
 export const getConfigByKey = (key) => {
   const envVars = import.meta.env;
@@ -52,7 +52,7 @@ export const getCurrentEnv = () => {
   if (href.includes('browserstack.com')) {
     return ENVS.PRODUCTION;
   }
-  return ENVS.DEVELOPMENT;
+  return ENVS.LOCAL;
 };
 
 export const getEnvUrl = () => {
@@ -70,20 +70,20 @@ export const getEnvUrl = () => {
 
 export const getBrowserStackEnvUrl = () => {
   const env = getCurrentEnv();
-  let baseURL = 'https://www.browserstack.com/accessibility/api';
+  let baseURL = PROD_API_URL;
   if (env === ENVS.LOCAL) {
     baseURL = 'https://devaccessibility.bsstag.com/accessibility/api';
   } else if (env === ENVS.STAGING) {
     baseURL = 'https://devaccessibility.bsstag.com/accessibility/api';
   } else if (env === ENVS.PRODUCTION) {
-    baseURL = 'https://www.browserstack.com/accessibility/api';
+    baseURL = PROD_API_URL;
   }
   return baseURL;
 };
 
 export const getBrowserStackBase = () => {
   const env = getCurrentEnv();
-  let baseURL = 'https://www.browserstack.com';
+  let baseURL = PROD_API_URL;
   if (env === ENVS.LOCAL) {
     baseURL = 'https://local.bsstag.com';
   } else if (env === ENVS.STAGING) {

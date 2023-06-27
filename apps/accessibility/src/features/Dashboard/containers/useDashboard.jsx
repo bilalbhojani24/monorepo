@@ -3,26 +3,86 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   Badge,
+  MdOpenInNew,
   MdOutlineDynamicFeed,
   MdOutlineHome,
   MdOutlineMotionPhotosAuto,
   MdOutlineRecordVoiceOver,
+  MdStar,
   MdTextSnippet
 } from '@browserstack/bifrost';
-import { setStorage } from '@browserstack/utils';
-import { CHROME_EXTENSION_URL, events } from 'constants';
+import {
+  initErrorLogger,
+  setErrorLoggerUserContext,
+  setStorage
+} from '@browserstack/utils';
+import {
+  CHROME_EXTENSION_URL,
+  EFT_PLAN,
+  events,
+  PAID_PLAN,
+  sentryConfig,
+  TRIAL_EXPIRED,
+  TRIAL_FAILED,
+  TRIAL_IN_PROGRESS,
+  TRIAL_NOT_STARTED
+} from 'constants';
+import { stagingEnvs } from 'constants/config';
+import { addDays } from 'date-fns';
+import {
+  getIsFreeUser,
+  getShowBanner,
+  getTrialEndDate,
+  getTrialState,
+  getUser
+} from 'features/Dashboard/slices/selectors';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
-import { defaultPath, getBrowserStackBase } from 'utils';
-import { getTimeDiffInDays } from 'utils/helper';
+import { defaultPath, getBrowserStackBase, getCurrentEnv } from 'utils';
+import {
+  buyAcceesibilityPlan,
+  countRemainingDays,
+  getTimeDiffInDays
+} from 'utils/helper';
 import { logEvent, startLogging } from 'utils/logEvent';
+
+import { setModalName, setModalShow } from '../slices/appSlice';
+
+const envConfig = stagingEnvs[getCurrentEnv()];
 
 export default function useDashboard() {
   const mainRef = useRef(null);
   const dispatch = useDispatch();
+  const user = useSelector(getUser);
+  const showBanner = useSelector(getShowBanner);
   const isShowingBanner = useSelector(getIsShowingBanner);
+  const isFreeUser = useSelector(getIsFreeUser);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
+  const trialEndDate = useSelector(getTrialEndDate);
+  const trialState = useSelector(getTrialState);
+  const remainingDays = countRemainingDays(new Date(), new Date(trialEndDate));
+  const {
+    plan_type: planType,
+    show_expiry_sidebar_component: showTile,
+    rft_eligible: isEligible,
+    eft_type: eftType
+  } = useSelector(getUser);
+
+  const showTrialTile = () => {
+    const show =
+      showTile &&
+      trialState !== TRIAL_NOT_STARTED &&
+      trialState !== TRIAL_IN_PROGRESS &&
+      countRemainingDays(new Date(), addDays(new Date(trialEndDate), 60)) > 0;
+
+    if (show) {
+      logEvent('OnRTTrackingTile');
+    }
+
+    return show;
+  };
+
   const shouldShowNewBadge = () => {
     const lastTimeSaved = new Date(
       parseInt(localStorage.getItem('newSiteScannerBadge'), 10)
@@ -33,6 +93,8 @@ export default function useDashboard() {
     }
     return true;
   };
+  const isBrowserStackUser = user.group_id === 2;
+
   const primaryNav = [
     {
       id: 'report-listing',
@@ -46,7 +108,11 @@ export default function useDashboard() {
       label: 'Screen reader',
       activeIcon: MdOutlineRecordVoiceOver,
       inActiveIcon: MdOutlineRecordVoiceOver,
-      path: '/screen-reader'
+      path: '/screen-reader',
+      badge:
+        planType !== PAID_PLAN ? (
+          <Badge text="Premium" modifier="success" disabled />
+        ) : null
     },
     {
       id: 'site-scanner',
@@ -55,34 +121,76 @@ export default function useDashboard() {
       inActiveIcon: MdOutlineDynamicFeed,
       path: '/site-scanner',
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
-    },
-    {
+    }
+  ];
+
+  if (isBrowserStackUser) {
+    primaryNav.push({
       id: 'automated-tests',
       label: 'Automated tests',
       activeIcon: MdOutlineMotionPhotosAuto,
       inActiveIcon: MdOutlineMotionPhotosAuto,
       path: '/automated-tests/projects',
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
-    }
-  ];
+    });
+  }
 
   const secondaryNav = [
+    {
+      id: 'trial',
+      label: 'Get 14-day free trial',
+      activeIcon: MdStar,
+      inActiveIcon: MdStar,
+      path: '/',
+      link: '',
+      show:
+        [TRIAL_NOT_STARTED, TRIAL_FAILED].includes(trialState) &&
+        !showBanner &&
+        planType !== PAID_PLAN &&
+        eftType !== EFT_PLAN &&
+        isEligible
+    },
+    {
+      id: 'extension',
+      label: 'Download extension',
+      activeIcon: MdOpenInNew,
+      inActiveIcon: MdOpenInNew,
+      path: '/',
+      link: CHROME_EXTENSION_URL,
+      show: true
+    },
     {
       id: 'doc',
       label: 'View documentation',
       activeIcon: MdTextSnippet,
       inActiveIcon: MdTextSnippet,
       path: '/reports',
-      link: 'https://www.browserstack.com/docs/accessibility/overview/introduction'
+      link: 'https://www.browserstack.com/docs/accessibility/overview/introduction',
+      show: true
     }
   ];
 
   const handleNavigationClick = (nav) => {
-    if (nav.id === 'doc') {
+    if (nav.id === 'trial') {
+      dispatch(setModalName('accessibility'));
+      dispatch(setModalShow(true));
+      logEvent('OnRTFeaturesUI', {
+        platform: 'Dashboard',
+        type: 'General',
+        state: trialState === TRIAL_EXPIRED ? 'RT expired' : 'RT pending'
+      });
+      return;
+    }
+    if (nav.id === 'doc' || nav.id === 'extension') {
       window.open(nav.link, '_target');
     }
     navigate(nav.path);
     setCurrentPath(nav.id);
+    if (nav.id === 'extension') {
+      logEvent('ClickedOnDownloadExtensionCTA', {
+        source: 'Left navbar'
+      });
+    }
   };
 
   const onCloseClick = () => {
@@ -109,6 +217,24 @@ export default function useDashboard() {
       `${getBrowserStackBase()}/contact?&ref=accessibility-dashboard-demo-lead`,
       '_blank'
     );
+    if (showTrialTile()) {
+      const data = {
+        type: remainingDays > 0 ? 'Days left' : 'No days left',
+        action: 'Get a demo'
+      };
+      if (remainingDays > 0) data.daysLeft = remainingDays;
+      logEvent('InteractedWithRTTrackingTile', data);
+    }
+  };
+
+  const onBuyPlanClick = () => {
+    buyAcceesibilityPlan();
+    const data = {
+      type: remainingDays > 0 ? 'Days left' : 'No days left',
+      action: 'Buy a plan'
+    };
+    if (remainingDays > 0) data.daysLeft = remainingDays;
+    logEvent('InteractedWithRTTrackingTile', data);
   };
 
   useEffect(() => {
@@ -118,19 +244,38 @@ export default function useDashboard() {
     try {
       startLogging();
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.log('EDS already initialize...');
     }
   }, []);
 
+  // init sentry
+  useEffect(() => {
+    const { enableSentry } = envConfig;
+    if (enableSentry && !window.isSentryInitialized) {
+      window.isSentryInitialized = true;
+      initErrorLogger(sentryConfig);
+    }
+    if (user.user_id && window.isSentryInitialized) {
+      setErrorLoggerUserContext(user.user_id);
+    }
+  }, [user.user_id]);
+
   return {
     mainRef,
     isShowingBanner,
+    isFreeUser,
     primaryNav,
     currentPath,
     secondaryNav,
     onGetADemoClick,
     handleNavigationClick,
     onDownloadExtensionClick,
-    onCloseClick
+    onCloseClick,
+    onBuyPlanClick,
+    showBanner,
+    trialEndDate,
+    showTrialTile,
+    remainingDays
   };
 }

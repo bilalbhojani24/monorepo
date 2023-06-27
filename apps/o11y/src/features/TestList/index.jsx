@@ -6,44 +6,42 @@ import React, {
   useState
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Virtuoso } from 'react-virtuoso';
-import { MdSearchOff, MdUnfoldLess, MdUnfoldMore } from '@browserstack/bifrost';
-import { O11yButton, O11yEmptyState } from 'common/bifrostProxy';
+import { MdSearchOff } from '@browserstack/bifrost';
+import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { API_STATUSES, TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
+import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import {
+  clearAllAppliedFilters,
+  setIsDirtyByCategory
+} from 'features/FilterSkeleton/slices/filterSlice';
+import {
+  getAllAppliedFilters,
+  getIsDirtyByCategory,
+  getIsFiltersLoading
+} from 'features/FilterSkeleton/slices/selectors';
+import { getSearchStringFromFilters } from 'features/FilterSkeleton/utils';
 import TestDetails from 'features/TestDetails';
 import {
-  EMPTY_APPLIED_FILTERS,
-  EMPTY_SELECTED_FILTERS,
-  EMPTY_STATIC_FILTERS,
   EMPTY_TESTLIST_DATA_STATE,
   TESTLIST_TYPES
 } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
-import {
-  getAppliedFilters,
-  getTestList
-} from 'features/TestList/slices/selectors';
+import { getTestList } from 'features/TestList/slices/selectors';
 import {
   getTestListData,
-  getTestlistFiltersData,
-  setAppliedFilters,
-  setSelectedFilters,
-  setStaticFilters,
   setTestList
 } from 'features/TestList/slices/testListSlice';
+import TestListFilters from 'features/TestListFilters';
 import { getActiveProject } from 'globalSlice/selectors';
-import useIsUnmounted from 'hooks/useIsMounted';
-import isEqual from 'lodash/isEqual';
+import useIsMounted from 'hooks/useIsMounted';
 import PropTypes from 'prop-types';
 import { logOllyEvent } from 'utils/common';
 
-import FilterPills from './components/FilterPills';
 import RenderRootItem from './components/RenderRootItem';
-import TestListFilters from './components/TestListFilters';
-import TestListSearch from './components/TestListSearch';
 
 const TestList = ({
   buildUUID,
@@ -55,14 +53,18 @@ const TestList = ({
   updateScrollIndexMapping
 }) => {
   const dispatch = useDispatch();
-  const { isMounted } = useIsUnmounted();
-  const [, setSearchParams] = useSearchParams();
+  const { isMounted } = useIsMounted();
   const [expandAll, setExpandAll] = useState(true);
   const [closedAccordionIds, setClosedAccordionIds] = useState({});
   const buildMeta = useSelector(getBuildMeta);
   const activeProject = useSelector(getActiveProject);
   const virtuosoRef = useRef(null);
   const navigate = useNavigate();
+  const appliedFilters = useSelector(getAllAppliedFilters);
+  const isFiltersLoading = useSelector(getIsFiltersLoading);
+  const isDirty = useSelector(
+    getIsDirtyByCategory(FILTER_CATEGORIES.TEST_LISTING)
+  );
 
   const OllyTestListingEvent = useCallback(
     (eventName, data = {}) => {
@@ -94,19 +96,29 @@ const TestList = ({
     [OllyTestListingEvent]
   );
 
-  const invertExpandAll = () => {
+  const invertExpandAll = useCallback(() => {
     if (expandAll) {
       o11yTestListingInteraction('collapse_all');
     } else {
       o11yTestListingInteraction('expand_all');
     }
     setExpandAll((prevValue) => !prevValue);
-  };
+  }, [expandAll, o11yTestListingInteraction]);
+
   const { data: testListData, apiState: testListDataApiState } =
     useSelector(getTestList);
-  const appliedFilters = useSelector(getAppliedFilters);
   const loadFreshData = useCallback(
-    () => dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} })),
+    () =>
+      dispatch(getTestListData({ buildId: buildUUID, pagingParams: {} }))
+        .unwrap()
+        .finally(() => {
+          dispatch(
+            setIsDirtyByCategory({
+              category: FILTER_CATEGORIES.TEST_LISTING,
+              status: false
+            })
+          );
+        }),
     [buildUUID, dispatch]
   );
 
@@ -115,26 +127,24 @@ const TestList = ({
       dispatch(
         getTestListData({
           buildId: buildUUID,
-          pagingParams: testListData.pagingParams
+          pagingParams: testListData.pagingParams,
+          loadNextPage: true
         })
       );
     }
   }, [buildUUID, dispatch, testListData]);
 
+  useEffect(() => {
+    navigate(
+      {
+        search: getSearchStringFromFilters(appliedFilters).toString()
+      },
+      { replace: true }
+    );
+  }, [appliedFilters, navigate]);
+
   const resetReduxStore = useCallback(
     (itemsToReset) => {
-      if (itemsToReset.includes('staticFilters')) {
-        setStaticFilters({
-          data: EMPTY_STATIC_FILTERS,
-          apiState: { status: API_STATUSES.idle, details: {} }
-        });
-      }
-      if (itemsToReset.includes('selected')) {
-        dispatch(setSelectedFilters(EMPTY_SELECTED_FILTERS));
-      }
-      if (itemsToReset.includes('applied')) {
-        dispatch(setAppliedFilters(EMPTY_APPLIED_FILTERS));
-      }
       if (itemsToReset.includes('testList')) {
         dispatch(
           setTestList({
@@ -148,9 +158,7 @@ const TestList = ({
   );
 
   const viewAllTests = () => {
-    navigate({
-      search: 'tab=tests'
-    });
+    dispatch(clearAllAppliedFilters());
     resetReduxStore(['selected', 'applied', 'testList']);
   };
 
@@ -164,7 +172,8 @@ const TestList = ({
       setClosedAccordionIds,
       o11yTestListingInteraction,
       scrollIndexMapping,
-      updateScrollIndexMapping
+      updateScrollIndexMapping,
+      invertExpandAll
     }),
     [
       expandAll,
@@ -175,7 +184,8 @@ const TestList = ({
       setClosedAccordionIds,
       o11yTestListingInteraction,
       scrollIndexMapping,
-      updateScrollIndexMapping
+      updateScrollIndexMapping,
+      invertExpandAll
     ]
   );
 
@@ -190,78 +200,17 @@ const TestList = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted]);
 
-  const isFiltersApplied = useMemo(() => {
-    const sanitizedAppliedFilters = { ...appliedFilters };
-    delete sanitizedAppliedFilters?.tab;
-    delete sanitizedAppliedFilters?.details;
-    return !isEqual(sanitizedAppliedFilters, EMPTY_APPLIED_FILTERS);
-  }, [appliedFilters]);
+  const isFiltersApplied = useMemo(
+    () => appliedFilters.length > 0,
+    [appliedFilters]
+  );
 
   useEffect(() => {
-    if (buildUUID) {
-      if (!testListData?.hierarchy?.length) {
-        const searchParams = new URLSearchParams(window?.location?.search);
-        const transformedAppliedFilters = {
-          tab: 'tests'
-        };
-        Array.from(searchParams).forEach(([key, value]) => {
-          if (key === 'search' && value.length) {
-            transformedAppliedFilters[key] = value;
-          } else if (key === 'isMuted' && value === 'true') {
-            transformedAppliedFilters[key] = true;
-          } else if (Object.keys(EMPTY_STATIC_FILTERS).includes(key)) {
-            transformedAppliedFilters[key] = value.split(',');
-          } else if (
-            (key === 'issueTypeGroup' || key === 'run') &&
-            value.length
-          ) {
-            transformedAppliedFilters[key] = value;
-          }
-        });
-        dispatch(setAppliedFilters(transformedAppliedFilters));
-      }
-      // Onload we don't make a call to load data instead we update applied
-      // filters and its in use effect dependency which trigger loading of fresh data
-      dispatch(getTestlistFiltersData({ buildId: buildUUID }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, buildUUID, resetReduxStore]);
-
-  useEffect(() => {
-    // This works only when appliedFilters changes and not on mount but after mounted
-    if (isMounted) {
-      const searchParams = new URLSearchParams(window.location.search);
-      const transformedAppliedFilters = {
-        tab: 'tests'
-      };
-      if (searchParams.get('details')) {
-        transformedAppliedFilters.details = searchParams.get('details');
-      }
-      Object.keys(appliedFilters).forEach((key) => {
-        if (Array.isArray(appliedFilters[key]) && appliedFilters[key]?.length) {
-          transformedAppliedFilters[key] = appliedFilters[key]?.join(',');
-        } else if (key === 'isMuted' && appliedFilters[key] === true) {
-          transformedAppliedFilters[key] = true;
-        } else if (key === 'search' && appliedFilters[key].length) {
-          transformedAppliedFilters[key] = appliedFilters[key];
-        } else if (
-          (key === 'issueTypeGroup' || key === 'run') &&
-          appliedFilters[key].length
-        ) {
-          transformedAppliedFilters[key] = appliedFilters[key];
-        }
-      });
-      setSearchParams(transformedAppliedFilters);
-      dispatch(
-        setSelectedFilters({
-          ...appliedFilters
-        })
-      );
+    if (!isFiltersLoading && isDirty) {
       resetReduxStore(['testList']);
       loadFreshData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [appliedFilters]);
+  }, [isDirty, isFiltersLoading, loadFreshData, resetReduxStore]);
 
   useEffect(() => {
     setClosedAccordionIds((data) => {
@@ -283,58 +232,41 @@ const TestList = ({
   useEffect(() => {
     if (virtuosoRef.current) {
       setTimeout(() => {
-        virtuosoRef.current.scrollTo({
+        virtuosoRef.current?.scrollTo({
           top: testListScrollPos,
           behavior: 'smooth'
         });
       }, 100);
     }
-  }, [testListScrollPos]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
       <div className="flex h-full flex-col bg-white">
-        <div className="border-base-200 flex justify-between border-b bg-white px-6 py-4">
-          <div className="flex w-full">
-            <O11yButton
-              isIconOnlyButton
-              colors="white"
-              variant="minimal"
-              wrapperClassName="mr-2.5 p-0.5"
-              icon={
-                expandAll ? (
-                  <MdUnfoldLess className="h-5 w-5" />
-                ) : (
-                  <MdUnfoldMore className="h-5 w-5" />
-                )
-              }
-              onClick={invertExpandAll}
-            />
-            <TestListSearch
-              o11yTestListingInteraction={o11yTestListingInteraction}
-            />
-          </div>
-          <div className="flex items-center">
-            <TestListFilters />
-          </div>
-        </div>
-        <FilterPills viewAllTests={viewAllTests} />
-        {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
-          <TestListContext.Provider value={testListContextValues}>
+        <TestListContext.Provider value={testListContextValues}>
+          <TestListFilters buildUUID={buildUUID} />
+          {testListData?.hierarchy && testListData?.hierarchy?.length !== 0 && (
             <Virtuoso
               ref={virtuosoRef}
               style={{ zIndex: 0 }}
               data={testListData?.hierarchy}
               endReached={loadMoreData}
               overscan={20}
-              itemContent={(index, data) => <RenderRootItem data={data} />}
+              itemContent={(index, data) => (
+                <RenderRootItem
+                  data={data}
+                  isLast={index === testListData?.hierarchy?.length - 1}
+                />
+              )}
               onScroll={(e) => {
                 updateTestScrollPos(e.target.scrollTop);
               }}
             />
-          </TestListContext.Provider>
-        )}
-        {testListDataApiState.status === API_STATUSES.PENDING && (
+          )}
+        </TestListContext.Provider>
+        {(testListDataApiState.status === API_STATUSES.PENDING ||
+          isFiltersLoading) && (
           <O11yLoader loaderClass="self-center p-1 my-5" />
         )}
         {testListDataApiState.status === API_STATUSES.FULFILLED &&

@@ -5,8 +5,10 @@ import {
   Button,
   CodeSnippet,
   MdContentCopy,
-  MdInfoOutline,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Table,
   TableBody,
   TableCell,
@@ -20,9 +22,11 @@ import PropTypes from 'prop-types';
 const SetupStatus = ({
   closeSetupStatusModal,
   codeSnippets,
+  copySetupFailureCode,
   exploreAutomationClickHandler,
   eventLogsStatus,
   frameworkURLs,
+  handleDismissClick,
   isSetupComplete,
   viewAllBuildsClickHandler
 }) => {
@@ -35,69 +39,72 @@ const SetupStatus = ({
     ALERT_MODIFIER = 'error';
     HEADER_TEXT = 'Automation Grid Incomplete';
   } else if (eventLogsStatus === EVENT_LOGS_STATUS.FINISHED) {
-    ALERT_DESC = 'Congratulations your ‘high-scale-grid’ is created.';
+    ALERT_DESC = 'Successfully created ‘high-scale-grid’.';
     ALERT_MODIFIER = 'success';
     HEADER_TEXT = 'Automation Grid Complete';
   }
 
   return (
     <Modal size="3xl" show={isSetupComplete}>
-      <div className="mx-6 my-4">
-        {/* Header / Title Text */}
-        <p className="text-lg font-medium">{HEADER_TEXT}</p>
+      <ModalHeader
+        handleDismissClick={handleDismissClick}
+        heading={HEADER_TEXT}
+      />
 
-        {/* Main Body */}
-        <div className="border-base-300 mt-4 rounded-lg border">
-          <div className="border-base-300 border-y p-4">
+      <ModalBody className="overflow-auto">
+        <>
+          <div>
             <Alerts
-              accentBorder
               description={ALERT_DESC}
               linkText=""
               modifier={ALERT_MODIFIER}
             />
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FINISHED && (
-              <Table containerWrapperClass="rounded-lg shadow-none mt-4">
+              <div className="flex gap-2 pt-4 text-sm text-base-900">
+                <p>
+                  Copy the above framework URLs to seamlessly integrate your
+                  test suite with the grid.
+                </p>
+              </div>
+            )}
+
+            {eventLogsStatus === EVENT_LOGS_STATUS.FINISHED && (
+              <Table containerWrapperClass="rounded-lg mt-4">
                 <React.Fragment key=".0">
                   <TableHead>
                     <TableRow>
                       <TableCell
-                        variant="header"
-                        wrapperClassName="first:pr-3 last:pl-3 px-2"
+                        variant="body"
+                        wrapperClassName="text-xs font-medium px-6 py-3"
                       >
-                        Framework
+                        FRAMEWORK
                       </TableCell>
                       <TableCell
-                        variant="header"
-                        wrapperClassName="first:pr-3 last:pl-3 px-2"
+                        variant="body"
+                        wrapperClassName="text-xs font-medium px-6 py-3"
                       >
                         URL
                       </TableCell>
                       <TableCell
-                        variant="header"
-                        wrapperClassName="first:pr-3 last:pl-3 px-2"
+                        variant="body"
+                        wrapperClassName="text-xs font-medium px-6 py-3"
                       />
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    <TableRow onRowClick={() => {}}>
-                      <TableCell
-                        wrapperClassName="
-                    font-medium text-base-900
-                   first:pr-3 last:pl-3 px-2 py-2"
-                      >
+                    <TableRow>
+                      <TableCell wrapperClassName="text-sm text-base-900 font-normal px-6 py-4">
                         Selenium
                       </TableCell>
-                      <TableCell
-                        wrapperClassName="
-                    
-                   first:pr-3 last:pl-3 px-2 py-2"
-                      >
-                        {frameworkURLs.selenium}
+                      <TableCell wrapperClassName="text-sm text-base-900 font-normal px-6 py-4 text-ellipsis">
+                        <div className="max-w-md overflow-hidden text-ellipsis">
+                          {`${frameworkURLs.selenium}/wd/hub`}
+                        </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell wrapperClassName="w-5">
                         <CopyButton
-                          copyValue={frameworkURLs.selenium}
+                          copyValue={`${frameworkURLs.selenium}/wd/hub`}
                           textColor=""
                           wrapperClassName="text-xl"
                         >
@@ -105,19 +112,11 @@ const SetupStatus = ({
                         </CopyButton>
                       </TableCell>
                     </TableRow>
-                    <TableRow onRowClick={() => {}}>
-                      <TableCell
-                        wrapperClassName="
-                    font-medium text-base-900
-                   first:pr-3 last:pl-3 px-2 py-2"
-                      >
+                    <TableRow>
+                      <TableCell wrapperClassName="text-sm text-base-900 font-normal px-6 py-4">
                         Playwright
                       </TableCell>
-                      <TableCell
-                        wrapperClassName="
-                    
-                   first:pr-3 last:pl-3 px-2 py-2"
-                      >
+                      <TableCell wrapperClassName="text-sm text-base-900 font-normal px-6 py-4">
                         <Badge
                           disabled
                           isRounded={{
@@ -127,29 +126,12 @@ const SetupStatus = ({
                           text="Coming Soon"
                         />
                       </TableCell>
-                      <TableCell>
-                        <CopyButton
-                          copyValue={frameworkURLs.playwright}
-                          textColor=""
-                          wrapperClassName="text-xl"
-                        >
-                          <MdContentCopy />
-                        </CopyButton>
-                      </TableCell>
                     </TableRow>
-                    <TableRow onRowClick={() => {}}>
-                      <TableCell
-                        wrapperClassName="
-                    font-medium text-base-900
-                   first:pr-3 last:pl-3 px-2 py-2"
-                      >
+                    <TableRow>
+                      <TableCell wrapperClassName="text-sm text-base-900 ont-normal px-6 py-4">
                         Cypress
                       </TableCell>
-                      <TableCell
-                        wrapperClassName="
-                    
-                   first:pr-3 last:pl-3 px-2 py-2"
-                      >
+                      <TableCell wrapperClassName="text-sm text-base-900 font-normal px-6 py-4">
                         <Badge
                           disabled
                           isRounded={{
@@ -166,70 +148,59 @@ const SetupStatus = ({
             )}
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FAILED && (
-              <div className="text-base-900 mt-4">
-                <p className=" mb-2 text-sm font-semibold">Next Steps</p>
-                <p className="mb-2">
-                  Copy and run the below command in your CLI, to retry Grid
-                  Creation.
+              <div className="mt-4 text-base-900">
+                <p className="mb-2 text-sm">
+                  Try creating grid again with the below CLI command.
                 </p>
                 <CodeSnippet
                   code={codeSnippets['create-grid'].c.code}
+                  copyCallback={copySetupFailureCode}
                   language={codeSnippets['create-grid'].c.language}
                   singleLine={false}
                 />
               </div>
             )}
           </div>
+        </>
+      </ModalBody>
 
-          {eventLogsStatus === EVENT_LOGS_STATUS.FINISHED && (
-            <div className="text-base-600 flex gap-2 p-4 text-sm">
-              <MdInfoOutline className="text-xl" />
-              <p>
-                Copy the above framework URLs to seamlessly integrate your test
-                suite with the grid.
-              </p>
-            </div>
-          )}
-        </div>
-
+      <ModalFooter position="right">
         {/* CTA Buttons */}
-        <div className="mt-3 flex justify-end gap-x-3">
-          {eventLogsStatus === EVENT_LOGS_STATUS.FINISHED && (
-            <>
-              <Button
-                aria-label="Explore Automation Console"
-                colors="white"
-                onClick={exploreAutomationClickHandler}
-                type="button"
-                varaint="primary"
-              >
-                Explore Automation Console
-              </Button>
-              <Button
-                aria-label="View Builds"
-                colors="brand"
-                onClick={viewAllBuildsClickHandler}
-                type="button"
-                varaint="primary"
-              >
-                View Builds
-              </Button>
-            </>
-          )}
-
-          {eventLogsStatus === EVENT_LOGS_STATUS.FAILED && (
+        {eventLogsStatus === EVENT_LOGS_STATUS.FINISHED && (
+          <>
             <Button
-              aria-label="Close"
+              aria-label="Explore Automation Console"
               colors="white"
-              onClick={closeSetupStatusModal}
+              onClick={exploreAutomationClickHandler}
               type="button"
               varaint="primary"
             >
-              Close
+              Explore Automation Console
             </Button>
-          )}
-        </div>
-      </div>
+            <Button
+              aria-label="View Builds"
+              colors="brand"
+              onClick={viewAllBuildsClickHandler}
+              type="button"
+              varaint="primary"
+            >
+              View Builds
+            </Button>
+          </>
+        )}
+
+        {eventLogsStatus === EVENT_LOGS_STATUS.FAILED && (
+          <Button
+            aria-label="Close"
+            colors="white"
+            onClick={closeSetupStatusModal}
+            type="button"
+            varaint="primary"
+          >
+            Close
+          </Button>
+        )}
+      </ModalFooter>
     </Modal>
   );
 };
@@ -237,9 +208,11 @@ const SetupStatus = ({
 SetupStatus.propTypes = {
   closeSetupStatusModal: PropTypes.func.isRequired,
   codeSnippets: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  copySetupFailureCode: PropTypes.func.isRequired,
   exploreAutomationClickHandler: PropTypes.func.isRequired,
   eventLogsStatus: PropTypes.string.isRequired,
   frameworkURLs: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  handleDismissClick: PropTypes.func.isRequired,
   isSetupComplete: PropTypes.bool.isRequired,
   viewAllBuildsClickHandler: PropTypes.func.isRequired
 };

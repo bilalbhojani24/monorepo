@@ -21,10 +21,11 @@ const TestCaseMutliData = ({
   resultUpdatable,
   onResultClick,
   testRunId,
-  testResultsArray,
+  testCaseTestRunIssues,
   testRunName
 }) => {
   const {
+    testResultsArray,
     testRunsCount,
     selectedTab,
     projectId,
@@ -33,7 +34,7 @@ const TestCaseMutliData = ({
   } = useTestCaseViewDetails();
   const { testCaseIssues } = useTestCaseMultiData({
     isFromTestRun,
-    testResultsArray
+    testCaseTestRunIssues
   });
 
   const trTcIssuesTableColumn = [
@@ -110,11 +111,9 @@ const TestCaseMutliData = ({
     },
     {
       name: 'Linked On',
-      key: 'created_at',
+      key: 'linked_at',
       cell: (rowData) =>
-        rowData?.test_run_created_at
-          ? formatTime(rowData?.test_run_created_at, 'date')
-          : '--'
+        rowData?.linked_at ? formatTime(rowData?.linked_at, 'date') : '--'
     }
   ];
 
@@ -127,7 +126,11 @@ const TestCaseMutliData = ({
           ...item,
           count:
             item.name === 'Results'
-              ? `${isFromTestRun ? '' : testRunsCount || ''}`
+              ? `${
+                  isFromTestRun
+                    ? testResultsArray?.length || ''
+                    : testRunsCount || ''
+                }`
               : `${testCaseIssues?.length || ''}`
         }))}
         onTabChange={(data) => handleTabChange(data, isFromTestRun, testRunId)}
@@ -177,7 +180,7 @@ TestCaseMutliData.propTypes = {
   resultUpdatable: PropTypes.bool,
   testRunId: PropTypes.number,
   onResultClick: PropTypes.bool,
-  testResultsArray: PropTypes.arrayOf(PropTypes.object),
+  testCaseTestRunIssues: PropTypes.arrayOf(PropTypes.object),
   testRunName: PropTypes.string
 };
 
@@ -186,7 +189,7 @@ TestCaseMutliData.defaultProps = {
   resultUpdatable: false,
   testRunId: null,
   onResultClick: () => {},
-  testResultsArray: [],
+  testCaseTestRunIssues: [],
   testRunName: ''
 };
 

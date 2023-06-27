@@ -5,6 +5,7 @@ import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState, O11yTooltip } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import { ADV_FILTER_TYPES } from 'features/FilterSkeleton/constants';
 import BigNumber from 'features/TestsInsights/components/BigNumber';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
 import isEmpty from 'lodash/isEmpty';
@@ -45,7 +46,9 @@ export default function FailureCategories() {
 
   const handleChartClick = useCallback(
     (data) => {
-      applyTestListFilter({ query: `issueTypeGroup=${data.id}` });
+      applyTestListFilter({
+        query: `${ADV_FILTER_TYPES.issueTypeGroup.key}=${data.id}`
+      });
     },
     [applyTestListFilter]
   );

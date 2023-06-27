@@ -6,9 +6,7 @@ import { DetailsSnippet, StepSnippet } from 'common/DataBox';
 import ImageModal from 'common/ImageModal';
 import {
   BDD,
-  statusOptions,
-  templateOptions,
-  testCaseTypesOptions
+  templateOptions
 } from 'features/Repository/const/addTestCaseConst';
 import PropTypes from 'prop-types';
 import { getMappedValue, getSystemOrCustomValue } from 'utils/helperFunctions';
@@ -28,7 +26,8 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
     isShowAddIssuesModal,
     hideAddIssuesModal,
     saveAddIssesModal,
-    onJiraButtonClick
+    onJiraButtonClick,
+    testRunsTestCaseDetails
   } = useTestCaseViewDetails();
 
   return (
@@ -83,9 +82,19 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
           )}
           <div className="border-base-200 mb-4 w-full border-b" />
           <div className="flex w-full flex-wrap">
+            {isFromTestRun && (
+              <div className="w-3/6">
+                <DetailsSnippet
+                  title="Assigned To"
+                  value={
+                    testRunsTestCaseDetails?.test_assignee?.full_name || '--'
+                  }
+                />
+              </div>
+            )}
             <div className="w-3/6">
               <DetailsSnippet
-                title={isFromTestRun ? 'Assign To' : 'Owner'}
+                title="Owner"
                 value={getSystemOrCustomValue(
                   testCaseDetails?.assignee?.full_name,
                   testCaseDetails?.owner_imported
@@ -111,31 +120,29 @@ const TestCaseBasicData = ({ isFromTestRun }) => {
             <div className="w-3/6">
               <DetailsSnippet
                 title="State"
-                value={getSystemOrCustomValue(
-                  testCaseDetails?.status,
-                  testCaseDetails?.status_imported,
-                  statusOptions
-                )}
+                value={testCaseDetails?.status?.name || '--'}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Type of test case"
+                value={testCaseDetails?.case_type?.name || '--'}
+              />
+            </div>
+            <div className="w-3/6">
+              <DetailsSnippet
+                title="Automation Status"
                 value={getSystemOrCustomValue(
-                  testCaseDetails?.case_type,
-                  testCaseDetails?.case_type_imported,
-                  testCaseTypesOptions
+                  testCaseDetails?.automation_status?.name,
+                  testCaseDetails?.automation_status,
+                  []
                 )}
               />
             </div>
             <div className="w-3/6">
               <DetailsSnippet
                 title="Priority"
-                // value={testCaseDetails?.priority || '--'}
-                value={getSystemOrCustomValue(
-                  testCaseDetails?.priority,
-                  testCaseDetails?.priority_imported
-                )}
+                value={testCaseDetails?.priority?.name || '--'}
               />
             </div>
             <div className="w-full">

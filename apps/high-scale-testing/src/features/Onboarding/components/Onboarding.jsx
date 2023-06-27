@@ -6,21 +6,27 @@ import {
   CodeSnippet,
   Hyperlink,
   ListFeedsNode,
-  MdCached,
   MdOutlineOpenInNew,
   PageHeadings,
   RadioGroup,
   RadioStackedCard,
   SelectMenu,
-  SelectMenuLabel,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
   SelectMenuTrigger,
   Tabs
 } from '@browserstack/bifrost';
-import HourglassBottomOutlinedIcon from '@mui/icons-material/HourglassBottomOutlined';
-import classnames from 'classnames';
+import { twClassNames } from '@browserstack/utils';
+import { OpenInNew } from '@mui/icons-material';
+import LoaderGif from 'assets/icons/loader.gif';
+import {
+  AGNoSetupInteracted,
+  AGNoSetupStepsExecuted
+} from 'constants/event-names';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import { CREATE_GRID } from 'constants/strings';
+import { AWS_IAM_DOC, CLOUD_FORMATION_LINK } from 'constants/urls';
+import { logHSTEvent } from 'utils/logger';
 
 import EventLogs from './EventLogs';
 import SetupStatus from './SetupStatus';
@@ -41,22 +47,29 @@ const Onboarding = () => {
     codeSnippetsForExistingSetup,
     closeEventLogsModal,
     closeSetupStatusModal,
+    cloudProviderChangeHandler,
+    cloudRegionChangeHandler,
+    codeSnippetTabChangeHandler,
     continueClickHandler,
+    copyCallbackFnForExistingSetup,
+    copyCallbackFnForNewSetup,
+    copySetupFailureCode,
     currentStep,
     currentSelectedCloudProvider,
     eventLogsCode,
     eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
+    handleDismissClick,
     headerText,
     isSetupComplete,
+    logTermsConditionsEvents,
+    logViewDocumentationEvents,
+    newGridName,
     onboardingStep,
     onboardingType,
     selectedRegion,
-    setActiveGridManagerCodeSnippet,
-    setCurrentCloudProvider,
     setSelectedOption,
-    setSelectedRegion,
     showEventLogsModal,
     showGridHeartBeats,
     showSetupStatusModal,
@@ -68,21 +81,19 @@ const Onboarding = () => {
 
   const TabsForCodeSnippet = (
     <Tabs
+      defaultIndex={activeGridManagerCodeSnippet.index}
       id="tabID"
       label="Tabs"
-      onTabChange={(e) => {
-        setActiveGridManagerCodeSnippet(e.name);
-      }}
+      onTabChange={codeSnippetTabChangeHandler}
       isContained={false}
       navigationClassName="first:ml-4"
       tabsArray={[
         {
+          index: 0,
           name: GRID_MANAGER_NAMES.helm
         },
         {
-          name: GRID_MANAGER_NAMES.kubectl
-        },
-        {
+          index: 1,
           name: GRID_MANAGER_NAMES.cli
         }
       ]}
@@ -94,13 +105,17 @@ const Onboarding = () => {
       <CodeSnippet
         code={
           codeSnippetsForExistingSetup?.[
-            activeGridManagerCodeSnippet.toLowerCase()
+            activeGridManagerCodeSnippet.name.toLowerCase()
           ]
         }
+        copyCallback={() =>
+          copyCallbackFnForExistingSetup(activeGridManagerCodeSnippet.name)
+        }
         language={
-          activeGridManagerCodeSnippet.toLowerCase() === GRID_MANAGER_NAMES.cli
+          activeGridManagerCodeSnippet.name.toLowerCase() ===
+          GRID_MANAGER_NAMES.cli
             ? 'node'
-            : activeGridManagerCodeSnippet.toLowerCase()
+            : activeGridManagerCodeSnippet.name.toLowerCase()
         }
         singleLine={false}
         showLineNumbers={false}
@@ -111,15 +126,9 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep1 = (
-    <div className="my-4">
+    <div className="mb-4 mt-2">
       <RadioGroup
-        onChange={(e, option) => {
-          const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
-            (item) => item.id === option
-          );
-
-          setCurrentCloudProvider(newOption);
-        }}
+        onChange={cloudProviderChangeHandler}
         options={SCRATCH_RADIO_GROUP_OPTIONS}
         selectedOption={currentSelectedCloudProvider}
       />
@@ -127,15 +136,12 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep2 = (
-    <div className="my-4 w-2/5">
+    <div className="mb-4 mt-2 w-2/5">
       <SelectMenu
         disabled={eventLogsCode && eventLogsCode.length > 0}
-        onChange={(e) => {
-          setSelectedRegion(e);
-        }}
+        onChange={cloudRegionChangeHandler}
         value={selectedRegion}
       >
-        <SelectMenuLabel>Select Region:</SelectMenuLabel>
         <SelectMenuTrigger placeholder="Select Region" />
         <SelectMenuOptionGroup>
           {currentProvidersRegions?.map((item) => (
@@ -147,54 +153,83 @@ const Onboarding = () => {
   );
 
   const DescriptionNodeStep3 = (
-    <p className="text-base-700 mb-4 mt-1 text-sm">
-      Set up a{' '}
-      <a href="/#" className="text-brand-600 underline" target="_blank">
-        new IAM role
-      </a>{' '}
-      via the CloudFormation link and generate the AWS access key and secret to
-      create and manage the Automation Grid. Read more about this{' '}
-      <a href="/" className=" text-brand-600 underline" target="_blank">
-        here
-      </a>
-      .
-    </p>
+    <div className="mb-4">
+      <p className="mb-2 mt-1 text-sm text-base-700">
+        Set up a new IAM role via the CloudFormation link and generate the AWS
+        access key and secret to create and manage the Automation Grid. Read
+        more about this{' '}
+        <Hyperlink
+          onClick={() => {
+            logHSTEvent([], 'web_events', AGNoSetupInteracted, {
+              action: 'viewiamdoc_clicked'
+            });
+          }}
+          target="_blank"
+          href={AWS_IAM_DOC}
+          className="inline"
+        >
+          here
+        </Hyperlink>
+        .
+      </p>
+      <Button
+        colors="white"
+        icon={<OpenInNew />}
+        onClick={() => {
+          logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, {
+            action: 'iamrolecf_clicked'
+          });
+          window.open(CLOUD_FORMATION_LINK, '_blank');
+          return null;
+        }}
+        modifier="primary"
+        variant="rounded"
+      >
+        Cloud Formation Link
+      </Button>
+    </div>
   );
 
   const DescriptionNodeStep4 = (
     <div className="m-4">
       {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
-      <ol className="text-base-500 list-[lower-alpha] text-sm">
-        <li className="text-base-900 py-2">
+      <ol className="list-[lower-alpha] text-sm text-base-500">
+        <li className="pb-2 text-base-900">
           <div>
-            <p className="text-base-900 mb-2">
-              {CODE_SNIPPETS_SCRATCH['create-grid'].a.text}
+            <p className="mb-2 text-base-900">
+              {CODE_SNIPPETS_SCRATCH[CREATE_GRID].a.text}
             </p>
             <CodeSnippet
-              code={CODE_SNIPPETS_SCRATCH['create-grid'].a.code}
-              language={CODE_SNIPPETS_SCRATCH['create-grid'].a.language}
+              code={CODE_SNIPPETS_SCRATCH[CREATE_GRID].a.code}
+              copyCallback={() => {
+                copyCallbackFnForNewSetup('download');
+              }}
+              language={CODE_SNIPPETS_SCRATCH[CREATE_GRID].a.language}
               showLineNumbers={false}
               singleLine={false}
               view="neutral"
             />
           </div>
         </li>
-        <li className="text-base-900 py-2">
+        <li className="py-2 text-base-900">
           <div>
-            <p className="text-base-900 mb-2">
-              {CODE_SNIPPETS_SCRATCH['create-grid'].b.text}
+            <p className="mb-2 text-base-900">
+              {CODE_SNIPPETS_SCRATCH[CREATE_GRID].b.text}
             </p>
             <CodeSnippet
-              code={CODE_SNIPPETS_SCRATCH['create-grid'].b.code}
-              language={CODE_SNIPPETS_SCRATCH['create-grid'].b.language}
+              code={CODE_SNIPPETS_SCRATCH[CREATE_GRID].b.code}
+              copyCallback={() => {
+                copyCallbackFnForNewSetup('init');
+              }}
+              language={CODE_SNIPPETS_SCRATCH[CREATE_GRID].b.language}
               showLineNumbers={false}
               singleLine={false}
               view="neutral"
             />
           </div>
         </li>
-        <li className="text-base-900 mb-2">
-          {CODE_SNIPPETS_SCRATCH['create-grid'].c.text}
+        <li className="mb-2 text-base-900">
+          {CODE_SNIPPETS_SCRATCH[CREATE_GRID].c.text}
         </li>
         <div className="mb-2">
           <Alerts
@@ -205,11 +240,20 @@ const Onboarding = () => {
             handleLinkClick={() => {}}
             linkText=""
             modifier="primary"
-            description="This command will create an EKS cluster ‘high-scale-grid-cluster’ with a grid named ‘high-scale-grid’ that supports a concurrency of ‘50’ browsers sessions. The instance type for worker nodes will be ‘m7g.medium (vCPU-1, memory-8GB)’."
+            title="Grid Details"
+            description={[
+              'Grid name: ‘high-scale-grid’',
+              'Concurrent browser sessions: ‘50’',
+              'Worker nodes instance type: ‘t3.large (vCPU-2, memory-8GB)’',
+              'Cluster name: ‘high-scale-grid-cluster’'
+            ]}
           />
         </div>
         <CodeSnippet
           code={CODE_SNIPPETS_SCRATCH['create-grid'].c.code}
+          copyCallback={() => {
+            copyCallbackFnForNewSetup('create');
+          }}
           language={CODE_SNIPPETS_SCRATCH['create-grid'].c.language}
           singleLine
         />
@@ -219,7 +263,7 @@ const Onboarding = () => {
 
   const HeaderNodeStep1 = (
     <div className="flex">
-      <p className="text-base-900 text-base font-semibold">
+      <p className="text-sm font-semibold text-base-900">
         Choose Cloud Provider
       </p>
     </div>
@@ -228,12 +272,12 @@ const Onboarding = () => {
   const HeaderNodeStep2 = (
     <>
       <div className="flex gap-2">
-        <p className="text-base-900 text-base font-semibold">
+        <p className="text-sm font-semibold text-base-900">
           Grid Profile Details
         </p>
         <Badge hasRemoveButton={false} modifier="warn" text="Default" />
       </div>
-      <p className="text-base-900 mt-1 text-sm">
+      <p className="mt-1 text-sm text-base-900">
         The selected region is based on the default grid profile. Select an AWS
         region nearest to your staging components.
       </p>
@@ -242,16 +286,16 @@ const Onboarding = () => {
 
   const HeaderNodeStep3 = (
     <div className="flex">
-      <p className="text-base-900 text-base font-semibold">Setup IAM Role</p>
+      <p className="text-sm font-semibold text-base-900">Setup IAM Role</p>
     </div>
   );
 
   const HeaderNodeStep4 = (
     <>
       <div className="flex">
-        <p className="text-base-900 text-base font-semibold">Create Grid</p>
+        <p className="text-sm font-semibold text-base-900">Create Grid</p>
       </div>
-      <p className="text-base-700 mt-1 text-sm">
+      <p className="mt-1 text-sm text-base-700">
         Execute the below commands to setup the BrowserStack CLI and create an
         Automation Grid.
       </p>
@@ -275,7 +319,7 @@ const Onboarding = () => {
   };
 
   const listFeedStepValue = (number) => (
-    <span className="text-base-900 text-xs">{number}</span>
+    <span className="text-xs text-base-900">{number}</span>
   );
 
   const listFeedDescriptionNode = (step) => {
@@ -309,11 +353,16 @@ const Onboarding = () => {
   );
 
   return (
-    <div className=" border-base-300 m-auto mb-10 mt-28 w-4/6 max-w-5xl rounded-lg border">
+    <div className="m-auto my-10 w-4/6 max-w-4xl rounded-lg border border-base-300">
       <PageHeadings
         actions={
           <>
-            <Hyperlink wrapperClassName=" gap-x-2 text-sm font-medium">
+            <Hyperlink
+              onClick={logViewDocumentationEvents}
+              href="https://www.browserstack.com/docs/automation-grid"
+              target="_blank"
+              wrapperClassName=" gap-x-2 text-sm font-medium"
+            >
               View Documentation <MdOutlineOpenInNew />
             </Hyperlink>
           </>
@@ -322,27 +371,28 @@ const Onboarding = () => {
         heading={headerText}
         onBreadcrumbClick={breadcrumbStepClickHandler}
         subSection={
-          <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
+          <p className="mt-2 text-sm text-base-500">{subHeaderText} </p>
         }
-        wrapperClassName="p-6"
+        wrapperClassName="p-6 bg-white"
       />
 
       {/* Body of Onboarding */}
       <div
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
-        className={classnames('border-base-300 overflow-auto border-y px-7 ', {
-          'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
-          'py-6':
-            onboardingStep === 0 ||
-            (onboardingStep === 1 &&
-              onboardingType !== ONBOARDING_TYPES.scratch),
-          'pt-6':
-            onboardingStep === 1 && onboardingType === ONBOARDING_TYPES.scratch
-        })}
+        className={twClassNames(
+          'overflow-auto bg-white border-base-300 px-7 ',
+          {
+            'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
+            'pb-6':
+              onboardingStep === 0 ||
+              (onboardingStep === 1 &&
+                onboardingType !== ONBOARDING_TYPES.scratch)
+          }
+        )}
       >
         {onboardingStep === 0 && (
           <>
-            <h3 className="text-base-900 mb-4 flex gap-x-2 text-base font-medium leading-6">
+            <h3 className="mb-2 flex gap-x-2 text-base font-medium leading-6 text-base-900">
               Do you have an existing Kubernetes setup?
             </h3>
             <RadioStackedCard
@@ -364,8 +414,8 @@ const Onboarding = () => {
         {onboardingStep === 1 &&
           onboardingType === ONBOARDING_TYPES.existing && (
             <>
-              <p className="text-base-900 font-semibold">Grid Setup</p>
-              <p className="text-base-900 mt-1 text-sm">
+              <p className="text-sm font-semibold text-base-900">Grid Setup</p>
+              <p className="mt-1 text-sm text-base-900">
                 Execute the below commands to initialise grid creation.
               </p>
 
@@ -377,7 +427,20 @@ const Onboarding = () => {
 
       {/* Footer component */}
       {onboardingStep === 0 && (
-        <div className="flex justify-end px-6 py-3">
+        <div className="flex justify-between px-6 py-3">
+          <div className="flex">
+            <p className="self-center text-xs text-base-500">
+              By continuing, you agree to have read and understood the{' '}
+              <Hyperlink
+                onClick={logTermsConditionsEvents}
+                wrapperClassName="inline text-xs text-base-900 cursor-pointer"
+                href="https://www.browserstack.com/docs/automation-grid/references/terms-and-conditions"
+                target="_blank"
+              >
+                terms & conditions
+              </Hyperlink>
+            </p>
+          </div>
           <Button
             colors="brand"
             onClick={continueClickHandler}
@@ -394,15 +457,19 @@ const Onboarding = () => {
         (onboardingType === ONBOARDING_TYPES.scratch ||
           onboardingType === ONBOARDING_TYPES.existing) &&
         (((!eventLogsCode || eventLogsCode?.length === 0) && (
-          <div className="text-base-700 flex gap-2 px-6 py-3">
-            <HourglassBottomOutlinedIcon /> Waiting for you to complete the
-            above steps to connect the grid...
+          <div className="flex gap-2 bg-base-50 px-6 py-4 text-sm text-base-900">
+            <div>
+              <img src={LoaderGif} alt="" width={20} height={20} />
+            </div>{' '}
+            Waiting for you to complete the above steps to connect the grid.
           </div>
         )) ||
           (eventLogsCode && eventLogsCode.length > 0 && showGridHeartBeats && (
-            <div className="text-base-700 flex gap-2 px-6 py-3">
-              <HourglassBottomOutlinedIcon /> Grid heartbeats detected.
-              Initialising events log...
+            <div className="flex gap-2 px-6 py-3 text-base-700">
+              <div>
+                <img src={LoaderGif} alt="" width={20} height={20} />
+              </div>{' '}
+              Grid heartbeats detected. Initialising events log...
             </div>
           )))}
 
@@ -413,9 +480,11 @@ const Onboarding = () => {
         eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
         !showGridHeartBeats && (
           <div className="flex justify-between px-6 py-3">
-            <div className="text-base-700 flex gap-2">
-              <MdCached />
-              ‘high-scale-grid’ grid creation is in progress...
+            <div className="flex gap-2 text-base-700">
+              <div>
+                <img src={LoaderGif} alt="" width={20} height={20} />
+              </div>
+              ‘{newGridName}’ grid creation is in progress...
             </div>
             <Button colors="white" onClick={viewEventLogsClickHandler}>
               View Event Logs
@@ -444,9 +513,11 @@ const Onboarding = () => {
         <SetupStatus
           closeSetupStatusModal={closeSetupStatusModal}
           codeSnippets={CODE_SNIPPETS_SCRATCH}
+          copySetupFailureCode={copySetupFailureCode}
           exploreAutomationClickHandler={exploreAutomationClickHandler}
           eventLogsStatus={eventLogsStatus}
           frameworkURLs={frameworkURLs}
+          handleDismissClick={handleDismissClick}
           isSetupComplete={isSetupComplete}
           viewAllBuildsClickHandler={viewAllBuildsClickHandler}
         />

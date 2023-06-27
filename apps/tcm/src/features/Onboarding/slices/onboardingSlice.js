@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { SETUP_FORMATS } from '../const/immutableConst';
+import {
+  SETUP_FORMATS,
+  TC_ASSIGNED_NOTIFICATION_ID
+} from '../const/immutableConst';
 
 const initialState = {
   jobRolesArray: [],
@@ -11,7 +14,11 @@ const initialState = {
     role: '',
     organisation_strength: '',
     start_method: SETUP_FORMATS[0].title
-  }
+  },
+  timerFinished: false,
+  checkForNotification: null,
+  autoAssignedProjectId: null,
+  tcAssignedNotificationConfig: { show: null, id: TC_ASSIGNED_NOTIFICATION_ID }
 };
 
 export const onboardingSlice = createSlice({
@@ -32,6 +39,20 @@ export const onboardingSlice = createSlice({
     },
     updateFormData: (state, { payload }) => {
       state.formData[payload.key] = payload.value;
+    },
+    setTCAssignedNotificationConfig: (state, { payload }) => {
+      state.tcAssignedNotificationConfig.show = payload.show;
+    },
+    setNotificationDeciderValue: (state, { payload }) => {
+      state.checkForNotification = payload;
+    },
+    setTimerFinished: (state, { payload }) => {
+      state.timerFinished = payload;
+    },
+    autoAssignmentStatusFulfilled: (state, { payload }) => {
+      state.tcAssignedNotificationConfig.show = payload.show_notification;
+      state.autoAssignedProjectId = payload.project_id;
+      state.checkForNotification = false;
     }
   }
 });
@@ -41,7 +62,11 @@ export const {
   setJobRolesArray,
   setOrgStrengthArray,
   updateFormData,
-  setIsProcessing
+  setIsProcessing,
+  setTimerFinished,
+  setNotificationDeciderValue,
+  autoAssignmentStatusFulfilled,
+  setTCAssignedNotificationConfig
 } = onboardingSlice.actions;
 
 export default onboardingSlice.reducer;

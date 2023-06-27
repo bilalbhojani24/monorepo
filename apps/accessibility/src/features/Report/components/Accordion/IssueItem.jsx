@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlight';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {
@@ -44,11 +44,23 @@ import {
   tagToView
 } from 'utils/helper';
 
+import { setShowFreshChatButton } from '../../../Dashboard/slices/uiSlice';
 import useIssueItem from '../../useIssueItem';
 
 import NeedsReviewBanner from './NeedsReviewBanner';
 
 import './customStyle.scss';
+
+const tabList = [
+  {
+    name: 'Issue details',
+    value: ISSUE_DETAILS_TAB
+  },
+  {
+    name: 'How to fix',
+    value: HOW_TO_FIX_TAB
+  }
+];
 
 export default function IssueItem() {
   const { sectionData } = useContext(SectionsDataContext);
@@ -203,6 +215,13 @@ export default function IssueItem() {
     needsReviewStatusinReports.length > 0 &&
     Object.values(reportMetaData?.meta).length > 1;
 
+  const getLearnMoreLink = () => {
+    if (testType === TEST_TYPE.ASSITIVE_TEST) {
+      return `${getEnvUrl()}/more-info/BSAT-1.1/${activeViolation.id}`;
+    }
+    return `${getEnvUrl()}/more-info/4.4/${activeViolation.id}`;
+  };
+
   return (
     <div className="relative">
       <div className="border-base-200 sticky top-0 z-[15] flex w-full items-start justify-between border-b bg-white py-4 pl-6 pr-4">
@@ -274,7 +293,7 @@ export default function IssueItem() {
             <p className="text-base-500 mb-2 text-sm">
               {headerData.description}
               <Hyperlink
-                href={`${getEnvUrl()}/more-info/4.4/${activeViolation.id}`}
+                href={getLearnMoreLink()}
                 target="_blank"
                 onClick={
                   isGuidelineMode
@@ -354,16 +373,7 @@ export default function IssueItem() {
         </div>
         <div className="px-6">
           <Tabs
-            tabsArray={[
-              {
-                name: 'Issue details',
-                value: ISSUE_DETAILS_TAB
-              },
-              {
-                name: 'How to fix',
-                value: HOW_TO_FIX_TAB
-              }
-            ]}
+            tabsArray={tabList}
             onTabChange={({ value }) => onTabChange(value)}
           />
           {activeTab === ISSUE_DETAILS_TAB && (

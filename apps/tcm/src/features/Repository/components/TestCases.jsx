@@ -27,6 +27,7 @@ import '../styles/TestCases.scss';
 
 export default function TestCases() {
   const {
+    openedFolderModal,
     noResultsText,
     metaPage,
     allFolders,
@@ -53,12 +54,13 @@ export default function TestCases() {
   //   [dispatch]
   // );
   useEffect(() => {
-    focusRef?.current?.focus();
+    if (!openedFolderModal) focusRef?.current?.focus();
   }, [
     allTestCases.length,
     isSearchFilterView,
     isTestCasesLoading,
-    isFoldersLoading
+    isFoldersLoading,
+    openedFolderModal
   ]);
 
   if (isAddTestCasePageVisible)
@@ -72,7 +74,7 @@ export default function TestCases() {
           {selectedFolder && (
             <div className="border-base-300 w-full border-l">
               <div className="border-base-200 w-full border-b p-4">
-                <div className="text-base-800 w-full font-medium">
+                <div className="text-base-900 w-full font-medium">
                   {selectedFolder?.name}
                   <TMTooltip
                     size="xs"

@@ -21,6 +21,7 @@ import useImportCSV from './useImportCSV';
 
 const UploadFile = () => {
   const {
+    ampEventDownloadComp,
     csvUploadError,
     fileConfig,
     projectId,
@@ -54,6 +55,7 @@ const UploadFile = () => {
 
       // Start download
       link.click();
+      ampEventDownloadComp();
     });
   };
 
@@ -63,7 +65,7 @@ const UploadFile = () => {
   }, [projectId]);
 
   return (
-    <div className="w-4/5 max-w-7xl">
+    <div className="w-4/5 max-w-4xl">
       {csvUploadError && (
         <div className="mb-3">
           <TMAlerts
@@ -95,7 +97,7 @@ const UploadFile = () => {
         />
         <div
           className={twClassNames('mt-5 mb-2', {
-            'text-sm font-medium text-base-500': fileConfig?.fileName
+            'text-sm font-medium text-base-900': fileConfig?.fileName
           })}
         >
           {fileConfig?.fileName ? 'Uploaded CSV:' : 'Upload File:'}
@@ -119,15 +121,15 @@ const UploadFile = () => {
         {!fileConfig?.fileName && (
           <div className="text-base-600 mt-4 text-sm">
             You can also download a{' '}
-            <span
-              tabIndex={0}
-              role="button"
-              className="text-base-800 cursor-pointer font-semibold"
+            <TMButton
+              wrapperClassName="text-black"
+              colors="white"
+              iconPlacement="end"
+              variant="minimal"
               onClick={handleDownloadSampleCSV}
-              onKeyDown={handleDownloadSampleCSV}
             >
               sample.csv
-            </span>{' '}
+            </TMButton>{' '}
             with instructions.
           </div>
         )}

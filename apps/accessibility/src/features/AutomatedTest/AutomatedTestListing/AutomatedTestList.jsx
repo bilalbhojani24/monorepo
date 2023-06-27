@@ -30,12 +30,14 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
 
   const severityColumnID = 'severity-breakdown';
 
-  const handleRowClick = ({ normalisedName, buildNumber }) => {
-    const project = comboboxItems.find((val) => val.id === buildNumber);
+  const handleRowClick = ({ normalisedName, projectId, buildNumber }) => {
+    const project = comboboxItems.find((val) => val.id === projectId);
+    const index = normalisedName.lastIndexOf('%');
     navigate(
-      `${project.normalisedName}/builds/${
-        normalisedName.split('%')[0]
-      }/${buildNumber}`
+      `${project.normalisedName}/builds/${normalisedName.slice(
+        0,
+        index
+      )}/${buildNumber}`
     );
     logEvent('InteractedWithAutomatedTestsHomepageView', {
       action: 'View documentation'

@@ -8,7 +8,7 @@ import {
   MdShare,
   Tabs
 } from '@browserstack/bifrost';
-import { ISSUES, SUMMARY, TESTS, OVERVIEW } from 'constants';
+import { ISSUES, OVERVIEW, SUMMARY, TESTS } from 'constants';
 import format from 'date-fns/format';
 import { logEvent } from 'utils/logEvent';
 
@@ -18,7 +18,7 @@ import ViewPlatformPopOver from './components/Platforms';
 import Tests from './components/Tests';
 import ViewMetaPopOver from './components/ViewMetadata';
 import useAutomatedTestBuild from './useAutomatedTestBuild';
-import { logEvent } from 'utils/logEvent';
+
 const tabList = [
   {
     name: 'Overview',
@@ -33,13 +33,6 @@ const tabList = [
     value: TESTS
   }
 ];
-
-const platforms = {
-  chrome: {
-    version: 112
-  },
-  mac: 'Ventura'
-};
 
 export default function AutomatedTestBuild() {
   const {
@@ -81,7 +74,7 @@ export default function AutomatedTestBuild() {
     </div>
   );
 
-  const { name, createdBy, createdAt } = buildMetaData.meta;
+  const { name, createdBy, createdAt, sessionData } = buildMetaData.meta;
 
   return (
     <div>
@@ -102,12 +95,9 @@ export default function AutomatedTestBuild() {
               </div>
               <div className="mr-6">
                 <ViewPlatformPopOver
-                  data={platforms}
-                  handleInteraction={() =>
-                    logEvent('InteractedWithAutomatedTestsBuildView', {
-                      actionType: 'View metadata',
-                      action: 'View platform metadata'
-                    })
+                  data={sessionData}
+                  handleInteraction={({ interaction }) =>
+                    console.log(interaction)
                   }
                 />
               </div>

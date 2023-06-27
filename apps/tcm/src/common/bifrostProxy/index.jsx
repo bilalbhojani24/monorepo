@@ -26,6 +26,8 @@ import {
   ModalFooter,
   ModalHeader,
   Notifications,
+  Popover,
+  PopoverBody,
   ProgressBar,
   RadioGroup,
   SectionHeadings,
@@ -39,13 +41,13 @@ import {
   TableRow,
   Tabs,
   TextArea,
-  Tooltip,
   TooltipBody,
   TooltipHeader,
   TruncateText
 } from '@browserstack/bifrost';
 
 import TMAttachments from './components/TMAttachments';
+import TMBadgeComboBox from './components/TMBadgeComboBox';
 import TMComboBox from './components/TMComboBox';
 import TMDataTable from './components/TMDataTable';
 import TMDataVisualization from './components/TMDataVisualization';
@@ -56,6 +58,8 @@ import TMPageHeadings from './components/TMPageHeadings';
 import TMPagination from './components/TMPagination';
 import TMRichTextEditor from './components/TMRichTextEditor';
 import TMSelectMenu from './components/TMSelectMenu';
+import TMTooltip from './components/TMTooltip';
+import TMTruncateText from './components/TMTruncateText';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
 
@@ -90,7 +94,6 @@ export const TMTableRow = (props) => <TableRow {...props} />;
 
 export const TMBadge = (props) => <Badge {...props} />;
 export const TMFileUpload = (props) => <FileUpload {...props} />;
-export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMTooltipBody = (props) => <TooltipBody {...props} />;
 export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
 
@@ -101,7 +104,6 @@ export const TMBanner = (props) => <Banner {...props} />;
 
 export const TMHyperlink = (props) => <Hyperlink {...props} />;
 export const TMBreadcrumb = (props) => <Breadcrumb {...props} />;
-export const TMTruncateText = (props) => <TruncateText {...props} />;
 export const TMMetadata = (props) => <Metadata {...props} />;
 export const TMProgressBar = (props) => <ProgressBar {...props} />;
 export const TMActionPanel = (props) => <ActionPanel {...props} />;
@@ -125,8 +127,12 @@ export const TMSlideoverHeader = (props) => (
   />
 );
 
+export const TMPopover = (props) => <Popover {...props} />;
+export const TMPopoverBody = (props) => <PopoverBody {...props} />;
+
 export {
   TMAttachments,
+  TMBadgeComboBox,
   TMComboBox,
   TMDataTable,
   TMDataVisualization,
@@ -136,5 +142,7 @@ export {
   TMPageHeadings,
   TMPagination,
   TMRichTextEditor,
-  TMSelectMenu
+  TMSelectMenu,
+  TMTooltip,
+  TMTruncateText
 };

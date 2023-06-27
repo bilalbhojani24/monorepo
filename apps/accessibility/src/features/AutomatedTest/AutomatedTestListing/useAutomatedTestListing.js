@@ -4,6 +4,7 @@ import {
   fetchAllTestRuns,
   fetchProjectById
 } from 'api/fetchTestAutomationData';
+import { ALL_PROJECTS } from 'constants';
 
 import { logEvent } from 'utils/logEvent';
 
@@ -33,11 +34,14 @@ export default function useAutomatedTestListing() {
 
   const onComboboxValueChange = (value) => {
     const result = handleSearch(value, 'name', projectListing.current);
-    setComboboxItems([{ id: 0, name: 'All projects' }, ...result]);
+    setComboboxItems([
+      { name: ALL_PROJECTS, normalisedName: ALL_PROJECTS },
+      ...result
+    ]);
   };
 
   const handleSelectChange = (id) => {
-    if (id === 0) {
+    if (id === ALL_PROJECTS) {
       fetchAllTestRuns().then((response) => {
         setBuildListing(response);
       });
@@ -64,7 +68,10 @@ export default function useAutomatedTestListing() {
   useEffect(() => {
     fetchAllProjectList().then((response) => {
       projectListing.current = response;
-      setComboboxItems([{ id: 0, name: 'All projects' }, ...response]);
+      setComboboxItems([
+        { name: ALL_PROJECTS, normalisedName: ALL_PROJECTS },
+        ...response
+      ]);
     });
   }, []);
 

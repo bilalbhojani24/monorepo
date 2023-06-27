@@ -4,6 +4,9 @@ import WindowsIcon from 'assets/windows_icon.svg';
 import { testTypes } from 'constants';
 import { wcagVersions } from 'features/SiteScanner/NewScan/constants';
 import { json2csv } from 'json-2-csv';
+import { getBrowserStackBase } from 'utils';
+
+import { logEvent } from './logEvent';
 
 const BEST_PRACTICE_TAG = 'best-practice';
 
@@ -217,8 +220,8 @@ export const getHiddenIssuesCount = (reportData) => {
 
 export const getOSIcon = (name) => {
   const icons = {
-    Windows: WindowsIcon,
-    Mac: MacIcon
+    windows: WindowsIcon,
+    mac: MacIcon
   };
 
   return icons[name];
@@ -226,8 +229,29 @@ export const getOSIcon = (name) => {
 
 export const getBrowserIcon = (name) => {
   const icons = {
-    Chrome: ChromeIcon
+    chrome: ChromeIcon
   };
 
   return icons[name];
+};
+
+export const countRemainingDays = (date1, date2) => {
+  const difference = date2 - date1;
+  if (difference < 0) {
+    return 0;
+  }
+  const remainingDays = difference / (1000 * 3600 * 24);
+  return Math.ceil(remainingDays);
+};
+
+export const buyAcceesibilityPlan = () => {
+  window.open(
+    `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
+    '_blank'
+  );
+};
+
+export const getTruncatedFileName = (name) => {
+  const arr = name.split('/');
+  return arr.length >= 2 ? `...${arr.slice(-2).join('/')}` : name;
 };

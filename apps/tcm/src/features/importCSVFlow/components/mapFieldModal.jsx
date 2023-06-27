@@ -42,14 +42,27 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
 
   // creating rows to show in modal Table
   if (value && Object.keys(value)?.length > 0) {
+    const noAddOption = modalConfig?.fieldMeta.restrict_add;
     modalRowRef.current = Object.keys(value)?.map((field) => {
-      const displayOptions =
-        VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN[
+      let displayOptions = [
+        ...VALUE_MAPPING_OPTIONS_MODAL_DROPDOWN[
           mappedField.split(' ').join('').toUpperCase()
-        ];
+        ]
+      ];
+      if (noAddOption) {
+        // remove add option
+        displayOptions = displayOptions.filter(
+          (item) => item.value !== ADD_VALUE_VALUE
+        );
+      }
+      // set divider for ignore option
+      displayOptions = displayOptions.map((item) =>
+        item.value === IGNORE_VALUE_VALUE ? { ...item, divider: true } : item
+      );
+
       let defaultSelected = null;
       for (let i = 0; i < displayOptions?.length; i += 1) {
-        if (value[field]?.action === ADD_VALUE_VALUE) {
+        if (value[field]?.action === ADD_VALUE_VALUE && !noAddOption) {
           defaultSelected = { label: ADD_VALUE_LABEL, value: ADD_VALUE_VALUE };
           break;
         } else if (value[field]?.action === IGNORE_VALUE_VALUE) {
@@ -58,14 +71,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
             value: IGNORE_VALUE_VALUE
           };
           break;
-        } else if (
-          (mappedField === 'State' &&
-            displayOptions[i].value === value[field].toLowerCase()) ||
-          displayOptions[i].value === value[field] ||
-          (mappedField === 'Test Case Type' &&
-            displayOptions[i].value === 'smoke_sanity' &&
-            value[field].toLowerCase() === 'smoke & sanity')
-        ) {
+        } else if (displayOptions[i].value === value[field]) {
           defaultSelected = displayOptions[i];
           break;
         }
@@ -95,7 +101,7 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
         handleDismissClick={onModalCloseHandler}
       />
       <TMModalBody>
-        <div>
+        <div className="text-base-500">
           Values for {csvFileField} are mapped by default. You can update the
           mapping if needed:
         </div>
@@ -112,11 +118,12 @@ const MapFieldModal = ({ modalConfig, valueMappings }) => {
           <TableBody>
             {modalRowRef?.current?.map((row) => (
               <TableRow key={row.csvValue}>
-                <TableCell wrapperClassName="py-1 w-1/3">
+                <TableCell wrapperClassName="py-1 w-1/3 text-base-900">
                   {row.csvValue}
                 </TableCell>
                 <TableCell wrapperClassName="py-2 mr-4 w-2/3">
                   <TMSelectMenu
+                    triggerWrapperClassName="text-base-900"
                     checkPosition="right"
                     options={row?.displayOptions}
                     defaultValue={row?.defaultSelected}

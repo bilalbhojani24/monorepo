@@ -153,7 +153,7 @@ export default function useOverview() {
       serious: ' #F472B6',
       critical: '#F95D6A'
     };
-    const series = Object.keys(buildMetaData?.trendData[0].issueSummary);
+    const series = Object.keys(buildMetaData?.trendData[0]?.issueSummary || {});
     series.forEach((val) => {
       dataPoints[val] = [];
     });
@@ -179,7 +179,7 @@ export default function useOverview() {
     const excludeSeries = ['total'];
 
     const series = Object.keys(
-      buildMetaData?.trendData[0].healthSummary
+      buildMetaData?.trendData[0]?.healthSummary || {}
     ).filter((val) => !excludeSeries.includes(val));
     series.forEach((val) => {
       dataPoints[val] = [];

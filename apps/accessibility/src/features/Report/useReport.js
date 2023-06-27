@@ -19,6 +19,8 @@ import {
 import { updateUrlWithQueryParam } from 'utils/helper';
 import { logEvent } from 'utils/logEvent';
 
+import { setShowFreshChatButton } from '../Dashboard/slices/uiSlice';
+
 export default function useReport() {
   const [isCopied, setIsCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,6 +35,7 @@ export default function useReport() {
     dispatch(setActiveTab(tab.value));
     dispatch(setActiveSwitch(ISSUE_TYPE));
     dispatch(setOpenAccordionId(''));
+    dispatch(setShowFreshChatButton(true));
     logEvent('OnADReportView', {
       actionType: events.CHOOSE_TAB,
       tab: tab.value
@@ -82,9 +85,9 @@ export default function useReport() {
       logEvent('OnADReportView', dataObject);
       setIsLoading(false);
     });
-    return () => {
-      dispatch(resetActiveTab());
-    };
+    // return () => {
+    //   dispatch(resetActiveTab());
+    // };
   }, [dispatch]);
 
   return {

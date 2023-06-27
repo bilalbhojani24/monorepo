@@ -18,7 +18,7 @@ function RenderTestListItems({ data, parentId }) {
   useEffect(() => {
     if (virtuosoRef.current && scrollIndexMapping?.[parentId]?.start) {
       setTimeout(() => {
-        virtuosoRef.current.scrollTo({
+        virtuosoRef.current?.scrollTo({
           top: scrollIndexMapping[parentId]?.start,
           behavior: 'auto'
         });

@@ -50,6 +50,7 @@ export const CHART_OPTIONS = {
   },
   plotOptions: {
     series: {
+      cursor: 'pointer',
       animation: false,
       borderWidth: 0,
       stacking: 'percent',
@@ -102,7 +103,7 @@ export const TR_DROP_OPTIONS = [
   {
     id: 'assign',
     body: 'Assign Run',
-    divider: false
+    divider: true
   },
   {
     id: 'close_run',
@@ -110,8 +111,7 @@ export const TR_DROP_OPTIONS = [
   },
   {
     id: 'delete',
-    body: 'Delete',
-    divider: true
+    body: 'Delete'
   }
 ];
 

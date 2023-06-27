@@ -8,11 +8,9 @@ import {
   fetchOverview,
   fetchTestCasesData
 } from 'api/fetchTestAutomationData';
-import { ISSUES, SUMMARY, TESTS } from 'constants';
+import { getBuildEventTab, ISSUES, SUMMARY, TESTS } from 'constants';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
 import { logEvent } from 'utils/logEvent';
-
-import { getBuildEventTab } from '../../../constants';
 
 import {
   resetActiveTab,
@@ -35,7 +33,6 @@ import {
   getBuildMetaData,
   getTestCasesData
 } from './slices/selector';
-import { logEvent } from 'utils/logEvent';
 
 export default function useAutomatedTestBuild() {
   const dispatch = useDispatch();
@@ -103,6 +100,7 @@ export default function useAutomatedTestBuild() {
 
   useEffect(() => {
     const fetchData = (() => {
+      console.log('activeTab: ', activeTab);
       switch (activeTab) {
         case SUMMARY:
           return fetchOverview;
@@ -126,6 +124,8 @@ export default function useAutomatedTestBuild() {
         dispatch(setBuildData(tabData));
       } else if (activeTab === TESTS) {
         dispatch(setTestCasesData(tabData));
+      } else {
+        dispatch(setBuildOverview(tabData));
       }
       dispatch(setBuildMetaData(metaData));
     });

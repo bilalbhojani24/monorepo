@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Badge,
   Button,
@@ -27,6 +27,7 @@ import ZeroIssues from 'assets/zero_issues.svg';
 import { FILTER_KEYS, issueTabs, severityOptions } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 
+import { setShowFreshChatButton } from '../../../../Dashboard/slices/uiSlice';
 import { SectionsDataContext } from '../../context/SectionsDataContext';
 import {
   getActiveComponentId,
@@ -120,7 +121,6 @@ export default function Issues() {
       </div>
     );
   }
-
   return (
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}

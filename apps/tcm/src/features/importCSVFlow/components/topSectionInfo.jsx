@@ -1,10 +1,13 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { MdCheckCircle } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
+import { logEventHelper } from 'utils/logEvent';
 
+import { FIRST_SCREEN, SECOND_SCREEN } from '../const/importCSVConstants';
 import { setCSVCurrentScreen } from '../slices/importCSVSlice';
 
 import useTextTransformer from './useTextTransformer';
@@ -17,7 +20,23 @@ const SingleStep = ({
   showPreText
 }) => {
   const dispatch = useDispatch();
+  const { projectId } = useParams();
+
   const handleCtaClick = () => {
+    if (redirectTo === FIRST_SCREEN) {
+      dispatch(
+        logEventHelper('TM_CiUpdateFileClicked', {
+          project_id: projectId
+        })
+      );
+    }
+    if (redirectTo === SECOND_SCREEN) {
+      dispatch(
+        logEventHelper('TM_CiUpdateMappingLinkClicked', {
+          project_id: projectId
+        })
+      );
+    }
     dispatch(setCSVCurrentScreen(redirectTo));
   };
   const { textRef } = useTextTransformer({
@@ -29,7 +48,7 @@ const SingleStep = ({
       <div className="w-full max-w-[calc(100%-90px)]">
         <div className="flex">
           <MdCheckCircle className="text-success-600 h-5 w-5" />
-          <span className="text-base-800 ml-2 text-sm font-medium">
+          <span className="text-base-900 ml-2 text-sm font-medium">
             {title}
           </span>
         </div>
@@ -73,7 +92,7 @@ SingleStep.defaultProps = {
 };
 
 const TopSectionInfo = ({ steps }) => (
-  <div className="border-base-300 mb-4 w-4/5 max-w-7xl rounded-lg border bg-white p-4">
+  <div className="border-base-300 mb-4 w-4/5 max-w-4xl rounded-lg border bg-white p-4">
     {steps.length &&
       steps.map((step, idx) => (
         <div key={step.title}>

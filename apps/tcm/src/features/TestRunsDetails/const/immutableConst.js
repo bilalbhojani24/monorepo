@@ -3,16 +3,17 @@ import { ACTIVE_TEST_RUNS_COLOR } from '../../Dashboard/const/immutableConst';
 export const TR_DROP_OPTIONS = [
   {
     id: 'close_run',
-    body: 'Close Test Run'
+    body: 'Close Test Run',
+    divider: true
   },
   {
     id: 'edit_details',
-    body: 'Edit Test Run'
+    body: 'Edit Test Run',
+    divider: true
   },
   {
     id: 'delete',
-    body: 'Delete',
-    divider: true
+    body: 'Delete'
   }
 ];
 
@@ -62,3 +63,15 @@ export const ISSUES_TABS_ARRAY = [
     description: 'List of all the issues linked with this test run'
   }
 ];
+
+export const BULK_OPERATIONS = {
+  ADD_RESULT: {
+    option: 'add_result'
+  },
+  ASSIGN_TO: {
+    option: 'assign_to'
+  },
+  REMOVE: {
+    option: 'remove_from_run'
+  }
+};

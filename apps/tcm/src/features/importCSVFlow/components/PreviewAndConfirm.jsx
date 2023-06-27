@@ -25,42 +25,43 @@ const PreviewAndConfirm = () => {
     previewData,
     confirmCSVImportNotificationConfig,
     totalImportedProjectsInPreview,
+    priorityIntNameAndValueMapCSV,
+    priorityNameAndValueMapCSV,
     handleImportTestCaseClick
   } = usePreviewAndConfirm();
 
-  const formatPriority = (priority) => {
+  const formatPriority = (priorityValue) => {
+    if (typeof priorityValue === 'string') return <span>{priorityValue}</span>;
+
+    const priority = priorityIntNameAndValueMapCSV[priorityValue];
+    let icon = '';
+
     switch (priority) {
       case 'high':
-        return (
-          <>
-            <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />
-            <span>High</span>
-          </>
-        );
+        icon = <ArrowUpwardOutlinedIcon className="text-danger-500 mr-2" />;
+        break;
       case 'low':
-        return (
-          <>
-            <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />
-            <span>Low</span>
-          </>
-        );
+        icon = <ArrowDownwardOutlinedIcon className="text-success-500 mr-2" />;
+        break;
       case 'critical':
-        return (
-          <>
-            <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
-            <span>Critical</span>
-          </>
+        icon = (
+          <KeyboardDoubleArrowUpOutlinedIcon className="text-danger-700 mr-2" />
         );
+        break;
       case 'medium':
-        return (
-          <>
-            <RemoveOutlinedIcon className="text-brand-500 mr-2" />
-            <span>Medium</span>
-          </>
-        );
+        icon = <RemoveOutlinedIcon className="text-brand-500 mr-2" />;
+        break;
+
       default:
-        return priority;
+        icon = '';
+        break;
     }
+    return (
+      <>
+        {icon}
+        <span>{priorityNameAndValueMapCSV[priorityValue]}</span>
+      </>
+    );
   };
 
   const formatTemplate = (template) => {
@@ -69,7 +70,7 @@ const PreviewAndConfirm = () => {
   };
 
   return (
-    <div className="border-base-300 mx-4 mb-4 flex h-max w-4/5 max-w-7xl flex-col rounded-md border border-solid bg-white p-6">
+    <div className="border-base-300 mx-4 mb-20 flex h-max w-4/5 max-w-4xl flex-col rounded-md border border-solid bg-white p-6">
       <TMSectionHeadings
         title="Preview & Confirm"
         variant="buttons"
@@ -81,7 +82,7 @@ const PreviewAndConfirm = () => {
           </div>
         }
       />
-      <div className="text-base-800 mt-4 text-base font-medium">
+      <div className="text-base-900 mt-4 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>
       <div className="text-base-500 mb-4 text-sm font-normal">

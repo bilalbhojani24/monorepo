@@ -77,7 +77,9 @@ const useMapFields = () => {
     ...DEFAULT_TABLE_DROPDOWN_OPTIONS,
     ...defaultOptions,
     ...customOptions
-  ]; // all display options
+  ].map((item) =>
+    item.value === ADD_VALUE_VALUE ? { ...item, divider: true } : item
+  ); // all display options and set divider for ignore option
 
   const defaultNameToDisplayMapper = mapFieldsConfig.defaultFields.reduce(
     (mapObject, field) => {
@@ -213,10 +215,18 @@ const useMapFields = () => {
 
   const handleUpdateClick = (actualName, value) => () => {
     dispatch(
+      logEventHelper('TM_CiValueUpdateLinkClicked', {
+        project_id: projectId
+      })
+    );
+    dispatch(
       setMapFieldModalConfig({
         field: actualName,
         mapped_field: value,
-        show: true
+        show: true,
+        fieldMeta: mapFieldsConfig?.defaultFields?.find(
+          (item) => item?.name === value
+        )
       })
     );
     dispatch(setSingleFieldValueMapping(valueMappings[actualName]));
@@ -359,20 +369,40 @@ const useMapFields = () => {
   };
 
   const handleSaveClick = (key) => {
+    dispatch(
+      logEventHelper('TM_CiValueUpdateSaveCtaClicked', {
+        project_id: projectId
+      })
+    );
     dispatch(setValueMappings({ key, value: currentFieldValueMapping }));
     dispatch(setMapFieldModalConfig({ ...modalConfig, show: false }));
   };
 
   const editMappingHandler = () => {
+    dispatch(
+      logEventHelper('TM_CiEditFieldValueMapBtnClicked', {
+        project_id: projectId
+      })
+    );
     dispatch(setShowMappings(false));
+  };
+
+  const ampEventMapPageLoaded = () => {
+    dispatch(
+      logEventHelper('TM_CiMapFieldsPageLoaded', {
+        project_id: projectId,
+        field_mapping: JSON.stringify(myFieldMappings),
+        value_mapping: JSON.stringify(valueMappings)
+      })
+    );
   };
 
   const handleMappingProceedClick = () => {
     dispatch(
-      logEventHelper('TM_ImportCsvStep2ProceedBtnClicked', {
+      logEventHelper('TM_CiMapProceedCtaClicked', {
         project_id: projectId,
-        'column_name[]': Object.keys(myFieldMappings),
-        'field_name[]': Object.keys(valueMappings)
+        field_mapping: JSON.stringify(myFieldMappings),
+        value_mapping: JSON.stringify(valueMappings)
       })
     );
     const folderId = queryParams.get('folder');
@@ -389,6 +419,7 @@ const useMapFields = () => {
   };
 
   return {
+    ampEventMapPageLoaded,
     mapFieldsError,
     allowedValueMapper,
     displayOptions,

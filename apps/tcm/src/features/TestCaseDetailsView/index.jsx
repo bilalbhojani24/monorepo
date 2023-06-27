@@ -18,6 +18,8 @@ const TestCaseDetailsView = ({
   testRunName
 }) => {
   const {
+    hideChat,
+    showChat,
     initTestCaseDetails,
     hideTestCaseViewDrawer,
     actionHandler,
@@ -47,6 +49,13 @@ const TestCaseDetailsView = ({
     []
   );
 
+  useEffect(() => {
+    hideChat();
+    return () => {
+      showChat();
+    };
+  }, [showChat, hideChat]);
+
   return (
     <TMSlideover
       onEscPress={hideTestCaseViewDrawer}
@@ -61,7 +70,7 @@ const TestCaseDetailsView = ({
     >
       <TMSlideoverHeader
         isEllipsisHeader={false}
-        headingWrapperClassName="text-sm text-base-700 flex justify-center items-center"
+        headingWrapperClassName="text-sm text-base-900 flex justify-center items-center"
         heading="TEST CASE DETAILS"
         isBorder
         wrapperClassName="bg-white"
@@ -73,7 +82,6 @@ const TestCaseDetailsView = ({
         resultUpdatable={resultUpdatable}
         onResultClick={onResultClick}
         testRunId={testRunId}
-        testResultsArray={testResultsArray}
         testRunName={testRunName}
       />
     </TMSlideover>
