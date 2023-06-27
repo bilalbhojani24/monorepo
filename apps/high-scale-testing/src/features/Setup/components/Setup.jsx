@@ -21,7 +21,6 @@ import {
 import { twClassNames } from '@browserstack/utils';
 import { OpenInNew } from '@mui/icons-material';
 import LoaderGif from 'assets/icons/loader.gif';
-import { BannerMessages } from 'constants/bannerMessages';
 import {
   AGNoSetupInteracted,
   AGNoSetupStepsExecuted
@@ -83,6 +82,9 @@ const Setup = () => {
     showTrialGridBanner,
     subHeaderText,
     totalSteps,
+    useTrialGridBannerText,
+    useTrialGridClickHandler,
+    useTrialGridLoading,
     viewAllBuildsClickHandler,
     viewEventLogsClickHandler
   } = useSetup();
@@ -343,11 +345,20 @@ const Setup = () => {
           bannerIcon={
             <MdCampaign aria-hidden="true" className="h-6 w-6 text-white" />
           }
-          ctaButton={<Button colors="white">Use Trial Grid</Button>}
-          description={BannerMessages.trialGridSetupPageIntro}
+          ctaButton={
+            <Button
+              colors="white"
+              onClick={useTrialGridClickHandler}
+              loading={useTrialGridLoading}
+            >
+              Use Trial Grid
+            </Button>
+          }
+          description={useTrialGridBannerText}
           isDismissButton={false}
         />
       )}
+
       <div className="border-base-300 m-auto my-10 w-4/6 max-w-4xl rounded-lg border">
         <PageHeadings
           actions={

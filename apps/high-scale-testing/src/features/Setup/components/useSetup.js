@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useInterval, useMountEffect } from '@browserstack/hooks';
 import {
+  createTrialGridForUser,
   getOnboardingData,
   getOnboardingEventsLogsData,
   markOnboardingRegionChange,
   markOnboardingStatus
 } from 'api';
+import { BannerMessages } from 'constants/bannerMessages';
 import {
   AGErrorGridModalInteracted,
   AGErrorGridModalPresented,
@@ -43,6 +46,8 @@ import { logHSTEvent } from 'utils/logger';
 import { DEFAULT_CLOUD_PROVIDER, SUB_TEXTS_OBJECT } from '../constants';
 
 const useSetup = () => {
+  const navigate = useNavigate();
+
   // All Store variables:
   const userDetails = useSelector(getUserDetails);
 
@@ -92,6 +97,10 @@ const useSetup = () => {
   );
   const [selectedRegion, setSelectedRegion] = useState();
   const [totalSteps, setTotalSteps] = useState(0);
+  const [useTrialGridLoading, setUseTrialGridLoading] = useState(false);
+  const [useTrialGridBannerText, setUseTrialGridBannerText] = useState(
+    BannerMessages.trialGridSetupPageIntro
+  );
 
   const intervalIdForEventLogs = useRef();
 
@@ -238,6 +247,16 @@ const useSetup = () => {
 
     logHSTEvent(['amplitude'], 'web_events', eventName, {
       action: 'viewdoc_clicked'
+    });
+  };
+
+  const useTrialGridClickHandler = async () => {
+    setUseTrialGridLoading(true);
+    await createTrialGridForUser(userDetails.id).then((res) => {
+      const { gridId } = res.data;
+      if (res.status === 200) {
+        navigate(`/grid-console/grid/${gridId}/overview`);
+      }
     });
   };
 
@@ -388,6 +407,14 @@ const useSetup = () => {
     setShowSetupStatusModal(isSetupComplete);
   }, [isSetupComplete]);
 
+  useEffect(() => {
+    if (useTrialGridLoading) {
+      setUseTrialGridBannerText(BannerMessages.trialGridSetupPageIntroLoading);
+    } else {
+      setUseTrialGridBannerText(BannerMessages.trialGridSetupPageIntro);
+    }
+  }, [useTrialGridLoading]);
+
   const fetchEventsLogsData = async (type, step) => {
     const response = await getOnboardingEventsLogsData(userDetails.id, type);
     const res = response.data;
@@ -491,6 +518,9 @@ const useSetup = () => {
     showTrialGridBanner,
     subHeaderText,
     totalSteps,
+    useTrialGridBannerText,
+    useTrialGridClickHandler,
+    useTrialGridLoading,
     viewAllBuildsClickHandler,
     viewEventLogsClickHandler
   };
