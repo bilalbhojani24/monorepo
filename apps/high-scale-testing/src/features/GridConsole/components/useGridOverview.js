@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useMountEffect } from '@browserstack/hooks';
 import {
   AGGridDetailsInteracted,
   AGGridDetailsVisited
 } from 'constants/event-names';
+import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 import { calculateRelativeTime } from 'utils/time';
 
@@ -13,6 +13,7 @@ import { getSelectedGridData } from '../slices/selector';
 const useGridOverview = () => {
   // All Store variables
   const selectedGridData = useSelector(getSelectedGridData);
+  const userDetails = useSelector(getUserDetails);
 
   const containerClassName =
     'border-base-200 rounded-lg border bg-white p-6 shadow';
@@ -39,7 +40,8 @@ const useGridOverview = () => {
     fontColor900ClassName,
     selectedGridData,
     hasBrowsersUsed,
-    relativeTime
+    relativeTime,
+    userDetails
   };
 };
 
