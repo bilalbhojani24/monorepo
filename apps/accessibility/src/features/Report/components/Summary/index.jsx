@@ -236,7 +236,7 @@ export default function Summary() {
                           wrapperClassName={`text-xs text-base-500 ${
                             index === 0 ? 'w-14' : ''
                           } ${index === 1 ? 'w-80' : ''} ${
-                            index === 2 ? 'w-32' : ''
+                            index === 2 ? 'w-32 text-right' : ''
                           }`}
                         >
                           {col.name}
@@ -270,7 +270,11 @@ export default function Summary() {
                             ) : (
                               ''
                             )}
-                            {colIndex === 2 ? count : ''}
+                            {colIndex === 2 ? (
+                              <p className="text-right">{count}</p>
+                            ) : (
+                              ''
+                            )}
                           </TableCell>
                         ))}
                       </TableRow>
@@ -420,7 +424,7 @@ export default function Summary() {
                             wrapperClassName={`text-xs text-base-500 ${
                               index === 0 ? 'w-14' : ''
                             } ${index === 1 ? 'w-80' : ''} ${
-                              index === 2 ? 'w-32' : ''
+                              index === 2 ? 'w-32 text-right' : ''
                             }`}
                           >
                             {col.name}
@@ -452,7 +456,11 @@ export default function Summary() {
                                   {url || ''}
                                 </div>
                               )}
-                              {colIndex === 2 ? count : ''}
+                              {colIndex === 2 ? (
+                                <p className="text-right">{count}</p>
+                              ) : (
+                                ''
+                              )}
                             </TableCell>
                           ))}
                         </TableRow>

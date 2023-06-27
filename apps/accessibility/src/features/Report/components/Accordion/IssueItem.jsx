@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/default-highlight';
 import { a11yLight } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import {

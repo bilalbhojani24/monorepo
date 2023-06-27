@@ -1,5 +1,5 @@
 import React from 'react';
-import { twClassNames } from '@browserstack/utils';
+import { logEvent, twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import {
@@ -18,6 +18,11 @@ const SidenavExpanded = ({
   onTabClick,
   purchasedProducts
 }) => {
+  const getProductClick = (product) => () => {
+    // TODO: add args here
+    logEvent();
+  };
+
   const productElementContainer = (product) => {
     const isActiveProduct = product.identifier === activeProduct;
     return (
@@ -30,6 +35,7 @@ const SidenavExpanded = ({
           }
         )}
         href={product.link}
+        onClick={getProductClick(product)}
       >
         <span>
           {product.icon({
@@ -76,6 +82,13 @@ const SidenavExpanded = ({
       </div>
     </>
   );
+
+  const getTabClick = (type) => () => {
+    onTabClick(type);
+    // TODO: add args here
+    logEvent();
+  };
+
   return (
     <>
       <div
@@ -96,7 +109,7 @@ const SidenavExpanded = ({
                 'bg-[#15803D]': activeTab === 'web'
               }
             )}
-            onClick={() => onTabClick('web')}
+            onClick={getTabClick('web')}
           >
             <span>
               <WebIcon iconColor={activeTab === 'web' ? 'white' : null} />
@@ -121,7 +134,7 @@ const SidenavExpanded = ({
                 'bg-[#15803D]': activeTab === 'app'
               }
             )}
-            onClick={() => onTabClick('app')}
+            onClick={getTabClick('app')}
           >
             <span>
               <AppIcon iconColor={activeTab === 'app' ? 'white' : null} />
