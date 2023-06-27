@@ -51,6 +51,9 @@ export default function useFolders() {
   const isTestCasesLoading = useSelector(
     (state) => state.repository.isLoading.testCases
   );
+  const isSearchFilterView = useSelector(
+    (state) => state.repository.isSearchFilterView
+  );
   const noResultsText = useSelector(
     (state) => state.repository.searchEmptyText
   );
@@ -337,6 +340,7 @@ export default function useFolders() {
   }, [folderId, allFolders]);
 
   return {
+    isSearchFilterView,
     bulkSelectionIds,
     noResultsText,
     isMoveToRootAvailable,
