@@ -1,9 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { MdOutlineTextSnippet, MdWeb } from '@browserstack/bifrost';
 import AutomatioConsole from 'assets/icons/components/AutomationConsole';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
+import { getSelectedGridData } from 'features/GridConsole/slices/selector';
 import { getEnvConfig } from 'utils/common';
 import { logHSTEvent } from 'utils/logger';
 
@@ -13,15 +15,12 @@ const useLayout = () => {
 
   const { docHomeURL } = getEnvConfig();
 
+  const selectedGridData = useSelector(getSelectedGridData);
+
   const [
     showTrialGridBannerInGridOverview,
     setShowTrialGridBannerInGridOverview
   ] = useState(false);
-
-  const isCurrent = useCallback(
-    (navItem) => !!matchPath({ path: navItem.pattern }, location.pathname),
-    [location.pathname]
-  );
 
   const primaryNavs = [
     {
@@ -52,6 +51,11 @@ const useLayout = () => {
     }
   ];
 
+  const isCurrent = useCallback(
+    (navItem) => !!matchPath({ path: navItem.pattern }, location.pathname),
+    [location.pathname]
+  );
+
   const navigationClickHandler = (item) => {
     if (item.id === 'builds-dashboard') {
       logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
@@ -74,6 +78,14 @@ const useLayout = () => {
       window.location.href = docHomeURL;
     }
   };
+
+  useEffect(() => {
+    if (selectedGridData && selectedGridData.isTrialGrid) {
+      setShowTrialGridBannerInGridOverview(true);
+    } else {
+      setShowTrialGridBannerInGridOverview(false);
+    }
+  }, [selectedGridData]);
 
   return {
     isCurrent,
