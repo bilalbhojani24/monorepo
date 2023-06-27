@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useMountEffect } from '@browserstack/hooks';
-import { cookieUtils as CookieUtils, twClassNames } from '@browserstack/utils';
+import {
+  cookieUtils as CookieUtils,
+  logEvent,
+  twClassNames
+} from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import { getPurchasedProducts } from './api/userData';
@@ -48,6 +52,16 @@ const ProductSidenav = ({ activeProduct }) => {
     setActiveTab(selectedTab);
   };
 
+  const handleMouseEnter = () => {
+    setExpanded(true);
+    logEvent([], 'web_events', 'HoveredOnSideNav', {
+      source: 'Homepage_Demo_CTA_Exp4',
+      location: 'Left Navigation',
+      url: window.location.href,
+      team: activeProduct
+    });
+  };
+
   if (headerScalability !== 'true') {
     return null;
   }
@@ -62,7 +76,7 @@ const ProductSidenav = ({ activeProduct }) => {
             'w-[260px] overflow-y-auto': expanded
           }
         )}
-        onMouseEnter={() => setExpanded(true)}
+        onMouseEnter={handleMouseEnter}
         onMouseLeave={() => setExpanded(false)}
         onFocus={() => setExpanded(true)}
         onBlur={(e) => {
