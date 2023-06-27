@@ -25,7 +25,8 @@ const initialAppState = {
   isActiveOpen: false,
   showHiddenIssues: { hideIssues: false },
   activeFilters: { ...activeInitFilters },
-  isFilterModalVisible: false
+  isFilterModalVisible: false,
+  activeTab: SUMMARY
 };
 
 // const getInitialTab = () => {
