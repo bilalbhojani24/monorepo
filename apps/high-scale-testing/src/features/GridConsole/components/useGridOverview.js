@@ -5,6 +5,7 @@ import {
   AGGridDetailsVisited
 } from 'constants/event-names';
 import { logHSTEvent } from 'utils/logger';
+import { calculateRelativeTime } from 'utils/time';
 
 import { getGridData } from '../slices/selector';
 
@@ -13,17 +14,19 @@ const useGridOverview = () => {
   const gridData = useSelector(getGridData);
 
   const {
-    identifier,
-    name,
-    user,
-    cluster,
-    status,
-    frameworks,
-    connected,
     browserSettings,
+    cluster,
+    connected,
+    frameworks,
     gridVersion,
+    identifier,
+    isTrialGrid,
+    name,
     runningTests,
-    queuedTests
+    queuedTests,
+    stats,
+    status,
+    user
   } = gridData;
 
   // loading state also needs to be added
@@ -40,6 +43,8 @@ const useGridOverview = () => {
       framework
     });
   };
+  const hasBrowsersUsed = stats?.browsersUsed.length > 0;
+  const relativeTime = calculateRelativeTime(connected);
 
   useMountEffect(() => {
     logHSTEvent([], 'web_events', AGGridDetailsVisited, {
@@ -48,21 +53,20 @@ const useGridOverview = () => {
   });
 
   return {
-    allowedBrowsers,
     cluster,
-    connected,
     containerClassName,
     copyBtnCbFn,
     fontColor900ClassName,
     frameworks,
     gridData,
     gridVersion,
+    hasBrowsersUsed,
     identifier,
+    isTrialGrid,
     name,
-    runningTests,
-    status,
-    queuedTests,
-    user
+    relativeTime,
+    stats,
+    status
   };
 };
 
