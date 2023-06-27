@@ -15,6 +15,7 @@ import {
   O11yDropdownOptionItem,
   O11yDropdownTrigger
 } from 'common/bifrostProxy';
+import { GenericTooltipContent } from 'common/DataWizTooltipContent';
 import { TEST_DETAILS_SOURCE } from 'constants/common';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import TestDetailsSlideOver from 'features/TestDetails';
@@ -52,13 +53,18 @@ export default function TestInsightsLayout({ applyTestListFilter }) {
         data: {
           project_name: activeProject.name,
           project_id: activeProject.id,
-          build_name: buildMeta?.name,
-          build_uuid: buildMeta?.uuid,
+          build_name: buildMeta?.data?.name,
+          build_uuid: buildMeta?.data?.uuid,
           interaction
         }
       });
     },
-    [activeProject.id, activeProject.name, buildMeta?.name, buildMeta?.uuid]
+    [
+      activeProject.id,
+      activeProject.name,
+      buildMeta?.data?.name,
+      buildMeta?.data?.uuid
+    ]
   );
   const onLayoutChange = (_, layouts) => {
     setStorage(RGL_LS_KEY, layouts);
@@ -164,9 +170,18 @@ export default function TestInsightsLayout({ applyTestListFilter }) {
                     }
                   )}
                   analytics={<DashboardCard cardKey={key} />}
-                  headerInfo={false}
+                  headerInfo
                   headerInfoTooltipProps={{
-                    content: <>{cards[key].title}</>,
+                    content: (
+                      <GenericTooltipContent
+                        data={cards[key]}
+                        logCb={(trackingData) =>
+                          logInsightsInteractionEvent({
+                            interaction: trackingData
+                          })
+                        }
+                      />
+                    ),
                     children: <MdInfoOutline className="h-5 w-5" />,
                     placementAlign: 'center',
                     placementSide: 'bottom',

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   ComboBox,
+  ComboboxLabel,
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
@@ -17,7 +18,6 @@ import { fetchBase64IconThunk } from '../../../api/fetchBase64Icon';
 import { activeIntegrationSelector } from '../../../features/slices/integrationsSlice';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
 import { baseURLSelector } from '../../slices/configSlice';
-import Label from '../Label';
 import { FieldType, SingleValueSelectRawOptionType } from '../types';
 
 const SingleValueSelect = ({
@@ -293,13 +293,14 @@ const SingleValueSelect = ({
         value={(fieldsData[fieldKey] || cleanedValue) ?? {}}
         errorText={requiredFieldError || fieldErrors?.[fieldKey]}
         disabled={disabled}
+        isMandatory={required}
         isLoadingRight={
           isLoading || (!lengthOfOptionsToRender && searchLoading)
         }
         noOptionsText={noOptionsText}
         noResultFoundText={noResultFoundText}
       >
-        <Label label={label} required={required} />
+        <ComboboxLabel>{label}</ComboboxLabel>
         <ComboboxTrigger
           placeholder={placeholder}
           wrapperClassName={wrapperClassName}
