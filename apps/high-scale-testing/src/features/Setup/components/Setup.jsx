@@ -33,11 +33,11 @@ import {
 } from 'constants/setup';
 import { CREATE_GRID } from 'constants/strings';
 import { AWS_IAM_DOC, CLOUD_FORMATION_LINK } from 'constants/urls';
+import { EventLogs } from 'features/EventLogs';
 import { logHSTEvent } from 'utils/logger';
 
 import { LIST_FEED_PROPS } from '../constants';
 
-import EventLogs from './EventLogs';
 import SetupStatus from './SetupStatus';
 import useSetup from './useSetup';
 

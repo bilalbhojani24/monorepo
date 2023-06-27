@@ -17,7 +17,7 @@ import ROUTES from 'constants/routes';
 import { logHSTEvent } from 'utils/logger';
 
 // import { setGridData, setSelectedGridData } from '../slices';
-import { getGridsData } from '../slices/selector';
+import { getGridsData } from '../../GridConsole/slices/selector';
 
 const useLayoutGridDetail = () => {
   // const dispatch = useDispatch();

@@ -33,7 +33,7 @@ import {
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/setup';
-import EventLogs from 'features/Setup/components/EventLogs';
+import { EventLogs } from 'features/EventLogs/';
 import SetupStatus from 'features/Setup/components/SetupStatus';
 
 import useCreateGrid from './useCreateGrid';

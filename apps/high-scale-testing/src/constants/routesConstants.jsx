@@ -1,20 +1,19 @@
 import React from 'react';
 import ClusterOverview from 'features/ClusterDetail/components/ClusterOverview';
 import ClusterUtilization from 'features/ClusterDetail/components/ClusterUtilization';
-import LayoutClusterDetail from 'features/ClusterDetail/container/LayoutClusterDetail';
 import CreateGrid from 'features/CreateGrid/components/CreateGrid';
 import ErrorPage from 'features/ErrorPage/components';
 import GridConsole from 'features/GridConsole/components/GridConsole';
-import GridOverview from 'features/GridConsole/components/GridOverview';
-import GridUtilization from 'features/GridConsole/components/GridUtilisation';
-import LayoutGridDetail from 'features/GridConsole/components/LayoutGridDetail';
+import GridOverview from 'features/GridDetail/components/GridOverview';
+import GridUtilization from 'features/GridDetail/components/GridUtilisation';
 import BrowsersSettings from 'features/GridSettings/components/BrowsersSettings';
 import GeneralSettings from 'features/GridSettings/components/GeneralSettings';
 import TestArtifactsSettings from 'features/GridSettings/components/TestArtifactsSettings';
 import TimeoutSettings from 'features/GridSettings/components/TimeoutSettings';
 import GridSettings from 'features/GridSettings/container/GridSettings';
-import { Layout } from 'features/Layout';
-import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
+import { Layout, LayoutWOSidebar } from 'features/Layouts';
+import LayoutClusterDetail from 'features/Layouts/components/LayoutClusterDetail';
+import LayoutGridDetail from 'features/Layouts/components/LayoutGridDetail';
 import { Setup } from 'features/Setup';
 
 import ROUTES from './routes';

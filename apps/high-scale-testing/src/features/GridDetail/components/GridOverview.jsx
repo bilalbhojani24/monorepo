@@ -4,7 +4,7 @@ import CopyButton from 'common/CopyButton/components/CopyButton';
 import browserIcons from 'constants/browserIcons';
 import frameWorkIcons from 'constants/frameworkIcons';
 
-import { useGridOverview } from './useGridOverview';
+import { useGridOverview } from '../../GridConsole/components/useGridOverview';
 
 const GridOverview = () => {
   const {
@@ -17,7 +17,6 @@ const GridOverview = () => {
     gridVersion,
     hasBrowsersUsed,
     identifier,
-    isTrialGrid,
     name,
     relativeTime,
     stats,
@@ -115,61 +114,74 @@ const GridOverview = () => {
         </div>
       </div>
 
-      {frameworks?.length && (
+      <div className="flex flex-row">
+        {frameworks?.length && (
+          <div className="p-6">
+            <div className={containerClassName}>
+              <p className="text-base-900 text-lg font-medium leading-6">
+                Framework URLs
+              </p>
+              <div className="bg-white pt-4">
+                {frameworks.map((framework) => (
+                  <div
+                    className="border-base-200 flex flex-row items-center border-b py-3"
+                    key={framework?.name}
+                  >
+                    <div className="flex flex-row items-center">
+                      {frameWorkIcons[framework?.name]}
+                      <div className="ml-2 w-52">
+                        <p className="text-base-500 text-base font-normal">
+                          {framework?.name}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-row items-center justify-start">
+                      {framework?.url.length ? (
+                        <>
+                          <p className="text-base-900 mr-4 text-base font-normal">
+                            {framework?.url}
+                            {framework?.name === 'Selenium' && '/wd/hub'}
+                          </p>
+
+                          <CopyButton
+                            cb={() =>
+                              copyBtnCbFn(framework?.name.toLowerCase())
+                            }
+                            copyValue={framework?.url}
+                            textColor=""
+                            wrapperClassName="text-xl"
+                          >
+                            <MdContentCopy className="text-base-500" />
+                          </CopyButton>
+                        </>
+                      ) : (
+                        <Badge
+                          disabled
+                          hasDot={false}
+                          hasRemoveButton={false}
+                          isRounded
+                          text={framework.status}
+                          modifier="info"
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="p-6">
           <div className={containerClassName}>
             <p className="text-base-900 text-lg font-medium leading-6">
-              Framework URLs
+              User Details
             </p>
-            <div className="bg-white pt-4">
-              {frameworks.map((framework) => (
-                <div
-                  className="border-base-200 flex flex-row items-center border-b py-3"
-                  key={framework?.name}
-                >
-                  <div className="flex flex-row items-center">
-                    {frameWorkIcons[framework?.name]}
-                    <div className="ml-2 w-52">
-                      <p className="text-base-500 text-base font-normal">
-                        {framework?.name}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-row items-center justify-start">
-                    {framework?.url.length ? (
-                      <>
-                        <p className="text-base-900 mr-4 text-base font-normal">
-                          {framework?.url}
-                          {framework?.name === 'Selenium' && '/wd/hub'}
-                        </p>
-
-                        <CopyButton
-                          cb={() => copyBtnCbFn(framework?.name.toLowerCase())}
-                          copyValue={framework?.url}
-                          textColor=""
-                          wrapperClassName="text-xl"
-                        >
-                          <MdContentCopy className="text-base-500" />
-                        </CopyButton>
-                      </>
-                    ) : (
-                      <Badge
-                        disabled
-                        hasDot={false}
-                        hasRemoveButton={false}
-                        isRounded
-                        text={framework.status}
-                        modifier="info"
-                      />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <div className="bg-white pt-4">Lorem impsum</div>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };

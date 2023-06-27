@@ -19,7 +19,6 @@ const useGridOverview = () => {
     frameworks,
     gridVersion,
     identifier,
-    isTrialGrid,
     name,
     stats,
     status
@@ -56,7 +55,6 @@ const useGridOverview = () => {
     gridVersion,
     hasBrowsersUsed,
     identifier,
-    isTrialGrid,
     name,
     relativeTime,
     stats,
