@@ -5,12 +5,13 @@ import {
   fetchProjectById
 } from 'api/fetchTestAutomationData';
 import { ALL_PROJECTS } from 'constants';
-
 import { logEvent } from 'utils/logEvent';
 
 export default function useAutomatedTestListing() {
   const [buildListing, setBuildListing] = useState([]);
   const [comboboxItems, setComboboxItems] = useState([]);
+  const [showColdStart, setShowColdStart] = useState(false);
+
   const projectListing = useRef([]);
   const allBuilds = useRef([]);
 
@@ -58,6 +59,7 @@ export default function useAutomatedTestListing() {
   useEffect(() => {
     fetchAllTestRuns().then((response) => {
       setBuildListing(response);
+      if (response.length === 0) setShowColdStart(true);
       allBuilds.current = response;
       logEvent('OnAutomatedTestsHomepageView', {
         buildsAvailable: response.length > 0
@@ -81,6 +83,7 @@ export default function useAutomatedTestListing() {
     onInputValueChange,
     handleSelectChange,
     projectListing,
-    comboboxItems
+    comboboxItems,
+    showColdStart
   };
 }

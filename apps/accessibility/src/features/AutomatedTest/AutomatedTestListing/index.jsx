@@ -11,6 +11,7 @@ import {
 } from '@browserstack/bifrost';
 import ColdStart from 'common/ColdStart';
 import { logEvent } from 'utils/logEvent';
+
 import AutomatedTestList from './AutomatedTestList';
 import useAutomatedTestListing from './useAutomatedTestListing';
 
@@ -20,12 +21,13 @@ export default function AutomatedTestListing() {
     onInputValueChange,
     onComboboxValueChange,
     comboboxItems,
-    handleSelectChange
+    handleSelectChange,
+    showColdStart
   } = useAutomatedTestListing();
 
   return (
     <div className="bg-white">
-      {buildListing ? (
+      {!showColdStart ? (
         <>
           <div className="bg-base-50 fixed top-16 z-[2] w-[calc(100vw-256px)] px-6 pb-4 pt-6">
             <div className="flex items-start justify-between">
