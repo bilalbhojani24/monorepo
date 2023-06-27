@@ -143,7 +143,7 @@ const ConfigureTool = () => {
                           isRounded
                           text="Recommended"
                           modifier="warn"
-                          size="large"
+                          size="basic"
                         />
                       </>
                     ),
