@@ -6,6 +6,7 @@ import {
   MdOpenInNew,
   MdOutlineDynamicFeed,
   MdOutlineHome,
+  MdOutlineMotionPhotosAuto,
   MdOutlineRecordVoiceOver,
   MdStar,
   MdTextSnippet
@@ -28,6 +29,13 @@ import {
 } from 'constants';
 import { stagingEnvs } from 'constants/config';
 import { addDays } from 'date-fns';
+import {
+  getIsFreeUser,
+  getShowBanner,
+  getTrialEndDate,
+  getTrialState,
+  getUser
+} from 'features/Dashboard/slices/selectors';
 import { setIsShowingBanner } from 'features/Reports/slices/appSlice';
 import { getIsShowingBanner } from 'features/Reports/slices/selector';
 import { defaultPath, getBrowserStackBase, getCurrentEnv } from 'utils';
@@ -39,22 +47,15 @@ import {
 import { logEvent, startLogging } from 'utils/logEvent';
 
 import { setModalName, setModalShow } from '../slices/appSlice';
-import {
-  getIsFreeUser,
-  getShowBanner,
-  getTrialEndDate,
-  getTrialState,
-  getUser
-} from '../slices/selectors';
 
 const envConfig = stagingEnvs[getCurrentEnv()];
 
 export default function useDashboard() {
   const mainRef = useRef(null);
   const dispatch = useDispatch();
+  const user = useSelector(getUser);
   const showBanner = useSelector(getShowBanner);
   const isShowingBanner = useSelector(getIsShowingBanner);
-  const user = useSelector(getUser);
   const isFreeUser = useSelector(getIsFreeUser);
   const [currentPath, setCurrentPath] = useState(defaultPath());
   const navigate = useNavigate();
@@ -92,11 +93,12 @@ export default function useDashboard() {
     }
     return true;
   };
+  const isBrowserStackUser = user.group_id === 2;
 
   const primaryNav = [
     {
       id: 'report-listing',
-      label: 'All reports',
+      label: 'Manual test reports',
       activeIcon: MdOutlineHome,
       inActiveIcon: MdOutlineHome,
       path: '/reports'
@@ -121,6 +123,17 @@ export default function useDashboard() {
       badge: shouldShowNewBadge() ? <Badge text="New" /> : null
     }
   ];
+
+  if (isBrowserStackUser) {
+    primaryNav.push({
+      id: 'automated-tests',
+      label: 'Automated tests',
+      activeIcon: MdOutlineMotionPhotosAuto,
+      inActiveIcon: MdOutlineMotionPhotosAuto,
+      path: '/automated-tests/projects',
+      badge: shouldShowNewBadge() ? <Badge text="New" /> : null
+    });
+  }
 
   const secondaryNav = [
     {

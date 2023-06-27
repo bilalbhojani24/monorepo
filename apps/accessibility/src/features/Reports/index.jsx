@@ -28,8 +28,6 @@ import ColdStart from './components/ColdStart';
 import ReportRow from './components/ReportRow';
 import useReports from './useReports';
 
-import './style.scss';
-
 export default function Reports() {
   const {
     isOpen,
@@ -238,7 +236,6 @@ export default function Reports() {
                     icon={<MdOutlineArrowForward className="text-xl" />}
                     onClick={onReportConsolidateButtonClick}
                     disabled={isMergeDisabled}
-                    size="default"
                     variant="secondary"
                   >
                     Consolidate reports
