@@ -251,7 +251,6 @@ const Dashboard = () => {
               title={<p>Automated Test Cases</p>}
               wrapperClassName="bg-white relative"
               size="fit-content"
-              headerInfo
               contentWrapperClassName="pl-6 pr-3.5"
               desc={
                 isLoadingStates?.automationStats ? (
@@ -272,7 +271,7 @@ const Dashboard = () => {
                 theme: 'dark',
                 placementAlign: 'center',
                 placementSide: 'bottom',
-                size: 'extra-small',
+                size: 'xs',
                 children: <MdInfoOutline className="h-5 w-5" />
               }}
             />
@@ -281,7 +280,6 @@ const Dashboard = () => {
               title="Manual Test Cases"
               wrapperClassName="bg-white relative"
               size="fit-content"
-              headerInfo
               desc={
                 isLoadingStates?.automationStats ? (
                   <Loader wrapperClassName="h-5 w-5" />
