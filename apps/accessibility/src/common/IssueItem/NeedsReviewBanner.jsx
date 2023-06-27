@@ -51,7 +51,6 @@ function NodeIssueNavigator({
   };
 
   const getReviewStatusInfo = () => {
-    console.log({ nodeNeedsReviewStatus });
     if (isConfirmedInAllReports === null && !showHiddenIssues) {
       if (showPagination) {
         const modifier = getReviewTagColor(
