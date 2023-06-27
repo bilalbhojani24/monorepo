@@ -42,7 +42,7 @@ const useUnsavedChanges = () => {
 
   const clearUnsavedChangesHandler = () => {
     exitAndClearForm();
-    recentRequestedStep.callBack?.();
+    recentRequestedStep?.callBack?.();
     setRecentRequestedStep('');
     hideUnsavedModal();
   };
@@ -63,7 +63,7 @@ const useUnsavedChanges = () => {
   };
 
   const unsavedFormConfirmation = (isForcedExit, callBack) => {
-    // if ok to proceed rightaway call the function, else wait until complied, if not drop
+    // if ok to proceed rightaway call the function, else wait until completed, if not drop
     const isOk = isOkToExitForm(isForcedExit, {
       callBack
     });

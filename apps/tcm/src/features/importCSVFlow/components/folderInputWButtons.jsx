@@ -108,7 +108,7 @@ const FolderInputWButton = ({
       </div>
       <div
         className={twClassNames(
-          'text-base-500 mt-1 flex items-center text-sm font-normal',
+          'text-base-900 mt-1 flex items-center text-sm font-normal',
           {
             'text-base-700': descriptionIcon
           }

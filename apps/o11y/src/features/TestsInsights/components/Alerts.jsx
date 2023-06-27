@@ -15,11 +15,13 @@ import {
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { PAYWALL_FEATURES } from 'constants/paywall';
-import { ROUTES } from 'constants/routes';
+import { ROUTE_PATH_KEYS } from 'constants/routes';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
 import { PaywallWrapperEmptyState } from 'features/Paywall';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
+import { getPageUrlByMapping } from 'utils/routeUtils';
 
 import { getBuildAlerts } from '../slices/selectors';
 import { getBuildAlertsData } from '../slices/testInsightsSlice';
@@ -38,6 +40,7 @@ function Alerts() {
   const dispatch = useDispatch();
   const alerts = useSelector(getBuildAlerts);
   const buildId = useSelector(getBuildUUID);
+  const activeProject = useSelector(getActiveProject);
 
   useEffect(() => {
     dispatch(getBuildAlertsData({ buildId }));
@@ -50,7 +53,12 @@ function Alerts() {
 
   const handleClickConfigureAlerts = () => {
     logInsightsInteractionEvent({ interaction: 'alerts_configure_clicked' });
-    navigate(ROUTES.settings_alerts);
+    navigate(
+      `${getPageUrlByMapping(
+        activeProject?.normalisedName,
+        ROUTE_PATH_KEYS.settings_alerts
+      )}`
+    );
   };
 
   const hasNoData = useMemo(

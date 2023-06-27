@@ -41,7 +41,7 @@ const ImportDetailsModal = ({ show, headerText }) => {
                 ? 'Quick Import is completed'
                 : 'Quick Import is in progress...'}
             </div>
-            <div className="text-base-500 text-xs leading-5">
+            <div className="text-base-900 text-xs leading-5">
               {importDetails?.percent === 100
                 ? 'You can go to All Projects to view the import progress'
                 : `We’ll notify you once the overall import is completed`}

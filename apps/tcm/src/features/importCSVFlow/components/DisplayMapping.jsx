@@ -82,7 +82,7 @@ const DisplayMapping = ({
           </div>
         ))}
       </div>
-      <div className="bg-base-50  flex justify-end p-4">
+      <div className="bg-base-50 flex justify-end rounded-b-md p-4">
         <TMButton variant="secondary" onClick={onEditMapping}>
           Edit Field & Value Mapping
         </TMButton>

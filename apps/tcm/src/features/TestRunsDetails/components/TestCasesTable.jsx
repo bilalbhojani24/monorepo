@@ -187,7 +187,11 @@ const TestCasesTable = () => {
   ];
 
   return (
-    <div className="flex-col overflow-y-auto border-none">
+    <div
+      className={twClassNames('flex-col overflow-y-auto border-none', {
+        'pb-20': !(metaPage?.count > metaPage?.page_size)
+      })}
+    >
       <TMTable
         tableWrapperClass="w-full"
         containerWrapperClass={classNames(
