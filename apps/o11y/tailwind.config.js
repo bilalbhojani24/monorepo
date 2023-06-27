@@ -25,6 +25,10 @@ module.exports = {
       animation: {
         ...globalConfigs.globalTailwindConfig.theme.extend.animation,
         'pulse-bg': 'bg-pulse 1s ease'
+      },
+      screens: {
+        print: { raw: 'print' },
+        screen: { raw: 'screen' }
       }
     },
     fontFamily: {

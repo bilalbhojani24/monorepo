@@ -3,31 +3,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  Hyperlink,
-  MdAutoAwesome,
-  MdCancel,
-  MdCheckCircle,
-  MdHelp,
-  MdOutlineAutoFixHigh,
-  MdOutlineTimer,
-  MdPerson,
-  MdRemoveCircle,
-  MdSchedule
-} from '@browserstack/bifrost';
+import { Hyperlink, MdOutlineAutoFixHigh } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import {
-  O11yBadge,
-  O11yMetaData,
-  O11yTabs,
-  O11yTooltip
-} from 'common/bifrostProxy';
-import CiIcon from 'common/CiIcon';
+import { O11yBadge, O11yTabs, O11yTooltip } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import StatusBadges from 'common/StatusBadges';
-import VCIcon from 'common/VCIcon';
-import ViewMetaPopOver from 'common/ViewMetaPopOver';
-import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { DOC_KEY_MAPPING } from 'constants/common';
 import {
   ADV_FILTER_OPERATIONS,
   ADV_FILTER_TYPES,
@@ -38,8 +19,7 @@ import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
 import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
-import { getBuildMarkedStatus, getDocUrl, logOllyEvent } from 'utils/common';
-import { getCustomTimeStamp, milliSecondsToTime } from 'utils/dateTime';
+import { getDocUrl, logOllyEvent } from 'utils/common';
 
 import { TABS } from '../constants';
 import {
@@ -54,6 +34,7 @@ import {
 } from '../slices/selectors';
 
 import BuildMetaActions from './BuildMetaActions';
+import BuildMetaData from './BuildMetaData';
 
 const tabsList = Object.keys(TABS).map((key) => ({
   name: TABS[key].name,
@@ -148,69 +129,6 @@ function BuildDetailsHeader({
     );
   }
 
-  const renderStatusIcon = () => {
-    const status = getBuildMarkedStatus(
-      buildMeta.data.status,
-      buildMeta.data.statusStats
-    );
-    if (
-      status !== TEST_STATUS.PENDING &&
-      buildMeta.data.isAutoAnalyzerRunning
-    ) {
-      return (
-        <O11yMetaData
-          icon={<MdAutoAwesome className="text-brand-800 h-4 w-4" />}
-          metaDescription="Analysing"
-          textColorClass="text-brand-800"
-        />
-      );
-    }
-    switch (status) {
-      case TEST_STATUS.PENDING:
-        return (
-          <O11yMetaData
-            icon={<O11yLoader loaderClass="h-4 w-4" />}
-            metaDescription="Running"
-            textColorClass="text-base-600"
-          />
-        );
-      case TEST_STATUS.FAIL:
-        return (
-          <O11yMetaData
-            icon={<MdCancel className="h-5 w-5" />}
-            metaDescription="Failed"
-            textColorClass="text-danger-600"
-          />
-        );
-      case TEST_STATUS.PASS:
-        return (
-          <O11yMetaData
-            icon={<MdCheckCircle className="h-5 w-5" />}
-            metaDescription="Passed"
-            textColorClass="text-success-600"
-          />
-        );
-
-      case TEST_STATUS.SKIPPED:
-        return (
-          <O11yMetaData
-            icon={<MdRemoveCircle className="h-5 w-5" />}
-            metaDescription="Skipped"
-            textColorClass="text-base-500"
-          />
-        );
-      case TEST_STATUS.UNKNOWN:
-      default:
-        return (
-          <O11yMetaData
-            icon={<MdHelp className="h-5 w-5" />}
-            metaDescription="Unknown"
-            textColorClass="text-attention-500"
-          />
-        );
-    }
-  };
-
   const {
     isAutoDetectedName,
     originalName,
@@ -218,28 +136,26 @@ function BuildDetailsHeader({
     buildNumber,
     tags,
     statusStats,
-    user,
-    startedAt,
-    versionControlInfo,
-    ciBuildData,
-    duration,
     isArchived
   } = buildMeta.data;
 
   return (
     <div
-      className={twClassNames('border-base-200 bg-base-50 sticky top-16 z-10', {
-        'border-b': !(
-          buildMeta?.data?.buildError?.message ||
-          buildMeta?.data?.isParsingReport
-        )
-      })}
+      className={twClassNames(
+        'border-base-200 bg-base-50 sticky top-16 z-10 px-6 pt-6',
+        {
+          'border-b': !(
+            buildMeta?.data?.buildError?.message ||
+            buildMeta?.data?.isParsingReport
+          )
+        }
+      )}
       style={{
         top: `${headerSize}px`
       }}
     >
-      <div className="px-6 pt-6">
-        <section className="flex items-start justify-between gap-4">
+      <div className="flex">
+        <section className="flex flex-1 flex-col">
           <h1 className="w-full text-2xl font-bold leading-7">
             {isArchived ? '(Archived) ' : ''}
             {isAutoDetectedName ? originalName : name}{' '}
@@ -286,117 +202,35 @@ function BuildDetailsHeader({
               />
             ))}
           </h1>
+          <BuildMetaData
+            logMetaInteractionEvent={logMetaInteractionEvent}
+            wrapperClassName="mt-2"
+          />
+        </section>
+        <div className="flex shrink-0 flex-col items-end justify-between pb-4">
           <BuildMetaActions
             isNewItemLoading={isNewItemLoading}
             onUpdateBtnClick={onUpdateBtnClick}
             updateCount={updateCount}
             buildData={buildMeta.data}
           />
-        </section>
-        <div className="mt-2 flex flex-wrap items-center gap-4">
-          {renderStatusIcon()}
-          <O11yMetaData
-            icon={<MdPerson className="h-5 w-5" />}
-            metaDescription={user}
-            textColorClass="text-base-500"
-            metaTitle="Run by"
+        </div>
+      </div>
+      {!(
+        buildMeta?.data?.buildError?.message || buildMeta?.data?.isParsingReport
+      ) && (
+        <div className="-mb-[1px] flex justify-between">
+          <O11yTabs
+            defaultIndex={getActiveTab.idx}
+            tabsArray={tabsList}
+            onTabChange={onTabChange}
           />
-          {startedAt && (
-            <O11yMetaData
-              icon={<MdSchedule className="h-5 w-5" />}
-              metaDescription={getCustomTimeStamp({
-                dateString: new Date(startedAt)
-              })}
-              textColorClass="text-base-500"
-              metaTitle="Started at"
-            />
-          )}
-          {duration && (
-            <O11yMetaData
-              icon={<MdOutlineTimer className="h-5 w-5" />}
-              metaDescription={milliSecondsToTime(duration)}
-              textColorClass="text-base-500"
-              metaTitle="Duration"
-            />
-          )}
-          {versionControlInfo?.commitId && (
-            <Hyperlink
-              href={versionControlInfo?.url}
-              target="_blank"
-              onClick={() => logMetaInteractionEvent('commit_sha_clicked')}
-            >
-              <O11yMetaData
-                icon={
-                  <VCIcon
-                    url={versionControlInfo?.url}
-                    iconProps={{ className: 'h-5 w-5' }}
-                  />
-                }
-                metaDescription={versionControlInfo.commitId.slice(0, 8)}
-                textColorClass="text-base-500 hover:text-brand-700"
-                metaTitle="Commit Id"
-              />
-            </Hyperlink>
-          )}
-          {ciBuildData?.buildNumber && (
-            <O11yTooltip
-              theme="dark"
-              placementSide="bottom"
-              wrapperClassName="py-2"
-              content={
-                <>
-                  {ciBuildData?.jobName ? (
-                    <div className="mx-4">
-                      <p className="text-base-300 text-sm">
-                        Job name: {ciBuildData.jobName}
-                      </p>
-                    </div>
-                  ) : null}
-                </>
-              }
-            >
-              <Hyperlink
-                href={ciBuildData?.buildUrl}
-                target="_blank"
-                onClick={() => logMetaInteractionEvent('ci_url_clicked')}
-              >
-                <O11yMetaData
-                  icon={
-                    <CiIcon
-                      name={ciBuildData?.name}
-                      iconProps={{ className: 'h-5 w-5' }}
-                    />
-                  }
-                  metaDescription={`${ciBuildData.name} ${ciBuildData?.buildNumber}`}
-                  textColorClass="text-base-500 hover:text-brand-700"
-                />
-              </Hyperlink>
-            </O11yTooltip>
-          )}
-          <ViewMetaPopOver
-            data={buildMeta.data || {}}
-            handleInteraction={({ interaction }) =>
-              logMetaInteractionEvent(interaction)
-            }
+          <StatusBadges
+            statusStats={statusStats}
+            onClickHandler={handleClickStatusBadge}
           />
         </div>
-        {!(
-          buildMeta?.data?.buildError?.message ||
-          buildMeta?.data?.isParsingReport
-        ) && (
-          <div className="-mb-[1px] flex justify-between">
-            <O11yTabs
-              defaultIndex={getActiveTab.idx}
-              tabsArray={tabsList}
-              onTabChange={onTabChange}
-            />
-            <StatusBadges
-              statusStats={statusStats}
-              onClickHandler={handleClickStatusBadge}
-            />
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
