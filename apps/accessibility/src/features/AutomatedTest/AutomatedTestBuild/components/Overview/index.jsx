@@ -109,7 +109,6 @@ export default function Overview() {
           list={categoryList}
           issueCount={issueCount}
           wrapperClassName="mt-4"
-          onRowClick={onRowClick}
         />
       </div>
     </div>
