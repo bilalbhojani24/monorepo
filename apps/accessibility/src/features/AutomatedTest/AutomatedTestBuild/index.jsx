@@ -8,8 +8,9 @@ import {
   MdShare,
   Tabs
 } from '@browserstack/bifrost';
-import { ISSUES, SUMMARY, TESTS } from 'constants';
+import { ISSUES, OVERVIEW, SUMMARY, TESTS } from 'constants';
 import format from 'date-fns/format';
+import { logEvent } from 'utils/logEvent';
 
 import Issues from './components/Issues';
 import Overview from './components/Overview';
@@ -33,13 +34,6 @@ const tabList = [
   }
 ];
 
-const platforms = {
-  chrome: {
-    version: 112
-  },
-  mac: 'Ventura'
-};
-
 export default function AutomatedTestBuild() {
   const {
     buildData,
@@ -55,6 +49,10 @@ export default function AutomatedTestBuild() {
   switch (activeTab) {
     case SUMMARY:
       defaultIndex = 0;
+      logEvent('InteractedWithAutomatedTestsBuildView', {
+        actionType: 'Choose tab',
+        Tab: OVERVIEW
+      });
       break;
     case ISSUES:
       defaultIndex = 1;
@@ -106,8 +104,11 @@ export default function AutomatedTestBuild() {
 
               <ViewMetaPopOver
                 data={buildMetaData.meta || {}}
-                handleInteraction={({ interaction }) =>
-                  console.log(interaction)
+                handleInteraction={() =>
+                  logEvent('InteractedWithAutomatedTestsBuildView', {
+                    actionType: 'View metadata',
+                    action: 'View overall metadata'
+                  })
                 }
               />
             </div>

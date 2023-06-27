@@ -10,7 +10,7 @@ import {
   MdSearch
 } from '@browserstack/bifrost';
 import ColdStart from 'common/ColdStart';
-
+import { logEvent } from 'utils/logEvent';
 import AutomatedTestList from './AutomatedTestList';
 import useAutomatedTestListing from './useAutomatedTestListing';
 
@@ -38,7 +38,16 @@ export default function AutomatedTestListing() {
                   BrowserStack SDK.
                 </p>
               </div>
-              <Button colors="white">View documentation</Button>
+              <Button
+                onClick={() =>
+                  logEvent('InteractedWithAutomatedTestsHomepageView', {
+                    action: 'View documentation'
+                  })
+                }
+                colors="white"
+              >
+                View documentation
+              </Button>
             </div>
 
             <div className="flex gap-4">

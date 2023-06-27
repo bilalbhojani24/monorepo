@@ -6,6 +6,7 @@ import {
   getTestFilters
 } from 'features/AutomatedTest/AutomatedTestBuild/slices/selector';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
 
 export default function useTests() {
   const navigate = useNavigate();
@@ -100,6 +101,11 @@ export default function useTests() {
       activeTestId: id
     });
     navigate(`?${updatedPath}`);
+    logEvent('InteractedWithAutomatedTestsBuildView', {
+      actionType: 'Select specific item',
+      action: 'Select test',
+      Tab: 'Tests'
+    });
   };
 
   const onSliderClose = () => {

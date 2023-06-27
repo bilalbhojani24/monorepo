@@ -8,8 +8,9 @@ import {
   fetchOverview,
   fetchTestCasesData
 } from 'api/fetchTestAutomationData';
-import { ISSUES, SUMMARY, TESTS } from 'constants';
+import { getBuildEventTab, ISSUES, SUMMARY, TESTS } from 'constants';
 import { deleteUrlQueryParam, updateUrlWithQueryParam } from 'utils/helper';
+import { logEvent } from 'utils/logEvent';
 
 import {
   resetActiveTab,
@@ -91,6 +92,10 @@ export default function useAutomatedTestBuild() {
       activeTab: tab
     });
     navigate(`?${updatedPath}`);
+    logEvent('InteractedWithAutomatedTestsBuildView', {
+      actionType: 'Choose tab',
+      Tab: getBuildEventTab[tab]
+    });
   };
 
   useEffect(() => {
@@ -146,6 +151,8 @@ export default function useAutomatedTestBuild() {
   const actionType = '';
   const eventName = 'Sample event name...';
   const onRowClick = () => {};
+
+  useEffect(() => logEvent('OnAutomatedTestsBuildView'), []);
 
   return {
     activeTab,
