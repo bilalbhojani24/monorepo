@@ -5,6 +5,7 @@ const SLICE_NAME = 'global';
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
+    appInitComplete: false,
     fetchedGridData: false,
     instanceTypes: {},
     isLoading: true,
@@ -21,6 +22,7 @@ const { actions, reducer } = createSlice({
     initialiseApplication: (state, { payload }) => {
       const { instanceTypes, regions, userDetails } = payload;
 
+      state.appInitComplete = true;
       state.instanceTypes = instanceTypes;
       state.isLoading = false;
       state.regions = regions;
