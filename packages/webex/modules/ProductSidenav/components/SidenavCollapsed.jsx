@@ -18,9 +18,10 @@ const SidenavCollapsed = ({ activeProduct, activeTab }) => {
     return (
       <a
         href={product.twClassNamesink}
-        className={twClassNames('flex items-center py-2 px-5', {
+        className={twClassNames('flex items-center py-2 px-5 w-full', {
           'bg-[#F0F6FF] border-l-2 border-solid border-[#0070F0]':
-            isActiveProduct
+            isActiveProduct,
+          'px-[17.5px]': isActiveProduct
         })}
       >
         <span>
@@ -39,7 +40,7 @@ const SidenavCollapsed = ({ activeProduct, activeTab }) => {
       >
         <span className={twClassNames('w-1 h-1 rounded-full bg-base-500')} />
       </div>
-      <div className={twClassNames('flex flex-col items-center p-0')}>
+      <div className={twClassNames('flex flex-col items-center p-0 w-full')}>
         {productBlockData.products?.map((element) =>
           productElementContainer(element)
         )}

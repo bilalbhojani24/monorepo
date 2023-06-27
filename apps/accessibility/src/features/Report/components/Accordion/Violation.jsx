@@ -15,6 +15,7 @@ import {
   getIsShowingIssue
 } from 'features/Report/slice/selector';
 import PropTypes from 'prop-types';
+import { getDashboardWidth } from 'utils';
 
 import ComponentList from './ComponentList';
 
@@ -37,7 +38,7 @@ export default function Violation({ violation, index }) {
 
   const maxWidthForFullView = isSidebarCollapsed
     ? 'calc((100vw - 200px) / 2)'
-    : 'calc(((100vw - 256px - 57px) / 2) - 190px)';
+    : `calc(((${getDashboardWidth()}) / 2) - 190px)`;
 
   return (
     <Accordion>

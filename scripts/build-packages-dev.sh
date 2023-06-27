@@ -8,7 +8,8 @@ projects=(
   "packages/bifrost"
   "packages/services"
   "packages/integrations"
-  "packages/growth"
+  "packages/growth",
+  "packages/webex",
 )
 
 # Set default value for master_pull to true

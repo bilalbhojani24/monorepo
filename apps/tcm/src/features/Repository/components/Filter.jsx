@@ -102,7 +102,7 @@ const Filter = ({ isMini, onFilterChange }) => {
         'border-base-300 relative z-10 flex w-full items-start border-b',
         {
           'h-12 flex items-center pr-1': isMini,
-          'py-3  pr-3': !isMini
+          'py-3 pr-3 pl-1': !isMini
         }
       )}
     >
@@ -111,6 +111,7 @@ const Filter = ({ isMini, onFilterChange }) => {
           placeholder="Search by Test Case ID or Title"
           value={filterSearchMeta?.q}
           // onFocus={handleSearchFocus}
+          wrapperClassName="[&_input]:shadow-none"
           onChange={(e) => searchChangeHandler(e.currentTarget.value)}
           onKeyDown={(e) => onSubmitKeyHandler(e, () => applyFilterHandler())}
           addOnBeforeInline={<SearchIcon className="text-base-400" />}
@@ -127,10 +128,10 @@ const Filter = ({ isMini, onFilterChange }) => {
           }
         />
       </div>
-      <div className="isolate inline-flex rounded-md shadow-sm">
+      <div className="isolate ml-3 inline-flex rounded-md shadow-sm">
         <TMButton
           onClick={() => setFilter(!isFilterVisible)}
-          wrapperClassName={classNames('ml-3 whitespace-nowrap w-full', {
+          wrapperClassName={classNames('whitespace-nowrap w-full', {
             'rounded-tr-none rounded-br-none focus:ring-offset-0 focus:z-10':
               appliedFiltersCount
           })}
@@ -148,13 +149,12 @@ const Filter = ({ isMini, onFilterChange }) => {
         {appliedFiltersCount ? (
           <TMButton
             onClick={() => resetFilterAndSearch()}
-            wrapperClassName="p-2 rounded-tl-none rounded-bl-none border-l-none focus:ring-offset-0"
+            wrapperClassName="rounded-tl-none rounded-bl-none border-l-none focus:ring-offset-0 pl-2 pr-0"
             size="default"
             variant="primary"
             colors="white"
-          >
-            <CloseOutlinedIcon className="!h-5 !w-5" />
-          </TMButton>
+            icon={<CloseOutlinedIcon className="!h-5 !w-5" />}
+          />
         ) : null}
       </div>
       {isFilterVisible && (
@@ -164,7 +164,7 @@ const Filter = ({ isMini, onFilterChange }) => {
         >
           <div className="flex h-96 w-full gap-4 p-4 pb-1 pl-3">
             <div className="flex h-full w-5/12 flex-col">
-              <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
+              <div className="text-base-900 mb-2 pl-1 text-base font-medium">
                 Filter By Owner
               </div>
               <div className="pl-1">
@@ -181,20 +181,27 @@ const Filter = ({ isMini, onFilterChange }) => {
                     RECENTLY ADDED USERS
                   </p>
                 ) : null}
-                {ownersFilteredArray.map((item) => (
-                  <TMCheckBox
-                    key={item.value}
-                    border={false}
-                    wrapperClassName="pt-0 mb-2"
-                    checked={filterSearchMeta?.owner?.includes(item.value)}
-                    data={item}
-                    onChange={() => filterChangeHandler('owner', item)}
-                  />
-                ))}
+                {ownersFilteredArray.map((item) => {
+                  const modifiedItem = {
+                    ...item,
+                    label: <span className="text-base-900">{item.label}</span>
+                  };
+
+                  return (
+                    <TMCheckBox
+                      key={item.value}
+                      border={false}
+                      wrapperClassName="pt-0 mb-2"
+                      checked={filterSearchMeta?.owner?.includes(item.value)}
+                      data={modifiedItem}
+                      onChange={() => filterChangeHandler('owner', item)}
+                    />
+                  );
+                })}
               </div>
             </div>
             <div className="flex h-full w-5/12 flex-col">
-              <div className="text-brand-800 mb-2 pl-1 text-base font-medium">
+              <div className="text-base-900 mb-2 pl-1 text-base font-medium">
                 Filter By Tags
               </div>
               <div className="pl-1">
@@ -211,33 +218,47 @@ const Filter = ({ isMini, onFilterChange }) => {
                     RECENTLY ADDED TAGS
                   </p>
                 ) : null}
-                {tagsFilteredArray.map((item) => (
-                  <TMCheckBox
-                    key={item.value}
-                    border={false}
-                    wrapperClassName="pt-0 mb-2"
-                    checked={filterSearchMeta?.tags?.includes(item.value)}
-                    data={item}
-                    onChange={() => filterChangeHandler('tags', item)}
-                  />
-                ))}
+                {tagsFilteredArray.map((item) => {
+                  const modifiedItem = {
+                    ...item,
+                    label: <span className="text-base-900">{item.label}</span>
+                  };
+
+                  return (
+                    <TMCheckBox
+                      key={item.value}
+                      border={false}
+                      wrapperClassName="pt-0 mb-2"
+                      checked={filterSearchMeta?.tags?.includes(item.value)}
+                      data={modifiedItem}
+                      onChange={() => filterChangeHandler('tags', item)}
+                    />
+                  );
+                })}
               </div>
             </div>
             <div className="h-80 w-1/5">
-              <div className="text-brand-800 mb-2 text-base font-medium">
+              <div className="text-base-900 mb-2 text-base font-medium">
                 Filter By Priority
               </div>
               <div className="h-full w-full overflow-y-auto p-1">
-                {priorityOptionsForFilter?.map((item) => (
-                  <TMCheckBox
-                    key={item.value}
-                    border={false}
-                    wrapperClassName="pt-0 mb-2"
-                    checked={filterSearchMeta?.priority?.includes(item.value)}
-                    data={item}
-                    onChange={() => filterChangeHandler('priority', item)}
-                  />
-                ))}
+                {priorityOptionsForFilter?.map((item) => {
+                  const modifiedItem = {
+                    ...item,
+                    label: <span className="text-base-900">{item.label}</span>
+                  };
+
+                  return (
+                    <TMCheckBox
+                      key={item.value}
+                      border={false}
+                      wrapperClassName="pt-0 mb-2"
+                      checked={filterSearchMeta?.priority?.includes(item.value)}
+                      data={modifiedItem}
+                      onChange={() => filterChangeHandler('priority', item)}
+                    />
+                  );
+                })}
               </div>
             </div>
           </div>

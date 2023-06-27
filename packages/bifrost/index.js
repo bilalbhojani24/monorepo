@@ -43,6 +43,11 @@ import {
   withErrorBoundary
 } from './modules/ErrorBoundary/index';
 import FileUpload from './modules/FileUpload/index';
+import Gallery from './modules/Gallery';
+import GalleryMedia from './modules/GalleryMedia';
+import GalleryMediaActionbar from './modules/GalleryMediaActionbar';
+import GalleryMediaFooterButton from './modules/GalleryMediaFooterButton';
+import GalleryPreview from './modules/GalleryPreview';
 import GridListWHorizontalLink from './modules/GridListWHorizontalLink/index';
 import GridListWImage from './modules/GridListWImage/index';
 import Header from './modules/Header/index';
@@ -80,7 +85,6 @@ import {
 import PageHeadings from './modules/PageHeadings/index';
 import Pagination from './modules/Pagination/index';
 import Popover from './modules/Popover/index';
-import ProductSidenav from './modules/ProductSidenav';
 import ProgressBar from './modules/ProgressBar/index';
 import RadioCardItem from './modules/RadioCardItem/index';
 import RadioGroup from './modules/RadioGroup/index';
@@ -169,6 +173,11 @@ export {
   EmptyStateWStartingPoints,
   ErrorBoundary,
   FileUpload,
+  Gallery,
+  GalleryMedia,
+  GalleryMediaActionbar,
+  GalleryMediaFooterButton,
+  GalleryPreview,
   GridListWHorizontalLink,
   GridListWImage,
   Header,
@@ -208,7 +217,6 @@ export {
   TooltipBody as PopoverBody,
   TooltipFooter as PopoverFooter,
   TooltipHeader as PopoverHeader,
-  ProductSidenav,
   ProgressBar,
   RadioCardItem,
   RadioGroup,

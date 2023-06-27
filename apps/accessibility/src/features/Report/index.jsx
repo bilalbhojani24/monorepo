@@ -17,9 +17,22 @@ import format from 'date-fns/format';
 import { getReportData } from 'features/Report/slice/selector';
 import { downloadCsv, generateReportUrl } from 'utils/helper';
 
+import { getDashboardWidth } from '../../utils';
+
 import Issues from './components/Issues';
 import Summary from './components/Summary';
 import useReport from './useReport';
+
+const tabList = [
+  {
+    name: 'Summary',
+    value: SUMMARY
+  },
+  {
+    name: 'All issues',
+    value: ISSUES
+  }
+];
 
 export default function Report() {
   const {
@@ -31,7 +44,6 @@ export default function Report() {
     onCopyClick,
     onTabChange
   } = useReport();
-  console.log({ reportMetaData });
   const reportData = useSelector(getReportData);
 
   const reportsLength = reportData && Object.keys(reportMetaData.meta).length;
@@ -56,7 +68,7 @@ export default function Report() {
     <div className="bg-base-50 h-full">
       <div
         className="bg-base-50 border-base-200 fixed top-16 z-10 border-b"
-        style={{ width: 'calc(100vw - 256px - 57px)' }}
+        style={{ width: `calc(${getDashboardWidth()})` }}
       >
         <div className="px-6 pt-6">
           <Breadcrumb
@@ -76,7 +88,7 @@ export default function Report() {
           />
           <div className="flex items-center justify-between">
             <div className="mt-2">
-              <p className="mb-2 text-2xl" title={reportName}>
+              <p className="mb-2 text-2xl font-bold" title={reportName}>
                 {reportName}
               </p>
               {isSingleReport ? (
@@ -164,16 +176,7 @@ export default function Report() {
         </div>
         <div className="pl-6">
           <Tabs
-            tabsArray={[
-              {
-                name: 'Summary',
-                value: SUMMARY
-              },
-              {
-                name: 'All issues',
-                value: ISSUES
-              }
-            ]}
+            tabsArray={tabList}
             onTabChange={onTabChange}
             defaultIndex={defaultIndex}
             disableFullWidthBorder

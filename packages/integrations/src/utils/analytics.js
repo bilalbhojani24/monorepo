@@ -21,7 +21,7 @@ export const getAnalyticsKeys = (userId) => ({
     config: {
       server: 'eds.browserstack.com',
       port: '443',
-      apiKey: '3T5kkUTZ2cGiy0zhLwyxBdDbx0GeJuZQd'
+      apiKey: '5PJymLNdWrOwzQNC7J6SXBuUFQGWq4Vuw'
     }
   }
 });
@@ -34,7 +34,8 @@ export const ANALYTICS_EVENTS = {
   TICKET_CREATE_SUCCESS: 'IntegrationsTicketCreateSuccess',
   TICKET_CREATE_ERROR: 'IntegrationsTicketCreateError',
   TICKET_UPDATE_SUCCESS: 'IntegrationsTicketUpdateSuccess',
-  TICKET_UPDATE_ERROR: 'IntegrationsTicketUpdateError'
+  TICKET_UPDATE_ERROR: 'IntegrationsTicketUpdateError',
+  WIDGET_CLOSED: 'IntegrationsWidgetClosed'
 };
 
 const analyticsEntities = {

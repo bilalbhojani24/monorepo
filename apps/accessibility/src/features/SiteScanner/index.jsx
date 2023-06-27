@@ -15,6 +15,7 @@ import {
   MdCheckCircle,
   MdExpandMore,
   MdOutlineContentCopy,
+  MdOutlineFindInPage,
   MdOutlineHistory,
   MdOutlineSync,
   MdPerson,
@@ -37,6 +38,7 @@ import NewScanLogo from 'assets/noScans.svg';
 import NotFound from 'assets/not_found.svg';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
+import { getDashboardWidth } from 'utils';
 import { logEvent } from 'utils/logEvent';
 
 import {
@@ -84,58 +86,6 @@ const typesScan = [
   {
     body: 'My scans',
     id: 'yourScans'
-  }
-];
-
-export const rowMenu = [
-  {
-    id: 'lastScanRun',
-    body: (
-      <div className="flex items-center">
-        <MdOutlineHistory />
-        <span className="ml-2">View latest scan run</span>
-      </div>
-    )
-  },
-  {
-    id: 'newScanRun',
-    value: 'newScanRun',
-    body: (
-      <div className="flex items-center">
-        <MdAdd />
-        <span className="ml-2">New scan</span>
-      </div>
-    )
-  },
-  {
-    id: 'stopRecurringScans',
-    body: (
-      <div className="flex items-center">
-        <MdStop />
-        <span className="ml-2">Stop recurring scan</span>
-      </div>
-    )
-  },
-  {
-    id: 'cloneScanConfig',
-    body: (
-      <div className="flex items-center">
-        <MdOutlineContentCopy />
-        <span className="ml-2">Clone scan configuration</span>
-      </div>
-    )
-  }
-];
-
-const singleMenu = [
-  {
-    id: 'scanDetails',
-    value: 'scanDetails',
-    body: (
-      <div className="flex items-center">
-        <span className="ml-2">View scan details</span>
-      </div>
-    )
   }
 ];
 
@@ -323,67 +273,68 @@ export default function SiteScanner() {
   }
 
   const getRowMenu = (row) => {
-    let rowMenuCpy = [...rowMenu];
-    if (!Object.keys(row.lastScanDetails).length) {
-      rowMenuCpy = rowMenuCpy.slice(0, -1);
-    }
-    if (row.createdBy.id !== userInfo.user_id) {
-      rowMenuCpy = [
-        {
-          id: 'cloneScanConfig',
-          body: (
-            <div className="flex items-center">
-              <MdOutlineContentCopy />
-              <span className="ml-2">Clone scan configuration</span>
-            </div>
-          )
-        },
-        {
-          id: 'lastScanRun',
-          body: (
-            <div className="flex items-center">
-              <MdOutlineHistory />
-              <span className="ml-2">View latest scan run</span>
-            </div>
-          )
-        }
-      ];
-    }
-    if (!row.recurring || !row.active) {
-      rowMenuCpy = [
-        {
-          id: 'lastScanRun',
-          body: (
-            <div className="flex items-center">
-              <MdOutlineHistory />
-              <span className="ml-2">View latest scan run</span>
-            </div>
-          )
-        },
-        {
-          id: 'newScanRun',
-          value: 'newScanRun',
-          body: (
-            <div className="flex items-center">
-              <MdAdd />
-              <span className="ml-2">New scan</span>
-            </div>
-          )
-        },
-        {
-          id: 'cloneScanConfig',
-          body: (
-            <div className="flex items-center">
-              <MdOutlineContentCopy />
-              <span className="ml-2">Clone scan configuration</span>
-            </div>
-          )
-        }
-      ];
-    }
-    return rowMenuCpy.map((opt) => (
-      <DropdownOptionItem key={opt.id} option={opt} />
-    ));
+    const rowMenuCpy = [
+      {
+        id: 'lastScanRun',
+        body: (
+          <div className="flex items-center">
+            <MdOutlineHistory />
+            <span className="ml-2">View latest scan run</span>
+          </div>
+        ),
+        show: Object.keys(row.lastScanDetails).length
+      },
+      {
+        id: 'newScanRun',
+        value: 'newScanRun',
+        body: (
+          <div className="flex items-center">
+            <MdAdd />
+            <span className="ml-2">New scan</span>
+          </div>
+        ),
+        show: !row.isProcessing
+      },
+      {
+        id: 'stopRecurringScans',
+        body: (
+          <div className="flex items-center">
+            <MdStop />
+            <span className="ml-2">Stop recurring scan</span>
+          </div>
+        ),
+        show:
+          row.createdBy.id === userInfo.user_id && row.active && row.recurring
+      },
+      {
+        id: 'cloneScanConfig',
+        body: (
+          <div className="flex items-center">
+            <MdOutlineContentCopy />
+            <span className="ml-2">Clone scan configuration</span>
+          </div>
+        ),
+        show: true
+      },
+      {
+        id: 'scanDetails',
+        value: 'scanDetails',
+        body: (
+          <div className="flex items-center">
+            <MdOutlineFindInPage />
+            <span className="ml-2">View scan details</span>
+          </div>
+        ),
+        show: true
+      }
+    ];
+
+    return rowMenuCpy.map((opt) => {
+      if (opt.show) {
+        return <DropdownOptionItem key={opt.id} option={opt} />;
+      }
+      return null;
+    });
   };
 
   const getColdStart = () =>
@@ -461,7 +412,7 @@ export default function SiteScanner() {
                   id="search-scan"
                   placeholder="Search for scan name or user..."
                   leadingIcon={<MdSearch />}
-                  wrapperClassName="mr-4 mt-1 w-80"
+                  wrapperClassName="mr-4 mt-1 w-80 bg-white"
                 />
                 <div className="mr-4 mt-1">
                   <Dropdown onClick={handleSearchFilter} id="scanFilter">
@@ -495,7 +446,7 @@ export default function SiteScanner() {
               className="fixed overflow-y-auto"
               style={{
                 height: 'calc(100vh - 228px)',
-                width: 'calc(100vw - 256px - 57px)'
+                width: `calc(${getDashboardWidth()})`
               }}
             >
               <Table>
@@ -677,15 +628,7 @@ export default function SiteScanner() {
                           </div>
 
                           <DropdownOptionGroup>
-                            {row.isProcessing ||
-                            !Object.keys(row.lastScanDetails).length
-                              ? singleMenu.map((opt) => (
-                                  <DropdownOptionItem
-                                    key={opt.id}
-                                    option={opt}
-                                  />
-                                ))
-                              : getRowMenu(row)}
+                            {getRowMenu(row)}
                           </DropdownOptionGroup>
                         </Dropdown>
                       </TableCell>

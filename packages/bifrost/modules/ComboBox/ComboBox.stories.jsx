@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { delay } from '@browserstack/utils';
 import { expect } from '@storybook/jest';
 import { userEvent, within } from '@storybook/testing-library';
@@ -163,6 +163,13 @@ Primary.parameters = {
 
 export const ControlledCombobox = () => {
   const [selected, setSelected] = useState([]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setSelected(COMBOBOX_OPTIONS);
+    }, 2000);
+  }, []);
+
   return (
     <ComboBox onChange={(val) => setSelected(val)} value={selected} isMulti>
       <ComboboxLabel>{assignedToConst}</ComboboxLabel>

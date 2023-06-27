@@ -39,7 +39,11 @@ const SelectMenuTrigger = forwardRef(
           {({ value }) => (
             <>
               <span className="line-clamp-1">
-                <TruncateText hidetooltipTriggerIcon isTooltip={false}>
+                <TruncateText
+                  hidetooltipTriggerIcon
+                  isTooltip={false}
+                  wrapperClassName="text-base-500"
+                >
                   <RenderButtonChildren
                     value={value}
                     placeholder={placeholder}
