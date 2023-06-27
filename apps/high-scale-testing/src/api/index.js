@@ -3,6 +3,7 @@ import axios from 'axios';
 import {
   CREATE_GRID,
   CREATE_GRID_EVENT_LOGS_DATA_URL,
+  CREATE_TRIAL_GRID_URL,
   FETCH_CLUSTER_URL,
   FETCH_CLUSTERS_URL,
   FETCH_GRID_PROFILES_DATA_URL,
@@ -14,6 +15,9 @@ import {
   ONBOARDING_STATUS_URL,
   UPDATE_GRID_SETTINGS_URL
 } from './constants/apiURLs';
+
+const createTrialGridForUser = (userId) =>
+  axios.post(CREATE_TRIAL_GRID_URL, { userId });
 
 const createNewGridProfile = (userId, profileData) =>
   axios.post(CREATE_GRID, { ...profileData, userId });
@@ -89,6 +93,7 @@ const updateSettings = (userId, gridId, settingsObj) =>
 
 export {
   createNewGridProfile,
+  createTrialGridForUser,
   fetchAllClustersData,
   fetchAllGridsData,
   fetchClusterDataById,
