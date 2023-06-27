@@ -1,6 +1,7 @@
 import React from 'react';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTooltip } from 'common/bifrostProxy';
+import capitalize from 'lodash/capitalize';
 import PropTypes from 'prop-types';
 
 import { BROWSERS_ICON_LIST } from '../constants';
@@ -30,11 +31,23 @@ const DetailIcon = ({
     return iconClass;
   };
 
+  const getSanitizedText = (toBeShownOnTooltip) => {
+    let returnText = text;
+    if (text?.toLowerCase()?.includes('playwright')) {
+      returnText = toBeShownOnTooltip
+        ? capitalize(text.split('-').join(' '))
+        : capitalize(text.split('-')[1]);
+    } else if (text.includes('ios')) {
+      returnText = text.replace('ios', 'iOS');
+    }
+    return returnText.split(',').join(' ');
+  };
+
   if (!openTextInTooltip) {
     return (
       <IconWithText
         icon={icon}
-        text={text.indexOf('ios') !== -1 ? text.replace('ios', 'iOS') : text}
+        text={getSanitizedText()}
         forSpecInfo={forSpecInfo}
         iconClass={getIconClass()}
         textClass={`${
@@ -58,17 +71,17 @@ const DetailIcon = ({
       content={
         <span
           className={twClassNames(
-            'text-base-500 text-sm font-normal leading-5',
+            'text-base-500 text-sm font-normal leading-5 capitalize',
             { 'text-white': tooltipTheme === 'dark' }
           )}
         >
-          {text.indexOf('ios') !== -1 ? text.replace('ios', 'iOS') : text}
+          {getSanitizedText(true)}
         </span>
       }
     >
       <IconWithText
         icon={icon}
-        text={text.indexOf('ios') !== -1 ? text.replace('ios', 'iOS') : text}
+        text={getSanitizedText()}
         forSpecInfo={forSpecInfo}
         iconClass={getIconClass()}
         textClass={`${

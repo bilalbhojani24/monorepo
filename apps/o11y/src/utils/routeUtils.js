@@ -1,22 +1,34 @@
+import { ROUTE_PATH_KEYS } from 'constants/routes';
+import { getActiveProject } from 'globalSlice/selectors';
+
 export const getProjectBuildsPath = (projectNormalisedName) =>
-  `/projects/${projectNormalisedName}/builds`;
+  `/${ROUTE_PATH_KEYS.projects}/${projectNormalisedName}/${ROUTE_PATH_KEYS.builds}`;
 export const getBuildPath = (
   projectNormalisedName,
   normalisedName,
   buildNumber
 ) =>
-  `/projects/${projectNormalisedName}/builds/${normalisedName}/${buildNumber}`;
+  `/${ROUTE_PATH_KEYS.projects}/${projectNormalisedName}/${ROUTE_PATH_KEYS.builds}/${normalisedName}/${buildNumber}`;
 export const getSuitHealthPath = (projectNormalisedName) =>
-  `/projects/${projectNormalisedName}/suite_health`;
+  `/${ROUTE_PATH_KEYS.projects}/${projectNormalisedName}/${ROUTE_PATH_KEYS.suite_health}`;
 export const getSuitHealthTestsPath = (projectNormalisedName) =>
-  `/projects/${projectNormalisedName}/suite_health/tests`;
+  `/${ROUTE_PATH_KEYS.projects}/${projectNormalisedName}/${ROUTE_PATH_KEYS.suite_health_tests}`;
 export const getSuitHealthUniqueErrorsPath = (projectNormalisedName) =>
-  `/projects/${projectNormalisedName}/suite_health/unique_errors`;
+  `/${ROUTE_PATH_KEYS.projects}/${projectNormalisedName}/${ROUTE_PATH_KEYS.suite_health_unique_errors}`;
 export const getTestingTrendPath = (projectNormalisedName) =>
-  `/projects/${projectNormalisedName}/testing_trends`;
+  `/${ROUTE_PATH_KEYS.projects}/${projectNormalisedName}/${ROUTE_PATH_KEYS.testing_trends}`;
 
 export const getSettingsPath = (projectNormalisedName, id) =>
-  `/projects/${projectNormalisedName}/settings/${id}`;
+  `/${ROUTE_PATH_KEYS.projects}/${projectNormalisedName}/settings/${id}`;
+
+export const getPageUrlByMapping = (projectNormalisedName, mapping) =>
+  `/${ROUTE_PATH_KEYS.projects}/${projectNormalisedName}/${mapping}`;
+
+export const getPageUrl = (mapping) => (_, getState) => {
+  const activeProject = getActiveProject(getState());
+
+  return `/${ROUTE_PATH_KEYS.projects}/${activeProject?.normalisedName}/${mapping}`;
+};
 
 // /builds || /build
 export const isBuildsPage = () => /build/.test(window.location.pathname);
