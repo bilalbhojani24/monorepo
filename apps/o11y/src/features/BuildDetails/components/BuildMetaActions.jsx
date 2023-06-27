@@ -78,7 +78,6 @@ function BuildMetaActions({
           variant="rounded"
           icon={<MdOutlineRefresh className="text-sm" />}
           iconPlacement="end"
-          size="extra-small"
           isIconOnlyButton={isNewItemLoading}
           loading={isNewItemLoading}
           onClick={onUpdateBtnClick}
@@ -91,8 +90,8 @@ function BuildMetaActions({
 
       <O11yDropdown onClick={handleClickActionsDropdown}>
         <div className="flex">
-          <O11yDropdownTrigger wrapperClassName="p-1">
-            <EllipsisVerticalIcon className="h-5 w-5" aria-hidden="true" />
+          <O11yDropdownTrigger wrapperClassName="p-1.5">
+            <EllipsisVerticalIcon className="h-6 w-6" aria-hidden="true" />
           </O11yDropdownTrigger>
         </div>
 
