@@ -70,7 +70,7 @@ const PreviewAndConfirm = () => {
   };
 
   return (
-    <div className="border-base-300 mx-4 mb-4 flex h-max w-4/5 max-w-7xl flex-col rounded-md border border-solid bg-white p-6">
+    <div className="border-base-300 mx-4 mb-20 flex h-max w-4/5 max-w-4xl flex-col rounded-md border border-solid bg-white p-6">
       <TMSectionHeadings
         title="Preview & Confirm"
         variant="buttons"
@@ -82,7 +82,7 @@ const PreviewAndConfirm = () => {
           </div>
         }
       />
-      <div className="text-base-800 mt-4 text-base font-medium">
+      <div className="text-base-900 mt-4 text-base font-medium">
         {totalImportedProjectsInPreview} entries ready for import
       </div>
       <div className="text-base-500 mb-4 text-sm font-normal">

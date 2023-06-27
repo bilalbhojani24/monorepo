@@ -88,18 +88,20 @@ const ViewReportModal = () => {
                   </span>
                 </TableCell>
                 <TableCell wrapperClassName="py-2 w-1/2 max-w-xs">
-                  <TMTruncateText
-                    truncateUsingClamp={false}
-                    hidetooltipTriggerIcon
-                    isFullWidthTooltip
-                    headerTooltipProps={{
-                      delay: 500
-                    }}
-                  >
-                    {row?.status === 'success'
-                      ? 'Successfully Imported'
-                      : row?.error}
-                  </TMTruncateText>
+                  <span className="text-base-900">
+                    <TMTruncateText
+                      truncateUsingClamp={false}
+                      hidetooltipTriggerIcon
+                      isFullWidthTooltip
+                      headerTooltipProps={{
+                        delay: 500
+                      }}
+                    >
+                      {row?.status === 'success'
+                        ? 'Successfully Imported'
+                        : row?.error}
+                    </TMTruncateText>
+                  </span>
                 </TableCell>
               </TableRow>
             ))}

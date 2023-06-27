@@ -22,6 +22,7 @@ import {
   OperaIcon,
   OppoIcon,
   OSXIcon,
+  PlaywrightIcon,
   RealmeIcon,
   SafariIcon,
   SamsungIcon,
@@ -65,7 +66,8 @@ export const ICON_LIST = {
   'icon-realme': RealmeIcon,
   device_icon: DeviceIcon,
   'icon-default_os': DefaultOSIcon,
-  'icon-default_browser': DefaultBrowserIcon
+  'icon-default_browser': DefaultBrowserIcon,
+  'icon-playwright': PlaywrightIcon
 };
 
 export const BROWSERS_ICON_LIST = [
