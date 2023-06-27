@@ -11,6 +11,12 @@ const { actions, reducer } = createSlice({
     selectedGridData: {}
   },
   reducers: {
+    resetSelectedClusterData: (state) => {
+      state.selectedCluserData = {};
+    },
+    resetSelectedGridData: (state) => {
+      state.selectedGridData = {};
+    },
     setSelectedClusterData: (state, { payload }) => {
       const clusterData = payload;
       state.selectedCluserData = clusterData;
@@ -33,6 +39,8 @@ const { actions, reducer } = createSlice({
 });
 
 export const {
+  resetSelectedClusterData,
+  resetSelectedGridData,
   setSelectedClusterData,
   setSelectedGridData,
   setClusterData,

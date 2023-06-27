@@ -13,7 +13,10 @@ import {
   AGGridSettingsVisited
 } from 'constants/event-names';
 import ROUTES from 'constants/routes';
-import { setSelectedGridData } from 'features/GridConsole/slices';
+import {
+  resetSelectedGridData,
+  setSelectedGridData
+} from 'features/GridConsole/slices';
 import { setFetchedGridData } from 'globalSlice/index';
 import { getFetchedGridData, getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
@@ -72,44 +75,51 @@ const useLayoutGridDetail = () => {
     if (paramId && !fetchedGridData) fetchGridDataByIdFromAPI(paramId);
   }, [dispatch, fetchedGridData, paramId, userDetails]);
 
-  useMountEffect(() => {
-    let tabToOpen = {
-      index: 0,
-      name: 'Overview'
-    };
-    const isOverviewPath = matchPath(
-      { path: ROUTES.GRID_OVERVIEW },
-      location.pathname
-    );
-
-    const isUtilizationPath = matchPath(
-      { path: ROUTES.GRID_UTILIZATION },
-      location.pathname
-    );
-
-    if (isOverviewPath !== null) {
-      tabToOpen = {
+  useMountEffect(
+    () => {
+      let tabToOpen = {
         index: 0,
         name: 'Overview'
       };
-    } else if (isUtilizationPath !== null) {
-      tabToOpen = {
-        index: 1,
-        name: 'Utilization'
-      };
-    } else {
-      tabToOpen = {
-        index: 2,
-        name: 'Settings'
-      };
+      const isOverviewPath = matchPath(
+        { path: ROUTES.GRID_OVERVIEW },
+        location.pathname
+      );
+
+      const isUtilizationPath = matchPath(
+        { path: ROUTES.GRID_UTILIZATION },
+        location.pathname
+      );
+
+      if (isOverviewPath !== null) {
+        tabToOpen = {
+          index: 0,
+          name: 'Overview'
+        };
+      } else if (isUtilizationPath !== null) {
+        tabToOpen = {
+          index: 1,
+          name: 'Utilization'
+        };
+      } else {
+        tabToOpen = {
+          index: 2,
+          name: 'Settings'
+        };
+      }
+
+      setCurrentTab(tabToOpen);
+
+      if (tabToOpen.name === 'Settings') navigate(location.pathname);
+      else
+        navigate(
+          `/grid-console/grid/${paramId}/${tabToOpen.name.toLowerCase()}`
+        );
+    },
+    () => {
+      dispatch(resetSelectedGridData());
     }
-
-    setCurrentTab(tabToOpen);
-
-    if (tabToOpen.name === 'Settings') navigate(location.pathname);
-    else
-      navigate(`/grid-console/grid/${paramId}/${tabToOpen.name.toLowerCase()}`);
-  });
+  );
 
   return { fetchedGridData, gridData, onTabChangeHandler, currentTab };
 };

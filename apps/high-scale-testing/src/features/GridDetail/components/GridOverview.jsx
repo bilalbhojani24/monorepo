@@ -5,6 +5,7 @@ import browserIcons from 'constants/browserIcons';
 import { useGridOverview } from '../../GridConsole/components/useGridOverview';
 
 import FrameworksTable from './FramworksTable';
+import TestOnStaging from './TestOnStaging';
 import UserDetailsTable from './UserDetailsTable';
 
 const GridOverview = () => {
@@ -201,6 +202,10 @@ const GridOverview = () => {
           userDetails={userDetails}
         />
       </div>
+
+      {selectedGridData.isTrialGrid && (
+        <TestOnStaging containerClassName={containerClassName} />
+      )}
     </>
   );
 };
