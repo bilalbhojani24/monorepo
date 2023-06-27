@@ -46,7 +46,7 @@ export default function Summary() {
   );
   const urlList = cloneDeep(issueCountByURL).sort((a, b) => b.count - a.count);
   const impactList = ['critical', 'serious', 'moderate', 'minor'];
-  const ISSUE_COUNT = 'Issue Count';
+  const ISSUE_COUNT = 'Issues';
   const dropdownOptions = [
     {
       id: 'char-sort',
@@ -220,7 +220,7 @@ export default function Summary() {
             size="fit-content"
             analytics={
               <div>
-                <p className="text-base-500 mr-1 mb-1 text-sm">Total</p>
+                <p className="text-base-500 mb-1 mr-1 text-sm">Total</p>
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>

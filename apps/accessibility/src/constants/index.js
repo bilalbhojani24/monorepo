@@ -44,38 +44,6 @@ export const FILTER_KEYS = {
   IMPACT: 'impact'
 };
 
-export const columns = [
-  {
-    title: 'Report name',
-    key: 'report_name',
-    width: 320
-  },
-  {
-    title: 'Scan by',
-    key: 'scan_by'
-  },
-  {
-    title: 'Date',
-    key: 'time'
-  },
-  {
-    title: 'Scan scope',
-    key: 'scan_scope'
-  },
-  {
-    title: 'Issue count',
-    key: 'issue_count'
-  },
-  {
-    title: 'Page count',
-    key: 'page_count'
-  },
-  {
-    title: '',
-    key: 'hyperlink'
-  }
-];
-
 export const versions = [
   {
     label: 'WCAG 2.1',

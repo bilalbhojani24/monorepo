@@ -82,7 +82,7 @@ export default function ComponentList({ nodes, violationId }) {
     },
     {
       id: 'issueCount',
-      name: 'Issue count',
+      name: 'Issue',
       key: 'issueCount'
     }
   ];

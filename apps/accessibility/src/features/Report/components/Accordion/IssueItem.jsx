@@ -340,12 +340,9 @@ export default function IssueItem() {
             <div className="mt-4">
               <p className="text-base-700 mb-1 text-sm">Affected page: </p>
               <div className="flex">
-                <InputField
-                  id={url}
-                  value={url}
-                  readonly
-                  wrapperClassName="mr-2 w-full"
-                />
+                <div className="mr-2 w-full">
+                  <InputField id={url} value={url} readonly />
+                </div>
                 <CopyButton text={url} />
               </div>
             </div>
