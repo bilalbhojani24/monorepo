@@ -20,7 +20,17 @@ const SidenavExpanded = ({
 }) => {
   const getProductClick = (product) => () => {
     // TODO: add args here
-    logEvent();
+    logEvent([], 'web_events', 'HoveredOnSideNav', {
+      source: 'Homepage_Demo_CTA_Exp4',
+      action: `${activeTab === 'web' ? 'Web' : 'App'} Testing Main Navigation`,
+      group: `Product ${activeTab === 'web' ? 'Web' : 'App'} Testing`,
+      location: 'Left Navigation',
+      url: window.location.href,
+      product: activeProduct,
+      'signed-in': true,
+      'Properties-source': activeProduct,
+      Properties_Destination: product.name
+    });
   };
 
   const productElementContainer = (product) => {
@@ -86,7 +96,14 @@ const SidenavExpanded = ({
   const getTabClick = (type) => () => {
     onTabClick(type);
     // TODO: add args here
-    logEvent();
+    logEvent([], 'web_events', 'ClickedOnSideNav', {
+      source: 'Homepage_Demo_CTA_Exp4',
+      location: 'Left Navigation',
+      action: `${type === 'web' ? 'Web' : 'App'} Testing Main Navigation`,
+      group: `Product ${type === 'web' ? 'Web' : 'App'} Testing`,
+      url: window.location.href,
+      team: activeProduct
+    });
   };
 
   return (
