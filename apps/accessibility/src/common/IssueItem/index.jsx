@@ -31,6 +31,7 @@ import {
   generateReportUrl,
   getBrowserIcon,
   getOSIcon,
+  getTruncatedFileName,
   handleClickByEnterOrSpace,
   handleFocusElement,
   tagToView
@@ -427,7 +428,7 @@ export default function IssueItem({ sectionsDataContext }) {
                                   {test.name}
                                 </p>
                                 <p className="text-base-500 text-sm">
-                                  {test.file}
+                                  {getTruncatedFileName(test.file)}
                                 </p>
                                 <div className="mt-2 flex items-center gap-2">
                                   <div className="flex items-center gap-1">

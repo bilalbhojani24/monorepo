@@ -54,13 +54,13 @@ function NodeIssueNavigator({
     if (isConfirmedInAllReports === null && !showHiddenIssues) {
       if (showPagination) {
         const modifier = getReviewTagColor(
-          nodeNeedsReviewStatus[currentItemIndex].confirmed
+          nodeNeedsReviewStatus[currentItemIndex]?.confirmed
         );
         const text = getTagText(
-          nodeNeedsReviewStatus[currentItemIndex].confirmed
+          nodeNeedsReviewStatus[currentItemIndex]?.confirmed
         );
         const showToolTip =
-          nodeNeedsReviewStatus[currentItemIndex].reportName.length > 100;
+          nodeNeedsReviewStatus[currentItemIndex]?.reportName?.length > 100;
 
         return (
           <div className="flex items-center">
