@@ -99,6 +99,9 @@ export const ControlledBadgeCombobox = () => {
             (visibleOption) => visibleOption.value === option.value
           )
         }
+        onInputChange={(query) => {
+          console.log('query', query);
+        }}
       />
 
       <div className="mt-5 space-x-2">

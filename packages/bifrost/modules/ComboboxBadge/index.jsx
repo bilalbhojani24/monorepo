@@ -79,8 +79,10 @@ const ComboboxBadge = ({
       onChange={onChangeCombobox}
       {...comboboxProps}
       onOpenChange={(status) => {
-        if (!status) setQuery('');
-        debouncedQueryChange('');
+        if (!status) {
+          setQuery('');
+          debouncedQueryChange('');
+        }
       }}
     >
       {label}
