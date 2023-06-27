@@ -1,112 +1,69 @@
-import React, { useCallback } from 'react';
-import { matchPath, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import {
-  MdOutlineTextSnippet,
-  MdWeb,
+  Banner,
+  Button,
+  MdCampaign,
   NotificationsContainer,
   SidebarItem,
   SidebarNavigation
 } from '@browserstack/bifrost';
-import AutomatioConsole from 'assets/icons/components/AutomationConsole';
-import { AGAutomationConsoleInteracted } from 'constants/event-names';
-import ROUTES from 'constants/routes';
+import { BannerMessages } from 'constants/bannerMessages';
 import HSTHeader from 'features/HSTHeader/component';
-import { getEnvConfig } from 'utils/common';
-import { logHSTEvent } from 'utils/logger';
+
+import { useLayout } from './useLayout';
 
 const Layout = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const { docHomeURL } = getEnvConfig();
-
-  const primaryNavs = [
-    {
-      id: 'grid-console',
-      label: 'Automation Console',
-      activeIcon: AutomatioConsole,
-      inActiveIcon: AutomatioConsole,
-      path: ROUTES.GRID_CONSOLE,
-      pattern: `${ROUTES.GRID_CONSOLE}/*`
-    },
-    {
-      id: 'builds-dashboard',
-      label: 'Builds Dashboard',
-      activeIcon: MdWeb,
-      inActiveIcon: MdWeb,
-      path: ROUTES.BUILDS,
-      pattern: `${ROUTES.BUILDS}/*`
-    }
-  ];
-
-  const secondaryNavs = [
-    {
-      id: 'documentation',
-      label: 'Documentation',
-      activeIcon: MdOutlineTextSnippet,
-      inActiveIcon: MdOutlineTextSnippet,
-      path: 'https://www.browserstack.com/docs/automation-grid'
-    }
-  ];
-
-  const isCurrent = useCallback(
-    (navItem) => !!matchPath({ path: navItem.pattern }, location.pathname),
-    [location.pathname]
-  );
-
-  const navigationClickHandler = (item) => {
-    if (item.id === 'builds-dashboard') {
-      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'builddashboard_clicked',
-        currentPath: location.pathname
-      });
-      window.location.href = item.path;
-    } else if (item.id === 'grid-console') {
-      const { path } = item;
-      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'gridconsole_clicked',
-        currentPath: location.pathname
-      });
-      navigate(path);
-    } else if (item.id === 'documentation') {
-      logHSTEvent(['amplitude'], 'web_events', AGAutomationConsoleInteracted, {
-        action: 'viewdoc_clicked',
-        currentPath: location.pathname
-      });
-      window.location.href = docHomeURL;
-    }
-  };
+  const {
+    isCurrent,
+    navigationClickHandler,
+    primaryNavs,
+    secondaryNavs,
+    showTrialGridBannerInGridOverview
+  } = useLayout();
 
   return (
     <>
       <HSTHeader />
-      <main className="flex bg-base-50">
-        <nav
-          className="sticky"
-          style={{
-            height: `calc(100vh - 64px)`,
-            top: `64px`
-          }}
-        >
-          <SidebarNavigation
-            sidebarPrimaryNavigation={primaryNavs.map((item) => (
-              <SidebarItem
-                current={isCurrent(item)}
-                nav={item}
-                handleNavigationClick={navigationClickHandler}
-              />
-            ))}
-            sidebarSecondaryNavigation={secondaryNavs.map((item) => (
-              <SidebarItem
-                nav={item}
-                handleNavigationClick={navigationClickHandler}
-              />
-            ))}
-            wrapperClassName="md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full"
+      <main className="bg-base-50 flex flex-col">
+        {showTrialGridBannerInGridOverview && (
+          <Banner
+            align="extreme"
+            bannerIcon={
+              <MdCampaign aria-hidden="true" className="h-6 w-6 text-white" />
+            }
+            ctaButton={<Button colors="white">Create Grid</Button>}
+            description={BannerMessages.trialGridGridOverviewIntro}
+            isDismissButton={false}
           />
-        </nav>
-        <Outlet />
-
+        )}
+        <div className="flex">
+          <nav
+            className="sticky"
+            style={{
+              height: `calc(100vh - 64px)`,
+              top: `64px`
+            }}
+          >
+            <SidebarNavigation
+              sidebarPrimaryNavigation={primaryNavs.map((item) => (
+                <SidebarItem
+                  current={isCurrent(item)}
+                  nav={item}
+                  handleNavigationClick={navigationClickHandler}
+                />
+              ))}
+              sidebarSecondaryNavigation={secondaryNavs.map((item) => (
+                <SidebarItem
+                  nav={item}
+                  handleNavigationClick={navigationClickHandler}
+                />
+              ))}
+              wrapperClassName="md:sticky bg-white py-5 px-2 w-64 flex-none md:inset-y-16 h-full"
+            />
+          </nav>
+          <Outlet />
+        </div>
         <NotificationsContainer />
       </main>
     </>

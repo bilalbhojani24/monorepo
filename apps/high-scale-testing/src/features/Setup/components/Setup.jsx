@@ -368,7 +368,7 @@ const Setup = () => {
             <MdCampaign aria-hidden="true" className="h-6 w-6 text-white" />
           }
           ctaButton={<Button colors="white">Use Trial Grid</Button>}
-          description={BannerMessages.trialgridIntro}
+          description={BannerMessages.trialGridSetupPageIntro}
           isDismissButton={false}
         />
       )}
