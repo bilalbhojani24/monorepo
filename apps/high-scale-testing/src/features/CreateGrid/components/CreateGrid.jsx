@@ -33,8 +33,8 @@ import {
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
 import { EVENT_LOGS_STATUS } from 'constants/onboarding';
-import EventLogs from 'features/Onboarding/components/EventLogs';
-import SetupStatus from 'features/Onboarding/components/SetupStatus';
+import EventLogs from 'features/Setup/components/EventLogs';
+import SetupStatus from 'features/Setup/components/SetupStatus';
 
 import useCreateGrid from './useCreateGrid';
 
@@ -112,7 +112,6 @@ const CreateGrid = () => {
     showSaveProfileModal,
     showSetupClusterModal,
     showSetupStatusModal,
-    stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
     subnetInputChangeHandler,

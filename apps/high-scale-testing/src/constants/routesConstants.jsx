@@ -15,7 +15,7 @@ import TimeoutSettings from 'features/GridSettings/components/TimeoutSettings';
 import GridSettings from 'features/GridSettings/container/GridSettings';
 import { Layout } from 'features/Layout';
 import LayoutWOSidebar from 'features/LayoutWOSidebar/components/LayoutWOSidebar';
-import { Onboarding } from 'features/Onboarding';
+import { Setup } from 'features/Setup';
 
 import ROUTES from './routes';
 
@@ -29,7 +29,7 @@ export const APP_ROUTES = [
       {
         path: ROUTES.ONBOARDING,
         isProtected: true,
-        component: <Onboarding />
+        component: <Setup />
       }
     ]
   },

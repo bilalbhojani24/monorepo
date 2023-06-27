@@ -524,8 +524,7 @@ const useCreateGrid = () => {
       const rawClusters = selectedGridProfileData?.clusters;
 
       rawClusters?.forEach((e) => {
-        e = { ...e, label: e.name, value: e.name };
-        tmpArray.push(e);
+        tmpArray.push({ ...e, label: e.name, value: e.name });
       });
 
       setSelectedGridclusters(tmpArray);
@@ -758,7 +757,6 @@ const useCreateGrid = () => {
     CODE_SNIPPETS_SCRATCH,
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
-    allAvailableSubnets,
     breadcrumbsData,
     closeEventLogsModal,
     closeSetupStatusModal,
@@ -795,9 +793,9 @@ const useCreateGrid = () => {
     isSubnetLoading,
     isVPCLoading,
     modalCrossClickhandler,
+    newGridName,
     newProfileNameValue,
     opened,
-    newGridName,
     newProfileErrorText,
     nextBtnClickHandler,
     ref,

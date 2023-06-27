@@ -30,9 +30,9 @@ import { logHSTEvent } from 'utils/logger';
 
 import EventLogs from './EventLogs';
 import SetupStatus from './SetupStatus';
-import useOnboarding from './useOnboarding';
+import useOnboarding from './useSetup';
 
-const Onboarding = () => {
+const Setup = () => {
   const {
     CODE_SNIPPETS_SCRATCH,
     GRID_MANAGER_NAMES,
@@ -376,7 +376,7 @@ const Onboarding = () => {
         wrapperClassName="p-6 bg-white"
       />
 
-      {/* Body of Onboarding */}
+      {/* Body of Setup */}
       <div
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
         className={twClassNames(
@@ -423,7 +423,7 @@ const Onboarding = () => {
             </>
           )}
       </div>
-      {/* --X-- Body of Onboarding --X-- */}
+      {/* --X-- Body of Setup --X-- */}
 
       {/* Footer component */}
       {onboardingStep === 0 && (
@@ -526,4 +526,4 @@ const Onboarding = () => {
   );
 };
 
-export default Onboarding;
+export default Setup;

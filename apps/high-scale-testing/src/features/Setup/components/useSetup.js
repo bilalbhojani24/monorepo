@@ -34,7 +34,7 @@ import { SETUP_GUIDE } from 'constants/strings';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
-const useOnboarding = () => {
+const useSetup = () => {
   // All Store variables:
   const userDetails = useSelector(getUserDetails);
 
@@ -551,4 +551,4 @@ const useOnboarding = () => {
   };
 };
 
-export default useOnboarding;
+export default useSetup;
