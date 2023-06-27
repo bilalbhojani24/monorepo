@@ -1,3 +1,4 @@
-const getGridData = (state) => state.gridConsole.gridData;
+const getClustersData = (state) => state.gridConsole.clustersData;
+const getGridsData = (state) => state.gridConsole.gridsData;
 
-export { getGridData };
+export { getClustersData, getGridsData };

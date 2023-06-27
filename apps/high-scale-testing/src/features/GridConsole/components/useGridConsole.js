@@ -5,13 +5,12 @@ import { useMountEffect } from '@browserstack/hooks';
 import { fetchAllClustersData, fetchAllGridsData } from 'api/index';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
-import { getClusterData } from 'features/ClusterDetail/slices/selector';
 import { setFetchedGridData } from 'globalSlice/index';
 import { getFetchedGridData, getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 import { setClusterData, setGridData } from '../slices';
-import { getGridData } from '../slices/selector';
+import { getClustersData, getGridsData } from '../slices/selector';
 
 const useGridConsole = () => {
   const dispatch = useDispatch();
@@ -27,9 +26,9 @@ const useGridConsole = () => {
   ];
 
   // All Store variables
-  const clusterData = useSelector(getClusterData);
+  const clusterData = useSelector(getClustersData);
   const fetchedGridData = useSelector(getFetchedGridData);
-  const gridData = useSelector(getGridData);
+  const gridData = useSelector(getGridsData);
   const userDetails = useSelector(getUserDetails);
 
   // All State variables

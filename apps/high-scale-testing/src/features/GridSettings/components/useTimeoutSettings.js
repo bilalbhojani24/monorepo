@@ -8,13 +8,13 @@ import {
   MAX_QUEUE_TIMEOUT,
   MAX_TEST_TIMEOUT
 } from 'constants/index';
-import { getGridData } from 'features/GridConsole/slices/selector';
+import { getGridsData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 const useTimeoutSettings = (notifactionComponent) => {
   // All Store variables:
-  const gridData = useSelector(getGridData);
+  const gridData = useSelector(getGridsData);
   const userDetails = useSelector(getUserDetails);
 
   const ERROR_MESSAGE_IDLE_TIMEOUT = `Idle timeout must be less than ${MAX_IDLE_TIMEOUT} seconds`;

@@ -17,7 +17,7 @@ import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 import { setGridData } from '../slices';
-import { getGridData } from '../slices/selector';
+import { getGridsData } from '../slices/selector';
 
 const useLayoutGridDetail = () => {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const useLayoutGridDetail = () => {
   const userDetails = useSelector(getUserDetails);
 
   // All Store variables
-  const gridData = useSelector(getGridData);
+  const gridData = useSelector(getGridsData);
 
   // All State variables
   const [currentTab, setCurrentTab] = useState({

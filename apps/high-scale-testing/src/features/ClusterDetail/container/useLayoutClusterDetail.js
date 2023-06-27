@@ -4,10 +4,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { fetchClusterDataById } from 'api/index';
 import { AGClusterDetailsInteracted } from 'constants/event-names';
 import { setClusterData } from 'features/GridConsole/slices';
+import { getClustersData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
-
-import { getClusterData } from '../slices/selector';
 
 const useLayoutClusterDetail = () => {
   const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const useLayoutClusterDetail = () => {
   const userDetails = useSelector(getUserDetails);
 
   // All Store variables
-  const clusterData = useSelector(getClusterData);
+  const clusterData = useSelector(getClustersData);
 
   // All State variables
   const [currentTab, setCurrentTab] = useState({

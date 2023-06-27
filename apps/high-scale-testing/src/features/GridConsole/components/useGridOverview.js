@@ -7,11 +7,11 @@ import {
 import { logHSTEvent } from 'utils/logger';
 import { calculateRelativeTime } from 'utils/time';
 
-import { getGridData } from '../slices/selector';
+import { getGridsData } from '../slices/selector';
 
 const useGridOverview = () => {
   // All Store variables
-  const gridData = useSelector(getGridData);
+  const gridData = useSelector(getGridsData);
 
   const {
     browserSettings,

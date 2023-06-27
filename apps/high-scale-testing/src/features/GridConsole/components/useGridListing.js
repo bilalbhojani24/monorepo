@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getGridData } from '../slices/selector';
+import { getGridsData } from '../slices/selector';
 
 const useGridListing = () => {
   const isRounded = true;
@@ -9,7 +9,7 @@ const useGridListing = () => {
   const HELM_COMMAND = 'helm uninstall ';
 
   // All Store variables:
-  const gridList = useSelector(getGridData);
+  const gridList = useSelector(getGridsData);
 
   // All State Variables:
   const [activeGridName, setActiveGridName] = useState(null);

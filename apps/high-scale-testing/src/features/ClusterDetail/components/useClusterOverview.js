@@ -4,13 +4,12 @@ import {
   AGClusterDetailsInteracted,
   AGClusterDetailsVisited
 } from 'constants/event-names';
+import { getClustersData } from 'features/GridConsole/slices/selector';
 import { logHSTEvent } from 'utils/logger';
-
-import { getClusterData } from '../slices/selector';
 
 const useClusterOverview = () => {
   // All Store variables
-  const clusterData = useSelector(getClusterData);
+  const clusterData = useSelector(getClustersData);
 
   const containerClassName =
     'border-base-200 rounded-lg border bg-white p-6 shadow';

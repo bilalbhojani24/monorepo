@@ -5,19 +5,19 @@ const SLICE_NAME = 'gridConsole';
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
-    clusterData: {},
-    gridData: {}
+    clustersData: [],
+    gridsData: []
   },
   reducers: {
     setClusterData: (state, { payload }) => {
       const { clusterData } = payload;
 
-      state.clusterData = clusterData;
+      state.clustersData = clusterData;
     },
     setGridData: (state, { payload }) => {
       const { gridData } = payload;
 
-      state.gridData = gridData;
+      state.gridsData = gridData;
     }
   }
 });
