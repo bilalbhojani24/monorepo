@@ -62,7 +62,7 @@ import TMSelectMenu from './components/TMSelectMenu';
 import TMTooltip from './components/TMTooltip';
 import TMTruncateText from './components/TMTruncateText';
 
-export const TMAlerts = (props) => <Alerts description={null} {...props} />;
+export const TMAlerts = (props) => <Alerts {...props} />;
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMListTree = (props) => <ListTree {...props} />;
 export const TMListTreeNode = (props) => <ListTreeNode {...props} />;
