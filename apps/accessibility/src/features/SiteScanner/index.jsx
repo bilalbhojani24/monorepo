@@ -411,7 +411,7 @@ export default function SiteScanner() {
                   id="search-scan"
                   placeholder="Search for scan name or user..."
                   leadingIcon={<MdSearch />}
-                  wrapperClassName="mr-4 mt-1 w-80 bg-white"
+                  wrapperClassName="mr-4 mt-1 w-80 bg-white z-0"
                 />
                 <div className="mr-4 mt-1">
                   <Dropdown onClick={handleSearchFilter} id="scanFilter">
