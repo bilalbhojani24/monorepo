@@ -29,6 +29,7 @@ const TreeNode = ({
         //     ? 'opacity-25 pointer-events-none'
         //     : ''
         // }
+        nodeLabelClassName="text-base-900"
         leadingIcon={
           isLoading && !item.contents ? (
             <div className="flex h-5 w-5 items-center justify-center">
@@ -57,7 +58,9 @@ const TreeNode = ({
             {item.name}
           </TMTruncateText>
         }
-        description={`(${item?.cases_count || 0})`}
+        description={
+          <span className="text-base-500">{`(${item?.cases_count || 0})`}</span>
+        }
         hideArrowIcon={!item?.sub_folders_count || false}
         isNodeSelected={selectedNodesId.includes(parseInt(item?.id, 10))}
         onNodeClick={() => onFolderClick(item)}

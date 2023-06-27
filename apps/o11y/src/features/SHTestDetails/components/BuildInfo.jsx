@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import {
   capitalize,
   getDocUrl,
+  getIconName,
   getOsIconName,
   getShortOSName
 } from 'utils/common';
@@ -72,7 +73,7 @@ const BuildInfo = ({ buildDetails }) => (
             <DetailIcon
               icon={
                 buildDetails?.browser?.name
-                  ? `icon-${buildDetails?.browser?.name.toLowerCase()}`
+                  ? getIconName(buildDetails?.browser?.name)
                   : 'device_icon'
               }
               text={buildDetails?.device}
@@ -81,7 +82,7 @@ const BuildInfo = ({ buildDetails }) => (
             <>
               {buildDetails?.browser?.name && (
                 <DetailIcon
-                  icon={`icon-${buildDetails?.browser?.name.toLowerCase()}`}
+                  icon={getIconName(buildDetails?.browser?.name)}
                   text={`${capitalize(buildDetails?.browser?.name)} ${
                     buildDetails?.browser?.version
                   }`}
