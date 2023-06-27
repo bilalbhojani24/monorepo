@@ -268,7 +268,7 @@ export default function Reports() {
           style={{
             height: showBanner ? 'calc(100vh - 291px)' : 'calc(100vh - 227px)',
             top: showBanner ? '291px' : '227px',
-            width: 'calc(100vw - 256px)'
+            width: `calc(${getDashboardWidth()})`
           }}
           onScroll={handleScroll}
         >
