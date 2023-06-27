@@ -13,7 +13,7 @@ const GridOverview = () => {
     copyBtnCbFn,
     fontColor900ClassName,
     frameworks,
-    gridData,
+    selectedGridData,
     gridVersion,
     hasBrowsersUsed,
     identifier,
@@ -24,7 +24,7 @@ const GridOverview = () => {
     status
   } = useGridOverview();
 
-  if (!Object.keys(gridData).length) {
+  if (!Object.keys(selectedGridData).length) {
     return <></>;
   }
 
@@ -56,7 +56,7 @@ const GridOverview = () => {
     },
     {
       title: 'Created by',
-      value: gridData?.createdBy?.fullName
+      value: selectedGridData?.createdBy?.fullName
     },
     {
       title: 'Running Tests',

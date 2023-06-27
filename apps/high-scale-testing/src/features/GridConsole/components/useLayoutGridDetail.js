@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   matchPath,
   useLocation,
@@ -7,27 +7,27 @@ import {
   useParams
 } from 'react-router-dom';
 import { useMountEffect } from '@browserstack/hooks';
-import { fetchGridDataById } from 'api/index';
+// import { fetchGridDataById } from 'api/index';
 import {
   AGGridDetailsInteracted,
   AGGridSettingsVisited
 } from 'constants/event-names';
 import ROUTES from 'constants/routes';
-import { getUserDetails } from 'globalSlice/selector';
+// import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
-import { setGridData } from '../slices';
+// import { setGridData, setSelectedGridData } from '../slices';
 import { getGridsData } from '../slices/selector';
 
 const useLayoutGridDetail = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const params = useParams();
   const location = useLocation();
   const paramId = params.id; // grid id
 
-  const userDetails = useSelector(getUserDetails);
+  // const userDetails = useSelector(getUserDetails);
 
   // All Store variables
   const gridData = useSelector(getGridsData);
@@ -60,18 +60,14 @@ const useLayoutGridDetail = () => {
       );
   }, [paramId, currentTab]);
 
-  useEffect(() => {
-    const fetchGridDataByIdFromAPI = async (gridId) => {
-      const res = await fetchGridDataById(gridId, userDetails.id);
-      dispatch(
-        setGridData({
-          gridData: res.data
-        })
-      );
-    };
+  // useEffect(() => {
+  // const fetchGridDataByIdFromAPI = async (gridId) => {
+  // const res = await fetchGridDataById(gridId, userDetails.id);
+  // dispatch(setSelectedGridData(res.data));
+  // };
 
-    if (paramId) fetchGridDataByIdFromAPI(paramId);
-  }, [dispatch, paramId, userDetails]);
+  // if (paramId) fetchGridDataByIdFromAPI(paramId);
+  // }, [dispatch, paramId, userDetails]);
 
   useMountEffect(() => {
     let tabToOpen = {

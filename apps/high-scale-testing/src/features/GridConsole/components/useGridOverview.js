@@ -7,14 +7,13 @@ import {
 import { logHSTEvent } from 'utils/logger';
 import { calculateRelativeTime } from 'utils/time';
 
-import { getGridsData } from '../slices/selector';
+import { getSelectedGridData } from '../slices/selector';
 
 const useGridOverview = () => {
   // All Store variables
-  const gridData = useSelector(getGridsData);
+  const selectedGridData = useSelector(getSelectedGridData);
 
   const {
-    browserSettings,
     cluster,
     connected,
     frameworks,
@@ -22,16 +21,11 @@ const useGridOverview = () => {
     identifier,
     isTrialGrid,
     name,
-    runningTests,
-    queuedTests,
     stats,
-    status,
-    user
-  } = gridData;
+    status
+  } = selectedGridData;
 
   // loading state also needs to be added
-  const allowedBrowsers =
-    (browserSettings && Object.keys(browserSettings?.allowedBrowsers)) || [];
 
   const containerClassName =
     'border-base-200 rounded-lg border bg-white p-6 shadow';
@@ -48,7 +42,7 @@ const useGridOverview = () => {
 
   useMountEffect(() => {
     logHSTEvent([], 'web_events', AGGridDetailsVisited, {
-      grid_name: gridData.name
+      grid_name: selectedGridData.name
     });
   });
 
@@ -58,7 +52,7 @@ const useGridOverview = () => {
     copyBtnCbFn,
     fontColor900ClassName,
     frameworks,
-    gridData,
+    selectedGridData,
     gridVersion,
     hasBrowsersUsed,
     identifier,

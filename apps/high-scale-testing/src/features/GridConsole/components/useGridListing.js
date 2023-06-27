@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { setSelectedGridData } from '../slices';
 import { getGridsData } from '../slices/selector';
 
 const useGridListing = () => {
@@ -9,6 +10,7 @@ const useGridListing = () => {
   const CLI_COMMAND = 'browserstack-cli ats delete grid --grid-id ';
   const HELM_COMMAND = 'helm uninstall ';
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // All Store variables:
@@ -44,6 +46,9 @@ const useGridListing = () => {
   };
 
   const gridRowHandler = (gridId) => {
+    const gridData = gridList.filter((item) => item.id === gridId);
+    dispatch(setSelectedGridData(gridData));
+
     navigate(`/grid-console/grid/${gridId}/overview`);
   };
 

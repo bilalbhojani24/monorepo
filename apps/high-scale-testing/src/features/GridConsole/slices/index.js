@@ -6,9 +6,19 @@ const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
     clustersData: [],
-    gridsData: []
+    gridsData: [],
+    selectedCluserData: {},
+    selectedGridData: {}
   },
   reducers: {
+    setSelectedClusterData: (state, { payload }) => {
+      const clusterData = payload[0];
+      state.selectedCluserData = clusterData;
+    },
+    setSelectedGridData: (state, { payload }) => {
+      const gridData = payload[0];
+      state.selectedGridData = gridData;
+    },
     setClusterData: (state, { payload }) => {
       const { clusterData } = payload;
 
@@ -22,5 +32,10 @@ const { actions, reducer } = createSlice({
   }
 });
 
-export const { setClusterData, setGridData } = actions;
+export const {
+  setSelectedClusterData,
+  setSelectedGridData,
+  setClusterData,
+  setGridData
+} = actions;
 export default reducer;
