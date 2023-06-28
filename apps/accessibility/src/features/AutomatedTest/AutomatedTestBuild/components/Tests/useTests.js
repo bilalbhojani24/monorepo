@@ -30,6 +30,8 @@ export default function useTests() {
     if (activeTestId) {
       setTestId(activeTestId);
       setIsSliderOpen(true);
+    }
+    if (activeSlideOverTab) {
       logEvent('InteractedWithAutomatedTestsBuildViewSpecificTest', {
         action: 'Choose tab',
         Tab: activeSlideOverTab
