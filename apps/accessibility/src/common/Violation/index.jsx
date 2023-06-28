@@ -45,9 +45,9 @@ export default function Violation({
           <div className="flex items-center">
             <p
               className="text-base-900 mr-2 truncate text-sm"
-              // style={{
-              //   maxWidth: `${isShowingIssue ? maxWidthForFullView : '100%'}`
-              // }}
+              style={{
+                maxWidth: `calc(((100vw - 256px) / 2) - 190px)`
+              }}
             >
               {violation.help}
             </p>

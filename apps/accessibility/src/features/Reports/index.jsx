@@ -126,51 +126,49 @@ export default function Reports() {
               to consolidate and review reports.
             </h3>
           </div>
-          {searchFilterList.length ? (
-            <Tooltip
-              show={showExtButtonTooltip}
-              placementAlign="end"
-              placementSide="bottom"
-              arrowPadding={10}
-              content={
-                <>
-                  <TooltipHeader>
-                    Start your Accessibility testing!{' '}
-                    <span role="img" aria-label="rocket emoji">
-                      🚀
-                    </span>
-                  </TooltipHeader>
-                  <TooltipBody>
-                    Use the extension to scan your web pages & workflows for
-                    accessibility issues.
-                  </TooltipBody>
-                </>
-              }
-              theme="dark"
-              onMouseLeave={() => {
-                logEvent('OnManualTestReportsDownloadExtensionTooltip');
+          <Tooltip
+            show={showExtButtonTooltip}
+            placementAlign="end"
+            placementSide="bottom"
+            arrowPadding={10}
+            content={
+              <>
+                <TooltipHeader>
+                  Start your Accessibility testing!{' '}
+                  <span role="img" aria-label="rocket emoji">
+                    🚀
+                  </span>
+                </TooltipHeader>
+                <TooltipBody>
+                  Use the extension to scan your web pages & workflows for
+                  accessibility issues.
+                </TooltipBody>
+              </>
+            }
+            theme="dark"
+            onMouseLeave={() => {
+              logEvent('OnManualTestReportsDownloadExtensionTooltip');
+            }}
+            onOpenChange={() => setShowExtButtonTooltip((state) => !state)}
+            delay={1000}
+          >
+            <Button
+              iconPlacement="start"
+              icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
+              onClick={() => {
+                window.open(CHROME_EXTENSION_URL, '_target');
+                logEvent('ClickedOnDownloadExtensionCTA', {
+                  source: 'Manual test reports',
+                  noReports: searchFilterList.length === 0
+                });
               }}
-              onOpenChange={() => setShowExtButtonTooltip((state) => !state)}
-              delay={1000}
+              size="small"
+              colors="white"
+              wrapperClassName="py-2"
             >
-              <Button
-                iconPlacement="start"
-                icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
-                onClick={() => {
-                  window.open(CHROME_EXTENSION_URL, '_target');
-                  logEvent('ClickedOnDownloadExtensionCTA', {
-                    source: 'Manual test reports',
-                    noReports: searchFilterList.length === 0
-                  });
-                }}
-                size="small"
-                colors="white"
-                wrapperClassName="py-2"
-              >
-                Download extension
-              </Button>
-            </Tooltip>
-          ) : null}
+              Download extension
+            </Button>
+          </Tooltip>
         </div>
 
         <div>
@@ -205,56 +203,54 @@ export default function Reports() {
                 </SelectMenu>
               </div>
             </div>
-            {searchFilterList.length ? (
-              <div className="flex items-center">
-                {isMergeDisabled ? (
-                  <Tooltip
-                    theme="dark"
-                    placementAlign="center"
-                    placementSide="bottom"
-                    content={
-                      <TooltipBody wrapperClassName="text-center w-56 text-sm text-base-300">
-                        Select at least two reports to consolidate them
-                      </TooltipBody>
-                    }
-                  >
-                    <Button
-                      iconPlacement="end"
-                      icon={<MdOutlineArrowForward className="text-xl" />}
-                      onClick={onReportConsolidateButtonClick}
-                      disabled={isMergeDisabled}
-                      size="default"
-                      variant="secondary"
-                    >
-                      Consolidate reports
-                    </Button>
-                  </Tooltip>
-                ) : (
+            <div className="flex items-center">
+              {isMergeDisabled ? (
+                <Tooltip
+                  theme="dark"
+                  placementAlign="center"
+                  placementSide="bottom"
+                  content={
+                    <TooltipBody wrapperClassName="text-center w-56 text-sm text-base-300">
+                      Select at least two reports to consolidate them
+                    </TooltipBody>
+                  }
+                >
                   <Button
-                    size="default"
                     iconPlacement="end"
                     icon={<MdOutlineArrowForward className="text-xl" />}
                     onClick={onReportConsolidateButtonClick}
                     disabled={isMergeDisabled}
+                    size="default"
                     variant="secondary"
                   >
                     Consolidate reports
                   </Button>
-                )}
-                {selectedReportsLength > 0 && (
-                  <Button
-                    iconPlacement="end"
-                    icon={<MdClose className="text-xl" />}
-                    onClick={resetSelection}
-                    wrapperClassName="ml-4"
-                    variant="minimal"
-                    colors="white"
-                  >
-                    Clear {selectedReportsLength} selected
-                  </Button>
-                )}
-              </div>
-            ) : null}
+                </Tooltip>
+              ) : (
+                <Button
+                  size="default"
+                  iconPlacement="end"
+                  icon={<MdOutlineArrowForward className="text-xl" />}
+                  onClick={onReportConsolidateButtonClick}
+                  disabled={isMergeDisabled}
+                  variant="secondary"
+                >
+                  Consolidate reports
+                </Button>
+              )}
+              {selectedReportsLength > 0 && (
+                <Button
+                  iconPlacement="end"
+                  icon={<MdClose className="text-xl" />}
+                  onClick={resetSelection}
+                  wrapperClassName="ml-4"
+                  variant="minimal"
+                  colors="white"
+                >
+                  Clear {selectedReportsLength} selected
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
