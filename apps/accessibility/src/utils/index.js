@@ -36,6 +36,9 @@ export const defaultPath = () => {
   if (link.includes('/site-scanner')) {
     return 'site-scanner';
   }
+  if (link.includes('/automated-tests')) {
+    return 'automated-tests';
+  }
   return 'report-listing';
 };
 

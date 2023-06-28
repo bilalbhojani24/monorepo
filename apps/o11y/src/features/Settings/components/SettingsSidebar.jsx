@@ -2,9 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { SidebarItem } from '@browserstack/bifrost';
-import { ROUTES } from 'constants/routes';
+import { ROUTE_PATH_KEYS, ROUTES } from 'constants/routes';
 import { getActiveProject } from 'globalSlice/selectors';
-import { getSettingsPath } from 'utils/routeUtils';
+import { getPageUrlByMapping } from 'utils/routeUtils';
 
 const getNav = ({ projectNormalisedName }) => [
   {
@@ -12,7 +12,10 @@ const getNav = ({ projectNormalisedName }) => [
     label: 'General',
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
-    path: getSettingsPath(projectNormalisedName, 'general'),
+    path: getPageUrlByMapping(
+      projectNormalisedName,
+      ROUTE_PATH_KEYS.settings_general
+    ),
     pattern: ROUTES.settings_general
   },
   {
@@ -20,7 +23,10 @@ const getNav = ({ projectNormalisedName }) => [
     label: 'Alerts',
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
-    path: getSettingsPath(projectNormalisedName, 'alerts'),
+    path: getPageUrlByMapping(
+      projectNormalisedName,
+      ROUTE_PATH_KEYS.settings_alerts
+    ),
     pattern: ROUTES.settings_alerts
   },
   {
@@ -28,7 +34,10 @@ const getNav = ({ projectNormalisedName }) => [
     label: 'Smart Tags',
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
-    path: getSettingsPath(projectNormalisedName, 'smart_tags'),
+    path: getPageUrlByMapping(
+      projectNormalisedName,
+      ROUTE_PATH_KEYS.settings_smart_tags
+    ),
     pattern: ROUTES.smart_tags
   },
   {
@@ -36,7 +45,10 @@ const getNav = ({ projectNormalisedName }) => [
     label: 'Auto Failure Analysis',
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
-    path: getSettingsPath(projectNormalisedName, 'auto_analyser'),
+    path: getPageUrlByMapping(
+      projectNormalisedName,
+      ROUTE_PATH_KEYS.settings_auto_analyser
+    ),
     pattern: ROUTES.settings_auto_analyser
   },
   {
@@ -44,7 +56,10 @@ const getNav = ({ projectNormalisedName }) => [
     label: 'Failure Categories',
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
-    path: getSettingsPath(projectNormalisedName, 'failure_categories'),
+    path: getPageUrlByMapping(
+      projectNormalisedName,
+      ROUTE_PATH_KEYS.settings_failure_categories
+    ),
     pattern: ROUTES.settings_failure_categories
   },
   {
@@ -52,7 +67,10 @@ const getNav = ({ projectNormalisedName }) => [
     label: 'Re-run Configuration',
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
-    path: getSettingsPath(projectNormalisedName, 're_run'),
+    path: getPageUrlByMapping(
+      projectNormalisedName,
+      ROUTE_PATH_KEYS.settings_re_run
+    ),
     pattern: ROUTES.settings_re_run
   },
   {
@@ -60,7 +78,10 @@ const getNav = ({ projectNormalisedName }) => [
     label: 'Notifications',
     activeIcon: () => <></>,
     inActiveIcon: () => <></>,
-    path: getSettingsPath(projectNormalisedName, 'notifications'),
+    path: getPageUrlByMapping(
+      projectNormalisedName,
+      ROUTE_PATH_KEYS.settings_notifications
+    ),
     pattern: ROUTES.settings_notifications
   }
 ];

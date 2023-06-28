@@ -28,7 +28,6 @@ import { FILTER_KEYS, issueTabs, severityOptions } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
 import { getDashboardWidth } from 'utils';
 
-import { setShowFreshChatButton } from '../../../../Dashboard/slices/uiSlice';
 import { SectionsDataContext } from '../../context/SectionsDataContext';
 import {
   getActiveComponentId,
@@ -222,7 +221,7 @@ export default function Issues() {
           </ModalFooter>
         </Modal>
         <div
-          className="bg-base-50 border-base-200 fixed z-10 border-b"
+          className="bg-base-50 border-base-200 fixed z-[9] border-b"
           style={{ width: `calc(${getDashboardWidth()})`, top: '250px' }}
         >
           <div className="flex w-full items-center justify-between px-6 py-4">

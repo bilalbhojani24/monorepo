@@ -15,7 +15,7 @@ import Loader from 'common/Loader';
 import { ISSUES, SUMMARY } from 'constants';
 import format from 'date-fns/format';
 import { getReportData } from 'features/Report/slice/selector';
-import { downloadCsv, generateReportUrl } from 'utils/helper';
+import { downloadCsv } from 'utils/helper';
 
 import { getDashboardWidth } from '../../utils';
 
@@ -67,7 +67,7 @@ export default function Report() {
   return reportData && !isLoading ? (
     <div className="bg-base-50 h-full">
       <div
-        className="bg-base-50 border-base-200 fixed top-16 z-10 border-b"
+        className="bg-base-50 border-base-200 fixed top-16 z-[9] border-b"
         style={{ width: `calc(${getDashboardWidth()})` }}
       >
         <div className="px-6 pt-6">
