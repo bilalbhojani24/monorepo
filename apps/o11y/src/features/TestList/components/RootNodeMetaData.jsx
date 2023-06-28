@@ -5,7 +5,12 @@ import { O11yHyperlink } from 'common/bifrostProxy';
 import DetailIcon from 'common/DetailIcon/containers/DetailIcon';
 import ScopeLine from 'common/ScopeLine/containers/ScopeLine';
 import PropTypes from 'prop-types';
-import { capitalize, getOsIconName, getShortOSName } from 'utils/common';
+import {
+  capitalize,
+  getIconName,
+  getOsIconName,
+  getShortOSName
+} from 'utils/common';
 import { getCustomTimeStamp } from 'utils/dateTime';
 
 export default function RootNodeMetaData({
@@ -24,11 +29,7 @@ export default function RootNodeMetaData({
         {device ? (
           <div className="flex items-center">
             <DetailIcon
-              icon={
-                browser?.name
-                  ? `icon-${browser.name.toLowerCase()}`
-                  : `device_icon`
-              }
+              icon={browser?.name ? getIconName(browser?.name) : `device_icon`}
               openTextInTooltip
               tooltipTheme="dark"
               text={device}
@@ -41,7 +42,7 @@ export default function RootNodeMetaData({
                 <DetailIcon
                   openTextInTooltip
                   tooltipTheme="dark"
-                  icon={`icon-${browser.name.toLowerCase()}`}
+                  icon={getIconName(browser?.name)}
                   text={`${capitalize(browser.name)} ${browser.version}`}
                 />
               </div>

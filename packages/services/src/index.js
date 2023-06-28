@@ -1,3 +1,13 @@
+import FeedbackWidget, {
+  closeFeedbackWidget,
+  showFeedbackWidget
+} from './FeedbackWidget/index';
 import NetworkViewer, { NL_EVENTS } from './NetworkViewer';
 
-export { NetworkViewer, NL_EVENTS };
+export {
+  closeFeedbackWidget,
+  FeedbackWidget,
+  NetworkViewer,
+  NL_EVENTS,
+  showFeedbackWidget
+};

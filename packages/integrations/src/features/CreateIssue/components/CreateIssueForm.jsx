@@ -73,7 +73,11 @@ const CreateIssueForm = ({
       parsed.project_id = projectFieldData.value;
       parsed.ticket_type_id = issueTypeFieldData.value;
       resetFieldErrors();
-      return createIssue(integrationToolFieldData?.value, parsed)
+      return createIssue(
+        integrationToolFieldData?.value,
+        parsed,
+        options.webHookStateHash
+      )
         .catch((errorResponse) => {
           const metricsPayload = {
             ...commonMetrics,

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 import React, {
   useCallback,
   useEffect,
@@ -7,24 +8,22 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
+import { O11yTooltip } from 'common/bifrostProxy';
 import Chart from 'common/Chart';
-import {
-  COMMON_CHART_CONFIGS,
-  COMMON_CHART_STYLES,
-  TOOLTIP_STYLES
-} from 'constants/common';
+import { COMMON_CHART_CONFIGS, COMMON_CHART_STYLES } from 'constants/common';
 import { getTrendsData } from 'features/TestingTrends/slices/testingTrendsSlice';
-import { getProjects } from 'globalSlice/selectors';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 import { logOllyEvent } from 'utils/common';
 
+import CustomChartTooltip from '../components/CustomChartTooltip';
 import TrendStatesWrapper from '../components/TrendStatesWrapper';
 import { getAllTTFilters } from '../slices/selectors';
 
-const getChartOptions = () => ({
+const getChartOptions = (handleTooltipData) => ({
   ...COMMON_CHART_CONFIGS,
   tooltip: {
-    ...TOOLTIP_STYLES
+    enabled: false
   },
   legend: { enabled: false },
   title: {
@@ -43,18 +42,47 @@ const getChartOptions = () => ({
         enabled: false
       },
       center: ['50%', '50%'],
-      size: '100%'
+      size: '100%',
+      point: {
+        events: {
+          mouseOver(e) {
+            const { drillDownData, tooltipPos, options } = e.target;
+
+            const seriesData = this.series.chart.series.map((res) => ({
+              ...res,
+              index: this.index,
+              y: res.data[this.index]?.y,
+              fixedToTwoDigits: false,
+              options
+            }));
+
+            handleTooltipData({
+              options: [...seriesData],
+              header: options.name,
+              show: true,
+              drillDownData,
+              styles: {
+                top: tooltipPos[1],
+                left: tooltipPos[0],
+                width: 4,
+                height: 4
+              }
+            });
+          }
+        }
+      }
     }
   }
 });
 
-const getPreparedChartData = (data = []) => {
+const getPreparedChartData = (data = [], drillDownData) => {
   const chartData = [];
   data?.forEach((item) => {
     chartData.push({
       ...item,
       y: item.value,
-      sliced: true
+      sliced: true,
+      drillDownData
     });
   });
   return chartData;
@@ -64,10 +92,15 @@ export default function CbtTrends() {
   const filters = useSelector(getAllTTFilters);
   const [chartData, setChartData] = useState({ data: [] });
   const dispatch = useDispatch();
-  const projects = useSelector(getProjects);
+  const activeProject = useSelector(getActiveProject);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [activeSeriesData, setActiveSeriesData] = useState([]);
+  const [tooltipData, setTooltipData] = useState({});
+
+  const handleTooltipData = useCallback((tooltipRes) => {
+    setTooltipData(tooltipRes);
+  }, []);
 
   const chart = useRef(null);
 
@@ -77,7 +110,7 @@ export default function CbtTrends() {
     setChartData({ data: [] });
     dispatch(
       getTrendsData({
-        normalisedName: projects.active?.normalisedName,
+        normalisedName: activeProject?.normalisedName,
         filters,
         key: 'cbt'
       })
@@ -92,13 +125,13 @@ export default function CbtTrends() {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [dispatch, projects.active?.normalisedName, filters]);
+  }, [dispatch, activeProject?.normalisedName, filters]);
 
   useEffect(() => {
-    if (projects.active?.normalisedName) {
+    if (activeProject?.normalisedName) {
       fetchData();
     }
-  }, [fetchData, projects.active?.normalisedName]);
+  }, [fetchData, activeProject?.normalisedName]);
 
   const setChartTitle = useCallback((totalCombinations, chartRef) => {
     const currentChart = chartRef || chart.current?.chart;
@@ -111,7 +144,7 @@ export default function CbtTrends() {
 
   const getOptions = useMemo(
     () => ({
-      ...getChartOptions(),
+      ...getChartOptions(handleTooltipData),
       chart: {
         type: 'pie',
         ...COMMON_CHART_STYLES,
@@ -128,8 +161,8 @@ export default function CbtTrends() {
               logOllyEvent({
                 event: 'O11yTestingTrendsInteracted',
                 data: {
-                  project_name: projects.active.name,
-                  project_id: projects.active.id,
+                  project_name: activeProject.name,
+                  project_id: activeProject.id,
                   interaction: 'cbt_drilldown'
                 }
               });
@@ -153,7 +186,11 @@ export default function CbtTrends() {
           slicedOffset: 0,
           innerSize: '98%',
           ignoreHiddenPoint: false,
-          data: getPreparedChartData(chartData?.data || [])
+          data: getPreparedChartData(
+            chartData?.data || [],
+            chartData?.drillDownData
+          ),
+          drillDownData: chartData.drillDownData
         }
       ],
       drilldown: {
@@ -165,15 +202,16 @@ export default function CbtTrends() {
           slicedOffset: 0,
           innerSize: '98%',
           ignoreHiddenPoint: false,
-          data: getPreparedChartData(item?.data || [])
+          data: getPreparedChartData(item?.data || []),
+          drillDownData: item.drillDownData
         }))
       }
     }),
     [
-      chartData.data,
+      activeProject,
       chartData?.drillDownData,
-      projects.active.id,
-      projects.active.name,
+      chartData.data,
+      handleTooltipData,
       setChartTitle
     ]
   );
@@ -199,7 +237,48 @@ export default function CbtTrends() {
         // eslint-disable-next-line tailwindcss/no-arbitrary-value
         <div className="grid h-[90%] flex-1 grid-cols-2 gap-1 overflow-hidden">
           {!!chartData.data?.length && (
-            <Chart options={getOptions} chartRef={chart} />
+            <div
+              onMouseLeave={() => {
+                handleTooltipData({ show: false });
+              }}
+            >
+              <div
+                className="absolute z-10 rounded-sm"
+                key={tooltipData?.options?.id}
+                style={{
+                  ...tooltipData?.styles
+                }}
+                onClick={() => {}}
+                role="presentation"
+              >
+                <O11yTooltip
+                  theme="dark"
+                  wrapperClassName="py-2"
+                  placementSide="top"
+                  placementAlign="center"
+                  triggerAsChild
+                  show={tooltipData.show}
+                  arrowHeight={0}
+                  content={
+                    <CustomChartTooltip
+                      activeProject={activeProject}
+                      filters={filters}
+                      id="cbt"
+                      header={tooltipData.header}
+                      tooltipData={tooltipData.options || []}
+                    />
+                  }
+                >
+                  <div
+                    className="h-full w-full"
+                    style={{
+                      ...tooltipData?.styles
+                    }}
+                  />
+                </O11yTooltip>
+              </div>
+              <Chart options={getOptions} chartRef={chart} />
+            </div>
           )}
           <div className="h-full overflow-y-auto p-3">
             {activeSeriesData.map((item, idx) => (

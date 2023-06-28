@@ -17,15 +17,12 @@ export const getBaseUrl = () => {
   return `${protocol}//${env}${domain}`;
 };
 
-export const docsLink = () => ({
-  quickStart: `${getBaseUrl}/docs/test-observability/quick-start`,
-  mainDoc: `${getBaseUrl}/docs/test-observability/`,
-  autoAnalyser: `${getBaseUrl}/docs/test-observability/features/auto-failure-analysis`,
-  muteTests: `${getBaseUrl}/docs/test-observability/features/mute-tests`,
-  reRun: `${getBaseUrl}/docs/test-observability/features/re-run`,
-  tnc: `${getBaseUrl}/docs/test-observability/references/terms-and-conditions`,
-  organizeRuns: `${getBaseUrl}/docs/test-observability/how-to-guides/organize-test-runs`
-});
+export const getCurrentUrl = () => {
+  const { hostname, protocol, port } = window.location;
+  const portString = port ? `:${port}` : '';
+  return `${protocol}//${hostname}${portString}`;
+};
+
 export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
   if (!stage) {
     let guessedStage = '';
@@ -134,6 +131,9 @@ export const getOsIconName = (os) => {
 };
 
 export const getIconName = (name = '', device = '') => {
+  if (name?.toLowerCase()?.includes('playwright')) {
+    return `icon-playwright`;
+  }
   if (name) {
     return `icon-${name.toLowerCase()}`;
   }

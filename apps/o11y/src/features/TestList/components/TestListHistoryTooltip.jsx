@@ -14,6 +14,7 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { ROUTE_PATH_KEYS } from 'constants/routes';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import { LOG_TYPES } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
@@ -23,7 +24,7 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { capitalize, getDocUrl } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
-import { getBuildPath, getSettingsPath } from 'utils/routeUtils';
+import { getBuildPath, getPageUrlByMapping } from 'utils/routeUtils';
 
 function TestListHistoryTooltip({ testRunId, status }) {
   const dispatch = useDispatch();
@@ -39,7 +40,12 @@ function TestListHistoryTooltip({ testRunId, status }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClickConfigureSmartTags = () => {
-    navigate(getSettingsPath(activeProject?.normalisedName, 'smart_tags'));
+    navigate(
+      getPageUrlByMapping(
+        activeProject?.normalisedName,
+        ROUTE_PATH_KEYS.settings_smart_tags
+      )
+    );
   };
 
   const showFlakyReason = () => {

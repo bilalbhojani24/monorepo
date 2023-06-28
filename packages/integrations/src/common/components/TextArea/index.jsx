@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { TextArea } from '@browserstack/bifrost';
 
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
-import Label from '../Label';
 import { FieldType } from '../types';
 
 const TextAreaField = ({
@@ -36,15 +35,15 @@ const TextAreaField = ({
   }, [value, defaultValue, fieldsData, fieldKey, setFieldsData]);
 
   return (
-    <>
-      <Label required={required} label={label} />
-      <TextArea
-        onChange={handleChange}
-        value={(fieldsData[fieldKey] || value || defaultValue) ?? ''}
-        placeholder={placeholder}
-        errorText={requiredFieldError || fieldErrors?.[fieldKey]}
-      />
-    </>
+    <TextArea
+      id={fieldKey}
+      onChange={handleChange}
+      value={(fieldsData[fieldKey] || value || defaultValue) ?? ''}
+      placeholder={placeholder}
+      label={label}
+      isMandatory={required}
+      errorText={requiredFieldError || fieldErrors?.[fieldKey]}
+    />
   );
 };
 

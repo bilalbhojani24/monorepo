@@ -8,6 +8,7 @@ import {
   MdInfoOutline
 } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
+import { GenericTooltipContent } from 'common/DataWizTooltipContent';
 import BuildRunFreqTrend from 'features/TestingTrends/containers/BuildRunFreqTrend';
 import CbtTrends from 'features/TestingTrends/containers/CbtTrends';
 import FailureCategoryTrend from 'features/TestingTrends/containers/FailureCategoryTrend';
@@ -39,7 +40,7 @@ export default function TestingTrends() {
           <TrendsCard
             cardKey="testGrowthOverTime"
             apiKey="testGrowth"
-            seriesOptions={{ id: 'tests', name: 'Tests' }}
+            seriesOptions={{ id: 'tests', name: 'Unique tests' }}
             config={{
               abbrNumber: true,
               pointClickCb: () =>
@@ -76,12 +77,16 @@ export default function TestingTrends() {
             apiKey="alwaysFailing"
             config={{
               hideLegends: true,
+              showSubTitle: true,
               pointClickCb: () =>
                 logTrendsInteractionEvent({
                   interaction: 'always_failing_clicked'
                 })
             }}
-            seriesOptions={{ id: 'alwaysFailing', name: 'Always Failing' }}
+            seriesOptions={{
+              id: 'alwaysFailing',
+              name: 'Always Failing'
+            }}
             insightsSuffix="%"
           />
         );
@@ -92,12 +97,13 @@ export default function TestingTrends() {
             apiKey="newFailures"
             config={{
               hideLegends: true,
+              showSubTitle: true,
               pointClickCb: () =>
                 logTrendsInteractionEvent({
                   interaction: 'new_failure_clicked'
                 })
             }}
-            seriesOptions={{ id: 'newFailures', name: 'Newly Failed Tests' }}
+            seriesOptions={{ id: 'newFailures', name: 'New failures' }}
             insightsSuffix="%"
           />
         );
@@ -202,12 +208,17 @@ export default function TestingTrends() {
                 analyticsWrapperClassName="h-full flex-1"
                 contentWrapperClassName="flex flex-col h-full"
                 analytics={renderDashboardCard(key)}
-                headerInfo={false}
+                headerInfo
                 headerInfoTooltipProps={{
                   content: (
-                    <div className="text-base-300 w-60 px-4 text-sm">
-                      {TREND_CARDS[key].title}
-                    </div>
+                    <GenericTooltipContent
+                      data={TREND_CARDS[key]}
+                      logCb={(trackingData) =>
+                        logTrendsInteractionEvent({
+                          interaction: trackingData
+                        })
+                      }
+                    />
                   ),
                   children: <MdInfoOutline className="h-5 w-5" />,
                   placementAlign: 'center',

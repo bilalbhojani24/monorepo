@@ -1,6 +1,12 @@
+import ChromeIcon from 'assets/chrome_icon.svg';
+import MacIcon from 'assets/mac_icon.svg';
+import WindowsIcon from 'assets/windows_icon.svg';
 import { testTypes } from 'constants';
 import { wcagVersions } from 'features/SiteScanner/NewScan/constants';
 import { json2csv } from 'json-2-csv';
+import { getBrowserStackBase } from 'utils';
+
+import { logEvent } from './logEvent';
 
 const BEST_PRACTICE_TAG = 'best-practice';
 
@@ -184,4 +190,68 @@ export const toHoursAndMinutes = (totalMinutes) => {
 export const getTimeDiffInDays = (d1, d2) => {
   const diff = Math.abs(d1 - d2) / 1000; // divide by 1000 to get seconds
   return Math.floor(diff / 86400); // divide by 86400 to get days
+};
+
+export const getHiddenIssuesCount = (reportData) => {
+  let hiddenIssues = 0;
+  let needsReviewIssues = 0;
+
+  reportData.forEach((data) => {
+    data.nodes.forEach((node) => {
+      node.childNodes.forEach((item) => {
+        if (item.hidden) {
+          hiddenIssues += 1;
+        }
+      });
+      if (node.confirmed === null) {
+        needsReviewIssues += 1;
+      }
+    });
+  });
+  if (hiddenIssues < 10) {
+    hiddenIssues = `0${hiddenIssues}`;
+  }
+
+  if (needsReviewIssues < 10) {
+    needsReviewIssues = `0${needsReviewIssues}`;
+  }
+  return { hiddenIssues, needsReviewIssues };
+};
+
+export const getOSIcon = (name) => {
+  const icons = {
+    windows: WindowsIcon,
+    mac: MacIcon
+  };
+
+  return icons[name];
+};
+
+export const getBrowserIcon = (name) => {
+  const icons = {
+    chrome: ChromeIcon
+  };
+
+  return icons[name];
+};
+
+export const countRemainingDays = (date1, date2) => {
+  const difference = date2 - date1;
+  if (difference < 0) {
+    return 0;
+  }
+  const remainingDays = difference / (1000 * 3600 * 24);
+  return Math.ceil(remainingDays);
+};
+
+export const buyAcceesibilityPlan = () => {
+  window.open(
+    `${getBrowserStackBase()}/pricing?product=accessibility-testing`,
+    '_blank'
+  );
+};
+
+export const getTruncatedFileName = (name) => {
+  const arr = name.split('/');
+  return arr.length >= 2 ? `...${arr.slice(-2).join('/')}` : name;
 };
