@@ -49,10 +49,6 @@ export default function AutomatedTestBuild() {
   switch (activeTab) {
     case SUMMARY:
       defaultIndex = 0;
-      logEvent('InteractedWithAutomatedTestsBuildView', {
-        actionType: 'Choose tab',
-        Tab: OVERVIEW
-      });
       break;
     case ISSUES:
       defaultIndex = 1;
@@ -96,8 +92,11 @@ export default function AutomatedTestBuild() {
               <div className="mr-6">
                 <ViewPlatformPopOver
                   data={sessionData}
-                  handleInteraction={({ interaction }) =>
-                    console.log(interaction)
+                  handleInteraction={() =>
+                    logEvent('InteractedWithAutomatedTestsBuildView', {
+                      actionType: 'View metadata',
+                      action: 'View platform metadata'
+                    })
                   }
                 />
               </div>

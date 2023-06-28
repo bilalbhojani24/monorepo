@@ -26,10 +26,18 @@ export default function useTests() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const activeTestId = params.get('activeTestId');
+    const activeSlideOverTab = params.get('activeSlideOverTab');
     if (activeTestId) {
       setTestId(activeTestId);
       setIsSliderOpen(true);
     }
+    if (activeSlideOverTab) {
+      logEvent('InteractedWithAutomatedTestsBuildViewSpecificTest', {
+        action: 'Choose tab',
+        Tab: activeSlideOverTab
+      });
+    }
+    logEvent('OnAutomatedTestsBuildViewSpecificTest');
   }, []);
 
   const onInputValueChange = (e) => {
