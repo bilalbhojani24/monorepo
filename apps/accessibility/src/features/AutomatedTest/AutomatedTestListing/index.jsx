@@ -22,7 +22,8 @@ export default function AutomatedTestListing() {
     onComboboxValueChange,
     comboboxItems,
     handleSelectChange,
-    showColdStart
+    showColdStart,
+    handleViewButtonClick
   } = useAutomatedTestListing();
 
   return (
@@ -40,14 +41,7 @@ export default function AutomatedTestListing() {
                   BrowserStack SDK.
                 </p>
               </div>
-              <Button
-                onClick={() =>
-                  logEvent('InteractedWithAutomatedTestsHomepageView', {
-                    action: 'View documentation'
-                  })
-                }
-                colors="white"
-              >
+              <Button onClick={handleViewButtonClick} colors="white">
                 View documentation
               </Button>
             </div>

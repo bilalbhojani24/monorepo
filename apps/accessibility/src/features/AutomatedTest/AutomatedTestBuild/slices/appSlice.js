@@ -26,7 +26,8 @@ const initialAppState = {
   showHiddenIssues: { hideIssues: false },
   activeFilters: { ...activeInitFilters },
   isFilterModalVisible: false,
-  activeTab: SUMMARY
+  activeTab: SUMMARY,
+  activeSwitch: ISSUE_TYPE
 };
 
 // const getInitialTab = () => {

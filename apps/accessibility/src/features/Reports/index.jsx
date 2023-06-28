@@ -173,39 +173,39 @@ export default function Reports() {
           ) : null}
         </div>
 
-        {searchFilterList.length ? (
-          <div>
-            <div className="flex items-center">
-              <div className="mr-4 flex">
-                <InputField
-                  id="search-report"
-                  leadingIcon={<MdSearch />}
-                  placeholder="Search for report name or user..."
-                  onChange={onInputValueChange}
-                  wrapperClassName="mr-4 w-80 bg-white"
-                />
-                <div className="w-40">
-                  <SelectMenu
-                    onChange={onUpdateSelectedReportType}
-                    value={selectedReportType}
-                    isMulti
-                  >
-                    <SelectMenuTrigger
-                      placeholder="Type"
-                      triggerIcon={<MdKeyboardArrowDown className="text-xl" />}
-                    />
-                    <SelectMenuOptionGroup>
-                      {reportType.map((item) => (
-                        <SelectMenuOptionItem
-                          key={item.value}
-                          option={item}
-                          wrapperClassName="text-sm font-semibold text-base-900"
-                        />
-                      ))}
-                    </SelectMenuOptionGroup>
-                  </SelectMenu>
-                </div>
+        <div>
+          <div className="flex items-center">
+            <div className="mr-4 flex">
+              <InputField
+                id="search-report"
+                leadingIcon={<MdSearch />}
+                placeholder="Search for report name or user..."
+                onChange={onInputValueChange}
+                wrapperClassName="mr-4 w-80 bg-white"
+              />
+              <div className="w-40">
+                <SelectMenu
+                  onChange={onUpdateSelectedReportType}
+                  value={selectedReportType}
+                  isMulti
+                >
+                  <SelectMenuTrigger
+                    placeholder="Type"
+                    triggerIcon={<MdKeyboardArrowDown className="text-xl" />}
+                  />
+                  <SelectMenuOptionGroup>
+                    {reportType.map((item) => (
+                      <SelectMenuOptionItem
+                        key={item.value}
+                        option={item}
+                        wrapperClassName="text-sm font-semibold text-base-900"
+                      />
+                    ))}
+                  </SelectMenuOptionGroup>
+                </SelectMenu>
               </div>
+            </div>
+            {searchFilterList.length ? (
               <div className="flex items-center">
                 {isMergeDisabled ? (
                   <Tooltip
@@ -254,9 +254,9 @@ export default function Reports() {
                   </Button>
                 )}
               </div>
-            </div>
+            ) : null}
           </div>
-        ) : null}
+        </div>
       </div>
       {!showColdStart ? (
         <div
@@ -274,8 +274,8 @@ export default function Reports() {
           )}
           {!isLoading && searchFilterList.length === 0 && (
             <div
-              className="bg-base-50 mt-12 "
-              style={{ height: 'calc(100vh - 228px)' }}
+              className="bg-base-50 mt-12 flex items-center justify-center"
+              style={{ height: 'calc(100vh - 480px)' }}
             >
               <div className="mb-5 flex w-full flex-col items-center justify-center">
                 <img src={NotFound} alt="No reports found" className="w-80" />

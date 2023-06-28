@@ -638,8 +638,8 @@ export default function SiteScanner() {
             </div>
           ) : (
             <div
-              className="bg-base-50 mt-12 "
-              style={{ height: 'calc(100vh - 228px)' }}
+              className="bg-base-50 mt-12 flex items-center justify-center"
+              style={{ height: 'calc(100vh - 480px)' }}
             >
               <div className="mb-5 flex w-full flex-col items-center justify-center">
                 <img src={NotFound} alt="No scans found" className="w-80" />

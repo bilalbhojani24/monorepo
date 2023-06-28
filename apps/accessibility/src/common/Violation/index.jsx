@@ -87,6 +87,7 @@ export default function Violation({
             activeViolationId === violation.id ? activeComponentId : ''
           }
           onRowClick={onRowClick}
+          activeViolationId={activeViolationId}
         />
       </AccordionPanel>
     </Accordion>

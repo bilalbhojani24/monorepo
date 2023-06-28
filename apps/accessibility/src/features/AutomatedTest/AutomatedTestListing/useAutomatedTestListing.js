@@ -4,7 +4,7 @@ import {
   fetchAllTestRuns,
   fetchProjectById
 } from 'api/fetchTestAutomationData';
-import { ALL_PROJECTS } from 'constants';
+import { ALL_PROJECTS, TAP_DOCUMENTATION_URL } from 'constants';
 import { logEvent } from 'utils/logEvent';
 
 export default function useAutomatedTestListing() {
@@ -14,6 +14,13 @@ export default function useAutomatedTestListing() {
 
   const projectListing = useRef([]);
   const allBuilds = useRef([]);
+
+  const handleViewButtonClick = () => {
+    logEvent('InteractedWithAutomatedTestsHomepageView', {
+      action: 'View documentation'
+    });
+    window.open(TAP_DOCUMENTATION_URL);
+  };
 
   const handleSearch = (value, key, arr) => {
     if (value !== '') {
@@ -84,6 +91,7 @@ export default function useAutomatedTestListing() {
     handleSelectChange,
     projectListing,
     comboboxItems,
-    showColdStart
+    showColdStart,
+    handleViewButtonClick
   };
 }
