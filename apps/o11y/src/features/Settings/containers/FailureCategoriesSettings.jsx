@@ -121,7 +121,10 @@ function FailureCategoriesSettings() {
 }
 
 const PaywallWrappedFailureCategoriesSettings = () => (
-  <HardPaywallWrapper featureKey={PAYWALL_FEATURES.FAILURE_CATEGORY}>
+  <HardPaywallWrapper
+    featureKey={PAYWALL_FEATURES.FAILURE_CATEGORY}
+    wrapperClassName="max-w-4xl"
+  >
     <FailureCategoriesSettings />
   </HardPaywallWrapper>
 );
