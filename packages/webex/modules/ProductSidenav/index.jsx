@@ -14,13 +14,16 @@ import { WEB_PRODUCTS } from './const/productConstant';
 
 const cookieUtils = new CookieUtils();
 
-const initialState = {
+const getInitialState = (tab) => ({
   expanded: false,
-  activeTab: 'web',
+  activeTab: tab,
   purchasedProducts: []
-};
+});
+
 const ProductSidenav = ({ activeProduct }) => {
-  const [state, setState] = useState(initialState);
+  const defaultTab = WEB_PRODUCTS.includes(activeProduct) ? 'web' : 'app';
+
+  const [state, setState] = useState(getInitialState(defaultTab));
   const { expanded, activeTab, purchasedProducts } = state;
 
   const setExpanded = (value) =>
@@ -35,7 +38,7 @@ const ProductSidenav = ({ activeProduct }) => {
   const headerScalability = cookieUtils.read('header_scalability');
 
   const fetchPurchasedProducts = async () => {
-    const products = await getPurchasedProducts();
+    const { products } = await getPurchasedProducts();
     if (products) {
       setPurchasedProducts(products);
     }
