@@ -26,7 +26,7 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
                 <>
                   <Disclosure.Button
                     className={twClassNames(
-                      `group flex w-full items-center justify-between rounded-md bg-white py-2 pr-2 pl-2 text-left text-sm text-base-600 hover:bg-base-50 hover:text-base-900`,
+                      `group flex w-full items-center justify-between rounded-md bg-white py-2 pr-2 pl-2 text-left text-sm leading-5 font-semibold focus:ring-brand-500 focus:ring-2 focus:outline-none`,
                       {
                         [MODIFIER_CLASSNAMES[modifier].activeItemClass]:
                           current,
@@ -68,7 +68,7 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
                         as="a"
                         href={subNav.path}
                         className={twClassNames(
-                          'group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-base-600',
+                          'group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-semibold leading-5 focus:ring-brand-500 focus:ring-2 focus:outline-none',
                           {
                             [MODIFIER_CLASSNAMES[modifier].activeItemClass]:
                               current,
@@ -89,7 +89,7 @@ const SidebarItem = ({ current, handleNavigationClick, nav, modifier }) => {
             <a
               href={nav.path}
               className={twClassNames(
-                `group flex items-center justify-between rounded-md px-2 py-2 text-sm font-medium text-base-600 hover:bg-base-50 hover:text-base-900`,
+                `group flex items-center justify-between rounded-md px-2 py-2 focus:ring-brand-500 focus:ring-2 focus:outline-none text-sm leading-5 font-semibold`,
                 {
                   [MODIFIER_CLASSNAMES[modifier].activeItemClass]: current,
                   [MODIFIER_CLASSNAMES[modifier].inActiveItemClass]: !current
