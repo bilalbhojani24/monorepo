@@ -20,7 +20,7 @@ const Table = ({
       className={twClassNames(
         'divide-base-300 min-w-full',
         {
-          'border-separate': isSticky
+          'border-separate border-spacing-0': isSticky
         },
         tableWrapperClass
       )}
