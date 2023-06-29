@@ -1,5 +1,5 @@
 import React from 'react';
-import { MdDeleteOutline } from '@browserstack/bifrost';
+import { Button, MdDeleteOutline } from '@browserstack/bifrost';
 import PropTypes from 'prop-types';
 
 import Label from '../Label';
@@ -19,6 +19,12 @@ const Attachments = ({
     setAttachments([]);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleDelete();
+    }
+  };
+
   const isAttachmentABLOB = attachments[0] instanceof Blob;
   const imgSrc = isAttachmentABLOB
     ? URL.createObjectURL(attachments[0])
@@ -36,9 +42,14 @@ const Attachments = ({
           <div className="w-full text-sm">
             {isAttachmentABLOB && <p>{attachments[0].name}</p>}
           </div>
-          <MdDeleteOutline
-            className="text-base-400 cursor-pointer text-3xl"
+          <Button
+            tabIndex={0}
+            ariaLabel="delete-attachment"
+            wrapperClassName="hover:bg-inherit border-0 shadow-none bg-inherit p-0"
+            colors="white"
+            icon={<MdDeleteOutline className="text-base-400 gap-0 text-2xl" />}
             onClick={handleDelete}
+            onKeyDown={handleKeyDown}
           />
         </div>
       </div>
