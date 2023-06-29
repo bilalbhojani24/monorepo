@@ -38,9 +38,9 @@ const ProductSidenav = ({ activeProduct }) => {
   const headerScalability = cookieUtils.read('header_scalability');
 
   const fetchPurchasedProducts = async () => {
-    const { products } = await getPurchasedProducts();
-    if (products) {
-      setPurchasedProducts(products);
+    const products = await getPurchasedProducts();
+    if (products.products.length) {
+      setPurchasedProducts(products.products);
     }
   };
 
