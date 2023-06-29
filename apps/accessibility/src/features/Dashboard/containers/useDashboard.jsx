@@ -111,7 +111,7 @@ export default function useDashboard() {
       path: '/screen-reader',
       badge:
         planType !== PAID_PLAN ? (
-          <Badge text="Premium" modifier="success" disabled />
+          <Badge text="Premium" modifier="success" />
         ) : null
     },
     {
@@ -131,7 +131,7 @@ export default function useDashboard() {
       activeIcon: MdOutlineMotionPhotosAuto,
       inActiveIcon: MdOutlineMotionPhotosAuto,
       path: '/automated-tests/projects',
-      badge: shouldShowNewBadge() ? <Badge text="New" /> : null
+      badge: <Badge modifier="primary" text="Alpha" />
     });
   }
 

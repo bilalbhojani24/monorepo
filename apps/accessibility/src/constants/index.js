@@ -12,6 +12,8 @@ export const PROD_API_URL = 'https://www.browserstack.com/accessibility/api';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const CHROME_EXTENSION_URL =
   'https://chrome.google.com/webstore/detail/accessibility-toolkit/fmkhjeeeojocenbconhndpiohohajokn';
+export const TAP_DOCUMENTATION_URL =
+  'https://www.browserstack.com/docs/automate-accessibility-testing/overview/introduction';
 export const ROUTES = {
   report: '/reports/report',
   reports: '/reports',

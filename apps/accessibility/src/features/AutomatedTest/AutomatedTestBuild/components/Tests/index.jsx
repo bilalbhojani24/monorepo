@@ -88,7 +88,7 @@ export default function TestsTable() {
                   src={getOSIcon(row.osData.logo)}
                   alt="os icon"
                 />
-                <p className="text-base-500">{`${row.osData.name} ${row.browserData.version}`}</p>
+                <p className="text-base-500">{`${row.osData.name} ${row.osData.version}`}</p>
               </li>
               <li>
                 <div className="bg-base-500 h-1 w-1 rounded-lg" />

@@ -26,6 +26,7 @@ export default function RenderMenu({
         onChange={(obj) => onFilterSearch(obj, name)}
         value={filterStatus[name]}
         isMulti
+        disabled={items.length === 0}
       >
         <SelectMenuTrigger
           placeholder={placeholder}

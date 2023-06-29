@@ -4,15 +4,23 @@ import {
   fetchAllTestRuns,
   fetchProjectById
 } from 'api/fetchTestAutomationData';
-import { ALL_PROJECTS } from 'constants';
-
+import { ALL_PROJECTS, TAP_DOCUMENTATION_URL } from 'constants';
 import { logEvent } from 'utils/logEvent';
 
 export default function useAutomatedTestListing() {
   const [buildListing, setBuildListing] = useState([]);
   const [comboboxItems, setComboboxItems] = useState([]);
+  const [showColdStart, setShowColdStart] = useState(false);
+
   const projectListing = useRef([]);
   const allBuilds = useRef([]);
+
+  const handleViewButtonClick = () => {
+    logEvent('InteractedWithAutomatedTestsHomepageView', {
+      action: 'View documentation'
+    });
+    window.open(TAP_DOCUMENTATION_URL);
+  };
 
   const handleSearch = (value, key, arr) => {
     if (value !== '') {
@@ -58,6 +66,7 @@ export default function useAutomatedTestListing() {
   useEffect(() => {
     fetchAllTestRuns().then((response) => {
       setBuildListing(response);
+      if (response.length === 0) setShowColdStart(true);
       allBuilds.current = response;
       logEvent('OnAutomatedTestsHomepageView', {
         buildsAvailable: response.length > 0
@@ -81,6 +90,8 @@ export default function useAutomatedTestListing() {
     onInputValueChange,
     handleSelectChange,
     projectListing,
-    comboboxItems
+    comboboxItems,
+    showColdStart,
+    handleViewButtonClick
   };
 }
