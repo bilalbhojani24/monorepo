@@ -37,6 +37,14 @@ export const getIsOnFreemium = createSelector(
   (planDetails) => planDetails?.isOnFreemium
 );
 
+export const getIsFreeUser = createSelector(
+  getPlanDetails,
+  (planDetails) =>
+    !planDetails?.type ||
+    planDetails?.type === 'free' ||
+    planDetails?.isOnFreemium
+);
+
 export const getHasExperiencedPaidPlan = createSelector(
   getPlanDetails,
   (planDetails) => planDetails?.hasExperiencedPaidPlan
