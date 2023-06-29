@@ -24,6 +24,7 @@ const App = () => {
       window.location.href
     )}`
   );
+
   return (
     <ErrorBoundary>
       {envConfig?.enableAnalytics && <VWO />}

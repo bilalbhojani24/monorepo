@@ -36,7 +36,8 @@ const DateRangepicker = (props) => {
     side,
     wrapperClassName,
     isLoading,
-    isMandatory
+    isMandatory,
+    popoverWrapperClassName
   } = props;
 
   const years = useYearpicker(YEARS_DATA, 12);
@@ -148,6 +149,7 @@ const DateRangepicker = (props) => {
                   side={side}
                   sideOffset={crossOffset}
                   alignOffset={offset}
+                  className={popoverWrapperClassName}
                 >
                   <div className="border-base-300 z-10 mt-2 rounded-md border bg-white p-3 shadow-lg">
                     <Dialog {...dialogProps} isLoading={isLoading}>
@@ -182,7 +184,8 @@ DateRangepicker.propTypes = {
   side: Proptypes.string,
   label: Proptypes.string,
   isLoading: Proptypes.bool,
-  isMandatory: Proptypes.bool
+  isMandatory: Proptypes.bool,
+  popoverWrapperClassName: Proptypes.string
 };
 DateRangepicker.defaultProps = {
   wrapperClassName: '',
@@ -196,7 +199,8 @@ DateRangepicker.defaultProps = {
   side: 'bottom',
   label: '',
   isLoading: false,
-  isMandatory: false
+  isMandatory: false,
+  popoverWrapperClassName: ''
 };
 
 export default DateRangepicker;

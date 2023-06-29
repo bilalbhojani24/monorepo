@@ -42,7 +42,9 @@ const SelectMenuTrigger = forwardRef(
                 <TruncateText
                   hidetooltipTriggerIcon
                   isTooltip={false}
-                  wrapperClassName="text-base-500"
+                  wrapperClassName={twClassNames({
+                    'text-base-500': !value || value.length === 0
+                  })}
                 >
                   <RenderButtonChildren
                     value={value}

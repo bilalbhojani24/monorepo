@@ -15,7 +15,7 @@ const useFolderExplorerModal = ({
   // related to folder explorer
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [primaryMoveLocation, setPrimaryMoveLocation] = useState(
-    moveFolderOptions[0].id
+    moveFolderOptions[0].value
   );
   const [internalAllFolders, setInternalAllFolders] = useState(null);
 
@@ -66,7 +66,7 @@ const useFolderExplorerModal = ({
   useEffect(() => {
     if (show) {
       setInternalAllFolders(allFolders);
-      setPrimaryMoveLocation(moveFolderOptions[0].id);
+      setPrimaryMoveLocation(moveFolderOptions[0].value);
       setSelectedFolder(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

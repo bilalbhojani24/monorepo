@@ -29,6 +29,7 @@ const TreeNode = ({
         //     ? 'opacity-25 pointer-events-none'
         //     : ''
         // }
+        isNodeOpen={item.isOpened}
         nodeLabelClassName="text-base-900"
         leadingIcon={
           isLoading && !item.contents ? (

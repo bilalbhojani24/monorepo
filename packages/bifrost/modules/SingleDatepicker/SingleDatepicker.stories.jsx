@@ -46,6 +46,9 @@ const defaultConfig = {
     },
     label: {
       defaultValue: 'Sometimes'
+    },
+    popoverWrapperClassName: {
+      defaultValue: ''
     }
   },
   controls: {}
@@ -163,6 +166,22 @@ export const DatepickerMinMaxDateExample = (args) => (
       maxValue={today(getLocalTimeZone()).add({ weeks: 1 })}
       {...args}
     />
+  </>
+);
+
+export const DatepickerWCustomZindexExample = (args) => (
+  <>
+    <p>
+      The datepicker content popover(items inside the dropdown) can be restyled
+      using the <code>popoverWrapperClassName</code>, it is also important to
+      note certain styles such as z index can not be updated when the popover is
+      visible.
+    </p>
+    <p className="my-3">
+      Here we are using the z index of 40 to showcase custom styles being
+      applied.
+    </p>
+    <SingleDatepicker {...args} popoverWrapperClassName="z-40" />
   </>
 );
 

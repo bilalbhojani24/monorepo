@@ -31,14 +31,16 @@ const FolderExplorerModal = ({
 }) => {
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [primaryMoveLocation, setPrimaryMoveLocation] = useState(
-    moveFolderOptions[0].id
+    moveFolderOptions[0].value
   );
   const { allFolders, projectId, bulkSelectionIds } = useFolders();
   const [internalAllFolders, setInternalAllFolders] = useState(null);
 
   const moveFolderOnOkHandler = () => {
     onOK(
-      primaryMoveLocation === moveFolderOptions[1]?.id ? null : selectedFolder,
+      primaryMoveLocation === moveFolderOptions[1]?.value
+        ? null
+        : selectedFolder,
       internalAllFolders
     );
   };
@@ -46,7 +48,7 @@ const FolderExplorerModal = ({
   useEffect(() => {
     if (show) {
       setInternalAllFolders(allFolders);
-      setPrimaryMoveLocation(moveFolderOptions[0].id);
+      setPrimaryMoveLocation(moveFolderOptions[0].value);
       setSelectedFolder(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,18 +66,16 @@ const FolderExplorerModal = ({
           <div className="mb-4 flex items-center justify-start pt-1 text-sm">
             <span className="mr-2">Move to: </span>
             <TMRadioGroup
-              direction="horizontal"
-              onChange={(e, selectedID) => {
-                setPrimaryMoveLocation(selectedID);
+              direction="inline"
+              onChange={(selectedValue) => {
+                setPrimaryMoveLocation(selectedValue);
               }}
-              selectedOption={{
-                id: primaryMoveLocation
-              }}
+              value={primaryMoveLocation}
               options={moveFolderOptions}
             />
           </div>
         )}
-        {primaryMoveLocation === moveFolderOptions[0].id ? (
+        {primaryMoveLocation === moveFolderOptions[0].value ? (
           <div className="border-base-300 mb-4 max-h-64 overflow-auto border">
             <FolderExplorer
               projectId={projectId}
@@ -93,7 +93,7 @@ const FolderExplorerModal = ({
         <TMAlerts
           modifier="primary"
           description={
-            primaryMoveLocation === moveFolderOptions[0].id
+            primaryMoveLocation === moveFolderOptions[0].value
               ? alertText
               : 'Selected folder will be moved at root folder.'
           }
@@ -105,7 +105,8 @@ const FolderExplorerModal = ({
         </TMButton>
         <TMButton
           disabled={
-            !selectedFolder && primaryMoveLocation !== moveFolderOptions[1]?.id
+            !selectedFolder &&
+            primaryMoveLocation !== moveFolderOptions[1]?.value
           }
           variant="primary"
           wrapperClassName="ml-3"
