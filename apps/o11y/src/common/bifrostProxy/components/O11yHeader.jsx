@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Header } from '@browserstack/bifrost';
 import { DOC_KEY_MAPPING, EXTERNAL_LINKS } from 'constants/common';
 import { ROUTES } from 'constants/routes';
-import { getIsOnFreemium, getPlanType } from 'globalSlice/selectors';
+import { getIsFreeUser } from 'globalSlice/selectors';
 import {
   getDocUrl,
   getEnvConfig,
@@ -14,8 +14,7 @@ import {
 const envConfig = getEnvConfig();
 
 const O11yHeader = () => {
-  const isOnFreemium = useSelector(getIsOnFreemium);
-  const planType = useSelector(getPlanType);
+  const isFreeUser = useSelector(getIsFreeUser);
   return (
     <Header
       wrapperClassName="sticky top-0"
@@ -93,9 +92,7 @@ const O11yHeader = () => {
         }
       }}
       planPricingLink={getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing })}
-      buyPlanText={
-        isOnFreemium || planType !== 'paid' ? 'Buy a plan' : 'Upgrade'
-      }
+      isFreeUser={isFreeUser}
       buyPlanTarget="_blank"
       buyPlanLink={getExternalUrl({ path: EXTERNAL_LINKS.buyAPlan })}
       callbackFunctions={{
