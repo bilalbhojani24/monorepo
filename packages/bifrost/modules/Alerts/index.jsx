@@ -25,7 +25,7 @@ const link = (
   if (detailsNode)
     return (
       <a
-        href="/"
+        href={linkUrl}
         className={twClassNames(
           'h-fit inline-flex items-center text-sm font-normal',
           {
