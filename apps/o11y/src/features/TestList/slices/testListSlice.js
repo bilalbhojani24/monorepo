@@ -147,7 +147,7 @@ export const getHistoryDetails = createAsyncThunk(
       return false;
     }
     try {
-      const response = await getTestHistoryData(data.testRunIds);
+      const response = await getTestHistoryData(data.testRunIds, data.isHook);
       return response.data;
     } catch (err) {
       return rejectWithValue(err);
@@ -254,8 +254,8 @@ const { actions, reducer } = createSlice({
             : payload.hierarchy,
           pagingParams: payload.pagingParams,
           buildId: payload.buildId,
-          status: payload.status,
-          smartTagSettings: prevSmartTagValue || payload.smartTagSettings
+          smartTagSettings: prevSmartTagValue || payload.smartTagSettings,
+          status: payload.status
         };
         state.testList.apiState = newAPIStatus;
       })

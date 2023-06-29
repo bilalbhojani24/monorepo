@@ -15,23 +15,23 @@ import {
   SelectMenuOptionItem,
   SelectMenuTrigger,
   Tooltip,
-  TooltipBody
+  TooltipBody,
+  TooltipHeader
 } from '@browserstack/bifrost';
 import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
 import Loader from 'common/Loader';
 import { CHROME_EXTENSION_URL, reportPerPage, reportType } from 'constants';
+import { logEvent } from 'utils/logEvent';
 
+import ColdStart from './components/ColdStart';
 import ReportRow from './components/ReportRow';
 import useReports from './useReports';
-
-import './style.scss';
 
 export default function Reports() {
   const {
     isOpen,
     isLoading,
-    isShowingBanner,
     isMergeDisabled,
     reportList,
     lastIndex,
@@ -44,8 +44,12 @@ export default function Reports() {
     updateLastIndex,
     onReportConsolidateButtonClick,
     handleClose,
+    showBanner,
+    showColdStart,
     handleScroll,
-    scrollRef
+    scrollRef,
+    showExtButtonTooltip,
+    setShowExtButtonTooltip
   } = useReports();
 
   const activeReportsType = selectedReportType.map(({ value }) => value);
@@ -107,26 +111,75 @@ export default function Reports() {
         </ModalFooter>
       </Modal>
       <div
-        className="border-base-200 fixed z-10 w-full border-b p-6"
+        className="border-base-200 fixed z-10 w-full p-6"
         style={{
           width: 'calc(100vw - 256px)',
-          top: isShowingBanner ? '128px' : '64px'
+          top: showBanner ? '128px' : '64px',
+          borderBottomWidth: searchFilterList.length ? '1px' : 0
         }}
       >
-        <h1 className="mb-2 text-2xl font-bold">Accessibility reports</h1>
-        <h3 className="text-base-500 mb-4 text-sm font-medium">
-          Select reports to view them. You can select more than one report to
-          consolidate and review reports.
-        </h3>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="mb-2 text-2xl font-bold">Manual test reports</h1>
+            <h3 className="text-base-500 mb-4 text-sm font-medium">
+              Select reports to view them. You can select more than one report
+              to consolidate and review reports.
+            </h3>
+          </div>
+          <Tooltip
+            show={showExtButtonTooltip}
+            placementAlign="end"
+            placementSide="bottom"
+            arrowPadding={10}
+            content={
+              <>
+                <TooltipHeader>
+                  Start your Accessibility testing!{' '}
+                  <span role="img" aria-label="rocket emoji">
+                    🚀
+                  </span>
+                </TooltipHeader>
+                <TooltipBody>
+                  Use the extension to scan your web pages & workflows for
+                  accessibility issues.
+                </TooltipBody>
+              </>
+            }
+            theme="dark"
+            onMouseLeave={() => {
+              logEvent('OnManualTestReportsDownloadExtensionTooltip');
+            }}
+            onOpenChange={() => setShowExtButtonTooltip((state) => !state)}
+            delay={1000}
+          >
+            <Button
+              iconPlacement="start"
+              icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
+              onClick={() => {
+                window.open(CHROME_EXTENSION_URL, '_target');
+                logEvent('ClickedOnDownloadExtensionCTA', {
+                  source: 'Manual test reports',
+                  noReports: searchFilterList.length === 0
+                });
+              }}
+              size="small"
+              colors="white"
+              wrapperClassName="py-2"
+            >
+              Download extension
+            </Button>
+          </Tooltip>
+        </div>
+
         <div>
-          <div className="flex items-center justify-between">
-            <div className="flex">
+          <div className="flex items-center">
+            <div className="mr-4 flex">
               <InputField
                 id="search-report"
                 leadingIcon={<MdSearch />}
                 placeholder="Search for report name or user..."
                 onChange={onInputValueChange}
-                wrapperClassName="mr-4 w-80"
+                wrapperClassName="mr-4 w-80 bg-white"
               />
               <div className="w-40">
                 <SelectMenu
@@ -151,16 +204,6 @@ export default function Reports() {
               </div>
             </div>
             <div className="flex items-center">
-              {selectedReportsLength > 0 && (
-                <Button
-                  icon={<MdClose className="text-xl" />}
-                  variant="secondary"
-                  onClick={resetSelection}
-                  wrapperClassName="mr-2"
-                >
-                  Clear {selectedReportsLength} selected
-                </Button>
-              )}
               {isMergeDisabled ? (
                 <Tooltip
                   theme="dark"
@@ -177,87 +220,107 @@ export default function Reports() {
                     icon={<MdOutlineArrowForward className="text-xl" />}
                     onClick={onReportConsolidateButtonClick}
                     disabled={isMergeDisabled}
+                    size="default"
+                    variant="secondary"
                   >
-                    View consolidated report
+                    Consolidate reports
                   </Button>
                 </Tooltip>
               ) : (
                 <Button
+                  size="default"
                   iconPlacement="end"
                   icon={<MdOutlineArrowForward className="text-xl" />}
                   onClick={onReportConsolidateButtonClick}
                   disabled={isMergeDisabled}
+                  variant="secondary"
                 >
-                  View consolidated report
+                  Consolidate reports
+                </Button>
+              )}
+              {selectedReportsLength > 0 && (
+                <Button
+                  iconPlacement="end"
+                  icon={<MdClose className="text-xl" />}
+                  onClick={resetSelection}
+                  wrapperClassName="ml-4"
+                  variant="minimal"
+                  colors="white"
+                >
+                  Clear {selectedReportsLength} selected
                 </Button>
               )}
             </div>
           </div>
         </div>
       </div>
-      <div
-        ref={scrollRef}
-        className="fixed overflow-auto"
-        style={{
-          height: isShowingBanner
-            ? 'calc(100vh - 291px)'
-            : 'calc(100vh - 227px)',
-          top: isShowingBanner ? '291px' : '227px',
-          width: 'calc(100vw - 256px)'
-        }}
-        onScroll={handleScroll}
-      >
-        {isLoading && searchFilterList.length === 0 && (
-          <Loader wrapperClassName="mt-28 h-96" />
-        )}
-        {!isLoading && searchFilterList.length === 0 && (
-          <div
-            className="bg-base-50 mt-12 "
-            style={{ height: 'calc(100vh - 228px)' }}
-          >
-            <div className="mb-5 flex w-full flex-col items-center justify-center">
-              <img src={NotFound} alt="No reports found" className="w-80" />
-              <p className="text-base-500 text-sm">No reports to show</p>
+      {!showColdStart ? (
+        <div
+          ref={scrollRef}
+          className="fixed overflow-auto"
+          style={{
+            height: showBanner ? 'calc(100vh - 291px)' : 'calc(100vh - 227px)',
+            top: showBanner ? '291px' : '227px',
+            width: 'calc(100vw - 256px)'
+          }}
+          onScroll={handleScroll}
+        >
+          {isLoading && searchFilterList.length === 0 && (
+            <Loader wrapperClassName="mt-28 h-96" />
+          )}
+          {!isLoading && searchFilterList.length === 0 && (
+            <div
+              className="bg-base-50 mt-12 flex items-center justify-center"
+              style={{ height: 'calc(100vh - 480px)' }}
+            >
+              <div className="mb-5 flex w-full flex-col items-center justify-center">
+                <img src={NotFound} alt="No reports found" className="w-80" />
+                <p className="text-base-500 text-sm">No reports to show</p>
+              </div>
             </div>
+          )}
+          <div className="mb-4 shadow-sm">
+            {searchFilterList.length > 0 &&
+              searchFilterList
+                .slice(lastIndex - reportPerPage, lastIndex)
+                .map(({ uniqueId }) => (
+                  <ReportRow key={uniqueId} id={uniqueId} />
+                ))}
           </div>
-        )}
-        <div className="mb-4 shadow-sm">
-          {searchFilterList.length > 0 &&
-            searchFilterList
-              .slice(lastIndex - reportPerPage, lastIndex)
-              .map(({ uniqueId }) => (
-                <ReportRow key={uniqueId} id={uniqueId} />
-              ))}
+          {!isLoading && searchFilterList.length > 15 && (
+            <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
+              <p className="text-base-700 text-sm font-medium">
+                Showing {lastIndex - reportPerPage + 1} to{' '}
+                {isLastPage ? searchFilterList.length : lastIndex} of{' '}
+                {searchFilterList.length} results
+              </p>
+              <div className="flex">
+                <Button
+                  disabled={isFirstPage}
+                  onClick={() => updateLastIndex(lastIndex - reportPerPage)}
+                  colors="white"
+                  size="small"
+                  wrapperClassName="mr-3"
+                >
+                  Previous
+                </Button>
+                <Button
+                  disabled={isLastPage}
+                  onClick={() => updateLastIndex(lastIndex + reportPerPage)}
+                  colors="white"
+                  size="small"
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
-        {!isLoading && searchFilterList.length > 0 && (
-          <div className="border-base-200 flex items-center justify-between border-t px-6 py-3">
-            <p className="text-base-700 text-sm font-medium">
-              Showing {lastIndex - reportPerPage + 1} to{' '}
-              {isLastPage ? searchFilterList.length : lastIndex} of{' '}
-              {searchFilterList.length} results
-            </p>
-            <div className="flex">
-              <Button
-                disabled={isFirstPage}
-                onClick={() => updateLastIndex(lastIndex - reportPerPage)}
-                colors="white"
-                size="small"
-                wrapperClassName="mr-3"
-              >
-                Previous
-              </Button>
-              <Button
-                disabled={isLastPage}
-                onClick={() => updateLastIndex(lastIndex + reportPerPage)}
-                colors="white"
-                size="small"
-              >
-                Next
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
+      ) : (
+        <div className="flex h-screen w-full flex-col items-center justify-center">
+          <ColdStart />
+        </div>
+      )}
     </div>
   );
 }

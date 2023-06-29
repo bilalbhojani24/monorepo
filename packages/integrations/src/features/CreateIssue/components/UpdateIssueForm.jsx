@@ -110,7 +110,8 @@ const UpdateIssueForm = ({
       return updateIssue(
         integrationToolFieldData?.value,
         issueFieldData.value,
-        parsed
+        parsed,
+        options.webHookStateHash
       )
         .catch((errorResponse) => {
           const metricsPayload = {

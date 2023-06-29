@@ -69,7 +69,7 @@ const AllProjects = () => {
       cell: (rowData) => (
         <div
           role="button"
-          className="text-base-900 hover:text-brand-600 cursor-pointer"
+          className="text-base-700 hover:text-brand-600 cursor-pointer"
           tabIndex={0}
           onClick={handleClickDynamicLink(
             rowData.test_cases_count > 0
@@ -194,14 +194,14 @@ const AllProjects = () => {
             )}
             role="button"
             tabIndex={0}
-            className="text-base-500 hover:text-brand-600 w-28 cursor-pointer"
+            className="text-base-900 hover:text-brand-600 w-28 cursor-pointer"
           >
             {rowData.test_cases_count} Test Cases
           </div>
           <div
             tabIndex={0}
             role="button"
-            className="text-base-500 hover:text-brand-600 ml-6  w-1 cursor-pointer"
+            className="text-base-900 hover:text-brand-600 ml-6  w-1 cursor-pointer"
             onClick={handleClickDynamicLink(
               AppRoute.TEST_RUNS,
               rowData.id,
@@ -230,6 +230,7 @@ const AllProjects = () => {
           dividerRequired
           onClick={(selectedOption) => onDropDownChange(selectedOption, data)}
           options={dropDownOptions}
+          optionGroupWrapperClassName="w-40"
         />
       ),
       class: 'w-[5%]'
@@ -260,7 +261,7 @@ const AllProjects = () => {
           </>
         }
       />
-      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-4">
+      <div className="flex flex-1 shrink-0 grow flex-col overflow-y-auto p-6">
         {(importStatus === IMPORT_STATUS.ONGOING ||
           importStatus === IMPORT_STATUS.FAILURE ||
           importStatus === IMPORT_STATUS.SUCCESS) &&
@@ -330,8 +331,6 @@ const AllProjects = () => {
     </div>
   );
 };
-
-AllProjects.propTypes = {};
 
 AllProjects.defaultProps = {};
 

@@ -29,7 +29,6 @@ import {
   Popover,
   PopoverBody,
   ProgressBar,
-  RadioGroup,
   SectionHeadings,
   Slideover,
   SlideoverHeader,
@@ -41,7 +40,6 @@ import {
   TableRow,
   Tabs,
   TextArea,
-  Tooltip,
   TooltipBody,
   TooltipHeader,
   TruncateText
@@ -50,6 +48,7 @@ import {
 import TMAttachments from './components/TMAttachments';
 import TMBadgeComboBox from './components/TMBadgeComboBox';
 import TMComboBox from './components/TMComboBox';
+import TMCTACard from './components/TMCTACard';
 import TMDataTable from './components/TMDataTable';
 import TMDataVisualization from './components/TMDataVisualization';
 import TMDropdown from './components/TMDropdown';
@@ -57,12 +56,13 @@ import TMHeader from './components/TMHeader';
 import TMInputWButton from './components/TMInputWButton';
 import TMPageHeadings from './components/TMPageHeadings';
 import TMPagination from './components/TMPagination';
+import TMRadioGroup from './components/TMRadioGroup';
 import TMRichTextEditor from './components/TMRichTextEditor';
 import TMSelectMenu from './components/TMSelectMenu';
+import TMTooltip from './components/TMTooltip';
 import TMTruncateText from './components/TMTruncateText';
 
 export const TMAlerts = (props) => <Alerts {...props} />;
-
 export const TMTabs = (props) => <Tabs {...props} />;
 export const TMListTree = (props) => <ListTree {...props} />;
 export const TMListTreeNode = (props) => <ListTreeNode {...props} />;
@@ -94,12 +94,10 @@ export const TMTableRow = (props) => <TableRow {...props} />;
 
 export const TMBadge = (props) => <Badge {...props} />;
 export const TMFileUpload = (props) => <FileUpload {...props} />;
-export const TMTooltip = (props) => <Tooltip {...props} />;
 export const TMTooltipBody = (props) => <TooltipBody {...props} />;
 export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
 
 export const TMSteps = (props) => <Steps {...props} />;
-export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
 
@@ -135,6 +133,7 @@ export {
   TMAttachments,
   TMBadgeComboBox,
   TMComboBox,
+  TMCTACard,
   TMDataTable,
   TMDataVisualization,
   TMDropdown,
@@ -142,7 +141,9 @@ export {
   TMInputWButton,
   TMPageHeadings,
   TMPagination,
+  TMRadioGroup,
   TMRichTextEditor,
   TMSelectMenu,
+  TMTooltip,
   TMTruncateText
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { twClassNames } from '@browserstack/utils';
 import { O11yTableCell } from 'common/bifrostProxy';
-import JiraTag from 'common/JiraTag';
+import { JiraTagList } from 'common/JiraTag';
 import PropagationBlocker from 'common/PropagationBlocker';
 import SmartTagsToolTip from 'common/SmartTagsToolTip/SmartTagsToolTip';
 import StatusChip from 'common/StatusChip';
@@ -43,24 +43,27 @@ const BuildRow = ({ buildData }) => (
         BUILDS_HEADER_COLUMN_STYLE_MAPPING.tags.defaultClass
       )}
     >
-      {!buildData.jiraUrl &&
+      {!Array.isArray(buildData?.jiraDetails) &&
       !buildData?.historyAggregate?.isFlaky &&
       !buildData?.historyAggregate?.isAlwaysFailing &&
       !buildData?.historyAggregate?.isNewFailure &&
       !buildData?.historyAggregate?.isPerformanceAnomaly ? (
         <span>-</span>
       ) : (
-        <div className="flex flex-wrap gap-1">
-          {buildData?.jiraUrl && (
+        <div className="flex flex-wrap items-center gap-1">
+          {Array.isArray(buildData?.jiraDetails) && (
             <PropagationBlocker className="inline">
-              <JiraTag jiraUrl={buildData.jiraUrl || ''} />
+              <JiraTagList
+                list={buildData.jiraDetails || []}
+                showInToolTip
+                wrapperClassName="py-0.5"
+              />
             </PropagationBlocker>
           )}
           <PropagationBlocker className="flex flex-col gap-1">
             {buildData?.historyAggregate?.isFlaky && (
               <SmartTagsToolTip
                 flakyReason={buildData.flakyReason}
-                isRounded={false}
                 modifier="warn"
                 onClick={() => {}}
                 smartTagSettings={buildData?.smartTagSettings}
@@ -71,7 +74,6 @@ const BuildRow = ({ buildData }) => (
             {buildData?.historyAggregate?.isAlwaysFailing && (
               <SmartTagsToolTip
                 modifier="error"
-                isRounded={false}
                 onClick={() => {}}
                 smartTagSettings={buildData?.smartTagSettings}
                 text="Always Failing"
@@ -80,7 +82,6 @@ const BuildRow = ({ buildData }) => (
             )}
             {buildData?.historyAggregate?.isNewFailure && (
               <SmartTagsToolTip
-                isRounded={false}
                 modifier="error"
                 onClick={() => {}}
                 smartTagSettings={buildData?.smartTagSettings}
@@ -91,7 +92,6 @@ const BuildRow = ({ buildData }) => (
 
             {buildData?.historyAggregate?.isPerformanceAnomaly && (
               <SmartTagsToolTip
-                isRounded={false}
                 modifier="error"
                 onClick={() => {}}
                 smartTagSettings={buildData?.smartTagSettings}

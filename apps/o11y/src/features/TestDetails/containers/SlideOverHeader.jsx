@@ -16,9 +16,7 @@ const TestDetailsHeading = ({ testMeta }) => (
     <p className="text-base-900 text-lg font-medium leading-7">
       {testMeta.data?.testName}
     </p>
-    {testMeta.data?.isFlaky && (
-      <O11yBadge text="Flaky" isRounded={false} modifier="warn" />
-    )}
+    {testMeta.data?.isFlaky && <O11yBadge text="Flaky" modifier="warn" />}
   </div>
 );
 

@@ -14,10 +14,14 @@ import {
 } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
-import { ROUTES } from 'constants/routes';
+import { PAYWALL_FEATURES } from 'constants/paywall';
+import { ROUTE_PATH_KEYS } from 'constants/routes';
 import { getBuildUUID } from 'features/BuildDetails/slices/selectors';
+import { PaywallWrapperEmptyState } from 'features/Paywall';
 import { TestInsightsContext } from 'features/TestsInsights/TestInsightsContext';
+import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
+import { getPageUrlByMapping } from 'utils/routeUtils';
 
 import { getBuildAlerts } from '../slices/selectors';
 import { getBuildAlertsData } from '../slices/testInsightsSlice';
@@ -28,7 +32,7 @@ const ALERT_LEVEL = {
   CRITICAL: <MdError className="text-danger-500 inline-block !h-7 !w-7" />
 };
 
-export default function Alerts() {
+function Alerts() {
   const { logInsightsInteractionEvent, applyTestListFilter } =
     useContext(TestInsightsContext);
 
@@ -36,6 +40,7 @@ export default function Alerts() {
   const dispatch = useDispatch();
   const alerts = useSelector(getBuildAlerts);
   const buildId = useSelector(getBuildUUID);
+  const activeProject = useSelector(getActiveProject);
 
   useEffect(() => {
     dispatch(getBuildAlertsData({ buildId }));
@@ -48,7 +53,12 @@ export default function Alerts() {
 
   const handleClickConfigureAlerts = () => {
     logInsightsInteractionEvent({ interaction: 'alerts_configure_clicked' });
-    navigate(ROUTES.settings_alerts);
+    navigate(
+      `${getPageUrlByMapping(
+        activeProject?.normalisedName,
+        ROUTE_PATH_KEYS.settings_alerts
+      )}`
+    );
   };
 
   const hasNoData = useMemo(
@@ -144,3 +154,18 @@ export default function Alerts() {
     </div>
   );
 }
+
+const PaywallWrappedAlert = () => (
+  <PaywallWrapperEmptyState
+    featureKey={PAYWALL_FEATURES.ALERTS}
+    cardConfig={{
+      showBg: false,
+      hideIllustration: true,
+      wrapperClassName: 'shadow-none pl-0 pt-4'
+    }}
+  >
+    <Alerts />
+  </PaywallWrapperEmptyState>
+);
+
+export default PaywallWrappedAlert;

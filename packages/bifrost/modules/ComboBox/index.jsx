@@ -66,7 +66,8 @@ const ComboBox = forwardRef((props, ref) => {
         setCurrentSelectedValues,
         noResultFoundText,
         noOptionsText,
-        comboInputRef
+        comboInputRef,
+        defaultValue
       }}
     >
       <Popover.Root open={open}>
