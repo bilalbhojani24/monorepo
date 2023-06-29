@@ -17,12 +17,12 @@ import {
   resetSelectedGridData,
   setSelectedGridData
 } from 'features/GridConsole/slices';
+import { setShowOnboardingTooltips } from 'features/GridDetail/slices';
 import { setFetchedGridData } from 'globalSlice/index';
 import { getFetchedGridData, getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 import { getSelectedGridData } from '../../GridConsole/slices/selector';
-import { setShowOnboardingTooltips } from 'features/GridDetail/slices';
 
 const useLayoutGridDetail = () => {
   const dispatch = useDispatch();

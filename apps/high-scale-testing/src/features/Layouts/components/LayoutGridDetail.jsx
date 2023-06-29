@@ -56,8 +56,8 @@ const LayoutGridDetail = () => {
 
           <Outlet />
 
-          <ModalTrialGridExpired />
-          <ModalGridDisconnected />
+          {gridData.status === 'expired' && <ModalTrialGridExpired />}
+          {gridData.status === 'disconnected' && <ModalGridDisconnected />}
           <ModalGridCreatedSuccessfully />
         </>
       )}
