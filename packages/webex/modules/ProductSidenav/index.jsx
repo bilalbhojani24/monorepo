@@ -35,8 +35,8 @@ const ProductSidenav = ({ activeProduct }) => {
 
   const fetchPurchasedProducts = async () => {
     const products = await getPurchasedProducts();
-    if (products) {
-      setPurchasedProducts(products);
+    if (products.products.length) {
+      setPurchasedProducts(products.products);
     }
   };
 
