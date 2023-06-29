@@ -138,13 +138,13 @@ const useImportCSV = () => {
     primaryMoveLocation,
     selectedFolder
   }) => {
-    if (primaryMoveLocation === moveFolderOptions[0]?.id) {
+    if (primaryMoveLocation === moveFolderOptions[0]?.value) {
       navigate(
         `${routeFormatter(AppRoute.IMPORT_CSV, {
           projectId: folderExplorerProjectId
         })}?${new URLSearchParams({ folder: selectedFolder.id }).toString()}`
       );
-    } else if (primaryMoveLocation === moveFolderOptions[1]?.id) {
+    } else if (primaryMoveLocation === moveFolderOptions[1]?.value) {
       navigate(
         routeFormatter(AppRoute.IMPORT_CSV, {
           projectId: folderExplorerProjectId
