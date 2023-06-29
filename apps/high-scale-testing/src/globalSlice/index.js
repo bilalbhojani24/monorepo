@@ -9,6 +9,8 @@ const { actions, reducer } = createSlice({
     fetchedGridData: false,
     instanceTypes: {},
     isLoading: true,
+    showSetup: false,
+    trialGridUsed: false,
     regions: {},
     userDetails: {
       groupId: null,
@@ -20,11 +22,14 @@ const { actions, reducer } = createSlice({
   },
   reducers: {
     initialiseApplication: (state, { payload }) => {
-      const { instanceTypes, regions, userDetails } = payload;
+      const { instanceTypes, regions, showSetup, trialGridUsed, userDetails } =
+        payload;
 
       state.appInitComplete = true;
       state.instanceTypes = instanceTypes;
       state.isLoading = false;
+      state.showSetup = showSetup;
+      state.trialGridUsed = trialGridUsed;
       state.regions = regions;
       state.userDetails = userDetails;
     },

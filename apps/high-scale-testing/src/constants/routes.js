@@ -15,7 +15,7 @@ const ROUTES = {
   GRID_SETTINGS_TEST_ARTIFACTS:
     '/grid-console/grid/:id/settings/test-artifacts',
   GRID_UTILIZATION: '/grid-console/grid/:id/utilization',
-  ONBOARDING: '/setup',
+  SETUP: '/setup',
   ROOT: '/',
   SIGN_OUT: '/users/sign_out'
 };

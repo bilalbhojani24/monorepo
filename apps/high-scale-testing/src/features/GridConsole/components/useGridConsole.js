@@ -6,7 +6,12 @@ import { fetchAllClustersData, fetchAllGridsData } from 'api/index';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import { setFetchedGridData } from 'globalSlice/index';
-import { getFetchedGridData, getUserDetails } from 'globalSlice/selector';
+import {
+  getFetchedGridData,
+  getShowSetup,
+  getTrialGridUsed,
+  getUserDetails
+} from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 import { setClusterData, setGridData } from '../slices';
@@ -29,6 +34,8 @@ const useGridConsole = () => {
   const clusterData = useSelector(getClustersData);
   const fetchedGridData = useSelector(getFetchedGridData);
   const gridData = useSelector(getGridsData);
+  const showSetup = useSelector(getShowSetup);
+  const isTrialGridUsed = useSelector(getTrialGridUsed);
   const userDetails = useSelector(getUserDetails);
 
   // All State variables
@@ -96,8 +103,8 @@ const useGridConsole = () => {
           value: 'clusters'
         }
       ]);
-    } else if (!userDetails.onboardingCompleted) {
-      navigate(ROUTES.ONBOARDING);
+    } else if (showSetup && !isTrialGridUsed) {
+      navigate(ROUTES.SETUP);
     }
 
     logHSTEvent([], 'web_events', 'AGAutomationConsoleVisited', {
@@ -106,7 +113,14 @@ const useGridConsole = () => {
       cluster_count: lengthOfClusterData,
       tab_selected: 'Grid'
     });
-  }, [clusterData, gridData, navigate, userDetails]);
+  }, [
+    clusterData,
+    gridData,
+    isTrialGridUsed,
+    navigate,
+    showSetup,
+    userDetails
+  ]);
 
   useEffect(() => {
     const fetchAllClustersDataFromAPI = async () => {
@@ -136,8 +150,8 @@ const useGridConsole = () => {
       value: 'grids'
     });
 
-    if (!userDetails.onboardingCompleted) {
-      navigate(ROUTES.ONBOARDING);
+    if (showSetup && !isTrialGridUsed) {
+      navigate(ROUTES.SETUP);
     }
 
     logHSTEvent([], 'web_events', 'AGAutomationConsoleVisited', {

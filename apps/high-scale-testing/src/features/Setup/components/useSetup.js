@@ -40,7 +40,7 @@ import {
   STEP_1_RADIO_GROUP_OPTIONS
 } from 'constants/setup';
 import { SETUP_GUIDE } from 'constants/strings';
-import { getUserDetails } from 'globalSlice/selector';
+import { getShowSetup, getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 import { DEFAULT_CLOUD_PROVIDER, SUB_TEXTS_OBJECT } from '../constants';
@@ -49,6 +49,7 @@ const useSetup = () => {
   const navigate = useNavigate();
 
   // All Store variables:
+  const showSetup = useSelector(getShowSetup);
   const userDetails = useSelector(getUserDetails);
 
   // All Constants:
@@ -73,7 +74,7 @@ const useSetup = () => {
   const [headerText, setHeaderText] = useState(
     HEADER_TEXTS_OBJECT(userDetails).intro
   );
-  const [isSetupComplete, setIsSetupComplete] = useState(false);
+  const [isGridSetupComplete, setIsGridSetupComplete] = useState(false);
   const [onboardingStep, setOnboardingStep] = useState(0);
   const [onboardingType, setOnboardingType] = useState(
     ONBOARDING_TYPES.scratch
@@ -382,7 +383,7 @@ const useSetup = () => {
       setTimeout(() => {
         logHSTEvent([], 'web_events', AGErrorGridModalPresented);
         setEventLogsStatus(EVENT_LOGS_STATUS.FAILED);
-        setIsSetupComplete(true);
+        setIsGridSetupComplete(true);
       }, 1000);
     } else if (currentStep === 0) {
       setEventLogsStatus(EVENT_LOGS_STATUS.NOT_STARTED);
@@ -398,14 +399,14 @@ const useSetup = () => {
       setEventLogsStatus(EVENT_LOGS_STATUS.FINISHED);
 
       setTimeout(() => {
-        setIsSetupComplete(true);
+        setIsGridSetupComplete(true);
       }, 1000);
     }
   }, [currentStep, showGridHeartBeats, totalSteps]);
 
   useEffect(() => {
-    setShowSetupStatusModal(isSetupComplete);
-  }, [isSetupComplete]);
+    setShowSetupStatusModal(isGridSetupComplete);
+  }, [isGridSetupComplete]);
 
   useEffect(() => {
     if (useTrialGridLoading) {
@@ -438,7 +439,7 @@ const useSetup = () => {
       setPollForEventLogs(false);
       setFrameworkURLs(res.framework);
       setTimeout(() => {
-        setIsSetupComplete(true);
+        setIsGridSetupComplete(true);
       }, 1000);
 
       markOnboardingStatus(userDetails.id, 'success');
@@ -462,7 +463,7 @@ const useSetup = () => {
       return response.data;
     };
 
-    if (!userDetails.onboardingCompleted) {
+    if (showSetup) {
       fetchOnboardingData();
 
       if (pollForEventLogs) {
@@ -501,7 +502,7 @@ const useSetup = () => {
     frameworkURLs,
     handleDismissClick,
     headerText,
-    isSetupComplete,
+    isGridSetupComplete,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
     newGridName,

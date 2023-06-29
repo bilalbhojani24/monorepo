@@ -75,7 +75,7 @@ const CreateGrid = () => {
     isExactSubnetMatch,
     isExactVPCMatch,
     isSaveProfileBtnDisabled,
-    isSetupComplete,
+    isGridSetupComplete,
     isSubnetLoading,
     isVPCLoading,
     modalCrossClickhandler,
@@ -375,11 +375,11 @@ const CreateGrid = () => {
               currentStep={currentStep}
               eventLogsCode={eventLogsCode}
               totalSteps={totalSteps}
-              isSetupComplete={isSetupComplete}
+              isGridSetupComplete={isGridSetupComplete}
             />
           )}
 
-          {isSetupComplete && showSetupStatusModal && (
+          {isGridSetupComplete && showSetupStatusModal && (
             <SetupStatus
               closeSetupStatusModal={closeSetupStatusModal}
               codeSnippets={CODE_SNIPPETS_SCRATCH}
@@ -387,7 +387,7 @@ const CreateGrid = () => {
               eventLogsStatus={eventLogsStatus}
               frameworkURLs={frameworkURLs}
               handleDismissClick={handleDismissClick}
-              isSetupComplete={isSetupComplete}
+              isGridSetupComplete={isGridSetupComplete}
               viewAllBuildsClickHandler={viewAllBuildsClickHandler}
             />
           )}
@@ -801,18 +801,18 @@ const CreateGrid = () => {
                   currentStep={currentStep}
                   eventLogsCode={eventLogsCode}
                   totalSteps={totalSteps}
-                  isSetupComplete={isSetupComplete}
+                  isGridSetupComplete={isGridSetupComplete}
                 />
               )}
 
-              {isSetupComplete && showSetupStatusModal && (
+              {isGridSetupComplete && showSetupStatusModal && (
                 <SetupStatus
                   closeSetupStatusModal={closeSetupStatusModal}
                   codeSnippets={CODE_SNIPPETS_SCRATCH}
                   exploreAutomationClickHandler={exploreAutomationClickHandler}
                   eventLogsStatus={eventLogsStatus}
                   frameworkURLs={frameworkURLs}
-                  isSetupComplete={isSetupComplete}
+                  isGridSetupComplete={isGridSetupComplete}
                   viewAllBuildsClickHandler={viewAllBuildsClickHandler}
                 />
               )}

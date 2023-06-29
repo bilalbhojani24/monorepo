@@ -136,7 +136,7 @@ const useCreateGrid = () => {
   const [gridProfilesData, setGridProfilesData] = useState([]);
   const [isSaveProfileBtnDisabled, setIsSaveProfileBtnDisabled] =
     useState(true);
-  const [isSetupComplete, setIsSetupComplete] = useState(false);
+  const [isGridSetupComplete, setIsSetupComplete] = useState(false);
   const [isSubnetLoading, setIsSubnetLoading] = useState(false);
   const [isVPCLoading, setIsVPCLoading] = useState(false);
   const [newGridName, setNewGridName] = useState(null);
@@ -178,7 +178,7 @@ const useCreateGrid = () => {
 
   const ref = useRef({});
 
-  const [searchParams, setSearchparams] = useSearchParams();
+  const searchParams = useSearchParams()[0];
   const type = searchParams.get('type');
 
   const displaySubnetsItemsArray = subnetQuery
@@ -676,8 +676,8 @@ const useCreateGrid = () => {
   ]);
 
   useEffect(() => {
-    setShowSetupStatusModal(isSetupComplete);
-  }, [isSetupComplete]);
+    setShowSetupStatusModal(isGridSetupComplete);
+  }, [isGridSetupComplete]);
 
   useEffect(() => {
     if (!showSetupClusterModal) {
@@ -789,7 +789,7 @@ const useCreateGrid = () => {
     isExactSubnetMatch,
     isExactVPCMatch,
     isSaveProfileBtnDisabled,
-    isSetupComplete,
+    isGridSetupComplete,
     isSubnetLoading,
     isVPCLoading,
     modalCrossClickhandler,

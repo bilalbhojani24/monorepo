@@ -68,7 +68,7 @@ const Setup = () => {
     frameworkURLs,
     handleDismissClick,
     headerText,
-    isSetupComplete,
+    isGridSetupComplete,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
     newGridName,
@@ -516,17 +516,17 @@ const Setup = () => {
           eventLogsCode &&
           eventLogsCode.length > 0 &&
           eventLogsStatus !== EVENT_LOGS_STATUS.FAILED &&
-          !isSetupComplete && (
+          !isGridSetupComplete && (
             <EventLogs
               closeEventLogsModal={closeEventLogsModal}
               currentStep={currentStep}
               eventLogsCode={eventLogsCode}
               totalSteps={totalSteps}
-              isSetupComplete={isSetupComplete}
+              isGridSetupComplete={isGridSetupComplete}
             />
           )}
 
-        {onboardingStep > 0 && isSetupComplete && showSetupStatusModal && (
+        {onboardingStep > 0 && isGridSetupComplete && showSetupStatusModal && (
           <SetupStatus
             closeSetupStatusModal={closeSetupStatusModal}
             codeSnippets={CODE_SNIPPETS_FOR_SCRATCH}
@@ -535,7 +535,7 @@ const Setup = () => {
             eventLogsStatus={eventLogsStatus}
             frameworkURLs={frameworkURLs}
             handleDismissClick={handleDismissClick}
-            isSetupComplete={isSetupComplete}
+            isGridSetupComplete={isGridSetupComplete}
             viewAllBuildsClickHandler={viewAllBuildsClickHandler}
           />
         )}

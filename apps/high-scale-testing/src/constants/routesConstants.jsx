@@ -26,7 +26,7 @@ export const APP_ROUTES = [
     component: <LayoutWOSidebar />,
     children: [
       {
-        path: ROUTES.ONBOARDING,
+        path: ROUTES.SETUP,
         isProtected: true,
         component: <Setup />
       }

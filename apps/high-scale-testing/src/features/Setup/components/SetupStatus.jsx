@@ -27,7 +27,7 @@ const SetupStatus = ({
   eventLogsStatus,
   frameworkURLs,
   handleDismissClick,
-  isSetupComplete,
+  isGridSetupComplete,
   viewAllBuildsClickHandler
 }) => {
   let ALERT_DESC = '';
@@ -45,7 +45,7 @@ const SetupStatus = ({
   }
 
   return (
-    <Modal size="3xl" show={isSetupComplete}>
+    <Modal size="3xl" show={isGridSetupComplete}>
       <ModalHeader
         handleDismissClick={handleDismissClick}
         heading={HEADER_TEXT}
@@ -213,7 +213,7 @@ SetupStatus.propTypes = {
   eventLogsStatus: PropTypes.string.isRequired,
   frameworkURLs: PropTypes.oneOfType([PropTypes.object]).isRequired,
   handleDismissClick: PropTypes.func.isRequired,
-  isSetupComplete: PropTypes.bool.isRequired,
+  isGridSetupComplete: PropTypes.bool.isRequired,
   viewAllBuildsClickHandler: PropTypes.func.isRequired
 };
 
