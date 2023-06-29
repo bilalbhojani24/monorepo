@@ -36,7 +36,7 @@ importers:
         version: link:../../packages/hooks
       '@browserstack/utils':
         specifier: 2.1.0
-        version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+        version: link:../../packages/utils
       '@emotion/react':
         specifier: 11.10.5
         version: 11.10.5(@babel/core@7.20.12)(@types/react@18.0.26)(react@18.2.0)
@@ -269,7 +269,7 @@ importers:
         version: link:../../packages/hooks
       '@browserstack/utils':
         specifier: 2.1.0
-        version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+        version: link:../../packages/utils
       '@reduxjs/toolkit':
         specifier: 1.9.1
         version: 1.9.1(react-redux@8.0.5)(react@18.2.0)
@@ -354,7 +354,7 @@ importers:
         version: link:../../packages/hooks
       '@browserstack/utils':
         specifier: 2.1.0
-        version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+        version: link:../../packages/utils
       '@mui/icons-material':
         specifier: 5.11.0
         version: 5.11.0(@mui/material@5.11.3)(@types/react@18.0.26)(react@18.2.0)
@@ -448,7 +448,7 @@ importers:
         version: link:../../packages/hooks
       '@browserstack/utils':
         specifier: 2.1.0
-        version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+        version: link:../../packages/utils
       '@internationalized/date':
         specifier: 3.1.0
         version: 3.1.0
@@ -708,7 +708,7 @@ importers:
         version: link:../../packages/services
       '@browserstack/utils':
         specifier: 2.1.0
-        version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+        version: link:../../packages/utils
       '@internationalized/date':
         specifier: 3.1.0
         version: 3.1.0
@@ -1056,7 +1056,7 @@ importers:
         version: link:../hooks
       '@browserstack/utils':
         specifier: 2.1.0
-        version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+        version: link:../utils
       '@headlessui/react':
         specifier: 1.7.5
         version: 1.7.5(react-dom@18.2.0)(react@18.2.0)
@@ -1330,7 +1330,7 @@ importers:
         version: link:../hooks
       '@browserstack/utils':
         specifier: '*'
-        version: 1.2.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+        version: link:../utils
       '@reduxjs/toolkit':
         specifier: 1.9.1
         version: 1.9.1(react-redux@8.0.5)(react@18.2.0)
@@ -1437,13 +1437,13 @@ importers:
     dependencies:
       '@browserstack/bifrost':
         specifier: 9.2.0
-        version: 9.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
+        version: link:../bifrost
       '@browserstack/hooks':
         specifier: workspace:*
         version: link:../hooks
       '@browserstack/utils':
         specifier: 2.1.0
-        version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+        version: link:../utils
       '@internationalized/date':
         specifier: ^3.1.0
         version: 3.1.0
@@ -1831,6 +1831,157 @@ importers:
       vite-plugin-compression2:
         specifier: 0.8.2
         version: 0.8.2
+
+  packages/webex:
+    dependencies:
+      '@browserstack/bifrost':
+        specifier: 4.1.0
+        version: 4.1.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
+      '@browserstack/hooks':
+        specifier: workspace:*
+        version: link:../hooks
+      '@browserstack/utils':
+        specifier: '*'
+        version: link:../utils
+      axios:
+        specifier: 1.2.2
+        version: 1.2.2(debug@4.3.4)
+      immutable:
+        specifier: 4.3.0
+        version: 4.3.0
+      prop-types:
+        specifier: 15.8.1
+        version: 15.8.1
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-copy-to-clipboard:
+        specifier: 5.1.0
+        version: 5.1.0(react@18.2.0)
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      react-router-dom:
+        specifier: 6.6.1
+        version: 6.6.1(react-dom@18.2.0)(react@18.2.0)
+    devDependencies:
+      '@babel/core':
+        specifier: 7.20.12
+        version: 7.20.12
+      '@browserstack/stylelint-config':
+        specifier: workspace:*
+        version: link:../stylelint-config
+      '@browserstack/tailwind-config':
+        specifier: workspace:*
+        version: link:../tailwind-config
+      '@browserstack/vite-config':
+        specifier: workspace:*
+        version: link:../vite-config
+      '@percy/cli':
+        specifier: 1.12.0
+        version: 1.12.0
+      '@percy/storybook':
+        specifier: 4.3.5
+        version: 4.3.5
+      '@storybook/addon-a11y':
+        specifier: 6.5.16
+        version: 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/addon-actions':
+        specifier: 6.5.16
+        version: 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/addon-essentials':
+        specifier: 6.5.16
+        version: 6.5.16(@babel/core@7.20.12)(@storybook/builder-webpack4@6.5.16)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)(webpack@4.46.0)
+      '@storybook/addon-interactions':
+        specifier: 6.5.16
+        version: 6.5.16(@types/react@18.0.26)(eslint@8.41.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)
+      '@storybook/addon-links':
+        specifier: 6.5.16
+        version: 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/builder-webpack4':
+        specifier: 6.5.16
+        version: 6.5.16(eslint@8.41.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)
+      '@storybook/manager-webpack4':
+        specifier: 6.5.16
+        version: 6.5.16(eslint@8.41.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)
+      '@storybook/react':
+        specifier: 6.5.16
+        version: 6.5.16(@babel/core@7.20.12)(@storybook/builder-webpack4@6.5.16)(@storybook/manager-webpack4@6.5.16)(react-dom@18.2.0)(react@18.2.0)(require-from-string@2.0.2)(typescript@5.1.3)
+      '@storybook/test-runner':
+        specifier: 0.9.4
+        version: 0.9.4(eslint@8.41.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)
+      '@storybook/testing-library':
+        specifier: 0.0.13
+        version: 0.0.13(react-dom@18.2.0)(react@18.2.0)
+      '@tailwindcss/forms':
+        specifier: 0.5.3
+        version: 0.5.3(tailwindcss@3.1.4)
+      '@tailwindcss/nesting':
+        specifier: 0.0.0-insiders.565cd3e
+        version: 0.0.0-insiders.565cd3e(postcss@8.4.21)
+      '@types/react':
+        specifier: 18.0.26
+        version: 18.0.26
+      '@types/react-dom':
+        specifier: 18.0.9
+        version: 18.0.9
+      '@vitejs/plugin-react':
+        specifier: 2.2.0
+        version: 2.2.0(vite@3.2.5)
+      addon-screen-reader:
+        specifier: 1.8.6
+        version: 1.8.6(@babel/core@7.20.12)(react-is@18.2.0)
+      axe-playwright:
+        specifier: 1.2.3
+        version: 1.2.3(playwright@1.34.3)
+      babel-loader:
+        specifier: 8.3.0
+        version: 8.3.0(@babel/core@7.20.12)(webpack@4.46.0)
+      concurrently:
+        specifier: 7.6.0
+        version: 7.6.0
+      http-server:
+        specifier: 14.1.1
+        version: 14.1.1
+      jest@0.0.10:
+        specifier: link:@@storybook/jest@0.0.10
+        version: link:@@storybook/jest@0.0.10
+      postcss:
+        specifier: 8.4.21
+        version: 8.4.21
+      postcss-preset-env:
+        specifier: 7.8.3
+        version: 7.8.3(postcss@8.4.21)
+      sass:
+        specifier: 1.57.1
+        version: 1.57.1
+      storybook-addon-designs:
+        specifier: 6.3.1
+        version: 6.3.1(react@18.2.0)
+      stylelint:
+        specifier: 14.16.0
+        version: 14.16.0
+      stylelint-config-prettier:
+        specifier: 9.0.4
+        version: 9.0.4(stylelint@14.16.0)
+      stylelint-config-standard-scss:
+        specifier: 7.0.1
+        version: 7.0.1(postcss@8.4.21)(stylelint@14.16.0)
+      stylelint-prettier:
+        specifier: 2.0.0
+        version: 2.0.0(prettier@2.8.1)(stylelint@14.16.0)
+      stylelint-scss:
+        specifier: 4.3.0
+        version: 4.3.0(stylelint@14.16.0)
+      tailwindcss:
+        specifier: 3.1.4
+        version: 3.1.4(postcss@8.4.21)
+      vite:
+        specifier: 3.2.5
+        version: 3.2.5(sass@1.57.1)
+      wait-on:
+        specifier: 7.0.1
+        version: 7.0.1
 
 packages:
 
@@ -4518,6 +4669,53 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
+  /@browserstack/bifrost@4.1.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
+    resolution: {integrity: sha512-IlCJkPkow+S1Dya7I44hgZGehOJ78jSSK+ein8ue03T2hLL8ZEpiJJGkUN7v3dbakMCVotrFLihG6RZi0GNk5g==, tarball: https://npm.pkg.github.com/download/@browserstack/bifrost/4.1.0/d9a2aef24360866d354c4315c7363537e355239a}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
+      '@browserstack/utils': 1.2.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+      '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
+      '@heroicons/react': 2.0.13(react@18.2.0)
+      '@internationalized/date': 3.1.0
+      '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
+      '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1(react-dom@18.2.0)(react@18.2.0)
+      react-dom: 18.2.0(react@18.2.0)
+      react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      react-hot-toast: 2.4.0(csstype@3.1.2)(react-dom@18.2.0)(react@18.2.0)
+      react-icons: 4.7.1(react@18.2.0)
+      react-player: 2.12.0(react@18.2.0)
+      react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
+      react-stately: 3.21.0(react@18.2.0)
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@sentry/react'
+      - '@sentry/tracing'
+      - '@types/react'
+      - amplitude-js
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - lodash
+      - react-ga4
+      - react-redux
+      - redux-mock-store
+      - socket.io-client
+      - uuid
+    dev: false
+
   /@browserstack/bifrost@7.3.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
     resolution: {integrity: sha512-2miDwV+RGlb+MjowpoHnMcvY3pX3d3CTse9gdpoYCCo3Ubn3ybdcmjJJcHv3dcJd1g1aD4y7lwe9p083/RCG9A==, tarball: https://npm.pkg.github.com/download/@browserstack/bifrost/7.3.0/5f02e6c82121ff5b423e0bccbe5fbb10e6e5d328}
     peerDependencies:
@@ -4862,58 +5060,6 @@ packages:
       react-router-dom: 6.6.1
     dependencies:
       '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
-      '@browserstack/utils': 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
-      '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
-      '@heroicons/react': 2.0.13(react@18.2.0)
-      '@internationalized/date': 3.1.0
-      '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-radio-group': 1.1.2(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
-      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
-      '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-aria: 3.23.1(react-dom@18.2.0)(react@18.2.0)
-      react-dom: 18.2.0(react@18.2.0)
-      react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
-      react-hot-toast: 2.4.0(csstype@3.1.2)(react-dom@18.2.0)(react@18.2.0)
-      react-icons: 4.8.0(react@18.2.0)
-      react-pdf: 6.2.2(react-dom@18.2.0)(react@18.2.0)
-      react-player: 2.12.0(react@18.2.0)
-      react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
-      react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
-      react-stately: 3.21.0(react@18.2.0)
-      react-syntax-highlighter: 15.5.0(react@18.2.0)
-    transitivePeerDependencies:
-      - '@juggle/resize-observer'
-      - '@reduxjs/toolkit'
-      - '@sentry/react'
-      - '@sentry/tracing'
-      - '@types/react'
-      - amplitude-js
-      - axios
-      - csstype
-      - dexie
-      - enzyme
-      - file-loader
-      - lodash
-      - react-ga4
-      - react-redux
-      - redux-mock-store
-      - socket.io-client
-      - uuid
-      - worker-loader
-    dev: false
-
-  /@browserstack/bifrost@9.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
-    resolution: {integrity: sha512-ML2fOu8oUJ32diJNk27mJ3CGuh+NYgR9ux78krgvBZtQy7jJYuapIIA0NyRHwRX0eEbapq9DcxxD2teH95rZjg==, tarball: https://npm.pkg.github.com/download/@browserstack/bifrost/9.2.0/14bb629c414fb7224541ee3a8c7c40afea6e6a80}
-    peerDependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0
-      react-router-dom: 6.6.1
-    dependencies:
-      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
       '@browserstack/utils': 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
       '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
       '@heroicons/react': 2.0.13(react@18.2.0)
@@ -7465,6 +7611,18 @@ packages:
       '@octokit/openapi-types': 17.2.0
     dev: true
 
+  /@percy/cli-app@1.12.0:
+    resolution: {integrity: sha512-vS002JnlGyu8CxIY69WXGvgZn7RillBM4MOyAtFmT2r/u8KUsUTslJ3pIimXQMeC7jFnwkEK2bxfcstoBNv5hA==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@percy/cli-command': 1.12.0
+      '@percy/cli-exec': 1.12.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
   /@percy/cli-app@1.21.0:
     resolution: {integrity: sha512-kkYMTGEk33nsLIIKx57LzheK7WZK77Y52c+DAwnV1FDpzDvhpP4eLEpXwarTIapN76O4wZndFlX4zm07U9Cvfw==}
     engines: {node: '>=14'}
@@ -7477,11 +7635,36 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@percy/cli-build@1.12.0:
+    resolution: {integrity: sha512-O18xPFuCsrsyUgpkozTsvQCvqQkv/y3dj5cDiGzwMI+fI2B+jdCIEri6J/ZEWw78CGPQSCrBO0ufKK2qHd5wVw==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@percy/cli-command': 1.12.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
   /@percy/cli-build@1.21.0:
     resolution: {integrity: sha512-LRvGsTl6bw6zNMOQ36emjdIdkvCEUAbRRp2nryBODMpJ8YUd1NcXw/qLVM2bzpJcTmeBXR76Yjgi1VhFZrNZlg==}
     engines: {node: '>=14'}
     dependencies:
       '@percy/cli-command': 1.21.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
+  /@percy/cli-command@1.12.0:
+    resolution: {integrity: sha512-D7wy/r/HczO0dz8IfBiZP7kquMocPtiAd8rTYdEDBKkWyiC+bKGgYAbV3MzYAFgwRkXpswRbbPgq3exXp19oLg==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      '@percy/config': 1.12.0
+      '@percy/core': 1.12.0
+      '@percy/logger': 1.12.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -7516,11 +7699,35 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@percy/cli-config@1.12.0:
+    resolution: {integrity: sha512-ae3cEjFCrVZz9yexj3+VjYFNZMvRYsZ9DI6MHxcujb72DRmnG5Xs0ZnAThx3pkSrRNOWViAJxcNE2AIBtkKQsQ==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@percy/cli-command': 1.12.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
   /@percy/cli-config@1.21.0:
     resolution: {integrity: sha512-7Wn3L/XkKhVWixH4/oPJV66jD6LBCma6pT/bzbKuV5Hlpscel2xz3p8JSDOvxQJl1eSRtjwhI1HP/0OT6EX5dg==}
     engines: {node: '>=14'}
     dependencies:
       '@percy/cli-command': 1.21.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
+  /@percy/cli-exec@1.12.0:
+    resolution: {integrity: sha512-UdZQs1GcttqabgV7Md8p/UsgJLiwaeZ7pI4nQ5bGQ0LBa1F5c/so2pX0MUcQqeUt5Vy9P8mixCSD+OI+djlzKw==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@percy/cli-command': 1.12.0
+      cross-spawn: 7.0.3
+      which: 2.0.2
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -7540,12 +7747,37 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@percy/cli-snapshot@1.12.0:
+    resolution: {integrity: sha512-kKgdj6HSMaF9QDhYg8wZvlHftj+d2Nq+g1pWmRrtsCGJH5aNEORU1396fs7t7WBUZagy9O7lzLzZ+xxPoTa1og==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@percy/cli-command': 1.12.0
+      yaml: 2.3.1
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
   /@percy/cli-snapshot@1.21.0:
     resolution: {integrity: sha512-DR0yPRCCRFGXrDwfAmC/26yF4CGMTAWNgIKFgeQcPGgjkdXOSmm04fhU36QBU5S66B2gmSjEG0mfh+2oOD68EQ==}
     engines: {node: '>=14'}
     dependencies:
       '@percy/cli-command': 1.21.0
       yaml: 2.3.1
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
+  /@percy/cli-upload@1.12.0:
+    resolution: {integrity: sha512-caK70dxhew9/wbVwJp6cp5CU66oTOXJdVQjBqfvWqqG1qGMqeA+mYYzG2XMtDOGs8CLD61IRJHkBOBL6vTVjnA==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@percy/cli-command': 1.12.0
+      fast-glob: 3.2.12
+      image-size: 1.0.2
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -7559,6 +7791,26 @@ packages:
       '@percy/cli-command': 1.21.0
       fast-glob: 3.2.12
       image-size: 1.0.2
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: true
+
+  /@percy/cli@1.12.0:
+    resolution: {integrity: sha512-cWp6enOQP/DB0EqJK7F+KznjpLEis5JaAVHSoKkYiSQMsNgNhwMq6IgTSkTbu+ZfUqr3n8s5SL02JVIsgRgXyQ==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dependencies:
+      '@percy/cli-app': 1.12.0
+      '@percy/cli-build': 1.12.0
+      '@percy/cli-command': 1.12.0
+      '@percy/cli-config': 1.12.0
+      '@percy/cli-exec': 1.12.0
+      '@percy/cli-snapshot': 1.12.0
+      '@percy/cli-upload': 1.12.0
+      '@percy/client': 1.12.0
+      '@percy/logger': 1.12.0
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -7585,6 +7837,14 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@percy/client@1.12.0:
+    resolution: {integrity: sha512-KQJ8ykLteQwf8ldTJPh8szLqmJpMJvVG7d7+TVnkYKpNJRhsGEqHnymhKADGWn5/U6i0Z8DdEJGExfnABmRB1A==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@percy/env': 1.12.0
+      '@percy/logger': 1.12.0
+    dev: true
+
   /@percy/client@1.21.0:
     resolution: {integrity: sha512-IKFcMYcibWQjisjmS4K9HK7TbjPK4fnVeh/3Uq7Da0ejiu5qBvLn49aNcYfnrguPqaUcgIvLvpcgtHeH+srv/g==}
     engines: {node: '>=14'}
@@ -7599,6 +7859,16 @@ packages:
     dependencies:
       '@percy/env': 1.25.0
       '@percy/logger': 1.25.0
+    dev: true
+
+  /@percy/config@1.12.0:
+    resolution: {integrity: sha512-4ECAofbnlyP10PxNeiE8hlEG+IvqCNQ/R8V9on2EGD68mo9E7gsD9zWfMpVHuFNxCQxC0FYinR7VWaQVBvIb6Q==}
+    engines: {node: '>=14'}
+    dependencies:
+      '@percy/logger': 1.12.0
+      ajv: 8.12.0
+      cosmiconfig: 7.1.0
+      yaml: 2.3.1
     dev: true
 
   /@percy/config@1.21.0:
@@ -7619,6 +7889,30 @@ packages:
       ajv: 8.12.0
       cosmiconfig: 8.1.3
       yaml: 2.3.1
+    dev: true
+
+  /@percy/core@1.12.0:
+    resolution: {integrity: sha512-djjyRDQ/fSYc5n4L952fezMamXA4coNCSnCOIuV1tuul6HP2QpQBqSLUlTNIqtCy1vWUYQQvz6WtCzSw8Fp08g==}
+    engines: {node: '>=14'}
+    requiresBuild: true
+    dependencies:
+      '@percy/client': 1.12.0
+      '@percy/config': 1.12.0
+      '@percy/dom': 1.12.0
+      '@percy/logger': 1.12.0
+      content-disposition: 0.5.4
+      cross-spawn: 7.0.3
+      extract-zip: 2.0.1
+      fast-glob: 3.2.12
+      micromatch: 4.0.5
+      mime-types: 2.1.35
+      path-to-regexp: 6.2.1
+      rimraf: 3.0.2
+      ws: 8.13.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
     dev: true
 
   /@percy/core@1.21.0:
@@ -7669,12 +7963,21 @@ packages:
       - utf-8-validate
     dev: true
 
+  /@percy/dom@1.12.0:
+    resolution: {integrity: sha512-EUy281hPhpPqdy9DV3OXROOK2B7p0nujox/n18MmgWwxlO4YxVQJC0C3VF7TmHIhGBwE8BLSqxqz6r1RramKyw==}
+    dev: true
+
   /@percy/dom@1.21.0:
     resolution: {integrity: sha512-OKpS9EPnUrMx3Mu9L7QiqEtc+yAUz3gbXrbRlrPAljyRAmmBe9p5vy0hKtP8wO1vxjumqmtxNABpz5bc70CJ2Q==}
     dev: true
 
   /@percy/dom@1.25.0:
     resolution: {integrity: sha512-zBTFC75SM5LfRKZ9n0izvzcfTszCPwKRlulOEu4HQDATpzZuIIwyfM+5EuHthbt+E2PDkgiycbji4T66HnoRGA==}
+    dev: true
+
+  /@percy/env@1.12.0:
+    resolution: {integrity: sha512-baEMvDcVzbJcOL+rr4s98Jb7tKdUVWnNGdXZI26UxsaSwHtKJRceHe4Qzw79FPU1KtJnK34KEsCDj4S9eAtGEg==}
+    engines: {node: '>=14'}
     dev: true
 
   /@percy/env@1.21.0:
@@ -7687,6 +7990,11 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       '@percy/logger': 1.25.0
+    dev: true
+
+  /@percy/logger@1.12.0:
+    resolution: {integrity: sha512-GQ9XiwOK9sb+5luZH4899Wwt1RF6K5fkiyumjYrZk4MtkxOqVIUtU08rat0rZZUO0T+KkNHvjbZ487XvLQjN1g==}
+    engines: {node: '>=14'}
     dev: true
 
   /@percy/logger@1.21.0:
@@ -9955,6 +10263,93 @@ packages:
       - supports-color
     dev: true
 
+  /@storybook/addon-essentials@6.5.16(@babel/core@7.20.12)(@storybook/builder-webpack4@6.5.16)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)(webpack@4.46.0):
+    resolution: {integrity: sha512-TeoMr6tEit4Pe91GH6f8g/oar1P4M0JL9S6oMcFxxrhhtOGO7XkWD5EnfyCx272Ok2VYfE58FNBTGPNBVIqYKQ==}
+    peerDependencies:
+      '@babel/core': ^7.9.6
+      '@storybook/angular': '*'
+      '@storybook/builder-manager4': '*'
+      '@storybook/builder-manager5': '*'
+      '@storybook/builder-webpack4': '*'
+      '@storybook/builder-webpack5': '*'
+      '@storybook/html': '*'
+      '@storybook/vue': '*'
+      '@storybook/vue3': '*'
+      '@storybook/web-components': '*'
+      lit: '*'
+      lit-html: '*'
+      react: '*'
+      react-dom: '*'
+      svelte: '*'
+      sveltedoc-parser: '*'
+      vue: '*'
+      webpack: '*'
+    peerDependenciesMeta:
+      '@storybook/angular':
+        optional: true
+      '@storybook/builder-manager4':
+        optional: true
+      '@storybook/builder-manager5':
+        optional: true
+      '@storybook/builder-webpack4':
+        optional: true
+      '@storybook/builder-webpack5':
+        optional: true
+      '@storybook/html':
+        optional: true
+      '@storybook/vue':
+        optional: true
+      '@storybook/vue3':
+        optional: true
+      '@storybook/web-components':
+        optional: true
+      lit:
+        optional: true
+      lit-html:
+        optional: true
+      react:
+        optional: true
+      react-dom:
+        optional: true
+      svelte:
+        optional: true
+      sveltedoc-parser:
+        optional: true
+      vue:
+        optional: true
+      webpack:
+        optional: true
+    dependencies:
+      '@babel/core': 7.20.12
+      '@storybook/addon-actions': 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/addon-backgrounds': 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/addon-controls': 6.5.16(eslint@8.41.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)
+      '@storybook/addon-docs': 6.5.16(@babel/core@7.20.12)(eslint@8.41.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)(webpack@5.75.0)
+      '@storybook/addon-measure': 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/addon-outline': 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/addon-toolbars': 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/addon-viewport': 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/addons': 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/api': 6.5.16(react-dom@18.2.0)(react@18.2.0)
+      '@storybook/builder-webpack4': 6.5.16(eslint@8.41.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)
+      '@storybook/core-common': 6.5.16(eslint@8.41.0)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)
+      '@storybook/node-logger': 6.5.16
+      core-js: 3.30.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      regenerator-runtime: 0.13.11
+      ts-dedent: 2.2.0
+      webpack: 4.46.0
+    transitivePeerDependencies:
+      - '@storybook/mdx2-csf'
+      - eslint
+      - supports-color
+      - typescript
+      - vue-template-compiler
+      - webpack-cli
+      - webpack-command
+    dev: true
+
   /@storybook/addon-essentials@6.5.16(@babel/core@7.20.12)(@storybook/builder-webpack4@6.5.16)(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.3)(webpack@5.75.0):
     resolution: {integrity: sha512-TeoMr6tEit4Pe91GH6f8g/oar1P4M0JL9S6oMcFxxrhhtOGO7XkWD5EnfyCx272Ok2VYfE58FNBTGPNBVIqYKQ==}
     peerDependencies:
@@ -11223,7 +11618,7 @@ packages:
       chalk: 4.1.2
       esbuild: 0.17.19
       esbuild-register: 3.4.2(esbuild@0.17.19)
-      file-system-cache: 2.4.0
+      file-system-cache: 2.4.1
       find-up: 5.0.0
       fs-extra: 11.1.1
       glob: 8.1.0
@@ -12479,7 +12874,7 @@ packages:
       '@storybook/channels': 7.0.18
       '@types/babel__core': 7.20.1
       '@types/express': 4.17.17
-      file-system-cache: 2.4.0
+      file-system-cache: 2.4.1
     dev: true
 
   /@storybook/types@7.0.22:
@@ -12488,7 +12883,7 @@ packages:
       '@storybook/channels': 7.0.22
       '@types/babel__core': 7.20.1
       '@types/express': 4.17.17
-      file-system-cache: 2.4.0
+      file-system-cache: 2.4.1
     dev: true
 
   /@storybook/ui@6.5.16(react-dom@18.2.0)(react@18.2.0):
@@ -16366,13 +16761,13 @@ packages:
     peerDependencies:
       webpack: ^4.27.0 || ^5.0.0
     dependencies:
-      icss-utils: 5.1.0(postcss@8.4.21)
+      icss-utils: 5.1.0(postcss@8.4.24)
       loader-utils: 2.0.4
-      postcss: 8.4.21
-      postcss-modules-extract-imports: 3.0.0(postcss@8.4.21)
-      postcss-modules-local-by-default: 4.0.3(postcss@8.4.21)
-      postcss-modules-scope: 3.0.0(postcss@8.4.21)
-      postcss-modules-values: 4.0.0(postcss@8.4.21)
+      postcss: 8.4.24
+      postcss-modules-extract-imports: 3.0.0(postcss@8.4.24)
+      postcss-modules-local-by-default: 4.0.3(postcss@8.4.24)
+      postcss-modules-scope: 3.0.0(postcss@8.4.24)
+      postcss-modules-values: 4.0.0(postcss@8.4.24)
       postcss-value-parser: 4.2.0
       schema-utils: 3.1.2
       semver: 7.5.1
@@ -19118,8 +19513,8 @@ packages:
       ramda: 0.28.0
     dev: true
 
-  /file-system-cache@2.4.0:
-    resolution: {integrity: sha512-aqfrsrc43lOJdK6e4xZT/61y0s+oJgeMxbhIxjVIJ/H/lbBNIuQ+51DjQJKt36eQAj2j7wu0i0QQcYP/eGyudQ==}
+  /file-system-cache@2.4.1:
+    resolution: {integrity: sha512-mzEiUdjzqhxwppIJVSBq8C9evWM1j0v/lCg7gFMDiQDQPlQSm8kRfXSPFScT1p/Fxy0N2LSIps6g28e8itumlg==}
     dependencies:
       fs-extra: 11.1.1
       ramda: 0.29.0
@@ -19291,8 +19686,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /flow-parser@0.210.0:
-    resolution: {integrity: sha512-ISI3YUsL/Z4cUl5ijYUO1LezjoljfnRS6QoFlqIqiazETt8EhkZKqQoksA47743OT3QxYFOPd2yIcRaH4DYX7g==}
+  /flow-parser@0.210.1:
+    resolution: {integrity: sha512-M0SdOwD0wZHhk6K/AOaPReBnw2vB7p9KUFUFZHJRsU3ZMl/+WVrMpmb8AfEM6GXZ5mEssCx9vHugxxJg1ieoew==}
     engines: {node: '>=0.4.0'}
     dev: true
 
@@ -20679,6 +21074,15 @@ packages:
       postcss: ^8.1.0
     dependencies:
       postcss: 8.4.21
+    dev: true
+
+  /icss-utils@5.1.0(postcss@8.4.24):
+    resolution: {integrity: sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.4.24
     dev: true
 
   /idb@7.1.1:
@@ -22638,7 +23042,7 @@ packages:
       '@babel/register': 7.21.0(@babel/core@7.20.12)
       babel-core: 7.0.0-bridge.0(@babel/core@7.20.12)
       chalk: 4.1.2
-      flow-parser: 0.210.0
+      flow-parser: 0.210.1
       graceful-fs: 4.2.11
       micromatch: 4.0.5
       neo-async: 2.6.2
@@ -22668,7 +23072,7 @@ packages:
       '@babel/register': 7.21.0(@babel/core@7.20.12)
       babel-core: 7.0.0-bridge.0(@babel/core@7.20.12)
       chalk: 4.1.2
-      flow-parser: 0.210.0
+      flow-parser: 0.210.1
       graceful-fs: 4.2.11
       micromatch: 4.0.5
       neo-async: 2.6.2
@@ -25750,6 +26154,15 @@ packages:
       postcss: 8.4.21
     dev: true
 
+  /postcss-modules-extract-imports@3.0.0(postcss@8.4.24):
+    resolution: {integrity: sha512-bdHleFnP3kZ4NYDhuGlVK+CMrQ/pqUm8bx/oGL93K6gVwiclvX5x0n76fYMKuIGKzlABOy13zsvqjb0f92TEXw==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.4.24
+    dev: true
+
   /postcss-modules-local-by-default@3.0.3:
     resolution: {integrity: sha512-e3xDq+LotiGesympRlKNgaJ0PCzoUIdpH0dj47iWAui/kyTgh3CiAr1qP54uodmJhl6p9rN6BoNcdEDVJx9RDw==}
     engines: {node: '>= 6'}
@@ -25772,6 +26185,18 @@ packages:
       postcss-value-parser: 4.2.0
     dev: true
 
+  /postcss-modules-local-by-default@4.0.3(postcss@8.4.24):
+    resolution: {integrity: sha512-2/u2zraspoACtrbFRnTijMiQtb4GW4BvatjaG/bCjYQo8kLTdevCUlwuBHx2sCnSyrI3x3qj4ZK1j5LQBgzmwA==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      icss-utils: 5.1.0(postcss@8.4.24)
+      postcss: 8.4.24
+      postcss-selector-parser: 6.0.13
+      postcss-value-parser: 4.2.0
+    dev: true
+
   /postcss-modules-scope@2.2.0:
     resolution: {integrity: sha512-YyEgsTMRpNd+HmyC7H/mh3y+MeFWevy7V1evVhJWewmMbjDHIbZbOXICC2y+m1xI1UVfIT1HMW/O04Hxyu9oXQ==}
     engines: {node: '>= 6'}
@@ -25790,6 +26215,16 @@ packages:
       postcss-selector-parser: 6.0.13
     dev: true
 
+  /postcss-modules-scope@3.0.0(postcss@8.4.24):
+    resolution: {integrity: sha512-hncihwFA2yPath8oZ15PZqvWGkWf+XUfQgUGamS4LqoP1anQLOsOJw0vr7J7IwLpoY9fatA2qiGUGmuZL0Iqlg==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      postcss: 8.4.24
+      postcss-selector-parser: 6.0.13
+    dev: true
+
   /postcss-modules-values@3.0.0:
     resolution: {integrity: sha512-1//E5jCBrZ9DmRX+zCtmQtRSV6PV42Ix7Bzj9GbwJceduuf7IqP8MgeTXuRDHOWj2m0VzZD5+roFWDuU8RQjcg==}
     dependencies:
@@ -25805,6 +26240,16 @@ packages:
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.21)
       postcss: 8.4.21
+    dev: true
+
+  /postcss-modules-values@4.0.0(postcss@8.4.24):
+    resolution: {integrity: sha512-RDxHkAiEGI78gS2ofyvCsu7iycRv7oqw5xMWn9iMoR0N/7mf9D50ecQqUo5BZ9Zh2vH4bCUR/ktCqbB9m8vJjQ==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      icss-utils: 5.1.0(postcss@8.4.24)
+      postcss: 8.4.24
     dev: true
 
   /postcss-nested@5.0.6(postcss@8.4.20):
@@ -26329,7 +26774,6 @@ packages:
       nanoid: 3.3.6
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: false
 
   /prelude-ls@1.1.2:
     resolution: {integrity: sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w==}
@@ -31124,7 +31568,7 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.15.18
-      postcss: 8.4.21
+      postcss: 8.4.24
       resolve: 1.22.2
       rollup: 2.79.1
       sass: 1.57.1
