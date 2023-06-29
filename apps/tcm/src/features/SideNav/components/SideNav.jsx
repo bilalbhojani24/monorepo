@@ -66,15 +66,18 @@ const SideNav = () => {
         ))}
         sidebarSecondaryNavigation={
           <>
-            <TMActionPanel
-              title="Have questions?"
-              description="Unlock the full potential of Test Management"
-              content={
-                <TMButton colors="white" onClick={onGetADemoCTAClick}>
-                  Get a demo
-                </TMButton>
-              }
-            />
+            <div className="px-2">
+              <TMActionPanel
+                hasBorder
+                title="Have questions?"
+                description="Unlock the full potential of Test Management"
+                content={
+                  <TMButton colors="white" onClick={onGetADemoCTAClick}>
+                    Get a demo
+                  </TMButton>
+                }
+              />
+            </div>
             {secondaryNavs?.map((item) => {
               if (
                 item?.identifier === 'import_in_progress' &&
