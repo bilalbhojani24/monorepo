@@ -38,7 +38,6 @@ import NewScanLogo from 'assets/noScans.svg';
 import NotFound from 'assets/not_found.svg';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
-import { getDashboardWidth } from 'utils';
 import { logEvent } from 'utils/logEvent';
 
 import {
@@ -446,7 +445,7 @@ export default function SiteScanner() {
               className="fixed overflow-y-auto"
               style={{
                 height: 'calc(100vh - 228px)',
-                width: `calc(${getDashboardWidth()})`
+                width: 'calc(100vw - 256px)'
               }}
             >
               <Table>
