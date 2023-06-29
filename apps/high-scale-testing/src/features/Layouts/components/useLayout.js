@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { MdOutlineTextSnippet, MdWeb } from '@browserstack/bifrost';
 import AutomatioConsole from 'assets/icons/components/AutomationConsole';
@@ -8,14 +8,25 @@ import ROUTES from 'constants/routes';
 import { getSelectedGridData } from 'features/GridConsole/slices/selector';
 import { getEnvConfig } from 'utils/common';
 import { logHSTEvent } from 'utils/logger';
+import {
+  getCurrentOnboardingTooltipcount,
+  getShowOnboardingTooltips
+} from 'features/GridDetail/slices/selector';
+import { setCurrentOnboardingTooltipCount } from 'features/GridDetail/slices';
+import { AUTOMATION_CONSOLE, BUILDS_DASHBOARD } from 'constants/strings';
 
 const useLayout = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
   const { docHomeURL } = getEnvConfig();
 
+  const currentOnboardingTooltipCount = useSelector(
+    getCurrentOnboardingTooltipcount
+  );
   const selectedGridData = useSelector(getSelectedGridData);
+  const showOnboardingTooltips = useSelector(getShowOnboardingTooltips);
 
   const [
     showTrialGridBannerInGridOverview,
@@ -25,17 +36,28 @@ const useLayout = () => {
   const primaryNavs = [
     {
       id: 'grid-console',
-      label: 'Automation Console',
+      label: AUTOMATION_CONSOLE,
       activeIcon: AutomatioConsole,
       inActiveIcon: AutomatioConsole,
+      onboardingTooltipContent:
+        'Use Automation Console to view all your grids and create a new grid in future',
+      onboardingTooltipHeader: 'View all grids',
+      onboardingTooltipNextBtnhandler: () => {
+        dispatch(setCurrentOnboardingTooltipCount(4));
+      },
       path: ROUTES.GRID_CONSOLE,
       pattern: `${ROUTES.GRID_CONSOLE}/*`
     },
     {
       id: 'builds-dashboard',
-      label: 'Builds Dashboard',
+      label: BUILDS_DASHBOARD,
       activeIcon: MdWeb,
       inActiveIcon: MdWeb,
+      onboardingTooltipContent: 'Check your test results on Build Dashboard',
+      onboardingTooltipHeader: 'Run and view build results ',
+      onboardingTooltipNextBtnhandler: () => {
+        dispatch(setCurrentOnboardingTooltipCount(5));
+      },
       path: ROUTES.BUILDS,
       pattern: `${ROUTES.BUILDS}/*`
     }
@@ -88,11 +110,13 @@ const useLayout = () => {
   }, [selectedGridData]);
 
   return {
+    currentOnboardingTooltipCount,
     isCurrent,
     navigate,
     navigationClickHandler,
     primaryNavs,
     secondaryNavs,
+    showOnboardingTooltips,
     showTrialGridBannerInGridOverview
   };
 };

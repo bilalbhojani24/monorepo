@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useMountEffect } from '@browserstack/hooks';
 import {
   AGGridDetailsInteracted,
@@ -9,10 +9,21 @@ import { logHSTEvent } from 'utils/logger';
 import { calculateRelativeTime } from 'utils/time';
 
 import { getSelectedGridData } from '../slices/selector';
+import {
+  getCurrentOnboardingTooltipcount,
+  getShowOnboardingTooltips
+} from 'features/GridDetail/slices/selector';
+import { setCurrentOnboardingTooltipCount } from 'features/GridDetail/slices';
 
 const useGridOverview = () => {
+  const dispatch = useDispatch();
+
   // All Store variables
+  const currentOnboardingTooltipCount = useSelector(
+    getCurrentOnboardingTooltipcount
+  );
   const selectedGridData = useSelector(getSelectedGridData);
+  const showOnboardingTooltips = useSelector(getShowOnboardingTooltips);
   const userDetails = useSelector(getUserDetails);
 
   const containerClassName =
@@ -25,6 +36,22 @@ const useGridOverview = () => {
       framework
     });
   };
+
+  const onboardingTooltipNextBtnHandler = (type) => {
+    switch (type) {
+      case 'frameworks': {
+        dispatch(setCurrentOnboardingTooltipCount(2));
+        break;
+      }
+      case 'userCreds': {
+        dispatch(setCurrentOnboardingTooltipCount(3));
+        break;
+      }
+      default:
+        break;
+    }
+  };
+
   const hasBrowsersUsed = selectedGridData?.stats?.browsersUsed.length > 0;
   const relativeTime = calculateRelativeTime(selectedGridData?.connected);
 
@@ -37,8 +64,11 @@ const useGridOverview = () => {
   return {
     containerClassName,
     copyBtnCbFn,
+    currentOnboardingTooltipCount,
     fontColor900ClassName,
+    onboardingTooltipNextBtnHandler,
     selectedGridData,
+    showOnboardingTooltips,
     hasBrowsersUsed,
     relativeTime,
     userDetails

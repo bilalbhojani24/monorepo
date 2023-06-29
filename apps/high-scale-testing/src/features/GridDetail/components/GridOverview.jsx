@@ -19,8 +19,11 @@ const GridOverview = () => {
   const {
     containerClassName,
     copyBtnCbFn,
+    currentOnboardingTooltipCount,
     fontColor900ClassName,
+    onboardingTooltipNextBtnHandler,
     selectedGridData,
+    showOnboardingTooltips,
     hasBrowsersUsed,
     relativeTime,
     userDetails
@@ -208,7 +211,13 @@ const GridOverview = () => {
                     <div className="flex flex-col">
                       <div>{TOOLTIP_MESSAGES[0].content}</div>
                       <div className="mt-4 flex flex-row gap-3">
-                        <Button>Next</Button>
+                        <Button
+                          onClick={() =>
+                            onboardingTooltipNextBtnHandler('frameworks')
+                          }
+                        >
+                          Next
+                        </Button>
                         <Button variant="primary" colors="white">
                           Skip tips
                         </Button>
@@ -217,9 +226,13 @@ const GridOverview = () => {
                   </TooltipBody>
                 </>
               }
-              // eslint-disable-next-line react/jsx-boolean-value
-              defaultOpen={true}
+              defaultOpen={
+                showOnboardingTooltips && currentOnboardingTooltipCount === 1
+              }
               placementSide="right"
+              show={
+                showOnboardingTooltips && currentOnboardingTooltipCount === 1
+              }
               theme="dark"
             >
               <FrameworksTable
@@ -242,7 +255,13 @@ const GridOverview = () => {
                   <div className="flex flex-col">
                     <div>{TOOLTIP_MESSAGES[1].content}</div>
                     <div className="mt-4 flex flex-row gap-3">
-                      <Button>Next</Button>
+                      <Button
+                        onClick={() =>
+                          onboardingTooltipNextBtnHandler('userCreds')
+                        }
+                      >
+                        Next
+                      </Button>
                       <Button variant="primary" colors="white">
                         Skip tips
                       </Button>
@@ -251,10 +270,12 @@ const GridOverview = () => {
                 </TooltipBody>
               </>
             }
-            // eslint-disable-next-line react/jsx-boolean-value
-            defaultOpen={true}
+            defaultOpen={
+              showOnboardingTooltips && currentOnboardingTooltipCount === 2
+            }
             placementAlign="start"
             placementSide="right"
+            show={showOnboardingTooltips && currentOnboardingTooltipCount === 2}
             theme="dark"
           >
             <UserDetailsTable

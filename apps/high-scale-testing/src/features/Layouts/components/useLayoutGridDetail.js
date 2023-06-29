@@ -21,7 +21,8 @@ import { setFetchedGridData } from 'globalSlice/index';
 import { getFetchedGridData, getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
-import { getGridsData } from '../../GridConsole/slices/selector';
+import { getSelectedGridData } from '../../GridConsole/slices/selector';
+import { setShowOnboardingTooltips } from 'features/GridDetail/slices';
 
 const useLayoutGridDetail = () => {
   const dispatch = useDispatch();
@@ -35,7 +36,7 @@ const useLayoutGridDetail = () => {
   const userDetails = useSelector(getUserDetails);
 
   // All Store variables
-  const gridData = useSelector(getGridsData);
+  const gridData = useSelector(getSelectedGridData);
 
   // All State variables
   const [currentTab, setCurrentTab] = useState({
@@ -50,6 +51,10 @@ const useLayoutGridDetail = () => {
     });
     setCurrentTab(e);
   };
+
+  useEffect(() => {
+    dispatch(setShowOnboardingTooltips(gridData.isTrialGrid));
+  }, [dispatch, gridData]);
 
   useEffect(() => {
     if (currentTab.name === 'Settings') {
@@ -118,6 +123,7 @@ const useLayoutGridDetail = () => {
     },
     () => {
       dispatch(resetSelectedGridData());
+      dispatch(setShowOnboardingTooltips(false));
     }
   );
 

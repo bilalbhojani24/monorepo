@@ -6,19 +6,25 @@ import {
   MdCampaign,
   NotificationsContainer,
   SidebarItem,
-  SidebarNavigation
+  SidebarNavigation,
+  Tooltip,
+  TooltipHeader,
+  TooltipBody
 } from '@browserstack/bifrost';
 import { BannerMessages } from 'constants/bannerMessages';
 import HSTHeader from 'features/HSTHeader/component';
 
 import { useLayout } from './useLayout';
+import { AUTOMATION_CONSOLE, BUILDS_DASHBOARD } from 'constants/strings';
 
 const Layout = () => {
   const {
+    currentOnboardingTooltipCount,
     isCurrent,
     navigationClickHandler,
     primaryNavs,
     secondaryNavs,
+    showOnboardingTooltips,
     showTrialGridBannerInGridOverview
   } = useLayout();
 
@@ -47,11 +53,55 @@ const Layout = () => {
           >
             <SidebarNavigation
               sidebarPrimaryNavigation={primaryNavs.map((item) => (
-                <SidebarItem
-                  current={isCurrent(item)}
-                  nav={item}
-                  handleNavigationClick={navigationClickHandler}
-                />
+                <Tooltip
+                  alignOffset={10}
+                  arrowPadding={10}
+                  content={
+                    <>
+                      <TooltipHeader>
+                        {item.onboardingTooltipHeader}
+                      </TooltipHeader>
+                      <TooltipBody>
+                        <div className="flex flex-col">
+                          <div>{item.onboardingTooltipContent}</div>
+                          <div className="mt-4 flex flex-row gap-3">
+                            <Button
+                              onClick={item.onboardingTooltipNextBtnhandler}
+                            >
+                              Next
+                            </Button>
+                            <Button variant="primary" colors="white">
+                              Skip tips
+                            </Button>
+                          </div>
+                        </div>
+                      </TooltipBody>
+                    </>
+                  }
+                  defaultOpen={
+                    showOnboardingTooltips &&
+                    ((currentOnboardingTooltipCount === 3 &&
+                      item.label === AUTOMATION_CONSOLE) ||
+                      (currentOnboardingTooltipCount === 4 &&
+                        item.label === BUILDS_DASHBOARD))
+                  }
+                  placementAlign="start"
+                  placementSide="bottom"
+                  show={
+                    showOnboardingTooltips &&
+                    ((currentOnboardingTooltipCount === 3 &&
+                      item.label === AUTOMATION_CONSOLE) ||
+                      (currentOnboardingTooltipCount === 4 &&
+                        item.label === BUILDS_DASHBOARD))
+                  }
+                  theme="dark"
+                >
+                  <SidebarItem
+                    current={isCurrent(item)}
+                    nav={item}
+                    handleNavigationClick={navigationClickHandler}
+                  />
+                </Tooltip>
               ))}
               sidebarSecondaryNavigation={secondaryNavs.map((item) => (
                 <SidebarItem
