@@ -220,7 +220,7 @@ export default function Summary() {
             size="fit-content"
             analytics={
               <div>
-                <p className="text-base-500 mr-1 mb-1 text-sm">Total</p>
+                <p className="text-base-500 mb-1 mr-1 text-sm">Total</p>
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
