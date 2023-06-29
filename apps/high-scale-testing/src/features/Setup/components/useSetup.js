@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useInterval, useMountEffect } from '@browserstack/hooks';
 import {
   createTrialGridForUser,
-  getOnboardingData,
-  getOnboardingEventsLogsData,
-  markOnboardingRegionChange,
-  markOnboardingStatus
+  getSetupData,
+  getSetupEventsLogsData,
+  markSetupRegionChange,
+  markSetupStatus
 } from 'api';
 import { BannerMessages } from 'constants/bannerMessages';
 import {
@@ -36,7 +36,7 @@ import {
   CODE_SNIPPETS_SCRATCH,
   EVENT_LOGS_STATUS,
   HEADER_TEXTS_OBJECT,
-  ONBOARDING_TYPES,
+  SETUP_TYPES,
   STEP_1_RADIO_GROUP_OPTIONS
 } from 'constants/setup';
 import { SETUP_GUIDE } from 'constants/strings';
@@ -75,10 +75,8 @@ const useSetup = () => {
     HEADER_TEXTS_OBJECT(userDetails).intro
   );
   const [isGridSetupComplete, setIsGridSetupComplete] = useState(false);
-  const [onboardingStep, setOnboardingStep] = useState(0);
-  const [onboardingType, setOnboardingType] = useState(
-    ONBOARDING_TYPES.scratch
-  );
+  const [onboardingStep, setSetupStep] = useState(0);
+  const [onboardingType, setSetupType] = useState(SETUP_TYPES.scratch);
   const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
     allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER]
   );
@@ -108,11 +106,11 @@ const useSetup = () => {
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
     if (stepData.name === SETUP_GUIDE) {
-      if (onboardingType === ONBOARDING_TYPES.existing) {
+      if (onboardingType === SETUP_TYPES.existing) {
         logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
           action: 'setupguide_clicked'
         });
-      } else if (onboardingType === ONBOARDING_TYPES.scratch) {
+      } else if (onboardingType === SETUP_TYPES.scratch) {
         logHSTEvent(['amplitude'], 'web_events', AGNoSetupPresented, {
           action: 'setupguide_clicked'
         });
@@ -120,7 +118,7 @@ const useSetup = () => {
     }
     const { goToStep } = stepData;
     if (Number.isInteger(goToStep)) {
-      setOnboardingStep(goToStep);
+      setSetupStep(goToStep);
     }
   };
 
@@ -187,7 +185,7 @@ const useSetup = () => {
           ? 'no_setup'
           : 'have_setup'
     });
-    setOnboardingStep(1);
+    setSetupStep(1);
   };
 
   const copyCallbackFnForExistingSetup = (codeType) => {
@@ -234,14 +232,11 @@ const useSetup = () => {
 
     if (onboardingStep === 0) {
       eventName = AGSetupGuideInteracted;
-    } else if (
-      onboardingStep === 1 &&
-      onboardingType === ONBOARDING_TYPES.scratch
-    ) {
+    } else if (onboardingStep === 1 && onboardingType === SETUP_TYPES.scratch) {
       eventName = AGNoSetupInteracted;
     } else if (
       onboardingStep === 1 &&
-      onboardingType === ONBOARDING_TYPES.existing
+      onboardingType === SETUP_TYPES.existing
     ) {
       eventName = AGHaveSetupInteracted;
     }
@@ -270,11 +265,11 @@ const useSetup = () => {
   };
 
   const viewEventLogsClickHandler = () => {
-    if (onboardingType === ONBOARDING_TYPES.scratch) {
+    if (onboardingType === SETUP_TYPES.scratch) {
       logHSTEvent([''], 'web_events', AGNoSetupInteracted, {
         action: 'vieweventlogs_clicked'
       });
-    } else if (onboardingType === ONBOARDING_TYPES.existing) {
+    } else if (onboardingType === SETUP_TYPES.existing) {
       logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
         action: 'vieweventlogs_clicked'
       });
@@ -297,11 +292,11 @@ const useSetup = () => {
     }
 
     if (onboardingStep > 0) {
-      if (onboardingType === ONBOARDING_TYPES.scratch) {
+      if (onboardingType === SETUP_TYPES.scratch) {
         logHSTEvent([], 'web_events', AGNoSetupPresented);
       }
 
-      if (onboardingType === ONBOARDING_TYPES.existing) {
+      if (onboardingType === SETUP_TYPES.existing) {
         logHSTEvent([], 'web_events', AGHaveSetupPresented);
       }
     }
@@ -310,7 +305,7 @@ const useSetup = () => {
 
   useEffect(() => {
     if (selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label) {
-      setOnboardingType('scratch');
+      setSetupType('scratch');
       setBreadcrumbDataTrace([
         {
           current: false,
@@ -329,7 +324,7 @@ const useSetup = () => {
         action: 'nosetup_clicked'
       });
     } else {
-      setOnboardingType('existing');
+      setSetupType('existing');
       setBreadcrumbDataTrace([
         {
           current: false,
@@ -371,7 +366,7 @@ const useSetup = () => {
   }, [allAvailableRegionsByProvider, currentSelectedCloudProvider]);
 
   useEffect(() => {
-    markOnboardingRegionChange(
+    markSetupRegionChange(
       userDetails.id,
       currentSelectedCloudProvider.configName,
       selectedRegion
@@ -417,7 +412,7 @@ const useSetup = () => {
   }, [useTrialGridLoading]);
 
   const fetchEventsLogsData = async (type, step) => {
-    const response = await getOnboardingEventsLogsData(userDetails.id, type);
+    const response = await getSetupEventsLogsData(userDetails.id, type);
     const res = response.data;
 
     setEventLogsCode(res.currentLogs);
@@ -428,11 +423,11 @@ const useSetup = () => {
     if (
       step === 0 &&
       res.currentStep > 0 &&
-      (res.onboardingType === ONBOARDING_TYPES.scratch ||
-        res.onboardingType === ONBOARDING_TYPES.existing)
+      (res.onboardingType === SETUP_TYPES.scratch ||
+        res.onboardingType === SETUP_TYPES.existing)
     ) {
-      setOnboardingType(res.onboardingType);
-      setOnboardingStep(1);
+      setSetupType(res.onboardingType);
+      setSetupStep(1);
     }
 
     if (res.currentStep === res.totalSteps) {
@@ -442,7 +437,7 @@ const useSetup = () => {
         setIsGridSetupComplete(true);
       }, 1000);
 
-      markOnboardingStatus(userDetails.id, 'success');
+      markSetupStatus(userDetails.id, 'success');
     }
   };
 
@@ -454,8 +449,8 @@ const useSetup = () => {
   );
 
   useMountEffect(() => {
-    const fetchOnboardingData = async () => {
-      const response = await getOnboardingData(userDetails.id);
+    const fetchSetupData = async () => {
+      const response = await getSetupData(userDetails.id);
       const res = response.data;
 
       setAllAvailableRegionsByProvider(res.scratch['step-1'].regions);
@@ -464,7 +459,7 @@ const useSetup = () => {
     };
 
     if (showSetup) {
-      fetchOnboardingData();
+      fetchSetupData();
 
       if (pollForEventLogs) {
         intervalIdForEventLogs.current = EVENT_LOGS_POLLING_IN_MS;

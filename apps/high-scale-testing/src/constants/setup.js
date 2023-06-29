@@ -31,7 +31,7 @@ const HEADER_TEXTS_OBJECT = (userDetails) => ({
   existing: 'Create Automation Grid'
 });
 
-const ONBOARDING_TYPES = {
+const SETUP_TYPES = {
   scratch: 'scratch',
   existing: 'existing'
 };
@@ -57,6 +57,6 @@ export {
   CODE_SNIPPETS_SCRATCH,
   EVENT_LOGS_STATUS,
   HEADER_TEXTS_OBJECT,
-  ONBOARDING_TYPES,
+  SETUP_TYPES,
   STEP_1_RADIO_GROUP_OPTIONS
 };

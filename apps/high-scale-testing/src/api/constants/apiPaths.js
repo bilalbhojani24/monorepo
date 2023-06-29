@@ -2,18 +2,17 @@ const FETCH_CLUSTER_PATH = '/cluster';
 
 const EVENT_LOGS = '/event-logs';
 const GRID = '/grid';
-const SETUP = '/setup';
+const SETUP_PATH = '/setup';
 
 const CREATE_GRID_EVENT_LOGS_DATA_PATH = `${GRID}${EVENT_LOGS}`;
-const CREATE_TRIAL_GRID_PATH = `${SETUP}/trial-grid`;
+const CREATE_TRIAL_GRID_PATH = `${SETUP_PATH}/configure-trial-grid`;
 const FETCH_GRID_PROFILES_DATA_PATH = '/grid/profiles';
 const FETCH_GRIDS_PATH = '/grids';
 const INIT_PATH = '/init';
-const ONBOARDING_DATA_PATH = '/onboarding';
 const FETCH_CLUSTERS_PATH = '/clusters';
-const ONBOARDING_EVENT_LOGS_DATA_PATH = `${ONBOARDING_DATA_PATH}${EVENT_LOGS}`;
-const ONBOARDING_REGION_PATH = `${ONBOARDING_DATA_PATH}/region-update`;
-const ONBOARDING_STATUS_PATH = `${ONBOARDING_DATA_PATH}/status-update`;
+const SETUP_EVENT_LOGS_DATA_PATH = `${SETUP_PATH}${EVENT_LOGS}`;
+const SETUP_REGION_PATH = `${SETUP_PATH}/region-update`;
+const SETUP_STATUS_PATH = `${SETUP_PATH}/status-update`;
 const SSO_PATH = '/auth/start-sso';
 
 export {
@@ -25,9 +24,9 @@ export {
   FETCH_GRIDS_PATH,
   GRID,
   INIT_PATH,
-  ONBOARDING_DATA_PATH,
-  ONBOARDING_EVENT_LOGS_DATA_PATH,
-  ONBOARDING_REGION_PATH,
-  ONBOARDING_STATUS_PATH,
+  SETUP_EVENT_LOGS_DATA_PATH,
+  SETUP_PATH,
+  SETUP_REGION_PATH,
+  SETUP_STATUS_PATH,
   SSO_PATH
 };

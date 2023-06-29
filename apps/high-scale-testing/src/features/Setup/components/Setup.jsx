@@ -28,7 +28,7 @@ import {
 import { GRID_MANAGER_NAMES } from 'constants/index';
 import {
   EVENT_LOGS_STATUS,
-  ONBOARDING_TYPES,
+  SETUP_TYPES,
   STEP_1_RADIO_GROUP_OPTIONS
 } from 'constants/setup';
 import { CREATE_GRID } from 'constants/strings';
@@ -391,8 +391,7 @@ const Setup = () => {
               'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
               'pb-6':
                 onboardingStep === 0 ||
-                (onboardingStep === 1 &&
-                  onboardingType !== ONBOARDING_TYPES.scratch)
+                (onboardingStep === 1 && onboardingType !== SETUP_TYPES.scratch)
             }
           )}
         >
@@ -423,29 +422,24 @@ const Setup = () => {
           )}
 
           {onboardingStep === 1 &&
-            onboardingType === ONBOARDING_TYPES.scratch &&
+            onboardingType === SETUP_TYPES.scratch &&
             ListFeedsContainerComponent}
 
-          {onboardingStep === 1 &&
-            onboardingType === ONBOARDING_TYPES.existing && (
-              <>
-                <p className="text-base-900 text-sm font-semibold">
-                  Grid Setup
-                </p>
-                <p className="text-base-900 mt-1 text-sm">
-                  Execute the below commands to initialise grid creation.
-                </p>
+          {onboardingStep === 1 && onboardingType === SETUP_TYPES.existing && (
+            <>
+              <p className="text-base-900 text-sm font-semibold">Grid Setup</p>
+              <p className="text-base-900 mt-1 text-sm">
+                Execute the below commands to initialise grid creation.
+              </p>
 
-                <CodeSnippetForExistingSetup
-                  activeGridManagerCodeSnippet={activeGridManagerCodeSnippet}
-                  codeSnippetsForExistingSetup={codeSnippetsForExistingSetup}
-                  copyCallbackFnForExistingSetup={
-                    copyCallbackFnForExistingSetup
-                  }
-                  TabsForCodeSnippet={TabsForCodeSnippet}
-                />
-              </>
-            )}
+              <CodeSnippetForExistingSetup
+                activeGridManagerCodeSnippet={activeGridManagerCodeSnippet}
+                codeSnippetsForExistingSetup={codeSnippetsForExistingSetup}
+                copyCallbackFnForExistingSetup={copyCallbackFnForExistingSetup}
+                TabsForCodeSnippet={TabsForCodeSnippet}
+              />
+            </>
+          )}
         </div>
         {/* --X-- Body of Setup --X-- */}
 
@@ -478,8 +472,8 @@ const Setup = () => {
         )}
 
         {onboardingStep === 1 &&
-          (onboardingType === ONBOARDING_TYPES.scratch ||
-            onboardingType === ONBOARDING_TYPES.existing) &&
+          (onboardingType === SETUP_TYPES.scratch ||
+            onboardingType === SETUP_TYPES.existing) &&
           (((!eventLogsCode || eventLogsCode?.length === 0) && (
             <div className="bg-base-50 text-base-900 flex gap-2 px-6 py-4 text-sm">
               <div>
@@ -500,8 +494,8 @@ const Setup = () => {
               )))}
 
         {onboardingStep === 1 &&
-          (onboardingType === ONBOARDING_TYPES.scratch ||
-            onboardingType === ONBOARDING_TYPES.existing) &&
+          (onboardingType === SETUP_TYPES.scratch ||
+            onboardingType === SETUP_TYPES.existing) &&
           eventLogsCode &&
           eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
           !showGridHeartBeats && (
