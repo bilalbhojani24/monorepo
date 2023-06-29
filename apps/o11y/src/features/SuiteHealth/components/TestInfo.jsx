@@ -57,7 +57,7 @@ export default function TestInfo({ testDetails }) {
           </div>
         )}
         {testDetails?.scopeList?.length > 0 && (
-          <div className=" max-w-[250px] truncate text-sm">
+          <div className=" max-w-[400px] truncate text-sm">
             <ScopeLine scopes={testDetails?.scopeList} />
           </div>
         )}
