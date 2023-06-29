@@ -198,6 +198,7 @@ const TestCasesTable = () => {
           // 'max-w-[calc(100vw-40rem)]'
           'overflow-y-auto md:rounded-none'
         )}
+        bottomShadow={false}
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">
