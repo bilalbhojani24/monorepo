@@ -17,7 +17,7 @@ const CombinationsMenu = ({
   <O11ySelectMenu defaultValue={defaultValue} onChange={onCombinationChange}>
     <O11ySelectMenuTrigger
       placeholder="Select.."
-      wrapperClassName={twClassNames('max-w-[300px]', {
+      wrapperClassName={twClassNames('max-w-[300px] capitalize', {
         'pointer-events-none opacity-50': isLoading
       })}
     />
@@ -26,7 +26,7 @@ const CombinationsMenu = ({
         <O11ySelectMenuOptionItem
           key={item.value}
           option={item}
-          wrapperClassName="text-xs"
+          wrapperClassName="capitalize"
         />
       ))}
     </O11ySelectMenuOptionGroup>

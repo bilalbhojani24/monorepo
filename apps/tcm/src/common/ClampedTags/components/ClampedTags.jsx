@@ -50,7 +50,7 @@ const ClampedTags = ({ tagsArray, badgeModifier, noTagsText }) => {
               handleDismissClick={() => setShowModal(false)}
             />
             <TMModalBody>
-              <p className="text-base-600 mb-4 text-sm">
+              <p className="text-base-900 mb-4 text-sm">
                 Here are all the tags linked to this test run:
               </p>
               <div className="flex flex-wrap gap-4">

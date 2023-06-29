@@ -11,6 +11,10 @@ const ScreenReader = lazy(() => import('features/ScreenReader'));
 const SiteScanner = lazy(() => import('features/SiteScanner'));
 const ScanDetails = lazy(() => import('features/SiteScanner/ScanDetails'));
 const ScanReport = lazy(() => import('features/SiteScanner/ScanReport'));
+const AutomatedTestListing = lazy(() =>
+  import('features/AutomatedTest/AutomatedTestListing')
+);
+const Build = lazy(() => import('features/AutomatedTest/AutomatedTestBuild'));
 
 const Layout = (Component) => (
   <Suspense fallback={<Loader />}>
@@ -55,6 +59,16 @@ export const APP_ROUTES = [
     path: ROUTES.scanReports,
     // isProtected: true,
     component: Layout(ScanReport)
+  },
+  {
+    path: ROUTES.automatedTests,
+    // isProtected: true,
+    component: Layout(AutomatedTestListing)
+  },
+  {
+    path: ROUTES.automatedTestBuild,
+    // isProtected: true,
+    component: Layout(Build)
   },
   {
     path: ROUTES.root,

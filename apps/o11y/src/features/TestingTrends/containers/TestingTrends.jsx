@@ -8,6 +8,7 @@ import {
   MdInfoOutline
 } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
+import { GenericTooltipContent } from 'common/DataWizTooltipContent';
 import BuildRunFreqTrend from 'features/TestingTrends/containers/BuildRunFreqTrend';
 import CbtTrends from 'features/TestingTrends/containers/CbtTrends';
 import FailureCategoryTrend from 'features/TestingTrends/containers/FailureCategoryTrend';
@@ -207,12 +208,17 @@ export default function TestingTrends() {
                 analyticsWrapperClassName="h-full flex-1"
                 contentWrapperClassName="flex flex-col h-full"
                 analytics={renderDashboardCard(key)}
-                headerInfo={false}
+                headerInfo
                 headerInfoTooltipProps={{
                   content: (
-                    <div className="text-base-300 w-60 px-4 text-sm">
-                      {TREND_CARDS[key].title}
-                    </div>
+                    <GenericTooltipContent
+                      data={TREND_CARDS[key]}
+                      logCb={(trackingData) =>
+                        logTrendsInteractionEvent({
+                          interaction: trackingData
+                        })
+                      }
+                    />
                   ),
                   children: <MdInfoOutline className="h-5 w-5" />,
                   placementAlign: 'center',

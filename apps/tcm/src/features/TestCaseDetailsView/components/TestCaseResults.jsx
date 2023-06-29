@@ -102,7 +102,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
         <div className="w-full pb-8">
           {resultUpdatable && (
             <>
-              <div className="mb-4 mt-8 text-sm">
+              <div className="text-base-900 mb-4 mt-8 text-sm">
                 You can log results for this test case from the options below:
               </div>
               <div className="flex gap-4">
@@ -130,6 +130,7 @@ const TestCaseResults = ({ isFromTestRun, onResultClick, resultUpdatable }) => {
                   <TMDropdown
                     triggerClassName="rounded-tl-none rounded-bl-none focus:ring-offset-0 focus:z-10 bg-white border-l-0"
                     triggerVariant="menu-button"
+                    optionGroupWrapperClassName="w-44"
                     options={RESULTS_DROP_OPTIONS}
                     onClick={(selectedOption) =>
                       onResultClick(
