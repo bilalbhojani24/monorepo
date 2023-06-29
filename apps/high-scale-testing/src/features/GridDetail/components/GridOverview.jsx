@@ -231,10 +231,38 @@ const GridOverview = () => {
           </div>
         )}
 
-        <UserDetailsTable
-          containerClassName={containerClassName}
-          userDetails={userDetails}
-        />
+        <div className="p-6">
+          <Tooltip
+            alignOffset={10}
+            arrowPadding={10}
+            content={
+              <>
+                <TooltipHeader>{TOOLTIP_MESSAGES[1].header}</TooltipHeader>
+                <TooltipBody>
+                  <div className="flex flex-col">
+                    <div>{TOOLTIP_MESSAGES[1].content}</div>
+                    <div className="mt-4 flex flex-row gap-3">
+                      <Button>Next</Button>
+                      <Button variant="primary" colors="white">
+                        Skip tips
+                      </Button>
+                    </div>
+                  </div>
+                </TooltipBody>
+              </>
+            }
+            // eslint-disable-next-line react/jsx-boolean-value
+            defaultOpen={true}
+            placementAlign="start"
+            placementSide="right"
+            theme="dark"
+          >
+            <UserDetailsTable
+              containerClassName={containerClassName}
+              userDetails={userDetails}
+            />
+          </Tooltip>
+        </div>
       </div>
 
       {selectedGridData.isTrialGrid && (
