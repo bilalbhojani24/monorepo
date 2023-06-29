@@ -26,7 +26,7 @@ function PlanTimingBanner() {
           : `in ${bannerData.expiringInDays} day(s)`
       }`;
     }
-    return `Your Observability Pro expires ${
+    return `Your Observability Pro plan expires ${
       bannerData.expiringInDays === 0
         ? 'today'
         : `in ${bannerData.expiringInDays} day(s)`

@@ -2,7 +2,7 @@ import { getStorage } from '@browserstack/utils';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
 import { BANNER_LAST_SEEN } from 'constants/paywall';
-import { getPlanExpires } from 'globalSlice/selectors';
+import { getIsFreeUser, getPlanExpires } from 'globalSlice/selectors';
 
 import {
   getDateInFormat,
@@ -13,7 +13,9 @@ import {
 export const checkUserPlanState = () => (dispatch, getState) => {
   const state = getState();
   const planExpires = getPlanExpires(state);
-  if (planExpires) {
+  const isFreeUser = getIsFreeUser(state);
+  // show banner only if user is on a paid plan
+  if (planExpires && !isFreeUser) {
     const lastSeenOn = getStorage(BANNER_LAST_SEEN);
     const lastSeenDiff = lastSeenOn
       ? getDifferenceInDays(new Date(), new Date(lastSeenOn))
