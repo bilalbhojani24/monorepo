@@ -81,7 +81,7 @@ export default function ReportRow({ id }) {
       className="border-base-200 hover:bg-base-50 flex w-full justify-between border-b bg-white"
       onClick={onReportClick}
     >
-      <div className="xl:w-[calc(100% - 374px)] w-[calc(100% - 801px)] flex">
+      <div className="flex">
         <Checkbox
           data={{ value: name }}
           border={false}
@@ -117,10 +117,10 @@ export default function ReportRow({ id }) {
             isRounded
             text={reportType.find(({ value }) => value === testType).label}
           />
-          <p className="text-base-500 mt-1 ml-2 text-sm">{label}</p>
+          <p className="text-base-500 ml-2 mt-1 text-sm">{label}</p>
         </div>
         <div
-          className="flex flex-col items-start justify-center px-6 pt-4 pb-5"
+          className="flex flex-col items-start justify-center px-6 pb-5 pt-4"
           style={{ minWidth: '234px' }}
         >
           <p className="text-base-900 text-sm">{issues} issues</p>
