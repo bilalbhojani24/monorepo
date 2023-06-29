@@ -22,6 +22,7 @@ const GridOverview = () => {
     currentOnboardingTooltipCount,
     fontColor900ClassName,
     onboardingTooltipNextBtnHandler,
+    onboardingTooltipSkipBtnHandler,
     selectedGridData,
     showOnboardingTooltips,
     hasBrowsersUsed,
@@ -218,7 +219,11 @@ const GridOverview = () => {
                         >
                           Next
                         </Button>
-                        <Button variant="primary" colors="white">
+                        <Button
+                          onClick={onboardingTooltipSkipBtnHandler}
+                          variant="primary"
+                          colors="white"
+                        >
                           Skip tips
                         </Button>
                       </div>
@@ -262,7 +267,11 @@ const GridOverview = () => {
                       >
                         Next
                       </Button>
-                      <Button variant="primary" colors="white">
+                      <Button
+                        onClick={onboardingTooltipSkipBtnHandler}
+                        variant="primary"
+                        colors="white"
+                      >
                         Skip tips
                       </Button>
                     </div>

@@ -8,14 +8,14 @@ import {
   SidebarItem,
   SidebarNavigation,
   Tooltip,
-  TooltipHeader,
-  TooltipBody
+  TooltipBody,
+  TooltipHeader
 } from '@browserstack/bifrost';
 import { BannerMessages } from 'constants/bannerMessages';
+import { AUTOMATION_CONSOLE, BUILDS_DASHBOARD } from 'constants/strings';
 import HSTHeader from 'features/HSTHeader/component';
 
 import { useLayout } from './useLayout';
-import { AUTOMATION_CONSOLE, BUILDS_DASHBOARD } from 'constants/strings';
 
 const Layout = () => {
   const {
@@ -70,7 +70,11 @@ const Layout = () => {
                             >
                               Next
                             </Button>
-                            <Button variant="primary" colors="white">
+                            <Button
+                              onClick={item.onboardingTooltipSkipBtnHandler}
+                              variant="primary"
+                              colors="white"
+                            >
                               Skip tips
                             </Button>
                           </div>

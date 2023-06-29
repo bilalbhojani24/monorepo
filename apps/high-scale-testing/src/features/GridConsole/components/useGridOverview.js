@@ -4,16 +4,19 @@ import {
   AGGridDetailsInteracted,
   AGGridDetailsVisited
 } from 'constants/event-names';
+import {
+  setCurrentOnboardingTooltipCount,
+  setShowOnboardingTooltips
+} from 'features/GridDetail/slices';
+import {
+  getCurrentOnboardingTooltipcount,
+  getShowOnboardingTooltips
+} from 'features/GridDetail/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 import { calculateRelativeTime } from 'utils/time';
 
 import { getSelectedGridData } from '../slices/selector';
-import {
-  getCurrentOnboardingTooltipcount,
-  getShowOnboardingTooltips
-} from 'features/GridDetail/slices/selector';
-import { setCurrentOnboardingTooltipCount } from 'features/GridDetail/slices';
 
 const useGridOverview = () => {
   const dispatch = useDispatch();
@@ -52,6 +55,10 @@ const useGridOverview = () => {
     }
   };
 
+  const onboardingTooltipSkipBtnHandler = () => {
+    dispatch(setShowOnboardingTooltips(false));
+  };
+
   const hasBrowsersUsed = selectedGridData?.stats?.browsersUsed.length > 0;
   const relativeTime = calculateRelativeTime(selectedGridData?.connected);
 
@@ -67,6 +74,7 @@ const useGridOverview = () => {
     currentOnboardingTooltipCount,
     fontColor900ClassName,
     onboardingTooltipNextBtnHandler,
+    onboardingTooltipSkipBtnHandler,
     selectedGridData,
     showOnboardingTooltips,
     hasBrowsersUsed,

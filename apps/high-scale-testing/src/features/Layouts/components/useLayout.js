@@ -5,15 +5,18 @@ import { MdOutlineTextSnippet, MdWeb } from '@browserstack/bifrost';
 import AutomatioConsole from 'assets/icons/components/AutomationConsole';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
+import { AUTOMATION_CONSOLE, BUILDS_DASHBOARD } from 'constants/strings';
 import { getSelectedGridData } from 'features/GridConsole/slices/selector';
-import { getEnvConfig } from 'utils/common';
-import { logHSTEvent } from 'utils/logger';
+import {
+  setCurrentOnboardingTooltipCount,
+  setShowOnboardingTooltips
+} from 'features/GridDetail/slices';
 import {
   getCurrentOnboardingTooltipcount,
   getShowOnboardingTooltips
 } from 'features/GridDetail/slices/selector';
-import { setCurrentOnboardingTooltipCount } from 'features/GridDetail/slices';
-import { AUTOMATION_CONSOLE, BUILDS_DASHBOARD } from 'constants/strings';
+import { getEnvConfig } from 'utils/common';
+import { logHSTEvent } from 'utils/logger';
 
 const useLayout = () => {
   const dispatch = useDispatch();
@@ -45,6 +48,9 @@ const useLayout = () => {
       onboardingTooltipNextBtnhandler: () => {
         dispatch(setCurrentOnboardingTooltipCount(4));
       },
+      onboardingTooltipSkipBtnHandler: () => {
+        dispatch(setShowOnboardingTooltips(false));
+      },
       path: ROUTES.GRID_CONSOLE,
       pattern: `${ROUTES.GRID_CONSOLE}/*`
     },
@@ -57,6 +63,9 @@ const useLayout = () => {
       onboardingTooltipHeader: 'Run and view build results ',
       onboardingTooltipNextBtnhandler: () => {
         dispatch(setCurrentOnboardingTooltipCount(5));
+      },
+      onboardingTooltipSkipBtnHandler: () => {
+        dispatch(setShowOnboardingTooltips(false));
       },
       path: ROUTES.BUILDS,
       pattern: `${ROUTES.BUILDS}/*`
