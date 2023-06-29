@@ -100,7 +100,6 @@ export default function AutoAnalysisSettings() {
       failureCategoryDetectionEnabled: checked.toString()
     });
   };
-
   const handleChangeThreshold = ({ target: { value } }) => {
     const val = getNumericValue(value);
     if (val > 100) {

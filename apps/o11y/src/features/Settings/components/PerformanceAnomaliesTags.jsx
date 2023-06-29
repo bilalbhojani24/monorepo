@@ -7,6 +7,8 @@ import {
   O11ySelectMenuTrigger,
   O11ySwitcher
 } from 'common/bifrostProxy';
+import { PAYWALL_FEATURES } from 'constants/paywall';
+import { PaywallTooltip } from 'features/Paywall';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
@@ -31,7 +33,7 @@ const STATIC_EXECUTION_DROPDOWN_DATA = [
 ];
 
 export const PerformanceAnomaliesTags = forwardRef(
-  ({ data, isActive }, ref) => {
+  ({ data, isActive, docLink }, ref) => {
     const dispatch = useDispatch();
     const {
       durationPercentile,
@@ -58,11 +60,18 @@ export const PerformanceAnomaliesTags = forwardRef(
       <section className="p-6 pb-9" ref={ref}>
         <div className="flex justify-between">
           <span className="font-medium">Performance anomalies</span>
-          <O11ySwitcher
-            checked={performanceAnomaliesEnabled}
-            onChange={(value) => setPerformanceAnomalies('enabled', value)}
-            disabled={!isActive}
-          />
+          <PaywallTooltip
+            title="Configuring smart tags is a pro feature."
+            content="Configure your personalized definition of tests to be considered under performance anomaly."
+            featureKey={PAYWALL_FEATURES.SMART_TAGS}
+            docLink={docLink}
+          >
+            <O11ySwitcher
+              checked={performanceAnomaliesEnabled}
+              onChange={(value) => setPerformanceAnomalies('enabled', value)}
+              disabled={!isActive}
+            />
+          </PaywallTooltip>
         </div>
         <div className="border-b-base-300 my-3 h-1 border-b" />
         <div className="flex flex-col text-sm">
@@ -140,7 +149,8 @@ export const PerformanceAnomaliesTags = forwardRef(
 
 PerformanceAnomaliesTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
-  isActive: PropTypes.bool.isRequired
+  isActive: PropTypes.bool.isRequired,
+  docLink: PropTypes.string.isRequired
 };
 
 PerformanceAnomaliesTags.defaultProps = {
