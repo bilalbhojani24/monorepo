@@ -18,8 +18,6 @@ import Loader from 'common/Loader';
 import dateFormat from 'dateformat';
 import PropTypes from 'prop-types';
 
-import { getDashboardWidth } from '../../../utils';
-
 import { pageStatus } from './constants';
 
 const columns = [
@@ -65,7 +63,7 @@ const ScanLogs = ({ isLoading, logs, onFilterApplied, selected }) => {
         className="fixed overflow-y-auto pb-28"
         style={{
           height: 'calc(100vh - 228px)',
-          width: `calc(${getDashboardWidth()})`
+          width: 'calc(100vw - 256px)'
         }}
       >
         <Table containerWrapperClass="md:rounded-none shadow border-t border-base-200">
