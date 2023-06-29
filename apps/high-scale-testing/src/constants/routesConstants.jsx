@@ -11,9 +11,12 @@ import GeneralSettings from 'features/GridSettings/components/GeneralSettings';
 import TestArtifactsSettings from 'features/GridSettings/components/TestArtifactsSettings';
 import TimeoutSettings from 'features/GridSettings/components/TimeoutSettings';
 import GridSettings from 'features/GridSettings/container/GridSettings';
-import { Layout, LayoutWOSidebar } from 'features/Layouts';
-import LayoutClusterDetail from 'features/Layouts/components/LayoutClusterDetail';
-import LayoutGridDetail from 'features/Layouts/components/LayoutGridDetail';
+import {
+  Layout,
+  LayoutClusterDetail,
+  LayoutGridDetail,
+  LayoutWOSidebar
+} from 'features/Layouts';
 import { Setup } from 'features/Setup';
 
 import ROUTES from './routes';
