@@ -3,10 +3,11 @@ import { useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { SidebarItem } from '@browserstack/bifrost';
 import { ROUTE_PATH_KEYS, ROUTES } from 'constants/routes';
-import { getActiveProject } from 'globalSlice/selectors';
+import { PlanTypeBadge } from 'features/Paywall';
+import { getActiveProject, getIsOnFreemium } from 'globalSlice/selectors';
 import { getPageUrlByMapping } from 'utils/routeUtils';
 
-const getNav = ({ projectNormalisedName }) => [
+const getNav = ({ projectNormalisedName, isOnFreemium }) => [
   {
     id: 'general',
     label: 'General',
@@ -27,7 +28,8 @@ const getNav = ({ projectNormalisedName }) => [
       projectNormalisedName,
       ROUTE_PATH_KEYS.settings_alerts
     ),
-    pattern: ROUTES.settings_alerts
+    pattern: ROUTES.settings_alerts,
+    badge: isOnFreemium ? <PlanTypeBadge /> : null
   },
   {
     id: 'smart_tags',
@@ -38,7 +40,8 @@ const getNav = ({ projectNormalisedName }) => [
       projectNormalisedName,
       ROUTE_PATH_KEYS.settings_smart_tags
     ),
-    pattern: ROUTES.smart_tags
+    pattern: ROUTES.smart_tags,
+    badge: isOnFreemium ? <PlanTypeBadge /> : null
   },
   {
     id: 'auto_analyser',
@@ -60,7 +63,8 @@ const getNav = ({ projectNormalisedName }) => [
       projectNormalisedName,
       ROUTE_PATH_KEYS.settings_failure_categories
     ),
-    pattern: ROUTES.settings_failure_categories
+    pattern: ROUTES.settings_failure_categories,
+    badge: isOnFreemium ? <PlanTypeBadge /> : null
   },
   {
     id: 're_run',
@@ -87,6 +91,7 @@ const getNav = ({ projectNormalisedName }) => [
 ];
 
 export default function SettingsSidebar() {
+  const isOnFreemium = useSelector(getIsOnFreemium);
   const activeProject = useSelector(getActiveProject);
   const location = useLocation();
   const navigate = useNavigate();
@@ -96,24 +101,25 @@ export default function SettingsSidebar() {
   };
   return (
     // eslint-disable-next-line tailwindcss/no-arbitrary-value
-    <aside className="sticky top-0 max-w-[250px] flex-1 shrink-0 pr-8">
-      {getNav({ projectNormalisedName: activeProject.normalisedName }).map(
-        (item) => (
-          <SidebarItem
-            key={item.id}
-            nav={item}
-            current={
-              !!matchPath(
-                {
-                  path: item.pattern
-                },
-                location.pathname
-              )
-            }
-            handleNavigationClick={onLinkChange}
-          />
-        )
-      )}
+    <aside className="sticky top-0 min-w-[250px] max-w-[250px] flex-1 shrink-0 pr-8">
+      {getNav({
+        projectNormalisedName: activeProject.normalisedName,
+        isOnFreemium
+      }).map((item) => (
+        <SidebarItem
+          key={item.id}
+          nav={item}
+          current={
+            !!matchPath(
+              {
+                path: item.pattern
+              },
+              location.pathname
+            )
+          }
+          handleNavigationClick={onLinkChange}
+        />
+      ))}
     </aside>
   );
 }

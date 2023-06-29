@@ -495,6 +495,7 @@ importers:
       '@types/react-dom': 18.0.9
       '@vitejs/plugin-react': 2.2.0
       axios: 1.2.2
+      canvas-confetti: 1.6.0
       classnames: 2.2.6
       date-fns: 2.29.3
       highcharts: 10.3.3
@@ -535,6 +536,7 @@ importers:
       '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
+      canvas-confetti: 1.6.0
       classnames: 2.2.6
       date-fns: 2.29.3
       highcharts: 10.3.3
@@ -13953,7 +13955,7 @@ packages:
   /@types/node-fetch/2.6.4:
     resolution: {integrity: sha512-1ZX9fcN4Rvkvgv4E6PAY5WXUFWFcRWxZa3EW83UjycOB9ljJCedb2CupIP4RZMEwF/M3eTcCihbBRgwtGbg5Rg==}
     dependencies:
-      '@types/node': 16.18.37
+      '@types/node': 20.3.2
       form-data: 3.0.1
     dev: true
 
