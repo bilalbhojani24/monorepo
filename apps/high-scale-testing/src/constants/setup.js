@@ -41,15 +41,15 @@ const STEP_1_RADIO_GROUP_OPTIONS = [
     description:
       'Create Automation Grid from scratch. Choose this option to create a new grid with a new Kubernetes Cluster.',
     disabled: false,
-    id: 'radio-1',
-    label: "No, I don't have a setup."
+    primaryLabel: "No, I don't have a setup.",
+    value: 1
   },
   {
     description:
       'Create Automation Grid in the existing setup. Choose this option to create a grid in your existing Kubernetes Cluster.',
     disabled: false,
-    id: 'radio-2',
-    label: 'Yes, I have a setup.'
+    primaryLabel: 'Yes, I have a setup.',
+    value: 2
   }
 ];
 

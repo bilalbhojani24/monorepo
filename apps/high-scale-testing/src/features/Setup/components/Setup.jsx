@@ -10,8 +10,8 @@ import {
   MdCampaign,
   MdOutlineOpenInNew,
   PageHeadings,
+  RadioCardItem,
   RadioGroup,
-  RadioStackedCard,
   SelectMenu,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
@@ -401,15 +401,24 @@ const Setup = () => {
               <h3 className="text-base-900 mb-2 flex gap-x-2 text-base font-medium leading-6">
                 Do you have an existing Kubernetes setup?
               </h3>
-              <RadioStackedCard
+              <RadioGroup
                 placement="vertical"
+                type="stackedCard"
                 data={STEP_1_RADIO_GROUP_OPTIONS}
                 onChange={(e) => {
                   const newlySelectedRadioButton =
                     STEP_1_RADIO_GROUP_OPTIONS.find((elem) => elem.id === e.id);
                   setSelectedOption(newlySelectedRadioButton);
                 }}
-              />
+              >
+                {STEP_1_RADIO_GROUP_OPTIONS.map((option) => (
+                  <RadioCardItem
+                    key={option.value}
+                    option={option}
+                    disabled={option.disabled}
+                  />
+                ))}
+              </RadioGroup>
             </>
           )}
 
