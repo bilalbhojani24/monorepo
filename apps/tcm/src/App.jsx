@@ -12,6 +12,7 @@ import setupInterceptors from 'api/_utils/interceptor';
 import { getLatestQuickImportConfigAPI } from 'api/import.api';
 import { TMHeader } from 'common/bifrostProxy';
 import FreshChatWidget from 'common/TMChatWidget';
+import AppRoute from 'const/routes';
 import ProgressNotification from 'features/ImportProgress/components/ProgressNotification';
 import ViewReportModal from 'features/ImportProgress/components/ViewReportModal';
 import { IMPORT_STATUS } from 'features/ImportProgress/const/immutables';
@@ -121,7 +122,7 @@ function App() {
 
   return (
     <>
-      <TMHeader />
+      {location.pathname !== AppRoute.REQUEST_ACCESS && <TMHeader />}
 
       <div className="bg-base-50 flex h-screen items-stretch pt-16">
         {/* Only if user is logged in proceed */}

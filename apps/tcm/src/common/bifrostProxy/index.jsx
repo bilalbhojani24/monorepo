@@ -29,7 +29,6 @@ import {
   Popover,
   PopoverBody,
   ProgressBar,
-  RadioGroup,
   SectionHeadings,
   Slideover,
   SlideoverHeader,
@@ -57,6 +56,7 @@ import TMHeader from './components/TMHeader';
 import TMInputWButton from './components/TMInputWButton';
 import TMPageHeadings from './components/TMPageHeadings';
 import TMPagination from './components/TMPagination';
+import TMRadioGroup from './components/TMRadioGroup';
 import TMRichTextEditor from './components/TMRichTextEditor';
 import TMSelectMenu from './components/TMSelectMenu';
 import TMTooltip from './components/TMTooltip';
@@ -98,7 +98,6 @@ export const TMTooltipBody = (props) => <TooltipBody {...props} />;
 export const TMTooltipHeader = (props) => <TooltipHeader {...props} />;
 
 export const TMSteps = (props) => <Steps {...props} />;
-export const TMRadioGroup = (props) => <RadioGroup {...props} />;
 export const TMCheckBox = (props) => <Checkbox {...props} />;
 export const TMBanner = (props) => <Banner {...props} />;
 
@@ -142,6 +141,7 @@ export {
   TMInputWButton,
   TMPageHeadings,
   TMPagination,
+  TMRadioGroup,
   TMRichTextEditor,
   TMSelectMenu,
   TMTooltip,

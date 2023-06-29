@@ -1,6 +1,6 @@
 import React from 'react';
 import RequestAccessImage from 'assets/images/RequestAccessImage.webp';
-import { TMModal, TMModalBody } from 'common/bifrostProxy';
+import { TMHeader, TMModal, TMModalBody } from 'common/bifrostProxy';
 import TMCTACard from 'common/bifrostProxy/components/TMCTACard';
 
 import useRequestAccessModal from './useRequestAccessModal';
@@ -17,6 +17,7 @@ const RequestAccessModal = () => {
 
   return (
     <TMModal show={!userHasAccess} size="3xl">
+      <TMHeader wrapperClassName="left-0 fixed top-0" />
       <TMModalBody className="px-0">
         <TMCTACard
           header={
