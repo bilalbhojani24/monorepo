@@ -131,6 +131,10 @@ const defaultConfig = {
       option: { type: 'string' },
       defaultValue: ''
     },
+    isSticky: {
+      option: { type: 'boolean' },
+      defaultValue: false
+    },
     tableWrapperClass: {
       option: { type: 'string' },
       defaultValue: ''
@@ -767,6 +771,7 @@ StickyHeaderTable.args = {
       </TableBody>
     </>
   ),
+  isSticky: true,
   containerWrapperClass: 'overflow-visible overflow-x-visible md:rounded-none'
 };
 // Sticky Header Table end
