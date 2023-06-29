@@ -24,62 +24,35 @@ export default function CustomChartTooltip({
   const dispatch = useDispatch();
   const isLocked = false;
 
-  const transformOsString = (item) => {
-    const os = item.trim();
-    let str = `${os}_`;
-    if (os.includes('OS X')) {
-      const temp = os.split(' ');
-      if (temp.length > 2) {
-        str = `${temp[0]} ${temp[1]}_${temp[2]}`;
-      } else {
-        str = `${temp[0]} ${temp[1]}_`;
-      }
-    }
-    return str;
-  };
-
-  const applySearchParam = (searchParams, browserList, osList) => {
-    searchParams.set(ADV_FILTER_TYPES.browserList.key, browserList);
-    searchParams.set(ADV_FILTER_TYPES.osList.key, osList);
-  };
-
-  // Note: Added this to Match Filter values on Test Details for CBT Trends
   const setDrillDownData = (searchParams) => {
-    if (!tooltipData[0].options.drillDownData) {
-      const browser = tooltipData[0].userOptions.id.split(',')[0];
-      const os = transformOsString(tooltipData[0].userOptions.id.split(',')[1]);
-      const browserVersion = tooltipData[0].options.name.split(',')[0];
-      applySearchParam(searchParams, `${browser}_${browserVersion}`, os);
-
-      return;
-    }
-    if (header.split(',')[0] === 'Unknown') {
-      searchParams.set(ADV_FILTER_TYPES.osList.key, 'Unknown_Unknown');
-      return;
+    let drillDownItem = [];
+    if (tooltipData[0].options.drillDownData) {
+      drillDownItem = tooltipData[0].options.drillDownData.find(
+        (item) => item.id === tooltipData[0].options.drilldown
+      )?.data;
+    } else {
+      drillDownItem.push(tooltipData[0].options);
     }
 
-    const drillItem = tooltipData[0].options.drillDownData.find(
-      (item) =>
-        item.id ===
-        (tooltipData[0].options.drilldown || tooltipData[0].options.name)
-    )?.data;
-    const browserListWithVersion = drillItem?.map((item) => {
-      if (header.split(',')[1]) {
-        return `${header.split(',')[0]}_${item.name.split(',')[0]}`;
-      }
-      return `${item.name.split(' ').join('_')}`;
+    let browsers = [];
+    let os = [];
+    let deviceList = [];
+    drillDownItem.forEach((el) => {
+      browsers.push(el.browser);
+      os.push(el.os);
+      deviceList.push(el.device);
     });
 
-    if (header.split(',')[1]) {
-      const str = transformOsString(header.split(',')[1]);
-      applySearchParam(
-        searchParams,
-        browserListWithVersion.join(',') || header.split(',')[0],
-        str
-      );
-      return;
-    }
-    searchParams.set(ADV_FILTER_TYPES.deviceList.key, header.split(',')[0]);
+    browsers = [...new Set(browsers)];
+    os = [...new Set(os)];
+    deviceList = [...new Set(deviceList)];
+
+    if (browsers.length > 0)
+      searchParams.set(ADV_FILTER_TYPES.browserList.key, browsers.join(','));
+    if (os.length > 0)
+      searchParams.set(ADV_FILTER_TYPES.osList.key, os.join(','));
+    if (deviceList.length > 0)
+      searchParams.set(ADV_FILTER_TYPES.deviceList.key, deviceList.join(','));
   };
 
   const handleActionClick = () => {

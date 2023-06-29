@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   ComboBox,
+  ComboboxLabel,
   ComboboxOptionGroup,
   ComboboxOptionItem,
   ComboboxTrigger,
@@ -13,7 +14,6 @@ import PropTypes from 'prop-types';
 
 import { fetchOptionsThunk } from '../../../api';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
-import Label from '../Label';
 import { FieldType, SingleValueSelectRawOptionType } from '../types';
 
 const NestedSingleValueSelect = ({
@@ -217,8 +217,9 @@ const NestedSingleValueSelect = ({
         isLoadingRight={areOptionsLoading}
         onOpenChange={handleOpen}
         noOptionsText={noOptionsTextForParent}
+        isMandatory={required}
       >
-        <Label label={label} required={required} />
+        <ComboboxLabel>{label}</ComboboxLabel>
         <ComboboxTrigger
           placeholder={placeholder}
           wrapperClassName={wrapperClassName}

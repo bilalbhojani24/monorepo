@@ -12,10 +12,14 @@ const defaultConfig = {
       page: () => (
         <DocPageTemplate
           importStatement={
-            "import ProductSidenav from 'bifrost/ProductSidenav'"
+            "import { ProductSidenav } from '@browserstack/webex'"
           }
         />
       )
+    },
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/Q1Gb1tXdo227C99VLfHwz0/Navigation-for-Signed-out-%26-Signed-In?node-id=1817%3A345181&mode=dev'
     }
   },
   argTypes: {

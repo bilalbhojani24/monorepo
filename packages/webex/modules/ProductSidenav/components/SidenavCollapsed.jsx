@@ -35,7 +35,7 @@ const SidenavCollapsed = ({ activeProduct, activeTab }) => {
     <div className={twClassNames('flex flex-col items-center p-0 w-full')}>
       <div
         className={twClassNames(
-          'flex flex-row justify-center items-start pt-3.5 pr-6 pb-1 pl-[26px] w-full'
+          'flex flex-row justify-center items-start pt-5 pr-6 pb-2.5 pl-[26px] w-full'
         )}
       >
         <span className={twClassNames('w-1 h-1 rounded-full bg-base-500')} />
@@ -51,18 +51,18 @@ const SidenavCollapsed = ({ activeProduct, activeTab }) => {
     <>
       <div
         className={twClassNames(
-          'flex justify-center items-start pt-1.5 px-2 pb-0 w-full'
+          'flex justify-center items-start pt-1.5 pl-2 pr-[7px] pb-0 w-full'
         )}
       >
         <div
           className={twClassNames(
-            'flex items-center p-[3px] bg-base-50 rounded border border-solid border-base-300 w-full'
+            'flex items-center p-0.5 bg-base-50 rounded border border-solid border-base-300 w-full'
           )}
         >
           <button
             type="button"
             className={twClassNames(
-              'flex justify-center items-center bg-[#15803D] rounded py-[9px] px-[7x] shadow-sm w-full'
+              'flex justify-center items-center bg-[#15803D] rounded px-[9px] py-[7px] shadow-sm w-full'
             )}
             aria-label={activeTab === 'web' ? 'web products' : 'app products'}
           >

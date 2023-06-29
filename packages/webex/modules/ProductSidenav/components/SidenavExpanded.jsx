@@ -1,5 +1,5 @@
 import React from 'react';
-import { twClassNames } from '@browserstack/utils';
+import { logEvent, twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 import {
@@ -18,6 +18,20 @@ const SidenavExpanded = ({
   onTabClick,
   purchasedProducts
 }) => {
+  const getProductClick = (product) => () => {
+    logEvent([], 'web_events', 'HoveredOnSideNav', {
+      source: 'Homepage_Demo_CTA_Exp4',
+      action: `${activeTab === 'web' ? 'Web' : 'App'} Testing Main Navigation`,
+      group: `Product ${activeTab === 'web' ? 'Web' : 'App'} Testing`,
+      location: 'Left Navigation',
+      url: window.location.href,
+      product: activeProduct,
+      'signed-in': true,
+      'Properties-source': activeProduct,
+      Properties_Destination: product.name
+    });
+  };
+
   const productElementContainer = (product) => {
     const isActiveProduct = product.identifier === activeProduct;
     return (
@@ -30,6 +44,7 @@ const SidenavExpanded = ({
           }
         )}
         href={product.link}
+        onClick={getProductClick(product)}
       >
         <span>
           {product.icon({
@@ -76,6 +91,19 @@ const SidenavExpanded = ({
       </div>
     </>
   );
+
+  const getTabClick = (type) => () => {
+    onTabClick(type);
+    logEvent([], 'web_events', 'ClickedOnSideNav', {
+      source: 'Homepage_Demo_CTA_Exp4',
+      location: 'Left Navigation',
+      action: `${type === 'web' ? 'Web' : 'App'} Testing Main Navigation`,
+      group: `Product ${type === 'web' ? 'Web' : 'App'} Testing`,
+      url: window.location.href,
+      team: activeProduct
+    });
+  };
+
   return (
     <>
       <div
@@ -85,7 +113,7 @@ const SidenavExpanded = ({
       >
         <div
           className={twClassNames(
-            'box-border flex flex-row items-center p-[3px] w-[228px] h-9 bg-base-50 gap-1 border border-solid border-base-300'
+            'box-border flex flex-row items-center rounded py-[3px] px-0.5 w-[228px] h-9 bg-base-50 gap-1 border border-solid border-base-300'
           )}
         >
           <button
@@ -96,7 +124,7 @@ const SidenavExpanded = ({
                 'bg-[#15803D]': activeTab === 'web'
               }
             )}
-            onClick={() => onTabClick('web')}
+            onClick={getTabClick('web')}
           >
             <span>
               <WebIcon iconColor={activeTab === 'web' ? 'white' : null} />
@@ -121,7 +149,7 @@ const SidenavExpanded = ({
                 'bg-[#15803D]': activeTab === 'app'
               }
             )}
-            onClick={() => onTabClick('app')}
+            onClick={getTabClick('app')}
           >
             <span>
               <AppIcon iconColor={activeTab === 'app' ? 'white' : null} />
