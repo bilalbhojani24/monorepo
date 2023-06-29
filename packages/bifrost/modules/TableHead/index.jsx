@@ -3,7 +3,7 @@ import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const TableHead = ({ children, wrapperClassName }) => (
-  <thead className={twClassNames('bg-base-50', wrapperClassName)}>
+  <thead className={twClassNames('bg-white', wrapperClassName)}>
     {children}
   </thead>
 );
