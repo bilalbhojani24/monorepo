@@ -115,7 +115,7 @@ const SidenavExpanded = ({
       >
         <div
           className={twClassNames(
-            'box-border flex flex-row items-center p-[3px] w-[228px] h-9 bg-base-50 gap-1 border border-solid border-base-300'
+            'box-border flex flex-row items-center rounded py-[3px] px-0.5 w-[228px] h-9 bg-base-50 gap-1 border border-solid border-base-300'
           )}
         >
           <button
