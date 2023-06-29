@@ -78,7 +78,7 @@ export const logOllyEvent = ({ event, data = {} }) => {
       window.matchMedia &&
       window.matchMedia('(prefers-color-scheme: dark)').matches,
     headerScalabilityExperimentValue: headerScalability,
-    headerScalabilityExperimentEnabled: !!headerScalability
+    headerScalabilityExperimentEnabled: headerScalability === 'true'
   };
   if (
     !isSuperUser &&
