@@ -49,7 +49,7 @@ const TestCasesTable = () => {
       name: 'ID',
       key: 'identifier',
       class: 'w-[10%]',
-      bodyClass: '[&>div]:w-[88px]',
+      bodyClass: '[&>div]:w-[80px]',
       cell: (rowData) => (
         <div
           role="button"
@@ -77,7 +77,7 @@ const TestCasesTable = () => {
       name: 'TITLE',
       key: 'name',
       class: 'w-[65%]',
-      bodyClass: '[&>div]:w-[calc(100vw-970px)]',
+      bodyClass: '[&>div]:w-[calc(100vw-1030px)]',
       cell: (rowData) => (
         <div
           role="button"
