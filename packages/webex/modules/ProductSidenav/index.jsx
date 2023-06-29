@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { getPurchasedProducts } from './api/userData';
 import SidenavCollapsed from './components/SidenavCollapsed';
 import SidenavExpanded from './components/SidenavExpanded';
+import { WEB_PRODUCTS } from './const/productConstant';
 
 const cookieUtils = new CookieUtils();
 
@@ -48,6 +49,11 @@ const ProductSidenav = ({ activeProduct }) => {
     fetchPurchasedProducts();
   });
 
+  const handleSidenavLeave = () => {
+    setExpanded(false);
+    setActiveTab(WEB_PRODUCTS.includes(activeProduct) ? 'web' : 'app');
+  };
+
   const handleTabClick = (selectedTab) => {
     setActiveTab(selectedTab);
   };
@@ -77,10 +83,10 @@ const ProductSidenav = ({ activeProduct }) => {
           }
         )}
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={() => setExpanded(false)}
+        onMouseLeave={handleSidenavLeave}
         onFocus={() => setExpanded(true)}
         onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget)) setExpanded(false);
+          if (!e.currentTarget.contains(e.relatedTarget)) handleSidenavLeave();
         }}
       >
         {expanded ? (
