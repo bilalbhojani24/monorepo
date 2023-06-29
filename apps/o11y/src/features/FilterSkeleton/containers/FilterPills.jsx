@@ -1,16 +1,19 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { twClassNames } from '@browserstack/utils';
 import { O11yBadge } from 'common/bifrostProxy';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 
-import { ADV_FILTER_TYPES, FILTER_OPERATION_TYPE } from '../constants';
+import { FILTER_OPERATION_TYPE } from '../constants';
 import {
   clearAllAppliedFilters,
   setAppliedFilter
 } from '../slices/filterSlice';
-import { getAllAppliedFilters, getIsFiltersLoading } from '../slices/selectors';
+import {
+  getIsFiltersLoading,
+  getSlideoverFiltersApplied
+} from '../slices/selectors';
 
 const FilterPills = ({
   rightNode,
@@ -21,7 +24,7 @@ const FilterPills = ({
   const dispatch = useDispatch();
 
   const isFilterLoading = useSelector(getIsFiltersLoading);
-  const appliedFilters = useSelector(getAllAppliedFilters);
+  const appliedFilters = useSelector(getSlideoverFiltersApplied());
   const handleRemoveTag = (item) => {
     dispatch(
       setAppliedFilter({
@@ -38,19 +41,7 @@ const FilterPills = ({
     onRemoveAll();
   };
 
-  const allAppliedFilters = useMemo(
-    () =>
-      appliedFilters.filter(
-        (appFilter) =>
-          ![
-            ADV_FILTER_TYPES.search.key,
-            ADV_FILTER_TYPES.dateRange.key
-          ].includes(appFilter.type)
-      ),
-    [appliedFilters]
-  );
-
-  if (isFilterLoading || isEmpty(allAppliedFilters)) {
+  if (isFilterLoading || isEmpty(appliedFilters)) {
     return null;
   }
   return (
@@ -65,7 +56,7 @@ const FilterPills = ({
           <span className="text-base-500  text-sm leading-5">Filters</span>
         </div>
         <div className="flex flex-wrap gap-x-2 gap-y-1">
-          {allAppliedFilters.map((appliedFilter) => (
+          {appliedFilters.map((appliedFilter) => (
             <O11yBadge
               key={appliedFilter.id}
               text={appliedFilter.appliedText}

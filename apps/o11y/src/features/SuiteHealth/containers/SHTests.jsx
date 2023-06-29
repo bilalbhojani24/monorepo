@@ -1,13 +1,23 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { MdSearchOff } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState } from 'common/bifrostProxy';
+import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
-import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import {
+  ADV_FILTER_TYPES,
+  FILTER_CATEGORIES
+} from 'features/FilterSkeleton/constants';
 import {
   clearAllAppliedFilters,
   resetFilters
@@ -212,6 +222,15 @@ export default function SHTests() {
     dispatch(clearAllAppliedFilters());
   };
 
+  const appliedFilterExceptDate = useMemo(
+    () =>
+      appliedFilters.filter(
+        (appFilter) =>
+          ![ADV_FILTER_TYPES.dateRange.key].includes(appFilter.type)
+      ),
+    [appliedFilters]
+  );
+
   return (
     <div className={twClassNames('flex flex-col h-full overflow-hidden')}>
       <div className={twClassNames('mb-4 px-6 pt-5')}>
@@ -229,18 +248,22 @@ export default function SHTests() {
                   'flex items-center justify-center h-full'
                 )}
               >
-                <O11yEmptyState
-                  title="No matching results found"
-                  description="We couldn't find the results you were looking for."
-                  mainIcon={
-                    <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
-                  }
-                  buttonProps={{
-                    children: 'View all tests',
-                    onClick: handleViewAll,
-                    size: 'default'
-                  }}
-                />
+                {isEmpty(appliedFilterExceptDate) ? (
+                  <EmptyPage text="No data found" />
+                ) : (
+                  <O11yEmptyState
+                    title="No matching results found"
+                    description="We couldn't find the results you were looking for."
+                    mainIcon={
+                      <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                    }
+                    buttonProps={{
+                      children: 'View all tests',
+                      onClick: handleViewAll,
+                      size: 'default'
+                    }}
+                  />
+                )}
               </div>
             ) : (
               <div className="h-full w-full px-6">
