@@ -8,7 +8,7 @@ function PaywallFeatureCard({ illustration, title, desc, learnMoreLink }) {
   const IllustrationComponent = illustration;
   return (
     <div className="border-base-200 relative rounded-md border shadow">
-      <CTACard isDismissable={false} wrapperClassName="shadow-none">
+      <CTACard isDismissable={false} wrapperClassName="shadow-none bg-white">
         <CTACardContent header={title} description={desc}>
           <PaywallCTACardActions
             showTextOnSubmit
