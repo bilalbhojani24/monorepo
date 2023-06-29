@@ -18,7 +18,7 @@ function JiraTag({ url, status, tagClickCb, wrapperClassName }) {
         colors="white"
         size="extra-small"
         onClick={handleJiraLinkClick}
-        wrapperClassName={twClassNames(wrapperClassName, 'py-0.5 px-2 flex')}
+        wrapperClassName={twClassNames(wrapperClassName, 'py-1 px-2 flex')}
       >
         <span className="flex items-center gap-1">
           <JiraIcon className="h-4 w-4" />
@@ -30,6 +30,7 @@ function JiraTag({ url, status, tagClickCb, wrapperClassName }) {
               hasDot={false}
               isRounded={false}
               text={status}
+              wrapperClassName="pointer-events-none"
             />
           )}
         </span>

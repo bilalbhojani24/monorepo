@@ -48,7 +48,7 @@ function JiraTagList({
         colors="white"
         size="extra-small"
         icon={<JiraArrowIcon className="h-4 w-4" />}
-        wrapperClassName={twClassNames(wrapperClassName, 'py-0.5 px-2 flex')}
+        wrapperClassName={twClassNames('py-1.5 px-2 flex', wrapperClassName)}
       >
         {list?.length} Jira issue{list?.length > 1 ? 's' : ''}
       </O11yButton>

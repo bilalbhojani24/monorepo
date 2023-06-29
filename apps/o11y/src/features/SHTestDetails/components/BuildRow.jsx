@@ -53,7 +53,11 @@ const BuildRow = ({ buildData }) => (
         <div className="flex flex-wrap items-center gap-1">
           {Array.isArray(buildData?.jiraDetails) && (
             <PropagationBlocker className="inline">
-              <JiraTagList list={buildData.jiraDetails || []} showInToolTip />
+              <JiraTagList
+                list={buildData.jiraDetails || []}
+                showInToolTip
+                wrapperClassName="py-0.5"
+              />
             </PropagationBlocker>
           )}
           <PropagationBlocker className="flex flex-col gap-1">
