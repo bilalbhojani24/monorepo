@@ -5,6 +5,7 @@ module.exports = {
   content: [
     'src/**/*.{js,jsx}',
     './node_modules/@browserstack/bifrost/dist/*.{js,jsx}',
-    './node_modules/@browserstack/growth/dist/*.{js,jsx}'
+    './node_modules/@browserstack/growth/dist/*.{js,jsx}',
+    './node_modules/@browserstack/webex/dist/*.{js,jsx}'
   ]
 };

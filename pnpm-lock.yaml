@@ -37,6 +37,9 @@ importers:
       '@browserstack/utils':
         specifier: 2.1.0
         version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+      '@browserstack/webex':
+        specifier: workspace:*
+        version: link:../../packages/webex
       '@emotion/react':
         specifier: 11.10.5
         version: 11.10.5(@babel/core@7.20.12)(@types/react@18.0.26)(react@18.2.0)
@@ -840,8 +843,8 @@ importers:
   apps/tcm:
     dependencies:
       '@browserstack/bifrost':
-        specifier: 7.4.1
-        version: 7.4.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
+        specifier: 9.3.0
+        version: 9.3.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
       '@browserstack/growth':
         specifier: workspace:*
         version: link:../../packages/growth
@@ -4833,54 +4836,6 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost@7.4.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
-    resolution: {integrity: sha512-jd61Mynzw6Lj13BzMM/VjiztQuqTVrJIa2Y8ocQ5CFnVi2uN/+SIBFg1v+/WaMcw63zGz7nmbK1CbLbfn/jr3w==, tarball: download/@browserstack/bifrost/7.4.1/f83fc4669314904b7c6df2692d91832659ca1a89}
-    peerDependencies:
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0
-      react-router-dom: 6.6.1
-    dependencies:
-      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
-      '@browserstack/utils': 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
-      '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
-      '@heroicons/react': 2.0.13(react@18.2.0)
-      '@internationalized/date': 3.1.0
-      '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
-      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
-      '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-aria: 3.23.1(react-dom@18.2.0)(react@18.2.0)
-      react-dom: 18.2.0(react@18.2.0)
-      react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
-      react-hot-toast: 2.4.0(csstype@3.1.2)(react-dom@18.2.0)(react@18.2.0)
-      react-icons: 4.7.1(react@18.2.0)
-      react-player: 2.12.0(react@18.2.0)
-      react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
-      react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
-      react-stately: 3.21.0(react@18.2.0)
-      react-syntax-highlighter: 15.5.0(react@18.2.0)
-    transitivePeerDependencies:
-      - '@juggle/resize-observer'
-      - '@reduxjs/toolkit'
-      - '@sentry/react'
-      - '@sentry/tracing'
-      - '@types/react'
-      - amplitude-js
-      - axios
-      - csstype
-      - dexie
-      - enzyme
-      - lodash
-      - react-ga4
-      - react-redux
-      - redux-mock-store
-      - socket.io-client
-      - uuid
-    dev: false
-
   /@browserstack/bifrost@8.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
     resolution: {integrity: sha512-RdNlmTf/Ie4kb/Z4f9hMPMwDqFzDwkzu7SASAOhvReacy2xN8IOVKzQXQL7C+/HvxHrWkmAu6KkW3MlyR8EXTg==, tarball: download/@browserstack/bifrost/8.2.0/eb5534372ff0843b3680d5f2e39135a24d3b401b}
     peerDependencies:
@@ -5222,6 +5177,58 @@ packages:
 
   /@browserstack/bifrost@9.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
     resolution: {integrity: sha512-ML2fOu8oUJ32diJNk27mJ3CGuh+NYgR9ux78krgvBZtQy7jJYuapIIA0NyRHwRX0eEbapq9DcxxD2teH95rZjg==, tarball: download/@browserstack/bifrost/9.2.0/14bb629c414fb7224541ee3a8c7c40afea6e6a80}
+    peerDependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-router-dom: 6.6.1
+    dependencies:
+      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
+      '@browserstack/utils': 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+      '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
+      '@heroicons/react': 2.0.13(react@18.2.0)
+      '@internationalized/date': 3.1.0
+      '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-radio-group': 1.1.2(react-dom@18.2.0)(react@18.2.0)
+      '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
+      '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
+      '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-aria: 3.23.1(react-dom@18.2.0)(react@18.2.0)
+      react-dom: 18.2.0(react@18.2.0)
+      react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+      react-hot-toast: 2.4.0(csstype@3.1.2)(react-dom@18.2.0)(react@18.2.0)
+      react-icons: 4.8.0(react@18.2.0)
+      react-pdf: 6.2.2(react-dom@18.2.0)(react@18.2.0)
+      react-player: 2.12.0(react@18.2.0)
+      react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
+      react-stately: 3.21.0(react@18.2.0)
+      react-syntax-highlighter: 15.5.0(react@18.2.0)
+    transitivePeerDependencies:
+      - '@juggle/resize-observer'
+      - '@reduxjs/toolkit'
+      - '@sentry/react'
+      - '@sentry/tracing'
+      - '@types/react'
+      - amplitude-js
+      - axios
+      - csstype
+      - dexie
+      - enzyme
+      - file-loader
+      - lodash
+      - react-ga4
+      - react-redux
+      - redux-mock-store
+      - socket.io-client
+      - uuid
+      - worker-loader
+    dev: false
+
+  /@browserstack/bifrost@9.3.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
+    resolution: {integrity: sha512-DfuQE6pe04f3Hk3p7HrNOSAgXd0WQL6s+7/vS96LfSmGSokplzucuBNxNohPchxEUMQMYB7ioQGe3+VCdzSfzw==, tarball: download/@browserstack/bifrost/9.3.0/86acd007fb97cad0baea8c7cbf05a8e688f7ae03}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
