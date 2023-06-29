@@ -43,6 +43,7 @@ const useLayoutGridDetail = () => {
     index: 0,
     name: 'Overview'
   });
+  const [showNewGridCreatedModal, setShowNewGridCreatedModal] = useState(false);
 
   const onTabChangeHandler = (e) => {
     logHSTEvent(['amplitude'], 'web_events', AGGridDetailsInteracted, {
@@ -127,7 +128,13 @@ const useLayoutGridDetail = () => {
     }
   );
 
-  return { fetchedGridData, gridData, onTabChangeHandler, currentTab };
+  return {
+    currentTab,
+    fetchedGridData,
+    gridData,
+    onTabChangeHandler,
+    showNewGridCreatedModal
+  };
 };
 
 export default useLayoutGridDetail;

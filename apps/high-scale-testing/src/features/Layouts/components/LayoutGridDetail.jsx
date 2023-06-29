@@ -10,8 +10,13 @@ import ROUTES from '../../../constants/routes';
 import useLayoutGridDetail from './useLayoutGridDetail';
 
 const LayoutGridDetail = () => {
-  const { fetchedGridData, gridData, onTabChangeHandler, currentTab } =
-    useLayoutGridDetail();
+  const {
+    currentTab,
+    fetchedGridData,
+    gridData,
+    onTabChangeHandler,
+    showNewGridCreatedModal
+  } = useLayoutGridDetail();
 
   const TabsForGridDetail = (
     <Tabs
@@ -57,8 +62,8 @@ const LayoutGridDetail = () => {
           <Outlet />
 
           {gridData.status === 'expired' && <ModalTrialGridExpired />}
-          {gridData.status === 'disconnected' && <ModalGridDisconnected />}
-          <ModalGridCreatedSuccessfully />
+          {gridData.status === 'offline' && <ModalGridDisconnected />}
+          {showNewGridCreatedModal && <ModalGridCreatedSuccessfully />}
         </>
       )}
 
