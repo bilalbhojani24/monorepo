@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Draggable, Resizable } from '@browserstack/bifrost';
-import { useResizeObserver } from '@browserstack/hooks';
+import { useResizeObserver, useWindowSize } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { setWidgetHeight as setWidgetHeightInRedux } from '../../slices/widgetSlice';
@@ -12,15 +12,12 @@ import { getWidgetRenderPosition } from './helpers';
 const DraggableResizable = ({ children, position, positionRef }) => {
   const dispatch = useDispatch();
   const widgetRef = useRef(null);
-  const [windowDimensions, setWindowDimensions] = useState({
-    height: window.innerHeight,
-    width: window.innerWidth
-  });
+  const windowDimensions = useWindowSize();
 
   const widgetResizeObserver = useResizeObserver(widgetRef);
   // additional 16 px space for easy access to grab and use resize handle
-  const windowHeight = windowDimensions.height - 16;
-  const windowWidth = windowDimensions.width - 16;
+  const windowHeight = windowDimensions.height ?? window.innerHeight - 16;
+  const windowWidth = windowDimensions.width ?? window.innerWidth - 16;
 
   // initial widget height should be 90% of the window height
   // multiply by 0.9 to get 90% of the windowHeight
@@ -34,20 +31,6 @@ const DraggableResizable = ({ children, position, positionRef }) => {
   });
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
-
-  useEffect(() => {
-    const onWindowResize = () => {
-      setWindowDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth
-      });
-    };
-
-    window.addEventListener('resize', onWindowResize, true);
-    return () => {
-      window.removeEventListener('resize', onWindowResize);
-    };
-  }, []);
 
   useEffect(() => {
     setRefAquired(true);
