@@ -17,6 +17,7 @@ import { issueTypes } from 'constants';
 import formatDistance from 'date-fns/formatDistance';
 import PropTypes from 'prop-types';
 import { logEvent } from 'utils/logEvent';
+
 export default function AutomatedTestList({ buildList, comboboxItems }) {
   const navigate = useNavigate();
   const now = new Date();
@@ -40,7 +41,7 @@ export default function AutomatedTestList({ buildList, comboboxItems }) {
       )}/${buildNumber}`
     );
     logEvent('InteractedWithAutomatedTestsHomepageView', {
-      action: 'View documentation'
+      action: 'Open build'
     });
   };
 
