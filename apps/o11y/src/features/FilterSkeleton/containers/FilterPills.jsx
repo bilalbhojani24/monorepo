@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 import { FILTER_OPERATION_TYPE } from '../constants';
 import {
-  clearAllAppliedFilters,
+  clearAllAppliedFiltersFromSlideover,
   setAppliedFilter
 } from '../slices/filterSlice';
 import {
@@ -37,7 +37,7 @@ const FilterPills = ({
   };
 
   const handleRemoveAll = () => {
-    dispatch(clearAllAppliedFilters());
+    dispatch(clearAllAppliedFiltersFromSlideover());
     onRemoveAll();
   };
 
