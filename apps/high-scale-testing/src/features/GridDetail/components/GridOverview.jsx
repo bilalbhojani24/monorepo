@@ -1,8 +1,15 @@
 import React from 'react';
-import { Badge } from '@browserstack/bifrost';
+import {
+  Badge,
+  Button,
+  Tooltip,
+  TooltipBody,
+  TooltipHeader
+} from '@browserstack/bifrost';
 import browserIcons from 'constants/browserIcons';
 
 import { useGridOverview } from '../../GridConsole/components/useGridOverview';
+import { TOOLTIP_MESSAGES } from '../constants';
 
 import FrameworksTable from './FramworksTable';
 import TestOnStaging from './TestOnStaging';
@@ -190,11 +197,38 @@ const GridOverview = () => {
 
       <div className="flex flex-row">
         {frameworks?.length && (
-          <FrameworksTable
-            containerClassName={containerClassName}
-            copyBtnCbFn={copyBtnCbFn}
-            frameworks={frameworks}
-          />
+          <div className="p-6">
+            <Tooltip
+              alignOffset={10}
+              arrowPadding={10}
+              content={
+                <>
+                  <TooltipHeader>{TOOLTIP_MESSAGES[0].header}</TooltipHeader>
+                  <TooltipBody>
+                    <div className="flex flex-col">
+                      <div>{TOOLTIP_MESSAGES[0].content}</div>
+                      <div className="mt-4 flex flex-row gap-3">
+                        <Button>Next</Button>
+                        <Button variant="primary" colors="white">
+                          Skip tips
+                        </Button>
+                      </div>
+                    </div>
+                  </TooltipBody>
+                </>
+              }
+              // eslint-disable-next-line react/jsx-boolean-value
+              defaultOpen={true}
+              placementSide="right"
+              theme="dark"
+            >
+              <FrameworksTable
+                containerClassName={containerClassName}
+                copyBtnCbFn={copyBtnCbFn}
+                frameworks={frameworks}
+              />
+            </Tooltip>
+          </div>
         )}
 
         <UserDetailsTable
