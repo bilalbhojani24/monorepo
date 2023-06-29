@@ -19,7 +19,6 @@ const SidenavExpanded = ({
   purchasedProducts
 }) => {
   const getProductClick = (product) => () => {
-    // TODO: add args here
     logEvent([], 'web_events', 'HoveredOnSideNav', {
       source: 'Homepage_Demo_CTA_Exp4',
       action: `${activeTab === 'web' ? 'Web' : 'App'} Testing Main Navigation`,
@@ -95,7 +94,6 @@ const SidenavExpanded = ({
 
   const getTabClick = (type) => () => {
     onTabClick(type);
-    // TODO: add args here
     logEvent([], 'web_events', 'ClickedOnSideNav', {
       source: 'Homepage_Demo_CTA_Exp4',
       location: 'Left Navigation',
