@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Loader, PageHeadings, Tabs } from '@browserstack/bifrost';
+import { ModalTrialGridExpired } from 'features/GridDetail/components/ModalTrialGridExpired';
 
 import ROUTES from '../../../constants/routes';
 
@@ -52,6 +53,8 @@ const LayoutGridDetail = () => {
           </div>
 
           <Outlet />
+
+          <ModalTrialGridExpired />
         </>
       )}
 
