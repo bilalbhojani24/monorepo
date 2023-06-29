@@ -350,7 +350,7 @@ export default function TextLogItem({ data, searchText }) {
             )}
           </div>
         </div>
-        <div className="flex items-center">
+        <div className="flex shrink-0 items-center">
           {!!data?.duration && <LogItemDuration duration={data.duration} />}
           <LogTypeIcon logType={data.logType} />
         </div>

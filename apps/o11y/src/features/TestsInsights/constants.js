@@ -1,45 +1,92 @@
+/* eslint-disable sonarjs/no-duplicate-string */
+import { DOC_KEY_MAPPING } from 'constants/common';
+import { ROUTE_PATH_KEYS } from 'constants/routes';
+
 export const cards = {
   buildSummary: {
-    title: 'Build Summary'
+    title: 'Build Summary',
+    tooltipText:
+      'Summary of all test cases or BDD scenarios and their status in the run.'
   },
   buildHistory: {
-    title: 'Build History'
+    title: 'Build History',
+    tooltipText: 'Summary of this build across last 10 runs.'
   },
   alerts: {
-    title: 'Alerts'
+    title: 'Alerts',
+    tooltipText: 'Configure multiple alerts on important quality metrics.'
   },
   alwaysFailing: {
     title: 'Always failing',
-    showMore: true
+    showMore: true,
+    tooltipText: 'Number of tests that have been failing consistently.',
+    cta: 'Configure',
+    ctaUrl: ROUTE_PATH_KEYS.settings_smart_tags,
+    isInternalLink: true,
+    trackingData: 'AlwaysFailingTooltipCTAClicked'
   },
   newFailures: {
     title: 'New failures',
-    showMore: true
+    showMore: true,
+    tooltipText:
+      'Number of tests that have failed for the first time in a while.',
+    cta: 'Configure',
+    ctaUrl: ROUTE_PATH_KEYS.settings_smart_tags,
+    isInternalLink: true,
+    trackingData: 'NewFailuresTooltipCTAClicked'
   },
   buildStability: {
     title: 'Build stability',
-    showMore: true
+    showMore: true,
+    tooltipText:
+      'Stability trends of the build signifying the passing rate of tests run in a build.'
   },
   flakiness: {
     title: 'Flakiness',
-    showMore: true
+    showMore: true,
+    tooltipText: 'Number of flaky tests in this run as per definition.',
+    cta: 'Configure',
+    ctaUrl: ROUTE_PATH_KEYS.settings_smart_tags,
+    isInternalLink: true,
+    trackingData: 'FlakinessTooltipCTAClicked'
   },
   mutedTests: {
     minH: 1,
-    title: 'Muted tests'
+    title: 'Muted tests',
+    tooltipText: 'Number of tests that are in muted state.',
+    cta: 'Learn more',
+    ctaUrl: DOC_KEY_MAPPING.mute,
+    isDocUrl: true,
+    trackingData: 'MutedTestsTooltipCTAClicked'
   },
   failureCategories: {
     title: 'Failure Categories',
-    showMore: true
+    showMore: true,
+    tooltipText:
+      'Machine Learning based automatic categorization of test failures.',
+    cta: 'Learn more',
+    ctaUrl: DOC_KEY_MAPPING.auto_analyser,
+    isDocUrl: true,
+    trackingData: 'FailureCategoryTooltipCTAClicked'
   },
   reRunSummary: {
-    title: 'Run Summary'
+    title: 'Run Summary',
+    tooltipText:
+      'Summary of all the runs clubbed in this build. It includes all re-runs and merged runs triggered from multiple CI machines. Learn more about merging multiple runs and creating one single report.',
+    cta: 'Learn more',
+    ctaUrl: DOC_KEY_MAPPING.re_run,
+    isDocUrl: true,
+    trackingData: 'RunSummaryTooltipCTAClicked'
   },
   topErrors: {
-    title: 'Unique Errors'
+    title: 'Unique Errors',
+    tooltipText:
+      'Automatic analysis of unique errors responsible for overall test failures. Use this widget to bulk-tag failure categories for common-cause test failures.'
   },
   failuresByFolders: {
-    title: 'Failures by Folders'
+    title: 'Failures by Folders',
+    tooltipText:
+      'Drilldown-able heatmap of different folders/modules in the test suite showing failure rate. Size of a folder represents the number of tests inside it.'
   }
 };
 

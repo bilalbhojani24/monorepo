@@ -32,10 +32,10 @@ const PlatformRow = ({ buildData }) => (
             buildData?.browserDevice?.device.name
           )}
           text={
-            buildData?.browserDevice.device.name
+            buildData?.browserDevice?.device?.name
               ? buildData?.browserDevice.device.name
-              : `${capitalize(buildData?.browserDevice.name)} ${
-                  buildData?.browserDevice.version
+              : `${capitalize(buildData?.browserDevice?.name)} ${
+                  buildData?.browserDevice?.version
                 }`
           }
           size="large"

@@ -33,12 +33,12 @@ import useScanDetails from './useScanDetails';
 export const tabsArray = [
   {
     name: 'Overview',
-    icon: () => <MdBarChart className="mt-0.5 mr-2" />,
+    icon: () => <MdBarChart className="mr-2 mt-0.5" />,
     id: 'OVERVIEW'
   },
   {
     name: 'Scan runs',
-    icon: () => <MdOutlineTableChart className="mt-0.5 mr-2" />,
+    icon: () => <MdOutlineTableChart className="mr-2 mt-0.5" />,
     id: 'SCANRUNS'
   }
 ];
@@ -161,20 +161,24 @@ const ScanDetails = () => {
             </div>
           </div>
           <div className="flex items-center">
-            {scanRunDataCommon?.nextScanDate &&
-              userInfo.user_id === scanRunDataCommon?.createdBy?.id && (
+            {!scanRunDataCommon?.isProcessing && (
+              <Button
+                colors="white"
+                onClick={handleNewScanRun}
+                size="small"
+                type="subtle"
+                icon={<MdAdd className="text-xl" />}
+                iconPlacement="start"
+                wrapperClassName="h-10 mr-2"
+              >
+                New scan run
+              </Button>
+            )}
+
+            {scanRunDataCommon?.active &&
+              scanRunDataCommon?.recurring &&
+              userInfo?.user_id === scanRunDataCommon?.createdBy?.id && (
                 <>
-                  <Button
-                    colors="white"
-                    onClick={handleNewScanRun}
-                    size="small"
-                    type="subtle"
-                    icon={<MdAdd className="text-xl" />}
-                    iconPlacement="start"
-                    wrapperClassName="h-10 mr-2"
-                  >
-                    New scan run
-                  </Button>
                   <Button
                     colors="white"
                     onClick={() => setStopModal(true)}
