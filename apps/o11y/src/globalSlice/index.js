@@ -66,7 +66,8 @@ const { actions, reducer } = createSlice({
     initData: {
       isLoading: true,
       data: null
-    }
+    },
+    planDetails: null
   },
   reducers: {
     setProjectList: (state, { payload }) => {
@@ -93,6 +94,9 @@ const { actions, reducer } = createSlice({
     },
     setHasProductInitFailed: (state, { payload }) => {
       state.hasProductInitFailed = payload;
+    },
+    updatePlanDetails: (state, { payload }) => {
+      state.planDetails = payload;
     },
     setHeaderSize: (state, { payload }) => {
       state.headerSize = payload;
@@ -185,6 +189,9 @@ const { actions, reducer } = createSlice({
           isLoading: false,
           data: payload
         };
+        if (!isEmpty(payload?.userDetails?.planDetails)) {
+          state.planDetails = payload.userDetails.planDetails;
+        }
       });
   }
 });
@@ -195,6 +202,7 @@ export const {
   setHasAcceptedTnC,
   updateProjectList,
   setHasProductInitFailed,
+  updatePlanDetails,
   setHeaderSize,
   addActiveFloatingComponent,
   removeActiveFloatingComponent,
