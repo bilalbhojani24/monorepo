@@ -65,7 +65,7 @@ const UploadFile = () => {
   }, [projectId]);
 
   return (
-    <div className="w-4/5 max-w-7xl">
+    <div className="w-4/5 max-w-4xl">
       {csvUploadError && (
         <div className="mb-3">
           <TMAlerts
@@ -97,7 +97,7 @@ const UploadFile = () => {
         />
         <div
           className={twClassNames('mt-5 mb-2', {
-            'text-sm font-medium text-base-500': fileConfig?.fileName
+            'text-sm font-medium text-base-900': fileConfig?.fileName
           })}
         >
           {fileConfig?.fileName ? 'Uploaded CSV:' : 'Upload File:'}

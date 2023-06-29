@@ -15,13 +15,13 @@ import {
 } from '@browserstack/bifrost';
 import { O11yButton } from 'common/bifrostProxy';
 import { DOC_KEY_MAPPING, EXTERNAL_LINKS } from 'constants/common';
-import { ROUTES } from 'constants/routes';
+import { ROUTE_PATH_KEYS, ROUTES } from 'constants/routes';
 import { hideIntegrationsWidget } from 'features/IntegrationsWidget/utils';
 import { getActiveProject, getHeaderSize } from 'globalSlice/selectors';
 import { getDocUrl, getExternalUrl, logOllyEvent } from 'utils/common';
 import {
+  getPageUrlByMapping,
   getProjectBuildsPath,
-  getSettingsPath,
   getSuitHealthTestsPath,
   getSuitHealthUniqueErrorsPath,
   getTestingTrendPath,
@@ -68,7 +68,10 @@ const getPrimaryNav = ({ projectNormalisedName }) => [
     label: 'Settings',
     activeIcon: MdOutlineSettings,
     inActiveIcon: MdOutlineSettings,
-    path: getSettingsPath(projectNormalisedName, 'general'),
+    path: getPageUrlByMapping(
+      projectNormalisedName,
+      ROUTE_PATH_KEYS.settings_general
+    ),
     pattern: `${ROUTES.settings}/*`
   }
 ];

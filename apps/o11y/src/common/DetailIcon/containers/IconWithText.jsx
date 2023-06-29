@@ -48,7 +48,7 @@ const IconWithText = ({
       <IconComponent className={`h-4 w-4 ${getIconSizeClass()} ${iconClass}`} />
       {!openTextInTooltip && (
         <div
-          className={`text-base-500 overflow-hidden text-ellipsis font-normal leading-5 ${textClass}`}
+          className={`text-base-500 overflow-hidden text-ellipsis font-normal capitalize leading-5 ${textClass}`}
         >
           {text}
         </div>

@@ -77,7 +77,9 @@ const useMapFields = () => {
     ...DEFAULT_TABLE_DROPDOWN_OPTIONS,
     ...defaultOptions,
     ...customOptions
-  ]; // all display options
+  ].map((item) =>
+    item.value === ADD_VALUE_VALUE ? { ...item, divider: true } : item
+  ); // all display options and set divider for ignore option
 
   const defaultNameToDisplayMapper = mapFieldsConfig.defaultFields.reduce(
     (mapObject, field) => {
@@ -221,7 +223,10 @@ const useMapFields = () => {
       setMapFieldModalConfig({
         field: actualName,
         mapped_field: value,
-        show: true
+        show: true,
+        fieldMeta: mapFieldsConfig?.defaultFields?.find(
+          (item) => item?.name === value
+        )
       })
     );
     dispatch(setSingleFieldValueMapping(valueMappings[actualName]));

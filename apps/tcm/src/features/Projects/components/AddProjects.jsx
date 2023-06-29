@@ -65,14 +65,16 @@ const AddProjects = ({ show, onClose, isFirstProject }) => {
             }}
           />
         </div>
-        <TMTextArea
-          label="Description"
-          placeholder="Write in brief about the project"
-          value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.currentTarget.value })
-          }
-        />
+        <div className="pb-1">
+          <TMTextArea
+            label="Description"
+            placeholder="Write in brief about the project"
+            value={formData.description}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.currentTarget.value })
+            }
+          />
+        </div>
       </TMModalBody>
       <TMModalFooter position="right">
         <TMButton
