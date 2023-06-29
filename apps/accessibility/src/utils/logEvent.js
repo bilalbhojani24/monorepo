@@ -78,7 +78,9 @@ export const getCookieByKeyName = (key) => {
 export const logEvent = (name, data = {}, skipLoggingKeys = []) => {
   const product = 'accessibility';
   const experimentValue = {
-    experimentValue: cookieUtils.read('header_scalability')
+    experiments: {
+      header_scalability: cookieUtils.read('header_scalability')
+    }
   };
   const analyticsPayload = { ...data, ...experimentValue };
   analyticsPayload.event_name = name;
@@ -98,7 +100,9 @@ export const startLogging = () => {
   const keys = getLoggersKeys();
   initLogger(keys);
   const experimentValue = {
-    experimentValue: cookieUtils.read('header_scalability')
+    experiments: {
+      header_scalability: cookieUtils.read('header_scalability')
+    }
   };
   if (eventQueue.length) {
     eventQueue.forEach(({ name, data, skipLoggingKeys }) => {
