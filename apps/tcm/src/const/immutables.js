@@ -14,3 +14,5 @@ export const moveFolderOptions = [
     label: 'Root Folder'
   }
 ];
+
+export const PRODUCT_NAV_IDENTIFIER = 'Test Management';
