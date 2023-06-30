@@ -1,4 +1,3 @@
-import { cookieUtils as CookieUtils } from '@browserstack/utils';
 import { ENVS, PROD_API_URL } from 'constants';
 
 export const getConfigByKey = (key) => {
@@ -93,13 +92,4 @@ export const getBrowserStackBase = () => {
     baseURL = 'https://www.browserstack.com';
   }
   return baseURL;
-};
-
-const cookieUtils = new CookieUtils();
-export const getDashboardWidth = () => {
-  const headerScalability = cookieUtils.read('header_scalability');
-  if (headerScalability === 'true') {
-    return '100vw - 256px - 57px';
-  }
-  return '100vw - 256px';
 };

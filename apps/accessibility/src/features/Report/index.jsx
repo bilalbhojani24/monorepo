@@ -17,8 +17,6 @@ import format from 'date-fns/format';
 import { getReportData } from 'features/Report/slice/selector';
 import { downloadCsv } from 'utils/helper';
 
-import { getDashboardWidth } from '../../utils';
-
 import Issues from './components/Issues';
 import Summary from './components/Summary';
 import useReport from './useReport';
@@ -68,7 +66,7 @@ export default function Report() {
     <div className="bg-base-50 h-full">
       <div
         className="bg-base-50 border-base-200 fixed top-16 z-[9] border-b"
-        style={{ width: `calc(${getDashboardWidth()})` }}
+        style={{ width: 'calc(100vw - 256px)' }}
       >
         <div className="px-6 pt-6">
           <Breadcrumb

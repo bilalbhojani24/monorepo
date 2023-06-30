@@ -268,6 +268,21 @@ const updateTestsFilterFields = (data, dispatch, additionalData) => {
             );
           break;
         }
+        case ADV_FILTER_TYPES.jiraStatus.key: {
+          if (applied[appliedKey]?.length) {
+            applied[appliedKey].forEach((item) => {
+              updatedSelectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: ADV_FILTER_TYPES.jiraStatus.key
+                })
+              );
+            });
+          }
+          break;
+        }
         default:
           break;
       }

@@ -1,3 +1,2 @@
-import JiraTag from './containers/JiraTag';
-
-export default JiraTag;
+export { default as JiraTag } from './containers/JiraTag';
+export { default as JiraTagList } from './containers/JiraTagList';

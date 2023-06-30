@@ -165,7 +165,6 @@ function WidgetLayoutCard({
                         <O11yBadge
                           modifier="warn"
                           hasRemoveButton={false}
-                          isRounded={false}
                           text={`${singleBuildData.filterCount}/${singleBuildData.value} Flaky`}
                           wrapperClassName="mr-1"
                           onClick={() =>

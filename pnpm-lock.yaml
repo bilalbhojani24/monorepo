@@ -37,9 +37,6 @@ importers:
       '@browserstack/utils':
         specifier: 2.1.0
         version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
-      '@browserstack/webex':
-        specifier: workspace:*
-        version: link:../../packages/webex
       '@emotion/react':
         specifier: 11.10.5
         version: 11.10.5(@babel/core@7.20.12)(@types/react@18.0.26)(react@18.2.0)
@@ -681,7 +678,7 @@ importers:
         version: 9.0.4(stylelint@14.16.0)
       stylelint-config-standard-scss:
         specifier: latest
-        version: 9.0.0(postcss@8.4.21)(stylelint@14.16.0)
+        version: 10.0.0(postcss@8.4.21)(stylelint@14.16.0)
       stylelint-prettier:
         specifier: ^2.0.0
         version: 2.0.0(prettier@2.8.1)(stylelint@14.16.0)
@@ -724,6 +721,9 @@ importers:
       axios:
         specifier: 1.2.2
         version: 1.2.2
+      canvas-confetti:
+        specifier: 1.6.0
+        version: 1.6.0
       classnames:
         specifier: 2.2.6
         version: 2.2.6
@@ -823,7 +823,7 @@ importers:
         version: 9.0.4(stylelint@14.16.0)
       stylelint-config-standard-scss:
         specifier: latest
-        version: 9.0.0(postcss@8.4.20)(stylelint@14.16.0)
+        version: 10.0.0(postcss@8.4.20)(stylelint@14.16.0)
       stylelint-prettier:
         specifier: 2.0.0
         version: 2.0.0(prettier@2.8.1)(stylelint@14.16.0)
@@ -1442,8 +1442,8 @@ importers:
   packages/integrations:
     dependencies:
       '@browserstack/bifrost':
-        specifier: 9.2.0
-        version: 9.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
+        specifier: 8.8.0
+        version: 8.8.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1)
       '@browserstack/hooks':
         specifier: workspace:*
         version: link:../hooks
@@ -5123,21 +5123,20 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost@9.1.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
-    resolution: {integrity: sha512-hsxnH6hrH84X4KlCPShYQ+Q9O/2VMoPSGjXVvQzwuAdNB9aeKpl4hFyzanPUd6UaHQtl1839c0iM25ErunP+SQ==, tarball: download/@browserstack/bifrost/9.1.0/8a4841cee8728111292f89c4fcb074d21a3cf55d}
+  /@browserstack/bifrost@8.8.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
+    resolution: {integrity: sha512-vTY/hXjwDcv4TftOHPaKsxhTAe4TvvI2JfF8100IMCL411CJLc1fc3yGfrQTzx00ZCWMw7sF1ArIp6sd9f046Q==, tarball: download/@browserstack/bifrost/8.8.0/d8ff94dafee7dccae67599f01612995efb27dbf3}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
+      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
       '@browserstack/utils': 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
       '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
       '@heroicons/react': 2.0.13(react@18.2.0)
       '@internationalized/date': 3.1.0
       '@radix-ui/react-popover': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
-      '@radix-ui/react-radio-group': 1.1.2(react-dom@18.2.0)(react@18.2.0)
       '@radix-ui/react-tooltip': 1.0.2(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)
       '@react-aria/overlays': 3.13.0(react-dom@18.2.0)(react@18.2.0)
       '@tinymce/tinymce-react': 4.3.0(react-dom@18.2.0)(react@18.2.0)
@@ -5148,7 +5147,6 @@ packages:
       react-draggable: 4.4.5(react-dom@18.2.0)(react@18.2.0)
       react-hot-toast: 2.4.0(csstype@3.1.2)(react-dom@18.2.0)(react@18.2.0)
       react-icons: 4.8.0(react@18.2.0)
-      react-pdf: 6.2.2(react-dom@18.2.0)(react@18.2.0)
       react-player: 2.12.0(react@18.2.0)
       react-resizable: 3.0.4(react-dom@18.2.0)(react@18.2.0)
       react-router-dom: 6.6.1(react-dom@18.2.0)(react@18.2.0)
@@ -5165,25 +5163,23 @@ packages:
       - csstype
       - dexie
       - enzyme
-      - file-loader
       - lodash
       - react-ga4
       - react-redux
       - redux-mock-store
       - socket.io-client
       - uuid
-      - worker-loader
     dev: false
 
-  /@browserstack/bifrost@9.2.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
-    resolution: {integrity: sha512-ML2fOu8oUJ32diJNk27mJ3CGuh+NYgR9ux78krgvBZtQy7jJYuapIIA0NyRHwRX0eEbapq9DcxxD2teH95rZjg==, tarball: download/@browserstack/bifrost/9.2.0/14bb629c414fb7224541ee3a8c7c40afea6e6a80}
+  /@browserstack/bifrost@9.1.0(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(@types/react@18.0.26)(amplitude-js@8.21.4)(axios@1.2.2)(csstype@3.1.2)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-ga4@2.0.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(socket.io-client@2.5.0)(uuid@8.3.1):
+    resolution: {integrity: sha512-hsxnH6hrH84X4KlCPShYQ+Q9O/2VMoPSGjXVvQzwuAdNB9aeKpl4hFyzanPUd6UaHQtl1839c0iM25ErunP+SQ==, tarball: download/@browserstack/bifrost/9.1.0/8a4841cee8728111292f89c4fcb074d21a3cf55d}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.9.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@8.0.5)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
+      '@browserstack/hooks': 0.3.1(@juggle/resize-observer@3.3.1)(@reduxjs/toolkit@1.7.1)(dexie@3.2.2)(enzyme@3.11.0)(lodash@4.17.21)(prop-types@15.8.1)(react-dom@18.2.0)(react-redux@7.2.1)(react-router-dom@6.6.1)(react@18.2.0)(redux-mock-store@1.5.4)(uuid@8.3.1)
       '@browserstack/utils': 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
       '@headlessui/react': 1.7.5(react-dom@18.2.0)(react@18.2.0)
       '@heroicons/react': 2.0.13(react@18.2.0)
@@ -31285,8 +31281,8 @@ packages:
     dependencies:
       stylelint: 14.16.0
 
-  /stylelint-config-recommended-scss@11.0.0(postcss@8.4.20)(stylelint@14.16.0):
-    resolution: {integrity: sha512-EDghTDU7aOv2LTsRZvcT1w8mcjUaMhuy+t38iV5I/0Qiu6ixdkRwhLEMul3K/fnB2v9Nwqvb3xpvJfPH+HduDw==}
+  /stylelint-config-recommended-scss@12.0.0(postcss@8.4.20)(stylelint@14.16.0):
+    resolution: {integrity: sha512-5Bb2mlGy6WLa30oNeKpZvavv2lowJUsUJO25+OA68GFTemlwd1zbFsL7q0bReKipOSU3sG47hKneZ6Nd+ctrFA==}
     peerDependencies:
       postcss: ^8.3.3
       stylelint: ^15.5.0
@@ -31298,11 +31294,11 @@ packages:
       postcss-scss: 4.0.6(postcss@8.4.20)
       stylelint: 14.16.0
       stylelint-config-recommended: 12.0.0(stylelint@14.16.0)
-      stylelint-scss: 4.7.0(stylelint@14.16.0)
+      stylelint-scss: 5.0.1(stylelint@14.16.0)
     dev: true
 
-  /stylelint-config-recommended-scss@11.0.0(postcss@8.4.21)(stylelint@14.16.0):
-    resolution: {integrity: sha512-EDghTDU7aOv2LTsRZvcT1w8mcjUaMhuy+t38iV5I/0Qiu6ixdkRwhLEMul3K/fnB2v9Nwqvb3xpvJfPH+HduDw==}
+  /stylelint-config-recommended-scss@12.0.0(postcss@8.4.21)(stylelint@14.16.0):
+    resolution: {integrity: sha512-5Bb2mlGy6WLa30oNeKpZvavv2lowJUsUJO25+OA68GFTemlwd1zbFsL7q0bReKipOSU3sG47hKneZ6Nd+ctrFA==}
     peerDependencies:
       postcss: ^8.3.3
       stylelint: ^15.5.0
@@ -31314,7 +31310,7 @@ packages:
       postcss-scss: 4.0.6(postcss@8.4.21)
       stylelint: 14.16.0
       stylelint-config-recommended: 12.0.0(stylelint@14.16.0)
-      stylelint-scss: 4.7.0(stylelint@14.16.0)
+      stylelint-scss: 5.0.1(stylelint@14.16.0)
     dev: true
 
   /stylelint-config-recommended-scss@9.0.1(postcss@8.4.20)(stylelint@14.16.0):
@@ -31363,6 +31359,36 @@ packages:
       stylelint: 14.16.0
     dev: true
 
+  /stylelint-config-standard-scss@10.0.0(postcss@8.4.20)(stylelint@14.16.0):
+    resolution: {integrity: sha512-bChBEo1p3xUVWh/wenJI+josoMk21f2yuLDGzGjmKYcALfl2u3DFltY+n4UHswYiXghqXaA8mRh+bFy/q1hQlg==}
+    peerDependencies:
+      postcss: ^8.3.3
+      stylelint: ^15.5.0
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+    dependencies:
+      postcss: 8.4.20
+      stylelint: 14.16.0
+      stylelint-config-recommended-scss: 12.0.0(postcss@8.4.20)(stylelint@14.16.0)
+      stylelint-config-standard: 33.0.0(stylelint@14.16.0)
+    dev: true
+
+  /stylelint-config-standard-scss@10.0.0(postcss@8.4.21)(stylelint@14.16.0):
+    resolution: {integrity: sha512-bChBEo1p3xUVWh/wenJI+josoMk21f2yuLDGzGjmKYcALfl2u3DFltY+n4UHswYiXghqXaA8mRh+bFy/q1hQlg==}
+    peerDependencies:
+      postcss: ^8.3.3
+      stylelint: ^15.5.0
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+    dependencies:
+      postcss: 8.4.21
+      stylelint: 14.16.0
+      stylelint-config-recommended-scss: 12.0.0(postcss@8.4.21)(stylelint@14.16.0)
+      stylelint-config-standard: 33.0.0(stylelint@14.16.0)
+    dev: true
+
   /stylelint-config-standard-scss@7.0.1(postcss@8.4.20)(stylelint@14.16.0):
     resolution: {integrity: sha512-m5sRdtsB1F5fnC1Ozla7ryftU47wVpO+HWd+JQTqeoG0g/oPh5EfbWfcVHbNCEtuoHfALIySiUWS20pz2hX6jA==}
     peerDependencies:
@@ -31391,36 +31417,6 @@ packages:
       stylelint: 14.16.0
       stylelint-config-recommended-scss: 9.0.1(postcss@8.4.21)(stylelint@14.16.0)
       stylelint-config-standard: 30.0.1(stylelint@14.16.0)
-
-  /stylelint-config-standard-scss@9.0.0(postcss@8.4.20)(stylelint@14.16.0):
-    resolution: {integrity: sha512-yPKpJsrZn4ybuQZx/DkEHuCjw7pJginErE/47dFhCnrvD48IJ4UYec8tSiCuJWMA3HRjbIa3nh5ZeSauDGuVAg==}
-    peerDependencies:
-      postcss: ^8.3.3
-      stylelint: ^15.5.0
-    peerDependenciesMeta:
-      postcss:
-        optional: true
-    dependencies:
-      postcss: 8.4.20
-      stylelint: 14.16.0
-      stylelint-config-recommended-scss: 11.0.0(postcss@8.4.20)(stylelint@14.16.0)
-      stylelint-config-standard: 33.0.0(stylelint@14.16.0)
-    dev: true
-
-  /stylelint-config-standard-scss@9.0.0(postcss@8.4.21)(stylelint@14.16.0):
-    resolution: {integrity: sha512-yPKpJsrZn4ybuQZx/DkEHuCjw7pJginErE/47dFhCnrvD48IJ4UYec8tSiCuJWMA3HRjbIa3nh5ZeSauDGuVAg==}
-    peerDependencies:
-      postcss: ^8.3.3
-      stylelint: ^15.5.0
-    peerDependenciesMeta:
-      postcss:
-        optional: true
-    dependencies:
-      postcss: 8.4.21
-      stylelint: 14.16.0
-      stylelint-config-recommended-scss: 11.0.0(postcss@8.4.21)(stylelint@14.16.0)
-      stylelint-config-standard: 33.0.0(stylelint@14.16.0)
-    dev: true
 
   /stylelint-config-standard@30.0.1(stylelint@14.16.0):
     resolution: {integrity: sha512-NbeHOmpRQhjZh5XB1B/S4MLRWvz4xxAxeDBjzl0tY2xEcayNhLbaRGF0ZQzq+DQZLCcPpOHeS2Ru1ydbkhkmLg==}
@@ -31482,6 +31478,18 @@ packages:
       postcss-selector-parser: 6.0.13
       postcss-value-parser: 4.2.0
       stylelint: 14.16.0
+
+  /stylelint-scss@5.0.1(stylelint@14.16.0):
+    resolution: {integrity: sha512-n87iCRZrr2J7//I/QFsDXxFLnHKw633U4qvWZ+mOW6KDAp/HLj06H+6+f9zOuTYy+MdGdTuCSDROCpQIhw5fvQ==}
+    peerDependencies:
+      stylelint: ^14.5.1 || ^15.0.0
+    dependencies:
+      postcss-media-query-parser: 0.2.3
+      postcss-resolve-nested-selector: 0.1.1
+      postcss-selector-parser: 6.0.13
+      postcss-value-parser: 4.2.0
+      stylelint: 14.16.0
+    dev: true
 
   /stylelint@14.16.0:
     resolution: {integrity: sha512-X6uTi9DcxjzLV8ZUAjit1vsRtSwcls0nl07c9rqOPzvpA8IvTX/xWEkBRowS0ffevRrqkHa/ThDEu86u73FQDg==}
