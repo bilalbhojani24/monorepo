@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import o11yKeys from 'constants/o11yKeys';
 import { getEnvConfig, logOllyEvent } from 'utils/common';
 
