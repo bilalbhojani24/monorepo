@@ -7,6 +7,7 @@ import AzureIntegrationModal from 'features/Integrations/components/AzureIntegra
 import EmailPreferenceModal from 'features/Integrations/components/EmailPreferenceModal';
 import JenkinsIntegrationModal from 'features/Integrations/components/JenkinsIntegrationModal';
 import ReqFrameworkModal from 'features/Onboarding/components/ReqFrameworkModal';
+import StartFreeTrialModal from 'features/Paywall/components/StartFreeTrialModal';
 import AddEditAlertModal from 'features/Settings/components/AddEditAlertModal';
 import AddEditSubCategoryModal from 'features/Settings/components/AddEditSubCategoryModal';
 import AddNotificationUserModal from 'features/Settings/components/AddNotificationUserModal';
@@ -52,6 +53,8 @@ export default function ModalToShow() {
       return <ReqFrameworkModal />;
     case MODAL_TYPES.smart_tags_confirmation_modal:
       return <SmartTagConfirmationModal />;
+    case MODAL_TYPES.upgrade_modal:
+      return <StartFreeTrialModal />;
     default:
       return null;
   }

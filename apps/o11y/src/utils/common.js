@@ -253,7 +253,7 @@ export const updateUrlQueryParam = (searchParams) => {
 };
 
 export const isBuildArchiveable = (buildStatus, isArchived) =>
-  (buildStatus && buildStatus !== TEST_STATUS.PENDING) || isArchived;
+  (buildStatus && buildStatus !== TEST_STATUS.PENDING) || !isArchived;
 
 /** Cross-browser support for fullscreen change event
  * Validating function to identify browser type and get related change event */

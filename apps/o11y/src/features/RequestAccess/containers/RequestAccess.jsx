@@ -83,6 +83,7 @@ function RequestAccess() {
 
   const handleClickPlay = () => {
     if (videRef.current) {
+      videRef.current.currentTime = 0;
       videRef.current?.play();
       logInteractionEvent('first_unmute');
       setHasClickedPlay(true);
@@ -191,7 +192,7 @@ function RequestAccess() {
                 wrapperClassName="hover:shadow-lg"
                 onClick={handleClickPlay}
               >
-                Watch demo (5 min)
+                Watch demo (2 mins)
               </O11yButton>
             </div>
           )}

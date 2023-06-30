@@ -9,3 +9,5 @@ export const getProjectsListAPI = async () =>
   axios.get(`${versionedBaseRoute()}/projects/lite`);
 export const getPusherConfig = async () =>
   axios.get(`${versionedBaseRoute()}/projects/pusherAuth`);
+export const upgradePlan = async () =>
+  axios.post(`${versionedBaseRoute()}/plan/upgrade`);

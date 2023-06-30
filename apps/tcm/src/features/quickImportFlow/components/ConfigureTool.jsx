@@ -117,18 +117,25 @@ const ConfigureTool = () => {
         </div>
         {currentTestManagementTool && (
           <div className="mt-6">
-            <div className="text-sm font-normal">Choose import Type:</div>
-            <div className="mt-3">
+            <>
               <TMRadioGroup
-                direction="horizontal"
-                onChange={handleRadioGroupChange(currentTestManagementTool)}
-                selectedOption={{
-                  id: selectedRadioIdMap[currentTestManagementTool]
-                }}
+                radioGroupLabel={
+                  <span className="text-base-900 text-sm font-normal">
+                    Choose import Type:
+                  </span>
+                }
+                radioGroupId="import-type"
+                direction="inline"
+                type="default"
+                onChange={(value) =>
+                  handleRadioGroupChange(value, currentTestManagementTool)
+                }
+                value={selectedRadioIdMap[currentTestManagementTool]}
+                withDescription
+                rightAligned={false}
                 options={[
                   {
-                    id: 'import-from-tool',
-                    name: (
+                    label: (
                       <>
                         <span className="mr-1">Import data from tool</span>
                         <TMBadge
@@ -136,20 +143,21 @@ const ConfigureTool = () => {
                           isRounded
                           text="Recommended"
                           modifier="warn"
-                          size="large"
+                          size="basic"
                         />
                       </>
                     ),
-                    description: `Enter ${testMgmtNameInDesc} credentials, we'll import your data`
+                    description: `Enter ${testMgmtNameInDesc} credentials, we'll import your data`,
+                    value: 'import-from-tool'
                   },
                   {
-                    id: 'upload-file',
-                    name: 'Upload file',
+                    value: 'upload-file',
+                    label: 'Upload file',
                     description: `Upload ${testMgmtNameInDesc} XML file with test case data`
                   }
                 ]}
               />
-            </div>
+            </>
             <div className="border-base-200 my-6 border text-sm font-normal" />
           </div>
         )}

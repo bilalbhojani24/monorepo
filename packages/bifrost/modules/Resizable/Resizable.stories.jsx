@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 
 // import { expect } from '@storybook/jest';
 // import { userEvent, within } from '@storybook/testing-library';
@@ -127,40 +127,18 @@ const listTreeDemoDataSet = [
   }
 ];
 
-const ResizeableTreeExample = () => {
-  const resizeRef = useRef(null);
-  const onResizeStart = () => {
-    resizeRef.current.style.opacity = 1;
-  };
-  const onResizeStop = () => {
-    resizeRef.current.removeAttribute('style');
-  };
-  return (
-    <Resizable
-      resizeHandles={['e']}
-      handleSize={[6, 1]}
-      width={300}
-      minConstraints={[300]}
-      maxConstraints={[900]}
-      onResizeStart={onResizeStart}
-      onResizeStop={onResizeStop}
-      handle={(__resizeHandleAxis, ref) => (
-        <span
-          className="group absolute right-0 top-0 h-full translate-x-1.5 px-1 hover:cursor-col-resize"
-          ref={ref}
-        >
-          <span
-            className="bg-brand-600 block h-full w-0.5 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-            ref={resizeRef}
-          />
-        </span>
-      )}
-      className="border-base-300 relative h-full border border-solid p-4"
-    >
-      <ControlledTree data={listTreeDemoDataSet} indent={1} />
-    </Resizable>
-  );
-};
+const ResizeableTreeExample = () => (
+  <Resizable
+    resizeHandles={['n']}
+    handleSize={[6, 1]}
+    width={300}
+    minConstraints={[300]}
+    maxConstraints={[900]}
+    className="border-base-300 relative h-full border border-solid p-4"
+  >
+    <ControlledTree data={listTreeDemoDataSet} indent={1} />
+  </Resizable>
+);
 
 const Template = (args) => <Resizable {...args} />;
 
