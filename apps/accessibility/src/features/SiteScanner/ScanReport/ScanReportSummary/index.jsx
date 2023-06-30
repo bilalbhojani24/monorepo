@@ -109,7 +109,7 @@ export default function ScanReportSummary() {
     },
     {
       id: 'issueCount',
-      name: 'Issues',
+      name: 'Issue Count',
       key: 'issueCount'
     }
   ];
@@ -127,7 +127,7 @@ export default function ScanReportSummary() {
     },
     {
       id: 'issueCount',
-      name: 'Issues',
+      name: 'Issue Count',
       key: 'issueCount'
     }
   ];
@@ -145,7 +145,7 @@ export default function ScanReportSummary() {
     },
     {
       id: 'issueCount',
-      name: 'Issues',
+      name: 'Issue Count',
       key: 'issueCount'
     }
   ];
@@ -222,7 +222,7 @@ export default function ScanReportSummary() {
             size="fit-content"
             analytics={
               <div>
-                <p className="text-base-500 mb-1 mr-1 text-sm">Total</p>
+                <p className="text-base-500 mr-1 mb-1 text-sm">Total</p>
                 <p className="text-base-900 mb-4 text-3xl font-semibold">
                   {componentList.length}
                 </p>
@@ -238,7 +238,7 @@ export default function ScanReportSummary() {
                           wrapperClassName={`text-xs text-base-500 ${
                             index === 0 ? 'w-14' : ''
                           } ${index === 1 ? 'w-80' : ''} ${
-                            index === 2 ? 'w-32 text-right' : ''
+                            index === 2 ? 'w-32' : ''
                           }`}
                         >
                           {col.name}
@@ -272,11 +272,7 @@ export default function ScanReportSummary() {
                             ) : (
                               ''
                             )}
-                            {colIndex === 2 ? (
-                              <p className="text-right">{count}</p>
-                            ) : (
-                              ''
-                            )}
+                            {colIndex === 2 ? count : ''}
                           </TableCell>
                         ))}
                       </TableRow>
@@ -426,7 +422,7 @@ export default function ScanReportSummary() {
                             wrapperClassName={`text-xs text-base-500 ${
                               index === 0 ? 'w-14' : ''
                             } ${index === 1 ? 'w-80' : ''} ${
-                              index === 2 ? 'w-32 text-right' : ''
+                              index === 2 ? 'w-32' : ''
                             }`}
                           >
                             {col.name}
@@ -458,11 +454,7 @@ export default function ScanReportSummary() {
                                   {url || ''}
                                 </div>
                               )}
-                              {colIndex === 2 ? (
-                                <p className="text-right">{count}</p>
-                              ) : (
-                                ''
-                              )}
+                              {colIndex === 2 ? count : ''}
                             </TableCell>
                           ))}
                         </TableRow>

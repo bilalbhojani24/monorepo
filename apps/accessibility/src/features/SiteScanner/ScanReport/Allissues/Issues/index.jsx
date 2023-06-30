@@ -26,8 +26,8 @@ import IssuesNotFound from 'assets/not_found.svg';
 import ZeroIssues from 'assets/zero_issues.svg';
 import { FILTER_KEYS, issueTabs, severityOptions } from 'constants';
 import { getSidebarCollapsedStatus } from 'features/Dashboard/slices/selectors';
-import { getDashboardWidth } from 'utils';
 
+import { setShowFreshChatButton } from '../../../../Dashboard/slices/uiSlice';
 import { SectionsDataContext } from '../../context/SectionsDataContext';
 import {
   getActiveComponentId,
@@ -121,7 +121,6 @@ export default function Issues() {
       </div>
     );
   }
-
   return (
     <SectionsDataContext.Provider
       value={{ sectionData, violations, isHalfView }}
@@ -222,7 +221,7 @@ export default function Issues() {
         </Modal>
         <div
           className="bg-base-50 border-base-200 fixed z-[9] border-b"
-          style={{ width: `calc(${getDashboardWidth()})`, top: '250px' }}
+          style={{ width: 'calc(100% - 256px)', top: '250px' }}
         >
           <div className="flex w-full items-center justify-between px-6 py-4">
             <div className="flex items-center">
@@ -355,7 +354,7 @@ export default function Issues() {
           style={{
             top: `${hasFilterOrHiddenView ? '348px' : '300px'}`,
             height: 'calc(100vh - 228px)',
-            width: `calc(${getDashboardWidth()})`
+            width: 'calc(100vw - 256px)'
           }}
         >
           {showEmptyScreen ? (
@@ -385,7 +384,7 @@ export default function Issues() {
                     width: `${
                       isSidebarCollapsed
                         ? 'calc((100vw - 20px) / 2)'
-                        : `calc((${getDashboardWidth()}) / 2)`
+                        : 'calc((100vw - 256px) / 2)'
                     }`
                   }}
                 >

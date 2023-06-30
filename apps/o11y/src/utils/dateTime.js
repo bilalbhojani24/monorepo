@@ -1,6 +1,8 @@
 import { parseDate } from '@internationalized/date';
 import { ISO_DATE_FORMAT, O11Y_DATE_RANGE } from 'constants/common';
 import {
+  differenceInDays,
+  differenceInSeconds,
   endOfDay,
   format,
   getUnixTime,
@@ -148,6 +150,10 @@ export function getTTTimeBounds(activeKey) {
 export const getISOParsedDate = (date) =>
   parseDate(getDateInFormat(date, ISO_DATE_FORMAT));
 
+export const getDifferenceInDays = (date1, date2) =>
+  differenceInDays(date1, date2);
+export const getDifferenceInSeconds = (date1, date2) =>
+  differenceInSeconds(date1, date2);
 export const getO11yTimeBounds = (activeKey) => {
   const timebounds = {
     upperBound: Date.now(),

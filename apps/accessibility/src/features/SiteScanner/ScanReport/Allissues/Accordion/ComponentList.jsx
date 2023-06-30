@@ -82,7 +82,7 @@ export default function ComponentList({ nodes, violationId }) {
     },
     {
       id: 'issueCount',
-      name: 'Issues',
+      name: 'Issue count',
       key: 'issueCount'
     }
   ];
@@ -101,7 +101,7 @@ export default function ComponentList({ nodes, violationId }) {
                 <div
                   className={`text-base-500 text-xs ${
                     index === 1 ? 'w-28' : ''
-                  } ${index === 2 ? 'w-24 text-right' : ''}`}
+                  } ${index === 2 ? 'w-24' : ''}`}
                 >
                   {col.name} {index === 0 ? `(${tableData.length})` : ''}
                 </div>
@@ -118,9 +118,9 @@ export default function ComponentList({ nodes, violationId }) {
               {columns.map((column, index) => (
                 <TableCell
                   key={column.id}
-                  wrapperClassName={`px-6 py-2 ${
-                    index === 1 ? 'w-28 pl-3' : ''
-                  } ${index === 2 ? 'w-24' : ''}`}
+                  wrapperClassName={`px-6 py-2 ${index === 1 ? 'w-28' : ''} ${
+                    index === 2 ? 'w-24' : ''
+                  }`}
                 >
                   {index === 0 ? (
                     <p
@@ -138,13 +138,7 @@ export default function ComponentList({ nodes, violationId }) {
                       </span>
                     </p>
                   ) : (
-                    <div
-                      className={`${index === 1 ? 'text-left' : ''} ${
-                        index === 2 ? 'text-right' : ''
-                      }`}
-                    >
-                      {rest[column.key]}
-                    </div>
+                    <div>{rest[column.key]}</div>
                   )}
                 </TableCell>
               ))}

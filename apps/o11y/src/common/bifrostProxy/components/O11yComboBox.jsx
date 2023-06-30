@@ -27,6 +27,7 @@ const O11yComboBox = ({
   isLoading,
   isAsyncSearch,
   onSearch,
+  onOpenChange,
   stickyFooter
 }) => {
   const [query, setQuery] = useState('');
@@ -64,6 +65,7 @@ const O11yComboBox = ({
         });
       }
     }, 50);
+    onOpenChange(isOpen);
   };
 
   return (
@@ -197,6 +199,7 @@ O11yComboBox.propTypes = {
   isLoading: PropTypes.bool,
   isAsyncSearch: PropTypes.bool,
   onSearch: PropTypes.func,
+  onOpenChange: PropTypes.func,
   stickyFooter: PropTypes.node
 };
 
@@ -214,6 +217,7 @@ O11yComboBox.defaultProps = {
   isLoading: false,
   isAsyncSearch: false,
   onSearch: () => {},
+  onOpenChange: () => {},
   stickyFooter: null
 };
 export default O11yComboBox;

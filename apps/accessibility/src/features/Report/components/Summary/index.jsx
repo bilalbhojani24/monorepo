@@ -46,7 +46,7 @@ export default function Summary() {
   );
   const urlList = cloneDeep(issueCountByURL).sort((a, b) => b.count - a.count);
   const impactList = ['critical', 'serious', 'moderate', 'minor'];
-  const ISSUE_COUNT = 'Issues';
+  const ISSUE_COUNT = 'Issue Count';
   const dropdownOptions = [
     {
       id: 'char-sort',
@@ -236,7 +236,7 @@ export default function Summary() {
                           wrapperClassName={`text-xs text-base-500 ${
                             index === 0 ? 'w-14' : ''
                           } ${index === 1 ? 'w-80' : ''} ${
-                            index === 2 ? 'w-32 text-right' : ''
+                            index === 2 ? 'w-32' : ''
                           }`}
                         >
                           {col.name}
@@ -270,11 +270,7 @@ export default function Summary() {
                             ) : (
                               ''
                             )}
-                            {colIndex === 2 ? (
-                              <p className="text-right">{count}</p>
-                            ) : (
-                              ''
-                            )}
+                            {colIndex === 2 ? count : ''}
                           </TableCell>
                         ))}
                       </TableRow>
@@ -424,7 +420,7 @@ export default function Summary() {
                             wrapperClassName={`text-xs text-base-500 ${
                               index === 0 ? 'w-14' : ''
                             } ${index === 1 ? 'w-80' : ''} ${
-                              index === 2 ? 'w-32 text-right' : ''
+                              index === 2 ? 'w-32' : ''
                             }`}
                           >
                             {col.name}
@@ -456,11 +452,7 @@ export default function Summary() {
                                   {url || ''}
                                 </div>
                               )}
-                              {colIndex === 2 ? (
-                                <p className="text-right">{count}</p>
-                              ) : (
-                                ''
-                              )}
+                              {colIndex === 2 ? count : ''}
                             </TableCell>
                           ))}
                         </TableRow>
