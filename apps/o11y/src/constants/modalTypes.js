@@ -12,5 +12,6 @@ export const MODAL_TYPES = {
   mute_unmute_test: 'mute_unmute_test',
   onboarding_framework_selection_modal: 'onboarding_framework_selection_modal',
   rerun_test_modal: 'rerun_test_modal',
-  smart_tags_confirmation_modal: 'smart_tags_confirmation_modal'
+  smart_tags_confirmation_modal: 'smart_tags_confirmation_modal',
+  upgrade_modal: 'upgrade_modal'
 };

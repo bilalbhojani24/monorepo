@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Draggable, Resizable } from '@browserstack/bifrost';
-import { useResizeObserver } from '@browserstack/hooks';
+import { useResizeObserver, useWindowSize } from '@browserstack/hooks';
 import PropTypes from 'prop-types';
 
 import { setWidgetHeight as setWidgetHeightInRedux } from '../../slices/widgetSlice';
@@ -12,12 +12,12 @@ import { getWidgetRenderPosition } from './helpers';
 const DraggableResizable = ({ children, position, positionRef }) => {
   const dispatch = useDispatch();
   const widgetRef = useRef(null);
-  const bodyRef = useRef(document.body);
-  const bodyResizeObserver = useResizeObserver(bodyRef);
+  const windowDimensions = useWindowSize();
+
   const widgetResizeObserver = useResizeObserver(widgetRef);
   // additional 16 px space for easy access to grab and use resize handle
-  const windowHeight = document.body.getBoundingClientRect().height - 16;
-  const windowWidth = document.body.getBoundingClientRect().width - 16;
+  const windowHeight = windowDimensions.height ?? window.innerHeight - 16;
+  const windowWidth = windowDimensions.width ?? window.innerWidth - 16;
 
   // initial widget height should be 90% of the window height
   // multiply by 0.9 to get 90% of the windowHeight
@@ -90,7 +90,7 @@ const DraggableResizable = ({ children, position, positionRef }) => {
     windowWidth,
     positionRef,
     windowHeight,
-    bodyResizeObserver,
+    windowDimensions,
     widgetDimensions
   ]);
 
@@ -105,9 +105,6 @@ const DraggableResizable = ({ children, position, positionRef }) => {
     setWidgetDimensions({ ...widgetDimensions, height: size.height });
     dispatch(setWidgetHeightInRedux({ height: size.height }));
   };
-
-  const bodyObservedHeight =
-    bodyResizeObserver?.blockSize || bodyResizeObserver?.height;
 
   // adjusts height of the widget in case there's any
   // change in the body height
@@ -129,13 +126,7 @@ const DraggableResizable = ({ children, position, positionRef }) => {
       dispatch(setWidgetHeightInRedux({ height: newHeight }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    dispatch,
-    windowHeight,
-    widgetDimensions.height,
-    bodyObservedHeight,
-    widgetInitialHeight
-  ]);
+  }, [dispatch, windowHeight, widgetDimensions.height, widgetInitialHeight]);
 
   // intialise redux
   useEffect(() => {

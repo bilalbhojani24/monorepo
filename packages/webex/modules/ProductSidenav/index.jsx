@@ -10,16 +10,20 @@ import PropTypes from 'prop-types';
 import { getPurchasedProducts } from './api/userData';
 import SidenavCollapsed from './components/SidenavCollapsed';
 import SidenavExpanded from './components/SidenavExpanded';
+import { WEB_PRODUCTS } from './const/productConstant';
 
 const cookieUtils = new CookieUtils();
 
-const initialState = {
+const getInitialState = (tab) => ({
   expanded: false,
-  activeTab: 'web',
+  activeTab: tab,
   purchasedProducts: []
-};
+});
+
 const ProductSidenav = ({ activeProduct }) => {
-  const [state, setState] = useState(initialState);
+  const defaultTab = WEB_PRODUCTS.includes(activeProduct) ? 'web' : 'app';
+
+  const [state, setState] = useState(getInitialState(defaultTab));
   const { expanded, activeTab, purchasedProducts } = state;
 
   const setExpanded = (value) =>
@@ -35,8 +39,8 @@ const ProductSidenav = ({ activeProduct }) => {
 
   const fetchPurchasedProducts = async () => {
     const products = await getPurchasedProducts();
-    if (products) {
-      setPurchasedProducts(products);
+    if (products?.products?.length) {
+      setPurchasedProducts(products?.products);
     }
   };
 
@@ -47,6 +51,11 @@ const ProductSidenav = ({ activeProduct }) => {
     }
     fetchPurchasedProducts();
   });
+
+  const handleSidenavLeave = () => {
+    setExpanded(false);
+    setActiveTab(WEB_PRODUCTS.includes(activeProduct) ? 'web' : 'app');
+  };
 
   const handleTabClick = (selectedTab) => {
     setActiveTab(selectedTab);
@@ -77,10 +86,10 @@ const ProductSidenav = ({ activeProduct }) => {
           }
         )}
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={() => setExpanded(false)}
+        onMouseLeave={handleSidenavLeave}
         onFocus={() => setExpanded(true)}
         onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget)) setExpanded(false);
+          if (!e.currentTarget.contains(e.relatedTarget)) handleSidenavLeave();
         }}
       >
         {expanded ? (

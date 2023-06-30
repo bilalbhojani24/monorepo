@@ -7,6 +7,8 @@ import {
   O11ySelectMenuTrigger,
   O11ySwitcher
 } from 'common/bifrostProxy';
+import { PAYWALL_FEATURES } from 'constants/paywall';
+import { PaywallTooltip } from 'features/Paywall';
 import PropTypes from 'prop-types';
 
 import { SMART_TAGS_DEFAULT_VALUES } from '../constants';
@@ -31,7 +33,7 @@ const FLIPPING_COUNT_CONSECUTIVE_RUNS = [
     .map((_, i) => ({ name: i + 5, value: i + 5 }))
 ];
 
-export const FlakyTags = ({ data, isActive }) => {
+export const FlakyTags = ({ data, isActive, docLink }) => {
   const dispatch = useDispatch();
   const [flippingCountArray, setFlippingCountArray] = useState(FLIPPING_COUNT);
   const [consecutiveRunsArray, setConsecutiveRunsArray] = useState(
@@ -119,11 +121,18 @@ export const FlakyTags = ({ data, isActive }) => {
     <section className="p-6 pb-9">
       <div className="flex justify-between">
         <span className="font-medium">Flaky</span>
-        <O11ySwitcher
-          checked={automaticFlaky}
-          onChange={(item) => updateFlakyTagsSwitch('automaticFlaky', item)}
-          disabled={!isActive}
-        />
+        <PaywallTooltip
+          title="Configuring smart tags is a pro feature."
+          content="Configure your personalized definition of flakiness."
+          featureKey={PAYWALL_FEATURES.SMART_TAGS}
+          docLink={docLink}
+        >
+          <O11ySwitcher
+            checked={automaticFlaky}
+            onChange={(item) => updateFlakyTagsSwitch('automaticFlaky', item)}
+            disabled={!isActive}
+          />
+        </PaywallTooltip>
       </div>
       <div className="border-b-base-300 my-3 h-1 border-b" />
       <div className="flex flex-col text-sm">
@@ -262,7 +271,8 @@ export const FlakyTags = ({ data, isActive }) => {
 
 FlakyTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
-  isActive: PropTypes.bool.isRequired
+  isActive: PropTypes.bool.isRequired,
+  docLink: PropTypes.string.isRequired
 };
 
 FlakyTags.defaultProps = {

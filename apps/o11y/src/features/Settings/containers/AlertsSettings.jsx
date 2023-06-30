@@ -13,6 +13,8 @@ import {
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import O11yLoader from 'common/O11yLoader';
 import { MODAL_TYPES } from 'constants/modalTypes';
+import { PAYWALL_FEATURES } from 'constants/paywall';
+import { HardPaywallWrapper } from 'features/Paywall';
 import { getActiveProject } from 'globalSlice/selectors';
 import isEmpty from 'lodash/isEmpty';
 
@@ -23,7 +25,7 @@ import { ALERT_TYPES } from '../constants';
 import { getAlertsSettings } from '../slices/alertsSettings';
 import { getAlertsState } from '../slices/selectors';
 
-export default function AlertsSettings() {
+function AlertsSettings() {
   const data = useSelector(getAlertsState);
   const activeProject = useSelector(getActiveProject);
   const dispatch = useDispatch();
@@ -83,6 +85,7 @@ export default function AlertsSettings() {
           <O11yButton
             icon={<MdOutlineAdd className="text-lg" />}
             onClick={handleClickAddAlert}
+            wrapperClassName="shrink-0"
           >
             Add alert
           </O11yButton>
@@ -128,3 +131,11 @@ export default function AlertsSettings() {
     </SettingsCard>
   );
 }
+
+const PaywallWrappedAlertSettings = () => (
+  <HardPaywallWrapper featureKey={PAYWALL_FEATURES.ALERTS}>
+    <AlertsSettings />
+  </HardPaywallWrapper>
+);
+
+export default PaywallWrappedAlertSettings;

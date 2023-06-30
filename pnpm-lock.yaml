@@ -27,6 +27,7 @@ importers:
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': 2.1.0
       '@browserstack/vite-config': workspace:*
+      '@browserstack/webex': workspace:*
       '@emotion/react': 11.10.5
       '@emotion/styled': 11.10.5
       '@mui/icons-material': 5.11.0
@@ -73,6 +74,7 @@ importers:
       '@browserstack/growth': link:../../packages/growth
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
+      '@browserstack/webex': link:../../packages/webex
       '@emotion/react': 11.10.5_idayr2oxcsxtldkhf4tt4nnf6q
       '@emotion/styled': 11.10.5_ndjzcbtdnptlgfk66yazydp4vu
       '@mui/icons-material': 5.11.0_oiuuhmk4wjjpe4qb2sby7usney
@@ -471,7 +473,7 @@ importers:
       style-loader: 3.3.1_webpack@5.80.0
       stylelint: 14.16.0
       stylelint-config-prettier: 9.0.4_stylelint@14.16.0
-      stylelint-config-standard-scss: 9.0.0_4hlw5ipnhspjrftdr7hqo6kmye
+      stylelint-config-standard-scss: 10.0.0_4hlw5ipnhspjrftdr7hqo6kmye
       stylelint-prettier: 2.0.0_lzrral356zwd7lm6e3scl4w4om
       stylelint-scss: 4.6.0_stylelint@14.16.0
       tailwindcss: 3.3.1_postcss@8.4.21
@@ -487,6 +489,7 @@ importers:
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': 2.1.0
       '@browserstack/vite-config': workspace:*
+      '@browserstack/webex': workspace:*
       '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1
       '@tailwindcss/forms': 0.5.3
@@ -495,6 +498,7 @@ importers:
       '@types/react-dom': 18.0.9
       '@vitejs/plugin-react': 2.2.0
       axios: 1.2.2
+      canvas-confetti: 1.6.0
       classnames: 2.2.6
       date-fns: 2.29.3
       highcharts: 10.3.3
@@ -532,9 +536,11 @@ importers:
       '@browserstack/integrations': link:../../packages/integrations
       '@browserstack/services': link:../../packages/services
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
+      '@browserstack/webex': link:../../packages/webex
       '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
+      canvas-confetti: 1.6.0
       classnames: 2.2.6
       date-fns: 2.29.3
       highcharts: 10.3.3
@@ -568,7 +574,7 @@ importers:
       sass: 1.57.1
       stylelint: 14.16.0
       stylelint-config-prettier: 9.0.4_stylelint@14.16.0
-      stylelint-config-standard-scss: 9.0.0_l3s4qeu3gkar2knsdy3w5miimm
+      stylelint-config-standard-scss: 10.0.0_l3s4qeu3gkar2knsdy3w5miimm
       stylelint-prettier: 2.0.0_lzrral356zwd7lm6e3scl4w4om
       stylelint-scss: 4.3.0_stylelint@14.16.0
       tailwindcss: 3.1.4_postcss@8.4.20
@@ -584,6 +590,7 @@ importers:
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': workspace:*
       '@browserstack/vite-config': workspace:*
+      '@browserstack/webex': workspace:*
       '@emotion/react': 11.10.5
       '@emotion/styled': 11.10.5
       '@mui/icons-material': 5.11.0
@@ -625,6 +632,7 @@ importers:
       '@browserstack/growth': link:../../packages/growth
       '@browserstack/hooks': link:../../packages/hooks
       '@browserstack/utils': link:../../packages/utils
+      '@browserstack/webex': link:../../packages/webex
       '@emotion/react': 11.10.5_idayr2oxcsxtldkhf4tt4nnf6q
       '@emotion/styled': 11.10.5_ndjzcbtdnptlgfk66yazydp4vu
       '@mui/icons-material': 5.11.0_oiuuhmk4wjjpe4qb2sby7usney
@@ -991,7 +999,7 @@ importers:
   packages/integrations:
     specifiers:
       '@babel/core': ^7.20.12
-      '@browserstack/bifrost': 9.2.0
+      '@browserstack/bifrost': 8.8.0
       '@browserstack/hooks': workspace:*
       '@browserstack/stylelint-config': workspace:*
       '@browserstack/tailwind-config': workspace:*
@@ -1017,7 +1025,7 @@ importers:
       react-router-dom: 6.6.1
       vite: 3.2.5
     dependencies:
-      '@browserstack/bifrost': 9.2.0_hkbbqhhe7yspx6haowtlreoieq
+      '@browserstack/bifrost': 8.8.0_hkbbqhhe7yspx6haowtlreoieq
       '@browserstack/hooks': link:../hooks
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@internationalized/date': 3.2.0
@@ -3374,7 +3382,7 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.21.4
+      '@babel/core': 7.20.12
       '@babel/helper-annotate-as-pure': 7.18.6
       '@babel/helper-plugin-utils': 7.20.2
     dev: true
@@ -4408,21 +4416,20 @@ packages:
       - uuid
     dev: false
 
-  /@browserstack/bifrost/9.1.0_q2ywcsiqmjl5wl474oah3zue3q:
-    resolution: {integrity: sha512-hsxnH6hrH84X4KlCPShYQ+Q9O/2VMoPSGjXVvQzwuAdNB9aeKpl4hFyzanPUd6UaHQtl1839c0iM25ErunP+SQ==, tarball: download/@browserstack/bifrost/9.1.0/8a4841cee8728111292f89c4fcb074d21a3cf55d}
+  /@browserstack/bifrost/8.8.0_hkbbqhhe7yspx6haowtlreoieq:
+    resolution: {integrity: sha512-vTY/hXjwDcv4TftOHPaKsxhTAe4TvvI2JfF8100IMCL411CJLc1fc3yGfrQTzx00ZCWMw7sF1ArIp6sd9f046Q==, tarball: download/@browserstack/bifrost/8.8.0/d8ff94dafee7dccae67599f01612995efb27dbf3}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_oxb3a2cqd6gjar7bvjlpriiq5i
+      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
       '@internationalized/date': 3.1.0
       '@radix-ui/react-popover': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
-      '@radix-ui/react-radio-group': 1.1.2_biqbaboplfbrettd7655fr4n2y
       '@radix-ui/react-tooltip': 1.0.2_ib3m5ricvtkl2cll7qpr2f6lvq
       '@react-aria/overlays': 3.13.0_biqbaboplfbrettd7655fr4n2y
       '@tinymce/tinymce-react': 4.3.0_biqbaboplfbrettd7655fr4n2y
@@ -4433,7 +4440,6 @@ packages:
       react-draggable: 4.4.5_biqbaboplfbrettd7655fr4n2y
       react-hot-toast: 2.4.0_s7mghcr6idhb4d5ook54gl4n44
       react-icons: 4.8.0_react@18.2.0
-      react-pdf: 6.2.2_biqbaboplfbrettd7655fr4n2y
       react-player: 2.12.0_react@18.2.0
       react-resizable: 3.0.4_biqbaboplfbrettd7655fr4n2y
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
@@ -4450,25 +4456,23 @@ packages:
       - csstype
       - dexie
       - enzyme
-      - file-loader
       - lodash
       - react-ga4
       - react-redux
       - redux-mock-store
       - socket.io-client
       - uuid
-      - worker-loader
     dev: false
 
-  /@browserstack/bifrost/9.2.0_hkbbqhhe7yspx6haowtlreoieq:
-    resolution: {integrity: sha512-ML2fOu8oUJ32diJNk27mJ3CGuh+NYgR9ux78krgvBZtQy7jJYuapIIA0NyRHwRX0eEbapq9DcxxD2teH95rZjg==, tarball: download/@browserstack/bifrost/9.2.0/14bb629c414fb7224541ee3a8c7c40afea6e6a80}
+  /@browserstack/bifrost/9.1.0_q2ywcsiqmjl5wl474oah3zue3q:
+    resolution: {integrity: sha512-hsxnH6hrH84X4KlCPShYQ+Q9O/2VMoPSGjXVvQzwuAdNB9aeKpl4hFyzanPUd6UaHQtl1839c0iM25ErunP+SQ==, tarball: download/@browserstack/bifrost/9.1.0/8a4841cee8728111292f89c4fcb074d21a3cf55d}
     peerDependencies:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0
       react-router-dom: 6.6.1
     dependencies:
-      '@browserstack/hooks': 0.3.1_s2fchye64fhceybhhmcri77qki
+      '@browserstack/hooks': 0.3.1_oxb3a2cqd6gjar7bvjlpriiq5i
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
       '@headlessui/react': 1.7.5_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.13_react@18.2.0
@@ -26091,7 +26095,7 @@ packages:
       postcss: ^8.2.2
     dependencies:
       postcss: 8.4.21
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -26675,7 +26679,7 @@ packages:
       caniuse-api: 3.0.0
       cssnano-utils: 3.1.0_postcss@8.4.21
       postcss: 8.4.21
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
     dev: true
 
   /postcss-minify-font-values/5.1.0_postcss@8.4.21:
@@ -26719,7 +26723,7 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 8.4.21
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
     dev: true
 
   /postcss-modules-extract-imports/2.0.0:
@@ -26744,7 +26748,7 @@ packages:
     dependencies:
       icss-utils: 4.1.1
       postcss: 7.0.39
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -26765,7 +26769,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       postcss: 7.0.39
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
     dev: true
 
   /postcss-modules-scope/3.0.0_postcss@8.4.21:
@@ -27253,6 +27257,14 @@ packages:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
+  /postcss-selector-parser/6.0.13:
+    resolution: {integrity: sha512-EaV1Gl4mUEV4ddhDnv/xtj7sxwrwxdetHdWUGnT4VJQf+4d05v6lHYZr8N573k5Z0BViss7BDhfWtKS3+sfAqQ==}
+    engines: {node: '>=4'}
+    dependencies:
+      cssesc: 3.0.0
+      util-deprecate: 1.0.2
+    dev: true
+
   /postcss-sorting/7.0.1_postcss@8.4.21:
     resolution: {integrity: sha512-iLBFYz6VRYyLJEJsBJ8M3TCqNcckVzz4wFounSc5Oez35ogE/X+aoC5fFu103Ot7NyvjU3/xqIXn93Gp3kJk4g==}
     peerDependencies:
@@ -27279,7 +27291,7 @@ packages:
       postcss: ^8.2.15
     dependencies:
       postcss: 8.4.21
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
     dev: true
 
   /postcss-value-parser/4.2.0:
@@ -30542,7 +30554,7 @@ packages:
     dependencies:
       browserslist: 4.21.5
       postcss: 8.4.21
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
     dev: true
 
   /stylelint-config-prettier/9.0.4_stylelint@14.16.0:
@@ -30554,8 +30566,8 @@ packages:
     dependencies:
       stylelint: 14.16.0
 
-  /stylelint-config-recommended-scss/11.0.0_4hlw5ipnhspjrftdr7hqo6kmye:
-    resolution: {integrity: sha512-EDghTDU7aOv2LTsRZvcT1w8mcjUaMhuy+t38iV5I/0Qiu6ixdkRwhLEMul3K/fnB2v9Nwqvb3xpvJfPH+HduDw==}
+  /stylelint-config-recommended-scss/12.0.0_4hlw5ipnhspjrftdr7hqo6kmye:
+    resolution: {integrity: sha512-5Bb2mlGy6WLa30oNeKpZvavv2lowJUsUJO25+OA68GFTemlwd1zbFsL7q0bReKipOSU3sG47hKneZ6Nd+ctrFA==}
     peerDependencies:
       postcss: ^8.3.3
       stylelint: ^15.5.0
@@ -30567,11 +30579,11 @@ packages:
       postcss-scss: 4.0.6_postcss@8.4.21
       stylelint: 14.16.0
       stylelint-config-recommended: 12.0.0_stylelint@14.16.0
-      stylelint-scss: 4.6.0_stylelint@14.16.0
+      stylelint-scss: 5.0.1_stylelint@14.16.0
     dev: true
 
-  /stylelint-config-recommended-scss/11.0.0_l3s4qeu3gkar2knsdy3w5miimm:
-    resolution: {integrity: sha512-EDghTDU7aOv2LTsRZvcT1w8mcjUaMhuy+t38iV5I/0Qiu6ixdkRwhLEMul3K/fnB2v9Nwqvb3xpvJfPH+HduDw==}
+  /stylelint-config-recommended-scss/12.0.0_l3s4qeu3gkar2knsdy3w5miimm:
+    resolution: {integrity: sha512-5Bb2mlGy6WLa30oNeKpZvavv2lowJUsUJO25+OA68GFTemlwd1zbFsL7q0bReKipOSU3sG47hKneZ6Nd+ctrFA==}
     peerDependencies:
       postcss: ^8.3.3
       stylelint: ^15.5.0
@@ -30583,7 +30595,7 @@ packages:
       postcss-scss: 4.0.6_postcss@8.4.20
       stylelint: 14.16.0
       stylelint-config-recommended: 12.0.0_stylelint@14.16.0
-      stylelint-scss: 4.6.0_stylelint@14.16.0
+      stylelint-scss: 5.0.1_stylelint@14.16.0
     dev: true
 
   /stylelint-config-recommended-scss/9.0.1_4hlw5ipnhspjrftdr7hqo6kmye:
@@ -30632,6 +30644,36 @@ packages:
       stylelint: 14.16.0
     dev: true
 
+  /stylelint-config-standard-scss/10.0.0_4hlw5ipnhspjrftdr7hqo6kmye:
+    resolution: {integrity: sha512-bChBEo1p3xUVWh/wenJI+josoMk21f2yuLDGzGjmKYcALfl2u3DFltY+n4UHswYiXghqXaA8mRh+bFy/q1hQlg==}
+    peerDependencies:
+      postcss: ^8.3.3
+      stylelint: ^15.5.0
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+    dependencies:
+      postcss: 8.4.21
+      stylelint: 14.16.0
+      stylelint-config-recommended-scss: 12.0.0_4hlw5ipnhspjrftdr7hqo6kmye
+      stylelint-config-standard: 33.0.0_stylelint@14.16.0
+    dev: true
+
+  /stylelint-config-standard-scss/10.0.0_l3s4qeu3gkar2knsdy3w5miimm:
+    resolution: {integrity: sha512-bChBEo1p3xUVWh/wenJI+josoMk21f2yuLDGzGjmKYcALfl2u3DFltY+n4UHswYiXghqXaA8mRh+bFy/q1hQlg==}
+    peerDependencies:
+      postcss: ^8.3.3
+      stylelint: ^15.5.0
+    peerDependenciesMeta:
+      postcss:
+        optional: true
+    dependencies:
+      postcss: 8.4.20
+      stylelint: 14.16.0
+      stylelint-config-recommended-scss: 12.0.0_l3s4qeu3gkar2knsdy3w5miimm
+      stylelint-config-standard: 33.0.0_stylelint@14.16.0
+    dev: true
+
   /stylelint-config-standard-scss/7.0.1_4hlw5ipnhspjrftdr7hqo6kmye:
     resolution: {integrity: sha512-m5sRdtsB1F5fnC1Ozla7ryftU47wVpO+HWd+JQTqeoG0g/oPh5EfbWfcVHbNCEtuoHfALIySiUWS20pz2hX6jA==}
     peerDependencies:
@@ -30659,36 +30701,6 @@ packages:
       stylelint: 14.16.0
       stylelint-config-recommended-scss: 9.0.1_l3s4qeu3gkar2knsdy3w5miimm
       stylelint-config-standard: 30.0.1_stylelint@14.16.0
-    dev: true
-
-  /stylelint-config-standard-scss/9.0.0_4hlw5ipnhspjrftdr7hqo6kmye:
-    resolution: {integrity: sha512-yPKpJsrZn4ybuQZx/DkEHuCjw7pJginErE/47dFhCnrvD48IJ4UYec8tSiCuJWMA3HRjbIa3nh5ZeSauDGuVAg==}
-    peerDependencies:
-      postcss: ^8.3.3
-      stylelint: ^15.5.0
-    peerDependenciesMeta:
-      postcss:
-        optional: true
-    dependencies:
-      postcss: 8.4.21
-      stylelint: 14.16.0
-      stylelint-config-recommended-scss: 11.0.0_4hlw5ipnhspjrftdr7hqo6kmye
-      stylelint-config-standard: 33.0.0_stylelint@14.16.0
-    dev: true
-
-  /stylelint-config-standard-scss/9.0.0_l3s4qeu3gkar2knsdy3w5miimm:
-    resolution: {integrity: sha512-yPKpJsrZn4ybuQZx/DkEHuCjw7pJginErE/47dFhCnrvD48IJ4UYec8tSiCuJWMA3HRjbIa3nh5ZeSauDGuVAg==}
-    peerDependencies:
-      postcss: ^8.3.3
-      stylelint: ^15.5.0
-    peerDependenciesMeta:
-      postcss:
-        optional: true
-    dependencies:
-      postcss: 8.4.20
-      stylelint: 14.16.0
-      stylelint-config-recommended-scss: 11.0.0_l3s4qeu3gkar2knsdy3w5miimm
-      stylelint-config-standard: 33.0.0_stylelint@14.16.0
     dev: true
 
   /stylelint-config-standard/30.0.1_stylelint@14.16.0:
@@ -30752,6 +30764,18 @@ packages:
       postcss-selector-parser: 6.0.11
       postcss-value-parser: 4.2.0
       stylelint: 14.16.0
+
+  /stylelint-scss/5.0.1_stylelint@14.16.0:
+    resolution: {integrity: sha512-n87iCRZrr2J7//I/QFsDXxFLnHKw633U4qvWZ+mOW6KDAp/HLj06H+6+f9zOuTYy+MdGdTuCSDROCpQIhw5fvQ==}
+    peerDependencies:
+      stylelint: ^14.5.1 || ^15.0.0
+    dependencies:
+      postcss-media-query-parser: 0.2.3
+      postcss-resolve-nested-selector: 0.1.1
+      postcss-selector-parser: 6.0.13
+      postcss-value-parser: 4.2.0
+      stylelint: 14.16.0
+    dev: true
 
   /stylelint/14.16.0:
     resolution: {integrity: sha512-X6uTi9DcxjzLV8ZUAjit1vsRtSwcls0nl07c9rqOPzvpA8IvTX/xWEkBRowS0ffevRrqkHa/ThDEu86u73FQDg==}

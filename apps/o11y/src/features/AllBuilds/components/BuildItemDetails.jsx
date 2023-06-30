@@ -176,7 +176,8 @@ function BuildItemDetails({
             <O11yMetaData
               textColorClass="text-base-500 inline-flex text-sm"
               metaDescription={getCustomTimeStamp({
-                dateString: new Date(data.startedAt)
+                dateString: new Date(data.startedAt),
+                hideSeconds: true
               })}
               metaTitle="Started At"
             />

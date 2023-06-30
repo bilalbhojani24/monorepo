@@ -47,6 +47,7 @@ import GithubIcon from './GithubIcon';
 import GitIcon from './GitIcon';
 import GitLabIcon from './GitLabIcon';
 import JenkinsIcon from './JenkinsIcon';
+import JiraArrowIcon from './JiraArrowIcon';
 import JiraIcon from './JiraIcon';
 import JSIcon from './JSIcon';
 import JUnitIcon from './JUnitIcon';
@@ -95,6 +96,7 @@ export {
   IEIcon,
   IOSIcon,
   JenkinsIcon,
+  JiraArrowIcon,
   JiraIcon,
   JSIcon,
   JUnitIcon,

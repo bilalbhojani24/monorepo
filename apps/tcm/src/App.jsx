@@ -8,6 +8,7 @@ import {
   setErrorLoggerUserContext,
   twClassNames
 } from '@browserstack/utils';
+import { ProductSidenav } from '@browserstack/webex';
 import setupInterceptors from 'api/_utils/interceptor';
 import { getLatestQuickImportConfigAPI } from 'api/import.api';
 import { TMHeader } from 'common/bifrostProxy';
@@ -35,7 +36,7 @@ import {
 } from 'features/quickImportFlow/slices/importSlice';
 import SideNav from 'features/SideNav';
 
-import { PRODUCTION_HOST } from './const/immutables';
+import { PRODUCT_NAV_IDENTIFIER, PRODUCTION_HOST } from './const/immutables';
 import { AMPLITUDE_KEY, ANALYTICS_KEY, EDS_KEY } from './const/keys';
 import useWebSocketQI from './useWebSocketQI';
 
@@ -125,14 +126,18 @@ function App() {
       {location.pathname !== AppRoute.REQUEST_ACCESS && <TMHeader />}
 
       <div className="bg-base-50 flex h-screen items-stretch pt-16">
+        <ProductSidenav activeProduct={PRODUCT_NAV_IDENTIFIER} />
+
         {/* Only if user is logged in proceed */}
         <div
+          id="app-main-content"
           className={twClassNames(
-            'relative flex w-full items-stretch overflow-hidden'
+            'relative flex w-full items-stretch overflow-hidden ml-14'
           )}
         >
           {/* Only if user is logged in proceed */}
           {!!userData && <SideNav />}
+
           <MainRoute />
         </div>
       </div>
