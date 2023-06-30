@@ -77,7 +77,7 @@ const TestCasesTable = () => {
       name: 'TITLE',
       key: 'name',
       class: 'w-[65%]',
-      bodyClass: '[&>div]:w-[calc(100vw-1030px)]',
+      bodyClass: '[&>div]:w-[calc(100vw-1030px)]', // 1030 is calculated from other columns fixed width, as of now only title column has variable width,NOTE: this will be removed in upcoming PR on search filter integration
       cell: (rowData) => (
         <div
           role="button"
