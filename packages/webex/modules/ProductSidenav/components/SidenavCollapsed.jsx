@@ -23,6 +23,7 @@ const SidenavCollapsed = ({ activeProduct, activeTab }) => {
             isActiveProduct,
           'px-[17.5px]': isActiveProduct
         })}
+        key={product.identifier}
       >
         <span>
           {product.icon({ iconColor: isActiveProduct ? '#0D5FD4' : null })}
