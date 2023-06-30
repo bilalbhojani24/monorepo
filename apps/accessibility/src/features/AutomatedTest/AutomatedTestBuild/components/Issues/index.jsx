@@ -163,13 +163,15 @@ export default function Issues() {
             }}
           >
             {showEmptyScreen ? (
-              <div className="mb-5 mt-8 flex w-full flex-col items-center justify-center">
-                <img
-                  src={IssuesNotFound}
-                  alt="No Issues Found"
-                  className="w-80"
-                />
-                <p className="text-base-500 text-sm">No Issues Found</p>
+              <div className="flex h-[calc(100vh-350px)] w-full items-center justify-center">
+                <div>
+                  <img
+                    src={IssuesNotFound}
+                    alt="No Issues Found"
+                    className="w-80"
+                  />
+                  <p className="text-base-500 text-sm">No Issues Found</p>
+                </div>
               </div>
             ) : (
               <div className="flex h-full">

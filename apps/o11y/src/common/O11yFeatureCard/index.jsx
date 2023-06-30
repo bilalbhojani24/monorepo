@@ -3,7 +3,12 @@ import { twClassNames } from '@browserstack/utils';
 import bgIllustration from 'assets/illustrations/bg-illustration.png';
 import PropTypes from 'prop-types';
 
-function O11yFeatureCard({ children, wrapperClassName, childrenWrapperClass }) {
+function O11yFeatureCard({
+  children,
+  wrapperClassName,
+  childrenWrapperClass,
+  showBg
+}) {
   return (
     <div
       className={twClassNames(
@@ -11,11 +16,13 @@ function O11yFeatureCard({ children, wrapperClassName, childrenWrapperClass }) {
         wrapperClassName
       )}
     >
-      <img
-        src={bgIllustration}
-        alt=""
-        className="absolute top-0 left-0 h-full w-full"
-      />
+      {showBg && (
+        <img
+          src={bgIllustration}
+          alt=""
+          className="absolute left-0 top-0 h-full w-full"
+        />
+      )}
       <div className={twClassNames('relative', childrenWrapperClass)}>
         {children}
       </div>
@@ -26,11 +33,13 @@ function O11yFeatureCard({ children, wrapperClassName, childrenWrapperClass }) {
 O11yFeatureCard.propTypes = {
   children: PropTypes.node.isRequired,
   wrapperClassName: PropTypes.string,
-  childrenWrapperClass: PropTypes.string
+  childrenWrapperClass: PropTypes.string,
+  showBg: PropTypes.bool
 };
 O11yFeatureCard.defaultProps = {
   wrapperClassName: '',
-  childrenWrapperClass: ''
+  childrenWrapperClass: '',
+  showBg: true
 };
 
 export default O11yFeatureCard;

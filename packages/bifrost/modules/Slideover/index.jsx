@@ -22,9 +22,14 @@ const Slideover = React.forwardRef((props) => {
     size,
     closeButtonOutside,
     topMarginElementId,
+    isFluid,
+    resizeableWrapper,
     initialFocusRef
   } = props;
 
+  const ResizeableWraperProp = resizeableWrapper;
+  const childrenWrapperClassNames =
+    'relative flex h-full flex-col overflow-auto bg-white shadow-xl w-screen inset-0';
   const { marginTopAdjustment } = useSlideover(topMarginElementId);
 
   const handleIfEscapeClicked = useCallback(
@@ -124,10 +129,17 @@ const Slideover = React.forwardRef((props) => {
               </div>
             )}
 
-            <div
-              className={twClassNames(
-                `relative flex h-full flex-col overflow-auto bg-white shadow-xl w-screen inset-0`,
-                {
+            {isFluid ? (
+              <ResizeableWraperProp>
+                <div
+                  className={twClassNames(childrenWrapperClassNames, 'w-full')}
+                >
+                  {children}
+                </div>
+              </ResizeableWraperProp>
+            ) : (
+              <div
+                className={twClassNames(childrenWrapperClassNames, {
                   'sm:max-w-sm': MODAL_SIZE[0] === size,
                   'sm:max-w-md': MODAL_SIZE[1] === size,
                   'sm:max-w-lg': MODAL_SIZE[2] === size,
@@ -138,17 +150,22 @@ const Slideover = React.forwardRef((props) => {
                   'sm:max-w-5xl': MODAL_SIZE[7] === size,
                   'sm:max-w-6xl': MODAL_SIZE[8] === size,
                   'sm:max-w-full': MODAL_SIZE[9] === size
-                }
-              )}
-            >
-              {children}
-            </div>
+                })}
+              >
+                {children}
+              </div>
+            )}
           </div>
         </Transition.Child>
       </Transition>
     </div>
   );
 });
+
+const DefaultResizeableComponent = ({ children }) => <>{children}</>;
+DefaultResizeableComponent.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 Slideover.propTypes = {
   children: PropTypes.node,
@@ -163,7 +180,9 @@ Slideover.propTypes = {
   backgroundOverlay: PropTypes.bool,
   size: PropTypes.string,
   closeButtonOutside: PropTypes.bool,
-  topMarginElementId: PropTypes.string
+  topMarginElementId: PropTypes.string,
+  isFluid: PropTypes.bool,
+  resizeableWrapper: PropTypes.func
 };
 
 Slideover.defaultProps = {
@@ -176,7 +195,9 @@ Slideover.defaultProps = {
   backgroundOverlay: true,
   size: MODAL_SIZE[2],
   closeButtonOutside: false,
-  topMarginElementId: ''
+  topMarginElementId: '',
+  isFluid: false,
+  resizeableWrapper: DefaultResizeableComponent
 };
 
 export default Slideover;

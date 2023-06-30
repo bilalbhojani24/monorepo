@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { ResizableBox } from 'react-resizable';
+import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
 
 const ResizableWrapper = ({
@@ -15,23 +16,64 @@ const ResizableWrapper = ({
   onResize,
   onResizeStart,
   onResizeStop
-}) => (
-  <ResizableBox
-    className={className}
-    width={width}
-    height={height}
-    handle={handle}
-    handleSize={handleSize}
-    resizeHandles={resizeHandles}
-    minConstraints={minConstraints}
-    maxConstraints={maxConstraints}
-    onResize={onResize}
-    onResizeStart={onResizeStart}
-    onResizeStop={onResizeStop}
-  >
-    {children}
-  </ResizableBox>
-);
+}) => {
+  const resizeRef = useRef(null);
+  const onResizeStartCallback = (...props) => {
+    if (!handle && resizeRef.current) resizeRef.current.style.opacity = 1;
+    onResizeStart?.(...props);
+  };
+  const onResizeStopCallback = (...props) => {
+    if (!handle) resizeRef?.current?.removeAttribute('style');
+    onResizeStop?.(...props);
+  };
+
+  const defaultHandleProps = (__resizeHandleAxis, ref) => (
+    <span
+      className={twClassNames('group absolute', {
+        'px-1 top-0 h-full left-0 -translate-x-1.5 hover:cursor-col-resize':
+          resizeHandles.includes('w'),
+        'px-1 top-0 h-full right-0 translate-x-1.5 hover:cursor-col-resize':
+          resizeHandles.includes('e'),
+        'py-1 bottom-0 h-1 left-0 w-full translate-y-1 hover:cursor-row-resize':
+          resizeHandles.includes('s'),
+        'py-1 top-0 h-1 left-0 w-full -translate-y-1 hover:cursor-row-resize':
+          resizeHandles.includes('n')
+      })}
+      ref={ref}
+    >
+      <span
+        className={twClassNames(
+          'bg-brand-600 block opacity-0 transition-opacity duration-500 group-hover:opacity-100',
+          {
+            'w-0.5 h-full':
+              resizeHandles.includes('e') || resizeHandles.includes('w'),
+            'w-full h-0.5':
+              resizeHandles.includes('s') || resizeHandles.includes('n')
+          }
+        )}
+        ref={resizeRef}
+      />
+    </span>
+  );
+
+  return (
+    <ResizableBox
+      className={className}
+      width={width}
+      height={height}
+      handle={handle || defaultHandleProps}
+      handleSize={handleSize}
+      resizeHandles={resizeHandles}
+      minConstraints={minConstraints}
+      maxConstraints={maxConstraints}
+      onResize={onResize}
+      onResizeStart={onResizeStartCallback}
+      onResizeStop={onResizeStopCallback}
+    >
+      {children}
+    </ResizableBox>
+  );
+};
 
 ResizableWrapper.propTypes = {
   children: PropTypes.node,

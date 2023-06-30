@@ -64,6 +64,23 @@ export const DateRangeWDefaultValue = () => (
     }}
   />
 );
+
+export const DateRangeWCustomZindex = (args) => (
+  <>
+    <p>
+      The datepicker content popover(items inside the dropdown) can be restyled
+      using the <code>popoverWrapperClassName</code>, it is also important to
+      note certain styles such as z index can not be updated when the popover is
+      visible.
+    </p>
+    <p className="my-3">
+      Here we are using the z index of 40 to showcase custom styles being
+      applied.
+    </p>
+    <DateRangepicker {...args} popoverWrapperClassName="z-40" />
+  </>
+);
+
 const Primary = Template.bind({});
 Primary.parameters = {
   controls: {}
