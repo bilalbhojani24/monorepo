@@ -106,7 +106,7 @@ function TestListActionItems({ details, isMutedHidden }) {
 
   const getMuteButtonText = (getMutedStatus) => {
     if (isMutedHidden) return 'Muting is not applicable for test hooks';
-    return `${getMutedStatus} ? 'Un-Mute' : 'Mute'} Test`;
+    return `${getMutedStatus ? 'Un-Mute' : 'Mute'} Test`;
   };
 
   const getReRunButtonText = () => {
