@@ -31,7 +31,7 @@ import {
   getReportMetaData,
   getShowHiddenIssuesState
 } from 'features/SiteScanner/ScanReport/slice/selector';
-import { getEnvUrl } from 'utils';
+import { getDashboardWidth, getEnvUrl } from 'utils';
 import {
   generateReportUrl,
   handleClickByEnterOrSpace,
@@ -327,12 +327,9 @@ export default function IssueItem() {
             <div className="mt-4">
               <p className="text-base-700 mb-1 text-sm">Affected page: </p>
               <div className="flex">
-                <InputField
-                  id={url}
-                  value={url}
-                  readonly
-                  wrapperClassName="mr-2 w-full"
-                />
+                <div className="mr-2 w-full">
+                  <InputField id={url} value={url} readonly />
+                </div>
                 <CopyButton text={url} />
               </div>
             </div>
@@ -447,7 +444,7 @@ export default function IssueItem() {
           width: `${
             isSidebarCollapsed
               ? 'calc((100vw - 20px) / 2)'
-              : 'calc((100vw - 256px) / 2)'
+              : `calc((${getDashboardWidth()}) / 2)`
           }`
         }}
       >
