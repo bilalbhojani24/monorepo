@@ -47,3 +47,54 @@ export const ROUTES = {
   test_details: '/test/details/:testRunId',
   testing_trends: `/${ROUTE_PATH_KEYS.projects}/:projectNormalisedName/${ROUTE_PATH_KEYS.testing_trends}`
 };
+
+export const PROXY_PATHS = {
+  builds: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.builds}`,
+    key: ROUTE_PATH_KEYS.builds
+  },
+  suite_health_tests: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.suite_health_tests}`,
+    key: ROUTE_PATH_KEYS.suite_health_tests
+  },
+  suite_health_unique_errors: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.suite_health_unique_errors}`,
+    key: ROUTE_PATH_KEYS.suite_health_unique_errors
+  },
+  settings_alerts: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_alerts}`,
+    key: ROUTE_PATH_KEYS.settings_alerts
+  },
+  settings_auto_analyser: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_auto_analyser}`,
+    key: ROUTE_PATH_KEYS.settings_auto_analyser
+  },
+  settings_failure_categories: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_failure_categories}`,
+    key: ROUTE_PATH_KEYS.settings_failure_categories
+  },
+  settings_general: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_general}`,
+    key: ROUTE_PATH_KEYS.settings_general
+  },
+  settings_integrations: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_integrations}`,
+    key: ROUTE_PATH_KEYS.settings_integrations
+  },
+  settings_notifications: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_notifications}`,
+    key: ROUTE_PATH_KEYS.settings_notifications
+  },
+  settings_re_run: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_re_run}`,
+    key: ROUTE_PATH_KEYS.settings_re_run
+  },
+  settings: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings}`,
+    key: ROUTE_PATH_KEYS.settings
+  },
+  testing_trends: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.testing_trends}`,
+    key: ROUTE_PATH_KEYS.testing_trends
+  }
+};
