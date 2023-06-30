@@ -29,7 +29,7 @@ const RequestAccessModal = () => {
           primaryBtnText={getButtonText()}
           primaryBtnProps={{
             colors: isAdmin ? 'brand' : 'success',
-            disabled: accessRequested,
+            disabled: !isAdmin && accessRequested,
             loading: requestLoader,
             isIconOnlyButton: requestLoader
           }}
