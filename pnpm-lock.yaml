@@ -712,6 +712,9 @@ importers:
       '@browserstack/utils':
         specifier: 2.1.0
         version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+      '@browserstack/webex':
+        specifier: workspace:*
+        version: link:../../packages/webex
       '@internationalized/date':
         specifier: 3.1.0
         version: 3.1.0
@@ -27322,7 +27325,7 @@ packages:
     dependencies:
       icss-utils: 4.1.1
       postcss: 7.0.39
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -27343,7 +27346,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       postcss: 7.0.39
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
     dev: true
 
   /postcss-modules-scope@3.0.0(postcss@8.4.21):

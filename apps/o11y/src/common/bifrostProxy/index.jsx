@@ -24,7 +24,6 @@ import {
   PopoverBody,
   PopoverFooter,
   RadioGroup,
-  RadioSmallCards,
   SelectMenu,
   SelectMenuLabel,
   SelectMenuOptionGroup,
@@ -101,7 +100,6 @@ export const O11yPopover = (props) => <Popover {...props} />;
 export const O11yPopoverBody = (props) => <PopoverBody {...props} />;
 export const O11yPopoverFooter = (props) => <PopoverFooter {...props} />;
 export const O11yRadioGroup = (props) => <RadioGroup {...props} />;
-export const O11yRadioSmallCards = (props) => <RadioSmallCards {...props} />;
 export const O11ySelectMenu = (props) => <SelectMenu {...props} />;
 export const O11ySelectMenuLabel = (props) => <SelectMenuLabel {...props} />;
 export const O11ySelectMenuOptionGroup = (props) => (

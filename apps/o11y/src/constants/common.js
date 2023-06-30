@@ -257,3 +257,4 @@ export const CheckboxState = {
   CHECKED: 'CHECKED',
   INDETERMINATE: 'INDETERMINATE'
 };
+export const PRODUCT_NAV_IDENTIFIER = 'Test Observability';
