@@ -133,7 +133,10 @@ function AlertsSettings() {
 }
 
 const PaywallWrappedAlertSettings = () => (
-  <HardPaywallWrapper featureKey={PAYWALL_FEATURES.ALERTS}>
+  <HardPaywallWrapper
+    featureKey={PAYWALL_FEATURES.ALERTS}
+    wrapperClassName="max-w-4xl"
+  >
     <AlertsSettings />
   </HardPaywallWrapper>
 );
