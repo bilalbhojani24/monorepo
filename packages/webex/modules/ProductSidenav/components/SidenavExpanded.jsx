@@ -19,7 +19,7 @@ const SidenavExpanded = ({
   purchasedProducts
 }) => {
   const getProductClick = (product) => () => {
-    logEvent([], 'web_events', 'HoveredOnSideNav', {
+    logEvent([], 'web_events', 'ClickedOnSideNav', {
       source: 'Homepage_Demo_CTA_Exp4',
       action: `${activeTab === 'web' ? 'Web' : 'App'} Testing Main Navigation`,
       group: `Product ${activeTab === 'web' ? 'Web' : 'App'} Testing`,
@@ -120,7 +120,7 @@ const SidenavExpanded = ({
           <button
             type="button"
             className={twClassNames(
-              'flex justify-center items-center w-[109px] h-[30px] rounded',
+              'flex justify-center items-center w-[109px] h-[30px] rounded-[5px]',
               {
                 'bg-[#15803D]': activeTab === 'web'
               }
@@ -145,7 +145,7 @@ const SidenavExpanded = ({
           <button
             type="button"
             className={twClassNames(
-              'flex justify-center items-center w-[109px] h-[30px] rounded',
+              'flex justify-center items-center w-[109px] h-[30px] rounded-[5px]',
               {
                 'bg-[#15803D]': activeTab === 'app'
               }

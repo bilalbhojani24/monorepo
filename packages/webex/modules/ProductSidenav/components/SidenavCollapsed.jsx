@@ -52,7 +52,7 @@ const SidenavCollapsed = ({ activeProduct, activeTab }) => {
     <>
       <div
         className={twClassNames(
-          'flex justify-center items-start pt-1.5 pl-2 pr-[7px] pb-0 w-full'
+          'flex justify-center items-start pt-1.5 px-2 pb-0 w-full'
         )}
       >
         <div

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AccesssibilityIcon = ({ iconClass, iconColor }) => (
+const AppAutomateIcon = ({ iconClass, iconColor }) => (
   <svg
     width="18"
     height="18"
@@ -18,13 +18,13 @@ const AccesssibilityIcon = ({ iconClass, iconColor }) => (
   </svg>
 );
 
-AccesssibilityIcon.propTypes = {
+AppAutomateIcon.propTypes = {
   iconClass: PropTypes.string,
   iconColor: PropTypes.string
 };
-AccesssibilityIcon.defaultProps = {
+AppAutomateIcon.defaultProps = {
   iconClass: '',
   iconColor: ''
 };
 
-export default AccesssibilityIcon;
+export default AppAutomateIcon;
