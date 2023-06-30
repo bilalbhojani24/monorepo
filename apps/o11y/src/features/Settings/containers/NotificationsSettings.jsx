@@ -162,8 +162,9 @@ function NotificationsSettings() {
             icon={<MdOutlineAdd className="text-lg" />}
             onClick={handleClickAddUsers}
             disabled={!notificationsEnabled || switchingNotificationsStatus}
+            wrapperClassName="shrink-0"
           >
-            Add Users
+            Add users
           </O11yButton>
         </div>
         {!!notifiedUsers.length && (

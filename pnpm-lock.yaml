@@ -489,6 +489,7 @@ importers:
       '@browserstack/tailwind-config': workspace:*
       '@browserstack/utils': 2.1.0
       '@browserstack/vite-config': workspace:*
+      '@browserstack/webex': workspace:*
       '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1
       '@tailwindcss/forms': 0.5.3
@@ -535,6 +536,7 @@ importers:
       '@browserstack/integrations': link:../../packages/integrations
       '@browserstack/services': link:../../packages/services
       '@browserstack/utils': 2.1.0_qpomuq36ktgf7ncg7bhbvyidmy
+      '@browserstack/webex': link:../../packages/webex
       '@internationalized/date': 3.1.0
       '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
       axios: 1.2.2
@@ -30054,7 +30056,7 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-use: 13.27.1_sfoxds7t5ydpegc3knd667wn6m
-      styled-components: 5.3.11_rswil2xdk5up5nve2ut2rhf3a4
+      styled-components: 5.3.11_xbopaxzabw6bys43crbjsxqpai
     dev: true
 
   /react-transition-group/4.4.5_biqbaboplfbrettd7655fr4n2y:

@@ -69,7 +69,10 @@ function TestlistTimeline({ details, isHook }) {
             content={
               // eslint-disable-next-line tailwindcss/no-arbitrary-value
               <div className="border-base-200 w-[350px] border">
-                <TestListHistoryTooltip {...singleHistoryItem} />
+                <TestListHistoryTooltip
+                  {...singleHistoryItem}
+                  isHook={isHook}
+                />
               </div>
             }
           >
