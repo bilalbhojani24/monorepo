@@ -26,10 +26,13 @@ const Layout = () => {
     navigationClickHandler,
     primaryNavs,
     secondaryNavs,
+    selectedGridData,
     showOnboardingTooltips,
     showTrialGridBannerInGridOverview,
     userDetails
   } = useLayout();
+
+  const { totalTime, timeUsed } = selectedGridData.trialGridDetail || 0;
 
   return (
     <>
@@ -49,7 +52,9 @@ const Layout = () => {
                 Create Grid
               </Button>
             }
-            description={BannerMessages.trialGridGridOverviewIntro}
+            description={BannerMessages.trialGridGridOverviewIntro(
+              totalTime - timeUsed
+            )}
             isDismissButton={false}
           />
         )}

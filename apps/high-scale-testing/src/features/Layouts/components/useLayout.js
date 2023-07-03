@@ -27,6 +27,7 @@ const useLayout = () => {
 
   const { docHomeURL } = getEnvConfig();
 
+  // All Store variables:
   const currentOnboardingTooltipCount = useSelector(
     getCurrentOnboardingTooltipcount
   );
@@ -34,6 +35,7 @@ const useLayout = () => {
   const showOnboardingTooltips = useSelector(getShowOnboardingTooltips);
   const userDetails = useSelector(getUserDetails);
 
+  // All State variables:
   const [
     showTrialGridBannerInGridOverview,
     setShowTrialGridBannerInGridOverview
@@ -86,6 +88,7 @@ const useLayout = () => {
     }
   ];
 
+  // All Functions:
   const isCurrent = useCallback(
     (navItem) => !!matchPath({ path: navItem.pattern }, location.pathname),
     [location.pathname]
@@ -114,6 +117,7 @@ const useLayout = () => {
     }
   };
 
+  // All use effects
   useEffect(() => {
     if (selectedGridData && selectedGridData.isTrialGrid) {
       setShowTrialGridBannerInGridOverview(true);
@@ -129,6 +133,7 @@ const useLayout = () => {
     navigationClickHandler,
     primaryNavs,
     secondaryNavs,
+    selectedGridData,
     showOnboardingTooltips,
     showTrialGridBannerInGridOverview,
     userDetails
