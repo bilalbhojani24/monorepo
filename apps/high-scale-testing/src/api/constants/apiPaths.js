@@ -14,6 +14,7 @@ const SETUP_EVENT_LOGS_DATA_PATH = `${SETUP_PATH}${EVENT_LOGS}`;
 const SETUP_REGION_PATH = `${SETUP_PATH}/region-update`;
 const SETUP_STATUS_PATH = `${SETUP_PATH}/status-update`;
 const SSO_PATH = '/auth/start-sso';
+const UPDATE_METADATA_PATH = '/update-metadata';
 
 export {
   CREATE_GRID_EVENT_LOGS_DATA_PATH,
@@ -28,5 +29,6 @@ export {
   SETUP_PATH,
   SETUP_REGION_PATH,
   SETUP_STATUS_PATH,
-  SSO_PATH
+  SSO_PATH,
+  UPDATE_METADATA_PATH
 };

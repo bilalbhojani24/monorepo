@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useMountEffect } from '@browserstack/hooks';
+import { updateMetadata } from 'api/index';
 import {
   AGGridDetailsInteracted,
   AGGridDetailsVisited
@@ -56,6 +57,7 @@ const useGridOverview = () => {
   };
 
   const onboardingTooltipSkipBtnHandler = () => {
+    updateMetadata(userDetails.id, true);
     dispatch(setShowOnboardingTooltips(false));
   };
 

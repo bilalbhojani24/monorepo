@@ -13,7 +13,8 @@ import {
   SETUP_EVENT_LOGS_DATA_URL,
   SETUP_REGION_CHANGE_URL,
   SETUP_STATUS_URL,
-  UPDATE_GRID_SETTINGS_URL
+  UPDATE_GRID_SETTINGS_URL,
+  UPDATE_METADATA_URL
 } from './constants/apiURLs';
 
 const createTrialGridForUser = ({ userId, setupType }) =>
@@ -85,6 +86,12 @@ const markSetupRegionChange = (userId, cloudProvider, newRegionObject) =>
     params: { userId, cloudProvider, region: newRegionObject }
   });
 
+const updateMetadata = (userId, trialGridProductOnboardingCompleted) =>
+  axios.put(UPDATE_METADATA_URL, {
+    userId,
+    trialGridProductOnboardingCompleted
+  });
+
 const updateSettings = (userId, gridId, settingsObj) =>
   axios.put(`${UPDATE_GRID_SETTINGS_URL}/${gridId}`, {
     userId,
@@ -104,5 +111,6 @@ export {
   getSetupEventsLogsData,
   markSetupRegionChange,
   markSetupStatus,
+  updateMetadata,
   updateSettings
 };

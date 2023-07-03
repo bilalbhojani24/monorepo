@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { MdOutlineTextSnippet, MdWeb } from '@browserstack/bifrost';
+import { updateMetadata } from 'api/index';
 import AutomatioConsole from 'assets/icons/components/AutomationConsole';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
@@ -51,6 +52,7 @@ const useLayout = () => {
         dispatch(setCurrentOnboardingTooltipCount(4));
       },
       onboardingTooltipSkipBtnHandler: () => {
+        updateMetadata(userDetails.id, true);
         dispatch(setShowOnboardingTooltips(false));
       },
       path: ROUTES.GRID_CONSOLE,
