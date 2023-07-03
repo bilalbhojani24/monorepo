@@ -1,4 +1,5 @@
 import {
+  cookieUtils as CookieUtils,
   initLogger,
   logEvent as logAccessibilityEvent
 } from '@browserstack/utils';
@@ -9,6 +10,8 @@ import store from '../store';
 
 let isInit = false;
 const eventQueue = [];
+
+const cookieUtils = new CookieUtils();
 
 const env = getCurrentEnv();
 
@@ -74,7 +77,12 @@ export const getCookieByKeyName = (key) => {
 
 export const logEvent = (name, data = {}, skipLoggingKeys = []) => {
   const product = 'accessibility';
-  const analyticsPayload = { ...data };
+  const experimentValue = {
+    experiments: {
+      header_scalability: cookieUtils.read('header_scalability')
+    }
+  };
+  const analyticsPayload = { ...data, ...experimentValue };
   analyticsPayload.event_name = name;
 
   if (!isInit) {
@@ -91,9 +99,14 @@ export const logEvent = (name, data = {}, skipLoggingKeys = []) => {
 export const startLogging = () => {
   const keys = getLoggersKeys();
   initLogger(keys);
+  const experimentValue = {
+    experiments: {
+      header_scalability: cookieUtils.read('header_scalability')
+    }
+  };
   if (eventQueue.length) {
     eventQueue.forEach(({ name, data, skipLoggingKeys }) => {
-      logEvent(name, data, skipLoggingKeys);
+      logEvent(name, { ...data, ...experimentValue }, skipLoggingKeys);
     });
   }
   isInit = true;

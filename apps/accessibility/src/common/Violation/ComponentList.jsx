@@ -89,7 +89,7 @@ export default function ComponentList({
           {tableData.map(({ id, isActive, ...rest }) => (
             <TableRow
               wrapperClassName={twClassNames('cursor-pointer', {
-                'bg-brand-50': !!activeComponentId
+                'bg-brand-50': activeComponentId === id
               })}
               onRowClick={() => onRowClick(id, violationId)}
             >

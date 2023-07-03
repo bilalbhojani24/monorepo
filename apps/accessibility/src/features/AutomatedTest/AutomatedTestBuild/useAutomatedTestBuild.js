@@ -100,7 +100,6 @@ export default function useAutomatedTestBuild() {
 
   useEffect(() => {
     const fetchData = (() => {
-      console.log('activeTab: ', activeTab);
       switch (activeTab) {
         case SUMMARY:
           return fetchOverview;

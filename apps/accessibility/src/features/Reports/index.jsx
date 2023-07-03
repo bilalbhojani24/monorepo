@@ -22,6 +22,7 @@ import Logo from 'assets/accessibility_logo.png';
 import NotFound from 'assets/not_found.svg';
 import Loader from 'common/Loader';
 import { CHROME_EXTENSION_URL, reportPerPage, reportType } from 'constants';
+import { getDashboardWidth } from 'utils';
 import { logEvent } from 'utils/logEvent';
 
 import ColdStart from './components/ColdStart';
@@ -113,150 +114,146 @@ export default function Reports() {
       <div
         className="border-base-200 fixed z-10 w-full p-6"
         style={{
-          width: 'calc(100vw - 256px)',
+          width: `calc(${getDashboardWidth()})`,
           top: showBanner ? '128px' : '64px',
           borderBottomWidth: searchFilterList.length ? '1px' : 0
         }}
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="mb-2 text-2xl font-bold">Accessibility reports</h1>
+            <h1 className="mb-2 text-2xl font-bold">Manual test reports</h1>
             <h3 className="text-base-500 mb-4 text-sm font-medium">
               Select reports to view them. You can select more than one report
               to consolidate and review reports.
             </h3>
           </div>
-          {searchFilterList.length ? (
-            <Tooltip
-              show={showExtButtonTooltip}
-              placementAlign="end"
-              placementSide="bottom"
-              arrowPadding={10}
-              content={
-                <>
-                  <TooltipHeader>
-                    Start your Accessibility testing!{' '}
-                    <span role="img" aria-label="rocket emoji">
-                      🚀
-                    </span>
-                  </TooltipHeader>
-                  <TooltipBody>
-                    Use the extension to scan your web pages & workflows for
-                    accessibility issues.
-                  </TooltipBody>
-                </>
-              }
-              theme="dark"
-              onMouseLeave={() => {
-                logEvent('OnManualTestReportsDownloadExtensionTooltip');
+          <Tooltip
+            show={showExtButtonTooltip}
+            placementAlign="end"
+            placementSide="bottom"
+            arrowPadding={10}
+            content={
+              <>
+                <TooltipHeader>
+                  Start your Accessibility testing!{' '}
+                  <span role="img" aria-label="rocket emoji">
+                    🚀
+                  </span>
+                </TooltipHeader>
+                <TooltipBody>
+                  Use the extension to scan your web pages & workflows for
+                  accessibility issues.
+                </TooltipBody>
+              </>
+            }
+            theme="dark"
+            onMouseLeave={() => {
+              logEvent('OnManualTestReportsDownloadExtensionTooltip');
+            }}
+            onOpenChange={() => setShowExtButtonTooltip((state) => !state)}
+            delay={1000}
+          >
+            <Button
+              iconPlacement="start"
+              icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
+              onClick={() => {
+                window.open(CHROME_EXTENSION_URL, '_target');
+                logEvent('ClickedOnDownloadExtensionCTA', {
+                  source: 'Manual test reports',
+                  noReports: searchFilterList.length === 0
+                });
               }}
-              onOpenChange={() => setShowExtButtonTooltip((state) => !state)}
-              delay={1000}
+              size="small"
+              colors="white"
+              wrapperClassName="py-2"
             >
-              <Button
-                iconPlacement="start"
-                icon={<MdOpenInNew className="text-base-500 h-5 w-5" />}
-                onClick={() => {
-                  window.open(CHROME_EXTENSION_URL, '_target');
-                  logEvent('ClickedOnDownloadExtensionCTA', {
-                    source: 'Manual test reports',
-                    noReports: searchFilterList.length === 0
-                  });
-                }}
-                size="small"
-                colors="white"
-                wrapperClassName="py-2"
-              >
-                Download extension
-              </Button>
-            </Tooltip>
-          ) : null}
+              Download extension
+            </Button>
+          </Tooltip>
         </div>
 
-        {searchFilterList.length ? (
-          <div>
-            <div className="flex items-center">
-              <div className="mr-4 flex">
-                <InputField
-                  id="search-report"
-                  leadingIcon={<MdSearch />}
-                  placeholder="Search for report name or user..."
-                  onChange={onInputValueChange}
-                  wrapperClassName="mr-4 w-80 bg-white"
-                />
-                <div className="w-40">
-                  <SelectMenu
-                    onChange={onUpdateSelectedReportType}
-                    value={selectedReportType}
-                    isMulti
-                  >
-                    <SelectMenuTrigger
-                      placeholder="Type"
-                      triggerIcon={<MdKeyboardArrowDown className="text-xl" />}
-                    />
-                    <SelectMenuOptionGroup>
-                      {reportType.map((item) => (
-                        <SelectMenuOptionItem
-                          key={item.value}
-                          option={item}
-                          wrapperClassName="text-sm font-semibold text-base-900"
-                        />
-                      ))}
-                    </SelectMenuOptionGroup>
-                  </SelectMenu>
-                </div>
+        <div>
+          <div className="flex items-center">
+            <div className="mr-4 flex">
+              <InputField
+                id="search-report"
+                leadingIcon={<MdSearch />}
+                placeholder="Search for report name or user..."
+                onChange={onInputValueChange}
+                wrapperClassName="mr-4 w-80 bg-white"
+              />
+              <div className="w-40">
+                <SelectMenu
+                  onChange={onUpdateSelectedReportType}
+                  value={selectedReportType}
+                  isMulti
+                >
+                  <SelectMenuTrigger
+                    placeholder="Type"
+                    triggerIcon={<MdKeyboardArrowDown className="text-xl" />}
+                  />
+                  <SelectMenuOptionGroup>
+                    {reportType.map((item) => (
+                      <SelectMenuOptionItem
+                        key={item.value}
+                        option={item}
+                        wrapperClassName="text-sm font-semibold text-base-900"
+                      />
+                    ))}
+                  </SelectMenuOptionGroup>
+                </SelectMenu>
               </div>
-              <div className="flex items-center">
-                {isMergeDisabled ? (
-                  <Tooltip
-                    theme="dark"
-                    placementAlign="center"
-                    placementSide="bottom"
-                    content={
-                      <TooltipBody wrapperClassName="text-center w-56 text-sm text-base-300">
-                        Select at least two reports to consolidate them
-                      </TooltipBody>
-                    }
-                  >
-                    <Button
-                      iconPlacement="end"
-                      icon={<MdOutlineArrowForward className="text-xl" />}
-                      onClick={onReportConsolidateButtonClick}
-                      disabled={isMergeDisabled}
-                      size="default"
-                      variant="secondary"
-                    >
-                      Consolidate reports
-                    </Button>
-                  </Tooltip>
-                ) : (
+            </div>
+            <div className="flex items-center">
+              {isMergeDisabled ? (
+                <Tooltip
+                  theme="dark"
+                  placementAlign="center"
+                  placementSide="bottom"
+                  content={
+                    <TooltipBody wrapperClassName="text-center w-56 text-sm text-base-300">
+                      Select at least two reports to consolidate them
+                    </TooltipBody>
+                  }
+                >
                   <Button
-                    size="default"
                     iconPlacement="end"
                     icon={<MdOutlineArrowForward className="text-xl" />}
                     onClick={onReportConsolidateButtonClick}
                     disabled={isMergeDisabled}
+                    size="default"
                     variant="secondary"
                   >
                     Consolidate reports
                   </Button>
-                )}
-                {selectedReportsLength > 0 && (
-                  <Button
-                    iconPlacement="end"
-                    icon={<MdClose className="text-xl" />}
-                    onClick={resetSelection}
-                    wrapperClassName="ml-4"
-                    variant="minimal"
-                    colors="white"
-                  >
-                    Clear {selectedReportsLength} selected
-                  </Button>
-                )}
-              </div>
+                </Tooltip>
+              ) : (
+                <Button
+                  size="default"
+                  iconPlacement="end"
+                  icon={<MdOutlineArrowForward className="text-xl" />}
+                  onClick={onReportConsolidateButtonClick}
+                  disabled={isMergeDisabled}
+                  variant="secondary"
+                >
+                  Consolidate reports
+                </Button>
+              )}
+              {selectedReportsLength > 0 && (
+                <Button
+                  iconPlacement="end"
+                  icon={<MdClose className="text-xl" />}
+                  onClick={resetSelection}
+                  wrapperClassName="ml-4"
+                  variant="minimal"
+                  colors="white"
+                >
+                  Clear {selectedReportsLength} selected
+                </Button>
+              )}
             </div>
           </div>
-        ) : null}
+        </div>
       </div>
       {!showColdStart ? (
         <div
@@ -265,7 +262,7 @@ export default function Reports() {
           style={{
             height: showBanner ? 'calc(100vh - 291px)' : 'calc(100vh - 227px)',
             top: showBanner ? '291px' : '227px',
-            width: 'calc(100vw - 256px)'
+            width: `calc(${getDashboardWidth()})`
           }}
           onScroll={handleScroll}
         >
@@ -274,8 +271,8 @@ export default function Reports() {
           )}
           {!isLoading && searchFilterList.length === 0 && (
             <div
-              className="bg-base-50 mt-12 "
-              style={{ height: 'calc(100vh - 228px)' }}
+              className="bg-base-50 mt-12 flex items-center justify-center"
+              style={{ height: 'calc(100vh - 480px)' }}
             >
               <div className="mb-5 flex w-full flex-col items-center justify-center">
                 <img src={NotFound} alt="No reports found" className="w-80" />

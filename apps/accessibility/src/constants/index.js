@@ -12,6 +12,8 @@ export const PROD_API_URL = 'https://www.browserstack.com/accessibility/api';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const CHROME_EXTENSION_URL =
   'https://chrome.google.com/webstore/detail/accessibility-toolkit/fmkhjeeeojocenbconhndpiohohajokn';
+export const TAP_DOCUMENTATION_URL =
+  'https://www.browserstack.com/docs/automate-accessibility-testing/overview/introduction';
 export const ROUTES = {
   report: '/reports/report',
   reports: '/reports',
@@ -57,38 +59,6 @@ export const FILTER_KEYS = {
 };
 
 export const BSTACK_TOPNAV_ELEMENT_ID = 'a11y-header';
-
-export const columns = [
-  {
-    title: 'Report name',
-    key: 'report_name',
-    width: 320
-  },
-  {
-    title: 'Scan by',
-    key: 'scan_by'
-  },
-  {
-    title: 'Date',
-    key: 'time'
-  },
-  {
-    title: 'Scan scope',
-    key: 'scan_scope'
-  },
-  {
-    title: 'Issue count',
-    key: 'issue_count'
-  },
-  {
-    title: 'Page count',
-    key: 'page_count'
-  },
-  {
-    title: '',
-    key: 'hyperlink'
-  }
-];
 
 export const versions = [
   {
@@ -398,4 +368,5 @@ export const sentryConfig = {
   ]
 };
 
+export const PRODUCT_NAV_IDENTIFIER = 'Accessibility Testing';
 export const ALL_PROJECTS = 'All projects';

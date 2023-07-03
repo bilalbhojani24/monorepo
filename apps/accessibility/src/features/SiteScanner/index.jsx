@@ -38,6 +38,7 @@ import NewScanLogo from 'assets/noScans.svg';
 import NotFound from 'assets/not_found.svg';
 import cronstrue from 'cronstrue';
 import dateFormat from 'dateformat';
+import { getDashboardWidth } from 'utils';
 import { logEvent } from 'utils/logEvent';
 
 import {
@@ -411,7 +412,7 @@ export default function SiteScanner() {
                   id="search-scan"
                   placeholder="Search for scan name or user..."
                   leadingIcon={<MdSearch />}
-                  wrapperClassName="mr-4 mt-1 w-80 bg-white"
+                  wrapperClassName="mr-4 mt-1 w-80 z-0 bg-white"
                 />
                 <div className="mr-4 mt-1">
                   <Dropdown onClick={handleSearchFilter} id="scanFilter">
@@ -445,7 +446,7 @@ export default function SiteScanner() {
               className="fixed overflow-y-auto"
               style={{
                 height: 'calc(100vh - 228px)',
-                width: 'calc(100vw - 256px)'
+                width: `calc(${getDashboardWidth()})`
               }}
             >
               <Table>
@@ -638,8 +639,8 @@ export default function SiteScanner() {
             </div>
           ) : (
             <div
-              className="bg-base-50 mt-12 "
-              style={{ height: 'calc(100vh - 228px)' }}
+              className="bg-base-50 mt-12 flex items-center justify-center"
+              style={{ height: 'calc(100vh - 480px)' }}
             >
               <div className="mb-5 flex w-full flex-col items-center justify-center">
                 <img src={NotFound} alt="No scans found" className="w-80" />

@@ -1,6 +1,8 @@
 import { parseDate } from '@internationalized/date';
 import { ISO_DATE_FORMAT, O11Y_DATE_RANGE } from 'constants/common';
 import {
+  differenceInDays,
+  differenceInSeconds,
   endOfDay,
   format,
   getUnixTime,
@@ -32,7 +34,8 @@ export function getCustomTimeStamp({
   dateString,
   withoutTZ = false,
   withoutTime,
-  dateFormat
+  dateFormat,
+  hideSeconds = false
 }) {
   const dateObject = new Date(dateString);
   const timeZone = extractTimezoneAbbr(dateObject);
@@ -50,7 +53,10 @@ export function getCustomTimeStamp({
       : formattedDate;
     return withoutTZ ? formattedDate : returnDate;
   }
-  const formattedDate = format(dateObject, 'MMM dd, yyyy | h:mm:ss a');
+  const formattedDate = format(
+    dateObject,
+    hideSeconds ? 'MMM dd, yyyy | h:mm a' : 'MMM dd, yyyy | h:mm:ss a'
+  );
   const returnDate = timeZone
     ? `${formattedDate} (${timeZone})`
     : formattedDate;
@@ -148,6 +154,10 @@ export function getTTTimeBounds(activeKey) {
 export const getISOParsedDate = (date) =>
   parseDate(getDateInFormat(date, ISO_DATE_FORMAT));
 
+export const getDifferenceInDays = (date1, date2) =>
+  differenceInDays(date1, date2);
+export const getDifferenceInSeconds = (date1, date2) =>
+  differenceInSeconds(date1, date2);
 export const getO11yTimeBounds = (activeKey) => {
   const timebounds = {
     upperBound: Date.now(),

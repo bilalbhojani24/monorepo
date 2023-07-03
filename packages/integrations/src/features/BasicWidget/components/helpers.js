@@ -6,7 +6,7 @@ export const getWidgetRenderPosition = (
   widgetRefClientRect
   // eslint-disable-next-line sonarjs/cognitive-complexity
 ) => {
-  const bodyWidth = document.body.getBoundingClientRect().width;
+  const windowWidth = window.innerWidth;
   let x = MARGIN.FROM_SCREEN_EDGES;
   let y = 0;
   const widgetWidth =
@@ -20,8 +20,8 @@ export const getWidgetRenderPosition = (
         const dockRight = dockRefClientRect.right;
         const dockTop = dockRefClientRect.top;
         x =
-          dockRight + widgetWidth > bodyWidth
-            ? bodyWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES
+          dockRight + widgetWidth > windowWidth
+            ? windowWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES
             : // gap between widget and dock
               dockRight + MARGIN.DOCK_AND_WIDGET;
         y = dockTop;
@@ -34,8 +34,8 @@ export const getWidgetRenderPosition = (
         if (widgetRefClientRect.left) {
           x =
             widgetRefClientRect.left + widgetWidth + MARGIN.FROM_SCREEN_EDGES >
-            bodyWidth
-              ? bodyWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES
+            windowWidth
+              ? windowWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES
               : widgetRefClientRect.left;
         } else {
           x =
@@ -52,17 +52,17 @@ export const getWidgetRenderPosition = (
     if (widgetRefClientRect.left) {
       x =
         widgetRefClientRect.left + widgetWidth + MARGIN.FROM_SCREEN_EDGES >
-        bodyWidth
-          ? bodyWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES
+        windowWidth
+          ? windowWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES
           : widgetRefClientRect.left;
     } else {
       switch (position) {
         case 'right': {
-          x = bodyWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES;
+          x = windowWidth - widgetWidth - MARGIN.FROM_SCREEN_EDGES;
           break;
         }
         case 'center': {
-          x = bodyWidth / 2 - widgetWidth / 2;
+          x = windowWidth / 2 - widgetWidth / 2;
           break;
         }
         default:

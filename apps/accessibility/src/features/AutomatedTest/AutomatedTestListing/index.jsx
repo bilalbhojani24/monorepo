@@ -11,6 +11,7 @@ import {
 } from '@browserstack/bifrost';
 import ColdStart from 'common/ColdStart';
 import { logEvent } from 'utils/logEvent';
+
 import AutomatedTestList from './AutomatedTestList';
 import useAutomatedTestListing from './useAutomatedTestListing';
 
@@ -20,12 +21,14 @@ export default function AutomatedTestListing() {
     onInputValueChange,
     onComboboxValueChange,
     comboboxItems,
-    handleSelectChange
+    handleSelectChange,
+    showColdStart,
+    handleViewButtonClick
   } = useAutomatedTestListing();
 
   return (
     <div className="bg-white">
-      {buildListing ? (
+      {!showColdStart ? (
         <>
           <div className="bg-base-50 fixed top-16 z-[2] w-[calc(100vw-256px)] px-6 pb-4 pt-6">
             <div className="flex items-start justify-between">
@@ -38,14 +41,7 @@ export default function AutomatedTestListing() {
                   BrowserStack SDK.
                 </p>
               </div>
-              <Button
-                onClick={() =>
-                  logEvent('InteractedWithAutomatedTestsHomepageView', {
-                    action: 'View documentation'
-                  })
-                }
-                colors="white"
-              >
+              <Button onClick={handleViewButtonClick} colors="white">
                 View documentation
               </Button>
             </div>

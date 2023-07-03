@@ -1,29 +1,33 @@
 export const PORTAL_ID = 'root-portal';
 export const DOC_KEY_MAPPING = {
-  application_logs: 'integrations/application-logs',
-  auto_analyser: 'features/auto-failure-analysis',
-  automation_build: 'how-to-guides/organize-test-runs',
-  cypress: 'quick-start/cypress',
   introduction: 'overview/what-is-test-observability',
-  junit: 'quick-start/junit-reports',
-  mocha: 'quick-start/mocha',
-  mute: 'features/mute-tests',
-  nightwatch: 'quick-start/nightwatchjs',
-  playwright: 'quick-start/playwright',
-  re_run: 'features/re-run',
-  smart_tags: 'features/smart-tags',
-  source_code: 'integrations/source-code',
+  wdio: 'quick-start/webdriverio',
   testng: 'quick-start/testng',
+  mocha: 'quick-start/mocha',
+  junit: 'quick-start/junit-reports',
+  cypress: 'quick-start/cypress',
+  playwright: 'quick-start/playwright',
+  nightwatch: 'quick-start/nightwatchjs',
+  auto_analyser: 'features/auto-failure-analysis',
+  re_run: 'features/re-run',
+  mute: 'features/mute-tests',
+  source_code: 'integrations/source-code',
+  automation_build: 'how-to-guides/organize-test-runs',
+  application_logs: 'integrations/application-logs',
+  smart_tags: 'features/smart-tags',
   tnc: `references/terms-and-conditions`,
   uploading_logs: 'integrations/application-logs',
-  wdio: 'quick-start/webdriverio'
+  settings_alerts: 'how-to-guides/custom-alerts',
+  settings_failure_category:
+    'features/auto-failure-analysis#how-to-create-custom-failure-categories'
 };
 export const EXTERNAL_LINKS = {
   contact: 'contact?ref=header',
   supportLink: 'support/test-observability',
   getADemo: 'contact?&ref=observability-dashboard-demo-lead',
   planAndPricing: 'pricing?product=test-observability',
-  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead',
+  buyAPlan:
+    'pricing?product=test-observability&ref=observability-dashboard-top-header-csf-lead',
   manageUsers: 'accounts/manage-users'
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
@@ -244,3 +248,5 @@ export const FLOATING_COMPONENTS_IDS = {
   UNIQUE_ERRORS_DETAILS: 'UNIQUE_ERRORS_DETAILS',
   O11Y_SETTINGS: 'O11Y_SETTINGS'
 };
+
+export const PRODUCT_NAV_IDENTIFIER = 'Test Observability';

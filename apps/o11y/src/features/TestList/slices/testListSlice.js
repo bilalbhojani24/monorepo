@@ -254,8 +254,8 @@ const { actions, reducer } = createSlice({
             : payload.hierarchy,
           pagingParams: payload.pagingParams,
           buildId: payload.buildId,
-          status: payload.status,
-          smartTagSettings: prevSmartTagValue || payload.smartTagSettings
+          smartTagSettings: prevSmartTagValue || payload.smartTagSettings,
+          status: payload.status
         };
         state.testList.apiState = newAPIStatus;
       })
