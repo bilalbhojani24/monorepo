@@ -11,7 +11,13 @@ const initialState = {
   isLoading: {
     allProjects: true
   },
-  notification: null
+  notification: null,
+  requestAccessConfig: {
+    isAdmin: null,
+    userHasAccess: null,
+    accessRequested: null
+  },
+  showFreshChatButton: true
 };
 
 export const globalSlice = createSlice({
@@ -56,6 +62,15 @@ export const globalSlice = createSlice({
     setUserAndGroupConfig: (state, { payload }) => {
       // for amplitude
       state.userAndGroupConfig = payload;
+    },
+    setRequestAccessConfig: (state, { payload }) => {
+      // for IAAM
+      state.requestAccessConfig.isAdmin = payload.is_admin;
+      state.requestAccessConfig.userHasAccess = payload.tcm_access;
+      state.requestAccessConfig.accessRequested = payload.is_access_requested;
+    },
+    setShowFreshChatButton: (state, { payload }) => {
+      state.showFreshChatButton = payload;
     }
   }
 });
@@ -71,7 +86,9 @@ export const {
   addGlobalProject,
   updateGlobalProject,
   deleteGlobalProject,
-  setUserAndGroupConfig
+  setUserAndGroupConfig,
+  setRequestAccessConfig,
+  setShowFreshChatButton
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

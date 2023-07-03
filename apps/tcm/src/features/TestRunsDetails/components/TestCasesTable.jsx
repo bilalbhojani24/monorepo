@@ -49,7 +49,7 @@ const TestCasesTable = () => {
       name: 'ID',
       key: 'identifier',
       class: 'w-[10%]',
-      bodyClass: '[&>div]:w-[88px]',
+      bodyClass: '[&>div]:w-[80px]',
       cell: (rowData) => (
         <div
           role="button"
@@ -77,7 +77,7 @@ const TestCasesTable = () => {
       name: 'TITLE',
       key: 'name',
       class: 'w-[65%]',
-      bodyClass: '[&>div]:w-[calc(100vw-970px)]',
+      bodyClass: '[&>div]:w-[calc(100vw-1030px)]', // 1030 is calculated from other columns fixed width, as of now only title column has variable width,NOTE: this will be removed in upcoming PR on search filter integration
       cell: (rowData) => (
         <div
           role="button"
@@ -187,13 +187,18 @@ const TestCasesTable = () => {
   ];
 
   return (
-    <div className="flex-col overflow-y-auto border-none">
+    <div
+      className={twClassNames('flex-col overflow-y-auto border-none', {
+        'pb-20': !(metaPage?.count > metaPage?.page_size)
+      })}
+    >
       <TMTable
         tableWrapperClass="w-full"
         containerWrapperClass={classNames(
           // 'max-w-[calc(100vw-40rem)]'
           'overflow-y-auto md:rounded-none'
         )}
+        bottomShadow={false}
       >
         <TMTableHead wrapperClassName="w-full rounded-xs">
           <TMTableRow wrapperClassName="relative">

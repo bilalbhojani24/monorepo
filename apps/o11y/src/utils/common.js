@@ -1,11 +1,13 @@
 import { convertNodeToElement } from 'react-html-parser';
-import { logEvent } from '@browserstack/utils';
+import { cookieUtils as CookieUtils, logEvent } from '@browserstack/utils';
 import { SUPPORTED_HTML_TAGS, TEST_STATUS } from 'constants/common';
 import stageConfigMapping from 'constants/stageConfigMapping';
 import { getUserDetails } from 'globalSlice/selectors';
 import { keyBy, merge, values } from 'lodash';
 
 import { store } from '../store';
+
+const cookieUtils = new CookieUtils();
 
 export const getBaseUrl = () => {
   const { hostname, protocol } = window.location;
@@ -23,15 +25,6 @@ export const getCurrentUrl = () => {
   return `${protocol}//${hostname}${portString}`;
 };
 
-export const docsLink = () => ({
-  quickStart: `${getBaseUrl}/docs/test-observability/quick-start`,
-  mainDoc: `${getBaseUrl}/docs/test-observability/`,
-  autoAnalyser: `${getBaseUrl}/docs/test-observability/features/auto-failure-analysis`,
-  muteTests: `${getBaseUrl}/docs/test-observability/features/mute-tests`,
-  reRun: `${getBaseUrl}/docs/test-observability/features/re-run`,
-  tnc: `${getBaseUrl}/docs/test-observability/references/terms-and-conditions`,
-  organizeRuns: `${getBaseUrl}/docs/test-observability/how-to-guides/organize-test-runs`
-});
 export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
   if (!stage) {
     let guessedStage = '';
@@ -61,6 +54,7 @@ export const getNumericValue = (value) => +value.replace(/\D/g, '') || '';
 
 export const logOllyEvent = ({ event, data = {} }) => {
   const isSuperUser = getUserDetails(store.getState())?.isSuperUser;
+  const headerScalability = cookieUtils.read('header_scalability');
   const commonData = {
     url: window.location.href,
     screenResolution: {
@@ -82,7 +76,8 @@ export const logOllyEvent = ({ event, data = {} }) => {
         : window.location.hostname,
     is_dark_mode:
       window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
+      window.matchMedia('(prefers-color-scheme: dark)').matches,
+    headerScalabilityExperimentEnabled: headerScalability === 'true'
   };
   if (
     !isSuperUser &&
@@ -140,6 +135,9 @@ export const getOsIconName = (os) => {
 };
 
 export const getIconName = (name = '', device = '') => {
+  if (name?.toLowerCase()?.includes('playwright')) {
+    return `icon-playwright`;
+  }
   if (name) {
     return `icon-${name.toLowerCase()}`;
   }

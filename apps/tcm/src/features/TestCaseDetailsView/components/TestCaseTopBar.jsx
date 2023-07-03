@@ -1,10 +1,6 @@
 import React from 'react';
 import { AutomationIcon } from '@browserstack/bifrost';
-import {
-  // ArrowBackOutlinedIcon,
-  // ArrowForwardOutlinedIcon,
-  InfoOutlinedIcon
-} from 'assets/icons';
+import { InfoOutlinedIcon } from 'assets/icons';
 import {
   TMAlerts,
   TMDropdown,

@@ -14,7 +14,6 @@ const TMSelectMenu = forwardRef(
   (
     {
       placeholder,
-      dividerIdx,
       label,
       options,
       onChange,
@@ -23,7 +22,8 @@ const TMSelectMenu = forwardRef(
       defaultValue,
       triggerWrapperClassName,
       checkPosition,
-      onOpenChange
+      onOpenChange,
+      disabled
     },
     ref
   ) => (
@@ -33,6 +33,7 @@ const TMSelectMenu = forwardRef(
       isMulti={isMulti}
       defaultValue={defaultValue}
       onOpenChange={onOpenChange}
+      disabled={disabled}
     >
       {label && <SelectMenuLabel>{label}</SelectMenuLabel>}
       <SelectMenuTrigger
@@ -46,12 +47,12 @@ const TMSelectMenu = forwardRef(
       {options.length ? (
         <SelectMenuOptionGroup>
           {React.Children.toArray(
-            options.map((item, idx) => (
+            options.map((item) => (
               <SelectMenuOptionItem
                 checkPosition={checkPosition}
                 option={item}
                 wrapperClassName={
-                  idx === dividerIdx ? 'border-base-100 border-b' : ''
+                  item.divider ? 'border-base-100 border-b' : ''
                 }
               />
             ))
@@ -68,7 +69,6 @@ TMSelectMenu.propTypes = {
   label: PropTypes.string,
   checkPosition: PropTypes.string,
   triggerWrapperClassName: PropTypes.string,
-  dividerIdx: PropTypes.number,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
@@ -88,13 +88,13 @@ TMSelectMenu.propTypes = {
     label: PropTypes.string.isRequired,
     image: PropTypes.string
   }),
-  onOpenChange: PropTypes.func
+  onOpenChange: PropTypes.func,
+  disabled: PropTypes.bool
 };
 
 TMSelectMenu.defaultProps = {
   isMulti: false,
   placeholder: '',
-  dividerIdx: null,
   label: '',
   checkPosition: 'left',
   triggerWrapperClassName: '',
@@ -102,6 +102,7 @@ TMSelectMenu.defaultProps = {
   onChange: () => {},
   value: null,
   defaultValue: null,
-  onOpenChange: () => {}
+  onOpenChange: () => {},
+  disabled: false
 };
 export default TMSelectMenu;

@@ -7,11 +7,20 @@ import { useCTACardContext } from '../CTACard/utils';
 
 import { CONTENT_PADDING, DESCRIPTION_STYLES, HEADER_STYLES } from './const';
 
-const CTACardContent = ({ children, header, description }) => {
+const CTACardContent = ({
+  children,
+  header,
+  description,
+  wrapperClassName
+}) => {
   const { size } = useCTACardContext();
 
   return (
-    <div className={twClassNames('flex-1', CONTENT_PADDING[size])}>
+    <div
+      className={twClassNames('flex-1', CONTENT_PADDING[size], {
+        wrapperClassName
+      })}
+    >
       <p
         className={twClassNames(
           'text-base-900 font-semibold',
@@ -45,7 +54,12 @@ const CTACardContent = ({ children, header, description }) => {
 CTACardContent.propTypes = {
   header: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  wrapperClassName: PropTypes.string
+};
+
+CTACardContent.defaultProps = {
+  wrapperClassName: ''
 };
 
 export default CTACardContent;

@@ -11,10 +11,15 @@ import {
   SkipToContent
 } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
+import { ProductSidenav } from '@browserstack/webex';
 import FreshchatIntegration from 'common/FreshchatIntegration';
 import ReverseTrialBannerWrapper from 'common/ReverseTrialBannerWrapper';
 import ReverseTrialModalWrapper from 'common/ReverseTrialModalWrapper';
-import { getUrlForHeader } from 'constants';
+import {
+  BSTACK_TOPNAV_ELEMENT_ID,
+  getUrlForHeader,
+  PRODUCT_NAV_IDENTIFIER
+} from 'constants';
 import { arrayOf, node, oneOfType, string } from 'prop-types';
 import { getBrowserStackBase } from 'utils';
 import { logEvent } from 'utils/logEvent';
@@ -132,92 +137,102 @@ export default function Dashboard({ children }) {
       <SkipToContent target={mainRef} wrapperClassName="z-50 bg-white">
         Skip to main content
       </SkipToContent>
-      <Header
-        wrapperClassName="fixed top-0 z-10 w-full"
-        productName="Accessibility Testing"
-        release="Beta"
-        productArray={[
-          { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
-          {
-            name: 'Automate',
-            link: 'https://automate.browserstack.com/dashboard'
-          },
-          {
-            name: 'Percy',
-            link: 'https://percy.io/api/auth/start-sso'
-          }
-        ]}
-        headerElementArray={['team', 'help', 'account', 'pricing']}
-        documentation={{
-          title: 'Documentation',
-          options: [
+      <div id={BSTACK_TOPNAV_ELEMENT_ID}>
+        <Header
+          wrapperClassName="fixed top-0 z-10 w-full"
+          productName="Accessibility Testing"
+          release="Beta"
+          productArray={[
+            { name: 'Live', link: 'https://live.browserstack.com/dashboard' },
             {
-              name: 'Introduction',
-              link: getUrlForHeader('docs/accessibility/overview/introduction')
+              name: 'Automate',
+              link: 'https://automate.browserstack.com/dashboard'
+            },
+            {
+              name: 'Percy',
+              link: 'https://percy.io/api/auth/start-sso'
             }
-          ]
-        }}
-        references={{
-          title: 'References',
-          options: [
-            { name: 'WCAG 2.0', link: 'https://www.w3.org/TR/WCAG20/' },
-            { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
-          ]
-        }}
-        isFreeUser={isFreeUser}
-        buyPlanText="Buy a plan"
-        buyPlanLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard-top-header-csf-lead`}
-        planButtonVisible
-        callbackFunctions={{
-          onPlanAndPricingClick: () => {
-            logEvent('ClickHeaderPlansAndPricing', {
-              url: window.location.href
-            });
-          },
-          buyPlanClick: () => {
-            logEvent('ClickedBuyaPlan', {
-              Product: 'Accessibility Testing',
-              section: 'dashboard-top-header',
-              ProductPlanType: `${isFreeUser ? 'free' : 'paid'}`,
-              URL: window.location.href,
-              signed_in: true
-            });
-            if (!isFreeUser) {
-              logEvent('UpgradeCTAClicked_ProductDashboard', {
+          ]}
+          headerElementArray={['team', 'help', 'account', 'pricing']}
+          documentation={{
+            title: 'Documentation',
+            options: [
+              {
+                name: 'Introduction',
+                link: getUrlForHeader(
+                  'docs/accessibility/overview/introduction'
+                )
+              }
+            ]
+          }}
+          references={{
+            title: 'References',
+            options: [
+              { name: 'WCAG 2.0', link: 'https://www.w3.org/TR/WCAG20/' },
+              { name: 'WCAG 2.1', link: 'https://www.w3.org/TR/WCAG21/' }
+            ]
+          }}
+          isFreeUser={isFreeUser}
+          buyPlanText="Buy a plan"
+          buyPlanLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing&ref=accessibility-dashboard-top-header-csf-lead`}
+          buyPlanTarget="_blank"
+          planButtonVisible
+          planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing`}
+          supportLink={getUrlForHeader('contact#other')}
+          documentationLink={getUrlForHeader(
+            'docs/accessibility/overview/introduction'
+          )}
+          callbackFunctions={{
+            onPlanAndPricingClick: () => {
+              logEvent('ClickHeaderPlansAndPricing', {
+                url: window.location.href
+              });
+            },
+            buyPlanClick: () => {
+              logEvent('ClickedBuyaPlan', {
                 Product: 'Accessibility Testing',
                 section: 'dashboard-top-header',
+                ProductPlanType: `${isFreeUser ? 'free' : 'paid'}`,
                 URL: window.location.href,
                 signed_in: true
               });
+              if (!isFreeUser) {
+                logEvent('UpgradeCTAClicked_ProductDashboard', {
+                  Product: 'Accessibility Testing',
+                  section: 'dashboard-top-header',
+                  URL: window.location.href,
+                  signed_in: true
+                });
+              }
             }
-          }
-        }}
-        planPricingLink={`${getBrowserStackBase()}/pricing?product=accessibility-testing`}
-        supportLink={getUrlForHeader('contact#other')}
-        documentationLink={getUrlForHeader(
-          'docs/accessibility/overview/introduction'
-        )}
-      />
+          }}
+        />
+      </div>
       <ReverseTrialBannerWrapper />
-      <SidebarNavigation
-        sidebarPrimaryNavigation={SWBSidebarPri}
-        sidebarSecondaryNavigation={
-          showTrialTile() ? SWBSidebarSecSec : SWBSidebarSecPri
-        }
-        wrapperClassName={twClassNames('bg-white mt-5', {
-          'pt-32': showBanner,
-          'pt-16': !showBanner
-        })}
-      />
-      <main
-        ref={mainRef}
-        className="bg-base-50 mt-16 h-full pl-64"
-        style={{
-          marginTop: showBanner ? '128px' : '64px'
-        }}
-      >
-        {children}
-      </main>
+
+      <ProductSidenav activeProduct={PRODUCT_NAV_IDENTIFIER} />
+      <div id="app-main-content" className="ml-14">
+        <SidebarNavigation
+          sidebarPrimaryNavigation={SWBSidebarPri}
+          sidebarSecondaryNavigation={
+            showTrialTile() ? SWBSidebarSecSec : SWBSidebarSecPri
+          }
+          wrapperClassName={twClassNames('bg-white mt-5', {
+            'pt-32': showBanner,
+            'pt-16': !showBanner
+          })}
+        />
+        <main
+          ref={mainRef}
+          className="bg-base-50 mt-16 h-full pl-64"
+          style={{
+            marginTop: showBanner ? '128px' : '64px'
+          }}
+        >
+          {children}
+        </main>
+      </div>
+
       <NotificationsContainer containerStyle={{ top: '84px', right: '40px' }} />
       <FreshchatIntegration />
     </div>

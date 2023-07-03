@@ -122,7 +122,7 @@ export const formatLog = (log) => {
     const responseValue =
       getParsedJSON(data.response.value) || data.response.value;
     let text = '';
-    let isSnapShot = false;
+    const isSnapShot = false;
     if (responseValue?.status === undefined) {
       if (responseValue?.error) {
         text = responseValue.message;
@@ -138,14 +138,6 @@ export const formatLog = (log) => {
     const isObject = typeof text === 'object';
     if (!isObject) {
       text = text.toString();
-      if (
-        text.indexOf('https://s3.amazonaws.com') === 0 ||
-        (text.includes('https://www.browserstack.com') &&
-          text.includes('.png')) ||
-        text.includes('.jpeg')
-      ) {
-        isSnapShot = true;
-      }
     }
     data.response.value = {
       text,

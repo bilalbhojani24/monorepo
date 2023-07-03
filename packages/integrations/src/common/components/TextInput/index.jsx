@@ -3,7 +3,6 @@ import { InputField } from '@browserstack/bifrost';
 
 import { ALLOWED_TYPES } from '../../constants';
 import useRequiredFieldError from '../../hooks/useRequiredFieldError';
-import Label from '../Label';
 import { FieldType } from '../types';
 
 const TextField = ({
@@ -111,8 +110,8 @@ const TextField = ({
       data-field-type={schema?.field}
       data-field-key={fieldKey}
     >
-      <Label required={required} label={label} />
       <InputField
+        id={fieldKey}
         onChange={handleChange}
         value={valueToRender}
         placeholder={placeholder}
@@ -120,6 +119,8 @@ const TextField = ({
         errorText={error}
         type="text"
         disabled={disabled}
+        label={label}
+        isMandatory={required}
       />
     </div>
   );

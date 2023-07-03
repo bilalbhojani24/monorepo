@@ -1,9 +1,10 @@
 const AppRoute = {
   ROOT: '/',
   NO_ACCESS: '/access',
+  REQUEST_ACCESS: '/request-access',
   NOT_FOUND: '/404',
   LANDING: '/landing',
-  TEST_CASES: '/projects/:projectId/folder/:folderId?/test-cases?/:testCaseId?',
+  TEST_CASES: '/projects/:projectId/folder/:folderId?/test-cases?/:testCaseId?', // [NOTE: Please visit FreshChat module once if you add anything in this route]
   TEST_CASES_SEARCH: '/projects/:projectId/folder/search',
   DASHBOARD: '/projects/:projectId',
   TEST_RUNS: '/projects/:projectId/test-runs',

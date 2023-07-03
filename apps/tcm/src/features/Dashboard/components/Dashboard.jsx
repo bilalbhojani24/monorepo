@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { MdInfoOutline } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import classNames from 'classnames';
 import {
   TMAlerts,
@@ -83,7 +84,12 @@ const Dashboard = () => {
           detailsNode={null}
           modifier="primary"
         />
-        <div className="flex flex-col gap-y-6">
+        {/* eslint-disable-next-line tailwindcss/no-arbitrary-value */}
+        <div
+          className={twClassNames('flex flex-col gap-y-6', {
+            'pt-6': isAllDashboadEmpty
+          })}
+        >
           <div className="flex w-full gap-6">
             <div className="relative w-1/2 flex-1">
               <TMDataVisualization

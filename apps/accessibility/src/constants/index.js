@@ -2,6 +2,7 @@ import AccessibilityPlaceholderImage from 'assets/accessibility_modal.svg';
 import Announcement from 'assets/announcement.svg';
 import ScreenReaderPlaceholderImage from 'assets/screen_reader_modal.svg';
 import Star from 'assets/star.svg';
+import { getBrowserStackBase } from 'utils/index';
 
 export const BASE_ROUTE = '';
 export const REACT_ROOT_ELEMENT_ID = 'react-root';
@@ -11,6 +12,8 @@ export const PROD_API_URL = 'https://www.browserstack.com/accessibility/api';
 export const DEFAULT_ERROR_MESSAGE = 'Something went wrong!';
 export const CHROME_EXTENSION_URL =
   'https://chrome.google.com/webstore/detail/accessibility-toolkit/fmkhjeeeojocenbconhndpiohohajokn';
+export const TAP_DOCUMENTATION_URL =
+  'https://www.browserstack.com/docs/automate-accessibility-testing/overview/introduction';
 export const ROUTES = {
   report: '/reports/report',
   reports: '/reports',
@@ -18,6 +21,9 @@ export const ROUTES = {
   siteScanner: '/site-scanner',
   scanDetails: '/site-scanner/scan-details/:id',
   scanReports: '/site-scanner/scan-report',
+  automatedTests: '/automated-tests/projects',
+  automatedTestBuild:
+    '/automated-tests/projects/:projectName/builds/:buildName/:buildNumber',
   root: '/',
   welcome: '/welcome'
 };
@@ -46,40 +52,13 @@ export const FILTER_KEYS = {
   CATEGORY: 'category',
   PAGE: 'page',
   COMPONENT: 'component',
-  IMPACT: 'impact'
+  IMPACT: 'impact',
+  TAGS: 'tags',
+  FILES: 'files',
+  TESTS: 'tests'
 };
 
-export const columns = [
-  {
-    title: 'Report name',
-    key: 'report_name',
-    width: 320
-  },
-  {
-    title: 'Scan by',
-    key: 'scan_by'
-  },
-  {
-    title: 'Date',
-    key: 'time'
-  },
-  {
-    title: 'Scan scope',
-    key: 'scan_scope'
-  },
-  {
-    title: 'Issue count',
-    key: 'issue_count'
-  },
-  {
-    title: 'Page count',
-    key: 'page_count'
-  },
-  {
-    title: '',
-    key: 'hyperlink'
-  }
-];
+export const BSTACK_TOPNAV_ELEMENT_ID = 'a11y-header';
 
 export const versions = [
   {
@@ -94,9 +73,18 @@ export const versions = [
 
 export const ISSUES = 'issues';
 export const SUMMARY = 'summary';
+export const TESTS = 'tests';
+export const OVERVIEW = 'overview';
+
+export const getBuildEventTab = {
+  summary: 'Overview',
+  issues: 'All issues',
+  tests: 'Tests'
+};
 
 export const ISSUE_DETAILS_TAB = 'ISSUE_DETAILS_TAB';
 export const HOW_TO_FIX_TAB = 'HOW_TO_FIX_TAB';
+export const SOURCE_TESTS = 'SOURCE_TESTS';
 
 export const ISSUE_TYPE = 'issue-type';
 export const GUIDELINES = 'guidelines';
@@ -150,6 +138,9 @@ export const activeInitFilters = {
   page: [],
   component: [],
   category: [],
+  tests: [],
+  files: [],
+  tags: [],
   showNeedsReviewIssues: false
 };
 
@@ -174,10 +165,6 @@ export const reportType = [
   {
     label: 'Assisted test',
     value: testTypes.assistiveTest
-  },
-  {
-    label: 'Website scan',
-    value: testTypes.websiteScan
   }
 ];
 
@@ -186,19 +173,31 @@ export const reportPerPage = 15;
 export const severityOptions = [
   {
     label: 'Critical',
-    value: 'critical'
+    value: 'critical',
+    meta: {
+      color: 'bg-[#F95D6A]'
+    }
   },
   {
     label: 'Serious',
-    value: 'serious'
+    value: 'serious',
+    meta: {
+      color: 'bg-[#F472B6]'
+    }
   },
   {
     label: 'Moderate',
-    value: 'moderate'
+    value: 'moderate',
+    meta: {
+      color: 'bg-[#E3C500]'
+    }
   },
   {
     label: 'Minor',
-    value: 'minor'
+    value: 'minor',
+    meta: {
+      color: 'bg-[#C5D1D8]'
+    }
   }
 ];
 
@@ -222,6 +221,7 @@ export const ANALYTICS_KEYS = {
   }
 };
 
+export const accessibilityIntroduction = `${getBrowserStackBase()}/automate-accessibility-testing/overview/introduction`;
 const BUY_PLAN = 'Buy a plan';
 
 export const TRIAL_NOT_STARTED = 'not_started';
@@ -367,3 +367,6 @@ export const sentryConfig = {
     /https:\/\/wchat.freshchat.com\/.*/gi
   ]
 };
+
+export const PRODUCT_NAV_IDENTIFIER = 'Accessibility Testing';
+export const ALL_PROJECTS = 'All projects';

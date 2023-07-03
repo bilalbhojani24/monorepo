@@ -14,6 +14,7 @@ import PropagationBlocker from 'common/PropagationBlocker';
 import StackTraceTooltip from 'common/StackTraceTooltip';
 import StatusIcon from 'common/StatusIcon';
 import { DOC_KEY_MAPPING, TEST_STATUS } from 'constants/common';
+import { ROUTE_PATH_KEYS } from 'constants/routes';
 import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import { LOG_TYPES } from 'features/TestList/constants';
 import { TestListContext } from 'features/TestList/context/TestListContext';
@@ -23,9 +24,9 @@ import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { capitalize, getDocUrl } from 'utils/common';
 import { milliSecondsToTime } from 'utils/dateTime';
-import { getBuildPath, getSettingsPath } from 'utils/routeUtils';
+import { getBuildPath, getPageUrlByMapping } from 'utils/routeUtils';
 
-function TestListHistoryTooltip({ testRunId, status }) {
+function TestListHistoryTooltip({ testRunId, status, isHook }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { o11yTestListingInteraction } = useContext(TestListContext);
@@ -39,7 +40,12 @@ function TestListHistoryTooltip({ testRunId, status }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClickConfigureSmartTags = () => {
-    navigate(getSettingsPath(activeProject?.normalisedName, 'smart_tags'));
+    navigate(
+      getPageUrlByMapping(
+        activeProject?.normalisedName,
+        ROUTE_PATH_KEYS.settings_smart_tags
+      )
+    );
   };
 
   const showFlakyReason = () => {
@@ -91,17 +97,19 @@ function TestListHistoryTooltip({ testRunId, status }) {
             <div className="flex justify-between">
               <p className="text-sm font-semibold">#{historyData?.serialId}</p>
               <span className="text-brand-600 text-xs font-medium">
-                <Copy2Clipboard
-                  text={`${window.location.origin}${getBuildPath(
-                    activeProject?.normalisedName,
-                    buildMeta.data?.name,
-                    historyData?.serialId
-                  )}?tab=tests&details=${testRunId}`}
-                  showBtnText
-                  wrapperClassName="text-brand-600 font-medium p-0 hover:bg-transparent hover:text-brand-500"
-                  btnText="Copy Link"
-                  icon={<MdLink className="text-base" />}
-                />
+                {!isHook && (
+                  <Copy2Clipboard
+                    text={`${window.location.origin}${getBuildPath(
+                      activeProject?.normalisedName,
+                      buildMeta.data?.name,
+                      historyData?.serialId
+                    )}?tab=tests&details=${testRunId}`}
+                    showBtnText
+                    wrapperClassName="text-brand-600 font-medium p-0 hover:bg-transparent hover:text-brand-500"
+                    btnText="Copy Link"
+                    icon={<MdLink className="text-base" />}
+                  />
+                )}
               </span>
             </div>
             <span className="border-b-base-300 my-3 border-b" />
@@ -268,6 +276,9 @@ export default TestListHistoryTooltip;
 
 TestListHistoryTooltip.propTypes = {
   testRunId: PropTypes.number.isRequired,
-  status: PropTypes.string.isRequired
+  status: PropTypes.string.isRequired,
+  isHook: PropTypes.bool
 };
-TestListHistoryTooltip.defaultProps = {};
+TestListHistoryTooltip.defaultProps = {
+  isHook: false
+};

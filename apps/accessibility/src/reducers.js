@@ -1,3 +1,7 @@
+import automatedTestApp from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/slices/appSlice';
+import automatedTestData from 'features/AutomatedTest/AutomatedTestBuild/components/TestIssues/slices/dataSlice';
+import automatedTestBuildApp from 'features/AutomatedTest/AutomatedTestBuild/slices/appSlice';
+import automatedTestBuildData from 'features/AutomatedTest/AutomatedTestBuild/slices/dataSlice';
 import dashboardApp from 'features/Dashboard/slices/appSlice';
 import dashboardUI from 'features/Dashboard/slices/uiSlice';
 import reportApp from 'features/Report/slice/appSlice';
@@ -29,7 +33,21 @@ const ui = combineReducers({
   dashboard: dashboardUI
 });
 
-const accessibilityReducers = combineReducers({ ui, app, data });
+// const features = ;
+
+const accessibilityReducers = combineReducers({
+  ui,
+  app,
+  data,
+  automatedTestBuild: combineReducers({
+    app: automatedTestBuildApp,
+    data: automatedTestBuildData,
+    test: combineReducers({
+      app: automatedTestApp,
+      data: automatedTestData
+    })
+  })
+});
 
 export default combineReducers({
   accessibility: accessibilityReducers

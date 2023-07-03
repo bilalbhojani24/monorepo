@@ -3,3 +3,7 @@
 @tailwind utilities;
 
 @import '~@browserstack/tailwind-config/default-theme';
+
+body {
+  background-color: white;
+}
