@@ -8,7 +8,8 @@ const { actions, reducer } = createSlice({
     clustersData: [],
     gridsData: [],
     selectedCluserData: {},
-    selectedGridData: {}
+    selectedGridData: {},
+    showCreateGridButton: true
   },
   reducers: {
     resetSelectedClusterData: (state) => {
@@ -30,6 +31,9 @@ const { actions, reducer } = createSlice({
 
       state.clustersData = clusterData;
     },
+    setShowCreateGridButton: (state, { payload }) => {
+      state.showCreateGridButton = payload;
+    },
     setGridData: (state, { payload }) => {
       const { gridData } = payload;
 
@@ -41,6 +45,7 @@ const { actions, reducer } = createSlice({
 export const {
   resetSelectedClusterData,
   resetSelectedGridData,
+  setShowCreateGridButton,
   setSelectedClusterData,
   setSelectedGridData,
   setClusterData,

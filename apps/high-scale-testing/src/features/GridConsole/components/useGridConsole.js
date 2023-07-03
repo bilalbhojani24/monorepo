@@ -14,8 +14,16 @@ import {
 } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
-import { setClusterData, setGridData } from '../slices';
-import { getClustersData, getGridsData } from '../slices/selector';
+import {
+  setClusterData,
+  setGridData,
+  setShowCreateGridButton
+} from '../slices';
+import {
+  getClustersData,
+  getGridsData,
+  getShowCreateGridButton
+} from '../slices/selector';
 
 const useGridConsole = () => {
   const dispatch = useDispatch();
@@ -34,6 +42,7 @@ const useGridConsole = () => {
   const clusterData = useSelector(getClustersData);
   const fetchedGridData = useSelector(getFetchedGridData);
   const gridData = useSelector(getGridsData);
+  const showCreateGridButton = useSelector(getShowCreateGridButton);
   const showSetup = useSelector(getShowSetup);
   const isTrialGridUsed = useSelector(getTrialGridUsed);
   const userDetails = useSelector(getUserDetails);
@@ -91,6 +100,11 @@ const useGridConsole = () => {
     const lengthOfGridData = gridData.length;
 
     if (lengthOfGridData > 1) {
+      const hasTrialGrid =
+        gridData.filter((grid) => grid.isTrialGrid).length > 0;
+
+      dispatch(setShowCreateGridButton(!hasTrialGrid));
+
       setTabsArray([
         {
           index: 0,
@@ -115,6 +129,7 @@ const useGridConsole = () => {
     });
   }, [
     clusterData,
+    dispatch,
     gridData,
     isTrialGridUsed,
     navigate,
@@ -165,6 +180,7 @@ const useGridConsole = () => {
     gridData,
     navigate,
     options,
+    showCreateGridButton,
     tabChangeHandler,
     tabsArray
   };
