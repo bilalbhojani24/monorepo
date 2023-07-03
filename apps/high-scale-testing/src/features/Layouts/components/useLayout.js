@@ -15,6 +15,7 @@ import {
   getCurrentOnboardingTooltipcount,
   getShowOnboardingTooltips
 } from 'features/GridDetail/slices/selector';
+import { getUserDetails } from 'globalSlice/selector';
 import { getEnvConfig } from 'utils/common';
 import { logHSTEvent } from 'utils/logger';
 
@@ -30,6 +31,7 @@ const useLayout = () => {
   );
   const selectedGridData = useSelector(getSelectedGridData);
   const showOnboardingTooltips = useSelector(getShowOnboardingTooltips);
+  const userDetails = useSelector(getUserDetails);
 
   const [
     showTrialGridBannerInGridOverview,
@@ -126,7 +128,8 @@ const useLayout = () => {
     primaryNavs,
     secondaryNavs,
     showOnboardingTooltips,
-    showTrialGridBannerInGridOverview
+    showTrialGridBannerInGridOverview,
+    userDetails
   };
 };
 

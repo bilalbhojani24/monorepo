@@ -27,7 +27,8 @@ const Layout = () => {
     primaryNavs,
     secondaryNavs,
     showOnboardingTooltips,
-    showTrialGridBannerInGridOverview
+    showTrialGridBannerInGridOverview,
+    userDetails
   } = useLayout();
 
   return (
@@ -93,6 +94,7 @@ const Layout = () => {
                   }
                   defaultOpen={
                     showOnboardingTooltips &&
+                    !userDetails.trialGridProductOnboardingCompleted &&
                     ((currentOnboardingTooltipCount === 3 &&
                       item.label === AUTOMATION_CONSOLE) ||
                       (currentOnboardingTooltipCount === 4 &&
@@ -102,6 +104,7 @@ const Layout = () => {
                   placementSide="bottom"
                   show={
                     showOnboardingTooltips &&
+                    !userDetails.trialGridProductOnboardingCompleted &&
                     ((currentOnboardingTooltipCount === 3 &&
                       item.label === AUTOMATION_CONSOLE) ||
                       (currentOnboardingTooltipCount === 4 &&

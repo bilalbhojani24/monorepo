@@ -232,11 +232,15 @@ const GridOverview = () => {
                 </>
               }
               defaultOpen={
-                showOnboardingTooltips && currentOnboardingTooltipCount === 1
+                showOnboardingTooltips &&
+                !userDetails.trialGridProductOnboardingCompleted &&
+                currentOnboardingTooltipCount === 1
               }
               placementSide="right"
               show={
-                showOnboardingTooltips && currentOnboardingTooltipCount === 1
+                showOnboardingTooltips &&
+                !userDetails.trialGridProductOnboardingCompleted &&
+                currentOnboardingTooltipCount === 1
               }
               theme="dark"
             >
@@ -280,11 +284,17 @@ const GridOverview = () => {
               </>
             }
             defaultOpen={
-              showOnboardingTooltips && currentOnboardingTooltipCount === 2
+              showOnboardingTooltips &&
+              !userDetails.trialGridProductOnboardingCompleted &&
+              currentOnboardingTooltipCount === 2
             }
             placementAlign="start"
             placementSide="right"
-            show={showOnboardingTooltips && currentOnboardingTooltipCount === 2}
+            show={
+              showOnboardingTooltips &&
+              !userDetails.trialGridProductOnboardingCompleted &&
+              currentOnboardingTooltipCount === 2
+            }
             theme="dark"
           >
             <UserDetailsTable

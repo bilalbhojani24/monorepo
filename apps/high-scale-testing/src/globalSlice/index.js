@@ -9,15 +9,17 @@ const { actions, reducer } = createSlice({
     fetchedGridData: false,
     instanceTypes: {},
     isLoading: true,
+    lastKnownSetupType: null,
+    regions: {},
     showSetup: false,
     trialGridUsed: false,
-    regions: {},
     userDetails: {
+      accessKey: null,
       groupId: null,
       id: null,
-      username: null,
       planType: null,
-      accessKey: null
+      trialGridProductOnboardingCompleted: false,
+      username: null
     }
   },
   reducers: {
