@@ -54,6 +54,10 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
     if (disabled) comboInputRef.current.setAttribute('aria-expanded', open);
   }, [disabled, comboInputRef, open]);
 
+  const handleFocus = (event) => {
+    event.target.blur();
+  };
+
   return (
     <Popover.Trigger ref={buttonRef} asChild>
       <Combobox.Button
@@ -75,6 +79,7 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
             comboInputRef.current.focus();
           }
         }}
+        {...(isLoadingRight && { onFocus: handleFocus })}
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
         {isLoading && (
