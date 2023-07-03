@@ -16,7 +16,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { NO_DATA_TEXT } from '../const/immutableConst';
+import { NO_DATA_TEXT, TOTAL_TC_TEXT } from '../const/immutableConst';
 
 import useDashboard from './useDashboard';
 
@@ -39,24 +39,6 @@ const Dashboard = () => {
     automationStats
   } = useDashboard();
   const dispatch = useDispatch();
-
-  // const activeRunsButtonClicked = () => {
-  //   dispatch(
-  //     logEventHelper('TM_DashboardActiveRunLinkClicked', {
-  //       project_id: projectId,
-  //       dashboard_id: '1'
-  //     })
-  //   );
-  // };
-
-  // const daysClosedButtonClicked = () => {
-  //   dispatch(
-  //     logEventHelper('TM_DashboardDaysClosedRunLinkClicked', {
-  //       project_id: projectId,
-  //       dashboard_id: '1'
-  //     })
-  //   );
-  // };
 
   useEffect(() => {
     fetchAllChartData();
@@ -135,7 +117,7 @@ const Dashboard = () => {
                       <div className="text-base-500 text-xs font-semibold">
                         {activeTestRunsOptions?.isEmpty
                           ? NO_DATA_TEXT
-                          : 'Total Test Cases'}
+                          : TOTAL_TC_TEXT}
                       </div>
                     </div>
                   </div>
@@ -238,7 +220,7 @@ const Dashboard = () => {
           </div>
           <div className="grid grid-cols-4 gap-6">
             <TMDataVisualization
-              title="Automation Coverage"
+              title={<span className="break-normal">Automation Coverage</span>}
               wrapperClassName="bg-white relative"
               size="fit-content"
               headerInfo={false}
@@ -254,7 +236,7 @@ const Dashboard = () => {
             />
 
             <TMDataVisualization
-              title={<p>Automated Test Cases</p>}
+              title={<span className="break-normal">Automated Test Cases</span>}
               wrapperClassName="bg-white relative"
               size="fit-content"
               contentWrapperClassName="pl-6 pr-3.5"
@@ -283,7 +265,7 @@ const Dashboard = () => {
             />
 
             <TMDataVisualization
-              title="Manual Test Cases"
+              title={<span className="break-normal">Manual Test Cases</span>}
               wrapperClassName="bg-white relative"
               size="fit-content"
               desc={
@@ -313,7 +295,7 @@ const Dashboard = () => {
             />
 
             <TMDataVisualization
-              title="Total Test Cases"
+              title={<span className="break-normal">TOTAL_TC_TEXT</span>}
               wrapperClassName="bg-white relative"
               size="fit-content"
               headerInfo={false}
@@ -366,7 +348,7 @@ const Dashboard = () => {
                       <div className="text-base-500 text-xs font-semibold">
                         {testCaseTypesOptions?.isEmpty
                           ? NO_DATA_TEXT
-                          : 'Total Test Cases'}
+                          : TOTAL_TC_TEXT}
                       </div>
                     </div>
                   </div>
