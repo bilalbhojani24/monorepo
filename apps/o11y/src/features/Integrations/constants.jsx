@@ -147,7 +147,6 @@ const TESTING_FRAMEWORKS = [
           path: DOC_KEY_MAPPING.playwright,
           prependO11y: true
         })}
-        isUpcoming
         icon={<PlaywrightIcon width="40" height="40" />}
       />
     )
