@@ -248,7 +248,10 @@ const useSetup = () => {
 
   const useTrialGridClickHandler = async () => {
     setUseTrialGridLoading(true);
-    await createTrialGridForUser(userDetails.id).then((res) => {
+    await createTrialGridForUser({
+      userId: userDetails.id,
+      setupType: onboardingType
+    }).then((res) => {
       const { gridId } = res.data;
       if (res.status === 200) {
         navigate(`/grid-console/grid/${gridId}/overview`);

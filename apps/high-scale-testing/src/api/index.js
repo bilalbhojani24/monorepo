@@ -16,8 +16,8 @@ import {
   UPDATE_GRID_SETTINGS_URL
 } from './constants/apiURLs';
 
-const createTrialGridForUser = (userId) =>
-  axios.post(CREATE_TRIAL_GRID_URL, { userId });
+const createTrialGridForUser = ({ userId, setupType }) =>
+  axios.post(CREATE_TRIAL_GRID_URL, { userId, setupType });
 
 const createNewGridProfile = (userId, profileData) =>
   axios.post(CREATE_GRID, { ...profileData, userId });
