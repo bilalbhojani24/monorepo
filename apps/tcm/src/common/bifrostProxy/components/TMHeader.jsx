@@ -1,15 +1,17 @@
 /* eslint-disable tailwindcss/no-arbitrary-value */
 import React from 'react';
 import { Header } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
 import { PRODUCTION_HOST } from 'const/immutables';
 import AppRoute, { DEV_SIGN_OUT_URL } from 'const/routes';
+import PropTypes from 'prop-types';
 
 const TEST_RUNS_LINK =
   'https://www.browserstack.com/docs/test-management/features/test-runs';
 
-const TMHeader = () => (
+const TMHeader = ({ wrapperClassName }) => (
   <Header
-    wrapperClassName="fixed w-full"
+    wrapperClassName={twClassNames('fixed w-full', wrapperClassName)}
     headerID="bstack-header"
     productLink={AppRoute.ROOT}
     productName="Test Management"
@@ -108,5 +110,13 @@ const TMHeader = () => (
     </div> */}
   </Header>
 );
+
+TMHeader.propTypes = {
+  wrapperClassName: PropTypes.string
+};
+
+TMHeader.defaultProps = {
+  wrapperClassName: ''
+};
 
 export default TMHeader;

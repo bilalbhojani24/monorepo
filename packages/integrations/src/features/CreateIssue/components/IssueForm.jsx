@@ -23,7 +23,7 @@ import {
 } from '../../slices/projectsSlice';
 import { CreateIssueOptionsType } from '../types';
 
-import { FIELD_KEYS, ISSUE_MODES } from './constants';
+import { FIELD_KEYS, ISSUE_MODES, TABS } from './constants';
 import DiscardIssue from './DiscardIssue';
 import renderChild from './renderChild';
 
@@ -202,8 +202,12 @@ const IssueForm = ({
 
   const handleIssueTabChange = useCallback(
     (tabSelected) => {
-      if (tabSelected.mode !== tab) {
-        changeTabTo(tabSelected.mode);
+      const tabName = tabSelected.name ?? tabSelected.value;
+      const modeSelected = TABS.find(
+        (currentTab) => currentTab.name === tabName
+      )?.mode;
+      if (modeSelected !== tab) {
+        changeTabTo(modeSelected);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
