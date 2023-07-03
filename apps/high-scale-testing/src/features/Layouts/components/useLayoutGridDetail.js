@@ -54,7 +54,9 @@ const useLayoutGridDetail = () => {
   };
 
   useEffect(() => {
-    dispatch(setShowOnboardingTooltips(gridData.isTrialGrid));
+    setTimeout(() => {
+      dispatch(setShowOnboardingTooltips(gridData.isTrialGrid));
+    }, 1000);
   }, [dispatch, gridData]);
 
   useEffect(() => {
