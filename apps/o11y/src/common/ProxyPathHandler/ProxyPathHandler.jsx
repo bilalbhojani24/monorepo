@@ -34,8 +34,8 @@ function ProxyPathHandler() {
     const project = projects.list[0];
     dispatch(
       setActiveProject({
-        id: project.value,
-        name: project.label,
+        id: project.id,
+        name: project.name,
         normalisedName: project.normalisedName
       })
     );
