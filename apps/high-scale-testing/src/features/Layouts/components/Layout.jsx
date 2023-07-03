@@ -12,6 +12,7 @@ import {
   TooltipHeader
 } from '@browserstack/bifrost';
 import { BannerMessages } from 'constants/bannerMessages';
+import ROUTES from 'constants/routes';
 import { AUTOMATION_CONSOLE, BUILDS_DASHBOARD } from 'constants/strings';
 import HSTHeader from 'features/HSTHeader/component';
 
@@ -21,6 +22,7 @@ const Layout = () => {
   const {
     currentOnboardingTooltipCount,
     isCurrent,
+    navigate,
     navigationClickHandler,
     primaryNavs,
     secondaryNavs,
@@ -38,7 +40,14 @@ const Layout = () => {
             bannerIcon={
               <MdCampaign aria-hidden="true" className="h-6 w-6 text-white" />
             }
-            ctaButton={<Button colors="white">Create Grid</Button>}
+            ctaButton={
+              <Button
+                colors="white"
+                onClick={() => navigate(`${ROUTES.CREATE_GRID}?type=CLI`)}
+              >
+                Create Grid
+              </Button>
+            }
             description={BannerMessages.trialGridGridOverviewIntro}
             isDismissButton={false}
           />
