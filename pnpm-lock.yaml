@@ -710,8 +710,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/services
       '@browserstack/utils':
-        specifier: 2.1.0
-        version: 2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
+        specifier: 2.2.0
+        version: 2.2.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0)
       '@browserstack/webex':
         specifier: workspace:*
         version: link:../../packages/webex
@@ -857,6 +857,9 @@ importers:
       '@browserstack/utils':
         specifier: workspace:*
         version: link:../../packages/utils
+      '@browserstack/webex':
+        specifier: workspace:*
+        version: link:../../packages/webex
       '@emotion/react':
         specifier: 11.10.5
         version: 11.10.5(@babel/core@7.20.12)(@types/react@18.0.26)(react@18.2.0)
@@ -5353,6 +5356,30 @@ packages:
 
   /@browserstack/utils@2.1.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0):
     resolution: {integrity: sha512-BYmnMAn8+XGGlb5kWzrarSvZWoigj9TX/RlLOFJCy4WoHnbaiUcwXp8/HVn8uIYWGr6YNRLTiKOWxCNeEPEafg==, tarball: download/@browserstack/utils/2.1.0/e32e12a5cd0df9d1087a0704bace4a0a48e8673c}
+    peerDependencies:
+      '@sentry/react': 7.38.0
+      '@sentry/tracing': 7.38.0
+      amplitude-js: 8.21.4
+      axios: 1.2.2
+      react: 18.2.0
+      react-dom: 18.2.0
+      react-ga4: 2.0.0
+      socket.io-client: 2.5.0
+    dependencies:
+      '@sentry/react': 7.38.0(react@18.2.0)
+      '@sentry/tracing': 7.38.0
+      amplitude-js: 8.21.4
+      axios: 1.2.2
+      classnames: 2.2.6
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-ga4: 2.0.0
+      socket.io-client: 2.5.0
+      tailwind-merge: 1.8.1
+    dev: false
+
+  /@browserstack/utils@2.2.0(@sentry/react@7.38.0)(@sentry/tracing@7.38.0)(amplitude-js@8.21.4)(axios@1.2.2)(react-dom@18.2.0)(react-ga4@2.0.0)(react@18.2.0)(socket.io-client@2.5.0):
+    resolution: {integrity: sha512-1d5rcMvc9tnIwvEW/uER6cWRpfrKystPOnKz+SFojZQGwU2vwPtDV+HQNKlezqJRbSlIcGqoul5ji8hgr4bXRQ==, tarball: download/@browserstack/utils/2.2.0/8de2ab9c2ca25927c17f5e76d65a3506176c7278}
     peerDependencies:
       '@sentry/react': 7.38.0
       '@sentry/tracing': 7.38.0
@@ -27337,7 +27364,7 @@ packages:
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.21)
       postcss: 8.4.21
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
       postcss-value-parser: 4.2.0
     dev: true
 
@@ -27356,7 +27383,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       postcss: 8.4.21
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
     dev: true
 
   /postcss-modules-values@3.0.0:
@@ -27401,7 +27428,7 @@ packages:
       postcss: ^8.2.14
     dependencies:
       postcss: 8.4.21
-      postcss-selector-parser: 6.0.11
+      postcss-selector-parser: 6.0.13
 
   /postcss-nesting@10.2.0(postcss@8.4.20):
     resolution: {integrity: sha512-EwMkYchxiDiKUhlJGzWsD9b2zvq/r2SSubcRrgP+jujMXFzqvANLt16lJANC+5uZ6hjI7lpRmI6O8JIl+8l1KA==}
@@ -27840,7 +27867,6 @@ packages:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
-    dev: true
 
   /postcss-sorting@7.0.1(postcss@8.4.21):
     resolution: {integrity: sha512-iLBFYz6VRYyLJEJsBJ8M3TCqNcckVzz4wFounSc5Oez35ogE/X+aoC5fFu103Ot7NyvjU3/xqIXn93Gp3kJk4g==}

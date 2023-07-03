@@ -62,13 +62,15 @@ const ProductSidenav = ({ activeProduct }) => {
   };
 
   const handleMouseEnter = () => {
+    if (!expanded) {
+      logEvent([], 'web_events', 'HoveredOnSideNav', {
+        source: 'Homepage_Demo_CTA_Exp4',
+        location: 'Left Navigation',
+        url: window.location.href,
+        team: activeProduct
+      });
+    }
     setExpanded(true);
-    logEvent([], 'web_events', 'HoveredOnSideNav', {
-      source: 'Homepage_Demo_CTA_Exp4',
-      location: 'Left Navigation',
-      url: window.location.href,
-      team: activeProduct
-    });
   };
 
   if (headerScalability !== 'true') {
@@ -82,7 +84,7 @@ const ProductSidenav = ({ activeProduct }) => {
           'top-16 flex flex-col items-start fixed left-0 h-full border-r border-solid border-base-300 bg-white z-10',
           {
             'w-[56px]': !expanded,
-            'w-[260px] overflow-y-auto': expanded
+            'w-[260px] overflow-y-auto shadow': expanded
           }
         )}
         onMouseEnter={handleMouseEnter}

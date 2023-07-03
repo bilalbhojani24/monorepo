@@ -105,7 +105,8 @@ export default function TextLogItem({ data, searchText }) {
   }
 
   if (
-    (isEmpty(data) && isEmpty(logData)) ||
+    isEmpty(data) ||
+    isEmpty(logData) ||
     !activeLogLevels.includes(data?.logLevel)
   ) {
     return null;
@@ -119,7 +120,10 @@ export default function TextLogItem({ data, searchText }) {
   };
 
   const renderRequest = (key) => {
-    if (isEmpty(logData?.args?.[key])) {
+    if (
+      typeof logData?.args?.[key] !== 'number' &&
+      isEmpty(logData?.args?.[key])
+    ) {
       return null;
     }
     return (
@@ -325,7 +329,7 @@ export default function TextLogItem({ data, searchText }) {
                       }
                       hidetooltipTriggerIcon
                     >
-                      {logData.args.script.substring(0, 80)}
+                      {logData.args.script?.toString()?.substring(0, 80)}
                     </O11yTruncateText>
                   </div>
                 )}
@@ -341,7 +345,7 @@ export default function TextLogItem({ data, searchText }) {
                       }
                       hidetooltipTriggerIcon
                     >
-                      {logData.args.url.substring(0, 80)}
+                      {logData.args.url?.toString()?.substring(0, 80)}
                     </O11yTruncateText>
                   </span>
                 )}

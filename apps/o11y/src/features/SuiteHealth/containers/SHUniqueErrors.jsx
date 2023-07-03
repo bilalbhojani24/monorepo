@@ -2,6 +2,7 @@ import React, {
   forwardRef,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState
 } from 'react';
@@ -13,7 +14,10 @@ import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
-import { FILTER_CATEGORIES } from 'features/FilterSkeleton/constants';
+import {
+  ADV_FILTER_TYPES,
+  FILTER_CATEGORIES
+} from 'features/FilterSkeleton/constants';
 import {
   clearAllAppliedFilters,
   resetFilters
@@ -203,6 +207,15 @@ const SnPUniqueErrors = () => {
     dispatch(clearAllAppliedFilters());
   };
 
+  const appliedFilterExceptDate = useMemo(
+    () =>
+      appliedFilters.filter(
+        (appFilter) =>
+          ![ADV_FILTER_TYPES.dateRange.key].includes(appFilter.type)
+      ),
+    [appliedFilters]
+  );
+
   return (
     <div className={twClassNames('flex flex-col h-full ')}>
       <div className={twClassNames('mb-4 px-6 pt-5')}>
@@ -223,18 +236,31 @@ const SnPUniqueErrors = () => {
                   'flex items-center justify-center h-full'
                 )}
               >
-                <O11yEmptyState
-                  title="No matching results found"
-                  description="We couldn't find the results you were looking for."
-                  mainIcon={
-                    <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
-                  }
-                  buttonProps={{
-                    children: 'View all unique errors',
-                    onClick: handleViewAll,
-                    size: 'default'
-                  }}
-                />
+                {isEmpty(appliedFilterExceptDate) ? (
+                  <O11yEmptyState
+                    title="No data available"
+                    description="No results available for the selected date range."
+                    mainIcon={
+                      <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                    }
+                    buttonProps={{
+                      wrapperClassName: 'hidden'
+                    }}
+                  />
+                ) : (
+                  <O11yEmptyState
+                    title="No matching results found"
+                    description="Try changing the filters to broaden your search."
+                    mainIcon={
+                      <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                    }
+                    buttonProps={{
+                      children: 'View All',
+                      onClick: handleViewAll,
+                      size: 'default'
+                    }}
+                  />
+                )}
               </div>
             ) : (
               <div className="flex h-full w-full flex-col px-6">

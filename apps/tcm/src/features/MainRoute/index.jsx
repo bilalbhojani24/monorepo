@@ -17,6 +17,7 @@ import TestRunsDetails, { Issues } from 'features/TestRunsDetails';
 
 import 'api/_utils/interceptor';
 
+import RequestAccess from '../IAAMRequestAccess';
 import LoginScreen from '../Login';
 import AllProjects from '../Projects';
 
@@ -107,6 +108,11 @@ const MainRoute = () => {
       path: AppRoute.IMPORT_CSV,
       isProtected: true,
       component: <ImportCSV />
+    },
+    {
+      path: AppRoute.REQUEST_ACCESS,
+      isProtected: true,
+      component: <RequestAccess />
     },
     {
       path: AppRoute.NO_ACCESS,

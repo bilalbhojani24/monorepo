@@ -12,7 +12,8 @@ import PaywallFeatureCard from '../components/PaywallFeatureCard';
 function HardPaywallWrapper({
   children,
   shouldReFetchPlanDetails,
-  featureKey
+  featureKey,
+  wrapperClassName
 }) {
   const timeOutRef = useRef();
   const planDetails = useSelector(getPlanDetailsKey(featureKey));
@@ -43,6 +44,7 @@ function HardPaywallWrapper({
     return (
       <PaywallFeatureCard
         {...FEATURE_CARD_DATA[featureKey]}
+        wrapperClassName={wrapperClassName}
         actions={<PaywallActions showTextOnSubmit />}
       />
     );
@@ -54,11 +56,13 @@ function HardPaywallWrapper({
 HardPaywallWrapper.propTypes = {
   children: PropTypes.node.isRequired,
   shouldReFetchPlanDetails: PropTypes.bool,
-  featureKey: PropTypes.string.isRequired
+  featureKey: PropTypes.string.isRequired,
+  wrapperClassName: PropTypes.string
 };
 
 HardPaywallWrapper.defaultProps = {
-  shouldReFetchPlanDetails: false
+  shouldReFetchPlanDetails: false,
+  wrapperClassName: ''
 };
 
 export default HardPaywallWrapper;
