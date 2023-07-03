@@ -10,16 +10,20 @@ import PropTypes from 'prop-types';
 import { getPurchasedProducts } from './api/userData';
 import SidenavCollapsed from './components/SidenavCollapsed';
 import SidenavExpanded from './components/SidenavExpanded';
+import { WEB_PRODUCTS } from './const/productConstant';
 
 const cookieUtils = new CookieUtils();
 
-const initialState = {
+const getInitialState = (tab) => ({
   expanded: false,
-  activeTab: 'web',
+  activeTab: tab,
   purchasedProducts: []
-};
+});
+
 const ProductSidenav = ({ activeProduct }) => {
-  const [state, setState] = useState(initialState);
+  const defaultTab = WEB_PRODUCTS.includes(activeProduct) ? 'web' : 'app';
+
+  const [state, setState] = useState(getInitialState(defaultTab));
   const { expanded, activeTab, purchasedProducts } = state;
 
   const setExpanded = (value) =>
@@ -35,8 +39,8 @@ const ProductSidenav = ({ activeProduct }) => {
 
   const fetchPurchasedProducts = async () => {
     const products = await getPurchasedProducts();
-    if (products) {
-      setPurchasedProducts(products);
+    if (products?.products?.length) {
+      setPurchasedProducts(products?.products);
     }
   };
 
@@ -48,18 +52,25 @@ const ProductSidenav = ({ activeProduct }) => {
     fetchPurchasedProducts();
   });
 
+  const handleSidenavLeave = () => {
+    setExpanded(false);
+    setActiveTab(WEB_PRODUCTS.includes(activeProduct) ? 'web' : 'app');
+  };
+
   const handleTabClick = (selectedTab) => {
     setActiveTab(selectedTab);
   };
 
   const handleMouseEnter = () => {
+    if (!expanded) {
+      logEvent([], 'web_events', 'HoveredOnSideNav', {
+        source: 'Homepage_Demo_CTA_Exp4',
+        location: 'Left Navigation',
+        url: window.location.href,
+        team: activeProduct
+      });
+    }
     setExpanded(true);
-    logEvent([], 'web_events', 'HoveredOnSideNav', {
-      source: 'Homepage_Demo_CTA_Exp4',
-      location: 'Left Navigation',
-      url: window.location.href,
-      team: activeProduct
-    });
   };
 
   if (headerScalability !== 'true') {
@@ -73,14 +84,14 @@ const ProductSidenav = ({ activeProduct }) => {
           'top-16 flex flex-col items-start fixed left-0 h-full border-r border-solid border-base-300 bg-white z-10',
           {
             'w-[56px]': !expanded,
-            'w-[260px] overflow-y-auto': expanded
+            'w-[260px] overflow-y-auto shadow': expanded
           }
         )}
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={() => setExpanded(false)}
+        onMouseLeave={handleSidenavLeave}
         onFocus={() => setExpanded(true)}
         onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget)) setExpanded(false);
+          if (!e.currentTarget.contains(e.relatedTarget)) handleSidenavLeave();
         }}
       >
         {expanded ? (

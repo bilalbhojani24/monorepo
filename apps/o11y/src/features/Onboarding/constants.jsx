@@ -47,9 +47,8 @@ export const FRAMEWORKS = [
   },
   {
     id: FRAMEWORK_IDS.playwright,
-    name: 'Playwright (Coming Soon)',
-    logo: <PlaywrightIcon width="48" height="48" />,
-    isUpComing: true
+    name: 'Playwright',
+    logo: <PlaywrightIcon width="48" height="48" />
   },
   {
     id: FRAMEWORK_IDS.cypress,

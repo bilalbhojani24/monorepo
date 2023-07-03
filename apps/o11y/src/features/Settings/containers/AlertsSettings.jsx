@@ -85,6 +85,7 @@ function AlertsSettings() {
           <O11yButton
             icon={<MdOutlineAdd className="text-lg" />}
             onClick={handleClickAddAlert}
+            wrapperClassName="shrink-0"
           >
             Add alert
           </O11yButton>
@@ -132,7 +133,10 @@ function AlertsSettings() {
 }
 
 const PaywallWrappedAlertSettings = () => (
-  <HardPaywallWrapper featureKey={PAYWALL_FEATURES.ALERTS}>
+  <HardPaywallWrapper
+    featureKey={PAYWALL_FEATURES.ALERTS}
+    wrapperClassName="max-w-4xl"
+  >
     <AlertsSettings />
   </HardPaywallWrapper>
 );

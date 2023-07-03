@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@browserstack/bifrost": "9.3.0",
+    "@browserstack/webex": "workspace:*",
     "@browserstack/hooks": "workspace:*",
     "@browserstack/utils": "workspace:*",
     "@browserstack/growth": "workspace:*",

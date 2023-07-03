@@ -26,7 +26,8 @@ export const EXTERNAL_LINKS = {
   supportLink: 'support/test-observability',
   getADemo: 'contact?&ref=observability-dashboard-demo-lead',
   planAndPricing: 'pricing?product=test-observability',
-  buyAPlan: 'contact?&ref=observability-dashboard-top-header-csf-lead',
+  buyAPlan:
+    'pricing?product=test-observability&ref=observability-dashboard-top-header-csf-lead',
   manageUsers: 'accounts/manage-users'
 };
 export const versionedBaseRoute = (version = 'v1') => `/api/${version}`;
@@ -247,3 +248,5 @@ export const FLOATING_COMPONENTS_IDS = {
   UNIQUE_ERRORS_DETAILS: 'UNIQUE_ERRORS_DETAILS',
   O11Y_SETTINGS: 'O11Y_SETTINGS'
 };
+
+export const PRODUCT_NAV_IDENTIFIER = 'Test Observability';

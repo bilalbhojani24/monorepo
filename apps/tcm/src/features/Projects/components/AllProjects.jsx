@@ -283,7 +283,7 @@ const AllProjects = () => {
               />
             </div>
           )}
-        <div className="border-base-200 flex grow flex-col justify-start rounded-md border bg-white">
+        <div className="border-base-200 flex w-fit min-w-full grow flex-col justify-start rounded-md border bg-white">
           {isLoading ? (
             <Loader wrapperClassName="grow" />
           ) : (

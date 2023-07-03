@@ -2,7 +2,11 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authUser } from 'api/auth.api';
 import AppRoute from 'const/routes';
-import { setUser, setUserAndGroupConfig } from 'globalSlice';
+import {
+  setRequestAccessConfig,
+  setUser,
+  setUserAndGroupConfig
+} from 'globalSlice';
 
 const useAuthentication = () => {
   const dispatch = useDispatch();
@@ -20,7 +24,10 @@ const useAuthentication = () => {
     if (res.data.user?.onboarded === 0) {
       // to be onboarded user
       redirectURL = AppRoute.ONBOARDING;
-    } else if (location.pathname === AppRoute.ONBOARDING) {
+    } else if (
+      location.pathname === AppRoute.ONBOARDING ||
+      location.pathname === AppRoute.REQUEST_ACCESS
+    ) {
       // if already onboarded user
       // check if trying to accesss onboard page, if so redirect to ROOT
       redirectURL = AppRoute.ROOT;
@@ -52,6 +59,11 @@ const useAuthentication = () => {
     if (res?.response?.status === 412) {
       // alpha no access error
       navigate(AppRoute.NO_ACCESS);
+      return true;
+    }
+    if (res?.response?.status === 402) {
+      dispatch(setRequestAccessConfig(res.response.data));
+      navigate(AppRoute.REQUEST_ACCESS);
       return true;
     }
 

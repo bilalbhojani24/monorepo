@@ -19,7 +19,7 @@ const SidenavExpanded = ({
   purchasedProducts
 }) => {
   const getProductClick = (product) => () => {
-    logEvent([], 'web_events', 'HoveredOnSideNav', {
+    logEvent([], 'web_events', 'ClickedOnSideNav', {
       source: 'Homepage_Demo_CTA_Exp4',
       action: `${activeTab === 'web' ? 'Web' : 'App'} Testing Main Navigation`,
       group: `Product ${activeTab === 'web' ? 'Web' : 'App'} Testing`,
@@ -45,6 +45,7 @@ const SidenavExpanded = ({
         )}
         href={product.link}
         onClick={getProductClick(product)}
+        key={product.identifier}
       >
         <span>
           {product.icon({
@@ -113,7 +114,7 @@ const SidenavExpanded = ({
       >
         <div
           className={twClassNames(
-            'box-border flex flex-row items-center rounded py-[3px] px-0.5 w-[228px] h-9 bg-base-50 gap-1 border border-solid border-base-300'
+            'box-border flex flex-row items-center rounded-[5px] py-[3px] px-0.5 w-[227px] h-9 bg-base-50 gap-1 border border-solid border-base-300'
           )}
         >
           <button
