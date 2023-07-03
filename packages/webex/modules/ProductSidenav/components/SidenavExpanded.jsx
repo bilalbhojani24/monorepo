@@ -114,13 +114,13 @@ const SidenavExpanded = ({
       >
         <div
           className={twClassNames(
-            'box-border flex flex-row items-center rounded py-[3px] px-0.5 w-[227px] h-9 bg-base-50 gap-1 border border-solid border-base-300'
+            'box-border flex flex-row items-center rounded-[5px] py-[3px] px-0.5 w-[227px] h-9 bg-base-50 gap-1 border border-solid border-base-300'
           )}
         >
           <button
             type="button"
             className={twClassNames(
-              'flex justify-center items-center w-[109px] h-[30px] rounded-[5px]',
+              'flex justify-center items-center w-[109px] h-[30px] rounded',
               {
                 'bg-[#15803D]': activeTab === 'web'
               }
@@ -145,7 +145,7 @@ const SidenavExpanded = ({
           <button
             type="button"
             className={twClassNames(
-              'flex justify-center items-center w-[109px] h-[30px] rounded-[5px]',
+              'flex justify-center items-center w-[109px] h-[30px] rounded',
               {
                 'bg-[#15803D]': activeTab === 'app'
               }
