@@ -38,7 +38,16 @@ const ModalTrialGridExpired = () => {
               </p>
             </div>
             <div className="mt-6 flex justify-end gap-3">
-              <Button size="default" colors="white">
+              <Button
+                onClick={() =>
+                  window.open(
+                    `${window.origin}/contact#other?ref=ATS-trial-grid-expired-modal`,
+                    '_blank'
+                  )
+                }
+                size="default"
+                colors="white"
+              >
                 Contact Support
               </Button>
               <Button size="default">Setup your own grid</Button>
