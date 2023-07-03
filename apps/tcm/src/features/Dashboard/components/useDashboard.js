@@ -170,12 +170,13 @@ export default function useDashboard() {
 
   const fetchTrendOfTestCases = () => {
     projectIdCheck('trendOfTC', getTestCaseCountTrendAPI, (res) => {
+      const orderdKeys = res?.order || Object.keys(res?.data);
       setTestCasesTrendOptions(
         lineOptionsCreator({
           showLegend: res ? !res?.empty_data : false,
           chartData: res?.empty_data
             ? []
-            : Object.keys(res?.data).map((item, index) => ({
+            : orderdKeys.map((item, index) => ({
                 color: TEST_CASES_TYPES_COLORS[index],
                 name: item,
                 data: res?.data[item] ? Object.values(res?.data[item]) : []
