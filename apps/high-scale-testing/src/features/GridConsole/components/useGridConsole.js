@@ -9,7 +9,7 @@ import { setFetchedGridData } from 'globalSlice/index';
 import {
   getFetchedGridData,
   getShowSetup,
-  getTrialGridUsed,
+  getTrialGrid,
   getUserDetails
 } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
@@ -44,7 +44,7 @@ const useGridConsole = () => {
   const gridData = useSelector(getGridsData);
   const showCreateGridButton = useSelector(getShowCreateGridButton);
   const showSetup = useSelector(getShowSetup);
-  const isTrialGridUsed = useSelector(getTrialGridUsed);
+  const { isUsed: isTrialGridUsed } = useSelector(getTrialGrid);
   const userDetails = useSelector(getUserDetails);
 
   // All State variables

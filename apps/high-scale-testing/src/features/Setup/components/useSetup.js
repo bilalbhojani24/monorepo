@@ -40,7 +40,12 @@ import {
   STEP_1_RADIO_GROUP_OPTIONS
 } from 'constants/setup';
 import { SETUP_GUIDE } from 'constants/strings';
-import { getShowSetup, getUserDetails } from 'globalSlice/selector';
+import {
+  getShowSetup,
+  getTrialGrid,
+  getUserDetails,
+  getUserHasSessions
+} from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 import { DEFAULT_CLOUD_PROVIDER, SUB_TEXTS_OBJECT } from '../constants';
@@ -49,8 +54,11 @@ const useSetup = () => {
   const navigate = useNavigate();
 
   // All Store variables:
+  const { isExpired: isTrialGridExpired, isUsed: isTrialGridUsed } =
+    useSelector(getTrialGrid);
   const showSetup = useSelector(getShowSetup);
   const userDetails = useSelector(getUserDetails);
+  const userHasSessions = useSelector(getUserHasSessions);
 
   // All Constants:
   const CODE_SNIPPETS_FOR_SCRATCH = CODE_SNIPPETS_SCRATCH(userDetails);
@@ -286,7 +294,7 @@ const useSetup = () => {
       setHeaderText(HEADER_TEXTS_OBJECT(userDetails)[onboardingType]);
       setSubHeaderText(SUB_TEXTS_OBJECT[onboardingType]);
       setPollForEventLogs(true);
-      setShowTrialGridBanner(true);
+      setShowTrialGridBanner(!isTrialGridUsed);
     } else {
       setHeaderText(HEADER_TEXTS_OBJECT(userDetails).intro);
       setSubHeaderText(SUB_TEXTS_OBJECT.intro);
@@ -501,8 +509,11 @@ const useSetup = () => {
     handleDismissClick,
     headerText,
     isGridSetupComplete,
+    isTrialGridExpired,
+    isTrialGridUsed,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
+    navigate,
     newGridName,
     onboardingStep,
     onboardingType,
@@ -517,6 +528,7 @@ const useSetup = () => {
     showTrialGridBanner,
     subHeaderText,
     totalSteps,
+    userHasSessions,
     useTrialGridBannerText,
     useTrialGridClickHandler,
     useTrialGridLoading,

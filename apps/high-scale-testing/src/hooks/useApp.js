@@ -19,7 +19,7 @@ import { initialiseApplication } from 'globalSlice';
 import {
   getIsApploading,
   getShowSetup,
-  getTrialGridUsed,
+  getTrialGrid,
   getUserDetails
 } from 'globalSlice/selector';
 import { getEnv, getEnvConfig } from 'utils/common';
@@ -33,7 +33,7 @@ const useApp = () => {
   const { enableAnalytics, enableSentry } = envConfig;
 
   const isAppLoading = useSelector(getIsApploading);
-  const isTrialGridUsed = useSelector(getTrialGridUsed);
+  const { isUsed: isTrialGridUsed } = useSelector(getTrialGrid);
   const showSetup = useSelector(getShowSetup);
   const userDetails = useSelector(getUserDetails);
 

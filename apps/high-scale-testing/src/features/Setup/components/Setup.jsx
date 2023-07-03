@@ -26,6 +26,7 @@ import {
   AGNoSetupStepsExecuted
 } from 'constants/event-names';
 import { GRID_MANAGER_NAMES } from 'constants/index';
+import ROUTES from 'constants/routes';
 import {
   EVENT_LOGS_STATUS,
   SETUP_TYPES,
@@ -69,8 +70,11 @@ const Setup = () => {
     handleDismissClick,
     headerText,
     isGridSetupComplete,
+    isTrialGridExpired,
+    isTrialGridUsed,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
+    navigate,
     newGridName,
     onboardingStep,
     onboardingType,
@@ -82,6 +86,7 @@ const Setup = () => {
     showTrialGridBanner,
     subHeaderText,
     totalSteps,
+    userHasSessions,
     useTrialGridBannerText,
     useTrialGridClickHandler,
     useTrialGridLoading,
@@ -359,189 +364,255 @@ const Setup = () => {
         />
       )}
 
-      <div className="border-base-300 m-auto my-10 w-4/6 max-w-4xl rounded-lg border">
-        <PageHeadings
-          actions={
-            <>
-              <Hyperlink
-                onClick={logViewDocumentationEvents}
-                href="https://www.browserstack.com/docs/automation-grid"
-                target="_blank"
-                wrapperClassName=" gap-x-2 text-sm font-medium"
-              >
-                View Documentation <MdOutlineOpenInNew />
-              </Hyperlink>
-            </>
-          }
-          breadcrumbs={onboardingStep > 0 ? breadcrumbDataTrace : ''}
-          heading={headerText}
-          onBreadcrumbClick={breadcrumbStepClickHandler}
-          subSection={
-            <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
-          }
-          wrapperClassName="p-6 bg-white"
-        />
-
-        {/* Body of Setup */}
-        <div
-          // eslint-disable-next-line tailwindcss/no-arbitrary-value
-          className={twClassNames(
-            'overflow-auto bg-white border-base-300 px-7 ',
-            {
-              'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
-              'pb-6':
-                onboardingStep === 0 ||
-                (onboardingStep === 1 && onboardingType !== SETUP_TYPES.scratch)
-            }
-          )}
-        >
-          {onboardingStep === 0 && (
-            <>
-              <h3 className="text-base-900 mb-2 flex gap-x-2 text-base font-medium leading-6">
-                Do you have an existing Kubernetes setup?
-              </h3>
-              <RadioGroup
-                placement="vertical"
-                type="stackedCard"
-                data={STEP_1_RADIO_GROUP_OPTIONS}
-                onChange={(e) => {
-                  const newlySelectedRadioButton =
-                    STEP_1_RADIO_GROUP_OPTIONS.find((elem) => elem.id === e.id);
-                  setSelectedOption(newlySelectedRadioButton);
-                }}
-              >
-                {STEP_1_RADIO_GROUP_OPTIONS.map((option) => (
-                  <RadioCardItem
-                    key={option.value}
-                    option={option}
-                    disabled={option.disabled}
-                  />
-                ))}
-              </RadioGroup>
-            </>
-          )}
-
-          {onboardingStep === 1 &&
-            onboardingType === SETUP_TYPES.scratch &&
-            ListFeedsContainerComponent}
-
-          {onboardingStep === 1 && onboardingType === SETUP_TYPES.existing && (
-            <>
-              <p className="text-base-900 text-sm font-semibold">Grid Setup</p>
-              <p className="text-base-900 mt-1 text-sm">
-                Execute the below commands to initialise grid creation.
-              </p>
-
-              <CodeSnippetForExistingSetup
-                activeGridManagerCodeSnippet={activeGridManagerCodeSnippet}
-                codeSnippetsForExistingSetup={codeSnippetsForExistingSetup}
-                copyCallbackFnForExistingSetup={copyCallbackFnForExistingSetup}
-                TabsForCodeSnippet={TabsForCodeSnippet}
+      <div className="m-auto my-10 w-4/6 max-w-4xl ">
+        {isTrialGridUsed &&
+          onboardingStep > 0 &&
+          !userHasSessions &&
+          !isTrialGridExpired && (
+            <div className="my-5">
+              <Alerts
+                accentBorder={false}
+                detailsNode={
+                  <p className="whitespace-nowrap" data-testid="details-arrow">
+                    Visit Trial grid&nbsp;&rarr;
+                  </p>
+                }
+                handleLinkClick={() => navigate(ROUTES.GRID_CONSOLE)}
+                modifier="primary"
+                title="Your trial grid is all set. Integrate your test suite with the trial grid"
               />
-            </>
-          )}
-        </div>
-        {/* --X-- Body of Setup --X-- */}
-
-        {/* Footer component */}
-        {onboardingStep === 0 && (
-          <div className="flex justify-between px-6 py-3">
-            <div className="flex">
-              <p className="text-base-500 self-center text-xs">
-                By continuing, you agree to have read and understood the{' '}
-                <Hyperlink
-                  onClick={logTermsConditionsEvents}
-                  wrapperClassName="inline text-xs text-base-900 cursor-pointer"
-                  href="https://www.browserstack.com/docs/automation-grid/references/terms-and-conditions"
-                  target="_blank"
-                >
-                  terms & conditions
-                </Hyperlink>
-              </p>
             </div>
-            <Button
-              colors="brand"
-              onClick={continueClickHandler}
-              size="default"
-              type="button"
-              variant="primary"
-            >
-              Continue
-            </Button>
+          )}
+
+        {isTrialGridUsed &&
+          onboardingStep > 0 &&
+          userHasSessions &&
+          !isTrialGridExpired && (
+            <div className="my-5">
+              <Alerts
+                accentBorder={false}
+                detailsNode={
+                  <p className="whitespace-nowrap" data-testid="details-arrow">
+                    Visit Builds Dashboard&nbsp;&rarr;
+                  </p>
+                }
+                handleLinkClick={() => navigate(ROUTES.BUILDS)}
+                modifier="primary"
+                title="Continue using trial grid. Navigate to Builds Dashboard to view recent test results."
+              />
+            </div>
+          )}
+
+        {isTrialGridUsed && onboardingStep > 0 && isTrialGridExpired && (
+          <div className="my-5">
+            <Alerts
+              accentBorder={false}
+              detailsNode={
+                <p className="whitespace-nowrap" data-testid="details-arrow">
+                  Contact Support&nbsp;&rarr;
+                </p>
+              }
+              handleLinkClick={() => navigate(ROUTES.BUILDS)}
+              modifier="primary"
+              title="Trial grid has expired. If you still want to use the trial grid, contact our support team."
+            />
           </div>
         )}
 
-        {onboardingStep === 1 &&
-          (onboardingType === SETUP_TYPES.scratch ||
-            onboardingType === SETUP_TYPES.existing) &&
-          (((!eventLogsCode || eventLogsCode?.length === 0) && (
-            <div className="bg-base-50 text-base-900 flex gap-2 px-6 py-4 text-sm">
-              <div>
-                <img src={LoaderGif} alt="" width={20} height={20} />
-              </div>{' '}
-              Waiting for you to complete the above steps to connect the grid.
-            </div>
-          )) ||
-            (eventLogsCode &&
-              eventLogsCode.length > 0 &&
-              showGridHeartBeats && (
-                <div className="text-base-700 flex gap-2 px-6 py-3">
-                  <div>
-                    <img src={LoaderGif} alt="" width={20} height={20} />
-                  </div>{' '}
-                  Grid heartbeats detected. Initialising events log...
-                </div>
-              )))}
+        <div className="border-base-300  rounded-lg border">
+          <PageHeadings
+            actions={
+              <>
+                <Hyperlink
+                  onClick={logViewDocumentationEvents}
+                  href="https://www.browserstack.com/docs/automation-grid"
+                  target="_blank"
+                  wrapperClassName=" gap-x-2 text-sm font-medium"
+                >
+                  View Documentation <MdOutlineOpenInNew />
+                </Hyperlink>
+              </>
+            }
+            breadcrumbs={onboardingStep > 0 ? breadcrumbDataTrace : ''}
+            heading={headerText}
+            onBreadcrumbClick={breadcrumbStepClickHandler}
+            subSection={
+              <p className="text-base-500 mt-2 text-sm">{subHeaderText} </p>
+            }
+            wrapperClassName="p-6 bg-white"
+          />
 
-        {onboardingStep === 1 &&
-          (onboardingType === SETUP_TYPES.scratch ||
-            onboardingType === SETUP_TYPES.existing) &&
-          eventLogsCode &&
-          eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
-          !showGridHeartBeats && (
+          {/* Body of Setup */}
+          <div
+            // eslint-disable-next-line tailwindcss/no-arbitrary-value
+            className={twClassNames(
+              'overflow-auto bg-white border-base-300 px-7 ',
+              {
+                'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
+                'pb-6':
+                  onboardingStep === 0 ||
+                  (onboardingStep === 1 &&
+                    onboardingType !== SETUP_TYPES.scratch)
+              }
+            )}
+          >
+            {onboardingStep === 0 && (
+              <>
+                <h3 className="text-base-900 mb-2 flex gap-x-2 text-base font-medium leading-6">
+                  Do you have an existing Kubernetes setup?
+                </h3>
+                <RadioGroup
+                  placement="vertical"
+                  type="stackedCard"
+                  data={STEP_1_RADIO_GROUP_OPTIONS}
+                  onChange={(e) => {
+                    const newlySelectedRadioButton =
+                      STEP_1_RADIO_GROUP_OPTIONS.find(
+                        (elem) => elem.id === e.id
+                      );
+                    setSelectedOption(newlySelectedRadioButton);
+                  }}
+                >
+                  {STEP_1_RADIO_GROUP_OPTIONS.map((option) => (
+                    <RadioCardItem
+                      key={option.value}
+                      option={option}
+                      disabled={option.disabled}
+                    />
+                  ))}
+                </RadioGroup>
+              </>
+            )}
+
+            {onboardingStep === 1 &&
+              onboardingType === SETUP_TYPES.scratch &&
+              ListFeedsContainerComponent}
+
+            {onboardingStep === 1 &&
+              onboardingType === SETUP_TYPES.existing && (
+                <>
+                  <p className="text-base-900 text-sm font-semibold">
+                    Grid Setup
+                  </p>
+                  <p className="text-base-900 mt-1 text-sm">
+                    Execute the below commands to initialise grid creation.
+                  </p>
+
+                  <CodeSnippetForExistingSetup
+                    activeGridManagerCodeSnippet={activeGridManagerCodeSnippet}
+                    codeSnippetsForExistingSetup={codeSnippetsForExistingSetup}
+                    copyCallbackFnForExistingSetup={
+                      copyCallbackFnForExistingSetup
+                    }
+                    TabsForCodeSnippet={TabsForCodeSnippet}
+                  />
+                </>
+              )}
+          </div>
+          {/* --X-- Body of Setup --X-- */}
+
+          {/* Footer component */}
+          {onboardingStep === 0 && (
             <div className="flex justify-between px-6 py-3">
-              <div className="text-base-700 flex gap-2">
-                <div>
-                  <img src={LoaderGif} alt="" width={20} height={20} />
-                </div>
-                ‘{newGridName}’ grid creation is in progress...
+              <div className="flex">
+                <p className="text-base-500 self-center text-xs">
+                  By continuing, you agree to have read and understood the{' '}
+                  <Hyperlink
+                    onClick={logTermsConditionsEvents}
+                    wrapperClassName="inline text-xs text-base-900 cursor-pointer"
+                    href="https://www.browserstack.com/docs/automation-grid/references/terms-and-conditions"
+                    target="_blank"
+                  >
+                    terms & conditions
+                  </Hyperlink>
+                </p>
               </div>
-              <Button colors="white" onClick={viewEventLogsClickHandler}>
-                View Event Logs
+              <Button
+                colors="brand"
+                onClick={continueClickHandler}
+                size="default"
+                type="button"
+                variant="primary"
+              >
+                Continue
               </Button>
             </div>
           )}
 
-        {/* --X-- Footer component --X-- */}
+          {onboardingStep === 1 &&
+            (onboardingType === SETUP_TYPES.scratch ||
+              onboardingType === SETUP_TYPES.existing) &&
+            (((!eventLogsCode || eventLogsCode?.length === 0) && (
+              <div className="bg-base-50 text-base-900 flex gap-2 px-6 py-4 text-sm">
+                <div>
+                  <img src={LoaderGif} alt="" width={20} height={20} />
+                </div>{' '}
+                Waiting for you to complete the above steps to connect the grid.
+              </div>
+            )) ||
+              (eventLogsCode &&
+                eventLogsCode.length > 0 &&
+                showGridHeartBeats && (
+                  <div className="text-base-700 flex gap-2 px-6 py-3">
+                    <div>
+                      <img src={LoaderGif} alt="" width={20} height={20} />
+                    </div>{' '}
+                    Grid heartbeats detected. Initialising events log...
+                  </div>
+                )))}
 
-        {onboardingStep > 0 &&
-          showEventLogsModal &&
-          eventLogsCode &&
-          eventLogsCode.length > 0 &&
-          eventLogsStatus !== EVENT_LOGS_STATUS.FAILED &&
-          !isGridSetupComplete && (
-            <EventLogs
-              closeEventLogsModal={closeEventLogsModal}
-              currentStep={currentStep}
-              eventLogsCode={eventLogsCode}
-              totalSteps={totalSteps}
-              isGridSetupComplete={isGridSetupComplete}
-            />
-          )}
+          {onboardingStep === 1 &&
+            (onboardingType === SETUP_TYPES.scratch ||
+              onboardingType === SETUP_TYPES.existing) &&
+            eventLogsCode &&
+            eventLogsStatus === EVENT_LOGS_STATUS.IN_PROGRESS &&
+            !showGridHeartBeats && (
+              <div className="flex justify-between px-6 py-3">
+                <div className="text-base-700 flex gap-2">
+                  <div>
+                    <img src={LoaderGif} alt="" width={20} height={20} />
+                  </div>
+                  ‘{newGridName}’ grid creation is in progress...
+                </div>
+                <Button colors="white" onClick={viewEventLogsClickHandler}>
+                  View Event Logs
+                </Button>
+              </div>
+            )}
 
-        {onboardingStep > 0 && isGridSetupComplete && showSetupStatusModal && (
-          <SetupStatus
-            closeSetupStatusModal={closeSetupStatusModal}
-            codeSnippets={CODE_SNIPPETS_FOR_SCRATCH}
-            copySetupFailureCode={copySetupFailureCode}
-            exploreAutomationClickHandler={exploreAutomationClickHandler}
-            eventLogsStatus={eventLogsStatus}
-            frameworkURLs={frameworkURLs}
-            handleDismissClick={handleDismissClick}
-            isGridSetupComplete={isGridSetupComplete}
-            viewAllBuildsClickHandler={viewAllBuildsClickHandler}
-          />
-        )}
+          {/* --X-- Footer component --X-- */}
+
+          {onboardingStep > 0 &&
+            showEventLogsModal &&
+            eventLogsCode &&
+            eventLogsCode.length > 0 &&
+            eventLogsStatus !== EVENT_LOGS_STATUS.FAILED &&
+            !isGridSetupComplete && (
+              <EventLogs
+                closeEventLogsModal={closeEventLogsModal}
+                currentStep={currentStep}
+                eventLogsCode={eventLogsCode}
+                totalSteps={totalSteps}
+                isGridSetupComplete={isGridSetupComplete}
+              />
+            )}
+
+          {onboardingStep > 0 &&
+            isGridSetupComplete &&
+            showSetupStatusModal && (
+              <SetupStatus
+                closeSetupStatusModal={closeSetupStatusModal}
+                codeSnippets={CODE_SNIPPETS_FOR_SCRATCH}
+                copySetupFailureCode={copySetupFailureCode}
+                exploreAutomationClickHandler={exploreAutomationClickHandler}
+                eventLogsStatus={eventLogsStatus}
+                frameworkURLs={frameworkURLs}
+                handleDismissClick={handleDismissClick}
+                isGridSetupComplete={isGridSetupComplete}
+                viewAllBuildsClickHandler={viewAllBuildsClickHandler}
+              />
+            )}
+        </div>
       </div>
     </>
   );
