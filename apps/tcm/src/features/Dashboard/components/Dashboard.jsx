@@ -295,7 +295,7 @@ const Dashboard = () => {
             />
 
             <TMDataVisualization
-              title={<span className="break-normal">TOTAL_TC_TEXT</span>}
+              title={<span className="break-normal">{TOTAL_TC_TEXT}</span>}
               wrapperClassName="bg-white relative"
               size="fit-content"
               headerInfo={false}
