@@ -250,7 +250,7 @@ const SnPUniqueErrors = () => {
                 ) : (
                   <O11yEmptyState
                     title="No matching results found"
-                    description="We couldn't find the results you were looking for."
+                    description="Try changing the filters to broaden your search."
                     mainIcon={
                       <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
                     }
