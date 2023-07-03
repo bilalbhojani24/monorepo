@@ -255,7 +255,7 @@ const SnPUniqueErrors = () => {
                       <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
                     }
                     buttonProps={{
-                      children: 'View all unique errors',
+                      children: 'View All',
                       onClick: handleViewAll,
                       size: 'default'
                     }}
