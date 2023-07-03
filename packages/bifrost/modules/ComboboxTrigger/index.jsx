@@ -50,6 +50,10 @@ const ComboboxTrigger = ({ onInputValueChange, placeholder, leadingIcon }) => {
     }
   }, [open, onInputValueChangeRef]);
 
+  useEffect(() => {
+    if (disabled) comboInputRef.current.setAttribute('aria-expanded', open);
+  }, [disabled, comboInputRef, open]);
+
   return (
     <Popover.Trigger ref={buttonRef} asChild>
       <Combobox.Button
