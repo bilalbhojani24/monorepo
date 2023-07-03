@@ -59,6 +59,7 @@ export default {
     integrationsBaseUrl: '',
     disableLogs: true,
     useIntegrationsPreProdAuth: false,
-    enableSentry: true
+    enableSentry: true,
+    enableNps: true
   }
 };

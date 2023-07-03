@@ -9,6 +9,7 @@ export const MODAL_TYPES = {
   drill_down_modal: 'drill_down_modal',
   email_preference: 'email_preference',
   jenkins_connect_modal: 'jenkins_connect_modal',
+  archive_builds_modal: 'archive_builds_modal',
   mute_unmute_test: 'mute_unmute_test',
   onboarding_framework_selection_modal: 'onboarding_framework_selection_modal',
   rerun_test_modal: 'rerun_test_modal',

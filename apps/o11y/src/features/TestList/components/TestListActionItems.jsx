@@ -4,7 +4,8 @@ import {
   MdOutlineBugReport,
   MdOutlineVolumeOff,
   MdOutlineVolumeUp,
-  MdRedo
+  MdRedo,
+  TooltipBody
 } from '@browserstack/bifrost';
 import { O11yButton, O11yTooltip } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
@@ -21,7 +22,7 @@ import { logOllyEvent } from 'utils/common';
 
 import { getTestReportDetails } from '../slices/testListSlice';
 
-function TestListActionItems({ details, isMutedHidden }) {
+function TestListActionItems({ details, isAHook }) {
   const dispatch = useDispatch();
   const [updatedMutedStatus, setUpdatedMutedStatus] = useState(null);
   const { buildUUID } = useContext(TestListContext);
@@ -99,21 +100,6 @@ function TestListActionItems({ details, isMutedHidden }) {
       });
   };
 
-  // eslint-disable-next-line no-unused-vars
-  const confirmClick = () => {
-    OllyTestListingEvent('O11yReportBugExecuted');
-  };
-
-  const getMuteButtonText = (getMutedStatus) => {
-    if (isMutedHidden) return 'Muting is not applicable for test hooks';
-    return `${getMutedStatus ? 'Un-Mute' : 'Mute'} Test`;
-  };
-
-  const getReRunButtonText = () => {
-    if (isMutedHidden) return 'Re-run is not applicable for test hooks';
-    return 'Re-run';
-  };
-
   useEffect(() => {
     const unSubscribe = window.pubSub.subscribe(
       'onToggleMuteStatus',
@@ -135,6 +121,28 @@ function TestListActionItems({ details, isMutedHidden }) {
     return details?.isMuted;
   }, [details?.isMuted, updatedMutedStatus]);
 
+  const reRunTooltipText = useMemo(() => {
+    if (isAHook) return 'Re-run is not applicable for test hooks';
+    if (buildMeta?.data?.isArchived) {
+      return 'Re-run is not applicable for archived build run';
+    }
+    if (!buildMeta?.data?.reRun) {
+      return 'Re-run is not applicable or disabled in the project settings';
+    }
+    return 'Re-run';
+  }, [buildMeta?.data?.isArchived, buildMeta?.data?.reRun, isAHook]);
+
+  const muteTooltipText = useMemo(() => {
+    if (isAHook) {
+      return 'Muting is not applicable for test hooks';
+    }
+
+    if (buildMeta?.data?.isArchived) {
+      return 'Muting is not applicable for archived build run';
+    }
+    return `${getMutedStatus ? 'Un-Mute' : 'Mute'} Test`;
+  }, [buildMeta?.data?.isArchived, getMutedStatus, isAHook]);
+
   return (
     <PropagationBlocker className="hidden items-center justify-end gap-1 group-hover:flex">
       {details.status === TEST_STATUS.FAIL && (
@@ -143,15 +151,9 @@ function TestListActionItems({ details, isMutedHidden }) {
           placementSide="top"
           wrapperClassName="py-2"
           content={
-            <div className="mx-4">
-              {buildMeta?.data?.reRun ? (
-                <p className="text-base-300 text-sm">{getReRunButtonText()}</p>
-              ) : (
-                <p className="text-base-300 text-sm">
-                  Re-run is not applicable or disabled in the project settings
-                </p>
-              )}
-            </div>
+            <TooltipBody>
+              <p className="text-base-300 text-sm">{reRunTooltipText}</p>
+            </TooltipBody>
           }
         >
           <O11yButton
@@ -161,7 +163,9 @@ function TestListActionItems({ details, isMutedHidden }) {
             size="extra-small"
             onClick={handleRerunButtonClick}
             icon={<MdRedo className="h-5 w-5" />}
-            disabled={!buildMeta?.data?.reRun || isMutedHidden}
+            disabled={
+              isAHook || !buildMeta?.data?.reRun || buildMeta?.data?.isArchived
+            }
           />
         </O11yTooltip>
       )}
@@ -171,9 +175,9 @@ function TestListActionItems({ details, isMutedHidden }) {
           placementSide="top"
           wrapperClassName="py-2"
           content={
-            <div className="mx-4">
+            <TooltipBody>
               <p className="text-base-300 text-sm">Report a bug</p>
-            </div>
+            </TooltipBody>
           }
         >
           <O11yButton
@@ -193,11 +197,9 @@ function TestListActionItems({ details, isMutedHidden }) {
         placementSide="top"
         wrapperClassName="py-2"
         content={
-          <div className="mx-4">
-            <p className="text-base-300 text-sm">
-              {getMuteButtonText(getMutedStatus)}
-            </p>
-          </div>
+          <TooltipBody>
+            <p className="text-base-300 text-sm">{muteTooltipText}</p>
+          </TooltipBody>
         }
       >
         <O11yButton
@@ -206,7 +208,6 @@ function TestListActionItems({ details, isMutedHidden }) {
           isIconOnlyButton
           size="extra-small"
           onClick={() => handleMuteUnmuteTestCase(!getMutedStatus)}
-          disabled={isMutedHidden}
           icon={
             getMutedStatus ? (
               <MdOutlineVolumeOff className="h-5 w-5" />
@@ -214,6 +215,7 @@ function TestListActionItems({ details, isMutedHidden }) {
               <MdOutlineVolumeUp className="h-5 w-5" />
             )
           }
+          disabled={isAHook || buildMeta?.data?.isArchived}
         />
       </O11yTooltip>
     </PropagationBlocker>
@@ -224,8 +226,8 @@ export default TestListActionItems;
 
 TestListActionItems.propTypes = {
   details: PropTypes.shape(singleItemTestDetails).isRequired,
-  isMutedHidden: PropTypes.bool
+  isAHook: PropTypes.bool
 };
 TestListActionItems.defaultProps = {
-  isMutedHidden: false
+  isAHook: false
 };

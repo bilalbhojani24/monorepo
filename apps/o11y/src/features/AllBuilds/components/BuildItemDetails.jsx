@@ -30,6 +30,8 @@ import {
 import { getSelectedFiltersIdsByType } from '../slices/buildsSelectors';
 import { setAppliedFilter } from '../slices/buildsSlice';
 
+import BuildSelectCheckbox from './BuildSelectCheckbox';
+
 function BuildItemDetails({
   data,
   logBuildListingInteracted,
@@ -105,7 +107,8 @@ function BuildItemDetails({
   };
 
   return (
-    <div className="flex">
+    <div className="flex items-center">
+      <BuildSelectCheckbox data={data} />
       {renderStatusIcon()}
       <div className="ml-4">
         <div
@@ -118,6 +121,7 @@ function BuildItemDetails({
             }
           }}
         >
+          {data?.isArchived ? '(Archived) ' : ' '}
           {data?.isAutoDetectedName ? data?.originalName : data?.name}
           &nbsp;
           <O11yMetaData

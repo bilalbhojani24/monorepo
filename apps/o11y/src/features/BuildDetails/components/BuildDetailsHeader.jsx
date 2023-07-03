@@ -3,18 +3,9 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  Hyperlink,
-  MdOutlineAutoFixHigh,
-  MdOutlineRefresh
-} from '@browserstack/bifrost';
+import { Hyperlink, MdOutlineAutoFixHigh } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
-import {
-  O11yBadge,
-  O11yButton,
-  O11yTabs,
-  O11yTooltip
-} from 'common/bifrostProxy';
+import { O11yBadge, O11yTabs, O11yTooltip } from 'common/bifrostProxy';
 import O11yLoader from 'common/O11yLoader';
 import StatusBadges from 'common/StatusBadges';
 import { DOC_KEY_MAPPING } from 'constants/common';
@@ -42,6 +33,7 @@ import {
   getBuildUUID
 } from '../slices/selectors';
 
+import BuildMetaActions from './BuildMetaActions';
 import BuildMetaData from './BuildMetaData';
 
 const tabsList = Object.keys(TABS).map((key) => ({
@@ -143,7 +135,8 @@ function BuildDetailsHeader({
     name,
     buildNumber,
     tags,
-    statusStats
+    statusStats,
+    isArchived
   } = buildMeta.data;
 
   return (
@@ -161,71 +154,68 @@ function BuildDetailsHeader({
         top: `${headerSize}px`
       }}
     >
-      <div className="flex justify-between">
-        <h1 className="w-full text-2xl font-bold leading-7">
-          {isAutoDetectedName ? originalName : name}{' '}
-          <div className="inline-block">
-            {!!buildNumber && `#${buildNumber}`}
-            {isAutoDetectedName && (
-              <O11yTooltip
-                theme="dark"
-                placementSide="right"
-                content={
-                  <div className="mx-4">
-                    <p className="text-base-300 text-sm leading-5">
-                      Static build name automatically detected: {name}
-                    </p>
-                    <Hyperlink
-                      target="_blank"
-                      href={getDocUrl({
-                        path: DOC_KEY_MAPPING.automation_build
-                      })}
-                      className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
-                    >
-                      Learn More
-                    </Hyperlink>
-                  </div>
-                }
-              >
-                <MdOutlineAutoFixHigh
-                  className="text-base-500 mx-2 inline-block text-xl"
-                  onMouseEnter={() => {
-                    logMetaInteractionEvent('auto_detect_hovered');
-                  }}
-                />
-              </O11yTooltip>
-            )}
-          </div>
-          {tags?.map((tag) => (
-            <O11yBadge
-              key={tag}
-              wrapperClassName="mx-2 text-sm leading-5 font-medium bg-base-200"
-              hasRemoveButton={false}
-              modifier="base"
-              hasDot={false}
-              text={tag}
-            />
-          ))}
-        </h1>
-        {updateCount > 0 && (
-          <O11yButton
-            variant="rounded"
-            icon={<MdOutlineRefresh className="text-sm" />}
-            iconPlacement="end"
-            size="extra-small"
-            isIconOnlyButton={isNewItemLoading}
-            loading={isNewItemLoading}
-            onClick={onUpdateBtnClick}
-            wrapperClassName="flex-shrink-0"
-          >
-            {updateCount} new test{updateCount > 1 ? 's' : ''}
-          </O11yButton>
-        )}
+      <div className="flex">
+        <section className="flex flex-1 flex-col">
+          <h1 className="w-full text-2xl font-bold leading-7">
+            {isArchived ? '(Archived) ' : ''}
+            {isAutoDetectedName ? originalName : name}{' '}
+            <div className="inline-block">
+              {!!buildNumber && `#${buildNumber}`}
+              {isAutoDetectedName && (
+                <O11yTooltip
+                  theme="dark"
+                  placementSide="right"
+                  content={
+                    <div className="mx-4">
+                      <p className="text-base-300 text-sm leading-5">
+                        Static build name automatically detected: {name}
+                      </p>
+                      <Hyperlink
+                        target="_blank"
+                        href={getDocUrl({
+                          path: DOC_KEY_MAPPING.automation_build
+                        })}
+                        className="text-base-50 mt-2 block text-sm font-medium leading-5 underline"
+                      >
+                        Learn More
+                      </Hyperlink>
+                    </div>
+                  }
+                >
+                  <MdOutlineAutoFixHigh
+                    className="text-base-500 mx-2 inline-block text-xl"
+                    onMouseEnter={() => {
+                      logMetaInteractionEvent('auto_detect_hovered');
+                    }}
+                  />
+                </O11yTooltip>
+              )}
+            </div>
+            {tags?.map((tag) => (
+              <O11yBadge
+                key={tag}
+                wrapperClassName="mx-2 text-sm leading-5 font-medium bg-base-200"
+                hasRemoveButton={false}
+                modifier="base"
+                hasDot={false}
+                text={tag}
+              />
+            ))}
+          </h1>
+          <BuildMetaData
+            logMetaInteractionEvent={logMetaInteractionEvent}
+            wrapperClassName="mt-2"
+          />
+        </section>
+        <div className="flex shrink-0 flex-col items-end justify-between pb-4">
+          <BuildMetaActions
+            isNewItemLoading={isNewItemLoading}
+            onUpdateBtnClick={onUpdateBtnClick}
+            updateCount={updateCount}
+            buildData={buildMeta.data}
+          />
+        </div>
       </div>
-      <BuildMetaData
-        wrapperClassName="mt-2"
-        logMetaInteractionEvent={logMetaInteractionEvent}
-      />
       {!(
         buildMeta?.data?.buildError?.message || buildMeta?.data?.isParsingReport
       ) && (
