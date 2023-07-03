@@ -10,7 +10,6 @@ import { useNavigate } from 'react-router-dom';
 import { MdSearchOff } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import { O11yEmptyState } from 'common/bifrostProxy';
-import EmptyPage from 'common/EmptyPage';
 import O11yLoader from 'common/O11yLoader';
 import VirtualisedTable from 'common/VirtualisedTable';
 import { SNP_PARAMS_MAPPING } from 'constants/common';
@@ -249,11 +248,20 @@ export default function SHTests() {
                 )}
               >
                 {isEmpty(appliedFilterExceptDate) ? (
-                  <EmptyPage text="No data found" />
+                  <O11yEmptyState
+                    title="No data available"
+                    description="No results available for the selected date range."
+                    mainIcon={
+                      <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
+                    }
+                    buttonProps={{
+                      wrapperClassName: 'hidden'
+                    }}
+                  />
                 ) : (
                   <O11yEmptyState
                     title="No matching results found"
-                    description="We couldn't find the results you were looking for."
+                    description="Try changing the filters to broaden your search."
                     mainIcon={
                       <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
                     }
