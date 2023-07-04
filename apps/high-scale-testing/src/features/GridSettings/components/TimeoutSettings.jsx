@@ -4,7 +4,9 @@ import {
   InputField,
   InputGroupAddOn,
   Notifications,
-  notify
+  notify,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 
 import useTimeoutSettings from './useTimeoutSettings';
@@ -80,24 +82,38 @@ const TimeoutSettings = () => {
             in queue. It is set at 900 seconds by default.
           </p>
 
-          <div className="mt-3 max-w-xs">
-            <InputField
-              addOnAfter={
-                <InputGroupAddOn position="end">seconds</InputGroupAddOn>
-              }
-              errorText={queueTimeoutError}
-              value={queueTimeoutValue}
-              disabled={isTrialGrid || isSavingInProgress}
-              id="test-id"
-              onChange={queueTimeoutChangeHandler}
-              onKeyDown={null}
-              type="number"
-            />
-          </div>
+          <Tooltip
+            alignOffset={10}
+            arrowPadding={10}
+            content={
+              <TooltipBody>
+                Modification of this setting is restrictred in this grid
+              </TooltipBody>
+            }
+            placementSide="right"
+            show={!isTrialGrid ? false : undefined}
+            theme="dark"
+          >
+            <div className="mt-3 max-w-xs">
+              <InputField
+                addOnAfter={
+                  <InputGroupAddOn position="end">seconds</InputGroupAddOn>
+                }
+                errorText={queueTimeoutError}
+                value={queueTimeoutValue}
+                disabled={isTrialGrid || isSavingInProgress}
+                id="test-id"
+                onChange={queueTimeoutChangeHandler}
+                onKeyDown={null}
+                type="number"
+              />
+            </div>
+          </Tooltip>
         </div>
         {/* --- X --- Queue Timeout --- X --- */}
 
         {/* --- --- Queue Retry Interval --- --- */}
+
         <div className="pt-6">
           <p className="text-sm font-medium">Queue Retry Interval</p>
           <p className="text-base-500 text-sm">
@@ -105,20 +121,32 @@ const TimeoutSettings = () => {
             which Hub will retry the requests waiting in queue for. It is set at
             10 seconds by default.
           </p>
-
-          <div className="mt-3 max-w-xs">
-            <InputField
-              addOnAfter={
-                <InputGroupAddOn position="end">seconds</InputGroupAddOn>
-              }
-              value={queueRetryIntervalValue}
-              disabled={isTrialGrid || isSavingInProgress}
-              id="test-id"
-              onChange={queueRetryIntervalChangeHandler}
-              placeholder="10"
-              type="number"
-            />
-          </div>
+          <Tooltip
+            alignOffset={10}
+            arrowPadding={10}
+            content={
+              <TooltipBody>
+                Modification of this setting is restrictred in this grid
+              </TooltipBody>
+            }
+            placementSide="right"
+            show={!isTrialGrid ? false : undefined}
+            theme="dark"
+          >
+            <div className="mt-3 max-w-xs">
+              <InputField
+                addOnAfter={
+                  <InputGroupAddOn position="end">seconds</InputGroupAddOn>
+                }
+                value={queueRetryIntervalValue}
+                disabled={isTrialGrid || isSavingInProgress}
+                id="test-id"
+                onChange={queueRetryIntervalChangeHandler}
+                placeholder="10"
+                type="number"
+              />
+            </div>
+          </Tooltip>
         </div>
         {/* --- X --- Queue Retry Interval --- X --- */}
 
