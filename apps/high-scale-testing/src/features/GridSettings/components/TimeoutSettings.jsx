@@ -27,7 +27,7 @@ const TimeoutSettings = () => {
     idleTimeOutValue,
     isSaveButtonDisabled,
     isSavingInProgress,
-    isTrialGridUsed,
+    isTrialGrid,
     saveBtnClickhandler,
     testTimeoutChangeHandler,
     testTimeoutError,
@@ -87,7 +87,7 @@ const TimeoutSettings = () => {
               }
               errorText={queueTimeoutError}
               value={queueTimeoutValue}
-              disabled={isTrialGridUsed || isSavingInProgress}
+              disabled={isTrialGrid || isSavingInProgress}
               id="test-id"
               onChange={queueTimeoutChangeHandler}
               onKeyDown={null}
@@ -112,7 +112,7 @@ const TimeoutSettings = () => {
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
               value={queueRetryIntervalValue}
-              disabled={isTrialGridUsed || isSavingInProgress}
+              disabled={isTrialGrid || isSavingInProgress}
               id="test-id"
               onChange={queueRetryIntervalChangeHandler}
               placeholder="10"

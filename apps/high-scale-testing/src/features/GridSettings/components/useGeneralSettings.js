@@ -15,7 +15,7 @@ const useGeneralSettings = (notifactionComponent) => {
 
   const currentConcurrencyValue =
     selectedGridData.concurrency || DEFAULT_GRID_CONCURRENCY;
-  const isTrialgrid = selectedGridData.trialGrid?.isUsed || false;
+  const isTrialgrid = selectedGridData.isTrialGrid || false;
 
   // All State variables:
   const [concurrencyValue, setConcurrencyValue] = useState(

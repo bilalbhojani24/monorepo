@@ -28,7 +28,7 @@ const TestArtifactsSettings = () => {
     logsRetentionValue,
     isSaveButtonDisabled,
     isSavingInProgress,
-    isTrialGridUsed,
+    isTrialGrid,
     saveBtnClickhandler,
     videoLogsChangeHandler,
     videoLogValue
@@ -56,7 +56,7 @@ const TestArtifactsSettings = () => {
             <div className="w-1/12">
               <Switch
                 checked={videoLogValue}
-                disabled={isTrialGridUsed}
+                disabled={isTrialGrid}
                 onChange={videoLogsChangeHandler}
               />
             </div>
@@ -77,7 +77,7 @@ const TestArtifactsSettings = () => {
             <div className="w-1/12">
               <Switch
                 checked={frameworkLogsValue}
-                disabled={isTrialGridUsed}
+                disabled={isTrialGrid}
                 onChange={frameworkLogsChangeHandler}
               />
             </div>
@@ -98,7 +98,7 @@ const TestArtifactsSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">days</InputGroupAddOn>
               }
-              disabled={isTrialGridUsed}
+              disabled={isTrialGrid}
               id="test-id"
               onBlur={null}
               onChange={logsRetentionChangeHandler}

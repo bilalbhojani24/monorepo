@@ -17,7 +17,7 @@ const useTimeoutSettings = (notifactionComponent) => {
   const selectedGridData = useSelector(getSelectedGridData);
   const userDetails = useSelector(getUserDetails);
 
-  const isTrialGridUsed = selectedGridData.trialGrid?.isUsed || false;
+  const isTrialGrid = selectedGridData.isTrialGrid || false;
   const ERROR_MESSAGE_IDLE_TIMEOUT = `Idle timeout must be less than ${MAX_IDLE_TIMEOUT} seconds`;
   const ERROR_MESSAGE_QUEUE_TIMEOUT = `Queue timeout must be less than ${MAX_QUEUE_TIMEOUT} seconds`;
   const ERROR_MESSAGE_TEST_TIMEOUT = `Test timeout must be less than ${MAX_TEST_TIMEOUT} seconds`;
@@ -129,7 +129,7 @@ const useTimeoutSettings = (notifactionComponent) => {
     idleTimeOutValue,
     isSaveButtonDisabled,
     isSavingInProgress,
-    isTrialGridUsed,
+    isTrialGrid,
     saveBtnClickhandler,
     testTimeoutChangeHandler,
     testTimeoutError,

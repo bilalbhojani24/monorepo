@@ -19,7 +19,7 @@ const useTestArtifacts = (notifactionComponent) => {
   const [logsRetentionValue, setLogsRetentionValue] = useState(false);
   const [videoLogValue, setVideoLogsValue] = useState(false);
 
-  const isTrialGridUsed = selectedGridData.trialGrid?.isUsed || false;
+  const isTrialGrid = selectedGridData.isTrialGrid || false;
 
   const updateGridGeneralSettings = (settingsObj) => {
     updateSettings(userDetails.id, selectedGridData.id, settingsObj).then(
@@ -84,7 +84,7 @@ const useTestArtifacts = (notifactionComponent) => {
     logsRetentionValue,
     isSaveButtonDisabled,
     isSavingInProgress,
-    isTrialGridUsed,
+    isTrialGrid,
     saveBtnClickhandler,
     videoLogsChangeHandler,
     videoLogValue
