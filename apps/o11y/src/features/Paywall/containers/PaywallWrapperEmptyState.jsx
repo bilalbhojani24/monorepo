@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineLock } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
@@ -17,6 +17,17 @@ function PaywallWrapperEmptyState({ children, featureKey }) {
   const planDetails = useSelector(getPlanDetailsKey(featureKey));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
+
+  useEffect(() => {
+    if (!planDetails?.isActive) {
+      logOllyEvent({
+        event: 'O11yUpgradeModalShown',
+        data: {
+          source: FEATURE_CARD_DATA[featureKey]?.instrumentKey
+        }
+      });
+    }
+  }, [featureKey, planDetails?.isActive]);
 
   const handleClickUpgrade = () => {
     if (shouldAllowFreeTrial) {
