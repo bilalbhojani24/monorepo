@@ -21,6 +21,7 @@ const GridConsole = () => {
     currentListingType,
     dropdownHandler,
     options,
+    showCreateGridButton,
     tabChangeHandler,
     tabsArray
   } = useGridConsole();
@@ -32,23 +33,25 @@ const GridConsole = () => {
           actions={
             <Dropdown onClick={dropdownHandler}>
               <div className="flex">
-                <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
-                  <Button
-                    onClick={() => {
-                      logHSTEvent(
-                        ['amplitude'],
-                        'web_events',
-                        AGAutomationConsoleInteracted,
-                        { action: 'creategrid_clicked' }
-                      );
-                    }}
-                    size="default"
-                    icon={<MdKeyboardArrowDown />}
-                    iconPlacement="end"
-                  >
-                    Create Grid
-                  </Button>
-                </DropdownTrigger>
+                {showCreateGridButton && (
+                  <DropdownTrigger wrapperClassName="p-0 border-0 shadow-none">
+                    <Button
+                      onClick={() => {
+                        logHSTEvent(
+                          ['amplitude'],
+                          'web_events',
+                          AGAutomationConsoleInteracted,
+                          { action: 'creategrid_clicked' }
+                        );
+                      }}
+                      size="default"
+                      icon={<MdKeyboardArrowDown />}
+                      iconPlacement="end"
+                    >
+                      Create Grid
+                    </Button>
+                  </DropdownTrigger>
+                )}
               </div>
 
               <DropdownOptionGroup wrapperClassName="w-full">

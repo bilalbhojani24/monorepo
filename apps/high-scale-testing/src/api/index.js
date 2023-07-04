@@ -3,17 +3,22 @@ import axios from 'axios';
 import {
   CREATE_GRID,
   CREATE_GRID_EVENT_LOGS_DATA_URL,
+  CREATE_TRIAL_GRID_URL,
   FETCH_CLUSTER_URL,
   FETCH_CLUSTERS_URL,
   FETCH_GRID_PROFILES_DATA_URL,
   FETCH_GRID_URL,
   FETCH_GRIDS_URL,
-  ONBOARDING_DATA_URL,
-  ONBOARDING_EVENT_LOGS_DATA_URL,
-  ONBOARDING_REGION_CHANGE_URL,
-  ONBOARDING_STATUS_URL,
-  UPDATE_GRID_SETTINGS_URL
+  SETUP_DATA_URL,
+  SETUP_EVENT_LOGS_DATA_URL,
+  SETUP_REGION_CHANGE_URL,
+  SETUP_STATUS_URL,
+  UPDATE_GRID_SETTINGS_URL,
+  UPDATE_METADATA_URL
 } from './constants/apiURLs';
+
+const createTrialGridForUser = ({ userId, setupType }) =>
+  axios.post(CREATE_TRIAL_GRID_URL, { userId, setupType });
 
 const createNewGridProfile = (userId, profileData) =>
   axios.post(CREATE_GRID, { ...profileData, userId });
@@ -53,32 +58,38 @@ const getCreateGridEventsLogsData = (userId, onboardingType) =>
     }
   });
 
-const getOnboardingData = (userId) =>
-  axios.get(ONBOARDING_DATA_URL, {
+const getSetupData = (userId) =>
+  axios.get(SETUP_DATA_URL, {
     params: {
       userId
     }
   });
 
-const getOnboardingEventsLogsData = (userId, onboardingType) =>
-  axios.get(ONBOARDING_EVENT_LOGS_DATA_URL, {
+const getSetupEventsLogsData = (userId, onboardingType) =>
+  axios.get(SETUP_EVENT_LOGS_DATA_URL, {
     params: {
       userId,
       onboardingType
     }
   });
 
-const markOnboardingStatus = (userId, status) =>
-  axios.put(ONBOARDING_STATUS_URL, {
+const markSetupStatus = (userId, status) =>
+  axios.put(SETUP_STATUS_URL, {
     params: {
       userId,
       status
     }
   });
 
-const markOnboardingRegionChange = (userId, cloudProvider, newRegionObject) =>
-  axios.put(ONBOARDING_REGION_CHANGE_URL, {
+const markSetupRegionChange = (userId, cloudProvider, newRegionObject) =>
+  axios.put(SETUP_REGION_CHANGE_URL, {
     params: { userId, cloudProvider, region: newRegionObject }
+  });
+
+const updateMetadata = (userId, trialGridProductOnboardingCompleted) =>
+  axios.put(UPDATE_METADATA_URL, {
+    userId,
+    trialGridProductOnboardingCompleted
   });
 
 const updateSettings = (userId, gridId, settingsObj) =>
@@ -89,15 +100,17 @@ const updateSettings = (userId, gridId, settingsObj) =>
 
 export {
   createNewGridProfile,
+  createTrialGridForUser,
   fetchAllClustersData,
   fetchAllGridsData,
   fetchClusterDataById,
   fetchDataForCreateGrid,
   fetchGridDataById,
   getCreateGridEventsLogsData,
-  getOnboardingData,
-  getOnboardingEventsLogsData,
-  markOnboardingRegionChange,
-  markOnboardingStatus,
+  getSetupData,
+  getSetupEventsLogsData,
+  markSetupRegionChange,
+  markSetupStatus,
+  updateMetadata,
   updateSettings
 };

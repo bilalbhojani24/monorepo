@@ -28,6 +28,7 @@ const TestArtifactsSettings = () => {
     logsRetentionValue,
     isSaveButtonDisabled,
     isSavingInProgress,
+    isTrialGrid,
     saveBtnClickhandler,
     videoLogsChangeHandler,
     videoLogValue
@@ -36,10 +37,10 @@ const TestArtifactsSettings = () => {
   return (
     <>
       <div className="overflow-auto p-6">
-        <p className="text-lg font-medium text-base-900">
+        <p className="text-base-900 text-lg font-medium">
           Test Artifacts Settings
         </p>
-        <p className="text-sm text-base-500">
+        <p className="text-base-500 text-sm">
           Configure different types of logs that can be generated for the tests
           run on this grid.
         </p>
@@ -48,13 +49,14 @@ const TestArtifactsSettings = () => {
         <div className="flex flex-col pt-6">
           <p className="font-medium">Video Logs</p>
           <div className="flex justify-between">
-            <p className="text-sm text-base-500">
+            <p className="text-base-500 text-sm">
               Enable or Disable the toggle to configure if video logs should be
               generated or not. It is enabled by default.
             </p>
             <div className="w-1/12">
               <Switch
                 checked={videoLogValue}
+                disabled={isTrialGrid}
                 onChange={videoLogsChangeHandler}
               />
             </div>
@@ -67,7 +69,7 @@ const TestArtifactsSettings = () => {
         <div className="flex flex-col">
           <p className="font-medium">Framework Logs</p>
           <div className="flex justify-between">
-            <p className="text-sm text-base-500">
+            <p className="text-base-500 text-sm">
               Enable or Disable the toggle to configure if framework
               (Selenium/Playwright) logs should be generated or not. It is
               enabled by default.
@@ -75,6 +77,7 @@ const TestArtifactsSettings = () => {
             <div className="w-1/12">
               <Switch
                 checked={frameworkLogsValue}
+                disabled={isTrialGrid}
                 onChange={frameworkLogsChangeHandler}
               />
             </div>
@@ -85,7 +88,7 @@ const TestArtifactsSettings = () => {
         {/* --- --- Log Retention --- --- */}
         <div className="pt-6">
           <p className="font-medium">Log Retention</p>
-          <p className="text-sm text-base-500">
+          <p className="text-base-500 text-sm">
             Set the retention policy in days to change the retention period of
             logs stored for this grid. It is set to 7 days by default.
           </p>
@@ -95,6 +98,7 @@ const TestArtifactsSettings = () => {
               addOnAfter={
                 <InputGroupAddOn position="end">days</InputGroupAddOn>
               }
+              disabled={isTrialGrid}
               id="test-id"
               onBlur={null}
               onChange={logsRetentionChangeHandler}
@@ -109,7 +113,7 @@ const TestArtifactsSettings = () => {
         {/* --- X --- Log Retention --- X --- */}
       </div>
 
-      <div className="flex flex-row-reverse bg-base-50 px-6 py-3">
+      <div className="bg-base-50 flex flex-row-reverse px-6 py-3">
         <Button
           disabled={isSaveButtonDisabled}
           loading={isSavingInProgress}

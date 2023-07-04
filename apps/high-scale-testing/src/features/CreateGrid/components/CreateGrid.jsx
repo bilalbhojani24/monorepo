@@ -32,9 +32,9 @@ import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
-import { EVENT_LOGS_STATUS } from 'constants/onboarding';
-import EventLogs from 'features/Onboarding/components/EventLogs';
-import SetupStatus from 'features/Onboarding/components/SetupStatus';
+import { EVENT_LOGS_STATUS } from 'constants/setup';
+import { EventLogs } from 'features/EventLogs/';
+import SetupStatus from 'features/Setup/components/SetupStatus';
 
 import useCreateGrid from './useCreateGrid';
 
@@ -75,7 +75,7 @@ const CreateGrid = () => {
     isExactSubnetMatch,
     isExactVPCMatch,
     isSaveProfileBtnDisabled,
-    isSetupComplete,
+    isGridSetupComplete,
     isSubnetLoading,
     isVPCLoading,
     modalCrossClickhandler,
@@ -112,7 +112,6 @@ const CreateGrid = () => {
     showSaveProfileModal,
     showSetupClusterModal,
     showSetupStatusModal,
-    stepperClickHandler,
     stepperStepsState,
     subnetChangeHandler,
     subnetInputChangeHandler,
@@ -376,11 +375,11 @@ const CreateGrid = () => {
               currentStep={currentStep}
               eventLogsCode={eventLogsCode}
               totalSteps={totalSteps}
-              isSetupComplete={isSetupComplete}
+              isGridSetupComplete={isGridSetupComplete}
             />
           )}
 
-          {isSetupComplete && showSetupStatusModal && (
+          {isGridSetupComplete && showSetupStatusModal && (
             <SetupStatus
               closeSetupStatusModal={closeSetupStatusModal}
               codeSnippets={CODE_SNIPPETS_SCRATCH}
@@ -388,7 +387,7 @@ const CreateGrid = () => {
               eventLogsStatus={eventLogsStatus}
               frameworkURLs={frameworkURLs}
               handleDismissClick={handleDismissClick}
-              isSetupComplete={isSetupComplete}
+              isGridSetupComplete={isGridSetupComplete}
               viewAllBuildsClickHandler={viewAllBuildsClickHandler}
             />
           )}
@@ -802,18 +801,18 @@ const CreateGrid = () => {
                   currentStep={currentStep}
                   eventLogsCode={eventLogsCode}
                   totalSteps={totalSteps}
-                  isSetupComplete={isSetupComplete}
+                  isGridSetupComplete={isGridSetupComplete}
                 />
               )}
 
-              {isSetupComplete && showSetupStatusModal && (
+              {isGridSetupComplete && showSetupStatusModal && (
                 <SetupStatus
                   closeSetupStatusModal={closeSetupStatusModal}
                   codeSnippets={CODE_SNIPPETS_SCRATCH}
                   exploreAutomationClickHandler={exploreAutomationClickHandler}
                   eventLogsStatus={eventLogsStatus}
                   frameworkURLs={frameworkURLs}
-                  isSetupComplete={isSetupComplete}
+                  isGridSetupComplete={isGridSetupComplete}
                   viewAllBuildsClickHandler={viewAllBuildsClickHandler}
                 />
               )}

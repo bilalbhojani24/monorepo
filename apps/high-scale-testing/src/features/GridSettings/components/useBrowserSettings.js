@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
-import { getGridData } from 'features/GridConsole/slices/selector';
+import { getGridsData } from 'features/GridConsole/slices/selector';
 import { getIsApploading, getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
@@ -16,7 +16,7 @@ const useBrowserSettings = (notifactionComponent) => {
 
   // All Store variables:
   const fetchedGridData = useSelector(getIsApploading);
-  const gridData = useSelector(getGridData);
+  const gridData = useSelector(getGridsData);
   const userDetails = useSelector(getUserDetails);
 
   // All State variables:

@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
-import { getClusterData } from 'features/ClusterDetail/slices/selector';
+
+import { getClustersData } from '../slices/selector';
 
 const useClustersListing = () => {
   const isRounded = true;
@@ -12,7 +13,7 @@ const useClustersListing = () => {
     'text-xs px-6 py-3 text-base-500 font-medium';
 
   // All Store variables:
-  const clustersList = useSelector(getClusterData);
+  const clustersList = useSelector(getClustersData);
 
   return {
     clustersList,

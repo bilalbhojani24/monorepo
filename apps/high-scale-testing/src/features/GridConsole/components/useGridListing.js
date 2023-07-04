@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { getGridData } from '../slices/selector';
+import { setSelectedGridData } from '../slices';
+import { getGridsData } from '../slices/selector';
 
 const useGridListing = () => {
   const isRounded = true;
   const CLI_COMMAND = 'browserstack-cli ats delete grid --grid-id ';
   const HELM_COMMAND = 'helm uninstall ';
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // All Store variables:
-  const gridList = useSelector(getGridData);
+  const gridList = useSelector(getGridsData);
 
   // All State Variables:
   const [activeGridName, setActiveGridName] = useState(null);
@@ -40,6 +45,13 @@ const useGridListing = () => {
     setShowDeleteGridModal(true);
   };
 
+  const gridRowHandler = (gridId) => {
+    const gridData = gridList.filter((item) => item.id === gridId)[0];
+    dispatch(setSelectedGridData(gridData));
+
+    navigate(`/grid-console/grid/${gridId}/overview`);
+  };
+
   useEffect(() => {
     if (!showDeleteGridModal) {
       setActiveGridName(null);
@@ -54,7 +66,9 @@ const useGridListing = () => {
     deleteDropDownClickHandler,
     deletionCommand,
     gridList,
+    gridRowHandler,
     isRounded,
+    navigate,
     showDeleteGridModal,
     tableCellWrapperClassName
   };

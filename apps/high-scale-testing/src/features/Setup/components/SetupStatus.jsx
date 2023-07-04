@@ -16,7 +16,7 @@ import {
   TableRow
 } from '@browserstack/bifrost';
 import CopyButton from 'common/CopyButton/components/CopyButton';
-import { EVENT_LOGS_STATUS } from 'constants/onboarding';
+import { EVENT_LOGS_STATUS } from 'constants/setup';
 import PropTypes from 'prop-types';
 
 const SetupStatus = ({
@@ -27,7 +27,7 @@ const SetupStatus = ({
   eventLogsStatus,
   frameworkURLs,
   handleDismissClick,
-  isSetupComplete,
+  isGridSetupComplete,
   viewAllBuildsClickHandler
 }) => {
   let ALERT_DESC = '';
@@ -45,7 +45,7 @@ const SetupStatus = ({
   }
 
   return (
-    <Modal size="3xl" show={isSetupComplete}>
+    <Modal size="3xl" show={isGridSetupComplete}>
       <ModalHeader
         handleDismissClick={handleDismissClick}
         heading={HEADER_TEXT}
@@ -61,7 +61,7 @@ const SetupStatus = ({
             />
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FINISHED && (
-              <div className="flex gap-2 pt-4 text-sm text-base-900">
+              <div className="text-base-900 flex gap-2 pt-4 text-sm">
                 <p>
                   Copy the above framework URLs to seamlessly integrate your
                   test suite with the grid.
@@ -148,7 +148,7 @@ const SetupStatus = ({
             )}
 
             {eventLogsStatus === EVENT_LOGS_STATUS.FAILED && (
-              <div className="mt-4 text-base-900">
+              <div className="text-base-900 mt-4">
                 <p className="mb-2 text-sm">
                   Try creating grid again with the below CLI command.
                 </p>
@@ -213,7 +213,7 @@ SetupStatus.propTypes = {
   eventLogsStatus: PropTypes.string.isRequired,
   frameworkURLs: PropTypes.oneOfType([PropTypes.object]).isRequired,
   handleDismissClick: PropTypes.func.isRequired,
-  isSetupComplete: PropTypes.bool.isRequired,
+  isGridSetupComplete: PropTypes.bool.isRequired,
   viewAllBuildsClickHandler: PropTypes.func.isRequired
 };
 

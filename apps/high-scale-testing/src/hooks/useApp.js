@@ -16,7 +16,12 @@ import {
 } from 'constants/keys';
 import ROUTES from 'constants/routes';
 import { initialiseApplication } from 'globalSlice';
-import { getIsApploading, getUserDetails } from 'globalSlice/selector';
+import {
+  getIsApploading,
+  getShowSetup,
+  getTrialGrid,
+  getUserDetails
+} from 'globalSlice/selector';
 import { getEnv, getEnvConfig } from 'utils/common';
 
 const useApp = () => {
@@ -28,6 +33,8 @@ const useApp = () => {
   const { enableAnalytics, enableSentry } = envConfig;
 
   const isAppLoading = useSelector(getIsApploading);
+  const { isUsed: isTrialGridUsed } = useSelector(getTrialGrid);
+  const showSetup = useSelector(getShowSetup);
   const userDetails = useSelector(getUserDetails);
 
   const initAPI = async () => {
@@ -98,11 +105,12 @@ const useApp = () => {
     if (
       !isAppLoading &&
       Object.keys(userDetails).length > 0 &&
-      !userDetails.onboardingCompleted
+      showSetup &&
+      !isTrialGridUsed
     ) {
-      navigate(ROUTES.ONBOARDING);
+      navigate(ROUTES.SETUP);
     }
-  }, [isAppLoading, navigate, userDetails]);
+  }, [isAppLoading, isTrialGridUsed, navigate, showSetup, userDetails]);
 
   return {
     initAPI

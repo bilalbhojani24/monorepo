@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useInterval, useMountEffect } from '@browserstack/hooks';
 import {
-  getOnboardingData,
-  getOnboardingEventsLogsData,
-  markOnboardingRegionChange,
-  markOnboardingStatus
+  createTrialGridForUser,
+  getSetupData,
+  getSetupEventsLogsData,
+  markSetupRegionChange,
+  markSetupStatus
 } from 'api';
+import { BannerMessages } from 'constants/bannerMessages';
 import {
   AGErrorGridModalInteracted,
   AGErrorGridModalPresented,
@@ -28,81 +31,39 @@ import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
-import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
+import {
+  CODE_SNIPPETS_SCRATCH,
+  EVENT_LOGS_STATUS,
+  HEADER_TEXTS_OBJECT,
+  SETUP_TYPES,
+  STEP_1_RADIO_GROUP_OPTIONS
+} from 'constants/setup';
 import { SETUP_GUIDE } from 'constants/strings';
-import { getUserDetails } from 'globalSlice/selector';
+import { setTrialGridUsed } from 'globalSlice/index';
+import {
+  getShowSetup,
+  getTrialGrid,
+  getUserDetails,
+  getUserHasSessions
+} from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
-const useOnboarding = () => {
+import { DEFAULT_CLOUD_PROVIDER, SUB_TEXTS_OBJECT } from '../constants';
+
+const useSetup = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // All Store variables:
+  const { isExpired: isTrialGridExpired, isUsed: isTrialGridUsed } =
+    useSelector(getTrialGrid);
+  const showSetup = useSelector(getShowSetup);
   const userDetails = useSelector(getUserDetails);
+  const userHasSessions = useSelector(getUserHasSessions);
 
   // All Constants:
-  const CODE_SNIPPETS_SCRATCH = {
-    'create-grid': {
-      a: {
-        code: 'npm install browserstack-node-sdk',
-        language: 'npm',
-        text: 'Download CLI.'
-      },
-      b: {
-        code: `browserstack-cli ats init --bstack-username ${userDetails.username} --bstack-accesskey ${userDetails.accessKey}`,
-        language: 'node',
-        text: 'Setup CLI with BrowserStack credentials.'
-      },
-      c: {
-        code: 'browserstack-cli ats create grid',
-        language: 'node',
-        text: 'Execute grid creation command.'
-      }
-    }
-  };
-
-  const HEADER_TEXTS_OBJECT = {
-    intro: `Hey ${userDetails.fullname}, Welcome to Automate TurboScale`,
-    scratch: 'Create Automation Grid',
-    existing: 'Create Automation Grid'
-  };
-
-  const LIST_FEED_PROPS = {
-    feedIconColor: 'grey',
-    feedIconContainerSize: 'sm',
-    feedIconSize: 'sm',
-    feedIconVariant: 'light'
-  };
-
-  const ONBOARDING_TYPES = {
-    scratch: 'scratch',
-    existing: 'existing'
-  };
-
-  const DEFAULT_CLOUD_PROVIDER = SCRATCH_RADIO_GROUP_OPTIONS[0];
-
-  const SHOW_LINE_NUMBERS = false;
-  const SHOW_SINGLE_LINE = true;
-  const SUB_TEXTS_OBJECT = {
-    intro:
-      'Create and manage your own Automation Grid that supports frameworks like Selenium, Playwright, and Cypress to support browser testing at scale',
-    scratch: 'Quickly create a grid in below 4 steps.',
-    existing: ''
-  };
-  const STEP_1_RADIO_GROUP_OPTIONS = [
-    {
-      description:
-        'Create Automation Grid from scratch. Choose this option to create a new grid with a new Kubernetes Cluster.',
-      disabled: false,
-      id: 'radio-1',
-      label: "No, I don't have a setup."
-    },
-    {
-      description:
-        'Create Automation Grid in the existing setup. Choose this option to create a grid in your existing Kubernetes Cluster.',
-      disabled: false,
-      id: 'radio-2',
-      label: 'Yes, I have a setup.'
-    }
-  ];
+  const CODE_SNIPPETS_FOR_SCRATCH = CODE_SNIPPETS_SCRATCH(userDetails);
 
   // All State variables:
   const [allAvailableRegionsByProvider, setAllAvailableRegionsByProvider] =
@@ -120,12 +81,12 @@ const useOnboarding = () => {
   const [eventLogsStatus, setEventLogsStatus] = useState(
     EVENT_LOGS_STATUS.NOT_STARTED
   );
-  const [headerText, setHeaderText] = useState(HEADER_TEXTS_OBJECT.intro);
-  const [isSetupComplete, setIsSetupComplete] = useState(false);
-  const [onboardingStep, setOnboardingStep] = useState(0);
-  const [onboardingType, setOnboardingType] = useState(
-    ONBOARDING_TYPES.scratch
+  const [headerText, setHeaderText] = useState(
+    HEADER_TEXTS_OBJECT(userDetails).intro
   );
+  const [isGridSetupComplete, setIsGridSetupComplete] = useState(false);
+  const [onboardingStep, setSetupStep] = useState(0);
+  const [setupType, setSetupType] = useState(SETUP_TYPES.scratch);
   const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
     allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER]
   );
@@ -138,23 +99,28 @@ const useOnboarding = () => {
   const [showEventLogsModal, setShowEventLogsModal] = useState(true);
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
   const [showSetupStatusModal, setShowSetupStatusModal] = useState(false);
+  const [showTrialGridBanner, setShowTrialGridBanner] = useState(false);
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
   );
   const [selectedRegion, setSelectedRegion] = useState();
   const [totalSteps, setTotalSteps] = useState(0);
+  const [useTrialGridLoading, setUseTrialGridLoading] = useState(false);
+  const [useTrialGridBannerText, setUseTrialGridBannerText] = useState(
+    BannerMessages.trialGridSetupPageIntro
+  );
 
   const intervalIdForEventLogs = useRef();
 
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
     if (stepData.name === SETUP_GUIDE) {
-      if (onboardingType === ONBOARDING_TYPES.existing) {
+      if (setupType === SETUP_TYPES.existing) {
         logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
           action: 'setupguide_clicked'
         });
-      } else if (onboardingType === ONBOARDING_TYPES.scratch) {
+      } else if (setupType === SETUP_TYPES.scratch) {
         logHSTEvent(['amplitude'], 'web_events', AGNoSetupPresented, {
           action: 'setupguide_clicked'
         });
@@ -162,7 +128,7 @@ const useOnboarding = () => {
     }
     const { goToStep } = stepData;
     if (Number.isInteger(goToStep)) {
-      setOnboardingStep(goToStep);
+      setSetupStep(goToStep);
     }
   };
 
@@ -183,14 +149,14 @@ const useOnboarding = () => {
     setShowSetupStatusModal(false);
   };
 
-  const cloudProviderChangeHandler = (e, option) => {
+  const cloudProviderChangeHandler = (value) => {
     const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
-      (item) => item.id === option
+      (item) => item.value === value
     );
 
     logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, {
       action: 'cloudprovider_selected',
-      value: option.configName
+      value
     });
     setCurrentCloudProvider(newOption);
   };
@@ -229,7 +195,7 @@ const useOnboarding = () => {
           ? 'no_setup'
           : 'have_setup'
     });
-    setOnboardingStep(1);
+    setSetupStep(1);
   };
 
   const copyCallbackFnForExistingSetup = (codeType) => {
@@ -276,20 +242,28 @@ const useOnboarding = () => {
 
     if (onboardingStep === 0) {
       eventName = AGSetupGuideInteracted;
-    } else if (
-      onboardingStep === 1 &&
-      onboardingType === ONBOARDING_TYPES.scratch
-    ) {
+    } else if (onboardingStep === 1 && setupType === SETUP_TYPES.scratch) {
       eventName = AGNoSetupInteracted;
-    } else if (
-      onboardingStep === 1 &&
-      onboardingType === ONBOARDING_TYPES.existing
-    ) {
+    } else if (onboardingStep === 1 && setupType === SETUP_TYPES.existing) {
       eventName = AGHaveSetupInteracted;
     }
 
     logHSTEvent(['amplitude'], 'web_events', eventName, {
       action: 'viewdoc_clicked'
+    });
+  };
+
+  const useTrialGridClickHandler = async () => {
+    setUseTrialGridLoading(true);
+    await createTrialGridForUser({
+      userId: userDetails.id,
+      setupType: setupType
+    }).then((res) => {
+      const { gridId } = res.data;
+      if (res.status === 200) {
+        dispatch(setTrialGridUsed(true));
+        navigate(`/grid-console/grid/${gridId}/overview`);
+      }
     });
   };
 
@@ -302,11 +276,11 @@ const useOnboarding = () => {
   };
 
   const viewEventLogsClickHandler = () => {
-    if (onboardingType === ONBOARDING_TYPES.scratch) {
+    if (setupType === SETUP_TYPES.scratch) {
       logHSTEvent([''], 'web_events', AGNoSetupInteracted, {
         action: 'vieweventlogs_clicked'
       });
-    } else if (onboardingType === ONBOARDING_TYPES.existing) {
+    } else if (setupType === SETUP_TYPES.existing) {
       logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
         action: 'vieweventlogs_clicked'
       });
@@ -317,21 +291,23 @@ const useOnboarding = () => {
   // All useEffects:
   useEffect(() => {
     if (onboardingStep > 0) {
-      setHeaderText(HEADER_TEXTS_OBJECT[onboardingType]);
-      setSubHeaderText(SUB_TEXTS_OBJECT[onboardingType]);
+      setHeaderText(HEADER_TEXTS_OBJECT(userDetails)[setupType]);
+      setSubHeaderText(SUB_TEXTS_OBJECT[setupType]);
       setPollForEventLogs(true);
+      setShowTrialGridBanner(!isTrialGridUsed);
     } else {
-      setHeaderText(HEADER_TEXTS_OBJECT.intro);
+      setHeaderText(HEADER_TEXTS_OBJECT(userDetails).intro);
       setSubHeaderText(SUB_TEXTS_OBJECT.intro);
       setPollForEventLogs(false);
+      setShowTrialGridBanner(false);
     }
 
     if (onboardingStep > 0) {
-      if (onboardingType === ONBOARDING_TYPES.scratch) {
+      if (setupType === SETUP_TYPES.scratch) {
         logHSTEvent([], 'web_events', AGNoSetupPresented);
       }
 
-      if (onboardingType === ONBOARDING_TYPES.existing) {
+      if (setupType === SETUP_TYPES.existing) {
         logHSTEvent([], 'web_events', AGHaveSetupPresented);
       }
     }
@@ -339,8 +315,10 @@ const useOnboarding = () => {
   }, [onboardingStep]);
 
   useEffect(() => {
-    if (selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label) {
-      setOnboardingType('scratch');
+    if (
+      selectedOption.description === STEP_1_RADIO_GROUP_OPTIONS[0].description
+    ) {
+      setSetupType('scratch');
       setBreadcrumbDataTrace([
         {
           current: false,
@@ -359,7 +337,7 @@ const useOnboarding = () => {
         action: 'nosetup_clicked'
       });
     } else {
-      setOnboardingType('existing');
+      setSetupType('existing');
       setBreadcrumbDataTrace([
         {
           current: false,
@@ -385,7 +363,7 @@ const useOnboarding = () => {
   useEffect(() => {
     if (Object.keys(allAvailableRegionsByProvider).length > 0) {
       setCurrentProvidersRegions(
-        allAvailableRegionsByProvider[currentSelectedCloudProvider.configName]
+        allAvailableRegionsByProvider[currentSelectedCloudProvider.value]
       );
 
       /*
@@ -393,7 +371,7 @@ const useOnboarding = () => {
         Now, we are setting the default region based on the currently selected Cloud Provider below
       */
       const defaultRegionToSet = allAvailableRegionsByProvider[
-        currentSelectedCloudProvider.configName
+        currentSelectedCloudProvider.value
       ].find((region) => region.default === true);
 
       setSelectedRegion(defaultRegionToSet);
@@ -401,9 +379,9 @@ const useOnboarding = () => {
   }, [allAvailableRegionsByProvider, currentSelectedCloudProvider]);
 
   useEffect(() => {
-    markOnboardingRegionChange(
+    markSetupRegionChange(
       userDetails.id,
-      currentSelectedCloudProvider.configName,
+      currentSelectedCloudProvider.value,
       selectedRegion
     );
   }, [currentSelectedCloudProvider, selectedRegion, userDetails]);
@@ -413,7 +391,7 @@ const useOnboarding = () => {
       setTimeout(() => {
         logHSTEvent([], 'web_events', AGErrorGridModalPresented);
         setEventLogsStatus(EVENT_LOGS_STATUS.FAILED);
-        setIsSetupComplete(true);
+        setIsGridSetupComplete(true);
       }, 1000);
     } else if (currentStep === 0) {
       setEventLogsStatus(EVENT_LOGS_STATUS.NOT_STARTED);
@@ -429,17 +407,25 @@ const useOnboarding = () => {
       setEventLogsStatus(EVENT_LOGS_STATUS.FINISHED);
 
       setTimeout(() => {
-        setIsSetupComplete(true);
+        setIsGridSetupComplete(true);
       }, 1000);
     }
   }, [currentStep, showGridHeartBeats, totalSteps]);
 
   useEffect(() => {
-    setShowSetupStatusModal(isSetupComplete);
-  }, [isSetupComplete]);
+    setShowSetupStatusModal(isGridSetupComplete);
+  }, [isGridSetupComplete]);
+
+  useEffect(() => {
+    if (useTrialGridLoading) {
+      setUseTrialGridBannerText(BannerMessages.trialGridSetupPageIntroLoading);
+    } else {
+      setUseTrialGridBannerText(BannerMessages.trialGridSetupPageIntro);
+    }
+  }, [useTrialGridLoading]);
 
   const fetchEventsLogsData = async (type, step) => {
-    const response = await getOnboardingEventsLogsData(userDetails.id, type);
+    const response = await getSetupEventsLogsData(userDetails.id, type);
     const res = response.data;
 
     setEventLogsCode(res.currentLogs);
@@ -450,34 +436,34 @@ const useOnboarding = () => {
     if (
       step === 0 &&
       res.currentStep > 0 &&
-      (res.onboardingType === ONBOARDING_TYPES.scratch ||
-        res.onboardingType === ONBOARDING_TYPES.existing)
+      (res.setupType === SETUP_TYPES.scratch ||
+        res.setupType === SETUP_TYPES.existing)
     ) {
-      setOnboardingType(res.onboardingType);
-      setOnboardingStep(1);
+      setSetupType(res.setupType);
+      setSetupStep(1);
     }
 
     if (res.currentStep === res.totalSteps) {
       setPollForEventLogs(false);
       setFrameworkURLs(res.framework);
       setTimeout(() => {
-        setIsSetupComplete(true);
+        setIsGridSetupComplete(true);
       }, 1000);
 
-      markOnboardingStatus(userDetails.id, 'success');
+      markSetupStatus(userDetails.id, 'success');
     }
   };
 
   useInterval(
     () => {
-      fetchEventsLogsData(onboardingType, onboardingStep);
+      fetchEventsLogsData(setupType, onboardingStep);
     },
     intervalIdForEventLogs.current === null ? null : EVENT_LOGS_POLLING_IN_MS
   );
 
   useMountEffect(() => {
-    const fetchOnboardingData = async () => {
-      const response = await getOnboardingData(userDetails.id);
+    const fetchSetupData = async () => {
+      const response = await getSetupData(userDetails.id);
       const res = response.data;
 
       setAllAvailableRegionsByProvider(res.scratch['step-1'].regions);
@@ -485,8 +471,8 @@ const useOnboarding = () => {
       return response.data;
     };
 
-    if (!userDetails.onboardingCompleted) {
-      fetchOnboardingData();
+    if (showSetup) {
+      fetchSetupData();
 
       if (pollForEventLogs) {
         intervalIdForEventLogs.current = EVENT_LOGS_POLLING_IN_MS;
@@ -499,15 +485,9 @@ const useOnboarding = () => {
   });
 
   return {
-    CODE_SNIPPETS_SCRATCH,
+    CODE_SNIPPETS_FOR_SCRATCH,
     DEFAULT_CLOUD_PROVIDER,
-    GRID_MANAGER_NAMES,
-    LIST_FEED_PROPS,
-    ONBOARDING_TYPES,
     SCRATCH_RADIO_GROUP_OPTIONS,
-    SHOW_LINE_NUMBERS,
-    SHOW_SINGLE_LINE,
-    STEP_1_RADIO_GROUP_OPTIONS,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
@@ -530,12 +510,15 @@ const useOnboarding = () => {
     frameworkURLs,
     handleDismissClick,
     headerText,
-    isSetupComplete,
+    isGridSetupComplete,
+    isTrialGridExpired,
+    isTrialGridUsed,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
+    navigate,
     newGridName,
     onboardingStep,
-    onboardingType,
+    setupType,
     selectedOption,
     selectedRegion,
     setCurrentCloudProvider,
@@ -544,11 +527,16 @@ const useOnboarding = () => {
     showEventLogsModal,
     showGridHeartBeats,
     showSetupStatusModal,
+    showTrialGridBanner,
     subHeaderText,
     totalSteps,
+    userHasSessions,
+    useTrialGridBannerText,
+    useTrialGridClickHandler,
+    useTrialGridLoading,
     viewAllBuildsClickHandler,
     viewEventLogsClickHandler
   };
 };
 
-export default useOnboarding;
+export default useSetup;

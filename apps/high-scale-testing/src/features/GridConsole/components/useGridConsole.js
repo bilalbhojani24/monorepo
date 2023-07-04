@@ -5,13 +5,25 @@ import { useMountEffect } from '@browserstack/hooks';
 import { fetchAllClustersData, fetchAllGridsData } from 'api/index';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
-import { getClusterData } from 'features/ClusterDetail/slices/selector';
 import { setFetchedGridData } from 'globalSlice/index';
-import { getFetchedGridData, getUserDetails } from 'globalSlice/selector';
+import {
+  getFetchedGridData,
+  getShowSetup,
+  getTrialGrid,
+  getUserDetails
+} from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
-import { setClusterData, setGridData } from '../slices';
-import { getGridData } from '../slices/selector';
+import {
+  setClusterData,
+  setGridData,
+  setShowCreateGridButton
+} from '../slices';
+import {
+  getClustersData,
+  getGridsData,
+  getShowCreateGridButton
+} from '../slices/selector';
 
 const useGridConsole = () => {
   const dispatch = useDispatch();
@@ -27,9 +39,12 @@ const useGridConsole = () => {
   ];
 
   // All Store variables
-  const clusterData = useSelector(getClusterData);
+  const clusterData = useSelector(getClustersData);
   const fetchedGridData = useSelector(getFetchedGridData);
-  const gridData = useSelector(getGridData);
+  const gridData = useSelector(getGridsData);
+  const showCreateGridButton = useSelector(getShowCreateGridButton);
+  const showSetup = useSelector(getShowSetup);
+  const { isUsed: isTrialGridUsed } = useSelector(getTrialGrid);
   const userDetails = useSelector(getUserDetails);
 
   // All State variables
@@ -85,6 +100,11 @@ const useGridConsole = () => {
     const lengthOfGridData = gridData.length;
 
     if (lengthOfGridData > 1) {
+      const hasTrialGrid =
+        gridData.filter((grid) => grid.isTrialGrid).length > 0;
+
+      dispatch(setShowCreateGridButton(!hasTrialGrid));
+
       setTabsArray([
         {
           index: 0,
@@ -97,8 +117,8 @@ const useGridConsole = () => {
           value: 'clusters'
         }
       ]);
-    } else if (!userDetails.onboardingCompleted) {
-      navigate(ROUTES.ONBOARDING);
+    } else if (showSetup && !isTrialGridUsed) {
+      navigate(ROUTES.SETUP);
     }
 
     logHSTEvent([], 'web_events', 'AGAutomationConsoleVisited', {
@@ -107,7 +127,15 @@ const useGridConsole = () => {
       cluster_count: lengthOfClusterData,
       tab_selected: 'Grid'
     });
-  }, [clusterData, gridData, navigate, userDetails]);
+  }, [
+    clusterData,
+    dispatch,
+    gridData,
+    isTrialGridUsed,
+    navigate,
+    showSetup,
+    userDetails
+  ]);
 
   useEffect(() => {
     const fetchAllClustersDataFromAPI = async () => {
@@ -137,8 +165,8 @@ const useGridConsole = () => {
       value: 'grids'
     });
 
-    if (!userDetails.onboardingCompleted) {
-      navigate(ROUTES.ONBOARDING);
+    if (showSetup && !isTrialGridUsed) {
+      navigate(ROUTES.SETUP);
     }
 
     logHSTEvent([], 'web_events', 'AGAutomationConsoleVisited', {
@@ -152,6 +180,7 @@ const useGridConsole = () => {
     gridData,
     navigate,
     options,
+    showCreateGridButton,
     tabChangeHandler,
     tabsArray
   };

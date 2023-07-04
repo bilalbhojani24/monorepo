@@ -12,8 +12,8 @@ import {
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
 } from 'constants/index';
-import { EVENT_LOGS_STATUS } from 'constants/onboarding';
 import ROUTES from 'constants/routes';
+import { EVENT_LOGS_STATUS } from 'constants/setup';
 import {
   getInstanceTypes,
   getRegions,
@@ -136,7 +136,7 @@ const useCreateGrid = () => {
   const [gridProfilesData, setGridProfilesData] = useState([]);
   const [isSaveProfileBtnDisabled, setIsSaveProfileBtnDisabled] =
     useState(true);
-  const [isSetupComplete, setIsSetupComplete] = useState(false);
+  const [isGridSetupComplete, setIsSetupComplete] = useState(false);
   const [isSubnetLoading, setIsSubnetLoading] = useState(false);
   const [isVPCLoading, setIsVPCLoading] = useState(false);
   const [newGridName, setNewGridName] = useState(null);
@@ -178,7 +178,7 @@ const useCreateGrid = () => {
 
   const ref = useRef({});
 
-  const [searchParams, setSearchparams] = useSearchParams();
+  const searchParams = useSearchParams()[0];
   const type = searchParams.get('type');
 
   const displaySubnetsItemsArray = subnetQuery
@@ -524,8 +524,7 @@ const useCreateGrid = () => {
       const rawClusters = selectedGridProfileData?.clusters;
 
       rawClusters?.forEach((e) => {
-        e = { ...e, label: e.name, value: e.name };
-        tmpArray.push(e);
+        tmpArray.push({ ...e, label: e.name, value: e.name });
       });
 
       setSelectedGridclusters(tmpArray);
@@ -677,8 +676,8 @@ const useCreateGrid = () => {
   ]);
 
   useEffect(() => {
-    setShowSetupStatusModal(isSetupComplete);
-  }, [isSetupComplete]);
+    setShowSetupStatusModal(isGridSetupComplete);
+  }, [isGridSetupComplete]);
 
   useEffect(() => {
     if (!showSetupClusterModal) {
@@ -758,7 +757,6 @@ const useCreateGrid = () => {
     CODE_SNIPPETS_SCRATCH,
     IS_MANDATORY,
     activeGridManagerCodeSnippet,
-    allAvailableSubnets,
     breadcrumbsData,
     closeEventLogsModal,
     closeSetupStatusModal,
@@ -791,13 +789,13 @@ const useCreateGrid = () => {
     isExactSubnetMatch,
     isExactVPCMatch,
     isSaveProfileBtnDisabled,
-    isSetupComplete,
+    isGridSetupComplete,
     isSubnetLoading,
     isVPCLoading,
     modalCrossClickhandler,
+    newGridName,
     newProfileNameValue,
     opened,
-    newGridName,
     newProfileErrorText,
     nextBtnClickHandler,
     ref,
