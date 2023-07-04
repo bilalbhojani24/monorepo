@@ -361,7 +361,7 @@ const useSetup = () => {
   useEffect(() => {
     if (Object.keys(allAvailableRegionsByProvider).length > 0) {
       setCurrentProvidersRegions(
-        allAvailableRegionsByProvider[currentSelectedCloudProvider.configName]
+        allAvailableRegionsByProvider[currentSelectedCloudProvider.value]
       );
 
       /*
@@ -369,7 +369,7 @@ const useSetup = () => {
         Now, we are setting the default region based on the currently selected Cloud Provider below
       */
       const defaultRegionToSet = allAvailableRegionsByProvider[
-        currentSelectedCloudProvider.configName
+        currentSelectedCloudProvider.value
       ].find((region) => region.default === true);
 
       setSelectedRegion(defaultRegionToSet);
@@ -379,7 +379,7 @@ const useSetup = () => {
   useEffect(() => {
     markSetupRegionChange(
       userDetails.id,
-      currentSelectedCloudProvider.configName,
+      currentSelectedCloudProvider.value,
       selectedRegion
     );
   }, [currentSelectedCloudProvider, selectedRegion, userDetails]);
