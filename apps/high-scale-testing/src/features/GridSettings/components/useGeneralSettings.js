@@ -4,17 +4,18 @@ import { notify } from '@browserstack/bifrost';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
 import { DEFAULT_GRID_CONCURRENCY } from 'constants/index';
-import { getGridsData } from 'features/GridConsole/slices/selector';
+import { getSelectedGridData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 const useGeneralSettings = (notifactionComponent) => {
   // All Store variables:
-  const gridData = useSelector(getGridsData);
+  const selectedGridData = useSelector(getSelectedGridData);
   const userDetails = useSelector(getUserDetails);
 
   const currentConcurrencyValue =
-    gridData.concurrency || DEFAULT_GRID_CONCURRENCY;
+    selectedGridData.concurrency || DEFAULT_GRID_CONCURRENCY;
+  const isTrialgrid = selectedGridData.trialGrid?.isUsed || false;
 
   // All State variables:
   const [concurrencyValue, setConcurrencyValue] = useState(
@@ -28,7 +29,15 @@ const useGeneralSettings = (notifactionComponent) => {
     const newValue = parseInt(e.target.value, 10);
     setConcurrencyValue(newValue);
 
-    if (newValue < 0 || newValue > 1000) {
+    if (isTrialgrid) {
+      if (newValue < 0 || newValue > 10) {
+        setConcurrencyErrorText('Concurrency value must be between 0 and 10');
+        setIsSaveButtonDisabled(true);
+      } else {
+        setConcurrencyErrorText('');
+        setIsSaveButtonDisabled(false);
+      }
+    } else if (newValue < 0 || newValue > 1000) {
       setConcurrencyErrorText('Concurrency value must be between 0 and 1000');
       setIsSaveButtonDisabled(true);
     } else {
@@ -38,17 +47,19 @@ const useGeneralSettings = (notifactionComponent) => {
   };
 
   const updateGridGeneralSettings = (settingsObj) => {
-    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
-      setIsSaveButtonDisabled(true);
-      setIsSavingInProgress(false);
+    updateSettings(userDetails.id, selectedGridData.id, settingsObj).then(
+      (response) => {
+        setIsSaveButtonDisabled(true);
+        setIsSavingInProgress(false);
 
-      if (d.status === 200) {
-        notify(notifactionComponent, {
-          position: 'top-right',
-          duration: 4000
-        });
+        if (response.status === 200) {
+          notify(notifactionComponent, {
+            position: 'top-right',
+            duration: 4000
+          });
+        }
       }
-    });
+    );
   };
 
   const saveBtnClickhandler = () => {
