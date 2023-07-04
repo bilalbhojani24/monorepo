@@ -54,7 +54,7 @@ function PlanTimingBanner() {
         interaction: 'upgrade_cta_clicked'
       }
     });
-    handleCloseBanner(); // should we close this?
+    handleCloseBanner();
     // window.open(url, '_blank', 'noopener,noreferrer');
   };
 
