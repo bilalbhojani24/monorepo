@@ -40,7 +40,7 @@ const useLayoutGridDetail = () => {
   const userDetails = useSelector(getUserDetails);
 
   // All Store variables
-  const gridData = useSelector(getSelectedGridData);
+  const selectedGridData = useSelector(getSelectedGridData);
   const lastKnownSetupType = useSelector(getLastKnownSetupType);
 
   // All State variables
@@ -64,9 +64,9 @@ const useLayoutGridDetail = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(setShowOnboardingTooltips(gridData.isTrialGrid));
+      dispatch(setShowOnboardingTooltips(selectedGridData.isTrialGrid));
     }, 1000);
-  }, [dispatch, gridData]);
+  }, [dispatch, selectedGridData]);
 
   useEffect(() => {
     if (currentTab.name === 'Settings') {
@@ -142,7 +142,7 @@ const useLayoutGridDetail = () => {
   return {
     currentTab,
     fetchedGridData,
-    gridData,
+    selectedGridData,
     onTabChangeHandler,
     setupYourOwnGrid,
     showNewGridCreatedModal
