@@ -8,6 +8,7 @@ import {
   TMDataVisualization,
   TMPageHeadings
 } from 'common/bifrostProxy';
+import Loader from 'common/Loader';
 import AppRoute from 'const/routes';
 import Highcharts from 'highcharts';
 import variablePie from 'highcharts/modules/variable-pie';
@@ -15,7 +16,7 @@ import HighchartsReact from 'highcharts-react-official';
 import { routeFormatter } from 'utils/helperFunctions';
 import { logEventHelper } from 'utils/logEvent';
 
-import { NO_DATA_TEXT } from '../const/immutableConst';
+import { NO_DATA_TEXT, TOTAL_TC_TEXT } from '../const/immutableConst';
 
 import useDashboard from './useDashboard';
 
@@ -34,27 +35,10 @@ const Dashboard = () => {
     closedTestRunsDailyLineOptions,
     testCasesTrendOptions,
     fetchAllChartData,
-    onDVFooterClick
+    onDVFooterClick,
+    automationStats
   } = useDashboard();
   const dispatch = useDispatch();
-
-  // const activeRunsButtonClicked = () => {
-  //   dispatch(
-  //     logEventHelper('TM_DashboardActiveRunLinkClicked', {
-  //       project_id: projectId,
-  //       dashboard_id: '1'
-  //     })
-  //   );
-  // };
-
-  // const daysClosedButtonClicked = () => {
-  //   dispatch(
-  //     logEventHelper('TM_DashboardDaysClosedRunLinkClicked', {
-  //       project_id: projectId,
-  //       dashboard_id: '1'
-  //     })
-  //   );
-  // };
 
   useEffect(() => {
     fetchAllChartData();
@@ -133,7 +117,7 @@ const Dashboard = () => {
                       <div className="text-base-500 text-xs font-semibold">
                         {activeTestRunsOptions?.isEmpty
                           ? NO_DATA_TEXT
-                          : 'Total Test Cases'}
+                          : TOTAL_TC_TEXT}
                       </div>
                     </div>
                   </div>
@@ -234,6 +218,98 @@ const Dashboard = () => {
               />
             </div>
           </div>
+          <div className="grid grid-cols-4 gap-6">
+            <TMDataVisualization
+              title={<span className="break-normal">Automation Coverage</span>}
+              wrapperClassName="bg-white relative"
+              size="fit-content"
+              headerInfo={false}
+              desc={
+                isLoadingStates?.automationStats ? (
+                  <Loader wrapperClassName="h-5 w-5" />
+                ) : (
+                  <p className="text-base-900 -mt-2 text-3xl font-semibold leading-9">
+                    {automationStats?.automated_coverage}
+                  </p>
+                )
+              }
+            />
+
+            <TMDataVisualization
+              title={<span className="break-normal">Automated Test Cases</span>}
+              wrapperClassName="bg-white relative"
+              size="fit-content"
+              contentWrapperClassName="pl-6 pr-3.5"
+              desc={
+                isLoadingStates?.automationStats ? (
+                  <Loader wrapperClassName="h-5 w-5" />
+                ) : (
+                  <p className="text-base-900 -mt-2 text-3xl font-semibold leading-9">
+                    {automationStats?.automated_test_cases}
+                  </p>
+                )
+              }
+              headerInfoTooltipProps={{
+                content: (
+                  <div className="text-base-300 w-60 px-4 text-sm">
+                    Automated Test Cases card shows the sum of Test Cases with
+                    Automation Status set to &apos;Automated&apos;.
+                  </div>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
+            />
+
+            <TMDataVisualization
+              title={<span className="break-normal">Manual Test Cases</span>}
+              wrapperClassName="bg-white relative"
+              size="fit-content"
+              desc={
+                isLoadingStates?.automationStats ? (
+                  <Loader wrapperClassName="h-5 w-5" />
+                ) : (
+                  <p className="text-base-900 -mt-2 text-3xl font-semibold leading-9">
+                    {automationStats?.manual_test_cases}
+                  </p>
+                )
+              }
+              headerInfoTooltipProps={{
+                content: (
+                  <p className="text-base-300 w-60 px-4 text-sm">
+                    Manual Test Cases card shows the sum of Test Cases with
+                    Automation Status set to &apos;Not Automated&apos;,
+                    &apos;Automation Not Required&apos;, &apos;Cannot be
+                    Automated&apos; or &apos;Obsolete&apos;.
+                  </p>
+                ),
+                theme: 'dark',
+                placementAlign: 'center',
+                placementSide: 'bottom',
+                size: 'xs',
+                children: <MdInfoOutline className="h-5 w-5" />
+              }}
+            />
+
+            <TMDataVisualization
+              title={<span className="break-normal">{TOTAL_TC_TEXT}</span>}
+              wrapperClassName="bg-white relative"
+              size="fit-content"
+              headerInfo={false}
+              desc={
+                isLoadingStates?.automationStats ? (
+                  <Loader wrapperClassName="h-5 w-5" />
+                ) : (
+                  <p className="text-base-900 -mt-2 text-3xl font-semibold leading-9">
+                    {automationStats?.total_test_cases}
+                  </p>
+                )
+              }
+            />
+          </div>
           <div className="flex w-full gap-6">
             <div className="w-1/2 flex-1">
               <TMDataVisualization
@@ -272,7 +348,7 @@ const Dashboard = () => {
                       <div className="text-base-500 text-xs font-semibold">
                         {testCaseTypesOptions?.isEmpty
                           ? NO_DATA_TEXT
-                          : 'Total Test Cases'}
+                          : TOTAL_TC_TEXT}
                       </div>
                     </div>
                   </div>
