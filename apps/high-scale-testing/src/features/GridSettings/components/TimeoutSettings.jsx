@@ -27,6 +27,7 @@ const TimeoutSettings = () => {
     idleTimeOutValue,
     isSaveButtonDisabled,
     isSavingInProgress,
+    isTrialGridUsed,
     saveBtnClickhandler,
     testTimeoutChangeHandler,
     testTimeoutError,
@@ -41,15 +42,15 @@ const TimeoutSettings = () => {
   return (
     <>
       <div className="overflow-auto p-6">
-        <p className="text-lg font-medium text-base-900">Timeout Settings</p>
-        <p className="text-sm text-base-500">
+        <p className="text-base-900 text-lg font-medium">Timeout Settings</p>
+        <p className="text-base-500 text-sm">
           Configure different timeouts as per your testing requirement.
         </p>
 
         {/* --- --- Idle Timeout --- --- */}
         <div className="pt-6">
           <p className="text-sm font-medium">Idle Timeout</p>
-          <p className="text-sm text-base-500">
+          <p className="text-base-500 text-sm">
             Set the timeout in seconds to detect the inactivity between the
             commands during the session. It is set at 90 seconds by default.
           </p>
@@ -74,7 +75,7 @@ const TimeoutSettings = () => {
         {/* --- --- Queue Timeout --- --- */}
         <div className="pt-6">
           <p className="text-sm font-medium">Queue Timeout</p>
-          <p className="text-sm text-base-500">
+          <p className="text-base-500 text-sm">
             Set the timeout in seconds to detect the drop the requests waiting
             in queue. It is set at 900 seconds by default.
           </p>
@@ -86,7 +87,7 @@ const TimeoutSettings = () => {
               }
               errorText={queueTimeoutError}
               value={queueTimeoutValue}
-              disabled={isSavingInProgress}
+              disabled={isTrialGridUsed || isSavingInProgress}
               id="test-id"
               onChange={queueTimeoutChangeHandler}
               onKeyDown={null}
@@ -99,7 +100,7 @@ const TimeoutSettings = () => {
         {/* --- --- Queue Retry Interval --- --- */}
         <div className="pt-6">
           <p className="text-sm font-medium">Queue Retry Interval</p>
-          <p className="text-sm text-base-500">
+          <p className="text-base-500 text-sm">
             Set the interval in seconds to configure the amount of time after
             which Hub will retry the requests waiting in queue for. It is set at
             10 seconds by default.
@@ -111,7 +112,7 @@ const TimeoutSettings = () => {
                 <InputGroupAddOn position="end">seconds</InputGroupAddOn>
               }
               value={queueRetryIntervalValue}
-              disabled={isSavingInProgress}
+              disabled={isTrialGridUsed || isSavingInProgress}
               id="test-id"
               onChange={queueRetryIntervalChangeHandler}
               placeholder="10"
@@ -124,7 +125,7 @@ const TimeoutSettings = () => {
         {/* --- --- Test Timeout --- --- */}
         <div className="pt-6">
           <p className="text-sm font-medium">Test Timeout</p>
-          <p className="text-sm text-base-500">
+          <p className="text-base-500 text-sm">
             Set the timeout in hours to stop the test and drop the subsequent
             commands sent for the test. It is set at 2 hours by default.
           </p>
@@ -146,7 +147,7 @@ const TimeoutSettings = () => {
         </div>
         {/* --- X --- Test Timeout --- X --- */}
       </div>
-      <div className="flex flex-row-reverse bg-base-50 px-6 py-3">
+      <div className="bg-base-50 flex flex-row-reverse px-6 py-3">
         <Button
           disabled={isSaveButtonDisabled}
           loading={isSavingInProgress}

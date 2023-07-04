@@ -8,15 +8,16 @@ import {
   MAX_QUEUE_TIMEOUT,
   MAX_TEST_TIMEOUT
 } from 'constants/index';
-import { getGridsData } from 'features/GridConsole/slices/selector';
+import { getSelectedGridData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 const useTimeoutSettings = (notifactionComponent) => {
   // All Store variables:
-  const gridData = useSelector(getGridsData);
+  const selectedGridData = useSelector(getSelectedGridData);
   const userDetails = useSelector(getUserDetails);
 
+  const isTrialGridUsed = selectedGridData.trialGrid?.isUsed || false;
   const ERROR_MESSAGE_IDLE_TIMEOUT = `Idle timeout must be less than ${MAX_IDLE_TIMEOUT} seconds`;
   const ERROR_MESSAGE_QUEUE_TIMEOUT = `Queue timeout must be less than ${MAX_QUEUE_TIMEOUT} seconds`;
   const ERROR_MESSAGE_TEST_TIMEOUT = `Test timeout must be less than ${MAX_TEST_TIMEOUT} seconds`;
@@ -34,7 +35,7 @@ const useTimeoutSettings = (notifactionComponent) => {
   const [isSavingInProgress, setIsSavingInProgress] = useState(false);
 
   const idleTimeoutInputChangeHandler = (e) => {
-    const newValue = parseInt(e.target.value);
+    const newValue = parseInt(e.target.value, 10);
 
     setIdleTimeOutValue(newValue);
 
@@ -48,14 +49,14 @@ const useTimeoutSettings = (notifactionComponent) => {
   };
 
   const queueRetryIntervalChangeHandler = (e) => {
-    const newValue = parseInt(e.target.value);
+    const newValue = parseInt(e.target.value, 10);
 
     setIsSaveButtonDisabled(false);
     setQueueRetryIntervalValue(newValue);
   };
 
   const queueTimeoutChangeHandler = (e) => {
-    const newValue = parseInt(e.target.value);
+    const newValue = parseInt(e.target.value, 10);
 
     setQueueTimeoutValue(newValue);
     if (newValue > MAX_QUEUE_TIMEOUT) {
@@ -67,7 +68,7 @@ const useTimeoutSettings = (notifactionComponent) => {
   };
 
   const testTimeoutChangeHandler = (e) => {
-    const newValue = parseInt(e.target.value);
+    const newValue = parseInt(e.target.value, 10);
 
     setTestTimeoutValue(newValue);
 
@@ -80,17 +81,19 @@ const useTimeoutSettings = (notifactionComponent) => {
   };
 
   const updateGridTimeoutSettings = (settingsObj) => {
-    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
-      setIsSaveButtonDisabled(true);
-      setIsSavingInProgress(false);
+    updateSettings(userDetails.id, selectedGridData.id, settingsObj).then(
+      (d) => {
+        setIsSaveButtonDisabled(true);
+        setIsSavingInProgress(false);
 
-      if (d.status === 200) {
-        notify(notifactionComponent, {
-          position: 'top-right',
-          duration: 4000
-        });
+        if (d.status === 200) {
+          notify(notifactionComponent, {
+            position: 'top-right',
+            duration: 4000
+          });
+        }
       }
-    });
+    );
   };
 
   const saveBtnClickhandler = () => {
@@ -110,13 +113,15 @@ const useTimeoutSettings = (notifactionComponent) => {
   };
 
   useEffect(() => {
-    if (Object.keys(gridData).length > 0) {
-      setIdleTimeOutValue(gridData.testSettings.idleTimeout);
-      setQueueRetryIntervalValue(gridData.testSettings.queueRetryInterval);
-      setQueueTimeoutValue(gridData.testSettings.queueTimeout);
-      setTestTimeoutValue(gridData.testSettings.testTimeout);
+    if (Object.keys(selectedGridData).length > 0) {
+      setIdleTimeOutValue(selectedGridData.testSettings.idleTimeout);
+      setQueueRetryIntervalValue(
+        selectedGridData.testSettings.queueRetryInterval
+      );
+      setQueueTimeoutValue(selectedGridData.testSettings.queueTimeout);
+      setTestTimeoutValue(selectedGridData.testSettings.testTimeout);
     }
-  }, [gridData]);
+  }, [selectedGridData]);
 
   return {
     idleTimeoutInputChangeHandler,
@@ -124,6 +129,7 @@ const useTimeoutSettings = (notifactionComponent) => {
     idleTimeOutValue,
     isSaveButtonDisabled,
     isSavingInProgress,
+    isTrialGridUsed,
     saveBtnClickhandler,
     testTimeoutChangeHandler,
     testTimeoutError,
