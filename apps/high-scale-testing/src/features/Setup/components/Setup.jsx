@@ -461,7 +461,12 @@ const Setup = () => {
                   Contact Support&nbsp;&rarr;
                 </p>
               }
-              handleLinkClick={() => navigate(ROUTES.BUILDS)}
+              handleLinkClick={() =>
+                window.open(
+                  `${window.origin}/contact#other?ref=ATS-trial-grid-expired-modal`,
+                  '_blank'
+                )
+              }
               modifier="primary"
               title="Trial grid has expired. If you still want to use the trial grid, contact our support team."
             />
