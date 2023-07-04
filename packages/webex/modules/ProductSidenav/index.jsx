@@ -8,8 +8,7 @@ import {
 import PropTypes from 'prop-types';
 
 import { getPurchasedProducts } from './api/userData';
-import SidenavCollapsed from './components/SidenavCollapsed';
-import SidenavExpanded from './components/SidenavExpanded';
+import SidenavElementContainer from './components/SidenavElementContainer';
 import { WEB_PRODUCTS } from './const/productConstant';
 
 const cookieUtils = new CookieUtils();
@@ -81,7 +80,7 @@ const ProductSidenav = ({ activeProduct }) => {
     <>
       <div
         className={twClassNames(
-          'top-16 flex flex-col items-start fixed left-0 h-full border-r border-solid border-base-300 bg-white z-10',
+          'top-16 flex flex-col items-start fixed left-0 h-full border-r border-solid border-base-300 bg-white z-10 transition-[width] duration-100 delay-50 ease-in',
           {
             'w-[56px]': !expanded,
             'w-[260px] overflow-y-auto shadow': expanded
@@ -94,19 +93,13 @@ const ProductSidenav = ({ activeProduct }) => {
           if (!e.currentTarget.contains(e.relatedTarget)) handleSidenavLeave();
         }}
       >
-        {expanded ? (
-          <SidenavExpanded
-            activeProduct={activeProduct}
-            activeTab={activeTab}
-            onTabClick={handleTabClick}
-            purchasedProducts={purchasedProducts}
-          />
-        ) : (
-          <SidenavCollapsed
-            activeProduct={activeProduct}
-            activeTab={activeTab}
-          />
-        )}
+        <SidenavElementContainer
+          isExpanded={expanded}
+          activeProduct={activeProduct}
+          activeTab={activeTab}
+          onTabClick={handleTabClick}
+          purchasedProducts={purchasedProducts}
+        />
       </div>
     </>
   );

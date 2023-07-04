@@ -12,7 +12,8 @@ import {
 import AppIcon from '../icons/AppIcon';
 import WebIcon from '../icons/WebIcon';
 
-const SidenavExpanded = ({
+const SidenavElementContainer = ({
+  isExpanded,
   activeProduct,
   activeTab,
   onTabClick,
@@ -37,10 +38,14 @@ const SidenavExpanded = ({
     return (
       <a
         className={twClassNames(
-          'group box-border flex flex-row items-center py-2 pr-5 pl-7 gap-4 w-full',
+          'flex flex-row items-center py-2 w-full transition-all duration-100 delay-50 ease-in',
           {
             'bg-[#F0F6FF] border-l-2 border-solid border-[#0070F0]':
-              isActiveProduct
+              isActiveProduct,
+            'px-5': !isExpanded,
+            'px-[17.5px]': isActiveProduct && !isExpanded,
+            'group box-border pr-5 pl-7': isExpanded,
+            'pl-[26px]': isActiveProduct && isExpanded
           }
         )}
         href={product.link}
@@ -55,9 +60,10 @@ const SidenavExpanded = ({
         </span>
         <p
           className={twClassNames(
-            'not-italic font-medium text-xs leading-4 text-base-900 grow group-hover:text-[#0070F0]',
+            'not-italic font-medium text-xs pl-4 leading-4 text-base-900 opacity-0 grow group-hover:text-[#0070F0] whitespace-nowrap transition-opacity duration-100 delay-50 ease-in overflow-hidden',
             {
-              'text-[#0D5FD4]': isActiveProduct
+              'text-[#0D5FD4]': isActiveProduct,
+              'opacity-100': isExpanded
             }
           )}
         >
@@ -73,17 +79,35 @@ const SidenavExpanded = ({
   const productSectionContainer = (productBlockData) => (
     <>
       <div
-        className={twClassNames(
-          'box-border flex items-center pt-3.5 pr-5 pb-1 pl-4'
-        )}
+        className={twClassNames('flex', {
+          'box-border items-center pt-3.5 pr-5 pb-1 pl-4': isExpanded,
+          'items-start p-0 w-full': !isExpanded
+        })}
       >
         <p
           className={twClassNames(
-            'not-italic font-medium text-[11px] leading-4 text-base-700'
+            'not-italic font-medium text-[11px] leading-4 opacity-0 text-base-700 whitespace-nowrap transition-opacity duration-100 delay-50 ease-in',
+            {
+              'opacity-100': isExpanded
+            }
           )}
         >
-          {productBlockData.title}
+          {isExpanded && productBlockData.title}
         </p>
+        <div
+          className={twClassNames(
+            'flex flex-row items-start pr-6 pl-[26px] opacity-0 w-full transition-opacity duration-100 delay-50 ease-in',
+            {
+              'opacity-1 pt-5 pb-2.5': !isExpanded
+            }
+          )}
+        >
+          {!isExpanded && (
+            <span
+              className={twClassNames('w-1 h-1 rounded-full bg-base-500')}
+            />
+          )}
+        </div>
       </div>
       <div className={twClassNames('flex flex-col items-center p-0 w-full')}>
         {productBlockData.products?.map((element) =>
@@ -109,33 +133,47 @@ const SidenavExpanded = ({
     <>
       <div
         className={twClassNames(
-          'flex justify-center items-start pt-[6px] px-4 pb-0'
+          'flex items-start pt-[6px] pb-0 transition-padding duration-100 delay-50 ease-in',
+          {
+            'px-4': isExpanded,
+            'w-full pl-[7px] pr-2': !isExpanded
+          }
         )}
       >
         <div
           className={twClassNames(
-            'box-border flex flex-row items-center rounded-[5px] py-[3px] px-0.5 w-[227px] h-9 bg-base-50 gap-1 border border-solid border-base-300'
+            'flex flex-row items-center bg-base-50 border border-solid border-base-300',
+            {
+              'box-border rounded-[5px] py-[3px] px-0.5 w-[227px] h-9 gap-1':
+                isExpanded,
+              'p-0.5 rounded': !isExpanded
+            }
           )}
         >
           <button
             type="button"
             className={twClassNames(
-              'flex justify-center items-center w-[109px] h-[30px] rounded',
+              'flex justify-center items-center rounded',
               {
-                'bg-[#15803D]': activeTab === 'web'
+                'bg-[#15803D]': activeTab === 'web',
+                'w-[109px] h-[30px]': isExpanded,
+                'px-[9px] py-[7px] shadow-sm w-full':
+                  !isExpanded && activeTab === 'web',
+                hidden: activeTab === 'app' && !isExpanded
               }
             )}
             onClick={getTabClick('web')}
+            aria-label="web products"
           >
-            <span>
-              <WebIcon iconColor={activeTab === 'web' ? 'white' : null} />
-            </span>
+            <WebIcon iconColor={activeTab === 'web' ? 'white' : null} />
             <p
               className={twClassNames(
-                'flex justify-center items-center py-0 px-0.5 not-italic font-medium text-xs leading-4',
+                'flex justify-center items-center py-0 not-italic font-medium text-xs leading-4',
                 {
                   'text-white': activeTab === 'web',
-                  'text-base-900': activeTab !== 'web'
+                  'text-base-900': activeTab !== 'web',
+                  hidden: !isExpanded,
+                  'px-0.5': isExpanded
                 }
               )}
             >
@@ -145,22 +183,27 @@ const SidenavExpanded = ({
           <button
             type="button"
             className={twClassNames(
-              'flex justify-center items-center w-[109px] h-[30px] rounded',
+              'flex justify-center items-center rounded',
               {
-                'bg-[#15803D]': activeTab === 'app'
+                'bg-[#15803D]': activeTab === 'app',
+                'w-[109px] h-[30px]': isExpanded,
+                'px-[9px] py-[7px] shadow-sm w-full':
+                  !isExpanded && activeTab === 'app',
+                hidden: activeTab === 'web' && !isExpanded
               }
             )}
             onClick={getTabClick('app')}
+            aria-label="app products"
           >
-            <span>
-              <AppIcon iconColor={activeTab === 'app' ? 'white' : null} />
-            </span>
+            <AppIcon iconColor={activeTab === 'app' ? 'white' : null} />
             <p
               className={twClassNames(
                 'flex justify-center items-center py-0 px-0.5 not-italic font-medium text-xs leading-4',
                 {
                   'text-white': activeTab === 'app',
-                  'text-base-900': activeTab !== 'app'
+                  'text-base-900': activeTab !== 'app',
+                  hidden: !isExpanded,
+                  'px-0.5': isExpanded
                 }
               )}
             >
@@ -187,17 +230,19 @@ const SidenavExpanded = ({
   );
 };
 
-SidenavExpanded.propTypes = {
+SidenavElementContainer.propTypes = {
+  isExpanded: PropTypes.bool,
   activeProduct: PropTypes.string,
   activeTab: PropTypes.string,
   onTabClick: PropTypes.func,
   purchasedProducts: PropTypes.arrayOf(PropTypes.string)
 };
-SidenavExpanded.defaultProps = {
+SidenavElementContainer.defaultProps = {
+  isExpanded: false,
   activeProduct: '',
   activeTab: '',
   onTabClick: () => {},
   purchasedProducts: []
 };
 
-export default SidenavExpanded;
+export default SidenavElementContainer;
