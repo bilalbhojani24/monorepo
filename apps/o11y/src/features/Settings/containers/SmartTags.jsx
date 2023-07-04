@@ -110,7 +110,10 @@ export default function SmartTags() {
   return (
     <div className="flex max-h-full flex-col gap-4">
       {!planDetails?.isActive && (
-        <PaywallAlert title="Configuring smart tags is a pro feature" />
+        <PaywallAlert
+          title="Configuring smart tags is a pro feature"
+          instrumentKey={CONFIGURABLE_VIEWS_INSTRUMENT_SOURCE}
+        />
       )}
       <SettingsCard>
         <FlakyTags

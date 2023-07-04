@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { O11yAlerts } from 'common/bifrostProxy';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
@@ -11,10 +11,19 @@ import { getExternalUrl, logOllyEvent } from 'utils/common';
 
 import { handleUpgrade } from '../utils';
 
-function PaywallAlert({ title }) {
+function PaywallAlert({ title, instrumentKey }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
+
+  useEffect(() => {
+    logOllyEvent({
+      event: 'O11yUpgradeModalShown',
+      data: {
+        source: instrumentKey
+      }
+    });
+  }, [instrumentKey]);
 
   const handleClickUpgrade = () => {
     if (shouldAllowFreeTrial) {
@@ -82,7 +91,8 @@ function PaywallAlert({ title }) {
   );
 }
 PaywallAlert.propTypes = {
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  instrumentKey: PropTypes.string.isRequired
 };
 
 export default PaywallAlert;
