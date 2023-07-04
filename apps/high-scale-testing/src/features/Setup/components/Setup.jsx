@@ -75,11 +75,13 @@ const Setup = () => {
     eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
+    gridProfileData,
     handleDismissClick,
     headerText,
     isExactSubnetMatch,
     isExactVPCMatch,
     isGridSetupComplete,
+    isSaving,
     instanceChangeHandler,
     isSubnetLoading,
     isTrialGridExpired,
@@ -257,6 +259,7 @@ const Setup = () => {
           {CODE_SNIPPETS_FOR_SCRATCH[CREATE_GRID].c.text}
         </li>
         <div className="mb-2">
+          {console.log('Log: selectedRegion:', selectedRegion)}
           <Alerts
             accentBorder={false}
             alphaActionTitle="Customise"
@@ -268,10 +271,10 @@ const Setup = () => {
             modifier="primary"
             title="Grid Details"
             description={[
-              'Grid name: ‘high-scale-grid’',
-              'Concurrent browser sessions: ‘50’',
-              'Worker nodes instance type: ‘t3.large (vCPU-2, memory-8GB)’',
-              'Cluster name: ‘high-scale-grid-cluster’'
+              `Grid name: '${gridProfileData?.profile?.name}'`,
+              `Concurrent browser sessions: ‘${gridProfileData?.concurrency}’`,
+              `Worker nodes instance type: ‘${gridProfileData?.profile?.instanceType}’`,
+              `Cluster name: ‘${gridProfileData?.clusters?.[0].name}’`
             ]}
           />
         </div>
@@ -664,6 +667,7 @@ const Setup = () => {
         instanceChangeHandler={instanceChangeHandler}
         isExactSubnetMatch={isExactSubnetMatch}
         isExactVPCMatch={isExactVPCMatch}
+        isSaving={isSaving}
         isSubnetLoading={isSubnetLoading}
         isVPCLoading={isVPCLoading}
         regionChangeHandler={cloudRegionChangeHandler}

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useInterval, useMountEffect } from '@browserstack/hooks';
 import {
+  createNewGridProfile,
   createTrialGridForUser,
   getSetupData,
   getSetupEventsLogsData,
@@ -87,6 +88,8 @@ const useSetup = () => {
     HEADER_TEXTS_OBJECT(userDetails).intro
   );
   const [isGridSetupComplete, setIsGridSetupComplete] = useState(false);
+
+  const [isSaving, setIsSaving] = useState(false);
   const [isSubnetLoading, setIsSubnetLoading] = useState(false);
   const [isVPCLoading, setIsVPCLoading] = useState(false);
   const [onboardingStep, setSetupStep] = useState(0);
@@ -403,8 +406,41 @@ const useSetup = () => {
     [allAvailableVPCIDs]
   );
 
-  const saveBtnClickHandler = () => {
-    console.log('Log: WIP');
+  const saveBtnClickHandler = async () => {
+    setIsSaving(true);
+    const profileData = {
+      profile: {
+        name: gridProfileData.profile.name,
+        region: selectedRegion.value,
+        cloudProvider: currentSelectedCloudProvider.value,
+        instanceType: selectedInstanceType.value,
+        vpc: selectedVPCValue.value,
+        subnets: selectedSubnetValues.map((e) => e.value),
+        securityGroups: gridProfileData.profile.securityGroups
+      },
+      user: {
+        id: userDetails.id,
+        groupId: userDetails.groupId
+      },
+      cluster: {
+        id: gridProfileData.clusters[0].id,
+        name: gridProfileData.clusters[0].name
+      },
+      concurrency: gridProfileData.profile.concurrency
+    };
+
+    const res = await createNewGridProfile(userDetails.id, profileData);
+
+    const { status } = res;
+
+    if (status === 200) {
+      console.log('Successfully customised Setup grid');
+      setIsSaving(false);
+      setShowCustomiseGridDetailsModal(false);
+    } else {
+      console.log('Failed to customise Setup grid');
+      setIsSaving(false);
+    }
   };
 
   // All useEffects:
@@ -768,12 +804,14 @@ const useSetup = () => {
     eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
+    gridProfileData,
     handleDismissClick,
     headerText,
     isExactSubnetMatch,
     isExactVPCMatch,
     isGridSetupComplete,
     instanceChangeHandler,
+    isSaving,
     isSubnetLoading,
     isTrialGridExpired,
     isTrialGridUsed,

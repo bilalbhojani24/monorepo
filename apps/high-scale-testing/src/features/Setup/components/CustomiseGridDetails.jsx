@@ -26,6 +26,7 @@ const CustomiseGridDetails = ({
   isExactSubnetMatch,
   isExactVPCMatch,
   isSubnetLoading,
+  isSaving,
   isVPCLoading,
   regionChangeHandler,
   saveBtnClickHandler,
@@ -159,7 +160,9 @@ const CustomiseGridDetails = ({
           </div>
         </div>
         <div className="flex flex-row-reverse">
-          <Button onClick={saveBtnClickHandler}>Save</Button>
+          <Button loading={isSaving} onClick={saveBtnClickHandler}>
+            Save
+          </Button>
         </div>
       </div>
     </Modal>
@@ -174,6 +177,7 @@ CustomiseGridDetails.propTypes = {
   instanceChangeHandler: PropTypes.func.isRequired,
   isExactSubnetMatch: PropTypes.bool.isRequired,
   isExactVPCMatch: PropTypes.bool.isRequired,
+  isSaving: PropTypes.bool.isRequired,
   isSubnetLoading: PropTypes.bool.isRequired,
   isVPCLoading: PropTypes.bool.isRequired,
   regionChangeHandler: PropTypes.func.isRequired,
