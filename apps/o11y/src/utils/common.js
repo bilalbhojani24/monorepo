@@ -1,7 +1,7 @@
 import { convertNodeToElement } from 'react-html-parser';
 import { cookieUtils as CookieUtils, logEvent } from '@browserstack/utils';
 import { SUPPORTED_HTML_TAGS, TEST_STATUS } from 'constants/common';
-import stageConfigMapping from 'constants/stageConfigMapping';
+import envConfigMapping from 'constants/envConfigMapping';
 import { getUserDetails } from 'globalSlice/selectors';
 import { keyBy, merge, values } from 'lodash';
 
@@ -37,10 +37,9 @@ export const getEnvConfig = (stage = import.meta.env.BSTACK_STAGE) => {
     } else {
       guessedStage = 'staging';
     }
-    return stageConfigMapping[guessedStage];
+    return envConfigMapping[guessedStage];
   }
-  // TODO: Keeping  default  stage to staging for now, until production env is ready
-  return stageConfigMapping[stage] || stageConfigMapping.staging;
+  return envConfigMapping[stage] || envConfigMapping.production;
 };
 
 export const getDocUrl = ({ path, prependO11y = true }) =>
@@ -256,6 +255,9 @@ export const updateUrlQueryParam = (searchParams) => {
   }?${searchParams.toString()}`;
   window.history.replaceState({ path: newurl }, '', newurl);
 };
+
+export const isBuildArchiveable = (buildStatus, isArchived) =>
+  (buildStatus && buildStatus !== TEST_STATUS.PENDING) || !isArchived;
 
 /** Cross-browser support for fullscreen change event
  * Validating function to identify browser type and get related change event */

@@ -258,7 +258,7 @@ const RenderTestItem = ({ item: data }) => {
             </div>
             <TestListActionItems
               details={details}
-              isMutedHidden={type === TESTLIST_TYPES.HOOK}
+              isAHook={type === TESTLIST_TYPES.HOOK}
             />
           </div>
         </div>

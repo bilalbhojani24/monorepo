@@ -20,14 +20,15 @@ import {
   getAllAppliedFilters,
   getBuilds,
   getBuildsPagingParams,
-  getIsLoadingFilters
+  getIsLoadingFilters,
+  getIsLoadingInitialBuilds
 } from './slices/buildsSelectors';
 import {
   clearFilters,
   getBuildsData,
   getBuildsFiltersData
 } from './slices/buildsSlice';
-import { getFilterQueryParams } from './utils/common';
+import { fetchFreshBuilds, getFilterQueryParams } from './utils/common';
 
 const AllBuildsPage = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const AllBuildsPage = () => {
   const [updates, setUpdates] = useState();
   const builds = useSelector(getBuilds);
   const appliedFilters = useSelector(getAllAppliedFilters);
-  const [isLoadingBuilds, setIsLoadingBuilds] = useState(false);
+  const isLoadingInitialBuilds = useSelector(getIsLoadingInitialBuilds);
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const isLoadingFilters = useSelector(getIsLoadingFilters);
@@ -46,19 +47,17 @@ const AllBuildsPage = () => {
   const fetchBuilds = useCallback(() => {
     if (activeProject?.normalisedName && !isLoadingFilters) {
       setShowErrorToast(false);
-      setIsLoadingBuilds(true);
       dispatch(
-        getBuildsData({ projectNormalisedName: activeProject?.normalisedName })
-      )
-        .unwrap()
-        .catch(() => {
-          setShowErrorToast(true);
+        fetchFreshBuilds({
+          failureCb: () => {
+            setShowErrorToast(true);
+          },
+          finallyCb: () => {
+            setUpdates(0);
+            window.scrollTo(0, 0);
+          }
         })
-        .finally(() => {
-          setUpdates(0);
-          window.scrollTo(0, 0);
-          setIsLoadingBuilds(false);
-        });
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -81,6 +80,13 @@ const AllBuildsPage = () => {
   useEffect(() => {
     fetchBuilds();
   }, [fetchBuilds]);
+
+  useEffect(
+    () => () => {
+      dispatch(clearFilters());
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     logOllyEvent({
@@ -131,18 +137,14 @@ const AllBuildsPage = () => {
     }
   };
 
-  const isBuildsEmpty = useMemo(
-    () =>
-      !builds?.length &&
-      !showErrorToast &&
-      !isLoadingBuilds &&
-      !isLoadingFilters,
-    [builds?.length, isLoadingBuilds, isLoadingFilters, showErrorToast]
+  const isBuildLoading = useMemo(
+    () => isLoadingInitialBuilds || isLoadingFilters,
+    [isLoadingInitialBuilds, isLoadingFilters]
   );
 
-  const isBuildLoading = useMemo(
-    () => isLoadingBuilds || isLoadingFilters,
-    [isLoadingBuilds, isLoadingFilters]
+  const isBuildsEmpty = useMemo(
+    () => !builds?.length && !showErrorToast && !isBuildLoading,
+    [builds?.length, isBuildLoading, showErrorToast]
   );
 
   const handleClickBuildItem = (currentIdx) => {
@@ -192,8 +194,8 @@ const AllBuildsPage = () => {
             icon={<MdOutlineRefresh className="text-sm" />}
             iconPlacement="end"
             size="extra-small"
-            isIconOnlyButton={isLoadingBuilds}
-            loading={isLoadingBuilds}
+            isIconOnlyButton={isLoadingInitialBuilds}
+            loading={isLoadingInitialBuilds}
             onClick={fetchBuilds}
           >
             {updates} new build{updates > 1 ? 's' : ''}
@@ -242,16 +244,28 @@ const AllBuildsPage = () => {
         {isBuildsEmpty && !isBuildLoading && (
           <div className="m-auto">
             <O11yEmptyState
-              title="No matching results found"
-              description="We couldn't find the results you were looking for."
+              title={
+                appliedFilters.length
+                  ? 'No matching results found'
+                  : 'No build runs found in this project'
+              }
+              description={
+                appliedFilters.length
+                  ? "We couldn't find the results you were looking for."
+                  : "We couldn't find any builds in this project. Please apply filter to see archived runs."
+              }
               mainIcon={
                 <MdSearchOff className="text-base-500 inline-block h-12 w-12" />
               }
-              buttonProps={{
-                children: 'View all builds',
-                onClick: handleViewAll,
-                size: 'default'
-              }}
+              buttonProps={
+                appliedFilters?.length
+                  ? {
+                      children: 'View all builds',
+                      onClick: handleViewAll,
+                      size: 'default'
+                    }
+                  : null
+              }
             />
           </div>
         )}

@@ -104,6 +104,19 @@ const { actions, reducer } = createSlice({
         state.projects.list = [payload, ...state.projects.list];
       }
     },
+    updateProjectData: (state, { payload }) => {
+      if (state.projects?.list?.length) {
+        const foundProjectIdx = state.projects.list.findIndex(
+          (project) => project.id === payload.id
+        );
+        if (foundProjectIdx !== -1) {
+          state.projects.list[foundProjectIdx] = {
+            ...state.projects.list[foundProjectIdx],
+            ...payload
+          };
+        }
+      }
+    },
     setHasProductInitFailed: (state, { payload }) => {
       state.hasProductInitFailed = payload;
     },
@@ -221,6 +234,7 @@ export const {
   setHeaderSize,
   addActiveFloatingComponent,
   removeActiveFloatingComponent,
+  updateProjectData,
   findAndSetProjectActive
 } = actions;
 
