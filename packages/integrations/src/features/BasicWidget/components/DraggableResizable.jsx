@@ -16,15 +16,15 @@ const DraggableResizable = ({ children, position, positionRef }) => {
 
   const widgetResizeObserver = useResizeObserver(widgetRef);
   // additional 16 px space for easy access to grab and use resize handle
-  const windowHeight = windowDimensions.height ?? window.innerHeight - 16;
-  const windowWidth = windowDimensions.width ?? window.innerWidth - 16;
+  const windowHeight = (windowDimensions.height ?? window.innerHeight) - 16;
+  const windowWidth = (windowDimensions.width ?? window.innerWidth) - 16;
 
   // initial widget height should be 90% of the window height
   // multiply by 0.9 to get 90% of the windowHeight
   const widgetInitialHeight =
-    windowHeight * 0.9 - 24 < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+    windowHeight * 0.9 < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
       ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
-      : windowHeight * 0.9 - 24;
+      : windowHeight * 0.9;
   const [widgetDimensions, setWidgetDimensions] = useState({
     height: widgetInitialHeight,
     width: DEFAULT_WIDGET_DIMENSIONS.MIN[0]
