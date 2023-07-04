@@ -99,11 +99,9 @@ const useCreateGrid = () => {
   const [codeSnippetsForExistingSetup, setCodeSnippetsForExistingSetup] =
     useState(null);
   const [currentProvidersInstanceTypes, setCurrentProvidersInstanceTypes] =
-    useState(
-      allAvailableInstanceTypes?.[DEFAULT_CLOUD_PROVIDER.configName] || []
-    );
+    useState(allAvailableInstanceTypes?.[DEFAULT_CLOUD_PROVIDER.value] || []);
   const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
-    allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER.configName] || []
+    allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER.value] || []
   );
   const [currentSelectedCloudProvider, setCurrentCloudProvider] = useState(
     DEFAULT_CLOUD_PROVIDER
@@ -301,7 +299,7 @@ const useCreateGrid = () => {
         profile: {
           name: newProfileNameValue,
           region: selectedRegion.value,
-          cloudProvider: currentSelectedCloudProvider.configName,
+          cloudProvider: currentSelectedCloudProvider.value,
           instanceType: selectedInstanceType.value,
           vpc: selectedVPCValue.value,
           subnets: selectedSubnetValues.map((e) => e.value),
@@ -468,7 +466,7 @@ const useCreateGrid = () => {
   useEffect(() => {
     if (Object.keys(allAvailableRegionsByProvider).length > 0) {
       setCurrentProvidersRegions(
-        allAvailableRegionsByProvider[currentSelectedCloudProvider.configName]
+        allAvailableRegionsByProvider[currentSelectedCloudProvider.value]
       );
     }
   }, [allAvailableRegionsByProvider, currentSelectedCloudProvider]);
@@ -490,14 +488,14 @@ const useCreateGrid = () => {
   useEffect(() => {
     if (Object.keys(resourceMap).length > 0) {
       const availableRegionsFromResourceMap = Object.keys(
-        resourceMap[currentSelectedCloudProvider.configName]
+        resourceMap[currentSelectedCloudProvider.value]
       );
 
       const tempArray = [];
 
       availableRegionsFromResourceMap.forEach((region) => {
         const matchingEle = allAvailableRegionsByProvider[
-          currentSelectedCloudProvider.configName
+          currentSelectedCloudProvider.value
         ].find((ele) => ele.value === region);
 
         tempArray.push(matchingEle);
@@ -581,13 +579,13 @@ const useCreateGrid = () => {
       setSelectedSubnetValues(tmpCurrentSubnetsArray);
 
       setSelectedRegion(
-        allAvailableRegionsByProvider[
-          currentSelectedCloudProvider.configName
-        ].find((e) => e.value === selectedGridProfileData?.profile.region)
+        allAvailableRegionsByProvider[currentSelectedCloudProvider.value].find(
+          (e) => e.value === selectedGridProfileData?.profile.region
+        )
       );
 
       setSelectedInstanceType(
-        allAvailableInstanceTypes[currentSelectedCloudProvider.configName].find(
+        allAvailableInstanceTypes[currentSelectedCloudProvider.value].find(
           (e) => e.label === selectedGridProfileData?.profile.instanceType
         )
       );
@@ -631,9 +629,7 @@ const useCreateGrid = () => {
       selectedRegion !== undefined
     ) {
       const VPCInThisRegionArray = Object.keys(
-        resourceMap[currentSelectedCloudProvider.configName][
-          selectedRegion.value
-        ]
+        resourceMap[currentSelectedCloudProvider.value][selectedRegion.value]
       );
 
       const tmpVPCsArray = [];
@@ -652,9 +648,9 @@ const useCreateGrid = () => {
         selectedVPCValue.value.length > 0
       ) {
         const tmpSubnets =
-          resourceMap[currentSelectedCloudProvider.configName][
-            selectedRegion.value
-          ][selectedVPCValue.value]?.subnets;
+          resourceMap[currentSelectedCloudProvider.value][selectedRegion.value][
+            selectedVPCValue.value
+          ]?.subnets;
         const tmpSubnetsArray = [];
 
         tmpSubnets?.forEach((e) => {

@@ -44,6 +44,7 @@ import { logHSTEvent } from 'utils/logger';
 import { LIST_FEED_PROPS } from '../constants';
 
 import CodeSnippetForExistingSetup from './CodeSnippetForExistingSetup';
+import CustomiseGridDetails from './CustomiseGridDetails';
 import SetupStatus from './SetupStatus';
 import useSetup from './useSetup';
 
@@ -63,38 +64,66 @@ const Setup = () => {
     copyCallbackFnForExistingSetup,
     copyCallbackFnForNewSetup,
     copySetupFailureCode,
+    currenClusterName,
+    currentGridConcurrency,
+    currentGridInstanceType,
+    currentGridName,
     currentStep,
+    currentProvidersInstanceTypes,
     currentProvidersRegions,
     currentSelectedCloudProvider,
+    customiseBtnHandler,
+    dismissCustomiseGridDetailModal,
+    displaySubnetsItemsArray,
+    displayVPCItemsArray,
     eventLogsCode,
     eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
     handleDismissClick,
     headerText,
+    isExactSubnetMatch,
+    isExactVPCMatch,
     isGridSetupComplete,
+    isSaving,
+    instanceChangeHandler,
+    isSubnetLoading,
     isTrialGridExpired,
     isTrialGridUsed,
+    isVPCLoading,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
     navigate,
     newGridName,
     onboardingStep,
+    saveBtnClickHandler,
     setupType,
+    selectedInstanceType,
     selectedRegion,
+    selectedSubnetValues,
+    selectedVPCValue,
     setSelectedOption,
+    setSubnetQuery,
+    setVPCQuery,
+    showCustomiseGridDetailsModal,
     showEventLogsModal,
     showGridHeartBeats,
     showSetupStatusModal,
     showTrialGridBanner,
     subHeaderText,
+    subnetChangeHandler,
+    subnetInputChangeHandler,
+    subnetQuery,
     totalSteps,
     userHasSessions,
     useTrialGridBannerText,
     useTrialGridClickHandler,
     useTrialGridLoading,
     viewAllBuildsClickHandler,
-    viewEventLogsClickHandler
+    viewEventLogsClickHandler,
+    vpcChangeHandler,
+    VPCInputChangeHandler,
+    VPCQuery
   } = useSetup();
 
   const TabsForCodeSnippet = (
@@ -121,6 +150,7 @@ const Setup = () => {
   const DescriptionNodeStep1 = (
     <div className="mb-4 mt-2">
       <RadioGroup
+        defaultValue="aws"
         direction="inline"
         onChange={cloudProviderChangeHandler}
         selectedOption={currentSelectedCloudProvider}
@@ -235,18 +265,19 @@ const Setup = () => {
         <div className="mb-2">
           <Alerts
             accentBorder={false}
-            alphaActionFn={() => {}}
-            alphaActionTitle="View Status"
+            alphaActionTitle="Customise"
+            alphaActionFn={customiseBtnHandler}
             dismissButton={false}
+            enableActions
             handleLinkClick={() => {}}
             linkText=""
             modifier="primary"
             title="Grid Details"
             description={[
-              'Grid name: ‘high-scale-grid’',
-              'Concurrent browser sessions: ‘50’',
-              'Worker nodes instance type: ‘t3.large (vCPU-2, memory-8GB)’',
-              'Cluster name: ‘high-scale-grid-cluster’'
+              `Grid name: '${currentGridName}'`,
+              `Concurrent browser sessions: ‘${currentGridConcurrency}’`,
+              `Worker nodes instance type: ‘${currentGridInstanceType}’`,
+              `Cluster name: ‘${currenClusterName}’`
             ]}
           />
         </div>
@@ -375,7 +406,14 @@ const Setup = () => {
         />
       )}
 
-      <div className="m-auto my-10 w-4/6 max-w-4xl ">
+      <div
+        className={twClassNames('m-auto w-4/6 max-w-4xl', {
+          'my-10':
+            onboardingStep === 0 ||
+            (onboardingStep === 1 && !showTrialGridBanner),
+          'my-5': onboardingStep === 1 && showTrialGridBanner
+        })}
+      >
         {isTrialGridUsed &&
           onboardingStep > 0 &&
           !userHasSessions &&
@@ -459,7 +497,8 @@ const Setup = () => {
             className={twClassNames(
               'overflow-auto bg-white border-base-300 px-7 ',
               {
-                'h-[calc(100vh-112px-140px-48px-40px)]': onboardingStep > 0,
+                'h-[calc(100vh-112px-140px-48px-40px-20px)]':
+                  onboardingStep > 0,
                 'pb-6':
                   onboardingStep === 0 ||
                   (onboardingStep === 1 && setupType !== SETUP_TYPES.scratch)
@@ -622,6 +661,35 @@ const Setup = () => {
             )}
         </div>
       </div>
+
+      <CustomiseGridDetails
+        currentProvidersInstanceTypes={currentProvidersInstanceTypes}
+        currentProvidersRegions={currentProvidersRegions}
+        dismissCustomiseGridDetailModal={dismissCustomiseGridDetailModal}
+        displaySubnetsItemsArray={displaySubnetsItemsArray}
+        displayVPCItemsArray={displayVPCItemsArray}
+        instanceChangeHandler={instanceChangeHandler}
+        isExactSubnetMatch={isExactSubnetMatch}
+        isExactVPCMatch={isExactVPCMatch}
+        isSaving={isSaving}
+        isSubnetLoading={isSubnetLoading}
+        isVPCLoading={isVPCLoading}
+        regionChangeHandler={cloudRegionChangeHandler}
+        saveBtnClickHandler={saveBtnClickHandler}
+        selectedInstanceType={selectedInstanceType}
+        selectedRegion={selectedRegion}
+        selectedSubnetValues={selectedSubnetValues}
+        selectedVPCValue={selectedVPCValue}
+        setSubnetQuery={setSubnetQuery}
+        setVPCQuery={setVPCQuery}
+        subnetChangeHandler={subnetChangeHandler}
+        subnetInputChangeHandler={subnetInputChangeHandler}
+        subnetQuery={subnetQuery}
+        showModal={showCustomiseGridDetailsModal}
+        vpcChangeHandler={vpcChangeHandler}
+        VPCInputChangeHandler={VPCInputChangeHandler}
+        VPCQuery={VPCQuery}
+      />
     </>
   );
 };
