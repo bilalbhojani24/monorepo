@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { O11yAlerts } from 'common/bifrostProxy';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
+import { EXTERNAL_LINKS } from 'constants/common';
 import { CTA_TEXTS } from 'constants/paywall';
 import { canStartFreeTrial } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
-import { logOllyEvent } from 'utils/common';
+import { getExternalUrl, logOllyEvent } from 'utils/common';
 
 import { handleUpgrade } from '../utils';
 
@@ -38,7 +39,11 @@ function PaywallAlert({ title }) {
           interaction: 'upgrade_cta_clicked'
         }
       });
-      // window.open(url, '_blank', 'noopener,noreferrer');
+      window.open(
+        getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing }),
+        '_blank',
+        'noopener,noreferrer'
+      );
     }
   };
 

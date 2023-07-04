@@ -7,9 +7,10 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
+import { EXTERNAL_LINKS } from 'constants/common';
 import { CTA_TEXTS } from 'constants/paywall';
 import { canStartFreeTrial } from 'globalSlice/selectors';
-import { logOllyEvent } from 'utils/common';
+import { getExternalUrl, logOllyEvent } from 'utils/common';
 
 import { MODAL_CONFIG } from '../constants';
 import { handleUpgrade } from '../utils';
@@ -60,7 +61,11 @@ function StartFreeTrialModal() {
         interaction: 'upgrade_cta_clicked'
       }
     });
-    // window.open(url, '_blank', 'noopener,noreferrer');
+    window.open(
+      getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing }),
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   const IllustrationComponent =

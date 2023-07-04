@@ -4,10 +4,11 @@ import { MdOutlineLock } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
+import { EXTERNAL_LINKS } from 'constants/common';
 import { CTA_TEXTS, FEATURE_CARD_DATA } from 'constants/paywall';
 import { canStartFreeTrial, getPlanDetailsKey } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
-import { logOllyEvent } from 'utils/common';
+import { getExternalUrl, logOllyEvent } from 'utils/common';
 
 import { handleUpgrade } from '../utils';
 
@@ -40,7 +41,11 @@ function PaywallWrapperEmptyState({ children, featureKey }) {
           interaction: 'upgrade_cta_clicked'
         }
       });
-      // window.open(url, '_blank', 'noopener,noreferrer');
+      window.open(
+        getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing }),
+        '_blank',
+        'noopener,noreferrer'
+      );
     }
   };
 

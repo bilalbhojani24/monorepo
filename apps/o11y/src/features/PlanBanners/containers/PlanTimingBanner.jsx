@@ -4,10 +4,10 @@ import { setStorage } from '@browserstack/utils';
 import { O11yBanner, O11yButton } from 'common/bifrostProxy';
 import { getTopBannerData } from 'common/O11yTopBanner/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
+import { EXTERNAL_LINKS } from 'constants/common';
 import { BANNER_LAST_SEEN } from 'constants/paywall';
 import { getIsOnFreeTrial } from 'globalSlice/selectors';
-import { logOllyEvent } from 'utils/common';
-// import { logOllyEvent } from 'utils/common';
+import { getExternalUrl, logOllyEvent } from 'utils/common';
 
 function PlanTimingBanner() {
   const dispatch = useDispatch();
@@ -55,7 +55,11 @@ function PlanTimingBanner() {
       }
     });
     handleCloseBanner();
-    // window.open(url, '_blank', 'noopener,noreferrer');
+    window.open(
+      getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing }),
+      '_blank',
+      'noopener,noreferrer'
+    );
   };
 
   return (
