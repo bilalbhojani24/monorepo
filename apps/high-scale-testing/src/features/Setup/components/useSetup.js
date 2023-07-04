@@ -277,6 +277,10 @@ const useSetup = () => {
     setShowCustomiseGridDetailsModal(true);
   };
 
+  const dismissCustomiseGridDetailModal = () => {
+    setShowCustomiseGridDetailsModal(false);
+  };
+
   const exploreAutomationClickHandler = () => {
     logHSTEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
       action: 'console_clicked'
@@ -816,6 +820,7 @@ const useSetup = () => {
     currentProvidersRegions,
     currentSelectedCloudProvider,
     customiseBtnHandler,
+    dismissCustomiseGridDetailModal,
     displaySubnetsItemsArray,
     displayVPCItemsArray,
     eventLogsCode,

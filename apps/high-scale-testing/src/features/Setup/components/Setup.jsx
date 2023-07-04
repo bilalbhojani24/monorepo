@@ -73,6 +73,7 @@ const Setup = () => {
     currentProvidersRegions,
     currentSelectedCloudProvider,
     customiseBtnHandler,
+    dismissCustomiseGridDetailModal,
     displaySubnetsItemsArray,
     displayVPCItemsArray,
     eventLogsCode,
@@ -664,6 +665,7 @@ const Setup = () => {
       <CustomiseGridDetails
         currentProvidersInstanceTypes={currentProvidersInstanceTypes}
         currentProvidersRegions={currentProvidersRegions}
+        dismissCustomiseGridDetailModal={dismissCustomiseGridDetailModal}
         displaySubnetsItemsArray={displaySubnetsItemsArray}
         displayVPCItemsArray={displayVPCItemsArray}
         instanceChangeHandler={instanceChangeHandler}

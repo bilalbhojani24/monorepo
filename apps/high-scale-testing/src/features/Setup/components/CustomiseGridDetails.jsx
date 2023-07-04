@@ -20,6 +20,7 @@ import PropTypes from 'prop-types';
 const CustomiseGridDetails = ({
   currentProvidersInstanceTypes,
   currentProvidersRegions,
+  dismissCustomiseGridDetailModal,
   displaySubnetsItemsArray,
   displayVPCItemsArray,
   instanceChangeHandler,
@@ -146,7 +147,10 @@ const CustomiseGridDetails = ({
 
   return (
     <Modal size="2xl" show={showModal}>
-      <ModalHeader heading="Customise Settings" />
+      <ModalHeader
+        handleDismissClick={dismissCustomiseGridDetailModal}
+        heading="Customise Settings"
+      />
       <div className="px-6 pb-3">
         <div className="mb-5 flex flex-col">
           <div className=" mt-4 flex flex-row gap-4">
@@ -172,6 +176,7 @@ const CustomiseGridDetails = ({
 CustomiseGridDetails.propTypes = {
   currentProvidersRegions: PropTypes.shape([]).isRequired,
   currentProvidersInstanceTypes: PropTypes.shape([]).isRequired,
+  dismissCustomiseGridDetailModal: PropTypes.func.isRequired,
   displaySubnetsItemsArray: PropTypes.shape([]).isRequired,
   displayVPCItemsArray: PropTypes.shape([]).isRequired,
   instanceChangeHandler: PropTypes.func.isRequired,
