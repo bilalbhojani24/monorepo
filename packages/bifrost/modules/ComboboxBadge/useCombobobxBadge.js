@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLatestRef } from '@browserstack/hooks';
+import { makeDebounce } from '@browserstack/utils';
 
 import { findLastActionItemHelper } from '../ComboBox/helper';
 
@@ -15,7 +17,9 @@ const useComboboxBadge = ({
   onInputChange,
   onChange,
   onClearAll,
-  onBadgeCrossClick
+  onBadgeCrossClick,
+  comparator,
+  debounceThreeshold
 }) => {
   const [visibleItems, setVisibleItems] = useState(options);
   const [currentSelected, setCurrentSelected] = useState(
@@ -71,27 +75,40 @@ const useComboboxBadge = ({
     comboboxProps.disabled
   ]);
 
-  const handleChange = async (inputValue) => {
+  const handleChange = (iv) => {
+    let filtered;
+    const inputValue = iv.trim();
+    setQuery(inputValue);
+
     if (onInputChange) {
-      const val = await onInputChange(inputValue);
-      setVisibleItems(val);
+      onInputChange(inputValue);
+    }
+
+    const selectedValues = isControlledElement ? value : currentSelected;
+
+    if (typeof comparator === 'function') {
+      filtered = options.filter((option) =>
+        comparator(option, inputValue, selectedValues)
+      );
     } else {
-      const selectedValues = isControlledElement ? value : currentSelected;
-
-      const q = inputValue.toLowerCase();
-
-      const filtered = options.filter(
+      filtered = options.filter(
         (option) =>
-          option.label.toLowerCase().includes(q) &&
+          option.label.toLowerCase().includes(inputValue.toLowerCase()) &&
           !selectedValues.some(
             (visibleOption) => visibleOption.value === option.value
           )
       );
-
-      setVisibleItems(filtered);
     }
-    setQuery(inputValue);
+
+    setVisibleItems(filtered);
   };
+
+  const handleChangeRef = useLatestRef(handleChange);
+
+  const debouncedQueryChange = useMemo(
+    () => makeDebounce((v) => handleChangeRef.current(v), debounceThreeshold),
+    [debounceThreeshold, handleChangeRef]
+  );
 
   const onChangeCombobox = useCallback(
     (val) => {
@@ -135,7 +152,7 @@ const useComboboxBadge = ({
     visibleItems,
     currentSelected,
     query,
-    handleChange,
+    debouncedQueryChange,
     onChangeCombobox,
     onClearAllRef,
     onBadgeCloseRef,

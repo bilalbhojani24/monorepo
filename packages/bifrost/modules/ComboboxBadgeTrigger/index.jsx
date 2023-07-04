@@ -61,9 +61,17 @@ const ComboboxBadgeTrigger = ({
     divRef.current.style.width = `${width}px`;
   }, [query]);
 
+  const handleFocus = (event) => {
+    event.target.blur();
+  };
+
   useEffect(() => {
     getWidth();
   }, [query, getWidth]);
+
+  useEffect(() => {
+    if (disabled) comboInputRef.current.setAttribute('aria-expanded', open);
+  }, [disabled, comboInputRef, open]);
 
   return (
     <Popover.Trigger ref={buttonRef} asChild>
@@ -84,6 +92,7 @@ const ComboboxBadgeTrigger = ({
         onClick={(e) => {
           keepDrawerOpen(e);
         }}
+        {...(isLoadingRight && { onFocus: handleFocus })}
       >
         {leadingIcon && <div className="pr-2">{leadingIcon}</div>}
 
@@ -146,6 +155,7 @@ const ComboboxBadgeTrigger = ({
               }}
               colors="white"
               disabled={disabled}
+              ariaLabel="Clear all options"
             >
               <MdCancel className="text-base-400 h-5 w-5" />
             </Button>
