@@ -48,9 +48,13 @@ const { actions, reducer } = createSlice({
     },
     setFetchedGridData: (state, { payload }) => {
       state.fetchedGridData = payload;
+    },
+    setTrialGridUsed: (state, { payload }) => {
+      state.trialGrid.isUsed = payload;
     }
   }
 });
 
-export const { initialiseApplication, setFetchedGridData } = actions;
+export const { initialiseApplication, setFetchedGridData, setTrialGridUsed } =
+  actions;
 export default reducer;

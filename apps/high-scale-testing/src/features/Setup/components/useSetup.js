@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useInterval, useMountEffect } from '@browserstack/hooks';
 import {
@@ -40,6 +40,7 @@ import {
   STEP_1_RADIO_GROUP_OPTIONS
 } from 'constants/setup';
 import { SETUP_GUIDE } from 'constants/strings';
+import { setTrialGridUsed } from 'globalSlice/index';
 import {
   getShowSetup,
   getTrialGrid,
@@ -51,6 +52,7 @@ import { logHSTEvent } from 'utils/logger';
 import { DEFAULT_CLOUD_PROVIDER, SUB_TEXTS_OBJECT } from '../constants';
 
 const useSetup = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // All Store variables:
@@ -262,6 +264,7 @@ const useSetup = () => {
     }).then((res) => {
       const { gridId } = res.data;
       if (res.status === 200) {
+        dispatch(setTrialGridUsed(true));
         navigate(`/grid-console/grid/${gridId}/overview`);
       }
     });
