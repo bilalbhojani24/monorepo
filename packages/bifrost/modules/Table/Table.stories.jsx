@@ -131,6 +131,10 @@ const defaultConfig = {
       option: { type: 'string' },
       defaultValue: ''
     },
+    isSticky: {
+      option: { type: 'boolean' },
+      defaultValue: false
+    },
     tableWrapperClass: {
       option: { type: 'string' },
       defaultValue: ''
@@ -580,7 +584,7 @@ const GRTRows = [
 GroupedRowsTable.args = {
   children: (
     <>
-      <TableHead wrapperClassName="bg-white">
+      <TableHead>
         <TableRow>
           {GRTColumns.map((col) => (
             <TableCell key={col.key} variant="header">
@@ -767,6 +771,7 @@ StickyHeaderTable.args = {
       </TableBody>
     </>
   ),
+  isSticky: true,
   containerWrapperClass: 'overflow-visible overflow-x-visible md:rounded-none'
 };
 // Sticky Header Table end
@@ -786,13 +791,15 @@ SelectableTable.args = {
                     variant="header"
                     wrapperClassName="flex items-center !pl-6"
                   >
-                    <Checkbox
-                      wrapperClassName="pt-0 mr-6 h-4 w-4"
-                      border={false}
-                      name={col.key}
-                      aria-label={col.key}
-                    />
-                    {col.name}
+                    <div className="flex items-center">
+                      <Checkbox
+                        wrapperClassName="pt-0 mr-6 h-4 w-4"
+                        border={false}
+                        name={col.key}
+                        aria-label={col.key}
+                      />
+                      <p>{col.name}</p>
+                    </div>
                   </TableCell>
                 </>
               ) : (
@@ -816,13 +823,15 @@ SelectableTable.args = {
                       key={column.id}
                       wrapperClassName="flex items-center text-base-900 font-medium !pl-6"
                     >
-                      <Checkbox
-                        border={false}
-                        wrapperClassName="pt-0 mr-6 h-4 w-4"
-                        name={value}
-                        aria-label={value}
-                      />
-                      {column.cell ? <>{column.cell()}</> : value}
+                      <div className="flex items-center">
+                        <Checkbox
+                          border={false}
+                          wrapperClassName="pt-0 mr-6 h-4 w-4"
+                          name={value}
+                          aria-label={value}
+                        />
+                        {column.cell ? <p>{column.cell()}</p> : value}
+                      </div>
                     </TableCell>
                   ) : (
                     <TableCell key={column.id}>
@@ -970,10 +979,14 @@ WhiteBackgroundTable.args = {
   bottomShadow: false,
   children: (
     <>
-      <TableHead wrapperClassName="bg-white">
+      <TableHead>
         <TableRow>
           {columns.map((col) => (
-            <TableCell key={col.key} variant="header" textTransform="uppercase">
+            <TableCell
+              key={col.key}
+              variant="header"
+              textTransform="capitalize"
+            >
               {col.name}
             </TableCell>
           ))}

@@ -6,7 +6,8 @@ const Table = ({
   children,
   containerWrapperClass,
   tableWrapperClass,
-  bottomShadow
+  bottomShadow,
+  isSticky
 }) => (
   <div
     className={twClassNames(
@@ -16,7 +17,13 @@ const Table = ({
     )}
   >
     <table
-      className={twClassNames('divide-base-300 min-w-full', tableWrapperClass)}
+      className={twClassNames(
+        'divide-base-300 min-w-full',
+        {
+          'border-separate border-spacing-0': isSticky
+        },
+        tableWrapperClass
+      )}
     >
       {children}
     </table>
@@ -27,13 +34,15 @@ Table.propTypes = {
   children: PropTypes.node,
   containerWrapperClass: PropTypes.string,
   tableWrapperClass: PropTypes.string,
-  bottomShadow: PropTypes.bool
+  bottomShadow: PropTypes.bool,
+  isSticky: PropTypes.bool
 };
 Table.defaultProps = {
   children: null,
   containerWrapperClass: '',
   tableWrapperClass: '',
-  bottomShadow: true
+  bottomShadow: true,
+  isSticky: false
 };
 
 export default Table;
