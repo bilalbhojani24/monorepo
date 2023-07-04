@@ -47,10 +47,10 @@ const BrowsersSettings = () => {
       ) : (
         <>
           <div className="overflow-auto p-6">
-            <p className="text-lg font-medium text-base-900">
+            <p className="text-base-900 text-lg font-medium">
               Browser Settings
             </p>
-            <p className="text-sm text-base-500">
+            <p className="text-base-500 text-sm">
               Configure the settings related to browsers set up on this Grid.
               Set upper limits on resources to be consumed while running a
               particular session and limit browsers allowed on the Grid as per
@@ -60,7 +60,7 @@ const BrowsersSettings = () => {
             {/* --- --- CPU Limit --- --- */}
             <div className="pt-6">
               <p className="text-sm font-medium">CPU Limit</p>
-              <p className="text-sm text-base-500">
+              <p className="text-base-500 text-sm">
                 Set the upper limit on CPU units that browsers can consume
                 whenever the test runs. It is set at 0.5 (500 milli) CPU by
                 default. You can set this value up to 2.5 CPU if your websites
@@ -78,6 +78,7 @@ const BrowsersSettings = () => {
                   disabled={isSavingInProgress}
                   id="test-id"
                   onChange={onCPUChangeHandler}
+                  type="number"
                 />
               </div>
             </div>
@@ -86,7 +87,7 @@ const BrowsersSettings = () => {
             {/* --- --- Memory Limit --- --- */}
             <div className="pt-6">
               <p className="text-sm font-medium">Memory Limit</p>
-              <p className="text-sm text-base-500">
+              <p className="text-base-500 text-sm">
                 Set the upper limit on memory units that browsers can consume
                 whenever the test runs. It is set at 500M (500 megabytes) memory
                 by default. You can set this value up to 2500M if your websites
@@ -114,7 +115,7 @@ const BrowsersSettings = () => {
             {/* --- --- Browsers Allowed --- --- */}
             <div className="pt-6">
               <p className="text-sm font-medium">Browsers Allowed</p>
-              <p className="text-sm text-base-500">
+              <p className="text-base-500 text-sm">
                 Set the browsers allowed on the Grid. By default, all the
                 browsers will be allowed. Use this option to restrict test
                 sessions on a particular browser(s).
@@ -138,7 +139,7 @@ const BrowsersSettings = () => {
             </div>
             {/* --- X --- Browsers Allowed --- X --- */}
           </div>
-          <div className="flex flex-row-reverse bg-base-50 px-6 py-3">
+          <div className="bg-base-50 flex flex-row-reverse px-6 py-3">
             <Button
               disabled={isSaveButtonDisabled}
               loading={isSavingInProgress}
