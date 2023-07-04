@@ -26,7 +26,7 @@ function PaywallTooltip({ children, title, content, featureKey, docLink }) {
               <p className="text-sm">{content}</p>
             </TooltipBody>
             <TooltipFooter>
-              <PaywallActions isOnDarkBg showToastOnUpgrade docLink={docLink} />
+              <PaywallActions isOnDarkBg docLink={docLink} />
             </TooltipFooter>
           </>
         ) : null

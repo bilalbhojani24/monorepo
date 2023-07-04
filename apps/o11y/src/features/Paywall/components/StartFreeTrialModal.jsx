@@ -10,7 +10,6 @@ import { BANNER_TYPES } from 'constants/bannerTypes';
 import { CTA_TEXTS } from 'constants/paywall';
 import { canStartFreeTrial } from 'globalSlice/selectors';
 import { logOllyEvent } from 'utils/common';
-import { o11yNotify } from 'utils/notification';
 
 import { MODAL_CONFIG } from '../constants';
 import { handleUpgrade } from '../utils';
@@ -41,27 +40,27 @@ function StartFreeTrialModal() {
     dispatch(
       handleUpgrade({
         successCb: () => {
-          if (shouldAllowFreeTrial) {
-            handleCloseModal();
-            dispatch(
-              toggleBanner({
-                version: BANNER_TYPES.plan_started,
-                data: {}
-              })
-            );
-          } else {
-            handleCloseModal();
-            o11yNotify({
-              title: 'Request for upgrade received',
-              description:
-                "We'll reach out to you soon with upgrade related details",
-              type: 'success'
-            });
-          }
+          handleCloseModal();
+          dispatch(
+            toggleBanner({
+              version: BANNER_TYPES.plan_started,
+              data: {}
+            })
+          );
         },
         finalCb: () => setIsSubmitting(false)
       })
     );
+  };
+
+  const handleClickUpgrade = () => {
+    logOllyEvent({
+      event: 'O11yUpgradeModalInteracted',
+      data: {
+        interaction: 'upgrade_cta_clicked'
+      }
+    });
+    // window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   const IllustrationComponent =
@@ -141,7 +140,10 @@ function StartFreeTrialModal() {
                 {CTA_TEXTS.FREE_TRIAL}
               </O11yButton>
             ) : (
-              <O11yButton wrapperClassName="flex-1">
+              <O11yButton
+                wrapperClassName="flex-1"
+                onClick={handleClickUpgrade}
+              >
                 {CTA_TEXTS.UPGRADE}
               </O11yButton>
             )}

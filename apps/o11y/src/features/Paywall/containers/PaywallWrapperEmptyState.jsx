@@ -7,7 +7,7 @@ import { BANNER_TYPES } from 'constants/bannerTypes';
 import { CTA_TEXTS, FEATURE_CARD_DATA } from 'constants/paywall';
 import { canStartFreeTrial, getPlanDetailsKey } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
-import { o11yNotify } from 'utils/notification';
+import { logOllyEvent } from 'utils/common';
 
 import { handleUpgrade } from '../utils';
 
@@ -18,30 +18,32 @@ function PaywallWrapperEmptyState({ children, featureKey }) {
   const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
 
   const handleClickUpgrade = () => {
-    setIsSubmitting(true);
-    dispatch(
-      handleUpgrade({
-        successCb: () => {
-          if (shouldAllowFreeTrial) {
+    if (shouldAllowFreeTrial) {
+      setIsSubmitting(true);
+      dispatch(
+        handleUpgrade({
+          successCb: () => {
             dispatch(
               toggleBanner({
                 version: BANNER_TYPES.plan_started,
                 data: {}
               })
             );
-          } else {
-            o11yNotify({
-              title: 'Request for upgrade received',
-              description:
-                "We'll reach out to you soon with upgrade related details",
-              type: 'success'
-            });
-          }
-        },
-        finalCb: () => setIsSubmitting(false)
-      })
-    );
+          },
+          finalCb: () => setIsSubmitting(false)
+        })
+      );
+    } else {
+      logOllyEvent({
+        event: 'O11yUpgradeModalInteracted',
+        data: {
+          interaction: 'upgrade_cta_clicked'
+        }
+      });
+      // window.open(url, '_blank', 'noopener,noreferrer');
+    }
   };
+
   if (!planDetails?.isActive) {
     return (
       <div className="break-words">

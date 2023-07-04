@@ -22,10 +22,7 @@ function PaywallFeatureCard({
     >
       <CTACard isDismissable={false} wrapperClassName="shadow-none bg-white">
         <CTACardContent header={title} description={desc}>
-          <PaywallCTACardActions
-            showTextOnSubmit
-            learnMoreLink={learnMoreLink}
-          />
+          <PaywallCTACardActions learnMoreLink={learnMoreLink} />
         </CTACardContent>
         <CTACardMedia>
           <IllustrationComponent className="h-full w-full" />

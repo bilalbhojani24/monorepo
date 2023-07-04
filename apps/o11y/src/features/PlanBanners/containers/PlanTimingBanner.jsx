@@ -1,17 +1,15 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setStorage } from '@browserstack/utils';
 import { O11yBanner, O11yButton } from 'common/bifrostProxy';
 import { getTopBannerData } from 'common/O11yTopBanner/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_LAST_SEEN } from 'constants/paywall';
-import { handleUpgrade } from 'features/Paywall/utils';
 import { getIsOnFreeTrial } from 'globalSlice/selectors';
-import { o11yNotify } from 'utils/notification';
+import { logOllyEvent } from 'utils/common';
+// import { logOllyEvent } from 'utils/common';
 
 function PlanTimingBanner() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const dispatch = useDispatch();
   const bannerData = useSelector(getTopBannerData);
   const isOnFreeTrial = useSelector(getIsOnFreeTrial);
@@ -50,33 +48,21 @@ function PlanTimingBanner() {
   };
 
   const handleClickUpgrade = () => {
-    setIsSubmitting(true);
-    dispatch(
-      handleUpgrade({
-        successCb: () => {
-          o11yNotify({
-            title: 'Request for upgrade received',
-            description:
-              "We'll reach out to you soon with upgrade related details",
-            type: 'success'
-          });
-          handleCloseBanner();
-        },
-        finalCb: () => setIsSubmitting(false)
-      })
-    );
+    logOllyEvent({
+      event: 'O11yUpgradeModalInteracted',
+      data: {
+        interaction: 'upgrade_cta_clicked'
+      }
+    });
+    handleCloseBanner(); // should we close this?
+    // window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
     <div className="text-sm">
       <O11yBanner
         ctaButton={
-          <O11yButton
-            colors="white"
-            onClick={handleClickUpgrade}
-            loading={isSubmitting}
-            isIconOnlyButton={isSubmitting}
-          >
+          <O11yButton colors="white" onClick={handleClickUpgrade}>
             Upgrade now
           </O11yButton>
         }

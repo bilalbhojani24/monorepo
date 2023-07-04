@@ -6,40 +6,43 @@ import { BANNER_TYPES } from 'constants/bannerTypes';
 import { CTA_TEXTS } from 'constants/paywall';
 import { canStartFreeTrial } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 
 import { handleUpgrade } from '../utils';
 
 function PaywallAlert({ title }) {
   const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [hasSubmittedUpgradeReq, setHasSubmittedUpgradeReq] = useState(false);
   const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
 
   const handleClickUpgrade = () => {
-    setIsSubmitting(true);
-    dispatch(
-      handleUpgrade({
-        successCb: () => {
-          if (shouldAllowFreeTrial) {
+    if (shouldAllowFreeTrial) {
+      setIsSubmitting(true);
+      dispatch(
+        handleUpgrade({
+          successCb: () => {
             dispatch(
               toggleBanner({
                 version: BANNER_TYPES.plan_started,
                 data: {}
               })
             );
-          } else {
-            setHasSubmittedUpgradeReq(true);
-          }
-        },
-        finalCb: () => setIsSubmitting(false)
-      })
-    );
+          },
+          finalCb: () => setIsSubmitting(false)
+        })
+      );
+    } else {
+      logOllyEvent({
+        event: 'O11yUpgradeModalInteracted',
+        data: {
+          interaction: 'upgrade_cta_clicked'
+        }
+      });
+      // window.open(url, '_blank', 'noopener,noreferrer');
+    }
   };
 
   const linkText = useMemo(() => {
-    if (hasSubmittedUpgradeReq) {
-      return '';
-    }
     if (isSubmitting) {
       return 'Submitting...';
     }
@@ -48,7 +51,7 @@ function PaywallAlert({ title }) {
       return CTA_TEXTS.FREE_TRIAL;
     }
     return CTA_TEXTS.UPGRADE;
-  }, [hasSubmittedUpgradeReq, isSubmitting, shouldAllowFreeTrial]);
+  }, [isSubmitting, shouldAllowFreeTrial]);
 
   return (
     <O11yAlerts
@@ -68,12 +71,8 @@ function PaywallAlert({ title }) {
       }
       accentBorder
       handleLinkClick={handleClickUpgrade}
-      modifier={hasSubmittedUpgradeReq ? 'success' : 'warn'}
-      description={
-        hasSubmittedUpgradeReq
-          ? 'Thanks for showing an interest in Observability Pro! Someone from our team would reach out to you soon with upgrade related details.'
-          : title
-      }
+      modifier="warn"
+      description={title}
     />
   );
 }
