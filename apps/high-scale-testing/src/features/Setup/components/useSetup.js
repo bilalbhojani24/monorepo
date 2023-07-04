@@ -359,7 +359,12 @@ const useSetup = () => {
     }).then((res) => {
       const { gridId } = res.data;
       if (res.status === 200) {
-        dispatch(setTrialGridUsed(true));
+        dispatch(
+          setTrialGridUsed({
+            isExpired: false,
+            isUsed: true
+          })
+        );
         navigate(`/grid-console/grid/${gridId}/overview`);
       }
     });

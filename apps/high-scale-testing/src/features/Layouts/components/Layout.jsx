@@ -83,7 +83,9 @@ const Layout = () => {
                             <Button
                               onClick={item.onboardingTooltipNextBtnhandler}
                             >
-                              Next
+                              {item.label === AUTOMATION_CONSOLE
+                                ? 'Next'
+                                : 'Close'}
                             </Button>
                             <Button
                               onClick={item.onboardingTooltipSkipBtnHandler}
@@ -116,6 +118,7 @@ const Layout = () => {
                         item.label === BUILDS_DASHBOARD))
                   }
                   theme="dark"
+                  wrapperClassName="w-60"
                 >
                   <SidebarItem
                     current={isCurrent(item)}
