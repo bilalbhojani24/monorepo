@@ -90,6 +90,7 @@ const useSetup = () => {
   const [isSubnetLoading, setIsSubnetLoading] = useState(false);
   const [isVPCLoading, setIsVPCLoading] = useState(false);
   const [onboardingStep, setSetupStep] = useState(0);
+  const [resourceMap, setResourceMap] = useState({});
   const [selectedGridProfile, setSelectedGridProfile] = useState('default');
   const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
   const [selectedVPCValue, setSelectedVPCValue] = useState('');
@@ -412,7 +413,7 @@ const useSetup = () => {
     console.log('Log: gridProfileData:', gridProfileData);
     setSelectedGridName(selectedGridProfile.value);
 
-    if (selectedGridProfile) {
+    if (Object.keys(gridProfileData).length > 0 && selectedGridProfile) {
       const selectedGridProfileData = gridProfileData;
       console.log('Log: selectedGridProfileData:', selectedGridProfileData);
 
@@ -495,6 +496,30 @@ const useSetup = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onboardingStep]);
+
+  useEffect(() => {
+    if (Object.keys(resourceMap).length > 0) {
+      const availableRegionsFromResourceMap = Object.keys(
+        resourceMap[currentSelectedCloudProvider.value]
+      );
+
+      const tempArray = [];
+
+      availableRegionsFromResourceMap.forEach((region) => {
+        const matchingEle = allAvailableRegionsByProvider[
+          currentSelectedCloudProvider.value
+        ].find((ele) => ele.value === region);
+
+        tempArray.push(matchingEle);
+      });
+
+      setCurrentProvidersRegions(tempArray);
+    }
+  }, [
+    allAvailableRegionsByProvider,
+    currentSelectedCloudProvider,
+    resourceMap
+  ]);
 
   useEffect(() => {
     if (
@@ -595,6 +620,55 @@ const useSetup = () => {
   }, [currentStep, showGridHeartBeats, totalSteps]);
 
   useEffect(() => {
+    if (
+      Object.keys(resourceMap).length > 0 &&
+      selectedRegion !== null &&
+      selectedRegion !== undefined
+    ) {
+      const VPCInThisRegionArray = Object.keys(
+        resourceMap[currentSelectedCloudProvider.value][selectedRegion.value]
+      );
+
+      const tmpVPCsArray = [];
+      VPCInThisRegionArray?.forEach((e) => {
+        tmpVPCsArray.push({
+          label: e,
+          value: e
+        });
+      });
+
+      setAllAvailableVPCIDs(tmpVPCsArray);
+
+      if (
+        allAvailableVPCIDs !== null &&
+        allAvailableVPCIDs !== undefined &&
+        selectedVPCValue.value.length > 0
+      ) {
+        const tmpSubnets =
+          resourceMap[currentSelectedCloudProvider.value][selectedRegion.value][
+            selectedVPCValue.value
+          ]?.subnets;
+        const tmpSubnetsArray = [];
+
+        tmpSubnets?.forEach((e) => {
+          tmpSubnetsArray.push({
+            label: e,
+            value: e
+          });
+        });
+
+        setAllAvailableSubnets(tmpSubnetsArray);
+      }
+    }
+  }, [
+    allAvailableVPCIDs,
+    currentSelectedCloudProvider,
+    resourceMap,
+    selectedRegion,
+    selectedVPCValue
+  ]);
+
+  useEffect(() => {
     setShowSetupStatusModal(isGridSetupComplete);
   }, [isGridSetupComplete]);
 
@@ -651,6 +725,7 @@ const useSetup = () => {
       setAllAvailableRegionsByProvider(res.scratch['step-1'].regions);
       setCodeSnippetsForExistingSetup(res.existing);
       setGridProfileData(res.gridProfile);
+      setResourceMap(res.resourceMap);
       return response.data;
     };
 
