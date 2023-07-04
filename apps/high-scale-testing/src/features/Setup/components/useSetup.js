@@ -78,7 +78,8 @@ const useSetup = () => {
   const [currentGridConcurrency, setCurrentGridConcurrency] = useState(
     DEFAULT_GRID_CONCURRENCY
   );
-  const [currentGridInstanceType, setCurrentGridInstanceType] = useState(null);
+  const [currentGridInstanceType, setCurrentGridInstanceType] =
+    useState('m7g.medium');
   const [currentGridName, setCurrentGridName] = useState('default');
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
     useState({ index: 0, name: GRID_MANAGER_NAMES.helm });
@@ -455,8 +456,8 @@ const useSetup = () => {
       console.log('Successfully customised Setup grid');
 
       setCurrentClusterName(gridProfileData.clusters[0].name);
-      setCurrentGridConcurrency(gridProfileData.concurrency);
-      setCurrentGridInstanceType(gridProfileData.profile.instanceType);
+      setCurrentGridConcurrency(gridProfileData.profile.concurrency);
+      setCurrentGridInstanceType(selectedInstanceType.value);
       setCurrentGridName(gridProfileData.profile.name);
 
       setIsSaving(false);
@@ -524,11 +525,13 @@ const useSetup = () => {
         )
       );
 
-      setSelectedInstanceType(
-        allAvailableInstanceTypes[currentSelectedCloudProvider.value].find(
-          (e) => e.label === selectedGridProfileData?.profile.instanceType
-        )
-      );
+      const tmpInstanceType = allAvailableInstanceTypes[
+        currentSelectedCloudProvider.value
+      ].find((e) => e.label === selectedGridProfileData?.profile.instanceType);
+
+      setSelectedInstanceType(tmpInstanceType);
+
+      setCurrentGridInstanceType(tmpInstanceType.value);
     }
   }, [gridProfileData]);
 
