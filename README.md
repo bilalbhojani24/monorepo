@@ -57,6 +57,12 @@ Please note that you may need to adjust the specific commands based on the packa
 - [Infra setup for APP](https://browserstack.atlassian.net/wiki/spaces/ENG/pages/3845490804/Process+Document+for+Infra+Setup+for+Hosting+a+Frontend+Product)
 - [Frontend 2.0](https://browserstack.atlassian.net/wiki/spaces/ENG/pages/3820947043/Frontend+2.0)
 
+## Troubleshoot
+
+- Github token expire
+Description : https://npm.pkg.github.com/download/@browserstack/utils/0.2.4/bc95a50349e72ee200d9659cdbf09f4b926feb38: Unauthorized - 401
+Solution : Update the github token in .npmrc
+
 ## Additional Pointers
 
 -   Ensure that you have the required version of Node.js (v18.4.0) installed on your system.
