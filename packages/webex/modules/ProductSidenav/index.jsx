@@ -80,7 +80,7 @@ const ProductSidenav = ({ activeProduct }) => {
     <>
       <div
         className={twClassNames(
-          'top-16 flex flex-col items-start fixed left-0 h-full border-r border-solid border-base-300 bg-white z-10 transition-[width] duration-150 delay-50 ease-in',
+          'top-16 flex flex-col items-start fixed left-0 h-full border-r border-solid border-base-300 bg-white z-10 transition-[width] duration-100 delay-50 ease-in',
           {
             'w-[56px]': !expanded,
             'w-[260px] overflow-y-auto shadow': expanded

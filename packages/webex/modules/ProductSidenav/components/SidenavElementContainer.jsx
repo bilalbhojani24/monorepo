@@ -38,7 +38,7 @@ const SidenavElementContainer = ({
     return (
       <a
         className={twClassNames(
-          'flex flex-row items-center py-2 w-full transition-all duration-150 delay-50 ease-in',
+          'flex flex-row items-center py-2 w-full transition-all duration-100 delay-50 ease-in',
           {
             'bg-[#F0F6FF] border-l-2 border-solid border-[#0070F0]':
               isActiveProduct,
@@ -60,7 +60,7 @@ const SidenavElementContainer = ({
         </span>
         <p
           className={twClassNames(
-            'not-italic font-medium text-xs pl-4 leading-4 text-base-900 opacity-0 grow group-hover:text-[#0070F0] whitespace-nowrap transition-opacity duration-150 delay-50 ease-in overflow-hidden',
+            'not-italic font-medium text-xs pl-4 leading-4 text-base-900 opacity-0 grow group-hover:text-[#0070F0] whitespace-nowrap transition-opacity duration-100 delay-50 ease-in overflow-hidden',
             {
               'text-[#0D5FD4]': isActiveProduct,
               'opacity-100': isExpanded
@@ -86,7 +86,7 @@ const SidenavElementContainer = ({
       >
         <p
           className={twClassNames(
-            'not-italic font-medium text-[11px] leading-4 opacity-0 text-base-700 whitespace-nowrap transition-opacity duration-150 delay-50 ease-in',
+            'not-italic font-medium text-[11px] leading-4 opacity-0 text-base-700 whitespace-nowrap transition-opacity duration-100 delay-50 ease-in',
             {
               'opacity-100': isExpanded
             }
@@ -96,7 +96,7 @@ const SidenavElementContainer = ({
         </p>
         <div
           className={twClassNames(
-            'flex flex-row items-start pr-6 pl-[26px] opacity-0 w-full transition-opacity duration-150 delay-50 ease-in',
+            'flex flex-row items-start pr-6 pl-[26px] opacity-0 w-full transition-opacity duration-100 delay-50 ease-in',
             {
               'opacity-1 pt-5 pb-2.5': !isExpanded
             }
@@ -133,7 +133,7 @@ const SidenavElementContainer = ({
     <>
       <div
         className={twClassNames(
-          'flex items-start pt-[6px] pb-0 transition-padding duration-150 delay-50 ease-in',
+          'flex items-start pt-[6px] pb-0 transition-padding duration-100 delay-50 ease-in',
           {
             'px-4': isExpanded,
             'w-full pl-[7px] pr-2': !isExpanded
