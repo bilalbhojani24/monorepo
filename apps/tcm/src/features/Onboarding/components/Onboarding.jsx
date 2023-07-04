@@ -1,5 +1,5 @@
 import React from 'react';
-import { TMButton, TMSelectMenu } from 'common/bifrostProxy';
+import { TMButton, TMComboBox, TMSelectMenu } from 'common/bifrostProxy';
 
 import { SETUP_FORMATS } from '../const/immutableConst';
 
@@ -12,7 +12,8 @@ const Onboarding = () => {
     isProcessing,
     userData,
     formData,
-    orgStrengthArray,
+    existingToolsArray,
+    // orgStrengthArray,
     jobRolesArray,
     onFormChange,
     continueClickHandler
@@ -47,6 +48,23 @@ const Onboarding = () => {
             )}
           </div>
           <div className="mt-6 max-w-sm">
+            <TMComboBox
+              label="Which tool(s) do you currently use for managing test cases?*"
+              placeholder="Select from options"
+              options={existingToolsArray}
+              onChange={(allSelectedOptions) =>
+                onFormChange('existing_tools', allSelectedOptions)
+              }
+              checkPosition="right"
+              isMulti
+            />
+            {invalidFields?.existing_tools && (
+              <p className="text-danger-600 mt-1 text-sm">
+                This field can&apos;t be left empty
+              </p>
+            )}
+          </div>
+          {/* <div className="mt-6 max-w-sm">
             <TMSelectMenu
               label="What's your organisation strength?*"
               placeholder="Select from options"
@@ -60,7 +78,7 @@ const Onboarding = () => {
                 This field can&apos;t be left empty
               </p>
             )}
-          </div>
+          </div> */}
           <div className="mt-6">
             <div className="text-base-700">Choose your setup format</div>
             <div className="mt-4 flex  gap-4">

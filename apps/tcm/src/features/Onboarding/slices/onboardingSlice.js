@@ -8,11 +8,13 @@ import {
 const initialState = {
   jobRolesArray: [],
   orgStrengthArray: [],
+  existingToolsArray: [],
   hasProjects: false,
   isProcessing: false,
   formData: {
     role: '',
     organisation_strength: '',
+    existing_tools: '',
     start_method: SETUP_FORMATS[0].title
   },
   timerFinished: false,
@@ -36,6 +38,9 @@ export const onboardingSlice = createSlice({
     },
     setOrgStrengthArray: (state, { payload }) => {
       state.orgStrengthArray = payload;
+    },
+    setExistingToolsArray: (state, { payload }) => {
+      state.existingToolsArray = payload;
     },
     updateFormData: (state, { payload }) => {
       state.formData[payload.key] = payload.value;
@@ -61,6 +66,7 @@ export const {
   setHasProjects,
   setJobRolesArray,
   setOrgStrengthArray,
+  setExistingToolsArray,
   updateFormData,
   setIsProcessing,
   setTimerFinished,
