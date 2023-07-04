@@ -59,10 +59,11 @@ Please note that you may need to adjust the specific commands based on the packa
 
 ## Troubleshoot
 
-- Github token expire
-Description : https://npm.pkg.github.com/download/@browserstack/utils/0.2.4/bc95a50349e72ee200d9659cdbf09f4b926feb38: Unauthorized - 401
+**Github token expire**
 
-Solution : Update the github token in .npmrc
+**Description** https://npm.pkg.github.com/download/@browserstack/utils/0.2.4/bc95a50349e72ee200d9659cdbf09f4b926feb38: Unauthorized - 401
+
+**Solution** : Update the github token in .npmrc
 
 ## Additional Pointers
 
