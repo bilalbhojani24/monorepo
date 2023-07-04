@@ -24,6 +24,7 @@ const ComboboxBadge = ({
   addNewItemComponent,
   comboboxProps,
   comboboxItemProps,
+  comboboxOptionGroupProps,
   comparator,
   debounceThreeshold,
   label,
@@ -96,7 +97,7 @@ const ComboboxBadge = ({
         onClearAll={onClearAllRef}
       />
 
-      <MenuContainer>
+      <MenuContainer {...comboboxOptionGroupProps}>
         {visibleItems.length > 0 ? (
           visibleItems.map((opt) => (
             <ComboboxOptionItem
@@ -126,6 +127,7 @@ ComboboxBadge.propTypes = {
   addNewItemComponent: node.isRequired,
   comboboxProps: shape({}),
   comboboxItemProps: shape({}),
+  comboboxOptionGroupProps: shape({}),
   defaultValue: oneOfType([
     arrayOf(
       shape({
@@ -181,6 +183,7 @@ ComboboxBadge.propTypes = {
 ComboboxBadge.defaultProps = {
   comboboxItemProps: {},
   comboboxProps: {},
+  comboboxOptionGroupProps: {},
   comparator: null,
   label: '',
   defaultValue: undefined,
