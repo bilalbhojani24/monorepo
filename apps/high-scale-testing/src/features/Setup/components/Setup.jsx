@@ -64,6 +64,10 @@ const Setup = () => {
     copyCallbackFnForExistingSetup,
     copyCallbackFnForNewSetup,
     copySetupFailureCode,
+    currenClusterName,
+    currentGridConcurrency,
+    currentGridInstanceType,
+    currentGridName,
     currentStep,
     currentProvidersInstanceTypes,
     currentProvidersRegions,
@@ -75,7 +79,6 @@ const Setup = () => {
     eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
-    gridProfileData,
     handleDismissClick,
     headerText,
     isExactSubnetMatch,
@@ -259,7 +262,6 @@ const Setup = () => {
           {CODE_SNIPPETS_FOR_SCRATCH[CREATE_GRID].c.text}
         </li>
         <div className="mb-2">
-          {console.log('Log: selectedRegion:', selectedRegion)}
           <Alerts
             accentBorder={false}
             alphaActionTitle="Customise"
@@ -271,10 +273,10 @@ const Setup = () => {
             modifier="primary"
             title="Grid Details"
             description={[
-              `Grid name: '${gridProfileData?.profile?.name}'`,
-              `Concurrent browser sessions: ‘${gridProfileData?.concurrency}’`,
-              `Worker nodes instance type: ‘${gridProfileData?.profile?.instanceType}’`,
-              `Cluster name: ‘${gridProfileData?.clusters?.[0].name}’`
+              `Grid name: '${currentGridName}'`,
+              `Concurrent browser sessions: ‘${currentGridConcurrency}’`,
+              `Worker nodes instance type: ‘${currentGridInstanceType}’`,
+              `Cluster name: ‘${currenClusterName}’`
             ]}
           />
         </div>

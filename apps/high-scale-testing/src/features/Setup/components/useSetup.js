@@ -28,6 +28,7 @@ import {
   AGSuccessGridModalPresented
 } from 'constants/event-names';
 import {
+  DEFAULT_GRID_CONCURRENCY,
   EVENT_LOGS_POLLING_IN_MS,
   GRID_MANAGER_NAMES,
   SCRATCH_RADIO_GROUP_OPTIONS
@@ -71,6 +72,13 @@ const useSetup = () => {
   const [allAvailableSubnets, setAllAvailableSubnets] = useState([]);
   const [allAvailableVPCIDs, setAllAvailableVPCIDs] = useState([]);
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
+  const [currenClusterName, setCurrentClusterName] =
+    useState('high-scale-testing');
+  const [currentGridConcurrency, setCurrentGridConcurrency] = useState(
+    DEFAULT_GRID_CONCURRENCY
+  );
+  const [currentGridInstanceType, setCurrentGridInstanceType] = useState(null);
+  const [currentGridName, setCurrentGridName] = useState('default');
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
     useState({ index: 0, name: GRID_MANAGER_NAMES.helm });
   const [codeSnippetsForExistingSetup, setCodeSnippetsForExistingSetup] =
@@ -435,6 +443,12 @@ const useSetup = () => {
 
     if (status === 200) {
       console.log('Successfully customised Setup grid');
+
+      setCurrentClusterName(gridProfileData.clusters[0].name);
+      setCurrentGridConcurrency(gridProfileData.concurrency);
+      setCurrentGridInstanceType(gridProfileData.profile.instanceType);
+      setCurrentGridName(gridProfileData.profile.name);
+
       setIsSaving(false);
       setShowCustomiseGridDetailsModal(false);
     } else {
@@ -793,6 +807,10 @@ const useSetup = () => {
     copyCallbackFnForExistingSetup,
     copyCallbackFnForNewSetup,
     copySetupFailureCode,
+    currenClusterName,
+    currentGridConcurrency,
+    currentGridInstanceType,
+    currentGridName,
     currentStep,
     currentProvidersInstanceTypes,
     currentProvidersRegions,
