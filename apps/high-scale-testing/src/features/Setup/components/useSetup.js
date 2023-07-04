@@ -86,7 +86,7 @@ const useSetup = () => {
   );
   const [isGridSetupComplete, setIsGridSetupComplete] = useState(false);
   const [onboardingStep, setSetupStep] = useState(0);
-  const [onboardingType, setSetupType] = useState(SETUP_TYPES.scratch);
+  const [setupType, setSetupType] = useState(SETUP_TYPES.scratch);
   const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
     allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER]
   );
@@ -116,11 +116,11 @@ const useSetup = () => {
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
     if (stepData.name === SETUP_GUIDE) {
-      if (onboardingType === SETUP_TYPES.existing) {
+      if (setupType === SETUP_TYPES.existing) {
         logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
           action: 'setupguide_clicked'
         });
-      } else if (onboardingType === SETUP_TYPES.scratch) {
+      } else if (setupType === SETUP_TYPES.scratch) {
         logHSTEvent(['amplitude'], 'web_events', AGNoSetupPresented, {
           action: 'setupguide_clicked'
         });
@@ -242,12 +242,9 @@ const useSetup = () => {
 
     if (onboardingStep === 0) {
       eventName = AGSetupGuideInteracted;
-    } else if (onboardingStep === 1 && onboardingType === SETUP_TYPES.scratch) {
+    } else if (onboardingStep === 1 && setupType === SETUP_TYPES.scratch) {
       eventName = AGNoSetupInteracted;
-    } else if (
-      onboardingStep === 1 &&
-      onboardingType === SETUP_TYPES.existing
-    ) {
+    } else if (onboardingStep === 1 && setupType === SETUP_TYPES.existing) {
       eventName = AGHaveSetupInteracted;
     }
 
@@ -260,7 +257,7 @@ const useSetup = () => {
     setUseTrialGridLoading(true);
     await createTrialGridForUser({
       userId: userDetails.id,
-      setupType: onboardingType
+      setupType: setupType
     }).then((res) => {
       const { gridId } = res.data;
       if (res.status === 200) {
@@ -279,11 +276,11 @@ const useSetup = () => {
   };
 
   const viewEventLogsClickHandler = () => {
-    if (onboardingType === SETUP_TYPES.scratch) {
+    if (setupType === SETUP_TYPES.scratch) {
       logHSTEvent([''], 'web_events', AGNoSetupInteracted, {
         action: 'vieweventlogs_clicked'
       });
-    } else if (onboardingType === SETUP_TYPES.existing) {
+    } else if (setupType === SETUP_TYPES.existing) {
       logHSTEvent(['amplitude'], 'web_events', AGHaveSetupInteracted, {
         action: 'vieweventlogs_clicked'
       });
@@ -294,8 +291,8 @@ const useSetup = () => {
   // All useEffects:
   useEffect(() => {
     if (onboardingStep > 0) {
-      setHeaderText(HEADER_TEXTS_OBJECT(userDetails)[onboardingType]);
-      setSubHeaderText(SUB_TEXTS_OBJECT[onboardingType]);
+      setHeaderText(HEADER_TEXTS_OBJECT(userDetails)[setupType]);
+      setSubHeaderText(SUB_TEXTS_OBJECT[setupType]);
       setPollForEventLogs(true);
       setShowTrialGridBanner(!isTrialGridUsed);
     } else {
@@ -306,11 +303,11 @@ const useSetup = () => {
     }
 
     if (onboardingStep > 0) {
-      if (onboardingType === SETUP_TYPES.scratch) {
+      if (setupType === SETUP_TYPES.scratch) {
         logHSTEvent([], 'web_events', AGNoSetupPresented);
       }
 
-      if (onboardingType === SETUP_TYPES.existing) {
+      if (setupType === SETUP_TYPES.existing) {
         logHSTEvent([], 'web_events', AGHaveSetupPresented);
       }
     }
@@ -318,7 +315,9 @@ const useSetup = () => {
   }, [onboardingStep]);
 
   useEffect(() => {
-    if (selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label) {
+    if (
+      selectedOption.description === STEP_1_RADIO_GROUP_OPTIONS[0].description
+    ) {
       setSetupType('scratch');
       setBreadcrumbDataTrace([
         {
@@ -437,10 +436,10 @@ const useSetup = () => {
     if (
       step === 0 &&
       res.currentStep > 0 &&
-      (res.onboardingType === SETUP_TYPES.scratch ||
-        res.onboardingType === SETUP_TYPES.existing)
+      (res.setupType === SETUP_TYPES.scratch ||
+        res.setupType === SETUP_TYPES.existing)
     ) {
-      setSetupType(res.onboardingType);
+      setSetupType(res.setupType);
       setSetupStep(1);
     }
 
@@ -457,7 +456,7 @@ const useSetup = () => {
 
   useInterval(
     () => {
-      fetchEventsLogsData(onboardingType, onboardingStep);
+      fetchEventsLogsData(setupType, onboardingStep);
     },
     intervalIdForEventLogs.current === null ? null : EVENT_LOGS_POLLING_IN_MS
   );
@@ -519,7 +518,7 @@ const useSetup = () => {
     navigate,
     newGridName,
     onboardingStep,
-    onboardingType,
+    setupType,
     selectedOption,
     selectedRegion,
     setCurrentCloudProvider,
