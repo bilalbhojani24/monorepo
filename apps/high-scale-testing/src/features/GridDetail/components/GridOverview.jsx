@@ -38,10 +38,6 @@ const GridOverview = () => {
   let stats;
   let status;
 
-  if (selectedGridData && !Object.keys(selectedGridData).length) {
-    return <></>;
-  }
-
   let gridDetailData = [
     {
       title: 'Grid Name',

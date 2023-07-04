@@ -16,9 +16,6 @@ const TestOnStaging = ({ containerClassName }) => (
               <p className="text-base-900 mb-2">Download CLI</p>
               <CodeSnippet
                 code="npm install @browserstack/browserstack-cli"
-                // copyCallback={() => {
-                //   copyCallbackFnForNewSetup('init');
-                // }}
                 language="npm"
                 showLineNumbers={false}
                 singleLine={false}
@@ -36,9 +33,6 @@ const TestOnStaging = ({ containerClassName }) => (
                 code={`/* Create HST configuration profile with AWS credentials */
 browserstack-cli ats connect grid ---bstack-username <userName> 
 --bstack-accesskey <accessKey> --use-staging true`}
-                // copyCallback={() => {
-                //   copyCallbackFnForNewSetup('init');
-                // }}
                 language="npm"
                 showLineNumbers={false}
                 singleLine={false}

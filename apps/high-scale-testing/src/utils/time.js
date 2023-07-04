@@ -1,4 +1,7 @@
-// Todo: Document the function :)
+/*
+ * This function return the relative value of the time passed in
+ * @params absoluteTime - absolute value of the time
+ */
 const calculateRelativeTime = (absoluteTime) => {
   const oldTimestamp = new Date(absoluteTime).getTime();
   const oldSeconds = Math.floor(oldTimestamp / 1000);
