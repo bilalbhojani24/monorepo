@@ -99,7 +99,7 @@ const DraggableContainer = ({ children, position, positionRef }) => {
     >
       <div
         ref={widgetRef}
-        className={'border-base-200 absolute top-0 z-10 flex flex-col overflow-hidden rounded-md border border-solid transform-gpu drop-shadow-lg'.concat(
+        className={'border-base-200 fixed top-0 z-10 flex flex-col overflow-hidden rounded-md border border-solid transform-gpu drop-shadow-lg'.concat(
           widgetPosition ? '' : ' hidden'
         )}
         style={{

@@ -22,9 +22,9 @@ const DraggableResizable = ({ children, position, positionRef }) => {
   // initial widget height should be 90% of the window height
   // multiply by 0.9 to get 90% of the windowHeight
   const widgetInitialHeight =
-    windowHeight * 0.9 < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
+    windowHeight * 0.9 - 24 < DEFAULT_WIDGET_DIMENSIONS.MIN[1]
       ? DEFAULT_WIDGET_DIMENSIONS.MIN[1]
-      : windowHeight * 0.9;
+      : windowHeight * 0.9 - 24;
   const [widgetDimensions, setWidgetDimensions] = useState({
     height: widgetInitialHeight,
     width: DEFAULT_WIDGET_DIMENSIONS.MIN[0]
@@ -144,7 +144,7 @@ const DraggableResizable = ({ children, position, positionRef }) => {
     >
       <div
         ref={widgetRef}
-        className={'border-base-200 absolute top-0 z-10 overflow-hidden rounded-md border bg-white transform-gpu drop-shadow-lg'.concat(
+        className={'border-base-200 fixed top-0 z-10 overflow-hidden rounded-md border bg-white transform-gpu drop-shadow-lg'.concat(
           widgetPosition ? '' : ' hidden'
         )}
       >
