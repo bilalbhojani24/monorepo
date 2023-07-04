@@ -16,7 +16,7 @@ import {
   getCurrentOnboardingTooltipcount,
   getShowOnboardingTooltips
 } from 'features/GridDetail/slices/selector';
-import { getUserDetails } from 'globalSlice/selector';
+import { getLastKnownSetupType, getUserDetails } from 'globalSlice/selector';
 import { getEnvConfig } from 'utils/common';
 import { logHSTEvent } from 'utils/logger';
 
@@ -31,6 +31,7 @@ const useLayout = () => {
   const currentOnboardingTooltipCount = useSelector(
     getCurrentOnboardingTooltipcount
   );
+  const lastKnownSetupType = useSelector(getLastKnownSetupType);
   const selectedGridData = useSelector(getSelectedGridData);
   const showOnboardingTooltips = useSelector(getShowOnboardingTooltips);
   const userDetails = useSelector(getUserDetails);
@@ -129,6 +130,7 @@ const useLayout = () => {
   return {
     currentOnboardingTooltipCount,
     isCurrent,
+    lastKnownSetupType,
     navigate,
     navigationClickHandler,
     primaryNavs,

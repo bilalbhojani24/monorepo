@@ -22,6 +22,7 @@ const Layout = () => {
   const {
     currentOnboardingTooltipCount,
     isCurrent,
+    lastKnownSetupType,
     navigate,
     navigationClickHandler,
     primaryNavs,
@@ -47,7 +48,9 @@ const Layout = () => {
             ctaButton={
               <Button
                 colors="white"
-                onClick={() => navigate(`${ROUTES.CREATE_GRID}?type=CLI`)}
+                onClick={() =>
+                  navigate(`${ROUTES.SETUP}?type=${lastKnownSetupType}`)
+                }
               >
                 Create Grid
               </Button>
