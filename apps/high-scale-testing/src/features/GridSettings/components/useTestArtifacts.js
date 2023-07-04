@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
-import { getGridsData } from 'features/GridConsole/slices/selector';
+import { getSelectedGridData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 const useTestArtifacts = (notifactionComponent) => {
   // All Store variables:
-  const gridData = useSelector(getGridsData);
+  const selectedGridData = useSelector(getSelectedGridData);
   const userDetails = useSelector(getUserDetails);
 
   // All State variables:
@@ -19,18 +19,22 @@ const useTestArtifacts = (notifactionComponent) => {
   const [logsRetentionValue, setLogsRetentionValue] = useState(false);
   const [videoLogValue, setVideoLogsValue] = useState(false);
 
-  const updateGridGeneralSettings = (settingsObj) => {
-    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
-      setIsSaveButtonDisabled(true);
-      setIsSavingInProgress(false);
+  const isTrialGridUsed = selectedGridData.trialGrid?.isUsed || false;
 
-      if (d.status === 200) {
-        notify(notifactionComponent, {
-          position: 'top-right',
-          duration: 4000
-        });
+  const updateGridGeneralSettings = (settingsObj) => {
+    updateSettings(userDetails.id, selectedGridData.id, settingsObj).then(
+      (d) => {
+        setIsSaveButtonDisabled(true);
+        setIsSavingInProgress(false);
+
+        if (d.status === 200) {
+          notify(notifactionComponent, {
+            position: 'top-right',
+            duration: 4000
+          });
+        }
       }
-    });
+    );
   };
 
   const frameworkLogsChangeHandler = (e) => {
@@ -40,7 +44,7 @@ const useTestArtifacts = (notifactionComponent) => {
   };
 
   const logsRetentionChangeHandler = (e) => {
-    setLogsRetentionValue(parseInt(e.target.value));
+    setLogsRetentionValue(parseInt(e.target.value, 10));
     setIsSaveButtonDisabled(false);
   };
 
@@ -66,12 +70,12 @@ const useTestArtifacts = (notifactionComponent) => {
   };
 
   useEffect(() => {
-    if (Object.keys(gridData).length > 0) {
-      setFrameworkLogsValue(gridData.testArtifacts.frameworkLogs);
-      setLogsRetentionValue(gridData.testArtifacts.logsRetention);
-      setVideoLogsValue(gridData.testArtifacts.videoLogs);
+    if (Object.keys(selectedGridData).length > 0) {
+      setFrameworkLogsValue(selectedGridData.testArtifacts.frameworkLogs);
+      setLogsRetentionValue(selectedGridData.testArtifacts.logsRetention);
+      setVideoLogsValue(selectedGridData.testArtifacts.videoLogs);
     }
-  }, [gridData]);
+  }, [selectedGridData]);
 
   return {
     frameworkLogsChangeHandler,
@@ -80,6 +84,7 @@ const useTestArtifacts = (notifactionComponent) => {
     logsRetentionValue,
     isSaveButtonDisabled,
     isSavingInProgress,
+    isTrialGridUsed,
     saveBtnClickhandler,
     videoLogsChangeHandler,
     videoLogValue
