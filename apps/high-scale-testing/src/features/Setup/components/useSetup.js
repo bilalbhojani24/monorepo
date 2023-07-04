@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useInterval, useMountEffect } from '@browserstack/hooks';
@@ -42,6 +42,7 @@ import {
 import { SETUP_GUIDE } from 'constants/strings';
 import { setTrialGridUsed } from 'globalSlice/index';
 import {
+  getInstanceTypes,
   getShowSetup,
   getTrialGrid,
   getUserDetails,
@@ -56,18 +57,18 @@ const useSetup = () => {
   const navigate = useNavigate();
 
   // All Store variables:
+  const allAvailableInstanceTypes = useSelector(getInstanceTypes);
   const { isExpired: isTrialGridExpired, isUsed: isTrialGridUsed } =
     useSelector(getTrialGrid);
   const showSetup = useSelector(getShowSetup);
   const userDetails = useSelector(getUserDetails);
   const userHasSessions = useSelector(getUserHasSessions);
 
-  // All Constants:
-  const CODE_SNIPPETS_FOR_SCRATCH = CODE_SNIPPETS_SCRATCH(userDetails);
-
   // All State variables:
   const [allAvailableRegionsByProvider, setAllAvailableRegionsByProvider] =
     useState({});
+  const [allAvailableSubnets, setAllAvailableSubnets] = useState([]);
+  const [allAvailableVPCIDs, setAllAvailableVPCIDs] = useState([]);
   const [breadcrumbDataTrace, setBreadcrumbDataTrace] = useState();
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
     useState({ index: 0, name: GRID_MANAGER_NAMES.helm });
@@ -81,12 +82,19 @@ const useSetup = () => {
   const [eventLogsStatus, setEventLogsStatus] = useState(
     EVENT_LOGS_STATUS.NOT_STARTED
   );
+  const [gridProfileData, setGridProfileData] = useState([]);
   const [headerText, setHeaderText] = useState(
     HEADER_TEXTS_OBJECT(userDetails).intro
   );
   const [isGridSetupComplete, setIsGridSetupComplete] = useState(false);
+  const [isSubnetLoading, setIsSubnetLoading] = useState(false);
+  const [isVPCLoading, setIsVPCLoading] = useState(false);
   const [onboardingStep, setSetupStep] = useState(0);
+  const [selectedGridProfile, setSelectedGridProfile] = useState('default');
+  const [selectedSubnetValues, setSelectedSubnetValues] = useState([]);
+  const [selectedVPCValue, setSelectedVPCValue] = useState('');
   const [setupType, setSetupType] = useState(SETUP_TYPES.scratch);
+  const [subnetQuery, setSubnetQuery] = useState('');
   const [currentProvidersRegions, setCurrentProvidersRegions] = useState(
     allAvailableRegionsByProvider?.[DEFAULT_CLOUD_PROVIDER]
   );
@@ -96,11 +104,18 @@ const useSetup = () => {
   });
   const [newGridName, setNewGridName] = useState(null);
   const [pollForEventLogs, setPollForEventLogs] = useState(true);
+  const [showCustomiseGridDetailsModal, setShowCustomiseGridDetailsModal] =
+    useState(false);
+  const [selectedGridName, setSelectedGridName] =
+    useState('high-scale-testing');
+  const [selectedInstanceType, setSelectedInstanceType] = useState();
   const [showEventLogsModal, setShowEventLogsModal] = useState(true);
   const [showGridHeartBeats, setShowGridHeartbeats] = useState(true);
   const [showSetupStatusModal, setShowSetupStatusModal] = useState(false);
   const [showTrialGridBanner, setShowTrialGridBanner] = useState(false);
   const [subHeaderText, setSubHeaderText] = useState(SUB_TEXTS_OBJECT.intro);
+  const [subnetFilteredOptions, setSubnetFilteredOptions] =
+    useState(allAvailableSubnets);
   const [selectedOption, setSelectedOption] = useState(
     STEP_1_RADIO_GROUP_OPTIONS[0]
   );
@@ -110,8 +125,34 @@ const useSetup = () => {
   const [useTrialGridBannerText, setUseTrialGridBannerText] = useState(
     BannerMessages.trialGridSetupPageIntro
   );
+  const [VPCFilteredOptions, setVPCFilteredOptions] =
+    useState(allAvailableVPCIDs);
+  const [VPCQuery, setVPCQuery] = useState('');
 
   const intervalIdForEventLogs = useRef();
+
+  // All Constants:
+  const CODE_SNIPPETS_FOR_SCRATCH = CODE_SNIPPETS_SCRATCH(userDetails);
+  const currentProvidersInstanceTypes =
+    allAvailableInstanceTypes?.[DEFAULT_CLOUD_PROVIDER.value] || [];
+
+  const displaySubnetsItemsArray = subnetQuery
+    ? subnetFilteredOptions
+    : allAvailableSubnets;
+
+  const displayVPCItemsArray = VPCQuery
+    ? VPCFilteredOptions
+    : allAvailableVPCIDs;
+
+  const isExactSubnetMatch = useMemo(
+    () => displaySubnetsItemsArray.find((item) => item.label === subnetQuery),
+    [subnetQuery, displaySubnetsItemsArray]
+  );
+
+  const isExactVPCMatch = useMemo(
+    () => displayVPCItemsArray.find((item) => item.label === VPCQuery),
+    [VPCQuery, displayVPCItemsArray]
+  );
 
   // All functions:
   const breadcrumbStepClickHandler = (event, stepData) => {
@@ -219,6 +260,11 @@ const useSetup = () => {
     logHSTEvent([], 'web_events', AGNoRetrySetupStepsExecuted, eventData);
   };
 
+  const customiseBtnHandler = () => {
+    console.log('Log: customiseBtnHandler');
+    setShowCustomiseGridDetailsModal(true);
+  };
+
   const exploreAutomationClickHandler = () => {
     logHSTEvent(['amplitude'], 'web_events', AGSuccessGridModalInteracted, {
       action: 'console_clicked'
@@ -229,6 +275,10 @@ const useSetup = () => {
 
   const handleDismissClick = () => {
     setShowSetupStatusModal(false);
+  };
+
+  const instanceChangeHandler = (e) => {
+    setSelectedInstanceType(e);
   };
 
   const logTermsConditionsEvents = () => {
@@ -253,11 +303,43 @@ const useSetup = () => {
     });
   };
 
+  const subnetChangeHandler = (currentItem) => {
+    const foundObject = allAvailableSubnets.find(
+      (obj) => obj.value === currentItem.value
+    );
+
+    if (!foundObject) {
+      setAllAvailableSubnets([...allAvailableSubnets, ...currentItem]);
+    }
+
+    setSelectedSubnetValues(currentItem);
+    setSubnetQuery('');
+  };
+
+  const subnetInputChangeHandler = useCallback(
+    (val) => {
+      setIsSubnetLoading(false);
+      setTimeout(() => {
+        setSubnetQuery(val);
+
+        const filtered = allAvailableSubnets.filter((fv) =>
+          fv.label
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(val.toLowerCase().replace(/\s+/g, ''))
+        );
+        setSubnetFilteredOptions(filtered);
+        setIsSubnetLoading(false);
+      }, 0);
+    },
+    [allAvailableSubnets]
+  );
+
   const useTrialGridClickHandler = async () => {
     setUseTrialGridLoading(true);
     await createTrialGridForUser({
       userId: userDetails.id,
-      setupType: setupType
+      setupType
     }).then((res) => {
       const { gridId } = res.data;
       if (res.status === 200) {
@@ -288,7 +370,107 @@ const useSetup = () => {
     setShowEventLogsModal(true);
   };
 
+  const vpcChangeHandler = (currentItem) => {
+    const foundObject = allAvailableVPCIDs.find(
+      (obj) => obj.value === currentItem.value
+    );
+
+    if (!foundObject) {
+      setAllAvailableVPCIDs([...allAvailableVPCIDs, currentItem]);
+    }
+
+    setSelectedVPCValue(currentItem);
+    setVPCQuery('');
+  };
+
+  const VPCInputChangeHandler = useCallback(
+    (val) => {
+      setIsVPCLoading(true);
+      setTimeout(() => {
+        setVPCQuery(val);
+
+        const filtered = allAvailableVPCIDs.filter((fv) =>
+          fv.label
+            .toLowerCase()
+            .replace(/\s+/g, '')
+            .includes(val.toLowerCase().replace(/\s+/g, ''))
+        );
+        setVPCFilteredOptions(filtered);
+        setIsVPCLoading(false);
+      }, 0);
+    },
+    [allAvailableVPCIDs]
+  );
+
+  const saveBtnClickHandler = () => {
+    console.log('Log: WIP');
+  };
+
   // All useEffects:
+
+  useEffect(() => {
+    console.log('Log: gridProfileData:', gridProfileData);
+    setSelectedGridName(selectedGridProfile.value);
+
+    if (selectedGridProfile) {
+      const selectedGridProfileData = gridProfileData;
+      console.log('Log: selectedGridProfileData:', selectedGridProfileData);
+
+      // --- Build Subnets ---
+      const tmpSubnets = selectedGridProfileData?.subnets;
+
+      const tmpSubnetsArray = [];
+      tmpSubnets?.forEach((e) => {
+        tmpSubnetsArray.push({
+          label: e,
+          value: e
+        });
+      });
+
+      setAllAvailableSubnets(tmpSubnetsArray);
+      // --- X --- Build Subnets --- X ---
+
+      // --- Build VPCs ---
+      const tmpVpcs = selectedGridProfileData?.vpcs;
+
+      const tmpVPCsArray = [];
+      tmpVpcs?.forEach((e) => {
+        tmpVPCsArray.push({
+          label: e,
+          value: e
+        });
+      });
+
+      setAllAvailableVPCIDs(tmpVPCsArray);
+      // --- X --- Build VPCs --- X ---
+
+      const currentVPC = selectedGridProfileData?.profile.vpc || '';
+      setSelectedVPCValue({
+        label: currentVPC,
+        value: currentVPC
+      });
+
+      const currentSubnets = selectedGridProfileData?.profile.subnets;
+      const tmpCurrentSubnetsArray = [];
+      currentSubnets?.forEach((e) =>
+        tmpCurrentSubnetsArray.push({ label: e, value: e })
+      );
+      setSelectedSubnetValues(tmpCurrentSubnetsArray);
+
+      setSelectedRegion(
+        allAvailableRegionsByProvider[currentSelectedCloudProvider.value].find(
+          (e) => e.value === selectedGridProfileData?.profile.region
+        )
+      );
+
+      setSelectedInstanceType(
+        allAvailableInstanceTypes[currentSelectedCloudProvider.value].find(
+          (e) => e.label === selectedGridProfileData?.profile.instanceType
+        )
+      );
+    }
+  }, [gridProfileData]);
+
   useEffect(() => {
     if (onboardingStep > 0) {
       setHeaderText(HEADER_TEXTS_OBJECT(userDetails)[setupType]);
@@ -468,6 +650,7 @@ const useSetup = () => {
 
       setAllAvailableRegionsByProvider(res.scratch['step-1'].regions);
       setCodeSnippetsForExistingSetup(res.existing);
+      setGridProfileData(res.gridProfile);
       return response.data;
     };
 
@@ -486,8 +669,6 @@ const useSetup = () => {
 
   return {
     CODE_SNIPPETS_FOR_SCRATCH,
-    DEFAULT_CLOUD_PROVIDER,
-    SCRATCH_RADIO_GROUP_OPTIONS,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
@@ -502,40 +683,59 @@ const useSetup = () => {
     copyCallbackFnForNewSetup,
     copySetupFailureCode,
     currentStep,
+    currentProvidersInstanceTypes,
     currentProvidersRegions,
     currentSelectedCloudProvider,
+    customiseBtnHandler,
+    displaySubnetsItemsArray,
+    displayVPCItemsArray,
     eventLogsCode,
     eventLogsStatus,
     exploreAutomationClickHandler,
     frameworkURLs,
     handleDismissClick,
     headerText,
+    isExactSubnetMatch,
+    isExactVPCMatch,
     isGridSetupComplete,
+    instanceChangeHandler,
+    isSubnetLoading,
     isTrialGridExpired,
     isTrialGridUsed,
+    isVPCLoading,
     logTermsConditionsEvents,
     logViewDocumentationEvents,
     navigate,
     newGridName,
     onboardingStep,
+    saveBtnClickHandler,
     setupType,
-    selectedOption,
+    selectedInstanceType,
     selectedRegion,
-    setCurrentCloudProvider,
+    selectedSubnetValues,
+    selectedVPCValue,
     setSelectedOption,
-    setSelectedRegion,
+    setSubnetQuery,
+    setVPCQuery,
+    showCustomiseGridDetailsModal,
     showEventLogsModal,
     showGridHeartBeats,
     showSetupStatusModal,
     showTrialGridBanner,
     subHeaderText,
+    subnetChangeHandler,
+    subnetInputChangeHandler,
+    subnetQuery,
     totalSteps,
     userHasSessions,
     useTrialGridBannerText,
     useTrialGridClickHandler,
     useTrialGridLoading,
     viewAllBuildsClickHandler,
-    viewEventLogsClickHandler
+    viewEventLogsClickHandler,
+    vpcChangeHandler,
+    VPCInputChangeHandler,
+    VPCQuery
   };
 };
 
