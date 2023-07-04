@@ -7,7 +7,8 @@ const initialState = {
     closedTRDaily: true,
     typeOfTC: true,
     trendOfTC: true,
-    jiraIssues: true
+    jiraIssues: true,
+    automationStats: true
   }
 };
 

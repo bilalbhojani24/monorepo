@@ -10,6 +10,8 @@ import {
   getShortOSName
 } from 'utils/common';
 
+const getMaxItemsToShow = () => (window?.innerWidth < 1440 ? 1 : 2);
+
 const getIcon = (item) => {
   if (item?.device || item?.device === '') {
     return getIconName(item?.name, item?.device?.name || item?.device);
@@ -48,6 +50,7 @@ export default function SnPPlatforms({
   onViewMoreClick,
   wrapperClassName
 }) {
+  const MAX_ITEMS_TO_RENDER = getMaxItemsToShow();
   const browsersPlatforms = [...platforms, ...browsers];
 
   if (!browsersPlatforms?.length) {
@@ -75,8 +78,8 @@ export default function SnPPlatforms({
       </div>
     );
   }
-  if (browsersPlatforms?.length > 2) {
-    const itemsToShow = browsersPlatforms.slice(0, 2);
+  if (browsersPlatforms?.length > MAX_ITEMS_TO_RENDER) {
+    const itemsToShow = browsersPlatforms.slice(0, MAX_ITEMS_TO_RENDER);
     return (
       <div
         className={twClassNames(
@@ -98,12 +101,12 @@ export default function SnPPlatforms({
           wrapperClassName="p-3"
           content={
             <RestPlatformsAndBrowsers
-              browsersPlatforms={browsersPlatforms.slice(2)}
+              browsersPlatforms={browsersPlatforms.slice(MAX_ITEMS_TO_RENDER)}
             />
           }
         >
           <O11yBadge
-            text={`+${browsersPlatforms.length - 2}`}
+            text={`+${browsersPlatforms.length - MAX_ITEMS_TO_RENDER}`}
             onClick={onViewMoreClick}
           />
         </O11yTooltip>

@@ -1,5 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
+import { ADV_FILTER_TYPES } from '../constants';
+
 export const getCurrentFilterCategory = (state) =>
   state.allFilters.currentCategory;
 
@@ -57,4 +59,17 @@ export const getSelectedFilterByBooleanType = (type) =>
 export const findAppliedFilterByType = (type) =>
   createSelector(getAllAppliedFilters, (appliedFilters) =>
     appliedFilters.find((item) => item.type === type)
+  );
+
+export const getSlideoverFiltersApplied = () =>
+  createSelector(
+    getAllAppliedFilters,
+    (appliedFilters) =>
+      appliedFilters?.filter(
+        (appFilter) =>
+          ![
+            ADV_FILTER_TYPES.search.key,
+            ADV_FILTER_TYPES.dateRange.key
+          ].includes(appFilter.type)
+      ) || []
   );

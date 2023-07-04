@@ -289,7 +289,7 @@ const TestList = ({
                 buttonProps={
                   isFiltersApplied
                     ? {
-                        children: ' View All Tests',
+                        children: 'View All Tests',
                         onClick: viewAllTests,
                         size: 'default'
                       }

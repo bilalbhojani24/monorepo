@@ -9,6 +9,7 @@ projects=(
   "packages/services"
   "packages/integrations"
   "packages/growth"
+  "packages/webex"
 )
 
 # Set default value for master_pull to true

@@ -17,3 +17,4 @@ export const ACTIVE_TEST_RUNS_COLOR = {
 };
 
 export const NO_DATA_TEXT = 'No data to display';
+export const TOTAL_TC_TEXT = 'Total Test Cases';

@@ -90,5 +90,6 @@ export const noNavRoutes = [
   AppRoute.LANDING,
   AppRoute.ONBOARDING,
   AppRoute.NOT_FOUND,
-  AppRoute.NO_ACCESS
+  AppRoute.NO_ACCESS,
+  AppRoute.REQUEST_ACCESS
 ];

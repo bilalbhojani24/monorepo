@@ -53,7 +53,8 @@ const TableCell = ({
             variant === CELL_VARIANT[1],
           [`text-${align}`]: align,
           [textTransform]: textTransform,
-          'bg-base-50 border-base-300 sticky top-0 z-10 border-b': isSticky
+          'bg-white border-base-300 sticky top-0 z-10 border-b bg-opacity-75 backdrop-blur backdrop-filter':
+            isSticky
         },
         'first:pl-4 sm:first:pl-6 last:pr-4 sm:last:pr-6',
         wrapperClassName

@@ -60,3 +60,16 @@ export const getBuildFilterDetails = async ({ projectNormalisedName }) => {
   endpoint += window.location.search;
   return axios.get(endpoint);
 };
+
+export const archiveBuildsApi = async ({
+  projectNormalisedName,
+  builds,
+  hasSelectedAll
+}) =>
+  axios.patch(
+    `${versionedBaseRoute()}/projects/${projectNormalisedName}/builds`,
+    {
+      builds,
+      hasSelectedAll
+    }
+  );

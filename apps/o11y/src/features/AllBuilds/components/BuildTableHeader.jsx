@@ -5,20 +5,12 @@ import { roundedTableHeaderHack } from 'constants/common';
 
 import { TABLE_CLASSES } from '../constants';
 
+import BuildSelectionHeader from './BuildSelectionHeader';
+
 function BuildTableHeader() {
   return (
     <O11yTableRow>
-      <O11yTableCell
-        wrapperClassName={twClassNames(
-          TABLE_CLASSES.HEADER_COMMON,
-          TABLE_CLASSES.COL.BUILD,
-          roundedTableHeaderHack.common,
-          roundedTableHeaderHack.left
-        )}
-        isSticky
-      >
-        BUILD
-      </O11yTableCell>
+      <BuildSelectionHeader />
       <O11yTableCell
         wrapperClassName={twClassNames(
           TABLE_CLASSES.COL.TEST,

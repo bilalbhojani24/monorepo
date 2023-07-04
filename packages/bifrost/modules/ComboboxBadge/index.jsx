@@ -24,6 +24,9 @@ const ComboboxBadge = ({
   addNewItemComponent,
   comboboxProps,
   comboboxItemProps,
+  comboboxOptionGroupProps,
+  comparator,
+  debounceThreeshold,
   label,
   defaultValue,
   MenuContainer,
@@ -45,7 +48,7 @@ const ComboboxBadge = ({
     visibleItems,
     currentSelected,
     query,
-    handleChange,
+    debouncedQueryChange,
     onChangeCombobox,
     onClearAllRef,
     onBadgeCloseRef,
@@ -60,7 +63,9 @@ const ComboboxBadge = ({
     onChange,
     onClearAll,
     onBadgeCrossClick,
-    comboboxProps
+    comparator,
+    comboboxProps,
+    debounceThreeshold
   });
 
   const isExactMatch = useMemo(
@@ -75,22 +80,24 @@ const ComboboxBadge = ({
       onChange={onChangeCombobox}
       {...comboboxProps}
       onOpenChange={(status) => {
-        if (!status) setQuery('');
-        handleChange('');
+        if (!status) {
+          setQuery('');
+          debouncedQueryChange('');
+        }
       }}
     >
       {label}
       <ComboboxBadgeTrigger
         placeholder={placeholder}
         onInputValueChange={(e) => {
-          handleChange(e.target.value);
+          debouncedQueryChange(e.target.value);
         }}
         onBadgeClose={onBadgeCloseRef}
         currentSelected={currentSelected}
         onClearAll={onClearAllRef}
       />
 
-      <MenuContainer>
+      <MenuContainer {...comboboxOptionGroupProps}>
         {visibleItems.length > 0 ? (
           visibleItems.map((opt) => (
             <ComboboxOptionItem
@@ -120,6 +127,7 @@ ComboboxBadge.propTypes = {
   addNewItemComponent: node.isRequired,
   comboboxProps: shape({}),
   comboboxItemProps: shape({}),
+  comboboxOptionGroupProps: shape({}),
   defaultValue: oneOfType([
     arrayOf(
       shape({
@@ -134,6 +142,8 @@ ComboboxBadge.propTypes = {
       image: string
     })
   ]),
+  debounceThreeshold: number,
+  comparator: func,
   deleteOnBackspace: func,
   label: node,
   MenuContainer: func,
@@ -173,8 +183,11 @@ ComboboxBadge.propTypes = {
 ComboboxBadge.defaultProps = {
   comboboxItemProps: {},
   comboboxProps: {},
+  comboboxOptionGroupProps: {},
+  comparator: null,
   label: '',
   defaultValue: undefined,
+  debounceThreeshold: 0,
   deleteOnBackspace: null,
   MenuContainer: ComboboxOptionGroup,
   noResultText: 'No results found',

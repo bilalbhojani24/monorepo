@@ -16,6 +16,7 @@ import {
 import useFloatingComponentTracking from 'hooks/useFloatingComponentTracking';
 import PropTypes from 'prop-types';
 
+import ArchiveSwitchFilter from './ArchiveSwitchFilter';
 import BuildFrameworkFilter from './BuildFrameworkFilter';
 import BuildStatusFilter from './BuildStatusFilter';
 import DateRangeFilter from './DateRangeFilter';
@@ -71,6 +72,7 @@ const Filters = ({ onApplyFilters }) => {
               <TagsFilters />
               <BuildFrameworkFilter />
               <DateRangeFilter setValidStatus={setValidStatus} />
+              <ArchiveSwitchFilter />
             </div>
           )}
         </O11ySlideoverBody>

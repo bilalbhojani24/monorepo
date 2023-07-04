@@ -1,4 +1,4 @@
-import { ENV_MAPPING } from './stageConfigMapping';
+import { ENV_MAPPING } from './envConfigMapping';
 
 const EDS_STAGING_SERVER = 'edsstaging.bsstag.com';
 

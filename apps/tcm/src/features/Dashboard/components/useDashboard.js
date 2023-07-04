@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   getActiveTestRunsAPI,
+  getAutomationStatsAPI,
   getClosedTestRunsDailyAPI,
   getClosedTestRunsMonthlyAPI,
   getIssuesCountAPI,
@@ -41,6 +42,7 @@ export default function useDashboard() {
   const [closedTestRunsDailyLineOptions, setClosedTestRunsDailyLineOptions] =
     useState(null);
   const [jiraIssuesOptions, setJiraIssuesOptions] = useState(null);
+  const [automationStats, setAutomationStats] = useState(null);
 
   const isLoadingStates = useSelector((state) => state.dashboard.isLoading);
   const currentProjectName = useSelector(
@@ -168,12 +170,13 @@ export default function useDashboard() {
 
   const fetchTrendOfTestCases = () => {
     projectIdCheck('trendOfTC', getTestCaseCountTrendAPI, (res) => {
+      const orderdKeys = res?.order || Object.keys(res?.data);
       setTestCasesTrendOptions(
         lineOptionsCreator({
           showLegend: res ? !res?.empty_data : false,
           chartData: res?.empty_data
             ? []
-            : Object.keys(res?.data).map((item, index) => ({
+            : orderdKeys.map((item, index) => ({
                 color: TEST_CASES_TYPES_COLORS[index],
                 name: item,
                 data: res?.data[item] ? Object.values(res?.data[item]) : []
@@ -210,6 +213,27 @@ export default function useDashboard() {
     });
   };
 
+  const fetchAutomationStats = () => {
+    projectIdCheck('automationStats', getAutomationStatsAPI, (res) => {
+      const automationStatsData = res;
+
+      if (automationStatsData.empty_data) {
+        Object.entries(automationStatsData).forEach(([key]) => {
+          automationStatsData[key] = '-';
+        });
+      }
+
+      setAutomationStats({
+        ...automationStatsData,
+        automated_coverage: `${
+          typeof automationStatsData.automated_coverage === 'number'
+            ? `${automationStatsData.automated_coverage.toFixed(1)}%`
+            : '-'
+        }`
+      });
+    });
+  };
+
   const fetchAllChartData = () => {
     fetchActiveTestRuns(); // Active test runs - pie
     fetchClosedTestRunsMonthly(); // Closed Test Runs Monthly- line
@@ -217,6 +241,7 @@ export default function useDashboard() {
     fetchTestCaseTypeSplit(); // Type of test cases - pie
     fetchTrendOfTestCases(); // Trend of Test Cases - muli line
     fetchJiraIssues(); // JIRA Issues (Last 12 Months) - bar
+    fetchAutomationStats(); // Automation metrics
   };
 
   const logTheEvent = (eventName) => {
@@ -253,6 +278,7 @@ export default function useDashboard() {
     projectId,
     isLoadingStates,
     fetchAllChartData,
-    onDVFooterClick
+    onDVFooterClick,
+    automationStats
   };
 }

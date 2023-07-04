@@ -1,12 +1,16 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Button } from '@browserstack/bifrost';
+import { useDispatch, useSelector } from 'react-redux';
+import { TooltipBody } from '@browserstack/bifrost';
+import { twClassNames } from '@browserstack/utils';
+import { O11yButton, O11yTooltip } from 'common/bifrostProxy';
 import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { MODAL_TYPES } from 'constants/modalTypes';
+import { getBuildMeta } from 'features/BuildDetails/slices/selectors';
 import PropTypes from 'prop-types';
 
 export default function TopErrorsBulkUpdateTrigger({ clusterId, buildId }) {
   const dispatch = useDispatch();
+  const buildMeta = useSelector(getBuildMeta);
 
   const handleClickTrigger = () => {
     dispatch(
@@ -19,16 +23,33 @@ export default function TopErrorsBulkUpdateTrigger({ clusterId, buildId }) {
       })
     );
   };
+  const isReadOnly = buildMeta?.data?.isArchived;
   return (
-    <div className="bg-base-50 border-base-300 flex justify-between border-b py-2 px-4 text-sm">
+    <div className="bg-base-50 border-base-300 flex justify-between border-b px-4 py-2 text-sm">
       <div>Failed tests</div>
-      <Button
-        variant="minimal"
-        wrapperClassName="text-brand-500 font-semibold text-xs"
-        onClick={handleClickTrigger}
+      <O11yTooltip
+        theme="dark"
+        placementSide="top"
+        wrapperClassName="py-2"
+        content={
+          <TooltipBody>
+            <p className="text-base-300 text-sm">
+              Bulk tagging is not available for archived build run.
+            </p>
+          </TooltipBody>
+        }
       >
-        Bulk update failure category
-      </Button>
+        <O11yButton
+          variant="minimal"
+          wrapperClassName={twClassNames('text-xs', {
+            'text-base-400': isReadOnly
+          })}
+          onClick={handleClickTrigger}
+          disabled={isReadOnly}
+        >
+          Bulk update failure category
+        </O11yButton>
+      </O11yTooltip>
     </div>
   );
 }

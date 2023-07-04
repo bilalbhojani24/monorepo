@@ -31,10 +31,7 @@ const TestNetworkLogs = () => {
       }${versionedBaseRoute()}/testRuns/${currentTestRunId}/networkLogs?trim=true`}
       fetchOptions={{
         baseURL: stageConfig.apiUrl,
-        withCredentials: stageConfig.withCredentials,
-        headers: {
-          'x-cookie-prefix': stageConfig.cookiePrefix
-        }
+        withCredentials: stageConfig.withCredentials
       }}
     />
   );

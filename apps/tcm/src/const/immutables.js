@@ -6,11 +6,13 @@ export const PRODUCTION_HOST = 'test-management.browserstack.com';
 
 export const moveFolderOptions = [
   {
-    id: 'specificLocation',
-    name: 'Specific Location'
+    value: 'specificLocation',
+    label: 'Specific Location'
   },
   {
-    id: 'rootFolder',
-    name: 'Root Folder'
+    value: 'rootFolder',
+    label: 'Root Folder'
   }
 ];
+
+export const PRODUCT_NAV_IDENTIFIER = 'Test Management';

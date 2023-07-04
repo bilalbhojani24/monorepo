@@ -77,19 +77,17 @@ const FolderExplorerModal = ({
                 <div className="mb-4 flex items-center justify-start pt-1 text-sm">
                   <span className="mr-2">{radioGroupTitle}</span>
                   <TMRadioGroup
-                    direction="horizontal"
-                    onChange={(e, selectedID) => {
-                      setPrimaryMoveLocation(selectedID);
+                    direction="inline"
+                    onChange={(selectedValue) => {
+                      setPrimaryMoveLocation(selectedValue);
                       setInternalAllFolders(null); // reset
                     }}
-                    selectedOption={{
-                      id: primaryMoveLocation
-                    }}
+                    value={primaryMoveLocation}
                     options={moveFolderOptions}
                   />
                 </div>
               )}
-              {primaryMoveLocation === moveFolderOptions[0].id ? (
+              {primaryMoveLocation === moveFolderOptions[0].value ? (
                 <div
                   className={twClassNames(
                     'border-base-300 mb-4 overflow-auto rounded-md border',
@@ -126,12 +124,12 @@ const FolderExplorerModal = ({
                 </div>
               ) : null}
               {(alertRequired ||
-                primaryMoveLocation === moveFolderOptions[1].id) && (
+                primaryMoveLocation === moveFolderOptions[1].value) && (
                 <TMAlerts
                   modifier="primary"
                   detailsNode={null}
                   description={
-                    primaryMoveLocation === moveFolderOptions[0].id
+                    primaryMoveLocation === moveFolderOptions[0].value
                       ? alertText
                       : rootFolderText
                   }
@@ -169,7 +167,7 @@ const FolderExplorerModal = ({
             <TMButton
               disabled={
                 !selectedFolder &&
-                primaryMoveLocation !== moveFolderOptions[1]?.id
+                primaryMoveLocation !== moveFolderOptions[1]?.value
               }
               variant="primary"
               wrapperClassName="ml-3"
