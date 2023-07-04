@@ -1,7 +1,7 @@
 import { getStorage, setStorage } from '@browserstack/utils';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getBuildInfoFromUuidApi } from 'api/builds';
-import { getProjectsListAPI, initO11y } from 'api/global';
+import { getProjectsListAPI, initO11y, upgradePlan } from 'api/global';
 import { PROJECT_NORMALISED_NAME_IDENTIFIER } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
 
@@ -47,6 +47,18 @@ export const getBuildInfoFromUuid = createAsyncThunk(
   }
 );
 
+export const o11yPlanUpgrade = createAsyncThunk(
+  `${SLICE_NAME}/o11yPlanUpgrade`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await upgradePlan();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
 const { actions, reducer } = createSlice({
   name: SLICE_NAME,
   initialState: {
@@ -66,7 +78,8 @@ const { actions, reducer } = createSlice({
     initData: {
       isLoading: true,
       data: null
-    }
+    },
+    planDetails: null
   },
   reducers: {
     setProjectList: (state, { payload }) => {
@@ -91,8 +104,24 @@ const { actions, reducer } = createSlice({
         state.projects.list = [payload, ...state.projects.list];
       }
     },
+    updateProjectData: (state, { payload }) => {
+      if (state.projects?.list?.length) {
+        const foundProjectIdx = state.projects.list.findIndex(
+          (project) => project.id === payload.id
+        );
+        if (foundProjectIdx !== -1) {
+          state.projects.list[foundProjectIdx] = {
+            ...state.projects.list[foundProjectIdx],
+            ...payload
+          };
+        }
+      }
+    },
     setHasProductInitFailed: (state, { payload }) => {
       state.hasProductInitFailed = payload;
+    },
+    updatePlanDetails: (state, { payload }) => {
+      state.planDetails = payload;
     },
     setHeaderSize: (state, { payload }) => {
       state.headerSize = payload;
@@ -185,6 +214,12 @@ const { actions, reducer } = createSlice({
           isLoading: false,
           data: payload
         };
+        if (!isEmpty(payload?.userDetails?.planDetails)) {
+          state.planDetails = payload.userDetails.planDetails;
+        }
+      })
+      .addCase(o11yPlanUpgrade.fulfilled, (state, { payload }) => {
+        state.planDetails = payload;
       });
   }
 });
@@ -195,9 +230,11 @@ export const {
   setHasAcceptedTnC,
   updateProjectList,
   setHasProductInitFailed,
+  updatePlanDetails,
   setHeaderSize,
   addActiveFloatingComponent,
   removeActiveFloatingComponent,
+  updateProjectData,
   findAndSetProjectActive
 } = actions;
 

@@ -75,6 +75,7 @@ export const ControlledBadgeCombobox = () => {
           console.log(removedItem);
           setSelected(val);
         }}
+        debounceThreeshold={400}
         onClearAll={(val) => {
           setSelected(val);
         }}
@@ -92,6 +93,15 @@ export const ControlledBadgeCombobox = () => {
           disabled: states.disable
         }}
         placeholder="Controlled combobox"
+        comparator={(option, query, selectedValues) =>
+          option.label.toLowerCase().includes(query.toLowerCase()) &&
+          !selectedValues.some(
+            (visibleOption) => visibleOption.value === option.value
+          )
+        }
+        onInputChange={(query) => {
+          console.log('query', query);
+        }}
       />
 
       <div className="mt-5 space-x-2">

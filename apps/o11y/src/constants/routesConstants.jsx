@@ -6,6 +6,7 @@ import NoAccessPage from 'features/NoAccessPage';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
 import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
+import SettingsRootHandler from 'features/Settings/containers/SettingsRootHandler';
 
 import { ROUTES } from './routes';
 
@@ -144,6 +145,11 @@ export const APP_ROUTES = [
             isProtected: true,
             component: <Settings />,
             children: [
+              {
+                path: ROUTES.settings,
+                isProtected: true,
+                component: <SettingsRootHandler />
+              },
               {
                 path: ROUTES.settings_general,
                 isProtected: true,

@@ -10,7 +10,7 @@ import {
   getBuildHistoryData,
   getBuildSummaryData
 } from 'features/TestsInsights/slices/testInsightsSlice';
-import { updateProjectList } from 'globalSlice/index';
+import { updateProjectData, updateProjectList } from 'globalSlice/index';
 
 import { getEnvConfig } from './common';
 
@@ -122,6 +122,16 @@ class O11yPusherEvents {
               })
             );
             break;
+          case PUSHER_EVENTS.BUILD_ARCHIVED:
+            this.dispatch(
+              updateBuildMeta({
+                buildUID: message?.uuid || '',
+                data: {
+                  isArchived: true
+                }
+              })
+            );
+            break;
           case PUSHER_EVENTS.NEW_PROJECT:
             this.dispatch(updateProjectList(message?.data || {}));
             break;
@@ -149,6 +159,22 @@ class O11yPusherEvents {
             }
             break;
           }
+          case PUSHER_EVENTS.SMART_TAG_RECALCULATION_STARTED:
+            this.dispatch(
+              updateProjectData({
+                id: message?.projectId || '',
+                isSmartTagReCalculating: true
+              })
+            );
+            break;
+          case PUSHER_EVENTS.SMART_TAG_RECALCULATION_COMPLETED:
+            this.dispatch(
+              updateProjectData({
+                id: message?.projectId || '',
+                isSmartTagReCalculating: false
+              })
+            );
+            break;
           default:
             break;
         }

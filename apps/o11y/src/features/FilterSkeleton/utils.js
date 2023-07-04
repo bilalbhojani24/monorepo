@@ -1,11 +1,17 @@
 import { listTreeCheckboxHelper } from '@browserstack/bifrost';
 import { O11Y_DATE_RANGE, o11yHistory } from 'constants/common';
 import isEmpty from 'lodash/isEmpty';
+import isNil from 'lodash/isNil';
 import { updateUrlQueryParam } from 'utils/common';
-import { getO11yTimeBounds } from 'utils/dateTime';
+import { getDateInFormat, getO11yTimeBounds } from 'utils/dateTime';
 
 import { resetFilters } from './slices/filterSlice';
-import { ADV_FILTER_TYPES, ADV_FILTERS_PREFIX } from './constants';
+import {
+  ADV_FILTER_FIELD_TYPES,
+  ADV_FILTER_TYPES,
+  ADV_FILTERS_FIELD_GROUPS,
+  ADV_FILTERS_PREFIX
+} from './constants';
 
 const ALL_FILTER_FIELD_KEYS = Object.values(ADV_FILTER_TYPES).map(
   (filterField) => filterField.key
@@ -232,4 +238,94 @@ const removeAllFilterFieldsFromParams = () => {
 export const resetAllAppliedFilters = () => (dispatch) => {
   dispatch(resetFilters());
   removeAllFilterFieldsFromParams();
+};
+
+// eslint-disable-next-line sonarjs/cognitive-complexity
+export const updatedFilterFields = (data, searchParams) => {
+  const selectedFilters = [];
+
+  if (!isEmpty(data?.applied)) {
+    const { applied } = data;
+    Object.keys(applied).forEach((appliedKey) => {
+      const fieldType = Object.keys(ADV_FILTERS_FIELD_GROUPS).find(
+        (filterFieldKey) =>
+          ADV_FILTERS_FIELD_GROUPS[filterFieldKey].includes(appliedKey)
+      );
+      const appliedValue = applied[appliedKey];
+      switch (fieldType) {
+        case ADV_FILTER_FIELD_TYPES.LIST:
+          if (!isEmpty(appliedValue)) {
+            appliedValue.forEach((item) => {
+              selectedFilters.push(
+                getAppliedFilterObj({
+                  id: `${appliedKey}:${item.value}`,
+                  text: item.label || item.value,
+                  value: item.value,
+                  type: appliedKey
+                })
+              );
+            });
+          }
+          break;
+        case ADV_FILTER_FIELD_TYPES.BOOLEAN:
+          if (!isNil(appliedValue))
+            selectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}`,
+                text: appliedValue,
+                value: appliedValue,
+                type: appliedKey
+              })
+            );
+          break;
+        case ADV_FILTER_FIELD_TYPES.STRING:
+          if (appliedValue?.length > 0)
+            selectedFilters.push(
+              getAppliedFilterObj({
+                id: `${appliedKey}`,
+                text: appliedValue,
+                value: appliedValue,
+                type: appliedKey
+              })
+            );
+          break;
+        case ADV_FILTER_FIELD_TYPES.DATE_RANGE:
+          if (applied[appliedKey]) {
+            const daterangetype = searchParams.get('daterangetype');
+            let text = '';
+            let id = '';
+            if (daterangetype !== 'custom') {
+              id = daterangetype;
+            } else {
+              text = `${getDateInFormat(
+                applied[appliedKey].lowerBound
+              )} - ${getDateInFormat(applied[appliedKey].upperBound)}`;
+              id = 'custom';
+            }
+
+            selectedFilters.push({
+              type: ADV_FILTER_TYPES.dateRange.key,
+              id,
+              value: applied[ADV_FILTER_TYPES.dateRange.key],
+              text,
+              isApplied: true
+            });
+          }
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  let staticFilters = [];
+
+  if (!isEmpty(data?.staticFilters)) {
+    staticFilters = data.staticFilters;
+  }
+
+  return {
+    selectedFilters,
+    staticFilters
+  };
 };

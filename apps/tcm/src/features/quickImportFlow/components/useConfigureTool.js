@@ -55,8 +55,8 @@ const useConfigureTool = () => {
     dispatch(setCurrentTestManagementTool(tool));
   };
 
-  const handleRadioGroupChange = (testManagementTool) => (_, id) => {
-    dispatch(setSelectedRadioIdMap({ key: testManagementTool, value: id }));
+  const handleRadioGroupChange = (value, testManagementTool) => {
+    dispatch(setSelectedRadioIdMap({ key: testManagementTool, value }));
   };
 
   const handleConnectNewAccount = () => {

@@ -17,13 +17,13 @@ const App = () => {
   const hasInitFailed = useSelector(getHasInitFailed);
   const { initO11y } = useInitO11y();
 
-  const Routes = useAuthRoutes(
-    APP_ROUTES,
-    initO11y,
+  const getFallbackUrl = () =>
     `${envConfig.signInUrl}?redirect_url=${encodeURIComponent(
       window.location.href
-    )}`
-  );
+    )}`;
+
+  const Routes = useAuthRoutes(APP_ROUTES, initO11y, getFallbackUrl);
+
   return (
     <ErrorBoundary>
       {envConfig?.enableAnalytics && <VWO />}

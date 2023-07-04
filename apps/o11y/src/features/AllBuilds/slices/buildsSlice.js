@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
+  archiveBuildsApi,
   getBuildFilterDetails,
   getBuildsAPI,
   getBuildTags,
   getUserNames
 } from 'api/builds';
 import { getBuildNames } from 'api/settings';
+import { CheckboxState, TEST_STATUS } from 'constants/common';
 import { isEmpty } from 'lodash';
+import { isBuildArchiveable } from 'utils/common';
 import { getDateInFormat } from 'utils/dateTime';
 
 import {
@@ -16,11 +19,7 @@ import {
 } from '../constants';
 import { getAppliedFilterObj, getFilterQueryParams } from '../utils/common';
 
-import {
-  getAllAppliedFilters,
-  getInitialSearchString,
-  getIsLoadingFilters
-} from './buildsSelectors';
+import { getAllAppliedFilters, getIsLoadingFilters } from './buildsSelectors';
 
 const SLICE_NAME = 'buildList';
 
@@ -33,8 +32,7 @@ export const getBuildsData = createAsyncThunk(
         return { builds: [] };
       }
       const appliedFilters = getAllAppliedFilters(getState());
-      const initialSearchString = getInitialSearchString(getState());
-      let searchString = initialSearchString ? `${initialSearchString}&` : '';
+      let searchString = '';
       if (appliedFilters.length) {
         searchString = getFilterQueryParams(appliedFilters).toString();
       }
@@ -46,19 +44,37 @@ export const getBuildsData = createAsyncThunk(
   }
 );
 
+export const archiveBuilds = createAsyncThunk(
+  `${SLICE_NAME}/archiveBuilds`,
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await archiveBuildsApi({ ...data });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err);
+    }
+  }
+);
+
 const { reducer, actions } = createSlice({
   name: SLICE_NAME,
   initialState: {
     builds: [],
+    isLoadingInitialBuilds: true,
     buildsPagingParams: {},
     activeBuild: {},
     isLoadingFilters: true,
     selectedFilters: [],
     appliedFilters: [],
     staticFilters: {},
+    buildCheckStatusMapping: {},
+    selectAllCheckedStatus: CheckboxState.UNCHECKED,
     initialSearchString: window.location.search
   },
   reducers: {
+    setIsLoadingInitialBuilds: (state, { payload }) => {
+      state.isLoadingInitialBuilds = payload;
+    },
     setIsLoadingBuildsFilters: (state, { payload }) => {
       state.isLoadingFilters = payload;
     },
@@ -189,10 +205,33 @@ const { reducer, actions } = createSlice({
         if (idxToUpdate !== -1) {
           state.builds[idxToUpdate] = build;
         }
+        // update build status in check status mapping to keep in sync
+        if (state.buildCheckStatusMapping[build.uuid]) {
+          state.buildCheckStatusMapping[build.uuid] = {
+            ...state.buildCheckStatusMapping[build.uuid],
+            buildStatus: build.status,
+            isArchived: build.isArchived,
+            status:
+              state.selectAllCheckedStatus === CheckboxState.CHECKED &&
+              !(!build?.status || build?.status === TEST_STATUS.PENDING)
+                ? CheckboxState.CHECKED
+                : CheckboxState.UNCHECKED
+          };
+        }
       });
     },
     setInitialSearchString: (state, { payload }) => {
       state.initialSearchString = payload;
+    },
+    setBuildCheckStatusMapping: (state, { payload }) => {
+      state.buildCheckStatusMapping = payload;
+    },
+    setSelectAllCheckedStatus: (state, { payload }) => {
+      state.selectAllCheckedStatus = payload;
+    },
+    resetBuildSelection: (state) => {
+      state.selectAllCheckedStatus = CheckboxState.UNCHECKED;
+      state.buildCheckStatusMapping = {};
     }
   },
   extraReducers: (builder) => {
@@ -212,11 +251,28 @@ const { reducer, actions } = createSlice({
         if (state.initialSearchString) {
           state.initialSearchString = '';
         }
+
+        // update build check status mapping
+        const updatedMapping = { ...state.buildCheckStatusMapping };
+        state.builds.forEach((build) => {
+          updatedMapping[build.uuid] = {
+            uuid: build.uuid,
+            buildStatus: build.status,
+            isArchived: build.isArchived,
+            status:
+              state.selectAllCheckedStatus === CheckboxState.CHECKED &&
+              isBuildArchiveable(build?.status, build?.isArchived)
+                ? CheckboxState.CHECKED
+                : updatedMapping[build.uuid]?.status || CheckboxState.UNCHECKED
+          };
+        });
+        state.buildCheckStatusMapping = updatedMapping;
       });
   }
 });
 
 export const {
+  setIsLoadingInitialBuilds,
   setSelectedFilters,
   setAppliedFilter,
   setSelectedFilterAsApplied,
@@ -227,7 +283,10 @@ export const {
   setStaticFilters,
   findAndUpdateBuilds,
   setBuilds,
-  discardUnAppliedFilters
+  discardUnAppliedFilters,
+  setBuildCheckStatusMapping,
+  setSelectAllCheckedStatus,
+  resetBuildSelection
 } = actions;
 
 export const getBuildsFiltersData = createAsyncThunk(
@@ -320,6 +379,15 @@ export const getBuildsFiltersData = createAsyncThunk(
               id: applied[BUILD_FILTER_TYPES.search],
               text: applied[BUILD_FILTER_TYPES.search],
               type: BUILD_FILTER_TYPES.search
+            })
+          );
+        }
+        if (applied[BUILD_FILTER_TYPES.isArchived]) {
+          updatedSelectedFilters.push(
+            getAppliedFilterObj({
+              id: applied[BUILD_FILTER_TYPES.isArchived],
+              text: applied[BUILD_FILTER_TYPES.isArchived],
+              type: BUILD_FILTER_TYPES.isArchived
             })
           );
         }

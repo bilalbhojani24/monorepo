@@ -165,7 +165,7 @@ export const lineOptionsCreator = ({
           legend: {
             layout: 'horizontal',
             align: 'center',
-            verticalAlign: 'bottom'
+            verticalAlign: 'top'
           }
         }
       }

@@ -167,6 +167,19 @@ const { reducer, actions } = createSlice({
       state[state.currentCategory].selectedFilters = state[
         state.currentCategory
       ].selectedFilters.filter((sFilter) =>
+        [ADV_FILTER_TYPES.dateRange.key].includes(sFilter.type)
+      );
+      state[state.currentCategory].appliedFilters = state[
+        state.currentCategory
+      ].appliedFilters.filter((aFilter) =>
+        [ADV_FILTER_TYPES.dateRange.key].includes(aFilter.type)
+      );
+      state[state.currentCategory].isDirty = true;
+    },
+    clearAllAppliedFiltersFromSlideover: (state) => {
+      state[state.currentCategory].selectedFilters = state[
+        state.currentCategory
+      ].selectedFilters.filter((sFilter) =>
         [ADV_FILTER_TYPES.search.key, ADV_FILTER_TYPES.dateRange.key].includes(
           sFilter.type
         )
@@ -202,6 +215,7 @@ export const {
   setAppliedFilter,
   setSelectedFilterAsApplied,
   clearAllAppliedFilters,
+  clearAllAppliedFiltersFromSlideover,
   setBulkSelectedFilters,
   setBulkAppliedFilters,
   setIsLoadingBuildsFilters,

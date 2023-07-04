@@ -12,11 +12,12 @@ import { logEventHelper } from 'utils/logEvent';
 
 import { SETUP_FORMATS } from '../const/immutableConst';
 import {
+  setExistingToolsArray,
   setHasProjects,
   setIsProcessing,
   setJobRolesArray,
   setNotificationDeciderValue,
-  setOrgStrengthArray,
+  // setOrgStrengthArray,
   updateFormData
 } from '../slices/onboardingSlice';
 
@@ -30,19 +31,26 @@ const useOnboarding = () => {
   const hasProjects = useSelector((state) => state.onboarding.hasProjects);
   const formData = useSelector((state) => state.onboarding.formData);
   const jobRolesArray = useSelector((state) => state.onboarding.jobRolesArray);
-  const orgStrengthArray = useSelector(
-    (state) => state.onboarding.orgStrengthArray
+  // const orgStrengthArray = useSelector(
+  //   (state) => state.onboarding.orgStrengthArray
+  // );
+  const existingToolsArray = useSelector(
+    (state) => state.onboarding.existingToolsArray
   );
 
   const initFormData = () => {
     getOnboardingInitDataAPI().then((res) => {
       if (res?.role)
         dispatch(setJobRolesArray(selectMenuValueMapper(res?.role)));
-      if (res?.organisation_strength)
-        dispatch(
-          setOrgStrengthArray(selectMenuValueMapper(res?.organisation_strength))
-        );
+      // if (res?.organisation_strength)
+      //   dispatch(
+      //     setOrgStrengthArray(selectMenuValueMapper(res?.organisation_strength))
+      //   );
       if (res?.project_count) dispatch(setHasProjects(!!res.project_count));
+      if (res?.existing_tools)
+        dispatch(
+          setExistingToolsArray(selectMenuValueMapper(res?.existing_tools))
+        );
     });
   };
 
@@ -51,7 +59,13 @@ const useOnboarding = () => {
       ...invalidFields,
       [key]: false
     });
-    dispatch(updateFormData({ key, value }));
+    dispatch(
+      updateFormData(
+        key === 'existing_tools'
+          ? { key, value: value.map((val) => val.value).join(',') }
+          : { key, value }
+      )
+    );
   };
 
   const updateUserValue = () => {
@@ -66,10 +80,15 @@ const useOnboarding = () => {
         setup: formData?.start_method
       })
     );
-    if (!formData?.role || !formData?.organisation_strength) {
+    if (
+      !formData?.role ||
+      // !formData?.organisation_strength ||
+      !formData?.existing_tools
+    ) {
       setInvalidFields({
         role: !formData?.role,
-        organisation_strength: !formData?.organisation_strength
+        // organisation_strength: !formData?.organisation_strength,
+        existing_tools: !formData?.existing_tools
       });
       return;
     }
@@ -121,8 +140,9 @@ const useOnboarding = () => {
     isProcessing,
     formData,
     userData,
-    orgStrengthArray,
+    // orgStrengthArray,
     jobRolesArray,
+    existingToolsArray,
     onFormChange,
     continueClickHandler
   };

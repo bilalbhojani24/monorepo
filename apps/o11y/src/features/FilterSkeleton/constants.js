@@ -121,6 +121,11 @@ export const ADV_FILTER_TYPES = {
     key: 'dateRange',
     addOperation: ADV_FILTER_OPERATIONS.REPLACE_BY_TYPE,
     removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_TYPE
+  },
+  jiraStatus: {
+    key: 'jiraStatus',
+    addOperation: ADV_FILTER_OPERATIONS.ADD,
+    removeOperation: ADV_FILTER_OPERATIONS.REMOVE_BY_ID
   }
 };
 
@@ -136,7 +141,7 @@ export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.hasJiraDefects.key]: 'Has JIRA Defects',
   [ADV_FILTER_TYPES.isMuted.key]: 'Is Muted',
   [ADV_FILTER_TYPES.failureCategories.key]: 'Failure Categories',
-  [ADV_FILTER_TYPES.issueTypeGroup.key]: 'Failure Category Group',
+  [ADV_FILTER_TYPES.issueTypeGroup.key]: 'Failure Category Group', // Added for test list filters
   [ADV_FILTER_TYPES.deviceList.key]: 'Device',
   [ADV_FILTER_TYPES.osList.key]: 'OS',
   [ADV_FILTER_TYPES.browserList.key]: 'Browser',
@@ -145,5 +150,41 @@ export const ADV_FILTERS_PREFIX = {
   [ADV_FILTER_TYPES.runs.key]: 'Re run',
   [ADV_FILTER_TYPES.ciBuildNumbers.key]: 'CI Build Number',
   [ADV_FILTER_TYPES.status.key]: 'Status',
-  [ADV_FILTER_TYPES.hasPerformanceAnomaly.key]: 'Has Performance Anomaly'
+  [ADV_FILTER_TYPES.hasPerformanceAnomaly.key]: 'Has Performance Anomaly',
+  [ADV_FILTER_TYPES.jiraStatus.key]: 'Jira status'
+};
+
+export const ADV_FILTER_FIELD_TYPES = {
+  LIST: 'LIST',
+  BOOLEAN: 'BOOLEAN',
+  STRING: 'STRING',
+  DATE_RANGE: 'DATE_RANGE'
+};
+
+export const ADV_FILTERS_FIELD_GROUPS = {
+  [ADV_FILTER_FIELD_TYPES.LIST]: [
+    ADV_FILTER_TYPES.buildTags.key,
+    ADV_FILTER_TYPES.uniqueBuildNames.key,
+    ADV_FILTER_TYPES.folders.key,
+    ADV_FILTER_TYPES.testTags.key,
+    ADV_FILTER_TYPES.hostNames.key,
+    ADV_FILTER_TYPES.failureCategories.key,
+    ADV_FILTER_TYPES.deviceList.key,
+    ADV_FILTER_TYPES.osList.key,
+    ADV_FILTER_TYPES.browserList.key,
+    ADV_FILTER_TYPES.runs.key,
+    ADV_FILTER_TYPES.ciBuildNumbers.key,
+    ADV_FILTER_TYPES.status.key,
+    ADV_FILTER_TYPES.jiraStatus.key
+  ],
+  [ADV_FILTER_FIELD_TYPES.BOOLEAN]: [
+    ADV_FILTER_TYPES.isFlaky.key,
+    ADV_FILTER_TYPES.isNewFailure.key,
+    ADV_FILTER_TYPES.isAlwaysFailing.key,
+    ADV_FILTER_TYPES.hasJiraDefects.key,
+    ADV_FILTER_TYPES.isMuted.key,
+    ADV_FILTER_TYPES.hasPerformanceAnomaly.key
+  ],
+  [ADV_FILTER_FIELD_TYPES.STRING]: [ADV_FILTER_TYPES.search.key],
+  [ADV_FILTER_FIELD_TYPES.DATE_RANGE]: [ADV_FILTER_TYPES.dateRange.key]
 };

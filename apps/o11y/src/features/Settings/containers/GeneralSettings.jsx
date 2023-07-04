@@ -113,7 +113,8 @@ export default function GeneralSettings() {
           loading={data.isLoading}
           isIconOnlyButton={data.isLoading}
           disabled={
-            data?.data?.buildTimeout === buildTimeout || !!buildTimeoutError
+            !data.isLoading &&
+            (data?.data?.buildTimeout === buildTimeout || !!buildTimeoutError)
           }
           onClick={handleSubmitChanges}
         >

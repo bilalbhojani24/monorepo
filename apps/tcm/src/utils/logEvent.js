@@ -1,10 +1,11 @@
-import { logEvent } from '@browserstack/utils';
+import { cookieUtils as CookieUtils, logEvent } from '@browserstack/utils';
 import {
   PRODUCT_NAME,
   TEAM_NAME_EVENTS,
   WEB_EVENT_NAME
 } from 'const/immutables';
 
+const cookieUtils = new CookieUtils();
 export const logEventHelper = (eventName, data) => (_, getState) => {
   const state = getState();
   //   const { localStorage } = window;
@@ -15,12 +16,19 @@ export const logEventHelper = (eventName, data) => (_, getState) => {
     console.log(`Event Tracked Name: ${eventName}`);
   }
 
+  const experimentValue = {
+    experiments: {
+      header_scalability: cookieUtils.read('header_scalability')
+    }
+  };
+
   logEvent(
     [],
     WEB_EVENT_NAME,
     eventName,
     {
       ...data,
+      ...experimentValue,
       user_id: state.global?.userAndGroupConfig?.bsUserId,
       tm_user_id: state.global?.userAndGroupConfig?.tmUserId,
       group_id: state.global?.userAndGroupConfig?.bsGroupId,

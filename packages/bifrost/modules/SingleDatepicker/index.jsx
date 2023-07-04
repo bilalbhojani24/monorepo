@@ -34,7 +34,8 @@ const SingleDatepicker = (props) => {
     side,
     wrapperClassName,
     isLoading,
-    isMandatory
+    isMandatory,
+    popoverWrapperClassName
   } = props;
 
   const years = useYearpicker(YEARS_DATA, 12);
@@ -132,6 +133,7 @@ const SingleDatepicker = (props) => {
                   side={side}
                   sideOffset={crossOffset}
                   alignOffset={offset}
+                  className={popoverWrapperClassName}
                 >
                   <div className="border-base-300 z-10 mt-2 rounded-md border bg-white p-3 shadow-lg">
                     <Dialog {...dialogProps} isLoading={isLoading}>
@@ -166,7 +168,8 @@ SingleDatepicker.propTypes = {
   side: Proptypes.string,
   label: Proptypes.string,
   isLoading: Proptypes.bool,
-  isMandatory: Proptypes.bool
+  isMandatory: Proptypes.bool,
+  popoverWrapperClassName: Proptypes.string
 };
 SingleDatepicker.defaultProps = {
   wrapperClassName: '',
@@ -180,7 +183,8 @@ SingleDatepicker.defaultProps = {
   side: 'bottom',
   label: '',
   isLoading: false,
-  isMandatory: false
+  isMandatory: false,
+  popoverWrapperClassName: ''
 };
 
 export default SingleDatepicker;
