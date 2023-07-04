@@ -31,6 +31,7 @@ const { actions, reducer } = createSlice({
       const {
         hasSessions,
         instanceTypes,
+        lastKnownSetupType,
         regions,
         showSetup,
         trialGrid,
@@ -41,6 +42,7 @@ const { actions, reducer } = createSlice({
       state.hasSessions = hasSessions;
       state.instanceTypes = instanceTypes;
       state.isLoading = false;
+      state.lastKnownSetupType = lastKnownSetupType;
       state.showSetup = showSetup;
       state.trialGrid = trialGrid;
       state.regions = regions;

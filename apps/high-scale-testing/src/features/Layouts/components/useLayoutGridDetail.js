@@ -19,7 +19,11 @@ import {
 } from 'features/GridConsole/slices';
 import { setShowOnboardingTooltips } from 'features/GridDetail/slices';
 import { setFetchedGridData } from 'globalSlice/index';
-import { getFetchedGridData, getUserDetails } from 'globalSlice/selector';
+import {
+  getFetchedGridData,
+  getLastKnownSetupType,
+  getUserDetails
+} from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 import { getSelectedGridData } from '../../GridConsole/slices/selector';
@@ -37,6 +41,7 @@ const useLayoutGridDetail = () => {
 
   // All Store variables
   const gridData = useSelector(getSelectedGridData);
+  const lastKnownSetupType = useSelector(getLastKnownSetupType);
 
   // All State variables
   const [currentTab, setCurrentTab] = useState({
@@ -51,6 +56,10 @@ const useLayoutGridDetail = () => {
       option: e.name.toLowerCase()
     });
     setCurrentTab(e);
+  };
+
+  const setupYourOwnGrid = () => {
+    navigate(`${ROUTES.SETUP}?type=${lastKnownSetupType}`);
   };
 
   useEffect(() => {
@@ -135,6 +144,7 @@ const useLayoutGridDetail = () => {
     fetchedGridData,
     gridData,
     onTabChangeHandler,
+    setupYourOwnGrid,
     showNewGridCreatedModal
   };
 };
