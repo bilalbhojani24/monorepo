@@ -147,14 +147,14 @@ const useSetup = () => {
     setShowSetupStatusModal(false);
   };
 
-  const cloudProviderChangeHandler = (e, option) => {
+  const cloudProviderChangeHandler = (value) => {
     const newOption = SCRATCH_RADIO_GROUP_OPTIONS.find(
-      (item) => item.id === option
+      (item) => item.value === value
     );
 
     logHSTEvent([], 'web_events', AGNoSetupStepsExecuted, {
       action: 'cloudprovider_selected',
-      value: option.configName
+      value
     });
     setCurrentCloudProvider(newOption);
   };

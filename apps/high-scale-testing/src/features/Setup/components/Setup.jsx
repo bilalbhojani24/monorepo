@@ -12,6 +12,7 @@ import {
   PageHeadings,
   RadioCardItem,
   RadioGroup,
+  RadioItem,
   SelectMenu,
   SelectMenuOptionGroup,
   SelectMenuOptionItem,
@@ -25,7 +26,10 @@ import {
   AGNoSetupInteracted,
   AGNoSetupStepsExecuted
 } from 'constants/event-names';
-import { GRID_MANAGER_NAMES } from 'constants/index';
+import {
+  GRID_MANAGER_NAMES,
+  SCRATCH_RADIO_GROUP_OPTIONS
+} from 'constants/index';
 import ROUTES from 'constants/routes';
 import {
   EVENT_LOGS_STATUS,
@@ -46,7 +50,6 @@ import useSetup from './useSetup';
 const Setup = () => {
   const {
     CODE_SNIPPETS_FOR_SCRATCH,
-    SCRATCH_RADIO_GROUP_OPTIONS,
     activeGridManagerCodeSnippet,
     breadcrumbDataTrace,
     breadcrumbStepClickHandler,
@@ -118,10 +121,18 @@ const Setup = () => {
   const DescriptionNodeStep1 = (
     <div className="mb-4 mt-2">
       <RadioGroup
+        direction="inline"
         onChange={cloudProviderChangeHandler}
-        options={SCRATCH_RADIO_GROUP_OPTIONS}
         selectedOption={currentSelectedCloudProvider}
-      />
+      >
+        {SCRATCH_RADIO_GROUP_OPTIONS.map((option) => (
+          <RadioItem
+            key={option.value}
+            option={option}
+            disabled={option.disabled}
+          />
+        ))}
+      </RadioGroup>
     </div>
   );
 
