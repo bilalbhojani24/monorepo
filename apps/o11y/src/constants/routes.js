@@ -10,7 +10,6 @@ export const ROUTE_PATH_KEYS = {
   settings_auto_analyser: 'settings/auto_analyser',
   settings_failure_categories: 'settings/failure_categories',
   settings_general: 'settings/general',
-  settings_integrations: 'settings/integrations',
   settings_notifications: 'settings/notifications',
   settings_re_run: 'settings/re_run',
   settings_smart_tags: 'settings/smart_tags',
@@ -26,7 +25,7 @@ export const ROUTES = {
   builds: `/${ROUTE_PATH_KEYS.projects}/:projectNormalisedName/${ROUTE_PATH_KEYS.builds}`,
   buildShort: `/${ROUTE_PATH_KEYS.builds}/:buildUuid`,
   get_started: `/${ROUTE_PATH_KEYS.get_started}`,
-  integrations_base: '/integrations',
+  integrations: `/${ROUTE_PATH_KEYS.integrations}`,
   not_found: '/404',
   no_access: `/${ROUTE_PATH_KEYS.no_access}`,
   projects: `/${ROUTE_PATH_KEYS.projects}`,
@@ -36,7 +35,6 @@ export const ROUTES = {
   settings_auto_analyser: `/${ROUTE_PATH_KEYS.projects}/:projectNormalisedName/${ROUTE_PATH_KEYS.settings_auto_analyser}`,
   settings_failure_categories: `/${ROUTE_PATH_KEYS.projects}/:projectNormalisedName/${ROUTE_PATH_KEYS.settings_failure_categories}`,
   settings_general: `/${ROUTE_PATH_KEYS.projects}/:projectNormalisedName/${ROUTE_PATH_KEYS.settings_general}`,
-  settings_integrations: `/${ROUTE_PATH_KEYS.projects}/:projectNormalisedName/${ROUTE_PATH_KEYS.settings_integrations}`,
   settings_notifications: `/${ROUTE_PATH_KEYS.projects}/:projectNormalisedName/${ROUTE_PATH_KEYS.settings_notifications}`,
   settings_re_run: `/${ROUTE_PATH_KEYS.projects}/:projectNormalisedName/${ROUTE_PATH_KEYS.settings_re_run}`,
   settings: `/${ROUTE_PATH_KEYS.projects}/:projectNormalisedName/${ROUTE_PATH_KEYS.settings}`,
@@ -77,9 +75,9 @@ export const PROXY_PATHS = {
     path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_general}`,
     key: ROUTE_PATH_KEYS.settings_general
   },
-  settings_integrations: {
-    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_integrations}`,
-    key: ROUTE_PATH_KEYS.settings_integrations
+  settings_smart_tags: {
+    path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_smart_tags}`,
+    key: ROUTE_PATH_KEYS.settings_smart_tags
   },
   settings_notifications: {
     path: `/${ROUTE_PATH_KEYS.projects}/${ROUTE_PATH_KEYS.settings_notifications}`,

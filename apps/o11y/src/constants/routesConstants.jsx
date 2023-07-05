@@ -196,7 +196,7 @@ export const APP_ROUTES = [
             ]
           },
           {
-            path: ROUTES.integrations_base,
+            path: ROUTES.integrations,
             isProtected: true,
             component: <Integrations />
           }
