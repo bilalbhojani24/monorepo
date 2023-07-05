@@ -95,7 +95,7 @@ const Layout = () => {
                             >
                               {item.label === AUTOMATION_CONSOLE
                                 ? 'Next'
-                                : 'Close'}
+                                : 'Done'}
                             </Button>
                             <Button
                               onClick={item.onboardingTooltipSkipBtnHandler}
