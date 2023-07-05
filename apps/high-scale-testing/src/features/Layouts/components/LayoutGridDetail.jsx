@@ -16,6 +16,7 @@ const LayoutGridDetail = () => {
     onTabChangeHandler,
     setupYourOwnGrid,
     showNewGridCreatedModal,
+    showTrialGridExpiredModal,
     switchToOwnGridHandler
   } = useLayoutGridDetail();
 
@@ -62,13 +63,9 @@ const LayoutGridDetail = () => {
 
           <Outlet />
 
-          {(selectedGridData.status.toLowerCase() === 'expired' ||
-            selectedGridData.trialGridDetail?.totalTime -
-              selectedGridData.trialGridDetail?.timeUsed <=
-              0) &&
-            !showNewGridCreatedModal && (
-              <ModalTrialGridExpired setupYourOwnGrid={setupYourOwnGrid} />
-            )}
+          {showTrialGridExpiredModal && (
+            <ModalTrialGridExpired setupYourOwnGrid={setupYourOwnGrid} />
+          )}
           {showNewGridCreatedModal && (
             <ModalGridCreatedSuccessfully
               switchToOwnGridHandler={switchToOwnGridHandler}
