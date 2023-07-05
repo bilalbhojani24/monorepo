@@ -25,6 +25,8 @@ const getSmartTagsDocURL = (text) =>
     path: DOC_KEY_MAPPING.smart_tags
   })}#${text.split(' ').join('-').toLowerCase()}`;
 
+const CONFIGURABLE_VIEWS_INSTRUMENT_SOURCE = 'configurable_tags';
+
 export default function SmartTags() {
   const smartTags = useSelector(getSmartTagsSettings);
   const activeProject = useSelector(getActiveProject);
@@ -108,7 +110,10 @@ export default function SmartTags() {
   return (
     <div className="flex max-h-full flex-col gap-4">
       {!planDetails?.isActive && (
-        <PaywallAlert title="Configuring smart tags is a pro feature" />
+        <PaywallAlert
+          title="Configuring smart tags is a pro feature"
+          instrumentKey={CONFIGURABLE_VIEWS_INSTRUMENT_SOURCE}
+        />
       )}
       <SettingsCard>
         <FlakyTags
@@ -116,12 +121,14 @@ export default function SmartTags() {
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
           docLink={getSmartTagsDocURL('Flaky')}
+          instrumentKey={CONFIGURABLE_VIEWS_INSTRUMENT_SOURCE}
         />
         <AlwaysFailingTags
           data={smartTags.localState.alwaysFailing}
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
           docLink={getSmartTagsDocURL('Always Failing')}
+          instrumentKey={CONFIGURABLE_VIEWS_INSTRUMENT_SOURCE}
         />
         <NewFailureTags
           ref={newFailureRef}
@@ -129,6 +136,7 @@ export default function SmartTags() {
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
           docLink={getSmartTagsDocURL('New failure')}
+          instrumentKey={CONFIGURABLE_VIEWS_INSTRUMENT_SOURCE}
         />
         <PerformanceAnomaliesTags
           ref={performanceAnomaliesRef}
@@ -136,6 +144,7 @@ export default function SmartTags() {
           isActive={planDetails?.isActive}
           isLoading={smartTags.isLoading}
           docLink={getSmartTagsDocURL('Performance anomaly')}
+          instrumentKey={CONFIGURABLE_VIEWS_INSTRUMENT_SOURCE}
         />
         <div className="bg-base-50 sticky bottom-0 flex justify-end px-6 py-3">
           <O11yButton

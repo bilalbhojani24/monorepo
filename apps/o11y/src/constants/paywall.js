@@ -21,7 +21,8 @@ export const FEATURE_CARD_DATA = {
     title: 'Set up actionable alerts',
     desc: 'Identify problematic tests before they turn into critical issues. Set up alerts on metrics that you care about.',
     illustration: AlertsIllustration,
-    learnMoreLink: getDocUrl({ path: DOC_KEY_MAPPING.settings_alerts })
+    learnMoreLink: getDocUrl({ path: DOC_KEY_MAPPING.settings_alerts }),
+    instrumentKey: 'alerts_config'
   },
   [PAYWALL_FEATURES.FAILURE_CATEGORY]: {
     callout: 'AUTO-ASSIGN FAILURE REASONS',
@@ -30,7 +31,8 @@ export const FEATURE_CARD_DATA = {
     illustration: FailureCategoriesIllustration,
     learnMoreLink: getDocUrl({
       path: DOC_KEY_MAPPING.settings_failure_category
-    })
+    }),
+    instrumentKey: 'custom_failure_category'
   }
 };
 

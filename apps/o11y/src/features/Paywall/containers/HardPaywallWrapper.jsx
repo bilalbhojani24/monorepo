@@ -45,7 +45,7 @@ function HardPaywallWrapper({
       <PaywallFeatureCard
         {...FEATURE_CARD_DATA[featureKey]}
         wrapperClassName={wrapperClassName}
-        actions={<PaywallActions showTextOnSubmit />}
+        actions={<PaywallActions />}
       />
     );
   }

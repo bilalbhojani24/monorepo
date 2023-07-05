@@ -7,10 +7,10 @@ import { toggleModal } from 'common/ModalToShow/slices/modalToShowSlice';
 import { getModalData } from 'common/ModalToShow/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
+import { EXTERNAL_LINKS } from 'constants/common';
 import { CTA_TEXTS } from 'constants/paywall';
 import { canStartFreeTrial } from 'globalSlice/selectors';
-import { logOllyEvent } from 'utils/common';
-import { o11yNotify } from 'utils/notification';
+import { getExternalUrl, logOllyEvent } from 'utils/common';
 
 import { MODAL_CONFIG } from '../constants';
 import { handleUpgrade } from '../utils';
@@ -41,26 +41,30 @@ function StartFreeTrialModal() {
     dispatch(
       handleUpgrade({
         successCb: () => {
-          if (shouldAllowFreeTrial) {
-            handleCloseModal();
-            dispatch(
-              toggleBanner({
-                version: BANNER_TYPES.plan_started,
-                data: {}
-              })
-            );
-          } else {
-            handleCloseModal();
-            o11yNotify({
-              title: 'Request for upgrade received',
-              description:
-                "We'll reach out to you soon with upgrade related details",
-              type: 'success'
-            });
-          }
+          handleCloseModal();
+          dispatch(
+            toggleBanner({
+              version: BANNER_TYPES.plan_started,
+              data: {}
+            })
+          );
         },
         finalCb: () => setIsSubmitting(false)
       })
+    );
+  };
+
+  const handleClickUpgrade = () => {
+    logOllyEvent({
+      event: 'O11yUpgradeModalInteracted',
+      data: {
+        interaction: 'upgrade_cta_clicked'
+      }
+    });
+    window.open(
+      getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing }),
+      '_blank',
+      'noopener,noreferrer'
     );
   };
 
@@ -141,7 +145,10 @@ function StartFreeTrialModal() {
                 {CTA_TEXTS.FREE_TRIAL}
               </O11yButton>
             ) : (
-              <O11yButton wrapperClassName="flex-1">
+              <O11yButton
+                wrapperClassName="flex-1"
+                onClick={handleClickUpgrade}
+              >
                 {CTA_TEXTS.UPGRADE}
               </O11yButton>
             )}
