@@ -23,7 +23,9 @@ const TestArtifactsSettings = () => {
       }}
     />
   );
+
   const {
+    RESTRICTED_TOOLTIP_MESSAGE,
     frameworkLogsChangeHandler,
     frameworkLogsValue,
     logsRetentionChangeHandler,
@@ -58,11 +60,7 @@ const TestArtifactsSettings = () => {
             <Tooltip
               alignOffset={10}
               arrowPadding={10}
-              content={
-                <TooltipBody>
-                  Modification of this setting is restrictred in this grid
-                </TooltipBody>
-              }
+              content={<TooltipBody>{RESTRICTED_TOOLTIP_MESSAGE}</TooltipBody>}
               placementSide="top"
               show={!isTrialGrid ? false : undefined}
               theme="dark"
@@ -92,11 +90,7 @@ const TestArtifactsSettings = () => {
             <Tooltip
               alignOffset={10}
               arrowPadding={10}
-              content={
-                <TooltipBody>
-                  Modification of this setting is restrictred in this grid
-                </TooltipBody>
-              }
+              content={<TooltipBody>{RESTRICTED_TOOLTIP_MESSAGE}</TooltipBody>}
               placementSide="top"
               show={!isTrialGrid ? false : undefined}
               theme="dark"
@@ -124,11 +118,7 @@ const TestArtifactsSettings = () => {
           <Tooltip
             alignOffset={10}
             arrowPadding={10}
-            content={
-              <TooltipBody>
-                Modification of this setting is restrictred in this grid
-              </TooltipBody>
-            }
+            content={<TooltipBody>{RESTRICTED_TOOLTIP_MESSAGE}</TooltipBody>}
             placementSide="right"
             show={!isTrialGrid ? false : undefined}
             theme="dark"
@@ -155,13 +145,22 @@ const TestArtifactsSettings = () => {
       </div>
 
       <div className="bg-base-50 flex flex-row-reverse px-6 py-3">
-        <Button
-          disabled={isSaveButtonDisabled}
-          loading={isSavingInProgress}
-          onClick={saveBtnClickhandler}
+        <Tooltip
+          alignOffset={10}
+          arrowPadding={10}
+          content={<TooltipBody>{RESTRICTED_TOOLTIP_MESSAGE}</TooltipBody>}
+          placementSide="top"
+          show={!isTrialGrid ? false : undefined}
+          theme="dark"
         >
-          Save Changes
-        </Button>
+          <Button
+            disabled={isSaveButtonDisabled}
+            loading={isSavingInProgress}
+            onClick={saveBtnClickhandler}
+          >
+            Save Changes
+          </Button>
+        </Tooltip>
       </div>
     </>
   );
