@@ -16,7 +16,11 @@ import {
   getCurrentOnboardingTooltipcount,
   getShowOnboardingTooltips
 } from 'features/GridDetail/slices/selector';
-import { getLastKnownSetupType, getUserDetails } from 'globalSlice/selector';
+import {
+  getLastKnownSetupType,
+  getTrialGrid,
+  getUserDetails
+} from 'globalSlice/selector';
 import { getEnvConfig } from 'utils/common';
 import { logHSTEvent } from 'utils/logger';
 
@@ -34,6 +38,7 @@ const useLayout = () => {
   const lastKnownSetupType = useSelector(getLastKnownSetupType);
   const selectedGridData = useSelector(getSelectedGridData);
   const showOnboardingTooltips = useSelector(getShowOnboardingTooltips);
+  const trialGrid = useSelector(getTrialGrid);
   const userDetails = useSelector(getUserDetails);
 
   // All State variables:
@@ -122,12 +127,10 @@ const useLayout = () => {
 
   // All use effects
   useEffect(() => {
-    if (selectedGridData && selectedGridData.isTrialGrid) {
-      setShowTrialGridBannerInGridOverview(true);
-    } else {
-      setShowTrialGridBannerInGridOverview(false);
-    }
-  }, [selectedGridData]);
+    const { isUsed } = trialGrid;
+
+    setShowTrialGridBannerInGridOverview(isUsed || true);
+  }, [selectedGridData, trialGrid]);
 
   return {
     currentOnboardingTooltipCount,
