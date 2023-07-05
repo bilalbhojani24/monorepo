@@ -82,8 +82,8 @@ const secondaryNav = [
     label: 'Integrations',
     activeIcon: MdOutlineExtension,
     inActiveIcon: MdOutlineExtension,
-    path: ROUTES.integrations_base,
-    pattern: ROUTES.integrations_base
+    path: ROUTES.integrations,
+    pattern: ROUTES.integrations
   },
   {
     id: 'documentation',

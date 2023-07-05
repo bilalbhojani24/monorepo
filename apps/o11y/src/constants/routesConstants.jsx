@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import NotFound from 'common/NotFound';
+import ProxyPathHandler from 'common/ProxyPathHandler/ProxyPathHandler';
 import { AppContainer, LayoutWOSidebar, LayoutWSidebar } from 'features/Layout';
 import NoAccessPage from 'features/NoAccessPage';
 import { OnboardingFrameworkSelector, ProjectList } from 'features/Onboarding';
@@ -8,7 +9,7 @@ import RootPathHandler from 'features/RootPathHandler';
 import Settings from 'features/Settings/containers/Settings';
 import SettingsRootHandler from 'features/Settings/containers/SettingsRootHandler';
 
-import { ROUTES } from './routes';
+import { PROXY_PATHS, ROUTES } from './routes';
 
 const AllBuilds = React.lazy(() => import('features/AllBuilds'));
 const BuildDetails = React.lazy(() => import('features/BuildDetails'));
@@ -52,6 +53,12 @@ const UniqueErrors = React.lazy(() =>
   import('features/SuiteHealth/containers/UniqueErrors')
 );
 
+const proxyPaths = Object.keys(PROXY_PATHS).map((key) => ({
+  path: PROXY_PATHS[key].path,
+  isProtected: true,
+  component: <ProxyPathHandler />
+}));
+
 export const APP_ROUTES = [
   {
     path: ROUTES.all,
@@ -73,6 +80,7 @@ export const APP_ROUTES = [
     isProtected: true,
     component: <RootPathHandler />
   },
+  ...proxyPaths,
   {
     path: ROUTES.root,
     isProtected: true,
@@ -188,7 +196,7 @@ export const APP_ROUTES = [
             ]
           },
           {
-            path: ROUTES.integrations_base,
+            path: ROUTES.integrations,
             isProtected: true,
             component: <Integrations />
           }
