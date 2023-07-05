@@ -18,6 +18,7 @@ import {
   setSelectedGridData
 } from 'features/GridConsole/slices';
 import { setShowOnboardingTooltips } from 'features/GridDetail/slices';
+import { getShowOnboardingTooltips } from 'features/GridDetail/slices/selector';
 import { setFetchedGridData } from 'globalSlice/index';
 import {
   getFetchedGridData,
@@ -45,6 +46,7 @@ const useLayoutGridDetail = () => {
   // All Store variables
   const gridList = useSelector(getGridsData);
   const selectedGridData = useSelector(getSelectedGridData);
+  const showOnboardingTooltips = useSelector(getShowOnboardingTooltips);
   const lastKnownSetupType = useSelector(getLastKnownSetupType);
 
   // All State variables
@@ -53,6 +55,8 @@ const useLayoutGridDetail = () => {
     name: 'Overview'
   });
   const [showNewGridCreatedModal, setShowNewGridCreatedModal] = useState(false);
+  const [showTrialGridExpiredModal, setShowTrialgridModalExpired] =
+    useState(false);
 
   const onTabChangeHandler = (e) => {
     logHSTEvent(['amplitude'], 'web_events', AGGridDetailsInteracted, {
@@ -66,10 +70,40 @@ const useLayoutGridDetail = () => {
     navigate(`${ROUTES.SETUP}?type=${lastKnownSetupType}`);
   };
 
+  const switchToOwnGridHandler = () => {
+    navigate(ROUTES.GRID_CONSOLE);
+  };
+
+  useEffect(() => {
+    setShowTrialgridModalExpired(
+      (selectedGridData.status?.toLowerCase() === 'expired' ||
+        selectedGridData.trialGridDetail?.totalTime -
+          selectedGridData.trialGridDetail?.timeUsed <=
+          0) &&
+        !showNewGridCreatedModal
+    );
+
+    if (showNewGridCreatedModal || showTrialGridExpiredModal) {
+      dispatch(setShowOnboardingTooltips(false));
+    }
+  }, [
+    dispatch,
+    selectedGridData,
+    showNewGridCreatedModal,
+    showOnboardingTooltips,
+    showTrialGridExpiredModal
+  ]);
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(setShowOnboardingTooltips(selectedGridData.isTrialGrid));
     }, 1000);
+
+    if (selectedGridData.isTrialGrid) {
+      setShowNewGridCreatedModal(
+        selectedGridData.trialGridDetail.userGridCreated
+      );
+    }
   }, [dispatch, selectedGridData]);
 
   useEffect(() => {
@@ -159,7 +193,9 @@ const useLayoutGridDetail = () => {
     selectedGridData,
     onTabChangeHandler,
     setupYourOwnGrid,
-    showNewGridCreatedModal
+    showNewGridCreatedModal,
+    showTrialGridExpiredModal,
+    switchToOwnGridHandler
   };
 };
 

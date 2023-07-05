@@ -29,7 +29,6 @@ const FrameworksTable = ({ containerClassName, copyBtnCbFn, frameworks }) => (
               <>
                 <p className="text-base-900 mr-4 text-base font-normal">
                   {framework?.url}
-                  {framework?.name === 'Selenium' && '/wd/hub'}
                 </p>
 
                 <CopyButton

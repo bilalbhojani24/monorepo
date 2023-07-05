@@ -2,7 +2,6 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { Loader, PageHeadings, Tabs } from '@browserstack/bifrost';
 import { ModalGridCreatedSuccessfully } from 'features/GridDetail/components/ModalGridCreatedSuccessfully';
-import { ModalGridDisconnected } from 'features/GridDetail/components/ModalGridDisconnected';
 import { ModalTrialGridExpired } from 'features/GridDetail/components/ModalTrialGridExpired';
 
 import ROUTES from '../../../constants/routes';
@@ -16,7 +15,9 @@ const LayoutGridDetail = () => {
     selectedGridData,
     onTabChangeHandler,
     setupYourOwnGrid,
-    showNewGridCreatedModal
+    showNewGridCreatedModal,
+    showTrialGridExpiredModal,
+    switchToOwnGridHandler
   } = useLayoutGridDetail();
 
   const TabsForGridDetail = (
@@ -62,11 +63,14 @@ const LayoutGridDetail = () => {
 
           <Outlet />
 
-          {selectedGridData.status === 'expired' && (
+          {showTrialGridExpiredModal && (
             <ModalTrialGridExpired setupYourOwnGrid={setupYourOwnGrid} />
           )}
-          {selectedGridData.status === 'offline' && <ModalGridDisconnected />}
-          {showNewGridCreatedModal && <ModalGridCreatedSuccessfully />}
+          {showNewGridCreatedModal && (
+            <ModalGridCreatedSuccessfully
+              switchToOwnGridHandler={switchToOwnGridHandler}
+            />
+          )}
         </>
       )}
 

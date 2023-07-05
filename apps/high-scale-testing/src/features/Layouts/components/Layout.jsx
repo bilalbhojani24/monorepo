@@ -34,6 +34,7 @@ const Layout = () => {
   } = useLayout();
 
   const { totalTime, timeUsed } = selectedGridData.trialGridDetail || 0;
+  const remainingTime = totalTime - timeUsed;
 
   return (
     <>
@@ -56,7 +57,7 @@ const Layout = () => {
               </Button>
             }
             description={BannerMessages.trialGridGridOverviewIntro(
-              totalTime - timeUsed
+              remainingTime >= 0 ? remainingTime : 0
             )}
             isDismissButton={false}
           />
