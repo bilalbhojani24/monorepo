@@ -37,11 +37,11 @@ const SetupStatus = ({
   if (eventLogsStatus === EVENT_LOGS_STATUS.FAILED) {
     ALERT_DESC = 'An error occurred while creating the grid.';
     ALERT_MODIFIER = 'error';
-    HEADER_TEXT = 'Automation Grid Incomplete';
+    HEADER_TEXT = 'Automation Grid Status';
   } else if (eventLogsStatus === EVENT_LOGS_STATUS.FINISHED) {
     ALERT_DESC = 'Successfully created ‘high-scale-grid’.';
     ALERT_MODIFIER = 'success';
-    HEADER_TEXT = 'Automation Grid Complete';
+    HEADER_TEXT = 'Automation Grid Status';
   }
 
   return (

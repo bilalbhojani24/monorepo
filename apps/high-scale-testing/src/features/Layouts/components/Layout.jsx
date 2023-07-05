@@ -23,6 +23,7 @@ import { useLayout } from './useLayout';
 const Layout = () => {
   const {
     currentOnboardingTooltipCount,
+    gridsList,
     isCurrent,
     lastKnownSetupType,
     navigate,
@@ -35,7 +36,14 @@ const Layout = () => {
     userDetails
   } = useLayout();
 
-  const { totalTime, timeUsed } = selectedGridData.trialGridDetail || 0;
+  const trialGridFromGridList = gridsList.filter(
+    (grid) => grid?.isTrialGrid && grid?.trialGridDetail
+  );
+
+  const { totalTime, timeUsed } =
+    Object.keys(selectedGridData).length > 0
+      ? selectedGridData.trialGridDetail
+      : trialGridFromGridList?.[0]?.trialGridDetail || 0;
   const remainingTime = totalTime - timeUsed;
 
   return (
@@ -95,7 +103,7 @@ const Layout = () => {
                             >
                               {item.label === AUTOMATION_CONSOLE
                                 ? 'Next'
-                                : 'Close'}
+                                : 'Done'}
                             </Button>
                             <Button
                               onClick={item.onboardingTooltipSkipBtnHandler}

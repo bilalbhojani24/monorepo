@@ -76,6 +76,7 @@ const Setup = () => {
     dismissCustomiseGridDetailModal,
     displaySubnetsItemsArray,
     displayVPCItemsArray,
+    envConfig,
     eventLogsCode,
     eventLogsStatus,
     exploreAutomationClickHandler,
@@ -463,7 +464,7 @@ const Setup = () => {
               }
               handleLinkClick={() =>
                 window.open(
-                  `${window.origin}/contact#other?ref=ATS-trial-grid-expired-modal`,
+                  `${envConfig.baseUrl}/contact#other?ref=ATS-trial-grid-expired-modal`,
                   '_blank'
                 )
               }

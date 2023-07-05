@@ -127,7 +127,7 @@ const GridOverview = () => {
       },
       {
         title: 'Grid ID',
-        value: identifier
+        value: identifier.split('-')[0]
       },
       {
         title: 'Connected',
@@ -143,7 +143,7 @@ const GridOverview = () => {
       },
       {
         title: 'Cluster ID',
-        value: cluster?.identifier
+        value: cluster?.identifier.split('-')[0]
       },
       {
         title: 'Browsers Used',

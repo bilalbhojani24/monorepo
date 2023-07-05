@@ -104,7 +104,7 @@ const useLayoutGridDetail = () => {
   useEffect(() => {
     setTimeout(() => {
       dispatch(setShowOnboardingTooltips(selectedGridData.isTrialGrid));
-    }, 1000);
+    }, 3000);
 
     if (selectedGridData.isTrialGrid) {
       setShowNewGridCreatedModal(
