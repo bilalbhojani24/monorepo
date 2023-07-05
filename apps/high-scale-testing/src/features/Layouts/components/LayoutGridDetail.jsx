@@ -62,7 +62,10 @@ const LayoutGridDetail = () => {
 
           <Outlet />
 
-          {selectedGridData.status === 'expired' && (
+          {(selectedGridData.status === 'expired' ||
+            selectedGridData.trialGridDetail?.totalTime -
+              selectedGridData.trialGridDetail?.timeUsed <=
+              0) && (
             <ModalTrialGridExpired setupYourOwnGrid={setupYourOwnGrid} />
           )}
           {selectedGridData.status === 'offline' && <ModalGridDisconnected />}
