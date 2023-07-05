@@ -1,79 +1,74 @@
-# Turborepo starter
+# Frontend Repository
 
-This is Frontend
+Welcome to the Frontend repository! This repository follows a monorepo architecture and consists of various packages and apps, primarily focused on speedboat development.
 
-## What's inside?
+## Setup
 
-This turborepo uses [pnpm](https://pnpm.io) as a package manager. It includes the following packages/apps:
+Before getting started, ensure that you have the following requirements installed on your system:
 
-### Apps and Packages
+-   Node (v18.4.0)
+-   nvm (Comes along with Node)
+-   package manager - pnpm (Install pnpm globally)
 
-- `initial-app`: a dummy CRA for testing out configurations
-- `bifrost`: the browserstack DS components with storybook integration
-- `@browserstack/eslint-config`: `eslint` configurations (includes those from BSFE)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo, currently dormant, might integrate in future.
+Follow the steps below to set up the repository on your local machine:
 
-### Utilities
+1.  Clone the repository: 
 
-This turborepo has some additional tools already setup for you:
+    `git clone https://github.com/browserstack/frontend.git` 
+    
+2.  Checkout to the master branch (or any branch of your choice):
+   
+    `git checkout master` 
+    
+3.  Convert the `.npmrc.sample` file to `.npmrc` and add your GitHub token in the same file.
+4.  Navigate to the root folder of the repository and run the following commands:
+  
+    `pnpm install`
+    
+    `pnpm run build:dev-package` 
+    
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+## How to Run/Build Packages/Apps
 
-### Storybook
+To run or build a specific package/app, follow these steps:
 
-To run storybook locally, run the following command:
+1.  Open your terminal and navigate to the specific path of the desired package/app. 
+    
+  Example: If you want to build/run the "tcm" package, run the following command:
+    
+  `cd path/to/tcm` 
+    
+2.  Build the package/app:
+    
+    `pnpm run build` 
+    
+3.  Run the package/app:
+    
+    `pnpm run dev` 
+    
 
-```
-cd frontend
-pnpm run storybook
-```
+Please note that you may need to adjust the specific commands based on the package/app you want to build/run.
 
-### Build
+## Important links
 
-To build all apps and packages, run the following command:
+- [Package list and dependency graph](https://browserstack.atlassian.net/wiki/spaces/ENG/pages/3874193452/Package+List+and+Dependency+Graph)
+- [Bifrost Changelog](https://browserstack.atlassian.net/wiki/spaces/ENG/pages/3840344656/Bifrost+Change+log)
+- [Utils Changelog](https://browserstack.atlassian.net/wiki/spaces/ENG/pages/3865149710/Utils+Package+Changelog)
+- [Infra setup for APP](https://browserstack.atlassian.net/wiki/spaces/ENG/pages/3845490804/Process+Document+for+Infra+Setup+for+Hosting+a+Frontend+Product)
+- [Frontend 2.0](https://browserstack.atlassian.net/wiki/spaces/ENG/pages/3820947043/Frontend+2.0)
 
-```
-cd frontend
-pnpm run build
-```
+## Troubleshoot
 
-### Develop
+**Github token expire**
 
-To develop all apps and packages, run the following command:
+**Description** https://npm.pkg.github.com/download/@browserstack/utils/0.2.4/bc95a50349e72ee200d9659cdbf09f4b926feb38: Unauthorized - 401
 
-```
-cd frontend
-pnpm run dev
-```
+**Solution** : Update the github token in .npmrc
 
-### Remote Caching
+## Additional Pointers
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+-   Ensure that you have the required version of Node.js (v18.4.0) installed on your system.
+-   Make sure to set up the GitHub token in the `.npmrc` file to access the required dependencies.
+-   If you encounter any issues during the setup or while running/building the packages/apps, please refer to the documentation or reach out to the team for assistance.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-pnpm dlx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
-
-```
-pnpm dlx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Pipelines](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+Happy coding STACKMATES!
