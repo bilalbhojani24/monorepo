@@ -370,12 +370,7 @@ const useSetup = () => {
     }).then((res) => {
       const { gridId } = res.data;
       if (res.status === 200) {
-        dispatch(
-          setTrialGridUsed({
-            isExpired: false,
-            isUsed: true
-          })
-        );
+        dispatch(setTrialGridUsed(true));
         navigate(`${ROUTES.AUTOMATION_CONSOLE}/grid/${gridId}/overview`);
       }
     });

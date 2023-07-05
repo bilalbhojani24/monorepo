@@ -7,7 +7,10 @@ import AutomatioConsole from 'assets/icons/components/AutomationConsole';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import { AUTOMATION_CONSOLE, BUILDS_DASHBOARD } from 'constants/strings';
-import { getSelectedGridData } from 'features/GridConsole/slices/selector';
+import {
+  getGridsData,
+  getSelectedGridData
+} from 'features/GridConsole/slices/selector';
 import {
   setCurrentOnboardingTooltipCount,
   setShowOnboardingTooltips
@@ -35,6 +38,7 @@ const useLayout = () => {
   const currentOnboardingTooltipCount = useSelector(
     getCurrentOnboardingTooltipcount
   );
+  const gridsList = useSelector(getGridsData);
   const lastKnownSetupType = useSelector(getLastKnownSetupType);
   const selectedGridData = useSelector(getSelectedGridData);
   const showOnboardingTooltips = useSelector(getShowOnboardingTooltips);
@@ -129,11 +133,12 @@ const useLayout = () => {
   useEffect(() => {
     const { isUsed } = trialGrid;
 
-    setShowTrialGridBannerInGridOverview(isUsed || true);
+    setShowTrialGridBannerInGridOverview(isUsed || false);
   }, [selectedGridData, trialGrid]);
 
   return {
     currentOnboardingTooltipCount,
+    gridsList,
     isCurrent,
     lastKnownSetupType,
     navigate,
@@ -143,6 +148,7 @@ const useLayout = () => {
     selectedGridData,
     showOnboardingTooltips,
     showTrialGridBannerInGridOverview,
+    trialGrid,
     userDetails
   };
 };
