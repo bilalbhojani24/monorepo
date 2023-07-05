@@ -69,9 +69,11 @@ const useLayout = () => {
       onboardingTooltipContent: 'Check your test results on Build Dashboard',
       onboardingTooltipHeader: 'Run and view build results ',
       onboardingTooltipNextBtnhandler: () => {
+        updateMetadata(userDetails.id, true);
         dispatch(setCurrentOnboardingTooltipCount(5));
       },
       onboardingTooltipSkipBtnHandler: () => {
+        updateMetadata(userDetails.id, true);
         dispatch(setShowOnboardingTooltips(false));
       },
       path: ROUTES.BUILDS,
