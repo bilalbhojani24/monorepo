@@ -51,12 +51,14 @@ import {
   getUserDetails,
   getUserHasSessions
 } from 'globalSlice/selector';
+import { getEnvConfig } from 'utils/common';
 import { logHSTEvent } from 'utils/logger';
 
 import { DEFAULT_CLOUD_PROVIDER, SUB_TEXTS_OBJECT } from '../constants';
 
 const useSetup = () => {
   const dispatch = useDispatch();
+  const envConfig = getEnvConfig();
   const navigate = useNavigate();
   const searchParams = useSearchParams()[0];
 
@@ -843,6 +845,7 @@ const useSetup = () => {
     dismissCustomiseGridDetailModal,
     displaySubnetsItemsArray,
     displayVPCItemsArray,
+    envConfig,
     eventLogsCode,
     eventLogsStatus,
     exploreAutomationClickHandler,

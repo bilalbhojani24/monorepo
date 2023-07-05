@@ -9,12 +9,14 @@ import {
 import { useMountEffect } from '@browserstack/hooks';
 import { AGTrialGridExpiredModalPresented } from 'constants/event-names';
 import PropTypes from 'prop-types';
+import { getEnvConfig } from 'utils/common';
 import { logHSTEvent } from 'utils/logger';
 
 import { setShowOnboardingTooltips } from '../slices';
 
 const ModalTrialGridExpired = ({ setupYourOwnGrid }) => {
   const dispatch = useDispatch();
+  const envConfig = getEnvConfig();
   useMountEffect(() => {
     dispatch(setShowOnboardingTooltips(false));
     logHSTEvent(['amplitude'], 'web_events', AGTrialGridExpiredModalPresented);
@@ -45,7 +47,7 @@ const ModalTrialGridExpired = ({ setupYourOwnGrid }) => {
               <Button
                 onClick={() =>
                   window.open(
-                    `${window.origin}/contact#other?ref=ATS-trial-grid-expired-modal`,
+                    `${envConfig.baseUrl}/contact#other?ref=ATS-trial-grid-expired-modal`,
                     '_blank'
                   )
                 }
