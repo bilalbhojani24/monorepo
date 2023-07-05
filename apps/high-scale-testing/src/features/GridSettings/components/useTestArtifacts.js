@@ -8,6 +8,9 @@ import { getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
 const useTestArtifacts = (notifactionComponent) => {
+  const RESTRICTED_TOOLTIP_MESSAGE =
+    'Modification of this setting is restrictred in this grid';
+
   // All Store variables:
   const selectedGridData = useSelector(getSelectedGridData);
   const userDetails = useSelector(getUserDetails);
@@ -78,6 +81,7 @@ const useTestArtifacts = (notifactionComponent) => {
   }, [selectedGridData]);
 
   return {
+    RESTRICTED_TOOLTIP_MESSAGE,
     frameworkLogsChangeHandler,
     frameworkLogsValue,
     logsRetentionChangeHandler,

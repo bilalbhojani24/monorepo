@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { notify } from '@browserstack/bifrost';
 import { updateSettings } from 'api/index';
 import { AGGridSettingsSaved } from 'constants/event-names';
-import { getGridsData } from 'features/GridConsole/slices/selector';
+import { getSelectedGridData } from 'features/GridConsole/slices/selector';
 import { getIsApploading, getUserDetails } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
@@ -16,7 +16,7 @@ const useBrowserSettings = (notifactionComponent) => {
 
   // All Store variables:
   const fetchedGridData = useSelector(getIsApploading);
-  const gridData = useSelector(getGridsData);
+  const selectedGridData = useSelector(getSelectedGridData);
   const userDetails = useSelector(getUserDetails);
 
   // All State variables:
@@ -30,7 +30,7 @@ const useBrowserSettings = (notifactionComponent) => {
   const [allowedBrowsersValue, setAllowedBrowsersValue] = useState([]);
 
   const onCPUChangeHandler = (e) => {
-    const newValue = parseInt(e.target.value);
+    const newValue = parseInt(e.target.value, 10);
     setCpuValue(newValue);
 
     if (newValue < 250 || newValue > 2500) {
@@ -43,7 +43,7 @@ const useBrowserSettings = (notifactionComponent) => {
   };
 
   const onMemoryLimitChangeHandler = (e) => {
-    const newValue = parseInt(e.target.value);
+    const newValue = parseInt(e.target.value, 10);
 
     setMemoryLimitValue(newValue);
 
@@ -57,17 +57,19 @@ const useBrowserSettings = (notifactionComponent) => {
   };
 
   const updateGridBrowserSettings = (settingsObj) => {
-    updateSettings(userDetails.id, gridData.id, settingsObj).then((d) => {
-      setIsSaveButtonDisabled(true);
-      setIsSavingInProgress(false);
+    updateSettings(userDetails.id, selectedGridData.id, settingsObj).then(
+      (d) => {
+        setIsSaveButtonDisabled(true);
+        setIsSavingInProgress(false);
 
-      if (d.status === 200) {
-        notify(notifactionComponent, {
-          position: 'top-right',
-          duration: 4000
-        });
+        if (d.status === 200) {
+          notify(notifactionComponent, {
+            position: 'top-right',
+            duration: 4000
+          });
+        }
       }
-    });
+    );
   };
 
   const saveBtnClickhandler = () => {
@@ -93,11 +95,11 @@ const useBrowserSettings = (notifactionComponent) => {
   };
 
   useEffect(() => {
-    if (Object.keys(gridData).length > 0) {
-      setCpuValue(gridData.browserSettings.resources.cpu);
-      setMemoryLimitValue(gridData.browserSettings.resources.memory);
+    if (Object.keys(selectedGridData).length > 0) {
+      setCpuValue(selectedGridData.browserSettings.resources.cpu);
+      setMemoryLimitValue(selectedGridData.browserSettings.resources.memory);
       const allowedBrowsers = Object.keys(
-        gridData.browserSettings.allowedBrowsers
+        selectedGridData.browserSettings.allowedBrowsers
       );
       const temp = allowedBrowsers.map((e) => {
         let val = e;
@@ -109,7 +111,7 @@ const useBrowserSettings = (notifactionComponent) => {
       });
       setAllowedBrowsersValue(temp);
     }
-  }, [gridData]);
+  }, [selectedGridData]);
 
   return {
     allAvailableBrowsers,

@@ -13,7 +13,7 @@ const LayoutGridDetail = () => {
   const {
     currentTab,
     fetchedGridData,
-    gridData,
+    selectedGridData,
     onTabChangeHandler,
     setupYourOwnGrid,
     showNewGridCreatedModal
@@ -54,7 +54,7 @@ const LayoutGridDetail = () => {
                   current: true
                 }
               ]}
-              heading={gridData.name || ''}
+              heading={selectedGridData.name || ''}
             />
 
             {TabsForGridDetail}
@@ -62,10 +62,10 @@ const LayoutGridDetail = () => {
 
           <Outlet />
 
-          {gridData.status === 'expired' && (
+          {selectedGridData.status === 'expired' && (
             <ModalTrialGridExpired setupYourOwnGrid={setupYourOwnGrid} />
           )}
-          {gridData.status === 'offline' && <ModalGridDisconnected />}
+          {selectedGridData.status === 'offline' && <ModalGridDisconnected />}
           {showNewGridCreatedModal && <ModalGridCreatedSuccessfully />}
         </>
       )}

@@ -5,7 +5,9 @@ import {
   InputGroupAddOn,
   Notifications,
   notify,
-  Switch
+  Switch,
+  Tooltip,
+  TooltipBody
 } from '@browserstack/bifrost';
 
 import useTestArtifacts from './useTestArtifacts';
@@ -21,7 +23,9 @@ const TestArtifactsSettings = () => {
       }}
     />
   );
+
   const {
+    RESTRICTED_TOOLTIP_MESSAGE,
     frameworkLogsChangeHandler,
     frameworkLogsValue,
     logsRetentionChangeHandler,
@@ -53,13 +57,22 @@ const TestArtifactsSettings = () => {
               Enable or Disable the toggle to configure if video logs should be
               generated or not. It is enabled by default.
             </p>
-            <div className="w-1/12">
-              <Switch
-                checked={videoLogValue}
-                disabled={isTrialGrid}
-                onChange={videoLogsChangeHandler}
-              />
-            </div>
+            <Tooltip
+              alignOffset={10}
+              arrowPadding={10}
+              content={<TooltipBody>{RESTRICTED_TOOLTIP_MESSAGE}</TooltipBody>}
+              placementSide="top"
+              show={!isTrialGrid ? false : undefined}
+              theme="dark"
+            >
+              <div className="w-1/12">
+                <Switch
+                  checked={videoLogValue}
+                  disabled={isTrialGrid}
+                  onChange={videoLogsChangeHandler}
+                />
+              </div>
+            </Tooltip>
           </div>
         </div>
         {/* --- X --- Video Logs --- X --- */}
@@ -74,13 +87,22 @@ const TestArtifactsSettings = () => {
               (Selenium/Playwright) logs should be generated or not. It is
               enabled by default.
             </p>
-            <div className="w-1/12">
-              <Switch
-                checked={frameworkLogsValue}
-                disabled={isTrialGrid}
-                onChange={frameworkLogsChangeHandler}
-              />
-            </div>
+            <Tooltip
+              alignOffset={10}
+              arrowPadding={10}
+              content={<TooltipBody>{RESTRICTED_TOOLTIP_MESSAGE}</TooltipBody>}
+              placementSide="top"
+              show={!isTrialGrid ? false : undefined}
+              theme="dark"
+            >
+              <div className="w-1/12">
+                <Switch
+                  checked={frameworkLogsValue}
+                  disabled={isTrialGrid}
+                  onChange={frameworkLogsChangeHandler}
+                />
+              </div>
+            </Tooltip>
           </div>
         </div>
         {/* --- X --- Framework Logs --- X --- */}
@@ -93,34 +115,52 @@ const TestArtifactsSettings = () => {
             logs stored for this grid. It is set to 7 days by default.
           </p>
 
-          <div className="mt-3 w-32">
-            <InputField
-              addOnAfter={
-                <InputGroupAddOn position="end">days</InputGroupAddOn>
-              }
-              disabled={isTrialGrid}
-              id="test-id"
-              onBlur={null}
-              onChange={logsRetentionChangeHandler}
-              onFocus={null}
-              onKeyDown={null}
-              placeholder="7"
-              type="number"
-              value={logsRetentionValue}
-            />
-          </div>
+          <Tooltip
+            alignOffset={10}
+            arrowPadding={10}
+            content={<TooltipBody>{RESTRICTED_TOOLTIP_MESSAGE}</TooltipBody>}
+            placementSide="right"
+            show={!isTrialGrid ? false : undefined}
+            theme="dark"
+          >
+            <div className="mt-3 w-32">
+              <InputField
+                addOnAfter={
+                  <InputGroupAddOn position="end">days</InputGroupAddOn>
+                }
+                disabled={isTrialGrid}
+                id="test-id"
+                onBlur={null}
+                onChange={logsRetentionChangeHandler}
+                onFocus={null}
+                onKeyDown={null}
+                placeholder="7"
+                type="number"
+                value={logsRetentionValue}
+              />
+            </div>
+          </Tooltip>
         </div>
         {/* --- X --- Log Retention --- X --- */}
       </div>
 
       <div className="bg-base-50 flex flex-row-reverse px-6 py-3">
-        <Button
-          disabled={isSaveButtonDisabled}
-          loading={isSavingInProgress}
-          onClick={saveBtnClickhandler}
+        <Tooltip
+          alignOffset={10}
+          arrowPadding={10}
+          content={<TooltipBody>{RESTRICTED_TOOLTIP_MESSAGE}</TooltipBody>}
+          placementSide="top"
+          show={!isTrialGrid ? false : undefined}
+          theme="dark"
         >
-          Save Changes
-        </Button>
+          <Button
+            disabled={isSaveButtonDisabled}
+            loading={isSavingInProgress}
+            onClick={saveBtnClickhandler}
+          >
+            Save Changes
+          </Button>
+        </Tooltip>
       </div>
     </>
   );

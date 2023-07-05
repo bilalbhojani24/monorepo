@@ -26,7 +26,10 @@ import {
 } from 'globalSlice/selector';
 import { logHSTEvent } from 'utils/logger';
 
-import { getSelectedGridData } from '../../GridConsole/slices/selector';
+import {
+  getGridsData,
+  getSelectedGridData
+} from '../../GridConsole/slices/selector';
 
 const useLayoutGridDetail = () => {
   const dispatch = useDispatch();
@@ -40,7 +43,8 @@ const useLayoutGridDetail = () => {
   const userDetails = useSelector(getUserDetails);
 
   // All Store variables
-  const gridData = useSelector(getSelectedGridData);
+  const gridList = useSelector(getGridsData);
+  const selectedGridData = useSelector(getSelectedGridData);
   const lastKnownSetupType = useSelector(getLastKnownSetupType);
 
   // All State variables
@@ -64,9 +68,9 @@ const useLayoutGridDetail = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      dispatch(setShowOnboardingTooltips(gridData.isTrialGrid));
+      dispatch(setShowOnboardingTooltips(selectedGridData.isTrialGrid));
     }, 1000);
-  }, [dispatch, gridData]);
+  }, [dispatch, selectedGridData]);
 
   useEffect(() => {
     if (currentTab.name === 'Settings') {
@@ -89,6 +93,7 @@ const useLayoutGridDetail = () => {
       dispatch(setFetchedGridData(true));
     };
 
+    console.log('Log: fetchedGridData:', fetchedGridData);
     if (paramId && !fetchedGridData) fetchGridDataByIdFromAPI(paramId);
   }, [dispatch, fetchedGridData, paramId, userDetails]);
 
@@ -98,6 +103,7 @@ const useLayoutGridDetail = () => {
         index: 0,
         name: 'Overview'
       };
+
       const isOverviewPath = matchPath(
         { path: ROUTES.GRID_OVERVIEW },
         location.pathname
@@ -125,6 +131,14 @@ const useLayoutGridDetail = () => {
         };
       }
 
+      if (fetchedGridData) {
+        const currentSelectedGridData = gridList.filter(
+          (item) => item.id == paramId
+        )[0];
+
+        dispatch(setSelectedGridData(currentSelectedGridData));
+      }
+
       setCurrentTab(tabToOpen);
 
       if (tabToOpen.name === 'Settings') navigate(location.pathname);
@@ -142,7 +156,7 @@ const useLayoutGridDetail = () => {
   return {
     currentTab,
     fetchedGridData,
-    gridData,
+    selectedGridData,
     onTabChangeHandler,
     setupYourOwnGrid,
     showNewGridCreatedModal
