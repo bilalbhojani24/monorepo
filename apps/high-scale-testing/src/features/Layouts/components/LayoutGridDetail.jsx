@@ -62,7 +62,7 @@ const LayoutGridDetail = () => {
 
           <Outlet />
 
-          {(selectedGridData.status === 'expired' ||
+          {(selectedGridData.status.toLowerCase() === 'expired' ||
             selectedGridData.trialGridDetail?.totalTime -
               selectedGridData.trialGridDetail?.timeUsed <=
               0) && (
