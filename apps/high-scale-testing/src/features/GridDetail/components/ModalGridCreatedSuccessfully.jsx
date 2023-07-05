@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, CheckIcon, Modal, ModalBody } from '@browserstack/bifrost';
+import PropTypes from 'prop-types';
 
-const ModalGridCreatedSuccessfully = () => (
+const ModalGridCreatedSuccessfully = ({ switchToOwnGridHandler }) => (
   <Modal show size="sm">
     <ModalBody className="py-5">
       <div>
@@ -21,11 +22,20 @@ const ModalGridCreatedSuccessfully = () => (
           </div>
         </div>
 
-        <Button fullWidth wrapperClassName="mt-6">
+        <Button
+          fullWidth
+          wrapperClassName="mt-6"
+          onClick={switchToOwnGridHandler}
+        >
           Switch from trial to your own grid
         </Button>
       </div>
     </ModalBody>
   </Modal>
 );
+
+ModalGridCreatedSuccessfully.propTypes = {
+  switchToOwnGridHandler: PropTypes.func.isRequired
+};
+
 export { ModalGridCreatedSuccessfully };

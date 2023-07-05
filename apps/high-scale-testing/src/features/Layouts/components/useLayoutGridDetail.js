@@ -66,10 +66,20 @@ const useLayoutGridDetail = () => {
     navigate(`${ROUTES.SETUP}?type=${lastKnownSetupType}`);
   };
 
+  const switchToOwnGridHandler = () => {
+    navigate(ROUTES.GRID_CONSOLE);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(setShowOnboardingTooltips(selectedGridData.isTrialGrid));
     }, 1000);
+
+    if (selectedGridData.isTrialGrid) {
+      setShowNewGridCreatedModal(
+        selectedGridData.trialGridDetail.userGridCreated
+      );
+    }
   }, [dispatch, selectedGridData]);
 
   useEffect(() => {
@@ -159,7 +169,8 @@ const useLayoutGridDetail = () => {
     selectedGridData,
     onTabChangeHandler,
     setupYourOwnGrid,
-    showNewGridCreatedModal
+    showNewGridCreatedModal,
+    switchToOwnGridHandler
   };
 };
 
