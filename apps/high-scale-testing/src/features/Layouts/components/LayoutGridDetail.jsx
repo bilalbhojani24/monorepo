@@ -15,6 +15,7 @@ const LayoutGridDetail = () => {
     fetchedGridData,
     gridData,
     onTabChangeHandler,
+    setupYourOwnGrid,
     showNewGridCreatedModal
   } = useLayoutGridDetail();
 
@@ -61,7 +62,9 @@ const LayoutGridDetail = () => {
 
           <Outlet />
 
-          {gridData.status === 'expired' && <ModalTrialGridExpired />}
+          {gridData.status === 'expired' && (
+            <ModalTrialGridExpired setupYourOwnGrid={setupYourOwnGrid} />
+          )}
           {gridData.status === 'offline' && <ModalGridDisconnected />}
           {showNewGridCreatedModal && <ModalGridCreatedSuccessfully />}
         </>

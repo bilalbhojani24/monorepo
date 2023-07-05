@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useInterval, useMountEffect } from '@browserstack/hooks';
 import {
   createNewGridProfile,
@@ -57,6 +57,7 @@ import { DEFAULT_CLOUD_PROVIDER, SUB_TEXTS_OBJECT } from '../constants';
 const useSetup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const searchParams = useSearchParams()[0];
 
   // All Store variables:
   const allAvailableInstanceTypes = useSelector(getInstanceTypes);
@@ -77,7 +78,8 @@ const useSetup = () => {
   const [currentGridConcurrency, setCurrentGridConcurrency] = useState(
     DEFAULT_GRID_CONCURRENCY
   );
-  const [currentGridInstanceType, setCurrentGridInstanceType] = useState(null);
+  const [currentGridInstanceType, setCurrentGridInstanceType] =
+    useState('m7g.medium');
   const [currentGridName, setCurrentGridName] = useState('default');
   const [activeGridManagerCodeSnippet, setActiveGridManagerCodeSnippet] =
     useState({ index: 0, name: GRID_MANAGER_NAMES.helm });
@@ -91,7 +93,7 @@ const useSetup = () => {
   const [eventLogsStatus, setEventLogsStatus] = useState(
     EVENT_LOGS_STATUS.NOT_STARTED
   );
-  const [gridProfileData, setGridProfileData] = useState([]);
+  const [gridProfileData, setGridProfileData] = useState({});
   const [headerText, setHeaderText] = useState(
     HEADER_TEXTS_OBJECT(userDetails).intro
   );
@@ -454,8 +456,8 @@ const useSetup = () => {
       console.log('Successfully customised Setup grid');
 
       setCurrentClusterName(gridProfileData.clusters[0].name);
-      setCurrentGridConcurrency(gridProfileData.concurrency);
-      setCurrentGridInstanceType(gridProfileData.profile.instanceType);
+      setCurrentGridConcurrency(gridProfileData.profile.concurrency);
+      setCurrentGridInstanceType(selectedInstanceType.value);
       setCurrentGridName(gridProfileData.profile.name);
 
       setIsSaving(false);
@@ -523,11 +525,13 @@ const useSetup = () => {
         )
       );
 
-      setSelectedInstanceType(
-        allAvailableInstanceTypes[currentSelectedCloudProvider.value].find(
-          (e) => e.label === selectedGridProfileData?.profile.instanceType
-        )
-      );
+      const tmpInstanceType = allAvailableInstanceTypes[
+        currentSelectedCloudProvider.value
+      ].find((e) => e.label === selectedGridProfileData?.profile.instanceType);
+
+      setSelectedInstanceType(tmpInstanceType);
+
+      setCurrentGridInstanceType(tmpInstanceType.value);
     }
   }, [gridProfileData]);
 
@@ -777,6 +781,7 @@ const useSetup = () => {
   );
 
   useMountEffect(() => {
+    const type = searchParams.get('type');
     const fetchSetupData = async () => {
       const response = await getSetupData(userDetails.id);
       const res = response.data;
@@ -793,6 +798,14 @@ const useSetup = () => {
 
       if (pollForEventLogs) {
         intervalIdForEventLogs.current = EVENT_LOGS_POLLING_IN_MS;
+      }
+
+      if (type === 'scratch') {
+        setSelectedOption(STEP_1_RADIO_GROUP_OPTIONS[0]);
+        setSetupStep(1);
+      } else if (type === 'existing') {
+        setSelectedOption(STEP_1_RADIO_GROUP_OPTIONS[1]);
+        setSetupStep(1);
       }
     } else {
       window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;

@@ -119,6 +119,12 @@ const GridsListing = () => {
                   gridRowHandler(gridId);
                 };
 
+                const filteredOptions = options.filter(
+                  (opt) =>
+                    (opt.id === 'delete' && !gridData.isTrialGrid) ||
+                    opt.id === 'settings'
+                );
+
                 return (
                   <TableRow className="cursor-pointer">
                     <TableCell wrapperClassName="px-6 py-4">
@@ -247,7 +253,7 @@ const GridsListing = () => {
                         </div>
 
                         <DropdownOptionGroup wrapperClassName="w-full">
-                          {options.map((opt) => (
+                          {filteredOptions.map((opt) => (
                             <DropdownOptionItem key={opt.value} option={opt} />
                           ))}
                         </DropdownOptionGroup>

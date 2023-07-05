@@ -7,10 +7,11 @@ import {
   ModalBody
 } from '@browserstack/bifrost';
 import { useMountEffect } from '@browserstack/hooks';
+import PropTypes from 'prop-types';
 
 import { setShowOnboardingTooltips } from '../slices';
 
-const ModalTrialGridExpired = () => {
+const ModalTrialGridExpired = ({ setupYourOwnGrid }) => {
   const dispatch = useDispatch();
   useMountEffect(() => {
     dispatch(setShowOnboardingTooltips(false));
@@ -50,7 +51,9 @@ const ModalTrialGridExpired = () => {
               >
                 Contact Support
               </Button>
-              <Button size="default">Setup your own grid</Button>
+              <Button size="default" onClick={setupYourOwnGrid}>
+                Setup your own grid
+              </Button>
             </div>
           </div>
         </div>
@@ -58,4 +61,9 @@ const ModalTrialGridExpired = () => {
     </Modal>
   );
 };
+
+ModalTrialGridExpired.propTypes = {
+  setupYourOwnGrid: PropTypes.func.isRequired
+};
+
 export { ModalTrialGridExpired };
