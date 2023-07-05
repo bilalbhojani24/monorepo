@@ -12,14 +12,14 @@ const DraggableContainer = ({ children, position, positionRef }) => {
   const windowDimensions = useWindowSize();
 
   const widgetResizeObserver = useResizeObserver(widgetRef);
-  const windowHeight = windowDimensions.height ?? window.innerHeight - 8;
+  const windowHeight = (windowDimensions.height ?? window.innerHeight) - 8;
   // max widget height should be 90% of the window height
   // multiply by 0.9 to get 90% of the windowHeight
   const widgetMaxHeight =
     windowHeight * 0.9 < DEFAULT_WIDGET_DIMENSIONS.MAX[1]
       ? DEFAULT_WIDGET_DIMENSIONS.MAX[1]
       : windowHeight * 0.9;
-  const windowWidth = windowDimensions.width ?? window.innerWidth - 8;
+  const windowWidth = (windowDimensions.width ?? window.innerWidth) - 8;
   const [refAquired, setRefAquired] = useState(false);
   const [widgetPosition, setWidgetPosition] = useState(null);
   const [widgetDimensions, setWidgetDimensions] = useState({
@@ -99,7 +99,7 @@ const DraggableContainer = ({ children, position, positionRef }) => {
     >
       <div
         ref={widgetRef}
-        className={'border-base-200 absolute top-0 z-10 flex flex-col overflow-hidden rounded-md border border-solid transform-gpu drop-shadow-lg'.concat(
+        className={'border-base-200 fixed top-0 z-10 flex flex-col overflow-hidden rounded-md border border-solid transform-gpu drop-shadow-lg'.concat(
           widgetPosition ? '' : ' hidden'
         )}
         style={{
