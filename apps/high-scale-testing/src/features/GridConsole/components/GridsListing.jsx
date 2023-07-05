@@ -16,6 +16,7 @@ import ChromeIcon from 'assets/icons/components/browsers/ChromeIcon';
 import EdgeIcon from 'assets/icons/components/browsers/EdgeIcon';
 import FirefoxIcon from 'assets/icons/components/browsers/FirefoxIcon';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
+import ROUTES from 'constants/routes';
 import { logHSTEvent } from 'utils/logger';
 
 import DeleteGrid from './DeleteGrid';
@@ -106,7 +107,7 @@ const GridsListing = () => {
                   {
                     id: 'settings',
                     body: 'Settings',
-                    url: `/grid-console/grid/${gridId}/settings/general`
+                    url: `${ROUTES.AUTOMATION_CONSOLE}/grid/${gridId}/settings/general`
                   }
                 ];
 

@@ -119,11 +119,15 @@ const useLayoutGridDetail = () => {
         action: 'general'
       });
       navigate(
-        `/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}/general`
+        `${
+          ROUTES.AUTOMATION_CONSOLE
+        }/grid/${paramId}/${currentTab.name.toLowerCase()}/general`
       );
     } else
       navigate(
-        `/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}`
+        `${
+          ROUTES.AUTOMATION_CONSOLE
+        }/grid/${paramId}/${currentTab.name.toLowerCase()}`
       );
   }, [paramId, currentTab]);
 
@@ -184,7 +188,9 @@ const useLayoutGridDetail = () => {
       if (tabToOpen.name === 'Settings') navigate(location.pathname);
       else
         navigate(
-          `/grid-console/grid/${paramId}/${tabToOpen.name.toLowerCase()}`
+          `${
+            ROUTES.AUTOMATION_CONSOLE
+          }/grid/${paramId}/${tabToOpen.name.toLowerCase()}`
         );
     },
     () => {

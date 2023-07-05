@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import ROUTES from 'constants/routes';
 
 import { setSelectedGridData } from '../slices';
 import { getGridsData } from '../slices/selector';
@@ -49,7 +50,7 @@ const useGridListing = () => {
     const gridData = gridList.filter((item) => item.id === gridId)[0];
     dispatch(setSelectedGridData(gridData));
 
-    navigate(`/grid-console/grid/${gridId}/overview`);
+    navigate(`${ROUTES.AUTOMATION_CONSOLE}/grid/${gridId}/overview`);
   };
 
   useEffect(() => {

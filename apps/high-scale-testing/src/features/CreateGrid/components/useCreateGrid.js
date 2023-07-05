@@ -78,7 +78,7 @@ const useCreateGrid = () => {
     {
       current: false,
       name: 'Automation Console',
-      url: '/grid-console',
+      url: ROUTES.AUTOMATION_CONSOLE,
       goToStep: 0
     },
     {

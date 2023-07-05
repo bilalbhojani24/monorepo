@@ -374,7 +374,7 @@ const useSetup = () => {
             isUsed: true
           })
         );
-        navigate(`/grid-console/grid/${gridId}/overview`);
+        navigate(`${ROUTES.AUTOMATION_CONSOLE}/grid/${gridId}/overview`);
       }
     });
   };
