@@ -10,7 +10,9 @@ import { useMountEffect } from '@browserstack/hooks';
 import { fetchGridDataById } from 'api/index';
 import {
   AGGridDetailsInteracted,
-  AGGridSettingsVisited
+  AGGridSettingsVisited,
+  AGStartedSetupGuide,
+  AGUpgradedFromTrial
 } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import {
@@ -67,10 +69,15 @@ const useLayoutGridDetail = () => {
   };
 
   const setupYourOwnGrid = () => {
+    logHSTEvent([], 'web_events', AGStartedSetupGuide, {
+      url: window.location.href,
+      location: 'expire_modal'
+    });
     navigate(`${ROUTES.SETUP}?type=${lastKnownSetupType}`);
   };
 
   const switchToOwnGridHandler = () => {
+    logHSTEvent([], 'web_events', AGUpgradedFromTrial);
     navigate(ROUTES.GRID_CONSOLE);
   };
 
@@ -127,7 +134,6 @@ const useLayoutGridDetail = () => {
       dispatch(setFetchedGridData(true));
     };
 
-    console.log('Log: fetchedGridData:', fetchedGridData);
     if (paramId && !fetchedGridData) fetchGridDataByIdFromAPI(paramId);
   }, [dispatch, fetchedGridData, paramId, userDetails]);
 

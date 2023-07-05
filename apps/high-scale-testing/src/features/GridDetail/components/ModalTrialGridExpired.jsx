@@ -7,7 +7,9 @@ import {
   ModalBody
 } from '@browserstack/bifrost';
 import { useMountEffect } from '@browserstack/hooks';
+import { AGTrialGridExpiredModalPresented } from 'constants/event-names';
 import PropTypes from 'prop-types';
+import { logHSTEvent } from 'utils/logger';
 
 import { setShowOnboardingTooltips } from '../slices';
 
@@ -15,6 +17,7 @@ const ModalTrialGridExpired = ({ setupYourOwnGrid }) => {
   const dispatch = useDispatch();
   useMountEffect(() => {
     dispatch(setShowOnboardingTooltips(false));
+    logHSTEvent(['amplitude'], 'web_events', AGTrialGridExpiredModalPresented);
   });
 
   return (

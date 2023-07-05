@@ -12,9 +12,11 @@ import {
   TooltipHeader
 } from '@browserstack/bifrost';
 import { BannerMessages } from 'constants/bannerMessages';
+import { AGStartedSetupGuide } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import { AUTOMATION_CONSOLE, BUILDS_DASHBOARD } from 'constants/strings';
 import HSTHeader from 'features/HSTHeader/component';
+import { logHSTEvent } from 'utils/logger';
 
 import { useLayout } from './useLayout';
 
@@ -49,9 +51,13 @@ const Layout = () => {
             ctaButton={
               <Button
                 colors="white"
-                onClick={() =>
-                  navigate(`${ROUTES.SETUP}?type=${lastKnownSetupType}`)
-                }
+                onClick={() => {
+                  logHSTEvent([], 'web_events', AGStartedSetupGuide, {
+                    url: window.location.href,
+                    location: 'banner'
+                  });
+                  navigate(`${ROUTES.SETUP}?type=${lastKnownSetupType}`);
+                }}
               >
                 Create Grid
               </Button>

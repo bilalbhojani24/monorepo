@@ -24,6 +24,7 @@ import {
   AGNoSetupStepsExecuted,
   AGSetupGuideInteracted,
   AGSetupGuideVisited,
+  AGStartedTrialGrid,
   AGSuccessGridModalInteracted,
   AGSuccessGridModalPresented
 } from 'constants/event-names';
@@ -275,7 +276,6 @@ const useSetup = () => {
   };
 
   const customiseBtnHandler = () => {
-    console.log('Log: customiseBtnHandler');
     setShowCustomiseGridDetailsModal(true);
   };
 
@@ -354,6 +354,13 @@ const useSetup = () => {
   );
 
   const useTrialGridClickHandler = async () => {
+    logHSTEvent([], 'web_events', AGStartedTrialGrid, {
+      action: 'use_trial_grid_clicked',
+      option:
+        selectedOption.label === STEP_1_RADIO_GROUP_OPTIONS[0].label
+          ? 'no_setup'
+          : 'have_setup'
+    });
     setUseTrialGridLoading(true);
     await createTrialGridForUser({
       userId: userDetails.id,
@@ -453,8 +460,6 @@ const useSetup = () => {
     const { status } = res;
 
     if (status === 200) {
-      console.log('Successfully customised Setup grid');
-
       setCurrentClusterName(gridProfileData.clusters[0].name);
       setCurrentGridConcurrency(gridProfileData.profile.concurrency);
       setCurrentGridInstanceType(selectedInstanceType.value);
@@ -463,7 +468,6 @@ const useSetup = () => {
       setIsSaving(false);
       setShowCustomiseGridDetailsModal(false);
     } else {
-      console.log('Failed to customise Setup grid');
       setIsSaving(false);
     }
   };
@@ -471,12 +475,10 @@ const useSetup = () => {
   // All useEffects:
 
   useEffect(() => {
-    console.log('Log: gridProfileData:', gridProfileData);
     setSelectedGridName(selectedGridProfile.value);
 
     if (Object.keys(gridProfileData).length > 0 && selectedGridProfile) {
       const selectedGridProfileData = gridProfileData;
-      console.log('Log: selectedGridProfileData:', selectedGridProfileData);
 
       // --- Build Subnets ---
       const tmpSubnets = selectedGridProfileData?.subnets;
