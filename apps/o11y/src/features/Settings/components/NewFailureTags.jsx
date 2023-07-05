@@ -28,117 +28,127 @@ const STATIC_DROPDOWN_DATA = [
     .map((_, i) => ({ name: i + 2, value: i + 2 }))
 ];
 
-export const NewFailureTags = forwardRef(({ data, isActive, docLink }, ref) => {
-  const dispatch = useDispatch();
-  const { failureType, consecutiveRuns, enabled: newFailureEnabled } = data;
-  const {
-    failureType: failureTypeDefault,
-    consecutiveRuns: consecutiveRunsDefault
-  } = SMART_TAGS_DEFAULT_VALUES.newFailure;
+export const NewFailureTags = forwardRef(
+  ({ data, isActive, docLink, instrumentKey }, ref) => {
+    const dispatch = useDispatch();
+    const { failureType, consecutiveRuns, enabled: newFailureEnabled } = data;
+    const {
+      failureType: failureTypeDefault,
+      consecutiveRuns: consecutiveRunsDefault
+    } = SMART_TAGS_DEFAULT_VALUES.newFailure;
 
-  const setNewFailure = (key, value) => {
-    dispatch(
-      saveSmartTagsChanges({
-        newFailure: {
-          ...data,
-          [key]: value
-        }
-      })
-    );
-  };
-  return (
-    <section className="p-6 pb-9" ref={ref}>
-      <div className="flex justify-between">
-        <span className="font-medium">New failures</span>
-        <PaywallTooltip
-          title="Configuring smart tags is a pro feature."
-          content="Configure your personalized definition of tests to be marked as newly failed."
-          featureKey={PAYWALL_FEATURES.SMART_TAGS}
-          docLink={docLink}
-        >
-          <O11ySwitcher
-            checked={newFailureEnabled}
-            onChange={(value) => setNewFailure('enabled', value)}
-            disabled={!isActive}
-          />
-        </PaywallTooltip>
-      </div>
-      <div className="border-b-base-300 my-3 h-1 border-b" />
-      <div className="flex flex-col text-sm">
-        <>
-          <div className="text-base-500 flex items-center">
-            The test has failed with{' '}
-            {failureType === SMART_TAGS_CONSTANTS.NEW ? 'a' : ''}
-            <div className="text-base-900 mx-1">
-              <O11ySelectMenu
-                value={{
-                  label: NEW_FAILURE_TYPES_ENUM[failureType],
-                  value: failureType
-                }}
-                onChange={(item) => setNewFailure('failureType', item.value)}
-                defaultValue={{
-                  label: failureTypeDefault,
-                  value: failureTypeDefault
-                }}
-                disabled={!isActive || !newFailureEnabled}
-              >
-                <O11ySelectMenuTrigger placeholder="All Categories" value="" />
-                <O11ySelectMenuOptionGroup>
-                  {NEW_FAILURE_TYPES_DATA.map((item) => (
-                    <O11ySelectMenuOptionItem
-                      key={item.value}
-                      checkPosition="right"
-                      wrapperClassName="text-sm"
-                      option={{
-                        label: item.name,
-                        value: item.value
-                      }}
-                    />
-                  ))}
-                </O11ySelectMenuOptionGroup>
-              </O11ySelectMenu>{' '}
+    const setNewFailure = (key, value) => {
+      dispatch(
+        saveSmartTagsChanges({
+          newFailure: {
+            ...data,
+            [key]: value
+          }
+        })
+      );
+    };
+    return (
+      <section className="p-6 pb-9" ref={ref}>
+        <div className="flex justify-between">
+          <span className="font-medium">New failures</span>
+          <PaywallTooltip
+            title="Configuring smart tags is a pro feature."
+            content="Configure your personalized definition of tests to be marked as newly failed."
+            featureKey={PAYWALL_FEATURES.SMART_TAGS}
+            docLink={docLink}
+            instrumentKey={instrumentKey}
+          >
+            <O11ySwitcher
+              checked={newFailureEnabled}
+              onChange={(value) => setNewFailure('enabled', value)}
+              disabled={!isActive}
+            />
+          </PaywallTooltip>
+        </div>
+        <div className="border-b-base-300 my-3 h-1 border-b" />
+        <div className="flex flex-col text-sm">
+          <>
+            <div className="text-base-500 flex items-center">
+              The test has failed with{' '}
+              {failureType === SMART_TAGS_CONSTANTS.NEW ? 'a' : ''}
+              <div className="text-base-900 mx-1">
+                <O11ySelectMenu
+                  value={{
+                    label: NEW_FAILURE_TYPES_ENUM[failureType],
+                    value: failureType
+                  }}
+                  onChange={(item) => setNewFailure('failureType', item.value)}
+                  defaultValue={{
+                    label: failureTypeDefault,
+                    value: failureTypeDefault
+                  }}
+                  disabled={!isActive || !newFailureEnabled}
+                >
+                  <O11ySelectMenuTrigger
+                    placeholder="All Categories"
+                    value=""
+                  />
+                  <O11ySelectMenuOptionGroup>
+                    {NEW_FAILURE_TYPES_DATA.map((item) => (
+                      <O11ySelectMenuOptionItem
+                        key={item.value}
+                        checkPosition="right"
+                        wrapperClassName="text-sm"
+                        option={{
+                          label: item.name,
+                          value: item.value
+                        }}
+                      />
+                    ))}
+                  </O11ySelectMenuOptionGroup>
+                </O11ySelectMenu>{' '}
+              </div>
+              error for the first time among the last
+              <div className="text-base-900 mx-1">
+                <O11ySelectMenu
+                  value={{ label: consecutiveRuns, value: consecutiveRuns }}
+                  onChange={(item) =>
+                    setNewFailure('consecutiveRuns', item.value)
+                  }
+                  defaultValue={{
+                    label: consecutiveRunsDefault,
+                    value: consecutiveRunsDefault
+                  }}
+                  disabled={!isActive || !newFailureEnabled}
+                >
+                  <O11ySelectMenuTrigger
+                    placeholder="All Categories"
+                    value=""
+                  />
+                  <O11ySelectMenuOptionGroup>
+                    {STATIC_DROPDOWN_DATA.map((item) => (
+                      <O11ySelectMenuOptionItem
+                        key={item.value}
+                        checkPosition="right"
+                        wrapperClassName="text-sm"
+                        option={{
+                          label: item.name,
+                          value: item.value
+                        }}
+                      />
+                    ))}
+                  </O11ySelectMenuOptionGroup>
+                </O11ySelectMenu>{' '}
+              </div>{' '}
+              runs
             </div>
-            error for the first time among the last
-            <div className="text-base-900 mx-1">
-              <O11ySelectMenu
-                value={{ label: consecutiveRuns, value: consecutiveRuns }}
-                onChange={(item) =>
-                  setNewFailure('consecutiveRuns', item.value)
-                }
-                defaultValue={{
-                  label: consecutiveRunsDefault,
-                  value: consecutiveRunsDefault
-                }}
-                disabled={!isActive || !newFailureEnabled}
-              >
-                <O11ySelectMenuTrigger placeholder="All Categories" value="" />
-                <O11ySelectMenuOptionGroup>
-                  {STATIC_DROPDOWN_DATA.map((item) => (
-                    <O11ySelectMenuOptionItem
-                      key={item.value}
-                      checkPosition="right"
-                      wrapperClassName="text-sm"
-                      option={{
-                        label: item.name,
-                        value: item.value
-                      }}
-                    />
-                  ))}
-                </O11ySelectMenuOptionGroup>
-              </O11ySelectMenu>{' '}
-            </div>{' '}
-            runs
-          </div>
-        </>
-      </div>
-    </section>
-  );
-});
+          </>
+        </div>
+      </section>
+    );
+  }
+);
 
 NewFailureTags.propTypes = {
   data: PropTypes.objectOf(PropTypes.any),
   isActive: PropTypes.bool.isRequired,
-  docLink: PropTypes.string.isRequired
+  docLink: PropTypes.string.isRequired,
+  instrumentKey: PropTypes.string.isRequired
 };
 
 NewFailureTags.defaultProps = {

@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { MdOutlineLock } from '@browserstack/bifrost';
 import { O11yEmptyState } from 'common/bifrostProxy';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
 import { BANNER_TYPES } from 'constants/bannerTypes';
+import { EXTERNAL_LINKS } from 'constants/common';
 import { CTA_TEXTS, FEATURE_CARD_DATA } from 'constants/paywall';
 import { canStartFreeTrial, getPlanDetailsKey } from 'globalSlice/selectors';
 import PropTypes from 'prop-types';
-import { o11yNotify } from 'utils/notification';
+import { getExternalUrl, logOllyEvent } from 'utils/common';
 
 import { handleUpgrade } from '../utils';
 
@@ -17,31 +18,48 @@ function PaywallWrapperEmptyState({ children, featureKey }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const shouldAllowFreeTrial = useSelector(canStartFreeTrial);
 
+  useEffect(() => {
+    if (!planDetails?.isActive) {
+      logOllyEvent({
+        event: 'O11yUpgradeModalShown',
+        data: {
+          source: FEATURE_CARD_DATA[featureKey]?.instrumentKey
+        }
+      });
+    }
+  }, [featureKey, planDetails?.isActive]);
+
   const handleClickUpgrade = () => {
-    setIsSubmitting(true);
-    dispatch(
-      handleUpgrade({
-        successCb: () => {
-          if (shouldAllowFreeTrial) {
+    if (shouldAllowFreeTrial) {
+      setIsSubmitting(true);
+      dispatch(
+        handleUpgrade({
+          successCb: () => {
             dispatch(
               toggleBanner({
                 version: BANNER_TYPES.plan_started,
                 data: {}
               })
             );
-          } else {
-            o11yNotify({
-              title: 'Request for upgrade received',
-              description:
-                "We'll reach out to you soon with upgrade related details",
-              type: 'success'
-            });
-          }
-        },
-        finalCb: () => setIsSubmitting(false)
-      })
-    );
+          },
+          finalCb: () => setIsSubmitting(false)
+        })
+      );
+    } else {
+      logOllyEvent({
+        event: 'O11yUpgradeModalInteracted',
+        data: {
+          interaction: 'upgrade_cta_clicked'
+        }
+      });
+      window.open(
+        getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing }),
+        '_blank',
+        'noopener,noreferrer'
+      );
+    }
   };
+
   if (!planDetails?.isActive) {
     return (
       <div className="break-words">

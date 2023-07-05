@@ -36,11 +36,11 @@ export const EMPTY_METADATA_FILTERS = {
 };
 
 export const aggregateColors = {
-  'Automation Bug': '#65B3B1',
-  'Environment Issue': '#ECCF5C',
-  'No Defect': '#BC9874',
-  'Product Bug': '#286E9A',
-  'To be Investigated': '#748794'
+  'Automation Bug': '#FFC33B',
+  'Environment Issue': '#76C6D8',
+  'No Defect': '#5672D3',
+  'Product Bug': '#E78D47',
+  'To be Investigated': '#D5CDC7'
 };
 
 export const TABLE_CLASSES = {

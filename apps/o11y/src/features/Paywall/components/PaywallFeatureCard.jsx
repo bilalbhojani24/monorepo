@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CTACard, CTACardContent, CTACardMedia } from '@browserstack/bifrost';
 import { twClassNames } from '@browserstack/utils';
 import PropTypes from 'prop-types';
+import { logOllyEvent } from 'utils/common';
 
 import PaywallCTACardActions from './PaywallCTACardActions';
 
@@ -10,9 +11,20 @@ function PaywallFeatureCard({
   title,
   desc,
   learnMoreLink,
-  wrapperClassName
+  wrapperClassName,
+  instrumentKey
 }) {
   const IllustrationComponent = illustration;
+
+  useEffect(() => {
+    logOllyEvent({
+      event: 'O11yUpgradeModalShown',
+      data: {
+        source: instrumentKey
+      }
+    });
+  }, [instrumentKey]);
+
   return (
     <div
       className={twClassNames(
@@ -22,10 +34,7 @@ function PaywallFeatureCard({
     >
       <CTACard isDismissable={false} wrapperClassName="shadow-none bg-white">
         <CTACardContent header={title} description={desc}>
-          <PaywallCTACardActions
-            showTextOnSubmit
-            learnMoreLink={learnMoreLink}
-          />
+          <PaywallCTACardActions learnMoreLink={learnMoreLink} />
         </CTACardContent>
         <CTACardMedia>
           <IllustrationComponent className="h-full w-full" />
@@ -40,7 +49,8 @@ PaywallFeatureCard.propTypes = {
   desc: PropTypes.string,
   illustration: PropTypes.node.isRequired,
   learnMoreLink: PropTypes.string,
-  wrapperClassName: PropTypes.string
+  wrapperClassName: PropTypes.string,
+  instrumentKey: PropTypes.string.isRequired
 };
 
 PaywallFeatureCard.defaultProps = {

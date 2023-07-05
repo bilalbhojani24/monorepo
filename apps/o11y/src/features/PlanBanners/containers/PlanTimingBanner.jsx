@@ -1,17 +1,15 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setStorage } from '@browserstack/utils';
 import { O11yBanner, O11yButton } from 'common/bifrostProxy';
 import { getTopBannerData } from 'common/O11yTopBanner/slices/selectors';
 import { toggleBanner } from 'common/O11yTopBanner/slices/topBannerSlice';
+import { EXTERNAL_LINKS } from 'constants/common';
 import { BANNER_LAST_SEEN } from 'constants/paywall';
-import { handleUpgrade } from 'features/Paywall/utils';
 import { getIsOnFreeTrial } from 'globalSlice/selectors';
-import { o11yNotify } from 'utils/notification';
+import { getExternalUrl, logOllyEvent } from 'utils/common';
 
 function PlanTimingBanner() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const dispatch = useDispatch();
   const bannerData = useSelector(getTopBannerData);
   const isOnFreeTrial = useSelector(getIsOnFreeTrial);
@@ -50,20 +48,17 @@ function PlanTimingBanner() {
   };
 
   const handleClickUpgrade = () => {
-    setIsSubmitting(true);
-    dispatch(
-      handleUpgrade({
-        successCb: () => {
-          o11yNotify({
-            title: 'Request for upgrade received',
-            description:
-              "We'll reach out to you soon with upgrade related details",
-            type: 'success'
-          });
-          handleCloseBanner();
-        },
-        finalCb: () => setIsSubmitting(false)
-      })
+    logOllyEvent({
+      event: 'O11yUpgradeModalInteracted',
+      data: {
+        interaction: 'upgrade_cta_clicked'
+      }
+    });
+    handleCloseBanner();
+    window.open(
+      getExternalUrl({ path: EXTERNAL_LINKS.planAndPricing }),
+      '_blank',
+      'noopener,noreferrer'
     );
   };
 
@@ -71,12 +66,7 @@ function PlanTimingBanner() {
     <div className="text-sm">
       <O11yBanner
         ctaButton={
-          <O11yButton
-            colors="white"
-            onClick={handleClickUpgrade}
-            loading={isSubmitting}
-            isIconOnlyButton={isSubmitting}
-          >
+          <O11yButton colors="white" onClick={handleClickUpgrade}>
             Upgrade now
           </O11yButton>
         }
