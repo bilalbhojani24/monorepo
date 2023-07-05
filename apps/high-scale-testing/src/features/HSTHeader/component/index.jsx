@@ -59,7 +59,7 @@ const HSTHeader = () => {
         window.location.href = baseUrl + ROUTES.SIGN_OUT;
       }}
       productName={PRODUCT_NAME_ACTUAL}
-      productLink={ROUTES.GRID_CONSOLE}
+      productLink={ROUTES.AUTOMATION_CONSOLE}
       planButtonVisible={false}
       references={{
         title: 'Overview',

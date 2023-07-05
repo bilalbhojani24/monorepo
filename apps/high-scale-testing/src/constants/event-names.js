@@ -19,8 +19,12 @@ const AGNoSetupPresented = 'AGNoSetupPresented';
 const AGNoSetupStepsExecuted = 'AGNoSetupStepsExecuted';
 const AGSetupGuideInteracted = 'AGSetupGuideInteracted';
 const AGSetupGuideVisited = 'AGSetupGuideVisited';
+const AGStartedSetupGuide = 'AGStartedSetupGuide';
+const AGStartedTrialGrid = 'AGStartedTrialGrid';
 const AGSuccessGridModalInteracted = 'AGSuccessGridModalInteracted';
 const AGSuccessGridModalPresented = 'AGSuccessGridModalPresented';
+const AGTrialGridExpiredModalPresented = 'AGTrialGridExpiredModalPresented';
+const AGUpgradedFromTrial = 'AGUpgradedFromTrial';
 
 export {
   AGAutomationConsoleInteracted,
@@ -44,6 +48,10 @@ export {
   AGNoSetupStepsExecuted,
   AGSetupGuideInteracted,
   AGSetupGuideVisited,
+  AGStartedSetupGuide,
+  AGStartedTrialGrid,
   AGSuccessGridModalInteracted,
-  AGSuccessGridModalPresented
+  AGSuccessGridModalPresented,
+  AGTrialGridExpiredModalPresented,
+  AGUpgradedFromTrial
 };

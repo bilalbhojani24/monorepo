@@ -426,7 +426,7 @@ const Setup = () => {
                     Visit Trial grid&nbsp;&rarr;
                   </p>
                 }
-                handleLinkClick={() => navigate(ROUTES.GRID_CONSOLE)}
+                handleLinkClick={() => navigate(ROUTES.AUTOMATION_CONSOLE)}
                 modifier="primary"
                 title="Your trial grid is all set. Integrate your test suite with the trial grid"
               />

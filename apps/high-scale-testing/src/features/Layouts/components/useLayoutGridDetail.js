@@ -10,7 +10,9 @@ import { useMountEffect } from '@browserstack/hooks';
 import { fetchGridDataById } from 'api/index';
 import {
   AGGridDetailsInteracted,
-  AGGridSettingsVisited
+  AGGridSettingsVisited,
+  AGStartedSetupGuide,
+  AGUpgradedFromTrial
 } from 'constants/event-names';
 import ROUTES from 'constants/routes';
 import {
@@ -67,11 +69,16 @@ const useLayoutGridDetail = () => {
   };
 
   const setupYourOwnGrid = () => {
+    logHSTEvent([], 'web_events', AGStartedSetupGuide, {
+      url: window.location.href,
+      location: 'expire_modal'
+    });
     navigate(`${ROUTES.SETUP}?type=${lastKnownSetupType}`);
   };
 
   const switchToOwnGridHandler = () => {
-    navigate(ROUTES.GRID_CONSOLE);
+    logHSTEvent([], 'web_events', AGUpgradedFromTrial);
+    navigate(ROUTES.AUTOMATION_CONSOLE);
   };
 
   useEffect(() => {
@@ -112,11 +119,15 @@ const useLayoutGridDetail = () => {
         action: 'general'
       });
       navigate(
-        `/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}/general`
+        `${
+          ROUTES.AUTOMATION_CONSOLE
+        }/grid/${paramId}/${currentTab.name.toLowerCase()}/general`
       );
     } else
       navigate(
-        `/grid-console/grid/${paramId}/${currentTab.name.toLowerCase()}`
+        `${
+          ROUTES.AUTOMATION_CONSOLE
+        }/grid/${paramId}/${currentTab.name.toLowerCase()}`
       );
   }, [paramId, currentTab]);
 
@@ -127,7 +138,6 @@ const useLayoutGridDetail = () => {
       dispatch(setFetchedGridData(true));
     };
 
-    console.log('Log: fetchedGridData:', fetchedGridData);
     if (paramId && !fetchedGridData) fetchGridDataByIdFromAPI(paramId);
   }, [dispatch, fetchedGridData, paramId, userDetails]);
 
@@ -178,7 +188,9 @@ const useLayoutGridDetail = () => {
       if (tabToOpen.name === 'Settings') navigate(location.pathname);
       else
         navigate(
-          `/grid-console/grid/${paramId}/${tabToOpen.name.toLowerCase()}`
+          `${
+            ROUTES.AUTOMATION_CONSOLE
+          }/grid/${paramId}/${tabToOpen.name.toLowerCase()}`
         );
     },
     () => {

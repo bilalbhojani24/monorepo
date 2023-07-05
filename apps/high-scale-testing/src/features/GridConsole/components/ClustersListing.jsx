@@ -10,6 +10,7 @@ import {
 } from '@browserstack/bifrost';
 import cloudIcons from 'constants/cloudIcons';
 import { AGAutomationConsoleInteracted } from 'constants/event-names';
+import ROUTES from 'constants/routes';
 import { logHSTEvent } from 'utils/logger';
 
 import { useClustersListing } from './useClustersListing';
@@ -20,7 +21,7 @@ const ClustersListing = () => {
   const navigate = useNavigate();
 
   const ClusterRowHandler = (clusterId) => {
-    navigate(`/grid-console/cluster/${clusterId}/overview`);
+    navigate(`${ROUTES.AUTOMATION_CONSOLE}/cluster/${clusterId}/overview`);
   };
 
   return (
@@ -111,13 +112,13 @@ const ClustersListing = () => {
                     {cloudIcons[cloudProvider]}
                   </TableCell>
                   <TableCell wrapperClassName="px-6 py-4">
-                    <p className="font-normal text-base-900">{region}</p>
+                    <p className="text-base-900 font-normal">{region}</p>
                   </TableCell>
                   <TableCell wrapperClassName=" px-6 py-4">
-                    <p className="font-normal text-base-900">12/50</p>
+                    <p className="text-base-900 font-normal">12/50</p>
                   </TableCell>
                   <TableCell wrapperClassName=" px-6 py-4">
-                    <p className="font-normal text-base-900">{grids.length}</p>
+                    <p className="text-base-900 font-normal">{grids.length}</p>
                   </TableCell>
                 </TableRow>
               );

@@ -63,8 +63,8 @@ const useLayout = () => {
         updateMetadata(userDetails.id, true);
         dispatch(setShowOnboardingTooltips(false));
       },
-      path: ROUTES.GRID_CONSOLE,
-      pattern: `${ROUTES.GRID_CONSOLE}/*`
+      path: ROUTES.AUTOMATION_CONSOLE,
+      pattern: `${ROUTES.AUTOMATION_CONSOLE}/*`
     },
     {
       id: 'builds-dashboard',

@@ -32,7 +32,11 @@ const LayoutClusterDetail = () => {
       <div className="bg-white px-6 pt-6">
         <PageHeadings
           breadcrumbs={[
-            { name: 'Clusters', url: ROUTES.GRID_CONSOLE, current: false },
+            {
+              name: 'Clusters',
+              url: ROUTES.AUTOMATION_CONSOLE,
+              current: false
+            },
             {
               name: currentTab.name,
               url: '',

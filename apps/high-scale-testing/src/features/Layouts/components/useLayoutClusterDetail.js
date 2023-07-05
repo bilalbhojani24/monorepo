@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchClusterDataById } from 'api/index';
 import { AGClusterDetailsInteracted } from 'constants/event-names';
+import ROUTES from 'constants/routes';
 import { setClusterData } from 'features/GridConsole/slices';
 import { getClustersData } from 'features/GridConsole/slices/selector';
 import { getUserDetails } from 'globalSlice/selector';
@@ -45,7 +46,9 @@ const useLayoutClusterDetail = () => {
 
   useEffect(() => {
     navigate(
-      `/grid-console/cluster/${clusterId}/${currentTab.name.toLowerCase()}`
+      `${
+        ROUTES.AUTOMATION_CONSOLE
+      }/cluster/${clusterId}/${currentTab.name.toLowerCase()}`
     );
   }, [clusterId, currentTab]);
 

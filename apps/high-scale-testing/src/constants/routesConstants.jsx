@@ -41,7 +41,7 @@ export const APP_ROUTES = [
     component: <Layout />,
     children: [
       {
-        path: ROUTES.GRID_CONSOLE,
+        path: ROUTES.AUTOMATION_CONSOLE,
         isProtected: true,
         component: <GridConsole />
       },
