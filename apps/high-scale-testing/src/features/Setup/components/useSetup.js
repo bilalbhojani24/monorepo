@@ -288,7 +288,7 @@ const useSetup = () => {
       action: 'console_clicked'
     });
     closeSetupStatusModal();
-    window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
+    window.location = `${window.location.origin}${ROUTES.AUTOMATION_CONSOLE}`;
   };
 
   const handleDismissClick = () => {
@@ -810,7 +810,7 @@ const useSetup = () => {
         setSetupStep(1);
       }
     } else {
-      window.location.href = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
+      window.location.href = `${window.location.origin}${ROUTES.AUTOMATION_CONSOLE}`;
     }
 
     logHSTEvent([], 'web_events', AGSetupGuideVisited);

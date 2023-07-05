@@ -48,7 +48,11 @@ const LayoutGridDetail = () => {
           <div className="bg-white px-6 pt-6">
             <PageHeadings
               breadcrumbs={[
-                { name: 'Grids', url: ROUTES.GRID_CONSOLE, current: false },
+                {
+                  name: 'Grids',
+                  url: ROUTES.AUTOMATION_CONSOLE,
+                  current: false
+                },
                 {
                   name: currentTab.name,
                   url: '',

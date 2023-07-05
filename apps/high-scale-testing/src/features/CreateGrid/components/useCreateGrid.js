@@ -245,7 +245,7 @@ const useCreateGrid = () => {
 
   const exploreAutomationClickHandler = () => {
     closeSetupStatusModal();
-    window.location = `${window.location.origin}${ROUTES.GRID_CONSOLE}`;
+    window.location = `${window.location.origin}${ROUTES.AUTOMATION_CONSOLE}`;
   };
 
   const gridConcurrencyChangeHandler = (e) => {

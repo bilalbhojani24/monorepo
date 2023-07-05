@@ -18,7 +18,7 @@ const GridSettings = () => {
 
   const { id: gridID } = params;
 
-  const SETTINGS_BASE_URL = `${ROUTES.GRID_CONSOLE}/grid/${gridID}/settings`;
+  const SETTINGS_BASE_URL = `${ROUTES.AUTOMATION_CONSOLE}/grid/${gridID}/settings`;
 
   const navItems = [
     {

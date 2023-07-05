@@ -78,7 +78,7 @@ const useLayoutGridDetail = () => {
 
   const switchToOwnGridHandler = () => {
     logHSTEvent([], 'web_events', AGUpgradedFromTrial);
-    navigate(ROUTES.GRID_CONSOLE);
+    navigate(ROUTES.AUTOMATION_CONSOLE);
   };
 
   useEffect(() => {

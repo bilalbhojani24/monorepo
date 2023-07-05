@@ -10,7 +10,7 @@ const LayoutWOSidebar = () => {
 
   useMountEffect(() => {
     if (location.pathname === ROUTES.ROOT) {
-      navigate(ROUTES.GRID_CONSOLE);
+      navigate(ROUTES.AUTOMATION_CONSOLE);
     }
 
     document.getElementById('root').classList.add('bg-base-50');
