@@ -1,0 +1,28 @@
+{
+  "name": "@browserstack/dummy-package",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "description": "Growth package",
+  "peerDependencies": {
+    "prop-types": "15.8.1",
+    "react": ">=16.0.0",
+    "react-dom": ">=16.0.0",
+    "react-router-dom": "6.6.1",
+    "react-syntax-highlighter": "15.5.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@browserstack/vite-config": "workspace:*",
+    "babel-loader": "^8.3.0",
+    "component-file-generator": "0.5.2",
+    "vite": "4.3.8"
+  },
+  "scripts": {
+    "build": "vite build",
+    "storybook": "start-storybook -p 6008",
+    "build-storybook": "build-storybook"
+  },
+  "files": [
+    "dist/*"
+  ]
+}
