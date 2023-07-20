@@ -1,5 +1,5 @@
 {
-  "name": "@browserstack/vite-config",
+  "name": "@bilal/vite-config",
   "version": "0.1.0",
   "main": "index.js",
   "license": "MIT",

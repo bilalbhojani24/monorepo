@@ -1,1 +1,1 @@
-module.exports = require("@browserstack/vite-config/babel.config");
+module.exports = require('@bilal/vite-config/babel.config');

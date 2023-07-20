@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 
-const { packageViteConfig } = require('@browserstack/vite-config');
+const { packageViteConfig } = require('@bilal/vite-config');
 
 export default defineConfig(() => ({
   ...packageViteConfig,

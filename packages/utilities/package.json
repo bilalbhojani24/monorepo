@@ -12,7 +12,7 @@
     "vite": "4.4.2"
   },
   "devDependencies": {
-    "@browserstack/vite-config": "workspace:*",
+    "@bilal/vite-config": "workspace:*",
     "component-file-generator": "0.5.2",
     "vite": "4.4.2"
   },
