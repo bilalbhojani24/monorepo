@@ -6,37 +6,37 @@
  * const react = require('@vitejs/plugin-react');
  */
 
-const { splitVendorChunkPlugin } = require("vite");
-
-const react = require("@vitejs/plugin-react");
-const { compression } = require("vite-plugin-compression2");
+const { splitVendorChunkPlugin } = require('vite');
+const sourcemaps = require('rollup-plugin-sourcemaps');
+const react = require('@vitejs/plugin-react');
+const { compression } = require('vite-plugin-compression2');
 
 module.exports = {
-  envPrefix: "BSTACK_", // TO add prefix to product env files
   plugins: [
     react(),
-    // splitVendorChunkPlugin(),
-    // compression({
-    //   algorithm: 'brotliCompress',
-    // }),
+    splitVendorChunkPlugin(),
+    compression({
+      algorithm: 'brotliCompress',
+    }),
+    ,
+    sourcemaps(),
   ],
   build: {
-    // rollupOptions: {
-    // output: {
-    //   chunkFileNames: 'assets/js/[name]-[hash].js',
-    //   entryFileNames: 'assets/js/[name]-[hash].js',
-    //   assetFileNames: ({ name }) => {
-    //     if (/\.(gif|jpe?g|png|svg)$/.test(name ?? '')) {
-    //       return 'assets/images/[name]-[hash][extname]';
-    //     }
-    //     if (/\.css$/.test(name ?? '')) {
-    //       return 'assets/css/[name]-[hash][extname]';
-    //     }
-    //     return 'assets/[name]-[hash][extname]';
-    //   }
-    // }
-    // },
-    // reportCompressedSize: true,
+    rollupOptions: {
+      output: {
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: ({ name }) => {
+          if (/\.(gif|jpe?g|png|svg)$/.test(name ?? '')) {
+            return 'assets/images/[name]-[hash][extname]';
+          }
+          if (/\.css$/.test(name ?? '')) {
+            return 'assets/css/[name]-[hash][extname]';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
+      },
+    },
     sourcemap: true,
   },
 };

@@ -6,7 +6,7 @@
  * const react = require('@vitejs/plugin-react');
  */
 
-const react = require("@vitejs/plugin-react");
+const react = require('@vitejs/plugin-react');
 
 module.exports = {
   plugins: [react()],
@@ -16,12 +16,12 @@ module.exports = {
     },
     rollupOptions: {
       external: [
-        "react",
-        "react-dom",
-        "react-router-dom",
-        "@reduxjs/toolkit",
-        "react-redux",
-        "prop-types",
+        'react',
+        'react-dom',
+        'react-router-dom',
+        '@reduxjs/toolkit',
+        'react-redux',
+        'prop-types',
       ],
     },
     sourcemap: true,

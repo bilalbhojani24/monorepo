@@ -6,6 +6,7 @@ const { packageViteConfig } = require('@bilal/vite-config');
 export default defineConfig(() => ({
   ...packageViteConfig,
   build: {
+    ...packageViteConfig.build,
     lib: {
       entry: resolve('./index.js'),
       name: '@bilal/utilities',
@@ -15,6 +16,5 @@ export default defineConfig(() => ({
     rollupOptions: {
       external: ['react', 'react-don', 'react-router-dom'],
     },
-    sourcemap: true,
   },
 }));

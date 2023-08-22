@@ -1,3 +1,3 @@
-import useAuthRoutes from "./modules/useAuthRoute";
+import Button from './modules/Button';
 
-export { useAuthRoutes };
+export { Button };
