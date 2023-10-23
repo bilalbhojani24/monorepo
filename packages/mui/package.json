@@ -1,0 +1,31 @@
+{
+  "name": "@bilal/mui",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "description": "Growth package",
+  "peerDependencies": {
+    "prop-types": "15.8.1",
+    "react": ">17.2.0",
+    "react-dom": ">17.2.0",
+    "react-router-dom": ">=6",
+    "@vitejs/plugin-react": "4.0.1",
+    "vite": "4.4.2"
+  },
+  "devDependencies": {
+    "@bilal/vite-config": "workspace:*",
+    "@bilal/utilities": "workspace:*",
+    "component-file-generator": "0.5.2",
+    "vite": "4.4.2"
+  },
+  "dependencies": {
+    "vite-plugin-compression2": "0.8.2"
+  },
+  "scripts": {
+    "build": "vite build",
+    "storybook": "start-storybook -p 6008",
+    "build-storybook": "build-storybook"
+  },
+  "files": [
+    "dist/*"
+  ]
+}

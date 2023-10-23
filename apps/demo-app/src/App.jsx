@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button } from '@bilal/utilities';
+// import Button from '@bilal/utilities/lib/button';
+import Card from '@bilal/utilities/dist/Card';
 
 export const APP_ROUTES = [
   {
@@ -15,7 +16,8 @@ const App = () => {
   return (
     <div>
       {/* {Routes} */}
-      <Button />
+      {/* <Button /> */}
+      <Card />
       Demo APP
     </div>
   );

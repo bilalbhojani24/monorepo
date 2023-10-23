@@ -1,0 +1,4 @@
+{
+  "button": "./modules/Button.jsx",
+  "card": "./modules/Card.jsx"
+}
